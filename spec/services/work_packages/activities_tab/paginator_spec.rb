@@ -825,6 +825,121 @@ RSpec.describe WorkPackages::ActivitiesTab::Paginator, with_settings: { journal_
           expect(records.map(&:id)).not_to include(journal_with_file_link_snapshot.id)
         end
       end
+
+      context "with target version changes" do
+        let!(:journal_with_target_version_added) do
+          version = create(:version, project:)
+          work_package.target_version_ids_replacements = [version.id]
+          work_package.save!
+          work_package.journals.order(:version).last
+        end
+
+        let!(:journal_with_target_version_snapshot) do
+          work_package.add_journal(notes: "Unrelated change")
+          work_package.save!
+          work_package.journals.order(:version).last
+        end
+
+        let!(:journal_with_target_version_removed) do
+          work_package.target_version_ids_replacements = []
+          work_package.save!
+          work_package.journals.order(:version).last
+        end
+
+        it "includes journal where target version was added" do
+          _pagy, records = paginator.call
+          expect(records.map(&:id)).to include(journal_with_target_version_added.id)
+
+          changes = journal_with_target_version_added.reload.get_changes
+          expect(changes).to have_key("target_versions")
+        end
+
+        it "excludes journal with only target version snapshot" do
+          _pagy, records = paginator.call
+
+          expect(journal_with_target_version_snapshot.reload.work_package_version_journals.count).to eq(1)
+          changes = journal_with_target_version_snapshot.reload.get_changes
+          expect(changes).to eq({}) # no changes
+
+          expect(records.map(&:id)).not_to include(journal_with_target_version_snapshot.id)
+        end
+
+        it "includes journal where target version was removed" do
+          _pagy, records = paginator.call
+          expect(records.map(&:id)).to include(journal_with_target_version_removed.id)
+
+          changes = journal_with_target_version_removed.reload.get_changes
+          expect(changes).to have_key("target_versions")
+        end
+      end
+
+      context "with observed in version changes" do
+        let!(:journal_with_observed_in_version_added) do
+          version = create(:version, project:)
+          work_package.observed_in_version_ids_replacements = [version.id]
+          work_package.save!
+          work_package.journals.order(:version).last
+        end
+
+        let!(:journal_with_observed_in_version_snapshot) do
+          work_package.add_journal(notes: "Unrelated change")
+          work_package.save!
+          work_package.journals.order(:version).last
+        end
+
+        let!(:journal_with_observed_in_version_removed) do
+          work_package.observed_in_version_ids_replacements = []
+          work_package.save!
+          work_package.journals.order(:version).last
+        end
+
+        it "includes journal where observed in version was added" do
+          _pagy, records = paginator.call
+          expect(records.map(&:id)).to include(journal_with_observed_in_version_added.id)
+
+          changes = journal_with_observed_in_version_added.reload.get_changes
+          expect(changes).to have_key("observed_in_versions")
+        end
+
+        it "excludes journal with only observed in version snapshot" do
+          _pagy, records = paginator.call
+
+          expect(journal_with_observed_in_version_snapshot.reload.work_package_version_journals.count).to eq(1)
+          changes = journal_with_observed_in_version_snapshot.reload.get_changes
+          expect(changes).to eq({}) # no changes
+
+          expect(records.map(&:id)).not_to include(journal_with_observed_in_version_snapshot.id)
+        end
+
+        it "includes journal where observed in version was removed" do
+          _pagy, records = paginator.call
+          expect(records.map(&:id)).to include(journal_with_observed_in_version_removed.id)
+
+          changes = journal_with_observed_in_version_removed.reload.get_changes
+          expect(changes).to have_key("observed_in_versions")
+        end
+      end
+
+      context "when moving a version from target to observed in" do
+        let!(:journal_with_version_moved_across_kinds) do
+          version = create(:version, project:)
+          work_package.target_version_ids_replacements = [version.id]
+          work_package.save!
+
+          work_package.target_version_ids_replacements = []
+          work_package.observed_in_version_ids_replacements = [version.id]
+          work_package.save!
+          work_package.journals.order(:version).last
+        end
+
+        it "includes the journal even though the moved version's id alone matches the predecessor" do
+          _pagy, records = paginator.call
+          expect(records.map(&:id)).to include(journal_with_version_moved_across_kinds.id)
+
+          changes = journal_with_version_moved_across_kinds.reload.get_changes
+          expect(changes.keys).to include("target_versions", "observed_in_versions")
+        end
+      end
     end
 
     context "with :hide_meetings filter" do
