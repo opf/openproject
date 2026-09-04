@@ -1,5 +1,8 @@
 <div class="widget-boxes -flex">
   <%= render(::Grids::WidgetBoxComponent.new(key: "widget-box-preview", title: "Widget title")) do |widget| %>
+    <% widget.with_header(title: "Widget title") do |header| %>
+      <% header.with_counter(count: 42) %>
+    <% end %>
     <% widget.with_body do %>
       Widget body content
     <% end %>
