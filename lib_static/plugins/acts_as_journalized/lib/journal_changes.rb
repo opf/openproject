@@ -146,8 +146,6 @@ module JournalChanges
     { target_versions: [old_value, new_value] }
   end
 
-  # The whole set of observed in versions is diffed as a single value, matching
-  # how the target versions above are diffed and rendered.
   def get_observed_in_versions_changes
     return unless journable.respond_to?(:observed_in_versions)
 

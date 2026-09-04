@@ -37,8 +37,6 @@ RSpec.describe OpenProject::JournalFormatter::ObservedInVersions do
     let(:work_package) { build_stubbed(:work_package) }
     let(:journal) { build_stubbed(:work_package_journal, journable: work_package) }
     let(:instance) { described_class.new(journal) }
-    # Unlike target versions, observed in versions has no single-value fallback
-    # label: the attribute never had a singular predecessor.
     let(:label) { "<strong>Observed in versions</strong>" }
 
     before do
