@@ -134,24 +134,13 @@ RSpec.describe MeetingSeriesMailer do
       described_class.updated(series, recipient, author, changes:, historic_schedule: true)
     end
 
-    let(:predecessor) do
-      RecurringMeeting::ICalPredecessor.new(
-        uid: "historic@example.com",
-        dtstart: series.start_time - 20.weeks,
-        ends_at: series.start_time - 1.week,
-        tzid: series.time_zone.tzinfo.canonical_identifier,
-        duration: 1.0,
-        summary: "The old weekly schedule",
-        location: "Room 1",
-        rrule: "FREQ=WEEKLY;UNTIL=#{(series.start_time - 1.week).utc.strftime('%Y%m%dT%H%M%SZ')}",
-        exdates: [],
-        sequence: 5,
-        rotated_at: series.start_time - 1.day
-      )
-    end
-
     before do
-      series.update!(ical_predecessor: predecessor)
+      create(:recurring_meeting_historic_schedule,
+             recurring_meeting: series,
+             uid: "historic@example.com",
+             tzid: series.time_zone.tzinfo.canonical_identifier,
+             dtstart: series.start_time - 20.weeks,
+             ends_at: series.start_time - 1.week)
     end
 
     def calendar_of(mail)

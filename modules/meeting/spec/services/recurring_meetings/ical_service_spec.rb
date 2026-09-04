@@ -88,25 +88,30 @@ RSpec.describe RecurringMeetings::ICalService, type: :model do # rubocop:disable
     let(:new_york) { ActiveSupport::TimeZone["America/New_York"] }
     let(:result) { service.generate_historic_schedule.result }
 
-    let(:predecessor) do
-      RecurringMeeting::ICalPredecessor.new(
-        uid: "historic@example.com",
-        dtstart: new_york.parse("2024-06-03 09:00"),
-        ends_at: new_york.parse("2024-11-25 09:00"),
-        tzid: "America/New_York",
-        duration: 1.0,
-        summary: "The old weekly schedule",
-        location: "Room 1",
-        rrule: "FREQ=WEEKLY;UNTIL=20241125T140000Z",
-        exdates: [],
-        sequence: 5,
-        rotated_at: DateTime.parse("2024-11-30T10:00:00Z")
-      )
+    # A parameter is not searchable in the raw text: iCalendar folds a long line, thus RSVP=TRUE
+    # can arrive as "RSVP=TRU", CRLF, space, "E".
+    def rsvp_flags(ics)
+      Icalendar::Calendar
+        .parse(ics)
+        .first
+        .events
+        .flat_map(&:attendee)
+        .flat_map { Array(it.ical_params["rsvp"]) }
     end
 
     context "when the series ended a previous schedule" do
       before do
-        series.update!(ical_predecessor: predecessor)
+        create(:recurring_meeting_historic_schedule,
+               recurring_meeting: series,
+               uid: "historic@example.com",
+               tzid: "America/New_York",
+               dtstart: new_york.parse("2024-06-03 09:00"),
+               ends_at: new_york.parse("2024-11-25 09:00"),
+               duration: 1.0,
+               summary: "The old weekly schedule",
+               location: "Room 1",
+               rrule: "FREQ=WEEKLY;UNTIL=20241125T140000Z",
+               ical_sequence: 5)
       end
 
       it "carries the frozen event alone, as a REQUEST" do
@@ -120,8 +125,8 @@ RSpec.describe RecurringMeetings::ICalService, type: :model do # rubocop:disable
       it "asks nobody to answer again, where the live series does ask" do
         template.participants.update_all(participation_status: "needs-action")
 
-        expect(service.generate_series.result).to include("RSVP=TRUE")
-        expect(result).not_to include("RSVP=TRUE")
+        expect(rsvp_flags(service.generate_series.result)).to include("TRUE")
+        expect(rsvp_flags(result)).to be_empty
       end
     end
 

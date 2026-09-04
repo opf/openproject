@@ -49,7 +49,11 @@ module RecurringMeetings
     def call
       return false if anchor_on_new_grid? || new_anchor.nil?
 
-      recurring_meeting.update_columns(new_schedule_attributes)
+      RecurringMeeting.transaction do
+        keep_historic_schedule if changes_schedule?
+        recurring_meeting.update_columns(new_schedule_attributes)
+      end
+
       changes_schedule?
     end
 
@@ -63,10 +67,12 @@ module RecurringMeetings
         uid: RecurringMeeting.new_uid,
         # SEQUENCE counts the revisions of one UID. The new UID is a new object (RFC 5545 3.8.7.4),
         # thus its count starts again.
-        ical_sequence: 0,
-        ical_predecessor_uid: previous.uid,
-        ical_predecessor_snapshot: predecessor.dump
+        ical_sequence: 0
       )
+    end
+
+    def keep_historic_schedule
+      recurring_meeting.historic_schedules.create!(uid: previous.uid, snapshot:)
     end
 
     def anchor_on_new_grid?
@@ -90,26 +96,34 @@ module RecurringMeetings
       @last_past_occurrence = previous.last_occurrence_before(Time.current)
     end
 
-    def predecessor
-      RecurringMeeting::ICalPredecessor.new(
-        uid: previous.uid,
-        dtstart: previous.anchor,
-        ends_at: last_past_occurrence,
+    def snapshot
+      frozen_grid.merge(frozen_event).stringify_keys
+    end
+
+    def frozen_grid
+      {
+        dtstart: previous.anchor.iso8601,
+        ends_at: last_past_occurrence.iso8601,
+        rrule: previous.rrule_until(last_past_occurrence),
+        exdates: historic_exdates.map(&:iso8601)
+      }
+    end
+
+    def frozen_event
+      {
         tzid: previous.tzid,
         duration: previous.duration,
         summary: previous.summary,
         location: previous.location,
-        rrule: previous.rrule_until(last_past_occurrence),
-        exdates: predecessor_exdates,
-        # RFC 5546 2.1.4: a change to RRULE must increase SEQUENCE. The predecessor gets an UNTIL.
-        sequence: previous.sequence + 1,
-        rotated_at: Time.current
-      )
+        # RFC 5546 2.1.4: a change to RRULE must increase SEQUENCE. The schedule that ends gets
+        # an UNTIL.
+        sequence: previous.sequence + 1
+      }
     end
 
     # The old schedule will be exported using RRULE with UNTIL.
     # We take over cancelled occurrences for this schedule, so they don't re-appear.
-    def predecessor_exdates
+    def historic_exdates
       recurring_meeting
         .meetings
         .not_templated

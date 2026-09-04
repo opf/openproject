@@ -539,22 +539,6 @@ RSpec.describe Meetings::IcalendarBuilder,
     let(:project) { create(:project) }
     let(:user1) { create(:user, member_with_permissions: { project => [:view_meetings] }) }
 
-    let(:predecessor) do
-      RecurringMeeting::ICalPredecessor.new(
-        uid: "predecessor@example.com",
-        dtstart: berlin.parse("2026-03-02 09:00"),
-        ends_at: berlin.parse("2026-08-31 09:00"),
-        tzid: "Europe/Berlin",
-        duration: 0.5,
-        summary: "The old title",
-        location: "Room 1",
-        rrule: "FREQ=WEEKLY;UNTIL=20260831T070000Z",
-        exdates: [berlin.parse("2026-04-06 09:00")],
-        sequence: 3,
-        rotated_at: berlin.parse("2026-09-01 12:00")
-      )
-    end
-
     let(:recurring_meeting) do
       create(:recurring_meeting,
              project:,
@@ -564,8 +548,22 @@ RSpec.describe Meetings::IcalendarBuilder,
              end_date: nil,
              time_zone: "Europe/Berlin").tap do |series|
         create(:meeting_participant, :invitee, meeting: series.template, user: user1)
-        series.update!(ical_predecessor: predecessor)
       end
+    end
+
+    let!(:historic) do
+      create(:recurring_meeting_historic_schedule,
+             recurring_meeting:,
+             uid: "predecessor@example.com",
+             tzid: "Europe/Berlin",
+             dtstart: berlin.parse("2026-03-02 09:00"),
+             ends_at: berlin.parse("2026-08-31 09:00"),
+             duration: 0.5,
+             summary: "The old title",
+             location: "Room 1",
+             rrule: "FREQ=WEEKLY;UNTIL=20260831T070000Z",
+             exdates: [berlin.parse("2026-04-06 09:00")],
+             ical_sequence: 3)
     end
 
     it "emits the frozen values, not the ones the series has now" do
@@ -579,8 +577,8 @@ RSpec.describe Meetings::IcalendarBuilder,
       expect(event.summary).to eq "The old title"
       expect(event.location).to eq "Room 1"
       expect(event.sequence).to eq 3
-      expect(event.dtstart).to eq predecessor.dtstart
-      expect(event.dtend).to eq predecessor.dtstart + 30.minutes
+      expect(event.dtstart).to eq historic.dtstart
+      expect(event.dtend).to eq historic.dtstart + 30.minutes
       expect(event.attendee.map(&:to_s)).to include "mailto:#{user1.mail}"
     end
 
@@ -606,7 +604,7 @@ RSpec.describe Meetings::IcalendarBuilder,
     end
 
     it "emits nothing while the series never ended a schedule" do
-      recurring_meeting.update!(ical_predecessor: nil)
+      recurring_meeting.historic_schedules.destroy_all
 
       builder.historic_schedule_event(recurring_meeting:)
 
