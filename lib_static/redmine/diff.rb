@@ -36,12 +36,12 @@ module Redmine
     attr_accessor :nb_line_left, :line_left, :nb_line_right, :line_right, :type_diff_right, :type_diff_left, :offsets
 
     def initialize
-      self.nb_line_left = ""
-      self.nb_line_right = ""
-      self.line_left = ""
-      self.line_right = ""
-      self.type_diff_right = ""
-      self.type_diff_left = ""
+      self.nb_line_left = +""
+      self.nb_line_right = +""
+      self.line_left = +""
+      self.line_right = +""
+      self.type_diff_right = +""
+      self.type_diff_left = +""
     end
 
     def type_diff
