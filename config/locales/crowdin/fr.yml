@@ -361,11 +361,11 @@ fr:
       type/configuration_link:
         source: Type source
       type_variant:
-        attribute_groups: Configuration du formulaire
+        attribute_groups: Form
         default_work_package_description: Texte par défaut pour la description
         defaults_source: Source des valeurs par défaut
         enabled_in_new_projects: Actif dans les nouveaux projets
-        form_configuration_source: Source de configuration du formulaire
+        form_configuration_source: Form source
         patterns: Modèles
         pdf_export_source: Source d'exportation au format PDF
         project_attributes_source: Source des attributs de projet
@@ -848,26 +848,26 @@ fr:
               restrict_dependent_destroy:
                 has_many: Il ne peut pas être supprimé tant que des projets l'utilisent encore.
             defaults_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
+              must_be_available_to_the_variant: doit être une configuration que ce projet peut utiliser.
               would_create_cycle: créerait une boucle entre ces configurations.
             enabled_in_new_projects:
-              not_available_to_project_owned_variant: cannot be set on a variant a project owns.
+              not_available_to_project_owned_variant: ne peut pas être défini sur une variante appartenant à un projet.
               taken: est déjà activé pour une autre configuration de ce type.
             form_configuration_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
+              must_be_available_to_the_variant: doit être une configuration que ce projet peut utiliser.
               would_create_cycle: créerait une boucle entre ces configurations.
             patterns:
               invalid_tokens: Un ou plusieurs attributs dans le champ ne sont pas valides. Veuillez corriger les attributs avant d'enregistrer.
             pdf_export_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
+              must_be_available_to_the_variant: doit être une configuration que ce projet peut utiliser.
               would_create_cycle: créerait une boucle entre ces configurations.
             project_attributes_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
+              must_be_available_to_the_variant: doit être une configuration que ce projet peut utiliser.
               would_create_cycle: créerait une boucle entre ces configurations.
             variant:
               must_belong_to_the_type: doit s'agir d'une variante de ce type.
             workflows_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
+              must_be_available_to_the_variant: doit être une configuration que ce projet peut utiliser.
               would_create_cycle: créerait une boucle entre ces configurations.
         user:
           attributes:
@@ -1505,7 +1505,7 @@ fr:
           finalizing: Finalisation en cours
           finalizing_done: Terminé
           finalizing_error: Erreur lors de la finalisation
-          import_aborting: Aborting
+          import_aborting: Abandon
           import_error: Erreur lors de l'importation
           import_scope: Sélectionner le périmètre
           imported: Mode révision
@@ -1520,10 +1520,10 @@ fr:
           revert_error: Erreur lors de l'annulation
           reverted: Annulé
           reverting: Rétablissement en cours
-        step_not_available: This action is not available for the current state of the import run.
+        step_not_available: Cette action n'est pas disponible compte tenu de l'état actuel du cycle d'importation.
         title: Cycle d'importation
         wizard:
-          button_abort: Abort
+          button_abort: Interrompre
           button_retry: Réessayer
           finalize_dialog:
             confirm: Je comprends que cette action ne peut pas être annulée
@@ -1567,14 +1567,14 @@ fr:
             title: Annuler définitivement cette importation ?
           sections:
             confirm_import:
-              button_importing: Importing data
-              button_revert: Revert import
+              button_importing: Importation des données
+              button_revert: Annuler l'importation
               button_start: Démarrer l'importation
               caption: Vérifiez vos paramètres d'importation et démarrez l'importation
               caption_done: Terminé
               caption_done_info: Toutes les données ont été importées
               description: Vous êtes sur le point de lancer un cycle d'importation avec les paramètres suivants.
-              info_importing: The import is now in progress. Closing this tab will not stop it, and you can always revisit the status of the import by opening the run.
+              info_importing: L'importation est actuellement en cours. La fermeture de cet onglet ne l'interrompra pas, et vous pouvez à tout moment consulter l'état d'avancement de l'importation en ouvrant la tâche.
               label_available_data: Données à importer
               label_import_data: Importation en cours
               label_progress: Importation en cours...
@@ -2762,7 +2762,7 @@ fr:
         more_info: 'Remarque : le logo utilisé sera accessible publiquement.'
         title: Thème de couleur et logo personnalisés
       edit_attribute_groups:
-        description: 'Personnalisez la configuration du formulaire avec ces add-ons supplémentaires :'
+        description: 'Customize the form with these additional add-ons:'
         features:
           groups: Ajouter de nouvelles sections d'attributs
           related: Ajouter un tableau des lots de travaux associés
@@ -3503,7 +3503,6 @@ fr:
   label_float: Flottant
   label_folder: Dossier
   label_follows: suivi
-  label_form_configuration: Configuration du formulaire
   label_formula: Formule
   label_forum_new: Nouveau forum
   label_forum_plural: Forums
@@ -4870,7 +4869,7 @@ fr:
       caption: Détails du lot de travaux présentés sous la forme d'un artefact PMflex.
       label: Artefact PMflex
     template_attributes:
-      caption: Tous les attributs présents dans la configuration actuelle du formulaire en utilisant le modèle par défaut.
+      caption: All the attributes present in the current form using the default template.
       label: Attributs et description
     template_contract:
       caption: Les détails du lot de travaux sont formatés sur le formulaire standard allemand de contrat.
@@ -5607,14 +5606,14 @@ fr:
   setting_password_active_rules: Exigences relatives au mot de passe
   setting_password_count_former_banned: Nombre de mots de passe récents interdits de réutilisation
   setting_password_days_valid: Nombre de jours après lequel le changement de mot de passe est obligatoire
-  setting_password_login: Password login
-  setting_password_login_all: Allow for everyone
-  setting_password_login_all_caption: Anyone with an internal password can sign in with it, including users linked to an identity provider.
-  setting_password_login_bypass_principal_ids: Users and groups who may still use a password
-  setting_password_login_except_sso: Disallow for SSO users
-  setting_password_login_except_sso_caption: Users linked to an identity provider cannot sign in with their internal password. Other users can continue using it.
-  setting_password_login_none: Disallow for everyone
-  setting_password_login_none_caption_html: The password form is hidden. Only users and groups listed below can sign in with a password via %{internal_login_link}.
+  setting_password_login: Connexion par mot de passe
+  setting_password_login_all: Permettre à tout le monde
+  setting_password_login_all_caption: Toute personne ayant un mot de passe interne peut s'y connecter, y compris les utilisateurs liés à un fournisseur d'identité.
+  setting_password_login_bypass_principal_ids: Les utilisateurs et les groupes susceptibles d'utiliser encore un mot de passe
+  setting_password_login_except_sso: Interdire l'accès aux utilisateurs SSO
+  setting_password_login_except_sso_caption: Les utilisateurs associés à un fournisseur d'identité ne peuvent pas se connecter avec leur mot de passe interne. Les autres utilisateurs peuvent continuer à l'utiliser.
+  setting_password_login_none: Interdire à tout le monde
+  setting_password_login_none_caption_html: Le formulaire de mot de passe est masqué. Seuls les utilisateurs et les groupes répertoriés ci-dessous peuvent se connecter à l'aide d'un mot de passe via %{internal_login_link}.
   setting_password_min_length: Longueur minimale
   setting_per_page_options: Options des objets par page
   setting_percent_complete_on_status_closed: "% réalisé lorsque le statut est fermé"
@@ -6254,7 +6253,7 @@ fr:
       steps:
         defaults: Valeurs par défaut
         details: Détails
-        form_configuration: Configuration du formulaire
+        form_configuration: Form
         pdf: Génération de PDF
         project_attributes: Attributs du projet
         projects: Projets
@@ -6287,6 +6286,7 @@ fr:
         inherited_from_type_html: Hérite du type <b>%{type}</b>.
         tab: Détails
         type_color_text: La couleur sélectionnée permet de distinguer les différents types dans les diagrammes de Gantt ou les tableaux de lots de travaux. Il est donc recommandé d'utiliser une couleur vive.
+        variant_name_caption_html: This is an internal name only visible to administrators. Variants replace the original parent type, so if this variant is used in a project, it will appear as <b>%{type}</b> to all members.
       export_configuration:
         artefact_export:
           attachment:
@@ -6315,9 +6315,9 @@ fr:
           readonly_error: Cannot be changed while linked to a source type.
           section_title: Modèles d'exportation PDF
           settings:
-            edit_link: Edit settings
-            reset_to_default: Reset to default
-            title: 'Settings: %{template}'
+            edit_link: Modifier les paramètres
+            reset_to_default: Remettre aux paramètres par défaut
+            title: 'Paramètres : %{template}'
       form_configuration:
         add_attribute_group: Section
         add_query_group: Tableau des lots de travaux associés
@@ -6325,7 +6325,7 @@ fr:
         blankslate_title: Aucun groupe pour le moment
         builtin_field: Champ natif
         confirm_delete_group: Voulez-vous vraiment supprimer cette section ? Cette action ne peut pas être annulée automatiquement.
-        confirm_reset: Voulez-vous vraiment réinitialiser la configuration du formulaire ?
+        confirm_reset: Are you sure you want to reset the form?
         custom_field: Champ personnalisé
         delete_group: Supprimer la section
         drag_to_activate: Faites glisser les champs à partir d'ici pour les activer
@@ -6340,21 +6340,21 @@ fr:
         group_actions: Actions de la section
         group_name_label: Nom de la section
         inactive_attributes_heading: Attributs inactifs
-        invalid_attribute_groups: Les données de configuration du formulaire ne sont pas valides.
+        invalid_attribute_groups: The form payload is invalid.
         invalid_query: La configuration de la requête intégrée n'est pas valide.
         label_group: Section
         no_inactive_attributes: Aucun attribut inactif
-        not_found: L'élément de configuration du formulaire demandé n'a pas été trouvé.
+        not_found: The requested form item could not be found.
         query_group_label: Tableau des lots de travaux associés
         remove_attribute: Retirer de la section
         rename_group: Renommer la section
         reset_description: 'Cette opération réaffectera les attributs à leur groupe par défaut et désactivera TOUS les champs personnalisés.
 
           '
-        reset_title: Réinitialiser la configuration du formulaire
+        reset_title: Reset form
         reset_to_defaults: Réinitialiser le formulaire
         row_actions: Actions de ligne
-        tab: Configuration du formulaire
+        tab: Form
         untitled_group: Groupe sans titre
       project_attributes:
         actions:
@@ -6362,7 +6362,7 @@ fr:
           label_enable_all: Activer tout
         blankslate:
           inherited:
-            description: This type does not have any project attributes associated with it.
+            description: Ce type n'est associé à aucun attribut de projet.
             title: No project attributes configured
           manual:
             description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.

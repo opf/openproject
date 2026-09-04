@@ -361,11 +361,11 @@ ko:
       type/configuration_link:
         source: 소스 유형
       type_variant:
-        attribute_groups: 양식 구성
+        attribute_groups: Form
         default_work_package_description: 설명의 기본 텍스트
         defaults_source: 기본값 소스
         enabled_in_new_projects: 새로운 프로젝트에서 활성 상태
-        form_configuration_source: 양식 구성 소스
+        form_configuration_source: Form source
         patterns: 패턴
         pdf_export_source: PDF 내보내기 소스
         project_attributes_source: 프로젝트 특성 소스
@@ -2642,7 +2642,7 @@ ko:
         more_info: '참고: 사용된 로그는 공개적으로 액세스 가능합니다.'
         title: 사용자 지정 색상 테마 및 로고
       edit_attribute_groups:
-        description: 다음과 같은 기타 추가 기능으로 양식 구성을 사용자 지정하세요.
+        description: 'Customize the form with these additional add-ons:'
         features:
           groups: 새로운 특성 섹션 추가
           related: 관련 작업 패키지의 테이블 추가
@@ -3377,7 +3377,6 @@ ko:
   label_float: 부동
   label_folder: 폴더
   label_follows: 팔로우
-  label_form_configuration: 양식 구성
   label_formula: 공식
   label_forum_new: 새 포럼
   label_forum_plural: 포럼
@@ -4733,7 +4732,7 @@ ko:
       caption: PMflex 아티팩트로 렌더링된 작업 패키지 세부 정보입니다.
       label: PMflex 아티팩트
     template_attributes:
-      caption: 기본 템플릿을 사용하는 현재 양식 구성에 있는 모든 특성입니다.
+      caption: All the attributes present in the current form using the default template.
       label: 특성 및 설명
     template_contract:
       caption: 표준 독일 계약 양식에 맞춰 작성된 작업 패키지 세부 정보입니다.
@@ -6108,7 +6107,7 @@ ko:
       steps:
         defaults: 기본값
         details: 세부 정보
-        form_configuration: 양식 구성
+        form_configuration: Form
         pdf: PDF 생성
         project_attributes: 프로젝트 특성
         projects: 프로젝트
@@ -6141,6 +6140,7 @@ ko:
         inherited_from_type_html: 유형 <b>%{type}</b>에서 상속되었습니다.
         tab: 세부 정보
         type_color_text: 선택한 색상은 Gantt 차트 또는 작업 패키지 테이블에서 다양한 유형을 구분합니다. 따라서 진한 색상을 사용하는 것이 좋습니다.
+        variant_name_caption_html: This is an internal name only visible to administrators. Variants replace the original parent type, so if this variant is used in a project, it will appear as <b>%{type}</b> to all members.
       export_configuration:
         artefact_export:
           attachment:
@@ -6179,7 +6179,7 @@ ko:
         blankslate_title: 아직 그룹 없음
         builtin_field: 기본 제공 필드
         confirm_delete_group: 이 섹션을 삭제하시겠습니까? 이 작업은 자동으로 되돌릴 수 없습니다.
-        confirm_reset: 양식 구성을 재설정하시겠습니까?
+        confirm_reset: Are you sure you want to reset the form?
         custom_field: 사용자 지정 필드
         delete_group: 섹션 삭제
         drag_to_activate: 여기에서 필드를 드래그하여 활성화
@@ -6194,21 +6194,21 @@ ko:
         group_actions: 섹션 작업
         group_name_label: 섹션 이름
         inactive_attributes_heading: 비활성 특성
-        invalid_attribute_groups: 양식 구성 페이로드가 유효하지 않습니다.
+        invalid_attribute_groups: The form payload is invalid.
         invalid_query: 포함된 쿼리 구성이 유효하지 않습니다.
         label_group: 섹션
         no_inactive_attributes: 비활성 특성 없음
-        not_found: 요청한 양식 구성 항목을 찾을 수 없습니다.
+        not_found: The requested form item could not be found.
         query_group_label: 관련 작업 패키지 테이블
         remove_attribute: 섹션에서 제거
         rename_group: 섹션 이름 바꾸기
         reset_description: '이렇게 하면 특성이 해당 기본 그룹으로 재설정되고 모든 사용자 지정 필드가 비활성화됩니다.
 
           '
-        reset_title: 양식 구성 재설정
+        reset_title: Reset form
         reset_to_defaults: 양식 재설정
         row_actions: 행 작업
-        tab: 양식 구성
+        tab: Form
         untitled_group: 제목이 없는 그룹
       project_attributes:
         actions:

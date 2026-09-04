@@ -361,11 +361,11 @@ uk:
       type/configuration_link:
         source: Вихідний тип
       type_variant:
-        attribute_groups: З конфігурації
+        attribute_groups: Form
         default_work_package_description: Стандартний текст опису
         defaults_source: Джерело стандартних значень
         enabled_in_new_projects: Активовано в нових проєктах
-        form_configuration_source: З джерела конфігурації
+        form_configuration_source: Form source
         patterns: Шаблони
         pdf_export_source: Джерело експорту в PDF
         project_attributes_source: Джерело атрибутів проєкту
@@ -3044,7 +3044,7 @@ uk:
         more_info: 'Примітка: вибраний логотип буде загальнодоступний.'
         title: Користувацький колір теми й логотип
       edit_attribute_groups:
-        description: 'Налаштуйте конфігурацію форми за допомогою цих додаткових доповнень:'
+        description: 'Customize the form with these additional add-ons:'
         features:
           groups: Додати нові розділи атрибутів
           related: Додати таблицю зв’язаних пакетів робіт
@@ -3793,7 +3793,6 @@ uk:
   label_float: З плаваючою крапкою
   label_folder: Папка
   label_follows: слідкувати
-  label_form_configuration: Конфігурація форми
   label_formula: Формула
   label_forum_new: Новий форум
   label_forum_plural: Форуми
@@ -5183,7 +5182,7 @@ uk:
       caption: Деталі пакета робіт, представлені у вигляді артефакту PMflex.
       label: Артефакт PMflex
     template_attributes:
-      caption: Усі атрибути, наявні в поточній конфігурації форми, що використовують шаблон за замовчуванням.
+      caption: All the attributes present in the current form using the default template.
       label: Атрибути й опис
     template_contract:
       caption: Деталі пакета робіт відформатовано в типовій для Німеччини формі договору.
@@ -6581,7 +6580,7 @@ uk:
       steps:
         defaults: Стандартні
         details: Деталі
-        form_configuration: Конфігурація форми
+        form_configuration: Form
         pdf: Генерування PDF-файлу
         project_attributes: Атрибути проєкту
         projects: Проєкти
@@ -6614,6 +6613,7 @@ uk:
         inherited_from_type_html: Успадковано від типу <b>%{type}</b>.
         tab: Деталі
         type_color_text: Вибраний колір використовується для виділення різних типів на діаграмах Ґанта або в таблицях пакетів робіт. Тому рекомендуємо вибрати насичений.
+        variant_name_caption_html: This is an internal name only visible to administrators. Variants replace the original parent type, so if this variant is used in a project, it will appear as <b>%{type}</b> to all members.
       export_configuration:
         artefact_export:
           attachment:
@@ -6652,7 +6652,7 @@ uk:
         blankslate_title: Ще немає груп
         builtin_field: Вбудоване поле
         confirm_delete_group: Справді видалити цей розділ? Цю дію не можна буде скасувати автоматично.
-        confirm_reset: Справді скинути конфігурацію форми?
+        confirm_reset: Are you sure you want to reset the form?
         custom_field: Користувацьке поле
         delete_group: Видалити розділ
         drag_to_activate: Перетягніть поля звідси, щоб активувати їх
@@ -6667,21 +6667,21 @@ uk:
         group_actions: Дії з розділом
         group_name_label: Назва розділу
         inactive_attributes_heading: Неактивні атрибути
-        invalid_attribute_groups: Корисний обсяг даних конфігурації форми недійсний.
+        invalid_attribute_groups: The form payload is invalid.
         invalid_query: Конфігурація вбудованого запиту недійсна.
         label_group: Розділ
         no_inactive_attributes: Немає неактивних атрибутів
-        not_found: Запитуваний елемент конфігурації форми не знайдено.
+        not_found: The requested form item could not be found.
         query_group_label: Таблиця пов’язаних робочих пакетів
         remove_attribute: Вилучити з розділу
         rename_group: Перейменувати розділ
         reset_description: 'Це призведе до скидання атрибутів до групи, що використовується за замовчуванням, і до вимкнення ВСІХ користувацьких полів.
 
           '
-        reset_title: Скинути конфігурацію форми
+        reset_title: Reset form
         reset_to_defaults: Скинути форму
         row_actions: Дії з рядком
-        tab: Конфігурація форми
+        tab: Form
         untitled_group: Безіменна група
       project_attributes:
         actions:

@@ -361,11 +361,11 @@ sk:
       type/configuration_link:
         source: Source type
       type_variant:
-        attribute_groups: Form configuration
+        attribute_groups: Form
         default_work_package_description: Default text for description
         defaults_source: Defaults source
         enabled_in_new_projects: Active in new projects
-        form_configuration_source: Form configuration source
+        form_configuration_source: Form source
         patterns: Patterns
         pdf_export_source: PDF export source
         project_attributes_source: Project attributes source
@@ -3038,7 +3038,7 @@ sk:
         more_info: 'Note: the used logo will be publicly accessible.'
         title: Custom color theme and logo
       edit_attribute_groups:
-        description: 'Customize form configuration with these additional add-ons:'
+        description: 'Customize the form with these additional add-ons:'
         features:
           groups: Add new attribute sections
           related: Add a table of related work packages
@@ -3785,7 +3785,6 @@ sk:
   label_float: Plávajúce (float)
   label_folder: Priečinok
   label_follows: nasleduje
-  label_form_configuration: Konfigurácia formulára
   label_formula: Formula
   label_forum_new: Nová diskusia
   label_forum_plural: Diskusie
@@ -5180,7 +5179,7 @@ sk:
       caption: Work package details rendered as a PMflex Artefact.
       label: PMflex Artefact
     template_attributes:
-      caption: All the attributes present in the current form configuration using the default template.
+      caption: All the attributes present in the current form using the default template.
       label: Attributes and description
     template_contract:
       caption: Work package details formatted to the standard German contract form.
@@ -6577,7 +6576,7 @@ sk:
       steps:
         defaults: Defaults
         details: Details
-        form_configuration: Form configuration
+        form_configuration: Form
         pdf: PDF generation
         project_attributes: Project attributes
         projects: Projects
@@ -6610,6 +6609,7 @@ sk:
         inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: Details
         type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
+        variant_name_caption_html: This is an internal name only visible to administrators. Variants replace the original parent type, so if this variant is used in a project, it will appear as <b>%{type}</b> to all members.
       export_configuration:
         artefact_export:
           attachment:
@@ -6648,7 +6648,7 @@ sk:
         blankslate_title: No groups yet
         builtin_field: Built-in field
         confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
-        confirm_reset: Are you sure you want to reset the form configuration?
+        confirm_reset: Are you sure you want to reset the form?
         custom_field: Custom field
         delete_group: Delete section
         drag_to_activate: Drag fields from here to activate them
@@ -6663,21 +6663,21 @@ sk:
         group_actions: Section actions
         group_name_label: Section name
         inactive_attributes_heading: Inactive attributes
-        invalid_attribute_groups: The form configuration payload is invalid.
+        invalid_attribute_groups: The form payload is invalid.
         invalid_query: The embedded query configuration is invalid.
         label_group: Section
         no_inactive_attributes: No inactive attributes
-        not_found: The requested form configuration item could not be found.
+        not_found: The requested form item could not be found.
         query_group_label: Related work packages table
         remove_attribute: Remove from section
         rename_group: Rename section
         reset_description: 'This will reset the attributes to their default group and disable ALL custom fields.
 
           '
-        reset_title: Reset form configuration
+        reset_title: Reset form
         reset_to_defaults: Reset form
         row_actions: Row actions
-        tab: Konfigurácia formulára
+        tab: Form
         untitled_group: Untitled group
       project_attributes:
         actions:

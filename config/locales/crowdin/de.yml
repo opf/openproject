@@ -361,11 +361,11 @@ de:
       type/configuration_link:
         source: Quelltyp
       type_variant:
-        attribute_groups: Formularkonfiguration
+        attribute_groups: Form
         default_work_package_description: Standardtext für Beschreibung
         defaults_source: Standardquelle
         enabled_in_new_projects: Aktiv in neuen Projekten
-        form_configuration_source: Quelle der Formularkonfiguration
+        form_configuration_source: Form source
         patterns: Muster
         pdf_export_source: Quelle für den PDF-Export
         project_attributes_source: Quelle der Projektattribute
@@ -2762,7 +2762,7 @@ de:
         more_info: 'Hinweis: Das verwendete Logo wird öffentlich zugänglich sein.'
         title: Selbstdefiniertes Farbthema und Logo
       edit_attribute_groups:
-        description: 'Anpassen der Form-Konfiguration mit diesen zusätzlichen Add-ons:'
+        description: 'Customize the form with these additional add-ons:'
         features:
           groups: Neue Attributabschnitte hinzufügen
           related: Tabelle mit zugehörigen Arbeitspaketen hinzufügen
@@ -3501,7 +3501,6 @@ de:
   label_float: Gleitkommazahl
   label_folder: Ordner
   label_follows: folgt
-  label_form_configuration: Formularkonfiguration
   label_formula: Formel
   label_forum_new: Neues Forum
   label_forum_plural: Foren
@@ -4871,7 +4870,7 @@ de:
       caption: Details zum Arbeitspaket, dargestellt als PMflex-Artefakt.
       label: PMflex-Artefakt
     template_attributes:
-      caption: Alle Attribute, die in der aktuellen Formularkonfiguration mit der Standardvorlage vorhanden sind.
+      caption: All the attributes present in the current form using the default template.
       label: Attribute und Beschreibung
     template_contract:
       caption: Details des Arbeitspakets im Format der deutschen Standardvertragsform.
@@ -6255,7 +6254,7 @@ de:
       steps:
         defaults: Standardwerte
         details: Details
-        form_configuration: Formularkonfiguration
+        form_configuration: Form
         pdf: PDF-Erstellung
         project_attributes: Projektattribute
         projects: Projekte
@@ -6290,6 +6289,7 @@ de:
         type_color_text: |-
           Die ausgewählte Farbe unterscheidet verschiedene Typen
           in Gantt-Diagrammen und Arbeitspakettabellen. Es wird daher empfohlen, gut unterscheidbare Farben zu verwenden.
+        variant_name_caption_html: This is an internal name only visible to administrators. Variants replace the original parent type, so if this variant is used in a project, it will appear as <b>%{type}</b> to all members.
       export_configuration:
         artefact_export:
           attachment:
@@ -6328,7 +6328,7 @@ de:
         blankslate_title: Noch keine Gruppen
         builtin_field: Vordefiniertes Feld
         confirm_delete_group: Sind Sie sicher, dass Sie diesen Abschnitt löschen möchten? Diese Aktion kann nicht automatisch rückgängig gemacht werden.
-        confirm_reset: Sind Sie sicher, dass Sie die Konfiguration des Formulars zurücksetzen möchten?
+        confirm_reset: Are you sure you want to reset the form?
         custom_field: Benutzerdefiniertes Feld
         delete_group: Abschnitt löschen
         drag_to_activate: Felder aus diesem Bereich herausziehen, um sie zu aktivieren
@@ -6343,21 +6343,21 @@ de:
         group_actions: Abschnittsoptionen
         group_name_label: Name des Abschnitts
         inactive_attributes_heading: Inaktive Attribute
-        invalid_attribute_groups: Die abgesendeten Daten der Formularkonfiguration sind ungültig.
+        invalid_attribute_groups: The form payload is invalid.
         invalid_query: Die eingebettete Abfrage ist ungültig.
         label_group: Abschnitt
         no_inactive_attributes: Keine inaktiven Attribute
-        not_found: Die angeforderte Formularkonfiguration konnte nicht gefunden werden.
+        not_found: The requested form item could not be found.
         query_group_label: Zugehörige Arbeitspaket-Tabelle
         remove_attribute: Aus Abschnitt entfernen
         rename_group: Abschnitt umbenennen
         reset_description: 'Dadurch werden die Attribute auf ihre Standardgruppe zurückgesetzt und ALLE benutzerdefinierten Felder deaktiviert.
 
           '
-        reset_title: Formularkonfiguration zurücksetzen
+        reset_title: Reset form
         reset_to_defaults: Formular zurücksetzen
         row_actions: Weitere Aktionen
-        tab: Formularkonfiguration
+        tab: Form
         untitled_group: Unbenannte Gruppe
       project_attributes:
         actions:

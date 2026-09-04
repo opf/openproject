@@ -361,11 +361,11 @@ hy:
       type/configuration_link:
         source: Աղբյուրի տեսակ
       type_variant:
-        attribute_groups: Form configuration
+        attribute_groups: Form
         default_work_package_description: Default text for description
         defaults_source: Defaults source
         enabled_in_new_projects: Active in new projects
-        form_configuration_source: Form configuration source
+        form_configuration_source: Form source
         patterns: Patterns
         pdf_export_source: PDF export source
         project_attributes_source: Project attributes source
@@ -2758,7 +2758,7 @@ hy:
         more_info: Նշում՝ օգտագործվող լոգոն հանրությանը հասանելի կլինի։
         title: Հատուկ գունային թեմա և լոգո
       edit_attribute_groups:
-        description: Հարմարեցրեք ձևի կազմաձևումն այս լրացուցիչ հավելումների միջոցով՝
+        description: 'Customize the form with these additional add-ons:'
         features:
           groups: Ավելացնել հատկանիշների նոր բաժիններ
           related: Ավելացնել կապակցված աշխատանքային փաթեթների աղյուսակ
@@ -3499,7 +3499,6 @@ hy:
   label_float: Տասնորդական թիվ
   label_folder: Պանակ
   label_follows: հետևում է
-  label_form_configuration: Ձևի կազմաձևում
   label_formula: Բանաձև
   label_forum_new: Նոր ֆորում
   label_forum_plural: Ֆորումներ
@@ -4864,7 +4863,7 @@ hy:
       caption: Աշխատանքային փաթեթի մանրամասները՝ ներկայացված որպես PMflex արտեֆակտ։
       label: PMflex արտեֆակտ
     template_attributes:
-      caption: Ընթացիկ ձևի կազմաձևման մեջ առկա բոլոր հատկանիշները՝ կանխադրված ձևանմուշի կիրառմամբ։
+      caption: All the attributes present in the current form using the default template.
       label: Հատկանիշներ և նկարագրություն
     template_contract:
       caption: Աշխատանքային փաթեթի մանրամասները՝ ձևաչափված ըստ գերմանական ստանդարտ պայմանագրի ձևի։
@@ -6253,7 +6252,7 @@ hy:
       steps:
         defaults: Կանխադրված արժեքներ
         details: Մանրամասներ
-        form_configuration: Ձևի կազմաձևում
+        form_configuration: Form
         pdf: PDF-ի ստեղծում
         project_attributes: Նախագծի հատկանիշներ
         projects: Նախագծեր
@@ -6286,6 +6285,7 @@ hy:
         inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: Մանրամասներ
         type_color_text: Ընտրված գույնը տարբերակում է տարբեր տեսակները Գանտի գծապատկերներում կամ աշխատանքային փաթեթների աղյուսակներում։ Ուստի խորհուրդ է տրվում օգտագործել վառ գույն։
+        variant_name_caption_html: This is an internal name only visible to administrators. Variants replace the original parent type, so if this variant is used in a project, it will appear as <b>%{type}</b> to all members.
       export_configuration:
         artefact_export:
           attachment:
@@ -6324,7 +6324,7 @@ hy:
         blankslate_title: Դեռ խմբեր չկան
         builtin_field: Ներկառուցված դաշտ
         confirm_delete_group: Համոզվա՞ծ եք, որ ցանկանում եք ջնջել այս բաժինը։ Այս գործողությունը հնարավոր չէ ավտոմատ կերպով հետարկել։
-        confirm_reset: Համոզվա՞ծ եք, որ ցանկանում եք վերակայել ձևի կազմաձևումը։
+        confirm_reset: Are you sure you want to reset the form?
         custom_field: Հատուկ դաշտ
         delete_group: Ջնջել բաժինը
         drag_to_activate: Ակտիվացնելու համար քաշեք դաշտերն այստեղից
@@ -6339,21 +6339,21 @@ hy:
         group_actions: Բաժնի գործողություններ
         group_name_label: Բաժնի անվանում
         inactive_attributes_heading: Ոչ ակտիվ հատկանիշներ
-        invalid_attribute_groups: Ձևի կազմաձևման տվյալները անվավեր են։
+        invalid_attribute_groups: The form payload is invalid.
         invalid_query: Ներդրված հարցման կազմաձևումն անվավեր է։
         label_group: Բաժին
         no_inactive_attributes: Ոչ ակտիվ հատկանիշներ չկան
-        not_found: Ձևի կազմաձևման պահանջվող տարրը չհաջողվեց գտնել։
+        not_found: The requested form item could not be found.
         query_group_label: Կապակցված աշխատանքային փաթեթների աղյուսակ
         remove_attribute: Հեռացնել բաժնից
         rename_group: Վերանվանել բաժինը
         reset_description: 'Սա հատկանիշները կվերակայի դրանց կանխադրված խմբում և կանջատի ԲՈԼՈՐ հատուկ դաշտերը։
 
           '
-        reset_title: Վերակայել ձևի կազմաձևումը
+        reset_title: Reset form
         reset_to_defaults: Վերակայել ձևը
         row_actions: Տողի գործողություններ
-        tab: Ձևի կազմաձևում
+        tab: Form
         untitled_group: Անանուն խումբ
       project_attributes:
         actions:

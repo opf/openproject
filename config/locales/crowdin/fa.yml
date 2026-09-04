@@ -361,11 +361,11 @@ fa:
       type/configuration_link:
         source: نوع منبع
       type_variant:
-        attribute_groups: پیکربندی فرم
+        attribute_groups: Form
         default_work_package_description: متن پیش‌فرض توضیحات
         defaults_source: منبع مقادیر پیش‌فرض
         enabled_in_new_projects: فعال در پروژه‌های جدید
-        form_configuration_source: منبع پیکربندی فرم
+        form_configuration_source: Form source
         patterns: الگوها
         pdf_export_source: منبع خروجی PDF
         project_attributes_source: منبع ویژگی‌های پروژه
@@ -2758,7 +2758,7 @@ fa:
         more_info: 'توجه: لوگوی استفاده‌شده به‌صورت عمومی قابل دسترسی خواهد بود.'
         title: پوسته رنگ و لوگوی سفارشی
       edit_attribute_groups:
-        description: 'پیکربندی فرم را با این افزونه‌های بیشتر سفارشی کنید:'
+        description: 'Customize the form with these additional add-ons:'
         features:
           groups: افزودن بخش‌های ویژگی جدید
           related: افزودن جدول بسته‌های کاری مرتبط
@@ -3499,7 +3499,6 @@ fa:
   label_float: عدد اعشاری
   label_folder: پوشه
   label_follows: پس از
-  label_form_configuration: پیکربندی فرم
   label_formula: فرمول
   label_forum_new: انجمن جدید
   label_forum_plural: انجمن‌ها
@@ -4864,7 +4863,7 @@ fa:
       caption: جزئیات بسته کاری در قالب یک آرتیفکت PMflex Render شده است.
       label: آرتیفکت PMflex
     template_attributes:
-      caption: همه ویژگی‌های موجود در پیکربندی فعلی فرم با استفاده از الگوی پیش‌فرض.
+      caption: All the attributes present in the current form using the default template.
       label: ویژگی‌ها و توضیحات
     template_contract:
       caption: جزئیات بسته کاری با قالب استاندارد قرارداد آلمانی.
@@ -6255,7 +6254,7 @@ fa:
       steps:
         defaults: پیش‌فرض‌ها
         details: جزئیات
-        form_configuration: پیکربندی فرم
+        form_configuration: Form
         pdf: تولید PDF
         project_attributes: ویژگی‌های پروژه
         projects: پروژه‌ها
@@ -6288,6 +6287,7 @@ fa:
         inherited_from_type_html: به‌ارث‌رسیده از نوع <b>%{type}</b>.
         tab: جزئیات
         type_color_text: رنگ انتخاب‌شده نوع‌های مختلف را در نمودار گانت یا جدول بسته کاری متمایز می‌کند. بنابراین استفاده از رنگ قوی توصیه می‌شود.
+        variant_name_caption_html: This is an internal name only visible to administrators. Variants replace the original parent type, so if this variant is used in a project, it will appear as <b>%{type}</b> to all members.
       export_configuration:
         artefact_export:
           attachment:
@@ -6326,7 +6326,7 @@ fa:
         blankslate_title: هنوز گروهی وجود ندارد
         builtin_field: فیلد داخلی
         confirm_delete_group: مطمئنید می‌خواهید این بخش را حذف کنید؟ این اقدام به‌طور خودکار قابل بازگشت نیست.
-        confirm_reset: مطمئنید می‌خواهید پیکربندی فرم را بازنشانی کنید؟
+        confirm_reset: Are you sure you want to reset the form?
         custom_field: فیلد سفارشی
         delete_group: حذف بخش
         drag_to_activate: برای فعال‌کردن، فیلدها را از اینجا Drag کنید
@@ -6341,21 +6341,21 @@ fa:
         group_actions: اقدام‌های بخش
         group_name_label: نام بخش
         inactive_attributes_heading: ویژگی‌های غیرفعال
-        invalid_attribute_groups: Payload پیکربندی فرم نامعتبر است.
+        invalid_attribute_groups: The form payload is invalid.
         invalid_query: پیکربندی Query توکار نامعتبر است.
         label_group: بخش
         no_inactive_attributes: ویژگی غیرفعالی وجود ندارد
-        not_found: آیتم پیکربندی فرم درخواستی یافت نشد.
+        not_found: The requested form item could not be found.
         query_group_label: جدول بسته‌های کاری مرتبط
         remove_attribute: حذف از بخش
         rename_group: تغییر نام بخش
         reset_description: 'این کار ویژگی‌ها را به گروه پیش‌فرضشان برمی‌گرداند و همه فیلدهای سفارشی را غیرفعال می‌کند.
 
           '
-        reset_title: بازنشانی پیکربندی فرم
+        reset_title: Reset form
         reset_to_defaults: بازنشانی فرم
         row_actions: اقدام‌های ردیف
-        tab: پیکربندی فرم
+        tab: Form
         untitled_group: گروه بدون عنوان
       project_attributes:
         actions:
