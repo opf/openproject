@@ -1,9 +1,10 @@
 import { afterEach, describe, it, expect } from 'vitest';
-import { delay, http, HttpResponse } from 'msw';
+import { http, HttpResponse } from 'msw';
 import { page, userEvent } from 'vitest/browser';
 import { renderEditor } from '../../../helpers/renderEditor';
 import {
   clearProject,
+  holdBackFormLoads,
   openCreateModal,
   openCreateModalAtCursor,
   pickProject,
@@ -22,10 +23,6 @@ afterEach(() => {
 
 function remember(selection:Record<string, { href:string; label:string }>) {
   rememberSelection(selection);
-}
-
-function holdBackFormLoads(ms:number) {
-  worker.use(http.post('http://localhost:3000/api/v3/work_packages/form', async () => { await delay(ms); }));
 }
 
 function heldFormLoad():() => void {

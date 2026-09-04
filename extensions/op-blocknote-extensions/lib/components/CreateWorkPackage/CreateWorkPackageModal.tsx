@@ -18,11 +18,11 @@ import {
   Button,
   Divider,
   Footer,
+  FooterStatus,
   Form,
   Header,
   HeaderTitle,
   IconButton,
-  LoadingRow,
   Notice,
   NoticeLink,
   Overlay,
@@ -137,7 +137,6 @@ export const CreateWorkPackageModal = ({ anchorEl, initialSubject, onCreated, on
     projectHref,
     typeHref,
     isDirty,
-    selectedTypeLabel,
     subjectClipped,
     loading,
     initialising,
@@ -233,15 +232,6 @@ export const CreateWorkPackageModal = ({ anchorEl, initialSubject, onCreated, on
                   .filter((field) => !initialising || !dependencyOf(field.key))
                   .map(renderField)}
 
-                {loading && (
-                  <LoadingRow data-testid="create-wp-loading" $reserveHeight={initialising}>
-                    <Spinner><SyncIcon size={14} /></Spinner>
-                    {selectedTypeLabel
-                      ? t('createWorkPackage.loadingTypeFields', { type: selectedTypeLabel })
-                      : t('createWorkPackage.loadingFields')}
-                  </LoadingRow>
-                )}
-
                 {!initialising && extraFields.length > 0 && <Divider data-testid="create-wp-divider" />}
 
                 {!initialising && extraFields.map(renderField)}
@@ -265,6 +255,12 @@ export const CreateWorkPackageModal = ({ anchorEl, initialSubject, onCreated, on
             </Body>
 
             <Footer>
+              {loading && (
+                <FooterStatus data-testid="create-wp-loading">
+                  <Spinner><SyncIcon size={14} /></Spinner>
+                  {t('createWorkPackage.loading')}
+                </FooterStatus>
+              )}
               <Button type="button" onClick={onCancel}>{t('createWorkPackage.cancel')}</Button>
               <Button
                 type="submit"

@@ -1,14 +1,18 @@
-import { describe, it, expect } from 'vitest';
+import { afterEach, describe, it, expect } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { renderEditor } from '../../../helpers/renderEditor';
 import { recordFrames, untilStill } from '../../../helpers/animationHelpers';
 import {
+  holdBackFormLoads,
   modalBody,
   modalPanel,
   openCreateModal,
   pickProject,
   selectOptionNamed,
 } from '../../../helpers/createWorkPackageHelpers';
+import { worker } from '../../../mocks/browser';
+
+afterEach(() => { worker.resetHandlers(); });
 
 interface Frame {
   height:number;
@@ -83,5 +87,36 @@ describe('Create work package - growing to fit its fields', () => {
     expect(recorded.frames.some(({ growing }) => growing)).toBe(true);
     expect(modalBody().dataset.growing).toBeUndefined();
     expect(getComputedStyle(modalBody()).overflowY).toBe('auto');
+  });
+
+  it('reports the first load next to the buttons rather than as a gap in the form', async () => {
+    holdBackFormLoads(300);
+    renderEditor();
+    await openCreateModal();
+
+    const loading = page.getByTestId('create-wp-loading');
+    await expect.element(loading).toBeVisible();
+    expect(modalBody().contains(loading.element())).toBe(false);
+    expect(modalBody().textContent).toBe('');
+
+    await expect.element(page.getByLabelText('Project *')).toBeVisible();
+    await expect.element(loading).not.toBeInTheDocument();
+  });
+
+  it('reports a later load next to the buttons too, where it cannot move the panel', async () => {
+    renderEditor();
+    await openCreateModal();
+    await expect.element(page.getByTestId('create-wp-loading')).not.toBeInTheDocument();
+    await untilStill(modalPanel());
+    const before = panelHeight();
+
+    holdBackFormLoads(300);
+    await pickProject();
+
+    await expect.element(page.getByTestId('create-wp-loading')).toBeVisible();
+    expect(panelHeight()).toBe(before);
+
+    await expect.element(page.getByLabelText('Type *')).toBeVisible();
+    await expect.element(page.getByTestId('create-wp-loading')).not.toBeInTheDocument();
   });
 });

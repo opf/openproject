@@ -430,7 +430,7 @@ describe('Create work package - form and editor boundaries', () => {
       panel.querySelector('form > div:last-child')!,
     ];
     expect([header, bodyContent, footer].map((part) => getComputedStyle(part).padding))
-      .toEqual(['8px', '16px', '8px']);
+      .toEqual(['8px 16px', '16px', '8px 16px']);
 
     const label = getComputedStyle(panel.querySelector('label')!);
     expect([label.fontSize, label.fontWeight, label.color]).toEqual(['14px', '600', 'rgb(31, 35, 40)']);

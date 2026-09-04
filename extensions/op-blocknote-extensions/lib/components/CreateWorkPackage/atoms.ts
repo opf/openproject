@@ -101,6 +101,7 @@ export const Overlay = styled.div.attrs({
   --op-create-wp-line: var(--borderColor-muted, rgba(209, 217, 224, 0.7));
   --op-create-wp-selected-bg: var(--control-transparent-bgColor-selected, rgba(129, 139, 152, 0.24));
   --op-create-wp-focus: var(--focus-outlineColor, #0969da);
+  --op-create-wp-inset: var(--spacer-xl);
 
   /*  Native widgets (checkbox, date picker, select popup) follow the modal
       rather than the operating system.  */
@@ -191,7 +192,7 @@ export const Header = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: var(--spacer-m);
-  padding: var(--spacer-m);
+  padding: var(--spacer-m) var(--op-create-wp-inset);
   border-bottom: 1px solid ${borderColor};
 `;
 
@@ -211,7 +212,7 @@ export const Body = styled.div`
 `;
 
 export const BodyContent = styled.div`
-  padding: var(--spacer-xl);
+  padding: var(--op-create-wp-inset);
 `;
 
 export const Footer = styled.div`
@@ -219,8 +220,17 @@ export const Footer = styled.div`
   align-items: center;
   justify-content: flex-end;
   gap: var(--spacer-m);
-  padding: var(--spacer-m);
+  padding: var(--spacer-m) var(--op-create-wp-inset);
   border-top: 1px solid ${borderColor};
+`;
+
+export const FooterStatus = styled.div`
+  display: flex;
+  align-items: center;
+  gap: var(--spacer-s);
+  margin-right: auto;
+  font-size: 0.85em;
+  color: var(--op-create-wp-muted);
 `;
 
 export const IconButton = styled.button`
@@ -549,22 +559,6 @@ const spin = keyframes`
 export const Spinner = styled.span`
   display: inline-flex;
   animation: ${spin} 0.9s linear infinite;
-`;
-
-export const LoadingRow = styled.div<{ $reserveHeight?:boolean }>`
-  display: flex;
-  align-items: center;
-  gap: var(--spacer-m);
-  padding-bottom: var(--spacer-xl);
-  font-size: 0.85em;
-  color: var(--op-create-wp-muted);
-
-  /*  Stands in for the fields still loading, holding part of their height.  */
-  ${({ $reserveHeight }) => $reserveHeight && css`
-    justify-content: center;
-    min-height: 12rem;
-    padding-bottom: 0;
-  `}
 `;
 
 export const SuggestionList = styled.div`
