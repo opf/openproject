@@ -29,40 +29,44 @@
 #++
 
 module WorkPackageTypes
-  # Guided, multi-step creation of a work package variant.
-  #
-  # Deliberately self-contained: it never reuses the tabbed type controllers so
-  # the existing tabbed creation/editing flow keeps working unchanged next to it.
-  # The variant record is created after the first step and each later step
-  # persists to that same record (see FND-117).
+  # Guided, multi-step creation of a work package type, or of a variant of one.
   class CreationWizardController < ApplicationController
+    include AddressesVariant
+    include ::WorkPackageTypes::ConfiguredInScope
     include TypeVariantsFeature
 
     layout "no_menu"
 
-    before_action :require_admin
+    helper_method :adding_variant?
     before_action :require_type_variants_feature
     before_action :find_type, only: %i[show update]
+    before_action :find_variant, only: %i[show update]
     before_action :set_current_step, only: %i[show update]
+    before_action :set_back_url
 
     def show; end
 
-    def new
-      @type = Type.new(parent_id: params[:parent_id])
+    def new # rubocop:disable Metrics/AbcSize
+      if params[:type_id]
+        @type = ::Type.find(params.expect(:type_id))
+        return render_404 if variant_scope_project && !@type.allow_project_variants?
+
+        @variant = @type.variants.new(project: variant_scope_project)
+      else
+        return render_404 if variant_scope_project # a type itself is created in administration
+
+        @type = Type.new
+      end
+
       @current_step = Wizard::Steps.first
       render :show
     end
 
     def create
-      service_call = WorkPackageTypes::CreateService.new(user: current_user).call(details_params)
-      @type = service_call.result
+      return create_variant if params[:type_id]
+      return render_404 if variant_scope_project # a type itself is created in administration
 
-      if service_call.success?
-        redirect_to_step Wizard::Steps.next_after(Wizard::Steps.first)
-      else
-        @current_step = Wizard::Steps.first
-        render :show, status: :unprocessable_entity
-      end
+      create_type
     end
 
     def update
@@ -80,7 +84,36 @@ module WorkPackageTypes
 
     private
 
+    def create_type
+      service_call = WorkPackageTypes::CreateService.new(user: current_user).call(details_params)
+      @type = @variant = service_call.result
+
+      if service_call.success?
+        redirect_to_step Wizard::Steps.next_after(Wizard::Steps.first, @variant)
+      else
+        @current_step = Wizard::Steps.first
+        render :show, status: :unprocessable_entity
+      end
+    end
+
+    def create_variant
+      @type = ::Type.find(params.expect(:type_id))
+      service_call = WorkPackageTypes::CreateVariantService
+                       .new(user: current_user, type: @type)
+                       .call(new_variant_params)
+      @variant = service_call.result
+
+      if service_call.success?
+        redirect_to_step Wizard::Steps.next_after(Wizard::Steps.first, @variant)
+      else
+        @current_step = Wizard::Steps.first
+        render :show, status: :unprocessable_entity
+      end
+    end
+
     def update_details
+      return update_variant_details if adding_variant?
+
       service_call = WorkPackageTypes::UpdateService
                        .new(user: current_user, model: @type, contract_class: WorkPackageTypes::UpdateDetailsContract)
                        .call(details_params)
@@ -92,15 +125,28 @@ module WorkPackageTypes
       end
     end
 
+    def update_variant_details
+      service_call = WorkPackageTypes::UpdateService
+                       .new(user: current_user, model: @variant, contract_class: UpdateVariantContract)
+                       .call(variant_details_params)
+
+      if service_call.success?
+        advance
+      else
+        render :show, status: :unprocessable_entity
+      end
+    end
+
     # A Linked aspect renders read-only and submits nothing, so there is nothing to
     # persist and the values on screen belong to the source type.
     def update_defaults
-      return advance if @type.linked?(Type::ConfigurationLink::DEFAULTS)
+      return advance if @variant.linked?(TypeVariant::DEFAULTS)
 
       service_call = WorkPackageTypes::UpdateService
-                       .new(user: current_user, model: @type, contract_class: WorkPackageTypes::UpdateDefaultsContract)
+                       .new(user: current_user, model: @variant,
+                            contract_class: WorkPackageTypes::UpdateDefaultsContract)
                        .call(patterns: Forms::DefaultsFormModel.to_patterns(defaults_params),
-                             description: defaults_params[:description])
+                             default_work_package_description: defaults_params[:default_work_package_description])
 
       if service_call.success?
         advance
@@ -113,13 +159,13 @@ module WorkPackageTypes
     # transition tab it was showing, so that only that slice is rewritten.
     def update_workflows
       matrix_context = ::Workflows::MatrixContext.new(
-        type: @type,
+        variant: @variant,
         tab: params[:tab],
         role_ids: params[:role_ids]
       )
 
       service_call = ::Workflows::MatrixUpdateService
-                       .new(type: @type, roles: matrix_context.roles, tab: matrix_context.tab)
+                       .new(variant: @variant, roles: matrix_context.roles, tab: matrix_context.tab)
                        .call(status: params[:status], indeterminate_status: params[:indeterminate_status])
 
       if service_call.success?
@@ -130,34 +176,72 @@ module WorkPackageTypes
     end
 
     def advance
-      redirect_to_step Wizard::Steps.next_after(@current_step)
+      redirect_to_step Wizard::Steps.next_after(@current_step, @variant)
     end
 
     def redirect_to_step(step)
       if step
-        redirect_to type_creation_wizard_path(@type, step:), status: :see_other
+        redirect_to type_creation_wizard_path(**variant_path_args, step:, back_url: @back_url), status: :see_other
       else
-        redirect_to types_path, notice: t("types.creation_wizard.success"), status: :see_other
+        flash[:notice] = t("types.creation_wizard.success")
+        redirect_back_or_default(finished_path, status: :see_other)
       end
     end
+
+    # The wizard hands this straight to the cancel button, so it is validated here rather than
+    # where it is rendered.
+    def set_back_url
+      @back_url = RedirectPolicy.new(params[:back_url], hostname: request.host, default: nil).redirect_url
+    end
+
+    # types_path carries no project, so naming it while scoped would append the project as a query
+    # parameter and land on a screen the caller cannot open.
+    def finished_path
+      return types_path if variant_scope_project.nil?
+
+      project_settings_work_packages_types_path(variant_scope_project)
+    end
+
+    # @variant is the type itself while a type is being created until there is a variant to be used
+    def variant_path_args
+      adding_variant? ? @variant.path_args : { type_id: @type.id }
+    end
+
+    def adding_variant? = @variant.is_a?(TypeVariant) && !@variant.is_default_variant?
 
     def find_type
       @type = ::Type.find(params.expect(:type_id))
     end
 
-    def set_current_step
-      @current_step = Wizard::Steps.for_key(params[:step]) || Wizard::Steps.first
+    def addressed_type = @type
+
+    def find_variant
+      @variant = addressed_variant(among: @type.variants.non_default_variants)
     end
 
-    # The core settings are only editable while creating a root type; a variant
-    # renders them disabled, so the browser never submits them.
+    def set_current_step
+      @current_step = Wizard::Steps.for_key(params[:step]) || Wizard::Steps.first
+
+      render_404 unless Wizard::Steps.available?(@current_step, @variant)
+    end
+
     def details_params
-      params.expect(type: %i[name parent_id color_id is_milestone is_in_roadmap])
+      params.expect(type: %i[name color_id is_milestone is_in_roadmap allow_project_variants])
+    end
+
+    def variant_details_params
+      params.expect(type_variant: [:variant_name])
+    end
+
+    # The owner is the project this was routed through, merged last so that it wins over anything
+    # the body carries under that name.
+    def new_variant_params
+      variant_details_params.to_h.merge(project: variant_scope_project)
     end
 
     def defaults_params
       @defaults_params ||= params.expect(
-        work_package_types_forms_defaults_form_model: %i[subject_configuration pattern description]
+        work_package_types_forms_defaults_form_model: %i[subject_configuration pattern default_work_package_description]
       ).to_h
     end
   end

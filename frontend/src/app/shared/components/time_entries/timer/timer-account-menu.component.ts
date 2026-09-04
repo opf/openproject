@@ -29,7 +29,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, Injector, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { TimeEntryTimerService } from 'core-app/shared/components/time_entries/services/time-entry-timer.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
+import { TimeEntryResource, formatTimeEntryEntityName } from 'core-app/features/hal/resources/time-entry-resource';
 import { firstValueFrom, Observable, switchMap, timer } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { formatElapsedTime } from 'core-app/features/work-packages/components/wp-timer-button/time-formatter.helper';
@@ -74,6 +74,10 @@ export class TimerAccountMenuComponent extends UntilDestroyedMixin implements On
     stop: this.I18n.t('js.time_entry.stop'),
     timer_already_stopped: this.I18n.t('js.timer.timer_already_stopped'),
   };
+
+  entityName(timeEntry:TimeEntryResource):string {
+    return formatTimeEntryEntityName(timeEntry.entity);
+  }
 
   ngOnInit() {
     const parent = this.elementRef.nativeElement.parentElement!;

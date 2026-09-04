@@ -36,6 +36,10 @@ Rails.application.config.after_initialize do
         cron: "15 1 * * *", # runs at 1:15 nightly
         class: Cron::ClearOldSessionsJob.name
       },
+      "Cron::ClearOutboundMailRecipientsJob": {
+        cron: "27 3 * * *", # runs at 3:27 nightly
+        class: Cron::ClearOutboundMailRecipientsJob.name
+      },
       "Cron::ClearTmpCacheJob": {
         cron: "45 2 * * 7", # runs at 02:45 sundays
         class: Cron::ClearTmpCacheJob.name

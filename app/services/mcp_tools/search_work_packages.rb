@@ -29,7 +29,7 @@
 #++
 
 module McpTools
-  class SearchWorkPackages < Base
+  class SearchWorkPackages < SearchTool
     default_title "Search work packages"
     default_description "Search work packages matching all of the passed input parameters. " \
                         "Parameters not passed are ignored. Results are limited to a maximum " \
@@ -62,7 +62,14 @@ module McpTools
     filter :subject, filter_proc: ->(wps, v) { wps.where("subject ILIKE '%#{OpenProject::SqlSanitization.quoted_sanitized_sql_like(v)}%'") }
 
     input_schema(
+      additionalProperties: false,
       properties: {
+        level_of_detail: {
+          type: :string,
+          enum: %w[reduced full],
+          description: "Defines how much information is returned per work package. By default a reduced representation " \
+                       "is returned, but passing 'full' can return all information."
+        },
         assigned_to_id: {
           type: %w[number null],
           description: "The ID of the user or group that is assigned to this work package. " \
@@ -93,14 +100,39 @@ module McpTools
     output_filter McpOutputFilters::RemoveFormattableHtml.new
     output_filter McpOutputFilters::RemoveWorkPackageActionLinks.new
 
-    def call(page: nil, **filters)
-      filtered = apply_filters(WorkPackage.visible, filters)
-      work_packages, total = apply_pagination(filtered, page)
+    def base_scope
+      Success(WorkPackage.visible)
+    end
 
-      {
-        items: work_packages.map { |wp| API::V3::WorkPackages::WorkPackageRepresenter.create(wp, current_user:) },
-        total:
-      }
+    def format_item(item)
+      API::V3::WorkPackages::WorkPackageRepresenter.create(item, current_user:)
+    end
+
+    def condensed_attributes
+      @condensed_attributes ||= %w[
+        _links
+        id
+        displayId
+        subject
+        lockVersion
+        date
+        startDate
+        dueDate
+        derivedStartDate
+        derivedDueDate
+        createdAt
+        updatedAt
+      ].to_set
+    end
+
+    def condensed_links
+      @condensed_links ||= %w[
+        project
+        status
+        type
+        author
+        assignee
+      ].to_set
     end
   end
 end

@@ -268,6 +268,7 @@ class WorkPackagesController < ApplicationController
       work_package
         .journals
         .internal_visible
+        .without_meeting_causes
         .changing
         .includes(:user)
         .order(order).to_a

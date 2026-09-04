@@ -118,12 +118,14 @@ describe('Sortable lists controller', () => {
 
   function renderFixture({
     moveUrlTemplate = '/move/{id}',
-  }:{ moveUrlTemplate?:string|null } = {}) {
+    optimistic = false,
+  }:{ moveUrlTemplate?:string|null; optimistic?:boolean } = {}) {
     fixture.innerHTML = `
       <div
         id="sortable-root"
         data-controller="sortable-lists"
         ${moveUrlTemplate ? `data-sortable-lists-move-url-template-value="${moveUrlTemplate}"` : ''}
+        ${optimistic ? 'data-sortable-lists-optimistic-value="true"' : ''}
         data-sortable-lists-sortable-lists--list-outlet="#sortable-root [data-controller~='sortable-lists--list']"
         data-sortable-lists-sortable-lists--item-outlet="#sortable-root [data-controller~='sortable-lists--item']"
         data-sortable-lists-sortable-lists--scrollable-outlet="#sortable-root [data-controller~='sortable-lists--scrollable']"
@@ -143,13 +145,13 @@ describe('Sortable lists controller', () => {
     };
   }
 
-  async function dropCurrentItemOnList(sourceElement:HTMLElement, list:HTMLElement) {
+  async function dropCurrentItemOnList(sourceElement:HTMLElement, list:HTMLElement, type = 'work_package') {
     const monitorOptions = vi.mocked(monitorForElements).mock.lastCall?.[0];
 
     monitorOptions?.onDrop?.({
       source: sourcePayload(
         sourceElement,
-        itemData(sourceElement.getAttribute('data-sortable-lists--item-id-value')!),
+        itemData(sourceElement.getAttribute('data-sortable-lists--item-id-value')!, type),
       ),
       location: {
         initial: {
@@ -202,6 +204,116 @@ describe('Sortable lists controller', () => {
   function itemIds(list:HTMLElement):string[] {
     return Array.from(list.querySelectorAll('[data-sortable-lists--item-id-value]'))
       .map((element) => element.getAttribute('data-sortable-lists--item-id-value')!);
+  }
+
+  // Direct-child ids only: a section row can itself host a nested list of its
+  // own items, and querySelectorAll (used by itemIds above) would pick those
+  // up too, muddying assertions about the outer list's own row order.
+  function directItemIds(container:HTMLElement):(string|null)[] {
+    return Array.from(container.children).map((child) => child.getAttribute('data-sortable-lists--item-id-value'));
+  }
+
+  function fieldRow(id:string):HTMLLIElement {
+    const row = document.createElement('li');
+    row.setAttribute('data-controller', 'sortable-lists--item');
+    row.setAttribute('data-sortable-lists--item-id-value', id);
+    row.setAttribute('data-sortable-lists--item-type-value', 'custom_field');
+    row.setAttribute('data-sortable-lists--item-label-value', `Field ${id}`);
+    return row;
+  }
+
+  function sectionRow(id:string):HTMLLIElement {
+    const row = document.createElement('li');
+    row.setAttribute('data-controller', 'sortable-lists--item');
+    row.setAttribute('data-sortable-lists--item-id-value', id);
+    row.setAttribute('data-sortable-lists--item-type-value', 'section');
+    row.setAttribute('data-sortable-lists--item-label-value', `Section ${id}`);
+    return row;
+  }
+
+  // A root serving two item types (sections and custom fields) with distinct
+  // move endpoints, each type's items living in their own list.
+  function renderTypeMapFixture({
+    moveUrlTemplates = '{"section":"/sections/{id}/drop","custom_field":"/fields/{id}/drop"}',
+    moveUrlTemplate,
+  }:{ moveUrlTemplates?:string|null; moveUrlTemplate?:string } = {}) {
+    fixture.innerHTML = `
+      <div
+        id="sortable-root"
+        data-controller="sortable-lists"
+        ${moveUrlTemplates ? `data-sortable-lists-move-url-templates-value='${moveUrlTemplates}'` : ''}
+        ${moveUrlTemplate ? `data-sortable-lists-move-url-template-value="${moveUrlTemplate}"` : ''}
+        data-sortable-lists-sortable-lists--list-outlet="#sortable-root [data-controller~='sortable-lists--list']"
+        data-sortable-lists-sortable-lists--item-outlet="#sortable-root [data-controller~='sortable-lists--item']"
+      >
+        <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="custom_field" data-sortable-lists--list-id-value="1" data-sortable-lists--list-accepted-type-value="custom_field" data-sortable-lists--list-name-value="Fields"></ul>
+        <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="section" data-sortable-lists--list-id-value="1" data-sortable-lists--list-accepted-type-value="section" data-sortable-lists--list-name-value="Sections"></ul>
+      </div>
+    `;
+    const root = fixture.querySelector<HTMLElement>('#sortable-root')!;
+    const fieldList = fixture.querySelector<HTMLElement>('[data-sortable-lists--list-type-value="custom_field"]')!;
+    const sectionList = fixture.querySelector<HTMLElement>('[data-sortable-lists--list-type-value="section"]')!;
+
+    return { root, fieldList, sectionList };
+  }
+
+  // A nested dual-role topology: the outer list's rows are section items
+  // (a <div>, not an <li>, hosting their own inner list of custom_field
+  // items). Sections and fields share one root, so a section item is
+  // contained by both the outer list (directly) and, for fields, by the
+  // outer list transitively through the section row.
+  function renderNestedFixture() {
+    fixture.innerHTML = `
+      <div
+        id="sortable-root"
+        data-controller="sortable-lists"
+        data-sortable-lists-move-url-template-value="/move/{id}"
+        data-sortable-lists-sortable-lists--list-outlet="#sortable-root [data-controller~='sortable-lists--list']"
+        data-sortable-lists-sortable-lists--item-outlet="#sortable-root [data-controller~='sortable-lists--item']"
+      >
+        <ul
+          data-controller="sortable-lists--list"
+          data-sortable-lists--list-type-value="section"
+          data-sortable-lists--list-id-value="1"
+          data-sortable-lists--list-accepted-type-value="section"
+          data-sortable-lists--list-name-value="Sections"
+        >
+          <div
+            data-controller="sortable-lists--item"
+            data-sortable-lists--item-id-value="s1"
+            data-sortable-lists--item-type-value="section"
+            data-sortable-lists--item-label-value="Section 1"
+          >
+            <ul
+              data-controller="sortable-lists--list"
+              data-sortable-lists--list-type-value="custom_field"
+              data-sortable-lists--list-id-value="s1"
+              data-sortable-lists--list-accepted-type-value="custom_field"
+              data-sortable-lists--list-name-value="Fields"
+            ></ul>
+          </div>
+          <div
+            data-controller="sortable-lists--item"
+            data-sortable-lists--item-id-value="s2"
+            data-sortable-lists--item-type-value="section"
+            data-sortable-lists--item-label-value="Section 2"
+          ></div>
+        </ul>
+      </div>
+    `;
+    const root = fixture.querySelector<HTMLElement>('#sortable-root')!;
+    const sectionList = fixture.querySelector<HTMLElement>('[data-sortable-lists--list-type-value="section"]')!;
+    const sectionItem = fixture.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="s1"]')!;
+    const fieldList = fixture.querySelector<HTMLElement>('[data-sortable-lists--list-type-value="custom_field"]')!;
+    fieldList.append(fieldRow('cf1'), fieldRow('cf2'));
+
+    return {
+      root,
+      sectionList,
+      sectionItem,
+      fieldList,
+      firstFieldItem: fieldList.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="cf1"]')!,
+    };
   }
 
   beforeEach(async () => {
@@ -427,6 +539,7 @@ describe('Sortable lists controller', () => {
   it('builds the move URL from the controller URI template', async () => {
     const { targetList, firstSourceItem } = renderFixture({
       moveUrlTemplate: '/projects/demo/backlogs/work_packages/{id}/move',
+      optimistic: true,
     });
 
     await ctx.nextFrame();
@@ -441,6 +554,32 @@ describe('Sortable lists controller', () => {
   it('flags the move request as optimistic', async () => {
     const { targetList, firstSourceItem } = renderFixture({
       moveUrlTemplate: '/projects/demo/backlogs/work_packages/{id}/move',
+      optimistic: true,
+    });
+
+    await ctx.nextFrame();
+    await dropCurrentItemOnList(firstSourceItem, targetList);
+
+    const calledUrl = fetchMock.mock.lastCall?.[0] as string;
+    expect(new URL(calledUrl, 'http://localhost').searchParams.get('optimistic')).toBe('true');
+  });
+
+  it('omits the optimistic flag by default', async () => {
+    const { targetList, firstSourceItem } = renderFixture({
+      moveUrlTemplate: '/projects/demo/backlogs/work_packages/{id}/move',
+    });
+
+    await ctx.nextFrame();
+    await dropCurrentItemOnList(firstSourceItem, targetList);
+
+    const calledUrl = fetchMock.mock.lastCall?.[0] as string;
+    expect(new URL(calledUrl, 'http://localhost').searchParams.has('optimistic')).toBe(false);
+  });
+
+  it('appends optimistic=true when the root opts in', async () => {
+    const { targetList, firstSourceItem } = renderFixture({
+      moveUrlTemplate: '/projects/demo/backlogs/work_packages/{id}/move',
+      optimistic: true,
     });
 
     await ctx.nextFrame();
@@ -460,6 +599,7 @@ describe('Sortable lists controller', () => {
         src="/projects/demo/backlogs/backlog?bucket_ids%5B%5D=1&bucket_ids%5B%5D=inbox&sprint_ids%5B%5D=2"
         data-controller="sortable-lists"
         data-sortable-lists-move-url-template-value="/projects/demo/backlogs/work_packages/{id}/move"
+        data-sortable-lists-optimistic-value="true"
         data-sortable-lists-sortable-lists--list-outlet="#backlogs-list [data-controller~='sortable-lists--list']"
         data-sortable-lists-sortable-lists--item-outlet="#backlogs-list [data-controller~='sortable-lists--item']"
       >
@@ -987,5 +1127,104 @@ describe('Sortable lists controller', () => {
 
     expect(controller.ownerListElementOf(firstSourceItem)).toBe(sourceList);
     expect(controller.ownerListElementOf(document.createElement('li'))).toBeNull();
+  });
+
+  describe('nested list topology', () => {
+    it('resolves the source row of a nested item against its innermost list', async () => {
+      const { fieldList, firstFieldItem } = renderNestedFixture();
+
+      await ctx.nextFrame();
+      await dropCurrentItemOnList(firstFieldItem, fieldList);
+
+      // The dragged custom_field item's own row moved within its innermost
+      // (field) list; the outer section row it lives under is untouched.
+      expect(directItemIds(fieldList)).toEqual(['cf2', 'cf1']);
+
+      const options = fetchMock.mock.lastCall?.[1] as { body:FormData };
+      expect(options.body.get('list_type')).toEqual('custom_field');
+      expect(options.body.get('list_id')).toEqual('s1');
+    });
+
+    it('resolves a section row that is not an <li>', async () => {
+      const { sectionList, sectionItem } = renderNestedFixture();
+
+      await ctx.nextFrame();
+      // A list-only drop onto the section list's own default ('end')
+      // position: with two section rows this reorders them, so it is a real
+      // move rather than a same-position no-op.
+      await dropCurrentItemOnList(sectionItem, sectionList);
+
+      // closest('li') on a <div> row returns null and the drop would
+      // silently be ignored; a fired move proves the row resolved.
+      expect(fetchMock).toHaveBeenCalledOnce();
+      expect(directItemIds(sectionList)).toEqual(['s2', 's1']);
+
+      const options = fetchMock.mock.lastCall?.[1] as { body:FormData };
+      expect(options.body.get('list_type')).toEqual('section');
+      expect(options.body.get('list_id')).toEqual('1');
+    });
+  });
+
+  describe('per-type move URL map', () => {
+    it('resolves the drop move URL from the per-type template map', async () => {
+      const { fieldList, sectionList } = renderTypeMapFixture();
+      fieldList.append(fieldRow('42'), fieldRow('99'));
+      sectionList.append(sectionRow('3'), sectionRow('8'));
+
+      await ctx.nextFrame();
+
+      const fieldItem = fieldList.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="42"]')!;
+      await dropCurrentItemOnList(fieldItem, fieldList, 'custom_field');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.stringMatching(/^\/fields\/42\/drop/),
+        expect.objectContaining({ method: 'PUT' }),
+      );
+
+      fetchMock.mockClear();
+
+      const sectionItem = sectionList.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="3"]')!;
+      await dropCurrentItemOnList(sectionItem, sectionList, 'section');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.stringMatching(/^\/sections\/3\/drop/),
+        expect.objectContaining({ method: 'PUT' }),
+      );
+    });
+
+    it('falls back to the single template for an unmapped type', async () => {
+      const { fieldList } = renderTypeMapFixture({
+        moveUrlTemplates: '{"section":"/sections/{id}/drop"}',
+        moveUrlTemplate: '/move/{id}',
+      });
+      fieldList.append(fieldRow('7'), fieldRow('8'));
+
+      await ctx.nextFrame();
+
+      const fieldItem = fieldList.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="7"]')!;
+      await dropCurrentItemOnList(fieldItem, fieldList, 'custom_field');
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.stringMatching(/^\/move\/7/),
+        expect.objectContaining({ method: 'PUT' }),
+      );
+    });
+
+    it('resolves the menu move URL from the map', async () => {
+      const { root, fieldList } = renderTypeMapFixture();
+      fieldList.append(fieldRow('1'), fieldRow('2'));
+
+      await ctx.nextFrame();
+
+      const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+      const secondFieldItem = fieldList.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="2"]')!;
+      controller.moveInDirection(secondFieldItem, 'up');
+      await flushPromises();
+
+      expect(fetchMock).toHaveBeenCalledWith(
+        expect.stringMatching(/^\/fields\//),
+        expect.objectContaining({ method: 'PUT' }),
+      );
+    });
   });
 });

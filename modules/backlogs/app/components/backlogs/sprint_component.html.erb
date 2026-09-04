@@ -93,7 +93,7 @@ See COPYRIGHT and LICENSE files for more details.
           end
         end
 
-        header.with_menu(button_aria_label: t(".label_actions")) do |menu|
+        header.with_menu(button_arguments: { aria: { label: t(".label_actions") } }) do |menu|
           with_item_group(menu) do
             if can_open_edit_dialog?
               menu.with_item(
@@ -145,8 +145,8 @@ See COPYRIGHT and LICENSE files for more details.
 
     <%
       list.with_empty_state(
-        title: t(".blankslate_title", name: sprint.name),
-        description: t(".blankslate_description"),
+        title: backlog_filters.filtered? ? t("backlogs.blankslate_filtered_title") : t(".blankslate_title", name: sprint.name),
+        description: backlog_filters.filtered? ? nil : t(".blankslate_description"),
         drop_target_label: t(".drop_zone_label")
       )
     %>

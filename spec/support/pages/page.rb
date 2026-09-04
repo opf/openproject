@@ -117,12 +117,97 @@ module Pages
     end
 
     def drag_and_drop_list_cuprite(from:, to:, elements:, handler:)
-      list = page.all(elements, minimum: [from, to].max + 1)
-      source_handler = list[from].find(handler)
-      target_handler = list[to].find(handler)
+      return if from == to
 
-      # doesn't scroll
-      source_handler.native.drag_to(target_handler.native, delay: 0.1)
+      list = page.all(elements, minimum: [from, to].max + 1)
+
+      return if drag_and_drop_list_with_generic_controller_cuprite(
+        source: list[from],
+        target: list[to],
+        insert_after: from < to
+      )
+
+      list[from].find(handler).native.drag_to(list[to].find(handler).native, delay: 0.1)
+    end
+
+    def drag_and_drop_list_with_generic_controller_cuprite(source:, target:, insert_after:)
+      # Cuprite does not reliably trigger Dragula's mouse lifecycle for Primer lists,
+      # so exercise the generic controller's drop callback once it is connected.
+      # This is a synthetic, controller-level drop: it bypasses the drag handle,
+      # canStartDrag, and Dragula's pointer lifecycle, proving persistence but not
+      # the user interaction. Real drag coverage arrives with the Selenium
+      # sortable-lists specs when these surfaces migrate under DREAM-789.
+      result = page.evaluate_async_script(<<~JS, source.native, target.native, insert_after)
+        const source = arguments[0];
+        const target = arguments[1];
+        const insertAfter = arguments[2];
+        const done = arguments[arguments.length - 1];
+        const controllerRoot = source.closest('[data-controller~="generic-drag-and-drop"]');
+
+        if (!controllerRoot) {
+          done({ success: false, fallback: true });
+          return;
+        }
+
+        const getController = () => window.Stimulus?.getControllerForElementAndIdentifier(
+          controllerRoot,
+          'generic-drag-and-drop'
+        );
+
+        const drop = (controller) => {
+          try {
+            if (!source.getAttribute('data-drop-url')) {
+              done({ success: false, error: 'Draggable element has no drop URL' });
+              return;
+            }
+
+            const sourceContainer = source.parentElement;
+            const targetContainer = target.parentElement;
+
+            if (controller.accepts && !controller.accepts(source, targetContainer, sourceContainer, null)) {
+              done({ success: false, error: 'Target does not accept draggable element' });
+              return;
+            }
+
+            controller.dragOriginSource = sourceContainer;
+            controller.dragOriginNextSibling = source.nextElementSibling;
+
+            if (insertAfter) {
+              target.after(source);
+            } else {
+              target.before(source);
+            }
+
+            Promise.resolve(controller.drop(source, source.parentElement, sourceContainer, null))
+              .then(() => done({ success: true }))
+              .catch((error) => done({ success: false, error: String(error?.message || error) }));
+          } catch (error) {
+            done({ success: false, error: String(error?.message || error) });
+          }
+        };
+
+        const waitForController = (startedAt) => {
+          const controller = getController();
+
+          if (controller) {
+            drop(controller);
+            return;
+          }
+
+          if (performance.now() - startedAt > 5000) {
+            done({ success: false, error: 'Generic drag-and-drop controller did not connect' });
+            return;
+          }
+
+          setTimeout(() => waitForController(startedAt), 25);
+        };
+
+        waitForController(performance.now());
+      JS
+
+      raise result["error"] if result.is_a?(Hash) && result["error"]
+
+      result.is_a?(Hash) && result["success"]
     end
 
     def drag_and_drop_list_selenium(from:, to:, elements:, handler:)
@@ -139,11 +224,10 @@ module Pages
       # These helpers have always meant "insert before the element currently at
       # index `to`" (Dragula's insertBefore semantics), so aim at the target's
       # top quarter — closest-edge resolution then inserts above it either way.
-      target_rect = target.native.rect
       perform_native_drag(
         source: source.find(handler),
-        target_x: target_rect.x + (target_rect.width / 2),
-        target_y: target_rect.y + (target_rect.height / 4)
+        target:,
+        offset_y: -(target.native.rect.height / 4)
       )
 
       sleep 1

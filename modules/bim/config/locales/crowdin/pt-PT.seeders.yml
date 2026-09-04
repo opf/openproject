@@ -18,7 +18,7 @@ pt-PT:
         item_0:
           name: Novo
         item_1:
-          name: A decorrer
+          name: Em curso
         item_2:
           name: Resolvido
         item_3:
@@ -107,7 +107,7 @@ pt-PT:
             item_2:
               name: Tarefas
             item_3:
-              name: Planificador de equipas
+              name: Planeador de equipa
           boards:
             bcf:
               name: Fluxo de trabalho simples de arrastar e soltar
@@ -118,7 +118,7 @@ pt-PT:
                   name: Damos-lhe as boas-vindas
               item_1:
                 options:
-                  name: Por onde começar
+                  name: Introdução
                   text: |
                     Estamos contentes por se ter juntado a nós! Sugerimos que experimente algumas coisas para começar a utilizar no OpenProject.
 
@@ -169,7 +169,7 @@ pt-PT:
             item_2:
               name: Tarefas
             item_3:
-              name: Planificador de equipas
+              name: Planeador de equipa
           project-overview:
             widgets:
               item_0:
@@ -177,7 +177,7 @@ pt-PT:
                   name: Damos-lhe as boas-vindas
               item_1:
                 options:
-                  name: Por onde começar
+                  name: Introdução
                   text: |
                     Estamos contentes por se juntar a nós! Sugerimos que experimente algumas coisas para começar a utilizar o OpenProject.
 
@@ -254,30 +254,30 @@ pt-PT:
                   description: |-
                     ## Objetivo
 
-                    *   Criar uma visão geral útil dos resultados
+                    *   Criar uma síntese útil dos resultados
                     *   Verificar o que foi feito e resumir os resultados
                     *   Comunicar todos os resultados relevantes ao cliente
                     *   Identificar as condições limite fundamentais do projeto
 
                     ## Descrição
 
-                    *   Cada tópico tem a sua própria visão geral, que será utilizada como um catálogo de resultados
-                    *   Esta visão geral informa todos os participantes sobre as decisões tomadas
+                    *   Cada tópico tem a sua própria síntese, que será utilizada como um catálogo de resultados
+                    *   Esta síntese informa todos os participantes sobre as decisões tomadas
                     *   ...
                 item_1:
                   subject: Resumir os resultados
                   description: |-
                     ## Objetivo
 
-                    *   Criar uma visão geral útil dos resultados
+                    *   Criar uma síntese útil dos resultados
                     *   Verificar o que foi feito e resumir os resultados
                     *   Comunicar todos os resultados relevantes ao cliente
                     *   Identificar as condições limite fundamentais do projeto
 
                     ## Descrição
 
-                    *   Cada tópico tem a sua própria visão geral, que será utilizada como um catálogo de resultados
-                    *   Esta visão geral informa todos os participantes sobre as decisões tomadas
+                    *   Cada tópico tem a sua própria síntese, que será utilizada como um catálogo de resultados
+                    *   Esta síntese informa todos os participantes sobre as decisões tomadas
                     *   ...
             item_3:
               subject: Aprovação do planeamento prévio
@@ -423,7 +423,7 @@ pt-PT:
             item_2:
               name: Tarefas
             item_3:
-              name: Planificador de equipas
+              name: Planeador de equipa
           project-overview:
             widgets:
               item_0:
@@ -431,7 +431,7 @@ pt-PT:
                   name: Damos-lhe as boas-vindas
               item_1:
                 options:
-                  name: Por onde começar
+                  name: Introdução
                   text: "Estamos contentes por se juntar a nós! Sugerimos que experimente algumas coisas para começar a utilizar o OpenProject. \n\nEste projeto de demonstração oferece funções, fluxos de trabalho e pacotes de trabalho especializados para BIM.\n\n_Experimente os seguintes passos:_\n\n1.  _Convide novos membros para o seu projeto:_ → Aceda a [Membros]({{opSetting:base_url}}/projects/demo-bim-project/members) na navegação do projeto.\n2.  _Carregue e visualize modelos 3D no formato IFC:_ → Aceda a [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) na navegação do projeto.\n3.  _Crie e gira os problemas de BCF diretamente ligados ao modelo IFC:_ → Aceda a [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Criar.\n4.  _Veja o trabalho nos seus projetos:_ → Aceda a [Pacotes de trabalho]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) na navegação do projeto.\n5.  _Crie um novo pacote de trabalho:_ → Aceda a [Pacotes de trabalho → Criar]({{opSetting:base_url}}/projects/demo-bim-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).\n6.  _Crie e atualize um gráfico Gantt:_ → Aceda a [gráfico Gantt]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) na navegação do projeto.\n7.  _Ativar outros módulos:_ → Aceda a [Definições do projeto → Módulos]({{opSetting:base_url}}/projects/demo-bim-project/settings/modules).\n8.  _Consulte a vista de mosaico para obter uma visão geral dos seus problemas de BCF:_ → Aceda a [Pacotes de trabalho]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)\n9.  Trabalha com Agile? Veja os nossos novos quadros:_ → Aceda a [Quadros]({{opSetting:base_url}}/projects/demo-bim-project/boards)\n\nAqui encontra os nossos [Guias do utilizador](https://www.openproject.org/docs/user-guide/).\nInforme-nos se tiver alguma dúvida ou precisar de apoio. Contacte-nos: [support\\[at\\]openproject.com](mailto:support@openproject.com).\n"
               item_4:
                 options:
@@ -625,7 +625,7 @@ pt-PT:
 
                     ## Descrição
 
-                    *   Os novos problemas serão documentados nos ficheiros BCF como notas adesivas para o modelo
+                    *   Os novos problemas serão documentados nos ficheiros BCF como notas fixadas para o modelo
                     *   Os ficheiros BCF serão utilizados para atribuir, acompanhar e corrigir problemas
                     *   ...
                 item_2:
@@ -664,7 +664,7 @@ pt-PT:
             item_0: Categoria 1 (para ser alterado nas definições do Projeto)
           queries:
             item_0:
-              name: Problema
+              name: Problemas
             item_1:
               name: Conflitos
             item_2:
@@ -678,7 +678,7 @@ pt-PT:
             item_6:
               name: Tarefas
             item_7:
-              name: Planificador de equipas
+              name: Planeador de equipa
           boards:
             bcf:
               name: Problemas de BCF
@@ -689,7 +689,7 @@ pt-PT:
                   name: Damos-lhe as boas-vindas
               item_1:
                 options:
-                  name: Por onde começar
+                  name: Introdução
                   text: |
                     Estamos contentes por se juntar a nós! Sugerimos que experimente algumas coisas para começar a utilizar o OpenProject.
 

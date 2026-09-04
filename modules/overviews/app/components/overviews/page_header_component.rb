@@ -33,6 +33,7 @@ module Overviews
     extend Dry::Initializer
 
     include ApplicationHelper
+    include OpPrimer::ComponentHelpers
     include ProjectsHelper
     include Redmine::I18n
 
@@ -67,6 +68,18 @@ module Overviews
 
     def allowed_to_select_project_custom_fields?
       current_user.allowed_in_project?(:select_project_custom_fields, project)
+    end
+
+    def allowed_to_add_subprojects?
+      current_user.allowed_in_project?(:add_subprojects, project)
+    end
+
+    def allowed_to_copy?
+      current_user.allowed_in_project?(:copy_projects, project)
+    end
+
+    def allowed_to_edit_project?
+      current_user.allowed_in_project?(:edit_project, project)
     end
 
     def allowed_to_archive?

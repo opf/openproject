@@ -34,7 +34,7 @@ module CostSettings
       [
         { href: admin_index_path, text: t("label_administration") },
         { href: admin_time_settings_path, text: t(:project_module_costs), skip_for_mobile: true },
-        t(:label_defaults)
+        t(:label_defaults_and_limits)
       ]
     end
 

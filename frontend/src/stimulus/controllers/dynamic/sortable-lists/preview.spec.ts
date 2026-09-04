@@ -120,6 +120,18 @@ describe('sortable lists drag preview', () => {
       expect(preview.hasAttribute('data-controller')).toBe(false);
     });
 
+    it('zeroes the clone margin so source spacing utilities render no whitespace', () => {
+      const target = withWidth(previewTarget(), 320);
+      target.classList.add('mt-3');
+      const container = document.createElement('div');
+
+      renderDragPreview({ previewTarget: target, sourceElement: target, container });
+
+      const preview = container.firstElementChild as HTMLElement;
+
+      expect(preview.style.margin).toEqual('0px');
+    });
+
     it('leaves the width unset when the preview target has no measured width', () => {
       const target = withWidth(previewTarget(), 0);
       const container = document.createElement('div');

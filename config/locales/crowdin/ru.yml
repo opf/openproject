@@ -25,20 +25,20 @@ ru:
     macro:
       aria_label_with_name: "%{name}: %{description}"
       resource_links:
-        attachment: A dynamic link to an attachment placed using a macro.
-        commit: A dynamic link to a commit placed using a macro.
-        document: A dynamic link to a document placed using a macro.
-        export: A dynamic link to a source file export placed using a macro.
-        group: A dynamic link to a group placed using a macro.
-        meeting: A dynamic link to a meeting placed using a macro.
-        message: A dynamic link to a message placed using a macro.
-        project: A dynamic link to a project placed using a macro.
-        revision: A dynamic link to a revision placed using a macro.
-        source: A dynamic link to a source file placed using a macro.
-        user: A dynamic link to a user placed using a macro.
-        version: A dynamic link to a version placed using a macro.
-        view: A dynamic link to a view placed using a macro.
-        work_package: A dynamic link to a work package placed using a macro.
+        attachment: Динамическая ссылка на вложение, размещённое с помощью макроса.
+        commit: Динамическая ссылка на коммит, размещенная с помощью макроса.
+        document: Динамическая ссылка на документ, размещенная с помощью макроса.
+        export: Динамическая ссылка на экспорт исходного файла, размещенная с помощью макроса.
+        group: Динамическая ссылка на группу, размещенная с помощью макроса.
+        meeting: Динамическая ссылка на встречу, размещенную с помощью макроса.
+        message: Динамическая ссылка на сообщение, размещенная с помощью макроса.
+        project: Динамическая ссылка на проект, размещенная с помощью макроса.
+        revision: Динамическая ссылка на версию, размещенную с помощью макроса.
+        source: Динамическая ссылка на исходный файл, размещенная с помощью макроса.
+        user: Динамическая ссылка на пользователя, размещенная с помощью макроса.
+        version: Динамическая ссылка на версию, размещенную с помощью макроса.
+        view: Динамическая ссылка на представление, размещённая с помощью макроса.
+        work_package: Динамическая ссылка на пакет работ, размещенная с помощью макроса.
   account:
     auth_source_login_html: Пожалуйста, войдите в систему как <em>%{login}</em> чтобы активировать свою учетную запись.
     delete: Удалить учётную запись
@@ -51,7 +51,7 @@ ru:
       login_consequences:
         other: Эта учетная запись будет немедленно удалена из системы, и пользователь больше не сможет войти в систему с ее учетными данными.
         self: Ваша учетная запись будет немедленно удалена из системы, и Вы больше не сможете войти в систему, используя свои учетные данные.
-      title: Delete %{name}'s account
+      title: Удалить учетную запись %{name}
     deletion_pending: Учетная запись была запланирована для удаления. Обратите внимание, что этот процесс происходит в фоновом режиме. Может пройти несколько минут, пока пользователь будет полностью удален.
     error_inactive_activation_by_mail: 'Ваша учетная запись не была активирована. Для активации перейдите по ссылке, направленной вам по электронной почте.
 
@@ -67,7 +67,8 @@ ru:
       '
     login_with_auth_provider: или войдите своей учетной записью
     omniauth_login: Пожалуйста, авторизируйтесь для активации вашей учетной записи.
-    signup_with_auth_provider: Или зарегистрируйтесь с помощью
+    signup_title: Создать учетную запись в %{app_title}
+    signup_with_external_account: Регистрация с помощью внешней учетной записи
   actionview_instancetag_blank_option: Пожалуйста, выберите
   activemodel:
     attributes:
@@ -75,6 +76,13 @@ ru:
         dependencies: Связи
   activerecord:
     attributes:
+      ai/text_transform_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
+        usage_scope: Scope
       announcements:
         show_until: Отобразить до
       attachment:
@@ -122,8 +130,8 @@ ru:
         possible_values: Возможные значения
         regexp: Регулярное выражение
         searchable: Доступно для поиска
-        semantic_key: Semantic meaning
-        visible_on_user_card: Show on user card
+        semantic_key: Семантическое значение
+        visible_on_user_card: Отобразить на карточке пользователя
       custom_value:
         value: Значение
       design_color:
@@ -235,6 +243,7 @@ ru:
         project_creation_wizard_status_when_submitted: Статус при отправке
         project_creation_wizard_work_package_comment: Комментарий к пакету работ
         project_creation_wizard_work_package_type: Тип пакета работ
+        project_types: Типы
         public_value:
           false: приватный
           title: Видимость
@@ -254,6 +263,7 @@ ru:
         templated_value:
           false: снята отметка шаблона
           true: помечено как шаблон
+        type_variant: Вариант типа пакета работ
         types: Типы
         versions: Этапы
         work_packages: Задачи
@@ -274,6 +284,8 @@ ru:
         start_gate_name: Имя начальной стадии этапа
       project_custom_field:
         custom_field_section: Раздел
+      project_type:
+        variant: Вариант
       query:
         child_work_packages: Дочерние пакеты работ
         column_names: Столбцы
@@ -341,24 +353,32 @@ ru:
       token/named:
         token_name: Имя токена
       type:
-        attribute_groups: Настройка форм
-        children: Разновидности
         color: Цвет
-        dependent_configuration_links: Связанные типы
-        description: Текст для описания по умолчанию
-        is_default: В новых проектах активируется по умолчанию
         is_in_roadmap: По умолчанию отображается в дорожной карте
         is_milestone: Это веха
-        parent: Родительский тип
-        patterns: Шаблоны
+        project_types: Проекты
+        variants: Варианты
       type/configuration_link:
         source: Тип источника
+      type_variant:
+        attribute_groups: Form
+        default_work_package_description: Текст для описания по умолчанию
+        defaults_source: Источник по умолчанию
+        enabled_in_new_projects: Активно в новых проектах
+        form_configuration_source: Form source
+        patterns: Шаблоны
+        pdf_export_source: Источник экспорта PDF
+        project_attributes_source: Источник атрибутов проекта
+        project_types: Проекты, в которых используется данный вариант
+        variant: Вариант
+        variant_name: Название
+        workflows_source: Источник рабочих процессов
       user:
         admin: Администратор
         auth_source: Источник аутентификации
         consented_at: Согласен с
         current_password: Текущий пароль
-        department: Отдел
+        department: Подразделение
         failed_login_count: Неудачные попытки входа
         first_login: Первый вход в систему
         first_name: Имя
@@ -451,13 +471,14 @@ ru:
           true: включить нерабочие дни
         journal_internal: Внутренний журнал
         notify: Уведомлять
+        observed_in_versions: Observed in versions
         parent: Родитель
         parent_issue: Родитель
         parent_work_package: Родитель
         priority: Приоритет
         progress: "% завершения"
         readonly: Только для чтения
-        relatable: Relatable to
+        relatable: Относится к
         remaining_hours: Оставшиеся часы
         remaining_time: Оставшиеся часы
         schedule_manually: Ручное планирование
@@ -466,8 +487,8 @@ ru:
         spent_hours: Затраченное время
         spent_time: Затраченное время
         subproject: Подпроект
-        target_version: Target version
-        target_versions: Target versions
+        target_version: Целевая версия
+        target_versions: Целевые версии
         time_entries: Добавить трудозатраты
         type: Тип
         version: Этапы
@@ -476,7 +497,7 @@ ru:
         identifier: Идентификатор
         work_package: Пакет работ
       work_package_version:
-        kind: Kind
+        kind: Вид
     errors:
       messages:
         accepted: нужно подтвердить.
@@ -487,10 +508,11 @@ ru:
         before_or_equal_to: должны быть до или ровно %{date}.
         blank: не может быть пустым.
         blank_nested: должно быть установлено свойство '%{property}'.
+        blocked_domain: не допускается. Пожалуйста, используйте адрес электронной почты из другого домена.
         cannot_delete_mapping: требуется. Невозможно удалить.
         cant_link_a_work_package_with_a_descendant: Пакет работ не может быть связан с одной из своих подзадач.
         circular_dependency: Это отношение создаст циклическую зависимость.
-        configured_via_env: The configuration of this object is managed through environment variables and can't be changed at runtime.
+        configured_via_env: Настройки данного объекта управляются с помощью переменных среды и не могут быть изменены во время выполнения.
         confirmation: не совпадает со значением поля %{attribute}.
         could_not_be_copied: "%{dependency} не может быть скопировано (полностью)."
         datetime_must_be_in_future: должно быть в будущем.
@@ -523,8 +545,10 @@ ru:
         invalid_url: не является допустимым URL-адресом.
         invalid_url_scheme: 'не является поддерживаемым протоколом (разрешены следующие: %{allowed_schemes}).'
         is_for_all_cannot_modify: предназначено для всех проектов и поэтому не может быть изменено.
-        ldap_managed: This department is managed by LDAP synchronization and cannot be changed manually.
+        ldap_managed: Это подразделение управляется с помощью синхронизации LDAP и не может быть изменен вручную.
         less_than_or_equal_to: должно быть меньше или равно %{count}.
+        migration_failed: 'The variant could not be switched for project ''%{project}'': %{reason}'
+        migration_target_invalid: The selected variant must be another variant of the same type that every affected project can use.
         not_a_date: не является допустимой датой.
         not_a_datetime: дата и время не являются допустимыми.
         not_a_number: не является числом.
@@ -546,7 +570,8 @@ ru:
         regex_list_invalid: Строки %{invalid_lines} не могут быть проанализированы как регулярное выражение.
         regex_match_failed: не соответствует регулярному выражению %{expression}.
         smaller_than_or_equal_to_max_length: должно быть меньше или равно максимальной длине.
-        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        ssrf_filtered: нарушает политику SSRF данного экземпляра OpenProject.
+        status_transition_invalid: недопустимо, так как для текущих ролей пользователя нет правильного перехода от старого статуса к новому.
         system_wide_non_working_day_exists: конфликтует с существующим общесистемным нерабочим днем для этой даты.
         taken: уже принято.
         too_long: слишком длинно (максимум — %{count} знаков).
@@ -560,8 +585,8 @@ ru:
         url_not_secure_context: 'не предоставляет "Secure Context". Используйте HTTPS или обратный адрес, например localhost.
 
           '
-        user_already_in_department: Пользователь %{user_id} уже является членом департамента %{department_id}.
-        user_in_ldap_managed_department: This user belongs to a department managed by LDAP synchronization and cannot be moved.
+        user_already_in_department: Пользователь %{user_id} уже является членом подразделения %{department_id}.
+        user_in_ldap_managed_department: Этот пользователь принадлежит подразделению, управляемому LDAP синхронизацией, и не может быть перемещен.
         wrong_length: неправильная длина (должно быть %{count} знаков).
       models:
         attachment:
@@ -592,7 +617,7 @@ ru:
               blank: Формула не может быть пустой.
               format: "%{message}"
               invalid: Формула неверна.
-              invalid_tokens: Only numeric values, operators, functions, keywords and project attributes of type integer, float, calculated value and weighted list are allowed.
+              invalid_tokens: Допускаются только числовые значения, операторы, функции, ключевые слова и атрибуты проекта целочисленного числа, числа с плавающей точкой, рассчитываемые значения и взвешенный список.
               not_allowed_custom_fields_referenced: Атрибут %{custom_fields} не может быть использован, потому что это приводит к циклической ссылке, один атрибут зависит от другого.
             required:
               cannot_be_true: не может быть установлено в true.
@@ -635,7 +660,7 @@ ru:
             parent_id:
               circular_dependency: создаст круговую иерархию групп.
               organizational_unit_mismatch: должен иметь те же организационные подразделения, что и группа.
-              parent_ldap_managed: is managed by LDAP synchronization and cannot have departments added manually.
+              parent_ldap_managed: управляется синхронизацией LDAP и не может содержать подразделения добавляемые вручную.
         ical_token_query_assignment:
           attributes:
             name:
@@ -688,7 +713,7 @@ ru:
           attributes:
             base:
               archive_permission_missing_on_subprojects: У вас нет разрешений, необходимых для архивирования всех подпроектов. Обратитесь к администратору.
-              project_initiation_request_disabled: Запрос на инициирование проекта отключен. Он должен быть включен, чтобы создать рабочий пакет артефактов.
+              project_initiation_request_disabled: Запрос на инициирование проекта отключен. Он должен быть включен, чтобы создать пакет работ артефактов.
             enabled_modules:
               dependency_missing: Модуль '%{dependency}' ' должен быть включен, так как модуль '%{module}' зависит от него.
               format: "%{message}"
@@ -696,13 +721,13 @@ ru:
               must_start_with_letter: должен начинаться с буквы
               no_special_characters: может содержать только заглавные буквы, цифры и символы подчеркивания
             types:
-              cannot_assign_multiple_variants_of_parent: Can only enable a single variant of a Type on the project
-              cannot_assign_variant_and_parent: 'Cannot assign a variant and its parent '
-              cannot_assign_variants_yet: Variants cannot be enabled on a project yet. Enable the feature flag to try out variants
+              cannot_assign_multiple_variants_of_parent: В проекте можно включить только один вариант типа
+              cannot_assign_variant_and_parent: 'Не удается назначить вариант и его родителя '
+              cannot_assign_variants_yet: Варианты пока не могут быть включены в проекте. Включите feature флаг, чтобы попробовать варианты
               in_use_by_work_packages: 'всё ещё используются в пакетах работ: %{types}'
-              switch_source_not_a_variant: Can only switch away from a variant
-              switch_target_identical: The target Type must be different from the current variant
-              switch_target_not_in_family: Can only switch to another variant of the same Type or to its parent Type
+              switch_target_blank: Выберите вариант, на который хотите переключиться
+              switch_target_identical: Целевой тип должен отличаться от типа, который сейчас используется в проекте
+              switch_target_not_in_family: Можно переключиться только на тип одного семейства
           cannot_be_assigned_to_artifact_work_package: Выбранный пользователь не может быть назначен пакетам работ.
           foreign_wps_reference_version: Комплексы работ в проектах, не расположенных по убыванию, ссылаются на версии проекта или его производных.
         project/phase:
@@ -717,6 +742,11 @@ ru:
           attributes:
             project_ids:
               blank: Пожалуйста, выберите проект.
+        project_type:
+          attributes:
+            variant:
+              must_be_owned_by_the_project: must not be a variant another project owns.
+              must_belong_to_the_type: должен быть вариантом того типа, который используется в проекте.
         queries/filters/base:
           attributes:
             values:
@@ -787,7 +817,8 @@ ru:
               durations_are_not_positive_numbers: Длительность должна быть положительным числом.
               hours_per_day_are_missing: Необходимо указать количество часов в день.
               hours_per_day_is_out_of_bounds: Количество часов в день не может быть больше 24
-              journal_aggregation_time_minutes_is_out_of_bounds: Aggregation period must be between %{min} and %{max} minutes.
+              journal_aggregation_time_minutes_is_out_of_bounds: Период агрегации должен составлять от %{min} до %{max} минут.
+              password_login_requires_sso_provider: Password login restrictions require at least one available SSO provider.
               previous_working_day_changes_unprocessed: Предыдущие изменения конфигурации рабочих дней еще не были применены.
               working_days_are_missing: По крайней мере, один день недели должен быть определен как рабочий.
         status:
@@ -805,7 +836,7 @@ ru:
               blank: Пожалуйста, укажите имя токена
               format: "%{message}"
               in_use: Это имя токена уже используется, пожалуйста, выберите другое
-        type:
+        type_variant:
           attributes:
             attribute_groups:
               attribute_unknown: Используется недопустимый атрибут пакета работ.
@@ -813,18 +844,33 @@ ru:
               duplicate_group: Имя группы '%{group}' используется более одного раза. Имена групп должны быть уникальными.
               group_without_name: Имя группы не может быть пустым.
               query_invalid: 'Встроенный запрос ''%{group}'' является недопустимым: %{details}'
-            parent:
-              cannot_be_self: can't be the type itself.
-              cannot_change_with_work_packages: can't be changed because work packages of this type already exist.
-              cannot_have_children: can't be set because this type already has variants.
-              must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
-              standard_type_must_be_root: can't be set for the standard type.
+            base:
+              borrowed_by_variants: Нельзя удалить, пока его конфигурация повторно используется %{names}.
+              is_default_variant: Конфигурация по умолчанию для типа не может быть удалена.
+              restrict_dependent_destroy:
+                has_many: Невозможно удалить, пока он используется в проектах.
+            defaults_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
+              would_create_cycle: объединит эти конфигурации в цикл.
+            enabled_in_new_projects:
+              not_available_to_project_owned_variant: cannot be set on a variant a project owns.
+              taken: уже настроен для другой конфигурации данного типа.
+            form_configuration_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
+              would_create_cycle: объединит эти конфигурации в цикл.
             patterns:
               invalid_tokens: Один или несколько атрибутов внутри поля недействительны. Пожалуйста, исправьте атрибуты перед сохранением.
-        type/configuration_link:
-          attributes:
-            source_id:
-              would_create_cycle: would link these configurations in a loop.
+            pdf_export_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
+              would_create_cycle: объединит эти конфигурации в цикл.
+            project_attributes_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
+              would_create_cycle: объединит эти конфигурации в цикл.
+            variant:
+              must_belong_to_the_type: должен быть вариантом данного типа.
+            workflows_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
+              would_create_cycle: объединит эти конфигурации в цикл.
         user:
           attributes:
             base:
@@ -908,7 +954,7 @@ ru:
               cannot_add_child_because_of_lack_of_permission: Не удается добавить дочерний пакет, потому что вы не имеете разрешения на редактирование выбранного пакета работ.
               format: "%{message}"
             identifier:
-              must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
+              must_not_be_changed: не должно быть изменено вручную. Идентификаторы пакетов работ автоматически выделяются и разрешаются через таблицу псевдонимов, поэтому их изменение вручную прерывает ссылки и историю идентификатора. Если это намеренно, сохраните `save(контекст:%{context})` и поддерживайте таблицу work_package_semantic_aliass.
               semantic_identifier_incomplete: и sequence_number должны быть установлены одновременно.
             parent:
               cannot_be_in_another_project: не может быть в другом проекте.
@@ -927,10 +973,13 @@ ru:
             schedule_manually:
               cannot_be_automatically_scheduled: не может быть установлено значение false (автоматическое планирование), так как у него нет предшественников или дочерних элементов.
             sequence_number:
-              must_not_be_changed: 'must not be changed manually. It is allocated automatically together with the identifier. If this change is deliberate, save with `save(context: :%{context})`.'
+              must_not_be_changed: не должно быть изменено вручную. Он автоматически выделяется вместе с идентификатором. Если это изменение является намеренным, сохраните его с помощью `save(context:%{context})`.
             start_date:
               cannot_be_null: не может быть нулевым, поскольку известны дата окончания и продолжительность.
               violates_relationships: может быть установлено лишь в %{soonest_start} или позднее и без нарушения взаимосвязи рабочих пакетов.
+            status:
+              status_invalid_in_type: недопустимо, поскольку данный статус отсутствует в данном типе.
+              status_transition_invalid: недопустимо, поскольку для ролей текущего пользователя отсутствует допустимый переход из старого статуса в новый.
             status_id:
               status_invalid_in_type: недопустимо, так как текущего статуса в этом типе нет.
               status_transition_invalid: недопустимо, так как  для текущих ролей пользователя нет правильного перехода от старого этапа к новому.
@@ -938,8 +987,7 @@ ru:
               cannot_be_milestone_due_to_children: не может быть вехой, поскольку этот пакет работ имеет потомков.
           is_not_a_valid_target_for_time_entries: 'Пакет работ #%{id} не допустимым для переназначения времени записи.'
           readonly_status: Пакет работ находится в статусе доступном только для чтения, поэтому его атрибуты не могут быть изменены.
-          target_versions_only_allow_single_value: Target Versions can only hold a single value.
-          version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
+          target_versions_only_allow_single_value: Целевые версии могут содержать только одно значение.
       template:
         body: 'Пожалуйста, проверьте следующие поля:'
         header:
@@ -948,64 +996,361 @@ ru:
           many: "%{count} ошибок не позволили сохранить %{model}"
           other: "%{count} ошибок не позволили сохранить %{model}"
     models:
-      attachment: Файл
+      action:
+        one: Действие
+        few: Actions
+        many: Actions
+        other: Действия
+      ai/text_transform_action:
+        one: Text transform action
+        few: Text transform actions
+        many: Text transform actions
+        other: Text transform actions
+      announcement:
+        one: Объявление
+        few: Announcements
+        many: Announcements
+        other: Объявления
+      anonymous_user:
+        one: Анонимный пользователь
+        few: Anonymous users
+        many: Anonymous users
+        other: Анонимные пользователи
+      attachment:
+        one: Файл
+        few: Files
+        many: Files
+        other: Файлы
       attribute_help_text:
         one: Текст справки атрибута
         few: Тексты справки атрибутов
         many: Тексты справки атрибутов
         other: Тексты справки атрибутов
+      attribute_help_text/project:
+        one: Справка по атрибутам проекта
+        few: Project attribute help texts
+        many: Project attribute help texts
+        other: Справки по атрибутам проекта
+      attribute_help_text/user:
+        one: Справка по атрибутам пользователя
+        few: User attribute help texts
+        many: User attribute help texts
+        other: Справки по атрибутам пользователя
+      attribute_help_text/work_package:
+        one: Справка по атрибутам пакета работ
+        few: Work package attribute help texts
+        many: Work package attribute help texts
+        other: Справки по атрибутам пакета работ
       auth_provider:
         one: Провайдер аутентификации
         few: Провайдера аутентификации
         many: Провайдеров аутентификации
         other: Провайдеры аутентификации
-      category: Категория
-      color: Цвет
-      comment: Комментарий
-      custom_action: Пользовательское действие
-      custom_field: Настраиваемое поле
-      customized: Настраиваемый
-      doorkeeper/application: Приложение OAuth
+      backup:
+        one: Резервная копия
+        few: Backups
+        many: Backups
+        other: Резервные копии
+      capability:
+        one: Возможность
+        few: Capabilities
+        many: Capabilities
+        other: Возможности
+      category:
+        one: Категория
+        few: Categories
+        many: Categories
+        other: Категории
+      change:
+        one: Изменение файла
+        few: File changes
+        many: File changes
+        other: Изменение файлов
+      changeset:
+        one: Набор изменений
+        few: Changesets
+        many: Changesets
+        other: Наборы изменений
+      color:
+        one: Цвет
+        few: Colors
+        many: Colors
+        other: Цвета
+      comment:
+        one: Комментарий
+        few: Comments
+        many: Comments
+        other: Комментарии
+      custom_action:
+        one: Пользовательское действие
+        few: Custom actions
+        many: Custom actions
+        other: Пользовательские действия
+      custom_field:
+        one: Пользовательское поле
+        few: Custom fields
+        many: Custom fields
+        other: Пользовательские поля
+      custom_field/hierarchy/item:
+        one: Элемент иерархии
+        few: Hierarchy items
+        many: Hierarchy items
+        other: Элементы иерархии
+      custom_field_section:
+        one: Раздел пользовательских полей
+        few: Custom field sections
+        many: Custom field sections
+        other: Разделы пользовательских полей
+      custom_option:
+        one: Вариант настраиваемого поля
+        few: Custom field options
+        many: Custom field options
+        other: Варианты настраиваемого поля
+      custom_style:
+        one: Дизайн
+        few: Designs
+        many: Designs
+        other: Дизайны
+      day:
+        one: День
+        few: Days
+        many: Days
+        other: Дней
+      deleted_user:
+        one: Удалённый пользователь
+        few: Deleted users
+        many: Deleted users
+        other: Удаленные пользователи
+      design_color:
+        one: Цвет дизайна
+        few: Design colors
+        many: Design colors
+        other: Цвета дизайна
+      doorkeeper/application:
+        one: Приложение OAuth
+        few: OAuth applications
+        many: OAuth applications
+        other: Приложения OAuth
+      emoji_reaction:
+        one: Реакция эмодзи
+        few: Emoji reactions
+        many: Emoji reactions
+        other: Реакции эмодзи
       enterprise_token:
         one: Корпоративный токен
         few: Корпоративных токена
         many: Корпоративных токенов
         other: Корпоративных токенов
-      forum: Форум
-      global_role: Глобальная роль
-      group: Группа
+      enterprise_trial:
+        one: Пробная версия
+        few: Enterprise trials
+        many: Enterprise trials
+        other: Пробные версии
+      enumeration:
+        one: Перечисление
+        few: Enumerations
+        many: Enumerations
+        other: Перечисления
+      export:
+        one: Экспорт
+        few: Exports
+        many: Exports
+        other: Экспорты
+      export_setting:
+        one: Настройки экспорта
+        few: Export settings
+        many: Export settings
+        other: Настройки экспорта
+      forum:
+        one: Форум
+        few: Forums
+        many: Forums
+        other: Форумы
+      global_role:
+        one: Глобальная роль
+        few: Global roles
+        many: Global roles
+        other: Глобальные роли
+      group:
+        one: Группа
+        few: Groups
+        many: Groups
+        other: Группы
+      group_custom_field:
+        one: Group custom field
+        few: Group custom fields
+        many: Group custom fields
+        other: Group custom fields
+      health_report:
+        one: Отчет о здоровье
+        few: Health reports
+        many: Health reports
+        other: Отчеты о здоровье
       issue_priority:
         one: Приоритет
         few: Приоритеты
         many: Приоритеты
         other: Приоритеты
-      jira:
-        one: Jira
-        few: Jira
-        many: Jira
-        other: Jira
-      meeting_participant: Участник совещания
-      member: Участник
-      message: Сообщение
-      news: Новости
+      ldap_auth_source:
+        one: LDAP-подключение
+        few: LDAP connections
+        many: LDAP connections
+        other: LDAP-подключения
+      mcp_configuration:
+        one: Конфигурация MCP
+        few: MCP configurations
+        many: MCP configurations
+        other: Конфигурации MCP
+      member:
+        one: Участник
+        few: Участники
+        many: Участники
+        other: Участники
+      menu_item:
+        one: Пункт меню
+        few: Menu items
+        many: Menu items
+        other: Пункты меню
+      menu_items/wiki_menu_item:
+        one: Пункт меню wiki
+        few: Wiki menu items
+        many: Wiki menu items
+        other: Пункты меню вики
+      message:
+        one: Сообщение
+        few: Messages
+        many: Messages
+        other: Сообщения
+      news:
+        one: Новости
+        few: News
+        many: News
+        other: Новости
+      non_working_day:
+        one: Нерабочий день
+        few: Non-working days
+        many: Non-working days
+        other: Нерабочие дни
       notification:
         one: Уведомление
         few: Уведомления
         many: Уведомлений
         other: Уведомлений
-      placeholder_user: Пользователь-заполнитель
+      notification_setting:
+        one: Настройка уведомлений
+        few: Notification settings
+        many: Notification settings
+        other: Настройки уведомлений
+      oauth_client:
+        one: Клиент OAuth
+        few: OAuth clients
+        many: OAuth clients
+        other: Клиенты OAuth2
+      oauth_client_token:
+        one: Токен клиента OAuth
+        few: OAuth client tokens
+        many: OAuth client tokens
+        other: Токены клиента OAuth
+      persisted_query:
+        one: Сохраненный запрос
+        few: Persisted queries
+        many: Persisted queries
+        other: Сохраненные запросы
+      persisted_view:
+        one: Сохраненное представление
+        few: Persisted views
+        many: Persisted views
+        other: Сохраненные представления
+      placeholder_user:
+        one: Пользователь-заполнитель
+        few: Placeholder users
+        many: Placeholder users
+        other: Пользователи-заполнители
+      plugin_auth_provider:
+        one: Провайдер аутентификации плагина
+        few: Plugin authentication providers
+        many: Plugin authentication providers
+        other: Провайдеры аутентификации плагина
+      principal:
+        one: Участник
+        few: Principals
+        many: Principals
+        other: Участники
       project:
         one: Проект
         few: Проекты
         many: Проекты
         other: Проекты
+      project/phase:
+        one: Фаза проекта
+        few: Project phases
+        many: Project phases
+        other: Фазы проекта
+      project/phase_definition:
+        one: Определение фазы проекта
+        few: Project phase definitions
+        many: Project phase definitions
+        other: Определения фазы проекта
+      project_custom_field:
+        one: Атрибут проекта
+        few: Project attributes
+        many: Project attributes
+        other: Атрибуты проекта
+      project_custom_field_section:
+        one: Секция атрибутов проекта
+        few: Project attribute sections
+        many: Project attribute sections
+        other: Секции атрибутов проекта
       project_query:
         one: Список проектов
         few: Списки проектов
         many: Списки проектов
         other: Списки проектов
-      query: Настраиваемый запрос
-      reminder: Напоминание
+      project_query_role:
+        one: Project list role
+        few: Project list roles
+        many: Project list roles
+        other: Project list roles
+      project_role:
+        one: Роль проекта
+        few: Project roles
+        many: Project roles
+        other: Роли проекта
+      query:
+        one: Пользовательский запрос
+        few: Custom queries
+        many: Custom queries
+        other: Пользовательские запросы
+      relation:
+        one: Отношение
+        few: Relations
+        many: Relations
+        other: Отношения
+      reminder:
+        one: Напоминание
+        few: Reminders
+        many: Reminders
+        other: Напоминания
+      remote_identity:
+        one: Удаленная идентичность
+        few: Remote identities
+        many: Remote identities
+        other: Удаленные идентичности
+      repository:
+        one: Репозиторий
+        few: Repositories
+        many: Repositories
+        other: Репозитории
+      repository/git:
+        one: Git pепозиторий
+        few: Git repositories
+        many: Git repositories
+        other: Git-репозитории
+      repository/subversion:
+        one: Subversion pепозиторий
+        few: Subversion repositories
+        many: Subversion repositories
+        other: Subversion pепозитории
       role:
         one: Роль
         few: Роль
@@ -1016,12 +1361,46 @@ ru:
         few: Клиенты SCIM
         many: Клиенты SCIM
         other: Клиенты SCIM
-      status: Статус пакета работ
+      service_account:
+        one: Сервисный аккаунт
+        few: Service accounts
+        many: Service accounts
+        other: Сервисные аккаунты
+      sessions/user_session:
+        one: Сессия
+        few: Sessions
+        many: Sessions
+        other: Сессии
+      setting:
+        one: Параметр
+        few: Settings
+        many: Settings
+        other: Параметры
+      status:
+        one: Статус пакета работ
+        few: Work package statuses
+        many: Work package statuses
+        other: Статусы пакета работ
+      system_user:
+        one: Системный пользователь
+        few: System users
+        many: System users
+        other: Системные пользователи
       token/api:
         one: Токен доступа
         few: Маркеры доступа
         many: Маркеры доступа
         other: Маркеры доступа
+      token/base:
+        one: Токен
+        few: Токены
+        many: Токены
+        other: Токены
+      token/ical:
+        one: Токен iCalendar
+        few: iCalendar tokens
+        many: iCalendar tokens
+        other: Токены iCalendar
       token/rss:
         one: Токен RSS
         few: Токены RSS
@@ -1032,12 +1411,96 @@ ru:
         few: Типа
         many: Типов
         other: Типов
-      user: Пользователь
-      version: Этапы
-      wiki: Wiki
-      wiki_page: Wiki-страница
-      work_package: Пакет работ
-      workflow: Рабочий поток
+      type_variant:
+        one: Вариант
+        few: Варианта
+        many: Вариантов
+        other: Вариантов
+      user:
+        one: Пользователь
+        few: Users
+        many: Users
+        other: Пользователи
+      user_custom_field:
+        one: Атрибут пользователя
+        few: User attributes
+        many: User attributes
+        other: Атрибуты пользователя
+      user_custom_field_section:
+        one: Секция атрибутов пользователя
+        few: User attribute sections
+        many: User attribute sections
+        other: Секции атрибутов пользователя
+      user_non_working_time:
+        one: Нерабочее время
+        few: Non-working times
+        many: Non-working times
+        other: Нерабочее время
+      user_password:
+        one: Пароль
+        few: Passwords
+        many: Passwords
+        other: Пароли
+      user_preference:
+        one: Настройка пользователя
+        few: User preferences
+        many: User preferences
+        other: Настройки пользователя
+      user_query:
+        one: Список пользователей
+        few: User lists
+        many: User lists
+        other: Списки пользователей
+      user_working_hours:
+        one: Рабочие часы
+        few: Working hours
+        many: Working hours
+        other: Рабочие часы
+      version:
+        one: Версия
+        few: Versions
+        many: Versions
+        other: Версии
+      version_custom_field:
+        one: Пользовательское поле версии
+        few: Version custom fields
+        many: Version custom fields
+        other: Пользовательские поля версии
+      view:
+        one: Представление
+        few: Views
+        many: Views
+        other: Представления
+      wiki:
+        one: Вики
+        few: Wikis
+        many: Wikis
+        other: Вики
+      wiki_page:
+        one: Wiki-страница
+        few: Wiki pages
+        many: Wiki pages
+        other: Wiki-страницы
+      work_package:
+        one: Пакет работ
+        few: Work packages
+        many: Work packages
+        other: Пакеты работ
+      work_package_custom_field:
+        one: Пользовательское поле пакета работ
+        few: Work package custom fields
+        many: Work package custom fields
+        other: Пользовательские поля пакета работ
+      work_package_role:
+        one: Роль пакета работ
+        few: Work package roles
+        many: Work package roles
+        other: Роли пакета работ
+      workflow:
+        one: Рабочий поток
+        few: Рабочие потоки
+        many: Рабочие потоки
+        other: Рабочие потоки
   activities:
     index:
       no_results_title_text: В течение этого периода времени не было никакой деятельности по проекту.
@@ -1055,10 +1518,11 @@ ru:
           heading: Сделать этот комментарий публичным?
           title: Сделать этот комментарий публичным?
         internal_journal: Внутренние комментарии видны ограниченной группе членов.
+        label_activity_hide_meetings: Скрыть обновления о встречах
         label_activity_show_all: Показать всё
         label_activity_show_only_changes: Показать только изменения
         label_activity_show_only_comments: Показать только комментарии
-        label_dismiss_comment: Dismiss
+        label_dismiss_comment: Скрыть
         label_sort_asc: Новые внизу
         label_sort_desc: Новые вверху
         label_submit_comment: Отправить комментарий
@@ -1066,7 +1530,7 @@ ru:
         label_who: Кто?
         no_results_description_text: Выберите "Показать всё" для отображения всей деятельности и комментариев
         no_results_title_text: Нет деятельности для отображения
-        unsaved_changes_confirmation_message: Are you sure you want to dismiss your comment? The content that you have written will be lost.
+        unsaved_changes_confirmation_message: Вы уверены, что хотите удалить свой комментарий? Написанный вами текст будет утрачен.
   activity:
     filter:
       changeset: Наборы изменений
@@ -1118,7 +1582,7 @@ ru:
       removed_date: дата удаления %{date}
   admin:
     banners:
-      environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
+      environment_configured_readonly: Эти значения настраиваются через переменные окружения и не могут быть отредактированы.
     custom_styles:
       color_theme: Цветовая тема
       color_theme_custom: "(Пользовательская)"
@@ -1138,7 +1602,7 @@ ru:
         primary-button-color: Яркий контрастный цвет, который обычно используют для важных кнопок на экране.
       manage_colors: Изменить цвет выбранных опций
       tab_branding: Фирменное оформление
-      tab_default_colors: Default colors
+      tab_default_colors: Цвета по умолчанию
       tab_interface: Интерфейс
       tab_pdf_export_font: Шрифт для экспорта в PDF
       tab_pdf_export_styles: Стили экспорта PDF
@@ -1181,8 +1645,8 @@ ru:
     jemalloc_allocator: Распределитель памяти Jemalloc
     jira:
       actions:
-        button_edit: Edit configuration
-        button_open: Open runs
+        button_edit: Редактировать конфигурацию
+        button_open: Открыть запуск
       banner:
         contribution_callout: 'Пожалуйста, помогите нам улучшить Jira Migrator с помощью Ваших отзывов и частных пожертвований данных. Вы можете [присоединиться к сообществу разработчиков](link) Jira Migrator.
 
@@ -1194,21 +1658,21 @@ ru:
         title: Хосты Jira еще не настроены
       client:
         401_error: Jira API вернул ошибку 401. Ваш токен аутентификации может быть истёк или не хватает необходимых разрешений. Пожалуйста, убедитесь, что токен принадлежит администратору Jira.
-        429_error: Jira API returned a 429 error. It means token owner has been rate limited by the Jira instance. Please disable rate limiting for this user.
+        429_error: API Jira вернул ошибку 429. Это означает, что на владельца токена наложен ограничитель частоты запросов со стороны экземпляра Jira. Пожалуйста, отключите ограничение частоты запросов для этого пользователя.
         api_error: Jira API вернул статус ошибки %{status}
         connection_error: 'Не удалось подключиться к серверу Jira: %{message}'
         connection_timeout: 'Время подключения к серверу Jira истекло: %{message}'
         parse_error: 'Не удалось разобрать ответ Jira API: %{message}'
         ssl_error: 'Ошибка SSL при подключении к серверу Jira: %{message}'
         ssrf_block_doc_link: Пожалуйста, ознакомьтесь с нашей [документацией](docs_url).
-        ssrf_blocked: 'Connection blocked: the Jira host resolves to a private IP address. If your Jira instance runs on an internal network, allow its IP via the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST environment variable.'
+        ssrf_blocked: 'Соединение заблокировано: хост Jira резолвится в частный IP-адрес. Если ваш экземпляр Jira работает во внутренней сети, добавьте его IP-адрес в список разрешенных через переменную среды OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
       columns:
         added: Добавлено
-        creator: Creator
+        creator: Автор
         label_ago: "%{amount} назад"
         last_change: Последнее изменение
         projects: Проекты
-        server_url: Server URL
+        server_url: URL сервера
       configuration:
         new: Новая конфигурация
         title: Конфигурация Jira
@@ -1217,7 +1681,7 @@ ru:
         cannot_delete_with_imports: Невозможно удалить хост Jira с существующими импортами
         custom_field_creation_failed: 'Не удалось создать пользовательское поле ''%{name}'': %{message}'
         semantic_identifiers_must_be_enabled:
-          description: Jira uses issue identifiers consisting of a project key and a sequence number (PRJ-123). OpenProject also supports it, but it needs to be enabled [here](link).
+          description: В Jira используются идентификаторы задач, состоящие из ключа проекта и порядкового номера (PRJ-123). OpenProject также поддерживает эту функцию, однако её необходимо включить [здесь](link).
           title: Семантические идентификаторы на основе проекта должны быть включены.
       form:
         button_add: Добавить конфигурацию
@@ -1229,18 +1693,15 @@ ru:
           personal_access_token: Персональный токен доступа
           url: URL сервера/центра обработки данных Jira
         label_testing: Тестирование конфигурации...
-        test_configuration_caption: You can test this configuration by [clicking here](test)
+        test_configuration_caption: Вы можете протестировать эту конфигурацию, [нажав здесь](test)
       run:
         actions:
-          button_edit: Edit run
-          button_open_history: Open run history
+          button_edit: Редактировать запуск
+          button_open_history: Открыть историю запусков
         blank:
           description: Создайте запуск импорта, чтобы начать импортировать информацию из этого экземпляра Jira
           title: Импорт еще не настроен
         history: История
-        side_panel:
-          run_status: Run status
-          open_history: Open the run history
         import_blocked_error: Другая операция импорта Jira находится в процессе выполнения или ожидает рассмотрения. Пожалуйста, завершите или отмените его, прежде чем начинать новый импорт.
         index:
           button_edit_configuration: Изменить конфигурацию
@@ -1248,11 +1709,15 @@ ru:
           description: С каждым запуском импорта можно импортировать различные наборы данных. Отмена импорта возможна сразу же после завершения процесса проверки, но не после завершения.
         project_identifier_taken: 'Вы пытаетесь импортировать проект с уже использованным идентификатором: %{taken_identifier}. Пожалуйста, обновите идентификатор проекта в Jira, затем нажмите «Повторить».'
         remove_error: Запуск импорта Jira не может быть удалён, пока он запущен
+        side_panel:
+          open_history: Открыть историю запуска
+          run_status: Статус запуска
         status:
           configuring: Выберите область применения
           finalizing: Завершение
           finalizing_done: Завершено
           finalizing_error: Ошибка при завершении
+          import_aborting: Aborting
           import_error: Ошибка при импорте
           import_scope: Выберите область применения
           imported: Режим обзора
@@ -1264,13 +1729,13 @@ ru:
           projects_meta_done: Данные собраны
           projects_meta_error: Ошибка при получении данных о проекте
           projects_meta_fetching: Получение данных о проекте
-          revert_cancelled: Откат отменен
-          revert_cancelling: Отмена отката
           revert_error: Ошибка при откате
           reverted: Возвращено к исходному состоянию
           reverting: Возврат в исходное состояние
+        step_not_available: This action is not available for the current state of the import run.
         title: Выполнение импорта
         wizard:
+          button_abort: Abort
           button_retry: Повторить
           finalize_dialog:
             confirm: Я понимаю, что это действие не может быть отменено
@@ -1281,7 +1746,7 @@ ru:
             configuration:
               title: Настроить импорт
             run_and_review:
-              title: Run and review import
+              title: Запустить и проанализировать импорт
           import_dialog:
             confirm: Я понимаю и имею резервную копию
             confirm_button: Начать импорт
@@ -1326,23 +1791,26 @@ ru:
             title: Отменить этот импорт?
           sections:
             confirm_import:
+              button_importing: Importing data
+              button_revert: Revert import
               button_start: Начать импорт
               caption: Просмотрите настройки импорта и начните импорт
               caption_done: Завершено
-              caption_done_info: All data has been imported
+              caption_done_info: Все данные импортированы
               description: Вы собираетесь начать импорт со следующими настройками.
+              info_importing: The import is now in progress. Closing this tab will not stop it, and you can always revisit the status of the import by opening the run.
               label_available_data: Данные для импорта
               label_import_data: Сейчас импортируется
               label_progress: Идёт импорт...
               label_users_import_explanation: Пользователи, участвующие в выбранных проектах (с учетом членства в группах)
               title: Импорт данных
             fetch_data:
-              button_continue: Continue to scope selection
+              button_continue: Перейти к выбору области применения
               button_fetch: Проверка доступных данных
               caption_done: Завершено
-              caption_done_description: Meta data fetched from %{server_info}
+              caption_done_description: Метаданные из %{server_info} загружены
               description: Проверьте, какие данные доступны для импорта в экземпляре хоста Jira.
-              label_available_server_data: Available data on %{server_info}
+              label_available_server_data: Доступные данные на %{server_info}
               label_progress: Получение данных из Jira...
               title: Получить мета данные экземпляра
             groups_and_users:
@@ -1351,6 +1819,7 @@ ru:
               button_done: Завершить импорт
               button_revert: Откатить импорт
               caption: Просмотрите выполнение импорта или отмените импорт
+              info: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               label_finalize_import: Завершить импорт
               label_finalizing: Завершение импорта...
               label_finalizing_done: Импорт завершён.
@@ -1358,21 +1827,20 @@ ru:
               label_revert: Откатить импорт
               label_revert_progress: Отмена импорта...
               label_reverted: Импорт отменен.
-              preview_description: В настоящее время импортированные данные находятся в режиме просмотра. Нажмите "Завершить импорт", чтобы сохранить результаты импорта, или "Отменить импорт", чтобы отменить все изменения, сделанные в ходе запуска импорта.
               stats:
                 other_settings:
-                  label: Other settings
-                  subtitle: Including types and status
+                  label: Прочие настройки
+                  subtitle: Включая типы и статус
                 projects:
-                  label: Projects
-                  subtitle: Selected as scope
-                title: Data imported
+                  label: Проекты
+                  subtitle: Выбрано в качестве области применения
+                title: Импорт завершен
                 users_and_groups:
-                  label: Users & groups
-                  subtitle: 'Involved in imported projects '
+                  label: Пользователи и группы
+                  subtitle: 'Участие в импортированных проектах '
                 work_packages:
-                  label: Work packages
-                  subtitle: With attachments
+                  label: Пакеты работ
+                  subtitle: Содержит вложение
               title: Результаты запуска импорта
             import_scope:
               button_continue: Продолжить
@@ -1381,15 +1849,15 @@ ru:
               caption: Выберите, что Вы хотите импортировать в OpenProject
               caption_done: Завершено
               caption_done_description:
-                one: 1 project selected as scope
-                few: "%{count} projects selected as scope"
-                many: "%{count} projects selected as scope"
-                other: "%{count} projects selected as scope"
+                one: 1 проект выбран в области применения
+                few: "%{count} проекта выбраны в области применения"
+                many: "%{count} проектов выбраны в области применения"
+                other: "%{count} проектов выбраны в области применения"
               description: Выберите, какие данные Вы хотите импортировать из доступных, полученных из хоста Jira.
               elements:
                 custom_fields: Подмножество настраиваемых полей
                 issue_details: Описание задачи, история, комментарии и вложения
-                issue_ids: Issue identifiers
+                issue_ids: Идентификаторы задач
                 issues: Задачи
                 permissions: Разрешения
                 project_ids: Идентификаторы проекта
@@ -1400,20 +1868,20 @@ ru:
                 users: Вовлеченные пользователи и группы
                 workflows: Рабочие процессы на уровне проекта
               label_coming_later: Ожидается позже
-              label_coming_soon: Coming soon (Q3 2026)
+              label_coming_soon: Скоро (Q3 2026)
               label_import: Выберите проекты, которые Вы хотите импортировать.
               label_info: Пожалуйста, обратите внимание, что этот инструмент импорта находится в бета-версии и не может импортировать все типы данных. Вот краткая информация о том, что хост Jira предлагает для импорта, и что этот инструмент может импортировать прямо сейчас.
-              label_progress: Fetching data
+              label_progress: Получение данных
               label_selected_data: Выбранные данные для импорта
               label_supported_data: Поддерживаемые данные
               title: Объем импорта
           select_projects:
-            button_select: Select
-            button_select_all: Select all
-            button_unselect_all: Unselect all
-            filter_projects: Filter by text
-            info: Only projects where the Jira token owner is member are selectable as import scope.
-            title: Select projects to import
+            button_select: Выбрать
+            button_select_all: Выбрать все
+            button_unselect_all: Снять выбор
+            filter_projects: Фильтр по тексту
+            info: Только проекты, в которых владелец токена Jira является участником, выбираются в качестве области импорта.
+            title: Выберите проекты для импорта
       test:
         api_error: Jira API вернул статус ошибки %{status}. Пожалуйста, проверьте ваш экземпляр Jira URL и API токен.
         connection_error: 'Ошибка соединения: %{message}'
@@ -1429,7 +1897,7 @@ ru:
       user:
         unknown_name: Неизвестен
     journal_aggregation:
-      caption_with_maximum: 'User actions on a work package (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays. The maximum is %{max} minutes.
+      caption_with_maximum: 'Действия пользователя над пакетом работ (изменение описания, статуса, значений или добавление комментариев) группируются, если они выполняются в течение этого периода. Этот параметр также регулирует задержки в отправке уведомлений и [webhook](webhook_link). Максимальное значение составляет %{max} минут.
 
         '
     mcp_configurations:
@@ -1466,29 +1934,29 @@ ru:
       no_results_content_text: Более подробную информацию см. на странице "Наши интеграции и плагины".
       no_results_title_text: В настоящее время плагины не установлены.
     reserved_identifiers:
-      btn_release: Unreserve
+      btn_release: Отменить резерв
       col_identifier: Идентификатор
       col_project: Проект
       col_reserved: Зарезервировано
       dialog:
         checkbox_label: Я понимаю, что это действие нельзя отменить.
-        confirm_button: Unreserve identifier
-        description: Unreserving this project identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+        confirm_button: Снять резервирование идентификатора
+        description: Отмена резервирования данного идентификатора проекта не может быть отменена. Внешние ссылки и интеграции, использующие этот идентификатор, перестанут работать, а само имя станет доступным для использования любым новым проектом.
         description_with_work_packages:
-          one: Unreserving this project identifier (and its 1 work package identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
-          few: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
-          many: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
-          other: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
-        heading: Unreserve "%{identifier}"?
-        title: Unreserve identifier
-      empty_body: When a project's identifier changes, the previous one will appear here so you can unreserve it once it's safe to do so.
+          one: Отмена резервирования этого идентификатора проекта (и его один идентификатор пакета работ) не может быть отменена. Внешние ссылки и интеграции, использующие ее, перестают разрешать и имя становится доступным для любого нового проекта.
+          few: Отмена резервирования этого идентификатора проекта (и его %{count} идентификатора пакетов работ) не может быть отменена. Внешние ссылки и интеграции, использующие ее, перестают разрешать и имя становится доступным для любого нового проекта.
+          many: Отмена резервирования этого идентификатора проекта (и его %{count} идентификаторов пакетов работ) не может быть отменена. Внешние ссылки и интеграции, использующие ее, перестают разрешать и имя становится доступным для любого нового проекта.
+          other: Отмена резервирования этого идентификатора проекта (и его %{count} идентификаторов пакетов работ) не может быть отменена. Внешние ссылки и интеграции, использующие ее, перестают разрешать и имя становится доступным для любого нового проекта.
+        heading: Отменить резервирование "%{identifier}?
+        title: Снять резервирование идентификатора
+      empty_body: В случае изменения идентификатора проекта предыдущий идентификатор будет отображаться здесь, чтобы вы могли отменить его резервирование, как только это станет безопасным.
       empty_heading: Нет зарезервированных идентификаторов
-      filter_label: Search identifiers
-      identifier_not_found: The reserved identifier could not be found. It may have already been unreserved or the project may have been deleted. Please refresh the page.
-      lede_html: When a project's identifier is renamed, the previous identifier is kept reserved so that existing links and integrations keep working.<br>Here you can unreserve identifiers so that they may be used by other projects.
-      released_notice: Identifier "%{identifier}" has been unreserved.
+      filter_label: Поиск идентификаторов
+      identifier_not_found: Не удалось найти зарезервированный идентификатор. Возможно, он уже был разблокирован или проект был удален. Пожалуйста, обновите страницу.
+      lede_html: При переименовании идентификатора проекта предыдущий идентификатор резервируется, чтобы существующие ссылки и интеграции продолжали работать.<br>Здесь вы можете снять резервирование идентификаторов, чтобы они могли использоваться другими проектами.
+      released_notice: Резерв идентификатора "%{identifier}" был снят.
       reserved_ago: "%{time} назад"
-      title: Reserved project identifiers
+      title: Зарезервированные идентификаторы
     scim_clients:
       authentication_methods:
         oauth2_client: Учётные данные клиента OAuth 2.0
@@ -1552,14 +2020,48 @@ ru:
         drop:
           error: Этот раздел не может быть отсортирован.
         move:
-          error: The section could not be reordered.
+          error: Эта секция не может быть отсортирована.
       user_custom_field_sections:
         destroy:
-          error: The section could not be deleted.
+          error: Эта секция не может быть удалена.
         drop:
-          error: The section could not be reordered.
+          error: Эта секция не может быть отсортирована.
         move:
-          error: The section could not be reordered.
+          error: Эта секция не может быть отсортирована.
+      versions_and_categories:
+        banner:
+          button_more_information: Дополнительная информация
+          message: В ближайшее время предстоят важные изменения, касающиеся версий и категорий. Просим вас внимательно ознакомиться со следующими настройками.
+        categories:
+          heading: Категории
+          planned_changes:
+            heading: Планируемые изменения в будущем выпуске
+            renamed: Поле «Категория» будет переименовано в «Категории».
+            single_value: В настоящее время это поле является однозначным. В будущем оно также будет преобразовано, чтобы допускать ввод нескольких значений.
+            upcoming_choice: Вы сможете выбрать несколько значений, прежде чем начнётся это автоматическое преобразование.
+        dialog:
+          checkbox_label: Я понимаю, что это действие необратимо
+          confirm_button: Включить
+          description_html: В результате существующее поле «Версия», предназначенное для ввода одного значения, будет преобразовано в поле, допускающее ввод нескольких значений. Данные не будут утрачены, однако это может повлиять на работу пользовательских интеграций. Прежде чем продолжить, ознакомьтесь с <a href="%{link}" target="_blank" rel="noopener">документацией</a>.
+          heading: Включить несколько целевых версий?
+          irreversible_notice: После включения этой функции вернуться к использованию одиночных значений будет невозможно.
+          title: Включить поддержку нескольких целевых версий
+        target_versions:
+          action_required:
+            button: Включить возможность ввода нескольких значений
+            heading: Требуется действие
+            manual_conversion_hint: Вы можете вручную запустить преобразование для включения нескольких значений, прежде чем произойдет автоматическая миграция.
+            not_writable_hint: Эти настройки настроены через переменные среды. Если вы хотите вручную запустить преобразование, чтобы включить несколько значений перед автоматической миграцией, обновите файл configuration.yml.
+          heading: Целевые версии
+          planned_changes:
+            heading: Планируемые изменения в будущем выпуске
+            renamed: Поле «Версия» будет переименовано в «Целевые версии».
+            single_value: В настоящее время это поле является однозначным. В будущем оно будет преобразовано, чтобы допускать ввод нескольких значений.
+          recent_changes:
+            documentation_html: Для получения более подробной информации об этом изменении и о том, как обновить API-клиенты, ознакомьтесь с <a href="%{link}" target="_blank" rel="noopener">нашей документацией</a>.
+            heading: Недавние изменения
+            multiple_values: Теперь поле «Целевые версии» позволяет использовать несколько значений.
+            renamed: Поле «Версия» теперь переименовано в «Целевые версии».
       work_packages_identifier:
         autofix_preview:
           error_does_not_start_with_letter: Должен начинаться с заглавной буквы
@@ -1577,7 +2079,7 @@ ru:
             many: "... еще %{count} проектов"
             other: "... еще %{count} проектов"
         banner:
-          existing_identifiers_notice: 'Existing identifiers for %{project_count} projects don''t meet requirements for project-based semantic identifiers. OpenProject can automatically update these so that they are valid as in the examples below. Click on ''Convert identifiers'' to update identifiers for all projects in this manner and enable project-based semantic identifiers.
+          existing_identifiers_notice: 'Существующие идентификаторы для %{project_count} проектов не соответствуют требованиям, предъявляемым к семантическим идентификаторам. OpenProject может автоматически обновить их, чтобы они были действительными, как показано в примерах ниже. Щелкните на ''Конвертировать идентификаторы'', чтобы обновить идентификаторы для всех проектов и включить семантические идентификаторы для проектов.
 
             '
         box_header:
@@ -1585,19 +2087,19 @@ ru:
           label_example_work_package_id: Пример ID пакета работ
           label_previous_identifier: Предыдущий идентификатор
           label_project: Проект
-          table_title: Projects with identifiers to update
+          table_title: Проекты с идентификаторами, подлежащими обновлению
         button_autofix: Конвертировать идентификаторы
         button_save: Конвертировать идентификаторы
         dialog:
           checkbox_label: Я понимаю, что это навсегда изменит все идентификаторы пакета работ
           confirm_button: Изменить идентификаторы
-          description: 'This will change IDs for all work packages in all projects in this instance. Previous identifiers and URLs will continue to work. This change will take some time to complete.
+          description: 'Это изменит идентификаторы всех пакетов работ во всех проектах в этом экземпляре OpenProject. Предыдущие идентификаторы и URL-адреса будут перенаправляться правильно. Это изменение займет некоторое время для завершения.
 
             '
           heading: Включить ID пакета работ на основе проектов?
           title: Изменить идентификаторы пакета работ
         in_progress:
-          footer_message: Background conversion is in progress. You can safely leave this page.
+          footer_message: В настоящее время выполняется конвертация в фоновом режиме. Вы можете спокойно покинуть эту страницу.
           header_classic: Преобразование в числовые идентификаторы
           header_semantic: Переход на идентификаторы, основанные на проекте
         page_header:
@@ -1606,7 +2108,7 @@ ru:
     workflows:
       blankslate:
         description: Добавьте статусы, чтобы начать настройку рабочих процессов для этой роли
-        linked_description: This type reuses the workflows of its linked source type, which has no status transitions configured
+        linked_description: Данный тип повторно использует рабочие процессы связанного с ним исходного типа, для которого не настроены переходы между состояниями
         title: Переходы статуса не настроены
       leave_confirmation:
         description: Вы собираетесь покинуть эту страницу, но у вас есть несохраненные изменения. Вы хотите сохранить их перед продолжением?
@@ -1637,15 +2139,15 @@ ru:
           other: Удалить %{count} статусов?
         title: Удаление статусов
       tabs:
-        always: Default transitions
-        aria_label: Workflow transitions
-        assignee: User is assignee
-        author: User is author
+        always: Переходы по умолчанию
+        aria_label: Переходы рабочего процесса
+        assignee: Пользователь является назначенным
+        author: Пользователь является автором
         descriptions:
-          always: Transitions available to the selected role(s) in all cases.
-          assignee: Additional transitions available to the work package's assignee.
-          author: Additional transitions available to the work package's author.
-        menu_label: Transitions shown
+          always: Переходы доступны для выбранных ролей во всех случаях.
+          assignee: Дополнительные варианты перехода, доступные исполнителю пакета работ.
+          author: Дополнительные варианты перехода, доступные автору пакета работ.
+        menu_label: Показаны переходы
   announcements:
     is_active: теперь отображается
     is_inactive: теперь не отображается
@@ -1665,7 +2167,7 @@ ru:
     attributes:
       property: Свойство
       version:
-        deprecated: 'Deprecated: this single-valued field is being replaced by `targetVersions`. Read and write `targetVersions` instead. While multiple versions is not enabled, `targetVersions` accepts at most one value and must not be written together with `version` in the same request.'
+        deprecated: 'Устарело: это поле с одним значением заменяется на `targetVersions`. Вместо этого читайте и запишите `targetVersions`. Хотя несколько версий не включены, `targetVersions` принимает максимум одно значение и не должен записываться вместе с `version` в том же запросе.'
     errors:
       bad_request:
         emoji_reactions_activity_type_not_supported: Этот тип деятельности не поддерживает реакции эмодзи.
@@ -1728,7 +2230,7 @@ ru:
       definingWorkspace: Нераскрыто - Рабочее пространство невидимо из-за отсутствия разрешений.
       parent: Нераскрыто - Родитель невидим из-за отсутствия разрешений.
       project: Нераскрыто - Проект невидим из-за отсутствия разрешений.
-      workPackage: Undisclosed - The work package is invisible because of lacking permissions.
+      workPackage: Неизвестно - пакет работ невидим из-за отсутствия разрешений.
   attribute_help_texts:
     add_new: Добавить текст справки
     caption: Эта краткая версия будет отображаться в качестве заголовка атрибута.
@@ -1760,6 +2262,7 @@ ru:
     custom_field: Настраиваемое поле
     custom_options: Возможные значения
     custom_values: Настраиваемые поля
+    customized: Настраиваемый
     date: Дата
     dates_interval: Диапазон дат
     default_columns: Столбцы по умолчанию
@@ -1775,6 +2278,7 @@ ru:
     entity_type: Тип сущности
     estimated_hours: Предполагаемое время
     estimated_time: Предполагаемое время
+    exact_match: Точное соответствие
     expires_at: Истекает
     filter: Фильтр
     firstname: Имя
@@ -1785,6 +2289,7 @@ ru:
     is_default: Значение по умолчанию
     is_for_all: Для всех проектов
     issue: Пакет работ
+    jira: Jira
     journal: Журнал
     journal_notes: Комментарий
     lastname: Фамилия
@@ -1817,6 +2322,7 @@ ru:
     start_date: Дата начала
     state: Область
     status: Статус
+    status_id: Статус
     subject: Тема
     summary: Сводка
     template: Шаблон
@@ -1859,8 +2365,8 @@ ru:
     reset_token:
       action_create: Создать
       action_reset: Сбросить
-      checkbox_confirmation_create: I understand that the backup token grants access to download all data in this installation
-      checkbox_confirmation_reset: I understand that the existing backup token will be invalidated
+      checkbox_confirmation_create: Я понимаю, что ключ резервного копирования предоставляет доступ для загрузки всех данных в этом инстансе
+      checkbox_confirmation_reset: Я понимаю, что существующий токен резервной копии будет аннулирован
       heading_create: Создать маркер резервного копирования
       heading_reset: Сбросить маркер резервного копирования
       implications: 'Включение резервных копий позволит любому пользователю с необходимыми правами и этим ключом резервного копирования загрузить резервную копию, содержащую все данные этой установки OpenProject. Сюда входят данные всех других пользователей.
@@ -1888,7 +2394,7 @@ ru:
   button_add_non_working_time: Время отдыха
   button_add_sub_item: Добавить подпроект
   button_add_watcher: Добавить наблюдателя
-  button_all_filters: All filters
+  button_all_filters: Все фильтры
   button_annotate: Комментировать
   button_apply: Применить
   button_apply_changes: Применить изменения
@@ -1939,7 +2445,7 @@ ru:
   button_manage_roles: Управление ролями
   button_move: Переместить
   button_move_and_follow: Переместить и следовать
-  button_next: Next
+  button_next: Далее
   button_print: Печать
   button_publish: Сделать публичным
   button_quote: Цитата
@@ -2130,7 +2636,7 @@ ru:
       editable:
         all: Разрешить редактирование поля самими пользователями.
       formula:
-        project: Add numeric values or type / to search for an attribute, operator, function or other token.
+        project: Добавьте числовые значения или наберите / для поиска атрибута, оператора, функции или другого маркера.
       has_comment:
         project: Позволяет пользователю добавить комментарий, относящийся к атрибуту проекта, при выборе значения в обзоре проекта.
       is_filter:
@@ -2156,17 +2662,17 @@ ru:
         all: Включать значения полей при использовании функции глобального поиска.
         project: Установите флажок, чтобы сделать этот атрибут доступным в качестве фильтра в списках проектов.
       visible_on_user_card:
-        all: When checked, this field's value is shown in the user information card when hovering over a user across the application.
+        all: Если этот флажок установлен, значение данного поля будет отображаться в карточке информации о пользователе при наведении курсора на профиль пользователя в любом месте приложения.
     is_enabled_globally: Разрешено в глобальном масштабе
     multi_value_more:
-      other: and %{count} more
+      other: и еще %{count}
     no_role_assigment: Роль не назначена
     placeholder_version_select: Сначала необходимо выбрать пакет работ или проект
     reorder_alphabetical: Переупорядочить значения по алфавиту
     reorder_confirmation: 'Предупреждение: Текущий порядок доступных значений, а также все несохраненные значения будут потеряны. Вы уверены, что хотите продолжить?'
     semantic_keys:
-      job_title: Job title
-      none: None
+      job_title: Должность
+      none: Отсутствует
     tab:
       no_results_content_text: Создать новое настраиваемое поле
       no_results_title_text: Нет настраиваемых полей.
@@ -2335,7 +2841,7 @@ ru:
         many: минут
         other: мин
   departments:
-    add_department: Добавить подразделения
+    add_department: Добавить подразделение
     add_department_form:
       name_label: Наименование подразделения
       name_placeholder: Введите название подразделения
@@ -2345,7 +2851,7 @@ ru:
       description: 'Начните с добавления подразделений или пользователей в организацию. Каждое подразделение может быть использовано для создания иерархии, чтобы перемещаться и создавать подразделы внутри иерархии, нажмите на созданный элемент.
 
         '
-      heading: У вашей организации нет департаментов
+      heading: У вашей организации нет подразделений
     context_menu:
       add_sub_department: Добавить дочернее подразделение
       add_user: Добавить пользователя
@@ -2353,8 +2859,8 @@ ru:
       add_button: Добавить
       description: Добавить подразделения или пользователей для создания дочерних элементов.
       heading: Это подразделение не имеет дочерних подразделений
-      managed_description: Its sub-departments and members are kept in sync with LDAP and cannot be added manually.
-      managed_heading: This department is managed by LDAP synchronization
+      managed_description: Данные о его подразделениях и сотрудниках синхронизируются с LDAP, и их невозможно добавить вручную.
+      managed_heading: Управление этим подразделением осуществляется посредством синхронизации LDAP
     edit: Редактировать подразделение
     errors:
       move_user_failed: Не удалось переместить пользователя между подразделениями.
@@ -2366,9 +2872,9 @@ ru:
       confirm: Переместить пользователя
       description: "%{user} в настоящее время является членом %{from_department}. Перемещение удалит их из этого подразделения."
       heading: Переместить пользователя в этот департамент?
-      managed_description: "%{user} belongs to %{from_department}, which is managed by LDAP synchronization. Their department membership is controlled by LDAP and cannot be changed here."
-      managed_heading: This user cannot be moved
-      managed_title: User managed by LDAP
+      managed_description: "%{user} принадлежит к %{from_department}, управление которым осуществляется посредством синхронизации LDAP. Принадлежность к подразделению контролируется LDAP и не может быть изменена здесь."
+      managed_heading: Этот пользователь не может быть перемещен
+      managed_title: Пользователь, управляемый через LDAP
       title: Пользователь уже в департаменте
   description_active: Активно?
   description_attachment_toggle: Показать/скрыть вложения
@@ -2378,8 +2884,12 @@ ru:
   description_available_columns: Доступные столбцы
   description_category_reassign: Укажите категорию
   description_choose_project: Проекты
-  description_compare_from: Сравнить от
-  description_compare_to: Сравнить до
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'Вы здесь: '
   description_date_from: Введите дату начала
   description_date_to: Введите дату окончания
@@ -2530,11 +3040,11 @@ ru:
         more_info: 'Примечание: используемый логотип будет общедоступным.'
         title: Пользовательская цветовая тема и логотип
       edit_attribute_groups:
-        description: 'Настроить конфигурацию формы с помощью этих дополнений:'
+        description: 'Customize the form with these additional add-ons:'
         features:
-          groups: Add new attribute sections
+          groups: Добавить новые секции атрибутов
           related: Добавить таблицу связанных пакетов работ
-          rename: Rename attribute sections
+          rename: Переименовать секции атрибутов
       hide_banner: Скрыть этот баннер
       homescreen_description: 'Планы Enterprise расширяют редакцию OpenProject для сообществ дополнительными [Enterprise add-ons](enterprise_url) и профессиональной поддержкой, что идеально подходит для организаций, использующих OpenProject в критически важной среде.
 
@@ -2583,8 +3093,6 @@ ru:
         description: Будьте уверены в том, что загруженные в OpenProject файлы проверены на наличие вирусов, прежде чем они станут доступны другим пользователям.
       weighted_item_lists:
         description: Списки взвешенных элементов позволяют создать список с соответствующими числовыми значениями.
-      work_package_query_relation_columns:
-        description: Нужно видеть отношения или дочерние элементы в списке пакетов работ?
       work_package_sharing:
         description: Поделиться пакетом работ с пользователями, которые не являются участниками проекта.
       work_package_subject_generation:
@@ -2604,24 +3112,23 @@ ru:
   enumeration_activities: Отслеживание времени
   enumeration_caption_order_changed: Порядок успешно изменен.
   enumeration_could_not_be_moved: Перечисление не может быть перенесено.
-  enumeration_default_value_caption: Making this %{model} the default will override the previous default %{model}.
+  enumeration_default_value_caption: Если установить %{model} в качестве значения по умолчанию, он заменит предыдущее значение по умолчанию %{model}.
   enumeration_reported_project_statuses: Переданный статус
   enumeration_work_package_priorities: Приоритеты пакета работ
   error_attribute_not_highlightable: 'Атрибуты не выделяются: %{attributes}'
   error_auth_source_sso_failed: Сбой единого входа (SSO) для пользователя «%{value}»
   error_can_not_archive_project: 'Этот проект невозможно заархивировать: %{errors}'
-  error_can_not_deactivate_type: Unable to deactivate type %{type} because it's still in use by %{work_packages_link}
-  error_can_not_deactivate_type_invisible_projects: There are also work packages in projects you cannot see.
+  error_can_not_deactivate_type_invisible_projects: Также существуют пакеты работ в проектах, которые вы не можете видеть.
   error_can_not_delete_custom_field: Не удается удалить настраиваемое поле
   error_can_not_delete_entry: Не удается удалить содержимое
   error_can_not_delete_in_use_archived_undisclosed: Есть также пакеты работ в архивных проектах. Вам нужно попросить администратора выполнить удаление, чтобы увидеть, какие проекты затронуты.
   error_can_not_delete_in_use_archived_work_packages: 'Также существуют пакеты работ в архивных проектах. Вам нужно сначала активировать следующие проекты, прежде чем вы сможете изменить атрибут соответствующих пакетов работ: %{archived_projects_urls}'
-  error_can_not_delete_standard_type: Стандартные типы не могут быть удалены.
   error_can_not_delete_type:
     explanation: Этот тип содержит пакеты работ и не может быть удален. Вы можете увидеть все затрагиваемые пакеты работ в <a target="_blank" href="%{url}">этом представлении</a>.
   error_can_not_find_all_resources: Не удалось найти все связанные с этим запросом ресурсы.
   error_can_not_invite_user: Не удалось отправить приглашение пользователю.
   error_can_not_remove_role: Эта роль используется и не может быть удалена.
+  error_can_not_remove_type_from_project: Не удается удалить "%{name}" из проекта "%{project}", потому что он все еще используется %{work_packages_link}
   error_can_not_reopen_work_package_on_closed_version: Пакет работ закрытого этапа проекта не может быть открыт заново
   error_can_not_unarchive_project: 'Этот проект невозможно разархивировать: %{errors}'
   error_check_user_and_role: Пожалуйста, выберите пользователя и роль.
@@ -2636,6 +3143,7 @@ ru:
   error_failed_to_delete_entry: Не удалось удалить эту запись.
   error_in_dependent: 'Ошибка при попытке изменить зависимый объект: %{dependent_class} #%{related_id} - %{related_subject}: %{error}'
   error_in_new_dependent: 'Ошибка при создании зависимого объекта: %{dependent_class} - %{related_subject}: %{error}'
+  error_invalid_list_move_anchor: Этот элемент невозможно переместить в указанное место. Пожалуйста, обновите страницу и попробуйте ещё раз.
   error_invalid_selected_value: Выбранное значение недопустимо.
   error_journal_attribute_not_present: Журнал не содержит атрибут %{attribute}.
   error_menu_item_not_created: Пункт меню не может быть добавлен
@@ -2864,25 +3372,25 @@ ru:
   gui_validation_error_plural: "%{count} ошибок"
   header:
     project_select_component:
-      all_projects: All projects
-      favorites: Favorites
-      leave_project: Leave project
-      no_favorite_projects: You have no favorite projects.
-      title: Projects
+      all_projects: Все проекты
+      favorites: Избранное
+      leave_project: Покинуть проект
+      no_favorite_projects: У вас нет избранных проектов.
+      title: Проекты
   health_reports:
     common:
       checks:
         failures:
-          one: "%{count} check failed"
-          few: "%{count} checks failed"
-          many: "%{count} checks failed"
-          other: "%{count} checks failed"
+          one: "%{count} проверка не удалась"
+          few: "%{count} проверки не удались"
+          many: "%{count} проверок не удалось"
+          other: "%{count} проверок не удалось"
         success: Все проверки пройдены
         warnings:
-          one: "%{count} check returned a warning"
-          few: "%{count} checks returned a warning"
-          many: "%{count} checks returned a warning"
-          other: "%{count} checks returned a warning"
+          one: "%{count} проверка вернула предупреждение"
+          few: "%{count} проверки вернули предупреждение"
+          many: "%{count} проверок вернули предупреждение"
+          other: "%{count} проверок вернули предупреждение"
       summary:
         failure: Некоторые проверки не удались, и система работает не так, как ожидалось.
         success: Все соединения и системы работают, как и ожидалось.
@@ -2909,15 +3417,16 @@ ru:
     blocks:
       community: OpenProject сообщество
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: New Resource management module for capacity planning and staffing (Premium plan).
-            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
-            line_2: Multiple active sprints without sharing (Basic plan).
-            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
-            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
-            line_5: Global wiki page index and easier navigation between related pages.
-          new_features_title: 'The release contains various new features and improvements, such as:
+            line_0: Действия с использованием ИИ в отношении пакетов работ, комментариев и взаимодействия с MCP-сервером (тарифный план «Professional»).
+            line_1: Несколько целевых версий для пакетов работ.
+            line_2: Общие ограничения и правила ввода данных о рабочем времени (тарифный план «Professional»).
+            line_3: Усовершенствования в рамках методологии Agile, касающиеся массового редактирования и перетаскивания карточек из списка задач в сторонние приложения.
+            line_4: Вики-макросы, доступные в большем числе текстовых редакторов.
+            line_5: Улучшен поиск идентификаторов пакетов работ.
+            line_6: 'Выпущено для сообщества: отображение связей в таблицах пакетов работ.'
+          new_features_title: 'В данном выпуске представлены различные новые функции и улучшения, в частности:
 
             '
         header: Читайте о новых возможностях и обновлениях продуктов.
@@ -2964,6 +3473,11 @@ ru:
         field_updated: "%{field} обновлено"
         header: изменения %{author}
         set_with_diff: "%{field} установлено (%{link})"
+      meeting_cancelled: "(отменена)"
+      meeting_deleted: "(удалена)"
+      meeting_series_backlog_html: бэклог для встреч серии %{link}
+      meeting_series_template_html: шаблон для серии встреч %{link}
+      meeting_template_html: шаблон встречи %{link}
       progress_mode_changed_to_status_based: Расчет прогресса установлен в режим "На основе статуса"
       status_excluded_from_totals_set_to_false_message: теперь включено в иерархию итогов
       status_excluded_from_totals_set_to_true_message: теперь исключено из иерархии итогов
@@ -2976,6 +3490,8 @@ ru:
         progress_calculation_adjusted_from_disabled_mode: Расчет прогресса автоматически <a href="%{href}" target="_blank">устанавливается в режим "На основе трудозатрат" и корректируется при обновлении версии</a>.
         scheduling_mode_adjusted: Режим планирования автоматически настраивается с обновлением версии.
         sprint_migration: Версия '%{version_name}' была скопирована как спринт.
+        stale_target_versions_removed: Outdated target version automatically removed. It had been incorrectly re-added when multiple target versions were enabled.
+        target_versions_repaired: Целевые версии автоматически синхронизируются с полем версии перед включением нескольких целевых версий.
         totals_removed_from_childless_work_packages: При <a href="%{href}" target="_blank">обновлении версии</a> автоматически удаляются итоги работы и прогресса для неродительских пакетов работ. Это задача по обслуживанию, и её можно смело игнорировать.
       total_percent_complete_mode_changed_to_simple_average: Значения Работы дочерних пакетов работ игнорируются.
       total_percent_complete_mode_changed_to_work_weighted_average: Дочерние пакеты работ без Работы игнорируются.
@@ -2983,7 +3499,7 @@ ru:
       work_package_children_changed_times: внесением изменений в дочерний элемент %{link}
       work_package_duplicate_closed: Статус был автоматически обновлен дубликатом пакета работ %{link}
       work_package_parent_changed_times: внесением изменений в родительский %{link}
-      work_package_parent_deleted: because the parent work package was deleted
+      work_package_parent_deleted: потому что родительский пакет работ был удален
       work_package_predecessor_changed_times: внесением изменений в предшественника %{link}
       work_package_related_changed_times: внесением изменений в связанный элемент %{link}
       working_days_changed:
@@ -2999,14 +3515,32 @@ ru:
       dates_changed: Даты изменены
       default_attribute_written: Запись атрибутов со свойством "только для чтения"
       import: Импортировано
+      meeting_agenda_item_added_html: "<strong>Добавлено в повестку встречи</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Добавлено в</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Обсуждалось на встрече</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Перенесено на встречу</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Перенесено в</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Исключен из повестки встречи</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Удалено из</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Добавлено в качестве итога встречи</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: Расчет прогресса обновлен
       status_changed: Статус '%{status_name}'
       system_update: 'Обновление системы OpenProject:'
       total_percent_complete_mode_changed_to_simple_average: Вычисление общего % завершения теперь осуществляется по среднему арифметическому значений % завершения.
       total_percent_complete_mode_changed_to_work_weighted_average: Вычисление общего % завершения теперь осуществляется по средневзвешенным значениям Предполагаемого времени.
       work_package_duplicate_closed: 'Дубликат пакета работ обновлён:'
-      work_package_parent_deleted: Parent removed
+      work_package_parent_deleted: Родитель удален
     changes_retracted: Изменения отменены.
+    non_visible:
+      budget: невидимый бюджет
+      category: невидимая категория
+      default: невидимая запись
+      issue_priority: невидимый приоритет
+      project: невидимый проект
+      sprint: невидимый спринт
+      time_entry_activity: невидимая активность
+      version: невидимая версия
+      work_package: невидимый пакет работ
   label_accessibility: Спец. возможности
   label_account: Учетная запись
   label_actions: Действия
@@ -3064,8 +3598,8 @@ ru:
   label_available_project_work_package_categories: Доступные категории рабочих пакетов
   label_available_project_work_package_types: Доступные типы пакетов работ
   label_available_projects: Доступные проекты
+  label_backtrace: Backtrace
   label_backup: Резервное копирование
-  label_backup_code: Резервный код
   label_basic_details: Основные детали
   label_between: между
   label_blocked_by: блокируется
@@ -3073,8 +3607,8 @@ ru:
   label_blog: Блог
   label_board_plural: Доски
   label_boolean: Логическое значение
-  label_boolean_false: is no
-  label_boolean_true: is yes
+  label_boolean_false: нет
+  label_boolean_true: да
   label_branch: Ветка
   label_browse: Обзор
   label_builtin: Встроенный
@@ -3085,18 +3619,17 @@ ru:
   label_calendar_show: Показать календарь
   label_calendar_subscriptions: Подписки на календарь
   label_calendars_and_dates: Календари и даты
-  label_category: Категория
   label_change_parent: Изменить родителя
-  label_change_password: Change password
+  label_change_password: Изменить пароль
   label_change_plural: Изменения
   label_change_properties: Изменить свойства
   label_change_status: Изменить статус
   label_change_status_of_user: 'Изменить статус #{username}'
   label_change_view_all: Просмотр всех изменений
   label_changes_details: Подробная информация обо всех изменениях
-  label_changeset: Изменение
   label_changeset_id: ID изменения
   label_changeset_plural: Изменения
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Поставить/снять все флажки в столбце
   label_check_uncheck_all_in_row: Поставить/снять все флажки в строке
   label_checked: проверено
@@ -3121,7 +3654,7 @@ ru:
   label_configuration: Настройки
   label_confirmation: Подтверждение
   label_consent_settings: Согласие пользователя
-  label_constant_plural: Constants
+  label_constant_plural: Константы
   label_contains: содержит
   label_content: Содержание
   label_continued_from_previous_year: продолжился с предыдущего года
@@ -3186,7 +3719,7 @@ ru:
   label_deleted_custom_item: "(удалено)"
   label_deleted_custom_option: "(удалённая опция)"
   label_departments: Департаменты
-  label_departments_description_html: 'Define your company’s structure by creating departments and sub-departments in a hierarchical way. This allows you to reflect reporting lines and maintain a clear, structured overview of your organization within OpenProject. You can also import an existing organization structure through [LDAP department synchronization](ldap_docs_article).
+  label_departments_description_html: 'Определите структуру вашей компании, создав подразделения в соответствии с Вашей иерархией подразделений. Это позволит вам отразить структуру подчиненности и обеспечить наглядный и четкий обзор вашей организации в OpenProject. Вы также можете импортировать существующую организационную структуру с помощью [синхронизации отделов по LDAP](ldap_docs_article).
 
     '
   label_descending: По убыванию
@@ -3233,7 +3766,7 @@ ru:
   label_expand: Развернуть
   label_expanded_click_to_collapse: Развернуто. Кликните для сворачивания
   label_experimental: Экспериментально
-  label_export_plural: Exports
+  label_export_plural: Экспорт
   label_export_to: 'Скачать как:'
   label_external_links: Внешние ссылки
   label_f_hour: "%{value} часов"
@@ -3243,6 +3776,7 @@ ru:
   label_feeds_access_key: Ключ доступа к RSS
   label_feeds_access_key_created_on: Ключ доступа RSS, созданный %{value} назад
   label_feeds_access_key_type: RSS
+  label_file: Файл
   label_file_plural: Файлы
   label_filter: Фильтры
   label_filter_add: Добавить фильтр
@@ -3253,13 +3787,12 @@ ru:
   label_float: Плавающий
   label_folder: Папка
   label_follows: Следует
-  label_form_configuration: Настройка форм
   label_formula: Формула
   label_forum_new: Новый форум
   label_forum_plural: Форумы
   label_forum_sticky: Прикреплено
   label_forums_locked: Заблокирован
-  label_function_plural: Functions
+  label_function_plural: Функции
   label_gantt_chart: Диаграмма Ганта
   label_gantt_chart_plural: Диаграммы Ганта
   label_general: Общие
@@ -3267,7 +3800,6 @@ ru:
   label_git_path: Путь к директории .git
   label_global: Глобальная
   label_global_modules: Глобальные модули
-  label_global_role: Глобальная роль
   label_global_roles: Глобальные роли
   label_go_back: Вернуться на один уровень меню назад
   label_go_forward: Открыть подменю %{module}
@@ -3336,7 +3868,6 @@ ru:
   label_last_week: На прошлой неделе
   label_latest_revision: Последняя редакция
   label_latest_revision_plural: Последние изменения
-  label_ldap_auth_source: Подключение к LDAP
   label_ldap_auth_source_new: Новое LDAP соединение
   label_ldap_auth_source_plural: Соединения LDAP
   label_ldap_authentication: LDAP - аутентификация
@@ -3356,15 +3887,16 @@ ru:
   label_main_menu: Боковое меню
   label_manage: Управление
   label_manage_groups: Управление группами
-  label_managed_by_ldap: Managed by LDAP synchronization
+  label_managed_by_ldap: Управляется LDAP синхронизацией
   label_managed_repositories_vendor: Управляемые %{vendor} репозиториев
   label_mapping_for: 'Привязки для: %{attribute}'
   label_max_size: Максимальный размер
   label_me: мне
   label_member_all_admin: "(Все роли из-за статуса администратора)"
   label_member_new: Новый участник
+  label_member_of_group: Участник группы
+  label_member_of_project: Участник проекта
   label_member_plural: Участники
-  label_member_role: Роль в проекте
   label_membership_added: Участник добавлен
   label_membership_plural: Членство
   label_membership_updated: Участник обновлен
@@ -3401,7 +3933,7 @@ ru:
   label_my_activity: Моя активность
   label_my_avatar: Мой аватар
   label_my_queries: Мои пользовательские запросы
-  label_my_security: Security
+  label_my_security: Безопасность
   label_name: Имя
   label_never: Никогда
   label_new: Новое
@@ -3449,7 +3981,7 @@ ru:
   label_operator_equals_all: И
   label_operator_equals_or: ИЛИ
   label_operator_none: пусто
-  label_operator_plural: Operators
+  label_operator_plural: Операторы
   label_operator_shared_with_user_any: любой
   label_optional_description: Описание
   label_options: Параметры
@@ -3469,7 +4001,7 @@ ru:
   label_password_rule_numeric: Числовые символы
   label_password_rule_special: Специальные символы
   label_password_rule_uppercase: Верхний регистр
-  label_past: Past
+  label_past: Прошедшие
   label_path_encoding: Кодирование пути
   label_people: Люди
   label_per_page: 'На странице:'
@@ -3477,7 +4009,6 @@ ru:
   label_permissions: Разрешения
   label_permissions_report: Отчёт о разрешениях
   label_personalize_page: Персонализация страницы
-  label_placeholder_user: Пользователь-заполнитель
   label_placeholder_user_new: Новый пользователь-заполнитель
   label_placeholder_user_plural: Пользователи-заполнители
   label_planning: Планирование
@@ -3514,7 +4045,7 @@ ru:
   label_project_hide_details: Скрыть детали проекта
   label_project_hierarchy: Иерархия проектов
   label_project_identifier: Идентификатор проекта
-  label_project_initiation_export_pdf: Экспорт PDF для %{project_creation_name}
+  label_project_initiation_export_pdf: Экспортировать %{project_creation_name} в PDF
   label_project_latest: Последние проекты
   label_project_life_cycle: Жизненный цикл проекта
   label_project_list_plural: Списки проектов
@@ -3529,7 +4060,7 @@ ru:
   label_projects_disk_usage_information: "%{count} проектов, использующих %{used_disk_space} дискового пространства"
   label_projects_menu: Проекты
   label_public_projects: Проекты, доступные всем
-  label_punctuation: Punctuation
+  label_punctuation: Пунктуация
   label_query_new: Новый запрос
   label_query_plural: Пользовательские запросы
   label_read: Читать...
@@ -3540,7 +4071,6 @@ ru:
   label_related_work_packages: Связанные пакеты работ
   label_relates: Связан с
   label_relates_to: Связан с
-  label_relation: Связь
   label_relation_actions: Действия со связями
   label_relation_delete: Удалить связь
   label_relation_edit: Изменить отношение
@@ -3565,7 +4095,7 @@ ru:
   label_required: требуется
   label_required_disk_storage: Требуется место на диске
   label_requires: требует выполнения
-  label_reserved_identifiers: Reserved project identifiers
+  label_reserved_identifiers: Зарезервированные идентификаторы проектов
   label_result_plural: Результаты
   label_revision: Редакция
   label_revision_id: Редакция %{value}
@@ -3593,7 +4123,6 @@ ru:
   label_send_information: Отправить новые учетные данные пользователю
   label_send_invitation: Отправить приглашение
   label_send_test_email: Отправить тестовое сообщение
-  label_session: Сессия
   label_setting_plural: Настройки
   label_share: Предоставить общий доступ
   label_share_project_list: Поделитесь списком проектов
@@ -3626,7 +4155,7 @@ ru:
   label_subitems: Подпроекты
   label_subject_or_id: Тема или ID
   label_subproject: Подпроект
-  label_subproject_new: Новый подпроект
+  label_subproject_add: Добавить подпроект
   label_subproject_plural: Подпроекты
   label_subtask_plural: Подзадачи
   label_summary: Сводка
@@ -3661,7 +4190,7 @@ ru:
   label_type_new: Новый тип
   label_type_plural: Типы
   label_ui: Интерфейс пользователя
-  label_upcoming: Upcoming
+  label_upcoming: Предстоящие
   label_updated_time: Обновлено %{value} назад
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Обновил %{author} %{age} назад
@@ -3669,11 +4198,10 @@ ru:
   label_used_by: Используется
   label_used_by_types: Используемые типы
   label_used_in_projects: Используется в проектах
-  label_user: Пользователь
   label_user_activity_html: Действия пользователя %{value}
   label_user_and_permission: Пользователи и права доступа
   label_user_anonymous: Анонимно
-  label_user_attributes_plural: User attributes
+  label_user_attributes_plural: Атрибуты пользователя
   label_user_menu: Пользовательское меню
   label_user_named: Пользователь %{name}
   label_user_new: Новый пользователь
@@ -3690,6 +4218,7 @@ ru:
   label_version_sharing_none: Не используется другими
   label_version_sharing_system: Во всех проектах
   label_version_sharing_tree: С деревом проектов
+  label_versions_and_categories: Версии и категории
   label_videos: Видео
   label_view_all_revisions: Посмотреть все версии
   label_view_diff: Посмотреть различия
@@ -3699,19 +4228,17 @@ ru:
   label_week: Неделя
   label_weighted_item_list: Список взвешенных элементов
   label_what_is_this: Что это?
-  label_widget: Виджет
   label_widget_new: Новый виджет
   label_wiki_content_added: Wiki-страница добавлена
   label_wiki_content_updated: Wiki-страница обновлена
   label_wiki_dont_show_menu_item: Не показывать эту Wiki-страницу в навигации по проектам
   label_wiki_edit: Редактировать Wiki
   label_wiki_edit_plural: Wiki редактируется
-  label_wiki_menu_item: Пункт меню wiki
   label_wiki_navigation: Навигация по wiki
-  label_wiki_page: Wiki страница
   label_wiki_page_attachments: Вложения вики-страницы
   label_wiki_page_id: ID Wiki-страницы
   label_wiki_page_plural: Wiki-страницы
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Показать пункт подменю «Содержание»
   label_wiki_show_menu_item: Показать как меню в навигации по проекту
   label_wiki_show_new_page_link: Показать пункт подменю «Создать новую дочернюю страницу»
@@ -3728,7 +4255,6 @@ ru:
   label_work_package_hierarchy: Иерархия пакета работ
   label_work_package_new: Новый пакет работ
   label_work_package_plural: Пакет работ
-  label_work_package_status: Статус пакета работ
   label_work_package_status_new: Новый статус
   label_work_package_status_plural: Статусы пакета работ
   label_work_package_tracking: Отслеживание пакета работ
@@ -3737,7 +4263,7 @@ ru:
   label_workflow: Рабочий поток
   label_workflow_copy: Копировать рабочий поток
   label_workflow_plural: Рабочие потоки
-  label_workflow_summary: Workflow summary
+  label_workflow_summary: Краткое описание рабочего процесса
   label_working_days: Рабочие дни
   label_working_days_and_hours: Рабочие дни и часы
   label_working_hours: График работы
@@ -3871,14 +4397,13 @@ ru:
       success: Измененный список был сохранен
   macro_execution_error: Ошибка при выполнении макроса %{macro_name}
   macro_unavailable: Макрос %{macro_name} не может быть отображен.
-  macro_unknown: Unknown or unsupported macro.
+  macro_unknown: Неизвестный или неподдерживаемый макрос.
   macros:
     create_work_package_link:
       errors:
         invalid_type: Тип с именем «%{type}» в проекте «%{project}» не найден.
         no_project_context: Вызов макроса create_work_package_link из контекста за рамками проекта.
       link_name: Новый пакет работ
-      link_name_type: Новое %{type_name}
     errors:
       missing_or_invalid_parameter: Отсутствующие или недопустимые параметры макроса.
     include_wiki_page:
@@ -4253,7 +4778,7 @@ ru:
         title: Получать напоминания по электронной почте в эти дни
     notifications:
       date_alerts:
-        description: You can configure date alerts for work packages where you are assignee, accountable and/or watcher to be automatically notified a few days prior to approaching or overdue deadlines.
+        description: Вы можете настроить оповещения о датах для пакетов работ, в которых вы назначаете исполнителя, ответственного и/или наблюдателя, чтобы автоматически получать уведомления за несколько дней до приближающегося или просроченного срока.
         due_date: Дата окончания
         overdue: Просрочено
         start_date: Дата начала
@@ -4268,7 +4793,7 @@ ru:
           three_days_before: За 3 дня до
         title: Дата оповещения
       non_participating:
-        description: You can additionally choose to be notified of any of the following activities for all projects.
+        description: Вы можете дополнительно выбрать уведомление о любых следующих действиях для всех проектов.
         submit_button: Обновить настройки
         title: Неучастие
         work_package_commented: Все новые комментарии
@@ -4278,7 +4803,7 @@ ru:
         work_package_scheduled: Все изменения дат
       participating:
         assignee: Назначенный
-        description: You will always receive a notification whenever you are mentioned, and for changes to work packages you are watching. These cannot be disabled. However, you can choose to enable or disable receiving notifications for changes to work packages that concern you (where you are assignee, accountable or are shared with you).
+        description: Вы всегда будете получать уведомления о том, что вас упомянули, а также об изменениях в пакетах работ, за которыми вы следите. Эти уведомления отключить невозможно. Однако вы можете включить или отключить получение уведомлений об изменениях в тех пакетах работ, которые имеют к вам отношение (в которых вы указаны в качестве исполнителя, ответственного лица или которыми с Вами делятся).
         mentioned: Упомянутый
         responsible: Ответственный
         shared: Доступные мне
@@ -4287,10 +4812,10 @@ ru:
         watched: Отслеживает
       project_specific_settings:
         add_button: Добавить уведомления по проекту
-        description: You can fine-tune your notification settings to only be notified of certain events in specific projects. Add a project below and choose which events should trigger a notification for you. These project-specific settings override default settings above.
+        description: Вы можете настроить настройки уведомлений, чтобы получать уведомления только об определенных событиях в конкретных проектах. Добавьте проект ниже и выберите, на какие события должны срабатывать уведомления. Эти настройки специфического проекта переопределяют настройки по умолчанию выше.
         dialog_title: Добавить уведомления по проекту
         list_header: Проекты с особыми уведомлениями
-        title: Project-specific notifications
+        title: Уведомления, относящиеся к конкретным проектам
     notifications_and_email:
       tabs:
         email_reminders: Почтовые напоминания
@@ -4332,7 +4857,6 @@ ru:
   notice_auth_stage_error: Сбой на этапе аутентификации «%{stage}».
   notice_auth_stage_verification_error: Не удалось проверить этап «%{stage}».
   notice_auth_stage_wrong_stage: Ожидалось завершение этапа авторизации «%{expected}», но возвращено «%{actual}».
-  notice_automatic_set_of_standard_type: Установить стандартный тип автоматически.
   notice_bad_request: Неправильный запрос.
   notice_can_t_change_password: Эта учетная запись использует механизм внешней аутентификации. Невозможно изменить пароль.
   notice_custom_options_deleted: Опция «%{option_value}» и ее вхождения %{num_deleted} были удалены.
@@ -4496,8 +5020,8 @@ ru:
     scopes:
       api_v3: Полный доступ к API v3
       api_v3_text: Приложение получит полный доступ к OpenProject API v3 для выполнения действий от вашего имени.
-      mcp: Access to MCP
-      mcp_text: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
+      mcp: Доступ к MCP
+      mcp_text: Приложение получит доступ к эндпоинтам OpenProject MCP. Они представляют собой ограниченное подмножество APIv3, специально адаптированное для использования с ИИ-агентами.
   oauth_client:
     errors:
       oauth_authorization_code_grant_had_errors: Ошибка авторизации OAuth2
@@ -4606,8 +5130,8 @@ ru:
           label: Перетащите, чтобы изменить порядок
         menu:
           label_actions: Действия с пакетом работ
-        parent: Parent
-        undisclosed: Undisclosed
+        parent: Родитель
+        undisclosed: Не разглашается
   page:
     text: Текст
   pagination:
@@ -4622,6 +5146,8 @@ ru:
     dialog:
       footer_center:
         caption: Этот текст появится на каждой странице в центре нижнего колонтитула.
+        default_hint_project_name: When left blank, defaults to the project name.
+        default_hint_subject: When left blank, defaults to the work package's subject.
         label: Текст нижнего колонтитула
       footer_right:
         caption: Этот текст появится на каждой странице с правой стороны нижнего колонтитула.
@@ -4643,14 +5169,14 @@ ru:
         none_enabled: Для этого типа пакета работ не был определен шаблон
       title: Создать PDF
       toc:
-        caption: Add a table of contents page indexing the section headers.
-        label: Table of contents
+        caption: Добавьте оглавление, в котором будут перечислены заголовки разделов.
+        label: Содержание
     page_nr_footer: Страница %{page} из %{total}
     template_artefact:
-      caption: Work package details rendered as a PMflex Artefact.
-      label: PMflex Artefact
+      caption: Сведения о пакете работ, представлены в виде артефакта PMflex.
+      label: Артефакт PMflex
     template_attributes:
-      caption: Все атрибуты, представленные в текущей форме настроек, используют шаблон по умолчанию.
+      caption: All the attributes present in the current form using the default template.
       label: Атрибуты и описание
     template_contract:
       caption: Подробности пакета работ отформатированы в стандартной договорной форме Германии.
@@ -4724,6 +5250,7 @@ ru:
     '
   permission_manage_placeholder_user: Создавать, редактировать и удалять пользователей-заполнителей
   permission_manage_project_activities: Активировать виды деятельности в проектах
+  permission_manage_project_variants: Manage the project's own type variants
   permission_manage_public_bcf_queries: Управление публичными BCF запросами
   permission_manage_public_project_queries: Управление списками общедоступных проектов
   permission_manage_public_queries: Управление общими представлениями
@@ -4739,6 +5266,7 @@ ru:
 
     '
   permission_move_work_packages: Переместить пакет работ
+  permission_project_identifier_visibility_caution: 'Внимание: пользователи, обладающие этим правом, могут узнать, занят ли тот или иной идентификатор проекта, в том числе и в проектах, доступ к которым у них отсутствует. [Подробнее](project_identifier_visibility_url)'
   permission_save_bcf_queries: Сохранить запросы BCF
   permission_save_queries: Сохранить представления
   permission_search_project: Поиск проекта
@@ -4781,8 +5309,8 @@ ru:
       data_consequences: 'Все вхождения пользователя плейсхолдера (например, как цессионария, ответственные или другие пользовательские значения) будут переназначены на учетную запись под названием "Удаленный пользователь". Так как данные каждого удаленного аккаунта переназначены на этот аккаунт, невозможно отличить данные пользователя от данных другого удаленного аккаунта.
 
         '
-      heading: Delete placeholder user %{name}?
-      title: Delete placeholder user %{name}
+      heading: Удалить пользователя-заполнителя %{name}?
+      title: Удалить пользователя-заполнителя %{name}
     right_to_manage_members_missing: 'Вы не можете удалить пользователя-заполнителя. Вы не имеете права управлять участниками проектов, в которых состоит заполнитель.
 
       '
@@ -4801,7 +5329,7 @@ ru:
       other: "%{count} портфолио"
       zero: 0 портфолио
     filters:
-      name: Part of Portfolio
+      name: Входит в портфолио
   portfolios:
     index:
       search:
@@ -4829,11 +5357,12 @@ ru:
       other: "%{count} программ"
       zero: 0 программ
     filters:
-      name: Part of Program
+      name: Часть программы
   project:
     archive:
       archived: Архивирован
-      are_you_sure: Уверены, что хотите архивизировать проект %{name}%?
+      confirmation_heading: Вы уверены, что хотите продолжить?
+      confirmation_message: Архивирование данного проекта приведет к тому, что он и все его потомки станут недоступны для всех пользователей данного экземпляра. Архивированные проекты можно восстановить.
       title: Архивировать проект
     count:
       one: 1 проект
@@ -4932,7 +5461,7 @@ ru:
       change_identifier_dialog_title: Изменить идентификатор проекта
       change_identifier_format_hint_legacy: Только строчные буквы (a-z), цифры, тире или знаки подчеркивания.
       change_identifier_format_hint_semantic: Только заглавные буквы (A-Z), цифры или символы подчеркивания. Не более 10 символов. Должно начинаться с буквы.
-      change_identifier_warning: 'This will permanently change identifiers and URLs of all work packages in this project. The previous identifiers and URLs will nevertheless continue to work.
+      change_identifier_warning: 'Это приведет к окончательному изменению идентификаторов и URL-адресов всех пакетов работ в данном проекте. При этом прежние идентификаторы и URL-адреса будут по-прежнему работать.
 
         '
       creation_wizard:
@@ -4941,11 +5470,11 @@ ru:
           no_status_when_submitted: Не удалось включить запрос на инициирование проекта, поскольку тип пакета работ %{type} требует наличия хотя бы одного связанного с ним статуса. Пожалуйста, включите хотя бы один рабочий процесс со статусом для этого типа пакета работ.
           no_work_package_type: Не удалось включить запрос на инициирование проекта, поскольку для этого требуется хотя бы один активный тип пакета работ, а в данном проекте его нет. Пожалуйста, добавьте хотя бы один тип пакета работ в этот проект.
         export:
-          description_attachment_export: The generated artefact will be saved as a PDF attachment to the artefact work package.
-          description_file_link_export: The artefact work package will have a file link to a PDF stored in an external file storage. Requires a working file storage with automatically-managed project folders for this project. At the moment only Nextcloud file storages are supported.
+          description_attachment_export: Сгенерированный артефакт будет сохранен в виде PDF приложения к пакету работ артефакта.
+          description_file_link_export: Пакет работ артефакта будет иметь ссылку на файл PDF на внешнем файловом хранилище. Требует рабочего хранилища файлов с автоматически управляемыми папками проекта для этого проекта. В настоящее время поддерживается только файловые хранилища Nextcloud.
           description_file_storage_selection: Выберите, какое из настроенных внешних файловых хранилищ должно использоваться.
           external_file_storage: Внешнее хранилище файлов
-          label_artifact_export: Artefact export
+          label_artifact_export: Экспорт артефакта
           label_attachment_export: Сохраните как вложение файла в пакете работ
           label_file_link_export: Загрузить файл на внешнее хранилище файлов и добавить ссылку на файл в пакет работ
           pdf_file_storage: Хранилище файлов PDF
@@ -4963,6 +5492,7 @@ ru:
       header_identifier: Идентификатор
       header_relations: Отношения с проектом
       header_status: Статус
+      identifier_visibility_warning: Идентификаторы проектов не являются конфиденциальными. Если ваш проект носит конфиденциальный характер, выберите невыразительный идентификатор.
       life_cycle:
         filter:
           label: Поиск этапа проекта
@@ -5024,22 +5554,54 @@ ru:
         title: Настройки шаблона
       types:
         add_dialog:
-          description: The project uses one member of each type family. Pick the type or the variant this project should use.
-          none_addable: All available types are already active in this project.
-          submit: Add
-          title: Add type
-          type_label: Type
-          type_placeholder: Select a type
-        add_type: Add type
+          description: В проекте используется по одному типу из каждого семейства. Выберите тип или его вариант, который следует использовать в этом проекте.
+          none_addable: Все доступные типы уже задействованы в данном проекте.
+          submit: Добавить
+          title: Добавить тип
+          type_label: Тип
+          type_placeholder: Выберите тип
+        add_type: Добавить тип
+        add_variant: Add a project-specific variant
+        base_type_in_use: Base type used in this project
         empty_state:
-          description: Add a type to let people create work packages of that type in this project.
-          title: No types are active in this project
+          description: Добавьте тип, чтобы люди могли создавать пакеты работ такого типа в этом проекте.
+          title: В этом проекте нет активных типов
         form:
           enable_type_in_project: Разрешить тип «%{type}»
-        in_roadmap: In roadmap
         no_results_title_text: На данный момент доступных типов нет.
-        remove_from_project: Remove from project
-        type_not_found: The selected type could not be found.
+        project_specific_variant: Project-specific variant
+        remove_from_project: Удалить из проекта
+        switch:
+          apply: Apply
+          impact:
+            hidden_heading: Fields that will no longer be shown
+            missing_statuses_description: The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on.
+            missing_statuses_heading: Work packages that get stuck
+            new_heading: Fields that become available
+            nothing_affected: No fields or statuses are affected.
+            status_count:
+              one: 1 work package
+              few: "%{count} work packages"
+              many: "%{count} work packages"
+              other: "%{count} work packages"
+            table_suffix: "(table)"
+            value_count:
+              one: 1 work package has a value
+              few: "%{count} work packages have a value"
+              many: "%{count} work packages have a value"
+              other: "%{count} work packages have a value"
+            work_packages:
+              one: 1 work package will use the new configuration
+              few: "%{count} work packages will use the new configuration"
+              many: "%{count} work packages will use the new configuration"
+              other: "%{count} work packages will use the new configuration"
+          success: The project now uses %{type}.
+          target_label: Variant
+          title: "%{type}: Switch variant"
+        type_not_found: Выбранный тип не найден.
+        use_in_project: Use in this project
+        variant_in_use: Variant in this project
+        variant_label: Variant
       versions:
         no_results_content_text: Создать новую версию
         no_results_title_text: На данный момент этапы в проекте отсутствуют.
@@ -5050,13 +5612,13 @@ ru:
     status:
       button_edit: Редактировать статус
     wizard:
-      create_artifact_storage_error: Failed to store artefact in file storage
-      create_artifact_work_package_error: Failed to create artefact work package
+      create_artifact_storage_error: Не удалось сохранить артефакт в хранилище файлов
+      create_artifact_work_package_error: Не удалось создать пакет работ артефакта
       no_help_text: Для этого атрибута не определен текст справки.
       progress_label: "%{current} из %{total}"
       sections: Разделы
       sidebar_content_title: Содержимое
-      success: Project attributes saved and artefact work package created successfully.
+      success: Атрибуты проекта сохранены, пакет работ артефакта создан успешно.
       title: Запрос на инициализацию проекта
   queries:
     apply_filter: Применить ранее настроенный фильтр
@@ -5121,12 +5683,12 @@ ru:
     create_successful: Репозиторий был зарегистрирован.
     delete_sucessful: Репозиторий был удален.
     destroy_dialog:
-      description: The %{repository_type} repository at %{path} and all its contents will be permanently deleted.
-      description_not_managed: The linked %{repository_type} at %{url} will be removed from the project. This will not delete the contents of this repository, as it is not managed by OpenProject.
-      heading: Delete this %{repository_type}?
-      heading_not_managed: Remove this linked %{repository_type}?
-      title: Delete repository
-      title_not_managed: Remove repository
+      description: Репозиторий %{repository_type} по адресу %{path} и всё его содержимое будут окончательно удалены.
+      description_not_managed: Связанный %{repository_type}, расположенный по адресу %{url}, будет удален из проекта. Это не приведет к удалению содержимого данного репозитория, поскольку он не находится под управлением OpenProject.
+      heading: Удалить этот %{repository_type}?
+      heading_not_managed: Удалить связанный %{repository_type}?
+      title: Удалить репозиторий
+      title_not_managed: Удалить репозиторий
     errors:
       build_failed: Не удается создать репозиторий с выбранной конфигурацией. %{reason}
       disabled_or_unknown_type: Выбранный тип %{type} запрещен или более не доступен для SCM-поставщика %{vendor}.
@@ -5295,14 +5857,15 @@ ru:
   setting_consent_required: Требуется согласие
   setting_consent_time: Время соглашения
   setting_cross_project_work_package_relations: Разрешить перекрестные связи пакетов работ проекта
-  setting_csv_escape_formulas: Escape formulas in CSV exports
-  setting_csv_escape_formulas_text: 'Escape spreadsheet formulas in CSV exports by prefixing cells that begin with characters such as =, +, -, or @ with a single quote. This mitigates CSV formula injection when exported files are opened in spreadsheet applications such as Excel. This comes at the downside of modifying the string values inside the CSV, so you may want to disable this if downstream tools require the exact, unescaped cell values.
+  setting_csv_escape_formulas: Формулы экранирования в файлах CSV при экспорте
+  setting_csv_escape_formulas_text: 'Для предотвращения вставки формул из электронных таблиц при экспорте в формат CSV необходимо добавлять одинарную кавычку перед ячейками, которые начинаются со символов, таких как =, +, - или @. Это позволяет предотвратить внедрение формул в CSV-файлы при открытии экспортированных файлов в программах для работы с электронными таблицами, таких как Excel. Недостатком данного подхода является изменение значений строк внутри CSV-файла, поэтому вам, возможно, стоит отключить эту функцию, если последующие инструменты требуют точных значений ячеек без экранирования.
 
     '
   setting_date_format: Дата
   setting_default_language: Язык по умолчанию
   setting_default_projects_modules: По умолчанию доступные в новых проектах модули
   setting_default_projects_public: По умолчанию новые проекты видимы всем
+  setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Максимальное количество отображаемых строк diff(разницы)
   setting_disable_password_login: Отключить аутентификацию по паролю
   setting_display_subprojects_work_packages: Отображать пакеты работ подпроектов в основном проекте по умолчанию
@@ -5350,6 +5913,14 @@ ru:
   setting_password_active_rules: Требования к паролю
   setting_password_count_former_banned: Количество паролей, запрещенных для повторного использования
   setting_password_days_valid: Количество дней, после которого требуется смена пароля
+  setting_password_login: Password login
+  setting_password_login_all: Allow for everyone
+  setting_password_login_all_caption: Anyone with an internal password can sign in with it, including users linked to an identity provider.
+  setting_password_login_bypass_principal_ids: Users and groups who may still use a password
+  setting_password_login_except_sso: Disallow for SSO users
+  setting_password_login_except_sso_caption: Users linked to an identity provider cannot sign in with their internal password. Other users can continue using it.
+  setting_password_login_none: Disallow for everyone
+  setting_password_login_none_caption_html: The password form is hidden. Only users and groups listed below can sign in with a password via %{internal_login_link}.
   setting_password_min_length: Минимальная длина
   setting_per_page_options: Количество объектов на страницу
   setting_percent_complete_on_status_closed: "% завершения, когда статус Закрыто"
@@ -5419,7 +5990,7 @@ ru:
   setting_total_percent_complete_mode_work_weighted_average: Взвешенное по работе
   setting_total_percent_complete_mode_work_weighted_average_caption_html: "<i>Общий % завершения</i> будет рассчитан как средневзвешенное значение по  <i>Предполагаемому времени</i> каждого пакета работ в иерархии. Пакеты работ без <i>Предполагаемого времени</i> будут игнорироваться."
   setting_use_wysiwyg_description: Выберите включение CKEditor5 WYSIWYG редактора для всех пользователей по умолчанию. CKEditor обладает ограниченной функциональностью для GFM Markdown.
-  setting_user_can_change_email: Users allowed to change their email address
+  setting_user_can_change_email: Пользователи могут изменять свой адрес электронной почты
   setting_user_default_timezone: Часовой пояс пользователя по умолчанию
   setting_user_format: Формат имени пользователя
   setting_users_deletable_by_admins: Учётные записи пользователей могут быть удалены администратором
@@ -5437,14 +6008,15 @@ ru:
   setting_work_package_done_ratio_status_caption_html: С каждым статусом связано значение <i>% завершения</i>. Изменение статуса приведет к изменению <i>% завершения</i>.
   setting_work_package_list_default_highlighted_attributes: Выделенные встроенные атрибуты по умолчанию
   setting_work_package_list_default_highlighting_mode: Способ выделения по умолчанию
+  setting_work_package_multiple_versions: Несколько целевых версий
   setting_work_package_properties: Свойства пакета работ
   setting_work_package_startdate_is_adddate: Использовать текущую дату как дату начала для новых пакетов работ
   setting_work_packages_identifier_classic: Числовая последовательность для всего экземпляра (по умолчанию)
-  setting_work_packages_identifier_classic_caption: 'Every work package gets a sequential number starting with 1 (for example, #1234). The numbers are unique within the instance and remain the same even if work packages are moved between projects.'
-  setting_work_packages_identifier_semantic: Project-based semantic identifiers
-  setting_work_packages_identifier_semantic_caption: Every project has a unique project identifier prefixed to a number (for example, PROJ-11). The numbering of each project starts at 1. If a work package is moved to another project, a new identifier is generated but the old one will continue to function.
+  setting_work_packages_identifier_classic_caption: 'Каждый пакет работ получает последовательное число, начинающееся с 1 (например, #1234). Номера уникальны внутри экземпляра и остаются такими же, даже если пакеты работ перемещаются между проектами.'
+  setting_work_packages_identifier_semantic: Семантические идентификаторы на основе проекта
+  setting_work_packages_identifier_semantic_caption: Каждый проект имеет уникальный идентификатор проекта, начинающийся префикса и номера (например, PROJ-11). Нумерация каждого проекта начинается с 1. Если пакет работ перемещается в другой проект, создается новый идентификатор, но старый будет продолжать работать.
   setting_work_packages_projects_export_limit: Ограничение экспорта пакетов работ / проектов
-  setting_work_packages_projects_export_limit_text: 'Maximum number of work packages or projects that can be included in a single export. Larger exports are truncated to this limit.
+  setting_work_packages_projects_export_limit_text: 'Максимальное количество пакетов работ или проектов, которые могут быть включены в один экспорт. Более крупный экспорт сокращается до этого предела.
 
     '
   setting_working_days: Рабочие дни
@@ -5483,6 +6055,15 @@ ru:
     authentication:
       login: Входное имя
       omniauth_direct_login_hint_html: 'Если эта опция включена, запросы на вход в систему будут перенаправлены на настроенный провайдер omniauth. Выпадающий список входа и страница входа будут отключены. <br/> <strong>Примечание:</strong> Если вы также не отключите вход по паролю, то пользователи все еще могут войти внутри системы, посетив страницу входа <code>%{internal_path}</code>.
+
+        '
+      password_login_bypass_principal_ids_hint: 'Even when password login in disabled, these users and groups will be able to use their password to sign in. This is useful, for example, if the identity provider becomes unavailable. If you include a group, access will be extended to all users in that group.
+
+        '
+      password_login_configured_by_environment: 'The following settings are configured through the environment and cannot be edited here:
+
+        '
+      password_login_requires_sso_provider: 'Password login restrictions are unavailable because no SSO provider is currently enabled. Configure and enable an SSO provider before changing these settings.
 
         '
       registration: Регистрация
@@ -5526,7 +6107,7 @@ ru:
         description: Изменения этого атрибута проекта будут отражены во всех проектах, где он включен. Обязательные атрибуты не могут быть отключены для каждого проекта.
       heading: Атрибуты проекта
       heading_description: Эти атрибуты проекта отображаются на странице обзора каждого проекта. Вы можете добавлять новые атрибуты, группировать их в разделы и изменять их порядок по своему усмотрению. Эти атрибуты можно включать или отключать, но не изменять их порядок на уровне проекта.
-      label_add_attribute: Add a project attribute
+      label_add_attribute: Добавить атрибут проекта
       label_edit_section: Переименовать
       label_for_all_projects: Все проекты
       label_new_attribute: Атрибут проекта
@@ -5556,12 +6137,12 @@ ru:
         confirmation_message: Мастер запроса инициации больше не будет доступен для новых проектов, основанных на этом шаблоне. Менеджерам и руководителям проектов придется вручную настраивать и заполнять соответствующую информацию в обзоре проекта.
         heading: Отключить запрос на инициирование этого проекта?
         title: Отключить запрос на инициализацию проекта
-      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artefact as a result.
+      header_description: 'OpenProject может сгенерировать пошаговый мастер, чтобы помочь менеджерам проектов заполнить запрос на запуск проекта. Вы можете выбрать, какие атрибуты проекта должны быть включены и создать артефакт в PDF.
 
         '
       name:
-        artifact_name: Artefact name
-        artifact_name_caption: Choose the name for this artefact that your project management framework recommends.
+        artifact_name: Название артефакта
+        artifact_name_caption: Выберите название для этого артефакта, рекомендованное вашей методологией управления проектами.
         options:
           project_creation_wizard: Мастер создания проекта
           project_initiation_request: Запрос на инициализацию проекта
@@ -5581,8 +6162,8 @@ ru:
           Вы подали запрос на инициирование проекта **%{project_name}**. Сейчас он ожидает рассмотрения.
           Щелкните по ссылке ниже, чтобы получить доступ к пакету работ с Вашим запросом.
         confirmation_email_text: Текст письма подтверждения
-        description: When a user submits a project initiation request, a new work package will be created with the request artefact attached as a PDF file. The settings below define the type, status and assignee for this new work package.
-        description_template: "**This work package was automatically created upon completion of the %{wizard_name} workflow.** A PDF artefact containing all submitted information has been generated and attached to this work package for reference and audit purposes. If you need to update or re-run the initiation steps, you can reopen the wizard at any time by using the link below:\n"
+        description: Когда пользователь отправляет запрос на запуск проекта, создается новый пакет работ с приложением — артефактом запроса в формате PDF. Приведенные ниже настройки определяют тип, статус и ответственное лицо для этого нового рабочего пакета.
+        description_template: "**Этот пакет работ был автоматически создан по завершении рабочего процесса %{wizard_name}.** Артефакт в формате PDF, содержащий всю предоставленную информацию, был создан и прикреплен к этому пакету работ для справки и аудита. Если Вам необходимо обновить или повторно выполнить шаги запуска проекта, Вы можете в любой момент снова открыть мастер, воспользовавшись приведенной ниже ссылкой:\n"
         send_confirmation_email: Отправить подтверждение по электронной почте пользователю, подавшему запрос на инициирование проекта
         status_when_submitted: Статус на момент подачи
         status_when_submitted_caption: Статус, в который перейдет созданный пакет работ после отправки запроса.
@@ -5590,7 +6171,7 @@ ru:
         work_package_comment_caption: Выбранный выше адресат будет автоматически @указан в комментарии.
         work_package_comment_default: Запрос на инициализацию проекта **%{project_name}** был отправлен и ожидает рассмотрения.
         work_package_type: Тип пакета работ
-        work_package_type_caption: The work package type that should be used to store the completed artefact.
+        work_package_type_caption: Тип пакета работ, который следует использовать для хранения готового артефакта.
       wizard_status_button:
         project_creation_wizard: Открыть мастер создания проекта
         project_initiation_request: Открыть запрос на инициализацию проекта
@@ -5620,39 +6201,39 @@ ru:
       section_project_overview: Настройки для списков проектов
     session: Сессия
     user:
-      account: Account
+      account: Учетная запись
       default_preferences: Предпочтения по умолчанию
       deletion: Удаление
       display_format: Формат отображения
     user_custom_field_sections:
       built_in_attribute_row_component:
-        label_built_in: Built-in
-        label_built_in_attribute_actions: Built-in attribute actions
+        label_built_in: Встроенная
+        label_built_in_attribute_actions: Встроенные действия с атрибутами
       custom_field_row_component:
-        label_user_custom_field_actions: User attribute actions
+        label_user_custom_field_actions: Пользовательские действия с атрибутами
       show_component:
-        label_add_attribute: Add a user attribute
-        label_edit_section: Edit title
-        label_no_user_custom_fields: No user attributes defined in this section
-        label_section_actions: Section actions
+        label_add_attribute: Добавить атрибут пользователя
+        label_edit_section: Редактировать заголовок
+        label_no_user_custom_fields: В этом разделе атрибуты пользователя не определены
+        label_section_actions: Действия с секциями
     user_custom_fields:
       header_component:
         attribute_filter:
-          label: Filter by attribute name…
-        heading_description: These user attributes appear on user profiles and information cards. You can add new attributes, group them into sections and re-order them.
-      heading: User attributes
-      label_default_section: User attributes
-      label_new_attribute: User attribute
-      label_new_section: Section
+          label: Фильтрация по названию атрибута…
+        heading_description: Эти атрибуты отображаются в профилях пользователей и информационных картах. Вы можете добавить новые атрибуты, группировать их в секции и переупорядочить их.
+      heading: Атрибуты пользователя
+      label_default_section: Атрибуты пользователя
+      label_new_attribute: Атрибут пользователя
+      label_new_section: Секция
       new:
-        heading: New attribute
+        heading: Новый атрибут
       semantic_keys:
-        description: Some attributes can do more than store information — the app uses them to power specific features. Choose which attribute to use for each purpose below. Each attribute can be used for only one purpose, and each purpose for only one attribute.
+        description: Некоторые атрибуты могут не только хранить информацию — приложение использует их для реализации определенных функций. Ниже выберите, какой атрибут использовать для каждой цели. Каждый атрибут может использоваться только для одной цели, а каждая цель — только с одним атрибутом.
         descriptions:
-          job_title: Choose the attribute that holds each user's job title. It appears next to their name in several places, such as user cards.
+          job_title: Выберите атрибут, в котором хранится должность каждого пользователя. Она отображается рядом с именем пользователя в нескольких местах, например, на карточках пользователей.
       tabs:
-        attributes: Attributes
-        semantic_keys: Mapped attributes
+        attributes: Атрибуты
+        semantic_keys: Сопоставленные атрибуты
     work_packages:
       activities:
         enable_internal_comments: Включить служебные комментарии
@@ -5830,6 +6411,7 @@ ru:
   text_destroy_what_to_do: Что Вы хотите сделать?
   text_destroy_with_associated: 'Существуют дополнительные объекты, связанные с удаляемым рабочим пакетом (пакетами). Эти объекты относятся к следующим типам:'
   text_diff_truncated: "... Этот разностность(diff) была усечена, так как она превышает максимальный размер, которые может быть отображен."
+  text_email_delivery_letter_opener: Гем Letter opener предназначен для преобразования электронных писем в файлы, которые сохраняются в папке tmp вашего приложения Rails. Электронные письма будут автоматически открываться в браузере, если это поддерживается.
   text_email_delivery_not_configured: |-
     Доставка электронной почты не настроена, уведомления отключены.
     Настройте SMTP-сервер, чтобы включить их.
@@ -5854,13 +6436,14 @@ ru:
   text_journal_changed_plain: "%{label} изменено с %{old} %{linebreak}на %{new}"
   text_journal_changed_with_diff: "%{label} изменена (%{link})"
   text_journal_deleted: "%{label} удалена (%{old})"
-  text_journal_deleted_no_detail: "%{label} deleted"
+  text_journal_deleted_no_detail: "%{label} удален"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} удалена (%{link})"
   text_journal_file_link_added: "%{label} ссылка на %{value} (%{storage}) добавлена"
   text_journal_file_link_deleted: "%{label} ссылка на %{old} (%{storage}) удалена"
   text_journal_label_value: "%{label} %{value}"
   text_journal_of: "%{label} %{value}"
+  text_journal_permission_denied: У вас нет прав на просмотр этой записи в журнале.
   text_journal_set_to: "%{label} присвоено значение %{value}"
   text_journal_set_with_diff: "%{label} установлена (%{link})"
   text_latest_note: 'Последний комментарий: %{note}'
@@ -5876,8 +6459,8 @@ ru:
     '
   text_notice_too_many_values_are_inperformant: 'Примечание: Отображение более чем 100 элементов на странице может увеличить время загрузки.'
   text_own_membership_delete_confirmation: Вы собираетесь удалить все или некоторые разрешения, доступные Вам. Вы не сможете редактировать проект после этого действия. Вы уверены?
-  text_permanent_delete_confirmation_checkbox_label: I understand that this deletion cannot be reversed.
-  text_permanent_remove_confirmation_checkbox_label: I understand that this removal cannot be reversed.
+  text_permanent_delete_confirmation_checkbox_label: Я понимаю, что это удаление невозможно отменить.
+  text_permanent_remove_confirmation_checkbox_label: Я понимаю, что это удаление не может быть отменено.
   text_plugin_assets_writable: Папка активов дополнения(plugin) доступна для записи
   text_powered_by: С использованием %{link}
   text_project_custom_field_html: 'Корпоративная версия добавит эти дополнительные дополнения для пользовательских полей проектов: <br> <ul> <li><b>Добавить пользовательские поля для проектов в ваш список проектов, чтобы создать представление портфолио проекта</b></li> </ul>
@@ -5905,8 +6488,8 @@ ru:
   text_user_wrote: "%{value} написал:"
   text_warn_on_leaving_unsaved: Не сохраненный текст текущего пакета работ будет потерян, если вы покинете эту страницу.
   text_wiki_destroy_confirmation: Вы уверены, что хотите удалить этот wiki и все его содержимое?
-  text_wiki_page_comment_caption: This will only be visible in the wiki history.
-  text_wiki_page_comment_placeholder: Did you change something? Add a comment
+  text_wiki_page_comment_caption: Это будет видно только в истории вики.
+  text_wiki_page_comment_placeholder: Вы что-то изменили? Добавьте комментарий
   text_wiki_page_destroy_children: Удаление дочерних страниц и всех их потомков
   text_wiki_page_destroy_question: Эта страница имеет %{descendants} дочерних страниц и потомков. Что вы хотите сделать?
   text_wiki_page_nullify_children: Сохранить дочерние страницы как корневые
@@ -5965,119 +6548,149 @@ ru:
   total_progress: Общий прогресс
   types:
     creation_wizard:
-      create_type: Create type
-      create_variant: Create variant
+      add_variant: Add a variant to %{name}
+      create_type: Создать тип
+      create_variant: Создать Вариант
       fields:
-        inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
-      finish: Finish
-      placeholder_description: This step will be available soon.
-      progress_label: Step %{number} of %{total}
+        variant_name_caption: Называет эту конфигурацию %{type}. Рабочие пакеты по-прежнему используют %{type}.
+      finish: Закончить
+      placeholder_description: Этот шаг скоро будет доступен.
+      progress_label: Шаг %{number} из %{total}
       steps:
-        defaults: Defaults
-        details: Details
-        form_configuration: Form configuration
-        pdf: PDF generation
-        project_attributes: Project attributes
-        projects: Projects
-        workflows: Workflows
-      success: Variant created successfully.
+        defaults: По умолчанию
+        details: Детали
+        form_configuration: Form
+        pdf: Создание PDF
+        project_attributes: Атрибуты проекта
+        projects: Проекты
+        workflows: Рабочие потоки
+      success: Успешно создано.
     edit:
-      breadcrumb_variant: 'Variant: %{name}'
+      breadcrumb_variant: 'Вариант: %{name}'
       defaults:
         automatically_generated_subjects:
-          caption: Define a pattern using referenced attributes and text to automatically generate work package subjects. Users will not be able to manually edit subjects.
-          label: Automatically generated subjects
+          caption: Определите шаблон, используя атрибуты ссылок и текст, чтобы автоматически генерировать темы пакетов работ. Пользователи не смогут вручную редактировать темы.
+          label: Автоматически сгенерированные темы
         description:
-          caption: Add the text that will be added to the description field of all new work packages with this type.
-          label: Default description text
+          caption: Добавьте текст, который будет добавлен в поле описания всех новых пакетов работ данного типа.
+          label: Текст описания по умолчанию
         manually_editable_subjects:
-          caption: Users can manually enter and edit work package subjects without restrictions.
-          label: Manually editable subjects
+          caption: Пользователи могут вручную вводить и редактировать темы пакетов работ без ограничений.
+          label: Вручную редактируемые темы
         pattern:
-          caption: Create patterns by adding text, or type "/" to search for [supported attributes](attributes_url).
-          insert_as_text: 'No attributes found. Add as text: "%{word}"'
-          label: Subject pattern
-        tab: Defaults
+          caption: Создавайте шаблоны, добавляя текст или наберите "/" для поиска [поддерживаемых атрибутов](attributes_url).
+          insert_as_text: 'Атрибуты не найдены. Добавить как текст: "%{word}"'
+          label: Шаблон темы
+        tab: Значения по умолчанию
         token:
           context:
-            parent: Parent
-            project: Project
-            work_package: Work package
+            parent: Родитель
+            project: Проект
+            work_package: Пакет работ
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
-        tab: Details
-        type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
+        inherited_from_type_html: Унаследовано от типа <b>%{type}</b>.
+        tab: Подробности
+        type_color_text: Выбранный цвет выделяет разные типы в диаграммах Ганта или таблицах пакетов работ. Поэтому рекомендуется использовать насыщенный цвет.
+        variant_name_caption_html: This is an internal name only visible to administrators. Variants replace the original parent type, so if this variant is used in a project, it will appear as <b>%{type}</b> to all members.
       export_configuration:
         artefact_export:
           attachment:
-            caption: The generated PDF is saved as a file attachment on the work package.
-            label: Save as work package file attachment
+            caption: Сгенерированный PDF-файл сохраняется в качестве вложения к пакету работ.
+            label: Сохранить как вложение пакета работ
           file_link:
-            caption: The generated PDF is uploaded to the project's automatically-managed Nextcloud storage and linked from the work package. Work packages in projects without such a storage are skipped.
-            label: Upload file to external file storage and add file link to work package
-          intro: Automatically generate a PDF artefact of a work package of this type whenever its status changes.
-          invalid_mode: Invalid artefact export mode.
-          label: Automatic artefact export
+            caption: Сгенерированный PDF-файл загружается в хранилище Nextcloud, управляемое автоматически в рамках проекта, и ссылка на него добавляется в пакет работ. Пакеты работ в проектах, не имеющих такого хранилища, пропускаются.
+            label: Загрузить файл на внешнее хранилище файлов и добавить ссылку на файл в пакет работ
+          intro: Автоматически создавать PDF-документ по пакету работ данного типа при каждом изменении его статуса.
+          invalid_mode: Недопустимый режим экспорта артефактов.
+          label: Автоматический экспорт артефактов
           off_mode:
-            caption: No PDF is generated automatically.
-            label: 'Off'
-          section_title: Automatic artefact export
-          unavailable: unavailable, no automatically-managed Nextcloud storage is configured
+            caption: PDF-файл не создается автоматически.
+            label: Выключено
+          section_title: Автоматический экспорт артефактов
+          unavailable: недоступно, не настроено ни одного хранилища Nextcloud с автоматическим администрированием
         intro: Выберите, какие шаблоны из имеющихся Вы хотите активировать для этого типа. Шаблон задаёт дизайн и атрибуты в экспортированном PDF-файле пакета работ этого типа. Первый шаблон из списка выбирается по умолчанию.
         pdf_export_templates:
           actions:
             label_disable_all: Выключить всё
             label_enable_all: Включить всё
+            label_toggle_template: Переключить %{template}
           label: Шаблоны экспорта в PDF
         tab: Создать PDF
         templates:
-          section_title: PDF export templates
+          readonly_error: Cannot be changed while linked to a source type.
+          section_title: Шаблоны экспорта в PDF
+          settings:
+            edit_link: Edit settings
+            reset_to_default: Reset to default
+            title: 'Settings: %{template}'
       form_configuration:
-        add_attribute_group: Section
-        add_query_group: Related work packages table
+        add_attribute_group: Секция
+        add_query_group: Таблица связанных пакетов работ
         blankslate_description: Добавьте группы с помощью кнопки выше или перетащите атрибуты с левой панели.
         blankslate_title: Нет групп
         builtin_field: Встроенное поле
-        confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
-        confirm_reset: Вы уверены, что хотите сбросить конфигурацию формы?
+        confirm_delete_group: Вы уверены, что хотите удалить эту секцию? Это действие нельзя автоматически отменить.
+        confirm_reset: Are you sure you want to reset the form?
         custom_field: Настраиваемое поле
-        delete_group: Delete section
+        delete_group: Удалить секцию
         drag_to_activate: Чтобы включить поля, перетащите их отсюда
         drag_to_reorder: Перетащите, чтобы изменить порядок
         edit_query: Редактировать представление
         empty_group_hint: Перетащите атрибуты сюда
         exclusions:
-          attribute_label: Inherit %{attribute}
-          excluded: Hidden
-          section_label: Inherit section %{section}
+          attribute_label: Наследовать %{attribute}
+          excluded: Скрытое
+          section_label: Наследовать секцию %{section}
         filter_inactive: Фильтровать атрибуты
-        group_actions: Section actions
-        group_name_label: Section name
+        group_actions: Действия с секциями
+        group_name_label: Название секции
         inactive_attributes_heading: Неактивные атрибуты
-        invalid_attribute_groups: Конфигурация формы является недопустимой.
+        invalid_attribute_groups: The form payload is invalid.
         invalid_query: Недопустимая конфигурация встраиваемого представления.
-        label_group: Section
+        label_group: Секция
         no_inactive_attributes: Нет неактивных атрибутов
-        not_found: Запрашиваемый элемент конфигурации формы не найден.
-        query_group_label: Related work packages table
-        remove_attribute: Remove from section
-        rename_group: Rename section
+        not_found: The requested form item could not be found.
+        query_group_label: Таблица связанных пакетов работ
+        remove_attribute: Удалить из секции
+        rename_group: Переименовать секцию
         reset_description: 'Это сбросит атрибуты к группе по умолчанию и отключит ВСЕ настраиваемые поля.
 
           '
-        reset_title: Сбросить настройки формы
-        reset_to_defaults: Reset form
+        reset_title: Reset form
+        reset_to_defaults: Сбросить форму
         row_actions: Действия со строками
-        tab: Настройка форм
+        tab: Form
         untitled_group: Безымянная группа
       project_attributes:
         actions:
-          label_disable_all: Disable all
-          label_enable_all: Enable all
-        description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
-        filter: Search by section or name
-        tab: Project attributes
+          label_disable_all: Отключить все
+          label_enable_all: Включить все
+        blankslate:
+          inherited:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
+          manual:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
+        description: Выберите атрибуты проекта, которые вы хотите включить для этого типа пакета работ. Включенные атрибуты проекта отображаются на отдельной вкладке в пакетах работ данного типа. Пользователи с необходимыми правами могут просматривать и редактировать эти атрибуты.
+        disabled: Отключено
+        exclusions:
+          attribute_label: Наследовать %{attribute}
+        filter: Поиск по секции или названию
+        tab: Атрибуты проекта
       projects:
+        actions:
+          confirm_remove: Удалить тип «%{type}» из «%{project}»?
+          remove_from_project: Удалить из проекта
+          switch_variant: Изменить вариант
+        add_dialog:
+          no_projects_selected: Пожалуйста, выберите по крайней мере один проект.
+          search_placeholder: Искать проекты
+        disable_all: Отключить для всех проектов
+        empty_state:
+          description: Добавьте проект для использования этой конфигурации.
+          no_results: Нет подходящих проектов.
         enable_all: Использовать во всех проектах
         select_projects: Выберите проекты
         select_projects_description: Выберите проекты, в которых вы хотели бы использовать этот тип.
@@ -6085,35 +6698,84 @@ ru:
       reuse_mode:
         copy:
           confirm_dialog:
-            check_box: I understand that this will override the current settings
-            description_html: By copying data from %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
-            title: Copy configuration?
+            check_box: Я понимаю, что это переопределит текущие настройки
+            description_html: При копировании данных из %{source_name} вы перезапишите текущие настройки и это может повлиять на существующую информацию о пакетах работ данного типа.
+            title: Скопировать конфигурацию?
           dialog:
-            description: Copy the configuration from a source type and use it as a one-time base. This does not link the two types permanently.
-            source_label: Copy source
-            source_placeholder: Select a type or variant
-            submit: Save and copy
-            title: Copy configuration
-          invalid_source: The configuration cannot be copied from the selected type. Please select a different source type.
-          success: The configuration was copied.
+            description: Copy the configuration from a source type and use it as a one-time base. The configuration stays manual and does not inherit later changes of the source.
+            source_label: Source type
+            source_placeholder: Выберите тип или вариант
+            submit: Сохранить и скопировать
+            title: Скопировать конфигурацию
+          invalid_source: Конфигурация не может быть скопирована из выбранного типа. Пожалуйста, выберите другой источник типа.
+          success: Конфигурация была скопирована.
+        dependents:
+          blank:
+            description: No other type or variant inherits from this configuration
+            title: No dependent types
+          description:
+            one: The following configuration is inherited by 1 other type or variant. Any changes you make here will also affect the dependent.
+            few: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
+            many: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
+            other: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
+          dialog:
+            description: These types and variants inherit the configuration of this section. A change you make here applies to all of them.
+            direct_heading: Direct dependents
+            indirect_heading: Dependents through other types
+            title: Dependent types
+            variant_of_html: Variant of %{type_name}
+            variant_of_via_html: Variant of %{type_name}, inheriting via %{source_name}
+            via_html: Inheriting via %{source_name}
+          title:
+            one: 1 dependent type
+            few: "%{count} dependent types"
+            many: "%{count} dependent types"
+            other: "%{count} dependent types"
+          view: View dependent types
         exclusions:
-          not_linked: This type owns its configuration for this section, so there is nothing to exclude. Edit the configuration directly instead.
-          unknown_aspect: Unknown configuration section "%{aspect}".
-        independent:
+          not_inherited: This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead.
+          unknown_aspect: Неизвестная секция конфигурации "%{aspect}".
+        inherited:
+          change_source: Change source type
+          configure_manually: Configure manually
+          confirm_dialog:
+            change_source:
+              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
+              heading: Change source type?
+              title: Change source type
+            check_box: I understand that this will override the current settings
+            from_manual:
+              description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
+              heading: Switch configuration mode?
+              title: Switch configuration mode
+          description: This configuration is inherited from the source type [%{source_name}](source_url)%{source_suffix}.
+          description_unlinked: This configuration is inherited from the source type %{source_name}%{source_suffix}.
+          dialog:
+            description: Inherit this configuration from a source type. Any new configuration added to the source also applies here.
+            source_label: Source type
+            source_placeholder: Select a type or variant
+            submit: Switch
+            title: Inherit from another type
+          invalid_source: The configuration cannot be inherited from the selected type. Please select a different source type.
+          success: The configuration mode was switched.
+          title: Inherited configuration
+        manual:
           confirm_dialog:
             check_box: I understand that this will override the current settings
             description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
-            title: Switch configuration mode?
-          copy_from_type: Copy from type
-          description: No settings are inherited. If desired you can still one-time copy settings from another type.
+            heading: Switch configuration mode?
+            title: Switch configuration mode
+          copy_from_type: Copy from another type
+          description: No settings are inherited. You can still copy the settings from another type one time.
           dialog:
             submit: Switch
-            title: Independent mode
+            title: Configure manually
+          inherit_from_type: Inherit from another type
           invalid_mode: The selected mode is not available for this configuration. Please choose a different mode.
           modes:
             copy:
-              caption: Start with a one-time copy of the current settings set in the linked mode.
-              label: Copy from linked
+              caption: Start with a one-time copy of the settings that this configuration inherits now.
+              label: Copy inherited settings
             default:
               caption: Use the default settings for new types.
               label: Default settings
@@ -6121,56 +6783,51 @@ ru:
               caption: Set everything up from scratch, beginning from a blank configuration.
               label: Empty
           success: The configuration mode was switched.
-          switch_to_linked: Switch to linked mode
-          title: Independent mode
-        linked:
-          change_source: Change source type
-          confirm_dialog:
-            change_source:
-              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
-              title: Change source type?
-            check_box: I understand that this will override the current settings
-            from_independent:
-              description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
-              title: Switch configuration mode?
-          description: This configuration is linked and inheriting its settings from the source type [%{source_name}](source_url)%{source_suffix}.
-          dialog:
-            description: Copy and inherit this settings from a source. Any new configuration added to the source will also be added here.
-            source_label: Linked source
-            source_placeholder: Select a type or variant
-            submit: Switch
-            title: Linked mode
-          invalid_source: The configuration cannot be linked to the selected type. Please select a different source type.
-          success: The configuration mode was switched.
-          switch_to_independent: Switch to independent mode
-          title: Linked mode
-        parent_suffix: " (parent)"
+          title: Manual configuration
+        parent_suffix: " (родитель)"
+      variants:
+        blankslate:
+          description_html: 'Вы можете создать варианты, чтобы предложить версии этого типа различным проектам.<br> Каждый вариант может наследовать, копировать или иметь собственную настраиваемую конфигурацию для шаблона по умолчанию, настраиваемые поля, рабочие процессы и настройки.
+
+            '
+          title: Для этого типа не существует вариантов
+        created_in_html: Created in %{project}
+        delete:
+          description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
+          title: Delete %{name}
+        filter: Фильтр по тексту
+        filter_no_results: Нет вариантов, соответствующих этому фильтру
+        global_section:
+          description: These variants are available across all projects.
+          title: Variants
+        project_specific_section:
+          description: These variants are only available within the projects in which they were created.
+          title: Project-specific variants
       workflow:
-        tab: Workflows
+        tab: Рабочие процессы
     index:
-      add_variant: Add variant to %{name}
-      add_variant_action: Add variant
-      description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
+      add_variant: Add a variant to %{name}
+      add_variant_action: Добавить вариант
+      description: 'Каждая область конфигурации внутри типов и вариантов может быть настроена самостоятельно, ограничена другим типом или полностью связана с источником.
 
         '
-      duplicate_name: Copy of %{name}
-      duplicate_notice: "%{name} was duplicated."
-      enabled_in_new_projects: Active in new projects
-      make_default: Activate in new projects
-      make_default_notice: "%{name} is now activated in new projects."
+      duplicate_name: Копия %{name}
+      duplicate_notice: "%{name} был дублирован."
+      enabled_in_new_projects: Активно в новых проектах
+      make_default: Активировать в новых проектах
+      make_default_notice: "%{name} теперь активирован в новых проектах."
       no_results_content_text: Создать новый тип
       no_results_title_text: В данный момент типы отсутствуют.
-      remove_default: Do not activate in new projects
-      remove_default_notice: "%{name} is no longer activated in new projects."
-      type_label: Type
-      variant_enabled_in_new_projects: Variant %{name} active in new projects
-      variant_label: Variant
-      variants_count:
-        one: 1 variant
-        few: "%{count} variants"
-        many: "%{count} variants"
-        other: "%{count} variants"
-    milestone_indicator: Milestone
+      project_variants_count:
+        one: 1 project-specific variant
+        few: "%{count} project-specific variants"
+        many: "%{count} project-specific variants"
+        other: "%{count} project-specific variants"
+      remove_default: Не активировать в новых проектах
+      remove_default_notice: "%{name} в новых проектах эта функция больше не активируется."
+      type_label: Тип
+      variant_label: Вариант
+    milestone_indicator: Веха
   unsupported_browser:
     close_warning: Игнорировать это предупреждение.
     message: На этой странице вы рискуете столкнуться с ошибками и обедненным опытом.
@@ -6195,7 +6852,7 @@ ru:
       other: временно заблокирован (%{count} неудачные попытки авторизации)
     confirm_status_change: Вы собираетесь изменить статус '%{name}'. Хотите продолжить?
     deleted: Удалённый пользователь
-    department_ldap_managed_caption: This department is managed by LDAP synchronization and cannot be changed here.
+    department_ldap_managed_caption: Это подразделение управляется с помощью синхронизации LDAP и не может быть изменено здесь.
     error_admin_change_on_non_admin: Только администраторы могут изменять статус администраторов.
     error_cannot_delete_user: Пользователь не может быть удален
     error_status_change_failed: 'Изменение статуса пользователя не удалось из-за следующей ошибки: %{errors}'
@@ -6212,7 +6869,7 @@ ru:
     status_change: Смена статуса
     status_user_and_brute_force: "%{user} и %{brute_force}"
     text_change_disabled_for_provider_login: Это имя и адрес электронной почты заданы вашим поставщиком авторизации, поэтому их нельзя изменить.
-    text_change_mail_disabled_by_administrator: Changing your email address has been disabled by the administrator.
+    text_change_mail_disabled_by_administrator: Изменение адреса электронной почты было отключено администратором.
     unlock: Разблокировать
     unlock_and_reset_failed_logins: Разблокировать и сбросить неудачные попытки входа
   user_preferences:
@@ -6316,6 +6973,7 @@ ru:
         availability_description: Коэффициент доступности показывает фактический процент рабочего времени, выделенного на задачи проекта. Это относится к совещаниям, электронной почте, административной работе и другой деятельности, не связанной с проектом.
         availability_factor: Фактор доступности
         availability_factor_caption: Определите процент Вашего рабочего времени, отведенного на работу над проектом.
+        effective_hours: Чистое рабочее время
         hours_mode_label: Режим часов
         hours_per_day: Часов в день
         individual_hours_mode: Индивидуальные часы в день
@@ -6329,7 +6987,6 @@ ru:
         title_current: Редактирование текущего рабочего расписания
         title_days_and_hours: Дни и часы
         title_future_dates: Будущие даты
-        total_available_hours: Всего доступных рабочих часов
         total_work_hours: Всего рабочих часов
         work_days: Рабочие дни
         work_hours: Рабочие часы
@@ -6534,49 +7191,49 @@ ru:
   work_packages:
     bulk:
       copy_failed: Пакеты работ не могут быть скопированы.
-      could_not_be_deleted: 'The following work packages could not be deleted:'
+      could_not_be_deleted: 'Следующие пакеты работ удалить не удалось:'
       could_not_be_saved: 'Не удалось сохранить следующие пакеты работ:'
       deletion_successful:
-        one: Successfully deleted 1 work package.
-        few: Successfully deleted %{count} work packages.
-        many: Successfully deleted %{count} work packages.
-        other: Successfully deleted %{count} work packages.
-      descendant: дочерний рабочий пакет выбранного элемента
+        one: 1 пакет работ успешно удалён.
+        few: "%{count} пакета работ успешно удалено."
+        many: "%{count} пакетов работ успешно удалено."
+        other: "%{count} пакетов работ успешно удалено."
+      descendant: дочерний пакет работ выбранного элемента
       move_failed: Пакеты работ не могут быть перемещены.
       none_could_be_saved: Ни один из пакетов работ %{total} не может быть обновлен.
       selected_because_descendants: Хотя были выбраны пакеты работ %{selected}, всего затронуто %{total} пакетов работ, включая потомков.
       x_out_of_y_could_be_saved: "%{failing} из %{total} пакетов работ не может быть обновлен, в то время как %{success} может."
     bulk_delete_dialog:
-      children_label: 'The following descendants will also be deleted:'
-      confirm_deletion: I confirm that the selected work packages and all associated data will be deleted.
-      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
-      cross_project_warning_html: 'These work packages span multiple projects: %{projects}'
-      description: Are you sure you want to delete the selected work packages and all associated data?
-      description_with_all_descendants: Are you sure you want to delete the selected work packages and all of their descendants?
-      description_with_descendants: Are you sure you want to delete the selected work packages and all the following descendants?
-      description_with_visible_descendants: Are you sure you want to delete the selected work packages and all visible descendants?
+      children_label: 'Также будут удалены следующие вложенные элементы:'
+      confirm_deletion: Подтверждаю, что выбранные пакеты работ и все связанные с ними данные будут удалены.
+      confirm_descendants_deletion: Подтверждаю, что все перечисленные выше потомки также будут удалены.
+      cross_project_warning_html: 'Эти пакеты работ охватывают несколько проектов: %{projects}'
+      description: Вы уверены, что хотите удалить выбранные пакеты работ и все связанные с ними данные?
+      description_with_all_descendants: Вы уверены, что хотите удалить выбранные пакеты работ и все их вложенные элементы?
+      description_with_descendants: Вы уверены, что хотите удалить выбранные пакеты работ и все их вложенные элементы?
+      description_with_visible_descendants: Вы уверены, что хотите удалить выбранные пакеты работ и все видимые вложенные элементы?
       heading: Окончательно удалить эти %{count} пакеты работ?
       hidden_descendants_only_warning:
-        one: There is one descendant that you cannot see. It will not be deleted but the relation will be removed.
-        few: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
-        many: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
-        other: There are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        one: Есть один потомок, которого вы не видите. Он не будет удалён, но будет удалена связь.
+        few: Есть %{count} потомка, которых вы не видите. Они не будут удалены, но будет удалена связь.
+        many: Есть %{count} потомков, которых вы не видите. Они не будут удалены, но будет удалена связь.
+        other: Есть %{count} потомков, которых вы не видите. Они не будут удалены, но будет удалена связь.
       hidden_descendants_warning:
-        one: All visible descendants will be removed. However, there is one descendant that you cannot see. It will not be deleted but the relation will be removed.
-        few: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
-        many: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
-        other: All visible descendants will be removed. However, there are %{count} descendants that you cannot see. They will not be deleted but any hierarchical relations will be removed.
+        one: Все видимые потомки будут удалены. Однако есть один потомок, которого вы не можете увидеть. Он не будет удален, но будет удалена связь с ним.
+        few: Все видимые потомки будут удалены. Однако есть %{count} потомка, которых вы не можете увидеть. Они не будут удалены, но будет удалена связь с ними.
+        many: Все видимые потомки будут удалены. Однако есть %{count} потомков, которые вы не можете увидеть. Они не будут удалены, но будет удалена связь с ними.
+        other: Все видимые потомки будут удалены. Однако есть %{count} потомков, которые вы не можете увидеть. Они не будут удалены, но будет удалена связь с ними.
       title: Удалить %{count} пакетов работ
       undeletable_descendants_warning:
-        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
-        few: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
-        many: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
-        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        one: Вы не можете удалить один из потомков, поскольку у вас отсутствуют необходимые права доступа. Он будет сохранен, но будет удалена иерархическая связь.
+        few: Вы не можете удалить %{count} из потомка, поскольку у вас отсутствуют необходимые права доступа. Они будут сохранены, но будет удалена иерархическая связь.
+        many: Вы не можете удалить %{count} из потомков, поскольку у вас отсутствуют необходимые права доступа. Они будут сохранены, но будет удалена иерархическая связь.
+        other: Вы не можете удалить %{count} из потомков, поскольку у вас отсутствуют необходимые права доступа. Они будут сохранены, но будет удалена иерархическая связь.
       undeletable_descendants_warning_html:
-        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
-        few: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
-        many: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
-        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        one: Вы не можете удалить один из потомков, поскольку у вас отсутствуют необходимые права доступа в %{projects}. Он будет сохранен, но иерархическая связь будет удалена.
+        few: Вы не можете удалить %{count} из потомков, поскольку у вас отсутствуют необходимые права доступа в %{projects}. Они будут сохранены, но будет удалена иерархическая связь.
+        many: Вы не можете удалить %{count} из потомков, поскольку у вас отсутствуют необходимые права доступа в %{projects}. Они будут сохранены, но будет удалена иерархическая связь.
+        other: Вы не можете удалить %{count} из потомков, поскольку у вас отсутствуют необходимые права доступа в %{projects}. Они будут сохранены, но будет удалена иерархическая связь.
     datepicker_modal:
       banner:
         description:
@@ -6620,37 +7277,37 @@ ru:
         successors: Последователи
       update_inputs_aria_live_message: Система выбора даты обновлена. %{message}
     delete_dialog:
-      confirm_deletion: I confirm that the work package and all associated data will be deleted.
-      confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
-      cross_project_warning_html: 'Work packages from the following projects will be deleted: %{projects}'
-      description: Are you sure you want to delete "%{name}"?
+      confirm_deletion: Подтверждаю, что пакет работ и все связанные с ним данные будут удалены.
+      confirm_descendants_deletion: Подтверждаю, что все перечисленные выше потомки также будут удалены.
+      cross_project_warning_html: 'Пакеты работ из следующих проектов будут удалены: %{projects}'
+      description: Вы уверены, что хотите удалить "%{name}"?
       heading: Удалить этот пакет работ навсегда?
       hidden_descendants_only_warning:
-        one: This work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
-        few: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
-        many: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
-        other: This work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        one: У данного пакета работ есть один дочерний элемент, который вам не отображается. Он не будет удален, однако иерархическая связь будет потеряна.
+        few: У данного пакета работ есть %{count} дочерних элементов, которые вам не отображается. Они не будет удалены, однако иерархическая связь будет потеряна.
+        many: У данного пакета работ есть %{count} дочерних элементов, которые вам не отображается. Они не будет удалены, однако иерархическая связь будет потеряна.
+        other: У данного пакета работ есть %{count} дочерних элементов, которые вам не отображается. Они не будет удалены, однако иерархическая связь будет потеряна.
       hidden_descendants_warning:
-        one: All visible descendants will be deleted. However, this work package has one descendant that you cannot see. It will not be deleted but the hierarchical relation will be removed.
-        few: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
-        many: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
-        other: All visible descendants will be deleted. However, this work package has %{count} descendants that you cannot see. They will not be deleted but the hierarchical relation will be removed.
+        one: Все видимые потомки будут удалены. Однако у данного рабочего пакета есть один потомок, который вам не виден. Он не будет удален, но иерархическая связь с ним будет потеряна.
+        few: Все видимые потомки будут удалены. Однако у данного рабочего пакета есть %{count} потомока, которые вам не видны. Они не будут удалены, но иерархическая связь с ними будет потеряна.
+        many: Все видимые потомки будут удалены. Однако у данного рабочего пакета есть %{count} потомоков, которые вам не видны. Они не будут удалены, но иерархическая связь с ними будет потеряна.
+        other: Все видимые потомки будут удалены. Однако у данного рабочего пакета есть %{count} потомоков, которые вам не видны. Они не будут удалены, но иерархическая связь с ними будет потеряна.
       title: Удалить пакеты работ
       undeletable_descendants_warning:
-        one: You are not able to delete one descendant because you lack the necessary permissions. It will be preserved but the hierarchical relation will be removed.
-        few: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
-        many: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
-        other: You are not able to delete %{count} descendants because you lack the necessary permissions. These will be preserved but any hierarchical relations will be removed.
+        one: Вы не можете удалить одного потомка, поскольку у вас отсутствуют необходимые права доступа. Он будет сохранен, но иерархическая связь будет потеряна.
+        few: Вы не можете удалить %{count} потомка, поскольку у вас отсутствуют необходимые права доступа. Они будут сохранены, но иерархическая связь будет потеряна.
+        many: Вы не можете удалить %{count} потомков, поскольку у вас отсутствуют необходимые права доступа. Они будут сохранены, но иерархическая связь будет потеряна.
+        other: Вы не можете удалить %{count} потомка, поскольку у вас отсутствуют необходимые права доступа. Они будут сохранены, но иерархическая связь будет потеряна.
       undeletable_descendants_warning_html:
-        one: You are not able to delete one descendant because you lack the necessary permissions in %{projects}. It will be preserved but the hierarchical relation will be removed.
-        few: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
-        many: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
-        other: You are not able to delete %{count} descendants because you lack the necessary permissions in %{projects}. These will be preserved but any hierarchical relations will be removed.
+        one: Вы не можете удалить одного потомка, поскольку у вас отсутствуют необходимые права доступа в %{projects}. Он будет сохранен, но иерархическая связь будет потеряна.
+        few: Вы не можете удалить %{count} потомка, поскольку у вас отсутствуют необходимые права доступа в %{projects}. Они будут сохранены, но иерархическая связь будет потеряна.
+        many: Вы не можете удалить %{count} потомков, поскольку у вас отсутствуют необходимые права доступа в %{projects}. Они будут сохранены, но иерархическая связь будет потеряна.
+        other: Вы не можете удалить %{count} потомков, поскольку у вас отсутствуют необходимые права доступа в %{projects}. Они будут сохранены, но иерархическая связь будет потеряна.
     move:
-      bulk_current_type_not_available_in_target_project: 'The types of the work packages or their descendants aren''t enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
+      bulk_current_type_not_available_in_target_project: 'Типы пакетов работ или их потомков не включены в целевом проекте. Пожалуйста, включите отсутствующие типы в целевом проекте, если вы хотите, чтобы они остались без изменений. В противном случае выберите из списка доступный тип в целевом проекте.
 
         '
-      current_type_not_available_in_target_project: 'The type of this work package or one of its descendants is not enabled in the target project. Please enable the missing types in the target project if you''d like them to remain unchanged. Otherwise, select an available type in the target project from the list.
+      current_type_not_available_in_target_project: 'Тип данного пакета работ или одного из его потомков не включен в целевом проекте. Пожалуйста, включите отсутствующие типы в целевом проекте, если вы хотите, чтобы они остались без изменений. В противном случае выберите из списка доступный тип в целевом проекте.
 
         '
       no_common_statuses_exists: Статус не доступен для всех выбранных пакетов работ. Их статус изменен быть не может.
@@ -6658,7 +7315,7 @@ ru:
     sharing:
       missing_workflow_warning:
         link_message: Настройка рабочих процессов в администрации.
-        message: Рабочий процесс не настроен для роли 'Редактора пакетов работ'. Без рабочего процесса, общий с пользователем не может изменить статус рабочего пакета. Рабочие процессы могут быть скопированы. Выберите исходный тип (например, «Задача») и исходную роль (например, «Участник»). Затем выберите нужные типы. Чтобы начать, можно выбрать все типы в качестве целей. Наконец, выберите роль 'Редактор пакетов работ' в качестве цели и нажмите 'Копировать'. После создания таким образом по умолчанию, тонкая настройка рабочих процессов как вы делаете для каждой другой роли.
+        message: Рабочий процесс не настроен для роли 'Редактора пакетов работ'. Без рабочего процесса, общий с пользователем не может изменить статус пакета работ. Рабочие процессы могут быть скопированы. Выберите исходный тип (например, «Задача») и исходную роль (например, «Участник»). Затем выберите нужные типы. Чтобы начать, можно выбрать все типы в качестве целей. Наконец, выберите роль 'Редактор пакетов работ' в качестве цели и нажмите 'Копировать'. После создания таким образом по умолчанию, тонкая настройка рабочих процессов как вы делаете для каждой другой роли.
         title: Отсутствует рабочий процесс для совместного использования пакета работ
     summary:
       reports:
@@ -6695,7 +7352,7 @@ ru:
           label: Исходная роль
         target_role_ids:
           label: Целевые роли
-        target_type_ids:
+        target_variant_ids:
           label: Целевые типы
       from_roles:
         create:
@@ -6704,11 +7361,11 @@ ru:
             few: Рабочий процесс успешно скопирован в %{count} ролей.
             many: Рабочий процесс успешно скопирован в %{count} ролей.
             other: Рабочий процесс успешно скопирован в %{count} ролей.
-      from_types:
+      from_variants:
         create:
           notice:
             one: Рабочий процесс успешно скопирован в тип '%{type_name}'.
-            few: Рабочий процесс успешно скопирован в %{count} типов.
+            few: Рабочий процесс успешно скопирован в %{count} типа.
             many: Рабочий процесс успешно скопирован в %{count} типов.
             other: Рабочий процесс успешно скопирован в %{count} типов.
       new:
@@ -6731,14 +7388,14 @@ ru:
   working_days:
     change_button: Изменить рабочие дни
     dialog:
-      confirm_button: Save and reschedule
-      description: 'Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
+      confirm_button: Сохранить и перенести
+      description: 'Изменение того, какие дни недели считаются рабочими или нерабочими, может повлиять на даты начала и окончания всех рабочих пакетов и жизненных циклов во всех проектах.
 
         '
-      heading: Change the working days?
-      removed_title: 'You will remove the following days from the non-working days list:'
+      heading: Изменить рабочие дни?
+      removed_title: 'Следующие дни будут удалены из списка нерабочих дней:'
       title: Изменение рабочих дней
-      warning: 'The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated.
+      warning: 'Для вступления этих изменений в силу может потребоваться некоторое время. Вы получите уведомление, когда все соответствующие рабочие пакеты и жизненные циклы проектов будут обновлены.
 
         '
     info: 'Невыбранные дни пропускаются при планировании пакетов работ и жизненного цикла проекта (и не включаются в подсчет дней). Они могут быть переопределены на уровне пакетов работ.

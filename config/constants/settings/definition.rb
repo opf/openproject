@@ -47,6 +47,10 @@ module Settings
         format: :string,
         default: nil
       },
+      ai_text_transform_actions_enabled: {
+        description: "Enable AI text transform actions in the rich text editor",
+        default: false
+      },
       allowed_link_protocols: {
         format: :array,
         description: "Allowed protocols for links in the WYSIWYG editor and formatted texts",
@@ -219,6 +223,12 @@ module Settings
       bcc_recipients: {
         default: true
       },
+      blocked_email_domains: {
+        format: :array,
+        description: "Email domains that may not be used for user accounts. Subdomains are blocked as well. " \
+                     "Recipients on these domains are also skipped when sending emails.",
+        default: []
+      },
       boards_demo_data_available: {
         description: "Internal setting determining availability of demo seed data",
         default: false
@@ -366,7 +376,7 @@ module Settings
       },
       default_projects_modules: {
         default: -> {
-          base_modules = %w[calendar board_view work_package_tracking gantt news costs wiki]
+          base_modules = %w[calendar board_view work_package_tracking gantt news costs]
           if Setting.real_time_text_collaboration_enabled?
             base_modules + %w[documents]
           else
@@ -377,6 +387,9 @@ module Settings
       },
       default_projects_public: {
         default: false
+      },
+      default_projects_wiki: {
+        default: true
       },
       demo_projects_available: {
         default: false
@@ -420,7 +433,8 @@ module Settings
         default: false
       },
       disable_password_login: {
-        description: "Disable internal logins and instead only allow SSO through OmniAuth.",
+        description: "Disable internal logins and instead only allow SSO through OmniAuth. " \
+                     "Forces password_login to 'none'. Prefer setting password_login directly.",
         default: false
       },
       display_subprojects_work_packages: {
@@ -471,6 +485,16 @@ module Settings
         format: :symbol,
         default: nil,
         env_alias: "EMAIL_DELIVERY_METHOD"
+      },
+      email_limit_per_day: {
+        format: :integer,
+        default: 0,
+        writable: false,
+        allowed: (0..),
+        description: "Number of emails which are allowed to be sent per day on average (may be up to 2x as much on " \
+                     "a single day). This can be used to address spam and abuse, but is just designed as a last " \
+                     "resort as it simply drops mails that are over the limit instead of sending them at a later " \
+                     "point in time or notifying the user."
       },
       emails_salutation: {
         allowed: %i[firstname name],
@@ -847,6 +871,35 @@ module Settings
       password_days_valid: {
         default: 0
       },
+      password_login: {
+        description: "Who may authenticate with a password: all users, everyone except OmniAuth-linked " \
+                     "users, or nobody (except the break-glass allowlist).",
+        format: :string,
+        default: lambda {
+          if OpenProject::Configuration::TRUE_VALUES.include?(OpenProject::Configuration["disable_password_login"])
+            "none"
+          else
+            "all"
+          end
+        },
+        writable: lambda {
+          OpenProject::Configuration::TRUE_VALUES.exclude?(OpenProject::Configuration["disable_password_login"])
+        },
+        allowed: -> { Users::PasswordLogin::MODES }
+      },
+      password_login_bypass_logins: {
+        description: "Logins that keep password login as a break-glass access when password_login " \
+                     "is except_sso or none. Intended as an environment overlay when nobody can " \
+                     "reach administration. Matched case-insensitively.",
+        format: :array,
+        default: []
+      },
+      password_login_bypass_principal_ids: {
+        description: "User and group ids that keep password login as a break-glass access when " \
+                     "password_login is except_sso or none. Groups include their descendant groups.",
+        format: :array,
+        default: []
+      },
       password_min_length: {
         default: 10,
         format: :integer,
@@ -957,6 +1010,14 @@ module Settings
         description: "Enable OpenTelemetry metrics",
         default: false
       },
+      mail_recipient_limits: {
+        format: :integer,
+        default: 0,
+        writable: false,
+        allowed: (0..),
+        description: "Maximum distinct recipients an instance may send emails to per day. " \
+                     "Mails to addresses over that limit will be dropped. 0 equals unlimited recipients."
+      },
       rate_limiting: {
         default: {},
         description: "Configure rate limiting for various endpoint rules. See configuration documentation for details."
@@ -965,6 +1026,21 @@ module Settings
         default: {
           "en" => ""
         }
+      },
+      registration_rate_limit: {
+        format: :integer,
+        default: 0,
+        writable: false,
+        allowed: (0..),
+        description: "Maximum unauthenticated POST /account/register requests per hour. " \
+                     "Counted per client IP by default, or per instance (host_name) when " \
+                     "registration_rate_limit_per_ip is false. 0 disables the limit."
+      },
+      registration_rate_limit_per_ip: {
+        format: :boolean,
+        default: true,
+        writable: false,
+        description: "Count registration rate limits per client IP. Set to false to count based on hostname itself."
       },
       remote_storage_upload_host: {
         format: :string,
@@ -1362,7 +1438,7 @@ module Settings
       work_package_multiple_versions: {
         description: "Enable multiple version assignments on work packages.",
         format: :boolean,
-        default: false
+        default: true
       },
       work_packages_activities_tab_polling_interval_in_ms: {
         description: "Interval in milliseconds at which the work package activities tab polls for updates.",

@@ -106,8 +106,16 @@ module API::V3::WorkPackages::EagerLoading
 
     def override_attributes(work_package, source)
       work_package.attributes = source.attributes.except("timestamp", "journal_id")
+      override_target_versions(work_package, source)
       work_package.clear_changes_information
       work_package.readonly!
+    end
+
+    def override_target_versions(work_package, source)
+      return unless work_package.respond_to?(:target_versions)
+
+      work_package.association(:target_versions).loaded!
+      work_package.association(:target_versions).target = source.target_versions.to_a
     end
 
     def set_timestamp_attributes(work_package, source, timestamp)

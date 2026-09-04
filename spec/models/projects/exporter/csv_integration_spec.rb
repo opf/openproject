@@ -85,7 +85,7 @@ RSpec.describe Projects::Exports::CSV, "integration" do
       it "does not render project custom fields in the header" do
         expect(parsed.size).to eq 2
 
-        expect(header).to eq ["Name", "Description", "Status", "Public"]
+        expect(header).to eq %w[Name Description Status Public]
       end
 
       it "does not render the custom field values in the rows if enabled for a project" do
@@ -219,6 +219,57 @@ RSpec.describe Projects::Exports::CSV, "integration" do
           "Comment visible to members",
           "Comment visible to admins"
         ]
+      end
+    end
+  end
+
+  describe "project phase columns selected" do
+    shared_let(:phase_definition) { create(:project_phase_definition, name: "Initiation") }
+    shared_let(:query_columns) { %w[name description project_status public] + ["project_phase_#{phase_definition.id}"] }
+
+    let!(:project_phase) do
+      create(:project_phase, project:, definition: phase_definition,
+                             start_date: Date.new(2026, 1, 5), finish_date: Date.new(2026, 1, 20))
+    end
+
+    context "with view_project_phases permission" do
+      let(:permissions) { super() + %i[view_project_phases] }
+
+      context "and an active phase" do
+        it "renders the phase's date range in the row" do
+          expect(header).to eq %w[Name Description Status Public Initiation]
+          expect(rows.first).to eq [project.name, project.description, "Off track", "false", "01/05/2026 - 01/20/2026"]
+        end
+      end
+
+      context "and an inactive phase" do
+        before { project_phase.update!(active: false) }
+
+        it "renders an empty value while keeping the phase column" do
+          expect(header).to eq %w[Name Description Status Public Initiation]
+          expect(rows.first).to eq [project.name, project.description, "Off track", "false", ""]
+        end
+      end
+    end
+
+    context "without view_project_phases permission anywhere" do
+      it "omits the phase column entirely" do
+        expect(header).to eq %w[Name Description Status Public]
+        expect(rows.first).to eq [project.name, project.description, "Off track", "false"]
+      end
+    end
+
+    context "with view_project_phases permission in another project only" do
+      let(:other_project) { create(:project) }
+
+      before do
+        create(:member, user: current_user, project: other_project,
+                        roles: [create(:project_role, permissions: %i[view_project_phases])])
+      end
+
+      it "renders an empty value for the project where the user lacks the permission" do
+        expect(header).to eq %w[Name Description Status Public Initiation]
+        expect(rows.first).to eq [project.name, project.description, "Off track", "false", ""]
       end
     end
   end

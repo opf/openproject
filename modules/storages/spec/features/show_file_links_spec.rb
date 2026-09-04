@@ -93,7 +93,7 @@ RSpec.describe "Showing of file links in work package", :js do
   end
 
   context "if user is not connected to Nextcloud" do
-    let(:authorization_state) { Failure(Storages::Adapters::Results::Error.new(code: :missing_token, source: self)) }
+    let(:authorization_state) { Failure(SimpleError.new(code: :missing_token, source: self)) }
 
     it "must show storage information box with login button" do
       within_test_selector("op-tab-content--tab-section", text: "MY STORAGE", wait: 25) do
@@ -105,7 +105,7 @@ RSpec.describe "Showing of file links in work package", :js do
   end
 
   context "if user is not authorized in Nextcloud" do
-    let(:authorization_state) { Failure(Storages::Adapters::Results::Error.new(code: :unauthorized, source: self)) }
+    let(:authorization_state) { Failure(SimpleError.new(code: :unauthorized, source: self)) }
 
     it "must show storage information box with login button" do
       within_test_selector("op-tab-content--tab-section", text: "MY STORAGE", wait: 25) do
@@ -117,7 +117,7 @@ RSpec.describe "Showing of file links in work package", :js do
   end
 
   context "if an error occurred while authorizing to Nextcloud" do
-    let(:authorization_state) { Failure(Storages::Adapters::Results::Error.new(code: :error, source: self)) }
+    let(:authorization_state) { Failure(SimpleError.new(code: :error, source: self)) }
 
     it "must show storage information box" do
       within_test_selector("op-tab-content--tab-section", text: "MY STORAGE", wait: 25) do

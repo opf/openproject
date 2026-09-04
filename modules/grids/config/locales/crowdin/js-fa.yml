@@ -3,66 +3,72 @@ fa:
   js:
     grid:
       add_widget: افزودن ویجت
-      configure: Configure widget
+      configure: پیکربندی ویجت
       remove: حذف ویجت
-      widget_menu_label: Show menu options for %{widgetName} widget
+      widget_menu_label: نمایش گزینه‌های منو برای ویجت %{widgetName}
       widgets:
         custom_text:
-          title: Custom text
+          title: متن سفارشی
         documents:
           no_results: سندی وجود ندارد.
           title: اسناد
         members:
           title: اعضا
-        missing_permission: You don't have the necessary permissions to view this widget.
+        missing_permission: مجوز لازم برای مشاهده این ویجت را ندارید.
         news:
-          title: News
-        not_available: This widget is currently unavailable.
+          title: اخبار
+        not_available: این ویجت در حال حاضر در دسترس نیست.
         project_description:
-          title: Description
+          title: توضیحات
         project_favorites:
-          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
-          title: Favorite projects
+          no_results: در حال حاضر پروژه محبوبی ندارید. یک یا چند پروژه را از نمای کلی یا فهرست پروژه‌ها به علاقه‌مندی‌ها اضافه کنید.
+          title: پروژه‌های موردعلاقه
         project_status:
-          at_risk: At risk
-          discontinued: Discontinued
-          finished: پایان یافته
+          at_risk: در معرض خطر
+          discontinued: متوقف‌شده
+          finished: پایان‌یافته
           not_set: تنظیم نشده
-          not_started: Not started
-          off_track: Off track
-          on_track: On track
-          title: Status
+          not_started: شروع‌نشده
+          off_track: خارج از مسیر
+          on_track: در مسیر
+          title: وضعیت
         project_timeline:
-          accessible_date_range: "%{start} to %{end}"
-          accessible_gate: 'Phase gate %{name}: %{date}'
-          accessible_phase: 'Phase %{name}: %{date}'
-          tooltip_type_gate: Phase gate
-          tooltip_type_milestone: Milestone
-          tooltip_type_phase: Phase
-          tooltip_type_sprint: Sprint
+          accessible_date_range: "%{start} تا %{end}"
+          accessible_gate: 'نقطه کنترل مرحله %{name}: %{date}'
+          accessible_milestone: 'Milestone %{name}: %{date}'
+          accessible_phase: 'مرحله %{name}: %{date}'
+          accessible_sprint: 'Sprint %{name}: %{date}. Status: %{status}'
+          sprint_status:
+            active: Active
+            completed: Completed
+            in_planning: In planning
+          tooltip_type_gate: نقطه کنترل مرحله
+          tooltip_type_milestone: نقطه عطف
+          tooltip_type_phase: مرحله
+          tooltip_type_sprint: اسپرینت
         subprojects:
-          title: Subitems
+          title: زیرموردها
         time_entries_current_user:
-          displayed_days: 'Days displayed in the widget:'
-          title: My spent time
+          displayed_days: 'روزهای نمایش‌داده‌شده در ویجت:'
+          title: زمان صرف‌شده من
         time_entries_list:
-          no_results: زمانی برای 7 روز آخر وارد نشده.
-          title: زمان سپری شده (7 روز آخر)
+          no_results: در ۷ روز گذشته ورودی زمانی وجود ندارد.
+          title: زمان صرف‌شده (۷ روز گذشته)
         work_packages_accountable:
-          title: Work packages I am accountable for
+          title: بسته‌های کاری که مسئول نهایی آن‌ها هستم
         work_packages_assigned:
-          title: Work packages assigned to me
+          title: بسته‌های کاری تخصیص‌یافته به من
         work_packages_calendar:
           title: تقویم‌ها
         work_packages_created:
-          title: Work packages created by me
+          title: بسته‌های کاری ایجادشده توسط من
         work_packages_graph:
-          summary: "%{chartType} chart showing work packages which are %{description}."
-          title: Work packages graph
+          summary: نمودار %{chartType} که بسته‌های کاری %{description} را نشان می‌دهد.
+          title: گراف بسته‌های کاری
         work_packages_overview:
           placeholder: برای ویرایش کلیک کنید...
-          title: Work packages overview
+          title: نمای کلی بسته‌های کاری
         work_packages_table:
-          title: Work packages table
+          title: جدول بسته‌های کاری
         work_packages_watched:
-          title: Work packages watched by me
+          title: بسته‌های کاری دنبال‌شده توسط من

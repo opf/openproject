@@ -38,17 +38,16 @@ module WorkPackageTypes
     private
 
     def set_attributes(params)
-      permitted = params.except(:copy_workflow_from)
+      permitted = params.except(:copy_workflow_from, :enabled_in_new_projects)
 
       check_patterns(permitted)
       check_copy_workflow(params)
-      check_projects(permitted)
 
       super(permitted.except(*@param_validations.keys))
     end
 
     def validate_and_result
-      success, errors = validate(model, user, options: {})
+      success, errors = validate(model, user, options: contract_options || {})
 
       if @param_validations.empty?
         ServiceResult.new(success:, errors:, result: model)
@@ -80,15 +79,6 @@ module WorkPackageTypes
       result = CopyWorkflowAttributeContract.new.call(params.slice(:copy_workflow_from))
       if result.failure?
         @param_validations.update({ copy_workflow_from: validation_failure_to_message(result).join(", ") })
-      end
-    end
-
-    def check_projects(params)
-      return unless params.key?(:project_ids)
-
-      invalid_project_ids = params[:project_ids].reject { |id| id.blank? || Project.exists?(id) }
-      unless invalid_project_ids.empty?
-        @param_validations.update({ project_ids: "Projects with ids #{invalid_project_ids.join(', ')} do not exist." })
       end
     end
 

@@ -12,7 +12,7 @@ fr:
         authentication_method: Méthode d'authentification
         authentication_methods:
           oauth2_sso: Authentification unique via le fournisseur d'identité OpenID Connect
-          two_way_oauth2: Flux d'autorisation OAuth 2.0 bidirectionnel par code d'autorisation
+          two_way_oauth2: Flux bidirectionnel de code d'autorisation OAuth 2.0
         token_exchange_scope: Portée XWiki
         url: URL de l'instance
         wiki_audience: Audience de XWiki
@@ -27,7 +27,12 @@ fr:
       wikis/inline_page_link:
         one: Lien de page en ligne
         other: Liens de page en ligne
-      wikis/internal_provider: Wiki interne
+      wikis/internal_provider:
+        one: Fournisseur interne
+        other: Fournisseurs internes
+      wikis/page_link:
+        one: Lien de page
+        other: Liens de page
       wikis/provider:
         one: Fournisseur de wiki
         other: Fournisseurs de wiki
@@ -36,22 +41,20 @@ fr:
         other: Liens de la page de relation
       wikis/xwiki_provider:
         one: Fournisseur XWiki
-        other: Fournisseur XWiki
+        other: Fournisseurs XWiki
   menus:
     admin:
-      external_wiki_providers: Fournisseurs de wiki
-      internal_wiki_provider: Wiki interne
+      external_wiki_providers: Fournisseurs de wiki externes
+      internal_wiki_provider: Wikis de projet
       wikis: Wikis
+    project_settings:
+      wiki: Wiki du projet
   permission_manage_wiki_page_links: Gérer les liens vers les pages wiki
-  project_module_wiki_internal: Wiki du projet
-  project_module_wiki_platforms: Fournisseurs de wiki
-  projects_settings_wiki:
-    title: Wiki du projet
   wikis:
     admin:
       destroy_confirmation_dialog_component:
-        description_html: Le fournisseur du wiki %{wiki_provider} et tous les liens de la page wiki correspondante seront supprimés. En outre, chaque lien de page wiki en ligne ne sera plus accessible. Cette action est irréversible.
-        heading: Supprimer définitivement ce fournisseur wiki ?
+        description_html: Le fournisseur wiki %{wiki_provider} et tous les liens vers les pages wiki associées seront supprimés. De plus, chaque lien intégré vers une page wiki ne sera plus accessible. Cette action est irréversible.
+        heading: Supprimer définitivement ce fournisseur de wiki ?
         title: Supprimer le fournisseur de wiki
       forms:
         general_info_form_component:
@@ -68,32 +71,32 @@ fr:
         show:
           actions:
             download_report: Télécharger
-            rerun_checks: Exécuter à nouveau toutes les vérifications
-            run_checks: Vérifier maintenant
-          last_check: 'Dernière vérification : %{datetime}'
-          no_health_report: Aucun rapport disponible
-          no_health_report_description: Lancez les contrôles maintenant pour obtenir un rapport complet sur l'état de santé de ce fournisseur wiki.
+            rerun_checks: Relancer toutes les vérifications
+            run_checks: Lancer les vérifications maintenant
+          last_check: 'Dernière vérification : %{datetime}'
+          no_health_report: Aucun bilan de santé disponible
+          no_health_report_description: Lancez les vérifications maintenant pour obtenir un rapport complet sur l'état de santé de ce fournisseur de wiki.
           title: Bilan de santé
       internal_provider_form:
-        checkbox_caption: Permettre aux projets d'utiliser le wiki interne d'OpenProject ainsi que des fournisseurs de wiki externes
-        checkbox_label: Activer le wiki interne d'OpenProject
+        checkbox_caption: Autoriser les projets à utiliser les wikis de projet en complément des fournisseurs de wiki externes
+        checkbox_label: Activer les wikis de projet OpenProject
       internal_wiki_provider:
         show:
-          description: Choisissez d'activer ou de désactiver le wiki interne d'OpenProject
+          description: Choisissez d'activer ou de désactiver les wikis de projet
       oauth_application_info_component:
-        confirm_replace_oauth_application: Cette action réinitialisera les informations d'identification OAuth actuelles. Après confirmation, vous devrez saisir à nouveau les informations d'identification dans votre instance XWiki et tous les utilisateurs devront se réautoriser. Voulez-vous vraiment continuer ?
+        confirm_replace_oauth_application: Cette action réinitialisera les identifiants OAuth actuels. Après confirmation, vous devrez saisir à nouveau les identifiants dans votre instance XWiki et tous les utilisateurs devront renouveler leur autorisation. Voulez-vous vraiment continuer ?
         label_oauth_client_id: ID client OAuth
         replace_oauth_application: Remplacer l'application OpenProject OAuth
       oauth_client_info_component:
-        confirm_replace_oauth_client: Cette action réinitialisera les identifiants XWiki OAuth actuels. Tous les utilisateurs devront réautoriser sur XWiki. Voulez-vous vraiment continuer ?
+        confirm_replace_oauth_client: Cette action réinitialisera les identifiants OAuth XWiki actuels. Tous les utilisateurs devront renouveler leur autorisation auprès de XWiki. Voulez-vous vraiment continuer ?
         label_oauth_client_id: ID client OAuth
         replace_oauth_client: Remplacer l'application XWiki OAuth
       side_panel:
         health_status_component:
-          last_check: 'Dernière vérification : %{datetime}'
-          open_report: Ouvrir le rapport complet sur l'état de santé
-          run_checks: Vérifier maintenant
-          title: Rapport sur l'état de santé
+          last_check: 'Dernière vérification : %{datetime}'
+          open_report: Ouvrir le bilan de santé complet
+          run_checks: Lancer les vérifications maintenant
+          title: Bilan de santé
       wiki_provider_list_component:
         label_creation_time: Créé
         label_name: Nom
@@ -148,7 +151,7 @@ fr:
       authentication:
         existing_token: Jeton d'utilisateur
         header: Authentification
-        user_bound_request: Authentification des requêtes basée sur l’utilisateur
+        user_bound_request: Authentification des requêtes basée sur l'utilisateur
       base_configuration:
         header: Configuration
         provider_configured: Configuration terminée
@@ -159,11 +162,12 @@ fr:
         uid_mismatch: L'identifiant universel communiqué par le fournisseur de wiki ne correspond pas à celui enregistré par OpenProject lors de la configuration.
         xwiki_oauth_connection_error: OpenProject n'a pas pu se connecter à l'instance XWiki configurée.
         xwiki_oauth_request_error: Une erreur inattendue s'est produite lors de la tentative de communication avec l'instance XWiki.
-        xwiki_oauth_token_missing: OpenProject ne peut pas tester la communication au niveau de l'utilisateur avec XWiki car l'utilisateur n'a pas encore connecté son compte XWiki.
+        xwiki_oauth_token_missing: OpenProject ne peut pas tester les échanges entre l'utilisateur et XWiki, car l'utilisateur n'a pas encore connecté son compte XWiki.
         xwiki_oauth_unauthorized: Le jeton d'utilisateur n'a pas été reconnu par XWiki.
     index:
       column_last_edited: Dernière modification
       column_name: Page wiki
+      column_parent: Parent
       column_project: Projet
       column_sub_pages: Sous-pages
       filter_by_name: Filtrer par nom de page
@@ -196,7 +200,7 @@ fr:
     page_link_forms:
       labels:
         page_title: Titre
-        parent: Page wiki parent
+        parent: Parent
         wiki_page: Page wiki
       search:
         no_results: Aucune page wiki trouvée
@@ -211,9 +215,13 @@ fr:
         parent: En tant que parent
     project_settings:
       project_internal_wiki_component:
+        blankslate_description: Pour cette instance, les wikis de projet sont désactivés au niveau global et ne peuvent donc pas être activés projet par projet. Veuillez demander à votre administrateur d'activer les wikis au niveau global dans les paramètres d'administration.
+        blankslate_title: Les wikis de projet sont désactivés au niveau global
         caption: Cela permet d'activer les fonctionnalités wiki natives pour ce projet. Les membres pourront créer et consulter des pages wiki stockées dans OpenProject.
-        enable: Activer le wiki interne pour ce projet
+        enable: Activer le wiki OpenProject pour ce projet
     provider_types:
+      internal:
+        name: OpenProject
       xwiki:
         name: XWiki
     relation_page_links_component:

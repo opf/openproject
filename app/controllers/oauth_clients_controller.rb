@@ -82,10 +82,8 @@ class OAuthClientsController < ApplicationController
     integration = oauth_client.integration
     destination_url = destination_url(params.fetch(:destination_url, ""))
     configuration = integration.oauth_configuration
-    connection = ::OAuthClients::ConnectionManager.new(user: User.current, configuration:)
-                                                  .get_access_token
 
-    if connection.success?
+    if ::OAuthClients::TokenFetcher.new(user: User.current).connected?(oauth_client: configuration.oauth_client)
       redirect_to(destination_url)
     else
       nonce = SecureRandom.uuid
@@ -147,7 +145,7 @@ class OAuthClientsController < ApplicationController
   def extract_error_messages(error)
     error = error.to_active_model_errors if error.respond_to?(:to_active_model_errors)
 
-    if error.is_a?(::Wikis::Adapters::Results::Error)
+    if error.is_a?(SimpleError)
       ["An unexpected error occurred: #{error.code}, #{error.source}"]
     else
       error.map(&:full_message)

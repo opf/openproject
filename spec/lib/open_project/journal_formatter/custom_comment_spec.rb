@@ -115,4 +115,59 @@ RSpec.describe OpenProject::JournalFormatter::CustomComment do
 
     include_examples "results are expected"
   end
+
+  context "with a Proc-based :view_permission option" do
+    let(:expected_label) { "<strong>#{custom_field.name} comment</strong>" }
+    let(:expected_link) { relative_link }
+    let(:values) { [nil, "new value"] }
+
+    context "when the proc, receiving the resolved custom field, allows" do
+      let(:options) do
+        expected_custom_field = custom_field
+        { view_permission: ->(field) { field == expected_custom_field } }
+      end
+
+      include_examples "results are expected"
+    end
+
+    context "when the proc, receiving the resolved custom field, denies" do
+      let(:options) do
+        expected_custom_field = custom_field
+        { view_permission: ->(field) { field != expected_custom_field } }
+      end
+
+      it "renders the permission denied message" do
+        expect(rendered).to eq("<em>#{I18n.t(:text_journal_permission_denied)}</em>")
+      end
+    end
+  end
+
+  context "with a named (Symbol) :view_permission option" do
+    let(:values) { [nil, "new value"] }
+    let(:options) { { view_permission: :view_project } }
+    let(:project) { build_stubbed(:project) }
+    let(:journal) { instance_double(Journal, id:, project:) }
+    let(:expected_label) { "<strong>#{custom_field.name} comment</strong>" }
+    let(:expected_link) { relative_link }
+
+    context "when the current user has the permission in the project" do
+      before do
+        allow(User.current).to receive(:allowed_in_project?).with(:view_project, project).and_return(true)
+      end
+
+      include_examples "results are expected"
+    end
+
+    context "when the current user lacks the permission in the project" do
+      before do
+        allow(User.current).to receive(:allowed_in_project?).with(:view_project, project).and_return(false)
+      end
+
+      it "renders the permission denied message" do
+        expect(rendered).to include(I18n.t(:text_journal_permission_denied))
+        expect(rendered).not_to include(expected_label)
+        expect(rendered).not_to include(expected_link)
+      end
+    end
+  end
 end

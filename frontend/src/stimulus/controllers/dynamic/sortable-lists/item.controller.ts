@@ -314,10 +314,11 @@ export default class ItemController extends Controller<HTMLElement> implements R
   // flicker while the pointer crosses them. Above the first row (the list
   // header) or below the last row (empty space) the pointer has left the rows
   // region, and the list's configured drop position must take over, so the
-  // sticky target lets go there. Rows are direct children of the rows
-  // container, so the item's parent element is that container.
+  // sticky target lets go there. Rows are direct children of the owning
+  // list's rows container, resolved through the root; the item's own parent
+  // element is only a fallback for a rootless item (not yet wired to one).
   private isWithinRowsSpan(input:Input):boolean {
-    const rowsContainer = this.element.parentElement;
+    const rowsContainer = this.root?.ownerRowsContainer(this.element) ?? this.element.parentElement;
     const firstRow = rowsContainer?.firstElementChild;
     const lastRow = rowsContainer?.lastElementChild;
 

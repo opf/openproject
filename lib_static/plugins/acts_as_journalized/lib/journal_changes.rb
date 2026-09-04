@@ -33,7 +33,13 @@ module JournalChanges
     return @changes if @changes
     return {} if data.nil?
 
-    changes = [
+    merged = all_changes.compact.reduce({}.with_indifferent_access, :merge!)
+
+    @changes = suppress_version_change(merged)
+  end
+
+  def all_changes
+    [
       get_cause_changes,
       get_data_changes,
       get_attachments_changes,
@@ -41,14 +47,11 @@ module JournalChanges
       get_custom_fields_changes,
       get_project_phases_changes,
       get_target_versions_changes,
+      get_observed_in_versions_changes,
       get_file_links_changes,
       get_participants_changes,
       get_agenda_items_changes
-    ].compact
-
-    merged = changes.reduce({}.with_indifferent_access, :merge!)
-
-    @changes = suppress_mirrored_version_change(merged)
+    ]
   end
 
   def get_cause_changes
@@ -143,6 +146,16 @@ module JournalChanges
     { target_versions: [old_value, new_value] }
   end
 
+  def get_observed_in_versions_changes
+    return unless journable.respond_to?(:observed_in_versions)
+
+    old_value = predecessor && joined_observed_in_version_ids(predecessor)
+    new_value = joined_observed_in_version_ids(self)
+    return if old_value == new_value
+
+    { observed_in_versions: [old_value, new_value] }
+  end
+
   def get_file_links_changes
     return unless has_file_links?
 
@@ -187,18 +200,21 @@ module JournalChanges
 
   private
 
-  # While the deprecated version_id column mirrors the target versions, a
-  # version change diffs under both keys; only the target_versions
-  # representation is rendered. Historical journals render the same way,
-  # since every versioned journal has a backfilled target snapshot.
-  def suppress_mirrored_version_change(changes)
-    changes.delete("version_id") if changes.key?("target_versions")
+  # The version_id column is no longer written, so a diff on it never reflects a real
+  # change. target_versions is the journaled representation, and historical journals
+  # render from it too, since every versioned journal has a backfilled target snapshot.
+  def suppress_version_change(changes)
+    changes.delete("version_id")
 
     changes
   end
 
   def joined_target_version_ids(journal)
     journal.target_version_journals.map(&:version_id).sort.join(",").presence
+  end
+
+  def joined_observed_in_version_ids(journal)
+    journal.observed_in_version_journals.map(&:version_id).sort.join(",").presence
   end
 
   def participant_baseline_journal

@@ -187,6 +187,10 @@ The timeline displays allocations across the selected time scale.
 
 The **Users timeline** groups planned work by user instead of by work package.
 
+> [!TIP]
+>
+> Resource planners do not include placeholder users. 
+
 This view helps identify:
 
 - available capacity

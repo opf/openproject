@@ -73,4 +73,36 @@ describe('CkeditorAugmentedTextareaComponent', () => {
 
     expect(sync).toHaveBeenCalledTimes(1);
   });
+
+  describe('form submit interception', () => {
+    let form:HTMLFormElement;
+    let sync:ReturnType<typeof vi.spyOn>;
+    let saveForm:ReturnType<typeof vi.spyOn>;
+
+    beforeEach(() => {
+      form = document.createElement('form');
+      component.formElement = form;
+      sync = vi.spyOn(component, 'syncToTextarea').mockImplementation(() => undefined);
+      saveForm = vi.spyOn(component, 'saveForm').mockResolvedValue(undefined);
+      (component as unknown as { registerFormSubmitListener():void }).registerFormSubmitListener();
+    });
+
+    it('delegates to saveForm when submit is not already prevented', () => {
+      const event = new SubmitEvent('submit', { cancelable: true, bubbles: true });
+      form.dispatchEvent(event);
+
+      expect(event.defaultPrevented).toBe(true);
+      expect(saveForm).toHaveBeenCalledWith(event);
+      expect(sync).not.toHaveBeenCalled();
+    });
+
+    it('only syncs when another handler already prevented default', () => {
+      const event = new SubmitEvent('submit', { cancelable: true, bubbles: true });
+      event.preventDefault();
+      form.dispatchEvent(event);
+
+      expect(saveForm).not.toHaveBeenCalled();
+      expect(sync).toHaveBeenCalledTimes(1);
+    });
+  });
 });

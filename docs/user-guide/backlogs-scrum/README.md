@@ -35,7 +35,7 @@ Depending on the sprint status, either a **Start sprint** (for sprints in planni
 
 > [!NOTE]
 > The **Start sprint** button is disabled by default if another sprint is already active or if no sprint dates have been defined. It might also not be available if you do not have the **Start/complete sprints** permission.
-> By default, only one sprint can be active at a time. If your project is configured to allow multiple active sprints in the [project backlog settings](../projects/project-settings/backlogs-settings)](../projects/project-settings/backlogs-settings), the **Start sprint** button remains available for additional sprints.
+> By default, only one sprint can be active at a time. If your project is configured to allow multiple active sprints in the [project backlog settings](../projects/project-settings/backlogs-settings), the **Start sprint** button remains available for additional sprints.
 
 ### Backlog buckets
 
@@ -70,6 +70,7 @@ A work package:
 
 You can sort work packages within all containers (backlog bucket, inbox and sprints)  via drag and drop or by using the **Move** option from the work package menu. You can also add new and existing work packages within all containers (backlog bucket, inbox and sprints) by using the **More (three dots)** menu.
 
+
 #### Create a backlog bucket
 
 To create a backlog bucket, click the **+ Backlog bucket** button in the Backlog and sprints view. This will open a dialog where you can enter the bucket name. Click **Create** to proceed.
@@ -91,6 +92,11 @@ Open the **More (three dots)** menu of a backlog bucket to:
 When deleting a backlog bucket, all contained work packages are automatically moved to the bottom of the Inbox backlog. 
 
 Work packages can also be moved directly into a backlog bucket from the work packages More menu. If multiple backlog buckets exist, OpenProject lets you choose the target bucket. The work package is placed at the bottom of the selected bucket.
+
+Changes to a work package's backlog bucket are recorded in the work package **Activity** tab. This allows you to see when a work package was moved into, out of or between backlog buckets.
+
+> [!NOTE]
+> Backlog bucket changes are only visible in the Activity tab if you have the required permissions to view sprint and backlog information.
 
 #### All backlog buckets
 
@@ -141,6 +147,17 @@ Depending on the current location of the work package, you can move it:
 
 ![Move options menu for a backlog item showing reorder and sprint assignment options](openproject_user_guide_backlog_move_options.png)
 
+You can also drag a work package card out of OpenProject and drop it into an external application that supports browser drag and drop. Depending on the target application, this can:
+
+- insert the work package URL as plain text,
+- open the work package URL when dropped onto another browser window's address bar or tab strip,
+- insert a hyperlink with the work package subject as link text when dropped into a rich-text editor.
+
+The URL is the same URL available through **More (three dots) → Copy**.
+
+> [!NOTE]
+> How a dropped work package is handled and displayed depends on the target application, browser and operating system. Some applications may not accept drag and drop from all browsers.
+
 ### Excluded work package types and statuses
 
 Depending on the project configuration, certain work package types and statuses can be excluded from the Inbox backlog and backlog buckets. This can be configured under [project backlog settings](../projects/project-settings/backlogs-settings).
@@ -182,7 +199,7 @@ When editing a shared sprint, OpenProject indicates which fields are shared acro
 Your sprint is set in motion by clicking the **Start sprint** button in the sprint header. Clicking it will open the sprint board. 
 
 > [!NOTE]
-> If your project is not configured to allow multiple active sprints, you cannot start a new sprint while another sprint is already in progress. In this case, the **Start sprint** button is disabled. To allow multiple active sprints, see [project backlog settings](../projects/project-settings/backlogs-settings)](../projects/project-settings/backlogs-settings).
+> If your project is not configured to allow multiple active sprints (Enterprise add-on), you cannot start a new sprint while another sprint is already in progress. In this case, the **Start sprint** button is disabled. To allow multiple active sprints, see [project backlog settings](../projects/project-settings/backlogs-settings).
 
 ![Start sprint button in the Backlogs module interface](openproject_user_guide_backlogs_start_button_sprint.png)
 
@@ -285,6 +302,8 @@ The Sprint property can also be used in work package tables. You can:
 > [!NOTE]
 > Viewing Sprint information in work package tables requires the appropriate project permissions.
 
+You can also change the Sprint or Backlog assignment of multiple work packages at once using [bulk edit](../work-packages/edit-work-package/#bulk-edit-work-packages).
+
 ### Burndown charts
 
 **Burndown charts** are a helpful tool to visualize a sprint's progress. With OpenProject, you can generate sprint and task burndown charts automatically.
@@ -305,6 +324,12 @@ The remaining story points per sprint are displayed in the chart. Optionally, th
 Sprint sharing allows multiple projects to use the same sprint structure. A sprint can be shared with other projects, subprojects, or not shared. This is configured under [project settings](../projects/project-settings/backlogs-settings). 
 
 Shared sprints can help teams coordinate planning across projects and support scaled agile frameworks such as SAFe.
+
+### Multiple active sprints
+
+[feature: multiple_active_sprints ]
+
+You can have more than one sprint active at the same time. This setting needs to be activated under [project settings](../projects/project-settings/backlogs-settings/#multiple-active-sprints).
 
 ## All sprints
 

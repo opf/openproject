@@ -120,7 +120,7 @@ ru:
     button_cancel: Отмена
     button_change_project: Переместить в другой проект
     button_check_all: Отметить все
-    button_clear: Clear
+    button_clear: Очистить
     button_close: Закрыть
     button_close_details: Закрыть детальный просмотр
     button_collapse_all: Свернуть все
@@ -129,7 +129,7 @@ ru:
     button_continue: Продолжить
     button_copy: Копировать
     button_copy_link_to_clipboard: Копировать ссылку в буфер обмена
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_numeric_id_to_clipboard: Скопировать числовой идентификатор в буфер обмена
     button_copy_to_clipboard: Копировать в буфер обмена
     button_copy_to_other_project: Дублировать в другой проект
     button_create: Создать
@@ -144,7 +144,7 @@ ru:
     button_filter: Фильтр
     button_generate_pdf: Создать PDF
     button_list_view: В виде списка
-    button_log_time: Журналировать время
+    button_log_time: Добавить трудозатраты
     button_more: Ещё
     button_more_actions: Еще действия
     button_open_details: Открыть детальный просмотр
@@ -205,21 +205,21 @@ ru:
       error_saving_failed: 'Не удалось сохранить документ по следующей причине: %{error}'
       macro:
         attribute_reference:
-          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_project_attribute: Динамический атрибут проекта, размещенный с помощью макроса.
           aria_label_with_name: "%{name}: %{description}"
-          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
-          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
+          aria_label_work_package_attribute: Динамический атрибут пакета работ, размещенный с помощью макроса.
+          aria_label_work_package_link: Динамическая ссылка на пакет работ, размещенная с помощью макроса.
           invalid_attribute: Выбранный атрибут '%{name}' не существует.
           nested_macro: Этот макрос рекурсивно ссылается на %{model} %{id}.
           not_found: Запрошенный ресурс не найден
         child_pages:
-          button: List of sub-pages
+          button: Список подстраниц
           hint: 'Оставьте это поле пустым, чтобы перечислить все дочерние страницы текущей страницы. Если вы хотите описать другую страницу, предоставьте ее заголовок или иденцифицирующую строку.
 
             '
           include_parent: Включить родителя
           page: Wiki страница
-          text: "[Placeholder] List of sub-pages of"
+          text: "[Заполнитель] Список подстраниц"
           this_page: эта страница
         code_block:
           button: Вставить фрагмент кода
@@ -233,7 +233,7 @@ ru:
           text: "[Placeholder] Таблица внедренных пакетов работ"
         error: 'Невозможно развернуть макрос: %{message}'
         macro_dropdown:
-          caption: Insert
+          caption: Вставить
         toc: Содержание
         toolbar_help: Кликните для выбора виджета и показа панели инструментов. Кликните дважды для редактирования виджета
         wiki_page_include:
@@ -498,7 +498,7 @@ ru:
     label_in_less_than: менее чем
     label_in_more_than: более чем
     label_incoming_emails: Входящие письма
-    label_infinity: Infinity
+    label_infinity: Бесконечность
     label_information_plural: Информация
     label_invalid: Неверно
     label_last_updated_on: Последний раз обновлено
@@ -522,7 +522,7 @@ ru:
     label_no_start_date: нет даты начала
     label_no_value: Нет значения
     label_none: Ничего
-    label_not_available: Not available
+    label_not_available: Недоступно
     label_not_contains: не содержит
     label_not_equals: не
     label_on: на
@@ -810,12 +810,12 @@ ru:
       sorting_disabled: сортировка отключена
     sortable_lists:
       announcements:
-        fallback_item_label: Item
-        fallback_list_name: another list
-        move_failed_check_position: Move failed. Check the item's current position.
-        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
-        moved: "%{label} moved to position %{position} of %{total}"
-        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+        fallback_item_label: Элемент
+        fallback_list_name: другой список
+        move_failed_check_position: Не удалось переместить. Проверьте текущую позицию.
+        move_failed_rolled_back: Перемещение не удалось. %{label} вернулся на прежнюю позицию.
+        moved: "%{label} перемещен на позицию %{position} из %{total}"
+        moved_to_list: "%{label} перемещен в %{list}, на позицию %{position} из %{total}"
     spot:
       drop_modal:
         close: Закрыть диалоговое окно
@@ -1121,7 +1121,7 @@ ru:
         activity: Деятельность
         files: Файлы
         overview: Обзор
-        project_attributes: Project attributes
+        project_attributes: Атрибуты проекта
         relations: Связи
         watchers: Наблюдатель
       time_relative:

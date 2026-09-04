@@ -70,6 +70,40 @@ RSpec.describe Queries::Copy::FiltersMapper do
     end
   end
 
+  describe "with a query holding the target_versions filter",
+           with_settings: { work_package_multiple_versions: true } do
+    let(:query) do
+      build(:query).tap { it.add_filter "target_version_id", "=", ["3"] }
+    end
+
+    subject { instance.map_query!(query) }
+
+    before do
+      state.version_id_lookup = { 3 => 33 }
+    end
+
+    it "maps the filter values" do
+      expect(subject[1].values).to eq(["33"])
+    end
+  end
+
+  describe "with a query holding the version filter and multiple versions inactive",
+           with_settings: { work_package_multiple_versions: false } do
+    let(:query) do
+      build(:query).tap { it.add_filter "version_id", "=", ["3"] }
+    end
+
+    subject { instance.map_query!(query) }
+
+    before do
+      state.version_id_lookup = { 3 => 33 }
+    end
+
+    it "maps the filter values" do
+      expect(subject[1].values).to eq(["33"])
+    end
+  end
+
   describe "with a filter hash array" do
     let(:filters) do
       [
@@ -101,6 +135,24 @@ RSpec.describe Queries::Copy::FiltersMapper do
         expect(subject[1]["category_id"]["values"]).to eq(["2"])
         expect(subject[2]["version_id"]["values"]).to eq(["3"])
       end
+    end
+  end
+
+  describe "with a filter hash array holding the target versions filter" do
+    let(:filters) do
+      [
+        { "targetVersion" => { "operator" => "=", "values" => ["3"] } }
+      ]
+    end
+
+    subject { instance.map_filters(filters) }
+
+    before do
+      state.version_id_lookup = { 3 => 33 }
+    end
+
+    it "maps the filter values" do
+      expect(subject[0]["targetVersion"]["values"]).to eq(["33"])
     end
   end
 

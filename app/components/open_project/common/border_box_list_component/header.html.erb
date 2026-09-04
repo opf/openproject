@@ -47,8 +47,7 @@ See COPYRIGHT and LICENSE files for more details.
         render(
           Primer::OpenProject::BorderBox::CollapsibleHeader.new(
             collapsible_id:,
-            collapsed:,
-            multi_line:
+            collapsed:
           )
         ) do |collapsible|
       %>
@@ -68,8 +67,15 @@ See COPYRIGHT and LICENSE files for more details.
   <% else %>
     <% grid.with_area(:heading) do %>
       <%= render(Primer::BaseComponent.new(tag: :div, classes: "op-border-box-list-header--heading-line")) do %>
-        <%= render(Primer::Beta::Truncate.new(**title_arguments, tag: title_tag, classes: title_classes)) do %>
-          <%= title_content %>
+        <% if breadcrumbs? %>
+          <%= render(Primer::BaseComponent.new(**title_arguments, tag: title_tag, classes: hidden_title_classes)) do %>
+            <%= title_content %>
+          <% end %>
+          <%= breadcrumbs %>
+        <% else %>
+          <%= render(Primer::Beta::Truncate.new(**title_arguments, tag: title_tag, classes: title_classes)) do %>
+            <%= title_content %>
+          <% end %>
         <% end %>
         <% if render_count? %>
           <%= render(Primer::Beta::Counter.new(**counter_arguments)) %>
@@ -81,6 +87,12 @@ See COPYRIGHT and LICENSE files for more details.
   <% if description? && !collapsible? %>
     <% grid.with_area(:description) do %>
       <%= description %>
+    <% end %>
+  <% end %>
+
+  <% if label? %>
+    <% grid.with_area(:label) do %>
+      <%= label %>
     <% end %>
   <% end %>
 

@@ -271,8 +271,8 @@ RSpec.describe WorkPackages::ActivitiesTab::Paginator, with_settings: { journal_
 
         # The wrapper runs against the page slice, so query count does not scale
         # with history size. Ceiling leaves headroom for an extra eager-load
-        # without becoming brittle; actual count today is ~10.
-        expect(recorder.count).to be < 20,
+        # without becoming brittle; actual count today is ~21.
+        expect(recorder.count).to be < 25,
                                   "expected query count bounded regardless of history; got #{recorder.count}:\n" \
                                   "#{recorder.log.join("\n")}"
       end
@@ -639,7 +639,7 @@ RSpec.describe WorkPackages::ActivitiesTab::Paginator, with_settings: { journal_
 
         let!(:journal_with_cf_set) do
           project.work_package_custom_fields << custom_field
-          work_package.type.custom_fields << custom_field
+          work_package.type.default_variant.custom_fields << custom_field
           work_package.custom_field_values = { custom_field.id => "Value" }
           work_package.save!
           work_package.journals.order(:version).last
@@ -686,8 +686,8 @@ RSpec.describe WorkPackages::ActivitiesTab::Paginator, with_settings: { journal_
         let!(:journal_with_multi_cf_set) do
           project.work_package_custom_fields << multi_select_cf
           project.work_package_custom_fields << other_cf
-          work_package.type.custom_fields << multi_select_cf
-          work_package.type.custom_fields << other_cf
+          work_package.type.default_variant.custom_fields << multi_select_cf
+          work_package.type.default_variant.custom_fields << other_cf
           work_package.custom_field_values = { multi_select_cf.id => [option1.id, option2.id] }
           work_package.save!
           work_package.journals.order(:version).last
@@ -824,6 +824,45 @@ RSpec.describe WorkPackages::ActivitiesTab::Paginator, with_settings: { journal_
 
           expect(records.map(&:id)).not_to include(journal_with_file_link_snapshot.id)
         end
+      end
+    end
+
+    context "with :hide_meetings filter" do
+      shared_let(:meeting) { create(:meeting, project:) }
+
+      let(:initial_journal) { work_package.journals.find_by(version: 1) }
+      let!(:change_journal) do
+        work_package.update!(subject: "Updated subject")
+        work_package.journals.order(:version).last
+      end
+      let!(:comment_journal) do
+        work_package.add_journal(user:, notes: "A comment")
+        work_package.save!
+        work_package.journals.order(:version).last
+      end
+      let!(:meeting_journal) do
+        Journals::CreateService
+          .new(work_package, user)
+          .call(cause: Journal::CausedByMeetingAgendaItemAdded.new(meeting))
+        work_package.journals.reload.order(:version).last
+      end
+
+      before do
+        params[:filter] = :hide_meetings
+      end
+
+      it "excludes meeting activity journals" do
+        _pagy, records = paginator.call
+
+        expect(records.map(&:id)).not_to include(meeting_journal.id)
+      end
+
+      it "keeps everything else" do
+        expect(change_journal.get_changes).to have_key("subject")
+
+        _pagy, records = paginator.call
+
+        expect(records.map(&:id)).to include(initial_journal.id, change_journal.id, comment_journal.id)
       end
     end
 

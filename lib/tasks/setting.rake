@@ -63,15 +63,6 @@ namespace :setting do
 
   desc "List the supported environment variables to override settings"
   task available_envs: :environment do
-    names_and_definitions = Settings::Definition.all.map do |_, definition|
-      env_name = Settings::Definition.possible_env_names(definition).first
-      env_name = definition.env_alias if definition.env_alias&.start_with?("OPENPROJECT_")
-
-      [env_name, definition]
-    end
-
-    names_and_definitions.sort_by { |env_name, _| env_name.downcase }.each do |env_name, definition|
-      puts "#{env_name} (default=#{definition.default.inspect}) #{definition.description}"
-    end
+    puts OpenProject::EnvironmentVariablesDocumentation.rows
   end
 end

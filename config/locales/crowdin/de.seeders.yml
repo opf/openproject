@@ -71,6 +71,15 @@ de:
           name: Mitarbeiter und Projektmanager
         item_1:
           name: Globale Standardrolle
+      ai_text_transform_actions:
+        item_0:
+          label: Grammatik korrigieren
+        item_1:
+          label: Prägnant formulieren
+        item_2:
+          label: Ins Englische übersetzen
+        item_3:
+          label: In Vorlage sortieren
     standard:
       project_phases:
         item_0:
@@ -506,14 +515,14 @@ de:
           name: Bug
       global_queries:
         item_0:
-          name: 'Epic children: User stories and bugs'
+          name: 'Epic Kindelemente: Nutzerberichte und Fehlermeldungen'
         item_1:
-          name: 'User story children: Tasks'
+          name: 'User-Story Elemente: Aufgaben'
       type_configuration:
         item_0:
           form_configuration:
             item_0:
-              group_name: User stories and bugs
+              group_name: User Stories und Bugs
         item_1:
           form_configuration:
             item_0:

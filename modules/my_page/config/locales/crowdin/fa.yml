@@ -1,4 +1,9 @@
 ---
 fa:
+  activerecord:
+    models:
+      grids/my_page:
+        one: صفحهٔ من
+        other: صفحه‌های من
   my_page:
-    label: برگه‌های من
+    label: صفحهٔ من

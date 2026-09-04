@@ -1,5 +1,11 @@
 ---
 lv:
+  activerecord:
+    models:
+      grids/overview:
+        zero: Overviews
+        one: Overview
+        other: Overviews
   overviews:
     label_dashboard: Informācijas panelis
     label_home: "%{workspace_type} home"

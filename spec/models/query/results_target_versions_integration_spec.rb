@@ -31,7 +31,6 @@
 require "spec_helper"
 
 RSpec.describe Query::Results, "Grouping and sorting for target versions",
-               with_flag: { work_package_multiple_versions: true },
                with_settings: { work_package_multiple_versions: true } do
   let(:query_results) do
     described_class.new query

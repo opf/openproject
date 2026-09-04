@@ -29,7 +29,27 @@
 #++
 class BasicDataSeeder < CompositeSeeder
   def data_seeder_classes
-    raise SubclassResponsibilityError
+    [
+      ::BasicData::BuiltinUsersSeeder,
+      ::BasicData::ProjectRoleSeeder,
+      ::BasicData::WorkPackageRoleSeeder,
+      ::BasicData::ProjectQueryRoleSeeder,
+      ::BasicData::GlobalRoleSeeder,
+      ::BasicData::TimeEntryActivitySeeder,
+      ::BasicData::ColorSeeder,
+      ::BasicData::ColorSchemeSeeder,
+      ::BasicData::PluginAuthProviderSeeder,
+      ::BasicData::ProjectPhaseColorSeeder,
+      ::BasicData::ProjectPhaseDefinitionSeeder,
+      ::BasicData::StatusSeeder,
+      ::BasicData::TypeSeeder,
+      ::BasicData::WorkflowSeeder,
+      ::BasicData::PrioritySeeder,
+      ::BasicData::SettingSeeder,
+      ::BasicData::ProjectCustomFieldSectionSeeder,
+      ::BasicData::UserCustomFieldSectionSeeder,
+      ::BasicData::AiTextTransformActionSeeder
+    ]
   end
 
   def namespace

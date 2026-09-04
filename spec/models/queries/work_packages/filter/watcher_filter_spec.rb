@@ -34,6 +34,30 @@ RSpec.describe Queries::WorkPackages::Filter::WatcherFilter do
   let(:user) { build_stubbed(:user) }
   let(:pemissions) { [:view_work_package_watchers] }
 
+  describe "#autocomplete_options" do
+    let(:project) { create(:project) }
+    let(:instance) { described_class.create!(context: build_stubbed(:query, project:)) }
+
+    context "with the :view_work_package_watchers permission" do
+      current_user { create(:user, member_with_permissions: { project => [:view_work_package_watchers] }) }
+
+      it "restricts the candidates to users of the project" do
+        expect(instance.autocomplete_options[:filters])
+          .to contain_exactly({ name: "type", operator: "=", values: %w[User] },
+                              { name: "member", operator: "=", values: [project.id.to_s] })
+      end
+    end
+
+    context "without the :view_work_package_watchers permission" do
+      current_user { create(:user, member_with_permissions: { project => [:view_work_packages] }) }
+
+      it "falls back to the list input, where the me value is the only candidate" do
+        expect(instance.autocomplete_options)
+          .to be_empty
+      end
+    end
+  end
+
   it_behaves_like "basic query filter" do
     let(:type) { :list }
     let(:class_key) { :watcher_id }

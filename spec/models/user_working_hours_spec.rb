@@ -74,6 +74,26 @@ RSpec.describe UserWorkingHours do
                                                                        .is_greater_than_or_equal_to(0)
                                                                        .is_less_than_or_equal_to(100)
     end
+
+    describe "with a nil weekday column (e.g. omitted from a create payload)" do
+      it "is invalid rather than raising when a single weekday is nil" do
+        subject.public_send(:wednesday=, nil)
+
+        expect { subject.valid? }.not_to raise_error
+        expect(subject).not_to be_valid
+        expect(subject.errors[:wednesday_hours]).to be_present
+      end
+
+      it "is invalid rather than raising when every weekday is nil" do
+        %i[monday tuesday wednesday thursday friday saturday sunday].each do |day|
+          subject.public_send(:"#{day}=", nil)
+        end
+
+        expect { subject.valid? }.not_to raise_error
+        expect(subject).not_to be_valid
+        expect(subject.errors[:days]).to be_present
+      end
+    end
   end
 
   describe "hours accessors" do
@@ -84,6 +104,11 @@ RSpec.describe UserWorkingHours do
         it "returns the minutes value converted to hours" do
           working_hours.public_send("#{day}=", 150)
           expect(working_hours.public_send("#{day}_hours")).to eq(2.5)
+        end
+
+        it "returns 0.0 rather than raising when the underlying minutes column is nil" do
+          working_hours.public_send("#{day}=", nil)
+          expect(working_hours.public_send("#{day}_hours")).to eq(0.0)
         end
       end
 
@@ -136,6 +161,55 @@ RSpec.describe UserWorkingHours do
 
     it "returns 0.0 for a non-working day" do
       expect(working_hours.wednesday_hours).to eq(0.0)
+    end
+  end
+
+  describe "#minutes_on" do
+    before do
+      working_hours.monday = 480
+      working_hours.saturday = 0
+      working_hours.sunday = 120
+    end
+
+    it "returns the minutes defined for the date's week day" do
+      expect(working_hours.minutes_on(Date.new(2026, 8, 3))).to eq(480) # Monday
+      expect(working_hours.minutes_on(Date.new(2026, 8, 1))).to eq(0)   # Saturday
+      expect(working_hours.minutes_on(Date.new(2026, 8, 2))).to eq(120) # Sunday
+    end
+  end
+
+  describe "#effective_minutes_on" do
+    let(:monday) { Date.new(2026, 8, 3) }
+    let(:saturday) { Date.new(2026, 8, 1) }
+
+    before do
+      working_hours.monday = 480
+      working_hours.saturday = 0
+    end
+
+    it "reduces the week day's minutes by the availability factor" do
+      working_hours.availability_factor = 75
+
+      expect(working_hours.effective_minutes_on(monday)).to eq(360)
+    end
+
+    it "returns the full minutes at full availability" do
+      working_hours.availability_factor = 100
+
+      expect(working_hours.effective_minutes_on(monday)).to eq(480)
+    end
+
+    it "rounds to whole minutes" do
+      working_hours.monday = 450
+      working_hours.availability_factor = 33
+
+      expect(working_hours.effective_minutes_on(monday)).to eq(149) # 148.5 rounded
+    end
+
+    it "stays at zero for a day without working minutes" do
+      working_hours.availability_factor = 75
+
+      expect(working_hours.effective_minutes_on(saturday)).to eq(0)
     end
   end
 

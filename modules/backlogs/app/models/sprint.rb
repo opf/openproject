@@ -77,13 +77,7 @@ class Sprint < ApplicationRecord
             comparison: { greater_than_or_equal_to: :start_date },
             if: :date_range_set?
 
-  validates :status,
-            uniqueness: {
-              scope: :project_id,
-              conditions: -> { active },
-              message: :only_one_active_sprint_allowed
-            },
-            if: -> { active? && !allow_multiple_active_sprints? }
+  validate :validate_only_one_active_sprint, if: -> { active? && !allow_multiple_active_sprints? }
 
   def date_range_set?
     start_date? && finish_date?
@@ -124,4 +118,12 @@ class Sprint < ApplicationRecord
   end
 
   def to_s = name
+
+  private
+
+  def validate_only_one_active_sprint
+    return unless self.class.for_project(project).active.where.not(id:).exists?
+
+    errors.add :status, :only_one_active_sprint_allowed
+  end
 end

@@ -49,6 +49,12 @@ module OpenProject
         #   overlay with this label. The overlay becomes visible while a
         #   sortable item hovers the surrounding `[data-drop-container="active"]`
         #   list.
+        # @param action_label [String, nil] optional call-to-action rendered as
+        #   the blankslate's primary action.
+        # @param action_icon [Symbol, nil] optional leading icon for the
+        #   call-to-action.
+        # @param action_arguments [Hash] forwarded to the primary-action button
+        #   (e.g. `href:`, `scheme:`, `data:`).
         # @param system_arguments [Hash] forwarded to `Primer::Beta::Blankslate`.
         def initialize(
           title:,
@@ -56,6 +62,9 @@ module OpenProject
           icon: nil,
           interactive: false,
           drop_target_label: nil,
+          action_label: nil,
+          action_icon: nil,
+          action_arguments: {},
           **system_arguments
         )
           super()
@@ -64,6 +73,9 @@ module OpenProject
           @description = description
           @icon = icon
           @drop_target_label = drop_target_label
+          @action_label = action_label
+          @action_icon = action_icon
+          @action_arguments = action_arguments.deep_dup
 
           @system_arguments = system_arguments
           return unless interactive
@@ -84,6 +96,12 @@ module OpenProject
           blankslate.with_heading(tag: :h4).with_content(@title)
           blankslate.with_description_content(@description) if @description
           blankslate.with_visual_icon(icon: @icon) if @icon
+
+          if @action_label.present?
+            action = blankslate.with_primary_action(**@action_arguments)
+            action.with_leading_visual_icon(icon: @action_icon) if @action_icon
+            action.with_content(@action_label)
+          end
 
           blankslate
         end

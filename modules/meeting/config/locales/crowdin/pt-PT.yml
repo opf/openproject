@@ -44,7 +44,7 @@ pt-PT:
         start_time: Hora de início
         start_time_hour: Hora de início
         template: Modelo
-        type: Tipo de Reunião
+        type: Tipo de reunião
       meeting_agenda_item:
         author: Autor
         description: Notas
@@ -55,8 +55,10 @@ pt-PT:
         position: Posição
         presenter: Apresentador
         title: Título
+      meeting_outcome:
+        kind: Tipo
       meeting_participant:
-        attended: Participou
+        attended: Participantes
         invited: Convidados
         participation_status: Estado de participação
       meeting_section:
@@ -98,11 +100,27 @@ pt-PT:
         recurring_meeting_interim_response:
           not_an_occurrence: não é uma hora de ocorrência válida para esta reunião periódica
     models:
-      meeting: Reunião única
-      meeting_agenda: Agenda
-      meeting_agenda_item: Pontos da ordem de trabalhos
-      meeting_section: Secção
-      recurring_meeting: Reunião recorrente
+      meeting:
+        one: Reunião única
+        other: Reuniões únicas
+      meeting_agenda_item:
+        one: Pontos da ordem de trabalhos
+        other: Pontos da ordem de trabalhos
+      meeting_outcome:
+        one: Resultado
+        other: Resultados
+      meeting_participant:
+        one: Participante na reunião
+        other: Participantes na reunião
+      meeting_section:
+        one: Secção
+        other: Secções
+      recurring_meeting:
+        one: Reunião recorrente
+        other: Reuniões recorrentes
+      scheduled_meeting:
+        one: Reunião agendada
+        other: Reuniões agendadas
       token/ical_meeting:
         one: Subscrição de reunião iCal
         other: Subscrição de reunião iCal
@@ -150,15 +168,15 @@ pt-PT:
   label_agenda_item_duplicate_in_next: Duplicar na próxima reunião
   label_agenda_item_duplicate_in_next_title: Duplicar na próxima reunião?
   label_agenda_item_move: Mover
-  label_agenda_item_move_down: Descer
+  label_agenda_item_move_down: Mover para baixo
   label_agenda_item_move_to_backlog: Mover para o backlog
-  label_agenda_item_move_to_bottom: Mover para o último
+  label_agenda_item_move_to_bottom: Mover para o fim
   label_agenda_item_move_to_current_meeting: Mover para reunião atual
   label_agenda_item_move_to_next: Ir para a próxima reunião
   label_agenda_item_move_to_next_title: Passar para a próxima reunião?
   label_agenda_item_move_to_section: Mover para a secção
-  label_agenda_item_move_to_top: Mover para o início
-  label_agenda_item_move_up: Subir
+  label_agenda_item_move_to_top: Mover para o topo
+  label_agenda_item_move_up: Mover para cima
   label_agenda_item_remove_from_agenda: Remover da ordem de trabalhos
   label_agenda_item_remove_from_backlog: Remover do backlog
   label_agenda_item_undisclosed_wp: 'Pacote de trabalho #%{id} não visível'
@@ -192,11 +210,11 @@ pt-PT:
   label_meeting_close_action: Encerrar reunião
   label_meeting_create: Criar reunião
   label_meeting_create_from_template: Criar reunião a partir de modelo
-  label_meeting_created_by: Criado por
+  label_meeting_created_by: Criada por
   label_meeting_date_and_time: Data e hora
   label_meeting_date_time: Data/Hora
   label_meeting_delete: Apagar reunião
-  label_meeting_details: Detalhes da Reunião
+  label_meeting_details: Detalhes da reunião
   label_meeting_details_edit: Editar detalhes da reunião
   label_meeting_diff: Diferença
   label_meeting_duplicate: Duplicar reunião
@@ -231,10 +249,10 @@ pt-PT:
   label_meeting_state: Estado da reunião
   label_meeting_state_agenda_created: Agenda criada
   label_meeting_state_cancelled: Cancelada
-  label_meeting_state_closed: Fechado
+  label_meeting_state_closed: Fechada
   label_meeting_state_draft: Rascunho
   label_meeting_state_in_progress: A decorrer
-  label_meeting_state_open: Abrir
+  label_meeting_state_open: Aberta
   label_meeting_state_planned: Planeada
   label_meeting_state_skipped: Ignorada
   label_meeting_template: Modelo
@@ -251,9 +269,8 @@ pt-PT:
   label_notify: Enviar para revisão
   label_past_invitations: Convites anteriores
   label_past_meetings: Reuniões anteriores
-  label_past_meetings_short: Passado
+  label_past_meetings_short: Anteriores
   label_recurring_filter: Filtro recorrente
-  label_recurring_meeting: Reunião recorrente
   label_recurring_meeting_cancel: Cancelar esta ocorrência
   label_recurring_meeting_create: Abrir
   label_recurring_meeting_delete: Eliminar ocorrência
@@ -351,7 +368,7 @@ pt-PT:
         summary_series: A série de reuniões "%{title}" foi terminada por %{actor}
       invited:
         summary: '%{actor} enviou-lhe um convite para a reunião "%{title}"'
-      open_meeting_link: Entrar na Reunião
+      open_meeting_link: Abrir reunião
       open_my_meetings_link: Ir para As minhas reuniões
       send_emails: Enviar um e-mail aos participantes
       send_invitation_emails: 'Envie imediatamente um convite por e-mail aos participantes selecionados acima. Também pode fazê-lo manualmente em qualquer altura.
@@ -447,7 +464,7 @@ pt-PT:
         heading: Sem participantes
       label:
         apply_to_upcoming_meetings: Aplicar estas alterações a todas as próximas reuniões desta série
-        attended: Participou
+        attended: Participantes
         manage_participants: Gerir participantes
         mark_all_as_attended: Marcar todas como assistidas
         mark_as_attended: Marcar como assistida
@@ -663,7 +680,7 @@ pt-PT:
 
         '
       title: Diferença de fuso horário
-  text_add_work_package_to_meeting_description: Um pacote de trabalho pode ser adicionado a uma ou várias reuniões para discussão. Quaisquer notas relacionadas a ele também serão visíveis aqui.
+  text_add_work_package_to_meeting_description: Um pacote de trabalho pode ser adicionado a uma ou várias reuniões para discussão. As notas relativas ao mesmo também são visíveis aqui.
   text_add_work_package_to_meeting_form: O pacote de trabalho será adicionado à reunião selecionada ou ao backlog como elemento da agenda.
   text_agenda_backlog: 'Este backlog é exclusivo para esta reunião única. Pode arrastar itens para dentro e para fora para adicioná-los ou removê-los da agenda da reunião.
 
@@ -682,7 +699,7 @@ pt-PT:
   text_agenda_item_moved_to_next_meeting: Ponto da ordem de trabalhos transferido para a reunião seguinte, a %{date}
   text_agenda_item_no_available_occurrence: Não estão disponíveis ocorrências futuras.
   text_agenda_item_no_notes: Nenhuma nota fornecida.
-  text_agenda_item_not_editable_anymore: Este item da agenda não pode ser mais editado.
+  text_agenda_item_not_editable_anymore: Este ponto da ordem de trabalhos já não é editável.
   text_agenda_item_title: Ponto da ordem de trabalhos "%{title}"
   text_agenda_work_package_deleted: Ponto da ordem de trabalhos para pacote de trabalho eliminado
   text_backlog_clear_error: Ocorreram um ou mais erros quando se tentava limpar o backlog.
@@ -697,21 +714,21 @@ pt-PT:
   text_in_hours: em horas
   text_meeting_agenda_for_meeting: agenda para a reunião "%{meeting}"
   text_meeting_agenda_open_are_you_sure: Isto irá gravar por cima de todas as alterações nos minutos! Pretende continuar?
-  text_meeting_closed_description: Esta reunião está encerrada. Você não pode mais adicionar/remover itens da agenda.
+  text_meeting_closed_description: Esta reunião está encerrada. Já não é possível adicionar ou remover pontos da ordem de trabalhos.
   text_meeting_closed_dropdown_description: Esta reunião está encerrada. Já não é possível modificar os pontos da ordem de trabalhos ou os resultados.
   text_meeting_closing_are_you_sure: Tem a certeza de que deseja fechar a agenda da reunião?
   text_meeting_draft_banner: Está no modo de rascunho. Esta reunião não enviará atualizações de calendário ou convites, mesmo que altere os detalhes da reunião ou adicione/remova participantes.
   text_meeting_draft_description: Prepare a sua agenda em modo de rascunho. Esta reunião não enviará atualizações de calendário ou convites, mesmo que altere os detalhes da reunião ou adicione/remova participantes.
-  text_meeting_empty_description1: Comece por adicionar os itens da agenda abaixo. Cada item pode ser tão simples como um título, mas também pode adicionar detalhes adicionais, como a duração e notas.
-  text_meeting_empty_description2: Também pode adicionar referências a pacotes de trabalho existentes. Ao fazê-lo, as notas relacionadas ficarão automaticamente visíveis no separador "Reuniões" do pacote de trabalho.
+  text_meeting_empty_description1: Comece por adicionar os pontos da ordem de trabalhos abaixo. Cada ponto pode ser tão simples como um título, mas também pode adicionar dados adicionais, como duração e notas.
+  text_meeting_empty_description2: Também pode adicionar referências a pacotes de trabalho existentes. Ao fazê-lo, as notas relacionadas ficam automaticamente visíveis no separador "Reuniões" do pacote de trabalho.
   text_meeting_empty_heading: A sua reunião está vazia
   text_meeting_ics_description: 'Ligação à reunião: %{url}'
   text_meeting_ics_meeting_series_description: 'Ligação à série de reuniões: %{url}'
   text_meeting_in_progress_description: Pode modificar a ordem de trabalhos, documentar os resultados de cada elemento e acompanhar a presença dos participantes. Quando a reunião estiver concluída, pode marcá-la como encerrada para a bloquear.
   text_meeting_in_progress_dropdown_description: Documentar os resultados, como as necessidades de informação ou as decisões tomadas durante a reunião.
   text_meeting_minutes_for_meeting: minutos para a reunião "%{meeting}"
-  text_meeting_not_editable_anymore: Esta reunião não é mais editável.
-  text_meeting_not_present_anymore: Esta reunião foi excluída. Por favor, selecione outra reunião.
+  text_meeting_not_editable_anymore: Esta reunião já não pode ser editada.
+  text_meeting_not_present_anymore: Esta reunião foi eliminada. Selecione outra reunião.
   text_meeting_occurrence_ics_description: 'Ligação para a ocorrência de reuniões: %{url} Ligação à série de reuniões: %{series_url}'
   text_meeting_open_description: Pode adicionar/remover elementos da agenda e participantes. Quando a agenda estiver pronta, marque-a como em curso para documentar os resultados.
   text_meeting_open_dropdown_description: Os resultados existentes serão mantidos, mas os utilizadores não poderão acrescentar novos resultados.
@@ -734,4 +751,4 @@ pt-PT:
     '
   text_work_package_add_to_meeting_hint: Use o botão "Adicionar à reunião" para adicionar este pacote de trabalho a uma reunião futura.
   text_work_package_has_no_past_meeting_agenda_items: Este pacote de trabalho não foi acrescentado como ponto da ordem de trabalhos numa reunião anterior.
-  text_work_package_has_no_upcoming_meeting_agenda_items: Este pacote de trabalho ainda não está agendado em uma reunião futura.
+  text_work_package_has_no_upcoming_meeting_agenda_items: Este pacote de trabalho ainda não está agendado numa reunião futura.

@@ -23,7 +23,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -39,11 +39,117 @@ RSpec.describe WorkPackages::Exports::Generate::ModalDialogComponent, type: :com
   describe "#templates_options", with_flag: { type_variants: true } do
     it "lists the enabled templates of the type the PDF config is linked to" do
       source = create(:type)
-      source.pdf_export_templates.disable_all
-      source.save!
-      type.link!(Type::ConfigurationLink::PDF_EXPORT, source:)
+      source.default_variant.pdf_export_templates.disable_all
+      source.default_variant.save!
+      link_configuration(type, source:, aspect: TypeVariant::PDF_EXPORT)
 
       expect(component.templates_options).to be_empty
+    end
+  end
+
+  describe "#attributes_settings" do
+    it "defaults the footer text, orientation and hyphenation" do
+      expect(component.attributes_settings).to eq(
+        footer_text: work_package.project.name,
+        page_orientation: "portrait",
+        hyphenation: false,
+        hyphenation_language: component.hyphenation_default[:value]
+      )
+    end
+
+    context "when the type has stored defaults for this template" do
+      before do
+        type.default_variant.pdf_export_templates.update_settings(
+          "attributes",
+          "footer_text" => "Stored footer", "page_orientation" => "landscape", "hyphenation" => "true"
+        )
+        type.default_variant.save!
+      end
+
+      it "pre-fills the fields from the Type's stored settings" do
+        expect(component.attributes_settings).to eq(
+          footer_text: "Stored footer",
+          page_orientation: "landscape",
+          hyphenation: true,
+          hyphenation_language: component.hyphenation_default[:value]
+        )
+      end
+    end
+
+    context "when the type has a stored hyphenation_language and the current locale has no match" do
+      before do
+        I18n.locale = :ja
+        type.default_variant.pdf_export_templates.update_settings("attributes", "hyphenation_language" => "fr")
+        type.default_variant.save!
+      end
+
+      after { I18n.locale = I18n.default_locale }
+
+      it "uses the Type's stored language" do
+        expect(component.attributes_settings[:hyphenation_language]).to eq("fr")
+      end
+    end
+
+    context "when the type has a stored hyphenation_language and the current locale also has a match" do
+      before do
+        I18n.locale = :en
+        type.default_variant.pdf_export_templates.update_settings("attributes", "hyphenation_language" => "fr")
+        type.default_variant.save!
+      end
+
+      after { I18n.locale = I18n.default_locale }
+
+      it "prefers the Type's stored language over the auto-detected locale match" do
+        expect(component.attributes_settings[:hyphenation_language]).to eq("fr")
+      end
+    end
+  end
+
+  describe "#contract_settings" do
+    it "defaults the footer text and hyphenation" do
+      expect(component.contract_settings).to eq(
+        footer_text_center: work_package.subject,
+        hyphenation: false,
+        hyphenation_language: component.hyphenation_default[:value]
+      )
+    end
+
+    context "when the type has a stored default for this template" do
+      before do
+        type.default_variant.pdf_export_templates.update_settings("contract", "footer_text_center" => "Stored center footer")
+        type.default_variant.save!
+      end
+
+      it "pre-fills the field from the Type's stored settings" do
+        expect(component.contract_settings[:footer_text_center]).to eq("Stored center footer")
+      end
+    end
+  end
+
+  describe "#artefact_settings" do
+    it "defaults the table of contents to WorkPackage::PDFExport::Artefact::DEFAULT_TOC" do
+      expect(component.artefact_settings).to eq(
+        toc: WorkPackage::PDFExport::Artefact::DEFAULT_TOC,
+        hyphenation: false,
+        hyphenation_language: component.hyphenation_default[:value]
+      )
+    end
+
+    context "when the type has a stored default explicitly disabling the table of contents" do
+      before do
+        type.default_variant.pdf_export_templates.update_settings("artefact", "toc" => "false")
+        type.default_variant.save!
+      end
+
+      it "resolves the stored string setting to a real boolean, not a truthy string" do
+        expect(component.artefact_settings[:toc]).to be(false)
+      end
+    end
+  end
+
+  describe "#template_form_id" do
+    it "namespaces the form id by template" do
+      expect(component.template_form_id("contract")).to eq("#{described_class::GENERATE_PDF_FORM_ID}-contract")
     end
   end
 end

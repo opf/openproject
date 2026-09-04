@@ -29,14 +29,17 @@
 #++
 
 module Workflows
+  # The matrix edits one named variant, held below as `variant`. Every configuration read here
+  # is that variant's own: an admin editing a variant means that variant, not whatever a
+  # project would resolve to.
   class MatrixContext
     TABS = %w[always author assignee].freeze
     DEFAULT_TAB = "always"
 
-    attr_reader :type
+    attr_reader :variant
 
-    def initialize(type:, tab: nil, role_ids: nil, status_ids: nil, displayed_status_ids: nil)
-      @type = type
+    def initialize(variant:, tab: nil, role_ids: nil, status_ids: nil, displayed_status_ids: nil)
+      @variant = variant
       @requested_tab = tab
       @requested_role_ids = role_ids
       @requested_status_ids = status_ids_from(status_ids)
@@ -50,7 +53,7 @@ module Workflows
       @tab ||= TABS.include?(@requested_tab.to_s) ? @requested_tab.to_s : DEFAULT_TAB
     end
 
-    def readonly? = type.linked?(Type::ConfigurationLink::WORKFLOWS)
+    def readonly? = variant.linked?(TypeVariant::WORKFLOWS)
 
     def eligible_roles
       @eligible_roles ||= Workflow.ordered_eligible_roles
@@ -71,7 +74,7 @@ module Workflows
                     elsif roles.any?
                       Status.where(id: saved_status_ids)
                     else
-                      type.statuses
+                      variant.statuses
                     end
     end
 
@@ -83,7 +86,7 @@ module Workflows
       @added_status_ids ||= requested_status_ids - saved_status_ids
     end
 
-    # Statuses that saving the pending selection would drop from the type, deleting their
+    # Statuses that saving the pending selection would drop from the variant, deleting their
     # transitions along with them.
     def removed_status_ids
       return [] if requested_status_ids.blank?
@@ -109,7 +112,7 @@ module Workflows
     end
 
     def workflows
-      @workflows ||= type
+      @workflows ||= variant
                        .workflows
                        .where(role_id: roles.map(&:id))
                        .select { belongs_to_tab?(it) }
@@ -132,7 +135,7 @@ module Workflows
     # The baseline a pending selection is compared against: always what the selected roles
     # have saved, never the pending selection itself.
     def saved_status_ids
-      @saved_status_ids ||= roles.flat_map { type.statuses(role: it, tab:).pluck(:id) }.uniq
+      @saved_status_ids ||= roles.flat_map { variant.statuses(role: it, tab:).pluck(:id) }.uniq
     end
   end
 end

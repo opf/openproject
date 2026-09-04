@@ -35,14 +35,12 @@ RSpec.describe CustomActions::Actions::Type do
   let(:priority) { 20 }
   let(:type) { :associated_property }
   let(:allowed_values) do
-    root = build_stubbed(:type, name: "Task")
-    sub = build_stubbed(:type, name: "Bug", parent: root)
-    relation = instance_double(ActiveRecord::Relation)
-    allow(Type).to receive(:preload).with(:parent).and_return(relation)
-    allow(relation).to receive(:order).with(:position).and_return([root, sub])
+    task = build_stubbed(:type, name: "Task")
+    bug = build_stubbed(:type, name: "Bug")
+    allow(Type).to receive(:order).with(:position).and_return([task, bug])
 
-    [{ value: root.id, label: "Task" },
-     { value: sub.id, label: "Task: Bug" }]
+    [{ value: task.id, label: "Task" },
+     { value: bug.id, label: "Bug" }]
   end
 
   it_behaves_like "base custom action"

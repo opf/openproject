@@ -240,12 +240,12 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     # And the current description matches ANY current default text
     return unless work_package.description.blank? || default_description?
 
-    work_package.description = work_package.type&.description
+    work_package.description = work_package.type_variant&.default_work_package_description
   end
 
   def default_description?
-    Type
-      .pluck(:description)
+    TypeVariant
+      .pluck(:default_work_package_description)
       .compact
       .map(&method(:normalize_whitespace))
       .include?(normalize_whitespace(work_package.description))
@@ -275,7 +275,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     return unless work_package.project_id_changed? && work_package.project_id
 
     model.change_by_system do
-      set_versions_to_nil
+      clear_unassignable_versions
       reassign_category
       set_parent_to_nil
       clear_semantic_identifier
@@ -369,15 +369,6 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     end
   end
 
-  def set_versions_to_nil
-    if work_package.version &&
-       work_package.project&.shared_versions&.exclude?(work_package.version)
-      work_package.version = nil
-    end
-
-    clear_unassignable_versions
-  end
-
   def clear_unassignable_versions
     assignable_ids = work_package.project&.shared_versions&.pluck(:id) || []
 
@@ -430,9 +421,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
   end
 
   def assign_default_type
-    available_types = work_package.project.types.order(:position)
-
-    work_package.type = available_types.first
+    work_package.type = work_package.project.enabled_types.first
     update_duration_to_one_day_for_milestones
     unify_milestone_dates
 
@@ -449,9 +438,10 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
   def reassign_invalid_status_if_type_changed
     # Checks that the issue can not be moved to a type with the status unchanged
     # and the target type does not have this status
-    if work_package.type_id_changed?
-      reassign_status work_package.type.statuses(include_default: true)
-    end
+    return unless work_package.type_id_changed?
+    return unless work_package.type_variant
+
+    reassign_status work_package.type_variant.statuses(include_default: true)
   end
 
   def new_start_date

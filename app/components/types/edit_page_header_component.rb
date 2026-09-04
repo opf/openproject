@@ -34,32 +34,59 @@ module Types
     include ApplicationHelper
     include TabsHelper
 
-    def initialize(type:, tabs: nil)
+    def initialize(type:, variant: nil, tabs: nil, additional_breadcrumb_items: [], title: nil)
       super
       @type = type
+      @variant = variant
       @tabs = tabs
+      @additional_breadcrumb_items = additional_breadcrumb_items
+      @title = title
+    end
+
+    def title
+      @title || variant_or_type_name
     end
 
     def breadcrumb_items
-      [{ href: admin_index_path, text: t("label_administration") },
-       { href: admin_settings_work_packages_general_path, text: t(:label_work_package_plural) },
-       { href: types_path, text: t(:label_type_plural) },
-       *parent_breadcrumb_item,
-       breadcrumb_leaf]
+      [*helpers.variant_scope_breadcrumb_roots,
+       *variant_breadcrumb_item,
+       *own_breadcrumb_item,
+       *@additional_breadcrumb_items]
     end
 
     private
 
-    def parent_breadcrumb_item
-      return [] if @type.parent.nil?
+    def named_variant? = @variant.is_a?(TypeVariant) && !@variant.is_default_variant?
 
-      [{ href: edit_type_details_path(type_id: @type.parent_id), text: @type.parent.name }]
+    def variant_or_type_name
+      return @type.name unless named_variant?
+
+      t("types.edit.breadcrumb_variant", name: @variant.variant_name)
     end
 
-    def breadcrumb_leaf
-      return @type.own_name unless @type.variant?
+    # Link back to the type's own page when we are on a named variant, since the crumb below
+    # then shows the variant's name rather than the type's.
+    def variant_breadcrumb_item
+      return [] unless named_variant?
 
-      t("types.edit.breadcrumb_variant", name: @type.own_name)
+      [{ href: variant_breadcrumb_href, text: @type.name }]
+    end
+
+    # The type's own screen is administration's, so from a project this leads to that project's
+    # list of types instead.
+    def variant_breadcrumb_href
+      return edit_type_details_path(type_id: @type.id) if scope_project.nil?
+
+      project_settings_work_packages_types_path(scope_project)
+    end
+
+    def scope_project = helpers.variant_scope_project
+
+    def own_breadcrumb_item
+      text = variant_or_type_name
+      return [text] if @additional_breadcrumb_items.blank?
+
+      [{ href: edit_type_details_path(**(@variant&.path_args || { type_id: @type.id })), text: }]
     end
   end
 end

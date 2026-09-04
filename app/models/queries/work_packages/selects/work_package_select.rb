@@ -81,8 +81,11 @@ class Queries::WorkPackages::Selects::WorkPackageSelect
     @displayable.nil? || @displayable
   end
 
-  def sortable
-    resolved = @sortable.respond_to?(:call) ? @sortable.call : @sortable
+  # `query` is passed through to a Proc-valued `sortable` so its SQL can depend on the
+  # owning query (e.g. the live value of an active filter) rather than being fixed at
+  # column-definition time.
+  def sortable(query = nil)
+    resolved = @sortable.respond_to?(:call) ? @sortable.call(query) : @sortable
     name_or_value_or_false(resolved)
   end
 

@@ -33,7 +33,7 @@ module WorkPackage::PDFExport::Wp::Attributes
 
   def write_attributes!(work_package)
     work_package
-      .type.attribute_groups
+      .type_variant.attribute_groups
       .each do |group|
       if group.is_a?(Type::AttributeGroup)
         write_attributes_group(group, work_package)
@@ -290,7 +290,13 @@ module WorkPackage::PDFExport::Wp::Attributes
   end
 
   def column_entry(column_name)
-    { label: WorkPackage.human_attribute_name(column_name), name: column_name }
+    { label: WorkPackage.human_attribute_name(column_label_attribute(column_name)), name: column_name }
+  end
+
+  def column_label_attribute(column_name)
+    return "version" if column_name == "target_versions" && !Setting::WorkPackageMultipleVersions.active?
+
+    column_name
   end
 
   def build_columns_table_cells(attribute_data)

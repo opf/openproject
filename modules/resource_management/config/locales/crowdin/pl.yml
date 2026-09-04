@@ -39,10 +39,37 @@ pl:
             query:
               must_be_work_package_query: musi być zapytaniem pakietu roboczego.
     models:
-      resource_allocation: Przydział zasobów
-      resource_planner: Planista zasobów
-      resource_user_card: Karty użytkowników
-      resource_work_package_list: Lista pakietów roboczych
+      resource_allocation:
+        one: Przydział zasobów
+        few: Przydziały zasobów
+        many: Przydziały zasobów
+        other: Przydziały zasobów
+      resource_planner:
+        one: Planista zasobów
+        few: Planiści zasobów
+        many: Planiści zasobów
+        other: Planiści zasobów
+      resource_user_card:
+        one: Karta użytkownika
+        few: Karty użytkowników
+        many: Karty użytkowników
+        other: Karty użytkowników
+      resource_user_timeline:
+        one: Oś czasu użytkownika
+        few: Osie czasu użytkowników
+        many: Osie czasu użytkowników
+        other: Osie czasu użytkowników
+      resource_work_package_list:
+        one: Lista pakietów roboczych
+        few: Listy pakietów roboczych
+        many: Listy pakietów roboczych
+        other: Listy pakietów roboczych
+      resource_work_package_timeline:
+        one: Oś czasu pakietów roboczych
+        few: Osie czasu pakietów roboczych
+        many: Osie czasu pakietów roboczych
+        other: Osie czasu pakietów roboczych
+  button_next: Dalej
   ee:
     features:
       resource_management: Zarządzanie zasobami
@@ -50,7 +77,6 @@ pl:
       resource_management:
         description: Zaplanuj i zrównoważ obciążenie swojego zespołu pracą za pomocą planistów zasobów. Przydziel ludzi do pakietów roboczych, śledź obciążenia w czasie i dostrzegaj na pierwszy rzut oka nadmierną i niedostateczną alokację.
         title: Zarządzanie zasobami
-  button_next: Dalej
   label_resource_management: Zarządzanie zasobami
   permission_allocate_user_resources: Przydziel zasoby użytkownika
   permission_allocate_user_resources_explanation: Umożliwia użytkownikom tworzenie, aktualizowanie i usuwanie przydziałów zasobów w planiście zasobów. Obejmuje to przypisywanie użytkowników (lub filtrów użytkowników) do planisty oraz dostosowywanie przydzielonego czasu i zakresu dat.
@@ -287,6 +313,12 @@ pl:
         allocate: Przydziel
         settings: Konfiguruj widok
     work_package_timeline:
+      allocation_bar:
+        matching_members_description:
+          one: "%{count} uczestnik tego projektu spełnia kryteria filtrowania przydziału."
+          few: "%{count} uczestników tego projektu spełnia kryteria filtrowania przydziału."
+          many: "%{count} uczestników tego projektu spełnia kryteria filtrowania przydziału."
+          other: "%{count} uczestnika tego projektu spełnia kryteria filtrowania przydziału."
       blank:
         add_work_package: Dodaj pakiet roboczy
         configure_view: Konfiguruj widok

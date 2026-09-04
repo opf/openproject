@@ -315,7 +315,6 @@ class PermittedParams
                                                 :status_code,
                                                 :status_explanation,
                                                 work_package_custom_field_ids: [],
-                                                type_ids: [],
                                                 enabled_module_names: [],
                                                 custom_comments: {})
 
@@ -571,8 +570,8 @@ class PermittedParams
           :done_ratio,
           :due_date,
           :estimated_hours,
-          :version_id,
           { target_version_ids: [] },
+          { observed_in_version_ids: [] },
           :budget_id,
           :parent_id,
           :priority_id,
@@ -601,6 +600,7 @@ class PermittedParams
           :due_date,
           :status_id,
           { target_version_ids: [] },
+          { observed_in_version_ids: [] },
           :priority_id
         ],
         oauth_application: [
@@ -659,7 +659,7 @@ class PermittedParams
           :parent_id,
           :is_in_roadmap,
           :is_milestone,
-          :is_default,
+          :enabled_in_new_projects,
           :color_id,
           :default,
           :description,

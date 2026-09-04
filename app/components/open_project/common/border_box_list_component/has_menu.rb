@@ -40,39 +40,49 @@ module OpenProject
           # @!parse
           #   # Adds a trailing action menu.
           #   #
+          #   # By default the menu renders the standard invisible
+          #   # kebab-horizontal show button. Pass `button_arguments:` to
+          #   # customize that default trigger, or call `with_show_button` in
+          #   # the slot block to provide a custom trigger.
+          #   #
           #   # @param menu_id [String, nil] id prefix for the Primer action menu.
-          #   # @param button_aria_label [String, nil] accessible label for the
-          #   #   menu button.
+          #   # @param button_aria_label [String, nil] compatibility shortcut
+          #   #   for the default menu button accessible label. Prefer
+          #   #   `button_arguments: { aria: { label: ... } }`.
+          #   # @param button_arguments [Hash] forwarded to the default
+          #   #   `with_show_button` call.
           #   # @param system_arguments [Hash] forwarded to
           #   #   `Primer::Alpha::ActionMenu`.
           #   # @return [ViewComponent::Slot]
-          #   def with_menu(menu_id: nil, button_aria_label: nil, **system_arguments, &block)
+          #   def with_menu(menu_id: nil, button_aria_label: nil, button_arguments: {}, **system_arguments, &block)
           #   end
-          renders_one :menu, ->(menu_id: nil, button_aria_label: nil, **system_arguments) do
-            build_menu(menu_id:, button_aria_label:, **system_arguments)
+          renders_one :menu, ->(menu_id: nil, button_aria_label: nil, button_arguments: {}, **system_arguments) do
+            build_menu(menu_id:, button_aria_label:, button_arguments:, **system_arguments)
           end
         end
 
         private
 
-        def build_menu(menu_id: nil, button_aria_label: nil, **system_arguments)
+        def build_menu(menu_id: nil, button_aria_label: nil, button_arguments: {}, **system_arguments)
           system_arguments[:classes] = class_names(
             system_arguments[:classes],
             "hide-when-print"
           )
 
-          menu = Primer::Alpha::ActionMenu.new(
+          if button_aria_label.present?
+            button_arguments = button_arguments.deep_dup
+            button_arguments[:aria] = merge_aria(
+              { aria: { label: button_aria_label } },
+              button_arguments
+            )
+          end
+
+          Menu.new(
             menu_id: menu_id || default_menu_id,
+            button_arguments:,
             anchor_align: :end,
             **system_arguments
           )
-          menu.with_show_button(
-            scheme: :invisible,
-            icon: :"kebab-horizontal",
-            "aria-label": button_aria_label || I18n.t(:label_actions),
-            tooltip_direction: :se
-          )
-          menu
         end
 
         def default_menu_id

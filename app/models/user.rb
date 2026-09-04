@@ -62,6 +62,11 @@ class User < Principal
            -> { Group.organizational_units },
            through: :group_users,
            source: :group
+  # Departments are surfaced as their own attribute, so they are left out here.
+  has_many :regular_groups,
+           -> { Group.not_organizational_units },
+           through: :group_users,
+           source: :group
 
   has_many :watches, class_name: "Watcher",
                      dependent: :delete_all
@@ -166,7 +171,7 @@ class User < Principal
 
   acts_as_customizable admin_only_allowed: true
 
-  attr_accessor :password, :password_confirmation, :last_before_login_on, :current_password_input
+  attr_accessor :password, :password_confirmation, :last_before_login_on, :current_password_input, :consent_check
 
   validates :login,
             :firstname,
@@ -185,6 +190,8 @@ class User < Principal
 
   validates :mail, email: true, unless: Proc.new { |user| user.mail.blank? }
   validates :mail, length: { maximum: 256, allow_nil: true }
+  # Only on change so that blocking a domain does not make its existing users unsaveable
+  validates :mail, blocked_email_domain: true, if: Proc.new { |user| user.mail_changed? }
 
   validates :password,
             confirmation: {
@@ -279,17 +286,13 @@ class User < Principal
 
   # Tries to authenticate a user in the database via external auth source
   # or password stored in the database
-  def self.try_authentication_for_existing_user(user, password, session = nil) # rubocop:disable Metrics/PerceivedComplexity
+  def self.try_authentication_for_existing_user(user, password, session = nil)
     activate_user! user, session if session
 
-    return nil if !user.active? || OpenProject::Configuration.disable_password_login?
+    return nil unless user.active?
+    return nil unless user.check_password?(password)
 
-    if user.ldap_auth_source
-      # user has an external authentication method
-      return nil unless user.ldap_auth_source.authenticate(user.login, password)
-    else
-      # authentication with local password
-      return nil unless user.check_password?(password)
+    unless user.ldap_auth_source
       return nil if user.force_password_change
       return nil if user.password_expired?
     end
@@ -311,7 +314,7 @@ class User < Principal
 
   # Tries to authenticate with available sources and creates user on success
   def self.try_authentication_and_create_user(login, password)
-    return nil if OpenProject::Configuration.disable_password_login?
+    return nil if Users::PasswordLogin.none?
 
     user = LdapAuthSource.authenticate(login, password)
 
@@ -394,6 +397,8 @@ class User < Principal
   # If +update_legacy+ is set, will automatically save legacy passwords using the current
   # format.
   def check_password?(clear_password, update_legacy: true)
+    return false unless password_login_allowed?
+
     if ldap_auth_source.present?
       ldap_auth_source.authenticate(login, clear_password)
     else
@@ -405,7 +410,7 @@ class User < Principal
 
   # Does the backend storage allow this user to change their password?
   def change_password_allowed?
-    return false if OpenProject::Configuration.disable_password_login?
+    return false unless password_login_allowed?
     return false if uses_external_authentication? && current_password.nil?
 
     ldap_auth_source_id.blank?
@@ -413,7 +418,12 @@ class User < Principal
 
   # Is the user authenticated via an external authentication source via OmniAuth?
   def uses_external_authentication?
-    user_auth_provider_links.exists?
+    # using #any? instead of #exists? so that it also works on unpersisted auth provider links
+    user_auth_provider_links.any?
+  end
+
+  def password_login_allowed?
+    Users::PasswordLogin.allowed?(self)
   end
 
   #

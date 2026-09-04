@@ -29,57 +29,52 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= component_wrapper do %>
   <%=
-    render(Primer::BaseComponent.new(tag: :div, classes: "op-admin-settings-form-wrapper")) do
-      render(
-        Primer::Forms::ToggleSwitchForm.new(
-          name: "enable_work_package_type_all_projects",
-          label: t("types.edit.projects.enable_all"),
-          src: enable_all_type_projects_path(model),
-          csrf_token: form_authenticity_token,
-          status_label_position: :start,
-          checked: enabled_for_all_projects?,
-          data: { turbo: true },
-          mb: 3
+    if enable_all_available?
+      render(Primer::BaseComponent.new(tag: :div, classes: "op-admin-settings-form-wrapper")) do
+        render(
+          Primer::Forms::ToggleSwitchForm.new(
+            name: "enable_work_package_type_all_projects",
+            label: t("types.edit.projects.enable_all"),
+            src: enable_all_type_projects_path(**variant.path_args),
+            csrf_token: form_authenticity_token,
+            status_label_position: :start,
+            checked: enabled_for_all_projects?,
+            data: { turbo: true },
+            mb: 3
+          )
         )
-      )
-    end
-  %>
-  <%=
-    unless enabled_for_all_projects?
-      render(Primer::Beta::Subhead.new) do |subhead|
-        subhead.with_heading(tag: :h3, size: :medium) { t("types.edit.projects.select_projects") }
-        subhead.with_description { t("types.edit.projects.select_projects_description") }
       end
     end
   %>
   <%=
-    unless enabled_for_all_projects?
-      settings_primer_form_with(**form_options) do |form|
-        flex_layout do |container|
-          container.with_row(mb: 3) do
-            render(
-              Primer::Alpha::TreeView.new(
-                expanded: true,
-                data: {
-                  "admin--work-package-type-projects-target": "treeView",
-                  action: "click->admin--work-package-type-projects#updateSelectedProjects"
-                },
-                select_variant: :multiple
-              )
-            ) do |tree_view|
-              build_project_tree(tree_view)
-            end
+    render(Primer::Beta::Subhead.new) do |subhead|
+      subhead.with_heading(tag: :h3, size: :medium) { t("types.edit.projects.select_projects") }
+      subhead.with_description { t("types.edit.projects.select_projects_description") }
+    end
+  %>
+  <%=
+    settings_primer_form_with(**form_options) do |form|
+      flex_layout do |container|
+        container.with_row(mb: 3) do
+          render(
+            Primer::Alpha::TreeView.new(
+              expanded: true,
+              data: { "admin--work-package-type-projects-target": "treeView" },
+              select_variant: :multiple
+            )
+          ) do |tree_view|
+            build_project_tree(tree_view)
           end
+        end
 
-          container.with_row do
-            form.hidden_field :project_ids,
-                              value: "[]",
-                              data: { "admin--work-package-type-projects-target": "selectedProjects" }
-          end
+        container.with_row do
+          form.hidden_field :project_ids,
+                            value: "[]",
+                            data: { "admin--work-package-type-projects-target": "selectedProjects" }
+        end
 
-          container.with_row do
-            render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) { t(:button_save) }
-          end
+        container.with_row do
+          render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) { t(:button_save) }
         end
       end
     end

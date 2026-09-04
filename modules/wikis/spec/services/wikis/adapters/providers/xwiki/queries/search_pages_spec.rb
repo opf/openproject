@@ -29,6 +29,7 @@
 #++
 
 require "spec_helper"
+require_module_spec_helper
 
 RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::SearchPages, :disable_ssrf_filter, :webmock do
   subject { described_class.new(model: provider).call(input_data:, auth_strategy:) }

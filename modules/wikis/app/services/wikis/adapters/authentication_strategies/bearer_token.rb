@@ -40,18 +40,9 @@ module Wikis
         end
 
         def call(http_options: {}, **)
-          fetch_user_token.bind do |token|
-            yield OpenProject.httpx.bearer_auth(token.access_token).with(http_options)
+          OAuthClients::TokenFetcher.new(user: @user).access_token_for(oauth_client: @provider.oauth_client).bind do |token|
+            yield OpenProject.httpx.bearer_auth(token).with(http_options)
           end
-        end
-
-        private
-
-        def fetch_user_token
-          token = OAuthClientToken.for_user_and_client(@user, @provider.oauth_client).first
-          return Success(token) if token
-
-          Failure(Results::Error.new(source: self.class, code: :missing_token))
         end
       end
     end

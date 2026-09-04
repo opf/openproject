@@ -30,49 +30,35 @@
 
 module Projects
   module Types
-    # Migrates a project from one variant to another type of the same family
-    # (a sibling variant or the shared parent). All work packages of the old
-    # variant are switched to the target type before the old variant is removed
-    # and the target type enabled, all within a single transaction.
+    # Moves a project from the variant of a type it applies to another one of the same type,
+    # in either direction: a sibling variant or the type's base. The project's work packages
+    # are untouched: they store the type either way, so the switch is a change of which
+    # configuration the project resolves to, not a retype.
     class SwitchVariantService < BaseService
-      private
-
-      def persist(service_call)
-        source = params[:source]
-        target = params[:target]
-
-        if !source.variant?
-          return failure(:switch_source_not_a_variant)
-        elsif source == target
-          return failure(:switch_target_identical)
-        elsif source.root != target.root
-          return failure(:switch_target_not_in_family)
-        end
-
-        switch(service_call, source, target)
+      def initialize(user:, model:, contract_class: SwitchVariantContract)
+        super
       end
 
-      def switch(service_call, source, target)
-        add_type(target)
-        reassign_work_packages(source, target).each { |wp_result| service_call.add_dependent!(wp_result) }
-        return service_call if service_call.failure?
+      private
 
-        model.types.delete(source)
+      # The pair is what the contract judges, and it only arrives with the call, so the
+      # options cannot be handed over at construction time like a contract class can.
+      def before_perform(service_call)
+        self.contract_options = params.slice(:source, :target)
 
         service_call
       end
 
-      def add_type(target)
-        model.types << target unless model.types.include?(target)
-        enable_work_package_custom_fields(target)
+      def persist(service_call)
+        switch(params[:target])
+
+        service_call
       end
 
-      def reassign_work_packages(source, target)
-        WorkPackage.where(project: model, type: source).map do |work_package|
-          WorkPackages::UpdateService
-            .new(user:, model: work_package)
-            .call(type: target)
-        end
+      def switch(target)
+        model.project_types.find_by!(type_id: target.type_id).update!(variant: target)
+
+        enable_work_package_custom_fields(target)
       end
     end
   end

@@ -47,7 +47,7 @@ module Wikis
     end
 
     def name
-      model_name.human
+      I18n.t("wikis.provider_types.internal.name")
     end
   end
 end

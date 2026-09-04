@@ -33,42 +33,58 @@ RSpec.describe Projects::Types::SwitchVariantService, with_flag: { type_variants
   subject(:service_call) { described_class.new(user:, model: project).call(source:, target:) }
 
   let(:user) { create(:admin) }
-  let(:parent_type) { create(:type) }
-  let(:variant) { create(:type, parent: parent_type) }
-  let(:sibling_variant) { create(:type, parent: parent_type) }
+  let(:type) { create(:type) }
+  let(:base_variant) { type.default_variant }
+  let(:variant) { create(:type_variant, type:) }
+  let(:sibling_variant) { create(:type_variant, type:) }
   let(:project) { create(:project, types: [variant]) }
-  let!(:work_package) { create(:work_package, project:, type: variant) }
+  let!(:work_package) { create(:work_package, project:, type:) }
 
   let(:source) { variant }
   let(:target) { sibling_variant }
 
+  def resolved_variant = project.reload.project_types.sole.variant
+
   context "when switching to a sibling variant" do
-    it "moves the work packages, enables the target and removes the source" do
+    it "resolves the project to the target" do
       expect(service_call).to be_success
-      expect(work_package.reload.type).to eq(sibling_variant)
-      expect(project.reload.types).to contain_exactly(sibling_variant)
+      expect(resolved_variant).to eq(sibling_variant)
+      expect(project.enabled_types).to contain_exactly(type)
+    end
+
+    it "leaves the work packages alone" do
+      expect { service_call }.not_to change { work_package.reload.attributes }
+    end
+
+    it "journals nothing" do
+      expect { service_call }.not_to change(Journal, :count)
     end
   end
 
-  context "when switching to the parent type" do
-    let(:target) { parent_type }
+  context "when switching to the base variant" do
+    let(:target) { base_variant }
 
-    it "moves the work packages to the parent and swaps the enabled types" do
+    it "resolves the project to the type's own configuration" do
       expect(service_call).to be_success
-      expect(work_package.reload.type).to eq(parent_type)
-      expect(project.reload.types).to contain_exactly(parent_type)
+      expect(resolved_variant).to eq(base_variant)
     end
   end
 
-  context "when the source is not a variant" do
-    let(:source) { parent_type }
+  # A project on a type's base variant still has the named ones to offer, so the switch has
+  # to work in this direction too.
+  context "when switching from the base variant to a named one" do
+    let(:project) { create(:project, types: [type]) }
+    let(:source) { base_variant }
     let(:target) { variant }
 
-    it "fails without changing anything" do
-      expect(service_call).to be_failure
-      expect(service_call.errors.symbols_for(:types)).to contain_exactly(:switch_source_not_a_variant)
-      expect(work_package.reload.type).to eq(variant)
-      expect(project.reload.types).to contain_exactly(variant)
+    it "resolves the project to the target" do
+      expect(service_call).to be_success
+      expect(resolved_variant).to eq(variant)
+      expect(project.enabled_types).to contain_exactly(type)
+    end
+
+    it "leaves the work packages alone" do
+      expect { service_call }.not_to change { work_package.reload.attributes }
     end
   end
 
@@ -81,36 +97,38 @@ RSpec.describe Projects::Types::SwitchVariantService, with_flag: { type_variants
     end
   end
 
-  context "when the target belongs to a different family" do
-    let(:target) { create(:type, parent: create(:type)) }
+  context "when the target belongs to a different type" do
+    let(:target) { create(:type_variant) }
 
     it "fails" do
       expect(service_call).to be_failure
       expect(service_call.errors.symbols_for(:types)).to contain_exactly(:switch_target_not_in_family)
     end
+
+    it "says nothing about the user's permissions" do
+      expect(service_call.errors.symbols_for(:base)).to be_empty
+    end
   end
 
-  context "when the user is not allowed to manage types" do
+  # Refused rather than raised on: the caller reaches the service with whatever the request
+  # resolved to, and an unknown id resolves to nothing.
+  context "when no target was given" do
+    let(:target) { nil }
+
+    it "fails without changing anything" do
+      expect(service_call).to be_failure
+      expect(service_call.errors.symbols_for(:types)).to contain_exactly(:switch_target_blank)
+      expect(resolved_variant).to eq(variant)
+    end
+  end
+
+  context "when the user may not author the project's variants" do
     let(:user) { create(:user) }
 
     it "fails without changing anything" do
       expect(service_call).to be_failure
       expect(service_call.errors.symbols_for(:base)).to contain_exactly(:error_unauthorized)
-      expect(work_package.reload.type).to eq(variant)
-      expect(project.reload.types).to contain_exactly(variant)
-    end
-  end
-
-  context "when a work package fails to update" do
-    before do
-      failing_service = instance_double(WorkPackages::UpdateService, call: ServiceResult.failure)
-      allow(WorkPackages::UpdateService).to receive(:new).and_return(failing_service)
-    end
-
-    it "rolls back the entire switch" do
-      expect(service_call).to be_failure
-      expect(work_package.reload.type).to eq(variant)
-      expect(project.reload.types).to contain_exactly(variant)
+      expect(resolved_variant).to eq(variant)
     end
   end
 end

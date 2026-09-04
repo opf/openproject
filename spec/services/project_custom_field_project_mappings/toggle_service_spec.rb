@@ -246,6 +246,39 @@ RSpec.describe ProjectCustomFieldProjectMappings::ToggleService do
     end
   end
 
+  describe "creation_wizard flag on newly created mappings" do
+    shared_let(:user) { create(:admin) }
+
+    shared_let(:custom_field) do
+      create(:project_custom_field,
+             name: "Newly activated field",
+             admin_only: false,
+             project_custom_field_section:)
+    end
+
+    context "when the project has the creation wizard (PIR) enabled" do
+      before do
+        project.update!(project_creation_wizard_enabled: true)
+      end
+
+      it "does not enable it for the creation wizard by default" do
+        expect(instance.call(project_id: project.id, custom_field_id: custom_field.id, value: "1")).to be_success
+
+        mapping = ProjectCustomFieldProjectMapping.find_by(project:, custom_field_id: custom_field.id)
+        expect(mapping.creation_wizard).to be false
+      end
+    end
+
+    context "when the project does not have the creation wizard (PIR) enabled" do
+      it "does not enable it for the creation wizard by default" do
+        expect(instance.call(project_id: project.id, custom_field_id: custom_field.id, value: "1")).to be_success
+
+        mapping = ProjectCustomFieldProjectMapping.find_by(project:, custom_field_id: custom_field.id)
+        expect(mapping.creation_wizard).to be false
+      end
+    end
+  end
+
   describe "calculated values", with_ee: %i[calculated_values] do
     using CustomFieldFormulaReferencing
 

@@ -33,28 +33,28 @@ module WorkPackageTypes
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    ASPECT = Type::ConfigurationLink::FORM_CONFIGURATION
+    ASPECT = TypeVariant::FORM_CONFIGURATION
 
-    def initialize(type:, form_attributes:, no_filter_query:)
-      super(type)
-      @type = type
+    def initialize(variant:, form_attributes:, no_filter_query:)
+      super(variant)
+      @variant = variant
       @form_attributes = form_attributes
       @no_filter_query = no_filter_query
     end
 
     def readonly?
-      OpenProject::FeatureDecisions.type_variants_active? && @type.linked?(ASPECT)
+      OpenProject::FeatureDecisions.type_variants_active? && @variant.linked?(ASPECT)
     end
 
     def source
-      @type.effective_source_for(ASPECT)
+      @variant.effective_source_for(ASPECT)
     end
 
     # We memoize the exclusion state here to avoid an n+1 query
     def exclusion_state
       return @exclusion_state if defined?(@exclusion_state)
 
-      @exclusion_state = readonly? ? WorkPackageTypes::ExclusionState.for(@type, ASPECT) : nil
+      @exclusion_state = readonly? ? WorkPackageTypes::ExclusionState.for(@variant, ASPECT) : nil
     end
 
     def ee_available?
@@ -79,8 +79,10 @@ module WorkPackageTypes
       {
         controller: "admin--type-form-configuration--main admin--type-form-configuration--rows-drag-and-drop",
         "admin--type-form-configuration--main-no-filter-query-value": @no_filter_query,
-        "admin--type-form-configuration--main-add-group-url-value": add_group_type_form_configuration_groups_path(@type),
-        "admin--type-form-configuration--main-groups-url-value": type_form_configuration_groups_path(@type),
+        "admin--type-form-configuration--main-add-group-url-value": add_group_type_form_configuration_groups_path(
+          **@variant.path_args
+        ),
+        "admin--type-form-configuration--main-groups-url-value": type_form_configuration_groups_path(**@variant.path_args),
         "admin--type-form-configuration--rows-drag-and-drop-handle-selector-value": ".attribute-handle"
       }
     end
@@ -97,12 +99,12 @@ module WorkPackageTypes
     end
 
     def main_content_component
-      groups_type = readonly? ? source : @type
+      groups_type = readonly? ? source : @variant
       groups = active_groups
       group_components = groups.map.with_index do |group, i|
         WorkPackageTypes::FormConfiguration::GroupComponent.new(
           group:,
-          type: groups_type,
+          variant: groups_type,
           ee_available: ee_available?,
           first: i == 0,
           last: i == groups.length - 1,
@@ -112,7 +114,7 @@ module WorkPackageTypes
       end
 
       WorkPackageTypes::FormConfiguration::MainContentComponent.new(
-        type: @type,
+        variant: @variant,
         group_components:,
         ee_available: ee_available?,
         readonly: readonly?
@@ -121,9 +123,6 @@ module WorkPackageTypes
 
     private
 
-    # This drops groups that some source link excludes.
-    # This type can only reduce attributes that it still sees.
-    # If the group was toggled off somewhere in the link, we hide it here completely.
     def without_source_exclusions(groups)
       return groups if exclusion_state.nil?
 

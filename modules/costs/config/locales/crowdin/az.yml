@@ -73,9 +73,24 @@ az:
             project_ids:
               blank: Please select a project.
         time_entry:
-          cannot_log_for_this_work_package: Cannot log time for this work package.
-          duplicate_ongoing: An ongoing time entry already exists for this user.
-          invalid_time: must be between 00:00 and 23:59.
+          attributes:
+            entity:
+              blank: Logged for can't be blank.
+              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
+              format: "%{message}"
+            hours:
+              exceeds_user_working_hours: The logged hours cannot exceed the limit of %{limit} hours available on the user's working day.
+              format: "%{message}"
+              max_hours_per_day_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single day defined by the administrator.
+              max_hours_per_entry_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single time entry defined by the administrator.
+            spent_on:
+              format: "%{message}"
+              in_past_month: You can't plan time into a past month. Time entries can only be added, changed or deleted from %{date} onwards.
+              not_a_working_day: The selected day is a non-working day for this user.
+            start_time:
+              format: "%{message}"
+              invalid_time: Invalid time. The time must be between 00:00 and 23:59.
+          duplicate_ongoing: Another timer is already running. Only one timer can be active at the same time.
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Work package #%{id} is not a valid target for reassigning the cost entries.'
           nullify_is_not_valid_for_cost_entries: Cost entries can not be assigned to a project.
@@ -83,16 +98,30 @@ az:
       cost_entry:
         one: Cost entry
         other: Cost entries
+      cost_rate:
+        one: Cost rate
+        other: Cost rates
       cost_type:
         one: Cost type
         other: Cost types
-      rate: Rate
+      default_hourly_rate:
+        one: Default hourly rate
+        other: Default hourly rates
+      hourly_rate:
+        one: Hourly rate
+        other: Hourly rates
+      rate:
+        one: Rate
+        other: Rates
       time_entry:
         one: Time entry
         other: Time entries
       time_entry_activity:
         one: Time tracking activity
         other: Time tracking activities
+      time_entry_custom_field:
+        one: Time entry custom field
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:
@@ -112,6 +141,8 @@ az:
   button_log_costs: Log unit costs
   button_log_time: Log
   button_stop_timer: Stop timer
+  button_update_limits: Update limits
+  button_update_start_finish_times: Update start and finish times
   caption_booked_on_project: Booked on project
   caption_default: Default
   caption_default_rate_history_for: Default rate history for %{user}
@@ -157,13 +188,14 @@ az:
         view_details: View actual costs details
   description_costs_settings: Define the desired format for the costs in all projects.
   description_date_for_new_rate: Date for new rate
-  description_time_settings: Define which fields are mandatory to fill when logging time in all projects.
+  description_time_entry_restrictions: Define limits for when a user logs time. This applies to all projects.
+  description_time_settings: Time entries can have specific start and finish times, which can be made optional or mandatory.
   ee:
     features:
-      time_entry_time_restrictions: Require exact time tracking
+      time_entry_time_restrictions: Time entry restrictions
     upsell:
       time_entry_time_restrictions:
-        description: Improve your time tracking by requiring exact start and finish times when logging time.
+        description: Improve your time tracking by allowing or enforcing precise start and finish times and by introducing limits on when and how much time can be logged by a project member.
   group_by_others: not in any group
   label_available_cost_types_projects: Available cost types projects
   label_between: between
@@ -178,6 +210,7 @@ az:
   label_current_default_rate: Current default rate
   label_date_on: 'on'
   label_day: Day
+  label_defaults_and_limits: Defaults and limits
   label_deleted_cost_types: Deleted cost types
   label_display_cost_entries: Display unit costs
   label_display_time_entries: Display reported hours
@@ -187,13 +220,11 @@ az:
   label_greater_or_equal: ">="
   label_group_by: Group by
   label_group_by_add: Add grouping field
-  label_hourly_rate: Hourly rate
   label_include_deleted: Include deleted
   label_kind: Type
   label_less_or_equal: "<="
   label_list: List
   label_log_costs: Log unit costs
-  label_mandatory_fields: Mandatory fields
   label_month: Month
   label_my_time_tracking: My time tracking
   label_new_time_entry_activity: New time entry activity
@@ -209,19 +240,19 @@ az:
   label_previous_month: Previous month
   label_previous_week: Previous week
   label_previous_workweek: Previous work week
-  label_rate: Rate
   label_rate_plural: Rates
   label_show: Show
   label_specific_day: Day %{day}
   label_specific_month: Month %{month}
+  label_start_and_finished: Start and finish times
   label_status_finished: Finished
   label_time: Time
   label_time_entry_activity_form_description: Changes to this time entry activity will be reflected in all projects where it is enabled.
+  label_time_entry_restrictions: Limits
   label_timer_since: Started at %{time}
   label_today_capitalized: Today
   label_units: Cost units
   label_until: until
-  label_user: User
   label_valid_from: Valid from
   label_view_mode_switcher: Change view
   label_work_package_filter_add: Add work package filter
@@ -262,6 +293,18 @@ az:
   setting_enforce_tracking_start_and_end_times: Require start and finish times
   setting_enforce_tracking_start_and_end_times_caption: Makes entering start and finish times mandatory when logging time.
   setting_enforce_without_allow: Requiring start and finish times is not possible without allowing them
+  setting_time_entries_limit_to_user_working_hours: Limit to the user's working hours
+  setting_time_entries_limit_to_user_working_hours_caption: Limits the total hours that can be logged per day to that user’s effective working hours. Users without defined working times will not be restricted.
+  setting_time_entries_max_hours_per_day: Maximum number of hours per day
+  setting_time_entries_max_hours_per_day_caption: Limits the total number of hours a user can log in a single day. A value of 0 means there are no restrictions.
+  setting_time_entries_max_hours_per_entry: Maximum number of hours per time entry
+  setting_time_entries_max_hours_per_entry_caption: Limits how many hours a single time entry can be. A value of 0 means there are no restrictions.
+  setting_time_entries_past_month_grace_days: Grace period for past months
+  setting_time_entries_past_month_grace_days_caption: Define the number of days a user has when a new month starts to log time entries for the past month. A value of 5 lets users log time for the previous month till the 5th of the current month. A value of 0 represents no grace period at all.
+  setting_time_entries_prohibit_logging_for_past_months: Do not allow logging for past months
+  setting_time_entries_prohibit_logging_for_past_months_caption: Restricts adding, changing and deleting time entries to the current month. Time that is logged in past months can no longer be modified.
+  setting_time_entries_prohibit_logging_on_non_working_days: Do not allow logging time on non-working days
+  setting_time_entries_prohibit_logging_on_non_working_days_caption: Users will not be able to log time on days that are defined as non-working either by an administrator or by individual users in their account settings.
   text_assign_time_and_cost_entries_to_project: Assign reported hours and costs to the project
   text_destroy_cost_entries_question: "%{cost_entries} were reported on the work packages you are about to delete. What do you want to do ?"
   text_destroy_time_and_cost_entries: Delete reported hours and costs

@@ -36,7 +36,7 @@ See COPYRIGHT and LICENSE files for more details.
                 I18n.t(:"admin.jira.run.wizard.sections.import_scope.title")
               end
             )
-            if model.status_equal_or_after?(:projects_meta_done)
+            if model.state_equal_or_after?(:projects_meta_done)
               concat(
                 render(Primer::Beta::Label.new(size: :medium, font_weight: :bold, color: :success, ml: 1)) do
                   I18n.t(:"admin.jira.run.wizard.sections.import_scope.caption_done")
@@ -46,13 +46,13 @@ See COPYRIGHT and LICENSE files for more details.
           end
         )
 
-        if model.status_before?(:configuring)
+        if model.state_before?(:configuring)
           concat(
             render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
               I18n.t(:"admin.jira.run.wizard.sections.import_scope.caption")
             end
           )
-        elsif model.status_equal_or_after?(:projects_meta_done)
+        elsif model.state_equal_or_after?(:projects_meta_done)
           concat(
             render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
               I18n.t(:"admin.jira.run.wizard.sections.import_scope.caption_done_description", count: selected_projects_count)
@@ -66,12 +66,13 @@ See COPYRIGHT and LICENSE files for more details.
             I18n.t(:"admin.jira.run.wizard.sections.import_scope.label_import")
           end
         end
-        box.with_row(mb: 1) do
+        box.with_row(mb: 1, display: :flex, align_items: :center) do
           concat(
             render(
               Primer::Beta::Button.new(
                 size: :medium,
                 tag: :a,
+                mr: 2,
                 href: admin_import_jira_run_select_projects_path(jira_id: model.jira.id, run_id: model.id),
                 data: { controller: "async-dialog" }
               )
@@ -87,6 +88,7 @@ See COPYRIGHT and LICENSE files for more details.
                   scheme: :primary,
                   size: :medium,
                   tag: :a,
+                  mr: 2,
                   href: continue_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id, step: "fetch_projects_meta"),
                   data: { turbo_stream: true },
                   disabled: model.projects.blank?
@@ -114,11 +116,12 @@ See COPYRIGHT and LICENSE files for more details.
           end
         end
       elsif model.in_state?(:projects_meta_fetching)
-        box.with_row(mt: 3) do
+        box.with_row(mt: 3, display: :flex, align_items: :center) do
           concat(
             render(
               Primer::Beta::Button.new(
                 size: :medium,
+                mr: 2,
                 disabled: true
               )
             ) do |component|
@@ -129,11 +132,10 @@ See COPYRIGHT and LICENSE files for more details.
           concat(
             render(
               Primer::Beta::Button.new(
-                tag: :a,
                 size: :medium
               )
             ) do |button|
-              button.with_leading_visual_icon(icon: :sync, animation: :rotate)
+              button.with_leading_visual_icon(**job_status_icon(model.state_machine.last_transition_to(:projects_meta_fetching).actual_job.status))
               I18n.t(:"admin.jira.run.wizard.sections.import_scope.label_progress")
             end
           )

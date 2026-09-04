@@ -44,6 +44,13 @@ class Wiki < ApplicationRecord
 
   acts_as_watchable permission: :view_wiki_pages
 
+  scope :visible, ->(user = User.current) {
+    where(enabled: true)
+      .includes(:project)
+      .references(:project)
+      .merge(Project.allowed_to(user, :view_wiki_pages))
+  }
+
   accepts_nested_attributes_for :wiki_menu_items,
                                 allow_destroy: true,
                                 reject_if: proc { |attr| attr["name"].blank? && attr["title"].blank? }

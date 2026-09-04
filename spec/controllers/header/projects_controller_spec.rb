@@ -69,6 +69,61 @@ RSpec.describe Header::ProjectsController do
       expect(response).to render_template(layout: false)
     end
 
+    it "keeps ordinary parent projects collapsed by default" do
+      make_request
+
+      parent_node = assigns(:tree).find { |node| node[:project] == parent_project }
+      expect(parent_node[:expanded]).to be(false)
+    end
+
+    context "when an invisible project is between two visible projects" do
+      shared_let(:invisible_project) { create(:private_project, name: "Invisible", parent: parent_project) }
+      shared_let(:visible_grandchild) { create(:project, name: "Visible Grandchild", parent: invisible_project) }
+
+      before do
+        create(:member, principal: current_user, project: visible_grandchild, roles: [role])
+      end
+
+      it "nests the grandchild below its nearest visible ancestor", :aggregate_failures do
+        make_request
+
+        tree = assigns(:tree)
+        parent_node = tree.find { |node| node[:project] == parent_project }
+
+        expect(assigns(:projects)).to include(visible_grandchild)
+        expect(assigns(:projects)).not_to include(invisible_project)
+        expect(response.body).not_to include("Invisible")
+        expect(tree.pluck(:project)).not_to include(visible_grandchild)
+        expect(parent_node[:children].pluck(:project)).to include(visible_grandchild)
+        expect(parent_node[:expanded]).to be(true)
+      end
+    end
+
+    context "when a hidden project sits mid-way in a visible chain" do
+      shared_let(:visible_root) { create(:project, name: "Root Visible") }
+      shared_let(:visible_mid)  { create(:project, name: "Mid Visible", parent: visible_root) }
+      shared_let(:hidden_middle) { create(:private_project, name: "Hidden Middle", parent: visible_mid) }
+      shared_let(:visible_leaf) { create(:project, name: "Leaf Visible", parent: hidden_middle) }
+
+      before do
+        create(:member, principal: current_user, project: visible_root, roles: [role])
+        create(:member, principal: current_user, project: visible_mid,  roles: [role])
+        create(:member, principal: current_user, project: visible_leaf, roles: [role])
+      end
+
+      it "expands every visible ancestor down to the grafted leaf", :aggregate_failures do
+        make_request
+
+        tree = assigns(:tree)
+        root_node = tree.find { |node| node[:project] == visible_root }
+        mid_node = root_node[:children].find { |node| node[:project] == visible_mid }
+
+        expect(root_node[:expanded]).to be(true)
+        expect(mid_node[:expanded]).to be(true)
+        expect(mid_node[:children].pluck(:project)).to include(visible_leaf)
+      end
+    end
+
     context "when searching by query" do
       subject(:make_request) { get :index, params: { query: "Beta" } }
 

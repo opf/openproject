@@ -46,9 +46,15 @@ da:
             principal:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
-      budget: Budget
-      labor_budget_item: Planned labor cost
-      material_budget_item: Enhed
+      budget:
+        one: Budget
+        other: Budgets
+      labor_budget_item:
+        one: Planned labor cost
+        other: Planned labor costs
+      material_budget_item:
+        one: Unit
+        other: Units
   activity:
     filter:
       budget: Budgetter
@@ -102,7 +108,6 @@ da:
   help_click_to_edit: Klik her for at redigere.
   help_currency_format: Format for viste valutaværdier. %n erstattes med valutaværdien, %u erstattes med valutaenheden.
   help_override_rate: Angiv en værdi for at tilsidesætte standardsatsen.
-  label_budget: Budget
   label_budget_available: Tildelt budget
   label_budget_details: Detaljer om budgettet
   label_budget_id: 'Budget #%{id}'

@@ -70,7 +70,7 @@ RSpec.describe "Types", :js do
     # Workflow should be copied over from the source type.
     new_type = Type.find_by!(name: "A new type")
     expect(
-      Workflow.exists?(type_id: new_type.id,
+      Workflow.exists?(type_variant_id: new_type.default_variant.id,
                        old_status_id: existing_workflow.old_status_id,
                        new_status_id: existing_workflow.new_status_id)
     ).to be true
@@ -99,19 +99,15 @@ RSpec.describe "Types", :js do
     index_page.expect_listed(existing_type)
   end
 
-  it "lists a variant in the flat table when the feature flag is disabled", with_flag: { type_variants: false } do
-    create(:type, name: "Phase", parent: existing_type)
+  it "lists types when the feature flag is disabled", with_flag: { type_variants: false } do
+    create(:type, name: "Phase")
 
     index_page.visit!
 
-    within "table" do
-      expect(page).to have_link("Phase")
-    end
+    expect(page).to have_text("Phase")
   end
 
-  # Variants are only ever created through the creation wizard, so the create page
-  # never offers a parent and always creates a root type.
-  it "creates a root type with editable core settings", with_flag: { type_variants: true } do
+  it "creates a type with editable core settings", with_flag: { type_variants: true } do
     index_page.visit!
     index_page.click_new
 
@@ -121,40 +117,39 @@ RSpec.describe "Types", :js do
   end
 
   describe "the Details tab", with_flag: { type_variants: true } do
-    it "keeps the core settings editable for a root type" do
+    it "keeps the core settings editable" do
       visit edit_type_details_path(type_id: existing_type.id)
 
       expect(page).to have_field("Is milestone", disabled: false)
       expect(page).to have_field("Displayed in roadmap by default", disabled: false)
     end
 
-    it "explains where a variant's inherited core settings come from" do
-      variant = create(:type, name: "Mobile app bug", parent: existing_type)
-
-      visit edit_type_details_path(type_id: variant.id)
-
-      expect(page).to have_field("Name", with: "Mobile app bug")
-      expect(page).to have_field("Is milestone", disabled: true)
-      expect(page).to have_field("Displayed in roadmap by default", disabled: true)
-      expect(page).to have_text("Inherited from parent type #{existing_type.name}")
-    end
-
-    it "renames a type without touching the parent it was created under" do
-      variant = create(:type, name: "Mobile app bug", parent: existing_type)
-
-      visit edit_type_details_path(type_id: variant.id)
-      fill_in "Name", with: "Mobile app defect"
+    it "renames a type" do
+      visit edit_type_details_path(type_id: existing_type.id)
+      fill_in "Name", with: "Renamed existing type"
       click_on "Save"
 
       expect(page).to have_text I18n.t(:notice_successful_update)
-      expect(variant.reload).to have_attributes(own_name: "Mobile app defect", parent: existing_type)
+      expect(existing_type.reload.name).to eq("Renamed existing type")
+    end
+
+    it "captions the name field for a variant" do
+      variant = create(:type_variant, type: existing_type, variant_name: "Hardware")
+
+      visit edit_type_details_path(type_id: existing_type.id)
+      expect(page).to have_field("Name")
+      expect(page).to have_no_text("This is an internal name only visible to administrators")
+
+      visit edit_type_details_path(type_id: existing_type.id, variant_id: variant.id)
+      expect(page).to have_text("This is an internal name only visible to administrators")
+      expect(page).to have_text("it will appear as #{existing_type.name} to all members")
     end
   end
 
   context "when a work package of a given type is part of an archived project" do
     shared_let(:project) do
       create(:project, :archived).tap do |p|
-        p.types << existing_type
+        p.project_types.create!(type: existing_type)
         p.save!
       end
     end

@@ -73,9 +73,24 @@ pt-PT:
             project_ids:
               blank: Selecione um projeto.
         time_entry:
-          cannot_log_for_this_work_package: Não é possível registar o tempo para este pacote de trabalho.
-          duplicate_ongoing: Já existe um registo de horas em curso para este utilizador.
-          invalid_time: tem de ser entre as 00:00 e as 23:59.
+          attributes:
+            entity:
+              blank: O campo "Registado para" não pode ficar em branco.
+              cannot_log_for_this_work_package: Não tem autorizações para registar o tempo neste pacote de trabalho.
+              format: "%{message}"
+            hours:
+              exceeds_user_working_hours: As horas registadas não podem exceder o limite de %{limit} horas disponíveis no dia de trabalho do utilizador.
+              format: "%{message}"
+              max_hours_per_day_exceeded: As horas registadas não podem exceder o limite de %{limit} horas por dia, definido pelo administrador.
+              max_hours_per_entry_exceeded: As horas registadas não podem exceder o limite de %{limit} horas num único registo de tempo, definido pelo administrador.
+            spent_on:
+              format: "%{message}"
+              in_past_month: Não é possível registar horas relativas a um mês já decorrido. Os registos de horas só podem ser adicionados, alterados ou eliminados de %{date} em diante.
+              not_a_working_day: O dia selecionado não é um dia útil para este utilizador.
+            start_time:
+              format: "%{message}"
+              invalid_time: Hora inválida. A hora deve estar compreendida entre as 00:00 e as 23:59.
+          duplicate_ongoing: Já existe outro temporizador em funcionamento. Apenas um temporizador pode estar ativo de cada vez.
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Pacote de trabalho #%{id} não é um destino válido para reatribuir os registos de custo.'
           nullify_is_not_valid_for_cost_entries: Entradas de custo não podem ser atribuídas a um projeto.
@@ -83,16 +98,30 @@ pt-PT:
       cost_entry:
         one: Entrada de custo
         other: Entradas de custo
+      cost_rate:
+        one: Taxa de custo
+        other: Taxas de custo
       cost_type:
         one: Tipo de custo
         other: Tipos de custos
-      rate: Taxa
+      default_hourly_rate:
+        one: Tarifa horária padrão
+        other: Tarifas horárias padrão
+      hourly_rate:
+        one: Tarifa horária
+        other: Tarifas horárias
+      rate:
+        one: Tarifa
+        other: Tarifas
       time_entry:
         one: Entrada de hora
         other: Entradas de hora
       time_entry_activity:
         one: Atividade de controlo de tempo
         other: Atividades de controlo de tempo
+      time_entry_custom_field:
+        one: Campo personalizado de registo de horas
+        other: Campos personalizados de registo de horas
   api_v3:
     errors:
       validation:
@@ -108,10 +137,12 @@ pt-PT:
     valid_from: Válido desde
   button_add_activity: Atividade
   button_add_rate: Adicionar Taxa
-  button_add_time_entry: Tempo de registro
+  button_add_time_entry: Hora de registo
   button_log_costs: Registar custos unitários
   button_log_time: Registo
   button_stop_timer: Parar temporizador
+  button_update_limits: Atualizar limites
+  button_update_start_finish_times: Atualizar as horas de início e fim
   caption_booked_on_project: Marcado no projeto
   caption_default: Predefinido
   caption_default_rate_history_for: História de taxa padrão para %{user}
@@ -157,13 +188,14 @@ pt-PT:
         view_details: Ver detalhes dos custos reais
   description_costs_settings: Defina o formato desejado para os custos em todos os projetos.
   description_date_for_new_rate: Data para nova taxa
-  description_time_settings: Defina os campos que são obrigatórios preencher ao registar o tempo em todos os projetos.
+  description_time_entry_restrictions: Defina limites para os casos em que um utilizador regista o tempo. Aplica-se a todos os projetos.
+  description_time_settings: Os registos de tempo podem ter horas específicas de início e de fim, que podem ser opcionais ou obrigatórias.
   ee:
     features:
-      time_entry_time_restrictions: Exigir controlo exato das horas
+      time_entry_time_restrictions: Restrições ao registo de horas
     upsell:
       time_entry_time_restrictions:
-        description: Melhore o seu controlo do tempo ao exigir as horas exatas de início e de fim aquando do registo do tempo.
+        description: Melhore o seu registo de tempo ao permitir ou exigir horas de início e de fim precisas, e ao definir limites para quando e quanto tempo pode ser registado por um membro do projeto.
   group_by_others: em nenhum grupo
   label_available_cost_types_projects: Tipos de custos disponíveis para projetos
   label_between: entre
@@ -178,6 +210,7 @@ pt-PT:
   label_current_default_rate: Taxa atual por defeito
   label_date_on: em
   label_day: Dia
+  label_defaults_and_limits: Valores predefinidos e limites
   label_deleted_cost_types: Tipos de custos apagados
   label_display_cost_entries: Mostrar custos unitários
   label_display_time_entries: Mostrar horas reportadas
@@ -187,13 +220,11 @@ pt-PT:
   label_greater_or_equal: ">="
   label_group_by: Agrupar por
   label_group_by_add: Adicionar campo de agrupamento
-  label_hourly_rate: Taxa horária
   label_include_deleted: Incluir eliminados
   label_kind: Tipo
   label_less_or_equal: "<="
   label_list: Lista
   label_log_costs: Registar custos unitários
-  label_mandatory_fields: Campos obrigatórios
   label_month: Mês
   label_my_time_tracking: O meu controlo do tempo
   label_new_time_entry_activity: Nova atividade de registo de tempo
@@ -209,20 +240,20 @@ pt-PT:
   label_previous_month: Mês anterior
   label_previous_week: Semana passada
   label_previous_workweek: Semana de trabalho anterior
-  label_rate: Taxa
   label_rate_plural: Taxas
   label_show: Mostrar
   label_specific_day: Dia %{day}
   label_specific_month: Mês %{month}
+  label_start_and_finished: Horários de início e de fim
   label_status_finished: Terminado
   label_time: Hora
   label_time_entry_activity_form_description: As alterações a esta atividade de registo de tempo serão refletidas em todos os projetos em que estiver ativado.
+  label_time_entry_restrictions: Limites
   label_timer_since: Iniciado em %{time}
   label_today_capitalized: Hoje
   label_units: Custos unitários
   label_until: até
-  label_user: Utilizador
-  label_valid_from: Válido desde
+  label_valid_from: Válido a partir de
   label_view_mode_switcher: Mudar vista
   label_work_package_filter_add: Adicionar filtro de pacote de trabalho
   label_workweek: Semana de trabalho
@@ -251,7 +282,7 @@ pt-PT:
   plugin_costs:
     description: Este módulo acrescenta funcionalidades para planear e acompanhar os custos dos projetos.
     name: Tempo e custos
-  project_module_costs: Tempo e custos
+  project_module_costs: Hora e custos
   setting_allow_tracking_start_and_end_times: Permitir horário de início e término
   setting_allow_tracking_start_and_end_times_caption: Permite introduzir as horas de início e de término ao registar o tempo.
   setting_costs_currency: Moeda
@@ -262,6 +293,18 @@ pt-PT:
   setting_enforce_tracking_start_and_end_times: Exigir hora de início e término
   setting_enforce_tracking_start_and_end_times_caption: Torna obrigatória a introdução das horas de início e de término do registo de horas.
   setting_enforce_without_allow: Não é possível exigir horas de início e de fim sem as autorizar
+  setting_time_entries_limit_to_user_working_hours: Limitar ao horário de trabalho do utilizador
+  setting_time_entries_limit_to_user_working_hours_caption: Limita o número total de horas que podem ser registadas por dia no horário de trabalho efetivo desse utilizador. Os utilizadores sem horário de trabalho definido não estarão sujeitos a esta restrição.
+  setting_time_entries_max_hours_per_day: Número máximo de horas por dia
+  setting_time_entries_max_hours_per_day_caption: Limita o número total de horas que um utilizador pode permanecer ligado num único dia. Um valor igual a 0 significa que não existem restrições.
+  setting_time_entries_max_hours_per_entry: Número máximo de horas por registo de tempo
+  setting_time_entries_max_hours_per_entry_caption: Limita o número de horas que um único registo de tempo pode ter. Um valor de 0 significa que não existem restrições.
+  setting_time_entries_past_month_grace_days: Período de carência relativo aos meses anteriores
+  setting_time_entries_past_month_grace_days_caption: Defina o número de dias de que um utilizador dispõe, a partir do início de um novo mês, para registar entradas de tempo relativas ao mês anterior. Um valor de 5 permite que os utilizadores registem o tempo relativo ao mês anterior até ao dia 5 do mês em curso. Um valor de 0 significa que não existe qualquer período de tolerância.
+  setting_time_entries_prohibit_logging_for_past_months: Não permitir registo de dados relativos a meses anteriores
+  setting_time_entries_prohibit_logging_for_past_months_caption: Limita a adição, alteração e eliminação de registos de tempo ao mês atual. O tempo registado em meses anteriores já não pode ser alterado.
+  setting_time_entries_prohibit_logging_on_non_working_days: Não permitir registo de horas em dias não úteis
+  setting_time_entries_prohibit_logging_on_non_working_days_caption: Os utilizadores não poderão registar horas nos dias definidos como não úteis, quer por um administrador, quer pelos próprios utilizadores nas definições das suas contas.
   text_assign_time_and_cost_entries_to_project: Atribuir horas e custos reportados ao projeto
   text_destroy_cost_entries_question: "%{cost_entries} foram reportados nos pacotes de trabalho que está prestes a apagar. Tem a certeza que pretende apagar?"
   text_destroy_time_and_cost_entries: Apagar horas e custos reportados

@@ -57,7 +57,7 @@ RSpec.describe OpenIDConnect::UserTokens::ExchangeService, :webmock do
     user.oidc_user_tokens.create!(access_token: idp_access_token, audiences: [OpenIDConnect::UserToken::IDP_AUDIENCE])
     user.oidc_user_tokens.create!(access_token:, refresh_token:, audiences: [existing_audience])
     stub_request(:post, provider.token_endpoint)
-      .with(body: hash_including(grant_type: OpenProject::OpenIDConnect::TOKEN_EXCHANGE_GRANT_TYPE))
+      .with(body: hash_including(grant_type: OpenProject::OAuth2::TOKEN_EXCHANGE_GRANT_TYPE))
       .to_return(**exchange_response)
   end
 

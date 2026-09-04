@@ -3,6 +3,7 @@ ru:
   activerecord:
     attributes:
       saml/provider:
+        allowed_clock_drift: Allowed clock drift
         assertion_consumer_service_url: URL-адрес ACS (Служба Поддержки Потребителей)
         authn_requests_signed: Подпись запросов аутентификации SAML
         certificate: Сертификат, используемый для запросов SAML
@@ -12,7 +13,7 @@ ru:
         icon: Пользовательская иконка
         identifier: Идентификатор
         idp_cert: Публичный сертификат провайдера идентификации
-        idp_entity_id: Identity provider entity ID
+        idp_entity_id: Идентификатор сущности поставщика идентификации
         idp_slo_service_url: Конечная точка выхода провайдера идентификации
         idp_sso_service_url: Конечная точка входа провайдера идентификации
         limit_self_registration: Ограничение самостоятельной регистрации
@@ -32,6 +33,12 @@ ru:
           invalid_certificate: 'не является допустимым сертификатом в формате PEM: %{additional_message}'
           invalid_private_key: 'не является допустимым закрытым ключом в формате PEM: %{additional_message}'
           unmatched_private_key: не принадлежит данному сертификату
+    models:
+      saml/provider:
+        one: Провайдер SAML
+        few: SAML providers
+        many: SAML providers
+        other: Провайдеры SAML
   saml:
     delete_heading: Удалить этот провайдер SAML?
     delete_title: Удалить провайдера SAML
@@ -41,6 +48,9 @@ ru:
         '
       title: Параметры конфигурации протокола SAML
     instructions:
+      allowed_clock_drift: 'Tolerance in seconds applied when validating the timestamps of the identity provider response. Fractions of a second are accepted. Use this only if the clocks of OpenProject and the identity provider are known to be out of sync, and keep the value as low as possible (Default: 0).
+
+        '
       authn_requests_signed: 'Если установлено, то OpenProject подпишет запрос SAML. Вам нужно будет предоставить сертификат подписи и закрытый ключ, используя поля ниже.
 
         '
@@ -62,7 +72,7 @@ ru:
       idp_cert: 'Введите публичный сертификат провайдера идентификации в формате X509 PEM. Вы можете ввести несколько сертификатов, разделив их с помощью новой строки.
 
         '
-      idp_entity_id: 'Optional: Useful when the metadata URL points to a federation aggregate with a lot of entries. Enter the entity ID of your institution''s identity provider. Leave blank for single-entity metadata URLs.
+      idp_entity_id: 'Дополнительно: полезно, когда метаданные указывают на федерацию с большим количеством записей. Введите ID сущности поставщика идентификационных данных вашей организации. Оставьте поле пустым для URL-адресов метаданных одной сущности.
 
         '
       idp_slo_service_url: 'URL-адрес конечной точки выхода провайдера идентификации.
@@ -137,11 +147,11 @@ ru:
     menu_title: Провайдеры SAML
     metadata_parser:
       error: 'Не удалось получить метаданные провайдера идентификации: %{error}'
-      federation_metadata: 'The metadata URL points to a federation aggregate (many identity providers). Use your institution''s direct metadata URL, or enter your institution''s IdP entity ID in the metadata form and try again.
+      federation_metadata: 'URL метаданных указывает на совокупность (многие поставщики идентификационных данных). Используйте прямой адрес метаданных вашего учреждения или введите ID сущности вашего учреждения в форме метаданных и повторите попытку.
 
         '
       invalid_url: Предоставленный URL-адрес метаданных недействителен. Укажите URL-адрес HTTP(s).
-      metadata_too_large: The metadata file exceeds the maximum allowed size.
+      metadata_too_large: Размер файла метаданных превышает максимально допустимый.
       success: Конфигурация успешно обновлена с использованием метаданных провайдера идентификации.
     providers:
       attribute_mapping: Привязки атрибутов

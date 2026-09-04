@@ -46,21 +46,34 @@ module Wikis
 
               authenticated(auth_strategy) do |http|
                 handle_response(http.get(rest_url("wikis/query", query:))) do |json|
-                  success(
-                    fetch_json(json, "searchResults")
-                      .uniq { |r| fetch_json(r, "id") }
-                      .map do |r|
-                        result = canonical_page_hierarchy(identifier: fetch_json(r, "id"), auth_strategy:)
-                        return result if result.failure?
-
-                        result.value!
-                      end
-                  )
+                  success(page_hierarchies(fetch_json(json, "searchResults"), input_data.query, auth_strategy:))
                 end
               end
             end
 
             private
+
+            def page_hierarchies(search_results, query, auth_strategy:)
+              search_results
+                .uniq { |r| fetch_json(r, "id") }
+                .select { |r| title_match?(r, query) }
+                .map do |r|
+                  result = canonical_page_hierarchy(identifier: fetch_json(r, "id"), auth_strategy:)
+                  throw :xwiki_error, result if result.failure?
+
+                  result.value!
+                end
+            end
+
+            def title_match?(search_result, query)
+              title_words = words(fetch_json(search_result, "title"))
+
+              words(query).all? { |word| title_words.any? { |title_word| title_word.include?(word) } }
+            end
+
+            def words(string)
+              string.downcase.scan(/[[:alnum:]]+/)
+            end
 
             def escape_quotes(string)
               string.gsub("\\", "\\\\").gsub('"', '\"')

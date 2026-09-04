@@ -30,5 +30,18 @@
 module MeetingAgendaItems
   class DeleteService < ::BaseServices::Delete
     include AfterPerformHook
+    include JournalizeWorkPackageActivity
+
+    alias_method :original_after_perform, :after_perform
+
+    def after_perform(call)
+      original_after_perform(call)
+
+      if call.success?
+        journalize_agenda_item(call.result, Journal::CausedByMeetingAgendaItemRemoved.new(call.result.meeting))
+      end
+
+      call
+    end
   end
 end

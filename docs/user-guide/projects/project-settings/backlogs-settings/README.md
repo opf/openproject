@@ -104,6 +104,8 @@ Read more on [how to work with Backlogs in OpenProject](../../../backlogs-scrum/
 
 ## Multiple active sprints
 
+[feature: multiple_active_sprints ]
+
 Multiple active sprints is a **project-level setting** that allows you to enable more than one active sprint within a project. To enable this setting, toggle the **Allow multiple active sprints** switch to **On**.
 
 > [!NOTE] 

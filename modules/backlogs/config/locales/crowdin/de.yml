@@ -50,6 +50,7 @@ de:
         story_points: Story-Punkte
     errors:
       messages:
+        cannot_start_while_receiving_shared_sprints: kann nicht gestartet werden, wenn das Projekt Sprints von einem anderen Projekt erhält.
         dates_required: Start- und Enddatum sind erforderlich, um den Sprint zu starten.
         must_be_in_planning: muss in Planung sein, um zu beginnen.
         only_one_active_sprint_allowed: pro Projekt ist nur ein aktiver Sprint erlaubt.
@@ -60,9 +61,11 @@ de:
               locked_by_multiple_active_sprints: kann nicht geändert werden, solange mehrere aktive Sprints laufen.
               requires_no_sharing: kann nur aktiviert werden, wenn die Sprint-Freigabe auf „Nicht teilen“ eingestellt ist.
             sprint_sharing:
+              active_or_borrowed_sprint_blocks_receiving: kann nicht auf "erhalten" gesetzt werden, da das Projekt einen aktiven oder geliehenen Sprint enthält. Schließen Sie die Arbeitspakete zunächst oder heben Sie deren Zuordnung auf.
               locked_by_multiple_active_sprints: kann nicht geändert werden, solange mehrere aktive Sprints möglich sind.
               share_all_projects_already_taken: kann nicht gewählt werden, da das Projekt "%{name}" bereits mit allen Projekten teilt.
               share_all_projects_already_taken_anonymous: kann nicht gewählt werden, da ein anderes Projekt bereits mit allen Projekten teilt.
+              work_packages_still_linked_to_shared_sprints: kann nicht geändert werden, da noch Arbeitspakete mit geteilten Sprints verknüpft sind. Heben Sie zunächst die Zuordnung auf.
           receiving_sprints: erhält geteilte Sprints. Eigene Sprints können nicht erstellt werden.
         sprint:
           attributes:
@@ -89,12 +92,18 @@ de:
               task_version_must_be_the_same_as_story_version: muss der Version der übergeordneten Story entsprechen.
           backlog_bucket_xor_sprint: kann nicht gleichzeitig einem Sprint und einem Backlog Bucket zugewiesen werden.
     models:
+      backlog_bucket:
+        one: Backlog Bucket
+        other: Backlog Buckets
       sprint:
         one: Sprint
         other: Sprints
+      sprint_goal:
+        one: Sprint-Ziel
+        other: Sprint-Ziele
   backlogs:
     add_existing_work_package_dialog_component:
-      title: Bestehendes Arbeitspaket zu %{name} hinzufügen
+      title_without_container: Vorhandenes Arbeitspaket hinzufügen
     administration_blankslate:
       text: Wir gestalten gerade das Backlogs-Modul neu. Die Einstellungen für Sprints und Backlogs werden in naher Zukunft hier sichtbar sein. Einstellungen auf Projektebene bleiben weiterhin verfügbar.
       title: Die Einstellungen des Backlogs-Moduls sind derzeit in der Entwicklung
@@ -155,7 +164,7 @@ de:
     label_burndown_chart: Burndown-Diagramm
     label_is_done_status: Status %{status_name} bedeutet abgeschlossen
     label_sprint_board: Sprint-Board
-    label_sprint_report: Sprint report
+    label_sprint_report: Sprint-Bericht
     move_to_bucket_dialog_component:
       title: In Backlog Bucket verschieben
     move_to_sprint_dialog_component:
@@ -185,6 +194,7 @@ de:
       label_start_sprint: Sprint starten
       start_sprint_disabled_reason_active_sprint: Ein anderer Sprint ist bereits aktiv.
       start_sprint_disabled_reason_missing_dates: Start- und Enddatum sind erforderlich, um den Sprint zu starten.
+      start_sprint_disabled_reason_receiving_shared_sprints: Die eigenen Sprints dieses Projekts können nicht gestartet werden, solange es geteilte Sprints erhält.
       start_sprint_disabled_reason_shared_sprint: Dieser Sprint stammt aus einem anderen Projekt, das mehrere aktive Sprints nicht zulässt.
     sprint_form:
       goal_caption: Das Sprintziel gilt ausschließlich für dieses Projekt und wird nicht mit anderen Projekten geteilt, die denselben Sprint nutzen.
@@ -194,13 +204,13 @@ de:
       shared_sprint_warning_banner: Dies ist ein geteilter Sprint. Sie verfügen nicht über die erforderlichen Berechtigungen, um ihn zu bearbeiten.
     sprint_reports:
       page_header_component:
-        breadcrumb: Report
-        title: "%{sprint} report"
+        breadcrumb: Bericht
+        title: "%{sprint} Bericht"
     sprints:
       row_component:
         action_menu:
-          edit_sprint: Edit sprint
-          sprint_report: Sprint report
+          edit_sprint: Sprint bearbeiten
+          sprint_report: Sprint-Bericht
     sprints_component:
       blankslate:
         create_and_manage_description_html: Um mit der Planung Ihres Sprints zu beginnen, erstellen Sie hier einen Sprint oder gehen Sie auf %{settings_link}, um Sprints aus einem anderen Projekt zu erhalten.
@@ -246,11 +256,11 @@ de:
     story_points_ideal: Story-Points (ideal)
   ee:
     features:
-      multiple_active_sprints: Führen Sie für höhere Kontrolle und Flexibilität der Teams in Ihrem Projekt mehrere Sprints gleichzeitig aus.
+      multiple_active_sprints: Mehrere aktive Sprints
       sprint_sharing: Sprints teilen
     upsell:
       multiple_active_sprints:
-        description: " "
+        description: Führen Sie in einem Projekt mehrere Sprints parallel mit verschiedene Teams aus.
       sprint_sharing:
         description: Teilen Sie Sprints über Projekte hinweg, um Teams aufeinander abzustimmen und die Arbeit in skalierten agilen Setups (SAFe) zu koordinieren.
   label_all_sprints: Alle Sprints
@@ -291,7 +301,7 @@ de:
   project_module_backlogs: Backlogs
   projects:
     copy:
-      backlog_buckets: Backlog buckets
+      backlog_buckets: Backlog Buckets
       sprints: Sprints
     settings:
       backlog_sharing:

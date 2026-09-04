@@ -35,16 +35,18 @@ module WorkPackageTypes
     def instance_class = Type
 
     def validate_params
-      # Only set attribute groups when it exists (Regression #28400)
-      if params[:attribute_groups]
+      # Only set attribute groups when it exists (Regression #28400). An empty one is a reset
+      # rather than nothing to do, so ask whether a value was given at all.
+      form_configuration_changed = !params[:attribute_groups].nil?
+
+      if form_configuration_changed
         result = set_attribute_groups(params)
         return result if result.failure?
       end
 
-      return type_deactivation_failure if type_deactivation_invalid?
-
-      set_active_custom_fields
-      set_active_custom_fields_for_project_ids(params[:project_ids]) if params[:project_ids].present?
+      # Only a configuration has a form to keep in sync, and only the form says which custom
+      # fields are active. Renaming a variant or saving its defaults says nothing about either.
+      set_active_custom_fields if form_configuration_changed && model.is_a?(TypeVariant)
 
       super
     end
@@ -99,28 +101,6 @@ module WorkPackageTypes
       ServiceResult.failure(result: model, errors: model.errors)
     end
 
-    def type_deactivation_invalid?
-      params.key?(:project_ids) && deactivated_project_ids_with_work_packages.any?
-    end
-
-    def type_deactivation_failure
-      model.errors.add(:project_ids,
-                       I18n.t(:error_can_not_deactivate_type,
-                              type: model.name,
-                              work_packages_link: I18n.t(:label_work_package_plural).downcase))
-
-      ServiceResult.failure(result: model, errors: model.errors)
-    end
-
-    def deactivated_project_ids_with_work_packages
-      deactivated_project_ids = model.project_ids - Array(params[:project_ids]).compact_blank.map(&:to_i)
-
-      WorkPackage
-        .where(type_id: model.id, project_id: deactivated_project_ids)
-        .distinct
-        .pluck(:project_id)
-    end
-
     ##
     # Syncs attribute group settings for custom fields with enabled custom fields
     # for this type. If a custom field is not in a group, it is removed from the
@@ -133,20 +113,6 @@ module WorkPackageTypes
                                       attr.delete_prefix("custom_field_").to_i
                                     end
                                   end.uniq
-    end
-
-    def set_active_custom_fields_for_project_ids(project_ids)
-      new_project_ids_to_activate_cfs = project_ids.reject(&:empty?).map(&:to_i) - model.project_ids
-
-      values = Project
-                 .where(id: new_project_ids_to_activate_cfs)
-                 .to_a
-                 .product(model.custom_field_ids)
-                 .map { |p, cf_ids| { project_id: p.id, custom_field_id: cf_ids } }
-
-      return if values.empty?
-
-      CustomFieldsProject.insert_all(values)
     end
   end
 end

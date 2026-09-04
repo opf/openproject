@@ -34,55 +34,65 @@ See COPYRIGHT and LICENSE files for more details.
         <%= render(
               OpenProject::Common::BorderBoxListComponent.new(
                 container: "op-types-group-#{root.id}",
-                collapsible: true
+                collapsible: true,
+                empty_state_behavior: :none
               )
             ) do |list| %>
-          <% list.with_header(collapsed: collapsed?(root), show_drag_handle: reorderable?(root)) do |header| %>
+          <% list.with_header(
+               collapsed: collapsed?(root),
+               show_drag_handle: reorderable?(root),
+               count: variants_count(root)
+             ) do |header| %>
             <% header.with_title do %>
               <%= render(Primer::Beta::Text.new(tag: :span, pl: 1)) { helpers.icon_for_type(root) } %>
-              <%= render(Primer::Beta::Text.new(tag: :a, href: edit_type_details_path(type_id: root.id), color: :accent, font_weight: :semibold)) { root.name } %>
-              <%= render(Primer::Beta::Text.new(tag: :span, color: :muted, font_weight: :normal, ml: 2)) { t("types.index.type_label") } %>
-              <% if root.children.any? %>
-                <%= render(Primer::Beta::Text.new(tag: :span, font_weight: :semibold, ml: 2)) { variants_count_label(root) } %>
-              <% end %>
+              <%= render(Primer::Beta::Text.new(tag: :a, href: edit_type_details_path(type_id: root.id), color: :accent, font_weight: :bold)) { root.name } %>
             <% end %>
             <% add_default_label(header, root) %>
             <% header.with_menu(menu_id: menu_id(root), src: menu_src(root)) %>
           <% end %>
 
-          <% root.sorted_variants.each do |child| %>
+          <% listed_variants(root).each do |child| %>
             <% list.with_item do |item| %>
-              <% item.with_menu(menu_id: menu_id(child), src: menu_src(child)) %>
-              <%= flex_layout(align_items: :center, justify_content: :space_between) do |variant| %>
-                <% variant.with_column(display: :inline_flex, align_items: :center) do %>
-                  <%= render(
-                        Primer::Beta::Link.new(
-                          href: edit_type_details_path(type_id: child.id),
-                          font_weight: :bold
-                        )
-                      ) { child.own_name } %>
-                  <%= render(Primer::Beta::Text.new(color: :muted, ml: 2)) { t("types.index.variant_label") } %>
-                <% end %>
-                <% if child.is_default? %>
-                  <% variant.with_column(mr: 3) { render(Primer::Beta::Label.new) { t("types.index.enabled_in_new_projects") } } %>
+              <% item.with_menu(menu_id: variant_menu_id(child), src: variant_menu_src(child)) %>
+              <%= render(WorkPackageTypes::VariantRowComponent.new(variant: child)) do |row| %>
+                <% row.with_caption { t("types.index.variant_label") } %>
+                <% if child.enabled_in_new_projects? %>
+                  <% row.with_status_label { t("types.index.enabled_in_new_projects") } %>
                 <% end %>
               <% end %>
             <% end %>
           <% end %>
 
-          <% list.with_footer do %>
+          <% if (owned_count = owned_variants_count(root)).positive? %>
+            <% list.with_item do %>
+              <%= render(
+                    Primer::Beta::Link.new(
+                      href: owned_variants_path(root),
+                      underline: false,
+                      test_selector: "type-#{root.id}-project-variants"
+                    )
+                  ) do %>
+                <%= t("types.index.project_variants_count", count: owned_count) %>
+              <% end %>
+            <% end %>
+          <% end %>
+
+          <% list.with_item do %>
             <%= render(
                   Primer::Beta::Link.new(
                     href: add_variant_path(root),
-                    muted: true,
+                    color: :muted,
+                    underline: false,
                     display: :inline_flex,
-                    align_items: :center
+                    align_items: :center,
+                    test_selector: "type-#{root.id}-add-variant"
                   )
                 ) do %>
               <%= render(Primer::Beta::Octicon.new(icon: :plus, mr: 1)) %>
               <%= t("types.index.add_variant", name: root.name) %>
             <% end %>
           <% end %>
+
         <% end %>
       <% end %>
     <% end %>

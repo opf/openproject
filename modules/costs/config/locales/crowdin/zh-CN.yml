@@ -73,22 +73,46 @@ zh-CN:
             project_ids:
               blank: 请选择项目。
         time_entry:
-          cannot_log_for_this_work_package: 无法记录该工作包的时间。
-          duplicate_ongoing: 此用户已存在一个进行中的时间记录。
-          invalid_time: 必须在 00:00-23:59之间。
+          attributes:
+            entity:
+              blank: 因不能为空而记录。
+              cannot_log_for_this_work_package: 您没有为此工作包记录时间的权限。
+              format: "%{message}"
+            hours:
+              exceeds_user_working_hours: 记录的小时数不能超过用户工作日可用的小时数上限 %{limit} 小时。
+              format: "%{message}"
+              max_hours_per_day_exceeded: 记录的小时数不能超过管理员规定的单日小时数上限 %{limit} 小时。
+              max_hours_per_entry_exceeded: 记录的小时数不能超过管理员规定的单个时间条目的小时数上限 %{limit} 小时。
+            spent_on:
+              format: "%{message}"
+              in_past_month: 无法将时间规划到过去的月份。仅可从 %{date}开始添加、更改或删除时间条目。
+              not_a_working_day: 所选日期不是此用户的工作日。
+            start_time:
+              format: "%{message}"
+              invalid_time: 时间无效。时间必须在 00:00 和 23:59 之间。
+          duplicate_ongoing: 另一个计时器已在运行。同一时间只能有一个定时器处于有效状态。
         work_package:
           is_not_a_valid_target_for_cost_entries: '工作包 #%{id} 不是重新分配成本条目的有效目标。'
           nullify_is_not_valid_for_cost_entries: 无法将成本条目分配到项目。
     models:
       cost_entry:
         other: 成本条目
+      cost_rate:
+        other: 成本费率
       cost_type:
         other: 成本类型
-      rate: 费率
+      default_hourly_rate:
+        other: 默认小时费率
+      hourly_rate:
+        other: 小时费率
+      rate:
+        other: 费率
       time_entry:
         other: 时间记录
       time_entry_activity:
         other: 时间跟踪活动
+      time_entry_custom_field:
+        other: 时间条目自定义字段
   api_v3:
     errors:
       validation:
@@ -108,6 +132,8 @@ zh-CN:
   button_log_costs: 记录单位成本
   button_log_time: 日志
   button_stop_timer: 停止计时器
+  button_update_limits: 更新限值
+  button_update_start_finish_times: 更新开始和结束时间
   caption_booked_on_project: 已记录在项目上
   caption_default: 基本
   caption_default_rate_history_for: "%{user} 的基本费率历史记录"
@@ -153,13 +179,14 @@ zh-CN:
         view_details: 查看实际成本详细信息
   description_costs_settings: 定义所有项目成本的理想格式。
   description_date_for_new_rate: 新费率的日期
-  description_time_settings: 定义记录项目时间必须填写哪些字段。
+  description_time_entry_restrictions: 定义用户记录时间时使用的限值。这适用于所有项目。
+  description_time_settings: 时间条目可以具有特定的开始和结束时间，可以是可选项，也可以是必选项。
   ee:
     features:
-      time_entry_time_restrictions: 需要准确的时间跟踪
+      time_entry_time_restrictions: 时间条目限制
     upsell:
       time_entry_time_restrictions:
-        description: 通过要求在记录时间时提供确切的开始和结束时间来改进你的时间跟踪。
+        description: 通过允许或强制设定精确的开始和结束时间，并对项目成员可以记录的时间和时长进行限制，来改进您的时间跟踪。
   group_by_others: 不在任何组中
   label_available_cost_types_projects: 可用的成本类型项目
   label_between: 介于
@@ -174,6 +201,7 @@ zh-CN:
   label_current_default_rate: 当前基本费率
   label_date_on: 日期
   label_day: 天
+  label_defaults_and_limits: 默认值和限值
   label_deleted_cost_types: 已删除的成本类型
   label_display_cost_entries: 显示单位成本
   label_display_time_entries: 显示已上报工时
@@ -183,13 +211,11 @@ zh-CN:
   label_greater_or_equal: ">="
   label_group_by: 分组依据
   label_group_by_add: 添加分组字段
-  label_hourly_rate: 小时费率
   label_include_deleted: 包括已删除
   label_kind: 类型
   label_less_or_equal: "<="
   label_list: 列表
   label_log_costs: 记录单位成本
-  label_mandatory_fields: 必填字段
   label_month: 月
   label_my_time_tracking: 我的工时记录
   label_new_time_entry_activity: 新时间条目活动
@@ -205,19 +231,19 @@ zh-CN:
   label_previous_month: 上个月
   label_previous_week: 前一周
   label_previous_workweek: 上一个工作周
-  label_rate: 费率
   label_rate_plural: 费率
   label_show: 显示
   label_specific_day: 第 %{day} 天
   label_specific_month: "%{month} 月"
+  label_start_and_finished: 开始和结束时间
   label_status_finished: 已完成
   label_time: 时间
   label_time_entry_activity_form_description: 对该时间条目活动的更改将反映的所有启用的项目中。
+  label_time_entry_restrictions: 限值
   label_timer_since: "%{time} 开始"
   label_today_capitalized: 今天
   label_units: 成本单位
   label_until: 到
-  label_user: 用户
   label_valid_from: 有效起始日期
   label_view_mode_switcher: 更改视图
   label_work_package_filter_add: 添加工作包筛选器
@@ -258,6 +284,18 @@ zh-CN:
   setting_enforce_tracking_start_and_end_times: 需要开始和完成时间
   setting_enforce_tracking_start_and_end_times_caption: 记录时间时强制输入开始和结束时间。
   setting_enforce_without_allow: 如果不允许，则无法要求开始和结束时间
+  setting_time_entries_limit_to_user_working_hours: 用户工作时数限制
+  setting_time_entries_limit_to_user_working_hours_caption: 将每日可记录的总小时数限制为该用户的有效工作小时数。未定义工作时间的用户将不受此限制。
+  setting_time_entries_max_hours_per_day: 每天的最大小时数
+  setting_time_entries_max_hours_per_day_caption: 限制用户可以在一天内登录的总小时数。值为 0 表示没有限制。
+  setting_time_entries_max_hours_per_entry: 每个时间条目的最大小时数
+  setting_time_entries_max_hours_per_entry_caption: 限制单个时间条目的小时数。值为 0 表示没有限制。
+  setting_time_entries_past_month_grace_days: 过去几个月的宽限期
+  setting_time_entries_past_month_grace_days_caption: 定义在新的月份开始时用户具有的天数，以记录过去一个月的时间条目。值为 5 表示用户记录上个月到本月 5 日的时间。值为 0 表示完全没有宽限期。
+  setting_time_entries_prohibit_logging_for_past_months: 不允许对过去几个月进行记录
+  setting_time_entries_prohibit_logging_for_past_months_caption: 将时间条目的添加、更改和删除限制在当月范围内。过去几个月记录的时间将无法再进行修改。
+  setting_time_entries_prohibit_logging_on_non_working_days: 不允许在非工作日记录时间
+  setting_time_entries_prohibit_logging_on_non_working_days_caption: 对于被管理员或单个用户在帐户设置中定义为非工作日的日期，用户将无法记录时间。
   text_assign_time_and_cost_entries_to_project: 将已上报的工时和成本提交到项目中
   text_destroy_cost_entries_question: 您要删除的工作包已经上报了 %{cost_entries}。您想进行哪种操作？
   text_destroy_time_and_cost_entries: 删除已上报的工时和成本

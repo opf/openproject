@@ -21,7 +21,7 @@ ru:
         project_description:
           title: Описание
         project_favorites:
-          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
+          no_results: В настоящее время у вас нет избранных проектов. Добавьте один или несколько проектов в избранное через страницу обзора проекта или в списке проектов.
           title: Избранные проекты
         project_status:
           at_risk: Под угрозой
@@ -33,13 +33,19 @@ ru:
           on_track: По плану
           title: Статус
         project_timeline:
-          accessible_date_range: "%{start} to %{end}"
-          accessible_gate: 'Phase gate %{name}: %{date}'
-          accessible_phase: 'Phase %{name}: %{date}'
-          tooltip_type_gate: Phase gate
-          tooltip_type_milestone: Milestone
-          tooltip_type_phase: Phase
-          tooltip_type_sprint: Sprint
+          accessible_date_range: "%{start} до %{end}"
+          accessible_gate: 'Контрольная точка фазы %{name}: %{date}'
+          accessible_milestone: 'Milestone %{name}: %{date}'
+          accessible_phase: 'Фаза %{name}: %{date}'
+          accessible_sprint: 'Sprint %{name}: %{date}. Status: %{status}'
+          sprint_status:
+            active: Active
+            completed: Completed
+            in_planning: In planning
+          tooltip_type_gate: Контрольная точка фазы
+          tooltip_type_milestone: Веха
+          tooltip_type_phase: Фаза
+          tooltip_type_sprint: Спринт
         subprojects:
           title: Подпроекты
         time_entries_current_user:

@@ -59,7 +59,7 @@ module Projects
       if model.project_creation_wizard_work_package_type_id.blank?
         errors.add :project_creation_wizard_work_package_type_id, :blank
       else
-        unless model.types.exists?(id: model.project_creation_wizard_work_package_type_id)
+        unless model.project_types.exists?(type_id: model.project_creation_wizard_work_package_type_id)
           errors.add :project_creation_wizard_work_package_type_id, :inclusion
         end
       end
@@ -70,7 +70,7 @@ module Projects
         errors.add :project_creation_wizard_status_when_submitted_id, :blank
       else
         type = Type.find_by(id: model.project_creation_wizard_work_package_type_id)
-        unless type.statuses.exists?(id: model.project_creation_wizard_status_when_submitted_id)
+        unless model.type_variant(type).statuses.exists?(id: model.project_creation_wizard_status_when_submitted_id)
           errors.add :project_creation_wizard_status_when_submitted_id, :inclusion
         end
       end

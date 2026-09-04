@@ -42,20 +42,20 @@ RSpec.describe Wikis::WikiPages::Menu do
   let(:params) { {} }
 
   it "renders an entry per static query, linking with its query_id" do
-    expect(menu_entries.map(&:title)).to eq [I18n.t("wikis.index.queries.main"),
-                                             I18n.t("wikis.index.queries.all")]
-    expect(menu_entries.map(&:href)).to eq ["/wiki_pages?query_id=main",
-                                            "/wiki_pages?query_id=all"]
+    expect(menu_entries.map(&:title)).to eq [I18n.t("wikis.index.queries.all"),
+                                             I18n.t("wikis.index.queries.main")]
+    expect(menu_entries.map(&:href)).to eq ["/wiki_pages?query_id=all",
+                                            "/wiki_pages?query_id=main"]
   end
 
-  it "selects the main pages entry by default" do
+  it "selects the all pages entry by default" do
     expect(menu_entries.map(&:selected)).to eq [true, false]
   end
 
-  context "with the all query active" do
-    let(:params) { { query_id: "all" } }
+  context "with the main query active" do
+    let(:params) { { query_id: "main" } }
 
-    it "selects the all pages entry" do
+    it "selects the main pages entry" do
       expect(menu_entries.map(&:selected)).to eq [false, true]
     end
   end
@@ -63,7 +63,7 @@ RSpec.describe Wikis::WikiPages::Menu do
   context "with an unknown query id" do
     let(:params) { { query_id: "everything" } }
 
-    it "falls back to the main pages entry" do
+    it "falls back to the all pages entry" do
       expect(menu_entries.map(&:selected)).to eq [true, false]
     end
   end

@@ -50,6 +50,7 @@ hy:
         story_points: Պատմության միավորներ
     errors:
       messages:
+        cannot_start_while_receiving_shared_sprints: cannot be started while the project is receiving shared sprints.
         dates_required: Սպրինտը սկսելու համար պարտադիր են սկզբի և ավարտի ամսաթվերը։
         must_be_in_planning: սկսելու համար պետք է լինի պլանավորման փուլում։
         only_one_active_sprint_allowed: նախագծում թույլատրվում է միայն մեկ ակտիվ սպրինտ։
@@ -60,9 +61,11 @@ hy:
               locked_by_multiple_active_sprints: չի կարող փոփոխվել, քանի դեռ ընթացքի մեջ են մի քանի ակտիվ սպրինտներ։
               requires_no_sharing: կարող է միացվել միայն այն դեպքում, երբ սպրինտների համօգտագործումը սահմանված է 'Չհամօգտագործել'։
             sprint_sharing:
+              active_or_borrowed_sprint_blocks_receiving: cannot be set to receive because the project has an active or borrowed sprint. Close or unassign the work packages first.
               locked_by_multiple_active_sprints: չի կարող փոփոխվել, քանի դեռ միացված են մի քանի ակտիվ սպրինտներ։
               share_all_projects_already_taken: չի կարող սահմանվել, քանի որ "%{name}" նախագիծն արդեն համօգտագործում է բոլոր նախագծերի հետ։
               share_all_projects_already_taken_anonymous: չի կարող սահմանվել, քանի որ մեկ այլ նախագիծ արդեն համօգտագործում է բոլոր նախագծերի հետ։
+              work_packages_still_linked_to_shared_sprints: cannot be changed because work packages are still linked to shared sprints. Unassign them first.
           receiving_sprints: ստանում է համօգտագործված սպրինտներ։ Սեփական սպրինտներ չեն կարող ստեղծվել։
         sprint:
           attributes:
@@ -89,12 +92,18 @@ hy:
               task_version_must_be_the_same_as_story_version: պետք է նույնը լինի, ինչ ծնող պատմության տարբերակը։
           backlog_bucket_xor_sprint: չի կարող միաժամանակ նշանակվել սպրինտին և բեքլոգի բաժնին։
     models:
+      backlog_bucket:
+        one: Backlog bucket
+        other: Backlog buckets
       sprint:
         one: Սպրինտ
         other: Սպրինտներ
+      sprint_goal:
+        one: Sprint goal
+        other: Sprint goals
   backlogs:
     add_existing_work_package_dialog_component:
-      title: Ավելացնել առկա աշխատանքային փաթեթ %{name}-ում
+      title_without_container: Add existing work package
     administration_blankslate:
       text: Մենք ներկայումս վերանախագծում ենք Բեքլոգների մոդուլը։ Սպրինտների և բեքլոգների ադմինիստրատիվ կարգավորումները մոտ ապագայում տեսանելի կլինեն այստեղ։ Նախագծի մակարդակի կարգավորումները մնում են հասանելի։
       title: Բեքլոգի ադմինիստրատիվ կարգավորումները զարգանում են
@@ -185,6 +194,7 @@ hy:
       label_start_sprint: Սկսել սպրինտը
       start_sprint_disabled_reason_active_sprint: Մեկ այլ սպրինտ արդեն ակտիվ է։
       start_sprint_disabled_reason_missing_dates: Սպրինտը սկսելու համար պարտադիր են սկզբի և ավարտի ամսաթվերը։
+      start_sprint_disabled_reason_receiving_shared_sprints: This project's own sprints cannot be started while it is receiving shared sprints.
       start_sprint_disabled_reason_shared_sprint: Այս սպրինտը մեկ այլ նախագծից է, որը չի աջակցում մի քանի ակտիվ սպրինտների։
     sprint_form:
       goal_caption: Սպրինտի նպատակը յուրահատուկ է այս նախագծի համար և չի համօգտագործվում այս սպրինտն օգտագործող այլ նախագծերի հետ։
@@ -246,11 +256,11 @@ hy:
     story_points_ideal: Պատմության միավորներ (իդեալական)
   ee:
     features:
-      multiple_active_sprints: Զուգահեռաբար վարեք մի քանի սպրինտներ Ձեր նախագծի տարբեր թիմերի համար, ապահովելով ավելի մեծ վերահսկողություն և ճկունություն։
+      multiple_active_sprints: Multiple active sprints
       sprint_sharing: Սպրինտների համօգտագործում
     upsell:
       multiple_active_sprints:
-        description: " "
+        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
       sprint_sharing:
         description: Համօգտագործեք սպրինտները նախագծերի միջև, որպեսզի համաձայնեցնեք թիմերը և համակարգեք աշխատանքը մասշտաբավորված Agile մոդելներում (SAFe)։
   label_all_sprints: Բոլոր սպրինտները

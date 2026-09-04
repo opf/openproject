@@ -101,12 +101,43 @@ RSpec.describe Backlogs::Sprints::StartContract do
       end
     end
 
-    context "when an active sprint exists in a different project" do
+    context "when an active sprint exists in a different, unrelated project" do
       before do
         create(:sprint, project: create(:project), status: "active")
       end
 
       it_behaves_like "contract is valid"
+    end
+
+    context "when an active sprint is shared into the project from a share_subprojects ancestor" do
+      let(:parent) { create(:project, sprint_sharing: "share_subprojects") }
+      let(:project) { create(:project, parent:, sprint_sharing: "receive_shared") }
+
+      before do
+        create(:sprint, project: parent, status: "active")
+      end
+
+      it_behaves_like "contract is invalid",
+                      status: %i[only_one_active_sprint_allowed cannot_start_while_receiving_shared_sprints]
+
+      context "when the project allows multiple active sprints" do
+        before { project.update!(allow_multiple_active_sprints: true) }
+
+        it_behaves_like "contract is invalid", status: :cannot_start_while_receiving_shared_sprints
+      end
+    end
+
+    context "when the project is receiving shared sprints" do
+      let(:parent) { create(:project, sprint_sharing: "share_subprojects") }
+      let(:project) { create(:project, parent:, sprint_sharing: "receive_shared") }
+
+      it_behaves_like "contract is invalid", status: :cannot_start_while_receiving_shared_sprints
+
+      context "when the project allows multiple active sprints" do
+        before { project.update!(allow_multiple_active_sprints: true) }
+
+        it_behaves_like "contract is invalid", status: :cannot_start_while_receiving_shared_sprints
+      end
     end
   end
 end

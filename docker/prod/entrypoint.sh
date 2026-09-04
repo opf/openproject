@@ -106,7 +106,11 @@ if [ "$(id -u)" = '0' ]; then
 		exec "$@"
 	fi
 
-	exec gosu $APP_USER "$BASH_SOURCE" "$@"
+	# setpriv keeps the current environment, so we need to update HOME to the APP_USER
+	HOME="$(getent passwd "$APP_USER" | cut -d: -f6)"
+	export HOME
+
+	exec setpriv --reuid "$APP_USER" --regid "$(id -g "$APP_USER")" --init-groups "$BASH_SOURCE" "$@"
 fi
 
 exec "$@"

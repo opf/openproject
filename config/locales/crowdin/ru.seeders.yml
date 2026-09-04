@@ -71,6 +71,15 @@ ru:
           name: Персонал и менеджер проектов
         item_1:
           name: Стандартная глобальная роль
+      ai_text_transform_actions:
+        item_0:
+          label: Fix grammar
+        item_1:
+          label: Make concise
+        item_2:
+          label: Translate to English
+        item_3:
+          label: Sort into template
     standard:
       project_phases:
         item_0:
@@ -95,19 +104,19 @@ ru:
           name: Срочно
       departments:
         item_0:
-          name: Marketing & Communications
+          name: Маркетинг и коммуникации
         item_1:
-          name: Public Relations
+          name: Связи с общественностью
         item_2:
-          name: Design & Content
+          name: Дизайн и контент
         item_3:
-          name: Events & Operations
+          name: Мероприятия и операционная деятельность
         item_4:
-          name: Web & IT
+          name: Веб и ИТ
         item_5:
-          name: Finance & Administration
+          name: Финансы и администрация
         item_6:
-          name: Quality Assurance
+          name: Контроль качества
       projects:
         demo-project:
           name: Демо-проект
@@ -197,23 +206,23 @@ ru:
                 item_2:
                   subject: Настройка сайта конференции
             item_2:
-              subject: Test and quality-check the conference website
+              subject: Протестировать и оценить качество веб-сайта конференции
             item_3:
-              subject: Conference
+              subject: Конференция
             item_4:
-              subject: Follow-up tasks
+              subject: Последующие задачи
               children:
                 item_0:
-                  subject: Upload presentations to website
+                  subject: Загрузить презентации на сайт
                 item_1:
-                  subject: Party for conference supporters :-)
+                  subject: Вечеринка для сторонников конференции :-)
                   description: |-
-                    *   [ ] Beer
-                    *   [ ] Snacks
-                    *   [ ] Music
-                    *   [ ] Even more beer
+                    *  [ ] Пиво
+                    *  [ ] Закуски
+                    *  [ ] Музыка
+                    *  [ ] Еще больше пива
             item_5:
-              subject: End of project
+              subject: Завершение проекта
           wiki: |
             _В этой вики Вы можете совместно создавать и редактировать страницы и подстраницы для создания вики-проекта._
 
@@ -337,7 +346,7 @@ ru:
                     1. *Пригласите новых участников в свой проект*: &rightarrow; Перейдите к [Участники]({{opSetting:base_url}}/projects/your-scrum-project/members) в меню проекта.
                     2. *Просмотрите бэклог Вашего продукта и бэклог спринта*: &rightarrow; Перейдите к [Бэклог]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) в меню проекта.
                     3. *Просмотрите Вашу доску задач*: &rightarrow; Перейдите к [Бэклоги]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Нажмите стрелку вправо на Этапы &rightarrow; Выберите [Панель задач](##sprint:scrum_project__version__sprint_1).
-                    4. *Создайте новый рабочий пакет*: &rightarrow; Перейдите в раздел [Рабочие пакеты &rightarrow; Создать]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    4. *Создайте новый пакет работ*: &rightarrow; Перейдите в раздел [Пакеты работ &rightarrow; Создать]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
                     5. *Создайте и обновите план проекта*: &rightarrow; Перейдите к разделу [План проекта](##query:scrum_project__query__project_plan) в меню проекта.
                     6. *Создайте вики спринта*: &rightarrow; Перейдите в раздел [Бэклоги]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) и откройте вики спринта из правого выпадающего меню в спринте. Вы можете отредактировать шаблон [wiki]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) в соответствии со своими потребностями.
                     7. *Активируйте дополнительные модули*: &rightarrow; Перейдите в раздел [Настройки проекта &rightarrow; Модули]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
@@ -506,18 +515,18 @@ ru:
           name: Ошибка
       global_queries:
         item_0:
-          name: 'Epic children: User stories and bugs'
+          name: 'Epic children: пользовательские истории и ошибки'
         item_1:
-          name: 'User story children: Tasks'
+          name: 'Пользовательская история: Задачи'
       type_configuration:
         item_0:
           form_configuration:
             item_0:
-              group_name: User stories and bugs
+              group_name: Пользовательские истории и ошибки
         item_1:
           form_configuration:
             item_0:
-              group_name: Tasks
+              group_name: Задачи
       welcome:
         title: Добро пожаловать в OpenProject!
         text: |

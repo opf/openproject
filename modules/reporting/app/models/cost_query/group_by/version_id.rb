@@ -27,10 +27,20 @@
 #++
 
 class CostQuery::GroupBy::VersionId < Report::GroupBy::Base
-  join_table WorkPackage => [Entry, :entity]
+  # Keep the derived "version_id" field bare so it renders through the existing
+  # :version_id branch; the table name qualifies it for the SELECT and GROUP BY.
+  table_name "work_package_versions"
   applies_for :label_work_package_attributes
 
+  # Resolved per report-build rather than via the join_table DSL (which freezes
+  # the join at class load) so the multiple-versions feature flag can switch
+  # between all target versions and the primary one. Must return the same string
+  # as the filter so the engine collapses them into a single join.
+  def self.table_joins
+    [[CostQuery::WorkPackageTargetVersionJoin.sql]]
+  end
+
   def self.label
-    WorkPackage.human_attribute_name(:version)
+    WorkPackage.human_attribute_name(Setting::WorkPackageMultipleVersions.active? ? :target_versions : :version)
   end
 end

@@ -34,6 +34,7 @@ import {
   resolveListAppendPreviousItemId,
   resolveItemPosition,
   resolveItemLabel,
+  resolveItemType,
   restoreRowPositions,
   rowOf,
   rowsRemainAt,
@@ -93,6 +94,22 @@ describe('sortable lists DOM helpers', () => {
 
       expect(resolveListAppendPreviousItemId({ sourceItemId: '1', rowsContainer: list })).toBeNull();
     });
+
+    it('returns null for an empty list nested inside an outer item, not the outer item\'s id', () => {
+      // Nested topology: a section item hosting its own field list. The only
+      // row is a non-item placeholder (no item id, no prev-item-id marker),
+      // and every ancestor up to the root belongs to the outer (section)
+      // item/list pair. Regression: resolving a "previous item" here must not
+      // climb past the list boundary and match the outer section's item id.
+      const outerItem = divItemRow('outer-section');
+      const list = listElement();
+      const placeholder = document.createElement('li');
+
+      list.append(placeholder);
+      outerItem.append(list);
+
+      expect(resolveListAppendPreviousItemId({ sourceItemId: 'field-1', rowsContainer: list })).toBeNull();
+    });
   });
 
   describe('reorderRows', () => {
@@ -146,6 +163,25 @@ describe('sortable lists DOM helpers', () => {
       reorderRows({ rows: [three, four], rowsContainer: list, previousItemId: '1' });
 
       expect(itemIdOrder(list)).toEqual(['1', '3', '4', '2']);
+    });
+
+    it('anchors on the outer list row, not a nested item with a colliding id', () => {
+      // Section and custom-field ids come from different tables, so a field
+      // nested inside section "1" may carry the same id as section "2".
+      // Resolving section "2" as the anchor must match the outer row, never
+      // descend into the nested field list.
+      const list = listElement();
+      const [sectionOne, sectionTwo, sectionThree] = ['1', '2', '3'].map(divItemRow);
+      const nestedList = listElement();
+      const collidingField = itemRow('2');
+
+      nestedList.append(collidingField);
+      sectionOne.append(nestedList);
+      list.append(sectionOne, sectionTwo, sectionThree);
+
+      reorderRows({ rows: [sectionThree], rowsContainer: list, previousItemId: '2' });
+
+      expect(Array.from(list.children)).toEqual([sectionOne, sectionTwo, sectionThree]);
     });
 
     it('anchors on a truncation marker row when the previous item is hidden', () => {
@@ -533,5 +569,20 @@ describe('resolveItemLabel', () => {
 
     expect(resolveItemLabel(labelled)).toEqual('Story one');
     expect(resolveItemLabel(bare)).toBeNull();
+  });
+});
+
+describe('resolveItemType', () => {
+  it('reads the item type value attribute', () => {
+    const el = document.createElement('div');
+    el.setAttribute('data-sortable-lists--item-type-value', 'custom_field');
+    expect(resolveItemType(el)).toBe('custom_field');
+  });
+
+  it('returns null when the attribute is absent or empty', () => {
+    const el = document.createElement('div');
+    expect(resolveItemType(el)).toBeNull();
+    el.setAttribute('data-sortable-lists--item-type-value', '');
+    expect(resolveItemType(el)).toBeNull();
   });
 });

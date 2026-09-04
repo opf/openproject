@@ -26,7 +26,10 @@ th:
     models:
       wikis/inline_page_link:
         other: Inline page links
-      wikis/internal_provider: Internal wiki
+      wikis/internal_provider:
+        other: Internal providers
+      wikis/page_link:
+        other: Page links
       wikis/provider:
         other: Wiki providers
       wikis/relation_page_link:
@@ -35,14 +38,12 @@ th:
         other: XWiki providers
   menus:
     admin:
-      external_wiki_providers: Wiki providers
-      internal_wiki_provider: Internal wiki
+      external_wiki_providers: External wiki providers
+      internal_wiki_provider: Project wikis
       wikis: Wikis
+    project_settings:
+      wiki: Project wiki
   permission_manage_wiki_page_links: Manage wiki page links
-  project_module_wiki_internal: Project wiki
-  project_module_wiki_platforms: Wiki providers
-  projects_settings_wiki:
-    title: Project wiki
   wikis:
     admin:
       destroy_confirmation_dialog_component:
@@ -71,11 +72,11 @@ th:
           no_health_report_description: Run the checks now for a full health status report for this wiki provider.
           title: Health Report
       internal_provider_form:
-        checkbox_caption: Allow projects to use the internal OpenProject wiki along with external Wiki providers
-        checkbox_label: Enable the internal OpenProject wiki
+        checkbox_caption: Allow projects to use project wikis along with external wiki providers
+        checkbox_label: Enable OpenProject project wikis
       internal_wiki_provider:
         show:
-          description: Choose to enable or disable the internal OpenProject wiki
+          description: Choose to enable or disable project wikis
       oauth_application_info_component:
         confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials in your XWiki instance and all users will have to reauthorize. Are you sure you want to proceed?
         label_oauth_client_id: OAuth Client ID
@@ -160,6 +161,7 @@ th:
     index:
       column_last_edited: Last edited
       column_name: Wiki page
+      column_parent: Parent
       column_project: Project
       column_sub_pages: Sub-pages
       filter_by_name: Filter by page name
@@ -191,7 +193,7 @@ th:
     page_link_forms:
       labels:
         page_title: Title
-        parent: Parent wiki page
+        parent: Parent
         wiki_page: Wiki page
       search:
         no_results: No wiki pages found
@@ -206,9 +208,13 @@ th:
         parent: As parent
     project_settings:
       project_internal_wiki_component:
+        blankslate_description: For this instance, project wikis are disabled globally and therefore can’t be enabled per project. Please, ask your administrator to enable the global wikis in the administration settings.
+        blankslate_title: Project wikis are disabled globally
         caption: This enables native wiki functionality for this project. Members will be able to create and read wiki pages that are stored in OpenProject.
-        enable: Enable the internal wiki for this project
+        enable: Enable the OpenProject wiki for this project
     provider_types:
+      internal:
+        name: OpenProject
       xwiki:
         name: XWiki
     relation_page_links_component:

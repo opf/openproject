@@ -25,14 +25,14 @@ Click on one of the categories in order to proceed with the configuration.
 | [Work packages](./manage-work-packages)                      | How to configure work packages, types, status and workflows. |
 | [Custom fields](./custom-fields)                             | Set custom fields for work packages, Spent time, projects, versions, users, groups and more. |
 | [Attribute help texts](./attribute-help-texts)               | Add help texts to explain attributes (including custom fields) in projects and work packages. |
-| [Calendars and dates](./calendars-and-dates/)                | Configure working days, dates formats and calendar subscriptions. |
+| [Calendars and dates](./calendars-and-dates/)                | Configure working days, date formats and calendar subscriptions. |
 | [System settings](./system-settings/)                        | Configure your system settings, e.g. a welcome text block on the landing page, languages, repositories, and more. |
 | [Emails and notifications](./emails-and-notifications/)      | Manage notifications and emails.                             |
 | [API and webhooks](./api-and-webhooks/)                      | Manage APIs and configure webhooks.                          |
-| [Authentication](./authentication)                           | Configure authentication methods in OpenProject, e.g. OAuth, OpenID, Two-factor-authentication, LDAP, and more. |
+| [Authentication](./authentication)                           | Configure authentication methods in OpenProject, e.g. OAuth, OpenID, two-factor authentication, LDAP, and more. |
 | [GDPR](../enterprise-guide/enterprise-cloud-guide/gdpr-compliance/) | Review and sign a Data Processing Agreement (DPA).           |
 | [Announcement](./announcement)                               | How to create a system announcement.                         |
-| [Design](./design)                                           | Create your own design and make it compliant to your company's corporate identity, upload logo and customize colors. |
+| [Design](./design)                                           | Create your own design and make it compliant with your company's corporate identity, upload logo and customize colors. |
 | [Enterprise edition](../enterprise-guide/)                   | Upgrading and managing OpenProject Enterprise and other administrative topics. |
 | [Time and costs](./time-and-costs)                           | Configure your currency and create cost types in OpenProject. |
 | [Backlogs](./backlogs)                                       | Configure your backlogs settings in OpenProject, e.g. story types to be displayed in the backlogs, task types, and more. |

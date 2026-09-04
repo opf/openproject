@@ -38,7 +38,7 @@ class Reports::TypeReport < Reports::Report
   end
 
   def rows
-    @rows ||= @project.types
+    @rows ||= @project.enabled_types
   end
 
   def data

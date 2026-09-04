@@ -32,6 +32,38 @@ module Projects::EnabledTypes
   extend ActiveSupport::Concern
 
   included do
+    def enabled_types
+      ::Type.enabled_in(self)
+    end
+
+    def enabled_variants
+      ::TypeVariant
+        .where(id: project_types.select(:variant_id))
+        .joins(:type)
+        .order(::Type.arel_table[:position].asc)
+    end
+
+    def type_variant(type)
+      return if type.nil?
+
+      project_type = if association(:project_types).loaded?
+                       project_types.find { |candidate| candidate.type_id == type.id }
+                     else
+                       project_types.find_by(type_id: type.id)
+                     end
+
+      project_type&.variant || type.default_variant
+    end
+
+    def type_variants(*types)
+      type_ids = types.flatten.map { |type| type.respond_to?(:id) ? type.id : type }
+      applied = ProjectType.where(project_id: id, type_id: type_ids)
+
+      ::TypeVariant.where(id: applied.select(:variant_id))
+                   .or(::TypeVariant.default_variant.where(type_id: type_ids)
+                                         .where.not(type_id: applied.select(:type_id)))
+    end
+
     def types_used_by_work_packages
       ::Type.where(id: WorkPackage.where(project_id: project.id)
                                   .select(:type_id)

@@ -29,57 +29,53 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   component_wrapper(data: wrapper_data_attributes) do
-    render(border_box_container(mb: 3, data: (readonly? ? {} : drag_and_drop_target_config))) do |component|
-      component.with_header(font_weight: :bold, py: 2) do
-        flex_layout(justify_content: :space_between, align_items: :center) do |section_header_container|
-          section_header_container.with_column(py: 2) do
-            render(Primer::Beta::Text.new(font_weight: :bold)) do
-              I18n.t("types.edit.export_configuration.pdf_export_templates.label")
-            end
+    render(
+      OpenProject::Common::BorderBoxListComponent.new(
+        container: "pdf-export-templates",
+        position: :relative,
+        mb: 3,
+        data: (readonly? ? {} : drag_and_drop_target_config)
+      )
+    ) do |list|
+      list.with_header(title: I18n.t("types.edit.export_configuration.pdf_export_templates.label")) do |header|
+        unless readonly?
+          header.with_action_button(
+            tag: :a,
+            href: enable_all_type_pdf_export_template_index_path(**@variant.path_args),
+            scheme: :invisible,
+            font_weight: :bold,
+            color: :subtle,
+            aria: { label: t("projects.settings.actions.label_enable_all") },
+            test_selector: "enable-all-pdf-export-templates",
+            data: { turbo_method: :put, turbo_stream: true }
+          ) do |button|
+            button.with_leading_visual_icon(icon: "check-circle", color: :subtle)
+            I18n.t("types.edit.export_configuration.pdf_export_templates.actions.label_enable_all")
           end
-          unless readonly?
-            section_header_container.with_column(flex_layout: true, justify_content: :flex_end) do |actions_container|
-              actions_container.with_column do
-                render(
-                  Primer::Beta::Button.new(
-                    tag: :a,
-                    href: enable_all_type_pdf_export_template_index_path(type_id: @type.id),
-                    scheme: :invisible,
-                    font_weight: :bold,
-                    color: :subtle,
-                    "aria-label": t("projects.settings.actions.label_enable_all"),
-                    data: { "turbo-method": :put, "turbo-stream": true, test_selector: "enable-all-pdf-export-templates" }
-                  )
-                ) do |button|
-                  button.with_leading_visual_icon(icon: "check-circle", color: :subtle)
-                  I18n.t("types.edit.export_configuration.pdf_export_templates.actions.label_enable_all")
-                end
-              end
-              actions_container.with_column do
-                render(
-                  Primer::Beta::Button.new(
-                    tag: :a,
-                    href: disable_all_type_pdf_export_template_index_path(type_id: @type.id),
-                    scheme: :invisible,
-                    font_weight: :bold,
-                    color: :subtle,
-                    "aria-label": t("projects.settings.actions.label_disable_all"),
-                    data: { "turbo-method": :put, "turbo-stream": true, test_selector: "disable-all-pdf-export-templates" }
-                  )
-                ) do |button|
-                  button.with_leading_visual_icon(icon: "x-circle", color: :subtle)
-                  I18n.t("types.edit.export_configuration.pdf_export_templates.actions.label_disable_all")
-                end
-              end
-            end
+          header.with_action_button(
+            tag: :a,
+            href: disable_all_type_pdf_export_template_index_path(**@variant.path_args),
+            scheme: :invisible,
+            font_weight: :bold,
+            color: :subtle,
+            aria: { label: t("projects.settings.actions.label_disable_all") },
+            test_selector: "disable-all-pdf-export-templates",
+            data: { turbo_method: :put, turbo_stream: true }
+          ) do |button|
+            button.with_leading_visual_icon(icon: "x-circle", color: :subtle)
+            I18n.t("types.edit.export_configuration.pdf_export_templates.actions.label_disable_all")
           end
         end
       end
-      @type.pdf_export_templates.list.each do |template|
-        component.with_row(data: (readonly? ? {} : draggable_item_config(template))) do
+
+      @variant.pdf_export_templates.list.each do |template|
+        list.with_item(
+          test_selector: "pdf-export-template-row-#{template.id}",
+          data: (readonly? ? {} : draggable_item_config(template))
+        ) do
           render(
             WorkPackageTypes::ExportTemplateRowComponent.new(
-              type: @type,
+              variant: @variant,
               template:,
               readonly: readonly?
             )

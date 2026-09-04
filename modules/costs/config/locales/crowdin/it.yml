@@ -73,9 +73,24 @@ it:
             project_ids:
               blank: Seleziona un progetto.
         time_entry:
-          cannot_log_for_this_work_package: Impossibile registrare il tempo per questa macro-attività.
-          duplicate_ongoing: Per questo utente esiste già una voce temporale in corso.
-          invalid_time: deve essere compresa tra le 00:00 e le 23:59.
+          attributes:
+            entity:
+              blank: Il campo Registrato per non può essere vuoto.
+              cannot_log_for_this_work_package: Non disponi delle autorizzazioni necessarie per registrare tempo per questa macro-attività.
+              format: "%{message}"
+            hours:
+              exceeds_user_working_hours: Le ore registrate non possono superare il limite di %{limit} ore disponibili nella giornata lavorativa dell'utente.
+              format: "%{message}"
+              max_hours_per_day_exceeded: Le ore registrate non possono superare il limite di %{limit} ore per singolo giorno definito dall'amministratore.
+              max_hours_per_entry_exceeded: Le ore registrate non possono superare il limite di %{limit} ore per singola registrazione definito dall'amministratore.
+            spent_on:
+              format: "%{message}"
+              in_past_month: Non puoi registrare tempo in un mese passato. Le registrazioni possono essere aggiunte, modificate o eliminate solo a partire dal giorno %{date}.
+              not_a_working_day: Il giorno selezionato è un giorno non lavorativo per questo utente.
+            start_time:
+              format: "%{message}"
+              invalid_time: Orario non valido. L'orario deve essere compreso tra 00:00 e 23:59.
+          duplicate_ongoing: È già in esecuzione un altro timer. Può essere attivo un solo timer alla volta.
         work_package:
           is_not_a_valid_target_for_cost_entries: 'La macro-attività (work package) #%{id} non è una destinazione valida per riassegnare le entrate del costo.'
           nullify_is_not_valid_for_cost_entries: Voci di costo non possono essere assegnate a un progetto.
@@ -83,16 +98,30 @@ it:
       cost_entry:
         one: Voce costi
         other: Voci costi
+      cost_rate:
+        one: Tariffa di costo
+        other: Tariffe di costo
       cost_type:
         one: Tipo di costo
         other: Tipo di costo
-      rate: Tariffa
+      default_hourly_rate:
+        one: Tariffa oraria predefinita
+        other: Tariffe orarie predefinite
+      hourly_rate:
+        one: Tariffa oraria
+        other: Tariffe orarie
+      rate:
+        one: Tariffa
+        other: Tariffe
       time_entry:
         one: Voce tempo
         other: Voci tempi
       time_entry_activity:
         one: Attività di monitoraggio dei tempi
         other: Attività di monitoraggio dei tempi
+      time_entry_custom_field:
+        one: Campo personalizzato delle registrazioni orarie
+        other: Campi personalizzati delle registrazioni orarie
   api_v3:
     errors:
       validation:
@@ -112,6 +141,8 @@ it:
   button_log_costs: Registra unità di costo
   button_log_time: Registra
   button_stop_timer: Ferma il timer
+  button_update_limits: Aggiorna i limiti
+  button_update_start_finish_times: Aggiorna orari di inizio e fine
   caption_booked_on_project: Prenotato su progetto
   caption_default: Predefinito
   caption_default_rate_history_for: Cronologia tariffe predefinite per %{user}
@@ -157,13 +188,14 @@ it:
         view_details: Visualizza i dettagli dei costi effettivi
   description_costs_settings: Specifica il formato desiderato per i costi in tutti i progetti.
   description_date_for_new_rate: Data per la nuova tariffa
-  description_time_settings: Specifica quali campi sono obbligatori da riempire quando si registra il tempo in tutti i progetti.
+  description_time_entry_restrictions: Definisci i limiti per la registrazione del tempo da parte degli utenti. Si applicano a tutti i progetti.
+  description_time_settings: Le registrazioni orarie possono includere orari di inizio e fine specifici, che possono essere facoltativi o obbligatori.
   ee:
     features:
-      time_entry_time_restrictions: Richiedi il tracciamento esatto dell'orario
+      time_entry_time_restrictions: Limitazioni delle registrazioni orarie
     upsell:
       time_entry_time_restrictions:
-        description: Migliora il monitoraggio del tempo richiedendo orari di inizio e fine esatti quando registri il tempo.
+        description: Migliora il monitoraggio del tempo consentendo o imponendo orari di inizio e fine precisi e introducendo limiti su quando e quanto tempo può registrare un membro del progetto.
   group_by_others: non in qualsiasi gruppo
   label_available_cost_types_projects: Progetti con tipi di costo disponibili
   label_between: tra
@@ -178,6 +210,7 @@ it:
   label_current_default_rate: Tariffa predefinita corrente
   label_date_on: il
   label_day: Giorno
+  label_defaults_and_limits: Valori predefiniti e limiti
   label_deleted_cost_types: Tipi di costo eliminati
   label_display_cost_entries: Mostra i costi unitari
   label_display_time_entries: Mostra le ore segnalate
@@ -187,13 +220,11 @@ it:
   label_greater_or_equal: ">="
   label_group_by: Raggruppa per
   label_group_by_add: Aggiungi campo di raggruppamento
-  label_hourly_rate: Tariffa oraria
   label_include_deleted: Includi eliminati
   label_kind: Tipo
   label_less_or_equal: "<="
   label_list: Elenca
   label_log_costs: Registra unità di costo
-  label_mandatory_fields: Campi obbligatori
   label_month: Mese
   label_my_time_tracking: Il mio monitoraggio dei tempi
   label_new_time_entry_activity: Nuova attività di inserimento nel tempo
@@ -209,19 +240,19 @@ it:
   label_previous_month: Mese precedente
   label_previous_week: Settimana precedente
   label_previous_workweek: Settimana lavorativa precedente
-  label_rate: Tariffa
   label_rate_plural: Tariffe
   label_show: Mostra
   label_specific_day: Giorno %{day}
   label_specific_month: Mese %{month}
+  label_start_and_finished: Orari di inizio e fine
   label_status_finished: Terminato
   label_time: Ora
   label_time_entry_activity_form_description: Le modifiche a questa attività di registrazione temporale si rifletteranno in tutti i progetti in cui è abilitata.
+  label_time_entry_restrictions: Limiti
   label_timer_since: Iniziato ore %{time}
   label_today_capitalized: Oggi
   label_units: Unità di costo
   label_until: finché
-  label_user: Utente
   label_valid_from: Valido dal
   label_view_mode_switcher: Cambia vista
   label_work_package_filter_add: Aggiungi filtro per macro-attività (work package)
@@ -262,6 +293,18 @@ it:
   setting_enforce_tracking_start_and_end_times: Richiede orari di inizio e di fine
   setting_enforce_tracking_start_and_end_times_caption: Rende obbligatorio inserire i tempi di inizio e di fine durante la registrazione dell'orario.
   setting_enforce_without_allow: Non è possibile richiedere orari di inizio e fine senza consentirli
+  setting_time_entries_limit_to_user_working_hours: Limita alle ore lavorative dell'utente
+  setting_time_entries_limit_to_user_working_hours_caption: Limita il totale delle ore registrabili ogni giorno alle ore lavorative effettive dell'utente. Gli utenti per cui non sono definiti orari di lavoro non saranno soggetti a questa limitazione.
+  setting_time_entries_max_hours_per_day: Numero massimo di ore al giorno
+  setting_time_entries_max_hours_per_day_caption: Limita il numero totale di ore che un utente può registrare in un singolo giorno. Il valore 0 indica che non sono previste limitazioni.
+  setting_time_entries_max_hours_per_entry: Numero massimo di ore per registrazione
+  setting_time_entries_max_hours_per_entry_caption: Limita il numero di ore che può contenere una singola registrazione. Il valore 0 indica che non sono previste limitazioni.
+  setting_time_entries_past_month_grace_days: Periodo di tolleranza per i mesi precedenti
+  setting_time_entries_past_month_grace_days_caption: Definisci il numero di giorni a disposizione dell'utente, dopo l'inizio di un nuovo mese, per registrare ore relative al mese precedente. Il valore 5 consente di registrare ore per il mese precedente fino al giorno 5 del mese corrente. Il valore 0 indica che non è previsto alcun periodo di tolleranza.
+  setting_time_entries_prohibit_logging_for_past_months: Non consentire la registrazione per i mesi precedenti
+  setting_time_entries_prohibit_logging_for_past_months_caption: Limita l'aggiunta, la modifica e l'eliminazione delle registrazioni orarie al mese corrente. Le ore registrate nei mesi precedenti non potranno più essere modificate.
+  setting_time_entries_prohibit_logging_on_non_working_days: Non consentire la registrazione del tempo nei giorni non lavorativi
+  setting_time_entries_prohibit_logging_on_non_working_days_caption: Gli utenti non potranno registrare tempo nei giorni definiti come non lavorativi dall'amministratore o dai singoli utenti nelle impostazioni del proprio account.
   text_assign_time_and_cost_entries_to_project: Assegna orari e costi segnalati al progetto
   text_destroy_cost_entries_question: "%{cost_entries} sono stati segnalati per la macro-attività (work package) che si sta per eliminare. Che cosa vuoi fare?"
   text_destroy_time_and_cost_entries: Elimina orari e costi riportati

@@ -43,8 +43,11 @@ module OpenProject
       SCHEME_OPTIONS = [SCHEME_DEFAULT, :transparent].freeze
       HEADER_PADDING_DEFAULT = :inherit
       HEADER_PADDING_OPTIONS = [HEADER_PADDING_DEFAULT, :condensed, :default, :spacious].freeze
+      EMPTY_STATE_BEHAVIOR_DEFAULT = :static
+      EMPTY_STATE_BEHAVIOR_OPTIONS = [EMPTY_STATE_BEHAVIOR_DEFAULT, :none, :dynamic].freeze
 
-      attr_reader :container, :scheme, :header_padding, :collapsible, :current_user, :header_id, :footer_id, :list_id
+      attr_reader :container, :scheme, :header_padding, :empty_state_behavior, :collapsible, :current_user,
+                  :header_id, :footer_id, :list_id
 
       alias_method :collapsible?, :collapsible
 
@@ -56,13 +59,10 @@ module OpenProject
       #   # @param title [String] header title.
       #   # @param show_drag_handle [Boolean] whether the header renders a
       #   #   leading drag handle.
-      #   # @param multi_line [Boolean] for collapsible headers, whether the
-      #   #   description renders on its own line. Pass `false` to render it
-      #   #   inline on the title row.
       #   # @param system_arguments [Hash] forwarded to {Header}. List wiring
       #   #   arguments are supplied internally.
       #   # @return [ViewComponent::Slot]
-      #   def with_header(title: nil, show_drag_handle: false, multi_line: true, **system_arguments, &block)
+      #   def with_header(title: nil, show_drag_handle: false, **system_arguments, &block)
       #   end
       renders_one :header, ->(**system_arguments) {
         system_arguments = system_arguments.except(:id, :list_id)
@@ -137,12 +137,10 @@ module OpenProject
       }
 
       # Optional empty-state content rendered when no items are present.
+      # When omitted, the component renders a generic default empty state.
       #
       # @!parse
-      #   # Adds empty-state content.
-      #   #
-      #   # Interactive lists announce this empty state only when the slot is
-      #   # configured explicitly.
+      #   # Adds custom empty-state content.
       #   #
       #   # @param title [String] empty-state title.
       #   # @param description [String, nil] optional supporting text.
@@ -151,17 +149,28 @@ module OpenProject
       #   #   drop-zone overlay with this label. The overlay becomes visible
       #   #   while a sortable item hovers the surrounding
       #   #   `[data-drop-container="active"]` list.
+      #   # @param action_label [String, nil] optional call-to-action rendered
+      #   #   as the blankslate's primary action.
+      #   # @param action_icon [Symbol, nil] optional leading icon for the
+      #   #   call-to-action.
+      #   # @param action_arguments [Hash] forwarded to the primary-action
+      #   #   button (e.g. `href:`, `scheme:`, `data:`).
       #   # @param system_arguments [Hash] forwarded to `Primer::Beta::Blankslate`.
       #   # @return [ViewComponent::Slot]
-      #   def with_empty_state(title:, description: nil, icon: nil, drop_target_label: nil, **system_arguments)
+      #   def with_empty_state(title:, description: nil, icon: nil, drop_target_label: nil,
+      #                        action_label: nil, action_icon: nil, action_arguments: {}, **system_arguments)
       #   end
-      renders_one :empty_state, ->(title:, description: nil, icon: nil, drop_target_label: nil, **system_arguments) {
+      renders_one :empty_state, ->(title:, description: nil, icon: nil, drop_target_label: nil,
+                                   action_label: nil, action_icon: nil, action_arguments: {}, **system_arguments) {
         EmptyState.new(
           title:,
           description:,
           icon:,
           interactive: interactive?,
           drop_target_label:,
+          action_label:,
+          action_icon:,
+          action_arguments:,
           **system_arguments
         )
       }
@@ -193,10 +202,15 @@ module OpenProject
       #   the header. `:inherit` keeps Primer's padding from the underlying
       #   BorderBox. `:condensed`, `:default`, and `:spacious` override only
       #   the header's block padding.
+      # @param empty_state_behavior [Symbol] policy for the empty state shown
+      #   when the list has no items. `:static` (default) renders the generic
+      #   empty state unless a custom one is declared via `with_empty_state`.
+      #   `:none` suppresses the empty state entirely, including any declared
+      #   slot. `:dynamic` reserves client-side lifecycle handling for
+      #   sortable and filtered lists; no markup is added by this param yet.
       # @param interactive [Boolean] whether dynamic list updates should be
       #   announced politely to assistive technology. This affects the counter
-      #   and an explicitly configured empty state; it does not create default
-      #   empty-state content for manually composed lists.
+      #   and empty-state content.
       # @param collapsible [Boolean] whether the header renders a collapsible
       #   toggle. Defaults to `false`.
       # @param current_user [User] user context passed to work-package items.
@@ -206,6 +220,7 @@ module OpenProject
         container:,
         scheme: SCHEME_DEFAULT,
         header_padding: HEADER_PADDING_DEFAULT,
+        empty_state_behavior: EMPTY_STATE_BEHAVIOR_DEFAULT,
         interactive: false,
         collapsible: false,
         current_user: User.current,
@@ -220,6 +235,9 @@ module OpenProject
         @header_padding = ActiveSupport::StringInquirer.new(
           fetch_or_fallback(HEADER_PADDING_OPTIONS, header_padding, HEADER_PADDING_DEFAULT).to_s
         )
+        @empty_state_behavior = ActiveSupport::StringInquirer.new(
+          fetch_or_fallback(EMPTY_STATE_BEHAVIOR_OPTIONS, empty_state_behavior, EMPTY_STATE_BEHAVIOR_DEFAULT).to_s
+        )
         @interactive = interactive
         @collapsible = collapsible
         @current_user = current_user
@@ -227,7 +245,12 @@ module OpenProject
 
         @system_arguments[:id] ||= dom_target(container)
         @list_id = dom_target(@system_arguments[:id], :list)
-        @system_arguments[:list_arguments] = { id: @list_id }
+        @system_arguments[:list_arguments] =
+          if @empty_state_behavior.dynamic?
+            { id: @list_id, data: { "border-box-list-target": "list" } }
+          else
+            { id: @list_id }
+          end
         @system_arguments[:classes] = class_names(
           @system_arguments[:classes],
           "op-border-box-list",
@@ -243,11 +266,14 @@ module OpenProject
 
       def before_render
         content
+        configure_empty_state!
         configure_header!
       end
 
       def render?
-        header? || items.any? || empty_state? || footer?
+        # rubocop:disable Style/InverseMethods -- `none?` is StringInquirer#none?, not Enumerable#none?
+        header? || items.any? || (empty_state? && !empty_state_behavior.none?) || footer?
+        # rubocop:enable Style/InverseMethods
       end
 
       private
@@ -263,6 +289,20 @@ module OpenProject
         return unless collapsible? && footer?
 
         header.collapsible_id = [list_id, footer_id].compact.join(" ")
+      end
+
+      def configure_empty_state!
+        return unless empty_state_behavior.static? || empty_state_behavior.dynamic?
+        return if empty_state?
+        # :dynamic lists always need prototype content for the parked template,
+        # even when currently populated, so a client-side drain to zero rows has
+        # a real blankslate to clone instead of a contentless placeholder.
+        return if empty_state_behavior.static? && items.any?
+
+        with_empty_state(
+          title: I18n.t(:label_nothing_display),
+          description: I18n.t(:no_results_title_text)
+        )
       end
     end
   end

@@ -41,7 +41,8 @@ module WorkPackages::ActivitiesTab::Journals
           showAttachments: false,
           resource:,
           storageKey: "work_package-#{object.journable.id}-notes-#{object.id || 'new'}",
-          editor_type: "constrained"
+          editor_type: "constrained",
+          macros: "wiki"
         }
       )
     end

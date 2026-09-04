@@ -134,7 +134,8 @@ RSpec.describe "Work package type project attributes", :js do
       end
     end
 
-    expect(type.reload.project_custom_fields).to contain_exactly(boolean_project_custom_field, string_project_custom_field)
+    expect(type.default_variant.reload.project_custom_fields).to contain_exactly(boolean_project_custom_field,
+                                                                                 string_project_custom_field)
 
     project_attributes_page.within_section(input_section) do
       page.find_test_selector("disable-all-type-project-attributes-#{input_section.id}").click
@@ -150,7 +151,7 @@ RSpec.describe "Work package type project attributes", :js do
       end
     end
 
-    expect(type.reload.project_custom_fields).to be_empty
+    expect(type.default_variant.reload.project_custom_fields).to be_empty
   end
 
   it "filters the project attributes by name with given user input" do
@@ -201,21 +202,21 @@ RSpec.describe "Work package type project attributes", :js do
     end
   end
 
-  describe "in linked mode", with_flag: { type_variants: true } do
-    let(:aspect) { Type::ConfigurationLink::PROJECT_ATTRIBUTES }
+  describe "with an inherited configuration", with_flag: { type_variants: true } do
+    let(:aspect) { TypeVariant::PROJECT_ATTRIBUTES }
     let(:source_type) { create(:type, name: "Source type") }
     let(:linked_type) { create(:type, name: "Linked type") }
     let(:linked_type_page) { Pages::Types::ProjectAttributes.new(linked_type) }
-    let(:link) { linked_type.configuration_links.find_by(aspect:) }
+    let(:link) { variant_of(linked_type) }
 
     def active_custom_field_ids
-      linked_type.project_custom_field_type_mappings.map(&:custom_field_id)
+      linked_type.default_variant.project_custom_field_type_mappings.map(&:custom_field_id)
     end
 
     before do
       # Source activates Boolean + String, List stays deactivated
-      source_type.project_custom_fields << [boolean_project_custom_field, string_project_custom_field]
-      linked_type.link!(aspect, source: source_type)
+      source_type.default_variant.project_custom_fields << [boolean_project_custom_field, string_project_custom_field]
+      link_configuration(linked_type, source: source_type, aspect:)
       linked_type_page.visit!
     end
 
@@ -246,17 +247,17 @@ RSpec.describe "Work package type project attributes", :js do
         linked_type_page.expect_unchecked_state
       end
 
-      expect(link.reload.excluded_elements).to eq([string_project_custom_field.attribute_name])
+      expect(excluded_configuration_elements(link, aspect: aspect)).to eq([string_project_custom_field.attribute_name])
       expect(active_custom_field_ids).to contain_exactly(boolean_project_custom_field.id)
     end
 
     it "hides attributes an ancestor variant disabled" do
       # A -> B -> C
       type_b = create(:type, name: "Type B")
-      type_b.link!(aspect, source: source_type)
-      type_b.configuration_links.find_by(aspect:).update!(excluded_elements: [boolean_project_custom_field.attribute_name])
+      link_configuration(type_b, source: source_type, aspect:)
+      exclude_configuration_elements(type_b, aspect: aspect, elements: [boolean_project_custom_field.attribute_name])
       type_c = create(:type, name: "Type C")
-      type_c.link!(aspect, source: type_b)
+      link_configuration(type_c, source: type_b, aspect:)
 
       Pages::Types::ProjectAttributes.new(type_c).visit!
 

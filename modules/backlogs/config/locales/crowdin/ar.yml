@@ -50,6 +50,7 @@ ar:
         story_points: نقاط القصة
     errors:
       messages:
+        cannot_start_while_receiving_shared_sprints: cannot be started while the project is receiving shared sprints.
         dates_required: يجب تحديد تواريخ البدء والانتهاء لبدء السبرينت.
         must_be_in_planning: يجب أن يكون في مرحلة التخطيط للبدء.
         only_one_active_sprint_allowed: يُسمح بوجود سباق واحد نشط فقط لكل مشروع.
@@ -60,9 +61,11 @@ ar:
               locked_by_multiple_active_sprints: لا يمكن تغييرها أثناء وجود عدة سباقات نشطة قيد التنفيذ.
               requires_no_sharing: لا يمكن تمكين هذه الميزة إلا عندما تكون إعدادات مشاركة السبرينت مضبوطة على «عدم المشاركة».
             sprint_sharing:
+              active_or_borrowed_sprint_blocks_receiving: cannot be set to receive because the project has an active or borrowed sprint. Close or unassign the work packages first.
               locked_by_multiple_active_sprints: لا يمكن تغييره أثناء تفعيل عدة سباقات نشطة.
               share_all_projects_already_taken: لا يمكن تعيينه لأن المشروع "%{name}" مشترك بالفعل مع جميع المشاريع.
               share_all_projects_already_taken_anonymous: لا يمكن تعيينه لأن هناك مشروعًا آخر يشاركه بالفعل مع جميع المشاريع.
+              work_packages_still_linked_to_shared_sprints: cannot be changed because work packages are still linked to shared sprints. Unassign them first.
           receiving_sprints: يتلقى سباقات مشتركة. ولا يمكن إنشاء سباقات خاصة.
         sprint:
           attributes:
@@ -93,6 +96,13 @@ ar:
               task_version_must_be_the_same_as_story_version: يجب أن يكون نفس نسخة القصة الأصلية.
           backlog_bucket_xor_sprint: لا يمكن تخصيصها في كل من «السبرينت» و«مجموعة المهام المتأخرة».
     models:
+      backlog_bucket:
+        zero: Backlog buckets
+        one: Backlog bucket
+        two: Backlog buckets
+        few: Backlog buckets
+        many: Backlog buckets
+        other: Backlog buckets
       sprint:
         zero: السباقات
         one: Sprint
@@ -100,9 +110,16 @@ ar:
         few: Sprints
         many: Sprints
         other: Sprints
+      sprint_goal:
+        zero: Sprint goals
+        one: Sprint goal
+        two: Sprint goals
+        few: Sprint goals
+        many: Sprint goals
+        other: Sprint goals
   backlogs:
     add_existing_work_package_dialog_component:
-      title: إضافة حزمة العمل الحالية إلى %{name}
+      title_without_container: Add existing work package
     administration_blankslate:
       text: نحن نعمل حاليًا على إعادة تصميم وحدة «قوائم المهام المتأخرة». وستظهر هنا في المستقبل القريب إعدادات الإدارة الخاصة بالسباقات وقوائم المهام المتأخرة. وتظل الإعدادات على مستوى المشروع متاحة.
       title: تتطور إعدادات إدارة الطلبات المتراكمة
@@ -201,6 +218,7 @@ ar:
       label_start_sprint: Start sprint
       start_sprint_disabled_reason_active_sprint: Another sprint is already active.
       start_sprint_disabled_reason_missing_dates: Start and finish dates are required in order to start the sprint.
+      start_sprint_disabled_reason_receiving_shared_sprints: This project's own sprints cannot be started while it is receiving shared sprints.
       start_sprint_disabled_reason_shared_sprint: This sprint is from another project that doesn't support multiple active sprints.
     sprint_form:
       goal_caption: The sprint goal is unique to this project and is not shared with other projects also using this sprint.
@@ -266,11 +284,11 @@ ar:
     story_points_ideal: Story points (ideal)
   ee:
     features:
-      multiple_active_sprints: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
+      multiple_active_sprints: Multiple active sprints
       sprint_sharing: Sprint sharing
     upsell:
       multiple_active_sprints:
-        description: " "
+        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
       sprint_sharing:
         description: Share sprints across projects to align teams and coordinate work in scaled agile setups (SAFe).
   label_all_sprints: All sprints

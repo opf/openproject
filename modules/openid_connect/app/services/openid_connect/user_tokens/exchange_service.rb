@@ -31,7 +31,7 @@
 module OpenIDConnect
   module UserTokens
     class ExchangeService
-      include Dry::Monads::Result(TokenOperationError)
+      include Dry::Monads::Result(SimpleError)
       include Dry::Monads::Do.for(:call)
 
       class Disabled
@@ -77,17 +77,17 @@ module OpenIDConnect
 
       private
 
-      def failure_with(**) = Failure(error.with(**))
+      def failure_with(**) = Failure(error(**))
 
-      def error = TokenOperationError.new(source: self.class)
+      def error(code:, payload: nil) = SimpleError.new(source: self.class, code:, payload:)
 
       def fetch_idp_token
         FetchService.new(user:, token_exchange: Disabled).access_token_for(audience: UserToken::IDP_AUDIENCE)
       end
 
       def exchange_token_request(idp_token, audience)
-        TokenRequest.new(provider:).exchange(idp_token, audience, @scope).alt_map do
-          it.with(code: :"token_exchange_#{it.code}", source: self.class)
+        OAuthClients::TokenRequest.for_provider(provider).exchange(idp_token, audience, @scope).alt_map do |error|
+          error.with(code: :"token_exchange_#{error.code}", source: self.class)
         end
       end
 

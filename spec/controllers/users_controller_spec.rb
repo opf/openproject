@@ -760,6 +760,14 @@ RSpec.describe UsersController do
       end
     end
 
+    context "with the department column requested" do
+      let(:params) { { columns: "login department" } }
+
+      it "assigns a query selecting the department" do
+        expect(assigns(:query).selects.map(&:attribute)).to eq(%i[login department])
+      end
+    end
+
     context "with a user scheduled for deletion present" do
       let!(:deleted_user) { create(:user_marked_for_deletion) }
 

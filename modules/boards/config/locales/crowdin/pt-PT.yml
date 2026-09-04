@@ -1,11 +1,16 @@
 ---
 pt-PT:
+  activerecord:
+    models:
+      boards/grid:
+        one: Quadro
+        other: Quadros
   boards:
     board_type_attributes:
-      assignee: Atribuído para
+      assignee: Encarregado
       basic: Básico
       status: Kanban
-      subproject: Sub-projecto
+      subproject: Subprojeto
       subtasks: Pai-filho
       version: Versão
     board_type_descriptions:

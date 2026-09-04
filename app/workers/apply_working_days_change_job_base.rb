@@ -31,6 +31,7 @@
 # Common methods for ApplyWorkingDaysChangeJobs
 class ApplyWorkingDaysChangeJobBase < ApplicationJob
   include JobConcurrency
+
   queue_with_priority :above_normal
 
   good_job_control_concurrency_with(

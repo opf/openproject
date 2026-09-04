@@ -33,12 +33,13 @@ module Wikis
     include ApplicationHelper
     include OpPrimer::ComponentHelpers
 
-    attr_reader :heading
+    attr_reader :heading, :container
 
     alias_method :page_links, :model
 
-    def initialize(model = nil, heading:, linkable:, already_related_page_keys:, **)
+    def initialize(model = nil, heading:, container:, linkable:, already_related_page_keys:, **)
       @heading = heading
+      @container = container
       @linkable = linkable
       @already_related_page_keys = already_related_page_keys
 

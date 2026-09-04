@@ -704,4 +704,35 @@ RSpec.describe Version do
       expect(described_class.order(name: :desc).pluck(:name)).to eql ordered_names.reverse
     end
   end
+
+  describe "destroying a version referenced by work packages" do
+    shared_let(:owning_project) { create(:project) }
+    shared_let(:other_project) { create(:project) }
+    shared_let(:shared_version) { create(:version, project: owning_project, sharing: "system") }
+    shared_let(:admin) { create(:admin) }
+
+    let!(:work_package) do
+      create(:work_package, project: other_project).tap do |wp|
+        wp.target_version_ids_replacements = [shared_version.id]
+        wp.save!
+      end
+    end
+
+    def update_subject
+      WorkPackages::UpdateService
+        .new(user: admin, model: work_package.reload)
+        .call(subject: "A new subject unrelated to versions")
+    end
+
+    it "is editable while the version's project still exists" do
+      expect(update_subject).to be_success
+    end
+
+    it "leaves the work package editable after its version's project is destroyed" do
+      owning_project.destroy
+
+      result = update_subject
+      expect(result).to be_success, -> { result.errors.full_messages.to_sentence }
+    end
+  end
 end

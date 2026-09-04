@@ -110,7 +110,7 @@ RSpec.describe Wikis::PageLinkComponent, type: :component do
   context "if there are errors retrieving the page info" do
     let(:page_info_result) do
       Failure(
-        Wikis::Adapters::Results::Error.new(
+        SimpleError.new(
           source: Wikis::Adapters::Providers::Internal::Queries::PageInfo,
           code: error_code
         )

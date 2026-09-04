@@ -3,11 +3,11 @@ ru:
   activerecord:
     attributes:
       wikis/page_link:
-        identifier: Identifier
+        identifier: Идентификатор
         provider: Провайдер Wiki
       wikis/provider:
-        name: Name
-        universal_identifier: Universal identifier
+        name: Имя
+        universal_identifier: Универсальный идентификатор
       wikis/xwiki_provider:
         authentication_method: Метод аутентификации
         authentication_methods:
@@ -21,87 +21,94 @@ ru:
         wikis/provider:
           attributes:
             url:
-              already_taken: belongs to the wiki provider that's already known as "%{name}".
-              wiki_provider_unreachable: could not be reached.
+              already_taken: принадлежит к вики-провайдеру, который уже известен как "%{name}".
+              wiki_provider_unreachable: не удалось подключиться.
     models:
       wikis/inline_page_link:
         one: Ссылка на встроенную страницу
         few: Ссылки на встроенную страницу
         many: Ссылки на встроенную страницу
         other: Ссылки на встроенную страницу
-      wikis/internal_provider: Внутренняя вики
+      wikis/internal_provider:
+        one: Внутренний поставщик
+        few: Internal providers
+        many: Internal providers
+        other: Внутренние поставщики
+      wikis/page_link:
+        one: Ссылка на страницу
+        few: Ссылки на страницы
+        many: Page links
+        other: Page links
       wikis/provider:
-        one: Wiki provider
-        few: Wiki providers
-        many: Wiki providers
-        other: Wiki providers
+        one: Провайдер Wiki
+        few: Провайдера Wiki
+        many: Провайдеров Wiki
+        other: Провайдеры Wiki
       wikis/relation_page_link:
         one: Ссылка на страницу отношения
         few: Ссылки на страницу отношения
         many: Ссылки на страницу отношения
         other: Ссылки на страницу отношения
       wikis/xwiki_provider:
-        one: XWiki provider
-        few: XWiki providers
-        many: XWiki providers
-        other: XWiki providers
+        one: Провайдер XWiki
+        few: Провайдера XWiki
+        many: Провайдеров XWiki
+        other: Провайдеров XWiki
   menus:
     admin:
-      external_wiki_providers: Wiki providers
-      internal_wiki_provider: Internal wiki
-      wikis: Wikis
-  permission_manage_wiki_page_links: Manage wiki page links
-  project_module_wiki_internal: Project wiki
-  project_module_wiki_platforms: Провайдеры вики
-  projects_settings_wiki:
-    title: Project wiki
+      external_wiki_providers: Внешние провайдеры вики
+      internal_wiki_provider: Вики проекта
+      wikis: Вики
+    project_settings:
+      wiki: Вики проекта
+  permission_manage_wiki_page_links: Управление ссылками вики-страницы
   wikis:
     admin:
       destroy_confirmation_dialog_component:
-        description_html: The wiki provider %{wiki_provider} and all the related wiki page links will be deleted. In addition, every inline wiki page link will no longer be accessible. This action is irreversible.
-        heading: Permanently delete this wiki provider?
+        description_html: Провайдер wiki %{wiki_provider} и все связанные ссылки на страницы wiki будут удалены. Кроме того, каждая встроенная вики-ссылка больше не будет доступна. Это действие необратимо.
+        heading: Удалить поставщика вики?
         title: Удалить вики-провайдера
       forms:
         general_info_form_component:
-          provider_description: Please make sure you have administration privileges in your XWiki instance before doing the setup.
+          provider_description: Перед установкой убедитесь, что у вас есть права администрирования на XWiki.
         oauth_application_form_component:
-          application_id: OpenProject OAuth Application ID
-          application_secret: OpenProject OAuth Application secret
+          application_id: Идентификатор приложения OpenProject OAuth
+          application_secret: Секретный OAuth токен приложения OpenProject
         oauth_client_form_component:
-          client_id: Wiki OAuth Client ID
-          client_secret: Wiki OAuth Client secret
-          redirect_uri: Redirect URI
-          redirect_uri_caption: Copy this value into the Redirect URI field of your XWiki OIDC client registration.
+          client_id: Идентификатор клиента OAuth для Wiki
+          client_secret: Секретный ключ клиента OAuth для Wiki
+          redirect_uri: URI переадресации
+          redirect_uri_caption: Скопируйте это значение в поле Redirect URI вашей настройке клиента XWiki OIDC.
       health_status:
         show:
           actions:
-            download_report: Download
-            rerun_checks: Re-run all checks
-            run_checks: Run checks now
-          last_check: 'Last check: %{datetime}'
-          no_health_report: No report available
-          no_health_report_description: Run the checks now for a full health status report for this wiki provider.
-          title: Health Report
+            download_report: Скачать
+            rerun_checks: Перезапустить все проверки
+            run_checks: Выполнить проверку
+          last_check: 'Последняя проверка: %{datetime}'
+          no_health_report: Нет доступных отчетов
+          no_health_report_description: Запустить проверку этого провайдера вики для полного отчёта о состоянии здоровья.
+          title: Отчет о состоянии здоровья
       internal_provider_form:
-        checkbox_caption: Allow projects to use the internal OpenProject wiki along with external Wiki providers
-        checkbox_label: Enable the internal OpenProject wiki
+        checkbox_caption: Разрешить проектам использовать вики проекта вместе с внешними поставщиками вики
+        checkbox_label: Включить вики-страницы проектов OpenProject
       internal_wiki_provider:
         show:
-          description: Choose to enable or disable the internal OpenProject wiki
+          description: Выберите, чтобы включить или отключить вики проекта
       oauth_application_info_component:
         confirm_replace_oauth_application: Это действие сбросит текущие учетные данные OAuth. После подтверждения Вам придется заново ввести учетные данные в Вашем экземпляре XWiki, а все пользователи должны будут заново авторизоваться. Вы уверены, что хотите продолжить?
-        label_oauth_client_id: OAuth Client ID
+        label_oauth_client_id: OAuth ID клиента
         replace_oauth_application: Заменить приложение OpenProject OAuth
       oauth_client_info_component:
         confirm_replace_oauth_client: Это действие сбросит текущие учетные данные XWiki OAuth. Все пользователи должны будут повторно авторизоваться в XWiki. Вы уверены, что хотите продолжить?
-        label_oauth_client_id: OAuth Client ID
+        label_oauth_client_id: OAuth ID клиента
         replace_oauth_client: Заменить приложение XWiki OAuth
       side_panel:
         health_status_component:
-          last_check: 'Last check: %{datetime}'
-          open_report: Open full health report
-          run_checks: Run checks now
-          title: Health status report
+          last_check: 'Последняя проверка: %{datetime}'
+          open_report: Открыть полный отчёт о состоянии
+          run_checks: Выполнить проверку
+          title: Отчет о состоянии здоровья
       wiki_provider_list_component:
         label_creation_time: Создан
         label_name: Название
@@ -112,129 +119,134 @@ ru:
         index_description: Добавить внешний вики-сервис, чтобы связать рабочие пакеты с существующими вики-страницами или создать новые прямо из OpenProject.
         label_add_new: Добавить нового вики-провайдера
         label_edit: Редактировать провайдера XWiki
-        label_new_provider: New XWiki provider
+        label_new_provider: Новый провайдер XWiki
         label_wiki_platform: Провайдер Wiki
-        name_caption: Give your wiki provider a name so that users can differentiate between multiple wiki platforms.
+        name_caption: Присвойте своему провайдеру вики название, чтобы пользователи могли различать различные вики-платформы.
         name_placeholder: База знаний XWiki
         new_provider_html: Прочитайте нашу документацию по [настройке интеграции XWiki](docs_url) для получения дополнительной информации.
         oauth:
           openproject_oauth: OpenProject OAuth
         sections:
-          general_information: General information
+          general_information: Общая информация
           oauth_configuration: Конфигурация OAuth
-        url_caption: The host address of your wiki platform including the https://. It should not be longer than 255 characters.
+        url_caption: Адрес хоста вашей вики-платформы, включая https://. Он не должен быть длиннее 255 символов.
         xwiki:
           oauth:
-            openproject_oauth_description: Allow XWiki to access OpenProject data using an OAuth application.
+            openproject_oauth_description: Разрешить XWiki доступ к данным OpenProject с помощью приложения OAuth.
             provider_oauth: Wiki OAuth
-            provider_oauth_configuration: Copy these values to the [XWiki OIDC Connection client](xwiki_oidc_link).
-            provider_oauth_description: Allow OpenProject to access XWiki data using OAuth.
+            provider_oauth_configuration: Скопируйте эти значения в [клиент подключения XWiki OIDC](xwiki_oidc_link).
+            provider_oauth_description: Разрешить OpenProject доступ к данным XWiki с помощью OAuth.
           openproject_oauth_description: Разрешить XWiki доступ к данным OpenProject с помощью OAuth.
           xwiki_oauth: XWiki OAuth
           xwiki_oauth_description: Разрешить OpenProject доступ к данным XWiki с помощью OAuth.
     buttons:
       connect_account: Подключите учетную запись %{provider}
       done_continue: Готово, продолжить
-      open_wiki: Open wiki
+      open_wiki: Открыть вики
       save_and_continue: Сохранить и продолжить
       wiki_page: Wiki-страница
     create_new_wiki_page_dialog:
-      title: Create new wiki page
+      title: Создать новую страницу вики
     deferred_inline_page_link_macro_component:
-      loading: Loading…
+      loading: Загрузка…
     delete_relation_page_link_confirmation_dialog:
-      heading: Delete related wiki page link?
-      title: Delete related wiki page link
+      heading: Удалить ссылку на соответствующую страницу вики?
+      title: Удалить ссылку на соответствующую страницу вики
     errors:
-      connection_error: Could not connect to the wiki provider.
-      invalid_parent: The selected page is not a valid parent page.
-      invalid_response: The wiki provider responded unexpectedly.
-      missing_token: The user account is not yet connected to the wiki provider.
-      request_failed: The wiki provider experienced an unexpected error.
-      unauthorized: An authorization error occurred.
+      connection_error: Не удалось подключиться к провайдеру wiki.
+      invalid_parent: Выбранная страница не является допустимой родительской страницей.
+      invalid_response: Неожиданный ответ провайдера wiki.
+      missing_token: Учетная запись пользователя пока не привязана к провайдеру вики.
+      request_failed: Неизвестная ошибка провайдера вики.
+      unauthorized: Произошла ошибка авторизации.
     health_checks:
       authentication:
-        existing_token: User token
-        header: Authentication
-        user_bound_request: User-based request authentication
+        existing_token: Токен пользователя
+        header: Аутентификация
+        user_bound_request: Аутентификация запросов на основе пользователя
       base_configuration:
-        header: Configuration
-        provider_configured: Configuration complete
-        universal_id_known: Provider recognized
+        header: Конфигурация
+        provider_configured: Конфигурация завершена
+        universal_id_known: Поставщик распознан
       errors:
-        connection_error: OpenProject could not connect to the wiki provider.
-        not_configured: The connection could not be validated. Please finish configuration first.
-        uid_mismatch: The universal identifier reported by the wiki provider does not match the identifier that OpenProject recorded during setup.
-        xwiki_oauth_connection_error: OpenProject could not connect to the configured XWiki instance.
-        xwiki_oauth_request_error: An unexpected error occurred when trying to communicate with the XWiki instance.
-        xwiki_oauth_token_missing: OpenProject cannot test the user-level communication with XWiki as the user did not yet connect their XWiki account.
-        xwiki_oauth_unauthorized: The user token was not recognized by XWiki.
+        connection_error: OpenProject не смог подключиться к провайдеру wiki.
+        not_configured: Соединение не удалось подтвердить. Пожалуйста, сначала завершите настройку.
+        uid_mismatch: Универсальный идентификатор, предоставленный поставщиком вики, не совпадает с идентификатором, который OpenProject зарегистрировал во время настройки.
+        xwiki_oauth_connection_error: OpenProject не смог установить соединение с настроенным экземпляром XWiki.
+        xwiki_oauth_request_error: При попытке установить связь с экземпляром XWiki произошла непредвиденная ошибка.
+        xwiki_oauth_token_missing: OpenProject не может проверить связь с XWiki на уровне пользователя, поскольку пользователь ещё не подключил свою учётную запись XWiki.
+        xwiki_oauth_unauthorized: XWiki не распознал токен пользователя.
     index:
-      column_last_edited: Last edited
-      column_name: Wiki page
-      column_project: Project
-      column_sub_pages: Sub-pages
-      filter_by_name: Filter by page name
-      filter_placeholder: Search by name
+      column_last_edited: Последнее изменение
+      column_name: Wiki-страница
+      column_parent: Родитель
+      column_project: Проект
+      column_sub_pages: Подстраницы
+      filter_by_name: Фильтр по названию страницы
+      filter_placeholder: Поиск по имени
       menu_title: Wiki
-      no_results_description: No wiki pages are available.
-      no_results_title: No wiki pages yet
+      no_results_description: Нет доступных вики-страниц.
+      no_results_title: Пока нет вики-страниц
       queries:
-        all: All wiki pages
-        main: Main wiki pages
+        all: Все wiki-страницы
+        main: Основные страницы вики
       sub_pages_count:
-        one: 1 sub-page
-        few: "%{count} sub-pages"
-        many: "%{count} sub-pages"
-        other: "%{count} sub-pages"
+        one: 1 подстраница
+        few: "%{count} подстраницы"
+        many: "%{count} подстраниц"
+        other: "%{count} подстраниц"
     inline_wiki_page_dialog:
-      title_add: Add existing wiki page
-      title_create: Create new wiki page
+      title_add: Добавить существующую страницу вики
+      title_create: Создать новую страницу вики
     instructions:
       xwiki:
-        integration: XWiki Administration
-        oauth_application_details_html: The client secret value will not be accessible again after you close this window. Please copy these values into the [XWiki OpenProject Integration settings](xwiki_admin_link).
+        integration: Администрирование XWiki
+        oauth_application_details_html: Секретное значение клиента будет недоступно снова после закрытия этого окна. Скопируйте эти значения в [Настройки интеграции OpenProject](xwiki_admin_link).
     link_existing_wiki_page_dialog:
-      title: Add existing wiki page
+      title: Добавить существующую страницу вики
     oauth_login_component:
       connect_button: Подключить учетную запись %{provider}
       description: Войдите в %{provider} для просмотра и управления связанными страницами вики из этого экземпляра OpenProject.
       heading: Не подключен к %{provider}
     page_link_component:
-      add_to_related_pages: Add to related pages
+      add_to_related_pages: Добавить к связанным страницам
       remove: Удалить ссылку на страницу
     page_link_forms:
       labels:
-        page_title: Title
-        parent: Parent wiki page
-        wiki_page: Wiki page
+        page_title: Заголовок
+        parent: Родитель
+        wiki_page: Вики-страница
       search:
-        no_results: No wiki pages found
-        placeholder: Search for a wiki page (or enter its URL)
+        no_results: Вики-страницы не найдены
+        placeholder: Поиск вики-страницы (или введите его URL)
     page_links:
-      aria_label: A dynamic link to a wiki page placed using a macro.
+      aria_label: Динамическая ссылка на страницу вики, размещенная с помощью макроса.
       errors:
-        page_access_forbidden: You do not have permission to access this wiki page
-        page_not_found: Linked wiki page no longer available
-        unexpected: An unexpected error occurred
+        page_access_forbidden: У вас нет прав на доступ к этой странице вики
+        page_not_found: Связанная вики-страница больше не доступна
+        unexpected: Произошла неизвестная ошибка
       source:
-        parent: As parent
+        parent: Как родитель
     project_settings:
       project_internal_wiki_component:
-        caption: This enables native wiki functionality for this project. Members will be able to create and read wiki pages that are stored in OpenProject.
-        enable: Enable the internal wiki for this project
+        blankslate_description: В этом экземпляре, вики проекта отключены на глобальном уровне и поэтому не могут быть включены для проектов. Пожалуйста, обратитесь к администратору с просьбой включить вики в настройках.
+        blankslate_title: Вики-страницы проектов отключены на глобальном уровне
+        caption: Это позволяет использовать внутреннюю вики для этого проекта. Участники смогут создавать и читать вики-страницы, хранящиеся в OpenProject.
+        enable: Включить вики OpenProject для этого проекта
     provider_types:
+      internal:
+        name: OpenProject
       xwiki:
         name: XWiki
     relation_page_links_component:
       empty_heading: Нет связанных страниц
-      empty_text: Add wiki pages that are relevant to this work package.
-      link_existing: Existing wiki page
-      link_new: New wiki page
+      empty_text: Добавьте вики-страницы, имеющие отношение к этому пакету работ.
+      link_existing: Существующая страница вики
+      link_new: Создать страницу вики
     upsell:
       xwiki:
-        description: Connect XWiki with OpenProject and keep documentation and work in sync, link pages, track references and manage everything in one place.
-        title: XWiki Integration
+        description: Подключите XWiki к OpenProject, чтобы синхронизировать документацию и рабочие процессы, создавать ссылки между страницами, отслеживать ссылки и управлять всем из одного места.
+        title: Интеграция с XWiki
     work_package_wikis_tab_component:
-      inline_page_links: Mentioned in description
+      inline_page_links: Упомянуто в описании
       referencing_pages: Ссылается в

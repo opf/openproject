@@ -107,7 +107,7 @@ module ErrorsHelper
         render template: "common/error",
                layout: use_layout,
                status:,
-               locals: { status:, params: }
+               locals: { status:, params:, menu_name: error_menu_name }
       end
       format.any do
         head status
@@ -117,5 +117,12 @@ module ErrorsHelper
 
   def unset_template_magic
     @project = nil # rubocop:disable Rails/HelperInstanceVariable
+  end
+
+  # A missing page keeps the navigation of the project it was looked for in, so the
+  # user can still get somewhere. The other error paths drop the project on purpose,
+  # notably 403, where the project structure is what the user may not see.
+  def error_menu_name
+    @project&.persisted? ? :project_menu : :none # rubocop:disable Rails/HelperInstanceVariable
   end
 end

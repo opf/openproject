@@ -58,9 +58,8 @@ RSpec.describe "API v3 Type resource" do
 
         it_behaves_like "API V3 collection response", 4, 4, "Type"
 
-        context "with a variant" do
-          # a 5th type exists but the collection still returns the 4 roots only
-          let!(:variant) { create(:type, parent: types.first) }
+        context "with a named type variant" do
+          let!(:variant) { create(:type_variant, type: types.first) }
 
           it_behaves_like "API V3 collection response", 4, 4, "Type"
         end
@@ -92,29 +91,6 @@ RSpec.describe "API v3 Type resource" do
 
         context "valid type id" do
           it { expect(response).to have_http_status(:ok) }
-        end
-
-        context "for a variant" do
-          let(:root) { create(:type, name: "Task") }
-          let(:type) { create(:type, name: "Bug", parent: root) }
-
-          it "shows the root name as its name" do
-            expect(response.body).to be_json_eql("Task".to_json).at_path("name")
-          end
-
-          it "exposes its own name" do
-            expect(response.body).to be_json_eql("Bug".to_json).at_path("ownName")
-          end
-
-          it "links to its parent" do
-            expect(response.body)
-              .to be_json_eql(api_v3_paths.type(root.id).to_json).at_path("_links/parent/href")
-          end
-
-          it "keeps its own stable self href" do
-            expect(response.body)
-              .to be_json_eql(api_v3_paths.type(type.id).to_json).at_path("_links/self/href")
-          end
         end
 
         context "invalid type id" do

@@ -34,6 +34,8 @@ FactoryBot.define do
       no_types { false }
       disable_modules { [] }
       members { [] }
+
+      types { [] }
     end
 
     created_at { Time.zone.now }
@@ -46,9 +48,33 @@ FactoryBot.define do
       disabled_modules = Array(evaluator.disable_modules).map(&:to_s)
       project.enabled_module_names = project.enabled_module_names - disabled_modules
 
-      if !evaluator.no_types && project.types.empty?
-        project.types << (Type.where(is_standard: true).first || build(:type_standard))
+      # Most specs never name a type but still expect their project to hold work packages, so a
+      # project gets the Default type unless the caller opts out. `build(:type_default)` finds the
+      # existing one where there already is one, so projects in the same example share it.
+      enabled_types = evaluator.types
+      enabled_types = [build(:type_default)] if enabled_types.empty? && !evaluator.no_types
+
+      # Callers name either a type or one of its variants. A type contributes its base
+      # variant, which is the configuration it uses where none was chosen.
+      #
+      # An unsaved type has no base variant yet — it creates one on save — and the join row
+      # cannot be inserted without one, so it is persisted first.
+      enabled_types.each { |requested| requested.save! if requested.new_record? }
+
+      project.project_types = enabled_types.map do |requested|
+        ProjectType.new(type: type_of(requested), variant: variant_of(requested))
       end
+    end
+
+    callback(:after_stub) do |project, evaluator|
+      # No rows exist to read back from, and assigning the association on a record that already
+      # looks persisted would insert them for real.
+      project.association(:project_types).target = evaluator.types.map do |requested|
+        ProjectType.new(type: type_of(requested)).tap do |project_type|
+          project_type.variant = requested if requested.is_a?(TypeVariant)
+        end
+      end
+      project.association(:project_types).loaded!
     end
 
     callback(:after_create) do |project, evaluator|
@@ -65,17 +91,12 @@ FactoryBot.define do
     end
 
     trait :with_types do
-      # using initialize_with types to prevent
-      # the project's initialize function looking for the default type
-      # when we will be setting the type later on anyway
-      initialize_with do
-        types = if instance_variable_get(:@build_strategy).is_a?(FactoryBot::Strategy::Stub)
-                  [build_stubbed(:type)]
-                else
-                  [build(:type)]
-                end
-
-        new(types:)
+      types do
+        if instance_variable_get(:@build_strategy).is_a?(FactoryBot::Strategy::Stub)
+          [build_stubbed(:type)]
+        else
+          [build(:type)]
+        end
       end
     end
 
@@ -104,4 +125,19 @@ FactoryBot.define do
       end
     end
   end
+end
+
+# A workspace factory accepts a type or one of its variants wherever types are named.
+def type_of(requested)
+  requested.is_a?(TypeVariant) ? requested.type : requested
+end
+
+def variant_of(requested)
+  return requested if requested.is_a?(TypeVariant)
+
+  requested.default_variant || requested.variants.detect(&:is_default_variant?)
+end
+
+def enabled_types_of(project)
+  project.project_types.filter_map(&:type).sort_by { |type| type.position || 0 }
 end

@@ -31,17 +31,15 @@
 module WorkPackageTypes
   class DetailsForm < ApplicationForm
     form do |details_form|
-      details_form.hidden(name: :parent_id) if carries_parent?
-
       details_form.text_field(
-        name: :name,
-        value: model.own_name,
-        label: label(:name),
+        name: name_attribute,
+        value: model.public_send(name_attribute),
+        label: label(name_attribute),
         input_width: :large,
         required: true,
         autocomplete: "off",
-        disabled: model.is_standard?,
-        validation_message: validation_message_for(:name)
+        validation_message: validation_message_for(name_attribute),
+        caption: name_caption
       )
 
       details_form.color_select_list(
@@ -62,13 +60,23 @@ module WorkPackageTypes
                              label: label(:is_in_roadmap),
                              disabled: inherited?,
                              caption: inherited_caption)
+
+      if offers_project_variants?
+        details_form.check_box(name: :allow_project_variants,
+                               label: label(:allow_project_variants),
+                               caption: I18n.t("types.edit.details.allow_project_variants_caption"))
+      end
     end
 
     private
 
-    def carries_parent? = model.new_record? && model.parent_id.present?
+    def inherited? = model.is_a?(TypeVariant)
 
-    def inherited? = model.variant?
+    def offers_project_variants?
+      !inherited? && OpenProject::FeatureDecisions.type_variants_active?
+    end
+
+    def name_attribute = inherited? ? :variant_name : :name
 
     def color_caption
       inherited? ? inherited_caption : I18n.t("types.edit.details.type_color_text")
@@ -77,13 +85,21 @@ module WorkPackageTypes
     def inherited_caption
       return unless inherited?
 
-      helpers.t("types.creation_wizard.fields.inherited_from_parent_html", parent: model.parent&.name)
+      helpers.t("types.edit.details.inherited_from_type_html", type: model.type.name)
     end
 
-    def label(attribute) = Type.human_attribute_name(attribute)
+    def label(attribute)
+      return TypeVariant.human_attribute_name(attribute) if attribute == :variant_name
+
+      Type.human_attribute_name(attribute)
+    end
 
     def validation_message_for(attribute)
       model.errors.messages_for(attribute).to_sentence.presence
+    end
+
+    def name_caption
+      helpers.t("types.edit.details.variant_name_caption_html", type: model.type.name) if inherited?
     end
   end
 end

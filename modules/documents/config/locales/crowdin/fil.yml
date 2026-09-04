@@ -31,13 +31,18 @@ fil:
         document_type:
           one_or_more_required: Cannot delete the last document type
     models:
-      document: Dokumento
-      documents: Documents
+      document:
+        one: Document
+        other: Documents
+      document_type:
+        one: Document type
+        other: Document types
   activity:
     filter:
       document: Mga dokumento
   attributes:
     collaborative_editing_hocuspocus_url: Hocuspocus server URL
+    documents: Documents
   default_doc_category_tech: Teknikal na dokumentasyon
   default_doc_category_user: Dokumento para sa mga gagamit
   documents:

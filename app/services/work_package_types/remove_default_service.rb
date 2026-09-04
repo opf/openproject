@@ -29,23 +29,23 @@
 #++
 
 module WorkPackageTypes
-  # Clears the "active in new projects" flag from a type or variant.
+  # Clears the "active in new projects" flag from a variant.
   class RemoveDefaultService
-    def initialize(type:, user:)
-      @type = type
+    def initialize(variant:, user:)
+      @variant = variant
       @user = user
     end
 
     def call
-      type.update!(is_default: false)
+      variant.update!(enabled_in_new_projects: false)
 
-      ServiceResult.success(result: type)
+      ServiceResult.success(result: variant)
     rescue ActiveRecord::RecordInvalid => e
-      ServiceResult.failure(result: type, errors: e.record.errors)
+      ServiceResult.failure(result: variant, errors: e.record.errors)
     end
 
     private
 
-    attr_reader :type, :user
+    attr_reader :variant, :user
   end
 end

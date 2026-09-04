@@ -35,6 +35,7 @@ FactoryBot.define do
       days { WorkPackages::Shared::Days.for(self) }
       journals { nil }
       now { Time.zone.now }
+      version { nil }
     end
 
     priority
@@ -83,7 +84,8 @@ FactoryBot.define do
     end
 
     callback(:after_build) do |work_package, evaluator|
-      work_package.type ||= TestProf::FactoryBot.get_factory_default(:type) || work_package.project.types.first
+      work_package.type ||= TestProf::FactoryBot.get_factory_default(:type) ||
+                            enabled_types_of(work_package.project).first
 
       custom_values = evaluator.custom_values || {}
 
@@ -100,16 +102,16 @@ FactoryBot.define do
 
     callback(:after_stub) do |wp, evaluator|
       unless wp.type_id || evaluator.overrides?(:type) || wp.project.nil?
-        wp.type = wp.project.types.first
+        wp.type = enabled_types_of(wp.project).first
       end
     end
 
     # The persistence services mirror version_id into a kind: "target" join row,
     # so every saved work package with a version also has one. Factories skip
     # the services, so the row is created here to match.
-    callback(:after_create) do |work_package|
-      if work_package.version_id
-        work_package.work_package_versions.find_or_create_by!(version_id: work_package.version_id, kind: "target")
+    callback(:after_create) do |work_package, evaluator|
+      if evaluator.version
+        work_package.work_package_versions.find_or_create_by!(version_id: evaluator.version.id, kind: "target")
       end
     end
 

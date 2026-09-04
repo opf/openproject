@@ -58,14 +58,13 @@ module WorkPackageTypes
     end
 
     it "defaults to the UpdateDetailsContract" do
-      params = { patterns: { subject: { blueprint: "{{author}}", enabled: true } } }
-
-      result = service.call(params)
-      expect(result).to be_failure
-      expect(result.errors.full_messages).to be_present
+      expect do
+        service.call(patterns: { subject: { blueprint: "{{author}}", enabled: true } })
+      end.to raise_error(ActiveModel::UnknownAttributeError, /patterns/)
     end
 
     context "when updating attribute groups" do
+      let(:model) { create(:type, name: "Types-R-Us").default_variant }
       let(:contract_class) { UpdateFormConfigurationContract }
       let(:params) do
         { attribute_groups: [
@@ -116,7 +115,8 @@ module WorkPackageTypes
       end
     end
 
-    describe "custom field handling" do
+    describe "custom field handling", with_ee: %i[edit_attribute_groups] do
+      let(:model) { create(:type, name: "Types-R-Us").default_variant }
       let(:contract_class) { UpdateFormConfigurationContract }
       let(:params) do
         { attribute_groups: [
@@ -126,6 +126,8 @@ module WorkPackageTypes
         ] }
       end
 
+      subject(:service) { described_class.new(user:, model:, contract_class:) }
+
       it "enables the custom fields" do
         service.call(params)
 
@@ -133,11 +135,11 @@ module WorkPackageTypes
       end
 
       context "when a project already uses the type" do
-        before { type.projects = create_list(:project, 2) }
+        before { type.type.projects = create_list(:project, 2) }
 
         it "does not automatically enable the custom field" do
           expect { service.call(params) }
-            .not_to change { Project.where(id: type.project_ids).map(&:work_package_custom_field_ids) }
+            .not_to change { Project.where(id: type.type.project_ids).map(&:work_package_custom_field_ids) }
                       .from([[], []])
         end
 
@@ -145,13 +147,14 @@ module WorkPackageTypes
           type.custom_field_ids = [cf1.id, cf2.id]
 
           expect { service.call(params) }
-            .not_to change { Project.where(id: type.project_ids).map(&:work_package_custom_field_ids) }
+            .not_to change { Project.where(id: type.type.project_ids).map(&:work_package_custom_field_ids) }
                       .from([[], []])
         end
       end
     end
 
-    describe "query group handling" do
+    describe "query group handling", with_ee: %i[edit_attribute_groups] do
+      let(:model) { create(:type, name: "Types-R-Us").default_variant }
       let(:query_params) do
         statuses = create_list(:status, 2)
         sort_by = JSON::dump(["status:desc"])
@@ -166,6 +169,13 @@ module WorkPackageTypes
 
       let(:params) { { attribute_groups: [query_group_params] } }
       let(:contract_class) { UpdateFormConfigurationContract }
+
+      subject(:service) { described_class.new(user:, model:, contract_class:) }
+
+      before do
+        login_as(user)
+        create(:project)
+      end
 
       it "assigns the fully parsed query to the type attribute groups" do
         expect(service.call(params)).to be_success
@@ -193,63 +203,23 @@ module WorkPackageTypes
     end
 
     context "when attribute_groups is malformed JSON" do
+      let(:model) { create(:type, name: "Types-R-Us").default_variant }
       let(:contract_class) { UpdateFormConfigurationContract }
+
+      subject(:service) { described_class.new(user:, model:, contract_class:) }
 
       it "returns a failure result" do
         result = service.call(attribute_groups: "{")
 
         expect(result).to be_failure
-        expect(result.errors[:attribute_groups].to_sentence)
-          .to eq(I18n.t("types.edit.form_configuration.invalid_attribute_groups"))
-      end
-    end
-
-    context "when adding the type to a project" do
-      let(:projects) { create_list(:project, 2) }
-      let(:active_project) { create(:project) }
-      let(:new_project) { create(:project) }
-      let(:project_ids) do
-        { project_ids: [*[active_project, new_project].map { it.id.to_s }, ""] }
-      end
-      let(:contract_class) { UpdateProjectsContract }
-
-      before do
-        groups = { attribute_groups: [
-          { "type" => "attribute",
-            "name" => "group1",
-            "attributes" => [{ "key" => cf1.attribute_name }, { "key" => cf2.attribute_name }] }
-        ] }
-
-        type.projects << active_project
-        described_class.new(model:, user:, contract_class: UpdateFormConfigurationContract).call(groups)
+        expect(result.errors[:attribute_groups].to_sentence).to eq("The form payload is invalid.")
       end
 
-      it "enables the custom field on the newly added project" do
-        expect { service.call(project_ids) }.to change { Project.find(new_project.id).work_package_custom_field_ids }
-                                                  .from([]).to([cf1.id, cf2.id])
-      end
+      it "returns a failure result for valid JSON that is not a list of groups" do
+        result = service.call(attribute_groups: "{}")
 
-      it "does not enable the custom fields on the already added project" do
-        expect { service.call(project_ids) }.not_to change { Project.find(active_project.id).work_package_custom_field_ids }
-                                                      .from([])
-      end
-    end
-
-    context "when removing the type from a project with work packages" do
-      let(:contract_class) { UpdateProjectsContract }
-      let(:project) { create(:project, types: [type]) }
-      let!(:work_package) { create(:work_package, project:, type:) }
-      let(:params) { { project_ids: [] } }
-
-      subject(:service) { described_class.new(user:, model:, contract_class:) }
-
-      it "fails and keeps the type active in the project" do
-        expect(service_call).to be_failure
-        expect(service_call.errors.messages_for(:project_ids))
-          .to contain_exactly(I18n.t(:error_can_not_deactivate_type,
-                                     type: type.name,
-                                     work_packages_link: I18n.t(:label_work_package_plural).downcase))
-        expect(project.reload.types).to include(type)
+        expect(result).to be_failure
+        expect(result.errors[:attribute_groups].to_sentence).to eq("The form payload is invalid.")
       end
     end
   end

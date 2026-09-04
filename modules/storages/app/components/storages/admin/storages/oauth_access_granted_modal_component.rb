@@ -40,7 +40,7 @@ module Storages
         end
 
         def render?
-          storage.present? && OAuthClientToken.exists?(user: User.current, oauth_client: storage.oauth_client)
+          storage.present? && OAuthClients::TokenFetcher.new(user: User.current).connected?(oauth_client: storage.oauth_client)
         end
 
         private

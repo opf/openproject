@@ -51,6 +51,8 @@ module API
           priority
           type
           version
+          target_versions
+          observed_in_versions
           parent
         ].freeze
 
@@ -101,7 +103,7 @@ module API
         # contains the lower camel-cased names.
         def rendered_properties_for_links
           @rendered_properties_for_links ||= rendered_properties.map do |property|
-            if property.starts_with?("custom_field_")
+            if property.starts_with?("custom_field_") || %w[target_versions observed_in_versions].include?(property)
               API::Utilities::PropertyNameConverter.from_ar_name(property)
             else
               property

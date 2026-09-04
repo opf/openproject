@@ -66,16 +66,31 @@ ru:
         spent_units: Затраченное количество
     errors:
       messages:
-        cost_type_in_use_cannot_disable: cannot be disabled because costs have already been logged for it in this project.
+        cost_type_in_use_cannot_disable: невозможно отключить, потому что расходы уже были зарегистрированы в этом проекте.
       models:
         cost_types_project:
           attributes:
             project_ids:
               blank: Пожалуйста, выберите проект.
         time_entry:
-          cannot_log_for_this_work_package: Невозможно зарегистрировать время для этого пакета работ.
-          duplicate_ongoing: Текущая запись времени уже существует для этого пользователя.
-          invalid_time: должно быть между 00:00 и 23:59.
+          attributes:
+            entity:
+              blank: Logged for can't be blank.
+              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
+              format: "%{message}"
+            hours:
+              exceeds_user_working_hours: The logged hours cannot exceed the limit of %{limit} hours available on the user's working day.
+              format: "%{message}"
+              max_hours_per_day_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single day defined by the administrator.
+              max_hours_per_entry_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single time entry defined by the administrator.
+            spent_on:
+              format: "%{message}"
+              in_past_month: You can't plan time into a past month. Time entries can only be added, changed or deleted from %{date} onwards.
+              not_a_working_day: The selected day is a non-working day for this user.
+            start_time:
+              format: "%{message}"
+              invalid_time: Invalid time. The time must be between 00:00 and 23:59.
+          duplicate_ongoing: Another timer is already running. Only one timer can be active at the same time.
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Пакет работ #%{id} не является допустимым объектом для назначения стимостей.'
           nullify_is_not_valid_for_cost_entries: Записи о стоимостях не могут быть присвоены проекту.
@@ -85,12 +100,31 @@ ru:
         few: Записи трудозатрат
         many: Записи трудозатрат
         other: Записи трудозатрат
+      cost_rate:
+        one: Ставка затрат
+        few: Cost rates
+        many: Cost rates
+        other: Ставки затрат
       cost_type:
         one: Тип затрат
         few: Типы затрат
         many: Типы затрат
         other: Типы затрат
-      rate: Ставка
+      default_hourly_rate:
+        one: Почасовая ставка по умолчанию
+        few: Default hourly rates
+        many: Default hourly rates
+        other: Почасовые ставки по умолчанию
+      hourly_rate:
+        one: Часовая ставка
+        few: Hourly rates
+        many: Hourly rates
+        other: Часовые ставки
+      rate:
+        one: Ставка
+        few: Rates
+        many: Rates
+        other: Ставки
       time_entry:
         one: Запись о трудозатратах
         few: Записи о трудозатратах
@@ -101,6 +135,11 @@ ru:
         few: Отслеживание времени
         many: Отслеживание времени
         other: Отслеживание времени
+      time_entry_custom_field:
+        one: Пользовательское поле для учета рабочего времени
+        few: Time entry custom fields
+        many: Time entry custom fields
+        other: Пользовательские поля для учета рабочего времени
   api_v3:
     errors:
       validation:
@@ -120,6 +159,8 @@ ru:
   button_log_costs: Журналировать расходы на единицу
   button_log_time: Журнал
   button_stop_timer: Остановить таймер
+  button_update_limits: Обновить ограничения
+  button_update_start_finish_times: Обновить время начала и окончания
   caption_booked_on_project: Заказано на проект
   caption_default: По умолчанию
   caption_default_rate_history_for: История тарифов по умолчанию для %{user}
@@ -151,7 +192,7 @@ ru:
       cost_types:
         for_all_projects_hint: Этот тип затрат включен во всех проектах.
         heading: Типы затрат
-        in_use_hint: This cost type cannot be disabled because costs have already been logged for it in this project.
+        in_use_hint: Этот тип затрат не может быть отключен, так как затраты уже были зарегистрированы в этом проекте.
         none_active: В настоящее время в этом проекте нет активных типов затрат.
       time_and_costs: Время и затраты
   costs:
@@ -165,15 +206,16 @@ ru:
         view_details: Подробнее о фактических затратах
   description_costs_settings: Определите желаемый формат для затрат во всех проектах.
   description_date_for_new_rate: Дата для нового тарифа
-  description_time_settings: Определите, какие поля являются обязательными для заполнения при регистрации времени во всех проектах.
+  description_time_entry_restrictions: Определите ограничения на время регистрации рабочего времени пользователем. Это правило распространяется на все проекты.
+  description_time_settings: Записи о времени могут содержать конкретные время начала и окончания, которые можно сделать необязательными или обязательными.
   ee:
     features:
-      time_entry_time_restrictions: Требует точного отслеживания времени
+      time_entry_time_restrictions: Ограничения на ввод данных об отработанном времени
     upsell:
       time_entry_time_restrictions:
-        description: Улучшите отслеживание времени, требуя точного времени начала и окончания при записи трудозатрат.
+        description: Усовершенствуйте систему учёта рабочего времени, разрешив или обязав сотрудников точно фиксировать время начала и окончания работы, а также установив ограничения на то, когда и сколько времени может регистрироваться участником проекта.
   group_by_others: не в какой-либо группе
-  label_available_cost_types_projects: Available cost types projects
+  label_available_cost_types_projects: Доступные виды затрат по проектам
   label_between: между
   label_cost: Затраты
   label_cost_filter_add: Добавить фильтр расходов
@@ -186,6 +228,7 @@ ru:
   label_current_default_rate: Текущий тариф по умолчанию
   label_date_on: на
   label_day: День
+  label_defaults_and_limits: Значения по умолчанию и ограничения
   label_deleted_cost_types: Типы удаленных расходов
   label_display_cost_entries: Отображать расходы на единицу
   label_display_time_entries: Отображать часы по отчету
@@ -195,13 +238,11 @@ ru:
   label_greater_or_equal: ">="
   label_group_by: Группировать по
   label_group_by_add: Добавьте поле группировки
-  label_hourly_rate: Почасовой тариф
   label_include_deleted: Включая удаленные
   label_kind: Тип
   label_less_or_equal: "<="
   label_list: Список
   label_log_costs: Внести расходы на единицу
-  label_mandatory_fields: Обязательные поля
   label_month: Месяц
   label_my_time_tracking: Мои трудозатраты
   label_new_time_entry_activity: Новая деятельность по учету рабочего времени
@@ -217,19 +258,19 @@ ru:
   label_previous_month: Предыдущий месяц
   label_previous_week: Предыдущая неделя
   label_previous_workweek: Предыдущая рабочая неделя
-  label_rate: Ставка
   label_rate_plural: Тарифы
   label_show: Показать
   label_specific_day: День %{day}
   label_specific_month: Месяц %{month}
+  label_start_and_finished: Время начала и окончания
   label_status_finished: Завершенные
   label_time: Время
   label_time_entry_activity_form_description: Изменения в записи этого времени будут отражаться во всех проектах, где он включен.
+  label_time_entry_restrictions: Ограничения
   label_timer_since: Начато в %{time}
   label_today_capitalized: Сегодня
   label_units: Стоимость единицы
   label_until: До
-  label_user: Пользователь
   label_valid_from: Действует с
   label_view_mode_switcher: Изменить вид
   label_work_package_filter_add: Добавить фильтр пакетов работы
@@ -270,6 +311,18 @@ ru:
   setting_enforce_tracking_start_and_end_times: Требуется время начала и окончания
   setting_enforce_tracking_start_and_end_times_caption: Делает ввод времени начала и окончания обязательным при регистрации времени.
   setting_enforce_without_allow: Требование точного времени невозможно без соответствующего разрешения
+  setting_time_entries_limit_to_user_working_hours: Ограничение рабочего времени пользователя
+  setting_time_entries_limit_to_user_working_hours_caption: Ограничивает общее количество часов, которые можно регистрировать в день, фактическим рабочим временем данного пользователя. На пользователей, для которых не установлено рабочее время, ограничения не распространяются.
+  setting_time_entries_max_hours_per_day: Максимальное количество часов в день
+  setting_time_entries_max_hours_per_day_caption: Ограничивает общее количество часов, которое пользователь может зарегистрировать в системе в течение одного дня. Значение 0 означает отсутствие ограничений.
+  setting_time_entries_max_hours_per_entry: Максимальное количество часов за запись
+  setting_time_entries_max_hours_per_entry_caption: Определяет максимальную продолжительность одной записи о рабочем времени в часах. Значение 0 означает отсутствие ограничений.
+  setting_time_entries_past_month_grace_days: Льготный период за предыдущие месяцы
+  setting_time_entries_past_month_grace_days_caption: Укажите количество дней, в течение которых пользователь может вводить записи о затраченном времени за предыдущий месяц после начала нового месяца. Значение «5» означает, что пользователи могут вводить записи о затраченном времени за предыдущий месяц до 5-го числа текущего месяца. Значение «0» означает полное отсутствие льготного периода.
+  setting_time_entries_prohibit_logging_for_past_months: Запретить ведение журнала за последние месяцы
+  setting_time_entries_prohibit_logging_for_past_months_caption: Ограничивает добавление, изменение и удаление записей о рабочем времени текущим месяцем. Время, зарегистрированное в предыдущих месяцах, больше не подлежит изменению.
+  setting_time_entries_prohibit_logging_on_non_working_days: Запретить учет рабочего времени в нерабочие дни
+  setting_time_entries_prohibit_logging_on_non_working_days_caption: Пользователи не смогут регистрировать рабочее время в те дни, которые определены как нерабочие либо администратором, либо самими пользователями в настройках своих учетных записей.
   text_assign_time_and_cost_entries_to_project: Связать сообщенные часы и расходы с проектом
   text_destroy_cost_entries_question: "%{cost_entries} сообщили о рабочих пакетах, которые вы собираетесь удалить. Что вы собираетесь сделать?"
   text_destroy_time_and_cost_entries: Удалить отчеты о часах и расходах

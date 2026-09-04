@@ -67,6 +67,11 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
 
       it_behaves_like "rendering Box", row_count: 2, header: true, footer: false
 
+      it "parks the empty-state prototype in a template for the dynamic controller" do
+        expect(rendered_component)
+          .to have_css("template[data-border-box-list-target='emptyStateTemplate']", visible: :all)
+      end
+
       it "renders a Primer::Beta::BorderBox with the sprint id" do
         expect(rendered_component).to have_css(".Box#sprint_#{sprint.id}")
       end
@@ -295,6 +300,19 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
 
         it "renders the start-sprint link enabled" do
           expect(rendered_component).to have_link("Start sprint")
+        end
+
+        context "when params[:all] is true" do
+          before do
+            vc_test_controller.params[:all] = "1"
+          end
+
+          it "preserves ?all=true on the start-sprint link" do
+            expect(rendered_component).to have_link(
+              "Start sprint",
+              href: start_project_backlogs_sprint_path(project, sprint, all: true)
+            )
+          end
         end
       end
 
@@ -533,6 +551,49 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
                 text: I18n.t("backlogs.sprint_component.start_sprint_disabled_reason_active_sprint")
               )
             end
+          end
+        end
+      end
+
+      context "when the project is set to receive shared sprints" do
+        let(:parent) { create(:project, sprint_sharing: "share_subprojects", types: [type_feature, type_task]) }
+        let(:project) { create(:project, parent:, sprint_sharing: "receive_shared", types: [type_feature, type_task]) }
+        let(:sprint) do
+          create(:sprint, project:, name: "Sprint 1",
+                          start_date: Date.tomorrow, finish_date: Date.tomorrow + 7,
+                          status: "in_planning")
+        end
+
+        # This testcase is reproducible on the UI, only if the owned sprint has work packages associated to it.
+        # Otherwise it won't show up when the project sprint sharing mode is set to receive sprints.
+        it "disables the start-sprint button for own sprints" do
+          expect(rendered_component).to have_selector(:link_or_button, "Start sprint", aria: { disabled: true })
+        end
+
+        it "gives the receiving-shared-sprints reason" do
+          expect(rendered_component).to have_element(
+            "tool-tip",
+            text: I18n.t("backlogs.sprint_component.start_sprint_disabled_reason_receiving_shared_sprints")
+          )
+        end
+
+        context "when the project allows multiple active sprints" do
+          before { project.update!(allow_multiple_active_sprints: true) }
+
+          it "still disables the start-sprint button for own sprints" do
+            expect(rendered_component).to have_selector(:link_or_button, "Start sprint", aria: { disabled: true })
+          end
+        end
+
+        context "when the sprint is received from the sharer" do
+          let(:sprint) do
+            create(:sprint, project: parent, name: "Shared Sprint",
+                            start_date: Date.tomorrow, finish_date: Date.tomorrow + 7,
+                            status: "in_planning")
+          end
+
+          it "renders the start-sprint link enabled" do
+            expect(rendered_component).to have_link("Start sprint")
           end
         end
       end

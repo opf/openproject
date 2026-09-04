@@ -73,9 +73,24 @@ uk:
             project_ids:
               blank: Виберіть проєкт.
         time_entry:
-          cannot_log_for_this_work_package: Неможливо зареєструвати час, витрачений на цей пакет робіт.
-          duplicate_ongoing: Поточний запис часу вже існує для цього користувача.
-          invalid_time: має бути в діапазоні від 00:00 до 23:59.
+          attributes:
+            entity:
+              blank: Поле «Зареєстровано для» не може бути порожнім.
+              cannot_log_for_this_work_package: У вас немає дозволу реєструвати час для цього пакета робіт.
+              format: "%{message}"
+            hours:
+              exceeds_user_working_hours: Кількість зареєстрованих годин не може перевищувати час, доступний у робочому дні користувача, тобто %{limit} год.
+              format: "%{message}"
+              max_hours_per_day_exceeded: Кількість зареєстрованих годин не може перевищувати денний ліміт, установлений адміністратором, тобто %{limit} год.
+              max_hours_per_entry_exceeded: Кількість зареєстрованих годин не може перевищувати ліміт для одного запису часу, установлений адміністратором, тобто %{limit} год.
+            spent_on:
+              format: "%{message}"
+              in_past_month: Неможливо планувати час за минулий місяць. Записи часу можна додавати, змінювати або видаляти для періоду з %{date}.
+              not_a_working_day: Вибраний день є неробочим для цього користувача.
+            start_time:
+              format: "%{message}"
+              invalid_time: Недійсний час. Значення має бути в межах від 00:00 до 23:59.
+          duplicate_ongoing: Інший таймер уже запущено. Одночасно може бути активним лише один таймер.
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Робочий пакет #%{id}  не є дійсною ціллю для перепризначення записів витрат.'
           nullify_is_not_valid_for_cost_entries: Записи витрат не можуть бути призначені проекту.
@@ -85,12 +100,31 @@ uk:
         few: Записи витрат
         many: Записи витрат
         other: Записи витрат
+      cost_rate:
+        one: Ставка витрат
+        few: Ставки витрат
+        many: Ставки витрат
+        other: Ставки витрат
       cost_type:
         one: Тип вартості
         few: Види витрат
         many: Види витрат
         other: Види витрат
-      rate: Оцінити
+      default_hourly_rate:
+        one: Стандартна погодинна ставка
+        few: Стандартні погодинні ставки
+        many: Стандартні погодинні ставки
+        other: Стандартні погодинні ставки
+      hourly_rate:
+        one: Погодинна ставка
+        few: Погодинні ставки
+        many: Погодинні ставки
+        other: Погодинні ставки
+      rate:
+        one: Ставка
+        few: Ставки
+        many: Ставки
+        other: Ставки
       time_entry:
         one: Запис часу
         few: Записи часу
@@ -101,6 +135,11 @@ uk:
         few: Дії з обліку часу
         many: Дії з обліку часу
         other: Дії з обліку часу
+      time_entry_custom_field:
+        one: Користувацьке поле для запису часу
+        few: Користувацькі поля для запису часу
+        many: Користувацькі поля для запису часу
+        other: Користувацькі поля для запису часу
   api_v3:
     errors:
       validation:
@@ -120,6 +159,8 @@ uk:
   button_log_costs: Витрати лог-одиниць
   button_log_time: Записати
   button_stop_timer: Зупинити таймер
+  button_update_limits: Оновити ліміти
+  button_update_start_finish_times: Оновити час початку й завершення
   caption_booked_on_project: Записаний на проект
   caption_default: За замовчуванням
   caption_default_rate_history_for: Історія ставок за умовчанням для %{user}
@@ -165,13 +206,14 @@ uk:
         view_details: Переглянути дані про фактичні витрати
   description_costs_settings: Визначте бажаний формат витрат для всіх проєктів.
   description_date_for_new_rate: Дата нової ставки
-  description_time_settings: Визначте поля, які необхідно заповнити під час реєстрації часу для всіх проєктів.
+  description_time_entry_restrictions: Визначте обмеження щодо того, коли користувач може реєструвати час. Вони стосуються всіх проєктів.
+  description_time_settings: Записи часу можуть включати певний час початку й завершення роботи (можна вибрати, чи обовʼязково вказувати ці дані).
   ee:
     features:
-      time_entry_time_restrictions: Вимагати точного відстеження часу
+      time_entry_time_restrictions: Обмеження для записів часу
     upsell:
       time_entry_time_restrictions:
-        description: Удоскональте відстеження часу, вимагаючи введення точного часу початку й завершення робіт.
+        description: Поліпште систему обліку часу, дозволивши працівникам вводити точний час початку й завершення або зобов’язавши їх це робити, а також установивши обмеження щодо того, коли учасник проєкту може реєструвати час і яку кількість.
   group_by_others: ні в якій групі
   label_available_cost_types_projects: Доступні проєкти з типами витрат
   label_between: між ними
@@ -186,6 +228,7 @@ uk:
   label_current_default_rate: Поточна ставка за промовчанням
   label_date_on: на
   label_day: День
+  label_defaults_and_limits: Стандартні значення й ліміти
   label_deleted_cost_types: Видалені типи витрат
   label_display_cost_entries: Відображення одиничних витрат
   label_display_time_entries: Відображати зареєстровані години
@@ -195,13 +238,11 @@ uk:
   label_greater_or_equal: ">="
   label_group_by: Групувати за
   label_group_by_add: Додати поле групування
-  label_hourly_rate: Погодинна ставка
   label_include_deleted: Включити видалення
   label_kind: Тип
   label_less_or_equal: "<="
   label_list: Список
   label_log_costs: Витрати на одиницю
-  label_mandatory_fields: Обов’язкові поля
   label_month: Місяць
   label_my_time_tracking: Мій облік часу
   label_new_time_entry_activity: Нова дія з введення часу
@@ -217,19 +258,19 @@ uk:
   label_previous_month: Попередній місяць
   label_previous_week: Попередній тиждень
   label_previous_workweek: Попередній робочий тиждень
-  label_rate: Оцінити
   label_rate_plural: Тариф
   label_show: Показати
   label_specific_day: День %{day}
   label_specific_month: Місяць %{month}
+  label_start_and_finished: Час початку й завершення
   label_status_finished: Готово
   label_time: Час
   label_time_entry_activity_form_description: Зміни цієї дії з введення часу відображатимуться в усіх проєктах, де їх дозволено.
+  label_time_entry_restrictions: Ліміти
   label_timer_since: Почато о %{time}
   label_today_capitalized: Сьогодні
   label_units: Одиниці витрат
   label_until: до
-  label_user: Користувач
   label_valid_from: Діє з
   label_view_mode_switcher: Змінити подання
   label_work_package_filter_add: Додати фільтр робочого пакета
@@ -270,6 +311,18 @@ uk:
   setting_enforce_tracking_start_and_end_times: Вимагати час початку й закінчення
   setting_enforce_tracking_start_and_end_times_caption: Вимагає введення часу початку й закінчення в журнал обліку часу.
   setting_enforce_without_allow: Вимога часу початку й закінчення неможлива без відповідного налаштування
+  setting_time_entries_limit_to_user_working_hours: Обмежити робочим часом користувача
+  setting_time_entries_limit_to_user_working_hours_caption: Як ліміт загальної кількості годин, які можна зареєструвати для одного дня, використовується ефективний робочий час відповідного користувача. Це обмеження не поширюється на користувачів, робочі години яких не визначено.
+  setting_time_entries_max_hours_per_day: Максимальна кількість годин на день
+  setting_time_entries_max_hours_per_day_caption: Використовується як ліміт загальної кількості годин, які користувач може зареєструвати для одного дня. Значення «0» указує на те, що обмежень немає.
+  setting_time_entries_max_hours_per_entry: Максимальна кількість годин в одному записі часу
+  setting_time_entries_max_hours_per_entry_caption: Використовується як ліміт кількості годин, яку можна зареєструвати в межах одного запису часу. Значення «0» указує на те, що обмежень немає.
+  setting_time_entries_past_month_grace_days: Відстрочка для звітування за минулі місяці
+  setting_time_entries_past_month_grace_days_caption: Укажіть кількість днів, протягом яких користувачі можуть вносити записи часу за минулий місяць після його завершення. Значення «5» указує на те, що це можна робити до 5-го числа поточного місяця, а «0» означає відсутність відстрочки.
+  setting_time_entries_prohibit_logging_for_past_months: Не дозволяти реєструвати час за минулі місяці
+  setting_time_entries_prohibit_logging_for_past_months_caption: Додавати, змінювати й видаляти можна лише записи часу для поточного місяця. Час, зареєстрований у минулих місяцях, більше не можна змінювати.
+  setting_time_entries_prohibit_logging_on_non_working_days: Не дозволяти реєструвати час у неробочі дні
+  setting_time_entries_prohibit_logging_on_non_working_days_caption: Користувачі не можуть реєструвати час у дні, позначені як неробочі або адміністратором, або самим користувачем у налаштуваннях свого облікового запису.
   text_assign_time_and_cost_entries_to_project: Призначення повідомлених годин і витрат проекту
   text_destroy_cost_entries_question: "%{cost_entries} повідомлялися про робочі пакети, які ви збираєтеся видалити. Що ти хочеш робити ?"
   text_destroy_time_and_cost_entries: Видаліть звітні години та витрати

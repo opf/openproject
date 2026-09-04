@@ -117,7 +117,7 @@ RSpec.describe "edit work package", :js do
     end
   end
 
-  it "allows updating and seeing the results" do
+  it "allows updating and seeing the results", with_settings: { work_package_multiple_versions: false } do
     wp_page.update_attributes subject: "a new subject",
                               type: type2.name,
                               combinedDate: ["2013-03-04", "2013-03-20"],

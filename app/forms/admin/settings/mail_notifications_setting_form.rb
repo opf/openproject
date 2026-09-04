@@ -60,6 +60,7 @@ module Admin
               name: :email_delivery_method,
               values: email_methods.map { |m| [m.to_s, m] },
               input_width: :small,
+              include_blank: I18n.t(:label_not_configured),
               data: {
                 show_when_value_selected_target: "cause",
                 target_name: "email_delivery_method_settings"
@@ -68,7 +69,7 @@ module Admin
           end
 
           f.group(
-            hidden: { true => Setting.email_delivery_method != :smtp },
+            hidden: Setting.email_delivery_method != :smtp,
             data: {
               show_when_value_selected_target: "effect",
               target_name: "email_delivery_method_settings",
@@ -88,7 +89,7 @@ module Admin
           end
 
           f.group(
-            hidden: { true => Setting.email_delivery_method != :sendmail },
+            hidden: Setting.email_delivery_method != :sendmail,
             data: {
               show_when_value_selected_target: "effect",
               target_name: "email_delivery_method_settings",
@@ -97,6 +98,21 @@ module Admin
           ) do |sendmail|
             sendmail.text_field(name: :sendmail_location)
             sendmail.text_field(name: :sendmail_arguments)
+          end
+
+          if Rails.env.development?
+            f.group(
+              hidden: Setting.email_delivery_method != :letter_opener,
+              data: {
+                show_when_value_selected_target: "effect",
+                target_name: "email_delivery_method_settings",
+                value: "letter_opener"
+              }
+            ) do |letter_opener|
+              letter_opener.html_content do
+                render(Primer::Beta::Text.new(tag: :p)) { I18n.t(:text_email_delivery_letter_opener) }
+              end
+            end
           end
         end
 

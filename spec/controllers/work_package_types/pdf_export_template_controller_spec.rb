@@ -34,6 +34,7 @@ require "spec_helper"
 RSpec.describe WorkPackageTypes::PdfExportTemplateController do
   let(:user) { create(:admin) }
   let(:wp_type) { create(:type) }
+  let(:variant) { wp_type.default_variant }
 
   current_user { user }
 
@@ -58,47 +59,76 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
   context "when an admin" do
     def put_reload(endpoint, params = {})
       put endpoint, params: { type_id: wp_type.id }.merge(params), as: :turbo_stream
-      wp_type.reload
+      variant.reload
     end
 
     def post_reload(endpoint, params = {})
       post endpoint, params: { type_id: wp_type.id }.merge(params), as: :turbo_stream
-      wp_type.reload
+      variant.reload
     end
 
     context "with no enabled templates" do
       before do
-        wp_type.pdf_export_templates.disable_all
-        wp_type.save!
+        variant.pdf_export_templates.disable_all
+        variant.save!
       end
 
       it "enables all templates" do
         put_reload :enable_all
-        expect(wp_type.export_templates_disabled.length).to eq(0)
+        expect(variant.export_templates_disabled.length).to eq(0)
       end
 
       it "reorder a template" do
-        first = wp_type.pdf_export_templates.list.first
+        first = variant.pdf_export_templates.list.first
         put_reload :drop, { id: first.id, position: 2 } # drop index starts at 1
-        wp_type.pdf_export_templates.list[1].id == first.id
+        variant.pdf_export_templates.list[1].id == first.id
       end
 
       it "toggles enabled/disabled for a template" do
-        first = wp_type.pdf_export_templates.list.first
+        first = variant.pdf_export_templates.list.first
         post_reload :toggle, { id: first.id }
-        expect(wp_type.pdf_export_templates.find(first.id).enabled).to be(true)
+        expect(variant.pdf_export_templates.find(first.id).enabled).to be(true)
       end
     end
 
     context "with all enabled templates" do
       before do
-        wp_type.pdf_export_templates.enable_all
-        wp_type.save!
+        variant.pdf_export_templates.enable_all
+        variant.save!
       end
 
       it "disables all templates" do
         put_reload :disable_all
-        expect(wp_type.export_templates_disabled.length).to eq(wp_type.pdf_export_templates.list.length)
+        expect(variant.export_templates_disabled.length).to eq(variant.pdf_export_templates.list.length)
+      end
+    end
+
+    context "when linked to a source type", with_flag: { type_variants: true } do
+      render_views
+
+      before { link_configuration(wp_type, source: create(:type), aspect: TypeVariant::PDF_EXPORT) }
+
+      it "refuses enable_all with a forbidden turbo-stream flash" do
+        expect { put_reload :enable_all }.not_to raise_error
+        expect(response).to have_http_status(:forbidden)
+        expect(response.body).to include(I18n.t("types.edit.export_configuration.templates.readonly_error"))
+      end
+
+      it "refuses disable_all with a forbidden turbo-stream flash" do
+        expect { put_reload :disable_all }.not_to raise_error
+        expect(response).to have_http_status(:forbidden)
+      end
+
+      it "refuses toggle with a forbidden turbo-stream flash" do
+        first = variant.pdf_export_templates.list.first
+        expect { post_reload :toggle, { id: first.id } }.not_to raise_error
+        expect(response).to have_http_status(:forbidden)
+      end
+
+      it "refuses drop with a forbidden turbo-stream flash" do
+        first = variant.pdf_export_templates.list.first
+        expect { put_reload :drop, { id: first.id, position: 2 } }.not_to raise_error
+        expect(response).to have_http_status(:forbidden)
       end
     end
 
@@ -131,24 +161,130 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
       end
     end
 
+    describe "#edit_settings" do
+      render_views
+
+      it "renders the settings page for a known template" do
+        template = variant.pdf_export_templates.find("attributes")
+
+        get :edit_settings, params: { type_id: wp_type.id, id: template.id }
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include(
+          I18n.t("types.edit.export_configuration.templates.settings.title", template: template.label)
+        )
+      end
+
+      it "404s for an unknown template id" do
+        get :edit_settings, params: { type_id: wp_type.id, id: "bogus" }
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
+    describe "#update_settings" do
+      let(:template) { variant.pdf_export_templates.find("attributes") }
+
+      it "stores the submitted settings and redirects to the tab overview" do
+        patch :update_settings,
+              params: { type_id: wp_type.id, id: template.id, footer_text: "Custom footer",
+                        page_orientation: "landscape" }
+
+        expect(response).to redirect_to(edit_type_pdf_export_template_index_path(type_id: wp_type.id))
+        expect(variant.reload.pdf_export_templates.settings_for("attributes"))
+          .to eq(footer_text: "Custom footer", page_orientation: "landscape")
+      end
+
+      it "does not store blank fields, so their runtime defaults keep applying" do
+        patch :update_settings,
+              params: { type_id: wp_type.id, id: template.id, footer_text: "",
+                        page_orientation: "portrait", hyphenation: "false", hyphenation_language: "" }
+
+        expect(variant.reload.pdf_export_templates.settings_for("attributes"))
+          .to eq(page_orientation: "portrait", hyphenation: "false")
+      end
+
+      it "clears a previously stored value when its field is submitted blank" do
+        variant.pdf_export_templates.update_settings("attributes", "footer_text" => "Custom footer")
+        variant.save!
+
+        patch :update_settings,
+              params: { type_id: wp_type.id, id: template.id, footer_text: "", page_orientation: "landscape" }
+
+        expect(variant.reload.pdf_export_templates.settings_for("attributes"))
+          .to eq(page_orientation: "landscape")
+      end
+
+      it "resets the stored settings to defaults when submitted as a reset" do
+        variant.pdf_export_templates.update_settings("attributes", "footer_text" => "Custom footer")
+        variant.save!
+
+        patch :update_settings, params: { type_id: wp_type.id, id: template.id, commit: "reset" }
+
+        expect(variant.reload.pdf_export_templates.settings_for("attributes")).to eq({})
+      end
+
+      it "404s for an unknown template id" do
+        patch :update_settings, params: { type_id: wp_type.id, id: "bogus" }
+
+        expect(response).to have_http_status(:not_found)
+      end
+
+      context "when the type links its PDF export config to a source type" do
+        let(:source) { create(:type).default_variant }
+
+        before do
+          source.pdf_export_templates.update_settings("attributes", "footer_text" => "Source footer")
+          source.save!
+          link_configuration(wp_type, source:, aspect: TypeVariant::PDF_EXPORT)
+        end
+
+        it "does not change the effective (inherited) settings", with_flag: { type_variants: true } do
+          patch :update_settings,
+                params: { type_id: wp_type.id, id: template.id, footer_text: "Attempted override" }
+
+          expect(variant.reload.pdf_export_templates.settings_for("attributes")[:footer_text]).to eq("Source footer")
+        end
+
+        it "redirects with an alert instead of raising", with_flag: { type_variants: true } do
+          patch :update_settings,
+                params: { type_id: wp_type.id, id: template.id, footer_text: "Attempted override" }
+
+          expect(response).to redirect_to(edit_type_pdf_export_template_index_path(type_id: wp_type.id))
+          expect(flash[:alert]).to eq(I18n.t("types.edit.export_configuration.templates.readonly_error"))
+        end
+      end
+    end
+
     describe "#update_artefact_export" do
+      let(:param_key) { variant.model_name.param_key.to_sym }
+
       it "stores a valid artefact export mode and responds with a turbo stream" do
         put :update_artefact_export,
-            params: { type_id: wp_type.id, type: { artefact_export_mode: Type::ArtefactExport::FILE_LINK } },
+            params: { type_id: wp_type.id, param_key => { artefact_export_mode: Type::ArtefactExport::FILE_LINK } },
             as: :turbo_stream
 
         expect(response).to have_http_status(:ok)
         expect(response.media_type).to eq("text/vnd.turbo-stream.html")
-        expect(wp_type.reload.artefact_export_mode).to eq(Type::ArtefactExport::FILE_LINK)
+        expect(variant.reload.artefact_export_mode).to eq(Type::ArtefactExport::FILE_LINK)
       end
 
       it "rejects an invalid mode" do
         put :update_artefact_export,
-            params: { type_id: wp_type.id, type: { artefact_export_mode: "bogus" } },
+            params: { type_id: wp_type.id, param_key => { artefact_export_mode: "bogus" } },
             as: :turbo_stream
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(wp_type.reload.artefact_export_mode).to eq(Type::ArtefactExport::OFF)
+        expect(variant.reload.artefact_export_mode).to eq(Type::ArtefactExport::OFF)
+      end
+
+      it "rejects a request that nests the mode under an unrelated params key" do
+        put :update_artefact_export,
+            params: { type_id: wp_type.id, type: { artefact_export_mode: Type::ArtefactExport::FILE_LINK } },
+            as: :turbo_stream
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(variant.reload.artefact_export_mode).to eq(Type::ArtefactExport::OFF)
       end
     end
   end

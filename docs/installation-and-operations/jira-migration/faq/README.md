@@ -18,7 +18,7 @@ The questions below provide a starting point for a detailed fit-gap analysis. Pl
 
 Yes. Many large organizations have been using OpenProject successfully for years. References and major deployments include Deutsche Bahn, Mercedes-AMG, Samsung, 3M, Charité, the German Federal Ministry for Digital Transformation and Government Modernisation (BMDS), and the [International Criminal Court (ICC)](https://www.openproject.org/blog/digital-sovereignty-government-germany-opendesk/) through openDesk.
 
-OpenProject is trusted by organizations across government and public administration, healthcare, transportation, manufacturing, automotive, research and higher education, energy, IT, and consulting. It is increasingly adopted by public sector organizations pursuing digital sovereignty, open standards, and vendor independence. The  [OpenProject customer overview](https://www.openproject.org/customers/) provides further examples across industries and geographies.
+OpenProject is trusted by organizations across government and public administration, healthcare, transportation, manufacturing, automotive, research and higher education, energy, IT, and consulting. It is increasingly adopted by public sector organizations pursuing digital sovereignty, open standards, and vendor independence. The [OpenProject customer overview](https://www.openproject.org/customers/) provides further examples across industries and geographies.
 
 OpenProject is also currently undergoing an extensive security assessment as part of openDesk for use in highly security-sensitive organizations. This work goes beyond a standard functional evaluation and examines the software and its operation against the requirements of such environments.
 
@@ -68,7 +68,7 @@ Each import run enters a review mode and can be approved or reverted. After appr
 
 ## Which Jira versions can currently be imported?
 
-OpenProject 17.6 supports Jira Server and Jira Data Center 10.x and 11.x. Jira Cloud is not supported yet. If Jira Cloud is part of the scope, treat migration as a separate workstream and verify the latest status on the [Jira Migrator stream](https://community.openproject.org/projects/JIM) and the [OpenProject roadmap](https://www.openproject.org/roadmap/).
+OpenProject 17.6 supports Jira Data Center 10.x and 11.x. Jira Server and Jira Cloud are not supported yet. If Jira Cloud is part of the scope, treat migration as a separate workstream and verify the latest status on the [Jira Migrator stream](https://community.openproject.org/projects/JIM) and the [OpenProject roadmap](https://www.openproject.org/roadmap/). Jira Server might be supported in the near future. It is tracked by [this ticket](https://community.openproject.org/projects/JIM/work_packages/JIM-160/activity).
 
 ## Which data can OpenProject 17.6 import automatically?
 
@@ -137,7 +137,7 @@ Several measured test migrations provide a reliable basis for planning a large c
 
 Begin with a representative set of projects: one standard project, one highly customized project, one large project and one project using important marketplace apps. Record import duration, warnings, rejected objects, manual corrections and validation results. Use these results to estimate the full migration and decide which historical data should be archived rather than migrated.
 
-See also our blog post on [jira migration strategies](https://www.openproject.org/blog/jira-migration-strategies/).
+See also our blog post on [Jira migration strategies](https://www.openproject.org/blog/jira-migration-strategies/).
 
 ## Can OpenProject replace Jira Software for Scrum, Kanban and SAFe?
 
@@ -153,7 +153,7 @@ The roadmap includes incoming-email improvements, a [service portal](https://com
 
 ## What is the alternative to Xray or Zephyr test management?
 
-Test management processes can already be modeled with work-package types, workflows, relations and views, as shown in the [OpenProject test management use case](../../../use-cases/test-management/). A dedicated [test management roadmap](https://www.openproject.org/roadmap/#test-management) covers test cases, executions, results, traceability and reporting. Work on the [Squash TM integration](https://community.openproject.org/projects/SSOI/work_packages/SSOI-1/activity) has already started.
+Test management processes can already be modeled with work-package types, workflows, relations and views, as shown in the [OpenProject test management use case](../../../use-cases/test-management/). A dedicated [test management roadmap](https://www.openproject.org/roadmap/#xray-alternative) covers test cases, executions, results, traceability and reporting. Work on the [Squash TM integration](https://community.openproject.org/projects/SSOI/work_packages/SSOI-1/activity) has already started.
 
 There is no generic migration of Xray or Zephyr data in OpenProject 17.6. Inventory test cases, steps, executions, plans, evidence, automation results and requirement links. Decide whether they should be modeled in OpenProject directly, moved to a specialized test management system, or retained in an archive.
 
@@ -167,7 +167,7 @@ The [portfolio and program management roadmap](https://www.openproject.org/roadm
 
 [Team planners](../../../user-guide/team-planner/) provide a visual view of assigned work and help teams coordinate workloads within projects. Resource planning remains connected to the underlying work packages, schedules and responsibilities instead of being maintained in a disconnected planning layer. OpenProject 17.7 will release a dedicated resource management module in OpenProject.
 
-The [resource and capacity management roadmap](https://www.openproject.org/roadmap/#resources-capacity-management) includes cross-project resource planning, capacity visibility and workload balancing. [Multi-project resource management](https://community.openproject.org/projects/OP/work_packages/OP-6038/activity) is still a roadmap item. Organizations using Tempo Planner, BigPicture or similar apps should validate planning granularity, skills and roles, availability, allocations, scenarios and capacity reports against the current release and the roadmap.
+The [resource and capacity management roadmap](https://www.openproject.org/roadmap/#big-picture-alternative) includes cross-project resource planning, capacity visibility and workload balancing. [Multi-project resource management](https://community.openproject.org/projects/OP/work_packages/OP-6038/activity) is still a roadmap item. Organizations using Tempo Planner, BigPicture or similar apps should validate planning granularity, skills and roles, availability, allocations, scenarios and capacity reports against the current release and the roadmap.
 
 ## How does OpenProject support time and cost management?
 
@@ -232,7 +232,7 @@ We have also started planning a dedicated CI/CD infrastructure for OpenProject e
 
 OpenProject represents a paradigm shift: the software is not a closed product controlled exclusively by one vendor. The [Community edition is free and open source](https://www.openproject.org/download-and-installation/), and its [source code is publicly available](https://github.com/opf/openproject). In this practical sense, the software belongs in the hands of its users: organizations can inspect it, operate it in their own infrastructure, retain control of their data, adapt it and continue using it independently. This reduces vendor lock-in and creates long-term choice over hosting, operations and service providers.
 
-OpenProject does not sell licenses for the open source application. Its commercial offering consists of Enterprise subscriptions that provide additional services and capabilities. The developers of OpenProject offer [individual consulting](https://www.openproject.org/training-and-consulting/#consulting) and Enterprise support with [guaranteed availability and resolution times based on an SLA](../../../enterprise-guide/support/). Also the Enterprise edition of OpenProject is fully open source. Organizations can therefore combine software freedom and data sovereignty with professional support and defined service levels.
+OpenProject does not sell licenses for the open source application. Its commercial offering consists of Enterprise subscriptions that provide additional services and capabilities. The developers of OpenProject offer [individual consulting](https://www.openproject.org/training-and-consulting/#consulting) and Enterprise support with [guaranteed availability and resolution times based on an SLA](../../../enterprise-guide/support/). The Enterprise edition of OpenProject is also fully open source. Organizations can therefore combine software freedom and data sovereignty with professional support and defined service levels.
 
 ## How quickly is OpenProject evolving?
 

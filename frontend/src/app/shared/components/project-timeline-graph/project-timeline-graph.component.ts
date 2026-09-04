@@ -27,21 +27,19 @@
 //++
 
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   ElementRef,
-  OnDestroy,
   ViewChild,
   ViewEncapsulation,
+  afterNextRender,
   computed,
   effect,
   inject,
   input,
   signal,
 } from '@angular/core';
-import { Subject } from 'rxjs';
-import { debounceTime, take, takeUntil } from 'rxjs/operators';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
 import { DataSet } from 'vis-data';
@@ -65,7 +63,7 @@ export type { ProjectTimelineItem } from './project-timeline-item.builder';
   imports: [OpenprojectContentLoaderModule],
   providers: [ProjectTimelineItemBuilder, ProjectTimelineTooltipBuilder],
 })
-export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
+export class ProjectTimelineGraphComponent {
   @ViewChild('container') containerRef!:ElementRef<HTMLDivElement>;
 
   readonly phasesData = input.required<string>();
@@ -85,7 +83,7 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
   );
 
   readonly accessibleItems = computed<AccessibleProjectTimelineItem[]>(
-    () => this.itemBuilder.buildAccessibleItems(this.phases()),
+    () => this.itemBuilder.buildAccessibleItems(this.phases(), this.milestones(), this.sprints()),
   );
 
   private readonly pathHelper = inject(PathHelperService);
@@ -96,11 +94,14 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
   private itemsDataset:DataSet<ProjectTimelineItem> | null = null;
 
   protected readonly ready = signal(false);
-  private destroyed = false;
-  private readyHandler:(() => void) | null = null;
-  private readonly destroyed$ = new Subject<void>();
 
   constructor() {
+    afterNextRender(() => this.initTimeline(this.phases(), this.milestones(), this.sprints()));
+    inject(DestroyRef).onDestroy(() => {
+      this.timeline?.destroy();
+      this.timeline = null;
+    });
+
     effect(() => {
       const phases = this.phases();
       const milestones = this.milestones();
@@ -109,24 +110,6 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
         this.updateTimeline(phases, milestones, sprints);
       }
     });
-  }
-
-  ngAfterViewInit():void {
-    requestAnimationFrame(() => {
-      if (!this.destroyed) {
-        this.initTimeline(this.phases(), this.milestones(), this.sprints());
-      }
-    });
-  }
-
-  ngOnDestroy():void {
-    this.destroyed = true;
-    this.destroyed$.next();
-    this.destroyed$.complete();
-
-    if (this.readyHandler) this.timeline?.off('changed', this.readyHandler);
-    this.timeline?.destroy();
-    this.timeline = null;
   }
 
   private initTimeline(phases:ProjectPhaseData[], milestones:ProjectMilestoneData[], sprints:ProjectSprintData[]):void {
@@ -146,11 +129,12 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
         showMajorLabels: true,
         showMinorLabels: true,
         margin: { item: { horizontal: 0, vertical: 16 } },
-        showCurrentTime: false, // enabled after reveal; avoids periodic changed events interfering with the ready debounce
+        showCurrentTime: false, // enabled after the initial draw to avoid unnecessary redraws while loading
         zoomMin: 7 * 24 * 60 * 60 * 1000, // 7 days minimum zoom
         zoomMax: 50 * 365 * 24 * 60 * 60 * 1000, // 50 years maximum zoom
+        onInitialDrawComplete: () => this.revealTimeline(),
         // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-assignment
-        tooltip: { template: this.tooltip.tooltipTemplate.bind(this.tooltip) } as any,
+        tooltip: { template: this.tooltip.tooltipTemplate.bind(this.tooltip), overflowMethod: 'cap' } as any,
       },
     );
 
@@ -161,8 +145,6 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
         window.location.href = this.pathHelper.workPackagePath(String(item.workPackageId));
       }
     });
-
-    this.revealWhenReady();
   }
 
   private updateTimeline(phases:ProjectPhaseData[], milestones:ProjectMilestoneData[], sprints:ProjectSprintData[]):void {
@@ -171,27 +153,14 @@ export class ProjectTimelineGraphComponent implements AfterViewInit, OnDestroy {
     this.timeline!.setData({ items: this.itemsDataset as unknown as DataSet<DataItem>, groups: new DataSet(groups) });
   }
 
-  // Hides the skeleton once vis-timeline has stopped firing 'changed' events.
-  // Multiple render passes occur on an initial load, so we debounce.
-  private revealWhenReady():void {
-    const changed$ = new Subject<void>();
+  private revealTimeline():void {
+    if (!this.timeline) return;
 
-    this.readyHandler = () => changed$.next();
-    this.timeline!.on('changed', this.readyHandler);
-
-    changed$.pipe(
-      debounceTime(1000),
-      take(1),
-      takeUntil(this.destroyed$),
-    ).subscribe(() => {
-      this.timeline!.off('changed', this.readyHandler!);
-      this.readyHandler = null;
-      this.timeline!.setOptions({
-        showCurrentTime: true,
-        cluster: { maxItems: 1, clusterCriteria: this.shouldCluster.bind(this) },
-      });
-      this.ready.set(true);
+    this.timeline.setOptions({
+      showCurrentTime: true,
+      cluster: { maxItems: 1, clusterCriteria: this.shouldCluster.bind(this) },
     });
+    this.ready.set(true);
   }
 
   private shouldCluster(a:ProjectTimelineItem, b:ProjectTimelineItem):boolean {

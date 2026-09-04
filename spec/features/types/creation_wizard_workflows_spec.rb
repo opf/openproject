@@ -30,19 +30,11 @@
 
 require "spec_helper"
 
-RSpec.describe "Variant creation wizard workflows step", :js, with_flag: { type_variants: true } do
+RSpec.describe "Type creation wizard workflows step", :js, with_flag: { type_variants: true } do
   include Toasts::Expectations
   include Workflows::EditHelpers
 
-  let(:parent_type) { create(:type) }
-  # A variant links every aspect to its parent on creation; these specs exercise the
-  # editable workflow step, so start from an Independent workflows aspect. The linked-mode
-  # examples below re-establish the link explicitly.
-  let(:type) do
-    create(:type, parent: parent_type).tap do |variant|
-      variant.configuration_links.where(aspect: Type::ConfigurationLink::WORKFLOWS).destroy_all
-    end
-  end
+  let(:type) { create(:type) }
   let(:role) { create(:project_role) }
   let(:role2) { create(:project_role) }
   let(:admin) { create(:admin) }
@@ -63,11 +55,15 @@ RSpec.describe "Variant creation wizard workflows step", :js, with_flag: { type_
     visit type_creation_wizard_path(type, **params)
   end
 
+  def workflows_for(type, role)
+    Workflow.where(type_variant_id: type.default_variant.id, role_id: role.id)
+  end
+
   it "persists the matrix and advances when clicking 'Continue'" do
     visit_workflow_wizard(roles: [role])
 
     expect(page).to have_field workflow_checkbox(1, 0), checked: false
-    expect(Workflow.where(type_id: type.id, role_id: role.id).count).to be 1
+    expect(workflows_for(type, role).count).to be 1
 
     check workflow_checkbox(1, 0)
 
@@ -75,7 +71,7 @@ RSpec.describe "Variant creation wizard workflows step", :js, with_flag: { type_
     click_on I18n.t(:button_continue)
 
     expect(page).to have_current_path(type_creation_wizard_path(type, step: :projects))
-    expect(Workflow.where(type_id: type.id, role_id: role.id).count).to be 2
+    expect(workflows_for(type, role).count).to be 2
   end
 
   context "when switching tabs" do
@@ -158,7 +154,7 @@ RSpec.describe "Variant creation wizard workflows step", :js, with_flag: { type_
     end
 
     before do
-      type.link!(Type::ConfigurationLink::WORKFLOWS, source: source_type)
+      link_configuration(type, source: source_type, aspect: TypeVariant::WORKFLOWS)
       visit_workflow_wizard(roles: [role])
     end
 
@@ -174,14 +170,14 @@ RSpec.describe "Variant creation wizard workflows step", :js, with_flag: { type_
     end
   end
 
-  describe "reuse mode banner" do
+  describe "reuse mode boxes" do
     context "when the workflow configuration is independent" do
       before { visit_workflow_wizard(roles: [role]) }
 
-      it "shows the independent banner offering to switch to linked, or to copy from type" do
-        expect(page).to have_text("Independent mode")
-        expect(page).to have_link("Switch to linked mode")
-        expect(page).to have_link("Copy from type")
+      it "shows the manual box offering to inherit from another type, or to copy from one" do
+        expect(page).to have_text("Manual configuration")
+        expect(page).to have_link("Inherit from another type")
+        expect(page).to have_link("Copy from another type")
       end
     end
 
@@ -189,14 +185,14 @@ RSpec.describe "Variant creation wizard workflows step", :js, with_flag: { type_
       let(:source_type) { create(:type, name: "Feature") }
 
       before do
-        type.link!(Type::ConfigurationLink::WORKFLOWS, source: source_type)
+        link_configuration(type, source: source_type, aspect: TypeVariant::WORKFLOWS)
         visit_workflow_wizard(roles: [role])
       end
 
-      it "shows the linked banner naming the source with change and switch actions" do
-        expect(page).to have_text("Linked mode")
+      it "shows the inherited box naming the source with change and switch actions" do
+        expect(page).to have_text("Inherited configuration")
         expect(page).to have_link("Change source type")
-        expect(page).to have_link("Switch to independent mode")
+        expect(page).to have_link("Configure manually")
       end
     end
   end

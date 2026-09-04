@@ -91,5 +91,20 @@ RSpec.describe Ldap::PostLoginSyncService do
       expect(subject.result.mail).to eq "a.adam@example.com"
       expect(subject.result).to be_persisted
     end
+
+    context "with a required user custom field" do
+      let!(:custom_field) { create(:user_custom_field, :string, name: "Employee ID", is_required: true) }
+
+      it "still creates the user, as LDAP cannot provide a value for the custom field" do
+        expect(subject).to be_success
+        expect(subject.result).to be_persisted
+      end
+
+      it "leaves the custom field empty" do
+        subject
+
+        expect(User.find_by(login: "aa729").custom_value_for(custom_field).value).to be_nil
+      end
+    end
   end
 end

@@ -46,7 +46,7 @@ RSpec.describe Versions::UpdateService do
   context "when a sharing change makes the version unshared" do
     let(:attributes) { { sharing: "none" } }
 
-    it "prunes only the now-unshared version, re-syncing version_id to a target that stays shared" do
+    it "prunes only the now-unshared version, keeping the targets that stay shared" do
       own_version = create(:version, project: child_project)
       work_package.work_package_versions.create!(version: own_version, kind: "target")
 
@@ -54,7 +54,6 @@ RSpec.describe Versions::UpdateService do
 
       work_package.reload
       expect(target_version_ids(work_package)).to contain_exactly(own_version.id)
-      expect(work_package.version_id).to eq(own_version.id)
     end
   end
 

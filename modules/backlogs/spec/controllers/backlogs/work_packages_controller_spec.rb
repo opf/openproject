@@ -798,8 +798,8 @@ RSpec.describe Backlogs::WorkPackagesController do
         expect(response).to have_turbo_stream action: "dialog"
       end
 
-      it "includes the sprint name in the dialog title" do
-        expect(body).to include(sprint.name)
+      it "has a dialog title" do
+        expect(body).to include("Add existing work package")
       end
 
       it "sets the form action to the add_existing endpoint with the sprint target" do
@@ -815,8 +815,8 @@ RSpec.describe Backlogs::WorkPackagesController do
         expect(response).to have_turbo_stream action: "dialog"
       end
 
-      it "includes the bucket name in the dialog title" do
-        expect(body).to include(bucket.name)
+      it "has a dialog title" do
+        expect(body).to include("Add existing work package")
       end
 
       it "sets the form action to the add_existing endpoint with the bucket target" do
@@ -832,8 +832,8 @@ RSpec.describe Backlogs::WorkPackagesController do
         expect(response).to have_turbo_stream action: "dialog"
       end
 
-      it "includes 'Inbox' in the dialog title" do
-        expect(body).to include(I18n.t(:label_inbox))
+      it "has a dialog title" do
+        expect(body).to include("Add existing work package")
       end
 
       it "sets the form action to the add_existing endpoint with the inbox target" do

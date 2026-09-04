@@ -8,7 +8,7 @@ ru:
         filter_string: Фильтр LDAP
         group_name_attribute: Атрибут имени группы
         ldap_auth_source: Подключение к LDAP
-        member_lookup_attribute: Group member attribute
+        member_lookup_attribute: Атрибут участника группы
         sync_users: Синхронизация пользователей
       ldap_groups/synchronized_group:
         auth_source: Источник аутентификации
@@ -20,8 +20,16 @@ ru:
         ldap_groups/synchronized_filter:
           must_contain_base_dn: Базовый DN фильтра должен содержаться в базе DN LDAP соединения
     models:
-      ldap_groups/synchronized_filter: Фильтр синхронизации групп LDAP
-      ldap_groups/synchronized_group: Синхронизированная LDAP-группа
+      ldap_groups/synchronized_filter:
+        one: Фильтр синхронизации групп LDAP
+        few: LDAP Group synchronization filters
+        many: LDAP Group synchronization filters
+        other: Фильтры синхронизации групп LDAP
+      ldap_groups/synchronized_group:
+        one: Синхронизированная группа LDAP
+        few: Synchronized LDAP groups
+        many: Synchronized LDAP groups
+        other: Синхронизированные LDAP-группы
   ee:
     upsell:
       ldap_groups:
@@ -30,7 +38,7 @@ ru:
   ldap_groups:
     label_group_key: Ключ фильтра LDAP-группы
     label_menu_item: Синхронизация LDAP-группы
-    label_synchronize: Discover LDAP groups
+    label_synchronize: Обнаруживать группы LDAP
     settings:
       name_attribute: Атрибут имени группы LDAP
       name_attribute_text: Атрибут LDAP, используемый для именования группы OpenProject при создании фильтром
@@ -48,7 +56,7 @@ ru:
           '
         filter_string_text: Введите фильтр RFC4515 LDAP, который возвращает группы в ваш LDAP для синхронизации с OpenProject.
         group_name_attribute_text: Введите атрибут группы LDAP, используемой для установки имени группы OpenProject.
-        member_lookup_attribute_text: 'Leave empty to use the default reverse lookup: OpenProject searches for users whose memberOf attribute matches the group DN. This requires the memberOf attribute to be present on user entries (Active Directory, OpenLDAP with memberof overlay). Set this to the attribute name on group entries that lists member DNs to use forward lookup instead. Examples: "uniqueMember" (groupOfUniqueNames), "member" (groupOfNames). Use this for LDAP servers that do not maintain the memberOf attribute on user entries.
+        member_lookup_attribute_text: 'Оставьте поле пустым, чтобы использовать реверсивный поиск по умолчанию: OpenProject будет искать пользователей, у которых атрибут `memberOf` совпадает с DN группы. Для этого необходимо, чтобы атрибут `memberOf` присутствовал в записях пользователей (Active Directory, OpenLDAP с оверлеем `memberof`). Укажите имя атрибута в записях групп, в котором перечислены DN членов, чтобы вместо этого использовать прямой поиск. Примеры: «uniqueMember» (groupOfUniqueNames), «member» (groupOfNames). Используйте этот параметр для LDAP-серверов, которые не поддерживают атрибут memberOf в записях пользователей.
 
           '
       label_n_groups_found:
@@ -72,16 +80,16 @@ ru:
 
           '
       help_text_html: |
-        This module allows you to set up a synchronization between LDAP and OpenProject groups.
+        Данный модуль позволяет настроить синхронизацию между группами LDAP и OpenProject.
         <br/>
-        By default, OpenProject uses <strong>reverse lookup</strong>: it searches for users whose <em>memberOf</em> attribute matches the group DN.
-        This requires the <em>memberOf</em> attribute to be present on user entries (Active Directory, OpenLDAP with memberof overlay).
+        По умолчанию OpenProject использует <strong>реверсивный поиск</strong>: он ищет пользователей, у которых атрибут <em>memberOf</em> совпадает с DN группы.
+        Для этого необходимо, чтобы атрибут <em>memberOf</em> присутствовал в записях пользователей (Active Directory, OpenLDAP с оверлеем memberOf).
         <br/>
-        If your LDAP server does not maintain <em>memberOf</em> on user entries (e.g. it uses <em>groupOfUniqueNames</em> with <em>uniqueMember</em>),
-        you can configure <strong>forward lookup</strong> by setting the <em>Group member attribute</em> on the synchronization filter.
+        Если ваш LDAP-сервер не поддерживает <em>атрибут memberOf</em> в записях пользователей (например, он использует <em>groupOfUniqueNames</em> с <em>uniqueMember</em>),
+        вы можете настроить <strong>прямой поиск</strong>, указав <em>атрибут «Член группы»</em> в фильтре синхронизации.
         <br/>
-        Groups are synchronized hourly through a cron job.
-        [Please see our documentation on this topic](docs_url).
+        Группы синхронизируются ежечасно с помощью задания cron.
+        [Ознакомьтесь с нашей документацией по данной теме](docs_url).
       no_members: У этой группы пока нет синхронизированных участников.
       no_results: Синхронизированные группы не найдены.
       plural: Синхронизированные LDAP-группы

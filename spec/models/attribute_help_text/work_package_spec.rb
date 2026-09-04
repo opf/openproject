@@ -34,8 +34,6 @@ RSpec.describe AttributeHelpText::WorkPackage do
   def create_cf_help_text(custom_field)
     # Need to clear the request store after every creation as the available attributes are cached
     RequestStore.clear!
-    # need to clear the cache to free the memoized
-    # Type.translated_work_package_form_attributes
     Rails.cache.clear
     create(:work_package_help_text, attribute_name: custom_field.attribute_name)
   end
@@ -110,14 +108,14 @@ RSpec.describe AttributeHelpText::WorkPackage do
       let(:permissions) { [] }
       let(:type) do
         type = create(:type)
-        project.types << type
+        project.project_types.create!(type:)
 
         type
       end
       let(:cf_instance_active) do
         custom_field = create(:text_wp_custom_field)
         project.work_package_custom_fields << custom_field
-        type.custom_fields << custom_field
+        type.default_variant.custom_fields << custom_field
         create_cf_help_text(custom_field)
       end
       let(:cf_instance_inactive) do
@@ -130,12 +128,12 @@ RSpec.describe AttributeHelpText::WorkPackage do
       end
       let(:cf_instance_inactive_not_in_project) do
         custom_field = create(:text_wp_custom_field)
-        type.custom_fields << custom_field
+        type.default_variant.custom_fields << custom_field
         create_cf_help_text(custom_field)
       end
       let(:cf_instance_for_all) do
         custom_field = create(:text_wp_custom_field, is_for_all: true)
-        type.custom_fields << custom_field
+        type.default_variant.custom_fields << custom_field
         create_cf_help_text(custom_field)
       end
 

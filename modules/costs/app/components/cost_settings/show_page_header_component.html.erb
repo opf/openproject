@@ -1,6 +1,6 @@
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title { t(:label_defaults) }
+    header.with_title { t(:label_defaults_and_limits) }
     header.with_breadcrumbs(breadcrumb_items)
 
     helpers.render_tab_header_nav(header, tabs)

@@ -33,10 +33,10 @@ module WorkPackageTypes
     class WorkflowsService < BaseService
       private
 
-      def aspect = Type::ConfigurationLink::WORKFLOWS
+      def aspect = TypeVariant::WORKFLOWS
 
       def copy_from(source)
-        type.own_workflows.copy_from_type(source)
+        variant.own_workflows.copy_from_variant(source)
       end
     end
   end

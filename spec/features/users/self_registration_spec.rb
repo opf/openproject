@@ -43,7 +43,7 @@ RSpec.describe "user self registration", :js do
 
       click_link "Create a new account"
       # deliberately inserting a wrong password confirmation
-      within ".registration-modal" do
+      within_test_selector("registration-form") do
         fill_in "Username", with: "heidi"
         fill_in "First name", with: "Heidi"
         fill_in "Last name", with: "Switzerland"
@@ -55,7 +55,7 @@ RSpec.describe "user self registration", :js do
       end
 
       expect(page)
-        .to have_content("Your account was created and is now pending administrator approval.")
+        .to have_text("Your account was created and is now pending administrator approval.")
     end
 
     # Self-registrants create a new account, so restricting email changes must not lock them out
@@ -66,7 +66,7 @@ RSpec.describe "user self registration", :js do
 
         click_link "Create a new account"
 
-        within ".registration-modal" do
+        within_test_selector("registration-form") do
           expect(page).to have_field("Email", readonly: false)
 
           fill_in "Username", with: "heidi"
@@ -91,12 +91,12 @@ RSpec.describe "user self registration", :js do
       user_menu.open
 
       # registration as an anonymous user
-      within ".op-app-header" do
+      within "#nav-login-content" do
         click_link "Create a new account"
       end
 
       # deliberately inserting a wrong password confirmation
-      within ".registration-modal" do
+      within_test_selector("registration-form") do
         fill_in "Username", with: "heidi"
         fill_in "First name", with: "Heidi"
         fill_in "Last name", with: "Switzerland"
@@ -108,10 +108,10 @@ RSpec.describe "user self registration", :js do
       end
 
       expect(page)
-        .to have_content("Password confirmation does not match password.")
+        .to have_css(".FormControl-inlineValidation", text: "Password confirmation does not match password.")
 
       # correcting password
-      within ".registration-modal" do
+      within_test_selector("registration-form") do
         # Cannot use 'Password' here as the error message on 'Confirmation' is part of the label
         # and contains the string 'Password' as well
         fill_in "user_password", with: "test123=321test"
@@ -121,7 +121,7 @@ RSpec.describe "user self registration", :js do
       end
 
       expect(page)
-        .to have_content("Your account was created and is now pending administrator approval.")
+        .to have_text("Your account was created and is now pending administrator approval.")
 
       registered_user = User.find_by(status: Principal.statuses[:registered])
 
@@ -129,7 +129,7 @@ RSpec.describe "user self registration", :js do
       login_with "heidi", "test123=321test"
 
       expect(page)
-        .to have_content I18n.t(:"account.error_inactive_manual_activation")
+        .to have_text I18n.t(:"account.error_inactive_manual_activation")
 
       # activation as admin
       login_with admin.login, admin_password
@@ -141,7 +141,7 @@ RSpec.describe "user self registration", :js do
       user_page.activate!
 
       expect(page)
-        .to have_content("Successful update.")
+        .to have_text("Successful update.")
 
       logout
 

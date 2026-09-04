@@ -20,12 +20,33 @@ ru:
             phone_number:
               error_phone_number_format: необходимо указывать в формате +XX XXXXXXXXX
     models:
-      two_factor_authentication/device: Устройство 2ФА
-      two_factor_authentication/device/sms: Мобильный телефон
-      two_factor_authentication/device/totp: Приложение для аутентификации
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        one: Резервный код
+        few: Backup codes
+        many: Backup codes
+        other: Резервные коды
+      two_factor_authentication/device:
+        one: 2FA устройство
+        few: 2FA devices
+        many: 2FA devices
+        other: 2FA устройства
+      two_factor_authentication/device/sms:
+        one: Мобильный телефон
+        few: Мобильные телефоны
+        many: Мобильные телефоны
+        other: Мобильные телефоны
+      two_factor_authentication/device/totp:
+        one: Приложение-аутентификатор
+        few: Authenticator applications
+        many: Authenticator applications
+        other: Приложения-аутентификаторы
+      two_factor_authentication/device/webauthn:
+        one: WebAuthn
+        few: WebAuthn
+        many: WebAuthn
+        other: WebAuthn
   button_continue: Далее
-  button_make_active: Activate
+  button_make_active: Активировать
   button_make_default: Задать по умолчанию
   button_otp_by_sms: SMS
   button_otp_by_voice: Голосовой звонок
@@ -126,7 +147,7 @@ ru:
     error_no_device: Для пользователя не найдено зарегистрированного устройства 2ФА, что требуется для этого экземпляра.
     error_no_matching_strategy: Для этого пользователя нет подходящей стратегии 2ФА. Обратитесь к администратору.
     forced_registration:
-      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
+      required_to_add_device: Администратор включил двухфакторную аутентификацию для данного экземпляра. Чтобы войти в систему, пожалуйста, добавьте метод двухфакторной аутентификации.
     label_2fa_disabled: Двухфакторная аутентификация неактивна
     label_2fa_enabled: Двухфакторная аутентификация активна
     label_default_device: Устройство 2ФА по умолчанию
@@ -148,7 +169,7 @@ ru:
       active_session_notice: 'Для вашей учетной записи существует файл cookie, действительный до %{expires_on}. До указанного времени этот файл cookie позволяет вам входить в вашу учетную запись без второго фактора.
 
         '
-      clear_cookie: Remove all remembered 2FA sessions.
+      clear_cookie: Удалить все сохраненные сеансы двухфакторной аутентификации.
       cookie_removed: Все вспомнил, что 2FA сессий были удалены.
       dont_ask_again: Создать файл cookie для запоминания аутентификации 2ФА на этом клиенте в течение %{days} дней.
       label: Запомнить
@@ -175,7 +196,7 @@ ru:
       sns: Amazon SNS
       totp: Приложение для аутентификации
       webauthn: WebAuthn
-    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
+    text_2fa_disabled: Чтобы включить двухфакторную аутентификацию, используйте кнопку ниже для регистрации нового устройства двухфакторной аутентификации. Если у вас уже есть устройство, то вам нужно сделать его устройством по умолчанию.
     text_2fa_enabled: При каждом входе у вас будет запрашиваться токен ОП (одноразового пароля) с устройства 2ФА по умолчанию.
     text_otp_delivery_message_sms: Ваш одноразовый пароль для %{app_title} это %{token}
     text_otp_delivery_message_voice: 'Ваш одноразовый пароль для %{app_title}: %{pause} %{token}. %{pause} Повторяю: %{pause} %{token}'

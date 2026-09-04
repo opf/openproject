@@ -33,7 +33,11 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
     merge_options = { only_path: true,
                       html: true }.merge(options)
 
-    render_ternary_detail_text(key, values.last, values.first, merge_options)
+    if permission_granted?(merge_options.merge(key:))
+      render_ternary_detail_text(key, values.last, values.first, merge_options)
+    else
+      render_permission_denied_message(merge_options)
+    end
   end
 
   private

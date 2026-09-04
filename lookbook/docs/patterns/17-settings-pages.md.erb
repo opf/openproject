@@ -4,7 +4,7 @@ Settings pages usually stretch to the full width of the viewport as they tend no
 
 As specified in the documentation for [forms](./forms), we prefer limiting the width of a form for legibility. Because the default behaviour of form elements to fill the full width of the container, we wrap forms in a container that limits its available width.
 
-Any view component rendering a form should use the the `settings_primer_form_with` form helper instead of the standard `primer_form_with`. The form itself stays unchanged. This
+Any view component rendering a form should use the `settings_primer_form_with` form helper instead of the standard `primer_form_with`. The form itself stays unchanged. This
 way, the rendered form is wrapped into a container with `680px` max-width.
 
 ```erb

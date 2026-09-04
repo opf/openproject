@@ -125,6 +125,7 @@ module WorkPackagesHelper
 
   def selected_work_packages_columns_options
     Setting[:work_package_list_default_columns]
+      .map { Query::DeprecatedVersionSelect.normalize_name(it) }
       .filter_map { |column| work_packages_columns_options.find { |c| c[:id] == column } }
   end
 

@@ -21,6 +21,11 @@
 #++
 ---
 el:
+  activerecord:
+    models:
+      cost_query:
+        one: Cost report
+        other: Cost reports
   button_save_report_as: Αποθήκευση αναφοράς ως...
   comments: Σχόλιο
   cost_reports_title: Χρόνος και κόστος
@@ -46,7 +51,6 @@ el:
   label_closed: κλειστό
   label_columns: Στήλες
   label_cost_entry_attributes: Χαρακτηριστικά καταχώρησης κόστους
-  label_cost_report: Αναφορά κόστους
   label_cost_report_plural: Αναφορές κόστους
   label_count: Πλήθος
   label_days_ago: κατά τη διάρκεια των τελευταίων ημερών

@@ -126,8 +126,17 @@ RSpec.describe "Projects autocomplete page", :js do
     # Expect hierarchy
     top_menu.clear_search
 
+    # The unfiltered tree collapses back to its initial state, so the child is
+    # hidden until its ancestor is expanded. Waiting for it to disappear also
+    # keeps the assertions below from reading the still-filtered tree, which
+    # lingers for the duration of the search debounce.
+    top_menu.expect_no_result "Plain other project"
+
     top_menu.expect_result "Plain project"
-    top_menu.expect_result "<strong>foobar</strong>", disabled: true
+    # Nothing is filtered out without a query, so the ancestor is selectable.
+    top_menu.expect_result "<strong>foobar</strong>"
+
+    top_menu.expand_node_for "<strong>foobar</strong>"
     top_menu.expect_item_with_hierarchy_level hierarchy_level: 2,
                                               item_name: "Plain other project"
 
@@ -180,6 +189,25 @@ RSpec.describe "Projects autocomplete page", :js do
     top_menu.search_and_select "<strong"
 
     top_menu.expect_current_project project2.name
+  end
+
+  it "nests projects below their nearest visible ancestor" do
+    visible_grandparent = create(:project, name: "Visible Grandparent", members: { user => role })
+    invisible_parent = create(:private_project, name: "Invisible Parent", parent: visible_grandparent)
+    visible_grandchild = create(:project,
+                                name: "Visible Grandchild",
+                                parent: invisible_parent,
+                                members: { user => role })
+
+    retry_block do
+      top_menu.toggle unless top_menu.open?
+      top_menu.expect_open
+
+      top_menu.expect_result visible_grandparent.name
+      top_menu.expect_no_result invisible_parent.name
+      top_menu.expect_item_with_hierarchy_level hierarchy_level: 2,
+                                                item_name: visible_grandchild.name
+    end
   end
 
   it "displays workspace type badges for portfolios and programs" do

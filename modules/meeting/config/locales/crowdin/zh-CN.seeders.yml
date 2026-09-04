@@ -13,17 +13,18 @@ zh-CN:
           meeting_agenda_items:
             item_0:
               title: 好消息
+              notes: 本周哪些项目进展良好？
             item_1:
-              title: 开发团队的更新
+              title: 团队动态
+              notes: 下周的新闻和重点话题。
             item_2:
-              title: 产品团队的更新
+              notes: "**今天的话题**：组织开源会议。"
             item_3:
-              title: 市场团队的更新
-            item_5:
-              title: 销售团队的更新
-            item_6:
               title: 季度目标回顾
-            item_7:
+              notes: 评估既定季度目标的现状和进展。
+            item_4:
               title: 核心价值反馈
-            item_8:
-              title: 一般性议题
+              notes: 表彰本周践行核心价值观的员工。
+            item_5:
+              title: 一般话题
+              notes: 一起解决或讨论话题。

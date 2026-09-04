@@ -34,7 +34,7 @@ module WorkPackageTypes
   RSpec.describe CreateContract do
     let(:user) { create(:admin) }
     let(:base_attributes) do
-      { name: "O-Negative", description: nil, is_milestone: true, is_default: false, is_in_roadmap: true }
+      { name: "O-Negative", is_milestone: true, is_in_roadmap: true }
     end
     let(:attributes) { base_attributes }
     let(:model) { Type.new(attributes) }
@@ -94,8 +94,8 @@ module WorkPackageTypes
         end
       end
 
-      context "when is_in_milestone or is_default aren't booleans" do
-        let(:attributes) { base_attributes.merge(is_default: nil, is_milestone: nil, is_in_roadmap: nil) }
+      context "when is_in_milestone or is_in_roadmap aren't booleans" do
+        let(:attributes) { base_attributes.merge(is_milestone: nil, is_in_roadmap: nil) }
 
         it "the contract is invalid" do
           expect(contract.validate).to be_falsey
@@ -104,44 +104,8 @@ module WorkPackageTypes
         it "adds and error to the contract" do
           contract.validate
 
-          expect(contract.errors.details[:is_default]).to eq([{ error: :inclusion, value: nil }])
           expect(contract.errors.details[:is_milestone]).to eq([{ error: :inclusion, value: nil }])
           expect(contract.errors.details[:is_in_roadmap]).to eq([{ error: :inclusion, value: nil }])
-        end
-      end
-    end
-
-    describe "inherited core settings on a variant" do
-      let(:parent) { create(:type) }
-
-      context "when core settings are provided" do
-        let(:attributes) do
-          { name: "Variant",
-            parent_id: parent.id,
-            color_id: create(:color).id,
-            is_milestone: true,
-            is_in_roadmap: false,
-            is_default: true }
-        end
-
-        it "is invalid" do
-          expect(contract.validate).to be_falsey
-        end
-
-        it "marks each inherited setting as readonly" do
-          contract.validate
-
-          %i[color_id is_milestone is_in_roadmap is_default].each do |attribute|
-            expect(contract.errors.details[attribute]).to eq([{ error: :error_readonly }])
-          end
-        end
-      end
-
-      context "when only the variant's own attributes are set" do
-        let(:attributes) { { name: "Variant", parent_id: parent.id } }
-
-        it "is valid" do
-          expect(contract.validate).to be_truthy
         end
       end
     end

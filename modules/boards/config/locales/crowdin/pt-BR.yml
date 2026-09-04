@@ -1,5 +1,10 @@
 ---
 pt-BR:
+  activerecord:
+    models:
+      boards/grid:
+        one: Quadro
+        other: Quadros
   boards:
     board_type_attributes:
       assignee: Responsável

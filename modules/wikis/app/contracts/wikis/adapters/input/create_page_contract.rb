@@ -35,9 +35,10 @@ module Wikis
         params do
           required(:title).filled(:string)
 
-          # TODO: This only works for pages as parents right now, we'll need to change some things around to support
-          # creating "root" pages that are direct children of a wiki. E.g. right now there is no data type to represent a wiki
+          # A page is either created below another page, or as a "root" page directly below a wiki. The identifier
+          # alone does not tell the two apart, hence the type is required as well.
           required(:parent_identifier).filled(:string)
+          required(:parent_type).filled(:symbol, included_in?: Results::PageSearchTreeNode::TYPES)
         end
       end
     end

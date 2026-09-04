@@ -53,22 +53,37 @@ module Settings
 
       def wrapper_data_attributes
         {
-          controller: "generic-drag-and-drop"
+          controller: "sortable-lists",
+          sortable_lists_move_url_templates_value: move_url_templates.to_json,
+          sortable_lists_sortable_lists__list_outlet: "##{wrapper_key} [data-controller~='sortable-lists--list']",
+          sortable_lists_sortable_lists__item_outlet: "##{wrapper_key} [data-controller~='sortable-lists--item']"
         }
       end
 
-      def drop_target_config
+      # Built from route helpers with a sentinel so relative-URL-root
+      # installations keep working; {id} is expanded client-side.
+      def move_url_templates
+        id_placeholder = "__id__"
         {
-          generic_drag_and_drop_target: "container",
-          "target-allowed-drag-type": "section" # the type of dragged items which are allowed to be dropped in this target
+          section: drop_admin_settings_project_custom_field_section_path(id_placeholder).sub(id_placeholder, "{id}"),
+          custom_field: drop_admin_settings_project_custom_field_path(id_placeholder).sub(id_placeholder, "{id}")
         }
       end
 
-      def draggable_item_config(section)
+      def sections_list_data
         {
-          "draggable-id": section.id,
-          "draggable-type": "section",
-          "drop-url": drop_admin_settings_project_custom_field_section_path(section)
+          controller: "sortable-lists--list",
+          sortable_lists__list_type_value: "section",
+          sortable_lists__list_accepted_type_value: "section"
+        }
+      end
+
+      def section_item_data(section)
+        {
+          controller: "sortable-lists--item",
+          sortable_lists__item_id_value: section.id,
+          sortable_lists__item_type_value: "section",
+          sortable_lists__item_label_value: section.name
         }
       end
     end

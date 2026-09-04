@@ -1,11 +1,11 @@
 <%=
   component_wrapper(class: "op-project-custom-field-section-container", data: { test_selector: "project-custom-field-section-container-#{@project_custom_field_section.id}" }) do
-    render(border_box_container(mt: 3, data: drag_and_drop_target_config)) do |component|
+    render(border_box_container(mt: 3, data: field_list_data)) do |component|
       component.with_header(font_weight: :bold) do
         flex_layout(justify_content: :space_between, align_items: :center) do |section_header_container|
           section_header_container.with_column(flex_layout: true, align_items: :center) do |content_container|
             content_container.with_column(mr: 2) do
-              render(Primer::OpenProject::DragHandle.new(classes: "handle"))
+              render(Primer::OpenProject::DragHandle.new(classes: "handle", data: { sortable_lists__item_target: "handle" }))
             end
             content_container.with_column do
               render(Primer::Beta::Text.new(font_weight: :bold)) do
@@ -120,7 +120,7 @@
         end
       else
         @ordered_cfs.each_with_index do |cf, index|
-          component.with_row(data: draggable_item_config(cf)) do
+          component.with_row(data: field_item_data(cf)) do
             render(
               custom_field_row_component_class.new(
                 project_custom_field: cf,

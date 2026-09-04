@@ -37,7 +37,7 @@ class VersionsController < ApplicationController
   before_action :authorize
 
   def index
-    @types = @project.types.order(Arel.sql("position"))
+    @types = @project.enabled_types
     retrieve_selected_type_ids(@types, @types.select(&:is_in_roadmap?))
 
     @versions = find_versions(with_subprojects, params[:completed])

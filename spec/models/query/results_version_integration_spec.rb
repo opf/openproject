@@ -30,7 +30,8 @@
 
 require "spec_helper"
 
-RSpec.describe Query::Results, "Grouping and sorting for version" do
+RSpec.describe Query::Results, "Grouping and sorting for version",
+               with_settings: { work_package_multiple_versions: false } do
   let(:query_results) do
     described_class.new query
   end
@@ -116,7 +117,7 @@ RSpec.describe Query::Results, "Grouping and sorting for version" do
     it "returns the correctly sorted grouped result" do
       # Keys are also sorted by the version
       expect(query_results.work_package_count_by_group.keys)
-        .to eql work_packages_asc.map(&:version)
+        .to eql(work_packages_asc.map { it.target_versions.first })
 
       expect(query_results.work_package_count_by_group)
         .to eql(old_version => 1, no_date_version => 1, new_version => 1, nil => 1)
@@ -166,20 +167,21 @@ RSpec.describe Query::Results, "Grouping and sorting for version" do
     end
 
     describe "sorting ASC by version" do
-      it "sorts the work package by its first target version by name" do
-        # multi_version_wp sorts by old_version ("4. Old version"), tied with
-        # old_version_wp; the tie is broken by the default id DESC criterion.
+      it "sorts the work package by its primary target version" do
+        # multi_version_wp's primary target version is new_version (the lowest
+        # version id), tying it with new_version_wp; the tie is broken by the
+        # default id DESC criterion.
         expect(query_results.work_packages.pluck(:id))
-          .to eq [multi_version_wp, old_version_wp, no_date_version_wp, new_version_wp, no_version_wp].map(&:id)
+          .to eq [old_version_wp, no_date_version_wp, multi_version_wp, new_version_wp, no_version_wp].map(&:id)
       end
     end
 
     describe "grouping by version" do
       let(:group_by) { "version" }
 
-      it "counts the work package under its first target version by name" do
+      it "counts the work package under its primary target version" do
         expect(query_results.work_package_count_by_group)
-          .to eql(old_version => 2, no_date_version => 1, new_version => 1, nil => 1)
+          .to eql(old_version => 1, no_date_version => 1, new_version => 2, nil => 1)
 
         expect(query_results.work_package_count_by_group.keys)
           .to eql [old_version, no_date_version, new_version, nil]

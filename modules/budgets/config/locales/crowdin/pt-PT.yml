@@ -34,11 +34,11 @@ pt-PT:
         labor_budget_items: Custos planeados do trabalho
         material_budget: Custos planeados da unidade
         spent: Gasto
-        status: Situação
+        status: Estado
         subject: Assunto
         type: Tipo de custo
       work_package:
-        budget_subject: Título do Orçamento
+        budget_subject: Título do orçamento
     errors:
       models:
         labor_budget_item:
@@ -46,9 +46,15 @@ pt-PT:
             principal:
               not_a_member_of_budget_project: não é membro do projeto do orçamento
     models:
-      budget: Orçamento
-      labor_budget_item: Custo planeado do trabalho
-      material_budget_item: Unidade
+      budget:
+        one: Orçamento
+        other: Orçamentos
+      labor_budget_item:
+        one: Custo planeado do trabalho
+        other: Custos planeados do trabalho
+      material_budget_item:
+        one: Unidade
+        other: Unidades
   activity:
     filter:
       budget: Orçamentos
@@ -89,7 +95,7 @@ pt-PT:
         total_actual_costs: Custos totais efetivos
         total_planned_budget: Orçamento total previsto
   budgets_title: Orçamentos
-  button_add_budget: Adicionar Orçamento
+  button_add_budget: Adicionar orçamento
   button_add_budget_item: Adicionar custos planeados
   button_add_cost_type: Adicionar tipo de custo
   button_cancel_edit_budget: Cancelar a edição de orçamento
@@ -102,7 +108,6 @@ pt-PT:
   help_click_to_edit: Clique aqui para editar.
   help_currency_format: Formato de valores de moedas exibidos. %n é substituído com o valor da moeda, %u é substituído com a unidade de moeda.
   help_override_rate: Insira um valor aqui para substituir a taxa por defeito.
-  label_budget: Orçamento
   label_budget_available: Orçamento disponível
   label_budget_details: Detalhes do orçamento
   label_budget_id: 'Orçamento #%{id}'

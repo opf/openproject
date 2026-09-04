@@ -40,7 +40,7 @@ module WorkPackageTypes
     end
 
     def resolve(work_package)
-      @tokens, = @mapper.partitioned_tokens_for_type(work_package.type)
+      @tokens, = @mapper.partitioned_tokens_for_type(work_package.type_variant)
 
       @pattern_tokens.inject(@pattern) do |pattern, token|
         pattern.gsub(token.pattern, get_value(work_package, token))

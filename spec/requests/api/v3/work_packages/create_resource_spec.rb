@@ -38,7 +38,7 @@ RSpec.describe "API v3 Work package resource",
   shared_let(:project) do
     create(:project, identifier: "test_project", public: false)
   end
-  shared_let(:type) { project.types.first }
+  shared_let(:type) { project.enabled_types.first }
 
   let(:role) { create(:project_role, permissions:) }
   let(:permissions) { %i[add_work_packages view_project view_work_packages] + extra_permissions }
@@ -167,7 +167,7 @@ RSpec.describe "API v3 Work package resource",
           bogus: "bogus",
           _links: {
             type: {
-              href: api_v3_paths.type(project.types.first.id)
+              href: api_v3_paths.type(project.enabled_types.first.id)
             },
             project: {
               href: api_v3_paths.project(project.id)
@@ -279,7 +279,7 @@ RSpec.describe "API v3 Work package resource",
           subject: nil,
           _links: {
             type: {
-              href: api_v3_paths.type(project.types.first.id)
+              href: api_v3_paths.type(project.enabled_types.first.id)
             },
             project: {
               href: api_v3_paths.project(project.id)
@@ -315,10 +315,6 @@ RSpec.describe "API v3 Work package resource",
           expect(created_work_package.target_versions).to contain_exactly(target_version)
         end
 
-        it "mirrors the version into the legacy version_id" do
-          expect(created_work_package.version_id).to eq(target_version.id)
-        end
-
         it "responds with the target version link" do
           expect(last_response.body)
             .to be_json_eql(api_v3_paths.version(target_version.id).to_json)
@@ -336,13 +332,10 @@ RSpec.describe "API v3 Work package resource",
         it "creates the work package without target versions" do
           expect(created_work_package.target_versions).to be_empty
         end
-
-        it "leaves the legacy version_id nil" do
-          expect(created_work_package.version).to be_nil
-        end
       end
 
-      context "with more than one version" do
+      context "with more than one version while multiple versions is disabled",
+              with_settings: { work_package_multiple_versions: false } do
         let(:other_version) { create(:version, project:) }
         let(:target_versions_links) do
           [{ href: api_v3_paths.version(target_version.id) },
@@ -359,6 +352,32 @@ RSpec.describe "API v3 Work package resource",
 
         it "does not create a work package" do
           expect(WorkPackage.count).to eq(0)
+        end
+      end
+
+      context "with more than one version while multiple versions is enabled",
+              with_settings: { work_package_multiple_versions: true } do
+        let(:other_version) { create(:version, project:) }
+        let(:target_versions_links) do
+          [{ href: api_v3_paths.version(target_version.id) },
+           { href: api_v3_paths.version(other_version.id) }]
+        end
+
+        it "returns Created(201)" do
+          expect(last_response).to have_http_status(:created)
+        end
+
+        it "assigns all target versions" do
+          expect(created_work_package.target_versions)
+            .to contain_exactly(target_version, other_version)
+        end
+
+        it "responds with a link per target version" do
+          hrefs = parse_json(last_response.body, "_links/targetVersions").pluck("href")
+
+          expect(hrefs)
+            .to contain_exactly(api_v3_paths.version(target_version.id),
+                                api_v3_paths.version(other_version.id))
         end
       end
 
@@ -487,7 +506,7 @@ RSpec.describe "API v3 Work package resource",
           subject: "subject",
           _links: {
             type: {
-              href: api_v3_paths.type(project.types.first.id)
+              href: api_v3_paths.type(project.enabled_types.first.id)
             },
             project: {
               href: api_v3_paths.project(project.id)
@@ -524,7 +543,7 @@ RSpec.describe "API v3 Work package resource",
           subject: "subject",
           _links: {
             type: {
-              href: api_v3_paths.type(project.types.first.id)
+              href: api_v3_paths.type(project.enabled_types.first.id)
             },
             project: {
               href: api_v3_paths.project(project.id)

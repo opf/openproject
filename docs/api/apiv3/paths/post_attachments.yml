@@ -3,7 +3,7 @@
 get:
   parameters:
   - description: ID of the post whose attachments will be listed
-    example: '1'
+    example: 1
     in: path
     name: id
     required: true
@@ -84,7 +84,7 @@ get:
 post:
   parameters:
   - description: ID of the post to receive the attachment
-    example: '1'
+    example: 1
     in: path
     name: id
     required: true

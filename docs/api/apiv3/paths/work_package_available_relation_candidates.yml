@@ -46,7 +46,9 @@ get:
         type: string
     - description: |-
         JSON specifying sort criteria.
-        Accepts the same sort criteria as the [work packages](https://www.openproject.org/docs/api/endpoints/work-packages/) endpoint.
+        Accepts the same sort criteria as the [work packages](https://www.openproject.org/docs/api/endpoints/work-packages/) endpoint,
+        including the special `exactMatch` key for ranking an exact id/identifier/sequence number match
+        for `query` first, e.g. `[["exactMatch", "desc"], ["updatedAt", "desc"]]`.
       example: '[["status", "asc"]]'
       in: query
       name: sortBy

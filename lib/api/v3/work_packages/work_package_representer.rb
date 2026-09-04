@@ -496,7 +496,9 @@ module API
                  writable: false,
                  uncacheable: true,
                  getter: ->(*) do
-                   project&.available_custom_fields_for_type(type_id)&.any? || false
+                   variant = type_variant
+
+                   (variant.present? && project&.available_custom_fields_for_variant(variant.id)&.any?) || false
                  end
 
         associated_resource :category
@@ -577,9 +579,37 @@ module API
                             link: ::API::V3::Principals::PrincipalRepresenterFactory
                               .create_link_lambda(:assigned_to)
 
+        # Deprecated in favour of `targetVersions`
+        # Removed from the API if multiple_versions is enabled on the instance
         associated_resource :version,
                             v3_path: :version,
-                            representer: ::API::V3::Versions::VersionRepresenter
+                            representer: ::API::V3::Versions::VersionRepresenter,
+                            show_if: ->(*) { !Setting::WorkPackageMultipleVersions.active? },
+                            getter: ->(*) {
+                              next unless embed_link?(:version)
+
+                              version = represented.effective_target_versions.first
+                              next unless version
+
+                              ::API::V3::Versions::VersionRepresenter.create(version, current_user:)
+                            },
+                            link: ->(*) {
+                              next if Setting::WorkPackageMultipleVersions.active?
+
+                              version = represented.effective_target_versions.first
+                              next({ href: nil }) if version.nil?
+
+                              ::API::Decorators::LinkObject
+                                .new(version,
+                                     property_name: :itself,
+                                     path: :version,
+                                     getter: :id,
+                                     title_attribute: :name)
+                                .to_hash
+                            },
+                            setter: ->(fragment:, **) do
+                              represented.target_version_ids = parse_link_ids_from_fragment([fragment], :version).compact
+                            end
 
         associated_resources :target_versions,
                              v3_path: :version,
@@ -604,6 +634,31 @@ module API
                              },
                              setter: ->(fragment:, **) do
                                represented.target_version_ids = parse_link_ids_from_fragment(fragment, :version).compact
+                             end
+
+        associated_resources :observed_in_versions,
+                             v3_path: :version,
+                             representer: ::API::V3::Versions::VersionRepresenter,
+                             getter: ->(*) {
+                               next unless embed_link?(:observed_in_versions)
+
+                               represented.effective_observed_in_versions.map do |version|
+                                 ::API::V3::Versions::VersionRepresenter.create(version, current_user:)
+                               end
+                             },
+                             link: ->(*) {
+                               represented.effective_observed_in_versions.map do |version|
+                                 ::API::Decorators::LinkObject
+                                   .new(version,
+                                        property_name: :itself,
+                                        path: :version,
+                                        getter: :id,
+                                        title_attribute: :name)
+                                   .to_hash
+                               end
+                             },
+                             setter: ->(fragment:, **) do
+                               represented.observed_in_version_ids = parse_link_ids_from_fragment(fragment, :version).compact
                              end
 
         associated_resource :parent,
@@ -830,7 +885,8 @@ module API
                                 watchers
                                 attachments
                                 budget
-                                target_versions]
+                                target_versions
+                                observed_in_versions]
 
         # The dynamic class generation introduced because of the custom fields interferes with
         # the class naming as well as prevents calls to super
@@ -846,7 +902,8 @@ module API
            Setting.work_package_done_ratio,
            Setting.show_work_package_attachments,
            Setting.feeds_enabled?,
-           Setting::WorkPackageIdentifier.semantic?]
+           Setting::WorkPackageIdentifier.semantic?,
+           Setting::WorkPackageMultipleVersions.active?]
         end
 
         def load_complete_model(model)

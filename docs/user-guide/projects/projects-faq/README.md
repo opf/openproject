@@ -62,7 +62,7 @@ Afterwards, you could adjust the hierarchy of the child project (which you origi
 
 For portfolio management or custom reporting, you can use either the project list, or the global work package table. Both views can be used to create optimal reports via filtering, sorting and other configuration options.
 
-For more information on portfolio management options in OpenProject please refer to this [Use Case](../../../use-cases/resource-management).
+For more information on portfolio management options in OpenProject please refer to this [Use Case](../../../use-cases/portfolio-management/).
 
 ## When I set up the overview page for a project, work packages can be arranged as a Gantt chart. I would also need this for the subprojects. How does it work?
 

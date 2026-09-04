@@ -39,7 +39,7 @@ RSpec.describe Group do
   let(:project) { create(:project_with_types) }
   let(:status) { create(:status) }
   let(:package) do
-    build(:work_package, type: project.types.first,
+    build(:work_package, type: project.enabled_types.first,
                          author: user,
                          project:,
                          status:)

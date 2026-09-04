@@ -45,6 +45,7 @@ module API
           delegate :project_id,
                    :project,
                    :type,
+                   :type_variant,
                    :id,
                    :milestone?,
                    :available_custom_fields,
@@ -56,6 +57,7 @@ module API
                    :assignable_priorities,
                    :assignable_versions,
                    :assignable_target_versions,
+                   :assignable_observed_in_versions,
                    :assignable_budgets,
                    :assignable_project_phases,
                    to: :contract

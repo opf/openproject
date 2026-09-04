@@ -82,7 +82,7 @@ module Backlogs
       else
         base_arguments.merge(
           tag: :a,
-          href: start_project_backlogs_sprint_path(project, sprint),
+          href: start_project_backlogs_sprint_path(project, sprint, backlog_filter_params),
           data: { turbo_method: :post }
         )
       end
@@ -117,16 +117,24 @@ module Backlogs
       work_packages.filter_map(&:story_points).sum
     end
 
-    # Starting a sprint can be blocked by two independent rules, each gated by
-    # its own project's allow_multiple_active_sprints setting:
+    # Starting a sprint can be blocked by three independent rules:
+    # - `project` is set to receive shared sprints and `sprint` is one of its
+    #   own (see StartContract) - unconditionally, regardless of
+    #   allow_multiple_active_sprints
     # - the project that actually owns `sprint` already has another active
     #   sprint of its own (the DB-level uniqueness constraint), even if that
-    #   other sprint isn't shared with (and is thus invisible to) `project`
+    #   other sprint isn't shared with (and is thus invisible to) `project`,
+    #   unless the owner allows multiple active sprints
     # - `project` (the project this component is rendered for) already shows
     #   another active sprint on its board - native or shared, as long as it's
-    #   visible here
+    #   visible here, unless `project` allows multiple active sprints
     def project_is_allowed_to_activate_sprint?
-      owner_allows_another_active_sprint? && project_allows_another_active_sprint?
+      !owned_sprint_blocked_by_receiving? &&
+        owner_allows_another_active_sprint? && project_allows_another_active_sprint?
+    end
+
+    def owned_sprint_blocked_by_receiving?
+      sprint.owned_by?(project) && project.receive_shared_sprints?
     end
 
     def owner_allows_another_active_sprint?
@@ -150,7 +158,9 @@ module Backlogs
     def start_sprint_disabled_reason
       return unless disable_start_sprint_action?
 
-      if !sprint.date_range_set?
+      if owned_sprint_blocked_by_receiving?
+        t(".start_sprint_disabled_reason_receiving_shared_sprints")
+      elsif !sprint.date_range_set?
         t(".start_sprint_disabled_reason_missing_dates")
       elsif sprint.owned_by?(project) || project_has_another_active_visible_sprint?
         t(".start_sprint_disabled_reason_active_sprint")

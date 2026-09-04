@@ -20,10 +20,16 @@ zh-TW:
             phone_number:
               error_phone_number_format: 格式必須是 + XX XXXXXXXXX
     models:
-      two_factor_authentication/device: 2FA 設備
-      two_factor_authentication/device/sms: 手機
-      two_factor_authentication/device/totp: 驗證程式應用程式
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        other: Backup codes
+      two_factor_authentication/device:
+        other: 2FA devices
+      two_factor_authentication/device/sms:
+        other: Mobile phones
+      two_factor_authentication/device/totp:
+        other: Authenticator applications
+      two_factor_authentication/device/webauthn:
+        other: WebAuthn
   button_continue: 繼續
   button_make_active: Activate
   button_make_default: 標記為預設值

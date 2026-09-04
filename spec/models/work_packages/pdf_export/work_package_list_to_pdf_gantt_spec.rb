@@ -60,10 +60,12 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   include PDFExportSpecUtils
 
   let!(:status_new) { create(:status, name: "New", is_default: true) }
-  let(:type_standard) { create(:type_standard, name: "Standard", color: create(:color, hexcode: "#FFFF00")) }
+  # Sequenced position on purpose: the grouped export orders by it, and the named type
+  # factories hard-code low positions that would sort them before the milestone type.
+  let(:type_task) { create(:type, name: "Task", color: create(:color, hexcode: "#FFFF00")) }
   let(:type_bug) { create(:type_bug, name: "Bug", color: create(:color, hexcode: "#00FFFF")) }
   let!(:type_milestone) { create(:type, name: "Milestone", is_milestone: true, color: create(:color, hexcode: "#FF0000")) }
-  let(:types) { [type_standard, type_milestone] }
+  let(:types) { [type_task, type_milestone] }
   let(:project) do
     create(:project, name: "Foo Bla. Report No. 4/2021 with/for Case 42", types:)
   end
@@ -118,7 +120,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     create(:work_package,
            project:,
            status: status_new,
-           type: type_standard,
+           type: type_task,
            subject: "Work package 1",
            start_date: work_package_task_start,
            due_date: work_package_task_due)
@@ -136,7 +138,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     create(:work_package,
            project:,
            status: status_new,
-           type: type_standard,
+           type: type_task,
            subject: "Work package 3",
            start_date: work_package_task_start,
            due_date: work_package_task_due_too_long)
@@ -397,7 +399,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
       expect(pdf[:strings]).to eq [query.name, "2024 Apr 21 22 23", # header columns
                                    type_milestone.name,
                                    wp_title_column(work_package_milestone),
-                                   type_standard.name,
+                                   type_task.name,
                                    wp_title_column(work_package_task),
                                    "1/1", export_date_formatted, query.name].join(" ").squeeze(" ")
 
@@ -419,6 +421,30 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
         [:fill_path_with_nonzero]
       ]
       expect(include_calls?(task, pdf[:calls])).to be true
+    end
+  end
+
+  describe "with a request for a PDF gantt grouped by target versions" do
+    let(:query_attributes) { { group_by: "target_versions" } }
+    let(:version_one) { create(:version, project:, name: "1.0") }
+    let(:version_two) { create(:version, project:, name: "2.0") }
+    let(:work_packages) do
+      work_package_task.target_version_ids_replacements = [version_one.id, version_two.id]
+      work_package_task.save!
+      [work_package_task, work_package_milestone]
+    end
+
+    context "with multiple versions active",
+            with_settings: { work_package_multiple_versions: true } do
+      it "joins the several target versions of a work package into one group, " \
+         "and groups work packages without a target version under a none placeholder" do
+        expect(pdf[:strings]).to eq [query.name, "2024 Apr 21 22 23", # header columns
+                                     "1.0, 2.0",
+                                     wp_title_column(work_package_task),
+                                     I18n.t(:label_none_parentheses),
+                                     wp_title_column(work_package_milestone),
+                                     "1/1", export_date_formatted, query.name].join(" ").squeeze(" ")
+      end
     end
   end
 

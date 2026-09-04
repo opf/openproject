@@ -151,6 +151,23 @@ RSpec.describe Users::UpdateContract do
         it_behaves_like "contract is valid"
       end
 
+      context "when password login is restricted for SSO users", with_config: { password_login: "except_sso" } do
+        let(:provider) { create(:oidc_provider) }
+        let(:user) { create(:user, :passwordless, login: "sso_user", authentication_provider: provider) }
+
+        before do
+          user.password = "pwd123Password!"
+          user.password_confirmation = "pwd123Password!"
+        end
+
+        it_behaves_like "contract is invalid", password: :error_readonly
+
+        context "and the user is on the bypass list",
+                with_config: { password_login: "except_sso", password_login_bypass_logins: ["sso_user"] } do
+          it_behaves_like "contract is valid"
+        end
+      end
+
       describe "can update the email even when users may not change their own",
                with_settings: { user_can_change_email: false } do
         before do

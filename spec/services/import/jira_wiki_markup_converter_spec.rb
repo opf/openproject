@@ -585,6 +585,56 @@ RSpec.describe Import::JiraWikiMarkupConverter do
         expect(result).to eq(output)
       end
     end
+
+    context "having malformed parameters" do
+      context "with empty segments" do
+        let(:input) { "{panel:title=Test||another=value}\nPanel content\n{panel}" }
+
+        it "gracefully handles empty parameter segments" do
+          expect(result).to eq("**Test**\nPanel content")
+        end
+      end
+
+      context "with empty string segments" do
+        let(:input) { "{panel:title=Test| |another=value}\nPanel content\n{panel}" }
+
+        it "gracefully handles empty string segments" do
+          expect(result).to eq("**Test**\nPanel content")
+        end
+      end
+
+      context "with empty key and value" do
+        let(:input) { "{panel:title=Test|=|another=value}\nPanel content\n{panel}" }
+
+        it "gracefully handles empty key and value" do
+          expect(result).to eq("**Test**\nPanel content")
+        end
+      end
+
+      context "with empty key" do
+        let(:input) { "{panel:title=Test|=value|another=value}\nPanel content\n{panel}" }
+
+        it "gracefully handles empty key" do
+          expect(result).to eq("**Test**\nPanel content")
+        end
+      end
+
+      context "with empty value" do
+        let(:input) { "{panel:title=Test|key=|another=value}\nPanel content\n{panel}" }
+
+        it "gracefully handles empty value" do
+          expect(result).to eq("**Test**\nPanel content")
+        end
+      end
+
+      context "without equals sign" do
+        let(:input) { "{panel:title=Test|invalid_param}\nPanel content\n{panel}" }
+
+        it "gracefully handles missing equals sign" do
+          expect(result).to eq("**Test**\nPanel content")
+        end
+      end
+    end
   end
 
   describe "combined formatting" do

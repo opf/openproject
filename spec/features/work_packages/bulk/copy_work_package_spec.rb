@@ -100,8 +100,19 @@ RSpec.describe "Duplicate work packages through Rails view", :js do
         # Check project of last two created wps
         copied_wps = WorkPackage.last(2)
         expect(copied_wps.map(&:project_id).uniq).to eq([project2.id])
-        expect(copied_wps.map(&:version_id).uniq).to eq([version.id])
+        expect(copied_wps.map { |wp| wp.target_versions.pluck(:id) }.uniq).to eq([[version.id]])
         expect(copied_wps.map { |wp| wp.journals.last.notes }.uniq).to eq(["A note on duplicate"])
+      end
+
+      it "sets the observed-in version on duplicate" do
+        select version.name, from: "observed_in_version_ids"
+        click_on "Duplicate and follow"
+
+        wp_table_target.expect_current_path
+        wp_table_target.expect_work_package_count 2
+
+        copied_wps = WorkPackage.last(2)
+        expect(copied_wps.map { |wp| wp.observed_in_versions.pluck(:id) }.uniq).to eq([[version.id]])
       end
 
       context "when the limit to move in the frontend is reached",
@@ -273,7 +284,7 @@ RSpec.describe "Duplicate work packages through Rails view", :js do
         end
 
         before do
-          project2.types = [type2]
+          project2.project_types = [ProjectType.new(type: type2)]
         end
 
         it "fails, informing of the reasons" do

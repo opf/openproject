@@ -198,6 +198,87 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       expect(rendered).to have_css(".op-border-box-list-header--description", text: "Some description")
     end
 
+    it "renders custom title slot content inside the title heading" do
+      rendered = render_inline(
+        described_class.new(container: "hdr-title-content")
+      ) do |list|
+        list.with_header(title: "String title") do |header|
+          header.with_title { '<a href="/somewhere">Linked title</a>'.html_safe }
+        end
+        list.with_item { "row" }
+      end
+
+      expect(rendered).to have_heading("Linked title", level: 4)
+      expect(rendered)
+        .to have_css(".op-border-box-list-header--heading-line h4.Box-title a[href='/somewhere']",
+                     text: "Linked title")
+      expect(rendered).to have_no_text("String title")
+    end
+
+    it "renders header breadcrumbs in the title position with a visually hidden title" do
+      rendered = render_inline(
+        described_class.new(container: "hdr-breadcrumbs")
+      ) do |list|
+        list.with_header(title: "Design & Content") do |header|
+          header.with_breadcrumbs do |crumbs|
+            crumbs.with_item(href: "/departments") { "My Organization" }
+            crumbs.with_item(href: "/departments/42") { "Design & Content" }
+          end
+        end
+        list.with_item { "row" }
+      end
+
+      expect(rendered).to have_css(
+        ".op-border-box-list-header--heading-line nav[aria-label='Breadcrumb'] li.breadcrumb-item",
+        count: 2
+      )
+      expect(rendered).to have_css("h4.Box-title.sr-only", text: "Design & Content", visible: :all)
+      expect(rendered).to have_no_css(".op-border-box-list-header--heading-line .Truncate")
+    end
+
+    it "keeps the list labelled by a header that contains the title text" do
+      rendered = render_inline(
+        described_class.new(container: "hdr-breadcrumbs-label")
+      ) do |list|
+        list.with_header(title: "Design & Content") do |header|
+          header.with_breadcrumbs do |crumbs|
+            crumbs.with_item(href: "/departments") { "My Organization" }
+          end
+        end
+        list.with_item { "row" }
+      end
+
+      labelledby = rendered.css("ul").first["aria-labelledby"]
+      expect(labelledby).to be_present
+      expect(rendered.css("##{labelledby}").text).to include("Design & Content")
+    end
+
+    it "raises when breadcrumbs are combined with a collapsible header" do
+      expect do
+        render_inline(
+          described_class.new(container: "hdr-breadcrumbs-collapsible", collapsible: true)
+        ) do |list|
+          list.with_header(title: "Title") do |header|
+            header.with_breadcrumbs do |crumbs|
+              crumbs.with_item(href: "/somewhere") { "Somewhere" }
+            end
+          end
+          list.with_item { "row" }
+        end
+      end.to raise_error(ArgumentError, /collapsible/)
+    end
+
+    it "raises when the header has neither a title nor title slot" do
+      expect do
+        render_inline(
+          described_class.new(container: "hdr-without-title")
+        ) do |list|
+          list.with_header
+          list.with_item { "row" }
+        end
+      end.to raise_error(ArgumentError, /title/)
+    end
+
     it "forwards system arguments to the description text" do
       rendered = render_inline(
         described_class.new(container: "hdr-description-args")
@@ -230,6 +311,36 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       expect(rendered).to have_button("Edit")
     end
 
+    it "renders a status label in its own header area" do
+      rendered = render_inline(
+        described_class.new(container: "hdr-label")
+      ) do |list|
+        list.with_header(title: "Bug") do |header|
+          header.with_label(scheme: :success) { "Enabled" }
+        end
+        list.with_item { "row" }
+      end
+
+      expect(rendered).to have_css(
+        ".op-border-box-list-header--label .Label.Label--success",
+        text: "Enabled"
+      )
+      expect(rendered).to have_no_css(".op-border-box-list-header--actions .Label")
+    end
+
+    it "renders an action icon button" do
+      rendered = render_inline(
+        described_class.new(container: "hdr-icon-action")
+      ) do |list|
+        list.with_header(title: "Actions") do |header|
+          header.with_action_icon_button(icon: :pencil, aria: { label: "Edit list" })
+        end
+        list.with_item { "row" }
+      end
+
+      expect(rendered).to have_button(accessible_name: "Edit list")
+    end
+
     it "renders a menu in the header" do
       rendered = render_inline(
         described_class.new(container: "hdr-menu")
@@ -245,6 +356,48 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       expect(rendered).to have_css(".Box-header")
       expect(rendered).to have_css("action-menu")
       expect(rendered).to have_css("tool-tip[data-type='label']", text: I18n.t(:label_actions))
+    end
+
+    it "forwards button arguments to the default menu show button" do
+      rendered = render_inline(
+        described_class.new(container: "hdr-menu-button-arguments")
+      ) do |list|
+        list.with_header(title: "With configured menu") do |header|
+          header.with_menu(
+            button_arguments: {
+              aria: { label: "Configured actions" },
+              data: { test_selector: "configured-actions-button" }
+            }
+          ) do |menu|
+            menu.with_item(label: "Option A", value: "a")
+          end
+        end
+        list.with_item { "row" }
+      end
+
+      expect(rendered).to have_button(
+        "hdr-menu-button-arguments_list_menu-button",
+        accessible_name: "Configured actions"
+      )
+      expect(rendered).to have_css("button[data-test-selector='configured-actions-button']")
+    end
+
+    it "renders a custom show button without adding the default show button" do
+      rendered = render_inline(
+        described_class.new(container: "hdr-custom-menu")
+      ) do |list|
+        list.with_header(title: "With custom menu") do |header|
+          header.with_menu do |menu|
+            menu.with_show_button { "Add link" }
+            menu.with_item(label: "Option A", value: "a")
+          end
+        end
+        list.with_item { "row" }
+      end
+
+      expect(rendered).to have_css("action-menu")
+      expect(rendered).to have_button("Add link")
+      expect(rendered).to have_no_css("tool-tip[data-type='label']", text: I18n.t(:label_actions))
     end
 
     it "infers the count from rendered items" do
@@ -629,6 +782,56 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
   end
 
   describe "empty state" do
+    it "renders the default empty state when no items are present" do
+      rendered = render_inline(
+        described_class.new(container: "default-empty-list")
+      ) do |list|
+        list.with_header(title: "Empty list")
+      end
+
+      expect(rendered).to have_css(".blankslate")
+      expect(rendered).to have_heading(I18n.t(:label_nothing_display), level: 4)
+      expect(rendered).to have_text(I18n.t(:no_results_title_text))
+    end
+
+    it "renders the default empty state without requiring a header" do
+      rendered = render_inline(
+        described_class.new(container: "default-empty-list-without-header")
+      )
+
+      expect(rendered).to have_css(".Box#default-empty-list-without-header")
+      expect(rendered).to have_css(".blankslate")
+      expect(rendered).to have_heading(I18n.t(:label_nothing_display), level: 4)
+    end
+
+    it "renders a call-to-action as the blankslate primary action" do
+      rendered = render_inline(
+        described_class.new(container: "empty-list-with-action")
+      ) do |list|
+        list.with_empty_state(
+          title: "Nothing here",
+          action_label: "Add item",
+          action_icon: :plus,
+          action_arguments: { href: "/items/new", scheme: :primary }
+        )
+      end
+
+      expect(rendered).to have_css(".blankslate") do |blankslate|
+        expect(blankslate).to have_link("Add item", href: "/items/new") { |link| link.has_css?(".octicon-plus") }
+      end
+    end
+
+    it "renders no primary action without an action label" do
+      rendered = render_inline(
+        described_class.new(container: "empty-list-without-action")
+      ) do |list|
+        list.with_empty_state(title: "Nothing here", action_label: "", action_arguments: { href: "/items/new" })
+      end
+
+      expect(rendered).to have_css(".blankslate")
+      expect(rendered).to have_no_css(".blankslate a, .blankslate button")
+    end
+
     it "renders a Blankslate when no items are present" do
       rendered = render_inline(
         described_class.new(container: "empty-list")
@@ -641,7 +844,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       expect(rendered).to have_text("Add some items")
     end
 
-    it "renders the empty state in the DOM even when items are present (hidden by CSS for drag support)" do
+    it "omits the empty state when items are present" do
       rendered = render_inline(
         described_class.new(container: "non-empty-list")
       ) do |list|
@@ -649,7 +852,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
         list.with_item { "Has content" }
       end
 
-      expect(rendered).to have_css(".blankslate")
+      expect(rendered).to have_no_css(".blankslate")
       expect(rendered).to have_text("Has content")
     end
 
@@ -670,6 +873,14 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       ) do |list|
         list.with_empty_state(title: "Empty")
       end
+
+      expect(rendered).to have_role(:status, aria: { live: "polite" })
+    end
+
+    it "sets aria role and live attributes on the default empty state when the list is interactive" do
+      rendered = render_inline(
+        described_class.new(container: "default-empty-interactive-aria", interactive: true)
+      )
 
       expect(rendered).to have_role(:status, aria: { live: "polite" })
     end
@@ -1023,6 +1234,93 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       end
 
       expect(rendered).to have_no_css(".op-border-box-list-header--drag_handle")
+    end
+  end
+
+  describe "empty_state_behavior" do
+    it "renders the generic default when static and empty" do
+      render_inline(described_class.new(container: "c"))
+      expect(page).to have_css("[data-empty-list-item]", text: I18n.t(:label_nothing_display))
+    end
+
+    it "renders nothing for the :none behavior when empty" do
+      render_inline(described_class.new(container: "c", empty_state_behavior: :none))
+      expect(page).to have_no_css("[data-empty-list-item]")
+    end
+
+    it "ignores a declared empty state under :none" do
+      render_inline(described_class.new(container: "c", empty_state_behavior: :none)) do |list|
+        list.with_empty_state(title: "Declared")
+      end
+      expect(page).to have_no_css("[data-empty-list-item]")
+      expect(page).to have_no_text("Declared")
+    end
+
+    it "does not render an empty box shell for :none with only a declared empty state" do
+      # render? must treat the ignored slot as absent, or a bare bordered Box renders
+      render_inline(described_class.new(container: "c", empty_state_behavior: :none)) do |list|
+        list.with_empty_state(title: "Declared")
+      end
+      expect(page).to have_no_css(".Box")
+    end
+
+    it "raises for unsupported values in test" do
+      # fetch_or_fallback only falls back to :static silently in production;
+      # in test/development it raises so an unsupported value is caught early.
+      expect do
+        described_class.new(container: "c", empty_state_behavior: :bogus)
+      end.to raise_error Primer::FetchOrFallbackHelper::InvalidValueError
+    end
+  end
+
+  describe ":dynamic markup" do
+    # Capybara's `have_css` matcher always converts its target through
+    # `Capybara.string`, which explicitly strips `<template>` inner HTML
+    # (`template.content` is not part of the queryable document per HTML5
+    # semantics) before running the selector. That makes it impossible to
+    # assert *into* a `<template>` via `page`/`have_css`, no matter what the
+    # component renders, so the prototype's markup is asserted directly
+    # against the Nokogiri fragment `render_inline` returns instead.
+    def template_placeholder(rendered)
+      rendered.at_css(
+        "template[data-border-box-list-target='emptyStateTemplate'] li[data-empty-list-item='true']"
+      )
+    end
+
+    it "wraps the box and parks the placeholder in a template when populated" do
+      rendered = render_inline(described_class.new(container: "c", empty_state_behavior: :dynamic)) do |list|
+        list.with_empty_state(title: "Empty!")
+        list.with_item { "Row" }
+      end
+      expect(page).to have_css("[data-controller='border-box-list'] ul[data-border-box-list-target='list']")
+      expect(page).to have_no_css("ul [data-empty-list-item]")
+      # legacy generic-drag-and-drop requires the exact value "true"
+      placeholder = template_placeholder(rendered)
+      expect(placeholder).not_to be_nil
+      expect(placeholder.text).to include("Empty!")
+    end
+
+    it "renders the placeholder as the real row when empty and keeps a template prototype" do
+      rendered = render_inline(described_class.new(container: "c", empty_state_behavior: :dynamic)) do |list|
+        list.with_empty_state(title: "Empty!")
+      end
+      expect(page).to have_css("ul > li[data-empty-list-item='true']", text: "Empty!")
+      # the prototype must ALWAYS be in the template, or an initially empty list
+      # can never restore its placeholder after an empty -> populated -> empty cycle
+      expect(template_placeholder(rendered)).not_to be_nil
+    end
+
+    it "defaults the template prototype to the generic empty state when populated with no declared empty state" do
+      rendered = render_inline(described_class.new(container: "c", empty_state_behavior: :dynamic)) do |list|
+        list.with_item { "Row" }
+      end
+      # a client-side drain to zero rows must clone a real blankslate, not a
+      # contentless placeholder, even though no with_empty_state was declared
+      placeholder = template_placeholder(rendered)
+      expect(placeholder).not_to be_nil
+      expect(placeholder.text).to include(I18n.t(:label_nothing_display))
+      expect(page).to have_css("ul > li", count: 1)
+      expect(page).to have_no_css("ul [data-empty-list-item]")
     end
   end
 end

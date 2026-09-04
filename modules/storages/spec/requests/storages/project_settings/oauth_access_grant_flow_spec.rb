@@ -77,7 +77,7 @@ RSpec.describe "GET /projects/:project_id/settings/project_storages/:id/oauth_ac
         allow(SecureRandom).to receive(:uuid).and_return(nonce).ordered
         Storages::Adapters::Registry
           .stub("nextcloud.queries.user",
-                ->(_) { Failure(Storages::Adapters::Results::Error.new(code: :unauthorized, source: self)) })
+                ->(_) { Failure(SimpleError.new(code: :unauthorized, source: self)) })
       end
 
       it "redirects to storage authorization_uri with oauth_state_* cookie set" do

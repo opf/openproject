@@ -44,6 +44,11 @@ describe('ProjectTimelineGraphComponent', () => {
         'js.grid.widgets.project_timeline.tooltip_type_sprint': 'Sprint',
         'js.grid.widgets.project_timeline.accessible_phase': `Phase ${options.name}: ${options.date}`,
         'js.grid.widgets.project_timeline.accessible_gate': `Phase gate ${options.name}: ${options.date}`,
+        'js.grid.widgets.project_timeline.accessible_milestone': `Milestone ${options.name}: ${options.date}`,
+        'js.grid.widgets.project_timeline.accessible_sprint': `Sprint ${options.name}: ${options.date}. Status: ${options.status}`,
+        'js.grid.widgets.project_timeline.sprint_status.active': 'Active',
+        'js.grid.widgets.project_timeline.sprint_status.completed': 'Completed',
+        'js.grid.widgets.project_timeline.sprint_status.in_planning': 'In planning',
         'js.grid.widgets.project_timeline.accessible_date_range': `${options.start} to ${options.end}`,
       }[key] ?? key;
     },
@@ -124,7 +129,7 @@ describe('ProjectTimelineGraphComponent', () => {
 
   let buildData:(phases:unknown[], milestones:unknown[], sprints:unknown[]) => { items:ProjectTimelineItem[]; groups:{ id:string; content:string }[] };
   let tooltipTemplate:(item:ProjectTimelineItem) => HTMLElement|string;
-  let buildAccessibleItems:(phases:unknown[]) => { id:string; text:string }[];
+  let buildAccessibleItems:(phases:unknown[], milestones:unknown[], sprints:unknown[]) => { id:string; text:string }[];
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -518,7 +523,7 @@ describe('ProjectTimelineGraphComponent', () => {
 
   describe('buildAccessibleItems', () => {
     it('creates screen reader text for phases and gates', () => {
-      expect(buildAccessibleItems([phaseWithGates])).toEqual([
+      expect(buildAccessibleItems([phaseWithGates], [], [])).toEqual([
         { id: 'phase-2', text: 'Phase Build: 2024-04-01 to 2024-06-30' },
         { id: 'gate-start-2', text: 'Phase gate Build Start: 2024-04-01' },
         { id: 'gate-finish-2', text: 'Phase gate Build End: 2024-06-30' },
@@ -526,13 +531,35 @@ describe('ProjectTimelineGraphComponent', () => {
     });
 
     it('uses a single date for one-day phases', () => {
-      expect(buildAccessibleItems([oneDayPhase])).toEqual([
+      expect(buildAccessibleItems([oneDayPhase], [], [])).toEqual([
         { id: 'phase-4', text: 'Phase Kickoff: 2024-05-15' },
       ]);
     });
 
     it('skips phases without dates', () => {
-      expect(buildAccessibleItems([phaseWithoutDates])).toEqual([]);
+      expect(buildAccessibleItems([phaseWithoutDates], [], [])).toEqual([]);
+    });
+
+    it('creates screen reader text for milestones', () => {
+      expect(buildAccessibleItems([], [milestone], [])).toEqual([
+        { id: 'milestone-10', text: 'Milestone Launch: 2024-06-30' },
+      ]);
+    });
+
+    it('creates screen reader text for sprints', () => {
+      expect(buildAccessibleItems([], [], [sprint])).toEqual([
+        { id: 'sprint-20', text: 'Sprint Sprint 1: 2024-01-01 to 2024-01-14. Status: Active' },
+      ]);
+    });
+
+    it('orders all item types chronologically', () => {
+      expect(buildAccessibleItems([phaseWithGates], [milestone], [sprint]).map(({ id }) => id)).toEqual([
+        'sprint-20',
+        'phase-2',
+        'gate-start-2',
+        'gate-finish-2',
+        'milestone-10',
+      ]);
     });
   });
 
@@ -552,6 +579,27 @@ describe('ProjectTimelineGraphComponent', () => {
       expect(element.querySelector('ul.sr-only')?.textContent).toContain('Phase Build: 2024-04-01 to 2024-06-30');
       expect(element.querySelector('ul.sr-only')?.textContent).toContain('Phase gate Build Start: 2024-04-01');
       expect(element.querySelector('ul.sr-only')?.textContent).toContain('Phase gate Build End: 2024-06-30');
+    });
+
+    it('renders milestone and sprint screen reader text', () => {
+      fixture.componentRef.setInput('milestonesData', JSON.stringify([milestone]));
+      fixture.componentRef.setInput('sprintsData', JSON.stringify([sprint]));
+      fixture.detectChanges();
+
+      const text = (fixture.nativeElement as HTMLElement).querySelector('ul.sr-only')?.textContent;
+      expect(text).toContain('Milestone Launch: 2024-06-30');
+      expect(text).toContain('Sprint Sprint 1: 2024-01-01 to 2024-01-14. Status: Active');
+    });
+
+    it('hides the loading skeleton once the initial draw completes', async () => {
+      const element = fixture.nativeElement as HTMLElement;
+
+      await vi.waitUntil(() => {
+        fixture.detectChanges();
+        return element.querySelector('.op-project-timeline-graph--wrapper_loading') === null;
+      });
+
+      expect(element.querySelector('.op-project-timeline-graph--wrapper_loading')).toBeNull();
     });
   });
 });

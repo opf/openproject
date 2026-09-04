@@ -7,7 +7,10 @@ pt-BR:
         bim_snippet: Trecho BIM
         reference_links: Links de referência
         stage: Fase
+        status_id: Status
         viewpoint: Ponto de vista
+      bim/bcf/viewpoint:
+        status_id: Status
       bim/ifc_models/ifc_model:
         attachments: Arquivo IFC
         ifc_attachment: Arquivo IFC
@@ -35,7 +38,18 @@ pt-BR:
               ifc_attachment_missing: Nenhum arquivo ifc anexado.
               invalid_ifc_file: O arquivo fornecido não é um arquivo IFC válido.
     models:
-      bim/ifc_models/ifc_model: Modelo IFC
+      bim/bcf/comment:
+        one: Comentário BCF
+        other: Comentários BCF
+      bim/bcf/issue:
+        one: Problema BCF
+        other: Problemas BCF
+      bim/bcf/viewpoint:
+        one: Ponto de vista BCF
+        other: Pontos de vista BCF
+      bim/ifc_models/ifc_model:
+        one: Modelo IFC
+        other: Modelos IFC
   attributes:
     bcf_thumbnail: Instantâneo BCF
   bcf:

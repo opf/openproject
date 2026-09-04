@@ -1,4 +1,11 @@
 ---
 sl:
+  activerecord:
+    models:
+      grids/my_page:
+        one: My page
+        two: My pages
+        few: My pages
+        other: My pages
   my_page:
     label: Moja stran

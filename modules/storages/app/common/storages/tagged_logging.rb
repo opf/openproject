@@ -38,7 +38,7 @@ module Storages
       logger.tagged(*tag, &)
     end
 
-    # @param error [Storages::Adapters::Results::Error] an instance of Storages::Adapters::Results::Error
+    # @param error [SimpleError] an instance of SimpleError
     # @param context [Hash{Symbol => Object}] extra metadata that will be appended to the logs
     def log_adapter_error(error, context = {})
       payload = error.payload

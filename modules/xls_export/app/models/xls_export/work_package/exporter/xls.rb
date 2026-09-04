@@ -35,7 +35,7 @@ module XlsExport::WorkPackage::Exporter
 
     def records
       work_packages
-        .includes(:assigned_to, :type, :priority, :category, :version, :target_versions)
+        .includes(:assigned_to, :type, :priority, :category, :target_versions)
     end
 
     def spreadsheet_title

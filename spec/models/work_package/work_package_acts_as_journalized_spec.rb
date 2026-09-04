@@ -66,7 +66,7 @@ RSpec.describe WorkPackage do
                          "priority_id" => :priority,
                          "project_id" => :project,
                          "category_id" => :category,
-                         "version_id" => :version,
+                         "target_version_ids_replacements" => -> { [version.id] },
                          "start_date" => Date.new(2013, 1, 24),
                          "due_date" => Date.new(2013, 1, 31),
                          "done_ratio" => 100,
@@ -179,7 +179,7 @@ RSpec.describe WorkPackage do
                          "priority_id" => :other_priority,
                          "project_id" => :other_project,
                          "category_id" => :category,
-                         "version_id" => :other_version,
+                         "target_version_ids_replacements" => -> { [other_version.id] },
                          "start_date" => Date.new(2013, 1, 24),
                          "due_date" => Date.new(2013, 1, 31),
                          "done_ratio" => 100,
@@ -255,7 +255,7 @@ RSpec.describe WorkPackage do
                          "priority_id" => :other_priority,
                          "project_id" => :other_project,
                          "category_id" => :category,
-                         "version_id" => :other_version,
+                         "target_version_ids_replacements" => -> { [other_version.id] },
                          "start_date" => Date.new(2013, 1, 24),
                          "due_date" => Date.new(2013, 1, 31),
                          "done_ratio" => 100,
@@ -334,7 +334,7 @@ RSpec.describe WorkPackage do
                          "priority_id" => :other_priority,
                          "project_id" => :other_project,
                          "category_id" => :category,
-                         "version_id" => :other_version,
+                         "target_version_ids_replacements" => -> { [other_version.id] },
                          "start_date" => Date.new(2013, 1, 24),
                          "due_date" => Date.new(2013, 1, 31),
                          "done_ratio" => 100,
@@ -566,26 +566,73 @@ RSpec.describe WorkPackage do
         end
       end
 
-      # While the deprecated version_id column mirrors the target versions,
-      # every version change produces both a version_id and a target_versions
-      # diff. Only the target_versions representation is exposed.
-      context "when changing the version via the legacy version field" do
-        it "journals the change as target versions only" do
-          journable.update!(version:)
-
-          expect(journable.last_journal.details["target_versions"])
-            .to eq([nil, version.id.to_s])
-          expect(journable.last_journal.details)
-            .not_to have_key("version_id")
-        end
-      end
-
       context "when setting target versions via the replacements" do
         it "does not additionally journal the mirrored version_id" do
           set_target_versions([version])
 
           expect(journable.last_journal.details)
             .not_to have_key("version_id")
+        end
+      end
+    end
+
+    context "on observed in version changes", with_settings: { journal_aggregation_time_minutes: 0 } do
+      shared_let(:journable) do
+        create(:work_package)
+      end
+
+      def set_observed_in_versions(versions)
+        journable.observed_in_version_ids_replacements = versions.map(&:id)
+        journable.save!
+      end
+
+      context "when setting observed in versions" do
+        it "creates a new journal listing the versions in the details" do
+          expect { set_observed_in_versions([version, other_version]) }
+            .to change { journable.journals.count }.by(1)
+
+          expect(journable.last_journal.details["observed_in_versions"])
+            .to eq([nil, [version.id, other_version.id].sort.join(",")])
+        end
+      end
+
+      context "when replacing an observed in version" do
+        before do
+          set_observed_in_versions([version])
+        end
+
+        it "creates a new journal with the old and new versions in the details" do
+          expect { set_observed_in_versions([other_version]) }
+            .to change { journable.journals.count }.by(1)
+
+          expect(journable.last_journal.details["observed_in_versions"])
+            .to eq([version.id.to_s, other_version.id.to_s])
+        end
+      end
+
+      context "when removing all observed in versions" do
+        before do
+          set_observed_in_versions([version])
+        end
+
+        it "creates a new journal with an empty new value in the details" do
+          expect { set_observed_in_versions([]) }
+            .to change { journable.journals.count }.by(1)
+
+          expect(journable.last_journal.details["observed_in_versions"])
+            .to eq([version.id.to_s, nil])
+        end
+      end
+
+      context "when saving with unchanged observed in versions" do
+        before do
+          set_observed_in_versions([version])
+        end
+
+        it "creates no journal and does not touch the journable" do
+          expect { set_observed_in_versions([version]) }
+            .to not_change { journable.journals.count }
+            .and(not_change { journable.reload.updated_at })
         end
       end
     end
@@ -621,7 +668,7 @@ RSpec.describe WorkPackage do
       shared_let(:custom_field) do
         create(:boolean_wp_custom_field, id: 1) do |custom_field|
           project.work_package_custom_fields << custom_field
-          type.custom_fields << custom_field
+          type.default_variant.custom_fields << custom_field
         end
       end
 
@@ -712,7 +759,7 @@ RSpec.describe WorkPackage do
                  }) do
             create(:boolean_wp_custom_field, id: 2) do |cf|
               project.work_package_custom_fields << cf
-              type.custom_fields << cf
+              type.default_variant.custom_fields << cf
             end
           end
         end
@@ -725,7 +772,7 @@ RSpec.describe WorkPackage do
         shared_let(:list_cf) do
           create(:list_wp_custom_field, id: 2, possible_values: %w[A B C D]) do |cf|
             project.work_package_custom_fields << cf
-            type.custom_fields << cf
+            type.default_variant.custom_fields << cf
           end
         end
 
@@ -1049,6 +1096,82 @@ RSpec.describe WorkPackage do
                        expect_new_journal: true
     end
 
+    context "on only journal notes adding with the most recent journal timestamped ahead of the database clock",
+            with_settings: { journal_aggregation_time_minutes: 0 } do
+      shared_let(:journable) do
+        create(:work_package,
+               journals: {
+                 10.minutes.from_now => { user: }
+               })
+      end
+
+      include_examples "journaled values for",
+                       new_values_set: {
+                         "journal_notes" => "Some notes"
+                       },
+                       expected_values: {},
+                       expected_notes: "Some notes",
+                       expect_new_journal: true
+    end
+
+    context "on only journal notes adding when the journable has been touched in the database since it was loaded",
+            with_settings: { journal_aggregation_time_minutes: 0 } do
+      shared_let(:journable) do
+        create(:work_package)
+      end
+
+      before do
+        described_class.where(id: journable.id).update_all(updated_at: 10.minutes.from_now)
+      end
+
+      include_examples "journaled values for",
+                       new_values_set: {
+                         "journal_notes" => "Some notes"
+                       },
+                       expected_values: {},
+                       expected_notes: "Some notes",
+                       expect_new_journal: true,
+                       expect_journable_update_at_changed: false
+    end
+
+    context "on only journal cause adding with the most recent journal timestamped ahead of the database clock",
+            with_settings: { journal_aggregation_time_minutes: 0 } do
+      shared_let(:journable) do
+        create(:work_package,
+               journals: {
+                 10.minutes.from_now => { user: }
+               })
+      end
+
+      include_examples "journaled values for",
+                       new_values_set: {
+                         "journal_cause" => "ABC"
+                       },
+                       expected_values: {},
+                       expected_cause: "ABC",
+                       expect_new_journal: true
+    end
+
+    context "on only journal cause adding when the journable has been touched in the database since it was loaded",
+            with_settings: { journal_aggregation_time_minutes: 0 } do
+      shared_let(:journable) do
+        create(:work_package)
+      end
+
+      before do
+        described_class.where(id: journable.id).update_all(updated_at: 10.minutes.from_now)
+      end
+
+      include_examples "journaled values for",
+                       new_values_set: {
+                         "journal_cause" => "ABC"
+                       },
+                       expected_values: {},
+                       expected_cause: "ABC",
+                       expect_new_journal: true,
+                       expect_journable_update_at_changed: false
+    end
+
     context "when aggregation leads to an empty change (changing back and forth)",
             with_settings: { journal_aggregation_time_minutes: 1 } do
       shared_let(:journable) do
@@ -1236,7 +1359,7 @@ RSpec.describe WorkPackage do
     let(:custom_field) do
       create(:integer_wp_custom_field) do |cf|
         project.work_package_custom_fields << cf
-        type.custom_fields << cf
+        type.default_variant.custom_fields << cf
       end
     end
     let(:work_package) do

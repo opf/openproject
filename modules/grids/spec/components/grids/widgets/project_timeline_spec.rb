@@ -334,7 +334,7 @@ RSpec.describe Grids::Widgets::ProjectTimeline, type: :component do
     let(:milestone_type) { create(:type, is_milestone: true) }
 
     context "without view_work_packages permission" do
-      before { project.types << milestone_type }
+      before { project.project_types.create!(type: milestone_type) }
 
       it { expect(component.gantt_link).to be_nil }
     end
@@ -348,7 +348,7 @@ RSpec.describe Grids::Widgets::ProjectTimeline, type: :component do
 
       context "when milestone types are enabled in the project" do
         before do
-          project.types << milestone_type
+          project.project_types.create!(type: milestone_type)
           render_inline(component)
         end
 
@@ -413,7 +413,7 @@ RSpec.describe Grids::Widgets::ProjectTimeline, type: :component do
       before do
         Member.find_by(user_id: user.id, project_id: project.id).update!(roles: [wp_role])
         create(:project_phase, project:)
-        project.types << milestone_type
+        project.project_types.create!(type: milestone_type)
         create(:work_package, project:, type: milestone_type, due_date: Time.zone.today)
         render_inline(component)
       end

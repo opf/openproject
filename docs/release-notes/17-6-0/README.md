@@ -43,7 +43,7 @@ The integration also supports **references between OpenProject and XWiki**. User
 
 ### Internal wiki improvements
 
-OpenProject's built-in Wiki module is also improved with OpenProject 17.6. It can be used through the new integration as internal provider. System administrators can [activate this](../../system-admin-guide/wikis/#internal-wiki) under Administration → Wikis → Internal wiki.
+OpenProject's built-in Wiki module is also improved with OpenProject 17.6. It can be used through the new integration as internal provider. System administrators can [activate this](../../system-admin-guide/wikis/#project-wikis) under Administration → Wikis → Internal wiki.
 
 Users can link to all activated wikis, including internal ones, from the new **Wikis** tab in work packages. If disabled, the internal wiki is still available as a project module.
 

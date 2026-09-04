@@ -48,24 +48,14 @@ RSpec.describe Queries::WorkPackages::Filter::TargetVersionsFilter do
     let(:name) { WorkPackage.human_attribute_name("target_versions") }
 
     describe "#available?" do
-      context "with the feature flag and the setting enabled",
-              with_flag: { work_package_multiple_versions: true },
+      context "with the setting enabled",
               with_settings: { work_package_multiple_versions: true } do
         it "is available" do
           expect(instance).to be_available
         end
       end
 
-      context "with the feature flag disabled",
-              with_flag: { work_package_multiple_versions: false },
-              with_settings: { work_package_multiple_versions: true } do
-        it "is not available" do
-          expect(instance).not_to be_available
-        end
-      end
-
       context "with the setting disabled",
-              with_flag: { work_package_multiple_versions: true },
               with_settings: { work_package_multiple_versions: false } do
         it "is not available" do
           expect(instance).not_to be_available

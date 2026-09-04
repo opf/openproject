@@ -29,21 +29,26 @@
 #++
 
 module WorkPackageTypes
-  # The elements this type does not show.
-  #  - own: this type's own link
-  #  - effective: the union over the whole link chain
+  # The elements this variant does not show.
+  #  - own: what this variant itself drops
+  #  - effective: the union over the whole chain
   #
-  # An element in effective but not in own was excluded by a link above this type, which is
-  # what #excluded_by_source? answers: this type cannot reach that link to undo it.
-  ExclusionState = Data.define(:type, :own, :effective) do
-    def self.for(type, aspect)
-      link = type.configuration_links.find_by(aspect:)
-      return unless link
+  # An element in effective but not in own was excluded further up the chain, which is what
+  # #excluded_by_source? answers: this variant cannot reach that exclusion to undo it.
+  #
+  # Nil for an aspect the variant owns: there is nothing to exclude from. Nil too for an aspect
+  # that cannot be narrowed at all, which a variant inherits whole or owns outright.
+  ExclusionState = Data.define(:variant, :own, :effective) do
+    def self.for(variant, aspect)
+      return unless TypeVariant::EXCLUDABLE_ASPECTS.include?(aspect)
+      return unless variant.linked?(aspect)
+
+      column = :"#{TypeVariant.validated_excludable_aspect(aspect)}_excluded_elements"
 
       new(
-        type:,
-        own: link.excluded_elements.map(&:to_s),
-        effective: type.effective_excluded_elements(aspect).map(&:to_s)
+        variant:,
+        own: variant.public_send(column).map(&:to_s),
+        effective: variant.effective_excluded_elements(aspect).map(&:to_s)
       )
     end
 

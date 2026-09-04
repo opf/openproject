@@ -43,8 +43,10 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
     create(:type,
            custom_fields: [custom_field])
   end
+  # Ordered after `type` so the assertion below shows the work package takes the project's
+  # first type rather than the one new projects are seeded with.
   let(:default_type) do
-    create(:type_standard)
+    create(:type, position: type.position + 1, default_variant_enabled_in_all_projects: true)
   end
   let(:project) { create(:project, types: [type, default_type]) }
   let(:parent) do
@@ -147,7 +149,7 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
       expect(new_work_package.status)
         .to eql(default_status)
 
-      # assign the first type in the project (not related to is_default)
+      # assign the first type in the project, not the one activated in new projects
       expect(new_work_package.type)
         .to eql(type)
 
@@ -306,7 +308,7 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
     let!(:version1) { create(:version, project:) }
     let!(:version2) { create(:version, project:) }
 
-    context "with multiple target_versions" do
+    context "with multiple target_versions", with_settings: { work_package_multiple_versions: false } do
       let(:attributes) do
         { subject: "test wp", project:, target_version_ids: [version1.id, version2.id] }
       end
@@ -329,11 +331,6 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
         service_result
         expect(new_work_package.target_versions).to contain_exactly(version1)
       end
-
-      it "sets the version" do
-        service_result
-        expect(new_work_package.version).to eq version1
-      end
     end
 
     context "with observed_in_version_ids" do
@@ -348,41 +345,10 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
         expect(new_work_package.target_versions).to be_empty
       end
 
-      it "does not change the version" do
-        service_result
-        expect(new_work_package.version).to be_nil
-      end
-
       it "sets observed in versions" do
         service_result
         expect(new_work_package.observed_in_versions).to contain_exactly(version1)
       end
-    end
-
-    context "with only version_id" do
-      let(:attributes) do
-        { subject: "test wp", project:, version_id: version1.id }
-      end
-
-      it { expect(service_result).to be_success }
-
-      it "sets target versions" do
-        service_result
-        expect(new_work_package.target_versions).to contain_exactly(version1)
-      end
-
-      it "sets the version" do
-        service_result
-        expect(new_work_package.version).to eq version1
-      end
-    end
-
-    context "with both version_id and target_version_ids" do
-      let(:attributes) do
-        { subject: "test wp", project:, version_id: version1.id, target_version_ids: [version2.id] }
-      end
-
-      it { expect(service_result).to be_failure }
     end
 
     context "with non-assignable version IDs" do
@@ -395,7 +361,39 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
 
       it "drops the unnassignable version" do
         expect(new_work_package.target_versions).to be_empty
-        expect(new_work_package.version).to be_nil
+      end
+    end
+  end
+
+  describe "generating the subject from a pattern when the project resolves the type to a variant",
+           with_flag: { type_variants: true } do
+    let(:family_root) do
+      create(:type, name: "Family root", patterns: { subject: { blueprint: "Root subject", enabled: true } })
+    end
+    let(:variant) do
+      create(:type_variant, type: family_root, variant_name: "Variant").tap do |named|
+        link_configuration(named, source: family_root, aspect: TypeVariant::DEFAULTS)
+      end
+    end
+    let(:project) { create(:project, types: [variant, default_type]) }
+    let(:attributes) { { project:, type: family_root, status: default_status, priority: default_priority } }
+
+    context "when the variant inherits the root's defaults" do
+      it "applies the root's blueprint" do
+        expect(service_result).to be_success
+        expect(new_work_package.subject).to eq("Root subject")
+      end
+    end
+
+    context "when the variant owns its defaults" do
+      before do
+        unlink_configuration(variant, aspect: TypeVariant::DEFAULTS)
+        variant.update!(patterns: { subject: { blueprint: "Variant subject", enabled: true } })
+      end
+
+      it "applies the variant's blueprint" do
+        expect(service_result).to be_success
+        expect(new_work_package.subject).to eq("Variant subject")
       end
     end
   end

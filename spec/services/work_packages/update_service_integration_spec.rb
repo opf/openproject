@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
-  shared_let(:type) { create(:type_standard) }
+  shared_let(:type) { create(:type_task) }
   shared_let(:milestone_type) { create(:type_milestone) }
   shared_let(:autosubject_type) do
     create(:type, name: "Autosubject",
@@ -68,7 +68,6 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     set_factory_default(:type, type)
     set_factory_default(:user, user)
   end
-
   let(:work_package) do
     create(:work_package,
            subject: "work_package")
@@ -259,7 +258,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
       end
 
       before do
-        work_package.update(version:)
+        work_package.target_versions = [version]
       end
 
       context "with an unshared version" do
@@ -267,8 +266,8 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
           expect(subject)
             .to be_success
 
-          expect(subject.result.version)
-            .to be_nil
+          expect(subject.result.target_versions.reload)
+            .to be_empty
         end
 
         it "still requires assign_versions for a later version change on the same instance" do
@@ -290,14 +289,14 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
           expect(subject)
             .to be_success
 
-          expect(subject.result.version)
-            .to eql version
+          expect(subject.result.target_versions.reload)
+            .to contain_exactly(version)
         end
       end
 
       context "with an unshared observed in version" do
         before do
-          work_package.update(version: nil)
+          work_package.target_versions = []
           WorkPackageVersion.create!(work_package:, version:, kind: "observed_in")
         end
 
@@ -320,8 +319,8 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
             expect(subject)
               .to be_success
 
-            expect(subject.result.version)
-              .to be_nil
+            expect(subject.result.target_versions.reload)
+              .to be_empty
           end
         end
 
@@ -332,8 +331,8 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
             expect(subject)
               .to be_success
 
-            expect(subject.result.version)
-              .to eql version
+            expect(subject.result.target_versions.reload)
+              .to contain_exactly(version)
           end
         end
       end
@@ -350,16 +349,14 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
       end
 
       before do
-        project.types << other_type
+        project.project_types.create!(type: other_type)
 
-        # reset types of target project
-        # types will be added in each context depending on the test.
-        target_project.types.delete_all
+        target_project.project_types.destroy_all
       end
 
       context "with the type existing in the target project" do
         before do
-          target_project.types << type
+          target_project.project_types.create!(type:)
         end
 
         it "keeps the type" do
@@ -373,7 +370,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
 
       context "with a default type existing in the target project" do
         before do
-          target_project.types << default_type
+          target_project.project_types.create!(type: default_type)
         end
 
         it "uses the default type" do
@@ -387,7 +384,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
 
       context "with only non default types" do
         before do
-          target_project.types << other_type
+          target_project.project_types.create!(type: other_type)
         end
 
         it "is unsuccessful" do
@@ -398,7 +395,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
 
       context "with an invalid type being provided" do
         before do
-          target_project.types << type
+          target_project.project_types.create!(type:)
         end
 
         let(:attributes) do
@@ -440,6 +437,35 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
             .to be_nil
         end
       end
+    end
+  end
+
+  describe "changing the type when the project resolves it to a variant",
+           with_flag: { type_variants: true } do
+    shared_let(:family_root) { create(:type, name: "Family root") }
+    shared_let(:variant) { create(:type_variant, type: family_root, variant_name: "Variant") }
+    shared_let(:root_only_status) { create(:status, name: "root_only_status") }
+
+    let(:work_package) { create(:work_package, subject: "work_package", status: root_only_status) }
+    let(:attributes) { { type: family_root } }
+
+    before do
+      unlink_configuration(variant, aspect: TypeVariant::WORKFLOWS)
+
+      create(:workflow, type: family_root, role:,
+                        old_status_id: root_only_status.id, new_status_id: root_only_status.id)
+      create(:workflow, type: variant, role:,
+                        old_status_id: non_default_status.id, new_status_id: non_default_status.id)
+
+      project.project_types.create!(type: family_root, variant:)
+    end
+
+    # root_only_status is valid for the root's workflow but not the variant's, so following the
+    # stored root would leave it in place while following the variant has to reassign it.
+    it "judges the status against the variant's workflow, not the stored root's" do
+      expect(subject).to be_success
+      expect(work_package.reload.type).to eq(family_root)
+      expect(work_package.status).to eq(default_status)
     end
   end
 
@@ -1232,9 +1258,15 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
 
     context "with work packages having automatically generated subjects, " \
             "when the work package is automatically scheduled, has a child and no dates" do
+      # rubocop:disable RSpec/BeforeAfterAll
       before_all do
         set_factory_default(:type, autosubject_type)
       end
+
+      after(:all) do
+        set_factory_default(:type, type)
+      end
+      # rubocop:enable RSpec/BeforeAfterAll
 
       let_work_packages(<<~TABLE)
         hierarchy              | MTWTFSS        | scheduling mode | predecessors
@@ -1290,9 +1322,15 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     end
 
     context "with work packages having automatically generated subjects" do
+      # rubocop:disable RSpec/BeforeAfterAll
       before_all do
         set_factory_default(:type, autosubject_type)
       end
+
+      after(:all) do
+        set_factory_default(:type, type)
+      end
+      # rubocop:enable RSpec/BeforeAfterAll
 
       let_work_packages(<<~TABLE)
         | hierarchy      | MTWTFSS | scheduling mode
@@ -1769,10 +1807,6 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
   end
 
   context "with work packages having automatically generated subjects" do
-    before_all do
-      set_factory_default(:type, autosubject_type)
-    end
-
     shared_let(:work_package, reload: true) { create(:work_package, type: autosubject_type) }
     let(:attributes) { { description: "new description" } }
 
@@ -1790,7 +1824,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
       let(:attributes) { {} }
 
       before do
-        work_package.subject = autosubject_type.enabled_patterns[:subject].resolve(work_package)
+        work_package.subject = autosubject_type.default_variant.enabled_patterns[:subject].resolve(work_package)
         work_package.save!
       end
 
@@ -1805,8 +1839,8 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
           with_flag: { type_variants: true } do
     shared_let(:linked_type) do
       create(:type, name: "Linked").tap do |t|
-        t.link!(Type::ConfigurationLink::DEFAULTS, source: autosubject_type)
-        project.types << t
+        link_configuration(t, source: autosubject_type, aspect: TypeVariant::DEFAULTS)
+        project.project_types.create!(type: t)
       end
     end
 
@@ -1912,7 +1946,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     let(:attributes) { { type: new_type } }
 
     before do
-      project.types << new_type
+      project.project_types.create!(type: new_type)
     end
 
     context "when the work package does NOT have default status" do
@@ -1936,7 +1970,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
       it "does not change the status" do
         expect(subject).to be_success
 
-        expect(new_type.statuses).to include(default_status)
+        expect(new_type.default_variant.statuses).to include(default_status)
 
         expect(work_package)
           .not_to be_saved_change_to_status_id
@@ -1949,20 +1983,20 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     # the dates, inherited from its children (and then the only remaining child), will have to be updated.
     let!(:parent) do
       create(:work_package,
-             type: project.types.first,
+             type: project.enabled_types.first,
              schedule_manually: false,
              start_date: Time.zone.today - 1.day,
              due_date: Time.zone.today + 5.days)
     end
     let!(:custom_field) do
       create(:integer_wp_custom_field, is_required: true, is_for_all: true, default_value: nil) do |cf|
-        project.types.first.custom_fields << cf
+        project.enabled_variants.first.custom_fields << cf
         project.work_package_custom_fields << cf
       end
     end
     let!(:sibling) do
       create(:work_package,
-             type: project.types.first,
+             type: project.enabled_types.first,
              parent:,
              start_date: Time.zone.today + 1.day,
              due_date: Time.zone.today + 5.days,
@@ -1975,7 +2009,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
       work_package.update(
         start_date: Time.zone.today - 1.day,
         due_date: Time.zone.today + 1.day,
-        type: project.types.first,
+        type: project.enabled_types.first,
         parent:,
         custom_field.attribute_name => 8
       )
@@ -2029,7 +2063,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     # The work package does not have a required custom field set.
     let(:mandatory_custom_field) do
       create(:integer_wp_custom_field, is_required: true, is_for_all: true, default_value: nil) do |cf|
-        project.types.first.custom_fields << cf
+        project.enabled_variants.first.custom_fields << cf
         project.work_package_custom_fields << cf
       end
     end
@@ -2038,7 +2072,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     before do
       work_package.update(
         subject: "The old subject",
-        type: project.types.first
+        type: project.enabled_types.first
       )
       # Creating the mandatory custom field after the work package is already saved.
       # That turns the work package invalid as the mandatory custom field is not set.
@@ -2068,13 +2102,13 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     let(:new_type) { create(:type) }
     let!(:custom_field_of_current_type) do
       create(:integer_wp_custom_field, default_value: nil) do |cf|
-        type.custom_fields << cf
+        type.default_variant.custom_fields << cf
         project.work_package_custom_fields << cf
       end
     end
     let!(:custom_field_of_new_type) do
       create(:integer_wp_custom_field, default_value: 8) do |cf|
-        new_type.custom_fields << cf
+        new_type.default_variant.custom_fields << cf
         project.work_package_custom_fields << cf
       end
     end
@@ -2083,7 +2117,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     end
 
     before do
-      project.types << new_type
+      project.project_types.create!(type: new_type)
       work_package.update(
         type: type,
         custom_field_of_current_type.attribute_name => 5
@@ -2151,7 +2185,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     let!(:version2) { create(:version, project:) }
     let!(:version3) { create(:version, project:) }
 
-    context "with multiple target_versions" do
+    context "with multiple target_versions", with_settings: { work_package_multiple_versions: false } do
       subject(:service) { instance.call(target_version_ids: [version1.id, version2.id, version3.id], send_notifications: false) }
 
       it { expect(service).to be_failure }
@@ -2170,11 +2204,6 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
         service
         expect(work_package.reload.target_versions).to contain_exactly(version1)
       end
-
-      it "updates the work_package.version" do
-        service
-        expect(work_package.reload.version).to eq(version1)
-      end
     end
 
     context "when replacing existing target versions" do
@@ -2190,11 +2219,6 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
         service
         expect(work_package.reload.target_versions).to contain_exactly(version2)
       end
-
-      it "updates the work_package.version" do
-        service
-        expect(work_package.reload.version).to eq(version2)
-      end
     end
 
     context "when removing target versions" do
@@ -2209,11 +2233,6 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
       it "updates the target versions" do
         service
         expect(work_package.reload.target_versions).to be_empty
-      end
-
-      it "updates the work_package.version" do
-        service
-        expect(work_package.reload.version).to be_nil
       end
     end
 
@@ -2253,80 +2272,10 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
         expect { service }.not_to change(work_package, :target_versions)
       end
 
-      it "does not change version" do
-        expect { service }.not_to change(work_package, :version)
-      end
-
       it "creates observed_in_versions" do
         service
         expect(work_package.reload.observed_in_versions).to contain_exactly(version1)
       end
-    end
-
-    context "when writing new versions" do
-      subject(:service) { instance.call(version_id: version1.id, send_notifications: false) }
-
-      it { expect(service).to be_success }
-
-      it "updates the target versions" do
-        service
-        expect(work_package.reload.target_versions).to contain_exactly(version1)
-      end
-
-      it "updates the work_package.version" do
-        service
-        expect(work_package.reload.version).to eq(version1)
-      end
-    end
-
-    context "when replacing existing version" do
-      subject(:service) { instance.call(version_id: version2.id, send_notifications: false) }
-
-      before do
-        work_package.version = version1
-        work_package.save!
-      end
-
-      it { expect(service).to be_success }
-
-      it "updates the target versions" do
-        service
-        expect(work_package.reload.target_versions).to contain_exactly(version2)
-      end
-
-      it "updates the work_package.version" do
-        service
-        expect(work_package.reload.version).to eq(version2)
-      end
-    end
-
-    context "when removing versions" do
-      subject(:service) { instance.call(version_id: nil, send_notifications: false) }
-
-      before do
-        work_package.version = nil
-        work_package.save!
-      end
-
-      it { expect(service).to be_success }
-
-      it "updates the target versions" do
-        service
-        expect(work_package.reload.target_versions).to be_empty
-      end
-
-      it "updates the work_package.version" do
-        service
-        expect(work_package.reload.version).to be_nil
-      end
-    end
-
-    context "when writing both versions and target versions" do
-      subject(:service) do
-        instance.call(target_version_ids: [version1.id, version2.id], version_id: version3.id, send_notifications: false)
-      end
-
-      it { expect(service).to be_failure }
     end
   end
 end

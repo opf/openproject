@@ -36,6 +36,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
   shared_let(:anno_user) { User.anonymous }
   shared_let(:system_user) { User.system }
   shared_let(:priority_low) { create(:priority_low, name: "Low", is_default: true) }
+  shared_let(:default_status) { create(:default_status) }
 
   shared_let(:project) { create(:valid_project, identifier: "onlinestore", name: "OnlineStore", public: false) }
 
@@ -211,7 +212,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
       create(:float_wp_custom_field,
              name: "float field") do |cf|
         project.work_package_custom_fields << cf
-        work_package.type.custom_fields << cf
+        work_package.type.default_variant.custom_fields << cf
       end
     end
 
@@ -253,7 +254,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
     let!(:feature_type) do
       create(:type,
              name: "Feature request") do |type|
-        project.types << type
+        project.project_types.create!(type:)
       end
     end
     let!(:stock_category) do
@@ -287,7 +288,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
     let!(:feature_type) do
       create(:type,
              name: "Feature request") do |type|
-        project.types << type
+        project.project_types.create!(type:)
       end
     end
     let!(:stock_category) do
@@ -333,7 +334,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
     let!(:japanese_type) do
       create(:type,
              name: "開発") do |type|
-        project.types << type
+        project.project_types.create!(type:)
       end
     end
     let(:submit_options) { {} }
@@ -389,7 +390,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
     let!(:custom_field) do
       create(:string_wp_custom_field, name: "Searchable field") do |cf|
         project.work_package_custom_fields << cf
-        project.types.first.custom_fields << cf
+        project.enabled_variants.first.custom_fields << cf
       end
     end
     let(:submit_options) { {} }
@@ -430,7 +431,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
     let!(:feature_type) do
       create(:type,
              name: "Feature request") do |type|
-        project.types << type
+        project.project_types.create!(type:)
       end
     end
     let!(:stock_category) do
@@ -532,7 +533,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
 
     context "when sending a mail not as a reply" do
       context "for a given project" do
-        let(:type) { project.types.first }
+        let(:type) { project.enabled_types.first }
         let!(:status) { create(:status, name: "Resolved", workflow_for_type: type) }
         let!(:version) { create(:version, name: "alpha", project:) }
 
@@ -592,16 +593,9 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
             .to eql(status)
         end
 
-        it "sets the version" do
-          expect(subject.version)
-            .to eql(version)
-        end
-
-        it "sets the target version, keeping the legacy version in sync" do
+        it "sets the target version" do
           expect(subject.target_versions)
             .to contain_exactly(version)
-          expect(subject.version)
-            .to eql(version)
         end
 
         it "sets the estimated_hours" do
@@ -647,8 +641,8 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
 
       context "for a given project with a default type" do
         let(:default_type) do
-          create(:type, is_default: true) do |t|
-            project.types << t
+          create(:type, default_variant_enabled_in_all_projects: true) do |t|
+            project.project_types.create!(type: t)
           end
         end
 
@@ -935,7 +929,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
       end
 
       context "for wp with status" do
-        let(:type) { project.types.first }
+        let(:type) { project.enabled_types.first }
         let!(:status) { create(:status, name: "Resolved", workflow_for_type: type) }
 
         # This email contains: 'Project: onlinestore' and 'Status: Resolved'
@@ -950,7 +944,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
       end
 
       context "for wp with status case insensitive" do
-        let(:type) { project.types.first }
+        let(:type) { project.enabled_types.first }
         let!(:status) { create(:status, name: "Resolved", workflow_for_type: type) }
         let!(:version) { create(:version, name: "alpha", project:) }
 
@@ -961,7 +955,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
 
         it "assigns the status to the created work package" do
           expect(subject.status).to eq(status)
-          expect(subject.version).to eq(version)
+          expect(subject.target_versions).to contain_exactly(version)
           expect(subject.priority).to eq priority_low
         end
       end
@@ -1213,7 +1207,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
           expect(subject.subject).to eq("New ticket with full attributes")
           expect(subject.type).to eq(feature_type)
           expect(subject.status).to eq(resolved_status)
-          expect(subject.version).to eq(version)
+          expect(subject.target_versions).to contain_exactly(version)
           expect(subject.priority).to eq(urgent_priority)
           expect(subject.assigned_to).to eq(user)
           expect(subject.responsible).to eq(user)
@@ -1238,7 +1232,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
             expect(subject.subject).to eq("Neues Arbeitspaket")
             expect(subject.type).to eq(feature_type)
             expect(subject.status).to eq(resolved_status)
-            expect(subject.version).to eq(version)
+            expect(subject.target_versions).to contain_exactly(version)
             expect(subject.priority).to eq(urgent_priority)
             expect(subject.assigned_to).to eq(user)
             expect(subject.responsible).to eq(user)
@@ -1265,7 +1259,6 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
       let!(:beta) { create(:version, name: "beta", project:) }
 
       context "when the multiple-versions feature is enabled",
-              with_flag: { work_package_multiple_versions: true },
               with_settings: { work_package_multiple_versions: true } do
         subject { submit_email("wp_with_multiple_target_versions.eml", issue: { project: "onlinestore" }) }
 
@@ -1274,18 +1267,14 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
             .to contain_exactly(alpha, beta)
         end
 
-        it "keeps the legacy version in sync with the first target version" do
-          expect(subject.version)
-            .to eql(alpha)
-        end
-
         it "removes the keyword from the description" do
           expect(subject.description)
             .not_to match(/^Target versions:/i)
         end
       end
 
-      context "when the multiple-versions feature is disabled" do
+      context "when the multiple-versions feature is disabled",
+              with_settings: { work_package_multiple_versions: false } do
         context "with a single named version" do
           subject { submit_email("wp_with_target_version.eml", issue: { project: "onlinestore" }) }
 
@@ -1308,7 +1297,6 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
       end
 
       context "when both version and target versions keywords are present",
-              with_flag: { work_package_multiple_versions: true },
               with_settings: { work_package_multiple_versions: true } do
         subject { submit_email("wp_with_version_and_target_versions.eml", issue: { project: "onlinestore" }) }
 
@@ -1480,7 +1468,7 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
         let(:type) { create(:type) }
 
         before do
-          type.custom_fields << custom_field
+          type.default_variant.custom_fields << custom_field
           type.save!
 
           allow(work_package).to receive(:available_custom_fields).and_return([custom_field])

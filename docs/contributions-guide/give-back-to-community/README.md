@@ -26,7 +26,7 @@ Your unique experience with OpenProject can inspire others and provide valuable 
   - Your overall experience: What works well for you? What could be improved?
   - Include screenshots showcasing your OpenProject setup (with permission to publish).
 
-  **Example**: take a look one one our case studies with an [NGO](https://www.openproject.org/project-management-ngos-foundations/case-study-open-source-initiative-osi/) , a [university project](https://www.openproject.org/project-management-universities-research/case-study-rewrite/) or a [municipality](https://www.openproject.org/project-management-public-sector/case-study-city-ravensburg/).
+  **Example**: take a look one one our case studies with an [NGO](https://www.openproject.org/project-management-ngos-foundations/case-study-open-source-initiative-osi/) , a [university project](https://www.openproject.org/project-management-universities-research/case-study-rewrite/) or a [municipality](https://www.openproject.org/project-management-public-sector/case-study-berlin-senate-department-education/).
 
 - **Blog Posts**
   Write a detailed blog post about your OpenProject journey. You can either:

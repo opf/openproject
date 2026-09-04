@@ -6,7 +6,7 @@
       title: t("types.edit.form_configuration.reset_title"),
       confirm_button_text: t("button_reset"),
       form_arguments: {
-        action: type_form_configuration_path(@type),
+        action: type_form_configuration_path(**@variant.path_args),
         method: :patch,
         data: { turbo_stream: true }
       }

@@ -90,4 +90,70 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter, "parsing" d
       expect(subject.project_phase_definition_id).to eq(project_phase_definition.id.to_s)
     end
   end
+
+  describe "version" do
+    let(:version) { build_stubbed(:version) }
+    let(:other_version) { build_stubbed(:version) }
+
+    let(:hash) do
+      {
+        _links: {
+          "version" => {
+            "href" => api_v3_paths.version(version.id)
+          }
+        }
+      }
+    end
+
+    context "when multiple versions is inactive", with_settings: { work_package_multiple_versions: false } do
+      it "writes the deprecated property through to target_version_ids" do
+        expect(subject.target_version_ids).to eq([version.id.to_s])
+      end
+    end
+
+    context "when multiple versions is active", with_settings: { work_package_multiple_versions: true } do
+      it "does not write, as the deprecated property no longer exists" do
+        expect(subject.target_version_ids).to be_nil
+      end
+
+      context "when targetVersions is provided alongside it" do
+        let(:hash) do
+          {
+            _links: {
+              "version" => {
+                "href" => api_v3_paths.version(version.id)
+              },
+              "targetVersions" => [
+                { "href" => api_v3_paths.version(other_version.id) }
+              ]
+            }
+          }
+        end
+
+        it "only honours targetVersions" do
+          expect(subject.target_version_ids).to eq([other_version.id.to_s])
+        end
+      end
+    end
+  end
+
+  describe "observedInVersions" do
+    let(:version) { build_stubbed(:version) }
+    let(:other_version) { build_stubbed(:version) }
+
+    let(:hash) do
+      {
+        _links: {
+          "observedInVersions" => [
+            { "href" => api_v3_paths.version(version.id) },
+            { "href" => api_v3_paths.version(other_version.id) }
+          ]
+        }
+      }
+    end
+
+    it "writes the ids through to observed_in_version_ids" do
+      expect(subject.observed_in_version_ids).to eq([version.id.to_s, other_version.id.to_s])
+    end
+  end
 end

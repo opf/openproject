@@ -38,7 +38,7 @@ See COPYRIGHT and LICENSE files for more details.
                     I18n.t(:"admin.jira.run.wizard.sections.fetch_data.title")
                   end
                 )
-                if model.status_equal_or_after?(:configuring)
+                if model.state_equal_or_after?(:configuring)
                   concat(
                     render(Primer::Beta::Label.new(size: :medium, font_weight: :bold, color: :success, ml: 1)) do
                       I18n.t(:"admin.jira.run.wizard.sections.fetch_data.caption_done")
@@ -47,7 +47,7 @@ See COPYRIGHT and LICENSE files for more details.
                 end
               end
             )
-            if model.status_equal_or_after?(:configuring)
+            if model.state_equal_or_after?(:configuring)
               concat(
                 render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
                   I18n.t(:"admin.jira.run.wizard.sections.fetch_data.caption_done_description", server_info: model.jira.url)
@@ -57,7 +57,7 @@ See COPYRIGHT and LICENSE files for more details.
           end
         end
       end
-      if model.status_before?(:configuring)
+      if model.state_before?(:configuring)
         box.with_row(mb: 3) do
           render(Primer::Beta::Text.new) do
             I18n.t(:"admin.jira.run.wizard.sections.fetch_data.description")
@@ -65,13 +65,14 @@ See COPYRIGHT and LICENSE files for more details.
         end
       end
       if model.in_state?(:initial)
-        box.with_row do
+        box.with_row(display: :flex, align_items: :center) do
           concat(
             render(
               Primer::Beta::Button.new(
                 scheme: :primary,
                 tag: :a,
                 size: :medium,
+                mr: 2,
                 href: continue_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id, step: "fetch_instance_meta"),
                 data: { turbo_stream: true }
               )
@@ -96,7 +97,7 @@ See COPYRIGHT and LICENSE files for more details.
           render(Admin::Import::Jira::ImportRuns::ErrorBannerComponent.new(model, "fetch_instance_meta"))
         end
       elsif model.in_state?(:instance_meta_fetching)
-        box.with_row do
+        box.with_row(display: :flex, align_items: :center) do
           concat(
             render(
               Primer::Beta::Button.new(
@@ -104,7 +105,7 @@ See COPYRIGHT and LICENSE files for more details.
                 size: :medium
               )
             ) do |button|
-              button.with_leading_visual_icon(icon: :sync, animation: :rotate)
+              button.with_leading_visual_icon(**job_status_icon(model.state_machine.last_transition_to(:instance_meta_fetching).actual_job.status))
               I18n.t(:"admin.jira.run.wizard.sections.fetch_data.label_progress")
             end
           )
@@ -126,13 +127,14 @@ See COPYRIGHT and LICENSE files for more details.
             end
           end
         end
-        box.with_row do
+        box.with_row(display: :flex, align_items: :center) do
           concat(
             render(
               Primer::Beta::Button.new(
                 scheme: :primary,
                 size: :medium,
                 tag: :a,
+                mr: 2,
                 href: continue_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id, step: "configure"),
                 data: { turbo_stream: true }
               )

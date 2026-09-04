@@ -47,7 +47,7 @@ module Storages
             private
 
             def handle_errors(response)
-              error = Results::Error.new(source: self.class, payload: response)
+              error = SimpleError.new(source: self.class, payload: response, code: :error)
 
               case response
               in { status: 300..399 }
@@ -59,7 +59,7 @@ module Storages
               in { status: 401 }
                 Failure(error.with(code: :unauthorized))
               else
-                Failure(error.with(code: :error))
+                Failure(error)
               end
             end
 

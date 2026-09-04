@@ -50,6 +50,7 @@ ru:
         story_points: Стори поинты
     errors:
       messages:
+        cannot_start_while_receiving_shared_sprints: не может быть запущен, пока проект получает общие спринты.
         dates_required: Для начала спринта необходимы даты начала и окончания.
         must_be_in_planning: для начала работы необходимо выполнить планирование.
         only_one_active_sprint_allowed: для каждого проекта допускается только один активный спринт.
@@ -60,9 +61,11 @@ ru:
               locked_by_multiple_active_sprints: невозможно изменить во время работы нескольких активных спринтов.
               requires_no_sharing: может быть включен только в том случае, если для параметра «Общий доступ к спринтам» выбран вариант «Не предоставлять общий доступ».
             sprint_sharing:
+              active_or_borrowed_sprint_blocks_receiving: не может быть установлено для получения, так как в проекте есть активный или заимствованный спринт. Сначала закройте или отмените назначение пакетов работ.
               locked_by_multiple_active_sprints: не может быть изменено, пока включена функция «Несколько активных спринтов».
               share_all_projects_already_taken: не может быть установлен, потому что проект "%{name}" уже совместно используется со всеми проектами.
               share_all_projects_already_taken_anonymous: не может быть установлен, потому что другой проект уже совместно используется со всеми проектами.
+              work_packages_still_linked_to_shared_sprints: невозможно изменить, потому что пакеты работ все еще связаны с общими спринтами. Сначала отмените их.
           receiving_sprints: получает общие спринты. Собственные спринты создавать нельзя.
         sprint:
           attributes:
@@ -91,14 +94,24 @@ ru:
               task_version_must_be_the_same_as_story_version: должен совпадать с версией родительской истории.
           backlog_bucket_xor_sprint: не может быть назначен для спринта и для раздела бэклога одновременно.
     models:
+      backlog_bucket:
+        one: Раздел бэклога
+        few: Backlog buckets
+        many: Backlog buckets
+        other: Разделы бэклога
       sprint:
         one: Спринт
         few: Спринта
         many: Спринтов
         other: Спринтов
+      sprint_goal:
+        one: Цель спринта
+        few: Sprint goals
+        many: Sprint goals
+        other: Цели спринта
   backlogs:
     add_existing_work_package_dialog_component:
-      title: Добавить существующий пакет работ в %{name}
+      title_without_container: Добавить существующий пакет работ
     administration_blankslate:
       text: В настоящее время мы переделываем модуль Backlogs. В ближайшем будущем здесь появятся административные настройки для спринтов и бэклогов. Настройки на уровне проекта остаются доступными.
       title: Настройки администрирования бэклога будут в будущем
@@ -193,9 +206,10 @@ ru:
       label_start_sprint: Начать спринт
       start_sprint_disabled_reason_active_sprint: Другой спринт уже активен.
       start_sprint_disabled_reason_missing_dates: Для начала спринта необходимы даты начала и окончания.
+      start_sprint_disabled_reason_receiving_shared_sprints: Спринты данного проекта не могут быть запущены, пока он принимает общие спринты.
       start_sprint_disabled_reason_shared_sprint: Это спринт из другого проекта, который не поддерживает несколько активных спринтов.
     sprint_form:
-      goal_caption: The sprint goal is unique to this project and is not shared with other projects also using this sprint.
+      goal_caption: Цель спринта является уникальной для данного проекта и не совпадает с целями других проектов, которые также используют данный спринт.
       goal_for_this_project_label: "%{attribute} (для данного проекта)"
     sprint_form_component:
       shared_sprint_info_banner: Это общий спринт. Изменения будут отражены во всех проектах, использующих его.
@@ -203,7 +217,7 @@ ru:
     sprint_reports:
       page_header_component:
         breadcrumb: Отчет
-        title: "%{sprint} report"
+        title: Отчёт %{sprint}
     sprints:
       row_component:
         action_menu:
@@ -256,11 +270,11 @@ ru:
     story_points_ideal: Стори-поинты (идеально)
   ee:
     features:
-      multiple_active_sprints: Проводите несколько спринтов параллельно для разных команд в рамках вашего проекта, чтобы обеспечить больший контроль и гибкость.
+      multiple_active_sprints: Несколько активных спринтов
       sprint_sharing: Совместное использование спринта
     upsell:
       multiple_active_sprints:
-        description: " "
+        description: Запустите несколько спринтов параллельно для разных команд в вашем проекте для большей управляемости и гибкости.
       sprint_sharing:
         description: Используйте общие спринты для всех проектов, чтобы обеспечить согласованность действий команд и скоординировать работу в рамках масштабированных гибких моделей (SAFe).
   label_all_sprints: Все спринты
@@ -283,7 +297,7 @@ ru:
   notice_unsuccessful_finish_with_reason: 'Спринт не может быть завершён: %{reason}'
   notice_unsuccessful_start: Спринт не может быть запущен.
   notice_unsuccessful_start_with_reason: 'Спринт не может быть запущен: %{reason}'
-  notice_work_package_invisible_after_move: 'Данный рабочий пакет был перемещен в раздел « %{backlog} », однако он не отображается, поскольку его тип или статус исключены из списка задач.
+  notice_work_package_invisible_after_move: 'Данный пакет работ был перемещен в раздел « %{backlog} », однако он не отображается, поскольку его тип или статус исключены из списка задач.
 
     '
   permission_create_sprints: Создание спринтов

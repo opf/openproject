@@ -106,11 +106,11 @@ class WorkPackages::CopyService < BaseServices::BaseCallable
     attributes = {}
 
     if writable_attributes.include?("target_versions")
-      attributes["target_version_ids"] = work_package.target_versions.pluck(:version_id).presence
+      attributes["target_version_ids"] = work_package.target_version_ids.presence
     end
 
     if writable_attributes.include?("observed_in_versions")
-      attributes["observed_in_version_ids"] = work_package.observed_in_versions.pluck(:version_id).presence
+      attributes["observed_in_version_ids"] = work_package.observed_in_version_ids.presence
     end
 
     attributes.compact

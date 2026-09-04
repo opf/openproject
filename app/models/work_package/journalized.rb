@@ -96,23 +96,30 @@ module WorkPackage::Journalized
     register_journal_formatted_fields "description", formatter_key: :diff
     register_journal_formatted_fields "schedule_manually", formatter_key: :schedule_manually
     register_journal_formatted_fields /\Aattachments_?\d+\z/, formatter_key: :attachment
-    register_journal_formatted_fields /\Acustom_fields_\d+\z/, formatter_key: :custom_field
+    register_journal_formatted_fields /\Acustom_fields_\d+\z/,
+                                      formatter_key: :custom_field,
+                                      view_permission: ->(custom_field) do
+                                        custom_field.present? && visible_custom_field_ids(project).include?(custom_field.id)
+                                      end
     register_journal_formatted_fields "ignore_non_working_days", formatter_key: :ignore_non_working_days
     register_journal_formatted_fields "cause", formatter_key: :cause
     register_journal_formatted_fields /\Afile_links_?\d+\z/, formatter_key: :file_link
     register_journal_formatted_fields "project_phase_definition_id", formatter_key: :project_phase_definition
     register_journal_formatted_fields "target_versions", formatter_key: :target_versions
+    register_journal_formatted_fields "observed_in_versions", formatter_key: :observed_in_versions
 
     # Joined
     register_journal_formatted_fields :parent_id, :project_id,
-                                      formatter_key: :visible_named_association
-    register_journal_formatted_fields :budget_id,
+                                      :budget_id,
                                       :status_id, :type_id,
-                                      :assigned_to_id, :priority_id,
+                                      :priority_id,
+                                      # version_id is no longer written. To be dropped with the db column.
                                       :category_id, :version_id,
-                                      :author_id, :responsible_id,
-                                      :sprint_id,
                                       formatter_key: :named_association
+    # People are named in the attribute table of the same work package, so the
+    # journal does not withhold them from readers outside their projects.
+    register_journal_formatted_fields :assigned_to_id, :author_id, :responsible_id,
+                                      formatter_key: :public_named_association
     register_journal_formatted_fields :start_date, :due_date, formatter_key: :datetime
     register_journal_formatted_fields :subject, formatter_key: :plaintext
     register_journal_formatted_fields :duration, formatter_key: :day_count

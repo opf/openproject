@@ -404,11 +404,10 @@ RSpec.describe DemoData::WorkPackageSeeder do
         [work_package_data(subject: "no versions")]
       end
 
-      it "creates no work_package_versions rows and leaves the legacy version unset" do
+      it "creates no work_package_versions rows" do
         wp = WorkPackage.find_by(subject: "no versions")
         expect(wp.work_package_versions).to be_empty
         expect(wp.target_versions).to be_empty
-        expect(wp.version).to be_nil
       end
     end
 
@@ -417,12 +416,11 @@ RSpec.describe DemoData::WorkPackageSeeder do
         [work_package_data(subject: "single", target_versions: [:version_alpha])]
       end
 
-      it "creates one kind: 'target' associated version row and mirrors it into the legacy version" do
+      it "creates one kind: 'target' associated version row" do
         wp = WorkPackage.find_by(subject: "single")
         expect(wp.work_package_versions.pluck(:kind, :version_id))
           .to contain_exactly(["target", version_alpha.id])
         expect(wp.target_versions).to contain_exactly(version_alpha)
-        expect(wp.version).to eq(version_alpha)
       end
     end
 
@@ -431,12 +429,11 @@ RSpec.describe DemoData::WorkPackageSeeder do
         [work_package_data(subject: "multi", target_versions: %i[version_alpha version_beta])]
       end
 
-      it "creates one kind: 'target' row per resolved version and mirrors the first into the legacy version" do
+      it "creates one kind: 'target' row per resolved version" do
         wp = WorkPackage.find_by(subject: "multi")
         expect(wp.work_package_versions.pluck(:kind, :version_id))
           .to contain_exactly(["target", version_alpha.id], ["target", version_beta.id])
         expect(wp.target_versions).to contain_exactly(version_alpha, version_beta)
-        expect(wp.version).to eq(version_alpha)
       end
     end
   end

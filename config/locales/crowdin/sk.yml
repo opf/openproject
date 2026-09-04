@@ -67,7 +67,8 @@ sk:
       '
     login_with_auth_provider: alebo sa prihláste so svojím existujúcim účtom
     omniauth_login: Prihláste sa aby ste aktivovali svoj účet.
-    signup_with_auth_provider: alebo sa zaregistrujte pomocou
+    signup_title: Create an account in %{app_title}
+    signup_with_external_account: Sign up with an external account
   actionview_instancetag_blank_option: Prosím, vyberte
   activemodel:
     attributes:
@@ -75,6 +76,13 @@ sk:
         dependencies: Závislosti
   activerecord:
     attributes:
+      ai/text_transform_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
+        usage_scope: Scope
       announcements:
         show_until: Zobrazovať, až kým
       attachment:
@@ -235,6 +243,7 @@ sk:
         project_creation_wizard_status_when_submitted: Status when submitted
         project_creation_wizard_work_package_comment: Work package comment
         project_creation_wizard_work_package_type: Work package type
+        project_types: Types
         public_value:
           false: private
           title: Viditeľnosť
@@ -254,6 +263,7 @@ sk:
         templated_value:
           false: unmarked as template
           true: marked as template
+        type_variant: Work package type variant
         types: Typy
         versions: Verzie
         work_packages: Pracovné balíčky
@@ -274,6 +284,8 @@ sk:
         start_gate_name: Start phase gate name
       project_custom_field:
         custom_field_section: Section
+      project_type:
+        variant: Variant
       query:
         child_work_packages: Child work packages
         column_names: Stĺpce
@@ -341,18 +353,26 @@ sk:
       token/named:
         token_name: Token name
       type:
-        attribute_groups: Konfigurácia formulára
-        children: Variants
         color: Farba
-        dependent_configuration_links: Linked types
-        description: Default text for description
-        is_default: Aktivované pre nové projekty štandardne
         is_in_roadmap: Zobraziť v Roadmap štandardne
         is_milestone: Je medzník
-        parent: Parent type
-        patterns: Patterns
+        project_types: Projects
+        variants: Variants
       type/configuration_link:
         source: Source type
+      type_variant:
+        attribute_groups: Form
+        default_work_package_description: Default text for description
+        defaults_source: Defaults source
+        enabled_in_new_projects: Active in new projects
+        form_configuration_source: Form source
+        patterns: Patterns
+        pdf_export_source: PDF export source
+        project_attributes_source: Project attributes source
+        project_types: Projects using this variant
+        variant: Variant
+        variant_name: Name
+        workflows_source: Workflows source
       user:
         admin: Správca
         auth_source: Authentication source
@@ -451,6 +471,7 @@ sk:
           true: include non-working days
         journal_internal: Internal Journal
         notify: Notify
+        observed_in_versions: Observed in versions
         parent: Nadradený balíček
         parent_issue: Nadradený balíček
         parent_work_package: Nadradený balíček
@@ -487,6 +508,7 @@ sk:
         before_or_equal_to: musí byť pred alebo rovné termínu %{date}.
         blank: nemôže byť prázdne.
         blank_nested: needs to have the property '%{property}' set.
+        blocked_domain: is not allowed. Please use an email address from a different domain.
         cannot_delete_mapping: is required. Cannot be deleted.
         cant_link_a_work_package_with_a_descendant: Pracovný balíček nemôže byť previazaný na žiadny zo svojich podriadenými balíčkov.
         circular_dependency: Tento vzťah by vytvoril cyklickú závislosť.
@@ -525,6 +547,8 @@ sk:
         is_for_all_cannot_modify: is for all projects and can therefore not be modified.
         ldap_managed: This department is managed by LDAP synchronization and cannot be changed manually.
         less_than_or_equal_to: musí byť menšie alebo rovné ako %{count}.
+        migration_failed: 'The variant could not be switched for project ''%{project}'': %{reason}'
+        migration_target_invalid: The selected variant must be another variant of the same type that every affected project can use.
         not_a_date: nie je platný dátum.
         not_a_datetime: nie je platný dátum a čas.
         not_a_number: nie je číslo.
@@ -547,6 +571,7 @@ sk:
         regex_match_failed: does not match the regular expression %{expression}.
         smaller_than_or_equal_to_max_length: musí byť menšie alebo rovné ako maximálne dĺžka.
         ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
         system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         taken: už existuje v systéme.
         too_long: je príliš dlhý (maximum je %{count} znakov).
@@ -700,9 +725,9 @@ sk:
               cannot_assign_variant_and_parent: 'Cannot assign a variant and its parent '
               cannot_assign_variants_yet: Variants cannot be enabled on a project yet. Enable the feature flag to try out variants
               in_use_by_work_packages: 'stále používané týmito pracovnými balíkmi: %{types}'
-              switch_source_not_a_variant: Can only switch away from a variant
-              switch_target_identical: The target Type must be different from the current variant
-              switch_target_not_in_family: Can only switch to another variant of the same Type or to its parent Type
+              switch_target_blank: Select the variant to switch to
+              switch_target_identical: The target type must be different from the type the project uses now
+              switch_target_not_in_family: Can only switch to another type of the same family
           cannot_be_assigned_to_artifact_work_package: The chosen user is not allowed to be assigned to work packages.
           foreign_wps_reference_version: Work packages in non descendant projects reference versions of the project or its descendants.
         project/phase:
@@ -717,6 +742,11 @@ sk:
           attributes:
             project_ids:
               blank: Please select a project.
+        project_type:
+          attributes:
+            variant:
+              must_be_owned_by_the_project: must not be a variant another project owns.
+              must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
           attributes:
             values:
@@ -788,6 +818,7 @@ sk:
               hours_per_day_are_missing: The number of hours per day must be defined.
               hours_per_day_is_out_of_bounds: Hours per day can't be more than 24
               journal_aggregation_time_minutes_is_out_of_bounds: Aggregation period must be between %{min} and %{max} minutes.
+              password_login_requires_sso_provider: Password login restrictions require at least one available SSO provider.
               previous_working_day_changes_unprocessed: The previous changes to the working days configuration have not been applied yet.
               working_days_are_missing: At least one day of the week must be defined as a working day.
         status:
@@ -805,25 +836,40 @@ sk:
               blank: Please provide a token name
               format: "%{message}"
               in_use: This token name is already in use, please select a different one
-        type:
+        type_variant:
           attributes:
             attribute_groups:
-              attribute_unknown: Použitý neplatný atribút pracovného balíčka.
+              attribute_unknown: Invalid work package attribute used.
               attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
-              duplicate_group: Názov skupiny '%{group}' sa používa viackrát. Názvy skupín musia byť jedinečné.
+              duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
               group_without_name: Group name can't be blank.
-              query_invalid: 'Vložený dopyt ''%{group}'' je neplatný: %{details}'
-            parent:
-              cannot_be_self: can't be the type itself.
-              cannot_change_with_work_packages: can't be changed because work packages of this type already exist.
-              cannot_have_children: can't be set because this type already has variants.
-              must_be_a_root: must itself be a top-level type. Types can only be nested one level deep.
-              standard_type_must_be_root: can't be set for the standard type.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+            base:
+              borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
+              is_default_variant: The default configuration of a type cannot be deleted.
+              restrict_dependent_destroy:
+                has_many: Cannot be deleted while projects are still using it.
+            defaults_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
+              would_create_cycle: would link these configurations in a loop.
+            enabled_in_new_projects:
+              not_available_to_project_owned_variant: cannot be set on a variant a project owns.
+              taken: is already set for another configuration of this type.
+            form_configuration_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
+              would_create_cycle: would link these configurations in a loop.
             patterns:
               invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
-        type/configuration_link:
-          attributes:
-            source_id:
+            pdf_export_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
+              would_create_cycle: would link these configurations in a loop.
+            project_attributes_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
+              would_create_cycle: would link these configurations in a loop.
+            variant:
+              must_belong_to_the_type: must be a variant of this type.
+            workflows_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
@@ -931,6 +977,9 @@ sk:
             start_date:
               cannot_be_null: can not be set to null as finish date and duration are known.
               violates_relationships: možno nastaviť na %{soonest_start} alebo neskôr, aby neboli narušené väzby v pracovnom balíčku.
+            status:
+              status_invalid_in_type: is invalid because the current status does not exist in this type.
+              status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
             status_id:
               status_invalid_in_type: je neplatná, pretože súčasný stav neexistuje v tomto type.
               status_transition_invalid: je neplatný, pretože neexistuje žiadny platný prechod zo starého na nový stav v prípade aktuálne pridelených rolí používateľa.
@@ -939,7 +988,6 @@ sk:
           is_not_a_valid_target_for_time_entries: 'Pracovný balík #%{id} nepredstavuje platný cieľ pre pridelené položky času.'
           readonly_status: The work package is in a readonly status so its attributes cannot be changed.
           target_versions_only_allow_single_value: Target Versions can only hold a single value.
-          version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
       template:
         body: 'Skontrolujte nasledujúce polia:'
         header:
@@ -948,64 +996,361 @@ sk:
           many: "%{count} chýb zabránilo uloženiu tohto %{model}"
           other: "%{count} chýb zabránilo uloženiu tohto %{model}"
     models:
-      attachment: Súbor
+      action:
+        one: Action
+        few: Actions
+        many: Actions
+        other: Actions
+      ai/text_transform_action:
+        one: Text transform action
+        few: Text transform actions
+        many: Text transform actions
+        other: Text transform actions
+      announcement:
+        one: Announcement
+        few: Announcements
+        many: Announcements
+        other: Announcements
+      anonymous_user:
+        one: Anonymous user
+        few: Anonymous users
+        many: Anonymous users
+        other: Anonymous users
+      attachment:
+        one: File
+        few: Files
+        many: Files
+        other: Files
       attribute_help_text:
         one: Attribute help text
         few: Attribute help texts
         many: Attribute help texts
         other: Attribute help texts
+      attribute_help_text/project:
+        one: Project attribute help text
+        few: Project attribute help texts
+        many: Project attribute help texts
+        other: Project attribute help texts
+      attribute_help_text/user:
+        one: User attribute help text
+        few: User attribute help texts
+        many: User attribute help texts
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        one: Work package attribute help text
+        few: Work package attribute help texts
+        many: Work package attribute help texts
+        other: Work package attribute help texts
       auth_provider:
         one: Authentication provider
         few: Authentication providers
         many: Authentication providers
         other: Authentication providers
-      category: Kategória
-      color: Farba
-      comment: Komentár
-      custom_action: Vlastná akcia
-      custom_field: Vlastné pole
-      customized: Customized
-      doorkeeper/application: OAuth aplikácia
+      backup:
+        one: Backup
+        few: Backups
+        many: Backups
+        other: Backups
+      capability:
+        one: Capability
+        few: Capabilities
+        many: Capabilities
+        other: Capabilities
+      category:
+        one: Category
+        few: Categories
+        many: Categories
+        other: Categories
+      change:
+        one: File change
+        few: File changes
+        many: File changes
+        other: File changes
+      changeset:
+        one: Changeset
+        few: Changesets
+        many: Changesets
+        other: Changesets
+      color:
+        one: Color
+        few: Colors
+        many: Colors
+        other: Colors
+      comment:
+        one: Comment
+        few: Comments
+        many: Comments
+        other: Comments
+      custom_action:
+        one: Custom action
+        few: Custom actions
+        many: Custom actions
+        other: Custom actions
+      custom_field:
+        one: Custom field
+        few: Custom fields
+        many: Custom fields
+        other: Custom fields
+      custom_field/hierarchy/item:
+        one: Hierarchy item
+        few: Hierarchy items
+        many: Hierarchy items
+        other: Hierarchy items
+      custom_field_section:
+        one: Custom field section
+        few: Custom field sections
+        many: Custom field sections
+        other: Custom field sections
+      custom_option:
+        one: Custom field option
+        few: Custom field options
+        many: Custom field options
+        other: Custom field options
+      custom_style:
+        one: Design
+        few: Designs
+        many: Designs
+        other: Designs
+      day:
+        one: Day
+        few: Days
+        many: Days
+        other: Days
+      deleted_user:
+        one: Deleted user
+        few: Deleted users
+        many: Deleted users
+        other: Deleted users
+      design_color:
+        one: Design color
+        few: Design colors
+        many: Design colors
+        other: Design colors
+      doorkeeper/application:
+        one: OAuth application
+        few: OAuth applications
+        many: OAuth applications
+        other: OAuth applications
+      emoji_reaction:
+        one: Emoji reaction
+        few: Emoji reactions
+        many: Emoji reactions
+        other: Emoji reactions
       enterprise_token:
         one: Enterprise token
         few: Enterprise tokens
         many: Enterprise tokens
         other: Enterprise tokens
-      forum: Diskusia
-      global_role: Global role
-      group: Skupina
+      enterprise_trial:
+        one: Enterprise trial
+        few: Enterprise trials
+        many: Enterprise trials
+        other: Enterprise trials
+      enumeration:
+        one: Enumeration
+        few: Enumerations
+        many: Enumerations
+        other: Enumerations
+      export:
+        one: Export
+        few: Exports
+        many: Exports
+        other: Exports
+      export_setting:
+        one: Export setting
+        few: Export settings
+        many: Export settings
+        other: Export settings
+      forum:
+        one: Forum
+        few: Forums
+        many: Forums
+        other: Forums
+      global_role:
+        one: Global role
+        few: Global roles
+        many: Global roles
+        other: Global roles
+      group:
+        one: Group
+        few: Groups
+        many: Groups
+        other: Groups
+      group_custom_field:
+        one: Group custom field
+        few: Group custom fields
+        many: Group custom fields
+        other: Group custom fields
+      health_report:
+        one: Health report
+        few: Health reports
+        many: Health reports
+        other: Health reports
       issue_priority:
         one: Priorita
         few: Priorities
         many: Priorities
         other: Priorities
-      jira:
-        one: Jira
-        few: Jira
-        many: Jira
-        other: Jira
-      meeting_participant: Meeting participant
-      member: Člen
-      message: Message
-      news: Novinky
+      ldap_auth_source:
+        one: LDAP connection
+        few: LDAP connections
+        many: LDAP connections
+        other: LDAP connections
+      mcp_configuration:
+        one: MCP configuration
+        few: MCP configurations
+        many: MCP configurations
+        other: MCP configurations
+      member:
+        one: Member
+        few: Members
+        many: Members
+        other: Members
+      menu_item:
+        one: Menu item
+        few: Menu items
+        many: Menu items
+        other: Menu items
+      menu_items/wiki_menu_item:
+        one: Wiki menu item
+        few: Wiki menu items
+        many: Wiki menu items
+        other: Wiki menu items
+      message:
+        one: Message
+        few: Messages
+        many: Messages
+        other: Messages
+      news:
+        one: News
+        few: News
+        many: News
+        other: News
+      non_working_day:
+        one: Non-working day
+        few: Non-working days
+        many: Non-working days
+        other: Non-working days
       notification:
         one: Notification
         few: Notifications
         many: Notifications
         other: Notifications
-      placeholder_user: Placeholder user
+      notification_setting:
+        one: Notification setting
+        few: Notification settings
+        many: Notification settings
+        other: Notification settings
+      oauth_client:
+        one: OAuth client
+        few: OAuth clients
+        many: OAuth clients
+        other: OAuth clients
+      oauth_client_token:
+        one: OAuth client token
+        few: OAuth client tokens
+        many: OAuth client tokens
+        other: OAuth client tokens
+      persisted_query:
+        one: Persisted query
+        few: Persisted queries
+        many: Persisted queries
+        other: Persisted queries
+      persisted_view:
+        one: Persisted view
+        few: Persisted views
+        many: Persisted views
+        other: Persisted views
+      placeholder_user:
+        one: Placeholder user
+        few: Placeholder users
+        many: Placeholder users
+        other: Placeholder users
+      plugin_auth_provider:
+        one: Plugin authentication provider
+        few: Plugin authentication providers
+        many: Plugin authentication providers
+        other: Plugin authentication providers
+      principal:
+        one: Principal
+        few: Principals
+        many: Principals
+        other: Principals
       project:
         one: Projekt
         few: Projekty
         many: Projekty
         other: Projekty
+      project/phase:
+        one: Project phase
+        few: Project phases
+        many: Project phases
+        other: Project phases
+      project/phase_definition:
+        one: Project phase definition
+        few: Project phase definitions
+        many: Project phase definitions
+        other: Project phase definitions
+      project_custom_field:
+        one: Project attribute
+        few: Project attributes
+        many: Project attributes
+        other: Project attributes
+      project_custom_field_section:
+        one: Project attribute section
+        few: Project attribute sections
+        many: Project attribute sections
+        other: Project attribute sections
       project_query:
         one: Project list
         few: Project lists
         many: Project lists
         other: Project lists
-      query: Vlastný dopyt
-      reminder: Reminder
+      project_query_role:
+        one: Project list role
+        few: Project list roles
+        many: Project list roles
+        other: Project list roles
+      project_role:
+        one: Project role
+        few: Project roles
+        many: Project roles
+        other: Project roles
+      query:
+        one: Custom query
+        few: Custom queries
+        many: Custom queries
+        other: Custom queries
+      relation:
+        one: Relation
+        few: Relations
+        many: Relations
+        other: Relations
+      reminder:
+        one: Reminder
+        few: Reminders
+        many: Reminders
+        other: Reminders
+      remote_identity:
+        one: Remote identity
+        few: Remote identities
+        many: Remote identities
+        other: Remote identities
+      repository:
+        one: Repository
+        few: Repositories
+        many: Repositories
+        other: Repositories
+      repository/git:
+        one: Git repository
+        few: Git repositories
+        many: Git repositories
+        other: Git repositories
+      repository/subversion:
+        one: Subversion repository
+        few: Subversion repositories
+        many: Subversion repositories
+        other: Subversion repositories
       role:
         one: Rola
         few: Rolí
@@ -1016,12 +1361,46 @@ sk:
         few: SCIM clients
         many: SCIM clients
         other: SCIM clients
-      status: Stav pracovného balíčka
+      service_account:
+        one: Service account
+        few: Service accounts
+        many: Service accounts
+        other: Service accounts
+      sessions/user_session:
+        one: Session
+        few: Sessions
+        many: Sessions
+        other: Sessions
+      setting:
+        one: Setting
+        few: Settings
+        many: Settings
+        other: Settings
+      status:
+        one: Work package status
+        few: Work package statuses
+        many: Work package statuses
+        other: Work package statuses
+      system_user:
+        one: System user
+        few: System users
+        many: System users
+        other: System users
       token/api:
         one: Prístupový token
         few: Access tokens
         many: Access tokens
         other: Access tokens
+      token/base:
+        one: Token
+        few: Tokens
+        many: Tokens
+        other: Tokens
+      token/ical:
+        one: iCalendar token
+        few: iCalendar tokens
+        many: iCalendar tokens
+        other: iCalendar tokens
       token/rss:
         one: RSS token
         few: RSS tokens
@@ -1032,12 +1411,96 @@ sk:
         few: Types
         many: Types
         other: Types
-      user: Užívateľ(ka)
-      version: Verzia
-      wiki: Wiki
-      wiki_page: Wiki stránka
-      work_package: Pracovný balíček
-      workflow: Pracovný postup
+      type_variant:
+        one: Variant
+        few: Variants
+        many: Variants
+        other: Variants
+      user:
+        one: User
+        few: Users
+        many: Users
+        other: Users
+      user_custom_field:
+        one: User attribute
+        few: User attributes
+        many: User attributes
+        other: User attributes
+      user_custom_field_section:
+        one: User attribute section
+        few: User attribute sections
+        many: User attribute sections
+        other: User attribute sections
+      user_non_working_time:
+        one: Non-working time
+        few: Non-working times
+        many: Non-working times
+        other: Non-working times
+      user_password:
+        one: Password
+        few: Passwords
+        many: Passwords
+        other: Passwords
+      user_preference:
+        one: User preference
+        few: User preferences
+        many: User preferences
+        other: User preferences
+      user_query:
+        one: User list
+        few: User lists
+        many: User lists
+        other: User lists
+      user_working_hours:
+        one: Working hours
+        few: Working hours
+        many: Working hours
+        other: Working hours
+      version:
+        one: Version
+        few: Versions
+        many: Versions
+        other: Versions
+      version_custom_field:
+        one: Version custom field
+        few: Version custom fields
+        many: Version custom fields
+        other: Version custom fields
+      view:
+        one: View
+        few: Views
+        many: Views
+        other: Views
+      wiki:
+        one: Wiki
+        few: Wikis
+        many: Wikis
+        other: Wikis
+      wiki_page:
+        one: Wiki page
+        few: Wiki pages
+        many: Wiki pages
+        other: Wiki pages
+      work_package:
+        one: Work package
+        few: Work packages
+        many: Work packages
+        other: Work packages
+      work_package_custom_field:
+        one: Work package custom field
+        few: Work package custom fields
+        many: Work package custom fields
+        other: Work package custom fields
+      work_package_role:
+        one: Work package role
+        few: Work package roles
+        many: Work package roles
+        other: Work package roles
+      workflow:
+        one: Workflow
+        few: Workflows
+        many: Workflows
+        other: Workflows
   activities:
     index:
       no_results_title_text: Počas tohto časového obdobia nebola vykonaná žiadna aktivita na projekte.
@@ -1055,6 +1518,7 @@ sk:
           heading: Make this comment public?
           title: Make this comment public?
         internal_journal: Internal comments are visible to a limited group of members.
+        label_activity_hide_meetings: Hide meetings updates
         label_activity_show_all: Show everything
         label_activity_show_only_changes: Show changes only
         label_activity_show_only_comments: Show comments only
@@ -1238,9 +1702,6 @@ sk:
           description: Create an import run to start importing information from this Jira instance
           title: No import runs set up yet
         history: History
-        side_panel:
-          run_status: Run status
-          open_history: Open the run history
         import_blocked_error: Another Jira import run is currently in progress or awaiting review. Please complete or revert it before starting a new import.
         index:
           button_edit_configuration: Edit configuration
@@ -1248,11 +1709,15 @@ sk:
           description: You can import different sets of data with each import run. It is possible to undo an import run immediately after in review mode but not after finalizing.
         project_identifier_taken: 'You are trying to import a project with an already used identifier: %{taken_identifier}. Please update the project identifier in Jira then click on Retry.'
         remove_error: A Jira import run cannot be removed while it is running
+        side_panel:
+          open_history: Open the run history
+          run_status: Run status
         status:
           configuring: Select scope
           finalizing: Finalizing
           finalizing_done: Completed
           finalizing_error: Error during finalizing
+          import_aborting: Aborting
           import_error: Error during import
           import_scope: Select scope
           imported: Review mode
@@ -1264,13 +1729,13 @@ sk:
           projects_meta_done: Data gathered
           projects_meta_error: Error fetching project data
           projects_meta_fetching: Fetching project data
-          revert_cancelled: Revert cancelled
-          revert_cancelling: Cancelling revert
           revert_error: Error during revert
           reverted: Reverted
           reverting: Reverting
+        step_not_available: This action is not available for the current state of the import run.
         title: Import run
         wizard:
+          button_abort: Abort
           button_retry: Retry
           finalize_dialog:
             confirm: I understand that this action cannot be undone
@@ -1326,11 +1791,14 @@ sk:
             title: Permanently revert this import?
           sections:
             confirm_import:
+              button_importing: Importing data
+              button_revert: Revert import
               button_start: Start import
               caption: Review your import settings and start the import
               caption_done: Completed
               caption_done_info: All data has been imported
               description: You are about to start an import run with the following settings.
+              info_importing: The import is now in progress. Closing this tab will not stop it, and you can always revisit the status of the import by opening the run.
               label_available_data: Data to be imported
               label_import_data: Currently importing
               label_progress: Import in progress...
@@ -1351,6 +1819,7 @@ sk:
               button_done: Approve import
               button_revert: Revert import
               caption: Review import run or revert import
+              info: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               label_finalize_import: Approve import
               label_finalizing: Approving import...
               label_finalizing_done: Import approved.
@@ -1358,7 +1827,6 @@ sk:
               label_revert: Revert import
               label_revert_progress: Reverting import...
               label_reverted: Import reverted.
-              preview_description: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               stats:
                 other_settings:
                   label: Other settings
@@ -1560,6 +2028,40 @@ sk:
           error: The section could not be reordered.
         move:
           error: The section could not be reordered.
+      versions_and_categories:
+        banner:
+          button_more_information: More information
+          message: There are important upcoming changes to versions and categories. Please carefully review the following settings.
+        categories:
+          heading: Categories
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Category” field will be renamed “Categories”.
+            single_value: This field is currently single-value. It will also be converted to allow multiple values.
+            upcoming_choice: You will be able to choose to enable multiple values before this automatic conversion happens.
+        dialog:
+          checkbox_label: I understand that this action is not reversible
+          confirm_button: Enable
+          description_html: This will convert the existing single-value Version field to accept multiple values. No data will be lost but this may affect custom integrations. Please refer to the <a href="%{link}" target="_blank" rel="noopener">documentation</a> before proceeding.
+          heading: Enable multiple target versions?
+          irreversible_notice: Once enabled, it will not be possible to go back to single values.
+          title: Enable multiple target versions
+        target_versions:
+          action_required:
+            button: Enable multiple values
+            heading: Action required
+            manual_conversion_hint: You can choose to manually run the conversion to enable multiple values before this automatic migration happens.
+            not_writable_hint: These settings are configured via environment variables. If you would like to manually run the conversion to enable multiple values before the automatic migration, update your configuration.yml file.
+          heading: Target versions
+          planned_changes:
+            heading: Planned changes in a future release
+            renamed: The “Version” field will be renamed “Target versions”.
+            single_value: This field is currently single-value. It will be converted to allow multiple values.
+          recent_changes:
+            documentation_html: For more information on this change and how to update API clients, please refer to <a href="%{link}" target="_blank" rel="noopener">our documentation</a>.
+            heading: Recent changes
+            multiple_values: The “Target versions” field now allows multiple values.
+            renamed: The “Version” field has now been renamed “Target versions”.
       work_packages_identifier:
         autofix_preview:
           error_does_not_start_with_letter: Must start with an uppercase letter
@@ -1758,6 +2260,7 @@ sk:
     custom_field: Vlastné pole
     custom_options: Možné hodnoty
     custom_values: Vlastné polia
+    customized: Customized
     date: Dátum
     dates_interval: Časové obdobie
     default_columns: Predvolené stĺpce
@@ -1773,6 +2276,7 @@ sk:
     entity_type: Entity
     estimated_hours: Work
     estimated_time: Work
+    exact_match: Exact match
     expires_at: Expires on
     filter: Filtrovať
     firstname: Krstné meno
@@ -1783,6 +2287,7 @@ sk:
     is_default: Predvolená hodnota
     is_for_all: Pre všetky projekty
     issue: Pracovný balíček
+    jira: Jira
     journal: Denník
     journal_notes: Komentár
     lastname: Priezvisko
@@ -1815,6 +2320,7 @@ sk:
     start_date: Dátum začiatku
     state: State
     status: Stav
+    status_id: Status
     subject: Predmet
     summary: Zhrnutie
     template: Template
@@ -2376,8 +2882,12 @@ sk:
   description_available_columns: Dostupné stĺpce
   description_category_reassign: Vyberte kategóriu
   description_choose_project: Projekty
-  description_compare_from: Porovnať od
-  description_compare_to: Porovnať s
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'You are here: '
   description_date_from: Zadajte počiatočný dátum
   description_date_to: Zadajte koncový dátum
@@ -2528,7 +3038,7 @@ sk:
         more_info: 'Note: the used logo will be publicly accessible.'
         title: Custom color theme and logo
       edit_attribute_groups:
-        description: 'Customize form configuration with these additional add-ons:'
+        description: 'Customize the form with these additional add-ons:'
         features:
           groups: Add new attribute sections
           related: Add a table of related work packages
@@ -2581,8 +3091,6 @@ sk:
         description: Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Share work packages with users who are not members of the project.
       work_package_subject_generation:
@@ -2608,18 +3116,17 @@ sk:
   error_attribute_not_highlightable: 'Atribút(y), ktoré nie je možné zvýrazniť: %{attributes}'
   error_auth_source_sso_failed: Jednoduché prihlásenie (SSO) pre používateľa '%{value}' zlyhalo
   error_can_not_archive_project: 'This project cannot be archived: %{errors}'
-  error_can_not_deactivate_type: Unable to deactivate type %{type} because it's still in use by %{work_packages_link}
   error_can_not_deactivate_type_invisible_projects: There are also work packages in projects you cannot see.
   error_can_not_delete_custom_field: Nepodarilo sa odstrániť vlastné pole
   error_can_not_delete_entry: Záznam sa nedá odstrániť
   error_can_not_delete_in_use_archived_undisclosed: There are also work packages in archived projects. You need to ask an administrator to perform the deletion to see which projects are affected.
   error_can_not_delete_in_use_archived_work_packages: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the attribute of the respective work packages: %{archived_projects_urls}'
-  error_can_not_delete_standard_type: Štandardné typy sa nedjú odstrániť.
   error_can_not_delete_type:
     explanation: This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.
   error_can_not_find_all_resources: Could not find all related resources to this request.
   error_can_not_invite_user: Nepodarilo sa odoslať pozvanie používateľovi.
   error_can_not_remove_role: Táto rola sa používa a nedá sa odstrániť.
+  error_can_not_remove_type_from_project: Unable to remove "%{name}" from project "%{project}" because it's still in use by %{work_packages_link}
   error_can_not_reopen_work_package_on_closed_version: Pracovný balíček, ktorý je priradený na uzatvorenú verziu sa nedá znovu-otvoriť
   error_can_not_unarchive_project: 'This project cannot be unarchived: %{errors}'
   error_check_user_and_role: Zvoľte si, prosím, používateľ a rolu.
@@ -2634,6 +3141,7 @@ sk:
   error_failed_to_delete_entry: Chyba pri odstraňovaní tejto položky.
   error_in_dependent: 'Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}'
   error_in_new_dependent: 'Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}'
+  error_invalid_list_move_anchor: The item cannot be moved to the requested position. Please reload the page and try again.
   error_invalid_selected_value: Vybratá neplatná hodnota.
   error_journal_attribute_not_present: Denník neobsahuje atribút %{attribute}.
   error_menu_item_not_created: Položku sa nepodarilo pridať
@@ -2907,14 +3415,15 @@ sk:
     blocks:
       community: OpenProject komunita
       new_features:
-        '17_7':
+        '17_8':
           new_features_list:
-            line_0: New Resource management module for capacity planning and staffing (Premium plan).
-            line_1: Better organizational management with Departments, user attributes such as job titles, and working hours.
-            line_2: Multiple active sprints without sharing (Basic plan).
-            line_3: Improved Backlog and Sprints with multi-select filters, better drag and drop, and the ability to add existing work packages.
-            line_4: PM²/PMflex artefact export and a new widget for project phases and gates overview.
-            line_5: Global wiki page index and easier navigation between related pages.
+            line_0: AI-assisted actions on work packages, comments, and relations with the MCP Server (Professional plan).
+            line_1: Multiple target versions for work packages.
+            line_2: Global limits and restrictions for time entries (Professional plan).
+            line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
+            line_4: Wiki macros available in more text editors.
+            line_5: Improved search for work package identifiers.
+            line_6: 'Released to Community: Display relations in work package tables.'
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
@@ -2962,6 +3471,11 @@ sk:
         field_updated: "%{field} updated"
         header: changes by %{author}
         set_with_diff: "%{field} set (%{link})"
+      meeting_cancelled: "(cancelled)"
+      meeting_deleted: "(deleted)"
+      meeting_series_backlog_html: backlog for meeting series %{link}
+      meeting_series_template_html: template for meeting series %{link}
+      meeting_template_html: meeting template %{link}
       progress_mode_changed_to_status_based: Progress calculation mode set to status-based
       status_excluded_from_totals_set_to_false_message: now included in hierarchy totals
       status_excluded_from_totals_set_to_true_message: now excluded from hierarchy totals
@@ -2974,6 +3488,8 @@ sk:
         progress_calculation_adjusted_from_disabled_mode: Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         scheduling_mode_adjusted: Scheduling mode automatically adjusted with version update.
         sprint_migration: Version '%{version_name}' has been copied as a sprint.
+        stale_target_versions_removed: Outdated target version automatically removed. It had been incorrectly re-added when multiple target versions were enabled.
+        target_versions_repaired: Target versions automatically synchronized with the Version field before enabling multiple target versions.
         totals_removed_from_childless_work_packages: Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
       total_percent_complete_mode_changed_to_simple_average: Work values of child work packages are ignored.
       total_percent_complete_mode_changed_to_work_weighted_average: Child work packages without Work are ignored.
@@ -2997,6 +3513,14 @@ sk:
       dates_changed: Dates changed
       default_attribute_written: Read-only attributes written
       import: Imported
+      meeting_agenda_item_added_html: "<strong>Added to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_added_template_html: "<strong>Added to</strong> %{meeting_title_information}"
+      meeting_agenda_item_discussed_html: "<strong>Discussed in meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_html: "<strong>Moved to meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_moved_template_html: "<strong>Moved to</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_html: "<strong>Removed from meeting</strong> %{meeting_title_information}"
+      meeting_agenda_item_removed_template_html: "<strong>Removed from</strong> %{meeting_title_information}"
+      meeting_outcome_recorded_html: "<strong>Added as outcome in meeting</strong> %{meeting_title_information}"
       progress_mode_changed_to_status_based: Progress calculation updated
       status_changed: Status '%{status_name}'
       system_update: 'OpenProject system update:'
@@ -3005,6 +3529,16 @@ sk:
       work_package_duplicate_closed: 'Duplicate work package updated:'
       work_package_parent_deleted: Parent removed
     changes_retracted: The changes were retracted.
+    non_visible:
+      budget: a non-visible budget
+      category: a non-visible category
+      default: a non-visible record
+      issue_priority: a non-visible priority
+      project: a non-visible project
+      sprint: a non-visible sprint
+      time_entry_activity: a non-visible activity
+      version: a non-visible version
+      work_package: a non-visible work package
   label_accessibility: Prístupnosť
   label_account: Účet
   label_actions: Akcie
@@ -3062,8 +3596,8 @@ sk:
   label_available_project_work_package_categories: Dostupné kategórie pracovných balíčkov
   label_available_project_work_package_types: Dostupné kategórie pracovných balíčkov
   label_available_projects: Available projects
+  label_backtrace: Backtrace
   label_backup: Backup
-  label_backup_code: Záložný kód
   label_basic_details: Basic details
   label_between: medzi
   label_blocked_by: zablokované používateľom
@@ -3083,7 +3617,6 @@ sk:
   label_calendar_show: Zobraziť kalendár
   label_calendar_subscriptions: Calendar subscriptions
   label_calendars_and_dates: Calendars and dates
-  label_category: Kategória
   label_change_parent: Zmeniť nadradený objekt
   label_change_password: Change password
   label_change_plural: Zmeny
@@ -3092,9 +3625,9 @@ sk:
   label_change_status_of_user: 'Zmena stavu #{username}'
   label_change_view_all: Zobraziť všetky zmeny
   label_changes_details: Podrobnosti o všetkých zmenách
-  label_changeset: Revízia
   label_changeset_id: ID Revízie
   label_changeset_plural: Sady zmien
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Označiť/zrušiť označenie všetkých v stĺpci
   label_check_uncheck_all_in_row: Označiť/zrušiť označenie všetkých v riadku
   label_checked: skontrolované
@@ -3241,6 +3774,7 @@ sk:
   label_feeds_access_key: Prístupový kľúč pre RSS
   label_feeds_access_key_created_on: Prístupový kľúč pre RSS vytvorený %{value} vzad
   label_feeds_access_key_type: RSS kanál
+  label_file: File
   label_file_plural: Súbory
   label_filter: Filtre
   label_filter_add: Pridať filter
@@ -3251,7 +3785,6 @@ sk:
   label_float: Plávajúce (float)
   label_folder: Priečinok
   label_follows: nasleduje
-  label_form_configuration: Konfigurácia formulára
   label_formula: Formula
   label_forum_new: Nová diskusia
   label_forum_plural: Diskusie
@@ -3265,7 +3798,6 @@ sk:
   label_git_path: Cesta ku .git adresáru
   label_global: Globálna
   label_global_modules: Global modules
-  label_global_role: Global role
   label_global_roles: Global roles
   label_go_back: Go back one menu level
   label_go_forward: Open %{module} sub-menu
@@ -3334,7 +3866,6 @@ sk:
   label_last_week: minulý týždeň
   label_latest_revision: Posledná revízia
   label_latest_revision_plural: Posledné revízie
-  label_ldap_auth_source: LDAP connection
   label_ldap_auth_source_new: New LDAP connection
   label_ldap_auth_source_plural: LDAP connections
   label_ldap_authentication: LDAP autentifikácia
@@ -3361,8 +3892,9 @@ sk:
   label_me: mňa
   label_member_all_admin: "(All roles due to admin status)"
   label_member_new: Nový člen
+  label_member_of_group: Member of group
+  label_member_of_project: Member of project
   label_member_plural: Členovia
-  label_member_role: Project role
   label_membership_added: Member added
   label_membership_plural: Memberships
   label_membership_updated: Member updated
@@ -3475,7 +4007,6 @@ sk:
   label_permissions: Oprávnenia
   label_permissions_report: Výkaz oprávnení
   label_personalize_page: Prispôsobiť túto stránku
-  label_placeholder_user: Placeholder user
   label_placeholder_user_new: New placeholder user
   label_placeholder_user_plural: Placeholder users
   label_planning: Plánovanie
@@ -3512,7 +4043,7 @@ sk:
   label_project_hide_details: Skryť detaily projektu
   label_project_hierarchy: Hierarchia projektu
   label_project_identifier: Project identifier
-  label_project_initiation_export_pdf: Export PDF for %{project_creation_name}
+  label_project_initiation_export_pdf: Export %{project_creation_name} as PDF
   label_project_latest: Najnovšie projekty
   label_project_life_cycle: Project life cycle
   label_project_list_plural: Project lists
@@ -3538,7 +4069,6 @@ sk:
   label_related_work_packages: Súvisiace pracovné balíčky
   label_relates: súvisiace s
   label_relates_to: súvisiace s
-  label_relation: Relation
   label_relation_actions: Relation actions
   label_relation_delete: Odstrániť vzťah
   label_relation_edit: Edit relation
@@ -3591,7 +4121,6 @@ sk:
   label_send_information: Send new credentials to the user
   label_send_invitation: Poslať pozvánku
   label_send_test_email: Odoslať testovací email
-  label_session: Relácie
   label_setting_plural: Nastavenia
   label_share: Zdieľať
   label_share_project_list: Share project list
@@ -3624,7 +4153,7 @@ sk:
   label_subitems: Subitems
   label_subject_or_id: Predmet alebo ID
   label_subproject: Podprojekt
-  label_subproject_new: Nový podprojekt
+  label_subproject_add: Add subproject
   label_subproject_plural: Podprojekty
   label_subtask_plural: Podúlohy
   label_summary: Zhrnutie
@@ -3667,7 +4196,6 @@ sk:
   label_used_by: Používané
   label_used_by_types: Používa sa podľa typov
   label_used_in_projects: Použité v projektoch
-  label_user: Užívateľ
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Users and permissions
   label_user_anonymous: Anonymný
@@ -3688,6 +4216,7 @@ sk:
   label_version_sharing_none: Nezdieľané
   label_version_sharing_system: So všetkými projektmi
   label_version_sharing_tree: S projektovým stromom
+  label_versions_and_categories: Versions and categories
   label_videos: Videá
   label_view_all_revisions: Zobraziť všetky revízie
   label_view_diff: Zobraziť rozdiely
@@ -3697,19 +4226,17 @@ sk:
   label_week: Týždeň
   label_weighted_item_list: Weighted item list
   label_what_is_this: Čo je to?
-  label_widget: Widget
   label_widget_new: New widget
   label_wiki_content_added: Wikistránka bola pridaná
   label_wiki_content_updated: Wikistránka bola aktualizovaná
   label_wiki_dont_show_menu_item: Nezobrazovať túto wikistránku v navigácií projektu
   label_wiki_edit: Wiki úprava
   label_wiki_edit_plural: Wiki úpravy
-  label_wiki_menu_item: Položka menu wiki
   label_wiki_navigation: Wiki navigácia
-  label_wiki_page: Wiki stránka
   label_wiki_page_attachments: Prílohy wiki stránky
   label_wiki_page_id: ID Wiki stránky
   label_wiki_page_plural: Wikistránky
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Zobraziť položku podmenu "Obsah"
   label_wiki_show_menu_item: Zobraziť ako položku menu v navigácii projektu
   label_wiki_show_new_page_link: Zobraziť položku submenu "Vytvoriť novú podradenú stránku"
@@ -3726,7 +4253,6 @@ sk:
   label_work_package_hierarchy: Hierarchia Pracovného balíčka
   label_work_package_new: Nový pracovný balíček
   label_work_package_plural: Pracovné balíčky
-  label_work_package_status: Stav pracovného balíčka
   label_work_package_status_new: Nový stav
   label_work_package_status_plural: Stavy pracovného balíčka
   label_work_package_tracking: Sledovanie Pracovného balíka
@@ -3877,7 +4403,6 @@ sk:
         invalid_type: Nenašiel sa žiadny typ s názvom '%{type}' v projekte '%{project}".
         no_project_context: Volanie create_work_package_link makra z kontextu mimo projektu.
       link_name: Nový pracovný balíček
-      link_name_type: Nový %{type_name}
     errors:
       missing_or_invalid_parameter: Chýbajúce alebo neplatné parametre makra.
     include_wiki_page:
@@ -4331,7 +4856,6 @@ sk:
   notice_auth_stage_error: Fáza autentifikácie '%{stage}' zlyhala.
   notice_auth_stage_verification_error: Nepodarilo sa overiť úroveň '%{stage}'.
   notice_auth_stage_wrong_stage: Očakávané dokončenie overovacej fáze '%{expected}', ale '%{actual}' se vrátil.
-  notice_automatic_set_of_standard_type: Nastaviť štandardný typ automaticky.
   notice_bad_request: Nesprávna požiadavka.
   notice_can_t_change_password: Tento účet používa externú autentifikáciu. Nie je možné zmeniť heslo.
   notice_custom_options_deleted: Možnosť '%{option_value}' a jej výskyty %{num_deleted} boli odstránené.
@@ -4625,6 +5149,8 @@ sk:
     dialog:
       footer_center:
         caption: This text will appear on every page at the center of the footer.
+        default_hint_project_name: When left blank, defaults to the project name.
+        default_hint_subject: When left blank, defaults to the work package's subject.
         label: Footer text
       footer_right:
         caption: This text will appear on every page at the right of the footer.
@@ -4653,7 +5179,7 @@ sk:
       caption: Work package details rendered as a PMflex Artefact.
       label: PMflex Artefact
     template_attributes:
-      caption: All the attributes present in the current form configuration using the default template.
+      caption: All the attributes present in the current form using the default template.
       label: Attributes and description
     template_contract:
       caption: Work package details formatted to the standard German contract form.
@@ -4727,6 +5253,7 @@ sk:
     '
   permission_manage_placeholder_user: Create, edit, and delete placeholder users
   permission_manage_project_activities: Správa aktivít projektu
+  permission_manage_project_variants: Manage the project's own type variants
   permission_manage_public_bcf_queries: Manage public BCF queries
   permission_manage_public_project_queries: Manage public project lists
   permission_manage_public_queries: Spravovať verejné zobrazenia
@@ -4742,6 +5269,7 @@ sk:
 
     '
   permission_move_work_packages: Presunúť pracovné balíčky
+  permission_project_identifier_visibility_caution: 'Caution: users with this permission can find out whether a project identifier is already taken, even by projects they cannot see. [Learn more](project_identifier_visibility_url)'
   permission_save_bcf_queries: Save BCF queries
   permission_save_queries: Uložiť zobrazenia
   permission_search_project: Search project
@@ -4836,7 +5364,8 @@ sk:
   project:
     archive:
       archived: Archivované
-      are_you_sure: Naozaj chcete archivovať projekt "%{name}"?
+      confirmation_heading: Are you sure you want to continue?
+      confirmation_message: Archiving this project will make it and all its descendants unavailable to all users of this instance. Archived projects can be restored.
       title: Archive project
     count:
       one: 1 projekt
@@ -4966,6 +5495,7 @@ sk:
       header_identifier: Identifier
       header_relations: Project relations
       header_status: Status
+      identifier_visibility_warning: Project identifiers aren't private. If your project is confidential, choose a nondescript identifier.
       life_cycle:
         filter:
           label: Search project phase
@@ -5034,15 +5564,47 @@ sk:
           type_label: Type
           type_placeholder: Select a type
         add_type: Add type
+        add_variant: Add a project-specific variant
+        base_type_in_use: Base type used in this project
         empty_state:
           description: Add a type to let people create work packages of that type in this project.
           title: No types are active in this project
         form:
           enable_type_in_project: Povolenie typu "%{type}"
-        in_roadmap: In roadmap
         no_results_title_text: Momentálne nie sú k dispozícii žiadne typy.
+        project_specific_variant: Project-specific variant
         remove_from_project: Remove from project
+        switch:
+          apply: Apply
+          impact:
+            hidden_heading: Fields that will no longer be shown
+            missing_statuses_description: The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on.
+            missing_statuses_heading: Work packages that get stuck
+            new_heading: Fields that become available
+            nothing_affected: No fields or statuses are affected.
+            status_count:
+              one: 1 work package
+              few: "%{count} work packages"
+              many: "%{count} work packages"
+              other: "%{count} work packages"
+            table_suffix: "(table)"
+            value_count:
+              one: 1 work package has a value
+              few: "%{count} work packages have a value"
+              many: "%{count} work packages have a value"
+              other: "%{count} work packages have a value"
+            work_packages:
+              one: 1 work package will use the new configuration
+              few: "%{count} work packages will use the new configuration"
+              many: "%{count} work packages will use the new configuration"
+              other: "%{count} work packages will use the new configuration"
+          success: The project now uses %{type}.
+          target_label: Variant
+          title: "%{type}: Switch variant"
         type_not_found: The selected type could not be found.
+        use_in_project: Use in this project
+        variant_in_use: Variant in this project
+        variant_label: Variant
       versions:
         no_results_content_text: Vytvoriť novú verziu
         no_results_title_text: V súčasnosti neexistujú žiadne verzie projektu.
@@ -5318,6 +5880,7 @@ sk:
   setting_default_language: Predvolený jazyk
   setting_default_projects_modules: Predvolené moduly novovytváraných projektov
   setting_default_projects_public: Nové projekty nastaviť ako verejné
+  setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Maximálny počet rozdielových riadkov na zobrazenie
   setting_disable_password_login: Disable password authentication
   setting_display_subprojects_work_packages: Automaticky zobraziť úlohy podprojektu v hlavnom projekte
@@ -5365,6 +5928,14 @@ sk:
   setting_password_active_rules: Password requirements
   setting_password_count_former_banned: Počet posledných použitých hesiel, ktoré nie je možné opätovne použiť
   setting_password_days_valid: Počet dní, po ktorých požadovať zmenu hesla
+  setting_password_login: Password login
+  setting_password_login_all: Allow for everyone
+  setting_password_login_all_caption: Anyone with an internal password can sign in with it, including users linked to an identity provider.
+  setting_password_login_bypass_principal_ids: Users and groups who may still use a password
+  setting_password_login_except_sso: Disallow for SSO users
+  setting_password_login_except_sso_caption: Users linked to an identity provider cannot sign in with their internal password. Other users can continue using it.
+  setting_password_login_none: Disallow for everyone
+  setting_password_login_none_caption_html: The password form is hidden. Only users and groups listed below can sign in with a password via %{internal_login_link}.
   setting_password_min_length: Minimálna dĺžka
   setting_per_page_options: Povolené množstvo položiek na stránku
   setting_percent_complete_on_status_closed: "% Complete when status is closed"
@@ -5452,6 +6023,7 @@ sk:
   setting_work_package_done_ratio_status_caption_html: Each status has a <i>% Complete</i> value associated with it. Changing status will change <i>% Complete</i>.
   setting_work_package_list_default_highlighted_attributes: Predvolené inline zvýraznené atribúty
   setting_work_package_list_default_highlighting_mode: Predvolený režim zvýraznenia
+  setting_work_package_multiple_versions: Multiple target versions
   setting_work_package_properties: Vlastnosti pracovného balíčka
   setting_work_package_startdate_is_adddate: Použiť aktuálny dátum ako počiatočný dátum pre nové pracovné balíčky
   setting_work_packages_identifier_classic: Instance-wide numerical sequence (default)
@@ -5498,6 +6070,15 @@ sk:
     authentication:
       login: Prihlasovacie meno
       omniauth_direct_login_hint_html: 'If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
+
+        '
+      password_login_bypass_principal_ids_hint: 'Even when password login in disabled, these users and groups will be able to use their password to sign in. This is useful, for example, if the identity provider becomes unavailable. If you include a group, access will be extended to all users in that group.
+
+        '
+      password_login_configured_by_environment: 'The following settings are configured through the environment and cannot be edited here:
+
+        '
+      password_login_requires_sso_provider: 'Password login restrictions are unavailable because no SSO provider is currently enabled. Configure and enable an SSO provider before changing these settings.
 
         '
       registration: Registration
@@ -5845,6 +6426,7 @@ sk:
   text_destroy_what_to_do: Čo chcete urobiť?
   text_destroy_with_associated: 'There are additional objects associated with the work package(s) that are to be deleted. Those objects are of the following types:'
   text_diff_truncated: "... Tento výpis rozdielov bol skrátený, pretože prekračuje maximálny počet riadkov, ktorý môže byť zobrazený."
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     Email delivery is not configured, and notifications are disabled.
     Configure your SMTP server to enable them.
@@ -5876,6 +6458,7 @@ sk:
   text_journal_file_link_deleted: "%{label} link to %{old} (%{storage}) removed"
   text_journal_label_value: "%{label} %{value}"
   text_journal_of: "%{label} %{value}"
+  text_journal_permission_denied: You do not have permission to see this journal activity.
   text_journal_set_to: "%{label} nastavený na %{value}"
   text_journal_set_with_diff: "%{label} nastavený (%{link})"
   text_latest_note: 'Posledný komentár je: %{note}'
@@ -5982,22 +6565,23 @@ sk:
   total_progress: Celkový priebeh
   types:
     creation_wizard:
+      add_variant: Add a variant to %{name}
       create_type: Create type
       create_variant: Create variant
       fields:
-        inherited_from_parent_html: Inherited from parent type <b>%{parent}</b>.
+        variant_name_caption: Names this configuration of %{type}. Work packages keep using %{type} itself.
       finish: Finish
       placeholder_description: This step will be available soon.
       progress_label: Step %{number} of %{total}
       steps:
         defaults: Defaults
         details: Details
-        form_configuration: Form configuration
+        form_configuration: Form
         pdf: PDF generation
         project_attributes: Project attributes
         projects: Projects
         workflows: Workflows
-      success: Variant created successfully.
+      success: Created successfully.
     edit:
       breadcrumb_variant: 'Variant: %{name}'
       defaults:
@@ -6022,8 +6606,10 @@ sk:
             work_package: Work package
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
+        inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: Details
         type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
+        variant_name_caption_html: This is an internal name only visible to administrators. Variants replace the original parent type, so if this variant is used in a project, it will appear as <b>%{type}</b> to all members.
       export_configuration:
         artefact_export:
           attachment:
@@ -6045,10 +6631,16 @@ sk:
           actions:
             label_disable_all: Disable all
             label_enable_all: Enable all
+            label_toggle_template: Toggle %{template}
           label: PDF Export templates
         tab: Generate PDF
         templates:
+          readonly_error: Cannot be changed while linked to a source type.
           section_title: PDF export templates
+          settings:
+            edit_link: Edit settings
+            reset_to_default: Reset to default
+            title: 'Settings: %{template}'
       form_configuration:
         add_attribute_group: Section
         add_query_group: Related work packages table
@@ -6056,7 +6648,7 @@ sk:
         blankslate_title: No groups yet
         builtin_field: Built-in field
         confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
-        confirm_reset: Are you sure you want to reset the form configuration?
+        confirm_reset: Are you sure you want to reset the form?
         custom_field: Custom field
         delete_group: Delete section
         drag_to_activate: Drag fields from here to activate them
@@ -6071,30 +6663,51 @@ sk:
         group_actions: Section actions
         group_name_label: Section name
         inactive_attributes_heading: Inactive attributes
-        invalid_attribute_groups: The form configuration payload is invalid.
+        invalid_attribute_groups: The form payload is invalid.
         invalid_query: The embedded query configuration is invalid.
         label_group: Section
         no_inactive_attributes: No inactive attributes
-        not_found: The requested form configuration item could not be found.
+        not_found: The requested form item could not be found.
         query_group_label: Related work packages table
         remove_attribute: Remove from section
         rename_group: Rename section
         reset_description: 'This will reset the attributes to their default group and disable ALL custom fields.
 
           '
-        reset_title: Reset form configuration
+        reset_title: Reset form
         reset_to_defaults: Reset form
         row_actions: Row actions
-        tab: Konfigurácia formulára
+        tab: Form
         untitled_group: Untitled group
       project_attributes:
         actions:
           label_disable_all: Disable all
           label_enable_all: Enable all
+        blankslate:
+          inherited:
+            description: This type does not have any project attributes associated with it.
+            title: No project attributes configured
+          manual:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
         description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
+        disabled: Disabled
+        exclusions:
+          attribute_label: Inherit %{attribute}
         filter: Search by section or name
         tab: Project attributes
       projects:
+        actions:
+          confirm_remove: Remove the type %{type} from %{project}?
+          remove_from_project: Remove from project
+          switch_variant: Change variant
+        add_dialog:
+          no_projects_selected: Please select at least one project.
+          search_placeholder: Search projects
+        disable_all: Disable for all projects
+        empty_state:
+          description: Add a project to use this configuration there.
+          no_results: No matching projects.
         enable_all: Enable for all projects
         select_projects: Select projects
         select_projects_description: Select the projects in which you would like to use this type.
@@ -6106,31 +6719,80 @@ sk:
             description_html: By copying data from %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
             title: Copy configuration?
           dialog:
-            description: Copy the configuration from a source type and use it as a one-time base. This does not link the two types permanently.
-            source_label: Copy source
+            description: Copy the configuration from a source type and use it as a one-time base. The configuration stays manual and does not inherit later changes of the source.
+            source_label: Source type
             source_placeholder: Select a type or variant
             submit: Save and copy
             title: Copy configuration
           invalid_source: The configuration cannot be copied from the selected type. Please select a different source type.
           success: The configuration was copied.
+        dependents:
+          blank:
+            description: No other type or variant inherits from this configuration
+            title: No dependent types
+          description:
+            one: The following configuration is inherited by 1 other type or variant. Any changes you make here will also affect the dependent.
+            few: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
+            many: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
+            other: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
+          dialog:
+            description: These types and variants inherit the configuration of this section. A change you make here applies to all of them.
+            direct_heading: Direct dependents
+            indirect_heading: Dependents through other types
+            title: Dependent types
+            variant_of_html: Variant of %{type_name}
+            variant_of_via_html: Variant of %{type_name}, inheriting via %{source_name}
+            via_html: Inheriting via %{source_name}
+          title:
+            one: 1 dependent type
+            few: "%{count} dependent types"
+            many: "%{count} dependent types"
+            other: "%{count} dependent types"
+          view: View dependent types
         exclusions:
-          not_linked: This type owns its configuration for this section, so there is nothing to exclude. Edit the configuration directly instead.
+          not_inherited: This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead.
           unknown_aspect: Unknown configuration section "%{aspect}".
-        independent:
+        inherited:
+          change_source: Change source type
+          configure_manually: Configure manually
+          confirm_dialog:
+            change_source:
+              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
+              heading: Change source type?
+              title: Change source type
+            check_box: I understand that this will override the current settings
+            from_manual:
+              description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
+              heading: Switch configuration mode?
+              title: Switch configuration mode
+          description: This configuration is inherited from the source type [%{source_name}](source_url)%{source_suffix}.
+          description_unlinked: This configuration is inherited from the source type %{source_name}%{source_suffix}.
+          dialog:
+            description: Inherit this configuration from a source type. Any new configuration added to the source also applies here.
+            source_label: Source type
+            source_placeholder: Select a type or variant
+            submit: Switch
+            title: Inherit from another type
+          invalid_source: The configuration cannot be inherited from the selected type. Please select a different source type.
+          success: The configuration mode was switched.
+          title: Inherited configuration
+        manual:
           confirm_dialog:
             check_box: I understand that this will override the current settings
             description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
-            title: Switch configuration mode?
-          copy_from_type: Copy from type
-          description: No settings are inherited. If desired you can still one-time copy settings from another type.
+            heading: Switch configuration mode?
+            title: Switch configuration mode
+          copy_from_type: Copy from another type
+          description: No settings are inherited. You can still copy the settings from another type one time.
           dialog:
             submit: Switch
-            title: Independent mode
+            title: Configure manually
+          inherit_from_type: Inherit from another type
           invalid_mode: The selected mode is not available for this configuration. Please choose a different mode.
           modes:
             copy:
-              caption: Start with a one-time copy of the current settings set in the linked mode.
-              label: Copy from linked
+              caption: Start with a one-time copy of the settings that this configuration inherits now.
+              label: Copy inherited settings
             default:
               caption: Use the default settings for new types.
               label: Default settings
@@ -6138,34 +6800,30 @@ sk:
               caption: Set everything up from scratch, beginning from a blank configuration.
               label: Empty
           success: The configuration mode was switched.
-          switch_to_linked: Switch to linked mode
-          title: Independent mode
-        linked:
-          change_source: Change source type
-          confirm_dialog:
-            change_source:
-              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
-              title: Change source type?
-            check_box: I understand that this will override the current settings
-            from_independent:
-              description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
-              title: Switch configuration mode?
-          description: This configuration is linked and inheriting its settings from the source type [%{source_name}](source_url)%{source_suffix}.
-          dialog:
-            description: Copy and inherit this settings from a source. Any new configuration added to the source will also be added here.
-            source_label: Linked source
-            source_placeholder: Select a type or variant
-            submit: Switch
-            title: Linked mode
-          invalid_source: The configuration cannot be linked to the selected type. Please select a different source type.
-          success: The configuration mode was switched.
-          switch_to_independent: Switch to independent mode
-          title: Linked mode
+          title: Manual configuration
         parent_suffix: " (parent)"
+      variants:
+        blankslate:
+          description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
+
+            '
+          title: No variants exist for this type
+        created_in_html: Created in %{project}
+        delete:
+          description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
+          title: Delete %{name}
+        filter: Filter by text
+        filter_no_results: No variants match this filter
+        global_section:
+          description: These variants are available across all projects.
+          title: Variants
+        project_specific_section:
+          description: These variants are only available within the projects in which they were created.
+          title: Project-specific variants
       workflow:
         tab: Workflows
     index:
-      add_variant: Add variant to %{name}
+      add_variant: Add a variant to %{name}
       add_variant_action: Add variant
       description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
@@ -6177,16 +6835,15 @@ sk:
       make_default_notice: "%{name} is now activated in new projects."
       no_results_content_text: Vytvoriť nový typ
       no_results_title_text: Momentálne neexistujú žiadne typy.
+      project_variants_count:
+        one: 1 project-specific variant
+        few: "%{count} project-specific variants"
+        many: "%{count} project-specific variants"
+        other: "%{count} project-specific variants"
       remove_default: Do not activate in new projects
       remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: Type
-      variant_enabled_in_new_projects: Variant %{name} active in new projects
       variant_label: Variant
-      variants_count:
-        one: 1 variant
-        few: "%{count} variants"
-        many: "%{count} variants"
-        other: "%{count} variants"
     milestone_indicator: Milestone
   unsupported_browser:
     close_warning: Ignorovať toto upozornenie.
@@ -6333,6 +6990,7 @@ sk:
         availability_description: The availability factor represents the actual percentage of your working time dedicated to project tasks. This accounts for meetings, emails, administrative work, and other non-project activities.
         availability_factor: Availability factor
         availability_factor_caption: Define the percentage of your working time dedicated to project work.
+        effective_hours: Effective work hours
         hours_mode_label: Hours mode
         hours_per_day: Hours per day
         individual_hours_mode: Individual hours per day
@@ -6346,7 +7004,6 @@ sk:
         title_current: Edit current work schedule
         title_days_and_hours: Days and hours
         title_future_dates: Future dates
-        total_available_hours: Total available work hours
         total_work_hours: Total work hours
         work_days: Work days
         work_hours: Work hours
@@ -6710,7 +7367,7 @@ sk:
           label: Source role
         target_role_ids:
           label: Target roles
-        target_type_ids:
+        target_variant_ids:
           label: Target types
       from_roles:
         create:
@@ -6719,10 +7376,10 @@ sk:
             few: Successfully copied workflow to %{count} roles.
             many: Successfully copied workflow to %{count} roles.
             other: Successfully copied workflow to %{count} roles.
-      from_types:
+      from_variants:
         create:
           notice:
-            one: Successfully copied workflow to '%{type_name}' type.
+            one: Successfully copied workflow to '%{type_name}'.
             few: Successfully copied workflow to %{count} types.
             many: Successfully copied workflow to %{count} types.
             other: Successfully copied workflow to %{count} types.

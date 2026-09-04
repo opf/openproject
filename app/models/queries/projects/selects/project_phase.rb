@@ -35,6 +35,10 @@ class Queries::Projects::Selects::ProjectPhase < Queries::Selects::Base
     KEY
   end
 
+  def self.id_from_key(attribute)
+    attribute.to_s[KEY, 1]&.to_i
+  end
+
   def self.all_available
     return [] unless available?
 

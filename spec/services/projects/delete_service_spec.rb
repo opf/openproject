@@ -109,6 +109,17 @@ RSpec.describe Projects::DeleteService, type: :model do
       end
     end
 
+    context "with semantic work package identifiers (regression #COMMS-936)",
+            with_settings: { work_packages_identifier: Setting::WorkPackageIdentifier::SEMANTIC } do
+      let!(:child) { create(:project, parent: project) }
+      let!(:work_package) { create(:work_package, project: child) }
+
+      it "destroys the project hierarchy together with the semantic aliases of its work packages" do
+        expect { subject }.to change(Project, :count).by(-2)
+        expect(WorkPackageSemanticAlias.where(work_package_id: work_package.id)).not_to exist
+      end
+    end
+
     it "sends a message on destroy failure" do
       expect(project).to receive(:destroy).and_return false
 

@@ -59,8 +59,10 @@ class ResourceAllocation < ApplicationRecord
   register_journal_formatted_fields "state", formatter_key: :plaintext
   register_journal_formatted_fields "start_date", "end_date", formatter_key: :datetime
   register_journal_formatted_fields "allocated_time", formatter_key: :allocated_time
+  # An allocation is about these people, so naming them does not depend on the
+  # reader sharing a project with them.
   register_journal_formatted_fields "principal_id", "requested_by_id", "reviewed_by_id", "principal_assigned_by_id",
-                                    formatter_key: :named_association
+                                    formatter_key: :public_named_association
   register_journal_formatted_fields "entity_gid", formatter_key: :polymorphic_association
   register_journal_formatted_fields "filter_name", formatter_key: :plaintext
 
@@ -107,6 +109,22 @@ class ResourceAllocation < ApplicationRecord
     return Set.new if principal_ids.empty?
 
     Principal.visible(user).where(id: principal_ids).pluck(:id).to_set
+  end
+
+  # Counts the candidates each filter-based allocation selects, keyed by
+  # allocation id. Allocations commonly share a stored filter, so the candidate
+  # pool is resolved once per distinct filter rather than once per allocation.
+  def self.candidate_counts(allocations, project:)
+    return {} if project.nil?
+
+    counts_by_filter = {}
+
+    allocations.select(&:filter_based?).to_h do |allocation|
+      signature = allocation.user_filter.map { |filter| [filter.name, filter.operator, filter.values] }
+      count = counts_by_filter.fetch(signature) { counts_by_filter[signature] = allocation.candidate_count(project:) }
+
+      [allocation.id, count]
+    end
   end
 
   # Users without configured working hours are skipped — their capacity is
@@ -190,12 +208,27 @@ class ResourceAllocation < ApplicationRecord
     !principal_explicit? && principal_id.blank?
   end
 
-  def candidate_query
+  # Only project members can be allocated, so the stored criteria are always
+  # narrowed to the project's members. Callers that already hold the project pass
+  # it in to avoid loading the entity. Applying the membership filter last means a
+  # `member` value smuggled into the stored filter is overwritten, not honoured.
+  def candidate_query(project: self.project)
     UserQuery.new.tap do |query|
       user_filter.each do |filter|
         query.where(filter.field, filter.operator, filter.values)
       end
+
+      query.where(:member, "=", [project.id.to_s]) if project
     end
+  end
+
+  # Resolving the query can fail for an incompletely configured filter; a single
+  # broken filter must not take down the whole view it is rendered in.
+  def candidate_count(project: self.project)
+    candidate_query(project:).results.count
+  rescue StandardError => e
+    Rails.logger.warn("Candidate count for resource allocation #{id} failed: #{e.class}: #{e.message}")
+    0
   end
 
   def allocated_hours

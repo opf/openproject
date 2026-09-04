@@ -73,6 +73,11 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
 
       it_behaves_like "rendering Box", row_count: 1, header: true, footer: false
 
+      it "parks the empty-state prototype in a template for the dynamic controller" do
+        expect(rendered_component)
+          .to have_css("template[data-border-box-list-target='emptyStateTemplate']", visible: :all)
+      end
+
       it "renders the bucket box id derived from the bucket" do
         expect(rendered_component).to have_css(".Box#backlog_bucket_#{backlog_bucket.id}")
       end

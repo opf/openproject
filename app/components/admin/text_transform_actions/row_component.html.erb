@@ -1,0 +1,128 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%=
+  component_wrapper do
+    flex_layout(align_items: :center) do |row|
+      row.with_column(mr: 2) do
+        render(
+          Primer::OpenProject::DragHandle.new(
+            classes: "handle",
+            data: { sortable_lists__item_target: "handle" }
+          )
+        )
+      end
+
+      row.with_column(flex: 1, flex_layout: true) do |title_container|
+        title_container.with_column(pt: 1, mr: 2) do
+          render(
+            Primer::Beta::Link.new(
+              href: edit_admin_text_transform_action_path(text_transform_action),
+              font_weight: :bold,
+              test_selector: "text-transform-action-name"
+            )
+          ) do
+            text_transform_action.label
+          end
+        end
+        title_container.with_column(pt: 1, mr: 2) do
+          render(
+            Primer::Beta::Text.new(
+              font_size: :small,
+              color: :subtle,
+              test_selector: "text-transform-action-scope"
+            )
+          ) do
+            scope_text
+          end
+        end
+      end
+
+      row.with_column(py: 1, mr: 2) do
+        toggle_options = {
+          checked: text_transform_action.active,
+          enabled: toggles_enabled,
+          size: :small,
+          status_label_position: :start,
+          aria: { label: toggle_label },
+          test_selector: "toggle-text-transform-action-#{text_transform_action.id}"
+        }
+        # A disabled toggle never posts; omit the mutation wiring entirely.
+        if toggles_enabled
+          toggle_options.merge!(
+            src: toggle_admin_text_transform_action_path(text_transform_action),
+            csrf_token: form_authenticity_token,
+            classes: "op-primer-adjustments__toggle-switch--hidden-loading-indicator"
+          )
+        end
+        render(Primer::Alpha::ToggleSwitch.new(**toggle_options))
+      end
+
+      row.with_column do
+        render(
+          Primer::Alpha::ActionMenu.new(
+            anchor_align: :end,
+            test_selector: "text-transform-action-menu"
+          )
+        ) do |menu|
+          menu.with_show_button(
+            icon: "kebab-horizontal",
+            "aria-label": t(".label_actions"),
+            scheme: :invisible
+          )
+
+          menu.with_item(
+            label: t(:button_edit),
+            tag: :a,
+            href: edit_admin_text_transform_action_path(text_transform_action)
+          ) do |item|
+            item.with_leading_visual_icon(icon: :pencil)
+          end
+
+          menu.with_divider(data: { sortable_lists__item_target: "moveDivider" })
+
+          MOVE_ITEMS.each do |move_item|
+            build_move_item(menu, **move_item)
+          end
+
+          menu.with_divider
+
+          menu.with_item(
+            label: t(:button_delete),
+            scheme: :danger,
+            href: deletion_dialog_admin_text_transform_action_path(text_transform_action),
+            content_arguments: { data: { controller: "async-dialog" } }
+          ) do |item|
+            item.with_leading_visual_icon(icon: :trash)
+          end
+        end
+      end
+    end
+  end
+%>

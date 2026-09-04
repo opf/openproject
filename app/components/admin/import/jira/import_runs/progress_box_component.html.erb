@@ -27,7 +27,9 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(Primer::Box.new(**@system_arguments)) do %>
-  <% concat render(Primer::Beta::Spinner.new(size: :small, style: "margin-bottom: -2px")) %>
-  <% concat render(Primer::Beta::Text.new(ml: 2)) { message } %>
-<% end %>
+<%=
+  render(Primer::Box.new(**@system_arguments)) do
+    concat(render(Primer::Beta::Spinner.new(size: :small, style: "margin-bottom: -2px")))
+    concat(render(Primer::Beta::Text.new(ml: 2)) { @message })
+  end
+%>

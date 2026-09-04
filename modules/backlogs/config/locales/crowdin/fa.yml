@@ -24,32 +24,33 @@ fa:
   activerecord:
     attributes:
       project:
-        allow_multiple_active_sprints: Allow multiple active sprints
+        allow_multiple_active_sprints: اجازه دادن به چند اسپرینت فعال هم‌زمان
         backlog_excluded_types: انواع بسته‌های کاری مستثنی‌شده
-        sprint_sharing: اشتراک گذاری اسپرینت
+        sprint_sharing: اشتراک‌گذاری اسپرینت
         statuses_considered_closed: وضعیت‌هایی که بسته‌شده محسوب می‌شوند
       sprint:
-        duration: مدت زمان
+        duration: مدت
         finish_date: تاریخ پایان
         goal: هدف اسپرینت
-        name: ن
-        sharing: اشتراک گذاری
+        name: نام اسپرینت
+        sharing: اشتراک‌گذاری
         statuses:
           active: فعال
-          completed: تکمیل شده
+          completed: تکمیل‌شده
           in_planning: در حال برنامه ریزی
         work_packages: بسته‌های کاری
       sprint_goal:
         text: هدف اسپرینت
       work_package:
         backlog_bucket: مخزن بک‌لاگ
-        backlog_inbox: Backlog inbox
+        backlog_inbox: صندوق بک‌لاگ
         backlogs_work_package_type: Backlog type
         position: Position
         sprint: اسپرینت
         story_points: Story Points
     errors:
       messages:
+        cannot_start_while_receiving_shared_sprints: تا زمانی که پروژه اسپرینت‌های اشتراکی دریافت می‌کند، قابل شروع نیست.
         dates_required: برای شروع اسپرینت، تاریخ شروع و پایان الزامی است.
         must_be_in_planning: برای شروع باید در وضعیت برنامه‌ریزی باشد.
         only_one_active_sprint_allowed: برای هر پروژه فقط یک اسپرینت فعال مجاز است.
@@ -57,12 +58,14 @@ fa:
         project:
           attributes:
             allow_multiple_active_sprints:
-              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are running.
-              requires_no_sharing: can only be enabled when sprint sharing is set to 'Don't share'.
+              locked_by_multiple_active_sprints: هنگامی که چند اسپرینت فعال در حال اجرا هستند، قابل تغییر نیست.
+              requires_no_sharing: فقط زمانی قابل فعال‌سازی است که اشتراک‌گذاری اسپرینت روی «اشتراک‌گذاری نشود» تنظیم شده باشد.
             sprint_sharing:
-              locked_by_multiple_active_sprints: cannot be changed while multiple active sprints are enabled.
+              active_or_borrowed_sprint_blocks_receiving: نمی‌توان آن را برای دریافت تنظیم کرد، زیرا پروژه یک اسپرینت فعال یا قرض‌گرفته‌شده دارد. ابتدا بسته‌های کاری را ببندید یا تخصیص آن‌ها را لغو کنید.
+              locked_by_multiple_active_sprints: هنگامی که چند اسپرینت فعال فعال هستند، قابل تغییر نیست.
               share_all_projects_already_taken: قابل تنظیم نیست، زیرا پروژه «%{name}» از قبل با همه پروژه‌ها اشتراک‌گذاری می‌کند.
               share_all_projects_already_taken_anonymous: قابل تنظیم نیست، زیرا پروژه دیگری از قبل با همه پروژه‌ها اشتراک‌گذاری می‌کند.
+              work_packages_still_linked_to_shared_sprints: قابل تغییر نیست، زیرا هنوز بسته‌های کاری به اسپرینت‌های اشتراکی پیوند دارند. ابتدا تخصیص آن‌ها را لغو کنید.
           receiving_sprints: برای شروع اسپرینت، تاریخ شروع و پایان الزامی است.
         sprint:
           attributes:
@@ -78,32 +81,38 @@ fa:
         work_package:
           attributes:
             backlog_bucket:
-              backlog_bucket_from_another_project: ''
+              backlog_bucket_from_another_project: باید متعلق به همان پروژهٔ بستهٔ کاری باشد.
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: can only contain IDs of work packages in the current sprint.
               must_block_at_least_one_work_package: must contain the ID of at least one ticket.
             sprint:
-              not_assignable: is not assignable since it is either not shared with the project or already finished.
+              not_assignable: قابل تخصیص نیست، زیرا یا با پروژه به اشتراک گذاشته نشده یا قبلاً پایان یافته است.
               not_eligible_for_moving: اسپرینت موردنظر در پروژه مقصد فعال نیست.
             version_id:
-              task_version_must_be_the_same_as_story_version: باید از  همان نگارش داستان زادآوران باشد.
+              task_version_must_be_the_same_as_story_version: باید با نسخهٔ داستان والد یکسان باشد.
           backlog_bucket_xor_sprint: نمی توان به صورت همزمان به اسپرینت و بک لاگ اختصاص پیدا کند
     models:
+      backlog_bucket:
+        one: دسته بک‌لاگ
+        other: دسته بک‌لاگ
       sprint:
         one: اسپرینت
         other: اسپرینت‌ها
+      sprint_goal:
+        one: هدف اسپرینت
+        other: اهداف اسپرینت
   backlogs:
     add_existing_work_package_dialog_component:
-      title: Add existing work package to %{name}
+      title_without_container: افزودن بسته کاری موجود
     administration_blankslate:
       text: ما در حال بازطراحی ماژول بک‌لاگ هستیم. تنظیمات مدیریتی اسپرینت‌ها و بک‌لاگ‌ها به‌زودی در اینجا نمایش داده می‌شود. تنظیمات سطح پروژه همچنان در دسترس است.
       title: تنظیمات مدیریتی بک‌لاگ در حال تکمیل است
     backlog_component:
-      button_new_backlog_bucket: مخزن بک‌لاگ جدید
+      button_new_backlog_bucket: سطل بک‌لاگ جدید
     backlog_filter_select_panel_component:
       label_backlog_bucket_filter:
         one: مخزن بک‌لاگ
-        other: مخزن‌های بک‌لاگ
+        other: سطل‌های بک‌لاگ
         zero: همه مخزن‌های بک‌لاگ
       label_sprint_filter:
         one: اسپرینت
@@ -112,13 +121,13 @@ fa:
       select_panel_title: انتخاب موارد
     bucket_component:
       action_menu:
-        add_existing_work_package: Add existing work package
-        add_new_work_package: Add new work package
+        add_existing_work_package: افزودن بسته کاری موجود
+        add_new_work_package: افزودن بسته کاری جدید
         delete_backlog_bucket: حذف مخزن بک‌لاگ
-        edit_backlog_bucket: ویرایش مخزن بک‌لاگ
-      blankslate_description: Drag items here to add them
+        edit_backlog_bucket: ویرایش سطل بک‌لاگ
+      blankslate_description: برای افزودن، موارد را به اینجا بکشید
       blankslate_title: مخزن بک‌لاگ خالی است
-      drop_zone_label: Drop here to add this item
+      drop_zone_label: برای افزودن این مورد، آن را اینجا رها کنید
       label_actions: عملیات مخزن بک‌لاگ
     bucket_destroy_modal_component:
       details: مخزن بک‌لاگ «%{name}» حذف می‌شود و همه بسته‌های کاری به صندوق ورودی بک‌لاگ منتقل می‌شوند. هیچ بسته کاری حذف نخواهد شد.
@@ -142,26 +151,26 @@ fa:
       title: مواردی در حال انجام هستند
     inbox_component:
       action_menu:
-        add_existing_work_package: Add existing work package
-        add_new_work_package: Add new work package
-      blankslate_description: Open work packages that are not in a sprint or backlog bucket automatically appear here
+        add_existing_work_package: افزودن بسته کاری موجود
+        add_new_work_package: افزودن بسته کاری جدید
+      blankslate_description: بسته‌های کاری بازی که در هیچ اسپرینت یا سطل بک‌لاگی نیستند، به‌طور خودکار اینجا نمایش داده می‌شوند
       blankslate_title: صندوق ورودی بک‌لاگ خالی است
-      drop_zone_label: Drop here to add this item
-      label_actions: Inbox actions
+      drop_zone_label: برای افزودن این مورد، آن را اینجا رها کنید
+      label_actions: اقدامات صندوق
       show_more:
         one: نمایش ۱ مورد دیگر
         other: نمایش %{count} مورد دیگر
-      title: صندوق ورودی
-    label_burndown_chart: نمودار برن‌داون
+      title: صندوق
+    label_burndown_chart: نمودار Burndown
     label_is_done_status: Status %{status_name} means done
-    label_sprint_board: بورد اسپرینت
-    label_sprint_report: Sprint report
+    label_sprint_board: برد اسپرینت
+    label_sprint_report: گزارش اسپرینت
     move_to_bucket_dialog_component:
-      title: Move to backlog bucket
+      title: انتقال به سطل بک‌لاگ
     move_to_sprint_dialog_component:
-      label_sprint: Sprint
-      title: Move to sprint
-    multiple_active_sprints: Multiple active sprints
+      label_sprint: اسپرینت
+      title: انتقال به اسپرینت
+    multiple_active_sprints: چند اسپرینت فعال
     points_label:
       one: امتیاز
       other: امیتاز ها
@@ -170,160 +179,161 @@ fa:
     rebuild: Rebuild
     rebuild_positions: Rebuild positions
     remaining_hours: کار باقی‌مانده
-    sharing: Sprint sharing
-    show_burndown_chart: Burndown chart
+    sharing: اشتراک‌گذاری اسپرینت
+    show_burndown_chart: نمودار Burndown
     sprint_component:
       action_menu:
         add_existing_work_package: افزودن بسته کاری موجود
         add_new_work_package: افزودن بسته کاری جدید
-        edit_sprint: Edit sprint
-      blankslate_description: No items planned yet. Drag items here to add them.
-      blankslate_title: "%{name} is empty"
-      drop_zone_label: Drop here to add this item
-      label_actions: Sprint actions
-      label_complete_sprint: Complete sprint
-      label_start_sprint: Start sprint
-      start_sprint_disabled_reason_active_sprint: Another sprint is already active.
-      start_sprint_disabled_reason_missing_dates: Start and finish dates are required in order to start the sprint.
-      start_sprint_disabled_reason_shared_sprint: This sprint is from another project that doesn't support multiple active sprints.
+        edit_sprint: ویرایش اسپرینت
+      blankslate_description: هنوز موردی برنامه‌ریزی نشده است. برای افزودن، موارد را به اینجا بکشید.
+      blankslate_title: "%{name} خالی است"
+      drop_zone_label: برای افزودن این مورد، آن را اینجا رها کنید
+      label_actions: اقدامات اسپرینت
+      label_complete_sprint: تکمیل اسپرینت
+      label_start_sprint: شروع اسپرینت
+      start_sprint_disabled_reason_active_sprint: یک اسپرینت دیگر از قبل فعال است.
+      start_sprint_disabled_reason_missing_dates: برای شروع اسپرینت، تاریخ شروع و پایان الزامی است.
+      start_sprint_disabled_reason_receiving_shared_sprints: تا زمانی که این پروژه اسپرینت‌های اشتراکی دریافت می‌کند، اسپرینت‌های خود پروژه قابل شروع نیستند.
+      start_sprint_disabled_reason_shared_sprint: این اسپرینت متعلق به پروژه دیگری است که از چند اسپرینت فعال پشتیبانی نمی‌کند.
     sprint_form:
-      goal_caption: The sprint goal is unique to this project and is not shared with other projects also using this sprint.
-      goal_for_this_project_label: "%{attribute} (for this project)"
+      goal_caption: هدف اسپرینت مخصوص این پروژه است و با پروژه‌های دیگری که از همین اسپرینت استفاده می‌کنند به اشتراک گذاشته نمی‌شود.
+      goal_for_this_project_label: "%{attribute} (برای این پروژه)"
     sprint_form_component:
-      shared_sprint_info_banner: This is a shared sprint. Modifications will be reflected in all projects using it.
-      shared_sprint_warning_banner: This is a shared sprint. You do not have the necessary permissions to edit it.
+      shared_sprint_info_banner: این یک اسپرینت اشتراکی است. تغییرات در همه پروژه‌هایی که از آن استفاده می‌کنند اعمال خواهد شد.
+      shared_sprint_warning_banner: این یک اسپرینت اشتراکی است. شما مجوزهای لازم برای ویرایش آن را ندارید.
     sprint_reports:
       page_header_component:
-        breadcrumb: Report
-        title: "%{sprint} report"
+        breadcrumb: گزارش
+        title: گزارش %{sprint}
     sprints:
       row_component:
         action_menu:
-          edit_sprint: Edit sprint
-          sprint_report: Sprint report
+          edit_sprint: ویرایش اسپرینت
+          sprint_report: گزارش اسپرینت
     sprints_component:
       blankslate:
-        create_and_manage_description_html: To start planning your sprint, create one here or go to the %{settings_link} to receive sprints from a different project.
-        create_description_text: To start planning your sprint, create one here.
-        manage_description_html: To start planning your sprint, go to the %{settings_link} to receive sprints from a different project.
-        no_actions_description_text: No sprints are available for this project yet.
-        receive_and_manage_description_html: This project receives sprints from a different project. Manage this in the %{settings_link}.
-        receive_description_text: This project receives shared sprints from a different project, but none are available right now.
-        settings_link_text: project settings
-        title: No sprints present yet
-      button_new_sprint: New sprint
-    statuses_considered_closed_caption: 'Choose the statuses that represent a closed or finished state in your workflow. These will be treated as the "Closed" state across reporting (e.g. burndown) and sprint planning. For example, statuses like Done, Resolved, or Won''t Fix may all represent a closed work item in your process.
+        create_and_manage_description_html: برای شروع برنامه‌ریزی اسپرینت، یکی را اینجا ایجاد کنید یا برای دریافت اسپرینت از پروژه‌ای دیگر به %{settings_link} بروید.
+        create_description_text: برای شروع برنامه‌ریزی اسپرینت، یکی را اینجا ایجاد کنید.
+        manage_description_html: برای شروع برنامه‌ریزی اسپرینت، برای دریافت اسپرینت از پروژه‌ای دیگر به %{settings_link} بروید.
+        no_actions_description_text: هنوز اسپرینتی برای این پروژه در دسترس نیست.
+        receive_and_manage_description_html: این پروژه اسپرینت‌ها را از پروژه دیگری دریافت می‌کند. این مورد را در %{settings_link} مدیریت کنید.
+        receive_description_text: این پروژه اسپرینت‌های اشتراکی را از پروژه دیگری دریافت می‌کند، اما در حال حاضر هیچ موردی در دسترس نیست.
+        settings_link_text: تنظیمات پروژه
+        title: هنوز اسپرینتی وجود ندارد
+      button_new_sprint: اسپرینت جدید
+    statuses_considered_closed_caption: 'وضعیت‌هایی را انتخاب کنید که در گردش‌کار شما نشان‌دهنده حالت بسته یا پایان‌یافته هستند. این وضعیت‌ها در گزارش‌ها (برای مثال Burndown) و برنامه‌ریزی اسپرینت به‌عنوان حالت «بسته» در نظر گرفته می‌شوند. برای نمونه، وضعیت‌هایی مانند انجام‌شده، حل‌شده یا «اصلاح نمی‌شود» همگی می‌توانند نشان‌دهنده یک مورد کاری بسته در فرایند شما باشند.
 
       '
     story_points:
       one: "%{count} امتیاز داستان"
       other: "%{count} امتیاز های داستان"
-    types_and_statuses: Types and statuses
+    types_and_statuses: انواع و وضعیت‌ها
     unassigned: Unassigned
     user_preference:
       button_update_backlogs: به روز رسانی ماژول backlog ها
       header_backlogs: ماژول backlogها
     work_package_card_menu_component:
       action_menu:
-        copy_url_to_clipboard: Copy URL to clipboard
-        copy_work_package_id: Copy work package ID
-        move_menu: Move to position
-        move_to_backlog_bucket: Move to backlog bucket
-        move_to_inbox: Move to backlog inbox
-        move_to_sprint: Move to sprint
+        copy_url_to_clipboard: کپی URL در کلیپ‌بورد
+        copy_work_package_id: کپی شناسه بسته کاری
+        move_menu: انتقال به موقعیت
+        move_to_backlog_bucket: انتقال به سطل بک‌لاگ
+        move_to_inbox: انتقال به صندوق بک‌لاگ
+        move_to_sprint: انتقال به اسپرینت
     work_package_is_closed: Work package is done, when
     work_packages:
       add_existing_dialog:
-        invalid_target: The target you are trying to add to is invalid.
-        target_not_found: The sprint or backlog you are trying to add to was not found.
+        invalid_target: مقصدی که می‌خواهید مورد را به آن اضافه کنید نامعتبر است.
+        target_not_found: اسپرینت یا بک‌لاگی که می‌خواهید مورد را به آن اضافه کنید پیدا نشد.
       move:
-        moved_announcement: "%{label} moved to %{list}, position %{position} of %{total}"
+        moved_announcement: "%{label} به %{list}، موقعیت %{position} از %{total} منتقل شد"
       update_service:
-        invalid_target_type: 'list_type must be one of: backlog_bucket with a list_id, sprint with a list_id, or inbox without a list_id.'
-        missing_target: list_type or list_id must be present.
+        invalid_target_type: 'list_type باید یکی از این مقادیر باشد: backlog_bucket همراه با list_id، sprint همراه با list_id، یا inbox بدون list_id.'
+        missing_target: list_type یا list_id باید موجود باشد.
   burndown:
-    story_points: Story points
-    story_points_ideal: Story points (ideal)
+    story_points: امتیاز داستان
+    story_points_ideal: امتیاز داستان (ایده‌آل)
   ee:
     features:
-      multiple_active_sprints: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
-      sprint_sharing: Sprint sharing
+      multiple_active_sprints: چند اسپرینت فعال
+      sprint_sharing: اشتراک‌گذاری اسپرینت
     upsell:
       multiple_active_sprints:
-        description: " "
+        description: برای کنترل و انعطاف‌پذیری بیشتر، چند اسپرینت را برای تیم‌های مختلف پروژه به‌صورت موازی اجرا کنید.
       sprint_sharing:
-        description: Share sprints across projects to align teams and coordinate work in scaled agile setups (SAFe).
-  label_all_sprints: All sprints
-  label_backlog: Backlog
-  label_backlog_and_sprints: Backlog and sprints
-  label_backlog_bucket_edit: Edit backlog bucket
-  label_backlog_bucket_new: New backlog bucket
-  label_backlogs: پس‌افت
-  label_burndown_chart: Burndown chart
-  label_inbox: Inbox
+        description: برای هم‌راستا کردن تیم‌ها و هماهنگی کار در ساختارهای Agile مقیاس‌پذیر (SAFe)، اسپرینت‌ها را بین پروژه‌ها به اشتراک بگذارید.
+  label_all_sprints: همه اسپرینت‌ها
+  label_backlog: بک‌لاگ
+  label_backlog_and_sprints: بک‌لاگ و اسپرینت‌ها
+  label_backlog_bucket_edit: ویرایش سطل بک‌لاگ
+  label_backlog_bucket_new: سطل بک‌لاگ جدید
+  label_backlogs: بک‌لاگ‌ها
+  label_burndown_chart: نمودار Burndown
+  label_inbox: صندوق
   label_points_burn_down: پایین
   label_points_burn_up: بالا
-  label_sprint_board: Sprint board
-  label_sprint_edit: Edit sprint
-  label_sprint_new: New sprint
-  label_task_board: تابلوی وظیفه
-  notice_successful_finish: The sprint was completed.
-  notice_successful_start: The sprint was started.
-  notice_unsuccessful_finish: The sprint could not be completed.
-  notice_unsuccessful_finish_with_reason: 'The sprint could not be completed: %{reason}'
-  notice_unsuccessful_start: The sprint could not be started.
-  notice_unsuccessful_start_with_reason: 'The sprint could not be started: %{reason}'
-  notice_work_package_invisible_after_move: 'The work package was moved to %{backlog} but is not visible because its type or status is excluded from the backlog.
+  label_sprint_board: برد اسپرینت
+  label_sprint_edit: ویرایش اسپرینت
+  label_sprint_new: اسپرینت جدید
+  label_task_board: برد وظایف
+  notice_successful_finish: اسپرینت تکمیل شد.
+  notice_successful_start: اسپرینت شروع شد.
+  notice_unsuccessful_finish: اسپرینت قابل تکمیل نبود.
+  notice_unsuccessful_finish_with_reason: 'اسپرینت قابل تکمیل نبود: %{reason}'
+  notice_unsuccessful_start: اسپرینت قابل شروع نبود.
+  notice_unsuccessful_start_with_reason: 'اسپرینت قابل شروع نبود: %{reason}'
+  notice_work_package_invisible_after_move: 'بسته کاری به %{backlog} منتقل شد، اما دیده نمی‌شود زیرا نوع یا وضعیت آن از بک‌لاگ مستثنا شده است.
 
     '
-  permission_create_sprints: Create sprints
-  permission_manage_sprint_items: Manage sprint items
-  permission_select_backlog_types_and_statuses: Select backlog types and statuses
-  permission_select_backlog_types_and_statuses_explanation: 'Allows choosing which work package types to hide from the backlog. Also allows defining which statuses represent a closed or finished state in the project''s workflow.
+  permission_create_sprints: ایجاد اسپرینت‌ها
+  permission_manage_sprint_items: مدیریت موارد اسپرینت
+  permission_select_backlog_types_and_statuses: انتخاب انواع و وضعیت‌های بک‌لاگ
+  permission_select_backlog_types_and_statuses_explanation: 'امکان انتخاب نوع‌های بسته کاری که باید از بک‌لاگ پنهان شوند را فراهم می‌کند. همچنین اجازه می‌دهد مشخص کنید کدام وضعیت‌ها در گردش‌کار پروژه نمایانگر حالت بسته یا پایان‌یافته هستند.
 
     '
-  permission_share_sprint: Share sprint
-  permission_start_complete_sprint: Start/complete sprint
-  permission_view_sprints: View sprints
+  permission_share_sprint: اشتراک‌گذاری اسپرینت
+  permission_start_complete_sprint: شروع/تکمیل اسپرینت
+  permission_view_sprints: مشاهده اسپرینت‌ها
   plugin_openproject_backlogs:
-    description: This module adds features enabling agile teams to work with OpenProject in Scrum projects.
-    name: OpenProject Backlogs
-  project_module_backlogs: وظایف
+    description: این ماژول قابلیت‌هایی را اضافه می‌کند که به تیم‌های Agile اجازه می‌دهد در پروژه‌های Scrum با OpenProject کار کنند.
+    name: بک‌لاگ‌های OpenProject
+  project_module_backlogs: بک‌لاگ‌ها
   projects:
     copy:
-      backlog_buckets: Backlog buckets
-      sprints: Sprints
+      backlog_buckets: سطل‌های بک‌لاگ
+      sprints: اسپرینت‌ها
     settings:
       backlog_sharing:
         options:
           no_sharing:
-            caption: Sprints created in this project will only be available and visible to this project. They will also not be visible to subprojects.
-            label: Don't share
+            caption: اسپرینت‌هایی که در این پروژه ایجاد می‌شوند فقط برای همین پروژه در دسترس و قابل مشاهده خواهند بود و برای زیرپروژه‌ها نیز نمایش داده نمی‌شوند.
+            label: اشتراک‌گذاری نشود
           receive_shared:
-            caption: This project can only use sprints shared by other projects.
-            label: Receive shared sprints
-            warning: This project can only use sprints shared by other projects. Unused sprints created in this project in the past, will no longer be visible.
+            caption: این پروژه فقط می‌تواند از اسپرینت‌هایی استفاده کند که پروژه‌های دیگر به اشتراک گذاشته‌اند.
+            label: دریافت اسپرینت‌های اشتراکی
+            warning: این پروژه فقط می‌تواند از اسپرینت‌هایی استفاده کند که پروژه‌های دیگر به اشتراک گذاشته‌اند. اسپرینت‌های استفاده‌نشده‌ای که قبلاً در این پروژه ایجاد شده‌اند دیگر قابل مشاهده نخواهند بود.
           share_all_projects:
-            caption: Sprints created in this project will be available to all projects in this instance. If you select this option, it will no longer be available to other projects.
-            disabled_caption: Option not available since project "%{name}" is currently sharing with all projects and only one project can do this.
-            disabled_caption_anonymous: Option not available since another project is currently sharing with all projects and only one project can do this.
-            label: All projects
+            caption: اسپرینت‌های ایجادشده در این پروژه برای همه پروژه‌های این نمونه در دسترس خواهند بود. اگر این گزینه را انتخاب کنید، این امکان دیگر برای سایر پروژه‌ها در دسترس نخواهد بود.
+            disabled_caption: این گزینه در دسترس نیست، زیرا پروژه «%{name}» در حال حاضر با همه پروژه‌ها اشتراک‌گذاری می‌کند و فقط یک پروژه می‌تواند این کار را انجام دهد.
+            disabled_caption_anonymous: این گزینه در دسترس نیست، زیرا پروژه دیگری در حال حاضر با همه پروژه‌ها اشتراک‌گذاری می‌کند و فقط یک پروژه می‌تواند این کار را انجام دهد.
+            label: همه پروژه‌ها
           share_subprojects:
-            caption: Sprints created in this project will be available to all subprojects of the current project.
-            info: Sharing a sprint will share the name, status and the start and finish dates in all projects. These cannot be modified in projects that receive and use these sprints.
-            label: Subprojects
-        sprint_sharing: Share sprints
+            caption: اسپرینت‌های ایجادشده در این پروژه برای همه زیرپروژه‌های پروژه جاری در دسترس خواهند بود.
+            info: اشتراک‌گذاری یک اسپرینت، نام، وضعیت و تاریخ‌های شروع و پایان آن را در همه پروژه‌ها به اشتراک می‌گذارد. این موارد در پروژه‌هایی که این اسپرینت‌ها را دریافت و استفاده می‌کنند قابل تغییر نیستند.
+            label: زیرپروژه‌ها
+        sprint_sharing: اشتراک‌گذاری اسپرینت‌ها
       backlogs:
         multiple_active_sprints:
-          description: By default, only one sprint can be active at a time per project. You can change this so that multiple sprints can be active in parallel in this project.
-          heading: Number of active sprints
+          description: به‌طور پیش‌فرض، در هر پروژه فقط یک اسپرینت می‌تواند هم‌زمان فعال باشد. می‌توانید این تنظیم را تغییر دهید تا چند اسپرینت در این پروژه به‌صورت موازی فعال باشند.
+          heading: تعداد اسپرینت‌های فعال
         multiple_active_sprints_component:
-          cannot_turn_off: Multiple sprints are currently active. To switch back to allow only one active sprint at a time, please first ensure that at most one sprint is active.
-          not_available_html: Multiple active sprints are not available when <a href=%{sprint_sharing_url}>sprint sharing</a> or receiving is enabled.
+          cannot_turn_off: در حال حاضر چند اسپرینت فعال هستند. برای بازگشت به حالتی که فقط یک اسپرینت در هر زمان فعال باشد، ابتدا مطمئن شوید حداکثر یک اسپرینت فعال است.
+          not_available_html: هنگامی که <a href=%{sprint_sharing_url}>اشتراک‌گذاری اسپرینت</a> یا دریافت آن فعال است، قابلیت چند اسپرینت فعال در دسترس نیست.
         sharing_form_component:
-          disabled_due_to_multiple_active_sprints: Sprint sharing is not available when multiple active sprints are enabled.
-          sharing_description: This project can either share its own sprints, receive shared sprints or handle sprints independently (no sharing).
-          sharing_fallback_description: Lacking a corporate enterprise plan, the sharing options are limited to the project's own sprints. The currently active setting remains active.
+          disabled_due_to_multiple_active_sprints: هنگامی که چند اسپرینت فعال هستند، اشتراک‌گذاری اسپرینت در دسترس نیست.
+          sharing_description: این پروژه می‌تواند اسپرینت‌های خودش را به اشتراک بگذارد، اسپرینت‌های اشتراکی را دریافت کند یا اسپرینت‌ها را مستقل مدیریت کند (بدون اشتراک‌گذاری).
+          sharing_fallback_description: به‌دلیل نبود طرح Enterprise سازمانی، گزینه‌های اشتراک‌گذاری به اسپرینت‌های خود پروژه محدود هستند. تنظیم فعال فعلی همچنان فعال می‌ماند.
   query_fields:
-    backlog_inbox: Backlog inbox
+    backlog_inbox: صندوق بک‌لاگ
   remaining_hours: کار باقیمانده

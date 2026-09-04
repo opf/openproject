@@ -48,13 +48,9 @@ RSpec.describe Wikis::Adapters::Providers::Internal::Queries::ReferencingPages d
     ]
   end
 
-  let(:user) { create(:user) }
+  let(:user) { create(:user, member_with_permissions: { wiki_project => wiki_project_permissions }) }
 
   before do
-    create(:member, project: wiki_project,
-                    user:,
-                    roles: [create(:project_role, permissions: wiki_project_permissions)])
-
     reverse_page_links.each(&:save!)
   end
 

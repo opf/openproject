@@ -37,6 +37,7 @@ See COPYRIGHT and LICENSE files for more details.
         scheme: :transparent,
         padding: :condensed,
         header_padding: :condensed,
+        empty_state_behavior: :dynamic,
         test_selector: "backlog-inbox",
         data: {
           controller: "sortable-lists--list",
@@ -59,8 +60,8 @@ See COPYRIGHT and LICENSE files for more details.
       end
 
       list.with_empty_state(
-        title: t(".blankslate_title"),
-        description: t(".blankslate_description"),
+        title: backlog_filters.filtered? ? t("backlogs.blankslate_filtered_title") : t(".blankslate_title"),
+        description: backlog_filters.filtered? ? nil : t(".blankslate_description"),
         icon: :"op-backlogs",
         drop_target_label: t(".drop_zone_label"),
         spacious: true

@@ -3,28 +3,29 @@ fa:
   activerecord:
     attributes:
       saml/provider:
-        assertion_consumer_service_url: آدرس ACS(سرویس احراز هویت سخت افزاری)
-        authn_requests_signed: امضای سخت افزاری درخواست احراز هویت
-        certificate: مدرک استفاده شده توسط OpenProject درخواست های احراز هویت سخت افزاری
-        digest_method: الگوریتم خلاصه سازی در رمزنگاری
+        allowed_clock_drift: Allowed clock drift
+        assertion_consumer_service_url: آدرس ACS (سرویس احراز هویت سخت افزاری)
+        authn_requests_signed: امضای SAML AuthnRequestها
+        certificate: گواهی استفاده‌شده توسط اوپن‌پروجکت برای درخواست‌های SAML
+        digest_method: الگوریتم Digest
         display_name: نام
-        format: قالب‎بندی
-        icon: نماد دلخواه
+        format: قالب‎ بندی
+        icon: آیکون سفارشی
         identifier: شناسه
-        idp_cert: مدرک عمومی سرور احراز هویت
+        idp_cert: گواهی عمومی ارائه‌دهندهٔ هویت
         idp_entity_id: شناسهٔ موجودیت Entity ID ارائه‌دهندهٔ هویت
-        idp_slo_service_url: مسیر خروج سرور احراز هویت
-        idp_sso_service_url: مسیر ورود سرور احراز هویت
-        limit_self_registration: محدودیت ثبت
-        metadata_url: آدرس فراداده سرور احراز هویت
-        name_identifier_format: قالب متغیر نام
-        private_key: کلید خصوصی مرتبط به احراز هویت های سخت افزاری
-        scope: حوزه
-        secret: مخفی
+        idp_slo_service_url: نقطهٔ پایانی خروج ارائه‌دهندهٔ هویت
+        idp_sso_service_url: نقطهٔ پایانی ورود ارائه‌دهندهٔ هویت
+        limit_self_registration: محدودکردن ثبت‌نام خودکار
+        metadata_url: URL فرادادهٔ ارائه‌دهندهٔ هویت
+        name_identifier_format: قالب شناسهٔ نام
+        private_key: کلید خصوصی متناظر برای درخواست‌های SAML اوپن‌پروجکت
+        scope: دامنه
+        secret: رمز
         signature_method: الگوریتم امضا
-        sp_entity_id: شناسه سرویس
-        want_assertions_encrypted: نیاز به پاسخ رمزنگاری شده
-        want_assertions_signed: نیاز به پاسخ های دارای امضا
+        sp_entity_id: شناسهٔ Entity سرویس
+        want_assertions_encrypted: الزام پاسخ‌های رمزگذاری‌شده
+        want_assertions_signed: الزام پاسخ‌های امضاشده
     errors:
       models:
         saml/provider:
@@ -32,8 +33,12 @@ fa:
           invalid_certificate: 'گواهی معتبر با قالب PEM نیست: %{additional_message}'
           invalid_private_key: 'یک کلید خصوصی با قالب PEM معتبر نیست: %{additional_message}'
           unmatched_private_key: متعلق به مدرک ارائه شده نیست
+    models:
+      saml/provider:
+        one: ارائه‌دهنده SAML
+        other: ارائه‌دهندگان SAML
   saml:
-    delete_heading: حذف این ارائه‌دهنده SAML؟
+    delete_heading: این ارائه‌دهنده SAML حذف شود؟
     delete_title: حذف ارائه‌دهنده SAML
     info:
       description: 'جهت پیکربندی ابزار احراز هویت سخت افزاری از این پارامترها استفاده نمایید.
@@ -41,6 +46,9 @@ fa:
         '
       title: پارامترهای پیکربندی پروتکل احراز هویت سخت افزاری
     instructions:
+      allowed_clock_drift: 'Tolerance in seconds applied when validating the timestamps of the identity provider response. Fractions of a second are accepted. Use this only if the clocks of OpenProject and the identity provider are known to be out of sync, and keep the value as low as possible (Default: 0).
+
+        '
       authn_requests_signed: 'اگر علامت زده شود، OpenProject SAML AuthnRequest را امضا خواهد کرد. باید گواهی امضا و کلید خصوصی را با استفاده از فیلدهای زیر ارائه دهید.
 
         '
@@ -50,10 +58,10 @@ fa:
       digest_method: 'الگوریتم خلاصه را برای استفاده برای امضای درخواست SAML انجام شده توسط OpenProject انتخاب کنید (پیش‌فرض: %{default_option}).
 
         '
-      display_name: 'نام ارائه دهنده. این به عنوان دکمه ورود به سیستم و در لیست ارائه دهندگان نمایش داده می شود.
+      display_name: 'نام ارائه‌دهنده. این نام روی دکمه ورود و در فهرست ارائه‌دهندگان نمایش داده می‌شود.
 
         '
-      documentation_link: 'لطفاً برای اطلاعات بیشتر در مورد این گزینه های پیکربندی به [اسناد مربوط به پیکربندی ارائه دهندگان SAML] (docs_url) ما مراجعه کنید.
+      documentation_link: 'برای اطلاعات بیشتر دربارهٔ این گزینه‌های پیکربندی، [مستندات پیکربندی ارائه‌دهندگان SAML](docs_url) را مطالعه کنید.
 
         '
       icon: 'به صورت اختیاری یک URL عمومی برای یک نماد گرافیکی ارائه کنید که در کنار نام ارائه دهنده نمایش داده می شود.
@@ -68,10 +76,10 @@ fa:
       idp_slo_service_url: 'آدرس سرور ارائه دهنده احراز هویت.
 
         '
-      idp_sso_service_url: 'آدرس سرور ارائه دهنده احراز هویت.
+      idp_sso_service_url: 'آدرس اینترنتی نقطه پایانی ورود به سیستم ارائه دهنده هویت.
 
         '
-      limit_self_registration: 'در صورت فعال بودن، کاربران تنها در صورتی می توانند با استفاده از این ارائه دهنده ثبت نام کنند که تنظیمات ثبت نام خود اجازه می دهد.
+      limit_self_registration: 'اگر فعال باشد، کاربران فقط زمانی می‌توانند با این ارائه‌دهنده ثبت‌نام کنند که تنظیم ثبت‌نام شخصی اجازه دهد.
 
         '
       mapping: 'نگاشت بین پاسخ SAML و ویژگی های کاربر را در OpenProject پیکربندی کنید. شما می توانید چندین نام ویژگی را برای جستجو پیکربندی کنید. OpenProject اولین ویژگی موجود را از پاسخ SAML انتخاب می کند.
@@ -116,7 +124,7 @@ fa:
       requested_attributes: 'این ویژگی‌ها به درخواست SAML XML اضافه می‌شوند تا با ارائه‌دهنده هویت که ویژگی‌هایی را که OpenProject نیاز دارد، ارتباط برقرار کند.
 
         '
-      requested_format: 'قالب ویژگی درخواستی این برای تعیین فرمت ویژگی در درخواست SAML استفاده می شود. لطفاً برای اطلاعات بیشتر به [مستندات مربوط به پیکربندی ویژگی‌های درخواستی] (docs_url) مراجعه کنید.
+      requested_format: 'قالب Attribute درخواستی. این مقدار قالب Attribute را در درخواست SAML مشخص می‌کند. برای اطلاعات بیشتر، [مستندات پیکربندی Attributeهای درخواستی](docs_url) را مطالعه کنید.
 
         '
       signature_method: 'الگوریتم امضا را برای استفاده برای امضای درخواست SAML که توسط OpenProject انجام می شود انتخاب کنید (پیش فرض: %{default_option}).
@@ -131,20 +139,20 @@ fa:
       want_assertions_encrypted: 'در صورت فعال بودن، از ارائه‌دهنده هویت بخواهید که پاسخ ادعا را با استفاده از جفت گواهی ارائه شده رمزگذاری کند.
 
         '
-      want_assertions_signed: 'If checked, OpenProject will required signed responses from the identity provider using its own certificate keypair. OpenProject will verify the signature against the certificate from the basic configuration section.
+      want_assertions_signed: 'اگر فعال باشد، OpenProject از ارائه‌دهندهٔ هویت پاسخ‌های امضاشده با جفت کلید گواهی خودش درخواست می‌کند. OpenProject امضا را با گواهی بخش پیکربندی پایه بررسی خواهد کرد.
 
         '
     menu_title: ارائه دهندگان سخت افزاری
     metadata_parser:
       error: 'فراداده ارائه دهنده هویت بازیابی نشد: %{error}'
-      federation_metadata: 'The metadata URL points to a federation aggregate (many identity providers). Use your institution''s direct metadata URL, or enter your institution''s IdP entity ID in the metadata form and try again.
+      federation_metadata: 'URL متادیتا به یک تجمیع فدراسیونی (چندین ارائه‌دهندهٔ هویت) اشاره می‌کند. از URL مستقیم متادیتای سازمان خود استفاده کنید یا entity ID مربوط به IdP سازمان را در فرم متادیتا وارد کرده و دوباره تلاش کنید.
 
         '
       invalid_url: مسیر فراداده صحیح نیست. لطفا آدرس صحیح HTTP(S) ارائه دهید.
-      metadata_too_large: The metadata file exceeds the maximum allowed size.
+      metadata_too_large: فایل فراداده از حداکثر اندازهٔ مجاز بزرگ‌تر است.
       success: ارتقای تنظیمات بوسیله فراداده سرویس احراز هویت با موفقیت انجام شد.
     providers:
-      attribute_mapping: نگاشت ویژگی ها
+      attribute_mapping: نگاشت ویژگی‌ها
       attribute_mapping_text: 'فیلدهای زیر کنترل می کنند که کدام ویژگی های ارائه شده توسط ارائه دهنده هویت SAML برای ارائه ویژگی های کاربر در OpenProject استفاده می شود
 
         '
@@ -153,7 +161,7 @@ fa:
       label_configuration_details: آدرس ها و مدارک سرویس احراز هویت
       label_configuration_encryption: امضا ها و رمزنگاری ها
       label_edit: ویرایش ارائه دهنده احراز هویت سخت افزاری %{name}
-      label_empty_description: یک ارائه دهنده اضافه کنید تا آن را در اینجا ببینید.
+      label_empty_description: برای نمایش ارائه‌دهندگان در اینجا، یک ارائه‌دهنده اضافه کنید.
       label_empty_title: هیچ سخت‌افزار احراز هویتی پیکربندی نشده است.
       label_mapping: نگاشت
       label_metadata: فراداده
@@ -164,7 +172,7 @@ fa:
       metadata:
         dialog: 'این نشانی اینترنتی است که فراداده SAML OpenProject در آن موجود است. به صورت اختیاری از آن برای پیکربندی ارائه دهنده هویت خود استفاده کنید:'
       no_results_table: هیچ ارائه دهنده سخت‌افزار احراز هویتی تعریف نشده است.
-      notice_created: A new SAML identity provider was successfully created.
+      notice_created: ارائه‌دهندهٔ هویت SAML جدید با موفقیت ایجاد شد.
       plural: ارائه دهنده های سخت‌افزار احراز هویت
       request_attributes:
         format: قالب ویژگی
@@ -172,10 +180,10 @@ fa:
 
           '
         name: کلید ویژگی های درخواستی
-        title: ویژگی های درخواست شده
-      requested_attributes: ویژگی های درخواستی
+        title: Attributeهای درخواستی
+      requested_attributes: Attributeهای درخواستی
       section_headers:
-        attributes: ویژگی ها
+        attributes: ویژگی‌ها
         configuration: پیکربندی اصلی
       section_texts:
         configuration: URL های نقطه پایانی را برای ارائه دهنده هویت، گواهی ها و گزینه های SAML دیگر پیکربندی کنید.
@@ -191,9 +199,9 @@ fa:
       seeded_from_env: این ارائه دهنده از پیکربندی محیط استخراج شده است. قابل ویرایش نیست.
       singular: ارائه دهنده سخت‌افزار احراز هویت
       upsell:
-        description: OpenProject را به یک ارائه دهنده هویت SAML متصل کنید
+        description: اتصال اوپن‌پروجکت به ارائه‌دهندهٔ هویت SAML
         title: ورود یکپارچه (SSO) با SAML
     settings:
       metadata_none: من فراداده ندارم
-      metadata_url: آدرس فراداده
+      metadata_url: URL فراداده
       metadata_xml: XML فراداده

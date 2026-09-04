@@ -33,7 +33,9 @@ module Meetings
     class MeetingAgendaItemsSeeder < ::BasicData::ModelSeeder
       self.model_class = MeetingAgendaItem
       self.seed_data_model_key = "meeting_agenda_items"
-      self.attribute_names_for_required_references = %w[author presenter meeting work_package]
+      # The presenters are seeded with the development data, so agenda items are seeded without one
+      # on production instances rather than not at all.
+      self.attribute_names_for_required_references = %w[author meeting work_package]
 
       ##
       #
@@ -48,7 +50,7 @@ module Meetings
           notes: meeting_data["notes"],
           duration_in_minutes: meeting_data["duration"],
           author: seed_data.find_reference(meeting_data["author"]),
-          presenter: seed_data.find_reference(meeting_data["presenter"]),
+          presenter: seed_data.find_reference(meeting_data["presenter"], default: nil),
           meeting: seed_data.find_reference(meeting_data["meeting"]),
           work_package: seed_data.find_reference(meeting_data["work_package"])
         }

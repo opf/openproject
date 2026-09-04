@@ -88,7 +88,7 @@ module WorkPackageTypes
 
     def destroy
       call = ::WorkPackageTypes::FormConfigurationGroups::DeleteService
-        .new(user: current_user, type: @type, group_key: group_key_param)
+        .new(user: current_user, variant: @variant, group_key: group_key_param)
         .call
 
       if call.success?
@@ -102,7 +102,7 @@ module WorkPackageTypes
 
     def drop
       call = ::WorkPackageTypes::FormConfigurationGroups::UpdateService
-        .new(user: current_user, type: @type, group_key: group_key_param)
+        .new(user: current_user, variant: @variant, group_key: group_key_param)
         .call(position: params[:position])
 
       if call.success?
@@ -116,7 +116,7 @@ module WorkPackageTypes
 
     def move
       call = ::WorkPackageTypes::FormConfigurationGroups::UpdateService
-        .new(user: current_user, type: @type, group_key: group_key_param)
+        .new(user: current_user, variant: @variant, group_key: group_key_param)
         .call(move_to: params[:move_to])
 
       if call.success?
@@ -130,7 +130,7 @@ module WorkPackageTypes
 
     def update_query
       call = ::WorkPackageTypes::FormConfigurationGroups::UpdateService
-        .new(user: current_user, type: @type, group_key: group_key_param)
+        .new(user: current_user, variant: @variant, group_key: group_key_param)
         .call(query_props: params[:query])
 
       if call.success?
@@ -148,7 +148,7 @@ module WorkPackageTypes
     end
 
     def find_group(key)
-      @type.attribute_groups.find do |group|
+      @variant.attribute_groups.find do |group|
         [
           group.key,
           group.display_name,
@@ -182,7 +182,7 @@ module WorkPackageTypes
 
     def create_group_call
       ::WorkPackageTypes::FormConfigurationGroups::CreateService
-        .new(user: current_user, type: @type)
+        .new(user: current_user, variant: @variant)
         .call(
           group_type: group_params[:group_type],
           name: group_params[:name],
@@ -192,12 +192,12 @@ module WorkPackageTypes
 
     def rename_group_call
       ::WorkPackageTypes::FormConfigurationGroups::UpdateService
-        .new(user: current_user, type: @type, group_key: group_key_param)
+        .new(user: current_user, variant: @variant, group_key: group_key_param)
         .call(name: group_params[:name])
     end
 
     def render_create_error(call)
-      @type.reload
+      @variant.reload
       group = temporary_group(
         group_type: group_params[:group_type],
         query: group_params[:query],
@@ -210,9 +210,12 @@ module WorkPackageTypes
       )
     end
 
-    def render_existing_group_update_error(call)
-      @type.reload
+    def render_existing_group_update_error(call) # rubocop:disable Metrics/AbcSize
+      @variant.reload
       group = active_groups_for_form.find { |active_group| active_group[:key].to_s == group_key_param.to_s }
+
+      # A group deleted from another tab leaves no editor to re-render the rejected name into.
+      return render_form_configuration_error(call) if group.nil?
 
       update_main_content_via_turbo_stream(
         editing_group_key: group_key_param,

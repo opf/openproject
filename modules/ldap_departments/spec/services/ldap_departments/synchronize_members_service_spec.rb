@@ -107,6 +107,22 @@ RSpec.describe LdapDepartments::SynchronizeMembersService do
 
       expect(frontend.reload.user_ids).to include(User.find_by(login: "newbie").id)
     end
+
+    context "and a required user custom field" do
+      let!(:custom_field) { create(:user_custom_field, :string, name: "Employee ID", is_required: true) }
+
+      it "still creates the user, as LDAP cannot provide a value for the custom field" do
+        expect { service_call }.to change { User.where(login: "newbie").count }.from(0).to(1)
+
+        expect(frontend.reload.user_ids).to include(User.find_by(login: "newbie").id)
+      end
+
+      it "leaves the custom field empty" do
+        service_call
+
+        expect(User.find_by(login: "newbie").custom_value_for(custom_field).value).to be_nil
+      end
+    end
   end
 
   context "with a user directly under the base DN" do

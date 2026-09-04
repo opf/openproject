@@ -54,6 +54,7 @@ module OpenProject::Backlogs
       project_module :backlogs, dependencies: :work_package_tracking do
         permission :view_sprints,
                    { "backlogs/backlog": %i[show details],
+                     "backlogs/filters": :show,
                      "backlogs/work_packages": %i[index show menu],
                      "backlogs/inbox": :menu,
                      "backlogs/burndown_chart": :show,
@@ -242,14 +243,16 @@ module OpenProject::Backlogs
     end
 
     config.to_prepare do
+      require "open_project/backlogs/hooks/work_package_hook"
+
       %i[position story_points sprint backlog_bucket].each do |attribute|
-        ::Type.add_constraint attribute, ->(_type, project: nil) { project.nil? || project.backlogs_enabled? }
+        ::TypeVariant.add_constraint attribute, ->(_type, project: nil) { project.nil? || project.backlogs_enabled? }
       end
 
-      ::Type.add_default_mapping(:estimates_and_progress, :story_points)
-      ::Type.add_default_mapping(:other, :position)
-      ::Type.add_default_mapping(:details, :sprint)
-      ::Type.add_default_mapping(:details, :backlog_bucket)
+      ::TypeVariant.add_default_mapping(:estimates_and_progress, :story_points)
+      ::TypeVariant.add_default_mapping(:other, :position)
+      ::TypeVariant.add_default_mapping(:details, :sprint)
+      ::TypeVariant.add_default_mapping(:details, :backlog_bucket)
 
       ::Queries::Register.register(::Query) do
         filter Queries::WorkPackages::Filter::BacklogBucketFilter

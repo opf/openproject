@@ -29,5 +29,7 @@
 #++
 
 FactoryBot.define do
-  factory :jira_issue, class: "Import::JiraIssue"
+  factory :jira_issue, class: "Import::JiraIssue" do
+    sequence(:origin_id) { |n| (10000 + n).to_s }
+  end
 end

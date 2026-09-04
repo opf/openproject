@@ -208,9 +208,9 @@ RSpec.describe "Projects lists table display and actions", :js, with_settings: {
 
         # Test visibility of 'more' menu list items
         projects_page.activate_menu_of(project) do |menu|
-          expect(menu).to have_text("Copy")
+          expect(menu).to have_text("Duplicate")
           expect(menu).to have_text("Project settings")
-          expect(menu).to have_text("New subproject")
+          expect(menu).to have_text("Add subproject")
           expect(menu).to have_text("Delete")
           expect(menu).to have_text("Archive")
         end
@@ -279,6 +279,8 @@ RSpec.describe "Projects lists table display and actions", :js, with_settings: {
         projects_page.within_row(project) do
           page.find_test_selector("project-list-favorite-button").click
         end
+
+        wait_for_network_idle
 
         projects_page.activate_menu_of(project) do |menu|
           expect(menu).to have_text("Add to favorites")
@@ -570,7 +572,7 @@ RSpec.describe "Projects lists table display and actions", :js, with_settings: {
 
       projects_page.activate_menu_of(parent_project) do |menu|
         expect(menu).to have_text("Add to favorites")
-        expect(menu).to have_no_text("Copy")
+        expect(menu).to have_no_text("Duplicate")
       end
 
       # For a project member with :copy_projects privilege the 'More' menu is visible.
@@ -580,7 +582,7 @@ RSpec.describe "Projects lists table display and actions", :js, with_settings: {
       expect(page).to have_text(parent_project.name)
 
       projects_page.activate_menu_of(parent_project) do |menu|
-        expect(menu).to have_text("Copy")
+        expect(menu).to have_text("Duplicate")
       end
 
       # For a project member with :add_subprojects privilege the 'More' menu is visible.
@@ -589,7 +591,7 @@ RSpec.describe "Projects lists table display and actions", :js, with_settings: {
 
       projects_page.activate_menu_of(parent_project) do |menu|
         expect(menu).to have_text("Add to favorites")
-        expect(menu).to have_text("New subproject")
+        expect(menu).to have_text("Add subproject")
       end
 
       # Test admin only properties are invisible

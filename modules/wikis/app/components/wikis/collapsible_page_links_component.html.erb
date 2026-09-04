@@ -28,16 +28,11 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%=
-  render(Primer::Beta::BorderBox.new(padding: :condensed)) do |box|
-    box.with_header do
-      render(Primer::OpenProject::BorderBox::CollapsibleHeader.new(collapsed: true)) do |header|
-        header.with_title { heading }
-        header.with_count(count: page_links.count)
-      end
-    end
+  render(OpenProject::Common::BorderBoxListComponent.new(container:, collapsible: true, padding: :condensed)) do |list|
+    list.with_header(title: heading, count: page_links.count, collapsed: true)
 
     page_links.each do |view_model|
-      box.with_row do
+      list.with_item do
         render(
           Wikis::PageLinkComponent.new(
             view_model.page_info_result,

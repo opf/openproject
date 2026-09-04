@@ -61,7 +61,7 @@ module Storages
               it "fails when folders can't be created" do
                 create_cmd = class_double(Commands::CreateFolderCommand)
                 input_data = Input::CreateFolder.build(folder_name:, parent_location: "/").value!
-                error = Results::Error.new(source: self, code: :error)
+                error = SimpleError.new(source: self, code: :error)
                 allow(create_cmd).to receive(:call).with(storage:, auth_strategy:, input_data:).and_return(Failure(error))
 
                 Registry.stub("one_drive.commands.create_folder", create_cmd)

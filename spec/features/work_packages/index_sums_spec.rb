@@ -50,15 +50,15 @@ RSpec.describe "Work package index sums", :js do
   let!(:int_cf) do
     create(:integer_wp_custom_field) do |cf|
       project.work_package_custom_fields << cf
-      type_bug.custom_fields << cf
-      type_task.custom_fields << cf
+      type_bug.default_variant.custom_fields << cf
+      type_task.default_variant.custom_fields << cf
     end
   end
   let!(:float_cf) do
     create(:float_wp_custom_field) do |cf|
       project.work_package_custom_fields << cf
-      type_bug.custom_fields << cf
-      type_task.custom_fields << cf
+      type_bug.default_variant.custom_fields << cf
+      type_task.default_variant.custom_fields << cf
     end
   end
   let!(:work_package1) do

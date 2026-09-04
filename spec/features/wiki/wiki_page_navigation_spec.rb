@@ -54,7 +54,7 @@ RSpec.describe "Wiki page navigation spec", :js do
     expect(page).to have_test_selector("wiki-page-header-title", text: "Wiki Page No. 55")
 
     # Expect scrolled to menu node
-    expect_element_in_view page.find(".tree-menu--item.-selected", text: "Wiki Page No. 55")
+    expect_element_in_view page.find(".TreeViewItemContent", text: "Wiki Page No. 55", aria: { current: true })
 
     # Expect permalink being correct (Regression #46351)
     permalink = page.first(".op-uc-link_permalink", visible: :all)

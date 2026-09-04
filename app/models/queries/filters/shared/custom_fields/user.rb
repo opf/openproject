@@ -44,8 +44,7 @@ module Queries::Filters::Shared
 
       def values_replaced
         vals = super
-        vals += group_members_added(vals)
-        vals + user_groups_added(vals)
+        vals + group_members_added(vals) + user_groups_added(vals)
       end
 
       def autocomplete_options

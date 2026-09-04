@@ -102,6 +102,16 @@ RSpec.describe Sprint do
         expect(sprint).to be_valid
       end
 
+      it "prevents an active sprint when another active sprint is shared into the project" do
+        parent = create(:project, sprint_sharing: "share_subprojects")
+        receiving_project = create(:project, parent:, sprint_sharing: "receive_shared")
+        create(:sprint, project: parent, status: "active")
+        sprint.project = receiving_project
+
+        expect(sprint).not_to be_valid
+        expect(sprint.errors[:status]).to include("only one active sprint is allowed per project.")
+      end
+
       it "allows updating an existing active sprint" do
         sprint.save!
         sprint.name = "Updated Sprint"

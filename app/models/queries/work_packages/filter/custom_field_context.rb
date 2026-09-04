@@ -63,18 +63,35 @@ module Queries::WorkPackages::Filter::CustomFieldContext
       cv_db_table = CustomValue.table_name
       work_package_db_table = WorkPackage.table_name
 
-      joins = "LEFT OUTER JOIN #{cv_db_table}
-                 ON #{cv_db_table}.customized_type = 'WorkPackage'
-                 AND #{cv_db_table}.customized_id = #{work_package_db_table}.id
-                 AND #{cv_db_table}.custom_field_id = #{custom_field.id}
-               JOIN #{cf_types_db_table}
-                 ON #{cf_types_db_table}.type_id = #{work_package_db_table}.type_id
-                 AND #{cf_types_db_table}.custom_field_id = #{custom_field.id}"
+      own_variant_expr = "COALESCE(pt.variant_id, base_tv.id)"
+      source_join, source_variant_id, excluded =
+        TypeVariant::FormConfigurationSql.remap(own_variant_expr)
+      exclusion = TypeVariant.excluded_custom_field_condition(custom_field.id.to_s, excluded)
+
+      joins = <<~SQL.squish
+        LEFT OUTER JOIN #{cv_db_table}
+          ON #{cv_db_table}.customized_type = 'WorkPackage'
+         AND #{cv_db_table}.customized_id = #{work_package_db_table}.id
+         AND #{cv_db_table}.custom_field_id = #{custom_field.id}
+        LEFT JOIN project_types pt
+          ON pt.project_id = #{work_package_db_table}.project_id
+         AND pt.type_id = #{work_package_db_table}.type_id
+        LEFT JOIN type_variants base_tv
+          ON base_tv.type_id = #{work_package_db_table}.type_id
+         AND base_tv.is_default_variant = TRUE
+        #{source_join}
+        JOIN #{cf_types_db_table}
+          ON #{cf_types_db_table}.type_variant_id = #{source_variant_id}
+         AND #{cf_types_db_table}.custom_field_id = #{custom_field.id}
+         AND #{exclusion}
+      SQL
 
       unless custom_field.is_for_all
-        joins += " JOIN #{cf_projects_db_table}
-                     ON #{cf_projects_db_table}.project_id = #{work_package_db_table}.project_id
-                     AND #{cf_projects_db_table}.custom_field_id = #{custom_field.id}"
+        joins += <<~SQL.squish
+          JOIN #{cf_projects_db_table}
+            ON #{cf_projects_db_table}.project_id = #{work_package_db_table}.project_id
+           AND #{cf_projects_db_table}.custom_field_id = #{custom_field.id}
+        SQL
       end
 
       joins

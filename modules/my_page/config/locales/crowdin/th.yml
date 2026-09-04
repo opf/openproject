@@ -1,4 +1,8 @@
 ---
 th:
+  activerecord:
+    models:
+      grids/my_page:
+        other: My pages
   my_page:
     label: หน้าของฉัน

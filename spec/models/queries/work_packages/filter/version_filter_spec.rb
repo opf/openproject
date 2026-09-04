@@ -52,6 +52,22 @@ RSpec.describe Queries::WorkPackages::Filter::VersionFilter do
       end
     end
 
+    describe "#available?" do
+      context "with the setting enabled",
+              with_settings: { work_package_multiple_versions: true } do
+        it "is not available" do
+          expect(instance).not_to be_available
+        end
+      end
+
+      context "with the setting disabled",
+              with_settings: { work_package_multiple_versions: false } do
+        it "is available" do
+          expect(instance).to be_available
+        end
+      end
+    end
+
     describe "#valid?" do
       context "within a project" do
         it "is true if the value exists as a version" do
@@ -162,23 +178,13 @@ RSpec.describe Queries::WorkPackages::Filter::VersionFilter do
     end
 
     describe "#joins" do
-      context "for status operators" do
-        %w[o c l].each do |op|
-          context "with operator '#{op}'" do
-            let(:operator) { op }
+      %w[= ! * !* o c l].each do |op|
+        context "with operator '#{op}'" do
+          let(:operator) { op }
 
-            it "returns :version" do
-              expect(instance.joins).to eq(:version)
-            end
+          it "returns nil, as the conditions are self-contained subqueries" do
+            expect(instance.joins).to be_nil
           end
-        end
-      end
-
-      context "for other operators" do
-        let(:operator) { "=" }
-
-        it "returns nil" do
-          expect(instance.joins).to be_nil
         end
       end
     end

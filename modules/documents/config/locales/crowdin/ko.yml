@@ -31,13 +31,16 @@ ko:
         document_type:
           one_or_more_required: 마지막 문서 유형을 삭제할 수 없습니다
     models:
-      document: 문서
-      documents: 문서
+      document:
+        other: 문서
+      document_type:
+        other: 문서 유형
   activity:
     filter:
       document: 문서
   attributes:
     collaborative_editing_hocuspocus_url: Hocuspocus 서버 URL
+    documents: 문서
   default_doc_category_tech: 기술 설명서
   default_doc_category_user: 사용자 설명서
   documents:

@@ -3,292 +3,310 @@ fa:
   activerecord:
     attributes:
       resource_allocation:
-        allocated_hours: Hours
-        allocated_time: Allocated time
-        date_range: Dates
-        end_date: Finish date
-        entity: Entity
-        filter_name: Resource filter name
-        principal: Assignee
-        start_date: Start date
-        state: State
-        user_filter: User filter
+        allocated_hours: ساعت‌ها
+        allocated_time: زمان تخصیص‌یافته
+        date_range: تاریخ‌ها
+        end_date: تاریخ پایان
+        entity: موجودیت
+        filter_name: نام فیلتر منبع
+        principal: مسئول انجام
+        start_date: تاریخ شروع
+        state: حالت
+        user_filter: فیلتر کاربر
       resource_planner:
-        date_range: Dates
-        default_view_class_name: Default view
-        end_date: Finish date
-        favorite: Favorite
-        name: Name
-        public: Public
-        start_date: Start date
+        date_range: تاریخ‌ها
+        default_view_class_name: نمای پیش‌فرض
+        end_date: تاریخ پایان
+        favorite: موردعلاقه
+        name: نام
+        public: عمومی
+        start_date: تاریخ شروع
     errors:
       models:
         resource_allocation:
           attributes:
             end_date:
-              greater_than_start_date: must be after the start date.
+              greater_than_start_date: باید بعد از تاریخ شروع باشد.
         resource_planner:
           attributes:
             end_date:
-              greater_than_start_date: must be after the start date.
-              required_with_start_date: must be set when a start date is set.
+              greater_than_start_date: باید بعد از تاریخ شروع باشد.
+              required_with_start_date: وقتی تاریخ شروع تعیین شده باشد، باید این مقدار نیز تنظیم شود.
             start_date:
-              required_with_end_date: must be set when a finish date is set.
+              required_with_end_date: وقتی تاریخ پایان تعیین شده باشد، باید این مقدار نیز تنظیم شود.
         resource_work_package_list:
           attributes:
             query:
-              must_be_work_package_query: must be a work package query.
+              must_be_work_package_query: باید یک پرس‌وجوی بستهٔ کاری باشد.
     models:
-      resource_allocation: Resource Allocation
-      resource_planner: Resource Planner
-      resource_user_card: User cards
-      resource_work_package_list: Work packages list
+      resource_allocation:
+        one: تخصیص منبع
+        other: تخصیص‌های منابع
+      resource_planner:
+        one: برنامه‌ریز منابع
+        other: برنامه‌ریزهای منابع
+      resource_user_card:
+        one: کارت کاربر
+        other: کارت‌های کاربر
+      resource_user_timeline:
+        one: خط زمانی کاربر
+        other: خطوط زمانی کاربر
+      resource_work_package_list:
+        one: فهرست بسته‌های کاری
+        other: فهرست‌های بسته‌های کاری
+      resource_work_package_timeline:
+        one: خط زمانی بسته‌های کاری
+        other: خطوط زمانی بسته‌های کاری
+  button_next: بعدی
   ee:
     features:
-      resource_management: Resource management
+      resource_management: مدیریت منابع
     upsell:
       resource_management:
-        description: Plan and balance your team's workload with resource planners. Allocate people to work packages, track capacity over time and spot over- and under-allocation at a glance.
-        title: Resource management
-  button_next: Next
-  label_resource_management: Resource management
-  permission_allocate_user_resources: Allocate user resources
-  permission_allocate_user_resources_explanation: Allows users to create, update, and delete resource allocations within a resource planner. This includes assigning users (or user filters) to a planner and adjusting the allocated time and date range.
-  permission_assign_users_to_generic_allocations: Assign users to generic allocations
-  permission_assign_users_to_generic_allocations_explanation: Allows users to use the Staffing view to assign real users to generic (filter-based) resource allocations that do not yet have a user. It does not allow creating or editing allocations.
-  permission_manage_public_resource_planners: Manage public resource planners
-  permission_manage_public_resource_planners_explanation: Allows users to create and manage public resource planners. It allows them to view, create, manage and publish their own resource planners. It does not allow users to view resource planners created by other users that are not shared publicly.
-  permission_view_resource_planners: View resource planners
-  permission_view_resource_planners_explanation: Allows users to access resource planners. It allows them to create and manage their own resource planners and view public resource planners. It does not allow users to view resource planners created by other users that are not shared publicly.
+        description: با برنامه‌ریز منابع، حجم کار تیم را برنامه‌ریزی و متعادل کنید. افراد را به بسته‌های کاری تخصیص دهید، ظرفیت را در طول زمان بررسی کنید و بیش‌تخصیصی یا کم‌تخصیصی را سریع تشخیص دهید.
+        title: مدیریت منابع
+  label_resource_management: مدیریت منابع
+  permission_allocate_user_resources: تخصیص منابع کاربران
+  permission_allocate_user_resources_explanation: به کاربران اجازه می‌دهد تخصیص منابع را در برنامه‌ریز منابع ایجاد، به‌روزرسانی و حذف کنند. این شامل تخصیص کاربران یا فیلتر کاربران و تنظیم زمان و بازهٔ تاریخ تخصیص است.
+  permission_assign_users_to_generic_allocations: اختصاص کاربران به تخصیص‌های عمومی
+  permission_assign_users_to_generic_allocations_explanation: به کاربران اجازه می‌دهد در نمای Staffing کاربران واقعی را به تخصیص‌های عمومی منابع (مبتنی بر فیلتر) که هنوز کاربر ندارند اختصاص دهند. اجازهٔ ایجاد یا ویرایش تخصیص‌ها را نمی‌دهد.
+  permission_manage_public_resource_planners: مدیریت برنامه‌ریزهای منابع عمومی
+  permission_manage_public_resource_planners_explanation: به کاربران اجازه می‌دهد برنامه‌ریز منابع عمومی ایجاد و مدیریت کنند؛ شامل مشاهده، ایجاد، مدیریت و انتشار برنامه‌ریزهای خودشان. اجازهٔ مشاهدهٔ برنامه‌ریزهای خصوصی سایر کاربران را نمی‌دهد.
+  permission_view_resource_planners: مشاهدهٔ برنامه‌ریزهای منابع
+  permission_view_resource_planners_explanation: به کاربران اجازهٔ دسترسی به برنامه‌ریز منابع را می‌دهد. آن‌ها می‌توانند برنامه‌ریز خود را ایجاد و مدیریت و برنامه‌ریزهای عمومی را مشاهده کنند، اما برنامه‌ریزهای خصوصی سایر کاربران را نمی‌بینند.
   plugin_openproject_resource_management:
-    description: Provides resource management and capacity planning.
-    name: OpenProject Resource Management
-  project_module_resource_management: Resource management
+    description: قابلیت‌های مدیریت منابع و برنامه‌ریزی ظرفیت را فراهم می‌کند.
+    name: مدیریت منابع OpenProject
+  project_module_resource_management: مدیریت منابع
   resource_management:
     action:
-      delete: Delete
-      edit: Edit
-      favorite: Add to favorites
-      make_private: Make private
-      make_public: Make public
-      unfavorite: Remove from favorites
+      delete: حذف
+      edit: ویرایش
+      favorite: افزودن به موارد دلخواه
+      make_private: خصوصی‌کردن
+      make_public: عمومی‌کردن
+      unfavorite: حذف از موارد دلخواه
     allocate_resource_dialog:
       kind:
         filter:
-          caption: Set filter criteria based on user attributes to create a placeholder resource.
-          label: Filter criteria
-        label: Allocation type
+          caption: برای ایجاد یک منبع جایگزین، معیارهای فیلتر را بر اساس ویژگی‌های کاربر تعیین کنید.
+          label: معیارهای فیلتر
+        label: نوع تخصیص
         principal:
-          caption: Allocate hours for a specific user.
-          label: User
+          caption: ساعت‌ها را برای یک کاربر مشخص تخصیص دهید.
+          label: کاربر
       outside_dates:
-        description: The selected resource dates, %{resource_dates}, are outside of the work package's dates, %{work_package_dates}.
+        description: تاریخ‌های انتخاب‌شدهٔ منبع، %{resource_dates}، خارج از بازهٔ تاریخ‌های بستهٔ کاری، %{work_package_dates}، هستند.
       overbooking:
-        capacity_summary: "%{available} available · %{scheduled} scheduled"
-        description: The selected user, %{user}, would be allocated beyond their working hours during this period.
-        hidden_work: Other allocations
-        schedule_availability: "%{schedule} (%{factor}% available for project work)"
-        schedule_change: until %{date}, then %{schedule}
-        schedule_note: This user works %{schedule}.
-        submit: Allocate overtime
-        title: Do you want to allocate overtime to the user?
-      submit: Allocate
-      success_message: Resource allocated.
-      title: Allocate resource
+        capacity_summary: "%{available} در دسترس · %{scheduled} زمان‌بندی‌شده"
+        description: کاربر انتخاب‌شده، %{user}، در این بازه بیش از ساعات کاری خود تخصیص خواهد یافت.
+        hidden_work: سایر تخصیص‌ها
+        schedule_availability: "%{schedule} (%{factor}% در دسترس برای کار پروژه)"
+        schedule_change: تا %{date}، سپس %{schedule}
+        schedule_note: این کاربر طبق %{schedule} کار می‌کند.
+        submit: تخصیص اضافه‌کاری
+        title: آیا می‌خواهید برای کاربر اضافه‌کاری تخصیص دهید؟
+      submit: تخصیص
+      success_message: منبع تخصیص داده شد.
+      title: تخصیص منبع
     allocation:
-      hours: "%{value}h"
-      no_work: No work planned on this work package
+      hours: "%{value} ساعت"
+      no_work: برای این بستهٔ کاری، کاری برنامه‌ریزی نشده است
       summary: "%{allocated} / %{scheduled}"
     assignment_dialog:
-      available: "%{hours} available"
-      confirm_overtime: Assign anyway
-      filter_criteria: Filter criteria
+      available: "%{hours} در دسترس"
+      confirm_overtime: با این حال اختصاص بده
+      filter_criteria: معیارهای فیلتر
       no_candidates:
-        description: No project member matches this allocation's filter criteria.
-        title: No matching members
-      no_schedule: This user has no work schedule set up, so we cannot determine whether this allocation fits.
-      overbooked_detail: This user has %{available} available in this period, the work package requires %{requested}.
-      requested_for: Requested for
-      select_user: Please select a user to assign.
-      submit: Assign
-      title: Assign %{filter_name}
+        description: هیچ عضو پروژه‌ای با معیارهای فیلتر این تخصیص مطابقت ندارد.
+        title: عضو منطبقی وجود ندارد
+      no_schedule: برای این کاربر برنامهٔ کاری تنظیم نشده است؛ بنابراین نمی‌توان تعیین کرد این تخصیص با ظرفیت او سازگار است یا خیر.
+      overbooked_detail: این کاربر در این بازه %{available} ظرفیت در دسترس دارد، درحالی‌که بستهٔ کاری به %{requested} نیاز دارد.
+      requested_for: درخواست‌شده برای
+      select_user: لطفاً کاربری را برای اختصاص انتخاب کنید.
+      submit: اختصاص
+      title: اختصاص %{filter_name}
     blankslate:
-      desc: Create a resource planner to start planning capacity for this project.
-      title: No resource planners yet
+      desc: برای شروع برنامه‌ریزی ظرفیت این پروژه، یک برنامه‌ریز منابع ایجاد کنید.
+      title: هنوز برنامه‌ریز منابعی وجود ندارد
     configure_view_dialog:
-      delete_confirmation: Are you sure you want to delete this view? This cannot be undone.
+      delete_confirmation: آیا مطمئنید می‌خواهید این نما را حذف کنید؟ این عمل قابل بازگشت نیست.
       filter_mode:
         automatic:
-          caption: An automatically-generated list that displays items that meet criteria you define.
-          label: Automatically filtered
-        label: Item selection
+          caption: فهرستی که به‌طور خودکار ایجاد می‌شود و موارد منطبق با معیارهای تعیین‌شده را نمایش می‌دهد.
+          label: فیلتر خودکار
+        label: انتخاب موارد
         manual:
-          caption: A custom list of items you manually add and remove. Filtering is not possible.
-          label: Manually hand-picked
-      title: Configure view
+          caption: فهرستی سفارشی از مواردی که به‌صورت دستی اضافه و حذف می‌کنید. امکان فیلترکردن وجود ندارد.
+          label: انتخاب دستی
+      title: پیکربندی نما
     edit_allocation_dialog:
-      submit: Save
-      success_message: Resource allocation updated.
-      title: Edit allocation
-    favorite_caption: Make this view a favorite to add it on the top section of the sidebar menu.
-    label_edit_resource_planner: Edit resource planner
-    label_new_resource_planner: New resource planner
-    label_resource_planner: Resource planner
-    label_resource_planner_plural: Resource planners
+      submit: ذخیره
+      success_message: تخصیص منبع به‌روزرسانی شد.
+      title: ویرایش تخصیص
+    favorite_caption: این نما را به موارد دلخواه اضافه کنید تا در بخش بالایی منوی کناری نمایش داده شود.
+    label_edit_resource_planner: ویرایش برنامه‌ریز منابع
+    label_new_resource_planner: برنامه‌ریز منابع جدید
+    label_resource_planner: برنامه‌ریز منابع
+    label_resource_planner_plural: برنامه‌ریزهای منابع
     new_view_dialog:
-      title: Add View
-    public_caption: Make this view public to all members of the project. This does not affect the visibility of work packages which still depends on each user permission.
+      title: افزودن نما
+    public_caption: این نما را برای همهٔ اعضای پروژه عمومی کنید. این کار بر قابلیت مشاهدهٔ بسته‌های کاری اثری ندارد؛ مشاهدهٔ آن‌ها همچنان به مجوزهای هر کاربر بستگی دارد.
     show:
-      placeholder: The detailed view for this resource planner is coming soon.
+      placeholder: نمای جزئیات این برنامه‌ریز منابع به‌زودی ارائه می‌شود.
     sidebar:
-      private: Private
-      public: Public
+      private: خصوصی
+      public: عمومی
     staffing:
-      assign: Assign user
+      assign: اختصاص کاربر
       blank:
-        description: All generic allocations in this project have a user assigned.
-        title: Nothing to staff
+        description: همهٔ تخصیص‌های عمومی این پروژه دارای کاربر اختصاص‌یافته هستند.
+        title: موردی برای تأمین نیرو وجود ندارد
       columns:
-        dates: Dates
-        requested_time: Requested time
-        resource: Resource
-        work_package: Work package
-      context_menu_label: Allocation actions
-      delete_confirmation: Are you sure you want to delete this allocation?
-      menu_item: Staffing
-      starts_in_past: This allocation has already started and is still unassigned.
-      success_message: User assigned.
-      title: Staffing
-    sub_views: Views in this resource planner
+        dates: تاریخ‌ها
+        requested_time: زمان درخواستی
+        resource: منبع
+        work_package: بسته کاری
+      context_menu_label: اقدام‌های تخصیص
+      delete_confirmation: آیا مطمئنید می‌خواهید این تخصیص را حذف کنید؟
+      menu_item: تأمین نیروی پروژه
+      starts_in_past: این تخصیص از قبل شروع شده و هنوز کاربری به آن اختصاص نیافته است.
+      success_message: کاربر اختصاص داده شد.
+      title: تأمین نیروی پروژه
+    sub_views: نماهای این برنامه‌ریز منابع
     timeframe:
-      full: From %{start} to %{end}
+      full: از %{start} تا %{end}
     timeline:
       granularity:
-        day: Day
-        month: Month
-        week: Calendar week
+        day: روز
+        month: ماه
+        week: هفتهٔ تقویمی
       navigation:
-        next: Next period
-        previous: Previous period
-        today: Today
+        next: بازهٔ بعدی
+        previous: بازهٔ قبلی
+        today: امروز
       subheader:
-        add: Add
-        allocate: Allocate
-        settings: Configure view
+        add: افزودن
+        allocate: تخصیص
+        settings: پیکربندی نما
     user_allocations_dialog:
-      allocate_work_package: Allocate work package
-      blank: This user has no allocated work packages.
+      allocate_work_package: تخصیص بستهٔ کاری
+      blank: هیچ بستهٔ کاری‌ای به این کاربر تخصیص داده نشده است.
       other_work_packages:
-        one: 1 other work package
-        other: "%{count} other work packages"
-      title: Utilization
+        one: ۱ بستهٔ کاری دیگر
+        other: "%{count} بستهٔ کاری دیگر"
+      title: میزان استفاده
     user_card_list:
       add_user_dialog:
-        title: Add user
+        title: افزودن کاربر
       blank:
-        description: There are no users matching this view's filters yet.
-        manual_description: No users have been added to this view yet.
-        title: No users to display
+        description: هنوز هیچ کاربری با فیلترهای این نما مطابقت ندارد.
+        manual_description: هنوز کاربری به این نما اضافه نشده است.
+        title: کاربری برای نمایش وجود ندارد
       card:
-        multi_value_more: "+%{count} more"
-        remove: Remove user
-        remove_confirmation: Remove this user from the view?
+        multi_value_more: "+%{count} مورد دیگر"
+        remove: حذف کاربر
+        remove_confirmation: این کاربر از نما حذف شود؟
       fields:
-        drag_area_label: Displayed fields
-        input_caption: Select the fields that will be displayed in the user card for this view
-        input_label: Fields
-        input_placeholder: Add a field
-        working_times: Working times
+        drag_area_label: فیلدهای نمایش‌داده‌شده
+        input_caption: فیلدهایی را انتخاب کنید که در کارت کاربر این نما نمایش داده شوند
+        input_label: فیلدها
+        input_placeholder: افزودن فیلد
+        working_times: زمان‌های کاری
       subheader:
-        resource: Resource
-        settings: Configure view
+        resource: منبع
+        settings: پیکربندی نما
       utilization:
-        label: Utilization
+        label: میزان استفاده
       working_hours:
-        blank: No working hours configured
-        schedule_availability_compact: "%{schedule} (%{factor}% available)"
-        schedule_change_compact: until %{date}, %{schedule}
+        blank: ساعات کاری پیکربندی نشده است
+        schedule_availability_compact: "%{schedule} (%{factor}% در دسترس)"
+        schedule_change_compact: تا %{date}، %{schedule}
     user_timeline:
       blank:
-        add_user: Add user
-        configure_view: Configure view
-        description: There are no users matching this view's filters yet.
-        manual_description: Add users to this view to see their allocation over time.
-        title: No users to display
-      no_work_schedule: No work schedule planned for this user
-      overbooked: This user is over-allocated in the selected period.
+        add_user: افزودن کاربر
+        configure_view: پیکربندی نما
+        description: هنوز هیچ کاربری با فیلترهای این نما مطابقت ندارد.
+        manual_description: کاربران را به این نما اضافه کنید تا تخصیص آن‌ها را در طول زمان مشاهده کنید.
+        title: کاربری برای نمایش وجود ندارد
+      no_work_schedule: برای این کاربر برنامهٔ کاری‌ای تعیین نشده است
+      overbooked: این کاربر در بازهٔ انتخاب‌شده بیش‌ازحد تخصیص یافته است.
       overbooked_tooltip:
-        range: "%{dates}: %{scheduled} scheduled, %{available} available"
+        range: "%{dates}: %{scheduled} زمان‌بندی‌شده، %{available} در دسترس"
       subheader:
-        add_user: Add user
+        add_user: افزودن کاربر
     view_types:
       resource_user_card:
-        caption: Create a view based on users and see their details and allocation in a list of user cards
-        label: Users card list
+        caption: نمایی مبتنی بر کاربران ایجاد کنید و جزئیات و تخصیص‌های آن‌ها را در قالب فهرستی از کارت‌های کاربر ببینید
+        label: فهرست کارت‌های کاربران
       resource_user_timeline:
-        caption: Create a view based on users and see their allocations over time on a timeline
-        label: Users timeline
+        caption: نمایی مبتنی بر کاربران ایجاد کنید و تخصیص‌های آن‌ها را در طول زمان روی خط زمانی مشاهده کنید
+        label: خط زمانی کاربران
       resource_work_package_list:
-        caption: Create a view based on work packages and see its details and allocation in a list
-        label: Work packages list
+        caption: نمایی مبتنی بر بسته‌های کاری ایجاد کنید و جزئیات و تخصیص آن‌ها را در قالب فهرست مشاهده کنید
+        label: فهرست بسته‌های کاری
       resource_work_package_timeline:
-        caption: Create a view based on work packages and see their allocations over time on a timeline
-        label: Work packages timeline
+        caption: نمایی مبتنی بر بسته‌های کاری ایجاد کنید و تخصیص‌های آن‌ها را در طول زمان روی خط زمانی مشاهده کنید
+        label: خط زمانی بسته‌های کاری
       user_card:
-        caption: Create a view based on users and see their details and allocation in a list of user cards
-        label: Users card list
+        caption: نمایی مبتنی بر کاربران ایجاد کنید و جزئیات و تخصیص‌های آن‌ها را در قالب فهرستی از کارت‌های کاربر ببینید
+        label: فهرست کارت‌های کاربران
     work_package_allocations_dialog:
-      allocate_resource: Allocate resource
-      context_menu_label: Allocation actions
-      delete_confirmation: Are you sure you want to delete this allocation? This cannot be undone.
-      delete_success: Resource allocation deleted.
-      hidden_user: Hidden user
-      overbooked: The user is allocated beyond their working hours during this period.
-      title: Allocation
+      allocate_resource: تخصیص منبع
+      context_menu_label: اقدام‌های تخصیص
+      delete_confirmation: آیا مطمئنید می‌خواهید این تخصیص را حذف کنید؟ این عمل قابل بازگشت نیست.
+      delete_success: تخصیص منبع حذف شد.
+      hidden_user: کاربر پنهان
+      overbooked: کاربر در این بازه بیش از ساعات کاری خود تخصیص یافته است.
+      title: تخصیص
     work_package_list:
       add_work_package_dialog:
-        title: Add work package
+        title: افزودن بسته کاری
       allocated_members:
         additional: "+%{count}"
         other_users:
-          one: "%{count} user"
-          other: "%{count} users"
-        unassigned: Unassigned
+          one: "%{count} کاربر"
+          other: "%{count} کاربر"
+        unassigned: تخصیص‌نیافته
       allocation_placeholder: "—"
       blank:
-        description: There are no work packages matching this view's filters yet.
-        title: No work packages to display
+        description: هنوز هیچ بستهٔ کاری‌ای با فیلترهای این نما مطابقت ندارد.
+        title: بستهٔ کاری‌ای برای نمایش وجود ندارد
       columns:
-        allocated_members: Allocated members
-        allocation: Allocation
-        dates: Dates
+        allocated_members: اعضای تخصیص‌یافته
+        allocation: تخصیص
+        dates: تاریخ‌ها
       context_menu:
-        add_filter_criteria: Add filter criteria
-        add_user_group: Add user group
-        edit_total_work: Edit total work
-        label: More actions
-        move: Move
-        move_down: Move down
-        move_to_bottom: Move to bottom
-        move_to_top: Move to top
-        move_up: Move up
-        remove: Remove
-        remove_confirmation: Remove this work package from the view?
-        see_allocation: See allocation
-      mobile_title: Work packages
-      query_name: 'Resource management work packages: %{name}'
+        add_filter_criteria: افزودن معیار فیلتر
+        add_user_group: افزودن گروه کاربری
+        edit_total_work: ویرایش کل کار
+        label: اقدام‌های بیشتر
+        move: انتقال
+        move_down: انتقال به پایین
+        move_to_bottom: انتقال به انتها
+        move_to_top: انتقال به بالا
+        move_up: انتقال به بالا
+        remove: حذف
+        remove_confirmation: این بستهٔ کاری از نما حذف شود؟
+        see_allocation: مشاهدهٔ تخصیص
+      mobile_title: بسته‌های کاری
+      query_name: 'بسته‌های کاری مدیریت منابع: %{name}'
       subheader:
-        add: Add
-        add_work_package: Add work package
-        allocate: Allocate
-        settings: Configure view
+        add: افزودن
+        add_work_package: افزودن بسته کاری
+        allocate: تخصیص
+        settings: پیکربندی نما
     work_package_timeline:
+      allocation_bar:
+        matching_members_description:
+          one: "%{count} عضو این پروژه با معیارهای فیلتر تخصیص مطابقت دارد."
+          other: "%{count} عضو این پروژه با معیارهای فیلتر تخصیص مطابقت دارند."
       blank:
-        add_work_package: Add work package
-        configure_view: Configure view
-        description: There are no work packages matching this view's filters yet.
-        manual_description: Add work packages to this view to plan their allocation over time.
-        title: No work packages to display
-      query_name: 'Resource management work package timeline: %{name}'
+        add_work_package: افزودن بسته کاری
+        configure_view: پیکربندی نما
+        description: هنوز هیچ بستهٔ کاری‌ای با فیلترهای این نما مطابقت ندارد.
+        manual_description: بسته‌های کاری را به این نما اضافه کنید تا تخصیص آن‌ها را در طول زمان برنامه‌ریزی کنید.
+        title: بستهٔ کاری‌ای برای نمایش وجود ندارد
+      query_name: 'خط زمانی بستهٔ کاری مدیریت منابع: %{name}'
       subheader:
-        add_work_package: Add work package
+        add_work_package: افزودن بسته کاری

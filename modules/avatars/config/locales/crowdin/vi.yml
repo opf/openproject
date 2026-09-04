@@ -10,9 +10,9 @@ vi:
       enable_gravatars: Bật gravatars của người dùng
       enable_local_avatars: Cho phép người dùng tùy chỉnh hình đại diện
       gravatar_default: Hình ảnh Gravatar mặc định
-    text_avatar_gravatar_html: OpenProject uses your Gravatar if you registered one at %{gravatar_url}, or a default image or icon if one exists.
-    text_avatar_local: You can also upload a custom avatar that overrides the Gravatar by clicking the image. We recommend an image of 128 by 128 pixels.
-    text_avatar_local_only: You can upload a custom avatar by clicking the image. We recommend an image of 128 by 128 pixels.
+    text_avatar_gravatar_html: OpenProject sẽ sử dụng ảnh Gravatar của bạn nếu bạn đã đăng ký tại %{gravatar_url}, hoặc sử dụng ảnh hoặc biểu tượng mặc định nếu có.
+    text_avatar_local: Bạn cũng có thể tải lên một ảnh đại diện tùy chỉnh để thay thế ảnh Gravatar bằng cách nhấp vào hình ảnh. Chúng tôi khuyên bạn nên sử dụng hình ảnh có kích thước 128 × 128 pixels.
+    text_avatar_local_only: Bạn có thể tải lên ảnh đại diện tùy chỉnh bằng cách nhấp vào hình ảnh. Chúng tôi khuyên bạn nên sử dụng hình ảnh có kích thước 128 × 128 pixels.
   empty_file_error: Xin hãy tải lên hình ảnh đúng định dạng(jpg, png, gif)
   error_image_size: Ảnh quá lớn
   error_image_upload: Lỗi khi lưu ảnh!

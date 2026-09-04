@@ -27,28 +27,43 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++# %>
 
-<%= render(Primer::Beta::BorderBox.new(**@system_arguments)) do |border_box| %>
-  <% if header? %>
-    <% border_box.with_header(**header.row_args) do %>
-      <%= header %>
+<%=
+  render(
+    Primer::ConditionalWrapper.new(
+      condition: empty_state_behavior.dynamic?,
+      tag: :div,
+      data: { controller: "border-box-list" }
+    )
+  ) do
+%>
+  <%= render(Primer::Beta::BorderBox.new(**@system_arguments)) do |border_box| %>
+    <% if header? %>
+      <% border_box.with_header(**header.row_args) do %>
+        <%= header %>
+      <% end %>
+    <% end %>
+
+    <% if items.any? %>
+      <% items.each do |item| %>
+        <% border_box.with_row(**item.row_args) do %>
+          <%= item %>
+        <% end %>
+      <% end %>
+    <% elsif empty_state? && !empty_state_behavior.none? %>
+      <% border_box.with_row(data: { empty_list_item: true }) do %>
+        <%= empty_state %>
+      <% end %>
+    <% end %>
+
+    <% if footer? %>
+      <% border_box.with_footer(**footer.footer_args) do %>
+        <%= footer %>
+      <% end %>
     <% end %>
   <% end %>
-
-  <% items.each do |item| %>
-    <% border_box.with_row(**item.row_args) do %>
-      <%= item %>
-    <% end %>
-  <% end %>
-
-  <% if empty_state? %>
-    <% border_box.with_row(data: { empty_list_item: true }) do %>
-      <%= empty_state %>
-    <% end %>
-  <% end %>
-
-  <% if footer? %>
-    <% border_box.with_footer(**footer.footer_args) do %>
-      <%= footer %>
-    <% end %>
+  <% if empty_state_behavior.dynamic? %>
+    <template data-border-box-list-target="emptyStateTemplate">
+      <li class="Box-row" data-empty-list-item="true"><%= empty_state %></li>
+    </template>
   <% end %>
 <% end %>

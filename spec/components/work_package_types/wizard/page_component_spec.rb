@@ -31,7 +31,9 @@
 require "rails_helper"
 
 RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component, with_flag: { type_variants: true } do
-  let(:parent) { create(:type, name: "Phase") }
+  include Rails.application.routes.url_helpers
+
+  let(:source) { create(:type, name: "Phase") }
   let(:type) { create(:type) }
 
   before { login_as(create(:admin)) }
@@ -60,7 +62,7 @@ RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component, with_f
 
   describe "sidebar step markers" do
     it "marks the current and pending steps, and completed steps by reuse mode" do
-      type.link!(Type::ConfigurationLink::DEFAULTS, source: parent)
+      link_configuration(type, source:, aspect: TypeVariant::DEFAULTS)
 
       render_inline(described_class.new(type:, current_step: :workflows))
 
@@ -95,18 +97,44 @@ RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component, with_f
     end
   end
 
-  describe "breadcrumbs" do
-    it "links the parent the variant is being created under" do
-      render_inline(described_class.new(type: build(:type, parent:), current_step: :details))
+  # The wizard carries its own header, so fixing the tabs' breadcrumb left this one still leading
+  # a project administrator up through administration.
+  describe "the trail it leads back through" do
+    shared_let(:project) { create(:project, name: "Apollo") }
+    shared_let(:trail_type) { create(:type, name: "Bug") }
 
-      expect(page).to have_link("Phase",
-                                href: Rails.application.routes.url_helpers.edit_type_details_path(type_id: parent.id))
+    context "when the wizard is reached from administration" do
+      before { render_inline(described_class.new(type: trail_type, current_step: :details)) }
+
+      it "leads back through administration" do
+        expect(page).to have_link("Administration", href: admin_index_path)
+      end
+
+      it "does not name a project" do
+        expect(page).to have_no_link("Apollo")
+      end
     end
 
-    it "omits the parent crumb when there is none" do
-      render_inline(described_class.new(type: build(:type), current_step: :details))
+    context "when the wizard is reached from a project's settings" do
+      before do
+        vc_test_controller.instance_variable_set(:@project, project)
+        render_inline(described_class.new(type: trail_type, current_step: :details))
+      end
 
-      expect(page).to have_no_link("Phase")
+      it "leads back through the project" do
+        expect(page).to have_link("Apollo", href: project_overview_path(project.id))
+        expect(page).to have_link("Project settings", href: project_settings_general_path(project.id))
+      end
+
+      it "offers no way up into administration" do
+        expect(page).to have_no_link("Administration")
+      end
+
+      # types_path would resolve to an administration URL carrying the project as a query
+      # parameter, which is a dead link for the caller.
+      it "cancels back to the project's own list of types" do
+        expect(page).to have_css("a[href='#{project_settings_work_packages_types_path(project)}']")
+      end
     end
   end
 end

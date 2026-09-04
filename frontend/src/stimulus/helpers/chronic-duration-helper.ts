@@ -31,15 +31,26 @@ import {
   outputChronicDuration,
 } from 'core-app/shared/helpers/chronic_duration';
 
-export function durationStringToSeconds(value:string):number {
-    // Make sure we also accept german decimal commas
-    const normalizedValue = value.replace(',', '.');
+export interface DurationLengthOptions {
+  hoursPerDay?:number;
+  daysPerMonth?:number;
+}
 
-    return parseChronicDuration(normalizedValue, {
-      defaultUnit: 'hours',
-      ignoreSecondsWhenColonSeparated: true,
-    }) ?? 0;
-  }
+// Mirrors the defaults of the Setting.hours_per_day / Setting.days_per_month settings,
+// which are rendered as Stimulus values wherever a duration field is used.
+export const HOURS_PER_DAY_DEFAULT = 8;
+export const DAYS_PER_MONTH_DEFAULT = 20;
+
+export function durationStringToSeconds(value:string, lengthOptions:DurationLengthOptions = {}):number {
+  // Make sure we also accept german decimal commas
+  const normalizedValue = value.replace(',', '.');
+
+  return parseChronicDuration(normalizedValue, {
+    defaultUnit: 'hours',
+    ignoreSecondsWhenColonSeparated: true,
+    ...lengthOptions,
+  }) ?? 0;
+}
 
 export function formattedHour(seconds:number, blankOnNull = true):string {
   if (blankOnNull && (isNaN(seconds) || seconds <= 0)) {

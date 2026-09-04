@@ -100,7 +100,7 @@ RSpec.describe API::V3::Storages::StorageRepresenter, "rendering" do
       end
 
       context "if authentication check returns unauthorized" do
-        let(:auth_check_result) { Failure(Storages::Adapters::Results::Error.new(code: :unauthorized, source: nil)) }
+        let(:auth_check_result) { Failure(SimpleError.new(code: :unauthorized, source: nil)) }
 
         it_behaves_like "has a titled link" do
           let(:link) { "authorizationState" }
@@ -110,7 +110,7 @@ RSpec.describe API::V3::Storages::StorageRepresenter, "rendering" do
       end
 
       context "if authentication check returns error" do
-        let(:auth_check_result) { Failure(Storages::Adapters::Results::Error.new(code: :error, source: nil)) }
+        let(:auth_check_result) { Failure(SimpleError.new(code: :error, source: nil)) }
 
         it_behaves_like "has a titled link" do
           let(:link) { "authorizationState" }

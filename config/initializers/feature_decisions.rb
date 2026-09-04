@@ -56,10 +56,9 @@ OpenProject::FeatureDecisions.add :wiki_enhancements,
 OpenProject::FeatureDecisions.add :type_variants,
                                   description: "Enables work package type variants."
 
-OpenProject::FeatureDecisions.add :work_package_multiple_versions,
-                                  description: "Enables assigning multiple (target) versions to a work package. " \
-                                               "Experimental; the user-facing setting and admin switch follow later."
-
 OpenProject::FeatureDecisions.add :sprint_reports,
                                   description: "Enables sprint reporting within the backlogs module. " \
                                                "It shows a dashboard with various widgets regarding the sprint progress."
+
+OpenProject::FeatureDecisions.add :ai_text_transform_actions,
+                                  description: "Enables the admin UI to manage AI text transform actions."

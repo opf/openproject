@@ -7,7 +7,10 @@ fr:
         bim_snippet: Extrait de code BIM
         reference_links: Liens de référence
         stage: Étape
+        status_id: Statut
         viewpoint: Point de vue
+      bim/bcf/viewpoint:
+        status_id: Statut
       bim/ifc_models/ifc_model:
         attachments: Fichier IFC
         ifc_attachment: Fichier IFC
@@ -35,7 +38,18 @@ fr:
               ifc_attachment_missing: Aucun fichier ifc joint.
               invalid_ifc_file: Le fichier fourni n'est pas un fichier IFC valide.
     models:
-      bim/ifc_models/ifc_model: Modèle IFC
+      bim/bcf/comment:
+        one: Commentaire BCF
+        other: Commentaires BCF
+      bim/bcf/issue:
+        one: Problème BCF
+        other: Problèmes BCF
+      bim/bcf/viewpoint:
+        one: Point de vue BCF
+        other: Points de vue BCF
+      bim/ifc_models/ifc_model:
+        one: Modèle IFC
+        other: Modèles IFC
   attributes:
     bcf_thumbnail: Capture d'écran BCF
   bcf:
@@ -134,9 +148,9 @@ fr:
   permission_delete_bcf: Supprimer les problèmes BCF
   permission_manage_bcf: Importer et gérer les problèmes BCF
   permission_manage_bcf_explanation: |
-    Permet de gérer les questions BCF, y compris l'importation en masse et les mises à jour.
-    L'importation BCF associe les métadonnées des fichiers aux ressources du projet et peut créer ou mettre à jour les work packages
-    et les commentaires en utilisant les valeurs d'auteur et d'horodatage du fichier importé, agissant ainsi pour le compte des utilisateurs.
+    Permet de gérer les problèmes BCF, notamment leur importation et leur mise à jour de façon groupée.
+    L'importation BCF associe les métadonnées du fichier aux ressources du projet et peut créer ou mettre à jour des lots de travaux
+    et des commentaires en utilisant les valeurs d'auteur et d'horodatage du fichier importé, agissant ainsi pour le compte des utilisateurs.
   permission_manage_ifc_models: Importer et gérer les modèles IFC
   permission_view_ifc_models: Voir les modèles IFC
   permission_view_linked_issues: Voir les problèmes BCF

@@ -21,6 +21,13 @@
 #++
 ---
 sl:
+  activerecord:
+    models:
+      cost_query:
+        one: Cost report
+        two: Cost reports
+        few: Cost reports
+        other: Cost reports
   button_save_report_as: Shrani poročilo kot...
   comments: Komentar
   cost_reports_title: Čas in stroški
@@ -46,7 +53,6 @@ sl:
   label_closed: zaprto
   label_columns: Stolpci
   label_cost_entry_attributes: Atributi za vnos stroškov
-  label_cost_report: Poročilo o stroških
   label_cost_report_plural: Poročilo o stroških
   label_count: Šteti
   label_days_ago: v času zadnjih dni

@@ -73,18 +73,13 @@ RSpec.describe "Wiki pages index", :skip_csrf, type: :rails_request do
       end
     end
 
-    it "lists main pages of projects the user can access, with their sub-page count" do
+    it "lists all pages of projects the user can access, with their sub-page count" do
       get "/wiki_pages"
 
       expect(response).to have_http_status(:ok)
       expect(page).to have_text "Architecture handbook"
+      expect(page).to have_text "Deployment guide"
       expect(page).to have_text "1 sub-page"
-    end
-
-    it "does not list sub-pages" do
-      get "/wiki_pages"
-
-      expect(page).to have_no_text "Deployment guide"
     end
 
     it "does not list pages of projects the user cannot access" do
@@ -114,31 +109,37 @@ RSpec.describe "Wiki pages index", :skip_csrf, type: :rails_request do
         expect(page).to have_no_text "Architecture handbook"
       end
     end
-  end
 
-  describe "GET /wiki_pages?query_id=all" do
-    it "lists main pages and sub-pages of projects the user can access" do
-      get "/wiki_pages", params: { query_id: "all" }
-
-      expect(page).to have_text "Architecture handbook"
-      expect(page).to have_text "Deployment guide"
-      expect(page).to have_no_text "Hidden handbook"
-    end
-
-    it "falls back to main pages for unknown query ids" do
+    it "falls back to all pages for unknown query ids" do
       get "/wiki_pages", params: { query_id: "everything" }
 
       expect(page).to have_text "Architecture handbook"
+      expect(page).to have_text "Deployment guide"
+    end
+
+    it "shows the immediate parent of sub-pages and a dash for main pages" do
+      get "/wiki_pages", params: { query_id: "all" }
+
+      expect(page).to have_css(".op-border-box-grid__row-item.parent", text: "Architecture handbook", count: 1)
+      expect(page).to have_css(".op-border-box-grid__row-item.parent", text: "-", count: 1)
+    end
+  end
+
+  describe "GET /wiki_pages?query_id=main" do
+    it "lists main pages only" do
+      get "/wiki_pages", params: { query_id: "main" }
+
+      expect(page).to have_text "Architecture handbook"
       expect(page).to have_no_text "Deployment guide"
+      expect(page).to have_no_text "Hidden handbook"
     end
 
     context "with a name filter" do
-      it "matches sub-pages too" do
-        get "/wiki_pages", params: { query_id: "all",
+      it "does not match sub-pages" do
+        get "/wiki_pages", params: { query_id: "main",
                                      filters: [{ name: { operator: "~", values: ["Deployment"] } }].to_json }
 
-        expect(page).to have_text "Deployment guide"
-        expect(page).to have_no_text "Architecture handbook"
+        expect(page).to have_text I18n.t("wikis.index.no_results_title")
       end
     end
   end

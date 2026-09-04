@@ -89,6 +89,8 @@ export interface ICKEditorStatic {
   create(el:HTMLElement, config?:any):Promise<ICKEditorInstance>;
 
   createCustomized(el:string|HTMLElement, config?:any):Promise<ICKEditorInstance>;
+
+  defaultConfig?:{ toolbar?:{ items:string[] } };
 }
 
 export type ICKEditorState = 'initializing'|'ready'|'crashed'|'crashedPermanently'|'destroyed';

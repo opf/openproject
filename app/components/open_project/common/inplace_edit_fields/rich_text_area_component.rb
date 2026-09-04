@@ -45,6 +45,8 @@ module OpenProject
 
           @system_arguments[:rich_text_options] ||= {}
           @system_arguments[:rich_text_options][:primerized] = true
+          # Text custom fields offer the wiki-page-link macros (AC: "custom field of type text").
+          @system_arguments[:rich_text_options][:macros] ||= "wiki" if custom_field?
 
           @system_arguments[:data] = merge_data(
             @system_arguments,

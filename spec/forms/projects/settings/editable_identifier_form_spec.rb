@@ -43,6 +43,7 @@ RSpec.describe Projects::Settings::EditableIdentifierForm, type: :forms do
     it "renders an editable field with the legacy caption" do
       expect(page).to have_field "Identifier", with: "my-project", disabled: false
       expect(page).to have_text "Only lowercase letters (a–z), numbers, dashes or underscores."
+      expect(page).to have_no_text "Project identifiers aren't private"
     end
   end
 
@@ -55,6 +56,8 @@ RSpec.describe Projects::Settings::EditableIdentifierForm, type: :forms do
       expect(page).to have_field "Identifier", with: "my-project", disabled: false
       expect(page).to have_text "Only uppercase letters (A–Z), numbers or underscores. " \
                                 "Max 10 characters. Must start with a letter."
+      expect(page).to have_css ".InlineMessage", text: "Project identifiers aren't private. " \
+                                                       "If your project is confidential, choose a nondescript identifier."
     end
   end
 

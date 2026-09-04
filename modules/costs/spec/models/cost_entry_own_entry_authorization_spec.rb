@@ -9,7 +9,7 @@ RSpec.describe CostEntry, "#editable_by? with reassigned ownership" do
   let(:victim) { create(:user) }
   let(:acting_user) { create(:user) }
   let(:work_package) do
-    create(:work_package, project:, author: victim, type: project.types.first)
+    create(:work_package, project:, author: victim, type: project.enabled_types.first)
   end
   let(:cost_entry) do
     create(:cost_entry, entity: work_package, project:, user: victim)

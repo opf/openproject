@@ -104,12 +104,27 @@ RSpec.describe Boards::VersionBoardCreateService do
         expect(queries.map(&:name)).to match_array(versions.map(&:name))
       end
 
-      it "sets the filters on each" do
+      # The widget options keep the version_id key as stored, while the
+      # queries translate it to whichever version filter is available.
+      it "sets the filters on each, translating the stored version_id key",
+         with_settings: { work_package_multiple_versions: true } do
         subject
 
         queries_filters = queries.flat_map(&:filters).map(&:to_hash)
         widgets_filters = widgets.flat_map { it.options["filters"] }
 
+        expect(widgets_filters.map(&:keys)).to all(eq([:version_id]))
+        expect(queries_filters).to match_array(widgets_filters.map { it.transform_keys { :target_version_id } })
+      end
+
+      it "sets the filters on each under the stored version_id key",
+         with_settings: { work_package_multiple_versions: false } do
+        subject
+
+        queries_filters = queries.flat_map(&:filters).map(&:to_hash)
+        widgets_filters = widgets.flat_map { it.options["filters"] }
+
+        expect(widgets_filters.map(&:keys)).to all(eq([:version_id]))
         expect(queries_filters).to match_array(widgets_filters)
       end
 

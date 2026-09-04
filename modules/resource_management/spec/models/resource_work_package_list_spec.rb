@@ -54,6 +54,71 @@ RSpec.describe ResourceWorkPackageList do
     end
   end
 
+  describe "#configuration_filters" do
+    # A filter only shows up once it reports itself `available?`, so the
+    # attributes it depends on have to exist for the positive assertions.
+    shared_let(:status) { create(:status) }
+    shared_let(:priority) { create(:issue_priority) }
+
+    subject(:offered) { view.configuration_filters(view.build_default_query).map(&:name) }
+
+    before do
+      login_as(user)
+    end
+
+    it "offers the attributes a planner allocates by" do
+      expect(offered).to include(:type_id, :status_id, :priority_id, :assigned_to_id, :responsible_id,
+                                 :start_date, :due_date, :dates_interval, :estimated_hours, :done_ratio,
+                                 :target_version_id)
+    end
+
+    it "withholds the project filter so it cannot override the planner's project scoping" do
+      expect(offered).not_to include(:project_id)
+    end
+
+    it "withholds the filters that back autocompleters and full-text search" do
+      expect(offered).not_to include(:typeahead, :search, :subject_or_id, :relatable,
+                                     :attachment_content, :attachment_file_name,
+                                     :description, :comment)
+    end
+
+    it "withholds the storage integration filters" do
+      expect(offered).not_to include(:storage_id, :storage_url, :linkable_to_storage_id,
+                                     :linkable_to_storage_url, :file_link_origin_id)
+    end
+
+    it "withholds the relation filters" do
+      expect(offered).not_to include(:precedes, :follows, :relates, :blocks, :blocked,
+                                     :duplicates, :duplicated, :partof, :includes,
+                                     :requires, :required)
+    end
+
+    it "sorts them by their human name so the picker reads alphabetically" do
+      names = view.configuration_filters(view.build_default_query).map(&:human_name)
+
+      expect(names).to eq(names.sort)
+    end
+
+    it "returns nothing without a query" do
+      expect(view.configuration_filters(nil)).to be_empty
+    end
+
+    context "with an active work package custom field" do
+      shared_let(:custom_field) do
+        create(:work_package_custom_field, field_format: "string", is_for_all: true, is_filter: true)
+      end
+
+      before do
+        project.work_package_custom_fields << custom_field
+        project.enabled_variants.each { |variant| variant.custom_fields << custom_field }
+      end
+
+      it "offers it alongside the built-in attributes" do
+        expect(offered).to include(:"cf_#{custom_field.id}")
+      end
+    end
+  end
+
   describe "#apply_query_configuration" do
     context "in automatic mode" do
       it "replaces the query filters with the serialized selection" do
@@ -84,10 +149,21 @@ RSpec.describe ResourceWorkPackageList do
         expect(view).not_to be_manually_picked
       end
 
-      it "ignores excluded filters so the project scoping cannot be overridden" do
+      it "ignores a withheld project filter so the project scoping cannot be overridden" do
         view.apply_query_configuration(
           filter_mode: "automatic",
           filters_json: filters_json({ project_id: { operator: "=", values: ["999"] } },
+                                     { assigned_to_id: { operator: "=", values: [user.id.to_s] } })
+        )
+
+        expect(view.query.filters.map(&:name)).to contain_exactly(:assigned_to_id)
+      end
+
+      it "ignores any other filter the configuration UI does not offer" do
+        view.apply_query_configuration(
+          filter_mode: "automatic",
+          filters_json: filters_json({ watcher_id: { operator: "=", values: [user.id.to_s] } },
+                                     { linkable_to_storage_id: { operator: "=", values: ["1"] } },
                                      { assigned_to_id: { operator: "=", values: [user.id.to_s] } })
         )
 

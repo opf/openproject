@@ -2,28 +2,28 @@
 fa:
   js:
     team_planner:
-      add_assignee: نماینده
-      add_existing: Add existing
-      add_existing_title: Add existing work packages
-      cannot_drag_here: Cannot move the work package due to permissions or editing restrictions.
-      cannot_drag_to_non_working_day: This work package cannot start/finish on a non-working day.
-      create_label: برنامه ریز تیم
-      create_title: ایجاد برنامه ریز جدید تیم
-      drag_here_to_remove: Drag here to remove assignee and start and end dates.
-      eight_weeks: 8-week
-      four_weeks: 4-week
-      label_team_planner_plural: برنامه ریزهای تیم
+      add_assignee: مسئول انجام
+      add_existing: افزودن موجود
+      add_existing_title: افزودن بسته‌های کاری موجود
+      cannot_drag_here: به‌دلیل مجوزها یا محدودیت‌های ویرایش نمی‌توان بسته کاری را منتقل کرد.
+      cannot_drag_to_non_working_day: این بسته کاری نمی‌تواند در یک روز غیرکاری شروع/پایان یابد.
+      create_label: برنامه‌ریز تیم
+      create_title: ایجاد برنامه‌ریز تیم جدید
+      drag_here_to_remove: برای حذف مسئول انجام و تاریخ‌های شروع و پایان، به اینجا بکشید.
+      eight_weeks: ۸ هفته‌ای
+      four_weeks: ۴ هفته‌ای
+      label_team_planner_plural: برنامه‌ریزهای تیم
       modify:
         errors:
-          fallback: This work package cannot be edited.
-          permission_denied: You do not have the necessary permissions to modify this.
-      no_data: Add assignees to set up your team planner.
-      one_week: 1-week
+          fallback: این بسته کاری قابل ویرایش نیست.
+          permission_denied: مجوزهای لازم برای تغییر این مورد را ندارید.
+      no_data: برای راه‌اندازی برنامه‌ریز تیم، مسئولان انجام را اضافه کنید.
+      one_week: ۱ هفته‌ای
       quick_add:
-        empty_state: Use the search field to find work packages and drag them to the planner to assign it to someone and define start and end dates.
-        search_placeholder: Search...
-      remove_assignee: Remove assignee
+        empty_state: از فیلد جستجو برای یافتن بسته‌های کاری استفاده کنید و آن‌ها را به برنامه‌ریز بکشید تا به فردی تخصیص داده شوند و تاریخ شروع و پایان تعیین شود.
+        search_placeholder: جستجو...
+      remove_assignee: حذف مسئول انجام
       today: امروز
-      two_weeks: 2-week
-      unsaved_title: Unnamed team planner
+      two_weeks: ۲ هفته‌ای
+      unsaved_title: برنامه‌ریز تیم بدون نام
       work_week: هفته کاری

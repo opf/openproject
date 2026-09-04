@@ -356,7 +356,9 @@ OPENPROJECT_SEED_DESIGN_EXPORT__COVER="..."
 - [`auth_source_sso`](#auth-source-sso) (default: nil)
 - [`omniauth_direct_login_provider`](#omniauth-direct-login-provider) (default: nil)
 - [`oauth_allow_remapping_of_existing_users`](#prevent-omniauth-remapping-of-existing-users) (default: true)
-- [`disable_password_login`](#disable-password-login) (default: false)
+- [`password_login`](#password-login) (default: all)
+- [`password_login_bypass_logins`](#password-login) (default: [])
+- [`password_login_bypass_principal_ids`](#password-login) (default: [])
 - [`attachments_storage`](#attachments-storage) (default: file)
 - [`direct_uploads`](#direct-uploads) (default: true)
 - [`fog_download_url_expires_in`](#fog-download-url-expires-in) (default: 21600)
@@ -497,18 +499,57 @@ OPENPROJECT_OVERRIDE__BCRYPT__COST__FACTOR="16"
 
 Please see [this separate guide](./database/) on how to set a custom database connection string and optionally, require SSL/TTLS verification.
 
-### Disable password login
+### Password login
 
-If you enable this option you have to configure at least one omniauth authentication
-provider to take care of authentication instead of the password login.
+Controls who may authenticate with a password:
 
-All username/password forms will be removed and only a list of omniauth providers
-presented to the users.
+* `all` — anyone with a password, including users linked to an OmniAuth provider
+* `except_sso` — users linked to an OmniAuth provider cannot use a leftover password
+* `none` — nobody, except the break-glass allowlist
 
-_default: false_
+Modes `except_sso` and `none` are meant for instances that have at least one OmniAuth
+provider. `none` hides the password form on `/login`. Break-glass users sign in at
+`/login/internal`, which is enabled when an allowlist (or the login overlay below) is
+non-empty.
+
+This setting is also available in the administration under *Authentication → Settings →
+Single Sign-On*.
+
+> [!NOTE]
+> The legacy environment variable `OPENPROJECT_DISABLE__PASSWORD__LOGIN=true` still forces
+> the value to `none` and makes the select read-only for compatibility with existing
+> deployments.
+
+_default: all_
+
+```yaml
+OPENPROJECT_PASSWORD__LOGIN="except_sso"
+```
+
+Legacy deployments may still use:
 
 ```yaml
 OPENPROJECT_DISABLE__PASSWORD__LOGIN="true"
+```
+
+User and group ids that keep password login when the policy is `except_sso` or `none`.
+Groups include their descendant groups. Deleted principals are removed from this list
+automatically.
+
+_default: []_
+
+```yaml
+OPENPROJECT_PASSWORD__LOGIN__BYPASS__PRINCIPAL__IDS="[1, 42]"
+```
+
+Individual logins can additionally be exempted through the environment, so that you can
+still grant yourself access when nobody is able to reach the administration anymore.
+Logins are matched case-insensitively.
+
+_default: []_
+
+```yaml
+OPENPROJECT_PASSWORD__LOGIN__BYPASS__LOGINS="[admin, breakglass]"
 ```
 
 ### Omniauth direct login provider
@@ -518,7 +559,8 @@ Per default the user may choose the usual password login as well as **several** 
 If this option is active, a login will lead directly to the configured omniauth provider and so will a click on 'Sign in' (the drop down menu will not open).
 
 To still reach the internal login route for e.g., an internal administrative user, you can manually navigate to `/login/internal`.
-This route is only available when the direct login provider is set.
+This route is available when the direct login provider is set, and also when [`password_login`](#password-login)
+is `none` and a break-glass allowlist (or login overlay) is configured.
 
 > [!NOTE]
 > This does not stop a user from manually navigating to any other omniauth provider if additional ones are configured.
@@ -699,6 +741,35 @@ Limits password-reset requests per email address to 3 per hour.
 
 ```shell
 OPENPROJECT_RATE_LIMITING_LOST__PASSWORD="true"
+```
+
+##### Registration rate limiting (disabled by default)
+
+Limits unauthenticated `POST /account/register` requests per hour.
+`0` (the default) disables the limit. A positive value is the number of attempts allowed.
+
+The two counting modes target different attackers:
+
+- **Per client IP** (default): an unauthenticated outsider hitting the public registration form.
+  This does not stop someone who rotates addresses, and it will not freeze signups for everyone
+  behind a shared NAT.
+- **Per instance** (`host_name`): Set
+  `registration_rate_limit_per_ip` to `false` for this mode, which will restrict registrations altogether.
+
+```shell
+OPENPROJECT_REGISTRATION__RATE__LIMIT="10"
+OPENPROJECT_REGISTRATION__RATE__LIMIT__PER__IP="false"
+```
+
+##### Mail recipient limits (disabled by default)
+
+Limits how many distinct email addresses OpenProject will send mail to per day.
+`0` (the default) disables this form of rate limiting. 
+
+Addresses exceeding this are dropped before delivery, so this covers every mailer (registration, invitations, shares, meetings, notifications).
+
+```shell
+OPENPROJECT_MAIL__RECIPIENT__LIMITS="30"
 ```
 
 ##### API v3 rate limiting (disabled by default)

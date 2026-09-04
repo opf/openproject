@@ -45,7 +45,7 @@ describe('APIv3Service', () => {
     service = TestBed.inject(ApiV3Service);
   });
 
-  function encodeParams(object:any) {
+  function encodeParams(object:Record<string, string>) {
     return new URLSearchParams(object).toString();
   }
 
@@ -59,7 +59,7 @@ describe('APIv3Service', () => {
     it('should provide a path to work package query on subject or ID', () => {
       let params = {
         filters: '[{"typeahead":{"operator":"**","values":["bogus"]}}]',
-        sortBy: '[["updatedAt","desc"]]',
+        sortBy: '[["exactMatch","desc"],["updatedAt","desc"]]',
         offset: '1',
         pageSize: '10',
       };
@@ -68,7 +68,7 @@ describe('APIv3Service', () => {
 
       params = {
         filters: '[{"id":{"operator":"=","values":["1234"]}}]',
-        sortBy: '[["updatedAt","desc"]]',
+        sortBy: '[["exactMatch","desc"],["updatedAt","desc"]]',
         offset: '1',
         pageSize: '10',
       };

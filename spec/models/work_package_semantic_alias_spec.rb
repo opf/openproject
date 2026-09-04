@@ -105,4 +105,20 @@ RSpec.describe WorkPackageSemanticAlias do
       end
     end
   end
+
+  describe "deletion of the work package (regression #COMMS-936)" do
+    it "does not raise a foreign key violation when the work package is destroyed directly" do
+      described_class.create!(identifier: "PROJ-1", work_package:)
+
+      expect { work_package.destroy! }.not_to raise_error
+      expect(described_class.where(work_package_id: work_package.id)).not_to exist
+    end
+
+    it "cascades work package deletion to its semantic aliases at the database level" do
+      fk = ActiveRecord::Base.connection.foreign_keys(:work_package_semantic_aliases)
+                             .find { it.to_table == "work_packages" }
+
+      expect(fk.on_delete).to eq(:cascade)
+    end
+  end
 end

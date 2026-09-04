@@ -22,76 +22,58 @@
     end
 
     flex.with_row do
-      render(border_box_container(mb: 3, data: { test_selector: "project-life-cycle-administration" })) do |component|
-        component.with_header(font_weight: :bold, py: 2) do
-          flex_layout(justify_content: :space_between, align_items: :center) do |header_container|
-            header_container.with_column(py: 2) do
-              # adding py: 2 here to match the padding of the actions_container
-              # otherwise the header height changes when the actions gets hidden when filtering
-              render(Primer::Beta::Text.new(font_weight: :bold)) do
-                I18n.t("projects.settings.life_cycle.section_header")
-              end
-            end
-            header_container.with_column(flex_layout: true, justify_content: :flex_end) do |actions_container|
-              actions_container.with_column(data: { "projects--settings--border-box-filter-target": "hideWhenFiltering" }) do
-                render(
-                  Primer::Beta::Button.new(
-                    tag: :a,
-                    href: enable_all_project_settings_life_cycle_steps_path(project_id: project),
-                    scheme: :invisible,
-                    font_weight: :bold,
-                    color: :subtle,
-                    "aria-label": t("projects.settings.actions.label_enable_all"),
-                    data: { "turbo-method": :post, test_selector: "enable-all-life-cycle-steps" }
-                  )
-                ) do |button|
-                  button.with_leading_visual_icon(icon: "check-circle", color: :subtle)
-                  t("projects.settings.actions.label_enable_all")
-                end
-              end
-              actions_container.with_column(data: { "projects--settings--border-box-filter-target": "hideWhenFiltering" }) do
-                render(
-                  Primer::Beta::Button.new(
-                    tag: :a,
-                    href: disable_all_project_settings_life_cycle_steps_path(project_id: project),
-                    scheme: :invisible,
-                    font_weight: :bold,
-                    color: :subtle,
-                    "aria-label": t("projects.settings.actions.label_disable_all"),
-                    data: { "turbo-method": :post, test_selector: "disable-all-life-cycle-steps" }
-                  )
-                ) do |button|
-                  button.with_leading_visual_icon(icon: "x-circle", color: :subtle)
-                  t("projects.settings.actions.label_disable_all")
-                end
-              end
-            end
+      render(
+        OpenProject::Common::BorderBoxListComponent.new(
+          container: "project-life-cycle-administration",
+          position: :relative,
+          mb: 3,
+          empty_state_behavior: :dynamic
+        )
+      ) do |list|
+        list.with_header(title: I18n.t("projects.settings.life_cycle.section_header")) do |header|
+          header.with_action_button(
+            tag: :a,
+            href: enable_all_project_settings_life_cycle_steps_path(project_id: project),
+            scheme: :invisible,
+            font_weight: :bold,
+            color: :subtle,
+            aria: { label: t("projects.settings.actions.label_enable_all") },
+            test_selector: "enable-all-life-cycle-steps",
+            data: {
+              turbo_method: :post,
+              "projects--settings--border-box-filter-target": "hideWhenFiltering"
+            }
+          ) do |button|
+            button.with_leading_visual_icon(icon: "check-circle", color: :subtle)
+            t("projects.settings.actions.label_enable_all")
+          end
+          header.with_action_button(
+            tag: :a,
+            href: disable_all_project_settings_life_cycle_steps_path(project_id: project),
+            scheme: :invisible,
+            font_weight: :bold,
+            color: :subtle,
+            aria: { label: t("projects.settings.actions.label_disable_all") },
+            test_selector: "disable-all-life-cycle-steps",
+            data: {
+              turbo_method: :post,
+              "projects--settings--border-box-filter-target": "hideWhenFiltering"
+            }
+          ) do |button|
+            button.with_leading_visual_icon(icon: "x-circle", color: :subtle)
+            t("projects.settings.actions.label_disable_all")
           end
         end
-        if life_cycle_definitions.empty?
-          component.with_row do
-            render(Primer::Beta::Text.new(color: :subtle)) { t("projects.settings.life_cycle.non_defined") }
-          end
-        else
-          life_cycle_definitions_and_step_active.each do |definition, active|
-            component.with_row(
-              data: { "projects--settings--border-box-filter-target": "searchItem" },
-              test_selector: "project-life-cycle-step-#{definition.id}"
-            ) do
-              render(Projects::Settings::LifeCycle::PhaseComponent.new(definition:, active?: active))
-            end
+        life_cycle_definitions_and_step_active.each do |definition, active|
+          list.with_item(
+            data: { "projects--settings--border-box-filter-target": "searchItem" },
+            test_selector: "project-life-cycle-step-#{definition.id}"
+          ) do
+            render(Projects::Settings::LifeCycle::PhaseComponent.new(definition:, active?: active))
           end
         end
-      end
-    end
-    flex.with_row do
-      render Primer::Beta::Text.new(
-        display: :none,
-        data: {
-          "projects--settings--border-box-filter-target": "noResultsText"
-        }
-      ) do
-        I18n.t("js.autocompleter.notFoundText")
+
+        list.with_empty_state(title: t("projects.settings.life_cycle.non_defined"))
       end
     end
   end

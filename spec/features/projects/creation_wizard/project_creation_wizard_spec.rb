@@ -132,6 +132,13 @@ RSpec.describe "Project creation wizard",
     create(:project_custom_field_project_mapping, project:, project_custom_field: string_custom_field)
     create(:project_custom_field_project_mapping, project:, project_custom_field: list_custom_field)
     create(:project_custom_field_project_mapping, project:, project_custom_field: int_custom_field)
+
+    # Activating a project attribute no longer enables it for the creation
+    # wizard (PIR) automatically. Explicitly enable everything mapped so far
+    # (including user_custom_field, mapped via the project factory above) -
+    # the dedicated "disabled" contexts below turn specific ones back off
+    # afterwards, in their own before/let! hooks, which run after this one.
+    project.project_custom_field_project_mappings.update_all(creation_wizard: true)
   end
 
   it "can visit the wizard path manually and navigate through sections" do
@@ -259,7 +266,7 @@ RSpec.describe "Project creation wizard",
                         query: user_assignee.name
     fill_in "Team Size", with: "5"
 
-    click_button "Complete"
+    wait_for_turbo { click_button "Complete" }
     expect(page).to have_text("Project attributes saved and artefact work package created successfully.")
 
     project.reload
@@ -387,7 +394,7 @@ RSpec.describe "Project creation wizard",
                           query: user_assignee.name
       fill_in "Team Size", with: "3"
 
-      click_button "Complete"
+      wait_for_turbo { click_button "Complete" }
 
       expect(page).to have_text("Project attributes saved and artefact work package created successfully.")
 
@@ -474,8 +481,7 @@ RSpec.describe "Project creation wizard",
       select_autocomplete page.find("[data-custom-field-id='#{user_custom_field.id}']"),
                           results_selector: "body",
                           query: user_assignee.name
-      click_button "Complete"
-      wait_for_network_idle
+      wait_for_turbo { click_button "Complete" }
 
       # Comment should be saved
       expect(project.reload.send(string_custom_field.comment_attribute_name)).to eq "foo"

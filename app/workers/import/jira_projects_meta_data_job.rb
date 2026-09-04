@@ -39,20 +39,18 @@ module Import
       key: -> { "Import::JiraProjectsMetaDataJob-#{arguments.last}" }
     )
 
-    def perform(jira_import_id)
-      jira_import = Import::JiraImport.find(jira_import_id)
-      get_meta(jira_import)
-    rescue StandardError => e
-      jira_import&.transition_to!(:projects_meta_error, error: e.message, error_backtrace: e.backtrace)
-      jira_import&.update!(job_id: nil, error: e.message)
+    def text
+      "Fetching meta data about selected projects"
     end
 
-    def get_meta(jira_import)
-      jira = jira_import.jira
-      client = Import::JiraClient.new(url: jira.url, personal_access_token: jira.personal_access_token)
+    def perform(jira_import_id)
+      jira_import = Import::JiraImport.find(jira_import_id)
+      client = jira_import.jira.client
       selected = collect_metadata(client, jira_import.project_ids)
+      jira_import.update!(selected:)
       jira_import.transition_to!(:projects_meta_done, selected:)
-      jira_import.update!(job_id: nil, selected:, error: nil)
+    rescue StandardError => e
+      jira_import&.transition_to!(:projects_meta_error, error: e.message, error_backtrace: e.backtrace)
     end
 
     def collect_metadata(client, project_ids)

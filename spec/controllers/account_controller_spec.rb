@@ -126,6 +126,24 @@ RSpec.describe AccountController, :skip_2fa_stage do
         expect(session[:internal_login]).not_to be_present
       end
     end
+
+    context "when password login is none with a whitelist",
+            with_settings: { password_login: "none" } do
+      before do
+        Setting.password_login_bypass_principal_ids = [admin.id.to_s]
+      end
+
+      it "allows the internal login route" do
+        get :internal_login
+
+        expect(response).to render_template "account/login"
+      end
+
+      it "allows to post to login" do
+        post :login, params: { username: admin.login, password: "adminADMIN!" }
+        expect(response).to redirect_to home_path
+      end
+    end
   end
 
   describe "POST #login" do
@@ -409,7 +427,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
 
     context "with disabled password login" do
       before do
-        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
+        allow(Setting).to receive(:password_login).and_return("none")
 
         post :login
       end
@@ -507,7 +525,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
   describe "POST #change_password" do
     context "with disabled password login" do
       before do
-        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
+        allow(Setting).to receive(:password_login).and_return("none")
         post :change_password
       end
 
@@ -682,14 +700,14 @@ RSpec.describe AccountController, :skip_2fa_stage do
     end
   end
 
-  describe "POST #lost_password" do
+  describe "POST #set_recovered_password" do
     context "when the user has been invited but not yet activated" do
       shared_let(:admin) { create(:admin, status: :invited) }
       shared_let(:token) { create(:recovery_token, user: admin) }
 
       context "with a valid token" do
         before do
-          post :lost_password, params: { token: token.value }
+          post :set_recovered_password, params: { token: token.value }
         end
 
         it "redirects to the login page" do
@@ -731,7 +749,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
 
       context "and password login disabled" do
         before do
-          allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
+          allow(Setting).to receive(:password_login).and_return("none")
 
           get :register
         end
@@ -772,7 +790,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
     context "with self registration on automatic",
             with_settings: { self_registration: Setting::SelfRegistration.automatic } do
       before do
-        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
+        allow(Setting).to receive(:password_login).and_return("all")
       end
 
       context "with password login enabled" do
@@ -823,6 +841,36 @@ RSpec.describe AccountController, :skip_2fa_stage do
           end
         end
 
+        context "with a message-only registration failure" do
+          let(:service) do
+            instance_double(
+              Users::RegisterUserService,
+              call: ServiceResult.failure(message: "Registration failed")
+            )
+          end
+
+          before do
+            allow(Users::RegisterUserService).to receive(:new).and_return(service)
+
+            post :register,
+                 params: {
+                   user: {
+                     login: "register",
+                     password: "adminADMIN!",
+                     password_confirmation: "adminADMIN!",
+                     firstname: "John",
+                     lastname: "Doe",
+                     mail: "register@example.com"
+                   }
+                 }
+          end
+
+          it "adds the message to the user base errors" do
+            expect(response).to render_template :register
+            expect(assigns(:user).errors[:base]).to contain_exactly("Registration failed")
+          end
+        end
+
         context "with user limit reached" do
           let!(:admin) { create(:admin) }
 
@@ -868,7 +916,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
 
       context "with password login disabled" do
         before do
-          allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
+          allow(Setting).to receive(:password_login).and_return("none")
 
           post :register
         end
@@ -916,7 +964,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
 
       context "with password login disabled" do
         before do
-          allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
+          allow(Setting).to receive(:password_login).and_return("none")
 
           post :register
         end
@@ -976,7 +1024,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
 
       context "with password login disabled" do
         before do
-          allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
+          allow(Setting).to receive(:password_login).and_return("none")
 
           post :register
         end
@@ -1042,7 +1090,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
     context "with self registration and no invitation",
             with_settings: { self_registration: Setting::SelfRegistration.automatic } do
       before do
-        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
+        allow(Setting).to receive(:password_login).and_return("all")
 
         post :register,
              params: {
@@ -1086,7 +1134,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
 
       context "with password login disabled" do
         before do
-          allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
+          allow(Setting).to receive(:password_login).and_return("none")
         end
 
         describe "registration" do
@@ -1258,8 +1306,8 @@ RSpec.describe AccountController, :skip_2fa_stage do
 
         expect(session[:auth_source_sso_failure]).not_to be_present
 
-        expect(response.body).to have_text "Create a new account"
-        expect(response.body).to have_text "This field is invalid: Email has already been taken."
+        expect(Capybara.string(response.body)).to have_test_selector("registration-form")
+        expect(response.body).to have_text "Email has already been taken."
       end
     end
 
@@ -1279,8 +1327,8 @@ RSpec.describe AccountController, :skip_2fa_stage do
 
         expect(session[:auth_source_sso_failure]).not_to be_present
 
-        expect(response.body).to have_text "Create a new account"
-        expect(response.body).to have_text "This field is invalid: Email can't be blank."
+        expect(Capybara.string(response.body)).to have_test_selector("registration-form")
+        expect(response.body).to have_text "Email can't be blank."
       end
     end
   end
@@ -1332,6 +1380,85 @@ RSpec.describe AccountController, :skip_2fa_stage do
         expect(user).to be_an_instance_of(User)
         expect(user.ldap_auth_source_id).to be_nil
         expect(user.current_password).to be_nil
+        expect(user.identity_url).to eql("google:123545")
+      end
+
+      context "when after a timeout expired" do
+        before do
+          session[:auth_source_registration] = omniauth_hash.merge(
+            omniauth: true,
+            timestamp: 42.days.ago
+          )
+        end
+
+        it "does not register the user when providing all the missing fields" do
+          post :register,
+               params: {
+                 user: {
+                   firstname: "Foo",
+                   lastname: "Smith",
+                   mail: "foo@bar.com"
+                 }
+               }
+
+          expect(response).to redirect_to signin_path
+          expect(flash[:error]).to eq(I18n.t(:error_omniauth_registration_timed_out))
+          expect(User.find_by_login("foo@bar.com")).to be_nil
+        end
+      end
+    end
+
+    context "when there are missing required custom fields" do
+      let(:slug) { "google" }
+      let(:omniauth_strategy) { double("Google Strategy", name: slug) } # rubocop:disable RSpec/VerifiedDoubles
+      let!(:oidc_google) { create(:oidc_provider_google, slug:) }
+      let(:omniauth_hash) do
+        OmniAuth::AuthHash.new(
+          provider: slug,
+          strategy: omniauth_strategy,
+          uid: "123545",
+          info: { name: "foo",
+                  email: "foo@bar.com",
+                  first_name: "foo",
+                  last_name: "bar" }
+        )
+      end
+      let(:custom_field) { create(:user_custom_field, :string, is_required: true) }
+
+      before do
+        custom_field.save!
+
+        request.env["omniauth.auth"] = omniauth_hash
+        request.env["omniauth.strategy"] = omniauth_strategy
+      end
+
+      it "registers user via post" do
+        allow(OpenProject::OmniAuth::Authorization).to receive(:after_login!)
+
+        auth_source_registration = omniauth_hash.merge(
+          omniauth: true,
+          timestamp: Time.current
+        )
+        session[:auth_source_registration] = auth_source_registration
+        post :register,
+             params: {
+               user: {
+                 login: "login@bar.com",
+                 firstname: "Foo",
+                 lastname: "Smith",
+                 mail: "foo@bar.com",
+                 custom_field_values: { custom_field.id => "A string" }
+               }
+             }
+        expect(response).to redirect_to home_url(first_time_user: true)
+
+        user = User.find_by_login("login@bar.com")
+        expect(OpenProject::OmniAuth::Authorization)
+          .to have_received(:after_login!).with(user, a_hash_including(omniauth_hash), any_args)
+        expect(user).to be_an_instance_of(User)
+        expect(user.ldap_auth_source_id).to be_nil
+        expect(user.current_password).to be_nil
+        expect(user.custom_field_values).to include(have_attributes(custom_field_id: custom_field.id, value: "A string"))
         expect(user.identity_url).to eql("google:123545")
       end
 

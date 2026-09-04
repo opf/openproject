@@ -88,7 +88,7 @@ RSpec.describe "filter work packages", :js do
 
       filters.open
       # Expect filters to be grouped by project name
-      filters.add_filter("Version")
+      filters.add_filter("Target versions")
     end
 
     context "in a project" do
@@ -96,28 +96,28 @@ RSpec.describe "filter work packages", :js do
 
       it "allows filtering, saving, retrieving and altering the saved filter" do
         expect_ng_option(
-          page.find_by_id("values-version"),
+          page.find_by_id("values-targetVersion"),
           version,
           grouping: project.name,
           results_selector: "body"
         )
 
         expect_ng_option(
-          page.find_by_id("values-version"),
+          page.find_by_id("values-targetVersion"),
           shared_version,
           grouping: other_project.name,
           results_selector: "body"
         )
 
         expect_no_ng_option(
-          page.find_by_id("values-version"),
+          page.find_by_id("values-targetVersion"),
           inaccessible_version,
           results_selector: "body"
         )
 
-        filters.remove_filter "version"
+        filters.remove_filter "targetVersion"
 
-        filters.add_filter_by("Version", "is (OR)", version.name)
+        filters.add_filter_by("Target versions", "is (OR)", version.name, "targetVersion")
 
         loading_indicator_saveguard
         wp_table.expect_work_package_listed work_package_with_version
@@ -125,7 +125,7 @@ RSpec.describe "filter work packages", :js do
 
         wp_table.save_as("Some query name")
 
-        filters.remove_filter "version"
+        filters.remove_filter "targetVersion"
 
         loading_indicator_saveguard
         wp_table.expect_work_package_listed work_package_with_version, work_package_without_version
@@ -140,9 +140,9 @@ RSpec.describe "filter work packages", :js do
 
         filters.open
 
-        filters.expect_filter_by("Version", "is (OR)", version.name)
+        filters.expect_filter_by("Target versions", "is (OR)", version.name, "targetVersion")
 
-        filters.set_operator "Version", "is not"
+        filters.set_operator "Target versions", "is not", "targetVersion"
 
         loading_indicator_saveguard
         wp_table.expect_work_package_listed work_package_without_version
@@ -157,21 +157,21 @@ RSpec.describe "filter work packages", :js do
 
       it "allows filtering, saving, retrieving and altering the saved filter" do
         expect_ng_option(
-          page.find_by_id("values-version"),
+          page.find_by_id("values-targetVersion"),
           version,
           grouping: project.name,
           results_selector: "body"
         )
 
         expect_ng_option(
-          page.find_by_id("values-version"),
+          page.find_by_id("values-targetVersion"),
           shared_version,
           grouping: I18n.t(:"api_v3.undisclosed.project"),
           results_selector: "body"
         )
 
         expect_no_ng_option(
-          page.find_by_id("values-version"),
+          page.find_by_id("values-targetVersion"),
           inaccessible_version,
           results_selector: "body"
         )
@@ -270,7 +270,7 @@ RSpec.describe "filter work packages", :js do
     let(:type) do
       type = create(:type)
 
-      project.types << type
+      project.project_types.create!(type:)
 
       type
     end
@@ -293,7 +293,7 @@ RSpec.describe "filter work packages", :js do
       cf = create(:list_wp_custom_field)
 
       project.work_package_custom_fields << cf
-      type.custom_fields << cf
+      type.default_variant.custom_fields << cf
 
       cf
     end
@@ -353,7 +353,7 @@ RSpec.describe "filter work packages", :js do
     let(:type) do
       type = create(:type)
 
-      project.types << type
+      project.project_types.create!(type:)
 
       type
     end
@@ -376,7 +376,7 @@ RSpec.describe "filter work packages", :js do
       cf = create(:string_wp_custom_field)
 
       project.work_package_custom_fields << cf
-      type.custom_fields << cf
+      type.default_variant.custom_fields << cf
 
       cf
     end
@@ -797,16 +797,16 @@ RSpec.describe "filter work packages", :js do
       loading_indicator_saveguard
 
       filters.open
-      filters.add_filter_by "Version", "is (OR)", [version2.name, version1.name]
+      filters.add_filter_by "Target versions", "is (OR)", [version2.name, version1.name], "targetVersion"
       loading_indicator_saveguard
 
       sleep(3)
 
-      filters.expect_filter_by "Version", "is (OR)", [version1.name]
-      filters.expect_filter_by "Version", "is (OR)", [version2.name]
+      filters.expect_filter_by "Target versions", "is (OR)", [version1.name], "targetVersion"
+      filters.expect_filter_by "Target versions", "is (OR)", [version2.name], "targetVersion"
 
       # Order should stay unchanged
-      filters.expect_filter_order("Version", [version2.name, version1.name])
+      filters.expect_filter_order("Target versions", [version2.name, version1.name], "targetVersion")
     end
   end
 

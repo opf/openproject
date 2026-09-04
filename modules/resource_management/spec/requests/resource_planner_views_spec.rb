@@ -226,7 +226,7 @@ RSpec.describe "ResourcePlannerViews requests",
     it "closes the dialog and replaces the tab nav and content in place" do
       perform
 
-      expect(response.body).to have_turbo_stream(action: "closeDialog", target: "#edit-resource-planner-view-dialog")
+      expect(response.body).to have_turbo_stream(action: "closeDialog", target: "edit-resource-planner-view-dialog")
       expect(response.body).to have_turbo_stream(action: "replace", target: "resource-planners-show-page-header-component")
       expect(response.body).to have_turbo_stream(action: "replace", target: "resource-planner-views-content-component")
 

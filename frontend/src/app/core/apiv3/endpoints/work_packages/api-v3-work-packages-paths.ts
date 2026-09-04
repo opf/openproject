@@ -105,7 +105,7 @@ export class ApiV3WorkPackagesPaths extends ApiV3Collection<WorkPackageResource,
   }
 
   filtered<R = ApiV3GettableResource<WorkPackageCollectionResource>>(filters:ApiV3FilterBuilder, params:Record<string, string> = {}):R {
-    return super.filtered(filters, params, ApiV3WorkPackageCachedSubresource) as any;
+    return super.filtered(filters, params, ApiV3WorkPackageCachedSubresource) as unknown as R;
   }
 
   /**
@@ -124,7 +124,7 @@ export class ApiV3WorkPackagesPaths extends ApiV3Collection<WorkPackageResource,
     }
 
     const params = {
-      sortBy: '[["updatedAt","desc"]]',
+      sortBy: '[["exactMatch","desc"],["updatedAt","desc"]]',
       offset: '1',
       pageSize: '10',
       ...additionalParams,

@@ -92,7 +92,7 @@ Do not include the same information in multiple places. Instead, link through to
 
 The OpenProject documentation should be as clear and easy to understand as possible. Avoid unnecessary words.
 
-- Be clear and concise with as little words as possible.
+- Be clear and concise with as few words as possible.
 
 - Write in US English with US grammar.  
 
@@ -341,7 +341,7 @@ When you take screenshots:
 
 You can highlight a specific area of a screenshot to draw the reader's attention to it. Additionally, add numbered labels to refer to specific parts of the screenshot in the documentation text. These should be used sparingly since any future changes to the interface require the highlighted areas and labels to be manually added to each updated screenshot.
 
-A highlighted area should be marked with a green rectangle (3px width, _Accent/Accent_ color in our design system: #308720). The size of the area will naturally depend on the size of the area you wish you highlight.
+A highlighted area should be marked with a green rectangle (3px width, _Accent/Accent_ color in our design system: #308720). The size of the area will naturally depend on the size of the area you wish to highlight.
 
 ![screenshot_highlights_example](screenshot_area_highlight.png)
 

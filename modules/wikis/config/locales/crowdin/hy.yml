@@ -27,7 +27,12 @@ hy:
       wikis/inline_page_link:
         one: Ներդրված էջի հղում
         other: Ներդրված էջի հղումներ
-      wikis/internal_provider: Ներքին վիքի
+      wikis/internal_provider:
+        one: Internal provider
+        other: Internal providers
+      wikis/page_link:
+        one: Page link
+        other: Page links
       wikis/provider:
         one: Վիքի մատակարար
         other: Վիքի մատակարարներ
@@ -39,14 +44,12 @@ hy:
         other: XWiki մատակարարներ
   menus:
     admin:
-      external_wiki_providers: Վիքի մատակարարներ
-      internal_wiki_provider: Ներքին վիքի
+      external_wiki_providers: External wiki providers
+      internal_wiki_provider: Project wikis
       wikis: Վիքիներ
+    project_settings:
+      wiki: Project wiki
   permission_manage_wiki_page_links: Կառավարել վիքի էջերի հղումները
-  project_module_wiki_internal: Նախագծի վիքի
-  project_module_wiki_platforms: Վիքի մատակարարներ
-  projects_settings_wiki:
-    title: Նախագծի վիքի
   wikis:
     admin:
       destroy_confirmation_dialog_component:
@@ -75,11 +78,11 @@ hy:
           no_health_report_description: Գործարկեք ստուգումներն այժմ՝ այս վիքի մատակարարի առողջության կարգավիճակի ամբողջական հաշվետվությունը ստանալու համար։
           title: Առողջության հաշվետվություն
       internal_provider_form:
-        checkbox_caption: Թույլատրել նախագծերին օգտագործել OpenProject-ի ներքին վիքին արտաքին վիքի մատակարարների հետ միասին
-        checkbox_label: Միացնել OpenProject-ի ներքին վիքին
+        checkbox_caption: Allow projects to use project wikis along with external wiki providers
+        checkbox_label: Enable OpenProject project wikis
       internal_wiki_provider:
         show:
-          description: Ընտրեք՝ միացնել, թե անջատել OpenProject-ի ներքին վիքին
+          description: Choose to enable or disable project wikis
       oauth_application_info_component:
         confirm_replace_oauth_application: Այս գործողությունը կվերակայի ընթացիկ OAuth հավատարմագրերը։ Հաստատելուց հետո Դուք պետք է կրկին մուտքագրեք հավատարմագրերը Ձեր XWiki համակարգում, և բոլոր օգտատերերը պետք է կրկին լիազորվեն։ Համոզվա՞ծ եք, որ ցանկանում եք շարունակել։
         label_oauth_client_id: OAuth հաճախորդի ID
@@ -164,6 +167,7 @@ hy:
     index:
       column_last_edited: Վերջին խմբագրում
       column_name: Վիքի էջ
+      column_parent: Parent
       column_project: Նախագիծ
       column_sub_pages: Ենթաէջեր
       filter_by_name: Զտել ըստ էջի անվանման
@@ -196,7 +200,7 @@ hy:
     page_link_forms:
       labels:
         page_title: Վերնագիր
-        parent: Ծնող վիքի էջ
+        parent: Parent
         wiki_page: Վիքի էջ
       search:
         no_results: Վիքի էջեր չեն գտնվել
@@ -211,9 +215,13 @@ hy:
         parent: Որպես ծնող
     project_settings:
       project_internal_wiki_component:
+        blankslate_description: For this instance, project wikis are disabled globally and therefore can’t be enabled per project. Please, ask your administrator to enable the global wikis in the administration settings.
+        blankslate_title: Project wikis are disabled globally
         caption: Սա միացնում է ներկառուցված վիքիի ֆունկցիոնալությունը այս նախագծի համար։ Անդամները կկարողանան ստեղծել և ընթերցել OpenProject-ում պահվող վիքի էջեր։
-        enable: Միացնել ներքին վիքին այս նախագծի համար
+        enable: Enable the OpenProject wiki for this project
     provider_types:
+      internal:
+        name: OpenProject
       xwiki:
         name: XWiki
     relation_page_links_component:

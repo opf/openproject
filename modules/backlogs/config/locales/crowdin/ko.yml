@@ -50,6 +50,7 @@ ko:
         story_points: 스토리 포인트
     errors:
       messages:
+        cannot_start_while_receiving_shared_sprints: "- 프로젝트가 공유 스프린트를 수신하고 있는 동안에는 시작할 수 없습니다."
         dates_required: 스프린트를 시작하려면 시작 날짜와 완료 날짜가 필요합니다.
         must_be_in_planning: "- 시작하려면 계획 단계에 있어야 합니다."
         only_one_active_sprint_allowed: 프로젝트당 하나의 활성 스프린트만 허용됩니다.
@@ -60,9 +61,11 @@ ko:
               locked_by_multiple_active_sprints: "- 여러 활성 스프린트가 실행 중인 동안에는 변경할 수 없습니다."
               requires_no_sharing: "- 스프린트 공유가 ‘공유 안 함’으로 설정된 경우에만 활성화할 수 있습니다."
             sprint_sharing:
+              active_or_borrowed_sprint_blocks_receiving: "- 프로젝트에 활성 스프린트 또는 차용된 스프린트가 있으므로 수신하도록 설정할 수 없습니다. 먼저 작업 패키지를 닫거나 할당 취소하세요."
               locked_by_multiple_active_sprints: "- 여러 활성 스프린트가 활성화된 동안에는 변경할 수 없습니다."
               share_all_projects_already_taken: '- 프로젝트 "%{name}"이(가) 이미 모든 프로젝트와 공유 중이므로 설정할 수 없습니다.'
               share_all_projects_already_taken_anonymous: "- 다른 프로젝트가 이미 모든 프로젝트와 공유 중이므로 설정할 수 없습니다."
+              work_packages_still_linked_to_shared_sprints: "- 작업 패키지가 여전히 공유 스프린트에 연결되어 있으므로 변경할 수 없습니다. 먼저 할당 취소하세요."
           receiving_sprints: "- 공유 스프린트를 받고 있습니다. 자체 스프린트는 생성할 수 없습니다."
         sprint:
           attributes:
@@ -88,11 +91,15 @@ ko:
               task_version_must_be_the_same_as_story_version: 은(는) 부모 스토리의 버전과 동일해야 합니다.
           backlog_bucket_xor_sprint: "- 스프린트와 백로그 버킷 모두에 할당할 수는 없습니다."
     models:
+      backlog_bucket:
+        other: 백로그 버킷
       sprint:
         other: 스프린트
+      sprint_goal:
+        other: 스프린트 목표
   backlogs:
     add_existing_work_package_dialog_component:
-      title: "%{name}에 기존 작업 패키지 추가"
+      title_without_container: 기존 작업 패키지 추가
     administration_blankslate:
       text: 백로그 모듈을 현재 재설계하는 중입니다. 스프린트 및 백로그에 대한 관리자 설정이 조만간 여기에 표시될 예정입니다. 프로젝트 수준 설정은 계속 사용할 수 있습니다.
       title: 백로그 관리자 설정을 개선하는 중입니다
@@ -181,6 +188,7 @@ ko:
       label_start_sprint: 스프린트 시작
       start_sprint_disabled_reason_active_sprint: 다른 스프린트가 이미 활성화되어 있습니다.
       start_sprint_disabled_reason_missing_dates: 스프린트를 시작하려면 시작 날짜와 종료 날짜가 필요합니다.
+      start_sprint_disabled_reason_receiving_shared_sprints: 공유 스프린트를 수신하고 있는 동안에는 이 프로젝트의 자체 스프린트를 시작할 수 없습니다.
       start_sprint_disabled_reason_shared_sprint: 이 스프린트는 여러 활성 스프린트를 지원하지 않는 다른 프로젝트에 속해 있습니다.
     sprint_form:
       goal_caption: 이 스프린트 목표는 본 프로젝트에만 해당되며, 이 스프린트를 사용하는 다른 프로젝트와는 공유되지 않습니다.
@@ -241,11 +249,11 @@ ko:
     story_points_ideal: 스토리 포인트(적합함)
   ee:
     features:
-      multiple_active_sprints: 프로젝트 내에서 서로 다른 팀에 대해 여러 스프린트를 병렬로 실행하여 제어 효율성과 유연성을 높이세요.
+      multiple_active_sprints: 여러 활성 스프린트
       sprint_sharing: 스프린트 공유
     upsell:
       multiple_active_sprints:
-        description: " "
+        description: 프로젝트 내에서 서로 다른 팀에 대해 여러 스프린트를 병렬로 실행하여 제어 효율성과 유연성을 높이세요.
       sprint_sharing:
         description: 프로젝트 간에 스프린트를 공유하여 팀을 조율하고 확장된 애자일 설정(SAFe)에서 작업을 조정합니다.
   label_all_sprints: 모든 스프린트

@@ -59,13 +59,6 @@ module WorkPackages
           journal.id
         end
 
-        def wrapper_data_attributes
-          {
-            controller: "work-packages--activities-tab--item",
-            "work-packages--activities-tab--item-activity-url-value": activity_url(journal)
-          }
-        end
-
         def container_classes
           [].tap do |classes|
             if journal.internal?

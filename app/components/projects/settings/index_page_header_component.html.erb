@@ -9,20 +9,18 @@
       ]
     )
 
-    if User.current.allowed_in_project?(:add_subprojects, @project)
-      header.with_action_button(
-        scheme: :primary,
-        mobile_icon: :plus,
-        mobile_label: t(:label_subproject_new),
-        aria: { label: t(:label_subproject_new) },
-        title: t(:label_subproject_new),
-        tag: :a,
-        href: new_project_path(parent_id: @project.id)
-      ) do |button|
-        button.with_leading_visual_icon(icon: :plus)
-        t(:label_subproject)
-      end
-    end
+    header.with_action_icon_button(
+      icon: favorited? ? "star-fill" : "star",
+      mobile_icon: favorited? ? "star-fill" : "star",
+      size: :medium,
+      tag: :a,
+      href: helpers.build_favorite_path(project, format: :html),
+      data: { turbo_method: favorited? ? :delete : :post },
+      classes: favorited? ? "op-primer--star-icon" : "",
+      label: favorited? ? I18n.t(:button_unfavorite) : I18n.t(:button_favorite),
+      aria: { label: favorited? ? I18n.t(:button_unfavorite) : I18n.t(:button_favorite) },
+      test_selector: "project-favorite-button"
+    )
 
     header.with_action_menu(
       menu_arguments: {
@@ -34,75 +32,93 @@
         test_selector: "project-settings-more-menu"
       }
     ) do |menu|
-      if @project.copy_allowed?
-        menu.with_item(
-          label: t(:button_copy),
-          href: copy_project_path(@project),
-          content_arguments: {
-            data: { turbo: false },
-            test_selector: "project-settings--copy"
-          },
-          accesskey: helpers.accesskey(:copy)
-        ) do |item|
-          item.with_leading_visual_icon(icon: :copy)
+      with_item_group(menu) do
+        if User.current.allowed_in_project?(:add_subprojects, @project)
+          menu.with_item(
+            label: t(:label_subproject_add),
+            href: new_project_path(parent_id: @project.id),
+            test_selector: "project-settings--subproject"
+          ) do |item|
+            item.with_leading_visual_icon(icon: :plus)
+          end
         end
-      end
 
-      if User.current.allowed_in_project?(:edit_project, @project)
-        menu.with_item(
-          tag: :a,
-          label: public? ? t(:button_unpublish) : t(:button_publish),
-          href: toggle_public_dialog_project_settings_general_path(@project),
-          content_arguments: {
-            data: { turbo_stream: true },
-            test_selector: "project-settings--toggle-public"
-          }
-        ) do |item|
-          item.with_leading_visual_icon(icon: public? ? :lock : :unlock)
-        end
-      end
-
-      if User.current.allowed_in_project?(:archive_project, @project)
-        menu.with_item(
-          tag: :a,
-          label: t(:button_archive),
-          href: helpers.dialog_project_archive_path(project),
-          content_arguments: {
-            data: {
-              turbo_stream: true,
-              test_selector: "project-settings--archive"
+        if allowed_to_copy?
+          menu.with_item(
+            label: t(:button_duplicate),
+            href: copy_project_path(@project),
+            content_arguments: {
+              data: { turbo: false },
+              test_selector: "project-settings--copy",
+              accesskey: helpers.accesskey(:copy)
             }
-          }
-        ) do |item|
-          item.with_leading_visual_icon(icon: "lock")
+          ) do |item|
+            item.with_leading_visual_icon(icon: :duplicate)
+          end
         end
       end
 
-      if User.current.admin?
-        label = @project.templated ? "remove_from_templates" : "make_template"
-        menu.with_item(
-          tag: :a,
-          label: t("project.template.#{label}"),
-          href: project_templated_path(@project),
-          content_arguments: {
-            data: { turbo_method: @project.templated ? :delete : :post },
-            test_selector: "project-settings--mark-template"
-          }
-        ) do |item|
-          item.with_leading_visual_icon(icon: @project.templated ? :"file-removed" : :"file-added")
+      with_item_group(menu) do
+        if User.current.allowed_in_project?(:edit_project, @project)
+          menu.with_item(
+            tag: :a,
+            label: public? ? t(:button_unpublish) : t(:button_publish),
+            href: toggle_public_dialog_project_settings_general_path(@project),
+            content_arguments: {
+              data: { turbo_stream: true },
+              test_selector: "project-settings--toggle-public"
+            }
+          ) do |item|
+            item.with_leading_visual_icon(icon: public? ? :lock : :unlock)
+          end
         end
 
-        menu.with_item(
-          tag: :a,
-          scheme: :danger,
-          label: t(:button_delete),
-          href: confirm_destroy_project_path(@project),
-          content_arguments: {
-            data: { turbo_stream: true },
-            test_selector: "project-settings--delete"
-          }
-        ) do |item|
-          item.with_leading_visual_icon(icon: :trash)
+        if User.current.admin?
+          label = @project.templated ? "remove_from_templates" : "make_template"
+          menu.with_item(
+            tag: :a,
+            label: t("project.template.#{label}"),
+            href: project_templated_path(@project),
+            content_arguments: {
+              data: { turbo_method: @project.templated ? :delete : :post },
+              test_selector: "project-settings--mark-template"
+            }
+          ) do |item|
+            item.with_leading_visual_icon(icon: :"project-template")
+          end
+        end
+      end
+
+      with_item_group(menu) do
+        if User.current.allowed_in_project?(:archive_project, @project)
+          menu.with_item(
+            tag: :a,
+            label: t(:button_archive),
+            href: helpers.dialog_project_archive_path(project),
+            content_arguments: {
+              data: {
+                turbo_stream: true,
+                test_selector: "project-settings--archive"
+              }
+            }
+          ) do |item|
+            item.with_leading_visual_icon(icon: :archive)
+          end
+        end
+
+        if User.current.admin?
+          menu.with_item(
+            tag: :a,
+            scheme: :danger,
+            label: t(:button_delete),
+            href: confirm_destroy_project_path(@project),
+            content_arguments: {
+              data: { turbo_stream: true },
+              test_selector: "project-settings--delete"
+            }
+          ) do |item|
+            item.with_leading_visual_icon(icon: :trash)
+          end
         end
       end
     end

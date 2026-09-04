@@ -141,6 +141,42 @@ RSpec.describe(
       copied_work_package
     end
 
+    describe "the variant a type resolves to", with_flag: { type_variants: true } do
+      shared_let(:root_type) { create(:type, name: "Copied root") }
+      shared_let(:variant) { create(:type_variant, type: root_type, variant_name: "Copied variant") }
+
+      before { source.project_types.create!(type: root_type, variant:) }
+
+      it "copies the resolved variant, not just the root the project uses" do
+        expect(subject).to be_success
+
+        copied = project_copy.project_types.find_by(type: root_type)
+
+        expect(copied.variant).to eq(variant)
+        expect(copied.variant).to eq(variant)
+      end
+
+      it "keeps the copy pointing at its own project" do
+        expect(subject).to be_success
+
+        expect(project_copy.project_types.pluck(:project_id).uniq).to eq([project_copy.id])
+      end
+
+      context "when the caller names the types itself" do
+        shared_let(:other_type) { create(:type, name: "Chosen type") }
+
+        let(:target_project_params) do
+          { "name" => "Copy", "identifier" => "copy", "project_types" => [ProjectType.new(type: other_type)] }
+        end
+
+        it "uses the caller's types instead of the source's" do
+          expect(subject).to be_success
+
+          expect(project_copy.enabled_types).to contain_exactly(other_type)
+        end
+      end
+    end
+
     shared_examples_for "copies public attribute" do
       describe "#public" do
         before do
@@ -439,7 +475,7 @@ RSpec.describe(
         # Duplicated attributes
         expect(project_copy.description).to eq source.description
         expect(source.enabled_module_names.sort - %w[repository]).to eq project_copy.enabled_module_names.sort
-        expect(project_copy.types).to eq source.types
+        expect(project_copy.enabled_types.to_a).to eq source.enabled_types.to_a
 
         # Default attributes
         expect(project_copy).to be_active
@@ -697,7 +733,7 @@ RSpec.describe(
           let!(:assigned_version) { create(:version, name: "Assigned Issues", project: source, status: "open") }
 
           before do
-            source_wp.update!(version: assigned_version)
+            source_wp.target_versions = [assigned_version]
             assigned_version.update!(status: "closed")
           end
 
@@ -705,9 +741,9 @@ RSpec.describe(
             expect(subject).to be_success
 
             wp = copy_of(source_wp)
-            expect(wp.version.name).to eq "Assigned Issues"
-            expect(wp.version).to be_closed
-            expect(wp.version.id).not_to eq assigned_version.id
+            expect(wp.target_versions.first.name).to eq "Assigned Issues"
+            expect(wp.target_versions.first).to be_closed
+            expect(wp.target_versions.first.id).not_to eq assigned_version.id
           end
         end
 
@@ -717,12 +753,7 @@ RSpec.describe(
           let(:version_two) { create(:version, name: "Target Two", project: source, status: "open") }
 
           before do
-            source_wp.work_package_versions.where(kind: "target").delete_all
-            # Contract validation rejects more than one target version, so we bypass it
-            # here to exercise the copy remapping of multiple target versions
-            [version_one, version_two].each do |v|
-              source_wp.work_package_versions.create!(version_id: v.id, kind: "target")
-            end
+            source_wp.target_versions = [version_one, version_two]
           end
 
           it "copies the target_versions remapped to the copied project's versions" do
@@ -744,10 +775,7 @@ RSpec.describe(
           let(:observed_two) { create(:version, name: "Observed Two", project: source, status: "open") }
 
           before do
-            source_wp.work_package_versions.where(kind: "observed_in").delete_all
-            [observed_one, observed_two].each do |v|
-              source_wp.work_package_versions.create!(version_id: v.id, kind: "observed_in")
-            end
+            source_wp.observed_in_versions = [observed_one, observed_two]
           end
 
           it "copies the observed_in_versions remapped to the copied project's versions" do
@@ -790,9 +818,8 @@ RSpec.describe(
 
           before do
             source_wp.work_package_versions.delete_all
-            # Saving the version also creates the target association
-            source_wp.update!(version: assigned_version)
-            source_wp.work_package_versions.create!(version_id: observed_version.id, kind: "observed_in")
+            source_wp.target_versions = [assigned_version]
+            source_wp.observed_in_versions = [observed_version]
           end
 
           it "copies the work package without any version assignments" do
@@ -800,7 +827,6 @@ RSpec.describe(
 
             wp = copy_of(source_wp)
             expect(wp).not_to be_nil
-            expect(wp.version).to be_nil
             expect(wp.target_versions).to be_empty
             expect(wp.observed_in_versions).to be_empty
           end
@@ -1045,26 +1071,6 @@ RSpec.describe(
           end
         end
 
-        context "with versions" do
-          let(:version) { create(:version, project: source) }
-          let(:version2) { create(:version, project: source) }
-
-          let(:only_args) { %w[versions work_packages] }
-
-          before do
-            work_package.update!(version:)
-            work_package2.update!(version: version2)
-            work_package3
-          end
-
-          it "assigns the work packages to copies of the versions" do
-            expect(subject).to be_success
-            expect(copy_of(work_package).target_versions.map(&:name)).to eq [version.name]
-            expect(copy_of(work_package2).target_versions.map(&:name)).to eq [version2.name]
-            expect(copy_of(work_package3).target_versions).to be_empty
-          end
-        end
-
         context "when work_package is assigned to somebody" do
           let(:assigned_user) do
             create(:user,
@@ -1143,7 +1149,7 @@ RSpec.describe(
           let(:custom_field) do
             create(:user_wp_custom_field).tap do |cf|
               source.work_package_custom_fields << cf
-              work_package.type.custom_fields << cf
+              work_package.type.default_variant.custom_fields << cf
             end
           end
 
@@ -1300,7 +1306,9 @@ RSpec.describe(
         expect(project_copy.work_packages.count).to eq 0
         expect(project_copy.forums.count).to eq 0
         # Default wiki page
-        expect(project_copy.wiki).to be_nil
+        expect(project_copy.wiki).to be_present
+        expect(project_copy.wiki.enabled?).to eq(source.wiki.enabled?)
+        expect(project_copy.wiki.pages.count).to eq 0
         expect(project_copy.queries.count).to eq 0
         expect(project_copy.versions.count).to eq 0
         expect(project_copy.phases.count).to eq 0
@@ -1314,7 +1322,7 @@ RSpec.describe(
         # Duplicated attributes
         expect(project_copy.description).to eq source.description
         expect(source.enabled_module_names.sort - %w[repository]).to eq project_copy.enabled_module_names.sort
-        expect(project_copy.types).to eq source.types
+        expect(project_copy.enabled_types.to_a).to eq source.enabled_types.to_a
 
         # Default attributes
         expect(project_copy).to be_active

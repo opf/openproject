@@ -33,6 +33,45 @@ require "spec_helper"
 RSpec.describe "account/register" do
   let(:user) { build(:user, ldap_auth_source: nil) }
 
+  it "renders a standalone Primer form" do
+    assign(:user, user)
+
+    render
+
+    expect(Capybara.string(rendered)).to have_test_selector("registration-form")
+    expect(rendered).to have_no_css("[data-augmented-model-wrapper]")
+    expect(rendered).to include("Create an account in")
+  end
+
+  context "without external account providers" do
+    before do
+      allow(view).to receive(:call_hook)
+        .with(:view_account_login_auth_provider)
+        .and_return("")
+      assign(:user, user)
+    end
+
+    it "does not render the external provider section" do
+      render
+
+      expect(rendered).to have_no_css(".login-auth-providers")
+    end
+  end
+
+  context "with user custom fields" do
+    let!(:required_custom_field) { create(:user_custom_field, :string, name: "Employee ID", is_required: true) }
+    let!(:optional_custom_field) { create(:user_custom_field, :string, name: "Office", is_required: false) }
+
+    it "renders only required custom fields" do
+      assign(:user, user)
+
+      render
+
+      expect(rendered).to include(required_custom_field.name)
+      expect(rendered).not_to include(optional_custom_field.name)
+    end
+  end
+
   context "with the email_login setting disabled (default value)" do
     before do
       allow(Setting).to receive(:email_login?).and_return(false)
@@ -122,7 +161,7 @@ RSpec.describe "account/register" do
       let(:locale) { :en }
 
       it "shows the registration page and consent info in English" do
-        expect(rendered).to include "new account"
+        expect(rendered).to include "Create an account in"
         expect(rendered).to include "consent!"
       end
     end
@@ -131,7 +170,6 @@ RSpec.describe "account/register" do
       let(:locale) { :de }
 
       it "shows the registration page consent info in German" do
-        expect(rendered).to include "Neues Konto"
         expect(rendered).to include "zustimmen!"
       end
     end

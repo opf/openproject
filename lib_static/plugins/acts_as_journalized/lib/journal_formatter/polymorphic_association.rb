@@ -32,7 +32,7 @@ module JournalFormatter
   class PolymorphicAssociation < Attribute
     def render(key_with_gid, values, options = { html: true })
       key = key_with_gid.to_s.delete_suffix("_gid")
-      label, old_value, value = format_details(key, values, cache: options[:cache])
+      label, old_value, value = format_details(key, values)
 
       if options[:html]
         label, old_value, value = *format_html_details(label, old_value, value)
@@ -43,19 +43,19 @@ module JournalFormatter
 
     private
 
-    def format_details(key, values, cache:)
+    def format_details(key, values)
       label = label(key)
 
-      old_value, value = *format_values(values, cache:)
+      old_value, value = *format_values(values)
 
       [label, old_value, value]
     end
 
-    def format_values(values, cache:)
+    def format_values(values)
       values.map do |value|
         next if value.nil?
 
-        record = associated_object(value, cache:)
+        record = associated_object(value)
         associated_object_name(record)
       end
     end
@@ -64,15 +64,22 @@ module JournalFormatter
       object&.name
     end
 
-    def associated_object(gid, cache:)
-      if cache
-        go = GlobalID.new(gid)
-        cache.fetch(go.model_name, go.model_id) do # rubocop:disable Lint/UselessDefaultValueArgument
-          GlobalID::Locator.locate(gid)
-        end
-      else
-        GlobalID::Locator.locate(gid)
+    def associated_object(gid)
+      global_id = GlobalID.parse(gid)
+      return if global_id.nil?
+
+      JournalFormatterCache.fetch(global_id.model_name, global_id.model_id) do # rubocop:disable Lint/UselessDefaultValueArgument
+        locate(global_id)
       end
+    end
+
+    # The referenced record may have been destroyed after the journal was written,
+    # e.g. a time entry logged on a work package that has since been deleted.
+    # The detail is then rendered as if the value had been removed.
+    def locate(global_id)
+      GlobalID::Locator.locate(global_id)
+    rescue ActiveRecord::RecordNotFound
+      nil
     end
   end
 end

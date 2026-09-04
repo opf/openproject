@@ -17,23 +17,19 @@
 
   & + .Box-row
     border-top-color: $color
-  // Display the selected state margin for the last child, or the penultimate child,
-  // if the last one is the hidden blankslate.
-  &:is(:last-child, :has(+ [data-empty-list-item]))
+
+  &:last-child
     margin-bottom: calc(var(--borderWidth-thin) * -1)
     border-bottom: var(--borderWidth-thin) solid $color
 
 .op-border-box-list
   --op-border-box-list-header-row-gap: calc(var(--stack-gap-condensed) / 2)
 
-  &.Box--condensed
-    --op-border-box-list-header-row-gap: 0
-
   &.Box--spacious
     --op-border-box-list-header-row-gap: var(--stack-gap-condensed)
 
   &.op-border-box-list_header-padding-condensed
-    --op-border-box-list-header-row-gap: 0
+    --op-border-box-list-header-row-gap: calc(var(--stack-gap-condensed) / 2)
 
     > .Box-header
       padding-block: var(--stack-padding-condensed)
@@ -100,34 +96,21 @@
   &[data-drop-container="refused"]
     outline-color: var(--borderColor-danger-muted)
 
-  // The empty-state row only makes sense while it is alone in the list. Hiding
-  // it as soon as a sibling row appears (e.g. dropped by drag and drop) avoids
-  // a flicker between the drop and the server render removing it.
-  > .Box-list
-    > .Box-row
-      &[data-empty-list-item]:not(:only-child)
-        display: none
-      // Display rounded corners for the penultimate child, if the last child is the
-      // hidden blankslate.
-      &:has(+ [data-empty-list-item])
-        border-bottom-right-radius: var(--borderRadius-medium)
-        border-bottom-left-radius: var(--borderRadius-medium)
-
 .op-border-box-list-header
   display: grid
-  grid-template-columns: minmax(0, 1fr) minmax(5rem, max-content) auto
-  grid-template-areas: "heading actions menu" "description description description"
+  grid-template-columns: minmax(0, 1fr) auto auto auto
+  grid-template-areas: "heading label actions menu" "description description description description"
   align-items: center
 
   &_collapsible
-    grid-template-areas: "heading actions menu"
+    grid-template-areas: "heading label actions menu"
 
   &_with-drag-handle
-    grid-template-columns: 2rem minmax(0, 1fr) minmax(5rem, max-content) auto
-    grid-template-areas: "drag_handle heading actions menu" ". description description description"
+    grid-template-columns: 2rem minmax(0, 1fr) auto auto auto
+    grid-template-areas: "drag_handle heading label actions menu" ". description description description description"
     margin-left: calc(-1 * var(--stack-padding-normal))
     &.op-border-box-list-header_collapsible
-      grid-template-areas: "drag_handle heading actions menu"
+      grid-template-areas: "drag_handle heading label actions menu"
 
   &--drag_handle
     align-self: center
@@ -138,9 +121,13 @@
   &--heading
     min-width: 0
 
+  &--label,
   &--actions,
   &--menu
     margin-left: var(--stack-gap-normal)
+
+  &--actions,
+  &--menu
     align-self: flex-start
 
   &--actions
@@ -148,25 +135,37 @@
     align-items: center
     gap: var(--stack-gap-condensed)
 
-    // A label-only area pins to the track end. It keeps the base flex-start
-    // anchor (not the -6px button nudge) so the label's centre lands on the
-    // same line as the adjacent kebab glyph, independent of the row height.
-    &:not(:has(.Button))
-      justify-self: end
-      margin-top: 0
+  &--label
+    display: flex
+    align-items: center
+    // A label's text is not length-constrained,
+    // so cap it (roughly 35 characters' worth)
+    .Label
+      max-width: 200px
+      @include text-shortener
 
-      // An informational label has no room next to the title on a phone, so it
-      // is dropped there. Action buttons stay, as they are functional.
-      @media screen and (max-width: $breakpoint-sm)
-        display: none
+    @media screen and (max-width: $breakpoint-sm)
+      display: none
 
   &--heading-line
     display: flex
     align-items: center
     gap: var(--stack-gap-condensed)
+    // Reserve the height of a medium control so headers whose action
+    // buttons toggle (e.g. hidden while filtering) keep a stable height.
+    min-height: var(--control-medium-size)
 
     .Box-title
       min-width: 0
+
+    // Let an embedded breadcrumb trail shrink instead of overflowing the row
+    > nav
+      min-width: 0
+
+      // The current crumb stands in for the title, so it carries the
+      // title's weight
+      .breadcrumb-item-selected
+        font-weight: var(--base-text-weight-semibold, 600)
 
   &--description
     margin-top: var(--op-border-box-list-header-row-gap)

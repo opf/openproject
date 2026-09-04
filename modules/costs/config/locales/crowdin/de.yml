@@ -73,9 +73,24 @@ de:
             project_ids:
               blank: Bitte wählen Sie ein Projekt aus.
         time_entry:
-          cannot_log_for_this_work_package: Für dieses Arbeitspaket kann keine Zeit gebucht werden.
-          duplicate_ongoing: Für diese Person besteht bereits eine laufende Zeitbuchung.
-          invalid_time: muss zwischen 00:00 und 23:59 liegen.
+          attributes:
+            entity:
+              blank: Das Feld darf nicht leer sein.
+              cannot_log_for_this_work_package: Sie haben keine Berechtigung, Zeiten für dieses Arbeitspaket zu erfassen.
+              format: "%{message}"
+            hours:
+              exceeds_user_working_hours: Die erfassten Stunden dürfen das Limit von %{limit} Stunden am Arbeitstag des Benutzers nicht überschreiten.
+              format: "%{message}"
+              max_hours_per_day_exceeded: Die erfassten Stunden dürfen das vom Administrator festgelegte Limit von %{limit} Stunden für einen einzigen Tag nicht überschreiten.
+              max_hours_per_entry_exceeded: Die erfassten Stunden dürfen das vom Administrator festgelegte Limit von %{limit} Stunden für einen einzelnen Zeiteintrag nicht überschreiten.
+            spent_on:
+              format: "%{message}"
+              in_past_month: Sie können keine Zeiten für einen vergangenen Monat erfassen. Zeitbuchungen können erst ab dem %{date} hinzugefügt, geändert oder gelöscht werden.
+              not_a_working_day: Der ausgewählte Tag ist für diesen Benutzer kein Arbeitstag.
+            start_time:
+              format: "%{message}"
+              invalid_time: Ungültige Zeit. Die Zeit muss zwischen 00:00 und 23:59 liegen.
+          duplicate_ongoing: Ein weiterer Timer läuft bereits. Es kann jeweils nur ein Timer aktiv sein.
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Arbeitspaket #%{id} ist kein gültiges Ziel für die Zuordnug der Stückkosteneinträge.'
           nullify_is_not_valid_for_cost_entries: Stückkosten können keinem Projekt zugeordnet werden.
@@ -83,16 +98,30 @@ de:
       cost_entry:
         one: Kosteneintrag
         other: Kosteneinträge
+      cost_rate:
+        one: Kostensatz
+        other: Kostensätze
       cost_type:
         one: Kostentyp
         other: Kostentypen
-      rate: Satz
+      default_hourly_rate:
+        one: Standard-Stundensatz
+        other: Standard Stundensätze
+      hourly_rate:
+        one: Stundensatz
+        other: Stundensätze
+      rate:
+        one: Preis
+        other: Preise
       time_entry:
         one: Zeitbuchung
         other: Zeitbuchungen
       time_entry_activity:
         one: Aktivität für Zeiterfassung
         other: Aktivitäten für Zeiterfassung
+      time_entry_custom_field:
+        one: Benutzerdefiniertes Feld für die Zeiterfassung
+        other: Benutzerdefinierte Felder für die Zeiterfassung
   api_v3:
     errors:
       validation:
@@ -112,6 +141,8 @@ de:
   button_log_costs: Stückkosten buchen
   button_log_time: Buchen
   button_stop_timer: Timer stoppen
+  button_update_limits: Beschränkungen bearbeiten
+  button_update_start_finish_times: Start- und Endzeiten bearbeiten
   caption_booked_on_project: Auf das Projekt gebucht
   caption_default: Standard
   caption_default_rate_history_for: Standardsatz-Historie für %{user}
@@ -157,13 +188,14 @@ de:
         view_details: Details zu den tatsächlichen Kosten anzeigen
   description_costs_settings: Definieren Sie das gewünschte Format für Kosten in allen Projekten.
   description_date_for_new_rate: Datum für neuen Satz
-  description_time_settings: Legen Sie fest, welche Felder bei Zeitbuchungen in allen Projekten ausgefüllt werden müssen.
+  description_time_entry_restrictions: Legen Sie Beschränkungen für die Zeiterfassung durch Benutzer fest. Dies gilt für alle Projekte.
+  description_time_settings: Zeiterfassungen können Start- und Endzeiten enthalten, die entweder optional oder erforderlich sein können.
   ee:
     features:
-      time_entry_time_restrictions: Genaue Zeiterfassung erforderlich machen
+      time_entry_time_restrictions: Beschränkungen bei der Zeiteingabe
     upsell:
       time_entry_time_restrictions:
-        description: Verbessern Sie Ihre Zeiterfassung, indem Sie genaue Start- und Endzeiten für jede Zeitbuchung erfordern.
+        description: Optimieren Sie Ihre Zeiterfassung, indem Sie genaue Start- und Endzeiten zulassen oder vorschreiben und indem Sie Beschränkungen einführen, wann und wie viel Zeit von einem Projektmitglied erfasst werden darf.
   group_by_others: In keiner der Gruppen
   label_available_cost_types_projects: Verfügbare Kostenarten in Projekten
   label_between: zwischen
@@ -178,6 +210,7 @@ de:
   label_current_default_rate: Aktueller Standardsatz
   label_date_on: am
   label_day: Tag
+  label_defaults_and_limits: Standardwerte und Beschränkungen
   label_deleted_cost_types: Gelöschte Kostentypen
   label_display_cost_entries: Stückkosten anzeigen
   label_display_time_entries: Personaleinzelkosten anzeigen
@@ -187,13 +220,11 @@ de:
   label_greater_or_equal: ">="
   label_group_by: Gruppieren nach
   label_group_by_add: Gruppierungsfeld hinzufügen
-  label_hourly_rate: Stundensatz
   label_include_deleted: Gelöschte anzeigen
   label_kind: Typ
   label_less_or_equal: "<="
   label_list: Liste
   label_log_costs: Stückkosten buchen
-  label_mandatory_fields: Pflichtfelder
   label_month: Monat
   label_my_time_tracking: Meine Zeiterfassung
   label_new_time_entry_activity: Neue Aktivität für Zeiterfassung
@@ -209,19 +240,19 @@ de:
   label_previous_month: Vorheriger Monat
   label_previous_week: Woche zurück
   label_previous_workweek: Vorherige Arbeitswoche
-  label_rate: Satz
   label_rate_plural: Sätze
   label_show: Anzeigen
   label_specific_day: Tag %{day}
   label_specific_month: Monat %{month}
+  label_start_and_finished: Start- und Endzeiten
   label_status_finished: Abgeschlossen
   label_time: Zeit
   label_time_entry_activity_form_description: Änderungen an dieser Aktivität für Zeitbuchungen werden in allen verwendenden Projekten sichtbar.
+  label_time_entry_restrictions: Beschränkungen
   label_timer_since: Begonnen um %{time}
   label_today_capitalized: Heute
   label_units: Einheiten
   label_until: bis
-  label_user: Benutzer
   label_valid_from: Gültig ab
   label_view_mode_switcher: Ansicht ändern
   label_work_package_filter_add: Ticketfilter hinzufügen
@@ -262,6 +293,18 @@ de:
   setting_enforce_tracking_start_and_end_times: Start- und Endzeiten erforderlich
   setting_enforce_tracking_start_and_end_times_caption: Erfordert, dass bei Zeitbuchungen genaue Start- und Endzeiten erfasst werden.
   setting_enforce_without_allow: Start und Endzeiten können nur erforderlich sein, wenn ihre Angabe erlaubt ist
+  setting_time_entries_limit_to_user_working_hours: Auf die Arbeitszeit des Benutzers beschränken
+  setting_time_entries_limit_to_user_working_hours_caption: Begrenzt die Anzahl der buchbaren Stunden auf die hinterlegten Arbeitszeiten des Benutzers. Wenn keine Arbeitszeiten hinterlegt sind, hat diese Einstellung keine Auswirkung.
+  setting_time_entries_max_hours_per_day: Maximale Stundenzahl pro Tag
+  setting_time_entries_max_hours_per_day_caption: Begrenzt die Gesamtzahl der Stunden, die ein Benutzer pro Tag in allen Zeiteinträgen eintragen kann. Der Wert 0 bedeutet, dass keine Einschränkungen bestehen.
+  setting_time_entries_max_hours_per_entry: Maximale Stundenzahl pro Zeiteintrag
+  setting_time_entries_max_hours_per_entry_caption: Begrenzt die Anzahl der Stunden, die ein Benutzer pro Zeiteinträgen eintragen kann. Der Wert 0 bedeutet, dass keine Einschränkungen bestehen.
+  setting_time_entries_past_month_grace_days: Nachtragefrist für vergangene Monate
+  setting_time_entries_past_month_grace_days_caption: Legen Sie fest, wie viele Tage einem Benutzer zu Beginn eines neuen Monats zur Verfügung stehen, um Zeiteinträge für den vergangenen Monat zu erfassen. Bei einem Wert von 5 können Benutzer bis zum 5. des laufenden Monats Zeiten für den Vormonat erfassen. Ein Wert von 0 bedeutet, dass es überhaupt keine Nachtragefrist gibt.
+  setting_time_entries_prohibit_logging_for_past_months: Zeiteinträge für vergangene Monate sperren
+  setting_time_entries_prohibit_logging_for_past_months_caption: Das Hinzufügen, Ändern und Löschen von Zeiteinträgen wird auf den aktuellen Monat beschränkt. Zeiten, die in vergangenen Monaten erfasst wurden, können nicht mehr geändert werden.
+  setting_time_entries_prohibit_logging_on_non_working_days: Zeiteinträge auf Arbeitstage des Benutzers beschränken
+  setting_time_entries_prohibit_logging_on_non_working_days_caption: An Tagen, die entweder global oder für einzelne Benutzern in ihren Kontoeinstellungen als arbeitsfreie Tage festgelegt wurden, können Benutzer keine Zeiteinträge erfassen.
   text_assign_time_and_cost_entries_to_project: Gebuchte Aufwände dem Projekt zuweisen
   text_destroy_cost_entries_question: Es wurden bereits %{cost_entries} auf dieses Ticket gebucht. Was soll mit den Aufwänden geschehen?
   text_destroy_time_and_cost_entries: Gebuchte Aufwände löschen

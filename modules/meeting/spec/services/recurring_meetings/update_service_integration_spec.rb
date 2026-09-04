@@ -199,6 +199,42 @@ RSpec.describe RecurringMeetings::UpdateService, "integration", type: :model do
     end
   end
 
+  describe "the ICS revision counter" do
+    let(:recipient) do
+      create(:user, member_with_permissions: { project => %i(view_meetings) })
+    end
+
+    before do
+      series.template.participants.delete_all
+      series.template.participants << MeetingParticipant.new(user: recipient, invited: true)
+    end
+
+    context "when changing only the frequency" do
+      let(:params) do
+        { frequency: "weekly" }
+      end
+
+      it "advances although the template stays untouched" do
+        lock_version = series.template.lock_version
+
+        expect { expect(service_result).to be_success }
+          .to change { series.reload.ical_sequence }.by(1)
+
+        expect(series.template.reload.lock_version).to eq lock_version
+      end
+
+      it "puts the new revision into the attached ICS" do
+        expect(service_result).to be_success
+        perform_enqueued_jobs
+
+        calendar = ActionMailer::Base.deliveries.first.all_parts.find { |part| part.mime_type == "text/calendar" }
+
+        expect(series.reload.ical_sequence).to eq 1
+        expect(calendar.body.decoded).to include("SEQUENCE:1")
+      end
+    end
+  end
+
   describe "rescheduling mails" do
     context "when updating the title" do
       let(:params) do
@@ -232,6 +268,31 @@ RSpec.describe RecurringMeetings::UpdateService, "integration", type: :model do
         expect(ActionMailer::Base.deliveries.count).to eq(1)
         expect(ActionMailer::Base.deliveries.first.subject)
           .to eq "[#{project.name}] Meeting series '#{series.title}' has been updated"
+      end
+    end
+
+    context "when updating only the time zone" do
+      let(:params) do
+        { time_zone: "Europe/Berlin" }
+      end
+
+      let(:recipient) do
+        create(:user, member_with_permissions: { project => %i(view_meetings) })
+      end
+
+      before do
+        series.template.participants.delete_all
+        series.template.participants << MeetingParticipant.new(user: recipient, invited: true)
+      end
+
+      it "sends out updated mails carrying the new time zone" do
+        expect(service_result).to be_success
+        perform_enqueued_jobs
+
+        expect(ActionMailer::Base.deliveries.count).to eq(1)
+
+        calendar = ActionMailer::Base.deliveries.first.all_parts.find { |part| part.mime_type == "text/calendar" }
+        expect(calendar.body.decoded).to include("TZID:Europe/Berlin")
       end
     end
 
@@ -277,9 +338,26 @@ RSpec.describe RecurringMeetings::UpdateService, "integration", type: :model do
 
         expect(english_mail.html_part.body).to include("Every day")
         expect(english_mail.html_part.body).not_to include("Jeden Tag")
+        expect(english_mail.html_part.body).not_to include("Old schedule")
+        expect(english_mail.html_part.body).not_to include("New schedule")
+        expect(english_mail.html_part.body).to include("Old location")
+        expect(english_mail.html_part.body).to include("New location")
 
         expect(german_mail.html_part.body).to include("Jeden Tag")
         expect(german_mail.html_part.body).not_to include("Every day")
+        expect(german_mail.html_part.body).not_to include("Alter Zeitplan")
+        expect(german_mail.html_part.body).not_to include("Neuer Zeitplan")
+      end
+
+      it "attaches an ICS that referes to the new location" do
+        expect(service_result).to be_success
+        perform_enqueued_jobs
+
+        english_mail = ActionMailer::Base.deliveries.find { |m| m.to.include?(english_recipient.mail) }
+        calendar = english_mail.all_parts.find { |part| part.mime_type == "text/calendar" }
+
+        expect(calendar.body.decoded).to include("LOCATION:New location")
+        expect(calendar.body.decoded).not_to include("LOCATION:Old location")
       end
     end
   end

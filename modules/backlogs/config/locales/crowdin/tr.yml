@@ -50,6 +50,7 @@ tr:
         story_points: Hikaye Puanları
     errors:
       messages:
+        cannot_start_while_receiving_shared_sprints: cannot be started while the project is receiving shared sprints.
         dates_required: Koşu başlatmak için başlangıç ve bitiş tarihleri zorunludur.
         must_be_in_planning: başlamak için planlama aşamasında olmalıdır.
         only_one_active_sprint_allowed: proje başına yalnızca bir aktif sprint'e izin verilir.
@@ -60,9 +61,11 @@ tr:
               locked_by_multiple_active_sprints: birden fazla aktif sprint çalışırken değiştirilemez.
               requires_no_sharing: yalnızca sprint paylaşımı 'Paylaşma' olarak ayarlandığında etkinleştirilebilir.
             sprint_sharing:
+              active_or_borrowed_sprint_blocks_receiving: cannot be set to receive because the project has an active or borrowed sprint. Close or unassign the work packages first.
               locked_by_multiple_active_sprints: birden fazla aktif sprint etkinken değiştirilemez.
               share_all_projects_already_taken: '"%{name}" projesi zaten tüm projelerle paylaşıldığı için ayarlanamaz.'
               share_all_projects_already_taken_anonymous: halihazırda başka bir proje tüm projelerle paylaşıldığından bu ayar yapılamaz.
+              work_packages_still_linked_to_shared_sprints: cannot be changed because work packages are still linked to shared sprints. Unassign them first.
           receiving_sprints: paylaşılan sprintleri alıyor. Kendi sprintleriniz oluşturulamaz.
         sprint:
           attributes:
@@ -89,22 +92,28 @@ tr:
               task_version_must_be_the_same_as_story_version: ana hikaye sürümüyle aynı olmalıdır.
           backlog_bucket_xor_sprint: ''
     models:
+      backlog_bucket:
+        one: Backlog bucket
+        other: Backlog buckets
       sprint:
         one: Sprint
         other: Sprints
+      sprint_goal:
+        one: Sprint Hedefi
+        other: Sprint Hedefleri
   backlogs:
     add_existing_work_package_dialog_component:
-      title: Add existing work package to %{name}
+      title_without_container: Add existing work package
     administration_blankslate:
-      text: We are currently redesigning the Backlogs module. Admin settings for sprints and backlogs will be visible here in the near future. Project-level settings remain available.
+      text: Şu anda İş listesi havuz modülünü tekrardan tasarlıyoruz. Sprintler ve iş listeleri için yönetici ayarları yakında burada görünür olacak. Proje düzeyindeki ayarlar hala kullanılabilir durumda.
       title: Backlog admin settings are evolving
     backlog_component:
-      button_new_backlog_bucket: New backlog bucket
+      button_new_backlog_bucket: Yeni iş listesi havuzu
     backlog_filter_select_panel_component:
       label_backlog_bucket_filter:
-        one: Backlog bucket
-        other: Backlog buckets
-        zero: All backlog buckets
+        one: İş listesi havuzu
+        other: İş listesi havuzları
+        zero: Bütün iş listesi havuzları
       label_sprint_filter:
         one: Sprint
         other: Sprints
@@ -185,6 +194,7 @@ tr:
       label_start_sprint: Start sprint
       start_sprint_disabled_reason_active_sprint: Another sprint is already active.
       start_sprint_disabled_reason_missing_dates: Start and finish dates are required in order to start the sprint.
+      start_sprint_disabled_reason_receiving_shared_sprints: This project's own sprints cannot be started while it is receiving shared sprints.
       start_sprint_disabled_reason_shared_sprint: This sprint is from another project that doesn't support multiple active sprints.
     sprint_form:
       goal_caption: The sprint goal is unique to this project and is not shared with other projects also using this sprint.
@@ -246,11 +256,11 @@ tr:
     story_points_ideal: Hikaye noktaları (ideal)
   ee:
     features:
-      multiple_active_sprints: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
+      multiple_active_sprints: Multiple active sprints
       sprint_sharing: Sprint sharing
     upsell:
       multiple_active_sprints:
-        description: " "
+        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
       sprint_sharing:
         description: Share sprints across projects to align teams and coordinate work in scaled agile setups (SAFe).
   label_all_sprints: All sprints

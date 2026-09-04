@@ -16,7 +16,7 @@ pt-PT:
           title: Membros
         missing_permission: Não tem as permissões necessárias para visualizar este widget.
         news:
-          title: Noticias
+          title: Notícias
         not_available: Este widget não está disponível de momento.
         project_description:
           title: Descrição
@@ -29,13 +29,19 @@ pt-PT:
           finished: Terminado
           not_set: Não definido
           not_started: Não iniciado
-          off_track: Fora de controlo
-          on_track: Sob controlo
+          off_track: Fora do previsto
+          on_track: Conforme previsto
           title: Estado
         project_timeline:
           accessible_date_range: "%{start} a %{end}"
           accessible_gate: 'Porta de fase %{name}: %{date}'
+          accessible_milestone: 'Milestone %{name}: %{date}'
           accessible_phase: 'Fase %{name}: %{date}'
+          accessible_sprint: 'Sprint %{name}: %{date}. Status: %{status}'
+          sprint_status:
+            active: Active
+            completed: Completed
+            in_planning: In planning
           tooltip_type_gate: Porta de fase
           tooltip_type_milestone: Marco
           tooltip_type_phase: Fase

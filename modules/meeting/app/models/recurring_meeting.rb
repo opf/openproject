@@ -281,11 +281,27 @@ class RecurringMeeting < ApplicationRecord
            time:)
   end
 
+  # Attributes that affect the recurrence schedule itself (not template-only fields like location).
+  SCHEDULE_ATTRIBUTES = %w[frequency monthly_day monthly_ordinal monthly_weekday start_date start_time
+                           start_time_hour time_zone iterations interval end_after end_date].freeze
+
   def reschedule_required?(previous: false)
     (previous ? previous_changes : changes)
       .keys
-      .intersect?(%w[frequency monthly_day monthly_ordinal monthly_weekday start_date start_time start_time_hour
-                     iterations interval end_after end_date location])
+      .intersect?(SCHEDULE_ATTRIBUTES + %w[location])
+  end
+
+  def schedule_changed?(previous: false)
+    (previous ? previous_changes : changes)
+      .keys
+      .intersect?(SCHEDULE_ATTRIBUTES)
+  end
+
+  # Bump the SEQUENCE value of the ICS series event.
+  # Previously, this value would simply match the template's lock_version, but that increases far more often.
+  # By using an explicit database-backed value, we can control when we want to bump it.
+  def bump_ical_sequence!
+    increment!(:ical_sequence)
   end
 
   def scheduled_occurrences(limit:, from_time: Time.current)

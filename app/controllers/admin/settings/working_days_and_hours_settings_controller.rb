@@ -96,12 +96,45 @@ module Admin::Settings
     end
 
     def modified_non_working_days_for(result)
-      return if result.nil?
+      records = non_working_day_records_from(result)
+      return if records.blank?
 
-      result.map do |record|
+      records.map do |record|
         json_attributes = record.as_json(only: %i[id name date])
+        json_attributes["date"] = json_attributes["date"].iso8601 if json_attributes["date"].respond_to?(:iso8601)
         json_attributes["_destroy"] = true if record.marked_for_destruction?
         json_attributes
+      end
+    end
+
+    # If we fails to save the new NonWorkingDay records, we will return the state
+    # as the user submitted it.
+    # That allows them to correct the mistake or wait for the unprocessed job to finish.
+    def non_working_day_records_from(result)
+      if result.is_a?(Enumerable) && result.all?(NonWorkingDay)
+        result.to_a
+      else
+        non_working_day_records_from_params
+      end
+    end
+
+    def non_working_day_records_from_params
+      non_working_days_params.filter_map do |attrs|
+        attrs = attrs.to_h.with_indifferent_access
+        record = find_or_build_non_working_day(attrs)
+        next unless record
+
+        record.assign_attributes(attrs.slice(:name, :date))
+        record.mark_for_destruction if attrs[:_destroy].present?
+        record
+      end
+    end
+
+    def find_or_build_non_working_day(attrs)
+      if attrs[:id].present?
+        NonWorkingDay.find_by(id: attrs[:id])
+      else
+        NonWorkingDay.new
       end
     end
   end

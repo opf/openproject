@@ -51,7 +51,8 @@ class CustomFieldsController < ApplicationController
       .where.not(type: ["WorkPackageCustomField", "ProjectCustomField", "UserCustomField"])
       .group_by { |f| f.class.name }
 
-    @custom_fields_by_type["WorkPackageCustomField"] = WorkPackageCustomField.includes(:types).all
+    @custom_fields_by_type["WorkPackageCustomField"] =
+      WorkPackageCustomField.includes(type_variants: :type).all
 
     @tab = params[:tab] || "WorkPackageCustomField"
   end

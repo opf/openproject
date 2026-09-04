@@ -70,6 +70,12 @@ module OpenProject
       ::Appsignal.tag_request(payload)
     end
 
+    def increment_counter(name, value = 1, tags = {})
+      return unless enabled?
+
+      ::Appsignal.increment_counter(name, value, tags)
+    end
+
     ##
     # Tags to be added for Appsignal
     def tags(context)

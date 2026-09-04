@@ -38,6 +38,28 @@
     justify-content: space-between
     margin-bottom: 10px
 
+#content .op-account-registration
+  max-width: 480px
+  margin: var(--base-size-32) auto 0
+
+  &--logo
+    display: block
+    width: 40px
+    height: 40px
+    margin: 0 auto var(--base-size-16)
+
+  &--subtitle
+    margin-bottom: var(--base-size-16)
+    text-align: center
+    font-weight: var(--base-text-weight-semibold)
+
+  &--signin
+    margin-top: var(--base-size-24)
+    text-align: center
+
+  .login-auth-providers h3 span
+    background: var(--body-background)
+
 #content .login-auth-providers.wide
   width: auto
   text-align: center
@@ -115,3 +137,12 @@
 
   &--agreement
     font-size: inherit
+
+.op-consent-instructions
+  .op-uc-link
+    text-decoration: underline
+
+    &::after
+      @include icon-font-common
+      @include icon-mixin-external-link
+      margin-left: 0.25rem

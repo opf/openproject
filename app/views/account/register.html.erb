@@ -27,9 +27,33 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<section data-augmented-model-wrapper
-         data-modal-initialize-now="true"
-         data-modal-class-name="registration-modal -primary">
-  <% @user ||= User.new %>
-  <%= render partial: "/account/register" %>
-</section>
+<% html_title t(:label_register) %>
+<% @user ||= User.new %>
+
+<%= render(Primer::BaseComponent.new(tag: :div, classes: "op-account-registration")) do %>
+  <%= render(Primer::Beta::Text.new(tag: :p, classes: "op-account-registration--subtitle")) do %>
+    <%= t("account.signup_title", app_title: Setting.app_title) %>
+  <% end %>
+
+  <%# Field errors render inline in the form. Errors not tied to a specific
+      field (e.g. user limit reached) are shown in a banner above the form. %>
+  <% if @user.errors[:base].present? %>
+    <%= render(Primer::Alpha::Banner.new(mb: 3, icon: :stop, scheme: :danger)) do %>
+      <%= safe_join(@user.errors[:base], tag.br) %>
+    <% end %>
+  <% end %>
+
+  <%= primer_form_with(
+        model: @user,
+        url: account_register_path,
+        id: "new_user",
+        data: { turbo: false, test_selector: "registration-form" }
+      ) do |form| %>
+    <%= back_url_hidden_field_tag use_referer: false %>
+    <%= render(RegistrationForm.new(form)) %>
+  <% end %>
+
+  <div class="op-account-registration--signin">
+    <%= link_to t(:button_login), signin_path %>
+  </div>
+<% end %>

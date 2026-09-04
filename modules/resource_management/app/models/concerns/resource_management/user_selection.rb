@@ -32,6 +32,22 @@ module ResourceManagement
   module UserSelection
     extend ActiveSupport::Concern
 
+    # `AnyNameAttributeFilter` is absent because it exists to back autocompleter
+    # searches rather than human filtering; `NameFilter` covers that case in the
+    # picker.
+    CONFIGURATION_FILTERS = [
+      ::Queries::Users::Filters::CustomFieldFilter,
+      ::Queries::Users::Filters::GroupFilter,
+      ::Queries::Users::Filters::LoginFilter,
+      ::Queries::Users::Filters::MemberFilter,
+      ::Queries::Users::Filters::NameFilter,
+      ::Queries::Users::Filters::StatusFilter
+    ].freeze
+
+    # The custom field filter's key is a `cf_<id>` pattern rather than a single
+    # name, hence the `===` match rather than a set lookup.
+    CONFIGURATION_FILTER_KEYS = CONFIGURATION_FILTERS.map(&:key).freeze
+
     included do
       validate :query_must_be_user_query
     end
@@ -59,10 +75,19 @@ module ResourceManagement
       nil
     end
 
-    # No filters are withheld when configuring a user view; the project scoping
-    # is applied outside the filter set (`results.in_project`).
-    def excluded_configuration_filters
-      []
+    # The filters offered when configuring the view, alphabetically as they
+    # appear in the picker. The project scoping is applied outside the filter set
+    # (`results.in_project`), so no filter can override it.
+    def configuration_filters(query)
+      return [] if query.nil?
+
+      query.available_advanced_filters
+           .select { |filter| configuration_filter?(filter.name) }
+           .sort_by(&:human_name)
+    end
+
+    def configuration_filter?(name)
+      CONFIGURATION_FILTER_KEYS.any? { |key| key === name.to_sym }
     end
 
     def build_default_query
@@ -99,11 +124,10 @@ module ResourceManagement
       end
     end
 
+    # Drops anything the configuration UI does not offer, so a hand-crafted
+    # payload cannot smuggle in a withheld filter.
     def allowed_configuration_filters(filters)
-      excluded = excluded_configuration_filters.map(&:to_s)
-      return filters if excluded.empty?
-
-      filters.reject { |filter| excluded.include?(filter[:attribute].to_s) }
+      filters.select { |filter| configuration_filter?(filter[:attribute]) }
     end
 
     def parse_filters(filters_json)

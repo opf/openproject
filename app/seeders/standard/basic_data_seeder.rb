@@ -28,28 +28,5 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 module Standard
-  class BasicDataSeeder < ::BasicDataSeeder
-    def data_seeder_classes
-      [
-        ::BasicData::BuiltinUsersSeeder,
-        ::BasicData::ProjectRoleSeeder,
-        ::BasicData::WorkPackageRoleSeeder,
-        ::BasicData::ProjectQueryRoleSeeder,
-        ::BasicData::GlobalRoleSeeder,
-        ::BasicData::TimeEntryActivitySeeder,
-        ::BasicData::ColorSeeder,
-        ::BasicData::ColorSchemeSeeder,
-        ::BasicData::PluginAuthProviderSeeder,
-        ::BasicData::ProjectPhaseColorSeeder,
-        ::BasicData::ProjectPhaseDefinitionSeeder,
-        ::BasicData::StatusSeeder,
-        ::BasicData::TypeSeeder,
-        ::BasicData::WorkflowSeeder,
-        ::BasicData::PrioritySeeder,
-        ::BasicData::SettingSeeder,
-        ::BasicData::ProjectCustomFieldSectionSeeder,
-        ::BasicData::UserCustomFieldSectionSeeder
-      ]
-    end
-  end
+  class BasicDataSeeder < ::BasicDataSeeder; end
 end

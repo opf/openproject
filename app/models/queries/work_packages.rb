@@ -59,6 +59,7 @@ module Queries::WorkPackages
     filter Filter::UpdatedAtFilter
     filter Filter::VersionFilter
     filter Filter::TargetVersionsFilter
+    filter Filter::ObservedInVersionsFilter
     filter Filter::WatcherFilter
     filter Filter::DatesIntervalFilter
     filter Filter::ParentFilter
@@ -93,5 +94,6 @@ module Queries::WorkPackages
     select Selects::RelationChildSelect
     select Selects::ManualSortingSelect
     select Selects::TypeaheadSelect
+    select Selects::ExactMatchSelect
   end
 end

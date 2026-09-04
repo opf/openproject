@@ -118,43 +118,7 @@ module Exports::PDF::Common::ProjectAttributes
   end
 
   def process_project_phase_field(project, field)
-    return unless user_can_view_project_phases?(project)
-
-    value = project_phase_value(project, field)
-    return if value.nil?
-
-    field.merge(value:)
-  end
-
-  def user_can_view_project_phases?(project)
-    User.current.allowed_in_project?(:view_project_phases, project) && project.phases.active.any?
-  end
-
-  def project_phase_value(project, field)
-    project_phase_definition = Project::PhaseDefinition
-                                 .find_by(id: field[:key][/\Aproject_phase_(\d+)\z/, 1])
-    return nil if project_phase_definition.nil?
-
-    phase = project.phases.active.find_by(definition: project_phase_definition)
-    return nil if phase.nil?
-
-    format_phase_value(phase)
-  end
-
-  def format_phase_value(phase)
-    start = if phase.start_date.present?
-              format_date(phase.start_date)
-            else
-              I18n.t("js.label_no_start_date")
-            end
-
-    finish = if phase.finish_date.present?
-               format_date(phase.finish_date)
-             else
-               I18n.t("js.label_no_due_date")
-             end
-
-    "#{start} - #{finish}"
+    field.merge(value: format_attribute(project, field[:key], :pdf))
   end
 
   def process_custom_attribute_field(project, field)

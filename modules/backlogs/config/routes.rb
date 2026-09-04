@@ -63,6 +63,7 @@ Rails.application.routes.draw do
 
     namespace :backlogs do
       resource :backlog, controller: :backlog, only: :show
+      resource :filters, controller: :filters, only: %i[show]
       get "backlog/details/:work_package_id(/:tab)",
           to: "backlog#details",
           as: :backlog_details,

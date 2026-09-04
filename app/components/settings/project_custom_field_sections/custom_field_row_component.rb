@@ -45,6 +45,10 @@ module Settings
 
       private
 
+      def wrapper_uniq_by
+        @project_custom_field.id
+      end
+
       def edit_action_item(menu)
         menu.with_item(label: t("label_edit"),
                        href: edit_admin_settings_project_custom_field_path(@project_custom_field),

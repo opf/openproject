@@ -123,7 +123,7 @@ RSpec.describe "API v3 storage files", :disable_ssrf_filter, :storage_server_hel
       before do
         Storages::Adapters::Registry.stub(
           "nextcloud.queries.files",
-          ->(_) { Failure(Storages::Adapters::Results::Error.new(source: self, code: error)) }
+          ->(_) { Failure(SimpleError.new(source: self, code: error)) }
         )
       end
 
@@ -196,7 +196,7 @@ RSpec.describe "API v3 storage files", :disable_ssrf_filter, :storage_server_hel
       before do
         Storages::Adapters::Registry
           .stub("#{storage}.queries.file_info",
-                ->(_) { Failure(Storages::Adapters::Results::Error.new(code: error, source: self)) })
+                ->(_) { Failure(SimpleError.new(code: error, source: self)) })
       end
 
       context "with authorization failure" do
@@ -260,7 +260,7 @@ RSpec.describe "API v3 storage files", :disable_ssrf_filter, :storage_server_hel
       before do
         Storages::Adapters::Registry.stub(
           "nextcloud.queries.upload_link",
-          ->(_) { Failure(Storages::Adapters::Results::Error.new(code: error, source: self)) }
+          ->(_) { Failure(SimpleError.new(code: error, source: self)) }
         )
       end
 

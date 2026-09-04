@@ -51,16 +51,23 @@ RSpec.describe RootSeeder,
       expect(User.not_builtin.where(admin: true).count).to eq 1
     end
 
+    it "creates neither users nor departments" do
+      # Both are development data: instances that re-run the seeders on every deploy would
+      # otherwise get them back after an administrator deleted them.
+      expect(User.not_builtin.pluck(:login)).to eq [root_seeder.admin_user.login]
+      expect(Group.organizational_units).to be_empty
+    end
+
     it "creates the demo data" do # rubocop:disable RSpec/MultipleExpectations
       expect(Project.count).to eq 2
-      expect(EnabledModule.count).to eq 18
+      expect(EnabledModule.count).to eq 17
       expect(WorkPackage.count).to eq 37
       expect(Wiki.count).to eq 2
       expect(Query.having_views.count).to eq 8
       expect(View.where(type: "work_packages_table").count).to eq 5
       expect(View.where(type: "team_planner").count).to eq 1
       expect(View.where(type: "gantt").count).to eq 2
-      expect(Query.count).to eq 30
+      expect(Query.count).to eq 28
       expect(ProjectRole.count).to eq 5
       expect(WorkPackageRole.count).to eq 3
       expect(GlobalRole.count).to eq 2
@@ -72,6 +79,147 @@ RSpec.describe RootSeeder,
       expect(DocumentType.count).to be >= 3 # at least the 3 default types
     end
 
+    it "links work packages to their version" do
+      count_by_version = WorkPackage.joins(:target_versions).group("versions.name").count
+      # testing with strings would fail for the German language test
+      # 'Bug Backlog' => 1,
+      # 'Sprint 1' => 8,
+      # 'Product Backlog' => 7
+      expect(count_by_version.values).to contain_exactly(1, 8, 7)
+    end
+
+    it "adds the backlogs, board, costs, meetings, and reporting modules to the default_projects_modules setting" do
+      default_modules = Setting.find_by(name: "default_projects_modules").value
+      expect(default_modules).to include("backlogs")
+      expect(default_modules).to include("board_view")
+      expect(default_modules).to include("costs")
+      expect(default_modules).to include("meetings")
+      expect(default_modules).to include("reporting_module")
+    end
+
+    it "creates a weekly recurring meeting with several instances" do
+      expect(RecurringMeeting.count).to eq 1
+
+      # The template is created and is no longer in draft state.
+      expect(Meeting.templated.count).to eq 1
+      template = Meeting.templated.first
+      expect(template).not_to be_draft
+      expect(template.duration).to eq 1.0
+      expect(template.agenda_items.count).to eq 6
+      expect(template.agenda_items.sum(:duration_in_minutes)).to eq 60
+
+      # The meeting organizer (admin) is the author of every item.
+      expect(template.agenda_items.pluck(:author_id).uniq).to eq([root_seeder.admin_user.id])
+
+      # The first two instances come from the finalizer seeder (and its chained job), the rest
+      # are instantiated by the MeetingOccurrencesSeeder.
+      expect(Meeting.where(template: false).count).to eq 5
+      Meeting.not_templated.find_each do |instance|
+        expect(instance.duration).to eq 1.0
+        expect(instance.agenda_items.count).to eq 6
+        expect(instance.agenda_items.sum(:duration_in_minutes)).to eq 60
+      end
+    end
+
+    it "creates different types of queries" do
+      count_by_type = View.group(:type).count
+      expect(count_by_type).to eq(
+        "work_packages_table" => 5,
+        "gantt" => 2,
+        "team_planner" => 1
+      )
+    end
+
+    it "adds additional permissions from modules" do
+      # do not test for all permissions but only some of them to ensure each
+      # module got processed for a standard edition
+      work_package_editor_role = root_seeder.seed_data.find_reference(:default_role_work_package_editor)
+      expect(work_package_editor_role.permissions).to include(
+        :view_work_packages, # from common basic data
+        :view_own_time_entries, # from costs module
+        :view_file_links, # from storages module
+        :show_github_content # from github_integration module
+      )
+      member_role = root_seeder.seed_data.find_reference(:default_role_member)
+      expect(member_role.permissions).to include(
+        :view_work_packages, # from common basic data
+        :view_sprints, # from backlogs module
+        :show_board_views, # from board module
+        :view_documents, # from documents module
+        :view_budgets, # from costs module
+        :view_meetings, # from meeting module
+        :view_file_links # from storages module
+      )
+      expect(member_role.permissions).not_to include(
+        :view_linked_issues # from bim module
+      )
+    end
+
+    it "seeds the epic type with embedded query in its form configuration while keeping the default attribute groups" do
+      epic = root_seeder.seed_data.find_reference(:default_type_epic).default_variant
+      query_group = epic.attribute_groups[0]
+      default_groups = epic.attribute_groups[1..]
+
+      expect(query_group).to be_a Type::QueryGroup
+      expect(default_groups).to all(be_a Type::AttributeGroup)
+
+      # Filters on children (templated parent) that are user stories or bugs.
+      query = query_group.query
+      expect(query.column_names).to eq(%i[id subject status assigned_to story_points sprint])
+      expect(query.sort_criteria).to eq([["status", "desc"], ["sprint", "asc"], ["position", "asc"]])
+      expect(query.hidden).to be(true)
+      expect(query.find_active_filter(:parent)).to be_present
+      expect(query.find_active_filter(:parent).operator).to eql "="
+      expect(query.find_active_filter(:parent).values).to eql ["{id}"]
+      expect(query.find_active_filter(:type_id)).to be_present
+      expect(query.find_active_filter(:type_id).operator).to eql "="
+      expect(query.find_active_filter(:type_id).values)
+        .to eql [root_seeder.seed_data.find_reference(:default_type_user_story).id.to_s,
+                 root_seeder.seed_data.find_reference(:default_type_bug).id.to_s]
+
+      # The other attribute groups are kept
+      expect(default_groups.map { [it.key, it.attributes] }).to eql epic.default_attribute_groups
+    end
+
+    it "seeds the user story type with embedded query in its form configuration while keeping the default attribute groups" do
+      user_story = root_seeder.seed_data.find_reference(:default_type_user_story).default_variant
+      query_group = user_story.attribute_groups[0]
+      default_groups = user_story.attribute_groups[1..]
+
+      expect(query_group).to be_a Type::QueryGroup
+      expect(default_groups).to all(be_a Type::AttributeGroup)
+
+      # Filters on children (templated parent) that are user stories or bugs.
+      query = query_group.query
+      expect(query.column_names).to eq(%i[id subject type status assigned_to sprint])
+      expect(query.sort_criteria).to eq([["status", "desc"], ["id", "asc"]])
+      expect(query.hidden).to be(true)
+      expect(query.find_active_filter(:parent)).to be_present
+      expect(query.find_active_filter(:parent).operator).to eql "="
+      expect(query.find_active_filter(:parent).values).to eql ["{id}"]
+
+      # The other attribute groups are kept
+      expect(default_groups.map { [it.key, it.attributes] }).to eql user_story.default_attribute_groups
+    end
+
+    include_examples "it creates records", model: Color, expected_count: 148
+    include_examples "it creates records", model: DocumentType, expected_count: 6
+    include_examples "it creates records", model: GlobalRole, expected_count: 2
+    include_examples "it creates records", model: WorkPackageRole, expected_count: 3
+    include_examples "it creates records", model: ProjectRole, expected_count: 5
+    include_examples "it creates records", model: ProjectQueryRole, expected_count: 2
+    include_examples "it creates records", model: IssuePriority, expected_count: 4
+    include_examples "it creates records", model: Status, expected_count: 14
+    include_examples "it creates records", model: TimeEntryActivity, expected_count: 6
+    include_examples "it creates records", model: Workflow, expected_count: 1758
+    include_examples "it creates records", model: RecurringMeeting, expected_count: 1
+    include_examples "it creates records", model: AI::TextTransformAction, expected_count: 4
+    include_examples "it is compatible with the automatic scheduling mode"
+  end
+
+  # The fictional company staff is development data, and the demo data referencing it (project
+  # members, work package assignees, meeting participants) only materialises alongside it.
+  shared_examples "creates the company staff and the demo data referencing it" do
     it "creates the company departments with their member users" do
       departments = Group.organizational_units
       expect(departments.count).to eq 7
@@ -134,7 +282,7 @@ RSpec.describe RootSeeder,
         .to eq(data.find_reference(:department__events_operations))
     end
 
-    it "seeds working hours and vacations for demo users" do
+    it "seeds working hours and vacations for the member users" do
       data = root_seeder.seed_data
 
       # Schedule change: three dated schedules for the same user.
@@ -162,48 +310,21 @@ RSpec.describe RootSeeder,
       expect(Relation.follows.exists?(from_id: qa_work_package.id, to_id: website.id)).to be true
     end
 
-    it "links work packages to their version" do
-      count_by_version = WorkPackage.joins(:target_versions).group("versions.name").count
-      # testing with strings would fail for the German language test
-      # 'Bug Backlog' => 1,
-      # 'Sprint 1' => 8,
-      # 'Product Backlog' => 7
-      expect(count_by_version.values).to contain_exactly(1, 8, 7)
-    end
-
-    it "adds the backlogs, board, costs, meetings, and reporting modules to the default_projects_modules setting" do
-      default_modules = Setting.find_by(name: "default_projects_modules").value
-      expect(default_modules).to include("backlogs")
-      expect(default_modules).to include("board_view")
-      expect(default_modules).to include("costs")
-      expect(default_modules).to include("meetings")
-      expect(default_modules).to include("reporting_module")
-    end
-
-    it "creates a weekly recurring meeting with several instances" do
-      expect(RecurringMeeting.count).to eq 1
-
-      # The template is created and is no longer in draft state.
-      expect(Meeting.templated.count).to eq 1
+    it "lets several different participants present the meeting agenda items" do
       template = Meeting.templated.first
-      expect(template).not_to be_draft
-      expect(template.duration).to eq 1.0
-      expect(template.agenda_items.count).to eq 9
-      expect(template.agenda_items.sum(:duration_in_minutes)).to eq 60
 
-      # Agenda items are presented by several different participants, not just the admin,
-      # while the meeting organizer (admin) remains the author of every item.
       expect(template.agenda_items.pluck(:presenter_id).uniq.count).to be > 1
-      expect(template.agenda_items.pluck(:author_id).uniq).to eq([root_seeder.admin_user.id])
+    end
 
-      # The first two instances come from the finalizer seeder (and its chained job), the rest
-      # are instantiated by the MeetingOccurrencesSeeder.
-      expect(Meeting.where(template: false).count).to eq 5
-      Meeting.not_templated.find_each do |instance|
-        expect(instance.duration).to eq 1.0
-        expect(instance.agenda_items.count).to eq 9
-        expect(instance.agenda_items.sum(:duration_in_minutes)).to eq 60
-      end
+    it "adds a resource planner with its views and allocations to the demo project" do
+      demo_project = Project.find_by(identifier: "demo-project")
+
+      expect(demo_project.enabled_module_names).to include("resource_management")
+      planners = ResourcePlanner.where(project: demo_project)
+      expect(planners.count).to eq 1
+      expect(planners.first.children.count).to eq 4
+      # Four allocations for individual users and one filter-based allocation.
+      expect(ResourceAllocation.count).to eq 5
     end
 
     it "gives the meeting participants and varies their responses across occurrences" do
@@ -225,100 +346,6 @@ RSpec.describe RootSeeder,
       statuses = second.participants.pluck(:participation_status)
       expect(statuses).to include("declined", "tentative")
     end
-
-    it "creates different types of queries" do
-      count_by_type = View.group(:type).count
-      expect(count_by_type).to eq(
-        "work_packages_table" => 5,
-        "gantt" => 2,
-        "team_planner" => 1
-      )
-    end
-
-    it "adds additional permissions from modules" do
-      # do not test for all permissions but only some of them to ensure each
-      # module got processed for a standard edition
-      work_package_editor_role = root_seeder.seed_data.find_reference(:default_role_work_package_editor)
-      expect(work_package_editor_role.permissions).to include(
-        :view_work_packages, # from common basic data
-        :view_own_time_entries, # from costs module
-        :view_file_links, # from storages module
-        :show_github_content # from github_integration module
-      )
-      member_role = root_seeder.seed_data.find_reference(:default_role_member)
-      expect(member_role.permissions).to include(
-        :view_work_packages, # from common basic data
-        :view_sprints, # from backlogs module
-        :show_board_views, # from board module
-        :view_documents, # from documents module
-        :view_budgets, # from costs module
-        :view_meetings, # from meeting module
-        :view_file_links # from storages module
-      )
-      expect(member_role.permissions).not_to include(
-        :view_linked_issues # from bim module
-      )
-    end
-
-    it "seeds the epic type with embedded query in its form configuration while keeping the default attribute groups" do
-      epic = root_seeder.seed_data.find_reference(:default_type_epic)
-      query_group = epic.attribute_groups[0]
-      default_groups = epic.attribute_groups[1..]
-
-      expect(query_group).to be_a Type::QueryGroup
-      expect(default_groups).to all(be_a Type::AttributeGroup)
-
-      # Filters on children (templated parent) that are user stories or bugs.
-      query = query_group.query
-      expect(query.column_names).to eq(%i[id subject status assigned_to story_points sprint])
-      expect(query.sort_criteria).to eq([["status", "desc"], ["sprint", "asc"], ["position", "asc"]])
-      expect(query.hidden).to be(true)
-      expect(query.find_active_filter(:parent)).to be_present
-      expect(query.find_active_filter(:parent).operator).to eql "="
-      expect(query.find_active_filter(:parent).values).to eql ["{id}"]
-      expect(query.find_active_filter(:type_id)).to be_present
-      expect(query.find_active_filter(:type_id).operator).to eql "="
-      expect(query.find_active_filter(:type_id).values)
-        .to eql [root_seeder.seed_data.find_reference(:default_type_user_story).id.to_s,
-                 root_seeder.seed_data.find_reference(:default_type_bug).id.to_s]
-
-      # The other attribute groups are kept
-      expect(default_groups.map { [it.key, it.attributes] }).to eql epic.default_attribute_groups
-    end
-
-    it "seeds the user story type with embedded query in its form configuration while keeping the default attribute groups" do
-      user_story = root_seeder.seed_data.find_reference(:default_type_user_story)
-      query_group = user_story.attribute_groups[0]
-      default_groups = user_story.attribute_groups[1..]
-
-      expect(query_group).to be_a Type::QueryGroup
-      expect(default_groups).to all(be_a Type::AttributeGroup)
-
-      # Filters on children (templated parent) that are user stories or bugs.
-      query = query_group.query
-      expect(query.column_names).to eq(%i[id subject type status assigned_to sprint])
-      expect(query.sort_criteria).to eq([["status", "desc"], ["id", "asc"]])
-      expect(query.hidden).to be(true)
-      expect(query.find_active_filter(:parent)).to be_present
-      expect(query.find_active_filter(:parent).operator).to eql "="
-      expect(query.find_active_filter(:parent).values).to eql ["{id}"]
-
-      # The other attribute groups are kept
-      expect(default_groups.map { [it.key, it.attributes] }).to eql user_story.default_attribute_groups
-    end
-
-    include_examples "it creates records", model: Color, expected_count: 148
-    include_examples "it creates records", model: DocumentType, expected_count: 6
-    include_examples "it creates records", model: GlobalRole, expected_count: 2
-    include_examples "it creates records", model: WorkPackageRole, expected_count: 3
-    include_examples "it creates records", model: ProjectRole, expected_count: 5
-    include_examples "it creates records", model: ProjectQueryRole, expected_count: 2
-    include_examples "it creates records", model: IssuePriority, expected_count: 4
-    include_examples "it creates records", model: Status, expected_count: 14
-    include_examples "it creates records", model: TimeEntryActivity, expected_count: 6
-    include_examples "it creates records", model: Workflow, expected_count: 1758
-    include_examples "it creates records", model: RecurringMeeting, expected_count: 1
-    include_examples "it is compatible with the automatic scheduling mode"
   end
 
   describe "demo data" do
@@ -353,7 +380,7 @@ RSpec.describe RootSeeder,
         expect(View.where(type: "work_packages_table").count).to eq 5
         expect(View.where(type: "team_planner").count).to eq 1
         expect(View.where(type: "gantt").count).to eq 2
-        expect(Query.count).to eq 30
+        expect(Query.count).to eq 28
         expect(ProjectRole.count).to eq 5
         expect(WorkPackageRole.count).to eq 3
         expect(GlobalRole.count).to eq 2
@@ -386,7 +413,7 @@ RSpec.describe RootSeeder,
       before_all do
         # Simulate a user having created new statuses, and deleted all default
         # statuses and workflows (making looking up statuses by name impossible)
-        new_status = create(:status, :default, name: "My own default status")
+        new_status = create(:default_status, name: "My own default status")
         Project.destroy_all
         # destroying all statuses will destroy all workflows by cascade
         Status.where.not(id: new_status.id).destroy_all
@@ -401,11 +428,7 @@ RSpec.describe RootSeeder,
       end
 
       it "keeps the epic form configuration from the initial seeding" do
-        # The global queries embedded into the form configuration are not deleted, so the
-        # GlobalQuerySeeder is skipped on this re-seed and their references are not registered
-        # again. The TypeConfigurationSeeder therefore cannot re-apply the form configuration,
-        # but the type created initially still carries it (accepted limitation).
-        expect(Type.find_by(name: "Epic").attribute_groups)
+        expect(Type.find_by(name: "Epic").default_variant.attribute_groups)
           .to include(an_instance_of(Type::QueryGroup))
       end
     end
@@ -500,9 +523,11 @@ RSpec.describe RootSeeder,
     end
 
     it "creates 1 project with custom fields" do
-      # 12 development work package custom fields + 4 demo user custom fields
+      # 12 development work package custom fields + 4 development user custom fields
       expect(CustomField.count).to eq 16
     end
+
+    include_examples "creates the company staff and the demo data referencing it"
 
     include_examples "no email deliveries"
   end

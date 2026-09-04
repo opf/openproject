@@ -7,7 +7,10 @@ sl:
         bim_snippet: BIM snippet
         reference_links: Reference links
         stage: Stage
+        status_id: Status
         viewpoint: Pogled/vidik
+      bim/bcf/viewpoint:
+        status_id: Status
       bim/ifc_models/ifc_model:
         attachments: Datoteka IFC
         ifc_attachment: Datoteka IFC
@@ -35,7 +38,26 @@ sl:
               ifc_attachment_missing: Ni priložene datoteke IFC.
               invalid_ifc_file: Priložena datoteka ni veljavna datoteka IFC.
     models:
-      bim/ifc_models/ifc_model: model IFC
+      bim/bcf/comment:
+        one: BCF comment
+        two: BCF comments
+        few: BCF comments
+        other: BCF comments
+      bim/bcf/issue:
+        one: BCF issue
+        two: BCF issues
+        few: BCF issues
+        other: BCF issues
+      bim/bcf/viewpoint:
+        one: BCF viewpoint
+        two: BCF viewpoints
+        few: BCF viewpoints
+        other: BCF viewpoints
+      bim/ifc_models/ifc_model:
+        one: IFC model
+        two: IFC models
+        few: IFC models
+        other: IFC models
   attributes:
     bcf_thumbnail: BCF posnetek
   bcf:

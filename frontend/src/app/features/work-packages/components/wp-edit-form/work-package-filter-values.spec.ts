@@ -118,6 +118,69 @@ describe('WorkPackageFilterValues', () => {
     subject = new WorkPackageFilterValues(injector, filters);
   }
 
+  describe('when a version filter is present', () => {
+    function addVersionFilter() {
+      const version = halResourceService.createHalResourceOfClass(
+        HalResource,
+        { _type: 'Version', id: '42', _links: { self: { href: '/api/v3/versions/42', name: 'v1.0' } } },
+      ) as HalResource;
+
+      filters.push({
+        id: 'version',
+        operator: { id: '=' },
+        values: [version],
+      });
+    }
+
+    describe('with no target versions on the work package', () => {
+      beforeEach(() => {
+        source = {
+          _type: 'WorkPackage',
+          id: '1234',
+          _links: {
+            type: { href: '/api/v3/types/1', name: 'Task' },
+          },
+        };
+
+        setupTestBed();
+        addVersionFilter();
+      });
+
+      it('writes the multi-valued targetVersions attribute instead of the deprecated version', () => {
+        subject.applyDefaultsFromFilters(changeset);
+
+        expect(changeset.changedAttributes).toContain('targetVersions');
+        expect(changeset.changedAttributes).not.toContain('version');
+
+        const written = changeset.value<HalResource[]>('targetVersions');
+        expect(written.length).toEqual(1);
+        expect(written[0].href).toEqual('/api/v3/versions/42');
+      });
+    });
+
+    describe('with the version already assigned as target version', () => {
+      beforeEach(() => {
+        source = {
+          _type: 'WorkPackage',
+          id: '1234',
+          _links: {
+            type: { href: '/api/v3/types/1', name: 'Task' },
+            targetVersions: [{ href: '/api/v3/versions/42', name: 'v1.0' }],
+          },
+        };
+
+        setupTestBed();
+        addVersionFilter();
+      });
+
+      it('does not change the work package', () => {
+        subject.applyDefaultsFromFilters(changeset);
+
+        expect(changeset.changedAttributes.length).toEqual(0);
+      });
+    });
+  });
+
   describe('when a filter value already exists in values', () => {
     describe('with the first type applied', () => {
       beforeEach(() => {

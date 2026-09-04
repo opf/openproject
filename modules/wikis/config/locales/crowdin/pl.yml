@@ -29,7 +29,16 @@ pl:
         few: Wbudowane linki stron
         many: Wbudowane linki stron
         other: Wbudowane linki strony
-      wikis/internal_provider: Wewnętrzna wiki
+      wikis/internal_provider:
+        one: Dostawca wewnętrzny
+        few: Dostawcy wewnętrzni
+        many: Dostawcy wewnętrzni
+        other: Dostawcy wewnętrzni
+      wikis/page_link:
+        one: Link do strony
+        few: Linki do stron
+        many: Linki do stron
+        other: Linki do stron
       wikis/provider:
         one: Dostawca wiki
         few: Dostawcy wiki
@@ -47,14 +56,12 @@ pl:
         other: Dostawcy XWiki
   menus:
     admin:
-      external_wiki_providers: Dostawcy wiki
-      internal_wiki_provider: Wewnętrzna wiki
+      external_wiki_providers: Zewnętrzni dostawcy wiki
+      internal_wiki_provider: Wiki projektu
       wikis: Wiki
+    project_settings:
+      wiki: Wiki projektu
   permission_manage_wiki_page_links: Zarządzaj linkami do stron wiki
-  project_module_wiki_internal: Wiki projektu
-  project_module_wiki_platforms: Dostawcy wiki
-  projects_settings_wiki:
-    title: Wiki projektu
   wikis:
     admin:
       destroy_confirmation_dialog_component:
@@ -83,11 +90,11 @@ pl:
           no_health_report_description: Uruchom kontrole teraz, aby uzyskać pełny raport o stanie tego dostawcy wiki.
           title: Raport o stanie
       internal_provider_form:
-        checkbox_caption: Zezwalaj projektom na używanie wewnętrznego wiki OpenProject wraz z zewnętrznymi dostawcami wiki
-        checkbox_label: Włącz wewnętrzną wiki OpenProject
+        checkbox_caption: Zezwalaj projektom na używanie stron wiki projektu z zewnętrznymi dostawcami wiki
+        checkbox_label: Włącz strony wiki projektów OpenProject
       internal_wiki_provider:
         show:
-          description: Wybierz, aby włączyć lub wyłączyć wewnętrzną wiki OpenProject
+          description: Wybierz włączenie albo wyłączenie wiki projektu
       oauth_application_info_component:
         confirm_replace_oauth_application: To działanie spowoduje zresetowanie bieżących poświadczeń OAuth. Po potwierdzeniu trzeba będzie ponownie wprowadzić poświadczenia w swoim wystąpieniu XWiki, a wszyscy użytkownicy będą musieli dokonać ponownej autoryzacji. Czy na pewno chcesz kontynuować?
         label_oauth_client_id: Identyfikator klienta OAuth
@@ -172,6 +179,7 @@ pl:
     index:
       column_last_edited: Ostatnio edytowano
       column_name: Strona wiki
+      column_parent: Element nadrzędny
       column_project: Projekt
       column_sub_pages: Podstrony
       filter_by_name: Filtruj według nazwy strony
@@ -206,7 +214,7 @@ pl:
     page_link_forms:
       labels:
         page_title: Tytuł
-        parent: Nadrzędna strona wiki
+        parent: Element nadrzędny
         wiki_page: Strona wiki
       search:
         no_results: Nie znaleziono żadnych stron wiki
@@ -221,9 +229,13 @@ pl:
         parent: Jako element nadrzędny
     project_settings:
       project_internal_wiki_component:
+        blankslate_description: W tym wystąpieniu strony wiki projektów są wyłączone globalnie, w związku z czym nie można ich włączyć dla poszczególnych projektów. Zwróć się do administratora o włączenie globalnych wiki w ustawieniach administracyjnych.
+        blankslate_title: Wiki projektów zostały wyłączone globalnie
         caption: Włącza natywne funkcje wiki dla tego projektu. Członkowie będą mogli tworzyć i czytać strony wiki, które są przechowywane w OpenProject.
-        enable: Włączcie wewnętrzną wiki dla tego projektu
+        enable: Włącz wiki OpenProject dla tego projektu
     provider_types:
+      internal:
+        name: OpenProject
       xwiki:
         name: XWiki
     relation_page_links_component:

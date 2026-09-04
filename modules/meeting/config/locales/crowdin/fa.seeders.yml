@@ -9,21 +9,22 @@ fa:
         demo-project:
           meeting_series:
             item_0:
-              title: Weekly
+              title: هفتگی
           meeting_agenda_items:
             item_0:
-              title: Good news
+              title: خبر خوب
+              notes: چه چیزهایی این هفته خوب پیش رفت؟
             item_1:
-              title: Updates from development team
+              title: به‌روزرسانی‌های تیم
+              notes: اخبار و موضوعات کلیدی برای هفته پیشِ رو.
             item_2:
-              title: Updates from product team
+              notes: "**موضوع امروز**: سازمان‌دهی کنفرانس متن‌باز."
             item_3:
-              title: Updates from marketing team
+              title: مرور اهداف سه‌ماهه
+              notes: ارزیابی وضعیت و پیشرفت اهداف سه‌ماهه تعریف‌شده.
+            item_4:
+              title: بازخورد دربارهٔ ارزش‌های محوری
+              notes: از کارکنانی که این هفته ارزش‌های محوری را در عمل نشان داده‌اند، تقدیر کنید.
             item_5:
-              title: Updates from sales team
-            item_6:
-              title: Review of quarterly goals
-            item_7:
-              title: Core values feedback
-            item_8:
-              title: General topics
+              title: موضوعات عمومی
+              notes: حل یا بررسی موضوعات به‌صورت گروهی.

@@ -178,6 +178,15 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
         this.untilDestroyed(),
       )
       .subscribe((evt:SubmitEvent) => {
+        // Another handler (e.g. require-password-confirmation) already owns this
+        // submit. Still flush editor → textarea so a later confirmed submit has
+        // the latest content, but do not re-submit — Turbo's navigator.submitForm
+        // would bypass that other handler and POST without confirmation.
+        if (evt.defaultPrevented) {
+          this.syncToTextarea();
+          return;
+        }
+
         evt.preventDefault();
         void this.saveForm(evt);
       });
@@ -214,7 +223,11 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
         (evt.submitter as HTMLInputElement).disabled = false;
       }
 
-      if (this.turboMode && !this.formElement.dataset.action) {
+      // Honor the form's data-turbo="false" even when this component was created
+      // with turboMode (Primer rich_text_area default). Turbo's submitForm skips
+      // the submit event and would bypass other submit interceptors.
+      const turboDisabled = this.formElement.dataset.turbo === 'false';
+      if (this.turboMode && !turboDisabled && !this.formElement.dataset.action) {
         navigator.submitForm(this.formElement, evt?.submitter ?? undefined);
       } else {
         this.formElement.requestSubmit(evt?.submitter);
@@ -222,34 +235,6 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
 
       CkeditorAugmentedTextareaComponent.inFlight.delete(this.formElement);
     });
-  }
-
-  private constrainGroupedDropdownToEditorWidth(_editor:ICKEditorInstance) {
-    const host = this.elementRef.nativeElement;
-
-    const editorWidth = () => {
-      const editorEl = host.querySelector<HTMLElement>('.ck-editor') ?? host;
-      return Math.floor(editorEl.getBoundingClientRect().width);
-    };
-
-    const apply = () => {
-      const width = editorWidth();
-
-      const panels = Array.from(
-        document.querySelectorAll<HTMLElement>(
-          '.ck.ck-dropdown__panel'
-        )
-      );
-
-      for (const panel of panels) {
-        panel.style.maxWidth = `${width - 8}px`;
-
-      }
-    };
-
-    fromEvent(host, 'click')
-      .pipe(this.untilDestroyed())
-      .subscribe(() => setTimeout(apply));
   }
 
   public setup(editor:ICKEditorInstance) {
@@ -268,8 +253,6 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     editor.ui.focusTracker.on('change:isFocused', (_evt:unknown, _name:string, _isFocused:boolean) => {
       this.setLabel();
     });
-    this.constrainGroupedDropdownToEditorWidth(editor);
-
     return editor;
   }
 

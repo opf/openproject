@@ -55,6 +55,8 @@ pt-BR:
         position: Posição
         presenter: Apresentador
         title: Título
+      meeting_outcome:
+        kind: Tipo
       meeting_participant:
         attended: Participou
         invited: Convidado
@@ -98,11 +100,27 @@ pt-BR:
         recurring_meeting_interim_response:
           not_an_occurrence: não é um horário válido para esta reunião recorrente
     models:
-      meeting: Reunião única
-      meeting_agenda: Agenda
-      meeting_agenda_item: Item da agenda
-      meeting_section: Seção
-      recurring_meeting: Reunião recorrente
+      meeting:
+        one: Reunião única
+        other: Reuniões únicas
+      meeting_agenda_item:
+        one: Item da agenda
+        other: Itens da agenda
+      meeting_outcome:
+        one: Resultado
+        other: Resultados
+      meeting_participant:
+        one: Participante da reunião
+        other: Participantes da reunião
+      meeting_section:
+        one: Seção
+        other: Seções
+      recurring_meeting:
+        one: Reunião recorrente
+        other: Reuniões recorrentes
+      scheduled_meeting:
+        one: Reunião agendada
+        other: Reuniões agendadas
       token/ical_meeting:
         one: Assinatura da Reunião iCal
         other: Assinaturas da Reunião iCal
@@ -255,7 +273,6 @@ pt-BR:
   label_past_meetings: Reuniões anteriores
   label_past_meetings_short: Passado
   label_recurring_filter: Filtro recorrente
-  label_recurring_meeting: Reunião recorrente
   label_recurring_meeting_cancel: Cancelar esta ocorrência
   label_recurring_meeting_create: Abrir
   label_recurring_meeting_delete: Excluir ocorrência

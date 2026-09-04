@@ -54,6 +54,8 @@ ja:
         position: Position
         presenter: 発表者
         title: タイトル
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: 出席
         invited: 招待済み
@@ -97,11 +99,20 @@ ja:
         recurring_meeting_interim_response:
           not_an_occurrence: is not a valid occurrence time for this recurring meeting
     models:
-      meeting: 一度限りの会議
-      meeting_agenda: アジェンダ
-      meeting_agenda_item: 議題項目
-      meeting_section: セクション
-      recurring_meeting: 定期的な会議
+      meeting:
+        other: One-time meetings
+      meeting_agenda_item:
+        other: Agenda items
+      meeting_outcome:
+        other: Outcomes
+      meeting_participant:
+        other: Meeting participants
+      meeting_section:
+        other: Sections
+      recurring_meeting:
+        other: Recurring meetings
+      scheduled_meeting:
+        other: Scheduled meetings
       token/ical_meeting:
         other: iCal会議予約
   activity:
@@ -250,7 +261,6 @@ ja:
   label_past_meetings: 過去の会議
   label_past_meetings_short: 過去
   label_recurring_filter: Recurring filter
-  label_recurring_meeting: 定期的な会議
   label_recurring_meeting_cancel: この予定をキャンセル
   label_recurring_meeting_create: 開く
   label_recurring_meeting_delete: 予定を削除

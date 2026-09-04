@@ -47,7 +47,7 @@ See COPYRIGHT and LICENSE files for more details.
       tag: :a,
       href: new_projects_budget_path(@project)
     ) do
-      t(:label_budget)
+      Budget.model_name.human
     end
   end
 %>

@@ -29,9 +29,11 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class GeneratePdfController extends Controller {
-  static targets = ['templates', 'inputGroups'];
+  static targets = ['templates', 'inputGroups', 'submit'];
 
   declare inputGroupsTargets:HTMLElement[];
+
+  declare readonly submitTarget:HTMLElement;
 
   templatesChanged(event:Event) {
     const target = event.target as HTMLSelectElement;
@@ -46,9 +48,19 @@ export default class GeneratePdfController extends Controller {
     this.inputGroupsTargets.forEach((inputGroup:HTMLElement) => {
       if (inputGroup.dataset.template === template) {
         inputGroup.classList.remove('d-none');
+        this.adjustFormSubmitTarget(inputGroup);
       } else {
         inputGroup.classList.add('d-none');
       }
     });
+  }
+
+  // point the dialog submit button at whichever form is currently visible
+  private adjustFormSubmitTarget(inputGroup:HTMLElement) {
+    const form = inputGroup.querySelector('form');
+    const formID = form?.getAttribute('id');
+    if (formID) {
+      this.submitTarget.setAttribute('form', formID);
+    }
   }
 }

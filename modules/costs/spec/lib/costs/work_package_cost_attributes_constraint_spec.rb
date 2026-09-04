@@ -31,7 +31,8 @@
 require "spec_helper"
 
 RSpec.describe "Costs attribute group cost type availability" do # rubocop:disable RSpec/DescribeClass
-  let(:type) { build(:type) }
+  let(:type) { create(:type) }
+  let(:type_variant) { type.default_variant }
   let(:project) { build_stubbed(:project) }
 
   # Unit-cost attributes (and the overall total they feed) are meaningless without
@@ -45,7 +46,7 @@ RSpec.describe "Costs attribute group cost type availability" do # rubocop:disab
   end
 
   def passes_constraint?(attribute)
-    type.passes_attribute_constraint?(attribute, project:)
+    type_variant.passes_attribute_constraint?(attribute, project:)
   end
 
   context "when at least one cost type is available in the project" do

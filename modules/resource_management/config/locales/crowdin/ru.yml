@@ -3,18 +3,18 @@ ru:
   activerecord:
     attributes:
       resource_allocation:
-        allocated_hours: Hours
+        allocated_hours: Часы
         allocated_time: Распределенное время
-        date_range: Dates
+        date_range: Даты
         end_date: Дата окончания
         entity: Сущность
-        filter_name: Resource filter name
+        filter_name: Название фильтра ресурсов
         principal: Исполнитель
         start_date: Дата начала
         state: Состояние
         user_filter: Фильтры пользователей
       resource_planner:
-        date_range: Dates
+        date_range: Даты
         default_view_class_name: Представление по умолчанию
         end_date: Дата окончания
         favorite: Избранное
@@ -31,31 +31,57 @@ ru:
           attributes:
             end_date:
               greater_than_start_date: должно быть после даты начала.
-              required_with_start_date: must be set when a start date is set.
+              required_with_start_date: должно быть установлено, когда установлена дата начала.
             start_date:
-              required_with_end_date: must be set when a finish date is set.
+              required_with_end_date: должно быть установлено, когда дата окончания установлена.
         resource_work_package_list:
           attributes:
             query:
-              must_be_work_package_query: must be a work package query.
+              must_be_work_package_query: должен быть представлением пакетов работ.
     models:
-      resource_allocation: Resource Allocation
-      resource_planner: Resource Planner
-      resource_user_card: User cards
-      resource_work_package_list: Work packages list
+      resource_allocation:
+        one: Распределение ресурсов
+        few: Resource Allocations
+        many: Resource Allocations
+        other: Распределения ресурсов
+      resource_planner:
+        one: Планировщик ресурсов
+        few: Resource Planners
+        many: Resource Planners
+        other: Планировщики ресурсов
+      resource_user_card:
+        one: Карточка пользователя
+        few: User cards
+        many: User cards
+        other: Карточки пользователей
+      resource_user_timeline:
+        one: Таймлайн пользователей
+        few: User timelines
+        many: User timelines
+        other: Таймлайны пользователей
+      resource_work_package_list:
+        one: Список пакетов работ
+        few: Work packages lists
+        many: Work packages lists
+        other: Списки пакетов работ
+      resource_work_package_timeline:
+        one: Таймлайн пакетов работ
+        few: Work packages timelines
+        many: Work packages timelines
+        other: Таймлайны пакетов работ
+  button_next: Далее
   ee:
     features:
-      resource_management: Resource management
+      resource_management: Управление ресурсами
     upsell:
       resource_management:
-        description: Plan and balance your team's workload with resource planners. Allocate people to work packages, track capacity over time and spot over- and under-allocation at a glance.
-        title: Resource management
-  button_next: Next
-  label_resource_management: Resource management
+        description: Планируйте и распределяйте нагрузку вашей команды с помощью инструментов планирования ресурсов. Назначайте сотрудников на пакеты работ, отслеживайте загрузку персонала в динамике и мгновенно выявляйте случаи как избыточного, так и недостаточного распределения ресурсов.
+        title: Управление ресурсами
+  label_resource_management: Управление ресурсами
   permission_allocate_user_resources: Распределение пользовательских ресурсов
   permission_allocate_user_resources_explanation: Позволяет пользователям создавать, обновлять и удалять распределение ресурсов в планировщике ресурсов. Сюда входит назначение пользователей (или фильтров) на планировщик и корректировка выделенного времени и диапазона дат.
-  permission_assign_users_to_generic_allocations: Assign users to generic allocations
-  permission_assign_users_to_generic_allocations_explanation: Allows users to use the Staffing view to assign real users to generic (filter-based) resource allocations that do not yet have a user. It does not allow creating or editing allocations.
+  permission_assign_users_to_generic_allocations: Назначить пользователей общим распределением
+  permission_assign_users_to_generic_allocations_explanation: Позволяет пользователям использовать режим штатного расписания для назначения реальных пользователей общим (основанным на фильтрах) распределением ресурсов, которые еще не имеют пользователя. Он не позволяет создавать или редактировать назначения.
   permission_manage_public_resource_planners: Управление общедоступными планировщиками ресурсов
   permission_manage_public_resource_planners_explanation: Позволяет пользователям создавать и управлять общедоступными планировщиками ресурсов. Это позволяет просматривать, создавать, управлять и публиковать свои собственные планировщики ресурсов. Он не позволяет пользователям просматривать планировщики ресурсов, созданные другими пользователями, которые не являются общедоступными.
   permission_view_resource_planners: Просмотр планировщиков ресурсов
@@ -67,7 +93,7 @@ ru:
   resource_management:
     action:
       delete: Удалить
-      edit: Edit
+      edit: Редактировать
       favorite: Добавить в избранное
       make_private: Сделать личным
       make_public: Сделать общедоступным
@@ -75,68 +101,68 @@ ru:
     allocate_resource_dialog:
       kind:
         filter:
-          caption: Set filter criteria based on user attributes to create a placeholder resource.
-          label: Filter criteria
-        label: Allocation type
+          caption: Установите критерии фильтрации на основе атрибутов пользователя для создания ресурса-заполнителя.
+          label: Критерии фильтрации
+        label: Тип распределения
         principal:
-          caption: Allocate hours for a specific user.
-          label: User
+          caption: Распределить часы для определенного пользователя.
+          label: Пользователь
       outside_dates:
-        description: The selected resource dates, %{resource_dates}, are outside of the work package's dates, %{work_package_dates}.
+        description: Выбранные даты ресурса, %{resource_dates}, вне дат пакета работ, %{work_package_dates}.
       overbooking:
-        capacity_summary: "%{available} available · %{scheduled} scheduled"
-        description: The selected user, %{user}, would be allocated beyond their working hours during this period.
-        hidden_work: Other allocations
-        schedule_availability: "%{schedule} (%{factor}% available for project work)"
-        schedule_change: until %{date}, then %{schedule}
-        schedule_note: This user works %{schedule}.
-        submit: Allocate overtime
-        title: Do you want to allocate overtime to the user?
-      submit: Allocate
-      success_message: Resource allocated.
-      title: Allocate resource
+        capacity_summary: "%{available} доступно · %{scheduled} запланировано"
+        description: Выбранный пользователь, %{user}, будет задействован в течение данного периода в нерабочее время.
+        hidden_work: Другие распределения
+        schedule_availability: "%{schedule} (%{factor}% доступно для работы над проектом)"
+        schedule_change: до %{date}, затем %{schedule}
+        schedule_note: Этот пользователь работает с %{schedule}.
+        submit: Выделить сверхурочную работу
+        title: Вы хотите выделить сверхурочную работу пользователю?
+      submit: Распределить
+      success_message: Ресурсы выделены.
+      title: Выделить ресурс
     allocation:
-      hours: "%{value}h"
-      no_work: No work planned on this work package
+      hours: "%{value} ч"
+      no_work: Нет запланированных работ по этому пакету работ
       summary: "%{allocated} / %{scheduled}"
     assignment_dialog:
-      available: "%{hours} available"
-      confirm_overtime: Assign anyway
-      filter_criteria: Filter criteria
+      available: "%{hours} доступно"
+      confirm_overtime: Назначить всё равно
+      filter_criteria: Критерии фильтрации
       no_candidates:
-        description: No project member matches this allocation's filter criteria.
-        title: No matching members
-      no_schedule: This user has no work schedule set up, so we cannot determine whether this allocation fits.
-      overbooked_detail: This user has %{available} available in this period, the work package requires %{requested}.
-      requested_for: Requested for
-      select_user: Please select a user to assign.
-      submit: Assign
-      title: Assign %{filter_name}
+        description: Ни один из участников проекта не соответствует критериям фильтрации этого распределения.
+        title: Нет подходящих участников
+      no_schedule: Этот пользователь не имеет графика работы, поэтому мы не можем определить, подходит ли это распределение.
+      overbooked_detail: У этого пользователя есть %{available}, пакет работ требует %{requested}.
+      requested_for: Запрошено для
+      select_user: Пожалуйста, выберите пользователя для назначения.
+      submit: Назначить
+      title: Назначить %{filter_name}
     blankslate:
       desc: Создать планировщик ресурсов, чтобы начать планировать этот проект.
       title: Нет планировщиков ресурсов
     configure_view_dialog:
-      delete_confirmation: Are you sure you want to delete this view? This cannot be undone.
+      delete_confirmation: Вы уверены, что хотите удалить это представление? Это действие нельзя отменить.
       filter_mode:
         automatic:
-          caption: An automatically-generated list that displays items that meet criteria you define.
-          label: Automatically filtered
-        label: Item selection
+          caption: Автоматический список, который отображает элементы, удовлетворяющие заданным критериям.
+          label: Автоматически отфильтровано
+        label: Выбор элемента
         manual:
-          caption: A custom list of items you manually add and remove. Filtering is not possible.
-          label: Manually hand-picked
-      title: Configure view
+          caption: Пользовательский список элементов, которые вы добавляете и удаляете вручную. Фильтрация невозможна.
+          label: Выбрано вручную
+      title: Настроить представление
     edit_allocation_dialog:
-      submit: Save
-      success_message: Resource allocation updated.
-      title: Edit allocation
+      submit: Сохранить
+      success_message: Распределение ресурсов обновлено.
+      title: Редактировать распределение
     favorite_caption: Сделайте это представление избранным, чтобы добавить его в верхний раздел меню боковой панели.
-    label_edit_resource_planner: Edit resource planner
+    label_edit_resource_planner: Редактировать планировщик ресурсов
     label_new_resource_planner: Новый планировщик ресурсов
     label_resource_planner: Планировщик ресурсов
     label_resource_planner_plural: Планировщики ресурсов
     new_view_dialog:
-      title: Add View
+      title: Добавить представление
     public_caption: Сделать публичным для всех участников проекта. Это не влияет на видимость пакетов работ, которые все еще зависят от разрешения каждого пользователя.
     show:
       placeholder: Подробный обзор для этого планировщика ресурсов скоро будет доступен.
@@ -144,155 +170,161 @@ ru:
       private: Личный
       public: Общий
     staffing:
-      assign: Assign user
+      assign: Назначить пользователя
       blank:
-        description: All generic allocations in this project have a user assigned.
-        title: Nothing to staff
+        description: Все общие назначения в этом проекте имеют назначенного пользователя.
+        title: Нечего распределять
       columns:
-        dates: Dates
-        requested_time: Requested time
-        resource: Resource
-        work_package: Work package
-      context_menu_label: Allocation actions
-      delete_confirmation: Are you sure you want to delete this allocation?
-      menu_item: Staffing
-      starts_in_past: This allocation has already started and is still unassigned.
-      success_message: User assigned.
-      title: Staffing
-    sub_views: Views in this resource planner
+        dates: Даты
+        requested_time: Запрашиваемое время
+        resource: Ресурс
+        work_package: Пакет работ
+      context_menu_label: Действия с распределениями
+      delete_confirmation: Вы уверены, что хотите удалить это распределение?
+      menu_item: Штатное расписание
+      starts_in_past: Это распределение уже началось и до сих пор не назначено.
+      success_message: Пользователь назначен.
+      title: Штатное расписание
+    sub_views: Представления в этом планировщике ресурсов
     timeframe:
-      full: From %{start} to %{end}
+      full: С %{start} до %{end}
     timeline:
       granularity:
-        day: Day
-        month: Month
-        week: Calendar week
+        day: День
+        month: Месяц
+        week: Календарная неделя
       navigation:
-        next: Next period
-        previous: Previous period
-        today: Today
+        next: Следующий период
+        previous: Предыдущий период
+        today: Сегодня
       subheader:
-        add: Add
-        allocate: Allocate
-        settings: Configure view
+        add: Добавить
+        allocate: Распределить
+        settings: Настроить представление
     user_allocations_dialog:
-      allocate_work_package: Allocate work package
-      blank: This user has no allocated work packages.
+      allocate_work_package: Распределить пакет работ
+      blank: У данного пользователя нет назначенных пакетов работ.
       other_work_packages:
-        one: 1 other work package
-        few: "%{count} other work packages"
-        many: "%{count} other work packages"
-        other: "%{count} other work packages"
-      title: Utilization
+        one: еще 1 пакет работ
+        few: ещё %{count} пакета работ
+        many: ещё %{count} пакетов работ
+        other: ещё %{count} пакетов работ
+      title: Использование
     user_card_list:
       add_user_dialog:
-        title: Add user
+        title: Добавить пользователя
       blank:
-        description: There are no users matching this view's filters yet.
-        manual_description: No users have been added to this view yet.
-        title: No users to display
+        description: Пока нет пользователей, соответствующих этому фильтру представлений.
+        manual_description: В данное представление пользователи пока не добавлены.
+        title: Нет пользователей для отображения
       card:
-        multi_value_more: "+%{count} more"
-        remove: Remove user
-        remove_confirmation: Remove this user from the view?
+        multi_value_more: "+ ещё %{count}"
+        remove: Удалить пользователя
+        remove_confirmation: Удалить этого пользователя из представления?
       fields:
-        drag_area_label: Displayed fields
-        input_caption: Select the fields that will be displayed in the user card for this view
-        input_label: Fields
-        input_placeholder: Add a field
-        working_times: Working times
+        drag_area_label: Отображаемые поля
+        input_caption: Выберите поля, которые будут отображаться в карточке пользователя для данного представления
+        input_label: Поля
+        input_placeholder: Добавить поле
+        working_times: График работы
       subheader:
-        resource: Resource
-        settings: Configure view
+        resource: Ресурс
+        settings: Настроить представление
       utilization:
-        label: Utilization
+        label: Использование
       working_hours:
-        blank: No working hours configured
-        schedule_availability_compact: "%{schedule} (%{factor}% available)"
-        schedule_change_compact: until %{date}, %{schedule}
+        blank: Рабочее время не настроено
+        schedule_availability_compact: "%{schedule} (%{factor}% доступно)"
+        schedule_change_compact: до %{date}, %{schedule}
     user_timeline:
       blank:
-        add_user: Add user
-        configure_view: Configure view
-        description: There are no users matching this view's filters yet.
-        manual_description: Add users to this view to see their allocation over time.
-        title: No users to display
-      no_work_schedule: No work schedule planned for this user
-      overbooked: This user is over-allocated in the selected period.
+        add_user: Добавить пользователя
+        configure_view: Настроить представление
+        description: Пока нет пользователей, соответствующих этому фильтру представлений.
+        manual_description: Добавьте пользователей в это представление, чтобы увидеть их распределение по времени.
+        title: Нет пользователей для отображения
+      no_work_schedule: Для этого пользователя не запланирован график работы
+      overbooked: У этого пользователя превышен лимит за выбранный период.
       overbooked_tooltip:
-        range: "%{dates}: %{scheduled} scheduled, %{available} available"
+        range: "%{dates}: %{scheduled} запланирован, %{available} доступно"
       subheader:
-        add_user: Add user
+        add_user: Добавить пользователя
     view_types:
       resource_user_card:
-        caption: Create a view based on users and see their details and allocation in a list of user cards
-        label: Users card list
+        caption: Создать представление на основе пользователей и просмотреть их детали и распределение списком карточек пользователя
+        label: Карточки пользователей
       resource_user_timeline:
-        caption: Create a view based on users and see their allocations over time on a timeline
-        label: Users timeline
+        caption: Создать представление на основе пользователей и увидеть их назначения по времени на таймлайне
+        label: Таймлайн пользователей
       resource_work_package_list:
-        caption: Create a view based on work packages and see its details and allocation in a list
-        label: Work packages list
+        caption: Создать представление на основе пакетов работ и просмотреть его сведения и распределение списком
+        label: Список пакетов работ
       resource_work_package_timeline:
-        caption: Create a view based on work packages and see their allocations over time on a timeline
-        label: Work packages timeline
+        caption: Создать представление на основе пакетов работ и увидеть их распределения по времени на таймлайне
+        label: Таймлайн пакетов работ
       user_card:
-        caption: Create a view based on users and see their details and allocation in a list of user cards
-        label: Users card list
+        caption: Создать представление на основе пользователей и просмотреть их детали и распределения списком карточек пользователя
+        label: Список карточек пользователей
     work_package_allocations_dialog:
-      allocate_resource: Allocate resource
-      context_menu_label: Allocation actions
-      delete_confirmation: Are you sure you want to delete this allocation? This cannot be undone.
-      delete_success: Resource allocation deleted.
-      hidden_user: Hidden user
-      overbooked: The user is allocated beyond their working hours during this period.
-      title: Allocation
+      allocate_resource: Выделить ресурс
+      context_menu_label: Действия с распределениями
+      delete_confirmation: Вы уверены, что хотите удалить это распределение? Это действие нельзя отменить.
+      delete_success: Распределение ресурсов удалено.
+      hidden_user: Скрытый пользователь
+      overbooked: В течение данного периода пользователь задействован вне своего рабочего времени.
+      title: Распределение
     work_package_list:
       add_work_package_dialog:
-        title: Add work package
+        title: Добавить пакет работ
       allocated_members:
         additional: "+%{count}"
         other_users:
-          one: "%{count} user"
-          few: "%{count} users"
-          many: "%{count} users"
-          other: "%{count} users"
-        unassigned: Unassigned
+          one: "%{count} пользователь"
+          few: "%{count} пользователя"
+          many: "%{count} пользователей"
+          other: "%{count} пользователей"
+        unassigned: Неназначено
       allocation_placeholder: "—"
       blank:
-        description: There are no work packages matching this view's filters yet.
-        title: No work packages to display
+        description: Пока что нет пакетов работ, соответствующих фильтрам данного представления.
+        title: Не пакетов работ для отображения
       columns:
-        allocated_members: Allocated members
-        allocation: Allocation
-        dates: Dates
+        allocated_members: Назначенные участники
+        allocation: Распределение
+        dates: Даты
       context_menu:
-        add_filter_criteria: Add filter criteria
-        add_user_group: Add user group
-        edit_total_work: Edit total work
-        label: More actions
-        move: Move
-        move_down: Move down
-        move_to_bottom: Move to bottom
-        move_to_top: Move to top
-        move_up: Move up
-        remove: Remove
-        remove_confirmation: Remove this work package from the view?
-        see_allocation: See allocation
-      mobile_title: Work packages
-      query_name: 'Resource management work packages: %{name}'
+        add_filter_criteria: Добавить критерий фильтра
+        add_user_group: Добавить группу пользователей
+        edit_total_work: Редактировать общий объем работ
+        label: Другие действия
+        move: Переместить
+        move_down: Вниз
+        move_to_bottom: В конец
+        move_to_top: В начало
+        move_up: Переместить вверх
+        remove: Удалить
+        remove_confirmation: Удалить этот пакет работ из представления?
+        see_allocation: Посмотреть распределение
+      mobile_title: Пакеты работ
+      query_name: 'Пакеты работ по управлению ресурсами: %{name}'
       subheader:
-        add: Add
-        add_work_package: Add work package
-        allocate: Allocate
-        settings: Configure view
+        add: Добавить
+        add_work_package: Добавить пакет работ
+        allocate: Распределить
+        settings: Настроить представление
     work_package_timeline:
+      allocation_bar:
+        matching_members_description:
+          one: "%{count} участник этого проекта соответствует критериям фильтрации."
+          few: "%{count} участника этого проекта соответствует критериям фильтрации."
+          many: "%{count} участников этого проекта соответствует критериям фильтрации."
+          other: "%{count} участников этого проекта соответствует критериям фильтрации."
       blank:
-        add_work_package: Add work package
-        configure_view: Configure view
-        description: There are no work packages matching this view's filters yet.
-        manual_description: Add work packages to this view to plan their allocation over time.
-        title: No work packages to display
-      query_name: 'Resource management work package timeline: %{name}'
+        add_work_package: Добавить пакет работ
+        configure_view: Настроить представление
+        description: Пока что нет пакетов работ, соответствующих фильтрам данного представления.
+        manual_description: Добавьте в это представление пакеты работ, чтобы планировать их распределение по времени.
+        title: Не пакетов работ для отображения
+      query_name: 'Таймлайн пакетов работ по управлению ресурсами: %{name}'
       subheader:
-        add_work_package: Add work package
+        add_work_package: Добавить пакет работ

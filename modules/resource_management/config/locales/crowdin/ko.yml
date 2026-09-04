@@ -39,10 +39,19 @@ ko:
             query:
               must_be_work_package_query: "- 작업 패키지 쿼리여야 합니다."
     models:
-      resource_allocation: 리소스 할당
-      resource_planner: 리소스 플래너
-      resource_user_card: 사용자 카드
-      resource_work_package_list: 작업 패키지 목록
+      resource_allocation:
+        other: 리소스 할당
+      resource_planner:
+        other: 리소스 플래너
+      resource_user_card:
+        other: 사용자 카드
+      resource_user_timeline:
+        other: 사용자 타임라인
+      resource_work_package_list:
+        other: 작업 패키지 목록
+      resource_work_package_timeline:
+        other: 작업 패키지 타임라인
+  button_next: 다음
   ee:
     features:
       resource_management: 리소스 관리
@@ -50,7 +59,6 @@ ko:
       resource_management:
         description: 리소스 플래너를 사용하여 팀의 작업량을 계획하고 균형을 맞추세요. 사람들을 작업 패키지에 할당하고, 시간 경과에 따른 업무량을 추적하며, 할당 과다 및 할당 부족 상황을 한눈에 파악하세요.
         title: 리소스 관리
-  button_next: 다음
   label_resource_management: 리소스 관리
   permission_allocate_user_resources: 사용자 리소스 할당
   permission_allocate_user_resources_explanation: 사용자가 리소스 플래너 내에서 리소스 할당을 만들고, 업데이트하고, 삭제할 수 있습니다. 여기에는 플래너에 사용자(또는 사용자 필터)를 할당하고 할당된 시간 및 날짜 범위를 조정하는 것이 포함됩니다.
@@ -281,6 +289,9 @@ ko:
         allocate: 할당
         settings: 보기 구성
     work_package_timeline:
+      allocation_bar:
+        matching_members_description:
+          other: 이 프로젝트의 멤버 %{count}명이 할당의 필터 기준에 맞습니다.
       blank:
         add_work_package: 작업 패키지 추가
         configure_view: 보기 구성

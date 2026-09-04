@@ -73,7 +73,7 @@ class CustomFieldFormBuilder < TabularFormBuilder
     when "date"
       date_picker(field, input_options)
     when "text"
-      text_area(field, input_options.merge(with_text_formatting: true, macros: false, editor_type: "constrained"))
+      text_area(field, input_options.merge(with_text_formatting: true, macros: "wiki", editor_type: "constrained"))
     when "bool"
       check_box(field, input_options.merge(checked: custom_value.strategy.checked?))
     when "list"

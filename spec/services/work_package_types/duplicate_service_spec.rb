@@ -40,7 +40,7 @@ RSpec.describe WorkPackageTypes::DuplicateService, with_flag: { type_variants: t
            color:,
            is_milestone: true,
            is_in_roadmap: false,
-           description: "The source description")
+           default_work_package_description: "The source description")
   end
 
   subject(:service_call) { described_class.new(type: source, user: admin).call }
@@ -49,9 +49,8 @@ RSpec.describe WorkPackageTypes::DuplicateService, with_flag: { type_variants: t
     login_as(admin)
     RequestStore.clear!
 
-    source.attribute_groups = [["custom group", %w[assignee responsible]]]
-    source.save!
-    source.reload
+    source.default_variant.attribute_groups = [["custom group", %w[assignee responsible]]]
+    source.default_variant.save!
   end
 
   it "is successful and creates a new type" do
@@ -62,8 +61,8 @@ RSpec.describe WorkPackageTypes::DuplicateService, with_flag: { type_variants: t
   it "names the copy after the source" do
     copy = service_call.result
 
-    expect(copy.own_name).to eq("Copy of Bug")
-    expect(source.reload.own_name).to eq("Bug")
+    expect(copy.name).to eq("Copy of Bug")
+    expect(source.reload.name).to eq("Bug")
   end
 
   it "copies the source's core settings" do
@@ -74,25 +73,20 @@ RSpec.describe WorkPackageTypes::DuplicateService, with_flag: { type_variants: t
     expect(copy).not_to be_is_in_roadmap
   end
 
-  it "creates the copy as a root type" do
-    copy = service_call.result
-
-    expect(copy).not_to be_variant
-  end
-
-  it "copies the configuration aspects" do
+  it "copies the configuration aspects onto the copy's base variant" do
     copy = service_call.result.reload
+    copy_variant = copy.default_variant
 
-    expect(copy.attribute_groups.map(&:key)).to include("custom group")
-    expect(copy.description).to eq("The source description")
-    expect(copy.own_workflows).to be_present
+    expect(copy_variant.attribute_groups.map(&:key)).to include("custom group")
+    expect(copy_variant.default_work_package_description).to eq("The source description")
+    expect(copy_variant.own_workflows).to be_present
   end
 
   context "when a copy with the default name already exists" do
     before { create(:type, name: "Copy of Bug") }
 
     it "appends a counter to keep the name unique" do
-      expect(service_call.result.own_name).to eq("Copy of Bug (2)")
+      expect(service_call.result.name).to eq("Copy of Bug (2)")
     end
   end
 
@@ -111,34 +105,12 @@ RSpec.describe WorkPackageTypes::DuplicateService, with_flag: { type_variants: t
   context "when the source has a linked aspect" do
     shared_let(:link_target) { create(:type, name: "Shared config") }
 
-    before { source.link!(Type::ConfigurationLink::WORKFLOWS, source: link_target) }
+    before { link_configuration(source, source: link_target, aspect: TypeVariant::WORKFLOWS) }
 
-    it "replicates the link on the copy" do
+    it "replicates the link on the copy's base variant" do
       copy = service_call.result
 
-      expect(copy.source_for(Type::ConfigurationLink::WORKFLOWS)).to eq(link_target)
-    end
-  end
-
-  context "when duplicating a variant" do
-    let(:root) { create(:type, name: "Task", color:, is_milestone: true) }
-    let(:variant) { create(:type, name: "Urgent", parent: root) }
-
-    subject(:service_call) { described_class.new(type: variant, user: admin).call }
-
-    it "creates a new variant under the same parent" do
-      copy = service_call.result
-
-      expect(service_call).to be_success
-      expect(copy.own_name).to eq("Copy of Urgent")
-      expect(copy.parent_id).to eq(root.id)
-    end
-
-    it "inherits the parent's core settings rather than writing its own" do
-      copy = service_call.result
-
-      expect(copy.color_id).to eq(color.id)
-      expect(copy).to be_is_milestone
+      expect(copy.default_variant.source_for(TypeVariant::WORKFLOWS)).to eq(link_target.default_variant)
     end
   end
 
@@ -146,29 +118,31 @@ RSpec.describe WorkPackageTypes::DuplicateService, with_flag: { type_variants: t
     shared_let(:project_a) { create(:project) }
     shared_let(:project_b) { create(:project) }
 
-    context "when duplicating a root type" do
-      before do
-        source.projects = [project_a, project_b]
-        source.save!
-      end
-
-      it "copies the source's enabled projects exactly" do
-        copy = service_call.result.reload
-
-        expect(copy.project_ids).to contain_exactly(project_a.id, project_b.id)
-      end
+    before do
+      source.projects = [project_a, project_b]
+      source.save!
     end
 
-    context "when duplicating a variant" do
-      let(:root) { create(:type, name: "Task") }
-      let(:variant) { create(:type, name: "Urgent", parent: root, projects: [project_a, project_b]) }
+    it "copies the source's enabled projects exactly" do
+      copy = service_call.result.reload
 
-      subject(:service_call) { described_class.new(type: variant, user: admin).call }
+      expect(copy.project_ids).to contain_exactly(project_a.id, project_b.id)
+    end
 
-      it "leaves the copy with no enabled projects" do
-        copy = service_call.result.reload
+    context "when the source's form configuration holds a custom field" do
+      shared_let(:custom_field) { create(:wp_custom_field) }
 
-        expect(copy.project_ids).to be_empty
+      before do
+        source.default_variant.attribute_groups = [["custom group", ["custom_field_#{custom_field.id}"]]]
+        source.default_variant.custom_field_ids = [custom_field.id]
+        source.default_variant.save!
+      end
+
+      it "activates that field in the projects the copy is added to" do
+        service_call
+
+        expect(project_a.reload.work_package_custom_field_ids).to include(custom_field.id)
+        expect(project_b.reload.work_package_custom_field_ids).to include(custom_field.id)
       end
     end
   end

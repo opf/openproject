@@ -49,7 +49,7 @@ module Wikis::Adapters
     end
 
     def failure(code:)
-      Failure(Results::Error.new(source: self.class, code:))
+      Failure(SimpleError.new(source: self.class, code:))
     end
 
     def page_info(identifier:, auth_strategy:)

@@ -98,6 +98,9 @@ export interface SortableListsRoot {
   // The element of the list an item currently belongs to; null outside any
   // registered list. Items carry no list reference, so the root resolves it.
   ownerListElementOf(itemElement:HTMLElement):HTMLElement|null;
+  // The rows container of the item's innermost owning list, or null when the
+  // item is not (yet) inside a list the root knows about.
+  ownerRowsContainer(itemElement:HTMLElement):HTMLElement|null;
 }
 
 // Implemented by the list, item and scrollable controllers so the root can
@@ -233,7 +236,7 @@ export function resolvePreviousSortableItemId({
   closestEdge:Edge|null;
   rowsContainer:Element;
 }):string|null {
-  const targetItemElement = resolveItemElement(targetItem);
+  const targetItemElement = resolveItemElement(targetItem, rowsContainer);
   const targetItemId = targetItemElement ? resolveItemId(targetItemElement) : null;
 
   if (closestEdge === 'bottom' && targetItemId !== sourceItemId) {
@@ -244,7 +247,7 @@ export function resolvePreviousSortableItemId({
   let row = targetRow?.previousElementSibling ?? null;
 
   while (row) {
-    const itemId = resolvePreviousItemId(row);
+    const itemId = resolvePreviousItemId(row, rowsContainer);
     if (itemId && itemId !== sourceItemId) {
       return itemId;
     }
@@ -331,7 +334,7 @@ export function resolveDropIntent({
   if (!targetItem) {
     const { input } = location.current;
     const elementAtPoint = getElementFromPointWithoutHoneypot({ x: input.clientX, y: input.clientY });
-    const itemAtPoint = elementAtPoint ? resolveClosestItemElement(elementAtPoint) : null;
+    const itemAtPoint = elementAtPoint ? resolveClosestItemElement(elementAtPoint, rowsContainer) : null;
 
     if (itemAtPoint && root.contains(itemAtPoint) && resolveItemId(itemAtPoint) === sourceData.itemId) {
       return null;

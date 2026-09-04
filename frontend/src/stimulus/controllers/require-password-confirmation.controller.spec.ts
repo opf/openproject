@@ -102,6 +102,21 @@ describe('Require password confirmation controller', () => {
     });
   });
 
+  it('intercepts submit in the capture phase before bubble listeners', async () => {
+    const form = await renderForm();
+    const bubbleOrder:string[] = [];
+
+    form.addEventListener('submit', (event) => {
+      bubbleOrder.push(`bubble:prevented=${event.defaultPrevented}`);
+    });
+
+    const event = new SubmitEvent('submit', { cancelable: true, bubbles: true });
+    form.dispatchEvent(event);
+
+    expect(event.defaultPrevented).toBe(true);
+    expect(bubbleOrder).toEqual(['bubble:prevented=true']);
+  });
+
   it('appends the confirmed password and resubmits the form', async () => {
     const form = await renderForm();
     const requestSubmit = vi.fn();
@@ -118,6 +133,46 @@ describe('Require password confirmation controller', () => {
     expect(input.value).toBe('secret');
     expect(input.name).toBe('_password_confirmation');
     expect(requestSubmit).toHaveBeenCalled();
+  });
+
+  it('reopens the dialog after a cancelled confirmation', async () => {
+    const form = await renderForm();
+
+    form.dispatchEvent(new SubmitEvent('submit', { cancelable: true, bubbles: true }));
+    await waitFor(() => {
+      expect(fetchSpy).toHaveBeenCalledTimes(1);
+    });
+
+    // Primer/Turbo removes the dialog during `close`, then dispatches dialog:close.
+    const dialog = document.createElement('dialog');
+    dialog.id = 'password-confirmation-dialog';
+    document.dispatchEvent(new CustomEvent('dialog:close', { detail: { dialog, submitted: false } }));
+
+    fetchSpy.mockClear();
+    form.dispatchEvent(new SubmitEvent('submit', { cancelable: true, bubbles: true }));
+
+    await waitFor(() => {
+      expect(fetchSpy).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('ignores dialog:close events for other dialogs', async () => {
+    const form = await renderForm();
+
+    form.dispatchEvent(new SubmitEvent('submit', { cancelable: true, bubbles: true }));
+    await waitFor(() => {
+      expect(fetchSpy).toHaveBeenCalledTimes(1);
+    });
+
+    const other = document.createElement('dialog');
+    other.id = 'some-other-dialog';
+    document.dispatchEvent(new CustomEvent('dialog:close', { detail: { dialog: other, submitted: false } }));
+
+    fetchSpy.mockClear();
+    form.dispatchEvent(new SubmitEvent('submit', { cancelable: true, bubbles: true }));
+
+    await ctx.nextFrame();
+    expect(fetchSpy).not.toHaveBeenCalled();
   });
 
   it('intercepts submits arriving before the plugin context resolves', async () => {

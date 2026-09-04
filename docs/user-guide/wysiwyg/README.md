@@ -223,6 +223,24 @@ Example:
 
 **Linking to the current project's status**: `projectValue:status`
 
+### Control how multiple values are displayed
+
+Some attributes can contain multiple values, such as **Target versions** or **multi-select custom fields**. These values are displayed one value per line in the application and are separated by a comma in PDF exports. 
+
+You can choose whether these values are displayed on separate lines or on a single line within the CKEditor.
+
+Add one of the following layout options to the macro:
+
+- `workPackageValue:1234:targetVersions:multiline` displays each value on a separate line.
+- `workPackageValue:1234:targetVersions:singleline` displays all values on a single line, separated by commas.
+
+The layout option also works with custom fields (for example, `workPackageValue:1234:"My custom field":singleline`), project attributes (`projectValue:...`), and relative references (`workPackageValue:targetVersions:singleline`).
+
+The layout option only affects attributes that can contain multiple values. For single-value attributes, such as `subject`, it has no effect.
+
+> [!NOTE]
+> The deprecated `version` attribute displays the work package's target versions on a single line by default.
+
 ### Embedding attribute help texts
 
 You can also embed attribute values and [their help texts](../../system-admin-guide/attribute-help-texts/) by using `workPackageLabel` or `projectLabel`.
@@ -265,7 +283,8 @@ where `1234` stands for the [work package ID](../work-packages).
 | Start date          | `workPackageValue:1234:startDate`                               |
 | Status              | `workPackageValue:1234:status`                                  |
 | Subject / Title     | `workPackageValue:1234:subject`                                 |
-| Version             | `workPackageValue:1234:version`                                 |
+| Target versions     | `workPackageValue:1234:targetVersions`                          |
+| Version _(deprecated)_ | `workPackageValue:1234:version`                              |
 | Work                | `workPackageValue:8415:estimatedTime`                           |
 | Work package type   | `workPackageValue:1234:type`                                    |
 

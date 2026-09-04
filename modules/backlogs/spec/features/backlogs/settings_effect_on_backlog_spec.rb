@@ -158,15 +158,12 @@ RSpec.describe "Backlogs settings effect on backlog and sprints", :js do
     backlog_page.expect_and_dismiss_flash type: :success, message: "The sprint was completed."
 
     # Done-like status marks this as finished and therefore not moved to backlog.
-    backlog_page.expect_no_inbox_item(sprint_done_work_package)
-
     # Excluded types are moved to backlog but still hidden from inbox by settings.
     # TODO: add assertion for flash message once it's in
-    backlog_page.expect_no_inbox_item(sprint_excluded_type_work_package)
+    backlog_page.expect_no_inbox_items(items: [sprint_done_work_package, sprint_excluded_type_work_package])
 
     # Regular unfinished work packages are moved to and shown in the inbox.
-    backlog_page.expect_inbox_item(sprint_visible_work_package)
-    backlog_page.expect_inbox_item(inbox_visible_work_package)
+    backlog_page.expect_inbox_items(items: [sprint_visible_work_package, inbox_visible_work_package])
   end
 
   private
@@ -189,14 +186,13 @@ RSpec.describe "Backlogs settings effect on backlog and sprints", :js do
   end
 
   def expect_inbox_filtering
-    backlog_page.expect_no_inbox_item(inbox_hidden_by_done_status)
-    backlog_page.expect_no_inbox_item(inbox_hidden_by_excluded_type)
-    backlog_page.expect_inbox_item(inbox_visible_work_package)
+    backlog_page.expect_no_inbox_items(items: [inbox_hidden_by_done_status, inbox_hidden_by_excluded_type])
+    backlog_page.expect_inbox_items(items: inbox_visible_work_package)
   end
 
   def expect_sprint_items_unaffected
-    backlog_page.expect_work_package_in_sprint(sprint_done_work_package, active_sprint)
-    backlog_page.expect_work_package_in_sprint(sprint_excluded_type_work_package, active_sprint)
-    backlog_page.expect_work_package_in_sprint(sprint_visible_work_package, active_sprint)
+    backlog_page.expect_sprint_items(
+      active_sprint, items: [sprint_done_work_package, sprint_excluded_type_work_package, sprint_visible_work_package]
+    )
   end
 end

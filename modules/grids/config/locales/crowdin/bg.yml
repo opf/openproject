@@ -14,6 +14,13 @@ bg:
           end_before_start: крайната стойност трябва да е по-голяма от началната.
           outside: е извън мрежата.
           overlaps: припокриване.
+    models:
+      grids/grid:
+        one: Grid
+        other: Grids
+      grids/widget:
+        one: Widget
+        other: Widgets
   grids:
     label_widget_in_grid: Приспособление, съдържащо се в мрежата %{grid_name}
     widgets:

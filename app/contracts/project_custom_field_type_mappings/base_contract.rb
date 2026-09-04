@@ -30,7 +30,7 @@
 
 module ProjectCustomFieldTypeMappings
   class BaseContract < ::ModelContract
-    attribute :type_id
+    attribute :type_variant_id
     attribute :custom_field_id
 
     validate :admin_permission

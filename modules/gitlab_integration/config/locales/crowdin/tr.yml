@@ -38,6 +38,19 @@ tr:
           attributes:
             labels:
               invalid_schema: 'anahtarları olan bir özet dizisi olmalıdır: renk, başlık'
+    models:
+      gitlab_issue:
+        one: GitLab issue
+        other: GitLab issues
+      gitlab_merge_request:
+        one: GitLab merge request
+        other: GitLab merge requests
+      gitlab_pipeline:
+        one: GitLab pipeline
+        other: GitLab pipelines
+      gitlab_user:
+        one: GitLab user
+        other: GitLab users
   attributes:
     commit: İşlem
     gitlab: GitLab tanımlayıcı

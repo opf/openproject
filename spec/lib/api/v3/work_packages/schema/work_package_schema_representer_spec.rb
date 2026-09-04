@@ -42,13 +42,13 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
   end
   let(:attribute_groups) do
-    [Type::AttributeGroup.new(wp_type, "People", %w(assignee responsible)),
-     Type::AttributeGroup.new(wp_type, "Estimates and time", %w(estimated_time spent_time)),
-     Type::QueryGroup.new(wp_type, "Children", attribute_query)]
+    [Type::AttributeGroup.new(type_variant, "People", %w(assignee responsible)),
+     Type::AttributeGroup.new(type_variant, "Estimates and time", %w(estimated_time spent_time)),
+     Type::QueryGroup.new(type_variant, "Children", attribute_query)]
   end
   let(:schema) do
     API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package:).tap do |schema|
-      allow(wp_type)
+      allow(type_variant)
         .to receive(:attribute_groups)
         .and_return(attribute_groups)
       allow(schema)
@@ -76,13 +76,17 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   end
   let(:available_custom_fields) { [] }
   let(:assignable_project_phases) { [build_stubbed(:project_phase, project:)] }
-  let(:wp_type) { project.types.first }
+  let(:wp_type) { project.project_types.first.type }
+  let(:type_variant) do
+    build_stubbed(:type_variant, type: wp_type).tap do |variant|
+      allow(variant).to receive(:custom_fields).and_return([])
+    end
+  end
   let(:custom_field) { build_stubbed(:custom_field) }
   let(:work_package) do
     build_stubbed(:work_package, project:, type: wp_type) do |wp|
       allow(wp)
-        .to receive(:available_custom_fields)
-        .and_return(available_custom_fields)
+        .to receive_messages(available_custom_fields:, type_variant:)
     end
   end
   let(:current_user) { build_stubbed(:user) }
@@ -287,7 +291,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       context "on a work package which's type has an auto-generated subject" do
         before do
-          allow(wp_type)
+          allow(type_variant)
             .to receive(:enabled_patterns)
                 .and_return({ subject: double })
         end
@@ -301,7 +305,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         end
 
         it_behaves_like "defines the placeholder to display" do
-          let(:placeholder) { I18n.t("placeholders.templated_hint", type: wp_type.name) }
+          let(:placeholder) { I18n.t("placeholders.templated_hint", type: type_variant.name) }
         end
       end
     end
@@ -986,7 +990,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
-    describe "versions" do
+    describe "versions", with_settings: { work_package_multiple_versions: false } do
       context "if having the assign_versions permission" do
         let(:permissions) { [:assign_versions] }
 
@@ -1027,9 +1031,17 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           .to be_json_eql(I18n.t("api_v3.attributes.version.deprecated").to_json)
           .at_path("version/description/raw")
       end
+
+      context "when multiple versions is active", with_settings: { work_package_multiple_versions: true } do
+        let(:permissions) { [:assign_versions] }
+
+        it "drops the deprecated version field from the schema" do
+          expect(subject).not_to have_json_path("version")
+        end
+      end
     end
 
-    describe "targetVersions" do
+    describe "targetVersions", with_settings: { work_package_multiple_versions: false } do
       context "when has permission to assign versions" do
         let(:permissions) { [:assign_versions] }
 
@@ -1061,7 +1073,6 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
 
       context "when multiple versions is active",
-              with_flag: { work_package_multiple_versions: true },
               with_settings: { work_package_multiple_versions: true } do
         let(:permissions) { [:assign_versions] }
 
@@ -1076,6 +1087,34 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
         it "announces that multiple values are allowed" do
           expect(subject).to be_json_eql(true.to_json).at_path("targetVersions/options/multiple")
+        end
+      end
+    end
+
+    describe "observedInVersions" do
+      context "when has permission to assign versions" do
+        let(:permissions) { [:assign_versions] }
+
+        it_behaves_like "has basic schema properties" do
+          let(:path) { "observedInVersions" }
+          let(:type) { "[]Version" }
+          let(:name) { I18n.t("activerecord.attributes.work_package.observed_in_versions") }
+          let(:required) { false }
+          let(:writable) { true }
+          let(:location) { "_links" }
+        end
+      end
+
+      context "when does not have permission to assign versions" do
+        let(:permissions) { [:edit_work_packages] }
+
+        it_behaves_like "has basic schema properties" do
+          let(:path) { "observedInVersions" }
+          let(:type) { "[]Version" }
+          let(:name) { I18n.t("activerecord.attributes.work_package.observed_in_versions") }
+          let(:required) { false }
+          let(:writable) { false }
+          let(:location) { "_links" }
         end
       end
     end
@@ -1267,7 +1306,11 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       let(:schema) do
         API::V3::WorkPackages::Schema::TypedWorkPackageSchema
           .new(type: work_package.type, project:).tap do |schema|
-          allow(wp_type)
+          allow(project)
+            .to receive(:type_variant)
+            .with(work_package.type)
+            .and_return(type_variant)
+          allow(type_variant)
             .to receive(:attribute_groups)
             .and_return(attribute_groups)
           allow(schema)
@@ -1295,14 +1338,12 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       it "does not cache the attribute_groups" do
         call_count = 0
-        allow(work_package.type)
+        allow(type_variant)
           .to receive(:attribute_groups) do
             call_count += 1
             []
-        end
+          end
 
-        # Rendering two times, the Type#attribute_groups
-        # should still be called on the second rendering.
         representer.to_json
         expect { representer.to_json }
           .to change { call_count }
@@ -1406,6 +1447,128 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
             cache_perms << :manage_versions
           end
         end
+      end
+    end
+  end
+
+  describe "when the project resolves the type to a variant", with_flag: { type_variants: true } do
+    shared_let(:family_root) { create(:type, name: "Family root") }
+    shared_let(:base_variant) { family_root.default_variant }
+    shared_let(:variant) do
+      create(:type_variant, type: family_root, variant_name: "Variant").tap do |named|
+        TypeVariant::ASPECTS.each do |aspect|
+          link_configuration(named, source: base_variant, aspect:)
+        end
+      end
+    end
+
+    let(:project) do
+      create(:project, types: [family_root]).tap do |p|
+        p.project_types.find_by!(type_id: family_root.id).update!(variant:)
+        p.reload
+      end
+    end
+    let(:wp_type) { family_root }
+    let(:work_package) do
+      build_stubbed(:work_package, project:, type: family_root) do |wp|
+        allow(wp).to receive(:type_variant).and_return(variant)
+      end
+    end
+    let(:schema) { API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package:) }
+    let(:embedded) { false }
+
+    def make_independent(aspect)
+      unlink_configuration(variant, aspect:)
+      variant.reload
+    end
+
+    describe "_attributeGroups" do
+      subject(:generated) { representer.to_json }
+
+      before do
+        base_variant.update!(attribute_groups: [["Root group", %w(assignee)]])
+        variant.reload
+      end
+
+      context "when the variant inherits its form configuration" do
+        it "renders the root's groups" do
+          expect(generated).to be_json_eql("Root group".to_json).at_path("_attributeGroups/0/name")
+        end
+      end
+
+      context "when the variant owns its form configuration" do
+        before do
+          make_independent(TypeVariant::FORM_CONFIGURATION)
+          variant.update!(attribute_groups: [["Variant group", %w(responsible)]])
+        end
+
+        it "renders the variant's groups" do
+          expect(generated).to be_json_eql("Variant group".to_json).at_path("_attributeGroups/0/name")
+          expect(generated).to be_json_eql(%w(responsible).to_json).at_path("_attributeGroups/0/attributes")
+        end
+
+        it "places each attribute in the variant's group" do
+          expect(generated).to be_json_eql("Variant group".to_json).at_path("responsible/attributeGroup")
+        end
+      end
+    end
+
+    describe "subject" do
+      subject(:generated) { representer.to_json }
+
+      let(:blueprint) { { subject: { blueprint: "{{type}}", enabled: true } } }
+
+      context "when the variant inherits its defaults" do
+        before do
+          base_variant.update!(patterns: blueprint)
+          variant.reload
+        end
+
+        it "auto-generates the subject from the root's pattern" do
+          expect(generated).to be_json_eql(true.to_json).at_path("subject/hasDefault")
+          expect(generated).to be_json_eql(false.to_json).at_path("subject/writable")
+        end
+      end
+
+      context "when the variant owns its defaults" do
+        before do
+          base_variant.update!(patterns: blueprint)
+          make_independent(TypeVariant::DEFAULTS)
+        end
+
+        it "does not auto-generate the subject, as the variant defines no pattern" do
+          expect(generated).to be_json_eql(false.to_json).at_path("subject/hasDefault")
+          expect(generated).to be_json_eql(true.to_json).at_path("subject/writable")
+        end
+      end
+    end
+
+    describe "caching" do
+      let(:schema) { API::V3::WorkPackages::Schema::TypedWorkPackageSchema.new(project:, type: family_root) }
+
+      def joined_cache_key
+        described_class.create(schema, self_link:, form_embedded: embedded, current_user:)
+                       .json_cache_key
+                       .join("/")
+      end
+
+      it "changes the cache key when the project resolves the family to another variant" do
+        original = joined_cache_key
+
+        other_variant = create(:type_variant, type: family_root, variant_name: "Other variant")
+        project.project_types.find_by(type_id: family_root.id).update!(variant: other_variant)
+        project.reload
+
+        expect(joined_cache_key).not_to eql(original)
+      end
+
+      it "changes the cache key when the variant in force is updated" do
+        original = joined_cache_key
+
+        variant.update!(updated_at: 1.hour.from_now)
+        project.reload
+
+        expect(joined_cache_key).not_to eql(original)
       end
     end
   end

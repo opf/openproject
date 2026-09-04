@@ -8,6 +8,9 @@ post:
   description: |-
     Instantiates the occurrence at the given `start_time` by creating a real meeting from
     the recurring meeting's template. Returns the newly created `Meeting` resource.
+
+    If a previously cancelled occurrence exists for this `start_time`, it is restored, and
+    if `notify` is set to true, its participants are notified via email.
   parameters:
     - description: Recurring meeting identifier
       example: 1

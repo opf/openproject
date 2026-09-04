@@ -142,6 +142,10 @@ module Projects::SprintSettings
     sprint_sharing == RECEIVE_SHARED
   end
 
+  def sprint_sharing_was_receiving?
+    sprint_sharing_was == RECEIVE_SHARED
+  end
+
   def not_sharing_sprints?
     sprint_sharing == NO_SHARING
   end

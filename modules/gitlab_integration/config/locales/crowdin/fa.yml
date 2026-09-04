@@ -25,58 +25,71 @@ fa:
   activerecord:
     attributes:
       gitlab_merge_request:
-        labels: Labels
+        labels: برچسب‌ها
       gitlab_pipeline:
-        ci_details: CI Details
+        ci_details: جزئیات CI
     errors:
       models:
         gitlab_issue:
           attributes:
             labels:
-              invalid_schema: 'must be an array of hashes with keys: color, title'
+              invalid_schema: باید آرایه‌ای از hashها با کلیدهای color و title باشد
         gitlab_merge_request:
           attributes:
             labels:
-              invalid_schema: 'must be an array of hashes with keys: color, title'
+              invalid_schema: باید آرایه‌ای از hashها با کلیدهای color و title باشد
+    models:
+      gitlab_issue:
+        one: مسئله GitLab
+        other: مسائل GitLab
+      gitlab_merge_request:
+        one: Merge Request در GitLab
+        other: Merge Requestهای GitLab
+      gitlab_pipeline:
+        one: پایپ‌لاین GitLab
+        other: پایپ‌لاین‌های GitLab
+      gitlab_user:
+        one: کاربر GitLab
+        other: کاربران GitLab
   attributes:
     commit: Commit
-    gitlab: GitLab identifier
-    gitlab_avatar_url: Avatar URL
-    gitlab_email: GitLab Email
-    gitlab_html_url: GitLab HTML URL
-    gitlab_merge_request: Merge Request
-    gitlab_name: GitLab name
-    gitlab_updated_at: Updated at
-    gitlab_user_avatar_url: GitLab avatar URL
-    gitlab_username: GitLab username
+    gitlab: شناسهٔ GitLab
+    gitlab_avatar_url: URL آواتار
+    gitlab_email: ایمیل GitLab
+    gitlab_html_url: URL HTML در GitLab
+    gitlab_merge_request: درخواست ادغام
+    gitlab_name: نام GitLab
+    gitlab_updated_at: به‌روزرسانی در
+    gitlab_user_avatar_url: URL آواتار GitLab
+    gitlab_username: نام کاربری GitLab
   gitlab_integration:
-    issue_closed_referenced_comment: "**Issue Closed:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been closed by [%{gitlab_user}](%{gitlab_user_url}).\n"
-    issue_opened_referenced_comment: "**Issue Opened:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been opened by [%{gitlab_user}](%{gitlab_user_url}).\n"
-    issue_reopened_referenced_comment: "**Issue Reopened:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been reopened by [%{gitlab_user}](%{gitlab_user_url}).\n"
-    merge_request_closed_comment: "**MR Closed:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been closed by [%{gitlab_user}](%{gitlab_user_url}).\n"
-    merge_request_merged_comment: "**MR Merged:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been merged by [%{gitlab_user}](%{gitlab_user_url}).\n"
-    merge_request_opened_comment: "**MR Opened:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been opened by [%{gitlab_user}](%{gitlab_user_url}).\n"
-    merge_request_reopened_comment: "**MR Reopened:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been reopened by [%{gitlab_user}](%{gitlab_user_url}).\n"
-    note_commit_referenced_comment: "**Referenced in Commit:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in a Commit Note [%{commit_id}](%{commit_url}) on [%{repository}](%{repository_url}): %{commit_note}\n"
-    note_issue_commented_comment: "**Commented in Issue:** [%{gitlab_user}](%{gitlab_user_url}) commented this WP in Issue %{issue_number} [%{issue_title}](%{issue_url}) on [%{repository}](%{repository_url}): %{issue_note}\n"
-    note_issue_referenced_comment: "**Referenced in Issue:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Issue %{issue_number} [%{issue_title}](%{issue_url}) on [%{repository}](%{repository_url}): %{issue_note}\n"
-    note_mr_commented_comment: "**Commented in MR:** [%{gitlab_user}](%{gitlab_user_url}) commented this WP in Merge Request %{mr_number} [%{mr_title}](%{mr_url}) on [%{repository}](%{repository_url}): %{mr_note}\n"
-    note_mr_referenced_comment: "**Referenced in MR:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Merge Request %{mr_number} [%{mr_title}](%{mr_url}) on [%{repository}](%{repository_url}): %{mr_note}\n"
-    note_snippet_referenced_comment: "**Referenced in Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) on [%{repository}](%{repository_url}): %{snippet_note}\n"
-    push_multiple_commits_comment: "**Pushed in MR:** [%{gitlab_user}](%{gitlab_user_url}) pushed multiple commits [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}\n"
-    push_single_commit_comment: "**Pushed in MR:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}\n"
-    push_single_commit_comment_with_ref: "**Pushed in %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}\n"
-  label_gitlab_actor: GitLab actor
-  label_gitlab_integration: GitLab Integration
-  label_gitlab_webhook_secret: Webhook secret
-  permission_show_gitlab_content: Show GitLab content
+    issue_closed_referenced_comment: "**Issue بسته شد:** Issue شماره %{issue_number} با عنوان [%{issue_title}](%{issue_url}) برای [%{repository}](%{repository_url}) توسط [%{gitlab_user}](%{gitlab_user_url}) بسته شد.\n"
+    issue_opened_referenced_comment: "**Issue باز شد:** Issue شماره %{issue_number} با عنوان [%{issue_title}](%{issue_url}) برای [%{repository}](%{repository_url}) توسط [%{gitlab_user}](%{gitlab_user_url}) باز شد.\n"
+    issue_reopened_referenced_comment: "**Issue دوباره باز شد:** Issue شماره %{issue_number} با عنوان [%{issue_title}](%{issue_url}) برای [%{repository}](%{repository_url}) توسط [%{gitlab_user}](%{gitlab_user_url}) دوباره باز شد.\n"
+    merge_request_closed_comment: "**MR بسته شد:** Merge Request شماره %{mr_number} با عنوان [%{mr_title}](%{mr_url}) برای [%{repository}](%{repository_url}) توسط [%{gitlab_user}](%{gitlab_user_url}) بسته شد.\n"
+    merge_request_merged_comment: "**MR ادغام شد:** Merge Request شماره %{mr_number} با عنوان [%{mr_title}](%{mr_url}) برای [%{repository}](%{repository_url}) توسط [%{gitlab_user}](%{gitlab_user_url}) ادغام شد.\n"
+    merge_request_opened_comment: "**MR باز شد:** Merge Request شماره %{mr_number} با عنوان [%{mr_title}](%{mr_url}) برای [%{repository}](%{repository_url}) توسط [%{gitlab_user}](%{gitlab_user_url}) باز شد.\n"
+    merge_request_reopened_comment: "**MR دوباره باز شد:** Merge Request شماره %{mr_number} با عنوان [%{mr_title}](%{mr_url}) برای [%{repository}](%{repository_url}) توسط [%{gitlab_user}](%{gitlab_user_url}) دوباره باز شد.\n"
+    note_commit_referenced_comment: "**ارجاع در Commit:** [%{gitlab_user}](%{gitlab_user_url}) در یادداشت Commit با شناسهٔ [%{commit_id}](%{commit_url}) روی [%{repository}](%{repository_url}) به این بسته کاری ارجاع داد: %{commit_note}\n"
+    note_issue_commented_comment: "**دیدگاه در Issue:** [%{gitlab_user}](%{gitlab_user_url}) دربارهٔ این بسته کاری در Issue شماره %{issue_number} با عنوان [%{issue_title}](%{issue_url}) روی [%{repository}](%{repository_url}) دیدگاه ثبت کرد: %{issue_note}\n"
+    note_issue_referenced_comment: "**ارجاع در Issue:** [%{gitlab_user}](%{gitlab_user_url}) در Issue شماره %{issue_number} با عنوان [%{issue_title}](%{issue_url}) روی [%{repository}](%{repository_url}) به این بسته کاری ارجاع داد: %{issue_note}\n"
+    note_mr_commented_comment: "**دیدگاه در MR:** [%{gitlab_user}](%{gitlab_user_url}) دربارهٔ این بسته کاری در Merge Request شماره %{mr_number} با عنوان [%{mr_title}](%{mr_url}) روی [%{repository}](%{repository_url}) دیدگاه ثبت کرد: %{mr_note}\n"
+    note_mr_referenced_comment: "**ارجاع در MR:** [%{gitlab_user}](%{gitlab_user_url}) در Merge Request شماره %{mr_number} با عنوان [%{mr_title}](%{mr_url}) روی [%{repository}](%{repository_url}) به این بسته کاری ارجاع داد: %{mr_note}\n"
+    note_snippet_referenced_comment: "**ارجاع در Snippet:** [%{gitlab_user}](%{gitlab_user_url}) در Snippet شماره %{snippet_number} با عنوان [%{snippet_title}](%{snippet_url}) روی [%{repository}](%{repository_url}) به این بسته کاری ارجاع داد: %{snippet_note}\n"
+    push_multiple_commits_comment: "**Push در MR:** [%{gitlab_user}](%{gitlab_user_url}) چند commit را با [%{commit_number}](%{commit_url}) در %{commit_timestamp} به [%{repository}](%{repository_url}) push کرد: %{commit_note}\n"
+    push_single_commit_comment: "**Push در MR:** [%{gitlab_user}](%{gitlab_user_url})، [%{commit_number}](%{commit_url}) را در %{commit_timestamp} به [%{repository}](%{repository_url}) push کرد: %{commit_note}\n"
+    push_single_commit_comment_with_ref: "**Push در %{reference}:** [%{gitlab_user}](%{gitlab_user_url})، [%{commit_number}](%{commit_url}) را در %{commit_timestamp} به [%{repository}](%{repository_url}) push کرد: %{commit_note}\n"
+  label_gitlab_actor: عامل GitLab
+  label_gitlab_integration: یکپارچه‌سازی GitLab
+  label_gitlab_webhook_secret: رمز Webhook
+  permission_show_gitlab_content: نمایش محتوای GitLab
   project_module_gitlab: GitLab
-  text_gitlab_actor_info: 'The OpenProject user whose API key must be used to authenticate incoming webhook requests. When set, requests authenticated with any other user''s credentials are rejected. This user also posts automated comments on work packages. Defaults to the system user when not set.
+  text_gitlab_actor_info: 'کاربر OpenProject که API key او باید برای احراز هویت درخواست‌های webhook ورودی استفاده شود. در صورت تنظیم، درخواست‌هایی با اطلاعات سایر کاربران رد می‌شوند. این کاربر دیدگاه‌های خودکار را نیز روی بسته‌های کاری ثبت می‌کند. در نبود تنظیم، کاربر سامانه استفاده می‌شود.
 
     '
-  text_gitlab_webhook_secret_info: 'A secret token shared with GitLab when configuring the webhook. When set, OpenProject verifies the X-Gitlab-Token header on every incoming request, rejecting payloads that do not match. Leave blank to skip verification (not recommended).
+  text_gitlab_webhook_secret_info: 'یک توکن محرمانه هنگام پیکربندی webhook با GitLab به اشتراک گذاشته می‌شود. در صورت تنظیم، OpenProject هدر X-Gitlab-Token همهٔ درخواست‌های ورودی را بررسی و موارد نامطابق را رد می‌کند. خالی‌گذاشتن یعنی بدون بررسی (توصیه نمی‌شود).
 
     '
-  text_gitlab_webhook_secret_missing_warning: 'No webhook secret is configured. Any request to the GitLab webhook endpoint will be accepted without verification, which may allow unauthorized actors to forge events. It is strongly recommended to set a secret.
+  text_gitlab_webhook_secret_missing_warning: 'هیچ رمز webhook پیکربندی نشده است. هر درخواست به endpoint وب‌هوک GitLab بدون تأیید پذیرفته می‌شود و ممکن است مهاجمان بتوانند رویداد جعلی ایجاد کنند. تنظیم یک رمز اکیداً توصیه می‌شود.
 
     '

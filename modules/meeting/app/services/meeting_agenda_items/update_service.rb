@@ -31,6 +31,7 @@
 module MeetingAgendaItems
   class UpdateService < ::BaseServices::Update
     include AfterPerformHook
+    include JournalizeWorkPackageActivity
     include Concerns::CopyAttachments
 
     alias_method :original_after_perform, :after_perform
@@ -46,9 +47,18 @@ module MeetingAgendaItems
     def after_perform(call)
       original_after_perform(call)
 
-      copy_attachments_from_meeting(call.result, @old_meeting_id) if call.success?
+      if call.success?
+        copy_attachments_from_meeting(call.result, @old_meeting_id)
+        journalize_move(call.result)
+      end
 
       call
+    end
+
+    def journalize_move(agenda_item)
+      return if @old_meeting_id == agenda_item.meeting_id
+
+      journalize_agenda_item(agenda_item, Journal::CausedByMeetingAgendaItemMoved.new(agenda_item.meeting))
     end
   end
 end

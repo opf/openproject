@@ -3,7 +3,7 @@
 require "spec_helper"
 require "features/page_objects/notification"
 
-RSpec.describe "edit work package", :js do
+RSpec.describe "edit work package", :js, with_settings: { work_package_multiple_versions: false } do
   let(:current_user) do
     create(:user,
            firstname: "Dev",

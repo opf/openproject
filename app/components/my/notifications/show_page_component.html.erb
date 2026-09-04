@@ -82,43 +82,35 @@ See COPYRIGHT and LICENSE files for more details.
         component.with_description { t("my_account.notifications.project_specific_settings.description") }
       end %>
 
-  <% if project_notification_settings.any? %>
-    <%= render(Primer::Beta::BorderBox.new(mb: 3)) do |box| %>
-      <% box.with_header { t("my_account.notifications.project_specific_settings.list_header") } %>
-      <% project_notification_settings.each do |setting| %>
-        <% box.with_row(test_selector: "project-specific-settings-list") do %>
-          <%= flex_layout(justify_content: :space_between, align_items: :center, width: :full) do |flex| %>
-            <%= flex.with_column do %>
-              <span><%= setting.project.name %></span>
-            <% end %>
-            <%= flex.with_column do %>
-              <%= render(Primer::Alpha::ActionMenu.new(test_selector: "project-specific-settings-list--action-menu")) do |menu|
-                    menu.with_show_button(
-                      scheme: :invisible,
-                      size: :small,
-                      icon: :"kebab-horizontal",
-                      "aria-label": t(:label_open_menu),
-                      tooltip_direction: :w
-                    )
-                    menu.with_item(
-                      label: t("button_edit"),
-                      href: edit_project_settings_url(setting.project_id),
-                      content_arguments: { data: { controller: "async-dialog" } }
-                    ) do |item|
-                      item.with_leading_visual_icon(icon: :pencil)
-                    end
-                    menu.with_item(
-                      label: t("button_delete"),
-                      scheme: :danger,
-                      href: project_setting_url(setting.project_id),
-                      content_arguments: { data: { turbo_method: :delete, turbo_confirm: t("text_are_you_sure") } }
-                    ) do |item|
-                      item.with_leading_visual_icon(icon: :trash)
-                    end
-                  end %>
-            <% end %>
-          <% end %>
-        <% end %>
+  <%= render(OpenProject::Common::BorderBoxListComponent.new(container: "project-specific-notification-settings", mb: 3)) do |list| %>
+    <% list.with_header(title: t("my_account.notifications.project_specific_settings.list_header")) %>
+    <% project_notification_settings.each do |setting| %>
+      <% list.with_item(test_selector: "project-specific-settings-list") do |item| %>
+        <% item.with_menu(
+             test_selector: "project-specific-settings-list--action-menu",
+             button_arguments: {
+               size: :small,
+               aria: { label: t(:label_open_menu) },
+               tooltip_direction: :w
+             }
+           ) do |menu|
+             menu.with_item(
+               label: t("button_edit"),
+               href: edit_project_settings_url(setting.project_id),
+               content_arguments: { data: { controller: "async-dialog" } }
+             ) do |menu_item|
+               menu_item.with_leading_visual_icon(icon: :pencil)
+             end
+             menu.with_item(
+               label: t("button_delete"),
+               scheme: :danger,
+               href: project_setting_url(setting.project_id),
+               content_arguments: { data: { turbo_method: :delete, turbo_confirm: t("text_are_you_sure") } }
+             ) do |menu_item|
+               menu_item.with_leading_visual_icon(icon: :trash)
+             end
+           end %>
+        <span><%= setting.project.name %></span>
       <% end %>
     <% end %>
   <% end %>

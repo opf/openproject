@@ -35,6 +35,4 @@ No, it is not (yet) possible to log time in days or any other units besides hour
 
 ## Does OpenProject offer resource management?
 
-You can [set up budgets](../../budgets), [set an estimated time in the field **Work**](../../work-packages/edit-work-package/) for a work package and use the [Assignee board](../../agile-boards/#choose-between-board-types) to find out how many work packages are assigned to a person at the moment.
-Additional resource management features will be added within the next years, as shown in the [roadmap for future releases](https://community.openproject.org/projects/openproject/roadmap).
-More information regarding resource management in OpenProject can be found in the [Use Cases](../../../use-cases/resource-management) section.
+Yes. The Resource management module enables project managers to plan capacity, allocate work and staff projects based on team members' availability and skills. For details, see the [Resource management user guide](../../resource-management/).

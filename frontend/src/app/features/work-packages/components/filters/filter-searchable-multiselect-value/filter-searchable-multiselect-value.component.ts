@@ -90,12 +90,12 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
 
   initialRequest$:Observable<CollectionResource>;
 
-  itemTracker = (item:HalResource):string => item.href || item.id || item.name;
+  itemTracker = (item:HalResource):string => item.href ?? item.id ?? item.name;
 
   groupByFn = (item:HalResource):string|null => {
     if (!this.isVersionResource) return null;
     const project = item.definingProject as HalResource | undefined;
-    return project?.name || this.I18n.t('js.project.not_available');
+    return project?.name ?? this.I18n.t('js.project.not_available');
   };
 
   compareByHref = compareByHref;
@@ -113,7 +113,7 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
   @ViewChild('ngSelectInstance', { static: true }) ngSelectInstance:NgSelectComponent;
 
   ngOnInit():void {
-    if (this.filter.id === 'id') {
+    if (this.filter.id === 'id' || this.filter.id === 'parent' || this.filter.id === 'ancestor') {
       this.resourceType = 'work_packages';
     }
 
@@ -130,9 +130,11 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
       .pipe(
         switchMap((initialLoad) => {
           // If we already loaded all values, just compare in the frontend.
-          // However, for work package ID filter, always make XHR requests to use typeahead filter
-          // which supports searching by type and status names.
-          if (this.filter.id !== 'id' && initialLoad.count === initialLoad.total) {
+          // However, for work-package-referencing filters (ID/Parent/Ancestor), always make
+          // XHR requests to use the typeahead filter, which supports searching by type/status
+          // names and semantic identifiers (and ranks exact matches first) — none of which the
+          // client-side substring matching below (over plain id/name) can do.
+          if (this.resourceType !== 'work_packages' && initialLoad.count === initialLoad.total) {
             return this.matchingItems(this.filterEmptyElements(initialLoad.elements), matching);
           }
 
@@ -171,10 +173,18 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
 
   private loadCollection(matching:string):Observable<CollectionResource> {
     const filters:ApiV3FilterBuilder = this.createFilters(matching);
+    const params:Record<string, string> = { pageSize: `${MAGIC_FILTER_AUTOCOMPLETE_PAGE_SIZE}` };
+
+    // exact_match is a work-package-only sortable column (see ExactMatchSelect) —
+    // sending it for any other resource type's allowed-values collection (Version,
+    // User, ...) would fail that resource's sort validation and empty the picker.
+    if (this.resourceType === 'work_packages') {
+      params.sortBy = '[["exactMatch","desc"],["updatedAt","desc"]]';
+    }
 
     return (this.apiV3Service.collectionFromString(this.allowedValuesLink) as
       ApiV3ResourceCollection<HalResource, ApiV3Resource>)
-      .filtered(filters, { pageSize: `${MAGIC_FILTER_AUTOCOMPLETE_PAGE_SIZE}` })
+      .filtered(filters, params)
       .get();
   }
 

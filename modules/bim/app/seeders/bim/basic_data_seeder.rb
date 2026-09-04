@@ -28,25 +28,7 @@
 module Bim
   class BasicDataSeeder < ::BasicDataSeeder
     def data_seeder_classes
-      [
-        ::BasicData::BuiltinUsersSeeder,
-        ::BasicData::ProjectRoleSeeder,
-        ::BasicData::WorkPackageRoleSeeder,
-        ::BasicData::GlobalRoleSeeder,
-        ::BasicData::ProjectQueryRoleSeeder,
-        ::BasicData::TimeEntryActivitySeeder,
-        ::BasicData::ColorSeeder,
-        ::BasicData::ColorSchemeSeeder,
-        ::BasicData::ProjectPhaseColorSeeder,
-        ::BasicData::ProjectPhaseDefinitionSeeder,
-        ::BasicData::StatusSeeder,
-        ::BasicData::TypeSeeder,
-        ::BasicData::WorkflowSeeder,
-        ::BasicData::PrioritySeeder,
-        ::Bim::BasicData::SettingSeeder,
-        ::Bim::BasicData::ThemeSeeder
-
-      ]
+      super - [::BasicData::SettingSeeder] + [::Bim::BasicData::SettingSeeder, ::Bim::BasicData::ThemeSeeder]
     end
   end
 end

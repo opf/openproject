@@ -1810,7 +1810,7 @@ RSpec.describe WorkPackages::SetAttributesService,
     let(:new_versions) { [] }
     let(:type) { work_package.type }
     let(:new_types) { [type] }
-    let(:default_type) { build_stubbed(:type_standard) }
+    let(:default_type) { build_stubbed(:type_task) }
     let(:other_type) { build_stubbed(:type) }
     let(:yet_another_type) { build_stubbed(:type) }
 
@@ -1830,41 +1830,11 @@ RSpec.describe WorkPackages::SetAttributesService,
           .with(name: category.name)
           .and_return nil
         allow(new_project)
-          .to receive_messages(shared_versions: new_versions, types: new_types)
-        allow(new_types)
-          .to receive(:order)
-          .with(:position)
-          .and_return(new_types)
+          .to receive_messages(shared_versions: new_versions, enabled_types: new_types)
       end
     end
 
     shared_examples_for "updating the project" do
-      context "for version" do
-        before do
-          work_package.version = version
-        end
-
-        context "when not shared in new project" do
-          it "sets to nil" do
-            subject
-
-            expect(work_package.version)
-              .to be_nil
-          end
-        end
-
-        context "when shared in the new project" do
-          let(:new_versions) { [version] }
-
-          it "keeps the version" do
-            subject
-
-            expect(work_package.version)
-              .to eql version
-          end
-        end
-      end
-
       context "for multiple versions" do
         before do
           work_package.target_version_ids_replacements = [version.id]
@@ -2352,21 +2322,20 @@ RSpec.describe WorkPackages::SetAttributesService,
     end
   end
 
-  context "when the type defines a pattern for subject" do
-    let(:type) { build_stubbed(:type, patterns: { subject: { blueprint: "{{type}} {{project_name}}", enabled: true } }) }
+  context "with subject patterns in play" do
+    let(:type) { build_stubbed(:type) }
     let(:work_package) { WorkPackage.new(type:, project:) }
-    let(:resolved_subject) { "#{type.name} #{project.name}" }
-    let(:pattern_resolver) do
-      instance_double(WorkPackageTypes::PatternResolver, resolve: resolved_subject).tap do |resolver|
-        allow(WorkPackageTypes::PatternResolver).to receive(:new).and_return(resolver)
-      end
+
+    before do
+      resolver = instance_double(WorkPackageTypes::PatternResolver, resolve: "resolved from a pattern")
+      allow(WorkPackageTypes::PatternResolver).to receive(:new).and_return(resolver)
     end
 
-    # Testing this because the behaviour used to be different.
     it "does not set the resolved subject from the pattern" do
       instance.call({})
 
       expect(work_package.subject).to be_blank
+      expect(WorkPackageTypes::PatternResolver).not_to have_received(:new)
     end
 
     it "keeps an overridden subject" do
@@ -2421,8 +2390,8 @@ RSpec.describe WorkPackages::SetAttributesService,
     subject(:service_result) { instance.call(call_attributes) }
 
     let(:work_package) { new_work_package }
-    let(:type_with_template) { create(:type, description: "Some default template text") }
-    let(:type_without_template) { create(:type, description: nil) }
+    let(:type_with_template) { create(:type, default_work_package_description: "Some default template text") }
+    let(:type_without_template) { create(:type, default_work_package_description: nil) }
 
     before { allow(work_package).to receive(:save) }
 
@@ -2439,7 +2408,7 @@ RSpec.describe WorkPackages::SetAttributesService,
       let(:call_attributes) { { type: type_without_template } }
 
       before do
-        work_package.description = type_with_template.description
+        work_package.description = type_with_template.default_variant.default_work_package_description
         work_package.clear_changes_information
       end
 
@@ -2460,6 +2429,24 @@ RSpec.describe WorkPackages::SetAttributesService,
       it "keeps the user's description" do
         service_result
         expect(work_package.description).to eq("Something the user typed")
+      end
+    end
+
+    context "when the project resolves the type to a variant", with_flag: { type_variants: true } do
+      let(:family_root) { create(:type, default_work_package_description: "Root template") }
+      let(:variant) { create(:type_variant, type: family_root) }
+      let(:variant_project) { create(:project, types: [variant]) }
+      let(:call_attributes) { { project: variant_project, type: family_root } }
+
+      before do
+        unlink_configuration(variant, aspect: TypeVariant::DEFAULTS)
+        variant.update!(default_work_package_description: "Variant template")
+      end
+
+      it "uses the variant's template, not the type's base template" do
+        service_result
+
+        expect(work_package.description).to eq("Variant template")
       end
     end
   end

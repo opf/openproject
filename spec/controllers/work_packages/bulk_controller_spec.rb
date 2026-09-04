@@ -44,7 +44,7 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
   shared_let(:custom_field_user) { create(:issue_custom_field, :user) }
   shared_let(:status) { create(:status) }
   shared_let(:type) do
-    create(:type_standard,
+    create(:type_task,
            custom_fields: [custom_field1, custom_field2, custom_field_user])
   end
   shared_let(:project1) do
@@ -542,46 +542,6 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
         end
 
         describe "#version" do
-          describe "set version_id attribute to some version" do
-            shared_let(:subproject) do
-              create(:project,
-                     parent: project1,
-                     types: [type])
-            end
-            shared_let(:version) do
-              create(:version,
-                     status: "open",
-                     sharing: "tree",
-                     project: subproject)
-            end
-
-            before do
-              put :update,
-                  params: {
-                    ids: work_package_ids,
-                    work_package: { version_id: version.id.to_s }
-                  }
-            end
-
-            subject { response }
-
-            it { is_expected.to be_redirect }
-
-            describe "#work_package" do
-              describe "#version" do
-                subject { work_packages.map(&:version_id).uniq }
-
-                it { is_expected.to contain_exactly(version.id) }
-              end
-
-              describe "#project" do
-                subject { work_packages.map(&:project_id).uniq }
-
-                it { is_expected.not_to contain_exactly(subproject.id) }
-              end
-            end
-          end
-
           describe "set target_version_ids attribute",
                    with_settings: { work_package_multiple_versions: true } do
             shared_let(:target_subproject) do
@@ -608,6 +568,11 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
                 expect(work_packages.map { |wp| wp.target_versions.pluck(:id) }.uniq)
                   .to contain_exactly([target_version.id])
               end
+
+              it "does not move the work packages into the version's project" do
+                expect(work_packages.map(&:project_id).uniq)
+                  .not_to contain_exactly(target_subproject.id)
+              end
             end
 
             describe "to none" do
@@ -631,22 +596,55 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
             end
           end
 
-          describe "set version_id to nil" do
-            before do
-              # 'none' is a magic value, setting version_id to nil
-              # will make the controller ignore that param
-              put :update,
-                  params: {
-                    ids: work_package_ids,
-                    work_package: { version_id: "none" }
-                  }
+          describe "set observed_in_version_ids attribute" do
+            shared_let(:observed_in_subproject) do
+              create(:project, parent: project1, types: [type])
+            end
+            shared_let(:observed_in_version) do
+              create(:version, status: "open", sharing: "tree", project: observed_in_subproject)
             end
 
-            describe "#work_package" do
-              describe "#version" do
-                subject { work_packages.map(&:version_id).uniq }
+            describe "to a version" do
+              before do
+                put :update,
+                    params: {
+                      ids: work_package_ids,
+                      work_package: { observed_in_version_ids: [observed_in_version.id.to_s] }
+                    }
+              end
 
-                it { is_expected.to eq([nil]) }
+              it "redirects on success" do
+                expect(response).to be_redirect
+              end
+
+              it "assigns the version as observed_in_versions on every selected work package" do
+                expect(work_packages.map { |wp| wp.observed_in_versions.pluck(:id) }.uniq)
+                  .to contain_exactly([observed_in_version.id])
+              end
+
+              it "does not move the work packages into the version's project" do
+                expect(work_packages.map(&:project_id).uniq)
+                  .not_to contain_exactly(observed_in_subproject.id)
+              end
+            end
+
+            describe "to none" do
+              before do
+                work_packages.each do |wp|
+                  wp.work_package_versions.create!(version_id: observed_in_version.id, kind: "observed_in")
+                end
+
+                # 'none' is a magic value that clears all observed_in_versions
+                put :update,
+                    params: {
+                      ids: work_package_ids,
+                      work_package: { observed_in_version_ids: ["none"] }
+                    }
+              end
+
+              it "clears the observed_in_versions on every selected work package" do
+                expect(work_packages.map { |wp| wp.observed_in_versions.pluck(:id) }.uniq)
+                  .to contain_exactly([])
               end
             end
           end

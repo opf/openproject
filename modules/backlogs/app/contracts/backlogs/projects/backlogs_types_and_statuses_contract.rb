@@ -58,7 +58,7 @@ module Backlogs::Projects
       return if submitted_ids.empty?
 
       # Only types enabled on the project are allowed:
-      project_type_ids = model.types.pluck(:id)
+      project_type_ids = model.project_types.pluck(:type_id)
       invalid_ids = submitted_ids.map(&:to_i) - project_type_ids
 
       errors.add :backlog_excluded_type_ids, :invalid if invalid_ids.any?
