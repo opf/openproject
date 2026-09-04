@@ -41,17 +41,9 @@ import {
   type SortableListsRemovedEvent,
 } from './sortable-lists.directive';
 
-// Deliberately does NOT `vi.mock` Pragmatic's autoscroll module: under the
-// repo's `isolate:false` vitest config, spec files share a module registry
-// within a worker, and this specifier is also `vi.mock`-ed (independently)
-// by `sortable-lists-engine.spec.ts` for its own, unrelated engine-level
-// tests. Two spec files independently mocking the same specifier crashes the
-// shared worker (an unhandled "error when mocking a module" rejection,
-// reproducible regardless of factory shape); the mock is also effectively
-// global for the whole worker once registered, so even a "compatible" mock
-// here would fight with that file's synthetic (non-real) replacement in
-// combined runs. Instead this suite observes the REAL implementation's own
-// documented side effects directly:
+// Deliberately does NOT `vi.mock` Pragmatic's autoscroll module: this suite
+// observes the REAL implementation's own documented side effects, which is
+// what makes the scroll-container assertions below meaningful.
 //   - the scroll-fallback tests below assert on `data-auto-scrollable`, the
 //     attribute Pragmatic's real `autoScrollForElements` sets on registration
 //     and removes on cleanup (see `@atlaskit/pragmatic-drag-and-drop-auto-scroll`'s
@@ -71,20 +63,22 @@ describe('sortable-lists directive group behavior', () => {
     @Component({
       imports: [OpSortableListsDirective, OpSortableListsItemDirective],
       template: `
-        <div
-          class="root"
-          opSortableLists
-          (opSortableListsDrop)="drops.push($event)"
-          style="padding-bottom: 40px;"
-        >
-          @for (entry of items(); track entry.id) {
-            <div
-              class="item"
-              [opSortableListsItem]="entry.id"
-              [opSortableListsItemCanDrag]="entry.canDrag"
-              style="height: 40px; width: 200px;"
-            >{{ entry.id }}</div>
-          }
+        <div class="scroll-host" style="overflow: auto;">
+          <div
+            class="root"
+            opSortableLists
+            (opSortableListsDrop)="drops.push($event)"
+            style="padding-bottom: 40px;"
+          >
+            @for (entry of items(); track entry.id) {
+              <div
+                class="item"
+                [opSortableListsItem]="entry.id"
+                [opSortableListsItemCanDrag]="entry.canDrag"
+                style="height: 40px; width: 200px;"
+              >{{ entry.id }}</div>
+            }
+          </div>
         </div>
       `,
     })
@@ -225,10 +219,12 @@ describe('sortable-lists directive group behavior', () => {
     @Component({
       imports: [OpSortableListsDirective, OpSortableListsListDirective, OpSortableListsItemDirective],
       template: `
-        <div class="root" opSortableLists opSortableListsList>
-          @for (id of ids(); track id) {
-            <div class="item" [opSortableListsItem]="id" style="height: 40px; width: 200px;">{{ id }}</div>
-          }
+        <div class="scroll-host" style="overflow: auto;">
+          <div class="root" opSortableLists opSortableListsList>
+            @for (id of ids(); track id) {
+              <div class="item" [opSortableListsItem]="id" style="height: 40px; width: 200px;">{{ id }}</div>
+            }
+          </div>
         </div>
       `,
     })
@@ -291,29 +287,31 @@ describe('sortable-lists directive group behavior', () => {
     @Component({
       imports: [OpSortableListsDirective, OpSortableListsListDirective, OpSortableListsItemDirective],
       template: `
-        <div class="root" opSortableLists>
-          <div
-            class="list-a"
-            opSortableListsList
-            opSortableListsListId="list-a"
-            (opSortableListsDrop)="events.push({ type: 'drop', listId: 'a', event: $event })"
-            (opSortableListsRemoved)="events.push({ type: 'removed', listId: 'a', event: $event })"
-          >
-            @for (id of idsA(); track id) {
-              <div class="item" [opSortableListsItem]="id" style="height: 40px; width: 200px;">{{ id }}</div>
-            }
-          </div>
+        <div class="scroll-host" style="overflow: auto;">
+          <div class="root" opSortableLists>
+            <div
+              class="list-a"
+              opSortableListsList
+              opSortableListsListId="list-a"
+              (opSortableListsDrop)="events.push({ type: 'drop', listId: 'a', event: $event })"
+              (opSortableListsRemoved)="events.push({ type: 'removed', listId: 'a', event: $event })"
+            >
+              @for (id of idsA(); track id) {
+                <div class="item" [opSortableListsItem]="id" style="height: 40px; width: 200px;">{{ id }}</div>
+              }
+            </div>
 
-          <div
-            class="list-b"
-            opSortableListsList
-            opSortableListsListId="list-b"
-            (opSortableListsDrop)="events.push({ type: 'drop', listId: 'b', event: $event })"
-            (opSortableListsRemoved)="events.push({ type: 'removed', listId: 'b', event: $event })"
-          >
-            @for (id of idsB(); track id) {
-              <div class="item" [opSortableListsItem]="id" style="height: 40px; width: 200px;">{{ id }}</div>
-            }
+            <div
+              class="list-b"
+              opSortableListsList
+              opSortableListsListId="list-b"
+              (opSortableListsDrop)="events.push({ type: 'drop', listId: 'b', event: $event })"
+              (opSortableListsRemoved)="events.push({ type: 'removed', listId: 'b', event: $event })"
+            >
+              @for (id of idsB(); track id) {
+                <div class="item" [opSortableListsItem]="id" style="height: 40px; width: 200px;">{{ id }}</div>
+              }
+            </div>
           </div>
         </div>
       `,
@@ -409,22 +407,24 @@ describe('sortable-lists directive group behavior', () => {
     @Component({
       imports: [OpSortableListsDirective, OpSortableListsListDirective, OpSortableListsItemDirective],
       template: `
-        <div class="root" opSortableLists (opSortableListsDrop)="rootDrops.push($event)">
-          @if (explicit()) {
-            <div
-              class="list"
-              opSortableListsList
-              (opSortableListsDrop)="listDrops.push($event)"
-            >
+        <div class="scroll-host" style="overflow: auto;">
+          <div class="root" opSortableLists (opSortableListsDrop)="rootDrops.push($event)">
+            @if (explicit()) {
+              <div
+                class="list"
+                opSortableListsList
+                (opSortableListsDrop)="listDrops.push($event)"
+              >
+                @for (id of ids(); track id) {
+                  <div class="item" [opSortableListsItem]="id" style="height: 40px; width: 200px;">{{ id }}</div>
+                }
+              </div>
+            } @else {
               @for (id of ids(); track id) {
                 <div class="item" [opSortableListsItem]="id" style="height: 40px; width: 200px;">{{ id }}</div>
               }
-            </div>
-          } @else {
-            @for (id of ids(); track id) {
-              <div class="item" [opSortableListsItem]="id" style="height: 40px; width: 200px;">{{ id }}</div>
             }
-          }
+          </div>
         </div>
       `,
     })
@@ -495,16 +495,23 @@ describe('sortable-lists directive group behavior', () => {
   });
 
   describe('nested roots', () => {
+    // Two independent roots each need their own closest-scrollable-ancestor,
+    // or both walks terminate on the same element and Pragmatic ends up with
+    // two registrations on one node — see sortable-lists-engine.ts:142-149.
     @Component({
       imports: [OpSortableListsDirective, OpSortableListsItemDirective],
       template: `
-        <div class="outer-root" opSortableLists (opSortableListsDrop)="outerDrops.push($event)">
-          <div class="outer-item" opSortableListsItem="outer-a" style="height: 40px; width: 200px;">outer-a</div>
+        <div class="scroll-host" style="overflow: auto;">
+          <div class="outer-root" opSortableLists (opSortableListsDrop)="outerDrops.push($event)">
+            <div class="outer-item" opSortableListsItem="outer-a" style="height: 40px; width: 200px;">outer-a</div>
 
-          <div class="inner-root" opSortableLists (opSortableListsDrop)="innerDrops.push($event)">
-            @for (id of innerIds(); track id) {
-              <div class="item" [opSortableListsItem]="id" style="height: 40px; width: 200px;">{{ id }}</div>
-            }
+            <div class="inner-scroll-host" style="overflow: auto;">
+              <div class="inner-root" opSortableLists (opSortableListsDrop)="innerDrops.push($event)">
+                @for (id of innerIds(); track id) {
+                  <div class="item" [opSortableListsItem]="id" style="height: 40px; width: 200px;">{{ id }}</div>
+                }
+              </div>
+            </div>
           </div>
         </div>
       `,
@@ -548,27 +555,35 @@ describe('sortable-lists directive group behavior', () => {
     // list's id — DI's nearest-list lookup does not stop at the inner root,
     // so without the ownership check it would register against the inner
     // engine under an id that engine never registered a list for.
+    //
+    // The inner wrapper also gives the inner root its own scrollable
+    // ancestor, distinct from the outer root's, so the two don't collide on
+    // one Pragmatic registration — see sortable-lists-engine.ts:142-149.
     @Component({
       imports: [OpSortableListsDirective, OpSortableListsListDirective, OpSortableListsItemDirective],
       template: `
-        <div class="outer-root" opSortableLists>
-          <div
-            class="outer-list"
-            opSortableListsList
-            opSortableListsListId="outer-list"
-            (opSortableListsDrop)="outerListDrops.push($event)"
-            (opSortableListsRemoved)="outerListRemoved.push($event)"
-          >
+        <div class="scroll-host" style="overflow: auto;">
+          <div class="outer-root" opSortableLists>
             <div
-              class="inner-root"
-              opSortableLists
-              (opSortableListsDrop)="innerDrops.push($event)"
-              (opSortableListsRemoved)="innerRemoved.push($event)"
-              style="padding-bottom: 40px;"
+              class="outer-list"
+              opSortableListsList
+              opSortableListsListId="outer-list"
+              (opSortableListsDrop)="outerListDrops.push($event)"
+              (opSortableListsRemoved)="outerListRemoved.push($event)"
             >
-              @for (id of innerIds(); track id) {
-                <div class="item" [opSortableListsItem]="id" style="height: 40px; width: 200px;">{{ id }}</div>
-              }
+              <div class="inner-scroll-host" style="overflow: auto;">
+                <div
+                  class="inner-root"
+                  opSortableLists
+                  (opSortableListsDrop)="innerDrops.push($event)"
+                  (opSortableListsRemoved)="innerRemoved.push($event)"
+                  style="padding-bottom: 40px;"
+                >
+                  @for (id of innerIds(); track id) {
+                    <div class="item" [opSortableListsItem]="id" style="height: 40px; width: 200px;">{{ id }}</div>
+                  }
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -637,10 +652,12 @@ describe('sortable-lists directive group behavior', () => {
     @Component({
       imports: [OpSortableListsDirective, OpSortableListsListDirective, OpSortableListsItemDirective],
       template: `
-        <div class="root" opSortableLists opSortableListsList>
-          @for (id of ids(); track id) {
-            <div class="item" [opSortableListsItem]="id" style="height: 40px; width: 200px;">{{ id }}</div>
-          }
+        <div class="scroll-host" style="overflow: auto;">
+          <div class="root" opSortableLists opSortableListsList>
+            @for (id of ids(); track id) {
+              <div class="item" [opSortableListsItem]="id" style="height: 40px; width: 200px;">{{ id }}</div>
+            }
+          </div>
         </div>
       `,
     })
@@ -778,20 +795,22 @@ describe('sortable-lists directive group behavior', () => {
     @Component({
       imports: [OpSortableListsDirective, OpSortableListsItemDirective],
       template: `
-        <div
-          class="root"
-          opSortableLists
-          [opSortableListsAxis]="'horizontal'"
-          (opSortableListsDrop)="drops.push($event)"
-          style="white-space: nowrap;"
-        >
-          @for (id of ids(); track id) {
-            <div
-              class="item"
-              [opSortableListsItem]="id"
-              style="display: inline-block; width: 40px; height: 20px;"
-            >{{ id }}</div>
-          }
+        <div class="scroll-host" style="overflow: auto;">
+          <div
+            class="root"
+            opSortableLists
+            [opSortableListsAxis]="'horizontal'"
+            (opSortableListsDrop)="drops.push($event)"
+            style="white-space: nowrap;"
+          >
+            @for (id of ids(); track id) {
+              <div
+                class="item"
+                [opSortableListsItem]="id"
+                style="display: inline-block; width: 40px; height: 20px;"
+              >{{ id }}</div>
+            }
+          </div>
         </div>
       `,
     })
@@ -804,10 +823,12 @@ describe('sortable-lists directive group behavior', () => {
     @Component({
       imports: [OpSortableListsDirective, OpSortableListsItemDirective],
       template: `
-        <div class="root" opSortableLists (opSortableListsDrop)="drops.push($event)">
-          @for (id of ids(); track id) {
-            <div class="item" [opSortableListsItem]="id" style="height: 40px; width: 200px;">{{ id }}</div>
-          }
+        <div class="scroll-host" style="overflow: auto;">
+          <div class="root" opSortableLists (opSortableListsDrop)="drops.push($event)">
+            @for (id of ids(); track id) {
+              <div class="item" [opSortableListsItem]="id" style="height: 40px; width: 200px;">{{ id }}</div>
+            }
+          </div>
         </div>
       `,
     })

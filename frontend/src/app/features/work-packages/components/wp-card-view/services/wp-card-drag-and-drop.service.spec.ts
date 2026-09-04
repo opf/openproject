@@ -1002,9 +1002,11 @@ describe('WorkPackageCardDragAndDropService — real two-list directive fixture'
     standalone: true,
     imports: [OpSortableListsDirective, TestCardListHostComponent],
     template: `
-      <div class="root" opSortableLists>
-        <op-test-sortable-card-list listId="list-a" [mobile]="mobileA()" />
-        <op-test-sortable-card-list listId="list-b" [mobile]="mobileB()" />
+      <div class="scroll-host" style="overflow: auto;">
+        <div class="root" opSortableLists>
+          <op-test-sortable-card-list listId="list-a" [mobile]="mobileA()" />
+          <op-test-sortable-card-list listId="list-b" [mobile]="mobileB()" />
+        </div>
       </div>
     `,
   })
