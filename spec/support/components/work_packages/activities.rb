@@ -167,23 +167,35 @@ module Components
       end
 
       def expect_journal_container_at_bottom
-        scroll_position = page.evaluate_script('document.querySelector(".tabcontent").scrollTop')
-        scroll_height = page.evaluate_script('document.querySelector(".tabcontent").scrollHeight')
-        client_height = page.evaluate_script('document.querySelector(".tabcontent").clientHeight')
-
-        expect(scroll_position).to be_within(10).of(scroll_height - client_height)
+        wait_for do
+          page.evaluate_script(<<~JS)
+            (() => {
+              const container = document.querySelector('.tabcontent');
+              return container.scrollHeight - container.clientHeight - container.scrollTop;
+            })()
+          JS
+        end.to be_within(10).of(0)
       end
 
       def expect_journal_container_at_top
-        scroll_position = page.evaluate_script('document.querySelector(".tabcontent").scrollTop')
-
-        expect(scroll_position).to eq(0)
+        wait_for do
+          page.evaluate_script('document.querySelector(".tabcontent").scrollTop')
+        end.to eq(0)
       end
 
-      def expect_journal_container_at_position(position)
-        scroll_position = page.evaluate_script('document.querySelector(".tabcontent").scrollTop')
-
-        expect(scroll_position).to be_within(50).of(scroll_position - position)
+      def expect_journal_in_view(journal)
+        entry = page.find("[data-anchor-comment-id='#{journal.id}']")
+        wait_for do
+          entry.evaluate_script(<<~JS)
+            ((entry) => {
+              const rect = entry.getBoundingClientRect();
+              const x = rect.left + rect.width / 2;
+              return rect.height > 0 && [rect.top + 1, rect.bottom - 1].every(y =>
+                y > 0 && y < window.innerHeight && entry.contains(document.elementFromPoint(x, y))
+              );
+            })(this)
+          JS
+        end.to be(true)
       end
 
       def expect_empty_state
@@ -384,13 +396,20 @@ module Components
               page.find_test_selector("op-wp-journals-filter-show-only-changes").click
             end
           end
+
+          expect(page).to have_css("[data-test-selector^='op-wp-journals-#{filter}-']")
         end
       end
 
       def set_journal_sorting(sorting, default_filter: :all)
         retry_block do
-          page.find_test_selector("op-wp-journals-sorting-menu").click
-          page.find_test_selector("op-wp-journals-sorting-#{sorting}").click
+          menu_button = page.find_test_selector("op-wp-journals-sorting-menu")
+          action_menu = menu_button.find(:xpath, "./ancestor::action-menu")
+          wait_for { action_menu["data-ready"] }.to eq("true")
+
+          menu_button.click
+          sorting_option = page.find_test_selector("op-wp-journals-sorting-#{sorting}")
+          sorting_option.click
           expect(page).to have_test_selector("op-wp-journals-#{default_filter}-#{sorting}")
         end
       end

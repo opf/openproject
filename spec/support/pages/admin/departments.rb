@@ -83,10 +83,9 @@ module Pages
       end
 
       def expect_breadcrumbs(*names)
-        within_detail_component do
-          expect(page).to have_css("li.breadcrumb-item", text: names.last)
-          actual = page.all("li.breadcrumb-item").map(&:text)
-          expect(actual).to eq(names)
+        page.document.synchronize do
+          actual = page.find(detail_component_selector).all("li.breadcrumb-item", wait: 0).map(&:text)
+          raise Capybara::ExpectationNotMet, "expected #{names.inspect}, got #{actual.inspect}" unless actual == names
         end
       end
 

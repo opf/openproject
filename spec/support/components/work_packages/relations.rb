@@ -125,7 +125,11 @@ module Components
       def open_add_relation_action_menu
         return if add_relation_action_menu.visible?
 
-        new_relation_button.click
+        button = new_relation_button
+        overlay_id = button["popovertarget"]
+        page.find(id: overlay_id, visible: :all)
+        button.click
+        page.find("##{overlay_id}:popover-open", visible: :all)
       end
 
       def open_relation_sub_menu
@@ -178,9 +182,9 @@ module Components
         page.find_test_selector("op-relation-row-#{actual_relatable.id}-edit-button")
       end
 
-      def relatable_delete_button(relatable)
+      def relatable_delete_button(relatable, **)
         actual_relatable = find_relatable(relatable)
-        page.find_test_selector("op-relation-row-#{actual_relatable.id}-delete-button")
+        page.find_test_selector("op-relation-row-#{actual_relatable.id}-delete-button", **)
       end
 
       def expect_relatable_delete_button(relatable)
@@ -343,9 +347,7 @@ module Components
       def add_existing_child(work_package)
         SeleniumHubWaiter.wait
 
-        retry_block do
-          select_relation_type "Child"
-        end
+        select_relation_type "Child"
 
         within "##{WorkPackageRelationsTab::AddWorkPackageHierarchyFormComponent::DIALOG_ID}" do
           autocomplete_field = page.find_test_selector("work-package-hierarchy-form-id")
@@ -361,9 +363,7 @@ module Components
       def add_parent_relation(work_package)
         SeleniumHubWaiter.wait
 
-        retry_block do
-          select_relation_type "Parent"
-        end
+        select_relation_type "Parent"
 
         within "##{WorkPackageRelationsTab::AddWorkPackageHierarchyFormComponent::DIALOG_ID}" do
           autocomplete_field = page.find_test_selector("work-package-hierarchy-form-id")
@@ -418,21 +418,28 @@ module Components
       def remove_relation_with_work_package(relatable)
         open_action_menu_with_work_package(relatable) do
           accept_confirm do
-            relatable_delete_button(relatable).click
+            delete_button = relatable_delete_button(relatable, visible: :all).find("button", visible: :all)
+            page.execute_script("arguments[0].click()", delete_button)
           end
         end
 
+        wait_for_network_idle if using_cuprite?
         expect_no_row(relatable)
       end
 
       def open_action_menu_with_work_package(relatable)
-        retry_block do
-          relatable_row = find_row(relatable)
-          within(relatable_row) do
-            relatable_action_menu(relatable).click
-            yield
+        page.document.synchronize(10) do
+          within(find_row(relatable)) do
+            button = relatable_action_menu(relatable).find("button[popovertarget]")
+            overlay_selector = "##{button['popovertarget']}:popover-open"
+            page.execute_script("arguments[0].click()", button) unless page.has_selector?(overlay_selector,
+                                                                                          visible: :all,
+                                                                                          wait: 0)
+            page.find(overlay_selector, visible: :all, wait: 0)
           end
         end
+
+        yield
       end
 
       def first_level_relation?(relation_type)

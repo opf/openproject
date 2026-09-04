@@ -87,11 +87,9 @@ module Components
     end
 
     def enable_start_date
-      retry_block do
-        page.find_test_selector("wp-datepicker--show-start-date").click
-        wait_for_network_idle
-        expect_start_highlighted
-      end
+      page.find_test_selector("wp-datepicker--show-start-date").click
+      wait_for_changes_to_be_applied_after_setting_field
+      expect_start_highlighted
     end
 
     def enable_start_date_if_visible
@@ -109,11 +107,9 @@ module Components
     end
 
     def enable_due_date
-      retry_block do
-        page.find_test_selector("wp-datepicker--show-due-date").click
-        wait_for_network_idle
-        expect_due_highlighted
-      end
+      page.find_test_selector("wp-datepicker--show-due-date").click
+      wait_for_changes_to_be_applied_after_setting_field
+      expect_due_highlighted
     end
 
     def enable_due_date_if_visible
@@ -220,6 +216,7 @@ module Components
 
     def toggle_working_days_only
       find("label", text: "Working days only").click
+      wait_for_changes_to_be_applied_after_setting_field
     end
 
     def uncheck_working_days_only
@@ -231,16 +228,14 @@ module Components
     end
 
     def wait_for_preview_update
-      # we no visual clue that informs that the preview is in progress. With
-      # cuprite we can wait for the network idle, but otherwise we need to sleep
-      # an arbitrary amount of time.
-      if using_cuprite?
-        wait_for_network_idle
-      else
-        # TODO: find a better mechanism to wait for the preview to finish and
-        # update the datepicker values.
-        sleep 0.350
-      end
+      wait_for_changes_to_be_applied_after_setting_field
+    end
+
+    protected
+
+    def wait_for_changes_to_be_applied_after_setting_field
+      expect(container).to have_no_css("[data-datepicker-preview-pending]")
+      wait_for_network_idle
     end
 
     private

@@ -33,7 +33,10 @@ import * as path from 'node:path';
 const customConfigPlugin:Plugin = {
   name: 'custom-config',
   setup({ initialOptions: options }) {
-    if (options.chunkNames === '[name]-[hash]') { // named chunks
+    if (options.minifySyntax) {
+      options.keepNames = true;
+    }
+    if (options.chunkNames === '[name]-[hash]' && !options.minifySyntax) { // named chunks
       options.chunkNames = '[dir]/[name]-[hash]';
     }
   },

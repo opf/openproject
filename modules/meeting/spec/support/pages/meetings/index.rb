@@ -77,11 +77,25 @@ module Pages::Meetings
       fill_in "Duration", with: duration
     end
 
-    def click_create
-      within "#new-meeting-dialog" do
-        click_on "Create meeting"
+    def click_create(wait_for: :turbo)
+      action = proc do
+        within "#new-meeting-dialog" do
+          click_on "Create meeting"
+        end
       end
-      wait_for_network_idle
+
+      return action.call unless wait_for
+
+      waiter = case wait_for
+               when :turbo
+                 method(:wait_for_turbo)
+               when :turbo_stream
+                 method(:wait_for_turbo_stream)
+               else
+                 raise ArgumentError, "Unsupported wait target: #{wait_for.inspect}"
+               end
+
+      waiter.call(&action)
     end
 
     def expect_no_main_menu

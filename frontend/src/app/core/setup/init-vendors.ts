@@ -30,10 +30,9 @@
 //
 // dependencies required by classic (Rails) and Angular application.
 
-import moment from 'moment';
+import moment from 'moment-timezone';
 import './init-moment-locales';
 
-import 'moment-timezone/builds/moment-timezone-with-data.min';
 import '@openproject/primer-view-components/app/assets/javascripts/primer_view_components.js';
 
 import URI from 'urijs';

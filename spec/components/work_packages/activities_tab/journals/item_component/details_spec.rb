@@ -62,6 +62,18 @@ RSpec.describe WorkPackages::ActivitiesTab::Journals::ItemComponent::Details, ty
     end
   end
 
+  context "for the initial journal" do
+    let(:journal) { build_stubbed(:work_package_journal, journable: work_package, user:, version: 1) }
+    let(:details) { { "subject" => [nil, "Initial subject"] } }
+    let(:rendered) { { ["subject", [nil, "Initial subject"]] => "Subject set to Initial subject" } }
+
+    it "renders the creation header without listing creation attributes" do
+      expect(page).to have_css("[data-test-selector='op-journal-details-header']", text: user.name)
+      expect(page).to have_text(I18n.t("activities.work_packages.activity_tab.created_on"))
+      expect(page).to have_no_css("[data-test-selector='op-journal-detail-description']")
+    end
+  end
+
   # A formatter that renders nothing leaves the entry with no change to show, so
   # a header would announce an author and a time above an empty entry.
   context "when every detail renders blank" do

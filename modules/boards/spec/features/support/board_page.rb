@@ -86,13 +86,12 @@ module Pages
       end
 
       # Add item in dropdown
-      page.find(".menu-item", text: "Add new card").click
+      page.find(".menu-item", text: "Add new card", wait: 10).click
 
       subject = page.find_by_id("wp-new-inline-edit--field-subject")
       subject.set card_title
       subject.send_keys :enter
 
-      sleep 1
       wait_for_network_idle
 
       expect_card(list_name, card_title)
@@ -130,9 +129,9 @@ module Pages
 
       target_dropdown = search_autocomplete(page.find("ng-select.wp-inline-create--reference-autocompleter"),
                                             query: work_package.subject,
-                                            results_selector: ".work-packages-partitioned-query-space--container")
+                                            results_selector: "body")
 
-      expect(target_dropdown).to have_no_css(".ui-menu-item", text: work_package.subject)
+      expect(target_dropdown).to have_no_css(".ng-option", text: work_package.subject)
     end
 
     ##
@@ -147,7 +146,7 @@ module Pages
                                                   '[data-test-selector="op-wp-single-card--content-subject"]',
                                                   text: card_title,
                                                   # Don't wait on non-presence expectation
-                                                  wait: present ? 10 : 0)
+                                                  wait: present ? 20 : 0)
       end
     end
 

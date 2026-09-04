@@ -226,6 +226,10 @@ RSpec.describe "Meeting Presentation Mode", :js do
   end
 
   it "automatically refreshes when things get updated" do
+    allow_any_instance_of(Meetings::PresentationMode::ShowComponent) # rubocop:disable RSpec/AnyInstance
+      .to receive(:check_for_updates_interval)
+            .and_return(100)
+
     visit project_meeting_presentation_path(project, meeting)
     expect(page).to have_css(".op-meeting-presentation")
     expect(page).to have_text("Sprint Planning")
@@ -237,6 +241,9 @@ RSpec.describe "Meeting Presentation Mode", :js do
       .call(title: "Updated Item")
       .on_failure { |result| raise "Failed to update agenda item in background: #{result.errors.full_messages}" }
 
+    # Wait for the change to appear
+    expect(page).to have_text("Updated Item", wait: 10)
+
     # In the background, delete the second item
     # so that the "new" second item is now the third one
     MeetingAgendaItems::DeleteService
@@ -244,8 +251,6 @@ RSpec.describe "Meeting Presentation Mode", :js do
       .call
       .on_failure { |result| raise "Failed to update agenda item in background: #{result.errors.full_messages}" }
 
-    # Wait for the changes to appear
-    expect(page).to have_text("Updated Item", wait: 10)
     expect(page).to have_no_text("Second Item")
 
     # On third item, footer shows second item and first item

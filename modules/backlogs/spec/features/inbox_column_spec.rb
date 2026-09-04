@@ -517,6 +517,7 @@ RSpec.describe "Inbox column in sprint planning view", :js do
         select sprint.name, from: "list_id"
         click_button "Move"
       end
+      planning_page.expect_work_package_in_sprint(inbox_items.last, sprint)
       planning_page.expect_no_inbox_show_more
 
       # Open a sprint story details view, edit the subject, and close

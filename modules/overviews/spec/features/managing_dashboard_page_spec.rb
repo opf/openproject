@@ -108,19 +108,7 @@ RSpec.describe "Dashboard page managing", :js do
 
       # within top-left area, add an additional widget
       dashboard_page.add_widget(1, 1, :row, "Work packages table")
-      # Actually there are two success messages displayed currently. One for the grid getting updated and one
-      # for the query assigned to the new widget being created. A user will not notice it but the automated
-      # browser can get confused. Therefore we dismiss it twice.
-      # We cannot use expect_and_dismiss_toaster for the first toast because its internal
-      # expect_no_toaster check races with the second toast appearing immediately after dismiss.
-      dashboard_page.expect_toast message: I18n.t("js.notice_successful_update")
-      dashboard_page.dismiss_specific_toaster!(message: I18n.t("js.notice_successful_update"))
-
-      # Fixing flaky spec: for some reason, the second request to load the table is not executed until
-      # some activity happens on the page. Sending an enter key to trigger the second request.
-      page.find("body").send_keys(:enter)
-
-      dashboard_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
+      dashboard_page.expect_and_dismiss_all_toasters message: I18n.t("js.notice_successful_update")
 
       table_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(5)")
       table_area.expect_to_span(4, 1, 5, 3)

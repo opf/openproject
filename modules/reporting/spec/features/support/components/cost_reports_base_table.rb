@@ -56,8 +56,8 @@ module Components
       end
     end
 
-    def expect_value(value, row)
-      expect(page).to have_css("#{row_selector(row)} .units", text: value)
+    def expect_value(value, row, wait: Capybara.default_max_wait_time)
+      expect(page).to have_css("#{row_selector(row)} .units", text: value, wait:)
     end
 
     def expect_cell_text(value, row, column)
@@ -89,7 +89,7 @@ module Components
       end
 
       expect_action_icon "edit", row
-      expect_value l_hours(hours), row
+      expect_value l_hours(hours), row, wait: 10
     end
 
     def edit_cost_entry(new_value, row, cost_entry_id)

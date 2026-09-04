@@ -72,7 +72,7 @@ module Components
       end
 
       def expect_closed
-        expect(page).to have_selector(filters_selector, visible: :hidden)
+        expect(page).to have_no_selector("#{filters_selector} #query_form_content", visible: :all)
       end
 
       def expect_quick_filter(text)
@@ -229,6 +229,7 @@ module Components
 
       def remove_filter(field)
         find("#filter_#{field} .advanced-filters--remove-filter-icon").click
+        expect(page).to have_no_css("#filter_#{field}")
       end
 
       def clear_filter_value(field)

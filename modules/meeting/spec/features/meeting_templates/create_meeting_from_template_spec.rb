@@ -145,7 +145,7 @@ RSpec.describe "Create meeting from template", :js do
         meetings_page.click_on "One-time"
 
         within_dialog "New one-time meeting" do
-          find('[data-test-selector="template_id"]').click
+          ng_click_autocompleter(find('[data-test-selector="template_id"]'))
 
           expect(page).to have_text("Standup Template")
           expect(page).to have_text("Retro Template")
@@ -189,7 +189,7 @@ RSpec.describe "Create meeting from template", :js do
         meetings_page.click_on "One-time"
 
         within_dialog "New one-time meeting" do
-          find('[data-test-selector="template_id"]').click
+          ng_click_autocompleter(find('[data-test-selector="template_id"]'))
 
           expect(page).to have_text("Current project template")
 
@@ -235,7 +235,7 @@ RSpec.describe "Create meeting from template", :js do
       end
 
       within_dialog "New one-time meeting" do
-        find('[data-test-selector="template_id"]').click
+        ng_click_autocompleter(find('[data-test-selector="template_id"]'))
         expect(page).to have_text(template.title)
       end
     end
@@ -398,7 +398,7 @@ RSpec.describe "Create meeting from template", :js do
       project_a_meetings_page.click_on "One-time"
 
       within_dialog "New one-time meeting" do
-        find('[data-test-selector="template_id"]').click
+        ng_click_autocompleter(find('[data-test-selector="template_id"]'))
 
         expect(page).to have_text("Template A1")
         expect(page).to have_text("Template A2")
@@ -411,9 +411,10 @@ RSpec.describe "Create meeting from template", :js do
       project_a_meetings_page.click_on "One-time"
 
       within_dialog "New one-time meeting" do
-        find('[data-test-selector="template_id"]').click
+        ng_click_autocompleter(find('[data-test-selector="template_id"]'))
 
-        expect(all(".ng-option").map(&:text)).to eq(["Template A1", "Template A2", "Project B: Template A1"])
+        options = all(".ng-option", count: 3).map(&:text)
+        expect(options).to eq(["Template A1", "Template A2", "Project B: Template A1"])
       end
     end
   end

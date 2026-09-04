@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -228,35 +230,40 @@ module Pages
     end
 
     def add_assignee(name)
-      retry_block do
-        return if page.has_selector?(".fc-resource", text: name, wait: 0)
+      return if page.has_selector?(".fc-resource", text: name, wait: 0)
 
-        click_add_user
-        page.find("#{page.test_selector('tp-add-assignee')} input")
-        select_user_to_add(name)
-      end
+      click_add_user
+      select_user_to_add(name)
       expect_and_dismiss_toaster
     end
 
     def search_assignee(name)
-      retry_block do
-        click_add_user
-        page.find("#{page.test_selector('tp-add-assignee')} input")
-        search_autocomplete page.find('[data-test-selector="tp-add-assignee"]'),
-                            query: name,
-                            results_selector: "body"
-      end
+      click_add_user
+      search_autocomplete -> { page.find('[data-test-selector="tp-add-assignee"]') },
+                          query: name,
+                          results_selector: "body"
     end
 
     def click_add_user
-      is_open = page.has_selector?('[data-test-selector="tp-add-assignee"] input', wait: 0)
-      return if is_open
+      wait_for_loaded
+      autocomplete = -> { page.find('[data-test-selector="tp-add-assignee"]') }
+      panel_selector = "body .ng-dropdown-panel"
 
-      page.find('[data-test-selector="tp-assignee-add-button"]').click
+      unless page.has_selector?('[data-test-selector="tp-add-assignee"] input', wait: 0)
+        page.find('[data-test-selector="tp-assignee-add-button"]', wait: 10).click
+      end
+
+      page.document.synchronize(10) do
+        unless page.has_selector?(panel_selector, wait: 0)
+          ng_click_autocompleter(autocomplete)
+        end
+
+        page.find(panel_selector, wait: 0)
+      end
     end
 
     def select_user_to_add(name)
-      select_autocomplete page.find('[data-test-selector="tp-add-assignee"]'),
+      select_autocomplete -> { page.find('[data-test-selector="tp-add-assignee"]') },
                           query: name,
                           wait_dropdown_open: false,
                           results_selector: "body"
@@ -265,10 +272,9 @@ module Pages
     def expect_user_selectable(user, present: true)
       name = user.is_a?(User) ? user.name : user.to_s
 
-      expect_ng_option page.find('[data-test-selector="tp-add-assignee"]'),
-                       name,
-                       results_selector: "body",
-                       present:
+      expect(page).to have_conditional_selector(present,
+                                                "body .ng-dropdown-panel .ng-option",
+                                                text: name)
     end
 
     def change_wp_date_by_resizing(work_package, number_of_days:, is_start_date:)
@@ -296,7 +302,7 @@ module Pages
       wp_strip = event(work_package)
       lane = lane(user)
 
-      drag_by_pixel(element: wp_strip, by_x: 0, by_y: y_distance(from: wp_strip, to: lane))
+      drag_by_pixel(element: wp_strip, by_x: 0, by_y: y_distance(from: wp_strip, destination: lane))
     end
 
     def drag_to_remove_dropzone(work_package, expect_removable: true)
@@ -355,8 +361,8 @@ module Pages
       expect(page).to have_no_css(".op-submenu--item-title", text: name)
     end
 
-    def y_distance(from:, to:)
-      y_center(to) - y_center(from)
+    def y_distance(from:, destination:)
+      y_center(destination) - y_center(from)
     end
 
     def y_center(element)
@@ -364,7 +370,7 @@ module Pages
     end
 
     def wait_for_loaded
-      expect(page).to have_css(".op-team-planner--wp-loading-skeleton")
+      expect(page).to have_css('[data-test-selector="op-team-planner--calendar-pane"] full-calendar')
       expect(page).to have_no_css(".op-team-planner--wp-loading-skeleton", wait: 10)
     end
   end

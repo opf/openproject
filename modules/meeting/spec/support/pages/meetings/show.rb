@@ -268,13 +268,16 @@ module Pages::Meetings
     end
 
     def open_menu(item, &)
-      retry_block do
-        page.within("#meeting-agenda-item-#{item.id}") do
-          page.find_test_selector("op-meeting-agenda-actions").click
+      selector = test_selector("op-meeting-agenda-actions")
+      overlay = page.document.synchronize(10) do
+        button = page.within("#meeting-agenda-item-#{item.id}") do
+          page.find("action-menu[data-ready='true'] button#{selector}")
         end
-        page.find(".Overlay")
-        page.within(".Overlay", &)
+        overlay_selector = "##{button['popovertarget']}:popover-open"
+        button.click unless page.has_selector?(overlay_selector, visible: :all, wait: 0)
+        page.find(overlay_selector, visible: :all, wait: 0)
       end
+      page.within(overlay, &)
     end
 
     def select_outcome_action(action)
@@ -293,14 +296,16 @@ module Pages::Meetings
     end
 
     def expect_no_outcome_action(item)
-      retry_block do
+      overlay = page.document.synchronize(10) do
         page.within("#meeting-agenda-item-#{item.id}") do
-          page.find_test_selector("op-meeting-agenda-actions").trigger("click")
+          button = page.find_test_selector("op-meeting-agenda-actions")
+          overlay_selector = "##{button['popovertarget']}:popover-open"
+          button.trigger("click") unless page.has_selector?(overlay_selector, visible: :all, wait: 0)
+          page.find(overlay_selector, visible: :all, wait: 0)
         end
-        page.find(".Overlay")
       end
 
-      page.within(".Overlay") do
+      page.within(overlay) do
         expect(page).to have_no_text("Add outcome")
       end
     end
@@ -444,18 +449,21 @@ module Pages::Meetings
     end
 
     def select_backlog_action(action)
-      retry_block do
-        click_on_backlog_menu
-        page.find(".Overlay")
-        page.within(".Overlay") do
-          click_on action
-        end
+      overlay = page.document.synchronize(10) do
+        button = backlog_menu_button
+        overlay_selector = "##{button['popovertarget']}:popover-open"
+        button.click unless page.has_selector?(overlay_selector, visible: :all, wait: 0)
+        page.find(overlay_selector, visible: :all, wait: 0)
       end
+      menu_item = overlay
+        .find("[role='menuitem']", text: action, visible: :visible)
+      page.driver.is_a?(Capybara::Cuprite::Driver) ? menu_item.trigger("click") : menu_item.click
     end
 
-    def click_on_backlog_menu
+    def backlog_menu_button
+      selector = test_selector("meeting-section-action-menu")
       page.within("#meeting-sections-backlogs-header-component") do
-        page.find_test_selector("meeting-section-action-menu").click
+        page.find("action-menu#{selector}[data-ready='true'] button")
       end
     end
 
@@ -781,9 +789,7 @@ module Pages::Meetings
 
     # still a bit ambiguous, but better than nothing
     def expect_focused_ckeditor
-      retry_block do
-        expect(page.evaluate_script("document.activeElement.classList.contains('ck-focused')")).to be true
-      end
+      expect(page).to have_css(".ck-editor__editable.ck-focused")
     end
 
     def expect_notes(text)
@@ -794,6 +800,28 @@ module Pages::Meetings
       input = page.find_by_id("meeting_start_time_hour")
       page.execute_script("arguments[0].value = arguments[1]", input.native, time)
       page.execute_script("arguments[0].dispatchEvent(new Event('input'))", input.native)
+    end
+
+    def set_start_datetime(datetime)
+      fill_in "meeting_start_date", with: datetime.to_date.iso8601
+      set_start_time datetime.strftime("%H:%M")
+    end
+
+    def save_details
+      page.document.synchronize do
+        clicked = page.evaluate_script(<<~JS)
+          (() => {
+            const button = document.querySelector(".Overlay button[type='submit']");
+            if (!button || button.disabled) return false;
+
+            button.click();
+            return true;
+          })()
+        JS
+        raise Capybara::ElementNotFound unless clicked
+      end
+
+      expect(page).to have_no_css(".Overlay", wait: 10)
     end
 
     def meeting_reference_value

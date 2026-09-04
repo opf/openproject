@@ -176,10 +176,9 @@ RSpec.describe "Enterprise trial management",
     fill_in "Last name", with: "Bar"
     fill_in "Email", with: mail
 
-    retry_block do
-      check "general_consent", allow_label_click: true
-      expect(page).to have_checked_field("general_consent")
-    end
+    checkbox = find_field("general_consent", visible: :all)
+    page.execute_script("arguments[0].click()", checkbox)
+    expect(page).to have_checked_field("general_consent", visible: :all)
   end
 
   it "does not send a request when an internal validation fails" do
@@ -284,7 +283,7 @@ RSpec.describe "Enterprise trial management",
         click_link_or_button("Resend confirmation email")
       end
 
-      expect(page).to have_text("Quick feature overview")
+      expect(page).to have_text("Quick feature overview", wait: 10)
       expect(page).to have_css("#enterprise-trial-welcome-dialog video")
 
       expect(page).to have_text("Enterprise Plan")

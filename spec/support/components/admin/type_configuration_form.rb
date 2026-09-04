@@ -296,19 +296,7 @@ module Components
       end
 
       def open_group_menu(name)
-        menu_id = nil
-
-        3.times do
-          menu_button = menu_button_for(name)
-          menu_id = menu_button[:"aria-controls"]
-          menu_button.click
-
-          return menu_id if page.has_css?("##{menu_id}", visible: :all, wait: 2)
-        rescue Selenium::WebDriver::Error::StaleElementReferenceError, Capybara::ElementNotFound
-          next
-        end
-
-        raise Capybara::ElementNotFound, "Unable to open menu #{menu_id.inspect}"
+        open_menu_button { menu_button_for(name) }
       end
 
       def menu_button_for(name)
@@ -317,29 +305,31 @@ module Components
       end
 
       def open_menu(button_selector)
-        menu_id = nil
-        menu_button = nil
+        open_menu_button { page.find_test_selector(button_selector) }
+      end
 
-        3.times do
-          menu_button = page.find_test_selector(button_selector)
+      def open_menu_button
+        page.document.synchronize(10) do
+          menu_button = yield
           menu_id = menu_button[:"aria-controls"]
-          menu_button.click
-          return menu_id if page.has_css?("##{menu_id}", visible: :all, wait: 2)
-        rescue Capybara::Cuprite::MouseEventFailed
-          menu_button&.trigger("click")
-          return menu_id if page.has_css?("##{menu_id}", visible: :all, wait: 2)
-        rescue Selenium::WebDriver::Error::StaleElementReferenceError, Capybara::ElementNotFound
-          next
-        end
+          raise Capybara::ElementNotFound, "Menu button has no target" if menu_id.blank?
 
-        raise Capybara::ElementNotFound, "Unable to open menu #{menu_id.inspect}"
+          begin
+            menu_button.click
+          rescue Capybara::Cuprite::MouseEventFailed
+            menu_button.trigger("click")
+          end
+
+          page.find(id: menu_id, visible: :visible, wait: 0)
+          menu_id
+        end
       end
 
       def click_menu_action(open_menu_callback, label)
-        retry_block(args: { tries: 3 }) do
+        page.document.synchronize(10) do
           menu_id = open_menu_callback.call
-          menu = page.find("##{menu_id}", visible: :all)
-          menu.first("[role='menuitem']", text: /\A#{Regexp.escape(label)}\z/, visible: :all).click
+          menu = page.find(id: menu_id, visible: :visible, wait: 0)
+          menu.find("[role='menuitem']", exact_text: label, visible: :visible, wait: 0).click
         end
       end
 
