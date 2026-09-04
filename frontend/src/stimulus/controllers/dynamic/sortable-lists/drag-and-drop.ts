@@ -39,6 +39,7 @@ import {
 // resolution (lifecycle-manager) does.
 import { getElementFromPointWithoutHoneypot } from '@atlaskit/pragmatic-drag-and-drop/private/get-element-from-point-without-honey-pot';
 import { type DragLocationHistory } from '@atlaskit/pragmatic-drag-and-drop/types';
+import { type SelectionItem } from 'core-common/batch-selection';
 import {
   isExcludedItem,
   resolveClosestItemElement,
@@ -60,10 +61,16 @@ import {
 const sortableItemDataKey = Symbol('sortable-list-item');
 const sortableListDataKey = Symbol('sortable-list');
 
-export interface SortableItemData extends Record<string|symbol, unknown> {
+// What a drop target exposes: the identity a drop resolves against, and
+// nothing that would have to be recomputed on every dragover.
+export interface SortableItemIdentity extends Record<string|symbol, unknown> {
   [sortableItemDataKey]:true;
   type:string;
   itemId:string;
+}
+
+// What the dragged source carries, resolved once at drag start.
+export interface SortableItemData extends SortableItemIdentity {
   rootElement:HTMLElement|null;
   // The destinations this drag may land in, resolved across the whole batch
   // at drag start; null when nothing restricts it, empty when nothing
@@ -115,6 +122,9 @@ export interface SortableListsRoot {
   // Asked in canDrag: true when the item's prospective batch exceeds the
   // server's cap, so the drag never starts.
   dragRefused(itemElement:HTMLElement):boolean;
+  // The cards an external drop should receive: the prospective batch, read
+  // before the batch is frozen, without touching the selection.
+  externalDragItems(itemElement:HTMLElement):HTMLElement[];
 }
 
 // Implemented by the list, item and scrollable controllers so the root can
@@ -127,7 +137,16 @@ export interface RootAwareChild {
   reregister():void;
 }
 
-export function isSortableItemData(data:Record<string|symbol, unknown>):data is SortableItemData {
+export function sortableItemIdentity({ type, itemId }:{ type:string; itemId:string }):SortableItemIdentity {
+  return { [sortableItemDataKey]: true, type, itemId };
+}
+
+export function singleItemBatch({ type, itemId }:{ type:string; itemId:string }):SelectionItem[] {
+  return [{ type, id: itemId }];
+}
+
+// The source-only fields are what isItemFromRoot narrows on beyond this.
+export function isSortableItemData(data:Record<string|symbol, unknown>):data is SortableItemIdentity {
   return data[sortableItemDataKey] === true
     && typeof data.type === 'string'
     && data.type.length > 0
@@ -154,9 +173,7 @@ export function sortableItemData({
   permittedDestinations?:DestinationIdentity[]|null;
 }):SortableItemData {
   return {
-    [sortableItemDataKey]: true,
-    type,
-    itemId,
+    ...sortableItemIdentity({ type, itemId }),
     rootElement,
     permittedDestinations,
   };
@@ -215,7 +232,7 @@ export function isItemFromRoot(
 ):data is SortableItemData {
   return rootElement != null
     && isSortableItemData(data)
-    && data.rootElement === rootElement;
+    && (data as SortableItemData).rootElement === rootElement;
 }
 
 // Whether a drop into the given destination may amount to a move for this
@@ -314,7 +331,7 @@ export function resolveDropIntent({
   location,
   root,
   sourceData,
-  excludedItems = { type: sourceData.type, ids: new Set([sourceData.itemId]) },
+  excludedItems = { type: sourceData.type, ids: new Set(singleItemBatch(sourceData).map((item) => item.id)) },
 }:{
   location:DragLocationHistory;
   root:HTMLElement;
@@ -335,7 +352,7 @@ export function resolveDropIntent({
   // item drop target carries only its identity, and the list it sits in is
   // the destination a drop into it would reach.
   const targetItem = location.current.dropTargets.find(
-    (target):target is typeof target & { data:SortableItemData; element:HTMLElement } => (
+    (target):target is typeof target & { data:SortableItemIdentity; element:HTMLElement } => (
       isSortableItemData(target.data) && target.element instanceof HTMLElement
         && targetList.element.contains(target.element)
     ),

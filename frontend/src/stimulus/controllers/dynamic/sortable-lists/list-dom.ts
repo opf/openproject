@@ -114,10 +114,6 @@ export function isOrderableItem(itemElement:Element):boolean {
   return itemMobility(itemElement) !== 'fixed';
 }
 
-export function isConfinedItem(itemElement:Element):boolean {
-  return itemMobility(itemElement) === 'confined';
-}
-
 // A destination an item may be moved to: a list, identified by type and id
 // (null for the type's unlisted bucket).
 export interface DestinationIdentity {
@@ -394,6 +390,11 @@ export function resolveItemLabel(row:Element):string|null {
   return row instanceof HTMLElement && row.matches(sortableItemSelector)
     ? row.getAttribute('data-sortable-lists--item-label-value')
     : null;
+}
+
+export function resolveItemExternalUrl(itemElement:Element):string|null {
+  const url = itemElement.getAttribute('data-sortable-lists--item-external-url-value');
+  return url === '' ? null : url;
 }
 
 // A row a predecessor id can be read from: an item row, or a non-item row

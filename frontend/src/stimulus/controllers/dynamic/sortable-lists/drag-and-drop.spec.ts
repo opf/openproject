@@ -116,6 +116,10 @@ describe('sortable lists drag and drop helpers', () => {
     it('rejects data with a blank item id', () => {
       expect(isSortableItemData(sortableItemData({ type: 'work_package', itemId: '' }))).toBe(false);
     });
+
+    it('rejects data with a blank type', () => {
+      expect(isSortableItemData(sortableItemData({ type: '', itemId: '1' }))).toBe(false);
+    });
   });
 
   describe('isSortableListData', () => {

@@ -33,6 +33,7 @@ import {
 } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
 import { combine } from '@atlaskit/pragmatic-drag-and-drop/combine';
 import { draggable, dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
+import { formatURLsForExternal } from '@atlaskit/pragmatic-drag-and-drop/element/format-urls-for-external';
 import { preserveOffsetOnSource } from '@atlaskit/pragmatic-drag-and-drop/element/preserve-offset-on-source';
 import { setCustomNativeDragPreview } from '@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview';
 import { preventUnhandled } from '@atlaskit/pragmatic-drag-and-drop/prevent-unhandled';
@@ -44,11 +45,19 @@ import {
   permittedDestinationsAllowDrop,
   isItemFromRoot,
   sortableItemData,
+  sortableItemIdentity,
   type RootAwareChild,
   type SortableItemData,
   type SortableListsRoot,
 } from './drag-and-drop';
-import { isMoveDirection, isOrderableItem, itemMobility, sortableItemSelector } from './list-dom';
+import {
+  isMoveDirection,
+  isOrderableItem,
+  itemMobility,
+  resolveItemExternalUrl,
+  resolveItemLabel,
+  sortableItemSelector,
+} from './list-dom';
 import { renderDragPreview } from './preview';
 
 type CleanupFn = () => void;
@@ -62,7 +71,6 @@ export default class ItemController extends Controller<HTMLElement> implements R
     type: String,
     externalUrl: String,
     hideUnavailable: { type: Boolean, default: true },
-    label: String,
     // See ItemMobility in list-dom. A `confined` item is still a full drag
     // source; only the lists the batch's permitted set names accept it.
     mobility: { type: String, default: 'free' },
@@ -75,8 +83,6 @@ export default class ItemController extends Controller<HTMLElement> implements R
   declare readonly externalUrlValue:string;
   declare readonly hasExternalUrlValue:boolean;
   declare readonly hideUnavailableValue:boolean;
-  declare readonly labelValue:string;
-  declare readonly hasLabelValue:boolean;
 
   declare readonly handleTarget:HTMLElement;
   declare readonly hasHandleTarget:boolean;
@@ -299,13 +305,12 @@ export default class ItemController extends Controller<HTMLElement> implements R
           && !this.element.hasAttribute('data-dragging')
           && permittedDestinationsAllowDrop(source.data, this.root?.ownerDestinationOf(this.element) ?? null);
       },
-      getData: ({ input }) => {
-        return attachClosestEdge(this.getItemData(), {
-          element: this.element,
-          input,
-          allowedEdges: ['top', 'bottom'],
-        });
-      },
+      // Only the identity a drop needs; the batch-aware fields are computed
+      // for the dragged source alone.
+      getData: ({ input }) => attachClosestEdge(
+        sortableItemIdentity({ itemId: this.idValue, type: this.typeValue }),
+        { element: this.element, input, allowedEdges: ['top', 'bottom'] },
+      ),
       getIsSticky: ({ input }) => this.isWithinRowsSpan(input),
       onDragEnter: ({ self }) => {
         const closestEdge = extractClosestEdge(self.data);
@@ -356,22 +361,27 @@ export default class ItemController extends Controller<HTMLElement> implements R
       && input.clientY <= lastRow.getBoundingClientRect().bottom;
   }
 
-  // The URL flavours carry the bare URL; text/html joins in only when the item
-  // has a label (the same one announcements use), as a link for rich-text
-  // targets (notes apps, editors). The anchor is built through a detached DOM
-  // element so the browser escapes the label and URL canonically.
+  // Every member of the prospective batch, so an external drop receives the
+  // whole block; text/html joins in as one link per labelled member.
   private externalDragData():Record<string, string> {
-    const url = this.externalUrlValue;
+    const members = this.root?.externalDragItems(this.element) ?? [this.element];
+    const entries = members
+      .map((member) => ({ url: resolveItemExternalUrl(member), label: resolveItemLabel(member) }))
+      .filter((entry):entry is { url:string; label:string|null } => entry.url !== null);
+    const urls = entries.map((entry) => entry.url);
     const data:Record<string, string> = {
-      'text/uri-list': url,
-      'text/plain': url,
+      'text/uri-list': formatURLsForExternal(urls),
+      'text/plain': urls.join('\n'),
     };
 
-    if (this.hasLabelValue && this.labelValue !== '') {
+    const links = entries.filter((entry) => entry.label).map((entry) => {
       const anchor = this.element.ownerDocument.createElement('a');
-      anchor.href = url;
-      anchor.textContent = this.labelValue;
-      data['text/html'] = anchor.outerHTML;
+      anchor.href = entry.url;
+      anchor.textContent = entry.label;
+      return anchor.outerHTML;
+    });
+    if (links.length > 0) {
+      data['text/html'] = links.join('<br>');
     }
 
     return data;
@@ -417,14 +427,13 @@ export default class ItemController extends Controller<HTMLElement> implements R
       return { element: this.element, edge };
     }
 
-    const nextItem = this.element.nextElementSibling;
+    let next = this.element.nextElementSibling;
+    while (next instanceof HTMLElement && next.matches(sortableItemSelector) && next.hasAttribute('data-dragging')) {
+      next = next.nextElementSibling;
+    }
 
-    if (
-      nextItem instanceof HTMLElement &&
-      nextItem.matches(sortableItemSelector) &&
-      !nextItem.hasAttribute('data-dragging')
-    ) {
-      return { element: nextItem, edge: 'top' };
+    if (next instanceof HTMLElement && next.matches(sortableItemSelector)) {
+      return { element: next, edge: 'top' };
     }
 
     return { element: this.element, edge };

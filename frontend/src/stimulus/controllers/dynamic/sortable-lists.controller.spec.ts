@@ -181,11 +181,12 @@ describe('Sortable lists controller', () => {
 
   async function dropCurrentItemOnList(sourceElement:HTMLElement, list:HTMLElement, type = 'work_package') {
     const monitorOptions = vi.mocked(monitorForElements).mock.lastCall?.[0];
+    const rootElement = sourceElement.closest<HTMLElement>('[data-controller="sortable-lists"]');
 
     monitorOptions?.onDrop?.({
       source: sourcePayload(
         sourceElement,
-        itemData(sourceElement.getAttribute('data-sortable-lists--item-id-value')!, type),
+        itemData(sourceElement.getAttribute('data-sortable-lists--item-id-value')!, type, rootElement),
       ),
       location: {
         initial: {
@@ -214,8 +215,8 @@ describe('Sortable lists controller', () => {
     await flushPromises();
   }
 
-  function itemData(itemId = '1', type = 'work_package') {
-    return sortableItemData({ itemId, type });
+  function itemData(itemId = '1', type = 'work_package', rootElement:HTMLElement|null = null) {
+    return sortableItemData({ itemId, type, rootElement });
   }
 
   function sourcePayload(element:HTMLElement, data:Record<string|symbol, unknown> = itemData()) {
@@ -2446,7 +2447,7 @@ describe('Sortable lists controller', () => {
       const sourceId = source.getAttribute('data-sortable-lists--item-id-value')!;
 
       monitorOptions?.onDrop?.({
-        source: sourcePayload(source, itemData(sourceId, 'work_package')),
+        source: sourcePayload(source, itemData(sourceId, 'work_package', root)),
         location: {
           initial: { dropTargets: [], input: input() },
           current: { dropTargets: batchDropTargets({ targetList, targetItem, edge }), input: input() },
@@ -2475,7 +2476,7 @@ describe('Sortable lists controller', () => {
       const sourceId = source.getAttribute('data-sortable-lists--item-id-value')!;
 
       monitorOptions?.onDrop?.({
-        source: sourcePayload(source, itemData(sourceId, 'work_package')),
+        source: sourcePayload(source, itemData(sourceId, 'work_package', root)),
         location: {
           initial: { dropTargets: [], input: input() },
           current: { dropTargets: [], input: input() },
@@ -2620,6 +2621,34 @@ describe('Sortable lists controller', () => {
 
         expect(fetchMock).toHaveBeenCalled();
         expect(rowIdsIn(list2)).toEqual(['1', '4', '5']);
+      });
+    });
+
+    // getInitialDataForExternal reads this before the batch is frozen, so it
+    // has to answer from the live selection rather than the frozen snapshot.
+    describe('externalDragItems', () => {
+      it('returns just the card while nothing is selected', () => {
+        expect(controller.externalDragItems(item1)).toEqual([item1]);
+      });
+
+      it('returns every batch member when the card is part of a selection', () => {
+        selectItems(item1, item3);
+
+        expect(controller.externalDragItems(item1)).toEqual([item1, item3]);
+      });
+
+      it('returns just the card when it is not part of the selection', () => {
+        selectItems(item3);
+
+        expect(controller.externalDragItems(item1)).toEqual([item1]);
+      });
+
+      it('does not touch the selection', () => {
+        selectItems(item1, item3);
+
+        controller.externalDragItems(item1);
+
+        expect(selectedRowIds()).toEqual(['1', '3']);
       });
     });
 

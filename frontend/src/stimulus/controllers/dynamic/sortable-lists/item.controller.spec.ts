@@ -49,6 +49,7 @@ vi.mock('@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-previe
   setCustomNativeDragPreview: vi.fn(),
 }));
 
+import { attachClosestEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
 import type { draggable as draggableFn, dropTargetForElements as dropTargetForElementsFn } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import type { setCustomNativeDragPreview as setCustomNativeDragPreviewFn } from '@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview';
 import type { preventUnhandled as preventUnhandledType } from '@atlaskit/pragmatic-drag-and-drop/prevent-unhandled';
@@ -65,6 +66,7 @@ describe('Sortable lists item controller', () => {
   let setCustomNativeDragPreview:typeof setCustomNativeDragPreviewFn;
   let ItemController:typeof ItemControllerType;
   let sortableItemData:typeof import('./drag-and-drop').sortableItemData;
+  let sortableItemIdentity:typeof import('./drag-and-drop').sortableItemIdentity;
 
   interface TestItemController {
     renderDropIndicator(edge:'top'|'bottom'|null):void;
@@ -77,7 +79,7 @@ describe('Sortable lists item controller', () => {
     ({ preventUnhandled } = await import('@atlaskit/pragmatic-drag-and-drop/prevent-unhandled'));
     ({ setCustomNativeDragPreview } = await import('@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview'));
     ({ default: ItemController } = await import('./item.controller'));
-    ({ sortableItemData } = await import('./drag-and-drop'));
+    ({ sortableItemData, sortableItemIdentity } = await import('./drag-and-drop'));
   });
 
   function controllerFor(element:HTMLElement) {
@@ -116,6 +118,7 @@ describe('Sortable lists item controller', () => {
           : null
       )),
       dragRefused: vi.fn(() => false),
+      externalDragItems: vi.fn((item:HTMLElement) => [item]),
     };
   }
 
@@ -144,12 +147,21 @@ describe('Sortable lists item controller', () => {
     Object.defineProperty(controller, 'hasTypeValue', { value: true });
     Object.defineProperty(controller, 'externalUrlValue', { value: externalUrl ?? '' });
     Object.defineProperty(controller, 'hasExternalUrlValue', { value: externalUrl !== null });
-    Object.defineProperty(controller, 'labelValue', { value: label ?? '' });
-    Object.defineProperty(controller, 'hasLabelValue', { value: label !== null });
     // Written to the element, not stubbed as a controller property: the
     // controller reads mobility through list-dom's parser, which stubbing
-    // would bypass.
+    // would bypass. The same goes for id, type, external URL and label: the
+    // batch-aware external payload reads every member off the DOM, not off
+    // this card's own controller instance.
+    element.setAttribute('data-controller', 'sortable-lists--item');
+    element.setAttribute('data-sortable-lists--item-id-value', '123');
+    element.setAttribute('data-sortable-lists--item-type-value', 'item');
     element.setAttribute('data-sortable-lists--item-mobility-value', mobility);
+    if (externalUrl !== null) {
+      element.setAttribute('data-sortable-lists--item-external-url-value', externalUrl);
+    }
+    if (label !== null) {
+      element.setAttribute('data-sortable-lists--item-label-value', label);
+    }
     Object.defineProperty(controller, 'hasHandleTarget', { value: handle !== null });
     if (handle) {
       Object.defineProperty(controller, 'handleTarget', { value: handle });
@@ -293,6 +305,40 @@ describe('Sortable lists item controller', () => {
     expect(nextElement.dataset.dropPosition).toEqual('top');
   });
 
+  it('skips every consecutive dragged sibling when placing the indicator below a row', () => {
+    const list = document.createElement('ul');
+    const [row, mateOne, mateTwo, after] = ['1', '2', '3', '4'].map((id) => {
+      const li = document.createElement('li');
+      li.setAttribute('data-controller', 'sortable-lists--item');
+      li.setAttribute('data-sortable-lists--item-id-value', id);
+      li.setAttribute('data-sortable-lists--item-type-value', 'item');
+      return li;
+    });
+    mateOne.setAttribute('data-dragging', 'source');
+    mateTwo.setAttribute('data-dragging', 'source');
+    list.append(row, mateOne, mateTwo, after);
+    connectedControllerFor(row, { root: fakeRoot() });
+
+    vi.spyOn(row, 'getBoundingClientRect').mockReturnValue({
+      top: 0, bottom: 100, left: 0, right: 100, width: 100, height: 100, x: 0, y: 0, toJSON: () => ({}),
+    });
+
+    // Built the same way Pragmatic's own attachClosestEdge does, so the edge
+    // lives under its private symbol key rather than a plain property.
+    const data = attachClosestEdge(sortableItemIdentity({ itemId: '1', type: 'item' }), {
+      element: row,
+      input: { clientX: 10, clientY: 90 } as never,
+      allowedEdges: ['top', 'bottom'],
+    });
+
+    vi.mocked(dropTargetForElements).mock.lastCall?.[0].onDragEnter?.({
+      self: { data },
+    } as never);
+
+    expect(after.dataset.dropPosition).toBe('top');
+    expect(mateOne.dataset.dropPosition).toBeUndefined();
+  });
+
   it('removes the drop position when leaving an item', () => {
     const element = document.createElement('li');
     const nextElement = document.createElement('li');
@@ -430,6 +476,20 @@ describe('Sortable lists item controller', () => {
       // the DOM-parent fallback (the one-row wrapper) would release well before it.
       expect(stickyAt(first, third.getBoundingClientRect().bottom - 1)).toBe(true);
     });
+  });
+
+  it('exposes only identity and edge as drop-target data', () => {
+    const element = document.createElement('article');
+    connectedControllerFor(element, { root: fakeRoot() });
+
+    const data = vi.mocked(dropTargetForElements).mock.lastCall?.[0].getData?.({
+      element, input: { clientX: 0, clientY: 0 } as never, source: {} as never,
+    });
+
+    expect(data).toEqual(expect.objectContaining({ itemId: '123', type: 'item' }));
+    expect(Object.keys(data ?? {})).toEqual(['type', 'itemId']);
+    expect(data).not.toHaveProperty('rootElement');
+    expect(data).not.toHaveProperty('permittedDestinations');
   });
 
   it('refuses a drop onto a row marked as part of the dragged batch', () => {
@@ -681,6 +741,31 @@ describe('Sortable lists item controller', () => {
     connectedControllerFor(element, { externalUrl: '' });
 
     expect(vi.mocked(draggable).mock.lastCall?.[0].getInitialDataForExternal).toBeUndefined();
+  });
+
+  it('lists every batch member\'s URL for external consumers', () => {
+    const element = document.createElement('article');
+    const mate = document.createElement('article');
+    mate.setAttribute('data-controller', 'sortable-lists--item');
+    mate.setAttribute('data-sortable-lists--item-id-value', '124');
+    mate.setAttribute('data-sortable-lists--item-external-url-value', 'http://example.org/work_packages/124');
+    mate.setAttribute('data-sortable-lists--item-label-value', 'Mate');
+    element.setAttribute('data-sortable-lists--item-external-url-value', 'http://example.org/work_packages/123');
+    element.setAttribute('data-sortable-lists--item-label-value', 'Card');
+
+    connectedControllerFor(element, {
+      externalUrl: 'http://example.org/work_packages/123',
+      label: 'Card',
+      root: { ...fakeRoot(), externalDragItems: vi.fn(() => [element, mate]) },
+    });
+
+    const externalData = vi.mocked(draggable).mock.lastCall?.[0].getInitialDataForExternal?.(draggableArgs(element));
+
+    expect(externalData).toEqual({
+      'text/uri-list': 'http://example.org/work_packages/123\r\nhttp://example.org/work_packages/124',
+      'text/plain': 'http://example.org/work_packages/123\nhttp://example.org/work_packages/124',
+      'text/html': '<a href="http://example.org/work_packages/123">Card</a><br><a href="http://example.org/work_packages/124">Mate</a>',
+    });
   });
 
   it('prevents unhandled browser drag feedback while dragging an item', () => {
@@ -1041,6 +1126,7 @@ describe('Sortable lists item controller', () => {
         dragPermittedDestinations: vi.fn(() => null),
         ownerDestinationOf: vi.fn(() => null),
         dragRefused: vi.fn(() => false),
+        externalDragItems: vi.fn((element:HTMLElement) => [element]),
       });
 
       vi.mocked(draggable).mock.lastCall?.[0].onGenerateDragPreview?.({
@@ -1133,6 +1219,7 @@ describe('Sortable lists item controller', () => {
         dragPermittedDestinations: vi.fn(() => null),
         ownerDestinationOf: vi.fn(() => null),
         dragRefused: vi.fn(() => false),
+        externalDragItems: vi.fn((element:HTMLElement) => [element]),
       });
 
       vi.mocked(draggable).mock.lastCall?.[0].onGenerateDragPreview?.({
@@ -1542,6 +1629,7 @@ describe('Sortable lists item controller', () => {
         dragPermittedDestinations: vi.fn(() => null),
         ownerDestinationOf: vi.fn(() => null),
         dragRefused: vi.fn(() => false),
+        externalDragItems: vi.fn((element:HTMLElement) => [element]),
       };
 
       controller.connectRoot(root);
@@ -1569,6 +1657,7 @@ describe('Sortable lists item controller', () => {
         dragPermittedDestinations: vi.fn(() => null),
         ownerDestinationOf: vi.fn(() => null),
         dragRefused: vi.fn(() => false),
+        externalDragItems: vi.fn((element:HTMLElement) => [element]),
       };
 
       controller.connectRoot(root);

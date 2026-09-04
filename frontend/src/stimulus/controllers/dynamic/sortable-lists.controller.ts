@@ -39,8 +39,9 @@ import { flipMove } from 'core-stimulus/helpers/flip-helper';
 import { parseTemplate } from 'url-template';
 import {
   buildMoveFormData,
-  isSortableItemData,
+  isItemFromRoot,
   resolveDropIntent,
+  singleItemBatch,
   type RootAwareChild,
   type SortableListData,
   type SortableListsRoot,
@@ -120,8 +121,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   connect():void {
     this.monitorCleanupFn = monitorForElements({
       canMonitor: ({ source }) => !this.busy
-        && isSortableItemData(source.data)
-        && source.data.rootElement === this.element,
+        && isItemFromRoot(this.element, source.data),
       onDrop: (args) => {
         void this.handleDrop(args);
       },
@@ -288,6 +288,11 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       { politeness: 'assertive' },
     );
     return true;
+  }
+
+  externalDragItems(itemElement:HTMLElement):HTMLElement[] {
+    const scope = this.selection?.actionScopeFor(itemElement);
+    return scope?.kind === 'batch' ? scope.items : [itemElement];
   }
 
   private destinationOf(listData:SortableListData):DestinationIdentity {
@@ -483,8 +488,6 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       return;
     }
 
-    // Last, after every resolution above: several of them bail, and
-    // collapsing earlier would destroy the batch for a move that never runs.
     this.selection?.collapseForAction(itemElement);
 
     void this.performMove({
@@ -526,7 +529,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       return;
     }
 
-    if (!isSortableItemData(source.data) || !(source.element instanceof HTMLElement)) {
+    if (!isItemFromRoot(this.element, source.data) || !(source.element instanceof HTMLElement)) {
       debugLog('sortable-lists: ignoring drop, source is not a sortable item', source.data);
       return;
     }
@@ -552,7 +555,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       sourceData: source.data,
       excludedItems: {
         type: source.data.type,
-        ids: new Set((batch ?? [{ type: source.data.type, id: source.data.itemId }]).map((item) => item.id)),
+        ids: new Set((batch ?? singleItemBatch(source.data)).map((item) => item.id)),
       },
     });
     if (!intent) {
@@ -588,7 +591,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
 
     return frozenBatch && frozenBatch.length > 0
       ? frozenBatch
-      : [{ type: sourceData.type, id: sourceData.itemId }];
+      : singleItemBatch(sourceData);
   }
 
   private get collectionMoveUrl():string|null {
