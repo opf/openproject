@@ -36,6 +36,14 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
   let(:admin) { create(:admin) }
   let(:base_url) { "https://example.com/v1" }
 
+  # The picker is an autocompleter, so its options are serialised into the
+  # element rather than rendered as markup.
+  def offered_default_models
+    items = page.find("[data-test-selector='llm-connection--defaults-form'] opce-autocompleter")["data-items"]
+
+    JSON.parse(items).pluck("id").compact_blank
+  end
+
   describe "with the feature flag off", with_flag: { llm_connection: false } do
     before { login_as admin }
 
@@ -123,6 +131,29 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(cell[:class]).to include("-no-ellipsis")
         expect(cell.find(".Label").text).to eq("Server")
         expect(cell.find(".Label")[:title]).to eq("Reported by the server")
+      end
+
+      it "offers the default chat model next to the models it may be chosen from" do
+        connection = create(:llm_connection, :with_models, base_url:)
+        connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                               state: "supported", source: "probe", checked_at: Time.current)
+
+        get llm_models_path
+
+        expect(response.body).to include("Default models")
+        # An embedding model is a different kind of model, not a chat choice.
+        expect(offered_default_models).to contain_exactly("qwen3.6-27b")
+      end
+
+      it "keeps a stored default listed once its model is switched off" do
+        connection = create(:llm_connection, :with_models, base_url:)
+        chat_model = connection.models.find_by(external_id: "qwen3.6-27b")
+        connection.update!(default_chat_model: chat_model)
+        chat_model.update!(deactivated_at: Time.current)
+
+        get llm_models_path
+
+        expect(offered_default_models).to include("qwen3.6-27b")
       end
 
       it "sends the administrator to the settings while the features are off",
@@ -582,6 +613,43 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(response.body).to include("Inherit from server (not verified)")
         expect(response.body).not_to include("Inherit from server (supported)")
       end
+    end
+  end
+
+  describe "PATCH /admin/llm_models/defaults" do
+    let!(:connection) { create(:llm_connection, :with_models, :enabled, base_url:) }
+
+    before { login_as admin }
+
+    it "stores the default chat model without contacting the server" do
+      patch defaults_llm_models_path, params: { llm_connection: { default_chat_model_id: "qwen3.6-27b" } }
+
+      expect(response).to redirect_to(llm_models_path)
+      expect(connection.reload.default_chat_model_id).to eq("qwen3.6-27b")
+      expect(flash[:notice]).to eq("The default models have been saved.")
+      expect(a_request(:get, "#{base_url}/models")).not_to have_been_made
+    end
+
+    it "refuses a model the server does not offer" do
+      patch defaults_llm_models_path, params: { llm_connection: { default_chat_model_id: "not-there" } }
+
+      expect(connection.reload.default_chat_model_id).to be_nil
+      expect(flash[:error]).to be_present
+    end
+
+    it "leaves the server settings alone" do
+      patch defaults_llm_models_path,
+            params: { llm_connection: { default_chat_model_id: "qwen3.6-27b", base_url: "https://elsewhere.test/v1" } }
+
+      expect(connection.reload.base_url).to eq(base_url)
+    end
+
+    it "is refused to a non-admin" do
+      login_as create(:user)
+
+      patch defaults_llm_models_path, params: { llm_connection: { default_chat_model_id: "qwen3.6-27b" } }
+
+      expect(connection.reload.default_chat_model_id).to be_nil
     end
   end
 

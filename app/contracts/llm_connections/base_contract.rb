@@ -38,8 +38,6 @@ module LlmConnections
     attribute :api_key
     attribute :default_chat_model_id
     attribute :default_embedding_model_id
-    attribute :default_chat_model_id
-    attribute :default_embedding_model_id
 
     validates :base_url, presence: true
     validates :api_format, inclusion: { in: Llm::Adapters::FORMATS }
@@ -59,18 +57,13 @@ module LlmConnections
 
     private
 
-    # The mirror image of default_embedding_model_can_embed: a model the server
-    # positively identifies as an embedding model is not a chat candidate.
+    # A model the server identifies as an embedding model is not a chat candidate.
     def default_chat_model_can_chat
       llm_model = model.default_chat_model
       return if llm_model.blank?
       return unless model.changed_attributes.include?("default_chat_model_id")
 
-      embedding = model.capability_verdicts
-                       .for_capability(:embeddings)
-                       .exists?(model_id: llm_model.external_id, state: "supported")
-
-      errors.add(:default_chat_model_id, :cannot_chat) if embedding
+      errors.add(:default_chat_model_id, :cannot_chat) if model.default_chat_model&.embedding?
     end
 
     def features_require_connection

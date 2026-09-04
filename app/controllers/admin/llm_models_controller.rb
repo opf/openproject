@@ -124,6 +124,17 @@ module Admin
       redirect_to llm_models_path, status: :see_other
     end
 
+    def update_defaults
+      result = ::LlmConnections::UpdateService
+                 .new(user: current_user, model: @connection)
+                 .call(**default_model_params)
+
+      result.on_success { flash[:notice] = t("admin.llm_models.defaults.success") }
+      result.on_failure { flash[:error] = result.errors.full_messages.join(", ") }
+
+      redirect_to llm_models_path, status: :see_other
+    end
+
     # Hides a model from the pickers, or puts it back. Deliberately does not
     # touch +active+, which the catalogue sync owns and would overwrite.
     def toggle
@@ -139,6 +150,10 @@ module Admin
     end
 
     private
+
+    def default_model_params
+      params.expect(llm_connection: %i[default_chat_model_id]).to_h.symbolize_keys
+    end
 
     def set_connection
       @connection = LlmConnection.active_connection

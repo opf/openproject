@@ -123,7 +123,7 @@ module Admin
     # saved value, so submitting it unchanged posts an empty string.
     def llm_connection_params
       permitted = params.expect(
-        llm_connection: %i[llm_features_enabled api_format base_url api_key default_chat_model_id]
+        llm_connection: %i[llm_features_enabled api_format base_url api_key]
       )
       permitted.delete(:api_key) if permitted[:api_key].blank?
       permitted.to_h.symbolize_keys
