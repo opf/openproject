@@ -38,16 +38,7 @@ module Backlogs
         param :sprint
         param :project
 
-        def title
-          # Since we want to render a counter next to the title,
-          # we manually construct the title as Subhead in the view instead
-          return if show_widget_content?
-
-          # There is nothing to show, the view will show a blankslate. Use the regular title
-          title_text
-        end
-
-        def title_text = t("backlogs.show_work_package_overview")
+        def title = t("backlogs.show_work_package_overview")
 
         def render?
           user_allowed?(:view_sprints)
