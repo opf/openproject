@@ -10,6 +10,9 @@
   ],
   "plugin": ["typedoc-github-theme", "./tooling/typedoc/openproject-plugin.mjs"],
   "out": "./generated-docs",
+  "disableGit": true,
+  "gitRevision": "dev",
+  "sourceLinkTemplate": "https://github.com/opf/openproject/blob/{gitRevision}/frontend/src/stimulus/{path}#L{line}",
   "projectDocuments": ["doc/**/*.md"],
   "tsconfig": "tsconfig.app.json"
 }

@@ -158,9 +158,15 @@ jobs:
       - name: Generate TypeDoc
         env:
           CHANNEL: ${{ matrix.channel }}
+          SOURCE_REPOSITORY: ${{ matrix.repository }}
         working-directory: source/frontend
         run: |
           output="$GITHUB_WORKSPACE/site/$CHANNEL/javascript"
+          sha=$(git -C "$GITHUB_WORKSPACE/source" rev-parse HEAD)
+          template="https://github.com/$SOURCE_REPOSITORY/blob/$sha/frontend/src/stimulus/{path}#L{line}"
+          jq --arg template "$template" '.sourceLinkTemplate = $template | del(.gitRevision)' \
+            typedoc.ci.json > typedoc.ci.next.json
+          mv typedoc.ci.next.json typedoc.ci.json
           ./node_modules/.bin/typedoc --options typedoc.ci.json --out "$output"
 
       - name: Validate TypeDoc output
