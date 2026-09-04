@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,49 +26,40 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-module Users
-  class IndexSubHeaderComponent < ApplicationComponent
-    include ApplicationHelper
+require "rails_helper"
 
-    def initialize(query:)
-      super
-      @query = query
+RSpec.describe Backlogs::BacklogFilterButtonComponent, type: :component do
+  shared_let(:project) { create(:project) }
+  shared_let(:user) { create(:admin) }
+  shared_let(:sprint) { create(:sprint, project:) }
+
+  current_user { user }
+
+  describe "#filters_count" do
+    it "excludes the sprint/bucket/inbox/project filters managed by the dedicated picker" do
+      query = Query.new(project:, user:)
+      query.add_filter(:sprint_id, "=", [sprint.id.to_s])
+      query.add_filter(:backlog_inbox, "=", [OpenProject::Database::DB_VALUE_TRUE])
+
+      expect(described_class.new(query:).filters_count).to eq(0)
     end
 
-    def filter_input_value
-      @query.find_active_filter(:any_name_attribute)&.values&.first
+    it "counts generic attribute filters added via the panel" do
+      query = Query.new(project:, user:)
+      query.add_filter(:status_id, "o", [""])
+      query.add_filter(:sprint_id, "=", [sprint.id.to_s])
+
+      expect(described_class.new(query:).filters_count).to eq(1)
     end
 
-    def sub_header_data_attributes
-      {
-        controller: "filter--filters-form",
-        "filter--filters-form-turbo-stream-request-value": true,
-        "filter--filters-form-clear-button-id-value": clear_button_id,
-        "filter--filters-form-display-filters-value": filters_expanded?
-      }
-    end
+    it "counts the subject quick-search filter, unlike the picker-controlled ones" do
+      query = Query.new(project:, user:)
+      query.add_filter(:subject, "~", ["foo"])
+      query.add_filter(:sprint_id, "=", [sprint.id.to_s])
 
-    def filter_input_data_attributes
-      {
-        "filter-name": "any_name_attribute",
-        "filter-type": "string",
-        "filter-operator": "~",
-        "filter--filters-form-target": "simpleFilter filterValueContainer simpleValue"
-      }
-    end
-
-    def clear_button_id
-      "user-filters-form-clear-button"
-    end
-
-    def collapsed_search?
-      filter_input_value.blank?
-    end
-
-    def filters_expanded?
-      params[:filters].present?
+      expect(described_class.new(query:).filters_count).to eq(1)
     end
   end
 end

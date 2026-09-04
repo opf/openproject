@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,49 +26,27 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-module Users
-  class IndexSubHeaderComponent < ApplicationComponent
-    include ApplicationHelper
+module Backlogs
+  class BacklogFiltersComponent < Filter::FilterComponent
+    # Controlled by their own dedicated pickers (sprint/bucket/inbox/project selects),
+    # so they don't belong in the generic advanced filter panel.
+    PICKER_CONTROLLED_FILTER_NAMES = %i[sprint_id backlog_bucket_id backlog_inbox project_id].freeze
+    # Has its own permanent quick-search input in the subheader, so it doesn't belong
+    # in the generic advanced filter panel either, but unlike the picker-controlled
+    # ones above, it still counts as a filter the user applied (see
+    # Backlogs::BacklogFilterButtonComponent#filters_count).
+    QUICK_SEARCH_FILTER_NAME = :subject
 
-    def initialize(query:)
-      super
-      @query = query
+    EXCLUDED_FILTER_NAMES = (PICKER_CONTROLLED_FILTER_NAMES + [QUICK_SEARCH_FILTER_NAME]).freeze
+
+    options excluded_filters: EXCLUDED_FILTER_NAMES
+
+    def allowed_filters
+      super.sort_by(&:human_name)
     end
 
-    def filter_input_value
-      @query.find_active_filter(:any_name_attribute)&.values&.first
-    end
-
-    def sub_header_data_attributes
-      {
-        controller: "filter--filters-form",
-        "filter--filters-form-turbo-stream-request-value": true,
-        "filter--filters-form-clear-button-id-value": clear_button_id,
-        "filter--filters-form-display-filters-value": filters_expanded?
-      }
-    end
-
-    def filter_input_data_attributes
-      {
-        "filter-name": "any_name_attribute",
-        "filter-type": "string",
-        "filter-operator": "~",
-        "filter--filters-form-target": "simpleFilter filterValueContainer simpleValue"
-      }
-    end
-
-    def clear_button_id
-      "user-filters-form-clear-button"
-    end
-
-    def collapsed_search?
-      filter_input_value.blank?
-    end
-
-    def filters_expanded?
-      params[:filters].present?
-    end
+    def turbo_requests? = true
   end
 end

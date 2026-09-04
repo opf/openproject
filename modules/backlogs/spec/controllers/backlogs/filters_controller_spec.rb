@@ -28,46 +28,50 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Backlogs
-  class BacklogController < BaseController
-    include ::WorkPackages::WithSplitView
-    include Backlogs::Concerns::ContainerLoading
+require "rails_helper"
 
-    current_menu_item %i[show details] do
-      :backlog
+RSpec.describe Backlogs::FiltersController do
+  shared_let(:project) { create(:project) }
+
+  let(:all_permissions) { %i[view_sprints view_work_packages show_board_views] }
+  let(:permissions) { all_permissions }
+  let(:user) { create(:user, member_with_permissions: { project => permissions }) }
+
+  current_user { user }
+
+  describe "GET #show" do
+    let(:params) { {} }
+
+    subject do
+      get :show, params: { project_id: project.id }.merge(params), format: :html
     end
 
-    before_action :build_backlog_query, only: %i[show details]
+    it "renders the filters panel without layout", :aggregate_failures do
+      subject
 
-    def show
-      case turbo_frame_request_id
-      when "backlogs_container"
-        load_container_data
+      expect(response).to be_successful
+      expect(response).to render_template(layout: false)
+    end
 
-        render partial: "backlogs/backlog/backlog_list", layout: false
-      else
-        render "backlogs/backlog/show"
+    context "with a filter active" do
+      let(:status) { create(:status) }
+      let(:params) { { filters: "status_id = \"#{status.id}\"" } }
+
+      it "renders a generic attribute filter" do
+        subject
+        expect(response.body).to include("status_id")
       end
     end
 
-    def details
-      if turbo_frame_request?
-        render "work_packages/split_view", layout: false
-      else
-        load_container_data
+    context "without the view_sprints permission" do
+      let(:permissions) { all_permissions - [:view_sprints] }
 
-        render "backlogs/backlog/show"
+      it "responds with forbidden", :aggregate_failures do
+        subject
+
+        expect(response).not_to be_successful
+        expect(response).to have_http_status :forbidden
       end
-    end
-
-    private
-
-    def build_backlog_query
-      @backlog_query = Backlogs::BacklogQueryBuilder.new(project: @project, user: current_user, params:).build
-    end
-
-    def split_view_base_route
-      project_backlogs_backlog_path(@project, request.query_parameters)
     end
   end
 end

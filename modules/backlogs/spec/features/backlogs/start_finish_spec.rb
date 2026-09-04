@@ -211,12 +211,12 @@ RSpec.describe "Start and finish sprints", :js do
 
         planning_page.expect_sprint_names_in_order(sprint_from_other_project.name, second_sprint.name)
 
-        planning_page.expect_work_packages_in_sprint_in_order(second_sprint,
-                                                              work_packages: [unfinished_work_package1,
-                                                                              unfinished_work_package2,
-                                                                              wp_in_next_sprint])
+        planning_page.expect_sprint_items_in_order(second_sprint,
+                                                   items: [unfinished_work_package1,
+                                                           unfinished_work_package2,
+                                                           wp_in_next_sprint])
 
-        planning_page.expect_work_packages_in_inbox_in_order(work_packages: [backlog_work_package])
+        planning_page.expect_inbox_items_in_order(items: [backlog_work_package])
       end
 
       it "allows moving unfinished work packages to the top of the backlog" do
@@ -229,9 +229,9 @@ RSpec.describe "Start and finish sprints", :js do
 
         planning_page.expect_sprint_names_in_order(sprint_from_other_project.name, second_sprint.name)
 
-        planning_page.expect_work_packages_in_inbox_in_order(work_packages: [unfinished_work_package1,
-                                                                             unfinished_work_package2,
-                                                                             backlog_work_package])
+        planning_page.expect_inbox_items_in_order(items: [unfinished_work_package1,
+                                                          unfinished_work_package2,
+                                                          backlog_work_package])
       end
 
       it "allows moving unfinished work packages to the bottom of the backlog" do
@@ -244,9 +244,9 @@ RSpec.describe "Start and finish sprints", :js do
 
         planning_page.expect_sprint_names_in_order(sprint_from_other_project.name, second_sprint.name)
 
-        planning_page.expect_work_packages_in_inbox_in_order(work_packages: [backlog_work_package,
-                                                                             unfinished_work_package1,
-                                                                             unfinished_work_package2])
+        planning_page.expect_inbox_items_in_order(items: [backlog_work_package,
+                                                          unfinished_work_package1,
+                                                          unfinished_work_package2])
       end
     end
   end
