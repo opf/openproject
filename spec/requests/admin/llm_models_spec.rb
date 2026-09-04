@@ -445,7 +445,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       it "points at the documentation about model types" do
         get new_llm_model_path
 
-        expect(page).to have_link("Read more", href: /system-admin-guide\/ai/)
+        expect(page).to have_link("Read more", href: %r{huggingface\.co/blog/getting-started-with-embeddings})
       end
 
       it "re-renders with the error inline when the name is taken" do

@@ -127,7 +127,7 @@ module LlmModels
 
     def model_type_caption
       link_translate("admin.llm_models.form.model_type_caption",
-                     links: { docs_url: %i[sysadmin_docs ai_models] },
+                     links: { docs_url: %i[embeddings_explanation] },
                      external: true)
     end
 
