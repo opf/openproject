@@ -32,6 +32,25 @@ import { Injectable, inject } from '@angular/core';
 import { WorkPackageViewPagination } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-pagination';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { Subject } from 'rxjs';
+import * as Turbo from '@hotwired/turbo';
+
+/**
+ * Set right before pushing a self-initiated history entry below, consumed once by
+ * QueryParamListenerService's urlParams.changed$ subscriber to skip reacting to its
+ * own write (reloading there would just undo the change that triggered it).
+ *
+ * Turbo's own history object doesn't leave room for a custom flag inside the state
+ * it writes (it always writes `{ turbo: {...} }`, replacing whatever's passed in),
+ * so this can no longer live in `history.state` itself the way a plain `pushState`
+ * call could - hence the free-standing flag instead.
+ */
+let selfInitiatedUrlChange = false;
+
+export function consumeSelfInitiatedUrlChangeFlag():boolean {
+  const value = selfInitiatedUrlChange;
+  selfInitiatedUrlChange = false;
+  return value;
+}
 
 @Injectable()
 export class WorkPackagesListChecksumService {
@@ -184,10 +203,8 @@ export class WorkPackagesListChecksumService {
         url.searchParams.delete('query_id');
       }
 
-      // Marks this history entry as self-initiated, so QueryParamListenerService's
-      // urlParams.changed$ subscriber can ignore it instead of reloading the query
-      // it was itself the result of updating.
-      window.history.pushState({ silent: true }, '', url.toString());
+      selfInitiatedUrlChange = true;
+      Turbo.session.history.push(url);
       return Promise.resolve() as unknown as TransitionPromise;
     }
 

@@ -112,59 +112,90 @@ RSpec.describe "Going back and forth through the browser history", :js, :seleniu
     wp_table.expect_work_package_listed work_package_3
 
     filters.open
+    filters.expect_open
     filters.add_filter_by("Assignee", "is (OR)", user.name)
     filters.expect_filter_count 3
     wp_table.expect_no_work_package_listed
 
     page.execute_script("window.history.back()")
+    loading_indicator_saveguard
 
     wp_table.expect_title(version_query.name)
     wp_table.expect_work_package_listed work_package_3
     filters.expect_filter_count 2
-    filters.ensure_open
-    filters.expect_filter_by("Status", "open", nil)
-    filters.expect_filter_by("Target versions", "is (OR)", version.name, "targetVersion")
+    # Turbo paints the restored (cached) page instantly, then a moment later the
+    # real reload replaces it. Retrying the whole open+check as a unit - not just
+    # the check - matters here: a click that landed on the soon-to-be-replaced DOM
+    # opens a panel that's about to disappear, so `expect_filter_by` alone would
+    # just keep polling a dead element. Retrying re-issues the click against
+    # whatever is current by then.
+    retry_block do
+      filters.open
+      filters.expect_open
+      filters.expect_filter_by("Status", "open", nil)
+      filters.expect_filter_by("Target versions", "is (OR)", version.name, "targetVersion")
+    end
 
     page.execute_script("window.history.back()")
+    loading_indicator_saveguard
 
     wp_table.expect_title(assignee_query.name)
     wp_table.expect_work_package_listed work_package_2
-    filters.ensure_open
-    filters.expect_filter_by("Status", "open", nil)
-    filters.expect_filter_by("Assignee", "is (OR)", user.name)
+    retry_block do
+      filters.open
+      filters.expect_open
+      filters.expect_filter_by("Status", "open", nil)
+      filters.expect_filter_by("Assignee", "is (OR)", user.name)
+    end
 
     page.execute_script("window.history.back()")
+    loading_indicator_saveguard
 
     wp_table.expect_title("All open", editable: true)
     wp_table.expect_work_package_listed work_package_1
     wp_table.expect_work_package_listed work_package_2
     wp_table.expect_work_package_listed work_package_3
-    filters.ensure_open
-    filters.expect_filter_by("Status", "open", nil)
+    retry_block do
+      filters.open
+      filters.expect_open
+      filters.expect_filter_by("Status", "open", nil)
+    end
 
     page.execute_script("window.history.forward()")
+    loading_indicator_saveguard
 
     wp_table.expect_title(assignee_query.name)
     wp_table.expect_work_package_listed work_package_2
-    filters.ensure_open
-    filters.expect_filter_by("Status", "open", nil)
-    filters.expect_filter_by("Assignee", "is (OR)", user.name)
+    retry_block do
+      filters.open
+      filters.expect_open
+      filters.expect_filter_by("Status", "open", nil)
+      filters.expect_filter_by("Assignee", "is (OR)", user.name)
+    end
 
     page.execute_script("window.history.forward()")
+    loading_indicator_saveguard
 
     wp_table.expect_title(version_query.name)
     wp_table.expect_work_package_listed work_package_3
-    filters.ensure_open
-    filters.expect_filter_by("Status", "open", nil)
-    filters.expect_filter_by("Target versions", "is (OR)", version.name, "targetVersion")
+    retry_block do
+      filters.open
+      filters.expect_open
+      filters.expect_filter_by("Status", "open", nil)
+      filters.expect_filter_by("Target versions", "is (OR)", version.name, "targetVersion")
+    end
 
     page.execute_script("window.history.forward()")
+    loading_indicator_saveguard
 
     wp_table.expect_title(version_query.name)
     wp_table.expect_no_work_package_listed
-    filters.ensure_open
-    filters.expect_filter_by("Status", "open", nil)
-    filters.expect_filter_by("Target versions", "is (OR)", version.name, "targetVersion")
-    filters.expect_filter_by("Assignee", "is (OR)", user.name)
+    retry_block do
+      filters.open
+      filters.expect_open
+      filters.expect_filter_by("Status", "open", nil)
+      filters.expect_filter_by("Target versions", "is (OR)", version.name, "targetVersion")
+      filters.expect_filter_by("Assignee", "is (OR)", user.name)
+    end
   end
 end

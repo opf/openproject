@@ -33,6 +33,7 @@ import { StateService } from '@uirouter/core';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { Injectable, Injector, inject } from '@angular/core';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
+import * as Turbo from '@hotwired/turbo';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
@@ -497,7 +498,7 @@ export class WorkPackagesListService {
       url.searchParams.delete('query_props');
     }
 
-    window.history.pushState({}, '', url.toString());
+    Turbo.session.history.push(url);
   }
 
   private reloadSidemenu(selectedQueryId:string|null):void {
