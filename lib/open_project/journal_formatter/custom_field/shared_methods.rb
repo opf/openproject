@@ -27,8 +27,6 @@
 #++
 
 module OpenProject::JournalFormatter::CustomField::SharedMethods
-  include OpenProject::JournalFormatter::CustomFieldPermission
-
   private
 
   def custom_field_for_key(key)
@@ -42,15 +40,6 @@ module OpenProject::JournalFormatter::CustomField::SharedMethods
       custom_field.name
     else
       I18n.t(:label_deleted_custom_field)
-    end
-  end
-
-  # The (user, project) visibility check queries the DB every time it runs; activity feeds
-  # render many custom-field journal entries per request, often for the same project, so we
-  # cache the verdict set per request and per user.
-  def visible_custom_field_ids(project)
-    JournalFormatterCache.fetch(WorkPackageCustomField, project.id) do # rubocop:disable Lint/UselessDefaultValueArgument
-      WorkPackageCustomField.visible(User.current, project:).pluck(:id).to_set
     end
   end
 end
