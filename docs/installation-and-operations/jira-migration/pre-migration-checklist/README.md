@@ -30,7 +30,7 @@ Review this against how your teams actually use Jira. If anything here would be 
 - [ ] Watchers (planned: [JIM-180](https://community.openproject.org/projects/JIM/work_packages/JIM-180))
 - [ ] Sub-tasks and parent/child hierarchy (planned: [JIM-75](https://community.openproject.org/projects/JIM/work_packages/JIM-75))
 - [ ] Issue links (blocks, relates to, duplicates, etc.) (planned: [JIM-76](https://community.openproject.org/projects/JIM/work_packages/JIM-76))
-- [ ] Web links (workarond planned: [JIM-206](https://community.openproject.org/projects/JIM/work_packages/JIM-206)).
+- [ ] Web links (workaround planned: [JIM-206](https://community.openproject.org/projects/JIM/work_packages/JIM-206)).
 - [ ] Labels (planned: [JIM-109](https://community.openproject.org/projects/JIM/work_packages/JIM-109))
 - [ ] Logged work / time entries (only the *estimated* and *remaining* hours fields come across — actual time logged does not) (planned: [JIM-93](https://community.openproject.org/projects/JIM/work_packages/JIM-93))
 - [ ] Votes (workaround planned: [JIM-207](https://community.openproject.org/projects/JIM/work_packages/JIM-207), open feature request: [OP-3251](https://community.openproject.org/projects/OP/work_packages/OP-3251))
