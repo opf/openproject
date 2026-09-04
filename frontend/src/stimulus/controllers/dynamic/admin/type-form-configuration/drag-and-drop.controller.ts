@@ -28,6 +28,10 @@
 
 import GenericDragAndDropController from '../../generic-drag-and-drop.controller';
 
+/**
+ * @deprecated Inherits the deprecated {@link GenericDragAndDropController};
+ * migrate this surface to the `sortable-lists` controller suite.
+ */
 export default class extends GenericDragAndDropController {
   protected buildData(el:Element, target:Element):FormData {
     const data = super.buildData(el, target);
