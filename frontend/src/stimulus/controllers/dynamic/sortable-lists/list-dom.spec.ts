@@ -39,6 +39,7 @@ import {
   resolveItemPosition,
   resolveItemLabel,
   resolveItemType,
+  resolveItemElement,
   restoreRowPositions,
   rowOf,
   rowsRemainAt,
@@ -113,6 +114,29 @@ describe('sortable lists DOM helpers', () => {
       outerItem.append(list);
 
       expect(resolveListAppendPreviousItemId({ sourceItemId: 'field-1', rowsContainer: list })).toBeNull();
+    });
+  });
+
+  describe('resolveItemElement', () => {
+    it('does not descend into a nested list for a wrapper row', () => {
+      const list = listElement();
+      const wrapper = document.createElement('li');
+      const nested = listElement();
+      nested.append(itemRow('9'));
+      wrapper.append(nested);
+      list.append(wrapper);
+
+      expect(resolveItemElement(wrapper, list)).toBeNull();
+    });
+
+    it('resolves the item a row wraps directly', () => {
+      const list = listElement();
+      const wrapper = document.createElement('li');
+      const item = itemRow('1');
+      wrapper.append(item);
+      list.append(wrapper);
+
+      expect(resolveItemElement(wrapper, list)).toBe(item);
     });
   });
 

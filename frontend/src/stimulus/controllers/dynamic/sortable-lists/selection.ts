@@ -83,9 +83,6 @@ function ownerList(root:HTMLElement, itemElement:HTMLElement):HTMLElement|null {
   return list && ownsElement(root, list) ? list : null;
 }
 
-// The boundary bounds only the upward walk; resolveItemElement's downward
-// fallback would hand a structural row the first item of a list nested
-// inside it, so the resolved item must also belong to this list.
 function rowItem(row:Element, rowsContainer:Element, root:HTMLElement, list:HTMLElement):HTMLElement|null {
   const item = resolveItemElement(row, rowsContainer);
 
