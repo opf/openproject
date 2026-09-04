@@ -6244,6 +6244,7 @@ en:
         is_closed: "Closed"
         is_default: "Default"
         is_readonly: "Read-only"
+      no_filter_results_title_text: "No status matches the current filter."
       no_results_content_text: Add a new status
       no_results_title_text: There are currently no work package statuses.
       status_actions: "Status actions"

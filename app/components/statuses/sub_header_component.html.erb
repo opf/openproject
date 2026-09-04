@@ -30,37 +30,22 @@
 %>
 
 <%=
-  component_wrapper do
-    flex_layout(data: wrapper_data_attributes) do |flex|
-      flex.with_row do
-        render(Statuses::SubHeaderComponent.new(query:))
-      end
+  render(Primer::OpenProject::SubHeader.new(data: data_attributes)) do |subheader|
+    subheader.with_quick_filter { render(Statuses::TypeFilterComponent.new(query:)) }
+    subheader.with_quick_filter { render(Statuses::RoleFilterComponent.new(query:)) }
+    subheader.with_filter_component { render(Filter::FilterButtonComponent.new(query:)) }
 
-      flex.with_row do
-        render(border_box_container(data: drop_target_config)) do |box|
-          box.with_header(font_weight: :bold) { render(Statuses::ListHeaderComponent.new) }
-
-          if statuses.empty?
-            box.with_row do
-              render(Primer::Beta::Blankslate.new(spacious: true)) do |blank_slate|
-                blank_slate.with_visual_icon(icon: :alert)
-                blank_slate.with_heading(tag: :h3) { empty_state_title }
-                blank_slate.with_description { empty_state_description } if empty_state_description
-              end
-            end
-          else
-            statuses.each do |status|
-              box.with_row(test_selector: "status-row-#{status.id}", data: draggable_item_config(status)) do
-                render(Statuses::ItemComponent.new(status:, max_position:, reorderable: reorderable?, page_args:))
-              end
-            end
-          end
-        end
-      end
-
-      flex.with_row(mt: 3) do
-        helpers.pagination_links_full(statuses)
-      end
+    subheader.with_bottom_pane_component do
+      render(Filter::FilterComponent.new(query:, initially_expanded: query.filters.any?))
     end
+
+    subheader.with_action_button(
+      scheme: :primary,
+      leading_icon: :plus,
+      label: t(:label_work_package_status_new),
+      tag: :a,
+      href: new_status_path,
+      test_selector: "add-status-button"
+    ) { t(:label_status) }
   end
 %>

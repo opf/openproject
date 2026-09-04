@@ -38,7 +38,7 @@
       classes: grid_modifier_class("item")
     ) do |grid|
       grid.with_area(:"drag-handle", tag: :div, classes: "hide-when-print") do
-        render(Primer::OpenProject::DragHandle.new)
+        render(Primer::OpenProject::DragHandle.new) if reorderable
       end
 
       grid.with_area(:name, tag: :div, classes: "ellipsis") do

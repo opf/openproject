@@ -33,11 +33,12 @@ require "rails_helper"
 RSpec.describe Statuses::IndexComponent, type: :component do
   subject(:rendered_component) do
     with_request_url("/statuses") do
-      render_inline(described_class.new(statuses:, page_args:))
+      render_inline(described_class.new(statuses:, query:, page_args:))
     end
   end
 
   let(:page_args) { { page: 1, per_page: 20 } }
+  let(:query) { Queries::Statuses::StatusQuery.new(user: User.current) }
   let(:statuses) { relation.page(page_args[:page]).per_page(page_args[:per_page]) }
 
   context "with statuses" do
@@ -123,6 +124,29 @@ RSpec.describe Statuses::IndexComponent, type: :component do
 
       expect(rendered_component).to have_css("#{row} button", text: "Move down")
       expect(rendered_component).to have_css("#{row} button", text: "Move to bottom")
+    end
+  end
+
+  context "when filtered" do
+    let!(:new_status) { create(:status, name: "New") }
+    let!(:task) { create(:type, name: "Task") }
+    let(:relation) { Status.where(id: new_status.id) }
+    let(:query) do
+      Queries::Statuses::StatusQuery.new(user: User.current).tap { it.where("type", "=", [task.id.to_s]) }
+    end
+
+    it "offers no reordering, since positions are global and the list is a subset" do
+      expect(rendered_component).to have_no_css("[data-generic-drag-and-drop-target='container']")
+      expect(rendered_component).to have_no_css(".Box-row[data-draggable-type='status']")
+    end
+
+    context "when the filter matches nothing" do
+      let(:relation) { Status.none }
+
+      it "says the filter came up empty rather than that no status exists" do
+        expect(rendered_component).to have_text("No status matches the current filter.")
+        expect(rendered_component).to have_no_text("There are currently no work package statuses.")
+      end
     end
   end
 

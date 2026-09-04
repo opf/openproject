@@ -54,6 +54,19 @@ module Pages
         end
       end
 
+      def quick_filter_by(filter_key, button_label, value)
+        within("[data-quick-filter--select-panel-filter-key-value='#{filter_key}']") do
+          click_on button_label
+
+          within("select-panel") do
+            find("[data-value]", text: value).click
+            click_on I18n.t(:button_apply)
+          end
+        end
+
+        wait_for_network_idle
+      end
+
       def expect_no_reordering
         expect(page).to have_no_css(".DragHandle")
       end
