@@ -38,7 +38,7 @@ module WorkPackageTypes
         label: I18n.t("types.edit.defaults.description.label"),
         caption: I18n.t("types.edit.defaults.description.caption"),
         disabled: readonly?,
-        rich_text_options: { showAttachments: false }
+        rich_text_options: { showAttachments: false },
       )
 
       if show_enterprise_banner?
@@ -86,6 +86,20 @@ module WorkPackageTypes
             required: true,
             validation_message: validation_message_for(:patterns)
           )
+
+          toggleable_group.button(
+            name: :preview,
+            tag: :a,
+            label: "Show subject preview",
+            scheme: :secondary,
+            # href is set directly before click to read latest pattern form input
+            href: "#",
+            data: {
+              controller: "async-dialog",
+              "admin--subject-configuration-target": "previewButton",
+              action: "click->admin--subject-configuration#updatePreviewContent"
+            }
+          )
         end
       end
     end
@@ -114,8 +128,8 @@ module WorkPackageTypes
 
     def pattern_input_caption
       link_translate("types.edit.defaults.pattern.caption", links: {
-                       attributes_url: %i[enterprise_features work_package_subject_generation]
-                     })
+        attributes_url: %i[enterprise_features work_package_subject_generation]
+      })
     end
   end
 end

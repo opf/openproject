@@ -202,7 +202,9 @@ Rails.application.routes.draw do
       put :disable_all_of_section
     end
 
-    resource :defaults, controller: "defaults_tab", only: %i[update edit]
+    resource :defaults, controller: "defaults_tab", only: %i[update edit] do
+      get :subject_preview_dialog
+    end
 
     scope "link_config/:aspect", controller: "configuration_links", as: :configuration_link do
       get :dialog

@@ -31,15 +31,21 @@ import { Controller } from '@hotwired/stimulus';
 export default class SubjectConfigurationController extends Controller {
   static targets = [
     'patternInput',
+    'patternInputContent',
+    'previewButton',
   ];
 
   static values = {
+    previewUrl:String,
     hidePatternInput: Boolean,
   };
 
   declare readonly hidePatternInputValue:boolean;
+  declare readonly previewUrlValue:string;
 
   declare readonly patternInputTarget:HTMLDivElement;
+  declare readonly patternInputContentTarget:HTMLInputElement;
+  declare readonly previewButtonTarget:HTMLAnchorElement;
 
   connect() {
     if (this.hidePatternInputValue) {
@@ -49,6 +55,10 @@ export default class SubjectConfigurationController extends Controller {
 
   showPatternInput() {
     this.togglePatternInput('show');
+  }
+
+  updatePreviewContent(event:PointerEvent):void {
+    this.previewButtonTarget.href = `${this.previewUrlValue}?pattern=${encodeURI(this.patternInputContentTarget.value)}`
   }
 
   hidePatternInput() {

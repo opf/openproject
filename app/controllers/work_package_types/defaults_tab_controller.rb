@@ -30,6 +30,8 @@
 
 module WorkPackageTypes
   class DefaultsTabController < BaseTabController
+    include OpTurbo::ComponentStream
+
     current_menu_item [:edit, :update] do
       :types
     end
@@ -51,5 +53,27 @@ module WorkPackageTypes
         render :edit, status: :unprocessable_entity
       end
     end
+
+    def subject_preview_dialog
+      respond_with_dialog WorkPackageTypes::SubjectPreviewDialogComponent.new(variant: @variant,
+                                                                              subject_pattern: params[:pattern])
+    end
+
+    # def subject_preview
+    #   subject_pattern = params[:pattern]
+    #
+    #   result = {}
+    #   example_work_packages.each do |wp|
+    #     result[wp.id] = PatternResolver.new(subject_pattern).resolve(wp)
+    #   end
+    #
+    #   result
+    # end
+    #
+    # private
+    #
+    # def example_work_packages
+    #   WorkPackage.where(type_id: @variant.type_id).limit(5)
+    # end
   end
 end

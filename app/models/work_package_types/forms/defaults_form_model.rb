@@ -33,7 +33,7 @@ module WorkPackageTypes
     class DefaultsFormModel
       extend ActiveModel::Naming
 
-      attr_reader :subject_configuration, :pattern, :default_work_package_description, :suggestions, :validation_errors
+      attr_reader :variant, :subject_configuration, :pattern, :default_work_package_description, :suggestions, :validation_errors
 
       # Built by both hosts of the defaults form: the edit tab and the creation wizard.
       # form_data carries the submitted values back after a failed validation.
@@ -41,6 +41,7 @@ module WorkPackageTypes
         values = form_values(variant, form_data)
 
         new(
+          variant:,
           subject_configuration: values[:subject_configuration],
           pattern: values[:pattern],
           default_work_package_description: variant.default_work_package_description,
@@ -113,11 +114,13 @@ module WorkPackageTypes
       def stimulus_data
         {
           controller: "admin--subject-configuration",
-          admin__subject_configuration_hide_pattern_input_value: subject_configuration == :manual
+          admin__subject_configuration_hide_pattern_input_value: subject_configuration == :manual,
+          admin__subject_configuration_preview_url_value: Rails.application.routes.url_helpers.subject_preview_dialog_type_defaults_path(type_id: @variant.type_id)
         }
       end
 
-      def initialize(subject_configuration:, pattern:, suggestions:, default_work_package_description: nil, validation_errors: {})
+      def initialize(variant:, subject_configuration:, pattern:, suggestions:, default_work_package_description: nil, validation_errors: {})
+        @variant = variant
         @subject_configuration = subject_configuration
         @pattern = pattern
         @default_work_package_description = default_work_package_description

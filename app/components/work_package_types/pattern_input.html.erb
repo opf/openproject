@@ -40,7 +40,7 @@ See COPYRIGHT and LICENSE files for more details.
   ) do
 %>
   <%= content_tag(:div, **@field_wrap_arguments) do %>
-    <%= input.builder.hidden_field(name, value: @value, data: { "pattern-input-target": "formInput" }) %>
+    <%= input.builder.hidden_field(name, value: @value, data: { "pattern-input-target": "formInput", "admin--subject-configuration-target": "patternInputContent" }) %>
 
     <template data-pattern-input-target="tokenTemplate">
       <%= render(Primer::Beta::Label.new(tag: :span, scheme: :accent, data: { role: :token, prop: "__placeholder" })) %>
