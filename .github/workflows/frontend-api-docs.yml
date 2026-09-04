@@ -9,6 +9,8 @@ on:
       - "frontend/doc/**"
       - "frontend/package.json"
       - "frontend/package-lock.json"
+      - "frontend/tooling/**"
+      - "frontend/tsdoc.json"
       - "frontend/typedoc.json"
       - "frontend/src/stimulus/**"
   pull_request:
@@ -18,6 +20,8 @@ on:
       - "frontend/doc/**"
       - "frontend/package.json"
       - "frontend/package-lock.json"
+      - "frontend/tooling/**"
+      - "frontend/tsdoc.json"
       - "frontend/typedoc.json"
       - "frontend/src/stimulus/**"
   schedule:
@@ -95,11 +99,18 @@ jobs:
             exit 1
           fi
 
+          edge_ref_delimiter="edge_ref_$RANDOM$RANDOM"
+          stage_ref_delimiter="stage_ref_$RANDOM$RANDOM"
+
           {
             echo "edge_repository=$edge_repository"
-            echo "edge_ref=$edge_ref"
+            echo "edge_ref<<$edge_ref_delimiter"
+            echo "$edge_ref"
+            echo "$edge_ref_delimiter"
             echo "stage_repository=$stage_repository"
-            echo "stage_ref=$stage_ref"
+            echo "stage_ref<<$stage_ref_delimiter"
+            echo "$stage_ref"
+            echo "$stage_ref_delimiter"
           } >> "$GITHUB_OUTPUT"
 
   build:
@@ -153,7 +164,12 @@ jobs:
           cp "$GITHUB_WORKSPACE/tooling/frontend/tsdoc.json" tsdoc.json
           mkdir -p tooling
           cp -R "$GITHUB_WORKSPACE/tooling/frontend/tooling/typedoc" tooling/
-          npm install --no-save --ignore-scripts typedoc@0.28.20 typedoc-github-theme@0.4.0 typedoc-plugin-rename-defaults@0.7.3
+          lock="$GITHUB_WORKSPACE/tooling/frontend/package-lock.json"
+          version() { jq -r ".packages[\"node_modules/$1\"].version" "$lock"; }
+          npm install --no-save --ignore-scripts \
+            "typedoc@$(version typedoc)" \
+            "typedoc-github-theme@$(version typedoc-github-theme)" \
+            "typedoc-plugin-rename-defaults@$(version typedoc-plugin-rename-defaults)"
 
       - name: Generate TypeDoc
         env:
@@ -163,6 +179,11 @@ jobs:
         run: |
           output="$GITHUB_WORKSPACE/site/$CHANNEL/javascript"
           sha=$(git -C "$GITHUB_WORKSPACE/source" rev-parse HEAD)
+          # {path} is relative to TypeDoc's inferred basePath (the entry
+          # points' common ancestor, currently src/stimulus). Pinning
+          # basePath explicitly renames every generated page, so this
+          # prefix must be kept in sync with entryPoints in typedoc.json
+          # by hand instead.
           template="https://github.com/$SOURCE_REPOSITORY/blob/$sha/frontend/src/stimulus/{path}#L{line}"
           jq --arg template "$template" '.sourceLinkTemplate = $template | del(.gitRevision)' \
             typedoc.ci.json > typedoc.ci.next.json
@@ -175,13 +196,24 @@ jobs:
         run: |
           set -euo pipefail
           output="$GITHUB_WORKSPACE/site/$CHANNEL/javascript"
-          test -f "$output/classes/controllers_async-dialog.controller.AsyncDialogController.html"
-          test -f "$output/classes/controllers_dynamic_sortable-lists_list.controller.ListController.html"
-          test -f "$output/functions/helpers_request-helpers.post.html"
-          test -f "$output/functions/mixins_use-angular-services.useAngularServices.html"
+
+          # Page names are only pinned for edge: stage tracks a release
+          # branch this workflow does not control, and a rename there is
+          # not this branch's regression to catch.
+          if [ "$CHANNEL" = "edge" ]; then
+            test -f "$output/classes/controllers_async-dialog.controller.AsyncDialogController.html"
+            test -f "$output/classes/controllers_dynamic_sortable-lists_list.controller.ListController.html"
+            test -f "$output/functions/helpers_request-helpers.post.html"
+            test -f "$output/functions/mixins_use-angular-services.useAngularServices.html"
+          fi
 
           if find "$output" -type f -print | grep -F '.spec.'; then
             echo "Error: TypeDoc output contains spec modules" >&2
+            exit 1
+          fi
+
+          if [ ! -d "$output/modules" ]; then
+            echo "Error: expected TypeDoc modules directory not found" >&2
             exit 1
           fi
 
