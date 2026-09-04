@@ -58,7 +58,7 @@ RSpec.describe LlmModel do
 
   describe "deactivation", :llm_server_helpers, :webmock, with_flag: { llm_connection: true } do
     let(:base_url) { "https://example.com/v1" }
-    let!(:connection) { create(:llm_connection, :with_models, :enabled, base_url:) }
+    let!(:connection) { create(:llm_connection, :with_models, base_url:) }
     let(:model) { connection.models.find_by(external_id: "qwen3.6-27b") }
 
     before { model.update!(deactivated_at: Time.current) }

@@ -48,9 +48,9 @@ module LlmConnections
         list.option(label: I18n.t("label_none_parentheses"), value: "",
                     selected: model.default_chat_model_id.blank?)
 
-        default_chat_model_options.each do |model_id|
-          list.option(label: option_label(model_id), value: model_id,
-                      selected: model.default_chat_model_id == model_id)
+        default_chat_model_options.each do |llm_model|
+          list.option(label: llm_model.name, value: llm_model.id,
+                      selected: model.default_chat_model_id == llm_model.id)
         end
       end
 
@@ -62,16 +62,7 @@ module LlmConnections
     # The one already chosen is kept regardless of what the server offers today:
     # dropping it would silently blank the field on the next save.
     def default_chat_model_options
-      (model.chat_model_ids + [model.default_chat_model_id]).compact_blank.uniq
-    end
-
-    # The same friendly name the model table shows; the identifier stays the value.
-    def option_label(model_id)
-      model_names[model_id].presence || model_id
-    end
-
-    def model_names
-      @model_names ||= model.models.pluck(:external_id, :display_name).to_h
+      (model.chat_models + [model.default_chat_model]).compact.uniq
     end
   end
 end

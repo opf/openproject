@@ -40,8 +40,9 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
   # element rather than rendered as markup.
   def offered_default_models(markup = page)
     items = markup.find("[data-test-selector='llm-connection--defaults-form'] opce-autocompleter")["data-items"]
+    ids = JSON.parse(items).pluck("id").compact_blank
 
-    JSON.parse(items).pluck("id").compact_blank
+    LlmModel.where(id: ids).pluck(:external_id)
   end
 
   # Nokogiri does not descend into a <template>, which is where a turbo stream
@@ -150,7 +151,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       end
 
       it "asks for no default while the connection has no model to offer" do
-        create(:llm_connection, :enabled, base_url:)
+        create(:llm_connection, base_url:)
 
         get llm_models_path
 
@@ -630,21 +631,23 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
   end
 
   describe "PATCH /admin/llm_models/defaults" do
-    let!(:connection) { create(:llm_connection, :with_models, :enabled, base_url:) }
+    let!(:connection) { create(:llm_connection, :with_models, base_url:) }
+    let(:chat_model) { connection.models.find_by(external_id: "qwen3.6-27b") }
 
     before { login_as admin }
 
     it "stores the default chat model without contacting the server" do
-      patch defaults_llm_models_path, params: { llm_connection: { default_chat_model_id: "qwen3.6-27b" } }
+      patch defaults_llm_models_path, params: { llm_connection: { default_chat_model_id: chat_model.id } }
 
       expect(response).to redirect_to(llm_models_path)
-      expect(connection.reload.default_chat_model_id).to eq("qwen3.6-27b")
+      expect(connection.reload.default_chat_model).to eq(chat_model)
       expect(flash[:notice]).to eq("The default models have been saved.")
       expect(a_request(:get, "#{base_url}/models")).not_to have_been_made
     end
 
     it "refuses a model the server does not offer" do
-      patch defaults_llm_models_path, params: { llm_connection: { default_chat_model_id: "not-there" } }
+      patch defaults_llm_models_path,
+            params: { llm_connection: { default_chat_model_id: LlmModel.maximum(:id).to_i + 1 } }
 
       expect(connection.reload.default_chat_model_id).to be_nil
       expect(flash[:error]).to be_present
@@ -652,7 +655,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
     it "leaves the server settings alone" do
       patch defaults_llm_models_path,
-            params: { llm_connection: { default_chat_model_id: "qwen3.6-27b", base_url: "https://elsewhere.test/v1" } }
+            params: { llm_connection: { default_chat_model_id: chat_model.id, base_url: "https://elsewhere.test/v1" } }
 
       expect(connection.reload.base_url).to eq(base_url)
     end
@@ -660,14 +663,14 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
     it "is refused to a non-admin" do
       login_as create(:user)
 
-      patch defaults_llm_models_path, params: { llm_connection: { default_chat_model_id: "qwen3.6-27b" } }
+      patch defaults_llm_models_path, params: { llm_connection: { default_chat_model_id: chat_model.id } }
 
       expect(connection.reload.default_chat_model_id).to be_nil
     end
   end
 
   describe "POST /admin/llm_models/:id/toggle" do
-    let!(:connection) { create(:llm_connection, :enabled, base_url:) }
+    let!(:connection) { create(:llm_connection, base_url:) }
     let!(:llm_model) { create(:llm_model, llm_connection: connection, external_id: "qwen3.6-27b") }
 
     before { login_as admin }

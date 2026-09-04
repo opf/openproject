@@ -78,11 +78,11 @@ module LlmConnections
     # selection does not block every unrelated save; the dangling state is
     # surfaced in the UI instead.
     def default_models_offered_by_server
-      %i[default_chat_model_id default_embedding_model_id].each do |attribute|
+      LlmModel::CONNECTION_DEFAULTS.each do |attribute|
         value = model.public_send(attribute)
         next if value.blank?
         next unless model.changed_attributes.include?(attribute.to_s)
-        next if model.available_model_ids.include?(value)
+        next if model.models.active.exists?(id: value)
 
         errors.add attribute, :not_available
       end

@@ -206,13 +206,13 @@ RSpec.describe LlmConnections::UpdateContract, :check_errors_i18n, :llm_server_h
     let(:connection) { create(:llm_connection, :with_models, base_url:) }
 
     context "with a model the server offers" do
-      before { connection.default_chat_model_id = "bge-m3" }
+      before { connection.default_chat_model = connection.models.find_by(external_id: "bge-m3") }
 
       include_examples "contract is valid"
     end
 
     context "with a model the server does not offer" do
-      before { connection.default_chat_model_id = "not-there" }
+      before { connection.default_chat_model_id = LlmModel.maximum(:id).to_i + 1 }
 
       include_examples "contract is invalid", default_chat_model_id: :not_available
     end
@@ -221,7 +221,7 @@ RSpec.describe LlmConnections::UpdateContract, :check_errors_i18n, :llm_server_h
       before do
         connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
                                                state: "supported", source: "probe", checked_at: Time.current)
-        connection.default_chat_model_id = "bge-m3"
+        connection.default_chat_model = connection.models.find_by(external_id: "bge-m3")
       end
 
       include_examples "contract is invalid", default_chat_model_id: :cannot_chat
@@ -231,8 +231,9 @@ RSpec.describe LlmConnections::UpdateContract, :check_errors_i18n, :llm_server_h
     # and must never break a feature that already points at it.
     context "with a model an administrator switched off" do
       before do
-        connection.models.find_by(external_id: "qwen3.6-27b").update!(deactivated_at: Time.current)
-        connection.default_chat_model_id = "qwen3.6-27b"
+        chat_model = connection.models.find_by(external_id: "qwen3.6-27b")
+        chat_model.update!(deactivated_at: Time.current)
+        connection.default_chat_model = chat_model
       end
 
       include_examples "contract is valid"

@@ -109,6 +109,14 @@ class LlmConnection < ApplicationRecord
     models.selectable.by_identifier.pluck(:external_id)
   end
 
+  def selectable_models
+    models.selectable.by_identifier
+  end
+
+  def chat_models
+    selectable_models.reject(&:embedding?)
+  end
+
   def embedding_model_ids
     embedding = capability_verdicts.for_capability(:embeddings).where(state: "supported").pluck(:model_id)
 
