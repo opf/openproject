@@ -88,7 +88,12 @@ export default defineConfig([
     processor: angular.processInlineTemplates,
     languageOptions: {
       parserOptions: {
-        projectService: true,
+        // Node-side tooling configs (e.g. `vitest.tooling.config.ts`) live at
+        // the frontend root but aren't referenced by any `tsconfig.json`, so
+        // they need an in-memory default project to be lintable.
+        projectService: {
+          allowDefaultProject: ['vitest.tooling.config.ts'],
+        },
         tsconfigRootDir: import.meta.dirname,
       },
       globals: { ...globals.browser, ...globals.node },
