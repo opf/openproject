@@ -31,6 +31,20 @@
 // part of the public type surface, so every access below is untyped.
 import * as Turbo from '@hotwired/turbo';
 
+// Turbo marks a turbo-frame `busy`/`aria-busy` for the duration of a
+// navigation, but for a form-submission-driven navigation it doesn't clear
+// that state until well after `proposeVisitIfNavigatedWithAction` below has
+// already cloned the frame into the history-cache snapshot -- so the clone
+// freezes the frame as permanently busy. `turbo:before-cache` fires too late
+// to fix this: by then the clone is already a detached copy, disconnected
+// from the live DOM. Exported for direct unit testing.
+export function stripStaleBusyState(root: ParentNode): void {
+  root.querySelectorAll('turbo-frame[busy]').forEach((frame) => {
+    frame.removeAttribute('busy');
+    frame.removeAttribute('aria-busy');
+  });
+}
+
 /**
  * Workaround for https://github.com/hotwired/turbo/issues/1300: with a
  * `<turbo-frame data-turbo-action="advance">`, the URL advances but the
@@ -42,10 +56,13 @@ import * as Turbo from '@hotwired/turbo';
  * ships in a release we depend on, drop this patch in favour of it.
  *
  * This is a verbatim fork of `FrameController.proposeVisitIfNavigatedWithAction`
- * with a single divergence: the history snapshot is built from the live
- * document (`frame.ownerDocument.documentElement.outerHTML`) instead of the
- * fetch response (`await fetchResponse.responseHTML`), so the restored snapshot
- * reflects the fully rendered page rather than the bare frame fragment.
+ * with two divergences:
+ * - The history snapshot is built from the live document
+ *   (`frame.ownerDocument.documentElement.outerHTML`) instead of the fetch
+ *   response (`await fetchResponse.responseHTML`), so the restored snapshot
+ *   reflects the fully rendered page rather than the bare frame fragment.
+ * - `stripStaleBusyState` clears any frame left stuck `busy` in that snapshot
+ *   (see its own comment above).
  *
  * Pinned to @hotwired/turbo 8.0.x. `turbo-navigation-patch.spec.ts` is a
  * tripwire: it fails if Turbo renames the patched method or stops sourcing the
@@ -58,6 +75,16 @@ export function applyTurboNavigationPatch() {
 
     if (this.action) {
       const pageSnapshot = Turbo.PageSnapshot.fromElement(frame).clone();
+
+      // Form submission cycle:
+      // Form marked busy, frame marked busy -> Request starts -> Request Completes -> proposeVisit called ->
+      // it caches the pageSnapshot which is still marked busy -> Issues a visit -> visitCachedSnapshot
+      // will update the stale pageSnapshot with the current previousFrameElement to keep a fresh copy.
+      // But the pageSnapshot busy attribute is untouched. Ideally visitCacheSnapshot would remove the
+      // busy attribute from the pageSnapshot, but since that is not happening, the busy state is stripped
+      // from the pageSnapshot here.
+      stripStaleBusyState(pageSnapshot.element);
+
       const { visitCachedSnapshot } = frame.delegate;
 
       // Kept `async` to mirror upstream's method shape even though the body no
