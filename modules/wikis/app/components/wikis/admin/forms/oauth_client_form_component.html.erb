@@ -40,22 +40,6 @@
           ))
         end
 
-        oauth_client_row.with_row(mb: 3) do
-          render(Primer::OpenProject::InputGroup.new(input_width: :large)) do |input_group|
-            input_group.with_text_input(
-              name: "oauth_client[redirect_uri]",
-              label: t(".redirect_uri"),
-              visually_hide_label: false,
-              value: resolved_oauth_client.redirect_uri
-            )
-            input_group.with_trailing_action_clipboard_copy_button(
-              value: resolved_oauth_client.redirect_uri,
-              aria: { label: t("button_copy_to_clipboard") }
-            )
-            input_group.with_caption { t(".redirect_uri_caption") }
-          end
-        end
-
         oauth_client_row.with_row do
           render(
             Wikis::Admin::SubmitOrCancelForm.new(
