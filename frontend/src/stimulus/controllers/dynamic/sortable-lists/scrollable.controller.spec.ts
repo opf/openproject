@@ -78,6 +78,7 @@ describe('Sortable lists scrollable controller', () => {
       dragPermittedDestinations: vi.fn(() => null),
       ownerDestinationOf: vi.fn(() => null),
       dragRefused: vi.fn(() => false),
+      externalDragItems: vi.fn((item:HTMLElement) => [item]),
     };
   }
 
