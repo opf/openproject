@@ -201,6 +201,7 @@
     "lint": "ng lint",
     "lint:fix": "ng lint --fix",
     "generate-typings": "tsc -d -p tsconfig.app.json",
+    "generate-docs": "npm run ci:plugins:register_frontend && typedoc",
     "postinstall": "patch-package"
   },
   "allowScripts": {
