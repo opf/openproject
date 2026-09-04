@@ -46,7 +46,7 @@ See COPYRIGHT and LICENSE files for more details.
       model: @llm_model,
       url: llm_model_path(@llm_model),
       method: :patch,
-      data: { test_selector: "llm-model--edit-form" }
+      data: { controller: "show-when-value-selected", test_selector: "llm-model--edit-form" }
     ) do |f| %>
   <%= render(LlmModels::Form.new(f)) %>
 <% end %>

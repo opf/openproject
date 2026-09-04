@@ -97,7 +97,7 @@ class LlmModel < ApplicationRecord
   # Capability assertions are stored as verdicts, not columns. These virtual
   # attributes let the edit form treat them as ordinary fields, so the whole
   # screen can be a single Primer form rather than hand-written inputs.
-  Llm::Capabilities::ALL.each do |capability|
+  Llm::Capabilities::CHAT.each do |capability|
     define_method(:"capability_#{capability}") do
       capability_overrides.fetch(capability.to_s) { admin_capability_state(capability) }
     end
@@ -120,7 +120,11 @@ class LlmModel < ApplicationRecord
   # chat model otherwise. There is no third kind, and no model is both.
   def embedding? = verdict_for(:embeddings)&.state == "supported"
 
-  def model_type = embedding? ? :embedding : :chat
+  def model_type = @model_type || (embedding? ? :embedding : :chat)
+
+  def model_type=(value)
+    @model_type = value.presence&.to_sym
+  end
 
   def verdict_for(capability)
     llm_connection.capability_verdicts

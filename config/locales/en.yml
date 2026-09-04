@@ -1756,7 +1756,6 @@ en:
       edit:
         description: "Edit how OpenProject uses this model."
       form:
-        capabilities_description: "Leave a capability unspecified to let OpenProject determine it. Marking Embeddings as supported makes this an embedding model, offered only to features that need one."
         capability_override_caption: "Choose a value to override this."
         context_window: "Context window"
         context_window_caption: "How many tokens this model accepts. Leave blank if you do not know."
@@ -1764,6 +1763,10 @@ en:
         create_submit: "Add model"
         display_name_caption: "An optional friendly name shown instead of the model id."
         external_id_caption: "The model name exactly as the server expects it."
+        model_type: "Model type"
+        model_type_caption: "Chat models answer requests. Embedding models turn text into vectors for search."
+        model_type_chat: "Chat model"
+        model_type_embedding: "Embedding model"
         state_inherited: "%{state} (%{source})"
         state_supported: "Supported"
         state_unspecified: "Not specified"

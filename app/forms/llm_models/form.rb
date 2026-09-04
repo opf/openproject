@@ -69,18 +69,46 @@ module LlmModels
         data: { test_selector: "llm-model--context-window" }
       )
 
-      Llm::Capabilities::ALL.each do |capability|
-        f.select_list(
-          name: :"capability_#{capability}",
-          label: Llm::Capabilities.label(capability),
-          caption: capability_caption(capability),
-          include_blank: false,
-          input_width: :medium,
-          data: { test_selector: "llm-model--capability-#{capability}" }
-        ) do |select|
-          select.option(value: "", label: inherited_state_label(capability))
-          select.option(value: "supported", label: I18n.t("admin.llm_models.form.state_supported"))
-          select.option(value: "unsupported", label: I18n.t("admin.llm_models.form.state_unsupported"))
+      f.select_list(
+        name: :model_type,
+        label: I18n.t("admin.llm_models.form.model_type"),
+        caption: I18n.t("admin.llm_models.form.model_type_caption"),
+        include_blank: false,
+        input_width: :medium,
+        data: {
+          show_when_value_selected_target: "cause",
+          target_name: "llm_model_type",
+          test_selector: "llm-model--type"
+        }
+      ) do |select|
+        select.option(value: "chat", label: I18n.t("admin.llm_models.form.model_type_chat"))
+        select.option(value: "embedding", label: I18n.t("admin.llm_models.form.model_type_embedding"))
+      end
+
+      # An embedding model answers no chat request, so the capabilities that only
+      # a chat model can have are not offered for one.
+      f.group(
+        hidden: model.model_type == :embedding,
+        data: {
+          show_when_value_selected_target: "effect",
+          target_name: "llm_model_type",
+          value: "chat",
+          test_selector: "llm-model--chat-capabilities"
+        }
+      ) do |chat|
+        Llm::Capabilities::CHAT.each do |capability|
+          chat.select_list(
+            name: :"capability_#{capability}",
+            label: Llm::Capabilities.label(capability),
+            caption: capability_caption(capability),
+            include_blank: false,
+            input_width: :medium,
+            data: { test_selector: "llm-model--capability-#{capability}" }
+          ) do |select|
+            select.option(value: "", label: inherited_state_label(capability))
+            select.option(value: "supported", label: I18n.t("admin.llm_models.form.state_supported"))
+            select.option(value: "unsupported", label: I18n.t("admin.llm_models.form.state_unsupported"))
+          end
         end
       end
 

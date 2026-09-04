@@ -81,9 +81,10 @@ module Admin
     end
 
     def create
-      llm_model = @connection.models.new(llm_model_params.except(*capability_param_names).merge(manual: true))
+      submitted = llm_model_params
+      llm_model = @connection.models.new(submitted.except(*capability_param_names).merge(manual: true))
 
-      if save_with_capabilities(llm_model)
+      if save_with_capabilities(llm_model, submitted)
         flash[:notice] = t(".success", model: llm_model.external_id)
         redirect_to llm_connection_path, status: :see_other
       else
@@ -154,37 +155,50 @@ module Admin
     end
 
     def update_with_capabilities(llm_model)
-      attributes = llm_model_params.except(*capability_param_names)
-      # A discovered model is named by the server; only a hand-entered one may be
-      # renamed here, and everything referencing the old name follows it.
-      attributes = attributes.except(:external_id) unless llm_model.manual?
+      submitted = llm_model_params
+      pin_type = type_chosen?(llm_model, submitted)
 
       saved = false
       ActiveRecord::Base.transaction do
         previous_external_id = llm_model.external_id
-        llm_model.assign_attributes(attributes)
+        llm_model.assign_attributes(updatable_attributes(llm_model, submitted))
         raise ActiveRecord::Rollback unless llm_model.save
 
         llm_model.cascade_rename!(previous_external_id)
-        apply_capabilities(llm_model)
+        apply_capabilities(llm_model, submitted, pin_type:)
         saved = true
       end
       saved
+    rescue ActiveRecord::RecordInvalid
+      false
+    end
+
+    # A discovered model is named by the server; only a hand-entered one may be
+    # renamed here, and everything referencing the old name follows it.
+    def updatable_attributes(llm_model, submitted)
+      attributes = submitted.except(*capability_param_names)
+      llm_model.manual? ? attributes : attributes.except(:external_id)
+    end
+
+    def type_chosen?(llm_model, submitted)
+      submitted[:model_type].present? && submitted[:model_type] != llm_model.model_type.to_s
     end
 
     # external_id is accepted on create, and on update for manually added models.
     def llm_model_params
-      params.expect(llm_model: [:external_id, :display_name, :admin_context_window, *capability_param_names])
+      params.expect(
+        llm_model: [:external_id, :display_name, :admin_context_window, :model_type, *capability_param_names]
+      )
     end
 
     def capability_param_names
-      Llm::Capabilities::ALL.map { |capability| :"capability_#{capability}" }
+      Llm::Capabilities::CHAT.map { |capability| :"capability_#{capability}" }
     end
 
-    def save_with_capabilities(llm_model)
+    def save_with_capabilities(llm_model, submitted)
       ActiveRecord::Base.transaction do
         llm_model.save!
-        apply_capabilities(llm_model)
+        apply_capabilities(llm_model, submitted, pin_type: true)
       end
 
       true
@@ -195,11 +209,17 @@ module Admin
     # Stored as admin-sourced verdicts, which survive re-detection: an
     # administrator knows things about their deployment that neither a published
     # registry nor a probe can determine.
-    def apply_capabilities(llm_model)
-      submitted = llm_model_params
+    #
+    # The type is only pinned when the administrator picked one that differs from
+    # what the model is today, so re-saving a discovered model does not freeze a
+    # type that a probe or a refresh could still correct.
+    def apply_capabilities(llm_model, submitted, pin_type:)
+      embedding = submitted[:model_type] == "embedding"
+      assert(llm_model.external_id, :embeddings, embedding ? "supported" : "unsupported") if pin_type
 
-      Llm::Capabilities::ALL.each do |capability|
-        assert(llm_model.external_id, capability, submitted[:"capability_#{capability}"].presence)
+      Llm::Capabilities::CHAT.each do |capability|
+        state = embedding ? nil : submitted[:"capability_#{capability}"].presence
+        assert(llm_model.external_id, capability, state)
       end
     end
 

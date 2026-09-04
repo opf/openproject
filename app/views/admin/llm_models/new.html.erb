@@ -47,7 +47,7 @@ See COPYRIGHT and LICENSE files for more details.
     model: @llm_model,
     url: llm_models_path,
     method: :post,
-    data: { test_selector: "llm-model--add-form" }
+    data: { controller: "show-when-value-selected", test_selector: "llm-model--add-form" }
   ) do |f|
     render(LlmModels::Form.new(f))
   end

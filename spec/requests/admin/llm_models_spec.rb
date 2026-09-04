@@ -247,15 +247,14 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         post llm_models_path, params: { llm_model: { external_id: "bge-m3",
                                                      display_name: "BGE M3",
                                                      admin_context_window: "8192",
-                                                     capability_embeddings: "supported",
-                                                     capability_vision: "unsupported" } }
+                                                     model_type: "embedding" } }
 
         llm_model = connection.models.find_by(external_id: "bge-m3")
         expect(llm_model.display_name).to eq("BGE M3")
         expect(llm_model.context_window).to eq(8192)
 
         verdicts = connection.capability_verdicts.for_model("bge-m3").pluck(:capability, :state, :source)
-        expect(verdicts).to include(["embeddings", "supported", "admin"], ["vision", "unsupported", "admin"])
+        expect(verdicts).to include(["embeddings", "supported", "admin"])
       end
 
       it "adds a model an administrator names" do
@@ -296,14 +295,14 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       it "stores capabilities an administrator asserts" do
         patch llm_model_path(llm_model),
               params: { llm_model: { display_name: "Hand typed",
-                                     capability_embeddings: "supported",
+                                     model_type: "chat",
                                      capability_vision: "unsupported" } }
 
         expect(response).to have_http_status(:see_other)
         expect(llm_model.reload.display_name).to eq("Hand typed")
 
         verdicts = connection.capability_verdicts.for_model("hand-typed").pluck(:capability, :state, :source)
-        expect(verdicts).to include(["embeddings", "supported", "admin"], ["vision", "unsupported", "admin"])
+        expect(verdicts).to include(["vision", "unsupported", "admin"])
       end
 
       it "stores a context window an administrator supplies" do
@@ -334,15 +333,15 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       # Clearing an assertion records nothing rather than recording ignorance as
       # fact, so detection can still fill it in later.
       it "clears an assertion when set back to unspecified" do
-        patch llm_model_path(llm_model), params: { llm_model: { capability_embeddings: "supported" } }
-        patch llm_model_path(llm_model), params: { llm_model: { capability_embeddings: "" } }
+        patch llm_model_path(llm_model), params: { llm_model: { capability_vision: "supported" } }
+        patch llm_model_path(llm_model), params: { llm_model: { capability_vision: "" } }
 
-        expect(connection.capability_verdicts.for_model("hand-typed").for_capability(:embeddings)).to be_empty
+        expect(connection.capability_verdicts.for_model("hand-typed").for_capability(:vision)).to be_empty
       end
 
       # An administrator looked at this deployment; a published registry did not.
       it "is not overwritten by registry enrichment" do
-        patch llm_model_path(llm_model), params: { llm_model: { capability_embeddings: "supported" } }
+        patch llm_model_path(llm_model), params: { llm_model: { model_type: "embedding" } }
 
         LlmConnections::EnrichCapabilitiesService.new(connection).call
 
@@ -352,19 +351,69 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       end
     end
 
+    describe "choosing the model type" do
+      let!(:llm_model) { create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed") }
+
+      it "offers the chat capabilities to a chat model" do
+        get edit_llm_model_path(llm_model)
+
+        expect(page).to have_css("[data-test-selector='llm-model--chat-capabilities']", visible: :visible)
+      end
+
+      # An embedding model answers no chat request, so tool calling and the rest
+      # cannot apply to it.
+      it "hides the chat capabilities from an embedding model" do
+        patch llm_model_path(llm_model), params: { llm_model: { model_type: "embedding" } }
+
+        get edit_llm_model_path(llm_model)
+
+        expect(page).to have_css("[data-test-selector='llm-model--chat-capabilities']", visible: :hidden)
+        expect(page).to have_no_css("[data-test-selector='llm-model--chat-capabilities']", visible: :visible)
+      end
+
+      it "drops chat assertions when a model becomes an embedding model" do
+        patch llm_model_path(llm_model), params: { llm_model: { model_type: "chat", capability_vision: "supported" } }
+
+        patch llm_model_path(llm_model), params: { llm_model: { model_type: "embedding" } }
+
+        verdicts = connection.capability_verdicts.for_model("hand-typed").pluck(:capability, :state)
+        expect(verdicts).to contain_exactly(%w[embeddings supported])
+      end
+
+      # Saving a discovered model without touching its type must not turn what a
+      # probe or a registry found into the administrator's own assertion.
+      it "leaves the stored verdict alone when the type was not changed" do
+        discovered = create(:llm_model, llm_connection: connection, external_id: "from-server")
+        connection.capability_verdicts.create!(model_id: "from-server", capability: "embeddings",
+                                               state: "unsupported", source: "probe", checked_at: Time.current)
+
+        patch llm_model_path(discovered), params: { llm_model: { model_type: "chat", display_name: "From server" } }
+
+        verdict = connection.capability_verdicts.find_by(model_id: "from-server", capability: "embeddings")
+        expect(verdict.source).to eq("probe")
+      end
+
+      it "re-renders the form when an asserted state is not a state" do
+        patch llm_model_path(llm_model), params: { llm_model: { model_type: "chat", capability_vision: "maybe" } }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(connection.capability_verdicts.for_model("hand-typed")).to be_empty
+      end
+    end
+
     describe "the model type shown in the list" do
-      it "reads as an embedding model once embeddings are supported" do
+      it "reads as an embedding model once the type says so" do
         llm_model = create(:llm_model, :manual, llm_connection: connection, external_id: "bge-m3")
-        patch llm_model_path(llm_model), params: { llm_model: { capability_embeddings: "supported" } }
+        patch llm_model_path(llm_model), params: { llm_model: { model_type: "embedding" } }
 
         get llm_models_path
 
         expect(response.body).to include("Embedding")
       end
 
-      it "reads as a chat model when embeddings are not supported" do
+      it "reads as a chat model when the type says so" do
         llm_model = create(:llm_model, :manual, llm_connection: connection, external_id: "qwen")
-        patch llm_model_path(llm_model), params: { llm_model: { capability_embeddings: "unsupported" } }
+        patch llm_model_path(llm_model), params: { llm_model: { model_type: "chat" } }
 
         get llm_models_path
 
