@@ -55,6 +55,7 @@ module WorkPackageTypes
       def variant_actions(menu)
         configure_action(menu)
         default_action(menu)
+        convert_action(menu)
         menu.with_divider
 
         delete_action(menu)
@@ -78,6 +79,18 @@ module WorkPackageTypes
           remove_default_action(menu)
         else
           make_default_action(menu)
+        end
+      end
+
+      def convert_action(menu)
+        return unless variant.project_owned?
+
+        menu.with_item(
+          label: t("types.index.convert_to_global"),
+          href: convert_to_global_type_variant_path(type_id: variant.type_id, id: variant.id, back_url:),
+          form_arguments: { method: :post }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :"git-compare")
         end
       end
 

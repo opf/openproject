@@ -287,6 +287,7 @@ Rails.application.routes.draw do
             get :menu
             post :make_default
             post :remove_default
+            post :convert_to_global
             get :deletion_dialog
             post :deletion_preview
           end

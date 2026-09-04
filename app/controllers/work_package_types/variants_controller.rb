@@ -34,7 +34,7 @@ module WorkPackageTypes
     include OpTurbo::ComponentStream
 
     before_action :require_type_variants_feature
-    administration_only! :index, :make_default, :remove_default
+    administration_only! :index, :make_default, :remove_default, :convert_to_global
 
     current_menu_item do
       :types
@@ -92,6 +92,19 @@ module WorkPackageTypes
 
     def remove_default
       apply_default_service(RemoveDefaultService, "types.index.remove_default_notice")
+    end
+
+    def convert_to_global
+      variant = named_variant
+      service_call = ConvertToGlobalService.new(variant:).call
+
+      if service_call.success?
+        flash[:notice] = t("types.index.convert_to_global_notice", name: variant.composite_name)
+      else
+        flash[:error] = service_call.errors.full_messages
+      end
+
+      redirect_back_or_default(types_path, status: :see_other)
     end
 
     private

@@ -113,6 +113,10 @@ module Projects
             owned?(variant) && manageable?
           end
 
+          def convertible?(variant)
+            owned?(variant) && User.current.admin?
+          end
+
           def manageable?
             User.current.allowed_in_project?(:manage_project_variants, project)
           end
@@ -143,10 +147,30 @@ module Projects
             use_action(menu, variant) if usable?(project_type, variant)
             return unless configurable?(variant)
 
+            edit_action(menu, variant)
+            convert_action(menu, variant) if convertible?(variant)
+            menu.with_divider
+            delete_action(menu, variant)
+          end
+
+          def edit_action(menu, variant)
             menu.with_item(label: t(:button_edit), href: edit_variant_path(variant)) do |entry|
               entry.with_leading_visual_icon(icon: :pencil)
             end
-            menu.with_divider
+          end
+
+          # Converting is a global operation, so it doesn't pass in_project_id
+          def convert_action(menu, variant)
+            menu.with_item(
+              label: t("types.index.convert_to_global"),
+              href: convert_to_global_type_variant_path(type_id: variant.type_id, id: variant.id),
+              form_arguments: { method: :post }
+            ) do |entry|
+              entry.with_leading_visual_icon(icon: :"git-compare")
+            end
+          end
+
+          def delete_action(menu, variant)
             menu.with_item(
               label: t(:button_delete),
               scheme: :danger,
