@@ -86,6 +86,18 @@ en:
 
   activerecord:
     attributes:
+      ai/run:
+        action: "Action"
+        input: "Input"
+        kind: "Kind"
+        status: "Status"
+        user: "User"
+        work_package: "Work package"
+      ai/run_event:
+        kind: "Kind"
+        payload: "Payload"
+        run: "Run"
+        seq: "Sequence number"
       ai/text_transform_action:
         active: "Active"
         injects_type_template: "Insert work package type template"
@@ -1008,6 +1020,12 @@ en:
       action:
         one: "Action"
         other: "Actions"
+      ai/run:
+        one: "AI run"
+        other: "AI runs"
+      ai/run_event:
+        one: "AI run event"
+        other: "AI run events"
       ai/text_transform_action:
         one: "Text transform action"
         other: "Text transform actions"

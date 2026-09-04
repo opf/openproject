@@ -47,6 +47,12 @@ module Settings
         format: :string,
         default: nil
       },
+      ai_run_retention_seconds: {
+        description: "How long finished AI runs and their events are kept before a cron job removes them",
+        format: :integer,
+        writable: false,
+        default: 1.hour
+      },
       ai_text_transform_actions_enabled: {
         description: "Enable AI text transform actions in the rich text editor",
         default: false
