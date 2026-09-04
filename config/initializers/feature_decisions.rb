@@ -59,3 +59,8 @@ OpenProject::FeatureDecisions.add :type_variants,
 OpenProject::FeatureDecisions.add :sprint_reports,
                                   description: "Enables sprint reporting within the backlogs module. " \
                                                "It shows a dashboard with various widgets regarding the sprint progress."
+
+OpenProject::FeatureDecisions.add :shared_permissions_cte,
+                                  description: "OP-18140: materialise the per-user visible id set in a single CTE where it " \
+                                               "is embedded once as a semi-join, so the planner is given a concrete " \
+                                               "cardinality instead of a user-independent heuristic. Kill-switch."

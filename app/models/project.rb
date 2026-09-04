@@ -201,7 +201,7 @@ class Project < ApplicationRecord
   }
   scope :public_projects, -> { where(public: true) }
   scope :with_visible_work_packages, ->(user = User.current) do
-    where(id: WorkPackage.visible(user).select(:project_id)).or(allowed_to(user, :view_work_packages))
+    where(id: WorkPackage.visible_ids(user, column: :project_id)).or(allowed_to(user, :view_work_packages))
   end
   scope :newest, -> { order(created_at: :desc) }
   scope :active, -> { where(active: true) }

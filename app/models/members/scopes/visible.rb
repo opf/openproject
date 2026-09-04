@@ -63,7 +63,7 @@ module Members::Scopes
       # Work package shares the user may list, limited to entities they can view.
       def shared_work_package_members(user)
         view_shared_work_packages_projects = Project.allowed_to(user, :view_shared_work_packages)
-        visible_shared_work_package_ids = WorkPackage.visible(user).select(:id)
+        visible_shared_work_package_ids = WorkPackage.visible_ids(user)
 
         where(project_id: view_shared_work_packages_projects.select(:id), entity_type: WorkPackage.name)
           .where(entity_id: visible_shared_work_package_ids)
