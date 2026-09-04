@@ -28,59 +28,43 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Statuses
-  class RowComponent < ::RowComponent
-    def status
-      model
-    end
+require "support/pages/page"
 
-    def name
-      link_to status.name, edit_status_path(status)
-    end
+module Pages
+  module Admin
+    class Statuses < ::Pages::Page
+      def path = "/statuses"
 
-    def default?
-      checkmark(status.is_default?)
-    end
+      def expect_listed(*names)
+        page.document.synchronize do
+          found = page.all("#{row_selector} a").map(&:text)
 
-    def closed?
-      checkmark(status.is_closed?)
-    end
+          raise Capybara::ExpectationNotMet, "Expected #{names}, got #{found}" unless found == names
+        end
+      end
 
-    def readonly?
-      checkmark(status.is_readonly?)
-    end
+      def within_status(status, &)
+        within_test_selector("status-row-#{status.id}", &)
+      end
 
-    def excluded_from_totals?
-      checkmark(status.excluded_from_totals?)
-    end
+      def click_status_action(status, action:)
+        within_status(status) do
+          click_on accessible_name: I18n.t("statuses.index.status_actions")
+          click_on action
+        end
+      end
 
-    def color
-      helpers.icon_for_color status.color
-    end
+      def go_to_page(number)
+        within(".op-pagination--pages") { click_on number.to_s }
+      end
 
-    def done_ratio
-      h(status.default_done_ratio)
-    end
+      def set_page_size(size)
+        within(".op-pagination--options") { click_on size.to_s }
+      end
 
-    def sort
-      helpers.reorder_links "status",
-                            { action: "update", id: status },
-                            method: :patch
-    end
+      private
 
-    def button_links
-      [
-        delete_link
-      ]
-    end
-
-    def delete_link
-      link_to(
-        helpers.op_icon("icon icon-delete"),
-        status_path(status),
-        data: { turbo_method: :delete, turbo_confirm: I18n.t(:text_are_you_sure) },
-        title: t(:button_delete)
-      )
+      def row_selector = "[data-test-selector^='status-row-']"
     end
   end
 end
