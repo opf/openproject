@@ -79,7 +79,7 @@ module WorkPackageTypes
 
     def create_variant(project)
       CreateVariantService
-        .new(user:, type: source.type)
+        .new(user:, type: source.type, contract_options: { pre_existing_configuration: true })
         .call(variant_name: variant_name(project), project:)
     end
 

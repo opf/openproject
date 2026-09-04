@@ -28,14 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackageTypes
-  class CreateContract < BaseContract
-    attribute :allow_project_variants
-    attribute :color_id
-    attribute :is_in_roadmap
-    attribute :is_milestone
-    attribute :name
-
-    validates :is_milestone, :is_in_roadmap, :allow_project_variants, inclusion: { in: [true, false] }
+class AddAllowProjectVariantsToTypes < ActiveRecord::Migration[8.0]
+  def change
+    add_column :types, :allow_project_variants, :boolean, default: true, null: false
   end
 end

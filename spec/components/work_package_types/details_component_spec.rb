@@ -28,14 +28,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackageTypes
-  class CreateContract < BaseContract
-    attribute :allow_project_variants
-    attribute :color_id
-    attribute :is_in_roadmap
-    attribute :is_milestone
-    attribute :name
+require "rails_helper"
 
-    validates :is_milestone, :is_in_roadmap, :allow_project_variants, inclusion: { in: [true, false] }
+RSpec.describe WorkPackageTypes::DetailsComponent, type: :component do
+  shared_let(:bug) { create(:type, name: "Bug") }
+
+  current_user { create(:admin) }
+
+  let(:checkbox_label) { "Allow project-specific variants" }
+
+  context "with the variants feature enabled", with_flag: { type_variants: true } do
+    it "offers the setting on the type" do
+      render_inline(described_class.new(bug))
+
+      expect(page).to have_field(checkbox_label)
+      expect(page).to have_text("this type can be extended or modified within a project")
+    end
+
+    it "leaves it out on a variant, which the type decides it for" do
+      render_inline(described_class.new(create(:type_variant, type: bug, variant_name: "Hardware")))
+
+      expect(page).to have_no_field(checkbox_label)
+    end
+  end
+
+  context "with the variants feature disabled" do
+    it "leaves it out" do
+      render_inline(described_class.new(bug))
+
+      expect(page).to have_no_field(checkbox_label)
+    end
   end
 end
