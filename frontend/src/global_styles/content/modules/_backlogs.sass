@@ -45,12 +45,6 @@
   container-name: backlogsListsContainer
   container-type: inline-size
 
-// Disable interaction while the #backlogs_container is loading
-turbo-frame#backlogs_container[busy]
-  opacity: 0.4
-  pointer-events: none
-  cursor: progress
-
 // Display the loading indicator while the #backlogs_container is loading
 body:has(turbo-frame#backlogs_container[busy]) #global-loading-indicator
   display: block !important
