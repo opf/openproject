@@ -97,6 +97,7 @@ en:
       redirect_uri_info_component:
         description: The redirect URI is generated once the wiki OAuth client is configured.
         label_redirect_uri: Redirect URI
+        label_uri: URI
         show_redirect_uri: Show redirect URI
       side_panel:
         health_status_component:
