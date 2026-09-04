@@ -469,7 +469,7 @@ Rails.application.reloader.to_prepare do
       wpt.permission :delete_work_packages,
                      {
                        work_packages: :destroy,
-                       "work_packages/bulk": %i[delete_dialog destroy reassign]
+                       "work_packages/bulk": %i[delete_dialog confirm_delete destroy reassign]
                      },
                      permissible_on: :project,
                      require: :member,

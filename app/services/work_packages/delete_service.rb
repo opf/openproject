@@ -38,6 +38,9 @@ class WorkPackages::DeleteService < BaseServices::Delete
 
   def deletion_user = user
 
+  # Cascade deletions by default when no parameter is explicitly passed.
+  def include_descendants? = params.fetch(:delete_descendants, true)
+
   def deletable?(descendant)
     validate(descendant, user, options: contract_options).first
   end

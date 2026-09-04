@@ -872,7 +872,9 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
         send_destroy_request
         expect(WorkPackage.find_by(id: work_package1.id)).to be_present
         expect(WorkPackage.find_by(id: work_package2.id)).to be_present
-        expect(response).to redirect_to(reassign_work_packages_bulk_path(ids: [work_package1.id, work_package2.id]))
+        expect(response).to redirect_to(
+          reassign_work_packages_bulk_path(ids: [work_package1.id, work_package2.id], delete_descendants: true)
+        )
       end
     end
 
@@ -925,6 +927,86 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
 
         expect(WorkPackage.count).to eq(0)
         expect(response).to redirect_to(project_work_packages_path(project1))
+      end
+    end
+  end
+
+  describe "the descendants deletion choice" do
+    let(:parent_wp) { create(:work_package, author: user, type:, status:, project: project1) }
+    let!(:child_wp) do
+      create(:work_package, author: user, type:, status:, project: project1, parent: parent_wp)
+    end
+
+    describe "#delete_dialog" do
+      it "offers two choices when the selection has descendants" do
+        as_logged_in_user(user) do
+          get :delete_dialog, params: { ids: [parent_wp.id] }, format: :turbo_stream
+        end
+
+        expect(response.body).to include("delete_descendants")
+        expect(response.body).to include(I18n.t("work_packages.delete_dialog.descendants_choice.self_only_label"))
+      end
+    end
+
+    describe "#confirm_delete" do
+      it "opens the confirmation dialog without deleting anything when cascading" do
+        as_logged_in_user(user) do
+          post :confirm_delete, params: { ids: [parent_wp.id], delete_descendants: true }, format: :turbo_stream
+        end
+
+        expect(response).to be_successful
+        expect(response.body).to include(WorkPackages::DeleteDescendantsDialogComponent::DIALOG_ID)
+        expect(WorkPackage).to exist(parent_wp.id)
+        expect(child_wp.reload.parent_id).to eq(parent_wp.id)
+      end
+
+      it "deletes only the roots and detaches the descendants when keeping them" do
+        as_logged_in_user(user) do
+          post :confirm_delete, params: { ids: [parent_wp.id], delete_descendants: false }
+        end
+
+        expect(WorkPackage).not_to exist(parent_wp.id)
+        expect(WorkPackage).to exist(child_wp.id)
+        expect(child_wp.reload.parent_id).to be_nil
+      end
+    end
+
+    describe "#destroy with the keep-descendants choice" do
+      it "detaches a deletable descendant instead of deleting it" do
+        as_logged_in_user(user) do
+          delete :destroy, params: { ids: [parent_wp.id], delete_descendants: false }
+        end
+
+        expect(WorkPackage).not_to exist(parent_wp.id)
+        expect(WorkPackage).to exist(child_wp.id)
+        expect(child_wp.reload.parent_id).to be_nil
+      end
+
+      it "carries the choice through the reassign redirect when cleanup is required" do
+        allow(WorkPackage)
+          .to receive(:cleanup_associated_before_destructing_if_required)
+          .and_return false
+
+        as_logged_in_user(user) do
+          delete :destroy, params: { ids: [parent_wp.id], to_do: "blubs", delete_descendants: false }
+        end
+
+        expect(response).to redirect_to(
+          reassign_work_packages_bulk_path(ids: [parent_wp.id], delete_descendants: false)
+        )
+      end
+    end
+
+    describe "#reassign" do
+      render_views
+
+      it "renders the form and carries the descendants choice through a hidden field" do
+        as_logged_in_user(user) do
+          get :reassign, params: { ids: [parent_wp.id], delete_descendants: "false" }
+        end
+
+        expect(response).to be_successful
+        expect(response.body).to include('name="delete_descendants"')
       end
     end
   end
