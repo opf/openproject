@@ -54,6 +54,10 @@ module Pages
         end
       end
 
+      def drag_status(from_index:, to_index:)
+        drag_and_drop_list(from: from_index, to: to_index, elements: row_selector, handler: ".DragHandle")
+      end
+
       def go_to_page(number)
         within(".op-pagination--pages") { click_on number.to_s }
       end

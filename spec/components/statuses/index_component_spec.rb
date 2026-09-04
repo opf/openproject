@@ -89,6 +89,26 @@ RSpec.describe Statuses::IndexComponent, type: :component do
     it "links each status to its edit page" do
       expect(rendered_component).to have_link("New", href: "/statuses/#{new_status.id}/edit")
     end
+
+    it "renders a drag-and-drop enabled container" do
+      expect(rendered_component)
+        .to have_css(".Box[data-generic-drag-and-drop-target='container']") do |box|
+          expect(box["data-target-container-accessor"]).to eq(":scope > ul")
+          expect(box["data-target-allowed-drag-type"]).to eq("status")
+        end
+    end
+
+    it "renders each status as a draggable row pointing at its drop URL", :aggregate_failures do
+      [new_status, closed_status].each do |status|
+        selector = ".Box-row[data-draggable-type='status'][data-draggable-id='#{status.id}']"
+
+        expect(rendered_component).to have_css(selector) do |row|
+          # The page travels with the drop so the server can resolve the dropped
+          # index against the whole list.
+          expect(row["data-drop-url"]).to eq("/statuses/#{status.id}/move?page=1&per_page=20")
+        end
+      end
+    end
   end
 
   describe "reordering across pages" do

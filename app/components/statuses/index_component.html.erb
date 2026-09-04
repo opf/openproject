@@ -31,7 +31,7 @@
 
 <%=
   component_wrapper do
-    flex_layout do |flex|
+    flex_layout(data: wrapper_data_attributes) do |flex|
       flex.with_row do
         render(Primer::OpenProject::SubHeader.new) do |subheader|
           subheader.with_action_button(
@@ -48,7 +48,7 @@
       end
 
       flex.with_row do
-        render(border_box_container) do |box|
+        render(border_box_container(data: drop_target_config)) do |box|
           box.with_header(font_weight: :bold) do
             grid_layout("op-statuses-list--header", tag: :div, align_items: :center, classes: header_modifier_class) do |grid|
               grid.with_area(:name, tag: :div) do
@@ -87,7 +87,7 @@
             end
           else
             statuses.each do |status|
-              box.with_row(test_selector: "status-row-#{status.id}") do
+              box.with_row(test_selector: "status-row-#{status.id}", data: draggable_item_config(status)) do
                 render(Statuses::ItemComponent.new(status:, max_position:, page_args:))
               end
             end

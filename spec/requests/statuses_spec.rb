@@ -99,5 +99,24 @@ RSpec.describe "Statuses", :skip_csrf, type: :rails_request do
       expect(response).to have_http_status(:ok)
       expect(Status.order(:position).pluck(:name)).to eq(%w[Third First Second])
     end
+
+    context "when the list is paginated", with_settings: { per_page_options: "2, 100" } do
+      before { Status.delete_all }
+
+      let!(:a) { create(:status, name: "A") }
+      let!(:b) { create(:status, name: "B") }
+      let!(:c) { create(:status, name: "C") }
+      let!(:d) { create(:status, name: "D") }
+      let!(:e) { create(:status, name: "E") }
+
+      it "resolves the dropped position against the whole list, not the page" do
+        # Page 2 shows C and D; dropping D first on that page means global position 3.
+        put move_status_path(d, page: 2, per_page: 2),
+            params: { position: 1 },
+            as: :turbo_stream
+
+        expect(Status.order(:position).pluck(:name)).to eq(%w[A B D C E])
+      end
+    end
   end
 end
