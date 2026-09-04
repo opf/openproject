@@ -620,5 +620,14 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
       expect(llm_model.reload).not_to be_deactivated
     end
+
+    it "leaves the source of a hidden model answering where it came from" do
+      create(:llm_model, :manual, :deactivated, llm_connection: connection, external_id: "by-hand")
+
+      get llm_models_path
+
+      expect(response.body).to include("Added manually by an administrator")
+      expect(response.body).not_to include("Hidden")
+    end
   end
 end

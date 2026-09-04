@@ -1788,8 +1788,6 @@ en:
         kind: "Type"
         refresh: "Refresh models"
         source: "Source"
-        source_deactivated: "Hidden"
-        source_deactivated_description: "Hidden by an administrator"
         source_discovered: "Server"
         source_discovered_description: "Reported by the server"
         source_manual: "Manual"

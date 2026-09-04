@@ -76,10 +76,7 @@ module LlmConnections
     end
 
     def source_label
-      # Withdrawn wins over hidden: the withdrawal is why the toggle is inert,
-      # and an administrator needs that explanation more than their own choice.
       return %i[attention source_withdrawn] if llm_model.withdrawn?
-      return %i[attention source_deactivated] if llm_model.deactivated?
       return %i[accent source_manual] if llm_model.manual?
 
       %i[secondary source_discovered]

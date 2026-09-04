@@ -155,9 +155,13 @@ RSpec.describe "LLM connection administration",
       wait_for { llm_model.reload.deactivated_at }.not_to be_nil
 
       # The toggle acknowledges with JSON rather than re-rendering the row, so
-      # the source label only catches up on the next load.
+      # the table only catches up on the next load.
       visit llm_models_path
-      expect(page).to have_text("Hidden")
+
+      within_test_selector("llm-model--toggle-#{llm_model.id}") do
+        expect(page).to have_css("button[aria-pressed='false']")
+      end
+      expect(page).to have_no_text("Hidden")
     end
 
     # The chat capabilities are hidden client-side, so only a browser shows that
