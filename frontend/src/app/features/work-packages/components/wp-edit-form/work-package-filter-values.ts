@@ -54,6 +54,8 @@ export function attributeNameForFilter(filterId:string):string {
     case 'version':
     case 'targetVersion':
       return 'targetVersions';
+    case 'observedInVersion':
+      return 'observedInVersions';
     default:
       return filterId;
   }
@@ -209,6 +211,6 @@ export class WorkPackageFilterValues {
   }
 
   private isMultiValueAttribute(attributeName:string):boolean {
-    return attributeName === 'targetVersions';
+    return attributeName === 'targetVersions' || attributeName === 'observedInVersions';
   }
 }
