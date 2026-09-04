@@ -53,7 +53,7 @@ RSpec.describe Backlogs::BacklogFiltersComponent, type: :component do
   subject(:component) { described_class.new(query:) }
 
   # The component's form rendering relies on the current page via
-  # primer_form_with(url: {}, ...). Setting up the current route explcitly,
+  # primer_form_with(url: {}, ...). Setting up the current route explicitly,
   # because vc_test_controller doesn't have one by default.
   before do
     vc_test_controller.request.path_parameters = {

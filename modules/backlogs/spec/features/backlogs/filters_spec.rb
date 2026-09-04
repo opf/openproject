@@ -49,8 +49,8 @@ RSpec.describe "Backlog quick search and advanced filters", :js do
     create(:work_package, project:, backlog_bucket:, status:, subject:)
   end
 
-  def create_inbox_wp(subject:, status: status_a)=create_bucket_wp(subject:, status:, backlog_bucket: nil)
-  def create_sprint_wp(subject:, status: status_a)=create(:work_package, project:, sprint:, status:, subject:)
+  def create_inbox_wp(subject:, status: status_a) = create_bucket_wp(subject:, status:, backlog_bucket: nil)
+  def create_sprint_wp(subject:, status: status_a) = create(:work_package, project:, sprint:, status:, subject:)
 
   shared_let(:matching_bucket_wp) { create_bucket_wp(subject: "Keep the Needle in a haystack") }
   shared_let(:excluded_bucket_wp) { create_bucket_wp(subject: "Unrelated subject") }
