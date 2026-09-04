@@ -86,7 +86,7 @@ module Admin
 
       if save_with_capabilities(llm_model, submitted)
         flash[:notice] = t(".success", model: llm_model.external_id)
-        redirect_to llm_connection_path, status: :see_other
+        redirect_to llm_models_path, status: :see_other
       else
         # Re-rendered rather than redirected so the Primer form shows the error
         # inline against the field that caused it.
@@ -100,7 +100,7 @@ module Admin
 
       if update_with_capabilities(@llm_model)
         flash[:notice] = t(".success", model: @llm_model.external_id)
-        redirect_to llm_connection_path, status: :see_other
+        redirect_to llm_models_path, status: :see_other
       else
         # Re-rendered rather than redirected so the Primer form shows the error
         # inline against the field that caused it, e.g. a rename that collides
@@ -121,7 +121,7 @@ module Admin
       destroy_with_verdicts(llm_model)
 
       flash[:notice] = t(".success", model: llm_model.external_id)
-      redirect_to llm_connection_path, status: :see_other
+      redirect_to llm_models_path, status: :see_other
     end
 
     private

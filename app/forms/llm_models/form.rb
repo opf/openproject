@@ -30,6 +30,8 @@
 
 module LlmModels
   class Form < ApplicationForm
+    include Redmine::I18n
+
     form do |f|
       # A discovered model is named by the server, so its identifier is not ours
       # to change -- the next refresh would only put it back. One entered by hand
@@ -72,7 +74,7 @@ module LlmModels
       f.select_list(
         name: :model_type,
         label: I18n.t("admin.llm_models.form.model_type"),
-        caption: I18n.t("admin.llm_models.form.model_type_caption"),
+        caption: model_type_caption,
         include_blank: false,
         input_width: :medium,
         data: {
@@ -122,6 +124,12 @@ module LlmModels
     private
 
     def new_record? = model.new_record?
+
+    def model_type_caption
+      link_translate("admin.llm_models.form.model_type_caption",
+                     links: { docs_url: %i[sysadmin_docs ai_models] },
+                     external: true)
+    end
 
     def context_window_caption
       source = model.context_window_source

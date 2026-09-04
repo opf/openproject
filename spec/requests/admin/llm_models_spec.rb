@@ -260,7 +260,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       it "adds a model an administrator names" do
         post llm_models_path, params: { llm_model: { external_id: "qwen3.6-35b-a3b" } }
 
-        expect(response).to have_http_status(:see_other)
+        expect(response).to redirect_to(llm_models_path)
         llm_model = connection.models.find_by(external_id: "qwen3.6-35b-a3b")
         expect(llm_model).to be_manual
         expect(connection.available_model_ids).to include("qwen3.6-35b-a3b")
@@ -298,7 +298,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
                                      model_type: "chat",
                                      capability_vision: "unsupported" } }
 
-        expect(response).to have_http_status(:see_other)
+        expect(response).to redirect_to(llm_models_path)
         expect(llm_model.reload.display_name).to eq("Hand typed")
 
         verdicts = connection.capability_verdicts.for_model("hand-typed").pluck(:capability, :state, :source)
@@ -429,6 +429,13 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(response.body).to include("Model name")
       end
 
+      # Not every administrator knows what an embedding model is.
+      it "points at the documentation about model types" do
+        get new_llm_model_path
+
+        expect(page).to have_link("Read more", href: /system-admin-guide\/ai/)
+      end
+
       it "re-renders with the error inline when the name is taken" do
         create(:llm_model, llm_connection: connection, external_id: "already-there")
 
@@ -457,7 +464,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
         delete llm_model_path(llm_model)
 
-        expect(response).to have_http_status(:see_other)
+        expect(response).to redirect_to(llm_models_path)
         expect(LlmModel.where(id: llm_model.id)).to be_empty
       end
 
