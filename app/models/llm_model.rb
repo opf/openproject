@@ -57,12 +57,29 @@ class LlmModel < ApplicationRecord
     rename_connection_defaults(previous_external_id)
   end
 
+  # The counterpart of the rename. Verdicts are keyed by the identifier string,
+  # not by foreign key, so leaving them behind would silently apply them to a
+  # future model re-added under the same name, and a connection default naming a
+  # model that no longer exists is one no AI feature could resolve.
+  def cascade_delete!
+    llm_connection.capability_verdicts.where(model_id: external_id).delete_all
+    clear_connection_defaults
+  end
+
   def name = display_name.presence || external_id
 
   def rename_connection_defaults(previous_external_id)
+    connection_defaults_named(previous_external_id) { external_id }
+  end
+
+  def clear_connection_defaults
+    connection_defaults_named(external_id) { nil }
+  end
+
+  def connection_defaults_named(model_id, &)
     defaults = %i[default_chat_model_id default_embedding_model_id]
-                 .select { |attribute| llm_connection.public_send(attribute) == previous_external_id }
-                 .index_with { external_id }
+                 .select { |attribute| llm_connection.public_send(attribute) == model_id }
+                 .index_with(&)
 
     llm_connection.update_columns(defaults) if defaults.any?
   end

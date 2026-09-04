@@ -480,6 +480,17 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(LlmModel.where(id: llm_model.id)).to be_empty
       end
 
+      # cascade_rename! keeps the defaults pointing at the model; deleting one has
+      # to let go of it, or the connection keeps a default no model answers to.
+      it "lets go of a connection default that named the deleted model" do
+        llm_model = create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed")
+        connection.update!(default_chat_model_id: "hand-typed")
+
+        delete llm_model_path(llm_model)
+
+        expect(connection.reload.default_chat_model_id).to be_nil
+      end
+
       # Discovered models are the server's to add and remove, not the administrator's.
       it "refuses to remove a discovered model" do
         llm_model = create(:llm_model, llm_connection: connection, external_id: "from-server")

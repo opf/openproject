@@ -118,7 +118,7 @@ module Admin
 
     def destroy
       llm_model = @connection.models.manual.find(params.expect(:id))
-      destroy_with_verdicts(llm_model)
+      destroy_with_references(llm_model)
 
       flash[:notice] = t(".success", model: llm_model.external_id)
       redirect_to llm_models_path, status: :see_other
@@ -130,12 +130,10 @@ module Admin
       @connection = LlmConnection.active_connection
     end
 
-    # Verdicts are keyed by the identifier string, not by foreign key, so they
-    # would silently apply to a future model re-added under the same name.
-    def destroy_with_verdicts(llm_model)
+    def destroy_with_references(llm_model)
       ActiveRecord::Base.transaction do
         llm_model.destroy!
-        @connection.capability_verdicts.for_model(llm_model.external_id).delete_all
+        llm_model.cascade_delete!
       end
     end
 
