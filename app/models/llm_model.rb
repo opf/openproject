@@ -35,6 +35,9 @@
 # deployment calls the model -- provider-specific and not comparable across
 # vendors, which is why it is never used as a lookup key into a public catalogue.
 class LlmModel < ApplicationRecord
+  # The connection columns that reference a model row, cleared when it goes.
+  CONNECTION_DEFAULTS = %i[default_chat_model_id default_embedding_model_id].freeze
+
   belongs_to :llm_connection
 
   validates :external_id, presence: true, uniqueness: { scope: :llm_connection_id }
@@ -49,12 +52,12 @@ class LlmModel < ApplicationRecord
   #
   # Renaming is a correction of the name, not a change of model, which is why
   # this writes directly: a locked binding must not refuse to follow the model
-  # it is locked to, and the connection defaults are pointing at this very row.
+  # it is locked to. The connection defaults reference this row, so they follow
+  # on their own.
   def cascade_rename!(previous_external_id)
     return if previous_external_id.blank? || previous_external_id == external_id
 
     llm_connection.capability_verdicts.where(model_id: previous_external_id).update_all(model_id: external_id)
-    rename_connection_defaults(previous_external_id)
   end
 
   # The counterpart of the rename. Verdicts are keyed by the identifier string,
@@ -68,18 +71,10 @@ class LlmModel < ApplicationRecord
 
   def name = display_name.presence || external_id
 
-  def rename_connection_defaults(previous_external_id)
-    connection_defaults_named(previous_external_id) { external_id }
-  end
-
   def clear_connection_defaults
-    connection_defaults_named(external_id) { nil }
-  end
-
-  def connection_defaults_named(model_id, &)
-    defaults = %i[default_chat_model_id default_embedding_model_id]
-                 .select { |attribute| llm_connection.public_send(attribute) == model_id }
-                 .index_with(&)
+    defaults = CONNECTION_DEFAULTS
+                 .select { |attribute| llm_connection.public_send(attribute) == id }
+                 .index_with(nil)
 
     llm_connection.update_columns(defaults) if defaults.any?
   end

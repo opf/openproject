@@ -238,7 +238,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
   # Manual entry exists for servers that route /v1/chat/completions but expose no
   # model list -- OpenProject's own hosted gateway does exactly that today.
   describe "models entered by hand" do
-    let!(:connection) { create(:llm_connection, :enabled, base_url:) }
+    let!(:connection) { create(:llm_connection, base_url:) }
 
     before { login_as admin }
 
@@ -484,11 +484,11 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       # to let go of it, or the connection keeps a default no model answers to.
       it "lets go of a connection default that named the deleted model" do
         llm_model = create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed")
-        connection.update!(default_chat_model_id: "hand-typed")
+        connection.update!(default_chat_model: llm_model)
 
         delete llm_model_path(llm_model)
 
-        expect(connection.reload.default_chat_model_id).to be_nil
+        expect(connection.reload.default_chat_model).to be_nil
       end
 
       # Discovered models are the server's to add and remove, not the administrator's.
@@ -508,7 +508,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       end
 
       before do
-        connection.update!(default_chat_model_id: "qwen/qwen3.6-35b-a3b")
+        connection.update!(default_chat_model: llm_model)
         connection.capability_verdicts.create!(model_id: "qwen/qwen3.6-35b-a3b", capability: "embeddings",
                                                state: "unsupported", source: "probe", checked_at: Time.current)
       end
@@ -535,7 +535,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         patch llm_model_path(llm_model), params: { llm_model: { external_id: "qwen/qwen3.6-35b-a3b:bf16" } }
 
         expect(llm_model.reload.external_id).to eq("qwen/qwen3.6-35b-a3b:bf16")
-        expect(connection.reload.default_chat_model_id).to eq("qwen/qwen3.6-35b-a3b:bf16")
+        expect(connection.reload.default_chat_model).to eq(llm_model)
         expect(connection.capability_verdicts.first.model_id).to eq("qwen/qwen3.6-35b-a3b:bf16")
       end
 

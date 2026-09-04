@@ -49,8 +49,8 @@ module LlmConnections
     end
 
     def affected_defaults
-      %i[default_chat_model_id default_embedding_model_id]
-        .select { |attribute| llm_model.llm_connection.public_send(attribute) == llm_model.external_id }
+      LlmModel::CONNECTION_DEFAULTS
+        .select { |attribute| llm_model.llm_connection.public_send(attribute) == llm_model.id }
         .map { |attribute| LlmConnection.human_attribute_name(attribute) }
     end
   end
