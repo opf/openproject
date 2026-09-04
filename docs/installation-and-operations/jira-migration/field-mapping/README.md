@@ -49,8 +49,9 @@ Every migrated project is created **private** and **active**, with no parent —
 | Status                                             | Status                    | Matched by name (not case-sensitive); created automatically if missing. Only the name comes across — a migrated status is never automatically marked as "closed" in OpenProject, even if it represented a finished state in Jira (e.g. Done, Closed, Resolved). This affects any filtering or reporting that depends on knowing which work packages are actually finished |
 | Sub-tasks / parent-child links                     | **Not migrated**          | — (planned: [JIM-75](https://community.openproject.org/projects/JIM/work_packages/JIM-75)) |
 | Summary                                            | Subject                   | -                                                            |
-| Votes                                              | **Not migrated**          | —                                                            |
+| Votes                                              | **Not migrated**          | Does not exist in OpenProject (workaround planned:[JIM-207](https://community.openproject.org/projects/JIM/work_packages/JIM-207)) |
 | Watchers                                           | **Not migrated**          | — (planned: [JIM-180](https://community.openproject.org/projects/JIM/work_packages/JIM-180)) |
+| Web link | **Not migrated** | Does not exist in OpenProject (workaround planned: [JIM-206](https://community.openproject.org/projects/JIM/work_packages/JIM-206)) |
 
 
 ## Users & groups

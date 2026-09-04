@@ -30,9 +30,10 @@ Review this against how your teams actually use Jira. If anything here would be 
 - [ ] Watchers (planned: [JIM-180](https://community.openproject.org/projects/JIM/work_packages/JIM-180))
 - [ ] Sub-tasks and parent/child hierarchy (planned: [JIM-75](https://community.openproject.org/projects/JIM/work_packages/JIM-75))
 - [ ] Issue links (blocks, relates to, duplicates, etc.) (planned: [JIM-76](https://community.openproject.org/projects/JIM/work_packages/JIM-76))
+- [ ] Web links (workaround planned: [JIM-206](https://community.openproject.org/projects/JIM/work_packages/JIM-206)).
 - [ ] Labels (planned: [JIM-109](https://community.openproject.org/projects/JIM/work_packages/JIM-109))
 - [ ] Logged work / time entries (only the *estimated* and *remaining* hours fields come across — actual time logged does not) (planned: [JIM-93](https://community.openproject.org/projects/JIM/work_packages/JIM-93))
-- [ ] Votes
+- [ ] Votes (workaround planned: [JIM-207](https://community.openproject.org/projects/JIM/work_packages/JIM-207), open feature request: [OP-3251](https://community.openproject.org/projects/OP/work_packages/OP-3251))
 - [ ] Resolution and Resolution date (planned as custom field: [JIM-149](https://community.openproject.org/projects/JIM/work_packages/JIM-149); broader native support: [FND-231](https://community.openproject.org/projects/FND/work_packages/FND-231))
 - [ ] Environment
 - [ ] Security Level
@@ -49,10 +50,11 @@ Review this against how your teams actually use Jira. If anything here would be 
 - [ ] User picker / multi-user picker values, unless the referenced user is also referenced elsewhere on an imported issue (as creator, assignee, comment or attachment author, or an @mention). Otherwise the value comes across empty, with no reliable way to prevent this in advance. 
 - [ ] Version-picker
 - [ ] Any third-party plugin-provided custom field type e.g. Scripted Fields
+- [ ] Per-context custom field values (Jira Field Contexts) - At the moment OpenProject does not support different option sets per project or issue type; a custom field's options are always global. 
 
 **Not migrated, beyond individual issues:**
 
-- [ ] Workflows (which status transitions are allowed for which roles) (planned: [JIM-153](https://community.openproject.org/projects/JIM/work_packages/JIM-153))
+- [ ] Workflows (which status transitions are allowed for which roles) (planned: [JIM-153](https://community.openproject.org/projects/JIM/work_packages/JIM-153)). Note that at the moment, OpenProject workflows are defined globally per Type, not per project. If different Jira projects used different workflow schemes for the same issue type, that distinction cannot be preserved at the moment. (in development: [AUTOWORK-67](https://community.openproject.org/projects/AUTOWORK/work_packages/AUTOWORK-67)) 
 - [ ] Permission schemes / roles (planned: [JIM-97](https://community.openproject.org/projects/JIM/work_packages/JIM-97))
 - [ ] Agile boards (Scrum/Kanban setup, filters, swimlanes) (planned: [JIM-106](https://community.openproject.org/projects/JIM/work_packages/JIM-106))
 - [ ] Integration with Confluence (planned: [JIM-193](https://community.openproject.org/projects/JIM/work_packages/JIM-193))
