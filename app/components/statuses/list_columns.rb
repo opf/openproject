@@ -29,43 +29,39 @@
 #++
 
 module Statuses
-  class TableComponent < ::TableComponent
-    def initial_sort
-      %i[id asc]
-    end
-
-    def sortable?
-      false
-    end
+  # Captions and row cells sit on two separate CSS grids, so they only stay
+  # aligned while both render the same columns. Both take the set from here.
+  module ListColumns
+    Column = Data.define(:area, :caption, :predicate)
 
     def columns
-      headers.map(&:first)
-    end
-
-    def inline_create_link
-      link_to new_status_path,
-              aria: { label: t(:label_work_package_status_new) },
-              class: "wp-inline-create--add-link",
-              title: t(:label_work_package_status_new) do
-        helpers.op_icon("icon icon-add")
-      end
-    end
-
-    def empty_row_message
-      I18n.t :no_results_title_text
-    end
-
-    def headers
       [
-        [:name, { caption: Status.human_attribute_name(:name) }],
-        [:color, { caption: Status.human_attribute_name(:color) }],
-        [:done_ratio, { caption: WorkPackage.human_attribute_name(:done_ratio) }],
-        [:default?, { caption: I18n.t("statuses.index.headers.is_default") }],
-        [:closed?, { caption: I18n.t("statuses.index.headers.is_closed") }],
-        [:readonly?, { caption: I18n.t("statuses.index.headers.is_readonly") }],
-        [:excluded_from_totals?, { caption: I18n.t("statuses.index.headers.excluded_from_totals") }],
-        [:sort, { caption: I18n.t(:label_sort) }]
+        column(:name, Status.human_attribute_name(:name)),
+        (column(:"done-ratio", WorkPackage.human_attribute_name(:done_ratio)) if show_done_ratio?),
+        *flag_columns
+      ].compact
+    end
+
+    def flag_columns
+      [
+        column(:"is-default", t("statuses.index.headers.is_default"), predicate: :is_default?),
+        column(:"is-closed", t("statuses.index.headers.is_closed"), predicate: :is_closed?),
+        column(:"is-readonly", t("statuses.index.headers.is_readonly"), predicate: :is_readonly?)
       ]
+    end
+
+    def show_done_ratio?
+      WorkPackage.status_based_mode?
+    end
+
+    def grid_modifier_class(element)
+      "op-statuses-list--#{element}_without-done-ratio" unless show_done_ratio?
+    end
+
+    private
+
+    def column(area, caption, predicate: nil)
+      Column.new(area:, caption:, predicate:)
     end
   end
 end

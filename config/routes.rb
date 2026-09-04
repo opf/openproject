@@ -306,7 +306,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :statuses, except: :show
+  resources :statuses, except: :show do
+    member do
+      put :move
+    end
+  end
 
   get "custom_style/:digest/logo/:filename" => "custom_styles#logo_download",
       as: "custom_style_logo",

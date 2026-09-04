@@ -40,6 +40,120 @@ RSpec.describe "Statuses admin page", :js do
     login_as(admin)
   end
 
+  describe "index page" do
+    # Reordering persists across examples, so each one starts from a known order.
+    before do
+      [status_new, status_in_progress, status_done].each_with_index do |status, index|
+        status.update_column(:position, index + 1)
+      end
+    end
+
+    let(:statuses_page) { Pages::Admin::Statuses.new }
+
+    it "names the page for the collection it lists" do
+      statuses_page.visit!
+
+      statuses_page.expect_header_to_display("Statuses")
+    end
+
+    it "reorders statuses through the action menu" do
+      statuses_page.visit!
+
+      statuses_page.expect_listed("New", "In Progress", "Done")
+
+      statuses_page.click_status_action(status_new, action: "Move to bottom")
+
+      expect(page).to have_text("Successful update.")
+      statuses_page.expect_listed("In Progress", "Done", "New")
+
+      statuses_page.click_status_action(status_done, action: "Move up")
+
+      statuses_page.expect_listed("Done", "In Progress", "New")
+    end
+
+    it "offers no upward move on the first status, and no downward move on the last" do
+      statuses_page.visit!
+
+      statuses_page.within_status(status_new) do
+        click_on accessible_name: "Status actions"
+        expect(page).to have_no_button("Move to top")
+        expect(page).to have_button("Move to bottom")
+      end
+    end
+
+    it "reorders statuses by dragging them" do
+      statuses_page.visit!
+
+      statuses_page.drag_status(from_index: 0, to_index: 2)
+      wait_for_network_idle
+
+      statuses_page.expect_listed("In Progress", "Done", "New")
+
+      statuses_page.reload!
+      statuses_page.expect_listed("In Progress", "Done", "New")
+    end
+
+    describe "quick filters" do
+      shared_let(:task) { create(:type, name: "Task") }
+      shared_let(:manager) { create(:project_role, name: "Manager") }
+      shared_let(:member) { create(:project_role, name: "Member") }
+      shared_let(:task_manager_transition) do
+        create(:workflow, type: task, role: manager, old_status: status_new, new_status: status_in_progress)
+      end
+
+      it "narrows the list to the statuses of the selected type and role" do
+        statuses_page.visit!
+        statuses_page.expect_listed("New", "In Progress", "Done")
+
+        statuses_page.quick_filter_by("type", "Type", "Task")
+
+        statuses_page.expect_listed("New", "In Progress")
+
+        statuses_page.quick_filter_by("role", "Role", "Member")
+
+        statuses_page.expect_listed
+      end
+
+      it "offers no reordering while filtered, since positions are global" do
+        statuses_page.visit!
+        expect(page).to have_css(".DragHandle")
+
+        statuses_page.quick_filter_by("type", "Type", "Task")
+
+        statuses_page.expect_no_reordering
+      end
+    end
+
+    describe "pagination", with_settings: { per_page_options: "2, 100" } do
+      it "pages the list, and a larger page size widens what drag and drop can reach" do
+        statuses_page.visit!
+
+        statuses_page.expect_listed("New", "In Progress")
+
+        statuses_page.set_page_size(100)
+
+        statuses_page.expect_listed("New", "In Progress", "Done")
+
+        statuses_page.drag_status(from_index: 0, to_index: 2)
+        wait_for_network_idle
+
+        statuses_page.expect_listed("In Progress", "Done", "New")
+      end
+
+      it "keeps the reader on their page after a move" do
+        statuses_page.visit!
+        statuses_page.go_to_page(2)
+
+        statuses_page.expect_listed("Done")
+
+        statuses_page.click_status_action(status_done, action: "Move up")
+
+        statuses_page.expect_listed("In Progress")
+        expect(Status.order(:position).pluck(:name)).to eq(["New", "Done", "In Progress"])
+      end
+    end
+  end
+
   describe "create page" do
     context "with enterprise edition", with_ee: %i[readonly_work_packages] do
       it "has 'is read-only' checkbox unchecked and disabled only when 'is default' is checked (mutually exclusive)" do
