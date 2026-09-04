@@ -29,9 +29,9 @@
 /**
  * Extend a given URL (string or URL object) with the provided search parameters.
  *
- * @param base The base URL to extend
- * @param params A record of key-value pairs to add as search parameters
- * @param addCurrentSearch Whether to include the current window's search parameters (default: true)
+ * @param base - The base URL to extend
+ * @param params - A record of key-value pairs to add as search parameters
+ * @param addCurrentSearch - Whether to include the current window's search parameters (default: true)
  */
 export function extendSearchParams(
   base:string,

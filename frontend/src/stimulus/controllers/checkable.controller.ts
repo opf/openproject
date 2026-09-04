@@ -27,6 +27,12 @@
 //++
 
 import { Controller, ActionEvent } from '@hotwired/stimulus';
+// Imported for the {@link} reference below; TypeDoc resolves declaration
+// references through scope, and its `module!name` form is rejected by the
+// TSDoc syntax rule while the TSDoc `module#name` form it accepts does not
+// resolve here.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type CheckAllController from './check-all.controller';
 import invariant from 'tiny-invariant';
 
 /**
@@ -39,7 +45,7 @@ import invariant from 'tiny-invariant';
  *
  * Rather than defining event handlers within the controller, this controller
  * uses Stimulus actions. The implementer is responsible for adding appropriate
- * {@link https://stimulus.hotwired.dev/reference/actions#descriptors action descriptors}
+ * [action descriptors](https://stimulus.hotwired.dev/reference/actions#descriptors)
  * to HTML elements that should trigger the controller's methods.
  *
  * Can be used standalone or in combination with {@link CheckAllController}
@@ -118,11 +124,11 @@ export default class CheckableController extends Controller<HTMLElement> {
    * by `key`) against a value (specified by `value`). Useful for table-like
    * UIs where you want to toggle checkboxes by row or column.
    *
-   * @param event - The ActionEvent containing params
-   * @param event.params.key - The data attribute name to filter by (camelCase)
-   * @param event.params.value - The value to match (will be converted to string)
+   * @param event - The ActionEvent whose `params.key` names the data attribute
+   * to filter by (camelCase) and whose `params.value` is matched against it
+   * (converted to a string)
    *
-   * @throws {Error} If key or value params are missing
+   * @throws Error If key or value params are missing
    *
    * @example Toggle all checkboxes where data-column-id="3"
    * ```html
