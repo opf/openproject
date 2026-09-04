@@ -132,9 +132,7 @@ export function resolveItemType(element:Element):string|null {
 // wrong list entirely — which is exactly what a non-item marker row (e.g. an
 // empty list's placeholder) would otherwise resolve to instead of "no item
 // here". `boundary.contains(match)` accepts a self-or-ancestor match found
-// inside the rows container and rejects one outside it. Only this ancestor
-// climb is bounded — resolveItemElement's querySelector fallback below
-// descends unbounded and can match an item belonging to a nested inner list.
+// inside the rows container and rejects one outside it.
 export function resolveClosestItemElement(element:Element, boundary:Element):HTMLElement|null {
   if (!(element instanceof HTMLElement)) {
     return null;
@@ -144,9 +142,14 @@ export function resolveClosestItemElement(element:Element, boundary:Element):HTM
   return match && boundary.contains(match) ? match : null;
 }
 
+// The upward climb is bounded by `boundary`; the downward fallback only
+// looks at the row's own direct children, so a wrapper row cannot resolve
+// to an item of a list nested inside it.
 export function resolveItemElement(element:Element, boundary:Element):HTMLElement|null {
-  return resolveClosestItemElement(element, boundary) ??
-    element.querySelector<HTMLElement>(sortableItemSelector);
+  return resolveClosestItemElement(element, boundary)
+    ?? Array.from(element.children).find((child):child is HTMLElement => (
+      child instanceof HTMLElement && child.matches(sortableItemSelector)
+    )) ?? null;
 }
 
 export function resolvePreviousItemId(element:Element, boundary:Element):string|null {
