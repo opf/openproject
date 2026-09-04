@@ -11,7 +11,11 @@
       end
 
       grid.with_area(:description, classes: "wb-break-word", tag: :div, color: :subtle) do
-        render(Primer::Beta::Text.new) { redirect_uri.presence || t(".description") }
+        if redirect_uri.present?
+          render(Primer::Beta::Text.new) { "#{t('.label_uri')}: #{redirect_uri}" }
+        else
+          render(Primer::Beta::Text.new) { t(".description") }
+        end
       end
 
       if redirect_uri.present?
