@@ -866,7 +866,7 @@ RSpec.describe RecurringMeetings::UpdateService, "integration", type: :model do
         series.reload
         expect(series.uid).to eq previous_uid
         expect(series.current_schedule_start).to eq anchor
-        expect(series.ical_predecessor).to be_nil
+        expect(series.last_historic_schedule).to be_nil
       end
     end
 
@@ -892,36 +892,36 @@ RSpec.describe RecurringMeetings::UpdateService, "integration", type: :model do
         series.reload
         expect(series.uid).to eq previous_uid
         expect(series.current_schedule_start).to eq anchor
-        expect(series.ical_predecessor).to be_nil
+        expect(series.last_historic_schedule).to be_nil
       end
     end
 
     context "with a schedule change that moves the anchor off the grid" do
       let(:params) { { start_date: Date.new(2026, 6, 22), start_time_hour: "14:00" } }
 
-      it "mints a new UID and freezes the predecessor" do
+      it "mints a new UID and keeps the schedule that ended" do
         expect(service_result).to be_success
 
         series.reload
         expect(series.uid).not_to eq previous_uid
         expect(series.current_schedule_start).to eq Time.utc(2026, 6, 22, 14, 0, 0)
 
-        predecessor = series.ical_predecessor
-        expect(predecessor.uid).to eq previous_uid
-        expect(predecessor.dtstart).to eq anchor
-        expect(predecessor.sequence).to eq 1
-        expect(predecessor.rrule).to include "FREQ=WEEKLY"
+        historic = series.last_historic_schedule
+        expect(historic.uid).to eq previous_uid
+        expect(historic.dtstart).to eq anchor
+        expect(historic.sequence).to eq 1
+        expect(historic.rrule).to include "FREQ=WEEKLY"
 
         # SEQUENCE counts the revisions of one UID, thus the new UID starts again.
         expect(series.ical_sequence).to eq 0
       end
 
-      it "ends the predecessor at the last old slot that already happened" do
+      it "ends the old schedule at the last slot that already happened" do
         expect(service_result).to be_success
 
         # Monday 8 June 10:00 is the last one before the frozen now. Monday 15 June 10:00 is
         # still ahead, thus this update moved it and the successor owns it.
-        expect(series.reload.ical_predecessor.rrule).to include "UNTIL=20260608T100000Z"
+        expect(series.reload.last_historic_schedule.rrule).to include "UNTIL=20260608T100000Z"
       end
 
       context "with an invited participant" do
@@ -929,10 +929,11 @@ RSpec.describe RecurringMeetings::UpdateService, "integration", type: :model do
           create(:user, member_with_permissions: { project => %i(view_meetings) })
         end
 
-        let(:calendars) do
+        # RFC 5546 3.2.2 permits one UID for each REQUEST. A master and its overrides share it.
+        let(:message_uids) do
           ActionMailer::Base.deliveries.map do |mail|
             part = mail.all_parts.find { |p| p.mime_type == "text/calendar" }
-            Icalendar::Calendar.parse(part.body.decoded).first
+            Icalendar::Calendar.parse(part.body.decoded).first.events.map { it.uid.to_s }.uniq
           end
         end
 
@@ -946,8 +947,8 @@ RSpec.describe RecurringMeetings::UpdateService, "integration", type: :model do
           perform_enqueued_jobs
 
           expect(ActionMailer::Base.deliveries.count).to eq 2
-          expect(calendars.first.events.map(&:uid)).to contain_exactly(previous_uid)
-          expect(calendars.second.events.map(&:uid)).to contain_exactly(series.reload.uid)
+          expect(message_uids.first).to contain_exactly(previous_uid)
+          expect(message_uids.second).to contain_exactly(series.reload.uid)
         end
 
         it "shows the ended schedule in the first message, and the live one in the second" do
@@ -979,15 +980,15 @@ RSpec.describe RecurringMeetings::UpdateService, "integration", type: :model do
         end
 
         it "leaves out the ended schedule for a participant who joined after the change" do
-          # rotated_at is the frozen now, thus a later record stands for a person who was not
-          # there when the old series ran.
+          # The historic schedule is written at the frozen now, thus a later record stands for a
+          # person who was not there when the old series ran.
           series.template.participants.update_all(created_at: 1.hour.from_now)
 
           expect(service_result).to be_success
           perform_enqueued_jobs
 
           expect(ActionMailer::Base.deliveries.count).to eq 1
-          expect(calendars.first.events.map(&:uid)).to contain_exactly(series.reload.uid)
+          expect(message_uids.first).to contain_exactly(series.reload.uid)
         end
       end
     end
@@ -1008,7 +1009,7 @@ RSpec.describe RecurringMeetings::UpdateService, "integration", type: :model do
       it "freezes it as an EXDATE, before the reschedule destroys the row" do
         expect(service_result).to be_success
 
-        expect(series.reload.ical_predecessor.exdates).to contain_exactly(cancelled_slot)
+        expect(series.reload.last_historic_schedule.exdates).to contain_exactly(cancelled_slot)
         expect { cancelled_occurrence.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
@@ -1023,7 +1024,7 @@ RSpec.describe RecurringMeetings::UpdateService, "integration", type: :model do
         series.reload
         expect(series.uid).to eq previous_uid
         expect(series.current_schedule_start).to eq Time.utc(2026, 7, 13, 14, 0, 0)
-        expect(series.ical_predecessor).to be_nil
+        expect(series.last_historic_schedule).to be_nil
       end
     end
   end

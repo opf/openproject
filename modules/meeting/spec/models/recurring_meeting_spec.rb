@@ -497,56 +497,27 @@ RSpec.describe RecurringMeeting,
     end
   end
 
-  describe "#ical_predecessor" do
-    let(:snapshot) do
-      RecurringMeeting::ICalPredecessor.new(
-        uid: "old-uid@example.com",
-        dtstart: ActiveSupport::TimeZone["Europe/Berlin"].parse("2026-03-02 09:00"),
-        ends_at: ActiveSupport::TimeZone["Europe/Berlin"].parse("2026-08-24 09:00"),
-        tzid: "Europe/Berlin",
-        duration: 1.5,
-        summary: "Weekly sync",
-        location: "https://example.com/room",
-        rrule: "FREQ=WEEKLY;UNTIL=20260824T070000Z",
-        exdates: [ActiveSupport::TimeZone["Europe/Berlin"].parse("2026-03-09 09:00")],
-        sequence: 4,
-        rotated_at: Time.zone.parse("2026-08-31 12:00")
-      )
+  describe "#last_historic_schedule" do
+    let(:series) { create(:recurring_meeting) }
+
+    it "is nil while no schedule ended" do
+      expect(series.last_historic_schedule).to be_nil
     end
 
-    it "is nil while nothing rotated" do
-      expect(build(:recurring_meeting).ical_predecessor).to be_nil
+    it "is the one that ended most recently" do
+      create(:recurring_meeting_historic_schedule, recurring_meeting: series, uid: "first@example.com")
+      create(:recurring_meeting_historic_schedule, recurring_meeting: series, uid: "second@example.com")
+
+      expect(series.reload.last_historic_schedule.uid).to eq "second@example.com"
+      expect(series.historic_schedules.map(&:uid))
+        .to eq ["first@example.com", "second@example.com"]
     end
 
-    it "survives a round trip through the database" do
-      series = create(:recurring_meeting)
-      series.ical_predecessor = snapshot
-      series.save!
+    it "keeps every schedule that ended, as an audit log" do
+      create(:recurring_meeting_historic_schedule, recurring_meeting: series)
+      create(:recurring_meeting_historic_schedule, recurring_meeting: series)
 
-      expect(series.reload.ical_predecessor).to eq snapshot
-    end
-
-    it "keeps the local time of the frozen time zone" do
-      series = create(:recurring_meeting)
-      series.ical_predecessor = snapshot
-      series.save!
-
-      dtstart = series.reload.ical_predecessor.dtstart
-
-      expect(dtstart.time_zone.name).to eq "Europe/Berlin"
-      expect(dtstart.strftime("%H:%M")).to eq "09:00"
-    end
-
-    it "clears both columns when unset" do
-      series = create(:recurring_meeting)
-      series.ical_predecessor = snapshot
-      series.save!
-
-      series.ical_predecessor = nil
-      series.save!
-
-      expect(series.reload.ical_predecessor_uid).to be_nil
-      expect(series.reload.ical_predecessor_snapshot).to be_nil
+      expect(series.reload.historic_schedules.count).to eq 2
     end
   end
 

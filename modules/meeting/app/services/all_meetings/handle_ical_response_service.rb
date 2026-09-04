@@ -76,6 +76,8 @@ module AllMeetings
       recurring_meeting = RecurringMeeting.visible(user).find_by(uid:)
 
       if recurring_meeting.blank?
+        return ignore_historic_schedule(uid) if historic_schedule_uid?(uid)
+
         # No recurring meeting, we can leave
         errors = ActiveModel::Errors.new(self)
         errors.add(uid, I18n.t("meeting.ical_response.meeting_not_found"))
@@ -101,24 +103,51 @@ module AllMeetings
         # We have an instantiated (non-cancelled) meeting, update that one
         update_participation_status(occurrence, event)
       else
-        # No instantiated meeting, create or update an interim response
-        response = RecurringMeetingInterimResponse.find_or_initialize_by(
-          user: user,
-          recurring_meeting: recurring_meeting,
-          start_time: recurrence_start_time
-        )
-
-        attendee_from_event = attendee(event)
-        status = partstat(attendee_from_event)
-
-        if status.present?
-          response.participation_status = status
-          response.comment = comment(attendee_from_event, event)
-          response.save!
-        end
+        write_interim_response(recurring_meeting, recurrence_start_time, event)
       end
 
       ServiceResult.success
+    end
+
+    # A meaningful schedule change will end the old UID and start a new one.
+    # A reply to the old UID will be ignored
+    def historic_schedule_uid?(uid)
+      RecurringMeetings::HistoricSchedule
+        .where(recurring_meeting: RecurringMeeting.visible(user))
+        .exists?(uid:)
+    end
+
+    def ignore_historic_schedule(uid)
+      Rails.logger.info("[iCal Meeting Response] Reply from #{user.mail} for the ended schedule #{uid}")
+
+      ServiceResult.success
+    end
+
+    # Without an instantiated meeting the answer waits as an interim response.
+    #
+    # A reschedule rewrites recurrence_start_time onto the new grid, thus a RECURRENCE-ID from an
+    # older grid points at a slot that the series no longer has.
+    # RecurringMeetingInterimResponse validates the slot, thus save! would raise out of the mail
+    # handler, which does not rescue.
+    def write_interim_response(recurring_meeting, recurrence_start_time, event)
+      unless recurring_meeting.occurs_at?(recurrence_start_time)
+        Rails.logger.info("[iCal Meeting Response] Reply from #{user.mail} for #{recurrence_start_time}, " \
+                          "which is not a slot of meeting series #{recurring_meeting.id}")
+        return
+      end
+
+      attendee_from_event = attendee(event)
+      status = partstat(attendee_from_event)
+      return if status.blank?
+
+      response = RecurringMeetingInterimResponse.find_or_initialize_by(
+        user:,
+        recurring_meeting:,
+        start_time: recurrence_start_time
+      )
+      response.participation_status = status
+      response.comment = comment(attendee_from_event, event)
+      response.save!
     end
 
     def parsed_calendar

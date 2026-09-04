@@ -61,9 +61,7 @@ module RecurringMeetings
         reschedule_init_job(recurring_meeting)
       end
 
-      # Not gated on should_reschedule?, which is false when the series has no next occurrence.
-      # A series that an update shortened into the past must still tell its participants.
-      if recurring_meeting.reschedule_required?(previous: true)
+      if send_updated_mail?(recurring_meeting)
         send_updated_mail(recurring_meeting, historic_schedule: started_new_schedule)
       end
 
@@ -71,6 +69,15 @@ module RecurringMeetings
       update_future_occurrence_titles(recurring_meeting)
 
       call
+    end
+
+    # Not should_reschedule?, which is false when the series has no next occurrence. An update
+    # that shortened a series into the past must still tell the participants.
+    # RecurringMeetings::EndService is the exception. It sends its own ended_series mail after
+    # this call, thus a mail from here would arrive twice.
+    def send_updated_mail?(recurring_meeting)
+      recurring_meeting.reschedule_required?(previous: true) &&
+        contract_class != RecurringMeetings::EndSeriesContract
     end
 
     # Updating this series will replace and rewrite occurrences. IF we need to start
@@ -239,24 +246,24 @@ module RecurringMeetings
     # RFC 5546 3.2.2 permits one UID per REQUEST, thus the schedule that ended needs its own
     # message. It goes first, so the client sees the end before the new series starts.
     def send_historic_schedule_mail(recurring_meeting, participant)
-      predecessor = recurring_meeting.ical_predecessor
+      historic = recurring_meeting.last_historic_schedule
       # A person who joined after the change never had the old series. A REQUEST for it would
       # add a block of meetings that they never attended.
-      return if participant.created_at >= predecessor.rotated_at
+      return if participant.created_at > historic.created_at
 
       MeetingSeriesMailer.updated(
         recurring_meeting,
         participant.user,
         User.current,
-        changes: historic_schedule_changes(predecessor, participant.user),
+        changes: historic_schedule_changes(historic, participant.user),
         historic_schedule: true
       ).deliver_now
     end
 
     # The mail for the schedule that ended shows the same wording as any other update. Its "new"
     # side is the old schedule with an end date, thus the reader sees what changed for it.
-    def historic_schedule_changes(predecessor, recipient)
-      ended = ended_schedule_model(predecessor)
+    def historic_schedule_changes(historic, recipient)
+      ended = ended_schedule_model(historic)
 
       User.execute_as(recipient) do
         {
@@ -270,12 +277,12 @@ module RecurringMeetings
 
     # A fresh record, not a dup of @old_schedule_model, which memoizes its schedule as soon as
     # anything asks it for words.
-    def ended_schedule_model(predecessor)
+    def ended_schedule_model(historic)
       RecurringMeeting
         .new(@old_schedule_model.attributes.slice(*schedule_columns))
         .tap do |ended|
           ended.end_after = :specific_date
-          ended.end_date = predecessor.ends_at.in_time_zone(predecessor.time_zone).to_date
+          ended.end_date = historic.ends_at.in_time_zone(historic.time_zone).to_date
         end
     end
 

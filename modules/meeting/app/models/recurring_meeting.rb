@@ -116,6 +116,12 @@ class RecurringMeeting < ApplicationRecord
            inverse_of: :recurring_meeting,
            dependent: :destroy
 
+  has_many :historic_schedules,
+           -> { order(id: :asc) },
+           class_name: "RecurringMeetings::HistoricSchedule",
+           inverse_of: :recurring_meeting,
+           dependent: :destroy
+
   scope :visible, ->(*args) {
     includes(:project)
       .references(:projects)
@@ -325,13 +331,8 @@ class RecurringMeeting < ApplicationRecord
     increment!(:ical_sequence)
   end
 
-  def ical_predecessor
-    ICalPredecessor.load(ical_predecessor_uid, ical_predecessor_snapshot)
-  end
-
-  def ical_predecessor=(predecessor)
-    self.ical_predecessor_uid = predecessor&.uid
-    self.ical_predecessor_snapshot = predecessor&.dump
+  def last_historic_schedule
+    historic_schedules.last
   end
 
   def scheduled_occurrences(limit:, from_time: Time.current)

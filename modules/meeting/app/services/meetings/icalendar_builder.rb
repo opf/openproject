@@ -134,14 +134,14 @@ module Meetings
     # RFC 5546 3.2.2 allows only one UID per REQUEST, so we need to actually send out separate mails for this.
     # This matches the behavior of other cross-service series schedule changes.
     def historic_schedule_event(recurring_meeting:) # rubocop:disable Metrics/AbcSize
-      predecessor = recurring_meeting.ical_predecessor
-      return if predecessor.nil?
+      historic = recurring_meeting.last_historic_schedule
+      return if historic.nil?
 
-      timezone = predecessor.time_zone
+      timezone = historic.time_zone
 
       calendar.event do |e|
-        e.uid = predecessor.uid
-        e.summary = predecessor.summary
+        e.uid = historic.uid
+        e.summary = historic.summary
 
         url = url_helpers.recurring_meeting_url(recurring_meeting)
         e.url = url
@@ -149,21 +149,21 @@ module Meetings
         e.organizer = ical_organizer
 
         e.created = recurring_meeting.template.created_at.utc
-        e.last_modified = predecessor.rotated_at.utc
-        e.sequence = predecessor.sequence
+        e.last_modified = historic.created_at.utc
+        e.sequence = historic.sequence
 
-        e.rrule = predecessor.rrule
-        e.dtstart = ical_datetime(predecessor.dtstart, timezone:)
-        e.dtend = ical_datetime(predecessor.dtend, timezone:)
-        e.location = predecessor.location.presence
+        e.rrule = historic.rrule
+        e.dtstart = ical_datetime(historic.dtstart, timezone:)
+        e.dtend = ical_datetime(historic.dtend, timezone:)
+        e.location = historic.location.presence
         e.status = "CONFIRMED"
 
-        # RRULE;UNTIL expands each old slot again, thus a slot that was cancelled comes back
-        # unless it stays excluded.
-        e.exdate = predecessor.exdates.map { ical_datetime(it, timezone:) }
+        # include the exdate rules in that old series to make sure that
+        # exception times stay where they were before
+        e.exdate = historic.exdates.map { ical_datetime(it, timezone:) }
 
-        # The last instance closes the window that build_timezones has to cover.
-        all_times[timezone].push(predecessor.ends_at.in_time_zone(timezone))
+        # The last occurrence will act as the until/end date of the old series
+        all_times[timezone].push(historic.ends_at.in_time_zone(timezone))
 
         add_attendees(event: e, meeting: recurring_meeting.template, rsvp: false)
       end
