@@ -37,6 +37,10 @@
       align_items: :center,
       classes: grid_modifier_class("item")
     ) do |grid|
+      grid.with_area(:"drag-handle", tag: :div, classes: "hide-when-print") do
+        render(Primer::OpenProject::DragHandle.new)
+      end
+
       grid.with_area(:name, tag: :div, classes: "ellipsis") do
         flex_layout(align_items: :center) do |flex|
           flex.with_column(mr: 2) do
