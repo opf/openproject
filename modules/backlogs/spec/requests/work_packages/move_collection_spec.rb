@@ -230,6 +230,17 @@ RSpec.describe "Backlogs collection move", :skip_csrf, type: :rails_request do
       expect(sprint.work_packages_for(project).pluck(:id))
         .to eq [sprint_wp1.id, sprint_wp2.id, sprint_wp3.id]
     end
+
+    it "names the work package that refused the move", with_ee: %i[readonly_work_packages] do
+      readonly_status = create(:status, :readonly)
+      sprint_wp3.update_columns(status_id: readonly_status.id)
+
+      move_collection(ids: [sprint_wp2.id, sprint_wp3.id], list_type: "backlog_bucket", list_id: bucket.id,
+                      prev_id: "", optimistic: true)
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.body).to include(ERB::Util.html_escape(sprint_wp3.reload.to_fs(:caption)))
+    end
   end
 
   describe "invisibility after move" do

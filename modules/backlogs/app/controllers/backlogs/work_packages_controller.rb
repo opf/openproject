@@ -156,11 +156,24 @@ module Backlogs
         render_invisible_after_move_batch_flash(call.result)
       else
         render_error_flash_message_via_turbo_stream(
-          message: I18n.t(:notice_unsuccessful_update_with_reason, reason: call.message)
+          message: I18n.t(:notice_unsuccessful_update_with_reason, reason: batch_failure_reason(call))
         )
       end
 
       respond_with_turbo_streams(status: call)
+    end
+
+    # A member failure is reported with the member: the batch's own message
+    # is empty then, and the flash would not say which work package refused.
+    def batch_failure_reason(call)
+      failed = call.dependent_results.find(&:failure?)
+      return call.message unless failed
+
+      work_package = failed.result
+      return failed.message unless work_package.is_a?(WorkPackage)
+
+      t("backlogs.work_packages.move_collection.member_failed",
+        work_package: work_package.to_fs(:caption), reason: failed.message)
     end
 
     def optimistic_same_list_batch_move?(call, source_targets)
