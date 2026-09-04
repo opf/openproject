@@ -170,7 +170,7 @@ module Projects
                       end
 
             menu.with_item(label: t("types.index.convert_to_global"), **trigger) do |entry|
-              entry.with_leading_visual_icon(icon: :"git-compare")
+              entry.with_leading_visual_icon(icon: :"stack-check")
             end
           end
 
