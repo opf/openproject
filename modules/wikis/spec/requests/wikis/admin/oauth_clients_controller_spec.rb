@@ -138,6 +138,63 @@ RSpec.describe "Admin wiki OAuth clients", :skip_csrf, type: :rails_request do
       it "updates the oauth client credentials" do
         expect(wiki_provider.reload.oauth_client.client_id).to eq("new-id")
       end
+
+      it "re-renders the redirect uri with the new client id" do
+        expect(response.body).to include(wiki_provider.reload.oauth_client.redirect_uri)
+      end
+
+      it "targets both the oauth client and the redirect uri rows" do
+        expect(response.body).to include('target="wiki_provider_oauth_client_section"',
+                                         'target="wiki_provider_redirect_uri_section"')
+      end
+    end
+  end
+
+  describe "GET /admin/settings/wiki_providers/:wiki_provider_id/oauth_client/show_redirect_uri" do
+    let!(:oauth_client) { create(:oauth_client, integration: wiki_provider) }
+    let(:send_request) do
+      get show_redirect_uri_admin_settings_wiki_provider_oauth_client_path(wiki_provider), headers: turbo_headers
+    end
+
+    it_behaves_like "an admin-only endpoint"
+
+    context "when admin" do
+      before do
+        login_as admin
+        send_request
+      end
+
+      it_behaves_like "a turbo stream response"
+
+      it "renders the redirect uri" do
+        expect(response.body).to include(oauth_client.redirect_uri)
+      end
+    end
+  end
+
+  describe "POST /admin/settings/wiki_providers/:wiki_provider_id/oauth_client/finish_setup" do
+    let!(:oauth_client) { create(:oauth_client, integration: wiki_provider) }
+    let(:send_request) do
+      post finish_setup_admin_settings_wiki_provider_oauth_client_path(wiki_provider)
+    end
+
+    it_behaves_like "an admin-only endpoint"
+
+    context "when admin" do
+      before do
+        login_as admin
+        send_request
+      end
+
+      it "redirects to the wiki provider edit page" do
+        expect(response).to redirect_to(edit_admin_settings_wiki_provider_path(wiki_provider))
+      end
+
+      it "sets a success flash" do
+        expect(flash[:op_primer_flash]).to eq(
+          { message: I18n.t("wikis.admin.wiki_providers.successful_setup"), scheme: :success }
+        )
+      end
     end
   end
 end
