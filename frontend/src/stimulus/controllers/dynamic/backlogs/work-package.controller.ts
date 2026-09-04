@@ -73,14 +73,14 @@ export default class WorkPackageController extends Controller<HTMLElement> imple
       this.clickTimeout = null;
     }
 
-    // A cached page must not come back with a pressed card.
-    this.element.removeAttribute('data-activating');
+    // A card that reconnects must not come back pressed.
+    this.unmarkAsActivating();
   }
 
   private syncCurrentFromUrl(locationUrl:string):void {
     // However the visit resolved, the pressed state hands over to
     // aria-current or to nothing.
-    this.element.removeAttribute('data-activating');
+    this.unmarkAsActivating();
 
     const { pathname } = new URL(locationUrl, window.location.origin);
     const [, id] = DETAILS_URL_PATTERN.exec(pathname) ?? [];
@@ -107,6 +107,14 @@ export default class WorkPackageController extends Controller<HTMLElement> imple
     this.element.removeAttribute('aria-current');
   }
 
+  markAsActivating():void {
+    this.element.setAttribute('data-activating', '');
+  }
+
+  unmarkAsActivating():void {
+    this.element.removeAttribute('data-activating');
+  }
+
   handleEvent(event:Event):void {
     switch (event.type) {
       case 'click':
@@ -129,7 +137,7 @@ export default class WorkPackageController extends Controller<HTMLElement> imple
 
     if (this.clickTimeout !== null) return;
 
-    this.element.setAttribute('data-activating', '');
+    this.markAsActivating();
     this.clickTimeout = window.setTimeout(() => {
       this.clickTimeout = null;
       this.openSplitPane();
@@ -145,7 +153,7 @@ export default class WorkPackageController extends Controller<HTMLElement> imple
     if (this.clickTimeout !== null) {
       clearTimeout(this.clickTimeout);
       this.clickTimeout = null;
-      this.element.removeAttribute('data-activating');
+      this.unmarkAsActivating();
     }
 
     this.openFullPane();
@@ -161,7 +169,7 @@ export default class WorkPackageController extends Controller<HTMLElement> imple
 
     event.preventDefault();
 
-    this.element.setAttribute('data-activating', '');
+    this.markAsActivating();
     if (event.shiftKey) {
       this.openFullPane();
     } else {

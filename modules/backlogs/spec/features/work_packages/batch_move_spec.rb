@@ -133,6 +133,75 @@ RSpec.describe "Backlogs batch move", :js, :selenium, :settings_reset do
       .to eq [sprint_wp3.id, sprint_wp1.id, sprint_wp2.id]
   end
 
+  it "moves a batch into an empty list" do
+    empty_sprint = create(:sprint, project:, name: "Empty sprint")
+    backlogs_page.visit!
+    backlogs_page.toggle_card(sprint_wp1)
+    backlogs_page.toggle_card(sprint_wp3)
+
+    backlogs_page.drag_work_package(sprint_wp1, into: empty_sprint)
+
+    backlogs_page.expect_sprint_items_in_order(empty_sprint, items: [sprint_wp1, sprint_wp3])
+    wait_for { empty_sprint.work_packages_for(project).pluck(:id) }.to eq [sprint_wp1.id, sprint_wp3.id]
+  end
+
+  it "moves a batch to the top of a list" do
+    backlogs_page.toggle_card(bucket_wp1)
+    backlogs_page.toggle_card(bucket_wp2)
+
+    backlogs_page.drag_work_package(bucket_wp1, before: sprint_wp1)
+
+    backlogs_page.expect_sprint_items_in_order(sprint, items: [bucket_wp1, bucket_wp2, sprint_wp1, sprint_wp2, sprint_wp3]
+    )
+    wait_for { sprint.work_packages_for(project).pluck(:id) }
+      .to eq [bucket_wp1.id, bucket_wp2.id, sprint_wp1.id, sprint_wp2.id, sprint_wp3.id]
+  end
+
+  it "moves every card of a list selected with Ctrl/Cmd+A" do
+    backlogs_page.send_work_package_card_keys(sprint_wp1, [backlogs_page.multi_select_modifier, "a"])
+    expect(backlogs_page.selected_card_ids).to match_array([sprint_wp1, sprint_wp2, sprint_wp3].map { it.id.to_s })
+
+    backlogs_page.drag_work_package(sprint_wp2, after: bucket_wp1)
+
+    backlogs_page.expect_bucket_items_in_order(bucket, items: [bucket_wp1, sprint_wp1, sprint_wp2, sprint_wp3, bucket_wp2]
+    )
+    wait_for { WorkPackage.where(backlog_bucket: bucket).order(:position).pluck(:id) }
+      .to eq [bucket_wp1.id, sprint_wp1.id, sprint_wp2.id, sprint_wp3.id, bucket_wp2.id]
+    expect(backlogs_page.selected_card_ids).to be_empty
+  end
+
+  # TRUNCATE_MIDDLE stubbed to 2 makes the tail 1 card, so only
+  # inbox_wps[0..1] and inbox_wps[4] render; inbox_wps[2..3] sit behind the
+  # fold. A drop before the first visible row past the marker (inbox_wps[4])
+  # anchors on the last hidden card the marker names (inbox_wps[3]), landing
+  # right after it.
+  context "with a truncated inbox" do
+    let!(:inbox_wps) { create_list(:work_package, 5, project:, type:) }
+
+    before do
+      stub_const("Backlogs::InboxComponent::TRUNCATE_MIDDLE", 2)
+      backlogs_page.visit!
+    end
+
+    it "drops a batch behind the fold" do
+      backlogs_page.expect_inbox_show_more
+      backlogs_page.toggle_card(sprint_wp1)
+      backlogs_page.toggle_card(sprint_wp2)
+
+      backlogs_page.drag_work_package(sprint_wp1, before: inbox_wps[4])
+
+      # The move lands mid-fold: the truncated view still shows only
+      # inbox_wps[0], inbox_wps[1] and inbox_wps[4], unchanged from before the
+      # drag. Expanding is the only way to observe the new order in the DOM.
+      backlogs_page.click_inbox_show_more
+      backlogs_page.expect_inbox_items_in_order(items: [inbox_wps[0], inbox_wps[1], inbox_wps[2], inbox_wps[3], sprint_wp1, sprint_wp2, inbox_wps[4]]
+      )
+      wait_for { WorkPackage.where(project:, sprint_id: nil, backlog_bucket_id: nil).order(:position).pluck(:id) }
+        .to eq [inbox_wps[0].id, inbox_wps[1].id, inbox_wps[2].id, inbox_wps[3].id,
+                sprint_wp1.id, sprint_wp2.id, inbox_wps[4].id]
+    end
+  end
+
   describe "with a batch-mate confined to another list", with_ee: %i[readonly_work_packages] do
     let!(:readonly_status) { create(:status, :readonly) }
     let!(:other_sprint) { create(:sprint, project:) }
