@@ -41,8 +41,8 @@ module McpTools
       required: %w[id data],
       properties: {
         id: {
-          type: :number,
-          description: "The ID of the work package that shall be updated."
+          type: %w[string number],
+          description: "The identifier of the work package that shall be updated."
         },
         data: {
           type: %w[object],
@@ -66,7 +66,7 @@ module McpTools
     )
 
     def call(id:, data:)
-      work_package = WorkPackage.visible(current_user).find_by(id:)
+      work_package = WorkPackage.visible(current_user).find_by_display_id(id)
       return Failure("The given work package could not be found.") if work_package.nil?
 
       attributes = parse_work_package(data).on_failure { |result| return Failure(result.message) }.result
