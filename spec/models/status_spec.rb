@@ -140,4 +140,55 @@ RSpec.describe Status do
               .to(false)
     end
   end
+
+  describe ".in_workflow" do
+    shared_let(:task) { create(:type, name: "Task") }
+    shared_let(:bug) { create(:type, name: "Bug") }
+    shared_let(:manager) { create(:project_role, name: "Manager") }
+    shared_let(:member) { create(:project_role, name: "Member") }
+
+    shared_let(:new_status) { create(:status, name: "New") }
+    shared_let(:in_progress) { create(:status, name: "In progress") }
+    shared_let(:rejected) { create(:status, name: "Rejected") }
+    shared_let(:unused) { create(:status, name: "Unused") }
+
+    shared_let(:task_manager_transition) do
+      create(:workflow, type: task, role: manager, old_status: new_status, new_status: in_progress)
+    end
+    shared_let(:bug_member_transition) do
+      create(:workflow, type: bug, role: member, old_status: rejected, new_status: new_status)
+    end
+
+    it "returns statuses on either side of a transition" do
+      expect(described_class.in_workflow(type_ids: [task.id], role_ids: [manager.id]))
+        .to contain_exactly(new_status, in_progress)
+    end
+
+    it "returns every status when no type and no role is given" do
+      expect(described_class.in_workflow(type_ids: [], role_ids: []))
+        .to contain_exactly(new_status, in_progress, rejected, unused)
+    end
+
+    it "filters on the type alone when no role is given" do
+      expect(described_class.in_workflow(type_ids: [bug.id], role_ids: []))
+        .to contain_exactly(rejected, new_status)
+    end
+
+    it "filters on the role alone when no type is given" do
+      expect(described_class.in_workflow(type_ids: [], role_ids: [manager.id]))
+        .to contain_exactly(new_status, in_progress)
+    end
+
+    it "unions the selected types and roles" do
+      expect(described_class.in_workflow(type_ids: [task.id, bug.id], role_ids: [manager.id, member.id]))
+        .to contain_exactly(new_status, in_progress, rejected)
+    end
+
+    it "matches a type and a role only when the same workflow pairs them" do
+      # Task/Manager and Bug/Member exist; Task/Member does not, so nothing matches it
+      # even though both sides are used elsewhere.
+      expect(described_class.in_workflow(type_ids: [task.id], role_ids: [member.id]))
+        .to be_empty
+    end
+  end
 end

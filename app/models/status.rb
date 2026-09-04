@@ -51,6 +51,20 @@ class Status < ApplicationRecord
 
   scope :visible, ->(user = User.current) { user.allowed_in_any_project?(:view_work_packages) ? all : none }
 
+  # Statuses have no type or role of their own: they relate to both only through the
+  # workflow transitions naming them. Type and role therefore narrow a single set of
+  # transitions rather than filtering independently, so that selecting Task and Member
+  # matches only statuses of the Task/Member workflow.
+  scope :in_workflow, ->(type_ids:, role_ids:) do
+    next all if type_ids.blank? && role_ids.blank?
+
+    transitions = Workflow.all
+    transitions = transitions.where(type_variant: TypeVariant.where(type_id: type_ids)) if type_ids.present?
+    transitions = transitions.where(role_id: role_ids) if role_ids.present?
+
+    where(id: transitions.select(:old_status_id)).or(where(id: transitions.select(:new_status_id)))
+  end
+
   def unmark_old_default_value
     Status.where.not(id:).update_all(is_default: false)
   end

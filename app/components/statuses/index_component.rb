@@ -35,6 +35,8 @@ module Statuses
     include OpTurbo::Streamable
 
     options :statuses
+    options :type_ids
+    options :role_ids
     options :page_args
 
     private
@@ -43,6 +45,18 @@ module Statuses
     def max_position
       Status.maximum(:position)
     end
+
+    def types
+      @types ||= ::Type.order(:position)
+    end
+
+    def roles
+      @roles ||= Workflow.eligible_roles.order(Arel.sql("builtin, position"))
+    end
+
+    def selected_types = types.select { |type| type_ids.include?(type.id) }
+
+    def selected_roles = roles.select { |role| role_ids.include?(role.id) }
 
     def show_done_ratio?
       WorkPackage.status_based_mode?
@@ -53,18 +67,32 @@ module Statuses
     end
 
     def empty_state_title
-      t("statuses.index.no_results_title_text")
+      if reorderable?
+        t("statuses.index.no_results_title_text")
+      else
+        t("statuses.index.no_filter_results_title_text")
+      end
     end
 
     def empty_state_description
-      t("statuses.index.no_results_content_text")
+      t("statuses.index.no_results_content_text") if reorderable?
+    end
+
+    # Positions are global while a filtered list shows a subset, so a drop would
+    # resolve against neighbours the list does not display.
+    def reorderable?
+      type_ids.blank? && role_ids.blank?
     end
 
     def wrapper_data_attributes
+      return {} unless reorderable?
+
       { controller: "generic-drag-and-drop" }
     end
 
     def drop_target_config
+      return {} unless reorderable?
+
       {
         generic_drag_and_drop_target: "container",
         "target-container-accessor": ":scope > ul",
@@ -73,6 +101,8 @@ module Statuses
     end
 
     def draggable_item_config(status)
+      return {} unless reorderable?
+
       {
         "draggable-id": status.id,
         "draggable-type": "status",

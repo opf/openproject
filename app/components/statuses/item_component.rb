@@ -36,6 +36,7 @@ module Statuses
 
     options :status
     options :max_position
+    options :reorderable
     options :page_args
 
     private
@@ -73,6 +74,8 @@ module Statuses
     def build_status_menu(menu)
       with_item_group(menu) { edit_status(menu) }
       with_item_group(menu) do
+        next unless reorderable
+
         unless first_item?
           move_status(menu, :highest, I18n.t(:label_sort_highest), "move-to-top")
           move_status(menu, :higher, I18n.t(:label_sort_higher), "chevron-up")

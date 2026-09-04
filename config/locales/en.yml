@@ -6240,10 +6240,18 @@ en:
         <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
     index:
       could_not_be_moved: "Status could not be moved."
+      filter:
+        all_roles: "All roles"
+        all_types: "All types"
+        by_role: "Filter by role"
+        by_type: "Filter by type"
+        roles: "%{count} roles"
+        types: "%{count} types"
       headers:
         is_closed: "Closed"
         is_default: "Default"
         is_readonly: "Read-only"
+      no_filter_results_title_text: "No status matches the current filter."
       no_results_content_text: Add a new status
       no_results_title_text: There are currently no work package statuses.
       status_actions: "Status actions"

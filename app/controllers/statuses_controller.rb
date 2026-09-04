@@ -38,6 +38,8 @@ class StatusesController < ApplicationController
 
   def index
     @statuses = paginated_statuses
+    @type_ids = filter_type_ids
+    @role_ids = filter_role_ids
     @page_args = page_args
   end
 
@@ -101,15 +103,29 @@ class StatusesController < ApplicationController
   protected
 
   def index_component
-    Statuses::IndexComponent.new(statuses: paginated_statuses, page_args:)
+    Statuses::IndexComponent.new(statuses: paginated_statuses,
+                                 type_ids: filter_type_ids,
+                                 role_ids: filter_role_ids,
+                                 page_args:)
   end
 
   def paginated_statuses
-    Status.page(page_param).per_page(per_page_param)
+    Status
+      .in_workflow(type_ids: filter_type_ids, role_ids: filter_role_ids)
+      .page(page_param)
+      .per_page(per_page_param)
   end
 
   def page_args
     { page: page_param, per_page: per_page_param }
+  end
+
+  def filter_type_ids
+    Array(params[:type_ids]).map(&:to_i)
+  end
+
+  def filter_role_ids
+    Array(params[:role_ids]).map(&:to_i)
   end
 
   def move_params

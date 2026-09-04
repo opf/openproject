@@ -79,6 +79,29 @@ RSpec.describe "Statuses", :skip_csrf, type: :rails_request do
         expect(response.body).to include(*statuses.map(&:name))
       end
     end
+
+    context "with a type and role filter" do
+      shared_let(:task) { create(:type, name: "Task") }
+      shared_let(:manager) { create(:project_role, name: "Manager") }
+      shared_let(:listed) { create(:status, name: "Listed status") }
+      shared_let(:unlisted) { create(:status, name: "Unlisted status") }
+      shared_let(:transition) do
+        create(:workflow, type: task, role: manager, old_status: listed, new_status: listed)
+      end
+
+      it "lists only the statuses of the matching workflow" do
+        get statuses_path(type_ids: [task.id], role_ids: [manager.id])
+
+        expect(response.body).to include("Listed status")
+        expect(response.body).not_to include("Unlisted status")
+      end
+
+      it "lists every status when the selection is empty" do
+        get statuses_path(type_ids: [], role_ids: [])
+
+        expect(response.body).to include("Listed status", "Unlisted status")
+      end
+    end
   end
 
   describe "PUT /statuses/:id/move" do

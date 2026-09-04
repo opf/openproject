@@ -54,8 +54,20 @@ module Pages
         end
       end
 
-      def drag_status(from_index:, to_index:)
-        drag_and_drop_list(from: from_index, to: to_index, elements: row_selector, handler: ".DragHandle")
+      def filter_by_type(*types)
+        apply_quick_filter("type-quick-filter", types)
+      end
+
+      def filter_by_role(*roles)
+        apply_quick_filter("role-quick-filter", roles)
+      end
+
+      def apply_quick_filter(selector, records)
+        within_test_selector(selector) do
+          find("button[id$='-button']").click
+          records.each { |record| find("[data-item-id='#{record.id}']").click }
+          click_on I18n.t(:button_apply)
+        end
       end
 
       def go_to_page(number)
@@ -64,6 +76,14 @@ module Pages
 
       def set_page_size(size)
         within(".op-pagination--options") { click_on size.to_s }
+      end
+
+      def expect_no_reordering
+        expect(page).to have_no_css(".DragHandle")
+      end
+
+      def drag_status(from_index:, to_index:)
+        drag_and_drop_list(from: from_index, to: to_index, elements: row_selector, handler: ".DragHandle")
       end
 
       private

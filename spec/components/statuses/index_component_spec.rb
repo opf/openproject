@@ -33,10 +33,12 @@ require "rails_helper"
 RSpec.describe Statuses::IndexComponent, type: :component do
   subject(:rendered_component) do
     with_request_url("/statuses") do
-      render_inline(described_class.new(statuses:, page_args:))
+      render_inline(described_class.new(statuses:, type_ids:, role_ids:, page_args:))
     end
   end
 
+  let(:type_ids) { [] }
+  let(:role_ids) { [] }
   let(:page_args) { { page: 1, per_page: 20 } }
   let(:statuses) { relation.page(page_args[:page]).per_page(page_args[:per_page]) }
 
@@ -123,6 +125,37 @@ RSpec.describe Statuses::IndexComponent, type: :component do
 
       expect(rendered_component).to have_css("#{row} button", text: "Move down")
       expect(rendered_component).to have_css("#{row} button", text: "Move to bottom")
+    end
+  end
+
+  describe "the role filter", with_ee: %i[work_package_sharing] do
+    let!(:project_role) { create(:project_role, name: "Manager") }
+    let!(:work_package_editor) { create(:edit_work_package_role) }
+    let(:relation) { Status.none }
+
+    it "offers every role a workflow can be defined for" do
+      expect(rendered_component).to have_css("[data-item-id='#{project_role.id}']")
+      expect(rendered_component).to have_css("[data-item-id='#{work_package_editor.id}']")
+    end
+  end
+
+  context "when filtered" do
+    let!(:new_status) { create(:status, name: "New") }
+    let(:relation) { Status.where(id: new_status.id) }
+    let(:type_ids) { [create(:type).id] }
+
+    it "offers no reordering, since positions are global and the list is a subset" do
+      expect(rendered_component).to have_no_css("[data-generic-drag-and-drop-target='container']")
+      expect(rendered_component).to have_no_css(".Box-row[data-draggable-type='status']")
+    end
+
+    context "when the filter matches nothing" do
+      let(:relation) { Status.none }
+
+      it "says the filter came up empty rather than that no status exists" do
+        expect(rendered_component).to have_text("No status matches the current filter.")
+        expect(rendered_component).to have_no_text("There are currently no work package statuses.")
+      end
     end
   end
 

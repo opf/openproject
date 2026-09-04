@@ -34,12 +34,13 @@ RSpec.describe Statuses::ItemComponent, type: :component do
   subject(:rendered_component) do
     with_request_url("/statuses") do
       render_inline(
-        described_class.new(status:, max_position: status.position + 1, page_args:)
+        described_class.new(status:, max_position: status.position + 1, reorderable:, page_args:)
       )
     end
   end
 
   let(:status) { create(:status, name: "In progress", default_done_ratio: 40) }
+  let(:reorderable) { true }
   let(:page_args) { { page: 1, per_page: 20 } }
 
   it "renders the status name as a link to its edit page" do
@@ -104,6 +105,24 @@ RSpec.describe Statuses::ItemComponent, type: :component do
     context "in work-based progress mode", with_settings: { work_package_done_ratio: "field" } do
       it "omits % Complete, which has no effect in that mode" do
         expect(rendered_component).to have_no_test_selector("done-ratio")
+      end
+    end
+  end
+
+  describe "reordering" do
+    it "offers a drag handle and move actions" do
+      expect(rendered_component).to have_css(".DragHandle")
+      expect(rendered_component).to have_button("Move to bottom")
+    end
+
+    context "when reordering is not offered" do
+      let(:reorderable) { false }
+
+      it "drops the drag handle and the move actions, keeping edit and delete" do
+        expect(rendered_component).to have_no_css(".DragHandle")
+        expect(rendered_component).to have_no_button("Move to bottom")
+        expect(rendered_component).to have_link("Edit")
+        expect(rendered_component).to have_button("Delete")
       end
     end
   end
