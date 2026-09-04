@@ -36,7 +36,29 @@ module WorkPackageTypes
       DATE = ->(v) { v&.strftime(Setting.date_format || "%Y-%m-%d") }
       DURATION = ->(v) { DurationConverter.output(v) }
 
+      class StaticAttributeDSL
+        def initialize(context:, label_model:)
+          @context = context
+          @label_model = label_model
+        end
+
+        def add(key, value_fn, formatter = STRING_OR_NIL, label: key)
+          label_fn = label
+          unless label_fn.respond_to?(:call)
+            raise ArgumentError, "label must be passed as function when no label_model is provided" if @label_model.nil?
+
+            label_fn = -> { @label_model.human_attribute_name(label) }
+          end
+
+          TokenPropertyMapper.add_static_attribute(key, @context, label_fn, value_fn, formatter)
+        end
+      end
+
       class << self
+        def configure_static_attributes(context:, label_model: nil, &)
+          StaticAttributeDSL.new(context:, label_model:).instance_exec(&)
+        end
+
         def add_static_attribute(key, context, label_fn, value_fn, formatter = STRING_OR_NIL)
           static_tokens << AttributeToken.new(key, context, label_fn, value_fn, formatter)
         end
