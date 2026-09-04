@@ -28,19 +28,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackages
-  module ActivitiesTab
-    module CommentAttachmentsClaims
-      class SetAttributesService < ::BaseServices::SetAttributes
-        include ::Attachments::SetReplacements
+module Attachments
+  module ClaimableIdsFromText
+    REFERENCE_REGEX = %r{/attachments/(\d+)/content}
 
-        def perform
-          claimable_ids = Attachments::ClaimableIdsFromText.call(model.notes, user: User.current, container: model)
+    module_function
 
-          self.params = params.reverse_merge(attachment_ids: claimable_ids)
-          super
-        end
-      end
+    def call(text, user:, container: nil)
+      ids = text.to_s.scan(REFERENCE_REGEX).flatten.map(&:to_i).uniq
+      return [] if ids.empty?
+
+      claimable_scope(container).where(id: ids, author: user).pluck(:id)
+    end
+
+    def claimable_scope(container)
+      uncontainered = Attachment.where(container: nil)
+      return uncontainered if container.nil? || container.new_record?
+
+      uncontainered.or(Attachment.where(container:))
     end
   end
 end

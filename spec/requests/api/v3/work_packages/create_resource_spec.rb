@@ -528,6 +528,90 @@ RSpec.describe "API v3 Work package resource",
       end
     end
 
+    context "when attachments are referenced in the description" do
+      let(:attachment) { create(:attachment, container: nil, author: current_user) }
+      let(:parameters) do
+        {
+          subject: "subject",
+          description: {
+            raw: %(<img class="op-uc-image" src="/api/v3/attachments/#{attachment.id}/content">)
+          },
+          _links: {
+            type: {
+              href: api_v3_paths.type(project.enabled_types.first.id)
+            },
+            project: {
+              href: api_v3_paths.project(project.id)
+            },
+            attachments: []
+          }
+        }
+      end
+
+      it "creates the work package, claims the attachment and journals it" do
+        expect(last_response).to have_http_status(:created)
+
+        work_package = WorkPackage.last
+        expect(work_package.attachments).to match_array(attachment)
+        expect(attachment.reload.container).to eq(work_package)
+        expect(work_package.journals.first.attachable_journals.map(&:attachment_id))
+          .to contain_exactly(attachment.id)
+      end
+
+      context "and the referenced attachment belongs to another user" do
+        let(:attachment) { create(:attachment, container: nil, author: create(:user)) }
+
+        it "creates the work package without claiming the attachment" do
+          expect(last_response).to have_http_status(:created)
+
+          expect(WorkPackage.last.attachments).to be_empty
+          expect(attachment.reload.container).to be_nil
+        end
+      end
+
+      context "and the referenced attachment is already containered in another work package" do
+        let(:attachment) do
+          create(:attachment, container: create(:work_package, project:), author: current_user)
+        end
+
+        it "creates the work package without claiming the attachment" do
+          expect(last_response).to have_http_status(:created)
+
+          expect(WorkPackage.last.attachments).to be_empty
+          expect(attachment.reload.container).not_to eq(WorkPackage.last)
+        end
+      end
+
+      context "and attachment_ids explicitly names another attachment" do
+        let(:explicitly_claimed_attachment) { create(:attachment, container: nil, author: current_user) }
+        let(:parameters) do
+          {
+            subject: "subject",
+            description: {
+              raw: %(<img class="op-uc-image" src="/api/v3/attachments/#{attachment.id}/content">)
+            },
+            _links: {
+              type: {
+                href: api_v3_paths.type(project.enabled_types.first.id)
+              },
+              project: {
+                href: api_v3_paths.project(project.id)
+              },
+              attachments: [
+                { href: api_v3_paths.attachment(explicitly_claimed_attachment.id) }
+              ]
+            }
+          }
+        end
+
+        it "claims both the explicit and the description-referenced attachments" do
+          expect(last_response).to have_http_status(:created)
+
+          expect(WorkPackage.last.attachments).to contain_exactly(attachment, explicitly_claimed_attachment)
+        end
+      end
+    end
+
     context "when file links are being claimed" do
       let(:storage) { create(:nextcloud_storage) }
       let(:project_storage) { create(:project_storage, project:, storage:) }
