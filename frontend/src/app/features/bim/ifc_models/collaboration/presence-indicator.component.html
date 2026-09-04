@@ -1,0 +1,29 @@
+<div class="presence-indicator">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="presence-loading">
+    <op-icon icon-classes="icon-loading"></op-icon>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" class="presence-error" [title]="error">
+    <op-icon icon-classes="icon-error"></op-icon>
+  </div>
+
+  <!-- Loaded State -->
+  <div *ngIf="!loading && !error && presence" class="presence-content">
+    <div class="presence-avatars">
+      <div
+        *ngFor="let viewer of presence.viewers; let i = index"
+        class="user-avatar"
+        [class.user-avatar-stacked]="i > 0"
+        [style.background-color]="getUserColor(viewer.id)"
+        [title]="viewer.name + ' (' + viewer.login + ')'">
+        <span class="avatar-initials">{{ viewer.initials }}</span>
+      </div>
+    </div>
+
+    <span class="presence-count">
+      {{ getViewerText() }}
+    </span>
+  </div>
+</div>

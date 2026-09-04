@@ -1,0 +1,184 @@
+.federated-viewer
+  display: flex
+  flex-direction: column
+  height: 100%
+  width: 100%
+
+  .loading-state,
+  .error-state
+    display: flex
+    align-items: center
+    justify-content: center
+    padding: 2rem
+    gap: 1rem
+    color: var(--content-text-color)
+
+  .error-state
+    color: var(--content-form-danger-zone-bg-color)
+
+  .federation-content
+    display: flex
+    flex-direction: column
+    height: 100%
+    gap: 1rem
+
+  .discipline-panel
+    background: var(--body-background)
+    border: 1px solid var(--borderColor-default)
+    border-radius: 4px
+    padding: 1rem
+    max-height: 70vh
+    overflow-y: auto
+
+  .panel-header
+    display: flex
+    justify-content: space-between
+    align-items: center
+    margin-bottom: 1rem
+    padding-bottom: 0.5rem
+    border-bottom: 1px solid var(--borderColor-default)
+
+    h3
+      margin: 0
+      font-size: 1.1rem
+      font-weight: 600
+
+  .panel-actions
+    display: flex
+    gap: 0.5rem
+
+    .button
+      padding: 0.25rem 0.75rem
+      font-size: 0.875rem
+
+  .panel-stats
+    display: flex
+    gap: 1.5rem
+    margin-bottom: 1rem
+    padding: 0.5rem
+    background: var(--bgColor-muted)
+    border-radius: 3px
+
+    .stat-item
+      font-size: 0.875rem
+      color: var(--fgColor-muted)
+
+      strong
+        color: var(--fgColor-default)
+        font-weight: 600
+
+  .discipline-list
+    display: flex
+    flex-direction: column
+    gap: 0.75rem
+
+  .discipline-item
+    border: 1px solid var(--borderColor-default)
+    border-radius: 4px
+    padding: 0.75rem
+    transition: all 0.2s ease
+
+    &.discipline-hidden
+      opacity: 0.6
+      background: var(--bgColor-muted)
+
+  .discipline-header
+    display: flex
+    align-items: center
+    margin-bottom: 0.5rem
+
+  .discipline-toggle
+    display: flex
+    align-items: center
+    gap: 0.5rem
+    cursor: pointer
+    width: 100%
+
+    input[type="checkbox"]
+      cursor: pointer
+
+    .discipline-indicator
+      width: 16px
+      height: 16px
+      border-radius: 3px
+      border: 1px solid var(--borderColor-default)
+
+    .discipline-name
+      font-weight: 500
+      color: var(--fgColor-default)
+      flex: 1
+
+    .discipline-count
+      font-size: 0.875rem
+      color: var(--fgColor-muted)
+
+  .discipline-controls
+    display: flex
+    flex-direction: column
+    gap: 0.5rem
+    padding: 0.5rem 0
+    margin-top: 0.5rem
+    border-top: 1px solid var(--borderColor-muted)
+
+    .opacity-label
+      font-size: 0.875rem
+      color: var(--fgColor-muted)
+
+    .opacity-slider
+      width: 100%
+      cursor: pointer
+
+  .model-list
+    margin-top: 0.5rem
+    padding-top: 0.5rem
+    border-top: 1px solid var(--borderColor-muted)
+
+  .model-item
+    display: flex
+    align-items: center
+    gap: 0.5rem
+    padding: 0.375rem 0.5rem
+    font-size: 0.875rem
+    color: var(--fgColor-muted)
+    border-radius: 3px
+    transition: background 0.15s ease
+
+    &:hover
+      background: var(--bgColor-muted)
+
+    op-icon
+      flex-shrink: 0
+
+    .model-title
+      overflow: hidden
+      text-overflow: ellipsis
+      white-space: nowrap
+
+  .federation-info
+    background: var(--bgColor-muted)
+    border: 1px solid var(--borderColor-default)
+    border-radius: 4px
+    padding: 1rem
+
+    h4
+      margin: 0 0 0.75rem 0
+      font-size: 1rem
+      font-weight: 600
+      color: var(--fgColor-default)
+
+    .info-details
+      display: flex
+      flex-direction: column
+      gap: 0.5rem
+
+    .info-item
+      display: flex
+      gap: 0.5rem
+      font-size: 0.875rem
+
+      .info-label
+        font-weight: 500
+        color: var(--fgColor-muted)
+
+      .info-value
+        color: var(--fgColor-default)

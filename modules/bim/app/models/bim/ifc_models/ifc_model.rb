@@ -21,6 +21,16 @@ module Bim
 
       belongs_to :project
       belongs_to :uploader, class_name: "User"
+      has_one :ifc_model_metadata,
+              class_name: 'Bim::IfcModels::IfcModelMetadata',
+              dependent: :destroy
+
+      # Collaboration associations
+      has_many :viewer_presences, class_name: 'Bim::ViewerPresence', dependent: :destroy
+
+      # Federated Models associations
+      has_many :federation_models, class_name: 'Bim::FederationModel', dependent: :destroy
+      has_many :model_federations, through: :federation_models, class_name: 'Bim::ModelFederation'
 
       validates :title, presence: true
       validates :project, presence: true

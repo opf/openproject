@@ -1,0 +1,26 @@
+{
+  "slice": "model_comparison",
+  "mode": "deliberation",
+  "status": "complete",
+  "dependencies": {
+    "upstream": ["ifc_upload", "3d_viewer", "federated_models"],
+    "downstream": ["dashboards"]
+  },
+  "design_summary": "IFC version comparison detecting added/deleted/modified elements with geometry and property change tracking. Includes visual diff overlay and change reports.",
+  "estimated_loc": {
+    "backend": 600,
+    "frontend": 200,
+    "total": 800
+  },
+  "technologies": {
+    "new": [],
+    "existing": ["Metadata comparison algorithms"]
+  },
+  "database_tables": ["bim_model_comparisons"],
+  "api_endpoints": 4,
+  "test_coverage_target": "85%",
+  "estimated_duration_weeks": 2,
+  "risk_level": "medium",
+  "readiness": "blocked_by_ifc_upload_viewer_federations",
+  "next_action": "Wait for Slices 1, 2, 5 completion"
+}

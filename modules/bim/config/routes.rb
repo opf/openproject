@@ -27,6 +27,36 @@
 #++
 
 Rails.application.routes.draw do
+  # API v3 routes for BIM element links and templates
+  namespace :api do
+    namespace :v3 do
+      namespace :bim do
+        # Element links
+        resources :element_links, controller: "element_links", only: %i[index show create update destroy]
+
+        # Bulk operations for element links
+        namespace :element_links do
+          post :bulk_create, controller: "bulk_operations", action: :bulk_create
+          patch :bulk_update, controller: "bulk_operations", action: :bulk_update
+          post :bulk_delete, controller: "bulk_operations", action: :bulk_delete
+          post :bulk_status_change, controller: "bulk_operations", action: :bulk_status_change
+          post :apply_template, controller: "bulk_operations", action: :apply_template
+          post :create_work_packages, controller: "bulk_operations", action: :create_work_packages
+          post :refresh_properties, controller: "bulk_operations", action: :refresh_properties
+          post :find_matching, controller: "bulk_operations", action: :find_matching
+        end
+
+        # Link templates
+        resources :link_templates, controller: "link_templates", only: %i[index show create update destroy] do
+          member do
+            post :clone
+            get :statistics
+          end
+        end
+      end
+    end
+  end
+
   scope "", as: "bcf" do
     mount Bim::Bcf::API::Root => "/api/bcf"
 

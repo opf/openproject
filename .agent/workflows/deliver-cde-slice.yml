@@ -1,0 +1,49 @@
+# Workflow: deliver-cde-slice
+#
+# Lifecycle: slice-n-intake → slice-contract → implementation → contract-check
+#            → publication-gate-check → review → publish
+#
+# Each stage is a skill or rule in .agent/. The workflow just names the order
+# and the *done-ness contract* every slice must satisfy.
+
+stages:
+  - id: intake
+    description: Read the slice from cde-vertical-slices skill + spec. Confirm scope.
+    output: slice-n-intake note with capability list + preconditions.
+  - id: contract
+    skill: cde-slice-contract-check
+    description: Define the slice contract BEFORE writing code.
+    output: contract file listing the 7 artifacts that must exist.
+  - id: implement
+    description: Write UI / API / model / migration / permissions / audit / tests.
+  - id: check
+    skill: cde-slice-contract-check
+    description: Run contract-check; all 7 must PASS.
+  - id: gate
+    skill: cde-publication-precondition-gate
+    applies_to: [slice-6, slice-7, slice-10]
+    description: Verify publication/archive/state-transition preconditions.
+  - id: review
+    skill: cde-invariant-verifier
+    description: Domain invariants (immutability, single working revision, etc.) all PASS.
+  - id: publish
+    description: Merge. Convention version bumped if conventions changed.
+
+done_contract:
+  # A slice is DONE only when every one of these exists and is checked.
+  - ui
+  - api
+  - persistence
+  - authorization
+  - audit_events
+  - tests
+  - documentation
+
+gates:
+  publication: cde-publication-precondition-gate   # runs before merge of slice 6/7/10
+  invariants:  cde-invariant-verifier              # runs every slice
+
+audit:
+  # Every stage transition emits an audit event so governance dashboards have data.
+  emit_on_stage_change: true
+  append_only: true

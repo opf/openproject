@@ -1,0 +1,27 @@
+{
+  "slice": "clash_detection",
+  "mode": "deliberation",
+  "status": "complete",
+  "dependencies": {
+    "upstream": ["ifc_upload", "3d_viewer", "linking"],
+    "downstream": ["dashboards"]
+  },
+  "design_summary": "Lightweight geometric clash detection using parsed IFC geometry and spatial tolerance threshold. Includes hard/soft/duplicate clash types, clash matrix, auto work package creation, and visual highlighting.",
+  "estimated_loc": {
+    "ruby": 1200,
+    "python": 400,
+    "typescript": 200,
+    "total": 1800
+  },
+  "technologies": {
+    "new": ["ifcopenshell-python for geometry", "rtree (optional)"],
+    "existing": ["GoodJob for async processing"]
+  },
+  "database_tables": ["bim_clash_tests", "bim_clash_test_models", "bim_clashes"],
+  "api_endpoints": 8,
+  "test_coverage_target": "85%",
+  "estimated_duration_weeks": 3,
+  "risk_level": "medium-high",
+  "readiness": "blocked_by_ifc_upload_viewer_linking",
+  "next_action": "Wait for Slices 1, 2, 3 completion"
+}

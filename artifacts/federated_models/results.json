@@ -1,0 +1,26 @@
+{
+  "slice": "federated_models",
+  "mode": "deliberation",
+  "status": "complete",
+  "dependencies": {
+    "upstream": ["ifc_upload", "3d_viewer"],
+    "downstream": ["model_comparison", "dashboards"]
+  },
+  "design_summary": "Federation management for coordinating multiple IFC models with spatial alignment, discipline organization, unified visualization with filters, and federated queries.",
+  "estimated_loc": {
+    "backend": 800,
+    "frontend": 400,
+    "total": 1200
+  },
+  "technologies": {
+    "new": [],
+    "existing": ["xeokit multi-model support"]
+  },
+  "database_tables": ["bim_model_federations", "bim_federation_models"],
+  "api_endpoints": 6,
+  "test_coverage_target": "85%",
+  "estimated_duration_weeks": 2,
+  "risk_level": "medium",
+  "readiness": "blocked_by_ifc_upload_and_viewer",
+  "next_action": "Wait for Slices 1 & 2 completion"
+}

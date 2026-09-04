@@ -1,0 +1,36 @@
+<%# Slice 1: Create Information Container in WIP - New View %>
+<%= render 'cde/shared/header', title: l(:label_cde_new_container) %>
+
+<%= error_messages_for 'container' %>
+
+<%= form_for @container, url: cde_containers_path, html: { method: :post } do |f| %>
+  <fieldset id="info">
+    <legend><%= l(:label_cde_container_information) %></legend>
+
+    <p>
+      <%= f.label :identifier, l(:cde_container_identifier) %>
+      <%= f.text_field :identifier, required: true %>
+      <span class="help"><%= l(:cde_identifier_hint) %></span>
+    </p>
+
+    <p>
+      <%= f.label :title, l(:cde_container_title) %>
+      <%= f.text_field :title, required: true %>
+    </p>
+
+    <p>
+      <%= f.label :description, l(:cde_container_description) %>
+      <%= f.text_area :description, rows: 5 %>
+    </p>
+
+    <p>
+      <%= f.label :project, l(:cde_container_project) %>
+      <%= f.collection_select :project_id, Project.all, :id, :name, { prompt: true }, required: true %>
+    </p>
+  </fieldset>
+
+  <p>
+    <%= f.submit l(:label_cde_create_container), class: 'btn' %>
+    <%= link_to l(:label_cancel), cde_containers_path, class: 'btn' %>
+  </p>
+<% end %>

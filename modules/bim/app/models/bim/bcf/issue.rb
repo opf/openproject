@@ -4,6 +4,7 @@ module Bim::Bcf
 
     include InitializeWithUuid
     include VirtualAttribute
+    include Bim::Concerns::Workflowable
 
     SETTABLE_ATTRIBUTES = %i[stage labels index reference_links bim_snippet].freeze
 
