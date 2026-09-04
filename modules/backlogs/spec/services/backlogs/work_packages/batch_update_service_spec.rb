@@ -243,6 +243,55 @@ RSpec.describe Backlogs::WorkPackages::BatchUpdateService, type: :model do
     end
   end
 
+  describe "batch shape" do
+    it "rejects an empty batch without touching the database" do
+      result = service([]).call(list_type: "inbox")
+
+      expect(result).to be_failure
+      expect(result.message).to eq I18n.t("backlogs.work_packages.move_collection.invalid_ids")
+    end
+
+    it "rejects members from two projects" do
+      foreign = create(:work_package, type:)
+
+      result = service([sprint_wp1, foreign]).call(list_type: "backlog_bucket", list_id: bucket.id.to_s, prev_id: "")
+
+      expect(result).to be_failure
+      expect(result.message).to eq I18n.t("backlogs.work_packages.batch_update_service.mixed_projects")
+    end
+
+    it "rejects a batch above the cap before touching the database" do
+      oversized = Array.new(described_class::MAX_BATCH_SIZE + 1) { sprint_wp1 }
+
+      expect do
+        result = service(oversized).call(list_type: "backlog_bucket", list_id: bucket.id.to_s, prev_id: "")
+        expect(result.message).to include(
+          I18n.t("backlogs.work_packages.move_collection.too_many_work_packages",
+                 max: described_class::MAX_BATCH_SIZE)
+        )
+      end.not_to change { WorkPackage.order(:id).pluck(:id, :sprint_id, :backlog_bucket_id, :position) }
+    end
+
+    it "ignores an invisible anchor" do
+      hidden = create(:work_package, sprint:, position: 4, type:, project:)
+      allow(WorkPackage).to receive(:visible).with(user).and_return(WorkPackage.where.not(id: hidden.id))
+
+      result = service([bucket_wp1]).call(list_type: "sprint", list_id: sprint.id.to_s, prev_id: hidden.id.to_s)
+
+      expect(result).to be_failure
+      expect(result.message).to eq I18n.t("backlogs.work_packages.batch_update_service.stale_predecessor")
+    end
+
+    it "appends after the last positioned member when a row carries no position" do
+      create(:work_package, sprint:, type:, project:).update_columns(position: nil)
+
+      result = service([bucket_wp1]).call(list_type: "sprint", list_id: sprint.id.to_s)
+
+      expect(result).to be_success
+      expect(result.result.first.higher_item).to eq sprint_wp3
+    end
+  end
+
   describe "batch project cohort" do
     it "rejects a batch whose project changed after loading but before the lock" do
       other_project = create(:project, types: [type])

@@ -121,9 +121,12 @@ module Backlogs
       render_update_turbo_streams(call)
     end
 
-    def move_collection
-      work_packages = load_collection_work_packages
-      return if performed?
+    def move_collection # rubocop:disable Metrics/AbcSize
+      contract = Backlogs::WorkPackages::BatchMoveParamsContract.new(@project, current_user, params: move_collection_params)
+      return render_move_collection_error(contract.errors.full_messages.join(" ")) unless contract.valid?
+
+      work_packages = find_collection_work_packages(move_collection_params[:ids])
+      return render_move_collection_error(t(".work_packages_not_found")) unless work_packages
 
       # Snapshot before the call: move_after reloads mid-method and destroys
       # dirty tracking, exactly as the member action's comment explains.
@@ -304,39 +307,12 @@ module Backlogs
 
     # Every submitted id must resolve to a distinct, visible work package of
     # this project, in the submitted order: silently dropping a member would
-    # break the client's optimistic block. An absent or empty array never
-    # reaches here, since params.expect raises ParameterMissing.
-    def load_collection_work_packages # rubocop:disable Metrics/AbcSize
-      ids = move_collection_params[:ids]
-
-      # Before the lookup: an oversized id list must not reach the database.
-      if ids.length > Backlogs::WorkPackages::BatchUpdateService::MAX_BATCH_SIZE
-        return render_move_collection_error(
-          t("backlogs.work_packages.move_collection.too_many_work_packages",
-            max: Backlogs::WorkPackages::BatchUpdateService::MAX_BATCH_SIZE)
-        )
-      end
-
-      if invalid_ids?(ids)
-        return render_move_collection_error(
-          t("backlogs.work_packages.move_collection.invalid_ids")
-        )
-      end
-
+    # break the client's optimistic block. Nil when any id does not resolve.
+    def find_collection_work_packages(ids)
       found = WorkPackage.visible.where(project: @project, id: ids).index_by { |wp| wp.id.to_s }
       ordered = ids.map { |id| found[id.to_s] }
 
-      if ordered.any?(&:nil?)
-        return render_move_collection_error(
-          t("backlogs.work_packages.move_collection.work_packages_not_found")
-        )
-      end
-
-      ordered
-    end
-
-    def invalid_ids?(ids)
-      ids.any?(&:blank?) || ids.uniq.length != ids.length
+      ordered.any?(&:nil?) ? nil : ordered
     end
 
     def render_move_collection_error(reason)
@@ -349,8 +325,10 @@ module Backlogs
     # params.expect guarantees a present, non-empty array of scalar ids; the
     # optional placement and target fields go through permit instead.
     def move_collection_params
-      ids = params.expect(ids: [])
-      params.permit(:prev_id, :list_type, :list_id).merge(ids:)
+      @move_collection_params ||= begin
+        ids = params.expect(ids: [])
+        params.permit(:prev_id, :list_type, :list_id).merge(ids:)
+      end
     end
 
     def move_path
