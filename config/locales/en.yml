@@ -6724,7 +6724,15 @@ en:
       add_variant: "Add a variant to %{name}"
       add_variant_action: "Add variant"
       convert_to_global: "Convert to global variant"
+      convert_to_global_blocked: >
+        This variant currently inherits from a project-specific variant and cannot be
+        converted to a global variant.
       convert_to_global_notice: "%{name} is now a global variant."
+      convert_to_global_dialog:
+        text: >
+          This will make this project-specific variant a global one that is available to all
+          projects. The project admin will no longer be able to edit it.
+        confirm: "Convert"
       description: >
         Each configuration area inside types and variants can be independently configured, limited
         from another type, or fully linked to a source.

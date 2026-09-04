@@ -34,7 +34,7 @@ module WorkPackageTypes
     include OpTurbo::ComponentStream
 
     before_action :require_type_variants_feature
-    administration_only! :index, :make_default, :remove_default, :convert_to_global
+    administration_only! :index, :make_default, :remove_default, :convert_to_global_dialog, :convert_to_global
 
     current_menu_item do
       :types
@@ -94,8 +94,18 @@ module WorkPackageTypes
       apply_default_service(RemoveDefaultService, "types.index.remove_default_notice")
     end
 
+    def convert_to_global_dialog
+      variant = named_variant
+
+      respond_with_dialog Types::ConvertToGlobalDialogComponent.new(
+        url: convert_to_global_type_variant_path(type_id: variant.type_id, id: variant.id)
+      )
+    end
+
     def convert_to_global
       variant = named_variant
+      return flash_convert_blocked if variant.inherits_from_project_owned_variant?
+
       service_call = ConvertToGlobalService.new(variant:).call
 
       if service_call.success?
@@ -108,6 +118,11 @@ module WorkPackageTypes
     end
 
     private
+
+    def flash_convert_blocked
+      render_error_flash_message_via_turbo_stream(message: t("types.index.convert_to_global_blocked"))
+      respond_with_turbo_streams
+    end
 
     def find_variant; end
 

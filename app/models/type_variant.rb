@@ -161,6 +161,11 @@ class TypeVariant < ApplicationRecord
   # it would make every type-level URL carry a redundant id.
   def project_owned? = project_id.present?
 
+  def inherits_from_project_owned_variant?
+    source_ids = ASPECTS.filter_map { |aspect| source_id_for(aspect) }
+    source_ids.any? && self.class.project_owned.exists?(id: source_ids)
+  end
+
   def path_args
     args = is_default_variant? ? { type_id: } : { type_id:, variant_id: id }
     project_id.nil? ? args : args.merge(in_project_id: project)

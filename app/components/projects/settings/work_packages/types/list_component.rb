@@ -161,11 +161,15 @@ module Projects
 
           # Converting is a global operation, so it doesn't pass in_project_id
           def convert_action(menu, variant)
-            menu.with_item(
-              label: t("types.index.convert_to_global"),
-              href: convert_to_global_type_variant_path(type_id: variant.type_id, id: variant.id),
-              form_arguments: { method: :post }
-            ) do |entry|
+            args = { type_id: variant.type_id, id: variant.id }
+            trigger = if variant.inherits_from_project_owned_variant?
+                        { href: convert_to_global_type_variant_path(**args), form_arguments: { method: :post } }
+                      else
+                        { href: convert_to_global_dialog_type_variant_path(**args),
+                          content_arguments: { data: { controller: "async-dialog" } } }
+                      end
+
+            menu.with_item(label: t("types.index.convert_to_global"), **trigger) do |entry|
               entry.with_leading_visual_icon(icon: :"git-compare")
             end
           end
