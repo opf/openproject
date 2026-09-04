@@ -63,6 +63,13 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
     expect(editor.content).to include("Heading")
   end
 
+  it "hands the project of the document to the editor, so a work package can be created in it" do
+    visit document_path(document)
+
+    expect(page).to have_test_selector("blocknote-document-description")
+    expect(find("op-block-note", visible: false)["project-id"]).to eq(document.project_id.to_s)
+  end
+
   context "when real time text collaboration is disabled",
           with_settings: { real_time_text_collaboration_enabled: false } do
     it "does not render the BlockNote editor" do
@@ -251,6 +258,44 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
 
           expect(editor.element).to have_no_text(/##{work_package.display_id}/)
         end
+      end
+    end
+
+    context "when creating a work package from the document" do
+      let(:type) { create(:type_task) }
+      let(:project) { create(:project, name: "Documented project", types: [create(:type_bug), type]) }
+      let(:document) { create(:document, :collaborative, project:) }
+      let!(:release_note) do
+        create(:string_wp_custom_field, name: "Release note", is_required: true, types: [type], projects: [project])
+      end
+      let!(:default_status) { create(:status, is_default: true) }
+      let!(:default_priority) { create(:priority, is_default: true) }
+      let!(:other_project) { create(:project, name: "Another project", types: [type]) }
+
+      it "creates it in the project of the document, with the fields the chosen type requires" do
+        visit document_path(document)
+        expect(page).to have_test_selector("blocknote-document-description")
+
+        editor.open_create_work_package_dialog
+
+        within editor.create_work_package_form do
+          expect(page).to have_field("op-bn-create-wp-project", with: project.name)
+
+          select type.name, from: "op-bn-create-wp-type"
+          fill_in "op-bn-create-wp-subject", with: "Write the release notes"
+          fill_in "op-bn-create-wp-#{release_note.attribute_name(:camel_case)}", with: "16.0"
+
+          click_on "Create"
+        end
+
+        expect(page).to have_no_css("[data-testid='create-wp-modal']")
+        expect(editor.element).to have_text("Write the release notes")
+
+        work_package = WorkPackage.last
+        expect(work_package.project).to eq(project)
+        expect(work_package.type).to eq(type)
+        expect(work_package.subject).to eq("Write the release notes")
+        expect(work_package.custom_value_for(release_note).value).to eq("16.0")
       end
     end
   end

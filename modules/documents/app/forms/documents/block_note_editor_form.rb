@@ -38,7 +38,8 @@ module Documents
         visually_hide_label: true,
         value: model.content_binary,
         attachments_upload_url:,
-        attachments_collection_key:
+        attachments_collection_key:,
+        project_id: model.project_id
       )
     end
 
