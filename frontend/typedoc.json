@@ -8,7 +8,11 @@
     "src/stimulus/openproject-stimulus-application.ts",
     "src/stimulus/test-helpers.ts"
   ],
-  "plugin": ["typedoc-github-theme", "./tooling/typedoc/openproject-plugin.mjs"],
+  "plugin": [
+    "typedoc-github-theme",
+    "typedoc-plugin-rename-defaults",
+    "./tooling/typedoc/openproject-plugin.mjs"
+  ],
   "excludeExternals": true,
   "out": "./generated-docs",
   "disableGit": true,

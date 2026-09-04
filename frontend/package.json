@@ -53,6 +53,7 @@
     "ts-node": "~10.9.2",
     "typedoc": "^0.28.20",
     "typedoc-github-theme": "^0.4.0",
+    "typedoc-plugin-rename-defaults": "^0.7.3",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.63.0",
     "vitest": "^4.1.10",

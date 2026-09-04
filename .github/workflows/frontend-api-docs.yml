@@ -153,7 +153,7 @@ jobs:
           cp "$GITHUB_WORKSPACE/tooling/frontend/tsdoc.json" tsdoc.json
           mkdir -p tooling
           cp -R "$GITHUB_WORKSPACE/tooling/frontend/tooling/typedoc" tooling/
-          npm install --no-save --ignore-scripts typedoc@0.28.20 typedoc-github-theme@0.4.0
+          npm install --no-save --ignore-scripts typedoc@0.28.20 typedoc-github-theme@0.4.0 typedoc-plugin-rename-defaults@0.7.3
 
       - name: Generate TypeDoc
         env:
@@ -175,8 +175,8 @@ jobs:
         run: |
           set -euo pipefail
           output="$GITHUB_WORKSPACE/site/$CHANNEL/javascript"
-          test -f "$output/classes/controllers_async-dialog.controller.default.html"
-          test -f "$output/classes/controllers_dynamic_sortable-lists_list.controller.default.html"
+          test -f "$output/classes/controllers_async-dialog.controller.AsyncDialogController.html"
+          test -f "$output/classes/controllers_dynamic_sortable-lists_list.controller.ListController.html"
           test -f "$output/functions/helpers_request-helpers.post.html"
           test -f "$output/functions/mixins_use-angular-services.useAngularServices.html"
 
