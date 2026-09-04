@@ -127,6 +127,7 @@ OPENPROJECT_ACTIVITY__DAYS__DEFAULT (default=30) Days displayed on project activ
 OPENPROJECT_ADDITIONAL__HOST__NAMES (default=[]) Additional allowed host names for the application.
 OPENPROJECT_AFTER__FIRST__LOGIN__REDIRECT__URL (default=nil) URL users logging in for the first time will be redirected to (e.g., a help screen)
 OPENPROJECT_AFTER__LOGIN__DEFAULT__REDIRECT__URL (default=nil) Override URL to which logged in users are redirected instead of the Home page
+OPENPROJECT_AI__RUN__RETENTION__SECONDS (default=3600) How long finished AI runs and their events are kept before a cron job removes them
 OPENPROJECT_AI__TEXT__TRANSFORM__ACTIONS__ENABLED (default=false) Enable AI text transform actions in the rich text editor
 OPENPROJECT_ALLOW__TRACKING__START__AND__END__TIMES (default=false) Allow start and finish times
 OPENPROJECT_ALLOWED__LINK__PROTOCOLS (default=[]) Allowed protocols for links in the WYSIWYG editor and formatted texts
