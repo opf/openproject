@@ -38,6 +38,10 @@ module OpenProject
         render_with_template
       end
 
+      def with_counter
+        render_with_template
+      end
+
       # Use rows for the primary repeated widget content.
       def with_rows
         render_with_template
