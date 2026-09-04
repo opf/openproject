@@ -413,6 +413,7 @@ describe('Sortable lists controller', () => {
           // consulted cannot pass against the default scope by accident.
           backlogs: {
             announcements: {
+              batch_too_large: '[backlogs_batch_too_large:%{count}:%{max}]',
               fallback_item_label: 'Work package',
               fallback_list_name: 'another list',
               move_failed_check_position: 'Move failed. Check the work package\'s current position.',
@@ -427,6 +428,7 @@ describe('Sortable lists controller', () => {
           },
           sortable_lists: {
             announcements: {
+              batch_too_large: '[batch_too_large:%{count}:%{max}]',
               fallback_item_label: 'Item',
               fallback_list_name: 'another list',
               move_failed_check_position: 'Move failed. Check the item\'s current position.',
@@ -1235,15 +1237,6 @@ describe('Sortable lists controller', () => {
     const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
 
     expect(controller.moveAvailability(document.createElement('li'))).toBeNull();
-  });
-
-  it('resolves the owning list element of an item for the drag payload', async () => {
-    const { root, sourceList, firstSourceItem } = renderFixture();
-    await ctx.nextFrame();
-    const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
-
-    expect(controller.ownerListElementOf(firstSourceItem)).toBe(sourceList);
-    expect(controller.ownerListElementOf(document.createElement('li'))).toBeNull();
   });
 
   describe('nested list topology', () => {
@@ -2205,6 +2198,42 @@ describe('Sortable lists controller', () => {
     expect(items.some(isSelected)).toBe(false);
   });
 
+  describe('batch cap', () => {
+    it('refuses a drag whose batch exceeds the cap and announces it', async () => {
+      const { root, items } = renderSelectableRoot({ collectionMoveUrl: '/collection-move-url' });
+      root.setAttribute('data-sortable-lists-max-batch-size-value', '2');
+      await ctx.nextFrame();
+      const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+      click(items[0]); click(items[1], { ctrlKey: true }); click(items[2], { ctrlKey: true });
+      announceSpy.mockClear();
+
+      expect(controller.dragRefused(items[0])).toBe(true);
+      expect(announceSpy).toHaveBeenCalledWith('[batch_too_large:3:2]', { politeness: 'assertive' });
+      expect(controller.dragRefused(items[4])).toBe(false);
+    });
+
+    it('never refuses without a cap', async () => {
+      const { root, items } = renderSelectableRoot({ collectionMoveUrl: '/collection-move-url' });
+      await ctx.nextFrame();
+      const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+      click(items[0]); click(items[1], { ctrlKey: true }); click(items[2], { ctrlKey: true });
+
+      expect(controller.dragRefused(items[0])).toBe(false);
+    });
+
+    it('does not refuse a batch exactly at the cap', async () => {
+      const { root, items } = renderSelectableRoot({ collectionMoveUrl: '/collection-move-url' });
+      root.setAttribute('data-sortable-lists-max-batch-size-value', '3');
+      await ctx.nextFrame();
+      const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+      click(items[0]); click(items[1], { ctrlKey: true }); click(items[2], { ctrlKey: true });
+      announceSpy.mockClear();
+
+      expect(controller.dragRefused(items[0])).toBe(false);
+      expect(announceSpy).not.toHaveBeenCalled();
+    });
+  });
+
   function morphRoot(root:HTMLElement) {
     root.dispatchEvent(new CustomEvent('turbo:morph-element', { bubbles: true }));
   }
@@ -2457,27 +2486,37 @@ describe('Sortable lists controller', () => {
       await flushPromises();
     }
 
-    // Confinement is decided over the whole batch: one confined member pins
-    // the block to the list every member already sits in.
+    // The destination policy is applied over the whole batch, and a batch may
+    // span lists: one confined member pins the block to the list it already
+    // sits in, wherever the dragged card itself is.
     describe('confined batch-mates', () => {
+      let item4:HTMLElement;
+
+      const destinationOf = (list:HTMLElement) => ({
+        type: list.getAttribute('data-sortable-lists--list-type-value')!,
+        id: list.getAttribute('data-sortable-lists--list-id-value'),
+      });
+
       beforeEach(() => {
+        item4 = list2.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="4"]')!;
         item3.setAttribute('data-sortable-lists--item-mobility-value', 'confined');
       });
 
-      async function completeConfinedDrop({ targetList, targetItem, edge }:{
+      async function completeConfinedDrop({ source = item1, targetList, targetItem, edge }:{
+        source?:HTMLElement;
         targetList:HTMLElement;
         targetItem:HTMLElement|null;
         edge:'top'|'bottom'|null;
       }) {
         const monitorOptions = vi.mocked(monitorForElements).mock.lastCall?.[0];
+        const sourceId = source.getAttribute('data-sortable-lists--item-id-value')!;
 
         monitorOptions?.onDrop?.({
-          source: sourcePayload(item1, sortableItemData({
-            itemId: '1',
+          source: sourcePayload(source, sortableItemData({
+            itemId: sourceId,
             type: 'work_package',
             rootElement: root,
-            sourceListElement: list1,
-            confined: controller.dragConfined(item1),
+            permittedDestinations: controller.dragPermittedDestinations(source),
           })),
           location: {
             initial: { dropTargets: [], input: input() },
@@ -2489,20 +2528,49 @@ describe('Sortable lists controller', () => {
         await flushPromises();
       }
 
-      it('confines the drag when a selected batch-mate is confined', () => {
-        selectItems(item1, item3);
-
-        expect(controller.dragConfined(item1)).toBe(true);
-      });
-
-      it('does not confine the drag while the confined card is unselected', () => {
+      it('permits every list while no member is confined', () => {
         selectItems(item1, item2);
 
-        expect(controller.dragConfined(item1)).toBe(false);
+        expect(controller.dragPermittedDestinations(item1)).toBeNull();
       });
 
-      it('confines the confined card itself without any selection', () => {
-        expect(controller.dragConfined(item3)).toBe(true);
+      it('pins the drag to the list a selected confined batch-mate sits in', () => {
+        selectItems(item1, item3);
+
+        expect(controller.dragPermittedDestinations(item1)).toEqual([destinationOf(list1)]);
+      });
+
+      it('pins the drag to a confined batch-mate in another list', () => {
+        item4.setAttribute('data-sortable-lists--item-mobility-value', 'confined');
+        selectItems(item1, item4);
+
+        expect(controller.dragPermittedDestinations(item1)).toEqual([destinationOf(list2)]);
+      });
+
+      it('permits nothing while confined members disagree on their list', () => {
+        item4.setAttribute('data-sortable-lists--item-mobility-value', 'confined');
+        selectItems(item3, item4);
+
+        expect(controller.dragPermittedDestinations(item3)).toEqual([]);
+      });
+
+      it('does not pin the drag while the confined card is unselected', () => {
+        selectItems(item1, item2);
+
+        expect(controller.dragPermittedDestinations(item1)).toBeNull();
+      });
+
+      it('pins the confined card itself without any selection', () => {
+        expect(controller.dragPermittedDestinations(item3)).toEqual([destinationOf(list1)]);
+      });
+
+      // Unreachable through a drag today, since a fixed card registers no
+      // draggable and cannot join a selection, but the lists follow the same
+      // policy the menus read rather than a confinement test of their own.
+      it('permits nothing for a fixed card', () => {
+        item2.setAttribute('data-sortable-lists--item-mobility-value', 'fixed');
+
+        expect(controller.dragPermittedDestinations(item2)).toEqual([]);
       });
 
       it('refuses a cross-list drop of a batch with a confined member', async () => {
@@ -2525,6 +2593,33 @@ describe('Sortable lists controller', () => {
 
         expect(fetchMock).toHaveBeenCalled();
         expect(rowIdsIn(list1)).toEqual(['2', '1', '3']);
+      });
+
+      // The reorder the dragged card's own list would accept on its own: the
+      // batch-mate it carries cannot follow it there.
+      it('refuses a reorder in the dragged card\'s list while a mate is confined elsewhere', async () => {
+        item4.setAttribute('data-sortable-lists--item-mobility-value', 'confined');
+        selectItems(item1, item4);
+        beginDrag(item1);
+
+        await completeConfinedDrop({ targetList: list1, targetItem: item2, edge: 'bottom' });
+
+        expect(fetchMock).not.toHaveBeenCalled();
+        expect(rowIdsIn(list1)).toEqual(['1', '2', '3']);
+      });
+
+      // The mirror of the refusal above, and a drop the server accepts: only
+      // the free member changes list. The block lands at the start, since the
+      // row it was dropped against is itself a member and cannot anchor it.
+      it('accepts a drop in the list its confined mate already occupies', async () => {
+        item4.setAttribute('data-sortable-lists--item-mobility-value', 'confined');
+        selectItems(item1, item4);
+        beginDrag(item1);
+
+        await completeConfinedDrop({ targetList: list2, targetItem: item4, edge: 'bottom' });
+
+        expect(fetchMock).toHaveBeenCalled();
+        expect(rowIdsIn(list2)).toEqual(['1', '4', '5']);
       });
     });
 

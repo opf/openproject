@@ -118,6 +118,34 @@ export function isConfinedItem(itemElement:Element):boolean {
   return itemMobility(itemElement) === 'confined';
 }
 
+// A destination an item may be moved to: a list, identified by type and id
+// (null for the type's unlisted bucket).
+export interface DestinationIdentity {
+  type:string;
+  id:string|null;
+}
+
+export function sameDestination(left:DestinationIdentity|null, right:DestinationIdentity):boolean {
+  return left?.type === right.type && left.id === right.id;
+}
+
+// Whether the item may enter the destination: the one policy behind every
+// surface offering a move.
+export function itemAcceptsDestination(
+  item:HTMLElement,
+  target:DestinationIdentity,
+  ownerDestinationOf:(item:HTMLElement) => DestinationIdentity|null,
+):boolean {
+  switch (itemMobility(item)) {
+    case 'fixed':
+      return false;
+    case 'confined':
+      return sameDestination(ownerDestinationOf(item), target);
+    default:
+      return true;
+  }
+}
+
 export function resolveItemType(element:Element):string|null {
   const type = element.getAttribute(sortableItemTypeAttribute);
 

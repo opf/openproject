@@ -861,6 +861,7 @@ en:
 
     sortable_lists:
       announcements:
+        batch_too_large: "Cannot move %{count} items at once. Select no more than %{max}."
         fallback_item_label: "Item"
         fallback_list_name: "another list"
         move_failed_check_position: "Move failed. Check the item's current position."

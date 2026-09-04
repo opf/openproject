@@ -29,6 +29,7 @@
 import {
   captureRowPositions,
   isOrderableItem,
+  itemAcceptsDestination,
   itemMobility,
   reorderRows,
   sortableItemMobilityAttribute,
@@ -431,6 +432,26 @@ describe('itemMobility', () => {
     expect(isOrderableItem(itemWith('free'))).toBe(true);
     expect(isOrderableItem(itemWith('confined'))).toBe(true);
     expect(isOrderableItem(itemWith('fixed'))).toBe(false);
+  });
+});
+
+describe('itemAcceptsDestination', () => {
+  const sprint1 = { type: 'sprint', id: '1' };
+  const sprint2 = { type: 'sprint', id: '2' };
+
+  function item(mobility:'fixed'|'confined'|'free' = 'free'):HTMLElement {
+    const element = document.createElement('li');
+    element.setAttribute(sortableItemMobilityAttribute, mobility);
+    return element;
+  }
+
+  it('answers for one item which destinations it accepts', () => {
+    const ownerDestinationOf = () => sprint1;
+
+    expect(itemAcceptsDestination(item(), sprint2, ownerDestinationOf)).toBe(true);
+    expect(itemAcceptsDestination(item('fixed'), sprint1, ownerDestinationOf)).toBe(false);
+    expect(itemAcceptsDestination(item('confined'), sprint1, ownerDestinationOf)).toBe(true);
+    expect(itemAcceptsDestination(item('confined'), sprint2, ownerDestinationOf)).toBe(false);
   });
 });
 

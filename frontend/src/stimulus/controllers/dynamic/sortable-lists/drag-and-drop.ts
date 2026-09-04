@@ -48,6 +48,8 @@ import {
   resolveListAppendPreviousItemId,
   resolvePreviousItem,
   rowOf,
+  sameDestination,
+  type DestinationIdentity,
   type ExcludedItems,
   type MoveAvailability,
   type MoveDirection,
@@ -63,16 +65,12 @@ export interface SortableItemData extends Record<string|symbol, unknown> {
   type:string;
   itemId:string;
   rootElement:HTMLElement|null;
-  // The list element the drag started in, resolved by the root at drag start
-  // (items hold no list reference themselves). Null when the item is not in a
-  // registered list. Mirrors the rootElement pattern: identity is carried on
-  // the payload so drop targets can decide without walking the DOM.
-  sourceListElement:HTMLElement|null;
-  // A confined item may only land in sourceListElement or one of its rows;
-  // every other container refuses it. See confinementAllowsDrop. Batch-aware:
-  // a free item dragging confined batch-mates is itself confined, since the
-  // whole batch either lands together or not at all.
-  confined:boolean;
+  // The destinations this drag may land in, resolved across the whole batch
+  // at drag start; null when nothing restricts it, empty when nothing
+  // accepts it. Identities rather than list elements: a morph can replace a
+  // permitted list mid-drag, and elements frozen here would then name nodes
+  // that have left the document.
+  permittedDestinations:DestinationIdentity[]|null;
 }
 
 export type SortableListDropPosition = 'start'|'end';
@@ -100,9 +98,6 @@ export interface SortableListsRoot {
   moveInDirection(itemElement:HTMLElement, direction:MoveDirection):void;
   // A snapshot for menu gating; the click path re-resolves against the live DOM.
   moveAvailability(itemElement:HTMLElement):MoveAvailability|null;
-  // The element of the list an item currently belongs to; null outside any
-  // registered list. Items carry no list reference, so the root resolves it.
-  ownerListElementOf(itemElement:HTMLElement):HTMLElement|null;
   // The rows container of the item's innermost owning list, or null when the
   // item is not (yet) inside a list the root knows about.
   ownerRowsContainer(itemElement:HTMLElement):HTMLElement|null;
@@ -113,7 +108,13 @@ export interface SortableListsRoot {
   // Asked while the drag payload is built, which Pragmatic dispatches before
   // freezeDragBatch freezes the batch, so the answer comes from the live
   // selection in the same synchronous dragstart turn.
-  dragConfined(itemElement:HTMLElement):boolean;
+  dragPermittedDestinations(itemElement:HTMLElement):DestinationIdentity[]|null;
+  // The destination of the element's innermost owning list, or null when no
+  // list the root knows about claims it.
+  ownerDestinationOf(element:HTMLElement):DestinationIdentity|null;
+  // Asked in canDrag: true when the item's prospective batch exceeds the
+  // server's cap, so the drag never starts.
+  dragRefused(itemElement:HTMLElement):boolean;
 }
 
 // Implemented by the list, item and scrollable controllers so the root can
@@ -145,22 +146,19 @@ export function sortableItemData({
   type,
   itemId,
   rootElement = null,
-  sourceListElement = null,
-  confined = false,
+  permittedDestinations = null,
 }:{
   type:string;
   itemId:string;
   rootElement?:HTMLElement|null;
-  sourceListElement?:HTMLElement|null;
-  confined?:boolean;
+  permittedDestinations?:DestinationIdentity[]|null;
 }):SortableItemData {
   return {
     [sortableItemDataKey]: true,
     type,
     itemId,
     rootElement,
-    sourceListElement,
-    confined,
+    permittedDestinations,
   };
 }
 
@@ -220,12 +218,12 @@ export function isItemFromRoot(
     && data.rootElement === rootElement;
 }
 
-// Whether a drop on the given target may amount to a move under the source's
-// confinement. contains() includes the element itself, so one predicate passes
-// both the source list element and every row inside it while failing every
-// foreign container. The source list passing is load-bearing: a drop resolves
-// through the list target (resolveDropIntent returns null without one), so
-// failing it would kill within-list reorder, not just cross-list moves.
+// Whether a drop into the given destination may amount to a move for this
+// batch. A destination the batch owns passing is load-bearing: a drop
+// resolves through the list target (resolveDropIntent returns null without
+// one), so failing it would kill within-list reorder, not just cross-list
+// moves. A null destination is one no list claims, which nothing restricted
+// accepts.
 //
 // Item drop targets consult this in canDrop and refuse outright; list drop
 // targets stay accepted regardless (an accepted target is what keeps the
@@ -234,11 +232,16 @@ export function isItemFromRoot(
 // release over a container this fails for resolves to no move at all, and
 // the drop-indicator layers consult it too — rows never show a drop position
 // for it, and the list marks its container refused instead of active.
-export function confinementAllowsDrop(
+export function permittedDestinationsAllowDrop(
   data:SortableItemData,
-  targetElement:Element,
+  destination:DestinationIdentity|null,
 ):boolean {
-  return !data.confined || (data.sourceListElement?.contains(targetElement) ?? false);
+  return data.permittedDestinations === null
+    || data.permittedDestinations.some((permitted) => sameDestination(destination, permitted));
+}
+
+export function destinationOfList(listData:SortableListData):DestinationIdentity {
+  return { type: listData.type, id: listData.listId };
 }
 
 export function resolvePreviousSortableItemId({
@@ -318,21 +321,25 @@ export function resolveDropIntent({
   sourceData:SortableItemData;
   excludedItems?:ExcludedItems;
 }):DropIntent|null {
-  const targetItem = location.current.dropTargets.find(
-    (target):target is typeof target & { data:SortableItemData; element:HTMLElement } => (
-      isSortableItemData(target.data) && target.element instanceof HTMLElement && root.contains(target.element)
-        && confinementAllowsDrop(sourceData, target.element)
-    ),
-  );
   const targetList = location.current.dropTargets.find(
     (target):target is typeof target & { data:SortableListData; element:HTMLElement } => (
       isSortableListData(target.data) && target.element instanceof HTMLElement && root.contains(target.element)
-        && confinementAllowsDrop(sourceData, target.element)
+        && permittedDestinationsAllowDrop(sourceData, destinationOfList(target.data))
     ),
   );
   if (!targetList) {
     return null;
   }
+
+  // Scoped to the accepted list rather than gated on its own account: an
+  // item drop target carries only its identity, and the list it sits in is
+  // the destination a drop into it would reach.
+  const targetItem = location.current.dropTargets.find(
+    (target):target is typeof target & { data:SortableItemData; element:HTMLElement } => (
+      isSortableItemData(target.data) && target.element instanceof HTMLElement
+        && targetList.element.contains(target.element)
+    ),
+  );
 
   const listElement = targetList.element;
   const listData = targetList.data;

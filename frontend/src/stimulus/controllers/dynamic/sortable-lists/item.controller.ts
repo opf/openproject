@@ -41,14 +41,14 @@ import { Controller, type ActionEvent } from '@hotwired/stimulus';
 import type { ActionMenuElement } from '@openproject/primer-view-components/app/components/primer/alpha/action_menu/action_menu_element';
 import { closestDragBlockingElement } from 'core-stimulus/helpers/interactive-element-helper';
 import {
-  confinementAllowsDrop,
+  permittedDestinationsAllowDrop,
   isItemFromRoot,
   sortableItemData,
   type RootAwareChild,
   type SortableItemData,
   type SortableListsRoot,
 } from './drag-and-drop';
-import { isConfinedItem, isMoveDirection, isOrderableItem, sortableItemSelector } from './list-dom';
+import { isMoveDirection, isOrderableItem, itemMobility, sortableItemSelector } from './list-dom';
 import { renderDragPreview } from './preview';
 
 type CleanupFn = () => void;
@@ -64,8 +64,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
     hideUnavailable: { type: Boolean, default: true },
     label: String,
     // See ItemMobility in list-dom. A `confined` item is still a full drag
-    // source; only its own list accepts it as a drop target, so a release
-    // anywhere else lands nowhere and the item stays put.
+    // source; only the lists the batch's permitted set names accept it.
     mobility: { type: String, default: 'free' },
   };
 
@@ -221,7 +220,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
       } : {}),
       canDrag: ({ input }) => {
         const { root } = this;
-        if (root == null || root.busy) {
+        if (root == null || root.busy || root.dragRefused(this.element)) {
           return false;
         }
         return this.canDragFromPoint(input.clientX, input.clientY);
@@ -297,7 +296,8 @@ export default class ItemController extends Controller<HTMLElement> implements R
         return isItemFromRoot(root.element, source.data)
           && source.data.itemId !== this.idValue
           && source.data.type === this.typeValue
-          && confinementAllowsDrop(source.data, this.element);
+          && !this.element.hasAttribute('data-dragging')
+          && permittedDestinationsAllowDrop(source.data, this.root?.ownerDestinationOf(this.element) ?? null);
       },
       getData: ({ input }) => {
         return attachClosestEdge(this.getItemData(), {
@@ -382,10 +382,12 @@ export default class ItemController extends Controller<HTMLElement> implements R
       itemId: this.idValue,
       type: this.typeValue,
       rootElement: this.root?.element ?? null,
-      sourceListElement: this.root?.ownerListElementOf(this.element) ?? null,
       // A rootless item can carry no batch, so its own mobility is the
-      // whole answer.
-      confined: this.root?.dragConfined(this.element) ?? isConfinedItem(this.element),
+      // whole answer, and it can name no list either: anything short of free
+      // movement leaves it accepting nothing.
+      permittedDestinations: this.root
+        ? this.root.dragPermittedDestinations(this.element)
+        : (itemMobility(this.element) === 'free' ? null : []),
     });
   }
 
