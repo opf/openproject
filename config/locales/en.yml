@@ -1388,6 +1388,23 @@ en:
     banners:
       environment_configured_readonly: "These values are configured via environment variables and cannot be edited here."
     custom_styles:
+      branding:
+        desktop:
+          description: "The logo automatically scales to fit the header. For best results, upload a transparent 130×47px image."
+          title: "Desktop logo"
+        mobile:
+          description: "The logo automatically scales to fit the mobile header. For best results, upload a transparent 130×33px image."
+          title: "Mobile logo"
+        modes:
+          dark:
+            description: "Used in dark and dark high contrast modes. Falls back to the light logo when empty."
+            name: "Dark"
+          light:
+            description: "Used in light mode and as the fallback for modes without a specific logo."
+            name: "Light"
+          light_high_contrast:
+            description: "Used in light high contrast mode. Falls back to the light logo when empty."
+            name: "Light high contrast"
       color_theme: "Color theme"
       color_theme_custom: "(Custom)"
       colors:

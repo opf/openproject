@@ -76,6 +76,12 @@ RSpec.describe "Tabs navigation and content switching on the admin/design page" 
     it "redirects to branding tab" do
       click_on "Branding"
       expect(page).to have_current_path custom_style_path(tab: "branding")
+      expect(page).to have_field("custom_style_logo")
+      expect(page).to have_field("custom_style_logo_dark")
+      expect(page).to have_field("custom_style_logo_light_high_contrast")
+      expect(page).to have_field("custom_style_logo_mobile")
+      expect(page).to have_field("custom_style_logo_mobile_dark")
+      expect(page).to have_field("custom_style_logo_mobile_light_high_contrast")
 
       # select a color theme and redirect to the branding tab
       select("OpenProject Navy Blue", from: "theme")
@@ -89,6 +95,22 @@ RSpec.describe "Tabs navigation and content switching on the admin/design page" 
       expect(page).to have_current_path custom_style_path(tab: "branding")
     end
 
+    it "shows the default logo immediately after deleting the custom logo", :js do
+      visit custom_style_path(tab: "branding")
+      custom_logo_path = custom_style_logo_path(
+        digest: custom_style.digest,
+        filename: custom_style.logo_identifier
+      )
+
+      expect(desktop_logo_background).to include(custom_logo_path)
+
+      find_test_selector("delete-custom-style-image-logo").click
+      wait_for_reload
+
+      expect(custom_style.reload.logo).not_to be_present
+      expect(desktop_logo_background).not_to include(custom_logo_path)
+    end
+
     it "redirects to pdf export styles tab" do
       click_on "PDF export styles"
       expect(page).to have_current_path custom_style_path(tab: "pdf_export_styles")
@@ -99,5 +121,11 @@ RSpec.describe "Tabs navigation and content switching on the admin/design page" 
       expect(page).to have_css("#export_cover_text_color", value: "#333")
       expect(page).to have_current_path custom_style_path(tab: "pdf_export_styles")
     end
+  end
+
+  def desktop_logo_background
+    first(".op-logo--link", minimum: 1, visible: :all)
+      .style("background-image")
+      .fetch("background-image")
   end
 end

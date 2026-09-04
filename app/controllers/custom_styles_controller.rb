@@ -35,8 +35,11 @@ class CustomStylesController < ApplicationController
   layout "admin"
   menu_item :custom_style
 
+  LOGO_VARIANTS = CustomStyle::LOGO_VARIANTS
+
   UNGUARDED_ACTIONS = %i[logo_download
                          logo_mobile_download
+                         logo_variant_download
                          favicon_download
                          touch_icon_download].freeze
 
@@ -108,6 +111,12 @@ class CustomStylesController < ApplicationController
     file_download(:logo_mobile_path)
   end
 
+  def logo_variant_download
+    return unless (variant = logo_variant)
+
+    file_download(:"#{variant}_path")
+  end
+
   def export_logo_download
     file_download(:export_logo_path)
   end
@@ -134,6 +143,12 @@ class CustomStylesController < ApplicationController
 
   def logo_mobile_delete
     file_delete(:remove_logo_mobile)
+  end
+
+  def logo_variant_delete
+    return unless (variant = logo_variant)
+
+    file_delete(:"remove_#{variant}")
   end
 
   def export_logo_delete
@@ -234,7 +249,11 @@ class CustomStylesController < ApplicationController
   def custom_style_params
     params.expect(custom_style: %i[
                     logo remove_logo
+                    logo_dark remove_logo_dark
+                    logo_light_high_contrast remove_logo_light_high_contrast
                     logo_mobile remove_logo_mobile
+                    logo_mobile_dark remove_logo_mobile_dark
+                    logo_mobile_light_high_contrast remove_logo_mobile_light_high_contrast
                     export_logo remove_export_logo
                     export_cover remove_export_cover
                     export_footer remove_export_footer
@@ -246,6 +265,13 @@ class CustomStylesController < ApplicationController
                     export_font_bold_italic remove_export_font_bold_italic
                     export_cover_text_color
                   ])
+  end
+
+  def logo_variant
+    LOGO_VARIANTS.fetch(params[:variant]) do
+      head :not_found
+      nil
+    end
   end
 
   def file_download(path_method)

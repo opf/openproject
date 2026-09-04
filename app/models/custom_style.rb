@@ -31,8 +31,27 @@
 require "ttfunk"
 
 class CustomStyle < ApplicationRecord
+  LOGO_FIELDS = {
+    desktop: {
+      light: :logo,
+      light_high_contrast: :logo_light_high_contrast,
+      dark: :logo_dark
+    },
+    mobile: {
+      light: :logo_mobile,
+      light_high_contrast: :logo_mobile_light_high_contrast,
+      dark: :logo_mobile_dark
+    }
+  }.freeze
+  LOGO_VARIANTS = LOGO_FIELDS.values.flat_map { |fields| fields.except(:light).values }.index_by(&:to_s).freeze
+  LOGO_VARIANT_ROUTE_CONSTRAINT = Regexp.union(LOGO_VARIANTS.keys).freeze
+
   mount_uploader :logo, OpenProject::Configuration.file_uploader
+  mount_uploader :logo_dark, OpenProject::Configuration.file_uploader
+  mount_uploader :logo_light_high_contrast, OpenProject::Configuration.file_uploader
   mount_uploader :logo_mobile, OpenProject::Configuration.file_uploader
+  mount_uploader :logo_mobile_dark, OpenProject::Configuration.file_uploader
+  mount_uploader :logo_mobile_light_high_contrast, OpenProject::Configuration.file_uploader
   mount_uploader :export_logo, OpenProject::Configuration.file_uploader
   mount_uploader :export_cover, OpenProject::Configuration.file_uploader
   mount_uploader :export_footer, OpenProject::Configuration.file_uploader
@@ -60,7 +79,16 @@ class CustomStyle < ApplicationRecord
     updated_at.to_i
   end
 
-  %i(favicon touch_icon export_logo export_cover export_footer logo logo_mobile
+  def logo_for(color_mode:, high_contrast: false, mobile: false)
+    fields = LOGO_FIELDS.fetch(mobile ? :mobile : :desktop)
+    variant = color_mode.to_sym == :light && high_contrast ? :light_high_contrast : color_mode.to_sym
+    requested_logo = public_send(fields.fetch(variant))
+
+    requested_logo.presence || public_send(fields.fetch(:light))
+  end
+
+  %i(favicon touch_icon export_logo export_cover export_footer logo logo_dark logo_light_high_contrast logo_mobile
+     logo_mobile_dark logo_mobile_light_high_contrast
      export_font_regular export_font_bold export_font_italic export_font_bold_italic).each do |name|
     define_method :"#{name}_path" do
       attachment = send(name)

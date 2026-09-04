@@ -106,7 +106,7 @@ RSpec.describe CustomStylesController do
 
       it "renders a 403" do
         expect(response).to have_http_status(:forbidden)
-        expect(flash[:error][:message]).to match /You need the basic enterprise plan to perform this action/
+        expect(flash[:error][:message]).to include("You need the basic enterprise plan to perform this action")
       end
     end
 
@@ -167,6 +167,31 @@ RSpec.describe CustomStylesController do
             expect(response).to have_http_status(:unprocessable_entity)
             expect(response).to render_template "custom_styles/show"
           end
+        end
+      end
+    end
+
+    describe "updating logo variants", with_ee: %i[define_custom_style] do
+      let(:custom_style) { create(:custom_style) }
+
+      before do
+        allow(CustomStyle).to receive(:current).and_return(custom_style)
+      end
+
+      %i[
+        logo_dark
+        logo_light_high_contrast
+        logo_mobile_dark
+        logo_mobile_light_high_contrast
+      ].each do |field|
+        it "updates #{field}" do
+          upload = Rack::Test::UploadedFile.new(
+            Rails.root.join("spec/support/custom_styles/logos/logo_image.png")
+          )
+
+          post :update, params: { custom_style: { field => upload } }
+
+          expect(custom_style.reload.public_send(field)).to be_present
         end
       end
     end
@@ -297,6 +322,82 @@ RSpec.describe CustomStylesController do
         it "renders 404" do
           expect(response).to have_http_status :not_found
         end
+      end
+    end
+
+    describe "#logo_variant_download" do
+      before do
+        allow(CustomStyle).to receive(:current).and_return(custom_style)
+        allow(controller).to receive(:send_file) { controller.head 200 }
+
+        get :logo_variant_download, params: {
+          digest: "1234",
+          filename: "logo_image.png",
+          variant: "logo_dark"
+        }
+      end
+
+      context "when the logo variant is present" do
+        let(:custom_style) { build(:custom_style_with_logo_dark) }
+
+        it "sends the file" do
+          expect(response).to have_http_status(:ok)
+        end
+      end
+
+      context "when the logo variant is not present" do
+        let(:custom_style) { build_stubbed(:custom_style) }
+
+        it "returns not found" do
+          expect(controller).not_to have_received(:send_file)
+          expect(response).to have_http_status(:not_found)
+        end
+      end
+    end
+
+    describe "#logo_variant_delete", with_ee: %i[define_custom_style] do
+      let(:custom_style) { create(:custom_style_with_logo_dark) }
+
+      context "when the logo variant is valid" do
+        before do
+          allow(CustomStyle).to receive(:current).and_return(custom_style)
+
+          delete :logo_variant_delete, params: { variant: "logo_dark" }
+        end
+
+        it "removes the logo variant" do
+          expect(custom_style.reload.logo_dark).not_to be_present
+          expect(response).to redirect_to(action: :show)
+          expect(response).to have_http_status(:see_other)
+        end
+      end
+    end
+
+    describe "an invalid logo variant", with_ee: %i[define_custom_style] do
+      before do
+        routes.draw do
+          get "logo_variant/:variant" => "custom_styles#logo_variant_download"
+          delete "logo_variant/:variant" => "custom_styles#logo_variant_delete"
+        end
+
+        allow(controller).to receive(:file_download)
+        allow(controller).to receive(:file_delete)
+      end
+
+      after { Rails.application.reload_routes! }
+
+      it "does not run the download" do
+        get :logo_variant_download, params: { variant: "invalid" }
+
+        expect(controller).not_to have_received(:file_download)
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it "does not run the deletion" do
+        delete :logo_variant_delete, params: { variant: "invalid" }
+
+        expect(controller).not_to have_received(:file_delete)
+        expect(response).to have_http_status(:not_found)
       end
     end
 

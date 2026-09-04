@@ -316,6 +316,13 @@ Rails.application.routes.draw do
       as: "custom_style_logo_mobile",
       constraints: { filename: /[^\/]*/ }
 
+  get "custom_style/:digest/logo_variant/:variant/:filename" => "custom_styles#logo_variant_download",
+      as: "custom_style_logo_variant",
+      constraints: {
+        variant: CustomStyle::LOGO_VARIANT_ROUTE_CONSTRAINT,
+        filename: /[^\/]*/
+      }
+
   get "custom_style/:digest/export_logo/:filename" => "custom_styles#export_logo_download",
       as: "custom_style_export_logo",
       constraints: { filename: /[^\/]*/ }
@@ -720,6 +727,11 @@ Rails.application.routes.draw do
 
     delete "design/logo" => "custom_styles#logo_delete", as: "custom_style_logo_delete"
     delete "design/logo_mobile" => "custom_styles#logo_mobile_delete", as: "custom_style_logo_mobile_delete"
+    delete "design/logo_variant/:variant" => "custom_styles#logo_variant_delete",
+           as: "custom_style_logo_variant_delete",
+           constraints: {
+             variant: CustomStyle::LOGO_VARIANT_ROUTE_CONSTRAINT
+           }
     delete "design/export_logo" => "custom_styles#export_logo_delete", as: "custom_style_export_logo_delete"
     delete "design/export_cover" => "custom_styles#export_cover_delete", as: "custom_style_export_cover_delete"
     delete "design/export_footer" => "custom_styles#export_footer_delete", as: "custom_style_export_footer_delete"
