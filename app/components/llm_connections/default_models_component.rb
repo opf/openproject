@@ -36,6 +36,9 @@ module LlmConnections
 
     alias_method :connection, :model
 
+    # Nothing to choose from, and the empty table right below says so.
+    def render? = connection.available_model_ids.any?
+
     private
 
     def form_options

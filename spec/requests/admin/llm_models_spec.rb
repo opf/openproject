@@ -145,6 +145,15 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(offered_default_models).to contain_exactly("qwen3.6-27b")
       end
 
+      it "asks for no default while the connection has no model to offer" do
+        create(:llm_connection, :enabled, base_url:)
+
+        get llm_models_path
+
+        expect(response.body).to include("No models available")
+        expect(response.body).not_to include("Default models")
+      end
+
       it "keeps a stored default listed once its model is switched off" do
         connection = create(:llm_connection, :with_models, base_url:)
         chat_model = connection.models.find_by(external_id: "qwen3.6-27b")
