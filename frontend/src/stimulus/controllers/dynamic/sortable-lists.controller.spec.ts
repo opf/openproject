@@ -2333,7 +2333,7 @@ describe('Sortable lists controller', () => {
 
     function selectItems(...selected:HTMLElement[]) {
       click(selected[0]);
-      selected.slice(1).forEach((item) => click(item, { metaKey: true }));
+      selected.slice(1).forEach((item) => click(item, { ctrlKey: true }));
     }
 
     function rowIdsIn(list:HTMLElement):string[] {
