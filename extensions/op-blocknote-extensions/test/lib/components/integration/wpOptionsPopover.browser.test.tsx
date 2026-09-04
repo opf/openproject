@@ -57,6 +57,12 @@ const getPopover = (root:ParentNode = document):Element =>
 const getScrollerRect = ():DOMRect =>
   page.getByTestId('scroller').element().getBoundingClientRect();
 
+const getSizeMenu = (root:ParentNode = document):Element =>
+  root.querySelector('[data-testid="size-menu"]')!;
+
+const getSizeButtonRect = ():DOMRect =>
+  page.getByTitle('Change size').element().getBoundingClientRect();
+
 async function openSizeMenu() {
   await openPopover();
   await userEvent.click(page.getByTitle('Change size'));
@@ -330,6 +336,61 @@ describe('Options popover on the first row', () => {
 
     expect(popoverRect.top).toBeGreaterThanOrEqual(scrollerRect.top);
     expect(popoverRect.bottom).toBeLessThanOrEqual(scrollerRect.bottom);
+  });
+});
+
+describe('Size menu placement', () => {
+  it('opens below the size button while there is room for it', async () => {
+    render(<ScrollHarness chipOffset={40} height={400} />);
+    await waitForResolvedChip();
+    await openSizeMenu();
+
+    const menuRect = getSizeMenu().getBoundingClientRect();
+    const buttonRect = getSizeButtonRect();
+
+    expect(menuRect.top).toBeGreaterThanOrEqual(buttonRect.bottom);
+    expect(menuRect.bottom).toBeLessThanOrEqual(getScrollerRect().bottom);
+  });
+
+  it('opens above the size button for a chip at the bottom edge (BNE-147)', async () => {
+    render(<ScrollHarness chipOffset={340} height={400} />);
+    await waitForResolvedChip();
+    await openSizeMenu();
+
+    const menuRect = getSizeMenu().getBoundingClientRect();
+    const scrollerRect = getScrollerRect();
+
+    expect(menuRect.bottom).toBeLessThanOrEqual(getSizeButtonRect().top);
+    expect(menuRect.top).toBeGreaterThanOrEqual(scrollerRect.top);
+    expect(menuRect.bottom).toBeLessThanOrEqual(scrollerRect.bottom);
+  });
+
+  it('stays reachable and scrolls itself when neither side has room', async () => {
+    render(<ScrollHarness chipOffset={16} height={60} />);
+    await waitForResolvedChip();
+    await openSizeMenu();
+
+    const menu = getSizeMenu();
+    const menuRect = menu.getBoundingClientRect();
+    const scrollerRect = getScrollerRect();
+
+    expect(menuRect.top).toBeGreaterThanOrEqual(scrollerRect.top);
+    expect(menuRect.bottom).toBeLessThanOrEqual(scrollerRect.bottom);
+    // Capped instead of clipped: every option is reached by scrolling the menu.
+    expect(menu.scrollHeight).toBeGreaterThan(menu.clientHeight);
+  });
+
+  it('stays inside the scroll container when the editor is in a shadow root', async () => {
+    render(<ShadowScrollHarness chipOffset={200} />);
+    await waitForResolvedChip();
+    await openSizeMenu();
+
+    const shadowRoot = page.getByTestId('editor-host').element().shadowRoot!;
+    const menuRect = getSizeMenu(shadowRoot).getBoundingClientRect();
+    const scrollerRect = getScrollerRect();
+
+    expect(menuRect.top).toBeGreaterThanOrEqual(scrollerRect.top);
+    expect(menuRect.bottom).toBeLessThanOrEqual(scrollerRect.bottom);
   });
 });
 

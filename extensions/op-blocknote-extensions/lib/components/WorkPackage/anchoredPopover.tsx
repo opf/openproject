@@ -105,7 +105,9 @@ const positionPopover = (
   const side = resolveSide(placement, popover.offsetHeight, spaces);
 
   if (maxHeight !== undefined) {
-    popover.style.maxHeight = `${Math.min(maxHeight, Math.max(MIN_POPOVER_HEIGHT, spaces[side]))}px`;
+    const visibleHeight = Math.max(0, visible.bottom - visible.top - CLIP_MARGIN * 2);
+    const room = Math.min(visibleHeight, Math.max(MIN_POPOVER_HEIGHT, spaces[side]));
+    popover.style.maxHeight = `${Math.min(maxHeight, room)}px`;
   }
 
   // Read after the cap, or a shortened popover would be placed by its full height.
