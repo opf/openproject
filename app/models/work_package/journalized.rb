@@ -106,6 +106,7 @@ module WorkPackage::Journalized
     register_journal_formatted_fields /\Afile_links_?\d+\z/, formatter_key: :file_link
     register_journal_formatted_fields "project_phase_definition_id", formatter_key: :project_phase_definition
     register_journal_formatted_fields "target_versions", formatter_key: :target_versions
+    register_journal_formatted_fields "observed_in_versions", formatter_key: :observed_in_versions
 
     # Joined
     register_journal_formatted_fields :parent_id, :project_id,
