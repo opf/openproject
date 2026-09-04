@@ -59,3 +59,7 @@ OpenProject::FeatureDecisions.add :type_variants,
 OpenProject::FeatureDecisions.add :sprint_reports,
                                   description: "Enables sprint reporting within the backlogs module. " \
                                                "It shows a dashboard with various widgets regarding the sprint progress."
+
+OpenProject::FeatureDecisions.add :shared_user_permissions_cte,
+                                  description: "Emits the per-user permission derivation as a provider-backed " \
+                                               "CTE so repeated derivations in one query can be collapsed."

@@ -90,20 +90,29 @@ module API
             material_scope = work_package_material_scope(scope)
             labor_scope = work_package_labor_scope(scope)
 
-            # The eager loading on status is required for the readonly? check in the
-            # work package schema
-            scope
-              .joins(spent_time_subquery(scope, current_user).join_sources)
-              .joins(derived_dates_subquery(scope).join_sources)
-              .joins(material_scope.arel.join_sources)
-              .joins(labor_scope.arel.join_sources)
+            joined = scope
+                       .joins(spent_time_subquery(scope, current_user).join_sources)
+                       .joins(derived_dates_subquery(scope).join_sources)
+                       .joins(material_scope.arel.join_sources)
+                       .joins(labor_scope.arel.join_sources)
+                       .select("work_packages.*")
+                       .select("spent_time_hours.hours")
+                       .select("derived_dates.derived_start_date", "derived_dates.derived_due_date")
+                       .select(material_scope.select_values)
+                       .select(labor_scope.select_values)
+
+            collect_and_eager_load(joined)
+          end
+
+          # Collect once at the assembled query so the permission derivations repeated
+          # across the spent-time and cost subqueries share one set of hoisted CTEs.
+          # The eager loading on status is required for the readonly? check in the
+          # work package schema.
+          def collect_and_eager_load(joined)
+            OpenProject::ActiveRecordExtensions::CteCollector
+              .collect(joined)
               .includes(WorkPackageRepresenter.to_eager_load)
               .includes(:status)
-              .select("work_packages.*")
-              .select("spent_time_hours.hours")
-              .select("derived_dates.derived_start_date", "derived_dates.derived_due_date")
-              .select(material_scope.select_values)
-              .select(labor_scope.select_values)
               .distinct
           end
 

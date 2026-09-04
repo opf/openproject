@@ -61,6 +61,18 @@ module WorkPackages::Scopes
         where(project_id: Project.allowed_to(user, permissions))
       end
 
+      # The body of the member_projects CTE. With the shared-permissions CTE feature on, the union is
+      # emitted as a provider so identical member_projects derivations repeated across one query
+      # collapse into a single hoisted CTE; otherwise the union SQL is embedded inline as before.
+      def member_projects_cte_body(user, permissions)
+        if OpenProject::FeatureDecisions.shared_user_permissions_cte_active?
+          Project.unscoped.allowed_to_member_union_provider(user, permissions, entity_types: [WorkPackage.name])
+        else
+          union = Project.unscoped.allowed_to_member_union(user, permissions, entity_types: [WorkPackage.name])
+          Arel.sql(union.to_sql)
+        end
+      end
+
       def logged_in_non_admin_allowed_to(user, permissions)
         # Get all projects a user has the permissions in.
         # Permissions can come from project memberships as well as entity/work_package memberships, in addition
@@ -68,11 +80,7 @@ module WorkPackages::Scopes
         # This comes back with the columns
         # * id (of the project) - this column will always be set regardless of whether the membership is entity-specific or not.
         # * entity_id (of the work package) - this column can be null in case it is a project-wide membership.
-        allowed_via_project_or_work_package_membership = Project
-                                                           .unscoped
-                                                           .allowed_to_member_union(user,
-                                                                                    permissions,
-                                                                                    entity_types: [WorkPackage.name])
+        member_projects_cte = member_projects_cte_body(user, permissions)
 
         # Split the member projects into two distinct sets
         # for easier reference.
@@ -121,7 +129,7 @@ module WorkPackages::Scopes
           SELECT * from allowed
         SQL
 
-        with(member_projects: Arel.sql(allowed_via_project_or_work_package_membership.to_sql),
+        with(member_projects: member_projects_cte,
              entity_member_projects:,
              project_member_projects:,
              allowed_by_projects_and_work_packages:)
