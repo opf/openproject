@@ -35,19 +35,20 @@ type FilteredSuggestions = {
   values:{ prop:string; value:string; }[];
 }[];
 
-type TokenElement = HTMLElement&{ dataset:{ role:'token', prop:string } };
+type TokenElement = HTMLElement&{ dataset:{ role:'token', prop:string, format:string|undefined } };
 type ListElement = HTMLElement&{ dataset:{ role:'list_item', prop:string } };
 
 interface AttributeToken {
   key:string;
   label:string;
+  context:string;
   label_with_context?:string;
   insert_as_text?:boolean;
   enabled:boolean;
 };
 
 const COMPLETION_CHARACTER = '/';
-const TOKEN_REGEX = /{{([0-9A-Za-z_]+)}}/g;
+const TOKEN_REGEX = /{{(\w+)(?::([\w-]*))?}}/g;
 
 // A zero-width space character, which is used
 // to have a caret position after tokens
@@ -203,7 +204,7 @@ export default class PatternInputController extends Controller {
       const textNode = document.createTextNode(selection);
       this.insertNode(textNode);
     } else {
-      const token = this.createToken(selection);
+      const token = this.createToken(selection, undefined);
       this.insertNode(token);
     }
 
@@ -504,11 +505,14 @@ export default class PatternInputController extends Controller {
     }
   }
 
-  private createToken(key:string):TokenElement {
+  private createToken(key:string, format:string|undefined):TokenElement {
     const templateTarget = this.tokenTemplateTarget.content.cloneNode(true) as DocumentFragment;
     const contentElement = templateTarget.firstElementChild as TokenElement;
     contentElement.dataset.prop = key;
-    contentElement.innerText = this.tokenText(key);
+    if (format) {
+      contentElement.dataset.format = format;
+    }
+    contentElement.innerText = this.tokenText(key, format);
     return contentElement;
   }
 
@@ -516,17 +520,18 @@ export default class PatternInputController extends Controller {
     this.contentTarget.childNodes.forEach((node) => {
       if (this.isToken(node)) {
         const key = node.dataset.prop;
+        const format = node.dataset.format;
         if (this.isSuggestable(key)) {
           this.setStyle(node, 'accent');
         } else {
           this.setStyle(node, 'danger');
         }
 
-        if (node.textContent !== this.tokenText(key)) {
+        if (node.textContent !== this.tokenText(key, format)) {
           if (this.containsCursor(node)) {
             this.setStyle(node, 'secondary');
           } else {
-            node.innerText = this.tokenText(key);
+            node.innerText = this.tokenText(key, format);
           }
         }
 
@@ -546,26 +551,36 @@ export default class PatternInputController extends Controller {
     });
   }
 
-  private tokenText(key:string):string {
+  private tokenText(key:string, format:string|undefined):string {
+    if(format) {
+      return `${this.tokenLabel(key)} (${this.tokenFormat(format)})`;
+    } else {
+      return `${this.tokenLabel(key)}`;
+    }
+  }
+
+  private tokenLabel(key:string):string {
     const token = this.validTokenMap[key];
 
     if (!token) {
       return key;
     }
 
-    if (token.label_with_context) {
-      if (token.key.startsWith('parent_') || token.key.startsWith('project_')) {
-        return token.label_with_context;
-      }
+    if (token.context != "work_package" && token.label_with_context) {
+      return token.label_with_context;
     }
 
     return token.label;
   }
 
+  private tokenFormat(format:string):string {
+    return format; //TODO: properly represent format string
+  }
+
   private toHtml(blueprint:string):string {
     let html = blueprint.replace(/</g, '&lt;').replace(/>/g, '&gt;');
     html = this.insertControlSpaces(html);
-    return html.replace(TOKEN_REGEX, (_, token:string) => this.createToken(token).outerHTML);
+    return html.replace(TOKEN_REGEX, (_, token:string, format:string|undefined) => this.createToken(token, format).outerHTML);
   }
 
   private insertControlSpaces(blueprint:string):string {
@@ -596,7 +611,8 @@ export default class PatternInputController extends Controller {
       if (this.isText(node)) {
         result += node.textContent ?? '';
       } else if (this.isToken(node)) {
-        result += `{{${node.dataset.prop}}}`;
+        const format = node.dataset.format ? `:${node.dataset.format}` : "";
+        result += `{{${node.dataset.prop}${format}}}`;
       }
     });
 
