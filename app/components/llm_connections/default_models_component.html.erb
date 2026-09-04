@@ -27,9 +27,9 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= component_wrapper do %>
+<%= component_wrapper(class: "mb-4") do %>
   <%=
-    render(Primer::Beta::Subhead.new(mt: 4)) do |component|
+    render(Primer::Beta::Subhead.new) do |component|
       component.with_heading(tag: :h3) { t("admin.llm_models.defaults.heading") }
       component.with_description { t("admin.llm_models.defaults.description") }
     end
