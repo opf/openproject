@@ -138,6 +138,22 @@ RSpec.describe Backlogs::WorkPackages::BatchUpdateService, type: :model do
       expect(sprint_order).to eq [sprint_wp1.id, sprint_wp2.id, sprint_wp3.id]
     end
 
+    it "rolls back inside an enclosing transaction", with_ee: %i[readonly_work_packages] do
+      readonly_status = create(:status, is_readonly: true)
+      blocked = create(:work_package, backlog_bucket: bucket, position: 3, type:, project:,
+                                      status: readonly_status)
+
+      result = nil
+      WorkPackage.transaction do
+        result = service([bucket_wp1, blocked])
+          .call(list_type: "sprint", list_id: sprint.id.to_s, prev_id: sprint_wp1.id.to_s)
+      end
+
+      expect(result).to be_failure
+      expect(bucket_wp1.reload).to have_attributes(backlog_bucket_id: bucket.id, sprint_id: nil, position: 1)
+      expect(sprint_order).to eq [sprint_wp1.id, sprint_wp2.id, sprint_wp3.id]
+    end
+
     it "returns a failed result and rolls back when a later member raises" do
       # An operational exception from a later member must not escape as a
       # 500: the design requires one failed batch result after rollback.
@@ -211,6 +227,20 @@ RSpec.describe Backlogs::WorkPackages::BatchUpdateService, type: :model do
       expect(OpenProject::Hook)
         .not_to have_received(:call_hook).with(:work_package_after_update, anything)
     end
+
+    it "names the failing member as a dependent result", with_ee: %i[readonly_work_packages] do
+      readonly_status = create(:status, :readonly)
+      sprint_wp3.update_columns(status_id: readonly_status.id)
+
+      result = service([sprint_wp2, sprint_wp3])
+        .call(list_type: "backlog_bucket", list_id: bucket.id.to_s, prev_id: "")
+
+      expect(result).to be_failure
+      failed = result.dependent_results.find(&:failure?)
+      expect(failed.result).to eq sprint_wp3
+      expect(failed.message).to be_present
+      expect(sprint.work_packages_for(project).pluck(:id)).to eq [sprint_wp1.id, sprint_wp2.id, sprint_wp3.id]
+    end
   end
 
   describe "batch project cohort" do
@@ -252,37 +282,112 @@ RSpec.describe Backlogs::WorkPackages::BatchUpdateService, type: :model do
   end
 
   describe "advisory locks" do
-    it "acquires the batch and predecessor locks in ascending id order" do
+    def record_locks
       locked = []
       allow(OpenProject::Mutex).to receive(:with_advisory_lock_transaction)
-        .and_wrap_original do |method, entry, *args, &block|
-          locked << entry.id
-          method.call(entry, *args, &block)
+        .and_wrap_original do |method, entry, suffix = nil, *args, &block|
+          locked << [entry, suffix]
+          method.call(entry, suffix, *args, &block)
         end
+      locked
+    end
+
+    def work_package_lock_ids(locked)
+      locked.filter_map { |entry, _suffix| entry.id if entry.is_a?(WorkPackage) }
+    end
+
+    it "acquires the batch and predecessor locks in ascending id order" do
+      locked = record_locks
 
       # Deliberately out-of-order input, predecessor id between them.
       service([sprint_wp3, sprint_wp1])
         .call(list_type: "sprint", list_id: sprint.id.to_s, prev_id: sprint_wp2.id.to_s)
 
-      batch_and_predecessor = [sprint_wp3.id, sprint_wp1.id, sprint_wp2.id].sort
-      expect(locked.first(3)).to eq batch_and_predecessor
+      expect(locked.first).to eq [sprint, nil]
+      expect(work_package_lock_ids(locked).first(3)).to eq [sprint_wp3.id, sprint_wp1.id, sprint_wp2.id].sort
     end
 
     it "locks the implicit append anchor for an absent prev_id" do
-      locked = []
-      allow(OpenProject::Mutex).to receive(:with_advisory_lock_transaction)
-        .and_wrap_original do |method, entry, *args, &block|
-          locked << entry.id
-          method.call(entry, *args, &block)
+      locked = record_locks
+
+      service([bucket_wp1]).call(list_type: "sprint", list_id: sprint.id.to_s)
+
+      expect(locked.first(3)).to eq [
+        [bucket, nil],
+        [sprint, nil],
+        [project, "backlogs_batch_update_destination_sprint_#{sprint.id}"]
+      ]
+      expect(work_package_lock_ids(locked).first(2)).to eq [bucket_wp1.id, sprint_wp3.id].sort
+    end
+
+    it "takes the source and destination lifecycle locks before work-package locks for top placement" do
+      locked = record_locks
+
+      service([sprint_wp2]).call(list_type: "backlog_bucket", list_id: bucket.id.to_s, prev_id: "")
+
+      expect(locked.first(3)).to eq [
+        [bucket, nil],
+        [sprint, nil],
+        [project, "backlogs_batch_update_destination_backlog_bucket_#{bucket.id}"]
+      ]
+      expect(locked.find { |entry, _suffix| entry.is_a?(WorkPackage) }).to eq [sprint_wp2, nil]
+    end
+
+    it "takes the source lifecycle and inbox placement locks before work-package locks" do
+      locked = record_locks
+
+      service([sprint_wp1]).call(list_type: "inbox")
+
+      expect(locked.first(2)).to eq [
+        [sprint, nil],
+        [project, "backlogs_batch_update_destination_inbox"]
+      ]
+    end
+
+    it "orders lifecycle locks by the concrete mutex identity" do
+      stub_const("ArchivedSprint", Class.new(Sprint))
+      concrete_sprint = sprint.becomes(ArchivedSprint)
+      batch = service([bucket_wp1])
+      lock_names = []
+
+      allow(batch).to receive(:raw_destination).and_wrap_original do |method, target|
+        destination = method.call(target)
+        destination.is_a?(Sprint) && destination.id == sprint.id ? concrete_sprint : destination
+      end
+      allow(OpenProject::Mutex)
+        .to receive(:with_advisory_lock)
+        .and_wrap_original do |method, resource_class, lock_name, *args, &block|
+          lock_names << lock_name
+          method.call(resource_class, lock_name, *args, &block)
         end
 
-      # Appending bucket_wp1 to the sprint: the real anchor is sprint_wp3
-      # (last non-batch member) — it must be locked and revalidated, or a
-      # concurrent move of it would let move_after silently insert at top.
-      service([bucket_wp1])
-        .call(list_type: "sprint", list_id: sprint.id.to_s)
+      result = batch.call(list_type: "sprint", list_id: sprint.id.to_s, prev_id: "")
 
-      expect(locked.first(2)).to eq [bucket_wp1.id, sprint_wp3.id].sort
+      expect(result).to be_success
+      expect(lock_names.grep(/mutex_on_(ArchivedSprint|BacklogBucket)_/).first(2)).to eq [
+        "mutex_on_ArchivedSprint_#{sprint.id}",
+        "mutex_on_BacklogBucket_#{bucket.id}"
+      ]
+    end
+
+    it "takes every lock in one flat sequence rather than nested blocks" do
+      depths = []
+      depth = 0
+      allow(OpenProject::Mutex).to receive(:with_advisory_lock_transaction)
+        .and_wrap_original do |method, *args, &block|
+          depths << depth
+          depth += 1
+          begin
+            method.call(*args, &block)
+          ensure
+            depth -= 1
+          end
+        end
+
+      service([sprint_wp3, sprint_wp1, sprint_wp2])
+        .call(list_type: "backlog_bucket", list_id: bucket.id.to_s, prev_id: bucket_wp1.id.to_s)
+
+      expect(depths).to all(eq(0))
     end
   end
 
@@ -325,6 +430,14 @@ RSpec.describe Backlogs::WorkPackages::BatchUpdateService, type: :model do
       expect(result.message)
         .to eq I18n.t("backlogs.work_packages.batch_update_service.unavailable_target")
       expect(sprint_order).to eq [sprint_wp1.id, sprint_wp2.id, sprint_wp3.id]
+    end
+
+    it "locks and reloads the authoritative backlog bucket row before policy" do
+      recorder = ActiveRecord::QueryRecorder.new do
+        service([sprint_wp1]).call(list_type: "backlog_bucket", list_id: bucket.id.to_s, prev_id: "")
+      end
+
+      expect(recorder.log.grep(/FROM "backlog_buckets".*FOR UPDATE/).size).to eq 1
     end
   end
 
