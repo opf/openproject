@@ -187,7 +187,7 @@ export class DragAndDropTransformer {
         const persistedOrder = await this.wpTableOrder.move([...order], wpId, rowIndex);
 
         const el = locateTableRow(wpId);
-        await this.withRowAtTarget(el, newOrder[rowIndex + 1] ?? null, async () => {
+        await this.withRowAtTarget(el, targetId, edge, async () => {
           if (el) {
             await this.actionService.handleDrop(workPackage, el);
           }
@@ -221,17 +221,17 @@ export class DragAndDropTransformer {
    * moments later, so restoring first would visibly snap it back before
    * that rebuild moves it again.
    */
-  private async withRowAtTarget(el:HTMLElement|null, siblingId:string|null, fn:() => Promise<void>):Promise<void> {
+  private async withRowAtTarget(el:HTMLElement|null, targetId:string|null, edge:Edge|null, fn:() => Promise<void>):Promise<void> {
     if (!el) {
       await fn();
       return;
     }
 
     const { parentNode, nextSibling } = el;
-    const sibling = siblingId ? locateTableRow(siblingId) : null;
+    const targetRow = targetId ? locateTableRow(targetId) : null;
 
-    if (sibling) {
-      this.table.tbody.insertBefore(el, sibling);
+    if (targetRow) {
+      this.table.tbody.insertBefore(el, edge === 'top' ? targetRow : targetRow.nextSibling);
     } else {
       this.table.tbody.appendChild(el);
     }
