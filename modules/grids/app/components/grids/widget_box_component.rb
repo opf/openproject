@@ -33,10 +33,10 @@ module Grids
   class WidgetBoxComponent < ApplicationComponent
     attr_reader :title, :content_padding
 
-    renders_one :header, lambda { |title:, attribute_label: nil, **system_arguments|
+    renders_one :header, lambda { |title: nil, attribute_label: nil, **system_arguments|
       system_arguments[:id] = @header_id
 
-      Header.new(title:, attribute_label:, **system_arguments)
+      Header.new(title: title || self.title, attribute_label:, **system_arguments)
     }
 
     renders_one :body, Body

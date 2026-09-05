@@ -30,7 +30,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render(Primer::BaseComponent.new(**@system_arguments)) do %>
   <div class="op-widget-box--header-title title-container">
-    <h3 class="editable-toolbar-title--fixed">
+    <%= render(Primer::BaseComponent.new(tag: :h3, classes: "editable-toolbar-title--fixed", display: :inline_flex, align_items: :center)) do %>
       <% if @attribute_label_args %>
         <%= render OpenProject::Common::AttributeLabelComponent.new(**@attribute_label_args) do %>
           <%= title %>
@@ -38,7 +38,11 @@ See COPYRIGHT and LICENSE files for more details.
       <% else %>
         <%= title %>
       <% end %>
-    </h3>
+
+      <% if counter? %>
+        <%= counter %>
+      <% end %>
+    <% end %>
   </div>
   <%= action %>
 <% end %>
