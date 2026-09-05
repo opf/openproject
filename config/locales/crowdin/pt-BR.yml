@@ -5252,7 +5252,7 @@ pt-BR:
   setting_default_language: Idioma padrão
   setting_default_projects_modules: Módulos habilitados por padrão para novos projetos
   setting_default_projects_public: Novos projetos são públicos por padrão
-  setting_default_projects_wiki: Enable wiki functionality for new projects by default
+  setting_default_projects_wiki: Ativar a funcionalidade wiki para novos projetos por padrão
   setting_diff_max_lines_displayed: Número máximo de linhas diferentes exibidas
   setting_disable_password_login: Desativar a autenticação por senha
   setting_display_subprojects_work_packages: Exibir pacotes de trabalho de subprojetos no projeto principal por padrão
@@ -6057,8 +6057,8 @@ pt-BR:
           confirm_dialog:
             check_box: Eu entendo que isso substituirá as configurações atuais
             description: Todas as configurações selecionadas atualmente serão substituídas e isso poderá afetar informações existentes nos pacotes de trabalho deste tipo.
-            heading: Switch configuration mode?
-            title: Switch configuration mode
+            heading: Alternar modo de configuração?
+            title: Alternar modo de configuração
           copy_from_type: Copiar de um tipo
           description: Nenhuma configuração é herdada. Se desejar, você ainda pode copiar as configurações de outro tipo uma única vez.
           dialog:
@@ -6083,13 +6083,13 @@ pt-BR:
           confirm_dialog:
             change_source:
               description_html: Ao copiar o tipo de origem de %{source_name}, você substituirá as configurações atuais e isso poderá afetar informações existentes nos pacotes de trabalho deste tipo.
-              heading: Change source type?
-              title: Change source type
+              heading: Alterar tipo de origem?
+              title: Alterar tipo de origem
             check_box: Eu entendo que isso substituirá as configurações atuais
             from_independent:
               description: Todas as configurações selecionadas atualmente serão substituídas e isso poderá afetar informações existentes nos pacotes de trabalho deste tipo.
-              heading: Switch configuration mode?
-              title: Switch configuration mode
+              heading: Alternar modo de configuração?
+              title: Alternar modo de configuração
           description: Esta configuração está vinculada e herdando suas configurações do tipo de origem [%{source_name}](source_url)%{source_suffix}.
           dialog:
             description: Copie e herde estas configurações de uma origem. Qualquer nova configuração adicionada à origem também será adicionada aqui.
