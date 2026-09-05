@@ -27,23 +27,24 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= with_enterprise_banner_guard(
-      :define_custom_style,
-      inactive_guard: default_colors_tab?,
-      variant: :large,
-      video: "enterprise/custom-design.mp4"
-    ) do %>
-  <%= render(Admin::DesignHeaderComponent.new(tabs: design_tabs)) %>
-  <%= error_messages_for "custom_style" %>
-  <% if show_theme_selector? %>
-    <%= render(
-          CustomStyles::ThemeSelectorComponent.new(
-            theme_options: @theme_options,
-            current_theme: @current_theme,
-            selected_tab_name: selected_tab(design_tabs).fetch(:name)
-          )
-        ) %>
-  <% end %>
+<%=
+  options = theme_options
+  selected_theme = current_theme
+  theme_select_arguments = select_arguments
 
-  <%= render_tabs design_tabs %>
-<% end %>
+  primer_form_with(**form_arguments) do |form_builder|
+    render_inline_form(form_builder) do |form|
+      form.select_list(**theme_select_arguments) do |select|
+        options.each do |option|
+          option_label, value, attributes = option.is_a?(Array) ? option : [option, option, {}]
+          select.option(
+            label: option_label,
+            value:,
+            selected: attributes&.fetch(:selected, value == selected_theme),
+            disabled: attributes&.fetch(:disabled, false)
+          )
+        end
+      end
+    end
+  end
+%>
