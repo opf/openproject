@@ -899,6 +899,20 @@ describe('Sortable lists item controller', () => {
       .toEqual(expect.objectContaining({ permittedDestinations: [{ type: 'sprint', id: '7' }] }));
   });
 
+  // A confined item still defers to the root: the batch it would carry may
+  // reach every list, and the item's own mobility must not narrow that.
+  it('preserves an unrestricted permitted-destinations answer from the root', () => {
+    const root = document.createElement('div');
+    const element = document.createElement('article');
+    connectedControllerFor(element, {
+      root: { ...fakeRoot(root), dragPermittedDestinations: vi.fn(() => null) },
+      mobility: 'confined',
+    });
+
+    expect(vi.mocked(draggable).mock.lastCall?.[0].getInitialData?.(draggableArgs(element)))
+      .toEqual(expect.objectContaining({ permittedDestinations: null }));
+  });
+
   // Rootless, so the item's own mobility is the whole answer: free accepts
   // every list, and a confined one cannot name the list it sits in.
   it('permits every list for a rootless free item', () => {
