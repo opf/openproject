@@ -84,8 +84,12 @@ RSpec.describe "Move a backlog card via its menu",
     # helper: a same-list menu move now settles via a background fetch, not a
     # frame reload, so the assertion right below has to observe the DOM before
     # that request has any chance to complete.
-    backlogs_page
-      .click_in_sprint_story_move_menu(sprint_wp2, "Move up", wait: false)
+    backlogs_page.activate_batch_menu_action(
+      invoker: sprint_wp2,
+      action: "Move up",
+      via: :more,
+      wait: false
+    )
 
     backlogs_page
       .expect_sprint_items_in_order(sprint,

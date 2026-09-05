@@ -330,13 +330,139 @@ module Pages
       end
     end
 
-    def within_work_package_menu(work_package, &)
+    def within_work_package_menu(work_package, activated: false, &)
       within_work_package(work_package) do
         button = find(:button, accessible_name: "Work package actions")
         within(open_controlled_menu(button), &)
       end
 
-      dismiss_menu(work_package)
+      dismiss_menu(work_package, activated:)
+    end
+
+    # The four user entry points Backlogs supports, with the native key and
+    # pointer synthesis and the deferred-menu wait kept out of the callers.
+    def open_card_menu(work_package, via:)
+      case via
+      when :more
+        within_work_package(work_package) do
+          find(:button, accessible_name: "Work package actions").click
+        end
+      when :right_click
+        right_click_work_package_card(work_package)
+      when :context_menu_key
+        # Selenium's W3C key table does not expose the dedicated Context Menu
+        # key. Dispatch its browser-level KeyboardEvent against a focused card
+        # so this path still differs from Shift+F10 at the controller boundary.
+        work_package_card(work_package).execute_script(<<~JS)
+          this.focus({ focusVisible: true, preventScroll: true });
+          this.dispatchEvent(new KeyboardEvent('keydown', {
+            key: 'ContextMenu',
+            bubbles: true,
+            cancelable: true
+          }));
+        JS
+      when :shift_f10
+        send_work_package_card_keys(work_package, %i[shift f10])
+      else
+        raise ArgumentError, "Unknown card-menu entry point: #{via.inspect}"
+      end
+
+      work_package_action_menu(work_package)
+    end
+
+    def expect_action_menu_groups(invoker:, selected_count:)
+      # The menu list arrives via a deferred fragment; a node captured before
+      # the swap goes stale, so settle the load before scoping into the menu.
+      expect_card_menu_loaded(invoker)
+      menu = work_package_action_menu(invoker)
+      singular_group = "ul[role='group'][data-sortable-lists--item-target='invokerGroup']"
+      batch_group = "ul[role='group'][data-sortable-lists--item-target='batchGroup']"
+
+      if selected_count > 1
+        expect(menu).to have_css("#{singular_group}[hidden]", visible: :all)
+        expect(menu).to have_css(batch_group)
+        expect_menu_invoker_name(
+          invoker,
+          I18n.t("js.backlogs.action_menu.menu_label", count: selected_count)
+        )
+      else
+        expect(menu).to have_css(singular_group)
+        expect(menu).to have_css(batch_group)
+        expect_menu_invoker_name(invoker, "Work package actions")
+      end
+    end
+
+    def expect_menu_invoker_name(work_package, name)
+      within_work_package(work_package) do
+        expect(page).to have_button(accessible_name: name)
+      end
+    end
+
+    def activate_singular_menu_action(invoker:, action:, via: :more)
+      open_card_menu(invoker, via:).find(:menuitem, text: action, exact_text: true).click
+    end
+
+    def activate_batch_menu_action(invoker:, action:, via: :more, wait: true)
+      menu = open_card_menu(invoker, via:)
+
+      if %w[Move\ to\ top Move\ up Move\ down Move\ to\ bottom].include?(action)
+        wait_for_backlogs_turbo_stream(wait:) do
+          open_move_submenu(menu).find(:menuitem, text: action, exact_text: true, visible: :all).click
+        end
+      else
+        menu.find(:menuitem, text: action, exact_text: true).click
+      end
+    end
+
+    def expect_card_menu_anchor(work_package, via:)
+      if via == :right_click
+        expect_menu_anchored_contextually(work_package)
+      else
+        expect_menu_anchored_at_button(work_package)
+      end
+    end
+
+    def expect_card_menu_loaded(work_package)
+      expect(page.find(menu_owner_overlay_selector(work_package)))
+        .to have_no_css("include-fragment[src]", visible: :all)
+    end
+
+    def dismiss_card_menu(work_package, via:)
+      send_keys_to_focused_element(:escape)
+      expect_no_work_package_context_menu(work_package)
+
+      if via == :more
+        within_work_package(work_package) do
+          expect(page).to have_button(accessible_name: "Work package actions", focused: true)
+        end
+      else
+        expect_work_package_card_focused(work_package)
+      end
+    end
+
+    def light_dismiss_card_menu(work_package)
+      find(:heading, I18n.t(:label_backlog_and_sprints), level: 2).click
+      expect_no_work_package_context_menu(work_package)
+    end
+
+    def expect_open_menu_actions(invoker:, present:, absent:)
+      menu = work_package_action_menu(invoker)
+      present.each do |label|
+        expect(menu).to have_selector(:menuitem, text: label, exact_text: true)
+      end
+      absent.each do |label|
+        expect(menu).to have_no_selector(:menuitem, text: label, exact_text: true)
+      end
+    end
+
+    def expect_fixed_action_menu(invoker:)
+      menu = work_package_action_menu(invoker)
+
+      expect(menu).to have_css("ul[role='group'][data-sortable-lists--item-target='invokerGroup']")
+      expect(menu).to have_no_css("[data-sortable-lists--item-target='batchGroup']")
+      expect(menu).to have_selector(:menuitem, text: I18n.t(:"js.button_open_details"))
+      expect(menu).to have_selector(:menuitem, text: I18n.t(:"js.button_open_fullscreen"))
+      expect(menu).to have_no_selector(:menuitem, text: "Move to position")
     end
 
     def work_package_card(work_package)
@@ -508,7 +634,7 @@ module Pages
     end
 
     def click_in_work_package_menu(work_package, item_name, wait: true)
-      within_work_package_menu(work_package) do |submenu|
+      within_work_package_menu(work_package, activated: true) do |submenu|
         wait_for_turbo_stream(wait:) do
           submenu.find(:menuitem, text: item_name).click
         end
@@ -1330,6 +1456,10 @@ module Pages
       "##{ActionView::RecordIdentifier.dom_target(menu_owner, :menu)}-overlay"
     end
 
+    def work_package_action_menu(work_package)
+      page.find(menu_owner_overlay_selector(work_package)).find(:menu)
+    end
+
     # Located by the lock's accessible name so the expectation fails if the
     # icon ever loses the text that explains it.
     def readonly_lock_selector
@@ -1738,22 +1868,39 @@ module Pages
       page.find(:menu, id: move_item["aria-controls"])
     end
 
-    def dismiss_menu(menu_owner)
+    # Dismisses with Escape rather than an outside click: the compact batch
+    # menu can leave a live menuitem under the overlay's centre point, so a
+    # click there activates an action instead of closing the menu.
+    # Activating an item closes the menu through Primer itself, so the caller
+    # only waits for that to happen. Pressing Escape on top of it races the
+    # dialog the same activation is still loading: the modal guard below reads
+    # the DOM before `showModal`, and the key then arrives after it and closes
+    # the dialog, which `StreamActions.dialog` removes from the DOM on close.
+    def dismiss_menu(menu_owner, activated: false)
       selector = menu_owner_overlay_selector(menu_owner)
 
+      return expect(page).to have_no_css(selector, visible: :visible) if activated
       return unless page.has_css?(selector, visible: true, wait: 0)
       return if page.has_selector?(:modal, wait: 0)
 
-      find(selector, wait: 0).click
-    rescue Capybara::ElementNotFound,
-           Ferrum::CoordinatesNotFoundError,
-           Selenium::WebDriver::Error::ElementNotInteractableError
-      # Menu actions can close the menu or open a modal between the checks
-      # above and the click; once the menu is gone or a modal owns focus,
-      # the overlay is unclickable (Cuprite raises CoordinatesNotFoundError,
-      # Selenium ElementNotInteractableError) and dismissal is moot.
-      raise unless page.has_selector?(:modal, wait: 0) ||
-        page.has_no_css?(selector, visible: true, wait: 0)
+      press_escape
+      # Escape closes only the top-most popover; an open submenu absorbs the
+      # first press and the menu itself needs a second one.
+      press_escape if page.has_css?(selector, visible: true, wait: 0)
+
+      expect(page).to have_no_css(selector, visible: :visible)
+    end
+
+    # Neither driver may deliver the key through the focused element:
+    # Selenium's Session#send_keys refuses once a closing submenu parked focus
+    # on a hidden item, and Cuprite's clicks its receiver first. Both paths
+    # below dispatch the key without touching any element.
+    def press_escape
+      if using_cuprite?
+        page.driver.browser.keyboard.type(:escape)
+      else
+        send_keys_to_focused_element(:escape)
+      end
     end
 
     def headed_section_titles(id_prefix:)

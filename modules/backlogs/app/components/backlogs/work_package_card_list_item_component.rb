@@ -110,6 +110,7 @@ module Backlogs
         sortable_lists__item_label_value: work_package.to_fs(:caption),
         sortable_lists__item_type_value: "work_package",
         sortable_lists__item_mobility_value: mobility,
+        sortable_lists__item_menu_label_key_value: "js.backlogs.action_menu.menu_label",
         # Native drag payload for external consumers; the same absolute URL
         # as the card menu's "Copy URL to clipboard" item. The label above
         # doubles as the link text of the text/html flavour.

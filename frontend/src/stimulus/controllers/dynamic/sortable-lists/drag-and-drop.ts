@@ -100,6 +100,9 @@ export interface SortableListData extends Record<string|symbol, unknown> {
 // Implemented by the sortable-lists root controller and handed to list/item
 // controllers via outlet callbacks, so children read shared state through a
 // typed reference instead of walking the DOM.
+//
+// Membership stays inside SelectionOrchestrator: children get action scopes,
+// availability and the frozen drag batch, never the model itself.
 export interface SortableListsRoot {
   readonly element:HTMLElement;
   readonly busy:boolean;

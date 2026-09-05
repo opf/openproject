@@ -693,6 +693,19 @@ describe('SelectionOrchestrator', () => {
       expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['2']);
     });
 
+    // A refused invoker must not re-anchor the selection: the following
+    // Shift range still extends from the card the user actually picked.
+    it('reports a fixed action invoker without changing the selection anchor', () => {
+      item('3').setAttribute('data-sortable-lists--item-mobility-value', 'fixed');
+      const orchestrator = new SelectionOrchestrator(hostFor(root));
+      orchestrator.handleClick(clickOn(item('1')));
+
+      orchestrator.selectForAction(item('3'));
+      orchestrator.handleClick(clickOn(item('2'), { shiftKey: true }));
+
+      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['1', '2']);
+    });
+
     it('keeps the selected batch for an action on a member', () => {
       const orchestrator = new SelectionOrchestrator(hostFor(root));
       orchestrator.handleClick(clickOn(item('1')));
