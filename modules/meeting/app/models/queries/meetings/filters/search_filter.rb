@@ -23,42 +23,45 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module WikiPages
-      class WikiPageRepresenter < ::API::Decorators::Single
-        include API::Decorators::LinkedResource
-        include API::V3::Workspaces::LinkedResource
-        include API::Caching::CachedRepresenter
-        include ::API::V3::Attachments::AttachableRepresenterMixin
+module Queries::Meetings
+  module Filters
+    class SearchFilter < MeetingFilter
+      def type = :search
 
-        self_link title_getter: ->(*) {}
+      def human_name = I18n.t("label_search")
 
-        link :showWikiPage do
-          next unless represented.project && represented.slug.present?
+      def apply_to(query_scope)
+        super.distinct
+      end
 
-          {
-            href: api_v3_paths.show_wiki_page(represented.project.identifier, represented.slug),
-            type: "text/html"
-          }
-        end
+      def where
+        values.first.split(/\s+/).map do |token|
+          condition = searchable_columns.map do |table, column|
+            ::Queries::Operators::Contains.sql_for_field([token], table, column)
+          end.join(" OR ")
 
-        property :id
+          "(#{condition})"
+        end.join(" AND ")
+      end
 
-        property :title
+      def left_outer_joins
+        { agenda_items: :outcomes }
+      end
 
-        date_time_property :updated_at
+      private
 
-        associated_project
-
-        def _type
-          "WikiPage"
-        end
+      def searchable_columns
+        [
+          [Meeting.table_name, "title"],
+          [MeetingAgendaItem.table_name, "title"],
+          [MeetingAgendaItem.table_name, "notes"],
+          [MeetingOutcome.table_name, "notes"]
+        ]
       end
     end
   end

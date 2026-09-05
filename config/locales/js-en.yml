@@ -374,12 +374,28 @@ en:
       current_project_and_all_descendants: "In this project + subprojects"
       direct_hit_available: "Work package with exact ID found. Press Enter to open it."
       items_available: "%{count} items available"
+      quick_filters:
+        accountable: "Accountable"
+        any_time: "Any time"
+        attended: "Attended"
+        closed: "Closed"
+        invited: "Invited"
+        involvement: "Involvement"
+        meeting_date: "Meeting date"
+        open: "Open"
+        past: "Past"
+        past_30_days: "Past 30 days"
+        past_7_days: "Past 7 days"
+        past_year: "Past year"
+        upcoming: "Upcoming"
+        yesterday: "Yesterday"
       recently_viewed: "Recently viewed"
-      search_placeholder_expanded: "Search work packages by subject, project, type, status or ID"
+      search_placeholder_expanded: "Search work packages, meetings and wiki pages"
       title:
         all_projects: "all projects"
         project_and_subprojects: "and all subprojects"
         search_for: "Search for"
+      wiki_pages: "Wiki pages"
 
     hal:
       error:

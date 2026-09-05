@@ -48,6 +48,46 @@ RSpec.describe "API v3 Meeting resource", content_type: :json do
     login_as current_user
   end
 
+  describe "GET /api/v3/meetings" do
+    let(:path) { api_v3_paths.meetings }
+    let!(:matching_meeting) { create(:meeting, project:, title: "Quarterly planning") }
+    let!(:non_matching_meeting) { create(:meeting, project:, title: "Retrospective") }
+    let!(:invisible_meeting) { create(:meeting, project: other_project, title: "Quarterly planning") }
+    let!(:agenda_item) do
+      create(:meeting_agenda_item, meeting: matching_meeting, title: "Launch readiness", notes: "Review blockers")
+    end
+
+    before do
+      create(:meeting_outcome, meeting_agenda_item: agenda_item, notes: "Ship on Friday")
+      get path, filters: [{ search: { operator: "**", values: [search_term] } }].to_json
+    end
+
+    context "when the title matches" do
+      let(:search_term) { "quarterly" }
+
+      it "returns only matching visible meetings" do
+        expect(last_response).to have_http_status(:ok)
+        expect(JSON.parse(last_response.body).dig("_embedded", "elements").pluck("id")).to eq([matching_meeting.id])
+      end
+    end
+
+    context "when agenda content matches" do
+      let(:search_term) { "launch blockers" }
+
+      it "searches agenda titles and notes" do
+        expect(JSON.parse(last_response.body).dig("_embedded", "elements").pluck("id")).to eq([matching_meeting.id])
+      end
+    end
+
+    context "when an outcome matches" do
+      let(:search_term) { "ship Friday" }
+
+      it "searches outcome notes without duplicating meetings" do
+        expect(JSON.parse(last_response.body).dig("_embedded", "elements").pluck("id")).to eq([matching_meeting.id])
+      end
+    end
+  end
+
   describe "GET /api/v3/meetings/:id" do
     let(:meeting) { create(:meeting, project:, author: current_user) }
     let(:get_path) { api_v3_paths.meeting meeting.id }

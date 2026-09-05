@@ -36,12 +36,14 @@ import {
 } from 'core-app/shared/components/autocompleter/openproject-autocompleter.module';
 import { OpSharedModule } from 'core-app/shared/shared.module';
 import { RecentItemsService } from 'core-app/core/recent-items.service';
+import { DynamicIconDirective } from 'core-app/shared/components/primer/dynamic-icon.directive';
 
 @NgModule({
   imports: [
     OpSharedModule,
     OpenprojectWorkPackagesModule,
     OpenprojectAutocompleterModule,
+    DynamicIconDirective,
   ],
   providers: [
     GlobalSearchService,
