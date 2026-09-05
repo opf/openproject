@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,30 +28,45 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module Projects
-  module Settings
-    module Versions
-      class WorkPackagesGraphWidgetComponent < Grids::WidgetComponent
-        option :version
+module Backlogs
+  module SprintReports
+    module Widgets
+      class WorkPackageGraph < Grids::WidgetComponent
+        include Backlogs::CommonHelper
+
+        param :sprint
+        param :project
 
         def title
-          I18n.t("projects.settings.versions.work_packages_graph")
+          t(".title")
         end
 
-        def call
-          # The graph queries work packages by the version filter, which matches
-          # on target versions, so it is only rendered when that finds any.
-          return unless version.targeted_work_packages.any?
+        def wrapper_arguments
+          { full_width: true }
+        end
 
+        def render? = user_allowed?(:view_sprints)
+
+        def call
           widget_wrapper do |widget|
             widget.with_body do
               helpers.angular_component_tag(
                 "opce-wp-overview-graph",
-                "global-scope": version.systemwide?,
-                "initial-filters": helpers.version_wp_overview_graph_initial_filters(version).to_json
+                "global-scope": false,
+                "initial-filters": graph_filters.to_json,
+                "show-group-by-options": false
               )
             end
           end
+        end
+
+        private
+
+        def graph_filters
+          [
+            { sprint: { operator: "=", values: [sprint.id] } },
+            { project: { operator: "=", values: [project.id] } }
+          ]
         end
       end
     end

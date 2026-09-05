@@ -55,7 +55,7 @@ interface ChartDataSet {
     BaseChartDirective
   ],
   providers: [
-    provideCharts(withDefaultRegisterables(ChartDataLabels, PrimerColorsPlugin)),
+    provideCharts(withDefaultRegisterables(PrimerColorsPlugin)),
   ],
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
@@ -84,6 +84,8 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
   public internalChartOptions:ChartOptions;
 
   public initialized = false;
+
+  public readonly plugins = [ChartDataLabels];
 
   public text = {
     noResults: this.i18n.t('js.work_packages.no_results.title'),
@@ -141,11 +143,14 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
     const gridLineColor= getComputedStyle(document.body).getPropertyValue('--borderColor-muted');
     const backdropColor= getComputedStyle(document.body).getPropertyValue('--overlay-backdrop-bgColor');
 
+    const valueAxisIsX = this.chartType === 'horizontalBar';
+    const valueAxisHeadroom = this.isBarChart() ? { max: this.maxDataValue + 1 } : {};
+
     const defaults:ChartOptions = {
       color: bodyFontColor,
       responsive: true,
       maintainAspectRatio: false,
-      indexAxis: this.chartType === 'horizontalBar' ? 'y' : 'x',
+      indexAxis: valueAxisIsX ? 'y' : 'x',
       scales: {
         r: {
           angleLines: {
@@ -167,6 +172,7 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
           },
         },
         y: {
+          ...(valueAxisIsX ? {} : valueAxisHeadroom),
           ticks: {
             color: this.isBarChart() ? bodyFontColor : 'transparent',
           },
@@ -178,6 +184,7 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
           },
         },
         x: {
+          ...(valueAxisIsX ? valueAxisHeadroom : {}),
           ticks: {
             color: this.isBarChart() ? bodyFontColor : 'transparent',
           },
@@ -214,6 +221,10 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
 
   public get hasDataToDisplay() {
     return this.chartData.length > 0 && this.chartData.some((set) => set.data.length > 0);
+  }
+
+  private get maxDataValue():number {
+    return Math.max(0, ...this.datasets.flatMap((dataset) => (dataset.groups ?? []).map((group) => group.count)));
   }
 
   public get mappedChartType():string {
