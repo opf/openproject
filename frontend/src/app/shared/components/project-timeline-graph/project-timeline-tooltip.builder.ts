@@ -33,10 +33,9 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { octiconElement } from 'core-app/shared/helpers/op-icon-builder';
 import { html, nothing } from 'lit-html';
 import type { TemplateResult } from 'lit-html';
-import { classMap } from 'lit-html/directives/class-map.js';
-import { styleMap } from 'lit-html/directives/style-map.js';
+import { popoverMessage } from 'core-app/shared/components/anchored-popover/popover-message';
+import type { CaretPlacement } from 'core-app/shared/components/anchored-popover/caret-placement';
 import type { ProjectTimelineItem } from './project-timeline-item.builder';
-import type { CaretPlacement } from './project-timeline-tooltip-caret';
 
 export interface TooltipView {
   anchor:HTMLElement | null;
@@ -52,22 +51,13 @@ export class ProjectTimelineTooltipBuilder {
   popoverTemplate({ anchor, content, caret }:TooltipView):TemplateResult {
     return html`
       <anchored-position
-        class="op-project-timeline-graph--tooltip"
+        class="op-anchored-popover--host op-project-timeline-graph--tooltip"
         popover="manual"
         side="outside-top"
         align="center"
         anchor-offset="spacious"
         .anchorElement=${anchor}>
-        <div
-          class=${classMap({
-            'Popover-message': true,
-            'Popover-message--bottom': caret?.side === 'bottom',
-            'Popover-message--left': caret?.side === 'left',
-            'Popover-message--right': caret?.side === 'right',
-          })}
-          style=${styleMap({ '--op-timeline-tooltip-caret-offset': caret ? `${caret.offset}px` : null })}>
-          ${content ?? nothing}
-        </div>
+        ${popoverMessage(content ?? nothing, caret)}
       </anchored-position>
     `;
   }
