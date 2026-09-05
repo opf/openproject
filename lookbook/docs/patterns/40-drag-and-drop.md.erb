@@ -1,0 +1,213 @@
+Server-rendered lists become sortable through the `sortable-lists` Stimulus
+controller suite. A drag or a move menu action sends one request describing
+where the item landed; the server persists the order and streams the list back.
+
+## Choosing an approach
+
+**Prefer the declarative component API where it exists.** `BorderBoxListComponent`
+is gaining `sortable_list:` / `sortable_item:` options backed by value objects
+that emit this contract for you
+([DREAM-805](https://community.openproject.org/wp/DREAM-805)). Once that lands
+it covers the common case — a single list, or a set of sibling lists, of rows
+the server can reorder — and you should not hand-wire anything.
+
+Wire the controllers by hand only for what the component API does not reach:
+multiple item types under one root, per-type move endpoints, non-`BorderBoxList`
+markup such as table rows or cards, or optimistic placement.
+
+**Do not use `generic-drag-and-drop`.** The dragula-based controller is
+deprecated and closed to new consumers; its remaining call sites are being
+migrated. Anything new uses `sortable-lists`.
+
+Full API reference for the value objects will follow this page once the
+component documentation tooling is in place; what follows is a usage guide for
+manual wiring.
+
+## Controller topology
+
+Four controllers divide the work, connected to each other through outlets
+rather than DOM traversal:
+
+* **`sortable-lists`** — the root. Owns the move URLs, performs the request,
+  and reconciles the result. Declares outlets for the three children.
+* **`sortable-lists--list`** — one per list. Declares the list's own type, its
+  id, and which item type it accepts. A list that accepts no type renders but
+  refuses drops.
+* **`sortable-lists--item`** — one per draggable row. Declares the item's id,
+  type, and accessible label, and hosts the move menu actions.
+* **`sortable-lists--scrollable`** — optional, on whatever element scrolls, to
+  auto-scroll it while a drag hovers its edge.
+
+The root scopes every child by outlet selector, so nested roots never accept
+each other's items. Scope the selectors to the root's own wrapper id:
+
+```ruby
+{
+  controller: "sortable-lists",
+  sortable_lists_move_url_template_value: move_url_template,
+  sortable_lists_sortable_lists__list_outlet: "##{wrapper_key} [data-controller~='sortable-lists--list']",
+  sortable_lists_sortable_lists__item_outlet: "##{wrapper_key} [data-controller~='sortable-lists--item']"
+}
+```
+
+Rows may sit in a child rows container — the list controller resolves
+`:scope > ul`, as `BorderBoxList` renders — or directly under the list element
+itself. Both work; no markup change is needed for table rows or cards.
+
+## Wiring a list
+
+`Admin::TextTransformActions` is the smallest complete reference
+implementation. Its list declares the type it persists and the type it accepts:
+
+```ruby
+{
+  controller: "sortable-lists--list",
+  sortable_lists__list_type_value: AI::TextTransformAction::SORTABLE_LIST_TYPE,
+  sortable_lists__list_accepted_type_value: AI::TextTransformAction::SORTABLE_LIST_TYPE,
+  sortable_lists__list_name_value: t(".title")
+}
+```
+
+`type` doubles as the persisted `list_type`, so a droppable list without one
+cannot accept drops and warns in the console. `name` is announced to screen
+readers on a cross-list move. Add `id` when several lists share a type — it
+becomes the `list_id` the server receives. `drop_position` (`start` or `end`,
+default `end`) decides where a drop onto empty space in the list lands.
+
+Each row declares its own identity:
+
+```ruby
+{
+  controller: "sortable-lists--item",
+  sortable_lists__item_id_value: text_transform_action.id,
+  sortable_lists__item_type_value: AI::TextTransformAction::SORTABLE_LIST_TYPE,
+  sortable_lists__item_label_value: text_transform_action.label
+}
+```
+
+Set `confined: true` on an item the server will reorder in place but refuses to
+relocate: it stays fully draggable, and its own list still accepts it, so
+within-list reorder keeps working while foreign lists refuse the drop.
+
+## The move URL
+
+`move_url_template` is a URI template expanded client-side with the dragged
+item's id. Build it from the route helper via a sentinel so installations under
+a relative URL root keep working:
+
+```ruby
+def move_url_template
+  id_placeholder = "__id__"
+  drop_admin_text_transform_action_path(id_placeholder).sub(id_placeholder, "{id}")
+end
+```
+
+The expansion must stay same-origin and relative — only path, query and
+fragment survive. Where one root holds several item types, supply
+`sortable_lists_move_url_templates_value` as a type-keyed object instead; the dragged item's
+type selects the endpoint, and `move_url_template` remains the fallback.
+
+## The move request
+
+The root sends a `PUT` to the expanded URL with `responseKind: 'turbo-stream'`
+and three form fields:
+
+| Field | Meaning |
+| --- | --- |
+| `list_type` | the destination list's `type` |
+| `list_id` | the destination list's `id`, or blank when it declares none |
+| `prev_id` | id of the row the item now follows, or blank when it landed first |
+
+`prev_id` is an anchor, not an index, so a stale ordinal cannot silently move
+the wrong row. The `Lists::MoveAfterAnchor` concern implements the server half
+for `acts_as_list` models: a blank `prev_id` moves to the top, and an anchor
+that is unknown, outside the given scope, or the record itself is refused
+without mutating anything.
+
+Answer a refusal with `422`; the client keeps that status silent apart from the
+rollback, because the server has already streamed its own error message. Any
+other failure raises a generic toast.
+
+A drop that leaves the row where it started sends no request at all.
+
+## Response policy
+
+The row moves in the DOM immediately, before the request resolves. What
+happens next is the consumer's choice:
+
+* **Morph reconciliation (default).** The endpoint streams the re-rendered
+  list, and the morph replaces the optimistic placement with the canonical
+  server order. Use this unless you have a reason not to.
+* **Event-only (`optimistic`).** Setting the root's `optimistic` value appends
+  `optimistic=true` to the move URL. The endpoint may then acknowledge with an
+  event alone and leave the client's placement standing. Only surfaces that
+  cannot afford a full re-render on every drag opt in; Backlogs is the only one
+  today.
+
+  The flag is a request, not a promise. Backlogs skips the re-render only for a
+  same-list move whose requested anchor is verifiably the persisted one — a
+  blank `prev_id` with nothing above the row, or a non-blank one that really is
+  the row above. A cross-list move, or an anchor that has meanwhile left the
+  list, falls back to reloading the frame, because the persisted order and the
+  optimistic order have diverged.
+
+Either way a failed request rolls the rows back to their pre-move positions —
+unless a concurrent morph has already moved them, in which case the fresher
+server state wins.
+
+## Move menus
+
+Drag is a pointer gesture, so every sortable surface also needs keyboard- and
+screen-reader-reachable move actions. Put them in the row's Primer
+`ActionMenu`, with the data on the item level so Primer renders it on the
+`<li>` the item controller listens to:
+
+```ruby
+menu.with_item(
+  label: I18n.t(label),
+  tag: :button,
+  data: {
+    sortable_lists__item_target: "moveItem",
+    sortable_lists__item_direction_param: direction,
+    action: "click->sortable-lists--item#move"
+  }
+) do |item|
+  item.with_leading_visual_icon(icon:)
+end
+```
+
+Availability is recomputed each time the menu opens, since an earlier reorder
+may have shifted the row's neighbours. Unavailable directions are hidden by
+default; set the item's `hide_unavailable` value to `false` to disable them
+instead.
+
+## Auto-scrolling
+
+Put `sortable-lists--scrollable` on the element that actually scrolls — often
+an ancestor of the root rather than the list. It defaults to the vertical axis
+at standard speed; `allowed_axis` (`vertical`, `horizontal`, `all`) and
+`max_scroll_speed` (`standard`, `fast`) adjust that.
+
+## Batch moves
+
+Multi-select and multi-row drags are in active development
+([AGILE-278](https://community.openproject.org/wp/AGILE-278),
+[AGILE-361](https://community.openproject.org/wp/AGILE-361)). The root's
+`selection_enabled` value and the collection move
+endpoint it drives are not yet a stable contract; this section will document
+them once they settle.
+
+## Migrating off generic-drag-and-drop
+
+| `generic-drag-and-drop` | `sortable-lists` |
+| --- | --- |
+| `generic_drag_and_drop_target: "container"` | a `sortable-lists--list` controller on the list |
+| `generic_drag_and_drop_target: "scrollContainer"` | a `sortable-lists--scrollable` controller |
+| `drop-url` on the row | `move_url_template` on the root |
+| `draggable-type` / `target-allowed-drag-type` | the item's `type` and the list's `accepted_type` |
+| index-based position params | `list_type` + `list_id` + `prev_id` |
+| no keyboard path | `moveItem` menu targets |
+
+The endpoint changes shape as well: dragula posted an index, so a server that
+still computes positions from one needs porting to anchor semantics before its
+list can move over.

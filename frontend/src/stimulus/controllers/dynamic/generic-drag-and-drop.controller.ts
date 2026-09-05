@@ -42,6 +42,13 @@ interface TargetConfig {
   targetId:string|null;
 }
 
+/**
+ * @deprecated Closed to new consumers. Use the `sortable-lists` controller
+ * suite instead — or, once it lands, the declarative `BorderBoxListComponent`
+ * options that emit its contract. This controller is dragula-based, sends
+ * index-based positions, and offers no keyboard path; its remaining call sites
+ * are being migrated. See the drag and drop pattern page in Lookbook.
+ */
 export default class GenericDragAndDropController extends Controller {
   static targets = ['container', 'scrollContainer'];
 
