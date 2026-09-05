@@ -65,7 +65,7 @@ export function registerDialogStreamAction() {
 
     if (existingElement instanceof HTMLDialogElement) {
       // a dialog with this id already exists: update (morph) its contents.
-      Idiomorph.morph(existingElement, dialog.innerHTML, { morphStyle: 'innerHTML' });
+      void Idiomorph.morph(existingElement, dialog.innerHTML, { morphStyle: 'innerHTML' });
       dialogToShow = existingElement;
     } else {
       // no dialog with this id exists: append <dialog-helper> to the body.
