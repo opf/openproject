@@ -53,6 +53,8 @@ import {
   isOrderableItem,
   itemAcceptsDestination,
   reorderRows,
+  resolveBlockMove,
+  resolveBlockMoveAvailability,
   resolveDirectionalPreviousItemId,
   resolveItemId,
   resolveItemLabel,
@@ -490,20 +492,29 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     return this.element.hasAttribute(sortableListsBusyAttribute);
   }
 
-  // A direction is offered exactly when the move resolver can produce a
-  // target for it, and never for an item moveInDirection would refuse below.
-  // Null means the item is not in an owned list yet. A snapshot for menu
-  // gating; the click path re-resolves the live DOM.
+  // A direction is offered exactly when the move resolver can produce a target
+  // for it, which keeps the menu honest about truncated lists. Null means the
+  // item is not in an owned list yet, or takes no part in ordering. A snapshot
+  // for menu gating; the click path re-resolves the live DOM.
   moveAvailability(itemElement:HTMLElement):MoveAvailability|null {
-    if (!isOrderableItem(itemElement)) {
-      return {
-        top: false, up: false, down: false, bottom: false,
-      };
+    const list = this.ownerListOf(itemElement);
+    if (!list || !isOrderableItem(itemElement)) {
+      return null;
     }
 
-    const list = this.ownerListOf(itemElement);
+    const scope = this.actionScopeFor(itemElement);
+    if (scope.kind === 'refused') {
+      return resolveMoveAvailability({
+        itemElement,
+        rowsContainer: list.rowsContainer,
+      });
+    }
 
-    return list ? resolveMoveAvailability({ itemElement, rowsContainer: list.rowsContainer }) : null;
+    if (!this.resolveCollectionMoveUrl()) {
+      return { top: false, up: false, down: false, bottom: false };
+    }
+
+    return resolveBlockMoveAvailability({ itemElements: scope.items, rowsContainer: list.rowsContainer });
   }
 
   moveToDestination(itemElement:HTMLElement, target:DestinationIdentity):void {
@@ -537,6 +548,62 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       return;
     }
 
+    if (this.selection) {
+      const moveUrl = this.resolveCollectionMoveUrl();
+      if (!moveUrl) {
+        return;
+      }
+
+      // Resolved without mutating: every check below can still refuse the
+      // move, and a stale menu must not replace the user's batch with the
+      // invoker for a move that then never runs.
+      const scope = this.actionScopeFor(itemElement);
+      if (scope.kind === 'refused') {
+        return;
+      }
+
+      const list = this.ownerListOf(itemElement);
+      if (!list) {
+        return;
+      }
+
+      const resolution = resolveBlockMove({
+        itemElements: scope.items,
+        direction,
+        rowsContainer: list.rowsContainer,
+      });
+      if (!resolution.available) {
+        return;
+      }
+
+      // Scope members are resolved candidates, so both identity attributes
+      // exist; refusing on a mismatch keeps the moved rows and the submitted
+      // ids from ever diverging.
+      const items = scope.items.flatMap((element):SelectionItem[] => {
+        const type = resolveItemType(element);
+        const id = resolveItemId(element);
+        return type && id ? [{ type, id }] : [];
+      });
+      if (items.length !== scope.items.length) {
+        return;
+      }
+
+      // Committed only now the move is known executable: invoking a position
+      // action on an unselected card selects it, and a failed request keeps
+      // that selection for the retry.
+      this.selectForAction(itemElement);
+
+      void this.performMove({
+        rows: resolution.rows,
+        items,
+        rowsContainer: list.rowsContainer,
+        listData: list.listData,
+        previousItemId: resolution.previousItemId,
+        moveUrl,
+      });
+      return;
+    }
+
     const list = this.ownerListOf(itemElement);
     if (!list) {
       return;
@@ -557,8 +624,6 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     if (!moveUrl || !sourceRow) {
       return;
     }
-
-    this.selection?.collapseForAction(itemElement);
 
     void this.performMove({
       rows: [sourceRow],

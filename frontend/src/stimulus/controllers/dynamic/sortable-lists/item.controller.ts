@@ -525,7 +525,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
 
     const scope = root.actionScopeFor(this.element);
     this.refreshDestinationAvailability(root, scope);
-    this.refreshMoveMenuAvailability(root, scope);
+    this.refreshMoveMenuAvailability(root);
     this.refreshMoveDivider();
   }
 
@@ -550,14 +550,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
     }
   }
 
-  private refreshMoveMenuAvailability(root:SortableListsRoot, scope:ActionScope):void {
-    if (scope.kind === 'batch' && scope.items.length > 1) {
-      if (this.hasMoveMenuTarget) {
-        this.setAvailability(this.moveMenuTarget, false);
-      }
-      return;
-    }
-
+  private refreshMoveMenuAvailability(root:SortableListsRoot):void {
     // Null availability means the item is not in a list yet; leave the menu
     // alone until the outlet wiring settles.
     const availability = root.moveAvailability(this.element);

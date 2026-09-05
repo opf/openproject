@@ -76,8 +76,8 @@ describe('Sortable lists list controller', () => {
     return {
       element,
       busy,
-      actionScopeFor: vi.fn((item:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
-      selectForAction: vi.fn((item:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
+      actionScopeFor: vi.fn(():ActionScope => ({ kind: 'refused', items: [] })),
+      selectForAction: vi.fn(():ActionScope => ({ kind: 'refused', items: [] })),
       availableDestinations: vi.fn(() => []),
       moveToDestination: vi.fn(),
       moveInDirection: vi.fn(),

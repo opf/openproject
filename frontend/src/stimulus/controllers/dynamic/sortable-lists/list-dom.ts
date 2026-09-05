@@ -450,6 +450,125 @@ export function resolveDirectionalPreviousItemId({
 
 export type MoveAvailability = Record<MoveDirection, boolean>;
 
+export interface BlockMoveResolution {
+  available:true;
+  rows:HTMLElement[];
+  previousItemId:string|null;
+}
+
+export type BlockMoveUnavailableReason =
+  | 'not-orderable'
+  | 'cross-list'
+  | 'non-contiguous'
+  | 'truncation-boundary'
+  | 'unaddressable-gap'
+  | 'no-op';
+
+export interface BlockMoveUnavailable {
+  available:false;
+  reason:BlockMoveUnavailableReason;
+}
+
+export type BlockMoveResult = BlockMoveResolution|BlockMoveUnavailable;
+
+export function resolveBlockMove({
+  itemElements,
+  direction,
+  rowsContainer,
+}:{
+  itemElements:HTMLElement[];
+  direction:MoveDirection;
+  rowsContainer:HTMLElement;
+}):BlockMoveResult {
+  const unavailable = (reason:BlockMoveUnavailableReason):BlockMoveUnavailable => ({ available: false, reason });
+  if (itemElements.length === 0 || itemElements.some((item) => !isOrderableItem(item))) {
+    return unavailable('not-orderable');
+  }
+
+  const rows = listRows(rowsContainer);
+  const selectedRows = itemElements.map((item) => rowOf(rowsContainer, item));
+  if (selectedRows.some((row, index) => (
+    row === null || resolveItemElement(row, rowsContainer) !== itemElements[index]
+  ))) {
+    return unavailable('cross-list');
+  }
+
+  const block = selectedRows as HTMLElement[];
+  const indexes = block.map((row) => rows.indexOf(row));
+  if (
+    new Set(block).size !== block.length ||
+    indexes.some((index, offset) => offset > 0 && index !== indexes[offset - 1] + 1)
+  ) {
+    return unavailable('non-contiguous');
+  }
+
+  const itemRows = rows.filter((row) => isItemRow(row, rowsContainer));
+  const itemIndexes = block.map((row) => itemRows.indexOf(row));
+  if (itemIndexes.some((index, offset) => index < 0 || (offset > 0 && index !== itemIndexes[offset - 1] + 1))) {
+    return unavailable('non-contiguous');
+  }
+
+  const firstRowIndex = indexes[0];
+  const lastRowIndex = indexes[indexes.length - 1];
+  const firstItemIndex = itemIndexes[0];
+  const lastItemIndex = itemIndexes[itemIndexes.length - 1];
+
+  let previousItemId:string|null|undefined;
+  switch (direction) {
+    case 'top':
+      previousItemId = firstItemIndex === 0 ? undefined : null;
+      break;
+    case 'bottom': {
+      if (lastItemIndex === itemRows.length - 1) return unavailable('no-op');
+      const selected = new Set(block);
+      const anchor = [...itemRows].reverse().find((row) => !selected.has(row as HTMLElement));
+      const anchorId = anchor ? resolvePreviousItemId(anchor, rowsContainer) : null;
+      previousItemId = anchorId ?? undefined;
+      break;
+    }
+    case 'up': {
+      if (firstItemIndex === 0) return unavailable('no-op');
+      const adjacent = rows[firstRowIndex - 1];
+      if (!isItemRow(adjacent, rowsContainer)) {
+        return unavailable(adjacent && rowOmittedCount(adjacent) > 0 ? 'truncation-boundary' : 'unaddressable-gap');
+      }
+      const anchor = rows[firstRowIndex - 2];
+      if (anchor && !isAddressableRow(anchor, rowsContainer)) return unavailable('unaddressable-gap');
+      previousItemId = anchor ? resolvePreviousItemId(anchor, rowsContainer) : null;
+      break;
+    }
+    case 'down': {
+      if (lastItemIndex === itemRows.length - 1) return unavailable('no-op');
+      const adjacent = rows[lastRowIndex + 1];
+      if (!isItemRow(adjacent, rowsContainer)) {
+        return unavailable(adjacent && rowOmittedCount(adjacent) > 0 ? 'truncation-boundary' : 'unaddressable-gap');
+      }
+      const adjacentId = resolvePreviousItemId(adjacent, rowsContainer);
+      previousItemId = adjacentId ?? undefined;
+      break;
+    }
+  }
+
+  return previousItemId === undefined
+    ? unavailable(firstItemIndex === 0 || lastItemIndex === itemRows.length - 1 ? 'no-op' : 'unaddressable-gap')
+    : { available: true, rows: block, previousItemId };
+}
+
+export function resolveBlockMoveAvailability({
+  itemElements,
+  rowsContainer,
+}:{
+  itemElements:HTMLElement[];
+  rowsContainer:HTMLElement;
+}):MoveAvailability {
+  return {
+    top: resolveBlockMove({ itemElements, rowsContainer, direction: 'top' }).available,
+    up: resolveBlockMove({ itemElements, rowsContainer, direction: 'up' }).available,
+    down: resolveBlockMove({ itemElements, rowsContainer, direction: 'down' }).available,
+    bottom: resolveBlockMove({ itemElements, rowsContainer, direction: 'bottom' }).available,
+  };
+}
+
 // Availability of all four directional moves for the item, or null when it is
 // not (yet) a row of the container. The row scan happens once; the four
 // per-direction resolutions only index into it.
