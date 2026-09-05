@@ -33,13 +33,16 @@
 // Attributes stripped from the cloned drag preview so it carries no behaviour or
 // stale interaction state. The dynamic `data-*--*-target` attributes are removed
 // separately in sanitizePreview.
+// `data-batch-selected` is deliberately absent: it lives on the sortable
+// item element (the row, in Backlogs), while the preview target is the card
+// — the row's child, never its clone. It can never end up on this clone, so
+// stripping it here would be dead code.
 const PREVIEW_STRIPPED_ATTRIBUTES = [
   'data-controller',
   'data-action',
   'data-dragging',
   'data-drop-position',
   'data-drop-position-owner',
-  'data-selected',
   'aria-current',
   'aria-describedby',
   'aria-disabled',
