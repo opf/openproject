@@ -66,7 +66,6 @@ def register_better_cuprite(language, name: :"better_cuprite_#{language}")
       timeout: 10,
       # In case the timeout is not enough, this option can be activated:
       # pending_connection_errors: false,
-      inspector: true,
       headless: headless_mode?,
       save_path: DownloadList::SHARED_PATH.to_s,
       window_size: [1920, 1080],
