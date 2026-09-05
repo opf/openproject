@@ -26,13 +26,12 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Injector, Input, OnDestroy, Output, SecurityContext, ViewChild, ViewEncapsulation, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Injector, Input, OnDestroy, Output, ViewChild, ViewEncapsulation, inject } from '@angular/core';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { States } from 'core-app/core/states/states.service';
 import moment, { Moment } from 'moment';
 import { StateService } from '@uirouter/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { DomSanitizer } from '@angular/platform-browser';
 import timeGrid from '@fullcalendar/timegrid';
 import {
   CalendarOptions,
@@ -59,8 +58,6 @@ import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-bui
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
-import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
-import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { VerboseFormattingArg } from '@fullcalendar/common';
 import { firstValueFrom, Subject } from 'rxjs';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
@@ -74,19 +71,10 @@ import { target } from 'core-app/shared/helpers/event-helpers';
 import type AnchoredPositionElement from '@openproject/primer-view-components/app/components/primer/anchored_position';
 import { placePopover } from 'core-app/shared/components/anchored-popover/popover-placement';
 import type { CaretPlacement } from 'core-app/shared/components/anchored-popover/caret-placement';
-import { timeEntryPopoverHtml } from './te-calendar-popover';
-import type { PopoverRow } from './te-calendar-popover';
+import { timeEntryPopoverHtml, timeEntryPopoverRows } from './te-calendar-popover';
+import type { TimeEntrySchema } from './te-calendar-popover';
 import { render } from 'lit-html';
 import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
-
-interface TimeEntrySchema extends SchemaResource {
-  activity:IFieldSchema;
-  entity:IFieldSchema;
-  project:IFieldSchema;
-  hours:IFieldSchema;
-  user:IFieldSchema;
-  comment:IFieldSchema;
-}
 
 interface CalendarViewEvent {
   el:HTMLElement;
@@ -142,7 +130,6 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
   readonly i18n = inject(I18nService);
   readonly injector = inject(Injector);
   readonly notifications = inject(HalResourceNotificationService);
-  private sanitizer = inject(DomSanitizer);
   private configuration = inject(ConfigurationService);
   private timezone = inject(TimezoneService);
   private schemaCache = inject(SchemaCacheService);
@@ -558,16 +545,19 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
       return;
     }
 
-    const { entry } = event.event.extendedProps;
+    const entry = event.event.extendedProps.entry as TimeEntryResource;
 
-    const schema = (await this.schemaCache.ensureLoaded(entry as TimeEntryResource)) as TimeEntrySchema;
+    const schema = (await this.schemaCache.ensureLoaded(entry)) as TimeEntrySchema;
 
     const anchorEl = event.el;
     const anchorId = ensureId(anchorEl);
     anchorEl.role = 'button';
 
     const popoverId = generateId('popover');
-    const rows = this.popoverRows(entry as TimeEntryResource, schema);
+    const rows = timeEntryPopoverRows(entry, schema, {
+      placeholder: this.i18n.t('js.placeholders.default'),
+      formattedDuration: this.timezone.formattedDuration(entry.hours as string),
+    });
     const draw = (caret:CaretPlacement|null) => render(timeEntryPopoverHtml(popoverId, anchorId, rows, caret), anchorEl);
     draw(null);
 
@@ -663,20 +653,6 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
 
   private entityName(entry:TimeEntryResource):string {
     return formatTimeEntryEntityName(entry.entity);
-  }
-
-  private popoverRows(entry:TimeEntryResource, schema:TimeEntrySchema):PopoverRow[] {
-    return [
-      { label: schema.project.name, value: this.sanitizedValue(entry.project.name) },
-      { label: schema.entity.name, value: entry.entity ? this.sanitizedValue(this.entityName(entry)) : this.i18n.t('js.placeholders.default') },
-      { label: schema.activity.name, value: this.sanitizedValue(entry.activity?.name ?? '') },
-      { label: schema.hours.name, value: this.timezone.formattedDuration(entry.hours as string) },
-      { label: schema.comment.name, value: this.sanitizedValue(entry.comment.raw ?? this.i18n.t('js.placeholders.default')) },
-    ];
-  }
-
-  private sanitizedValue(value:string):string {
-    return this.sanitizer.sanitize(SecurityContext.HTML, value) ?? '';
   }
 
   protected formatNumber(value:number):string {
