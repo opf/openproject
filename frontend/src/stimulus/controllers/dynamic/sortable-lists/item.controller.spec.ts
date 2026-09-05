@@ -58,6 +58,7 @@ import type { ActionEvent } from '@hotwired/stimulus';
 import type ItemControllerType from './item.controller';
 import type { SortableListsRoot } from './drag-and-drop';
 import type { DestinationIdentity } from './list-dom';
+import type { ActionScope } from './selection-orchestrator';
 
 describe('Sortable lists item controller', () => {
   let draggable:typeof draggableFn;
@@ -104,8 +105,13 @@ describe('Sortable lists item controller', () => {
     return {
       element,
       busy,
+      actionScopeFor: vi.fn((item:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
+      selectForAction: vi.fn((item:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
+      availableDestinations: vi.fn(() => []),
+      moveToDestination: vi.fn(),
       moveInDirection: vi.fn(),
       moveAvailability: vi.fn(() => null),
+      ownerListElementOf: vi.fn(() => null),
       ownerRowsContainer: vi.fn(ownerRowsContainer),
       freezeDragBatch: vi.fn(() => 1),
       markDragBatch: vi.fn(),
@@ -1118,8 +1124,13 @@ describe('Sortable lists item controller', () => {
       controller.connectRoot({
         element: row,
         busy: false,
+        actionScopeFor: vi.fn((item:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
+        selectForAction: vi.fn((item:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
+        availableDestinations: vi.fn(() => []),
+        moveToDestination: vi.fn(),
         moveInDirection: vi.fn(),
         moveAvailability: vi.fn(() => null),
+        ownerListElementOf: vi.fn(() => null),
         ownerRowsContainer: vi.fn(() => null),
         freezeDragBatch: vi.fn(() => 3),
         markDragBatch: vi.fn(),
@@ -1211,8 +1222,13 @@ describe('Sortable lists item controller', () => {
       controller.connectRoot({
         element: row,
         busy: false,
+        actionScopeFor: vi.fn((actionItem:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
+        selectForAction: vi.fn((actionItem:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
+        availableDestinations: vi.fn(() => []),
+        moveToDestination: vi.fn(),
         moveInDirection: vi.fn(),
         moveAvailability: vi.fn(() => null),
+        ownerListElementOf: vi.fn(() => null),
         ownerRowsContainer: vi.fn(() => null),
         freezeDragBatch: vi.fn(() => 3),
         markDragBatch: vi.fn(),
@@ -1346,13 +1362,13 @@ describe('Sortable lists item controller', () => {
       const menuElement = document.createElement('action-menu');
       // The divider opens the move group, so everything below it is what
       // decides whether it still separates anything.
-      menuElement.innerHTML = (withDivider ? '<li data-sortable-lists--item-target="moveDivider"></li>' : '')
-        + ['top', 'up', 'down', 'bottom'].map((direction) => (
-          `<li data-sortable-lists--item-target="moveItem" data-sortable-lists--item-direction-param="${direction}"`
-          + ' data-action="click->sortable-lists--item#move"><button></button></li>'
-        )).join('');
+      menuElement.innerHTML = withDivider ? '<li data-sortable-lists--item-target="moveDivider"></li>' : '';
       const parent = document.createElement('li');
       parent.setAttribute('data-sortable-lists--item-target', 'moveMenu');
+      parent.innerHTML = ['top', 'up', 'down', 'bottom'].map((direction) => (
+        `<li data-sortable-lists--item-target="moveItem" data-sortable-lists--item-direction-param="${direction}"`
+        + ' data-action="click->sortable-lists--item#move"><button></button></li>'
+      )).join('');
       menuElement.appendChild(parent);
       el.appendChild(menuElement);
 
@@ -1372,6 +1388,16 @@ describe('Sortable lists item controller', () => {
     }
 
     const liFor = (el:HTMLElement, direction:string) => el.querySelector<HTMLElement>(`li[data-sortable-lists--item-direction-param="${direction}"]`)!;
+    const destinationWithMetadata = (el:HTMLElement, metadata:string) => {
+      const item = document.createElement('li');
+      item.setAttribute('data-sortable-lists--item-target', 'destinationItem');
+      item.dataset.sortableListsDestinations = metadata;
+      el.querySelector('action-menu')!.append(item);
+      return item;
+    };
+    const destinationFor = (el:HTMLElement, candidates:{ type:string; id:string|null }[]) => (
+      destinationWithMetadata(el, JSON.stringify(candidates))
+    );
     // Availability defaults to the first/last extremes so the position-driven
     // specs read naturally; individual tests can override the map to exercise
     // the marker-aware (truncated list) wiring.
@@ -1387,8 +1413,23 @@ describe('Sortable lists item controller', () => {
       moveInDirection = vi.fn(),
       availability = availabilityFromPosition(position),
     ) => ({
-      element: el, busy: false, moveAvailability: () => availability, moveInDirection,
+      element: el,
+      busy: false,
+      actionScopeFor: vi.fn((item:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
+      selectForAction: vi.fn((item:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
+      availableDestinations: vi.fn(() => []),
+      moveToDestination: vi.fn(),
+      moveAvailability: () => availability,
+      moveInDirection,
     } as unknown as SortableListsRoot);
+
+    function stubMenuRoot(el:HTMLElement, position:{ isFirst:boolean; isLast:boolean }) {
+      const actionScopeFor = vi.fn((item:HTMLElement):ActionScope => ({ kind: 'refused', items: [] }));
+      const availableDestinations = vi.fn((_scope:ActionScope, _candidates:DestinationIdentity[]):DestinationIdentity[] => []);
+      const root = { ...stubRoot(el, position), actionScopeFor, availableDestinations };
+
+      return { root, actionScopeFor, availableDestinations };
+    }
 
     it('hides up/top for a first item and shows the rest', async () => {
       const { el, menu } = renderItemWithMenu(1);
@@ -1442,6 +1483,146 @@ describe('Sortable lists item controller', () => {
 
       const parent = el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveMenu"]')!;
       expect(menu.hideItem).toHaveBeenCalledWith(parent);
+    });
+
+    it('projects deferred destination items for the selected invoker', async () => {
+      const { el, menu } = renderItemWithMenu(1, true);
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      const scope:ActionScope = { kind: 'batch', items: [el]};
+      const { root, actionScopeFor, availableDestinations } = stubMenuRoot(el, { isFirst: false, isLast: false });
+      actionScopeFor.mockReturnValue(scope);
+      availableDestinations.mockImplementation((_scope, candidates) => (
+        candidates.filter((candidate) => candidate.type === 'inbox')
+      ));
+      controller.connectRoot(root);
+
+      const moveToSprint = destinationFor(el, [{ type: 'sprint', id: '1' }]);
+      const moveToInbox = destinationFor(el, [{ type: 'inbox', id: null }]);
+      await menuCtx!.nextFrame();
+
+      expect(actionScopeFor).toHaveBeenCalledWith(el);
+      expect(menu.hideItem).toHaveBeenCalledWith(moveToSprint);
+      expect(menu.showItem).toHaveBeenCalledWith(moveToInbox);
+    });
+
+    it('recomputes selected multi-card and prospective one-card scopes whenever the menu opens', async () => {
+      const { el, menu } = renderItemWithMenu(1);
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      const { root, actionScopeFor, availableDestinations } = stubMenuRoot(el, { isFirst: false, isLast: false });
+      const selectedPeer = document.createElement('div');
+      selectedPeer.setAttribute('data-sortable-lists--item-id-value', '2');
+      selectedPeer.setAttribute('data-sortable-lists--item-mobility-value', 'free');
+      const selectedScope:ActionScope = { kind: 'batch', items: [el, selectedPeer]};
+      const prospectiveScope:ActionScope = { kind: 'batch', items: [el]};
+      let activeScope = selectedScope;
+      actionScopeFor.mockImplementation(() => activeScope);
+      availableDestinations.mockImplementation((scope, candidates) => (
+        candidates.filter((candidate) => candidate.type === (scope === selectedScope ? 'sprint' : 'inbox'))
+      ));
+      controller.connectRoot(root);
+
+      const moveToSprint = destinationFor(el, [{ type: 'sprint', id: '1' }]);
+      const moveToInbox = destinationFor(el, [{ type: 'inbox', id: null }]);
+      await menuCtx!.nextFrame();
+
+      expect(availableDestinations).toHaveBeenCalledWith(selectedScope, [{ type: 'sprint', id: '1' }]);
+      expect(availableDestinations).toHaveBeenCalledWith(selectedScope, [{ type: 'inbox', id: null }]);
+      expect(menu.showItem).toHaveBeenCalledWith(moveToSprint);
+      expect(menu.hideItem).toHaveBeenCalledWith(moveToInbox);
+      menu.hideItem.mockClear();
+      menu.showItem.mockClear();
+      activeScope = prospectiveScope;
+
+      const menuElement = el.querySelector('action-menu')!;
+      const toggle = new ToggleEvent('toggle', { newState: 'open', oldState: 'closed' });
+      menuElement.dispatchEvent(toggle);
+
+      expect(actionScopeFor).toHaveBeenLastCalledWith(el);
+      expect(availableDestinations).toHaveBeenCalledWith(prospectiveScope, [{ type: 'sprint', id: '1' }]);
+      expect(availableDestinations).toHaveBeenCalledWith(prospectiveScope, [{ type: 'inbox', id: null }]);
+      expect(menu.hideItem).toHaveBeenCalledWith(moveToSprint);
+      expect(menu.showItem).toHaveBeenCalledWith(moveToInbox);
+    });
+
+    it('hides destination actions and the position submenu for a true multi-card scope', async () => {
+      const { el, menu } = renderItemWithMenu(1, true);
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      // Batch size is the member count: two elements, not one element with
+      // two ids.
+      const scope:ActionScope = { kind: 'batch', items: [el, document.createElement('li')] };
+      const { root, actionScopeFor, availableDestinations } = stubMenuRoot(el, { isFirst: false, isLast: false });
+      actionScopeFor.mockReturnValue(scope);
+      availableDestinations.mockReturnValue([]);
+      controller.connectRoot(root);
+
+      const moveToSprint = destinationFor(el, [{ type: 'sprint', id: '1' }]);
+      const moveToInbox = destinationFor(el, [{ type: 'inbox', id: null }]);
+      await menuCtx!.nextFrame();
+
+      const moveMenu = el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveMenu"]')!;
+      const divider = el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveDivider"]')!;
+      expect(menu.hideItem).toHaveBeenCalledWith(moveToSprint);
+      expect(menu.hideItem).toHaveBeenCalledWith(moveToInbox);
+      expect(menu.hideItem).toHaveBeenCalledWith(moveMenu);
+      expect(menu.hideItem).not.toHaveBeenCalledWith(liFor(el, 'top'));
+      expect(divider.hasAttribute('hidden')).toBe(true);
+    });
+
+    it('keeps only the current owner destination for a confined batch scope', async () => {
+      const { el, menu } = renderItemWithMenu(1);
+      el.setAttribute('data-sortable-lists--item-mobility-value', 'confined');
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      const { root, actionScopeFor, availableDestinations } = stubMenuRoot(el, { isFirst: false, isLast: false });
+      const scope:ActionScope = { kind: 'batch', items: [el]};
+      actionScopeFor.mockReturnValue(scope);
+      availableDestinations.mockImplementation((_scope, candidates) => candidates.filter((candidate) => candidate.id === '12'));
+      controller.connectRoot(root);
+
+      const moveToSprint = destinationFor(el, [{ type: 'sprint', id: '12' }, { type: 'sprint', id: '13' }]);
+      await menuCtx!.nextFrame();
+
+      expect(availableDestinations).toHaveBeenCalledWith(scope, [{ type: 'sprint', id: '12' }, { type: 'sprint', id: '13' }]);
+      expect(menu.showItem).toHaveBeenCalledWith(moveToSprint);
+    });
+
+    it('hides batch destinations for a fixed synthetic singular scope', async () => {
+      const { el, menu } = renderItemWithMenu(1);
+      el.setAttribute('data-sortable-lists--item-mobility-value', 'fixed');
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      const { root, actionScopeFor, availableDestinations } = stubMenuRoot(el, { isFirst: false, isLast: false });
+      const scope:ActionScope = { kind: 'refused', items: [] };
+      actionScopeFor.mockReturnValue(scope);
+      availableDestinations.mockReturnValue([]);
+      controller.connectRoot(root);
+
+      const moveToSprint = destinationFor(el, [{ type: 'sprint', id: '12' }]);
+      await menuCtx!.nextFrame();
+
+      expect(availableDestinations).toHaveBeenCalledWith(scope, [{ type: 'sprint', id: '12' }]);
+      expect(menu.hideItem).toHaveBeenCalledWith(moveToSprint);
+    });
+
+    it.each([
+      ['invalid JSON', '{invalid'],
+      ['non-array JSON', '{"type":"sprint","id":"12"}'],
+      ['a malformed candidate member', '[{"type":"sprint","id":"12"},{"type":"sprint"}]'],
+    ])('fails closed for %s destination metadata', async (_description, metadata) => {
+      const { el, menu } = renderItemWithMenu(1);
+      document.body.appendChild(el);
+      const controller = await mountItemController(el);
+      const { root, availableDestinations } = stubMenuRoot(el, { isFirst: false, isLast: false });
+      controller.connectRoot(root);
+
+      const destination = destinationWithMetadata(el, metadata);
+      await menuCtx!.nextFrame();
+
+      expect(menu.hideItem).toHaveBeenCalledWith(destination);
+      expect(availableDestinations).not.toHaveBeenCalled();
     });
 
     // Regression: the divider is rendered server-side from a permission check
@@ -1515,7 +1696,7 @@ describe('Sortable lists item controller', () => {
       expect(() => {
         controller.connectRoot(stubRoot(el, { isFirst: true, isLast: true }, moveInDirection));
         // @ts-expect-error exercising the guard directly
-        controller.refreshMoveMenuAvailability?.();
+        controller.refreshActionAvailability?.();
       }).not.toThrow();
 
       // move() must also no-op rather than throw: there is no menu to read
@@ -1525,6 +1706,113 @@ describe('Sortable lists item controller', () => {
 
       expect(() => controller.move(moveEvent)).not.toThrow();
       expect(moveInDirection).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('destination activation', () => {
+    it('exposes direct destination movement as a required root capability', () => {
+      const moveToDestination = vi.fn();
+      const root:SortableListsRoot = { ...fakeRoot(), moveToDestination };
+      const item = document.createElement('div');
+
+      root.moveToDestination(item, { type: 'inbox', id: null });
+
+      expect(moveToDestination).toHaveBeenCalledWith(item, { type: 'inbox', id: null });
+    });
+
+    it('replaces stale generated inputs with the current action scope in document order', () => {
+      const element = document.createElement('div');
+      const [first, second] = ['2', '1'].map((id) => {
+        const member = document.createElement('div');
+        member.setAttribute('data-sortable-lists--item-id-value', id);
+        return member;
+      });
+      const selectForAction = vi.fn(():ActionScope => ({ kind: 'batch', items: [first, second] }));
+      const controller = connectedControllerFor(element, {
+        root: { ...fakeRoot(), selectForAction },
+      });
+      const form = document.createElement('form');
+      form.innerHTML = '<input name="ids[]" value="stale" data-sortable-lists-generated-id><input name="kept" value="yes">';
+      const event = new CustomEvent('async-dialog:beforeLoad', {
+        cancelable: true,
+        detail: { form },
+      });
+
+      controller.prepareDialog(event);
+
+      expect(selectForAction).toHaveBeenCalledWith(element);
+      expect(event.defaultPrevented).toBe(false);
+      expect(Array.from(form.elements).map((input) => [(input as HTMLInputElement).name, (input as HTMLInputElement).value])).toEqual([
+        ['kept', 'yes'],
+        ['ids[]', '2'],
+        ['ids[]', '1'],
+      ]);
+      expect(form.querySelectorAll('[data-sortable-lists-generated-id]')).toHaveLength(2);
+    });
+
+    it('cancels dialog loading without resolving or mutating the action scope while the root is busy', () => {
+      const element = document.createElement('div');
+      const selectForAction = vi.fn(():ActionScope => ({ kind: 'batch', items: [element] }));
+      const controller = connectedControllerFor(element, {
+        root: { ...fakeRoot(), busy: true, selectForAction },
+      });
+      const form = document.createElement('form');
+      form.innerHTML = '<input name="ids[]" value="stale" data-sortable-lists-generated-id><input name="kept" value="yes">';
+      const staleInput = form.querySelector('[data-sortable-lists-generated-id]');
+      const event = new CustomEvent<{ form:HTMLFormElement|null }>('async-dialog:beforeLoad', {
+        cancelable: true,
+        detail: { form },
+      });
+
+      controller.prepareDialog(event);
+
+      expect(event.defaultPrevented).toBe(true);
+      expect(selectForAction).not.toHaveBeenCalled();
+      expect(form.querySelector('[data-sortable-lists-generated-id]')).toBe(staleInput);
+      expect(Array.from(form.elements).map((input) => [(input as HTMLInputElement).name, (input as HTMLInputElement).value])).toEqual([
+        ['ids[]', 'stale'],
+        ['kept', 'yes'],
+      ]);
+    });
+
+    it('cancels dialog loading for a fixed invoker with no batch action scope', () => {
+      const element = document.createElement('div');
+      element.setAttribute('data-sortable-lists--item-mobility-value', 'fixed');
+      const selectForAction = vi.fn(():ActionScope => ({ kind: 'refused', items: [] }));
+      const controller = connectedControllerFor(element, {
+        root: { ...fakeRoot(), selectForAction },
+      });
+      const form = document.createElement('form');
+      const event = new CustomEvent('async-dialog:beforeLoad', {
+        cancelable: true,
+        detail: { form },
+      });
+
+      controller.prepareDialog(event);
+
+      expect(selectForAction).toHaveBeenCalledWith(element);
+      expect(event.defaultPrevented).toBe(true);
+      expect(form.querySelector('[name="ids[]"]')).toBeNull();
+    });
+
+    it('delegates direct destination metadata to the root', () => {
+      const element = document.createElement('div');
+      const moveToDestination = vi.fn();
+      const controller = connectedControllerFor(element, {
+        root: { ...fakeRoot(), moveToDestination },
+      });
+      Object.defineProperty(controller, 'hasMenuElement', { value: true });
+      Object.defineProperty(controller, 'menuElement', {
+        value: { isItemDisabled: vi.fn(() => false), isItemHidden: vi.fn(() => false) },
+      });
+      const item = document.createElement('li');
+      item.dataset.sortableListsDestinations = '[{"type":"inbox","id":null}]';
+      const event = new Event('click') as ActionEvent;
+      Object.defineProperty(event, 'currentTarget', { value: item });
+
+      controller.moveToDestination(event);
+
+      expect(moveToDestination).toHaveBeenCalledWith(element, { type: 'inbox', id: null });
     });
   });
 
@@ -1621,8 +1909,13 @@ describe('Sortable lists item controller', () => {
       const root:SortableListsRoot = {
         element: item,
         busy: false,
+        actionScopeFor: vi.fn((actionItem:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
+        selectForAction: vi.fn((actionItem:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
+        availableDestinations: vi.fn(() => []),
+        moveToDestination: vi.fn(),
         moveInDirection: vi.fn(),
         moveAvailability: vi.fn(() => null),
+        ownerListElementOf: vi.fn(() => null),
         ownerRowsContainer: vi.fn(() => null),
         freezeDragBatch: vi.fn(() => 1),
         markDragBatch,
@@ -1649,8 +1942,13 @@ describe('Sortable lists item controller', () => {
       const root:SortableListsRoot = {
         element: item,
         busy: false,
+        actionScopeFor: vi.fn((actionItem:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
+        selectForAction: vi.fn((actionItem:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
+        availableDestinations: vi.fn(() => []),
+        moveToDestination: vi.fn(),
         moveInDirection: vi.fn(),
         moveAvailability: vi.fn(() => null),
+        ownerListElementOf: vi.fn(() => null),
         ownerRowsContainer: vi.fn(() => null),
         freezeDragBatch,
         markDragBatch: vi.fn(),

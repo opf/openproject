@@ -51,7 +51,10 @@ See COPYRIGHT and LICENSE files for more details.
                       data: {
                         controller: "backlogs--list-refresh backlogs--split-view-sync sortable-lists",
                         sortable_lists_optimistic_value: true,
-                        action: "#{Backlogs::WorkPackagesController::WORK_PACKAGE_MOVED_EVENT}@document->backlogs--split-view-sync#onWorkPackageMoved",
+                        action: [
+                          "#{Backlogs::WorkPackagesController::WORK_PACKAGE_MOVED_EVENT}@document->backlogs--split-view-sync#onWorkPackageMoved",
+                          "#{Backlogs::WorkPackagesController::WORK_PACKAGE_MOVED_EVENT}@document->sortable-lists#clearSelectionAfterMove"
+                        ].join(" "),
                         sortable_lists_move_url_template_value: backlogs_move_url_template(@project),
                         sortable_lists_collection_move_url_value: move_project_backlogs_work_packages_path(@project),
                         sortable_lists_max_batch_size_value: Backlogs::WorkPackages::BatchUpdateService::MAX_BATCH_SIZE,

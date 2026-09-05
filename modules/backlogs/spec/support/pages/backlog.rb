@@ -743,6 +743,131 @@ module Pages
       all("[data-batch-selected]").pluck("data-sortable-lists--item-id-value")
     end
 
+    def select_cards(*work_packages)
+      work_packages.each { |work_package| toggle_card(work_package) }
+    end
+
+    def expect_selected_cards_in_order(*work_packages)
+      expect(selected_card_ids).to eq(work_packages.map { |work_package| work_package.id.to_s })
+    end
+
+    def expect_no_selected_cards
+      expect(selected_card_ids).to be_empty
+    end
+
+    def clear_card_selection(work_package)
+      work_package_card(work_package).send_keys(:escape)
+      expect_no_selected_cards
+    end
+
+    def expect_work_package_action(work_package, action_label)
+      within_work_package_menu(work_package) do |menu|
+        expect(menu).to have_selector(:menuitem, text: action_label, exact_text: true)
+      end
+    end
+
+    def expect_no_work_package_action(work_package, action_label)
+      within_work_package_menu(work_package) do |menu|
+        expect(menu).to have_no_selector(:menuitem, text: action_label, exact_text: true)
+      end
+    end
+
+    def expect_destination_actions(work_package, present:, absent:)
+      within_work_package_menu(work_package) do |menu|
+        present.each do |label|
+          expect(menu).to have_selector(:menuitem, text: label, exact_text: true)
+        end
+        absent.each do |label|
+          expect(menu).to have_no_selector(:menuitem, text: label, exact_text: true)
+        end
+      end
+    end
+
+    def open_destination_dialog(work_package, action_label, dialog_title: action_label)
+      click_in_work_package_menu(work_package, action_label, wait: false)
+      expect(page).to have_selector(:modal, text: dialog_title)
+    end
+
+    def invoke_destination_action_after_menu_load(work_package, action_label, &before_click)
+      within_work_package_menu(work_package) do |menu|
+        item = menu.find(:menuitem, text: action_label, exact_text: true)
+        before_click&.call
+        wait_for_backlogs_turbo_stream do
+          item.click
+        end
+      end
+    end
+
+    def move_to_backlog_inbox(work_package)
+      within_work_package_menu(work_package) do |menu|
+        wait_for_backlogs_turbo_stream(frame_reload: true) do
+          menu.find(:menuitem, text: "Move to backlog inbox", exact_text: true).click
+        end
+      end
+    end
+
+    def expect_destination_dialog(dialog_title, work_packages:)
+      within_modal dialog_title do
+        work_packages.each { |work_package| expect(page).to have_text(work_package.subject) }
+        expect(all("input[name='ids[]']", visible: :all).map(&:value))
+          .to eq(work_packages.map { |work_package| work_package.id.to_s })
+      end
+    end
+
+    def expect_destination_dialog_options(dialog_title, field_label:, options:)
+      within_modal dialog_title do
+        select = find(:select, field_label)
+        expect(select.all(:option).map(&:text)).to eq(options)
+      end
+    end
+
+    def submit_destination_dialog(dialog_title, field_label:, option:, frame_reload: true)
+      within_modal dialog_title do
+        select option, from: field_label
+        wait_for_backlogs_turbo_stream(frame_reload:) { click_button I18n.t(:button_move) }
+      end
+    end
+
+    def cancel_destination_dialog(dialog_title)
+      within_modal dialog_title do
+        click_button I18n.t(:button_cancel)
+      end
+      expect(page).to have_no_selector(:modal, text: dialog_title)
+    end
+
+    def expect_no_destination_dialog
+      expect(page).to have_no_selector(:modal)
+    end
+
+    def expect_move_error(reason)
+      expect_flash(
+        type: :error,
+        message: I18n.t(:notice_unsuccessful_update_with_reason, reason:)
+      )
+    end
+
+    def expect_polite_announcement(message)
+      wait_for do
+        page.evaluate_script("document.querySelector('live-region')?.getMessage('polite')")
+      end.to eq(message)
+    end
+
+    def expect_persisted_sprint_order(sprint, *work_packages)
+      wait_for { sprint.work_packages_for(project).pluck(:id) }
+        .to eq(work_packages.map(&:id))
+    end
+
+    def expect_persisted_bucket_order(bucket, *work_packages)
+      wait_for { WorkPackage.where(backlog_bucket: bucket).order_by_position.pluck(:id) }
+        .to eq(work_packages.map(&:id))
+    end
+
+    def expect_persisted_inbox_order(*work_packages)
+      wait_for do
+        WorkPackage.where(project:, sprint_id: nil, backlog_bucket_id: nil).order_by_position.pluck(:id)
+      end.to eq(work_packages.map(&:id))
+    end
+
     # The shared description every selected card's `aria-describedby` points
     # at. Rendered once, permanently `hidden` — screen readers still reach it
     # through the reference despite that — so `visible: :all` is required.

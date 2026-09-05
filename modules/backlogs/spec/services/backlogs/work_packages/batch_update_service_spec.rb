@@ -441,6 +441,33 @@ RSpec.describe Backlogs::WorkPackages::BatchUpdateService, type: :model do
   end
 
   describe "target availability" do
+    it "revalidates a member that became confined after destination projection", with_ee: %i[readonly_work_packages] do
+      projected = Backlogs::WorkPackages::DestinationAvailability.new(
+        project:,
+        user:,
+        work_packages: [bucket_wp1, bucket_wp2]
+      )
+      expect(projected.sprints).to include(sprint)
+
+      readonly_status = create(:status, :readonly)
+      WorkPackage.where(id: bucket_wp2.id).update_all(status_id: readonly_status.id)
+      allow(Backlogs::WorkPackages::UpdateService).to receive(:new).and_call_original
+
+      result = service([bucket_wp1, bucket_wp2])
+        .call(list_type: "sprint", list_id: sprint.id.to_s, prev_id: "")
+
+      expect(result).to be_failure
+      expect(result.message)
+        .to eq I18n.t("backlogs.work_packages.batch_update_service.unavailable_target")
+      expect(Backlogs::WorkPackages::UpdateService).not_to have_received(:new)
+      expect([bucket_wp1.reload, bucket_wp2.reload])
+        .to match [
+          have_attributes(backlog_bucket_id: bucket.id, sprint_id: nil, position: 1),
+          have_attributes(backlog_bucket_id: bucket.id, sprint_id: nil, position: 2)
+        ]
+      expect(sprint_order).to eq [sprint_wp1.id, sprint_wp2.id, sprint_wp3.id]
+    end
+
     it "rejects a same-list reorder inside a sprint that completed after load" do
       sprint.update!(status: "completed")
 

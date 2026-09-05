@@ -64,6 +64,15 @@ export type ActionScope =
   | { kind:'batch'; items:HTMLElement[] }
   | { kind:'refused'; items:[] };
 
+// The ids a scope's members carry, in the scope's own order. Derived on
+// demand rather than frozen into the scope: the elements are its identity,
+// and a stale id list would outlive a morph that replaced a row.
+export function scopeIds(scope:ActionScope):string[] {
+  return scope.items
+    .map((item) => resolveItemId(item))
+    .filter((id):id is string => id !== null);
+}
+
 // What resolving an action scope does to the selection: nothing, add the
 // card to it, or replace it with the card alone.
 type ScopeMutation = 'none'|'join'|'collapse';
@@ -402,6 +411,11 @@ export class SelectionOrchestrator {
     // emptied selection can still leave one behind for Escape to drop.
     const hadSelection = this.selection.size > 0;
     if (!hadSelection && this.selection.anchor === null) {
+      return;
+    }
+
+    if (this.host.busy) {
+      event.preventDefault();
       return;
     }
 

@@ -30,6 +30,7 @@ import { type autoScrollForElements as autoScrollForElementsFn } from '@atlaskit
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import type ScrollableControllerType from './scrollable.controller';
 import type { sortableItemData as sortableItemDataFn, SortableListsRoot } from './drag-and-drop';
+import type { ActionScope } from './selection-orchestrator';
 
 vi.mock('@atlaskit/pragmatic-drag-and-drop-auto-scroll/element', () => ({
   autoScrollForElements: vi.fn(() => vi.fn()),
@@ -70,8 +71,13 @@ describe('Sortable lists scrollable controller', () => {
     return {
       element,
       busy: false,
+      actionScopeFor: vi.fn((item:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
+      selectForAction: vi.fn((item:HTMLElement):ActionScope => ({ kind: 'refused', items: [] })),
+      availableDestinations: vi.fn(() => []),
+      moveToDestination: vi.fn(),
       moveInDirection: vi.fn(),
       moveAvailability: vi.fn(() => null),
+      ownerListElementOf: vi.fn(() => null),
       ownerRowsContainer: vi.fn(() => null),
       freezeDragBatch: vi.fn(() => 1),
       markDragBatch: vi.fn(),

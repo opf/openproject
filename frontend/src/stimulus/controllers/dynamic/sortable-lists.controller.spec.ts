@@ -1240,6 +1240,231 @@ describe('Sortable lists controller', () => {
     expect(controller.moveAvailability(document.createElement('li'))).toBeNull();
   });
 
+  it('resolves the owning list element of an item for the drag payload', async () => {
+    const { root, sourceList, firstSourceItem } = renderFixture();
+    await ctx.nextFrame();
+    const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+
+    expect(controller.ownerListElementOf(firstSourceItem)).toBe(sourceList);
+    expect(controller.ownerListElementOf(document.createElement('li'))).toBeNull();
+  });
+
+  it('exposes batch action scopes and removes destinations occupied by every member', async () => {
+    const { root, items } = renderSelectableRoot();
+    await ctx.nextFrame();
+    const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+
+    items[0].dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+    items[1].dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, ctrlKey: true }));
+    const scope = controller.actionScopeFor(items[1]);
+
+    expect(scope).toMatchObject({ kind: 'batch', items: [items[0], items[1]]});
+    expect(controller.availableDestinations(scope, [
+      { type: 'backlog_bucket', id: '1' },
+      { type: 'sprint', id: '1' },
+    ])).toEqual([{ type: 'sprint', id: '1' }]);
+  });
+
+  describe('direct destination moves', () => {
+    const destination = { type: 'inbox', id: null };
+
+    function destinationController(root:HTMLElement) {
+      return ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+    }
+
+    function selectItem(element:HTMLElement, init:MouseEventInit = {}):void {
+      element.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, ...init }));
+    }
+
+    function destinationSelected(element:HTMLElement):boolean {
+      return element.hasAttribute('data-batch-selected');
+    }
+
+    it('submits the selected scope in document order without optimistic or positional fields', async () => {
+      fetchMock.mockResolvedValueOnce(new Response('', {
+        headers: { 'Content-Type': 'text/vnd.turbo-stream.html' },
+        status: 422,
+      }));
+      const { root, sourceList, items } = renderSelectableRoot({
+        optimistic: true,
+        collectionMoveUrl: '/projects/demo/backlogs/work_packages/move',
+      });
+      sourceList.insertBefore(items[1], items[0]);
+      await ctx.nextFrame();
+      selectItem(items[0]);
+      selectItem(items[1], { ctrlKey: true });
+
+      destinationController(root).moveToDestination(items[0], destination);
+      await flushPromises();
+
+      const [requestUrl, requestOptions] = fetchMock.mock.lastCall as [string, { body:FormData }];
+      expect(requestUrl).toBe('/projects/demo/backlogs/work_packages/move');
+      expect([...requestOptions.body.entries()]).toEqual([
+        ['ids[]', '2'],
+        ['ids[]', '1'],
+        ['list_type', 'inbox'],
+        ['list_id', ''],
+      ]);
+      expect(requestOptions.body.has('prev_id')).toBe(false);
+      expect(requestOptions.body.has('optimistic')).toBe(false);
+      expect(items.filter(destinationSelected)).toEqual([items[0], items[1]]);
+      await waitFor(() => expect(root.hasAttribute('data-sortable-lists-busy')).toBe(false));
+      expect(renderStreamMessageMock).toHaveBeenCalledOnce();
+    });
+
+    it('replaces an unrelated selection when an unselected card invokes the action', async () => {
+      fetchMock.mockResolvedValueOnce(new Response('', { status: 422 }));
+      const { root, items } = renderSelectableRoot({ collectionMoveUrl: '/batch/move' });
+      await ctx.nextFrame();
+      selectItem(items[1]);
+      selectItem(items[2], { ctrlKey: true });
+
+      destinationController(root).moveToDestination(items[0], destination);
+      await flushPromises();
+
+      const requestOptions = fetchMock.mock.lastCall?.[1] as { body:FormData };
+      expect(requestOptions.body.getAll('ids[]')).toEqual(['1']);
+      expect(items.filter(destinationSelected)).toEqual([items[0]]);
+    });
+
+    it('does not reorder or clear selection before a successful frame stream reconciles the root', async () => {
+      fetchMock.mockResolvedValueOnce(new Response('<turbo-stream></turbo-stream>', {
+        headers: { 'Content-Type': 'text/vnd.turbo-stream.html' },
+        status: 200,
+      }));
+      const { root, sourceList, items } = renderSelectableRoot({ collectionMoveUrl: '/batch/move' });
+      await ctx.nextFrame();
+      selectItem(items[0]);
+      selectItem(items[1], { ctrlKey: true });
+
+      destinationController(root).moveToDestination(items[0], destination);
+      await waitFor(() => expect(root.hasAttribute('data-sortable-lists-busy')).toBe(false));
+
+      expect(itemIds(sourceList)).toEqual(['1', '2', '3']);
+      expect(items.filter(destinationSelected)).toEqual([items[0], items[1]]);
+      expect(renderStreamMessageMock).toHaveBeenCalledOnce();
+    });
+
+    it('does not mutate selection or submit while another move is busy', async () => {
+      const { root, items } = renderSelectableRoot({ collectionMoveUrl: '/batch/move' });
+      await ctx.nextFrame();
+      selectItem(items[1]);
+      root.setAttribute('data-sortable-lists-busy', 'true');
+      const controller = destinationController(root);
+
+      const prospectiveScope = controller.selectForAction(items[0]);
+      controller.moveToDestination(items[0], destination);
+      await flushPromises();
+
+      expect(prospectiveScope).toMatchObject({ kind: 'batch'});
+      expect(items.filter(destinationSelected)).toEqual([items[1]]);
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('clears a detached request busy marker when the cached root reconnects', async () => {
+      let resolveRequest!:(response:Response) => void;
+      fetchMock.mockImplementationOnce(() => new Promise<Response>((resolve) => {
+        resolveRequest = resolve;
+      }));
+      const { root, items } = renderSelectableRoot({ collectionMoveUrl: '/batch/move' });
+      await ctx.nextFrame();
+
+      destinationController(root).moveToDestination(items[0], destination);
+      expect(root.hasAttribute('data-sortable-lists-busy')).toBe(true);
+
+      root.remove();
+      await ctx.nextFrame();
+      resolveRequest(new Response('', { status: 200 }));
+      await flushPromises();
+
+      // The settled request deliberately leaves a detached element alone.
+      expect(root.hasAttribute('data-sortable-lists-busy')).toBe(true);
+
+      fixture.append(root);
+      await ctx.nextFrame();
+      await ctx.nextFrame();
+
+      expect(root.hasAttribute('data-sortable-lists-busy')).toBe(false);
+
+      fetchMock.mockResolvedValueOnce(new Response('', {
+        headers: { 'Content-Type': 'text/vnd.turbo-stream.html' },
+        status: 422,
+      }));
+      destinationController(root).moveToDestination(items[0], destination);
+
+      await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(2));
+      await waitFor(() => expect(root.hasAttribute('data-sortable-lists-busy')).toBe(false));
+    });
+
+    // A destination move whose request never produces a stream (a network
+    // failure, or an error page) has no server flash to speak for it, so the
+    // client has to say something rather than just clearing the busy state.
+    it('dispatches an error toast when the destination request never streams', async () => {
+      const toastEvents:CustomEvent[] = [];
+      const onToast = (event:Event) => toastEvents.push(event as CustomEvent);
+      window.addEventListener('op:toasters:add', onToast);
+      fetchMock.mockRejectedValueOnce(new Error('network down'));
+      const { root, items } = renderSelectableRoot({ collectionMoveUrl: '/batch/move' });
+      await ctx.nextFrame();
+
+      destinationController(root).moveToDestination(items[0], destination);
+      await flushPromises();
+
+      expect(toastEvents).toHaveLength(1);
+      expect(toastEvents[0].detail.type).toBe('error');
+      expect(root.hasAttribute('data-sortable-lists-busy')).toBe(false);
+
+      window.removeEventListener('op:toasters:add', onToast);
+    });
+
+    it('keeps a reconnected root busy until its detached request settles', async () => {
+      let resolveRequest!:(response:Response) => void;
+      fetchMock.mockImplementationOnce(() => new Promise<Response>((resolve) => {
+        resolveRequest = resolve;
+      }));
+      const { root, items } = renderSelectableRoot({ collectionMoveUrl: '/batch/move' });
+      await ctx.nextFrame();
+
+      destinationController(root).moveToDestination(items[0], destination);
+      expect(root.hasAttribute('data-sortable-lists-busy')).toBe(true);
+
+      root.remove();
+      await ctx.nextFrame();
+      fixture.append(root);
+      await ctx.nextFrame();
+      await ctx.nextFrame();
+
+      expect(root.hasAttribute('data-sortable-lists-busy')).toBe(true);
+
+      destinationController(root).moveToDestination(items[1], destination);
+      await flushPromises();
+      expect(fetchMock).toHaveBeenCalledOnce();
+
+      resolveRequest(new Response('', { status: 200 }));
+      await waitFor(() => expect(root.hasAttribute('data-sortable-lists-busy')).toBe(false));
+    });
+
+    it.each([
+      ['a 500 Turbo Stream response', () => Promise.resolve(new Response('<turbo-stream></turbo-stream>', {
+        headers: { 'Content-Type': 'text/vnd.turbo-stream.html' },
+        status: 500,
+      })), 1],
+      ['a successful non-stream response', () => Promise.resolve(new Response('', { status: 200 })), 0],
+      ['a rejected request', () => Promise.reject(new Error('Network failure')), 0],
+    ])('clears busy state after %s', async (_description, request, streamRenderCount) => {
+      fetchMock.mockImplementationOnce(request);
+      const { root, items } = renderSelectableRoot({ collectionMoveUrl: '/batch/move' });
+      await ctx.nextFrame();
+
+      destinationController(root).moveToDestination(items[0], destination);
+      expect(root.hasAttribute('data-sortable-lists-busy')).toBe(true);
+      await flushPromises();
+
+      await waitFor(() => expect(root.hasAttribute('data-sortable-lists-busy')).toBe(false));
+      expect(renderStreamMessageMock).toHaveBeenCalledTimes(streamRenderCount);
+    });
+  });
+
   describe('nested list topology', () => {
     it('resolves the source row of a nested item against its innermost list', async () => {
       const { fieldList, firstFieldItem } = renderNestedFixture();
@@ -1435,6 +1660,21 @@ describe('Sortable lists controller', () => {
     await ctx.nextFrame();
 
     expect(row.hasAttribute('data-batch-selected')).toBe(false);
+  });
+
+  it('clears the live selection when a consumer reports a completed move', async () => {
+    const { root, items } = renderSelectableRoot();
+    root.setAttribute(
+      'data-action',
+      'sortable-lists:test-move-completed@document->sortable-lists#clearSelectionAfterMove',
+    );
+    await ctx.nextFrame();
+    click(items[0]);
+    click(items[1], { ctrlKey: true });
+
+    document.dispatchEvent(new CustomEvent('sortable-lists:test-move-completed'));
+
+    expect(items.some(isSelected)).toBe(false);
   });
 
   it('selects only the clicked card on a plain click', async () => {
@@ -1987,17 +2227,17 @@ describe('Sortable lists controller', () => {
     expect(items.some(isSelected)).toBe(false);
   });
 
-  // Escape clears local state only, so the busy gate must not swallow it.
-  it('clears the batch on Escape even during a busy move', async () => {
+  it('preserves the batch and consumes Escape during a busy move', async () => {
     const { root, items } = renderSelectableRoot();
     await ctx.nextFrame();
     click(items[0]);
     items[0].focus();
     root.setAttribute('data-sortable-lists-busy', 'true');
 
-    keydown(items[0], 'Escape');
+    const event = keydown(items[0], 'Escape');
 
-    expect(items.some(isSelected)).toBe(false);
+    expect(items.filter(isSelected)).toEqual([items[0]]);
+    expect(event.defaultPrevented).toBe(true);
   });
 
   // An unconsumed Escape still reaches dialogs and menus.
