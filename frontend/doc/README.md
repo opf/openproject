@@ -2,53 +2,53 @@
 
 The OpenProject frontend is located at `frontend/src` and uses the Angular CLI (which itself uses Vite in dev and esbuild in production) to compile and serve locally.
 
+## Directory structure
+
+- `src/app/` — the legacy Angular application. New work does not go here.
+- `src/common/` — framework-agnostic modules, reachable through the `core-common` alias and importable from both Angular and Stimulus. Code belongs here when it depends on neither framework and both sides need it; a helper only Stimulus controllers use belongs in `src/stimulus/helpers/` instead.
+- `src/stimulus/` — Stimulus controllers, the current approach for new behaviour.
+- `src/turbo/` — Turbo integration: stream actions, custom elements and helpers.
+
 ## Angular frontend
 
-When developing, `npm run serve` will open the Angular CLI dev server (Vite) as a proxy that serves assets from memory.
-That server is running on `http://localhost:4200` by default and will forward all requests it cannot handle to the Rails server
-which it expects to run at `http://localhost:3000`.
+When developing, `npm run serve` starts the Angular CLI dev server (Vite) on `http://localhost:4200`, serving frontend assets from memory. It is not a general-purpose proxy: it forwards only `/api` and `/assets/frontend/media` to Rails, as configured in `frontend/src/proxy.conf.mjs`.
 
-You can always access the Rails server with `http://localhost:3000`
-and it will forward the requests to the CLI Proxy unless an empty ENV variable `OPENPROJECT_CLI_PROXY='''` is passed to it.
+Application pages are reached through Rails at `http://localhost:3000`, which forwards frontend asset requests to the dev server unless `OPENPROJECT_CLI_PROXY=''` is passed to it.
 
 Then, Rails will try to locate the asset on disk (e.g., as output from the `rake assets:precompile` task).
 This is also what happens in production mode.
 
 To learn more about how this behavior works in detail, see the asset helper at `app/helpers/frontend_asset_helper.rb`.
 
-### Ahead-of-Time compilation (AOT)
-
-In development, by default AOT is disabled. You can force it in by running `npm run serve --aot`.
-For production builds with `ng build --prod`, `--aot` is enabled by default as per the `frontend/angular.json` configuration.
-
 ### Production builds
 
-Production builds can be triggered either through the `rake assets:precompile` rake task (which will compile legacy and angular frontend)
-or by running `npm build --prod` manually.
+Production builds are triggered either through the `rake assets:precompile` rake task, which compiles
+the frontend along with the rest of the assets, or by running `npm run build` manually. That script
+builds with `--configuration production`, which enables ahead-of-time compilation.
 
 ## Tests
 
-Tests are run with karma-jasmine through the Angular CLI `ng test`. To watch the test output, use `ng test --watch`.
-Only files ending with `.spec.ts` will be matched and compiled.
+Tests run with `npm run test`, which uses the Angular CLI's `ng test` to build the specs and
+[Vitest](https://vitest.dev/) to execute them in a real browser. Use `npm run test:watch` to watch.
+Only files ending with `.spec.ts` are matched.
 
 For more information, see [TESTING](./TESTING.md).
 
 ## Plugins
 
 OpenProject Community edition has some plugins that contain a frontend,
-e.g., [Costs](https://github.com/finnlabs/openproject-costs/)
-or [My Project Page](https://github.com/finnlabs/openproject-my_project_page/).
+e.g., Costs, which lives in this repository at `modules/costs`.
 
 For developing these plugins, they need to be linked so either the Legacy or Angular frontend can see and process them.
 For more information on that part, see [PLUGINS](./PLUGINS.md)
 
 
 
-## Living Style Guide
+## Components and styling
 
-The style guide is available as part of the Rails development server at: <http://localhost:3000/styleguide>.
+Component documentation and previews live in Lookbook, served by the Rails development server at <http://localhost:3000/lookbook> when `lookbook_enabled` is set. See [Design system](https://www.openproject.org/docs/development/design-system/) for Primer and the component library.
 
-For more information on styling the application, see [STYLING](./STYLING.md).
+Styles live under `frontend/src`: shared rules in `global_styles`, component styles beside their components, with `styles.scss` and `spot.scss` as the build entry points declared in `frontend/angular.json`.
 
 ## Stimulus API documentation
 
@@ -63,8 +63,7 @@ Open `generated-docs/index.html` to browse it locally.
 
 ## Changing or updating Dependencies
 
-We use a `package-lock` to lock down runtime (but not development)
-dependencies. When adding or removing dependencies, please use `npm install` to also update the lockfile.
+We use a `package-lock` to lock down dependencies, development ones included. When adding or removing dependencies, please use `npm install` to also update the lockfile.
 Please commit `package-lock.json` along with any changes to `package.json`.
 
 If you want to install the packages from the lockfile without updating it, please use the following command:
@@ -75,10 +74,14 @@ npm ci
 
 ## Topics
 
-The individual topics for the documentation for the frontend are
+Frontend-specific documentation:
 
-1. `TESTING.md` - documentation of our approach to integration and unit testing
-2. `STYLING.md` - notes on styling and the Sass-Pipeline
-3. `API.md` - notes on dealing with the several APIs provided by OpenProject
-4. `LEGACY.md` - contains additional information on how to use the legacy bundle
-5. `PLUGINS.md` - contains additional information on how to link plugins with a frontend during development.
+1. [TESTING.md](./TESTING.md) — writing frontend specs, the Stimulus helpers, coverage
+2. [PLUGINS.md](./PLUGINS.md) — linking plugin frontends during development
+
+Frontend topics documented alongside the rest of the application:
+
+- [Frontend style guide](https://www.openproject.org/docs/development/style-guide/frontend/) — code format and development patterns
+- [Design system](https://www.openproject.org/docs/development/design-system/) — Primer and the component Lookbook
+- [Running tests locally](https://www.openproject.org/docs/development/testing/running-tests-locally/#frontend-tests) — how to invoke the suite
+- [Testing architecture](https://www.openproject.org/docs/development/testing/) — where frontend specs sit in the wider strategy

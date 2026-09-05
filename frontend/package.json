@@ -46,7 +46,6 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-tsdoc": "^0.5.2",
     "globals": "^17.11.0",
-    "jsdom": "^29.1.1",
     "patch-package": "^8.0.1",
     "playwright": "^1.61.1",
     "source-map-explorer": "^2.5.2",

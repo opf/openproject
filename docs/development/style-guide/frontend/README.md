@@ -1,14 +1,22 @@
 # OpenProject development style guide - frontend
 
+Working on the frontend day to day — dev server, builds, plugin linking and writing specs — is documented in [frontend/doc](https://github.com/opf/openproject/tree/dev/frontend/doc).
+
 ## Code format
 
-OpenProject follows the [AirBnB's style guide](https://github.com/airbnb/javascript) regarding to the code format.  
+Code format is enforced by ESLint rather than described here. The house rules live in `frontend/eslint.config.mjs`, largely through [`@stylistic`](https://eslint.style/), and indentation defers to `.editorconfig`.
+
+```shell
+cd frontend && npx eslint src/
+```
 
 ## Development patterns
 
+> The patterns below describe the Angular application, which is now legacy. New development uses Hotwire — Turbo and Stimulus — with server-rendered HTML and Primer via ViewComponent. Reframing this section is tracked in [DREAM-823](https://community.openproject.org/wp/DREAM-823).
+
 ### Angularized
 
-OpenProject follows the [Angular's style guide](https://angular.io/guide/styleguide) patterns.
+OpenProject follows the [Angular's style guide](https://angular.dev/style-guide) patterns.
 
 ### Declarative
 
