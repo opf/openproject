@@ -57,6 +57,14 @@ module Wikis::Admin::Forms
         )
     end
 
+    def redirect_uri
+      resolved_oauth_client.redirect_uri if resolved_oauth_client.client_id.present?
+    end
+
+    def redirect_uri_caption
+      redirect_uri.present? ? t(".redirect_uri_caption") : t(".redirect_uri_blank_caption")
+    end
+
     def validation_message_for(attribute)
       resolved_oauth_client.errors.messages_for(attribute).to_sentence.presence
     end
