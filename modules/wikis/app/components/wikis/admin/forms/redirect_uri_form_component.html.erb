@@ -1,0 +1,37 @@
+<%=
+  component_wrapper do
+    primer_form_with(
+      model: oauth_client,
+      url: form_url,
+      method: :post
+    ) do |form|
+      flex_layout do |redirect_uri_row|
+        redirect_uri_row.with_row(mb: 3) do
+          render(Primer::OpenProject::InputGroup.new(input_width: :large)) do |input_group|
+            input_group.with_text_input(
+              name: :oauth_client_redirect_uri,
+              label: t(".redirect_uri"),
+              visually_hide_label: false,
+              value: redirect_uri
+            )
+            input_group.with_trailing_action_clipboard_copy_button(
+              value: redirect_uri,
+              aria: { label: t("button_copy_to_clipboard") }
+            )
+            input_group.with_caption { t(".redirect_uri_caption") }
+          end
+        end
+
+        redirect_uri_row.with_row do
+          render(
+            Wikis::Admin::SubmitOrCancelForm.new(
+              form, wiki_provider:,
+                    submit_button_options: { label: t(:button_finish_setup), disabled: is_complete },
+                    cancel_button_options: { href: cancel_button_path }
+            )
+          )
+        end
+      end
+    end
+  end
+%>
