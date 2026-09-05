@@ -122,6 +122,14 @@ export class ProjectAutocompleterComponent extends OpAutocompleterComponent<IPro
     this.applyTemplates(ProjectAutocompleterTemplateComponent, {});
   }
 
+  public changed(val:IProjectAutocompleterData|IProjectAutocompleterData[]|null):void {
+    super.changed(val);
+
+    if (this.multiple) {
+      this.valueChange.emit(val);
+    }
+  }
+
   private matchingItems(elements:IProjectAutocompleteItem[], matching:string):Observable<IProjectAutocompleteItem[]> {
     let filtered:IProjectAutocompleteItem[];
 
