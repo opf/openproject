@@ -285,3 +285,7 @@ export function toggleEnabled(element:HTMLElement, value?:boolean, toggleHidden?
 
 export const enableElement = (element:HTMLElement) => toggleEnabled(element, true);
 export const disableElement = (element:HTMLElement) => toggleEnabled(element, false);
+
+export function isHTMLInputElement(element:EventTarget|Element|null):element is HTMLInputElement {
+  return element !== null && element instanceof HTMLInputElement;
+}

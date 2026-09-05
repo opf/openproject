@@ -38,8 +38,73 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%= labelled_tabular_form_for @ifc_model, url: bcf_project_ifc_models_path(@project), html: { multipart: true } do |f| -%>
-  <%= error_messages_for @ifc_model %>
-  <%= render partial: "form", locals: { f: f } %>
-  <%= styled_button_tag t(:button_create), class: "-primary -with-icon icon-checkmark" %>
+<% if OpenProject::Configuration.direct_uploads? %>
+  <%=
+    primer_form_with(
+      model: @ifc_model,
+      url: @form[:uri],
+      multipart: true,
+      authenticity_token: false,
+      data: {
+        controller: "bim--ifc-model-direct-upload",
+        "bim--ifc-model-direct-upload-set-default-model-url-value": set_direct_upload_default_value_bcf_project_ifc_models_path,
+        "bim--ifc-model-direct-upload-set-model-title-url-value": set_direct_upload_file_name_bcf_project_ifc_models_path
+      }
+    ) do |f|
+  %>
+    <% @form.except(:uri).each do |key, value| %>
+      <input type="hidden" name="<%= key %>" value="<%= value %>">
+    <% end %>
+
+    <div class="FormControl mb-3">
+      <label for="ifc-direct-upload-file-input" class="FormControl-label">
+        <%= Bim::IfcModels::IfcModel.human_attribute_name(:ifc_attachment) %>
+        <span aria-hidden="true">*</span>
+      </label>
+      <input id="ifc-direct-upload-file-input"
+             type="file"
+             name="file"
+             accept=".ifc"
+             class="FormControl-input FormControl-medium border-0"
+             data-action="change->bim--ifc-model-direct-upload#setSessionModelTitle"
+             data-bim--ifc-model-direct-upload-target="fileInput"
+             required>
+    </div>
+
+    <%=
+      render_inline_form(f) do |form|
+        form.check_box(
+          name: :is_default,
+          label: Bim::IfcModels::IfcModel.human_attribute_name(:is_default),
+          data: {
+            action: "change->bim--ifc-model-direct-upload#setSessionDefaultValue"
+          }
+        )
+        form.submit(name: :save, label: I18n.t(:button_create), scheme: :primary)
+      end
+    %>
+  <% end %>
+<% else %>
+  <%=
+    primer_form_with(
+      model: @ifc_model,
+      url: bcf_project_ifc_models_path(@project),
+      method: :post,
+      multipart: true
+    ) do |f|
+      render_inline_form(f) do |form|
+        form.text_field(
+          name: :ifc_attachment,
+          type: :file,
+          label: Bim::IfcModels::IfcModel.human_attribute_name(:ifc_attachment),
+          border: 0,
+          accept: ".ifc",
+          input_width: :medium,
+          required: true
+        )
+        form.check_box(name: :is_default, label: Bim::IfcModels::IfcModel.human_attribute_name(:is_default))
+        form.submit(name: :save, label: I18n.t(:button_create), scheme: :primary)
+      end
+    end
+  %>
 <% end %>
