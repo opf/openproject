@@ -119,6 +119,7 @@ si:
         other: Sprints
         zero: All sprints
       select_panel_title: Select items
+    blankslate_filtered_title: No work packages match the filter criteria.
     bucket_component:
       action_menu:
         add_existing_work_package: Add existing work package
@@ -161,6 +162,8 @@ si:
         one: Show 1 more item
         other: Show %{count} more items
       title: Inbox
+    index_subheader_component:
+      label_search_by_subject: Search work packages by subject
     label_burndown_chart: Burndown chart
     label_is_done_status: තත්ත්වය %{status_name} යන්නෙන් අදහස් කරන්නේ
     label_sprint_board: Sprint board

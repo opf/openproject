@@ -117,6 +117,7 @@ vi:
         other: Sprints
         zero: All sprints
       select_panel_title: Select items
+    blankslate_filtered_title: No work packages match the filter criteria.
     bucket_component:
       action_menu:
         add_existing_work_package: Add existing work package
@@ -158,6 +159,8 @@ vi:
       show_more:
         other: Hiển thị thêm %{count} mục
       title: Hộp thư đến
+    index_subheader_component:
+      label_search_by_subject: Search work packages by subject
     label_burndown_chart: Biểu đồ Burndown
     label_is_done_status: Trạng thái %{status_name} nghĩa là đã xong
     label_sprint_board: Bảng Sprint

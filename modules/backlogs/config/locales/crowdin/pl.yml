@@ -127,6 +127,7 @@ pl:
         other: Sprinty
         zero: Wszystkie sprinty
       select_panel_title: Wybierz elementy
+    blankslate_filtered_title: No work packages match the filter criteria.
     bucket_component:
       action_menu:
         add_existing_work_package: Dodaj istniejący pakiet roboczy
@@ -171,6 +172,8 @@ pl:
         many: Pokaż jeszcze %{count} elementów
         other: Pokaż jeszcze %{count} elementu
       title: Skrzynka odbiorcza
+    index_subheader_component:
+      label_search_by_subject: Search work packages by subject
     label_burndown_chart: Wykres spalania (burndown)
     label_is_done_status: Status %{status_name} oznacza zrobiony
     label_sprint_board: Tablica sprintu

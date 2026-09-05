@@ -127,6 +127,7 @@ uk:
         other: Спринти
         zero: Усі спринти
       select_panel_title: Вибрати елементи
+    blankslate_filtered_title: No work packages match the filter criteria.
     bucket_component:
       action_menu:
         add_existing_work_package: Додати наявний пакет робіт
@@ -171,6 +172,8 @@ uk:
         many: Показати ще %{count} елементів
         other: Показати ще %{count} елемента
       title: Вхідні
+    index_subheader_component:
+      label_search_by_subject: Search work packages by subject
     label_burndown_chart: Діаграма згорання завдань
     label_is_done_status: Стан %{status_name} означає виконано
     label_sprint_board: Дошка спринту

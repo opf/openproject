@@ -119,6 +119,7 @@ es:
         other: Sprints
         zero: Todos los sprints
       select_panel_title: Seleccionar elementos
+    blankslate_filtered_title: No work packages match the filter criteria.
     bucket_component:
       action_menu:
         add_existing_work_package: Añadir un paquete de trabajo existente
@@ -161,6 +162,8 @@ es:
         one: Mostrar 1 artículo más
         other: Mostrar %{count} artículos más
       title: Bandeja de entrada
+    index_subheader_component:
+      label_search_by_subject: Search work packages by subject
     label_burndown_chart: Diagrama Burndown
     label_is_done_status: El estado %{status_name} significa completado
     label_sprint_board: Tablero Sprint

@@ -115,6 +115,7 @@ ko:
         other: 스프린트
         zero: 모든 스프린트
       select_panel_title: 항목 선택
+    blankslate_filtered_title: No work packages match the filter criteria.
     bucket_component:
       action_menu:
         add_existing_work_package: 기존 작업 패키지 추가
@@ -156,6 +157,8 @@ ko:
       show_more:
         other: "%{count}개 항목 더 보기"
       title: 받은 편지함
+    index_subheader_component:
+      label_search_by_subject: Search work packages by subject
     label_burndown_chart: 번다운 차트
     label_is_done_status: "%{status_name} 상태는 완료를 의미합니다."
     label_sprint_board: 스프린트 보드

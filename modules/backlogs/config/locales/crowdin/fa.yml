@@ -119,6 +119,7 @@ fa:
         other: اسپرینت‌ها
         zero: همه اسپرینت‌ها
       select_panel_title: انتخاب موارد
+    blankslate_filtered_title: No work packages match the filter criteria.
     bucket_component:
       action_menu:
         add_existing_work_package: افزودن بسته کاری موجود
@@ -161,6 +162,8 @@ fa:
         one: نمایش ۱ مورد دیگر
         other: نمایش %{count} مورد دیگر
       title: صندوق
+    index_subheader_component:
+      label_search_by_subject: Search work packages by subject
     label_burndown_chart: نمودار Burndown
     label_is_done_status: Status %{status_name} means done
     label_sprint_board: برد اسپرینت
