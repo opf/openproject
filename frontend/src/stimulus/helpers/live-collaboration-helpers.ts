@@ -63,9 +63,9 @@ class LiveCollaborationManagerClass {
    * existing session rather than calling this with a fresh provider, since
    * this method unconditionally tears down the previous provider/doc.
    *
-   * @param provider The provider to use
-   * @param doc The Y.Doc instance to use
-   * @param documentName Logical identifier of the document being edited
+   * @param provider - The provider to use
+   * @param doc - The Y.Doc instance to use
+   * @param documentName - Logical identifier of the document being edited
    * @returns void
    */
   initializeYjsProvider(provider:HocuspocusProvider, doc:Doc, documentName:string) {
@@ -86,7 +86,7 @@ class LiveCollaborationManagerClass {
    * controller's connect(). Without an ownership check, the old controller would destroy the
    * new provider, causing a spurious "connection error" banner.
    *
-   * @param provider The provider instance requesting destruction; treated as the
+   * @param provider - The provider instance requesting destruction; treated as the
    *                 candidate owner of the current collaboration session.
    * @returns `true` if the given provider was the current owner and the internal
    *          provider/doc instances were destroyed; `false` otherwise.
@@ -143,7 +143,7 @@ class LiveCollaborationManagerClass {
    * with the current {@link HocuspocusProvider} instance. Otherwise, the
    * listener is stored and invoked later once {@link initializeYjsProvider} is called.
    *
-   * @param listener Callback that receives the ready { @link HocuspocusProvider }
+   * @param listener - Callback that receives the ready {@link HocuspocusProvider}
    *
    */
   onReady(listener:Listener) {
@@ -155,7 +155,7 @@ class LiveCollaborationManagerClass {
 
   /**
    * Unregisters a previously registered ready listener.
-   * @param listener The listener function to remove
+   * @param listener - The listener function to remove
    */
   offReady(listener:Listener):void {
     const index = this.listeners.indexOf(listener);

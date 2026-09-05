@@ -1,0 +1,371 @@
+name: Frontend API documentation
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - ".github/workflows/frontend-api-docs.yml"
+      - "frontend/doc/**"
+      - "frontend/package.json"
+      - "frontend/package-lock.json"
+      - "frontend/tooling/**"
+      - "frontend/tsdoc.json"
+      - "frontend/typedoc.json"
+      - "frontend/src/stimulus/**"
+  pull_request:
+    types: [opened, reopened, synchronize]
+    paths:
+      - ".github/workflows/frontend-api-docs.yml"
+      - "frontend/doc/**"
+      - "frontend/package.json"
+      - "frontend/package-lock.json"
+      - "frontend/tooling/**"
+      - "frontend/tsdoc.json"
+      - "frontend/typedoc.json"
+      - "frontend/src/stimulus/**"
+  schedule:
+    - cron: "0 4 * * *"
+  workflow_dispatch:
+    inputs:
+      edge_ref:
+        description: "Git ref to publish as edge. Defaults to dev."
+        required: false
+        type: string
+      stage_ref:
+        description: "Git ref to publish as stage. Defaults to the latest protected release branch."
+        required: false
+        type: string
+      publish:
+        description: "Publish the generated site to GitHub Pages."
+        default: false
+        required: true
+        type: boolean
+
+permissions:
+  contents: read
+
+# A superseded run must not finish building and then publish over the newer
+# one; the deploy job's own `pages` group serialises but never cancels.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  prepare:
+    name: Resolve source refs
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      edge_ref: ${{ steps.refs.outputs.edge_ref }}
+      edge_repository: ${{ steps.refs.outputs.edge_repository }}
+      stage_ref: ${{ steps.refs.outputs.stage_ref }}
+      stage_repository: ${{ steps.refs.outputs.stage_repository }}
+    steps:
+      - name: Resolve edge and stage refs
+        id: refs
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          GH_TOKEN: ${{ github.token }}
+          INPUT_EDGE_REF: ${{ inputs.edge_ref }}
+          INPUT_STAGE_REF: ${{ inputs.stage_ref }}
+          PR_HEAD_REPOSITORY: ${{ github.event.pull_request.head.repo.full_name }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+
+          if [ "$EVENT_NAME" = "pull_request" ]; then
+            edge_repository="$PR_HEAD_REPOSITORY"
+            edge_ref="$PR_HEAD_SHA"
+          else
+            edge_repository="$REPOSITORY"
+            edge_ref="${INPUT_EDGE_REF:-dev}"
+          fi
+
+          stage_repository="opf/openproject"
+          if [ -n "$INPUT_STAGE_REF" ]; then
+            stage_ref="$INPUT_STAGE_REF"
+          else
+            protected_branches=$(gh api --paginate \
+              "repos/$stage_repository/branches?protected=true&per_page=100" \
+              --jq '.[].name')
+            stage_ref=$(printf '%s\n' "$protected_branches" | \
+              grep '^release/' | sort --version-sort | tail -1 || true)
+          fi
+
+          if [ -z "$stage_ref" ]; then
+            echo "Error: no protected release branch found" >&2
+            exit 1
+          fi
+
+          edge_ref_delimiter="edge_ref_$RANDOM$RANDOM"
+          stage_ref_delimiter="stage_ref_$RANDOM$RANDOM"
+
+          {
+            echo "edge_repository=$edge_repository"
+            echo "edge_ref<<$edge_ref_delimiter"
+            echo "$edge_ref"
+            echo "$edge_ref_delimiter"
+            echo "stage_repository=$stage_repository"
+            echo "stage_ref<<$stage_ref_delimiter"
+            echo "$stage_ref"
+            echo "$stage_ref_delimiter"
+          } >> "$GITHUB_OUTPUT"
+
+  build:
+    name: Build ${{ matrix.channel }} documentation
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - channel: edge
+            repository: ${{ needs.prepare.outputs.edge_repository }}
+            ref: ${{ needs.prepare.outputs.edge_ref }}
+          - channel: stage
+            repository: ${{ needs.prepare.outputs.stage_repository }}
+            ref: ${{ needs.prepare.outputs.stage_ref }}
+    steps:
+      - name: Check out documentation tooling
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          path: tooling
+          persist-credentials: false
+
+      - name: Check out ${{ matrix.channel }} source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: ${{ matrix.repository }}
+          ref: ${{ matrix.ref }}
+          path: source
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: source/package.json
+          package-manager-cache: false
+
+      - name: Install source dependencies
+        working-directory: source/frontend
+        run: npm ci
+
+      - name: Register plugin frontends
+        working-directory: source/frontend
+        run: npm run ci:plugins:register_frontend
+
+      - name: Install documentation tooling
+        working-directory: source/frontend
+        run: | # zizmor: ignore[adhoc-packages] TypeDoc must resolve the source checkout's TypeScript.
+          cp "$GITHUB_WORKSPACE/tooling/frontend/typedoc.json" typedoc.ci.json
+          cp "$GITHUB_WORKSPACE/tooling/frontend/tsdoc.json" tsdoc.json
+          mkdir -p tooling
+          cp -R "$GITHUB_WORKSPACE/tooling/frontend/tooling/typedoc" tooling/
+          lock="$GITHUB_WORKSPACE/tooling/frontend/package-lock.json"
+          version() { jq -r ".packages[\"node_modules/$1\"].version" "$lock"; }
+          npm install --no-save --ignore-scripts \
+            "typedoc@$(version typedoc)" \
+            "typedoc-github-theme@$(version typedoc-github-theme)" \
+            "typedoc-plugin-rename-defaults@$(version typedoc-plugin-rename-defaults)"
+
+      - name: Generate TypeDoc
+        env:
+          CHANNEL: ${{ matrix.channel }}
+          SOURCE_REPOSITORY: ${{ matrix.repository }}
+        working-directory: source/frontend
+        run: |
+          output="$GITHUB_WORKSPACE/site/$CHANNEL/javascript"
+          sha=$(git -C "$GITHUB_WORKSPACE/source" rev-parse HEAD)
+          # {path} is relative to TypeDoc's inferred basePath (the entry
+          # points' common ancestor, currently src/stimulus). Pinning
+          # basePath explicitly renames every generated page, so this
+          # prefix must be kept in sync with entryPoints in typedoc.json
+          # by hand instead.
+          template="https://github.com/$SOURCE_REPOSITORY/blob/$sha/frontend/src/stimulus/{path}#L{line}"
+          jq --arg template "$template" '.sourceLinkTemplate = $template | del(.gitRevision)' \
+            typedoc.ci.json > typedoc.ci.next.json
+          mv typedoc.ci.next.json typedoc.ci.json
+          ./node_modules/.bin/typedoc --options typedoc.ci.json --out "$output"
+
+      - name: Validate TypeDoc output
+        env:
+          CHANNEL: ${{ matrix.channel }}
+        run: |
+          set -euo pipefail
+          output="$GITHUB_WORKSPACE/site/$CHANNEL/javascript"
+
+          # Page names are only pinned for edge: stage tracks a release
+          # branch this workflow does not control, and a rename there is
+          # not this branch's regression to catch.
+          if [ "$CHANNEL" = "edge" ]; then
+            test -f "$output/classes/controllers_async-dialog.controller.AsyncDialogController.html"
+            test -f "$output/classes/controllers_dynamic_sortable-lists_list.controller.ListController.html"
+            test -f "$output/functions/helpers_request-helpers.post.html"
+            test -f "$output/functions/mixins_use-angular-services.useAngularServices.html"
+          fi
+
+          if find "$output" -type f -print | grep -F '.spec.'; then
+            echo "Error: TypeDoc output contains spec modules" >&2
+            exit 1
+          fi
+
+          if [ ! -d "$output/modules" ]; then
+            echo "Error: expected TypeDoc modules directory not found" >&2
+            exit 1
+          fi
+
+          if find "$output/modules" -type f \
+            \( -name 'app_*' -o -name 'react_*' -o -name 'turbo_*' \) \
+            -print | grep -q .; then
+            echo "Error: TypeDoc output contains APIs outside the Stimulus scope" >&2
+            exit 1
+          fi
+
+      - name: Record source metadata
+        env:
+          CHANNEL: ${{ matrix.channel }}
+          SOURCE_REF: ${{ matrix.ref }}
+          SOURCE_REPOSITORY: ${{ matrix.repository }}
+        working-directory: source
+        run: |
+          sha=$(git rev-parse HEAD)
+          short_sha=$(git rev-parse --short HEAD)
+          channel_directory="$GITHUB_WORKSPACE/site/$CHANNEL"
+
+          jq -n \
+            --arg channel "$CHANNEL" \
+            --arg repository "$SOURCE_REPOSITORY" \
+            --arg ref "$SOURCE_REF" \
+            --arg sha "$sha" \
+            --arg short_sha "$short_sha" \
+            '{channel: $channel, repository: $repository, ref: $ref, sha: $sha, short_sha: $short_sha}' \
+            > "$channel_directory/metadata.json"
+
+          {
+            echo "### $CHANNEL documentation"
+            echo
+            echo "Built from \`$SOURCE_REPOSITORY@$SOURCE_REF\` ([$short_sha](https://github.com/$SOURCE_REPOSITORY/commit/$sha))."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload ${{ matrix.channel }} documentation
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: frontend-api-docs-${{ matrix.channel }}
+          path: site/${{ matrix.channel }}
+          if-no-files-found: error
+          retention-days: 7
+
+  assemble:
+    name: Assemble documentation site
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Download edge documentation
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: frontend-api-docs-edge
+          path: site/edge
+
+      - name: Download stage documentation
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: frontend-api-docs-stage
+          path: site/stage
+
+      - name: Create landing page
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+
+          const escapeHtml = (value) => value.replace(/[&<>"']/g, (character) => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#39;',
+          })[character]);
+
+          const channel = (name) => {
+            const metadata = JSON.parse(fs.readFileSync(`site/${name}/metadata.json`, 'utf8'));
+            return {
+              name,
+              ref: escapeHtml(metadata.ref),
+              repository: escapeHtml(metadata.repository),
+              sha: escapeHtml(metadata.sha),
+              shortSha: escapeHtml(metadata.short_sha),
+            };
+          };
+
+          const items = ['edge', 'stage'].map(channel).map((metadata) => `
+            <li>
+              <h2><a href="${metadata.name}/javascript/">${metadata.name}</a></h2>
+              <p><code>${metadata.repository}@${metadata.ref}</code></p>
+              <p>Commit <code title="${metadata.sha}">${metadata.shortSha}</code></p>
+            </li>`).join('');
+
+          fs.writeFileSync('site/index.html', `<!doctype html>
+          <html lang="en">
+            <head>
+              <meta charset="utf-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1">
+              <title>OpenProject API documentation</title>
+              <style>
+                body { font: 1rem/1.5 system-ui, sans-serif; margin: 3rem auto; max-width: 50rem; padding: 0 1rem; }
+                ul { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); list-style: none; padding: 0; }
+                li { border: 1px solid #d0d7de; border-radius: 0.5rem; padding: 1rem; }
+                h1, h2 { line-height: 1.2; }
+                code { overflow-wrap: anywhere; }
+              </style>
+            </head>
+            <body>
+              <main>
+                <h1>OpenProject API documentation</h1>
+                <p>Generated reference documentation for reusable frontend APIs.</p>
+                <ul>${items}
+                </ul>
+              </main>
+            </body>
+          </html>
+          `);
+          NODE
+
+      - name: Upload combined documentation
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: frontend-api-docs-site
+          path: site
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: site
+
+  deploy:
+    name: Deploy documentation to GitHub Pages
+    needs: assemble
+    if: >-
+      github.repository == 'opf/openproject' &&
+      github.event_name != 'pull_request' &&
+      (github.event_name != 'workflow_dispatch' || inputs.publish)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      actions: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

@@ -26,24 +26,14 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-/**
- * Extend a given URL (string or URL object) with the provided search parameters.
- *
- * @param base - The base URL to extend
- * @param params - A record of key-value pairs to add as search parameters
- * @param addCurrentSearch - Whether to include the current window's search parameters (default: true)
- */
-export function extendSearchParams(
-  base:string,
-  params:Record<string, string>,
-  addCurrentSearch = true,
-) {
-  const url = new URL(base, window.location.origin);
-  url.search = addCurrentSearch ? window.location.search : '';
+import { describe, expect, it } from 'vitest';
+import { buildFixtureProject } from './run-typedoc.mjs';
 
-  Object.entries(params).forEach(([key, value]) => {
-    url.searchParams.set(key, value);
+describe('buildFixtureProject', () => {
+  it('converts a fixture into a reflection model', async () => {
+    const project = await buildFixtureProject({ fixture: 'simple' });
+    const names = Object.values(project.reflections).map((r) => r.name);
+
+    expect(names).toContain('add');
   });
-
-  return url.toString();
-}
+});

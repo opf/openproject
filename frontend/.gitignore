@@ -3,6 +3,7 @@
 /stats.html
 /bower_components
 /coverage
+/generated-docs
 /node_modules
 /npm-debug.log
 /public/**/*

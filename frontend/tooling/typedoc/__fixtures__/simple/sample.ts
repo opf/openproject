@@ -27,23 +27,11 @@
 //++
 
 /**
- * Extend a given URL (string or URL object) with the provided search parameters.
+ * Adds two numbers.
  *
- * @param base - The base URL to extend
- * @param params - A record of key-value pairs to add as search parameters
- * @param addCurrentSearch - Whether to include the current window's search parameters (default: true)
+ * @param a - The first addend
+ * @param b - The second addend
  */
-export function extendSearchParams(
-  base:string,
-  params:Record<string, string>,
-  addCurrentSearch = true,
-) {
-  const url = new URL(base, window.location.origin);
-  url.search = addCurrentSearch ? window.location.search : '';
-
-  Object.entries(params).forEach(([key, value]) => {
-    url.searchParams.set(key, value);
-  });
-
-  return url.toString();
+export function add(a:number, b:number):number {
+  return a + b;
 }

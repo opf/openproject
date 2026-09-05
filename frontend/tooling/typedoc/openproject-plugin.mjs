@@ -26,24 +26,43 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { Converter } from 'typedoc';
+
 /**
- * Extend a given URL (string or URL object) with the provided search parameters.
+ * Members inherited from vendored base classes carry the source path of their
+ * `.d.ts` file. With `sourceLinkTemplate` configured those render as links to
+ * paths that do not exist in the repository, so they are dropped entirely.
  *
- * @param base - The base URL to extend
- * @param params - A record of key-value pairs to add as search parameters
- * @param addCurrentSearch - Whether to include the current window's search parameters (default: true)
+ * @param project - The converted project reflection
+ * @returns The number of source entries removed
  */
-export function extendSearchParams(
-  base:string,
-  params:Record<string, string>,
-  addCurrentSearch = true,
-) {
-  const url = new URL(base, window.location.origin);
-  url.search = addCurrentSearch ? window.location.search : '';
+function stripVendoredSources(project) {
+  let stripped = 0;
 
-  Object.entries(params).forEach(([key, value]) => {
-    url.searchParams.set(key, value);
+  for (const reflection of Object.values(project.reflections)) {
+    const { sources } = reflection;
+    if (!sources) {
+      continue;
+    }
+
+    const kept = sources.filter((source) => !source.fileName.includes('node_modules'));
+    if (kept.length !== sources.length) {
+      stripped += sources.length - kept.length;
+      reflection.sources = kept.length > 0 ? kept : undefined;
+    }
+  }
+
+  return stripped;
+}
+
+/**
+ * TypeDoc plugin entry point.
+ *
+ * @param app - The TypeDoc application to extend
+ */
+export function load(app) {
+  app.converter.on(Converter.EVENT_END, (context) => {
+    const stripped = stripVendoredSources(context.project);
+    app.logger.verbose(`Stripped ${stripped} vendored source entries`);
   });
-
-  return url.toString();
 }
