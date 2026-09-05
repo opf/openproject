@@ -328,9 +328,6 @@ module API
           end
         end
 
-        # Assigned in one go: writing the filters collapses interchangeable filter
-        # keys (e.g. version and target version), so appending them one by one
-        # would list such a filter twice.
         def filters=(filters_hash)
           represented.filters = filters_hash.map { filter_from_hash(it) }
         end
@@ -360,7 +357,9 @@ module API
         end
 
         def filter_from_hash(filter_attributes)
-          name = get_filter_name(filter_attributes)
+          href = filter_attributes.dig("_links", "filter", "href")
+          id = id_from_href "queries/filters", href
+          name = ::API::Utilities::QueryFiltersNameConverter.to_ar_name(id, refer_to_ids: true) if id
 
           raise API::Errors::InvalidRequestBody, "Could not read filter from: #{filter_attributes}" if name.nil?
 
@@ -369,14 +368,6 @@ module API
           ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter
             .new(filter_class.create!(name:))
             .from_hash(filter_attributes)
-        end
-
-        def get_filter_name(filter_attributes)
-          href = filter_attributes.dig("_links", "filter", "href")
-          id = id_from_href "queries/filters", href
-          name = ::API::Utilities::QueryFiltersNameConverter.to_ar_name(id, refer_to_ids: true) if id
-
-          Query::DeprecatedVersionFilter.normalize_key(name)
         end
 
         def id_from_href(expected_namespace, href)
