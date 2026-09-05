@@ -1031,7 +1031,21 @@ module Pages
     end
 
     def drag_backlogs_item(source:, target:, edge: nil)
-      selenium_drag_backlogs_item(source:, target:, edge:)
+      if using_cuprite?
+        cuprite_drag_backlogs_item(source:, target:, edge:)
+      else
+        selenium_drag_backlogs_item(source:, target:, edge:)
+      end
+    end
+
+    def cuprite_drag_backlogs_item(source:, target:, edge: nil)
+      install_backlogs_dnd_probe(source:, target:, edge:)
+
+      scroll_backlogs_source_into_view(source)
+      CdpDrag.drag(source: source.native, target: target.native, edge:)
+
+      expect(page).to have_no_css("[data-pdnd-honey-pot]", wait: 2, visible: :all)
+      clear_pragmatic_dnd_honey_pot
     end
 
     def pick_up_and_release_backlogs_item(source)

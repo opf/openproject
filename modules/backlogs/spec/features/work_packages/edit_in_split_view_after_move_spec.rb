@@ -89,7 +89,7 @@ RSpec.describe "Editing a work package in the split view after moving it",
     it_behaves_like "editing works after the move"
   end
 
-  context "when moving the work package by dragging it with the mouse", :selenium do
+  context "when moving the work package by dragging it with the mouse" do
     def move_work_package(target)
       backlogs_page.drag_work_package(work_package, into: target)
     end

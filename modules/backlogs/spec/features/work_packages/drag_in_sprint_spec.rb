@@ -32,7 +32,7 @@ require "spec_helper"
 require_relative "../../support/pages/backlog"
 
 RSpec.describe "Dragging work packages in and between sprints",
-               :js, :selenium, :settings_reset do
+               :js, :settings_reset do
   let!(:project) do
     create(:project,
            types: [type],
