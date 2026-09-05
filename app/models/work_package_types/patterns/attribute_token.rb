@@ -30,7 +30,7 @@
 
 module WorkPackageTypes
   module Patterns
-    AttributeToken = Data.define(:key, :label_fn, :resolve_fn, :formatter) do
+    AttributeToken = Data.define(:key, :context, :label_fn, :resolve_fn, :formatter) do
       def label_with_context
         attribute_context = I18n.t("types.edit.defaults.token.context.#{context}")
         I18n.t("types.edit.defaults.token.label_with_context", attribute_context:, attribute_label: label)
@@ -43,17 +43,6 @@ module WorkPackageTypes
       def call(*)
         value = resolve_fn.call(*)
         formatter.call(value)
-      end
-
-      def context
-        case key.to_s
-        when /^project_/
-          :project
-        when /^parent_/
-          :parent
-        else
-          :work_package
-        end
       end
 
       # --- Equality overrides ---
