@@ -29,9 +29,9 @@
 #++
 
 module OpenProject
-  # Renders the list of environment variables overriding settings, i.e. the
-  # documented counterpart of `rake setting:available_envs`. `rake docs:env_vars`
-  # rewrites it in place, between the markers below.
+  # Renders the list of environment variables overriding settings, as a markdown
+  # table for the documentation and as plain text for `rake setting:available_envs`.
+  # `rake docs:env_vars` rewrites the table in place, between the markers below.
   #
   # Regenerated in production, since a good number of defaults differ per
   # environment and the page documents on-premises installations. The spec can
@@ -45,6 +45,8 @@ module OpenProject
     BLOCK_PATTERN = /#{Regexp.escape(BEGIN_MARKER)}.*?#{Regexp.escape(END_MARKER)}/m
 
     RANDOM_PLACEHOLDER = "<randomly generated>"
+
+    TABLE_HEADER = "| Variable | Default | Description |\n|---|---|---|"
 
     # Defaults generated anew on every read: documenting them would leak something
     # that looks like a secret, and change the page on every run.
@@ -101,7 +103,7 @@ module OpenProject
 
       # The delimited block, markers included, as expected on disk.
       def block
-        "#{BEGIN_MARKER}\n\n```text\n#{rows.join("\n")}\n```\n\n#{END_MARKER}"
+        "#{BEGIN_MARKER}\n\n#{[TABLE_HEADER, *table_rows].join("\n")}\n\n#{END_MARKER}"
       end
 
       # The page with its delimited block regenerated.
@@ -115,6 +117,14 @@ module OpenProject
       end
 
       private
+
+      def table_rows
+        I18n.with_locale(:en) do
+          sorted_definitions.map do |env_name, definition|
+            "| `#{env_name}` | `#{rendered_default(definition)}` | #{definition.description} |"
+          end
+        end
+      end
 
       def rendered_default(definition)
         if RANDOM_DEFAULTS.include?(definition.name.to_sym)

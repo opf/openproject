@@ -116,334 +116,334 @@ For Docker installations:
 docker exec -it -e RAILS_ENV=production openproject-web-1 bundle exec rake setting:available_envs
 ```
 
-The default value is also visible for each variable in parentheses.
+For reference, here is an overview of the latest stable version's environment variables, along with their descriptions and default values:
 
 <!-- Warning: Anything within the below lines will be overwritten by `rake docs:env_vars` -->
 <!-- BEGIN AUTOMATED SECTION -->
 
-```text
-OPENPROJECT_2FA (default={"active_strategies" => [], "enforced" => false, "allow_remember_for_days" => 0})
-OPENPROJECT_ACTIVITY__DAYS__DEFAULT (default=30) Days displayed on project activity
-OPENPROJECT_ADDITIONAL__HOST__NAMES (default=[]) Additional allowed host names for the application.
-OPENPROJECT_AFTER__FIRST__LOGIN__REDIRECT__URL (default=nil) URL users logging in for the first time will be redirected to (e.g., a help screen)
-OPENPROJECT_AFTER__LOGIN__DEFAULT__REDIRECT__URL (default=nil) Override URL to which logged in users are redirected instead of the Home page
-OPENPROJECT_AI__TEXT__TRANSFORM__ACTIONS__ENABLED (default=false) Enable AI text transform actions in the rich text editor
-OPENPROJECT_AI__TEXT__TRANSFORM__RUN__RETENTION__SECONDS (default=3600) How long AI text transform runs and their events are kept before a cron job removes them. Applies to finished runs from their finish time and to unfinished runs from their creation time.
-OPENPROJECT_ALLOW__TRACKING__START__AND__END__TIMES (default=false) Allow start and finish times
-OPENPROJECT_ALLOWED__LINK__PROTOCOLS (default=[]) Allowed protocols for links in the WYSIWYG editor and formatted texts
-OPENPROJECT_ANTIVIRUS__SCAN__ACTION (default=:quarantine) Virus scanning action for found infected files
-OPENPROJECT_ANTIVIRUS__SCAN__AVAILABLE (default=true) Virus scanning option selectable in the UI
-OPENPROJECT_ANTIVIRUS__SCAN__MODE (default=:disabled) Virus scanning option for files uploaded to OpenProject
-OPENPROJECT_ANTIVIRUS__SCAN__TARGET (default=nil) The socket or hostname to connect to ClamAV
-OPENPROJECT_APIV3__CORS__ENABLED (default=false) Enable CORS headers for APIv3 server responses
-OPENPROJECT_APIV3__CORS__ORIGINS (default=[]) API V3 Cross-Origin Resource Sharing (CORS) allowed origins
-OPENPROJECT_APIV3__DOCS__ENABLED (default=false) Enable interactive APIv3 documentation as part of the application
-OPENPROJECT_APIV3__ENABLE__BASIC__AUTH (default=true) Enable API token or global basic authentication for APIv3 requests
-OPENPROJECT_APIV3__MAX__PAGE__SIZE (default=1000) Maximum API page size
-OPENPROJECT_APIV3__WRITE__READONLY__ATTRIBUTES (default=false) Allow overriding readonly attributes (e.g. createdAt, updatedAt, author) during the creation of resources via the REST API
-OPENPROJECT_APP__TITLE (default="OpenProject") Application title
-OPENPROJECT_APPSIGNAL__FRONTEND__KEY (default=nil) Appsignal API key for JavaScript error reporting
-OPENPROJECT_ATTACHMENT__DEFAULT__CHARSET (default="utf-8") Fallback charset used when serving text attachments whose encoding was not detected on upload
-OPENPROJECT_ATTACHMENT__MAX__SIZE (default=5120) Attachment max. size
-OPENPROJECT_ATTACHMENT__WHITELIST (default=[]) Attachment upload whitelist
-OPENPROJECT_ATTACHMENTS__GRACE__PERIOD (default=180) Time in minutes to wait before uploaded files not attached to any container are removed
-OPENPROJECT_ATTACHMENTS__STORAGE (default=:file) File storage configuration
-OPENPROJECT_ATTACHMENTS__STORAGE__PATH (default=nil) File storage disk location (only applicable for local file storage)
-OPENPROJECT_AUTH__SOURCE__SSO (default=nil) Configuration for Header-based Single Sign-On
-OPENPROJECT_AUTHENTICATION (default=nil) Configuration options for global basic auth
-OPENPROJECT_AUTOFETCH__CHANGESETS (default=true) Autofetch repository changes
-OPENPROJECT_AUTOLOGIN (default=0) Autologin
-OPENPROJECT_AUTOLOGIN__COOKIE__NAME (default="autologin") Cookie name for autologin cookie
-OPENPROJECT_AUTOLOGIN__COOKIE__PATH (default="/") Cookie path for autologin cookie
-OPENPROJECT_AVAILABLE__LANGUAGES (default=["ca", "cs", "de", "el", "en", "es", "fr", "hu", "id", "it", "ja", "ko", "lt", "nl", "no", "pl", "pt-BR", "pt-PT", "ro", "ru", "sk", "sl", "sv", "tr", "uk", "vi", "zh-CN", "zh-TW"]) Available languages
-OPENPROJECT_AVATAR__LINK__EXPIRY__SECONDS (default=86400) Cache duration for avatar image API responses
-OPENPROJECT_BACKUP__ATTACHMENT__SIZE__MAX__SUM__MB (default=1024) Maximum limit of attachment size to include into application backups
-OPENPROJECT_BACKUP__DAILY__LIMIT (default=3) Maximum number of application backups allowed per day
-OPENPROJECT_BACKUP__ENABLED (default=true) Enable application backups through the UI
-OPENPROJECT_BACKUP__INCLUDE__ATTACHMENTS (default=true) Allow inclusion of attachments in application backups
-OPENPROJECT_BACKUP__INITIAL__WAITING__PERIOD (default=86400) Wait time before newly created backup tokens are usable
-OPENPROJECT_BCC__RECIPIENTS (default=true) Blind carbon copy recipients (bcc)
-OPENPROJECT_BLACKLISTED__ROUTES (default=[]) Blocked routes to prevent access to certain modules or pages
-OPENPROJECT_BLOCKED__EMAIL__DOMAINS (default=[]) Email domains that may not be used for user accounts. Subdomains are blocked as well. Recipients on these domains are also skipped when sending emails.
-OPENPROJECT_BOARDS__DEMO__DATA__AVAILABLE (default=false) Internal setting determining availability of demo seed data
-OPENPROJECT_BRUTE__FORCE__BLOCK__AFTER__FAILED__LOGINS (default=20) Number of login attempts per user before assuming brute force attack
-OPENPROJECT_BRUTE__FORCE__BLOCK__MINUTES (default=30) Number of minutes to block users after presumed brute force attack
-OPENPROJECT_CACHE__EXPIRES__IN__SECONDS (default=nil) Expiration time for memcache entries, empty for no expiration be default
-OPENPROJECT_CACHE__FORMATTED__TEXT (default=true) Cache formatted text
-OPENPROJECT_CACHE__MEMCACHE__SERVER (default=nil) The memcache server host and IP
-OPENPROJECT_CACHE__NAMESPACE (default=nil) Namespace for cache keys, useful when multiple applications use a single memcache server
-OPENPROJECT_CACHE__REDIS__URL (default=nil) URL to the redis cache server
-OPENPROJECT_CAPTURE__EXTERNAL__LINKS (default=false) Redirect external links through a warning page before leaving the application
-OPENPROJECT_CAPTURE__EXTERNAL__LINKS__REQUIRE__LOGIN (default=false) Require users to be logged in before being able to navigate to external links
-OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET (default=nil) The secret used for generating access tokens to access documents on hocuspocus server.
-OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__URL (default=nil) The URL of the hocuspocus server used by BlockNoteJS editor to enable collaborative editing.
-OPENPROJECT_COMMIT__FIX__KEYWORDS (default="fixes,closes") Keywords to look for in commit for fixing work packages
-OPENPROJECT_COMMIT__FIX__STATUS__ID (default=nil) Assigned status when fixing keyword is found
-OPENPROJECT_COMMIT__LOGS__ENCODING (default="UTF-8") Encoding used to convert commit logs to UTF-8
-OPENPROJECT_COMMIT__LOGTIME__ACTIVITY__ID (default=nil) Activity for logged time
-OPENPROJECT_COMMIT__LOGTIME__ENABLED (default=false) Allow logging time through commit message
-OPENPROJECT_COMMIT__REF__KEYWORDS (default="refs,references,IssueID") Keywords used in commits for referencing work packages
-OPENPROJECT_CONSENT__DECLINE__MAIL (default=nil) Consent contact mail address
-OPENPROJECT_CONSENT__INFO (default={"en" => "## Consent\n\nYou need to agree to the [privacy and security policy](https://www.openproject.org/data-privacy-and-security/) of this OpenProject instance."}) Consent information text
-OPENPROJECT_CONSENT__REQUIRED (default=false) Consent required
-OPENPROJECT_CONSENT__TIME (default=nil) Consent time
-OPENPROJECT_COST__REPORTING__CACHE__FILTER__CLASSES (default=true)
-OPENPROJECT_COSTS__CURRENCY (default="€") Currency
-OPENPROJECT_COSTS__CURRENCY__FORMAT (default="%n %u") Currency format
-OPENPROJECT_CROSS__PROJECT__WORK__PACKAGE__RELATIONS (default=true) Allow cross-project work package relations
-OPENPROJECT_CSP__IMG__SRC (default=["*", "data:", "blob:"]) Allowed sources for the CSP img-src directive.
-OPENPROJECT_CSV__ESCAPE__FORMULAS (default=true) Escapes cells with single quote in CSV exports that begin with a spreadsheet formula character (e.g., =,@)
-OPENPROJECT_DATABASE__CIPHER__KEY (default=nil) Encryption key for repository credentials
-OPENPROJECT_DATE__FORMAT (default=nil) Date
-OPENPROJECT_DAYS__PER__MONTH (default=20) This will define what is considered a “month” when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months.
-OPENPROJECT_DEFAULT__AUTO__HIDE__POPUPS (default=true) Whether to automatically hide success notifications by default
-OPENPROJECT_DEFAULT__COMMENT__SORT__ORDER (default="asc") Default sort order for activities
-OPENPROJECT_DEFAULT__LANGUAGE (default="en") Default language
-OPENPROJECT_DEFAULT__PROJECTS__MODULES (default=["calendar", "board_view", "work_package_tracking", "gantt", "news", "costs"]) Default enabled modules for new projects
-OPENPROJECT_DEFAULT__PROJECTS__PUBLIC (default=false) New projects are public by default
-OPENPROJECT_DEFAULT__PROJECTS__WIKI (default=true) Enable wiki functionality for new projects by default
-OPENPROJECT_DEMO__PROJECTS__AVAILABLE (default=false)
-OPENPROJECT_DEMO__VIEW__OF__TYPE__GANTT__SEEDED (default=false)
-OPENPROJECT_DEMO__VIEW__OF__TYPE__TEAM__PLANNER__SEEDED (default=false)
-OPENPROJECT_DEMO__VIEW__OF__TYPE__WORK__PACKAGES__TABLE__SEEDED (default=false)
-OPENPROJECT_DEVELOPMENT__HIGHLIGHT__ENABLED (default=false) Enable highlighting of development environment
-OPENPROJECT_DIFF__MAX__LINES__DISPLAYED (default=1500) Max number of diff lines displayed
-OPENPROJECT_DIRECT__UPLOADS (default=true) Enable direct uploads to AWS S3. Only applicable with enabled Fog / AWS S3 configuration
-OPENPROJECT_DISABLE__BROWSER__CACHE (default=true) Prevent browser from caching any logged-in responses for security reasons
-OPENPROJECT_DISABLE__KEYBOARD__SHORTCUTS (default=false) Whether keyboard short cuts should be disabled (e.g. for better screen reader support)
-OPENPROJECT_DISABLE__PASSWORD__CHOICE (default=false) If enabled a user's password cannot be set to an arbitrary value, but can only be randomized.
-OPENPROJECT_DISABLE__PASSWORD__LOGIN (default=false) Disable internal logins and instead only allow SSO through OmniAuth. Forces password_login to 'none'. Prefer setting password_login directly.
-OPENPROJECT_DISABLED__MODULES (default=[]) A list of module names to prevent access to in the application
-OPENPROJECT_DISPLAY__SUBPROJECTS__WORK__PACKAGES (default=true) Display subprojects work packages on main projects by default
-OPENPROJECT_DROP__OLD__SESSIONS__ON__LOGIN (default=false) Destroy all sessions for current_user on login
-OPENPROJECT_DROP__OLD__SESSIONS__ON__LOGOUT (default=true) Destroy all sessions for current_user on logout
-OPENPROJECT_DURATION__FORMAT (default="hours_only") Format for displaying durations
-OPENPROJECT_EDITION (default="standard") OpenProject edition mode
-OPENPROJECT_EE__HIDE__BANNERS (default=false) Hide the Enterprise enterprise banners
-OPENPROJECT_EE__MANAGER__VISIBLE (default=true) Show the Enterprise configuration page
-OPENPROJECT_EMAIL__DELIVERY__CONFIGURATION (default="inapp")
-OPENPROJECT_EMAIL__DELIVERY__METHOD (default=nil) Email delivery method
-OPENPROJECT_EMAIL__LIMIT__PER__DAY (default=0) Number of emails which are allowed to be sent per day on average (may be up to 2x as much on a single day). This can be used to address spam and abuse, but is just designed as a last resort as it simply drops mails that are over the limit instead of sending them at a later point in time or notifying the user.
-OPENPROJECT_EMAIL__LOGIN (default=false) Use email as login
-OPENPROJECT_EMAILS__FOOTER (default={"en" => ""}) Emails footer
-OPENPROJECT_EMAILS__HEADER (default={"en" => ""}) Emails header
-OPENPROJECT_EMAILS__SALUTATION (default=:firstname) Address user in emails with
-OPENPROJECT_ENABLE__INTERNAL__ASSETS__SERVER (default=false) Serve assets through the Rails internal asset server
-OPENPROJECT_ENABLED__PROJECTS__COLUMNS (default=["favorited", "name", "project_status", "public", "created_at", "latest_activity_at", "required_disk_space"]) Columns in a projects list displayed by default
-OPENPROJECT_ENABLED__SCM (default=["subversion", "git"]) Enabled SCM
-OPENPROJECT_ENFORCE__TRACKING__START__AND__END__TIMES (default=false) Require start and finish times
-OPENPROJECT_ENTERPRISE__CHARGEBEE__SITE (default="openproject-enterprise") Site name for EE trial service
-OPENPROJECT_ENTERPRISE__PLAN (default="enterprise-on-premises---basic---euro---1-year") Default EE selected plan
-OPENPROJECT_ENTERPRISE__TRIAL__CREATION__HOST (default="https://start.openproject.com") Host for EE trial service
-OPENPROJECT_FEATURE__AI__TEXT__TRANSFORM__ACTIONS__ACTIVE (default=false) Enables the admin UI to manage AI text transform actions.
-OPENPROJECT_FEATURE__BUILT__IN__OAUTH__APPLICATIONS__ACTIVE (default=true) Allows the display and use of built-in OAuth applications.
-OPENPROJECT_FEATURE__DEPLOY__TARGETS__ACTIVE (default=false)
-OPENPROJECT_FEATURE__MINUTES__STYLING__MEETING__PDF__ACTIVE (default=false) Allow exporting a meeting with FITKO styling. See #65124 for details.
-OPENPROJECT_FEATURE__SPRINT__REPORTS__ACTIVE (default=false) Enables sprint reporting within the backlogs module. It shows a dashboard with various widgets regarding the sprint progress.
-OPENPROJECT_FEATURE__STORAGE__FILE__PICKING__SELECT__ALL__ACTIVE (default=false)
-OPENPROJECT_FEATURE__WIKI__ENHANCEMENTS__ACTIVE (default=true) Enables Wiki enhancements, such as the Wikis tab and XWiki integration.
-OPENPROJECT_FEEDS__ENABLED (default=true) Enable Feeds
-OPENPROJECT_FEEDS__LIMIT (default=15) Feed content limit
-OPENPROJECT_FILE__MAX__SIZE__DISPLAYED (default=512) Max size of text files displayed inline
-OPENPROJECT_FIRST__WEEK__OF__YEAR (default=nil) First week in year contains
-OPENPROJECT_FOG (default={}) Configure fog, e.g. when using an S3 uploader
-OPENPROJECT_FOG__DOWNLOAD__URL__EXPIRES__IN (default=21600) Expiration time in seconds of created shared presigned URLs
-OPENPROJECT_FORCE__FORMATTING__HELP__LINK (default=nil) You can set a custom URL for the help button in the WYSIWYG editor.
-OPENPROJECT_FORCE__HELP__LINK (default=nil) You can set a custom URL for the help button in application header menu.
-OPENPROJECT_FORCED__SINGLE__PAGE__SIZE (default=250) Forced page size for manually sorted work package views
-OPENPROJECT_GOOD__JOB__CLEANUP__PRESERVED__JOBS__BEFORE__SECONDS__AGO (default=604800)
-OPENPROJECT_GOOD__JOB__ENABLE__CRON (default=true)
-OPENPROJECT_GOOD__JOB__ENGINE__BASIC__AUTH (default=nil) Allow basic authentication for GoodJob web interface by setting a password
-OPENPROJECT_GOOD__JOB__MAX__CACHE (default=10000)
-OPENPROJECT_GOOD__JOB__MAX__THREADS (default=20)
-OPENPROJECT_GOOD__JOB__QUEUES (default="*")
-OPENPROJECT_GRAVATAR__FALLBACK__IMAGE (default="404") Set default gravatar image fallback
-OPENPROJECT_HASHED__TOKEN__PEPPER (default=<randomly generated>) Pepper used for HMAC-SHA256 hashing of hashed tokens (e.g. API tokens). Auto-initialized on first use. Changing this invalidates all existing hashed tokens.
-OPENPROJECT_HEALTH__CHECKS__AUTHENTICATION__PASSWORD (default=nil) Add an authentication challenge for the /health_check endpoint
-OPENPROJECT_HEALTH__CHECKS__BACKLOG__THRESHOLD (default=20) Set threshold of outstanding HTTP requests to fail health check
-OPENPROJECT_HEALTH__CHECKS__JOBS__NEVER__RAN__MINUTES__AGO (default=5) Set threshold of outstanding background jobs to fail health check
-OPENPROJECT_HIDDEN__MENU__ITEMS (default={}) Hide menu items in the menu sidebar for each main menu (such as Administration and Projects).
-OPENPROJECT_HOME__URL (default=nil) Override default link when clicking on the top menu logo (Homescreen by default).
-OPENPROJECT_HOST__NAME (default=nil) Host name
-OPENPROJECT_HOURS__PER__DAY (default=8) This will define what is considered a “day” when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days).
-OPENPROJECT_HSTS (default=true) Allow disabling of HSTS headers and http -> https redirects
-OPENPROJECT_HTTPS (default=true) Set assumed connection security for the Rails processes
-OPENPROJECT_HTTPX__CONNECT__TIMEOUT (default=3.0)
-OPENPROJECT_HTTPX__KEEP__ALIVE__TIMEOUT (default=20.0)
-OPENPROJECT_HTTPX__OPERATION__TIMEOUT (default=10.0)
-OPENPROJECT_HTTPX__READ__TIMEOUT (default=3.0)
-OPENPROJECT_HTTPX__REQUEST__TIMEOUT (default=10.0)
-OPENPROJECT_HTTPX__WRITE__TIMEOUT (default=3.0)
-OPENPROJECT_ICAL__ENABLED (default=true) Enable iCalendar subscriptions
-OPENPROJECT_ICAL__FEED__KEEP__CLOSED__MEETINGS__DAYS (default=30) Number of days to keep closed and in-progress one-time meetings in iCal feeds
-OPENPROJECT_IMPRESSUM__LINK (default=nil) Impressum link to be set, hidden by default
-OPENPROJECT_INSTALLATION__TYPE (default="manual")
-OPENPROJECT_INSTALLATION__UUID (default=<randomly generated>)
-OPENPROJECT_INTERNAL__PASSWORD__CONFIRMATION (default=true) Require password confirmations for certain administrative actions
-OPENPROJECT_INTERNAL__WIKI__PROVIDER (default={}) Overwrite settings of the internal wiki provider through environment variables
-OPENPROJECT_INVITATION__EXPIRATION__DAYS (default=7) Activation email expires after
-OPENPROJECT_JOURNAL__AGGREGATION__TIME__MINUTES (default=5) Aggregation period
-OPENPROJECT_LDAP__DEPARTMENTS__DISABLE__SYNC__JOB (default=false) Deactivate regular synchronization job for departments in case scheduled as a separate cronjob
-OPENPROJECT_LDAP__FORCE__NO__PAGE (default=nil) Force LDAP to respond as a single page, in case paged responses do not work with your server.
-OPENPROJECT_LDAP__GROUPS__DISABLE__SYNC__JOB (default=false) Deactivate regular synchronization job for groups in case scheduled as a separate cronjob
-OPENPROJECT_LDAP__USERS__DISABLE__SYNC__JOB (default=false) Deactivate user attributes synchronization from LDAP
-OPENPROJECT_LDAP__USERS__SYNC__STATUS (default=false) Enable user status (locked/unlocked) synchronization from LDAP
-OPENPROJECT_LOG__LEVEL (default="info") Set the OpenProject logger level
-OPENPROJECT_LOG__REQUESTING__USER (default=false) Log user login, name, and mail address for all requests
-OPENPROJECT_LOGIN__REQUIRED (default=true) Authentication required
-OPENPROJECT_LOGRAGE__ENABLED (default=true) Use lograge formatter for outputting logs
-OPENPROJECT_LOGRAGE__FORMATTER (default="key_value") Lograge formatter to use for outputting logs
-OPENPROJECT_LOOKBOOK__ENABLED (default=false) Enable the Lookbook component documentation tool. Discouraged for production environments.
-OPENPROJECT_LOST__PASSWORD (default=true) Activate or deactivate lost password form
-OPENPROJECT_MAIL__FROM (default="openproject@example.net") Emission email address
-OPENPROJECT_MAIL__HANDLER__API__KEY (default=nil) API key
-OPENPROJECT_MAIL__HANDLER__BODY__DELIMITER__REGEX (default="") Truncate emails matching this regex
-OPENPROJECT_MAIL__HANDLER__BODY__DELIMITERS (default="") Truncate emails after one of these lines
-OPENPROJECT_MAIL__HANDLER__IGNORE__FILENAMES (default="signature.asc") Ignored mail attachments
-OPENPROJECT_MAIL__RECIPIENT__LIMITS (default=0) Maximum distinct recipients an instance may send emails to per day. Mails to addresses over that limit will be dropped. 0 equals unlimited recipients.
-OPENPROJECT_MAIL__SUFFIX__SEPARATORS (default="+")
-OPENPROJECT_MAIN__CONTENT__LANGUAGE (default="english") Main content language for PostgreSQL full text features
-OPENPROJECT_MCP__TOOL__RESPONSE__FORMAT (default=:full) How to format responses for MCP tools. Using values other than full may improve language model performance.
-OPENPROJECT_METRICS (default={"enabled" => false, "port" => 9394}) Publish a reduced set of puma metrics on a separate port for Prometheus consumption, providing autoscaling hints
-OPENPROJECT_MIGRATION__CHECK__ON__EXCEPTIONS (default=true) Check for missing migrations in internal errors
-OPENPROJECT_NEW__PROJECT__NOTIFICATION__TEXT (default="") Notification text
-OPENPROJECT_NEW__PROJECT__SEND__CONFIRMATION__EMAIL (default=false) Send notification to author when creating a new project
-OPENPROJECT_NEW__PROJECT__USER__ROLE__ID (default=nil) Role given to a non-admin user who creates a project
-OPENPROJECT_NOTIFICATIONS__HIDDEN (default=false)
-OPENPROJECT_NOTIFICATIONS__POLLING__INTERVAL (default=60000)
-OPENPROJECT_OAUTH__ALLOW__REMAPPING__OF__EXISTING__USERS (default=true) When set to false, prevent users from other identity providers to take over accounts that exist in OpenProject.
-OPENPROJECT_OMNIAUTH__DIRECT__LOGIN__PROVIDER (default=nil) Clicking on login sends a login request to the specified OmniAuth provider.
-OPENPROJECT_ONBOARDING__ENABLED (default=true) Enable or disable onboarding guided tour for new users
-OPENPROJECT_OPENID__CONNECT (default={}) Provide a OIDC provider and sync its settings through ENV
-OPENPROJECT_OPENTELEMETRY__ENABLED (default=false) Enable OpenTelemetry metrics
-OPENPROJECT_ORGANIZATION__NAME (default="My Organization") Organization name
-OPENPROJECT_OVERRIDE__BCRYPT__COST__FACTOR (default=nil) Set a custom BCrypt cost factor for deriving a user's bcrypt hash.
-OPENPROJECT_PASSWORD__ACTIVE__RULES (default=["lowercase", "uppercase", "numeric", "special"]) Password requirements
-OPENPROJECT_PASSWORD__COUNT__FORMER__BANNED (default=0) Number of most recently used passwords banned for reuse
-OPENPROJECT_PASSWORD__DAYS__VALID (default=0) Number of days, after which to enforce a password change
-OPENPROJECT_PASSWORD__LOGIN (default="all") Who may authenticate with a password: all users, everyone except OmniAuth-linked users, or nobody (except the break-glass allowlist).
-OPENPROJECT_PASSWORD__LOGIN__BYPASS__LOGINS (default=[]) Logins that keep password login as a break-glass access when password_login is except_sso or none. Intended as an environment overlay when nobody can reach administration. Matched case-insensitively.
-OPENPROJECT_PASSWORD__LOGIN__BYPASS__PRINCIPAL__IDS (default=[]) User and group ids that keep password login as a break-glass access when password_login is except_sso or none. Groups include their descendant groups.
-OPENPROJECT_PASSWORD__MIN__LENGTH (default=10) Minimum length
-OPENPROJECT_PER__PAGE__OPTIONS (default="20, 100") Objects per page options
-OPENPROJECT_PERCENT__COMPLETE__ON__STATUS__CLOSED (default="no_change") Describes how % complete should change when setting a work package status to a closed one
-OPENPROJECT_PLAIN__TEXT__MAIL (default=false) Plain text mail (no HTML)
-OPENPROJECT_PLUGIN__COSTS (default=nil)
-OPENPROJECT_PLUGIN__OPENPROJECT__AUTH__SAML (default={"providers" => nil})
-OPENPROJECT_PLUGIN__OPENPROJECT__AVATARS (default={"enable_gravatars" => true, "enable_local_avatars" => true})
-OPENPROJECT_PLUGIN__OPENPROJECT__BACKLOGS (default={"points_burn_direction" => "up"})
-OPENPROJECT_PLUGIN__OPENPROJECT__BIM (default={})
-OPENPROJECT_PLUGIN__OPENPROJECT__BOARDS (default=nil)
-OPENPROJECT_PLUGIN__OPENPROJECT__CALENDAR (default=nil)
-OPENPROJECT_PLUGIN__OPENPROJECT__GANTT (default=nil)
-OPENPROJECT_PLUGIN__OPENPROJECT__GITHUB__INTEGRATION (default={"github_user_id" => nil, "webhook_secret" => nil})
-OPENPROJECT_PLUGIN__OPENPROJECT__GITLAB__INTEGRATION (default={"gitlab_user_id" => nil, "webhook_secret" => nil})
-OPENPROJECT_PLUGIN__OPENPROJECT__LDAP__DEPARTMENTS (default={})
-OPENPROJECT_PLUGIN__OPENPROJECT__LDAP__GROUPS (default={})
-OPENPROJECT_PLUGIN__OPENPROJECT__OPENID__CONNECT (default=nil)
-OPENPROJECT_PLUGIN__OPENPROJECT__RECAPTCHA (default={"recaptcha_type" => "disabled", "response_limit" => 5000})
-OPENPROJECT_PLUGIN__OPENPROJECT__RESOURCE__MANAGEMENT (default=nil)
-OPENPROJECT_PLUGIN__OPENPROJECT__STORAGES (default=nil)
-OPENPROJECT_PLUGIN__OPENPROJECT__TEAM__PLANNER (default=nil)
-OPENPROJECT_PROJECT__GANTT__QUERY (default=nil) Project portfolio Gantt view
-OPENPROJECT_RAILS__ASSET__HOST (default=nil) Custom asset hostname for serving assets (e.g., Cloudfront)
-OPENPROJECT_RAILS__CACHE__STORE (default=:file_store) Set cache store implementation to use with OpenProject
-OPENPROJECT_RAILS__RELATIVE__URL__ROOT (default="") Set a URL prefix / base path to run OpenProject under, e.g., host.tld/openproject
-OPENPROJECT_RATE__LIMITING (default={}) Configure rate limiting for various endpoint rules. See configuration documentation for details.
-OPENPROJECT_REAL__TIME__TEXT__COLLABORATION__ENABLED (default=false) Enable real-time collaborative editing of text fields using BlockNoteJS and Hocuspocus server.
-OPENPROJECT_RECAPTCHA__VIA__HCAPTCHA (default=false)
-OPENPROJECT_REGISTRATION__FOOTER (default={"en" => ""}) Registration footer
-OPENPROJECT_REGISTRATION__RATE__LIMIT (default=0) Maximum unauthenticated POST /account/register requests per hour. Counted per client IP by default, or per instance (host_name) when registration_rate_limit_per_ip is false. 0 disables the limit.
-OPENPROJECT_REGISTRATION__RATE__LIMIT__PER__IP (default=true) Count registration rate limits per client IP. Set to false to count based on hostname itself.
-OPENPROJECT_REMOTE__STORAGE__DOWNLOAD__HOST (default=nil) Host the frontend uses to download files, which has to be added to the CSP.
-OPENPROJECT_REMOTE__STORAGE__UPLOAD__HOST (default=nil) Host the frontend uses to upload files to, which has to be added to the CSP.
-OPENPROJECT_REPORT__INCOMING__EMAIL__ERRORS (default=true) Respond to incoming mails with error details
-OPENPROJECT_REPOSITORIES__AUTOMATIC__MANAGED__VENDOR (default=nil) Automatic repository vendor type
-OPENPROJECT_REPOSITORIES__ENCODINGS (default=nil) Repositories encodings
-OPENPROJECT_REPOSITORY__CHECKOUT__DATA (default={"git" => {"enabled" => 0}, "subversion" => {"enabled" => 0}})
-OPENPROJECT_REPOSITORY__LOG__DISPLAY__LIMIT (default=100) Maximum number of revisions displayed on file log
-OPENPROJECT_REPOSITORY__STORAGE__CACHE__MINUTES (default=720) Repository disk size cache
-OPENPROJECT_REPOSITORY__TRUNCATE__AT (default=500) Maximum number of files displayed in the repository browser
-OPENPROJECT_REST__API__ENABLED (default=true) Decide whether users can create personal API tokens in their account settings
-OPENPROJECT_SAML (default={}) Provide a SAML provider and sync its settings through ENV
-OPENPROJECT_SCIM__CLIENTS (default=[]) Configure SCIM clients through environment variables
-OPENPROJECT_SCM (default={})
-OPENPROJECT_SCM__GIT__COMMAND (default=nil)
-OPENPROJECT_SCM__LOCAL__CHECKOUT__PATH (default="repositories")
-OPENPROJECT_SCM__SUBVERSION__COMMAND (default=nil)
-OPENPROJECT_SECURITY__BADGE__DISPLAYED (default=true) Display security badge
-OPENPROJECT_SECURITY__BADGE__URL (default="https://releases.openproject.com/v1/check.svg") URL of the update check badge
-OPENPROJECT_SEED__ADMIN__USER__LOCKED (default=false) Lock the created admin user after seeding, so it can not be used for logging in. If set to true, an admin user has to be created manually or through an SSO provider.
-OPENPROJECT_SEED__ADMIN__USER__MAIL (default="admin@example.net") E-mail to set for the initially created admin user.
-OPENPROJECT_SEED__ADMIN__USER__NAME (default="OpenProject Admin") Name to set for the initially created admin user.
-OPENPROJECT_SEED__ADMIN__USER__PASSWORD (default="admin") Password to set for the initially created admin user (Login remains "admin").
-OPENPROJECT_SEED__ADMIN__USER__PASSWORD__RESET (default=true) Whether to force a password reset for the initially created admin user.
-OPENPROJECT_SEED__DESIGN (default=nil) Seed enterprise-edition theme colors and logos through ENV
-OPENPROJECT_SEED__ENTERPRISE__TOKEN (default=nil) Seed enterprise-edition token through ENV
-OPENPROJECT_SEED__LDAP (default=nil) Provide an LDAP connection and sync settings through ENV
-OPENPROJECT_SELF__REGISTRATION (default=2) Self-registration
-OPENPROJECT_SENDMAIL__ARGUMENTS (default="-i") Arguments to call sendmail with in case it is configured as outgoing email setup
-OPENPROJECT_SENDMAIL__LOCATION (default="/usr/sbin/sendmail") Location of sendmail to call if it is configured as outgoing email setup
-OPENPROJECT_SESSION__COOKIE__NAME (default="_open_project_session") Set session cookie name
-OPENPROJECT_SESSION__TTL (default=120) Session expiration time after inactivity
-OPENPROJECT_SESSION__TTL__ENABLED (default=false) Session expires
-OPENPROJECT_SHOW__COMMUNITY__LINKS (default=true) Enable or disable links to OpenProject community instances
-OPENPROJECT_SHOW__PENDING__MIGRATIONS__WARNING (default=true) Enable or disable warning bar in case of pending migrations
-OPENPROJECT_SHOW__PRODUCT__VERSION (default=true) Show product version information in the administration section
-OPENPROJECT_SHOW__SETTING__MISMATCH__WARNING (default=true) Show mismatched protocol/hostname warning. In cases where they must differ this can be disabled
-OPENPROJECT_SHOW__STORAGE__INFORMATION (default=true) Show available and taken storage information under administration / info
-OPENPROJECT_SHOW__WARNING__BARS (default=true) Render warning bars (pending migrations, deprecation, unsupported browsers)
-OPENPROJECT_SHOW__WORK__PACKAGE__ATTACHMENTS (default=true) Show work package attachments by default.
-OPENPROJECT_SMTP__ADDRESS (default="") SMTP server
-OPENPROJECT_SMTP__AUTHENTICATION (default="plain") SMTP authentication
-OPENPROJECT_SMTP__DOMAIN (default="your.domain.com") SMTP HELO domain
-OPENPROJECT_SMTP__ENABLE__STARTTLS__AUTO (default=false) Automatically use STARTTLS if available
-OPENPROJECT_SMTP__OPENSSL__VERIFY__MODE (default="peer") Globally set verify mode for OpenSSL. Careful: Setting to none will disable any SSL verification!
-OPENPROJECT_SMTP__PASSWORD (default="") SMTP password
-OPENPROJECT_SMTP__PORT (default=587) SMTP port
-OPENPROJECT_SMTP__SSL (default=false) Use SSL connection
-OPENPROJECT_SMTP__TIMEOUT (default=5)
-OPENPROJECT_SMTP__USER__NAME (default="") SMTP username
-OPENPROJECT_SOFTWARE__NAME (default="OpenProject") Override software application name
-OPENPROJECT_SOFTWARE__URL (default="https://www.openproject.org/") Override software application URL
-OPENPROJECT_SQL__SLOW__QUERY__THRESHOLD (default=2000) Time limit in ms after which queries will be logged as slow queries
-OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST (default="") Connections to certain IP addresses (such as private ranges) are blocked to prevent SSRF attacks. Use this setting to explicitly allow given IP addresses which would otherwise be blocked. Takes a comma or space separated list of IPv4 and IPv6 addresses (including masks for ranges), e.g. `192.168.255.255/16`. Here is a list of blocked IP ranges as defined by the ssrf_filter gem used. See [1] for the latest state in case this has changed. 0.0.0.0/8 # Current network (only valid as source address) 10.0.0.0/8 # Private network 100.64.0.0/10 # Shared Address Space 127.0.0.0/8 # Loopback 169.254.0.0/16 # Link-local 172.16.0.0/12 # Private network 192.0.0.0/24 # IETF Protocol Assignments 192.0.2.0/24 # TEST-NET-1, documentation and examples 192.88.99.0/24 # IPv6 to IPv4 relay (includes 2002::/16) 192.168.0.0/16 # Private network 198.18.0.0/15 # Network benchmark tests 198.51.100.0/24 # TEST-NET-2, documentation and examples 203.0.113.0/24 # TEST-NET-3, documentation and examples 224.0.0.0/4 # IP multicast (former Class D network) 240.0.0.0/4 # Reserved (former Class E network) 255.255.255.255 # Broadcast ::1/128 # Loopback 64:ff9b::/96 # IPv4/IPv6 translation (RFC 6052) 100::/64 # Discard prefix (RFC 6666) 2001::/32 # Teredo tunneling 2001:10::/28 # Deprecated (previously ORCHID) 2001:20::/28 # ORCHIDv2 2001:db8::/32 # Addresses used in documentation and example source code 2002::/16 # 6to4 fc00::/7 # Unique local address fe80::/10 # Link-local address ff00::/8 # Multicast [1] https://github.com/arkadiyt/ssrf_filter/blob/main/lib/ssrf_filter/ssrf_filter.rb#L28-L58
-OPENPROJECT_START__OF__WEEK (default=nil) Week starts on
-OPENPROJECT_STATSD (default={"host" => nil, "port" => 8125}) enable statsd metrics (currently puma only) by configuring host
-OPENPROJECT_SYS__API__ENABLED (default=false) Enable internal system API for setting up managed repositories
-OPENPROJECT_SYS__API__KEY (default=nil) Internal system API key for setting up managed repositories
-OPENPROJECT_TIME__ENTRIES__LIMIT__TO__USER__WORKING__HOURS (default=false) Limit to the user's working hours
-OPENPROJECT_TIME__ENTRIES__MAX__HOURS__PER__DAY (default=0) Maximum number of hours per day
-OPENPROJECT_TIME__ENTRIES__MAX__HOURS__PER__ENTRY (default=0) Maximum number of hours per time entry
-OPENPROJECT_TIME__ENTRIES__PAST__MONTH__GRACE__DAYS (default=0) Grace period for past months
-OPENPROJECT_TIME__ENTRIES__PROHIBIT__LOGGING__FOR__PAST__MONTHS (default=false) Do not allow logging for past months
-OPENPROJECT_TIME__ENTRIES__PROHIBIT__LOGGING__ON__NON__WORKING__DAYS (default=false) Do not allow logging time on non-working days
-OPENPROJECT_TIME__FORMAT (default=nil) Time
-OPENPROJECT_TOTAL__PERCENT__COMPLETE__MODE (default="work_weighted_average") Mode in which the total % Complete for work packages in a hierarchy is calculated
-OPENPROJECT_USER__CAN__CHANGE__EMAIL (default=true) Whether users can change their own email addresses
-OPENPROJECT_USER__DEFAULT__THEME (default="light")
-OPENPROJECT_USER__DEFAULT__TIMEZONE (default=nil) Users default time zone
-OPENPROJECT_USER__FORMAT (default=:firstname_lastname) Users name format
-OPENPROJECT_USERS__DELETABLE__BY__ADMINS (default=false) User accounts deletable by admins
-OPENPROJECT_USERS__DELETABLE__BY__SELF (default=false) Users allowed to delete their accounts
-OPENPROJECT_WEB (default={"workers" => 2, "timeout" => 120, "wait_timeout" => 30, "min_threads" => 4, "max_threads" => 16, "term_on_timeout" => 1}) Web worker count and threads configuration
-OPENPROJECT_WELCOME__ON__HOMESCREEN (default=false) Display welcome block on homescreen
-OPENPROJECT_WELCOME__TEXT (default=nil) Welcome block text
-OPENPROJECT_WELCOME__TITLE (default=nil) Welcome block title
-OPENPROJECT_WIKI__PROVIDERS (default=[]) Configure external wiki providers through environment variables
-OPENPROJECT_WORK__PACKAGE__DONE__RATIO (default="field") Progress calculation mode
-OPENPROJECT_WORK__PACKAGE__LIST__DEFAULT__COLUMNS (default=["id", "subject", "type", "status", "assigned_to", "priority"])
-OPENPROJECT_WORK__PACKAGE__LIST__DEFAULT__HIGHLIGHTED__ATTRIBUTES (default=["status", "priority", "due_date"]) Default inline highlighted attributes
-OPENPROJECT_WORK__PACKAGE__LIST__DEFAULT__HIGHLIGHTING__MODE (default="inline") Default highlighting mode
-OPENPROJECT_WORK__PACKAGE__MULTIPLE__VERSIONS (default=true) Enable multiple version assignments on work packages.
-OPENPROJECT_WORK__PACKAGE__STARTDATE__IS__ADDDATE (default=false) Use current date as start date for new work packages
-OPENPROJECT_WORK__PACKAGES__ACTIVITIES__TAB__POLLING__INTERVAL__IN__MS (default=10000) Interval in milliseconds at which the work package activities tab polls for updates.
-OPENPROJECT_WORK__PACKAGES__BULK__REQUEST__LIMIT (default=10)
-OPENPROJECT_WORK__PACKAGES__IDENTIFIER (default="classic") Defines how work packages are identified in the UI (e.g. in links and titles). The 'classic' option uses the work package numerical ID, while 'semantic' uses the project identifier and the work package ID separated by a dash (e.g. 'PROJA-123').
-OPENPROJECT_WORK__PACKAGES__PROJECTS__EXPORT__LIMIT (default=500) Work packages / Projects export limit
-OPENPROJECT_WORKING__DAYS (default=[1, 2, 3, 4, 5]) Set working days of the week (Array of 1 to 7, where 1=Monday, 7=Sunday)
-OPENPROJECT_YOUTUBE__CHANNEL (default="https://www.youtube.com/c/OpenProjectCommunity") Link to YouTube channel in help menu
-```
+| Variable | Default | Description |
+|---|---|---|
+| `OPENPROJECT_2FA` | `{"active_strategies" => [], "enforced" => false, "allow_remember_for_days" => 0}` |  |
+| `OPENPROJECT_ACTIVITY__DAYS__DEFAULT` | `30` | Days displayed on project activity |
+| `OPENPROJECT_ADDITIONAL__HOST__NAMES` | `[]` | Additional allowed host names for the application. |
+| `OPENPROJECT_AFTER__FIRST__LOGIN__REDIRECT__URL` | `nil` | URL users logging in for the first time will be redirected to (e.g., a help screen) |
+| `OPENPROJECT_AFTER__LOGIN__DEFAULT__REDIRECT__URL` | `nil` | Override URL to which logged in users are redirected instead of the Home page |
+| `OPENPROJECT_AI__TEXT__TRANSFORM__ACTIONS__ENABLED` | `false` | Enable AI text transform actions in the rich text editor |
+| `OPENPROJECT_AI__TEXT__TRANSFORM__RUN__RETENTION__SECONDS` | `3600` | How long AI text transform runs and their events are kept before a cron job removes them. Applies to finished runs from their finish time and to unfinished runs from their creation time. |
+| `OPENPROJECT_ALLOW__TRACKING__START__AND__END__TIMES` | `false` | Allow start and finish times |
+| `OPENPROJECT_ALLOWED__LINK__PROTOCOLS` | `[]` | Allowed protocols for links in the WYSIWYG editor and formatted texts |
+| `OPENPROJECT_ANTIVIRUS__SCAN__ACTION` | `:quarantine` | Virus scanning action for found infected files |
+| `OPENPROJECT_ANTIVIRUS__SCAN__AVAILABLE` | `true` | Virus scanning option selectable in the UI |
+| `OPENPROJECT_ANTIVIRUS__SCAN__MODE` | `:disabled` | Virus scanning option for files uploaded to OpenProject |
+| `OPENPROJECT_ANTIVIRUS__SCAN__TARGET` | `nil` | The socket or hostname to connect to ClamAV |
+| `OPENPROJECT_APIV3__CORS__ENABLED` | `false` | Enable CORS headers for APIv3 server responses |
+| `OPENPROJECT_APIV3__CORS__ORIGINS` | `[]` | API V3 Cross-Origin Resource Sharing (CORS) allowed origins |
+| `OPENPROJECT_APIV3__DOCS__ENABLED` | `false` | Enable interactive APIv3 documentation as part of the application |
+| `OPENPROJECT_APIV3__ENABLE__BASIC__AUTH` | `true` | Enable API token or global basic authentication for APIv3 requests |
+| `OPENPROJECT_APIV3__MAX__PAGE__SIZE` | `1000` | Maximum API page size |
+| `OPENPROJECT_APIV3__WRITE__READONLY__ATTRIBUTES` | `false` | Allow overriding readonly attributes (e.g. createdAt, updatedAt, author) during the creation of resources via the REST API |
+| `OPENPROJECT_APP__TITLE` | `"OpenProject"` | Application title |
+| `OPENPROJECT_APPSIGNAL__FRONTEND__KEY` | `nil` | Appsignal API key for JavaScript error reporting |
+| `OPENPROJECT_ATTACHMENT__DEFAULT__CHARSET` | `"utf-8"` | Fallback charset used when serving text attachments whose encoding was not detected on upload |
+| `OPENPROJECT_ATTACHMENT__MAX__SIZE` | `5120` | Attachment max. size |
+| `OPENPROJECT_ATTACHMENT__WHITELIST` | `[]` | Attachment upload whitelist |
+| `OPENPROJECT_ATTACHMENTS__GRACE__PERIOD` | `180` | Time in minutes to wait before uploaded files not attached to any container are removed |
+| `OPENPROJECT_ATTACHMENTS__STORAGE` | `:file` | File storage configuration |
+| `OPENPROJECT_ATTACHMENTS__STORAGE__PATH` | `nil` | File storage disk location (only applicable for local file storage) |
+| `OPENPROJECT_AUTH__SOURCE__SSO` | `nil` | Configuration for Header-based Single Sign-On |
+| `OPENPROJECT_AUTHENTICATION` | `nil` | Configuration options for global basic auth |
+| `OPENPROJECT_AUTOFETCH__CHANGESETS` | `true` | Autofetch repository changes |
+| `OPENPROJECT_AUTOLOGIN` | `0` | Autologin |
+| `OPENPROJECT_AUTOLOGIN__COOKIE__NAME` | `"autologin"` | Cookie name for autologin cookie |
+| `OPENPROJECT_AUTOLOGIN__COOKIE__PATH` | `"/"` | Cookie path for autologin cookie |
+| `OPENPROJECT_AVAILABLE__LANGUAGES` | `["ca", "cs", "de", "el", "en", "es", "fr", "hu", "id", "it", "ja", "ko", "lt", "nl", "no", "pl", "pt-BR", "pt-PT", "ro", "ru", "sk", "sl", "sv", "tr", "uk", "vi", "zh-CN", "zh-TW"]` | Available languages |
+| `OPENPROJECT_AVATAR__LINK__EXPIRY__SECONDS` | `86400` | Cache duration for avatar image API responses |
+| `OPENPROJECT_BACKUP__ATTACHMENT__SIZE__MAX__SUM__MB` | `1024` | Maximum limit of attachment size to include into application backups |
+| `OPENPROJECT_BACKUP__DAILY__LIMIT` | `3` | Maximum number of application backups allowed per day |
+| `OPENPROJECT_BACKUP__ENABLED` | `true` | Enable application backups through the UI |
+| `OPENPROJECT_BACKUP__INCLUDE__ATTACHMENTS` | `true` | Allow inclusion of attachments in application backups |
+| `OPENPROJECT_BACKUP__INITIAL__WAITING__PERIOD` | `86400` | Wait time before newly created backup tokens are usable |
+| `OPENPROJECT_BCC__RECIPIENTS` | `true` | Blind carbon copy recipients (bcc) |
+| `OPENPROJECT_BLACKLISTED__ROUTES` | `[]` | Blocked routes to prevent access to certain modules or pages |
+| `OPENPROJECT_BLOCKED__EMAIL__DOMAINS` | `[]` | Email domains that may not be used for user accounts. Subdomains are blocked as well. Recipients on these domains are also skipped when sending emails. |
+| `OPENPROJECT_BOARDS__DEMO__DATA__AVAILABLE` | `false` | Internal setting determining availability of demo seed data |
+| `OPENPROJECT_BRUTE__FORCE__BLOCK__AFTER__FAILED__LOGINS` | `20` | Number of login attempts per user before assuming brute force attack |
+| `OPENPROJECT_BRUTE__FORCE__BLOCK__MINUTES` | `30` | Number of minutes to block users after presumed brute force attack |
+| `OPENPROJECT_CACHE__EXPIRES__IN__SECONDS` | `nil` | Expiration time for memcache entries, empty for no expiration be default |
+| `OPENPROJECT_CACHE__FORMATTED__TEXT` | `true` | Cache formatted text |
+| `OPENPROJECT_CACHE__MEMCACHE__SERVER` | `nil` | The memcache server host and IP |
+| `OPENPROJECT_CACHE__NAMESPACE` | `nil` | Namespace for cache keys, useful when multiple applications use a single memcache server |
+| `OPENPROJECT_CACHE__REDIS__URL` | `nil` | URL to the redis cache server |
+| `OPENPROJECT_CAPTURE__EXTERNAL__LINKS` | `false` | Redirect external links through a warning page before leaving the application |
+| `OPENPROJECT_CAPTURE__EXTERNAL__LINKS__REQUIRE__LOGIN` | `false` | Require users to be logged in before being able to navigate to external links |
+| `OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET` | `nil` | The secret used for generating access tokens to access documents on hocuspocus server. |
+| `OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__URL` | `nil` | The URL of the hocuspocus server used by BlockNoteJS editor to enable collaborative editing. |
+| `OPENPROJECT_COMMIT__FIX__KEYWORDS` | `"fixes,closes"` | Keywords to look for in commit for fixing work packages |
+| `OPENPROJECT_COMMIT__FIX__STATUS__ID` | `nil` | Assigned status when fixing keyword is found |
+| `OPENPROJECT_COMMIT__LOGS__ENCODING` | `"UTF-8"` | Encoding used to convert commit logs to UTF-8 |
+| `OPENPROJECT_COMMIT__LOGTIME__ACTIVITY__ID` | `nil` | Activity for logged time |
+| `OPENPROJECT_COMMIT__LOGTIME__ENABLED` | `false` | Allow logging time through commit message |
+| `OPENPROJECT_COMMIT__REF__KEYWORDS` | `"refs,references,IssueID"` | Keywords used in commits for referencing work packages |
+| `OPENPROJECT_CONSENT__DECLINE__MAIL` | `nil` | Consent contact mail address |
+| `OPENPROJECT_CONSENT__INFO` | `{"en" => "## Consent\n\nYou need to agree to the [privacy and security policy](https://www.openproject.org/data-privacy-and-security/) of this OpenProject instance."}` | Consent information text |
+| `OPENPROJECT_CONSENT__REQUIRED` | `false` | Consent required |
+| `OPENPROJECT_CONSENT__TIME` | `nil` | Consent time |
+| `OPENPROJECT_COST__REPORTING__CACHE__FILTER__CLASSES` | `true` |  |
+| `OPENPROJECT_COSTS__CURRENCY` | `"€"` | Currency |
+| `OPENPROJECT_COSTS__CURRENCY__FORMAT` | `"%n %u"` | Currency format |
+| `OPENPROJECT_CROSS__PROJECT__WORK__PACKAGE__RELATIONS` | `true` | Allow cross-project work package relations |
+| `OPENPROJECT_CSP__IMG__SRC` | `["*", "data:", "blob:"]` | Allowed sources for the CSP img-src directive. |
+| `OPENPROJECT_CSV__ESCAPE__FORMULAS` | `true` | Escapes cells with single quote in CSV exports that begin with a spreadsheet formula character (e.g., =,@) |
+| `OPENPROJECT_DATABASE__CIPHER__KEY` | `nil` | Encryption key for repository credentials |
+| `OPENPROJECT_DATE__FORMAT` | `nil` | Date |
+| `OPENPROJECT_DAYS__PER__MONTH` | `20` | This will define what is considered a “month” when displaying duration in a more natural way (for example, if a month is 20 days, 60 days would be 3 months. |
+| `OPENPROJECT_DEFAULT__AUTO__HIDE__POPUPS` | `true` | Whether to automatically hide success notifications by default |
+| `OPENPROJECT_DEFAULT__COMMENT__SORT__ORDER` | `"asc"` | Default sort order for activities |
+| `OPENPROJECT_DEFAULT__LANGUAGE` | `"en"` | Default language |
+| `OPENPROJECT_DEFAULT__PROJECTS__MODULES` | `["calendar", "board_view", "work_package_tracking", "gantt", "news", "costs"]` | Default enabled modules for new projects |
+| `OPENPROJECT_DEFAULT__PROJECTS__PUBLIC` | `false` | New projects are public by default |
+| `OPENPROJECT_DEFAULT__PROJECTS__WIKI` | `true` | Enable wiki functionality for new projects by default |
+| `OPENPROJECT_DEMO__PROJECTS__AVAILABLE` | `false` |  |
+| `OPENPROJECT_DEMO__VIEW__OF__TYPE__GANTT__SEEDED` | `false` |  |
+| `OPENPROJECT_DEMO__VIEW__OF__TYPE__TEAM__PLANNER__SEEDED` | `false` |  |
+| `OPENPROJECT_DEMO__VIEW__OF__TYPE__WORK__PACKAGES__TABLE__SEEDED` | `false` |  |
+| `OPENPROJECT_DEVELOPMENT__HIGHLIGHT__ENABLED` | `false` | Enable highlighting of development environment |
+| `OPENPROJECT_DIFF__MAX__LINES__DISPLAYED` | `1500` | Max number of diff lines displayed |
+| `OPENPROJECT_DIRECT__UPLOADS` | `true` | Enable direct uploads to AWS S3. Only applicable with enabled Fog / AWS S3 configuration |
+| `OPENPROJECT_DISABLE__BROWSER__CACHE` | `true` | Prevent browser from caching any logged-in responses for security reasons |
+| `OPENPROJECT_DISABLE__KEYBOARD__SHORTCUTS` | `false` | Whether keyboard short cuts should be disabled (e.g. for better screen reader support) |
+| `OPENPROJECT_DISABLE__PASSWORD__CHOICE` | `false` | If enabled a user's password cannot be set to an arbitrary value, but can only be randomized. |
+| `OPENPROJECT_DISABLE__PASSWORD__LOGIN` | `false` | Disable internal logins and instead only allow SSO through OmniAuth. Forces password_login to 'none'. Prefer setting password_login directly. |
+| `OPENPROJECT_DISABLED__MODULES` | `[]` | A list of module names to prevent access to in the application |
+| `OPENPROJECT_DISPLAY__SUBPROJECTS__WORK__PACKAGES` | `true` | Display subprojects work packages on main projects by default |
+| `OPENPROJECT_DROP__OLD__SESSIONS__ON__LOGIN` | `false` | Destroy all sessions for current_user on login |
+| `OPENPROJECT_DROP__OLD__SESSIONS__ON__LOGOUT` | `true` | Destroy all sessions for current_user on logout |
+| `OPENPROJECT_DURATION__FORMAT` | `"hours_only"` | Format for displaying durations |
+| `OPENPROJECT_EDITION` | `"standard"` | OpenProject edition mode |
+| `OPENPROJECT_EE__HIDE__BANNERS` | `false` | Hide the Enterprise enterprise banners |
+| `OPENPROJECT_EE__MANAGER__VISIBLE` | `true` | Show the Enterprise configuration page |
+| `OPENPROJECT_EMAIL__DELIVERY__CONFIGURATION` | `"inapp"` |  |
+| `OPENPROJECT_EMAIL__DELIVERY__METHOD` | `nil` | Email delivery method |
+| `OPENPROJECT_EMAIL__LIMIT__PER__DAY` | `0` | Number of emails which are allowed to be sent per day on average (may be up to 2x as much on a single day). This can be used to address spam and abuse, but is just designed as a last resort as it simply drops mails that are over the limit instead of sending them at a later point in time or notifying the user. |
+| `OPENPROJECT_EMAIL__LOGIN` | `false` | Use email as login |
+| `OPENPROJECT_EMAILS__FOOTER` | `{"en" => ""}` | Emails footer |
+| `OPENPROJECT_EMAILS__HEADER` | `{"en" => ""}` | Emails header |
+| `OPENPROJECT_EMAILS__SALUTATION` | `:firstname` | Address user in emails with |
+| `OPENPROJECT_ENABLE__INTERNAL__ASSETS__SERVER` | `false` | Serve assets through the Rails internal asset server |
+| `OPENPROJECT_ENABLED__PROJECTS__COLUMNS` | `["favorited", "name", "project_status", "public", "created_at", "latest_activity_at", "required_disk_space"]` | Columns in a projects list displayed by default |
+| `OPENPROJECT_ENABLED__SCM` | `["subversion", "git"]` | Enabled SCM |
+| `OPENPROJECT_ENFORCE__TRACKING__START__AND__END__TIMES` | `false` | Require start and finish times |
+| `OPENPROJECT_ENTERPRISE__CHARGEBEE__SITE` | `"openproject-enterprise"` | Site name for EE trial service |
+| `OPENPROJECT_ENTERPRISE__PLAN` | `"enterprise-on-premises---basic---euro---1-year"` | Default EE selected plan |
+| `OPENPROJECT_ENTERPRISE__TRIAL__CREATION__HOST` | `"https://start.openproject.com"` | Host for EE trial service |
+| `OPENPROJECT_FEATURE__AI__TEXT__TRANSFORM__ACTIONS__ACTIVE` | `false` | Enables the admin UI to manage AI text transform actions. |
+| `OPENPROJECT_FEATURE__BUILT__IN__OAUTH__APPLICATIONS__ACTIVE` | `true` | Allows the display and use of built-in OAuth applications. |
+| `OPENPROJECT_FEATURE__DEPLOY__TARGETS__ACTIVE` | `false` |  |
+| `OPENPROJECT_FEATURE__MINUTES__STYLING__MEETING__PDF__ACTIVE` | `false` | Allow exporting a meeting with FITKO styling. See #65124 for details. |
+| `OPENPROJECT_FEATURE__SPRINT__REPORTS__ACTIVE` | `false` | Enables sprint reporting within the backlogs module. It shows a dashboard with various widgets regarding the sprint progress. |
+| `OPENPROJECT_FEATURE__STORAGE__FILE__PICKING__SELECT__ALL__ACTIVE` | `false` |  |
+| `OPENPROJECT_FEATURE__WIKI__ENHANCEMENTS__ACTIVE` | `true` | Enables Wiki enhancements, such as the Wikis tab and XWiki integration. |
+| `OPENPROJECT_FEEDS__ENABLED` | `true` | Enable Feeds |
+| `OPENPROJECT_FEEDS__LIMIT` | `15` | Feed content limit |
+| `OPENPROJECT_FILE__MAX__SIZE__DISPLAYED` | `512` | Max size of text files displayed inline |
+| `OPENPROJECT_FIRST__WEEK__OF__YEAR` | `nil` | First week in year contains |
+| `OPENPROJECT_FOG` | `{}` | Configure fog, e.g. when using an S3 uploader |
+| `OPENPROJECT_FOG__DOWNLOAD__URL__EXPIRES__IN` | `21600` | Expiration time in seconds of created shared presigned URLs |
+| `OPENPROJECT_FORCE__FORMATTING__HELP__LINK` | `nil` | You can set a custom URL for the help button in the WYSIWYG editor. |
+| `OPENPROJECT_FORCE__HELP__LINK` | `nil` | You can set a custom URL for the help button in application header menu. |
+| `OPENPROJECT_FORCED__SINGLE__PAGE__SIZE` | `250` | Forced page size for manually sorted work package views |
+| `OPENPROJECT_GOOD__JOB__CLEANUP__PRESERVED__JOBS__BEFORE__SECONDS__AGO` | `604800` |  |
+| `OPENPROJECT_GOOD__JOB__ENABLE__CRON` | `true` |  |
+| `OPENPROJECT_GOOD__JOB__ENGINE__BASIC__AUTH` | `nil` | Allow basic authentication for GoodJob web interface by setting a password |
+| `OPENPROJECT_GOOD__JOB__MAX__CACHE` | `10000` |  |
+| `OPENPROJECT_GOOD__JOB__MAX__THREADS` | `20` |  |
+| `OPENPROJECT_GOOD__JOB__QUEUES` | `"*"` |  |
+| `OPENPROJECT_GRAVATAR__FALLBACK__IMAGE` | `"404"` | Set default gravatar image fallback |
+| `OPENPROJECT_HASHED__TOKEN__PEPPER` | `<randomly generated>` | Pepper used for HMAC-SHA256 hashing of hashed tokens (e.g. API tokens). Auto-initialized on first use. Changing this invalidates all existing hashed tokens. |
+| `OPENPROJECT_HEALTH__CHECKS__AUTHENTICATION__PASSWORD` | `nil` | Add an authentication challenge for the /health_check endpoint |
+| `OPENPROJECT_HEALTH__CHECKS__BACKLOG__THRESHOLD` | `20` | Set threshold of outstanding HTTP requests to fail health check |
+| `OPENPROJECT_HEALTH__CHECKS__JOBS__NEVER__RAN__MINUTES__AGO` | `5` | Set threshold of outstanding background jobs to fail health check |
+| `OPENPROJECT_HIDDEN__MENU__ITEMS` | `{}` | Hide menu items in the menu sidebar for each main menu (such as Administration and Projects). |
+| `OPENPROJECT_HOME__URL` | `nil` | Override default link when clicking on the top menu logo (Homescreen by default). |
+| `OPENPROJECT_HOST__NAME` | `nil` | Host name |
+| `OPENPROJECT_HOURS__PER__DAY` | `8` | This will define what is considered a “day” when displaying duration in a more natural way (for example, if a day is 8 hours, 32 hours would be 4 days). |
+| `OPENPROJECT_HSTS` | `true` | Allow disabling of HSTS headers and http -> https redirects |
+| `OPENPROJECT_HTTPS` | `true` | Set assumed connection security for the Rails processes |
+| `OPENPROJECT_HTTPX__CONNECT__TIMEOUT` | `3.0` |  |
+| `OPENPROJECT_HTTPX__KEEP__ALIVE__TIMEOUT` | `20.0` |  |
+| `OPENPROJECT_HTTPX__OPERATION__TIMEOUT` | `10.0` |  |
+| `OPENPROJECT_HTTPX__READ__TIMEOUT` | `3.0` |  |
+| `OPENPROJECT_HTTPX__REQUEST__TIMEOUT` | `10.0` |  |
+| `OPENPROJECT_HTTPX__WRITE__TIMEOUT` | `3.0` |  |
+| `OPENPROJECT_ICAL__ENABLED` | `true` | Enable iCalendar subscriptions |
+| `OPENPROJECT_ICAL__FEED__KEEP__CLOSED__MEETINGS__DAYS` | `30` | Number of days to keep closed and in-progress one-time meetings in iCal feeds |
+| `OPENPROJECT_IMPRESSUM__LINK` | `nil` | Impressum link to be set, hidden by default |
+| `OPENPROJECT_INSTALLATION__TYPE` | `"manual"` |  |
+| `OPENPROJECT_INSTALLATION__UUID` | `<randomly generated>` |  |
+| `OPENPROJECT_INTERNAL__PASSWORD__CONFIRMATION` | `true` | Require password confirmations for certain administrative actions |
+| `OPENPROJECT_INTERNAL__WIKI__PROVIDER` | `{}` | Overwrite settings of the internal wiki provider through environment variables |
+| `OPENPROJECT_INVITATION__EXPIRATION__DAYS` | `7` | Activation email expires after |
+| `OPENPROJECT_JOURNAL__AGGREGATION__TIME__MINUTES` | `5` | Aggregation period |
+| `OPENPROJECT_LDAP__DEPARTMENTS__DISABLE__SYNC__JOB` | `false` | Deactivate regular synchronization job for departments in case scheduled as a separate cronjob |
+| `OPENPROJECT_LDAP__FORCE__NO__PAGE` | `nil` | Force LDAP to respond as a single page, in case paged responses do not work with your server. |
+| `OPENPROJECT_LDAP__GROUPS__DISABLE__SYNC__JOB` | `false` | Deactivate regular synchronization job for groups in case scheduled as a separate cronjob |
+| `OPENPROJECT_LDAP__USERS__DISABLE__SYNC__JOB` | `false` | Deactivate user attributes synchronization from LDAP |
+| `OPENPROJECT_LDAP__USERS__SYNC__STATUS` | `false` | Enable user status (locked/unlocked) synchronization from LDAP |
+| `OPENPROJECT_LOG__LEVEL` | `"info"` | Set the OpenProject logger level |
+| `OPENPROJECT_LOG__REQUESTING__USER` | `false` | Log user login, name, and mail address for all requests |
+| `OPENPROJECT_LOGIN__REQUIRED` | `true` | Authentication required |
+| `OPENPROJECT_LOGRAGE__ENABLED` | `true` | Use lograge formatter for outputting logs |
+| `OPENPROJECT_LOGRAGE__FORMATTER` | `"key_value"` | Lograge formatter to use for outputting logs |
+| `OPENPROJECT_LOOKBOOK__ENABLED` | `false` | Enable the Lookbook component documentation tool. Discouraged for production environments. |
+| `OPENPROJECT_LOST__PASSWORD` | `true` | Activate or deactivate lost password form |
+| `OPENPROJECT_MAIL__FROM` | `"openproject@example.net"` | Emission email address |
+| `OPENPROJECT_MAIL__HANDLER__API__KEY` | `nil` | API key |
+| `OPENPROJECT_MAIL__HANDLER__BODY__DELIMITER__REGEX` | `""` | Truncate emails matching this regex |
+| `OPENPROJECT_MAIL__HANDLER__BODY__DELIMITERS` | `""` | Truncate emails after one of these lines |
+| `OPENPROJECT_MAIL__HANDLER__IGNORE__FILENAMES` | `"signature.asc"` | Ignored mail attachments |
+| `OPENPROJECT_MAIL__RECIPIENT__LIMITS` | `0` | Maximum distinct recipients an instance may send emails to per day. Mails to addresses over that limit will be dropped. 0 equals unlimited recipients. |
+| `OPENPROJECT_MAIL__SUFFIX__SEPARATORS` | `"+"` |  |
+| `OPENPROJECT_MAIN__CONTENT__LANGUAGE` | `"english"` | Main content language for PostgreSQL full text features |
+| `OPENPROJECT_MCP__TOOL__RESPONSE__FORMAT` | `:full` | How to format responses for MCP tools. Using values other than full may improve language model performance. |
+| `OPENPROJECT_METRICS` | `{"enabled" => false, "port" => 9394}` | Publish a reduced set of puma metrics on a separate port for Prometheus consumption, providing autoscaling hints |
+| `OPENPROJECT_MIGRATION__CHECK__ON__EXCEPTIONS` | `true` | Check for missing migrations in internal errors |
+| `OPENPROJECT_NEW__PROJECT__NOTIFICATION__TEXT` | `""` | Notification text |
+| `OPENPROJECT_NEW__PROJECT__SEND__CONFIRMATION__EMAIL` | `false` | Send notification to author when creating a new project |
+| `OPENPROJECT_NEW__PROJECT__USER__ROLE__ID` | `nil` | Role given to a non-admin user who creates a project |
+| `OPENPROJECT_NOTIFICATIONS__HIDDEN` | `false` |  |
+| `OPENPROJECT_NOTIFICATIONS__POLLING__INTERVAL` | `60000` |  |
+| `OPENPROJECT_OAUTH__ALLOW__REMAPPING__OF__EXISTING__USERS` | `true` | When set to false, prevent users from other identity providers to take over accounts that exist in OpenProject. |
+| `OPENPROJECT_OMNIAUTH__DIRECT__LOGIN__PROVIDER` | `nil` | Clicking on login sends a login request to the specified OmniAuth provider. |
+| `OPENPROJECT_ONBOARDING__ENABLED` | `true` | Enable or disable onboarding guided tour for new users |
+| `OPENPROJECT_OPENID__CONNECT` | `{}` | Provide a OIDC provider and sync its settings through ENV |
+| `OPENPROJECT_OPENTELEMETRY__ENABLED` | `false` | Enable OpenTelemetry metrics |
+| `OPENPROJECT_ORGANIZATION__NAME` | `"My Organization"` | Organization name |
+| `OPENPROJECT_OVERRIDE__BCRYPT__COST__FACTOR` | `nil` | Set a custom BCrypt cost factor for deriving a user's bcrypt hash. |
+| `OPENPROJECT_PASSWORD__ACTIVE__RULES` | `["lowercase", "uppercase", "numeric", "special"]` | Password requirements |
+| `OPENPROJECT_PASSWORD__COUNT__FORMER__BANNED` | `0` | Number of most recently used passwords banned for reuse |
+| `OPENPROJECT_PASSWORD__DAYS__VALID` | `0` | Number of days, after which to enforce a password change |
+| `OPENPROJECT_PASSWORD__LOGIN` | `"all"` | Who may authenticate with a password: all users, everyone except OmniAuth-linked users, or nobody (except the break-glass allowlist). |
+| `OPENPROJECT_PASSWORD__LOGIN__BYPASS__LOGINS` | `[]` | Logins that keep password login as a break-glass access when password_login is except_sso or none. Intended as an environment overlay when nobody can reach administration. Matched case-insensitively. |
+| `OPENPROJECT_PASSWORD__LOGIN__BYPASS__PRINCIPAL__IDS` | `[]` | User and group ids that keep password login as a break-glass access when password_login is except_sso or none. Groups include their descendant groups. |
+| `OPENPROJECT_PASSWORD__MIN__LENGTH` | `10` | Minimum length |
+| `OPENPROJECT_PER__PAGE__OPTIONS` | `"20, 100"` | Objects per page options |
+| `OPENPROJECT_PERCENT__COMPLETE__ON__STATUS__CLOSED` | `"no_change"` | Describes how % complete should change when setting a work package status to a closed one |
+| `OPENPROJECT_PLAIN__TEXT__MAIL` | `false` | Plain text mail (no HTML) |
+| `OPENPROJECT_PLUGIN__COSTS` | `nil` |  |
+| `OPENPROJECT_PLUGIN__OPENPROJECT__AUTH__SAML` | `{"providers" => nil}` |  |
+| `OPENPROJECT_PLUGIN__OPENPROJECT__AVATARS` | `{"enable_gravatars" => true, "enable_local_avatars" => true}` |  |
+| `OPENPROJECT_PLUGIN__OPENPROJECT__BACKLOGS` | `{"points_burn_direction" => "up"}` |  |
+| `OPENPROJECT_PLUGIN__OPENPROJECT__BIM` | `{}` |  |
+| `OPENPROJECT_PLUGIN__OPENPROJECT__BOARDS` | `nil` |  |
+| `OPENPROJECT_PLUGIN__OPENPROJECT__CALENDAR` | `nil` |  |
+| `OPENPROJECT_PLUGIN__OPENPROJECT__GANTT` | `nil` |  |
+| `OPENPROJECT_PLUGIN__OPENPROJECT__GITHUB__INTEGRATION` | `{"github_user_id" => nil, "webhook_secret" => nil}` |  |
+| `OPENPROJECT_PLUGIN__OPENPROJECT__GITLAB__INTEGRATION` | `{"gitlab_user_id" => nil, "webhook_secret" => nil}` |  |
+| `OPENPROJECT_PLUGIN__OPENPROJECT__LDAP__DEPARTMENTS` | `{}` |  |
+| `OPENPROJECT_PLUGIN__OPENPROJECT__LDAP__GROUPS` | `{}` |  |
+| `OPENPROJECT_PLUGIN__OPENPROJECT__OPENID__CONNECT` | `nil` |  |
+| `OPENPROJECT_PLUGIN__OPENPROJECT__RECAPTCHA` | `{"recaptcha_type" => "disabled", "response_limit" => 5000}` |  |
+| `OPENPROJECT_PLUGIN__OPENPROJECT__RESOURCE__MANAGEMENT` | `nil` |  |
+| `OPENPROJECT_PLUGIN__OPENPROJECT__STORAGES` | `nil` |  |
+| `OPENPROJECT_PLUGIN__OPENPROJECT__TEAM__PLANNER` | `nil` |  |
+| `OPENPROJECT_PROJECT__GANTT__QUERY` | `nil` | Project portfolio Gantt view |
+| `OPENPROJECT_RAILS__ASSET__HOST` | `nil` | Custom asset hostname for serving assets (e.g., Cloudfront) |
+| `OPENPROJECT_RAILS__CACHE__STORE` | `:file_store` | Set cache store implementation to use with OpenProject |
+| `OPENPROJECT_RAILS__RELATIVE__URL__ROOT` | `""` | Set a URL prefix / base path to run OpenProject under, e.g., host.tld/openproject |
+| `OPENPROJECT_RATE__LIMITING` | `{}` | Configure rate limiting for various endpoint rules. See configuration documentation for details. |
+| `OPENPROJECT_REAL__TIME__TEXT__COLLABORATION__ENABLED` | `false` | Enable real-time collaborative editing of text fields using BlockNoteJS and Hocuspocus server. |
+| `OPENPROJECT_RECAPTCHA__VIA__HCAPTCHA` | `false` |  |
+| `OPENPROJECT_REGISTRATION__FOOTER` | `{"en" => ""}` | Registration footer |
+| `OPENPROJECT_REGISTRATION__RATE__LIMIT` | `0` | Maximum unauthenticated POST /account/register requests per hour. Counted per client IP by default, or per instance (host_name) when registration_rate_limit_per_ip is false. 0 disables the limit. |
+| `OPENPROJECT_REGISTRATION__RATE__LIMIT__PER__IP` | `true` | Count registration rate limits per client IP. Set to false to count based on hostname itself. |
+| `OPENPROJECT_REMOTE__STORAGE__DOWNLOAD__HOST` | `nil` | Host the frontend uses to download files, which has to be added to the CSP. |
+| `OPENPROJECT_REMOTE__STORAGE__UPLOAD__HOST` | `nil` | Host the frontend uses to upload files to, which has to be added to the CSP. |
+| `OPENPROJECT_REPORT__INCOMING__EMAIL__ERRORS` | `true` | Respond to incoming mails with error details |
+| `OPENPROJECT_REPOSITORIES__AUTOMATIC__MANAGED__VENDOR` | `nil` | Automatic repository vendor type |
+| `OPENPROJECT_REPOSITORIES__ENCODINGS` | `nil` | Repositories encodings |
+| `OPENPROJECT_REPOSITORY__CHECKOUT__DATA` | `{"git" => {"enabled" => 0}, "subversion" => {"enabled" => 0}}` |  |
+| `OPENPROJECT_REPOSITORY__LOG__DISPLAY__LIMIT` | `100` | Maximum number of revisions displayed on file log |
+| `OPENPROJECT_REPOSITORY__STORAGE__CACHE__MINUTES` | `720` | Repository disk size cache |
+| `OPENPROJECT_REPOSITORY__TRUNCATE__AT` | `500` | Maximum number of files displayed in the repository browser |
+| `OPENPROJECT_REST__API__ENABLED` | `true` | Decide whether users can create personal API tokens in their account settings |
+| `OPENPROJECT_SAML` | `{}` | Provide a SAML provider and sync its settings through ENV |
+| `OPENPROJECT_SCIM__CLIENTS` | `[]` | Configure SCIM clients through environment variables |
+| `OPENPROJECT_SCM` | `{}` |  |
+| `OPENPROJECT_SCM__GIT__COMMAND` | `nil` |  |
+| `OPENPROJECT_SCM__LOCAL__CHECKOUT__PATH` | `"repositories"` |  |
+| `OPENPROJECT_SCM__SUBVERSION__COMMAND` | `nil` |  |
+| `OPENPROJECT_SECURITY__BADGE__DISPLAYED` | `true` | Display security badge |
+| `OPENPROJECT_SECURITY__BADGE__URL` | `"https://releases.openproject.com/v1/check.svg"` | URL of the update check badge |
+| `OPENPROJECT_SEED__ADMIN__USER__LOCKED` | `false` | Lock the created admin user after seeding, so it can not be used for logging in. If set to true, an admin user has to be created manually or through an SSO provider. |
+| `OPENPROJECT_SEED__ADMIN__USER__MAIL` | `"admin@example.net"` | E-mail to set for the initially created admin user. |
+| `OPENPROJECT_SEED__ADMIN__USER__NAME` | `"OpenProject Admin"` | Name to set for the initially created admin user. |
+| `OPENPROJECT_SEED__ADMIN__USER__PASSWORD` | `"admin"` | Password to set for the initially created admin user (Login remains "admin"). |
+| `OPENPROJECT_SEED__ADMIN__USER__PASSWORD__RESET` | `true` | Whether to force a password reset for the initially created admin user. |
+| `OPENPROJECT_SEED__DESIGN` | `nil` | Seed enterprise-edition theme colors and logos through ENV |
+| `OPENPROJECT_SEED__ENTERPRISE__TOKEN` | `nil` | Seed enterprise-edition token through ENV |
+| `OPENPROJECT_SEED__LDAP` | `nil` | Provide an LDAP connection and sync settings through ENV |
+| `OPENPROJECT_SELF__REGISTRATION` | `2` | Self-registration |
+| `OPENPROJECT_SENDMAIL__ARGUMENTS` | `"-i"` | Arguments to call sendmail with in case it is configured as outgoing email setup |
+| `OPENPROJECT_SENDMAIL__LOCATION` | `"/usr/sbin/sendmail"` | Location of sendmail to call if it is configured as outgoing email setup |
+| `OPENPROJECT_SESSION__COOKIE__NAME` | `"_open_project_session"` | Set session cookie name |
+| `OPENPROJECT_SESSION__TTL` | `120` | Session expiration time after inactivity |
+| `OPENPROJECT_SESSION__TTL__ENABLED` | `false` | Session expires |
+| `OPENPROJECT_SHOW__COMMUNITY__LINKS` | `true` | Enable or disable links to OpenProject community instances |
+| `OPENPROJECT_SHOW__PENDING__MIGRATIONS__WARNING` | `true` | Enable or disable warning bar in case of pending migrations |
+| `OPENPROJECT_SHOW__PRODUCT__VERSION` | `true` | Show product version information in the administration section |
+| `OPENPROJECT_SHOW__SETTING__MISMATCH__WARNING` | `true` | Show mismatched protocol/hostname warning. In cases where they must differ this can be disabled |
+| `OPENPROJECT_SHOW__STORAGE__INFORMATION` | `true` | Show available and taken storage information under administration / info |
+| `OPENPROJECT_SHOW__WARNING__BARS` | `true` | Render warning bars (pending migrations, deprecation, unsupported browsers) |
+| `OPENPROJECT_SHOW__WORK__PACKAGE__ATTACHMENTS` | `true` | Show work package attachments by default. |
+| `OPENPROJECT_SMTP__ADDRESS` | `""` | SMTP server |
+| `OPENPROJECT_SMTP__AUTHENTICATION` | `"plain"` | SMTP authentication |
+| `OPENPROJECT_SMTP__DOMAIN` | `"your.domain.com"` | SMTP HELO domain |
+| `OPENPROJECT_SMTP__ENABLE__STARTTLS__AUTO` | `false` | Automatically use STARTTLS if available |
+| `OPENPROJECT_SMTP__OPENSSL__VERIFY__MODE` | `"peer"` | Globally set verify mode for OpenSSL. Careful: Setting to none will disable any SSL verification! |
+| `OPENPROJECT_SMTP__PASSWORD` | `""` | SMTP password |
+| `OPENPROJECT_SMTP__PORT` | `587` | SMTP port |
+| `OPENPROJECT_SMTP__SSL` | `false` | Use SSL connection |
+| `OPENPROJECT_SMTP__TIMEOUT` | `5` |  |
+| `OPENPROJECT_SMTP__USER__NAME` | `""` | SMTP username |
+| `OPENPROJECT_SOFTWARE__NAME` | `"OpenProject"` | Override software application name |
+| `OPENPROJECT_SOFTWARE__URL` | `"https://www.openproject.org/"` | Override software application URL |
+| `OPENPROJECT_SQL__SLOW__QUERY__THRESHOLD` | `2000` | Time limit in ms after which queries will be logged as slow queries |
+| `OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST` | `""` | Connections to certain IP addresses (such as private ranges) are blocked to prevent SSRF attacks. Use this setting to explicitly allow given IP addresses which would otherwise be blocked. Takes a comma or space separated list of IPv4 and IPv6 addresses (including masks for ranges), e.g. `192.168.255.255/16`. Here is a list of blocked IP ranges as defined by the ssrf_filter gem used. See [1] for the latest state in case this has changed. 0.0.0.0/8 # Current network (only valid as source address) 10.0.0.0/8 # Private network 100.64.0.0/10 # Shared Address Space 127.0.0.0/8 # Loopback 169.254.0.0/16 # Link-local 172.16.0.0/12 # Private network 192.0.0.0/24 # IETF Protocol Assignments 192.0.2.0/24 # TEST-NET-1, documentation and examples 192.88.99.0/24 # IPv6 to IPv4 relay (includes 2002::/16) 192.168.0.0/16 # Private network 198.18.0.0/15 # Network benchmark tests 198.51.100.0/24 # TEST-NET-2, documentation and examples 203.0.113.0/24 # TEST-NET-3, documentation and examples 224.0.0.0/4 # IP multicast (former Class D network) 240.0.0.0/4 # Reserved (former Class E network) 255.255.255.255 # Broadcast ::1/128 # Loopback 64:ff9b::/96 # IPv4/IPv6 translation (RFC 6052) 100::/64 # Discard prefix (RFC 6666) 2001::/32 # Teredo tunneling 2001:10::/28 # Deprecated (previously ORCHID) 2001:20::/28 # ORCHIDv2 2001:db8::/32 # Addresses used in documentation and example source code 2002::/16 # 6to4 fc00::/7 # Unique local address fe80::/10 # Link-local address ff00::/8 # Multicast [1] https://github.com/arkadiyt/ssrf_filter/blob/main/lib/ssrf_filter/ssrf_filter.rb#L28-L58 |
+| `OPENPROJECT_START__OF__WEEK` | `nil` | Week starts on |
+| `OPENPROJECT_STATSD` | `{"host" => nil, "port" => 8125}` | enable statsd metrics (currently puma only) by configuring host |
+| `OPENPROJECT_SYS__API__ENABLED` | `false` | Enable internal system API for setting up managed repositories |
+| `OPENPROJECT_SYS__API__KEY` | `nil` | Internal system API key for setting up managed repositories |
+| `OPENPROJECT_TIME__ENTRIES__LIMIT__TO__USER__WORKING__HOURS` | `false` | Limit to the user's working hours |
+| `OPENPROJECT_TIME__ENTRIES__MAX__HOURS__PER__DAY` | `0` | Maximum number of hours per day |
+| `OPENPROJECT_TIME__ENTRIES__MAX__HOURS__PER__ENTRY` | `0` | Maximum number of hours per time entry |
+| `OPENPROJECT_TIME__ENTRIES__PAST__MONTH__GRACE__DAYS` | `0` | Grace period for past months |
+| `OPENPROJECT_TIME__ENTRIES__PROHIBIT__LOGGING__FOR__PAST__MONTHS` | `false` | Do not allow logging for past months |
+| `OPENPROJECT_TIME__ENTRIES__PROHIBIT__LOGGING__ON__NON__WORKING__DAYS` | `false` | Do not allow logging time on non-working days |
+| `OPENPROJECT_TIME__FORMAT` | `nil` | Time |
+| `OPENPROJECT_TOTAL__PERCENT__COMPLETE__MODE` | `"work_weighted_average"` | Mode in which the total % Complete for work packages in a hierarchy is calculated |
+| `OPENPROJECT_USER__CAN__CHANGE__EMAIL` | `true` | Whether users can change their own email addresses |
+| `OPENPROJECT_USER__DEFAULT__THEME` | `"light"` |  |
+| `OPENPROJECT_USER__DEFAULT__TIMEZONE` | `nil` | Users default time zone |
+| `OPENPROJECT_USER__FORMAT` | `:firstname_lastname` | Users name format |
+| `OPENPROJECT_USERS__DELETABLE__BY__ADMINS` | `false` | User accounts deletable by admins |
+| `OPENPROJECT_USERS__DELETABLE__BY__SELF` | `false` | Users allowed to delete their accounts |
+| `OPENPROJECT_WEB` | `{"workers" => 2, "timeout" => 120, "wait_timeout" => 30, "min_threads" => 4, "max_threads" => 16, "term_on_timeout" => 1}` | Web worker count and threads configuration |
+| `OPENPROJECT_WELCOME__ON__HOMESCREEN` | `false` | Display welcome block on homescreen |
+| `OPENPROJECT_WELCOME__TEXT` | `nil` | Welcome block text |
+| `OPENPROJECT_WELCOME__TITLE` | `nil` | Welcome block title |
+| `OPENPROJECT_WIKI__PROVIDERS` | `[]` | Configure external wiki providers through environment variables |
+| `OPENPROJECT_WORK__PACKAGE__DONE__RATIO` | `"field"` | Progress calculation mode |
+| `OPENPROJECT_WORK__PACKAGE__LIST__DEFAULT__COLUMNS` | `["id", "subject", "type", "status", "assigned_to", "priority"]` |  |
+| `OPENPROJECT_WORK__PACKAGE__LIST__DEFAULT__HIGHLIGHTED__ATTRIBUTES` | `["status", "priority", "due_date"]` | Default inline highlighted attributes |
+| `OPENPROJECT_WORK__PACKAGE__LIST__DEFAULT__HIGHLIGHTING__MODE` | `"inline"` | Default highlighting mode |
+| `OPENPROJECT_WORK__PACKAGE__MULTIPLE__VERSIONS` | `true` | Enable multiple version assignments on work packages. |
+| `OPENPROJECT_WORK__PACKAGE__STARTDATE__IS__ADDDATE` | `false` | Use current date as start date for new work packages |
+| `OPENPROJECT_WORK__PACKAGES__ACTIVITIES__TAB__POLLING__INTERVAL__IN__MS` | `10000` | Interval in milliseconds at which the work package activities tab polls for updates. |
+| `OPENPROJECT_WORK__PACKAGES__BULK__REQUEST__LIMIT` | `10` |  |
+| `OPENPROJECT_WORK__PACKAGES__IDENTIFIER` | `"classic"` | Defines how work packages are identified in the UI (e.g. in links and titles). The 'classic' option uses the work package numerical ID, while 'semantic' uses the project identifier and the work package ID separated by a dash (e.g. 'PROJA-123'). |
+| `OPENPROJECT_WORK__PACKAGES__PROJECTS__EXPORT__LIMIT` | `500` | Work packages / Projects export limit |
+| `OPENPROJECT_WORKING__DAYS` | `[1, 2, 3, 4, 5]` | Set working days of the week (Array of 1 to 7, where 1=Monday, 7=Sunday) |
+| `OPENPROJECT_YOUTUBE__CHANNEL` | `"https://www.youtube.com/c/OpenProjectCommunity"` | Link to YouTube channel in help menu |
 
 <!-- END AUTOMATED SECTION -->
 <!-- Warning: Anything above this line will be overwritten by `rake docs:env_vars` -->
