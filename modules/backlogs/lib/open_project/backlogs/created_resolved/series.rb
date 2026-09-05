@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,14 +28,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
----
-en:
-  js:
-    burndown:
-      day: "Day"
-      points: "Points"
-    created_resolved:
-      work_packages: "Work packages"
-    work_packages:
-      properties:
-        storyPoints: "Story Points"
+module OpenProject::Backlogs::CreatedResolved
+  class Series < Array
+    def initialize(*args)
+      @unit = args.pop
+      @name = args.pop.to_sym
+      @display = true
+
+      raise "Unsupported unit '#{@unit}'" unless %i[workpackages hours].include? @unit
+
+      super
+    end
+
+    attr_reader :unit, :name
+    attr_accessor :display
+  end
+end

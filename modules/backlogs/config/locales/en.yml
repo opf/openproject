@@ -155,6 +155,11 @@ en:
         blankslate_description: "Set start and end date for the sprint to generate a burndown chart."
         blankslate_title: "No burndown data available"
 
+    created_resolved_chart:
+      show:
+        blankslate_description: "Set start and end date for the sprint to generate a created vs resolved chart."
+        blankslate_title: "No created vs resolved chart data available"
+
     excluded_work_package_types_caption: >
       Choose which work package types to hide from the backlog. Items of the selected types will not appear in the backlog automatically,
       keeping it focused on the work that matters to your team.
@@ -210,6 +215,7 @@ en:
     remaining_hours: "Remaining work"
     sharing: "Sprint sharing"
     show_burndown_chart: "Burndown chart"
+    show_created_resolved_chart: "Created vs resolved work packages"
 
     sprint_component:
       action_menu:
@@ -296,6 +302,10 @@ en:
   burndown:
     story_points: "Story points"
     story_points_ideal: "Story points (ideal)"
+
+  created_resolved:
+    wp_created: "Created"
+    wp_resolved: "Resolved"
 
   ee:
     features:
