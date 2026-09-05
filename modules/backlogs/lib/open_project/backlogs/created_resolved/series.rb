@@ -29,18 +29,20 @@
 #++
 
 module OpenProject::Backlogs::CreatedResolved
-  class Series < Array
-    def initialize(*args)
-      @unit = args.pop
-      @name = args.pop.to_sym
+  class Series
+    UNITS = %i[workpackages].freeze
+
+    attr_reader :name, :unit, :data
+    attr_accessor :display
+
+    def initialize(name, unit, *args)
+      @unit = unit
+      @name = name.to_sym
+      @data = Array.new(*args)
       @display = true
 
-      raise "Unsupported unit '#{@unit}'" unless %i[workpackages hours].include? @unit
+      raise ArgumentError, "Unsupported unit '#{@unit}'- should be one of: #{UNITS.join(', ')}" unless UNITS.include? @unit
 
-      super
-    end
-
-    attr_reader :unit, :name
-    attr_accessor :display
+    end    
   end
 end

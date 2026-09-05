@@ -29,15 +29,19 @@
 #++
 
 module OpenProject::Backlogs::CreatedResolved
-  class SeriesRawData < Hash
-    def initialize(*args)
-      @collect = args.pop
-      @sprint = args.pop
-      @project = args.pop
-      super
+  require "forwardable"
+  class SeriesRawData
+    extend Forwardable
+    attr_reader :collect, :sprint, :project
+
+    def initialize(project, sprint, collect)
+      @project = project
+      @sprint = sprint
+      @collect = collect
+      @data = Hash.new()
     end
 
-    attr_reader :collect, :sprint, :project
+    def_delegators :@data, :[], :[]=, :keys, :values, :each, :transform_values
 
     def collect_names
       @collect_names ||= @collect.to_a.map(&:last).flatten
@@ -55,9 +59,9 @@ module OpenProject::Backlogs::CreatedResolved
        
         day_data.each do |key, value|
           next if key == "date"
-
-          self.transform_values do |v|
-            self[key][date] = value.to_f
+          
+          @data.transform_values do |v|
+            @data[key][date] = value.to_f
           end
         end
       end
@@ -73,7 +77,7 @@ module OpenProject::Backlogs::CreatedResolved
       end
 
       collect_names.each do |c|
-        self[c] = date_hash.dup
+        @data[c] = date_hash.dup
       end
     end
 
@@ -88,7 +92,7 @@ module OpenProject::Backlogs::CreatedResolved
           days.date,
           COUNT(*) FILTER (WHERE date_trunc('day', work_packages.created_at) = days.date) AS wp_created,
           COUNT(*) FILTER (
-              WHERE work_package_journals.status_id IN (#{project.done_statuses.pluck(:id).join(', ')}) AND
+              WHERE #{done_status_query} AND
               (days.DATE::TIMESTAMP + interval '23:59:59') AT TIME ZONE 'Etc/UTC' = (date_trunc('day', journals.created_at::TIMESTAMP)+ interval '23:59:59') AT TIME ZONE 'Etc/UTC'
             ) AS wp_resolved
         FROM
@@ -97,8 +101,8 @@ module OpenProject::Backlogs::CreatedResolved
           journals
         ON work_package_journals.id = journals.data_id
           AND journals.data_type = '#{Journal::WorkPackageJournal.name}'
-          AND #{container_query}
-          AND #{project_id_query}
+          AND #{Journal::WorkPackageJournal.table_name}.sprint_id = #{sprint.id}
+          AND #{Journal::WorkPackageJournal.table_name}.project_id = #{project.id}
         LEFT JOIN 
           work_packages 
         ON journals.journable_id = work_packages.id
@@ -112,20 +116,22 @@ module OpenProject::Backlogs::CreatedResolved
       Journal::WorkPackageJournal.connection.select_all query_string
     end
 
-    def container_query
-      "(#{Journal::WorkPackageJournal.table_name}.sprint_id = #{sprint.id})"
-    end
+    def done_status_query
+      done_status_ids = project.done_statuses.pluck(:id)
 
-    def project_id_query
-      "(#{Journal::WorkPackageJournal.table_name}.project_id = #{project.id})"
+      if done_status_ids.empty?
+        # No status counts as "done", so force the FILTER to match nothing,
+        # making the COUNT evaluate to 0.
+        "AND 1=0"
+      else
+        "work_package_journals.status_id IN (#{done_status_ids.join(', ')})"
+      end
     end
 
     def day_query
       lower_bound = sprint.start_date
       upper_date = sprint.finish_date
       upper_bound = Time.zone.today.clamp(lower_bound, upper_date)
-
-      return Day.none unless upper_bound && lower_bound
 
       Day.working.from_range(from: lower_bound, to: upper_bound)
     end

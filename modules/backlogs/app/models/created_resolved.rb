@@ -38,16 +38,14 @@ class CreatedResolved
                                                                      sprint,
                                                                      workpackages: ["wp_created", "wp_resolved"])
 
-    series_data.collect_data
-
-    calculate_series series_data
     
-    result = calculate_series series_data
+    series_data.collect_data
+    calculate_series series_data
 
     determine_max
   end
 
-  attr_reader :days, :sprint_id, :max, :created, :resolved
+  attr_reader :days, :sprint_id, :max
 
   def series(_select = :active)
     @available_series
@@ -56,7 +54,7 @@ class CreatedResolved
   private
 
   def make_date_series(sprint)
-    @days = if sprint.start_date && sprint.finish_date
+    @days = if sprint.date_range_set?
               Day.working.from_range(from: sprint.start_date, to: sprint.finish_date).map(&:date)
             else
               []
@@ -65,22 +63,22 @@ class CreatedResolved
 
   def calculate_series(series_data)
     series_data.collect_names.each do |c|
-      # need to differentiate between hours and sp
-      make_series c.to_sym, series_data.unit_for(c), series_data[c].to_a.sort_by(&:first).map(&:last)
+      data = series_data[c].to_a.sort_by(&:first).map(&:last)
+      make_series(c.to_sym, series_data.unit_for(c), data)
     end
   end
 
   def make_series(name, units, data)
     @available_series ||= {}
-    s = OpenProject::Backlogs::CreatedResolved::Series.new(data, name, units)
-    @available_series[name] = s
-    instance_variable_set(:"@#{name}", s)
+    s = OpenProject::Backlogs::CreatedResolved::Series.new(name, units, data)
+    @available_series[name] = s.data
+    instance_variable_set(:"@#{name}", s.data)
   end
 
   def determine_max
     @max = {
-      workpackages: @available_series.values.select { |s| s.unit == :workpackages }.flatten.compact.reject(&:nan?).max || 0.0,
-      hours: @available_series.values.select { |s| s.unit == :hours }.flatten.compact.reject(&:nan?).max || 0.0
+      wp_created: @available_series[:wp_created].flatten.compact.reject(&:nan?).max || 0.0,
+      wp_resolved: @available_series[:wp_resolved].flatten.compact.reject(&:nan?).max || 0.0
     }
   end
 end

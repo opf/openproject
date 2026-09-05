@@ -73,7 +73,6 @@ module Backlogs
 
         def dataseries(created_resolved)
           created_resolved.series.map do |s|
-            Rails.logger.info ">>> DEBUG series: #{s.inspect}"
             {
               label: I18n.t("created_resolved.#{s.first}"),
               data: s.last.enum_for(:each)
