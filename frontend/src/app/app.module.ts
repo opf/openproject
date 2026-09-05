@@ -44,9 +44,6 @@ import { OpenprojectAttachmentsModule } from 'core-app/shared/components/attachm
 import { OpenprojectEditorModule } from 'core-app/shared/components/editor/openproject-editor.module';
 import { OpenprojectGridsModule } from 'core-app/shared/components/grids/openproject-grids.module';
 import { OpenprojectRouterModule } from 'core-app/core/routing/openproject-router.module';
-import {
-  OpenprojectWorkPackageRoutesModule,
-} from 'core-app/features/work-packages/openproject-work-package-routes.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { OpenprojectCalendarModule } from 'core-app/features/calendar/openproject-calendar.module';
 import { OpenprojectGlobalSearchModule } from 'core-app/core/global_search/openproject-global-search.module';
@@ -198,6 +195,7 @@ import { TimeEntryTimerService } from 'core-app/shared/components/time_entries/s
 import { WorkPackageFullCopyEntryComponent } from 'core-app/features/work-packages/routing/wp-full-copy/wp-full-copy-entry.component';
 import { WorkPackageFullCreateEntryComponent } from 'core-app/features/work-packages/routing/wp-full-create/wp-full-create-entry.component';
 import { WorkPackageFullViewEntryComponent } from 'core-app/features/work-packages/routing/wp-full-view/wp-full-view-entry.component';
+import { WorkPackageViewPageEntryComponent } from 'core-app/features/work-packages/routing/wp-view-page/wp-view-page-entry.component';
 import { MyPageComponent } from './features/my-page/my-page.component';
 import { DashboardComponent } from './features/overview/dashboard.component';
 import { BurndownChartComponent } from './features/backlogs/burndown-chart.component';
@@ -282,9 +280,8 @@ export function runBootstrap(appRef:ApplicationRef) {
     OpenprojectGridsModule,
     OpenprojectAttachmentsModule,
 
-    // Work packages and their routes
+    // Work packages
     OpenprojectWorkPackagesModule,
-    OpenprojectWorkPackageRoutesModule,
 
     // Boards
     OpenprojectBoardsModule,
@@ -391,6 +388,7 @@ export class OpenProjectModule implements DoBootstrap {
     registerCustomElement('opce-calendar-view', CalendarEntryComponent, { injector });
     registerCustomElement('opce-team-planner-view', TeamPlannerEntryComponent, { injector });
     registerCustomElement('opce-wp-full-view', WorkPackageFullViewEntryComponent, { injector });
+    registerCustomElement('opce-work-packages-view', WorkPackageViewPageEntryComponent, { injector });
     registerCustomElement('opce-wp-full-create', WorkPackageFullCreateEntryComponent, { injector });
     registerCustomElement('opce-wp-full-copy', WorkPackageFullCopyEntryComponent, { injector });
     registerCustomElement('opce-timer-account-menu', TimerAccountMenuComponent, { injector });

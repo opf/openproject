@@ -733,12 +733,13 @@ RSpec.describe "Open the Meetings tab",
 
   describe "work package full view" do
     let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }
+    let(:meetings_tab) { Pages::MeetingsTab.new(project_id: project.id, work_package_id: work_package.id, primerized: false) }
 
     it_behaves_like "with a meetings tab"
   end
 
   describe "work package split view" do
-    let(:work_package_page) { Pages::SplitWorkPackage.new(work_package) }
+    let(:work_package_page) { Pages::PrimerizedSplitWorkPackage.new(work_package) }
 
     it_behaves_like "with a meetings tab"
   end

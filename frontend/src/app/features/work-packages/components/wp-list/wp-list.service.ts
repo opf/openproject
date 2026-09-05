@@ -33,7 +33,9 @@ import { StateService } from '@uirouter/core';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { Injectable, Injector, inject } from '@angular/core';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
+import * as Turbo from '@hotwired/turbo';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { firstValueFrom, from, Observable, of } from 'rxjs';
@@ -68,6 +70,7 @@ export class WorkPackagesListService {
   protected UrlParamsHelper = inject(UrlParamsHelperService);
   protected authorisationService = inject(AuthorisationService);
   protected $state = inject(StateService);
+  protected urlParams = inject(UrlParamsService);
   protected apiV3Service = inject(ApiV3Service);
   protected states = inject(States);
   protected querySpace = inject(IsolatedQuerySpace);
@@ -225,7 +228,11 @@ export class WorkPackagesListService {
    * Load the query from the given state params
    */
   public loadCurrentQueryFromParams(projectIdentifier?:string):Promise<QueryResource> {
-    return firstValueFrom(this.fromQueryParams(this.$state.params as { query_id?:string|null, query_props?:string }, projectIdentifier));
+    const queryParams = {
+      query_id: this.urlParams.get('query_id'),
+      query_props: this.urlParams.get('query_props') ?? undefined,
+    };
+    return firstValueFrom(this.fromQueryParams(queryParams, projectIdentifier));
   }
 
   public loadForm(query:QueryResource):Promise<QueryFormResource> {
@@ -472,12 +479,26 @@ export class WorkPackagesListService {
   private navigateToQueryOnNonRouterPage(queryId:string|null):void {
     if (!this.isOnNonRouterPage()) { return; }
 
-    // update the URL path to reflect the saved query ID so subsequent refetches use the correct query_id.
     const url = new URL(window.location.href);
-    url.pathname = url.pathname.replace(/\/[^/]+$/, `/${queryId}`);
-    url.searchParams.delete('query_id');
-    url.searchParams.delete('query_props');
-    window.history.pushState({}, '', url.toString());
+    const { pathname } = url;
+
+    if (pathname.includes('/work_packages') || pathname.includes('/gantt')) {
+      // List-based pages: the query id lives in the query_id search param, the path itself
+      // doesn't address a specific view (unlike calendars/:id, team_planners/:id below).
+      if (queryId) {
+        url.searchParams.set('query_id', queryId);
+      } else {
+        url.searchParams.delete('query_id');
+      }
+      url.searchParams.delete('query_props');
+    } else {
+      // update the URL path to reflect the saved query ID so subsequent refetches use the correct query_id.
+      url.pathname = pathname.replace(/\/[^/]+$/, `/${queryId}`);
+      url.searchParams.delete('query_id');
+      url.searchParams.delete('query_props');
+    }
+
+    Turbo.session.history.push(url);
   }
 
   private reloadSidemenu(selectedQueryId:string|null):void {
@@ -490,6 +511,8 @@ export class WorkPackagesListService {
     if (pathname.includes('/calendars')) return 'calendar_sidemenu';
     if (pathname.includes('/team_planners')) return 'team_planner_sidemenu';
     if (pathname.includes('/ifc_models')) return 'bim_sidemenu';
+    if (pathname.includes('/gantt')) return 'gantt_menu';
+    if (pathname.includes('/work_packages')) return 'work_packages_sidemenu';
     return undefined;
   }
 }

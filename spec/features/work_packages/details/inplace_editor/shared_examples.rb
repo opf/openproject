@@ -152,13 +152,13 @@ RSpec.shared_examples "a principal autocomplete field" do
   end
 
   context "with the project page" do
-    let(:wp_page) { Pages::SplitWorkPackage.new(work_package, project) }
+    let(:wp_page) { Pages::PrimerizedSplitWorkPackage.new(work_package, project) }
 
     it_behaves_like "principal autocomplete on field"
   end
 
   context "without the project page" do
-    let(:wp_page) { Pages::SplitWorkPackage.new(work_package) }
+    let(:wp_page) { Pages::PrimerizedSplitWorkPackage.new(work_package) }
 
     it_behaves_like "principal autocomplete on field"
   end
@@ -197,13 +197,13 @@ RSpec.shared_examples "not a principal autocomplete field" do
   end
 
   context "with the project page" do
-    let(:wp_page) { Pages::SplitWorkPackage.new(work_package, project) }
+    let(:wp_page) { Pages::PrimerizedSplitWorkPackage.new(work_package, project) }
 
     it_behaves_like "not principal autocomplete on field"
   end
 
   context "without the project page" do
-    let(:wp_page) { Pages::SplitWorkPackage.new(work_package) }
+    let(:wp_page) { Pages::PrimerizedSplitWorkPackage.new(work_package) }
 
     it_behaves_like "not principal autocomplete on field"
   end

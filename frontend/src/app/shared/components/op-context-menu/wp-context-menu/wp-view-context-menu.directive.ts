@@ -54,6 +54,7 @@ import { CopyToClipboardService } from 'core-app/shared/components/copy-to-clipb
 import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { isSemanticWorkPackageId } from 'core-app/shared/helpers/work-package-id-pattern';
@@ -76,6 +77,8 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
   @LazyInject() protected currentProject:CurrentProjectService;
 
   @LazyInject() protected pathHelper:PathHelperService;
+
+  @LazyInject() protected urlParams:UrlParamsService;
 
   @LazyInject() protected turboRequests:TurboRequestsService;
 
@@ -164,10 +167,9 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
         if (this.hasUiRouterContext) {
           this.wpRelationsHierarchyService.addNewChildWp(this.baseRoute, this.workPackage);
         } else {
-          const newChildPath = `${window.location.pathname.replace(/\/details\/.*$/, '')}/details/new`;
           const childParams = new URLSearchParams(window.location.search);
           childParams.set('parent_id', id);
-          Turbo.visit(`${newChildPath}?${childParams.toString()}`, { frame: 'content-bodyRight', action: 'advance' });
+          Turbo.visit(`${this.urlParams.splitCreatePath()}?${childParams.toString()}`, { frame: 'content-bodyRight', action: 'advance' });
         }
         break;
 
@@ -186,7 +188,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
             { workPackageId: this.workPackage.displayId, tabIdentifier: 'relations' },
           );
         } else {
-          const relationsPath = `${window.location.pathname.replace(/\/details\/.*$/, '')}/details/${this.workPackage.displayId}${window.location.search}`;
+          const relationsPath = `${this.urlParams.basePathWithoutDetails()}/details/${this.workPackage.displayId}/relations${window.location.search}`;
           Turbo.visit(relationsPath, { frame: 'content-bodyRight', action: 'advance' });
         }
         break;
@@ -296,7 +298,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
             `${splitViewRoute(this.$state)}.tabs`,
             { workPackageId: this.workPackage.displayId, tabIdentifier: 'overview' },
           )
-          : `${window.location.pathname.replace(/\/details\/.*$/, '')}/details/${this.workPackage.displayId}${window.location.search}`;
+          : `${this.urlParams.basePathWithoutDetails()}/details/${this.workPackage.displayId}${window.location.search}`;
 
         items.unshift({
           disabled: false,

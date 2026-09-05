@@ -31,6 +31,7 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 
 @Component({
   selector: 'wp-new-split-view',
@@ -40,6 +41,8 @@ import { WorkPackagesListService } from 'core-app/features/work-packages/compone
 })
 export class WorkPackageNewSplitViewComponent extends WorkPackageCreateComponent {
   private readonly wpListService = inject(WorkPackagesListService);
+
+  private readonly urlParams = inject(UrlParamsService);
 
   /**
    * Before creating the new WP form, load the current query (with its active filters)
@@ -102,9 +105,9 @@ export class WorkPackageNewSplitViewComponent extends WorkPackageCreateComponent
 
     this.wpCreate.cancelCreation();
 
-    // Close the split panel by navigating to the base URL (strips /details/new),
+    // Close the split panel by navigating to the base URL (strips /details/new or /create_new),
     // replacing the history entry so back-navigation skips the create state.
-    const basePath = window.location.pathname.replace(/\/details\/.*$/, '');
+    const basePath = this.urlParams.basePathWithoutDetails();
     Turbo.visit(basePath + window.location.search, { frame: 'content-bodyRight', action: 'replace' });
   }
 
@@ -121,7 +124,7 @@ export class WorkPackageNewSplitViewComponent extends WorkPackageCreateComponent
     window.OpenProject.pageState = 'submitted';
 
     // Open the newly created WP in the split panel.
-    const basePath = window.location.pathname.replace(/\/details\/.*$/, '');
+    const basePath = this.urlParams.basePathWithoutDetails();
     Turbo.visit(`${basePath}/details/${savedResource.id}${window.location.search}`, {
       frame: 'content-bodyRight',
       action: 'advance',

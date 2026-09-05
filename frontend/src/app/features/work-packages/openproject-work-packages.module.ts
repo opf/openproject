@@ -252,6 +252,9 @@ import {
   WorkPackageViewPageComponent,
 } from 'core-app/features/work-packages/routing/wp-view-page/wp-view-page.component';
 import {
+  WorkPackageViewPageEntryComponent,
+} from 'core-app/features/work-packages/routing/wp-view-page/wp-view-page-entry.component';
+import {
   WorkPackageSettingsButtonComponent,
 } from 'core-app/features/work-packages/components/wp-buttons/wp-settings-button/wp-settings-button.component';
 import { BackButtonComponent } from 'core-app/features/work-packages/components/back-routing/back-button.component';
@@ -488,6 +491,7 @@ import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work
     WorkPackagesBaseComponent,
     PartitionedQuerySpacePageComponent,
     WorkPackageViewPageComponent,
+    WorkPackageViewPageEntryComponent,
 
     // WP list side
     WorkPackageListViewComponent,

@@ -49,7 +49,7 @@ RSpec.describe "Split screen in the notification center", :js do
 
       # Clicking on a another notification changes the split screen content
       center.click_item second_notification
-      split_screen = Pages::SplitWorkPackage.new(second_work_package, project)
+      split_screen = Pages::PrimerizedSplitWorkPackage.new(second_work_package, project)
       split_screen.expect_open
       center.expect_work_package_item second_notification
     end

@@ -340,7 +340,7 @@ Rails.application.reloader.to_prepare do
                      {
                        versions: %i[index show status_by],
                        journals: %i[index],
-                       work_packages: %i[show index show_conflict_flash_message share_upsell],
+                       work_packages: %i[show index split_view show_conflict_flash_message share_upsell],
                        work_packages_api: [:get],
                        "work_packages/reports": %i[report report_details],
                        "work_packages/activities_tab": %i[index page_streams item_actions update_streams update_sorting
@@ -357,7 +357,7 @@ Rails.application.reloader.to_prepare do
       wpt.permission :add_work_packages,
                      {
                        work_package_relations: %i[new create],
-                       work_packages: %i[new]
+                       work_packages: %i[new split_create]
                      },
                      permissible_on: :project,
                      dependencies: :view_work_packages,
