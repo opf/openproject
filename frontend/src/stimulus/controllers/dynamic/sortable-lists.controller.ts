@@ -39,15 +39,18 @@ import { flipMove } from 'core-stimulus/helpers/flip-helper';
 import { parseTemplate } from 'url-template';
 import {
   buildMoveFormData,
-  isSortableItemData,
+  isItemFromRoot,
   resolveDropIntent,
+  singleItemBatch,
   type RootAwareChild,
   type SortableListData,
   type SortableListsRoot,
 } from './sortable-lists/drag-and-drop';
+import { selectionKey, type SelectionItem, type SelectionKey } from 'core-common/batch-selection';
 import {
   captureRowPositions,
   isOrderableItem,
+  itemAcceptsDestination,
   reorderRows,
   resolveDirectionalPreviousItemId,
   resolveItemId,
@@ -59,15 +62,23 @@ import {
   rowOf,
   rowsRemainAt,
   sortableListsBusyAttribute,
+  type DestinationIdentity,
   type MoveAvailability,
   type MoveDirection,
 } from './sortable-lists/list-dom';
 import { SelectionOrchestrator, type SelectionHost } from './sortable-lists/selection-orchestrator';
+import { itemIdentity, orderedItemElements } from './sortable-lists/selection';
 
 type CleanupFn = () => void;
 type ElementDropPayload = ElementEventPayloadMap['onDrop'];
 type MoveResult = { ok:true }|{ ok:false; showToast:boolean };
 interface MoveAnnouncementContext { label:string|null; listName:string|null; crossList:boolean }
+
+// Reduced to a same-origin relative URL: an absolute or foreign-origin
+// template would otherwise be submitted as given.
+function relativeUrl(url:URL):string {
+  return `${url.pathname}${url.search}${url.hash}`;
+}
 
 export default class SortableListsController extends Controller<HTMLElement> implements SortableListsRoot, SelectionHost {
   static outlets = ['sortable-lists--list', 'sortable-lists--item', 'sortable-lists--scrollable'];
@@ -75,10 +86,13 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   static values = {
     moveUrlTemplate: String,
     moveUrlTemplates: Object,
+    collectionMoveUrl: String,
     optimistic: { type: Boolean, default: false },
     selectionEnabled: { type: Boolean, default: false },
     announcementScope: { type: String, default: 'js.sortable_lists.selection' },
+    moveAnnouncementScope: { type: String, default: 'js.sortable_lists.announcements' },
     selectionDescriptionId: { type: String, default: '' },
+    maxBatchSize: { type: Number, default: 0 },
   };
 
   declare readonly sortableListsListOutlets:import('./sortable-lists/list.controller').default[];
@@ -89,10 +103,14 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   declare readonly hasMoveUrlTemplateValue:boolean;
   declare readonly moveUrlTemplatesValue:Record<string, string>;
   declare readonly hasMoveUrlTemplatesValue:boolean;
+  declare readonly collectionMoveUrlValue:string;
+  declare readonly hasCollectionMoveUrlValue:boolean;
   declare readonly optimisticValue:boolean;
   declare readonly selectionEnabledValue:boolean;
   declare readonly announcementScopeValue:string;
+  declare readonly moveAnnouncementScopeValue:string;
   declare readonly selectionDescriptionIdValue:string;
+  declare readonly maxBatchSizeValue:number;
 
   private selection?:SelectionOrchestrator;
 
@@ -103,8 +121,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   connect():void {
     this.monitorCleanupFn = monitorForElements({
       canMonitor: ({ source }) => !this.busy
-        && isSortableItemData(source.data)
-        && source.data.rootElement === this.element,
+        && isItemFromRoot(this.element, source.data),
       onDrop: (args) => {
         void this.handleDrop(args);
       },
@@ -124,6 +141,10 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     this.teardownSelection();
     this.monitorCleanupFn?.();
     this.monitorCleanupFn = undefined;
+    // A drag in flight when the controller disconnects would otherwise leave
+    // its marks in the cached page and its frozen batch in this instance.
+    this.clearDraggingRows();
+    this.activeDragBatch = null;
   }
 
   // A Turbo morph can toggle the permission-gated value on a live root
@@ -210,13 +231,114 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     }
   }
 
-  // Live ordered membership, for AGILE-278's batch move.
-  selectedIds():string[] {
-    return this.selection?.selectedIds() ?? [];
+  // Frozen at drag start and consumed exactly once per drop, cancelled ones
+  // included: neither Escape nor a mid-drag morph can change what is
+  // submitted, and no stale batch leaks into the next drag.
+  private activeDragBatch:SelectionItem[]|null = null;
+
+  // Pragmatic dispatches onGenerateDragPreview before onDragStart; the
+  // preview needs the count, the drag start marks the rows.
+  freezeDragBatch(itemElement:HTMLElement):number {
+    const scope = this.selection?.selectForAction(itemElement);
+    this.activeDragBatch = scope?.kind === 'batch'
+      ? scope.items.map((item) => itemIdentity(item)).filter((item):item is SelectionItem => item !== null)
+      : null;
+
+    return Math.max(1, this.activeDragBatch?.length ?? 0);
   }
 
-  collapseSelectionForDrag(itemElement:HTMLElement):void {
-    this.selection?.collapseForDrag(itemElement);
+  markDragBatch():void {
+    if (this.activeDragBatch) {
+      this.markDraggingRows(this.activeDragBatch);
+    }
+  }
+
+  // The destinations every member of the prospective batch accepts, null when
+  // the block reaches all of them. A batch may span lists, so a member that
+  // only accepts its own pins the block there, never to the dragged card's
+  // list.
+  dragPermittedDestinations(itemElement:HTMLElement):DestinationIdentity[]|null {
+    const scope = this.selection?.actionScopeFor(itemElement);
+    const members = scope?.kind === 'batch' ? scope.items : [itemElement];
+    const ownerDestinationOf = (item:HTMLElement) => this.ownerDestinationOf(item);
+
+    const lists = this.ownedListOutlets();
+    const permitted = lists
+      .map((list) => this.destinationOf(list.listData))
+      .filter((destination) => members.every((member) => itemAcceptsDestination(member, destination, ownerDestinationOf)));
+
+    return permitted.length === lists.length ? null : permitted;
+  }
+
+  // Asked in canDrag, the earliest point a drag can be stopped: an oversized
+  // batch is told so before any preview or drop feedback appears.
+  dragRefused(itemElement:HTMLElement):boolean {
+    if (this.maxBatchSizeValue <= 0) {
+      return false;
+    }
+
+    const scope = this.selection?.actionScopeFor(itemElement);
+    const count = scope?.kind === 'batch' ? scope.items.length : 1;
+    if (count <= this.maxBatchSizeValue) {
+      return false;
+    }
+
+    void announce(
+      I18n.t(`${this.moveAnnouncementScopeValue}.batch_too_large`, { count, max: this.maxBatchSizeValue }),
+      { politeness: 'assertive' },
+    );
+    return true;
+  }
+
+  externalDragItems(itemElement:HTMLElement):HTMLElement[] {
+    const scope = this.selection?.actionScopeFor(itemElement);
+    return scope?.kind === 'batch' ? scope.items : [itemElement];
+  }
+
+  private destinationOf(listData:SortableListData):DestinationIdentity {
+    return { type: listData.type, id: listData.listId == null ? null : String(listData.listId) };
+  }
+
+  // Outlets match document-wide; another root's lists are not ours.
+  private ownedListOutlets() {
+    return this.sortableListsListOutlets.filter((list) => this.element.contains(list.element));
+  }
+
+  // Marked on the item element itself, the same one the item controller's
+  // own onDragStart marks, so CSS keys off one convention regardless of
+  // which controller did the marking.
+  private markDraggingRows(items:SelectionItem[]):void {
+    const elements = this.itemElementsByKey();
+    items.forEach((item) => {
+      elements.get(selectionKey(item))?.setAttribute('data-dragging', 'source');
+    });
+  }
+
+  // Every mark under the root, not just the frozen batch's own rows: a
+  // cancelled drop, or the item controller's onDrop missing a row, would
+  // otherwise leave one behind.
+  private clearDraggingRows():void {
+    this.element.querySelectorAll('[data-dragging]').forEach((element) => element.removeAttribute('data-dragging'));
+  }
+
+  // One document query per callback; never kept, so a morph cannot leave it
+  // stale. Keyed on type as well as id: ids collide across source tables.
+  private itemElementsByKey():Map<SelectionKey, HTMLElement> {
+    const map = new Map<SelectionKey, HTMLElement>();
+    orderedItemElements(this.element).forEach((element) => {
+      const identity = itemIdentity(element);
+      if (identity) {
+        map.set(selectionKey(identity), element);
+      }
+    });
+    return map;
+  }
+
+  private takeActiveDragBatch():SelectionItem[]|null {
+    const batch = this.activeDragBatch;
+    this.clearDraggingRows();
+    this.activeDragBatch = null;
+    return batch;
   }
 
   // A morph desyncs the children's drag-and-drop state in two ways. Stimulus
@@ -264,6 +386,13 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       // morph can strip or preserve the marker attribute independently of
       // the model.
       this.selection?.reconcile();
+
+      // A row a morph replaces mid-drag comes back as fresh server HTML that
+      // never went through markDragBatch, so it loses data-dragging with the
+      // element it replaced.
+      if (this.activeDragBatch) {
+        this.markDraggingRows(this.activeDragBatch);
+      }
     });
   };
 
@@ -359,23 +488,16 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       return;
     }
 
-    // Last, after every resolution above: several of them bail, and
-    // collapsing earlier would destroy the batch for a move that never runs.
-    this.selection?.collapseForMove(itemElement);
+    this.selection?.collapseForAction(itemElement);
 
     void this.performMove({
-      sourceRow,
+      rows: [sourceRow],
+      items: null,
       rowsContainer: list.rowsContainer,
       listData: list.listData,
       previousItemId,
       moveUrl,
     });
-  }
-
-  // The list element an item currently belongs to, for the confinement field
-  // on the drag payload; null outside any registered list.
-  ownerListElementOf(itemElement:HTMLElement):HTMLElement|null {
-    return this.ownerListOf(itemElement)?.element ?? null;
   }
 
   // The owning list of an item is the innermost list outlet containing its
@@ -392,13 +514,22 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     return this.ownerListOf(itemElement)?.rowsContainer ?? null;
   }
 
+  ownerDestinationOf(element:HTMLElement):DestinationIdentity|null {
+    const listData = this.ownerListOf(element)?.listData;
+    return listData ? this.destinationOf(listData) : null;
+  }
+
   private async handleDrop({ location, source }:ElementDropPayload) {
+    // Before any bail-out below: a cancelled drop still consumes the frozen
+    // snapshot rather than leaking it into the next drag.
+    const frozenBatch = this.takeActiveDragBatch();
+
     if (this.busy) {
       debugLog('sortable-lists: ignoring drop, a move is already in progress');
       return;
     }
 
-    if (!isSortableItemData(source.data) || !(source.element instanceof HTMLElement)) {
+    if (!isItemFromRoot(this.element, source.data) || !(source.element instanceof HTMLElement)) {
       debugLog('sortable-lists: ignoring drop, source is not a sortable item', source.data);
       return;
     }
@@ -408,31 +539,42 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       return;
     }
 
-    const moveUrl = this.resolveMoveUrl({ itemId: source.data.itemId, type: source.data.type });
+    const batch = this.batchForDrop(frozenBatch, source.data);
+    const moveUrl = batch
+      ? this.resolveCollectionMoveUrl()
+      : this.resolveMoveUrl({ itemId: source.data.itemId, type: source.data.type });
     if (!moveUrl) {
       debugLog('sortable-lists: ignoring drop, no move URL for item', source.data.itemId);
       return;
     }
 
+    // One item type per batch, so the exclusion set is that type plus ids.
     const intent = resolveDropIntent({
       location,
       root: this.element,
       sourceData: source.data,
+      excludedItems: {
+        type: source.data.type,
+        ids: new Set((batch ?? singleItemBatch(source.data)).map((item) => item.id)),
+      },
     });
     if (!intent) {
       debugLog('sortable-lists: ignoring drop, it did not resolve to a move');
       return;
     }
 
-    const sourceList = this.ownerListOf(source.element);
-    const sourceRow = sourceList ? rowOf(sourceList.rowsContainer, source.element) : null;
-    if (!sourceRow) {
-      debugLog('sortable-lists: ignoring drop, could not resolve the source row element');
+    const rows = batch
+      ? this.rowsForItems(batch)
+      : this.singleSourceRow(source.element);
+    if (!rows) {
+      debugLog('sortable-lists: ignoring drop, could not resolve every batch row');
+      this.announceMoveFailure({ label: null, listName: null, crossList: false }, false, batch?.length ?? 1);
       return;
     }
 
     await this.performMove({
-      sourceRow,
+      rows,
+      items: batch,
       rowsContainer: intent.rowsContainer,
       listData: intent.listData,
       previousItemId: intent.previousItemId,
@@ -440,34 +582,89 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     });
   }
 
-  // Optimistically reorder a single row, persist the move, and roll the row
-  // back (with a FLIP animation and an error toast) if the server rejects it.
-  // Shared by drag drops and programmatic menu moves.
+  // A selection-enabled root with a collection URL uses the collection
+  // contract for one dragged card as well as many.
+  private batchForDrop(frozenBatch:SelectionItem[]|null, sourceData:{ type:string; itemId:string }):SelectionItem[]|null {
+    if (!this.collectionMoveUrl || !this.selection) {
+      return null;
+    }
+
+    return frozenBatch && frozenBatch.length > 0
+      ? frozenBatch
+      : singleItemBatch(sourceData);
+  }
+
+  private get collectionMoveUrl():string|null {
+    return this.hasCollectionMoveUrlValue && this.collectionMoveUrlValue !== '' ? this.collectionMoveUrlValue : null;
+  }
+
+  private resolveCollectionMoveUrl():string|null {
+    const collectionMoveUrl = this.collectionMoveUrl;
+    if (!collectionMoveUrl) {
+      return null;
+    }
+
+    const url = new URL(collectionMoveUrl, window.location.href);
+    if (this.optimisticValue) {
+      url.searchParams.set('optimistic', 'true');
+    }
+
+    return relativeUrl(url);
+  }
+
+  // Refused whole when a row is missing: a member that vanished mid-drag
+  // means a partial block would diverge from the ids the request claims.
+  private rowsForItems(items:SelectionItem[]):HTMLElement[]|null {
+    const elements = this.itemElementsByKey();
+    const rows:HTMLElement[] = [];
+
+    for (const item of items) {
+      const itemElement = elements.get(selectionKey(item)) ?? null;
+      const container = itemElement ? this.ownerRowsContainer(itemElement) : null;
+      const row = container && itemElement ? rowOf(container, itemElement) : null;
+      if (!row) {
+        return null;
+      }
+      rows.push(row);
+    }
+
+    return rows;
+  }
+
+  private singleSourceRow(sourceElement:HTMLElement):HTMLElement[]|null {
+    const sourceList = this.ownerListOf(sourceElement);
+    const sourceRow = sourceList ? rowOf(sourceList.rowsContainer, sourceElement) : null;
+    return sourceRow ? [sourceRow] : null;
+  }
+
+  // Shared by drag drops, single or batch, and by the menu moves that pass
+  // no items.
   private async performMove({
-    sourceRow,
+    rows,
+    items,
     rowsContainer,
     listData,
     previousItemId,
     moveUrl,
   }:{
-    sourceRow:HTMLElement;
+    rows:HTMLElement[];
+    items:SelectionItem[]|null;
     rowsContainer:HTMLElement;
     listData:SortableListData;
     previousItemId:string|null;
     moveUrl:string;
   }):Promise<void> {
-    const rows = [sourceRow];
     // Captured before the reorder: afterwards the row already belongs to the
     // target list, so source-relative facts would be lost.
     const announcementContext:MoveAnnouncementContext = {
-      label: resolveItemLabel(sourceRow),
+      label: resolveItemLabel(rows[0]),
       listName: listData.name,
-      crossList: sourceRow.parentElement !== rowsContainer,
+      crossList: rows.some((row) => row.parentElement !== rowsContainer),
     };
     const rollback = captureRowPositions(rows);
     reorderRows({ rows, rowsContainer, previousItemId });
 
-    // The reorder resolving back to the source's current DOM position means
+    // The reorder resolving back to the block's current DOM position means
     // the move is a no-op — nothing to persist, so no request. Comparing DOM
     // placement (not predecessor ids) keeps non-item rows such as truncation
     // markers out of the equation.
@@ -476,39 +673,45 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       return;
     }
 
-    this.announceMove(announcementContext, sourceRow, rowsContainer);
+    this.announceMove(announcementContext, rows, rowsContainer);
 
     const optimisticPlacement = captureRowPositions(rows);
 
-    const result = await this.moveItem({ listData, previousItemId, moveUrl });
+    const result = await this.moveItem({ listData, previousItemId, moveUrl, items });
 
-    if (!result.ok) {
-      let rolledBack = false;
-      try {
-        // A concurrent morph that removed or repositioned the rows carries
-        // fresher server state than the pre-move snapshot; roll back only
-        // while the rows still sit where the optimistic move put them.
-        if (rowsRemainAt(optimisticPlacement)) {
-          flipMove(rows, () => restoreRowPositions(rollback));
-          // restoreRowPositions silently skips rows whose captured parent
-          // disconnected, so verify the postcondition instead of trusting
-          // the absence of an exception.
-          rolledBack = rowsRemainAt(rollback);
-        }
-      } catch (error) {
-        debugLog('Failed to roll back sortable list item move', error);
-      }
+    if (result.ok) {
+      // Movement clears selection and anchor; failure preserves both for a
+      // retry. performMove is the shared boundary for the menu path too.
+      this.selection?.clearSilently();
+      return;
+    }
 
-      if (result.showToast) {
-        this.dispatchErrorToast();
-        this.announceMoveFailure(announcementContext, rolledBack);
+    let rolledBack = false;
+    try {
+      // A concurrent morph carries fresher server state than the pre-move
+      // snapshot, so roll back only while the rows still sit where the
+      // optimistic move put them.
+      if (rowsRemainAt(optimisticPlacement)) {
+        flipMove(rows, () => restoreRowPositions(rollback));
+        // restoreRowPositions silently skips rows whose captured parent
+        // disconnected, so the postcondition is verified rather than assumed.
+        rolledBack = rowsRemainAt(rollback);
       }
+    } catch (error) {
+      debugLog('Failed to roll back sortable list item move', error);
+    }
+
+    if (result.showToast) {
+      this.dispatchErrorToast();
+    }
+    // A 422 streams its own flash, which knows nothing about the client's
+    // rollback: without this, a rejection plus a concurrent morph would leave
+    // an unverified rollback unannounced.
+    if (result.showToast || !rolledBack) {
+      this.announceMoveFailure(announcementContext, rolledBack, rows.length);
     }
   }
 
-  // The template must expand to a same-origin relative URL: the expansion is
-  // reduced to path + search + hash, so an absolute template's origin would
-  // be dropped silently.
   private resolveMoveUrl({ itemId, type }:{ itemId:string; type:string|null }):string|null {
     const template = this.moveUrlTemplateFor(type);
     if (!template) {
@@ -523,7 +726,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       url.searchParams.set('optimistic', 'true');
     }
 
-    return `${url.pathname}${url.search}${url.hash}`;
+    return relativeUrl(url);
   }
 
   // The dragged item's type keys the template: the move endpoint belongs to
@@ -540,19 +743,24 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     listData,
     previousItemId,
     moveUrl,
+    items,
   }:{
     listData:SortableListData;
     previousItemId:string|null;
     moveUrl:string;
+    items:SelectionItem[]|null;
   }):Promise<MoveResult> {
     const request = new FetchRequest(
       'put',
       moveUrl,
       {
+        // The one boundary where the batch's (type, id) pairs are projected
+        // down to the bare ids the PUT takes.
         body: buildMoveFormData({
           listId: listData.listId,
           previousItemId,
           type: listData.type,
+          itemIds: items?.map((item) => item.id) ?? null,
         }),
         responseKind: 'turbo-stream',
       },
@@ -598,39 +806,50 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   // global live region, in sync with what sighted users see. Failure paths
   // append their own message below. A 422 stays silent here: its error flash
   // is streamed by the server and self-announces (matching the toast rule).
-  private announceMove(context:MoveAnnouncementContext, sourceRow:HTMLElement, rowsContainer:HTMLElement):void {
-    const placement = resolveItemPosition({ row: sourceRow, rowsContainer });
+  // The consumer's vocabulary: Backlogs says "work package", not "item".
+  private announceMove(context:MoveAnnouncementContext, rows:HTMLElement[], rowsContainer:HTMLElement):void {
+    const placement = resolveItemPosition({ row: rows[0], rowsContainer });
     if (!placement) {
       return;
     }
 
+    const scope = this.moveAnnouncementScopeValue;
     // Resolved outside the options object literal below: nested inside it,
     // the call's generic return type would be inferred from the object's
     // contextual `TranslateOptions` index signature (`any`) instead of its
     // own `string` default.
-    const label = context.label ?? I18n.t('js.sortable_lists.announcements.fallback_item_label');
-    const listName = context.listName ?? I18n.t('js.sortable_lists.announcements.fallback_list_name');
-    const message = context.crossList
-      ? I18n.t('js.sortable_lists.announcements.moved_to_list', {
-        label,
-        list: listName,
-        position: placement.position,
-        total: placement.total,
-      })
-      : I18n.t('js.sortable_lists.announcements.moved', {
-        label,
-        position: placement.position,
-        total: placement.total,
-      });
+    const label = context.label ?? I18n.t(`${scope}.fallback_item_label`);
+    const listName = context.listName ?? I18n.t(`${scope}.fallback_list_name`);
+
+    let message:string;
+    if (rows.length > 1) {
+      const first = placement.position;
+      const last = placement.position + rows.length - 1;
+      message = context.crossList
+        ? I18n.t(`${scope}.moved_batch_to_list`, { count: rows.length, list: listName, first, last, total: placement.total })
+        : I18n.t(`${scope}.moved_batch`, { count: rows.length, first, last, total: placement.total });
+    } else {
+      message = context.crossList
+        ? I18n.t(`${scope}.moved_to_list`, { label, list: listName, position: placement.position, total: placement.total })
+        : I18n.t(`${scope}.moved`, { label, position: placement.position, total: placement.total });
+    }
 
     void announce(message, { politeness: 'polite' });
   }
 
-  private announceMoveFailure(context:MoveAnnouncementContext, rolledBack:boolean):void {
-    const label = context.label ?? I18n.t('js.sortable_lists.announcements.fallback_item_label');
-    const message = rolledBack
-      ? I18n.t('js.sortable_lists.announcements.move_failed_rolled_back', { label })
-      : I18n.t('js.sortable_lists.announcements.move_failed_check_position');
+  private announceMoveFailure(context:MoveAnnouncementContext, rolledBack:boolean, count:number):void {
+    const scope = this.moveAnnouncementScopeValue;
+    const label = context.label ?? I18n.t(`${scope}.fallback_item_label`);
+    let message:string;
+    if (rolledBack) {
+      message = count > 1
+        ? I18n.t(`${scope}.move_failed_rolled_back_batch`, { count })
+        : I18n.t(`${scope}.move_failed_rolled_back`, { label });
+    } else {
+      message = count > 1
+        ? I18n.t(`${scope}.move_failed_check_positions_batch`, { count })
+        : I18n.t(`${scope}.move_failed_check_position`);
+    }
 
     void announce(message, { politeness: 'assertive' });
   }

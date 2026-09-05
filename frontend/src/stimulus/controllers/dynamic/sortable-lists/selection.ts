@@ -141,11 +141,18 @@ export function orderedSelectedItems(root:HTMLElement, keys:ReadonlySet<Selectio
     .filter((item):item is SelectionItem => item !== null && keys.has(selectionKey(item)));
 }
 
-function itemIdentity(itemElement:Element):SelectionItem|null {
+export function itemIdentity(itemElement:Element):SelectionItem|null {
   const id = resolveItemId(itemElement);
   const type = resolveItemType(itemElement);
 
   return id && type ? { type, id } : null;
+}
+
+export function orderedSelectedItemElements(root:HTMLElement, keys:ReadonlySet<SelectionKey>):HTMLElement[] {
+  return orderedItemElements(root).filter((item) => {
+    const identity = itemIdentity(item);
+    return identity !== null && keys.has(selectionKey(identity));
+  });
 }
 
 export function liveOrderableItems(root:HTMLElement):SelectionItem[] {

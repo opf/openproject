@@ -158,4 +158,39 @@ describe('Backlogs split-view-sync controller', () => {
 
     expect(refresh).not.toHaveBeenCalled();
   });
+
+  it('refreshes every cached member of a batch event, in order', async () => {
+    await renderHost();
+
+    dispatchMoved({ work_package_ids: [11, 12, 13] });
+
+    await waitFor(() => {
+      expect(id).toHaveBeenCalledWith('11');
+      expect(id).toHaveBeenCalledWith('12');
+      expect(id).toHaveBeenCalledWith('13');
+      expect(refresh).toHaveBeenCalledTimes(3);
+    });
+  });
+
+  it('skips uncached members of a batch event', async () => {
+    hasValue.mockImplementation(() => state.mock.calls.length === 2);
+    await renderHost();
+
+    dispatchMoved({ work_package_ids: [11, 12] });
+
+    await waitFor(() => {
+      expect(state).toHaveBeenCalledWith('11');
+      expect(state).toHaveBeenCalledWith('12');
+      expect(refresh).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('ignores an event with neither id field', async () => {
+    await renderHost();
+
+    dispatchMoved({});
+    await ctx.nextFrame();
+
+    expect(refresh).not.toHaveBeenCalled();
+  });
 });

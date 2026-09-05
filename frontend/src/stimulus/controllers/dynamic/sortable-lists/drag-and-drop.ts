@@ -39,13 +39,19 @@ import {
 // resolution (lifecycle-manager) does.
 import { getElementFromPointWithoutHoneypot } from '@atlaskit/pragmatic-drag-and-drop/private/get-element-from-point-without-honey-pot';
 import { type DragLocationHistory } from '@atlaskit/pragmatic-drag-and-drop/types';
+import { type SelectionItem } from 'core-common/batch-selection';
 import {
+  isExcludedItem,
   resolveClosestItemElement,
   resolveItemElement,
   resolveItemId,
+  resolveItemType,
   resolveListAppendPreviousItemId,
-  resolvePreviousItemId,
+  resolvePreviousItem,
   rowOf,
+  sameDestination,
+  type DestinationIdentity,
+  type ExcludedItems,
   type MoveAvailability,
   type MoveDirection,
 } from './list-dom';
@@ -55,19 +61,23 @@ import {
 const sortableItemDataKey = Symbol('sortable-list-item');
 const sortableListDataKey = Symbol('sortable-list');
 
-export interface SortableItemData extends Record<string|symbol, unknown> {
+// What a drop target exposes: the identity a drop resolves against, and
+// nothing that would have to be recomputed on every dragover.
+export interface SortableItemIdentity extends Record<string|symbol, unknown> {
   [sortableItemDataKey]:true;
   type:string;
   itemId:string;
+}
+
+// What the dragged source carries, resolved once at drag start.
+export interface SortableItemData extends SortableItemIdentity {
   rootElement:HTMLElement|null;
-  // The list element the drag started in, resolved by the root at drag start
-  // (items hold no list reference themselves). Null when the item is not in a
-  // registered list. Mirrors the rootElement pattern: identity is carried on
-  // the payload so drop targets can decide without walking the DOM.
-  sourceListElement:HTMLElement|null;
-  // A confined item may only land in sourceListElement or one of its rows;
-  // every other container refuses it. See confinementAllowsDrop.
-  confined:boolean;
+  // The destinations this drag may land in, resolved across the whole batch
+  // at drag start; null when nothing restricts it, empty when nothing
+  // accepts it. Identities rather than list elements: a morph can replace a
+  // permitted list mid-drag, and elements frozen here would then name nodes
+  // that have left the document.
+  permittedDestinations:DestinationIdentity[]|null;
 }
 
 export type SortableListDropPosition = 'start'|'end';
@@ -95,15 +105,26 @@ export interface SortableListsRoot {
   moveInDirection(itemElement:HTMLElement, direction:MoveDirection):void;
   // A snapshot for menu gating; the click path re-resolves against the live DOM.
   moveAvailability(itemElement:HTMLElement):MoveAvailability|null;
-  // The element of the list an item currently belongs to; null outside any
-  // registered list. Items carry no list reference, so the root resolves it.
-  ownerListElementOf(itemElement:HTMLElement):HTMLElement|null;
   // The rows container of the item's innermost owning list, or null when the
   // item is not (yet) inside a list the root knows about.
   ownerRowsContainer(itemElement:HTMLElement):HTMLElement|null;
-  // A drag moves exactly one item until AGILE-278 lands, so it collapses any
-  // wider batch onto the dragged card.
-  collapseSelectionForDrag(itemElement:HTMLElement):void;
+  // Freezes the drag's batch and returns its size; the preview renders it.
+  freezeDragBatch(itemElement:HTMLElement):number;
+  // Marks the frozen batch's rows; a no-op before freezeDragBatch.
+  markDragBatch():void;
+  // Asked while the drag payload is built, which Pragmatic dispatches before
+  // freezeDragBatch freezes the batch, so the answer comes from the live
+  // selection in the same synchronous dragstart turn.
+  dragPermittedDestinations(itemElement:HTMLElement):DestinationIdentity[]|null;
+  // The destination of the element's innermost owning list, or null when no
+  // list the root knows about claims it.
+  ownerDestinationOf(element:HTMLElement):DestinationIdentity|null;
+  // Asked in canDrag: true when the item's prospective batch exceeds the
+  // server's cap, so the drag never starts.
+  dragRefused(itemElement:HTMLElement):boolean;
+  // The cards an external drop should receive: the prospective batch, read
+  // before the batch is frozen, without touching the selection.
+  externalDragItems(itemElement:HTMLElement):HTMLElement[];
 }
 
 // Implemented by the list, item and scrollable controllers so the root can
@@ -116,7 +137,16 @@ export interface RootAwareChild {
   reregister():void;
 }
 
-export function isSortableItemData(data:Record<string|symbol, unknown>):data is SortableItemData {
+export function sortableItemIdentity({ type, itemId }:{ type:string; itemId:string }):SortableItemIdentity {
+  return { [sortableItemDataKey]: true, type, itemId };
+}
+
+export function singleItemBatch({ type, itemId }:{ type:string; itemId:string }):SelectionItem[] {
+  return [{ type, id: itemId }];
+}
+
+// The source-only fields are what isItemFromRoot narrows on beyond this.
+export function isSortableItemData(data:Record<string|symbol, unknown>):data is SortableItemIdentity {
   return data[sortableItemDataKey] === true
     && typeof data.type === 'string'
     && data.type.length > 0
@@ -135,22 +165,17 @@ export function sortableItemData({
   type,
   itemId,
   rootElement = null,
-  sourceListElement = null,
-  confined = false,
+  permittedDestinations = null,
 }:{
   type:string;
   itemId:string;
   rootElement?:HTMLElement|null;
-  sourceListElement?:HTMLElement|null;
-  confined?:boolean;
+  permittedDestinations?:DestinationIdentity[]|null;
 }):SortableItemData {
   return {
-    [sortableItemDataKey]: true,
-    type,
-    itemId,
+    ...sortableItemIdentity({ type, itemId }),
     rootElement,
-    sourceListElement,
-    confined,
+    permittedDestinations,
   };
 }
 
@@ -181,13 +206,16 @@ export function buildMoveFormData({
   listId,
   previousItemId,
   type,
+  itemIds = null,
 }:{
   listId:string|null;
   previousItemId:string|null;
   type:string;
+  itemIds?:string[]|null;
 }):FormData {
   const data = new FormData();
 
+  itemIds?.forEach((id) => data.append('ids[]', id));
   data.append('list_type', type);
   data.append('list_id', listId ?? '');
   data.append('prev_id', previousItemId ?? '');
@@ -204,15 +232,15 @@ export function isItemFromRoot(
 ):data is SortableItemData {
   return rootElement != null
     && isSortableItemData(data)
-    && data.rootElement === rootElement;
+    && (data as SortableItemData).rootElement === rootElement;
 }
 
-// Whether a drop on the given target may amount to a move under the source's
-// confinement. contains() includes the element itself, so one predicate passes
-// both the source list element and every row inside it while failing every
-// foreign container. The source list passing is load-bearing: a drop resolves
-// through the list target (resolveDropIntent returns null without one), so
-// failing it would kill within-list reorder, not just cross-list moves.
+// Whether a drop into the given destination may amount to a move for this
+// batch. A destination the batch owns passing is load-bearing: a drop
+// resolves through the list target (resolveDropIntent returns null without
+// one), so failing it would kill within-list reorder, not just cross-list
+// moves. A null destination is one no list claims, which nothing restricted
+// accepts.
 //
 // Item drop targets consult this in canDrop and refuse outright; list drop
 // targets stay accepted regardless (an accepted target is what keeps the
@@ -221,20 +249,25 @@ export function isItemFromRoot(
 // release over a container this fails for resolves to no move at all, and
 // the drop-indicator layers consult it too — rows never show a drop position
 // for it, and the list marks its container refused instead of active.
-export function confinementAllowsDrop(
+export function permittedDestinationsAllowDrop(
   data:SortableItemData,
-  targetElement:Element,
+  destination:DestinationIdentity|null,
 ):boolean {
-  return !data.confined || (data.sourceListElement?.contains(targetElement) ?? false);
+  return data.permittedDestinations === null
+    || data.permittedDestinations.some((permitted) => sameDestination(destination, permitted));
+}
+
+export function destinationOfList(listData:SortableListData):DestinationIdentity {
+  return { type: listData.type, id: listData.listId };
 }
 
 export function resolvePreviousSortableItemId({
-  sourceItemId,
+  excludedItems,
   targetItem,
   closestEdge,
   rowsContainer,
 }:{
-  sourceItemId:string;
+  excludedItems:ExcludedItems;
   targetItem:HTMLElement;
   closestEdge:Edge|null;
   rowsContainer:Element;
@@ -242,7 +275,8 @@ export function resolvePreviousSortableItemId({
   const targetItemElement = resolveItemElement(targetItem, rowsContainer);
   const targetItemId = targetItemElement ? resolveItemId(targetItemElement) : null;
 
-  if (closestEdge === 'bottom' && targetItemId !== sourceItemId) {
+  if (closestEdge === 'bottom' && targetItemElement && targetItemId !== null
+    && !isExcludedItem(excludedItems, { id: targetItemId, type: resolveItemType(targetItemElement) })) {
     return targetItemId;
   }
 
@@ -250,9 +284,9 @@ export function resolvePreviousSortableItemId({
   let row = targetRow?.previousElementSibling ?? null;
 
   while (row) {
-    const itemId = resolvePreviousItemId(row, rowsContainer);
-    if (itemId && itemId !== sourceItemId) {
-      return itemId;
+    const item = resolvePreviousItem(row, rowsContainer);
+    if (item && !isExcludedItem(excludedItems, item)) {
+      return item.id;
     }
 
     row = row.previousElementSibling;
@@ -265,11 +299,11 @@ export function resolvePreviousSortableItemId({
 // the position the target list declares: 'start' inserts before the first row
 // (null previous item), 'end' appends after the last.
 function resolveListOnlyPreviousItemId({
-  sourceItemId,
+  excludedItems,
   rowsContainer,
   dropPosition,
 }:{
-  sourceItemId:string;
+  excludedItems:ExcludedItems;
   rowsContainer:HTMLElement;
   dropPosition:SortableListDropPosition;
 }):string|null {
@@ -277,7 +311,7 @@ function resolveListOnlyPreviousItemId({
     return null;
   }
 
-  return resolveListAppendPreviousItemId({ sourceItemId, rowsContainer });
+  return resolveListAppendPreviousItemId({ excludedItems, rowsContainer });
 }
 
 export interface DropIntent {
@@ -297,26 +331,32 @@ export function resolveDropIntent({
   location,
   root,
   sourceData,
+  excludedItems = { type: sourceData.type, ids: new Set(singleItemBatch(sourceData).map((item) => item.id)) },
 }:{
   location:DragLocationHistory;
   root:HTMLElement;
   sourceData:SortableItemData;
+  excludedItems?:ExcludedItems;
 }):DropIntent|null {
-  const targetItem = location.current.dropTargets.find(
-    (target):target is typeof target & { data:SortableItemData; element:HTMLElement } => (
-      isSortableItemData(target.data) && target.element instanceof HTMLElement && root.contains(target.element)
-        && confinementAllowsDrop(sourceData, target.element)
-    ),
-  );
   const targetList = location.current.dropTargets.find(
     (target):target is typeof target & { data:SortableListData; element:HTMLElement } => (
       isSortableListData(target.data) && target.element instanceof HTMLElement && root.contains(target.element)
-        && confinementAllowsDrop(sourceData, target.element)
+        && permittedDestinationsAllowDrop(sourceData, destinationOfList(target.data))
     ),
   );
   if (!targetList) {
     return null;
   }
+
+  // Scoped to the accepted list rather than gated on its own account: an
+  // item drop target carries only its identity, and the list it sits in is
+  // the destination a drop into it would reach.
+  const targetItem = location.current.dropTargets.find(
+    (target):target is typeof target & { data:SortableItemIdentity; element:HTMLElement } => (
+      isSortableItemData(target.data) && target.element instanceof HTMLElement
+        && targetList.element.contains(target.element)
+    ),
+  );
 
   const listElement = targetList.element;
   const listData = targetList.data;
@@ -346,13 +386,13 @@ export function resolveDropIntent({
 
   const previousItemId = targetItem
     ? resolvePreviousSortableItemId({
-      sourceItemId: sourceData.itemId,
+      excludedItems,
       targetItem: targetItem.element,
       closestEdge: extractClosestEdge(targetItem.data),
       rowsContainer,
     })
     : resolveListOnlyPreviousItemId({
-      sourceItemId: sourceData.itemId,
+      excludedItems,
       rowsContainer,
       dropPosition: listData.dropPosition,
     });
