@@ -80,7 +80,7 @@ RSpec.describe "API v3 Revisions resource" do
       end
 
       context "requesting nonexistent revision" do
-        let(:get_path) { api_v3_paths.revision 909090 }
+        let(:get_path) { api_v3_paths.revision(not_existing_id(Changeset)) }
 
         it_behaves_like "not found"
       end

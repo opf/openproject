@@ -13,6 +13,13 @@ Stay up to date and get an overview of the new features included in the releases
 <!--- New release notes are generated below. Do not remove comment. -->
 <!--- RELEASE MARKER -->
 
+## 17.8.0
+
+Release date: 2026-09-02
+
+[Release Notes](17-8-0/)
+
+
 ## 17.7.2
 
 Release date: 2026-08-13

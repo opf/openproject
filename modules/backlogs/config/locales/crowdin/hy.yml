@@ -92,9 +92,15 @@ hy:
               task_version_must_be_the_same_as_story_version: պետք է նույնը լինի, ինչ ծնող պատմության տարբերակը։
           backlog_bucket_xor_sprint: չի կարող միաժամանակ նշանակվել սպրինտին և բեքլոգի բաժնին։
     models:
+      backlog_bucket:
+        one: Backlog bucket
+        other: Backlog buckets
       sprint:
         one: Սպրինտ
         other: Սպրինտներ
+      sprint_goal:
+        one: Sprint goal
+        other: Sprint goals
   backlogs:
     add_existing_work_package_dialog_component:
       title_without_container: Add existing work package
@@ -113,6 +119,7 @@ hy:
         other: Սպրինտներ
         zero: Բոլոր սպրինտները
       select_panel_title: Ընտրեք տարրերը
+    blankslate_filtered_title: No work packages match the filter criteria.
     bucket_component:
       action_menu:
         add_existing_work_package: Ավելացնել առկա աշխատանքային փաթեթ
@@ -155,6 +162,8 @@ hy:
         one: Ցուցադրել ևս 1 տարր
         other: Ցուցադրել ևս %{count} տարր
       title: Մուտքային արկղ
+    index_subheader_component:
+      label_search_by_subject: Search work packages by subject
     label_burndown_chart: Այրման գծապատկեր
     label_is_done_status: "%{status_name} կարգավիճակը նշանակում է ավարտված"
     label_sprint_board: Սպրինտի տախտակ

@@ -7,10 +7,10 @@ fa:
         bim_snippet: قطعه کد BIM
         reference_links: لینک های مرجع
         stage: مرحله
-        status_id: Status
+        status_id: وضعیت
         viewpoint: دیدگاه
       bim/bcf/viewpoint:
-        status_id: Status
+        status_id: وضعیت
       bim/ifc_models/ifc_model:
         attachments: فایل IFC
         ifc_attachment: فایل IFC
@@ -20,7 +20,7 @@ fa:
         bim/bcf/issue:
           uuid_already_taken: نمیتوان این مسئله BCF را وارد کرد زیرا از قبل مسئله دیگری با همان GUID وجود دارد. آیا ممکن است که این مسئله BCF قبلاً به پروژه دیگری وارد شده باشد؟
         bim/bcf/viewpoint:
-          bitmaps_not_writable: فرمت bitmap قابل نوشتن نیست پون هنوز پیاده سازی نشده است.
+          bitmaps_not_writable: bitmaps قابل نوشتن نیست زیرا هنوز پیاده‌سازی نشده است.
           index_not_integer: index یک عدد صحیح نیست.
           invalid_clipping_planes: صفحه های برش نامعتبر است.
           invalid_components: اجزا نامعتبر است.
@@ -28,17 +28,28 @@ fa:
           invalid_orthogonal_camera: دوربین orthogonal معتبر نیست.
           invalid_perspective_camera: دوربین پرسپکتیو نامعتبر است.
           mismatching_guid: راهنمای موجود در json_viewpoint با راهنمای مدل مطابقت ندارد.
-          no_json: یک json با ساختار درست نیست.
+          no_json: JSON ساختار معتبری ندارد.
           snapshot_data_blank: داده های عکس فوری باید ارائه شوند.
           snapshot_type_unsupported: نوع عکس فوری باید"png" یا "jpg "باشد.
-          unsupported_key: یک مشخصه json پشتیبانی نشده اضافه شده است.
+          unsupported_key: یک ویژگی JSON پشتیبانی‌نشده وجود دارد.
         bim/ifc_models/ifc_model:
           attributes:
             base:
               ifc_attachment_missing: هیچ فایل if پیوست نشده است.
               invalid_ifc_file: فایل ارائه شده یک فایل IFC معتبر نیست.
     models:
-      bim/ifc_models/ifc_model: الگو  IFC
+      bim/bcf/comment:
+        one: دیدگاه BCF
+        other: دیدگاه‌های BCF
+      bim/bcf/issue:
+        one: مسئله BCF
+        other: مسائل BCF
+      bim/bcf/viewpoint:
+        one: نمای BCF
+        other: نماهای BCF
+      bim/ifc_models/ifc_model:
+        one: مدل IFC
+        other: مدل‌های IFC
   attributes:
     bcf_thumbnail: تصویر فوری BCF
   bcf:
@@ -75,19 +86,19 @@ fa:
         replace_with_system_user: آنها را با کاربر" سیستم" جایگزین کنید
         unknown_emails_found: آدرس های ایمیل ناشناخته یافت شد
         unknown_property: ویژگی ناشناخته
-        what_to_do: چه کاری میخواهید انجام دهید؟
+        what_to_do: می‌خواهید چه کاری انجام دهید؟
         work_package_has_newer_changes: قدیمی این موضوع به روزرسانی نشده است زیرا آخرین تغییرات روی سرور جدیدتر از تاریخ اصلاح موضوع وارد شده بود. با این حال، نظرات مربوط به موضوع وارد شده است.
       import_canceled: وارد کردن BCF-XML لغو شد.
       import_failed: "%{error} نمی‌توان فایل BCF را وارد کرد"
       import_failed_unsupported_bcf_version: 'خواندن فایل BCF ناموفق بود: نسخه BCF پشتیبانی نمی‌شود. لطفا مطمئن شوید که نسخه حداقل %{minimal_version} یا بالاتر است.'
       import_successful: مشکل%{count} BCFوارد شد
-      import_title: درون‌ریزی
+      import_title: واردکردن
       import_update_comment: "(در وارد کردن BCF به روزرسانی شد)"
-      type_not_active: نوع مشكل برای این پروژه فعال نشده است.
+      type_not_active: نوع مسئله برای این پروژه فعال نشده است.
       xml_file: فایل BCF XML
     exceptions:
       file_invalid: فایل BCF نامعتبر است
-    issues: مشکلات
+    issues: Issueها
     label_bcf: BCF
     label_bcf_issue_associated: مشکل مرتبط با BCF
     label_imported_failed: وارد کردن ناموفق موضوعات BCF
@@ -101,7 +112,7 @@ fa:
       other: "%{count} مشکل BCF"
       zero: بدون مشکل BCF
   bim:
-    error_direct_upload_failed: Direct upload failed.
+    error_direct_upload_failed: آپلود مستقیم ناموفق بود.
     label_bim: BIM
   export:
     format:
@@ -113,10 +124,10 @@ fa:
     conversion:
       missing_commands: دستور ها مبدل IFC زیر در این سیستم وجود ندارند%{names}
     conversion_status:
-      completed: تکمیل شده
+      completed: تکمیل‌شده
       error: خطا
       label: درحال پردازش؟
-      pending: درحال انتظار
+      pending: در انتظار
       processing: در حال پردازش
     flash_messages:
       upload_successful: آپلود با موفقیت انجام شد. اکنون پردازش شده و ظرف چند دقیقه آماده استفاده خواهد بود.
@@ -139,15 +150,14 @@ fa:
   permission_delete_bcf: مشکلات حذف BCF
   permission_manage_bcf: وارد کردن و مدیریت مشکلات BCF
   permission_manage_bcf_explanation: |
-    Allows managing BCF issues, including bulk import and updates.
-    BCF import maps file metadata to project resources and can create or update work packages
-    and comments using author and timestamp values from the imported file, effectively acting on behalf of users.
+    امکان مدیریت مسائل BCF، از جمله واردکردن گروهی و به‌روزرسانی‌ها را فراهم می‌کند.
+    واردکردن BCF فراداده فایل را به منابع پروژه نگاشت می‌کند و می‌تواند بسته‌های کاری و دیدگاه‌ها را با استفاده از نویسنده و زمان فایل واردشده ایجاد یا به‌روزرسانی کند؛ در نتیجه عملاً به نمایندگی از کاربران عمل می‌کند.
   permission_manage_ifc_models: وارد کردن و مدیریت مدل های IFC
   permission_view_ifc_models: مشاهده مدل هایIFC
   permission_view_linked_issues: مشاهده مشکلات BCF
   plugin_openproject_bim:
-    description: This OpenProject plugin introduces BIM and BCF functionality.
-    name: OpenProject BIM and BCF functionality
+    description: این افزونه OpenProject قابلیت‌های BIM و BCF را اضافه می‌کند.
+    name: قابلیت‌های BIM و BCF در OpenProject
   project_module_bcf: BCF
   project_module_bim: BCF
   project_module_ifc_models: مدل های IFC

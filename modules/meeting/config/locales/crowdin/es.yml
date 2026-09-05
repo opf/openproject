@@ -56,7 +56,7 @@ es:
         presenter: Responsable
         title: Título
       meeting_outcome:
-        kind: Kind
+        kind: Tipo
       meeting_participant:
         attended: Ha asistido
         invited: Invitado
@@ -100,11 +100,27 @@ es:
         recurring_meeting_interim_response:
           not_an_occurrence: no es una hora de repetición válida para esta reunión periódica
     models:
-      meeting: Reunión única
-      meeting_agenda: Agenda
-      meeting_agenda_item: Puntos de Agenda
-      meeting_section: Sección
-      recurring_meeting: Reunión periódica
+      meeting:
+        one: Reunión única
+        other: Reuniones únicas
+      meeting_agenda_item:
+        one: Punto del orden del día
+        other: Puntos del orden del día
+      meeting_outcome:
+        one: Resultado
+        other: Resultados
+      meeting_participant:
+        one: Participante de la reunión
+        other: Participantes de la reunión
+      meeting_section:
+        one: Sección
+        other: Secciones
+      recurring_meeting:
+        one: Reunión periódica
+        other: Reuniones periódicas
+      scheduled_meeting:
+        one: Reunión programada
+        other: Reuniones programadas
       token/ical_meeting:
         one: Suscripción a la reunión iCal
         other: Suscripciones a la reunión iCal
@@ -255,7 +271,6 @@ es:
   label_past_meetings: Reuniones anteriores
   label_past_meetings_short: Pasado
   label_recurring_filter: Filtro recurrente
-  label_recurring_meeting: Reunión periódica
   label_recurring_meeting_cancel: Cancelar esta repetición
   label_recurring_meeting_create: Abrir
   label_recurring_meeting_delete: Eliminar repetición
@@ -395,8 +410,8 @@ es:
         label: Autor
       description: Genere un archivo PDF imprimible de esta reunión en el estado actual.
       first_page_header_left:
-        caption: Este texto aparecerá en la primera página ala izquierda del encabezado.
-        label: Primera Página Encabezado izquierdo
+        caption: Este texto aparecerá en la primera página a la izquierda del encabezado.
+        label: Encabezado de la primera página, izquierda
       footer_text:
         caption: Este texto aparecerá en cada página en el centro del pie de página.
         label: Texto a pie de página
@@ -460,7 +475,7 @@ es:
       text:
         manage_participants: Busque y añada miembros del proyecto como participantes en esta reunión.
         search_for_members: Buscar miembros del proyecto
-        template: Estos participantes serán invitados automáticamente a todas las reuniones futuras a medida que se vayan creando.
+        template: A estos participantes se les invitará automáticamente a todas las reuniones futuras a medida que se vayan creando.
     presentation_mode:
       button_present: Presente
       current_item: Elemento actual
@@ -591,27 +606,27 @@ es:
       frequency: "%{base} a las %{time}"
       full: "%{base} a las %{time}, finaliza el %{end_date}"
       full_past: "%{base} a las %{time}, finalizó el %{end_date}"
-      monthly_day: Cada mes el %{day}
-      monthly_day_interval: Cada %{interval} meses en el %{day}
+      monthly_day: Cada mes el día %{day}
+      monthly_day_interval: Cada %{interval} meses el día %{day}
       monthly_nth_weekday: Cada mes el %{ordinal} %{weekday}
-      monthly_nth_weekday_interval: Cada %{interval} meses en el %{ordinal} %{weekday}
+      monthly_nth_weekday_interval: Cada %{interval} meses el %{ordinal} %{weekday}
       never_ending: "%{base} a las %{time}"
       weekly: Cada semana en %{weekday}
       weekly_interval: Cada %{interval} semanas el %{weekday}
       working_days: Todos los dias hábiles
     monthly:
       inflected_ordinal:
-        first: primero
+        first: primer
         fourth: cuarto
-        last: última
+        last: último
         second: segundo
-        third: tercero
+        third: tercer
       ordinal_options:
-        first: Primero
+        first: Primer
         fourth: Cuarto
         last: Último
         second: Segundo
-        third: Tercero
+        third: Tercer
     occurrence:
       error_no_next: No hay próxima repetición para esta reunión.
       error_template_draft: La plantilla de serie de reuniones todavía está en modo borrador.

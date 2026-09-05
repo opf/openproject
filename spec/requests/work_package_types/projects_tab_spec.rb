@@ -176,7 +176,7 @@ RSpec.describe "Work package type projects tab", :skip_csrf, type: :rails_reques
       get edit_type_projects_path(type_id: type.id)
 
       expect(page).to have_css("[data-controller~='filter--filters-form']" \
-                               "[data-filter--filters-form-perform-turbo-requests-value='true']")
+                               "[data-filter--filters-form-turbo-stream-request-value='true']")
     end
   end
 

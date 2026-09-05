@@ -31,13 +31,22 @@ sl:
         document_type:
           one_or_more_required: Cannot delete the last document type
     models:
-      document: Dokument
-      documents: Documents
+      document:
+        one: Document
+        two: Documents
+        few: Documents
+        other: Documents
+      document_type:
+        one: Document type
+        two: Document types
+        few: Document types
+        other: Document types
   activity:
     filter:
       document: Dokumenti
   attributes:
     collaborative_editing_hocuspocus_url: Hocuspocus server URL
+    documents: Documents
   default_doc_category_tech: Tehnična dokumentacija
   default_doc_category_user: Uporabniška dokumentacija
   documents:

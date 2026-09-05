@@ -12,17 +12,17 @@ pt-PT:
       drag_here_to_remove: Arraste aqui para remover o responsável e as datas de início e término.
       eight_weeks: 8 semanas
       four_weeks: 4 semanas
-      label_team_planner_plural: Planificadores de equipas
+      label_team_planner_plural: Planeadores de equipa
       modify:
         errors:
           fallback: Este pacote de trabalho não pode ser editado.
           permission_denied: Não tem as permissões necessárias para modificar isto.
-      no_data: Adicione responsáveis para configurar o planeador da sua equipa.
+      no_data: Adicione encarregados para configurar o seu planeador de equipa.
       one_week: 1 semana
       quick_add:
-        empty_state: Use o campo de pesquisa para encontrar pacotes de trabalho e arrastá-los para o planeador para atribuí-lo a alguém e definir datas de início e fim.
-        search_placeholder: Pesquisa...
-      remove_assignee: Remover responsável
+        empty_state: Utilize o campo de pesquisa para encontrar pacotes de trabalho e arraste-os para o planeador, a fim de os atribuir a alguém e definir as datas de início e de fim.
+        search_placeholder: Pesquisar...
+      remove_assignee: Remover encarregável
       today: Hoje
       two_weeks: 2 semanas
       unsaved_title: Planeador de equipa sem nome

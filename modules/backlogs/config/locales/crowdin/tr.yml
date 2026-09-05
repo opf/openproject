@@ -92,27 +92,34 @@ tr:
               task_version_must_be_the_same_as_story_version: ana hikaye sürümüyle aynı olmalıdır.
           backlog_bucket_xor_sprint: ''
     models:
+      backlog_bucket:
+        one: Backlog bucket
+        other: Backlog buckets
       sprint:
         one: Sprint
         other: Sprints
+      sprint_goal:
+        one: Sprint Hedefi
+        other: Sprint Hedefleri
   backlogs:
     add_existing_work_package_dialog_component:
       title_without_container: Add existing work package
     administration_blankslate:
-      text: We are currently redesigning the Backlogs module. Admin settings for sprints and backlogs will be visible here in the near future. Project-level settings remain available.
+      text: Şu anda İş listesi havuz modülünü tekrardan tasarlıyoruz. Sprintler ve iş listeleri için yönetici ayarları yakında burada görünür olacak. Proje düzeyindeki ayarlar hala kullanılabilir durumda.
       title: Backlog admin settings are evolving
     backlog_component:
-      button_new_backlog_bucket: New backlog bucket
+      button_new_backlog_bucket: Yeni iş listesi havuzu
     backlog_filter_select_panel_component:
       label_backlog_bucket_filter:
-        one: Backlog bucket
-        other: Backlog buckets
-        zero: All backlog buckets
+        one: İş listesi havuzu
+        other: İş listesi havuzları
+        zero: Bütün iş listesi havuzları
       label_sprint_filter:
         one: Sprint
         other: Sprints
         zero: All sprints
       select_panel_title: Select items
+    blankslate_filtered_title: No work packages match the filter criteria.
     bucket_component:
       action_menu:
         add_existing_work_package: Add existing work package
@@ -155,6 +162,8 @@ tr:
         one: 1 ürün daha göster
         other: "%{count} ürün daha göster"
       title: Gelen kutusu
+    index_subheader_component:
+      label_search_by_subject: Search work packages by subject
     label_burndown_chart: Burndown grafiği
     label_is_done_status: Durum %{status_name} tamamlandı anlamına geliyor
     label_sprint_board: Sprint board

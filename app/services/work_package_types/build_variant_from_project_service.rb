@@ -33,9 +33,8 @@ module WorkPackageTypes
   # project used to express by disabling single fields becomes part of the form configuration
   # instead.
   #
-  # The new variant inherits every aspect from the given one and excludes only the custom fields
-  # the project has not enabled. A project that narrows nothing needs no variant, so the given
-  # variant is returned unchanged — callers can assign the result to the project either way.
+  # A project that narrows nothing needs no variant, so the given one is returned unchanged and
+  # callers can assign the result either way.
   class BuildVariantFromProjectService < ::BaseServices::BaseCallable
     def initialize(user:, variant:)
       super()
@@ -79,12 +78,9 @@ module WorkPackageTypes
     end
 
     def create_variant(project)
-      # TODO: When FND-204 is fully implemented and we can create project specific variants, let's ensure that
-      # we create a project specific variant here. Until then this is a named variant of the type,
-      # so two projects narrowing the same way still get one each.
       CreateVariantService
-        .new(user:, type: source.type)
-        .call(variant_name: variant_name(project))
+        .new(user:, type: source.type, contract_options: { pre_existing_configuration: true })
+        .call(variant_name: variant_name(project), project:)
     end
 
     # A new variant starts out linked to its type's base configuration. When the project resolved
@@ -113,12 +109,14 @@ module WorkPackageTypes
             .map(&:attribute_name)
     end
 
-    # A variant's name must stay unique within its type
+    # Unique within the type and the owner. The project stays in the name: administration lists
+    # every project's together.
     def variant_name(project)
       base = "#{source.display_name} - #{project.name}"
       # Queried rather than read off `source.type.variants`, which pluck answers from memory
       # when the association is already loaded.
-      taken = TypeVariant.where(type_id: source.type_id).pluck(:variant_name).compact.map(&:downcase)
+      taken = TypeVariant.where(type_id: source.type_id).owned_by(project)
+                         .pluck(:variant_name).compact.map(&:downcase)
 
       return base unless taken.include?(base.downcase)
 

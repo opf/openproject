@@ -76,6 +76,13 @@ az:
         dependencies: Dependencies
   activerecord:
     attributes:
+      ai/text_transform_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
+        usage_scope: Scope
       announcements:
         show_until: Display until
       attachment:
@@ -346,6 +353,7 @@ az:
       token/named:
         token_name: Token name
       type:
+        allow_project_variants: Allow project-specific variants
         color: Color
         is_in_roadmap: Displayed in roadmap by default
         is_milestone: Is milestone
@@ -354,11 +362,11 @@ az:
       type/configuration_link:
         source: Source type
       type_variant:
-        attribute_groups: Form configuration
+        attribute_groups: Form
         default_work_package_description: Default text for description
         defaults_source: Defaults source
         enabled_in_new_projects: Active in new projects
-        form_configuration_source: Form configuration source
+        form_configuration_source: Form source
         patterns: Patterns
         pdf_export_source: PDF export source
         project_attributes_source: Project attributes source
@@ -464,6 +472,7 @@ az:
           true: include non-working days
         journal_internal: Internal Journal
         notify: Notify
+        observed_in_versions: Observed in versions
         parent: Parent
         parent_issue: Parent
         parent_work_package: Parent
@@ -539,6 +548,8 @@ az:
         is_for_all_cannot_modify: is for all projects and can therefore not be modified.
         ldap_managed: This department is managed by LDAP synchronization and cannot be changed manually.
         less_than_or_equal_to: must be less than or equal to %{count}.
+        migration_failed: 'The variant could not be switched for project ''%{project}'': %{reason}'
+        migration_target_invalid: The selected variant must be another variant of the same type that every affected project can use.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
         not_a_number: is not a number.
@@ -733,6 +744,7 @@ az:
         project_type:
           attributes:
             variant:
+              must_be_owned_by_the_project: must not be a variant another project owns.
               must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
           attributes:
@@ -805,6 +817,7 @@ az:
               hours_per_day_are_missing: The number of hours per day must be defined.
               hours_per_day_is_out_of_bounds: Hours per day can't be more than 24
               journal_aggregation_time_minutes_is_out_of_bounds: Aggregation period must be between %{min} and %{max} minutes.
+              password_login_requires_sso_provider: Password login restrictions require at least one available SSO provider.
               previous_working_day_changes_unprocessed: The previous changes to the working days configuration have not been applied yet.
               working_days_are_missing: At least one day of the week must be defined as a working day.
         status:
@@ -833,23 +846,30 @@ az:
             base:
               borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
               is_default_variant: The default configuration of a type cannot be deleted.
+              project_variants_not_allowed: This type does not allow creation of variants inside projects.
               restrict_dependent_destroy:
                 has_many: Cannot be deleted while projects are still using it.
             defaults_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: would link these configurations in a loop.
             enabled_in_new_projects:
+              not_available_to_project_owned_variant: cannot be set on a variant a project owns.
               taken: is already set for another configuration of this type.
             form_configuration_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: would link these configurations in a loop.
             patterns:
               invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
             pdf_export_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: would link these configurations in a loop.
             project_attributes_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: would link these configurations in a loop.
             variant:
               must_belong_to_the_type: must be a variant of this type.
             workflows_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
@@ -972,58 +992,249 @@ az:
           one: 1 error prohibited this %{model} from being saved
           other: "%{count} errors prohibited this %{model} from being saved"
     models:
-      attachment: File
+      action:
+        one: Action
+        other: Actions
+      ai/text_transform_action:
+        one: Text transform action
+        other: Text transform actions
+      announcement:
+        one: Announcement
+        other: Announcements
+      anonymous_user:
+        one: Anonymous user
+        other: Anonymous users
+      attachment:
+        one: File
+        other: Files
       attribute_help_text:
         one: Attribute help text
         other: Attribute help texts
+      attribute_help_text/project:
+        one: Project attribute help text
+        other: Project attribute help texts
+      attribute_help_text/user:
+        one: User attribute help text
+        other: User attribute help texts
+      attribute_help_text/work_package:
+        one: Work package attribute help text
+        other: Work package attribute help texts
       auth_provider:
         one: Authentication provider
         other: Authentication providers
-      category: Category
-      color: Color
-      comment: Comment
-      custom_action: Custom action
-      custom_field: Custom field
-      customized: Customized
-      doorkeeper/application: OAuth application
+      backup:
+        one: Backup
+        other: Backups
+      capability:
+        one: Capability
+        other: Capabilities
+      category:
+        one: Category
+        other: Categories
+      change:
+        one: File change
+        other: File changes
+      changeset:
+        one: Changeset
+        other: Changesets
+      color:
+        one: Color
+        other: Colors
+      comment:
+        one: Comment
+        other: Comments
+      custom_action:
+        one: Custom action
+        other: Custom actions
+      custom_field:
+        one: Custom field
+        other: Custom fields
+      custom_field/hierarchy/item:
+        one: Hierarchy item
+        other: Hierarchy items
+      custom_field_section:
+        one: Custom field section
+        other: Custom field sections
+      custom_option:
+        one: Custom field option
+        other: Custom field options
+      custom_style:
+        one: Design
+        other: Designs
+      day:
+        one: Day
+        other: Days
+      deleted_user:
+        one: Deleted user
+        other: Deleted users
+      design_color:
+        one: Design color
+        other: Design colors
+      doorkeeper/application:
+        one: OAuth application
+        other: OAuth applications
+      emoji_reaction:
+        one: Emoji reaction
+        other: Emoji reactions
       enterprise_token:
         one: Enterprise token
         other: Enterprise tokens
-      forum: Forum
-      global_role: Global role
-      group: Group
+      enterprise_trial:
+        one: Enterprise trial
+        other: Enterprise trials
+      enumeration:
+        one: Enumeration
+        other: Enumerations
+      export:
+        one: Export
+        other: Exports
+      export_setting:
+        one: Export setting
+        other: Export settings
+      forum:
+        one: Forum
+        other: Forums
+      global_role:
+        one: Global role
+        other: Global roles
+      group:
+        one: Group
+        other: Groups
+      group_custom_field:
+        one: Group custom field
+        other: Group custom fields
+      health_report:
+        one: Health report
+        other: Health reports
       issue_priority:
         one: Priority
         other: Priorities
-      jira:
-        one: Jira
-        other: Jira
-      meeting_participant: Meeting participant
-      member: Member
-      message: Message
-      news: News
+      ldap_auth_source:
+        one: LDAP connection
+        other: LDAP connections
+      mcp_configuration:
+        one: MCP configuration
+        other: MCP configurations
+      member:
+        one: Member
+        other: Members
+      menu_item:
+        one: Menu item
+        other: Menu items
+      menu_items/wiki_menu_item:
+        one: Wiki menu item
+        other: Wiki menu items
+      message:
+        one: Message
+        other: Messages
+      news:
+        one: News
+        other: News
+      non_working_day:
+        one: Non-working day
+        other: Non-working days
       notification:
         one: Notification
         other: Notifications
-      placeholder_user: Placeholder user
+      notification_setting:
+        one: Notification setting
+        other: Notification settings
+      oauth_client:
+        one: OAuth client
+        other: OAuth clients
+      oauth_client_token:
+        one: OAuth client token
+        other: OAuth client tokens
+      persisted_query:
+        one: Persisted query
+        other: Persisted queries
+      persisted_view:
+        one: Persisted view
+        other: Persisted views
+      placeholder_user:
+        one: Placeholder user
+        other: Placeholder users
+      plugin_auth_provider:
+        one: Plugin authentication provider
+        other: Plugin authentication providers
+      principal:
+        one: Principal
+        other: Principals
       project:
         one: Project
         other: Projects
+      project/phase:
+        one: Project phase
+        other: Project phases
+      project/phase_definition:
+        one: Project phase definition
+        other: Project phase definitions
+      project_custom_field:
+        one: Project attribute
+        other: Project attributes
+      project_custom_field_section:
+        one: Project attribute section
+        other: Project attribute sections
       project_query:
         one: Project list
         other: Project lists
-      query: Custom query
-      reminder: Reminder
+      project_query_role:
+        one: Project list role
+        other: Project list roles
+      project_role:
+        one: Project role
+        other: Project roles
+      query:
+        one: Custom query
+        other: Custom queries
+      relation:
+        one: Relation
+        other: Relations
+      reminder:
+        one: Reminder
+        other: Reminders
+      remote_identity:
+        one: Remote identity
+        other: Remote identities
+      repository:
+        one: Repository
+        other: Repositories
+      repository/git:
+        one: Git repository
+        other: Git repositories
+      repository/subversion:
+        one: Subversion repository
+        other: Subversion repositories
       role:
         one: Role
         other: Roles
       scim_client:
         one: SCIM client
         other: SCIM clients
-      status: Work package status
+      service_account:
+        one: Service account
+        other: Service accounts
+      sessions/user_session:
+        one: Session
+        other: Sessions
+      setting:
+        one: Setting
+        other: Settings
+      status:
+        one: Work package status
+        other: Work package statuses
+      system_user:
+        one: System user
+        other: System users
       token/api:
         one: Access token
         other: Access tokens
+      token/base:
+        one: Token
+        other: Tokens
+      token/ical:
+        one: iCalendar token
+        other: iCalendar tokens
       token/rss:
         one: RSS token
         other: RSS tokens
@@ -1033,12 +1244,57 @@ az:
       type_variant:
         one: Variant
         other: Variants
-      user: User
-      version: Version
-      wiki: Wiki
-      wiki_page: Wiki page
-      work_package: Work package
-      workflow: Workflow
+      user:
+        one: User
+        other: Users
+      user_custom_field:
+        one: User attribute
+        other: User attributes
+      user_custom_field_section:
+        one: User attribute section
+        other: User attribute sections
+      user_non_working_time:
+        one: Non-working time
+        other: Non-working times
+      user_password:
+        one: Password
+        other: Passwords
+      user_preference:
+        one: User preference
+        other: User preferences
+      user_query:
+        one: User list
+        other: User lists
+      user_working_hours:
+        one: Working hours
+        other: Working hours
+      version:
+        one: Version
+        other: Versions
+      version_custom_field:
+        one: Version custom field
+        other: Version custom fields
+      view:
+        one: View
+        other: Views
+      wiki:
+        one: Wiki
+        other: Wikis
+      wiki_page:
+        one: Wiki page
+        other: Wiki pages
+      work_package:
+        one: Work package
+        other: Work packages
+      work_package_custom_field:
+        one: Work package custom field
+        other: Work package custom fields
+      work_package_role:
+        one: Work package role
+        other: Work package roles
+      workflow:
+        one: Workflow
+        other: Workflows
   activities:
     index:
       no_results_title_text: There has not been any activity for the project within this time frame.
@@ -1251,6 +1507,7 @@ az:
           finalizing: Finalizing
           finalizing_done: Completed
           finalizing_error: Error during finalizing
+          import_aborting: Aborting
           import_error: Error during import
           import_scope: Select scope
           imported: Review mode
@@ -1262,13 +1519,13 @@ az:
           projects_meta_done: Data gathered
           projects_meta_error: Error fetching project data
           projects_meta_fetching: Fetching project data
-          revert_cancelled: Revert cancelled
-          revert_cancelling: Cancelling revert
           revert_error: Error during revert
           reverted: Reverted
           reverting: Reverting
+        step_not_available: This action is not available for the current state of the import run.
         title: Import run
         wizard:
+          button_abort: Abort
           button_retry: Retry
           finalize_dialog:
             confirm: I understand that this action cannot be undone
@@ -1312,11 +1569,14 @@ az:
             title: Permanently revert this import?
           sections:
             confirm_import:
+              button_importing: Importing data
+              button_revert: Revert import
               button_start: Start import
               caption: Review your import settings and start the import
               caption_done: Completed
               caption_done_info: All data has been imported
               description: You are about to start an import run with the following settings.
+              info_importing: The import is now in progress. Closing this tab will not stop it, and you can always revisit the status of the import by opening the run.
               label_available_data: Data to be imported
               label_import_data: Currently importing
               label_progress: Import in progress...
@@ -1337,6 +1597,7 @@ az:
               button_done: Approve import
               button_revert: Revert import
               caption: Review import run or revert import
+              info: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               label_finalize_import: Approve import
               label_finalizing: Approving import...
               label_finalizing_done: Import approved.
@@ -1344,7 +1605,6 @@ az:
               label_revert: Revert import
               label_revert_progress: Reverting import...
               label_reverted: Import reverted.
-              preview_description: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               stats:
                 other_settings:
                   label: Other settings
@@ -1567,8 +1827,6 @@ az:
             manual_conversion_hint: You can choose to manually run the conversion to enable multiple values before this automatic migration happens.
             not_writable_hint: These settings are configured via environment variables. If you would like to manually run the conversion to enable multiple values before the automatic migration, update your configuration.yml file.
           heading: Target versions
-          in_progress:
-            heading: Enabling multiple versions
           planned_changes:
             heading: Planned changes in a future release
             renamed: The “Version” field will be renamed “Target versions”.
@@ -1619,6 +1877,41 @@ az:
         page_header:
           description: Choose between classic numerical work package IDs or semantic project-specific ones that prepend the project identifier to the work package ID.
         success_banner: Successfully updated work package identifier format.
+    text_transform_actions:
+      delete_dialog_component:
+        description: Users will no longer be able to run this action in the rich text editor.
+        heading: Are you sure you want to delete the action "%{label}"?
+        title: Delete text transform action
+      form:
+        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
+        label_caption: This is the name that will be visible to users in the editor.
+        select_types: Select types
+        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
+        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
+      index:
+        description: Text transform actions give users LLM-powered actions to write, organise and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
+        label_add_action: Action
+        label_aria_add_action: Add text transform action
+      index_component:
+        blank_slate:
+          description: Add an action to see it here
+          title: No text transform actions configured yet
+        disabled_warning: Text transform actions are disabled. The following actions will not be available anywhere.
+        label_disable_all: Disable all
+        label_enable_all: Enable all
+        title: Actions
+      new:
+        title: New text transform action
+      row_component:
+        label_actions: Action menu
+        label_toggle: Toggle %{label}
+        scope_specific_work_package_types:
+          one: "%{count} work package type"
+          other: "%{count} work package types"
+      usage_scopes:
+        all_work_package_types: All work package types
+        everywhere: Everywhere
+        specific_work_package_types: Specific work package types
     workflows:
       blankslate:
         description: Add statuses to start configuring workflows for this role
@@ -1770,6 +2063,7 @@ az:
     custom_field: Custom field
     custom_options: Possible values
     custom_values: Özəl sahələr
+    customized: Customized
     date: Date
     dates_interval: Date range
     default_columns: Default columns
@@ -1796,6 +2090,7 @@ az:
     is_default: Default value
     is_for_all: For all projects
     issue: Work package
+    jira: Jira
     journal: Journal
     journal_notes: Comment
     lastname: Last name
@@ -2350,8 +2645,12 @@ az:
   description_available_columns: Available Columns
   description_category_reassign: Choose category
   description_choose_project: Projects
-  description_compare_from: Compare from
-  description_compare_to: Compare to
+  description_compare_changeset_from: Compare from changeset
+  description_compare_changeset_to: Compare to changeset
+  description_compare_specific_version_from: Compare from version %{version}
+  description_compare_specific_version_to: Compare to version %{version}
+  description_compare_version_from: Compare from version
+  description_compare_version_to: Compare to version
   description_current_position: 'You are here: '
   description_date_from: Enter start date
   description_date_to: Enter end date
@@ -2500,7 +2799,7 @@ az:
         more_info: 'Note: the used logo will be publicly accessible.'
         title: Custom color theme and logo
       edit_attribute_groups:
-        description: 'Customize form configuration with these additional add-ons:'
+        description: 'Customize the form with these additional add-ons:'
         features:
           groups: Add new attribute sections
           related: Add a table of related work packages
@@ -2553,8 +2852,6 @@ az:
         description: Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users.
       weighted_item_lists:
         description: Weighted item lists allow you to create a list with underlying numeric values associated.
-      work_package_query_relation_columns:
-        description: Need to see relations or child elements in the work package list?
       work_package_sharing:
         description: Share work packages with users who are not members of the project.
       work_package_subject_generation:
@@ -2946,6 +3243,7 @@ az:
         progress_calculation_adjusted_from_disabled_mode: Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         scheduling_mode_adjusted: Scheduling mode automatically adjusted with version update.
         sprint_migration: Version '%{version_name}' has been copied as a sprint.
+        stale_target_versions_removed: Outdated target version automatically removed. It had been incorrectly re-added when multiple target versions were enabled.
         target_versions_repaired: Target versions automatically synchronized with the Version field before enabling multiple target versions.
         totals_removed_from_childless_work_packages: Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
       total_percent_complete_mode_changed_to_simple_average: Work values of child work packages are ignored.
@@ -3053,8 +3351,8 @@ az:
   label_available_project_work_package_categories: Available work package categories
   label_available_project_work_package_types: Available work package types
   label_available_projects: Available projects
+  label_backtrace: Backtrace
   label_backup: Backup
-  label_backup_code: Backup code
   label_basic_details: Basic details
   label_between: between
   label_blocked_by: blocked by
@@ -3074,7 +3372,6 @@ az:
   label_calendar_show: Show Calendar
   label_calendar_subscriptions: Calendar subscriptions
   label_calendars_and_dates: Calendars and dates
-  label_category: Category
   label_change_parent: Change parent
   label_change_password: Change password
   label_change_plural: Changes
@@ -3083,9 +3380,9 @@ az:
   label_change_status_of_user: 'Change status of #{username}'
   label_change_view_all: View all changes
   label_changes_details: Details of all changes
-  label_changeset: Changeset
   label_changeset_id: Changeset ID
   label_changeset_plural: Changesets
+  label_changeset_versions: Changeset versions
   label_check_uncheck_all_in_column: Check/Uncheck all in column
   label_check_uncheck_all_in_row: Check/Uncheck all in row
   label_checked: checked
@@ -3232,6 +3529,7 @@ az:
   label_feeds_access_key: RSS access key
   label_feeds_access_key_created_on: RSS access key created %{value} ago
   label_feeds_access_key_type: RSS
+  label_file: File
   label_file_plural: Files
   label_filter: Filters
   label_filter_add: Add filter
@@ -3242,7 +3540,6 @@ az:
   label_float: Float
   label_folder: Folder
   label_follows: follows
-  label_form_configuration: Form configuration
   label_formula: Formula
   label_forum_new: New forum
   label_forum_plural: Forums
@@ -3256,7 +3553,6 @@ az:
   label_git_path: Path to .git directory
   label_global: Global
   label_global_modules: Global modules
-  label_global_role: Global role
   label_global_roles: Global roles
   label_go_back: Go back one menu level
   label_go_forward: Open %{module} sub-menu
@@ -3325,7 +3621,6 @@ az:
   label_last_week: last week
   label_latest_revision: Latest revision
   label_latest_revision_plural: Latest revisions
-  label_ldap_auth_source: LDAP connection
   label_ldap_auth_source_new: New LDAP connection
   label_ldap_auth_source_plural: LDAP connections
   label_ldap_authentication: LDAP authentication
@@ -3355,7 +3650,6 @@ az:
   label_member_of_group: Member of group
   label_member_of_project: Member of project
   label_member_plural: Members
-  label_member_role: Project role
   label_membership_added: Member added
   label_membership_plural: Memberships
   label_membership_updated: Member updated
@@ -3468,7 +3762,6 @@ az:
   label_permissions: Permissions
   label_permissions_report: Permissions report
   label_personalize_page: Personalize this page
-  label_placeholder_user: Placeholder user
   label_placeholder_user_new: New placeholder user
   label_placeholder_user_plural: Placeholder users
   label_planning: Planning
@@ -3531,7 +3824,6 @@ az:
   label_related_work_packages: Related work packages
   label_relates: related to
   label_relates_to: related to
-  label_relation: Relation
   label_relation_actions: Relation actions
   label_relation_delete: Delete relation
   label_relation_edit: Edit relation
@@ -3584,7 +3876,6 @@ az:
   label_send_information: Send new credentials to the user
   label_send_invitation: Send invitation
   label_send_test_email: Send a test email
-  label_session: Session
   label_setting_plural: Settings
   label_share: Paylaş
   label_share_project_list: Share project list
@@ -3660,7 +3951,6 @@ az:
   label_used_by: Used by
   label_used_by_types: Used by types
   label_used_in_projects: Used in projects
-  label_user: User
   label_user_activity_html: "%{value}'s activity"
   label_user_and_permission: Users and permissions
   label_user_anonymous: Anonymous
@@ -3691,19 +3981,17 @@ az:
   label_week: Week
   label_weighted_item_list: Weighted item list
   label_what_is_this: What is this?
-  label_widget: Widget
   label_widget_new: New widget
   label_wiki_content_added: Wiki page added
   label_wiki_content_updated: Wiki page updated
   label_wiki_dont_show_menu_item: Do not show this wikipage in project navigation
   label_wiki_edit: Wiki edit
   label_wiki_edit_plural: Wiki edits
-  label_wiki_menu_item: Wiki menu item
   label_wiki_navigation: Wiki navigation
-  label_wiki_page: Wiki page
   label_wiki_page_attachments: Wiki page attachments
   label_wiki_page_id: Wiki page ID
   label_wiki_page_plural: Wiki pages
+  label_wiki_page_versions: Wiki page versions
   label_wiki_show_index_page_link: Show submenu item 'Table of Contents'
   label_wiki_show_menu_item: Show as menu item in project navigation
   label_wiki_show_new_page_link: Show submenu item 'Create new child page'
@@ -3720,7 +4008,6 @@ az:
   label_work_package_hierarchy: Work package hierarchy
   label_work_package_new: New work package
   label_work_package_plural: Work packages
-  label_work_package_status: Work package status
   label_work_package_status_new: New status
   label_work_package_status_plural: Work package statuses
   label_work_package_tracking: Work package tracking
@@ -4097,6 +4384,7 @@ az:
       mail_notification: Email notifications
       mails_and_notifications: Emails and notifications
       mcp_configurations: Model Context Protocol (MCP)
+      text_transform_actions: Text transform actions
     quick_add:
       label: Add…
   more_actions: More functions
@@ -4589,6 +4877,8 @@ az:
     dialog:
       footer_center:
         caption: This text will appear on every page at the center of the footer.
+        default_hint_project_name: When left blank, defaults to the project name.
+        default_hint_subject: When left blank, defaults to the work package's subject.
         label: Footer text
       footer_right:
         caption: This text will appear on every page at the right of the footer.
@@ -4617,7 +4907,7 @@ az:
       caption: Work package details rendered as a PMflex Artefact.
       label: PMflex Artefact
     template_attributes:
-      caption: All the attributes present in the current form configuration using the default template.
+      caption: All the attributes present in the current form using the default template.
       label: Attributes and description
     template_contract:
       caption: Work package details formatted to the standard German contract form.
@@ -4691,6 +4981,7 @@ az:
     '
   permission_manage_placeholder_user: Create, edit, and delete placeholder users
   permission_manage_project_activities: Manage project activities
+  permission_manage_project_variants: Manage the project's own type variants
   permission_manage_public_bcf_queries: Manage public BCF queries
   permission_manage_public_project_queries: Manage public project lists
   permission_manage_public_queries: Manage public views
@@ -4999,23 +5290,42 @@ az:
           type_label: Type
           type_placeholder: Select a type
         add_type: Add type
+        add_variant: Add a project-specific variant
+        base_type_in_use: Base type used in this project
         empty_state:
           description: Add a type to let people create work packages of that type in this project.
           title: No types are active in this project
         form:
           enable_type_in_project: Enable type "%{type}"
         no_results_title_text: There are currently no types available.
+        project_specific_variant: Project-specific variant
         remove_from_project: Remove from project
-        switch_dialog:
+        switch:
           apply: Apply
-          description: Select a different variant of this type to use in this project.
+          impact:
+            hidden_heading: Fields that will no longer be shown
+            missing_statuses_description: The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on.
+            missing_statuses_heading: Work packages that get stuck
+            new_heading: Fields that become available
+            nothing_affected: No fields or statuses are affected.
+            status_count:
+              one: 1 work package
+              other: "%{count} work packages"
+            table_suffix: "(table)"
+            value_count:
+              one: 1 work package has a value
+              other: "%{count} work packages have a value"
+            work_packages:
+              one: 1 work package will use the new configuration
+              other: "%{count} work packages will use the new configuration"
           success: The project now uses %{type}.
           target_label: Variant
           title: "%{type}: Switch variant"
-          warning: If you switch variants, you might lose information associated with custom fields that might not be present in the new one.
-        switch_type: Switch variant
         type_not_found: The selected type could not be found.
-        variant_prefix: 'Variant:'
+        use_in_project: Use in this project
+        variant_in_use: Variant in this project
+        variant_label: Variant
+        variants_not_allowed: This type does not allow creation of variants inside projects.
       versions:
         no_results_content_text: Create a new version
         no_results_title_text: There are currently no versions for the project.
@@ -5210,6 +5520,7 @@ az:
   setting_after_login_default_redirect_url_example_html: 'Set a default path to redirect users after login, if no back link was provided. Redirects to home page if not set. <br/> Example: %{example_code}
 
     '
+  setting_ai_text_transform_actions_enabled: Enable text transform actions
   setting_allowed_link_protocols: Allowed link protocols
   setting_allowed_link_protocols_text_html: Allow these protocols to be rendered as links in work package descriptions, long text fields and comments. For example, %{tel_code} or %{element_code}. Enter one protocol per line. <br/> Protocols %{http_code}, %{https_code}, and %{mailto_code} are always allowed.
   setting_antivirus_scan_action: Infected file action
@@ -5289,7 +5600,7 @@ az:
   setting_default_language: Default language
   setting_default_projects_modules: Default enabled modules for new projects
   setting_default_projects_public: New projects are public by default
-  setting_default_projects_wiki: Enables wiki functionality for new projects by default
+  setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Max number of diff lines displayed
   setting_disable_password_login: Disable password authentication
   setting_display_subprojects_work_packages: Display subprojects work packages on main projects by default
@@ -5337,6 +5648,14 @@ az:
   setting_password_active_rules: Password requirements
   setting_password_count_former_banned: Number of most recently used passwords banned for reuse
   setting_password_days_valid: Number of days, after which to enforce a password change
+  setting_password_login: Password login
+  setting_password_login_all: Allow for everyone
+  setting_password_login_all_caption: Anyone with an internal password can sign in with it, including users linked to an identity provider.
+  setting_password_login_bypass_principal_ids: Users and groups who may still use a password
+  setting_password_login_except_sso: Disallow for SSO users
+  setting_password_login_except_sso_caption: Users linked to an identity provider cannot sign in with their internal password. Other users can continue using it.
+  setting_password_login_none: Disallow for everyone
+  setting_password_login_none_caption_html: The password form is hidden. Only users and groups listed below can sign in with a password via %{internal_login_link}.
   setting_password_min_length: Minimum length
   setting_per_page_options: Objects per page options
   setting_percent_complete_on_status_closed: "% Complete when status is closed"
@@ -5471,6 +5790,15 @@ az:
     authentication:
       login: Login
       omniauth_direct_login_hint_html: 'If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
+
+        '
+      password_login_bypass_principal_ids_hint: 'Even when password login in disabled, these users and groups will be able to use their password to sign in. This is useful, for example, if the identity provider becomes unavailable. If you include a group, access will be extended to all users in that group.
+
+        '
+      password_login_configured_by_environment: 'The following settings are configured through the environment and cannot be edited here:
+
+        '
+      password_login_requires_sso_provider: 'Password login restrictions are unavailable because no SSO provider is currently enabled. Configure and enable an SSO provider before changing these settings.
 
         '
       registration: Registration
@@ -5818,6 +6146,7 @@ az:
   text_destroy_what_to_do: What do you want to do?
   text_destroy_with_associated: 'There are additional objects associated with the work package(s) that are to be deleted. Those objects are of the following types:'
   text_diff_truncated: "... This diff was truncated because it exceeds the maximum size that can be displayed."
+  text_email_delivery_letter_opener: Letter opener is used to render emails as files in your Rails tmp folder. Emails will automatically open in your browser if supported.
   text_email_delivery_not_configured: |-
     Email delivery is not configured, and notifications are disabled.
     Configure your SMTP server to enable them.
@@ -5960,7 +6289,7 @@ az:
   total_progress: Total progress
   types:
     creation_wizard:
-      add_variant: Add variant to %{name}
+      add_variant: Add a variant to %{name}
       create_type: Create type
       create_variant: Create variant
       fields:
@@ -5971,7 +6300,7 @@ az:
       steps:
         defaults: Defaults
         details: Details
-        form_configuration: Form configuration
+        form_configuration: Form
         pdf: PDF generation
         project_attributes: Project attributes
         projects: Projects
@@ -6001,9 +6330,11 @@ az:
             work_package: Work package
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
+        allow_project_variants_caption: For project administrators with the permission to manage variants, this type can be extended or modified within a project.
         inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: Details
         type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
+        variant_name_caption_html: This is an internal name only visible to administrators. Variants replace the original parent type, so if this variant is used in a project, it will appear as <b>%{type}</b> to all members.
       export_configuration:
         artefact_export:
           attachment:
@@ -6029,7 +6360,12 @@ az:
           label: PDF Export templates
         tab: Generate PDF
         templates:
+          readonly_error: Cannot be changed while linked to a source type.
           section_title: PDF export templates
+          settings:
+            edit_link: Edit settings
+            reset_to_default: Reset to default
+            title: 'Settings: %{template}'
       form_configuration:
         add_attribute_group: Section
         add_query_group: Related work packages table
@@ -6037,7 +6373,7 @@ az:
         blankslate_title: No groups yet
         builtin_field: Built-in field
         confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
-        confirm_reset: Are you sure you want to reset the form configuration?
+        confirm_reset: Are you sure you want to reset the form?
         custom_field: Custom field
         delete_group: Delete section
         drag_to_activate: Drag fields from here to activate them
@@ -6052,33 +6388,33 @@ az:
         group_actions: Section actions
         group_name_label: Section name
         inactive_attributes_heading: Inactive attributes
-        invalid_attribute_groups: The form configuration payload is invalid.
+        invalid_attribute_groups: The form payload is invalid.
         invalid_query: The embedded query configuration is invalid.
         label_group: Section
         no_inactive_attributes: No inactive attributes
-        not_found: The requested form configuration item could not be found.
+        not_found: The requested form item could not be found.
         query_group_label: Related work packages table
         remove_attribute: Remove from section
         rename_group: Rename section
         reset_description: 'This will reset the attributes to their default group and disable ALL custom fields.
 
           '
-        reset_title: Reset form configuration
+        reset_title: Reset form
         reset_to_defaults: Reset form
         row_actions: Row actions
-        tab: Form configuration
+        tab: Form
         untitled_group: Untitled group
       project_attributes:
         actions:
           label_disable_all: Disable all
           label_enable_all: Enable all
         blankslate:
-          independent:
-            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
-            title: No project attributes available
-          linked:
+          inherited:
             description: This type does not have any project attributes associated with it.
             title: No project attributes configured
+          manual:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
         description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
         disabled: Disabled
         exclusions:
@@ -6108,31 +6444,76 @@ az:
             description_html: By copying data from %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
             title: Copy configuration?
           dialog:
-            description: Copy the configuration from a source type and use it as a one-time base. This does not link the two types permanently.
-            source_label: Copy source
+            description: Copy the configuration from a source type and use it as a one-time base. The configuration stays manual and does not inherit later changes of the source.
+            source_label: Source type
             source_placeholder: Select a type or variant
             submit: Save and copy
             title: Copy configuration
           invalid_source: The configuration cannot be copied from the selected type. Please select a different source type.
           success: The configuration was copied.
+        dependents:
+          blank:
+            description: No other type or variant inherits from this configuration
+            title: No dependent types
+          description:
+            one: The following configuration is inherited by 1 other type or variant. Any changes you make here will also affect the dependent.
+            other: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
+          dialog:
+            description: These types and variants inherit the configuration of this section. A change you make here applies to all of them.
+            direct_heading: Direct dependents
+            indirect_heading: Dependents through other types
+            title: Dependent types
+            variant_of_html: Variant of %{type_name}
+            variant_of_via_html: Variant of %{type_name}, inheriting via %{source_name}
+            via_html: Inheriting via %{source_name}
+          title:
+            one: 1 dependent type
+            other: "%{count} dependent types"
+          view: View dependent types
         exclusions:
-          not_linked: This type owns its configuration for this section, so there is nothing to exclude. Edit the configuration directly instead.
+          not_inherited: This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead.
           unknown_aspect: Unknown configuration section "%{aspect}".
-        independent:
+        inherited:
+          change_source: Change source type
+          configure_manually: Configure manually
+          confirm_dialog:
+            change_source:
+              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
+              heading: Change source type?
+              title: Change source type
+            check_box: I understand that this will override the current settings
+            from_manual:
+              description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
+              heading: Switch configuration mode?
+              title: Switch configuration mode
+          description: This configuration is inherited from the source type [%{source_name}](source_url)%{source_suffix}.
+          description_unlinked: This configuration is inherited from the source type %{source_name}%{source_suffix}.
+          dialog:
+            description: Inherit this configuration from a source type. Any new configuration added to the source also applies here.
+            source_label: Source type
+            source_placeholder: Select a type or variant
+            submit: Switch
+            title: Inherit from another type
+          invalid_source: The configuration cannot be inherited from the selected type. Please select a different source type.
+          success: The configuration mode was switched.
+          title: Inherited configuration
+        manual:
           confirm_dialog:
             check_box: I understand that this will override the current settings
             description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
-            title: Switch configuration mode?
-          copy_from_type: Copy from type
-          description: No settings are inherited. If desired you can still one-time copy settings from another type.
+            heading: Switch configuration mode?
+            title: Switch configuration mode
+          copy_from_type: Copy from another type
+          description: No settings are inherited. You can still copy the settings from another type one time.
           dialog:
             submit: Switch
-            title: Independent mode
+            title: Configure manually
+          inherit_from_type: Inherit from another type
           invalid_mode: The selected mode is not available for this configuration. Please choose a different mode.
           modes:
             copy:
-              caption: Start with a one-time copy of the current settings set in the linked mode.
-              label: Copy from linked
+              caption: Start with a one-time copy of the settings that this configuration inherits now.
+              label: Copy inherited settings
             default:
               caption: Use the default settings for new types.
               label: Default settings
@@ -6140,34 +6521,30 @@ az:
               caption: Set everything up from scratch, beginning from a blank configuration.
               label: Empty
           success: The configuration mode was switched.
-          switch_to_linked: Switch to linked mode
-          title: Independent mode
-        linked:
-          change_source: Change source type
-          confirm_dialog:
-            change_source:
-              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
-              title: Change source type?
-            check_box: I understand that this will override the current settings
-            from_independent:
-              description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
-              title: Switch configuration mode?
-          description: This configuration is linked and inheriting its settings from the source type [%{source_name}](source_url)%{source_suffix}.
-          dialog:
-            description: Copy and inherit this settings from a source. Any new configuration added to the source will also be added here.
-            source_label: Linked source
-            source_placeholder: Select a type or variant
-            submit: Switch
-            title: Linked mode
-          invalid_source: The configuration cannot be linked to the selected type. Please select a different source type.
-          success: The configuration mode was switched.
-          switch_to_independent: Switch to independent mode
-          title: Linked mode
+          title: Manual configuration
         parent_suffix: " (parent)"
+      variants:
+        blankslate:
+          description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
+
+            '
+          title: No variants exist for this type
+        created_in_html: Created in %{project}
+        delete:
+          description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
+          title: Delete %{name}
+        filter: Filter by text
+        filter_no_results: No variants match this filter
+        global_section:
+          description: These variants are available across all projects.
+          title: Variants
+        project_specific_section:
+          description: These variants are only available within the projects in which they were created.
+          title: Project-specific variants
       workflow:
         tab: Workflows
     index:
-      add_variant: Add variant to %{name}
+      add_variant: Add a variant to %{name}
       add_variant_action: Add variant
       description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
@@ -6179,14 +6556,13 @@ az:
       make_default_notice: "%{name} is now activated in new projects."
       no_results_content_text: Create a new type
       no_results_title_text: There are currently no types.
+      project_variants_count:
+        one: 1 project-specific variant
+        other: "%{count} project-specific variants"
       remove_default: Do not activate in new projects
       remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: Type
-      variant_enabled_in_new_projects: Variant %{name} active in new projects
       variant_label: Variant
-      variants_count:
-        one: 1 variant
-        other: "%{count} variants"
     milestone_indicator: Milestone
   unsupported_browser:
     close_warning: Ignore this warning.
@@ -6331,6 +6707,7 @@ az:
         availability_description: The availability factor represents the actual percentage of your working time dedicated to project tasks. This accounts for meetings, emails, administrative work, and other non-project activities.
         availability_factor: Availability factor
         availability_factor_caption: Define the percentage of your working time dedicated to project work.
+        effective_hours: Effective work hours
         hours_mode_label: Hours mode
         hours_per_day: Hours per day
         individual_hours_mode: Individual hours per day
@@ -6344,7 +6721,6 @@ az:
         title_current: Edit current work schedule
         title_days_and_hours: Days and hours
         title_future_dates: Future dates
-        total_available_hours: Total available work hours
         total_work_hours: Total work hours
         work_days: Work days
         work_hours: Work hours

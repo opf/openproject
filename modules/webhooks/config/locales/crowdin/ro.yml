@@ -14,7 +14,14 @@ ro:
         secret: Secretul semnăturii
         url: URL de încărcare utilă
     models:
-      webhooks/outgoing_webhook: Webhook de ieșire
+      webhooks/log:
+        one: Webhook log
+        few: Webhook logs
+        other: Webhook logs
+      webhooks/webhook:
+        one: Webhook
+        few: Webhooks
+        other: Webhooks
   plugin_openproject_webhooks:
     description: Oferă un plug-in API pentru a sprijini OpenProject webhooks pentru o mai bună integrare a terților.
     name: Webhook-uri OpenProject

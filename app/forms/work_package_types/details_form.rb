@@ -38,7 +38,8 @@ module WorkPackageTypes
         input_width: :large,
         required: true,
         autocomplete: "off",
-        validation_message: validation_message_for(name_attribute)
+        validation_message: validation_message_for(name_attribute),
+        caption: name_caption
       )
 
       details_form.color_select_list(
@@ -59,11 +60,21 @@ module WorkPackageTypes
                              label: label(:is_in_roadmap),
                              disabled: inherited?,
                              caption: inherited_caption)
+
+      if offers_project_variants?
+        details_form.check_box(name: :allow_project_variants,
+                               label: label(:allow_project_variants),
+                               caption: I18n.t("types.edit.details.allow_project_variants_caption"))
+      end
     end
 
     private
 
     def inherited? = model.is_a?(TypeVariant)
+
+    def offers_project_variants?
+      !inherited? && OpenProject::FeatureDecisions.type_variants_active?
+    end
 
     def name_attribute = inherited? ? :variant_name : :name
 
@@ -85,6 +96,10 @@ module WorkPackageTypes
 
     def validation_message_for(attribute)
       model.errors.messages_for(attribute).to_sentence.presence
+    end
+
+    def name_caption
+      helpers.t("types.edit.details.variant_name_caption_html", type: model.type.name) if inherited?
     end
   end
 end

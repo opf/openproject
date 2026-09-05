@@ -43,6 +43,17 @@ pl:
           invalid_claims_location: 'zawiera nieobsługiwane lokalizacje: %{invalid}. Obsługiwane lokalizacje to: %{supported}.'
           invalid_claims_values: nie definiuje tablicy w %{attribute}.
           non_object_attribute: nie definiuje obiektu JSON w %{attribute}.
+    models:
+      openid_connect/provider:
+        one: Dostawca OpenID Connect
+        few: Dostawcy OpenID Connect
+        many: Dostawcy OpenID Connect
+        other: Dostawcy OpenID Connect
+      openid_connect/user_token:
+        one: Token OpenID Connect
+        few: Tokeny OpenID Connect
+        many: Tokeny OpenID Connect
+        other: Tokeny OpenID Connect
   logout_warning: 'Wylogowano cię. Zawartość każdego przesłanego formularza może zostać utracona. [Zaloguj się].
 
     '

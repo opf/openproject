@@ -59,23 +59,47 @@ See COPYRIGHT and LICENSE files for more details.
 
         page.with_row do
           helpers.turbo_frame_tag(FRAME_ID, target: "_top") do
-            render(
-              OpenProject::Common::BorderBoxListComponent.new(
-                container: "type-variants",
-                padding: :condensed,
-                mb: 3,
-                test_selector: "type-variants"
-              )
-            ) do |list|
-              list.with_empty_state(title: I18n.t("types.edit.variants.filter_no_results"), icon: :search)
-
-              variants.each do |variant|
-                list.with_item(test_selector: "type-variant-#{variant.id}") do |item|
-                  item.with_menu(menu_id: menu_id(variant), src: menu_src(variant))
-
-                  render(WorkPackageTypes::VariantRowComponent.new(variant:))
-                end
+            if sections.empty?
+              render(
+                OpenProject::Common::BorderBoxListComponent.new(
+                  container: "type-variants",
+                  padding: :condensed,
+                  mb: 3,
+                  test_selector: "type-variants"
+                )
+              ) do |list|
+                list.with_empty_state(title: I18n.t("types.edit.variants.filter_no_results"), icon: :search)
               end
+            else
+              safe_join(
+                sections.map do |section, section_variants|
+                  render(
+                    OpenProject::Common::BorderBoxListComponent.new(
+                      container: "type-variants-#{section}",
+                      padding: :condensed,
+                      mb: 3,
+                      test_selector: "type-variants-#{section}"
+                    )
+                  ) do |list|
+                    list.with_header(title: I18n.t("types.edit.variants.#{section}.title")) do |header|
+                      header.with_description_content(I18n.t("types.edit.variants.#{section}.description"))
+                    end
+
+                    section_variants.each do |variant|
+                      list.with_item(test_selector: "type-variant-#{variant.id}") do |item|
+                        item.with_menu(menu_id: menu_id(variant), src: menu_src(variant))
+
+                        render(WorkPackageTypes::VariantRowComponent.new(variant:)) do |row|
+                          row.with_caption { created_in(variant.project) } if variant.project_owned?
+                          if variant.enabled_in_new_projects?
+                            row.with_status_label { t("types.index.enabled_in_new_projects") }
+                          end
+                        end
+                      end
+                    end
+                  end
+                end
+              )
             end
           end
         end

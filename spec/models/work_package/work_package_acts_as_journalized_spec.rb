@@ -576,6 +576,67 @@ RSpec.describe WorkPackage do
       end
     end
 
+    context "on observed in version changes", with_settings: { journal_aggregation_time_minutes: 0 } do
+      shared_let(:journable) do
+        create(:work_package)
+      end
+
+      def set_observed_in_versions(versions)
+        journable.observed_in_version_ids_replacements = versions.map(&:id)
+        journable.save!
+      end
+
+      context "when setting observed in versions" do
+        it "creates a new journal listing the versions in the details" do
+          expect { set_observed_in_versions([version, other_version]) }
+            .to change { journable.journals.count }.by(1)
+
+          expect(journable.last_journal.details["observed_in_versions"])
+            .to eq([nil, [version.id, other_version.id].sort.join(",")])
+        end
+      end
+
+      context "when replacing an observed in version" do
+        before do
+          set_observed_in_versions([version])
+        end
+
+        it "creates a new journal with the old and new versions in the details" do
+          expect { set_observed_in_versions([other_version]) }
+            .to change { journable.journals.count }.by(1)
+
+          expect(journable.last_journal.details["observed_in_versions"])
+            .to eq([version.id.to_s, other_version.id.to_s])
+        end
+      end
+
+      context "when removing all observed in versions" do
+        before do
+          set_observed_in_versions([version])
+        end
+
+        it "creates a new journal with an empty new value in the details" do
+          expect { set_observed_in_versions([]) }
+            .to change { journable.journals.count }.by(1)
+
+          expect(journable.last_journal.details["observed_in_versions"])
+            .to eq([version.id.to_s, nil])
+        end
+      end
+
+      context "when saving with unchanged observed in versions" do
+        before do
+          set_observed_in_versions([version])
+        end
+
+        it "creates no journal and does not touch the journable" do
+          expect { set_observed_in_versions([version]) }
+            .to not_change { journable.journals.count }
+            .and(not_change { journable.reload.updated_at })
+        end
+      end
+    end
+
     # Journal creation (the SQL differ gated by JOURNALED_KINDS) and rendering
     # (the per-kind details) are independent implementations. A kind journaled
     # without a matching detail would create journals that display no change.
@@ -1033,6 +1094,82 @@ RSpec.describe WorkPackage do
                          "some_reference" => 42
                        },
                        expect_new_journal: true
+    end
+
+    context "on only journal notes adding with the most recent journal timestamped ahead of the database clock",
+            with_settings: { journal_aggregation_time_minutes: 0 } do
+      shared_let(:journable) do
+        create(:work_package,
+               journals: {
+                 10.minutes.from_now => { user: }
+               })
+      end
+
+      include_examples "journaled values for",
+                       new_values_set: {
+                         "journal_notes" => "Some notes"
+                       },
+                       expected_values: {},
+                       expected_notes: "Some notes",
+                       expect_new_journal: true
+    end
+
+    context "on only journal notes adding when the journable has been touched in the database since it was loaded",
+            with_settings: { journal_aggregation_time_minutes: 0 } do
+      shared_let(:journable) do
+        create(:work_package)
+      end
+
+      before do
+        described_class.where(id: journable.id).update_all(updated_at: 10.minutes.from_now)
+      end
+
+      include_examples "journaled values for",
+                       new_values_set: {
+                         "journal_notes" => "Some notes"
+                       },
+                       expected_values: {},
+                       expected_notes: "Some notes",
+                       expect_new_journal: true,
+                       expect_journable_update_at_changed: false
+    end
+
+    context "on only journal cause adding with the most recent journal timestamped ahead of the database clock",
+            with_settings: { journal_aggregation_time_minutes: 0 } do
+      shared_let(:journable) do
+        create(:work_package,
+               journals: {
+                 10.minutes.from_now => { user: }
+               })
+      end
+
+      include_examples "journaled values for",
+                       new_values_set: {
+                         "journal_cause" => "ABC"
+                       },
+                       expected_values: {},
+                       expected_cause: "ABC",
+                       expect_new_journal: true
+    end
+
+    context "on only journal cause adding when the journable has been touched in the database since it was loaded",
+            with_settings: { journal_aggregation_time_minutes: 0 } do
+      shared_let(:journable) do
+        create(:work_package)
+      end
+
+      before do
+        described_class.where(id: journable.id).update_all(updated_at: 10.minutes.from_now)
+      end
+
+      include_examples "journaled values for",
+                       new_values_set: {
+                         "journal_cause" => "ABC"
+                       },
+                       expected_values: {},
+                       expected_cause: "ABC",
+                       expect_new_journal: true,
+                       expect_journable_update_at_changed: false
     end
 
     context "when aggregation leads to an empty change (changing back and forth)",

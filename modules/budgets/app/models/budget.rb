@@ -53,7 +53,7 @@ class Budget < ApplicationRecord
   acts_as_journalized
 
   acts_as_event type: "cost-objects",
-                title: Proc.new { |o| "#{I18n.t(:label_budget)} ##{o.id}: #{o.subject}" },
+                title: Proc.new { |o| "#{Budget.model_name.human} ##{o.id}: #{o.subject}" },
                 url: Proc.new { |o| { controller: "budgets", action: "show", id: o.id } }
 
   validates :subject, :project, :author, :fixed_date, presence: true
@@ -109,7 +109,7 @@ class Budget < ApplicationRecord
   end
 
   def type_label
-    I18n.t(:label_budget)
+    self.class.model_name.human
   end
 
   def edit_allowed?

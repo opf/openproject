@@ -21,6 +21,11 @@
 #++
 ---
 tr:
+  activerecord:
+    models:
+      cost_query:
+        one: Cost report
+        other: Cost reports
   button_save_report_as: Raporu farklı kaydet...
   comments: Yorum
   cost_reports_title: Zaman ve maliyetler
@@ -46,7 +51,6 @@ tr:
   label_closed: kapalı
   label_columns: Sütunlar
   label_cost_entry_attributes: Maliyet girişi nitelikleri
-  label_cost_report: Maliyet raporu
   label_cost_report_plural: Maliyet raporları
   label_count: saymak
   label_days_ago: son günlerde

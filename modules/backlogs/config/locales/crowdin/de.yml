@@ -92,9 +92,15 @@ de:
               task_version_must_be_the_same_as_story_version: muss der Version der übergeordneten Story entsprechen.
           backlog_bucket_xor_sprint: kann nicht gleichzeitig einem Sprint und einem Backlog Bucket zugewiesen werden.
     models:
+      backlog_bucket:
+        one: Backlog Bucket
+        other: Backlog Buckets
       sprint:
         one: Sprint
         other: Sprints
+      sprint_goal:
+        one: Sprint-Ziel
+        other: Sprint-Ziele
   backlogs:
     add_existing_work_package_dialog_component:
       title_without_container: Vorhandenes Arbeitspaket hinzufügen
@@ -113,6 +119,7 @@ de:
         other: Sprints
         zero: Alle Sprints
       select_panel_title: Elemente auswählen
+    blankslate_filtered_title: No work packages match the filter criteria.
     bucket_component:
       action_menu:
         add_existing_work_package: Vorhandenes Arbeitspaket hinzufügen
@@ -155,6 +162,8 @@ de:
         one: Zeige ein weiteres Element
         other: Zeige %{count} weitere Elemente
       title: Posteingang
+    index_subheader_component:
+      label_search_by_subject: Search work packages by subject
     label_burndown_chart: Burndown-Diagramm
     label_is_done_status: Status %{status_name} bedeutet abgeschlossen
     label_sprint_board: Sprint-Board
@@ -199,7 +208,7 @@ de:
     sprint_reports:
       page_header_component:
         breadcrumb: Bericht
-        title: "%{sprint} Report"
+        title: "%{sprint} Bericht"
     sprints:
       row_component:
         action_menu:
@@ -254,7 +263,7 @@ de:
       sprint_sharing: Sprints teilen
     upsell:
       multiple_active_sprints:
-        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
+        description: Führen Sie in einem Projekt mehrere Sprints parallel mit verschiedene Teams aus.
       sprint_sharing:
         description: Teilen Sie Sprints über Projekte hinweg, um Teams aufeinander abzustimmen und die Arbeit in skalierten agilen Setups (SAFe) zu koordinieren.
   label_all_sprints: Alle Sprints

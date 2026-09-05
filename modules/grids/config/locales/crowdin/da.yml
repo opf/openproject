@@ -14,6 +14,13 @@ da:
           end_before_start: Slutværdien skal være større end startværdien.
           outside: er uden for gitteret.
           overlaps: overlap.
+    models:
+      grids/grid:
+        one: Grid
+        other: Grids
+      grids/widget:
+        one: Widget
+        other: Widgets
   grids:
     label_widget_in_grid: Widget indeholdt i gitter %{grid_name}
     widgets:

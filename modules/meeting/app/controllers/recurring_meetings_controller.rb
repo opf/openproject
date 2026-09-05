@@ -50,17 +50,14 @@ class RecurringMeetingsController < ApplicationController
     @recurring_meeting = RecurringMeeting.new(project: @project)
   end
 
-  def init # rubocop:disable Metrics/AbcSize
+  def init
     start_time = DateTime.iso8601(params[:start_time])
-    existing = @recurring_meeting.meetings.not_templated.find_by(recurrence_start_time: start_time)
-    is_restoration = existing&.cancelled?
 
     call = ::RecurringMeetings::InitOccurrenceService
       .new(user: current_user, recurring_meeting: @recurring_meeting)
       .call(start_time:)
 
     if call.success?
-      send_restoration_notifications(call.result) if is_restoration
       redirect_to project_meeting_path(call.result.project, call.result), status: :see_other
     else
       flash[:error] = call.message
@@ -174,9 +171,6 @@ class RecurringMeetingsController < ApplicationController
       .call(notify: params[:meeting][:notify] == "1", first_occurrence: @first_occurrence)
 
     if call.success?
-      init_next_occurrence_job(@first_occurrence)
-      deliver_invitation_mails
-
       flash.now[:success] = I18n.t("recurring_meeting.occurrence.first_created")
     else
       flash.now[:error] = call.message
@@ -195,11 +189,10 @@ class RecurringMeetingsController < ApplicationController
     )
   end
 
-  def destroy_scheduled # rubocop:disable Metrics/AbcSize
-    if @meeting_to_cancel.persisted?
-      meeting.update_column(:state, Meeting.states[:cancelled])
-      flash[:notice] = I18n.t(:notice_successful_cancel)
-    elsif @meeting_to_cancel.save
+  def destroy_scheduled
+    if cancel_occurrence
+      # The cancelled occurrence becomes an EXDATE on the series event.
+      @recurring_meeting.bump_ical_sequence!
       flash[:notice] = I18n.t(:notice_successful_cancel)
     else
       flash[:error] = I18n.t(:error_failed_to_delete_entry)
@@ -238,20 +231,16 @@ class RecurringMeetingsController < ApplicationController
 
   private
 
+  def cancel_occurrence
+    return meeting.update_column(:state, Meeting.states[:cancelled]) if @meeting_to_cancel.persisted?
+
+    @meeting_to_cancel.save
+  end
+
   def redirect_to_project
     return if @project
 
     redirect_to project_recurring_meeting_path(@recurring_meeting.project, @recurring_meeting), status: :see_other
-  end
-
-  def init_next_occurrence_job(from_time)
-    # Now we can schedule the job to create the next occurrence
-    next_occurrence = @recurring_meeting.next_occurrence(from_time:)
-    return if next_occurrence.nil?
-
-    ::RecurringMeetings::InitNextOccurrenceJob
-      .set(wait_until: from_time)
-      .perform_later(@recurring_meeting, next_occurrence)
   end
 
   def deliver_invitation_mails
@@ -267,22 +256,6 @@ class RecurringMeetingsController < ApplicationController
           participant.user,
           User.current
         ).deliver_later
-    end
-  end
-
-  def send_restoration_notifications(meeting)
-    return unless meeting.notify?
-
-    meeting
-      .participants
-      .invited
-      .find_each do |participant|
-        MeetingMailer
-          .invited(
-            meeting,
-            participant.user,
-            User.current
-          ).deliver_later
     end
   end
 

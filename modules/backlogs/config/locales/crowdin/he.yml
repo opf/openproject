@@ -74,7 +74,6 @@ he:
               unfinished_work_packages:
                 one: There is one work package that was not completed in this sprint.
                 two: There are %{count} work packages that were not completed in this sprint.
-                many: There are %{count} work packages that were not completed in this sprint.
                 other: There are %{count} work packages that were not completed in this sprint.
             status:
               not_active: is not active so it cannot be closed.
@@ -94,11 +93,18 @@ he:
               task_version_must_be_the_same_as_story_version: must be the same as the parent story's version.
           backlog_bucket_xor_sprint: cannot be assigned to both a sprint and a backlog bucket.
     models:
+      backlog_bucket:
+        one: Backlog bucket
+        two: Backlog buckets
+        other: Backlog buckets
       sprint:
         one: Sprint
         two: Sprints
-        many: Sprints
         other: Sprints
+      sprint_goal:
+        one: Sprint goal
+        two: Sprint goals
+        other: Sprint goals
   backlogs:
     add_existing_work_package_dialog_component:
       title_without_container: Add existing work package
@@ -117,6 +123,7 @@ he:
         other: Sprints
         zero: All sprints
       select_panel_title: Select items
+    blankslate_filtered_title: No work packages match the filter criteria.
     bucket_component:
       action_menu:
         add_existing_work_package: Add existing work package
@@ -158,9 +165,10 @@ he:
       show_more:
         one: Show 1 more item
         two: Show %{count} more items
-        many: Show %{count} more items
         other: Show %{count} more items
       title: Inbox
+    index_subheader_component:
+      label_search_by_subject: Search work packages by subject
     label_burndown_chart: Burndown chart
     label_is_done_status: Status %{status_name} means done
     label_sprint_board: Sprint board
@@ -174,7 +182,6 @@ he:
     points_label:
       one: point
       two: points
-      many: points
       other: points
     positions_could_not_be_rebuilt: Positions could not be rebuilt.
     positions_rebuilt_successfully: Positions rebuilt successfully.
@@ -230,7 +237,6 @@ he:
     story_points:
       one: "%{count} story point"
       two: "%{count} story points"
-      many: "%{count} story points"
       other: "%{count} story points"
     types_and_statuses: Types and statuses
     unassigned: לא מוקצה

@@ -124,7 +124,11 @@ properties:
     description: The meeting duration in hours (inherited from the template meeting).
   notify:
     type: boolean
-    description: Whether to send email notifications to participants (inherited from the template meeting).
+    description: |-
+      Whether email notifications are enabled for the series (read from the template meeting).
+      Read-only on this resource: set it when completing the template via
+      `POST /recurring_meetings/{id}/template_completed`, or change it later by updating the
+      template meeting (`PATCH /meetings/{template_id}`).
   createdAt:
     type: string
     format: date-time

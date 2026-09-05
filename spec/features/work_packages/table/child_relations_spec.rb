@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Work Package table child relations", :js, with_ee: %i[work_package_query_relation_columns] do
+RSpec.describe "Work Package table child relations", :js do
   let(:user) { create(:admin) }
 
   let(:type) { create(:type) }
@@ -58,41 +58,30 @@ RSpec.describe "Work Package table child relations", :js, with_ee: %i[work_packa
     login_as(user)
   end
 
-  describe "with child relation columns allowed by the enterprise token" do
-    it "displays expandable child relation columns" do
-      # Now visiting the query for category
-      wp_table.visit_query(query)
-      wp_table.expect_work_package_listed(parent, child1, child2)
+  it "displays expandable child relation columns" do
+    # Now visiting the query for category
+    wp_table.visit_query(query)
+    wp_table.expect_work_package_listed(parent, child1, child2)
 
-      columns.add("Children")
+    columns.add("Children")
 
-      parent_row = wp_table.row(parent)
-      child1_row = wp_table.row(child1)
+    parent_row = wp_table.row(parent)
+    child1_row = wp_table.row(child1)
 
-      # Expect count for parent in both columns to be two
-      expect(parent_row).to have_css(".relationChild .wp-table--relation-count", text: "2")
+    # Expect count for parent in both columns to be two
+    expect(parent_row).to have_css(".relationChild .wp-table--relation-count", text: "2")
 
-      # Expect count for child1 in both columns to be not rendered
-      expect(child1_row).to have_no_css(".relationChild .wp-table--relation-count")
+    # Expect count for child1 in both columns to be not rendered
+    expect(child1_row).to have_no_css(".relationChild .wp-table--relation-count")
 
-      # Expand first column
-      parent_row.find(".relationChild .wp-table--relation-indicator").click
-      expect(page).to have_css(".__relations-expanded-from-#{parent.id}", count: 2)
-      related_row = page.first(".__relations-expanded-from-#{parent.id}")
-      expect(related_row).to have_css("td.wp-table--relation-cell-td", text: "Child")
+    # Expand first column
+    parent_row.find(".relationChild .wp-table--relation-indicator").click
+    expect(page).to have_css(".__relations-expanded-from-#{parent.id}", count: 2)
+    related_row = page.first(".__relations-expanded-from-#{parent.id}")
+    expect(related_row).to have_css("td.wp-table--relation-cell-td", text: "Child")
 
-      # Collapse
-      parent_row.find(".relationChild .wp-table--relation-indicator").click
-      expect(page).to have_no_css(".__relations-expanded-from-#{parent.id}")
-    end
-  end
-
-  describe "with child relation columns disallowed by the enterprise token", with_ee: false do
-    it "has no child relation columns available for selection" do
-      # Now visiting the query for category
-      wp_table.visit_query(query)
-
-      columns.expect_column_not_available "Children"
-    end
+    # Collapse
+    parent_row.find(".relationChild .wp-table--relation-indicator").click
+    expect(page).to have_no_css(".__relations-expanded-from-#{parent.id}")
   end
 end

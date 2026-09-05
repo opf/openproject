@@ -40,7 +40,18 @@ ca:
               ifc_attachment_missing: No hi ha cap fitxer IFC adjunt.
               invalid_ifc_file: El fitxer aportat no es un IFC vàlid.
     models:
-      bim/ifc_models/ifc_model: Model IFC
+      bim/bcf/comment:
+        one: BCF comment
+        other: BCF comments
+      bim/bcf/issue:
+        one: BCF issue
+        other: BCF issues
+      bim/bcf/viewpoint:
+        one: BCF viewpoint
+        other: BCF viewpoints
+      bim/ifc_models/ifc_model:
+        one: IFC model
+        other: IFC models
   attributes:
     bcf_thumbnail: Instantània de BCF
   bcf:

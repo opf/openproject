@@ -46,9 +46,15 @@ pt-BR:
             principal:
               not_a_member_of_budget_project: não é membro do projeto do orçamento
     models:
-      budget: Orçamento
-      labor_budget_item: Custo planejado de trabalho
-      material_budget_item: Unidade
+      budget:
+        one: Orçamento
+        other: Orçamentos
+      labor_budget_item:
+        one: Custo de mão de obra planejado
+        other: Custos de mão de obra planejado
+      material_budget_item:
+        one: Unidade
+        other: Unidades
   activity:
     filter:
       budget: Orçamentos
@@ -102,7 +108,6 @@ pt-BR:
   help_click_to_edit: Clique aqui para editar.
   help_currency_format: Formato exibidos de valores de moeda. %n é substituído com o valor da moeda, %u é substituído com a unidade da moeda.
   help_override_rate: Insira um valor aqui para substituir a taxa padrão.
-  label_budget: Orçamento
   label_budget_available: Orçamento disponível
   label_budget_details: Detalhes de orçamento
   label_budget_id: 'Orçamento #%{id}'

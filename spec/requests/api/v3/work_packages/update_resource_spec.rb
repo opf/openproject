@@ -564,7 +564,7 @@ RSpec.describe "API v3 Work package resource",
             include_context "patch request"
 
             context "user doesn't exist" do
-              let(:user_href) { api_v3_paths.user 909090 }
+              let(:user_href) { api_v3_paths.user(not_existing_id(User)) }
 
               it_behaves_like "constraint violation" do
                 let(:message) do

@@ -38,6 +38,15 @@ id:
           attributes:
             labels:
               invalid_schema: 'harus berupa array dari hash dengan kunci: warna, judul'
+    models:
+      gitlab_issue:
+        other: GitLab issues
+      gitlab_merge_request:
+        other: GitLab merge requests
+      gitlab_pipeline:
+        other: GitLab pipelines
+      gitlab_user:
+        other: GitLab users
   attributes:
     commit: Tetapkan
     gitlab: Tanda pengenal GitLab

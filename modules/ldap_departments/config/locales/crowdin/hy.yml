@@ -22,8 +22,12 @@ hy:
           must_contain_base_dn: Base DN-ը պետք է ներառված լինի LDAP կապի base DN-ի մեջ։
           overlaps_other_tree: Համընկնում է նույն LDAP կապի մեկ այլ համաժամացման base DN-ի հետ։
     models:
-      ldap_departments/synchronized_department: Համաժամացված ստորաբաժանում
-      ldap_departments/synchronized_tree: LDAP ստորաբաժանումների համաժամացում
+      ldap_departments/synchronized_department:
+        one: Synchronized department
+        other: Synchronized departments
+      ldap_departments/synchronized_tree:
+        one: LDAP department synchronization
+        other: LDAP department synchronizations
   ee:
     upsell:
       ldap_departments:

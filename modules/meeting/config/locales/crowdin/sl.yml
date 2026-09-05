@@ -102,16 +102,46 @@ sl:
         recurring_meeting_interim_response:
           not_an_occurrence: is not a valid occurrence time for this recurring meeting
     models:
-      meeting: One-time meeting
-      meeting_agenda: Dnevni red
-      meeting_agenda_item: Agenda item
-      meeting_section: Section
-      recurring_meeting: Recurring meeting
+      meeting:
+        one: One-time meeting
+        two: One-time meetings
+        few: One-time meetings
+        other: One-time meetings
+      meeting_agenda_item:
+        one: Agenda item
+        two: Agenda items
+        few: Agenda items
+        other: Agenda items
+      meeting_outcome:
+        one: Outcome
+        two: Outcomes
+        few: Outcomes
+        other: Outcomes
+      meeting_participant:
+        one: Meeting participant
+        two: Meeting participants
+        few: Meeting participants
+        other: Meeting participants
+      meeting_section:
+        one: Section
+        two: Sections
+        few: Sections
+        other: Sections
+      recurring_meeting:
+        one: Recurring meeting
+        two: Recurring meetings
+        few: Recurring meetings
+        other: Recurring meetings
+      scheduled_meeting:
+        one: Scheduled meeting
+        two: Scheduled meetings
+        few: Scheduled meetings
+        other: Scheduled meetings
       token/ical_meeting:
         one: iCal Meeting subscription
-        two: iCal Meeting subscription
-        few: iCal Meeting subscription
-        other: iCal Meeting subscription
+        two: iCal Meeting subscriptions
+        few: iCal Meeting subscriptions
+        other: iCal Meeting subscriptions
   activity:
     filter:
       meeting: Sestanki
@@ -261,7 +291,6 @@ sl:
   label_past_meetings: Past meetings
   label_past_meetings_short: Past
   label_recurring_filter: Recurring filter
-  label_recurring_meeting: Recurring meeting
   label_recurring_meeting_cancel: Cancel this occurrence
   label_recurring_meeting_create: Odpri
   label_recurring_meeting_delete: Delete occurrence

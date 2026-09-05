@@ -270,4 +270,66 @@ RSpec.describe Filters::FilterFormComponent, type: :component do
       end
     end
   end
+
+  describe "principal filters of a work package query" do
+    let(:query) { build_stubbed(:query, project: nil) }
+
+    current_user { create(:user) }
+
+    def autocompleter_in(filter_name)
+      page.find(:element,
+                "data-filter-name": filter_name,
+                "data-filter-autocomplete": "true",
+                visible: :all)
+          .find(:element, "opce-user-autocompleter", visible: :all)
+    end
+
+    def autocomplete_data_in(filter_name, attribute)
+      JSON.parse(autocompleter_in(filter_name)[attribute])
+    end
+
+    # `allowed_values` of these filters carries ids without labels, so an inline
+    # item list would offer nothing but the me value.
+    %w[assigned_to_id assignee_or_group author_id responsible_id].each do |filter_name|
+      it "routes #{filter_name} to a principals autocompleter rather than an inline item list" do
+        render_form
+
+        expect(autocomplete_data_in(filter_name, "data-resource")).to eq("principals")
+        expect(autocompleter_in(filter_name)["data-items"]).to be_nil
+      end
+
+      it "offers the me value on #{filter_name} without a label-less entry" do
+        render_form
+
+        expect(autocomplete_data_in(filter_name, "data-additional-options"))
+          .to contain_exactly({ "id" => "me", "name" => I18n.t(:label_me) })
+      end
+    end
+
+    context "when allowed to see watchers" do
+      let(:project) { create(:project) }
+
+      current_user do
+        create(:user, member_with_permissions: { project => [:view_work_package_watchers] })
+      end
+
+      it "routes watcher_id to a principals autocompleter as well" do
+        render_form
+
+        expect(autocomplete_data_in("watcher_id", "data-resource")).to eq("principals")
+        expect(autocomplete_data_in("watcher_id", "data-additional-options"))
+          .to contain_exactly({ "id" => "me", "name" => I18n.t(:label_me) })
+      end
+    end
+
+    it "leaves watcher_id on the inline item list without the watchers permission" do
+      render_form
+
+      expect(page).to have_element "data-filter-name": "watcher_id",
+                                   "data-filter-autocomplete": "true",
+                                   visible: :all do |wrapper|
+        expect(wrapper).to have_no_element "opce-user-autocompleter", visible: :all
+      end
+    end
+  end
 end

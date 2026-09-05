@@ -38,7 +38,14 @@ ja:
               ifc_attachment_missing: IFCファイルが添付されていません。
               invalid_ifc_file: 与えられたファイルは有効なIFCファイルではありません。
     models:
-      bim/ifc_models/ifc_model: IFCモデル
+      bim/bcf/comment:
+        other: BCF comments
+      bim/bcf/issue:
+        other: BCF issues
+      bim/bcf/viewpoint:
+        other: BCF viewpoints
+      bim/ifc_models/ifc_model:
+        other: IFC models
   attributes:
     bcf_thumbnail: BCF スナップショット
   bcf:

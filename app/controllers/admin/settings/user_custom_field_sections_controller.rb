@@ -41,7 +41,7 @@ module Admin::Settings
       )
 
       if call.success?
-        close_dialog_via_turbo_stream("##{Settings::UserCustomFieldSections::NewSectionDialogComponent::MODAL_ID}")
+        close_dialog_via_turbo_stream(Settings::UserCustomFieldSections::NewSectionDialogComponent::MODAL_ID)
         update_header_via_turbo_stream(allow_custom_field_creation: allow_custom_field_creation?)
         update_sections_via_turbo_stream(user_custom_field_sections: UserCustomFieldSection.all)
       else
@@ -57,7 +57,7 @@ module Admin::Settings
       )
 
       if call.success?
-        close_dialog_via_turbo_stream("#user-custom-field-section-dialog#{@user_custom_field_section.id}")
+        close_dialog_via_turbo_stream("user-custom-field-section-dialog#{@user_custom_field_section.id}")
         update_section_via_turbo_stream(user_custom_field_section: call.result)
       else
         update_section_dialog_body_form_via_turbo_stream(user_custom_field_section: call.result)

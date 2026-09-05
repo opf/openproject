@@ -31,5 +31,18 @@
 module Admin::Settings
   class AuthenticationSettingsController < ::Admin::SettingsController
     menu_item :authentication_settings
+
+    def settings_params
+      super.tap do |settings|
+        key = "password_login_bypass_principal_ids"
+        settings[key] = bypass_principal_ids_for(settings[key]) if settings.key?(key)
+      end
+    end
+
+    private
+
+    def bypass_principal_ids_for(ids)
+      Principal.where(id: Array(ids).compact_blank, type: %w[User Group]).pluck(:id).map(&:to_s)
+    end
   end
 end

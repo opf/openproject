@@ -26,7 +26,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { vi } from 'vitest';
 import { StreamActions } from '@hotwired/turbo';
 import { registerDispatchEventStreamAction } from './dispatch-event-stream-action';
 

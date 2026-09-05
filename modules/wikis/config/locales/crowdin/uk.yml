@@ -30,10 +30,15 @@ uk:
         many: Вставлені посилання на сторінку
         other: Вставлені посилання на сторінку
       wikis/internal_provider:
-        one: Project wiki
-        few: Project wikis
-        many: Project wikis
-        other: Project wikis
+        one: Внутрішній постачальник
+        few: Внутрішні постачальники
+        many: Внутрішні постачальники
+        other: Внутрішні постачальники
+      wikis/page_link:
+        one: Посилання на сторінку
+        few: Посилання на сторінки
+        many: Посилання на сторінки
+        other: Посилання на сторінки
       wikis/provider:
         one: Постачальник Wiki
         few: Постачальники Wiki
@@ -51,14 +56,12 @@ uk:
         other: Постачальники XWiki
   menus:
     admin:
-      external_wiki_providers: External wiki providers
-      internal_wiki_provider: Project wikis
+      external_wiki_providers: Wiki від зовнішніх постачальників
+      internal_wiki_provider: Wiki проєктів
       wikis: Вікі
+    project_settings:
+      wiki: Wiki проєкту
   permission_manage_wiki_page_links: Керувати посиланнями на сторінки Wiki
-  project_module_wiki_internal: Wiki проєкту
-  project_module_wiki_platforms: External wiki providers
-  projects_settings_wiki:
-    title: Wiki проєкту
   wikis:
     admin:
       destroy_confirmation_dialog_component:
@@ -87,11 +90,11 @@ uk:
           no_health_report_description: Запустіть перевірки, щоб отримати комплексний звіт про стан справності цього постачальника Wiki.
           title: Звіт про справність
       internal_provider_form:
-        checkbox_caption: Allow projects to use project wikis along with external wiki providers
-        checkbox_label: Enable OpenProject project wikis
+        checkbox_caption: Дозволити проєктам використовувати Wiki проєктів разом із зовнішніми джерелами Wiki
+        checkbox_label: Увімкнути Wiki проєктів OpenProject
       internal_wiki_provider:
         show:
-          description: Choose to enable or disable project wikis
+          description: Виберіть, ввімкнути чи вимкнути Wiki проєктів
       oauth_application_info_component:
         confirm_replace_oauth_application: Ця дія призведе до скидання поточних облікових даних OAuth. Коли ви підтвердите дію, вам потрібно буде повторно ввести облікові дані у своєму екземплярі XWiki. У такому разі всім користувачам знадобиться знову пройти авторизацію. Продовжити?
         label_oauth_client_id: Ідентифікатор клієнта OAuth
@@ -176,7 +179,7 @@ uk:
     index:
       column_last_edited: Останнє редагування
       column_name: Сторінка Wiki
-      column_parent: Parent
+      column_parent: Батьківський об’єкт
       column_project: Проєкт
       column_sub_pages: Підсторінки
       filter_by_name: Фільтрувати за назвою сторінки
@@ -211,7 +214,7 @@ uk:
     page_link_forms:
       labels:
         page_title: Заголовок
-        parent: Parent
+        parent: Батьківський об’єкт
         wiki_page: Сторінка вікі
       search:
         no_results: Сторінок вікі не знайдено
@@ -226,11 +229,13 @@ uk:
         parent: Як батьківський об’єкт
     project_settings:
       project_internal_wiki_component:
-        blankslate_description: For this instance, project wikis are disabled globally and therefore can’t be enabled per project. Please, ask your administrator to enable the global wikis in the administration settings.
-        blankslate_title: Project wikis are disabled globally
+        blankslate_description: Для цього екземпляра Wiki проєктів вимкнені на глобальному рівні, тому їх неможливо ввімкнути окремо для певного проєкту. Попросіть адміністратора ввімкнути Wiki в налаштуваннях.
+        blankslate_title: Wiki проєктів вимкнені на глобальному рівні
         caption: Це забезпечує нативну роботу Wiki для цього проєкту. Учасники зможуть створювати й переглядати сторінки Wiki, що зберігаються в OpenProject.
-        enable: Enable the OpenProject wiki for this project
+        enable: Увімкнути Wiki OpenProject для цього проєкту
     provider_types:
+      internal:
+        name: OpenProject
       xwiki:
         name: XWiki
     relation_page_links_component:

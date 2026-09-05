@@ -7,532 +7,541 @@ fa:
     common:
       colors:
         item_0:
-          name: Blue (dark)
+          name: آبی (تیره)
         item_1:
-          name: Blue
+          name: آبی
         item_2:
-          name: Blue (light)
+          name: آبی (روشن)
         item_3:
-          name: Green (light)
+          name: سبز (روشن)
         item_4:
-          name: Green (dark)
+          name: سبز (تیره)
         item_5:
-          name: Yellow
+          name: زرد
         item_6:
-          name: Orange
+          name: نارنجی
         item_7:
           name: قرمز
         item_8:
-          name: Magenta
+          name: ارغوانی
         item_9:
-          name: White
+          name: سفید
         item_10:
-          name: Grey (light)
+          name: خاکستری (روشن)
         item_11:
-          name: Grey
+          name: خاکستری
         item_12:
-          name: Grey (dark)
+          name: خاکستری (تیره)
         item_13:
-          name: Black
+          name: مشکی
       project_phase_colors:
         item_0:
-          name: PM2 Orange
+          name: نارنجی PM²
         item_1:
-          name: PM2 Red
+          name: قرمز PM²
         item_2:
-          name: PM2 Magenta
+          name: ارغوانی PM²
         item_3:
-          name: PM2 Green Yellow
+          name: سبز-زرد PM²
       project_query_roles:
         item_0:
-          name: Project query viewer
+          name: مشاهده‌گر پرس‌وجوی پروژه
         item_1:
-          name: Project query editor
+          name: ویرایشگر پرس‌وجوی پروژه
       work_package_roles:
         item_0:
-          name: Work package editor
+          name: ویرایشگر بستهٔ کاری
         item_1:
-          name: Work package commenter
+          name: دیدگاه‌گذار بستهٔ کاری
         item_2:
-          name: Work package viewer
+          name: مشاهده‌گر بستهٔ کاری
       project_roles:
         item_0:
-          name: Non member
+          name: غیرعضو
         item_1:
-          name: Anonymous
+          name: ناشناس
         item_2:
           name: عضو
         item_3:
           name: خواننده
         item_4:
-          name: Project admin
+          name: مدیر پروژه
       global_roles:
         item_0:
-          name: Staff and projects manager
+          name: مدیر کارکنان و پروژه‌ها
         item_1:
-          name: Standard global role
+          name: نقش سراسری استاندارد
+      ai_text_transform_actions:
+        item_0:
+          label: Fix grammar
+        item_1:
+          label: Make concise
+        item_2:
+          label: Translate to English
+        item_3:
+          label: Sort into template
     standard:
       project_phases:
         item_0:
-          name: Initiating
+          name: آغاز پروژه
         item_1:
-          name: Planning
-          start_gate: Ready for Planning
+          name: برنامه‌ریزی
+          start_gate: آماده برای برنامه‌ریزی
         item_2:
-          name: Executing
-          start_gate: Ready for Executing
+          name: اجرا
+          start_gate: آماده برای اجرا
         item_3:
-          name: Closing
-          start_gate: Ready for Closing
+          name: اختتام
+          start_gate: آماده برای اختتام
       priorities:
         item_0:
           name: کم
         item_1:
           name: عادی
         item_2:
-          name: بالا
+          name: زیاد
         item_3:
-          name: Immediate
+          name: فوری
       departments:
         item_0:
-          name: Marketing & Communications
+          name: بازاریابی و ارتباطات
         item_1:
-          name: Public Relations
+          name: روابط عمومی
         item_2:
-          name: Design & Content
+          name: طراحی و محتوا
         item_3:
-          name: Events & Operations
+          name: رویدادها و عملیات
         item_4:
-          name: Web & IT
+          name: وب و فناوری اطلاعات
         item_5:
-          name: Finance & Administration
+          name: مالی و اداری
         item_6:
-          name: Quality Assurance
+          name: تضمین کیفیت
       projects:
         demo-project:
-          name: Demo project
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo project.
+          name: پروژهٔ نمایشی
+          status_explanation: همهٔ وظایف طبق برنامه پیش می‌روند. افراد درگیر، وظایف خود را می‌دانند و سامانه به‌طور کامل راه‌اندازی شده است.
+          description: این متن خلاصه‌ای کوتاه از اهداف این پروژهٔ نمایشی است.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: به پروژهٔ نمایشی خود خوش آمدید
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: اخبار واقعی
+                خوشحالیم که به ما پیوستید.
+                در این ماژول می‌توانید اخبار پروژه را با اعضای تیم خود به اشتراک بگذارید.
+              description: متن خبر
           categories:
-            item_0: دسته‌بندی 1 (باید در تنظیمات پروژه تغییر یاید)
+            item_0: دسته‌بندی ۱ (در تنظیمات پروژه تغییر دهید)
           queries:
             item_0:
-              name: 'برنامه پروژه:'
+              name: برنامهٔ پروژه
             item_1:
               name: نقاط عطف
             item_2:
-              name: Tasks
+              name: وظایف
             item_3:
-              name: برنامه ریز تیم
+              name: برنامه‌ریز تیم
           boards:
             kanban:
-              name: Kanban board
+              name: برد کانبان
             basic:
-              name: Basic board
+              name: برد پایه
               lists:
                 item_0:
-                  name: Wish list
+                  name: فهرست خواسته‌ها
                 item_1:
-                  name: Short list
+                  name: فهرست منتخب
                 item_2:
-                  name: Priority list for today
+                  name: فهرست اولویت‌های امروز
                 item_3:
-                  name: Never
+                  name: هرگز
             parent_child:
-              name: Work breakdown structure
+              name: ساختار شکست کار
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: خوش آمدید
               item_1:
                 options:
-                  name: Getting started
+                  name: شروع کار
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    خوشحالیم که به ما پیوستید! پیشنهاد می‌کنیم برای شروع چند مورد را در اوپن‌پروجکت امتحان کنید.
 
-                    Discover the most important features with our [Guided Tour]({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true).
+                    مهم‌ترین قابلیت‌ها را با [تور راهنما]({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true) کشف کنید.
 
-                    _Try the following steps:_
+                    _مراحل زیر را امتحان کنید:_
 
-                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/demo-project/members) in the project navigation.
-                    2. *View the work in your project*: &rightarrow; Go to [Work packages]({{opSetting:base_url}}/projects/demo-project/work_packages) in the project navigation.
-                    3. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/demo-project/work_packages/new).
-                    4. *Create and update a project plan*: &rightarrow; Go to [Project plan]({{opSetting:base_url}}/projects/demo-project/work_packages?query_id=##query.id:demo_project__query__project_plan) in the project navigation.
-                    5. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/demo-project/settings/modules).
-                    6. *Complete your tasks in the project*: &rightarrow; Go to [Work packages &rightarrow; Tasks]({{opSetting:base_url}}/projects/demo-project/work_packages/details/##wp.id:set_date_and_location_of_conference/overview?query_id=##query.id:demo_project__query__tasks).
+                    1. *اعضای جدید را به پروژه دعوت کنید*: &rightarrow; در پیمایش پروژه به [اعضا]({{opSetting:base_url}}/projects/demo-project/members) بروید.
+                    2. *کارهای پروژه را مشاهده کنید*: &rightarrow; در پیمایش پروژه به [بسته‌های کاری]({{opSetting:base_url}}/projects/demo-project/work_packages) بروید.
+                    3. *یک بستهٔ کاری جدید ایجاد کنید*: &rightarrow; به [بسته‌های کاری &rightarrow; ایجاد]({{opSetting:base_url}}/projects/demo-project/work_packages/new) بروید.
+                    4. *برنامهٔ پروژه را ایجاد و به‌روزرسانی کنید*: &rightarrow; در پیمایش پروژه به [برنامهٔ پروژه]({{opSetting:base_url}}/projects/demo-project/work_packages?query_id=##query.id:demo_project__query__project_plan) بروید.
+                    5. *ماژول‌های بیشتری فعال کنید*: &rightarrow; به [تنظیمات پروژه &rightarrow; ماژول‌ها]({{opSetting:base_url}}/projects/demo-project/settings/modules) بروید.
+                    6. *وظایف پروژه را تکمیل کنید*: &rightarrow; به [بسته‌های کاری &rightarrow; وظایف]({{opSetting:base_url}}/projects/demo-project/work_packages/details/##wp.id:set_date_and_location_of_conference/overview?query_id=##query.id:demo_project__query__tasks) بروید.
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
+                    [راهنماهای کاربر](https://www.openproject.org/docs/user-guide/) را اینجا می‌توانید پیدا کنید.
+                    اگر سؤال دارید یا به پشتیبانی نیاز دارید، با ما تماس بگیرید: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: بسته های کاری
+                  name: بسته‌های کاری
               item_6:
                 options:
                   name: نقاط عطف
           work_packages:
             item_0:
-              subject: Start of project
+              subject: آغاز پروژه
             item_1:
-              subject: Organize open source conference
+              subject: برگزاری کنفرانس متن‌باز
               children:
                 item_0:
-                  subject: Set date and location of conference
+                  subject: تعیین تاریخ و محل کنفرانس
                   children:
                     item_0:
-                      subject: Send invitation to speakers
+                      subject: ارسال دعوت‌نامه برای سخنرانان
                     item_1:
-                      subject: Contact sponsoring partners
+                      subject: تماس با حامیان مالی
                     item_2:
-                      subject: Create sponsorship brochure and hand-outs
+                      subject: تهیهٔ بروشور حمایت مالی و اقلام چاپی
                 item_1:
-                  subject: Invite attendees to conference
+                  subject: دعوت شرکت‌کنندگان به کنفرانس
                 item_2:
-                  subject: Setup conference website
+                  subject: راه‌اندازی وب‌سایت کنفرانس
             item_2:
-              subject: Test and quality-check the conference website
+              subject: آزمایش و کنترل کیفیت وب‌سایت کنفرانس
             item_3:
-              subject: Conference
+              subject: کنفرانس
             item_4:
-              subject: Follow-up tasks
+              subject: وظایف پس از رویداد
               children:
                 item_0:
-                  subject: Upload presentations to website
+                  subject: بارگذاری ارائه‌ها در وب‌سایت
                 item_1:
-                  subject: Party for conference supporters :-)
+                  subject: مهمانی برای حامیان کنفرانس :-)
                   description: |-
-                    *   [ ] Beer
-                    *   [ ] Snacks
-                    *   [ ] Music
-                    *   [ ] Even more beer
+                    *   [ ] نوشیدنی
+                    *   [ ] میان‌وعده
+                    *   [ ] موسیقی
+                    *   [ ] نوشیدنی بیشتر
             item_5:
-              subject: End of project
+              subject: پایان پروژه
           wiki: |
-            _In this wiki you can collaboratively create and edit pages and sub-pages to create a project wiki._
+            _در این ویکی می‌توانید به‌صورت مشارکتی صفحه‌ها و زیرصفحه‌ها را ایجاد و ویرایش کنید و یک ویکی پروژه بسازید._
 
-            **You can:**
+            **می‌توانید:**
 
-            * Insert text and images, also with copy and paste from other documents
-            * Create a page hierarchy with parent pages
-            * Include wiki pages to the project menu
-            * Use macros to include, e.g. table of contents, work package lists, or Gantt charts
-            * Include wiki pages in other text fields, e.g. project overview page
-            * Include links to other documents
-            * View the change history
-            * View as Markdown
+            * متن و تصویر درج کنید؛ حتی با کپی و جای‌گذاری از اسناد دیگر
+            * با صفحه‌های والد، سلسله‌مراتب صفحه ایجاد کنید
+            * صفحه‌های ویکی را به منوی پروژه اضافه کنید
+            * با ماکروها مواردی مانند فهرست مطالب، فهرست بسته‌های کاری یا نمودار گانت را درج کنید
+            * صفحه‌های ویکی را در فیلدهای متنی دیگر، مانند صفحهٔ نمای کلی پروژه، قرار دهید
+            * پیوند به اسناد دیگر اضافه کنید
+            * تاریخچهٔ تغییرات را مشاهده کنید
+            * محتوا را به‌شکل Markdown مشاهده کنید
 
-            More information: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
+            اطلاعات بیشتر: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
         scrum-project:
-          name: Scrum project
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo Scrum project.
+          name: پروژهٔ اسکرام
+          status_explanation: همهٔ وظایف طبق برنامه پیش می‌روند. افراد درگیر، وظایف خود را می‌دانند و سامانه به‌طور کامل راه‌اندازی شده است.
+          description: این متن خلاصه‌ای کوتاه از اهداف این پروژهٔ نمایشی اسکرام است.
           news:
             item_0:
-              title: Welcome to your Scrum demo project
+              title: به پروژهٔ نمایشی اسکرام خود خوش آمدید
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
+                خوشحالیم که به ما پیوستید.
+                در این ماژول می‌توانید اخبار پروژه را با اعضای تیم خود به اشتراک بگذارید.
           versions:
             item_0:
-              name: Bug Backlog
+              name: بک‌لاگ خطاها
             item_1:
-              name: Product Backlog
+              name: بک‌لاگ محصول
             item_2:
-              name: Sprint 1
+              name: اسپرینت ۱
               wiki:
-                title: Sprint 1
+                title: اسپرینت ۱
                 content: |
-                  ### Sprint planning meeting
+                  ### جلسهٔ برنامه‌ریزی اسپرینت
 
-                  _Please document here topics to the Sprint planning meeting_
+                  _موضوعات جلسهٔ برنامه‌ریزی اسپرینت را اینجا مستند کنید_
 
-                  * Time boxed (8 h)
-                  * Input: Product Backlog
-                  * Output: Sprint Backlog
+                  * زمان‌بندی محدود (۸ ساعت)
+                  * ورودی: بک‌لاگ محصول
+                  * خروجی: بک‌لاگ اسپرینت
 
-                  * Divided into two additional time boxes of 4 h:
+                  * به دو بازهٔ زمانی ۴ ساعته تقسیم می‌شود:
 
-                      * The Product Owner presents the [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and the priorities to the team and explains the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team commits to the discussed delivery.
-                      * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
-
-
-                  ### Daily Scrum meeting
-
-                  _Please document here topics to the Daily Scrum meeting_
-
-                  * Short, daily status meeting of the team.
-                  * Time boxed (max. 15 min).
-                  * Stand-up meeting to discuss the following topics from the [Task board](##sprint:scrum_project__version__sprint_1).
-                      * What do I plan to do until the next Daily Scrum?
-                      * What has blocked my work (Impediments)?
-                  * Scrum Master moderates and notes down [Sprint Impediments](##sprint:scrum_project__version__sprint_1).
-                  * Product Owner may participate may participate in order to stay informed.
-
-                  ### Sprint Review meeting
-
-                  _Please document here topics to the Sprint Review meeting_
-
-                  * Time boxed (4 h).
-                  * A maximum of one hour of preparation time per person.
-                  * The team shows the product owner and other interested persons what has been achieved in this sprint.
-                  * Important: no dummies and no PowerPoint! Just finished product functionality (Increments) should be demonstrated.
-                  * Feedback from Product Owner, stakeholders and others is desired and will be included in further work.
-                  * Based on the demonstrated functionalities, the Product Owner decides to go live with this increment or to develop it further. This possibility allows an early ROI.
+                      * مالک محصول [بک‌لاگ محصول]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) و اولویت‌ها را به تیم ارائه می‌کند و هدف اسپرینت را توضیح می‌دهد؛ تیم باید با آن موافقت کند. سپس با هم موضوعات بک‌لاگ محصول را که تیم در اسپرینت بعدی انجام خواهد داد اولویت‌بندی می‌کنند. تیم نسبت به تحویل توافق‌شده متعهد می‌شود.
+                      * تیم به‌صورت مستقل (بدون مالک محصول) جزئیات را برنامه‌ریزی می‌کند و وظایف حاصل از نیازمندی‌های توافق‌شده را خرد می‌کند تا [بک‌لاگ اسپرینت]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) شکل بگیرد.
 
 
-                  ### Sprint Retrospective
+                  ### جلسهٔ اسکرام روزانه
 
-                  _Please document here topics to the Sprint Retrospective meeting_
+                  _موضوعات جلسهٔ اسکرام روزانه را اینجا مستند کنید_
 
-                  * Time boxed (3 h).
-                  * After Sprint Review, will be moderated by Scrum Master.
-                  * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+                  * جلسهٔ کوتاه روزانه برای بررسی وضعیت تیم.
+                  * زمان‌بندی محدود (حداکثر ۱۵ دقیقه).
+                  * جلسهٔ ایستاده برای بررسی موضوعات زیر از [برد وظایف](##sprint:scrum_project__version__sprint_1).
+                      * تا اسکرام روزانهٔ بعدی چه کاری انجام می‌دهم؟
+                      * چه چیزی مانع کار من شده است (موانع)؟
+                  * اسکرام مستر جلسه را هدایت کرده و [موانع اسپرینت](##sprint:scrum_project__version__sprint_1) را ثبت می‌کند.
+                  * مالک محصول می‌تواند برای در جریان ماندن در جلسه شرکت کند.
+
+                  ### جلسهٔ بازبینی اسپرینت
+
+                  _موضوعات جلسهٔ بازبینی اسپرینت را اینجا مستند کنید_
+
+                  * زمان‌بندی محدود (۴ ساعت).
+                  * حداکثر یک ساعت زمان آماده‌سازی برای هر نفر.
+                  * تیم آنچه در این اسپرینت به دست آمده است را به مالک محصول و سایر افراد ذی‌نفع نشان می‌دهد.
+                  * مهم: بدون نمونهٔ نمایشی ساختگی و بدون PowerPoint! فقط قابلیت‌های تکمیل‌شدهٔ محصول (Incrementها) باید نمایش داده شوند.
+                  * بازخورد مالک محصول، ذی‌نفعان و سایر افراد مطلوب است و در کارهای بعدی لحاظ می‌شود.
+                  * بر اساس قابلیت‌های نمایش‌داده‌شده، مالک محصول تصمیم می‌گیرد این Increment منتشر شود یا توسعهٔ بیشتری پیدا کند. این امکان دستیابی زودهنگام به بازگشت سرمایه (ROI) را فراهم می‌کند.
+
+
+                  ### بازنگری اسپرینت
+
+                  _موضوعات جلسهٔ بازنگری اسپرینت را اینجا مستند کنید_
+
+                  * زمان‌بندی محدود (۳ ساعت).
+                  * پس از بازبینی اسپرینت و با هدایت اسکرام مستر برگزار می‌شود.
+                  * تیم دربارهٔ اسپرینت گفت‌وگو می‌کند: چه چیزهایی خوب پیش رفت، چه مواردی برای بهره‌وری بیشتر در اسپرینت بعدی باید بهبود یابد و چه چیزی می‌تواند کار را لذت‌بخش‌تر کند.
             item_3:
-              name: Sprint 2
+              name: اسپرینت ۲
           categories:
-            item_0: دسته‌بندی 1 (باید در تنظیمات پروژه تغییر یاید)
+            item_0: دسته‌بندی ۱ (در تنظیمات پروژه تغییر دهید)
           queries:
             item_0:
-              name: 'برنامه پروژه:'
+              name: برنامهٔ پروژه
             item_1:
-              name: پس‌افت محصول
+              name: بک‌لاگ محصول
             item_2:
-              name: Sprint 1
+              name: اسپرینت ۱
             item_3:
-              name: Tasks
+              name: وظایف
           boards:
             kanban:
-              name: Kanban board
+              name: برد کانبان
             basic:
-              name: تابلوی وظیفه
+              name: برد وظایف
               lists:
                 item_0:
-                  name: Wish list
+                  name: فهرست خواسته‌ها
                 item_1:
-                  name: Short list
+                  name: فهرست منتخب
                 item_2:
-                  name: Priority list for today
+                  name: فهرست اولویت‌های امروز
                 item_3:
-                  name: Never
+                  name: هرگز
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: خوش آمدید
               item_1:
                 options:
-                  name: Getting started
+                  name: شروع کار
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    خوشحالیم که به ما پیوستید! پیشنهاد می‌کنیم برای شروع چند مورد را در اوپن‌پروجکت امتحان کنید.
 
-                    _Try the following steps:_
+                    _مراحل زیر را امتحان کنید:_
 
-                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
-                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
-                    3. *View your Task board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select [Task Board](##sprint:scrum_project__version__sprint_1).
-                    4. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    5. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
-                    6. *Create a Sprint wiki*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and open the sprint wiki from the right drop down menu in a sprint. You can edit the [wiki template]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) based on your needs.
-                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
+                    1. *اعضای جدید را به پروژه دعوت کنید*: &rightarrow; در پیمایش پروژه به [اعضا]({{opSetting:base_url}}/projects/your-scrum-project/members) بروید.
+                    2. *بک‌لاگ محصول و بک‌لاگ‌های اسپرینت را مشاهده کنید*: &rightarrow; در پیمایش پروژه به [بک‌لاگ‌ها]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) بروید.
+                    3. *برد وظایف را مشاهده کنید*: &rightarrow; به [بک‌لاگ‌ها]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) بروید &rightarrow; روی پیکان سمت راست اسپرینت کلیک کنید &rightarrow; [برد وظایف](##sprint:scrum_project__version__sprint_1) را انتخاب کنید.
+                    4. *یک بستهٔ کاری جدید ایجاد کنید*: &rightarrow; به [بسته‌های کاری &rightarrow; ایجاد]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new) بروید.
+                    5. *برنامهٔ پروژه را ایجاد و به‌روزرسانی کنید*: &rightarrow; در پیمایش پروژه به [برنامهٔ پروژه](##query:scrum_project__query__project_plan) بروید.
+                    6. *ویکی اسپرینت ایجاد کنید*: &rightarrow; به [بک‌لاگ‌ها]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) بروید و از منوی کشویی سمت راست یک اسپرینت، ویکی آن را باز کنید. می‌توانید [الگوی ویکی]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) را بر اساس نیاز خود ویرایش کنید.
+                    7. *ماژول‌های بیشتری فعال کنید*: &rightarrow; به [تنظیمات پروژه &rightarrow; ماژول‌ها]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules) بروید.
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
+                    [راهنماهای کاربر](https://www.openproject.org/docs/user-guide/) را اینجا می‌توانید پیدا کنید.
+                    اگر سؤال دارید یا به پشتیبانی نیاز دارید، با ما تماس بگیرید: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
-                  name: بسته های کاری
+                  name: بسته‌های کاری
               item_6:
                 options:
-                  name: 'برنامه پروژه:'
+                  name: برنامهٔ پروژه
           work_packages:
             item_0:
-              subject: New login screen
+              subject: صفحهٔ ورود جدید
             item_1:
-              subject: Password reset does not send email
+              subject: بازنشانی گذرواژه ایمیل ارسال نمی‌کند
             item_2:
-              subject: New website
+              subject: وب‌سایت جدید
               children:
                 item_0:
-                  subject: Newsletter registration form
+                  subject: فرم ثبت‌نام خبرنامه
                 item_1:
-                  subject: Implement product tour
+                  subject: پیاده‌سازی تور محصول
                 item_2:
-                  subject: New landing page
+                  subject: صفحهٔ فرود جدید
                   children:
                     item_0:
-                      subject: Create wireframes for new landing page
+                      subject: ایجاد وایرفریم برای صفحهٔ فرود جدید
             item_3:
-              subject: Contact form
+              subject: فرم تماس
             item_4:
-              subject: Feature carousel
+              subject: اسلایدر قابلیت‌ها
               children:
                 item_0:
-                  subject: Make screenshots for feature tour
+                  subject: تهیهٔ اسکرین‌شات برای تور قابلیت‌ها
             item_5:
-              subject: Wrong hover color
+              subject: رنگ نادرست هنگام قرارگرفتن نشانگر
             item_6:
-              subject: SSL certificate
+              subject: گواهی SSL
             item_7:
-              subject: Set-up Staging environment
+              subject: راه‌اندازی محیط Staging
             item_8:
-              subject: Choose a content management system
+              subject: انتخاب سامانهٔ مدیریت محتوا
             item_9:
-              subject: Website navigation structure
+              subject: ساختار پیمایش وب‌سایت
               children:
                 item_0:
-                  subject: Set up navigation concept for website.
+                  subject: طراحی ساختار پیمایش وب‌سایت
             item_10:
-              subject: Internal link structure
+              subject: ساختار پیوندهای داخلی
             item_11:
-              subject: Develop v1.0
+              subject: توسعهٔ نسخهٔ 1.0
             item_12:
-              subject: Release v1.0
+              subject: انتشار نسخهٔ 1.0
             item_13:
-              subject: Develop v1.1
+              subject: توسعهٔ نسخهٔ 1.1
             item_14:
-              subject: Release v1.1
+              subject: انتشار نسخهٔ 1.1
             item_15:
-              subject: Develop v2.0
+              subject: توسعهٔ نسخهٔ 2.0
             item_16:
-              subject: Release v2.0
+              subject: انتشار نسخهٔ 2.0
           wiki: |
-            ### Sprint planning meeting
+            ### جلسهٔ برنامه‌ریزی اسپرینت
 
-            _Please document here topics to the Sprint planning meeting_
+            _موضوعات جلسهٔ برنامه‌ریزی اسپرینت را اینجا مستند کنید_
 
-            * Time boxed (8 h)
-            * Input: Product Backlog
-            * Output: Sprint Backlog
+            * زمان‌بندی محدود (۸ ساعت)
+            * ورودی: بک‌لاگ محصول
+            * خروجی: بک‌لاگ اسپرینت
 
-            * Divided into two additional time boxes of 4 h:
+            * به دو بازهٔ زمانی ۴ ساعته تقسیم می‌شود:
 
-                * The Product Owner presents the [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and the priorities to the team and explains the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team commits to the discussed delivery.
-                * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
-
-
-            ### Daily Scrum meeting
-
-            _Please document here topics to the Daily Scrum meeting_
-
-            * Short, daily status meeting of the team.
-            * Time boxed (max. 15 min).
-            * Stand-up meeting to discuss the following topics from the Task board.
-                * What do I plan to do until the next Daily Scrum?
-                * What has blocked my work (Impediments)?
-            * Scrum Master moderates and notes down Sprint Impediments.
-            * Product Owner may participate may participate in order to stay informed.
-
-            ### Sprint Review meeting
-
-            _Please document here topics to the Sprint Review meeting_
-
-            * Time boxed (4 h).
-            * A maximum of one hour of preparation time per person.
-            * The team shows the product owner and other interested persons what has been achieved in this sprint.
-            * Important: no dummies and no PowerPoint! Just finished product functionality (Increments) should be demonstrated.
-            * Feedback from Product Owner, stakeholders and others is desired and will be included in further work.
-            * Based on the demonstrated functionalities, the Product Owner decides to go live with this increment or to develop it further. This possibility allows an early ROI.
+                * مالک محصول [بک‌لاگ محصول]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) و اولویت‌ها را به تیم ارائه می‌کند و هدف اسپرینت را توضیح می‌دهد؛ تیم باید با آن موافقت کند. سپس با هم موضوعات بک‌لاگ محصول را که تیم در اسپرینت بعدی انجام خواهد داد اولویت‌بندی می‌کنند. تیم نسبت به تحویل توافق‌شده متعهد می‌شود.
+                * تیم به‌صورت مستقل (بدون مالک محصول) جزئیات را برنامه‌ریزی می‌کند و وظایف حاصل از نیازمندی‌های توافق‌شده را خرد می‌کند تا [بک‌لاگ اسپرینت]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) شکل بگیرد.
 
 
-            ### Sprint Retrospective
+            ### جلسهٔ اسکرام روزانه
 
-            _Please document here topics to the Sprint Retrospective meeting_
+            _موضوعات جلسهٔ اسکرام روزانه را اینجا مستند کنید_
 
-            * Time boxed (3 h).
-            * After Sprint Review, will be moderated by Scrum Master.
-            * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+            * جلسهٔ کوتاه روزانه برای بررسی وضعیت تیم.
+            * زمان‌بندی محدود (حداکثر ۱۵ دقیقه).
+            * جلسهٔ ایستاده برای بررسی موضوعات زیر از برد وظایف.
+                * تا اسکرام روزانهٔ بعدی چه کاری انجام می‌دهم؟
+                * چه چیزی مانع کار من شده است (موانع)؟
+            * اسکرام مستر جلسه را هدایت کرده و موانع اسپرینت را ثبت می‌کند.
+            * مالک محصول می‌تواند برای در جریان ماندن در جلسه شرکت کند.
+
+            ### جلسهٔ بازبینی اسپرینت
+
+            _موضوعات جلسهٔ بازبینی اسپرینت را اینجا مستند کنید_
+
+            * زمان‌بندی محدود (۴ ساعت).
+            * حداکثر یک ساعت زمان آماده‌سازی برای هر نفر.
+            * تیم آنچه در این اسپرینت به دست آمده است را به مالک محصول و سایر افراد ذی‌نفع نشان می‌دهد.
+            * مهم: بدون نمونهٔ نمایشی ساختگی و بدون PowerPoint! فقط قابلیت‌های تکمیل‌شدهٔ محصول (Incrementها) باید نمایش داده شوند.
+            * بازخورد مالک محصول، ذی‌نفعان و سایر افراد مطلوب است و در کارهای بعدی لحاظ می‌شود.
+            * بر اساس قابلیت‌های نمایش‌داده‌شده، مالک محصول تصمیم می‌گیرد این Increment منتشر شود یا توسعهٔ بیشتری پیدا کند. این امکان دستیابی زودهنگام به بازگشت سرمایه (ROI) را فراهم می‌کند.
+
+
+            ### بازنگری اسپرینت
+
+            _موضوعات جلسهٔ بازنگری اسپرینت را اینجا مستند کنید_
+
+            * زمان‌بندی محدود (۳ ساعت).
+            * پس از بازبینی اسپرینت و با هدایت اسکرام مستر برگزار می‌شود.
+            * تیم دربارهٔ اسپرینت گفت‌وگو می‌کند: چه چیزهایی خوب پیش رفت، چه مواردی برای بهره‌وری بیشتر در اسپرینت بعدی باید بهبود یابد و چه چیزی می‌تواند کار را لذت‌بخش‌تر کند.
       statuses:
         item_0:
           name: جدید
         item_1:
-          name: In specification
+          name: در حال تدوین مشخصات
         item_2:
-          name: Specified
+          name: مشخصات تدوین‌شده
         item_3:
-          name: Confirmed
+          name: تأییدشده
         item_4:
-          name: To be scheduled
+          name: در انتظار زمان‌بندی
         item_5:
-          name: Scheduled
+          name: زمان‌بندی‌شده
         item_6:
           name: در حال انجام
         item_7:
-          name: Developed
+          name: توسعه‌یافته
         item_8:
-          name: In testing
+          name: در حال آزمون
         item_9:
-          name: Tested
+          name: آزمون‌شده
         item_10:
-          name: Test failed
+          name: آزمون ناموفق
         item_11:
           name: بسته
         item_12:
-          name: On hold
+          name: در حالت تعلیق
         item_13:
-          name: رد شده
+          name: ردشده
       time_entry_activities:
         item_0:
           name: مدیریت
         item_1:
-          name: ویژگی
+          name: تدوین مشخصات
         item_2:
-          name: Development
+          name: توسعه
         item_3:
           name: آزمون
         item_4:
           name: پشتیبانی
         item_5:
-          name: غیره
+          name: سایر
       types:
         item_0:
           name: وظیفه
         item_1:
           name: نقطه عطف
         item_2:
-          name: Summary task
+          name: وظیفهٔ خلاصه
         item_3:
-          name: Feature
+          name: قابلیت
         item_4:
-          name: Epic
+          name: اپیک
         item_5:
-          name: User story
+          name: داستان کاربر
         item_6:
-          name: Bug
+          name: خطا
       global_queries:
         item_0:
-          name: 'Epic children: User stories and bugs'
+          name: 'زیرمجموعه‌های اپیک: داستان‌های کاربر و خطاها'
         item_1:
-          name: 'User story children: Tasks'
+          name: 'زیرمجموعه‌های داستان کاربر: وظایف'
       type_configuration:
         item_0:
           form_configuration:
             item_0:
-              group_name: User stories and bugs
+              group_name: داستان‌های کاربر و خطاها
         item_1:
           form_configuration:
             item_0:
-              group_name: Tasks
+              group_name: وظایف
       welcome:
-        title: خوش آمدید به اوپن‌پروژه!
+        title: به OpenProject خوش آمدید!
         text: |
-          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
+          OpenProject یکی از نرم‌افزارهای پیشرو متن‌باز برای مدیریت پروژه است. مدیریت پروژهٔ کلاسیک، Agile و Hybrid را پشتیبانی می‌کند و کنترل کامل داده‌ها را در اختیار شما می‌گذارد.
 
-          Core features and use cases:
+          قابلیت‌ها و کاربردهای اصلی:
 
-          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
-          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
-          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
-          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
-          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
+          * [مدیریت سبد پروژه](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [برنامه‌ریزی و زمان‌بندی پروژه](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [مدیریت وظایف و پیگیری Issue](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [بردهای Agile (Scrum و Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [مدیریت نیازمندی‌ها و برنامه‌ریزی انتشار](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [ثبت زمان و هزینه، بودجه‌ها](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [همکاری تیمی و مستندسازی](https://www.openproject.org/collaboration-software-features/team-collaboration/)
 
-          Welcome to the future of project management.
+          به آیندهٔ مدیریت پروژه خوش آمدید.
 
-          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
+          برای مدیران: می‌توانید این متن خوش‌آمدگویی را [اینجا]({{opSetting:base_url}}/admin/settings/general) تغییر دهید.

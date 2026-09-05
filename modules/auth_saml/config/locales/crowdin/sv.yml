@@ -3,6 +3,7 @@ sv:
   activerecord:
     attributes:
       saml/provider:
+        allowed_clock_drift: Allowed clock drift
         assertion_consumer_service_url: URL för ACS (Assertion consumer service)
         authn_requests_signed: Signera SAML AuthnRequests
         certificate: Certifikat som används av OpenProject för SAML-förfrågningar
@@ -32,6 +33,10 @@ sv:
           invalid_certificate: 'är inte ett giltigt PEM-formaterat certifikat: %{additional_message}'
           invalid_private_key: 'inte är en giltig PEM-formaterad privat nyckel: %{additional_message}'
           unmatched_private_key: inte tillhör det angivna certifikatet
+    models:
+      saml/provider:
+        one: SAML provider
+        other: SAML providers
   saml:
     delete_heading: Delete this SAML provider?
     delete_title: Ta bort SAML-leverantör
@@ -41,6 +46,9 @@ sv:
         '
       title: Konfigurationsparametrar för SAML-protokoll
     instructions:
+      allowed_clock_drift: 'Tolerance in seconds applied when validating the timestamps of the identity provider response. Fractions of a second are accepted. Use this only if the clocks of OpenProject and the identity provider are known to be out of sync, and keep the value as low as possible (Default: 0).
+
+        '
       authn_requests_signed: 'Om markerad, kommer OpenProject signera SAML AuthnRequest. Du måste ange ett signeringscertifikat och privat nyckel med fälten nedan.
 
         '

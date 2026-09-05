@@ -100,11 +100,27 @@ sv:
         recurring_meeting_interim_response:
           not_an_occurrence: is not a valid occurrence time for this recurring meeting
     models:
-      meeting: Engångsmöte
-      meeting_agenda: Agenda
-      meeting_agenda_item: Punkt på dagordningen
-      meeting_section: Sektion
-      recurring_meeting: Återkommande möte
+      meeting:
+        one: One-time meeting
+        other: One-time meetings
+      meeting_agenda_item:
+        one: Agenda item
+        other: Agenda items
+      meeting_outcome:
+        one: Outcome
+        other: Outcomes
+      meeting_participant:
+        one: Meeting participant
+        other: Meeting participants
+      meeting_section:
+        one: Section
+        other: Sections
+      recurring_meeting:
+        one: Recurring meeting
+        other: Recurring meetings
+      scheduled_meeting:
+        one: Scheduled meeting
+        other: Scheduled meetings
       token/ical_meeting:
         one: iCal-mötesprenumeration
         other: iCal-mötesprenumeration
@@ -255,7 +271,6 @@ sv:
   label_past_meetings: Tidigare möten
   label_past_meetings_short: Tidigare
   label_recurring_filter: Recurring filter
-  label_recurring_meeting: Återkommande möte
   label_recurring_meeting_cancel: Avbryt förekomsten
   label_recurring_meeting_create: Öppna
   label_recurring_meeting_delete: Ta bort förekomst

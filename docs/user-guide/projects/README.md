@@ -23,7 +23,7 @@ Your projects can be available publicly or internally. OpenProject does not limi
 | [Set a project to public](./project-settings/project-information/#make-a-project-public) | Make a project accessible to (at least) all users within your instance. |
 | [Create a project template](./project-templates/#create-a-project-template) | Configure a project and set it as a template to copy it for future projects. |
 | [Use a project template](./project-templates/#use-a-project-template) | Create a new project based on an existing template project.  |
-| [Copy a project](./project-settings/project-information/#copy-a-project) | Copy an existing project.                                    |
+| [Duplicate a project](./project-settings/project-information/#duplicate-a-project) | Duplicate an existing project.                       |
 | [Archive a project](./project-settings/project-information/#archive-a-project) | Find out how to archive completed projects.                  |
 | [Delete a project](./project-settings/project-information/#delete-a-project) | How to delete a project.                                     |
 

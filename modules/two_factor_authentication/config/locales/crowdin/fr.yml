@@ -20,10 +20,21 @@ fr:
             phone_number:
               error_phone_number_format: doit être de format +XX XXXXXXXXX
     models:
-      two_factor_authentication/device: Appareil de 2FA
-      two_factor_authentication/device/sms: Téléphone mobile
-      two_factor_authentication/device/totp: Application d'authentification
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        one: Code de secours
+        other: Codes de secours
+      two_factor_authentication/device:
+        one: Appareil 2FA
+        other: Appareils 2FA
+      two_factor_authentication/device/sms:
+        one: Téléphone mobile
+        other: Téléphones mobiles
+      two_factor_authentication/device/totp:
+        one: Application d'authentification
+        other: Applications d'authentification
+      two_factor_authentication/device/webauthn:
+        one: WebAuthn
+        other: WebAuthn
   button_continue: Continuer
   button_make_active: Activer
   button_make_default: Marquer par défaut
@@ -40,7 +51,7 @@ fr:
   notice_developer_strategy_otp: 'La stratégie de développement à généré le mot de passe à usage unique suivant : %{token} (Channel: %{channel})'
   notice_phone_number_format: 'Veuillez entrer le nombre dans le format suivant : +XX XXXXXXXX.'
   plugin_openproject_two_factor_authentication:
-    description: Ce plugin OpenProject permet une authentification à deux facteurs via un mot de passe à usage unique envoyé via le standard TOTP (Google Authenticator) ou envoyé sur le téléphone portable de l'utilisateur par SMS ou appel vocal.
+    description: Ce plugin OpenProject authentifie les utilisateurs à l'aide de l'authentification à deux facteurs, au moyen d'un mot de passe à usage unique généré selon la norme TOTP (Google Authenticator) ou envoyé sur le téléphone portable de l'utilisateur par SMS ou appel vocal.
     name: Authentification à deux facteurs OpenProject
   text_otp_not_receive: Autres méthodes de vérification
   text_send_otp_again: 'Réenvoyer le mot de passe à usage unique par :'
@@ -122,7 +133,7 @@ fr:
         title: WebAuthn
     error_2fa_disabled: La sortie 2FA a été désactivée.
     error_invalid_backup_code: Code de sauvegarde 2FA non valide
-    error_is_enforced_not_active: 'Erreur de configuration : l''authentification à deux facteurs est forcée, mais aucune stratégie active n''existe.'
+    error_is_enforced_not_active: 'Erreur de configuration : l''authentification à deux facteurs est forcée, mais aucune stratégie active n''existe.'
     error_no_device: Aucun appareil 2FA enregistré trouvé pour cet utilisateur, bien qu'étant requis pour cette instance.
     error_no_matching_strategy: Aucune stratégie 2FA correspondante disponible pour cet utilisateur. Veuillez contacter votre administrateur.
     forced_registration:

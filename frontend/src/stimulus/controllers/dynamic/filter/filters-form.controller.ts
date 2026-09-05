@@ -27,12 +27,13 @@
 //++
 
 import { Controller } from '@hotwired/stimulus';
-import { renderStreamMessage } from '@hotwired/turbo';
+import { renderStreamMessage, visit } from '@hotwired/turbo';
 import { debounce } from 'lodash-es';
 import {
   hideElement,
   showElement,
 } from 'core-app/shared/helpers/dom-helpers';
+import { escapeFilterValue } from 'core-stimulus/helpers/filter-helpers';
 import { PrimerMultiInputElement } from '@primer/view-components/app/lib/primer/forms/primer_multi_input';
 
 interface PrimerTextFieldElement extends HTMLElement {
@@ -63,9 +64,12 @@ export default class FiltersFormController extends Controller {
     'dateRange',
     'simpleValue',
     'filtersInput',
+    'filterCount',
   ];
 
   declare readonly filterFormToggleTarget:HTMLButtonElement;
+  // The filter button has 2 counters, one is displayed and the other is for screen readers.
+  declare readonly filterCountTargets:HTMLElement[];
   declare readonly filterFormTarget:HTMLFormElement;
   declare readonly simpleFilterTargets:HTMLElement[];
   declare readonly filterTargets:HTMLElement[];
@@ -84,7 +88,8 @@ export default class FiltersFormController extends Controller {
   static values = {
     displayFilters: { type: Boolean, default: false },
     outputFormat: { type: String, default: 'params' },
-    performTurboRequests: { type: Boolean, default: false },
+    turboStreamRequest: { type: Boolean, default: false },
+    turboFrameRequest: String,
     clearButtonId: String,
     urlPathName: String,
     currentFilters: Array,
@@ -92,7 +97,9 @@ export default class FiltersFormController extends Controller {
 
   declare displayFiltersValue:boolean;
   declare outputFormatValue:string;
-  declare performTurboRequestsValue:boolean;
+  declare turboStreamRequestValue:boolean;
+  declare readonly turboFrameRequestValue:string;
+  declare readonly hasTurboFrameRequestValue:boolean;
   declare readonly clearButtonIdValue:string;
   declare urlPathNameValue:string;
   declare currentFiltersValue:SerializedFilter[];
@@ -110,7 +117,8 @@ export default class FiltersFormController extends Controller {
 
   initialize() {
     // Initialize runs anytime an element with a controller connected to the DOM for the first time
-    this.boundListener = debounce(this.sendForm.bind(this), 300);
+    this.boundListener = debounce(this.sendFormLive.bind(this), 300);
+
     this.boundClearListener = (event:MouseEvent) => this.clearInputWithButton(event);
   }
 
@@ -256,7 +264,7 @@ export default class FiltersFormController extends Controller {
   }
 
   private get liveUpdatesEnabled():boolean {
-    return this.performTurboRequestsValue || this.hasFiltersInputTarget;
+    return this.turboStreamRequestValue || this.hasTurboFrameRequestValue || this.hasFiltersInputTarget;
   }
 
   private addChangeListener(target:HTMLElement) {
@@ -294,9 +302,7 @@ export default class FiltersFormController extends Controller {
 
     this.focusFilterValueIfPossible(selectedFilter);
 
-    if (this.liveUpdatesEnabled) {
-      this.sendForm();
-    }
+    this.sendFormLive();
   }
 
   // Takes an Element and tries to find the next input or select child element. This should be the filter value.
@@ -336,9 +342,7 @@ export default class FiltersFormController extends Controller {
     const removedFilterOption = selectOptions.find((option) => option.value === filterName);
     removedFilterOption?.removeAttribute('disabled');
 
-    if (this.liveUpdatesEnabled) {
-      this.sendForm();
-    }
+    this.sendFormLive();
   }
 
   clearInputWithButton(event:MouseEvent) {
@@ -354,6 +358,14 @@ export default class FiltersFormController extends Controller {
       cancelable: true,
     });
     inputElement.dispatchEvent(inputEvent);
+  }
+
+  private updateFilterCounter() {
+    const filterCount = this.parseFilters().length;
+    this.filterCountTargets.forEach((counter) => {
+      counter.textContent = `${filterCount}`;
+      counter.hidden = filterCount === 0;
+    });
   }
 
   private readonly daysOperators = ['>t-', '<t-', 't-', '<t+', '>t+', 't+'];
@@ -390,12 +402,6 @@ export default class FiltersFormController extends Controller {
     }
   }
 
-  autocompleteSendForm() {
-    if (this.liveUpdatesEnabled) {
-      this.sendForm();
-    }
-  }
-
   serializedFiltersWith(additions:InternalFilterValue[] = [], { except }:{ except?:string } = {}):string {
     const filters = this.currentFilters().filter((filter) => filter.name !== except);
     return this.buildFiltersParam([...filters, ...additions]);
@@ -423,6 +429,21 @@ export default class FiltersFormController extends Controller {
     return [...unownedFilters, ...this.parseFilters()];
   }
 
+  // Public entrypoint for the autocomplete/list filter hidden fields
+  autocompleteSendForm() {
+    this.sendFormLive();
+  }
+
+  // Only for change/input listeners that stay bound regardless of whether live updates are
+  // enabled (e.g. the "add filter"/"remove filter" buttons). The plain form submit action
+  // must always call sendForm() directly.
+  private sendFormLive() {
+    if (this.liveUpdatesEnabled) {
+      this.updateFilterCounter();
+      this.sendForm();
+    }
+  }
+
   sendForm() {
     // When we want the filter content to be written to a hidden input, do this.
     // When we do not also want the turbo requests, we can exit early here. Otherwise the automatic redirect
@@ -430,7 +451,7 @@ export default class FiltersFormController extends Controller {
     if (this.hasFiltersInputTarget) {
       this.writeFiltersToHiddenInput();
 
-      if (!this.performTurboRequestsValue) {
+      if (!this.turboStreamRequestValue) {
         return;
       }
     }
@@ -446,20 +467,29 @@ export default class FiltersFormController extends Controller {
 
     // Remove the page parameter when changing filters, so that pagination resets
     params.delete('page');
+
     if (newFilters) {
       params.set('filters', newFilters);
     } else {
       params.delete('filters');
     }
-    const loadingIndicator = document.querySelector<HTMLElement>('#global-loading-indicator')!;
-    showElement(loadingIndicator);
 
     const pathName = this.urlPathNameValue || window.location.pathname;
     const search = params.toString();
     const url = `${pathName}${search ? `?${search}` : ''}`;
     const browserUrl = `${window.location.pathname}${search ? `?${search}` : ''}${window.location.hash}`;
 
-    if (this.performTurboRequestsValue) {
+    if (this.hasTurboFrameRequestValue) {
+      // Turbo Drive shows its own progress bar for visits, so there is no need to
+      // toggle the global loading indicator here as the other branches below do.
+      visit(url, { frame: this.turboFrameRequestValue, action: 'advance' });
+      return;
+    }
+
+    const loadingIndicator = document.querySelector<HTMLElement>('#global-loading-indicator')!;
+    showElement(loadingIndicator);
+
+    if (this.turboStreamRequestValue) {
       const previousFilters = this.sentFilters;
       this.sentFilters = newFilters;
 
@@ -543,7 +573,7 @@ export default class FiltersFormController extends Controller {
   }
 
   private buildFilterString(filter:InternalFilterValue) {
-    const valuesString = filter.value.length > 1 ? `[${filter.value.map((v) => `"${this.replaceDoubleQuotes(v)}"`).join(',')}]` : `"${this.replaceDoubleQuotes(filter.value[0])}"`;
+    const valuesString = filter.value.length > 1 ? `[${filter.value.map((v) => `"${escapeFilterValue(v)}"`).join(',')}]` : `"${escapeFilterValue(filter.value[0])}"`;
 
     return `${filter.name} ${filter.operator} ${valuesString}`;
   }
@@ -557,10 +587,6 @@ export default class FiltersFormController extends Controller {
       return JSON.stringify(filters.map((filter) => this.buildFilterJSON(filter)));
     }
     return filters.map((filter) => this.buildFilterString(filter)).join('&');
-  }
-
-  private replaceDoubleQuotes(value:string) {
-    return value && value.length > 0 ? value.replace(/"/g, '\\"') : '';
   }
 
   private readonly dateFilterTypes = ['datetime_past', 'date'];

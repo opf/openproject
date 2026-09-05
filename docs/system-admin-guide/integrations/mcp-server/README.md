@@ -9,9 +9,7 @@ keywords: ai llm mcp
 
 [feature: mcp_server ]
 
-OpenProject allows AI agents and similar tools to integrate through an API called **Model Context Protocol** (MCP).
-This allows these agents to access information from your OpenProject instance into their responses. Right now OpenProject only offers
-read-only tools, tools to manipulate data might be added in the future.
+OpenProject allows AI agents and similar tools to integrate through an API called **Model Context Protocol** (MCP). This allows agents to access information from your OpenProject instance and perform actions.
 
 ## Configuration
 

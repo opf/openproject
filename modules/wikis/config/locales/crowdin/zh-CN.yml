@@ -27,7 +27,9 @@ zh-CN:
       wikis/inline_page_link:
         other: 内联页面链接
       wikis/internal_provider:
-        other: Project wikis
+        other: 内部提供商
+      wikis/page_link:
+        other: 页面链接
       wikis/provider:
         other: |-
           One
@@ -44,14 +46,12 @@ zh-CN:
           XWiki 提供商
   menus:
     admin:
-      external_wiki_providers: External wiki providers
-      internal_wiki_provider: Project wikis
+      external_wiki_providers: 外部 Wiki 提供商
+      internal_wiki_provider: 项目 Wiki
       wikis: Wiki
+    project_settings:
+      wiki: 项目 Wiki
   permission_manage_wiki_page_links: 管理 Wiki 页面链接
-  project_module_wiki_internal: 项目 Wiki
-  project_module_wiki_platforms: External wiki providers
-  projects_settings_wiki:
-    title: 项目 Wiki
   wikis:
     admin:
       destroy_confirmation_dialog_component:
@@ -80,11 +80,11 @@ zh-CN:
           no_health_report_description: 立即运行检查，以获取此 wiki 提供商的完整健康状态报告。
           title: 健康报告
       internal_provider_form:
-        checkbox_caption: Allow projects to use project wikis along with external wiki providers
-        checkbox_label: Enable OpenProject project wikis
+        checkbox_caption: 允许项目使用项目 Wiki 和外部 Wiki 提供商
+        checkbox_label: 启用 OpenProject 项目 Wiki
       internal_wiki_provider:
         show:
-          description: Choose to enable or disable project wikis
+          description: 选择启用或禁用项目 Wiki
       oauth_application_info_component:
         confirm_replace_oauth_application: 此操作将重置当前的 OAuth 凭据。确认后，您必须在 XWiki 实例中重新输入凭据，所有用户都必须重新授权。确定要继续吗？
         label_oauth_client_id: OAuth 客户端 ID
@@ -169,7 +169,7 @@ zh-CN:
     index:
       column_last_edited: 上次编辑
       column_name: Wiki 页面
-      column_parent: Parent
+      column_parent: 父项
       column_project: 项目
       column_sub_pages: 子页面
       filter_by_name: 按页面名称筛选
@@ -201,7 +201,7 @@ zh-CN:
     page_link_forms:
       labels:
         page_title: 标题
-        parent: Parent
+        parent: 父项
         wiki_page: Wiki 页面
       search:
         no_results: 找不到 Wiki 页面
@@ -216,11 +216,13 @@ zh-CN:
         parent: 作为父项
     project_settings:
       project_internal_wiki_component:
-        blankslate_description: For this instance, project wikis are disabled globally and therefore can’t be enabled per project. Please, ask your administrator to enable the global wikis in the administration settings.
-        blankslate_title: Project wikis are disabled globally
+        blankslate_description: 目前，项目 Wiki 已全局禁用，因此无法按项目启用。请联系管理员，以在管理设置中启用全局 Wiki。
+        blankslate_title: 项目 Wiki 已全局禁用
         caption: 这会为此项目启用原生 Wiki 功能。成员将能够创建和阅读存储在 OpenProject 中的 Wiki 页面。
-        enable: Enable the OpenProject wiki for this project
+        enable: 为此项目启用 OpenProject Wiki
     provider_types:
+      internal:
+        name: OpenProject
       xwiki:
         name: XWiki
     relation_page_links_component:

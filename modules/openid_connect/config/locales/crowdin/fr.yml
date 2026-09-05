@@ -7,7 +7,7 @@ fr:
       openid_connect/provider:
         acr_values: Valeurs ACR
         authorization_endpoint: Point de terminaison d'autorisation
-        claims: Réclamations
+        claims: Revendications
         client_id: ID du client
         client_secret: Clé secrète du client
         display_name: Nom d'affichage
@@ -17,13 +17,13 @@ fr:
         groups_claim: Revendication des groupes
         icon: Icône personnalisée
         issuer: Émetteur
-        jwks_uri: URL JWKS
-        limit_self_registration: Limiter l'inscription automatique
+        jwks_uri: URI JWKS
+        limit_self_registration: Limiter l'auto-inscription
         metadata_url: URL de métadonnées
         name: Nom
         post_logout_redirect_uri: URL de redirection après déconnexion
         redirect_url: URL de redirection
-        scope: Périmètre
+        scope: Portée
         secret: Secret
         slug: Identifiant unique
         sync_groups: Synchroniser les groupes
@@ -39,15 +39,22 @@ fr:
               response_is_not_json: " ne renvoie pas de corps JSON."
               response_is_not_successful: " répond par %{status}."
               response_misses_required_attributes: " ne renvoie pas les attributs requis. Les attributs manquants sont : %{missing_attributes}."
-          invalid_claims_essential: ne définit pas de booléen à l'adresse %{attribute}.
-          invalid_claims_location: 'contiennent des emplacements non pris en charge : %{invalid}. Les emplacements pris en charge sont les suivants : %{supported}.'
-          invalid_claims_values: ne définit pas de tableau à l'adresse %{attribute}.
-          non_object_attribute: ne définit pas d'objet JSON à l'adresse %{attribute}.
+          invalid_claims_essential: ne définit pas de booléen pour %{attribute}.
+          invalid_claims_location: 'contiennent des emplacements non pris en charge : %{invalid}. Les emplacements pris en charge sont les suivants : %{supported}.'
+          invalid_claims_values: ne définit pas de tableau pour %{attribute}.
+          non_object_attribute: ne définit pas d'objet JSON pour %{attribute}.
+    models:
+      openid_connect/provider:
+        one: Fournisseur OpenID Connect
+        other: Fournisseurs OpenID Connect
+      openid_connect/user_token:
+        one: Jeton OpenID Connect
+        other: Jetons OpenID Connect
   logout_warning: 'Vous avez été déconnecté. Le contenu de tout formulaire que vous soumettez peut être perdu. Veuillez [vous connecter].
 
     '
   openid_connect:
-    delete_heading: Supprimer ce fournisseur OpenID Connect ?
+    delete_heading: Supprimer ce fournisseur OpenID Connect ?
     delete_title: Supprimer le fournisseur OpenID Connect
     group_links_heading: Liens du groupe OpenID Connect
     groups:
@@ -162,4 +169,4 @@ fr:
         zero: Aucun utilisateur n'utilise actuellement ce fournisseur. Aucune action supplémentaire n'est requise.
       input_delete_confirmation_html: Saisissez le nom du fournisseur %{name} pour confirmer la suppression.
       irreversible_notice: La suppression d'un fournisseur SSO est une action irréversible.
-      provider_html: 'Voulez-vous vraiment supprimer le fournisseur SSO %{name} ? Sachez que cela aura pour effet de :'
+      provider_html: 'Voulez-vous vraiment supprimer le fournisseur SSO %{name} ? Sachez que cela aura pour effet de :'

@@ -38,7 +38,14 @@ vi:
               ifc_attachment_missing: Không có tập tin ifc đính kèm.
               invalid_ifc_file: Tệp được cung cấp không phải là tệp IFC hợp lệ.
     models:
-      bim/ifc_models/ifc_model: Mô hình IFC
+      bim/bcf/comment:
+        other: BCF comments
+      bim/bcf/issue:
+        other: BCF issues
+      bim/bcf/viewpoint:
+        other: BCF viewpoints
+      bim/ifc_models/ifc_model:
+        other: IFC models
   attributes:
     bcf_thumbnail: Hình ảnh xem trước của BCF
   bcf:

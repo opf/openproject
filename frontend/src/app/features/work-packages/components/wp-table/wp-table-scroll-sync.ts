@@ -99,13 +99,11 @@ export function createScrollSync(element:HTMLElement) {
         syncWheelEvent(ev, elTable, elTimeline);
       });
       target(elTable).on(`scroll${scrollSyncEventNamespace}`, (ev:Event) => {
-        syncedLeft = true;
-        if (!syncedRight) {
-          elTimeline.scrollTop = (ev.target as HTMLElement).scrollTop;
-        }
-        if (syncedLeft && syncedRight) {
-          syncedLeft = false;
+        if (syncedRight) {
           syncedRight = false;
+        } else {
+          syncedLeft = true;
+          elTimeline.scrollTop = (ev.target as HTMLElement).scrollTop;
         }
       });
 
@@ -114,13 +112,11 @@ export function createScrollSync(element:HTMLElement) {
         syncWheelEvent(ev, elTable, elTimeline);
       });
       target(elTimeline).on(`scroll${scrollSyncEventNamespace}`, (ev:Event) => {
-        syncedRight = true;
-        if (!syncedLeft) {
-          elTable.scrollTop = (ev.target as HTMLElement).scrollTop;
-        }
-        if (syncedLeft && syncedRight) {
+        if (syncedLeft) {
           syncedLeft = false;
-          syncedRight = false;
+        } else {
+          syncedRight = true;
+          elTable.scrollTop = (ev.target as HTMLElement).scrollTop;
         }
       });
     } else {

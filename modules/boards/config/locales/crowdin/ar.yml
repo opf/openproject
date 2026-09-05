@@ -1,5 +1,14 @@
 ---
 ar:
+  activerecord:
+    models:
+      boards/grid:
+        zero: Boards
+        one: Board
+        two: Boards
+        few: Boards
+        many: Boards
+        other: Boards
   boards:
     board_type_attributes:
       assignee: المُسند إليه

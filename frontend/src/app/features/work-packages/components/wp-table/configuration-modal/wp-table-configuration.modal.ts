@@ -81,9 +81,6 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
     multiSelectLabel: this.I18n.t('js.work_packages.label_column_multiselect'),
     applyButton: this.I18n.t('js.modals.button_apply'),
     cancelButton: this.I18n.t('js.modals.button_cancel'),
-
-    upsellRelationColumns: this.I18n.t('js.modals.upsell_relation_columns'),
-    upsellRelationColumnsLink: this.I18n.t('js.modals.upsell_relation_columns_link'),
   };
 
   public onDataUpdated = new EventEmitter<void>();

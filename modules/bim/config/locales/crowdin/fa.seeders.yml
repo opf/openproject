@@ -11,7 +11,7 @@ fa:
         item_1:
           name: عادی
         item_2:
-          name: بالا
+          name: زیاد
         item_3:
           name: حیاتی
       statuses:
@@ -27,16 +27,16 @@ fa:
         item_0:
           name: مدیریت
         item_1:
-          name: ویژگی
+          name: تدوین مشخصات
         item_2:
-          name: غیره
+          name: سایر
       types:
         item_0:
           name: وظیفه
         item_1:
           name: نقطه عطف
         item_2:
-          name: گام
+          name: مرحله
         item_3:
           name: مسئله
         item_4:
@@ -52,7 +52,7 @@ fa:
         item_0:
           form_configuration:
             item_0:
-              group_name: بچه ها
+              group_name: فرزندان
       groups:
         item_0:
           name: معماران
@@ -73,41 +73,43 @@ fa:
       welcome:
         title: به نسخه BIM OpenProject خوش آمدید!
         text: |
-          برای شروع با چند مثال، پروژه های نمونه را بررسی نمایید.
+          برای شروع و آشنایی با چند نمونه، پروژه‌های نمایشی را بررسی کنید.
 
-          * [(Demo) Construction project]({{opSetting:base_url}}/projects/demo-construction-project): Planning, BIM process, BCF management, and constructing, all at a glance.
-              * [(Demo) Planning & constructing]({{opSetting:base_url}}/projects/demo-planning-constructing-project): Classical planning and construction management.
-              * [(Demo) Bim project]({{opSetting:base_url}}/projects/demo-bim-project): BIM process and coordination.
-                  * [(Demo) BCF management]({{opSetting:base_url}}/projects/demo-bcf-management-project): BCF management.
+          * [(نمایشی) پروژهٔ ساخت‌وساز]({{opSetting:base_url}}/projects/demo-construction-project): برنامه‌ریزی، فرایند BIM، مدیریت BCF و اجرا، همه در یک نگاه.
+              * [(نمایشی) برنامه‌ریزی و اجرا]({{opSetting:base_url}}/projects/demo-planning-constructing-project): برنامه‌ریزی کلاسیک و مدیریت ساخت.
+              * [(نمایشی) پروژهٔ BIM]({{opSetting:base_url}}/projects/demo-bim-project): فرایند BIM و هماهنگی.
+                  * [(نمایشی) مدیریت BCF]({{opSetting:base_url}}/projects/demo-bcf-management-project): مدیریت BCF.
 
-          شما همچنین می توانید یک [پروژه جدید] خالی بسازید ({{opSetting:base_url}}/projects/new).
+          همچنین می‌توانید یک [پروژهٔ جدید]({{opSetting:base_url}}/projects/new) خالی ایجاد کنید.
 
-          هرگز همکاری را متوقف نکنید. با ذهن باز و کدهای منبع باز.
+          همکاری را متوقف نکنید؛ با متن‌باز و ذهنی باز.
 
-          شما می توانید متن خوش آمد گویی را تغییر دهید از [here]({{opSetting:base_url}}/admin/settings/general).
+          می‌توانید این متن خوش‌آمدگویی را [اینجا]({{opSetting:base_url}}/admin/settings/general) تغییر دهید.
       projects:
         demo-construction-project:
           name: "(دمو) پروژه عمرانی"
-          status_explanation: همه وظایف و زیر پروژه ها طبق برنامه انجام میشوند. افراد درگیر وظایف خود را میدانند. سیستم كاملاً راهاندازی شده است.
+          status_explanation: همهٔ وظایف و زیرپروژه‌ها طبق برنامه پیش می‌روند. افراد درگیر وظایف خود را می‌دانند و سامانه به‌طور کامل راه‌اندازی شده است.
           description: |-
             این خلاصه ای کوتاه از اهداف این پروژه ساخت و ساز
             نمایشی است.
           news:
             item_0:
-              title: به پروژه نمایشی خود خوش آمدید
-              summary: "از پیوستن شما خوشحاليم. \nدر این ماژول میتوانید اخبار پروژه را به اعضای تیم خود اطلاع دهید.\n"
-              description: اخبار واقعی
+              title: به پروژهٔ نمایشی خود خوش آمدید
+              summary: |
+                خوشحالیم که به ما پیوستید.
+                در این ماژول می‌توانید اخبار پروژه را با اعضای تیم خود به اشتراک بگذارید.
+              description: متن خبر
           categories:
-            item_0: دسته‌بندی 1 (باید در تنظیمات پروژه تغییر یاید)
+            item_0: دسته‌بندی ۱ (در تنظیمات پروژه تغییر دهید)
           queries:
             item_0:
-              name: 'برنامه پروژه:'
+              name: برنامهٔ پروژه
             item_1:
               name: نقاط عطف
             item_2:
               name: وظایف
             item_3:
-              name: برنامه ریز تیم
+              name: برنامه‌ریز تیم
           boards:
             bcf:
               name: گردش کار ساده با کشیدن و رها کردن
@@ -120,56 +122,56 @@ fa:
                 options:
                   name: شروع کار
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    خوشحالیم که به ما پیوستید! پیشنهاد می‌کنیم برای شروع چند مورد را در اوپن‌پروجکت امتحان کنید.
 
-                    But before you jump right into it, you should know that this exemplary project is split up into two different projects:
+                    پیش از شروع، توجه داشته باشید این پروژهٔ نمونه به دو پروژهٔ جدا تقسیم شده است:
 
-                    1.  [Construction project]({{opSetting:base_url}}/projects/demo-planning-constructing-project): Here you will find the classical roles, some workflows and work packages for your construction project.
-                    2.  [Creating BIM Model]({{opSetting:base_url}}/projects/demo-bim-project): This project also offers roles, workflows and work packages but especially in the BIM context.
+                    1.  [پروژهٔ ساخت‌وساز]({{opSetting:base_url}}/projects/demo-planning-constructing-project): در اینجا نقش‌های کلاسیک، چند گردش‌کار و بسته‌های کاری پروژهٔ ساخت‌وساز را خواهید یافت.
+                    2.  [ایجاد مدل BIM]({{opSetting:base_url}}/projects/demo-bim-project): این پروژه نیز نقش‌ها، گردش‌کارها و بسته‌های کاری ارائه می‌کند، اما با تمرکز ویژه بر BIM.
 
-                    _Try the following steps:_
+                    _مراحل زیر را امتحان کنید:_
 
-                    1.  _Invite new members to your project_: → Go to [Members]({{opSetting:base_url}}/projects/demo-construction-project/members) in the project navigation.
-                    2.  _View the work in your projects_: → Go to [Work packages]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    3.  _Create a new work package_: → Go to [Work packages → Create]({{opSetting:base_url}}/projects/demo-construction-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
-                    4.  _Create and update a Gantt chart_: → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    5.  _Activate further modules_: → Go to [Project settings → Modules]({{opSetting:base_url}}/projects/demo-construction-project/settings/modules).
-                    6.  _Check out the tile view to get an overview of your BCF issues:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
-                    7.  _Agile working? Check out our brand new boards:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-construction-project/boards)
+                    1.  _اعضای جدید را به پروژه دعوت کنید_: → در پیمایش پروژه به [اعضا]({{opSetting:base_url}}/projects/demo-construction-project/members) بروید.
+                    2.  _کارهای پروژه‌ها را مشاهده کنید_: → در پیمایش پروژه به [بسته‌های کاری]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) بروید.
+                    3.  _یک بستهٔ کاری جدید ایجاد کنید_: → به [بسته‌های کاری → ایجاد]({{opSetting:base_url}}/projects/demo-construction-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11) بروید.
+                    4.  _نمودار گانت را ایجاد و به‌روزرسانی کنید_: → در پیمایش پروژه به [نمودار گانت]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) بروید.
+                    5.  _ماژول‌های بیشتری فعال کنید_: → به [تنظیمات پروژه → ماژول‌ها]({{opSetting:base_url}}/projects/demo-construction-project/settings/modules) بروید.
+                    6.  _برای مرور Issueهای BCF نمای کاشی را ببینید_: → به [بسته‌های کاری]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D) بروید.
+                    7.  _به‌صورت Agile کار می‌کنید؟ بردهای جدید را امتحان کنید_: → به [بردها]({{opSetting:base_url}}/projects/demo-construction-project/boards) بروید.
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    [راهنماهای کاربر](https://www.openproject.org/docs/user-guide/) را اینجا می‌توانید پیدا کنید.
+                    اگر سؤال دارید یا به پشتیبانی نیاز دارید، با ما تماس بگیرید: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
                   name: اعضا
               item_5:
                 options:
-                  name: بسته های کاری
+                  name: بسته‌های کاری
               item_6:
                 options:
                   name: نقاط عطف
         demo-planning-constructing-project:
           name: برنامه ریزی و ساخت(پیش نمایش)
-          status_explanation: همه وظایف طبق برنامه انجام می شوند. افراد درگیر وظایف خود را میدانند. سیستم کاملاً راهاندازی شده است.
+          status_explanation: همهٔ وظایف طبق برنامه پیش می‌روند. افراد درگیر، وظایف خود را می‌دانند و سامانه به‌طور کامل راه‌اندازی شده است.
           description: این خلاصه ای کوتاه از اهداف این پروژه برنامه ریزی و ساخت نمایشی است.
           news:
             item_0:
-              title: به پروژه نمایشی خود خوش آمدید
-              summary: 'از پیوستن شما خوشحاليم. در این ماژول می توانید اخبار پروژه را با اعضای تیم خود در میان بگذارید.
-
-                '
-              description: اخبار واقعی
+              title: به پروژهٔ نمایشی خود خوش آمدید
+              summary: |
+                خوشحالیم که به ما پیوستید.
+                در این ماژول می‌توانید اخبار پروژه را با اعضای تیم خود به اشتراک بگذارید.
+              description: متن خبر
           categories:
-            item_0: دسته‌بندی 1 (باید در تنظیمات پروژه تغییر یاید)
+            item_0: دسته‌بندی ۱ (در تنظیمات پروژه تغییر دهید)
           queries:
             item_0:
-              name: 'برنامه پروژه:'
+              name: برنامهٔ پروژه
             item_1:
               name: نقاط عطف
             item_2:
               name: وظایف
             item_3:
-              name: برنامه ریز تیم
+              name: برنامه‌ریز تیم
           project-overview:
             widgets:
               item_0:
@@ -177,29 +179,29 @@ fa:
                   name: خوش آمدید
               item_1:
                 options:
-                  name: شروع به کار
+                  name: شروع کار
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    خوشحالیم که به ما پیوستید! پیشنهاد می‌کنیم برای شروع چند مورد را در اوپن‌پروجکت امتحان کنید.
 
-                    Here you will find the classical roles, some workflows and work packages for your construction project.
+                    در این پروژه نقش‌های کلاسیک، چند گردش‌کار و بسته‌های کاری مناسب پروژهٔ ساخت‌وساز را خواهید یافت.
 
-                    _Try the following steps:_
+                    _مراحل زیر را امتحان کنید:_
 
-                    1.  _Invite new members to your project:_ → Go to [Members]({{opSetting:base_url}}/projects/demo-planning-constructing-project/members) in the project navigation.
-                    2.  _View the work in your projects:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    3.  _Create a new work package:_ → Go to [Work packages → Create]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
-                    4.  _Create and update a Gantt chart:_ → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    5.  _Activate further modules:_ → Go to [Project settings → Modules]({{opSetting:base_url}}/projects/demo-planning-constructing-project/settings/modules).
-                    6.  _Working agile? Create a new board:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-planning-constructing-project/boards)
+                    1.  _اعضای جدید را به پروژه دعوت کنید:_ → در پیمایش پروژه به [اعضا]({{opSetting:base_url}}/projects/demo-planning-constructing-project/members) بروید.
+                    2.  _کارهای پروژه‌ها را مشاهده کنید:_ → در پیمایش پروژه به [بسته‌های کاری]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) بروید.
+                    3.  _یک بستهٔ کاری جدید ایجاد کنید:_ → به [بسته‌های کاری → ایجاد]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11) بروید.
+                    4.  _نمودار گانت را ایجاد و به‌روزرسانی کنید:_ → در پیمایش پروژه به [نمودار گانت]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) بروید.
+                    5.  _ماژول‌های بیشتری فعال کنید:_ → به [تنظیمات پروژه → ماژول‌ها]({{opSetting:base_url}}/projects/demo-planning-constructing-project/settings/modules) بروید.
+                    6.  _به‌صورت Agile کار می‌کنید؟ یک برد جدید ایجاد کنید:_ → به [بردها]({{opSetting:base_url}}/projects/demo-planning-constructing-project/boards) بروید.
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    [راهنماهای کاربر](https://www.openproject.org/docs/user-guide/) را اینجا می‌توانید پیدا کنید.
+                    اگر سؤال دارید یا به پشتیبانی نیاز دارید، با ما تماس بگیرید: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
                   name: اعضا
               item_5:
                 options:
-                  name: بسته های کاری
+                  name: بسته‌های کاری
               item_6:
                 options:
                   name: نقاط عطف
@@ -207,528 +209,542 @@ fa:
             item_0:
               subject: پروژه شروع عملیات ساختمانی
               description: |-
-                The project kick off initializes the start of the project in your company. Everybody being part of this project should be invited to the kick off for a first briefing.
+                جلسهٔ Kickoff آغاز پروژه را در شرکت شما رسمی می‌کند. همهٔ افراد پروژه باید برای اولین جلسهٔ توجیهی دعوت شوند.
 
-                The next step could be checking out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
+                گام بعدی می‌تواند بررسی برنامهٔ زمانی و تنظیم قرارها از طریق [نمودار گانت]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D) باشد.
             item_1:
               subject: ارزیابی پایه
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: این نوع از نظر سلسله‌مراتبی والد نوع‌های &quot;Clash&quot; و &quot;Request&quot; است و بنابراین یک یادداشت عمومی را نمایش می‌دهد.
               children:
                 item_0:
                   subject: جمع‌آوری اطلاعات اولیه پروژه
                   description: |-
-                    ## Goal
+                    ## هدف
 
-                    *   Define tasks based on the customer needs
-                    *   Time frame and cost estimation shall be defined
+                    *   تعریف وظیفه‌ها بر اساس نیازهای مشتری
+                    *   تعیین بازهٔ زمانی و برآورد هزینه
 
-                    ## Description
+                    ## توضیحات
 
-                    *   Identify the customer needs by having a workshop with him/ her
-                    *   Each need shall represent a task with its corresponding work packages
-                    *   Derive the cost estimation and time frame
+                    *   شناسایی نیازهای مشتری از طریق برگزاری کارگاه با او
+                    *   هر نیاز باید به یک وظیفه با بسته‌های کاری متناظر تبدیل شود
+                    *   استخراج برآورد هزینه و بازهٔ زمانی
                 item_1:
                   subject: نتایج را خلاصه کنید
                   description: |-
-                    ## Goal
+                    ## هدف
 
-                    *   Create a useful overview of the results
-                    *   Check what has been done and summarize the results
-                    *   Communicate all the relevant results with the customer
-                    *   Identify the fundamental boundary conditions of the project
+                    *   ایجاد نمایی کاربردی از نتایج
+                    *   بررسی کارهای انجام‌شده و خلاصه‌سازی نتایج
+                    *   انتقال همهٔ نتایج مرتبط به مشتری
+                    *   شناسایی شرایط مرزی بنیادی پروژه
 
-                    ## Description
+                    ## توضیحات
 
-                    *   Each topic gets its own overview which will be used as a catalogue of results
-                    *   This overview informs all participants about the decisions made
+                    *   هر موضوع نمای کلی خود را دارد که به‌عنوان فهرست نتایج استفاده می‌شود
+                    *   این نما همهٔ شرکت‌کنندگان را از تصمیم‌های گرفته‌شده آگاه می‌کند
                     *   ...
                 item_2:
                   subject: پایان ارزشیابی پایه
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  description: این نوع از نظر سلسله‌مراتبی والد نوع‌های &quot;Clash&quot; و &quot;Request&quot; است و بنابراین یک یادداشت عمومی را نمایش می‌دهد.
             item_2:
               subject: برنامه‌ریزی مقدماتی
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: این نوع از نظر سلسله‌مراتبی والد نوع‌های &quot;Clash&quot; و &quot;Request&quot; است و بنابراین یک یادداشت عمومی را نمایش می‌دهد.
               children:
                 item_0:
                   subject: در حال توسعه پیش نویس اولیه
                   description: |-
-                    ## Goal
+                    ## هدف
 
-                    *   Create a useful overview of the results
-                    *   Check what has been done and summarize the results
-                    *   Communicate all the relevant results with the customer
-                    *   Identify the fundamental boundary conditions of the project
+                    *   ایجاد نمایی کاربردی از نتایج
+                    *   بررسی کارهای انجام‌شده و خلاصه‌سازی نتایج
+                    *   انتقال همهٔ نتایج مرتبط به مشتری
+                    *   شناسایی شرایط مرزی بنیادی پروژه
 
-                    ## Description
+                    ## توضیحات
 
-                    *   Each topic gets its own overview which will be used as a catalogue of results
-                    *   This overview informs all participants about the decisions made
+                    *   هر موضوع نمای کلی خود را دارد که به‌عنوان فهرست نتایج استفاده می‌شود
+                    *   این نما همهٔ شرکت‌کنندگان را از تصمیم‌های گرفته‌شده آگاه می‌کند
                     *   ...
                 item_1:
                   subject: نتایج را خلاصه کنید
                   description: |-
-                    ## Goal
+                    ## هدف
 
-                    *   Create a useful overview of the results
-                    *   Check what has been done and summarize the results
-                    *   Communicate all the relevant results with the customer
-                    *   Identify the fundamental boundary conditions of the project
+                    *   ایجاد نمایی کاربردی از نتایج
+                    *   بررسی کارهای انجام‌شده و خلاصه‌سازی نتایج
+                    *   انتقال همهٔ نتایج مرتبط به مشتری
+                    *   شناسایی شرایط مرزی بنیادی پروژه
 
-                    ## Description
+                    ## توضیحات
 
-                    *   Each topic gets its own overview which will be used as a catalogue of results
-                    *   This overview informs all participants about the decisions made
+                    *   هر موضوع نمای کلی خود را دارد که به‌عنوان فهرست نتایج استفاده می‌شود
+                    *   این نما همهٔ شرکت‌کنندگان را از تصمیم‌های گرفته‌شده آگاه می‌کند
                     *   ...
             item_3:
               subject: گذراندن برنامه‌ریزی اولیه
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: این نوع از نظر سلسله‌مراتبی والد نوع‌های &quot;Clash&quot; و &quot;Request&quot; است و بنابراین یک یادداشت عمومی را نمایش می‌دهد.
             item_4:
               subject: برنامه ریزی طراحی
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: این نوع از نظر سلسله‌مراتبی والد نوع‌های &quot;Clash&quot; و &quot;Request&quot; است و بنابراین یک یادداشت عمومی را نمایش می‌دهد.
               children:
                 item_0:
                   subject: طراحی تکمیل
                   description: |-
-                    ## Goal
+                    ## هدف
 
-                    *   Design is done
-                    *   All parties are happy with the results of the design planning phase
+                    *   طراحی تکمیل شده باشد
+                    *   همهٔ طرف‌ها از نتیجهٔ مرحلهٔ برنامه‌ریزی طراحی رضایت داشته باشند
 
-                    ## Description
+                    ## توضیحات
 
-                    *   The design of the project will be finished
-                    *   All parties agree on the design
-                    *   The owner is happy with the results
+                    *   طراحی پروژه تکمیل خواهد شد
+                    *   همهٔ طرف‌ها بر سر طراحی توافق دارند
+                    *   مالک از نتیجه راضی است
                     *   ...
                 item_1:
                   subject: تثبیت طراحی
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  description: این نوع از نظر سلسله‌مراتبی والد نوع‌های &quot;Clash&quot; و &quot;Request&quot; است و بنابراین یک یادداشت عمومی را نمایش می‌دهد.
             item_5:
               subject: مرحله ساخت
               children:
                 item_0:
                   subject: شروع به ساختن کنید
                   description: |-
-                    ## Goal
+                    ## هدف
 
-                    *   Ground breaking ceremony
-                    *   Setting up the construction site
+                    *   مراسم آغاز عملیات خاک‌برداری
+                    *   تجهیز کارگاه ساخت‌وساز
                     *   ...
 
-                    ## Description
+                    ## توضیحات
 
-                    *   Preparing the site for the project
-                    *   Get the team together
+                    *   آماده‌سازی محل برای پروژه
+                    *   گردهم‌آوردن تیم
                     *   ...
                 item_1:
-                  subject: Foundation
+                  subject: فونداسیون
                   description: |-
-                    ## Goal
+                    ## هدف
 
-                    *   Laying of the foundation stone
+                    *   اجرای سنگ بنای ساختمان
                     *   ...
 
-                    ## Description
+                    ## توضیحات
 
-                    *   Setting up the concrete mixer
-                    *   Setting up the supply chain for the concrete
+                    *   راه‌اندازی میکسر بتن
+                    *   راه‌اندازی زنجیرهٔ تأمین بتن
                     *   ...
                 item_2:
-                  subject: Building construction
+                  subject: اجرای سازه
                   description: |-
-                    ## Goal
+                    ## هدف
 
-                    *   Topping out ceremony
-                    *   Walls and ceilings are done
+                    *   برگزاری جشن تکمیل اسکلت
+                    *   دیوارها و سقف‌ها تکمیل شده باشند
                     *   ...
 
-                    ## Description
+                    ## توضیحات
 
-                    *   Creating all structural levels of the building
-                    *   Installing doors and windows
-                    *   Finishing the roof structure
+                    *   اجرای همهٔ طبقات سازه‌ای ساختمان
+                    *   نصب درها و پنجره‌ها
+                    *   تکمیل سازهٔ سقف
                     *   ...
                 item_3:
-                  subject: Finishing the facade
+                  subject: تکمیل نما
                   description: |-
-                    ## Goal
+                    ## هدف
 
-                    *   Facade is done
-                    *   Whole building is waterproof
+                    *   نما تکمیل شده است
+                    *   کل ساختمان آب‌بندی شده است
                     *   ...
 
-                    ## Description
+                    ## توضیحات
 
-                    *   Install all elements for the facade
-                    *   Finish the roof
+                    *   همهٔ اجزای نما را نصب کنید
+                    *   سقف را تکمیل کنید
                     *   ...
                 item_4:
-                  subject: Installing the building service systems
+                  subject: نصب تأسیسات ساختمان
                   description: |-
-                    ## Goal
+                    ## هدف
 
-                    *   All building service systems are ready to be used
+                    *   همهٔ سامانه‌های تأسیسات ساختمان آمادهٔ بهره‌برداری باشند
 
-                    ## Description
+                    ## توضیحات
 
-                    *   Installing the heating system
-                    *   Installing the climate system
-                    *   Electrical installation
+                    *   نصب سامانهٔ گرمایش
+                    *   نصب سامانهٔ تهویه
+                    *   اجرای تأسیسات برق
                     *   ...
                 item_5:
-                  subject: Final touches
+                  subject: کارهای نهایی
                   description: |-
-                    ## Goal
+                    ## هدف
 
-                    *   Handover of the keys
-                    *   The customer is happy with his building
+                    *   تحویل کلیدها
+                    *   رضایت مشتری از ساختمان
                     *   ...
 
-                    ## Description
+                    ## توضیحات
 
-                    *   Finishing the installation of the building service systems
-                    *   Finishing the interior construction
-                    *   Finishing the facade
+                    *   تکمیل نصب سامانه‌های تأسیسات ساختمان
+                    *   تکمیل عملیات داخلی ساختمان
+                    *   تکمیل نما
                     *   ...
                 item_6:
-                  subject: House warming party
+                  subject: جشن افتتاح ساختمان
                   description: |-
-                    ## Goal
+                    ## هدف
 
-                    *   Have a blast!
+                    *   یک جشن حسابی داشته باشید!
 
-                    ## Description
+                    ## توضیحات
 
-                    *   Invite the construction team
-                    *   Invite your friends
-                    *   Bring some drinks, snacks and your smile
+                    *   تیم ساخت‌وساز را دعوت کنید
+                    *   دوستانتان را دعوت کنید
+                    *   نوشیدنی، میان‌وعده و لبخندتان را همراه بیاورید
         demo-bim-project:
-          name: "(Demo) BIM project"
-          status_explanation: All tasks and sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo BIM project.
+          name: پروژهٔ BIM (نمایشی)
+          status_explanation: همهٔ وظایف و زیرپروژه‌ها طبق برنامه پیش می‌روند. افراد درگیر وظایف خود را می‌دانند و سامانه به‌طور کامل راه‌اندازی شده است.
+          description: این متن خلاصه‌ای کوتاه از اهداف این پروژهٔ نمایشی BIM است.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: به پروژهٔ نمایشی خود خوش آمدید
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: اخبار واقعی
+                خوشحالیم که به ما پیوستید.
+                در این ماژول می‌توانید اخبار پروژه را با اعضای تیم خود به اشتراک بگذارید.
+              description: متن خبر
           categories:
-            item_0: دسته‌بندی 1 (باید در تنظیمات پروژه تغییر یاید)
+            item_0: دسته‌بندی ۱ (در تنظیمات پروژه تغییر دهید)
           queries:
             item_0:
-              name: 'برنامه پروژه:'
+              name: برنامهٔ پروژه
             item_1:
               name: نقاط عطف
             item_2:
-              name: Tasks
+              name: وظایف
             item_3:
-              name: برنامه ریز تیم
+              name: برنامه‌ریز تیم
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: خوش آمدید
               item_1:
                 options:
-                  name: Getting started
+                  name: شروع کار
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    خوشحالیم که به ما پیوستید! پیشنهاد می‌کنیم برای شروع چند مورد را در اوپن‌پروجکت امتحان کنید.
 
-                    This demo project offers roles, workflows and work packages that are specialized for BIM.
+                    این پروژهٔ نمایشی نقش‌ها، گردش‌کارها و بسته‌های کاری تخصصی BIM را ارائه می‌کند.
 
-                    _Try the following steps:_
+                    _مراحل زیر را امتحان کنید:_
 
-                    1.  _Invite new members to your project:_ → Go to [Members]({{opSetting:base_url}}/projects/demo-bim-project/members) in the project navigation.
-                    2.  _Upload and view 3D-models in IFC format:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) in the project navigation.
-                    3.  _Create and manage BCF issues linked directly in the IFC model:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Create.
-                    4.  _View the work in your projects:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    5.  _Create a new work package:_ → Go to [Work packages → Create]({{opSetting:base_url}}/projects/demo-bim-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
-                    6.  _Create and update a Gantt chart:_ → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    7.  _Activate further modules:_ → Go to [Project settings → Modules]({{opSetting:base_url}}/projects/demo-bim-project/settings/modules).
-                    8.  _Check out the tile view to get an overview of your BCF issues:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
-                    9.  _Working agile? Create a new board:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-bim-project/boards)
+                    1.  _اعضای جدید را به پروژه دعوت کنید:_ → در پیمایش پروژه به [اعضا]({{opSetting:base_url}}/projects/demo-bim-project/members) بروید.
+                    2.  _مدل‌های سه‌بعدی با فرمت IFC را بارگذاری و مشاهده کنید:_ → در پیمایش پروژه به [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) بروید.
+                    3.  _Issueهای BCF را که مستقیماً به مدل IFC متصل‌اند ایجاد و مدیریت کنید:_ → به [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → ایجاد بروید.
+                    4.  _کارهای پروژه‌ها را مشاهده کنید:_ → در پیمایش پروژه به [بسته‌های کاری]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) بروید.
+                    5.  _یک بستهٔ کاری جدید ایجاد کنید:_ → به [بسته‌های کاری → ایجاد]({{opSetting:base_url}}/projects/demo-bim-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11) بروید.
+                    6.  _نمودار گانت را ایجاد و به‌روزرسانی کنید:_ → به [نمودار گانت]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) بروید.
+                    7.  _ماژول‌های بیشتری فعال کنید:_ → به [تنظیمات پروژه → ماژول‌ها]({{opSetting:base_url}}/projects/demo-bim-project/settings/modules) بروید.
+                    8.  _برای مرور Issueهای BCF نمای کاشی را ببینید:_ → به [بسته‌های کاری]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D) بروید.
+                    9.  _به‌صورت Agile کار می‌کنید؟ یک برد جدید ایجاد کنید:_ → به [بردها]({{opSetting:base_url}}/projects/demo-bim-project/boards) بروید.
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    [راهنماهای کاربر](https://www.openproject.org/docs/user-guide/) را اینجا می‌توانید پیدا کنید.
+                    اگر سؤال دارید یا به پشتیبانی نیاز دارید، با ما تماس بگیرید: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
                   name: اعضا
               item_5:
                 options:
-                  name: بسته های کاری
+                  name: بسته‌های کاری
               item_6:
                 options:
                   name: نقاط عطف
           work_packages:
             item_0:
-              subject: Project kick off creating BIM model
+              subject: آغاز پروژهٔ ایجاد مدل BIM
               description: |-
-                The project Kickoff initializes the start of the project in your company. The whole project team should be invited to the Kickoff for a first briefing.
+                جلسهٔ Kickoff آغاز پروژه را در شرکت شما رسمی می‌کند. کل تیم پروژه باید برای اولین جلسهٔ توجیهی دعوت شوند.
 
-                The next step could be to check out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
+                گام بعدی می‌تواند بررسی برنامهٔ زمانی و تنظیم قرارها از طریق [نمودار گانت]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D) باشد.
             item_1:
-              subject: Project preparation
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: آماده‌سازی پروژه
+              description: این نوع از نظر سلسله‌مراتبی والد نوع‌های &quot;Clash&quot; و &quot;Request&quot; است و بنابراین یک یادداشت عمومی را نمایش می‌دهد.
               children:
                 item_0:
-                  subject: Gathering the project specific data and information for the BIM model
+                  subject: گردآوری داده‌ها و اطلاعات اختصاصی پروژه برای مدل BIM
                   description: |-
-                    ## Goal
+                    ## هدف
 
-                    *   Identify the information strategy for the customer (e.g. by using plain language questions)
-                    *   If provided, analyze the customer information requirements for the BIM model
-                    *   Define an information delivery strategy according to the customers needs
+                    *   شناسایی راهبرد اطلاعاتی مشتری (برای نمونه با پرسش‌های زبان ساده)
+                    *   در صورت وجود، تحلیل نیازمندی‌های اطلاعاتی مشتری برای مدل BIM
+                    *   تعریف راهبرد تحویل اطلاعات مطابق نیازهای مشتری
 
-                    ## Description
+                    ## توضیحات
 
-                    *   Analyzing the customers needs and goals for using the BIM methodology
-                    *   Results of this tasks should be:
-                    *   The requirements for the project
-                    *   A strategy for the delivery phase
+                    *   تحلیل نیازها و اهداف مشتری از استفادهٔ روش BIM
+                    *   نتایج این وظایف باید شامل موارد زیر باشد:
+                    *   نیازمندی‌های پروژه
+                    *   راهبردی برای مرحلهٔ تحویل
                     *   ...
                 item_1:
-                  subject: Creating the BIM execution plan
+                  subject: تهیهٔ برنامهٔ اجرای BIM
                   description: |-
-                    # Goal
+                    # هدف
 
-                    *   A BIM execution plan will be defined according to the exchange requirements specifications (ERS)
-                    *   All team members and partners have a plan on how to reach each of the project goals
+                    *   تعریف برنامهٔ اجرای BIM مطابق مشخصات الزامات تبادل (ERS)
+                    *   همهٔ اعضای تیم و شرکا برنامه‌ای برای رسیدن به اهداف پروژه داشته باشند
 
-                    # Description
+                    # توضیحات
 
-                    *   Depending on the identifies use cases, the individual Information Delivery Manuals will be defined
-                    *   To handle the technological interfaces, a software topology will be defined and analyzed and verified
+                    *   بر اساس کاربردهای شناسایی‌شده، Information Delivery Manualهای جداگانه تعریف می‌شوند
+                    *   برای مدیریت رابط‌های فناوری، topology نرم‌افزاری تعریف، تحلیل و تأیید می‌شود
                     *   ...
                 item_2:
-                  subject: Completion of the BIM execution plan
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: تکمیل برنامهٔ اجرای BIM
+                  description: این نوع از نظر سلسله‌مراتبی والد نوع‌های &quot;Clash&quot; و &quot;Request&quot; است و بنابراین یک یادداشت عمومی را نمایش می‌دهد.
             item_2:
-              subject: End of preparation phase
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: پایان مرحلهٔ آماده‌سازی
+              description: این نوع از نظر سلسله‌مراتبی والد نوع‌های &quot;Clash&quot; و &quot;Request&quot; است و بنابراین یک یادداشت عمومی را نمایش می‌دهد.
             item_3:
-              subject: Creating initial BIM model
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: ایجاد مدل اولیهٔ BIM
+              description: این نوع از نظر سلسله‌مراتبی والد نوع‌های &quot;Clash&quot; و &quot;Request&quot; است و بنابراین یک یادداشت عمومی را نمایش می‌دهد.
               children:
                 item_0:
-                  subject: Modelling initial BIM model
+                  subject: مدل‌سازی مدل اولیهٔ BIM
                   description: |-
-                    # Goal
+                    # هدف
 
-                    *   Modelling the initial BIM model
-                    *   Creating a BIM model for the whole project team
+                    *   مدل‌سازی مدل اولیهٔ BIM
+                    *   ایجاد مدل BIM برای کل تیم پروژه
 
-                    # Description
+                    # توضیحات
 
-                    *   According to the gathered data from the customer, the initial model will be modelled
-                    *   The model shall be modelled according to the LOD Matrices and contain the information needed
+                    *   بر اساس داده‌های جمع‌آوری‌شده از مشتری، مدل اولیه ساخته خواهد شد
+                    *   مدل باید مطابق ماتریس‌های LOD ساخته شود و اطلاعات موردنیاز را در بر داشته باشد
                     *   ...
                 item_1:
-                  subject: Initial, internal model check and revising
+                  subject: بازبینی و اصلاح داخلی مدل اولیه
                   description: |-
-                    # Goal
+                    # هدف
 
-                    *   Submitting a BIM model according to the defined standards
+                    *   تحویل یک مدل BIM مطابق استانداردهای تعریف‌شده
 
-                    # Description
+                    # توضیحات
 
-                    *   The model shall be checked, according to the defined standards (conventions, LOD, ...) and revised
+                    *   مدل باید مطابق استانداردهای تعریف‌شده (قراردادها، LOD و ...) بررسی و بازنگری شود
                     *   ...
                 item_2:
-                  subject: Submitting initial BIM model
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: تحویل مدل اولیهٔ BIM
+                  description: این نوع از نظر سلسله‌مراتبی والد نوع‌های &quot;Clash&quot; و &quot;Request&quot; است و بنابراین یک یادداشت عمومی را نمایش می‌دهد.
             item_4:
-              subject: Modelling, first cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: مدل‌سازی، چرخهٔ اول
+              description: این نوع از نظر سلسله‌مراتبی والد نوع‌های &quot;Clash&quot; و &quot;Request&quot; است و بنابراین یک یادداشت عمومی را نمایش می‌دهد.
               children:
                 item_0:
-                  subject: Referencing external BIM models
+                  subject: ارجاع به مدل‌های BIM خارجی
                   description: |-
-                    # Goal
+                    # هدف
 
-                    *   Having a foundation for developing the internal model/ offering answers
-                    *   Using the external model to develop the internal model
+                    *   ایجاد پایه‌ای برای توسعهٔ مدل داخلی / ارائهٔ پاسخ‌ها
+                    *   استفاده از مدل خارجی برای توسعهٔ مدل داخلی
 
-                    # Description
+                    # توضیحات
 
-                    *   The external model will be referenced in the BIM platform, thus used for modelling the internal model
+                    *   مدل خارجی در پلتفرم BIM مرجع قرار می‌گیرد و برای مدل‌سازی مدل داخلی استفاده می‌شود
                     *   ...
                 item_1:
-                  subject: Modelling the BIM model
+                  subject: مدل‌سازی مدل BIM
                   description: |-
-                    # Goal
+                    # هدف
 
-                    *   Creating a BIM model for the project
-                    *   Creating a BIM model for the whole project team
+                    *   ایجاد یک مدل BIM برای پروژه
+                    *   ایجاد یک مدل BIM برای کل تیم پروژه
 
-                    # Description
+                    # توضیحات
 
-                    *   The model will be created according to the BIM execution plan
+                    *   مدل مطابق برنامهٔ اجرای BIM ایجاد خواهد شد
                     *   ...
                 item_2:
-                  subject: First Cycle, internal model check and revising
+                  subject: چرخهٔ اول، بازبینی و اصلاح داخلی مدل
                   description: |-
-                    # Goal
+                    # هدف
 
-                    *   Submitting a BIM model according to the defined standards
+                    *   تحویل یک مدل BIM مطابق استانداردهای تعریف‌شده
 
-                    # Description
+                    # توضیحات
 
-                    *   The model shall be checked, according to the defined standards (conventions, LOD, ...) and revised.
+                    *   مدل باید مطابق استانداردهای تعریف‌شده (قراردادها، LOD و ...) بررسی و بازنگری شود.
                     *   ...
                 item_3:
-                  subject: Submitting BIM model
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: تحویل مدل BIM
+                  description: این نوع از نظر سلسله‌مراتبی والد نوع‌های &quot;Clash&quot; و &quot;Request&quot; است و بنابراین یک یادداشت عمومی را نمایش می‌دهد.
             item_5:
-              subject: Coordination, first cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: هماهنگی، چرخهٔ اول
+              description: این نوع از نظر سلسله‌مراتبی والد نوع‌های &quot;Clash&quot; و &quot;Request&quot; است و بنابراین یک یادداشت عمومی را نمایش می‌دهد.
               children:
                 item_0:
-                  subject: Coordinate the different BIM models
+                  subject: هماهنگی مدل‌های مختلف BIM
                   description: |-
-                    # Goal
+                    # هدف
 
-                    *   Assemble the different BIM models of the whole project team
-                    *   Coordinate the identified issues
+                    *   تجمیع مدل‌های مختلف BIM کل تیم پروژه
+                    *   هماهنگی Issueهای شناسایی‌شده
 
-                    # Description
+                    # توضیحات
 
-                    *   The different BIM models will be assembled and checked
-                    *   The identified model specific issues will be communicated via BCF files
+                    *   مدل‌های مختلف BIM تجمیع و بررسی خواهند شد
+                    *   Issueهای مختص مدل از طریق فایل‌های BCF به اشتراک گذاشته می‌شوند
                     *   ...
                 item_1:
-                  subject: Issue management, first cycle
+                  subject: مدیریت Issue، چرخهٔ اول
                 item_2:
-                  subject: Finishing coordination, first cycle
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: پایان هماهنگی، چرخهٔ اول
+                  description: این نوع از نظر سلسله‌مراتبی والد نوع‌های &quot;Clash&quot; و &quot;Request&quot; است و بنابراین یک یادداشت عمومی را نمایش می‌دهد.
             item_6:
-              subject: Modelling & coordinating, second cycle
-              description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n* \\  ..."
-            item_7:
-              subject: Modelling & coordinating, ... cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
-            item_8:
-              subject: Modelling & coordinating, (n-th minus 1) cycle
-              description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n* \\  ..."
-            item_9:
-              subject: Modelling & coordinating n-th cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
-            item_10:
-              subject: Finishing modelling & coordinating, n-th cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
-            item_11:
-              subject: Use model for construction phase
-              children:
-                item_0:
-                  subject: Handover model for construction crew
-                  description: |-
-                    ## Goal
-
-                    *   Everyone knows the model and their tasks
-                    *   Everybody gets all the relevant information, model based
-                    *   ...
-
-                    ## Description
-
-                    *   The Kickoff on the construction site includes an introduction to the model
-                    *   All the objects should have the information needed for the assigned tasks. If not, data enrichment of the model needs to be done
-                    *   ...
-                item_1:
-                  subject: Construct the building
-                  description: |-
-                    ## Goal
-
-                    *   New issues realized on construction site will be handled model based
-                    *   Issues will be documented by using the BCF files and the BIM model
-
-                    ## Description
-
-                    *   New issues will be documented using BCF files as sticky notes for the model
-                    *   The BCF files will be used to assign, track and correct issues
-                    *   ...
-                item_2:
-                  subject: Finish construction
-            item_12:
-              subject: Issue management, construction phase
-            item_13:
-              subject: Handover for Facility Management
+              subject: مدل‌سازی و هماهنگی، چرخهٔ دوم
               description: |-
-                ## Goal
+                ## هدف
 
-                *   The BIM model will be used for the Facility Management
-                *   The model provides all the relevant information for commissioning and operating the building
                 *   ...
 
-                ## Description
+                ## توضیحات
 
-                *   The model contains the relevant information for the facility manager
-                *   The model can be used for the operating system of the building
+                * \  ...
+            item_7:
+              subject: مدل‌سازی و هماهنگی، چرخهٔ ...
+              description: این نوع از نظر سلسله‌مراتبی والد نوع‌های &quot;Clash&quot; و &quot;Request&quot; است و بنابراین یک یادداشت عمومی را نمایش می‌دهد.
+            item_8:
+              subject: مدل‌سازی و هماهنگی، چرخهٔ (n-1)
+              description: |-
+                ## هدف
+
+                *   ...
+
+                ## توضیحات
+
+                * \  ...
+            item_9:
+              subject: مدل‌سازی و هماهنگی، چرخهٔ nام
+              description: این نوع از نظر سلسله‌مراتبی والد نوع‌های &quot;Clash&quot; و &quot;Request&quot; است و بنابراین یک یادداشت عمومی را نمایش می‌دهد.
+            item_10:
+              subject: پایان مدل‌سازی و هماهنگی، چرخهٔ nام
+              description: این نوع از نظر سلسله‌مراتبی والد نوع‌های &quot;Clash&quot; و &quot;Request&quot; است و بنابراین یک یادداشت عمومی را نمایش می‌دهد.
+            item_11:
+              subject: استفاده از مدل در مرحلهٔ ساخت
+              children:
+                item_0:
+                  subject: تحویل مدل به تیم اجرایی ساخت
+                  description: |-
+                    ## هدف
+
+                    *   همه مدل و وظایف خود را بشناسند
+                    *   همهٔ افراد اطلاعات مرتبط را بر پایهٔ مدل دریافت کنند
+                    *   ...
+
+                    ## توضیحات
+
+                    *   جلسهٔ آغاز کار در کارگاه شامل معرفی مدل است
+                    *   همهٔ اشیا باید اطلاعات لازم برای وظایف تخصیص‌یافته را داشته باشند؛ در غیر این صورت باید غنی‌سازی دادهٔ مدل انجام شود
+                    *   ...
+                item_1:
+                  subject: اجرای ساختمان
+                  description: |-
+                    ## هدف
+
+                    *   Issueهای جدید شناسایی‌شده در کارگاه بر پایهٔ مدل مدیریت شوند
+                    *   Issueها با استفاده از فایل‌های BCF و مدل BIM مستند شوند
+
+                    ## توضیحات
+
+                    *   Issueهای جدید با فایل‌های BCF به‌عنوان یادداشت چسبان روی مدل مستند می‌شوند
+                    *   فایل‌های BCF برای تخصیص، پیگیری و اصلاح Issueها استفاده خواهند شد
+                    *   ...
+                item_2:
+                  subject: پایان ساخت
+            item_12:
+              subject: مدیریت Issue، مرحلهٔ ساخت
+            item_13:
+              subject: تحویل برای مدیریت تأسیسات
+              description: |-
+                ## هدف
+
+                *   مدل BIM برای Facility Management استفاده شود
+                *   مدل همهٔ اطلاعات مرتبط برای راه‌اندازی و بهره‌برداری ساختمان را فراهم کند
+                *   ...
+
+                ## توضیحات
+
+                *   مدل شامل اطلاعات موردنیاز مدیر تأسیسات است
+                *   مدل می‌تواند برای سامانهٔ بهره‌برداری ساختمان استفاده شود
                 *   ...
             item_14:
-              subject: Asset Management
-              description: Enjoy your building :)
+              subject: مدیریت دارایی
+              description: از ساختمان خود لذت ببرید :)
         demo-bcf-management-project:
-          name: "(Demo) BCF management"
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo BCF management project.
+          name: مدیریت BCF (نمایشی)
+          status_explanation: همهٔ وظایف طبق برنامه پیش می‌روند. افراد درگیر، وظایف خود را می‌دانند و سامانه به‌طور کامل راه‌اندازی شده است.
+          description: این متن خلاصه‌ای کوتاه از اهداف این پروژهٔ نمایشی مدیریت BCF است.
           ifc_models:
             item_0:
-              name: Hospital - Architecture (cc-by-sa-3.0 Autodesk Inc.)
+              name: بیمارستان - معماری (cc-by-sa-3.0 Autodesk Inc.)
             item_1:
-              name: Hospital - Structural (cc-by-sa-3.0 Autodesk Inc.)
+              name: بیمارستان - سازه (cc-by-sa-3.0 Autodesk Inc.)
             item_2:
-              name: Hospital - Mechanical (cc-by-sa-3.0 Autodesk Inc.)
+              name: بیمارستان - مکانیک (cc-by-sa-3.0 Autodesk Inc.)
           categories:
-            item_0: دسته‌بندی 1 (باید در تنظیمات پروژه تغییر یاید)
+            item_0: دسته‌بندی ۱ (در تنظیمات پروژه تغییر دهید)
           queries:
             item_0:
-              name: مشکلات
+              name: Issueها
             item_1:
-              name: Clashes
+              name: تداخل‌ها
             item_2:
-              name: Requests
+              name: درخواست‌ها
             item_3:
-              name: Remarks
+              name: ملاحظات
             item_4:
-              name: 'برنامه پروژه:'
+              name: برنامهٔ پروژه
             item_5:
               name: نقاط عطف
             item_6:
-              name: Tasks
+              name: وظایف
             item_7:
-              name: برنامه ریز تیم
+              name: برنامه‌ریز تیم
           boards:
             bcf:
-              name: BCF issues
+              name: Issueهای BCF
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: خوش آمدید
               item_1:
                 options:
-                  name: Getting started
+                  name: شروع کار
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    خوشحالیم که به ما پیوستید! برای شروع کار با OpenProject پیشنهاد می‌کنیم چند مورد را امتحان کنید.
 
-                    This demo project shows BCF management functionalities.
+                    این پروژهٔ نمایشی قابلیت‌های مدیریت BCF را نشان می‌دهد.
 
-                    _Try the following steps:_
+                    _مراحل پیشنهادی:_
 
-                    1.  _Invite new members to your project:_ → Go to [Members]({{opSetting:base_url}}/projects/demo-bcf-management-project/members?show_add_members=true) in the project navigation.
-                    2.  _Upload and view 3D-models in IFC format:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) in the project navigation.
-                    3.  _Create and manage BCF issues linked directly in the IFC model:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → Create.
-                    4.  _View the BCF files in your project:_ → Go to [BCF]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22status%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D) in the project navigation.
-                    5.  _Load your BCF files:_ → Go to [BCF → Import.]({{opSetting:base_url}}/projects/demo-bcf-management-project/issues/upload)
-                    6.  _Create and update a Gantt chart:_ → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22days%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D) in the project navigation.
-                    7.  _Activate further modules:_ → Go to [Project settings → Modules.]({{opSetting:base_url}}/projects/demo-bcf-management-project/settings/modules)
-                    8.  _You love the agile approach? Create a board:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-bcf-management-project/boards).
+                    1.  _اعضای جدید را به پروژه دعوت کنید:_ → در ناوبری پروژه به [اعضا]({{opSetting:base_url}}/projects/demo-bcf-management-project/members?show_add_members=true) بروید.
+                    2.  _مدل‌های سه‌بعدی با فرمت IFC را بارگذاری و مشاهده کنید:_ → در ناوبری پروژه به [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) بروید.
+                    3.  _Issueهای BCF متصل مستقیم به مدل IFC را ایجاد و مدیریت کنید:_ → به [BCF]({{opSetting:base_url}}/projects/demo-bim-project/bcf) → ایجاد بروید.
+                    4.  _فایل‌های BCF پروژه را ببینید:_ → در ناوبری پروژه به [BCF]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22status%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D) بروید.
+                    5.  _فایل‌های BCF را بارگذاری کنید:_ → به [BCF → Import.]({{opSetting:base_url}}/projects/demo-bcf-management-project/issues/upload) بروید.
+                    6.  _نمودار گانت را ایجاد و به‌روزرسانی کنید:_ → در ناوبری پروژه به [نمودار گانت]({{opSetting:base_url}}/projects/demo-bcf-management-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22days%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D) بروید.
+                    7.  _ماژول‌های بیشتری فعال کنید:_ → به [تنظیمات پروژه → ماژول‌ها.]({{opSetting:base_url}}/projects/demo-bcf-management-project/settings/modules) بروید.
+                    8.  _روش Agile را دوست دارید؟ یک برد بسازید:_ → به [بردها]({{opSetting:base_url}}/projects/demo-bcf-management-project/boards) بروید.
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    [راهنمای کاربران](https://www.openproject.org/docs/user-guide/) را اینجا خواهید یافت.
+                    اگر پرسش یا نیاز به پشتیبانی دارید با ما تماس بگیرید: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
                   name: اعضا
               item_5:
                 options:
-                  name: بسته های کاری
+                  name: بسته‌های کاری

@@ -205,16 +205,21 @@ export class ProjectTimelineItemBuilder {
     };
   }
 
-  buildAccessibleItems(phases:ProjectPhaseData[]):AccessibleProjectTimelineItem[] {
-    const items:AccessibleProjectTimelineItem[] = [];
+  buildAccessibleItems(
+    phases:ProjectPhaseData[],
+    milestones:ProjectMilestoneData[],
+    sprints:ProjectSprintData[],
+  ):AccessibleProjectTimelineItem[] {
+    const items:(AccessibleProjectTimelineItem & { date:string })[] = [];
 
     for (const phase of phases) {
       if (phase.startDate && phase.endDate) {
         items.push({
           id: `phase-${phase.id}`,
+          date: phase.startDate,
           text: this.i18n.t('js.grid.widgets.project_timeline.accessible_phase', {
             name: phase.name,
-            date: this.accessiblePhaseDate(phase),
+            date: this.accessibleDate(phase.startDate, phase.endDate),
           }),
         });
       }
@@ -222,6 +227,7 @@ export class ProjectTimelineItemBuilder {
       if (phase.startGate && phase.startDate) {
         items.push({
           id: `gate-start-${phase.id}`,
+          date: phase.startDate,
           text: this.accessibleGateText(phase.startGateName ?? phase.name, phase.startDate),
         });
       }
@@ -229,19 +235,45 @@ export class ProjectTimelineItemBuilder {
       if (phase.finishGate && phase.endDate) {
         items.push({
           id: `gate-finish-${phase.id}`,
+          date: phase.endDate,
           text: this.accessibleGateText(phase.finishGateName ?? phase.name, phase.endDate),
         });
       }
     }
 
-    return items;
+    for (const milestone of milestones) {
+      items.push({
+        id: `milestone-${milestone.id}`,
+        date: milestone.date,
+        text: this.i18n.t('js.grid.widgets.project_timeline.accessible_milestone', {
+          name: milestone.subject,
+          date: this.timezone.formattedDate(milestone.date),
+        }),
+      });
+    }
+
+    for (const sprint of sprints) {
+      items.push({
+        id: `sprint-${sprint.id}`,
+        date: sprint.startDate,
+        text: this.i18n.t('js.grid.widgets.project_timeline.accessible_sprint', {
+          name: sprint.name,
+          date: this.accessibleDate(sprint.startDate, sprint.endDate),
+          status: this.i18n.t<string>(`js.grid.widgets.project_timeline.sprint_status.${sprint.status}`),
+        }),
+      });
+    }
+
+    return items
+      .sort((a, b) => a.date.localeCompare(b.date))
+      .map(({ id, text }) => ({ id, text }));
   }
 
-  private accessiblePhaseDate(phase:ProjectPhaseData):string {
-    const start = this.timezone.formattedDate(phase.startDate!);
-    const end = this.timezone.formattedDate(phase.endDate!);
+  private accessibleDate(startDate:string, endDate:string):string {
+    const start = this.timezone.formattedDate(startDate);
+    const end = this.timezone.formattedDate(endDate);
 
-    if (phase.startDate === phase.endDate) {
+    if (startDate === endDate) {
       return start;
     }
 

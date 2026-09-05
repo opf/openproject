@@ -457,7 +457,7 @@ RSpec.describe TimeEntry do
       it "does not allow times > 23:59" do
         time_entry.start_time = "26:00"
         expect(time_entry).not_to be_valid
-        expect(time_entry.errors.full_messages).to include("Start time must be between 00:00 and 23:59.")
+        expect(time_entry.errors.full_messages).to include("Invalid time. The time must be between 00:00 and 23:59.")
       end
 
       it "does not allow non integer values" do

@@ -38,7 +38,18 @@ sv:
               ifc_attachment_missing: Ingen ifc-fil bifogad.
               invalid_ifc_file: Den angivna filen är inte en giltig IFC-fil.
     models:
-      bim/ifc_models/ifc_model: IFC-modell
+      bim/bcf/comment:
+        one: BCF comment
+        other: BCF comments
+      bim/bcf/issue:
+        one: BCF issue
+        other: BCF issues
+      bim/bcf/viewpoint:
+        one: BCF viewpoint
+        other: BCF viewpoints
+      bim/ifc_models/ifc_model:
+        one: IFC model
+        other: IFC models
   attributes:
     bcf_thumbnail: BCF snapshot
   bcf:

@@ -20,8 +20,16 @@ pl:
         ldap_groups/synchronized_filter:
           must_contain_base_dn: Bazowa nazwa wyróżniająca filtru musi być zawarta w bazowej nazwie wyróżniającej połączenia LDAP
     models:
-      ldap_groups/synchronized_filter: Filtr synchronizacji grupy LDAP
-      ldap_groups/synchronized_group: Synchronizowana grupa LDAP
+      ldap_groups/synchronized_filter:
+        one: Filtr synchronizacji grupy LDAP
+        few: Filtry synchronizacji grupy LDAP
+        many: Filtry synchronizacji grupy LDAP
+        other: Filtry synchronizacji grupy LDAP
+      ldap_groups/synchronized_group:
+        one: Synchronizowana grupa LDAP
+        few: Synchronizowane grupy LDAP
+        many: Synchronizowane grupy LDAP
+        other: Synchronizowane grupy LDAP
   ee:
     upsell:
       ldap_groups:

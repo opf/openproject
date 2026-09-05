@@ -55,6 +55,23 @@ RSpec.describe "Series template participant management",
     template_page.visit!
   end
 
+  describe "the ICS revision of the series" do
+    it "advances when a participant is added to the template" do
+      ical_sequence = recurring_meeting.ical_sequence
+
+      template_page.open_participant_form
+      template_page.in_participant_form do
+        template_page.uncheck_apply_to_upcoming
+
+        wait_for_turbo_stream do
+          template_page.select_participant(participant_a)
+        end
+      end
+
+      expect(recurring_meeting.reload.ical_sequence).to eq ical_sequence + 1
+    end
+  end
+
   describe "'apply to upcoming' checkbox state" do
     context "when adding multiple participants with checkbox unchecked" do
       it "keeps the checkbox unchecked after each addition" do

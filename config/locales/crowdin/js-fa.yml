@@ -24,1100 +24,1100 @@ fa:
   js:
     admin:
       type_form:
-        edit_query: Edit query
+        edit_query: ویرایش Query
       work_packages_settings:
-        warning_progress_calculation_mode_change_from_field_to_status_html: Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
-        warning_progress_calculation_mode_change_from_status_to_field_html: Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
+        warning_progress_calculation_mode_change_from_field_to_status_html: تغییر حالت محاسبه پیشرفت از مبتنی بر کار به مبتنی بر وضعیت باعث از بین رفتن همه مقادیر موجود <i>٪ تکمیل</i> و جایگزینی آن‌ها با مقادیر مرتبط با هر وضعیت می‌شود. مقادیر موجود <i>کار باقی‌مانده</i> نیز ممکن است برای بازتاب این تغییر دوباره محاسبه شوند. این اقدام قابل بازگشت نیست.
+        warning_progress_calculation_mode_change_from_status_to_field_html: تغییر حالت محاسبه پیشرفت از مبتنی بر وضعیت به مبتنی بر کار باعث می‌شود فیلد <i>٪ تکمیل</i> آزادانه قابل ویرایش باشد. اگر اختیاری مقادیری برای <i>کار</i> یا <i>کار باقی‌مانده</i> وارد کنید، آن‌ها نیز به <i>٪ تکمیل</i> پیوند می‌خورند. سپس تغییر <i>کار باقی‌مانده</i> می‌تواند <i>٪ تکمیل</i> را به‌روزرسانی کند.
       working_days:
-        add_non_working_day: Non-working day
-        already_added_error: A non-working day for this date exists already. There can only be one non-working day created for each unique date.
+        add_non_working_day: روز غیرکاری
+        already_added_error: برای این تاریخ از قبل یک روز غیرکاری وجود دارد. برای هر تاریخ یکتا فقط یک روز غیرکاری می‌توان ایجاد کرد.
         calendar:
-          empty_state_description: No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.
-          empty_state_header: Non-working days
-          new_date: "(new)"
+          empty_state_description: برای این سال روز غیرکاری مشخصی تعریف نشده است. برای افزودن تاریخ، روی «+ روز غیرکاری» در پایین کلیک کنید.
+          empty_state_header: روزهای غیرکاری
+          new_date: "(جدید)"
     ajax:
-      hide: Hide
-      loading: Loading…
-      updating: Updating…
+      hide: پنهان‌کردن
+      loading: در حال بارگذاری…
+      updating: در حال به‌روزرسانی…
     attachments:
-      delete: Delete attachment
-      delete_confirmation: 'Are you sure you want to delete this file? This action is not reversible.
+      delete: حذف پیوست
+      delete_confirmation: 'مطمئنید می‌خواهید این فایل را حذف کنید؟ این اقدام قابل بازگشت نیست.
 
         '
-      draggable_hint: 'Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
+      draggable_hint: 'برای درج تصویر یا ارجاع پیوست، فایل را روی فیلد ویرایشگر بکشید. تا زمانی که در حال کشیدن هستید، فیلدهای ویرایشگر بسته باز خواهند شد.
 
         '
-      quarantined_hint: The file is quarantined, as a virus was found. It is not available for download.
+      quarantined_hint: فایل به‌دلیل شناسایی ویروس قرنطینه شده است و برای دانلود در دسترس نیست.
     autocomplete_ng_select:
-      add_tag: Add item
-      clear_all: Clear all
-      loading: Loading...
+      add_tag: افزودن مورد
+      clear_all: پاک‌کردن همه
+      loading: در حال بارگذاری...
       not_found: موردی یافت نشد
-      type_to_search: Type to search
+      type_to_search: برای جستجو تایپ کنید
     autocomplete_select:
-      active: Active %{label} %{name}
+      active: "%{label} فعال %{name}"
       placeholder:
-        multi: افزودن "%{name}"
-        single: انتخاب "%{name}"
+        multi: افزودن «%{name}»
+        single: انتخاب «%{name}»
       remove: حذف %{name}
     autocompleter:
       notFoundText: موردی یافت نشد
-      placeholder: Type to search
+      placeholder: برای جستجو تایپ کنید
       project:
-        placeholder: Select project
-      search: Search
+        placeholder: انتخاب پروژه
+      search: جستجو
     backup:
-      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
-      download_backup: دانلود نسخه پشتیبان گیری
-      include_attachments: Include attachments
-      info: 'You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it''s ready.
+      attachments_disabled: ممکن است پیوست‌ها شامل نشوند زیرا از حداکثر اندازه کلی مجاز عبور می‌کنند. می‌توانید این مقدار را در پیکربندی تغییر دهید (نیازمند راه‌اندازی مجدد سرور).
+      download_backup: دانلود نسخه پشتیبان
+      include_attachments: شامل پیوست‌ها
+      info: 'می‌توانید از اینجا پشتیبان‌گیری را آغاز کنید. بسته به حجم داده‌ها، به‌ویژه پیوست‌ها، این فرایند ممکن است زمان‌بر باشد. پس از آماده‌شدن ایمیل دریافت خواهید کرد.
 
         '
-      last_backup: آخرین پشتیبانی گیری
-      last_backup_from: آخرین پشتیبانی گیری از
-      note: 'A new backup will override any previous one. Only a limited number of backups per day can be requested.
+      last_backup: آخرین نسخه پشتیبان
+      last_backup_from: آخرین نسخه پشتیبان از
+      note: 'نسخه پشتیبان جدید، نسخه قبلی را بازنویسی می‌کند. روزانه فقط تعداد محدودی درخواست پشتیبان مجاز است.
 
         '
       options: گزینه‌ها
-      request_backup: Request backup
-      title: Backup OpenProject
+      request_backup: درخواست نسخه پشتیبان
+      title: پشتیبان‌گیری از OpenProject
     baseline:
-      apply: درخواست
-      clear: پاکسازی
+      apply: اعمال
+      clear: پاک‌کردن
       drop_down:
-        a_specific_date: a specific date
-        between_two_specific_dates: between two specific dates
-        last_month: last month
-        last_week: last week
-        last_working_day: last working day
+        a_specific_date: یک تاریخ مشخص
+        between_two_specific_dates: بین دو تاریخ مشخص
+        last_month: ماه گذشته
+        last_week: هفته گذشته
+        last_working_day: آخرین روز کاری
         none: "-"
-        yesterday: yesterday
-      from: From
-      header_description: Highlight changes made to this list since any point in the past.
-      help_description: Reference time zone for the baseline.
+        yesterday: دیروز
+      from: از
+      header_description: تغییرات ایجادشده در این فهرست از هر نقطه‌ای در گذشته را برجسته کنید.
+      help_description: منطقه زمانی مرجع برای خط مبنا.
       icon_tooltip:
-        added: Added to view within the comparison time period
-        changed: Maintained with modifications
-        removed: Removed from view within the comparison time period
+        added: در بازه زمانی مقایسه به نما اضافه شده
+        changed: با تغییرات حفظ شده
+        removed: در بازه زمانی مقایسه از نما حذف شده
       legends:
-        changes_between: Changes between
-        changes_since: Changes since
-        in_your_timezone: 'In your local timezone:'
-        maintained_with_changes: Maintained with changes
-        no_longer_meets_filter_criteria: No longer meets filter criteria
-        now_meets_filter_criteria: Now meets filter criteria
-      show_changes_since: Show changes since
+        changes_between: تغییرات بین
+        changes_since: تغییرات از
+        in_your_timezone: 'در منطقه زمانی محلی شما:'
+        maintained_with_changes: حفظ‌شده با تغییرات
+        no_longer_meets_filter_criteria: دیگر معیارهای فیلتر را برآورده نمی‌کند
+        now_meets_filter_criteria: اکنون معیارهای فیلتر را برآورده می‌کند
+      show_changes_since: نمایش تغییرات از
       time: زمان
-      time_description: 'In your local time: %{datetime}'
-      to: To
-      toggle_title: Baseline
-    breadcrumb: Breadcrumb
-    button_add: ﺍﻓﺰﻭﺩﻥ
-    button_add_watcher: Add watcher
+      time_description: 'در زمان محلی شما: %{datetime}'
+      to: تا
+      toggle_title: خط مبنا
+    breadcrumb: مسیر راهنما
+    button_add: افزودن
+    button_add_watcher: افزودن دنبال‌کننده
     button_advanced_filter: فیلتر پیشرفته
-    button_back: برگشت
-    button_back_to_list_view: برگشت به نمایش لیستی
+    button_back: بازگشت
+    button_back_to_list_view: بازگشت به نمای فهرست
     button_cancel: لغو
-    button_change_project: Move to another project
-    button_check_all: بررسی همه
-    button_clear: Clear
-    button_close: Close
-    button_close_details: بستن نمایش جزئیات
-    button_collapse_all: بستن همه
-    button_configure-form: تنظیمات فرم
-    button_confirm: تایید
-    button_continue: Continue
+    button_change_project: انتقال به پروژه دیگر
+    button_check_all: انتخاب همه
+    button_clear: پاک‌کردن
+    button_close: بستن
+    button_close_details: بستن نمای جزئیات
+    button_collapse_all: جمع‌کردن همه
+    button_configure-form: پیکربندی فرم
+    button_confirm: تأیید
+    button_continue: ادامه
     button_copy: کپی
-    button_copy_link_to_clipboard: Copy link to clipboard
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
-    button_copy_to_clipboard: Copy to clipboard
-    button_copy_to_other_project: Duplicate in another project
+    button_copy_link_to_clipboard: کپی پیوند در کلیپ‌بورد
+    button_copy_numeric_id_to_clipboard: کپی شناسه عددی در کلیپ‌بورد
+    button_copy_to_clipboard: کپی در کلیپ‌بورد
+    button_copy_to_other_project: تکثیر در پروژه دیگر
     button_create: ایجاد
-    button_custom-fields: Custom fields
+    button_custom-fields: فیلدهای سفارشی
     button_delete: حذف
-    button_delete_watcher: حذف ناظر
-    button_details_view: نمای جزییات
-    button_duplicate: نسخه برداری
+    button_delete_watcher: حذف دنبال‌کننده
+    button_details_view: نمای جزئیات
+    button_duplicate: تکثیر
     button_edit: ویرایش
-    button_expand_all: باز کردن همه
-    button_export-atom: دریافت Atom
+    button_expand_all: بازکردن همه
+    button_export-atom: دانلود Atom
     button_filter: فیلتر
-    button_generate_pdf: Generate PDF
-    button_list_view: نمای فهرستی
-    button_log_time: پیگیری زمان
+    button_generate_pdf: تولید PDF
+    button_list_view: نمای فهرست
+    button_log_time: ثبت زمان
     button_more: بیشتر
-    button_more_actions: More actions
-    button_open_details: بازکردن نمای جزییات
-    button_open_fullscreen: نمایش تمام صفحه
-    button_quote: نقل قول
+    button_more_actions: اقدام‌های بیشتر
+    button_open_details: بازکردن نمای جزئیات
+    button_open_fullscreen: بازکردن نمای تمام‌صفحه
+    button_quote: نقل‌قول
     button_save: ذخیره
     button_settings: تنظیمات
-    button_show_cards: Show card view
-    button_show_fullscreen: Show fullscreen view
-    button_show_gantt: Show Gantt view
-    button_show_list: Show list view
-    button_show_table: Show table view
-    button_show_view: نمایش تمام صفحه
-    button_start_timer: Start timer
-    button_stop_timer: توقف زمان‌سنج
+    button_show_cards: نمایش نمای کارت
+    button_show_fullscreen: نمایش نمای تمام‌صفحه
+    button_show_gantt: نمایش نمای گانت
+    button_show_list: نمایش نمای فهرست
+    button_show_table: نمایش نمای جدول
+    button_show_view: نمای تمام‌صفحه
+    button_start_timer: شروع تایمر
+    button_stop_timer: توقف تایمر
     button_uncheck_all: لغو انتخاب همه
     button_update: به روز رسانی
-    caption_rate_history: تاریخچه ضریب (نرخ) پرداخت
+    caption_rate_history: تاریخچه نرخ
     card:
-      add_new: Add new card
+      add_new: افزودن کارت جدید
       highlighting:
-        entire_card_by: Entire card by
-        inline: 'Highlight inline:'
-      remove_from_list: Remove card from list
+        entire_card_by: کل کارت بر اساس
+        inline: 'برجسته‌سازی درون‌خطی:'
+      remove_from_list: حذف کارت از فهرست
     chart:
-      axis_criteria: Axis criteria
+      axis_criteria: معیار محور
       errors:
-        could_not_load: The data to display the graph could not be loaded. The necessary permissions may be lacking.
-      modal_title: Work package graph configuration
+        could_not_load: داده‌های لازم برای نمایش نمودار بارگذاری نشدند. ممکن است مجوزهای لازم وجود نداشته باشند.
+      modal_title: پیکربندی نمودار بسته کاری
       tabs:
-        dataset: Dataset %{number}
-        graph_settings: General
-      type: Chart type
+        dataset: مجموعه‌داده %{number}
+        graph_settings: عمومی
+      type: نوع نمودار
       types:
-        bar: Bar
-        doughnut: Doughnut
-        horizontal_bar: Horizontal bar
-        line: Line
-        pie: Pie
-        polar_area: Polar area
-        radar: Radar
+        bar: میله‌ای
+        doughnut: حلقه‌ای
+        horizontal_bar: میله‌ای افقی
+        line: خطی
+        pie: دایره‌ای
+        polar_area: ناحیه قطبی
+        radar: راداری
     clipboard:
-      browser_error: 'Your browser doesn''t support copying to clipboard. Please copy it manually: %{content}'
-      copied_successful: Successfully copied to clipboard!
+      browser_error: 'مرورگر شما از کپی در کلیپ‌بورد پشتیبانی نمی‌کند. لطفاً دستی کپی کنید: %{content}'
+      copied_successful: با موفقیت در کلیپ‌بورد کپی شد!
     close_filter_title: بستن فیلتر
     close_form_title: بستن فرم
     close_popup_title: بستن پنجره بازشو
     custom_actions:
       date:
-        current_date: تاریخ کنونی
-        specific: برخط
-    description_available_columns: Available Columns
-    description_current_position: 'You are here: '
-    description_select_work_package: 'Select work package #%{id}'
-    description_subwork_package: 'Child of work package #%{id}'
+        current_date: تاریخ فعلی
+        specific: در
+    description_available_columns: ستون‌های موجود
+    description_current_position: 'شما اینجا هستید: '
+    description_select_work_package: 'انتخاب بسته کاری #%{id}'
+    description_subwork_package: 'فرزند بسته کاری #%{id}'
     editor:
-      ckeditor_error: An error occurred within CKEditor
-      error_saving_failed: 'ذخیره سازی مستند، ناموفق بود، خطا: %{error}'
+      ckeditor_error: خطایی در CKEditor رخ داد
+      error_saving_failed: 'ذخیره سند با خطای زیر ناموفق بود: %{error}'
       macro:
         attribute_reference:
-          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_project_attribute: یک ویژگی پویای پروژه که با Macro درج شده است.
           aria_label_with_name: "%{name}: %{description}"
-          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
-          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
-          invalid_attribute: The selected attribute '%{name}' does not exist.
-          nested_macro: This macro is recursively referencing %{model} %{id}.
-          not_found: Requested resource could not be found
+          aria_label_work_package_attribute: یک ویژگی پویای بسته کاری که با Macro درج شده است.
+          aria_label_work_package_link: پیوند پویای یک بسته کاری که با Macro درج شده است.
+          invalid_attribute: ویژگی انتخاب‌شده «%{name}» وجود ندارد.
+          nested_macro: این Macro به‌صورت بازگشتی به %{model} %{id} ارجاع می‌دهد.
+          not_found: منبع درخواستی یافت نشد
         child_pages:
-          button: List of sub-pages
-          hint: 'Leave this field empty to list all child pages of the current page. If you want to reference a different page, provide its title or slug.
+          button: فهرست زیرصفحه‌ها
+          hint: 'برای فهرست‌کردن همه صفحه‌های فرزند صفحه فعلی این فیلد را خالی بگذارید. برای ارجاع به صفحه‌ای دیگر، عنوان یا slug آن را وارد کنید.
 
             '
-          include_parent: Include parent
-          page: Wiki page
-          text: "[Placeholder] List of sub-pages of"
+          include_parent: شامل والد
+          page: صفحه Wiki
+          text: "[جای‌نگهدار] فهرست زیرصفحه‌های"
           this_page: این صفحه
         code_block:
-          button: Insert code snippet
-          language: Formatting language
-          language_hint: Enter the formatting language that will be used for highlighting (if supported).
-          title: Insert / edit Code snippet
+          button: درج قطعه‌کد
+          language: زبان قالب‌بندی
+          language_hint: زبان قالب‌بندی مورد استفاده برای برجسته‌سازی را وارد کنید (در صورت پشتیبانی).
+          title: درج / ویرایش قطعه‌کد
         embedded_calendar:
-          text: "[Placeholder] تقویم جاسازی شده"
+          text: "[جای‌نگهدار] تقویم جاسازی‌شده"
         embedded_table:
-          button: Embed work package table
-          text: "[Placeholder] Embedded work package table"
-        error: 'Cannot expand macro: %{message}'
+          button: جاسازی جدول بسته کاری
+          text: "[جای‌نگهدار] جدول بسته کاری جاسازی‌شده"
+        error: 'Macro باز نشد: %{message}'
         macro_dropdown:
-          caption: Insert
-        toc: Table of contents
-        toolbar_help: Click to select widget and show the toolbar. Double-click to edit widget
+          caption: درج
+        toc: فهرست مطالب
+        toolbar_help: برای انتخاب ویجت و نمایش نوار ابزار کلیک کنید. برای ویرایش ویجت دوبار کلیک کنید
         wiki_page_include:
-          button: Include content of another wiki page
+          button: شامل محتوای یک صفحه Wiki دیگر
           hint: |
-            Include the content of another wiki page by specifying its title or slug.
-            You can include the wiki page of another project by separating them with a colon like the following example.
-          not_set: "(Page not yet set)"
-          page: Wiki page
-          text: "[Placeholder] Included wiki page of"
+            با مشخص‌کردن عنوان یا slug، محتوای صفحه Wiki دیگری را درج کنید.
+            برای درج صفحه Wiki پروژه دیگر، مانند نمونه زیر آن‌ها را با دونقطه جدا کنید.
+          not_set: "(صفحه هنوز تنظیم نشده)"
+          page: صفحه Wiki
+          text: "[جای‌نگهدار] صفحه Wiki درج‌شده از"
         work_package_button:
-          button: Insert create work package button
-          button_style: Use button style
-          button_style_hint: 'Optional: Check to make macro appear as a button, not as a link.'
-          type: Work package type
-          with_type: 'Create work package (Type: %{typename})'
-          without_type: Create work package
+          button: درج دکمه ایجاد بسته کاری
+          button_style: استفاده از سبک دکمه
+          button_style_hint: 'اختیاری: انتخاب کنید تا Macro به‌جای پیوند به‌شکل دکمه نمایش داده شود.'
+          type: نوع بسته کاری
+          with_type: 'ایجاد بسته کاری (نوع: %{typename})'
+          without_type: ایجاد بسته کاری
       mode:
-        manual: Switch to Markdown source
-        wysiwyg: Switch to WYSIWYG editor
-      no_revisions: No local modifications found
-      preview: Toggle preview mode
-      revisions: Show local modifications
-      source_code: Toggle Markdown source mode
-    enumeration_activities: Activities (time tracking)
-    enumeration_doc_categories: Document categories
-    enumeration_work_package_priorities: Work package priorities
+        manual: تغییر به منبع Markdown
+        wysiwyg: تغییر به ویرایشگر WYSIWYG
+      no_revisions: تغییر محلی یافت نشد
+      preview: تغییر حالت پیش‌نمایش
+      revisions: نمایش تغییرات محلی
+      source_code: تغییر حالت منبع Markdown
+    enumeration_activities: فعالیت‌ها (ثبت زمان)
+    enumeration_doc_categories: دسته‌بندی‌های سند
+    enumeration_work_package_priorities: اولویت‌های بسته کاری
     error:
-      cannot_save_changes_with_message: 'امکان ثبت تغییرات شما به دلیل خطا نیست: %{error}'
-      embedded_table_loading: فایل جاسازی شده نمیتواند بارگزاری شود:%{message}
-      internal: یک خطای داخلی رخ داد.
-      query_saving: فایل نمی تواند ذخیره شود.
-    error_attachment_upload: 'File failed to upload: %{error}'
-    error_attachment_upload_permission: You don't have the permission to upload files on this resource.
-    error_could_not_resolve_user_name: Couldn't resolve user name
-    error_could_not_resolve_version_name: تطبیق نام نسخه میسر نشد
+      cannot_save_changes_with_message: 'به‌دلیل خطای زیر تغییرات شما ذخیره نشد: %{error}'
+      embedded_table_loading: 'نمای جاسازی‌شده بارگذاری نشد: %{message}'
+      internal: یک خطای داخلی رخ داده است.
+      query_saving: نما ذخیره نشد.
+    error_attachment_upload: 'آپلود فایل ناموفق بود: %{error}'
+    error_attachment_upload_permission: مجوز آپلود فایل روی این منبع را ندارید.
+    error_could_not_resolve_user_name: نام کاربر قابل تشخیص نبود
+    error_could_not_resolve_version_name: نام نسخه قابل تشخیص نبود
     exclusion_info:
       modal:
-        content: The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
-        title: Status excluded from hierarchy totals
+        content: وضعیت «%{status_name}» طوری پیکربندی شده که از مجموع سلسله‌مراتب کار، کار باقی‌مانده و ٪ تکمیل خارج باشد. این مقدار در مجموع‌ها لحاظ نمی‌شود.
+        title: وضعیت خارج‌شده از مجموع سلسله‌مراتب
     favorite_projects:
-      no_results: You have no favorite projects
-      no_results_subtext: Add one or multiple projects as favorite through their overview or in a project list.
-    field_value_enter_prompt: Enter a value for '%{field}'
+      no_results: هیچ پروژه موردعلاقه‌ای ندارید
+      no_results_subtext: یک یا چند پروژه را از طریق نمای کلی یا فهرست پروژه‌ها به موارد دلخواه اضافه کنید.
+    field_value_enter_prompt: برای «%{field}» مقداری وارد کنید
     filter:
       description:
-        text_close_filter: To select an entry leave the focus for example by pressing enter. To leave without filter select the first (empty) entry.
-        text_open_filter: این فیلتر را با فشار همزمان کلید 'ALT' و کلیدهای چهار جهت باز کنید.
-      more_values_not_shown: There are %{total} more results, search to filter results.
-      noneElement: "(هیچ)"
+        text_close_filter: برای انتخاب یک ورودی، فوکوس را مثلاً با فشردن Enter خارج کنید. برای خروج بدون فیلتر، اولین ورودی (خالی) را انتخاب کنید.
+        text_open_filter: این فیلتر را با «ALT» و کلیدهای جهت‌نما باز کنید.
+      more_values_not_shown: "%{total} نتیجه دیگر وجود دارد؛ برای فیلترکردن نتایج جستجو کنید."
+      noneElement: "(هیچ‌کدام)"
       sorting:
         criteria:
-          one: اولین شاخص مرتب سازی
-          three: سومین شاخص مرتب سازی
-          two: دومین شاخص مرتب سازی
+          one: معیار مرتب‌سازی اول
+          three: معیار مرتب‌سازی سوم
+          two: معیار مرتب‌سازی دوم
       time_zone_converted:
-        only_end: تا %{to} در زمان محلی شما.
-        only_start: از%{from} در زمان محلی شما.
-        two_values: "%{from} - %{to} در زمان محلی شما."
+        only_end: تا %{to} به وقت محلی شما.
+        only_start: از %{from} به وقت محلی شما.
+        two_values: "%{from} - %{to} به وقت محلی شما."
       value_spacer: "-"
     forms:
-      advanced_settings: Advanced settings
-      load_error_message: There was an error loading the form
-      submit_success_message: The form was successfully submitted
-      validation_error_message: Please fix the errors present in the form
+      advanced_settings: تنظیمات پیشرفته
+      load_error_message: هنگام بارگذاری فرم خطایی رخ داد
+      submit_success_message: فرم با موفقیت ارسال شد
+      validation_error_message: لطفاً خطاهای موجود در فرم را برطرف کنید
     gantt_chart:
       button_activate: نمایش نمودار گانت
-      button_deactivate: عدم نمایش Gantt chart
+      button_deactivate: پنهان‌کردن نمودار گانت
       filter:
-        noneSelection: "(هیچ)"
+        noneSelection: "(هیچ‌کدام)"
       label: نمودار گانت
       labels:
-        bar: برچسب های نوار
-        description: 'Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+        bar: برچسب‌های میله
+        description: 'ویژگی‌هایی را انتخاب کنید که می‌خواهید همیشه در موقعیت‌های مربوطه در نمودار گانت نمایش داده شوند. توجه داشته باشید هنگام نگه‌داشتن نشانگر روی یک عنصر، برچسب تاریخ آن به‌جای این ویژگی‌ها نمایش داده می‌شود.
 
           '
-        farRight: منتهای راست
+        farRight: سمت راست دور
         left: چپ
         right: راست
-        title: تنظیمات برچسب
-      quarter_label: Q%{quarter_number}
+        title: پیکربندی برچسب
+      quarter_label: سه‌ماهه %{quarter_number}
       selection_mode:
-        notification: Click on any highlighted work package to create the relation. Press escape to cancel.
+        notification: برای ایجاد رابطه روی هر بسته کاری برجسته‌شده کلیک کنید. برای لغو Esc را فشار دهید.
       zoom:
-        auto: بزرگنمایی خودکار
-        days: Days
-        description: 'Select the initial zoom level that should be shown when autozoom is not available.
+        auto: بزرگ‌نمایی خودکار
+        days: روزها
+        description: 'سطح بزرگ‌نمایی اولیه را که در صورت در دسترس نبودن بزرگ‌نمایی خودکار نمایش داده شود انتخاب کنید.
 
           '
-        in: Zoom in
-        months: Months
-        out: Zoom out
-        quarters: Quarters
-        weeks: Weeks
-        years: Years
-    general_text_No: نه
+        in: بزرگ‌نمایی
+        months: ماه‌ها
+        out: کوچک‌نمایی
+        quarters: سه‌ماهه‌ها
+        weeks: هفته‌ها
+        years: سال‌ها
+    general_text_No: خیر
     general_text_Yes: بله
-    general_text_no: 'no'
-    general_text_yes: 'yes'
+    general_text_no: خیر
+    general_text_yes: بله
     global_search:
-      all_projects: In all projects
-      close_search: Close search
+      all_projects: در همه پروژه‌ها
+      close_search: بستن جستجو
       current_project: در این پروژه
-      current_project_and_all_descendants: In this project + subprojects
-      direct_hit_available: Work package with exact ID found. Press Enter to open it.
-      items_available: "%{count} items available"
-      recently_viewed: Recently viewed
-      search_placeholder_expanded: Search work packages by subject, project, type, status or ID
+      current_project_and_all_descendants: در این پروژه + زیرپروژه‌ها
+      direct_hit_available: بسته کاری با شناسه دقیق یافت شد. برای بازکردن آن Enter را فشار دهید.
+      items_available: "%{count} مورد در دسترس"
+      recently_viewed: اخیراً مشاهده‌شده
+      search_placeholder_expanded: جستجوی بسته‌های کاری بر اساس موضوع، پروژه، نوع، وضعیت یا شناسه
       title:
-        all_projects: all projects
-        project_and_subprojects: and all subprojects
-        search_for: Search for
+        all_projects: همه پروژه‌ها
+        project_and_subprojects: و همه زیرپروژه‌ها
+        search_for: جستجو برای
     hal:
       error:
-        edit_prohibited: Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable.
+        edit_prohibited: ویرایش %{attribute} برای این منبع مسدود است. این ویژگی یا از روابط (مثلاً فرزندان) مشتق شده یا به دلایل دیگر قابل پیکربندی نیست.
         format:
-          date: "%{attribute} is no valid date - YYYY-MM-DD expected."
+          date: "%{attribute} تاریخ معتبری نیست؛ قالب YYYY-MM-DD مورد انتظار است."
         general: خطایی رخ داده است.
-        update_conflict_refresh: Click here to refresh the resource and update to the newest version.
+        update_conflict_refresh: برای تازه‌سازی منبع و به‌روزرسانی به جدیدترین نسخه اینجا کلیک کنید.
     help_texts:
-      show_modal: Show help text
+      show_modal: نمایش متن راهنما
     ical_sharing_modal:
-      copy_url_label: Copy URL
-      description: You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there.
-      ical_generation_error_text: An error occured while generating the calendar URL.
-      inital_setup_error_message: An error occured while fetching data.
-      success_message: The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.
-      title: Subscribe to calendar
-      token_name_description_text: If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="%{myAccessTokensUrl}" target="_blank">access tokens</a> list.
-      token_name_label: Where will you be using this?
-      token_name_placeholder: Type a name, e.g. "Phone"
-      warning: Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password.
+      copy_url_label: کپی URL
+      description: می‌توانید از URL (iCalendar) برای اشتراک این تقویم در یک کلاینت خارجی استفاده کنید و اطلاعات به‌روز بسته‌های کاری را از آنجا ببینید.
+      ical_generation_error_text: هنگام تولید URL تقویم خطایی رخ داد.
+      inital_setup_error_message: هنگام دریافت داده خطایی رخ داد.
+      success_message: URL «%{name}» با موفقیت در کلیپ‌بورد کپی شد. برای تکمیل اشتراک آن را در کلاینت تقویم خود جای‌گذاری کنید.
+      title: اشتراک در تقویم
+      token_name_description_text: اگر از چند دستگاه در این تقویم مشترک شوید، این نام کمک می‌کند آن‌ها را در فهرست <a href="%{myAccessTokensUrl}" target="_blank">توکن‌های دسترسی</a> از هم تشخیص دهید.
+      token_name_label: کجا از این استفاده خواهید کرد؟
+      token_name_placeholder: یک نام تایپ کنید، مثلاً «تلفن»
+      warning: این URL را با کاربران دیگر به اشتراک نگذارید. هرکس این پیوند را داشته باشد می‌تواند بدون حساب یا گذرواژه جزئیات بسته کاری را ببیند.
     include_projects:
-      apply: درخواست
-      clear_selection: Clear selection
-      include_subprojects: Include all sub-projects
-      no_results: No project matches your search criteria.
-      search_placeholder: Search projects...
+      apply: اعمال
+      clear_selection: پاک‌کردن انتخاب
+      include_subprojects: شامل همه زیرپروژه‌ها
+      no_results: هیچ پروژه‌ای با معیارهای جستجوی شما مطابقت ندارد.
+      search_placeholder: جستجوی پروژه‌ها...
       selected_filter:
         all: همه پروژه‌ها
-        selected: Only selected
+        selected: فقط موارد انتخاب‌شده
       title: پروژه‌ها
-      toggle_title: Include projects
+      toggle_title: شامل پروژه‌ها
       tooltip:
-        current_project: This is the current project you are in.
-        does_not_match_search: Project does not match the search criteria.
-        include_all_selected: Project already included since Include all sub-projects is enabled.
+        current_project: این همان پروژه فعلی شماست.
+        does_not_match_search: پروژه با معیارهای جستجو مطابقت ندارد.
+        include_all_selected: پروژه از قبل شامل است چون «شامل همه زیرپروژه‌ها» فعال است.
     include_workspaces:
       types:
-        portfolio: Portfolio
-        program: Program
+        portfolio: سبد پروژه
+        program: برنامه
     inplace:
-      btn_preview_disable: غیر فعال کردن پیش نمایش
+      btn_preview_disable: غیرفعال‌کردن پیش‌نمایش
       btn_preview_enable: پیش‌نمایش
-      button_cancel: "%{attribute}: Cancel"
+      button_cancel: "%{attribute}: لغو"
       button_cancel_all: لغو
-      button_edit: "%{attribute}: Edit"
-      button_save: "%{attribute}: Save"
+      button_edit: "%{attribute}: ویرایش"
+      button_save: "%{attribute}: ذخیره"
       button_save_all: ذخیره
       clear_value_label: "-"
       errors:
-        maxlength: "%{field} cannot contain more than %{maxLength} digit(s)"
-        messages_on_field: 'This field is invalid: %{messages}'
-        minlength: "%{field} cannot contain less than %{minLength} digit(s)"
-        number: "%{field} is not a valid number"
-        required: "%{field} cannot be empty"
-      link_formatting_help: Text formatting help
-      null_value_label: No value
-    invalid_job_response: Invalid response from server.
+        maxlength: "%{field} نمی‌تواند بیش از %{maxLength} رقم داشته باشد"
+        messages_on_field: 'این فیلد نامعتبر است: %{messages}'
+        minlength: "%{field} نمی‌تواند کمتر از %{minLength} رقم داشته باشد"
+        number: "%{field} عدد معتبری نیست"
+        required: "%{field} نمی‌تواند خالی باشد"
+      link_formatting_help: راهنمای قالب‌بندی متن
+      null_value_label: بدون مقدار
+    invalid_job_response: پاسخ نامعتبر از سرور.
     invite_user_modal:
       invite: دعوت
-      placeholder_add_tag: Create placeholder user
-    label_activate: Activate
-    label_activity_show_all: Show all activities
-    label_activity_show_only_comments: Show activities with comments only
-    label_add_attachments: Attach files
-    label_add_column_after: Add column after
-    label_add_column_before: افزودن ستون قبل از
-    label_add_columns: افزودن ستون ها
+      placeholder_add_tag: ایجاد کاربر جایگزین
+    label_activate: فعال‌کردن
+    label_activity_show_all: نمایش همه فعالیت‌ها
+    label_activity_show_only_comments: نمایش فقط فعالیت‌های دارای دیدگاه
+    label_add_attachments: پیوست فایل‌ها
+    label_add_column_after: افزودن ستون بعد
+    label_add_column_before: افزودن ستون قبل
+    label_add_columns: افزودن ستون‌ها
     label_add_comment: افزودن دیدگاه
-    label_add_comment_title: کامنت بگذارید و برای اطلاع دادن به دیگران از @ استفاده کنید
-    label_add_description: افزودن توضیحات برای %{file}
-    label_add_row_after: افزودن سطر بعد از
-    label_add_row_before: افزودن سطر قبل از
-    label_add_selected_columns: Add selected columns
-    label_added_by: اضافه شده توسط
-    label_added_time_by: Added by <a href="%{authorLink}">%{author}</a> at %{age}
-    label_ago: days ago
-    label_all: all
+    label_add_comment_title: دیدگاه بنویسید و برای اعلان به دیگران @ تایپ کنید
+    label_add_description: افزودن توضیح برای %{file}
+    label_add_row_after: افزودن سطر بعد
+    label_add_row_before: افزودن سطر قبل
+    label_add_selected_columns: افزودن ستون‌های انتخاب‌شده
+    label_added_by: افزوده‌شده توسط
+    label_added_time_by: افزوده‌شده توسط <a href="%{authorLink}">%{author}</a> در %{age}
+    label_ago: روز پیش
+    label_all: همه
     label_all_projects: همه پروژه‌ها
     label_all_uppercase: همه
-    label_all_work_packages: تمام بسته های کاری
-    label_and: and
-    label_ascending: Ascending
-    label_assignee: نماینده
-    label_assignee_alt_text: This work package is assigned to %{name}
-    label_attachments: Attachments
-    label_author: 'نویسنده: %{user}'
-    label_avatar: چهرک
+    label_all_work_packages: همه بسته‌های کاری
+    label_and: و
+    label_ascending: صعودی
+    label_assignee: مسئول انجام
+    label_assignee_alt_text: این بسته کاری به %{name} تخصیص یافته است
+    label_attachments: پیوست‌ها
+    label_author: 'ایجادکننده: %{user}'
+    label_avatar: آواتار
     label_between: بین
-    label_board: تابلو
-    label_board_locked: قفل شده
-    label_board_plural: تابلو
-    label_board_sticky: مهم
-    label_cancel_comment: لغو نظر
+    label_board: برد
+    label_board_locked: قفل‌شده
+    label_board_plural: بردها
+    label_board_sticky: سنجاق‌شده
+    label_cancel_comment: لغو دیدگاه
     label_change: تغییر
-    label_children_derived_duration: Work package's children derived duration
+    label_children_derived_duration: مدت مشتق‌شده از فرزندان بسته کاری
     label_closed_work_packages: بسته
-    label_collapse: فرو ریختن
-    label_collapse_all: بستن همه
-    label_collapse_text: Collapse text
-    label_collapsed: فروریخته
+    label_collapse: جمع‌کردن
+    label_collapse_all: جمع‌کردن همه
+    label_collapse_text: جمع‌کردن متن
+    label_collapsed: جمع‌شده
     label_columns: ستون‌ها
-    label_comment: نظر
-    label_contains: contains
+    label_comment: دیدگاه
+    label_contains: شامل
     label_create: ایجاد
-    label_create_work_package: Create new work package
-    label_created_by: ایجاد شده توسط
-    label_created_on: ایجاد شده در
-    label_current: current
-    label_custom_queries: Private
+    label_create_work_package: ایجاد بسته کاری جدید
+    label_created_by: ایجادشده توسط
+    label_created_on: ایجادشده در
+    label_current: فعلی
+    label_custom_queries: خصوصی
     label_date: تاریخ
-    label_date_with_format: "%{date_attribute} را با این فرمت وارد کنید: %{format}"
-    label_deactivate: غیر فعال کردن
+    label_date_with_format: "%{date_attribute} را با قالب زیر وارد کنید: %{format}"
+    label_deactivate: غیرفعال‌کردن
     label_default_queries: پیش‌فرض
-    label_descending: Descending
+    label_descending: نزولی
     label_description: توضیحات
-    label_details: Details
-    label_display: Display
-    label_drop_files: Drop files here to attach files.
-    label_drop_folders_hint: لطفا یک فایل انتخاب کنید. شما نمیتوانید یک فولدر را ارسال کنید.
-    label_drop_or_click_files: Drop files here or click to attach files.
-    label_edit_comment: ویرایش این نظر
+    label_details: جزئیات
+    label_display: نمایش
+    label_drop_files: برای پیوست فایل‌ها، آن‌ها را اینجا رها کنید.
+    label_drop_folders_hint: پوشه را نمی‌توان به‌عنوان پیوست آپلود کرد. لطفاً فایل‌های منفرد را انتخاب کنید.
+    label_drop_or_click_files: فایل‌ها را اینجا رها کنید یا برای پیوست کلیک کنید.
+    label_edit_comment: ویرایش این دیدگاه
     label_edit_status: ویرایش وضعیت بسته کاری
-    label_email: Email
-    label_equals: is
-    label_expand: بست دادن
-    label_expand_all: باز کردن همه
+    label_email: ایمیل
+    label_equals: است
+    label_expand: بازکردن
+    label_expand_all: بازکردن همه
     label_expand_project_menu: بازکردن منوی پروژه
-    label_expand_text: Show full text
-    label_expanded: بست یافته
+    label_expand_text: نمایش متن کامل
+    label_expanded: بازشده
     label_export: خروجی
-    label_export_preparing: The export is being prepared and will be downloaded shortly.
-    label_favorites: Favorites
+    label_export_preparing: خروجی در حال آماده‌سازی است و به‌زودی دانلود می‌شود.
+    label_favorites: موارد دلخواه
     label_filename: فایل
-    label_files_to_upload: 'These files will be uploaded:'
-    label_filesize: اندازه‌
-    label_formattable_attachment_hint: اتصال یا افزودن فایل با رها کردن آن بر روی این فیلد، یا انتقال از clipboard.
-    label_general: General
+    label_files_to_upload: 'این فایل‌ها آپلود خواهند شد:'
+    label_filesize: اندازه
+    label_formattable_attachment_hint: برای پیوست و پیوند فایل‌ها، آن‌ها را روی این فیلد رها کنید یا از کلیپ‌بورد جای‌گذاری کنید.
+    label_general: عمومی
     label_global_queries: عمومی
     label_greater_or_equal: ">="
     label_group: گروه
     label_group_by: گروه‌بندی بر اساس
-    label_group_plural: Groups
+    label_group_plural: گروه‌ها
     label_hide_attributes: نمایش کمتر
-    label_hide_column: عدم نمایش ستون
-    label_hide_project_menu: بستن منوی پروژه
-    label_import: درون‌ریزی
-    label_in: in
-    label_in_less_than: in less than
-    label_in_more_than: in more than
-    label_incoming_emails: Incoming emails
-    label_infinity: Infinity
+    label_hide_column: پنهان‌کردن ستون
+    label_hide_project_menu: جمع‌کردن منوی پروژه
+    label_import: واردکردن
+    label_in: در
+    label_in_less_than: کمتر از
+    label_in_more_than: بیشتر از
+    label_incoming_emails: ایمیل‌های ورودی
+    label_infinity: بی‌نهایت
     label_information_plural: اطلاعات
-    label_invalid: نا معتبر
-    label_last_updated_on: آخرین به روزرسانی در
+    label_invalid: نامعتبر
+    label_last_updated_on: آخرین به‌روزرسانی در
     label_latest_activity: آخرین فعالیت
-    label_learn_more_link: Learn more
-    label_less_or_equal: "=>"
-    label_less_than_ago: less than days ago
-    label_loading: Loading...
-    label_mail_notification: اعلان های ایمیل
-    label_manage_columns: Manage and reorder columns
-    label_me: me
-    label_meeting_agenda: دستور کار
-    label_meeting_minutes: دقیقه ها
-    label_moderate_comment: Moderate comment
-    label_more_than_ago: more than days ago
-    label_next: Next
-    label_no_color: No color
-    label_no_data: No data to display
-    label_no_date: no date
-    label_no_due_date: no finish date
+    label_learn_more_link: اطلاعات بیشتر
+    label_less_or_equal: "<="
+    label_less_than_ago: کمتر از چند روز پیش
+    label_loading: در حال بارگذاری...
+    label_mail_notification: اعلان‌های ایمیلی
+    label_manage_columns: مدیریت و تغییر ترتیب ستون‌ها
+    label_me: من
+    label_meeting_agenda: دستور جلسه
+    label_meeting_minutes: صورت‌جلسه
+    label_moderate_comment: مدیریت دیدگاه
+    label_more_than_ago: بیش از چند روز پیش
+    label_next: بعدی
+    label_no_color: بدون رنگ
+    label_no_data: داده‌ای برای نمایش وجود ندارد
+    label_no_date: بدون تاریخ
+    label_no_due_date: بدون تاریخ پایان
     label_no_start_date: بدون تاریخ شروع
-    label_no_value: No value
-    label_none: هیچ کدام
-    label_not_available: Not available
-    label_not_contains: حاوی این مقدار نیست
+    label_no_value: بدون مقدار
+    label_none: هیچ‌کدام
+    label_not_available: در دسترس نیست
+    label_not_contains: شامل نمی‌شود
     label_not_equals: نیست
-    label_on: برخط
-    label_open_context_menu: Open context menu
-    label_open_menu: باز کردن منو
+    label_on: در
+    label_open_context_menu: بازکردن منوی زمینه
+    label_open_menu: بازکردن منو
     label_open_work_packages: باز
-    label_password: کلمه عبور
+    label_password: گذرواژه
     label_per_page: 'در هر صفحه:'
-    label_please_wait: شكيبا باشيد
-    label_press_enter_to_save: برای ثبت اینتر را بزنید.
-    label_previous: Previous
+    label_please_wait: لطفاً صبر کنید
+    label_press_enter_to_save: برای ذخیره Enter را فشار دهید.
+    label_previous: قبلی
     label_project: پروژه
     label_project_plural: پروژه‌ها
     label_public_query: عمومی
-    label_quote_comment: Quote this comment
-    label_recent: Recent
-    label_rejected_files: 'These files cannot be uploaded:'
-    label_rejected_files_reason: These files cannot be uploaded as their size is greater than %{maximumFilesize}
-    label_remove: Remove
-    label_remove_all_files: حذف تمام پرونده
+    label_quote_comment: نقل‌قول از این دیدگاه
+    label_recent: اخیر
+    label_rejected_files: 'این فایل‌ها قابل آپلود نیستند:'
+    label_rejected_files_reason: این فایل‌ها به‌دلیل بزرگ‌تر بودن از %{maximumFilesize} قابل آپلود نیستند
+    label_remove: حذف
+    label_remove_all_files: حذف همه فایل‌ها
     label_remove_column: حذف ستون
-    label_remove_columns: Remove selected columns
+    label_remove_columns: حذف ستون‌های انتخاب‌شده
     label_remove_file: حذف %{fileName}
     label_remove_row: حذف سطر
-    label_remove_watcher: Remove watcher %{name}
+    label_remove_watcher: حذف دنبال‌کننده %{name}
     label_report: گزارش
-    label_repository_plural: Repositories
-    label_reset: تنظیم مجدد
-    label_resize_project_menu: Resize project menu
-    label_save_as: ذخیره به عنوان
-    label_search_columns: Search a column
-    label_select_watcher: یک ناظر را انتخاب کنید...
-    label_selected_filter_list: فیلترهای انتخاب شده
-    label_show_attributes: نمایش تمام خصیصه ها
-    label_show_in_menu: نمایش نمایه در منو
-    label_sort_by: Sort by
-    label_sort_higher: Move up
-    label_sort_lower: Move down
-    label_sorted_by: مرتب شده بر اساس
-    label_sorting: مرتب سازی
-    label_spent_time: زمان صرف شده
-    label_star_query: Favorited
-    label_starred_queries: Favorite
+    label_repository_plural: مخزن‌ها
+    label_reset: بازنشانی
+    label_resize_project_menu: تغییر اندازه منوی پروژه
+    label_save_as: ذخیره به‌عنوان
+    label_search_columns: جستجوی ستون
+    label_select_watcher: انتخاب دنبال‌کننده...
+    label_selected_filter_list: فیلترهای انتخاب‌شده
+    label_show_attributes: نمایش همه ویژگی‌ها
+    label_show_in_menu: نمایش نما در منو
+    label_sort_by: مرتب‌سازی بر اساس
+    label_sort_higher: انتقال به بالا
+    label_sort_lower: انتقال به پایین
+    label_sorted_by: مرتب‌شده بر اساس
+    label_sorting: مرتب‌سازی
+    label_spent_time: زمان صرف‌شده
+    label_star_query: افزوده‌شده به علاقه‌مندی‌ها
+    label_starred_queries: موردعلاقه
     label_subject: موضوع
     label_sum: جمع
-    label_sum_for: مبلغ برای
-    label_this_week: this week
-    label_time_entry_plural: زمان صرف شده
+    label_sum_for: جمع برای
+    label_this_week: این هفته
+    label_time_entry_plural: زمان صرف‌شده
     label_today: امروز
-    label_total_amount: 'جمع: %{amount}'
-    label_total_progress: "%{percent} مجموع پیشرفت"
-    label_total_sum: Total sum
-    label_unwatch: عدم دنبال
-    label_unwatch_work_package: عدم نمایش پکیچ وظیفه
+    label_total_amount: 'مجموع: %{amount}'
+    label_total_progress: "%{percent}% پیشرفت کل"
+    label_total_sum: جمع کل
+    label_unwatch: لغو دنبال‌کردن
+    label_unwatch_work_package: لغو دنبال‌کردن بسته کاری
     label_up: بالا
-    label_updated_on: بروز رسانی شده در
-    label_upload_counter: "%{done} of %{count} files finished"
-    label_upload_notification: بارگذاری فایل‌ها...
-    label_uploaded_by: بارگزاری شده توسط
-    label_user_plural: Users
-    label_validation_error: 'The work package could not be saved due to the following errors:'
-    label_value_derived_from_children: "(value derived from children)"
-    label_version_plural: نسخه ها
-    label_view_has_changed: This view has unsaved changes. Click to save them.
-    label_visibility_settings: تنظیمات دیداری
-    label_wait: Please wait for configuration...
-    label_warning: Warning
-    label_watch: نگاه کردن
-    label_watch_work_package: دیدن پکیج وظیفه
-    label_watcher_added_successfully: ناظر با موفقیت اضافه شد!
-    label_watcher_deleted_successfully: ناظر با موفقیت حذف شد!
+    label_updated_on: به‌روزرسانی‌شده در
+    label_upload_counter: "%{done} از %{count} فایل تکمیل شد"
+    label_upload_notification: در حال آپلود فایل‌ها...
+    label_uploaded_by: آپلودشده توسط
+    label_user_plural: کاربران
+    label_validation_error: 'بسته کاری به‌دلیل خطاهای زیر ذخیره نشد:'
+    label_value_derived_from_children: "(مقدار مشتق‌شده از فرزندان)"
+    label_version_plural: نسخه‌ها
+    label_view_has_changed: این نما تغییرات ذخیره‌نشده دارد. برای ذخیره کلیک کنید.
+    label_visibility_settings: تنظیمات قابلیت مشاهده
+    label_wait: لطفاً برای پیکربندی صبر کنید...
+    label_warning: هشدار
+    label_watch: دنبال‌کردن
+    label_watch_work_package: دنبال‌کردن بسته کاری
+    label_watcher_added_successfully: دنبال‌کننده با موفقیت اضافه شد!
+    label_watcher_deleted_successfully: دنبال‌کننده با موفقیت حذف شد!
     label_work_package: کاربسته
-    label_work_package_context_menu: Work package context menu
-    label_work_package_details_you_are_here: You are on the %{tab} tab for %{type} %{subject}.
-    label_work_package_parent: Parent work package
-    label_work_package_plural: بسته های کاری
-    label_work_package_upload_notification: 'Uploading files for Work package #%{id}: %{subject}'
-    label_wp_id_added_by: "#%{id} added by %{author}"
+    label_work_package_context_menu: منوی زمینه بسته کاری
+    label_work_package_details_you_are_here: در زبانه %{tab} برای %{type} %{subject} هستید.
+    label_work_package_parent: بسته کاری والد
+    label_work_package_plural: بسته‌های کاری
+    label_work_package_upload_notification: 'در حال آپلود فایل‌ها برای بسته کاری #%{id}: %{subject}'
+    label_wp_id_added_by: "#%{id} افزوده‌شده توسط %{author}"
     modals:
-      button_apply: درخواست
+      button_apply: اعمال
       button_cancel: لغو
       button_delete: حذف
       button_save: ذخیره
-      button_submit: ثبت کردن
+      button_submit: ارسال
       destroy_time_entry:
-        text: Are you sure you want to delete the following time entry?
-        title: Confirm deletion of time entry
+        text: مطمئنید می‌خواهید ورودی زمانی زیر را حذف کنید؟
+        title: تأیید حذف ورودی زمان
       form_submit:
-        text: Are you sure you want to perform this action?
-        title: Confirm to continue
-      label_delete_page: Delete current page
+        text: مطمئنید می‌خواهید این اقدام را انجام دهید؟
+        title: برای ادامه تأیید کنید
+      label_delete_page: حذف صفحه فعلی
       label_name: نام
-    no_job_id: No job ID returned from server.
-    notice_bad_request: Bad Request.
-    notice_job_started: job started.
-    notice_no_results_to_display: No visible results to display.
-    notice_successful_create: Successful creation.
-    notice_successful_delete: Successful deletion.
-    notice_successful_update: Successful update.
+    no_job_id: هیچ شناسه کاری از سرور برنگشت.
+    notice_bad_request: درخواست نامعتبر.
+    notice_job_started: کار شروع شد.
+    notice_no_results_to_display: نتیجه قابل مشاهده‌ای برای نمایش وجود ندارد.
+    notice_successful_create: ایجاد با موفقیت انجام شد.
+    notice_successful_delete: حذف با موفقیت انجام شد.
+    notice_successful_update: به‌روزرسانی با موفقیت انجام شد.
     notifications:
       center:
         and_more_users:
-          one: and 1 other
-          other: and %{count} others
+          one: و ۱ نفر دیگر
+          other: و %{count} نفر دیگر
         empty_state:
-          no_notification: Looks like you are all caught up.
-          no_notification_for_filter: Looks like you are all caught up for this filter.
-          no_notification_with_current_filter: Looks like you are all caught up for %{filter} filter.
-          no_notification_with_current_project_filter: Looks like you are all caught up with the selected project.
-          no_selection: Click on a notification to view all activity details.
-        label_actor_and: and
-        mark_all_read: Mark all as read
-        mark_all_read_confirmation: This will mark all notifications in this view as read. Are you sure you want to do this?
-        mark_as_read: Mark as read
+          no_notification: به نظر می‌رسد همه‌چیز را بررسی کرده‌اید.
+          no_notification_for_filter: به نظر می‌رسد همه موارد این فیلتر را بررسی کرده‌اید.
+          no_notification_with_current_filter: به نظر می‌رسد همه موارد فیلتر %{filter} را بررسی کرده‌اید.
+          no_notification_with_current_project_filter: به نظر می‌رسد همه موارد پروژه انتخاب‌شده را بررسی کرده‌اید.
+          no_selection: برای مشاهده همه جزئیات فعالیت روی یک اعلان کلیک کنید.
+        label_actor_and: و
+        mark_all_read: علامت‌گذاری همه به‌عنوان خوانده‌شده
+        mark_all_read_confirmation: این کار همه اعلان‌های این نما را خوانده‌شده علامت می‌زند. مطمئنید؟
+        mark_as_read: علامت‌گذاری به‌عنوان خوانده‌شده
         new_notifications:
-          link_text: Click here to load them.
-          message: There are new notifications.
+          link_text: برای بارگذاری آن‌ها اینجا کلیک کنید.
+          message: اعلان‌های جدید وجود دارد.
         no_results:
-          at_all: New notifications will appear here when there is activity that concerns you.
-          with_current_filter: There are no notifications in this view at the moment
-        text_update_date_by: "%{date} by"
-        total_count_warning: Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed.
+          at_all: وقتی فعالیتی مرتبط با شما رخ دهد، اعلان‌های جدید اینجا ظاهر می‌شوند.
+          with_current_filter: در حال حاضر اعلانی در این نما وجود ندارد
+        text_update_date_by: "%{date} توسط"
+        total_count_warning: "%{newest_count} اعلان اخیر نمایش داده می‌شود. %{more_count} مورد دیگر نمایش داده نشده‌اند."
       date_alerts:
-        milestone_date: Milestone date
-        overdue: Overdue
-        overdue_since: for %{difference_in_days}.
-        property_is: is in %{difference_in_days}.
-        property_is_deleted: is deleted.
-        property_today: is today.
-        property_was: was %{difference_in_days} ago.
-      no_unread: اطلاعیه خوانده نشده‌ای وجود ندارد
+        milestone_date: تاریخ نقطه عطف
+        overdue: عقب‌افتاده
+        overdue_since: تا %{difference_in_days}.
+        property_is: در %{difference_in_days} است.
+        property_is_deleted: حذف شده است.
+        property_today: امروز است.
+        property_was: "%{difference_in_days} پیش بود."
+      no_unread: اعلان خوانده‌نشده‌ای نیست
       reasons:
-        assigned: نماینده
-        commented: دارای اظهار نظر
-        created: ایجاد شد
-        dateAlert: Date alert
-        mentioned: Mentioned
-        prioritized: Prioritized
-        processed: Processed
-        reminder: Reminder
-        responsible: Accountable
-        scheduled: Scheduled
-        shared: Shared
-        watched: ناظر
+        assigned: مسئول انجام
+        commented: دارای دیدگاه
+        created: ایجادشده
+        dateAlert: هشدار تاریخ
+        mentioned: اشاره‌شده
+        prioritized: اولویت‌دار
+        processed: پردازش‌شده
+        reminder: یادآوری
+        responsible: مسئول نهایی
+        scheduled: زمان‌بندی‌شده
+        shared: اشتراک‌گذاری‌شده
+        watched: دنبال‌کننده
       reminders:
-        note: 'Note: “%{note}”'
+        note: 'یادداشت: «%{note}»'
       settings:
-        change_notification_settings: You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.
-        title: Notification settings
-      title: Notifications
+        change_notification_settings: می‌توانید <a target="_blank" href="%{url}">تنظیمات اعلان</a> خود را تغییر دهید تا هیچ به‌روزرسانی مهمی را از دست ندهید.
+        title: تنظیمات اعلان
+      title: اعلان‌ها
     onboarding:
       buttons:
         got_it: متوجه شدم
-        next: Next
-        skip: صرفنظر
+        next: بعدی
+        skip: ردکردن
       steps:
         boards:
-          add: Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board.
-          drag: Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details.
-          lists_basic: Here you can create multiple lists (columns) within your agile board.
-          lists_kanban: Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example.
-          overview: Select <b>boards</b> to shift the view and manage your project using the agile boards view.
-        help_menu: منوی راهنما (؟) منابع <b>راهنمای اضافی</b> را فراهم می‌کند. در اینجا می‌توانید راهنمای کاربر، ویدیوهای آموزشی مفید و موارد دیگر را پیدا کنید. <br> از کار با اوپن‌پروژه لذت ببرید!
-        members: Invite new <b>members</b> to join your project.
-        quick_add_button: Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.
-        sidebar_arrow: Use the return arrow in the top left corner to return to the project’s <b>main menu</b>.
+          add: برای <b>ایجاد کارت جدید</b> یا <b>افزودن کارت موجود</b> به فهرست تابلو، روی نماد مثبت (+) کلیک کنید.
+          drag: کارت‌ها را در یک فهرست بکشید تا ترتیبشان تغییر کند یا به فهرست دیگری منتقل شوند. <br> برای بازکردن جزئیات می‌توانید روی نماد اطلاعات (i) در گوشه بالا سمت راست کلیک کنید یا کارت را دوبار کلیک کنید.
+          lists_basic: اینجا می‌توانید چند فهرست (ستون) در تابلوی چابک خود ایجاد کنید.
+          lists_kanban: اینجا می‌توانید چند فهرست (ستون) در تابلوی خود ایجاد کنید. برای مثال این قابلیت امکان ساخت یک <b>تابلوی Kanban</b> را می‌دهد.
+          overview: برای تغییر نما و مدیریت پروژه با تابلوهای چابک، <b>تابلوها</b> را انتخاب کنید.
+        help_menu: منوی راهنما (?) <b>منابع کمکی بیشتری</b> ارائه می‌دهد. اینجا راهنمای کاربر، ویدئوهای آموزشی و موارد دیگر را می‌یابید. <br> از کار با OpenProject لذت ببرید!
+        members: "<b>اعضای</b> جدید را برای پیوستن به پروژه دعوت کنید."
+        quick_add_button: برای <b>ایجاد پروژه جدید</b> یا <b>دعوت همکاران</b> روی نماد مثبت (+) در ناوبری سربرگ کلیک کنید.
+        sidebar_arrow: برای بازگشت به <b>منوی اصلی</b> پروژه از پیکان بازگشت در گوشه بالا سمت چپ استفاده کنید.
         team_planner:
-          add_assignee: To get started, add assignees to the team planner.
-          add_existing: Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.
-          calendar: The weekly or biweekly planning board displays all work packages assigned to your team members.
-          card: Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.
-          overview: The team planner lets you visually assign tasks to team members and get an overview of who is working on what.
-        welcome: Take a three-minute introduction tour to learn the most <b>important features</b>. <br> We recommend completing the steps until the end. You can restart the tour any time.
-        wiki: Within the <b>wiki</b> you can document and share knowledge together with your team.
+          add_assignee: برای شروع، مسئولان انجام را به برنامه‌ریز تیم اضافه کنید.
+          add_existing: بسته‌های کاری موجود را جستجو کرده و به برنامه‌ریز تیم بکشید تا فوراً به یکی از اعضای تیم تخصیص داده شوند و تاریخ شروع و پایان مشخص شود.
+          calendar: تابلوی برنامه‌ریزی هفتگی یا دوهفته‌ای همه بسته‌های کاری تخصیص‌یافته به اعضای تیم را نمایش می‌دهد.
+          card: بسته‌های کاری را افقی بکشید تا در زمان عقب یا جلو بروند، لبه‌ها را برای تغییر تاریخ شروع و پایان بکشید و حتی عمودی به سطر دیگری منتقل کنید تا به عضو دیگری تخصیص یابند.
+          overview: برنامه‌ریز تیم امکان می‌دهد وظایف را به‌صورت بصری به اعضای تیم تخصیص دهید و ببینید چه کسی روی چه چیزی کار می‌کند.
+        welcome: یک تور معرفی سه‌دقیقه‌ای را آغاز کنید تا با <b>مهم‌ترین قابلیت‌ها</b> آشنا شوید. <br> توصیه می‌کنیم مراحل را تا پایان انجام دهید. هر زمان می‌توانید تور را دوباره شروع کنید.
+        wiki: در <b>Wiki</b> می‌توانید همراه تیم دانش را مستند و به اشتراک بگذارید.
         wp:
-          back_button: Use the return arrow in the top left corner to exit and return to the work package list.
-          create_button: The <b>+ Create</b> button will add a new work package to your project.
-          full_view: The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments.
-          gantt_menu: Create project schedules and timelines effortlessly using the Gantt chart module.
-          list: This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row.
-          timeline: Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.
-          toggler: Now let's have a look at the <b>work package</b> section, which gives you a more detailed view of your work.
+          back_button: برای خروج و بازگشت به فهرست بسته‌های کاری از پیکان بازگشت در گوشه بالا سمت چپ استفاده کنید.
+          create_button: دکمه <b>+ ایجاد</b> یک بسته کاری جدید به پروژه شما اضافه می‌کند.
+          full_view: نمای <b>جزئیات بسته کاری</b> همه اطلاعات مرتبط با یک بسته کاری، مانند توضیحات، وضعیت، اولویت، فعالیت‌ها، وابستگی‌ها و دیدگاه‌ها را ارائه می‌دهد.
+          gantt_menu: با ماژول نمودار گانت، برنامه‌ها و خط‌های زمانی پروژه را به‌آسانی ایجاد کنید.
+          list: این نمای کلی <b>کار</b> فهرستی از همه کارهای پروژه، مانند وظایف، نقاط عطف، مراحل و موارد دیگر ارائه می‌دهد. <br> بسته‌های کاری را می‌توان مستقیماً از این نما ایجاد و ویرایش کرد. برای مشاهده جزئیات یک بسته کاری، کافی است روی سطر آن دوبار کلیک کنید.
+          timeline: اینجا می‌توانید <b>برنامه پروژه را ویرایش کنید</b>، بسته‌های کاری جدید مانند وظایف، نقاط عطف، مراحل و موارد دیگر بسازید و <b>وابستگی‌ها را اضافه کنید</b>. همه اعضای تیم هر زمان می‌توانند جدیدترین برنامه را ببینند و به‌روزرسانی کنند.
+          toggler: حالا بخش <b>بسته کاری</b> را ببینیم که نمای دقیق‌تری از کار شما ارائه می‌دهد.
     open_project_storage_modal:
       waiting_subtitle:
-        network_off: There is a network problem.
-        network_on: Network is back. We are trying.
+        network_off: مشکلی در شبکه وجود دارد.
+        network_on: شبکه برگشته است. دوباره تلاش می‌کنیم.
       waiting_title:
-        timeout: Timeout
+        timeout: پایان مهلت
     pagination:
-      no_other_page: You are on the only page.
-      page_navigation: Pagination navigation
+      no_other_page: در تنها صفحه موجود هستید.
+      page_navigation: ناوبری صفحه‌بندی
       pages:
-        page_number: Page %{number}
-        show_per_page: Show %{number} per page
-      pages_skipped: Pages skipped.
-      per_page_navigation: Items per page selection
+        page_number: صفحه %{number}
+        show_per_page: نمایش %{number} مورد در هر صفحه
+      pages_skipped: صفحه‌ها رد شدند.
+      per_page_navigation: انتخاب تعداد موارد در هر صفحه
     placeholders:
       default: "-"
-      description: 'Description: Click to edit...'
-      relation_description: Click to add description for this relation
-      selection: لطفا انتخاب کنید
-      subject: موضوع را اینجا وارد نمایید
+      description: 'توضیحات: برای ویرایش کلیک کنید...'
+      relation_description: برای افزودن توضیح به این رابطه کلیک کنید
+      selection: لطفاً انتخاب کنید
+      subject: موضوع را اینجا وارد کنید
     project:
       autocompleter:
         label: تکمیل خودکار پروژه
-      click_to_switch_to_project: 'Project: %{projectname}'
+      click_to_switch_to_project: 'پروژه: %{projectname}'
       context: زمینه پروژه
-      not_available: Project N/A
-      required_outside_context: 'Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
+      not_available: پروژه N/A
+      required_outside_context: 'لطفاً پروژه‌ای را برای ایجاد بسته کاری انتخاب کنید تا همه ویژگی‌ها نمایش داده شوند. فقط پروژه‌هایی قابل انتخاب‌اند که نوع بالا در آن‌ها فعال باشد.
 
         '
-    project_menu_details: Details
+    project_menu_details: جزئیات
     projects:
       identifier_suggestion:
-        loading: Loading suggestion...
-        set_name_first: Please set the name first.
+        loading: در حال بارگذاری پیشنهاد...
+        set_name_first: لطفاً ابتدا نام را تنظیم کنید.
     relation_buttons:
       abort: انصراف
-      add_existing: Add existing
-      add_existing_child: اضافه کردن کودک
-      add_existing_relation: Add existing relation
-      add_new_child: Create new child
-      add_new_relation: Create new relation
-      add_parent: Add existing parent
-      add_predecessor: Add predecessor
-      add_successor: Add successor
-      change_parent: تغییر والدین
+      add_existing: افزودن موجود
+      add_existing_child: افزودن فرزند
+      add_existing_relation: افزودن رابطه موجود
+      add_new_child: ایجاد فرزند جدید
+      add_new_relation: ایجاد رابطه جدید
+      add_parent: افزودن والد موجود
+      add_predecessor: افزودن پیش‌نیاز
+      add_successor: افزودن پس‌نیاز
+      change_parent: تغییر والد
       create_new: ایجاد جدید
-      group_by_relation_type: Group by relation type
-      group_by_wp_type: Group by work package type
-      hierarchy_indent: Indent hierarchy
-      hierarchy_outdent: Outdent hierarchy
-      remove: Remove relation
-      remove_child: Remove child
-      remove_parent: Remove parent
-      save: Save relation
-      set_parent: Set parent
-      show_relations: Show relations
-      toggle_description: Toggle relation description
-      update_description: Set or update description of this relation
-      update_relation: Click to change the relation type
+      group_by_relation_type: گروه‌بندی بر اساس نوع رابطه
+      group_by_wp_type: گروه‌بندی بر اساس نوع بسته کاری
+      hierarchy_indent: افزایش تورفتگی سلسله‌مراتب
+      hierarchy_outdent: کاهش تورفتگی سلسله‌مراتب
+      remove: حذف رابطه
+      remove_child: حذف فرزند
+      remove_parent: حذف والد
+      save: ذخیره رابطه
+      set_parent: تنظیم والد
+      show_relations: نمایش روابط
+      toggle_description: تغییر نمایش توضیح رابطه
+      update_description: تنظیم یا به‌روزرسانی توضیح این رابطه
+      update_relation: برای تغییر نوع رابطه کلیک کنید
     relation_labels:
-      blocked: مسدود شده توسط
-      blocks: مسدود شده ها
-      child: Child
-      children: بچه ها
-      duplicated: کپی شده توسط
-      duplicates: کپی ها
-      follows: دنبال شده ها
-      includes: شامل
-      parent: بالادستی
-      partof: Part of
-      precedes: قبل از
-      relates: مربوط به
-      relation_type: relation type
-      required: الزامی توسط
-      requires: الزامی بودن
+      blocked: مسدودشده توسط
+      blocks: مسدود می‌کند
+      child: فرزند
+      children: فرزندان
+      duplicated: تکثیرشده توسط
+      duplicates: تکثیر می‌کند
+      follows: پس از
+      includes: شامل می‌شود
+      parent: والد
+      partof: بخشی از
+      precedes: پیش از
+      relates: مرتبط با
+      relation_type: نوع رابطه
+      required: موردنیازِ
+      requires: نیازمند
     relations:
-      empty: No relation exists
-      remove: Remove relation
+      empty: رابطه‌ای وجود ندارد
+      remove: حذف رابطه
     relations_autocomplete:
-      parent_placeholder: Choose new parent or press escape to cancel.
-      placeholder: Type to search
+      parent_placeholder: والد جدید را انتخاب کنید یا برای لغو Esc را فشار دهید.
+      placeholder: برای جستجو تایپ کنید
     relations_hierarchy:
-      children_headline: بچه ها
-      hierarchy_headline: سلسه مراتب
-      parent_headline: بالادستی
+      children_headline: فرزندان
+      hierarchy_headline: سلسله‌مراتب
+      parent_headline: والد
     repositories:
-      select_branch: Select branch
-      select_tag: Select tag
+      select_branch: انتخاب شاخه
+      select_tag: انتخاب Tag
     sharing:
-      selected_count: "%{count} selected"
+      selected_count: "%{count} مورد انتخاب‌شده"
       selection:
-        mixed: Mixed
-      share: به اشتراک گذاری
+        mixed: ترکیبی
+      share: اشتراک‌گذاری
     sort:
-      activate_asc: activate to apply an ascending sort
-      activate_dsc: activate to apply a descending sort
-      activate_no: activate to remove the sort
-      sorted_asc: 'Ascending sort applied, '
-      sorted_dsc: 'Descending sort applied, '
-      sorted_no: 'No sort applied, '
-      sorting_disabled: sorting is disabled
+      activate_asc: برای اعمال مرتب‌سازی صعودی فعال کنید
+      activate_dsc: برای اعمال مرتب‌سازی نزولی فعال کنید
+      activate_no: برای حذف مرتب‌سازی فعال کنید
+      sorted_asc: 'مرتب‌سازی صعودی اعمال شد، '
+      sorted_dsc: 'مرتب‌سازی نزولی اعمال شد، '
+      sorted_no: 'مرتب‌سازی اعمال نشده، '
+      sorting_disabled: مرتب‌سازی غیرفعال است
     sortable_lists:
       announcements:
-        fallback_item_label: Item
-        fallback_list_name: another list
-        move_failed_check_position: Move failed. Check the item's current position.
-        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
-        moved: "%{label} moved to position %{position} of %{total}"
-        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+        fallback_item_label: مورد
+        fallback_list_name: فهرست دیگر
+        move_failed_check_position: انتقال ناموفق بود. موقعیت فعلی مورد را بررسی کنید.
+        move_failed_rolled_back: انتقال ناموفق بود. %{label} به موقعیت قبلی بازگشت.
+        moved: "%{label} به موقعیت %{position} از %{total} منتقل شد"
+        moved_to_list: "%{label} به %{list}، موقعیت %{position} از %{total} منتقل شد"
     spot:
       drop_modal:
-        close: Close modal
-        focus_grab: This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element.
+        close: بستن پنجره Modal
+        focus_grab: این یک نقطه تمرکز برای پنجره‌های Modal است. برای بازگشت به عنصر فعال‌کننده Modal، Shift+Tab را فشار دهید.
       filter_chip:
-        remove: Remove
-    text_are_you_sure: آیا مطمئن هستید؟
-    text_are_you_sure_to_cancel: You have unsaved changes on this page. Are you sure you want to discard them?
-    text_data_lost: All entered data will be lost.
-    text_query_destroy_confirmation: Are you sure you want to delete the selected view?
-    text_user_wrote: "%{value} wrote:"
-    text_work_packages_destroy_confirmation: Are you sure you want to delete the selected work package(s)?
+        remove: حذف
+    text_are_you_sure: مطمئنید؟
+    text_are_you_sure_to_cancel: در این صفحه تغییرات ذخیره‌نشده دارید. مطمئنید می‌خواهید آن‌ها را دور بیندازید؟
+    text_data_lost: همه داده‌های واردشده از بین خواهند رفت.
+    text_query_destroy_confirmation: مطمئنید می‌خواهید نمای انتخاب‌شده را حذف کنید؟
+    text_user_wrote: "%{value} نوشت:"
+    text_work_packages_destroy_confirmation: مطمئنید می‌خواهید بسته(های) کاری انتخاب‌شده را حذف کنید؟
     time_entry:
-      stop: Stop
-      title: پیگیری زمان
-      tracking: Time tracking
-      work_package_required: Requires selecting a work package first.
+      stop: توقف
+      title: ثبت زمان
+      tracking: ثبت زمان
+      work_package_required: ابتدا باید یک بسته کاری انتخاب شود.
     timer:
-      button_stop: Stop current timer
-      start_new_timer: Start new timer
-      timer_already_running: 'To start a new timer, you must first stop the current timer:'
-      timer_already_stopped: No active timer for this work package, have you stopped it in another window?
-      tracking_time: Tracking time
+      button_stop: توقف تایمر فعلی
+      start_new_timer: شروع تایمر جدید
+      timer_already_running: 'برای شروع تایمر جدید ابتدا باید تایمر فعلی را متوقف کنید:'
+      timer_already_stopped: تایمر فعالی برای این بسته کاری وجود ندارد؛ آیا آن را در پنجره دیگری متوقف کرده‌اید؟
+      tracking_time: در حال ثبت زمان
     tl_toolbar:
-      outlines: سطح سلسله مراتب
-      zooms: سطح زوم
+      outlines: سطح سلسله‌مراتب
+      zooms: سطح بزرگ‌نمایی
     toolbar:
       filter: فیلتر
-      search_query_label: Search saved views
+      search_query_label: جستجوی نماهای ذخیره‌شده
       settings:
         columns: ستون‌ها
-        configure_view: Configure view
+        configure_view: پیکربندی نما
         delete: حذف
-        display_hierarchy: Display hierarchy
-        display_sums: Display sums
+        display_hierarchy: نمایش سلسله‌مراتب
+        display_sums: نمایش مجموع‌ها
         export: خروجی
         group_by: گروه‌بندی بر اساس
-        hide_hierarchy: Hide hierarchy
-        hide_sums: Hide sums
-        page_settings: Rename view
+        hide_hierarchy: پنهان‌کردن سلسله‌مراتب
+        hide_sums: پنهان‌کردن مجموع‌ها
+        page_settings: تغییر نام نما
         save: ذخیره
-        save_as: ذخیره به عنوان
-        share_calendar: Subscribe to calendar
-        sort_by: Sort by
-        visibility_settings: تنظیمات دیداری
+        save_as: ذخیره به‌عنوان
+        share_calendar: اشتراک در تقویم
+        sort_by: مرتب‌سازی بر اساس
+        visibility_settings: تنظیمات قابلیت مشاهده
       unselected_title: کاربسته
     two_factor_authentication:
-      label_two_factor_authentication: Two-factor authentication
+      label_two_factor_authentication: احراز هویت دومرحله‌ای
     units:
       child_work_packages:
-        one: یک زیر بسته
-        other: "%{count} زیر بسته"
+        one: یک بسته کاری فرزند
+        other: "%{count} بسته کاری فرزند"
       day:
-        one: 1 day
+        one: ۱ روز
         other: "%{count} روز"
-        zero: 0 days
+        zero: ۰ روز
       hour:
-        one: 1 h
-        other: "%{count} h"
-        zero: 0 h
-      hour_string: "%{hours} h"
+        one: ۱ ساعت
+        other: "%{count} ساعت"
+        zero: ۰ ساعت
+      hour_string: "%{hours} ساعت"
       word:
-        one: 1 word
-        other: "%{count} words"
+        one: ۱ واژه
+        other: "%{count} واژه"
       workPackage:
         one: بسته کاری
-        other: بسته های کاری
+        other: بسته‌های کاری
     upsell:
-      ee_only: Enterprise edition add-on
+      ee_only: افزونه نسخه Enterprise
     views:
-      card: Cards
-      list: Table
-      timeline: Gantt
+      card: کارت‌ها
+      list: جدول
+      timeline: گانت
     watchers:
-      label_add: Add watchers
-      label_discard: Discard selection
-      label_error_loading: An error occurred while loading the watchers
-      label_loading: loading watchers...
-      label_search_watchers: Search watchers
-      typeahead_placeholder: جستجو برای دنبال کننده ها
+      label_add: افزودن دنبال‌کنندگان
+      label_discard: لغو انتخاب
+      label_error_loading: هنگام بارگذاری دنبال‌کنندگان خطایی رخ داد
+      label_loading: در حال بارگذاری دنبال‌کنندگان...
+      label_search_watchers: جستجوی دنبال‌کنندگان
+      typeahead_placeholder: جستجوی دنبال‌کنندگان ممکن
     wiki_formatting:
-      code: کد درون خطی
-      deleted: حذف شده
-      heading1: Heading 1
-      heading2: Heading 2
-      heading3: Heading 3
-      image: Image
-      italic: مورب
-      ordered_list: فهرست مرتب
-      preformatted_text: Preformatted Text
-      quote: نقل قول
-      strong: ضخیم
-      underline: زیر خط‌دار
-      unordered_list: فهرست نامرتب
-      unquote: Unquote
-      wiki_link: Link to a Wiki page
+      code: کد درون‌خطی
+      deleted: حذف‌شده
+      heading1: عنوان سطح ۱
+      heading2: عنوان سطح ۲
+      heading3: عنوان سطح ۳
+      image: تصویر
+      italic: کج
+      ordered_list: فهرست شماره‌دار
+      preformatted_text: متن ازپیش‌قالب‌بندی‌شده
+      quote: نقل‌قول
+      strong: پررنگ
+      underline: زیرخط
+      unordered_list: فهرست بدون شماره
+      unquote: حذف نقل‌قول
+      wiki_link: پیوند به صفحه Wiki
     work_packages:
       baseline:
-        addition_label: Added to view within the comparison time period
-        column_incompatible: This column does not show changes in Baseline mode.
-        modification_label: Modified within the comparison time period
-        removal_label: Removed from view within the comparison time period
+        addition_label: در بازه زمانی مقایسه به نما اضافه شده
+        column_incompatible: این ستون تغییرات را در حالت خط مبنا نشان نمی‌دهد.
+        modification_label: تغییرکرده در بازه زمانی مقایسه
+        removal_label: در بازه زمانی مقایسه از نما حذف شده
       bulk_actions:
-        delete: Bulk delete
-        duplicate: Bulk duplicate
-        edit: Bulk edit
-        move: Bulk change of project
-      button_clear: پاکسازی
-      comment_added: The comment was successfully added.
-      comment_send_failed: An error has occurred. Could not submit the comment.
-      comment_updated: The comment was successfully updated.
-      confirm_edit_cancel: Are you sure you want to cancel editing the work package?
+        delete: حذف گروهی
+        duplicate: تکثیر گروهی
+        edit: ویرایش گروهی
+        move: تغییر گروهی پروژه
+      button_clear: پاک‌کردن
+      comment_added: دیدگاه با موفقیت اضافه شد.
+      comment_send_failed: خطایی رخ داد. دیدگاه ارسال نشد.
+      comment_updated: دیدگاه با موفقیت به‌روزرسانی شد.
+      confirm_edit_cancel: مطمئنید می‌خواهید ویرایش بسته کاری را لغو کنید؟
       create:
         button: ایجاد
-        header: New %{type}
-        header_no_type: New work package (Type not yet set)
-        header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
-        title: New work package
+        header: "%{type} جدید"
+        header_no_type: بسته کاری جدید (نوع هنوز تنظیم نشده)
+        header_with_parent: "%{type} جدید (فرزند %{parent_type} #%{id})"
+        title: بسته کاری جدید
       default_queries:
-        all_open: All open
-        assigned_to_me: Assigned to me
-        created_by_me: Created by me
+        all_open: همه موارد باز
+        assigned_to_me: تخصیص‌یافته به من
+        created_by_me: ایجادشده توسط من
         latest_activity: آخرین فعالیت
-        manually_sorted: New manually sorted query
-        overdue: Overdue
-        recently_created: Recently created
-        shared_with_me: Shared with me
-        shared_with_users: Shared with users
-        summary: Summary
-      description_enter_text: Enter text
+        manually_sorted: پرس‌وجوی جدید با مرتب‌سازی دستی
+        overdue: عقب‌افتاده
+        recently_created: اخیراً ایجادشده
+        shared_with_me: اشتراک‌گذاری‌شده با من
+        shared_with_users: اشتراک‌گذاری‌شده با کاربران
+        summary: خلاصه
+      description_enter_text: متن را وارد کنید
       description_filter: فیلتر
-      description_options_hide: Hide options
-      description_options_show: Show options
+      description_options_hide: پنهان‌کردن گزینه‌ها
+      description_options_show: نمایش گزینه‌ها
       duplicate:
-        title: Duplicate work package
+        title: تکثیر بسته کاری
       edit_attribute: "%{attribute} - ویرایش"
       faulty_query:
-        description: Your view is erroneous and could not be processed.
-        title: بسته های کار قادر به بارگیری نمی باشد.
+        description: نمای شما دارای خطاست و قابل پردازش نیست.
+        title: بسته‌های کاری بارگذاری نشدند.
       filters:
-        baseline_incompatible: This filter attribute is not taken into consideration in Baseline mode.
-        baseline_warning: Baseline mode is on but some of your active filters are not included in the comparison.
-        title: Filter work packages
+        baseline_incompatible: این ویژگی فیلتر در حالت خط مبنا در نظر گرفته نمی‌شود.
+        baseline_warning: حالت خط مبنا فعال است اما برخی فیلترهای فعال شما در مقایسه لحاظ نمی‌شوند.
+        title: فیلتر بسته‌های کاری
       hierarchy:
-        children_collapsed: Hierarchy level %{level}, collapsed. Click to show the filtered children
-        children_expanded: Hierarchy level %{level}, expanded. Click to collapse the filtered children
-        hide: Hide hierarchy mode
-        leaf: Work package leaf at level %{level}.
-        show: Show hierarchy mode
-        toggle_button: Click to toggle hierarchy mode.
+        children_collapsed: سطح سلسله‌مراتب %{level}، جمع‌شده. برای نمایش فرزندان فیلترشده کلیک کنید
+        children_expanded: سطح سلسله‌مراتب %{level}، بازشده. برای جمع‌کردن فرزندان فیلترشده کلیک کنید
+        hide: پنهان‌کردن حالت سلسله‌مراتب
+        leaf: برگ بسته کاری در سطح %{level}.
+        show: نمایش حالت سلسله‌مراتب
+        toggle_button: برای تغییر حالت سلسله‌مراتب کلیک کنید.
       inline_create:
-        title: Click here to add a new work package to this list
+        title: برای افزودن بسته کاری جدید به این فهرست اینجا کلیک کنید
       jump_marks:
-        content: Jump to content
-        label_content: Click here to skip over the menu and go to the content
-        label_pagination: Click here to skip over the work packages table and go to pagination
-        pagination: Jump to table pagination
+        content: رفتن به محتوا
+        label_content: برای عبور از منو و رفتن به محتوا اینجا کلیک کنید
+        label_pagination: برای عبور از جدول بسته‌های کاری و رفتن به صفحه‌بندی اینجا کلیک کنید
+        pagination: رفتن به صفحه‌بندی جدول
       key_value: "%{key}: %{value}"
-      label_column_multiselect: 'Combined dropdown field: Select with arrow keys, confirm selection with enter, delete with backspace'
-      label_disable_multi_select: Disable multiselect
-      label_enable_multi_select: Enable multiselect
-      label_filter_add: Add filter
-      label_filter_by_text: Filter by text
+      label_column_multiselect: 'فیلد کشویی ترکیبی: با کلیدهای جهت‌نما انتخاب کنید، با Enter تأیید و با Backspace حذف کنید'
+      label_disable_multi_select: غیرفعال‌کردن انتخاب چندگانه
+      label_enable_multi_select: فعال‌کردن انتخاب چندگانه
+      label_filter_add: افزودن فیلتر
+      label_filter_by_text: فیلتر بر اساس متن
       label_options: گزینه‌ها
-      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
-      message_error_during_bulk_delete: An error occurred while trying to delete work packages.
-      message_successful_bulk_delete: Successfully deleted work packages.
-      message_successful_show_in_fullscreen: Click here to open this work package in fullscreen view.
-      message_view_spent_time: Show spent time for this work package
-      message_work_package_read_only: Work package is locked in this status. No attribute other than status can be altered.
-      message_work_package_status_blocked: Work package status is not writable due to closed status and closed version being assigned.
+      limited_results: در حالت مرتب‌سازی دستی فقط %{count} بسته کاری قابل نمایش است. نتایج را با فیلتر کاهش دهید یا به مرتب‌سازی خودکار بروید.
+      message_error_during_bulk_delete: هنگام حذف بسته‌های کاری خطایی رخ داد.
+      message_successful_bulk_delete: بسته‌های کاری با موفقیت حذف شدند.
+      message_successful_show_in_fullscreen: برای بازکردن این بسته کاری در نمای تمام‌صفحه اینجا کلیک کنید.
+      message_view_spent_time: نمایش زمان صرف‌شده برای این بسته کاری
+      message_work_package_read_only: بسته کاری در این وضعیت قفل است. هیچ ویژگی‌ای جز وضعیت قابل تغییر نیست.
+      message_work_package_status_blocked: به‌دلیل تخصیص وضعیت بسته و نسخه بسته، وضعیت بسته کاری قابل نوشتن نیست.
       no_results:
-        description: Either none have been created or all work packages are filtered out.
-        title: No work packages to display.
-      placeholder_filter_by_text: Subject, description, comments, ...
+        description: یا هیچ بسته کاری ایجاد نشده یا همه آن‌ها توسط فیلترها حذف شده‌اند.
+        title: بسته کاری برای نمایش وجود ندارد.
+      placeholder_filter_by_text: موضوع، توضیحات، دیدگاه‌ها، ...
       placeholders:
-        date: Select date
+        date: انتخاب تاریخ
         default: "-"
       progress:
-        title: Work estimates and progress
+        title: برآورد کار و پیشرفت
       properties:
-        assignee: نماینده
+        assignee: مسئول انجام
         author: نویسنده
-        category: Category
-        createdAt: Created on
+        category: دسته‌بندی
+        createdAt: ایجادشده در
         date: تاریخ
         description: توضیحات
-        dueDate: Finish date
-        duration: Duration
-        percentComplete: "% Complete"
-        percentCompleteAlternative: Progress
-        percentageDone: Percentage done
-        priority: اولويت
+        dueDate: تاریخ پایان
+        duration: مدت
+        percentComplete: "٪ تکمیل"
+        percentCompleteAlternative: پیشرفت
+        percentageDone: درصد انجام‌شده
+        priority: اولویت
         projectName: پروژه
         remainingTime: کار باقی‌مانده
         remainingWork: کار باقی‌مانده
-        remainingWorkAlternative: ساعت‌های باقیمانده
+        remainingWorkAlternative: ساعات باقی‌مانده
         responsible: مسئول
-        spentTime: زمان صرف شده
+        spentTime: زمان صرف‌شده
         startDate: تاریخ شروع
         status: وضعیت
         subject: موضوع
-        subproject: زیر پروژه
+        subproject: زیرپروژه
         title: عنوان
         type: نوع
-        updatedAt: به روز شده
+        updatedAt: به‌روزرسانی‌شده در
         version: نسخه
         versionName: نسخه
-        work: Work
-        workAlternative: Estimated time
+        work: کار
+        workAlternative: زمان برآوردی
       property_groups:
-        details: Details
-        estimatesAndTime: برآورد و زمان
-        other: غیره
+        details: جزئیات
+        estimatesAndTime: برآوردها و زمان
+        other: سایر
         people: افراد
       query:
-        click_to_edit_query_name: Click to edit title of this view.
+        click_to_edit_query_name: برای ویرایش عنوان این نما کلیک کنید.
         column_names: ستون‌ها
-        confirm_edit_cancel: Are you sure you want to cancel editing the name of this view? Title will be set back to previous value.
-        display_sums: Display Sums
+        confirm_edit_cancel: مطمئنید می‌خواهید ویرایش نام این نما را لغو کنید؟ عنوان به مقدار قبلی بازمی‌گردد.
+        display_sums: نمایش مجموع‌ها
         errors:
-          duplicate_query_title: Name of this view already exists. Change anyway?
-          not_found: There is no such view
-          unretrievable_query: Unable to retrieve view from URL
+          duplicate_query_title: نام این نما از قبل وجود دارد. با این حال تغییر داده شود؟
+          not_found: چنین نمایی وجود ندارد
+          unretrievable_query: بازیابی نما از URL ممکن نبود
         filters: فیلترها
         group: گروه‌بندی بر اساس
-        group_by: دسته بندی نتایج با
-        group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy mode being active.
-        hide_column: عدم نمایش ستون
-        hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results being grouped by %{column}.
-        insert_columns: Insert columns
-        move_column_left: Move column left
-        move_column_right: Move column right
-        public_text: 'Publish this view, allowing other users to access your view. Users with the ''Manage public views'' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
+        group_by: گروه‌بندی نتایج بر اساس
+        group_by_disabled_by_hierarchy: گروه‌بندی به‌دلیل فعال‌بودن حالت سلسله‌مراتب غیرفعال است.
+        hide_column: پنهان‌کردن ستون
+        hierarchy_disabled_by_group_by: حالت سلسله‌مراتب به‌دلیل گروه‌بندی نتایج بر اساس %{column} غیرفعال است.
+        insert_columns: درج ستون‌ها
+        move_column_left: انتقال ستون به چپ
+        move_column_right: انتقال ستون به راست
+        public_text: 'این نما را منتشر کنید تا کاربران دیگر به آن دسترسی داشته باشند. کاربران دارای مجوز «مدیریت نماهای عمومی» می‌توانند Query عمومی را تغییر یا حذف کنند. این کار بر قابلیت مشاهده نتایج بسته کاری در آن نما اثر نمی‌گذارد و بسته به مجوزها، کاربران ممکن است نتایج متفاوتی ببینند.
 
           '
-        rename_query_placeholder: Name of this view
-        sort_ascending: Sort ascending
-        sort_descending: Sort descending
-        star_text: Mark this view as favorite and add to the saved views sidebar on the left.
-        text_no_results: No matching views were found.
+        rename_query_placeholder: نام این نما
+        sort_ascending: مرتب‌سازی صعودی
+        sort_descending: مرتب‌سازی نزولی
+        star_text: این نما را به علاقه‌مندی‌ها اضافه کنید و در نوار کناری نماهای ذخیره‌شده سمت چپ نمایش دهید.
+        text_no_results: نمای منطبقی یافت نشد.
       reminders:
-        button_label: Set reminder
+        button_label: تنظیم یادآوری
         presets:
-          custom: At a particular date/time
-          month: In a month
-          three_days: In 3 days
-          tomorrow: Tomorrow
-          week: In a week
-        subtitle: You will receive a notification for this work package at the chosen time.
+          custom: در تاریخ/زمان مشخص
+          month: یک ماه دیگر
+          three_days: ۳ روز دیگر
+          tomorrow: فردا
+          week: یک هفته دیگر
+        subtitle: در زمان انتخاب‌شده برای این بسته کاری اعلان دریافت خواهید کرد.
         title:
-          edit: Edit reminder
-          new: Set a reminder
+          edit: ویرایش یادآوری
+          new: تنظیم یادآوری
       scheduling:
-        is_parent: The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates.
-        is_switched_from_manual_to_automatic: The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages.
+        is_parent: تاریخ‌های این بسته کاری به‌طور خودکار از فرزندان آن استنتاج می‌شوند. برای تنظیم تاریخ‌ها «زمان‌بندی دستی» را فعال کنید.
+        is_switched_from_manual_to_automatic: پس از تغییر از زمان‌بندی دستی به خودکار، ممکن است تاریخ‌های این بسته کاری به‌دلیل روابط با سایر بسته‌های کاری دوباره محاسبه شوند.
       sharing:
         show_all_users: نمایش همهٔ کاربرانی که بستهٔ کاری با آن‌ها به اشتراک گذاشته شده است
-        title: Share work package
+        title: اشتراک‌گذاری بسته کاری
       table:
-        configure_button: Configure work package table
-        summary: Table with rows of work package and columns of work package attributes.
-        text_inline_edit: Most cells of this table are buttons that activate inline-editing functionality of that attribute.
-        text_select_hint: Select boxes should be opened with 'ALT' and arrow keys.
-        text_sort_hint: With the links in the table headers you can sort, group, reorder, remove and add table columns.
+        configure_button: پیکربندی جدول بسته کاری
+        summary: جدولی با سطرهای بسته کاری و ستون‌های ویژگی‌های بسته کاری.
+        text_inline_edit: بیشتر سلول‌های این جدول دکمه‌هایی هستند که ویرایش درون‌خطی آن ویژگی را فعال می‌کنند.
+        text_select_hint: کادرهای انتخاب باید با «ALT» و کلیدهای جهت‌نما باز شوند.
+        text_sort_hint: با پیوندهای سربرگ جدول می‌توانید ستون‌ها را مرتب، گروه‌بندی، جابه‌جا، حذف یا اضافه کنید.
       table_configuration:
-        button: Configure this work package table
-        choose_display_mode: Display work packages as
-        columns_help_text: Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them.
-        default: default
-        default_mode: Flat list
-        display_settings: Display settings
-        display_sums_hint: Display sums of all summable attributes in a row below the table results.
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
-        hierarchy_hint: All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed.
-        hierarchy_mode: سلسه مراتب
-        highlighting: Highlighting
+        button: پیکربندی این جدول بسته کاری
+        choose_display_mode: نمایش بسته‌های کاری به‌شکل
+        columns_help_text: از فیلد ورودی بالا برای افزودن ستون به نمای جدول استفاده کنید. می‌توانید ستون‌ها را بکشید و رها کنید تا ترتیبشان تغییر کند.
+        default: پیش‌فرض
+        default_mode: فهرست تخت
+        display_settings: تنظیمات نمایش
+        display_sums_hint: مجموع همه ویژگی‌های قابل جمع را در سطری زیر نتایج جدول نمایش دهید.
+        embedded_tab_disabled: این زبانه پیکربندی برای نمای جاسازی‌شده‌ای که ویرایش می‌کنید در دسترس نیست.
+        hierarchy_hint: همه نتایج فیلترشده جدول همراه با اجدادشان تکمیل می‌شوند. سلسله‌مراتب‌ها قابل باز و جمع‌کردن هستند.
+        hierarchy_mode: سلسله‌مراتب
+        highlighting: برجسته‌سازی
         highlighting_mode:
-          description: Highlight with color
-          entire_row_by: Entire row by
-          inline: بخش(های) هایلایت‌شده
-          inline_all: همه‌ی بخش‌ها
-          none: No highlighting
-          priority: اولويت
+          description: برجسته‌سازی با رنگ
+          entire_row_by: کل سطر بر اساس
+          inline: ویژگی(های) برجسته‌شده
+          inline_all: همه ویژگی‌ها
+          none: بدون برجسته‌سازی
+          priority: اولویت
           status: وضعیت
           type: نوع
-        modal_title: Work package table configuration
+        modal_title: پیکربندی جدول بسته کاری
         relation_filters:
-          filter_work_packages_by_relation_type: Filter work packages by relation type
-        show_timeline_hint: Show an interactive gantt chart on the right side of the table. You can change its width by dragging the divider between table and gantt chart.
+          filter_work_packages_by_relation_type: فیلتر بسته‌های کاری بر اساس نوع رابطه
+        show_timeline_hint: یک نمودار گانت تعاملی در سمت راست جدول نمایش دهید. با کشیدن جداکننده بین جدول و گانت می‌توانید عرض آن را تغییر دهید.
         sorting_mode:
-          automatic: Automatic
-          description: 'Chose the mode to sort your Work packages:'
-          manually: Manually
-          warning: You will lose your previous sorting when activating the automatic sorting mode.
+          automatic: خودکار
+          description: 'حالت مرتب‌سازی بسته‌های کاری را انتخاب کنید:'
+          manually: دستی
+          warning: با فعال‌کردن مرتب‌سازی خودکار، مرتب‌سازی قبلی از بین می‌رود.
       tabs:
         activity: فعالیت
-        files: Files
+        files: فایل‌ها
         overview: نمای کلی
-        project_attributes: Project attributes
-        relations: Relations
-        watchers: Watchers
+        project_attributes: ویژگی‌های پروژه
+        relations: روابط
+        watchers: دنبال‌کنندگان
       time_relative:
-        days: days
-        months: months
-        weeks: weeks
+        days: روز
+        months: ماه
+        weeks: هفته
     zen_mode:
-      button_activate: Activate zen mode
-      button_deactivate: Deactivate zen mode
+      button_activate: فعال‌کردن حالت Zen
+      button_deactivate: غیرفعال‌کردن حالت Zen

@@ -24,9 +24,9 @@ pt-BR:
   activerecord:
     attributes:
       cost_entry:
-        entity: Registrado em
-        entity_gid: Registrado em
-        entity_id: Registrado em
+        entity: Registrado para
+        entity_gid: Registrado para
+        entity_id: Registrado para
         logged_by: Registrado por
         overridden_costs: Substitui custos
         spent: Gasto
@@ -44,9 +44,9 @@ pt-BR:
         activity: Atividade
         comments: Comentário
         end_time: Hora Final
-        entity: Registrado por
-        entity_gid: Registrado em
-        entity_id: Registrado em
+        entity: Registrado para
+        entity_gid: Registrado para
+        entity_id: Registrado para
         hours: horas
         project: Projeto
         spent_on: Data
@@ -73,14 +73,24 @@ pt-BR:
             project_ids:
               blank: Selecione um projeto.
         time_entry:
-          cannot_log_for_this_work_package: Não é possível registrar tempo para este pacote de trabalho.
-          duplicate_ongoing: Já existe um registro de tempo em andamento para este usuário.
-          exceeds_user_working_hours: não pode exceder as %{limit} horas disponíveis na jornada de trabalho do usuário.
-          in_past_month: está em um mês que está encerrado. Os registros de horas só podem ser adicionados, alterados ou excluídos a partir de %{date} em diante.
-          invalid_time: deve estar entre 00:00 e 23:59.
-          max_hours_per_day_exceeded: cannot exceed %{limit} hours logged in total for a single day.
-          max_hours_per_entry_exceeded: cannot be more than %{limit} hours for a single time entry.
-          not_a_working_day: não é um dia útil para o usuário.
+          attributes:
+            entity:
+              blank: "“Registrado para” não pode ficar em branco."
+              cannot_log_for_this_work_package: Você não tem permissão para registrar horas para este pacote de trabalho.
+              format: "%{message}"
+            hours:
+              exceeds_user_working_hours: As horas registradas não podem exceder o limite de %{limit} horas disponíveis no dia de trabalho do usuário.
+              format: "%{message}"
+              max_hours_per_day_exceeded: As horas registradas não podem exceder o limite de %{limit} horas por dia definido pelo administrador.
+              max_hours_per_entry_exceeded: As horas registradas não podem exceder o limite de %{limit} horas por lançamento de horas definido pelo administrador.
+            spent_on:
+              format: "%{message}"
+              in_past_month: Você não pode planejar horas para um mês passado. Os lançamentos de horas só podem ser adicionados, alterados ou excluídos a partir de %{date}.
+              not_a_working_day: O dia selecionado não é um dia de trabalho para este usuário.
+            start_time:
+              format: "%{message}"
+              invalid_time: Horário inválido. O horário deve estar entre 00:00 e 23:59.
+          duplicate_ongoing: Outro cronômetro já está em execução. Apenas um cronômetro pode estar ativo por vez.
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Pacote de trabalho #%{id} não é válido para reatribuir as entradas de custo.'
           nullify_is_not_valid_for_cost_entries: Custos dos insumos não podem ser atribuídos a um projeto.
@@ -88,16 +98,30 @@ pt-BR:
       cost_entry:
         one: Registro de custo
         other: Registros de custo
+      cost_rate:
+        one: Taxa de custo
+        other: Taxas de custo
       cost_type:
         one: Tipo de custo
         other: Tipos de custo
-      rate: Taxa
+      default_hourly_rate:
+        one: Taxa horária padrão
+        other: Taxas horárias padrão
+      hourly_rate:
+        one: Taxa horária
+        other: Taxas horárias
+      rate:
+        one: Taxa
+        other: Taxas
       time_entry:
         one: Registro de tempo
         other: Registros de tempo
       time_entry_activity:
         one: Atividade de registro de tempo
         other: Atividades de registro de tempo
+      time_entry_custom_field:
+        one: Campo personalizado do lançamento de horas
+        other: Campos personalizados do lançamento de horas
   api_v3:
     errors:
       validation:
@@ -118,7 +142,7 @@ pt-BR:
   button_log_time: Registro
   button_stop_timer: Parar temporizador
   button_update_limits: Atualizar limites
-  button_update_start_finish_times: Update start and finish times
+  button_update_start_finish_times: Atualizar horários de início e término
   caption_booked_on_project: Reservado para o projeto
   caption_default: Padrão
   caption_default_rate_history_for: Taxa histórica padrão para %{user}
@@ -164,14 +188,14 @@ pt-BR:
         view_details: Ver detalhes dos custos reais
   description_costs_settings: Defina o formato desejado para os custos em todos os projetos.
   description_date_for_new_rate: Data para nova taxa
-  description_time_entry_restrictions: Define limits for when a user logs time. This applies to all projects.
-  description_time_settings: Time entries can have specific start and finish times, which can be made optional or mandatory.
+  description_time_entry_restrictions: Defina limites para quando um usuário registrar horas. Isso se aplica a todos os projetos.
+  description_time_settings: Os lançamentos de horas podem ter horários específicos de início e término, que podem ser opcionais ou obrigatórios.
   ee:
     features:
-      time_entry_time_restrictions: Time entry restrictions
+      time_entry_time_restrictions: Restrições para lançamento de horas
     upsell:
       time_entry_time_restrictions:
-        description: Improve your time tracking by allowing or enforcing precise start and finish times and by introducing limits on when and how much time can be logged by a project member.
+        description: Melhore o controle de horas permitindo ou exigindo horários precisos de início e término e estabelecendo limites para quando e quantas horas um membro do projeto pode registrar.
   group_by_others: Não em qualquer grupo
   label_available_cost_types_projects: Tipos de custo disponíveis nos projetos
   label_between: entre
@@ -196,7 +220,6 @@ pt-BR:
   label_greater_or_equal: ">="
   label_group_by: Agrupar por
   label_group_by_add: Adicionar campo de agrupamento
-  label_hourly_rate: Taxa horária
   label_include_deleted: Incluir excluídos
   label_kind: Tipo
   label_less_or_equal: "<="
@@ -217,12 +240,11 @@ pt-BR:
   label_previous_month: Mês anterior
   label_previous_week: Semana anterior
   label_previous_workweek: Semana útil anterior
-  label_rate: Taxa
   label_rate_plural: Taxas
   label_show: Exibir
   label_specific_day: Dia %{day}
   label_specific_month: Mês %{month}
-  label_start_and_finished: Start and finish times
+  label_start_and_finished: Horários de início e término
   label_status_finished: Finalizado
   label_time: Horário
   label_time_entry_activity_form_description: As mudanças nesta atividade de registro de tempo serão aplicadas a todos os projetos onde estiver habilitada.
@@ -231,7 +253,6 @@ pt-BR:
   label_today_capitalized: Hoje
   label_units: Custos unitários
   label_until: até
-  label_user: Usuário
   label_valid_from: Válido a partir de
   label_view_mode_switcher: Alterar vista
   label_work_package_filter_add: Adicionar filtro de pacote de trabalho
@@ -272,18 +293,18 @@ pt-BR:
   setting_enforce_tracking_start_and_end_times: Exigir horários de início e término
   setting_enforce_tracking_start_and_end_times_caption: Torna a inserção de horários de início e término obrigatória ao registrar o tempo.
   setting_enforce_without_allow: Exigir os horários de início e término não é possível sem habilitá-los
-  setting_time_entries_limit_to_user_working_hours: Limit to the user's working hours
-  setting_time_entries_limit_to_user_working_hours_caption: Limits the number of hours that can be logged to that user’s capacity for that day. Users without defined working times will not be restricted.
+  setting_time_entries_limit_to_user_working_hours: Limitar ao horário de trabalho do usuário
+  setting_time_entries_limit_to_user_working_hours_caption: Limita o total de horas que podem ser registradas por dia ao horário de trabalho efetivo do usuário. Usuários sem horário de trabalho definido não terão essa restrição.
   setting_time_entries_max_hours_per_day: Número máximo de horas por dia
-  setting_time_entries_max_hours_per_day_caption: Limits the total number of hours a user can log in a single day. A value of 0 means there are no restrictions.
-  setting_time_entries_max_hours_per_entry: Maximum number of hours per time entry
-  setting_time_entries_max_hours_per_entry_caption: Limits how many hours a single time entry can be. A value of 0 means there are no restrictions.
+  setting_time_entries_max_hours_per_day_caption: Limita o número total de horas que um usuário pode registrar em um único dia. O valor 0 significa que não há restrições.
+  setting_time_entries_max_hours_per_entry: Número máximo de horas por lançamento de horas
+  setting_time_entries_max_hours_per_entry_caption: Limita o número de horas que um único lançamento de horas pode ter. O valor 0 significa que não há restrições.
   setting_time_entries_past_month_grace_days: Período de carência referente aos meses anteriores
-  setting_time_entries_past_month_grace_days_caption: Define the number of days a user has when a new month starts to log time entries for the past month. A value of 5 lets users log time for the previous month till the 5th of the current month. A value of 0 represents no grace period at all.
+  setting_time_entries_past_month_grace_days_caption: Defina o número de dias que um usuário tem, a partir do início de um novo mês, para registrar lançamentos de horas referentes ao mês anterior. O valor 5 permite que os usuários registrem horas referentes ao mês anterior até o dia 5 do mês atual. O valor 0 significa que não há período de tolerância.
   setting_time_entries_prohibit_logging_for_past_months: Não permitir registros nos meses anteriores
-  setting_time_entries_prohibit_logging_for_past_months_caption: Restricts adding, changing and deleting time entries to the current month. Time that is logged in past months can no longer be modified.
-  setting_time_entries_prohibit_logging_on_non_working_days: Do not allow logging time on non-working days
-  setting_time_entries_prohibit_logging_on_non_working_days_caption: Users will not be able to log time on days that are defined as non-working either by an administrator or by individual users in their account settings.
+  setting_time_entries_prohibit_logging_for_past_months_caption: Restringe a adição, alteração e exclusão de lançamentos de horas ao mês atual. As horas registradas em meses anteriores não podem mais ser modificadas.
+  setting_time_entries_prohibit_logging_on_non_working_days: Não permitir o registro de horas em dias que não sejam de trabalho
+  setting_time_entries_prohibit_logging_on_non_working_days_caption: Os usuários não poderão registrar horas em dias definidos como não úteis pelo administrador ou pelos próprios usuários nas configurações da conta.
   text_assign_time_and_cost_entries_to_project: Atribuir horas relatadas e custos ao projeto
   text_destroy_cost_entries_question: "%{cost_entries} foram informados sobre os pacotes de trabalho que você está prestes a excluir. O que você quer fazer?"
   text_destroy_time_and_cost_entries: Excluir horas e custos informados

@@ -14,6 +14,13 @@ de:
           end_before_start: der Endwert muss größer sein als der Startwert.
           outside: ist außerhalb des Rasters.
           overlaps: überlappen.
+    models:
+      grids/grid:
+        one: Raster
+        other: Raster
+      grids/widget:
+        one: Widget
+        other: Widgets
   grids:
     label_widget_in_grid: Widget im Gitter %{grid_name} enthalten
     widgets:
@@ -32,7 +39,7 @@ de:
       project_timeline:
         footer_actions_label: Details ansehen
         gantt_link: Meilensteine als Gantt
-        no_results_title: No project timeline content configured
+        no_results_title: Es wurden keine Angaben zum Projektzeitplan konfiguriert
         sprints_link: Sprintübersicht
         title: Projektzeitleiste
         title_portfolio: Zeitleiste des Portfolios

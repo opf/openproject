@@ -21,6 +21,23 @@
 #++
 ---
 fr:
+  activerecord:
+    models:
+      deploy_status_check:
+        one: Vérification du statut de déploiement
+        other: Vérifications du statut de déploiement
+      deploy_target:
+        one: Cible de déploiement
+        other: Cibles de déploiement
+      github_check_run:
+        one: Exécution de vérification GitHub
+        other: Exécutions de vérification GitHub
+      github_pull_request:
+        one: Pull request GitHub
+        other: Pull requests GitHub
+      github_user:
+        one: Utilisateur GitHub
+        other: Utilisateurs GitHub
   attributes:
     additions_count: Nombre d'ajouts
     changed_files_count: Fichiers modifiés
@@ -34,7 +51,7 @@ fr:
     github_updated_at: Mise à jour à
     host: Hôte
     labels: Étiquettes
-    repository: Référentiel
+    repository: Dépôt
     review_comments_count: Nombre de commentaires de révision
   button_add_deploy_target: Ajouter un objectif de déploiement
   label_deploy_target: Objectif de déploiement
@@ -48,7 +65,7 @@ fr:
   permission_introspection: Consulter la version principale d'OpenProject et du build SHA en cours d'exécution
   permission_show_github_content: Afficher le contenu GitHub
   plugin_openproject_github_integration:
-    description: Permet une intégration étroite entre OpenProject et GitHub pour un meilleur flux de travail
+    description: Intègre OpenProject et GitHub pour améliorer le flux de travail
     name: Intégration de GitHub et OpenProject
   project_module_github: GitHub
   text_deploy_target_api_key_info: 'Une [clé API](docs_url) OpenProject appartenant à un utilisateur ayant la permission d''introspection globale.
@@ -57,7 +74,7 @@ fr:
   text_deploy_target_type_info: 'Pour l''instant, nous ne prenons en charge qu''OpenProject.
 
     '
-  text_github_comment_user_info: 'L''utilisateur d''OpenProject dont la clé d''API doit être utilisée pour authentifier les demandes de webhook entrantes. Lorsqu''il est défini, les demandes authentifiées avec les informations d''identification de tout autre utilisateur sont rejetées. Cet utilisateur publie également des commentaires automatisés sur l''état de déploiement des lors de travaux. Par défaut, il s''agit de l''utilisateur du système s''il n''est pas défini.
+  text_github_comment_user_info: 'L''utilisateur d''OpenProject dont la clé d''API doit être utilisée pour authentifier les demandes de webhook entrantes. Lorsqu''il est défini, les demandes authentifiées avec les informations d''identification de tout autre utilisateur sont rejetées. Cet utilisateur publie également des commentaires automatisés sur le statut du déploiement des lots de travaux. Par défaut, il s''agit de l''utilisateur du système s''il n''est pas défini.
 
     '
   text_github_webhook_secret_info: 'Un jeton secret partagé avec GitHub lors de la configuration du webhook. Lorsqu''il est défini, OpenProject vérifie l''en-tête X-Hub-Signature-256 sur chaque requête entrante et rejette les charges utiles qui ne correspondent pas. Laissez l''espace vide pour ignorer la vérification (non recommandé).

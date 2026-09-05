@@ -102,16 +102,46 @@ be:
         recurring_meeting_interim_response:
           not_an_occurrence: is not a valid occurrence time for this recurring meeting
     models:
-      meeting: One-time meeting
-      meeting_agenda: Agenda
-      meeting_agenda_item: Agenda item
-      meeting_section: Раздзел
-      recurring_meeting: Recurring meeting
+      meeting:
+        one: One-time meeting
+        few: One-time meetings
+        many: One-time meetings
+        other: One-time meetings
+      meeting_agenda_item:
+        one: Agenda item
+        few: Agenda items
+        many: Agenda items
+        other: Agenda items
+      meeting_outcome:
+        one: Outcome
+        few: Outcomes
+        many: Outcomes
+        other: Outcomes
+      meeting_participant:
+        one: Meeting participant
+        few: Meeting participants
+        many: Meeting participants
+        other: Meeting participants
+      meeting_section:
+        one: Section
+        few: Sections
+        many: Sections
+        other: Sections
+      recurring_meeting:
+        one: Recurring meeting
+        few: Recurring meetings
+        many: Recurring meetings
+        other: Recurring meetings
+      scheduled_meeting:
+        one: Scheduled meeting
+        few: Scheduled meetings
+        many: Scheduled meetings
+        other: Scheduled meetings
       token/ical_meeting:
         one: iCal Meeting subscription
-        few: iCal Meeting subscription
-        many: iCal Meeting subscription
-        other: iCal Meeting subscription
+        few: iCal Meeting subscriptions
+        many: iCal Meeting subscriptions
+        other: iCal Meeting subscriptions
   activity:
     filter:
       meeting: Meetings
@@ -261,7 +291,6 @@ be:
   label_past_meetings: Past meetings
   label_past_meetings_short: Past
   label_recurring_filter: Recurring filter
-  label_recurring_meeting: Recurring meeting
   label_recurring_meeting_cancel: Cancel this occurrence
   label_recurring_meeting_create: Open
   label_recurring_meeting_delete: Delete occurrence

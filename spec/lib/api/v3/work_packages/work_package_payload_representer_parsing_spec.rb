@@ -136,4 +136,24 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter, "parsing" d
       end
     end
   end
+
+  describe "observedInVersions" do
+    let(:version) { build_stubbed(:version) }
+    let(:other_version) { build_stubbed(:version) }
+
+    let(:hash) do
+      {
+        _links: {
+          "observedInVersions" => [
+            { "href" => api_v3_paths.version(version.id) },
+            { "href" => api_v3_paths.version(other_version.id) }
+          ]
+        }
+      }
+    end
+
+    it "writes the ids through to observed_in_version_ids" do
+      expect(subject.observed_in_version_ids).to eq([version.id.to_s, other_version.id.to_s])
+    end
+  end
 end

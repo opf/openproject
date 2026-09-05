@@ -73,14 +73,24 @@ hu:
             project_ids:
               blank: Please select a project.
         time_entry:
-          cannot_log_for_this_work_package: Erre a munkacsomagra nem lehet időt naplózni.
-          duplicate_ongoing: Erre a felhasználóra már létezik egy folyamatban lévő időbejegyzés.
-          exceeds_user_working_hours: cannot exceed the %{limit} hours available on the user's working day.
-          in_past_month: is in a month that is closed. Time entries can only be added, changed or deleted from %{date} onwards.
-          invalid_time: 00:00 és 23:59 között kell lennie.
-          max_hours_per_day_exceeded: cannot exceed %{limit} hours logged in total for a single day.
-          max_hours_per_entry_exceeded: cannot be more than %{limit} hours for a single time entry.
-          not_a_working_day: is not a working day for the user.
+          attributes:
+            entity:
+              blank: Logged for can't be blank.
+              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
+              format: "%{message}"
+            hours:
+              exceeds_user_working_hours: The logged hours cannot exceed the limit of %{limit} hours available on the user's working day.
+              format: "%{message}"
+              max_hours_per_day_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single day defined by the administrator.
+              max_hours_per_entry_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single time entry defined by the administrator.
+            spent_on:
+              format: "%{message}"
+              in_past_month: You can't plan time into a past month. Time entries can only be added, changed or deleted from %{date} onwards.
+              not_a_working_day: The selected day is a non-working day for this user.
+            start_time:
+              format: "%{message}"
+              invalid_time: Invalid time. The time must be between 00:00 and 23:59.
+          duplicate_ongoing: Another timer is already running. Only one timer can be active at the same time.
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Munkacsomag #%{id} nem érvényes cél a költség újrahozzárendeléséhez.'
           nullify_is_not_valid_for_cost_entries: Költségek nem hozzárendelhetőek a projekthez.
@@ -88,16 +98,30 @@ hu:
       cost_entry:
         one: Költség tétel
         other: Költségek rögzítése
+      cost_rate:
+        one: Cost rate
+        other: Cost rates
       cost_type:
         one: Költségtípus
         other: Költségtípusok
-      rate: Díj
+      default_hourly_rate:
+        one: Default hourly rate
+        other: Default hourly rates
+      hourly_rate:
+        one: Hourly rate
+        other: Hourly rates
+      rate:
+        one: Rate
+        other: Rates
       time_entry:
         one: Belépési idő
         other: Idők rögzítése
       time_entry_activity:
         one: Időkövetési tevékenység
         other: Időnyilvántartási tevékenységek
+      time_entry_custom_field:
+        one: Time entry custom field
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:
@@ -196,7 +220,6 @@ hu:
   label_greater_or_equal: ">="
   label_group_by: Csoportosítás
   label_group_by_add: Csoportosítási mező hozzáadása
-  label_hourly_rate: Óradíj
   label_include_deleted: Töröltekkel együtt
   label_kind: Típus
   label_less_or_equal: "<="
@@ -217,7 +240,6 @@ hu:
   label_previous_month: Előző hónap
   label_previous_week: Előző héten
   label_previous_workweek: Előző munkahét
-  label_rate: Díj
   label_rate_plural: Díjak
   label_show: Mutat
   label_specific_day: Nap %{day}
@@ -231,7 +253,6 @@ hu:
   label_today_capitalized: Ma
   label_units: Költség egységek
   label_until: "-ig"
-  label_user: Felhasználó
   label_valid_from: Innentől érvényes
   label_view_mode_switcher: Nézet módosítása
   label_work_package_filter_add: Munkacsomag szűrő hozzáadása
@@ -273,7 +294,7 @@ hu:
   setting_enforce_tracking_start_and_end_times_caption: A munkaidő-nyilvántartás során kötelezővé teszi a kezdési és befejezési idők megadását.
   setting_enforce_without_allow: A kezdési és befejezési idő megkövetelése nem lehetséges anélkül, hogy engedélyeznénk azok megadását
   setting_time_entries_limit_to_user_working_hours: Limit to the user's working hours
-  setting_time_entries_limit_to_user_working_hours_caption: Limits the number of hours that can be logged to that user’s capacity for that day. Users without defined working times will not be restricted.
+  setting_time_entries_limit_to_user_working_hours_caption: Limits the total hours that can be logged per day to that user’s effective working hours. Users without defined working times will not be restricted.
   setting_time_entries_max_hours_per_day: Maximum number of hours per day
   setting_time_entries_max_hours_per_day_caption: Limits the total number of hours a user can log in a single day. A value of 0 means there are no restrictions.
   setting_time_entries_max_hours_per_entry: Maximum number of hours per time entry

@@ -1,0 +1,88 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% html_title t(:label_administration), "#{t(:label_edit)} #{t(:label_work_package_types)} #{h @type.name}" %>
+
+<%= render ::Types::EditPageHeaderComponent.new(
+      type: @type,
+      variant: @variant,
+      title: t("types.edit.export_configuration.templates.settings.title", template: @template.label),
+      additional_breadcrumb_items: [
+        { href: edit_type_pdf_export_template_index_path(**@variant.path_args),
+          text: t("types.edit.export_configuration.tab") },
+        @template.label
+      ]
+    ) %>
+
+<%= primer_form_with(
+      url: update_settings_type_pdf_export_template_path(**@variant.path_args, id: @template.id),
+      method: :patch
+    ) do %>
+  <%= render(@template.settings_component.new(settings: @settings, disabled: @readonly, show_default_hint: true)) %>
+
+  <%= flex_layout(mt: 4) do |actions|
+        actions.with_row do
+          flex_layout(align_items: :center) do |buttons|
+            buttons.with_column(mr: 2) do
+              render(
+                Primer::Beta::Button.new(
+                  scheme: :primary,
+                  type: :submit,
+                  name: "commit",
+                  value: "save",
+                  disabled: @readonly
+                )
+              ) { t(:button_save) }
+            end
+            buttons.with_column(mr: 2) do
+              render(
+                Primer::Beta::Button.new(
+                  type: :submit,
+                  name: "commit",
+                  value: "reset",
+                  disabled: @readonly,
+                  data: {
+                    turbo_confirm: t(:text_are_you_sure)
+                  }
+                )
+              ) { t("types.edit.export_configuration.templates.settings.reset_to_default") }
+            end
+            buttons.with_column do
+              render(
+                Primer::Beta::Button.new(
+                  tag: :a,
+                  scheme: :default,
+                  href: edit_type_pdf_export_template_index_path(**@variant.path_args)
+                )
+              ) { t(:button_cancel) }
+            end
+          end
+        end
+      end %>
+<% end %>

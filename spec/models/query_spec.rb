@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe Query,
-               with_ee: %i[baseline_comparison work_package_query_relation_columns] do
+               with_ee: %i[baseline_comparison] do
   let(:query) { build(:query) }
   let(:project) { create(:project) }
   let(:project_member) { create(:user, member_with_permissions: { project => [:view_project] }) }
@@ -94,6 +94,23 @@ RSpec.describe Query,
       classes = query.available_advanced_filters.map(&:class)
 
       expect(classes).not_to include(Queries::WorkPackages::Filter::ManualSortFilter)
+    end
+
+    it "excludes the relation-type filters and the generic relatable filter" do
+      classes = query.available_advanced_filters.map(&:class)
+
+      expect(classes).not_to include(Queries::WorkPackages::Filter::BlocksFilter,
+                                     Queries::WorkPackages::Filter::BlockedFilter,
+                                     Queries::WorkPackages::Filter::PrecedesFilter,
+                                     Queries::WorkPackages::Filter::FollowsFilter,
+                                     Queries::WorkPackages::Filter::DuplicatesFilter,
+                                     Queries::WorkPackages::Filter::DuplicatedFilter,
+                                     Queries::WorkPackages::Filter::PartofFilter,
+                                     Queries::WorkPackages::Filter::IncludesFilter,
+                                     Queries::WorkPackages::Filter::RequiresFilter,
+                                     Queries::WorkPackages::Filter::RequiredFilter,
+                                     Queries::WorkPackages::Filter::RelatesFilter,
+                                     Queries::WorkPackages::Filter::RelatableFilter)
     end
 
     it "still exposes regular work-package filters" do
@@ -441,12 +458,6 @@ RSpec.describe Query,
         it "does not include the relation columns for types not in project" do
           expect(query.displayable_columns.map(&:name)).not_to include :"relations_to_type_#{type_not_in_project.id}"
         end
-
-        context "with the enterprise token disallowing relation columns", with_ee: false do
-          it "excludes the relation columns" do
-            expect(query.displayable_columns.map(&:name)).not_to include :"relations_to_type_#{type_in_project.id}"
-          end
-        end
       end
 
       context "when global" do
@@ -457,13 +468,6 @@ RSpec.describe Query,
         it "includes the relation columns for all types" do
           expect(query.displayable_columns.map(&:name)).to include(:"relations_to_type_#{type_in_project.id}",
                                                                    :"relations_to_type_#{type_not_in_project.id}")
-        end
-
-        context "with the enterprise token disallowing relation columns", with_ee: false do
-          it "excludes the relation columns" do
-            expect(query.displayable_columns.map(&:name)).not_to include(:"relations_to_type_#{type_in_project.id}",
-                                                                         :"relations_to_type_#{type_not_in_project.id}")
-          end
         end
       end
     end
@@ -478,13 +482,6 @@ RSpec.describe Query,
       it "includes the relation columns for every relation type" do
         expect(query.displayable_columns.map(&:name)).to include(:relations_of_type_relation1,
                                                                  :relations_of_type_relation2)
-      end
-
-      context "with the enterprise token disallowing relation columns", with_ee: false do
-        it "excludes the relation columns" do
-          expect(query.displayable_columns.map(&:name)).not_to include(:relations_of_type_relation1,
-                                                                       :relations_of_type_relation2)
-        end
       end
     end
   end
@@ -519,53 +516,32 @@ RSpec.describe Query,
                  relation2: { name: :label_duplicates, sym_name: :label_duplicated_by, order: 2, sym: :relation2 })
     end
 
-    context "with the enterprise token allowing relation columns" do
-      current_user { project_member }
+    current_user { project_member }
 
-      it "has all static columns, cf columns and relation columns" do
-        expected_columns = %i(id project assigned_to author
-                              category created_at due_date estimated_hours
-                              parent done_ratio priority responsible
-                              spent_hours start_date status subject type
-                              updated_at version) +
-                           [custom_field.column_name.to_sym] +
-                           [:"relations_to_type_#{type.id}"] +
-                           %i(relations_of_type_relation1 relations_of_type_relation2)
+    it "has all static columns, cf columns and relation columns" do
+      expected_columns = %i(id project assigned_to author
+                            category created_at due_date estimated_hours
+                            parent done_ratio priority responsible
+                            spent_hours start_date status subject type
+                            updated_at version) +
+                         [custom_field.column_name.to_sym] +
+                         [:"relations_to_type_#{type.id}"] +
+                         %i(relations_of_type_relation1 relations_of_type_relation2)
 
-        expect(described_class.available_columns.map(&:name)).to include *expected_columns
-      end
-
-      context "when the user cannot see the project" do
-        current_user { user_restricted }
-
-        it "does not list custom field columns" do
-          columns = described_class.available_columns.map(&:name)
-
-          # We do not really care about column details here, but let's see if we have some amount of them:
-          expect(columns.count).to be > 5
-
-          # This is the important assertion:
-          expect(columns).not_to include custom_field.column_name.to_sym
-        end
-      end
+      expect(described_class.available_columns.map(&:name)).to include *expected_columns
     end
 
-    context "with the enterprise token disallowing relation columns", with_ee: false do
-      current_user { project_member }
+    context "when the user cannot see the project" do
+      current_user { user_restricted }
 
-      it "has all static columns, cf columns but no relation columns" do
-        expected_columns = %i(id project assigned_to author
-                              category created_at due_date estimated_hours
-                              parent done_ratio priority responsible
-                              spent_hours start_date status subject type
-                              updated_at version) +
-                           [custom_field.column_name.to_sym]
+      it "does not list custom field columns" do
+        columns = described_class.available_columns.map(&:name)
 
-        unexpected_columns = [:"relations_to_type_#{type.id}"] +
-                             %i(relations_of_type_relation1 relations_of_type_relation2)
+        # We do not really care about column details here, but let's see if we have some amount of them:
+        expect(columns.count).to be > 5
 
-        expect(described_class.available_columns.map(&:name)).to include *expected_columns
-        expect(described_class.available_columns.map(&:name)).not_to include *unexpected_columns
+        # This is the important assertion:
+        expect(columns).not_to include custom_field.column_name.to_sym
       end
     end
   end

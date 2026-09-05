@@ -53,6 +53,7 @@ RSpec.describe "work package generate PDF dialog", :js do
   end
   let(:document_generator) { instance_double(WorkPackage::PDFExport::DocumentGenerator) }
   let(:wp_exporter) { instance_double(WorkPackage::PDFExport::WorkPackageToPdf) }
+  let(:artefact_exporter) { instance_double(WorkPackage::PDFExport::Artefact) }
   let(:expected_params) { {} }
 
   def visit_work_package_page!
@@ -68,8 +69,12 @@ RSpec.describe "work package generate PDF dialog", :js do
       .to receive(:new)
             .with(work_package, has_mandatory_params(expected_params))
             .and_return(wp_exporter)
+    allow(WorkPackage::PDFExport::Artefact)
+      .to receive(:new)
+            .with(work_package, has_mandatory_params(expected_params))
+            .and_return(artefact_exporter)
 
-    [document_generator, wp_exporter].each do |generator|
+    [document_generator, wp_exporter, artefact_exporter].each do |generator|
       allow(generator)
         .to receive(:export!)
               .and_return(
@@ -165,6 +170,77 @@ RSpec.describe "work package generate PDF dialog", :js do
 
     it "downloads with options" do
       select "Landscape", from: "page_orientation"
+      generate!
+    end
+  end
+
+  context "when the type has a stored default footer text" do
+    let(:work_package) do
+      build(:work_package, project:, id: 666, assigned_to: user, responsible: user).tap do |wp|
+        variant = wp.type_variant
+        variant.pdf_export_templates.update_settings("attributes", "footer_text" => "Custom stored footer")
+        variant.save!
+      end
+    end
+    let(:expected_params) do
+      {
+        template: "attributes",
+        footer_text: "Custom stored footer"
+      }
+    end
+
+    it "pre-fills the field from the Type's stored default and downloads with it" do
+      expect(page).to have_field("footer_text", with: "Custom stored footer")
+      generate!
+    end
+
+    context "and the user edits the field in the dialog" do
+      let(:expected_params) do
+        {
+          template: "attributes",
+          footer_text: "Overridden for this export"
+        }
+      end
+
+      it "downloads with the edited value, not the Type's stored default" do
+        fill_in "footer_text", with: "Overridden for this export"
+        generate!
+      end
+    end
+  end
+
+  context "when the type has a stored default disabling the table of contents" do
+    let(:work_package) do
+      build(:work_package, project:, id: 666, assigned_to: user, responsible: user).tap do |wp|
+        variant = wp.type_variant
+        variant.pdf_export_templates.update_settings("artefact", "toc" => "false")
+        variant.save!
+      end
+    end
+    let(:expected_params) do
+      {
+        template: "artefact",
+        toc: "false"
+      }
+    end
+
+    it "pre-fills the checkbox unchecked and downloads with it off" do
+      select "PMflex Artefact", from: "template"
+      expect(page).to have_unchecked_field("Table of contents")
+      generate!
+    end
+  end
+
+  context "when the type has no stored settings at all" do
+    let(:expected_params) do
+      {
+        template: "attributes",
+        footer_text: project.name
+      }
+    end
+
+    it "keeps behaving exactly as without this feature: today's dynamic defaults, unchanged" do
+      expect(page).to have_field("footer_text", with: project.name)
       generate!
     end
   end

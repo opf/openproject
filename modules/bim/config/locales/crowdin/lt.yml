@@ -38,7 +38,26 @@ lt:
               ifc_attachment_missing: Joks IFC failas nėra prikabintas.
               invalid_ifc_file: Pateiktas failas nėra geras IFC failas.
     models:
-      bim/ifc_models/ifc_model: IFC modelis
+      bim/bcf/comment:
+        one: BCF comment
+        few: BCF comments
+        many: BCF comments
+        other: BCF comments
+      bim/bcf/issue:
+        one: BCF issue
+        few: BCF issues
+        many: BCF issues
+        other: BCF issues
+      bim/bcf/viewpoint:
+        one: BCF viewpoint
+        few: BCF viewpoints
+        many: BCF viewpoints
+        other: BCF viewpoints
+      bim/ifc_models/ifc_model:
+        one: IFC model
+        few: IFC models
+        many: IFC models
+        other: IFC models
   attributes:
     bcf_thumbnail: BCF nuotrauka
   bcf:

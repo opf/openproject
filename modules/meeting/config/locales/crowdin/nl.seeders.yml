@@ -13,17 +13,18 @@ nl:
           meeting_agenda_items:
             item_0:
               title: Goed nieuws
+              notes: What went well this week?
             item_1:
-              title: Updates van ontwikkelingsteam
+              title: Team updates
+              notes: News and focused topics for the upcoming week.
             item_2:
-              title: Updates van productteam
+              notes: "**Today's topic**: Organizing the open-source conference."
             item_3:
-              title: Updates van het marketingteam
+              title: Review of quarterly goals
+              notes: Assessing the status and progress of the defined quarterly goals.
+            item_4:
+              title: Core values feedback
+              notes: Highlight employees who have lived the core values this week.
             item_5:
-              title: Updates van verkoopteam
-            item_6:
-              title: Herziening van kwartaaldoelen
-            item_7:
-              title: Feedback over kernwaarden
-            item_8:
-              title: Algemene onderwerpen
+              title: General topics
+              notes: Solving or discussing topics together.

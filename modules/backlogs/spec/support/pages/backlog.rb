@@ -32,6 +32,8 @@ require "support/pages/page"
 
 module Pages
   class Backlog < Page
+    include ::Components::Common::Filters
+
     attr_reader :project
 
     def initialize(project)
@@ -64,9 +66,11 @@ module Pages
       end
     end
 
-    def expect_backlog_bucket_blankslate(bucket)
+    def expect_backlog_bucket_blankslate(bucket, filtered: false)
+      text = filtered ? I18n.t("backlogs.blankslate_filtered_title") : "Backlog bucket is empty"
+
       within_backlog_bucket(bucket) do
-        expect(page).to have_selector(:heading, level: 4, text: "Backlog bucket is empty")
+        expect(page).to have_selector(:heading, level: 4, text:)
       end
     end
 
@@ -130,15 +134,20 @@ module Pages
       end
     end
 
-    def expect_inbox_item(work_package)
-      within_backlog_inbox do
-        expect(page).to have_css(work_package_selector(work_package))
-      end
+    def expect_inbox_items(items:)
+      within_backlog_inbox { expect_work_package_items(items:) }
     end
 
-    def expect_no_inbox_item(work_package)
+    def expect_no_inbox_items(items:)
+      within_backlog_inbox { expect_work_package_items(items:, present: false) }
+    end
+
+    def expect_inbox_work_package_count(count)
       within_backlog_inbox do
-        expect(page).to have_no_css(work_package_selector(work_package))
+        expect(page).to have_css(
+          ".Counter",
+          accessible_name: I18n.t(:label_x_items, count:)
+        )
       end
     end
 
@@ -162,22 +171,21 @@ module Pages
       wait_for_backlogs_network_idle
     end
 
-    def expect_work_packages_in_inbox_in_order(work_packages: [])
+    def expect_inbox_items_in_order(items: [])
       within_backlog_inbox do
-        expect_work_packages_in_order work_packages:
+        expect_work_packages_in_order work_packages: items
       end
     end
 
-    def expect_work_packages_in_backlog_bucket_in_order(bucket, work_packages: [])
+    def expect_bucket_items_in_order(bucket, items: [])
       within_backlog_bucket(bucket) do
-        expect_work_packages_in_order work_packages:
+        expect_work_packages_in_order work_packages: items
       end
     end
 
-    def expect_work_packages_in_sprint_in_order(sprint,
-                                                work_packages: [])
+    def expect_sprint_items_in_order(sprint, items: [])
       within_sprint(sprint) do
-        expect_work_packages_in_order work_packages:
+        expect_work_packages_in_order work_packages: items
       end
     end
 
@@ -243,11 +251,8 @@ module Pages
       end
     end
 
-    def expect_work_package_in_sprint(work_package, sprint)
-      within_sprint(sprint) do
-        expect(page)
-          .to have_selector(work_package_selector(work_package).to_s)
-      end
+    def expect_sprint_items(sprint, items:)
+      within_sprint(sprint) { expect_work_package_items(items:) }
     end
 
     def expect_work_package_text_in_sprint(work_package, sprint, text)
@@ -257,21 +262,16 @@ module Pages
       end
     end
 
-    def expect_work_package_not_in_sprint(work_package, sprint)
-      within_sprint(sprint) do
-        expect(page)
-          .to have_no_selector(work_package_selector(work_package).to_s)
-      end
+    def expect_no_sprint_items(sprint, items:)
+      within_sprint(sprint) { expect_work_package_items(items:, present: false) }
     end
 
     def expect_bucket_names_in_order(*bucket_names)
       expect(bucket_names_in_order).to eq(bucket_names)
     end
 
-    def expect_work_package_in_backlog_bucket(work_package, bucket)
-      within_backlog_bucket(bucket) do
-        expect(page).to have_css(work_package_selector(work_package))
-      end
+    def expect_bucket_items(bucket, items:)
+      within_backlog_bucket(bucket) { expect_work_package_items(items:) }
     end
 
     def expect_backlog_bucket_work_package_count(bucket, count)
@@ -283,10 +283,8 @@ module Pages
       end
     end
 
-    def expect_work_package_not_in_backlog_bucket(work_package, bucket)
-      within_backlog_bucket(bucket) do
-        expect(page).to have_no_css(work_package_selector(work_package))
-      end
+    def expect_no_bucket_items(bucket, items:)
+      within_backlog_bucket(bucket) { expect_work_package_items(items:, present: false) }
     end
 
     def within_sprint_menu(sprint, &)
@@ -693,6 +691,22 @@ module Pages
       wait_for_network_idle
     end
 
+    def apply_subject_filter(text)
+      fill_in "Search work packages by subject", with: text
+      wait_for_network_idle
+    end
+
+    def clear_subject_filter
+      find_by_id("backlog-filters-form-clear-button").click
+      wait_for_network_idle
+    end
+
+    def apply_status_filter(status, operator: "is (OR)")
+      open_filters
+      set_filter("status_id", "Status", operator, [status.name])
+      wait_for_network_idle
+    end
+
     def expect_inbox
       expect(page).to have_test_selector("backlog-inbox")
     end
@@ -982,6 +996,16 @@ module Pages
       test_selector("work-package-#{work_package.id}")
     end
 
+    def expect_work_package_items(items:, present: true)
+      Array(items).each do |wp|
+        if present
+          expect(page).to have_css(work_package_selector(wp))
+        else
+          expect(page).to have_no_css(work_package_selector(wp))
+        end
+      end
+    end
+
     # `.op-work-package-card` is the class the card component itself owns;
     # `.Box-card` is a Primer modifier it happens to compose today, so it is
     # not something a Backlogs page object should be matching on.
@@ -1068,10 +1092,8 @@ module Pages
     def selenium_drag_backlogs_item(source:, target:, edge: nil)
       install_backlogs_dnd_probe(source:, target:, edge:)
 
-      scroll_backlogs_source_into_view(source)
-
-      target_x, target_y = selenium_target_point(target.native.rect, edge:)
-      perform_native_drag(source:, target_x:, target_y:)
+      offset_x, offset_y = selenium_target_offset(target.native.rect, edge:)
+      perform_native_drag(source:, target:, offset_x:, offset_y:)
 
       # Assert Pragmatic DnD tore down its own honey-pot overlay before we force
       # a cleanup, so a regression that leaves the overlay stuck is caught here
@@ -1080,18 +1102,18 @@ module Pages
       clear_pragmatic_dnd_honey_pot
     end
 
-    def selenium_target_point(rect, edge:)
+    def selenium_target_offset(rect, edge:)
       offset = [6, rect.height / 4].min
 
       [
-        rect.x + (rect.width / 2),
+        0,
         case edge
         when :top
-          rect.y + offset
+          offset - (rect.height / 2)
         when :bottom
-          rect.y + rect.height - offset
+          (rect.height / 2) - offset
         else
-          rect.y + (rect.height / 2)
+          0
         end
       ].map(&:round)
     end

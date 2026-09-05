@@ -46,9 +46,15 @@ it:
             principal:
               not_a_member_of_budget_project: non è un membro del progetto di budget
     models:
-      budget: Bilancio
-      labor_budget_item: Costo del lavoro pianificato
-      material_budget_item: Unità
+      budget:
+        one: Budget
+        other: Budget
+      labor_budget_item:
+        one: Costo del lavoro pianificato
+        other: Costi del lavoro pianificati
+      material_budget_item:
+        one: Unità
+        other: Unità
   activity:
     filter:
       budget: Budget
@@ -102,7 +108,6 @@ it:
   help_click_to_edit: Clicca qui per modificare.
   help_currency_format: Formato di visualizzazione dei valori in valuta. %n viene sostituito con il valore della valuta, %u viene sostituito con l'unità di valuta.
   help_override_rate: Immettere qui un valore per ignorare la tariffa di default.
-  label_budget: Bilancio
   label_budget_available: Budget disponibile
   label_budget_details: Dettagli del budget
   label_budget_id: 'Budget #%{id}'

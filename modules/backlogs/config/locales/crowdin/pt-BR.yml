@@ -50,7 +50,7 @@ pt-BR:
         story_points: Pontos de história
     errors:
       messages:
-        cannot_start_while_receiving_shared_sprints: cannot be started while the project is receiving shared sprints.
+        cannot_start_while_receiving_shared_sprints: não pode ser iniciado enquanto o projeto estiver recebendo sprints compartilhadas.
         dates_required: As datas de início e término são obrigatórias para iniciar a sprint.
         must_be_in_planning: deve estar em planejamento para iniciar.
         only_one_active_sprint_allowed: apenas uma sprint ativa é permitida por projeto.
@@ -61,11 +61,11 @@ pt-BR:
               locked_by_multiple_active_sprints: não pode ser alterado enquanto vários sprints ativos estiverem em andamento.
               requires_no_sharing: só pode ser ativado quando o compartilhamento de sprints estiver definido como "Não compartilhar".
             sprint_sharing:
-              active_or_borrowed_sprint_blocks_receiving: cannot be set to receive because the project has an active or borrowed sprint. Close or unassign the work packages first.
+              active_or_borrowed_sprint_blocks_receiving: não pode ser definido para receber porque o projeto tem uma sprint ativa ou emprestada. Primeiro, feche ou desatribua os pacotes de trabalho.
               locked_by_multiple_active_sprints: não pode ser alterado enquanto houver vários sprints ativos habilitados.
               share_all_projects_already_taken: não pode ser definido, pois o projeto “%{name}” já está compartilhando com todos os projetos.
               share_all_projects_already_taken_anonymous: não pode ser definido, pois outro projeto já está compartilhando com todos os projetos.
-              work_packages_still_linked_to_shared_sprints: cannot be changed because work packages are still linked to shared sprints. Unassign them first.
+              work_packages_still_linked_to_shared_sprints: não pode ser alterado porque ainda há pacotes de trabalho vinculados a sprints compartilhadas. Primeiro, desassocie-os.
           receiving_sprints: está recebendo sprints compartilhadas. Não é possível criar sprints próprias.
         sprint:
           attributes:
@@ -92,12 +92,18 @@ pt-BR:
               task_version_must_be_the_same_as_story_version: deve ser igual à versão da história dos pais.
           backlog_bucket_xor_sprint: não pode ser atribuído simultaneamente a uma sprint e a um grupo de backlog.
     models:
+      backlog_bucket:
+        one: Grupo de backlog
+        other: Grupos de backlog
       sprint:
         one: Sprint
         other: Sprints
+      sprint_goal:
+        one: Objetivo da sprint
+        other: Objetivos da sprint
   backlogs:
     add_existing_work_package_dialog_component:
-      title_without_container: Add existing work package
+      title_without_container: Adicionar pacote de trabalho existente
     administration_blankslate:
       text: Estamos reformulando o módulo de Backlogs. Em breve, você poderá ver aqui as configurações de administração de sprints e backlogs. As configurações do projeto continuam disponíveis normalmente.
       title: As configurações administrativas do backlog estão evoluindo
@@ -113,6 +119,7 @@ pt-BR:
         other: Sprints
         zero: Todos os sprints
       select_panel_title: Selecionar itens
+    blankslate_filtered_title: No work packages match the filter criteria.
     bucket_component:
       action_menu:
         add_existing_work_package: Adicionar pacote de trabalho existente
@@ -155,6 +162,8 @@ pt-BR:
         one: Mostrar mais 1 item
         other: Mostrar mais %{count} itens
       title: Caixa de entrada
+    index_subheader_component:
+      label_search_by_subject: Search work packages by subject
     label_burndown_chart: Gráfico de burndown
     label_is_done_status: Situação %{status_name} significa pronto
     label_sprint_board: Quadro de sprints
@@ -188,7 +197,7 @@ pt-BR:
       label_start_sprint: Iniciar sprint
       start_sprint_disabled_reason_active_sprint: Outra sprint já está ativa.
       start_sprint_disabled_reason_missing_dates: As datas de início e término são obrigatórias para iniciar a sprint.
-      start_sprint_disabled_reason_receiving_shared_sprints: This project's own sprints cannot be started while it is receiving shared sprints.
+      start_sprint_disabled_reason_receiving_shared_sprints: As próprias sprints deste projeto não podem ser iniciadas enquanto ele estiver recebendo sprints compartilhadas.
       start_sprint_disabled_reason_shared_sprint: Este sprint é de outro projeto que não oferece suporte a vários sprints ativos.
     sprint_form:
       goal_caption: O objetivo da sprint é exclusivo deste projeto e não é compartilhado com outros projetos que também utilizam essa sprint.
@@ -250,11 +259,11 @@ pt-BR:
     story_points_ideal: Pontos de história (ideal)
   ee:
     features:
-      multiple_active_sprints: Multiple active sprints
+      multiple_active_sprints: Vários sprints ativos
       sprint_sharing: Compartilhamento de sprints
     upsell:
       multiple_active_sprints:
-        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
+        description: Execute vários sprints em paralelo para diferentes equipes no seu projeto e tenha mais controle e flexibilidade.
       sprint_sharing:
         description: Compartilhe sprints entre projetos para alinhar equipes e coordenar o trabalho em configurações ágeis em escala (SAFe).
   label_all_sprints: Todos os sprints

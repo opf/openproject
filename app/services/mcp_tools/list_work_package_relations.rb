@@ -29,7 +29,7 @@
 #++
 
 module McpTools
-  class ListWorkPackageRelations < Base
+  class ListWorkPackageRelations < SearchTool
     default_title "List work package relations"
     default_description "List relations of the given work package towards other work packages."
 
@@ -37,6 +37,7 @@ module McpTools
     annotations read_only: true, idempotent: true, destructive: false
 
     input_schema(
+      additionalProperties: false,
       required: %i[work_package_id],
       properties: {
         work_package_id: {
@@ -46,20 +47,25 @@ module McpTools
       }
     )
 
-    def call(work_package_id:)
+    def scope_param_names
+      %i[work_package_id]
+    end
+
+    def base_scope(work_package_id:)
       work_package = WorkPackage.visible(current_user).find_by(id: work_package_id)
-      return { error: "Can't find given work package." } if work_package.nil?
+      return Failure("Can't find given work package.") if work_package.nil?
 
-      relations = work_package
-        .relations
-        .visible(current_user)
-        .includes(::API::V3::Relations::RelationCollectionRepresenter.to_eager_load)
-        .to_a
+      Success(
+        work_package
+          .relations
+          .visible(current_user)
+          .includes(::API::V3::Relations::RelationCollectionRepresenter.to_eager_load)
+          .to_a
+      )
+    end
 
-      {
-        items: relations.map { |r| ::API::V3::Relations::RelationRepresenter.new(r, current_user:) },
-        total: relations.size
-      }
+    def format_item(item)
+      ::API::V3::Relations::RelationRepresenter.new(item, current_user:)
     end
   end
 end

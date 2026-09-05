@@ -73,14 +73,24 @@ sv:
             project_ids:
               blank: Please select a project.
         time_entry:
-          cannot_log_for_this_work_package: Kan inte logga tid för detta arbetspaket.
-          duplicate_ongoing: En pågående tidspost finns redan för den här användaren.
-          exceeds_user_working_hours: cannot exceed the %{limit} hours available on the user's working day.
-          in_past_month: is in a month that is closed. Time entries can only be added, changed or deleted from %{date} onwards.
-          invalid_time: måste vara mellan 00:00 och 23:59.
-          max_hours_per_day_exceeded: cannot exceed %{limit} hours logged in total for a single day.
-          max_hours_per_entry_exceeded: cannot be more than %{limit} hours for a single time entry.
-          not_a_working_day: is not a working day for the user.
+          attributes:
+            entity:
+              blank: Logged for can't be blank.
+              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
+              format: "%{message}"
+            hours:
+              exceeds_user_working_hours: The logged hours cannot exceed the limit of %{limit} hours available on the user's working day.
+              format: "%{message}"
+              max_hours_per_day_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single day defined by the administrator.
+              max_hours_per_entry_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single time entry defined by the administrator.
+            spent_on:
+              format: "%{message}"
+              in_past_month: You can't plan time into a past month. Time entries can only be added, changed or deleted from %{date} onwards.
+              not_a_working_day: The selected day is a non-working day for this user.
+            start_time:
+              format: "%{message}"
+              invalid_time: Invalid time. The time must be between 00:00 and 23:59.
+          duplicate_ongoing: Another timer is already running. Only one timer can be active at the same time.
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Arbetspaket #%{id} är inte ett giltigt mål för omfördelning av kostnadsposterna.'
           nullify_is_not_valid_for_cost_entries: Kostnadsposterna kan inte tilldelas till ett projekt.
@@ -88,16 +98,30 @@ sv:
       cost_entry:
         one: Kostnadspost
         other: Kostnadsposter
+      cost_rate:
+        one: Cost rate
+        other: Cost rates
       cost_type:
         one: Kostnadstyp
         other: Kostnadstyper
-      rate: Timpris
+      default_hourly_rate:
+        one: Default hourly rate
+        other: Default hourly rates
+      hourly_rate:
+        one: Hourly rate
+        other: Hourly rates
+      rate:
+        one: Rate
+        other: Rates
       time_entry:
         one: Tidspost
         other: Tidsposter
       time_entry_activity:
         one: Tidspårningsaktivitet
         other: Tidsspårningsaktiviteter
+      time_entry_custom_field:
+        one: Time entry custom field
+        other: Time entry custom fields
   api_v3:
     errors:
       validation:
@@ -196,7 +220,6 @@ sv:
   label_greater_or_equal: ">="
   label_group_by: Gruppera efter
   label_group_by_add: Lägg till grupperingsfält
-  label_hourly_rate: Timpris
   label_include_deleted: Inkludera borttagna
   label_kind: Typ
   label_less_or_equal: "<="
@@ -217,7 +240,6 @@ sv:
   label_previous_month: Föregående månad
   label_previous_week: Föregående vecka
   label_previous_workweek: Föregående arbetsvecka
-  label_rate: Timpris
   label_rate_plural: Priser
   label_show: Visa
   label_specific_day: Dag %{day}
@@ -231,7 +253,6 @@ sv:
   label_today_capitalized: Idag
   label_units: Kostnadsenheter
   label_until: fram till
-  label_user: Användare
   label_valid_from: Gäller från
   label_view_mode_switcher: Ändra vy
   label_work_package_filter_add: Lägg till arbetspaketsfilter
@@ -273,7 +294,7 @@ sv:
   setting_enforce_tracking_start_and_end_times_caption: Gör det obligatoriskt att ange start- och sluttider när du loggar tid.
   setting_enforce_without_allow: Det är inte möjligt att begära start- och sluttider utan att låta dem
   setting_time_entries_limit_to_user_working_hours: Limit to the user's working hours
-  setting_time_entries_limit_to_user_working_hours_caption: Limits the number of hours that can be logged to that user’s capacity for that day. Users without defined working times will not be restricted.
+  setting_time_entries_limit_to_user_working_hours_caption: Limits the total hours that can be logged per day to that user’s effective working hours. Users without defined working times will not be restricted.
   setting_time_entries_max_hours_per_day: Maximum number of hours per day
   setting_time_entries_max_hours_per_day_caption: Limits the total number of hours a user can log in a single day. A value of 0 means there are no restrictions.
   setting_time_entries_max_hours_per_entry: Maximum number of hours per time entry

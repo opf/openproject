@@ -38,7 +38,14 @@ th:
               ifc_attachment_missing: No ifc file attached.
               invalid_ifc_file: The provided file is not a valid IFC file.
     models:
-      bim/ifc_models/ifc_model: IFC model
+      bim/bcf/comment:
+        other: BCF comments
+      bim/bcf/issue:
+        other: BCF issues
+      bim/bcf/viewpoint:
+        other: BCF viewpoints
+      bim/ifc_models/ifc_model:
+        other: IFC models
   attributes:
     bcf_thumbnail: BCF snapshot
   bcf:

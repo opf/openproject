@@ -73,14 +73,24 @@ de:
             project_ids:
               blank: Bitte wählen Sie ein Projekt aus.
         time_entry:
-          cannot_log_for_this_work_package: Für dieses Arbeitspaket kann keine Zeit gebucht werden.
-          duplicate_ongoing: Für diese Person besteht bereits eine laufende Zeitbuchung.
-          exceeds_user_working_hours: kann die verfügbaren %{limit} Stunden am Arbeitstag des Benutzers nicht überschreiten.
-          in_past_month: befindet sich in einem abgeschlossenen Monat. Zeitbuchungen können erst ab dem %{date} hinzugefügt, geändert oder gelöscht werden.
-          invalid_time: muss zwischen 00:00 und 23:59 liegen.
-          max_hours_per_day_exceeded: kann %{limit} Stunden für einen einzigen Tag nicht überschreiten.
-          max_hours_per_entry_exceeded: kann nicht mehr als %{limit} Stunden für einen Eintrag sein.
-          not_a_working_day: ist für den Nutzer kein Arbeitstag.
+          attributes:
+            entity:
+              blank: Das Feld darf nicht leer sein.
+              cannot_log_for_this_work_package: Sie haben keine Berechtigung, Zeiten für dieses Arbeitspaket zu erfassen.
+              format: "%{message}"
+            hours:
+              exceeds_user_working_hours: Die erfassten Stunden dürfen das Limit von %{limit} Stunden am Arbeitstag des Benutzers nicht überschreiten.
+              format: "%{message}"
+              max_hours_per_day_exceeded: Die erfassten Stunden dürfen das vom Administrator festgelegte Limit von %{limit} Stunden für einen einzigen Tag nicht überschreiten.
+              max_hours_per_entry_exceeded: Die erfassten Stunden dürfen das vom Administrator festgelegte Limit von %{limit} Stunden für einen einzelnen Zeiteintrag nicht überschreiten.
+            spent_on:
+              format: "%{message}"
+              in_past_month: Sie können keine Zeiten für einen vergangenen Monat erfassen. Zeitbuchungen können erst ab dem %{date} hinzugefügt, geändert oder gelöscht werden.
+              not_a_working_day: Der ausgewählte Tag ist für diesen Benutzer kein Arbeitstag.
+            start_time:
+              format: "%{message}"
+              invalid_time: Ungültige Zeit. Die Zeit muss zwischen 00:00 und 23:59 liegen.
+          duplicate_ongoing: Ein weiterer Timer läuft bereits. Es kann jeweils nur ein Timer aktiv sein.
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Arbeitspaket #%{id} ist kein gültiges Ziel für die Zuordnug der Stückkosteneinträge.'
           nullify_is_not_valid_for_cost_entries: Stückkosten können keinem Projekt zugeordnet werden.
@@ -88,16 +98,30 @@ de:
       cost_entry:
         one: Kosteneintrag
         other: Kosteneinträge
+      cost_rate:
+        one: Kostensatz
+        other: Kostensätze
       cost_type:
         one: Kostentyp
         other: Kostentypen
-      rate: Satz
+      default_hourly_rate:
+        one: Standard-Stundensatz
+        other: Standard Stundensätze
+      hourly_rate:
+        one: Stundensatz
+        other: Stundensätze
+      rate:
+        one: Preis
+        other: Preise
       time_entry:
         one: Zeitbuchung
         other: Zeitbuchungen
       time_entry_activity:
         one: Aktivität für Zeiterfassung
         other: Aktivitäten für Zeiterfassung
+      time_entry_custom_field:
+        one: Benutzerdefiniertes Feld für die Zeiterfassung
+        other: Benutzerdefinierte Felder für die Zeiterfassung
   api_v3:
     errors:
       validation:
@@ -196,7 +220,6 @@ de:
   label_greater_or_equal: ">="
   label_group_by: Gruppieren nach
   label_group_by_add: Gruppierungsfeld hinzufügen
-  label_hourly_rate: Stundensatz
   label_include_deleted: Gelöschte anzeigen
   label_kind: Typ
   label_less_or_equal: "<="
@@ -217,7 +240,6 @@ de:
   label_previous_month: Vorheriger Monat
   label_previous_week: Woche zurück
   label_previous_workweek: Vorherige Arbeitswoche
-  label_rate: Satz
   label_rate_plural: Sätze
   label_show: Anzeigen
   label_specific_day: Tag %{day}
@@ -231,7 +253,6 @@ de:
   label_today_capitalized: Heute
   label_units: Einheiten
   label_until: bis
-  label_user: Benutzer
   label_valid_from: Gültig ab
   label_view_mode_switcher: Ansicht ändern
   label_work_package_filter_add: Ticketfilter hinzufügen
@@ -273,7 +294,7 @@ de:
   setting_enforce_tracking_start_and_end_times_caption: Erfordert, dass bei Zeitbuchungen genaue Start- und Endzeiten erfasst werden.
   setting_enforce_without_allow: Start und Endzeiten können nur erforderlich sein, wenn ihre Angabe erlaubt ist
   setting_time_entries_limit_to_user_working_hours: Auf die Arbeitszeit des Benutzers beschränken
-  setting_time_entries_limit_to_user_working_hours_caption: Begrenzt die Anzahl der Stunden, auf die Arbeitszeiten, die für den Benutzer hinterlegt sind. Wenn keine Arbeitszeiten hinterlegt sind, hat dies keinen Effekt.
+  setting_time_entries_limit_to_user_working_hours_caption: Begrenzt die Anzahl der buchbaren Stunden auf die hinterlegten Arbeitszeiten des Benutzers. Wenn keine Arbeitszeiten hinterlegt sind, hat diese Einstellung keine Auswirkung.
   setting_time_entries_max_hours_per_day: Maximale Stundenzahl pro Tag
   setting_time_entries_max_hours_per_day_caption: Begrenzt die Gesamtzahl der Stunden, die ein Benutzer pro Tag in allen Zeiteinträgen eintragen kann. Der Wert 0 bedeutet, dass keine Einschränkungen bestehen.
   setting_time_entries_max_hours_per_entry: Maximale Stundenzahl pro Zeiteintrag

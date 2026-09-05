@@ -3,42 +3,49 @@ fa:
   activerecord:
     attributes:
       grids/grid:
-        column_count: Number of columns
+        column_count: تعداد ستون‌ها
         page: صفحه
-        row_count: Number of rows
-        scope: حوزه
-        widgets: ویجت ﻫﺎ
+        row_count: تعداد ردیف‌ها
+        scope: دامنه
+        widgets: ویجت‌ها
     errors:
       models:
         grids/grid:
-          end_before_start: end value needs to be larger than the start value.
-          outside: is outside of the grid.
-          overlaps: overlap.
+          end_before_start: مقدار پایان باید از مقدار شروع بزرگ‌تر باشد.
+          outside: خارج از شبکه است.
+          overlaps: هم‌پوشانی.
+    models:
+      grids/grid:
+        one: شبکه
+        other: شبکه‌ها
+      grids/widget:
+        one: ویجت
+        other: ویجت‌ها
   grids:
-    label_widget_in_grid: Widget contained in Grid %{grid_name}
+    label_widget_in_grid: ویجت موجود در شبکه %{grid_name}
     widgets:
-      empty: This widget is currently empty.
+      empty: این ویجت در حال حاضر خالی است.
       members:
-        no_results: No visible members.
-        show_members_count: Show all %{count} members
-        title: Members
-        view_all_members: مشاهده همه کاربران
+        no_results: عضو قابل مشاهده‌ای وجود ندارد.
+        show_members_count: نمایش همه %{count} عضو
+        title: اعضا
+        view_all_members: مشاهده همه اعضا
         x_more:
-          one: and one more member.
-          other: and %{count} more members.
+          one: و یک عضو دیگر.
+          other: و %{count} عضو دیگر.
       news:
-        no_results: Nothing new to report.
-      not_available: This widget is not available.
+        no_results: مورد جدیدی برای گزارش وجود ندارد.
+      not_available: این ویجت در دسترس نیست.
       project_timeline:
-        footer_actions_label: See more details
-        gantt_link: Milestones Gantt
-        no_results_title: No project timeline content configured
-        sprints_link: Sprints overview
-        title: Project timeline
-        title_portfolio: Portfolio timeline
-        title_program: Program timeline
+        footer_actions_label: مشاهده جزئیات بیشتر
+        gantt_link: گانت نقاط عطف
+        no_results_title: محتوایی برای خط زمانی پروژه پیکربندی نشده است
+        sprints_link: نمای کلی اسپرینت‌ها
+        title: خط زمانی پروژه
+        title_portfolio: خط زمانی سبد پروژه
+        title_program: خط زمانی برنامه
       subitems:
-        button_text: Subitem
-        no_results: There are no visible children.
-        title: Subitems
-        view_all_subitems: View all subitems
+        button_text: زیرمورد
+        no_results: زیرمورد قابل مشاهده‌ای وجود ندارد.
+        title: زیرموردها
+        view_all_subitems: مشاهده همه زیرموردها

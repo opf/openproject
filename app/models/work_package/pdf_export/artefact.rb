@@ -48,6 +48,8 @@ class WorkPackage::PDFExport::Artefact < Exports::Exporter
 
   self.model = WorkPackage
 
+  DEFAULT_TOC = true
+
   alias :work_package :object
 
   delegate :project, to: :work_package
@@ -202,7 +204,7 @@ class WorkPackage::PDFExport::Artefact < Exports::Exporter
   end
 
   def with_toc?
-    return true if options[:toc].nil?
+    return DEFAULT_TOC if options[:toc].nil?
 
     ActiveModel::Type::Boolean.new.cast(options[:toc])
   end
@@ -364,7 +366,7 @@ class WorkPackage::PDFExport::Artefact < Exports::Exporter
   end
 
   def footer_title
-    options[:footer_text] || work_package.subject
+    work_package.subject
   end
 
   def title

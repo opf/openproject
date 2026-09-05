@@ -1,5 +1,9 @@
 ---
 ja:
+  activerecord:
+    models:
+      grids/overview:
+        other: Overviews
   overviews:
     label_dashboard: ダッシュボード
     label_home: "%{workspace_type}の ホーム"

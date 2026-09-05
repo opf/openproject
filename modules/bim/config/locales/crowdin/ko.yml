@@ -7,10 +7,10 @@ ko:
         bim_snippet: BIM 코드 조각
         reference_links: 참조 링크
         stage: 단계
-        status_id: Status
+        status_id: 상태
         viewpoint: 뷰포인트
       bim/bcf/viewpoint:
-        status_id: Status
+        status_id: 상태
       bim/ifc_models/ifc_model:
         attachments: IFC 파일
         ifc_attachment: IFC 파일
@@ -38,7 +38,14 @@ ko:
               ifc_attachment_missing: ifc 파일이 첨부되지 않았습니다.
               invalid_ifc_file: 제공된 파일은 유효한 IFC 파일이 아닙니다.
     models:
-      bim/ifc_models/ifc_model: IFC 모델
+      bim/bcf/comment:
+        other: BCF 코멘트
+      bim/bcf/issue:
+        other: BCF 이슈
+      bim/bcf/viewpoint:
+        other: BCF 뷰포인트
+      bim/ifc_models/ifc_model:
+        other: IFC 모델
   attributes:
     bcf_thumbnail: BCF 스냅샷
   bcf:

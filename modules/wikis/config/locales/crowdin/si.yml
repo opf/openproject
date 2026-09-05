@@ -28,8 +28,11 @@ si:
         one: Inline page link
         other: Inline page links
       wikis/internal_provider:
-        one: Project wiki
-        other: Project wikis
+        one: Internal provider
+        other: Internal providers
+      wikis/page_link:
+        one: Page link
+        other: Page links
       wikis/provider:
         one: Wiki provider
         other: Wiki providers
@@ -44,11 +47,9 @@ si:
       external_wiki_providers: External wiki providers
       internal_wiki_provider: Project wikis
       wikis: Wikis
+    project_settings:
+      wiki: Project wiki
   permission_manage_wiki_page_links: Manage wiki page links
-  project_module_wiki_internal: Project wiki
-  project_module_wiki_platforms: External wiki providers
-  projects_settings_wiki:
-    title: Project wiki
   wikis:
     admin:
       destroy_confirmation_dialog_component:
@@ -219,6 +220,8 @@ si:
         caption: This enables native wiki functionality for this project. Members will be able to create and read wiki pages that are stored in OpenProject.
         enable: Enable the OpenProject wiki for this project
     provider_types:
+      internal:
+        name: OpenProject
       xwiki:
         name: XWiki
     relation_page_links_component:

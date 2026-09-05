@@ -19,7 +19,7 @@ get:
       + id: filters queries based on their id
 
       + updated_at: filters queries based on the last time they where updated
-    example: '[{ "project_id": { "operator": "!*", "values": null }" }]'
+    example: '[{ "project_id": { "operator": "!*", "values": null } }]'
     in: query
     name: filters
     required: false

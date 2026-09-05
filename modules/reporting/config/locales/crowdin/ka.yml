@@ -21,6 +21,11 @@
 #++
 ---
 ka:
+  activerecord:
+    models:
+      cost_query:
+        one: Cost report
+        other: Cost reports
   button_save_report_as: Save report as...
   comments: კომენტარი
   cost_reports_title: დრო და ღირებულებები
@@ -46,7 +51,6 @@ ka:
   label_closed: დახურულია
   label_columns: სვეტები
   label_cost_entry_attributes: Cost entry attributes
-  label_cost_report: ფასის ანგარიში
   label_cost_report_plural: ფასის ანგარიშები
   label_count: რაოდენობა
   label_days_ago: during the last days

@@ -30,10 +30,15 @@ ru:
         many: Ссылки на встроенную страницу
         other: Ссылки на встроенную страницу
       wikis/internal_provider:
-        one: Вики проекта
-        few: Вики проекта
-        many: Вики проекта
-        other: Вики проекта
+        one: Внутренний поставщик
+        few: Internal providers
+        many: Internal providers
+        other: Внутренние поставщики
+      wikis/page_link:
+        one: Ссылка на страницу
+        few: Ссылки на страницы
+        many: Page links
+        other: Page links
       wikis/provider:
         one: Провайдер Wiki
         few: Провайдера Wiki
@@ -54,11 +59,9 @@ ru:
       external_wiki_providers: Внешние провайдеры вики
       internal_wiki_provider: Вики проекта
       wikis: Вики
+    project_settings:
+      wiki: Вики проекта
   permission_manage_wiki_page_links: Управление ссылками вики-страницы
-  project_module_wiki_internal: Вики проекта
-  project_module_wiki_platforms: Внешние провайдеры вики
-  projects_settings_wiki:
-    title: Вики проекта
   wikis:
     admin:
       destroy_confirmation_dialog_component:
@@ -231,6 +234,8 @@ ru:
         caption: Это позволяет использовать внутреннюю вики для этого проекта. Участники смогут создавать и читать вики-страницы, хранящиеся в OpenProject.
         enable: Включить вики OpenProject для этого проекта
     provider_types:
+      internal:
+        name: OpenProject
       xwiki:
         name: XWiki
     relation_page_links_component:

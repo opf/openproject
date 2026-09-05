@@ -38,7 +38,18 @@ eu:
               ifc_attachment_missing: No ifc file attached.
               invalid_ifc_file: The provided file is not a valid IFC file.
     models:
-      bim/ifc_models/ifc_model: IFC model
+      bim/bcf/comment:
+        one: BCF comment
+        other: BCF comments
+      bim/bcf/issue:
+        one: BCF issue
+        other: BCF issues
+      bim/bcf/viewpoint:
+        one: BCF viewpoint
+        other: BCF viewpoints
+      bim/ifc_models/ifc_model:
+        one: IFC model
+        other: IFC models
   attributes:
     bcf_thumbnail: BCF snapshot
   bcf:

@@ -132,6 +132,18 @@ RSpec.describe "Types", :js do
       expect(page).to have_text I18n.t(:notice_successful_update)
       expect(existing_type.reload.name).to eq("Renamed existing type")
     end
+
+    it "captions the name field for a variant" do
+      variant = create(:type_variant, type: existing_type, variant_name: "Hardware")
+
+      visit edit_type_details_path(type_id: existing_type.id)
+      expect(page).to have_field("Name")
+      expect(page).to have_no_text("This is an internal name only visible to administrators")
+
+      visit edit_type_details_path(type_id: existing_type.id, variant_id: variant.id)
+      expect(page).to have_text("This is an internal name only visible to administrators")
+      expect(page).to have_text("it will appear as #{existing_type.name} to all members")
+    end
   end
 
   context "when a work package of a given type is part of an archived project" do

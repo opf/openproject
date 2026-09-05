@@ -66,15 +66,31 @@ fr:
             host:
               authorization_header_missing: n'est pas entièrement configuré. L'instance Nextcloud ne reçoit pas l'en-tête "Authorization", ce qui est nécessaire pour une autorisation basée sur un jeton Bearer des requêtes API. Veuillez vérifier la configuration de votre serveur HTTP.
               cannot_be_connected_to: n'a pas pu être atteint. Veuillez vous assurer que l'hôte est joignable et que l'application d'intégration OpenProject est installée.
-              minimal_nextcloud_version_unmet: ne répond pas aux exigences minimales de version (doit être Nextcloud 23 ou supérieur)
+              minimal_nextcloud_version_not_met: does not meet minimal version requirements (must be Nextcloud %{minimal_version} or higher, but %{detected_version} was detected)
               not_nextcloud_server: n'est pas un serveur Nextcloud
               op_application_not_installed: semble ne pas avoir installé l'application "Intégration OpenProject" . Veuillez d'abord l'installer puis réessayer.
             password:
               invalid_password: n'est pas valide.
               unknown_error: n'a pas pu être validé auprès du fournisseur d'espace de stockage de fichiers. Veuillez vérifier que la connexion fonctionne correctement.
     models:
-      file_link: Fichier
-      storages/storage: Stockage
+      storages/file_link:
+        one: Lien de fichier
+        other: Liens de fichiers
+      storages/nextcloud_storage:
+        one: Espace de stockage Nextcloud
+        other: Espaces de stockage Nextcloud
+      storages/one_drive_storage:
+        one: Espace de stockage OneDrive
+        other: Espaces de stockage OneDrive
+      storages/project_storage:
+        one: Espace de stockage de projet
+        other: Espaces de stockage de projet
+      storages/sharepoint_storage:
+        one: Espace de stockage SharePoint
+        other: Espaces de stockage SharePoint
+      storages/storage:
+        one: Espace de stockage
+        other: Espaces de stockage
   api_v3:
     errors:
       too_many_elements_created_at_once: Trop d'éléments créés à la fois. %{max} attendu au maximum, obtenu %{actual}.
@@ -134,7 +150,8 @@ fr:
       messages:
         error: Une erreur inattendue s'est produite. Veuillez consulter les journaux d'OpenProject pour obtenir plus d'informations ou contactez un administrateur
         folder_id_collision: Plusieurs espaces de stockage de projet tentent de gérer le dossier de projet %{folder}. Sa synchronisation a été ignorée.
-        forbidden: OpenProject n'a pas pu accéder à la ressource demandée. Veuillez vérifier la configuration de vos permissions sur le fournisseur de stockage.
+        forbidden: OpenProject n'a pas pu accéder à la ressource demandée. Veuillez vérifier la configuration de vos autorisations auprès du fournisseur de stockage.
+        invalid_response: OpenProject could not process the response received from the Storage Provider. Please check OpenProject logs for more information or contact an administrator.
         unauthorized: OpenProject n'a pas pu s'authentifier auprès du fournisseur de stockage. Veuillez vous assurer que vous y avez accès.
       models:
         copy_project_folders_service:
@@ -172,7 +189,7 @@ fr:
           group_does_not_exist: "%{group} n'existe pas. Vérifiez la configuration de votre instance Nextcloud."
           insufficient_privileges: OpenProject n'a pas assez de privilèges pour ajouter %{user} au groupe %{group}. Vérifiez les paramètres de votre groupe dans Nextcloud.
           not_allowed: Nextcloud bloque la demande.
-          not_found: OpenProject n'a pas pu trouver le fichier sur le fournisseur de stockage Nextcloud. Veuillez vérifier s'il n'a pas été supprimé.
+          not_found: OpenProject n'a pas trouvé le fichier chez le fournisseur de stockage Nextcloud. Veuillez vérifier qu'il n'a pas été supprimé.
           unauthorized: OpenProject n'a pas pu se synchroniser avec Nextcloud. Veuillez vérifier votre espace de stockage et la configuration de Nextcloud.
           user_does_not_exist: "%{user} n'existe pas dans Nextcloud."
         one_drive_sync_service:
@@ -219,7 +236,7 @@ fr:
       side_panel:
         health_notifications_component:
           sync_now: Synchroniser maintenant
-          sync_queued: Synchronisation en attente.
+          sync_queued: Synchronisation mise en file d'attente.
     buttons:
       done_continue: Terminé, continuer
       open_storage: Ouvrir le stockage de fichiers
@@ -238,13 +255,13 @@ fr:
     confirm_replace_oauth_application: Cette action réinitialisera les informations d'identification OAuth actuelles. Après confirmation, vous devrez saisir de nouvelles informations d'identification auprès du fournisseur de stockage et tous les utilisateurs devront à nouveau s'authentifier sur OpenProject. Voulez-vous vraiment continuer ?
     confirm_replace_oauth_client: Cette action réinitialisera les informations d'identification OAuth actuelles. Après confirmation, vous devrez saisir de nouvelles informations d'identification auprès du fournisseur de stockage et tous les utilisateurs devront à nouveau s'authentifier auprès de %{provider_type} . Voulez-vous vraiment continuer ?
     delete_warning:
-      project_storage_delete_result_1: Tous les liens vers les fichiers et dossiers correspondants seront supprimés
-      project_storage_delete_result_2: Le dossier du projet géré automatiquement et tous les fichiers qu'il contient seront supprimés
-      project_storage_html: Voulez-vous vraiment retirer %{file_storage} de ce projet ?
-      storage_delete_result_1: Le stockage sera retiré de tous les projets qui l'utilisent actuellement.
-      storage_delete_result_2: Tous les liens vers les fichiers et dossiers correspondants seront supprimés
-      storage_delete_result_3: Le dossier du projet géré automatiquement et tous les fichiers qu'il contient seront supprimés.
-      storage_html: Voulez-vous vraiment supprimer %{file_storage} en tant que stockage de fichiers externes ?
+      project_storage_delete_result_1: Tous les liens vers les fichiers et dossiers correspondants seront retirés
+      project_storage_delete_result_2: Le dossier de projet géré automatiquement et tous les fichiers qu'il contient seront supprimés
+      project_storage_html: Voulez-vous vraiment retirer %{file_storage} de ce projet ?
+      storage_delete_result_1: L'espace de stockage sera retiré de tous les projets qui l'utilisent actuellement.
+      storage_delete_result_2: Tous les liens vers les fichiers et dossiers correspondants seront retirés
+      storage_delete_result_3: Le dossier du projet géré automatiquement et tous les fichiers qu'il contient seront supprimés
+      storage_html: Voulez-vous vraiment supprimer %{file_storage} en tant qu'espace de stockage de fichiers externe ?
     dependencies:
       nextcloud:
         group_folders_app: Dossiers d'équipe
@@ -256,10 +273,10 @@ fr:
     file_storage_view:
       access_management:
         automatic_management: Activer la gestion automatique des accès et des dossiers
-        automatic_management_description: Chaque projet pourra décider, lorsqu'un espace de stockage lui est ajouté, s'il souhaite une approche manuelle ou automatique de la gestion des dossiers et des accès.
-        description: OpenProject peut créer et gérer automatiquement des dossiers de projet lorsqu'un stockage de fichiers est ajouté à un projet. Cela peut se traduire par une structure de dossiers plus organisée et une gestion d'accès simple qui garantit l'accès à tous les utilisateurs concernés.
-        manual_management: N'autoriser que les accès et les dossiers gérés manuellement
-        manual_management_description: Les projets utilisant ce stockage ne pourront pas bénéficier de l'approche de gestion automatique. Les dossiers et l'accès doivent être gérés manuellement.
+        automatic_management_description: Chaque projet pourra choisir, lors de l'ajout d'un espace de stockage, entre la gestion automatique et la gestion manuelle des dossiers et des accès.
+        description: OpenProject peut créer et gérer automatiquement les dossiers de projet lorsqu'un espace de stockage de fichiers est ajouté à un projet. Cela peut permettre d'obtenir une structure de dossiers mieux organisée et une gestion des accès plus simple, garantissant l'accès à tous les utilisateurs concernés.
+        manual_management: N'autoriser que la gestion manuelle des accès et des dossiers
+        manual_management_description: Les projets utilisant cet espace de stockage ne pourront pas choisir la gestion automatique. Les dossiers et les accès devront être gérés manuellement.
         setup_incomplete: Sélectionnez le type de gestion de l'accès des utilisateurs et de la création de dossiers.
         subtitle: Gestion des dossiers et des accès
       access_management_section: Dossiers d'accès et de projets
@@ -269,9 +286,9 @@ fr:
       one_drive:
         access_management:
           automatic_management: Activer la gestion automatique des accès et des dossiers
-          automatic_management_description: Chaque projet utilisant ce stockage de fichiers devra nécessairement utiliser l'approche de gestion automatique des dossiers et des accès. Ils ne peuvent pas le faire manuellement.
-          manual_management: N'autoriser que les accès et les dossiers gérés manuellement
-          manual_management_description: Les projets utilisant ce stockage ne pourront pas bénéficier de l'approche de gestion automatique. Les dossiers et l'accès doivent être gérés manuellement.
+          automatic_management_description: Chaque projet utilisant ce stockage de fichiers devra nécessairement utiliser l'approche de gestion automatique des dossiers et des accès. Il ne pourra pas les gérer manuellement.
+          manual_management: N'autoriser que la gestion manuelle des accès et des dossiers
+          manual_management_description: Les projets utilisant cet espace de stockage ne pourront pas choisir la gestion automatique. Les dossiers et les accès devront être gérés manuellement.
       one_drive_oauth: OAuth Azure
       openproject_oauth: OAuth OpenProject
       project_folders: Dossiers du projet
@@ -378,7 +395,7 @@ fr:
       project_folders:
         subtitle: Dossiers de projets gérés automatiquement
       since: depuis %{datetime}
-      synced: 'Dernière synchronisation : %{datetime}'
+      synced: 'Dernière synchronisation : %{datetime}'
       title: Rapport sur l'état de santé
     health_email_notifications:
       description_disabled: Les administrateurs ne recevront pas de mises à jour par e-mail lors des mises à jour importantes.
@@ -421,7 +438,7 @@ fr:
         oauth_client_secret: S'il n'y a pas de clé secrète du client pour l'application sous « Informations d'identification du client », veuillez en créer une nouvelle.
         oauth_configuration: Copiez ces valeurs de l'application souhaitée dans %{application_link_text}.
         provider_configuration: Veuillez vous assurer que vous disposez des privilèges d'administration dans le %{application_link_text} ou contactez votre administrateur Microsoft avant de procéder à l'installation. Dans le portail, vous devez également enregistrer une application Azure ou utiliser une application existante pour l'authentification.
-        tenant_id: Veuillez copier l'identifiant du répertoire (locataire) de l'application concernée et les enregistrements de l'application dans %{application_link_text}.
+        tenant_id: Veuillez copier l'ID du répertoire (locataire) de l'application souhaitée depuis la section « Inscriptions d'applications » de %{application_link_text}.
         tenant_id_placeholder: Nom ou UUID
       setting_up_additional_storages: Pour configurer des espaces de stockage de fichiers supplémentaires, veuillez visiter
       setting_up_additional_storages_non_admin: Les administrateurs peuvent configurer des espaces de stockage de fichiers supplémentaires dans Administration - Espaces de stockage de fichiers.
@@ -430,8 +447,8 @@ fr:
       sharepoint:
         application_link_text: Site SharePoint
         integration: Administration SharePoint/OpenProject
-        oauth_configuration: Copiez ces valeurs de l'application souhaitée dans %{application_link_text}.
-        provider_configuration: Veuillez vous assurer que vous disposez des privilèges d'administration dans le %{application_link_text} ou contactez votre administrateur Microsoft avant de procéder à l'installation. Dans le portail, vous devez également enregistrer une application Azure ou utiliser une application existante pour l'authentification.
+        oauth_configuration: Copiez ces valeurs depuis l'application souhaitée dans %{application_link_text}.
+        provider_configuration: Assurez-vous de disposer des privilèges d'administration dans le %{application_link_text} ou contactez votre administrateur Microsoft avant de procéder à la configuration. Dans le portail, vous devez également enregistrer une application Azure ou utiliser une application existante pour l'authentification.
       type: 'Veuillez vous assurer que vous avez les privilèges d''administration dans votre instance Nextcloud et que l''application suivante est installée avant de procéder à l''installation :'
       type_link_text: "« Intégration OpenProject »"
     label_active: Actif
@@ -504,7 +521,7 @@ fr:
         title: Nous configurons vos permissions sur le dossier du projet.
     page_titles:
       file_storages:
-        delete: Supprimer l'espace de stockage de fichiers ?
+        delete: Supprimer l'espace de stockage de fichiers ?
         subtitle: Ajouter un stockage de fichiers externe pour télécharger, lier et gérer les fichiers dans les lots de travaux.
       managed_project_folders:
         subtitle: Laisser OpenProject créer automatiquement des dossiers par projet. Cette option est recommandée, car elle garantit que chaque membre de l'équipe dispose toujours des autorisations d'accès correctes.
@@ -515,10 +532,10 @@ fr:
         members_connection_status: Statut de connexion des membres
         new: Ajouter un stockage de fichiers à ce projet
       project_storage_members:
-        subtitle_html: Vérifiez l'état de la connexion pour l'espace de stockage %{storage_name_link} de tous les membres du projet.
+        subtitle_html: Vérifiez l'état de connexion de tous les membres du projet à l'espace de stockage %{storage_name_link}.
         title: Statut de connexion des membres
       project_storages:
-        delete: Supprimer le stockage de fichiers d'un projet ?
+        delete: Retirer l'espace de stockage de fichiers du projet ?
     permission_header_explanation: Les droits d'accès aux fichiers sur les supports de stockage externes ne sont appliqués qu'aux dossiers et aux fichiers contenus dans les dossiers de projet gérés automatiquement. Notez que toutes les droits sur les fichiers ne sont pas pris en charge par tous les fournisseurs de stockage. Veuillez consulter la documentation sur <a target='_blank' href='https://www.openproject.org/fr/docs/system-admin-guide/users-permissions/roles-permissions/'>les autorisations de stockage de fichiers</a> pour plus d'informations.
     provider_types:
       label: Type de fournisseur

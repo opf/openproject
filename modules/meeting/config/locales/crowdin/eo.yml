@@ -100,14 +100,30 @@ eo:
         recurring_meeting_interim_response:
           not_an_occurrence: is not a valid occurrence time for this recurring meeting
     models:
-      meeting: Unufoja kunveno
-      meeting_agenda: Tagordo
-      meeting_agenda_item: Tagorda punkto
-      meeting_section: Sekcio
-      recurring_meeting: Ripeta renkontiĝo
+      meeting:
+        one: One-time meeting
+        other: One-time meetings
+      meeting_agenda_item:
+        one: Agenda item
+        other: Agenda items
+      meeting_outcome:
+        one: Outcome
+        other: Outcomes
+      meeting_participant:
+        one: Meeting participant
+        other: Meeting participants
+      meeting_section:
+        one: Section
+        other: Sections
+      recurring_meeting:
+        one: Recurring meeting
+        other: Recurring meetings
+      scheduled_meeting:
+        one: Scheduled meeting
+        other: Scheduled meetings
       token/ical_meeting:
         one: iCal Meeting subscription
-        other: iCal Meeting subscription
+        other: iCal Meeting subscriptions
   activity:
     filter:
       meeting: Renkontiĝoj
@@ -255,7 +271,6 @@ eo:
   label_past_meetings: Pasintaj renkontiĝoj
   label_past_meetings_short: Pasinta
   label_recurring_filter: Recurring filter
-  label_recurring_meeting: Ripeta renkontiĝo
   label_recurring_meeting_cancel: Cancel this occurrence
   label_recurring_meeting_create: Malfermi
   label_recurring_meeting_delete: Delete occurrence

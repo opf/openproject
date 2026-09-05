@@ -14,7 +14,10 @@ ms:
         secret: Rahsia tandatangan
         url: Muatan URL
     models:
-      webhooks/outgoing_webhook: Webhook yang keluar
+      webhooks/log:
+        other: Webhook logs
+      webhooks/webhook:
+        other: Webhooks
   plugin_openproject_webhooks:
     description: Menyediakan API plug-in untuk menyokong webhook OpenProject untuk integrasi pihak ketiga yang lebih baik.
     name: Webhook OpenProject

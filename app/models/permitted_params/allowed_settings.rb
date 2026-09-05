@@ -99,7 +99,7 @@ class PermittedParams
 
       add_restriction!(
         keys: password_keys,
-        condition: -> { OpenProject::Configuration.disable_password_login? }
+        condition: -> { Users::PasswordLogin.none? }
       )
 
       add_restriction!(

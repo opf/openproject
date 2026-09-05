@@ -39,10 +39,24 @@ it:
             query:
               must_be_work_package_query: deve essere una query di macro-attività.
     models:
-      resource_allocation: Allocazione delle risorse
-      resource_planner: Pianificatore di risorse
-      resource_user_card: Schede utente
-      resource_work_package_list: Elenco macro-attività
+      resource_allocation:
+        one: Allocazione delle risorse
+        other: Allocazioni delle risorse
+      resource_planner:
+        one: Pianificatore delle risorse
+        other: Pianificatori delle risorse
+      resource_user_card:
+        one: Scheda utente
+        other: Schede utente
+      resource_user_timeline:
+        one: Cronologia utente
+        other: Cronologie utenti
+      resource_work_package_list:
+        one: Elenco delle macro-attività
+        other: Elenchi delle macro-attività
+      resource_work_package_timeline:
+        one: Cronologia delle macro-attività
+        other: Cronologie delle macro-attività
   button_next: Avanti
   ee:
     features:
@@ -285,8 +299,8 @@ it:
     work_package_timeline:
       allocation_bar:
         matching_members_description:
-          one: "%{count} member of this project matches the allocation's filter criteria."
-          other: "%{count} members of this project match the allocation's filter criteria."
+          one: "%{count} membro di questo progetto corrisponde ai criteri di filtro dell'allocazione."
+          other: "%{count} membri di questo progetto corrispondono ai criteri di filtro dell'allocazione."
       blank:
         add_work_package: Aggiungi macro-attività
         configure_view: Configura vista

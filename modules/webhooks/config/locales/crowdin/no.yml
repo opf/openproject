@@ -14,7 +14,12 @@
         secret: Hemmelig signaturnøkkel
         url: Nyttelast-URL
     models:
-      webhooks/outgoing_webhook: Utgående webhook
+      webhooks/log:
+        one: Webhook log
+        other: Webhook logs
+      webhooks/webhook:
+        one: Webhook
+        other: Webhooks
   plugin_openproject_webhooks:
     description: Gir en plug-in API for å støtte OpenProject webhooks for bedre 3dje parts integrasjon.
     name: OpenProject Webhooks

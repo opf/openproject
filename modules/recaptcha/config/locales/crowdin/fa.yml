@@ -8,19 +8,19 @@ fa:
     error_captcha: حساب‌ کاربری شما اعتبارسنجی نشده است. لطفا با ادمین تماس بگیرید.
     label_recaptcha: reCAPTCHA
     settings:
-      captcha_description_html: 'reCAPTCHA is a free service by Google that can be enabled for your OpenProject instance. If enabled, a captcha form will be rendered upon login for all users that have not verified a captcha yet. <br/> Please see the following link for more details on reCAPTCHA and their versions, and how to create the website and secret keys: %{recaptcha_link} <br/> HCaptcha is a Google-free alternative that you can use if you do not want to use reCAPTCHA. See this link for more information: %{hcaptcha_link} <br/> Cloudflare Turnstile™ is another alternative that is more convenient for users while still providing the same level of security. See this link for more information: %{turnstile_link}
+      captcha_description_html: 'reCAPTCHA یک سرویس رایگان گوگل است که می‌توانید آن را برای نمونه OpenProject خود فعال کنید. در صورت فعال‌سازی، هنگام ورود برای همه کاربرانی که هنوز کپچا را تأیید نکرده‌اند فرم کپچا نمایش داده می‌شود. <br/> برای اطلاعات بیشتر درباره reCAPTCHA و نسخه‌های آن و نحوه ایجاد کلیدهای وب‌سایت و رمز، این پیوند را ببینید: %{recaptcha_link} <br/> اگر نمی‌خواهید از reCAPTCHA استفاده کنید، HCaptcha جایگزینی بدون وابستگی به گوگل است. اطلاعات بیشتر: %{hcaptcha_link} <br/> Cloudflare Turnstile™ نیز جایگزین دیگری است که با حفظ همان سطح امنیت، برای کاربران راحت‌تر است. اطلاعات بیشتر: %{turnstile_link}
 
         '
-      response_limit: Response limit for HCaptcha
-      response_limit_text: The maximum number of characters to treat the HCaptcha response as valid.
-      secret_key: Secret key
-      secret_key_text: Enter the secret key you created on the reCAPTCHA admin console.
-      type: Use reCAPTCHA
-      type_disabled: Disable reCAPTCHA
+      response_limit: حد پاسخ HCaptcha
+      response_limit_text: حداکثر تعداد نویسه‌ای که پاسخ HCaptcha تا آن معتبر در نظر گرفته می‌شود.
+      secret_key: کلید محرمانه
+      secret_key_text: کلید محرمانه‌ای را که در کنسول مدیریت reCAPTCHA ایجاد کرده‌اید وارد کنید.
+      type: استفاده از reCAPTCHA
+      type_disabled: غیرفعال‌کردن reCAPTCHA
       type_hcaptcha: HCaptcha
       type_turnstile: Cloudflare Turnstile™
       type_v2: reCAPTCHA v2
       type_v3: reCAPTCHA v3
-      website_key: Website key (May also be called "Site key")
-      website_key_text: Enter the website key you created on the reCAPTCHA admin console for this domain.
+      website_key: کلید وب‌سایت (ممکن است «Site key» نیز نامیده شود)
+      website_key_text: کلید وب‌سایتی را که در کنسول مدیریت reCAPTCHA برای این دامنه ایجاد کرده‌اید وارد کنید.
     verify_account: حساب کاربری خود را تایید کنید

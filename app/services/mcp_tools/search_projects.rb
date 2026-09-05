@@ -29,7 +29,7 @@
 #++
 
 module McpTools
-  class SearchProjects < Base
+  class SearchProjects < SearchTool
     default_title "Search projects"
     default_description "Search projects matching all of the passed input parameters. " \
                         "Parameters not passed are ignored. Results are limited to a maximum " \
@@ -45,7 +45,7 @@ module McpTools
     filter :status_code
 
     input_schema(
-      type: :object,
+      additionalProperties: false,
       properties: {
         name: { type: "string", description: "Name of the project. Accepts partial project names, not case-sensitive." },
         identifier: { type: "string", description: "Project identifier. Case-sensitive, matching exactly." },
@@ -53,14 +53,12 @@ module McpTools
       }
     )
 
-    def call(page: nil, **filters)
-      filtered = apply_filters(Project.project.visible, filters)
-      projects, total = apply_pagination(filtered, page)
+    def base_scope
+      Success(Project.project.visible)
+    end
 
-      {
-        items: projects.map { |p| API::V3::Projects::ProjectRepresenter.create(p, current_user:) },
-        total:
-      }
+    def format_item(item)
+      API::V3::Projects::ProjectRepresenter.create(item, current_user:)
     end
   end
 end

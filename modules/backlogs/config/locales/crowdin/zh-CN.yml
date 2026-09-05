@@ -32,7 +32,7 @@ zh-CN:
         duration: 持续时间
         finish_date: 结束日期
         goal: 冲刺目标
-        name: Sprint 冲刺名称
+        name: 冲刺名称
         sharing: 共享中
         statuses:
           active: 激活
@@ -50,7 +50,7 @@ zh-CN:
         story_points: 故事点
     errors:
       messages:
-        cannot_start_while_receiving_shared_sprints: cannot be started while the project is receiving shared sprints.
+        cannot_start_while_receiving_shared_sprints: 无法启动，因为项目正在接收共享冲刺。
         dates_required: 必须设置开始和结束日期才能开始冲刺。
         must_be_in_planning: 必须处于规划中状态才能开始。
         only_one_active_sprint_allowed: 每个项目只允许有一个有效冲刺。
@@ -61,11 +61,11 @@ zh-CN:
               locked_by_multiple_active_sprints: 在多个处于有效状态的冲刺正在运行时无法更改。
               requires_no_sharing: 只有当冲刺共享设置为“不共享”时才能启用。
             sprint_sharing:
-              active_or_borrowed_sprint_blocks_receiving: cannot be set to receive because the project has an active or borrowed sprint. Close or unassign the work packages first.
+              active_or_borrowed_sprint_blocks_receiving: 无法设置为接收，因为项目有一个处于有效状态或借用的冲刺。请先关闭或取消指定这些工作包。
               locked_by_multiple_active_sprints: 在启用了多个处于有效状态的冲刺时无法更改。
               share_all_projects_already_taken: 无法设置，因为项目“%{name}”已经与所有项目共享。
               share_all_projects_already_taken_anonymous: 无法设置，因为另一个项目已经与所有项目共享。
-              work_packages_still_linked_to_shared_sprints: cannot be changed because work packages are still linked to shared sprints. Unassign them first.
+              work_packages_still_linked_to_shared_sprints: 无法更改，因为工作包仍然与共享冲刺相关联。请先取消指定。
           receiving_sprints: 正在接收共享冲刺。无法创建自己的冲刺。
         sprint:
           attributes:
@@ -91,11 +91,15 @@ zh-CN:
               task_version_must_be_the_same_as_story_version: 必须与父级故事的版本相同。
           backlog_bucket_xor_sprint: 无法同时指定至冲刺和积压工作存储桶。
     models:
+      backlog_bucket:
+        other: 积压工作存储桶
       sprint:
         other: 冲刺
+      sprint_goal:
+        other: 冲刺目标
   backlogs:
     add_existing_work_package_dialog_component:
-      title_without_container: Add existing work package
+      title_without_container: 添加现有工作包
     administration_blankslate:
       text: 我们目前正在重新设计积压工作模块。冲刺和积压工作的管理设置不久后将显示在此处。项目级设置仍然可用。
       title: 积压工作管理设置不断演进
@@ -111,6 +115,7 @@ zh-CN:
         other: 冲刺
         zero: 所有冲刺
       select_panel_title: 选择条目
+    blankslate_filtered_title: No work packages match the filter criteria.
     bucket_component:
       action_menu:
         add_existing_work_package: 添加现有工作包
@@ -152,6 +157,8 @@ zh-CN:
       show_more:
         other: 显示其他 %{count} 个条目
       title: 收件箱
+    index_subheader_component:
+      label_search_by_subject: Search work packages by subject
     label_burndown_chart: 燃尽图
     label_is_done_status: 状态 %{status_name} 表示已完成
     label_sprint_board: 冲刺面板
@@ -184,7 +191,7 @@ zh-CN:
       label_start_sprint: 开始冲刺
       start_sprint_disabled_reason_active_sprint: 另一次冲刺已经开始。
       start_sprint_disabled_reason_missing_dates: 必须设置开始和结束日期才能开始冲刺。
-      start_sprint_disabled_reason_receiving_shared_sprints: This project's own sprints cannot be started while it is receiving shared sprints.
+      start_sprint_disabled_reason_receiving_shared_sprints: 此项目正在接收共享冲刺，无法启动自己的冲刺。
       start_sprint_disabled_reason_shared_sprint: 此冲刺来自另一个项目，该项目不支持多个处于有效状态的冲刺。
     sprint_form:
       goal_caption: 该冲刺目标仅适用于此项目，不会与同样使用此冲刺的其他项目共享。
@@ -245,11 +252,11 @@ zh-CN:
     story_points_ideal: 故事点（理想）
   ee:
     features:
-      multiple_active_sprints: Multiple active sprints
+      multiple_active_sprints: 多个处于有效状态的冲刺
       sprint_sharing: 冲刺共享
     upsell:
       multiple_active_sprints:
-        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
+        description: 为项目中的不同团队并行运行多个冲刺，以获得更大的控制力和灵活性。
       sprint_sharing:
         description: 跨项目共享冲刺，以便在规模化敏捷设置 (SAFe) 中调整团队和协调工作。
   label_all_sprints: 所有冲刺

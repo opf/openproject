@@ -69,21 +69,21 @@ RSpec.describe "Type creation wizard", :js, with_flag: { type_variants: true } d
     type = complete_details_step("Incident")
 
     expect(page).to have_text(I18n.t("types.edit.defaults.description.label"))
-    expect(page).to have_text("Independent mode")
+    expect(page).to have_text("Manual configuration")
     click_on I18n.t(:button_continue)
     expect_step_saved(:defaults, linked: false)
 
-    expect(page).to have_heading("Form configuration")
-    expect(page).to have_text("Independent mode")
+    expect(page).to have_heading("Form")
+    expect(page).to have_text("Manual configuration")
     click_on I18n.t(:button_continue)
     expect_step_saved(:form_configuration, linked: false)
 
     expect(page).to have_heading("Project attributes")
-    expect(page).to have_text("Independent mode")
+    expect(page).to have_text("Manual configuration")
     click_on I18n.t(:button_continue)
     expect_step_saved(:project_attributes, linked: false)
 
-    expect(page).to have_text("Independent mode")
+    expect(page).to have_text("Manual configuration")
     click_on I18n.t(:button_continue)
     expect_step_saved(:workflows, linked: false)
 
@@ -91,7 +91,7 @@ RSpec.describe "Type creation wizard", :js, with_flag: { type_variants: true } d
     expect_step_saved(:projects, linked: false)
 
     expect(page).to have_heading("PDF generation")
-    expect(page).to have_text("Independent mode")
+    expect(page).to have_text("Manual configuration")
     click_on I18n.t("types.creation_wizard.finish")
 
     expect_flash(message: I18n.t("types.creation_wizard.success"))
@@ -124,5 +124,46 @@ RSpec.describe "Type creation wizard", :js, with_flag: { type_variants: true } d
 
     expect_step_saved(:defaults, linked: false)
     expect(type.default_variant.reload.default_work_package_description).to eq("Reproduce the bug first")
+  end
+
+  describe "adding a variant" do
+    shared_let(:bug_type) { create(:type, name: "Bug") }
+
+    def start_variant_wizard
+      visit type_variants_path(type_id: bug_type.id)
+      find_test_selector("add-type-variant").click
+    end
+
+    it "keeps the wizard on the variant when a sidebar step is clicked" do
+      start_variant_wizard
+
+      fill_in TypeVariant.human_attribute_name(:variant_name), with: "Hardware"
+      click_on I18n.t(:button_continue)
+
+      expect_step_saved(:details, linked: false)
+      variant = bug_type.variants.reload.find_by!(variant_name: "Hardware")
+
+      within_test_selector("wizard-step-details") { click_on I18n.t("types.creation_wizard.steps.details") }
+
+      expect(page).to have_text(I18n.t("types.creation_wizard.add_variant", name: bug_type.name))
+      expect(page).to have_field(TypeVariant.human_attribute_name(:variant_name), with: "Hardware")
+      expect(page).to have_current_path(
+        type_creation_wizard_path(type_id: bug_type.id, variant_id: variant.id, step: :details,
+                                  back_url: type_variants_path(type_id: bug_type.id))
+      )
+    end
+
+    it "keeps the wizard on the variant when going back through the footer" do
+      start_variant_wizard
+
+      fill_in TypeVariant.human_attribute_name(:variant_name), with: "Hardware"
+      click_on I18n.t(:button_continue)
+
+      expect_step_saved(:details, linked: false)
+      click_on I18n.t(:button_back)
+
+      expect(page).to have_text(I18n.t("types.creation_wizard.add_variant", name: bug_type.name))
+      expect(page).to have_field(TypeVariant.human_attribute_name(:variant_name), with: "Hardware")
+    end
   end
 end

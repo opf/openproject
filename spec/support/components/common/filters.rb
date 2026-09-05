@@ -218,6 +218,15 @@ module Components
         end
       end
 
+      def close_filters
+        return unless filters_expanded?
+
+        retry_block do
+          toggle_filters_section
+          expect(page).to have_no_css(".op-filters-form.-expanded")
+        end
+      end
+
       def filters_toggle
         page.find('[data-test-selector="filter-component-toggle"]')
       end
@@ -242,18 +251,21 @@ module Components
       # row's data-filter-type as a symbol (:date, :datetime_past, ...).
       #
       # Re-finding is required because adding/operating on a filter re-renders
-      # the row, leaving a captured reference stale (ObsoleteNode). The raising
-      # find waits for the row; the marker check is then instant, mirroring the
-      # synchronous data-filter-type read. The marker check stays wait: 0 on
-      # purpose: rows are pre-rendered, so the marker is present whenever the row
-      # is, and a default wait would only stall the non-autocomplete branches for
-      # the full Capybara timeout before falling through.
+      # the row, leaving a captured reference stale (ObsoleteNode). The row can
+      # also go stale between the find and the reads, so the whole
+      # classification runs in a synchronize block that retries on that error.
+      # The marker check stays wait: 0 on purpose: rows are pre-rendered, so the
+      # marker is present whenever the row is, and a default wait would only
+      # stall the non-autocomplete branches for the full Capybara timeout before
+      # falling through.
       def filter_kind(name)
-        row = page.find(filter_selector(name))
+        page.document.synchronize do
+          row = page.find(filter_selector(name))
 
-        return :autocomplete if row.has_css?('[data-filter-autocomplete="true"]', wait: 0)
+          next :autocomplete if row.has_css?('[data-filter-autocomplete="true"]', wait: 0)
 
-        row[:"data-filter-type"]&.to_sym
+          row[:"data-filter-type"]&.to_sym
+        end
       end
 
       def boolean_filter?(_filter)

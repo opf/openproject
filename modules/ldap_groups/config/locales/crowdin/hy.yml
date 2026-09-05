@@ -20,8 +20,12 @@ hy:
         ldap_groups/synchronized_filter:
           must_contain_base_dn: Զտիչի base DN-ը պետք է ներառված լինի LDAP կապի base DN-ի մեջ
     models:
-      ldap_groups/synchronized_filter: LDAP խմբերի համաժամացման զտիչ
-      ldap_groups/synchronized_group: Համաժամացված LDAP խումբ
+      ldap_groups/synchronized_filter:
+        one: LDAP Group synchronization filter
+        other: LDAP Group synchronization filters
+      ldap_groups/synchronized_group:
+        one: Synchronized LDAP group
+        other: Synchronized LDAP groups
   ee:
     upsell:
       ldap_groups:
