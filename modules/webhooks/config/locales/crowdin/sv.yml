@@ -29,7 +29,7 @@ sv:
         created: Skapad
         internal_comment: Intern kommentar
         updated: Uppdaterad
-      explanation_html: 'Upon the occurrence of an event like the creation of a work package or an update on a project, OpenProject will send a POST request to the configured web endpoints. Oftentimes, the event is sent after the [configured aggregation period](aggregation_path) has passed.
+      explanation_html: 'När en händelse inträffar, till exempel när ett arbetspaket skapas eller ett projekt uppdateras, skickar OpenProject en POST-begäran till de konfigurerade webbslutpunkterna. Händelsen skickas ofta efter att den [konfigurerade aggregeringsperioden](aggregation_path) har löpt ut.
 
         '
       form:
@@ -59,9 +59,9 @@ sv:
       label_add_new: Lägg till ny webhook
       label_edit: Redigera webhook
       label_x_events:
-        one: 1 event
-        other: "%{count} events"
-        zero: No events
+        one: 1 händelse
+        other: "%{count} händelser"
+        zero: Inga händelser
       no_results_table: Inga webhooks har definierats ännu.
       status:
         disabled: Webbhook är inaktiverad

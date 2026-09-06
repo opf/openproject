@@ -25,33 +25,33 @@ sv:
     attributes:
       meeting:
         duration: Varaktighet
-        end_time: End time
+        end_time: Sluttid
         location: Plats
         notes: Anteckningar
-        notify: Send notifications
+        notify: Skicka aviseringar
         participant:
           one: 1 deltagare
           other: "%{count} deltagare"
         participants: Deltagare
-        participants_added: 'Participants added:'
+        participants_added: 'Deltagare tillagda:'
         participants_attended: Deltagare
         participants_invited: Inbjudna
-        participants_removed: 'Participants removed:'
+        participants_removed: 'Deltagare borttagna:'
         project: Projekt
-        recurrence_start_time: Scheduled start time
-        sharing: Sharing
+        recurrence_start_time: Schemalagd starttid
+        sharing: Delas
         start_date: Datum
         start_time: Starttid
         start_time_hour: Starttid
-        template: Template
+        template: Mall
         type: Mötestyp
       meeting_agenda_item:
         author: Upphovsman
         description: Anteckningar
         duration_in_minutes: Varaktighet
-        item_type: Type
-        lock_version: Lock version
-        notes: Notes
+        item_type: Typ
+        lock_version: Lås version
+        notes: Anteckningar
         position: Position
         presenter: Presentatör
         title: Titel
@@ -63,40 +63,40 @@ sv:
         position: Position
         title: Titel
       recurring_meeting:
-        duration: Duration
+        duration: Varaktighet
         end_after: Mötesserien slutar
         end_date: Slutdatum
         frequency: Frekvens
         interval: Intervall
         iterations: Förekomster
-        location: Location
-        monthly_day: Day of month
+        location: Plats
+        monthly_day: Dag i månaden
         monthly_ordinal: Position
-        monthly_weekday: Weekday
-        notify: Send notifications
+        monthly_weekday: Veckodag
+        notify: Skicka aviseringar
         start_date: Börjar på
         start_time: Starttid
         start_time_hour: Starttid
-        time_zone: Time zone
-        title: Title
+        time_zone: Tidszon
+        title: Titel
       recurring_meeting_interim_response:
-        start_time: Start time
+        start_time: Starttid
     errors:
       messages:
         invalid_time_format: är inte en giltig tid. Använd formatet HH:MM
       models:
         meeting_agenda_item:
-          section_not_belong_to_meeting: Section does not belong to the same meeting.
-          user_invalid: is not a valid participant.
+          section_not_belong_to_meeting: Avsnittet tillhör inte samma möte.
+          user_invalid: är inte en giltig deltagare.
         meeting_participant:
-          user_invalid: is not a valid participant.
+          user_invalid: är inte en giltig deltagare.
         recurring_meeting:
           must_cover_existing_meetings:
             format: "%{message}"
             one: Det finns ett öppet möte i serien som inte omfattas av det nya schemat. Justera schemat för att inkludera alla befintliga möten.
             other: Det finns %{count} öppna möten i serien som inte omfattas av det nya schemat. Justera schemat för att inkludera alla befintliga möten.
         recurring_meeting_interim_response:
-          not_an_occurrence: is not a valid occurrence time for this recurring meeting
+          not_an_occurrence: är inte en giltig förekomsttid för det här återkommande mötet
     models:
       meeting: Engångsmöte
       meeting_agenda: Agenda
@@ -122,8 +122,8 @@ sv:
         work_package:
           updated: ändrad från %{old_value} till %{value}
           updated_html: ändrad från <i>%{old_value}</i> till <i>%{value}</i>
-  caption_meeting_template_select: Select a template to automatically copy its agenda items
-  caption_template_project_select: Please select the project in which to create this meeting template
+  caption_meeting_template_select: Välj en mall för att automatiskt kopiera dess dagordningspunkter
+  caption_template_project_select: Välj i vilket projekt mötesmallen ska skapas
   description_attended: deltog
   error_notification: Misslyckades med att skicka meddelande.
   error_notification_with_errors: 'Det gick inte att skicka underrättelse. Följande mottagare kunde inte underrättas: %{recipients}'
@@ -137,18 +137,18 @@ sv:
   label_add_work_package_to_meeting_dialog_button: Lägg till i möte
   label_add_work_package_to_meeting_dialog_title: Välj möte
   label_add_work_package_to_meeting_section_label: Sektion
-  label_added_as_outcome: Added as outcome
+  label_added_as_outcome: Tillagt som resultat
   label_agenda_backlog: Dagordningens backlog
   label_agenda_backlog_clear_title: Rensa dagordningens backlog?
   label_agenda_item_actions: Åtgärder enligt dagordningspunkter
   label_agenda_item_add: Lägg till punkt på dagordningen
   label_agenda_item_add_notes: Lägg till anteckningar
   label_agenda_item_add_outcome: Lägg till resultat
-  label_agenda_item_convert_to_work_package: Convert to work package
+  label_agenda_item_convert_to_work_package: Konvertera till arbetspaket
   label_agenda_item_deleted_wp: Borttagen referens till arbetspaket
-  label_agenda_item_duplicate: Duplicate
-  label_agenda_item_duplicate_in_next: Duplicate in next meeting
-  label_agenda_item_duplicate_in_next_title: Duplicate in next meeting?
+  label_agenda_item_duplicate: Duplicera
+  label_agenda_item_duplicate_in_next: Duplicera i nästa möte
+  label_agenda_item_duplicate_in_next_title: Duplicera i nästa möte?
   label_agenda_item_move: Flytta
   label_agenda_item_move_down: Flytta ned
   label_agenda_item_move_to_backlog: Flytta till backlog
@@ -177,7 +177,7 @@ sv:
   label_backlog_clear: Rensa backlog
   label_backlog_clear_button: Rensa alla
   label_created_by_me: Skapad av mig
-  label_existing_work_package: Existing work package
+  label_existing_work_package: Befintligt arbetspaket
   label_icalendar: Skicka iCalendar
   label_icalendar_download: Ladda ner iCalendar-händelse
   label_initial_meeting_details: Möte
@@ -191,7 +191,7 @@ sv:
   label_meeting_close: Stäng
   label_meeting_close_action: Stäng möte
   label_meeting_create: Skapa möte
-  label_meeting_create_from_template: Create meeting from template
+  label_meeting_create_from_template: Skapa möte från mall
   label_meeting_created_by: Skapad av
   label_meeting_date_and_time: Datum och tid
   label_meeting_date_time: Datum/tid
@@ -207,7 +207,7 @@ sv:
   label_meeting_index_delete: Ta bort
   label_meeting_index_later: Nästa vecka och senare
   label_meeting_index_this_week: Senare denna vecka
-  label_meeting_index_today: Idag
+  label_meeting_index_today: I dag
   label_meeting_index_tomorrow: Imorgon
   label_meeting_last_updated: Senast uppdaterad
   label_meeting_minutes: Protokoll
@@ -233,26 +233,26 @@ sv:
   label_meeting_state_cancelled: Avbruten
   label_meeting_state_closed: Stängt
   label_meeting_state_draft: Utkast
-  label_meeting_state_in_progress: Pågående
+  label_meeting_state_in_progress: Pågår
   label_meeting_state_open: Öppna
   label_meeting_state_planned: Planerade
   label_meeting_state_skipped: Överhoppad
-  label_meeting_template: Template
-  label_meeting_template_create: Create template
-  label_meeting_template_delete: Delete template
-  label_meeting_template_edit: Edit template
-  label_meeting_template_new: New template
-  label_meeting_template_sharing: Sharing
-  label_meeting_template_sharing_descendants: With subprojects
-  label_meeting_template_sharing_none: Only with this project
-  label_meeting_template_sharing_system: With all projects
-  label_meeting_templates: Templates
+  label_meeting_template: Mall
+  label_meeting_template_create: Skapa mall
+  label_meeting_template_delete: Ta bort mall
+  label_meeting_template_edit: Redigera mall
+  label_meeting_template_new: Ny mall
+  label_meeting_template_sharing: Delas
+  label_meeting_template_sharing_descendants: Med delprojekt
+  label_meeting_template_sharing_none: Endast med det här projektet
+  label_meeting_template_sharing_system: Med alla projekt
+  label_meeting_templates: Mallar
   label_my_meetings: Mina möten
   label_notify: Skicka för granskning
   label_past_invitations: Tidigare inbjudningar
   label_past_meetings: Tidigare möten
   label_past_meetings_short: Tidigare
-  label_recurring_filter: Recurring filter
+  label_recurring_filter: Återkommande filter
   label_recurring_meeting: Återkommande möte
   label_recurring_meeting_cancel: Avbryt förekomsten
   label_recurring_meeting_create: Öppna
@@ -289,17 +289,17 @@ sv:
   label_upcoming_meetings: Kommande möten
   label_upcoming_meetings_short: Kommande
   label_version: Version
-  label_view_meeting: View meeting
+  label_view_meeting: Visa möte
   label_view_meeting_series: Visa mötesserier
-  label_write_outcome: Write outcome
+  label_write_outcome: Skriv resultat
   meeting:
     attachments:
-      onetime_template: These attached files will be included in all future meetings using this template.
-      series_template: These attached files will be included in all future meetings in the series.
+      onetime_template: Dessa bifogade filer kommer att ingå i alla framtida möten som använder denna mall.
+      series_template: Dessa bifogade filer kommer att ingå i alla framtida möten i serien.
       text: Bifogade filer är tillgängliga för alla mötesdeltagare. Du kan också dra och släppa dem i dagordningspunktens anteckningar.
     blankslate:
-      desc: You can create a new meeting or change filter criteria
-      title: There are no meetings to display
+      desc: Du kan skapa ett nytt möte eller ändra filtervillkoren
+      title: Det finns inga möten att visa
     copied: 'Kopierat från möte #%{id}'
     copy:
       agenda: Kopiera agenda
@@ -319,23 +319,23 @@ sv:
         heading: Avbryt denna förekomst av möte?
         title: Avbryt förekomst av möte
       occurrence_past:
-        confirm_button: Delete occurrence
-        confirmation_message_html: 'This action is not reversible. Please proceed with caution.
+        confirm_button: Ta bort förekomst
+        confirmation_message_html: 'Denna åtgärd är inte reversibel. Vänligen fortsätt med försiktighet.
 
           '
-        heading: Delete this occurrence?
-        title: Delete occurrence
+        heading: Ta bort den här förekomsten?
+        title: Ta bort förekomst
       one_time:
         confirmation_message_html: 'Denna åtgärd är inte reversibel. Vänligen fortsätt med försiktighet.
 
           '
         heading: Ta bort detta möte?
         template:
-          confirmation_message_html: 'This action is not reversible. Please proceed with caution. Existing meetings that were created using this template will not be affected.
+          confirmation_message_html: 'Åtgärden kan inte ångras. Fortsätt med försiktighet. Befintliga möten som skapats med denna mall påverkas inte.
 
             '
-          heading: Delete this template?
-          title: Delete template
+          heading: Ta bort den här mallen?
+          title: Ta bort mall
         title: Radera möte
     email:
       cancelled:
@@ -343,12 +343,12 @@ sv:
         header: 'Inställt: Möte ''%{title}'''
         header_occurrence: 'Inställt: Mötesförekomst ''%{title}'''
         header_series: 'Inställt: Mötesserie ''%{title}'''
-        summary: "'%{title}' has been cancelled by %{actor}, or you have been removed as a participant"
-        summary_occurrence: An occurrence of '%{title}' has been cancelled by %{actor}, or you have been removed as a participant
-        summary_series: Meeting series '%{title}' has been cancelled by %{actor}, or you have been removed as a participant
+        summary: '"%{title}" har ställts in av %{actor}, eller så har du tagits bort som deltagare'
+        summary_occurrence: En förekomst av "%{title}" har ställts in av %{actor}, eller så har du tagits bort som deltagare
+        summary_series: Mötesserien "%{title}" har ställts in av %{actor}, eller så har du tagits bort som deltagare
       ended:
-        header_series: 'Ended: Meeting series ''%{title}'''
-        summary_series: Meeting series '%{title}' has been ended by %{actor}
+        header_series: 'Avslutad: Mötesserien "%{title}"'
+        summary_series: Mötesserien "%{title}" har avslutats av %{actor}
       invited:
         summary: "%{actor} har skickat en inbjudan till mötet '%{title}'"
       open_meeting_link: Öppet möte
@@ -367,16 +367,16 @@ sv:
         summary: Mötesserien '%{title}' har uppdaterats av %{actor}
         title: "[%{project_name}] Mötesserien '%{title}' har uppdaterats"
       updated:
-        added_participants: Added
+        added_participants: Tillagd
         body: Mötet '%{title}' har uppdaterats av %{actor}.
         header: Mötet '%{title}' har uppdaterats
         new_date_time: Nytt datum/tid
         new_location: Ny plats
-        new_title: New title
+        new_title: Ny titel
         old_date_time: Gammalt datum/tid
         old_location: Gammal plats
-        old_title: Old title
-        removed_participants: Removed
+        old_title: Gammal titel
+        removed_participants: Borttagen
         summary: Möte '%{title}' har uppdaterats av %{actor}
     export:
       minutes:
@@ -420,8 +420,8 @@ sv:
           label: Protokoll
       title: Exportera PDF
     ical_response:
-      meeting_not_found: Meeting not found for the given UID.
-      update_failed: Could not update participation status.
+      meeting_not_found: Inget möte hittades för angivet UID.
+      update_failed: Det gick inte att uppdatera deltagandestatusen.
     label_export_pdf: Exportera PDF
     label_mail_all_participants: Skicka inbjudan via e-post till deltagarna
     notifications:
@@ -430,13 +430,13 @@ sv:
           disable: Inaktivera e-postuppdateringar
           enable: Aktivera e-postuppdateringar
         message:
-          disable: If they already had an invite for this meeting, it might no longer be accurate.
-          enable: Once enabled, an email will be sent out immediately to all participants.
+          disable: Om de redan hade en inbjudan till mötet kanske den inte längre är korrekt.
+          enable: När detta aktiveras skickas ett e-postmeddelande omedelbart till alla deltagare.
         title:
           disable: Inaktivera kalenderuppdateringar via e-post?
           enable: Aktivera kalenderuppdateringar via e-post?
-      disabled: Participants will not receive email updates informing them of changes to the date, time or list of participants.
-      enabled: All participants will receive updated calendar invites informing them of changes to date, time or list of participants.
+      disabled: Deltagarna får inga e-postuppdateringar som informerar dem om ändringar av datum, tid eller deltagarlista.
+      enabled: Alla deltagare får uppdaterade kalenderinbjudningar som informerar dem om ändringar av datum, tid eller deltagarlista.
       sidepanel:
         description:
           change_via_template: För att ändra detta, redigera seriemallen.
@@ -446,7 +446,7 @@ sv:
         description: Det finns inga deltagare ännu.
         heading: Inga deltagare
       label:
-        apply_to_upcoming_meetings: Apply these changes to all upcoming meetings in this series
+        apply_to_upcoming_meetings: Tillämpa dessa ändringar på alla kommande möten i serien
         attended: Deltog
         manage_participants: Hantera deltagare
         mark_all_as_attended: Markera alla som närvarande
@@ -477,16 +477,16 @@ sv:
       structured_text_copy: Om du kopierar ett möte kopieras för närvarande inte de tillhörande dagordningspunkterna, utan bara detaljerna
     widgets:
       blankslate:
-        description: Upcoming meetings you are participating in will appear here.
-        heading: No upcoming meetings
-      view_details: View all meetings
+        description: Kommande möten som du deltar i visas här.
+        heading: Inga kommande möten
+      view_details: Visa alla möten
   meeting_participant:
     participation_status:
-      accepted: Accepted
-      declined: Declined
-      needs_action: No response
-      tentative: Maybe
-      unknown: Unknown
+      accepted: Accepterad
+      declined: Avböjd
+      needs_action: Inget svar
+      tentative: Kanske
+      unknown: Okänd
   meeting_section:
     delete_confirmation: Om du tar bort avsnittet tas även alla dess agendapunkter bort. Är du säker på att du vill göra det här?
     empty_text: Dra objekt hit eller skapa en ny
@@ -507,19 +507,19 @@ sv:
           name_label: Namn på token
       revocation:
         token/ical_meeting:
-          notice_failure: 'Det gick inte att återkalla iCalendar mötesprenumeration: %{error}'
+          notice_failure: 'Det gick inte att återkalla iCalendar-mötesprenumerationen: %{error}'
           notice_success: Prenumerationen på iCalendar möte har återkallats.
   my_account:
     access_tokens:
       token/ical_meeting:
         add_button: Prenumerera på kalender
-        blank_description: You can create one using the button below.
-        blank_title: No iCalendar meeting token
+        blank_description: Du kan skapa en med knappen nedan.
+        blank_title: Ingen iCalendar-token för möten
         disabled_text: mötesprenumerationer i iCalendar är inte aktiverade av administratören. Kontakta din administratör om du vill använda den här funktionen.
-        table_title: iCalendar meeting tokens
+        table_title: iCalendar-token för möten
         text_hint: iCalendar meeting tokens gör det möjligt för användare att prenumerera på alla sina möten och visa aktuell mötesinformation i externa klienter.
         title: iCalendar för möten
-  notice_meeting_template_created: Template successfully created
+  notice_meeting_template_created: Mallen skapades
   notice_meeting_updated: Denna sida har uppdaterats av någon annan. Ladda om för att se ändringar.
   notice_successful_notification: Uppdatering av e-postkalender skickad till alla deltagare
   notice_timezone_missing: Ingen tidszon angiven och %{zone} antas. För att välja din tidszon, vänligen klicka här.
@@ -531,22 +531,22 @@ sv:
   permission_manage_outcomes: Hantera resultat
   permission_send_meeting_invites_and_outcomes: Skicka mötesinbjudningar och resultat till deltagare
   permission_view_meetings: Visa möten
-  placeholder_meeting_template_no_templates_for_project: No templates available for this project
-  placeholder_meeting_template_select_project_first: Select a project first
+  placeholder_meeting_template_no_templates_for_project: Inga mallar är tillgängliga för det här projektet
+  placeholder_meeting_template_select_project_first: Välj först ett projekt
   placeholder_section_select_meeting_first: Val av möte krävs först
   plugin_openproject_meeting:
     description: Modulen lägger till funktioner för att stödja projektmöten till OpenProject. Möten kan schemaläggas genom att välja inbjudna från samma projekt för att delta i mötet. En agenda kan skapas och skickas till inbjudna. Efter mötet kan deltagarna väljas ut och protokoll skapas utifrån agendan. Slutligen kan protokollet skickas till alla deltagare och inbjudna.
     name: OpenProject möte
   project_module_meetings: Möten
   recurring_meeting:
-    actual_first_occurrence_mismatch_html: The first occurrence of this series will be %{first_occurrence}
+    actual_first_occurrence_mismatch_html: Den första förekomsten i den här serien blir %{first_occurrence}
     caption:
-      ends_on: This results in a series ending on %{date}
+      ends_on: Detta resulterar i en serie som avslutas %{date}
       occurrences:
-        one: This results in 1 upcoming occurrence
-        other: This results in %{count} upcoming occurrences
-      occurrences_capped: This results in more than %{count} upcoming occurrences
-    day_of_month_skipping_info: Months with fewer than %{monthly_day} days will be skipped
+        one: Detta resulterar i 1 kommande förekomst
+        other: Detta resulterar i %{count} kommande förekomster
+      occurrences_capped: Detta resulterar i fler än %{count} kommande förekomster
+    day_of_month_skipping_info: Månader med färre än %{monthly_day} dagar hoppas över
     delete_dialog:
       confirmation_message_html:
         one: 'Borttagning av <strong>%{title}</strong> kommer också att ta bort en förekomst i denna serie. Denna åtgärd är inte reversibel. Vänligen fortsätt med försiktighet.
@@ -561,9 +561,9 @@ sv:
       heading: Ta bort denna mötesserie permanent?
       title: Ta bort mötesserier
     end_after:
-      iterations: After a number of occurrences
-      never: Never
-      specific_date: After a specific date
+      iterations: Efter ett antal förekomster
+      never: Aldrig
+      specific_date: Efter ett visst datum
     end_series_dialog:
       title: Avsluta mötesserier
     ended_blankslate:
@@ -572,15 +572,15 @@ sv:
       title: Mötesserien avslutades
     frequency:
       every_weekday: Varje %{day_of_the_week}
-      monthly_day_of_month: Day of month
-      monthly_nth_weekday: Monthly on a weekday
+      monthly_day_of_month: Dag i månaden
+      monthly_nth_weekday: Månadsvis på en veckodag
       working_days: Varje arbetsdag
       x_daily:
         one: Varje dag
         other: Var %{count}:e dag
       x_monthly:
-        one: Every month
-        other: Every %{count} months
+        one: Varje månad
+        other: Var %{count}:e månad
       x_weekly:
         one: Varje vecka
         other: Var %{count} vecka
@@ -589,30 +589,30 @@ sv:
       frequency: "%{base} vid %{time}"
       full: "%{base} vid %{time}, slutar på %{end_date}"
       full_past: "%{base} vid %{time}, slutade på %{end_date}"
-      monthly_day: Every month on the %{day}
-      monthly_day_interval: Every %{interval} months on the %{day}
-      monthly_nth_weekday: Every month on the %{ordinal} %{weekday}
-      monthly_nth_weekday_interval: Every %{interval} months on the %{ordinal} %{weekday}
+      monthly_day: Varje månad den %{day}
+      monthly_day_interval: Var %{interval}:e månad den %{day}
+      monthly_nth_weekday: Varje månad den %{ordinal} %{weekday}
+      monthly_nth_weekday_interval: Var %{interval}:e månad den %{ordinal} %{weekday}
       never_ending: "%{base} vid %{time}"
       weekly: Varje vecka på %{weekday}
       weekly_interval: Var %{interval} vecka på %{weekday}
       working_days: Varje arbetsdag
     monthly:
       inflected_ordinal:
-        first: first
-        fourth: fourth
-        last: last
-        second: second
-        third: third
+        first: första
+        fourth: fjärde
+        last: sista
+        second: andra
+        third: tredje
       ordinal_options:
-        first: First
-        fourth: Fourth
-        last: Last
-        second: Second
-        third: Third
+        first: Första
+        fourth: Fjärde
+        last: Sista
+        second: Andra
+        third: Tredje
     occurrence:
       error_no_next: Det finns ingen nästa händelse för detta möte.
-      error_template_draft: The meeting series template is still in draft mode.
+      error_template_draft: Mötesseriesmallen är fortfarande i utkastläge.
       first_already_exists: Den första förekomsten av denna mötesserie är existerar redan.
       first_created: 'Det första mötet har skapats från mallen. Alla framtida möten kommer att skapas automatiskt vid tiden för den föregående händelsen.
 
@@ -671,16 +671,16 @@ sv:
   text_agenda_backlog_clear_description: 'Är du säker på att du vill ta bort alla objekt som för närvarande finns i agendans backlog? Denna åtgärd är inte reversibel.
 
     '
-  text_agenda_item_dialog_skipping_cancelled_many: "%{count} cancelled meetings"
-  text_agenda_item_dialog_skipping_cancelled_one: cancelled meeting on %{date}
-  text_agenda_item_dialog_skipping_closed_many: "%{count} closed meetings"
-  text_agenda_item_dialog_skipping_closed_one: closed meeting on %{date}
-  text_agenda_item_dialog_skipping_note: 'Note: Skipping %{details}.'
-  text_agenda_item_duplicate_in_next_meeting: Are you sure you want to add a copy of this agenda item to the next meeting, on %{date} at %{time}? Outcomes will not be duplicated.
-  text_agenda_item_duplicated_in_next_meeting: Agenda item duplicated in the next meeting, on %{date}
+  text_agenda_item_dialog_skipping_cancelled_many: "%{count} inställda möten"
+  text_agenda_item_dialog_skipping_cancelled_one: inställt möte den %{date}
+  text_agenda_item_dialog_skipping_closed_many: "%{count} stängda möten"
+  text_agenda_item_dialog_skipping_closed_one: stängt möte den %{date}
+  text_agenda_item_dialog_skipping_note: Obs! Hoppar över %{details}.
+  text_agenda_item_duplicate_in_next_meeting: Är du säker på att du vill lägga till en kopia av den här dagordningspunkten till nästa möte den %{date} kl. %{time}? Resultat dupliceras inte.
+  text_agenda_item_duplicated_in_next_meeting: Dagordningspunkten duplicerades till nästa möte den %{date}
   text_agenda_item_move_next_meeting: Detta objekt kommer att flyttas till nästa möte på %{date} på %{time}.
   text_agenda_item_moved_to_next_meeting: Dagordningspunkten flyttad till nästa möte, på %{date}
-  text_agenda_item_no_available_occurrence: No upcoming occurrences are available.
+  text_agenda_item_no_available_occurrence: Det finns inga kommande förekomster tillgängliga.
   text_agenda_item_no_notes: Inga anteckningar tillhandahållna
   text_agenda_item_not_editable_anymore: Denna dagordningspunkt är inte längre redigerbar.
   text_agenda_item_title: Dagordningspunkt "%{title}"
@@ -717,13 +717,13 @@ sv:
   text_meeting_open_dropdown_description: Eventuella befintliga resultat kommer att kvarstå men användarna kommer inte att kunna lägga till nya resultat.
   text_meeting_series_end_early: Om du avslutar serien raderas alla framtida öppna eller schemalagda möteshändelser
   text_meeting_series_end_early_heading: Ta bort framtida händelser?
-  text_meeting_template_blank_slate: You can create a new template for one-time meetings
-  text_meeting_template_blank_slate_heading: There are no templates to display
-  text_meeting_template_sharing_description: This template can be shared with subprojects or other projects in this instance. Only the agenda items and attachments will be copied.
+  text_meeting_template_blank_slate: Du kan skapa en ny mall för engångsmöten
+  text_meeting_template_blank_slate_heading: Det finns inga mallar att visa
+  text_meeting_template_sharing_description: Den här mallen kan delas med delprojekt eller andra projekt i den här instansen. Endast dagordningspunkter och bilagor kopieras.
   text_notificiation_invited: 'Detta mail innehåller en ics-post för mötet nedan:'
-  text_onetime_meeting_template_banner: You are currently editing a meeting template. You can use this template to create one-time meetings with a predefined agenda. Changes will not affect already-created meetings.
-  text_onetime_meeting_template_empty_description: Add agenda items, sections and attachments here. They will be included in every meeting created using this template.
-  text_onetime_meeting_template_empty_heading: This meeting template is empty
+  text_onetime_meeting_template_banner: Du redigerar för närvarande en mötesmall. Du kan använda den här mallen för att skapa engångsmöten med en fördefinierad dagordning. Ändringar påverkar inte möten som redan har skapats.
+  text_onetime_meeting_template_empty_description: Lägg till dagordningspunkter, avsnitt och bilagor här. De ingår i varje möte som skapas med denna mall.
+  text_onetime_meeting_template_empty_heading: Den här mötesmallen är tom
   text_outcome_cannot_be_added: Ett resultat kan inte längre läggas till.
   text_outcome_not_editable_anymore: Detta resultat är inte redigerbar längre.
   text_series_backlog: 'Backloggen delas med alla förekomster av den här serien. Du kan dra objekt in och ut för att lägga till eller ta bort dem från ett visst möte.
@@ -733,5 +733,5 @@ sv:
 
     '
   text_work_package_add_to_meeting_hint: Använd knappen "Lägg till i möte" för att lägga till detta arbetspaket i ett kommande möte.
-  text_work_package_has_no_past_meeting_agenda_items: This work package was not added as an agenda item in a past meeting.
+  text_work_package_has_no_past_meeting_agenda_items: Det här arbetspaketet lades inte till som en dagordningspunkt i ett tidigare möte.
   text_work_package_has_no_upcoming_meeting_agenda_items: Detta arbetspaket är ännu inte inplanerat i en kommande dagordning.

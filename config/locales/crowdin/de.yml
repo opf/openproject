@@ -6071,8 +6071,8 @@ de:
           confirm_dialog:
             check_box: Ich verstehe, dass dies die aktuellen Einstellungen überschreibt
             description: Alle derzeit ausgewählten Einstellungen werden überschrieben. Das kann sich auf die bereits vorhandene Informationen zu den Arbeitspaketen dieses Typs auswirken.
-            heading: Switch configuration mode?
-            title: Switch configuration mode
+            heading: Konfigurationsmodus wechseln?
+            title: Konfigurationsmodus wechseln
           copy_from_type: Kopiere vom Typ
           description: Es werden keine Einstellungen übernommen. Falls gewünscht, können Sie dennoch einmalig Einstellungen von einem anderen Typ kopieren.
           dialog:
@@ -6097,13 +6097,13 @@ de:
           confirm_dialog:
             change_source:
               description_html: Durch das Wechseln des Quelltyps von %{source_name} überschreiben Sie die aktuellen Einstellungen und beeinflussen möglicherweise vorhandene Informationen zu den Arbeitspaketen dieses Typs.
-              heading: Change source type?
-              title: Change source type
+              heading: Quellentyp ändern?
+              title: Quellentyp ändern
             check_box: Ich verstehe, dass dies die aktuellen Einstellungen überschreibt
             from_independent:
               description: Alle derzeit ausgewählten Einstellungen werden überschrieben. Das kann sich auf die bereits vorhandene Informationen zu den Arbeitspaketen dieses Typs auswirken.
-              heading: Switch configuration mode?
-              title: Switch configuration mode
+              heading: Konfigurationsmodus wechseln?
+              title: Konfigurationsmodus wechseln
           description: Diese Konfiguration ist mit dem Quelltyp [%{source_name}](source_url)%{source_suffix} verknüpft und übernimmt dessen Einstellungen.
           dialog:
             description: Kopieren Sie diese Einstellungen von einer Quelle und übernehmen Sie sie. Alle neuen Konfigurationen, die der Quelle hinzugefügt werden, werden auch hier hinzugefügt.

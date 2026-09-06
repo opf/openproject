@@ -72,16 +72,16 @@ ro:
 
           '
       help_text_html: |
-        This module allows you to set up a synchronization between LDAP and OpenProject groups.
+        Acest modul vă permite să configurați o sincronizare între grupurile LDAP și cele din OpenProject.
         <br/>
-        By default, OpenProject uses <strong>reverse lookup</strong>: it searches for users whose <em>memberOf</em> attribute matches the group DN.
-        This requires the <em>memberOf</em> attribute to be present on user entries (Active Directory, OpenLDAP with memberof overlay).
+        În mod implicit, OpenProject utilizează <strong>căutarea inversă</strong>: caută utilizatorii al căror atribut <em>„memberOf”</em> corespunde cu DN-ul grupului.
+        Acest lucru necesită ca atributul <em>„memberOf”</em> să fie prezent în înregistrările utilizatorilor (Active Directory, OpenLDAP cu overlay „memberOf”).
         <br/>
-        If your LDAP server does not maintain <em>memberOf</em> on user entries (e.g. it uses <em>groupOfUniqueNames</em> with <em>uniqueMember</em>),
-        you can configure <strong>forward lookup</strong> by setting the <em>Group member attribute</em> on the synchronization filter.
+        Dacă serverul dvs. LDAP nu menține <em>atributul „memberOf”</em> în înregistrările utilizatorilor (de exemplu, utilizează <em>„groupOfUniqueNames”</em> cu <em>„uniqueMember”</em>),
+        puteți configura <strong>căutarea directă</strong> setând <em>atributul „Group member”</em> în filtrul de sincronizare.
         <br/>
-        Groups are synchronized hourly through a cron job.
-        [Please see our documentation on this topic](docs_url).
+        Grupurile sunt sincronizate la fiecare oră printr-o sarcină cron.
+        [Vă rugăm să consultați documentația noastră pe această temă](docs_url).
       no_members: Acest grup nu are încă niciun membru sincronizat.
       no_results: Nu s-au găsit grupuri sincronizate.
       plural: Grupuri LDAP sincronizate

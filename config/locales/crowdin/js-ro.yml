@@ -213,13 +213,13 @@ ro:
           nested_macro: Acest macro face trimitere recursivă la %{model} %{id}.
           not_found: Resursa solicitată nu a fost găsită.
         child_pages:
-          button: List of sub-pages
+          button: Lista subpaginilor
           hint: 'Lăsați acest câmp gol pentru a lista toate paginile copil ale paginii curente. Dacă doriți să faceți referire la o altă pagină, furnizați titlul sau slug-ul acesteia.
 
             '
           include_parent: Include părinte
           page: Pagină wiki
-          text: "[Placeholder] List of sub-pages of"
+          text: "[Placeholder] Lista subpaginilor de"
           this_page: această pagină
         code_block:
           button: Inserează fragment de cod
@@ -341,7 +341,7 @@ ro:
       direct_hit_available: Work package with exact ID found. Press Enter to open it.
       items_available: "%{count} items available"
       recently_viewed: Vizualizate recent
-      search_placeholder_expanded: Search work packages by subject, project, type, status or ID
+      search_placeholder_expanded: Caută pachetele de lucru după subiect, proiect, tip, stare sau ID
       title:
         all_projects: toate proiectele
         project_and_subprojects: si toate subproiectele
@@ -383,7 +383,7 @@ ro:
         include_all_selected: Proiectul este deja inclus, din moment ce opțiunea Include toate subproiectele este activată.
     include_workspaces:
       types:
-        portfolio: Portfolio
+        portfolio: Portofoliu
         program: Program
     inplace:
       btn_preview_disable: Dezactivare previzualizare

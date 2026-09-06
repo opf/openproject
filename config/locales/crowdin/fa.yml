@@ -2912,7 +2912,7 @@ fa:
         progress_calculation_adjusted_from_disabled_mode: محاسبه پیشرفت با <a href="%{href}" target="_blank">به‌روزرسانی نسخه</a> به‌طور خودکار روی حالت مبتنی بر کار تنظیم و اصلاح شد.
         scheduling_mode_adjusted: حالت زمان‌بندی با به‌روزرسانی نسخه به‌طور خودکار اصلاح شد.
         sprint_migration: نسخه «%{version_name}» به‌عنوان اسپرینت کپی شد.
-        stale_target_versions_removed: Outdated target version automatically removed. It had been incorrectly re-added when multiple target versions were enabled.
+        stale_target_versions_removed: نسخه هدف قدیمی به‌طور خودکار حذف شد. این نسخه هنگامی که چند نسخه هدف فعال شدند، به‌اشتباه دوباره اضافه شده بود.
         target_versions_repaired: پیش از فعال‌سازی چند نسخه هدف، نسخه‌های هدف به‌طور خودکار با فیلد نسخه همگام شدند.
         totals_removed_from_childless_work_packages: مقادیر کار و مجموع پیشرفت برای بسته‌های کاری غیرِوالد با <a href="%{href}" target="_blank">به‌روزرسانی نسخه</a> به‌طور خودکار حذف شدند. این یک وظیفه نگهداری است و می‌توانید با خیال راحت آن را نادیده بگیرید.
       total_percent_complete_mode_changed_to_simple_average: مقادیر کار بسته‌های کاری فرزند نادیده گرفته می‌شوند.
@@ -3020,7 +3020,7 @@ fa:
   label_available_project_work_package_categories: دسته‌بندی‌های بسته کاری موجود
   label_available_project_work_package_types: نوع‌های بسته کاری موجود
   label_available_projects: پروژه‌های موجود
-  label_backtrace: Backtrace
+  label_backtrace: ردیابی پشته
   label_backup: پشتیبان‌گیری
   label_backup_code: کد پشتیبان
   label_basic_details: جزئیات پایه
@@ -5255,7 +5255,7 @@ fa:
   setting_default_language: زبان پیش‌فرض
   setting_default_projects_modules: ماژول‌های فعال پیش‌فرض برای پروژه‌های جدید
   setting_default_projects_public: پروژه‌های جدید به‌طور پیش‌فرض عمومی هستند
-  setting_default_projects_wiki: Enable wiki functionality for new projects by default
+  setting_default_projects_wiki: فعال‌کردن قابلیت ویکی برای پروژه‌های جدید به‌صورت پیش‌فرض
   setting_diff_max_lines_displayed: حداکثر تعداد خطوط Diff نمایش‌داده‌شده
   setting_disable_password_login: غیرفعال‌کردن احراز هویت با گذرواژه
   setting_display_subprojects_work_packages: نمایش بسته‌های کاری زیرپروژه‌ها در پروژه‌های اصلی به‌طور پیش‌فرض
@@ -6069,8 +6069,8 @@ fa:
           confirm_dialog:
             check_box: می‌دانم که این کار تنظیمات فعلی را بازنویسی می‌کند
             description: همه تنظیمات انتخاب‌شده فعلی بازنویسی می‌شوند و ممکن است روی اطلاعات موجود در بسته‌های کاری این نوع اثر بگذارند.
-            heading: Switch configuration mode?
-            title: Switch configuration mode
+            heading: حالت پیکربندی تغییر کند؟
+            title: تغییر حالت پیکربندی
           copy_from_type: کپی از نوع
           description: هیچ تنظیمی به ارث نمی‌رسد. در صورت تمایل هنوز می‌توانید یک‌بار تنظیمات را از نوع دیگری کپی کنید.
           dialog:
@@ -6095,13 +6095,13 @@ fa:
           confirm_dialog:
             change_source:
               description_html: با تغییر نوع منبع به %{source_name} تنظیمات فعلی بازنویسی می‌شوند و ممکن است اطلاعات موجود در بسته‌های کاری این نوع تحت تأثیر قرار گیرند.
-              heading: Change source type?
-              title: Change source type
+              heading: نوع منبع تغییر کند؟
+              title: تغییر نوع منبع
             check_box: می‌دانم که این کار تنظیمات فعلی را بازنویسی می‌کند
             from_independent:
               description: همه تنظیمات انتخاب‌شده فعلی بازنویسی می‌شوند و ممکن است روی اطلاعات موجود در بسته‌های کاری این نوع اثر بگذارند.
-              heading: Switch configuration mode?
-              title: Switch configuration mode
+              heading: حالت پیکربندی تغییر کند؟
+              title: تغییر حالت پیکربندی
           description: این پیکربندی پیوندشده است و تنظیمات خود را از نوع منبع [%{source_name}](source_url)%{source_suffix} به ارث می‌برد.
           dialog:
             description: این تنظیمات را از یک منبع کپی و به ارث ببرید. هر پیکربندی جدیدی که به منبع اضافه شود، اینجا نیز اضافه خواهد شد.

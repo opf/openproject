@@ -19,16 +19,16 @@ sv:
         bim/bcf/viewpoint:
           bitmaps_not_writable: bitmaps är inte skrivbara eftersom de ännu inte har implementerats.
           index_not_integer: index är inte ett heltal.
-          invalid_clipping_planes: urklipp är ogiltigt.
+          invalid_clipping_planes: clipping_planes är ogiltigt.
           invalid_components: komponenterna är ogiltiga.
           invalid_lines: rader är ogiltiga.
           invalid_orthogonal_camera: ortogonal_kamera är ogiltig.
           invalid_perspective_camera: perspektivkamera är ogiltig.
-          mismatching_guid: Guidet i json_viewpoint matchar inte modellens guid.
-          no_json: Är inte en välstrukturerad json.
+          mismatching_guid: GUID:t i json_viewpoint matchar inte modellens GUID.
+          no_json: Är inte korrekt strukturerad JSON.
           snapshot_data_blank: snapshot_data måste tillhandahållas.
           snapshot_type_unsupported: snapshot_type måste vara antingen 'png' eller 'jpg'.
-          unsupported_key: En icke stödd json egendom ingår.
+          unsupported_key: En JSON-egenskap som inte stöds finns med.
         bim/ifc_models/ifc_model:
           attributes:
             base:
@@ -92,11 +92,11 @@ sv:
     not_recommended: rekommenderas inte
     recommended: rekommenderad
     x_bcf_issues:
-      one: Ett BCF-problem
+      one: Ett BCF-ärende
       other: "%{count} BCF-ärenden"
       zero: Inga BCF-problem
   bim:
-    error_direct_upload_failed: Direct upload failed.
+    error_direct_upload_failed: Direktuppladdningen misslyckades.
     label_bim: BIM
   export:
     format:
@@ -134,9 +134,9 @@ sv:
   permission_delete_bcf: Ta bort BCF-ärenden
   permission_manage_bcf: Importera och hantera BCF-problem
   permission_manage_bcf_explanation: |
-    Allows managing BCF issues, including bulk import and updates.
-    BCF import maps file metadata to project resources and can create or update work packages
-    and comments using author and timestamp values from the imported file, effectively acting on behalf of users.
+    Tillåter hantering av BCF-ärenden, inklusive massimport och uppdateringar.
+    BCF-import mappar filmetadata till projektresurser och kan skapa eller uppdatera arbetspaket
+    och kommentarer med upphovspersons- och tidsstämpelvärden från den importerade filen, vilket i praktiken innebär att åtgärder utförs för användares räkning.
   permission_manage_ifc_models: Importera och hantera IFC-modeller
   permission_view_ifc_models: Visa IFC-modeller
   permission_view_linked_issues: Visa BCF-problem

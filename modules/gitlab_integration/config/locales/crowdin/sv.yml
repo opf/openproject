@@ -33,50 +33,50 @@ sv:
         gitlab_issue:
           attributes:
             labels:
-              invalid_schema: 'must be an array of hashes with keys: color, title'
+              invalid_schema: 'måste vara en matris med hashvärden med nycklarna: color, title'
         gitlab_merge_request:
           attributes:
             labels:
-              invalid_schema: 'must be an array of hashes with keys: color, title'
+              invalid_schema: 'måste vara en matris med hashvärden med nycklarna: color, title'
   attributes:
     commit: Commit
-    gitlab: GitLab identifier
-    gitlab_avatar_url: Avatar URL
-    gitlab_email: GitLab Email
-    gitlab_html_url: GitLab HTML URL
-    gitlab_merge_request: Merge Request
+    gitlab: GitLab-identifierare
+    gitlab_avatar_url: Avatar-URL
+    gitlab_email: GitLab-e-post
+    gitlab_html_url: GitLab HTML-URL
+    gitlab_merge_request: Merge request
     gitlab_name: GitLab-namn
     gitlab_updated_at: Uppdaterad den
-    gitlab_user_avatar_url: GitLab avatar URL
+    gitlab_user_avatar_url: URL till GitLab-avatar
     gitlab_username: GitLab-användarnamn
   gitlab_integration:
-    issue_closed_referenced_comment: "**Issue Closed:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been closed by [%{gitlab_user}](%{gitlab_user_url}).\n"
-    issue_opened_referenced_comment: "**Issue Opened:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been opened by [%{gitlab_user}](%{gitlab_user_url}).\n"
-    issue_reopened_referenced_comment: "**Issue Reopened:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url}) has been reopened by [%{gitlab_user}](%{gitlab_user_url}).\n"
-    merge_request_closed_comment: "**MR Closed:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been closed by [%{gitlab_user}](%{gitlab_user_url}).\n"
-    merge_request_merged_comment: "**MR Merged:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been merged by [%{gitlab_user}](%{gitlab_user_url}).\n"
-    merge_request_opened_comment: "**MR Opened:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been opened by [%{gitlab_user}](%{gitlab_user_url}).\n"
-    merge_request_reopened_comment: "**MR Reopened:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url}) has been reopened by [%{gitlab_user}](%{gitlab_user_url}).\n"
-    note_commit_referenced_comment: "**Referenced in Commit:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in a Commit Note [%{commit_id}](%{commit_url}) on [%{repository}](%{repository_url}): %{commit_note}\n"
-    note_issue_commented_comment: "**Commented in Issue:** [%{gitlab_user}](%{gitlab_user_url}) commented this WP in Issue %{issue_number} [%{issue_title}](%{issue_url}) on [%{repository}](%{repository_url}): %{issue_note}\n"
-    note_issue_referenced_comment: "**Referenced in Issue:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Issue %{issue_number} [%{issue_title}](%{issue_url}) on [%{repository}](%{repository_url}): %{issue_note}\n"
-    note_mr_commented_comment: "**Commented in MR:** [%{gitlab_user}](%{gitlab_user_url}) commented this WP in Merge Request %{mr_number} [%{mr_title}](%{mr_url}) on [%{repository}](%{repository_url}): %{mr_note}\n"
-    note_mr_referenced_comment: "**Referenced in MR:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Merge Request %{mr_number} [%{mr_title}](%{mr_url}) on [%{repository}](%{repository_url}): %{mr_note}\n"
-    note_snippet_referenced_comment: "**Referenced in Snippet:** [%{gitlab_user}](%{gitlab_user_url}) referenced this WP in Snippet %{snippet_number} [%{snippet_title}](%{snippet_url}) on [%{repository}](%{repository_url}): %{snippet_note}\n"
-    push_multiple_commits_comment: "**Pushed in MR:** [%{gitlab_user}](%{gitlab_user_url}) pushed multiple commits [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}\n"
-    push_single_commit_comment: "**Pushed in MR:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}\n"
-    push_single_commit_comment_with_ref: "**Pushed in %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) pushed [%{commit_number}](%{commit_url}) to [%{repository}](%{repository_url}) at %{commit_timestamp}: %{commit_note}\n"
-  label_gitlab_actor: GitLab actor
-  label_gitlab_integration: GitLab Integration
-  label_gitlab_webhook_secret: Webhook secret
-  permission_show_gitlab_content: Show GitLab content
+    issue_closed_referenced_comment: "**Ärende stängt:** Ärende %{issue_number} [%{issue_title}](%{issue_url}) för [%{repository}](%{repository_url}) har stängts av [%{gitlab_user}](%{gitlab_user_url}).\n"
+    issue_opened_referenced_comment: "**Ärende öppnat:** Ärende %{issue_number} [%{issue_title}](%{issue_url}) för [%{repository}](%{repository_url}) har öppnats av [%{gitlab_user}](%{gitlab_user_url}).\n"
+    issue_reopened_referenced_comment: "**Ärende öppnat igen:** Ärende %{issue_number} [%{issue_title}](%{issue_url}) för [%{repository}](%{repository_url}) har öppnats igen av [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_closed_comment: "**MR stängd:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) för [%{repository}](%{repository_url}) har stängts av [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_merged_comment: "**MR sammanfogad:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) för [%{repository}](%{repository_url}) har sammanfogats av [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_opened_comment: "**MR öppnad:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) för [%{repository}](%{repository_url}) har öppnats av [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_reopened_comment: "**MR öppnad igen:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) för [%{repository}](%{repository_url}) har öppnats igen av [%{gitlab_user}](%{gitlab_user_url}).\n"
+    note_commit_referenced_comment: "**Refererad i commit:** [%{gitlab_user}](%{gitlab_user_url}) refererade till detta arbetspaket i en commit-anteckning [%{commit_id}](%{commit_url}) i [%{repository}](%{repository_url}): %{commit_note}\n"
+    note_issue_commented_comment: "**Kommenterad i ärende:** [%{gitlab_user}](%{gitlab_user_url}) kommenterade detta arbetspaket i ärende %{issue_number} [%{issue_title}](%{issue_url}) i [%{repository}](%{repository_url}): %{issue_note}\n"
+    note_issue_referenced_comment: "**Refererad i ärende:** [%{gitlab_user}](%{gitlab_user_url}) refererade till detta arbetspaket i ärende %{issue_number} [%{issue_title}](%{issue_url}) i [%{repository}](%{repository_url}): %{issue_note}\n"
+    note_mr_commented_comment: "**Kommenterad i MR:** [%{gitlab_user}](%{gitlab_user_url}) kommenterade detta arbetspaket i merge request %{mr_number} [%{mr_title}](%{mr_url}) i [%{repository}](%{repository_url}): %{mr_note}\n"
+    note_mr_referenced_comment: "**Refererad i MR:** [%{gitlab_user}](%{gitlab_user_url}) refererade till detta arbetspaket i merge request %{mr_number} [%{mr_title}](%{mr_url}) i [%{repository}](%{repository_url}): %{mr_note}\n"
+    note_snippet_referenced_comment: "**Refererad i kodsnutt:** [%{gitlab_user}](%{gitlab_user_url}) refererade till detta arbetspaket i kodsnutt %{snippet_number} [%{snippet_title}](%{snippet_url}) i [%{repository}](%{repository_url}): %{snippet_note}\n"
+    push_multiple_commits_comment: "**Pushad i MR:** [%{gitlab_user}](%{gitlab_user_url}) pushade flera commits [%{commit_number}](%{commit_url}) till [%{repository}](%{repository_url}) %{commit_timestamp}: %{commit_note}\n"
+    push_single_commit_comment: "**Pushad i MR:** [%{gitlab_user}](%{gitlab_user_url}) pushade [%{commit_number}](%{commit_url}) till [%{repository}](%{repository_url}) %{commit_timestamp}: %{commit_note}\n"
+    push_single_commit_comment_with_ref: "**Pushad i %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) pushade [%{commit_number}](%{commit_url}) till [%{repository}](%{repository_url}) %{commit_timestamp}: %{commit_note}\n"
+  label_gitlab_actor: GitLab-aktör
+  label_gitlab_integration: GitLab-integration
+  label_gitlab_webhook_secret: Webhook-hemlighet
+  permission_show_gitlab_content: Visa GitLab-innehåll
   project_module_gitlab: GitLab
-  text_gitlab_actor_info: 'The OpenProject user whose API key must be used to authenticate incoming webhook requests. When set, requests authenticated with any other user''s credentials are rejected. This user also posts automated comments on work packages. Defaults to the system user when not set.
+  text_gitlab_actor_info: 'OpenProject-användaren vars API-nyckel ska användas för att autentisera inkommande webhook-begäranden. När den anges avvisas begäranden som autentiserats med någon annan användares uppgifter. Den här användaren publicerar även automatiska kommentarer på arbetspaket. Om den inte anges används systemanvändaren som standard.
 
     '
-  text_gitlab_webhook_secret_info: 'A secret token shared with GitLab when configuring the webhook. When set, OpenProject verifies the X-Gitlab-Token header on every incoming request, rejecting payloads that do not match. Leave blank to skip verification (not recommended).
+  text_gitlab_webhook_secret_info: 'En hemlig token som delas med GitLab när webhooken konfigureras. När den anges verifierar OpenProject X-Gitlab-Token-huvudet för varje inkommande begäran och avvisar nyttolaster som inte matchar. Lämna tomt för att hoppa över verifieringen (rekommenderas inte).
 
     '
-  text_gitlab_webhook_secret_missing_warning: 'No webhook secret is configured. Any request to the GitLab webhook endpoint will be accepted without verification, which may allow unauthorized actors to forge events. It is strongly recommended to set a secret.
+  text_gitlab_webhook_secret_missing_warning: 'Ingen webhook-hemlighet är konfigurerad. Alla begäranden till GitLab-webhookens slutpunkt accepteras utan verifiering, vilket kan göra det möjligt för obehöriga aktörer att förfalska händelser. Det rekommenderas starkt att ange en hemlighet.
 
     '

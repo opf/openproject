@@ -69,9 +69,9 @@ ro:
           zero: No budget data.
         count_caption_with_subitems:
           portfolio:
-            one: Data aggregated from %{count} budget included in this portfolio and its subitems.
-            other: Data aggregated from %{count} budgets included in this portfolio and its subitems.
-            zero: No budget data.
+            one: Date agregate din bugetul %{count} incluse în acest portofoliu și subelementele sale.
+            other: Date agregate din bugetele %{count} incluse în acest portofoliu și subelementele sale.
+            zero: Nu există date privind bugetul.
           program:
             one: Data aggregated from %{count} budget included in this program and its subitems.
             other: Data aggregated from %{count} budgets included in this program and its subitems.

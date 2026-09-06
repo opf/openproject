@@ -148,7 +148,7 @@ ro:
   cost_types:
     admin:
       columns:
-        active_projects: Active projects
+        active_projects: Proiecte active
       cost_type_projects:
         for_all_projects_blank_slate:
           description: Uncheck "For all projects" on the details tab to limit this cost type to specific projects.
@@ -240,7 +240,7 @@ ro:
   label_status_finished: Finalizat
   label_time: Timp
   label_time_entry_activity_form_description: Modificările acestei activități de intrare în timp se vor reflecta în toate proiectele în care este activată.
-  label_time_entry_restrictions: Limits
+  label_time_entry_restrictions: Limite
   label_timer_since: Început la %{time}
   label_today_capitalized: Azi
   label_units: Unități de cost

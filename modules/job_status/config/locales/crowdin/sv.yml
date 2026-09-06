@@ -1,7 +1,7 @@
 ---
 sv:
   job_status_dialog:
-    click_to_download: Or [click here](download_url) to download.
+    click_to_download: Eller [klicka här](download_url) för att hämta.
     download_starts: Nedladdningen bör starta automatiskt.
     errors: Något gick fel
     generic_messages:

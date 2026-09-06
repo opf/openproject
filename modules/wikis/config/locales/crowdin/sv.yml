@@ -3,233 +3,233 @@ sv:
   activerecord:
     attributes:
       wikis/page_link:
-        identifier: Identifier
-        provider: Wiki Provider
+        identifier: Identifierare
+        provider: Wiki-leverantör
       wikis/provider:
-        name: Name
-        universal_identifier: Universal identifier
+        name: Namn
+        universal_identifier: Universell identifierare
       wikis/xwiki_provider:
-        authentication_method: Authentication method
+        authentication_method: Autentiseringsmetod
         authentication_methods:
-          oauth2_sso: Single-Sign-On through OpenID Connect Identity Provider
-          two_way_oauth2: Two-way OAuth 2.0 authorization code flow
-        token_exchange_scope: XWiki Scope
-        url: Instance URL
-        wiki_audience: XWiki Audience
+          oauth2_sso: Single-Sign-On via OpenID Connect Identitetsleverantör
+          two_way_oauth2: Flöde för tvåvägs OAuth 2.0 auktoriseringskod
+        token_exchange_scope: XWiki-scope
+        url: Instans-URL
+        wiki_audience: XWiki-målgrupp
     errors:
       models:
         wikis/provider:
           attributes:
             url:
-              already_taken: belongs to the wiki provider that's already known as "%{name}".
-              wiki_provider_unreachable: could not be reached.
+              already_taken: tillhör Wiki-leverantören som redan är känd som "%{name}".
+              wiki_provider_unreachable: kunde inte nås.
     models:
       wikis/inline_page_link:
-        one: Inline page link
-        other: Inline page links
+        one: Infogad sidlänk
+        other: Infogade sidlänkar
       wikis/internal_provider:
-        one: Internal provider
-        other: Internal providers
+        one: Intern leverantör
+        other: Interna leverantörer
       wikis/provider:
-        one: Wiki provider
-        other: Wiki providers
+        one: Wiki-leverantör
+        other: Wiki-leverantörer
       wikis/relation_page_link:
-        one: Relation page link
-        other: Relation page links
+        one: Relationssidlänk
+        other: Relationssidlänkar
       wikis/xwiki_provider:
-        one: XWiki provider
-        other: XWiki providers
+        one: XWiki-leverantör
+        other: XWiki-leverantörer
   menus:
     admin:
-      external_wiki_providers: External wiki providers
-      internal_wiki_provider: Project wikis
-      wikis: Wikis
+      external_wiki_providers: Externa Wiki-leverantörer
+      internal_wiki_provider: Projekt-Wikis
+      wikis: Wikier
     project_settings:
-      wiki: Project wiki
-  permission_manage_wiki_page_links: Manage wiki page links
+      wiki: Projekt-Wiki
+  permission_manage_wiki_page_links: Hantera Wiki-sidlänkar
   wikis:
     admin:
       destroy_confirmation_dialog_component:
-        description_html: The wiki provider %{wiki_provider} and all the related wiki page links will be deleted. In addition, every inline wiki page link will no longer be accessible. This action is irreversible.
-        heading: Permanently delete this wiki provider?
-        title: Delete wiki provider
+        description_html: Wiki-leverantören %{wiki_provider} och alla relaterade Wiki-sidlänkar tas bort. Dessutom kommer alla infogade Wiki-sidlänkar inte längre att vara tillgängliga. Åtgärden kan inte ångras.
+        heading: Ta bort den här Wiki-leverantören permanent?
+        title: Ta bort Wiki-leverantör
       forms:
         general_info_form_component:
-          provider_description: Please make sure you have administration privileges in your XWiki instance before doing the setup.
+          provider_description: Kontrollera att du har administratörsbehörighet i din XWiki-instans innan du påbörjar konfigurationen.
         oauth_application_form_component:
-          application_id: OpenProject OAuth Application ID
-          application_secret: OpenProject OAuth Application secret
+          application_id: OpenProject OAuth-program-ID
+          application_secret: OpenProject OAuth-programhemlighet
         oauth_client_form_component:
-          client_id: Wiki OAuth Client ID
-          client_secret: Wiki OAuth Client secret
-          redirect_uri: Redirect URI
-          redirect_uri_caption: Copy this value into the Redirect URI field of your XWiki OIDC client registration.
+          client_id: Wiki OAuth-klient-ID
+          client_secret: Wiki OAuth-klienthemlighet
+          redirect_uri: Omdirigerings-URI
+          redirect_uri_caption: Kopiera detta värde till fältet Omdirigerings-URI i registreringen av din XWiki OIDC-klient.
       health_status:
         show:
           actions:
-            download_report: Download
-            rerun_checks: Re-run all checks
-            run_checks: Run checks now
-          last_check: 'Last check: %{datetime}'
-          no_health_report: No report available
-          no_health_report_description: Run the checks now for a full health status report for this wiki provider.
-          title: Health Report
+            download_report: Ladda ner
+            rerun_checks: Kör om alla kontroller
+            run_checks: Kör kontroller nu
+          last_check: 'Senaste kontroll: %{datetime}'
+          no_health_report: Ingen rapport tillgänglig
+          no_health_report_description: Kör kontrollerna nu för en fullständig hälsostatusrapport för den här Wiki-leverantören.
+          title: Hälsorapport
       internal_provider_form:
-        checkbox_caption: Allow projects to use project wikis along with external wiki providers
-        checkbox_label: Enable OpenProject project wikis
+        checkbox_caption: Tillåt projekt att använda projekt-Wikis tillsammans med externa Wiki-leverantörer
+        checkbox_label: Aktivera OpenProject-projekt-Wikis
       internal_wiki_provider:
         show:
-          description: Choose to enable or disable project wikis
+          description: Välj om projekt-Wikis ska aktiveras eller inaktiveras
       oauth_application_info_component:
-        confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials in your XWiki instance and all users will have to reauthorize. Are you sure you want to proceed?
-        label_oauth_client_id: OAuth Client ID
-        replace_oauth_application: Replace OpenProject OAuth application
+        confirm_replace_oauth_application: Den här åtgärden återställer de aktuella OAuth-uppgifterna. Efter bekräftelse måste du ange uppgifterna igen i din XWiki-instans och alla användare måste auktorisera på nytt. Är du säker på att du vill fortsätta?
+        label_oauth_client_id: OAuth-klient-ID
+        replace_oauth_application: Ersätt OpenProject OAuth-program
       oauth_client_info_component:
-        confirm_replace_oauth_client: This action will reset the current XWiki OAuth credentials. All users will need to reauthorize against XWiki. Are you sure you want to proceed?
-        label_oauth_client_id: OAuth Client ID
-        replace_oauth_client: Replace XWiki OAuth application
+        confirm_replace_oauth_client: Den här åtgärden återställer de aktuella XWiki OAuth-uppgifterna. Alla användare måste auktorisera på nytt mot XWiki. Är du säker på att du vill fortsätta?
+        label_oauth_client_id: OAuth-klient-ID
+        replace_oauth_client: Ersätt XWiki OAuth-program
       side_panel:
         health_status_component:
-          last_check: 'Last check: %{datetime}'
-          open_report: Open full health report
-          run_checks: Run checks now
-          title: Health status report
+          last_check: 'Senaste kontroll: %{datetime}'
+          open_report: Öppna fullständig hälsorapport
+          run_checks: Kör kontroller nu
+          title: Rapport om hälsostatus
       wiki_provider_list_component:
-        label_creation_time: Created
-        label_name: Name
-        label_provider: Provider
-        no_results_description: Add a wiki provider to see them here.
-        no_results_title: You don't have any wiki providers set up yet.
+        label_creation_time: Skapad
+        label_name: Namn
+        label_provider: Leverantör
+        no_results_description: Lägg till en Wiki-leverantör för att se dem här.
+        no_results_title: Du har ännu inga Wiki-leverantörer konfigurerade.
       wiki_providers:
-        index_description: Add an external wiki service to link work packages to existing wiki pages or create new ones directly from OpenProject.
-        label_add_new: Add new wiki provider
-        label_edit: Edit XWiki provider
-        label_new_provider: New XWiki provider
-        label_wiki_platform: Wiki provider
-        name_caption: Give your wiki provider a name so that users can differentiate between multiple wiki platforms.
-        name_placeholder: XWiki knowledge base
-        new_provider_html: Read our documentation on [setting up an XWiki integration](docs_url) for more information.
+        index_description: Lägg till en extern Wiki-tjänst för att länka arbetspaket till befintliga Wiki-sidor eller skapa nya direkt från OpenProject.
+        label_add_new: Lägg till ny Wiki-leverantör
+        label_edit: Redigera XWiki-leverantör
+        label_new_provider: Ny XWiki-leverantör
+        label_wiki_platform: Wiki-leverantör
+        name_caption: Ge din Wiki-leverantör ett namn så att användare kan skilja mellan flera Wiki-plattformar.
+        name_placeholder: XWiki-kunskapsbas
+        new_provider_html: Läs vår dokumentation om [konfiguration av en XWiki-integration](docs_url) för mer information.
         oauth:
           openproject_oauth: OpenProject OAuth
         sections:
-          general_information: General information
-          oauth_configuration: OAuth configuration
-        url_caption: The host address of your wiki platform including the https://. It should not be longer than 255 characters.
+          general_information: Allmän information
+          oauth_configuration: OAuth konfiguration
+        url_caption: Värdadressen till din Wiki-plattform inklusive https://. Den får inte vara längre än 255 tecken.
         xwiki:
           oauth:
-            openproject_oauth_description: Allow XWiki to access OpenProject data using an OAuth application.
+            openproject_oauth_description: Tillåt XWiki att komma åt OpenProject-data med ett OAuth-program.
             provider_oauth: Wiki OAuth
-            provider_oauth_configuration: Copy these values to the [XWiki OIDC Connection client](xwiki_oidc_link).
-            provider_oauth_description: Allow OpenProject to access XWiki data using OAuth.
-          openproject_oauth_description: Allow XWiki to access OpenProject data using an OAuth.
+            provider_oauth_configuration: Kopiera dessa värden till [XWiki OIDC Connection-klienten](xwiki_oidc_link).
+            provider_oauth_description: Tillåt OpenProject att komma åt XWiki-data med OAuth.
+          openproject_oauth_description: Tillåt XWiki att komma åt OpenProject-data med OAuth.
           xwiki_oauth: XWiki OAuth
-          xwiki_oauth_description: Allow OpenProject to access XWiki data using an OAuth.
+          xwiki_oauth_description: Tillåt OpenProject att komma åt XWiki-data med OAuth.
     buttons:
-      connect_account: Connect %{provider} account
-      done_continue: Done, continue
-      open_wiki: Open wiki
-      save_and_continue: Save and continue
-      wiki_page: Wiki page
+      connect_account: Anslut %{provider}-konto
+      done_continue: Klar, fortsätt
+      open_wiki: Öppna Wiki
+      save_and_continue: Spara och fortsätt
+      wiki_page: Wiki-sida
     create_new_wiki_page_dialog:
-      title: Create new wiki page
+      title: Skapa ny wikisida
     deferred_inline_page_link_macro_component:
-      loading: Loading…
+      loading: Laddar…
     delete_relation_page_link_confirmation_dialog:
-      heading: Delete related wiki page link?
-      title: Delete related wiki page link
+      heading: Ta bort relaterad Wiki-sidlänk?
+      title: Ta bort relaterad Wiki-sidlänk
     errors:
-      connection_error: Could not connect to the wiki provider.
-      invalid_parent: The selected page is not a valid parent page.
-      invalid_response: The wiki provider responded unexpectedly.
-      missing_token: The user account is not yet connected to the wiki provider.
-      request_failed: The wiki provider experienced an unexpected error.
-      unauthorized: An authorization error occurred.
+      connection_error: Kunde inte ansluta till Wiki-leverantören.
+      invalid_parent: Den valda sidan är inte en giltig överordnad sida.
+      invalid_response: Wiki-leverantören svarade oväntat.
+      missing_token: Användarkontot är ännu inte anslutet till Wiki-leverantören.
+      request_failed: Ett oväntat fel inträffade hos Wiki-leverantören.
+      unauthorized: Ett auktoriseringsfel inträffade.
     health_checks:
       authentication:
-        existing_token: User token
-        header: Authentication
-        user_bound_request: User-based request authentication
+        existing_token: Användartoken
+        header: Autentisering
+        user_bound_request: Användarbaserad autentisering av begäranden
       base_configuration:
-        header: Configuration
-        provider_configured: Configuration complete
-        universal_id_known: Provider recognized
+        header: Konfiguration
+        provider_configured: Konfigurationen är slutförd
+        universal_id_known: Leverantören identifierades
       errors:
-        connection_error: OpenProject could not connect to the wiki provider.
-        not_configured: The connection could not be validated. Please finish configuration first.
-        uid_mismatch: The universal identifier reported by the wiki provider does not match the identifier that OpenProject recorded during setup.
-        xwiki_oauth_connection_error: OpenProject could not connect to the configured XWiki instance.
-        xwiki_oauth_request_error: An unexpected error occurred when trying to communicate with the XWiki instance.
-        xwiki_oauth_token_missing: OpenProject cannot test the user-level communication with XWiki as the user did not yet connect their XWiki account.
-        xwiki_oauth_unauthorized: The user token was not recognized by XWiki.
+        connection_error: OpenProject kunde inte ansluta till Wiki-leverantören.
+        not_configured: Anslutningen kunde inte valideras. Slutför konfigurationen först.
+        uid_mismatch: Den universella identifierare som Wiki-leverantören rapporterade matchar inte identifieraren som OpenProject registrerade under konfigurationen.
+        xwiki_oauth_connection_error: OpenProject kunde inte ansluta till den konfigurerade XWiki-instansen.
+        xwiki_oauth_request_error: Ett oväntat fel inträffade vid kommunikationen med XWiki-instansen.
+        xwiki_oauth_token_missing: OpenProject kan inte testa kommunikationen på användarnivå med XWiki eftersom användaren ännu inte har anslutit sitt XWiki-konto.
+        xwiki_oauth_unauthorized: Användartoken kändes inte igen av XWiki.
     index:
-      column_last_edited: Last edited
-      column_name: Wiki page
-      column_parent: Parent
-      column_project: Project
-      column_sub_pages: Sub-pages
-      filter_by_name: Filter by page name
-      filter_placeholder: Search by name
+      column_last_edited: Senast redigerad
+      column_name: Wiki-sida
+      column_parent: Överordnad
+      column_project: Projekt
+      column_sub_pages: Undersidor
+      filter_by_name: Filtrera efter sidnamn
+      filter_placeholder: Sök efter namn
       menu_title: Wiki
-      no_results_description: No wiki pages are available.
-      no_results_title: No wiki pages yet
+      no_results_description: Inga Wiki-sidor är tillgängliga.
+      no_results_title: Inga Wiki-sidor ännu
       queries:
-        all: All wiki pages
-        main: Main wiki pages
+        all: Alla Wiki-sidor
+        main: Huvudsidor i Wiki
       sub_pages_count:
-        one: 1 sub-page
-        other: "%{count} sub-pages"
+        one: 1 undersida
+        other: "%{count} undersidor"
     inline_wiki_page_dialog:
-      title_add: Add existing wiki page
-      title_create: Create new wiki page
+      title_add: Lägg till befintlig Wiki-sida
+      title_create: Skapa ny wikisida
     instructions:
       xwiki:
-        integration: XWiki Administration
-        oauth_application_details_html: The client secret value will not be accessible again after you close this window. Please copy these values into the [XWiki OpenProject Integration settings](xwiki_admin_link).
+        integration: XWiki-administration
+        oauth_application_details_html: Värdet för klienthemligheten kommer inte att vara tillgängligt igen när du stänger det här fönstret. Kopiera dessa värden till [inställningarna för XWiki OpenProject Integration](xwiki_admin_link).
     link_existing_wiki_page_dialog:
-      title: Add existing wiki page
+      title: Lägg till befintlig Wiki-sida
     oauth_login_component:
-      connect_button: Connect %{provider} account
-      description: Log in to %{provider} to view and manage related wiki pages from this OpenProject instance.
-      heading: Not connected to %{provider}
+      connect_button: Anslut %{provider}-konto
+      description: Logga in på %{provider} för att visa och hantera relaterade Wiki-sidor från den här OpenProject-instansen.
+      heading: Inte ansluten till %{provider}
     page_link_component:
-      add_to_related_pages: Add to related pages
-      remove: Remove page link
+      add_to_related_pages: Lägg till bland relaterade sidor
+      remove: Ta bort sidlänk
     page_link_forms:
       labels:
-        page_title: Title
-        parent: Parent
-        wiki_page: Wiki page
+        page_title: Titel
+        parent: Överordnad
+        wiki_page: Wiki-sida
       search:
-        no_results: No wiki pages found
-        placeholder: Search for a wiki page (or enter its URL)
+        no_results: Inga Wiki-sidor hittades
+        placeholder: Sök efter en Wiki-sida (eller ange dess URL)
     page_links:
-      aria_label: A dynamic link to a wiki page placed using a macro.
+      aria_label: En dynamisk länk till en Wiki-sida som placerats med ett makro.
       errors:
-        page_access_forbidden: You do not have permission to access this wiki page
-        page_not_found: Linked wiki page no longer available
-        unexpected: An unexpected error occurred
+        page_access_forbidden: Du har inte behörighet att komma åt den här Wiki-sidan
+        page_not_found: Den länkade Wiki-sidan är inte längre tillgänglig
+        unexpected: Ett oväntat fel inträffade
       source:
-        parent: As parent
+        parent: Som överordnad
     project_settings:
       project_internal_wiki_component:
-        blankslate_description: For this instance, project wikis are disabled globally and therefore can’t be enabled per project. Please, ask your administrator to enable the global wikis in the administration settings.
-        blankslate_title: Project wikis are disabled globally
-        caption: This enables native wiki functionality for this project. Members will be able to create and read wiki pages that are stored in OpenProject.
-        enable: Enable the OpenProject wiki for this project
+        blankslate_description: Projekt-Wikis är globalt inaktiverade för den här instansen och kan därför inte aktiveras per projekt. Be administratören att aktivera globala Wikis i administrationsinställningarna.
+        blankslate_title: Projekt-Wikis är globalt inaktiverade
+        caption: Detta aktiverar den inbyggda Wiki-funktionen för projektet. Medlemmar kan skapa och läsa Wiki-sidor som lagras i OpenProject.
+        enable: Aktivera OpenProject-Wiki för det här projektet
     provider_types:
       internal:
         name: OpenProject
       xwiki:
         name: XWiki
     relation_page_links_component:
-      empty_heading: No related pages
-      empty_text: Add wiki pages that are relevant to this work package.
-      link_existing: Existing wiki page
-      link_new: New wiki page
+      empty_heading: Inga relaterade sidor
+      empty_text: Lägg till Wiki-sidor som är relevanta för det här arbetspaketet.
+      link_existing: Befintlig Wiki-sida
+      link_new: Ny Wiki-sida
     upsell:
       xwiki:
-        description: Connect XWiki with OpenProject and keep documentation and work in sync, link pages, track references and manage everything in one place.
-        title: XWiki Integration
+        description: Anslut XWiki till OpenProject och håll dokumentation och arbete synkroniserade, länka sidor, spåra referenser och hantera allt på ett ställe.
+        title: XWiki-integration
     work_package_wikis_tab_component:
-      inline_page_links: Mentioned in description
-      referencing_pages: Referenced in
+      inline_page_links: Omnämnd i beskrivning
+      referencing_pages: Refererad i

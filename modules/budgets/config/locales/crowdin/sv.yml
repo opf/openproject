@@ -28,10 +28,10 @@ sv:
         available: Tillgängliga
         base_amount: Basbelopp
         budget: Planerade
-        budget_ratio: Spenderade (förhållande)
+        budget_ratio: Använt (andel)
         description: Beskrivning
         labor_budget: Planerade arbetskostnader
-        labor_budget_items: Planned labor costs
+        labor_budget_items: Planerade arbetskostnader
         material_budget: Planerade enhetskostnader
         spent: Spenderat
         status: Status
@@ -44,10 +44,10 @@ sv:
         labor_budget_item:
           attributes:
             principal:
-              not_a_member_of_budget_project: is not a member of the budget's project
+              not_a_member_of_budget_project: är inte medlem i budgetens projekt
     models:
       budget: Budget
-      labor_budget_item: Planned labor cost
+      labor_budget_item: Planerad arbetskostnad
       material_budget_item: Enhet
   activity:
     filter:
@@ -58,36 +58,36 @@ sv:
     widgets:
       budget_by_cost_type:
         blankslate:
-          description: Get an overview of your budgets and costs to efficiently track the health status of your project
-          heading: Start project controlling
+          description: Få en översikt över budgetar och kostnader för att effektivt följa projektets ekonomiska status
+          heading: Börja med projektstyrning
         blankslate_zero:
-          description: Add details about your planned budget to see data here
-          heading: Budget details missing
+          description: Lägg till information om den planerade budgeten för att visa data här
+          heading: Budgetinformation saknas
         count_caption:
-          one: Data aggregated from %{count} budget
-          other: Data aggregated from %{count} budgets
-          zero: No budget data.
+          one: Data aggregerade från %{count} budget
+          other: Data aggregerade från %{count} budgetar
+          zero: Inga budgetdata.
         count_caption_with_subitems:
           portfolio:
-            one: Data aggregated from %{count} budget included in this portfolio and its subitems.
-            other: Data aggregated from %{count} budgets included in this portfolio and its subitems.
-            zero: No budget data.
+            one: Data aggregerade från %{count} budget som ingår i denna portfölj och dess underposter.
+            other: Data aggregerade från %{count} budgetar som ingår i denna portfölj och dess underposter.
+            zero: Inga budgetdata.
           program:
-            one: Data aggregated from %{count} budget included in this program and its subitems.
-            other: Data aggregated from %{count} budgets included in this program and its subitems.
-            zero: No budget data.
+            one: Data aggregerade från %{count} budget som ingår i detta program och dess underposter.
+            other: Data aggregerade från %{count} budgetar som ingår i detta program och dess underposter.
+            zero: Inga budgetdata.
           project:
-            one: Data aggregated from %{count} budget included in this project and its subitems.
-            other: Data aggregated from %{count} budgets included in this project and its subitems.
-            zero: No budget data.
-        title: Budget by cost type
-        view_details: View budget details
+            one: Data aggregerade från %{count} budget som ingår i detta projekt och dess underposter.
+            other: Data aggregerade från %{count} budgetar som ingår i detta projekt och dess underposter.
+            zero: Inga budgetdata.
+        title: Budget per kostnadstyp
+        view_details: Visa budgetinformation
       budget_totals:
-        remaining_budget: Remaining budget
-        spent_budget: Spent budget
-        title: Budget totals
-        total_actual_costs: Total actual costs
-        total_planned_budget: Total planned budget
+        remaining_budget: Återstående budget
+        spent_budget: Förbrukad budget
+        title: Budgettotaler
+        total_actual_costs: Totala faktiska kostnader
+        total_planned_budget: Total planerad budget
   budgets_title: Budget
   button_add_budget: Lägg till budget
   button_add_budget_item: Lägg till planerade kostnader
