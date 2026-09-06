@@ -147,7 +147,8 @@ $search-input-height: 30px
 
     .global-search--quick-filters
       display: flex
-      flex-direction: column
+      align-items: flex-end
+      flex-wrap: wrap
       gap: var(--base-size-8)
       margin: var(--base-size-8) -0.75rem -0.5rem
       padding: var(--base-size-8) var(--base-size-16)
@@ -155,35 +156,18 @@ $search-input-height: 30px
       border-bottom: 1px solid var(--borderColor-default)
       text-transform: none
 
-    .global-search--quick-filter-group
+    .global-search--quick-filter-field
       display: flex
-      align-items: center
-      flex-wrap: wrap
-      gap: var(--base-size-8)
+      flex-direction: column
+      gap: var(--base-size-4)
+
+      .FormControl-select-wrap
+        min-width: 150px
 
     .global-search--quick-filter-label
-      min-width: 105px
       color: var(--fgColor-muted)
       font-size: var(--text-body-size-small)
       font-weight: var(--base-text-weight-semibold)
-
-    .global-search--quick-filter
-      @include unset-button-styles
-      padding: var(--base-size-4) var(--base-size-8)
-      color: var(--fgColor-muted)
-      background-color: var(--control-transparent-bgColor-rest)
-      border: 1px solid transparent
-      border-radius: 999px
-      font-size: var(--text-body-size-small)
-
-      &:hover
-        color: var(--fgColor-default)
-        background-color: var(--control-transparent-bgColor-hover)
-
-      &.-selected
-        color: var(--fgColor-accent)
-        background-color: var(--bgColor-accent-muted)
-        border-color: var(--borderColor-accent-emphasis)
 
     .global-search--result-card,
     .global-search--result-card:hover

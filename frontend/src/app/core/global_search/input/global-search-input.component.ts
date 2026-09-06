@@ -420,28 +420,28 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     this.refreshFilteredResults();
   }
 
-  public selectLastUpdatedFilter(filter:LastUpdatedFilter):void {
-    this.selectedLastUpdatedFilter = filter;
+  public selectLastUpdatedFilter(filter:LastUpdatedFilter|Event):void {
+    this.selectedLastUpdatedFilter = this.filterValue<LastUpdatedFilter>(filter);
     this.refreshFilteredResults();
   }
 
-  public selectWorkPackageStatusFilter(filter:WorkPackageStatusFilter):void {
-    this.selectedWorkPackageStatusFilter = filter;
+  public selectWorkPackageStatusFilter(filter:WorkPackageStatusFilter|Event):void {
+    this.selectedWorkPackageStatusFilter = this.filterValue<WorkPackageStatusFilter>(filter);
     this.refreshFilteredResults();
   }
 
-  public selectWorkPackageInvolvementFilter(filter:WorkPackageInvolvementFilter):void {
-    this.selectedWorkPackageInvolvementFilter = filter;
+  public selectWorkPackageInvolvementFilter(filter:WorkPackageInvolvementFilter|Event):void {
+    this.selectedWorkPackageInvolvementFilter = this.filterValue<WorkPackageInvolvementFilter>(filter);
     this.refreshFilteredResults();
   }
 
-  public selectMeetingTimeFilter(filter:MeetingTimeFilter):void {
-    this.selectedMeetingTimeFilter = filter;
+  public selectMeetingTimeFilter(filter:MeetingTimeFilter|Event):void {
+    this.selectedMeetingTimeFilter = this.filterValue<MeetingTimeFilter>(filter);
     this.refreshFilteredResults();
   }
 
-  public selectMeetingInvolvementFilter(filter:MeetingInvolvementFilter):void {
-    this.selectedMeetingInvolvementFilter = filter;
+  public selectMeetingInvolvementFilter(filter:MeetingInvolvementFilter|Event):void {
+    this.selectedMeetingInvolvementFilter = this.filterValue<MeetingInvolvementFilter>(filter);
     this.refreshFilteredResults();
   }
 
@@ -660,6 +660,12 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
         }
       },
     });
+  }
+
+  private filterValue<T extends string>(filter:T|Event):T {
+    return (filter instanceof Event
+      ? (filter.target as HTMLSelectElement).value
+      : filter) as T;
   }
 
   private workPackageFilters():ApiV3FilterBuilder {
