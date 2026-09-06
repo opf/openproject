@@ -573,72 +573,35 @@ projects:
           In this module you can communicate project news to your team members.
         description: This is the news content.
     versions:
-      - t_name: Bug Backlog
-        reference: :scrum_project__version__bug_backlog
+      - name: "1.0"
+        reference: :scrum_project__version__1_0
         sharing: none
         status: open
-      - t_name: Product Backlog
-        reference: :scrum_project__version__product_backlog
-        sharing: none
-        status: open
-        start: 15
-      - t_name: Sprint 1
-        reference: :scrum_project__version__sprint_1
-        sharing: none
-        status: open
-        start: 4
-        duration: 7
+        start: 14
+        duration: 5
         wiki:
-          t_title: Sprint 1
+          t_title: Release 1.0
           t_content: |
-            ### Sprint planning meeting
+            ### Release 1.0
 
-            _Please document here topics to the Sprint planning meeting_
+            _Please document here what this release contains._
 
-            * Time boxed (8 h)
-            * Input: Product Backlog
-            * Output: Sprint Backlog
-
-            * Divided into two additional time boxes of 4 h:
-
-                * The Product Owner presents the [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and the priorities to the team and explains the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team commits to the discussed delivery.
-                * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
-
-
-            ### Daily Scrum meeting
-
-            _Please document here topics to the Daily Scrum meeting_
-
-            * Short, daily status meeting of the team.
-            * Time boxed (max. 15 min).
-            * Stand-up meeting to discuss the following topics from the [Task board](##sprint:scrum_project__version__sprint_1).
-                * What do I plan to do until the next Daily Scrum?
-                * What has blocked my work (Impediments)?
-            * Scrum Master moderates and notes down [Sprint Impediments](##sprint:scrum_project__version__sprint_1).
-            * Product Owner may participate may participate in order to stay informed.
-
-            ### Sprint Review meeting
-
-            _Please document here topics to the Sprint Review meeting_
-
-            * Time boxed (4 h).
-            * A maximum of one hour of preparation time per person.
-            * The team shows the product owner and other interested persons what has been achieved in this sprint.
-            * Important: no dummies and no PowerPoint! Just finished product functionality (Increments) should be demonstrated.
-            * Feedback from Product Owner, stakeholders and others is desired and will be included in further work.
-            * Based on the demonstrated functionalities, the Product Owner decides to go live with this increment or to develop it further. This possibility allows an early ROI.
-
-
-            ### Sprint Retrospective
-
-            _Please document here topics to the Sprint Retrospective meeting_
-
-            * Time boxed (3 h).
-            * After Sprint Review, will be moderated by Scrum Master.
-            * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
-      - t_name: Sprint 2
+            * The work packages of this release are the ones with the target version 1.0.
+            * The release date is the date of the *Release v1.0* milestone.
+            * Open the [Roadmap]({{opSetting:base_url}}/projects/your-scrum-project/roadmap) to follow the progress of all versions.
+            * Open [Project settings &rightarrow; Versions]({{opSetting:base_url}}/projects/your-scrum-project/settings/versions) to link another wiki page to a version.
+      - name: "1.1"
+        reference: :scrum_project__version__1_1
         sharing: none
         status: open
+        start: 21
+        duration: 5
+      - name: "2.0"
+        reference: :scrum_project__version__2_0
+        sharing: none
+        status: open
+        start: 28
+        duration: 5
     types:
       - :default_type_task
       - :default_type_milestone
@@ -658,9 +621,9 @@ projects:
           - :default_type_milestone
           - :default_type_summary_task
         timeline: true
-      - t_name: Product backlog
+      - t_name: Version 1.1
         status: open
-        version: :scrum_project__version__product_backlog
+        version: :scrum_project__version__1_1
         group_by: status
         sort_by: status
         columns:
@@ -671,9 +634,9 @@ projects:
           - status
           - assigned_to
           - story_points
-      - t_name: Sprint 1
+      - t_name: Version 1.0
         status: open
-        version: :scrum_project__version__sprint_1
+        version: :scrum_project__version__1_0
         hierarchy: true
         columns:
           - id
@@ -789,13 +752,13 @@ projects:
         status: :default_status_in_specification
         type: :default_type_user_story
         target_versions:
-          - :scrum_project__version__product_backlog
+          - :scrum_project__version__1_1
         position: 3
       - t_subject: Password reset does not send email
         status: :default_status_confirmed
         type: :default_type_bug
         target_versions:
-          - :scrum_project__version__bug_backlog
+          - :scrum_project__version__1_1
         position: 1
       - t_subject: New website
         reference: :new_website
@@ -809,19 +772,19 @@ projects:
             status: :default_status_in_progress
             type: :default_type_user_story
             target_versions:
-              - :scrum_project__version__product_backlog
+              - :scrum_project__version__1_1
             position: 6
           - t_subject: Implement product tour
             status: :default_status_in_specification
             type: :default_type_user_story
             target_versions:
-              - :scrum_project__version__product_backlog
+              - :scrum_project__version__2_0
             position: 4
           - t_subject: New landing page
             status: :default_status_specified
             type: :default_type_user_story
             target_versions:
-              - :scrum_project__version__sprint_1
+              - :scrum_project__version__1_0
             position: 2
             story_points: 3
             start: 28
@@ -832,14 +795,14 @@ projects:
                 status: :default_status_in_progress
                 type: :default_type_task
                 target_versions:
-                  - :scrum_project__version__sprint_1
+                  - :scrum_project__version__1_0
                 start: 28
                 duration: 1
       - t_subject: Contact form
         status: :default_status_specified
         type: :default_type_user_story
         target_versions:
-          - :scrum_project__version__sprint_1
+          - :scrum_project__version__1_0
         position: 5
         start: 21
         duration: 1
@@ -848,7 +811,7 @@ projects:
         status: :default_status_specified
         type: :default_type_user_story
         target_versions:
-          - :scrum_project__version__sprint_1
+          - :scrum_project__version__1_0
         position: 3
         story_points: 5
         schedule_manually: false
@@ -857,13 +820,11 @@ projects:
             status: :default_status_closed
             type: :default_type_task
             target_versions:
-              - :scrum_project__version__sprint_1
+              - :scrum_project__version__1_0
       - t_subject: Wrong hover color
         reference: :wrong_hover_color
         status: :default_status_rejected
         type: :default_type_bug
-        target_versions:
-          - :scrum_project__version__sprint_1
         position: 4
         story_points: 1
         start: 21
@@ -873,7 +834,7 @@ projects:
         status: :default_status_specified
         type: :default_type_user_story
         target_versions:
-          - :scrum_project__version__product_backlog
+          - :scrum_project__version__2_0
         position: 1
         start: 22
         duration: 1
@@ -882,7 +843,7 @@ projects:
         status: :default_status_in_specification
         type: :default_type_user_story
         target_versions:
-          - :scrum_project__version__product_backlog
+          - :scrum_project__version__2_0
         position: 2
         start: 23
         duration: 1
@@ -890,8 +851,6 @@ projects:
         reference: :choose_content_management_system
         status: :default_status_specified
         type: :default_type_user_story
-        target_versions:
-          - :scrum_project__version__product_backlog
         position: 7
         start: 24
         duration: 1
@@ -899,7 +858,7 @@ projects:
         status: :default_status_specified
         type: :default_type_user_story
         target_versions:
-          - :scrum_project__version__sprint_1
+          - :scrum_project__version__1_0
         position: 7
         story_points: 3
         start: 25
@@ -910,14 +869,12 @@ projects:
             status: :default_status_in_specification
             type: :default_type_task
             target_versions:
-              - :scrum_project__version__sprint_1
+              - :scrum_project__version__1_0
             start: 25
             duration: 1
       - t_subject: Internal link structure
         status: :default_status_closed
         type: :default_type_user_story
-        target_versions:
-          - :scrum_project__version__product_backlog
         position: 5
         start: 25
         duration: 1
@@ -925,11 +882,15 @@ projects:
         reference: :develop_v1_0
         status: :default_status_in_progress
         type: :default_type_summary_task
+        target_versions:
+          - :scrum_project__version__1_0
         start: 14
         duration: 4
       - t_subject: Release v1.0
         status: :default_status_new
         type: :default_type_milestone
+        target_versions:
+          - :scrum_project__version__1_0
         start: 18
         duration: 1
         schedule_manually: false
@@ -940,11 +901,15 @@ projects:
         reference: :develop_v1_1
         status: :default_status_new
         type: :default_type_summary_task
+        target_versions:
+          - :scrum_project__version__1_1
         start: 21
         duration: 4
       - t_subject: Release v1.1
         status: :default_status_new
         type: :default_type_milestone
+        target_versions:
+          - :scrum_project__version__1_1
         start: 25
         duration: 1
         schedule_manually: false
@@ -955,11 +920,15 @@ projects:
         reference: :develop_v2_0
         status: :default_status_new
         type: :default_type_summary_task
+        target_versions:
+          - :scrum_project__version__2_0
         start: 28
         duration: 4
       - t_subject: Release v2.0
         status: :default_status_new
         type: :default_type_milestone
+        target_versions:
+          - :scrum_project__version__2_0
         start: 32
         duration: 1
         schedule_manually: false
