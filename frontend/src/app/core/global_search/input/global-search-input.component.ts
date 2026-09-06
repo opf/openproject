@@ -420,27 +420,27 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     this.refreshFilteredResults();
   }
 
-  public selectLastUpdatedFilter(filter:LastUpdatedFilter|Event):void {
+  public selectLastUpdatedFilter(filter:string|Event):void {
     this.selectedLastUpdatedFilter = this.filterValue<LastUpdatedFilter>(filter);
     this.refreshFilteredResults();
   }
 
-  public selectWorkPackageStatusFilter(filter:WorkPackageStatusFilter|Event):void {
+  public selectWorkPackageStatusFilter(filter:string|Event):void {
     this.selectedWorkPackageStatusFilter = this.filterValue<WorkPackageStatusFilter>(filter);
     this.refreshFilteredResults();
   }
 
-  public selectWorkPackageInvolvementFilter(filter:WorkPackageInvolvementFilter|Event):void {
+  public selectWorkPackageInvolvementFilter(filter:string|Event):void {
     this.selectedWorkPackageInvolvementFilter = this.filterValue<WorkPackageInvolvementFilter>(filter);
     this.refreshFilteredResults();
   }
 
-  public selectMeetingTimeFilter(filter:MeetingTimeFilter|Event):void {
+  public selectMeetingTimeFilter(filter:string|Event):void {
     this.selectedMeetingTimeFilter = this.filterValue<MeetingTimeFilter>(filter);
     this.refreshFilteredResults();
   }
 
-  public selectMeetingInvolvementFilter(filter:MeetingInvolvementFilter|Event):void {
+  public selectMeetingInvolvementFilter(filter:string|Event):void {
     this.selectedMeetingInvolvementFilter = this.filterValue<MeetingInvolvementFilter>(filter);
     this.refreshFilteredResults();
   }
@@ -662,7 +662,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     });
   }
 
-  private filterValue<T extends string>(filter:T|Event):T {
+  private filterValue<T extends string>(filter:string|Event):T {
     return (filter instanceof Event
       ? (filter.target as HTMLSelectElement).value
       : filter) as T;

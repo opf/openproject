@@ -91,94 +91,44 @@
           </select>
         </div>
       <div class="global-search--quick-filters">
-          <label class="global-search--quick-filter-field">
-            <span class="global-search--quick-filter-label">{{ text.last_updated }}</span>
-            <span class="FormControl-select-wrap">
-              <select
-                class="FormControl-select FormControl-small"
-                [value]="selectedLastUpdatedFilter"
-                (mousedown)="onProjectScopeMouseDown($event)"
-                (click)="$event.stopPropagation()"
-                (blur)="onProjectScopeBlur()"
-                (change)="selectLastUpdatedFilter($event)"
-              >
-                @for (filter of lastUpdatedFilters; track filter) {
-                  <option [value]="filter">{{ text[filter] }}</option>
-                }
-              </select>
-            </span>
-          </label>
+          <op-global-search-quick-filter
+            [label]="text.last_updated"
+            [options]="lastUpdatedFilters"
+            [labels]="text"
+            [selectedValue]="selectedLastUpdatedFilter"
+            (valueChange)="selectLastUpdatedFilter($event)"
+          />
           @if (activeResultType === 'work_packages') {
-            <label class="global-search--quick-filter-field">
-              <span class="global-search--quick-filter-label">{{ text.status }}</span>
-              <span class="FormControl-select-wrap">
-                <select
-                  class="FormControl-select FormControl-small"
-                  [value]="selectedWorkPackageStatusFilter"
-                  (mousedown)="onProjectScopeMouseDown($event)"
-                  (click)="$event.stopPropagation()"
-                  (blur)="onProjectScopeBlur()"
-                  (change)="selectWorkPackageStatusFilter($event)"
-                >
-                  @for (filter of workPackageStatusFilters; track filter) {
-                    <option [value]="filter">{{ text[filter] }}</option>
-                  }
-                </select>
-              </span>
-            </label>
-            <label class="global-search--quick-filter-field">
-              <span class="global-search--quick-filter-label">{{ text.involvement }}</span>
-              <span class="FormControl-select-wrap">
-                <select
-                  class="FormControl-select FormControl-small"
-                  [value]="selectedWorkPackageInvolvementFilter"
-                  (mousedown)="onProjectScopeMouseDown($event)"
-                  (click)="$event.stopPropagation()"
-                  (blur)="onProjectScopeBlur()"
-                  (change)="selectWorkPackageInvolvementFilter($event)"
-                >
-                  @for (filter of workPackageInvolvementFilters; track filter) {
-                    <option [value]="filter">{{ text[filter] }}</option>
-                  }
-                </select>
-              </span>
-            </label>
+            <op-global-search-quick-filter
+              [label]="text.status"
+              [options]="workPackageStatusFilters"
+              [labels]="text"
+              [selectedValue]="selectedWorkPackageStatusFilter"
+              (valueChange)="selectWorkPackageStatusFilter($event)"
+            />
+            <op-global-search-quick-filter
+              [label]="text.involvement"
+              [options]="workPackageInvolvementFilters"
+              [labels]="text"
+              [selectedValue]="selectedWorkPackageInvolvementFilter"
+              (valueChange)="selectWorkPackageInvolvementFilter($event)"
+            />
           }
           @if (activeResultType === 'meetings') {
-            <label class="global-search--quick-filter-field">
-              <span class="global-search--quick-filter-label">{{ text.meeting_date }}</span>
-              <span class="FormControl-select-wrap">
-                <select
-                  class="FormControl-select FormControl-small"
-                  [value]="selectedMeetingTimeFilter"
-                  (mousedown)="onProjectScopeMouseDown($event)"
-                  (click)="$event.stopPropagation()"
-                  (blur)="onProjectScopeBlur()"
-                  (change)="selectMeetingTimeFilter($event)"
-                >
-                  @for (filter of meetingTimeFilters; track filter) {
-                    <option [value]="filter">{{ text[filter] }}</option>
-                  }
-                </select>
-              </span>
-            </label>
-            <label class="global-search--quick-filter-field">
-              <span class="global-search--quick-filter-label">{{ text.involvement }}</span>
-              <span class="FormControl-select-wrap">
-                <select
-                  class="FormControl-select FormControl-small"
-                  [value]="selectedMeetingInvolvementFilter"
-                  (mousedown)="onProjectScopeMouseDown($event)"
-                  (click)="$event.stopPropagation()"
-                  (blur)="onProjectScopeBlur()"
-                  (change)="selectMeetingInvolvementFilter($event)"
-                >
-                  @for (filter of meetingInvolvementFilters; track filter) {
-                    <option [value]="filter">{{ text[filter] }}</option>
-                  }
-                </select>
-              </span>
-            </label>
+            <op-global-search-quick-filter
+              [label]="text.meeting_date"
+              [options]="meetingTimeFilters"
+              [labels]="text"
+              [selectedValue]="selectedMeetingTimeFilter"
+              (valueChange)="selectMeetingTimeFilter($event)"
+            />
+            <op-global-search-quick-filter
+              [label]="text.involvement"
+              [options]="meetingInvolvementFilters"
+              [labels]="text"
+              [selectedValue]="selectedMeetingInvolvementFilter"
+              (valueChange)="selectMeetingInvolvementFilter($event)"
+            />
           }
       </div>
     </ng-template>
