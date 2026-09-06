@@ -88,10 +88,10 @@ ro:
     action:
       delete: Delete
       edit: Edit
-      favorite: Add to favorites
+      favorite: Adaugă la favorite
       make_private: Make private
       make_public: Make public
-      unfavorite: Remove from favorites
+      unfavorite: Elimină din favorite
     allocate_resource_dialog:
       kind:
         filter:
