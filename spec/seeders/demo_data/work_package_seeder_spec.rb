@@ -389,6 +389,19 @@ RSpec.describe DemoData::WorkPackageSeeder do
     end
   end
 
+  context "with a work package description referencing an unknown reference" do
+    let(:work_packages_data) do
+      [
+        work_package_data(subject: "Referencing a removed sprint",
+                          description: "The [sprint](##sprint:removed_sprint) is gone.")
+      ]
+    end
+
+    it "drops the macro and keeps the link label" do
+      expect(WorkPackage.last.description).to eq("The sprint is gone.")
+    end
+  end
+
   describe "target_versions" do
     let(:version_alpha) { create(:version, project:, name: "Alpha") }
     let(:version_beta) { create(:version, project:, name: "Beta") }

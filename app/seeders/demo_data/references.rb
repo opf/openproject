@@ -39,6 +39,9 @@ module DemoData
       API::V3::Utilities::PathHelper::ApiV3Path
     end
 
+    REFERENCE_MACRO = /##(?:query|sprint|wp)(?:\.id)?:(?<reference>[a-z_0-9]+)/
+    LINKED_REFERENCE_MACRO = /(?:\[(?<label>[^\]]*)\])?\(#{REFERENCE_MACRO}\)/
+
     ##
     # Turns ##<tag>:<ref_name> into a link to the referenced object, and
     # ##<tag>.id:<ref_name> into its record id.
@@ -68,13 +71,28 @@ module DemoData
     def with_references(str)
       return str if str.blank?
 
-      str.gsub(/##(query|sprint|wp)(\.id)?:[a-z_0-9]+/) do |match|
+      str = drop_unresolvable_references(str)
+
+      str.gsub(REFERENCE_MACRO) do |match|
         tag, reference = match.delete("#").split(":", 2)
         instance = seed_data.find_reference(reference.to_sym)
         if match.include?(".id")
           instance.id
         else
           link(tag, instance)
+        end
+      end
+    end
+
+    # Texts translated on Crowdin lag behind the seed data and can still name a
+    # reference that has been removed since.
+    def drop_unresolvable_references(str)
+      str.gsub(LINKED_REFERENCE_MACRO) do |match|
+        matched = Regexp.last_match
+        if seed_data.reference_exists?(matched[:reference].to_sym)
+          match
+        else
+          matched[:label].to_s
         end
       end
     end
