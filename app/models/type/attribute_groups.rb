@@ -155,20 +155,7 @@ module Type::AttributeGroups
   end
 
   def custom_attribute_groups
-    groups = self[:attribute_groups].presence
-    return if groups.nil?
-
-    # Only one version attribute is offered at a time, so render whichever one a
-    # saved configuration holds as the one the current feature state exposes.
-    stored, offered = if Setting::WorkPackageMultipleVersions.active?
-                        %w[version target_versions]
-                      else
-                        %w[target_versions version]
-                      end
-
-    groups.map do |key, attributes, *rest|
-      [key, attributes.map { |attribute| attribute == stored ? offered : attribute }.uniq, *rest]
-    end
+    self[:attribute_groups].presence
   end
 
   def default_group_key(key)

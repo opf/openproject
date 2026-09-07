@@ -19,21 +19,21 @@ get:
     - name: id
       description: The custom field's unique identifier
       in: path
-      example: '42'
+      example: 42
       required: true
       schema:
         type: integer
     - name: parent
       description: The identifier of the parent hierarchy item
       in: query
-      example: '1337'
+      example: 1337
       required: false
       schema:
         type: integer
     - name: depth
       description: The level of hierarchy depth
       in: query
-      example: '1'
+      example: 1
       required: false
       schema:
         type: integer

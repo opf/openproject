@@ -27,6 +27,17 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%# Unlike no_menu, which only leaves the menu unnamed and so falls back to the project's when
-    one is in scope. These screens fill the width themselves. %>
-<%= render template: "layouts/base", locals: { menu_name: :none, current_menu_item: nil } %>
+<%=
+  render(
+    Primer::OpenProject::DangerDialog.new(
+      title: t(".title"),
+      form_arguments:,
+      test_selector: TEST_SELECTOR
+    )
+  ) do |dialog|
+    dialog.with_confirmation_message do |message|
+      message.with_heading(tag: :h2) { t(".heading", label: model.label) }
+      message.with_description_content(t(".description"))
+    end
+  end
+%>

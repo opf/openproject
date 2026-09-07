@@ -47,7 +47,7 @@ module WorkPackageTypes
     end
 
     def validate_and_result
-      success, errors = validate(model, user, options: {})
+      success, errors = validate(model, user, options: contract_options || {})
 
       if @param_validations.empty?
         ServiceResult.new(success:, errors:, result: model)

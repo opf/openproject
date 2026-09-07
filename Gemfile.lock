@@ -710,9 +710,9 @@ GEM
     htmlbeautifier (1.4.3)
     htmldiff (0.0.1)
     htmlentities (4.3.4)
-    http-2 (1.2.1)
+    http-2 (1.2.2)
     http_parser.rb (0.8.1)
-    httpx (1.8.1)
+    httpx (1.8.2)
       http-2 (>= 1.2.0)
     i18n (1.15.2)
       concurrent-ruby (~> 1.0)
@@ -1094,7 +1094,7 @@ GEM
     ostruct (0.6.3)
     ox (2.14.29)
       bigdecimal (>= 3.0)
-    pagy (43.6.1)
+    pagy (43.6.2)
       json
       uri
       yaml
@@ -1510,7 +1510,7 @@ GEM
       activesupport
       faraday (~> 2.0)
       faraday-follow_redirects
-    webmock (3.26.2)
+    webmock (3.26.3)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
@@ -1631,7 +1631,7 @@ DEPENDENCIES
   grids!
   html-pipeline (~> 2.14.0)
   htmldiff
-  httpx (~> 1.8.1)
+  httpx (~> 1.8.2)
   i18n-js (~> 4.2.4)
   i18n-tasks (~> 1.1.0)
   ice_cube (~> 0.17.0)
@@ -1964,9 +1964,9 @@ CHECKSUMS
   htmlbeautifier (1.4.3) sha256=b43d08f7e2aa6ae1b5a6f0607b4ed8954c8d4a8e85fd2336f975dda1e4db385b
   htmldiff (0.0.1) sha256=a96d068c8b8ea96cca3154a61785365d83129f47f1df964c6b1666924ce113a1
   htmlentities (4.3.4) sha256=125a73c6c9f2d1b62100b7c3c401e3624441b663762afa7fe428476435a673da
-  http-2 (1.2.1) sha256=d290f3b7daa70b8be8cd2260306c01243c73ec4df9d598feadaf0ed26e00b9b7
+  http-2 (1.2.2) sha256=81b5d45f50fd4cd5f8c5d09651184bec9401e3ef169c3eb3e5b003d5614a92b9
   http_parser.rb (0.8.1) sha256=9ae8df145b39aa5398b2f90090d651c67bd8e2ebfe4507c966579f641e11097a
-  httpx (1.8.1) sha256=8d9e003019b2c1a8f582daac9371ec9da96182c23064e211386eaad70b6e12e5
+  httpx (1.8.2) sha256=d0112bcb20200697d3cbd13aa494dd8bec721c19eb510644da91570af9780365
   i18n (1.15.2) sha256=00f9eb62412fe593b2a65a97daa75300d37abb8f7202ec748e94b6d46a9dd1b5
   i18n-js (4.2.4) sha256=61390d372f8fa68c495c5907d577657e8cc3a7031f4945db1e91f935e1391355
   i18n-tasks (1.1.2) sha256=4dcfba49e52a623f30661cb316cb80d84fbba5cb8c6d88ef5e02545fffa3637a
@@ -2131,7 +2131,7 @@ CHECKSUMS
   ostruct (0.6.3) sha256=95a2ed4a4bd1d190784e666b47b2d3f078e4a9efda2fccf18f84ddc6538ed912
   overviews (1.0.0)
   ox (2.14.29) sha256=206736d5a8dade9dca10cf72022bc157ad6ca3eecaba3853918426ed88e12dc2
-  pagy (43.6.1) sha256=59fb6a58ea956480094a167b43a86796638ceb3a3917a25ae67973b584ace2eb
+  pagy (43.6.2) sha256=b1d461b6bb43ce410ed2b9f09ce2a90430fa804265d167207a30337ea45c1dd3
   paper_trail (17.0.0) sha256=1c2842061d3874ca7015908e821e2aa14f9b982af2acb2a7974713bf79021c85
   parallel (2.1.0) sha256=b35258865c2e31134c5ecb708beaaf6772adf9d5efae28e93e99260877b09356
   parallel_tests (4.10.1) sha256=df05458c691462b210f7a41fc2651d4e4e8a881e8190e6d1e122c92c07735d70
@@ -2296,7 +2296,7 @@ CHECKSUMS
   warden-basic_auth (0.2.1) sha256=bfc752e0109c0182c3e69e930284c5e1e81e7b4a354aeb2b5914ead1391f3c6e
   webauthn (3.4.3) sha256=9be6f5f838f3405b0226e560aa40b67cc8c15ec9154509b997caa7ec9a05e1fc
   webfinger (2.1.3) sha256=567a52bde77fb38ca6b67e55db755f988766ec4651c1d24916a65aa70540695c
-  webmock (3.26.2) sha256=774556f2ea6371846cca68c01769b2eac0d134492d21f6d0ab5dd643965a4c90
+  webmock (3.26.3) sha256=77c612816bdcb2fc43db0e42fd98b19be7d4770fd708816fdde65a006664ddec
   webrick (1.9.2) sha256=beb4a15fc474defed24a3bda4ffd88a490d517c9e4e6118c3edce59e45864131
   websocket (1.2.11) sha256=b7e7a74e2410b5e85c25858b26b3322f29161e300935f70a0e0d3c35e0462737
   websocket-driver (0.8.2) sha256=97c556b019bf3410b4961002ac501621e9322d3f8a7bc02161a09301cc4c4146

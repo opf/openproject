@@ -28,23 +28,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Shared normalization for the array-valued +target_version_ids+ parameter used
-# by the work package move and bulk-edit forms. It is pulled out of the generic
-# scalar "none"/blank attribute transforms (which are built for scalar values)
-# and normalized here instead.
-module WorkPackages::TargetVersionNormalization
-  extend ActiveSupport::Concern
+require "rails_helper"
 
-  included do
-    private
+RSpec.describe WorkPackageTypes::DetailsComponent, type: :component do
+  shared_let(:bug) { create(:type, name: "Bug") }
 
-    # Mirrors the legacy version_id magic values for the array-valued target_version_ids:
-    #   * blank selection  -> nil  (leave existing target_versions untouched)
-    #   * "none" selection -> []   (clear all target_versions)
-    #   * a version id      -> [id]
-    def normalized_target_version_ids(raw)
-      values = Array(raw).compact_blank
-      values == ["none"] ? [] : values.presence
+  current_user { create(:admin) }
+
+  let(:checkbox_label) { "Allow project-specific variants" }
+
+  context "with the variants feature enabled", with_flag: { type_variants: true } do
+    it "offers the setting on the type" do
+      render_inline(described_class.new(bug))
+
+      expect(page).to have_field(checkbox_label)
+      expect(page).to have_text("this type can be extended or modified within a project")
+    end
+
+    it "leaves it out on a variant, which the type decides it for" do
+      render_inline(described_class.new(create(:type_variant, type: bug, variant_name: "Hardware")))
+
+      expect(page).to have_no_field(checkbox_label)
+    end
+  end
+
+  context "with the variants feature disabled" do
+    it "leaves it out" do
+      render_inline(described_class.new(bug))
+
+      expect(page).to have_no_field(checkbox_label)
     end
   end
 end

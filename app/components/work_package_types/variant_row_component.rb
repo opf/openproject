@@ -36,29 +36,27 @@ module WorkPackageTypes
   class VariantRowComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
 
-    # Labels shown after the name. Each list says something different about a variant, so what
-    # they say is the caller's.
-    renders_many :labels, ->(**system_arguments) { Primer::Beta::Label.new(ml: 2, **system_arguments) }
+    renders_one :caption, ->(**system_arguments) { Primer::Beta::Text.new(color: :muted, ml: 2, **system_arguments) }
+
+    # What a list says about the variant in use here. Takes markup: one list uses an icon.
+    renders_one :state
 
     # A right-aligned label, for supplementary status rather than an affordance. Mirrors the
     # surrounding BorderBoxListComponent header's own.
     renders_one :status_label, ->(**system_arguments) { Primer::Beta::Label.new(**system_arguments) }
 
-    # @param caption [String, nil] muted text after the name, telling rows apart where the
-    #   list mixes variants with other records.
     # @param linked [Boolean] whether the name leads to the variant's configuration. Pass false
     #   where the reader may not open it.
-    def initialize(variant:, caption: nil, linked: true)
+    def initialize(variant:, linked: true)
       super()
 
       @variant = variant
-      @caption = caption
       @linked = linked
     end
 
     private
 
-    attr_reader :variant, :caption, :linked
+    attr_reader :variant, :linked
 
     alias_method :linked?, :linked
 

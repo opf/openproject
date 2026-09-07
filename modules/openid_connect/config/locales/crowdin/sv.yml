@@ -3,170 +3,170 @@ sv:
   activerecord:
     attributes:
       openid_connect/group_link:
-        oidc_group_name: OpenID group identifier
+        oidc_group_name: OpenID-gruppidentifierare
       openid_connect/provider:
         acr_values: ACR-värden
-        authorization_endpoint: Authorization endpoint
-        claims: Claims
+        authorization_endpoint: Auktoriseringsslutpunkt
+        claims: Anspråk
         client_id: Klient-ID
-        client_secret: Client secret
+        client_secret: Klienthemlighet
         display_name: Visningsnamn
-        end_session_endpoint: End session endpoint
-        grant_types_supported: Supported grant types
-        group_regexes: Patterns (regular expressions)
-        groups_claim: Groups claim
+        end_session_endpoint: Slutpunkt för avslutad session
+        grant_types_supported: Grant-typer som stöds
+        group_regexes: Mönster (reguljära uttryck)
+        groups_claim: Gruppanspråk
         icon: Anpassad ikon
-        issuer: Issuer
+        issuer: Utfärdare
         jwks_uri: JWKS URI
-        limit_self_registration: Limit self registration
-        metadata_url: Metadata URL
+        limit_self_registration: Begränsa självregistrering
+        metadata_url: URL för metadata
         name: Namn
-        post_logout_redirect_uri: Post logout redirect URI
-        redirect_url: Redirect URL
+        post_logout_redirect_uri: URI för omdirigering efter utloggning
+        redirect_url: Omdirigerings-URL
         scope: Omfattning
         secret: Hemlighet
-        slug: Unique identifier
+        slug: Unik identifierare
         sync_groups: Synkronisera grupper
-        tenant: Tenant
-        token_endpoint: Token endpoint
-        userinfo_endpoint: User information endpoint
+        tenant: Klientorganisation
+        token_endpoint: Tokenslutpunkt
+        userinfo_endpoint: Slutpunkt för användarinformation
     errors:
       models:
         openid_connect/provider:
           attributes:
             metadata_url:
-              format: Discovery endpoint URL %{message}
-              response_is_not_json: " does not return JSON body."
-              response_is_not_successful: " responds with %{status}."
-              response_misses_required_attributes: " does not return required attributes. Missing attributes are: %{missing_attributes}."
-          invalid_claims_essential: does not define a boolean at %{attribute}.
-          invalid_claims_location: 'contain unsupported locations: %{invalid}. Supported locations are: %{supported}.'
-          invalid_claims_values: does not define an array at %{attribute}.
-          non_object_attribute: does not define a JSON object at %{attribute}.
+              format: URL för identifieringsslutpunkt %{message}
+              response_is_not_json: returnerar ingen JSON-kropp.
+              response_is_not_successful: svarar med %{status}.
+              response_misses_required_attributes: 'returnerar inte obligatoriska attribut. Attribut som saknas: %{missing_attributes}.'
+          invalid_claims_essential: definierar inte ett booleskt värde vid %{attribute}.
+          invalid_claims_location: 'innehåller platser som inte stöds: %{invalid}. Platser som stöds: %{supported}.'
+          invalid_claims_values: definierar inte en matris vid %{attribute}.
+          non_object_attribute: definierar inte ett JSON-objekt vid %{attribute}.
     models:
       openid_connect/provider:
-        one: OpenID Connect provider
-        other: OpenID Connect providers
+        one: OpenID Connect-leverantör
+        other: OpenID Connect-leverantörer
       openid_connect/user_token:
-        one: OpenID Connect token
-        other: OpenID Connect tokens
+        one: OpenID Connect-token
+        other: OpenID Connect-token
   logout_warning: 'Du har loggats ut. Innehållet i alla formulär du skickar kan försvinna. Vänligen [logga in].
 
     '
   openid_connect:
-    delete_heading: Delete this OpenID Connect provider?
-    delete_title: Delete OpenID Connect provider
-    group_links_heading: OpenID Connect group links
+    delete_heading: Ta bort den här OpenID Connect-leverantören?
+    delete_title: Ta bort OpenID Connect-leverantör
+    group_links_heading: OpenID Connect-grupplänkar
     groups:
       match_preview_component:
-        placeholder_none: No groups currently match the pattern.
-        title: Extracted group names
+        placeholder_none: Inga grupper matchar för närvarande mönstret.
+        title: Extraherade gruppnamn
       match_preview_dialog_component:
-        description: This allows you to test your regular expression pattern against sample data to verify that the group names you want extracted are indeed extracted properly. You can modify your pattern here but the test string and matches themselves will not be saved with the configuration.
-        group_names_description: Enter one group name per line as it would appear in the OIDC claim, to see how your regular expression patterns affect them.
-        group_names_label: Test group names
+        description: Här kan du testa ditt reguljära uttryck mot exempeldata för att kontrollera att de gruppnamn du vill extrahera faktiskt extraheras korrekt. Du kan ändra mönstret här, men teststrängen och själva träffarna sparas inte med konfigurationen.
+        group_names_description: Ange ett gruppnamn per rad så som det skulle visas i OIDC-anspråket för att se hur dina reguljära uttryck påverkar dem.
+        group_names_label: Testa gruppnamn
         show_button: Testmönster
-        title: Test regular expressions
+        title: Testa reguljära uttryck
     instructions:
-      acr_values: 'Request non-essential claims in an easier format. See [our documentation on acr_values](docs_url) for more information.
+      acr_values: 'Begär icke-nödvändiga anspråk i ett enklare format. Mer information finns i [vår dokumentation om acr_values](docs_url).
 
         '
-      claims: 'You can request additional claims for the userinfo and id token endpoints. Please see [our OpenID connect documentation](docs_url) for more information.
+      claims: 'Du kan begära ytterligare anspråk för slutpunkterna userinfo och id token. Mer information finns i [vår OpenID Connect-dokumentation](docs_url).
 
         '
-      client_id: This is the client ID given to you by your OpenID Connect provider
-      client_secret: This is the client secret given to you by your OpenID Connect provider
+      client_id: Detta är det klient-ID som du fått av din OpenID Connect-leverantör
+      client_secret: Detta är den klienthemlighet som du fått av din OpenID Connect-leverantör
       display_name: Namnet på leverantören. Detta kommer att visas som inloggningsknapp och i listan över leverantörer.
-      endpoint_url: The endpoint URL given to you by the OpenID Connect provider
-      group_regexes: One regular expression pattern per line. Please read [the documentation](docs_url) for more information on how to do this.
-      group_regexes_detail: Optionally define patterns using regular expressions to match group names from the groups claim. For example, entering a pattern like <code>^Level1/Level2/([\w/]+)$</code> will extract the group “Groupname/SubGroup” from a response including “Level1/Level2/GroupName/SubGroup”. If no pattern matches, the group is ignored. Leave empty to synchronize all groups using their full group name.
-      group_regexes_testing: Click on 'Test pattern' to test your regular expression pattern against sample OIDC userinfo.
-      group_sync: Automatically extract and synchronise group membership information from the identity provider.
-      groups_claim: Specify the name of the claim that's expected to indicate the group names that the user is a member of.
+      endpoint_url: Slutpunkts-URL:en som du fått av OpenID Connect-leverantören
+      group_regexes: Ett mönster med reguljärt uttryck per rad. Läs [dokumentationen](docs_url) för mer information om hur du gör detta.
+      group_regexes_detail: Du kan valfritt definiera mönster med reguljära uttryck för att matcha gruppnamn från gruppanspråket. Om du till exempel anger mönstret <code>^Level1/Level2/([\w/]+)$</code> extraheras gruppen ”Groupname/SubGroup” från ett svar som innehåller ”Level1/Level2/GroupName/SubGroup”. Om inget mönster matchar ignoreras gruppen. Lämna tomt för att synkronisera alla grupper med deras fullständiga gruppnamn.
+      group_regexes_testing: Klicka på ”Testa mönster” för att testa ditt reguljära uttryck mot exempeldata från OIDC userinfo.
+      group_sync: Extrahera och synkronisera automatiskt information om gruppmedlemskap från identitetsleverantören.
+      groups_claim: Ange namnet på det anspråk som förväntas innehålla namnen på de grupper som användaren är medlem i.
       limit_self_registration: Om aktiverad, kan användare bara registrera sig med denna leverantör om konfigurationen på leverantörens ände tillåter det.
-      mapping_admin: 'Provide a custom mapping in the userinfo response to be used for the admin status. It expects a boolean attribute to be returned.
+      mapping_admin: 'Ange en anpassad mappning i userinfo-svaret som ska användas för administratörsstatusen. Ett booleskt attribut förväntas returneras.
 
         '
-      mapping_email: 'Provide a custom mapping in the userinfo response to be used for the email attribute.
+      mapping_email: 'Ange en anpassad mappning i userinfo-svaret som ska användas för e-postattributet.
 
         '
-      mapping_first_name: 'Provide a custom mapping in the userinfo response to be used for the first name.
+      mapping_first_name: 'Ange en anpassad mappning i userinfo-svaret som ska användas för förnamnet.
 
         '
-      mapping_last_name: 'Provide a custom mapping in the userinfo response to be used for the last name.
+      mapping_last_name: 'Ange en anpassad mappning i userinfo-svaret som ska användas för efternamnet.
 
         '
-      mapping_login: 'Provide a custom mapping in the userinfo response to be used for the login attribute.
+      mapping_login: 'Ange en anpassad mappning i userinfo-svaret som ska användas för inloggningsattributet.
 
         '
-      metadata_none: I don't have this information
-      metadata_url: I have a discovery endpoint URL
-      oidc_information: These values are needed to configure the OpenID Connect provider.
-      post_logout_redirect_uri: The URL the OpenID Connect provider should redirect to after a logout request.
+      metadata_none: Jag har inte den här informationen
+      metadata_url: Jag har en URL till en identifieringsslutpunkt
+      oidc_information: Dessa värden behövs för att konfigurera OpenID Connect-leverantören.
+      post_logout_redirect_uri: Den URL som OpenID Connect-leverantören ska omdirigera till efter en begäran om utloggning.
       scope: Om du vill begära anpassade omfattningar, kan du lägga till ett eller flera omfattningsvärden separerade med mellanslag här. För mer information, se [OpenID Connect dokumentation](docs_url).
-      tenant: Please replace the default tenant with your own if applicable. See <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">this</a>.
+      tenant: Ersätt standardklientorganisationen med din egen om det är tillämpligt. Se <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">detta</a>.
     menu_title: OpenID leverantörer
     providers:
-      client_details_description: Configuration details of OpenProject as an OIDC client
+      client_details_description: Konfigurationsinformation för OpenProject som OIDC-klient
       custom:
         name: Anpassad
       google:
         name: Google
       label_add_new: Lägg till en ny OpenID-leverantör
-      label_advanced_configuration: Advanced configuration
+      label_advanced_configuration: Avancerad konfiguration
       label_attribute_mapping: Attributmappning
-      label_automatic_configuration: Automatic configuration
-      label_client_details: Client details
+      label_automatic_configuration: Automatisk konfiguration
+      label_client_details: Klientinformation
       label_configuration_details: Metadata
       label_edit: Redigera OpenID-leverantör %{name}
-      label_empty_description: Add a provider to see them here.
-      label_empty_title: No OpenID providers configured yet.
-      label_group_mapping: Group mapping
-      label_metadata: OpenID Connect Discovery Endpoint
-      label_optional_configuration: Optional configuration
-      label_providers: Providers
+      label_empty_description: Lägg till en leverantör för att se dem här.
+      label_empty_title: Inga OpenID-leverantörer har konfigurerats ännu.
+      label_group_mapping: Gruppmappning
+      label_metadata: Identifieringsslutpunkt för OpenID Connect
+      label_optional_configuration: Valfri konfiguration
+      label_providers: Leverantörer
       microsoft_entra:
         name: Microsoft Entra
       no_results_table: Inga leverantörer har definierats ännu.
       notice_created: En ny OpenID-leverantör har skapats.
       plural: OpenID leverantörer
       section_texts:
-        attribute_mapping: Configure the mapping of attributes between OpenProject and the OpenID Connect provider.
-        claims: Request additional claims for the ID token or userinfo response.
-        configuration: Configuration details of the OpenID Connect provider
-        configuration_metadata: The information has been pre-filled using the supplied discovery endpoint. In most cases, they do not require editing.
-        display_name: The display name visible to users.
-        group_mapping: Map group names provided by the identity provider to groups in OpenProject.
-        metadata: Pre-fill configuration using an OpenID Connect discovery endpoint URL
-        metadata_form_banner: Editing the discovery endpoint may override existing pre-filled metadata values.
-        metadata_form_description: If your identity provider has a discovery endpoint URL. Use it below to pre-fill configuration.
-        metadata_form_title: OpenID Connect Discovery endpoint
+        attribute_mapping: Konfigurera mappningen av attribut mellan OpenProject och OpenID Connect-leverantören.
+        claims: Begär ytterligare anspråk för ID-token eller userinfo-svaret.
+        configuration: Konfigurationsinformation för OpenID Connect-leverantören
+        configuration_metadata: Informationen har fyllts i i förväg med hjälp av den angivna identifieringsslutpunkten. I de flesta fall behöver den inte redigeras.
+        display_name: Visningsnamnet som är synligt för användarna.
+        group_mapping: Mappa gruppnamn som tillhandahålls av identitetsleverantören till grupper i OpenProject.
+        metadata: Fyll i konfigurationen i förväg med hjälp av en URL till en OpenID Connect-identifieringsslutpunkt
+        metadata_form_banner: Om identifieringsslutpunkten redigeras kan befintliga förifyllda metadatavärden skrivas över.
+        metadata_form_description: Om identitetsleverantören har en URL till en identifieringsslutpunkt kan du använda den nedan för att fylla i konfigurationen i förväg.
+        metadata_form_title: Identifieringsslutpunkt för OpenID Connect
       side_panel:
         information_component:
-          backchannel_logout_url: Backchannel logout URL
+          backchannel_logout_url: URL för backchannel-utloggning
       singular: OpenID leverantör
       upsell:
-        description: Connect OpenProject to an OpenID connect identity provider
-        title: Single Sign-On (SSO) with OpenID connect
+        description: Anslut OpenProject till en OpenID Connect-identitetsleverantör
+        title: Enkel inloggning (SSO) med OpenID Connect
     setting_instructions:
       limit_self_registration: 'Om den är aktiverad kan användare endast registrera sig med hjälp av den här leverantören om inställningen för självregistrering tillåter det.
 
         '
     settings:
-      endpoint_url: Endpoint URL
-      metadata_none: I don't have this information
-      metadata_url: I have a discovery endpoint URL
+      endpoint_url: Slutpunkts-URL
+      metadata_none: Jag har inte den här informationen
+      metadata_url: Jag har en URL till en identifieringsslutpunkt
   plugin_openproject_openid_connect:
-    description: Adds OmniAuth OpenID Connect strategy providers to OpenProject.
+    description: Lägger till leverantörer för OmniAuths OpenID Connect-strategi i OpenProject.
     name: OpenProject OpenID Connect
   provider:
     delete_warning:
-      delete_result_1: Remove the provider from the list of available providers.
-      delete_result_direct: This provider is marked as a direct login provider. The setting will be removed and users will no longer be redirected to the provider for login.
+      delete_result_1: Ta bort leverantören från listan över tillgängliga leverantörer.
+      delete_result_direct: Den här leverantören är markerad som leverantör för direktinloggning. Inställningen tas bort och användarna omdirigeras inte längre till leverantören för inloggning.
       delete_result_user_count:
-        one: One user is currently still using this provider. They will need to be re-invited or logging in with another provider.
-        other: "%{count} users are currently still using this provider. They will need to be re-invited or logging in with another provider."
-        zero: No users are currently using this provider. No further action is required.
-      input_delete_confirmation_html: Enter the provider name %{name} to confirm deletion.
-      irreversible_notice: Deleting an SSO provider is an irreversible action.
-      provider_html: 'Are you sure you want to delete the SSO provider %{name}? Be aware, that this will:'
+        one: En användare använder fortfarande den här leverantören. Användaren måste bjudas in på nytt eller logga in med en annan leverantör.
+        other: "%{count} användare använder fortfarande den här leverantören. De måste bjudas in på nytt eller logga in med en annan leverantör."
+        zero: Ingen användare använder för närvarande den här leverantören. Ingen ytterligare åtgärd krävs.
+      input_delete_confirmation_html: Ange leverantörsnamnet %{name} för att bekräfta borttagningen.
+      irreversible_notice: Att ta bort en SSO-leverantör går inte att ångra.
+      provider_html: 'Är du säker på att du vill ta bort SSO-leverantören %{name}? Observera att detta kommer att:'
