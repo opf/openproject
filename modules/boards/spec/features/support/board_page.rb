@@ -185,23 +185,23 @@ module Pages
     end
 
     def move_card(index, from:, to:)
-      drag_onto_list(from:, to:, index:)
+      drag_onto_list(source_list: from, target_list: to, index:)
     end
 
     def move_card_by_name(text, from:, to:)
-      drag_onto_list(from:, to:, text:)
+      drag_onto_list(source_list: from, target_list: to, text:)
     end
 
     private
 
-    def drag_onto_list(from:, to:, index: nil, text: nil)
+    def drag_onto_list(source_list:, target_list:, index: nil, text: nil)
       expect(page).to have_no_css(".boards-list--container[data-sortable-lists-busy]", wait: 20)
 
       page.document.synchronize(20) do
-        scroll_to_element draggable_card(from:, index:, text:, wait: 0)
-        source = draggable_card(from:, index:, text:, wait: 0)
+        scroll_to_element draggable_card(from: source_list, index:, text:, wait: 0)
+        source = draggable_card(from: source_list, index:, text:, wait: 0)
         target = page.find(
-          "#{list_selector(to)} [data-test-selector='op-wp-card-view'][data-drop-target-for-element='true']",
+          "#{list_selector(target_list)} [data-test-selector='op-wp-card-view'][data-drop-target-for-element='true']",
           wait: 0
         )
         perform_pragmatic_drag(source, target)

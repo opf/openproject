@@ -48,9 +48,11 @@ RSpec.describe "Roles report", :js do
       end
     end
     configuration.legacy_mode = true
-    example.run
-  ensure
-    configuration.legacy_mode = previous_legacy_mode
+    begin
+      example.run
+    ensure
+      configuration.legacy_mode = previous_legacy_mode
+    end
   end
 
   before do

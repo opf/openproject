@@ -34,6 +34,8 @@ import './init-moment-locales';
 import { initializeLocale } from './init-locale';
 
 describe('initializeLocale', () => {
+  const loadLocale = () => Promise.resolve({ default: {} });
+
   afterEach(() => {
     document.querySelector('meta[name="openproject_initializer"]')?.remove();
     moment.locale('en');
@@ -51,7 +53,7 @@ describe('initializeLocale', () => {
   it('uses the German week numbering rules', async () => {
     setInitializer('de');
 
-    await initializeLocale();
+    await initializeLocale(loadLocale);
 
     expect(moment('2020-12-31').format('ww')).toBe('53');
     expect(moment('2021-01-01').format('ww')).toBe('53');
@@ -61,7 +63,7 @@ describe('initializeLocale', () => {
   it('uses the English week numbering rules', async () => {
     setInitializer('en');
 
-    await initializeLocale();
+    await initializeLocale(loadLocale);
 
     expect(moment('2020-12-31').format('ww')).toBe('01');
     expect(moment('2021-01-01').format('ww')).toBe('01');

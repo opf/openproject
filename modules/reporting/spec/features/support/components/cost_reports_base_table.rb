@@ -80,11 +80,10 @@ module Components
       time_logging_modal.change_hours(hours)
       time_logging_modal.activity_input_disabled_because_work_package_missing? false
 
+      time_logging_modal.submit
       if using_cuprite?
-        time_logging_modal.submit
         wait_for_reload(20)
       else
-        time_logging_modal.submit
         sleep 1
       end
 

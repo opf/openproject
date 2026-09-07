@@ -47,9 +47,11 @@ RSpec.describe Queries::WorkPackages::Filter::FilterForWpMixin do
       let(:operator) { "children" }
 
       it "queries the child relation scope" do
-        expect(query_scope).to receive(:relatable).with(work_package, Relation::TYPE_CHILD)
+        allow(query_scope).to receive(:relatable)
 
         filter.apply_to(query_scope)
+
+        expect(query_scope).to have_received(:relatable).with(work_package, Relation::TYPE_CHILD)
       end
     end
 
@@ -57,9 +59,11 @@ RSpec.describe Queries::WorkPackages::Filter::FilterForWpMixin do
       let(:operator) { Relation::TYPE_BLOCKS }
 
       it "passes the operator through" do
-        expect(query_scope).to receive(:relatable).with(work_package, Relation::TYPE_BLOCKS)
+        allow(query_scope).to receive(:relatable)
 
         filter.apply_to(query_scope)
+
+        expect(query_scope).to have_received(:relatable).with(work_package, Relation::TYPE_BLOCKS)
       end
     end
   end

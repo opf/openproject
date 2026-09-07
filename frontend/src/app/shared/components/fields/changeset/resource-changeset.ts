@@ -123,7 +123,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
       await this.pendingFormUpdate;
     }
 
-    return this.buildPayloadFromChanges();
+    return this.buildPayloadFromChanges() as object;
   }
 
   /**
@@ -175,24 +175,26 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
    * to get the up to date projected object.
    */
   protected updateForm():Promise<FormResource> {
-    const payload = this.buildPayloadFromChanges();
+    const payload = this.buildPayloadFromChanges() as object;
+    const links = this.pristineResource.$links as {
+      update?:(requestPayload:object) => Promise<FormResource>;
+    };
+    const update = links.update;
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    if (!this.pristineResource.$links.update) {
+    if (!update) {
       return Promise.reject();
     }
 
     const previousUpdate = this.pendingFormUpdate;
     const promise = (previousUpdate ? previousUpdate.catch(() => undefined) : Promise.resolve())
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-return
-      .then(() => this.pristineResource.$links.update(payload))
+      .then(() => update(payload))
       .then((form:FormResource) => {
         this.cache = {};
         this.form$.putValue(form);
         this.setNewDefaults(form);
         this.push();
         return form;
-      }) as Promise<FormResource>;
+      });
 
     this.pendingFormUpdate = promise;
     promise.then(

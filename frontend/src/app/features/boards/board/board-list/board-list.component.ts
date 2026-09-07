@@ -455,7 +455,8 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   }
 
   private loadQuery(visibly = true) {
-    const requestSerial = ++this.queryRequestSerial;
+    this.queryRequestSerial += 1;
+    const requestSerial = this.queryRequestSerial;
     let observable = this
       .apiv3Service
       .queries

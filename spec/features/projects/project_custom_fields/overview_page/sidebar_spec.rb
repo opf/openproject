@@ -188,7 +188,7 @@ RSpec.describe "Show project custom fields on project overview page", :js do
 
         overview_page.within_custom_field_container(calculated_from_int_and_float_project_custom_field) do
           expect(page).to have_text I18n.t("calculated_values.errors.missing_value",
-                                          custom_field_name: float_project_custom_field.name)
+                                           custom_field_name: float_project_custom_field.name)
         end
       end
 
