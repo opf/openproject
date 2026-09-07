@@ -88,9 +88,11 @@ module Migration
       actual&.name
     end
 
-    def remove_index_on(table_name, index_name, columns = nil)
+    def remove_index_on(table_name, index_name, columns = nil, **)
       actual_name = resolved_index_name(table_name, index_name, columns)
-      remove_index table_name, name: actual_name if actual_name
+      return unless actual_name
+
+      remove_index table_name, name: actual_name, **
     end
 
     def rename_index_on(table_name, index_name, new_name, columns = nil)

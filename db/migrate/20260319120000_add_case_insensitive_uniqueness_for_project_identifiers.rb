@@ -50,7 +50,7 @@ class AddCaseInsensitiveUniquenessForProjectIdentifiers < ActiveRecord::Migratio
   # Note: does not undo identifier renames from deduplication. Suffixed identifiers
   # (e.g. "FOO_2") remain valid and unique under the restored case-sensitive index.
   def down
-    remove_index :projects, name: "index_projects_on_lower_identifier", algorithm: :concurrently, if_exists: true
+    remove_index_on :projects, "index_projects_on_lower_identifier", algorithm: :concurrently
     add_index :projects, :identifier, unique: true, algorithm: :concurrently
   end
 
