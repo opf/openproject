@@ -278,6 +278,42 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
         end
       end
     end
+
+    describe "hierarchy custom fields", with_ee: %i[custom_field_hierarchies] do
+      let!(:hierarchy_custom_field) do
+        create(:hierarchy_wp_custom_field).tap do |custom_field|
+          service = CustomFields::Hierarchy::HierarchicalItemService.new
+          contract_class = CustomFields::Hierarchy::InsertListItemContract
+          item = service.insert_item(contract_class:, parent: custom_field.hierarchy_root, label: "Item Value",
+                                     short: "IV").value!
+
+          project.work_package_custom_fields << custom_field
+          work_package.type.default_variant.custom_fields << custom_field
+
+          work_package.send(:"custom_field_#{custom_field.id}=", item.id)
+          work_package.save!
+        end
+      end
+
+      let(:token) do
+        enabled, = subject
+        enabled.detect do |t|
+          t.key == :"custom_field_#{hierarchy_custom_field.id}"
+        end
+      end
+
+      it "formats hierarchy custom fields using the default format" do
+        expect(token.call(work_package, nil)).to eq("Item Value (IV)")
+      end
+
+      it "formats hierarchy custom fields using the label when asking for 'label' format" do
+        expect(token.call(work_package, "label")).to eq("Item Value")
+      end
+
+      it "formats hierarchy custom fields using the short when asking for 'short' format" do
+        expect(token.call(work_package, "short")).to eq("IV")
+      end
+    end
   end
 
   private
