@@ -72,6 +72,8 @@ import { itemIdentity, orderedItemElements } from './sortable-lists/selection';
 type CleanupFn = () => void;
 type ElementDropPayload = ElementEventPayloadMap['onDrop'];
 type MoveResult = { ok:true }|{ ok:false; showToast:boolean };
+// items is null on the single-item contract, the batch on the collection one.
+interface DropRoute { url:string; items:SelectionItem[]|null }
 interface MoveAnnouncementContext { label:string|null; listName:string|null; crossList:boolean }
 
 // Reduced to a same-origin relative URL: an absolute or foreign-origin
@@ -553,14 +555,12 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       return;
     }
 
-    const batch = this.batchForDrop(frozenBatch, source.data);
-    const moveUrl = batch
-      ? this.resolveCollectionMoveUrl()
-      : this.resolveMoveUrl({ itemId: source.data.itemId, type: source.data.type });
-    if (!moveUrl) {
+    const route = this.dropRouteFor(frozenBatch, source.data);
+    if (!route) {
       debugLog('sortable-lists: ignoring drop, no move URL for item', source.data.itemId);
       return;
     }
+    const batch = route.items;
 
     // One item type per batch, so the exclusion set is that type plus ids.
     const intent = resolveDropIntent({
@@ -592,20 +592,22 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       rowsContainer: intent.rowsContainer,
       listData: intent.listData,
       previousItemId: intent.previousItemId,
-      moveUrl,
+      moveUrl: route.url,
     });
   }
 
-  // A selection-enabled root with a collection URL uses the collection
-  // contract for one dragged card as well as many.
-  private batchForDrop(frozenBatch:SelectionItem[]|null, sourceData:{ type:string; itemId:string }):SelectionItem[]|null {
-    if (!this.collectionMoveUrl || !this.selection) {
-      return null;
+  // The collection URL is the capability signal: a root that renders one moves
+  // every drag through the collection contract, one card or many. Without it
+  // the dragged item's own move template applies.
+  private dropRouteFor(frozenBatch:SelectionItem[]|null, sourceData:{ type:string; itemId:string }):DropRoute|null {
+    const collectionUrl = this.resolveCollectionMoveUrl();
+    if (collectionUrl) {
+      const items = frozenBatch && frozenBatch.length > 0 ? frozenBatch : singleItemBatch(sourceData);
+      return { url: collectionUrl, items };
     }
 
-    return frozenBatch && frozenBatch.length > 0
-      ? frozenBatch
-      : singleItemBatch(sourceData);
+    const url = this.resolveMoveUrl(sourceData);
+    return url ? { url, items: null } : null;
   }
 
   private get collectionMoveUrl():string|null {

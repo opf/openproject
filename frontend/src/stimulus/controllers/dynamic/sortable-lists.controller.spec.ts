@@ -3003,4 +3003,46 @@ describe('Sortable lists controller', () => {
       });
     });
   });
+
+  // The collection URL alone picks the contract: a root that renders one
+  // sends a lone card through it even when nothing can be selected.
+  describe('drop route', () => {
+    it('moves a single card through the collection URL on a root without selection', async () => {
+      const { root, sourceList } = renderFixture({ collectionMoveUrl: '/collection-move-url' });
+      const item1 = sourceList.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="1"]')!;
+      const item2 = sourceList.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="2"]')!;
+      await ctx.nextFrame();
+      const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+      controller.freezeDragBatch(item2);
+      controller.markDragBatch();
+
+      vi.spyOn(item1, 'getBoundingClientRect').mockReturnValue(rect());
+      const targetData = attachClosestEdge(sortableItemData({ itemId: '1', type: 'work_package' }), {
+        element: item1,
+        input: input({ clientY: 10 }),
+        allowedEdges: ['top', 'bottom'],
+      });
+      vi.mocked(monitorForElements).mock.lastCall?.[0].onDrop?.({
+        source: sourcePayload(item2, itemData('2', 'work_package', root)),
+        location: {
+          initial: { dropTargets: [], input: input() },
+          current: {
+            dropTargets: [
+              dropTargetRecord(item1, targetData),
+              dropTargetRecord(sourceList, sortableListData({ type: 'backlog_bucket', listId: '1', name: 'Product backlog' })),
+            ],
+            input: input(),
+          },
+          previous: { dropTargets: [] },
+        },
+      });
+      await flushPromises();
+
+      const url = fetchMock.mock.calls[0][0] as string;
+      const body = fetchMock.mock.calls[0][1].body as FormData;
+      expect(url).toContain('/collection-move-url');
+      expect(body.getAll('ids[]')).toEqual(['2']);
+      expect(itemIds(sourceList)).toEqual(['2', '1', '3']);
+    });
+  });
 });
