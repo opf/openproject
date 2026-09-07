@@ -224,7 +224,8 @@ module Bim
         return false unless attachment_id.to_s == session[:pending_ifc_model_attachment_id].to_s
         return false unless @project.id.to_s == session[:pending_ifc_model_project_id].to_s
 
-        payload = direct_upload_callback_verifier.verified(request.params[:du_token], purpose: DIRECT_UPLOAD_CALLBACK_PURPOSE)
+        payload = direct_upload_callback_verifier.verified(request.params[:du_token],
+                                                           purpose: DIRECT_UPLOAD_CALLBACK_PURPOSE)
         return false unless payload
 
         expected_payload = {

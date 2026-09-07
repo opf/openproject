@@ -32,10 +32,6 @@ import { post } from '@rails/request.js';
 import { isHTMLInputElement } from 'core-app/shared/helpers/dom-helpers';
 
 export default class IfcModelDirectUploadController extends Controller {
-  static targets = [
-    'fileInput',
-  ];
-
   static values = {
     setDefaultModelUrl: String,
     setModelTitleUrl: String,
@@ -57,7 +53,7 @@ export default class IfcModelDirectUploadController extends Controller {
       return;
     }
 
-    this.fileInputTarget.setCustomValidity('');
+    target.setCustomValidity('');
     const title = this.trimFileExtension(fileList[0].name);
     const fileSize = String(fileList[0].size);
 
@@ -67,8 +63,8 @@ export default class IfcModelDirectUploadController extends Controller {
 
         const { error } = await response.json as { error:string };
 
-        this.fileInputTarget.setCustomValidity(error);
-        this.fileInputTarget.reportValidity();
+        target.setCustomValidity(error);
+        target.reportValidity();
       });
   }
 

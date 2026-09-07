@@ -50,7 +50,7 @@ RSpec.describe "direct IFC upload",
 
         form_validity = page.evaluate_script <<~JS
           document
-            .querySelector('#new_bim_ifc_models_ifc_model')
+            .querySelector('#ifc-direct-upload-file-input')
             .checkValidity();
         JS
 
