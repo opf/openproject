@@ -119,7 +119,9 @@ class StatusesController < ApplicationController
     if move_to.in?(%w[highest higher lower lowest])
       { move_to: }
     elsif position
-      { position: }
+      # The dropped position is an index within the rendered page, while
+      # acts_as_list positions run across the whole list.
+      { position: position + ((page_param - 1) * per_page_param) }
     else
       {}
     end

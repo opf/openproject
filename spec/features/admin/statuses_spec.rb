@@ -75,8 +75,20 @@ RSpec.describe "Statuses admin page", :js do
       end
     end
 
+    it "reorders statuses by dragging them" do
+      statuses_page.visit!
+
+      statuses_page.drag_status(from_index: 0, to_index: 2)
+      wait_for_network_idle
+
+      statuses_page.expect_listed("In Progress", "Done", "New")
+
+      statuses_page.reload!
+      statuses_page.expect_listed("In Progress", "Done", "New")
+    end
+
     describe "pagination", with_settings: { per_page_options: "2, 100" } do
-      it "pages the list, and shows it whole at a larger page size" do
+      it "pages the list, and a larger page size widens what drag and drop can reach" do
         statuses_page.visit!
 
         statuses_page.expect_listed("New", "In Progress")
@@ -84,6 +96,11 @@ RSpec.describe "Statuses admin page", :js do
         statuses_page.set_page_size(100)
 
         statuses_page.expect_listed("New", "In Progress", "Done")
+
+        statuses_page.drag_status(from_index: 0, to_index: 2)
+        wait_for_network_idle
+
+        statuses_page.expect_listed("In Progress", "Done", "New")
       end
 
       it "keeps the reader on their page after a move" do

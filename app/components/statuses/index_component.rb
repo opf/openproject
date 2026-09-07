@@ -51,5 +51,25 @@ module Statuses
     def empty_state_description
       t("statuses.index.no_results_content_text")
     end
+
+    def wrapper_data_attributes
+      { controller: "generic-drag-and-drop" }
+    end
+
+    def drop_target_config
+      {
+        generic_drag_and_drop_target: "container",
+        "target-container-accessor": ":scope > ul",
+        "target-allowed-drag-type": "status"
+      }
+    end
+
+    def draggable_item_config(status)
+      {
+        "draggable-id": status.id,
+        "draggable-type": "status",
+        "drop-url": move_status_path(status, **page_args.to_h)
+      }
+    end
   end
 end
