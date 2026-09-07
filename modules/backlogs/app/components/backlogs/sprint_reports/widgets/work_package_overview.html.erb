@@ -63,74 +63,72 @@ See COPYRIGHT and LICENSE files for more details.
         end
       %>
 
-      <% if sprint.started_at? %>
-        <%= render(Primer::Box.new(classes: "op-wp-overview--blocks", mt: 3)) do %>
-          <%=
-            render(
-              BreakdownBlock.new(
-                heading: t(".blocks.initially_planned.heading"),
-                show_all_href: show_all_path(timestamps: breakdown.reference_start)
-              )
-            ) do |block|
-              block.with_count { breakdown.initially_planned.work_package_count.to_s }
-              block.with_story_points { t("backlogs.story_points", count: breakdown.initially_planned.story_points) }
-            end
-          %>
+      <%= render(Primer::Box.new(classes: "op-wp-overview--blocks", mt: 3)) do %>
+        <%=
+          render(
+            BreakdownBlock.new(
+              heading: t(".blocks.initially_planned.heading"),
+              show_all_href: show_all_path(timestamps: breakdown.reference_start)
+            )
+          ) do |block|
+            block.with_count { breakdown.initially_planned.work_package_count.to_s }
+            block.with_story_points { t("backlogs.story_points", count: breakdown.initially_planned.story_points) }
+          end
+        %>
 
-          <%=
-            render(
-              BreakdownBlock.new(
-                heading: t(".blocks.changed_after_start.heading"),
-                show_all_href: show_all_path(timestamps: [breakdown.reference_start, breakdown.reference_finish])
+        <%=
+          render(
+            BreakdownBlock.new(
+              heading: t(".blocks.changed_after_start.heading"),
+              show_all_href: show_all_path(timestamps: [breakdown.reference_start, breakdown.reference_finish])
+            )
+          ) do |block|
+            block.with_count do
+              t(
+                ".blocks.changed_after_start.count_change_html",
+                added: breakdown.changed_after_start.added_count, removed: breakdown.changed_after_start.removed_count, divider: divider_text
               )
-            ) do |block|
-              block.with_count do
-                t(
-                  ".blocks.changed_after_start.count_change_html",
-                  added: breakdown.changed_after_start.added_count, removed: breakdown.changed_after_start.removed_count, divider: divider_text
-                )
-              end
-              block.with_story_points do
-                t(
-                  ".blocks.changed_after_start.story_points_change",
-                  added: breakdown.changed_after_start.added_story_points, removed: breakdown.changed_after_start.removed_story_points
-                )
-              end
             end
-          %>
+            block.with_story_points do
+              t(
+                ".blocks.changed_after_start.story_points_change",
+                added: breakdown.changed_after_start.added_story_points, removed: breakdown.changed_after_start.removed_story_points
+              )
+            end
+          end
+        %>
 
-          <%=
-            render(
-              BreakdownBlock.new(
-                heading: t(".blocks.completed.heading"),
-                count_color: :success,
-                show_all_href: show_all_path(
-                  timestamps: [breakdown.reference_finish],
-                  status_filter_operator: "="
-                )
+        <%=
+          render(
+            BreakdownBlock.new(
+              heading: t(".blocks.completed.heading"),
+              count_color: :success,
+              show_all_href: show_all_path(
+                timestamps: [breakdown.reference_finish],
+                status_filter_operator: "="
               )
-            ) do |block|
-              block.with_count { breakdown.completed.work_package_count.to_s }
-              block.with_story_points { t("backlogs.story_points", count: breakdown.completed.story_points) }
-            end
-          %>
+            )
+          ) do |block|
+            block.with_count { breakdown.completed.work_package_count.to_s }
+            block.with_story_points { t("backlogs.story_points", count: breakdown.completed.story_points) }
+          end
+        %>
 
-          <%=
-            render(
-              BreakdownBlock.new(
-                heading: t(".blocks.unfinished.heading"),
-                count_color: :muted,
-                show_all_href: show_all_path(
-                  timestamps: [breakdown.reference_finish],
-                  status_filter_operator: "!"
-                )
+        <%=
+          render(
+            BreakdownBlock.new(
+              heading: t(".blocks.unfinished.heading"),
+              count_color: :muted,
+              show_all_href: show_all_path(
+                timestamps: [breakdown.reference_finish],
+                status_filter_operator: "!"
               )
-            ) do |block|
-              block.with_count { breakdown.unfinished.work_package_count.to_s }
-              block.with_story_points { t("backlogs.story_points", count: breakdown.unfinished.story_points) }
-            end
-          %>
-        <% end %>
+            )
+          ) do |block|
+            block.with_count { breakdown.unfinished.work_package_count.to_s }
+            block.with_story_points { t("backlogs.story_points", count: breakdown.unfinished.story_points) }
+          end
+        %>
       <% end %>
     <% end %>
   <% else %>
