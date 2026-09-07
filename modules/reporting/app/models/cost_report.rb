@@ -44,14 +44,6 @@ class CostReport < PersistedView
     view_own_cost_entries
   ].freeze
 
-  # The permissions the CostReportsController registers its view actions for.
-  VIEW_PERMISSIONS = %i[
-    view_time_entries
-    view_own_time_entries
-    view_cost_entries
-    view_own_cost_entries
-  ].freeze
-
   store_attribute :options, :pivot_rows, :json, default: []
   store_attribute :options, :pivot_columns, :json, default: []
   store_attribute :options, :unit_id, :integer

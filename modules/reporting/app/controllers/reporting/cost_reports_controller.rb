@@ -53,10 +53,6 @@ module Reporting
     # controller, so they have to be readable and not just instance variables.
     attr_accessor :cost_types, :cost_type, :unit_id
 
-    # The rendering widgets reach for these through method_missing on the
-    # controller, so they have to be readable and not just instance variables.
-    attr_accessor :cost_types, :cost_type, :unit_id
-
     helper_method :cost_types, :cost_type, :unit_id, :allowed_in_report?
 
     current_menu_item(%i[index show], &:menu_item_to_highlight_on_index)
