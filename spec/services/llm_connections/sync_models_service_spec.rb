@@ -96,8 +96,6 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
       expect(llm_model.reload.display_name).to eq("The house model")
     end
 
-    # Only the registry-backed adapters report a name; a server speaking the
-    # OpenAI API lists ids and nothing else.
     it "adopts the display name the adapter reports" do
       llm_model = connection.models.find_by(external_id: "qwen3.6-27b")
       llm_model.update!(display_name: "The house model")
