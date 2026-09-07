@@ -1,0 +1,86 @@
+name: Check AI involvement section
+
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+      - ready_for_review
+
+permissions:
+  contents: read # to fetch code (actions/checkout)
+  pull-requests: write # to comment on the PR
+
+jobs:
+  ai-involvement-check:
+    # Skip automation PRs (dependabot, copilot, the release merge PRs opened by
+    # openprojectci) as they do not fill in the PR template.
+    if: >-
+      github.event.pull_request.draft == false
+      && github.event.pull_request.user.type != 'Bot'
+      && github.event.pull_request.user.login != 'openprojectci'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the check script
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          sparse-checkout: script/ci/ai_involvement_check.sh
+          sparse-checkout-cone-mode: false
+
+      - name: Verify the AI involvement section is filled out
+        id: ai-involvement-check
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: ./script/ci/ai_involvement_check.sh
+
+      - name: Add comment if the section is missing
+        if: steps.ai-involvement-check.outputs.section_missing == 'true'
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
+        with:
+          header: ai-involvement-comment
+          message: |
+            > [!WARNING]
+            > This pull request description has no `AI involvement` section.
+
+            Please add it back from the
+            [pull request template](https://github.com/opf/openproject/blob/dev/.github/pull_request_template.md)
+            and self-assess how much AI drove this PR.
+
+      - name: Add comment if no level is stated
+        if: steps.ai-involvement-check.outputs.level_missing == 'true'
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
+        with:
+          header: ai-involvement-comment
+          message: |
+            > [!WARNING]
+            > The `AI involvement` section of this pull request is not filled out.
+
+            Please uncomment the one line that fits by deleting its surrounding `<!--` and `-->`
+            markers. If the level is `Directed` or `Autonomous`, also name the tool/model used,
+            e.g. `Claude Code (Sonnet 5)`.
+
+      - name: Add comment if multiple levels are stated
+        if: steps.ai-involvement-check.outputs.multiple_levels == 'true'
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
+        with:
+          header: ai-involvement-comment
+          message: |
+            > [!WARNING]
+            > The `AI involvement` section states more than one level:
+            > ${{ steps.ai-involvement-check.outputs.selected_levels }}
+
+            This is not multiple-choice. Please keep only the line that fits and comment out
+            or delete the others.
+
+      - name: AI involvement check passed
+        if: |
+          steps.ai-involvement-check.outputs.section_missing != 'true'
+          && steps.ai-involvement-check.outputs.level_missing != 'true'
+          && steps.ai-involvement-check.outputs.multiple_levels != 'true'
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
+        with:
+          header: ai-involvement-comment
+          delete: true
