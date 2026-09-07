@@ -29,13 +29,23 @@
 #++
 
 module Groups
-  class DeleteService < BaseServices::Delete
-    protected
+  module AncestorMembershipPropagation
+    extend ActiveSupport::Concern
 
-    def destroy(group) # rubocop:disable Naming/PredicateMethod
-      group.update_column(:status, Group.statuses[:deleted])
-      ::Principals::DeleteJob.perform_later(group)
-      true
+    private
+
+    # Inherited memberships are materialized as member_roles pointing back at the ancestor's
+    # member_role, so they have to be (re)created whenever a group's set of ancestors changes.
+    # Both the groups in the subtree and their users receive them.
+    def propagate_ancestor_memberships(group)
+      subtree = group.self_and_descendants.to_a
+      principal_ids = (subtree.flat_map(&:user_ids) + subtree.map(&:id)).uniq
+
+      group.ancestors.each do |ancestor|
+        Groups::CreateInheritedRolesService
+          .new(ancestor, current_user: user)
+          .call(user_ids: principal_ids)
+      end
     end
   end
 end
