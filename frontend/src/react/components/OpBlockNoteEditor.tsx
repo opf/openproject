@@ -58,6 +58,7 @@ export interface OpBlockNoteEditorProps {
   openProjectUrl:string;
   attachmentsUploadUrl:string;
   attachmentsCollectionKey:string;
+  projectId:string;
   captureExternalLinks:boolean;
   hocuspocusProvider?:HocuspocusProvider;
   doc:Y.Doc;
@@ -82,6 +83,7 @@ export function OpBlockNoteEditor({
   openProjectUrl,
   attachmentsUploadUrl,
   attachmentsCollectionKey,
+  projectId,
   captureExternalLinks,
   hocuspocusProvider,
   doc,
@@ -90,8 +92,8 @@ export function OpBlockNoteEditor({
   const { enabled: attachmentsEnabled, uploadFile } = useBlockNoteAttachments(attachmentsCollectionKey, attachmentsUploadUrl);
 
   useEffect(() => {
-    initializeOpBlockNoteExtensions({ baseUrl: openProjectUrl, locale: localeString });
-  }, [openProjectUrl, localeString]);
+    initializeOpBlockNoteExtensions({ baseUrl: openProjectUrl, locale: localeString, projectId });
+  }, [openProjectUrl, localeString, projectId]);
 
   const editorParams = useMemo<Partial<BlockNoteEditorOptions<typeof schema.blockSchema, typeof schema.inlineContentSchema, typeof schema.styleSchema>>>(() => {
     return {

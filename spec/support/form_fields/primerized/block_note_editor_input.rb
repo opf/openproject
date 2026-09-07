@@ -19,6 +19,15 @@ module FormFields
         send_keys(:enter)
       end
 
+      def open_create_work_package_dialog
+        send_keys_to_editor("/create")
+        send_keys(:enter)
+      end
+
+      def create_work_package_form
+        page.find("[data-testid='create-wp-modal']")
+      end
+
       def fill_in(content)
         send_keys_to_editor(content)
       end
