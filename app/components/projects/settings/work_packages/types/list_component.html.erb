@@ -82,16 +82,24 @@ See COPYRIGHT and LICENSE files for more details.
 
       <% if manageable? %>
         <% list.with_footer do %>
-          <%= render(
-                Primer::Beta::Link.new(
-                  href: add_variant_path(project_type.type),
-                  muted: true,
-                  display: :inline_flex,
-                  align_items: :center
-                )
-              ) do %>
-            <%= render(Primer::Beta::Octicon.new(icon: :plus, mr: 1)) %>
-            <%= t("projects.settings.types.add_variant") %>
+          <% if project_variants_allowed?(project_type.type) %>
+            <%= render(
+                  Primer::Beta::Link.new(
+                    href: add_variant_path(project_type.type),
+                    muted: true,
+                    display: :inline_flex,
+                    align_items: :center
+                  )
+                ) do %>
+              <%= render(Primer::Beta::Octicon.new(icon: :plus, mr: 1)) %>
+              <%= t("projects.settings.types.add_variant") %>
+            <% end %>
+          <% else %>
+            <%= render(Primer::Beta::Button.new(**disabled_add_variant_arguments(project_type.type))) do |button| %>
+              <% button.with_leading_visual_icon(icon: :plus) %>
+              <% button.with_tooltip(text: variants_not_allowed_caption, type: :description, direction: :n) %>
+              <%= t("projects.settings.types.add_variant") %>
+            <% end %>
           <% end %>
         <% end %>
       <% end %>

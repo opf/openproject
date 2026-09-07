@@ -353,6 +353,7 @@ hy:
       token/named:
         token_name: Թոքենի անվանում
       type:
+        allow_project_variants: Allow project-specific variants
         color: Գույն
         is_in_roadmap: Կանխադրված կարգով ցուցադրվում է ճանապարհային քարտեզում
         is_milestone: Հանգրվան է
@@ -361,11 +362,11 @@ hy:
       type/configuration_link:
         source: Աղբյուրի տեսակ
       type_variant:
-        attribute_groups: Form configuration
+        attribute_groups: Form
         default_work_package_description: Default text for description
         defaults_source: Defaults source
         enabled_in_new_projects: Active in new projects
-        form_configuration_source: Form configuration source
+        form_configuration_source: Form source
         patterns: Patterns
         pdf_export_source: PDF export source
         project_attributes_source: Project attributes source
@@ -845,6 +846,7 @@ hy:
             base:
               borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
               is_default_variant: The default configuration of a type cannot be deleted.
+              project_variants_not_allowed: This type does not allow creation of variants inside projects.
               restrict_dependent_destroy:
                 has_many: Cannot be deleted while projects are still using it.
             defaults_source_id:
@@ -1873,6 +1875,41 @@ hy:
         page_header:
           description: Ընտրեք դասական թվային աշխատանքային փաթեթների ID-ների և իմաստային, նախագծին հատուկ ID-ների միջև, որոնք աշխատանքային փաթեթի ID-ից առաջ ավելացնում են նախագծի նույնացուցիչը։
         success_banner: Աշխատանքային փաթեթի նույնացուցիչի ձևաչափը հաջողությամբ թարմացվել է։
+    text_transform_actions:
+      delete_dialog_component:
+        description: Users will no longer be able to run this action in the rich text editor.
+        heading: Are you sure you want to delete the action "%{label}"?
+        title: Delete text transform action
+      form:
+        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
+        label_caption: This is the name that will be visible to users in the editor.
+        select_types: Select types
+        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
+        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
+      index:
+        description: Text transform actions give users LLM-powered actions to write, organise and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
+        label_add_action: Action
+        label_aria_add_action: Add text transform action
+      index_component:
+        blank_slate:
+          description: Add an action to see it here
+          title: No text transform actions configured yet
+        disabled_warning: Text transform actions are disabled. The following actions will not be available anywhere.
+        label_disable_all: Disable all
+        label_enable_all: Enable all
+        title: Actions
+      new:
+        title: New text transform action
+      row_component:
+        label_actions: Action menu
+        label_toggle: Toggle %{label}
+        scope_specific_work_package_types:
+          one: "%{count} work package type"
+          other: "%{count} work package types"
+      usage_scopes:
+        all_work_package_types: All work package types
+        everywhere: Everywhere
+        specific_work_package_types: Specific work package types
     workflows:
       blankslate:
         description: Ավելացրեք կարգավիճակներ՝ այս դերի աշխատանքային հոսքերի կազմաձևումը սկսելու համար
@@ -2758,7 +2795,7 @@ hy:
         more_info: Նշում՝ օգտագործվող լոգոն հանրությանը հասանելի կլինի։
         title: Հատուկ գունային թեմա և լոգո
       edit_attribute_groups:
-        description: Հարմարեցրեք ձևի կազմաձևումն այս լրացուցիչ հավելումների միջոցով՝
+        description: 'Customize the form with these additional add-ons:'
         features:
           groups: Ավելացնել հատկանիշների նոր բաժիններ
           related: Ավելացնել կապակցված աշխատանքային փաթեթների աղյուսակ
@@ -3499,7 +3536,6 @@ hy:
   label_float: Տասնորդական թիվ
   label_folder: Պանակ
   label_follows: հետևում է
-  label_form_configuration: Ձևի կազմաձևում
   label_formula: Բանաձև
   label_forum_new: Նոր ֆորում
   label_forum_plural: Ֆորումներ
@@ -4344,6 +4380,7 @@ hy:
       mail_notification: Էլ. փոստի ծանուցումներ
       mails_and_notifications: Էլ. նամակներ և ծանուցումներ
       mcp_configurations: Model Context Protocol (MCP)
+      text_transform_actions: Text transform actions
     quick_add:
       label: Ավելացնել…
   more_actions: Այլ գործառույթներ
@@ -4864,7 +4901,7 @@ hy:
       caption: Աշխատանքային փաթեթի մանրամասները՝ ներկայացված որպես PMflex արտեֆակտ։
       label: PMflex արտեֆակտ
     template_attributes:
-      caption: Ընթացիկ ձևի կազմաձևման մեջ առկա բոլոր հատկանիշները՝ կանխադրված ձևանմուշի կիրառմամբ։
+      caption: All the attributes present in the current form using the default template.
       label: Հատկանիշներ և նկարագրություն
     template_contract:
       caption: Աշխատանքային փաթեթի մանրամասները՝ ձևաչափված ըստ գերմանական ստանդարտ պայմանագրի ձևի։
@@ -5282,6 +5319,7 @@ hy:
         use_in_project: Use in this project
         variant_in_use: Variant in this project
         variant_label: Variant
+        variants_not_allowed: This type does not allow creation of variants inside projects.
       versions:
         no_results_content_text: Ստեղծել նոր տարբերակ
         no_results_title_text: Ներկայումս նախագծում տարբերակներ չկան։
@@ -5476,6 +5514,7 @@ hy:
   setting_after_login_default_redirect_url_example_html: 'Նշեք կանխադրված ուղի՝ մուտքից հետո օգտատերերին վերահղելու համար, եթե հետդարձի հղում տրված չէ։ Եթե սահմանված չէ, վերահղում է գլխավոր էջ։ <br/> Օրինակ՝ %{example_code}
 
     '
+  setting_ai_text_transform_actions_enabled: Enable text transform actions
   setting_allowed_link_protocols: Թույլատրելի հղումների պրոտոկոլներ
   setting_allowed_link_protocols_text_html: Թույլատրեք այս պրոտոկոլների ցուցադրումը որպես հղումներ աշխատանքային փաթեթների նկարագրություններում, երկար տեքստային դաշտերում և մեկնաբանություններում։ Օրինակ՝ %{tel_code} կամ %{element_code}։ Մուտքագրեք մեկ պրոտոկոլ յուրաքանչյուր տողում։ <br/> %{http_code}, %{https_code} և %{mailto_code} պրոտոկոլները միշտ թույլատրված են։
   setting_antivirus_scan_action: Վարակված նիշքի հետ գործողություն
@@ -6253,7 +6292,7 @@ hy:
       steps:
         defaults: Կանխադրված արժեքներ
         details: Մանրամասներ
-        form_configuration: Ձևի կազմաձևում
+        form_configuration: Form
         pdf: PDF-ի ստեղծում
         project_attributes: Նախագծի հատկանիշներ
         projects: Նախագծեր
@@ -6283,9 +6322,11 @@ hy:
             work_package: Աշխատանքային փաթեթ
           label_with_context: "%{attribute_context}՝ %{attribute_label}"
       details:
+        allow_project_variants_caption: For project administrators with the permission to manage variants, this type can be extended or modified within a project.
         inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: Մանրամասներ
         type_color_text: Ընտրված գույնը տարբերակում է տարբեր տեսակները Գանտի գծապատկերներում կամ աշխատանքային փաթեթների աղյուսակներում։ Ուստի խորհուրդ է տրվում օգտագործել վառ գույն։
+        variant_name_caption_html: This is an internal name only visible to administrators. Variants replace the original parent type, so if this variant is used in a project, it will appear as <b>%{type}</b> to all members.
       export_configuration:
         artefact_export:
           attachment:
@@ -6324,7 +6365,7 @@ hy:
         blankslate_title: Դեռ խմբեր չկան
         builtin_field: Ներկառուցված դաշտ
         confirm_delete_group: Համոզվա՞ծ եք, որ ցանկանում եք ջնջել այս բաժինը։ Այս գործողությունը հնարավոր չէ ավտոմատ կերպով հետարկել։
-        confirm_reset: Համոզվա՞ծ եք, որ ցանկանում եք վերակայել ձևի կազմաձևումը։
+        confirm_reset: Are you sure you want to reset the form?
         custom_field: Հատուկ դաշտ
         delete_group: Ջնջել բաժինը
         drag_to_activate: Ակտիվացնելու համար քաշեք դաշտերն այստեղից
@@ -6339,21 +6380,21 @@ hy:
         group_actions: Բաժնի գործողություններ
         group_name_label: Բաժնի անվանում
         inactive_attributes_heading: Ոչ ակտիվ հատկանիշներ
-        invalid_attribute_groups: Ձևի կազմաձևման տվյալները անվավեր են։
+        invalid_attribute_groups: The form payload is invalid.
         invalid_query: Ներդրված հարցման կազմաձևումն անվավեր է։
         label_group: Բաժին
         no_inactive_attributes: Ոչ ակտիվ հատկանիշներ չկան
-        not_found: Ձևի կազմաձևման պահանջվող տարրը չհաջողվեց գտնել։
+        not_found: The requested form item could not be found.
         query_group_label: Կապակցված աշխատանքային փաթեթների աղյուսակ
         remove_attribute: Հեռացնել բաժնից
         rename_group: Վերանվանել բաժինը
         reset_description: 'Սա հատկանիշները կվերակայի դրանց կանխադրված խմբում և կանջատի ԲՈԼՈՐ հատուկ դաշտերը։
 
           '
-        reset_title: Վերակայել ձևի կազմաձևումը
+        reset_title: Reset form
         reset_to_defaults: Վերակայել ձևը
         row_actions: Տողի գործողություններ
-        tab: Ձևի կազմաձևում
+        tab: Form
         untitled_group: Անանուն խումբ
       project_attributes:
         actions:

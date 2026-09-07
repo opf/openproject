@@ -218,6 +218,15 @@ module Components
         end
       end
 
+      def close_filters
+        return unless filters_expanded?
+
+        retry_block do
+          toggle_filters_section
+          expect(page).to have_no_css(".op-filters-form.-expanded")
+        end
+      end
+
       def filters_toggle
         page.find('[data-test-selector="filter-component-toggle"]')
       end

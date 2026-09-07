@@ -353,6 +353,7 @@ es:
       token/named:
         token_name: Nombre del token
       type:
+        allow_project_variants: Allow project-specific variants
         color: Color
         is_in_roadmap: Mostrado en la hoja de ruta de forma predeterminada
         is_milestone: Es un hito
@@ -361,11 +362,11 @@ es:
       type/configuration_link:
         source: Tipo de origen
       type_variant:
-        attribute_groups: Configuración del formulario
+        attribute_groups: Form
         default_work_package_description: Texto predeterminado para descripción
         defaults_source: Fuente de los valores predeterminados
         enabled_in_new_projects: Activo en nuevos proyectos
-        form_configuration_source: Fuente de la configuración del formulario
+        form_configuration_source: Form source
         patterns: Patrones
         pdf_export_source: Fuente de exportación de PDF
         project_attributes_source: Fuente de atributos del proyecto
@@ -845,6 +846,7 @@ es:
             base:
               borrowed_by_variants: No se puede eliminar mientras %{names} esté reutilizando su configuración.
               is_default_variant: La configuración predeterminada de un tipo no se puede eliminar.
+              project_variants_not_allowed: This type does not allow creation of variants inside projects.
               restrict_dependent_destroy:
                 has_many: No se puede eliminar mientras haya proyectos que aún lo estén utilizando.
             defaults_source_id:
@@ -1875,6 +1877,41 @@ es:
         page_header:
           description: Elige entre los ID numéricos clásicos de los paquetes de trabajo o los ID semánticos específicos del proyecto, que añaden el identificador del proyecto al principio del ID del paquete de trabajo.
         success_banner: Se ha actualizado correctamente el formato del identificador del paquete de trabajo.
+    text_transform_actions:
+      delete_dialog_component:
+        description: Users will no longer be able to run this action in the rich text editor.
+        heading: Are you sure you want to delete the action "%{label}"?
+        title: Delete text transform action
+      form:
+        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
+        label_caption: This is the name that will be visible to users in the editor.
+        select_types: Select types
+        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
+        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
+      index:
+        description: Text transform actions give users LLM-powered actions to write, organise and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
+        label_add_action: Action
+        label_aria_add_action: Add text transform action
+      index_component:
+        blank_slate:
+          description: Add an action to see it here
+          title: No text transform actions configured yet
+        disabled_warning: Text transform actions are disabled. The following actions will not be available anywhere.
+        label_disable_all: Disable all
+        label_enable_all: Enable all
+        title: Actions
+      new:
+        title: New text transform action
+      row_component:
+        label_actions: Action menu
+        label_toggle: Toggle %{label}
+        scope_specific_work_package_types:
+          one: "%{count} work package type"
+          other: "%{count} work package types"
+      usage_scopes:
+        all_work_package_types: All work package types
+        everywhere: Everywhere
+        specific_work_package_types: Specific work package types
     workflows:
       blankslate:
         description: Añade estados para empezar a configurar los flujos de trabajo de este rol
@@ -2758,7 +2795,7 @@ es:
         more_info: 'Nota: El logotipo utilizado será de acceso público.'
         title: Tema de color y logotipo personalizados
       edit_attribute_groups:
-        description: 'Personalice la configuración del formulario con estas extensiones:'
+        description: 'Customize the form with these additional add-ons:'
         features:
           groups: Añadir nuevas secciones de atributos
           related: Añadir una tabla de paquetes de trabajo relacionados
@@ -3497,7 +3534,6 @@ es:
   label_float: Desprender
   label_folder: Carpeta
   label_follows: sigue
-  label_form_configuration: Configuración del formato
   label_formula: Fórmula
   label_forum_new: Foro nuevo
   label_forum_plural: Foros
@@ -4341,6 +4377,7 @@ es:
       mail_notification: Notificaciones de correo electrónico
       mails_and_notifications: Correos electrónicos y notificaciones
       mcp_configurations: Protocolo de contexto de modelo (MCP)
+      text_transform_actions: Text transform actions
     quick_add:
       label: Añadir…
   more_actions: Más funciones
@@ -4863,7 +4900,7 @@ es:
       caption: Detalles del paquete de trabajo representados como un artefacto PMflex.
       label: Artefacto PMflex
     template_attributes:
-      caption: Todos los atributos presentes en la configuración actual del formulario utilizando la plantilla por defecto.
+      caption: All the attributes present in the current form using the default template.
       label: Atributos y descripción
     template_contract:
       caption: Detalles del paquete de trabajo formateados según el formulario de contrato estándar alemán.
@@ -5281,6 +5318,7 @@ es:
         use_in_project: Use in this project
         variant_in_use: Variant in this project
         variant_label: Variant
+        variants_not_allowed: This type does not allow creation of variants inside projects.
       versions:
         no_results_content_text: Crear un nueva versión
         no_results_title_text: Actualmente no hay versiones para este proyecto.
@@ -5469,6 +5507,7 @@ es:
   setting_after_login_default_redirect_url_example_html: 'Establezca una ruta por defecto para redirigir a los usuarios tras el inicio de sesión, si no se ha proporcionado un enlace de vuelta. Redirige a la página de inicio si no se establece. <br/> Ejemplo: %{example_code}
 
     '
+  setting_ai_text_transform_actions_enabled: Enable text transform actions
   setting_allowed_link_protocols: Protocolos de enlace permitidos
   setting_allowed_link_protocols_text_html: Permita que estos protocolos se muestren como enlaces en las descripciones de los paquetes de trabajo, los campos de texto largos y los comentarios. Por ejemplo, %{tel_code} o %{element_code}. Introduzca un protocolo por línea. <br/> Los protocolos %{http_code}, %{https_code} y %{mailto_code} siempre están permitidos.
   setting_antivirus_scan_action: Acción del archivo infectado
@@ -6244,7 +6283,7 @@ es:
       steps:
         defaults: Por defecto
         details: Detalles
-        form_configuration: Configuración del formato
+        form_configuration: Form
         pdf: Generación de PDF
         project_attributes: Atributos del proyecto
         projects: Proyectos
@@ -6274,9 +6313,11 @@ es:
             work_package: Paquete de trabajo
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
+        allow_project_variants_caption: For project administrators with the permission to manage variants, this type can be extended or modified within a project.
         inherited_from_type_html: Heredado del tipo <b>%{type}</b>.
         tab: Detalles
         type_color_text: El color seleccionado distingue distintos tipos en los diagramas de Gantt o en las tablas de paquetes de trabajo. Por lo tanto, se recomienda usar un color intenso.
+        variant_name_caption_html: This is an internal name only visible to administrators. Variants replace the original parent type, so if this variant is used in a project, it will appear as <b>%{type}</b> to all members.
       export_configuration:
         artefact_export:
           attachment:
@@ -6315,7 +6356,7 @@ es:
         blankslate_title: Aún no hay grupos
         builtin_field: Campo integrado
         confirm_delete_group: "¿Seguro que quieres eliminar esta sección? Esta acción no se puede deshacer automáticamente."
-        confirm_reset: "¿Seguro que quieres restablecer la configuración del formulario?"
+        confirm_reset: Are you sure you want to reset the form?
         custom_field: Campo personalizado
         delete_group: Eliminar sección
         drag_to_activate: Arrastra campos desde aquí para activarlos
@@ -6330,21 +6371,21 @@ es:
         group_actions: Acciones de sección
         group_name_label: Nombre de la sección
         inactive_attributes_heading: Atributos inactivos
-        invalid_attribute_groups: La carga útil de la configuración del formulario no es válida.
+        invalid_attribute_groups: The form payload is invalid.
         invalid_query: La configuración de la consulta insertada no es válida.
         label_group: Sección
         no_inactive_attributes: No hay atributos inactivos
-        not_found: No se ha podido encontrar el elemento de configuración del formulario solicitado.
+        not_found: The requested form item could not be found.
         query_group_label: Tabla de paquetes de trabajo relacionados
         remove_attribute: Eliminar de la sección
         rename_group: Renombrar sección
         reset_description: 'Se restablecerán los atributos al grupo predeterminado y se deshabilitarán TODOS los campos personalizados.
 
           '
-        reset_title: Restablecer la configuración del formulario
+        reset_title: Reset form
         reset_to_defaults: Restablecer formulario
         row_actions: Acciones de fila
-        tab: Configuración del formulario
+        tab: Form
         untitled_group: Grupo sin nombre
       project_attributes:
         actions:

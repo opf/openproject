@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::WorkPackages::Filter::FilterOnTargetVersionsMixin
+module Queries::WorkPackages::Filter::FilterOnVersionsMixin
   STATUS_BY_OPERATOR = { "o" => "open", "c" => "closed", "l" => "locked" }.freeze
 
   def allowed_values
@@ -57,7 +57,7 @@ module Queries::WorkPackages::Filter::FilterOnTargetVersionsMixin
   end
 
   def where
-    target_versions_where
+    versions_where
   end
 
   def value_objects
@@ -90,40 +90,40 @@ module Queries::WorkPackages::Filter::FilterOnTargetVersionsMixin
     end
   end
 
-  def target_versions_where
+  def versions_where
     case operator
     when "!" # is not
-      "NOT (#{target_version_matching_values})"
+      "NOT (#{version_matching_values})"
     when "!*" # empty
-      "NOT (#{any_target_version_associated})"
+      "NOT (#{any_version_associated})"
     when "*" # not empty
-      any_target_version_associated
+      any_version_associated
     when "o", "c", "l" # version status
-      target_version_with_status(STATUS_BY_OPERATOR[operator])
+      version_with_status(STATUS_BY_OPERATOR[operator])
     else # "=" is (or)
-      target_version_matching_values
+      version_matching_values
     end
   end
 
-  def any_target_version_associated
-    "EXISTS (#{target_associations.select(1).to_sql})"
+  def any_version_associated
+    "EXISTS (#{version_associations.select(1).to_sql})"
   end
 
-  def target_version_matching_values
-    "EXISTS (#{target_associations.where(version_id: values).select(1).to_sql})"
+  def version_matching_values
+    "EXISTS (#{version_associations.where(version_id: values).select(1).to_sql})"
   end
 
-  def target_version_with_status(status)
-    sub = target_associations
+  def version_with_status(status)
+    sub = version_associations
             .joins(:version)
             .where(Version.table_name => { status: })
             .select(1)
     "EXISTS (#{sub.to_sql})"
   end
 
-  def target_associations
+  def version_associations
     WorkPackageVersion
-      .where(kind: "target")
+      .where(kind: version_kind)
       .where("#{WorkPackageVersion.table_name}.work_package_id = #{WorkPackage.table_name}.id")
   end
 end

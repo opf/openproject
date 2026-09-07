@@ -353,6 +353,7 @@ it:
       token/named:
         token_name: Nome del token
       type:
+        allow_project_variants: Allow project-specific variants
         color: Colore
         is_in_roadmap: Visualizzato nella tabella di marcia per impostazione predefinita
         is_milestone: È un traguardo
@@ -361,11 +362,11 @@ it:
       type/configuration_link:
         source: Tipo di origine
       type_variant:
-        attribute_groups: Configurazione del modulo
+        attribute_groups: Form
         default_work_package_description: Testo predefinito per la descrizione
         defaults_source: Origine dei valori predefiniti
         enabled_in_new_projects: Attivo nei nuovi progetti
-        form_configuration_source: Origine della configurazione del modulo
+        form_configuration_source: Form source
         patterns: Pattern
         pdf_export_source: Origine dell'esportazione PDF
         project_attributes_source: Origine degli attributi del progetto
@@ -845,6 +846,7 @@ it:
             base:
               borrowed_by_variants: Non può essere eliminata mentre la sua configurazione è riutilizzata da %{names}.
               is_default_variant: La configurazione predefinita di un tipo non può essere eliminata.
+              project_variants_not_allowed: This type does not allow creation of variants inside projects.
               restrict_dependent_destroy:
                 has_many: Non può essere eliminata mentre è ancora utilizzata da alcuni progetti.
             defaults_source_id:
@@ -1879,6 +1881,41 @@ it:
         page_header:
           description: Scegli tra ID numerici classici delle macro-attività oppure ID semantici specifici del progetto che antepongono l'identificatore del progetto all'ID della macro-attività.
         success_banner: Formato degli identificatori delle macro-attività aggiornato correttamente.
+    text_transform_actions:
+      delete_dialog_component:
+        description: Users will no longer be able to run this action in the rich text editor.
+        heading: Are you sure you want to delete the action "%{label}"?
+        title: Delete text transform action
+      form:
+        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
+        label_caption: This is the name that will be visible to users in the editor.
+        select_types: Select types
+        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
+        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
+      index:
+        description: Text transform actions give users LLM-powered actions to write, organise and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
+        label_add_action: Action
+        label_aria_add_action: Add text transform action
+      index_component:
+        blank_slate:
+          description: Add an action to see it here
+          title: No text transform actions configured yet
+        disabled_warning: Text transform actions are disabled. The following actions will not be available anywhere.
+        label_disable_all: Disable all
+        label_enable_all: Enable all
+        title: Actions
+      new:
+        title: New text transform action
+      row_component:
+        label_actions: Action menu
+        label_toggle: Toggle %{label}
+        scope_specific_work_package_types:
+          one: "%{count} work package type"
+          other: "%{count} work package types"
+      usage_scopes:
+        all_work_package_types: All work package types
+        everywhere: Everywhere
+        specific_work_package_types: Specific work package types
     workflows:
       blankslate:
         description: Aggiungi stati per iniziare a configurare i flussi di lavoro per questo ruolo
@@ -2766,7 +2803,7 @@ it:
         more_info: 'Nota: il logo utilizzato sarà accessibile al pubblico.'
         title: Tema e logo a colori personalizzati
       edit_attribute_groups:
-        description: 'Personalizza la configurazione del modulo con le seguenti aggiunte:'
+        description: 'Customize the form with these additional add-ons:'
         features:
           groups: Aggiungi nuove sezioni di attributi
           related: Aggiungi una tabella delle relative macro-attività
@@ -3505,7 +3542,6 @@ it:
   label_float: Virgola mobile
   label_folder: Cartella
   label_follows: segue
-  label_form_configuration: Configurazione del modulo
   label_formula: Formula
   label_forum_new: Nuovo forum
   label_forum_plural: Forum
@@ -4349,6 +4385,7 @@ it:
       mail_notification: Notifiche email
       mails_and_notifications: Email e notifiche
       mcp_configurations: Modello di protocollo contestuale (MCP - Model Context Protocol)
+      text_transform_actions: Text transform actions
     quick_add:
       label: Aggiungi…
   more_actions: Altre funzioni
@@ -4871,7 +4908,7 @@ it:
       caption: Dettagli della macro-attività visualizzati come artefatto PMflex.
       label: Artefatto PMflex
     template_attributes:
-      caption: Tutti gli attributi presenti nella configurazione del modulo corrente utilizzano il modello predefinito.
+      caption: All the attributes present in the current form using the default template.
       label: Attributi e descrizione
     template_contract:
       caption: Dettagli della macro-attività formattati nel modulo di contratto standard tedesco.
@@ -5289,6 +5326,7 @@ it:
         use_in_project: Use in this project
         variant_in_use: Variant in this project
         variant_label: Variant
+        variants_not_allowed: This type does not allow creation of variants inside projects.
       versions:
         no_results_content_text: Crea una nuova versione
         no_results_title_text: Al momento non esistono versioni per il progetto.
@@ -5481,6 +5519,7 @@ it:
   setting_after_login_default_redirect_url_example_html: 'Imposta un percorso predefinito per reindirizzare gli utenti dopo l''accesso, se non è stato fornito alcun link di ritorno. Reindirizza alla home page se non impostato. <br/> Esempio: %{example_code}
 
     '
+  setting_ai_text_transform_actions_enabled: Enable text transform actions
   setting_allowed_link_protocols: Protocolli di collegamento consentiti
   setting_allowed_link_protocols_text_html: Consenti che questi protocolli vengano visualizzati come link nelle descrizioni delle macro-attività, nei campi di testo lunghi e nei commenti. Ad esempio, %{tel_code} o %{element_code}. Inserisci un protocollo per riga. <br/> I protocolli %{http_code}, %{https_code} e %{mailto_code} sono sempre consentiti.
   setting_antivirus_scan_action: Azione sul file infetto
@@ -6255,7 +6294,7 @@ it:
       steps:
         defaults: Predefiniti
         details: Dettagli
-        form_configuration: Configurazione del modulo
+        form_configuration: Form
         pdf: Generazione PDF
         project_attributes: Attributi del progetto
         projects: Progetti
@@ -6285,9 +6324,11 @@ it:
             work_package: Macro-attività
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
+        allow_project_variants_caption: For project administrators with the permission to manage variants, this type can be extended or modified within a project.
         inherited_from_type_html: Ereditato dal tipo <b>%{type}</b>.
         tab: Dettagli
         type_color_text: Il colore selezionato distingue diverse tipologie nei diagrammi Gantt o nelle tabelle delle macro-attività. Si consiglia quindi di utilizzare colori forti.
+        variant_name_caption_html: This is an internal name only visible to administrators. Variants replace the original parent type, so if this variant is used in a project, it will appear as <b>%{type}</b> to all members.
       export_configuration:
         artefact_export:
           attachment:
@@ -6326,7 +6367,7 @@ it:
         blankslate_title: Ancora nessun gruppo
         builtin_field: Campo integrato
         confirm_delete_group: Vuoi davvero eliminare questa sezione? Questa azione non può essere annullata automaticamente.
-        confirm_reset: Vuoi davvero ripristinare la configurazione del modulo?
+        confirm_reset: Are you sure you want to reset the form?
         custom_field: Campo personalizzato
         delete_group: Elimina sezione
         drag_to_activate: Trascina i campi da qui per attivarli
@@ -6341,21 +6382,21 @@ it:
         group_actions: Azioni di sezione
         group_name_label: Nome sezione
         inactive_attributes_heading: Attributi inattivi
-        invalid_attribute_groups: La configurazione del modulo non è valida.
+        invalid_attribute_groups: The form payload is invalid.
         invalid_query: La configurazione della query incorporata non è valida.
         label_group: Sezione
         no_inactive_attributes: Nessun attributo inattivo
-        not_found: Impossibile trovare l'elemento della configurazione del modulo richiesto.
+        not_found: The requested form item could not be found.
         query_group_label: Tabella di macro-attività correlate
         remove_attribute: Rimuovi dalla sezione
         rename_group: Rinomina sezione
         reset_description: 'Questa operazione ripristinerà gli attributi nel gruppo predefinito e disattiverà TUTTI i campi personalizzati.
 
           '
-        reset_title: Reimposta la configurazione del modulo
+        reset_title: Reset form
         reset_to_defaults: Azzera modulo
         row_actions: Azioni sulle righe
-        tab: Configurazione del modulo
+        tab: Form
         untitled_group: Gruppo senza titolo
       project_attributes:
         actions:

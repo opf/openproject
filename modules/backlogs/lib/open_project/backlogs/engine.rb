@@ -54,6 +54,7 @@ module OpenProject::Backlogs
       project_module :backlogs, dependencies: :work_package_tracking do
         permission :view_sprints,
                    { "backlogs/backlog": %i[show details],
+                     "backlogs/filters": :show,
                      "backlogs/work_packages": %i[index show menu],
                      "backlogs/inbox": :menu,
                      "backlogs/burndown_chart": :show,

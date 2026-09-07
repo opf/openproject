@@ -511,6 +511,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
             enterprise_feature: "mcp_server",
             parent: :ai
 
+  menu.push :text_transform_actions,
+            { controller: "/admin/text_transform_actions", action: :index },
+            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.ai_text_transform_actions_active? },
+            caption: :"menus.admin.text_transform_actions",
+            parent: :ai
+
   menu.push :working_days_and_hours,
             { controller: "/admin/settings/working_days_and_hours_settings", action: :show },
             if: ->(_) { User.current.admin? },
