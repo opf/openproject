@@ -46,7 +46,7 @@ module Grids
       end
 
       def render?
-        !project.project? || project.children.exists?
+        !project.project? || project.children.visible(current_user).exists?
       end
 
       def displayed_subitems
