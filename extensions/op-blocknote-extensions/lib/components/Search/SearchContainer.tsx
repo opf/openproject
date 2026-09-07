@@ -7,15 +7,21 @@ export const SEARCH_INPUT_ID = 'op-bn-wp-search-input';
 /**
  * Popover surface for the work package search UI, overlaying the pending chip or block
  * it belongs to. Positioned by useAnchoredPopover whenever an anchor element is known.
+ *
+ * Above its anchor the surface is pinned by its bottom edge, so reversing the
+ * column grows the results upwards and leaves the input next to the anchor.
  */
 export const SearchContainer = styled.div.attrs({
   className: 'op-bn-search',
-})`
+})<{ $flipped:boolean }>`
   ${defaultWpVariables}
   position: absolute;
   z-index: ${FLOATING_Z_INDEX.search};
   top: 1.6em;
   left: 0;
+  display: flex;
+  flex-direction: ${({ $flipped }) => ($flipped ? 'column-reverse' : 'column')};
+  gap: var(--spacer-m);
   overflow: hidden;
   width: 400px;
   padding: var(--spacer-m) var(--spacer-xl);
@@ -23,6 +29,13 @@ export const SearchContainer = styled.div.attrs({
   box-shadow: var(--bn-shadow-medium);
   border-radius: var(--bn-border-radius-large);
   line-height: 1.5;
+`;
+
+export const SearchHeader = styled.div.attrs({
+  className: 'op-bn-search--header',
+})`
+  display: flex;
+  flex-direction: column;
 `;
 
 export const SearchLabel = styled.label.attrs({
@@ -68,8 +81,9 @@ export const SearchMessage = styled.div.attrs({
 `;
 
 export const DropdownList = styled.div`
-  overflow: hidden;
-  padding-top: var(--spacer-m);
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 `;
 
 export const DropdownItem = styled.div.attrs<{

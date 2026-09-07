@@ -1,6 +1,8 @@
 import { expect } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 
+export const SEARCH_PLACEHOLDER = 'Search by work package ID or subject';
+
 // Insert
 export async function openEditorAndType(text:string) {
   const editorEl = page.getByRole('textbox');
@@ -19,7 +21,7 @@ export async function insertInlineWorkPackageViaSlashMenu(searchTerm='Fix', resu
   await expect.element(page.getByText('Link existing work package').first()).toBeVisible();
   await userEvent.click(page.getByText('Link existing work package').first());
 
-  const searchInput = page.getByPlaceholder('Search by work package ID or subject');
+  const searchInput = page.getByPlaceholder(SEARCH_PLACEHOLDER);
   await expect.element(searchInput).toBeVisible();
   await userEvent.type(searchInput, searchTerm);
 
@@ -49,7 +51,7 @@ export async function openInlineWorkPackageSizeMenu(displayId = '#123') {
   await expect.element(page.getByTestId('size-menu')).toBeVisible();
 }
 
-export async function insertBlockWorkPackageViaSlashMenu(searchTerm = 'Fix', resultTerm = 'Fix login bug') {
+export async function openBlockWorkPackageSearch() {
   const editorEl = page.getByRole('textbox');
   await expect.element(editorEl).toBeVisible();
   await userEvent.click(editorEl);
@@ -58,8 +60,14 @@ export async function insertBlockWorkPackageViaSlashMenu(searchTerm = 'Fix', res
   await expect.element(page.getByText('Link existing work package').first()).toBeVisible();
   await userEvent.click(page.getByText('Link existing work package').first());
 
-  const searchInput = page.getByPlaceholder('Search by work package ID or subject');
+  const searchInput = page.getByPlaceholder(SEARCH_PLACEHOLDER);
   await expect.element(searchInput).toBeVisible();
+  return searchInput;
+}
+
+export async function insertBlockWorkPackageViaSlashMenu(searchTerm = 'Fix', resultTerm = 'Fix login bug') {
+  const searchInput = await openBlockWorkPackageSearch();
+
   await userEvent.type(searchInput, searchTerm);
   await expect.element(page.getByText(resultTerm)).toBeVisible();
   await userEvent.click(page.getByText(resultTerm));

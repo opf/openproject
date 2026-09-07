@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
+import type { ComponentProps, ReactNode } from 'react';
 import { render } from 'vitest-browser-react';
 import { page, userEvent } from 'vitest/browser';
 import { http, HttpResponse, delay } from 'msw';
@@ -10,7 +11,41 @@ import type { WorkPackage } from '../../../../lib/openProjectTypes';
 
 const renderItem = (wp:WorkPackage) => <BlockCard workPackage={wp} inDropdown />;
 
+const searchDropdown = (props:Partial<ComponentProps<typeof SearchDropdown>> = {}) => (
+  <SearchDropdown
+    onSelect={vi.fn()}
+    onCancel={vi.fn()}
+    renderItem={renderItem}
+    {...props}
+  />
+);
+
 const WORK_PACKAGES_ENDPOINT = 'http://localhost:3000/api/v3/work_packages';
+
+const SHORT_VIEWPORT_HEIGHT = 140;
+
+const ShortViewport = ({ children }:{ children:ReactNode }) => (
+  <div style={{ display: 'flex', flexDirection: 'column', height: SHORT_VIEWPORT_HEIGHT }}>
+    {children}
+  </div>
+);
+
+const manyWorkPackages = Array.from({ length: 8 }, (_, index) => ({
+  ...mockWorkPackage,
+  id: 1000 + index,
+  displayId: `${1000 + index}`,
+  subject: `Scrollable result ${index + 1}`,
+}));
+
+// Fractional row heights leave a sub-pixel overhang even when fully scrolled.
+const SUBPIXEL_TOLERANCE = 1;
+
+const isFullyInView = (list:Element, option:Element) => {
+  const listRect = list.getBoundingClientRect();
+  const optionRect = option.getBoundingClientRect();
+  return optionRect.top >= listRect.top - SUBPIXEL_TOLERANCE
+    && optionRect.bottom <= listRect.bottom + SUBPIXEL_TOLERANCE;
+};
 
 afterEach(() => {
   worker.resetHandlers();
@@ -18,9 +53,7 @@ afterEach(() => {
 
 describe('SearchDropdown', () => {
   it('shows results after typing', async () => {
-    render(
-      <SearchDropdown onSelect={vi.fn()} onCancel={vi.fn()} renderItem={renderItem} />
-    );
+    render(searchDropdown());
 
     const input = page.getByRole('searchbox');
     await userEvent.type(input, 'Fix');
@@ -32,9 +65,7 @@ describe('SearchDropdown', () => {
 
   it('calls onSelect when clicking a result', async () => {
     const onSelect = vi.fn();
-    render(
-      <SearchDropdown onSelect={onSelect} onCancel={vi.fn()} renderItem={renderItem} />
-    );
+    render(searchDropdown({ onSelect }));
 
     await userEvent.type(page.getByRole('searchbox'), 'bug');
     await expect.element(page.getByText('Fix login bug')).toBeVisible();
@@ -46,9 +77,7 @@ describe('SearchDropdown', () => {
 
   it('calls onCancel when pressing Escape', async () => {
     const onCancel = vi.fn();
-    render(
-      <SearchDropdown onSelect={vi.fn()} onCancel={onCancel} renderItem={renderItem} />
-    );
+    render(searchDropdown({ onCancel }));
 
     const input = page.getByRole('searchbox');
     await userEvent.click(input);
@@ -59,9 +88,7 @@ describe('SearchDropdown', () => {
 
   it('selects first result with Enter without pressing arrow keys', async () => {
     const onSelect = vi.fn();
-    render(
-      <SearchDropdown onSelect={onSelect} onCancel={vi.fn()} renderItem={renderItem} />
-    );
+    render(searchDropdown({ onSelect }));
 
     await userEvent.type(page.getByRole('searchbox'), 'Fix');
     await expect.element(page.getByText('Fix login bug')).toBeVisible();
@@ -75,9 +102,7 @@ describe('SearchDropdown', () => {
 
   it('navigates results with arrow keys and selects with Enter', async () => {
     const onSelect = vi.fn();
-    render(
-        <SearchDropdown onSelect={onSelect} onCancel={vi.fn()} renderItem={renderItem} />
-    );
+    render(searchDropdown({ onSelect }));
 
     await userEvent.type(page.getByRole('searchbox'), 'mode');
     await expect.element(page.getByText('Add dark mode')).toBeVisible();
@@ -90,6 +115,34 @@ describe('SearchDropdown', () => {
     );
     });
 
+  it('scrolls the focused result into view when arrow keys move past the visible ones', async () => {
+    worker.use(
+      http.get(WORK_PACKAGES_ENDPOINT, () =>
+        HttpResponse.json({ _embedded: { elements: manyWorkPackages } })
+      )
+    );
+
+    render(
+      <ShortViewport>{searchDropdown()}</ShortViewport>
+    );
+
+    await userEvent.type(page.getByRole('searchbox'), 'Scrollable');
+    await expect.element(page.getByText('Scrollable result 1')).toBeVisible();
+
+    const list = document.querySelector('[role="listbox"]')!;
+    const options = list.querySelectorAll('[role="option"]');
+    const lastOption = options[options.length - 1];
+    expect(isFullyInView(list, lastOption)).toBe(false);
+
+    await userEvent.keyboard('{ArrowDown}'.repeat(options.length - 1));
+
+    expect(isFullyInView(list, lastOption)).toBe(true);
+
+    await userEvent.keyboard('{ArrowUp}'.repeat(options.length - 1));
+
+    expect(isFullyInView(list, options[0])).toBe(true);
+  });
+
   it('shows a spinner while the search is running', async () => {
     worker.use(
       http.get(WORK_PACKAGES_ENDPOINT, async () => {
@@ -98,9 +151,7 @@ describe('SearchDropdown', () => {
       })
     );
 
-    render(
-      <SearchDropdown onSelect={vi.fn()} onCancel={vi.fn()} renderItem={renderItem} />
-    );
+    render(searchDropdown());
 
     await userEvent.type(page.getByRole('searchbox'), 'Fix');
 
@@ -118,9 +169,7 @@ describe('SearchDropdown', () => {
       )
     );
 
-    render(
-      <SearchDropdown onSelect={vi.fn()} onCancel={vi.fn()} renderItem={renderItem} />
-    );
+    render(searchDropdown());
 
     await userEvent.type(page.getByRole('searchbox'), 'nothing');
 
@@ -132,19 +181,36 @@ describe('SearchDropdown', () => {
       http.get(WORK_PACKAGES_ENDPOINT, () => HttpResponse.error())
     );
 
-    render(
-      <SearchDropdown onSelect={vi.fn()} onCancel={vi.fn()} renderItem={renderItem} />
-    );
+    render(searchDropdown());
 
     await userEvent.type(page.getByRole('searchbox'), 'Fix');
 
     await expect.element(page.getByText('Error. Unable to load content.')).toBeVisible();
   });
 
-  it('limits results to 5 items maximum', async () => {
-    render(
-      <SearchDropdown onSelect={vi.fn()} onCancel={vi.fn()} renderItem={renderItem} />
+  it('keeps the keyboard on the last shown result when the search returns more', async () => {
+    const onSelect = vi.fn();
+    worker.use(
+      http.get(WORK_PACKAGES_ENDPOINT, () =>
+        HttpResponse.json({ _embedded: { elements: manyWorkPackages } })
+      )
     );
+
+    render(searchDropdown({ onSelect }));
+
+    await userEvent.type(page.getByRole('searchbox'), 'Scrollable');
+    await expect.element(page.getByText('Scrollable result 1')).toBeVisible();
+
+    await userEvent.keyboard('{ArrowDown}'.repeat(manyWorkPackages.length));
+    await userEvent.keyboard('{Enter}');
+
+    expect(onSelect).toHaveBeenCalledExactlyOnceWith(
+      expect.objectContaining({ subject: 'Scrollable result 5' })
+    );
+  });
+
+  it('limits results to 5 items maximum', async () => {
+    render(searchDropdown());
 
     await userEvent.type(page.getByRole('searchbox'), 'any');
     await expect.element(page.getByText('Fix login bug')).toBeVisible();

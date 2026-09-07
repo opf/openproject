@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { KeyboardEvent, RefObject } from 'react';
 import type { WorkPackage } from '../openProjectTypes';
-import { useWorkPackageSearch } from './useWorkPackageSearch';
+import { MAX_SEARCH_RESULTS, useWorkPackageSearch } from './useWorkPackageSearch';
 
 interface UseWorkPackageSearchDropdownOptions {
   onSelect:(wp:WorkPackage) => void;
@@ -28,7 +28,8 @@ export function useWorkPackageSearchDropdown({
   onSelect,
   onEscape,
 }:UseWorkPackageSearchDropdownOptions):UseWorkPackageSearchDropdownResult {
-  const { searchQuery, setSearchQuery, searchResults, loading, error } = useWorkPackageSearch();
+  const { searchQuery, setSearchQuery, searchResults: allResults, loading, error } = useWorkPackageSearch();
+  const searchResults = useMemo(() => allResults.slice(0, MAX_SEARCH_RESULTS), [allResults]);
   const [focusedIndex, setFocusedIndex] = useState(-1);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 

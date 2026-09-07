@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -9,6 +9,7 @@ import {
 } from '@primer/octicons-react';
 import { wantsMotion } from '../../utils/motion';
 import { useAnchoredPopover } from '../WorkPackage/anchoredPopover';
+import { useActiveOptionInView } from '../../hooks/useActiveOptionInView';
 import type { AllowedValue, ListedValue } from './formSchema';
 import {
   ACTION_ICON_SIZE,
@@ -106,11 +107,7 @@ export const Suggestions = ({
     resizeKey: options.length,
   });
 
-  useEffect(() => {
-    listRef.current
-      ?.querySelectorAll('[role="option"], [role="treeitem"]')[focusedIndex]
-      ?.scrollIntoView({ block: 'nearest' });
-  }, [focusedIndex, options]);
+  useActiveOptionInView(listRef, focusedIndex, options);
 
   const shape = options.map((option) => option.href).join('\u0000');
 

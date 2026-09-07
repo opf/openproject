@@ -11,7 +11,7 @@ const DEFAULT_ANCHOR_OFFSET = 6;
 const CLIP_MARGIN = 8;
 const MIN_POPOVER_HEIGHT = 80;
 
-type Side = 'above' | 'below';
+export type PopoverSide = 'above' | 'below';
 
 interface VisibleRect {
   top:number;
@@ -68,12 +68,12 @@ const getSpaces = (
   anchorRect:DOMRect,
   visible:VisibleRect,
   offset:number,
-):Record<Side, number> => ({
+):Record<PopoverSide, number> => ({
   above: anchorRect.top - visible.top - offset - CLIP_MARGIN,
   below: visible.bottom - anchorRect.bottom - offset - CLIP_MARGIN,
 });
 
-const resolveSide = (preferred:Side, height:number, spaces:Record<Side, number>):Side => {
+const resolveSide = (preferred:PopoverSide, height:number, spaces:Record<PopoverSide, number>):PopoverSide => {
   if (height <= spaces[preferred]) return preferred;
 
   return spaces.above >= spaces.below ? 'above' : 'below';
@@ -89,12 +89,20 @@ const getOrigin = (popover:HTMLElement):DOMRect => {
   return popover.getBoundingClientRect();
 };
 
+const getBottomOrigin = (popover:HTMLElement):DOMRect => {
+  popover.style.top = 'auto';
+  popover.style.bottom = '0px';
+
+  return popover.getBoundingClientRect();
+};
+
 const positionPopover = (
   popover:HTMLElement,
   anchorRect:DOMRect,
-  placement:Side,
+  placement:PopoverSide,
   offset:number,
   maxHeight?:number,
+  reserveMaxHeight?:boolean,
 ) => {
   // Undo an earlier run's cap first - the side is chosen from the natural height.
   if (maxHeight !== undefined) popover.style.maxHeight = `${maxHeight}px`;
@@ -102,7 +110,8 @@ const positionPopover = (
   const origin = getOrigin(popover);
   const visible = getVisibleRect(popover);
   const spaces = getSpaces(anchorRect, visible, offset);
-  const side = resolveSide(placement, popover.offsetHeight, spaces);
+  const neededHeight = reserveMaxHeight && maxHeight !== undefined ? maxHeight : popover.offsetHeight;
+  const side = resolveSide(placement, neededHeight, spaces);
 
   if (maxHeight !== undefined) {
     const visibleHeight = Math.max(0, visible.bottom - visible.top - CLIP_MARGIN * 2);
@@ -122,16 +131,24 @@ const positionPopover = (
   const top = clamp(anchoredTop, visible.top + CLIP_MARGIN, visible.bottom - height - CLIP_MARGIN);
 
   popover.style.left = `${left - origin.left}px`;
-  popover.style.top = `${top - origin.top}px`;
+
+  if (side === 'above') {
+    popover.style.bottom = `${getBottomOrigin(popover).bottom - (top + height)}px`;
+  } else {
+    popover.style.top = `${top - origin.top}px`;
+  }
+
+  return side;
 };
 
 export interface AnchoredPopoverOptions {
   anchorEl?:HTMLElement | null;
   popoverRef:RefObject<HTMLElement | null>;
-  placement:'above' | 'below';
+  placement:PopoverSide;
   offset?:number;
   matchAnchorWidth?:boolean;
   maxHeight?:number;
+  reserveMaxHeight?:boolean;
   // Any value that changes when the content changes size.
   resizeKey?:unknown;
 }
@@ -143,11 +160,13 @@ export const useAnchoredPopover = ({
   offset = DEFAULT_ANCHOR_OFFSET,
   matchAnchorWidth = false,
   maxHeight,
+  reserveMaxHeight,
   resizeKey,
 }:AnchoredPopoverOptions) => {
   const [anchorRect, setAnchorRect] = useState<DOMRect | null>(
     () => (anchorEl ? getAnchorRect(anchorEl) : null)
   );
+  const [side, setSide] = useState<PopoverSide>(placement);
 
   useEffect(() => {
     if (!anchorEl) return;
@@ -193,8 +212,10 @@ export const useAnchoredPopover = ({
 
     if (matchAnchorWidth) popover.style.width = `${anchorRect.width}px`;
 
-    positionPopover(popover, anchorRect, placement, offset, maxHeight);
-  }, [anchorRect, placement, offset, popoverRef, matchAnchorWidth, maxHeight, resizeKey]);
+    setSide(positionPopover(popover, anchorRect, placement, offset, maxHeight, reserveMaxHeight));
+  }, [anchorRect, placement, offset, popoverRef, matchAnchorWidth, maxHeight, reserveMaxHeight, resizeKey]);
+
+  return { side };
 };
 
 export const PopoverPortal = ({

@@ -4,16 +4,17 @@ import { SearchIcon } from '@primer/octicons-react';
 import styled from 'styled-components';
 import type { WorkPackage } from '../../openProjectTypes';
 import { useWorkPackageSearchDropdown } from '../../hooks/useWorkPackageSearchDropdown';
+import { useActiveOptionInView } from '../../hooks/useActiveOptionInView';
 import {
   SearchIconWrapper,
   SearchInput,
+  SearchHeader,
+  SearchLabel,
   SearchMessage,
   DropdownList,
   DropdownItem,
 } from './SearchContainer';
 import { Spinner } from '../Spinner';
-
-const MAX_RESULTS = 5;
 
 interface SearchDropdownProps {
   onSelect:(wp:WorkPackage) => void;
@@ -53,6 +54,7 @@ const SearchInputWithIcon = styled(SearchInput)`
 export const SearchDropdown = ({ onSelect, onCancel, autoFocus, renderItem }:SearchDropdownProps) => {
   const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
   const blurTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
@@ -84,57 +86,63 @@ export const SearchDropdown = ({ onSelect, onCancel, autoFocus, renderItem }:Sea
     onEscape: onCancel ?? (() => undefined),
   });
 
+  useActiveOptionInView(listRef, focusedIndex, searchResults);
+
   return (
     <>
-      <SearchInputWrapper>
-        <SearchIconWrapper>
-          <SearchIcon size={16} />
-        </SearchIconWrapper>
+      <SearchHeader>
+        <SearchLabel>{t('search.label')}</SearchLabel>
 
-        <SearchInputWithIcon
-          ref={inputRef}
-          type="search"
-          autoComplete="off"
-          spellCheck={false}
-          placeholder={t('search.placeholder')}
-          value={searchQuery}
-          onChange={(e) => {
-            setSearchQuery(e.target.value);
-            setIsDropdownOpen(e.target.value.length > 0);
-          }}
-          onKeyDown={(e) => {
-            e.stopPropagation();
-            handleKeyDown(e);
-          }}
-          onBlur={() => {
-            // Delay to allow onMouseDown on dropdown items to fire before blur.
-            // Without this, clicking a result closes the dropdown before onSelect is called.
-            blurTimerRef.current = setTimeout(() => {
-              if (isSelectingRef.current) {
-                isSelectingRef.current = false;
-                return;
-              }
-              onCancel?.();
-            }, 150);
-          }}
-        />
-
-        {loading && (
+        <SearchInputWrapper>
           <SearchIconWrapper>
-            <Spinner />
+            <SearchIcon size={16} />
           </SearchIconWrapper>
-        )}
-      </SearchInputWrapper>
+
+          <SearchInputWithIcon
+            ref={inputRef}
+            type="search"
+            autoComplete="off"
+            spellCheck={false}
+            placeholder={t('search.placeholder')}
+            value={searchQuery}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+              setIsDropdownOpen(e.target.value.length > 0);
+            }}
+            onKeyDown={(e) => {
+              e.stopPropagation();
+              handleKeyDown(e);
+            }}
+            onBlur={() => {
+              // Delay to allow onMouseDown on dropdown items to fire before blur.
+              // Without this, clicking a result closes the dropdown before onSelect is called.
+              blurTimerRef.current = setTimeout(() => {
+                if (isSelectingRef.current) {
+                  isSelectingRef.current = false;
+                  return;
+                }
+                onCancel?.();
+              }, 150);
+            }}
+          />
+
+          {loading && (
+            <SearchIconWrapper>
+              <Spinner />
+            </SearchIconWrapper>
+          )}
+        </SearchInputWrapper>
+      </SearchHeader>
 
       {isDropdownOpen && !loading && searchResults.length === 0 && (
         <SearchMessage>{error ? t('search.error') : t('search.noResults')}</SearchMessage>
       )}
 
       {isDropdownOpen && searchResults.length > 0 && (
-        <DropdownList role="listbox" aria-label={t('search.dropdownAriaLabel')}>
-          {searchResults.slice(0, MAX_RESULTS).map((wp, index) => (
+        <DropdownList ref={listRef} role="listbox" aria-label={t('search.dropdownAriaLabel')}>
+          {searchResults.map((wp, index) => (
             <DropdownItem
-              role="option" 
+              role="option"
               aria-selected={focusedIndex === index}
               key={wp.id}
               $selected={focusedIndex === index}

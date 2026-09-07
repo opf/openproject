@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useRef } from 'react';
-import { useWorkPackageSearch } from '../../hooks/useWorkPackageSearch';
+import { MAX_SEARCH_RESULTS, useWorkPackageSearch } from '../../hooks/useWorkPackageSearch';
 import { createHashWpMenuComponent } from './HashWpMenu';
 import { isHashWpQuery } from './types';
 import { getSizeFromCurrentBlock, insertWpChip, restoreHashQuery } from './editorUtils';
@@ -34,7 +34,7 @@ export function useHashWpMenu(editor:AnyEditor) {
       await cacheColors();
 
       try {
-        const results = await search(query);
+        const results = (await search(query)).slice(0, MAX_SEARCH_RESULTS);
 
         if (latestQueryRef.current !== query) return [];
         searchStateRef.current = { query, results, error: null };
