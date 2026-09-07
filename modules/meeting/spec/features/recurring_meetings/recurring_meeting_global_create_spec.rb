@@ -65,6 +65,8 @@ RSpec.describe "Recurring meetings global creation",
         meetings_page.click_on "Recurring"
       end
 
+      meetings_page.set_starts_on Time.zone.tomorrow.iso8601
+      meetings_page.set_start_time "10:00"
       meetings_page.set_project project
       meetings_page.click_create(wait_for: false)
 
@@ -91,6 +93,8 @@ RSpec.describe "Recurring meetings global creation",
         meetings_page.click_on "Recurring"
       end
 
+      meetings_page.set_starts_on Time.zone.tomorrow.iso8601
+      meetings_page.set_start_time "10:00"
       meetings_page.set_title "Some title"
       meetings_page.click_create(wait_for: false)
 

@@ -341,7 +341,7 @@ RSpec.describe "history",
 
     within("li.op-activity-list--item", match: :first) do
       expect(page).to have_css("li", text: "Notes set")
-      click_link_or_button "Details"
+      visit find_link("Details")[:href]
     end
 
     expect(page).to have_current_path(/\/journals\/\d+\/diff\/agenda_items_\d+_notes/, wait: 10)

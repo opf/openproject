@@ -78,6 +78,8 @@ module Pages::Meetings
     end
 
     def click_create(wait_for: :turbo)
+      wait_for_size_animation_completion("#new-meeting-dialog", wait: 20)
+
       action = proc do
         within "#new-meeting-dialog" do
           click_on "Create meeting"
@@ -95,7 +97,7 @@ module Pages::Meetings
                  raise ArgumentError, "Unsupported wait target: #{wait_for.inspect}"
                end
 
-      waiter.call(&action)
+      waiter.call(wait: 20, &action)
     end
 
     def expect_no_main_menu
@@ -187,7 +189,7 @@ module Pages::Meetings
     def expect_no_meetings_listed
       within "#content-wrapper" do
         expect(page)
-          .to have_content I18n.t("meeting.blankslate.title")
+          .to have_text I18n.t("meeting.blankslate.title")
       end
     end
 

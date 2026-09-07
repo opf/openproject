@@ -77,22 +77,21 @@ RSpec.describe "Moving a work package through Rails view", :js do
 
     context "with permission" do
       before do
-        expect(child_wp.project_id).to eq(project.id)
+        raise "Child work package is in the wrong project" unless child_wp.project_id == project.id
 
         context_menu.open_for work_package
         context_menu.choose "Move to another project"
 
         # On work packages move page
-        expect(page).to have_css("#new_project_id")
-        select_autocomplete page.find_test_selector("new_project_id"),
-                            query: "Target",
-                            select_text: "Target",
-                            results_selector: "body"
-        if using_cuprite?
-          wait_for_network_idle
-        else
-          SeleniumHubWaiter.wait
+        find_by_id("new_project_id")
+        project_autocompleter = -> { page.find_test_selector("new_project_id") }
+        wait_for_turbo_stream(wait: 20) do
+          select_autocomplete project_autocompleter,
+                              query: "Target",
+                              select_text: "Target",
+                              results_selector: "body"
         end
+        expect_current_autocompleter_value(project_autocompleter, "Target")
       end
 
       context "when the limit to move in the frontend is 1",
@@ -160,16 +159,12 @@ RSpec.describe "Moving a work package through Rails view", :js do
         let!(:project2) { create(:project, name: "Target", types: [type2], work_package_custom_fields: [required_cf]) }
 
         it "does not moves the work package when the required field is missing" do
-          select "Risk", from: "Type"
+          wait_for_turbo_stream(wait: 20) { select "Risk", from: "Type" }
           expect(page).to have_field(required_cf.name)
-          project_autocompleter = find_test_selector("new_project_id")
+          project_autocompleter = -> { find_test_selector("new_project_id") }
           expect_current_autocompleter_value(project_autocompleter, "Target")
 
-          # Clicking move and follow might be broken due to the location.href
-          # in the refresh-on-form-changes component
-          retry_block do
-            click_on "Move and follow"
-          end
+          click_on "Move and follow"
 
           expect_flash type: :error, message: I18n.t(:"work_packages.bulk.none_could_be_saved", total: 1)
           child_wp.reload
@@ -250,7 +245,13 @@ RSpec.describe "Moving a work package through Rails view", :js do
                           query: project2.name,
                           select_text: project2.name,
                           results_selector: "body"
-      click_on "Move and follow"
+
+      move_path = page.current_path
+      move_button = find_button("Move and follow")
+      page.execute_script("arguments[0].click()", move_button)
+      page.document.synchronize(30) do
+        raise Capybara::ElementNotFound if page.current_path == move_path
+      end
     end
 
     it "displays an error message explaining which work package could not be moved and why" do

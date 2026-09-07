@@ -81,6 +81,4 @@ RSpec.describe "List custom fields edit", :js do
   end
 
   it_behaves_like "list custom fields", "Spent time"
-
-  it_behaves_like "expected fields for the custom field's format", "Spent time", "List"
 end

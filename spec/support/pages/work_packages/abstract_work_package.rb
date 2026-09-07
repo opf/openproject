@@ -65,7 +65,11 @@ module Pages
     end
 
     def switch_to_tab(tab:)
-      find(".op-tab-row--link", text: tab.upcase).click
+      page.document.synchronize(20) do
+        link = find(".op-tab-row--link", text: tab.upcase, wait: 0)
+        link.click unless link.matches_css?(".op-tab-row--link_selected", wait: 0)
+        find(".op-tab-row--link_selected", text: tab.upcase, wait: 0)
+      end
     end
 
     def expect_tab(tab)
@@ -119,7 +123,7 @@ module Pages
 
     def expect_subject
       page.within(container) do
-        expect(page).to have_content(work_package.subject)
+        expect(page).to have_text(work_package.subject)
       end
     end
 
@@ -130,10 +134,7 @@ module Pages
     def ensure_page_loaded
       expect_angular_frontend_initialized
 
-      # wait for work packages page to be visible and have content in it
-      has_selector?(".work-packages-page--ui-view div")
-      # wait for content loader to disappear (in the activity tab)
-      has_no_selector?("content-loader", wait: 10)
+      expect(page).to have_no_selector("content-loader", wait: 10)
 
       nil
     end
@@ -167,7 +168,7 @@ module Pages
     end
 
     def expect_no_attribute(label)
-      expect(page).to have_no_css(".inline-edit--container.#{label.downcase}")
+      expect(page).to have_no_css(".inline-edit--container.#{label.to_s.camelize(:lower)}")
     end
 
     alias :expect_attribute_hidden :expect_no_attribute
@@ -238,25 +239,27 @@ module Pages
     end
 
     def work_package_field(key)
+      field_context = -> { container }
+
       case key
       when /customField(\d+)$/
         work_package_custom_field(key, $1)
       when :date, :startDate, :dueDate, :combinedDate
-        DateEditField.new -> { container }, key, is_milestone: work_package&.milestone?
+        DateEditField.new field_context, key, is_milestone: work_package&.milestone?
       when :estimatedTime, :remainingTime, :percentageDone, :statusWithinProgressModal
-        ProgressEditField.new container, key, create_form: create_page?
+        ProgressEditField.new field_context, key, create_form: create_page?
       when :description
-        TextEditorField.new container, key
+        TextEditorField.new field_context, key
         # The AbstractWorkPackageCreate pages do not require a special WorkPackageStatusField,
         # because the status field on the create pages is a simple EditField.
       when :status
         if create_page?
-          EditField.new container, key, create_form: true
+          EditField.new field_context, key, create_form: true
         else
-          WorkPackageStatusField.new container
+          WorkPackageStatusField.new field_context
         end
       else
-        EditField.new container, key, create_form: create_page?
+        EditField.new field_context, key, create_form: create_page?
       end
     end
 
@@ -264,9 +267,9 @@ module Pages
       cf = CustomField.find id
 
       if cf.field_format == "text"
-        TextEditorField.new container, key
+        TextEditorField.new -> { container }, key
       else
-        EditField.new container, key
+        EditField.new -> { container }, key
       end
     end
 
@@ -310,9 +313,11 @@ module Pages
     end
 
     def click_create_wp_button(type)
-      find(".add-work-package:not([disabled])", text: "Create").click
+      expect_angular_frontend_initialized
+      button = find(".add-work-package:not([disabled])", text: "Create")
+      page.execute_script("arguments[0].click()", button)
 
-      find("#types-context-menu .menu-item", text: type.name.upcase, wait: 10).click
+      find("#types-context-menu .menu-item", text: type.name.upcase, wait: 30).click
     end
 
     def subject_field

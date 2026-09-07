@@ -64,6 +64,8 @@ export default class OpRecurringMeetingsFormController extends OpMeetingsFormCon
             Accept: 'text/vnd.turbo-stream.html',
           },
         },
+        false,
+        'recurring-meeting-humanize-schedule',
       );
   }
 

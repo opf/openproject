@@ -121,24 +121,30 @@ module Components
     ##
     # Create an image fixture with the optional caption from inside the ckeditor
     def drag_attachment(image_fixture, caption = "Some caption", scroll: true)
-      in_editor do |_container, editable|
+      in_editor do |_container, _editable|
         # Click the latest figure, if any
         # Do not wait more than 1 second to check if there is an image
-        images = editable.all("figure.image", wait: 1)
-        if images.any?
-          images.last.click
+        page.document.synchronize do
+          images = editor_element.all("figure.image", wait: 1)
+          if images.any?
+            images.last.click
 
-          # Click the "move below figure" button
-          selected = page.all(".ck-widget_selected .ck-widget__type-around__button_after")
-          selected.first&.click
+            # Click the "move below figure" button
+            selected = page.all(".ck-widget_selected .ck-widget__type-around__button_after")
+            selected.first&.click
+          end
         end
 
-        editable.base.send_keys(:enter, "some text", :enter, :enter)
+        image_count = editor_element.all('img[src^="/api/v3/attachments/"]').length
 
-        attachments.drag_and_drop_file(editable, image_fixture, :bottom, scroll:)
+        page.document.synchronize do
+          editor_element.base.send_keys(:enter, "some text", :enter, :enter)
+        end
+
+        attachments.drag_and_drop_file(editor_element, image_fixture, :bottom, scroll:)
 
         expect(page)
-            .to have_css('img[src^="/api/v3/attachments/"]', count: images.length + 1, wait: 10)
+            .to have_css('img[src^="/api/v3/attachments/"]', count: image_count + 1, wait: 10)
 
         wait_until_upload_progress_toaster_cleared
 
@@ -146,12 +152,11 @@ module Components
         # two uploaded images, from the perspective of the user, we do it by getting
         # the id of the attachment uploaded last.
         last_id = Attachment.last.id
-        image = find("img[src^=\"/api/v3/attachments/#{last_id}\"]")
-        # Besides testing caption functionality this also slows down clicking on the submit button
-        # so that the image is properly embedded
-        figure = image.find(:xpath, "../..")
 
         retry_block do
+          image = find("img[src^=\"/api/v3/attachments/#{last_id}\"]")
+          figure = image.find(:xpath, "../..")
+
           # Toggle caption with button since newer version of ckeditor
           click_hover_toolbar_button "Toggle caption on"
 
@@ -159,7 +164,6 @@ module Components
           @figure_find = figure.find("figcaption")
           figcaption = @figure_find
           figcaption.click
-          sleep(0.2)
           figcaption.send_keys(caption)
 
           # Expect caption set
@@ -197,15 +201,13 @@ module Components
 
     def type_slowly(*)
       editor_element.send_keys(*)
-      sleep 0.2
     end
 
     def click_and_type_slowly(*)
-      sleep 0.2
-      editor_element.click
-
-      sleep 0.2
-      type_slowly(*)
+      editor = editor_element
+      editor.click
+      expect(editor).to match_css(":focus", wait: 10)
+      editor.send_keys(*)
     end
 
     def click_hover_toolbar_button(label)

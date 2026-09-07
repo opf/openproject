@@ -263,7 +263,6 @@ RSpec.describe "Progress modal", :js do
           # The modal does not go away when clicking Save until all fields are valid
           3.times do
             progress_popover.save
-            sleep 0.2
             progress_popover.expect_errors(work: "Is not a valid duration.")
           end
           progress_popover.set_values(work: "10h")

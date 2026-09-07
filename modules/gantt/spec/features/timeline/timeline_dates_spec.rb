@@ -30,7 +30,6 @@ require "spec_helper"
 
 RSpec.describe "Work package timeline date formatting",
                :js,
-               :selenium,
                with_settings: { date_format: "%Y-%m-%d" } do
   shared_let(:type) { create(:type_bug, color: create(:color_green)) }
   shared_let(:project) { create(:project, types: [type], enabled_module_names: %i[work_package_tracking gantt]) }
@@ -133,8 +132,7 @@ RSpec.describe "Work package timeline date formatting",
     end
 
     it "shows english ISO dates" do
-      expect(page).to have_css(".wp-timeline--header-element", text: "01")
-      expect(page).to have_css(".wp-timeline--header-element", text: "02")
+      expect(page).to have_css(".wp-timeline--header-element")
 
       # The last weekday determines whether there are 52 or 53 weeks
       # Only if the last day in the year is exactly the day before the day configured to be
@@ -146,8 +144,15 @@ RSpec.describe "Work package timeline date formatting",
                           53
                         end
 
-      expect(page).to have_css(".wp-timeline--header-element", text: number_of_weeks)
-      expect(page).to have_no_css(".wp-timeline--header-element", text: number_of_weeks + 1)
+      header_texts = page.evaluate_script(<<~JS)
+        Array.from(
+          document.querySelectorAll('.wp-timeline--header-element'),
+          (element) => element.textContent.trim()
+        )
+      JS
+
+      expect(header_texts).to include("01", "02", number_of_weeks.to_s)
+      expect(header_texts).not_to include((number_of_weeks + 1).to_s)
 
       # expect moment to return week 01 for start date and due date
       expect_date_week work_package.start_date.iso8601, "01"

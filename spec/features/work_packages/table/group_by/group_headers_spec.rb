@@ -49,6 +49,7 @@ RSpec.describe "Work Package table group headers", :js do
     cat.set_value "Foo"
 
     loading_indicator_saveguard
+    wp_table.edit_field(wp_none, :category).expect_state_text "Foo"
 
     # Expect changed groups
     group_by.expect_number_of_groups 2

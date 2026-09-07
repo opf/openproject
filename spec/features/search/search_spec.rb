@@ -488,12 +488,12 @@ RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
     it "highlights last note" do
       visit search_path(q: "note", scope: "all")
 
-      within("dt.work_package-note + dd") do
+      within("#search-results dt + dd") do
         expect(page).to have_css(".description", text: note_two.notes)
       end
 
       # links to work package with anchor to highlighted note
-      within("dt.work_package-note") do
+      within("#search-results dt") do
         expect(page).to have_link(href: work_package_path(work_package, anchor: "note-2"))
       end
     end
@@ -505,6 +505,8 @@ RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
 
     subject do
       search_in_global_scope(query)
+      page.find("body").send_keys(:escape)
+      expect(page).to have_no_css(".global-search .ng-dropdown-panel", visible: :visible)
 
       within_test_selector("search-tabs") do
         click_on "Projects"

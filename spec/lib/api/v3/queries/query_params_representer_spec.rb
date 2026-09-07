@@ -23,14 +23,36 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require "spec_helper"
-require_relative "format_field_expectations"
+require "rails_helper"
 
-RSpec.describe "users long text custom fields", :js do
-  it_behaves_like "expected fields for the User custom field's format", "Long text"
+RSpec.describe API::V3::Queries::QueryParamsRepresenter do
+  subject(:params) { described_class.new(query).to_h }
+
+  let(:query) do
+    instance_double(
+      Query,
+      display_sums?: true,
+      filters: [],
+      group_by: "project",
+      group_by?: true,
+      has_default_columns?: true,
+      include_subprojects: true,
+      ordered?: false,
+      show_hierarchies: true
+    )
+  end
+
+  it "serializes the query display options used by exports" do
+    expect(params).to include(
+      includeSubprojects: true,
+      showHierarchies: true,
+      showSums: true,
+      groupBy: "project"
+    )
+  end
 end

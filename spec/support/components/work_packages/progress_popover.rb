@@ -36,6 +36,7 @@ module Components
       include Capybara::DSL
       include Capybara::RSpecMatchers
       include RSpec::Matchers
+      include WaitHelpers
 
       # include Toasts::Expectations
 
@@ -80,12 +81,15 @@ module Components
       end
 
       def open_by_clicking_on_field(field_name)
-        field(field_name).activate!
-        wait_for_network_idle # Wait for initial loading to be ready
+        wait_for_turbo_frame(frame: ProgressEditField::MODAL_SELECTOR.delete_prefix("#"), wait: 20) do
+          field(field_name).activate!
+        end
       end
 
       def close
-        field(:work).close!
+        progress_field = field(:work)
+        progress_field.close!
+        progress_field.expect_inactive!
       end
 
       def save

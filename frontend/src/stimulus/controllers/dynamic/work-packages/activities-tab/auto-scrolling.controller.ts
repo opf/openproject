@@ -117,8 +117,10 @@ export default class AutoScrollingController extends BaseController {
       // Your own comment streams in and keeps growing like a polled one, so follow
       // it while it settles rather than scrolling once the keyboard is down.
       this.keepInputInViewWhileSettling(SUBMIT_KEYBOARD_DISMISS_MS);
+    } else if (this.indexOutlet.sortingAscending) {
+      this.keepScrolledToBottomWhileSettling();
     } else {
-      this.scrollJournalContainer(this.indexOutlet.sortingAscending, true);
+      this.scrollJournalContainer(false, true);
     }
   }
 

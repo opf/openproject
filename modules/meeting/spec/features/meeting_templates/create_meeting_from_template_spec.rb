@@ -189,11 +189,12 @@ RSpec.describe "Create meeting from template", :js do
         meetings_page.click_on "One-time"
 
         within_dialog "New one-time meeting" do
-          ng_click_autocompleter(find('[data-test-selector="template_id"]'))
+          autocomplete = -> { find('[data-test-selector="template_id"]') }
+          ng_click_autocompleter(autocomplete)
+          dropdown = ng_find_dropdown(autocomplete, results_selector: "body")
 
-          expect(page).to have_text("Current project template")
-
-          expect(page).to have_no_text("Other project template")
+          expect(dropdown).to have_css(".ng-option", text: "Current project template", wait: 20)
+          expect(dropdown).to have_no_css(".ng-option", text: "Other project template")
         end
       end
     end

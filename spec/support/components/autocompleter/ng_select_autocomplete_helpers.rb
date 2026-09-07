@@ -11,7 +11,7 @@ module Components::Autocompleter
       SeleniumHubWaiter.wait unless using_cuprite?
 
       # Wait for dropdown to open
-      dropdown_open = ng_dropdown_open?(resolve_autocomplete(element)) if wait_dropdown_open
+      dropdown_open = ng_dropdown_open?(element) if wait_dropdown_open
       ng_click_autocompleter(element) unless dropdown_open
       ng_find_dropdown(resolve_autocomplete(element), results_selector:) if wait_dropdown_open
 
@@ -33,9 +33,11 @@ module Components::Autocompleter
       sleep(0.5) unless using_cuprite?
 
       # Find the open dropdown
-      dropdown_list = ng_find_dropdown(resolve_autocomplete(element), results_selector:)
-      scroll_to_element(dropdown_list)
-      dropdown_list
+      page.document.synchronize do
+        dropdown_list = ng_find_dropdown(resolve_autocomplete(element), results_selector:)
+        scroll_to_element(dropdown_list)
+        dropdown_list
+      end
     end
 
     def ng_click_autocompleter(target)
@@ -66,13 +68,16 @@ module Components::Autocompleter
     end
 
     def ng_dropdown_open?(element)
-      element["class"].to_s.split.include?("ng-select-opened") ||
-        element.has_css?("ng-select.ng-select-opened", wait: 0)
+      page.document.synchronize do
+        current_element = resolve_autocomplete(element)
+        current_element["class"].to_s.split.include?("ng-select-opened") ||
+          current_element.has_css?("ng-select.ng-select-opened", wait: 0)
+      end
     end
 
     def expect_ng_option(element, option, grouping: nil, results_selector: "body", present: true)
-      within(ng_find_dropdown(element, results_selector:)) do
-        if grouping && present
+      if grouping && present
+        within(ng_find_dropdown(element, results_selector:)) do
           # Make sure the option is displayed under correct grouping title.
           option_group = find(".ng-optgroup", text: grouping)
           option = find(".ng-option.ng-option-child", text: option, visible: :visible)
@@ -89,9 +94,15 @@ module Components::Autocompleter
             Expected the option '#{option.text}' to be under the group '#{option_group.text}',
             but it was under '#{expected_group.text}' instead.
           MSG
-        else
-          expect(page).to have_conditional_selector(present, ".ng-option", text: option)
         end
+      else
+        dropdown_selector = results_selector == "body" ? "body .ng-dropdown-panel" : results_selector
+        expect(page.document).to have_conditional_selector(
+          present,
+          "#{dropdown_selector} .ng-option",
+          text: option,
+          wait: 20
+        )
       end
     end
 
@@ -110,7 +121,7 @@ module Components::Autocompleter
     ##
     # Insert the query, typing
     def ng_enter_query(element, query, wait_for_fetched_options: true)
-      input = element.find("input[type=text]", visible: :all).native
+      input = ng_select_input(element).native
       if using_cuprite?
         clear_input_field_contents(input)
       else
@@ -172,12 +183,21 @@ module Components::Autocompleter
       ##
       # If a specific select_text is given, use that to locate the match,
       # otherwise use the query
-      text = select_text.presence || query
+      text = (select_text.presence || query).to_s
+      dropdown_selector = results_selector == "body" ? "body .ng-dropdown-panel" : results_selector
 
       page.document.synchronize do
-        ng_find_dropdown(resolve_autocomplete(element), results_selector:)
-          .first(".ng-option", text:, wait: 15)
-          .click
+        clicked = page.evaluate_script(<<~JS, "#{dropdown_selector} .ng-option", text)
+          ((selector, expectedText) => {
+          const normalize = (value) => String(value).replace(/\s+/g, ' ').trim();
+          const option = Array.from(document.querySelectorAll(selector)).find((element) =>
+            element.getClientRects().length > 0 && normalize(element.innerText).includes(normalize(expectedText))
+          );
+          option?.click();
+          return Boolean(option);
+          })(arguments[0], arguments[1])
+        JS
+        raise Capybara::ElementNotFound unless clicked
       end
     end
 
@@ -192,7 +212,7 @@ module Components::Autocompleter
     end
 
     def expect_current_autocompleter_value(element, value)
-      expect(element).to have_css(".ng-value .ng-value-label", text: value, wait: 10)
+      expect(resolve_autocomplete(element)).to have_css(".ng-value .ng-value-label", text: value, wait: 10)
     end
 
     # Checks for the currently visible, expanded user auto completer to contain the provided options.

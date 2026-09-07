@@ -4,6 +4,7 @@ class EditField
   include Capybara::DSL
   include Capybara::RSpecMatchers
   include RSpec::Matchers
+  include WaitHelpers
   include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
   attr_reader :property_name,
@@ -107,24 +108,25 @@ class EditField
   # Activate the field and check it opened correctly
   # @return [EditField] self
   def activate!(expect_open: true)
-    retry_block(args: { tries: 2 }) do
-      unless active?
-        SeleniumHubWaiter.wait unless using_cuprite?
-        scroll_to_and_click(block: :nearest) { display_trigger_element }
-        SeleniumHubWaiter.wait unless using_cuprite?
-      end
-
-      if expect_open && !active?
-        raise "Expected field for attribute '#{property_name}' to be active."
-      end
-
-      self
+    unless active?
+      wait_for_network_idle if using_cuprite?
+      SeleniumHubWaiter.wait unless using_cuprite?
+      scroll_to_and_click(block: :nearest) { display_trigger_element }
+      SeleniumHubWaiter.wait unless using_cuprite?
     end
+
+    if expect_open
+      expect_active!
+      wait_for_network_idle
+    end
+
+    self
   end
 
   alias :activate_edition :activate!
 
   def openSelectField
+    expect_enabled!
     autocomplete_selector.click
     wait_for_network_idle
   end
@@ -152,8 +154,8 @@ class EditField
 
   def expect_active!
     expect(context)
-      .to have_css("#{@selector} #{field_type}", wait: 10),
-          "Expected field input type '#{field_type}' for attribute '#{property_name}'."
+      .to have_css("#{@selector} #{input_selector}", wait: 30),
+          "Expected field for attribute '#{property_name}' to be active."
 
     # Also ensure the element is not disabled
     expect_enabled!
@@ -167,6 +169,7 @@ class EditField
 
   def expect_enabled!
     expect(context).to have_no_css "#{@selector} #{input_selector}[disabled]", wait: 10
+    expect(context).to have_no_css "#{@selector} ng-select.ng-select-disabled", wait: 10
   end
 
   def expect_invalid

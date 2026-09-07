@@ -80,16 +80,16 @@ module Components
       time_logging_modal.change_hours(hours)
       time_logging_modal.activity_input_disabled_because_work_package_missing? false
 
-      time_logging_modal.submit
-
       if using_cuprite?
-        wait_for_reload
+        time_logging_modal.submit
+        wait_for_reload(20)
       else
+        time_logging_modal.submit
         sleep 1
       end
 
       expect_action_icon "edit", row
-      expect_value l_hours(hours), row, wait: 10
+      expect_value l_hours(hours), row, wait: 20
     end
 
     def edit_cost_entry(new_value, row, cost_entry_id)

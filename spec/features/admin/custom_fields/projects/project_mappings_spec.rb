@@ -131,8 +131,9 @@ RSpec.describe "Project Custom Field Mappings", :js do
 
       current_page = 3
       visit project_mappings_admin_settings_project_custom_field_path(project_custom_field, page: current_page)
+      project_custom_field_mappings_page.expect_current_page_number(current_page)
 
-      project = project_custom_field_mappings_page.project_in_first_row
+      project = project_custom_field_mappings_page.project_in_first_actionable_row
       project_custom_field_mappings_page.click_menu_item_of("Remove from project", project)
 
       expect(page).to have_no_text(project.name)

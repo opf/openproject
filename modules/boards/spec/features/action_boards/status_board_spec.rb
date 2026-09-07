@@ -189,14 +189,13 @@ RSpec.describe "Status action board",
 
       # Add item
       board_page.add_card "Open", "Task 1"
-      sleep 2
 
       # Expect added to query
       queries = board_page.board(reload: true).contained_queries
       expect(queries.count).to eq 3
       first = queries.find_by(name: "Open")
       second = queries.find_by(name: "Closed")
-      expect(first.ordered_work_packages.count).to eq(1)
+      wait_for { first.reload.ordered_work_packages.count }.to eq(1)
       expect(second.ordered_work_packages).to be_empty
 
       # Expect work package to be saved in query first
@@ -209,11 +208,8 @@ RSpec.describe "Status action board",
       board_page.expect_card("Closed", "Task 1", present: true)
 
       # Expect work package to be saved in query second
-      sleep 2
-      retry_block do
-        expect(first.reload.ordered_work_packages).to be_empty
-        expect(second.reload.ordered_work_packages.count).to eq(1)
-      end
+      wait_for { first.reload.ordered_work_packages }.to be_empty
+      wait_for { second.reload.ordered_work_packages.count }.to eq(1)
 
       subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject, :status_id)
       expect(subjects).to contain_exactly(["Task 1", closed_status.id])
@@ -239,7 +235,6 @@ RSpec.describe "Status action board",
 
       filters.quick_filter "Task"
       board_page.expect_changed
-      sleep 2
 
       board_page.expect_card("Closed", "Task 1", present: true)
       board_page.expect_card("Whatever", work_package.subject, present: false)

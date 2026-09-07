@@ -204,15 +204,15 @@ module Components
         wait_for_turbo
       end
 
-      def rename_group(from, to)
+      def rename_group(from, new_name)
         group_key = find_group(from)["data-group-key"]
         open_group_menu(from)
         page.find_test_selector("type-form-configuration-group-rename-#{group_key}", visible: :all).click
 
-        fill_group_name(to)
+        fill_group_name(new_name)
         save_group
 
-        expect_group(to, to)
+        expect_group(new_name, new_name)
       end
 
       def remove_group(name)
@@ -314,11 +314,7 @@ module Components
           menu_id = menu_button[:"aria-controls"]
           raise Capybara::ElementNotFound, "Menu button has no target" if menu_id.blank?
 
-          begin
-            menu_button.click
-          rescue Capybara::Cuprite::MouseEventFailed
-            menu_button.trigger("click")
-          end
+          page.execute_script("arguments[0].click()", menu_button)
 
           page.find(id: menu_id, visible: :visible, wait: 0)
           menu_id

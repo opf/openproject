@@ -23,14 +23,36 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require "spec_helper"
-require_relative "format_field_expectations"
+require_relative "../../../spec_helper"
 
-RSpec.describe "user boolean custom fields", :js do
-  it_behaves_like "expected fields for the User custom field's format", "Boolean"
+RSpec.describe Bim::IfcModels::IfcViewerController do
+  describe "#parse_showing_models" do
+    let(:model) { build_stubbed(:ifc_model) }
+    let(:params) { {} }
+
+    before do
+      allow(controller).to receive(:params).and_return(params)
+      controller.instance_variable_set(:@ifc_models, [model])
+      controller.send(:parse_showing_models)
+    end
+
+    it "shows no models when the parameter is absent" do
+      expect(controller.instance_variable_get(:@shown_model_ids)).to eq([])
+      expect(controller.instance_variable_get(:@shown_ifc_models)).to eq([])
+    end
+
+    context "when model IDs are provided" do
+      let(:params) { { models: [model.id].to_json } }
+
+      it "selects the matching models" do
+        expect(controller.instance_variable_get(:@shown_model_ids)).to eq([model.id])
+        expect(controller.instance_variable_get(:@shown_ifc_models)).to eq([model])
+      end
+    end
+  end
 end

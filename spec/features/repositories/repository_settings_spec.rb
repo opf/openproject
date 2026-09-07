@@ -54,7 +54,7 @@ RSpec.describe "Repository Settings", :js do
 
   shared_examples "manages the repository" do |type|
     it "displays the repository" do
-      expect(page).to have_css('select[name="scm_vendor"]')
+      expect(page).to have_select("scm_vendor", disabled: true)
       expect(page).to have_css("#attributes-group--content-#{type}", visible: :visible)
     end
 
@@ -65,10 +65,21 @@ RSpec.describe "Repository Settings", :js do
       if type == "managed"
         find("a.icon-delete", text: I18n.t(:button_delete)).click
 
-        SeleniumHubWaiter.wait
-        check "I understand that this deletion cannot be reversed."
-        expect(page).to have_button(I18n.t(:button_delete_permanently), disabled: false)
-        click_on I18n.t(:button_delete_permanently)
+        expect(page).to have_css("danger-dialog-form-helper:defined", wait: 20)
+        within("#destroy-repository-dialog") do
+          confirmation_label = "I understand that this deletion cannot be reversed."
+          confirmation = find_field(confirmation_label)
+          page.execute_script("arguments[0].click()", confirmation) unless confirmation.checked?
+
+          delete_button = nil
+          page.document.synchronize(10) do
+            confirmation = find_field(confirmation_label, wait: 0)
+            delete_button = find_button(I18n.t(:button_delete_permanently), disabled: false, wait: 0)
+            raise Capybara::ElementNotFound unless confirmation.checked?
+          end
+
+          page.execute_script("arguments[0].click()", delete_button)
+        end
       else
         find("a.icon-remove", text: I18n.t(:button_remove)).click
 
@@ -98,14 +109,15 @@ RSpec.describe "Repository Settings", :js do
              scm_type: type,
              project:)
     end
+
     it_behaves_like "manages the repository", type
   end
 
   it_behaves_like "manages the repository with", "subversion", "existing", "Subversion - Repository", "project"
   it_behaves_like "manages the repository with", "git", "local", "Git - Repository", "project"
 
-  context "managed repositories" do
-    context "local" do
+  context "with managed repositories" do
+    context "with local repositories" do
       include_context "with tmpdir"
       let(:config) do
         {
@@ -127,20 +139,20 @@ RSpec.describe "Repository Settings", :js do
         repo
       end
 
-      context "Subversion" do
+      context "with Subversion" do
         let(:managed_vendor) { :subversion }
 
         it_behaves_like "manages the repository", "managed"
       end
 
-      context "Git" do
+      context "with Git" do
         let(:managed_vendor) { :git }
 
         it_behaves_like "manages the repository", "managed"
       end
     end
 
-    context "remote", :webmock do
+    context "with a remote repository", :webmock do
       let(:url) { "http://myreposerver.example.com/api/" }
       let(:config) do
         {

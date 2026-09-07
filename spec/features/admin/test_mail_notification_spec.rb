@@ -42,7 +42,8 @@ RSpec.describe "Test mail notification", :js do
     error_message = '"error" with <strong>Markup?</strong>'
     allow(UserMailer).to receive(:test_mail).and_raise error_message
 
-    click_link "Send a test email"
+    expect_angular_frontend_initialized
+    wait_for_turbo { click_link "Send a test email" }
 
     expected = "An error occurred while sending mail (#{error_message})"
     expect_flash(type: :error, message: expected)

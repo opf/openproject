@@ -266,7 +266,7 @@ RSpec.describe "Project creation wizard",
                         query: user_assignee.name
     fill_in "Team Size", with: "5"
 
-    wait_for_turbo { click_button "Complete" }
+    wait_for_turbo(wait: 20) { click_button "Complete" }
     expect(page).to have_text("Project attributes saved and artefact work package created successfully.")
 
     project.reload
@@ -394,9 +394,9 @@ RSpec.describe "Project creation wizard",
                           query: user_assignee.name
       fill_in "Team Size", with: "3"
 
-      wait_for_turbo { click_button "Complete" }
+      click_button "Complete"
 
-      expect(page).to have_text("Project attributes saved and artefact work package created successfully.")
+      expect(page).to have_text("Project attributes saved and artefact work package created successfully.", wait: 20)
 
       project.reload
       expect(page).to have_current_path("/projects/#{project.identifier}/" \
@@ -481,7 +481,7 @@ RSpec.describe "Project creation wizard",
       select_autocomplete page.find("[data-custom-field-id='#{user_custom_field.id}']"),
                           results_selector: "body",
                           query: user_assignee.name
-      wait_for_turbo { click_button "Complete" }
+      wait_for_turbo(wait: 20) { click_button "Complete" }
 
       # Comment should be saved
       expect(project.reload.send(string_custom_field.comment_attribute_name)).to eq "foo"

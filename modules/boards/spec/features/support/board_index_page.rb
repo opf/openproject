@@ -65,6 +65,7 @@ module Pages
       end
 
       new_board_page = NewBoard.new
+      new_board_page.expect_loaded
 
       new_board_page.set_title title
       new_board_page.set_board_type action

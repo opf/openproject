@@ -313,43 +313,59 @@ module Components
       end
 
       def edit_comment(journal, text: nil, save: true)
-        within_journal_entry(journal) do
-          page.find_test_selector("op-wp-journal-#{journal.id}-action-menu").click
-          page.find_test_selector("op-wp-journal-#{journal.id}-edit").click
+        select_journal_action(journal, "edit")
 
-          page.within_test_selector("op-work-package-journal-form-element") do
-            get_editor_form_field_element.set_value(text)
-            page.find_test_selector("op-submit-work-package-journal-form").click if save
-          end
+        page.within_test_selector("op-work-package-journal-form-element") do
+          get_editor_form_field_element.set_value(text)
 
           if save
-            # wait for the comment to be loaded
-            wait_for { page }.to have_test_selector("op-journal-notes-body", text:)
+            wait_for_turbo_stream do
+              page.find_test_selector("op-submit-work-package-journal-form").click
+            end
+          end
+        end
+
+        if save
+          within_journal_entry(journal) do
+            expect(page).to have_test_selector("op-journal-notes-body", text:)
           end
         end
       end
 
       def type_comment_in_edit(journal, text)
-        within_journal_entry(journal) do
-          page.find_test_selector("op-wp-journal-#{journal.id}-action-menu").click
-          page.find_test_selector("op-wp-journal-#{journal.id}-edit").click
+        select_journal_action(journal, "edit")
 
-          page.within_test_selector("op-work-package-journal-form-element") do
-            editor = get_editor_form_field_element
-            # Wait for the editor to be initialized
-            wait_for { editor.input_element }.to be_present
-            editor.input_element.send_keys(text)
-          end
+        page.within_test_selector("op-work-package-journal-form-element") do
+          editor = get_editor_form_field_element
+          # Wait for the editor to be initialized
+          wait_for { editor.input_element }.to be_present
+          editor.input_element.send_keys(text)
         end
       end
 
       def quote_comment(journal)
-        within_journal_entry(journal) do
-          page.find_test_selector("op-wp-journal-#{journal.id}-action-menu").click
-          page.find_test_selector("op-wp-journal-#{journal.id}-quote").click
-        end
+        select_journal_action(journal, "quote")
 
         expect(page).to have_test_selector("op-work-package-journal-form-element")
+      end
+
+      def select_journal_action(journal, action)
+        entry_selector = "op-wp-journal-entry-#{journal.id}"
+        menu_selector = "op-wp-journal-#{journal.id}-action-menu"
+        action_selector = "op-wp-journal-#{journal.id}-#{action}"
+
+        page.document.synchronize(30) do
+          entry = page.document.find(:test_id, entry_selector, wait: 0)
+          action_item = entry.first(:test_id, action_selector, minimum: 0, wait: 0)
+
+          if action_item
+            action_item.click
+          else
+            menu = entry.find(:test_id, menu_selector, wait: 0)
+            menu.click unless menu.has_css?(":popover-open", wait: 0)
+            raise Capybara::ElementNotFound, "Waiting for journal action #{action}"
+          end
+        end
       end
 
       def check_internal_comment_checkbox
@@ -382,22 +398,27 @@ module Components
       end
 
       def filter_journals(filter)
-        retry_block do
-          wait_for_turbo_stream do
-            page.find_test_selector("op-wp-journals-filter-menu").click
+        option = {
+          all: "all",
+          only_comments: "only-comments",
+          only_changes: "only-changes"
+        }.fetch(filter)
+        option_selector = "[data-test-selector='op-wp-journals-filter-show-#{option}']"
 
-            case filter
-            when :all
-              page.find_test_selector("op-wp-journals-filter-show-all").click
-            when :only_comments
-              page.find_test_selector("op-wp-journals-filter-show-only-comments").click
-            when :only_changes
-              page.find_test_selector("op-wp-journals-filter-show-only-changes").click
+        wait_for_turbo_stream do
+          page.document.synchronize do
+            unless page.has_css?(option_selector, wait: 0)
+              menu = page.find(
+                "action-menu[data-ready='true'][data-test-selector='op-wp-journals-filter-menu']"
+              )
+              menu.find("button[aria-haspopup='true']").click
             end
-          end
 
-          expect(page).to have_css("[data-test-selector^='op-wp-journals-#{filter}-']")
+            page.find(option_selector).click
+          end
         end
+
+        expect(page).to have_css("[data-test-selector^='op-wp-journals-#{filter}-']")
       end
 
       def set_journal_sorting(sorting, default_filter: :all)

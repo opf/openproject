@@ -29,8 +29,23 @@
 #++
 
 require "spec_helper"
-require_relative "../format_field_expectations"
 
-RSpec.describe "Project date custom fields", :js do
-  it_behaves_like "expected fields for the Project custom field's format", "Date"
+RSpec.describe API::V3::Queries::QueryPayloadRepresenter do
+  shared_let(:project) { create(:project) }
+  shared_let(:phase_definition) { create(:project_phase_definition) }
+  shared_let(:admin) { create(:admin) }
+
+  it "serializes project phase filters as writable nested payloads" do
+    query = build(:query, project:, user: admin)
+    query.filters.clear
+    query.add_filter("project_phase_definition_id", "=", [phase_definition.id.to_s])
+
+    filter_payload = described_class.new(query, current_user: admin).filters.first
+    allow(filter_payload.represented).to receive(:value_objects).and_return([phase_definition])
+
+    expect(filter_payload.writable_attributes).to include("filter", "operator", "values")
+    expect(filter_payload.to_json)
+      .to be_json_eql("/api/v3/project_phase_definitions/#{phase_definition.id}".to_json)
+      .at_path("_links/values/0/href")
+  end
 end

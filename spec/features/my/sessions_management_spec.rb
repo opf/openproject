@@ -67,7 +67,7 @@ RSpec.describe "My account session management", :js do
 
   before do
     login_as(user)
-    Sessions::UserSession.where(id: user_session.id).update_all(updated_at: 5.days.ago)
+    Sessions::UserSession.where(id: user_session.id).update_all(updated_at: old_session_time)
     visit my_account_path
     click_on "Session management"
   end

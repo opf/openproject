@@ -35,13 +35,15 @@ module Pages
         def create_wp_by_button(type)
           click_wp_create_button
 
-          find("#types-context-menu .menu-item", text: type.name.upcase, wait: 10).click
+          find("#types-context-menu .menu-item", text: type.name.upcase, wait: 30).click
 
           create_page_class_instance(type)
         end
 
         def click_wp_create_button
-          find(".add-work-package:not([disabled])", text: "Create").click
+          expect_angular_frontend_initialized
+          button = find(".add-work-package:not([disabled])", text: "Create")
+          page.execute_script("arguments[0].click()", button)
         end
 
         def expect_wp_create_button

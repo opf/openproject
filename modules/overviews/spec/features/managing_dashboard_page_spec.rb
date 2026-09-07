@@ -122,7 +122,7 @@ RSpec.describe "Dashboard page managing", :js do
 
       table_area.resize_to(1, 2)
 
-      dashboard_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
+      dashboard_page.expect_and_dismiss_all_toasters message: I18n.t("js.notice_successful_update")
 
       # Resizing leads to the table area now spanning a larger area
       table_area.expect_to_span(4, 1, 5, 3)

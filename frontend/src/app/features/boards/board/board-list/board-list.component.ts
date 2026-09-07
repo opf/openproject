@@ -180,6 +180,13 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   private canAdd = firstValueFrom(this.wpInlineCreate.canAdd);
 
+  /**
+   * Identifies the newest list request. Filter changes can start a request
+   * while an earlier refresh is still in flight. Ignore an older response so
+   * it cannot replace the filtered card collection.
+   */
+  private queryRequestSerial = 0;
+
   public columnsQueryProps:any;
 
   public get text() {
@@ -448,6 +455,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   }
 
   private loadQuery(visibly = true) {
+    const requestSerial = ++this.queryRequestSerial;
     let observable = this
       .apiv3Service
       .queries
@@ -462,9 +470,17 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     observable
       .subscribe(
         (query) => {
+          if (requestSerial !== this.queryRequestSerial) {
+            return;
+          }
+
           this.wpStatesInitialization.updateQuerySpace(query, query.results);
         },
         (error) => {
+          if (requestSerial !== this.queryRequestSerial) {
+            return;
+          }
+
           const userIsNotAllowedToSeeSubprojectError = 'urn:openproject-org:api:v3:errors:InvalidQuery';
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           if (error.errorIdentifier === userIsNotAllowedToSeeSubprojectError) {

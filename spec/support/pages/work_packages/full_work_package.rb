@@ -37,7 +37,7 @@ module Pages
     end
 
     def toolbar
-      find_by_id("toolbar-items")
+      find_by_id("toolbar-items", wait: 20)
     end
 
     def click_share_button

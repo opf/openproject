@@ -49,8 +49,12 @@ module Pages
         end
 
         def open_projects_tab!
-          within(".PageHeader-tabNav") do
-            click_on "Projects"
+          return if page.has_css?('.PageHeader-tabNav a[aria-current="page"]', text: "Projects", wait: 0)
+
+          wait_for_turbo do
+            within(".PageHeader-tabNav") do
+              click_on "Projects"
+            end
           end
         end
 
@@ -65,7 +69,9 @@ module Pages
 
         def remove_from_project!(name)
           open_projects_tab!
-          find_project(name).find("a[data-turbo-method=delete]").click
+          wait_for_turbo do
+            find_project(name).find("a[data-turbo-method=delete]").click
+          end
         end
 
         def edit_roles!(membership, roles)
@@ -87,7 +93,7 @@ module Pages
         end
 
         def expect_no_membership(project_name)
-          expect(page).to have_no_css("tr", text: project_name)
+          expect(page).to have_no_css("tr", text: project_name, wait: 20)
         end
 
         def expect_roles(project_name, roles)

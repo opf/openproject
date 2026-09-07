@@ -23,14 +23,25 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require "spec_helper"
-require_relative "../shared_custom_field_expectations"
+require "rails_helper"
 
-RSpec.describe "time entry boolean custom fields", :js do
-  it_behaves_like "expected fields for the custom field's format", "Spent time", "Boolean"
+RSpec.describe WorkPackages::Exports::PDF::Report::ExportSettingsComponent, type: :component do
+  subject(:component) { described_class.new(query) }
+
+  let(:query) { create(:query) }
+  let!(:first_field) { create(:work_package_custom_field, field_format: "text", name: "First long text") }
+  let!(:second_field) { create(:work_package_custom_field, field_format: "text", name: "Second long text") }
+
+  it "selects the description and every long-text custom field by default" do
+    expect(component.selected_long_text_fields).to contain_exactly(
+      { id: "description", name: WorkPackage.human_attribute_name("description") },
+      { id: first_field.id, name: first_field.name },
+      { id: second_field.id, name: second_field.name }
+    )
+  end
 end

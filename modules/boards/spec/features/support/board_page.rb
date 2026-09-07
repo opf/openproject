@@ -73,7 +73,7 @@ module Pages
     end
 
     def within_list(name, &)
-      page.within(list_selector(name), &)
+      page.within(page.find(list_selector(name), wait: 20), &)
     end
 
     def list_selector(name)
@@ -81,26 +81,36 @@ module Pages
     end
 
     def add_card(list_name, card_title)
-      within_list(list_name) do
-        page.find('[data-test-selector="op-board-list--card-dropdown-add-button"]').click
+      page.document.synchronize(20) do
+        button = page.find(
+          "#{list_selector(list_name)} [data-test-selector='op-board-list--card-dropdown-add-button']",
+          wait: 0
+        )
+        button.click
+        page.find(".menu-item", text: "Add new card", wait: 0).click
       end
 
-      # Add item in dropdown
-      page.find(".menu-item", text: "Add new card", wait: 10).click
-
-      subject = page.find_by_id("wp-new-inline-edit--field-subject")
-      subject.set card_title
-      subject.send_keys :enter
+      page.document.synchronize(20) do
+        subject = page.find_by_id("wp-new-inline-edit--field-subject", wait: 0)
+        subject.set card_title
+        subject.send_keys :enter
+      end
 
       wait_for_network_idle
 
       expect_card(list_name, card_title)
     end
 
-    def remove_card(list_name, card_title, index)
-      source = page.all("#{list_selector(list_name)} [data-test-selector='op-wp-single-card']")[index]
-      source.hover
-      source.find('[data-test-selector="op-wp-single-card--inline-cancel-button"]').click
+    def remove_card(list_name, card_title, _index)
+      page.document.synchronize(10) do
+        source = page.find(
+          "#{list_selector(list_name)} [data-test-selector='op-wp-single-card']",
+          text: card_title,
+          wait: 0
+        )
+        source.hover
+        source.find('[data-test-selector="op-wp-single-card--inline-cancel-button"]', wait: 0).click
+      end
 
       expect_card(list_name, card_title, present: false)
     end
@@ -117,6 +127,7 @@ module Pages
                           results_selector: "body",
                           select_text: "##{work_package.id}")
 
+      wait_for_network_idle
       expect_card(list_name, work_package.subject)
     end
 
@@ -136,18 +147,18 @@ module Pages
 
     ##
     # Expect the given titled card in the list name to be present (expect=true) or not (expect=false)
-    def expect_card(list_name, card_title, present: true)
-      within_list(list_name) do
-        # Wait for the card loading to finish. A list can start another reload
-        # right after a card was added or moved, so this needs more than the
-        # default wait time.
-        expect(page).to have_no_selector(".loading-indicator--background", wait: 10)
-        expect(page).to have_conditional_selector(present,
-                                                  '[data-test-selector="op-wp-single-card--content-subject"]',
-                                                  text: card_title,
-                                                  # Don't wait on non-presence expectation
-                                                  wait: present ? 20 : 0)
-      end
+    def expect_card(list_name, card_title, present: true, wait: 20)
+      list = list_selector(list_name)
+
+      # Angular replaces the whole list while a query reloads. Query from the
+      # document on every retry instead of retaining a detached list element.
+      expect(page).to have_no_selector("#{list} .loading-indicator--background", wait:)
+      expect(page).to have_conditional_selector(
+        present,
+        "#{list} [data-test-selector='op-wp-single-card--content-subject']",
+        text: card_title,
+        wait:
+      )
     end
 
     ##
@@ -174,36 +185,79 @@ module Pages
     end
 
     def move_card(index, from:, to:)
-      source = page.all("#{list_selector(from)} [data-test-selector='op-wp-single-card']")[index]
-      drag_onto_list(source, to)
+      drag_onto_list(from:, to:, index:)
     end
 
     def move_card_by_name(text, from:, to:)
-      source = page.find("#{list_selector(from)} [data-test-selector='op-wp-single-card']", text:)
-      drag_onto_list(source, to)
+      drag_onto_list(from:, to:, text:)
     end
 
-    # rubocop:disable Style/AccessModifierDeclarations -- `private` alone would flip
-    # visibility of every method declared after it in this class.
-    private def drag_onto_list(source, list_name)
-      # rubocop:enable Style/AccessModifierDeclarations
-      # Scroll to source first: perform_native_drag's internal scroll must not
-      # move the page after the target rect below is read.
-      scroll_to_element(source)
+    private
 
-      target = page.find("#{list_selector(list_name)} [data-test-selector='op-wp-card-view']")
-      rect = target.native.rect
-      perform_native_drag(
-        source:,
-        target_x: rect.x + (rect.width / 2),
-        target_y: rect.y + (rect.height / 2)
-      )
+    def drag_onto_list(from:, to:, index: nil, text: nil)
+      expect(page).to have_no_css(".boards-list--container[data-sortable-lists-busy]", wait: 20)
+
+      page.document.synchronize(20) do
+        scroll_to_element draggable_card(from:, index:, text:, wait: 0)
+        source = draggable_card(from:, index:, text:, wait: 0)
+        target = page.find(
+          "#{list_selector(to)} [data-test-selector='op-wp-card-view'][data-drop-target-for-element='true']",
+          wait: 0
+        )
+        perform_pragmatic_drag(source, target)
+      end
+
+      expect(page).to have_no_css(".boards-list--container[data-sortable-lists-busy]", wait: 20)
       wait_for_lists_reload
-
-      # Wait a little more because the cards sorting order can still be changing
-      # after moving them
-      sleep 2
     end
+
+    def draggable_card(from:, index:, text:, wait:)
+      selector = "#{list_selector(from)} wp-single-card[draggable='true'][data-drop-target-for-element='true']"
+
+      return page.find(selector, text:, wait:) if text
+
+      page.all(selector, minimum: index + 1, wait:)[index]
+    end
+
+    def perform_pragmatic_drag(source, target)
+      error = page.evaluate_async_script(<<~JS, source.native, target.native)
+        const source = arguments[0];
+        const target = arguments[1];
+        const done = arguments[2];
+        const dataTransfer = new DataTransfer();
+        const center = (element) => {
+          const rect = element.getBoundingClientRect();
+          return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+        };
+        const dispatch = (type, element) => {
+          const point = center(element);
+          element.dispatchEvent(new DragEvent(type, {
+            bubbles: true,
+            cancelable: true,
+            composed: true,
+            clientX: point.x,
+            clientY: point.y,
+            dataTransfer,
+          }));
+        };
+        const nextFrame = () => new Promise((resolve) => requestAnimationFrame(resolve));
+
+        (async () => {
+          dispatch('dragstart', source);
+          await nextFrame();
+          dispatch('dragenter', target);
+          dispatch('dragover', target);
+          await nextFrame();
+          dispatch('drop', target);
+          dispatch('dragend', source);
+          await nextFrame();
+          done(null);
+        })().catch((exception) => done(exception.message));
+      JS
+      raise "Pragmatic drag failed: #{error}" if error
+    end
+
+    public
 
     def wait_for_lists_reload
       # wait for reload of lists to start and finish
@@ -225,9 +279,12 @@ module Pages
         page.find(".boards-list--add-item").click
         expect(page).to have_css('[data-test-selector="op-board-list"]', count: count + 1)
       else
-        open_and_fill_add_list_modal query
-        page.find(".ng-option", text: option, wait: 10).click
+        page.document.synchronize(20) do
+          open_and_fill_add_list_modal query
+          page.find(".ng-option", text: option, wait: 0).click
+        end
         page.find('[data-test-selector="confirmation-modal--confirmed"]').click
+        expect_list option
       end
     end
 
@@ -392,15 +449,19 @@ module Pages
     end
 
     def open_and_fill_add_list_modal(name)
-      open_add_list_modal
-      sleep(0.1)
-      page.find(".spot-modal .new-list--action-select input").set(name)
-      expect(page).to have_no_css(".ng-spinner-loader")
+      input = open_add_list_modal
+      input.set(name) unless input.value == name
+      input
     end
 
     def open_add_list_modal
-      page.find(".boards-list--add-item").click
-      expect(page).to have_css(".new-list--action-select input")
+      page.document.synchronize(20) do
+        input = page.first(".spot-modal .new-list--action-select input", minimum: 0, wait: 0)
+        next input if input
+
+        page.find(".boards-list--add-item", wait: 0).click
+        page.find(".spot-modal .new-list--action-select input", wait: 0)
+      end
     end
 
     def add_list_modal_shows_warning(value, with_link: false)

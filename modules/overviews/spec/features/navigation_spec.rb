@@ -45,8 +45,10 @@ RSpec.describe "Navigate to overview", :js do
   it "can visit the overview page" do
     visit project_path(project)
 
-    within "#menu-sidebar" do
-      click_link "Project home"
+    wait_for_turbo do
+      within "#menu-sidebar" do
+        click_link "Project home"
+      end
     end
 
     within "#content" do

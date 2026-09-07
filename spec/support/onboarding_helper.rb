@@ -47,10 +47,10 @@ module OnboardingHelper
     expect(page).to have_text sanitize_string(I18n.t("js.onboarding.steps.wp.gantt_menu")), normalize_ws: true
 
     find(".enjoyhint_next_btn").click
-    expect(page).to have_text sanitize_string(I18n.t("js.onboarding.steps.wp.timeline")), normalize_ws: true
+    expect(page).to have_text sanitize_string(I18n.t("js.onboarding.steps.wp.timeline")), normalize_ws: true, wait: 20
 
     find(".enjoyhint_next_btn").click
-    expect(page).to have_text sanitize_string(I18n.t("js.onboarding.steps.sidebar_arrow")), normalize_ws: true
+    expect(page).to have_text sanitize_string(I18n.t("js.onboarding.steps.sidebar_arrow")), normalize_ws: true, wait: 20
   end
 
   def step_through_onboarding_main_menu_tour(has_full_capabilities:)

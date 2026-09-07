@@ -211,27 +211,27 @@ module Pages
     end
 
     def drag_and_drop_list_selenium(from:, to:, elements:, handler:)
-      # Wait a bit because drag & drop in selenium is easily offended
-      sleep 1
+      page.document.synchronize(10) do
+        source = page.all(elements, minimum: [from, to].max + 1)[from]
+        scroll_to_element(source)
+        source.hover
+      end
 
-      list = page.all(elements, minimum: [from, to].max + 1)
-      source = list[from]
-      target = list[to]
+      page.document.synchronize(10) do
+        list = page.all(elements, minimum: [from, to].max + 1)
+        source = list[from]
+        target = list[to]
 
-      scroll_to_element(source)
-      source.hover
-
-      # These helpers have always meant "insert before the element currently at
-      # index `to`" (Dragula's insertBefore semantics), so aim at the target's
-      # top quarter — closest-edge resolution then inserts above it either way.
-      target_rect = target.native.rect
-      perform_native_drag(
-        source: source.find(handler),
-        target_x: target_rect.x + (target_rect.width / 2),
-        target_y: target_rect.y + (target_rect.height / 4)
-      )
-
-      sleep 1
+        # These helpers have always meant "insert before the element currently at
+        # index `to`" (Dragula's insertBefore semantics), so aim at the target's
+        # top quarter — closest-edge resolution then inserts above it either way.
+        target_rect = target.native.rect
+        perform_native_drag(
+          source: source.find(handler),
+          target_x: target_rect.x + (target_rect.width / 2),
+          target_y: target_rect.y + (target_rect.height / 4)
+        )
+      end
     end
 
     def path

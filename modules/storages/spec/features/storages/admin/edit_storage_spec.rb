@@ -134,6 +134,8 @@ RSpec.describe "Admin Edit File storage",
 
           click_on "Cancel"
         end
+
+        expect(page).to have_no_test_selector("storage-general-info-form")
       end
 
       aggregate_failures "OAuth application" do
@@ -444,6 +446,8 @@ RSpec.describe "Admin Edit File storage",
 
           click_on "Cancel"
         end
+
+        expect(page).to have_no_test_selector("storage-general-info-form")
       end
 
       aggregate_failures "OAuth Client" do

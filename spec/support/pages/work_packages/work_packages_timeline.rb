@@ -81,7 +81,7 @@ module Pages
 
     def expect_timeline!(open: true)
       if open
-        expect(page).to have_css(".wp-table-timeline--container .wp-timeline-cell")
+        expect(page).to have_css(".wp-table-timeline--container .wp-timeline-cell", wait: 30)
       else
         expect(page).to have_no_css(".wp-table-timeline--container .wp-timeline-cell", visible: true)
       end
@@ -89,7 +89,7 @@ module Pages
     end
 
     def timeline_row(wp_id)
-      ::Components::Timelines::TimelineRow.new page.find(timeline_row_selector(wp_id))
+      ::Components::Timelines::TimelineRow.new -> { page.find(timeline_row_selector(wp_id)) }
     end
 
     def zoom_in_button

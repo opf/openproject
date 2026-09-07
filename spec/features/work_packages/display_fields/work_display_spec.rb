@@ -75,7 +75,7 @@ RSpec.describe "Work display", :js do
     it "work package details" do
       visit work_package_path(parent.id)
 
-      expect(page).to have_text("Work\n#{expected_text}")
+      expect(page).to have_text("Work\n#{expected_text}", wait: 20)
     end
 
     it "wiki page workPackageValue:id:estimatedTime macro" do
@@ -207,7 +207,7 @@ RSpec.describe "Work display", :js do
       end
 
       it "shows a work package table with a parent filter to list the direct children" do
-        wait_for_turbo { click_on("Σ 20h") }
+        follow_calculation_link("Σ 20h")
 
         wp_table.expect_work_package_count(4)
         wp_table.expect_work_package_listed(parent, child1, child2, child3)
@@ -225,7 +225,7 @@ RSpec.describe "Work display", :js do
         end
 
         it "still shows it (Bug #62847)" do
-          wait_for_turbo { click_on("Σ 20h") }
+          follow_calculation_link("Σ 20h")
 
           wp_table.expect_work_package_count(4)
           wp_table.expect_work_package_listed(parent, child1, child2, child3)
@@ -240,11 +240,18 @@ RSpec.describe "Work display", :js do
 
       it "shows also all ancestors in the work package table" do
         expect(page).to have_text("Work\n3h·Σ 15h")
-        wait_for_turbo { click_on("Σ 15h") }
+        follow_calculation_link("Σ 15h")
 
         wp_table.expect_work_package_count(3)
         wp_table.expect_work_package_listed(parent, child2, grand_child21)
       end
     end
+  end
+
+  def follow_calculation_link(label)
+    previous_url = page.current_url
+    link = page.first("a", text: label, exact_text: true, minimum: 1, wait: 30)
+    using_cuprite? ? link.trigger("click") : link.click
+    wait_for { page.current_url }.not_to eq(previous_url)
   end
 end

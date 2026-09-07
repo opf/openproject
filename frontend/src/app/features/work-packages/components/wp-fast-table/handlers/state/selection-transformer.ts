@@ -58,6 +58,8 @@ export class SelectionTransformer {
         takeUntil(this.querySpace.stopAllSubscriptions),
       )
       .subscribe(() => {
+        this.renderCurrentSelectionState();
+
         this.wpTableFocus.ifShouldFocus((wpId:string) => {
           const element = locateTableRow(wpId);
           if (element) {
@@ -92,6 +94,15 @@ export class SelectionTransformer {
   /**
    * Update all currently visible rows to match the selection state.
    */
+  private renderCurrentSelectionState() {
+    const selectedIds = new Set(this.wpTableSelection.getSelectedWorkPackageIds());
+    const context = this.table.tableAndTimelineContainer;
+
+    context.querySelectorAll<HTMLElement>(`.${tableRowClassName}`).forEach((el) => {
+      el.classList.toggle(checkedClassName, selectedIds.has(el.dataset.workPackageId!));
+    });
+  }
+
   private renderSelectionState(state:WorkPackageViewSelectionState) {
     const context = this.table.tableAndTimelineContainer;
 

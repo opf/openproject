@@ -140,6 +140,8 @@ module Components
         else
           page.find("#{filter_selector(name)} .advanced-filters--remove-filter").click
         end
+
+        wait_for_network_idle(duration: 0.3) if using_cuprite?
       end
 
       def set_toggle_filter(values)
@@ -166,14 +168,18 @@ module Components
         case human_operator
         when "on", "less than days ago", "more than days ago", "days ago"
           if send_keys
-            find_field(filter_name).send_keys values.first
+            field = find_field(filter_name)
+            clear_input_field_contents(field)
+            field.send_keys values.first
           else
             fill_in filter_name, with: values.first
           end
         when "between"
           if send_keys
             value = values.join(" - ")
-            find_field(filter_name).send_keys value
+            field = find_field(filter_name)
+            clear_input_field_contents(field)
+            field.send_keys value
           else
             find_field(filter_name).click
             datepicker = ::Components::RangeDatepicker.new
@@ -181,6 +187,8 @@ module Components
             datepicker.set_date values.last
           end
         end
+
+        wait_for_network_idle(duration: 0.3) if using_cuprite?
       end
 
       def set_autocomplete_filter(values, clear: true, element: nil)

@@ -152,11 +152,12 @@ module Components
 
       def bulk_update(role_name)
         within shares_header do
-          menu = find('[data-test-selector="op-share-dialog-bulk-update-role"]')
-          menu.click_button
+          overlay = open_action_menu do
+            find('action-menu[data-test-selector="op-share-dialog-bulk-update-role"][data-ready="true"]', wait: 0)
+          end
 
           wait_for_turbo_stream(wait: 10) do
-            menu.find(".ActionListContent", text: role_name).click
+            overlay.find(".ActionListContent", text: role_name, visible: :visible).click
           end
         end
       end
@@ -251,21 +252,25 @@ module Components
       end
 
       def select_invite_role(role_name)
-        within modal_element.find('[data-test-selector="op-share-dialog-invite-role"]') do
-          # Open the ActionMenu
-          click_on "View"
-
-          find(".ActionListContent", text: role_name).click
+        overlay = open_action_menu do
+          modal_element.find(
+            'action-menu[data-test-selector="op-share-dialog-invite-role"][data-ready="true"]',
+            wait: 0
+          )
         end
+        overlay.find(".ActionListItem-label", text: role_name, exact_text: true, visible: :visible).click
       end
 
       def change_role(user, role_name)
-        within user_row(user) do
-          find('[data-test-selector="op-share-dialog-update-role"]').click
+        overlay = open_action_menu do
+          user_row(user).find(
+            'action-menu[data-test-selector="op-share-dialog-update-role"][data-ready="true"]',
+            wait: 0
+          )
+        end
 
-          within ".ActionListWrap" do
-            wait_for_turbo_stream(wait: 10) { click_on role_name }
-          end
+        wait_for_turbo_stream(wait: 10) do
+          overlay.find(".ActionListItem-label", text: role_name, exact_text: true, visible: :visible).click
         end
       end
 
@@ -273,7 +278,7 @@ module Components
         within(shares_header) do
           find("[data-test-selector='op-share-dialog-filter-#{filter_name}-button']").click
 
-          wait_for_turbo_stream(wait: 10) do
+          wait_for_turbo_frame(frame: Shares::ModalBodyComponent.wrapper_key, wait: 10) do
             find(".ActionListContent", text: value).click
           end
         end
@@ -324,7 +329,8 @@ module Components
         within_modal do
           expect(page)
             .to have_css('[data-test-selector="op-share-dialog-header"]',
-                         text: I18n.t("sharing.count", count:))
+                         text: I18n.t("sharing.count", count:),
+                         wait: 20)
         end
       end
 
@@ -426,6 +432,22 @@ module Components
         within modal_element do
           expect(page)
             .to have_no_text(I18n.t("sharing.warning_no_selected_user", entity: WorkPackage.model_name.human), wait: 0)
+        end
+      end
+
+      private
+
+      def open_action_menu
+        page.document.synchronize(20) do
+          menu = yield
+          button = menu.find("button", wait: 0)
+          overlay_selector = "##{button['popovertarget']}:popover-open"
+          page.execute_script("arguments[0].click()", button) unless page.has_selector?(
+            overlay_selector,
+            visible: :all,
+            wait: 0
+          )
+          page.find(overlay_selector, visible: :all, wait: 0)
         end
       end
     end

@@ -29,6 +29,7 @@
 #++
 
 require "support/components/autocompleter/ng_select_autocomplete_helpers"
+require "support/capybara/wait_helpers"
 require "support/flash/expectations"
 
 module Components
@@ -39,6 +40,7 @@ module Components
       include Flash::Expectations
       include RSpec::Matchers
       include RSpec::Wait
+      include WaitHelpers
       include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
       attr_reader :work_package
@@ -99,8 +101,16 @@ module Components
       end
 
       def select_relation_type(relation_type)
-        within_add_relation_action_menu(relation_type:) do
-          click_link_or_button relation_type
+        page.document.synchronize(20) do
+          open_add_relation_action_menu
+          menu = if first_level_relation?(relation_type)
+                   add_relation_action_menu
+                 else
+                   open_relation_sub_menu
+                   add_relation_sub_menu
+                 end
+          menu_item = menu.find(:link, relation_type, wait: 0)
+          page.execute_script("arguments[0].click()", menu_item)
         end
       end
 
@@ -135,25 +145,28 @@ module Components
       def open_relation_sub_menu
         return if add_relation_sub_menu.visible?
 
-        new_relation_sub_menu_button.click
+        button = new_relation_sub_menu_button
+        overlay_id = button["popovertarget"]
+        button.click
+        add_relation_action_menu_component.find("##{overlay_id}:popover-open", visible: :all, wait: 20)
       end
 
       def add_relation_action_menu
         action_menu_id = new_relation_button["aria-controls"]
-        page.find(id: action_menu_id, visible: :all)
+        add_relation_action_menu_component.find(id: action_menu_id, visible: :all)
       end
 
       def add_relation_sub_menu
         action_menu_id = new_relation_sub_menu_button["aria-controls"]
-        page.find(id: action_menu_id, visible: :all)
+        add_relation_action_menu_component.find(id: action_menu_id, visible: :all)
       end
 
       def new_relation_button
-        page.find(id: "add-relation-action-menu-button", wait: 10)
+        add_relation_action_menu_component.find(id: "add-relation-action-menu-button", wait: 20)
       end
 
       def new_relation_sub_menu_button
-        page.find(id: "add-relation-sub-menu-button")
+        add_relation_action_menu.find(id: "add-relation-sub-menu-button")
       end
 
       def remove_relation(relatable)
@@ -248,39 +261,41 @@ module Components
       def edit_relation_description(relatable, description)
         open_relation_dialog(relatable)
 
-        within "##{WorkPackageRelationsTab::WorkPackageRelationDialogComponent::DIALOG_ID}" do
+        dialog = page.find("##{WorkPackageRelationsTab::WorkPackageRelationDialogComponent::DIALOG_ID}", wait: 20)
+        within dialog do
           expect(page).to have_field("Work package", readonly: true)
           expect(page).to have_field("Description")
 
           fill_in "Description", with: description
 
-          click_link_or_button "Save"
-
-          wait_for_reload if using_cuprite?
+          wait_for_turbo_stream(wait: 20) { click_link_or_button "Save" }
         end
       end
 
       def edit_lag_of_relation(relatable, lag)
         open_relation_dialog(relatable)
 
-        within "##{WorkPackageRelationsTab::WorkPackageRelationDialogComponent::DIALOG_ID}" do
+        dialog = page.find("##{WorkPackageRelationsTab::WorkPackageRelationDialogComponent::DIALOG_ID}", wait: 20)
+        within dialog do
           expect(page).to have_field("Work package", readonly: true)
           expect(page).to have_field("Lag")
 
           fill_in "Lag", with: lag
 
-          click_link_or_button "Save"
-
-          wait_for_reload if using_cuprite?
+          wait_for_turbo_stream(wait: 20) { click_link_or_button "Save" }
         end
       end
 
       def open_relation_dialog(relatable)
-        open_action_menu_with_work_package(relatable) do
-          relatable_edit_button(relatable).click
+        wait_for_network_idle(timeout: 20) if using_cuprite?
+        wait_for_turbo_stream(wait: 20) do
+          open_action_menu_with_work_package(relatable) do
+            page.document.synchronize(20) do
+              menu_item = relatable_edit_button(relatable).find("[role='menuitem']", wait: 0)
+              using_cuprite? ? menu_item.trigger("click") : menu_item.click
+            end
+          end
         end
-
-        wait_for_reload if using_cuprite?
       end
 
       def expect_relation(relatable)
@@ -409,6 +424,10 @@ module Components
 
       private
 
+      def add_relation_action_menu_component
+        page.find("action-menu[data-test-selector='add-relation-action-menu']", wait: 20)
+      end
+
       def within_add_relation_action_menu(relation_type:, &)
         open_add_relation_action_menu
         open_relation_sub_menu unless first_level_relation?(relation_type)
@@ -417,9 +436,14 @@ module Components
 
       def remove_relation_with_work_package(relatable)
         open_action_menu_with_work_package(relatable) do
-          accept_confirm do
-            delete_button = relatable_delete_button(relatable, visible: :all).find("button", visible: :all)
-            page.execute_script("arguments[0].click()", delete_button)
+          accept_confirm(wait: 20) do
+            page.document.synchronize(20) do
+              button = relatable_delete_button(relatable, visible: :all).find("button", visible: :all, wait: 0)
+              connected = page.evaluate_script("arguments[0].isConnected", button)
+              raise Capybara::ElementNotFound unless connected
+
+              using_cuprite? ? button.trigger("click") : button.click
+            end
           end
         end
 

@@ -1,28 +1,30 @@
 @if ({ timer: (timer$ | async), active: activeForWorkPackage(timer$ | async) }; as context) {
-  @if (context.timer && context.active) {
-    <button
-      class="button button_flex op-wp-timer-button"
-      type="button"
-      data-test-selector="timer-active"
-      [title]="text.stop_timer"
-      (click)="stop()"
-      >
-      <svg op-stopwatch-stop-icon size="small" />
-      <span class="button--text">
-        {{ elapsed$ | async }}
-      </span>
-    </button>
-  }
-  @if (!context.timer || !context.active) {
-    <button
-      class="button"
-      type="button"
-      data-test-selector="timer-inactive"
-      [title]="text.start_timer"
-      (click)="start()"
-      >
+  @if (context.timer !== undefined) {
+    @if (context.timer && context.active) {
+      <button
+        class="button button_flex op-wp-timer-button"
+        type="button"
+        data-test-selector="timer-active"
+        [title]="text.stop_timer"
+        (click)="stop()"
+        >
+        <svg op-stopwatch-stop-icon size="small" />
+        <span class="button--text">
+          {{ elapsed$ | async }}
+        </span>
+      </button>
+    }
+    @if (!context.timer || !context.active) {
+      <button
+        class="button"
+        type="button"
+        data-test-selector="timer-inactive"
+        [title]="text.start_timer"
+        (click)="start()"
+        >
 
-      <svg op-stopwatch-start-icon size="small" />
-    </button>
+        <svg op-stopwatch-start-icon size="small" />
+      </button>
+    }
   }
 }

@@ -372,6 +372,20 @@ describe('Activities tab auto-scrolling controller', () => {
       onSettle();
       expect(scrollIntoView).toHaveBeenCalled();
     });
+
+    it('follows the container to the bottom after submitting on desktop', async () => {
+      const { index, scroller } = await renderActivities();
+      index.sortingValue = 'asc';
+      Object.defineProperty(scroller, 'scrollHeight', { value: 1000, configurable: true });
+
+      autoScrollingController().performAutoScrollingOnFormSubmit();
+
+      expect(followSpy).toHaveBeenCalledTimes(1);
+
+      const [onSettle] = followSpy.mock.calls[0];
+      onSettle();
+      expect(scrollTo).toHaveBeenCalledWith({ top: 1000, behavior: 'smooth' });
+    });
   });
 
   // The controller sets the hash only when it decides to handle a link, so the

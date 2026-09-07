@@ -143,8 +143,7 @@ RSpec.describe "scheduling mode", :js do
 
     # Editing the start/due dates of a parent work package is possible if the
     # work package is manually scheduled
-    combined_field.activate!(expect_open: false)
-    combined_field.expect_active!
+    combined_field.activate!
     combined_field.toggle_scheduling_mode # toggle to manual mode
     combined_field.expect_manual_scheduling_mode
     combined_field.update(%w[2016-01-05 2016-01-10], save: false)
@@ -185,8 +184,7 @@ RSpec.describe "scheduling mode", :js do
 
     # Switching back to automatic scheduling will lead to the work package
     # and all work packages that are dependent to be rescheduled again.
-    combined_field.activate!(expect_open: false)
-    combined_field.expect_active!
+    combined_field.activate!
     combined_field.toggle_scheduling_mode # toggle to automatic mode
 
     wait_for_network_idle
@@ -220,8 +218,7 @@ RSpec.describe "scheduling mode", :js do
 
     # Switching back to manual scheduling but this time backward will lead to the work package
     # and all work packages that are dependent to be rescheduled again.
-    combined_field.activate!(expect_open: false)
-    combined_field.expect_active!
+    combined_field.activate!
     combined_field.toggle_scheduling_mode # toggle to manual mode
     combined_field.expect_manual_scheduling_mode
 
@@ -260,8 +257,7 @@ RSpec.describe "scheduling mode", :js do
     # Switching back to automatic scheduling will lead to the work package
     # and all work packages that are dependent to be rescheduled again to
     # satisfy wp follows wp_pre relation.
-    combined_field.activate!(expect_open: false)
-    combined_field.expect_active!
+    combined_field.activate!
     combined_field.toggle_scheduling_mode
     combined_field.expect_automatic_scheduling_mode
 

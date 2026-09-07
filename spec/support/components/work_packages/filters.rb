@@ -81,10 +81,38 @@ module Components
 
       def quick_filter(text)
         input = page.find_by_id("filter-by-text-input")
+        previous_value = input.value
         input.hover
         input.click
         SeleniumHubWaiter.wait
         input.set text
+        expect(page).to have_field("filter-by-text-input", with: text)
+
+        return if previous_value == text
+
+        page.document.synchronize(20) do
+          filter_value = page.evaluate_script(<<~JS)
+            (() => {
+              const queryProps = new URL(window.location.href).searchParams.get('query_props');
+              if (!queryProps) return null;
+
+              const parsed = JSON.parse(queryProps);
+              if (Array.isArray(parsed)) {
+                return parsed.find((filter) => filter.search)?.search?.values?.[0] ?? null;
+              }
+
+              const search = parsed.f?.find((filter) => filter.n === 'search');
+              return search?.v?.[0] ?? null;
+            })()
+          JS
+
+          unless filter_value == text.presence
+            raise Capybara::ExpectationNotMet,
+                  "Expected quick filter URL state #{text.presence.inspect}, got #{filter_value.inspect}"
+          end
+        end
+
+        wait_for_network_idle(duration: 0.3) if using_cuprite?
       end
 
       def open_available_filter_list
@@ -254,10 +282,13 @@ module Components
       protected
 
       def with_filter_input(id)
-        filter_element = page.find("#filter_#{id}", match: :first)
-        return if filter_element.has_no_selector?(".advanced-filters--filter-value .ng-input input", wait: false)
+        input_selector = "#filter_#{id} .advanced-filters--filter-value .ng-input input"
 
-        yield filter_element.find(".ng-input input")
+        page.document.synchronize do
+          return unless page.has_selector?(input_selector, wait: 0)
+
+          yield page.find(input_selector, wait: 0)
+        end
       end
 
       def filter_button

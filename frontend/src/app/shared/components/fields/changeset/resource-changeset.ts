@@ -63,6 +63,9 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
   /** Reference and load promise for the current form */
   protected form$ = input<FormResource>();
 
+  /** The latest form update triggered by a dependent attribute change. */
+  private pendingFormUpdate:Promise<FormResource>|undefined;
+
   /** Request cache for objects within the changeset for the current form */
   protected cache:Record<string, Promise<unknown>> = {};
 
@@ -110,10 +113,17 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
   /**
    * Build the request attributes against the fresh form
    */
-  public buildRequestPayload():Promise<object> {
-    return this
-      .getForm()
-      .then(() => this.buildPayloadFromChanges());
+  public async buildRequestPayload():Promise<object> {
+    await this.getForm();
+
+    // Changing attributes such as project or type refreshes the form schema.
+    // Do not build a save payload from the previous schema while that request
+    // is still in flight. A newer update may have been queued while awaiting.
+    while (this.pendingFormUpdate) {
+      await this.pendingFormUpdate;
+    }
+
+    return this.buildPayloadFromChanges();
   }
 
   /**
@@ -172,10 +182,10 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
       return Promise.reject();
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    const promise = this.pristineResource
-      .$links
-      .update(payload)
+    const previousUpdate = this.pendingFormUpdate;
+    const promise = (previousUpdate ? previousUpdate.catch(() => undefined) : Promise.resolve())
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-return
+      .then(() => this.pristineResource.$links.update(payload))
       .then((form:FormResource) => {
         this.cache = {};
         this.form$.putValue(form);
@@ -184,8 +194,20 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
         return form;
       }) as Promise<FormResource>;
 
+    this.pendingFormUpdate = promise;
+    promise.then(
+      () => this.clearPendingFormUpdate(promise),
+      () => this.clearPendingFormUpdate(promise),
+    );
+
     this.form$.putFromPromiseIfPristine(() => promise);
     return promise;
+  }
+
+  private clearPendingFormUpdate(promise:Promise<FormResource>):void {
+    if (this.pendingFormUpdate === promise) {
+      this.pendingFormUpdate = undefined;
+    }
   }
 
   /**

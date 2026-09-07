@@ -9,7 +9,7 @@ module Toasts
     def expect_and_dismiss_toaster(message: nil, type: :success, wait: 20)
       expect_toast(type:, message:, wait:)
       dismiss_toaster!
-      expect_no_toaster(type:, message:, wait: 0.1)
+      expect_no_toaster(type:, message:, wait:)
     end
 
     # Like #expect_and_dismiss_toaster, but tolerant of a single user action raising
@@ -18,6 +18,7 @@ module Toasts
     # asserting that none remain.
     def expect_and_dismiss_all_toasters(message: nil, type: :success, wait: 20)
       expect_toast(type:, message:, wait:)
+      wait_for_network_idle(duration: 1) if using_cuprite?
 
       while page.has_css?(".op-toast.-#{type}", wait: 1)
         page.document.synchronize do
@@ -29,7 +30,10 @@ module Toasts
     end
 
     def dismiss_toaster!
-      page.document.synchronize { page.find(".op-toast--close").click }
+      # Toasts can auto-dismiss between the presence assertion and this click.
+      # Clicking the current DOM node in the browser makes that disappearance a
+      # successful dismissal instead of retaining an obsolete Capybara node.
+      page.execute_script("document.querySelector('.op-toast--close')?.click()")
     end
 
     def dismiss_specific_toaster!(message:, type: :success)

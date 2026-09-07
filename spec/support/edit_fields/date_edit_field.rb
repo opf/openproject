@@ -96,13 +96,16 @@ class DateEditField < EditField
 
   def click_to_open_datepicker
     input_element.click
+    datepicker.expect_visible
     datepicker
   end
 
   def activate!(expect_open: true)
     unless active?(wait: 0)
+      wait_for_network_idle if using_cuprite?
       SeleniumHubWaiter.wait unless using_cuprite?
       scroll_to_and_click(block: :nearest) { display_trigger_element }
+      wait_for_network_idle if using_cuprite?
       SeleniumHubWaiter.wait unless using_cuprite?
     end
 
@@ -137,15 +140,11 @@ class DateEditField < EditField
   end
 
   def update(value, save: true, expect_failure: false)
-    # Retry to set attributes due to reloading the page after setting
-    # an attribute, which may cause an input not to open properly.
-    retry_block do
-      activate_edition
-      set_value value
+    activate!
+    set_value value
 
-      save! if save
-      expect_state! open: expect_failure || !save
-    end
+    save! if save
+    expect_state! open: expect_failure || !save
   end
 
   def set_value(value)
@@ -174,7 +173,9 @@ class DateEditField < EditField
   end
 
   def save!
+    datepicker.wait_for_preview_update
     submit_by_click
+    wait_for_network_idle if using_cuprite?
   end
 
   def submit_by_click

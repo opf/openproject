@@ -59,8 +59,9 @@ RSpec.describe "new work package", :js, :selenium do
 
     if set_project
       project_field.openSelectField
-      project_field.set_value project
-      loading_indicator_saveguard
+      wait_for_browser_event("work-package-form-updated") do
+        project_field.set_value project
+      end
     end
 
     scroll_to_and_click find_by_id("work-packages--edit-actions-save")

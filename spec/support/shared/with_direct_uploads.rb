@@ -123,12 +123,13 @@ class WithDirectUploads
 
   def stub_chrome_background_requests
     [
-      %r{\Ahttp://clients2\.google\.com:80/},
-      %r{\Ahttps://accounts\.google\.com:443/},
-      %r{\Ahttps://www\.google\.com:443/},
-      %r{\Ahttps://content-autofill\.googleapis\.com:443/},
-      %r{\Ahttps://optimizationguide-pa\.googleapis\.com:443/},
-      %r{\Ahttps://android\.clients\.google\.com:443/}
+      %r{\Ahttp://clients2\.google\.com(?::80)?/},
+      %r{\Ahttps://accounts\.google\.com(?::443)?/},
+      %r{\Ahttps://www\.google\.com(?::443)?/},
+      %r{\Ahttps://content-autofill\.googleapis\.com(?::443)?/},
+      %r{\Ahttps://optimizationguide-pa\.googleapis\.com(?::443)?/},
+      %r{\Ahttps://update\.googleapis\.com(?::443)?/},
+      %r{\Ahttps://android\.clients\.google\.com(?::443)?/}
     ].each do |url_pattern|
       %w[get post].each do |method|
         proxy.stub(url_pattern, method:).and_return(code: 204, headers: {})

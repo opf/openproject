@@ -55,6 +55,18 @@ RSpec.configure do |config|
       ]
     )
     WebMock.enable!
+    stub_request(:post, %r{\Ahttps://accounts\.google\.com/ListAccounts})
+      .to_return(status: 204, body: "", headers: {})
+    stub_request(:post, %r{\Ahttps?://update\.googleapis\.com/service/update2/json})
+      .to_return(status: 204, body: "", headers: {})
+    stub_request(:post, %r{\Ahttps://android\.clients\.google\.com/(?:checkin|c2dm/register3)})
+      .to_return(status: 204, body: "", headers: {})
+    stub_request(:get, %r{\Ahttp://edgedl\.me\.gvt1\.com/edgedl/})
+      .to_return(status: 204, body: "", headers: {})
+    stub_request(:post, %r{\Ahttps://optimizationguide-pa\.googleapis\.com/v1:GetModels})
+      .to_return(status: 204, body: "", headers: {})
+    stub_request(:get, %r{\Ahttps://optimizationguide-pa\.googleapis\.com/downloads})
+      .to_return(status: 204, body: "", headers: {})
     example.run
   ensure
     WebMock.allow_net_connect!

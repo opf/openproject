@@ -39,11 +39,25 @@ RSpec.describe "Roles report", :js do
 
   current_user { admin }
 
+  around do |example|
+    configuration = Axe::Configuration.instance
+    previous_legacy_mode = configuration.legacy_mode
+    Capybara::Cuprite::Browser.class_eval do
+      define_method(:execute_async_script) do |script, *args|
+        evaluate_async(script, 120, *args)
+      end
+    end
+    configuration.legacy_mode = true
+    example.run
+  ensure
+    configuration.legacy_mode = previous_legacy_mode
+  end
+
   before do
     visit report_roles_path
   end
 
-  it "allows checking and unchecking by row", :selenium do
+  it "allows checking and unchecking by row" do
     expect(page).to have_heading "Permissions report"
     expect(page).to be_axe_clean
       .within("#content")

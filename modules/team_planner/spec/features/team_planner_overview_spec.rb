@@ -85,14 +85,14 @@ RSpec.describe "Team planner overview",
 
   context "with existing views" do
     shared_let(:query) do
-      create(:public_query, user: user_with_full_permissions, project:)
+      create(:public_query, name: "Public query 1", user: user_with_full_permissions, project:)
     end
     shared_let(:team_plan) do
       create(:view_team_planner, query:)
     end
 
     shared_let(:other_query) do
-      create(:public_query, user: user_with_full_permissions, project:)
+      create(:public_query, name: "Public query 2", user: user_with_full_permissions, project:)
     end
     shared_let(:other_team_plan) do
       create(:view_team_planner, query: other_query)
@@ -106,7 +106,7 @@ RSpec.describe "Team planner overview",
     end
 
     shared_let(:other_project_query) do
-      create(:public_query, user: user_with_full_permissions, project: other_project)
+      create(:public_query, name: "Public query 3", user: user_with_full_permissions, project: other_project)
     end
     shared_let(:other_project_team_plan) do
       create(:view_team_planner, query: other_project_query)

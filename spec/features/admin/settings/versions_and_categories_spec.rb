@@ -37,6 +37,12 @@ RSpec.describe "Versions and categories admin settings" do
     login_as(admin)
   end
 
+  def confirm_irreversible_action
+    checkbox = find_field("I understand that this action is not reversible", visible: :all)
+    page.execute_script("arguments[0].click()", checkbox)
+    expect(checkbox).to be_checked
+  end
+
   context "when the setting is off", with_settings: { work_package_multiple_versions: false } do
     before do
       visit "/admin/settings/versions_and_categories"
@@ -139,7 +145,7 @@ RSpec.describe "Versions and categories admin settings" do
       within "[role=alertdialog]" do
         expect(page).to have_button("Enable", disabled: true)
 
-        find_field("I understand that this action is not reversible").click
+        confirm_irreversible_action
 
         expect(page).to have_button("Enable", disabled: false, wait: 10)
       end
@@ -149,7 +155,8 @@ RSpec.describe "Versions and categories admin settings" do
       click_on "Enable multiple values"
 
       within_dialog "Enable multiple target versions" do
-        find_field("I understand that this action is not reversible").click
+        confirm_irreversible_action
+        expect(page).to have_button("Enable", disabled: false, wait: 10)
         click_button "Enable"
       end
 

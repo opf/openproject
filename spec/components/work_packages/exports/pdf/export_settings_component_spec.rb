@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -23,14 +23,19 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-require "spec_helper"
-require_relative "../format_field_expectations"
+require "rails_helper"
 
-RSpec.describe "Project version custom fields", :js do
-  it_behaves_like "expected fields for the Project custom field's format", "Version"
+RSpec.describe WorkPackages::Exports::PDF::ExportSettingsComponent, type: :component do
+  subject(:component) { described_class.new(build_stubbed(:query)) }
+
+  it "disables the Gantt format when its enterprise feature is unavailable", with_ee: [] do
+    render_inline(component)
+
+    expect(page).to have_field("pdf_export_type_gantt", type: "radio", disabled: true)
+  end
 end

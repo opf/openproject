@@ -158,7 +158,9 @@ RSpec.describe "Meeting Backlogs", :js do
 
         # move item to backlog
         wp_item = MeetingAgendaItem.find(wp_agenda_item.id)
-        show_page.select_action(wp_item, I18n.t(:label_agenda_item_move_to_backlog))
+        wait_for_turbo_stream(wait: 20) do
+          show_page.select_action(wp_item, I18n.t(:label_agenda_item_move_to_backlog))
+        end
 
         show_page.expect_backlog_count(3)
         show_page.expect_backlog collapsed: false
@@ -168,11 +170,15 @@ RSpec.describe "Meeting Backlogs", :js do
         show_page.expect_backlog_actions(item)
 
         # reorder items within backlog
-        show_page.select_action(wp_item, I18n.t(:label_agenda_item_move_to_top))
+        wait_for_turbo_stream(wait: 20) do
+          show_page.select_action(wp_item, I18n.t(:label_agenda_item_move_to_top))
+        end
         show_page.expect_backlog collapsed: false
 
         # move item to current meeting
-        show_page.select_action(wp_item, I18n.t(:label_agenda_item_move_to_current_meeting))
+        wait_for_turbo_stream(wait: 20) do
+          show_page.select_action(wp_item, I18n.t(:label_agenda_item_move_to_current_meeting))
+        end
         show_page.expect_backlog_count(2)
         show_page.expect_backlog collapsed: false
 
@@ -195,8 +201,14 @@ RSpec.describe "Meeting Backlogs", :js do
         show_page.expect_empty_backlog
 
         # clear and autocollapse backlog
-        show_page.select_action(wp_item, I18n.t(:label_agenda_item_move_to_backlog))
-        show_page.select_action(agenda_item, I18n.t(:label_agenda_item_move_to_backlog))
+        wait_for_turbo_stream(wait: 20) do
+          show_page.select_action(wp_item, I18n.t(:label_agenda_item_move_to_backlog))
+        end
+        show_page.expect_backlog_count(1)
+        wait_for_turbo_stream(wait: 20) do
+          show_page.select_action(agenda_item, I18n.t(:label_agenda_item_move_to_backlog))
+        end
+        show_page.expect_backlog_count(2)
         show_page.clear_backlog
         show_page.expect_backlog collapsed: true
 
@@ -358,7 +370,9 @@ RSpec.describe "Meeting Backlogs", :js do
         first_occurrence_page.expect_backlog_actions(item, series: true)
 
         # reorder items within backlog
-        first_occurrence_page.select_action(item, I18n.t(:label_agenda_item_move_to_bottom))
+        wait_for_turbo_stream(wait: 20) do
+          first_occurrence_page.select_action(item, I18n.t(:label_agenda_item_move_to_bottom))
+        end
         first_occurrence_page.expect_series_backlog collapsed: false
 
         # edit item
@@ -513,10 +527,10 @@ RSpec.describe "Meeting Backlogs", :js do
       show_page.visit!
       show_page.click_on_backlog
       item = MeetingAgendaItem.find(meeting_agenda_item.id)
-      show_page.select_action(item, I18n.t(:label_agenda_item_move_to_backlog))
-      retry_block do
-        show_page.expect_no_outcome_action(item)
+      wait_for_turbo_stream do
+        show_page.select_action(item, I18n.t(:label_agenda_item_move_to_backlog))
       end
+      show_page.expect_no_outcome_action(item)
     end
 
     it "show for items that had outcomes before being moved to the backlog" do
@@ -529,12 +543,12 @@ RSpec.describe "Meeting Backlogs", :js do
         click_link_or_button "Save"
       end
       show_page.expect_outcome "Backlog outcome"
-      show_page.select_action(item, I18n.t(:label_agenda_item_move_to_backlog))
-      retry_block do
-        show_page.expect_no_outcome_actions
-        show_page.expect_no_outcome_button
-        show_page.expect_no_outcome_action(item)
+      wait_for_turbo_stream do
+        show_page.select_action(item, I18n.t(:label_agenda_item_move_to_backlog))
       end
+      show_page.expect_no_outcome_actions
+      show_page.expect_no_outcome_button
+      show_page.expect_no_outcome_action(item)
     end
   end
 

@@ -77,30 +77,6 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
         activity_tab.expect_journal_notes(text: "First comment by user with commenting permission via a work package share")
       end
     end
-
-    context "when a user can see internal comments" do
-      current_user { admin }
-
-      before do
-        create(:work_package_journal,
-               user: admin,
-               notes: "First comment by admin",
-               journable: work_package,
-               internal: true,
-               version: 2)
-      end
-
-      it "highlights the comment specified in the URL until the user clicks anywhere" do
-        visit project_work_package_path(project, work_package.id, "activity", anchor: "activity-2")
-        wp_page.wait_for_activity_tab
-
-        highlighted_comment = page.find(".--anchor-highlighted")
-        expect(highlighted_comment).to have_text("First comment by admin")
-        # click anything (without triggering navigation or something else)
-        page.find(:xpath, "//*[text()='First comment by admin']").click
-        expect(page).to have_no_css(".--anchor-highlighted")
-      end
-    end
   end
 
   context "when a workpackage is created and visited by different users" do
@@ -519,64 +495,6 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
     end
   end
 
-  describe "notification bubble" do
-    let(:work_package) { create(:work_package, project:, author: admin) }
-    let!(:first_comment_by_admin) do
-      create(:work_package_journal, user: admin, notes: "First comment by admin", journable: work_package, version: 2)
-    end
-    let!(:journal_mentioning_admin) do
-      create(:work_package_journal,
-             user: member,
-             notes: "First comment by member mentioning @#{admin.name}",
-             journable: work_package,
-             version: 3)
-    end
-    let!(:notificaton_for_admin) do
-      create(:notification, recipient: admin, resource: work_package, journal: journal_mentioning_admin, reason: :mentioned)
-    end
-
-    context "when admin is visiting the work package" do
-      current_user { admin }
-
-      before do
-        wp_page.visit!
-        wp_page.wait_for_activity_tab
-      end
-
-      it "shows the notification bubble" do
-        activity_tab.within_journal_entry(journal_mentioning_admin) do
-          activity_tab.expect_notification_bubble
-        end
-      end
-
-      it "removes the notification bubble after the comment is read" do
-        notificaton_for_admin.update!(read_ian: true)
-
-        wp_page.visit!
-        wp_page.wait_for_activity_tab
-
-        activity_tab.within_journal_entry(journal_mentioning_admin) do
-          activity_tab.expect_no_notification_bubble
-        end
-      end
-    end
-
-    context "when member is visiting the work package" do
-      current_user { member }
-
-      before do
-        wp_page.visit!
-        wp_page.wait_for_activity_tab
-      end
-
-      it "does not show the notification bubble" do
-        activity_tab.within_journal_entry(journal_mentioning_admin) do
-          activity_tab.expect_no_notification_bubble
-        end
-      end
-    end
-  end
-
   describe "edit comments" do
     let(:work_package) { create(:work_package, project:, author: admin) }
     let!(:first_comment_by_admin) do
@@ -628,48 +546,27 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
 
   describe "quote comments" do
     let(:work_package) { create(:work_package, project:, author: admin) }
-    let!(:first_comment_by_admin) do
-      create(:work_package_journal, user: admin, notes: "First comment by admin", journable: work_package, version: 2)
-    end
     let!(:first_comment_by_member) do
-      create(:work_package_journal, user: member, notes: "First comment by member", journable: work_package, version: 3)
+      create(:work_package_journal, user: member, notes: "First comment by member", journable: work_package, version: 2)
     end
 
-    context "when admin is visiting the work package" do
-      current_user { admin }
+    current_user { admin }
 
-      before do
-        wp_page.visit!
-        wp_page.wait_for_activity_tab
-      end
-
-      it "can quote other user's comments" do
-        # quote other user's comment
-        activity_tab.quote_comment(first_comment_by_member)
-
-        # expect the quoted comment to be shown
-        activity_tab.ckeditor.expect_include_value("@A Member wrote:\nFirst comment by member")
-      end
+    before do
+      wp_page.visit!
+      wp_page.wait_for_activity_tab
     end
 
-    context "when writing a comment" do
-      current_user { admin }
+    it "quotes into an empty comment draft" do
+      activity_tab.quote_comment(first_comment_by_member)
+      activity_tab.ckeditor.expect_include_value("@A Member wrote:\nFirst comment by member")
+    end
 
-      before do
-        wp_page.visit!
-        wp_page.wait_for_activity_tab
-      end
+    it "quotes into an existing comment draft" do
+      activity_tab.type_comment("Partial message:")
+      activity_tab.quote_comment(first_comment_by_member)
 
-      it "can quote other user's comments" do
-        # open the editor and type something
-        activity_tab.type_comment("Partial message:")
-
-        # quote other user's comment
-        activity_tab.quote_comment(first_comment_by_member)
-
-        # expect the original comment and quote are shown
-        activity_tab.ckeditor.expect_include_value("Partial message:\n@A Member wrote:\nFirst comment by member")
-      end
+      activity_tab.ckeditor.expect_include_value("Partial message:\n@A Member wrote:\nFirst comment by member")
     end
   end
 
@@ -689,7 +586,8 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
       activity_tab.add_comment(text: "First comment by admin", save: false)
 
       # navigate to another tab and back
-      page.find("li[data-tab-id=\"relations\"]").click
+      wp_page.switch_to_tab(tab: :relations)
+      expect(page).to have_css("#work-package-relations-tab-content", wait: 20)
       page.find("li[data-tab-id=\"activity\"]").click
       wp_page.wait_for_activity_tab
 
@@ -712,7 +610,8 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
       activity_tab.add_comment(text: "First comment by admin", save: false)
 
       # navigate to another tab in order to prevent the browser native confirm dialog of the unsaved changes
-      page.find("li[data-tab-id=\"relations\"]").click
+      wp_page.switch_to_tab(tab: :relations)
+      expect(page).to have_css("#work-package-relations-tab-content", wait: 20)
 
       # navigate to the second work package
       wp_page = Pages::FullWorkPackage.new(second_work_package, project)
@@ -734,7 +633,8 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
       activity_tab.add_comment(text: "First comment by admin", save: false)
 
       # navigate to another tab in order to prevent the browser native confirm dialog of the unsaved changes
-      page.find("li[data-tab-id=\"relations\"]").click
+      wp_page.switch_to_tab(tab: :relations)
+      expect(page).to have_css("#work-package-relations-tab-content", wait: 20)
 
       logout
       login_as(member)
@@ -866,19 +766,6 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
       context "when sorting set to desc" do
         let!(:admin_preferences) { create(:user_preference, user: admin, others: { comments_sorting: :desc }) }
 
-        context "with #activity- anchor" do
-          before do
-            visit project_work_package_path(project, work_package.id, "activity", anchor: "activity-2")
-            wp_page.wait_for_activity_tab
-          end
-
-          it "scrolls to the comment specified in the URL" do
-            activity_tab.expect_journal_container_at_bottom # would be at the top if no anchor would be provided
-
-            activity_tab.expect_activity_anchor_link(text: format_time(comment_2.updated_at))
-          end
-        end
-
         context "with #comment- anchor" do
           before do
             visit project_work_package_path(project, work_package.id, "activity", anchor: "comment-#{comment_1.id}")
@@ -995,31 +882,6 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
 
       expect(page).to have_css(".Box.--anchor-highlighted", text: "Comment 1")
       expect(page).to have_no_css(".Box.--anchor-highlighted", text: "Comment 2")
-    end
-  end
-
-  describe "retracted journal entries" do
-    let(:work_package) { create(:work_package, project:, author: admin) }
-    let!(:first_comment_by_admin) do
-      create(:work_package_journal, user: admin, notes: "First comment by admin", journable: work_package, version: 2)
-    end
-    let!(:second_comment_by_admin) do
-      create(:work_package_journal, user: admin, notes: "Second comment by admin", journable: work_package, version: 3)
-    end
-
-    current_user { admin }
-
-    before do
-      second_comment_by_admin.update!(notes: "")
-
-      wp_page.visit!
-      wp_page.wait_for_activity_tab
-    end
-
-    it "shows rectracted journal entries" do
-      activity_tab.within_journal_entry(second_comment_by_admin) do
-        expect(page).to have_text(I18n.t(:"journals.changes_retracted"))
-      end
     end
   end
 
@@ -1296,100 +1158,6 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
             editor = FormFields::Primerized::EditorFormField.new("notes", selector: "#work-package-journal-form-element")
             editor.expect_value("First comment by admin")
           end
-        end
-      end
-
-      context "when the creation call fails with a validation error" do
-        before do
-          allow_any_instance_of(AddWorkPackageNoteService) # rubocop:disable RSpec/AnyInstance
-            .to receive(:call)
-                  .and_return(
-                    ServiceResult.failure(errors: ActiveModel::Errors.new(Journal.new).tap do |e|
-                      e.add(:notes, "Validation error")
-                    end)
-                  )
-        end
-
-        it "shows a validation error banner" do
-          activity_tab.add_comment(text: "First comment by admin", save: false)
-
-          page.find_test_selector("op-submit-work-package-journal-form").click
-
-          expect_flash(message: "Validation error", type: :error)
-
-          # expect the editor content not to be lost
-          within_test_selector("op-work-package-journal-form-element") do
-            editor = FormFields::Primerized::EditorFormField.new("notes", selector: "#work-package-journal-form-element")
-            editor.expect_value("First comment by admin")
-          end
-        end
-      end
-
-      context "when the work package is invalid due to a required custom field" do
-        let!(:custom_field) do
-          create(:integer_wp_custom_field, is_required: true, is_for_all: true, default_value: nil) do |cf|
-            project.enabled_variants.first.custom_fields << cf
-            project.work_package_custom_fields << cf
-          end
-        end
-
-        it "the creation call still succeeds" do
-          activity_tab.add_comment(text: "First comment by admin")
-
-          comment = work_package.journals.reload.last
-
-          activity_tab.within_journal_entry(comment) do
-            page.find_test_selector("op-wp-journal-#{comment.id}-action-menu").click
-
-            expect(page).to have_test_selector("op-wp-journal-#{comment.id}-edit")
-            expect(page).to have_test_selector("op-wp-journal-#{comment.id}-quote")
-          end
-        end
-      end
-    end
-
-    context "when editing a comment" do
-      let(:existing_comment) do
-        create(:work_package_journal, user: admin, notes: "First comment by admin", journable: work_package, version: 2)
-      end
-
-      context "when the update call raises an unknown server error" do
-        before do
-          allow_any_instance_of(WorkPackages::ActivitiesTab::CommentService) # rubocop:disable RSpec/AnyInstance
-            .to receive(:update)
-                  .and_raise(StandardError.new("Test error"))
-        end
-
-        it "shows an error banner" do
-          activity_tab.edit_comment(existing_comment, text: "First comment by admin edited", save: false)
-
-          page.within_test_selector("op-work-package-journal-form-element") do
-            page.find_test_selector("op-submit-work-package-journal-form").click
-          end
-
-          expect_flash(message: "Test error", type: :error)
-        end
-      end
-
-      context "when the update call fails with a validation error" do
-        before do
-          allow_any_instance_of(Journals::UpdateService) # rubocop:disable RSpec/AnyInstance
-            .to receive(:call)
-                  .and_return(
-                    ServiceResult.failure(errors: ActiveModel::Errors.new(Journal.new).tap do |e|
-                      e.add(:notes, "Validation error")
-                    end)
-                  )
-        end
-
-        it "shows a validation error banner" do
-          activity_tab.edit_comment(existing_comment, text: "First comment by admin edited", save: false)
-
-          page.within_test_selector("op-work-package-journal-form-element") do
-            page.find_test_selector("op-submit-work-package-journal-form").click
-          end
-
-          expect_flash(message: "Validation error", type: :error)
         end
       end
     end

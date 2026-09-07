@@ -2,22 +2,31 @@
 
 RSpec.shared_examples "as an accessible inplace editor" do
   it "triggers edit mode on click" do
-    scroll_to_element(field.display_element)
+    page.document.synchronize(20) { scroll_to_element(field.display_element) }
     field.activate_edition
     expect(field).to be_editing
     field.cancel_by_escape
   end
 
   it "triggers edit mode on RETURN key" do
-    scroll_to_element(field.display_element)
-
-    field.display_element.send_keys(:return)
-    expect(field).to be_editing
+    if using_cuprite?
+      page.document.synchronize(20) do
+        element = field.display_element
+        scroll_to_element(element)
+        page.execute_script(<<~JS, element)
+          arguments[0].dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true }))
+        JS
+      end
+    else
+      page.document.synchronize(20) { scroll_to_element(field.display_element) }
+      field.display_element.send_keys(:return)
+    end
+    field.expect_active!
     field.cancel_by_escape
   end
 
   it "is focusable" do
-    scroll_to_element(field.display_element)
+    page.document.synchronize(20) { scroll_to_element(field.display_element) }
 
     tab_index = field.display_element["tabindex"]
     expect(tab_index).not_to be_nil
@@ -49,6 +58,7 @@ end
 
 RSpec.shared_context "as a single validation point" do
   let(:other_field) { EditField.new page, :type }
+
   before do
     other_field.activate_edition
     field.activate_edition
@@ -80,15 +90,25 @@ RSpec.shared_examples "a cancellable field" do
       expect(field).not_to be_editing
       field.expect_state_text(work_package.send(property_name))
 
-      active_class_name = page.evaluate_script("document.activeElement.className")
-      expect(active_class_name).to include(field.display_selector[1..])
+      page.document.synchronize do
+        active_class_name = page.evaluate_script("document.activeElement.className").to_s
+        unless active_class_name.include?(field.display_selector[1..])
+          active_element = page.evaluate_script("document.activeElement.outerHTML")
+          raise Capybara::ExpectationNotMet,
+                "Expected focus to return to the display field, but active element was #{active_element}"
+        end
+      end
     end
   end
 
   context "for escape" do
     before do
       field.activate!
-      sleep 1
+      page.document.synchronize do
+        unless field.input_element == page.evaluate_script("document.activeElement")
+          raise Capybara::ExpectationNotMet, "Expected the editor to receive focus"
+        end
+      end
       field.cancel_by_escape
     end
 
@@ -133,8 +153,12 @@ RSpec.shared_examples "a principal autocomplete field" do
     it "autocompletes links to user profiles" do
       field.activate!
       field.clear with_backspace: true
-      field.ckeditor.click_and_type_slowly " @lau"
-      expect(page).to have_css(".mention-list-item", text: mentioned_user.name, wait: 10)
+      field.ckeditor.click_and_type_slowly " @"
+      wait_for_network_idle
+      expect(page).to have_css(".mention-list-item", wait: 20)
+      field.ckeditor.type_slowly "lau"
+      wait_for_network_idle
+      expect(page).to have_css(".mention-list-item", text: mentioned_user.name, wait: 20)
       expect(page).to have_css(".mention-list-item", text: mentioned_group.name)
       expect(page).to have_no_css(".mention-list-item", text: user.name)
 
@@ -143,8 +167,12 @@ RSpec.shared_examples "a principal autocomplete field" do
       field.ckeditor.clear
       expect(page).to have_no_css(".mention-list-item")
 
-      field.ckeditor.type_slowly "@Laura"
-      expect(page).to have_css(".mention-list-item", text: mentioned_user.name, wait: 10)
+      field.ckeditor.type_slowly "@"
+      wait_for_network_idle
+      expect(page).to have_css(".mention-list-item", wait: 20)
+      field.ckeditor.type_slowly "Laura"
+      wait_for_network_idle
+      expect(page).to have_css(".mention-list-item", text: mentioned_user.name, wait: 20)
       expect(page).to have_no_css(".mention-list-item", text: mentioned_group.name)
       expect(page).to have_no_css(".mention-list-item", text: user.name)
     end

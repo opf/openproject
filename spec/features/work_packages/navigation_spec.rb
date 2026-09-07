@@ -190,7 +190,7 @@ RSpec.describe "Work package navigation", :js do
 
     wait_for_network_idle
 
-    page.find(".wp-table--cell-td.id a", text: work_package.id).click
+    page.find(".wp-table--cell-td.id a", text: work_package.id, wait: 20).click
 
     full_page = Pages::FullWorkPackage.new work_package, work_package.project
     full_page.ensure_page_loaded

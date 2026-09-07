@@ -146,9 +146,9 @@ module Pages
     # @param group_membership [Boolean] True if the member is added through a group.
     #                                   Such members cannot be removed separately which
     #                                   is why there must be only an edit and no delete button.
-    def has_user?(name, roles: nil, group_membership: nil, group: false)
+    def has_user?(name, roles: nil, group_membership: nil, group: false, wait: 0.5)
       css = group ? "tr.group" : "tr"
-      has_selector?(css, text: name, wait: 0.5) &&
+      has_selector?(css, text: name, wait:) &&
         (roles.nil? || has_roles?(name, roles, group:)) &&
         (group_membership.nil? || group_membership == has_group_membership?(name))
     end

@@ -50,8 +50,10 @@ RSpec.describe "Show burndown chart", :js do
 
     planning_page.click_in_sprint_menu(sprint, "Burndown chart")
 
-    expect(page)
-      .to have_heading(sprint.name, level: 2, exact: true)
+    Capybara.using_wait_time(20) do
+      expect(page)
+        .to have_heading(sprint.name, level: 2, exact: true)
+    end
     expect(page)
       .to have_text "#{sprint.start_date.strftime('%m/%d/%Y')} – #{sprint.finish_date.strftime('%m/%d/%Y')}"
     expect(page)

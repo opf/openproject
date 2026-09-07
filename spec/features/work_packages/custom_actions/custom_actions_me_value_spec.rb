@@ -77,6 +77,8 @@ RSpec.describe "Custom actions me value", :js, with_ee: %i[custom_actions] do
 
     wp_page.expect_custom_action("Set CF to me")
     wp_page.click_custom_action("Set CF to me")
-    wp_page.expect_attributes "customField#{custom_field.id}": user.name
+    Capybara.using_wait_time(20) do
+      wp_page.expect_attributes "customField#{custom_field.id}": user.name
+    end
   end
 end

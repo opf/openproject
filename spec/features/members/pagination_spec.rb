@@ -61,7 +61,7 @@ RSpec.describe "members pagination", :js do
       members_page.set_items_per_page! 2
 
       members_page.visit!
-      expect(members_page).to have_user "Alice Alison" # members are sorted by last name desc
+      expect(members_page).to have_user "Alice Alison", wait: 20 # members are sorted by last name desc
       members_page.add_user! "Peter Pan", as: "Manager"
 
       members_page.go_to_page! 2

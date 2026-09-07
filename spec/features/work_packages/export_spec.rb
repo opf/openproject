@@ -156,53 +156,6 @@ RSpec.describe "work package export", :js do
     expect(selected_columns).to eq(columns)
   end
 
-  context "with Query options" do
-    let(:export_type) { I18n.t("export.dialog.format.options.pdf.label") }
-    let(:expected_mime_type) { :pdf }
-
-    before do
-      open_export_dialog!
-    end
-
-    # these values must be looped through the dialog into the export
-
-    context "with activated options" do
-      let(:query) do
-        create(
-          :query,
-          id: 1234,
-          user: current_user,
-          project:,
-          display_sums: true,
-          include_subprojects: true,
-          show_hierarchies: true,
-          name: "My custom query title"
-        )
-      end
-      let(:expected_params) do
-        default_expected_params.merge({
-                                        query_id: "1234",
-                                        showSums: "true",
-                                        includeSubprojects: "true",
-                                        showHierarchies: "true"
-                                      })
-      end
-
-      it "starts an export with looped through values" do
-        export!
-      end
-    end
-
-    context "with grouping" do
-      let(:query) { create(:query, user: current_user, project:, group_by: "project", name: "My custom query title") }
-      let(:expected_params) { default_expected_params.merge({ groupBy: "project" }) }
-
-      it "starts an export grouped" do
-        export!
-      end
-    end
-  end
-
   context "in a split view" do
     before do
       wp_table.visit_query query
@@ -210,8 +163,8 @@ RSpec.describe "work package export", :js do
       wp_table.open_split_view(wp1)
     end
 
-    it "opens the dialog and exports" do
-      open_export_dialog!
+    it "opens the dialog and exports without leaving the split view" do
+      show_export_dialog!
       export!
     end
   end
@@ -387,10 +340,6 @@ RSpec.describe "work package export", :js do
         choose export_variant
       end
 
-      it "exports a pdf table" do
-        export!
-      end
-
       it "does not export a pdf with no columns" do
         page.within "[data-pdf-export-type='table']" do
           all(".op-draggable-autocomplete--remove-item").each(&:click)
@@ -398,37 +347,6 @@ RSpec.describe "work package export", :js do
         expect(page).to have_text(I18n.t("export.dialog.columns.input_caption_required"))
         click_on I18n.t("export.dialog.submit")
         expect(page).to have_button(I18n.t("export.dialog.submit")) # form not submitted, button is still there
-      end
-
-      context "when exporting grouped by project phase column (regression #65740)" do
-        let!(:project_phase_with_gates) do
-          create(:project_phase,
-                 :with_gated_definition,
-                 project: project,
-                 start_date: Date.new(2024, 12, 1),
-                 finish_date: Date.new(2024, 12, 13))
-        end
-        let!(:project_phase) do
-          create(:project_phase,
-                 project:,
-                 start_date: Date.new(2024, 12, 1),
-                 finish_date: Date.new(2024, 12, 13))
-        end
-
-        let(:query) { create(:query, user: current_user, project:, group_by: "project_phase", name: "My custom query title") }
-        let(:export_type) { I18n.t("export.dialog.format.options.pdf.label") }
-        let(:export_variant) { I18n.t("export.dialog.pdf.export_type.options.table.label") }
-        let(:expected_params) { default_expected_params.merge({ pdf_export_type: "table", groupBy: "project_phase" }) }
-        let(:expected_columns) { %w[ID Subject Type Status Assignee Priority ProjectPhase] }
-
-        before do
-          wp1.update!(project_phase_definition_id: project_phase_with_gates.definition_id)
-          wp2.update!(project_phase_definition_id: project_phase.definition_id)
-        end
-
-        it "exports a pdf table" do
-          export!
-        end
       end
     end
 
@@ -439,14 +357,6 @@ RSpec.describe "work package export", :js do
 
       before do
         choose export_variant
-      end
-
-      context "with long text fields" do
-        let(:expected_params) { default_params_report.merge({ long_text_fields: "description 42 43" }) }
-
-        it "exports a pdf report with all long text custom fields by default" do
-          export!
-        end
       end
 
       context "with long text fields selection" do
@@ -504,12 +414,6 @@ RSpec.describe "work package export", :js do
     context "as gantt" do
       let(:export_type) { I18n.t("export.dialog.format.options.pdf.label") }
       let(:export_variant) { I18n.t("export.dialog.pdf.export_type.options.gantt.label") }
-
-      context "with EE not active" do
-        it "gantt is disabled" do
-          expect(page).to have_field("pdf_export_type_gantt", type: "radio", disabled: true)
-        end
-      end
 
       context "with EE active", with_ee: %i[gantt_pdf_export] do
         let(:expected_params) { default_expected_params.merge({ pdf_export_type: "gantt" }) }

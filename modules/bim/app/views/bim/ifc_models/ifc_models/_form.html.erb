@@ -55,6 +55,8 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= nonced_javascript_tag do %>
   document.addEventListener('DOMContentLoaded', function() {
+    let pendingMetadataUpdate = Promise.resolve();
+
     const setDirectUploadFileName = function () {
       const fileNameField = document.querySelector('input[type=file]');
       const selectedFile = fileNameField?.files?.[0];
@@ -91,29 +93,32 @@ See COPYRIGHT and LICENSE files for more details.
         filesize: selectedFile.size
       });
 
-      return fetch("<%= set_direct_upload_file_name_bcf_project_ifc_models_path %>", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') ?? ''
-        },
-        credentials: 'same-origin',
-        body: body
-      }).then(response => {
-        if (response.status === 401) {
-          document.location.reload(); // reload to make user login again
-          return Promise.reject();
-        }
-        if (response.status === 422) {
-          return response.json().then(data => {
-            const errorMessage = data.error;
-            fileNameField.setCustomValidity(errorMessage);
-            fileNameField.reportValidity();
-            return Promise.reject(errorMessage);
-          });
-        }
-        return;
+      pendingMetadataUpdate = pendingMetadataUpdate.catch(() => {}).then(() => {
+        return fetch("<%= set_direct_upload_file_name_bcf_project_ifc_models_path %>", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') ?? ''
+          },
+          credentials: 'same-origin',
+          body: body
+        }).then(response => {
+          if (response.status === 401) {
+            document.location.reload(); // reload to make user login again
+            return Promise.reject();
+          }
+          if (response.status === 422) {
+            return response.json().then(data => {
+              const errorMessage = data.error;
+              fileNameField.setCustomValidity(errorMessage);
+              fileNameField.reportValidity();
+              return Promise.reject(errorMessage);
+            });
+          }
+        });
       });
+
+      return pendingMetadataUpdate;
     };
 
     const isDefaultCheckbox = document.getElementById('bim_ifc_models_ifc_model_is_default');
@@ -160,29 +165,21 @@ See COPYRIGHT and LICENSE files for more details.
       });
     }
 
-    <% unless @ifc_model.new_record? %>
-      <%# The titleField might have changed AFTER selecting a file. Therefore,
-          we need to intercept form submits to first send the file name etc and
-          then submit.
+    let submitted = false;
+    const form = document.querySelector('input[type=file]')?.form;
+    if (form) {
+      form.addEventListener('submit', (e) => {
+        if (submitted) { return; }
 
-          Also, we need take care not to end up in a submit loop. So prevent it to
-          be submitted several times. %>
-      let submitted = false;
-      const form = document.getElementById('edit_bim_ifc_models_ifc_model_<%= @ifc_model.id %>');
-      if (form) {
-        form.addEventListener('submit', (e) => {
-          if (submitted) { return; }
-
-          e.preventDefault();
-          setDirectUploadFileName()
-            .then(() => {
-              submitted = true;
-              form.submit();
-            })
-            .catch(() => {});
-        });
-      }
-    <% end %>
+        e.preventDefault();
+        setDirectUploadFileName()
+          .then(() => {
+            submitted = true;
+            form.submit();
+          })
+          .catch(() => {});
+      });
+    }
   });
 <% end %>
 

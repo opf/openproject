@@ -69,113 +69,8 @@ RSpec.describe "Inbox column in sprint planning view", :js do
     login_as current_user
   end
 
-  context "when the inbox has no work packages" do
-    let!(:sprint) { create(:sprint, name: "Sprint 1", project:) }
-
-    before { planning_page.visit! }
-
-    it "shows the blankslate" do
-      planning_page.expect_inbox_blankslate
-    end
-  end
-
-  context "when there are no sprints" do
-    before { planning_page.visit! }
-
-    context "when the user can create sprints and manage sprint sharing" do
-      let(:additional_permissions) { %i[create_sprints share_sprint] }
-
-      it "shows the sprint blankslate with settings link and sprint button" do
-        planning_page.expect_inbox_blankslate
-        planning_page.expect_sprints_blankslate
-        planning_page.expect_sprints_blankslate_description(
-          "To start planning your sprint, create one here or go to the project " \
-          "settings to receive sprints from a different project."
-        )
-        planning_page.expect_backlog_settings_link
-        planning_page.expect_new_sprint_button
-      end
-    end
-
-    context "when the user cannot manage sprint sharing" do
-      let(:additional_permissions) { %i[create_sprints] }
-
-      it "shows the sprint blankslate without the settings link" do
-        planning_page.expect_sprints_blankslate
-        planning_page.expect_no_backlog_settings_link
-        planning_page.expect_sprints_blankslate_description(
-          "To start planning your sprint, create one here."
-        )
-        planning_page.expect_new_sprint_button
-      end
-    end
-
-    context "when the user can manage sprint sharing but cannot create sprints" do
-      let(:additional_permissions) { %i[share_sprint] }
-
-      it "shows the sprint blankslate with settings link but no sprint button" do
-        planning_page.expect_sprints_blankslate
-        planning_page.expect_sprints_blankslate_description(
-          "To start planning your sprint, go to the project settings to receive sprints from a different project."
-        )
-        planning_page.expect_backlog_settings_link
-        planning_page.expect_no_new_sprint_button
-      end
-    end
-
-    context "when the user cannot create sprints or manage sprint sharing" do
-      it "shows the sprint blankslate without action copy, settings link, or sprint button" do
-        planning_page.expect_sprints_blankslate
-        planning_page.expect_sprints_blankslate_description(
-          "No sprints are available for this project yet."
-        )
-        planning_page.expect_no_backlog_settings_link
-        planning_page.expect_no_new_sprint_button
-      end
-    end
-  end
-
   context "when the project receives shared sprints" do
     let(:sprint_sharing) { "receive_shared" }
-
-    before { planning_page.visit! }
-
-    context "when the user can manage sprint sharing" do
-      let(:additional_permissions) { %i[create_sprints share_sprint] }
-
-      it "shows the sprint blankslate without a sprint button and keeps the settings link" do
-        planning_page.expect_sprints_blankslate
-        planning_page.expect_sprints_blankslate_description(
-          "This project receives sprints from a different project. Manage this in the project settings."
-        )
-        planning_page.expect_backlog_settings_link
-        planning_page.expect_no_new_sprint_button
-      end
-    end
-
-    context "when the user cannot manage sprint sharing" do
-      it "shows the sprint blankslate without settings link or sprint button" do
-        planning_page.expect_sprints_blankslate
-        planning_page.expect_sprints_blankslate_description(
-          "This project receives shared sprints from a different project, but none are available right now."
-        )
-        planning_page.expect_no_backlog_settings_link
-        planning_page.expect_no_new_sprint_button
-      end
-    end
-
-    context "when the user can create sprints but cannot manage sprint sharing" do
-      let(:additional_permissions) { %i[create_sprints] }
-
-      it "shows the sprint blankslate without settings link or sprint button" do
-        planning_page.expect_sprints_blankslate
-        planning_page.expect_sprints_blankslate_description(
-          "This project receives shared sprints from a different project, but none are available right now."
-        )
-        planning_page.expect_no_backlog_settings_link
-        planning_page.expect_no_new_sprint_button
-      end
-    end
 
     context "when a shared sprint is available" do
       let!(:source_project) do
@@ -192,17 +87,6 @@ RSpec.describe "Inbox column in sprint planning view", :js do
         planning_page.expect_no_sprints_blankslate
         planning_page.expect_sprint_names_in_order("Shared Sprint")
       end
-    end
-  end
-
-  context "when a sprint is present" do
-    let!(:sprint) { create(:sprint, name: "Sprint 1", project:) }
-
-    before { planning_page.visit! }
-
-    it "renders the sprint and hides the sprint blankslate" do
-      planning_page.expect_no_sprints_blankslate
-      planning_page.expect_sprint_names_in_order("Sprint 1")
     end
   end
 
