@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title (@report.persisted? ? "#{t(:label_cost_report)}: #{@report.name}" : t(:label_new_report)) %>
+<% html_title (@report.persisted? ? "#{CostReport.model_name.human}: #{@report.name}" : t(:label_new_report)) %>
 
 <% content_controller "reporting--page" %>
 
