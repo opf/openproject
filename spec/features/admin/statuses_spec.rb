@@ -50,6 +50,12 @@ RSpec.describe "Statuses admin page", :js do
 
     let(:statuses_page) { Pages::Admin::Statuses.new }
 
+    it "names the page for the collection it lists" do
+      statuses_page.visit!
+
+      statuses_page.expect_header_to_display("Statuses")
+    end
+
     it "reorders statuses through the action menu" do
       statuses_page.visit!
 

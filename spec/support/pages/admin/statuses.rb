@@ -35,6 +35,12 @@ module Pages
     class Statuses < ::Pages::Page
       def path = "/statuses"
 
+      def expect_header_to_display(text)
+        expect(page).to have_css("h2", text:)
+        expect(page).to have_css(".breadcrumb-item-selected", text:)
+        expect(page).to have_title("#{text} | Work packages | Administration | OpenProject")
+      end
+
       def expect_listed(*names)
         page.document.synchronize do
           found = page.all("#{row_selector} a").map(&:text)

@@ -27,15 +27,15 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), t(:label_work_package_plural), I18n.t(:label_status) -%>
+<% html_title t(:label_administration), t(:label_work_package_plural), I18n.t(:label_status_plural) -%>
 
 <%=
   render Primer::OpenProject::PageHeader.new do |header|
-    header.with_title { I18n.t(:label_status) }
+    header.with_title { I18n.t(:label_status_plural) }
     header.with_breadcrumbs(
       [{ href: admin_index_path, text: t("label_administration") },
        { href: admin_settings_work_packages_general_path, text: t(:label_work_package_plural) },
-       I18n.t(:label_status)]
+       I18n.t(:label_status_plural)]
     )
   end
 %>
