@@ -86,7 +86,7 @@ module Wikis
 
       def show_redirect_uri
         update_via_turbo_stream(
-          component: Wikis::Admin::Forms::RedirectUriFormComponent.new(@wiki_provider, is_complete: true)
+          component: Wikis::Admin::Forms::RedirectUriFormComponent.new(@wiki_provider, read_only: true)
         )
         respond_with_turbo_streams
       end
@@ -120,7 +120,7 @@ module Wikis
           redirect_to new_admin_settings_wiki_provider_path(continue_wizard: @wiki_provider.id), status: :see_other
         else
           update_via_turbo_stream(component: Wikis::Admin::OAuthClientInfoComponent.new(@wiki_provider))
-          update_via_turbo_stream(component: Wikis::Admin::RedirectUriInfoComponent.new(@wiki_provider))
+          update_via_turbo_stream(component: Wikis::Admin::Forms::RedirectUriFormComponent.new(@wiki_provider))
           respond_with_turbo_streams
         end
       end

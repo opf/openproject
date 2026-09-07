@@ -35,7 +35,7 @@ module Wikis::Admin::Forms
     delegate :oauth_client, to: :wiki_provider
 
     options in_wizard: false,
-            is_complete: false
+            read_only: false
 
     def form_url
       query = in_wizard ? { continue_wizard: wiki_provider.id } : {}

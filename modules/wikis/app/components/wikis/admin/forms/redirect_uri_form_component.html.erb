@@ -23,13 +23,17 @@
         end
 
         redirect_uri_row.with_row do
-          render(
-            Wikis::Admin::SubmitOrCancelForm.new(
-              form, wiki_provider:,
-                    submit_button_options: { label: t(:button_finish_setup), disabled: is_complete },
-                    cancel_button_options: { href: cancel_button_path }
+          if read_only
+            render(Primer::Beta::Button.new(scheme: :primary, tag: :a, href: cancel_button_path)) { t(:button_close) }
+          else
+            render(
+              Wikis::Admin::SubmitOrCancelForm.new(
+                form, wiki_provider:,
+                      submit_button_options: { label: t(:button_finish_setup) },
+                      cancel_button_options: { href: cancel_button_path }
+              )
             )
-          )
+          end
         end
       end
     end

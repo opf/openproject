@@ -143,6 +143,11 @@ RSpec.describe "Admin wiki OAuth clients", :skip_csrf, type: :rails_request do
         expect(response.body).to include(wiki_provider.reload.oauth_client.redirect_uri)
       end
 
+      it "re-renders the redirect uri with a live finish setup button" do
+        expect(response.body).to include(I18n.t(:button_finish_setup))
+        expect(response.body).not_to include(I18n.t(:button_close))
+      end
+
       it "targets both the oauth client and the redirect uri rows" do
         expect(response.body).to include('target="wiki_provider_oauth_client_section"',
                                          'target="wiki_provider_redirect_uri_section"')
