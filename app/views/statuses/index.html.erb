@@ -39,4 +39,4 @@ See COPYRIGHT and LICENSE files for more details.
     )
   end
 %>
-<%= render ::Statuses::IndexComponent.new(statuses: @statuses, page_args: @page_args) %>
+<%= render ::Statuses::IndexComponent.new(statuses: @statuses, query: @query, page_args: @page_args) %>

@@ -33,13 +33,14 @@ require "rails_helper"
 RSpec.describe Statuses::ItemComponent, type: :component do
   subject(:rendered_component) do
     with_request_url("/statuses") do
-      render_inline(described_class.new(status:, max_position:, page_args:))
+      render_inline(described_class.new(status:, max_position:, reorderable:, page_args:))
     end
   end
 
   let(:status) { create(:status, name: "In progress", default_done_ratio: 40) }
   let(:position) { 2 }
   let(:max_position) { 3 }
+  let(:reorderable) { true }
   let(:page_args) { { page: 1, per_page: 20 } }
 
   before { status.update_column(:position, position) }
@@ -106,6 +107,52 @@ RSpec.describe Statuses::ItemComponent, type: :component do
     context "in work-based progress mode", with_settings: { work_package_done_ratio: "field" } do
       it "omits % Complete, which has no effect in that mode" do
         expect(rendered_component).to have_no_test_selector("done-ratio")
+      end
+    end
+  end
+
+  describe "reordering" do
+    it "offers a drag handle and every move from the middle of the list", :aggregate_failures do
+      expect(rendered_component).to have_css(".DragHandle")
+      expect(rendered_component).to have_button("Move to top")
+      expect(rendered_component).to have_button("Move up")
+      expect(rendered_component).to have_button("Move down")
+      expect(rendered_component).to have_button("Move to bottom")
+    end
+
+    context "when the status is first" do
+      let(:position) { 1 }
+
+      it "offers the downward moves only", :aggregate_failures do
+        expect(rendered_component).to have_no_button("Move to top")
+        expect(rendered_component).to have_no_button("Move up")
+        expect(rendered_component).to have_button("Move down")
+        expect(rendered_component).to have_button("Move to bottom")
+      end
+    end
+
+    context "when the status is last" do
+      let(:position) { max_position }
+
+      it "offers the upward moves only", :aggregate_failures do
+        expect(rendered_component).to have_button("Move to top")
+        expect(rendered_component).to have_button("Move up")
+        expect(rendered_component).to have_no_button("Move down")
+        expect(rendered_component).to have_no_button("Move to bottom")
+      end
+    end
+
+    context "when reordering is not offered" do
+      let(:reorderable) { false }
+
+      it "drops the drag handle and every move, keeping edit and delete", :aggregate_failures do
+        expect(rendered_component).to have_no_css(".DragHandle")
+        expect(rendered_component).to have_no_button("Move to top")
+        expect(rendered_component).to have_no_button("Move up")
+        expect(rendered_component).to have_no_button("Move down")
+        expect(rendered_component).to have_no_button("Move to bottom")
+        expect(rendered_component).to have_link("Edit")
+        expect(rendered_component).to have_button("Delete")
       end
     end
   end

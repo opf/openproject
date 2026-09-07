@@ -37,6 +37,7 @@ class StatusesController < ApplicationController
   before_action :require_admin
 
   def index
+    @query = load_query
     @statuses = paginated_statuses
     @page_args = page_args
   end
@@ -93,6 +94,7 @@ class StatusesController < ApplicationController
       render_error_flash_message_via_turbo_stream(message: I18n.t("statuses.index.could_not_be_moved"))
     end
 
+    @query = load_query
     replace_via_turbo_stream(component: index_component)
 
     respond_with_turbo_streams
@@ -101,11 +103,15 @@ class StatusesController < ApplicationController
   protected
 
   def index_component
-    Statuses::IndexComponent.new(statuses: paginated_statuses, page_args:)
+    Statuses::IndexComponent.new(statuses: paginated_statuses, query: @query, page_args:)
+  end
+
+  def load_query
+    ParamsToQueryService.new(Status, current_user).call(params)
   end
 
   def paginated_statuses
-    Status.page(page_param).per_page(per_page_param)
+    @query.results.page(page_param).per_page(per_page_param)
   end
 
   def page_args

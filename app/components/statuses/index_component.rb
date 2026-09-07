@@ -35,6 +35,7 @@ module Statuses
     include OpTurbo::Streamable
 
     options :statuses
+    options :query
     options :page_args
 
     private
@@ -44,19 +45,33 @@ module Statuses
       Status.maximum(:position)
     end
 
+    # Positions are global while a filtered list shows a non-contiguous subset, so a
+    # drop would resolve against neighbours the list does not display.
+    def reorderable?
+      query.filters.empty?
+    end
+
     def empty_state_title
-      t("statuses.index.no_results_title_text")
+      if reorderable?
+        t("statuses.index.no_results_title_text")
+      else
+        t("statuses.index.no_filter_results_title_text")
+      end
     end
 
     def empty_state_description
-      t("statuses.index.no_results_content_text")
+      t("statuses.index.no_results_content_text") if reorderable?
     end
 
     def wrapper_data_attributes
+      return {} unless reorderable?
+
       { controller: "generic-drag-and-drop" }
     end
 
     def drop_target_config
+      return {} unless reorderable?
+
       {
         generic_drag_and_drop_target: "container",
         "target-container-accessor": ":scope > ul",
@@ -65,6 +80,8 @@ module Statuses
     end
 
     def draggable_item_config(status)
+      return {} unless reorderable?
+
       {
         "draggable-id": status.id,
         "draggable-type": "status",

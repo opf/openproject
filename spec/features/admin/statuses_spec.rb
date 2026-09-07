@@ -87,6 +87,37 @@ RSpec.describe "Statuses admin page", :js do
       statuses_page.expect_listed("In Progress", "Done", "New")
     end
 
+    describe "quick filters" do
+      shared_let(:task) { create(:type, name: "Task") }
+      shared_let(:manager) { create(:project_role, name: "Manager") }
+      shared_let(:member) { create(:project_role, name: "Member") }
+      shared_let(:task_manager_transition) do
+        create(:workflow, type: task, role: manager, old_status: status_new, new_status: status_in_progress)
+      end
+
+      it "narrows the list to the statuses of the selected type and role" do
+        statuses_page.visit!
+        statuses_page.expect_listed("New", "In Progress", "Done")
+
+        statuses_page.quick_filter_by("type", "Type", "Task")
+
+        statuses_page.expect_listed("New", "In Progress")
+
+        statuses_page.quick_filter_by("role", "Role", "Member")
+
+        statuses_page.expect_listed
+      end
+
+      it "offers no reordering while filtered, since positions are global" do
+        statuses_page.visit!
+        expect(page).to have_css(".DragHandle")
+
+        statuses_page.quick_filter_by("type", "Type", "Task")
+
+        statuses_page.expect_no_reordering
+      end
+    end
+
     describe "pagination", with_settings: { per_page_options: "2, 100" } do
       it "pages the list, and a larger page size widens what drag and drop can reach" do
         statuses_page.visit!
