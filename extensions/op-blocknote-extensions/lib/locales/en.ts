@@ -36,6 +36,7 @@ export const en = {
       'openOptions': 'Show options',
       'closeOptions': 'Hide options',
       'subjectPlaceholder': 'Enter subject here',
+      'subjectClipped': 'The selected text was too long and has been shortened to the first {{limit}} characters.',
       'projectPlaceholder': 'Select a project…',
       'loadingFields': 'Loading the fields of this work package…',
       'loadingTypeFields': 'Loading required fields for {{type}}…',

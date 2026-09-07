@@ -9,6 +9,7 @@ import { PickerArrows } from './PickerArrows';
 import {
   CheckboxRow,
   FieldError,
+  FieldHint,
   FieldLabel,
   FieldRow,
   Notice,
@@ -28,6 +29,7 @@ interface FormFieldControlProps {
   autoFocus?:boolean;
   error?:string;
   problem?:ValueProblem;
+  hint?:string;
 }
 
 const PROBLEM_MESSAGES:Record<ValueProblem, string> = {
@@ -51,13 +53,16 @@ export const FormFieldControl = ({
   autoFocus,
   error,
   problem,
+  hint,
 }:FormFieldControlProps) => {
   const { t } = useTranslation();
   const id = `op-bn-create-wp-${field.key}`;
   // What was just typed speaks before what the API said about an earlier value.
   const message = problem ? t(PROBLEM_MESSAGES[problem]) : error;
   const errorId = message ? `${id}-error` : undefined;
-  const invalid = { 'aria-invalid': message ? true : undefined, 'aria-describedby': errorId };
+  const hintId = hint ? `${id}-hint` : undefined;
+  const describedBy = [errorId, hintId].filter(Boolean).join(' ') || undefined;
+  const invalid = { 'aria-invalid': message ? true : undefined, 'aria-describedby': describedBy };
   const textValue = typeof value === 'string' ? value : '';
   const ownPlaceholder = PLACEHOLDERS[field.key];
   const placeholder = field.placeholder ?? (ownPlaceholder ? t(ownPlaceholder) : undefined);
@@ -65,15 +70,21 @@ export const FormFieldControl = ({
     ? <TypeColorDot $color={colorOfType(textValue)} />
     : null;
 
-  const withError = (children:ReactNode) => (
+  const withMessages = (children:ReactNode) => (
     <FieldRow $invalid={Boolean(message)}>
       {children}
       {message && <FieldError id={errorId}>{message}</FieldError>}
+      {hint && (
+        <FieldHint id={hintId} data-testid={hintId}>
+          <AlertIcon size={14} />
+          <span>{hint}</span>
+        </FieldHint>
+      )}
     </FieldRow>
   );
 
   if (field.kind === 'checkbox') {
-    return withError(
+    return withMessages(
       <CheckboxRow>
         <input
           id={id}
@@ -134,7 +145,7 @@ export const FormFieldControl = ({
           valueLabel={valueLabel}
           placeholder={placeholder ?? t('createWorkPackage.searchPlaceholder')}
           invalid={Boolean(message)}
-          describedBy={errorId}
+          describedBy={describedBy}
           onChange={onChange}
         />
       );
@@ -174,7 +185,7 @@ export const FormFieldControl = ({
       );
   }
 
-  return withError(
+  return withMessages(
     <>
       <FieldLabel htmlFor={id}>
         {field.label}

@@ -7,6 +7,7 @@ import {
   applyValue,
   buildCreatePayload,
   clampedValues,
+  exceedsFieldLength,
   extraRequiredFields,
   fixedFields,
   isValueFilled,
@@ -33,6 +34,7 @@ export interface CreateWorkPackageFormState {
   typeHref?:string;
   isDirty:boolean;
   selectedTypeLabel?:string;
+  subjectClipped:boolean;
   loading:boolean;
   initialising:boolean;
   loadError:string | null;
@@ -156,6 +158,11 @@ export function useCreateWorkPackageForm(
 
   const selectedTypeLabel = allowedValueOf(primaryFields.find((field) => field.key === 'type'), typeHref)?.label;
 
+  const subjectClipped = exceedsFieldLength(
+    primaryFields.find((field) => field.key === 'subject'),
+    initialSubject
+  );
+
   const setValue = (key:string, value:FieldValue, label?:string) => {
     setTouched(true);
     setSubmitError(null);
@@ -242,6 +249,7 @@ export function useCreateWorkPackageForm(
     typeHref,
     isDirty,
     selectedTypeLabel,
+    subjectClipped,
     loading,
     initialising,
     loadError: loading ? null : loadError,

@@ -5,6 +5,7 @@ import type { AnyEditor } from '../editorTypes';
 import type { WorkPackage } from '../openProjectTypes';
 import type { InlineWpSize, BlockWpSize } from '../components/WorkPackage/types';
 import { moveCursorAfterBlock } from './cursor';
+import { BLOCK_WP_TYPE, INLINE_WP_TYPE } from './nodeTypes';
 import { hideSafariPhantomSelection } from './selection';
 import { PENDING_PREFIX } from '../components/InlineWorkPackage/callbacks';
 
@@ -20,9 +21,6 @@ import { PENDING_PREFIX } from '../components/InlineWorkPackage/callbacks';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyInlineNode = InlineContentFromConfig<any, any>;
 
-const INLINE_WP_TYPE = 'openProjectWorkPackageInline';
-const BLOCK_WP_TYPE = 'openProjectWorkPackageBlock';
-
 export interface FoundInlineChip {
   position:number;
   node:ProsemirrorNode;
@@ -31,12 +29,6 @@ export interface FoundInlineChip {
 export interface ChipContent {
   type:typeof INLINE_WP_TYPE;
   props:{ wpid:string; size:InlineWpSize; displayId:string };
-}
-
-interface TextContent {
-  type:'text';
-  text:string;
-  styles:Record<string, unknown>;
 }
 
 /**
@@ -90,23 +82,6 @@ export function chipContentOf(workPackage:WorkPackage, size:InlineWpSize):ChipCo
     type: INLINE_WP_TYPE,
     props: { wpid: String(workPackage.id), size, displayId: workPackage.displayId },
   };
-}
-
-function spaceFollowsSelection(editor:AnyEditor):boolean {
-  const { doc, selection } = editor.prosemirrorState;
-  return doc.textBetween(selection.to, Math.min(selection.to + 1, doc.content.size)) === ' ';
-}
-
-export function insertWorkPackageChipOverSelection(
-  editor:AnyEditor,
-  workPackage:WorkPackage,
-  size:InlineWpSize = 's'
-):void {
-  const content:(ChipContent | TextContent)[] = [chipContentOf(workPackage, size)];
-  if (!spaceFollowsSelection(editor)) content.push({ type: 'text', text: ' ', styles: {} });
-
-  (editor.insertInlineContent as (content:unknown[]) => void)(content);
-  editor.focus();
 }
 
 function chipAt(editor:AnyEditor, position:number):ProsemirrorNode | null {

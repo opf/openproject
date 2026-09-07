@@ -133,6 +133,7 @@ export const CreateWorkPackageModal = ({ anchorEl, initialSubject, onCreated, on
     typeHref,
     isDirty,
     selectedTypeLabel,
+    subjectClipped,
     loading,
     initialising,
     loadError,
@@ -165,6 +166,10 @@ export const CreateWorkPackageModal = ({ anchorEl, initialSubject, onCreated, on
     return dependsOn === 'project' ? `${key}:${projectHref}` : `${key}:${projectHref}:${typeHref}`;
   };
 
+  const hintFor = (field:FormField) => (field.key === 'subject' && subjectClipped
+    ? t('createWorkPackage.subjectClipped', { limit: field.maxLength })
+    : undefined);
+
   const renderField = (field:FormField) => (
     <FormFieldControl
       key={keyOf(field.key)}
@@ -174,6 +179,7 @@ export const CreateWorkPackageModal = ({ anchorEl, initialSubject, onCreated, on
       autoFocus={field.key === 'subject'}
       error={fieldErrors[field.key]}
       problem={valueProblems[field.key]}
+      hint={hintFor(field)}
       onChange={(value, label) => setValue(field.key, value, label)}
     />
   );

@@ -438,6 +438,11 @@ export const Notice = styled.div<{ $error?:boolean }>`
   }
 `;
 
+export const FieldHint = styled(Notice)`
+  margin-top: var(--spacer-s);
+  margin-bottom: 0;
+`;
+
 export const NoticeLink = styled.a`
   color: var(--op-create-wp-link);
 `;

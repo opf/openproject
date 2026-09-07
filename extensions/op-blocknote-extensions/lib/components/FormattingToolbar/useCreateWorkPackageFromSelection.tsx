@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import type { AnyEditor } from '../../editorTypes';
 import type { WorkPackage } from '../../openProjectTypes';
 import { useSuppressFormattingToolbar } from '../../hooks/useSuppressFormattingToolbar';
-import { insertWorkPackageChipOverSelection } from '../../utils/inlineChipActions';
+import { insertWorkPackageOverSelection } from '../../utils/insertWorkPackage';
 import { CreateWorkPackageModal } from '../CreateWorkPackage';
 import { CreateWorkPackageButton } from './CreateWorkPackageButton';
 
@@ -26,7 +26,12 @@ export function useCreateWorkPackageFromSelection(editor:AnyEditor):CreateWorkPa
 
   const handleCreated = (workPackage:WorkPackage) => {
     close();
-    insertWorkPackageChipOverSelection(editor, workPackage);
+    insertWorkPackageOverSelection(editor, workPackage);
+  };
+
+  const handleCancel = () => {
+    close();
+    editor.focus();
   };
 
   return {
@@ -36,7 +41,7 @@ export function useCreateWorkPackageFromSelection(editor:AnyEditor):CreateWorkPa
         anchorEl={editor.domElement}
         initialSubject={subject}
         onCreated={handleCreated}
-        onCancel={close}
+        onCancel={handleCancel}
       />
     ) : null,
   };

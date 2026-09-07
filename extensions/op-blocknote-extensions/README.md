@@ -93,7 +93,7 @@ const getSlashItems = useCallback(
 const { getHashItems, HashWpMenu } = useHashWpMenu(editor);
 ```
 
-`OpenProjectFormattingToolbar` is BlockNote's formatting toolbar with everything this library adds to it - currently a "Create work package" button on a text selection: the selected text names the work package, and the chip for it takes the text's place in the document once it exists. Render it beside the editor and turn off the toolbar BlockNote brings itself, with `formattingToolbar={false}`.
+`OpenProjectFormattingToolbar` is BlockNote's formatting toolbar with everything this library adds to it - currently a "Create work package" button on a text selection: the selected text names the work package, and the rich link for it takes the text's place in the document once it exists - a card where the selection hands over whole paragraphs, an inline chip within a line of text. It is offered for a selection that reads as a subject, so not for one that already holds a work package. Render it beside the editor and turn off the toolbar BlockNote brings itself, with `formattingToolbar={false}`.
 
 Where the host has toolbar items of its own to place, compose the toolbar by hand with `useCreateWorkPackageFromSelection(editor)` instead: it hands back the button, for the children of `FormattingToolbar`, and the form, which has to stay outside the controller - BlockNote takes the toolbar away as soon as the selection is gone, and a form that was filled in must not go with it.
 

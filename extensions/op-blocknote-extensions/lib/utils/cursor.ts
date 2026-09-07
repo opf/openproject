@@ -2,6 +2,10 @@ import type { AnyEditor } from '../editorTypes';
 
 export function moveCursorAfterBlock(editor:AnyEditor, blockId:string):void {
   editor.focus();
+  placeCursorAfterBlock(editor, blockId);
+}
+
+export function placeCursorAfterBlock(editor:AnyEditor, blockId:string):void {
   editor.setTextCursorPosition(blockId, 'end');
 
   const cursor = editor.getTextCursorPosition();

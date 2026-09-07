@@ -351,13 +351,19 @@ export function applyLabel(previous:FieldLabels, key:string, label:string | unde
   return applyToRecord(previous, key, label);
 }
 
+export function exceedsFieldLength(field:FormField | undefined, value:FieldValue | undefined):boolean {
+  if (field?.maxLength === undefined || typeof value !== 'string') return false;
+  return value.length > field.maxLength;
+}
+
 export function clampedValues(fields:FormField[], values:FieldValues):FieldValues {
   const clamped:FieldValues = { ...values };
 
   for (const field of fields) {
     const value = clamped[field.key];
-    if (field.maxLength === undefined || typeof value !== 'string') continue;
-    if (value.length > field.maxLength) clamped[field.key] = value.slice(0, field.maxLength);
+    if (typeof value === 'string' && exceedsFieldLength(field, value)) {
+      clamped[field.key] = value.slice(0, field.maxLength);
+    }
   }
 
   return clamped;
