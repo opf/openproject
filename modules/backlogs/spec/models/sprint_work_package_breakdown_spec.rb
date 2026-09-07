@@ -66,7 +66,7 @@ RSpec.describe SprintWorkPackageBreakdown do
   end
 
   describe "#reference_start and #reference_finish" do
-    context "when the sprint is still ongoing" do
+    context "when the sprint has been started but not completed, before the scheduled finish" do
       let(:sprint) do
         create(:sprint, project:,
                         start_date: Time.zone.today - 10.days,
@@ -78,8 +78,21 @@ RSpec.describe SprintWorkPackageBreakdown do
         expect(breakdown.reference_start).to eq(Timestamp.new(sprint.started_at))
       end
 
-      it "clips reference_finish to now" do
-        expect(breakdown.reference_finish).to eq(Timestamp.now)
+      it "keeps reference_finish at the scheduled finish date" do
+        expect(breakdown.reference_finish).to eq(Timestamp.new(sprint.finish_date.in_time_zone.end_of_day))
+      end
+    end
+
+    context "when the sprint has been started but not completed, after the scheduled finish has passed" do
+      let(:sprint) do
+        create(:sprint, project:,
+                        start_date: Time.zone.today - 20.days,
+                        finish_date: Time.zone.today - 5.days,
+                        started_at: 20.days.ago)
+      end
+
+      it "clips reference_finish to the current time rather than the stale planned finish date" do
+        expect(breakdown.reference_finish).to eq(Timestamp.new(Time.zone.now))
       end
     end
 
@@ -116,9 +129,12 @@ RSpec.describe SprintWorkPackageBreakdown do
         create(:sprint, project:, start_date: Time.zone.today + 3.days, finish_date: Time.zone.today + 10.days)
       end
 
-      it "has nil timestamps" do
-        expect(breakdown.reference_start).to be_nil
-        expect(breakdown.reference_finish).to be_nil
+      it "falls back to the beginning of the planned start date for reference_start" do
+        expect(breakdown.reference_start).to eq(Timestamp.new(sprint.start_date.in_time_zone.beginning_of_day))
+      end
+
+      it "falls back to the end of the planned finish date for reference_finish" do
+        expect(breakdown.reference_finish).to eq(Timestamp.new(sprint.finish_date.in_time_zone.end_of_day))
       end
     end
   end
@@ -132,10 +148,10 @@ RSpec.describe SprintWorkPackageBreakdown do
       create(:work_package, project:, sprint:, type: type_feature, status: issue_open, story_points: 5)
     end
 
-    it "reports empty breakdown" do
-      expect(breakdown.initially_planned).to have_attributes(work_package_count: 0, story_points: 0)
+    it "reports the sprint's current state, since neither reference date has actually happened yet" do
+      expect(breakdown.initially_planned).to have_attributes(work_package_count: 1, story_points: 5)
       expect(breakdown.completed).to have_attributes(work_package_count: 0, story_points: 0)
-      expect(breakdown.unfinished).to have_attributes(work_package_count: 0, story_points: 0)
+      expect(breakdown.unfinished).to have_attributes(work_package_count: 1, story_points: 5)
       expect(breakdown.changed_after_start)
         .to have_attributes(added_count: 0, removed_count: 0, added_story_points: 0, removed_story_points: 0)
       expect(breakdown.added_after_start_ids).to be_empty

@@ -54,8 +54,6 @@ class SprintWorkPackageBreakdown
   end
 
   def changed_after_start
-    return empty_change_block unless started?
-
     added_ids = added_after_start_ids
     removed_ids = removed_after_start_ids
 
@@ -68,30 +66,30 @@ class SprintWorkPackageBreakdown
   end
 
   def reference_start
-    return nil unless started?
-
-    Timestamp.new(@sprint.started_at)
+    if @sprint.started_at?
+      Timestamp.new(@sprint.started_at)
+    else
+      Timestamp.new(@sprint.start_date.in_time_zone.beginning_of_day)
+    end
   end
 
   def reference_finish
-    return nil unless started?
+    return Timestamp.new(@sprint.completed_at) if @sprint.completed_at?
 
-    if @sprint.completed_at
-      Timestamp.new(@sprint.completed_at)
+    scheduled_finish = @sprint.finish_date.in_time_zone.end_of_day
+
+    if @sprint.started_at?
+      Timestamp.new([scheduled_finish, Time.zone.now].max)
     else
-      Timestamp.now
+      Timestamp.new(scheduled_finish)
     end
   end
 
   def added_after_start_ids
-    return [] unless started?
-
     finish_points.keys - start_points.keys
   end
 
   def removed_after_start_ids
-    return [] unless started?
-
     start_points.keys - finish_points.keys
   end
 
@@ -100,12 +98,6 @@ class SprintWorkPackageBreakdown
   end
 
   private
-
-  def started? = @sprint.started_at?
-
-  def empty_change_block
-    ChangeBlock.new(added_count: 0, removed_count: 0, added_story_points: 0, removed_story_points: 0)
-  end
 
   def start_points
     @start_points ||= sprint_work_packages_at(reference_start).pluck(:id, :story_points).to_h
@@ -116,8 +108,6 @@ class SprintWorkPackageBreakdown
   end
 
   def snapshot_block(timestamp, done: nil)
-    return Block.new(work_package_count: 0, story_points: 0) unless started?
-
     scope = sprint_work_packages_at(timestamp)
     scope = filter_by_done(scope, done)
 
