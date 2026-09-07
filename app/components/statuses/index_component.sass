@@ -1,0 +1,27 @@
+.op-statuses-list--header,
+.op-statuses-list--item
+  display: grid
+  // Header and rows are separate grids, so every track must resolve to the same
+  // width in both: no content-sized tracks, and the same columns on each side.
+  grid-template-columns: minmax(0, 2fr) 1fr 1fr 1fr 1fr 40px
+  grid-template-areas: "name done-ratio is-default is-closed is-readonly actions"
+  column-gap: 8px
+
+  &_without-done-ratio
+    grid-template-columns: minmax(0, 2fr) 1fr 1fr 1fr 40px
+    grid-template-areas: "name is-default is-closed is-readonly actions"
+
+  &--done-ratio,
+  &--is-default,
+  &--is-closed,
+  &--is-readonly
+    text-align: center
+
+  &--actions
+    justify-self: end
+
+@media screen and (max-width: $breakpoint-sm)
+  .op-statuses-list--header,
+  .op-statuses-list--item
+    grid-template-columns: minmax(0, 1fr) 40px
+    grid-template-areas: "name actions"

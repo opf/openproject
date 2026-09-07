@@ -30,15 +30,15 @@
 
 class StatusesController < ApplicationController
   include PaginationHelper
+  include OpTurbo::ComponentStream
 
   layout "admin"
 
   before_action :require_admin
 
   def index
-    @statuses = Status.page(page_param).per_page(per_page_param)
-
-    render action: "index", layout: false if request.xhr?
+    @statuses = paginated_statuses
+    @page_args = page_args
   end
 
   def new
@@ -84,7 +84,46 @@ class StatusesController < ApplicationController
     redirect_to action: "index", status: :see_other
   end
 
+  def move
+    status = Status.find(params.expect(:id))
+
+    if status.update(move_params)
+      render_success_flash_message_via_turbo_stream(message: I18n.t(:notice_successful_update))
+    else
+      render_error_flash_message_via_turbo_stream(message: I18n.t("statuses.index.could_not_be_moved"))
+    end
+
+    replace_via_turbo_stream(component: index_component)
+
+    respond_with_turbo_streams
+  end
+
   protected
+
+  def index_component
+    Statuses::IndexComponent.new(statuses: paginated_statuses, page_args:)
+  end
+
+  def paginated_statuses
+    Status.page(page_param).per_page(per_page_param)
+  end
+
+  def page_args
+    { page: page_param, per_page: per_page_param }
+  end
+
+  def move_params
+    move_to = params[:move_to]
+    position = Integer(params[:position], exception: false)
+
+    if move_to.in?(%w[highest higher lower lowest])
+      { move_to: }
+    elsif position
+      { position: }
+    else
+      {}
+    end
+  end
 
   def recompute_progress_values
     attributes_triggering_recomputing = ["excluded_from_totals"]

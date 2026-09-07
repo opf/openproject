@@ -29,58 +29,39 @@
 #++
 
 module Statuses
-  class RowComponent < ::RowComponent
-    def status
-      model
-    end
+  # Captions and row cells sit on two separate CSS grids, so they only stay
+  # aligned while both render the same columns. Both take the set from here.
+  module ListColumns
+    Column = Data.define(:area, :caption, :predicate)
 
-    def name
-      link_to status.name, edit_status_path(status)
-    end
-
-    def default?
-      checkmark(status.is_default?)
-    end
-
-    def closed?
-      checkmark(status.is_closed?)
-    end
-
-    def readonly?
-      checkmark(status.is_readonly?)
-    end
-
-    def excluded_from_totals?
-      checkmark(status.excluded_from_totals?)
-    end
-
-    def color
-      helpers.icon_for_color status.color
-    end
-
-    def done_ratio
-      h(status.default_done_ratio)
-    end
-
-    def sort
-      helpers.reorder_links "status",
-                            { action: "update", id: status },
-                            method: :patch
-    end
-
-    def button_links
+    def columns
       [
-        delete_link
+        column(:name, Status.human_attribute_name(:name)),
+        (column(:"done-ratio", WorkPackage.human_attribute_name(:done_ratio)) if show_done_ratio?),
+        *flag_columns
+      ].compact
+    end
+
+    def flag_columns
+      [
+        column(:"is-default", t("statuses.index.headers.is_default"), predicate: :is_default?),
+        column(:"is-closed", t("statuses.index.headers.is_closed"), predicate: :is_closed?),
+        column(:"is-readonly", t("statuses.index.headers.is_readonly"), predicate: :is_readonly?)
       ]
     end
 
-    def delete_link
-      link_to(
-        helpers.op_icon("icon icon-delete"),
-        status_path(status),
-        data: { turbo_method: :delete, turbo_confirm: I18n.t(:text_are_you_sure) },
-        title: t(:button_delete)
-      )
+    def show_done_ratio?
+      WorkPackage.status_based_mode?
+    end
+
+    def grid_modifier_class(element)
+      "op-statuses-list--#{element}_without-done-ratio" unless show_done_ratio?
+    end
+
+    private
+
+    def column(area, caption, predicate: nil)
+      Column.new(area:, caption:, predicate:)
     end
   end
 end

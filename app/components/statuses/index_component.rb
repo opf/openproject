@@ -29,43 +29,27 @@
 #++
 
 module Statuses
-  class TableComponent < ::TableComponent
-    def initial_sort
-      %i[id asc]
+  class IndexComponent < ApplicationComponent
+    include ApplicationHelper
+    include OpPrimer::ComponentHelpers
+    include OpTurbo::Streamable
+
+    options :statuses
+    options :page_args
+
+    private
+
+    # The list may show one page of statuses while positions run across all of them.
+    def max_position
+      Status.maximum(:position)
     end
 
-    def sortable?
-      false
+    def empty_state_title
+      t("statuses.index.no_results_title_text")
     end
 
-    def columns
-      headers.map(&:first)
-    end
-
-    def inline_create_link
-      link_to new_status_path,
-              aria: { label: t(:label_work_package_status_new) },
-              class: "wp-inline-create--add-link",
-              title: t(:label_work_package_status_new) do
-        helpers.op_icon("icon icon-add")
-      end
-    end
-
-    def empty_row_message
-      I18n.t :no_results_title_text
-    end
-
-    def headers
-      [
-        [:name, { caption: Status.human_attribute_name(:name) }],
-        [:color, { caption: Status.human_attribute_name(:color) }],
-        [:done_ratio, { caption: WorkPackage.human_attribute_name(:done_ratio) }],
-        [:default?, { caption: I18n.t("statuses.index.headers.is_default") }],
-        [:closed?, { caption: I18n.t("statuses.index.headers.is_closed") }],
-        [:readonly?, { caption: I18n.t("statuses.index.headers.is_readonly") }],
-        [:excluded_from_totals?, { caption: I18n.t("statuses.index.headers.excluded_from_totals") }],
-        [:sort, { caption: I18n.t(:label_sort) }]
-      ]
+    def empty_state_description
+      t("statuses.index.no_results_content_text")
     end
   end
 end

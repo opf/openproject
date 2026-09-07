@@ -1,0 +1,77 @@
+<%#
+  -- copyright
+  OpenProject is an open source project management software.
+  Copyright (C) the OpenProject GmbH
+
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License version 3.
+
+  OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+  Copyright (C) 2006-2013 Jean-Philippe Lang
+  Copyright (C) 2010-2013 the ChiliProject Team
+
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 2
+  of the License, or (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+  See COPYRIGHT and LICENSE files for more details.
+
+  ++#
+%>
+
+<%=
+  component_wrapper do
+    grid_layout(
+      "op-statuses-list--item",
+      tag: :div,
+      align_items: :center,
+      classes: grid_modifier_class("item")
+    ) do |grid|
+      grid.with_area(:name, tag: :div, classes: "ellipsis") do
+        flex_layout(align_items: :center) do |flex|
+          flex.with_column(mr: 2) do
+            helpers.icon_for_color(status.color)
+          end
+
+          flex.with_column(classes: "ellipsis") do
+            render(Primer::Beta::Link.new(href: edit_status_path(status), underline: false)) do
+              render(Primer::Beta::Text.new(font_weight: :bold)) { status.name }
+            end
+          end
+        end
+      end
+
+      if show_done_ratio?
+        grid.with_area(:"done-ratio", tag: :div, hide: :sm) do
+          render(Primer::Beta::Text.new(color: :subtle, test_selector: "done-ratio")) { done_ratio }
+        end
+      end
+
+      flag_columns.each do |column|
+        grid.with_area(column.area, tag: :div, hide: :sm) { checkmark(column) }
+      end
+
+      grid.with_area(:actions, tag: :div, classes: "hide-when-print") do
+        render(Primer::Alpha::ActionMenu.new(test_selector: "status-action-menu")) do |menu|
+          menu.with_show_button(
+            icon: "kebab-horizontal",
+            scheme: :invisible,
+            "aria-label": t("statuses.index.status_actions")
+          )
+
+          build_status_menu(menu)
+        end
+      end
+    end
+  end
+%>
