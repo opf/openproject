@@ -34,7 +34,7 @@ RSpec.describe LlmConnections::DetectCapabilitiesService, :llm_server_helpers, :
   subject(:service) { described_class.new(connection) }
 
   let(:base_url) { "https://example.com/v1" }
-  let(:connection) { create(:llm_connection, :with_models, :enabled, base_url:, api_key: "sk-test") }
+  let(:connection) { create(:llm_connection, :with_models, base_url:, api_key: "sk-test") }
 
   it "wraps the verdict in a ServiceResult" do
     mock_llm_embeddings_response(base_url)
