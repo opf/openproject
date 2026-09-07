@@ -2487,6 +2487,59 @@ describe('Sortable lists controller', () => {
       await flushPromises();
     }
 
+    // Item drop targets ask on every dragover; the owner is settled for the
+    // drag at its start and forgotten with the frozen batch.
+    describe('ownerDestinationOf', () => {
+      let list2Rows:HTMLElement;
+
+      const destinationOf = (list:HTMLElement) => ({
+        type: list.getAttribute('data-sortable-lists--list-type-value')!,
+        id: list.getAttribute('data-sortable-lists--list-id-value'),
+      });
+
+      beforeEach(() => {
+        list2Rows = list2.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="4"]')!.parentElement!;
+      });
+
+      function cancelDrag(source:HTMLElement) {
+        vi.mocked(monitorForElements).mock.lastCall?.[0].onDrop?.({
+          source: sourcePayload(source),
+          location: {
+            initial: { dropTargets: [], input: input() },
+            current: { dropTargets: [], input: input() },
+            previous: { dropTargets: [] },
+          },
+        });
+      }
+
+      it('remembers the owner for the drag', () => {
+        beginDrag(item1);
+        expect(controller.ownerDestinationOf(item2)).toEqual(destinationOf(list1));
+
+        list2Rows.append(item2);
+
+        expect(controller.ownerDestinationOf(item2)).toEqual(destinationOf(list1));
+      });
+
+      it('forgets the owner once the drag ends', () => {
+        beginDrag(item1);
+        controller.ownerDestinationOf(item2);
+        list2Rows.append(item2);
+
+        cancelDrag(item1);
+
+        expect(controller.ownerDestinationOf(item2)).toEqual(destinationOf(list2));
+      });
+
+      it('answers live outside a drag', () => {
+        expect(controller.ownerDestinationOf(item2)).toEqual(destinationOf(list1));
+
+        list2Rows.append(item2);
+
+        expect(controller.ownerDestinationOf(item2)).toEqual(destinationOf(list2));
+      });
+    });
+
     // The destination policy is applied over the whole batch, and a batch may
     // span lists: one confined member pins the block to the list it already
     // sits in, wherever the dragged card itself is.

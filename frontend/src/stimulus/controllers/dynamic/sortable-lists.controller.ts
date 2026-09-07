@@ -145,6 +145,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     // its marks in the cached page and its frozen batch in this instance.
     this.clearDraggingRows();
     this.activeDragBatch = null;
+    this.dragOwnerDestinations = null;
   }
 
   // A Turbo morph can toggle the permission-gated value on a live root
@@ -236,6 +237,10 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   // submitted, and no stale batch leaks into the next drag.
   private activeDragBatch:SelectionItem[]|null = null;
 
+  // Every item drop target asks for its owner on each dragover, and the
+  // answer holds for the whole drag, so it is remembered alongside the batch.
+  private dragOwnerDestinations:WeakMap<HTMLElement, DestinationIdentity|null>|null = null;
+
   // Pragmatic dispatches onGenerateDragPreview before onDragStart; the
   // preview needs the count, the drag start marks the rows.
   freezeDragBatch(itemElement:HTMLElement):number {
@@ -243,6 +248,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     this.activeDragBatch = scope?.kind === 'batch'
       ? scope.items.map((item) => itemIdentity(item)).filter((item):item is SelectionItem => item !== null)
       : null;
+    this.dragOwnerDestinations = new WeakMap();
 
     return Math.max(1, this.activeDragBatch?.length ?? 0);
   }
@@ -338,6 +344,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     const batch = this.activeDragBatch;
     this.clearDraggingRows();
     this.activeDragBatch = null;
+    this.dragOwnerDestinations = null;
     return batch;
   }
 
@@ -515,8 +522,15 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   }
 
   ownerDestinationOf(element:HTMLElement):DestinationIdentity|null {
+    const remembered = this.dragOwnerDestinations?.get(element);
+    if (remembered !== undefined) {
+      return remembered;
+    }
+
     const listData = this.ownerListOf(element)?.listData;
-    return listData ? this.destinationOf(listData) : null;
+    const destination = listData ? this.destinationOf(listData) : null;
+    this.dragOwnerDestinations?.set(element, destination);
+    return destination;
   }
 
   private async handleDrop({ location, source }:ElementDropPayload) {
