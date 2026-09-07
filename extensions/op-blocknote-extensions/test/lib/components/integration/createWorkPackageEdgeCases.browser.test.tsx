@@ -2,7 +2,14 @@ import { afterEach, describe, it, expect } from 'vitest';
 import { http, HttpResponse } from 'msw';
 import { page, userEvent } from 'vitest/browser';
 import { renderEditor } from '../../../helpers/renderEditor';
-import { fillRequiredFields, openCreateModal, pickProject, selectOptionNamed } from '../../../helpers/createWorkPackageHelpers';
+import {
+  fillRequiredFields,
+  modalBody,
+  modalPanel,
+  openCreateModal,
+  pickProject,
+  selectOptionNamed,
+} from '../../../helpers/createWorkPackageHelpers';
 import { worker } from '../../../mocks/browser';
 
 afterEach(() => worker.resetHandlers());
@@ -83,7 +90,7 @@ describe('Create work package - form and editor boundaries', () => {
 
       // A filled form is what brings in enough fields to make the body scroll.
       await fillRequiredFields('Fix the header alignment');
-      const body = page.getByTestId('create-wp-modal').element().querySelector('form > div')!;
+      const body = modalBody();
 
       await userEvent.click(page.getByLabelText('Supervisor *'));
       await expect.element(page.getByRole('option', { name: 'Anna Kovalenko' })).toBeVisible();
@@ -333,13 +340,12 @@ describe('Create work package - form and editor boundaries', () => {
       await fillRequiredFields('Fix the header alignment');
 
       const overlayBox = page.getByTestId('create-wp-overlay').element().getBoundingClientRect();
-      const panel = page.getByTestId('create-wp-modal').element();
-      const panelBox = panel.getBoundingClientRect();
+      const panelBox = modalPanel().getBoundingClientRect();
 
       expect(panelBox.top).toBeGreaterThanOrEqual(overlayBox.top);
       expect(panelBox.bottom).toBeLessThanOrEqual(overlayBox.bottom);
 
-      const body = panel.querySelector('form > div')!;
+      const body = modalBody();
       expect(body.scrollHeight).toBeGreaterThan(body.clientHeight);
       await expect.element(page.getByText('Create new work package').first()).toBeVisible();
       await expect.element(page.getByTestId('create-wp-submit')).toBeVisible();
@@ -356,7 +362,7 @@ describe('Create work package - form and editor boundaries', () => {
     expect(overlay.closest('.bn-container')).toBeNull();
     expect(overlay.parentElement?.parentElement).toBe(document.body);
     expect(getComputedStyle(overlay).position).toBe('fixed');
-    expect(getComputedStyle(page.getByTestId('create-wp-modal').element()).display).toBe('flex');
+    expect(getComputedStyle(modalPanel()).display).toBe('flex');
   });
 
   it('takes the editor theme with it and keeps its own shape', async () => {
@@ -369,7 +375,7 @@ describe('Create work package - form and editor boundaries', () => {
 
     await expect.element(page.getByLabelText('Subject *')).toBeVisible();
     const overlay = page.getByTestId('create-wp-overlay').element();
-    const panel = page.getByTestId('create-wp-modal').element();
+    const panel = modalPanel();
 
     expect(getComputedStyle(overlay).getPropertyValue('--op-item-hover-bg').trim())
       .toBe('rgba(255, 255, 255, 0.12)');
@@ -417,14 +423,14 @@ describe('Create work package - form and editor boundaries', () => {
     await openCreateModal();
     await expect.element(page.getByLabelText('Subject *')).toBeVisible();
 
-    const panel = page.getByTestId('create-wp-modal').element();
-    const [header, body, footer] = [
+    const panel = modalPanel();
+    const [header, bodyContent, footer] = [
       panel.firstElementChild!,
-      panel.querySelector('form > div')!,
+      panel.querySelector('form > div > div')!,
       panel.querySelector('form > div:last-child')!,
     ];
-    expect([header, body, footer].map((part) => getComputedStyle(part).padding))
-      .toEqual(['8px', '16px', '8px']);
+    expect([header, bodyContent, footer].map((part) => getComputedStyle(part).padding))
+      .toEqual(['8px 16px', '16px', '8px 16px']);
 
     const label = getComputedStyle(panel.querySelector('label')!);
     expect([label.fontSize, label.fontWeight, label.color]).toEqual(['14px', '600', 'rgb(31, 35, 40)']);

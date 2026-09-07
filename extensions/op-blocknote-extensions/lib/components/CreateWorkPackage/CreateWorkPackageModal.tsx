@@ -11,16 +11,18 @@ import { dependencyOf } from './formSchema';
 import type { FormField } from './formSchema';
 import { FormFieldControl } from './FormFieldControl';
 import { useCreateWorkPackageForm } from './useCreateWorkPackageForm';
+import { useGrowthTransition } from './useGrowthTransition';
 import {
   Body,
+  BodyContent,
   Button,
   Divider,
   Footer,
+  FooterStatus,
   Form,
   Header,
   HeaderTitle,
   IconButton,
-  LoadingRow,
   Notice,
   NoticeLink,
   Overlay,
@@ -120,8 +122,11 @@ export interface CreateWorkPackageModalProps {
 export const CreateWorkPackageModal = ({ anchorEl, initialSubject, onCreated, onCancel }:CreateWorkPackageModalProps) => {
   const { t } = useTranslation();
   const panelRef = useRef<HTMLDivElement>(null);
+  const bodyRef = useRef<HTMLDivElement>(null);
+  const bodyContentRef = useRef<HTMLDivElement>(null);
   usePageScrollLock();
   useEffect(() => { panelRef.current?.focus(); }, []);
+  useGrowthTransition({ panelRef, bodyRef, contentRef: bodyContentRef });
   useColors();
   const {
     primaryFields,
@@ -132,7 +137,6 @@ export const CreateWorkPackageModal = ({ anchorEl, initialSubject, onCreated, on
     projectHref,
     typeHref,
     isDirty,
-    selectedTypeLabel,
     subjectClipped,
     loading,
     initialising,
@@ -216,48 +220,47 @@ export const CreateWorkPackageModal = ({ anchorEl, initialSubject, onCreated, on
               if (blocking) showField(blocking);
             }}
           >
-            <Body>
-              {notAllowed && <Alert>{t('createWorkPackage.notAllowed')}</Alert>}
+            <Body ref={bodyRef}>
+              <BodyContent ref={bodyContentRef}>
+                {notAllowed && <Alert>{t('createWorkPackage.notAllowed')}</Alert>}
 
-              {loadError && <Alert>{t('createWorkPackage.loadFailed', { message: loadError })}</Alert>}
+                {loadError && <Alert>{t('createWorkPackage.loadFailed', { message: loadError })}</Alert>}
 
-              {formError && <Alert data-testid="create-wp-error">{formError}</Alert>}
+                {formError && <Alert data-testid="create-wp-error">{formError}</Alert>}
 
-              {primaryFields
-                .filter((field) => !initialising || !dependencyOf(field.key))
-                .map(renderField)}
+                {primaryFields
+                  .filter((field) => !initialising || !dependencyOf(field.key))
+                  .map(renderField)}
 
-              {loading && (
-                <LoadingRow data-testid="create-wp-loading" $reserveHeight={initialising}>
-                  <Spinner><SyncIcon size={14} /></Spinner>
-                  {selectedTypeLabel
-                    ? t('createWorkPackage.loadingTypeFields', { type: selectedTypeLabel })
-                    : t('createWorkPackage.loadingFields')}
-                </LoadingRow>
-              )}
+                {!initialising && extraFields.length > 0 && <Divider data-testid="create-wp-divider" />}
 
-              {!initialising && extraFields.length > 0 && <Divider data-testid="create-wp-divider" />}
+                {!initialising && extraFields.map(renderField)}
 
-              {!initialising && extraFields.map(renderField)}
-
-              {!initialising && unsupportedFields.length > 0 && (
-                <Notice>
-                  <AlertIcon size={14} />
-                  <span>
-                    {t('createWorkPackage.unsupportedRequired')}{' '}
-                    <NoticeLink
-                      href={linkToNewWorkPackage(projectIdFromHref(projectHref))}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {t('createWorkPackage.createInOpenProject')}
-                    </NoticeLink>
-                  </span>
-                </Notice>
-              )}
+                {!initialising && unsupportedFields.length > 0 && (
+                  <Notice>
+                    <AlertIcon size={14} />
+                    <span>
+                      {t('createWorkPackage.unsupportedRequired')}{' '}
+                      <NoticeLink
+                        href={linkToNewWorkPackage(projectIdFromHref(projectHref))}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {t('createWorkPackage.createInOpenProject')}
+                      </NoticeLink>
+                    </span>
+                  </Notice>
+                )}
+              </BodyContent>
             </Body>
 
             <Footer>
+              {loading && (
+                <FooterStatus data-testid="create-wp-loading">
+                  <Spinner><SyncIcon size={14} /></Spinner>
+                  {t('createWorkPackage.loading')}
+                </FooterStatus>
+              )}
               <Button type="button" onClick={onCancel}>{t('createWorkPackage.cancel')}</Button>
               <Button
                 type="submit"

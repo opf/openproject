@@ -1,5 +1,15 @@
 import { expect } from 'vitest';
+import { delay, http } from 'msw';
 import { page, userEvent } from 'vitest/browser';
+import { worker } from '../mocks/browser';
+
+export function holdBackFormLoads(ms:number) {
+  worker.use(http.post('http://localhost:3000/api/v3/work_packages/form', async () => { await delay(ms); }));
+}
+
+export const modalPanel = ():HTMLElement => page.getByTestId('create-wp-modal').element() as HTMLElement;
+
+export const modalBody = ():HTMLElement => modalPanel().querySelector<HTMLElement>('form > div')!;
 
 export async function chooseCreateCommand() {
   await expect.element(page.getByText('Create new work package').first()).toBeVisible();
