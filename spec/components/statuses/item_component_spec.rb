@@ -55,15 +55,23 @@ RSpec.describe Statuses::ItemComponent, type: :component do
     expect(rendered_component).to have_css(".op-statuses-list--item--name .color--preview")
   end
 
-  describe "flag columns" do
+  describe "the default status" do
     context "when the status is the default one" do
       let(:status) { create(:status, name: "New", is_default: true) }
 
-      it "checks the default column" do
-        expect(rendered_component).to have_css("[aria-label='Default']")
+      it "labels it beside the name" do
+        expect(rendered_component).to have_test_selector("label-is-default", text: "Default")
       end
     end
 
+    context "when the status is not the default one" do
+      it "carries no label" do
+        expect(rendered_component).to have_no_test_selector("label-is-default")
+      end
+    end
+  end
+
+  describe "flag columns" do
     context "when the status is closed" do
       let(:status) { create(:status, name: "Closed", is_closed: true) }
 
@@ -90,7 +98,6 @@ RSpec.describe Statuses::ItemComponent, type: :component do
 
     context "when the status carries no flag" do
       it "leaves every flag column unchecked", :aggregate_failures do
-        expect(rendered_component).to have_no_css("[aria-label='Default']")
         expect(rendered_component).to have_no_css("[aria-label='Closed']")
         expect(rendered_component).to have_no_css("[aria-label='Read-only']")
       end

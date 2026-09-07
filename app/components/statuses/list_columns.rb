@@ -44,7 +44,6 @@ module Statuses
 
     def flag_columns
       [
-        column(:"is-default", t("statuses.index.headers.is_default"), predicate: :is_default?),
         column(:"is-closed", t("statuses.index.headers.is_closed"), predicate: :is_closed?),
         column(:"is-readonly", t("statuses.index.headers.is_readonly"), predicate: :is_readonly?)
       ]

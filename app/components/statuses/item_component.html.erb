@@ -52,6 +52,14 @@
               render(Primer::Beta::Text.new(font_weight: :bold)) { status.name }
             end
           end
+
+          if status.is_default?
+            flex.with_column(ml: 2) do
+              render(Primer::Beta::Label.new(scheme: :primary, test_selector: "label-is-default")) do
+                t(:label_default)
+              end
+            end
+          end
         end
       end
 
