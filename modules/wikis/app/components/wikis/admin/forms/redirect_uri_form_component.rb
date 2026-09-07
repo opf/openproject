@@ -38,11 +38,11 @@ module Wikis::Admin::Forms
     options read_only: false
 
     def form_url
-      url_helpers.finish_setup_admin_settings_wiki_provider_oauth_client_path(wiki_provider)
+      finish_setup_admin_settings_wiki_provider_oauth_client_path(wiki_provider)
     end
 
     def cancel_button_path
-      url_helpers.edit_admin_settings_wiki_provider_path(wiki_provider)
+      edit_admin_settings_wiki_provider_path(wiki_provider)
     end
   end
 end
