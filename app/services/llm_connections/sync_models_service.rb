@@ -91,7 +91,7 @@ module LlmConnections
 
       cards.each do |card|
         model = connection.models.find_or_initialize_by(external_id: card.fetch(:id))
-        model.update!(display_name: card[:display_name].presence || model.display_name,
+        model.update!(display_name: display_name_for(model, card),
                       raw_metadata: merged_metadata(model, card),
                       last_seen_at: now,
                       active: true)
@@ -131,13 +131,29 @@ module LlmConnections
     end
 
     # The server names the model, but only when it says so: the administrator's
-    # display name and context-window override are theirs, and a routine refresh
-    # must not silently discard them.
+    # display name is theirs, and a routine refresh must not silently discard it.
+    # A gateway listing in the OpenAI shape carries the name on the raw card,
+    # which the adapter has no vocabulary for.
+    def display_name_for(model, card)
+      card[:display_name].presence || card.dig(:raw, "name").presence || model.display_name
+    end
+
+    # The administrator's context-window override is theirs, and a routine
+    # refresh must not silently discard it.
     def merged_metadata(model, card)
-      raw = card.fetch(:raw, {})
+      raw = normalised_window(card.fetch(:raw, {}))
       admin_window = model.raw_metadata["admin_context_window"]
 
       admin_window ? raw.merge("admin_context_window" => admin_window) : raw
+    end
+
+    # OpenRouter and gateways following it publish the window as
+    # +context_length+, where vLLM and SGLang report +max_model_len+, the
+    # operator's actual limit and therefore the better figure of the two.
+    def normalised_window(raw)
+      return raw if raw["context_length"].blank? || raw["max_model_len"].present?
+
+      raw.merge("context_window" => raw["context_length"])
     end
 
     # Same deployment, but a model is gone. Its verdict is meaningless now,
