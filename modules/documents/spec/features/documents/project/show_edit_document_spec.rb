@@ -76,8 +76,11 @@ RSpec.describe "Show/Edit Document View",
         click_on "Save"
 
         expect(page).to have_content("Updated collaborative document")
+      end
 
+      within_test_selector("document-page-header") do
         click_button accessible_name: "Document actions"
+        expect(page).to have_selector :menuitem, "Edit title"
         page.find(:menuitem, "Edit title").click
         click_on "Cancel"
         expect(page).to have_content("Updated collaborative document")

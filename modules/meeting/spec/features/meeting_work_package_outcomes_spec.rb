@@ -155,10 +155,8 @@ RSpec.describe "Work package meeting outcomes", :js do
 
           page.within_dialog(I18n.t(:label_work_package_new)) do
             fill_in "Subject", with: "New WP from meeting outcome"
-            click_on "Create"
+            wait_for_turbo_stream { click_on "Create" }
           end
-
-          wait_for_network_idle
 
           expect(page).to have_no_selector(:dialog, I18n.t(:label_work_package_new), wait: 10)
 
@@ -186,10 +184,8 @@ RSpec.describe "Work package meeting outcomes", :js do
           page.within_dialog(I18n.t(:label_work_package_new)) do
             fill_in "Subject", with: ""
 
-            click_on "Create"
+            wait_for_turbo_stream { click_on "Create" }
           end
-
-          wait_for_network_idle
 
           expect(page).to have_text("Subject can't be blank")
 

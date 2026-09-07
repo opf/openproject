@@ -533,7 +533,7 @@ RSpec.describe "Custom actions", :js, with_ee: %i[custom_actions] do
              name: "Timestamps Query",
              project:,
              user:,
-             timestamps: ["P-1d", "PT0S"])
+             timestamps: [(work_package.created_at - 1.day).iso8601, "PT0S"])
     end
 
     before do
