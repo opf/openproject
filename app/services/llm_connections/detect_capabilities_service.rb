@@ -64,8 +64,9 @@ module LlmConnections
       recorded = []
 
       candidates.each do |model_id|
-        recorded << detect(model_id).result
-        break if endpoint_absent?(recorded.last)
+        result = probe.call(model_id)
+        recorded << record(model_id, result)
+        break if endpoint_absent?(result)
       end
 
       ServiceResult.success(result: recorded)
@@ -90,8 +91,10 @@ module LlmConnections
 
     # The server answered for the embeddings route rather than for the model, so
     # the requests the rest of the batch would spend buy the same answer again.
-    def endpoint_absent?(verdict)
-      verdict.unknown? && verdict.detail["reason"].in?(Llm::Probes::EmbeddingsProbe::ENDPOINT_ABSENT_REASONS)
+    # Read off the probe rather than the verdict, which may be an earlier and
+    # definite one that this inconclusive answer deliberately did not soften.
+    def endpoint_absent?(result)
+      result.state == :unknown && result.detail["reason"].in?(Llm::Probes::EmbeddingsProbe::ENDPOINT_ABSENT_REASONS)
     end
 
     # An administrator knows things about their deployment that a probe cannot

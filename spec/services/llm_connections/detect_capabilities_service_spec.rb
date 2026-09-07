@@ -112,6 +112,18 @@ RSpec.describe LlmConnections::DetectCapabilitiesService, :llm_server_helpers, :
       expect(request).to have_been_made.once
     end
 
+    it "stops the batch even where an earlier verdict survives the 404" do
+      create(:llm_model, llm_connection: connection, external_id: "nomic-embed-text")
+      connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                             state: "supported", source: "probe", checked_at: 1.day.ago)
+      request = mock_llm_embeddings_response(base_url, response_code: 404)
+
+      service.detect_likely_embedding_models
+
+      expect(request).to have_been_made.once
+      expect(connection.capability_verdicts.find_by(model_id: "bge-m3")).to be_supported
+    end
+
     it "spends no more than BACKGROUND_LIMIT requests" do
       (described_class::BACKGROUND_LIMIT + 5).times do |index|
         create(:llm_model, llm_connection: connection, external_id: "embed-#{index}")
