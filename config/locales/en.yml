@@ -6714,7 +6714,7 @@ en:
         filter_no_results: "No variants match this filter"
         global_section:
           description: "These variants are available across all projects."
-          title: "Variants"
+          title: "Global variants"
         project_specific_section:
           description: "These variants are only available within the projects in which they were created."
           title: "Project-specific variants"
