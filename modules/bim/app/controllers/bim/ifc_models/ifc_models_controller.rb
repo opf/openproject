@@ -120,10 +120,11 @@ module Bim
         end
       end
 
-      def create
+      def create # rubocop:disable Metrics/AbcSize
+        permitted = params.expect(bim_ifc_models_ifc_model: %w[title ifc_attachment is_default])
         service_result = ::Bim::IfcModels::CreateService
                            .new(user: current_user)
-                           .call(permitted_model_params.merge(project: @project))
+                           .call(permitted.merge(project: @project))
 
         @ifc_model = service_result.result
 
@@ -136,10 +137,11 @@ module Bim
         end
       end
 
-      def update
+      def update # rubocop:disable Metrics/AbcSize
+        permitted = params.expect(bim_ifc_models_ifc_model: %w[title is_default])
         service_result = ::Bim::IfcModels::UpdateService
                            .new(user: current_user, model: @ifc_model)
-                           .call(permitted_model_params.merge(project: @project))
+                           .call(permitted.merge(project: @project))
 
         @ifc_model = service_result.result
 
@@ -188,10 +190,6 @@ module Bim
         @ifc_models = @project.ifc_models
                               .includes(:attachments)
                               .order(created_at: :asc)
-      end
-
-      def permitted_model_params
-        params.expect(bim_ifc_models_ifc_model: %w[title ifc_attachment is_default])
       end
 
       def find_ifc_model_object
