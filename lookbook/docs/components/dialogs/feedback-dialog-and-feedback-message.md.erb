@@ -57,7 +57,7 @@ The FeedbackDialog (or just the FeedbackMessage independently) is already used i
 
 The FeedbackDialog offers a set of additional slots that the normal Dialog does not:
 
-* [`with_feedback_message`](../../inspect/primer/open_project/feedback_dialog/default)
+* [`with_feedback_message`](../../../inspect/primer/open_project/feedback_dialog/default)
   * it can then receive the normal slots that a `Blankslate` can receive
   * the only exception are the arguments for the icon which need to be passed as a hash
 
@@ -68,12 +68,12 @@ dialog.with_feedback_message(icon_arguments: { icon: :"x-circle", color: :danger
 end
 ```
 
-* [`with_additional_actions`](../../inspect/primer/open_project/feedback_dialog/additional_content)
+* [`with_additional_actions`](../../../inspect/primer/open_project/feedback_dialog/additional_content)
   * it is a generic slot that accepts any component inside
 
 ### Examples
 
-Please consult the [previews](../../inspect/primer/open_project/feedback_dialog/playground) for a detailed overview of the possible options.
+Please consult the [previews](../../../inspect/primer/open_project/feedback_dialog/playground) for a detailed overview of the possible options.
 
 #### Custom icon
 <%= embed Patterns::FeedbackDialogPreview, :custom_icon, panels: %i[source] %>
