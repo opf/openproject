@@ -249,4 +249,39 @@ RSpec.describe Projects::Settings::WorkPackages::Types::SwitchImpactComponent,
       expect(page).to have_text("No fields or statuses are affected")
     end
   end
+
+  context "with an impact spanning several projects supplied with work packages" do
+    shared_let(:role) { create(:project_role) }
+    shared_let(:status) { create(:status, name: "New") }
+
+    let(:one) { create(:project, types: [epic], work_package_custom_fields: [story_points]) }
+    let(:two) { create(:project, types: [epic], work_package_custom_fields: [story_points]) }
+    let(:impact) do
+      Projects::Types::Switch::Impact.new(source: epic_base, target: design,
+                                          work_packages: WorkPackage.where(type_id: epic.id))
+    end
+
+    before do
+      epic_base.attribute_groups = [["Details", ["assignee", "custom_field_#{story_points.id}"]]]
+      epic_base.save!
+      design.attribute_groups = [["Details", %w[priority]]]
+      design.save!
+      create(:workflow, type: design, role:, old_status: status, new_status: status)
+
+      create(:work_package, project: one, type: epic, status:)
+      create(:work_package, project: two, type: epic, status:)
+    end
+
+    it "links the count to the global list, filtered to exactly the affected projects" do
+      render_component
+
+      link = page.find_link("2 work packages will use the new configuration")
+      query = CGI.unescape(link[:href])
+
+      expect(link[:href]).to start_with(work_packages_path)
+      expect(link[:href]).not_to start_with(project_work_packages_path(one))
+      expect(query).to include(%({"n":"project_id","o":"=","v":["#{one.id}","#{two.id}"]}))
+      expect(query).to include(%({"n":"type","o":"=","v":["#{epic.id}"]}))
+    end
+  end
 end

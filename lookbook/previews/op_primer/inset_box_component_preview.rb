@@ -108,7 +108,7 @@ module OpPrimer
     def with_title_icon
       render OpPrimer::InsetBoxComponent.new do |box|
         box.with_title_icon(icon: :link)
-        box.with_title { "Linked mode" }
+        box.with_title { "Inherited configuration" }
         "The configuration of this section is inherited from another type."
       end
     end
@@ -116,9 +116,9 @@ module OpPrimer
     def with_action_buttons
       render OpPrimer::InsetBoxComponent.new do |box|
         box.with_title_icon(icon: :link)
-        box.with_title { "Linked mode" }
+        box.with_title { "Inherited configuration" }
         box.with_action_button { "Change source type" }
-        box.with_action_button(scheme: :primary) { "Switch to independent mode" }
+        box.with_action_button(scheme: :primary) { "Configure manually" }
         "The configuration of this section is inherited from another type."
       end
     end
@@ -126,11 +126,11 @@ module OpPrimer
     def with_action_menu
       render OpPrimer::InsetBoxComponent.new do |box|
         box.with_title_icon(icon: :"git-branch")
-        box.with_title { "Dependents" }
+        box.with_title { "Inherited by" }
         box.with_action_menu do |menu|
           menu.with_show_button { "Actions" }
-          menu.with_item(label: "Show dependents", href: "#")
-          menu.with_item(label: "Unlink all", href: "#", scheme: :danger)
+          menu.with_item(label: "View dependent types", href: "#")
+          menu.with_item(label: "Remove inheritance", href: "#", scheme: :danger)
         end
         "Two types inherit this configuration."
       end

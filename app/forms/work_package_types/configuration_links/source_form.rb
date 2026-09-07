@@ -43,10 +43,10 @@ module WorkPackageTypes
       form do |source_form|
         source_form.autocompleter(
           name: :source_id,
-          label: I18n.t("types.edit.reuse_mode.linked.dialog.source_label"),
+          label: I18n.t("types.edit.reuse_mode.inherited.dialog.source_label"),
           required: true,
           autocomplete_options: {
-            placeholder: I18n.t("types.edit.reuse_mode.linked.dialog.source_placeholder"),
+            placeholder: I18n.t("types.edit.reuse_mode.inherited.dialog.source_placeholder"),
             decorated: true,
             multiple: false,
             focusDirectly: false,

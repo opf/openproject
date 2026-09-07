@@ -76,6 +76,8 @@ RSpec.describe "Moving a work package through Rails view", :js do
     end
 
     context "with permission" do
+      let!(:version) { create(:version, project: project2) }
+
       before do
         raise "Child work package is in the wrong project" unless child_wp.project_id == project.id
 
@@ -132,6 +134,18 @@ RSpec.describe "Moving a work package through Rails view", :js do
         # Should move its children
         child_wp.reload
         expect(child_wp.project_id).to eq(project2.id)
+      end
+
+      it "sets the observed-in version on move" do
+        select version.name, from: "observed_in_version_ids"
+
+        click_on "Move and follow"
+        wait_for_reload
+
+        page.find(".inline-edit--container.subject", text: work_package.subject)
+
+        work_package.reload
+        expect(work_package.observed_in_versions).to contain_exactly(version)
       end
 
       context "when the target project does not have the type" do

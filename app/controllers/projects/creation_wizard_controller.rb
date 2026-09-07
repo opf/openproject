@@ -37,9 +37,7 @@ class Projects::CreationWizardController < ApplicationController
 
   layout "no_menu"
 
-  def show
-    render locals: { menu_name: :none }
-  end
+  def show; end
 
   def help_text
     custom_field = ProjectCustomField.visible.find(params[:custom_field_id])
@@ -67,9 +65,7 @@ class Projects::CreationWizardController < ApplicationController
   private
 
   def render_wizard_error_step
-    render :show,
-           locals: { menu_name: :none },
-           status: :unprocessable_entity
+    render :show, status: :unprocessable_entity
   end
 
   def create_work_package_artifact # rubocop:disable Metrics/AbcSize

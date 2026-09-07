@@ -13,7 +13,7 @@ get:
       required: true
       schema:
         type: integer
-      example: '42'
+      example: 42
   responses:
     '200':
       description: OK
@@ -54,7 +54,7 @@ patch:
       required: true
       schema:
         type: integer
-      example: '42'
+      example: 42
   requestBody:
     content:
       application/json:

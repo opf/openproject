@@ -30,8 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "form configuration", :js, :selenium,
-               with_settings: { work_package_multiple_versions: false } do
+RSpec.describe "form configuration", :js, :selenium do
   shared_let(:admin) { create(:admin) }
   let(:type) { create(:type) }
   let(:variant) { type.default_variant }
@@ -148,15 +147,15 @@ RSpec.describe "form configuration", :js, :selenium,
                           { key: :category, translation: "Category" },
                           { key: :date, translation: "Date" },
                           { key: :priority, translation: "Priority" },
-                          { key: :version, translation: "Version" }
+                          { key: :target_versions, translation: "Target versions" }
 
         #
         # Modify configuration
         #
 
-        # Disable version
-        form.drag_and_drop(form.find_attribute_handle(:version), form.inactive_group)
-        form.expect_inactive(:version)
+        # Disable target_versions
+        form.drag_and_drop(form.find_attribute_handle(:target_versions), form.inactive_group)
+        form.expect_inactive(:target_versions)
 
         # Rename section
         form.rename_group("Details", "Whatever")
@@ -201,7 +200,7 @@ RSpec.describe "form configuration", :js, :selenium,
                           "New Group",
                           { key: :category, translation: "Category" }
 
-        form.expect_inactive(:version)
+        form.expect_inactive(:target_versions)
 
         # Test the actual type backend
         variant.reload
@@ -214,7 +213,7 @@ RSpec.describe "form configuration", :js, :selenium,
         wp_page.visit!
         wp_page.ensure_page_loaded
 
-        # Version should be hidden
+        # Target versions should be hidden
         wp_page.expect_hidden_field(:targetVersions)
 
         wp_page.expect_group("New Group") do
@@ -252,25 +251,22 @@ RSpec.describe "form configuration", :js, :selenium,
         loading_indicator_saveguard
       end
 
-      context "with multiple versions enabled",
-              with_settings: { work_package_multiple_versions: true } do
-        it "offers target versions in place of the deprecated version" do
-          form.expect_group "details",
-                            "Details",
-                            { key: :category, translation: "Category" },
-                            { key: :date, translation: "Date" },
-                            { key: :priority, translation: "Priority" },
-                            { key: :target_versions, translation: "Target versions" }
+      it "offers target versions in the default configuration" do
+        form.expect_group "details",
+                          "Details",
+                          { key: :category, translation: "Category" },
+                          { key: :date, translation: "Date" },
+                          { key: :priority, translation: "Priority" },
+                          { key: :target_versions, translation: "Target versions" }
 
-          # The drag moves the row before the request that persists it, so the stream has to be
-          # waited for or the read below races it.
-          wait_for_turbo_stream do
-            form.drag_and_drop(form.find_attribute_handle(:target_versions), form.inactive_group)
-          end
-          form.expect_inactive(:target_versions)
-
-          expect(persisted_attribute_order(:details)).not_to include("target_versions")
+        # The drag moves the row before the request that persists it, so the stream has to be
+        # waited for or the read below races it.
+        wait_for_turbo_stream do
+          form.drag_and_drop(form.find_attribute_handle(:target_versions), form.inactive_group)
         end
+        form.expect_inactive(:target_versions)
+
+        expect(persisted_attribute_order(:details)).not_to include("target_versions")
       end
 
       context "with field format labels" do

@@ -119,6 +119,7 @@ it:
         other: Sprint
         zero: Tutti gli sprint
       select_panel_title: Seleziona elementi
+    blankslate_filtered_title: No work packages match the filter criteria.
     bucket_component:
       action_menu:
         add_existing_work_package: Aggiungi macro-attività esistente
@@ -161,6 +162,8 @@ it:
         one: Mostra 1 altro elemento
         other: Mostra altri %{count} elementi
       title: Posta in arrivo
+    index_subheader_component:
+      label_search_by_subject: Search work packages by subject
     label_burndown_chart: Grafico Burndown
     label_is_done_status: Lo stato %{status_name} vuol dire completato
     label_sprint_board: Bacheca sprint

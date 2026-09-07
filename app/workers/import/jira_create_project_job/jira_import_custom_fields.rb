@@ -320,6 +320,10 @@ module Import
         }
       end
 
+      def run_custom_field_ids
+        @run_custom_field_ids ||= Set.new
+      end
+
       # Position of a context group among all context groups built for a Jira field, in the order
       # build_registry_entries_for_field produces them. Identifies which of the custom fields
       # already created for that Jira field belongs to this context group.
@@ -331,16 +335,24 @@ module Import
       end
 
       def find_or_create_custom_field(jira_field, builder)
-        existing_cf = builder.find_existing_custom_field
-        if existing_cf
-          unless Import::JiraOpenProjectReference.exists?(op_entity_id: existing_cf.id,
-                                                          op_entity_class: existing_cf.class.to_s,
-                                                          jira_import_id: @jira_import.id)
-            create_reference!(op_leg: existing_cf, jira_leg: jira_field, jira_import: @jira_import, uses_existing: true)
-          end
-          return existing_cf
+        existing_cf = builder.find_existing_custom_field(run_custom_field_ids:)
+        custom_field = if existing_cf
+                         reuse_custom_field(existing_cf, jira_field, builder)
+                       else
+                         create_custom_field(jira_field, builder)
+                       end
+        run_custom_field_ids << custom_field.id
+        custom_field
+      end
+
+      def reuse_custom_field(custom_field, jira_field, builder)
+        unless Import::JiraOpenProjectReference.exists?(op_entity_id: custom_field.id,
+                                                        op_entity_class: custom_field.class.to_s,
+                                                        jira_import_id: @jira_import.id)
+          create_reference!(op_leg: custom_field, jira_leg: jira_field, jira_import: @jira_import, uses_existing: true)
         end
-        create_custom_field(jira_field, builder)
+        builder.apply_pending_value_extension(custom_field, user: @system_user)
+        custom_field
       end
 
       def create_custom_field(jira_field, builder)

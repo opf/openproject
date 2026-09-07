@@ -576,6 +576,67 @@ RSpec.describe WorkPackage do
       end
     end
 
+    context "on observed in version changes", with_settings: { journal_aggregation_time_minutes: 0 } do
+      shared_let(:journable) do
+        create(:work_package)
+      end
+
+      def set_observed_in_versions(versions)
+        journable.observed_in_version_ids_replacements = versions.map(&:id)
+        journable.save!
+      end
+
+      context "when setting observed in versions" do
+        it "creates a new journal listing the versions in the details" do
+          expect { set_observed_in_versions([version, other_version]) }
+            .to change { journable.journals.count }.by(1)
+
+          expect(journable.last_journal.details["observed_in_versions"])
+            .to eq([nil, [version.id, other_version.id].sort.join(",")])
+        end
+      end
+
+      context "when replacing an observed in version" do
+        before do
+          set_observed_in_versions([version])
+        end
+
+        it "creates a new journal with the old and new versions in the details" do
+          expect { set_observed_in_versions([other_version]) }
+            .to change { journable.journals.count }.by(1)
+
+          expect(journable.last_journal.details["observed_in_versions"])
+            .to eq([version.id.to_s, other_version.id.to_s])
+        end
+      end
+
+      context "when removing all observed in versions" do
+        before do
+          set_observed_in_versions([version])
+        end
+
+        it "creates a new journal with an empty new value in the details" do
+          expect { set_observed_in_versions([]) }
+            .to change { journable.journals.count }.by(1)
+
+          expect(journable.last_journal.details["observed_in_versions"])
+            .to eq([version.id.to_s, nil])
+        end
+      end
+
+      context "when saving with unchanged observed in versions" do
+        before do
+          set_observed_in_versions([version])
+        end
+
+        it "creates no journal and does not touch the journable" do
+          expect { set_observed_in_versions([version]) }
+            .to not_change { journable.journals.count }
+            .and(not_change { journable.reload.updated_at })
+        end
+      end
+    end
+
     # Journal creation (the SQL differ gated by JOURNALED_KINDS) and rendering
     # (the per-kind details) are independent implementations. A kind journaled
     # without a matching detail would create journals that display no change.

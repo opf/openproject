@@ -57,9 +57,9 @@ Agile project management is an iterative and flexible approach to managing proje
 
 In OpenProject, artificial intelligence (AI) refers to the integration of AI systems into project workflows to support tasks such as summarizing information, analyzing dependencies, or assisting in planning and reporting.
 
-OpenProject approaches AI with a clear focus on control, transparency, and data protection. AI is designed to support users in their work, not to replace human decision-making. Users remain in full control at all times and can decide whether and how AI features are used.
+[OpenProject approaches AI with a clear focus on control, transparency, and data protection](https://www.openproject.org/ai). AI is designed to support users in their work, not to replace human decision-making. Organizations remain in full control at all times and can decide whether and how AI features are used.
 
-With features such as the [MCP Server](../system-admin-guide/integrations/mcp-server/), OpenProject enables secure connections between project data and external AI systems. This allows organizations to benefit from AI while maintaining full control over how their data is accessed and used.
+With features such as the [MCP Server](#mcp-server), OpenProject enables secure connections between project data and external AI systems. Connected AI assistants can access project information and, depending on their permissions, perform actions such as creating and updating work packages. This allows organizations to benefit from AI while maintaining full control over how their data is accessed and used.
 
 ### Attribute help texts
 
@@ -280,6 +280,10 @@ Macros in OpenProject are dynamic shortcuts that help automate repetitive tasks.
 
 - [See a list of all possible work package attributes that can be used as macros in OpenProject](../user-guide/wysiwyg/#available-attributes-for-work-packages)
 - [Read a blog article with detailed descriptions and examples on how to use macros in OpenProject](https://www.openproject.org/blog/how-to-use-macros/)
+
+### MCP Server
+
+The OpenProject MCP Server is an [Enterprise add-on](#enterprise-add-on) that enables the integration of [artificial intelligence (AI)](#artificial-intelligence-ai) with OpenProject. AI assistants and similar tools can connect to OpenProject using the Model Context Protocol (MCP), an open standard that enables AI applications to connect to external systems and access their data and functionality. Through the MCP Server, connected tools can access project information and perform supported actions in OpenProject while respecting existing permissions and business rules. [Read more about the MCP Server in OpenProject](../system-admin-guide/integrations/mcp-server/).
 
 ### Meetings
 

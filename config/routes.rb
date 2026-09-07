@@ -222,6 +222,10 @@ Rails.application.routes.draw do
       post :copy
     end
 
+    scope "dependents/:aspect", controller: "configuration_dependents", as: :configuration_dependents do
+      get :dialog
+    end
+
     scope "exclusions/:aspect", controller: "excluded_elements", as: :excluded_element do
       post :toggle
     end
@@ -283,6 +287,8 @@ Rails.application.routes.draw do
             get :menu
             post :make_default
             post :remove_default
+            get :deletion_dialog
+            post :deletion_preview
           end
         end
 
@@ -996,6 +1002,20 @@ Rails.application.routes.draw do
         member do
           get :deletion_dialog
         end
+      end
+    end
+
+    resources :text_transform_actions, except: :show do
+      member do
+        get :deletion_dialog
+        post :toggle
+        put :drop
+      end
+
+      collection do
+        put :enable_all
+        put :disable_all
+        post :toggle_setting
       end
     end
 

@@ -19,7 +19,7 @@ get:
         type: integer
     - name: pageSize
       description: Number of elements to display per page.
-      example: "25"
+      example: 25
       in: query
       required: false
       schema:

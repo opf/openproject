@@ -28,9 +28,133 @@
 
 import { waitFor } from '@testing-library/dom';
 import { vi, type Mock } from 'vitest';
-
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import type FiltersFormControllerType from './filters-form.controller';
+
+const ASSIGNEE_FILTER_ROW = `
+  <div data-filter-name="assignee" data-filter-type="text" hidden data-filter--filters-form-target="filter">
+    <select data-filter-name="assignee" data-filter--filters-form-target="operator">
+      <option value="=">is</option>
+      <option value="!*" data-no-value>is not set</option>
+    </select>
+    <div data-filter-name="assignee" data-filter--filters-form-target="filterValueContainer">
+      <input data-filter-name="assignee" data-filter--filters-form-target="simpleValue">
+    </div>
+  </div>
+`;
+
+describe('Filters form controller - filter count badge', () => {
+  let ctx:StimulusTestContext;
+  let FiltersFormController:typeof FiltersFormControllerType;
+
+  beforeAll(async () => {
+    ({ default: FiltersFormController } = await import('./filters-form.controller'));
+  });
+
+  afterEach(() => {
+    ctx.dispose();
+  });
+
+  async function mountForm(filterRow:string) {
+    ctx = await setupStimulusTest({
+      controllers: { 'filter--filters-form': FiltersFormController },
+    });
+
+    await ctx.mount(`
+      <div data-controller="filter--filters-form">
+        <button data-filter--filters-form-target="filterFormToggle">Filter</button>
+        <span data-filter--filters-form-target="filterCount" hidden>0</span>
+        <span data-filter--filters-form-target="filterCount" hidden>0</span>
+        <input type="hidden" data-filter--filters-form-target="filtersInput">
+        <select data-filter--filters-form-target="addFilterSelect">
+          <option value=""></option>
+          <option value="assignee">Assignee</option>
+        </select>
+        ${filterRow}
+      </div>
+    `);
+
+    const controller = ctx.getController<FiltersFormControllerType>('filter--filters-form');
+    const counters = Array.from(ctx.container.querySelectorAll<HTMLElement>('[data-filter--filters-form-target="filterCount"]'));
+
+    return { controller, counters };
+  }
+
+  function enterSimpleValue(value:string) {
+    const valueInput = ctx.container.querySelector<HTMLInputElement>('[data-filter--filters-form-target="simpleValue"]')!;
+    valueInput.value = value;
+    valueInput.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+
+  it('leaves the count unchanged when a filter is added with no value yet', async () => {
+    const { controller, counters } = await mountForm(ASSIGNEE_FILTER_ROW);
+
+    controller.addFilterByName('assignee');
+    await ctx.nextFrame();
+
+    counters.forEach((counter) => {
+      expect(counter.textContent).toBe('0');
+      expect(counter.hidden).toBe(true);
+    });
+  });
+
+  it('increments the count once a value is entered', async () => {
+    const { controller, counters } = await mountForm(ASSIGNEE_FILTER_ROW);
+
+    controller.addFilterByName('assignee');
+    await ctx.nextFrame();
+    enterSimpleValue('john');
+
+    // The counter update is debounced together with the network request, so
+    // it lands asynchronously rather than right after the input event.
+    await waitFor(() => {
+      counters.forEach((counter) => {
+        expect(counter.textContent).toBe('1');
+        expect(counter.hidden).toBe(false);
+      });
+    });
+  });
+
+  it('decrements the count when an active filter is removed', async () => {
+    const { controller, counters } = await mountForm(ASSIGNEE_FILTER_ROW);
+
+    controller.addFilterByName('assignee');
+    enterSimpleValue('john');
+
+    // The counter update is debounced together with the network request, so
+    // it lands asynchronously rather than right after the input event.
+    await waitFor(() => {
+      counters.forEach((counter) => {
+        expect(counter.textContent).toBe('1');
+        expect(counter.hidden).toBe(false);
+      });
+    });
+
+    controller.removeFilter({ params: { filterName: 'assignee' } });
+    await ctx.nextFrame();
+
+    // Not just re-hidden -- the text itself must be updated back to 0 too,
+    // rather than staying stale at the last visible count while hidden.
+    counters.forEach((counter) => {
+      expect(counter.textContent).toBe('0');
+      expect(counter.hidden).toBe(true);
+    });
+  });
+
+  it('counts a data-no-value operator immediately, without a value', async () => {
+    const { controller, counters } = await mountForm(ASSIGNEE_FILTER_ROW);
+    const operatorSelect = ctx.container.querySelector<HTMLSelectElement>('[data-filter--filters-form-target="operator"]')!;
+    operatorSelect.value = '!*';
+
+    controller.addFilterByName('assignee');
+    await ctx.nextFrame();
+
+    counters.forEach((counter) => {
+      expect(counter.textContent).toBe('1');
+      expect(counter.hidden).toBe(false);
+    });
+  });
+});
 
 describe('Filters form controller', () => {
   let ctx:StimulusTestContext;
@@ -62,7 +186,7 @@ describe('Filters form controller', () => {
     await ctx.mount(`
       <div id="global-loading-indicator" class="d-none"></div>
       <div data-controller="filter--filters-form"
-           data-filter--filters-form-perform-turbo-requests-value="true">
+           data-filter--filters-form-turbo-stream-request-value="true">
         <form data-filter--filters-form-target="filterForm">
           <div data-filter--filters-form-target="simpleFilter"
                data-filter-name="name"
@@ -81,7 +205,7 @@ describe('Filters form controller', () => {
 
   it('ignores a response when the form has a newer unsent value', async () => {
     const controller = await renderForm();
-    const replaceState = vi.spyOn(window.history, 'replaceState');
+    const replaceState = vi.spyOn(window.history, 'replaceState').mockImplementation(() => undefined);
 
     controller.sendForm();
     await waitFor(() => expect(fetchSpy).toHaveBeenCalledOnce());

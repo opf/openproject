@@ -222,14 +222,10 @@ module Pages
         source = list[from]
         target = list[to]
 
-        # These helpers have always meant "insert before the element currently at
-        # index `to`" (Dragula's insertBefore semantics), so aim at the target's
-        # top quarter — closest-edge resolution then inserts above it either way.
-        target_rect = target.native.rect
         perform_native_drag(
           source: source.find(handler),
-          target_x: target_rect.x + (target_rect.width / 2),
-          target_y: target_rect.y + (target_rect.height / 4)
+          target:,
+          offset_y: -(target.native.rect.height / 4)
         )
       end
     end

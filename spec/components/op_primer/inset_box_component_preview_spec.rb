@@ -107,20 +107,20 @@ RSpec.describe OpPrimer::InsetBoxComponentPreview, type: :component do
   it "renders the title icon preview" do
     render_preview(:with_title_icon, from: described_class)
 
-    expect(page).to have_css(".octicon-link + h3", text: "Linked mode")
+    expect(page).to have_css(".octicon-link + h3", text: "Inherited configuration")
   end
 
   it "renders the action buttons preview" do
     render_preview(:with_action_buttons, from: described_class)
 
     expect(page).to have_button("Change source type")
-    expect(page).to have_button("Switch to independent mode")
+    expect(page).to have_button("Configure manually")
   end
 
   it "renders the action menu preview" do
     render_preview(:with_action_menu, from: described_class)
 
     expect(page).to have_button("Actions")
-    expect(page).to have_text("Show dependents")
+    expect(page).to have_text("View dependent types")
   end
 end
