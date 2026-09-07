@@ -45,6 +45,7 @@ module LlmConnections
       invalidate_a_different_deployment
 
       store(adapter.models)
+      Llm::DetectCapabilitiesJob.perform_later
 
       ServiceResult.success(result: connection)
     rescue Llm::Client::Error => e

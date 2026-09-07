@@ -28,29 +28,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module LlmConnections
-  class UpdateService < BaseServices::Update
-    private
+require "spec_helper"
 
-    # The contract has already proven the server reachable when the credentials
-    # changed, so refreshing the catalogue here cannot be the thing that fails
-    # the save. A sync failure is therefore logged, not surfaced.
-    def after_perform(service_call)
-      super.tap do
-        next unless service_call.success?
+RSpec.describe Llm::DetectCapabilitiesJob, :llm_server_helpers, :webmock do
+  let(:base_url) { "https://example.com/v1" }
 
-        Setting.llm_features_enabled = model.llm_features_enabled
-        next unless initial_fill?(service_call.result)
+  it "probes the likely embedding models of every stored connection" do
+    connection = create(:llm_connection, :with_models, base_url:)
+    mock_llm_embeddings_response(base_url)
 
-        SyncModelsService.new(service_call.result).call
-      end
-    end
+    described_class.perform_now
 
-    # The only automatic refresh: nothing is stored yet, so nothing an
-    # administrator curated can be lost. Every later refresh is asked for.
-    def initial_fill?(connection)
-      connection.saved_changes.keys.intersect?(LlmServerValidator::CONNECTION_ATTRIBUTES) &&
-        connection.models.none?
-    end
+    expect(connection.capability_verdicts.pluck(:model_id, :source)).to eq([["bge-m3", "probe"]])
+  end
+
+  it "does nothing while no connection is stored" do
+    expect { described_class.perform_now }.not_to raise_error
   end
 end

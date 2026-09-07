@@ -38,7 +38,7 @@ module LlmConnections
   class DetectCapabilitiesService
     # Naming is a hint for which models are worth spending a probe on, never a
     # verdict in itself.
-    EMBEDDING_NAME_HINT = /embed|bge|e5|gte|nomic|minilm/i
+    EMBEDDING_NAME_HINT = %r{embed|bge|nomic|minilm|(^|[-_./])(e5|gte)}i
     BACKGROUND_LIMIT = 10
 
     def initialize(connection)
@@ -72,8 +72,10 @@ module LlmConnections
       @probe ||= Llm::Probes::EmbeddingsProbe.new(connection)
     end
 
+    # A model an administrator switched off is not going to be bound to a
+    # feature, so a speculative probe against it is a request spent for nothing.
     def candidates
-      connection.available_model_ids
+      connection.selectable_model_ids
                 .grep(EMBEDDING_NAME_HINT)
                 .reject { |model_id| admin_asserted?(model_id) }
                 .first(BACKGROUND_LIMIT)
@@ -90,15 +92,17 @@ module LlmConnections
     end
 
     def record(model_id, result)
+      verdict = claim(model_id)
+
       verdicts.transaction do
-        verdict = verdicts.lock.find_or_initialize_by(model_id:, capability: "embeddings")
+        verdict.lock!
         # Re-checked under the row lock: a probe runs for seconds, and an
         # administrator may have asserted the capability in the meantime.
-        break verdict if verdict.persisted? && verdict.source_admin?
+        break verdict if verdict.source_admin?
         # A probe that learned nothing must not soften a definite verdict:
         # only :unsupported blocks, so downgrading it to :unknown on a transient
         # failure would quietly make a rejected model usable again.
-        break verdict if verdict.persisted? && result.state == :unknown
+        break verdict if result.state == :unknown && !verdict.unknown?
 
         verdict.update!(state: result.state.to_s,
                         source: "probe",
@@ -106,6 +110,21 @@ module LlmConnections
                         checked_at: Time.current)
         verdict
       end
+    end
+
+    # FOR UPDATE has no row to lock before the first probe of a model, and a
+    # synchronous detection can run alongside the background pass, so the row is
+    # claimed through the unique index rather than built in memory.
+    def claim(model_id)
+      verdicts.insert_all([{ llm_connection_id: connection.id,
+                             model_id:,
+                             capability: "embeddings",
+                             state: "unknown",
+                             source: "probe",
+                             checked_at: Time.current }],
+                          unique_by: %i[llm_connection_id model_id capability])
+
+      verdicts.for_model(model_id).for_capability(:embeddings).first
     end
 
     def verdicts

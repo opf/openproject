@@ -29,14 +29,13 @@
 #++
 
 module Llm
-  # Pre-colours the model list after a connect, out of band so that saving the
-  # connection does not wait on one request per candidate model.
+  # Pre-colours the model list after a refresh, out of band so that fetching the
+  # catalogue does not wait on one request per candidate model.
   class DetectCapabilitiesJob < ApplicationJob
     def perform
-      connection = LlmConnection.first
-      return if connection.nil? || !connection.configured?
-
-      LlmConnections::DetectCapabilitiesService.new(connection).detect_likely_embedding_models
+      LlmConnection.find_each do |connection|
+        LlmConnections::DetectCapabilitiesService.new(connection).detect_likely_embedding_models
+      end
     end
   end
 end

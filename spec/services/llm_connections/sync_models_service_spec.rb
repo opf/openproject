@@ -127,6 +127,18 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
     end
   end
 
+  describe "the capability detection that follows" do
+    it "asks for it after a successful sync, whichever caller asked for the list" do
+      expect { service.call }.to have_enqueued_job(Llm::DetectCapabilitiesJob)
+    end
+
+    it "asks for nothing when the server does not answer with a list" do
+      mock_llm_models_response(base_url, response_code: 404)
+
+      expect { service.call }.not_to have_enqueued_job(Llm::DetectCapabilitiesJob)
+    end
+  end
+
   describe "naming a model and sizing its context window" do
     let(:connection) { create(:llm_connection, base_url:, api_key: "sk-test") }
 
