@@ -123,9 +123,9 @@ module WaitHelpers
       JS
 
       raise Capybara::ExpectationNotMet, "#{identifier} controller is not connected" unless connected
-    end
 
-    page.find(selector, wait: 0)
+      page.find(selector, wait: 0)
+    end
   end
 
   # Arms a one-shot reload probe for the Turbo frame with `frame_id`.

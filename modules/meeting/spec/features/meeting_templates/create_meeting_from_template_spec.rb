@@ -271,9 +271,7 @@ RSpec.describe "Create meeting from template", :js do
                             results_selector: "body"
 
         # Submit without a title to trigger validation failure
-        wait_for_turbo_stream do
-          click_button "Create"
-        end
+        click_button "Create"
       end
 
       within_dialog "New one-time meeting" do
