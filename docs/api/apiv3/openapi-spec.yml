@@ -1200,6 +1200,7 @@ tags:
   - "$ref": "./tags/categories.yml"
   - "$ref": "./tags/configuration.yml"
   - "$ref": "./tags/custom_actions.yml"
+  - "$ref": "./tags/custom_fields.yml"
   - "$ref": "./tags/custom_options.yml"
   - "$ref": "./tags/documents.yml"
   - "$ref": "./tags/file_links.yml"
