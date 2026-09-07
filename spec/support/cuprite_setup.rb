@@ -66,7 +66,6 @@ def register_better_cuprite(language, name: :"better_cuprite_#{language}")
       timeout: 30,
       # In case the timeout is not enough, this option can be activated:
       # pending_connection_errors: false,
-      inspector: true,
       headless: headless_mode?,
       save_path: DownloadList::SHARED_PATH.to_s,
       window_size: [1920, 1080]
@@ -141,24 +140,6 @@ def configure_remote_chrome(options)
   options
 end
 
-# Ferrum v0.17.2 regression: https://github.com/rubycdp/ferrum/issues/578
-Ferrum::Contexts.prepend(Module.new do
-  def reset
-    super
-  ensure
-    @default_context = nil
-  end
-
-  private
-
-  def add_context(context_id)
-    return if contexts[context_id]
-
-    context = Ferrum::Context.new(@client, self, context_id)
-    contexts[context_id] = context
-  end
-end)
-
 # Backport https://github.com/rubycdp/ferrum/pull/629 until it is released.
 Ferrum::Client::Subscriber.prepend(Module.new do
   private
@@ -190,7 +171,6 @@ Capybara::Cuprite::Browser.prepend(Module.new do
     restart
   end
 end)
-
 register_better_cuprite "en"
 
 RSpec.configure do |config|
