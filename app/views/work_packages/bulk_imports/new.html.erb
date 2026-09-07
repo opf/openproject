@@ -12,7 +12,7 @@
       </div>
     <% end %>
 
-    <%= form_with url: project_work_packages_bulk_import_path(@project), multipart: true, local: true do |form| %>
+    <%= form_with url: bulk_import_project_work_packages_path(@project), multipart: true, local: true do |form| %>
       <p>
         <%= form.label :file, I18n.t("work_packages.bulk_import.file_label") %>
         <%= form.file_field :file, accept: ".csv,.xlsx", required: true %>
@@ -22,7 +22,7 @@
     <% end %>
 
     <p>
-      <%= link_to I18n.t("work_packages.bulk_import.download_sample"), project_work_packages_bulk_import_sample_path(@project), class: "button" %>
+      <%= link_to I18n.t("work_packages.bulk_import.download_sample"), bulk_import_sample_project_work_packages_path(@project), class: "button" %>
       <%= link_to I18n.t(:button_cancel), project_work_packages_path(@project), class: "button" %>
     </p>
   </div>

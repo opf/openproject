@@ -128,7 +128,7 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger implements
       {
         disabled: false,
         linkText: this.I18n.t('js.work_packages.bulk_import'),
-        href: `${this.pathHelper.workPackagesPath(this.projectIdentifier)}/bulk_import`,
+        href: `${this.pathHelper.workPackagesPath(this.projectIdentifier ?? null)}/bulk_import`,
         ariaLabel: this.I18n.t('js.work_packages.bulk_import'),
         onClick: () => false,
       },

@@ -1,0 +1,36 @@
+# Bulk work package import
+
+The work package creation menu can provide a project-scoped bulk import entry point. The entry opens the upload page at `/projects/:project_id/work_packages/bulk_import`.
+
+## Supported files
+
+The importer accepts `.csv` and `.xlsx` files. A sample CSV is available from the upload page and contains these columns:
+
+| Column | Required | Description |
+| --- | --- | --- |
+| `Subject` | Yes | Work package subject. |
+| `Type` | No | Work package type name. |
+| `Description` | No | Work package description. |
+| `Status` | No | Status name. |
+| `Priority` | No | Priority name. |
+| `Assignee` | No | User login or email address. |
+| `Start date` | No | Start date. |
+| `Due date` | No | Due date. |
+| `Estimated hours` | No | Estimated work in hours. |
+| `% Complete` | No | Completion percentage. |
+
+## Creation behavior
+
+Each row is normalized and passed to `WorkPackages::CreateService`. This keeps bulk creation consistent with manual creation for:
+
+- Authorization and project permissions
+- Defaults and writable attributes
+- Work package validation
+- Scheduling and related work package updates
+- Notifications and watcher assignment
+
+The complete file is processed inside one transaction. If a row cannot be created, the upload is rejected, the error includes the source row number, and no work packages from that file are persisted.
+
+## Failure feedback
+
+Unsupported file types and malformed files are reported on the upload page. Creation and mapping errors are reported with the affected row number so the source file can be corrected and uploaded again.
