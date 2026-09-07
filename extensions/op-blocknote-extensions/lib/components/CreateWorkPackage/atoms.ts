@@ -9,8 +9,16 @@ const controlBorderColor = 'var(--op-create-wp-control-border)';
 const radiusSmall = '4px';
 const radius = '6px';
 const radiusLarge = '12px';
+const listBorderWidth = '1px';
+const controlBorderWidth = '1px';
+const listPadding = 'var(--spacer-s)';
+const rowMarkInset = 'var(--spacer-s)';
+const rowGap = 'var(--spacer-s)';
+
 const colorDotSize = '12px';
-const colorDotWidth = `calc(var(--spacer-l) + ${colorDotSize} + var(--spacer-m))`;
+// Where a row of the list starts, so the dot on a control lines up with the dots in it.
+const colorDotInset = `calc(${listBorderWidth} + ${listPadding} + ${rowMarkInset})`;
+const colorDotWidth = `calc(${colorDotInset} - ${controlBorderWidth} + ${colorDotSize} + ${rowGap})`;
 
 const indentStep = 14;
 
@@ -38,8 +46,6 @@ const actionStyles = css`
   cursor: pointer;
   transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
 `;
-
-const rowMarkInset = 'var(--spacer-s)';
 
 const rowMarkHover = css`
   position: relative;
@@ -352,7 +358,7 @@ const controlStyles = css`
     width: 100%;
     height: auto;
     padding: var(--spacer-m) var(--spacer-l);
-    border: 1px solid ${controlBorderColor};
+    border: ${controlBorderWidth} solid ${controlBorderColor};
     border-radius: ${radius};
     background: ${surfaceColor};
     color: ${textColor};
@@ -395,45 +401,31 @@ export const TextAreaControl = styled.textarea`
   resize: vertical;
 `;
 
-export const SelectControl = styled.select`
-  ${controlStyles}
-  appearance: none;
-  cursor: pointer;
-
-  && {
-    padding-right: ${roomForActions(1)};
-  }
-
-  /*  OpenProject paints its own arrow onto every select with !important.  */
-  && {
-    background-image: none !important;
-  }
+const colorDotStyles = css<{ $color:string }>`
+  ${({ $color }) => defaultColorStyles($color)}
+  width: ${colorDotSize};
+  height: ${colorDotSize};
+  border-radius: 50%;
+  background: ${typeTextColor};
+  pointer-events: none;
 `;
 
-export const SelectWrapper = styled.div<{ $withColorDot?:boolean }>`
-  position: relative;
-  display: flex;
-  align-items: center;
-
-  ${({ $withColorDot }) => $withColorDot && css`
-    && select {
-      padding-left: ${colorDotWidth};
-    }
-  `}
+export const OptionColorDot = styled.span.attrs({
+  className: 'op-bn-create-wp-option-color',
+  'data-testid': 'create-wp-option-color',
+  'aria-hidden': true,
+})<{ $color:string }>`
+  ${colorDotStyles}
+  flex-shrink: 0;
 `;
 
 export const TypeColorDot = styled.span.attrs({
   className: 'op-bn-create-wp-type-color',
   'data-testid': 'create-wp-type-color',
 })<{ $color:string }>`
-  ${({ $color }) => defaultColorStyles($color)}
+  ${colorDotStyles}
   position: absolute;
-  left: var(--spacer-l);
-  width: ${colorDotSize};
-  height: ${colorDotSize};
-  border-radius: 50%;
-  background: ${typeTextColor};
-  pointer-events: none;
+  left: ${colorDotInset};
 `;
 
 export const CheckboxRow = styled.label`
@@ -561,12 +553,18 @@ export const Spinner = styled.span`
   animation: ${spin} 0.9s linear infinite;
 `;
 
-export const SuggestionList = styled.div`
+export const SuggestionList = styled.div<{ $closing?:boolean }>`
   position: fixed;
   z-index: 1;
   overflow-y: auto;
-  padding: 0 var(--spacer-s) var(--spacer-s);
-  border: 1px solid ${controlBorderColor};
+  pointer-events: ${({ $closing }) => ($closing ? 'none' : 'auto')};
+  padding: 0 ${listPadding} ${listPadding};
+
+  &[data-growing] {
+    overflow-y: hidden;
+  }
+
+  border: ${listBorderWidth} solid ${controlBorderColor};
   border-radius: ${radius};
   background: ${surfaceColor};
   box-shadow: var(--op-create-wp-shadow);
@@ -575,7 +573,7 @@ export const SuggestionList = styled.div`
 export const SuggestionItem = styled.div<{ $focused:boolean; $selected?:boolean }>`
   display: flex;
   align-items: center;
-  gap: var(--spacer-s);
+  gap: ${rowGap};
   /*  The indent is drawn by the level lines rather than by padding, so that
       they run from row to row without a gap.  */
   padding: var(--spacer-m) ${rowMarkInset};
@@ -591,6 +589,15 @@ export const SuggestionItem = styled.div<{ $focused:boolean; $selected?:boolean 
 
   &:hover {
     background: ${({ $selected }) => ($selected ? 'var(--op-create-wp-selected-bg)' : 'var(--op-item-hover-bg)')};
+  }
+
+  // Forced colours drop the background, so the mark has to be an outline.
+  @media (forced-colors: active) {
+    outline-offset: -2px;
+    outline: ${({ $focused, $selected }) => {
+    if ($selected) return '2px solid Highlight';
+    return $focused ? '2px dashed Highlight' : 'none';
+  }};
   }
 `;
 
@@ -733,7 +740,7 @@ export const SuggestionEmpty = styled.div`
 `;
 
 /*  Sized here rather than on the field: the popover is not portalled out of it.  */
-export const TypeaheadWrapper = styled.div<{ $actions?:number }>`
+export const TypeaheadWrapper = styled.div<{ $actions?:number; $withColorDot?:boolean }>`
   position: relative;
   display: flex;
   align-items: center;
@@ -741,6 +748,12 @@ export const TypeaheadWrapper = styled.div<{ $actions?:number }>`
   && > input {
     padding-right: ${({ $actions = 1 }) => roomForActions($actions)};
   }
+
+  ${({ $withColorDot }) => $withColorDot && css`
+    && > input {
+      padding-left: ${colorDotWidth};
+    }
+  `}
 `;
 
 export const TrailingActions = styled.span`

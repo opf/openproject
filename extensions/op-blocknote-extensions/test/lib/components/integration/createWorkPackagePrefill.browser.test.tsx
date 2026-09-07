@@ -64,7 +64,7 @@ describe('Create work package - prefilled from previous selections', () => {
     await openCreateModal();
     await pickProject();
 
-    await expect.element(page.getByLabelText('Type *')).toHaveValue('/api/v3/types/1');
+    await expect.element(page.getByLabelText('Type *')).toHaveValue('Task');
     await expect.element(page.getByLabelText('Supervisor *')).toBeVisible();
     await expect.element(page.getByLabelText('Assignee')).toHaveValue('');
   });
@@ -77,7 +77,7 @@ describe('Create work package - prefilled from previous selections', () => {
     await openCreateModalAtCursor();
 
     await expect.element(page.getByLabelText('Project *')).toHaveValue('Demo project');
-    await expect.element(page.getByLabelText('Type *')).toHaveValue('/api/v3/types/2');
+    await expect.element(page.getByLabelText('Type *')).toHaveValue('Bug');
     await expect.element(page.getByLabelText('Assignee')).toHaveValue('Elif Yildiz');
     await expect.element(page.getByLabelText('Subject *')).toHaveValue('');
   });
@@ -89,7 +89,7 @@ describe('Create work package - prefilled from previous selections', () => {
     await openCreateModal();
 
     await expect.element(page.getByLabelText('Project *')).toHaveValue('Scrum project');
-    await expect.element(page.getByLabelText('Type *')).toHaveValue('/api/v3/types/1');
+    await expect.element(page.getByLabelText('Type *')).toHaveValue('Task');
     await expect.element(page.getByLabelText('Supervisor *')).toBeVisible();
   });
 
@@ -280,7 +280,7 @@ describe('Create work package - prefilled from previous selections', () => {
 
     await expect.element(page.getByLabelText('Project *')).toHaveValue('Demo project');
 
-    await expect.element(page.getByLabelText('Type *')).toHaveValue('/api/v3/types/2');
+    await expect.element(page.getByLabelText('Type *')).toHaveValue('Bug');
     await expect.element(page.getByLabelText('Assignee')).toHaveValue('Bianca Fuchs');
   });
 
@@ -298,7 +298,7 @@ describe('Create work package - prefilled from previous selections', () => {
     await openCreateModal();
     await pickProject();
 
-    await expect.element(page.getByLabelText('Type *')).toHaveValue('/api/v3/types/1');
+    await expect.element(page.getByLabelText('Type *')).toHaveValue('Task');
     await expect.element(page.getByLabelText('Assignee')).toHaveValue('');
   });
 

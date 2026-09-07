@@ -172,6 +172,24 @@ describe('Create work package - form and editor boundaries', () => {
     await expect.element(page.getByLabelText('Assignee')).toHaveValue('');
   });
 
+  it('does not let a close left over from an earlier blur take the list away', async () => {
+    renderEditor();
+    await openCreateModal();
+    await pickProject();
+    const assignee = page.getByRole('combobox', { name: 'Assignee' });
+    await expect.element(assignee).toBeVisible();
+    await userEvent.click(assignee);
+    await expect.element(page.getByRole('option', { name: 'Elif Yildiz' })).toBeVisible();
+
+    (page.getByLabelText('Subject *').element() as HTMLElement).focus();
+    (assignee.element() as HTMLElement).focus();
+
+    await new Promise((resolve) => { setTimeout(resolve, 400); });
+
+    await expect.element(assignee).toHaveAttribute('aria-expanded', 'true');
+    await expect.element(page.getByRole('option', { name: 'Elif Yildiz' })).toBeVisible();
+  });
+
   it('re-asks for the fields of the type when the project changes', async () => {
     renderEditor();
     await openCreateModal();
@@ -187,7 +205,7 @@ describe('Create work package - form and editor boundaries', () => {
     await userEvent.click(page.getByLabelText('Project *'));
     await userEvent.click(page.getByRole('treeitem', { name: 'Scrum project' }));
 
-    await expect.element(page.getByLabelText('Type *')).toHaveValue('/api/v3/types/1');
+    await expect.element(page.getByLabelText('Type *')).toHaveValue('Task');
     await expect.element(page.getByLabelText('Supervisor *')).toHaveValue('');
   });
 
@@ -518,8 +536,10 @@ describe('Create work package - form and editor boundaries', () => {
 
     const controls = [page.getByLabelText('Project *').element(), page.getByLabelText('Type *').element()];
     const shapes = controls.map((control) => {
-      // The last two of them: only the searchable picker carries a clear button.
-      const arrows = Array.from(control.parentElement!.querySelectorAll('svg')).slice(-2);
+      // The control's own icons, not the ones in the list it lingers with.
+      const arrows = Array.from(control.parentElement!.querySelectorAll('svg'))
+        .filter((icon) => !icon.closest('[data-testid$="-popover"]'))
+        .slice(-2);
       const bounds = control.getBoundingClientRect();
       return {
         arrows: arrows.length,
@@ -568,22 +588,4 @@ describe('Create work package - form and editor boundaries', () => {
     }
   });
 
-  it('keeps the arrow the host application forces onto every select turned off', async () => {
-    // The rule OpenProject applies page wide, reduced to what matters here.
-    const hostStyles = document.createElement('style');
-    hostStyles.textContent = 'select:not(.FormControl-select) { background-image: url("data:image/gif;base64,R0lGODlhAQABAAAAACw=") !important; }';
-    document.head.appendChild(hostStyles);
-
-    try {
-      renderEditor();
-      await openCreateModal();
-      await pickProject();
-      await expect.element(page.getByLabelText('Type *')).toBeVisible();
-
-      const select = document.querySelector('.op-bn-create-wp select')!;
-      expect(getComputedStyle(select).backgroundImage).toBe('none');
-    } finally {
-      hostStyles.remove();
-    }
-  });
 });

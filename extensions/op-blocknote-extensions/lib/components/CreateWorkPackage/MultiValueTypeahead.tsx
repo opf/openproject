@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { XIcon } from '@primer/octicons-react';
-import { Suggestions } from './Suggestions';
+import { Suggestions, usePickerMotion } from './Suggestions';
 import { usePickerOptions } from './usePickerOptions';
 import type { AllowedValue } from './formSchema';
 import {
@@ -50,6 +50,7 @@ export const MultiValueTypeahead = ({
   useEffect(() => () => clearTimeout(blurTimerRef.current), []);
 
   const listId = `${id}-list`;
+  const { mounted, open: listShown, onClosed } = usePickerMotion(isOpen);
   const { options, loading, toggleExpanded } = usePickerOptions({
     href: href ?? '',
     query,
@@ -171,7 +172,7 @@ export const MultiValueTypeahead = ({
         />
       </TokenField>
 
-      {isOpen && (
+      {mounted && (
         <Suggestions
           id={listId}
           label={label}
@@ -182,6 +183,8 @@ export const MultiValueTypeahead = ({
           onFocusIndex={setFocusedIndex}
           onPick={add}
           onToggleExpanded={toggleExpanded}
+          open={listShown}
+          onClosed={onClosed}
         >
           {loading ? t('createWorkPackage.loading') : t('createWorkPackage.noResults')}
         </Suggestions>

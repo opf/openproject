@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { XCircleFillIcon } from '@primer/octicons-react';
 import { PickerArrowsGlyph } from './PickerArrows';
-import { Suggestions } from './Suggestions';
+import { Suggestions, usePickerMotion } from './Suggestions';
 import { usePickerOptions } from './usePickerOptions';
 import type { AllowedValue } from './formSchema';
 import {
@@ -54,6 +54,7 @@ export const ProjectPicker = ({
   const hint = namesPick ? pickedLabel : placeholder;
 
   const listId = `${id}-list`;
+  const { mounted, open: listShown, onClosed } = usePickerMotion(isOpen);
   const { options, loading, toggleExpanded, expand } = usePickerOptions({
     href,
     query,
@@ -238,7 +239,7 @@ export const ProjectPicker = ({
         </TrailingButton>
       </TrailingActions>
 
-      {isOpen && (
+      {mounted && (
         <Suggestions
           id={listId}
           label={label}
@@ -253,6 +254,8 @@ export const ProjectPicker = ({
           onPick={select}
           onDeselect={deselect}
           onToggleExpanded={toggleExpanded}
+          open={listShown}
+          onClosed={onClosed}
         >
           {loading ? t('createWorkPackage.loading') : t('createWorkPackage.noResults')}
         </Suggestions>

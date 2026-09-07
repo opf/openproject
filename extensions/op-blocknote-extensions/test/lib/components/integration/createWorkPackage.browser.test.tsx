@@ -3,6 +3,7 @@ import { http, HttpResponse } from 'msw';
 import { page, userEvent } from 'vitest/browser';
 import { renderEditor } from '../../../helpers/renderEditor';
 import {
+  colorChannelsOf,
   fillRequiredFields,
   openCreateModal,
   pickProject,
@@ -15,11 +16,6 @@ import { createFormFor, mockCreatedWorkPackage, reviewersSchema } from '../../..
 import type { FormRequestBody } from '../../../mocks/handlers';
 
 afterEach(() => worker.resetHandlers());
-
-function colorChannelsOf(element:Element):string[] {
-  const styles = getComputedStyle(element);
-  return ['--color-r', '--color-g', '--color-b'].map((channel) => styles.getPropertyValue(channel).trim());
-}
 
 describe('Create work package', () => {
   it('creates a card when invoked on an empty line', async () => {
@@ -197,7 +193,7 @@ describe('Create work package', () => {
     await selectOptionNamed('Type *', 'Bug');
 
     await expect.element(page.getByLabelText('Supervisor *')).toHaveValue('Anna Kovalenko');
-    await expect.element(page.getByLabelText('Department *')).toHaveValue('/api/v3/custom_options/7');
+    await expect.element(page.getByLabelText('Department *')).toHaveValue('Design');
     await expect.element(page.getByLabelText('Needs documentation')).toBeChecked();
 
     // Nothing left to answer a second time.

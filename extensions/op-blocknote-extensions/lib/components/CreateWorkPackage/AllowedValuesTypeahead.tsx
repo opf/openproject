@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { XCircleFillIcon } from '@primer/octicons-react';
-import { Suggestions } from './Suggestions';
+import { Suggestions, usePickerMotion } from './Suggestions';
 import { usePickerOptions } from './usePickerOptions';
 import type { AllowedValue } from './formSchema';
 import {
@@ -46,6 +46,7 @@ export const AllowedValuesTypeahead = ({
   const selectionRef = useRef({ value, label: valueLabel ?? '' });
 
   const listId = `${id}-list`;
+  const { mounted, open: listShown, onClosed } = usePickerMotion(isOpen);
   const { options, loading, toggleExpanded } = usePickerOptions({ href, query, isOpen });
   const selectedIndex = options.findIndex((option) => option.href === value);
   const activeIndex = Math.min(
@@ -160,7 +161,7 @@ export const AllowedValuesTypeahead = ({
         </TrailingActions>
       )}
 
-      {isOpen && (
+      {mounted && (
         <Suggestions
           id={listId}
           label={label}
@@ -173,6 +174,8 @@ export const AllowedValuesTypeahead = ({
           onPick={select}
           onDeselect={clear}
           onToggleExpanded={toggleExpanded}
+          open={listShown}
+          onClosed={onClosed}
         >
           {loading ? t('createWorkPackage.loading') : t('createWorkPackage.noResults')}
         </Suggestions>
