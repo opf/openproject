@@ -40,11 +40,14 @@ module Llm
 
       # The server understood the request and refused it for this model. Anything
       # else -- 5xx, throttling -- says something about the server, not the model.
-      REFUSED_STATUSES = [400, 404, 405, 501].freeze
+      REFUSED_STATUSES = [400].freeze
 
-      Result = Data.define(:state, :detail) do
-        def supported? = state == :supported
-      end
+      # Answers about the embeddings route rather than about a model, read as
+      # LlmServerValidator::MODELS_ENDPOINT_ABSENT reads them: a gateway may route
+      # chat completions and nothing else, and would refuse every model alike.
+      ENDPOINT_ABSENT_REASONS = [404, 405, 501].map { |status| "http_#{status}" }.freeze
+
+      Result = Data.define(:state, :detail)
 
       def initialize(connection)
         @connection = connection

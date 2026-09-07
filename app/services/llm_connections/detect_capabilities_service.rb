@@ -61,7 +61,14 @@ module LlmConnections
     #
     # @return [ServiceResult] carrying the verdicts that were recorded
     def detect_likely_embedding_models
-      ServiceResult.success(result: candidates.map { |model_id| detect(model_id).result })
+      recorded = []
+
+      candidates.each do |model_id|
+        recorded << detect(model_id).result
+        break if endpoint_absent?(recorded.last)
+      end
+
+      ServiceResult.success(result: recorded)
     end
 
     private
@@ -79,6 +86,12 @@ module LlmConnections
                 .grep(EMBEDDING_NAME_HINT)
                 .reject { |model_id| admin_asserted?(model_id) }
                 .first(BACKGROUND_LIMIT)
+    end
+
+    # The server answered for the embeddings route rather than for the model, so
+    # the requests the rest of the batch would spend buy the same answer again.
+    def endpoint_absent?(verdict)
+      verdict.unknown? && verdict.detail["reason"].in?(Llm::Probes::EmbeddingsProbe::ENDPOINT_ABSENT_REASONS)
     end
 
     # An administrator knows things about their deployment that a probe cannot

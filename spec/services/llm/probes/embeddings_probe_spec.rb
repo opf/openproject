@@ -66,13 +66,24 @@ RSpec.describe Llm::Probes::EmbeddingsProbe, :webmock do
     it { expect(result.state).to eq(:unknown) }
   end
 
-  [400, 404, 501].each do |status|
-    context "when the server refuses the request with #{status}" do
+  context "when the server refuses the request with 400" do
+    before { stub_embeddings(status: 400, body: { error: "nope" }) }
+
+    it "is unsupported" do
+      expect(result.state).to eq(:unsupported)
+      expect(result.detail["http_status"]).to eq(400)
+    end
+  end
+
+  # A gateway routing chat completions and nothing else answers these for every
+  # model, so reading them as a refusal would mark them all incapable for good.
+  [404, 405, 501].each do |status|
+    context "when the server has no embeddings route and says so with #{status}" do
       before { stub_embeddings(status:, body: { error: "nope" }) }
 
-      it "is unsupported" do
-        expect(result.state).to eq(:unsupported)
-        expect(result.detail["http_status"]).to eq(status)
+      it "is unknown rather than a refusal by the model" do
+        expect(result.state).to eq(:unknown)
+        expect(result.detail["reason"]).to eq("http_#{status}")
       end
     end
   end

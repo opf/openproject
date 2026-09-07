@@ -103,6 +103,15 @@ RSpec.describe LlmConnections::DetectCapabilitiesService, :llm_server_helpers, :
       expect(connection.capability_verdicts.pluck(:model_id)).to eq(["bge-m3"])
     end
 
+    it "stops the batch when the server has no embeddings route at all" do
+      create(:llm_model, llm_connection: connection, external_id: "nomic-embed-text")
+      request = mock_llm_embeddings_response(base_url, response_code: 404)
+
+      service.detect_likely_embedding_models
+
+      expect(request).to have_been_made.once
+    end
+
     it "spends no more than BACKGROUND_LIMIT requests" do
       (described_class::BACKGROUND_LIMIT + 5).times do |index|
         create(:llm_model, llm_connection: connection, external_id: "embed-#{index}")
