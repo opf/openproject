@@ -2009,6 +2009,13 @@ en:
           assignee: "Additional transitions available to the work package's assignee."
           author: "Additional transitions available to the work package's author."
         menu_label: "Transitions shown"
+  ai:
+    text_transform:
+      errors:
+        connection_failed: "The AI service could not be reached."
+        not_available: "The AI assistant is not available."
+        timeout: "The AI service did not respond in time."
+        upstream_error: "The AI service returned an error."
   announcements:
     is_active: currently displayed
     is_inactive: currently not displayed
