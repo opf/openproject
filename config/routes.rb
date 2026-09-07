@@ -581,6 +581,9 @@ Rails.application.routes.draw do
         get "/report" => "work_packages/reports#report"
         get "menu" => "work_packages/menus#show"
         get "/export_dialog" => "work_packages#export_dialog"
+        get "/bulk_import" => "work_packages/bulk_imports#new", as: :bulk_import
+        post "/bulk_import" => "work_packages/bulk_imports#create"
+        get "/bulk_import/sample" => "work_packages/bulk_imports#sample", as: :bulk_import_sample
       end
 
       get "/copy" => "work_packages#copy", on: :member, as: "copy"
