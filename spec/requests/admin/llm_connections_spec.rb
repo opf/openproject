@@ -138,10 +138,13 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       end
 
       context "when the connection comes from the environment" do
-        let!(:connection) { create(:llm_connection, :enabled, base_url:, api_key: "sk-original") }
+        let!(:connection) { create(:llm_connection, base_url:, api_key: "sk-original") }
 
         before do
-          allow(Setting).to receive(:llm_connection).and_return({ "base_url" => base_url })
+          # Provisioning from the environment switches the features on, and the
+          # server settings are only rendered once they are.
+          allow(Setting).to receive_messages(llm_connection: { "base_url" => base_url },
+                                             llm_features_enabled?: true)
         end
 
         it "renders the server settings read-only, with a banner saying why" do
@@ -395,7 +398,7 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       post disconnect_llm_connection_path
 
       expect(connection.reload.api_key).to eq("sk-test")
-      expect(connection).to be_enabled
+      expect(Setting.llm_features_enabled?).to be(true)
     end
 
     it "is refused to a non-admin" do

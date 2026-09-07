@@ -160,7 +160,8 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       end
 
       it "shows the default read-only when the environment owns the connection" do
-        create(:llm_connection, :with_models, :enabled, base_url:, default_chat_model_id: "qwen3.6-27b")
+        connection = create(:llm_connection, :with_models, base_url:)
+        connection.update!(default_chat_model: connection.models.find_by(external_id: "qwen3.6-27b"))
         allow(Setting).to receive(:llm_connection).and_return({ "base_url" => base_url })
 
         get llm_models_path

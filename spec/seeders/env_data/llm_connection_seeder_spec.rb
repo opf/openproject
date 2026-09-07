@@ -40,8 +40,8 @@ RSpec.describe EnvData::LlmConnectionSeeder do
   end
 
   # On a fresh installation the seed runs before any model synchronisation, so
-  # a configured default model cannot be validated against a catalogue yet.
-  # Provisioning must still complete; a wrong id surfaces later as dangling.
+  # the model the environment names has no row yet. Provisioning enters it the
+  # way an administrator would, and the refresh confirms it later.
   context "with a default model configured on a fresh installation", with_settings: {
     llm_connection: {
       "base_url" => "https://example.com/v1",
@@ -53,7 +53,7 @@ RSpec.describe EnvData::LlmConnectionSeeder do
       expect { seed }.to change(LlmConnection, :count).from(0).to(1)
 
       connection = LlmConnection.first
-      expect(connection.default_chat_model_id).to eq("qwen3.6-35b-a3b")
+      expect(connection.default_chat_model.external_id).to eq("qwen3.6-35b-a3b")
       expect(connection.api_key).to eq("sk-from-env")
     end
 
@@ -88,9 +88,9 @@ RSpec.describe EnvData::LlmConnectionSeeder do
     llm_connection: { "base_url" => "https://example.com/v1" }
   } do
     before do
-      create(:llm_connection, base_url: "https://example.com/v1",
-                              api_key: "sk-stale",
-                              default_chat_model_id: "old-default")
+      connection = create(:llm_connection, base_url: "https://example.com/v1", api_key: "sk-stale")
+      connection.update!(default_chat_model: create(:llm_model, llm_connection: connection,
+                                                                external_id: "old-default"))
     end
 
     it "clears the values the environment no longer provides" do

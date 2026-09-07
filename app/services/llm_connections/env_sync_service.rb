@@ -40,12 +40,12 @@ module LlmConnections
     end
 
     def call
-      UpdateService
-        .new(user: User.system,
-             model: LlmConnection.instance,
-             contract_class: EnvironmentUpdateContract,
-             sync_models: false)
-        .call(**attributes)
+      ApplicationRecord.transaction do
+        result = write(attributes)
+        break result if result.failure?
+
+        write(default_model_references(result.result), model: result.result)
+      end
     end
 
     private
@@ -60,10 +60,31 @@ module LlmConnections
       {
         base_url: config.fetch(:base_url),
         api_key: config[:api_key],
-        default_chat_model_id: config[:default_chat_model],
-        default_embedding_model_id: config[:default_embedding_model],
-        enabled: ActiveRecord::Type::Boolean.new.deserialize(config.fetch(:enabled, true))
+        llm_features_enabled: ActiveRecord::Type::Boolean.new.deserialize(config.fetch(:enabled, true))
       }
+    end
+
+    def write(attributes, model: LlmConnection.active_connection)
+      UpdateService
+        .new(user: User.system,
+             model:,
+             contract_class: EnvironmentUpdateContract,
+             sync_models: false)
+        .call(**attributes)
+    end
+
+    # The environment names a model, and on a fresh installation nothing has
+    # asked the server for a catalogue yet, so the row it must reference is
+    # entered here the way an administrator would enter it by hand.
+    def default_model_references(connection)
+      { default_chat_model_id: model_row_id(connection, config[:default_chat_model]),
+        default_embedding_model_id: model_row_id(connection, config[:default_embedding_model]) }
+    end
+
+    def model_row_id(connection, external_id)
+      return if external_id.blank?
+
+      connection.models.create_with(manual: true).find_or_create_by!(external_id:).id
     end
   end
 end
