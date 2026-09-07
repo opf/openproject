@@ -2,8 +2,10 @@ import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AlertIcon } from '@primer/octicons-react';
 import { colorOfType } from '../../services/colors';
+import { hrefsOf } from './formSchema';
 import type { FieldValue, FormField, ValueProblem } from './formSchema';
 import { AllowedValuesTypeahead } from './AllowedValuesTypeahead';
+import { MultiValueTypeahead } from './MultiValueTypeahead';
 import { ProjectPicker } from './ProjectPicker';
 import { PickerArrows } from './PickerArrows';
 import {
@@ -140,6 +142,21 @@ export const FormFieldControl = ({
       );
       break;
     }
+    case 'multiSelect':
+      control = (
+        <MultiValueTypeahead
+          id={id}
+          label={field.label}
+          href={field.allowedValuesHref}
+          allowedValues={field.allowedValues}
+          value={hrefsOf(value)}
+          placeholder={placeholder ?? t('createWorkPackage.searchPlaceholder')}
+          invalid={Boolean(message)}
+          describedBy={errorId}
+          onChange={onChange}
+        />
+      );
+      break;
     case 'textarea':
       control = (
         <TextAreaControl

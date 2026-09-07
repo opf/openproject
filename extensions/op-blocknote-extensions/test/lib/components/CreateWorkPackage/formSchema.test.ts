@@ -78,6 +78,23 @@ const schema:WorkPackageSchema = {
   customField4: property({ type: 'Formattable', name: 'Notes' }),
   customField5: property({ type: '[]CustomOption', name: 'Tags', location: '_links' }),
   customField6: property({ type: 'Date', name: 'Deadline' }),
+  customField7: property({
+    type: '[]CustomOption',
+    name: 'Labels',
+    location: '_links',
+    _links: {
+      allowedValues: [
+        { href: '/api/v3/custom_options/11', title: 'Design' },
+        { href: '/api/v3/custom_options/12', title: 'Backend' },
+      ],
+    },
+  }),
+  customField8: property({
+    type: '[]User',
+    name: 'Reviewers',
+    location: '_links',
+    _links: { allowedValues: { href: '/api/v3/principals' } },
+  }),
 };
 
 describe('formSchema', () => {
@@ -114,7 +131,21 @@ describe('formSchema', () => {
       expect(fieldFor(schema, 'percentageDone')?.kind).toBe('number');
     });
 
-    it('reports multi value attributes as unsupported', () => {
+    it('turns an attribute holding several values into a multi select', () => {
+      const inlined = fieldFor(schema, 'customField7');
+      expect(inlined?.kind).toBe('multiSelect');
+      expect(inlined?.isLink).toBe(true);
+      expect(inlined?.allowedValues).toEqual([
+        { href: '/api/v3/custom_options/11', label: 'Design' },
+        { href: '/api/v3/custom_options/12', label: 'Backend' },
+      ]);
+
+      const searched = fieldFor(schema, 'customField8');
+      expect(searched?.kind).toBe('multiSelect');
+      expect(searched?.allowedValuesHref).toBe('/api/v3/principals');
+    });
+
+    it('reports a multi value attribute without values on offer as unsupported', () => {
       expect(fieldFor(schema, 'customField5')?.kind).toBe('unsupported');
     });
 
@@ -233,6 +264,8 @@ describe('formSchema', () => {
         'customField4',
         'customField5',
         'customField6',
+        'customField7',
+        'customField8',
       ]);
     });
 
@@ -299,11 +332,20 @@ describe('formSchema', () => {
       fieldFor(schema, 'assignee'),
       fieldFor(schema, 'customField2'),
       fieldFor(schema, 'customField5'),
+      fieldFor(schema, 'customField7'),
     ].flatMap((field) => (field ? [field] : []));
 
     it('treats blank required values as missing, but never a checkbox', () => {
       const missing = missingRequiredFields(fields, { subject: '   ', customField2: false });
-      expect(missing.map((field) => field.key)).toEqual(['subject', 'type', 'customField5']);
+      expect(missing.map((field) => field.key)).toEqual(['subject', 'type', 'customField5', 'customField7']);
+    });
+
+    it('treats a multi select as missing until it holds a value', () => {
+      const empty = missingRequiredFields(fields, { customField7: [] });
+      const filled = missingRequiredFields(fields, { customField7: ['/api/v3/custom_options/11'] });
+
+      expect(empty.map((field) => field.key)).toContain('customField7');
+      expect(filled.map((field) => field.key)).not.toContain('customField7');
     });
 
     it('reports required attributes without a control', () => {
@@ -315,6 +357,7 @@ describe('formSchema', () => {
         subject: 'missing',
         type: 'missing',
         customField5: 'missing',
+        customField7: 'missing',
       });
     });
   });
@@ -424,6 +467,26 @@ describe('formSchema', () => {
       expect(survivingValues(fields, { customField2: 'yes', customField5: '/api/v3/custom_options/7' }))
         .toEqual({});
     });
+
+    it('keeps of a multi select the choices the new type still allows', () => {
+      const fields = [fieldFor(schema, 'customField7')].flatMap((field) => (field ? [field] : []));
+      const held = ['/api/v3/custom_options/11', '/api/v3/custom_options/99'];
+
+      expect(survivingValues(fields, { customField7: held }))
+        .toEqual({ customField7: ['/api/v3/custom_options/11'] });
+    });
+
+    it('drops a multi select left with no allowed choice at all', () => {
+      const fields = [fieldFor(schema, 'customField7')].flatMap((field) => (field ? [field] : []));
+
+      expect(survivingValues(fields, { customField7: ['/api/v3/custom_options/99'] })).toEqual({});
+    });
+
+    it('drops a multi select that searches for its choices, as nothing names them', () => {
+      const fields = [fieldFor(schema, 'customField8')].flatMap((field) => (field ? [field] : []));
+
+      expect(survivingValues(fields, { customField8: ['/api/v3/users/5'] })).toEqual({});
+    });
   });
 
   describe('survivingLabels', () => {
@@ -454,6 +517,7 @@ describe('formSchema', () => {
       fieldFor(schema, 'customField2'),
       fieldFor(schema, 'customField4'),
       fieldFor(schema, 'customField5'),
+      fieldFor(schema, 'customField7'),
       fieldFor(schema, 'percentageDone'),
     ].flatMap((field) => (field ? [field] : []));
 
@@ -486,8 +550,26 @@ describe('formSchema', () => {
           priority: { href: '/api/v3/priorities/8' },
           project: { href: '/api/v3/projects/1' },
           type: { href: '/api/v3/types/1' },
+          customField7: [],
         },
       });
+    });
+
+    it('submits every value of a multi select as a link of its own', () => {
+      const payload = buildCreatePayload(basePayload, fields, {
+        subject: 'Fix the header',
+        customField7: ['/api/v3/custom_options/11', '/api/v3/custom_options/12'],
+      });
+
+      expect(payload._links?.customField7).toEqual([
+        { href: '/api/v3/custom_options/11' },
+        { href: '/api/v3/custom_options/12' },
+      ]);
+    });
+
+    it('submits an emptied multi select as an empty list', () => {
+      const payload = buildCreatePayload(basePayload, fields, { subject: 'Fix the header' });
+      expect(payload._links?.customField7).toEqual([]);
     });
 
     it('sends nothing for an attribute without a control', () => {

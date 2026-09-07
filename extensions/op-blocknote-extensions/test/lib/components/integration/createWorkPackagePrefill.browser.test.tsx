@@ -7,6 +7,7 @@ import {
   openCreateModal,
   openCreateModalAtCursor,
   pickProject,
+  pickValues,
   selectOptionNamed,
 } from '../../../helpers/createWorkPackageHelpers';
 import { worker } from '../../../mocks/browser';
@@ -54,6 +55,7 @@ async function createBugAssignedToElif(subject:string) {
   await userEvent.click(page.getByLabelText('Supervisor *'));
   await userEvent.click(page.getByRole('option', { name: 'Anna Kovalenko' }));
   await selectOptionNamed('Department *', 'Design');
+  await pickValues('Labels *', 'Accessibility');
 
   await userEvent.click(page.getByTestId('create-wp-submit'));
   await expect.element(page.getByTestId('block-card')).toBeVisible();
@@ -325,6 +327,7 @@ describe('Create work package - prefilled from previous selections', () => {
     await userEvent.click(page.getByLabelText('Supervisor *'));
     await userEvent.click(page.getByRole('option', { name: 'Anna Kovalenko' }));
     await selectOptionNamed('Department *', 'Design');
+    await pickValues('Labels *', 'Accessibility');
     await userEvent.click(page.getByTestId('create-wp-submit'));
 
     await expect.element(page.getByTestId('create-wp-modal')).not.toBeInTheDocument();

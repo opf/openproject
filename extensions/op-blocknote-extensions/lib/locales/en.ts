@@ -30,6 +30,7 @@ export const en = {
       'favorites': 'Favorites',
       'clear': 'Clear',
       'deselect': 'Remove selection',
+      'removeValue': 'Remove {{value}}',
       'openOptions': 'Show options',
       'closeOptions': 'Hide options',
       'subjectPlaceholder': 'Enter subject here',

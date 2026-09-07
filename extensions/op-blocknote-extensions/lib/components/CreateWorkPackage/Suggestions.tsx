@@ -32,13 +32,13 @@ interface SuggestionsProps {
   anchorEl:HTMLElement | null;
   options:ListedValue[];
   focusedIndex:number;
-  selectedHref:string;
+  selectedHref?:string;
   hierarchical?:boolean;
   header?:ReactNode;
   optionId:(index:number) => string;
   onFocusIndex:(index:number) => void;
   onPick:(option:AllowedValue) => void;
-  onDeselect:() => void;
+  onDeselect?:() => void;
   onToggleExpanded:(href:string) => void;
   children:ReactNode;
 }
@@ -136,7 +136,7 @@ export const Suggestions = ({
               </FavoredMark>
             )}
 
-            {option.href === selectedHref && (
+            {onDeselect && option.href === selectedHref && (
               <RowAction
                 aria-label={t('createWorkPackage.deselect')}
                 data-testid={`${id}-deselect`}

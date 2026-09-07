@@ -100,6 +100,7 @@ export const Overlay = styled.div.attrs({
   --op-create-wp-action-hover: var(--control-transparent-bgColor-hover, rgba(129, 139, 152, 0.15));
   --op-create-wp-line: var(--borderColor-muted, rgba(209, 217, 224, 0.7));
   --op-create-wp-selected-bg: var(--control-transparent-bgColor-selected, rgba(129, 139, 152, 0.24));
+  --op-create-wp-focus: var(--focus-outlineColor, #0969da);
 
   /*  Native widgets (checkbox, date picker, select popup) follow the modal
       rather than the operating system.  */
@@ -126,6 +127,7 @@ export const Overlay = styled.div.attrs({
     --op-create-wp-action-hover: var(--control-transparent-bgColor-hover, rgba(177, 186, 196, 0.15));
     --op-create-wp-line: var(--borderColor-muted, rgba(61, 68, 77, 0.7));
     --op-create-wp-selected-bg: var(--control-transparent-bgColor-selected, rgba(177, 186, 196, 0.24));
+    --op-create-wp-focus: var(--focus-outlineColor, #1f6feb);
 
     color-scheme: dark;
   }
@@ -419,6 +421,88 @@ export const CheckboxRow = styled.label`
   gap: var(--spacer-m);
   font-size: 0.9em;
   cursor: pointer;
+`;
+
+export const TokenField = styled.div<{ $invalid?:boolean }>`
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacer-s);
+  width: 100%;
+  padding: var(--spacer-s) var(--spacer-m);
+  border: 1px solid ${({ $invalid }) => ($invalid ? 'var(--op-create-wp-danger)' : controlBorderColor)};
+  border-radius: ${radius};
+  background: ${surfaceColor};
+  cursor: text;
+
+  &:focus-within {
+    outline: 2px solid var(--op-create-wp-focus);
+    outline-offset: -1px;
+  }
+`;
+
+export const TokenInput = styled.input`
+  && {
+    flex: 1 1 8em;
+    min-width: 8em;
+    height: auto;
+    padding: var(--spacer-s) 0;
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    color: ${textColor};
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.4;
+
+    &:focus {
+      border: none;
+      box-shadow: none;
+      outline: none;
+    }
+
+    &::placeholder {
+      color: var(--op-create-wp-placeholder);
+      font-size: 14px;
+      font-weight: 400;
+    }
+  }
+`;
+
+export const Token = styled.span`
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacer-s);
+  max-width: 100%;
+  padding: 2px var(--spacer-s);
+  border-radius: ${radius};
+  background: var(--op-item-hover-bg);
+  font-size: 0.85em;
+  color: ${textColor};
+`;
+
+export const TokenLabel = styled.span`
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+`;
+
+export const TokenRemove = styled.button`
+  && {
+    display: inline-flex;
+    align-items: center;
+    padding: 0;
+    border: none;
+    background: none;
+    color: var(--op-create-wp-muted);
+    cursor: pointer;
+
+    &:hover {
+      color: ${textColor};
+    }
+  }
 `;
 
 export const Notice = styled.div<{ $error?:boolean }>`
