@@ -28,17 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+require Rails.root.join("db/migrate/migration_utils/utils")
+
 class AddCaseInsensitiveUniquenessForProjectIdentifiers < ActiveRecord::Migration[8.0]
+  include Migration::Utils
+
   disable_ddl_transaction!
 
   def up
-    deduplicate_case_colliding_identifiers
-    remove_index :projects, :identifier, unique: true, algorithm: :concurrently, if_exists: true
-    add_index :projects, "LOWER(identifier)",
-              unique: true,
-              name: "index_projects_on_lower_identifier",
-              algorithm: :concurrently,
-              if_not_exists: true
+    ensuring_single_schema(:projects) do
+      deduplicate_case_colliding_identifiers
+      remove_index :projects, :identifier, unique: true, algorithm: :concurrently, if_exists: true
+      add_index :projects, "LOWER(identifier)",
+                unique: true,
+                name: "index_projects_on_lower_identifier",
+                algorithm: :concurrently,
+                if_not_exists: true
+    end
   end
 
   # Note: does not undo identifier renames from deduplication. Suffixed identifiers
