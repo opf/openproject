@@ -798,6 +798,10 @@ components:
       "$ref": "./components/schemas/activity_model.yml"
     ActivityCommentWriteModel:
       "$ref": "./components/schemas/activity_comment_write_model.yml"
+    AITextTransformActionModel:
+      "$ref": "./components/schemas/ai_text_transform_action_model.yml"
+    AITextTransformActionCollectionModel:
+      "$ref": "./components/schemas/ai_text_transform_action_collection_model.yml"
     AttachmentModel:
       "$ref": "./components/schemas/attachment_model.yml"
     Attachments_Model:
