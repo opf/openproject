@@ -33,7 +33,9 @@ module EnvData
   # a container comes up connected without anyone opening the administration UI.
   #
   # Never contacts the LLM server: the catalogue refresh is enqueued, so seeding
-  # succeeds even when the server starts after OpenProject does.
+  # succeeds even when the server starts after OpenProject does. It is enqueued
+  # only while nothing is stored: a re-seed against another server must not
+  # discard a list an administrator has curated.
   class LlmConnectionSeeder < Seeder
     KNOWN_KEYS = %w[base_url api_key default_chat_model default_embedding_model enabled].freeze
 
@@ -44,7 +46,7 @@ module EnvData
         result = LlmConnections::EnvSyncService.new(config).call
         raise result.errors.full_messages.join(", ") if result.failure?
 
-        Llm::SyncModelsJob.perform_later
+        Llm::SyncModelsJob.perform_later if result.result.models.none?
       end
     end
 

@@ -56,6 +56,30 @@ RSpec.describe EnvData::LlmConnectionSeeder do
       expect(connection.default_chat_model_id).to eq("qwen3.6-35b-a3b")
       expect(connection.api_key).to eq("sk-from-env")
     end
+
+    it "enqueues the initial catalogue fill" do
+      expect { seed }.to have_enqueued_job(Llm::SyncModelsJob)
+    end
+  end
+
+  # The seeder runs on every container start, so a refresh here would repeatedly
+  # overwrite a list an administrator has curated. The stale warning on the AI
+  # models page asks for the refresh instead.
+  context "when the environment moves a stored catalogue to another host", with_settings: {
+    llm_connection: { "base_url" => "https://other.example.com/v1", "api_key" => "sk-from-env" }
+  } do
+    let!(:connection) do
+      create(:llm_connection, :with_models, base_url: "https://example.com/v1", api_key: "sk-from-env")
+        .tap { |record| record.update!(connection_fingerprint: record.settings_fingerprint) }
+    end
+
+    it "keeps the stored models and flags them as stale" do
+      expect { seed }.not_to have_enqueued_job(Llm::SyncModelsJob)
+
+      expect(connection.reload.base_url).to eq("https://other.example.com/v1")
+      expect(connection.models.count).to eq(2)
+      expect(connection).to be_models_stale
+    end
   end
 
   # The environment is the source of truth while the form is read-only under it,
