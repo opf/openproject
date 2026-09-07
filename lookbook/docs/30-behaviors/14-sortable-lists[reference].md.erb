@@ -1,0 +1,188 @@
+---
+label: Reference
+---
+
+The values, outlets, targets and actions of the four controllers, then the
+backend request, the server half, the response policy, the Angular
+counterpart and the migration table.
+
+## Attributes
+
+The suite is built on
+[Pragmatic drag and drop](https://atlassian.design/components/pragmatic-drag-and-drop/);
+links below point at its documentation where a concept is theirs.
+
+Four kinds of attribute appear on the markup, each with the standard Stimulus
+spelling:
+
+| Kind | Attribute | Example |
+| --- | --- | --- |
+| Value | `data-<controller>-<name>-value`, camel case hyphenated | `data-sortable-lists--list-accepted-type-value="task"` |
+| Outlet | `data-sortable-lists-<child controller>-outlet` | `data-sortable-lists-sortable-lists--list-outlet="#tasks [data-controller~='sortable-lists--list']"` |
+| Target | `data-<controller>-target="<name>"` | `data-sortable-lists--item-target="handle"` |
+| Action | `data-action="<event>-><controller>#<method>"`, params as `data-<controller>-<param>-param` | `data-action="click->sortable-lists--item#move"` |
+
+When you pass them through a Rails `data:` hash, as the previews do, write the
+controller with a double underscore and the rest with single ones:
+`sortable_lists__list_accepted_type_value:`.
+
+### `sortable-lists` (root)
+
+#### Values
+
+| Value | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| `moveUrlTemplate` | string | | URI template expanded with the dragged row's id; must expand to a relative same-origin URL |
+| `moveUrlTemplates` | JSON object | | per-item-type templates keyed by the dragged row's type; `moveUrlTemplate` is the fallback |
+| `optimistic` | boolean | `false` | appends `optimistic=true` to the move URL and keeps the client's placement when the server answers with an event alone |
+
+#### Outlets
+
+| Outlet | Required | Meaning |
+| --- | --- | --- |
+| `sortable-lists--list` | yes | every list under this root |
+| `sortable-lists--item` | yes | every row under this root |
+| `sortable-lists--scrollable` | when declared | every auto-scrolling container under this root |
+
+### `sortable-lists--list`
+
+#### Values
+
+| Value | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| `type` | string | | the list's own type, sent as `list_type`; a list without one accepts no drops |
+| `acceptedType` | string | | the item type this list accepts; omit to make the list display-only ([typing data](https://atlassian.design/components/pragmatic-drag-and-drop/core-package/recipes/typing-data)) |
+| `id` | string | | sent as `list_id`; required as soon as two lists share a type |
+| `name` | string | | announced to screen readers on a cross-list move |
+| `dropPosition` | `start` or `end` | `end` | where a drop on the list's empty space lands |
+
+### `sortable-lists--item`
+
+#### Values
+
+| Value | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| `id` | string | | the record id; expands `{id}` in the move URL and is sent as a neighbor's `prev_id` |
+| `type` | string | | matched against lists' `acceptedType`; keys `moveUrlTemplates` ([typing data](https://atlassian.design/components/pragmatic-drag-and-drop/core-package/recipes/typing-data)) |
+| `label` | string | | accessible name used in announcements and in the external drag data |
+| `confined` | boolean | `false` | reorders within its own list only; foreign lists refuse it |
+| `hideUnavailable` | boolean | `true` | hide inapplicable move actions; `false` disables them instead |
+| `externalUrl` | URL | | when set, a drag also carries `text/uri-list`, `text/plain` and, with a label, `text/html` for targets outside the page ([data for external consumers](https://atlassian.design/components/pragmatic-drag-and-drop/core-package/adapters/element/about#data-for-external-consumers-getinitialdataforexternal), [external adapter](https://atlassian.design/components/pragmatic-drag-and-drop/core-package/adapters/external/about)) |
+
+#### Targets
+
+| Target | Cardinality | Meaning |
+| --- | --- | --- |
+| `handle` | one | the element that starts a drag; the whole row when absent ([drag handles](https://atlassian.design/components/pragmatic-drag-and-drop/core-package/adapters/element/about#drag-handles)) |
+| `preview` | one | the element that follows the pointer; the row when absent ([drag previews](https://atlassian.design/components/pragmatic-drag-and-drop/core-package/adapters/element/drag-previews)) |
+| `moveItem` | one per move action | a move action; carries the `direction` param |
+| `moveMenu` | one | the submenu or group wrapping the move actions, hidden or disabled when none applies |
+| `moveDivider` | one | the divider above the move actions, hidden together with them |
+
+#### Actions
+
+| Action | Params | Meaning |
+| --- | --- | --- |
+| `move` | `direction`: `top`, `up`, `down` or `bottom` | moves the row without a drag; bound as `click->sortable-lists--item#move` |
+
+### `sortable-lists--scrollable`
+
+#### Values
+
+| Value | Type | Default | Meaning |
+| --- | --- | --- | --- |
+| `allowedAxis` | `vertical`, `horizontal` or `all` | `vertical` | which edges trigger auto-scroll |
+| `maxScrollSpeed` | `standard` or `fast` | `standard` | |
+
+## The move request
+
+`PUT` to the expanded move URL with `responseKind: 'turbo-stream'` and three
+form fields:
+
+| Field | Meaning |
+| --- | --- |
+| `list_type` | the destination list's `type` |
+| `list_id` | the destination list's `id`; blank when it declares none, required as soon as two lists share a type |
+| `prev_id` | id of the row the moved row now follows; blank when it landed first |
+
+`prev_id` is always a record id, whatever the server orders by underneath. A
+drop that leaves the row where it started sends no request.
+
+## The server half
+
+Two ordering families back this request. A blank `prev_id` moves the
+record to the top in both. What happens to an anchor that is unknown,
+outside the destination's scope, or the moved record itself depends on the
+implementation:
+
+* `acts_as_list` models include `Lists::MoveAfterAnchor`, which resolves the
+  anchor within a scope you pass and reinserts relative to it. It refuses
+  such anchors, returning `false` without mutating anything.
+* Backlogs' own `move_after` removes the row from its list before looking
+  the anchor up, and an anchor it cannot find puts the row at the top
+  instead of refusing. The streamed list reconciles the client afterwards;
+  the Sibling lists tab describes when Backlogs reloads for that reason.
+* Models ordering by an array of keys insert after the anchor's key,
+  translating the incoming id to that key first.
+
+A move that changes list is a reparent plus an insert: one transaction,
+both lists locked, so a failed insert leaves the record in its original
+list. Answer refusals with `422` after streaming your own message; the client
+keeps that status silent apart from the rollback. Any other failure raises a
+generic toast.
+
+## Response policy
+
+The row moves in the DOM before the request resolves.
+
+* **Morph reconciliation (default).** The endpoint streams the re-rendered
+  list; the morph replaces the client's placement with the server's order.
+* **Event-only (`optimistic`).** The endpoint may acknowledge with an event
+  alone. The server decides per request whether the client's placement is
+  trustworthy; see the Sibling lists tab.
+
+A failed request rolls the rows back, unless a concurrent morph has already
+moved them.
+
+## Angular counterpart
+
+Angular surfaces use the `opSortableLists`, `opSortableListsList` and
+`opSortableListsItem` directives in
+`frontend/src/app/shared/directives/sortable-lists/`, backed by the engine
+in `frontend/src/common/drag-and-drop/sortable-lists-engine.ts`. Both
+suites build on Pragmatic drag and drop and follow the same styling
+conventions (`data-dragging`, `data-drop-position`, `data-drop-container`),
+but share no code.
+
+They differ on persistence, and this paragraph is only an overview; the
+event interfaces in `sortable-lists.directive.ts` are the contract. A drop
+emits an `opSortableListsDrop` event carrying the target and edge. The
+component persists the result itself, then calls the event's
+`complete(success)`; until it does, the root stays busy and refuses further
+drags, warning after ten seconds. A row leaving for another list also emits
+`opSortableListsRemoved` on its source list, settled with `finalize()`.
+There is no `prev_id` request. The draggable autocompleter uses these
+directives; new server-rendered surfaces use the Stimulus suite.
+
+## Used in
+
+* Text transform actions (`Admin::TextTransformActions`): one list.
+* Backlogs (`modules/backlogs`): sibling lists, scrollable columns,
+  optimistic placement, confined rows, external drag data.
+* Project Attributes (`Settings::ProjectCustomFieldSections`): nested lists
+  with per-type move endpoints.
+
+## Migrating off `generic-drag-and-drop`
+
+| `generic-drag-and-drop` | `sortable-lists` |
+| --- | --- |
+| `generic_drag_and_drop_target: "container"` | a `sortable-lists--list` controller on the list |
+| `generic_drag_and_drop_target: "scrollContainer"` | a `sortable-lists--scrollable` controller |
+| `drop-url` on the row | `move-url-template` on the root |
+| `draggable-type` / `target-allowed-drag-type` | the row's `type` and the list's `accepted-type` |
+| index-based position params | `list_type` + `list_id` + `prev_id` |
+| no keyboard path | `moveItem` menu actions |
+
+The endpoint changes shape too: Dragula posted an index, so a server that
+still computes positions from one needs porting to anchor semantics before
+its list can move over.

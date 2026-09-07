@@ -1,0 +1,105 @@
+---
+label: Nested lists
+---
+
+Rows that are themselves lists: chapters that reorder, each holding articles
+that reorder within their chapter and move to another. Project Attributes
+(`Settings::ProjectCustomFieldSections`) is the reference. This is the
+advanced case; the six rules below are all it adds to the previous tabs.
+
+## Anatomy of a nested root
+
+<img src="<%= image_path("lookbook/sortable_lists_d.png") %>" alt="One root holding a chapter list; each chapter row hosts its own article list; one move endpoint per item type" width="636" style="max-width: 100%">
+
+Chapters reorder among themselves; articles reorder within a chapter and
+move between chapters. Still one root: the second level comes from a second
+item type, never from a second root. The colors match the diagrams above;
+the same four controllers, only the types differ.
+
+**One root, two item types, never nested roots.** Depth comes from a second
+item type under the same root. The root's outlet selectors match at any
+depth, so it already sees both levels; a row belongs to the innermost list
+that contains it.
+
+```
+[sortable-lists]                      root
+ └ [sortable-lists--list]             type: chapter · accepted_type: chapter
+    └ [sortable-lists--item]          a chapter, as a row of the chapter list
+       └ [sortable-lists--list]       the same chapter, as a list of articles
+            type: article · accepted_type: article · id: <chapter id>
+          └ [sortable-lists--item]    an article
+```
+
+**The item and the list it hosts are different elements.** The chapter row
+wraps the article list, usually with ordinary layout markup between them.
+
+```html
+<div id="chapters"
+     data-controller="sortable-lists"
+     data-sortable-lists-move-url-templates-value="<%%= move_url_templates.to_json %>"
+     data-sortable-lists-sortable-lists--list-outlet="#chapters [data-controller~='sortable-lists--list']"
+     data-sortable-lists-sortable-lists--item-outlet="#chapters [data-controller~='sortable-lists--item']">
+  <div data-controller="sortable-lists--list"
+       data-sortable-lists--list-type-value="chapter"
+       data-sortable-lists--list-accepted-type-value="chapter">
+    <%% chapters.each do |chapter| %>
+      <div data-controller="sortable-lists--item"
+           data-sortable-lists--item-id-value="<%%= chapter.id %>"
+           data-sortable-lists--item-type-value="chapter"
+           data-sortable-lists--item-label-value="<%%= chapter.name %>">
+        <%%= render(ChapterComponent.new(chapter:)) %>
+      </div>
+    <%% end %>
+  </div>
+</div>
+```
+
+Inside `ChapterComponent` the same chapter becomes a list:
+
+```html
+<div data-controller="sortable-lists--list"
+     data-sortable-lists--list-type-value="article"
+     data-sortable-lists--list-accepted-type-value="article"
+     data-sortable-lists--list-id-value="<%%= chapter.id %>"
+     data-sortable-lists--list-name-value="<%%= chapter.name %>"
+     data-sortable-lists--item-target="preview">
+  <header>
+    <button type="button" class="handle" data-sortable-lists--item-target="handle">…</button>
+    <%%= chapter.name %>
+  </header>
+  <ul>…article rows…</ul>
+</div>
+```
+
+**`accepted_type` keeps the levels apart.** Every list under the root is a
+candidate target for every dragged row; the accepted type is the only thing
+stopping a chapter from being dropped into a list of articles. A list
+without one accepts nothing.
+
+**One move endpoint per item type.** The root supplies `move_url_templates`,
+a JSON object keyed by item type, instead of `move_url_template`. The
+dragged row's type keys the lookup, because the endpoint belongs to the
+record being moved. `move_url_template` remains the fallback for a type
+without its own entry.
+
+```ruby
+def move_url_templates
+  id_placeholder = "__id__"
+  {
+    chapter: drop_chapter_path(id_placeholder).sub(id_placeholder, "{id}"),
+    article: drop_article_path(id_placeholder).sub(id_placeholder, "{id}")
+  }
+end
+```
+
+**The chapter's `handle` and `preview` live inside the article list
+element**, because that inner element is what should drag and preview; the
+outer row would drag its margins with it. Stimulus binds a target to the
+nearest ancestor controller with that identifier and skips the nested
+`sortable-lists--item` controllers of the articles, so the chapter's targets
+stay the chapter's however deep they sit, and the articles' handles never
+leak upward.
+
+**Levels need not share a row tag.** Chapter rows above are `<div>`s directly
+under the list element; article lists are `BorderBoxList`s with `<li>` rows
+in a `<ul>`. Both resolve without configuration.
