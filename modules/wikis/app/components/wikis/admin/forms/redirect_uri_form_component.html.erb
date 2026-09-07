@@ -10,7 +10,7 @@
           render(Primer::OpenProject::InputGroup.new(input_width: :large)) do |input_group|
             input_group.with_text_input(
               name: :oauth_client_redirect_uri,
-              label: t(".redirect_uri"),
+              label: t("wikis.admin.wiki_providers.oauth.redirect_uri"),
               visually_hide_label: false,
               value: redirect_uri
             )
@@ -18,7 +18,7 @@
               value: redirect_uri,
               aria: { label: t("button_copy_to_clipboard") }
             )
-            input_group.with_caption { t(".redirect_uri_caption") }
+            input_group.with_caption { t("wikis.admin.wiki_providers.oauth.redirect_uri_caption") }
           end
         end
 

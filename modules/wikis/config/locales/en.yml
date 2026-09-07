@@ -67,9 +67,6 @@ en:
         oauth_client_form_component:
           client_id: Wiki OAuth Client ID
           client_secret: Wiki OAuth Client secret
-        redirect_uri_form_component:
-          redirect_uri: Redirect URI
-          redirect_uri_caption: Copy this value into the Redirect URI field of your XWiki OIDC client registration.
       health_status:
         show:
           actions:
@@ -96,7 +93,6 @@ en:
         replace_oauth_client: Replace XWiki OAuth application
       redirect_uri_info_component:
         description: The redirect URI is generated once the wiki OAuth client is configured.
-        label_redirect_uri: Redirect URI
         label_uri: URI
         show_redirect_uri: Show redirect URI
       side_panel:
@@ -123,6 +119,8 @@ en:
         successful_setup: Wiki provider connected successfully!
         oauth:
           openproject_oauth: OpenProject OAuth
+          redirect_uri: Redirect URI
+          redirect_uri_caption: Copy this value into the Redirect URI field of your XWiki OIDC client registration.
         sections:
           general_information: General information
           oauth_configuration: OAuth configuration

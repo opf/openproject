@@ -33,21 +33,16 @@ module Wikis::Admin::Forms
     def self.wrapper_key = :wiki_provider_redirect_uri_section
 
     delegate :oauth_client, to: :wiki_provider
+    delegate :redirect_uri, to: :oauth_client, allow_nil: true
 
-    options in_wizard: false,
-            read_only: false
+    options read_only: false
 
     def form_url
-      query = in_wizard ? { continue_wizard: wiki_provider.id } : {}
-      url_helpers.finish_setup_admin_settings_wiki_provider_oauth_client_path(wiki_provider, query)
+      url_helpers.finish_setup_admin_settings_wiki_provider_oauth_client_path(wiki_provider)
     end
 
     def cancel_button_path
       url_helpers.edit_admin_settings_wiki_provider_path(wiki_provider)
-    end
-
-    def redirect_uri
-      oauth_client&.redirect_uri
     end
   end
 end

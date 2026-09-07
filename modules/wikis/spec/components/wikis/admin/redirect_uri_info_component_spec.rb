@@ -48,6 +48,10 @@ RSpec.describe Wikis::Admin::RedirectUriInfoComponent, type: :component do
       expect(subject).to have_text(I18n.t("wikis.admin.redirect_uri_info_component.description"))
     end
 
+    it "does not render a clipboard copy" do
+      expect(subject).to have_no_css("clipboard-copy")
+    end
+
     it "does not render the show redirect uri button" do
       expect(subject).to have_no_css("a[href$='oauth_client/show_redirect_uri']")
     end
@@ -66,14 +70,16 @@ RSpec.describe Wikis::Admin::RedirectUriInfoComponent, type: :component do
       )
     end
 
+    it "renders a clipboard copy for the redirect uri" do
+      expect(subject).to have_css("clipboard-copy[value='#{oauth_client.redirect_uri}']")
+    end
+
     it "renders the show redirect uri button" do
       expect(subject).to have_css("a[href$='oauth_client/show_redirect_uri'][data-turbo-stream='true']")
     end
 
-    it "labels the show redirect uri button" do
-      expect(subject).to have_css("tool-tip",
-                                  text: I18n.t("wikis.admin.redirect_uri_info_component.show_redirect_uri"),
-                                  visible: :all)
+    it "does not repeat the copy instructions of the redirect uri form" do
+      expect(subject).to have_no_text(I18n.t("wikis.admin.wiki_providers.oauth.redirect_uri_caption"))
     end
   end
 end

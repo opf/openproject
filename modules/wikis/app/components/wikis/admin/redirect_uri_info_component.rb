@@ -33,9 +33,6 @@ module Wikis::Admin
     def self.wrapper_key = :wiki_provider_redirect_uri_section
 
     delegate :oauth_client, to: :wiki_provider
-
-    def redirect_uri
-      oauth_client&.redirect_uri
-    end
+    delegate :redirect_uri, to: :oauth_client, allow_nil: true
   end
 end
