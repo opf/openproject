@@ -2,8 +2,10 @@ import type { InlineContentFromConfig } from '@blocknote/core';
 import type { Node as ProsemirrorNode } from 'prosemirror-model';
 import { NodeSelection } from 'prosemirror-state';
 import type { AnyEditor } from '../editorTypes';
+import type { WorkPackage } from '../openProjectTypes';
 import type { InlineWpSize, BlockWpSize } from '../components/WorkPackage/types';
 import { moveCursorAfterBlock } from './cursor';
+import { BLOCK_WP_TYPE, INLINE_WP_TYPE } from './nodeTypes';
 import { hideSafariPhantomSelection } from './selection';
 import { PENDING_PREFIX } from '../components/InlineWorkPackage/callbacks';
 
@@ -19,12 +21,14 @@ import { PENDING_PREFIX } from '../components/InlineWorkPackage/callbacks';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyInlineNode = InlineContentFromConfig<any, any>;
 
-const INLINE_WP_TYPE = 'openProjectWorkPackageInline';
-const BLOCK_WP_TYPE = 'openProjectWorkPackageBlock';
-
 export interface FoundInlineChip {
   position:number;
   node:ProsemirrorNode;
+}
+
+export interface ChipContent {
+  type:typeof INLINE_WP_TYPE;
+  props:{ wpid:string; size:InlineWpSize; displayId:string };
 }
 
 /**
@@ -70,6 +74,14 @@ export function findPendingInlineChip(doc:ProsemirrorNode, wpid:string):FoundInl
     return true;
   });
   return found;
+}
+
+/** The inline content one chip is inserted from. */
+export function chipContentOf(workPackage:WorkPackage, size:InlineWpSize):ChipContent {
+  return {
+    type: INLINE_WP_TYPE,
+    props: { wpid: String(workPackage.id), size, displayId: workPackage.displayId },
+  };
 }
 
 function chipAt(editor:AnyEditor, position:number):ProsemirrorNode | null {

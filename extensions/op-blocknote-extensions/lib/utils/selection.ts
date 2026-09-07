@@ -1,5 +1,6 @@
 import type { Node as ProsemirrorNode } from 'prosemirror-model';
 import type { AnyEditor } from '../editorTypes';
+import { WORK_PACKAGE_NODE_TYPES } from './nodeTypes';
 
 /**
  * Selection utilities.
@@ -35,8 +36,6 @@ function isSafari():boolean {
 }
 
 interface DomObserver { disconnectSelection:() => void; connectSelection:() => void; setCurSelection:() => void }
-
-const WORK_PACKAGE_NODE_TYPES = ['openProjectWorkPackageInline', 'openProjectWorkPackageBlock'];
 
 /** Safari paints a phantom selection over node-selected atoms; collapse it, leaving PM's NodeSelection intact. */
 export function hideSafariPhantomSelection(editor:AnyEditor):void {

@@ -10,6 +10,7 @@ import {
   openProjectWorkPackageBlockSpec,
   openProjectWorkPackageInlineSpec,
   getOpenProjectSlashMenuItems,
+  OpenProjectFormattingToolbar,
   useHashWpMenu,
   ShadowDomWrapper,
 } from '../../lib';
@@ -27,8 +28,18 @@ const defaultSchema = BlockNoteSchema.create().extend({
   },
 });
 
-function Editor({ onEditor, schema }:{ onEditor?:(editor:any) => void; schema?:any }) {
-  const editor = useCreateBlockNote({ schema: schema ?? defaultSchema });
+interface EditorOptions {
+  onEditor?:(editor:any) => void;
+  schema?:any;
+  editable?:boolean;
+  initialContent?:any[];
+}
+
+function Editor({ onEditor, schema, editable = true, initialContent }:EditorOptions) {
+  const editor = useCreateBlockNote({
+    schema: schema ?? defaultSchema,
+    ...(initialContent ? { initialContent } : {}),
+  });
   onEditor?.(editor);
 
   const { getHashItems, HashWpMenu } = useHashWpMenu(editor as any);
@@ -47,7 +58,8 @@ function Editor({ onEditor, schema }:{ onEditor?:(editor:any) => void; schema?:a
 
   return (
     <div style={{ paddingTop: 100, height: 500 }}>
-    <BlockNoteView editor={editor} slashMenu={false}>
+    <BlockNoteView editor={editor} slashMenu={false} formattingToolbar={false} editable={editable}>
+      <OpenProjectFormattingToolbar />
       <SuggestionMenuController triggerCharacter="/" getItems={getSlashItems} />
       <SuggestionMenuController
         triggerCharacter="#"
@@ -59,11 +71,11 @@ function Editor({ onEditor, schema }:{ onEditor?:(editor:any) => void; schema?:a
   );
 }
 
-export function renderEditor(opts?:{ onEditor?:(editor:any) => void; schema?:any }) {
-  return render(<Editor onEditor={opts?.onEditor} schema={opts?.schema} />);
+export function renderEditor(opts?:EditorOptions) {
+  return render(<Editor {...opts} />);
 }
 
-export async function renderEditorInShadowDom(opts?:{ onEditor?:(editor:any) => void; schema?:any }) {
+export async function renderEditorInShadowDom(opts?:EditorOptions) {
   const host = document.createElement('div');
   document.body.appendChild(host);
   onTestFinished(() => host.remove());
@@ -84,7 +96,7 @@ export async function renderEditorInShadowDom(opts?:{ onEditor?:(editor:any) => 
   const renderResult = await render(
     createPortal(
       <ShadowDomWrapper target={mount}>
-        <Editor onEditor={opts?.onEditor} schema={opts?.schema} />
+        <Editor {...opts} />
       </ShadowDomWrapper>,
       mount
     )

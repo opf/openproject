@@ -5,7 +5,9 @@ import {
   applyValue,
   buildCreatePayload,
   buildField,
+  clampedValues,
   dependencyOf,
+  exceedsFieldLength,
   extraRequiredFields,
   fieldFor,
   fixedFields,
@@ -415,6 +417,47 @@ describe('formSchema', () => {
 
       expect(Object.keys(fieldErrors)).toEqual(['subject']);
       expect(otherMessages).toEqual(['Start date must be before the finish date.']);
+    });
+  });
+
+  describe('exceedsFieldLength', () => {
+    const subject = buildField('subject', property({ name: 'Subject', maxLength: 8 }));
+
+    it('knows a value the field holds in part only', () => {
+      expect(exceedsFieldLength(subject, 'Redesign the landing page')).toBe(true);
+    });
+
+    it('knows a value the field holds in full', () => {
+      expect(exceedsFieldLength(subject, 'Redesign')).toBe(false);
+    });
+
+    it('has no length to hold a value against without a field, or without a limit', () => {
+      expect(exceedsFieldLength(undefined, 'Redesign the landing page')).toBe(false);
+      expect(exceedsFieldLength(buildField('customField1', property({ name: 'Note' })), 'Anything')).toBe(false);
+    });
+
+    it('has nothing to measure on a value that is no text', () => {
+      expect(exceedsFieldLength(subject, true)).toBe(false);
+    });
+  });
+
+  describe('clampedValues', () => {
+    const offered = [
+      buildField('subject', property({ name: 'Subject', maxLength: 8 })),
+      buildField('customField1', property({ name: 'Note' })),
+    ];
+
+    it('cuts a value to the length its field takes', () => {
+      expect(clampedValues(offered, { subject: 'Redesign the landing page' })).toEqual({ subject: 'Redesign' });
+    });
+
+    it('leaves a value the field can hold, and one no length is given for, alone', () => {
+      const values = { subject: 'Redesign', customField1: 'A note far longer than eight characters' };
+      expect(clampedValues(offered, values)).toEqual(values);
+    });
+
+    it('has nothing to cut off a value that is no text', () => {
+      expect(clampedValues(offered, { subject: true })).toEqual({ subject: true });
     });
   });
 

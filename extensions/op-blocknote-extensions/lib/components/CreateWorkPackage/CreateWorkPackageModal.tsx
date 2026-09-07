@@ -112,11 +112,12 @@ function keepFocusInside(panel:HTMLElement | null, event:React.KeyboardEvent):vo
 
 export interface CreateWorkPackageModalProps {
   anchorEl?:HTMLElement | null;
+  initialSubject?:string;
   onCreated:(workPackage:WorkPackage) => void;
   onCancel:() => void;
 }
 
-export const CreateWorkPackageModal = ({ anchorEl, onCreated, onCancel }:CreateWorkPackageModalProps) => {
+export const CreateWorkPackageModal = ({ anchorEl, initialSubject, onCreated, onCancel }:CreateWorkPackageModalProps) => {
   const { t } = useTranslation();
   const panelRef = useRef<HTMLDivElement>(null);
   usePageScrollLock();
@@ -132,6 +133,7 @@ export const CreateWorkPackageModal = ({ anchorEl, onCreated, onCancel }:CreateW
     typeHref,
     isDirty,
     selectedTypeLabel,
+    subjectClipped,
     loading,
     initialising,
     loadError,
@@ -143,7 +145,7 @@ export const CreateWorkPackageModal = ({ anchorEl, onCreated, onCancel }:CreateW
     unsupportedFields,
     submitEnabled,
     attemptSubmit,
-  } = useCreateWorkPackageForm(onCreated);
+  } = useCreateWorkPackageForm(onCreated, initialSubject);
 
   const showField = (key:string) => {
     const control = panelRef.current?.querySelector<HTMLElement>(`[id="op-bn-create-wp-${key}"]`);
@@ -164,6 +166,10 @@ export const CreateWorkPackageModal = ({ anchorEl, onCreated, onCancel }:CreateW
     return dependsOn === 'project' ? `${key}:${projectHref}` : `${key}:${projectHref}:${typeHref}`;
   };
 
+  const hintFor = (field:FormField) => (field.key === 'subject' && subjectClipped
+    ? t('createWorkPackage.subjectClipped', { limit: field.maxLength })
+    : undefined);
+
   const renderField = (field:FormField) => (
     <FormFieldControl
       key={keyOf(field.key)}
@@ -173,6 +179,7 @@ export const CreateWorkPackageModal = ({ anchorEl, onCreated, onCancel }:CreateW
       autoFocus={field.key === 'subject'}
       error={fieldErrors[field.key]}
       problem={valueProblems[field.key]}
+      hint={hintFor(field)}
       onChange={(value, label) => setValue(field.key, value, label)}
     />
   );

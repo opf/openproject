@@ -5,7 +5,7 @@ import { getAliases } from '../services/slashMenuAliases';
 import { registerInlineWpCallbacks, clearInlineWpCallbacks, makePendingWpid } from './InlineWorkPackage/callbacks';
 import { findPendingInlineChip } from '../utils/inlineChipActions';
 import { pendingBlockRegistry } from './BlockWorkPackage/pendingBlockRegistry';
-import { canCardReplaceCurrentBlock } from '../utils/blockContent.ts';
+import { canBlockWorkPackageReplaceCurrentBlock } from '../utils/blockContent.ts';
 import type { AnyEditor } from '../editorTypes';
 import type { PendingMode } from './WorkPackage/types';
 
@@ -87,7 +87,7 @@ function insertInlineWorkPackage(editor:AnyEditor, mode:PendingMode):void {
 }
 
 function insertPendingWorkPackage(editor:AnyEditor, mode:PendingMode):void {
-  if (canCardReplaceCurrentBlock(editor)) {
+  if (canBlockWorkPackageReplaceCurrentBlock(editor)) {
     insertBlockWorkPackage(editor, mode);
   } else {
     insertInlineWorkPackage(editor, mode);

@@ -1,4 +1,5 @@
 import type { AnyEditor } from '../../editorTypes';
+import { chipContentOf } from '../../utils/inlineChipActions';
 import type { InlineWpSize } from '../WorkPackage/types';
 import type { WorkPackage } from '../../openProjectTypes';
 
@@ -53,7 +54,7 @@ export function getSizeFromCurrentBlock(editor:AnyEditor):InlineWpSize {
  */
 export function insertWpChip(editor:AnyEditor, wp:WorkPackage, size:InlineWpSize):void {
   (editor.insertInlineContent as (content:unknown[]) => void)([
-    { type: 'openProjectWorkPackageInline', props: { wpid: String(wp.id), size, displayId: wp.displayId } },
+    chipContentOf(wp, size),
     { type: 'text', text: ' ', styles: {} },
   ]);
 

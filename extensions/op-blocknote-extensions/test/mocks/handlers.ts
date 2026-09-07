@@ -48,8 +48,11 @@ export const mockCreatedWorkPackage = {
   },
 };
 
+export const SUBJECT_MAX_LENGTH = 255;
+
 const subjectSchema = {
-  type: 'String', name: 'Subject', required: true, hasDefault: false, writable: true, maxLength: 255,
+  type: 'String', name: 'Subject', required: true, hasDefault: false, writable: true,
+  maxLength: SUBJECT_MAX_LENGTH,
 };
 
 const projectSchema = {
