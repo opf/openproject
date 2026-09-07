@@ -34,7 +34,8 @@ module WorkPackageTypes
     include OpTurbo::ComponentStream
 
     before_action :require_type_variants_feature
-    administration_only! :index, :make_default, :remove_default, :convert_to_global_dialog, :convert_to_global
+    administration_only! :index, :make_default, :remove_default,
+                         :convert_to_global_dialog, :convert_to_global_rename, :convert_to_global
 
     current_menu_item do
       :types
@@ -97,9 +98,30 @@ module WorkPackageTypes
     def convert_to_global_dialog
       variant = named_variant
 
-      respond_with_dialog Types::ConvertToGlobalDialogComponent.new(
-        url: convert_to_global_type_variant_path(type_id: variant.type_id, id: variant.id)
-      )
+      if variant.global_name_conflict?
+        respond_with_dialog Types::ConvertToGlobalRenameDialogComponent.new(
+          variant:, url: convert_to_global_rename_path(variant)
+        )
+      else
+        respond_with_dialog convert_confirm_dialog(variant)
+      end
+    end
+
+    def convert_to_global_rename
+      variant = named_variant
+
+      if convert_to_global_rename_valid?(variant)
+        variant.save!
+        close_dialog_via_turbo_stream(Types::ConvertToGlobalRenameDialogComponent::DIALOG_ID)
+        dialog_via_turbo_stream(component: convert_confirm_dialog(variant))
+      else
+        update_via_turbo_stream(
+          component: Types::ConvertToGlobalRenameFormComponent.new(variant:, url: convert_to_global_rename_path(variant)),
+          status: :unprocessable_entity
+        )
+      end
+
+      respond_with_turbo_streams
     end
 
     def convert_to_global
@@ -118,11 +140,6 @@ module WorkPackageTypes
     end
 
     private
-
-    def flash_convert_blocked
-      render_error_flash_message_via_turbo_stream(message: t("types.index.convert_to_global_blocked"))
-      respond_with_turbo_streams
-    end
 
     def find_variant; end
 
@@ -187,6 +204,31 @@ module WorkPackageTypes
       )
 
       respond_to_with_turbo_streams
+    end
+
+    def flash_convert_blocked
+      render_error_flash_message_via_turbo_stream(message: t("types.index.convert_to_global_blocked"))
+      respond_with_turbo_streams
+    end
+
+    def convert_confirm_dialog(variant)
+      Types::ConvertToGlobalDialogComponent.new(
+        url: convert_to_global_type_variant_path(type_id: variant.type_id, id: variant.id)
+      )
+    end
+
+    def convert_to_global_rename_path(variant)
+      convert_to_global_rename_type_variant_path(type_id: variant.type_id, id: variant.id)
+    end
+
+    def convert_to_global_rename_valid?(variant)
+      variant.variant_name = params.expect(type_variant: [:variant_name])[:variant_name]
+      variant.validate
+      if variant.global_name_conflict? && !variant.errors.added?(:variant_name, :taken)
+        variant.errors.add(:variant_name, :taken)
+      end
+
+      variant.errors.empty?
     end
   end
 end

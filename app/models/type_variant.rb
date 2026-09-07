@@ -166,6 +166,13 @@ class TypeVariant < ApplicationRecord
     source_ids.any? && self.class.project_owned.exists?(id: source_ids)
   end
 
+  def global_name_conflict?(name = variant_name)
+    self.class.global
+        .where(type_id:)
+        .where(self.class.arel_table[:variant_name].lower.eq(name.to_s.downcase))
+        .exists?
+  end
+
   def path_args
     args = is_default_variant? ? { type_id: } : { type_id:, variant_id: id }
     project_id.nil? ? args : args.merge(in_project_id: project)
