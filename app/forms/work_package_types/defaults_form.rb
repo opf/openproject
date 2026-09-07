@@ -86,6 +86,20 @@ module WorkPackageTypes
             required: true,
             validation_message: validation_message_for(:patterns)
           )
+
+          toggleable_group.button(
+            name: :preview,
+            tag: :a,
+            label: "Show subject preview",
+            scheme: :secondary,
+            # href is set directly before click to read latest pattern form input
+            href: "#",
+            data: {
+              controller: "async-dialog",
+              "admin--subject-configuration-target": "previewButton",
+              action: "click->admin--subject-configuration#updatePreviewContent"
+            }
+          )
         end
       end
     end
@@ -113,7 +127,8 @@ module WorkPackageTypes
     end
 
     def pattern_input_caption
-      link_translate("types.edit.defaults.pattern.caption", links: {
+      link_translate("types.edit.defaults.pattern.caption",
+                     links: {
                        attributes_url: %i[enterprise_features work_package_subject_generation]
                      })
     end

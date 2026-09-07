@@ -29,34 +29,24 @@
 #++
 
 module WorkPackageTypes
-  class DefaultsTabController < BaseTabController
-    include OpTurbo::ComponentStream
+  class SubjectPreviewDialogComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
+    include OpTurbo::Streamable
 
-    current_menu_item [:edit, :update] do
-      :types
+    def initialize(model = nil, variant:, subject_pattern:, **options)
+      @variant = variant
+      @subject_pattern = subject_pattern
+      super
     end
 
-    def edit; end
-
-    def update
-      permitted = params.expect(
-        work_package_types_forms_defaults_form_model: %i[subject_configuration pattern default_work_package_description]
-      ).to_h
-
-      result = UpdateService.new(model: @variant, user: current_user, contract_class: UpdateDefaultsContract)
-                            .call(patterns: Forms::DefaultsFormModel.to_patterns(permitted),
-                                  default_work_package_description: permitted[:default_work_package_description])
-
-      if result.success?
-        redirect_to edit_type_defaults_path(**@variant.path_args), notice: I18n.t(:notice_successful_update)
-      else
-        render :edit, status: :unprocessable_entity
-      end
+    def examples
+      example_work_packages.to_h { |wp| [wp.id, PatternResolver.new(@subject_pattern).resolve(wp)] }
     end
 
-    def subject_preview_dialog
-      respond_with_dialog WorkPackageTypes::SubjectPreviewDialogComponent.new(variant: @variant,
-                                                                              subject_pattern: params[:pattern])
+    private
+
+    def example_work_packages
+      WorkPackage.where(type_id: @variant.type_id).limit(5)
     end
   end
 end
