@@ -163,6 +163,21 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
       expect(llm_model.context_window).to eq(128_000)
     end
 
+    it "keeps the published window under an administrator's override" do
+      mock_llm_models_response(base_url, models: [{ id: "gpt-4o", object: "model" }])
+      service.call
+      llm_model = connection.models.find_by(external_id: "gpt-4o")
+      llm_model.update!(admin_context_window: 8_000)
+
+      described_class.new(connection).call
+
+      expect(llm_model.reload.context_window).to eq(8_000)
+
+      llm_model.update!(admin_context_window: nil)
+
+      expect(llm_model.reload.context_window).to eq(128_000)
+    end
+
     it "keeps an administrator's display name over the one the registry publishes" do
       mock_llm_models_response(base_url, models: [{ id: "gpt-4o", object: "model" }])
       service.call

@@ -66,11 +66,18 @@ module LlmConnections
       attributes = {}
       attributes[:display_name] = published[:display_name] if llm_model.display_name.blank?
 
-      if published[:context_window].present? && llm_model.context_window.blank?
+      if published[:context_window].present? && !server_sized?(llm_model)
         attributes[:raw_metadata] = llm_model.raw_metadata.merge("context_window" => published[:context_window])
       end
 
       llm_model.update!(attributes) if attributes.any?
+    end
+
+    # Only what the server said counts here, not what the administrator
+    # overrode: clearing the override later has to reveal the published figure
+    # again rather than leave the window unknown.
+    def server_sized?(llm_model)
+      llm_model.raw_metadata.values_at("max_model_len", "context_window").any?(&:present?)
     end
 
     def record(model_id, capability, state)
