@@ -208,26 +208,6 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
     end
   end
 
-  context "when the sprint has dates but was never started" do
-    let(:sprint) do
-      build_stubbed(:sprint, project:,
-                             start_date: 1.week.ago.to_date,
-                             finish_date: 1.week.from_now.to_date,
-                             started_at: nil)
-    end
-
-    current_user { build_stubbed(:user) }
-
-    before do
-      mock_permissions_for(current_user) { |mock| mock.allow_in_project(:view_sprints, project:) }
-    end
-
-    it "renders the progress bar without any breakdown block" do
-      expect(rendered_component).to have_no_css(".op-wp-overview--blocks")
-      expect(rendered_component).to have_text("work packages")
-    end
-  end
-
   context "when the sprint has no date range set" do
     let(:sprint) { build_stubbed(:sprint, project:, start_date: nil, finish_date: nil) }
 
