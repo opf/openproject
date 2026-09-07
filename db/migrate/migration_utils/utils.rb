@@ -48,6 +48,34 @@ module Migration
       remove_index_on(table_name, index_name)
     end
 
+    def ensuring_single_schema(table_name)
+      schemas = schemas_containing(table_name)
+      return yield if schemas.size <= 1
+
+      raise <<~MESSAGE
+
+        The "#{table_name}" table exists in more than one schema on the database search path: #{schemas.join(', ')}.
+        OpenProject uses "#{schemas.first}"; any other schema is a stale copy.
+
+        This is the same situation as restoring a cloud backup on premises. Back up the database, then drop the stale
+        schema as described here before continuing the upgrade:
+        https://www.openproject.org/docs/installation-and-operations/operation/restoring/#changing-the-database-schema-from-cloud-to-on-premises
+
+      MESSAGE
+    end
+
+    def schemas_containing(table_name)
+      connection.select_values(<<~SQL.squish)
+        SELECT n.nspname
+        FROM pg_class c
+        JOIN pg_namespace n ON n.oid = c.relnamespace
+        WHERE c.relname = #{connection.quote(table_name.to_s)}
+          AND c.relkind IN ('r', 'p')
+          AND n.nspname = ANY (current_schemas(false))
+        ORDER BY array_position(current_schemas(false), n.nspname)
+      SQL
+    end
+
     # Searches a live index name in this order
     # 1. canonical name,
     # 2. pgloader's idx_<oid>_ prefix,
