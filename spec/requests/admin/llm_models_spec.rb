@@ -159,6 +159,17 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(response.body).not_to include("Default models")
       end
 
+      it "shows the default read-only when the environment owns the connection" do
+        create(:llm_connection, :with_models, :enabled, base_url:, default_chat_model_id: "qwen3.6-27b")
+        allow(Setting).to receive(:llm_connection).and_return({ "base_url" => base_url })
+
+        get llm_models_path
+
+        expect(response.body).to include("configured via environment variables")
+        expect(page).to have_css("[data-test-selector='llm-connection--defaults-form'] opce-autocompleter[data-disabled='true']")
+        expect(page).to have_no_button("Save")
+      end
+
       it "keeps a stored default listed once its model is switched off" do
         connection = create(:llm_connection, :with_models, base_url:)
         chat_model = connection.models.find_by(external_id: "qwen3.6-27b")
@@ -658,6 +669,15 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
             params: { llm_connection: { default_chat_model_id: chat_model.id, base_url: "https://elsewhere.test/v1" } }
 
       expect(connection.reload.base_url).to eq(base_url)
+    end
+
+    it "refuses a default the environment owns" do
+      allow(Setting).to receive(:llm_connection).and_return({ "base_url" => base_url })
+
+      patch defaults_llm_models_path, params: { llm_connection: { default_chat_model_id: "qwen3.6-27b" } }
+
+      expect(connection.reload.default_chat_model_id).to be_nil
+      expect(flash[:error]).to be_present
     end
 
     it "is refused to a non-admin" do

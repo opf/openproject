@@ -157,6 +157,8 @@ module LlmConnections
     end
 
     def api_key_caption
+      return I18n.t("admin.llm_connections.form.api_key_caption_env") if read_only?
+
       I18n.t("admin.llm_connections.form.api_key_caption#{'_stored' if model.api_key_stored?}")
     end
 

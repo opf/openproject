@@ -1734,6 +1734,7 @@ en:
       form:
         api_format_caption: "Which API the server speaks. Choose OpenAI for most gateways and self-hosted servers."
         api_key_caption: "The key OpenProject authenticates with. Leave blank if the server requires no authentication."
+        api_key_caption_env: "The key comes from the environment."
         api_key_caption_stored: "A key is stored. Leave blank to keep the current key, or enter a new one to replace it."
         api_key_placeholder_stored: "API key stored"
         api_key_remove: "Remove key"

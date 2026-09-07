@@ -41,6 +41,7 @@ module LlmConnections
         caption: I18n.t("admin.llm_models.defaults.chat_caption"),
         autocomplete_options: {
           decorated: true,
+          disabled: read_only?,
           inputValue: model.default_chat_model_id,
           placeholder: I18n.t("label_none_parentheses")
         }
@@ -54,10 +55,14 @@ module LlmConnections
         end
       end
 
-      f.submit(name: :submit, label: I18n.t(:button_save), scheme: :primary)
+      f.submit(name: :submit, label: I18n.t(:button_save), scheme: :primary) unless read_only?
     end
 
     private
+
+    def read_only?
+      model.configured_from_env?
+    end
 
     # The one already chosen is kept regardless of what the server offers today:
     # dropping it would silently blank the field on the next save.

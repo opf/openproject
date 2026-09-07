@@ -136,6 +136,32 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
           expect(page).to have_css(remove_api_key, text: "Remove key", visible: :all)
         end
       end
+
+      context "when the connection comes from the environment" do
+        let!(:connection) { create(:llm_connection, :enabled, base_url:, api_key: "sk-original") }
+
+        before do
+          allow(Setting).to receive(:llm_connection).and_return({ "base_url" => base_url })
+        end
+
+        it "renders the server settings read-only, with a banner saying why" do
+          get llm_connection_path
+
+          expect(response.body).to include("configured via environment variables")
+          expect(page).to have_field("Host URL", disabled: true)
+          expect(page).to have_field("API format", disabled: true)
+          expect(page).to have_field("Enable LLMs for this instance", disabled: true)
+          expect(page).to have_no_button("Save")
+        end
+
+        it "does not ask for a key that cannot be entered" do
+          get llm_connection_path
+
+          expect(response.body).to include("The key comes from the environment")
+          expect(response.body).not_to include("A key is stored")
+          expect(page).to have_no_css(remove_api_key, visible: :all)
+        end
+      end
     end
   end
 
