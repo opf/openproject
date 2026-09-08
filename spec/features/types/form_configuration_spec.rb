@@ -162,9 +162,7 @@ RSpec.describe "form configuration", :js, :selenium do
         form.rename_group("People", "Cool Stuff")
 
         # Start renaming, but cancel
-        group_key = form.send(:find_group, "Cool Stuff")["data-group-key"]
-        form.send(:open_group_menu, "Cool Stuff")
-        page.find_test_selector("type-form-configuration-group-rename-#{group_key}", visible: :all).click
+        form.start_renaming_group("Cool Stuff")
         input = find_test_selector("type-form-configuration-group-name-input", wait: 10)
         input.set("FOOBAR")
         page.find_test_selector("type-form-configuration-group-cancel", wait: 10).click
