@@ -50,4 +50,10 @@ module OmniauthHelper
   def direct_login_provider
     Setting.omniauth_direct_login_provider.presence
   end
+
+  # Uses the controller-assigned flag so /login/internal can still render the
+  # password form when instance-wide password login is off.
+  def show_password_login_form?
+    @force_password_login_form || Users::PasswordLogin.enabled? # rubocop:disable Rails/HelperInstanceVariable
+  end
 end

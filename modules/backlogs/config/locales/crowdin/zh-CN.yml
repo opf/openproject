@@ -115,6 +115,7 @@ zh-CN:
         other: 冲刺
         zero: 所有冲刺
       select_panel_title: 选择条目
+    blankslate_filtered_title: No work packages match the filter criteria.
     bucket_component:
       action_menu:
         add_existing_work_package: 添加现有工作包
@@ -156,6 +157,8 @@ zh-CN:
       show_more:
         other: 显示其他 %{count} 个条目
       title: 收件箱
+    index_subheader_component:
+      label_search_by_subject: Search work packages by subject
     label_burndown_chart: 燃尽图
     label_is_done_status: 状态 %{status_name} 表示已完成
     label_sprint_board: 冲刺面板

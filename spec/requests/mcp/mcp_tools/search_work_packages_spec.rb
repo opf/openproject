@@ -50,7 +50,7 @@ RSpec.describe McpTools::SearchWorkPackages do
       }
     }
   end
-  let(:call_args) { {} }
+  let(:call_args) { { level_of_detail: "full" } }
   let(:parsed_results) { JSON.parse(last_response.body).fetch("result") }
   let(:result_items) { parsed_results.dig("structuredContent", "items") }
 
@@ -122,6 +122,25 @@ RSpec.describe McpTools::SearchWorkPackages do
 
         # ... but rejects links that merely tell the client "what's possible to do" (non-exhaustive examples)
         expect(work_package.fetch("_links").keys).not_to include("logTime", "generate_pdf", "copy")
+      end
+    end
+
+    context "when not requesting a full representation" do
+      let(:call_args) { {} }
+
+      it "finds all work packages" do
+        mcp_request
+        expect(result_items.size).to eq(2)
+      end
+
+      it "removes lots of attributes" do
+        subject
+        result_items.each do |work_package|
+          expect(work_package.keys.size).to be < 15
+
+          links = work_package.fetch("_links")
+          expect(links.keys.size).to be < 10
+        end
       end
     end
 

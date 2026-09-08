@@ -1185,6 +1185,12 @@ type_configuration:
     form_configuration:
       - t_group_name: "Tasks"
         query: :default_type_user_story__children_query
+  - type: :default_type_bug
+    merge_form_configuration: true
+    form_configuration:
+      - group_name: :details
+        attributes:
+          - observed_in_versions
 
 workflows:
   - type: :default_type_task

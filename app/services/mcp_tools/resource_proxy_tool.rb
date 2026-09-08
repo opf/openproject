@@ -47,7 +47,7 @@ module McpTools
     private
 
     def call
-      McpResources.read_resource_content(self.class.resource.uri, resources_considered: McpResources.all)
+      Success(McpResources.read_resource_content(self.class.resource.uri, resources_considered: McpResources.all))
     end
 
     def format_content(result)

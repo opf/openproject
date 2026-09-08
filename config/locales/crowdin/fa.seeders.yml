@@ -73,13 +73,13 @@ fa:
           name: نقش سراسری استاندارد
       ai_text_transform_actions:
         item_0:
-          label: Fix grammar
+          label: اصلاح دستور زبان
         item_1:
-          label: Make concise
+          label: خلاصه‌تر کردن
         item_2:
-          label: Translate to English
+          label: ترجمه به انگلیسی
         item_3:
-          label: Sort into template
+          label: مرتب‌سازی در الگو
     standard:
       project_phases:
         item_0:

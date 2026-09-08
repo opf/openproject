@@ -29,7 +29,7 @@
 #++
 
 module McpTools
-  class SearchPortfolios < Base
+  class SearchPortfolios < SearchTool
     default_title "Search portfolios"
     default_description "Search portfolios matching all of the passed input parameters. " \
                         "Parameters not passed are ignored. Results are limited to a maximum " \
@@ -53,14 +53,12 @@ module McpTools
       }
     )
 
-    def call(page: nil, **filters)
-      filtered = apply_filters(Project.portfolio.visible, filters)
-      portfolios, total = apply_pagination(filtered, page)
+    def base_scope
+      Success(Project.portfolio.visible)
+    end
 
-      {
-        items: portfolios.map { |p| API::V3::Projects::ProjectRepresenter.create(p, current_user:) },
-        total:
-      }
+    def format_item(item)
+      API::V3::Projects::ProjectRepresenter.create(item, current_user:)
     end
   end
 end

@@ -31,7 +31,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { States } from 'core-app/core/states/states.service';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ChangeDetectionStrategy, Component, NO_ERRORS_SCHEMA } from '@angular/core';
-import { of, map } from 'rxjs';
+import { of, map, throwError } from 'rxjs';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 import { OpAutocompleterComponent } from './op-autocompleter.component';
@@ -198,6 +198,51 @@ describe('autocompleter', () => {
         fixture.detectChanges();
 
         expect(select.itemsList.items.length).toEqual(1);
+      }
+      finally {
+        vi.useRealTimers();
+      }
+    });
+
+    it('should recover and keep loading results after a lookup fails', () => {
+      vi.useFakeTimers();
+      try {
+        getOptionsFnSpy.mockImplementation((searchTerm:string) => {
+          if (searchTerm === 'bad') {
+            return throwError(() => new Error('backend rejected the query'));
+          }
+
+          return of(workPackagesStub).pipe(map((wps) => wps.filter((wp) => searchTerm !== '' && wp.subject.includes(searchTerm))));
+        });
+
+        fixture.detectChanges();
+        vi.advanceTimersByTime(1000);
+        fixture.detectChanges();
+        const select = fixture.componentInstance.ngSelectInstance;
+
+        select.open();
+        select.focus();
+
+        const inputDebugElement = fixture.debugElement.query(By.css('input[role=combobox]'));
+        const inputElement = inputDebugElement.nativeElement as HTMLInputElement;
+
+        inputElement.value = 'bad';
+        inputElement.dispatchEvent(new Event('input'));
+        fixture.detectChanges();
+        vi.advanceTimersByTime(0);
+        fixture.detectChanges();
+
+        expect(getOptionsFnSpy).toHaveBeenCalledWith('bad');
+        expect(select.itemsList.items.length).toEqual(0);
+
+        inputElement.value = 'Wor';
+        inputElement.dispatchEvent(new Event('input'));
+        fixture.detectChanges();
+        vi.advanceTimersByTime(0);
+        fixture.detectChanges();
+
+        expect(getOptionsFnSpy).toHaveBeenCalledWith('Wor');
+        expect(select.itemsList.items.length).toEqual(2);
       }
       finally {
         vi.useRealTimers();

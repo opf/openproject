@@ -76,6 +76,7 @@ class AccountController < ApplicationController
   end
 
   def internal_login
+    @force_password_login_form = true
     render "account/login"
   end
 
@@ -292,8 +293,8 @@ class AccountController < ApplicationController
 
   def activate_user(user)
     if omniauth_direct_login?
-      direct_login user
-    elsif OpenProject::Configuration.disable_password_login?
+      direct_login(user)
+    elsif Users::PasswordLogin.none?
       flash[:notice] = I18n.t("account.omniauth_login")
 
       redirect_to signin_path
@@ -314,7 +315,7 @@ class AccountController < ApplicationController
   end
 
   def allow_registration?
-    allow = Setting::SelfRegistration.enabled? && !OpenProject::Configuration.disable_password_login?
+    allow = Setting::SelfRegistration.enabled? && Users::PasswordLogin.enabled?
 
     invited = session[:invitation_token].present?
     get = request.get? && allow
@@ -324,7 +325,7 @@ class AccountController < ApplicationController
   end
 
   def allow_lost_password_recovery?
-    Setting.lost_password? && !OpenProject::Configuration.disable_password_login?
+    Setting.lost_password? && Users::PasswordLogin.enabled?
   end
 
   # Returns the valid, unexpired recovery token for the request, or redirects
@@ -416,7 +417,7 @@ class AccountController < ApplicationController
   end
 
   def authenticate_user
-    if OpenProject::Configuration.disable_password_login?
+    if Users::PasswordLogin.none? && !Users::PasswordLogin.internal_login_available?
       render_404
     else
       password_authentication(params[:username]&.strip, params[:password])
@@ -503,7 +504,7 @@ class AccountController < ApplicationController
   end
 
   def check_internal_login_enabled
-    render_404 unless omniauth_direct_login?
+    render_404 unless omniauth_direct_login? || Users::PasswordLogin.internal_login_available?
   end
 
   def auth_source_sso_failure_user(failure)

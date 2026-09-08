@@ -60,6 +60,14 @@ module WorkPackageTypes
 
     def any_variants? = named_variants.exists?
 
+    # An empty section is dropped: a section explains what is in it.
+    def sections
+      @sections ||= variants
+                      .partition { |variant| !variant.project_owned? }
+                      .zip(%i[global_section project_specific_section])
+                      .filter_map { |list, key| [key, list] if list.any? }
+    end
+
     def filter_form_data
       {
         controller: "auto-submit",
@@ -80,5 +88,13 @@ module WorkPackageTypes
     end
 
     def variants_path = type_variants_path(type_id: type.id)
+
+    def created_in(project)
+      link = render(Primer::Beta::Link.new(href: project_settings_work_packages_types_path(project))) do
+        project.name
+      end
+
+      t("types.edit.variants.created_in_html", project: link)
+    end
   end
 end

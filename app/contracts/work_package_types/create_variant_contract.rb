@@ -46,5 +46,21 @@ module WorkPackageTypes
     # type it was added to and starts out Linked to that type's base configuration.
     attribute :type_id
     TypeVariant::ASPECTS.each { |aspect| attribute :"#{aspect}_source_id" }
+
+    validate :validate_type_allows_project_variants
+
+    private
+
+    # Only a project authoring something new is governed, which is why this rule is not in
+    # AuthorizesVariantAuthoring: turning the setting off leaves the variants a project already
+    # owns in place, and a variant standing in for configuration the project had before variants
+    # existed is one of those.
+    def validate_type_allows_project_variants
+      return if options[:pre_existing_configuration]
+      return if model.project.nil?
+      return if model.type&.allow_project_variants?
+
+      errors.add(:base, :project_variants_not_allowed)
+    end
   end
 end

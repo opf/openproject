@@ -113,6 +113,7 @@ fa:
       zero: بدون مشکل BCF
   bim:
     error_direct_upload_failed: آپلود مستقیم ناموفق بود.
+    error_direct_upload_file_too_large: IFC model is too large (maximum size is %{size} Bytes).
     label_bim: BIM
   export:
     format:

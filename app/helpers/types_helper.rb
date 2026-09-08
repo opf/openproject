@@ -101,6 +101,23 @@ module ::TypesHelper
   end
   # rubocop:enable Rails/HelperInstanceVariable
 
+  def aspect_edit_path(variant, aspect)
+    args = { type_id: variant.type_id, variant_id: variant.id }
+
+    case aspect
+    when TypeVariant::DEFAULTS
+      edit_type_defaults_path(**args)
+    when TypeVariant::PDF_EXPORT
+      edit_type_pdf_export_template_index_path(**args)
+    when TypeVariant::PROJECT_ATTRIBUTES
+      edit_type_project_attributes_path(**args)
+    when TypeVariant::WORKFLOWS
+      edit_type_workflow_path(**args)
+    else
+      edit_type_form_configuration_path(**args)
+    end
+  end
+
   def icon_for_type(type)
     return unless type
 

@@ -239,9 +239,8 @@ Rails.application.reloader.to_prepare do
 
       map.permission :manage_types,
                      {
-                       "projects/settings/work_packages/types": %i[index new create destroy bulk_update],
-                       "projects/settings/work_packages/types/switches": %i[new create],
-                       "projects/settings/work_packages/types/switches/impacts": %i[create]
+                       "projects/settings/work_packages": %i[show],
+                       "projects/settings/work_packages/types": %i[index new create destroy bulk_update]
                      },
                      permissible_on: :project,
                      require: :member
@@ -250,6 +249,10 @@ Rails.application.reloader.to_prepare do
       # authoring the project's own variants of them, on administration's own controllers.
       map.permission :manage_project_variants,
                      {
+                       "projects/settings/work_packages": %i[show],
+                       "projects/settings/work_packages/types": %i[index],
+                       "projects/settings/work_packages/types/switches": %i[new create],
+                       "projects/settings/work_packages/types/switches/impacts": %i[create],
                        "work_package_types/variants": %i[destroy menu],
                        "work_package_types/creation_wizard": %i[new create show update],
                        "work_package_types/details_tab": %i[edit update],

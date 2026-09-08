@@ -35,7 +35,7 @@ See COPYRIGHT and LICENSE files for more details.
         reload_url: edit_type_workflow_path(**@variant.path_args)
       )
     ) do %>
-  <%= render(WorkPackageTypes::ReuseModeBannerComponent.new(variant: @variant, aspect: TypeVariant::WORKFLOWS)) %>
+  <%= render(WorkPackageTypes::ReuseMode::SectionComponent.new(variant: @variant, aspect: TypeVariant::WORKFLOWS)) %>
 
   <% if @type && @roles.any? %>
     <%= form_tag(

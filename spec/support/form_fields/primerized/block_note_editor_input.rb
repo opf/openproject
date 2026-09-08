@@ -48,7 +48,7 @@ module FormFields
       def wait_for_shadow_content(text)
         page.evaluate_async_script(<<~JS)
           (function(done) {
-            var shadowRoot = #{shadow_root_query}
+            var shadowRoot = #{shadow_root_query};
             var textToFind = #{text.to_json};
             #{shadow_root_observe_js}
 
@@ -125,7 +125,7 @@ module FormFields
       # its editor div regardless of isTrusted.
       def undo
         page.execute_script(<<~JS)
-          var shadowRoot = #{shadow_root_query}
+          var shadowRoot = #{shadow_root_query};
           var element = shadowRoot.querySelector('div[role="textbox"]');
           element.focus();
           element.dispatchEvent(new KeyboardEvent('keydown', {
@@ -137,6 +137,16 @@ module FormFields
             composed: true
           }));
         JS
+      end
+
+      def heading_to_paragraph_font_size_ratio
+        heading_font_size, paragraph_font_size = page.evaluate_script(<<~JS)
+          [
+            getComputedStyle(#{shadow_root_query}.querySelector('[data-content-type="heading"]')).fontSize,
+            getComputedStyle(#{shadow_root_query}.querySelector('[data-content-type="paragraph"]')).fontSize,
+          ]
+        JS
+        heading_font_size.to_f / paragraph_font_size.to_i
       end
 
       private
@@ -215,7 +225,7 @@ module FormFields
       end
 
       def shadow_root_query
-        "document.querySelector('op-block-note').shadowRoot;"
+        "document.querySelector('op-block-note').shadowRoot"
       end
     end
   end

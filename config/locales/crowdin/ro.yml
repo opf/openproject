@@ -234,7 +234,7 @@ ro:
         identifier: Identificator
         latest_activity_at: Ultima activitate la
         parent: Subproiect în
-        portfolio: Portfolio
+        portfolio: Portofoliu
         program: Program
         project_creation_wizard_assignee_custom_field: Assignee when submitted
         project_creation_wizard_enabled: Cerere de inițiere a proiectului
@@ -353,6 +353,7 @@ ro:
       token/named:
         token_name: Token name
       type:
+        allow_project_variants: Allow project-specific variants
         color: Culoare
         is_in_roadmap: Afișat în mod implicit în foaia de parcurs
         is_milestone: Este reper de etapă
@@ -361,11 +362,11 @@ ro:
       type/configuration_link:
         source: Source type
       type_variant:
-        attribute_groups: Form configuration
+        attribute_groups: Form
         default_work_package_description: Default text for description
         defaults_source: Defaults source
         enabled_in_new_projects: Active in new projects
-        form_configuration_source: Form configuration source
+        form_configuration_source: Form source
         patterns: Patterns
         pdf_export_source: PDF export source
         project_attributes_source: Project attributes source
@@ -450,7 +451,7 @@ ro:
       wiki_page:
         parent_title: Pagină părinte
         redirect_existing_links: Redirectare link-uri existente
-        text: Page content
+        text: Conținut pagină
       work_package:
         ancestor: Descendants of
         begin_deletion: Început de ștergere
@@ -549,6 +550,8 @@ ro:
         is_for_all_cannot_modify: is for all projects and can therefore not be modified.
         ldap_managed: This department is managed by LDAP synchronization and cannot be changed manually.
         less_than_or_equal_to: trebuie să fie mai mic sau egal cu %{count}.
+        migration_failed: 'The variant could not be switched for project ''%{project}'': %{reason}'
+        migration_target_invalid: The selected variant must be another variant of the same type that every affected project can use.
         not_a_date: Acest câmp trebuie să conțină o dată validă.
         not_a_datetime: nu este o dată-ora validă.
         not_a_number: nu este un număr.
@@ -817,6 +820,7 @@ ro:
               hours_per_day_are_missing: The number of hours per day must be defined.
               hours_per_day_is_out_of_bounds: Hours per day can't be more than 24
               journal_aggregation_time_minutes_is_out_of_bounds: Aggregation period must be between %{min} and %{max} minutes.
+              password_login_requires_sso_provider: Password login restrictions require at least one available SSO provider.
               previous_working_day_changes_unprocessed: Modificările anterioare la configurația din zilele lucrătoare nu au fost încă aplicate.
               working_days_are_missing: Cel puțin o zi a săptămânii trebuie să fie definită ca zi lucrătoare.
         status:
@@ -845,6 +849,7 @@ ro:
             base:
               borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
               is_default_variant: The default configuration of a type cannot be deleted.
+              project_variants_not_allowed: This type does not allow creation of variants inside projects.
               restrict_dependent_destroy:
                 has_many: Cannot be deleted while projects are still using it.
             defaults_source_id:
@@ -919,7 +924,7 @@ ro:
           attributes:
             slug:
               undeducible: nu poate fi dedusă din titlul "%{title}".
-          error_conflict: The wiki page has been updated by someone else while you were editing it.
+          error_conflict: Pagina wiki a fost actualizată de altcineva în timp ce o editai.
         work_package:
           attributes:
             assigned_to:
@@ -1165,9 +1170,9 @@ ro:
         few: Menu items
         other: Menu items
       menu_items/wiki_menu_item:
-        one: Wiki menu item
-        few: Wiki menu items
-        other: Wiki menu items
+        one: Element meniu wiki
+        few: Elemente meniu wiki
+        other: Elemente meniu wiki
       message:
         one: Message
         few: Messages
@@ -1374,12 +1379,12 @@ ro:
         other: Views
       wiki:
         one: Wiki
-        few: Wikis
-        other: Wikis
+        few: Wiki
+        other: Wiki
       wiki_page:
-        one: Wiki page
-        few: Wiki pages
-        other: Wiki pages
+        one: Pagină wiki
+        few: Pagini wiki
+        other: Pagini wiki
       work_package:
         one: Work package
         few: Work packages
@@ -1477,7 +1482,12 @@ ro:
     banners:
       environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
     custom_styles:
+      color_groups:
+        base_colors: Base colors
+        main_menu: Main lateral menu
+        top_header_colors: Top header colors
       color_theme: Culoarea temei
+      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
       color_theme_custom: "(Personalizat)"
       colors:
         accent-color: Accent
@@ -1486,12 +1496,15 @@ ro:
         main-menu-bg-selected-background: Meniul principal când este selectat
         primary-button-color: Butonul principal
       custom_colors: Culori personalizate
+      edit_color: Edit %{color}
       fonts:
         file_is_invalid: is not a valid TTF font file.
         file_too_large: is too large (maximum size is %{count} MB).
       instructions:
         accent-color: Color for links and other decently highlighted elements.
+        header-bg-color: Default background color of the app header.
         main-menu-bg-color: Culoarea de fundal pentru meniul din partea stângă.
+        main-menu-bg-selected-background: Background color of menu items when selected.
         primary-button-color: Strong accent color, used for the most important button on a screen.
       manage_colors: Modificați opțiunile de selecție ale culorilor
       tab_branding: Elemente de marcă
@@ -1610,6 +1623,7 @@ ro:
           finalizing: Finalizing
           finalizing_done: Completed
           finalizing_error: Error during finalizing
+          import_aborting: Aborting
           import_error: Error during import
           import_scope: Select scope
           imported: Review mode
@@ -1621,13 +1635,13 @@ ro:
           projects_meta_done: Data gathered
           projects_meta_error: Error fetching project data
           projects_meta_fetching: Fetching project data
-          revert_cancelled: Revert cancelled
-          revert_cancelling: Cancelling revert
           revert_error: Error during revert
           reverted: Reverted
           reverting: Reverting
+        step_not_available: This action is not available for the current state of the import run.
         title: Import run
         wizard:
+          button_abort: Abort
           button_retry: Retry
           finalize_dialog:
             confirm: I understand that this action cannot be undone
@@ -1677,11 +1691,14 @@ ro:
             title: Permanently revert this import?
           sections:
             confirm_import:
+              button_importing: Importing data
+              button_revert: Revert import
               button_start: Start import
               caption: Review your import settings and start the import
               caption_done: Completed
               caption_done_info: All data has been imported
               description: You are about to start an import run with the following settings.
+              info_importing: The import is now in progress. Closing this tab will not stop it, and you can always revisit the status of the import by opening the run.
               label_available_data: Data to be imported
               label_import_data: Currently importing
               label_progress: Import in progress...
@@ -1702,6 +1719,7 @@ ro:
               button_done: Approve import
               button_revert: Revert import
               caption: Review import run or revert import
+              info: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               label_finalize_import: Approve import
               label_finalizing: Approving import...
               label_finalizing_done: Import approved.
@@ -1709,7 +1727,6 @@ ro:
               label_revert: Revert import
               label_revert_progress: Reverting import...
               label_reverted: Import reverted.
-              preview_description: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               stats:
                 other_settings:
                   label: Other settings
@@ -1985,6 +2002,42 @@ ro:
         page_header:
           description: Choose between classic numerical work package IDs or semantic project-specific ones that prepend the project identifier to the work package ID.
         success_banner: Successfully updated work package identifier format.
+    text_transform_actions:
+      delete_dialog_component:
+        description: Users will no longer be able to run this action in the rich text editor.
+        heading: Are you sure you want to delete the action "%{label}"?
+        title: Delete text transform action
+      form:
+        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
+        label_caption: This is the name that will be visible to users in the editor.
+        select_types: Select types
+        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
+        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
+      index:
+        description: Acțiunile de transformare a textului le oferă utilizatorilor funcționalități bazate pe modele lingvistice mari (LLM) pentru a scrie, organiza și revizui textul oriunde se utilizează editorul de text formatat, cum ar fi descrierile pachetelor de lucru, comentariile și paginile wiki. Puteți crea acțiuni noi folosind propriile solicitări și instrucțiuni.
+        label_add_action: Action
+        label_aria_add_action: Add text transform action
+      index_component:
+        blank_slate:
+          description: Add an action to see it here
+          title: No text transform actions configured yet
+        disabled_warning: Text transform actions are disabled. The following actions will not be available anywhere.
+        label_disable_all: Disable all
+        label_enable_all: Enable all
+        title: Actions
+      new:
+        title: New text transform action
+      row_component:
+        label_actions: Action menu
+        label_toggle: Toggle %{label}
+        scope_specific_work_package_types:
+          one: "%{count} work package type"
+          few: "%{count} work package types"
+          other: "%{count} work package types"
+      usage_scopes:
+        all_work_package_types: All work package types
+        everywhere: Everywhere
+        specific_work_package_types: Specific work package types
     workflows:
       blankslate:
         description: Add statuses to start configuring workflows for this role
@@ -2306,7 +2359,7 @@ ro:
   button_duplicate: Duplicare
   button_duplicate_and_follow: Duplicate and follow
   button_edit: Editare
-  button_edit_associated_wikipage: 'Edit associated wiki page: %{page_title}'
+  button_edit_associated_wikipage: 'Editează pagina wiki asociată: %{page_title}'
   button_edit_non_working_time: Edit time off
   button_enable: Enable
   button_expand_all: Extindere totală
@@ -2420,8 +2473,8 @@ ro:
       zero: Nu există obiecte de acest tip
   create_portfolio:
     blank_template:
-      description: Start from scratch. Manually add portfolio attributes, members and modules.
-      label: Blank portfolio
+      description: Începe de la zero. Adaugă manual atributele portofoliului, membrii și modulele.
+      label: Portofoliu gol
     template_heading: Selectează un șablon de portofoliu pentru a lucra cu cele mai comune metode de gestionare a proiectului sau creează un portofoliu de la zero.
   create_program:
     blank_template:
@@ -2438,7 +2491,7 @@ ro:
       dependencies_label: Copy from template
     template_heading: Selectează un șablon de proiect pentru a lucra cu cele mai comune metode de gestionare a proiectului sau creează un proiect de la zero.
     template_label: Utilizează șablon
-  create_wiki_page: Create new wiki page
+  create_wiki_page: Creează o pagină wiki nouă
   create_wiki_page_button: Pagină wiki
   custom_actions:
     actions:
@@ -2821,7 +2874,7 @@ ro:
       nextcloud_sso: Single Sign-On for Nextcloud Storage
       one_drive_sharepoint_file_storage: OneDrive/SharePoint File Storage
       placeholder_users: Placeholder Users
-      portfolio_management: Portfolio management
+      portfolio_management: Administrarea portofoliului
       project_creation_wizard: Cerere de inițiere a proiectului
       project_list_sharing: Project List Sharing
       readonly_work_packages: Readonly Work Packages
@@ -2895,7 +2948,7 @@ ro:
         more_info: 'Notă: logo-ul utilizat va fi accesibil publicului.'
         title: Custom color theme and logo
       edit_attribute_groups:
-        description: 'Customize form configuration with these additional add-ons:'
+        description: 'Customize the form with these additional add-ons:'
         features:
           groups: Add new attribute sections
           related: Add a table of related work packages
@@ -2928,7 +2981,7 @@ ro:
       plan_title: Enterprise %{plan} add-on
       plans_title: Enterprise plans
       portfolio_management:
-        description: Align your projects to your strategic goals by organizing them into portfolios and programs.
+        description: Aliniarăți proiectele la obiectivele strategice organizându-le în portofolii și programe.
       project_creation_wizard:
         description: Generate a step-by-step wizard to help project managers fill out a project initiation request.
       project_list_sharing:
@@ -3228,7 +3281,7 @@ ro:
   header:
     project_select_component:
       all_projects: All projects
-      favorites: Favorites
+      favorites: Favorite
       leave_project: Leave project
       no_favorite_projects: You have no favorite projects.
       title: Projects
@@ -3276,7 +3329,7 @@ ro:
             line_1: Multiple target versions for work packages.
             line_2: Global limits and restrictions for time entries (Professional plan).
             line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
-            line_4: Wiki macros available in more text editors.
+            line_4: Macrouri Wiki disponibile în mai multe editoare de text.
             line_5: Improved search for work package identifiers.
             line_6: 'Released to Community: Display relations in work package tables.'
           new_features_title: 'The release contains various new features and improvements, such as:
@@ -3640,7 +3693,6 @@ ro:
   label_float: Număr real
   label_folder: Dosar
   label_follows: urmează după
-  label_form_configuration: Configurare formular
   label_formula: Formulă
   label_forum_new: Forum nou
   label_forum_plural: Forumuri
@@ -3868,9 +3920,9 @@ ro:
   label_planning: Planificare
   label_please_login: Te rog să te autentifici
   label_plugins: Module
-  label_portfolio: Portfolio
-  label_portfolio_new: New portfolio
-  label_portfolio_plural: Portfolios
+  label_portfolio: Portofoliu
+  label_portfolio_new: Portofoliu nou
+  label_portfolio_plural: Portofolii
   label_precedes: precede
   label_preferences: Preferinţe
   label_preview: Previzualizare
@@ -4092,7 +4144,7 @@ ro:
   label_wiki_page_attachments: Atașamentele paginilor Wiki
   label_wiki_page_id: ID-ul paginii Wiki
   label_wiki_page_plural: Pagini wiki
-  label_wiki_page_versions: Wiki page versions
+  label_wiki_page_versions: Versiuni pagină Wiki
   label_wiki_show_index_page_link: Afișare submeniu 'Cuprins'
   label_wiki_show_menu_item: Afișare ca meniu în navigarea proiectului
   label_wiki_show_new_page_link: Afișează submeniu 'Creează pagină copil'
@@ -4166,7 +4218,7 @@ ro:
     few: 'Time off: %{count} working days'
     other: 'Time off: %{count} working days'
   label_yesterday: ieri
-  label_zen_mode: Zen mode
+  label_zen_mode: Mod zen
   ldap_auth_sources:
     attribute_texts:
       admin_map_html: 'Opțional: Cheia atributului în LDAP care, <strong>dacă este prezentă</strong>, marchează utilizatorul OpenProject ca fiind administrator. Lăsați gol dacă aveți îndoieli.'
@@ -4496,6 +4548,7 @@ ro:
       mail_notification: Notificări prin e-mail
       mails_and_notifications: E-mailuri și notificări
       mcp_configurations: Model Context Protocol (MCP)
+      text_transform_actions: Text transform actions
     quick_add:
       label: Add…
   more_actions: Mai multe acțiuni
@@ -4607,8 +4660,8 @@ ro:
         news_commented: Comment on a news item
         submit_button: Update alerts
         title: Email alerts for other items that are not work packages
-        wiki_page_added: Wiki page added
-        wiki_page_updated: Wiki page updated
+        wiki_page_added: Pagină wiki adăugată
+        wiki_page_updated: Pagină wiki actualizată
       immediate_reminders:
         mentioned: Notify me when I am mentioned
         personal_reminder: Notify me for personal reminders
@@ -5020,14 +5073,14 @@ ro:
       caption: Work package details rendered as a PMflex Artefact.
       label: PMflex Artefact
     template_attributes:
-      caption: All the attributes present in the current form configuration using the default template.
+      caption: All the attributes present in the current form using the default template.
       label: Attributes and description
     template_contract:
       caption: Work package details formatted to the standard German contract form.
       label: Contract
   permission_add_internal_comments: Scrie comentarii interne
   permission_add_messages: Publicare mesaje
-  permission_add_portfolios: Create portfolios
+  permission_add_portfolios: Creează portofolii
   permission_add_programs: Create programs
   permission_add_project: Creează proiecte
   permission_add_subprojects: Creează subproiecte
@@ -5169,25 +5222,25 @@ ro:
     name: OmniAuth SAML / Single-Sign On
   portfolio:
     count:
-      one: 1 portfolio
-      other: "%{count} portfolios"
-      zero: 0 portfolios
+      one: 1 portofoliu
+      other: "%{count} portofolii"
+      zero: 0 portofolii
     filters:
-      name: Part of Portfolio
+      name: Parte din portofoliu
   portfolios:
     index:
       search:
         label: Filtru nume portofoliu
         placeholder: Caută portofolii
       sub_items_html:
-        one: "<strong>1</strong> sub-item"
-        few: "<strong>%{count}</strong> sub-items"
-        other: "<strong>%{count}</strong> sub-items"
+        one: "<strong>1</strong> subelement"
+        few: "<strong>%{count}</strong> subelemente"
+        other: "<strong>%{count}</strong> subelemente"
     lists:
-      active: Active portfolios
-      archived: Archived portfolios
-      favorited: Favorite portfolios
-      my: My portfolios
+      active: Portofolii active
+      archived: Portofolii arhivate
+      favorited: Portofolii preferate
+      my: Portofoliile mele
   present_access_key_value: "%{key_name} tău/ta este: %{value}"
   priorities:
     edit:
@@ -5404,19 +5457,18 @@ ro:
           type_label: Type
           type_placeholder: Select a type
         add_type: Add type
-        add_variant: Add a variant for this project
+        add_variant: Add a project-specific variant
+        base_type_in_use: Base type used in this project
         empty_state:
           description: Add a type to let people create work packages of that type in this project.
           title: No types are active in this project
         form:
           enable_type_in_project: Activează tip %{type}
-        in_use: In use
         no_results_title_text: În acest moment nu există tipuri disponibile.
-        only_available_here: Only available in this project
+        project_specific_variant: Project-specific variant
         remove_from_project: Remove from project
         switch:
           apply: Apply
-          description: Select a different variant of this type to use in this project.
           impact:
             hidden_heading: Fields that will no longer be shown
             missing_statuses_description: The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on.
@@ -5439,9 +5491,11 @@ ro:
           success: The project now uses %{type}.
           target_label: Variant
           title: "%{type}: Switch variant"
-        switch_type: Switch variant
         type_not_found: The selected type could not be found.
-        variant_prefix: 'Variant:'
+        use_in_project: Use in this project
+        variant_in_use: Variant in this project
+        variant_label: Variant
+        variants_not_allowed: This type does not allow creation of variants inside projects.
       versions:
         no_results_content_text: Creează versiune nouă
         no_results_title_text: În acest moment nu există versiuni pentru acest proiect.
@@ -5633,6 +5687,7 @@ ro:
   setting_after_login_default_redirect_url_example_html: 'Set a default path to redirect users after login, if no back link was provided. Redirects to home page if not set. <br/> Example: %{example_code}
 
     '
+  setting_ai_text_transform_actions_enabled: Enable text transform actions
   setting_allowed_link_protocols: Allowed link protocols
   setting_allowed_link_protocols_text_html: Allow these protocols to be rendered as links in work package descriptions, long text fields and comments. For example, %{tel_code} or %{element_code}. Enter one protocol per line. <br/> Protocols %{http_code}, %{https_code}, and %{mailto_code} are always allowed.
   setting_antivirus_scan_action: Infected file action
@@ -5712,7 +5767,7 @@ ro:
   setting_default_language: Limbă implicită
   setting_default_projects_modules: Module activate implicit la creare proiect
   setting_default_projects_public: Proiectele noi sunt implicit publice
-  setting_default_projects_wiki: Enable wiki functionality for new projects by default
+  setting_default_projects_wiki: Activează funcționalitate wiki pentru proiectele noi implicit
   setting_diff_max_lines_displayed: Numărul maxim de linii afișate în comparație
   setting_disable_password_login: Disable password authentication
   setting_display_subprojects_work_packages: Afișare pachete de lucru din subproiecte pe pagina proiectului principal
@@ -5760,6 +5815,14 @@ ro:
   setting_password_active_rules: Password requirements
   setting_password_count_former_banned: Numărul celor mai recente parole folosite interzise spre a fi reutilizate
   setting_password_days_valid: Numărul de zile după care este obligatorie schimbarea parolei
+  setting_password_login: Password login
+  setting_password_login_all: Allow for everyone
+  setting_password_login_all_caption: Anyone with an internal password can sign in with it, including users linked to an identity provider.
+  setting_password_login_bypass_principal_ids: Users and groups who may still use a password
+  setting_password_login_except_sso: Disallow for SSO users
+  setting_password_login_except_sso_caption: Users linked to an identity provider cannot sign in with their internal password. Other users can continue using it.
+  setting_password_login_none: Disallow for everyone
+  setting_password_login_none_caption_html: The password form is hidden. Only users and groups listed below can sign in with a password via %{internal_login_link}.
   setting_password_min_length: Lungime minimă
   setting_per_page_options: Opțiuni pentru obiecte pe pagină
   setting_percent_complete_on_status_closed: "% Complete when status is closed"
@@ -5894,6 +5957,15 @@ ro:
     authentication:
       login: Autentificare
       omniauth_direct_login_hint_html: 'Dacă această opțiune este activă, cererile de conectare vor fi redirecționate către furnizorul omniauth configurat. Pagina de autentificare verticală și pagina de autentificare vor fi dezactivate. <br/> <strong>Notă:</strong> Dacă nu dezactivezi și autentificarea cu parole, cu această opțiune activată, utilizatorii încă se pot autentifica intern vizitând pagina de autentificare <code>%{internal_path}</code>.
+
+        '
+      password_login_bypass_principal_ids_hint: 'Even when password login in disabled, these users and groups will be able to use their password to sign in. This is useful, for example, if the identity provider becomes unavailable. If you include a group, access will be extended to all users in that group.
+
+        '
+      password_login_configured_by_environment: 'The following settings are configured through the environment and cannot be edited here:
+
+        '
+      password_login_requires_sso_provider: 'Password login restrictions are unavailable because no SSO provider is currently enabled. Configure and enable an SSO provider before changing these settings.
 
         '
       registration: Registration
@@ -6305,7 +6377,7 @@ ro:
   text_project_identifier_url_description: The project identifier is included in the URL of the project.
   text_reassign: 'Reatribuire la pachetul de lucru:'
   text_regexp_multiline: 'Formula regex este aplicată într-un mod multilinie - de exemplu: ^---\s+'
-  text_rename_wiki_page: Rename wiki page
+  text_rename_wiki_page: Redenumește pagină wiki
   text_repository_usernames_mapping: |-
     Selectați sau modificați contul OpenProject mapat la fiecare cont din istoricul repo-ului.
     Utilizatorii cu cont sau e-mail identic în OpenProject și repo sunt echivalați automat.
@@ -6322,8 +6394,8 @@ ro:
   text_user_wrote: "%{value} a scris:"
   text_warn_on_leaving_unsaved: Pachetul de lucru conține text nesemnat care va fi pierdut dacă părăsiți această pagină.
   text_wiki_destroy_confirmation: Sunteți sigur că doriți să ștergeți acest wiki şi a întregului conținut?
-  text_wiki_page_comment_caption: This will only be visible in the wiki history.
-  text_wiki_page_comment_placeholder: Did you change something? Add a comment
+  text_wiki_page_comment_caption: Aceasta va fi vizibilă doar în istoricul wiki.
+  text_wiki_page_comment_placeholder: Ai schimbat ceva? Adaugă un comentariu
   text_wiki_page_destroy_children: Ștergere pagini fii și a tuturor descendenților
   text_wiki_page_destroy_question: Această pagină are %{descendants} pagini fii și descendenți. Ce doriți să faceți?
   text_wiki_page_nullify_children: Păstrare pagini fii ca pagini rădăcină
@@ -6382,7 +6454,7 @@ ro:
   total_progress: Progres total
   types:
     creation_wizard:
-      add_variant: Add variant to %{name}
+      add_variant: Add a variant to %{name}
       create_type: Create type
       create_variant: Create variant
       fields:
@@ -6393,7 +6465,7 @@ ro:
       steps:
         defaults: Defaults
         details: Details
-        form_configuration: Form configuration
+        form_configuration: Form
         pdf: PDF generation
         project_attributes: Project attributes
         projects: Projects
@@ -6412,7 +6484,7 @@ ro:
           caption: Users can manually enter and edit work package subjects without restrictions.
           label: Manually editable subjects
         pattern:
-          caption: Create patterns by adding text, or type "/" to search for [supported attributes](attributes_url).
+          caption: Creează modele adăugând text sau tastează „/” pentru a căuta [atributele acceptate](attributes_url).
           insert_as_text: 'No attributes found. Add as text: "%{word}"'
           label: Subject pattern
         tab: Defaults
@@ -6423,9 +6495,11 @@ ro:
             work_package: Work package
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
+        allow_project_variants_caption: For project administrators with the permission to manage variants, this type can be extended or modified within a project.
         inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: Details
         type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
+        variant_name_caption_html: This is an internal name only visible to administrators. Variants replace the original parent type, so if this variant is used in a project, it will appear as <b>%{type}</b> to all members.
       export_configuration:
         artefact_export:
           attachment:
@@ -6464,7 +6538,7 @@ ro:
         blankslate_title: No groups yet
         builtin_field: Built-in field
         confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
-        confirm_reset: Are you sure you want to reset the form configuration?
+        confirm_reset: Are you sure you want to reset the form?
         custom_field: Custom field
         delete_group: Delete section
         drag_to_activate: Drag fields from here to activate them
@@ -6479,38 +6553,38 @@ ro:
         group_actions: Section actions
         group_name_label: Section name
         inactive_attributes_heading: Inactive attributes
-        invalid_attribute_groups: The form configuration payload is invalid.
+        invalid_attribute_groups: The form payload is invalid.
         invalid_query: The embedded query configuration is invalid.
         label_group: Section
         no_inactive_attributes: No inactive attributes
-        not_found: The requested form configuration item could not be found.
+        not_found: The requested form item could not be found.
         query_group_label: Related work packages table
         remove_attribute: Remove from section
         rename_group: Rename section
         reset_description: 'This will reset the attributes to their default group and disable ALL custom fields.
 
           '
-        reset_title: Reset form configuration
+        reset_title: Reset form
         reset_to_defaults: Reset form
         row_actions: Row actions
-        tab: Configurare formular
+        tab: Form
         untitled_group: Untitled group
       project_attributes:
         actions:
           label_disable_all: Disable all
           label_enable_all: Enable all
         blankslate:
-          independent:
-            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
-            title: No project attributes available
-          linked:
+          inherited:
             description: This type does not have any project attributes associated with it.
             title: No project attributes configured
+          manual:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
         description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
         disabled: Disabled
         exclusions:
           attribute_label: Inherit %{attribute}
-        filter: Search by section or name
+        filter: Caută după secțiune sau nume
         tab: Project attributes
       projects:
         actions:
@@ -6535,32 +6609,78 @@ ro:
             description_html: By copying data from %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
             title: Copy configuration?
           dialog:
-            description: Copy the configuration from a source type and use it as a one-time base. This does not link the two types permanently.
-            source_label: Copy source
+            description: Copy the configuration from a source type and use it as a one-time base. The configuration stays manual and does not inherit later changes of the source.
+            source_label: Source type
             source_placeholder: Select a type or variant
             submit: Save and copy
             title: Copy configuration
           invalid_source: The configuration cannot be copied from the selected type. Please select a different source type.
           success: The configuration was copied.
+        dependents:
+          blank:
+            description: No other type or variant inherits from this configuration
+            title: No dependent types
+          description:
+            one: The following configuration is inherited by 1 other type or variant. Any changes you make here will also affect the dependent.
+            few: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
+            other: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
+          dialog:
+            description: These types and variants inherit the configuration of this section. A change you make here applies to all of them.
+            direct_heading: Direct dependents
+            indirect_heading: Dependents through other types
+            title: Dependent types
+            variant_of_html: Variant of %{type_name}
+            variant_of_via_html: Variant of %{type_name}, inheriting via %{source_name}
+            via_html: Inheriting via %{source_name}
+          title:
+            one: 1 dependent type
+            few: "%{count} dependent types"
+            other: "%{count} dependent types"
+          view: View dependent types
         exclusions:
-          not_linked: This type owns its configuration for this section, so there is nothing to exclude. Edit the configuration directly instead.
+          not_inherited: This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead.
           unknown_aspect: Unknown configuration section "%{aspect}".
-        independent:
+        inherited:
+          change_source: Change source type
+          configure_manually: Configure manually
+          confirm_dialog:
+            change_source:
+              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
+              heading: Change source type?
+              title: Change source type
+            check_box: I understand that this will override the current settings
+            from_manual:
+              description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
+              heading: Switch configuration mode?
+              title: Switch configuration mode
+          description: This configuration is inherited from the source type [%{source_name}](source_url)%{source_suffix}.
+          description_unlinked: This configuration is inherited from the source type %{source_name}%{source_suffix}.
+          dialog:
+            description: Inherit this configuration from a source type. Any new configuration added to the source also applies here.
+            source_label: Source type
+            source_placeholder: Select a type or variant
+            submit: Switch
+            title: Inherit from another type
+          invalid_source: The configuration cannot be inherited from the selected type. Please select a different source type.
+          success: The configuration mode was switched.
+          title: Inherited configuration
+        manual:
           confirm_dialog:
             check_box: I understand that this will override the current settings
             description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
             heading: Switch configuration mode?
             title: Switch configuration mode
-          copy_from_type: Copy from type
-          description: No settings are inherited. If desired you can still one-time copy settings from another type.
+          copy_from_type: Copy from another type
+          description: No settings are inherited. You can still copy the settings from another type one time.
           dialog:
             submit: Switch
-            title: Independent mode
+            title: Configure manually
+          inherit_from_type: Inherit from another type
           invalid_mode: The selected mode is not available for this configuration. Please choose a different mode.
           modes:
             copy:
-              caption: Start with a one-time copy of the current settings set in the linked mode.
-              label: Copy from linked
+              caption: Start with a one-time copy of the settings that this configuration inherits now.
+              label: Copy inherited settings
             default:
               caption: Use the default settings for new types.
               label: Default settings
@@ -6568,32 +6688,7 @@ ro:
               caption: Set everything up from scratch, beginning from a blank configuration.
               label: Empty
           success: The configuration mode was switched.
-          switch_to_linked: Switch to linked mode
-          title: Independent mode
-        linked:
-          change_source: Change source type
-          confirm_dialog:
-            change_source:
-              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
-              heading: Change source type?
-              title: Change source type
-            check_box: I understand that this will override the current settings
-            from_independent:
-              description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
-              heading: Switch configuration mode?
-              title: Switch configuration mode
-          description: This configuration is linked and inheriting its settings from the source type [%{source_name}](source_url)%{source_suffix}.
-          description_unlinked: This configuration is linked and inheriting its settings from the source type %{source_name}%{source_suffix}.
-          dialog:
-            description: Copy and inherit this settings from a source. Any new configuration added to the source will also be added here.
-            source_label: Linked source
-            source_placeholder: Select a type or variant
-            submit: Switch
-            title: Linked mode
-          invalid_source: The configuration cannot be linked to the selected type. Please select a different source type.
-          success: The configuration mode was switched.
-          switch_to_independent: Switch to independent mode
-          title: Linked mode
+          title: Manual configuration
         parent_suffix: " (parent)"
       variants:
         blankslate:
@@ -6601,12 +6696,22 @@ ro:
 
             '
           title: No variants exist for this type
+        created_in_html: Created in %{project}
+        delete:
+          description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
+          title: Delete %{name}
         filter: Filter by text
         filter_no_results: No variants match this filter
+        global_section:
+          description: These variants are available across all projects.
+          title: Variants
+        project_specific_section:
+          description: These variants are only available within the projects in which they were created.
+          title: Project-specific variants
       workflow:
         tab: Workflows
     index:
-      add_variant: Add variant to %{name}
+      add_variant: Add a variant to %{name}
       add_variant_action: Add variant
       description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
@@ -6618,20 +6723,14 @@ ro:
       make_default_notice: "%{name} is now activated in new projects."
       no_results_content_text: Creează tip nou
       no_results_title_text: În acest moment nu există tipuri.
-      owned_by: Owned by %{project}
       project_variants_count:
-        one: 1 variant owned by a project
-        few: "%{count} variants owned by projects"
-        other: "%{count} variants owned by projects"
+        one: 1 project-specific variant
+        few: "%{count} project-specific variants"
+        other: "%{count} project-specific variants"
       remove_default: Do not activate in new projects
       remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: Type
-      variant_enabled_in_new_projects: Variant %{name} active in new projects
       variant_label: Variant
-      variants_count:
-        one: 1 variant
-        few: "%{count} variants"
-        other: "%{count} variants"
     milestone_indicator: Milestone
   unsupported_browser:
     close_warning: Ignoră acest avertisment.

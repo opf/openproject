@@ -177,18 +177,19 @@ module OpenProject::Wikis
            icon: :book
 
       menu :admin_menu,
-           :internal_wiki_provider,
-           { controller: "/wikis/admin/internal_wiki_provider", action: :show },
-           parent: :wiki_providers,
-           if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.wiki_enhancements_active? },
-           caption: :"menus.admin.internal_wiki_provider"
-
-      menu :admin_menu,
            :external_wiki_providers,
            { controller: "/wikis/admin/wiki_providers", action: :index },
            parent: :wiki_providers,
            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.wiki_enhancements_active? },
            caption: :"menus.admin.external_wiki_providers"
+
+      menu :admin_menu,
+           :internal_wiki_provider,
+           { controller: "/wikis/admin/internal_wiki_provider", action: :show },
+           parent: :wiki_providers,
+           after: :external_wiki_providers,
+           if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.wiki_enhancements_active? },
+           caption: :"menus.admin.internal_wiki_provider"
 
       menu :project_menu,
            :settings_project_wiki,

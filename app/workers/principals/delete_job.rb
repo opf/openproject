@@ -72,6 +72,7 @@ class Principals::DeleteJob < ApplicationJob
     delete_user_ordered_query_entities(principal)
     delete_tokens(principal)
     delete_favorites(principal)
+    remove_password_login_bypass(principal)
   end
 
   def delete_notifications(principal)
@@ -117,6 +118,13 @@ class Principals::DeleteJob < ApplicationJob
 
   def delete_tokens(principal)
     ::Token::Base.where(user_id: principal.id).destroy_all
+  end
+
+  def remove_password_login_bypass(principal)
+    return unless Setting.password_login_bypass_principal_ids_writable?
+
+    ids = Array(Setting.password_login_bypass_principal_ids)
+    Setting.password_login_bypass_principal_ids = ids.reject { |id| id.to_s == principal.id.to_s }
   end
 
   def update_cost_queries(principal)

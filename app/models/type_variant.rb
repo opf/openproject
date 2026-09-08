@@ -103,7 +103,7 @@ class TypeVariant < ApplicationRecord
   validate :base_variant_is_never_owned
   validate :owned_variant_is_never_enabled_in_new_projects
 
-  scopes :with_effective_configuration, :with_effective_source
+  scopes :switch_targets, :with_effective_configuration, :with_effective_source
 
   scope :enabled_in_new_projects, -> { where(enabled_in_new_projects: true) }
 
@@ -169,6 +169,17 @@ class TypeVariant < ApplicationRecord
   # Full variant name, e.g., "Bug: Hardware"
   def composite_name
     is_default_variant? ? type.name : "#{type.name}: #{variant_name}"
+  end
+
+  def work_packages
+    WorkPackage.where(type_id:, project_id: project_types.select(:project_id))
+  end
+
+  def migration_targets
+    siblings = self.class.where(type_id:).where.not(id:)
+    owners = projects.distinct.pluck(:id)
+
+    owners.one? ? siblings.available_in(owners.first) : siblings.global
   end
 
   def workflows

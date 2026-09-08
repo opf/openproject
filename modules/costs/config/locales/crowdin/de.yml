@@ -120,8 +120,8 @@ de:
         one: Aktivität für Zeiterfassung
         other: Aktivitäten für Zeiterfassung
       time_entry_custom_field:
-        one: Benutzerdefiniertes Feld
-        other: Benutzerdefinierte Felder
+        one: Benutzerdefiniertes Feld für die Zeiterfassung
+        other: Benutzerdefinierte Felder für die Zeiterfassung
   api_v3:
     errors:
       validation:

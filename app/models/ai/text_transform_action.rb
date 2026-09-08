@@ -30,7 +30,10 @@
 
 module AI
   class TextTransformAction < ApplicationRecord
+    SORTABLE_LIST_TYPE = "text_transform_action"
+
     acts_as_list
+    include Lists::MoveAfterAnchor
 
     has_many :text_transform_action_types,
              class_name: "AI::TextTransformActionType",

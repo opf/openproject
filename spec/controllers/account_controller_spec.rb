@@ -126,6 +126,24 @@ RSpec.describe AccountController, :skip_2fa_stage do
         expect(session[:internal_login]).not_to be_present
       end
     end
+
+    context "when password login is none with a whitelist",
+            with_settings: { password_login: "none" } do
+      before do
+        Setting.password_login_bypass_principal_ids = [admin.id.to_s]
+      end
+
+      it "allows the internal login route" do
+        get :internal_login
+
+        expect(response).to render_template "account/login"
+      end
+
+      it "allows to post to login" do
+        post :login, params: { username: admin.login, password: "adminADMIN!" }
+        expect(response).to redirect_to home_path
+      end
+    end
   end
 
   describe "POST #login" do
@@ -409,7 +427,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
 
     context "with disabled password login" do
       before do
-        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
+        allow(Setting).to receive(:password_login).and_return("none")
 
         post :login
       end
@@ -507,7 +525,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
   describe "POST #change_password" do
     context "with disabled password login" do
       before do
-        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
+        allow(Setting).to receive(:password_login).and_return("none")
         post :change_password
       end
 
@@ -731,7 +749,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
 
       context "and password login disabled" do
         before do
-          allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
+          allow(Setting).to receive(:password_login).and_return("none")
 
           get :register
         end
@@ -772,7 +790,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
     context "with self registration on automatic",
             with_settings: { self_registration: Setting::SelfRegistration.automatic } do
       before do
-        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
+        allow(Setting).to receive(:password_login).and_return("all")
       end
 
       context "with password login enabled" do
@@ -898,7 +916,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
 
       context "with password login disabled" do
         before do
-          allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
+          allow(Setting).to receive(:password_login).and_return("none")
 
           post :register
         end
@@ -946,7 +964,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
 
       context "with password login disabled" do
         before do
-          allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
+          allow(Setting).to receive(:password_login).and_return("none")
 
           post :register
         end
@@ -1006,7 +1024,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
 
       context "with password login disabled" do
         before do
-          allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
+          allow(Setting).to receive(:password_login).and_return("none")
 
           post :register
         end
@@ -1072,7 +1090,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
     context "with self registration and no invitation",
             with_settings: { self_registration: Setting::SelfRegistration.automatic } do
       before do
-        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
+        allow(Setting).to receive(:password_login).and_return("all")
 
         post :register,
              params: {
@@ -1116,7 +1134,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
 
       context "with password login disabled" do
         before do
-          allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
+          allow(Setting).to receive(:password_login).and_return("none")
         end
 
         describe "registration" do

@@ -51,6 +51,14 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
                           remaining_hours: 25, version:)
   end
 
+  shared_let(:observed_version) { create(:version, project:) }
+
+  shared_let(:observed_in_version_rows) do
+    [work_package, work_package_parent].map do |wp|
+      create(:work_package_version, work_package: wp, version: observed_version, kind: :observed_in)
+    end
+  end
+
   shared_let(:string_custom_field) do
     create(:string_wp_custom_field).tap do |custom_field|
       project.work_package_custom_fields << custom_field
@@ -228,6 +236,45 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
         it "label is version" do
           enabled, = subject
           expect(detect(enabled, :version)&.label).to eq("Version")
+        end
+      end
+    end
+
+    context "for observed in versions" do
+      shared_let(:second_observed_version) { create(:version, project:) }
+
+      before do
+        create(:work_package_version, work_package:, version: second_observed_version, kind: :observed_in)
+      end
+
+      it "renders an array of values" do
+        enabled, = subject
+        token = detect(enabled, :observed_in_versions)
+
+        expect(token.call(work_package).split(", "))
+          .to contain_exactly(observed_version.name, second_observed_version.name)
+      end
+
+      it "resolves the parent token from the parent work package" do
+        enabled, = subject
+        token = detect(enabled, :parent_observed_in_versions)
+
+        expect(token.call(work_package_parent)).to eq(observed_version.name)
+      end
+
+      context "when work package multiple versions is active",
+              with_settings: { work_package_multiple_versions: true } do
+        it "label is observed in versions" do
+          enabled, = subject
+          expect(detect(enabled, :observed_in_versions)&.label).to eq("Observed in versions")
+        end
+      end
+
+      context "when work package multiple versions is not active",
+              with_settings: { work_package_multiple_versions: false } do
+        it "label is observed in versions" do
+          enabled, = subject
+          expect(detect(enabled, :observed_in_versions)&.label).to eq("Observed in versions")
         end
       end
     end

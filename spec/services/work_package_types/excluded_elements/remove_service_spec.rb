@@ -108,7 +108,7 @@ RSpec.describe WorkPackageTypes::ExcludedElements::RemoveService, with_flag: { t
     it "fails and explains that there is nothing to exclude" do
       expect(service_call).to be_failure
       expect(service_call.errors.full_messages.join)
-        .to include(I18n.t("types.edit.reuse_mode.exclusions.not_linked"))
+        .to include(I18n.t("types.edit.reuse_mode.exclusions.not_inherited"))
     end
   end
 

@@ -189,7 +189,13 @@ RSpec.describe "Omniauth authentication" do
     end
 
     context "with password login disabled",
-            with_config: { disable_password_login: "true" } do
+            :settings_reset,
+            with_env: { "OPENPROJECT_DISABLE__PASSWORD__LOGIN" => "true" } do
+      before do
+        reset(:disable_password_login)
+        reset(:password_login)
+      end
+
       it_behaves_like "omniauth user registration"
     end
   end
