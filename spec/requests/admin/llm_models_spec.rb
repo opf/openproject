@@ -173,7 +173,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       end
 
       it "offers only models known to embed as the default embedding model" do
-        connection = create(:llm_connection, :with_models, :enabled, base_url:)
+        connection = create(:llm_connection, :with_models, base_url:)
         connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
                                                state: "supported", source: "probe", checked_at: Time.current)
 
@@ -186,7 +186,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       # An unconfirmed capability is not a capability: offering such a model
       # invites a choice that fails much later, at index time.
       it "says how to make a model eligible while none is known to embed" do
-        create(:llm_connection, :with_models, :enabled, base_url:)
+        create(:llm_connection, :with_models, base_url:)
 
         get llm_models_path
 
@@ -197,10 +197,10 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       # an administrator simply hid it, and saying otherwise sends them to the
       # model form to fix a type that is already right.
       it "tells a switched-off embedding default apart from an unqualified one" do
-        connection = create(:llm_connection, :with_models, :enabled, base_url:)
+        connection = create(:llm_connection, :with_models, base_url:)
         connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
                                                state: "supported", source: "probe", checked_at: Time.current)
-        connection.update_column(:default_embedding_model_id, "bge-m3")
+        connection.update_column(:default_embedding_model_id, connection.models.find_by(external_id: "bge-m3").id)
         connection.models.find_by(external_id: "bge-m3").update!(deactivated_at: Time.current)
 
         get llm_models_path
@@ -212,7 +212,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
       # The remedy the caption names is only the right one while nothing embeds.
       it "keeps the documentation caption while a known embedding model is switched off" do
-        connection = create(:llm_connection, :with_models, :enabled, base_url:)
+        connection = create(:llm_connection, :with_models, base_url:)
         connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
                                                state: "supported", source: "probe", checked_at: Time.current)
         connection.models.find_by(external_id: "bge-m3").update!(deactivated_at: Time.current)
@@ -225,8 +225,8 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
       # Otherwise a save would silently blank a working configuration.
       it "keeps the stored embedding default listed, flagged, once it is ruled out" do
-        connection = create(:llm_connection, :with_models, :enabled, base_url:)
-        connection.update_column(:default_embedding_model_id, "qwen3.6-27b")
+        connection = create(:llm_connection, :with_models, base_url:)
+        connection.update_column(:default_embedding_model_id, connection.models.find_by(external_id: "qwen3.6-27b").id)
 
         get llm_models_path
 
@@ -697,8 +697,6 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       end
 
       it "keeps the feature resolving afterwards", with_flag: { llm_connection: true } do
-        connection.update!(enabled: true)
-
         patch llm_model_path(llm_model), params: { llm_model: { external_id: "qwen/qwen3.6-35b-a3b:bf16" } }
 
         expect(Llm::Runtime.for(:description_assistant).model_id).to eq("qwen/qwen3.6-35b-a3b:bf16")
@@ -786,16 +784,18 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
                                              state: "supported", source: "probe", checked_at: Time.current)
 
-      patch defaults_llm_models_path, params: { llm_connection: { default_embedding_model_id: "bge-m3" } }
+      patch defaults_llm_models_path,
+            params: { llm_connection: { default_embedding_model_id: connection.models.find_by(external_id: "bge-m3").id } }
 
-      expect(connection.reload.default_embedding_model_id).to eq("bge-m3")
+      expect(connection.reload.default_embedding_model.external_id).to eq("bge-m3")
     end
 
     it "refuses a model the server has ruled out" do
       connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "embeddings",
                                              state: "unsupported", source: "probe", checked_at: Time.current)
 
-      patch defaults_llm_models_path, params: { llm_connection: { default_embedding_model_id: "qwen3.6-27b" } }
+      patch defaults_llm_models_path,
+            params: { llm_connection: { default_embedding_model_id: connection.models.find_by(external_id: "qwen3.6-27b").id } }
 
       expect(connection.reload.default_embedding_model_id).to be_nil
       expect(flash[:error]).to be_present
@@ -804,9 +804,10 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
     # Nothing has probed the row: refusing here would break provisioning from the
     # environment, where the same configuration passes on an empty catalogue.
     it "accepts a model nothing has ruled out" do
-      patch defaults_llm_models_path, params: { llm_connection: { default_embedding_model_id: "qwen3.6-27b" } }
+      patch defaults_llm_models_path,
+            params: { llm_connection: { default_embedding_model_id: connection.models.find_by(external_id: "qwen3.6-27b").id } }
 
-      expect(connection.reload.default_embedding_model_id).to eq("qwen3.6-27b")
+      expect(connection.reload.default_embedding_model.external_id).to eq("qwen3.6-27b")
     end
 
     it "leaves the server settings alone" do
@@ -819,7 +820,8 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
     it "refuses a default the environment owns" do
       allow(Setting).to receive(:llm_connection).and_return({ "base_url" => base_url })
 
-      patch defaults_llm_models_path, params: { llm_connection: { default_chat_model_id: "qwen3.6-27b" } }
+      patch defaults_llm_models_path,
+            params: { llm_connection: { default_chat_model_id: connection.models.find_by(external_id: "qwen3.6-27b").id } }
 
       expect(connection.reload.default_chat_model_id).to be_nil
       expect(flash[:error]).to be_present

@@ -30,7 +30,8 @@
 
 require "spec_helper"
 
-RSpec.describe Llm::Runtime, with_flag: { llm_connection: true } do
+RSpec.describe Llm::Runtime, with_flag: { llm_connection: true },
+                             with_settings: { llm_features_enabled: true } do
   subject(:resolution) { described_class.for(feature_key, override:) }
 
   let(:feature_key) { :description_assistant }
@@ -40,14 +41,14 @@ RSpec.describe Llm::Runtime, with_flag: { llm_connection: true } do
     it { expect(resolution.status).to eq(:no_connection) }
   end
 
-  context "with a connection that is not enabled" do
-    before { create(:llm_connection, :with_models, enabled: false) }
+  context "with the AI features switched off", with_settings: { llm_features_enabled: false } do
+    before { create(:llm_connection, :with_models) }
 
     it { expect(resolution.status).to eq(:no_connection) }
   end
 
-  context "with an enabled connection" do
-    let!(:connection) { create(:llm_connection, :with_models, :enabled) }
+  context "with the AI features switched on" do
+    let!(:connection) { create(:llm_connection, :with_models) }
 
     it "is unbound until a model is chosen" do
       expect(resolution.status).to eq(:unbound)
@@ -55,14 +56,14 @@ RSpec.describe Llm::Runtime, with_flag: { llm_connection: true } do
     end
 
     it "falls back to the connection default" do
-      connection.update!(default_chat_model_id: "qwen3.6-27b")
+      connection.update!(default_chat_model: connection.models.find_by(external_id: "qwen3.6-27b"))
 
       expect(resolution).to be_ready
       expect(resolution.model_id).to eq("qwen3.6-27b")
     end
 
     it "prefers the feature binding over the connection default" do
-      connection.update!(default_chat_model_id: "qwen3.6-27b")
+      connection.update!(default_chat_model: connection.models.find_by(external_id: "qwen3.6-27b"))
       connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "bge-m3")
 
       expect(resolution.model_id).to eq("bge-m3")
@@ -95,7 +96,7 @@ RSpec.describe Llm::Runtime, with_flag: { llm_connection: true } do
     context "when the chosen model is gone from the catalogue" do
       let(:override) { "vanished-model" }
 
-      before { connection.update!(default_chat_model_id: "qwen3.6-27b") }
+      before { connection.update!(default_chat_model: connection.models.find_by(external_id: "qwen3.6-27b")) }
 
       it "fails closed rather than falling back" do
         expect(resolution.status).to eq(:model_missing)
@@ -106,7 +107,7 @@ RSpec.describe Llm::Runtime, with_flag: { llm_connection: true } do
 
   describe "capability gating" do
     let(:feature_key) { :semantic_search }
-    let!(:connection) { create(:llm_connection, :with_models, :enabled) }
+    let!(:connection) { create(:llm_connection, :with_models) }
 
     before { connection.feature_bindings.create!(feature_key: "semantic_search", model_id: "qwen3.6-27b") }
 
@@ -133,7 +134,7 @@ RSpec.describe Llm::Runtime, with_flag: { llm_connection: true } do
   end
 
   describe "running a request", :llm_server_helpers, :webmock do
-    let!(:connection) { create(:llm_connection, :with_models, :enabled, default_chat_model_id: "qwen3.6-27b") }
+    let!(:connection) { create(:llm_connection, :with_models, default_chat_model_identifier: "qwen3.6-27b") }
 
     it "sends a completion for the resolved model" do
       mock_llm_chat_response("https://example.com/v1", content: "pong")
@@ -144,7 +145,7 @@ RSpec.describe Llm::Runtime, with_flag: { llm_connection: true } do
     end
 
     it "refuses when the feature is not ready" do
-      connection.update!(enabled: false)
+      allow(Setting).to receive(:llm_features_enabled?).and_return(false)
 
       expect { resolution.chat }.to raise_error(Llm::Errors::NotReady) { |e| expect(e.status).to eq(:no_connection) }
     end
@@ -159,7 +160,7 @@ RSpec.describe Llm::Runtime, with_flag: { llm_connection: true } do
     context "with an embedding feature" do
       let(:feature_key) { :semantic_search }
 
-      before { connection.update!(default_embedding_model_id: "bge-m3") }
+      before { connection.update!(default_embedding_model: connection.models.find_by(external_id: "bge-m3")) }
 
       it "requests a vector for the resolved model" do
         mock_llm_embeddings_response("https://example.com/v1", dimensions: 8)

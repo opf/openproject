@@ -70,7 +70,8 @@ RSpec.describe LlmModel do
 
     # The decision that makes the toggle safe: curation, not enforcement. A row an
     # administrator switches off must never silently break a running feature.
-    it "stays addressable for a feature that is already bound to it" do
+    it "stays addressable for a feature that is already bound to it",
+       with_settings: { llm_features_enabled: true } do
       connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
 
       expect(connection.available_model_ids).to include("qwen3.6-27b")

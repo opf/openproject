@@ -239,7 +239,7 @@ RSpec.describe "LLM connection administration",
   end
 
   describe "the Feature configuration tab" do
-    let!(:connection) { create(:llm_connection, :with_models, :enabled, base_url:) }
+    let!(:connection) { create(:llm_connection, :with_models, base_url:) }
 
     before { mock_llm_embeddings_response(base_url) }
 

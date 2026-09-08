@@ -96,7 +96,7 @@ RSpec.describe EnvData::LlmConnectionSeeder do
     it "provisions the default" do
       seed
 
-      expect(LlmConnection.first.default_embedding_model_id).to eq("bge-m3")
+      expect(LlmConnection.first.default_embedding_model.external_id).to eq("bge-m3")
     end
   end
 

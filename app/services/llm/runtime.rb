@@ -117,7 +117,7 @@ module Llm
     attr_reader :feature, :override
 
     def connection
-      @connection ||= LlmConnection.instance
+      @connection ||= LlmConnection.active_connection
     end
 
     def resolved_model_id
@@ -138,7 +138,9 @@ module Llm
     end
 
     def connection_default
-      feature.embedding? ? connection.default_embedding_model_id : connection.default_chat_model_id
+      default = feature.embedding? ? connection.default_embedding_model : connection.default_chat_model
+
+      default&.external_id
     end
 
     # Only a definite :unsupported blocks. An :unknown verdict -- which is the

@@ -70,13 +70,11 @@ module LlmConnections
     # would otherwise fail on a catalogue row nothing has probed yet. The picker
     # still offers confirmed models only.
     def default_embedding_model_can_embed
-      model_id = model.default_embedding_model_id
-      return if model_id.blank?
+      llm_model = model.default_embedding_model
+      return if llm_model.blank?
       return unless model.changed_attributes.include?("default_embedding_model_id")
 
-      llm_model = model.models.find_by(external_id: model_id)
-
-      errors.add(:default_embedding_model_id, :cannot_embed) if llm_model&.verdict_for(:embeddings)&.blocking?
+      errors.add(:default_embedding_model_id, :cannot_embed) if llm_model.verdict_for(:embeddings)&.blocking?
     end
 
     # A model the server identifies as an embedding model is not a chat candidate.
@@ -85,7 +83,7 @@ module LlmConnections
       return if llm_model.blank?
       return unless model.changed_attributes.include?("default_chat_model_id")
 
-      errors.add(:default_chat_model_id, :cannot_chat) if model.default_chat_model&.embedding?
+      errors.add(:default_chat_model_id, :cannot_chat) if llm_model.embedding?
     end
 
     def features_require_connection

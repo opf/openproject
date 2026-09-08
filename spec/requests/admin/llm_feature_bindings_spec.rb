@@ -31,7 +31,8 @@
 require "spec_helper"
 
 RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf, :webmock,
-               type: :rails_request, with_flag: { llm_connection: true } do
+               type: :rails_request, with_flag: { llm_connection: true },
+               with_settings: { llm_features_enabled: true } do
   let(:admin) { create(:admin) }
   let(:base_url) { "https://example.com/v1" }
 
@@ -52,7 +53,8 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
       expect(response).to redirect_to(llm_connection_path)
     end
 
-    it "sends the administrator to the settings while the connection is disabled" do
+    it "sends the administrator to the settings while the features are off",
+       with_settings: { llm_features_enabled: false } do
       create(:llm_connection, :with_models, base_url:)
 
       get llm_feature_bindings_path
@@ -62,7 +64,7 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
     end
 
     context "with a configured connection" do
-      let!(:connection) { create(:llm_connection, :with_models, :enabled, base_url:) }
+      let!(:connection) { create(:llm_connection, :with_models, base_url:) }
 
       it "lists every registered feature" do
         get llm_feature_bindings_path
@@ -120,7 +122,7 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
   end
 
   describe "PATCH /admin/llm_feature_bindings/:id" do
-    let!(:connection) { create(:llm_connection, :with_models, :enabled, base_url:) }
+    let!(:connection) { create(:llm_connection, :with_models, base_url:) }
 
     before { login_as admin }
 
@@ -172,7 +174,7 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
   end
 
   describe "embedding settings" do
-    let!(:connection) { create(:llm_connection, :with_models, :enabled, base_url:) }
+    let!(:connection) { create(:llm_connection, :with_models, base_url:) }
 
     before do
       login_as admin
