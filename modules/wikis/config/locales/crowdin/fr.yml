@@ -106,7 +106,7 @@ fr:
         label_edit: Modifier le fournisseur XWiki
         label_new_provider: Nouveau fournisseur XWiki
         label_wiki_platform: Fournisseur de wiki
-        name_caption: Donnez à votre espace de stockage un nom pour permettre aux utilisateurs de le différencier des autres plateformes de wiki.
+        name_caption: Donnez un nom à votre fournisseur de wiki pour permettre aux utilisateurs de le différencier des autres plateformes de wiki.
         name_placeholder: Base de connaissances XWiki
         new_provider_html: Lisez notre documentation sur [la configuration d'une intégration XWiki](docs_url) pour en savoir plus.
         oauth:
