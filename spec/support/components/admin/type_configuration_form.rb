@@ -204,10 +204,13 @@ module Components
         wait_for_turbo
       end
 
+      def start_renaming_group(name)
+        invoke_group_action(name, I18n.t("types.edit.form_configuration.rename_group"))
+        expect(page).to have_test_selector("type-form-configuration-group-name-input")
+      end
+
       def rename_group(from, new_name)
-        group_key = find_group(from)["data-group-key"]
-        open_group_menu(from)
-        page.find_test_selector("type-form-configuration-group-rename-#{group_key}", visible: :all).click
+        start_renaming_group(from)
 
         fill_group_name(new_name)
         save_group
