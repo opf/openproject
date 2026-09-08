@@ -62,6 +62,14 @@ RSpec.describe "Show/Edit Document View",
     end
 
     aggregate_failures "can edit document title" do
+      # Edit/Cancel/Save all run through LiveComponent's client-side
+      # Idiomorph morph now (Save dispatches a reflex rather than
+      # posting to a controller action), which preserves the
+      # document-page-header custom element node across every
+      # transition -- a single within_test_selector scope would work.
+      # The split scoping below is kept anyway for robustness: it
+      # re-enters the scope after each Save so the spec doesn't
+      # depend on morph semantics never changing.
       within_test_selector("document-page-header") do
         click_button accessible_name: "Document actions"
         expect(page).to have_selector :menuitem, "Edit title"
@@ -70,11 +78,16 @@ RSpec.describe "Show/Edit Document View",
 
         fill_in "document_title", with: ""
         click_on "Save"
+      end
+
+      within_test_selector("document-page-header") do
         expect(page).to have_content("Title can't be blank")
 
         fill_in "document_title", with: "Updated collaborative document"
         click_on "Save"
+      end
 
+      within_test_selector("document-page-header") do
         expect(page).to have_content("Updated collaborative document")
 
         click_button accessible_name: "Document actions"

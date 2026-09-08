@@ -65,7 +65,7 @@ module OpenProject::Documents
         permission :manage_documents,
                    {
                      documents: %i[
-                       new create edit edit_title cancel_title_edit update update_title update_type delete_dialog destroy
+                       new create edit update update_type delete_dialog destroy
                      ]
                    },
                    permissible_on: :project,

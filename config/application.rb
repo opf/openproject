@@ -39,6 +39,15 @@ require "view_component"
 require "primer/view_components"
 require "primer/view_components/engine"
 
+# live_component (0.4.0) hooks on_load(:action_controller) and calls `helper`,
+# which ActionController::API does not implement. This hook registers earlier
+# than the gem's, so when an API base fires the load hooks it first gains a
+# no-op `helper` and the gem's hook becomes harmless (pilot workaround,
+# DREAM-784 — the upstream fix is hooking :action_controller_base instead).
+ActiveSupport.on_load(:action_controller) do
+  define_singleton_method(:helper) { |*, **, &_blk| } unless respond_to?(:helper)
+end
+
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups(:opf_plugins))

@@ -68,6 +68,9 @@ import RevealController from '@stimulus-components/reveal';
 import AutoThemeSwitcher from './controllers/auto-theme-switcher.controller';
 import { OpenProjectStimulusApplication } from 'core-stimulus/openproject-stimulus-application';
 import { Application } from '@hotwired/stimulus';
+import { Application as LiveComponentApplication, LiveComponent } from '@camertron/live-component';
+import { OpLiveComponentTransport } from './live-component-transport';
+import PageHeaderLiveController from './controllers/dynamic/documents/page-header-live.controller';
 import { BeforeunloadController } from './controllers/beforeunload.controller';
 import ExternalLinksController from './controllers/external-links.controller';
 import DisableWhenClickedController from 'core-stimulus/controllers/disable-when-clicked.controller';
@@ -133,10 +136,22 @@ OpenProjectStimulusApplication.preregister('header-project-select', HeaderProjec
 OpenProjectStimulusApplication.preregister('checkable', CheckableController);
 OpenProjectStimulusApplication.preregister('expandable-text', ExpandableTextController);
 
+// Manual LiveComponent registration. The library's @live decorator derives
+// identifiers with String#replace('::', '-'), which only replaces the first
+// occurrence and breaks two-level namespaces (v0.4.0 bug).
+const PAGE_HEADER_LC_IDENTIFIER = 'documents-showeditview-pageheadercomponent';
+if (!window.customElements.get(PAGE_HEADER_LC_IDENTIFIER)) {
+  window.customElements.define(PAGE_HEADER_LC_IDENTIFIER, class extends LiveComponent {});
+}
+PageHeaderLiveController.identifier = PAGE_HEADER_LC_IDENTIFIER;
+OpenProjectStimulusApplication.preregister(PAGE_HEADER_LC_IDENTIFIER, PageHeaderLiveController);
+
 installElements();
 
 const instance = OpenProjectStimulusApplication.start();
 window.Stimulus = instance;
+
+LiveComponentApplication.start(instance, new OpLiveComponentTransport('/live_components/render'));
 
 instance.debug = !environment.production;
 instance.handleError = (error, message, detail) => {

@@ -434,3 +434,6 @@ source "https://rubygems.org", cooldown: 0 do
   gem "openproject-octicons_helper", "~>19.37.0"
   gem "openproject-primer_view_components", "~>0.91.1"
 end
+
+# LiveComponent pilot — see https://community.openproject.org/wp/DREAM-784
+gem "live_component", "~> 0.4.0"

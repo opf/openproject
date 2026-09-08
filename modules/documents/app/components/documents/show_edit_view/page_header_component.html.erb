@@ -30,61 +30,53 @@
 %>
 
 <%=
-  component_wrapper do
-    render(Primer::OpenProject::PageHeader.new(**page_header_attributes)) do |header|
-      header.with_title do |title|
-        if allowed_to_manage_documents?
-          title.with_editable_form(
-            model:,
-            update_path: update_title_document_path(document),
-            cancel_path: cancel_title_edit_document_path(document),
-            label: Document.human_attribute_name(:title),
-            placeholder: Document.human_attribute_name(:title)
-          )
-        end
-
+  render(Primer::OpenProject::PageHeader.new(**page_header_attributes)) do |header|
+    header.with_title do
+      if display_state == :edit
+        render_title_edit_form
+      else
         document.title
       end
+    end
 
-      header.with_description do
-        render(Documents::ShowEditView::PageHeader::InfoLineComponent.new(document))
+    header.with_description do
+      render(Documents::ShowEditView::PageHeader::InfoLineComponent.new(document))
+    end
+
+    header.with_breadcrumbs(breadcrumbs_items)
+
+    header.with_action_menu(**action_menu_options) do |menu|
+      if allowed_to_manage_documents?
+        menu.with_item(
+          label: I18n.t("documents.page_header.action_menu.edit_title"),
+          tag: :button,
+          content_arguments: {
+            data: { action: "#{self.class.__lc_controller}#edit" }
+          }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :pencil)
+        end
       end
 
-      header.with_breadcrumbs(breadcrumbs_items)
+      menu.with_item(
+        label: I18n.t("button_copy_link_to_clipboard"),
+        tag: :"clipboard-copy",
+        content_arguments: { value: document_url(document) }
+      ) do |item|
+        item.with_leading_visual_icon(icon: :paste)
+      end
 
-      header.with_action_menu(**action_menu_options) do |menu|
-        if allowed_to_manage_documents?
-          menu.with_item(
-            label: I18n.t("documents.page_header.action_menu.edit_title"),
-            href: edit_title_document_path(document),
-            content_arguments: {
-              data: { turbo_stream: true }
-            }
-          ) do |item|
-            item.with_leading_visual_icon(icon: :pencil)
-          end
-        end
-
+      if allowed_to_manage_documents?
         menu.with_item(
-          label: I18n.t("button_copy_link_to_clipboard"),
-          tag: :"clipboard-copy",
-          content_arguments: { value: document_url(document) }
+          label: I18n.t(:button_delete),
+          scheme: :danger,
+          tag: :a,
+          content_arguments: {
+            data: { controller: "async-dialog" }
+          },
+          href: delete_dialog_document_path(document)
         ) do |item|
-          item.with_leading_visual_icon(icon: :paste)
-        end
-
-        if allowed_to_manage_documents?
-          menu.with_item(
-            label: I18n.t(:button_delete),
-            scheme: :danger,
-            tag: :a,
-            content_arguments: {
-              data: { controller: "async-dialog" }
-            },
-            href: delete_dialog_document_path(document)
-          ) do |item|
-            item.with_leading_visual_icon(icon: :trash)
-          end
+          item.with_leading_visual_icon(icon: :trash)
         end
       end
     end

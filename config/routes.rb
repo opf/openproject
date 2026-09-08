@@ -395,6 +395,9 @@ Rails.application.routes.draw do
     delete "/favorite" => "favorites#unfavorite"
   end
 
+  # LiveComponent pilot (DREAM-784): client-initiated re-render endpoint
+  post "/live_components/render", to: "live_components#render_component"
+
   resources :project_queries, only: %i[show new create update destroy], controller: "projects/queries" do
     concerns :shareable
 
