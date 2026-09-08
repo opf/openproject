@@ -1,0 +1,70 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%=
+  widget_wrapper(classes: "op-sprint-reports--epic-progress-widget") do |container|
+    container.with_body do
+      render(
+        OpenProject::Common::BorderBoxListComponent.new(
+          container: "op-sprint-reports--epic-progress",
+          scheme: :transparent,
+          position: :relative
+        )
+      ) do |list|
+        relevant_epics.each do |epic|
+          list.with_item do
+            render(OpenProject::Common::WorkPackageCardComponent.new(work_package: epic)) do |card|
+              card.with_additional_details do
+                flex_layout do |flex|
+                  flex.with_row(mb: 1) do
+                    flex_layout(justify_content: :space_between) do |row|
+                      row.with_column do
+                        render(Primer::Beta::Text.new) do
+                          t(".work_package_counts", total: total_work_packages_count(epic), completed: resolved_work_packages_count(epic))
+                        end
+                      end
+                      row.with_column do
+                        t(".work_package_completed", percentage: resolved_percentage(epic))
+                      end
+                    end
+                  end
+                  flex.with_row do
+                    render(Primer::Beta::ProgressBar.new) do |bar|
+                      bar.with_item(percentage: resolved_percentage(epic))
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+%>
