@@ -155,7 +155,7 @@ module Admin
     private
 
     def default_model_params
-      params.expect(llm_connection: %i[default_chat_model_id]).to_h.symbolize_keys
+      params.expect(llm_connection: %i[default_chat_model_id default_embedding_model_id]).to_h.symbolize_keys
     end
 
     def set_connection

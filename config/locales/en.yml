@@ -714,7 +714,7 @@ en:
               cannot_chat: "is an embedding model, according to the LLM server, and cannot be used for chat."
               not_available: "is not offered by the configured LLM server."
             default_embedding_model_id:
-              cannot_embed: "cannot create embeddings, according to the LLM server."
+              cannot_embed: "is not known to create embeddings."
               not_available: "is not offered by the configured LLM server."
             llm_features_enabled:
               requires_connection: "cannot be turned on before a connection has been configured."
@@ -1789,7 +1789,7 @@ en:
       index:
         blank_description: "Connect OpenProject to an LLM server first. Models can be assigned once the server reports which ones it offers."
         blank_title: "No LLM server configured"
-        description: "Choose which model each AI feature uses. Features without a choice use the instance default."
+        description: "Choose which model each AI feature uses. Features without a choice use the default models set on the [LLMs](models_url) tab."
       inherit_with_default: "Use the default (%{model})"
       inherit_without_default: "Use the default (none set)"
       locked: "%{model} is in use by indexed data and cannot be changed here. Re-index to switch models."
@@ -1805,6 +1805,9 @@ en:
       defaults:
         chat_caption: "Only models that are switched on in the list below are offered."
         description: "Used by AI features that do not choose a model themselves."
+        embedding_caption: "Only models known to create embeddings are offered. [Read more](docs_url) about model types."
+        embedding_none: "No model is known to create embeddings. If you know one does, open it in the list below and set its type to Embedding model."
+        embedding_option_unqualified: "%{model} (not known to create embeddings)"
         heading: "Default models"
         success: "The default models have been saved."
       destroy:
@@ -4659,7 +4662,7 @@ en:
       ai: "Artificial Intelligence (AI)"
       api_and_webhooks: "API and webhooks"
       llm_connection: "LLM settings"
-      llm_feature_bindings: "AI models"
+      llm_feature_bindings: "Feature configuration"
       mail_notification: "Email notifications"
       mails_and_notifications: "Emails and notifications"
       mcp_configurations: "Model Context Protocol (MCP)"

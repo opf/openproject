@@ -49,10 +49,11 @@ RSpec.describe "LLM connection administration",
   # The kebab is a Primer ActionMenu: clicking it before its behaviour is
   # attached silently does nothing, so wait for the page to settle first and
   # for the item itself to become visible.
-  def offered_default_models
-    items = find("[data-test-selector='llm-connection--defaults-form'] opce-autocompleter")["data-items"]
+  def offered_default_models(field = :default_chat_model_id)
+    element = all("[data-test-selector='llm-connection--defaults-form'] opce-autocompleter")
+                .find { |node| node["data-input-name"].include?(field.to_s) }
 
-    JSON.parse(items).pluck("id").compact_blank
+    JSON.parse(element["data-items"]).pluck("id").compact_blank
   end
 
   def choose_action(item)
@@ -233,7 +234,7 @@ RSpec.describe "LLM connection administration",
     end
   end
 
-  describe "the AI models page" do
+  describe "the Feature configuration page" do
     let!(:connection) { create(:llm_connection, :with_models, :enabled, base_url:) }
 
     before { mock_llm_embeddings_response(base_url) }

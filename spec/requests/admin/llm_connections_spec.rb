@@ -422,9 +422,12 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
     before { login_as admin }
 
     it "are chosen on the LLMs page, not here" do
-      patch llm_connection_path, params: { llm_connection: { default_chat_model_id: "qwen3.6-27b" } }
+      patch llm_connection_path, params: { llm_connection: { default_chat_model_id: "qwen3.6-27b",
+                                                             default_embedding_model_id: "bge-m3" } }
 
-      expect(connection.reload.default_chat_model_id).to be_nil
+      connection.reload
+      expect(connection.default_chat_model_id).to be_nil
+      expect(connection.default_embedding_model_id).to be_nil
     end
   end
 end

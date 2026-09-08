@@ -122,6 +122,10 @@ class LlmConnection < ApplicationRecord
     selectable_models.reject(&:embedding?)
   end
 
+  def embedding_models
+    selectable_models.select(&:embedding?)
+  end
+
   def embedding_model_ids
     embedding = capability_verdicts.for_capability(:embeddings).where(state: "supported").pluck(:model_id)
 

@@ -65,20 +65,17 @@ module LlmConnections
 
     private
 
-    # A model the server has positively told us cannot embed is not a candidate
-    # for the embedding default, however it got submitted. An unknown verdict
-    # does not block: that is the normal state for a server that publishes
-    # nothing about its models.
+    # Only a model known to embed can serve the embedding default, the same rule
+    # the picker offers by. A model the connection does not know at all is left
+    # to default_models_offered_by_server.
     def default_embedding_model_can_embed
       model_id = model.default_embedding_model_id
       return if model_id.blank?
       return unless model.changed_attributes.include?("default_embedding_model_id")
 
-      unsupported = model.capability_verdicts
-                         .for_capability(:embeddings)
-                         .exists?(model_id:, state: "unsupported")
+      llm_model = model.models.find_by(external_id: model_id)
 
-      errors.add(:default_embedding_model_id, :cannot_embed) if unsupported
+      errors.add(:default_embedding_model_id, :cannot_embed) if llm_model && !llm_model.embedding?
     end
 
     # A model the server identifies as an embedding model is not a chat candidate.

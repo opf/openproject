@@ -38,9 +38,10 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
   # The picker is an autocompleter, so its options are serialised into the
   # element rather than rendered as markup.
-  def offered_default_models(markup = page)
-    items = markup.find("[data-test-selector='llm-connection--defaults-form'] opce-autocompleter")["data-items"]
-    ids = JSON.parse(items).pluck("id").compact_blank
+  def offered_default_models(field = :default_chat_model_id, markup: page)
+    element = markup.all("[data-test-selector='llm-connection--defaults-form'] opce-autocompleter")
+                    .find { |node| node["data-input-name"].include?(field.to_s) }
+    ids = JSON.parse(element["data-items"]).pluck("id").compact_blank
 
     LlmModel.where(id: ids).pluck(:external_id)
   end
@@ -169,6 +170,37 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(response.body).to include("configured via environment variables")
         expect(page).to have_css("[data-test-selector='llm-connection--defaults-form'] opce-autocompleter[data-disabled='true']")
         expect(page).to have_no_button("Save")
+      end
+
+      it "offers only models known to embed as the default embedding model" do
+        connection = create(:llm_connection, :with_models, :enabled, base_url:)
+        connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                               state: "supported", source: "probe", checked_at: Time.current)
+
+        get llm_models_path
+
+        expect(offered_default_models(:default_embedding_model_id)).to contain_exactly("bge-m3")
+      end
+
+      # An unconfirmed capability is not a capability: offering such a model
+      # invites a choice that fails much later, at index time.
+      it "says how to make a model eligible while none is known to embed" do
+        create(:llm_connection, :with_models, :enabled, base_url:)
+
+        get llm_models_path
+
+        expect(response.body).to include("set its type to Embedding model")
+      end
+
+      # Otherwise a save would silently blank a working configuration.
+      it "keeps the stored embedding default listed, flagged, once it is ruled out" do
+        connection = create(:llm_connection, :with_models, :enabled, base_url:)
+        connection.update_column(:default_embedding_model_id, "qwen3.6-27b")
+
+        get llm_models_path
+
+        expect(offered_default_models(:default_embedding_model_id)).to include("qwen3.6-27b")
+        expect(response.body).to include("not known to create embeddings")
       end
 
       it "keeps a stored default listed once its model is switched off" do
@@ -719,6 +751,22 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       expect(flash[:error]).to be_present
     end
 
+    it "stores the default embedding model" do
+      connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                             state: "supported", source: "probe", checked_at: Time.current)
+
+      patch defaults_llm_models_path, params: { llm_connection: { default_embedding_model_id: "bge-m3" } }
+
+      expect(connection.reload.default_embedding_model_id).to eq("bge-m3")
+    end
+
+    it "refuses a model that is not known to embed" do
+      patch defaults_llm_models_path, params: { llm_connection: { default_embedding_model_id: "qwen3.6-27b" } }
+
+      expect(connection.reload.default_embedding_model_id).to be_nil
+      expect(flash[:error]).to be_present
+    end
+
     it "leaves the server settings alone" do
       patch defaults_llm_models_path,
             params: { llm_connection: { default_chat_model_id: chat_model.id, base_url: "https://elsewhere.test/v1" } }
@@ -768,7 +816,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
       expect(response.media_type).to eq("text/vnd.turbo-stream.html")
       expect(response.body).to include('target="llm-connections-default-models-component"')
-      expect(offered_default_models(streamed_markup)).not_to include("qwen3.6-27b")
+      expect(offered_default_models(markup: streamed_markup)).not_to include("qwen3.6-27b")
     end
 
     # Curation, not enforcement: a feature already pointing at the model keeps

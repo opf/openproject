@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Admin AI model assignment", :llm_server_helpers, :skip_csrf, :webmock,
+RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf, :webmock,
                type: :rails_request, with_flag: { llm_connection: true } do
   let(:admin) { create(:admin) }
   let(:base_url) { "https://example.com/v1" }
@@ -52,8 +52,16 @@ RSpec.describe "Admin AI model assignment", :llm_server_helpers, :skip_csrf, :we
         get llm_feature_bindings_path
 
         expect(response).to have_http_status(:ok)
+        expect(response.body).to include("Feature configuration")
         expect(response.body).to include("Description assistant")
         expect(response.body).to include("Semantic search")
+      end
+
+      it "points at the page where the default models are chosen" do
+        get llm_feature_bindings_path
+
+        expect(response.body).to include("use the default models set on the")
+        expect(response.body).to include(llm_models_path)
       end
 
       # Hiding an unusable model is the one thing that produces an unanswerable
