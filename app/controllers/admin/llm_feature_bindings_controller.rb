@@ -60,7 +60,10 @@ module Admin
     end
 
     def require_enabled_connection
-      redirect_to llm_connection_path, status: :see_other unless @connection.enabled?
+      return if @connection.enabled?
+
+      flash[:notice] = t("admin.llm_connections.disabled_notice")
+      redirect_to llm_connection_path, status: :see_other
     end
 
     # The flag gates the endpoints, not only the menu entry: an unfinished page

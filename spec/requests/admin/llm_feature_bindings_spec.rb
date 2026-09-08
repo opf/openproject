@@ -58,6 +58,7 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
       get llm_feature_bindings_path
 
       expect(response).to redirect_to(llm_connection_path)
+      expect(flash[:notice]).to eq(I18n.t("admin.llm_connections.disabled_notice"))
     end
 
     context "with a configured connection" do
