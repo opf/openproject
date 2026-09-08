@@ -75,16 +75,47 @@ RSpec.describe "Tabs navigation and content switching on the admin/design page" 
       selector = find_test_selector("color-theme-select")
 
       expect(selector["data-action"]).to eq("auto-submit#submit")
-      expect(selector.find(:xpath, "ancestor::form")["data-controller"]).to eq("auto-submit")
+      expect(selector.find(:xpath, "ancestor::form")["data-controller"].split).to include("auto-submit")
     end
 
     it "selects a color theme", :js do
       select("OpenProject Gray", from: "theme")
+      wait_for_reload
 
       expect_flash(message: I18n.t(:notice_successful_update))
       expect(page).to have_select("theme", selected: "OpenProject Gray")
       expect(page).to have_current_path custom_style_path(tab: "interface")
       expect(custom_style.reload.theme).to eq("OpenProject Gray")
+    end
+
+    context "with a custom theme", :js do
+      before do
+        custom_style.update!(theme: nil)
+        create(:design_color, variable: "accent-color", hexcode: "#333333")
+        visit custom_style_path(tab: "branding")
+        select("OpenProject Gray", from: "theme")
+      end
+
+      it "shows the warning and applies the confirmed theme" do
+        within "#confirm-theme-dialog[open]" do
+          expect(page).to have_heading(I18n.t("admin.custom_styles.color_theme"))
+          expect(page).to have_text(I18n.t(:text_are_you_sure_continue))
+          expect(page).to have_text(I18n.t("admin.custom_styles.theme_warning_confirmation"))
+          expect(page).to have_button(I18n.t(:button_apply), disabled: true)
+
+          check "confirm_dangerous_action"
+
+          expect(page).to have_button(I18n.t(:button_apply), disabled: false)
+          click_on I18n.t(:button_apply)
+        end
+        wait_for_reload
+
+        expect_flash(message: I18n.t(:notice_successful_update))
+        expect(page).to have_current_path custom_style_path(tab: "branding")
+        expect(custom_style.reload.theme).to eq("OpenProject Gray")
+        expect(DesignColor.find_by(variable: "accent-color").hexcode)
+          .to eq(OpenProject::CustomStyles::ColorThemes::ACCENT_COLOR)
+      end
     end
 
     it "changes accent color and redirects to interface tab", :js do
@@ -122,6 +153,7 @@ RSpec.describe "Tabs navigation and content switching on the admin/design page" 
 
       # select a color theme and redirect to the branding tab
       select("OpenProject Navy Blue", from: "theme")
+      wait_for_reload
       expect_flash(message: I18n.t(:notice_successful_update))
       expect(page).to have_current_path custom_style_path(tab: "branding")
 
