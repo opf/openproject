@@ -219,6 +219,31 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
         expect(page).to have_css(".group--value", text: "Bug (3)")
       end
 
+      it "keeps the work package in the same group when dropped on the bottom edge of that group's last row" do
+        expect(page).to have_css(".group--value", text: "Task (2)")
+        expect(page).to have_css(".group--value", text: "Bug (2)")
+
+        rows = page.all(".wp-table--row")
+        source_row = rows[0]
+        scroll_to_element(source_row)
+        source_row.hover
+        source = source_row.find(".wp-table--drag-and-drop-handle")
+        # Last row of the *same* (Task) group, not the last row overall.
+        same_group_last_row_rect = rows[1].native.rect
+
+        # cannot use the helper because it aims to the "above" edge
+        perform_native_drag(
+          source:,
+          target_x: same_group_last_row_rect.x + (same_group_last_row_rect.width / 2),
+          target_y: same_group_last_row_rect.y + (same_group_last_row_rect.height * 3 / 4)
+        )
+        loading_indicator_saveguard
+
+        expect(page).to have_css(".group--value", text: "Task (2)")
+        expect(page).to have_css(".group--value", text: "Bug (2)")
+        expect(page).to have_no_css ".op-toast.error"
+      end
+
       it "dragging item with parent does not result in an error (Regression #30832)" do
         expect(page).to have_css(".group--value", text: "Task (2)")
         expect(page).to have_css(".group--value", text: "Bug (2)")
