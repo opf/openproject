@@ -65,9 +65,103 @@ RSpec.describe "Roles index", :js do
     page.all("[role='rowheader']").map(&:text)
   end
 
+  def expect_roles_listed(*names)
+    expect(page).to have_css("[id^='role-']", count: names.size)
+    expect(role_names_in_order).to eq(names)
+  end
+
+  def search_roles(term)
+    wait_for_turbo_frame(frame: Roles::IndexComponent::FRAME_ID) do
+      fill_in I18n.t("roles.index.filter_label"), with: term
+    end
+  end
+
+  # The segmented control navigates rather than streaming, so this waits on turbo:load.
+  def select_role_type(type)
+    wait_for_turbo { click_on I18n.t("roles.index.types.#{type}") }
+  end
+
   # Role's default scope eager-loads role_permissions, which duplicates rows under pluck.
   def reorderable_role_ids
     Role.visible.builtin(false).unscope(:includes).order(:position).pluck(:id)
+  end
+
+  describe "filtering" do
+    let!(:global_role) { create(:global_role, name: "Global admin") }
+    let!(:builtin_role) { ProjectRole.non_member }
+
+    it "narrows the list down by name" do
+      visit roles_path
+
+      expect_roles_listed("Alpha", "Beta", "Global admin", builtin_role.name)
+
+      search_roles("lph")
+
+      expect_roles_listed("Alpha")
+
+      # The list is swapped in via turbo stream, so the URL has to carry the filter for a reload.
+      refresh
+
+      expect_roles_listed("Alpha")
+    end
+
+    it "filters by role type through the segmented control" do
+      visit roles_path
+
+      select_role_type(:global)
+
+      expect_roles_listed("Global admin")
+
+      select_role_type(:project)
+
+      expect_roles_listed("Alpha", "Beta", builtin_role.name)
+
+      select_role_type(:all)
+
+      expect_roles_listed("Alpha", "Beta", "Global admin", builtin_role.name)
+    end
+
+    # The sub header re-renders with the list, so the input has to survive the frame render
+    # or everything typed after the first response would be swallowed.
+    it "keeps the search field focused while typing" do
+      visit roles_path
+
+      search_roles("Alp")
+
+      expect_roles_listed("Alpha")
+
+      send_keys("ha")
+
+      expect_roles_listed("Alpha")
+      expect(page).to have_field(I18n.t("roles.index.filter_label"), with: "Alpha", focused: true)
+    end
+
+    it "keeps the name filter when switching role type" do
+      create(:global_role, name: "Alpha global")
+
+      visit roles_path
+
+      search_roles("Alpha")
+
+      expect_roles_listed("Alpha", "Alpha global")
+
+      select_role_type(:global)
+
+      expect_roles_listed("Alpha global")
+    end
+  end
+
+  it "shows how many permissions each role grants" do
+    role = create(:project_role,
+                  name: "Delta",
+                  permissions: %i[view_work_packages edit_work_packages],
+                  add_public_permissions: false)
+
+    visit roles_path
+
+    within("#role-#{role.id}") do
+      expect(page).to have_test_selector("role-permissions-count", text: "2")
+    end
   end
 
   it "shows the global flag" do
@@ -87,19 +181,19 @@ RSpec.describe "Roles index", :js do
   it "moves a role through the action menu" do
     visit roles_path
 
-    expect(role_names_in_order).to eq(%w[Alpha Beta])
+    expect_roles_listed("Alpha", "Beta")
 
     open_role_menu(second_role)
     click_on I18n.t(:button_move)
     click_on I18n.t(:label_sort_highest)
 
-    expect(role_names_in_order).to eq(%w[Beta Alpha])
+    expect_roles_listed("Beta", "Alpha")
 
     wait_for { reorderable_role_ids }.to eq([second_role.id, first_role.id])
 
     refresh
 
-    expect(role_names_in_order).to eq(%w[Beta Alpha])
+    expect_roles_listed("Beta", "Alpha")
   end
 
   # Selenium-driven: Pragmatic drag and drop needs real native drag events,
@@ -109,13 +203,13 @@ RSpec.describe "Roles index", :js do
 
     drag_role(first_role, after: second_role)
 
-    expect(role_names_in_order).to eq(%w[Beta Alpha])
+    expect_roles_listed("Beta", "Alpha")
 
     wait_for { reorderable_role_ids }.to eq([second_role.id, first_role.id])
 
     refresh
 
-    expect(role_names_in_order).to eq(%w[Beta Alpha])
+    expect_roles_listed("Beta", "Alpha")
   end
 
   it "does not offer a drag handle for builtin roles" do
@@ -154,7 +248,7 @@ RSpec.describe "Roles index", :js do
     open_role_move_menu(second_role)
     click_on I18n.t(:label_sort_highest)
 
-    expect(role_names_in_order).to eq(%w[Beta Alpha])
+    expect_roles_listed("Beta", "Alpha")
 
     open_role_move_menu(second_role)
     expect_move_directions(second_role, upwards: false, downwards: true)

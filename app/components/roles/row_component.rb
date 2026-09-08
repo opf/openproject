@@ -69,6 +69,12 @@ module Roles
       render(Primer::Beta::Octicon.new(icon: :check, test_selector: "role-global-checkmark"))
     end
 
+    def permissions_count
+      render(Primer::Beta::Text.new(color: :subtle, test_selector: "role-permissions-count")) do
+        role.permissions.size.to_s
+      end
+    end
+
     def button_links
       [action_menu]
     end

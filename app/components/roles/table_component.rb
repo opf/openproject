@@ -30,10 +30,10 @@
 
 module Roles
   class TableComponent < OpPrimer::BorderBoxTableComponent
-    columns :name, :global
+    columns :name, :global, :permissions_count
     main_column :name
     mobile_columns :name
-    mobile_labels :global
+    mobile_labels :global, :permissions_count
 
     def mobile_title
       Role.model_name.human(count: 2)
@@ -50,7 +50,8 @@ module Roles
     def headers
       [
         [:name, { caption: Role.model_name.human }],
-        [:global, { caption: t(:label_global) }]
+        [:global, { caption: t(:label_global) }],
+        [:permissions_count, { caption: t(:label_permissions) }]
       ]
     end
 
@@ -67,8 +68,6 @@ module Roles
         sortable_lists__list_type_value: Role::SORTABLE_LIST_TYPE,
         sortable_lists__list_accepted_type_value: Role::SORTABLE_LIST_TYPE,
         sortable_lists__list_name_value: Role.model_name.human(count: 2),
-        # The list controller looks for its rows under `:scope > ul` by default, which the
-        # border box table does not render.
         "sortable-lists--list-rows-container-element": ":scope > .#{rows_container_class}"
       }
     end
