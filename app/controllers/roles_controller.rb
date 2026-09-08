@@ -30,6 +30,7 @@
 
 class RolesController < ApplicationController
   include PaginationHelper
+  include OpTurbo::ComponentStream
 
   layout "admin"
 
@@ -97,6 +98,17 @@ class RolesController < ApplicationController
     redirect_to action: "index", status: :see_other
   end
 
+  def drop
+    role = Role.find(params.expect(:id))
+
+    if valid_drop_request?(role) && role.move_after_anchor(drop_params[:prev_id], scope: reorderable_roles)
+      head :no_content
+    else
+      render_error_flash_message_via_turbo_stream(message: I18n.t(:error_invalid_list_move_anchor))
+      respond_with_turbo_streams(status: :unprocessable_entity)
+    end
+  end
+
   def report
     @roles = roles_scope
     @permissions = visible_permissions
@@ -149,6 +161,23 @@ class RolesController < ApplicationController
 
   def roles_scope
     Role.visible.ordered_by_builtin_and_position
+  end
+
+  def reorderable_roles
+    Role.visible.builtin(false)
+  end
+
+  # The raw list_id is checked because permit cannot distinguish absent from
+  # filtered-out values, and prev_id must be a scalar to reach the anchor lookup.
+  def valid_drop_request?(role)
+    !role.builtin? &&
+      drop_params[:list_type] == Role::SORTABLE_LIST_TYPE &&
+      params[:list_id].blank? &&
+      drop_params.key?(:prev_id)
+  end
+
+  def drop_params
+    @drop_params ||= params.permit(:list_type, :list_id, :prev_id)
   end
 
   def new_params

@@ -30,16 +30,37 @@
 
 module Roles
   class RowComponent < OpPrimer::BorderBoxRowComponent
+    MOVE_ITEMS = [
+      { label: :label_sort_highest, direction: "top", icon: :"move-to-top" },
+      { label: :label_sort_higher, direction: "up", icon: :"chevron-up" },
+      { label: :label_sort_lower, direction: "down", icon: :"chevron-down" },
+      { label: :label_sort_lowest, direction: "bottom", icon: :"move-to-bottom" }
+    ].freeze
+
     alias_method :role, :model
 
     def row_css_id
       "role-#{role.id}"
     end
 
-    def name
-      link = render(Primer::Beta::Link.new(href: edit_role_path(role), font_weight: :bold)) { role.name }
+    def row_data
+      return {} unless reorderable?
 
-      role.builtin? ? tag.em { link } : link
+      {
+        controller: "sortable-lists--item",
+        # The row is its own preview target, so the drag image is the whole row.
+        sortable_lists__item_target: "preview",
+        sortable_lists__item_id_value: role.id,
+        sortable_lists__item_type_value: Role::SORTABLE_LIST_TYPE,
+        sortable_lists__item_label_value: role.name
+      }
+    end
+
+    def name
+      flex_layout(align_items: :center) do |flex|
+        flex.with_column(mr: 2) { drag_handle }
+        flex.with_column { name_link }
+      end
     end
 
     def global
@@ -54,6 +75,26 @@ module Roles
 
     private
 
+    def reorderable?
+      !role.builtin?
+    end
+
+    def name_link
+      link = render(Primer::Beta::Link.new(href: edit_role_path(role), font_weight: :bold)) { role.name }
+
+      role.builtin? ? tag.em { link } : link
+    end
+
+    # Builtin roles always sort after the reorderable ones, so they get a spacer keeping
+    # their name aligned with the rest of the column instead of a handle.
+    def drag_handle
+      if reorderable?
+        render(Primer::OpenProject::DragHandle.new(data: { sortable_lists__item_target: "handle" }))
+      else
+        render(Primer::Box.new(classes: "hide-when-print", style: "width: 16px"))
+      end
+    end
+
     def action_menu
       render(Primer::Alpha::ActionMenu.new(test_selector: "role-action-menu")) do |menu|
         menu.with_show_button(
@@ -66,8 +107,8 @@ module Roles
 
         edit_action(menu)
 
-        unless role.builtin?
-          move_action(menu) if movable?
+        if reorderable?
+          move_action(menu)
           menu.with_divider
           delete_action(menu)
         end
@@ -80,44 +121,32 @@ module Roles
       end
     end
 
-    def movable?
-      !(first? && last?)
-    end
-
-    def first?
-      role.position == table.first_movable_position
-    end
-
-    def last?
-      role.position == table.last_movable_position
-    end
-
     def move_action(menu)
       menu.with_item(
         component_klass: Primer::Alpha::ActionMenu::SubMenuItem,
         label: t(:button_move),
         select_variant: :none,
-        form_arguments: {}
+        form_arguments: {},
+        data: { sortable_lists__item_target: "moveMenu" }
       ) do |submenu|
         submenu.with_leading_visual_icon(icon: :"op-arrow-in")
 
-        unless first?
-          move_item(submenu, "highest", t(:label_sort_highest), "move-to-top")
-          move_item(submenu, "higher", t(:label_sort_higher), "chevron-up")
-        end
-
-        unless last?
-          move_item(submenu, "lower", t(:label_sort_lower), "chevron-down")
-          move_item(submenu, "lowest", t(:label_sort_lowest), "move-to-bottom")
-        end
+        MOVE_ITEMS.each { move_item(submenu, **it) }
       end
     end
 
-    def move_item(submenu, move_to, label, icon)
+    # The `data:` hash must live on the item level so Primer renders it on the ActionList
+    # `<li>`, which is what the item controller targets to compute availability and to
+    # handle the bubbled click.
+    def move_item(submenu, label:, direction:, icon:)
       submenu.with_item(
-        label:,
-        href: role_path(role, role: { move_to: }),
-        form_arguments: { method: :put }
+        label: I18n.t(label),
+        tag: :button,
+        data: {
+          sortable_lists__item_target: "moveItem",
+          sortable_lists__item_direction_param: direction,
+          action: "click->sortable-lists--item#move"
+        }
       ) do |item|
         item.with_leading_visual_icon(icon:)
       end

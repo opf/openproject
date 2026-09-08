@@ -44,6 +44,32 @@ RSpec.describe "Roles index", :js do
     end
   end
 
+  def open_role_move_menu(role)
+    open_role_menu(role)
+    click_on I18n.t(:button_move)
+  end
+
+  def expect_move_directions(role, upwards:, downwards:)
+    within("#role-#{role.id}") do
+      [I18n.t(:label_sort_highest), I18n.t(:label_sort_higher)].each do |label|
+        upwards ? expect(page).to(have_text(label)) : expect(page).to(have_no_text(label))
+      end
+
+      [I18n.t(:label_sort_lower), I18n.t(:label_sort_lowest)].each do |label|
+        downwards ? expect(page).to(have_text(label)) : expect(page).to(have_no_text(label))
+      end
+    end
+  end
+
+  def role_names_in_order
+    page.all("[role='rowheader']").map(&:text)
+  end
+
+  # Role's default scope eager-loads role_permissions, which duplicates rows under pluck.
+  def reorderable_role_ids
+    Role.visible.builtin(false).unscope(:includes).order(:position).pluck(:id)
+  end
+
   it "shows the global flag" do
     global_role = create(:global_role, name: "Gamma")
 
@@ -61,27 +87,77 @@ RSpec.describe "Roles index", :js do
   it "moves a role through the action menu" do
     visit roles_path
 
-    expect(second_role.position).to be > first_role.position
+    expect(role_names_in_order).to eq(%w[Alpha Beta])
 
     open_role_menu(second_role)
     click_on I18n.t(:button_move)
     click_on I18n.t(:label_sort_highest)
 
-    expect_and_dismiss_flash(message: I18n.t(:notice_successful_update))
+    expect(role_names_in_order).to eq(%w[Beta Alpha])
 
-    expect(second_role.reload.position).to be < first_role.reload.position
+    wait_for { reorderable_role_ids }.to eq([second_role.id, first_role.id])
+
+    refresh
+
+    expect(role_names_in_order).to eq(%w[Beta Alpha])
+  end
+
+  # Selenium-driven: Pragmatic drag and drop needs real native drag events,
+  # which Cuprite cannot reliably synthesize.
+  it "reorders roles by dragging a row", :selenium do
+    visit roles_path
+
+    drag_role(first_role, after: second_role)
+
+    expect(role_names_in_order).to eq(%w[Beta Alpha])
+
+    wait_for { reorderable_role_ids }.to eq([second_role.id, first_role.id])
+
+    refresh
+
+    expect(role_names_in_order).to eq(%w[Beta Alpha])
+  end
+
+  it "does not offer a drag handle for builtin roles" do
+    builtin_role = ProjectRole.non_member
+
+    visit roles_path
+
+    expect(page).to have_css("#role-#{first_role.id} .DragHandle")
+    expect(page).to have_no_css("#role-#{builtin_role.id} .DragHandle")
   end
 
   it "only offers the move directions the role can actually move in" do
+    last_role = create(:project_role, name: "Gamma")
+
     visit roles_path
 
-    open_role_menu(first_role)
-    click_on I18n.t(:button_move)
+    open_role_move_menu(first_role)
+    expect_move_directions(first_role, upwards: false, downwards: true)
 
-    expect(page).to have_no_text(I18n.t(:label_sort_highest))
-    expect(page).to have_no_text(I18n.t(:label_sort_higher))
-    expect(page).to have_text(I18n.t(:label_sort_lower))
-    expect(page).to have_text(I18n.t(:label_sort_lowest))
+    refresh
+
+    open_role_move_menu(second_role)
+    expect_move_directions(second_role, upwards: true, downwards: true)
+
+    refresh
+
+    open_role_move_menu(last_role)
+    expect_move_directions(last_role, upwards: true, downwards: false)
+  end
+
+  # The row that is last on arrival becomes movable-up only after it moves, and the menu
+  # is never re-rendered, so availability has to be recomputed client-side on every open.
+  it "recomputes the offered move directions after a move" do
+    visit roles_path
+
+    open_role_move_menu(second_role)
+    click_on I18n.t(:label_sort_highest)
+
+    expect(role_names_in_order).to eq(%w[Beta Alpha])
+
+    open_role_move_menu(second_role)
+    expect_move_directions(second_role, upwards: false, downwards: true)
   end
 
   it "does not offer moving a single reorderable role" do
@@ -117,5 +193,19 @@ RSpec.describe "Roles index", :js do
     expect(page).to have_no_text(I18n.t(:button_move))
     expect(page).to have_no_text(I18n.t(:button_delete))
     expect(page).to have_text(I18n.t(:button_edit))
+  end
+
+  def drag_role(role, after:)
+    handle = find("#role-#{role.id} .DragHandle")
+    target = find("#role-#{after.id}")
+    offset_y = (target.native.rect.height / 2) - [6, target.native.rect.height / 4].min
+
+    perform_native_drag(source: handle, target:, offset_y: offset_y.round)
+
+    # Assert Pragmatic DnD tore down its own honey-pot overlay, so a regression
+    # leaving it stuck is caught here rather than as an unrelated click failure.
+    expect(page).to have_no_css("[data-pdnd-honey-pot]", wait: 2, visible: :all)
+  rescue Selenium::WebDriver::Error::StaleElementReferenceError
+    retry
   end
 end

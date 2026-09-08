@@ -54,20 +54,32 @@ module Roles
       ]
     end
 
-    def first_movable_position
-      movable_position_bounds.first
+    def container_id
+      "roles-table"
     end
 
-    def last_movable_position
-      movable_position_bounds.last
+    def container_data
+      {
+        controller: "sortable-lists sortable-lists--list",
+        sortable_lists_move_url_template_value: move_url_template,
+        sortable_lists_sortable_lists__list_outlet: "##{container_id}",
+        sortable_lists_sortable_lists__item_outlet: "##{container_id} [data-controller~='sortable-lists--item']",
+        sortable_lists__list_type_value: Role::SORTABLE_LIST_TYPE,
+        sortable_lists__list_accepted_type_value: Role::SORTABLE_LIST_TYPE,
+        sortable_lists__list_name_value: Role.model_name.human(count: 2),
+        # The list controller looks for its rows under `:scope > ul` by default, which the
+        # border box table does not render.
+        "sortable-lists--list-rows-container-element": ":scope > .#{rows_container_class}"
+      }
     end
 
     private
 
-    # Builtin roles share the position list but cannot be reordered, so the bounds are taken
-    # from the reorderable roles only. Queried instead of derived from the rows, which are paginated.
-    def movable_position_bounds
-      @movable_position_bounds ||= Role.visible.builtin(false).pluck(:position).minmax
+    # Built from the route helper with a sentinel so relative-URL-root
+    # installations keep working; {id} is expanded client-side.
+    def move_url_template
+      id_placeholder = "__id__"
+      drop_role_path(id_placeholder).sub(id_placeholder, "{id}")
     end
   end
 end
