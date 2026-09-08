@@ -345,7 +345,7 @@ hy:
 
                     1. *Հրավիրեք նոր անդամներ Ձեր նախագիծ*՝ &rightarrow; անցեք նախագծի նավիգացիայի [Անդամներ]({{opSetting:base_url}}/projects/your-scrum-project/members) բաժին։
                     2. *Դիտեք Ձեր Արտադրանքի բեքլոգը և Սպրինտի բեքլոգները*՝ &rightarrow; անցեք նախագծի նավիգացիայի [Բեքլոգներ]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) բաժին։
-                    3. *Դիտեք Ձեր առաջադրանքների տախտակը*՝ &rightarrow; անցեք [Բեքլոգներ]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; սեղմեք սպրինտի աջ սլաքի վրա &rightarrow; ընտրեք [Առաջադրանքների տախտակ](##sprint:scrum_project__version__sprint_1)։
+                    3. *Դիտեք Ձեր առաջադրանքների տախտակը*՝ &rightarrow; անցեք [Բեքլոգներ]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; սեղմեք սպրինտի աջ սլաքի վրա &rightarrow; ընտրեք Առաջադրանքների տախտակ։
                     4. *Ստեղծեք նոր աշխատանքային փաթեթ*՝ &rightarrow; անցեք [Աշխատանքային փաթեթներ &rightarrow; Ստեղծել]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new)։
                     5. *Ստեղծեք և թարմացրեք նախագծի պլան*՝ &rightarrow; անցեք նախագծի նավիգացիայի [Նախագծի պլան](##query:scrum_project__query__project_plan) բաժին։
                     6. *Ստեղծեք Սպրինտի վիքի*՝ &rightarrow; անցեք [Բեքլոգներ]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) և սպրինտի աջ բացվող ընտրացանկից բացեք սպրինտի վիքին։ Դուք կարող եք խմբագրել [վիքի ձևանմուշը]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) ըստ Ձեր կարիքների։

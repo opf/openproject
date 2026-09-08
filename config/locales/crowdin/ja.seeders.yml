@@ -345,7 +345,7 @@ ja:
 
                     1.*プロジェクトに新しいメンバーを招待する： &rightarrow; プロジェクトナビゲーションの [メンバー]({{opSetting:base_url}}/projects/your-scrum-project/members) に移動します。
                     2.*プロダクトバックログとスプリントバックログを見る*： &rightarrow; プロジェクトナビゲーションの[Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs)に行く。
-                    3.*タスクボードを見る &rightarrow; Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; スプリントの右矢印をクリック &rightarrow; [Task Board](##sprint:scrum_project__version__sprint_1)を選択する。
+                    3.*タスクボードを見る &rightarrow; Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; スプリントの右矢印をクリック &rightarrow; Task Boardを選択する。
                     4.*新しいワークパッケージを作成する： &rightarrow; Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new) に行く。
                     5.*プロジェクト計画の作成と更新*： &rightarrow; プロジェクトナビゲーションの[プロジェクト計画](##query:scrum_project__query__project_plan)に行く。
                     6.*スプリントWikiを作成する： &rightarrow; Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs)に移動し、スプリント内の右ドロップダウンメニューからスプリントwikiを開きます。wiki テンプレート]({{opSetting:base_url}}/projects/your-scrum-project/wiki/)を必要に応じて編集する。
@@ -431,10 +431,10 @@ ja:
 
             * 短い、毎日のチームのステータスミーティング。
             * 時間枠（最大15分）。
-            * タスクボード](##sprint:scrum_project__version__sprint_1)から以下のトピックについて議論する。
+            * タスクボード]から以下のトピックについて議論する。
                 * 次のデイリースクラムまで何をする予定か？
                 * 次のデイリースクラムまで何をする予定か？
-            * スクラムマスターがモデレーターとなり、[スプリントの阻害要因](##sprint:scrum_project__version__sprint_1)をメモします。
+            * スクラムマスターがモデレーターとなり、スプリントの阻害要因をメモします。
             * プロダクトオーナーは情報を得るために参加することができる。
 
             ### スプリントレビューミーティング

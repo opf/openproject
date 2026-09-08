@@ -345,7 +345,7 @@ lt:
 
                     1. *Pakvieskite į jūsų projektą naujus narius*: &rightarrow; Eikite į [Members]({{opSetting:base_url}}/projects/your-scrum-project/members).
                     2. *Peržiūrėkite jūsų projekto likusius ir Sprinto darbus*: &rightarrow; Eikite į [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
-                    3. *Peržiūrėkite jūsų užuočių lentą*: &rightarrow; Eikite į [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; spauskite dešinę rodyklę ant Sprintas &rightarrow; Parinkite [Užduočių lenta](##sprint:scrum_project__version__sprint_1).
+                    3. *Peržiūrėkite jūsų užuočių lentą*: &rightarrow; Eikite į [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; spauskite dešinę rodyklę ant Sprintas &rightarrow; Parinkite Užduočių lenta.
                     4. *Sukurkite naują darbo paketą*: &rightarrow; Eikite į [Darbo paketai &rightarrow; Kurti]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
                     5. *Sukurkite ir atnaujinkite projekto planą*: &rightarrow; Eikite į [Projekto planas](##query:scrum_project__query__project_plan).
                     6. *Sukurkite Sprinto wiki*: &rightarrow; Eikite į [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) ir atidarykite sprinto wiki iš dešiniojo iškrentančio sprinto meniu. Galite keisti [wiki šabloną]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) pagal savo poreikius.

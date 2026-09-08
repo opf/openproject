@@ -345,7 +345,7 @@ fa:
 
                     1. *اعضای جدید را به پروژه دعوت کنید*: &rightarrow; در پیمایش پروژه به [اعضا]({{opSetting:base_url}}/projects/your-scrum-project/members) بروید.
                     2. *بک‌لاگ محصول و بک‌لاگ‌های اسپرینت را مشاهده کنید*: &rightarrow; در پیمایش پروژه به [بک‌لاگ‌ها]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) بروید.
-                    3. *برد وظایف را مشاهده کنید*: &rightarrow; به [بک‌لاگ‌ها]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) بروید &rightarrow; روی پیکان سمت راست اسپرینت کلیک کنید &rightarrow; [برد وظایف](##sprint:scrum_project__version__sprint_1) را انتخاب کنید.
+                    3. *برد وظایف را مشاهده کنید*: &rightarrow; به [بک‌لاگ‌ها]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) بروید &rightarrow; روی پیکان سمت راست اسپرینت کلیک کنید &rightarrow; برد وظایف را انتخاب کنید.
                     4. *یک بستهٔ کاری جدید ایجاد کنید*: &rightarrow; به [بسته‌های کاری &rightarrow; ایجاد]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new) بروید.
                     5. *برنامهٔ پروژه را ایجاد و به‌روزرسانی کنید*: &rightarrow; در پیمایش پروژه به [برنامهٔ پروژه](##query:scrum_project__query__project_plan) بروید.
                     6. *ویکی اسپرینت ایجاد کنید*: &rightarrow; به [بک‌لاگ‌ها]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) بروید و از منوی کشویی سمت راست یک اسپرینت، ویکی آن را باز کنید. می‌توانید [الگوی ویکی]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) را بر اساس نیاز خود ویرایش کنید.

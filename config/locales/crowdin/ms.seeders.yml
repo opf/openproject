@@ -285,7 +285,7 @@ ms:
 
                     1. *Jemput ahli baru ke projek anda*: &rightarrow; Pergi ke [Ahli]({{opSetting:base_url}}/projects/your-scrum-project/members) dalam navigasi produk.
                     2. *Lihat Tunggakan Produk dan Tunggakan Pecutan anda*: &rightarrow; Pergi ke [Tunggakan]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) dalam navigasi projek.
-                    3. *Lihat Papan tugasan anda*: &rightarrow; Pergi ke [Tunggakan]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Klik anak panah kanan di Pecutan &rightarrow; Pilih [Papan Tugasan](##sprint:scrum_project__version__sprint_1).
+                    3. *Lihat Papan tugasan anda*: &rightarrow; Pergi ke [Tunggakan]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Klik anak panah kanan di Pecutan &rightarrow; Pilih Papan Tugasan.
                     4. *Cipta satu pakej kerja baru*: &rightarrow; Pergi ke [Pakej kerja &rightarrow; Cipta]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
                     5. *Cipta dan kemas kini pelan projek*: &rightarrow; Pergi ke [Pelan projek](##query:scrum_project__query__project_plan) dalam navigasi projek.
                     6. *Cipta Pecutan wiki*: &rightarrow; Pergi ke [Tunggakan]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) dan buka pecutan wiki dari menu juntai bawah sebelah kanan di pecutan. Anda boleh edit [templat wiki]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) berdasarkan keperluan anda.

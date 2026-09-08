@@ -345,7 +345,7 @@ de:
 
                     1. *Laden Sie neue Mitglieder zu Ihrem Projekt ein*: &rightarrow; Gehen Sie zu [Mitglieder]({{opSetting:base_url}}/projects/your-scrum-project/members) in der Projektnavigation.
                     2. *Sehen Sie sich das Product Backlog und Sprint Backlog an*: &rightarrow; Navigieren Sie zu [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in der Projektnavigation.
-                    3. *Betrachten Sie das Taskboard*: &rightarrow; Wechseln Sie zu [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Klicken Sie auf den Pfeil auf der rechten Seiten des Sprints &rightarrow; Wählen Sie [Taskboard](##sprint:scrum_project__version__sprint_1).
+                    3. *Betrachten Sie das Taskboard*: &rightarrow; Wechseln Sie zu [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Klicken Sie auf den Pfeil auf der rechten Seiten des Sprints &rightarrow; Wählen Sie Taskboard.
                     4. *Erstellen Sie ein neues Arbeitspaket*: &rightarrow; Gehen Sie zu [Arbeitspakete &rightarrow; Erstellen]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
                     5. *Erstellen und aktualisieren Sie einen Projektplan*: &rightarrow; Gehen Sie zu [Projektplan](##query:scrum_project__query__project_plan) in der Projektnavigation.
                     6. *Erstellen Sie ein Sprint-Wiki*: &rightarrow; Navigieren Sie zu [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) und öffnen Sie das Sprint-Wiki aus dem rechten Dropdown-Menü des Sprints. Sie können das [Wiki Template]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) basierend auf Ihren Anforderungen bearbeiten.
@@ -431,10 +431,10 @@ de:
 
             * Kurze, tägliche Status-Sitzung des Teams.
             * Zeitrahmen (max. 15 Minuten).
-            * Stand-up-Meeting, um die folgenden Themen vom [Task Board](##sprint:scrum_project__version__sprint_1).
+            * Stand-up-Meeting, um die folgenden Themen vom Task Board.
                 * Was mache ich bis zum nächsten täglichen Scrum?
                 * Was hat meine Arbeit blockiert (Impediments)?
-            * Scrum Master moderiert [Sprint Impediments](##sprint:scrum_project__version__sprint_1).
+            * Scrum Master moderiert Sprint Impediments.
             * Der Product Owner kann optional teilnehmen, um auf dem Laufenden zu bleiben.
 
             ### Sprint Review Meeting

@@ -300,7 +300,7 @@ ko:
 
                     1. *프로젝트에 새 멤버 초대*: &rightarrow; 프로젝트 탐색에서 [멤버]({{opSetting:base_url}}/projects/your-scrum-project/members)로 이동합니다.
                     2. *제품 백로그 및 스프린트 백로그 보기*: &rightarrow; 프로젝트 탐색에서 [백로그]({{opSetting:base_url}}/projects/your-scrum-project/backlogs)로 이동합니다.
-                    3. *작업 보드 보기*: &rightarrow; [백로그]({{opSetting:base_url}}/projects/your-scrum-project/backlogs)로 이동합니다. &rightarrow; 스프린트에서 오른쪽 화살표를 클릭합니다. &rightarrow; [작업 보드](##sprint:scrum_project__version__sprint_1)를 선택합니다.
+                    3. *작업 보드 보기*: &rightarrow; [백로그]({{opSetting:base_url}}/projects/your-scrum-project/backlogs)로 이동합니다. &rightarrow; 스프린트에서 오른쪽 화살표를 클릭합니다. &rightarrow; 작업 보드를 선택합니다.
                     4. *새 작업 패키지 만들기*: &rightarrow; [작업 패키지 &rightarrow; 만들기]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new)로 이동합니다.
                     5. *프로젝트 계획 만들기 및 업데이트*: &rightarrow; 프로젝트 탐색에서 [프로젝트 계획](##query:scrum_project__query__project_plan)으로 이동합니다.
                     6. *스프린트 위키 만들기*: &rightarrow; [백로그]({{opSetting:base_url}}/projects/your-scrum-project/backlogs)로 이동하고 스프린트의 오른쪽 드롭다운 메뉴에서 스프린트 위키를 엽니다. 필요에 따라 [위키 템플릿]({{opSetting:base_url}}/projects/your-scrum-project/wiki/)을 편집할 수 있습니다.

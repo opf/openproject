@@ -345,7 +345,7 @@ uk:
 
                     1. *Запросіть учасників у свій проєкт*: &rightarrow; виберіть [Учасники]({{opSetting:base_url}}/projects/your-scrum-project/members) на панелі навігації проєктом.
                     2. *Перегляньте список невиконаних завдань для свого продукту й спринту*: &rightarrow; виберіть [Невиконані завдання]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) на панелі навігації проєктом.
-                    3. *Перегляньте дошку завдань*: &rightarrow; виберіть [Невиконані завдання]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; натисніть стрілку вправо для спринту &rightarrow; виберіть [Дошка завдань](##sprint:scrum_project__version__sprint_1).
+                    3. *Перегляньте дошку завдань*: &rightarrow; виберіть [Невиконані завдання]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; натисніть стрілку вправо для спринту &rightarrow; виберіть Дошка завдань.
                     4. *Створіть новий пакет робіт*: &rightarrow; виберіть [Пакети робіт &rightarrow; Створити]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
                     5. *Створіть і оновіть план проєкту*: &rightarrow; виберіть [План проєкту](##query:scrum_project__query__project_plan) на панелі навігації проєктом.
                     6. *Створіть вікі-сторінку спринту*: &rightarrow; виберіть [Невиконані завдання]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) і відкрийте вікі-сторінку спринту з розкривного меню праворуч у вікні спринту. Ви можете відредагувати [шаблон вікі-сторінки]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) залежно від своїх потреб.

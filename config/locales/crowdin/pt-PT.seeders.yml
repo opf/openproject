@@ -345,7 +345,7 @@ pt-PT:
 
                     1. *Convidar novos membros para o projeto*: &rightarrow; Aceda a [Membros]({{opSetting:base_url}}/projects/your-scrum-project/members) na navegação do projeto.
                     2. *Ver o seu backlog de produtos e backlog de sprint*: &rightarrow; Aceda a [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) na navegação do projeto.
-                    3. *Ver o seu quadro de tarefas*: &rightarrow; Aceda a [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Clique na seta para a direita em Sprint &rightarrow; Selecione [Quadro de tarefas](##sprint:scrum_project__version__sprint_1).
+                    3. *Ver o seu quadro de tarefas*: &rightarrow; Aceda a [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Clique na seta para a direita em Sprint &rightarrow; Selecione Quadro de tarefas.
                     4. *Criar um novo pacote de trabalho*: &rightarrow; Aceda a [Pacotes de trabalho &rightarrow; Criar]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
                     5. *Criar e atualizar um plano de projeto*: &rightarrow; Aceda a [Plano do projeto](##query:scrum_project__query__project_plan) na navegação do projeto.
                     6. *Criar uma wiki do Sprint*: &rightarrow; Aceda a [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) e abra a wiki do sprint a partir do menu pendente do lado direito num sprint. Pode editar o [modelo da wiki]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) mediante as suas necessidades.
