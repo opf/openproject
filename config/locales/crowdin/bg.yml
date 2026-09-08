@@ -1374,7 +1374,12 @@ bg:
     banners:
       environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
     custom_styles:
+      color_groups:
+        base_colors: Base colors
+        main_menu: Main lateral menu
+        top_header_colors: Top header colors
       color_theme: Цвят на темата
+      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
       color_theme_custom: Потребителски
       colors:
         accent-color: Акцент
@@ -1383,12 +1388,15 @@ bg:
         main-menu-bg-selected-background: Основно меню, когато е избрано
         primary-button-color: Основен бутон
       custom_colors: Персонализирани цветове
+      edit_color: Edit %{color}
       fonts:
         file_is_invalid: is not a valid TTF font file.
         file_too_large: is too large (maximum size is %{count} MB).
       instructions:
         accent-color: Цвят за връзки и други добре подчертани елементи.
+        header-bg-color: Default background color of the app header.
         main-menu-bg-color: Цвят на фона на менюто от лявата страна.
+        main-menu-bg-selected-background: Background color of menu items when selected.
         primary-button-color: Силен акцентен цвят, използван за най-важния бутон на екрана.
       manage_colors: Редактиране на опциите за избор на цвят
       tab_branding: Branding

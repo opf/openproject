@@ -1270,7 +1270,12 @@ ja:
     banners:
       environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
     custom_styles:
+      color_groups:
+        base_colors: Base colors
+        main_menu: Main lateral menu
+        top_header_colors: Top header colors
       color_theme: カラーテーマ
+      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
       color_theme_custom: "（カスタム）"
       colors:
         accent-color: アクセント
@@ -1279,12 +1284,15 @@ ja:
         main-menu-bg-selected-background: 選択時のメインメニュー
         primary-button-color: プライマリボタン
       custom_colors: カスタム色
+      edit_color: Edit %{color}
       fonts:
         file_is_invalid: は有効なTTFフォントファイルでありません。
         file_too_large: は大きすぎます (最大サイズは%{count}MBです)。
       instructions:
         accent-color: リンクや強調表示された要素の色。
+        header-bg-color: Default background color of the app header.
         main-menu-bg-color: 左サイドメニューの背景色。
+        main-menu-bg-selected-background: Background color of menu items when selected.
         primary-button-color: 画面上で最も重要なボタンに使用される強いアクセントカラー。
       manage_colors: 色の選択オプションを編集
       tab_branding: ブランディング

@@ -1374,7 +1374,12 @@ fr:
     banners:
       environment_configured_readonly: Ces valeurs sont configurées par des variables d'environnement et ne peuvent pas être modifiées ici.
     custom_styles:
+      color_groups:
+        base_colors: Base colors
+        main_menu: Main lateral menu
+        top_header_colors: Top header colors
       color_theme: Thème de couleur
+      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
       color_theme_custom: "(Personnalisé)"
       colors:
         accent-color: Couleur d'accentuation
@@ -1383,12 +1388,15 @@ fr:
         main-menu-bg-selected-background: Menu principal quand sélectionné
         primary-button-color: Bouton principal
       custom_colors: Couleurs personnalisées
+      edit_color: Edit %{color}
       fonts:
         file_is_invalid: n'est pas un fichier de police TTF valide.
         file_too_large: est trop volumineux (la taille maximale est de %{count} Mo).
       instructions:
         accent-color: Couleur pour les liens et autres éléments correctement mis en évidence.
+        header-bg-color: Default background color of the app header.
         main-menu-bg-color: Couleur d'arrière-plan du menu de gauche.
+        main-menu-bg-selected-background: Background color of menu items when selected.
         primary-button-color: Couleur d'accentuation, utilisée pour le bouton le plus important à l'écran.
       manage_colors: Modifier les options du sélecteur de couleur
       tab_branding: Image de marque
@@ -1881,11 +1889,11 @@ fr:
       delete_dialog_component:
         description: Users will no longer be able to run this action in the rich text editor.
         heading: Are you sure you want to delete the action "%{label}"?
-        title: Delete text transform action
+        title: Supprimer l'action de transformation du texte
       form:
         injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
         label_caption: This is the name that will be visible to users in the editor.
-        select_types: Select types
+        select_types: Sélectionner les types
         types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
         usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
       index:

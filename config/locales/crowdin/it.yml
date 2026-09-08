@@ -1378,7 +1378,12 @@ it:
     banners:
       environment_configured_readonly: Questi valori sono configurati tramite variabili ambiente e non possono essere modificati qui.
     custom_styles:
+      color_groups:
+        base_colors: Base colors
+        main_menu: Main lateral menu
+        top_header_colors: Top header colors
       color_theme: Tema a colori
+      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
       color_theme_custom: "(Personalizzato)"
       colors:
         accent-color: Accento
@@ -1387,12 +1392,15 @@ it:
         main-menu-bg-selected-background: Menu principale quando selezionato
         primary-button-color: Pulsante principale
       custom_colors: Colori personalizzati
+      edit_color: Edit %{color}
       fonts:
         file_is_invalid: non è un file font TTF valido.
         file_too_large: è troppo grande (la dimensione massima è %{count} MB).
       instructions:
         accent-color: Colore per i link e altri elementi ben evidenziati.
+        header-bg-color: Default background color of the app header.
         main-menu-bg-color: Colore di sfondo del menu a sinistra.
+        main-menu-bg-selected-background: Background color of menu items when selected.
         primary-button-color: Colore forte, utilizzato per far risaltare il pulsante principale sullo schermo.
       manage_colors: Modifica opzioni di selezione del colore
       tab_branding: Branding
