@@ -44,7 +44,7 @@ module Roles
     end
 
     def row_data
-      return {} unless reorderable?
+      return {} unless movable?
 
       {
         controller: "sortable-lists--item",
@@ -58,7 +58,7 @@ module Roles
 
     def name
       flex_layout(align_items: :center) do |flex|
-        flex.with_column(mr: 2) { drag_handle }
+        flex.with_column(mr: 2) { drag_handle } if table.reorderable?
         flex.with_column { name_link }
       end
     end
@@ -81,8 +81,12 @@ module Roles
 
     private
 
-    def reorderable?
+    def deletable?
       !role.builtin?
+    end
+
+    def movable?
+      !role.builtin? && table.reorderable?
     end
 
     def name_link
@@ -94,7 +98,7 @@ module Roles
     # Builtin roles always sort after the reorderable ones, so they get a spacer keeping
     # their name aligned with the rest of the column instead of a handle.
     def drag_handle
-      if reorderable?
+      if movable?
         render(Primer::OpenProject::DragHandle.new(data: { sortable_lists__item_target: "handle" }))
       else
         render(Primer::Box.new(classes: "hide-when-print", style: "width: 16px"))
@@ -112,9 +116,9 @@ module Roles
         )
 
         edit_action(menu)
+        move_action(menu) if movable?
 
-        if reorderable?
-          move_action(menu)
+        if deletable?
           menu.with_divider
           delete_action(menu)
         end

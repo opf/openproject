@@ -1,4 +1,4 @@
 <%= helpers.turbo_frame_tag(Roles::IndexComponent::FRAME_ID, target: "_top") do %>
   <%= render(Roles::IndexSubHeaderComponent.new(query:)) %>
-  <%= render(Roles::TableComponent.new(rows:)) %>
+  <%= render(Roles::TableComponent.new(rows:, query:)) %>
 <% end %>

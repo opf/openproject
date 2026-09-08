@@ -149,6 +149,40 @@ RSpec.describe "Roles index", :js do
 
       expect_roles_listed("Alpha global")
     end
+
+    # A move is relative to the neighbouring rows, and a filtered list hides them.
+    it "takes away reordering while a filter is active" do
+      visit roles_path
+
+      expect(page).to have_css(".DragHandle")
+
+      search_roles("Alpha")
+
+      expect_roles_listed("Alpha")
+      expect(page).to have_no_css(".DragHandle")
+
+      open_role_menu(first_role)
+
+      expect(page).to have_no_text(I18n.t(:button_move))
+      expect(page).to have_text(I18n.t(:button_delete))
+      expect(page).to have_text(I18n.t(:button_edit))
+    end
+
+    it "restores reordering once the filter is cleared" do
+      visit roles_path
+
+      select_role_type(:project)
+
+      expect(page).to have_no_css(".DragHandle")
+
+      select_role_type(:all)
+
+      expect(page).to have_css(".DragHandle")
+
+      open_role_move_menu(first_role)
+
+      expect(page).to have_text(I18n.t(:label_sort_lowest))
+    end
   end
 
   it "shows how many permissions each role grants" do

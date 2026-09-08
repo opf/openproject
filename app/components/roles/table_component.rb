@@ -35,6 +35,13 @@ module Roles
     mobile_columns :name
     mobile_labels :global, :permissions_count
 
+    options :query
+
+    # We only allow re-orerdering when we are not filtering.
+    def reorderable?
+      query.filters.empty?
+    end
+
     def mobile_title
       Role.model_name.human(count: 2)
     end
@@ -60,6 +67,8 @@ module Roles
     end
 
     def container_data
+      return {} unless reorderable?
+
       {
         controller: "sortable-lists sortable-lists--list",
         sortable_lists_move_url_template_value: move_url_template,
