@@ -33,7 +33,7 @@ require_relative "../../lib_static/open_project/llm/features"
 # Features that send requests to the configured LLM server.
 #
 # Add a feature here (or from a module engine initializer) so that
-# administrators can assign it a model on the "Feature configuration" page.
+# administrators can assign it a model on the "Feature configuration" tab.
 
 # The description assistant rewrites work package text on explicit user action.
 # Plain chat completions only: no tools, no JSON mode, no streaming. Individual

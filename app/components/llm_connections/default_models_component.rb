@@ -29,7 +29,7 @@
 #++
 
 module LlmConnections
-  # The "Default models" section of the LLMs page.
+  # The "Default models" section of the LLMs tab.
   class DefaultModelsComponent < ApplicationComponent
     include ApplicationHelper
     include OpPrimer::ComponentHelpers

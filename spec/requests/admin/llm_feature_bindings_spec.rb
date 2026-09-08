@@ -46,15 +46,22 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
   describe "GET /admin/llm_feature_bindings" do
     before { login_as admin }
 
-    it "prompts to configure a connection when there is none" do
+    it "sends the administrator to the settings while no connection is stored" do
       get llm_feature_bindings_path
 
-      expect(response).to have_http_status(:ok)
-      expect(response.body).to include("No LLM server configured")
+      expect(response).to redirect_to(llm_connection_path)
+    end
+
+    it "sends the administrator to the settings while the connection is disabled" do
+      create(:llm_connection, :with_models, base_url:)
+
+      get llm_feature_bindings_path
+
+      expect(response).to redirect_to(llm_connection_path)
     end
 
     context "with a configured connection" do
-      let!(:connection) { create(:llm_connection, :with_models, base_url:) }
+      let!(:connection) { create(:llm_connection, :with_models, :enabled, base_url:) }
 
       it "lists every registered feature" do
         get llm_feature_bindings_path
@@ -63,6 +70,14 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
         expect(response.body).to include("Feature configuration")
         expect(response.body).to include("Description assistant")
         expect(response.body).to include("Semantic search")
+      end
+
+      it "offers the tabs of the LLM settings page" do
+        get llm_feature_bindings_path
+
+        expect(page).to have_css("[data-test-selector='llm-settings--tabs'] a[href='#{llm_connection_path}']")
+        expect(page).to have_css("[data-test-selector='llm-settings--tabs'] a[href='#{llm_models_path}']")
+        expect(page).to have_css("[data-test-selector='llm-settings--tabs'] a[href='#{llm_feature_bindings_path}']")
       end
 
       it "points at the page where the default models are chosen" do
@@ -104,7 +119,7 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
   end
 
   describe "PATCH /admin/llm_feature_bindings/:id" do
-    let!(:connection) { create(:llm_connection, :with_models, base_url:) }
+    let!(:connection) { create(:llm_connection, :with_models, :enabled, base_url:) }
 
     before { login_as admin }
 

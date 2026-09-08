@@ -32,11 +32,12 @@ module Admin
   # Assigns a model to each registered AI feature.
   class LlmFeatureBindingsController < ApplicationController
     layout "admin"
-    menu_item :llm_feature_bindings
+    menu_item :llm_connection
 
     before_action :require_feature
     before_action :require_admin
     before_action :set_connection
+    before_action :require_enabled_connection
 
     def index
       @features = OpenProject::Llm::Features.available
@@ -56,6 +57,10 @@ module Admin
 
     def set_connection
       @connection = LlmConnection.instance
+    end
+
+    def require_enabled_connection
+      redirect_to llm_connection_path, status: :see_other unless @connection.enabled?
     end
 
     # The flag gates the endpoints, not only the menu entry: an unfinished page

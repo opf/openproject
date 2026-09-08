@@ -103,7 +103,7 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
         expect(page).to have_css("a[href='#{llm_models_path}']", text: "LLMs")
       end
 
-      it "offers the LLMs tab once the features are on",
+      it "offers the LLMs and Feature configuration tabs once the features are on",
          with_settings: { llm_features_enabled: true } do
         create(:llm_connection, base_url:)
 
@@ -111,6 +111,7 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
 
         expect(response.body).to include("llm-settings--tabs")
         expect(response.body).to include(llm_models_path)
+        expect(response.body).to include(llm_feature_bindings_path)
       end
 
       context "when an API key is stored" do
@@ -421,7 +422,7 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
 
     before { login_as admin }
 
-    it "are chosen on the LLMs page, not here" do
+    it "are chosen on the LLMs tab, not here" do
       patch llm_connection_path, params: { llm_connection: { default_chat_model_id: "qwen3.6-27b",
                                                              default_embedding_model_id: "bge-m3" } }
 

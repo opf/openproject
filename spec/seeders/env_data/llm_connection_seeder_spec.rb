@@ -64,7 +64,7 @@ RSpec.describe EnvData::LlmConnectionSeeder do
 
   # The seeder runs on every container start, so a refresh here would repeatedly
   # overwrite a list an administrator has curated. The stale warning on the AI
-  # models page asks for the refresh instead.
+  # models tab asks for the refresh instead.
   context "when the environment moves a stored catalogue to another host", with_settings: {
     llm_connection: { "base_url" => "https://other.example.com/v1", "api_key" => "sk-from-env" }
   } do

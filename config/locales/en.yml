@@ -1773,6 +1773,7 @@ en:
         description_enabled: "Once connected, review the models offered by the server on the [LLMs](models_url) tab."
       tabs:
         connection: "Connection"
+        features: "Feature configuration"
         models: "LLMs"
       update:
         disabled: "Saved. LLM features are switched off for this instance."
@@ -1788,8 +1789,6 @@ en:
         model_caption_embedding: "Only models known to create embeddings are offered. [Read more](docs_url) about model types."
         query_prefix_caption: "Prepended to each search query. Preset for this feature; some models expect their own, for example \"query: \" including the trailing space."
       index:
-        blank_description: "Connect OpenProject to an LLM server first. Models can be assigned once the server reports which ones it offers."
-        blank_title: "No LLM server configured"
         description: "Choose which model each AI feature uses. Features without a choice use the default models set on the [LLMs](models_url) tab."
       inherit_with_default: "Use the default (%{model})"
       inherit_without_default: "Use the default (none set)"
@@ -4662,7 +4661,6 @@ en:
       ai: "Artificial Intelligence (AI)"
       api_and_webhooks: "API and webhooks"
       llm_connection: "LLM settings"
-      llm_feature_bindings: "Feature configuration"
       mail_notification: "Email notifications"
       mails_and_notifications: "Emails and notifications"
       mcp_configurations: "Model Context Protocol (MCP)"

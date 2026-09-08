@@ -27,11 +27,11 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), t("menus.admin.llm_feature_bindings") %>
+<% html_title t(:label_administration), t("menus.admin.llm_connection"), t("admin.llm_connections.tabs.features") %>
 
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title { t("menus.admin.llm_feature_bindings") }
+    header.with_title { t("menus.admin.llm_connection") }
     header.with_description do
       link_translate(
         "admin.llm_feature_bindings.index.description",
@@ -42,28 +42,18 @@ See COPYRIGHT and LICENSE files for more details.
     header.with_breadcrumbs(
       [{ href: admin_index_path, text: t(:label_administration) },
        { href: mcp_configurations_path, text: t("menus.admin.ai") },
-       t("menus.admin.llm_feature_bindings")]
+       t("menus.admin.llm_connection")]
     )
+    render_tab_header_nav(header, llm_settings_tabs(@connection), test_selector: "llm-settings--tabs")
   end
 %>
 
-<% if !@connection.configured? %>
-  <%=
-    render(Primer::Beta::Blankslate.new(border: true)) do |component|
-      component.with_visual_icon(icon: :sparkle)
-      component.with_heading(tag: :h2) { t(".blank_title") }
-      component.with_description { t(".blank_description") }
-      component.with_primary_action(href: llm_connection_path) { t("menus.admin.llm_connection") }
-    end
-  %>
-<% else %>
-  <% @features.each do |feature| %>
-    <%= render(
-          LlmConnections::FeatureBindingComponent.new(
-            feature:,
-            connection: @connection,
-            binding: @bindings[feature.key.to_s]
-          )
-        ) %>
-  <% end %>
+<% @features.each do |feature| %>
+  <%= render(
+        LlmConnections::FeatureBindingComponent.new(
+          feature:,
+          connection: @connection,
+          binding: @bindings[feature.key.to_s]
+        )
+      ) %>
 <% end %>
