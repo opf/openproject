@@ -15,6 +15,9 @@ export const en = {
         'create': 'create'
       }
     },
+    'formattingToolbar': {
+      'createWorkPackage': 'Create work package'
+    },
     'createWorkPackage': {
       'title': 'Create new work package',
       'close': 'Close',
@@ -30,12 +33,12 @@ export const en = {
       'favorites': 'Favorites',
       'clear': 'Clear',
       'deselect': 'Remove selection',
+      'removeValue': 'Remove {{value}}',
       'openOptions': 'Show options',
       'closeOptions': 'Hide options',
       'subjectPlaceholder': 'Enter subject here',
+      'subjectClipped': 'The selected text was too long and has been shortened to the first {{limit}} characters.',
       'projectPlaceholder': 'Select a project…',
-      'loadingFields': 'Loading the fields of this work package…',
-      'loadingTypeFields': 'Loading required fields for {{type}}…',
       'loadFailed': 'The work package form could not be loaded: {{message}}',
       'notAllowed': 'You are not allowed to create work packages.',
       'validationFailed': 'Please correct the highlighted fields below.',
