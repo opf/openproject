@@ -30,22 +30,23 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 export interface IAiTextTransformAction {
   id:number;
   label:string;
   position:number;
-}
-
-interface IActionListResponse {
-  actions:IAiTextTransformAction[];
+  injectsTypeTemplate:boolean;
 }
 
 interface IEditorContextResource {
   id?:string|null;
   _type?:string;
-  $links?:{ type?:{ href?:string } };
+  $links?:{
+    type?:{ href?:string };
+    project?:{ href?:string };
+  };
 }
 
 // Counterpart of the CKEditor AI actions dropdown, which only renders the
@@ -58,17 +59,17 @@ export class AiActionsService {
   private pathHelper = inject(PathHelperService);
 
   async actionsFor(resource:IEditorContextResource|undefined, field:string|undefined):Promise<IAiTextTransformAction[]> {
-    const params = this.contextParams(resource, field);
+    const path = this.listPath(resource, field);
 
-    if (params === null) {
+    if (path === null) {
       return [];
     }
 
     try {
-      const response = await firstValueFrom(
-        this.http.get<IActionListResponse>(this.listPath(), { params }),
-      );
-      return (response.actions || []).sort((a, b) => a.position - b.position);
+      const collection = await firstValueFrom(this.http.get<IHALCollection<IAiTextTransformAction>>(path));
+      return collection._embedded.elements
+        .map(({ id, label, position, injectsTypeTemplate }) => ({ id, label, position, injectsTypeTemplate }))
+        .sort((a, b) => a.position - b.position);
     } catch {
       return [];
     }
@@ -80,23 +81,30 @@ export class AiActionsService {
     return Promise.resolve();
   }
 
-  private listPath():string {
-    return `${this.pathHelper.staticBase}/ai/text_transform_actions`;
-  }
-
   // v1 applies to the work package description editor only. Everything else
   // (comments, wiki pages, meeting notes) resolves to "no actions".
-  private contextParams(resource:IEditorContextResource|undefined, field:string|undefined):Record<string, string>|null {
+  private listPath(resource:IEditorContextResource|undefined, field:string|undefined):string|null {
     if (!resource || field !== 'description' || resource._type !== 'WorkPackage') {
       return null;
     }
 
+    const base = this.pathHelper.api.v3.apiV3Base;
+
     if (resource.id && resource.id !== 'new') {
-      return { work_package_id: resource.id };
+      return `${base}/work_packages/${resource.id}/ai_text_transform_actions`;
     }
 
-    const typeHref = resource.$links?.type?.href;
-    const typeId = typeHref && idFromLink(typeHref);
-    return typeId ? { type_id: typeId } : null;
+    const projectId = this.linkedId(resource.$links?.project?.href);
+    const typeId = this.linkedId(resource.$links?.type?.href);
+
+    if (!projectId || !typeId) {
+      return null;
+    }
+
+    return `${base}/projects/${projectId}/ai_text_transform_actions?typeId=${typeId}`;
+  }
+
+  private linkedId(href:string|undefined):string|null {
+    return href ? idFromLink(href) : null;
   }
 }
