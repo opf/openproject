@@ -506,8 +506,8 @@ ro:
       structured_text_copy: Copying a meeting will currently not copy the associated meeting agenda items, just the details
     widgets:
       blankslate:
-        description: Upcoming meetings you are participating in will appear here.
-        heading: No upcoming meetings
+        description: Aici vor apărea următoarele întâlniri la care vei participa.
+        heading: Nu sunt programate întâlniri
       view_details: View all meetings
   meeting_participant:
     participation_status:

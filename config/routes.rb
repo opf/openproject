@@ -756,6 +756,10 @@ Rails.application.routes.draw do
     end
 
     resources :roles, except: %i[show] do
+      member do
+        put :drop
+      end
+
       collection do
         put "/" => "roles#bulk_update"
         get :report
@@ -1002,6 +1006,20 @@ Rails.application.routes.draw do
         member do
           get :deletion_dialog
         end
+      end
+    end
+
+    resources :text_transform_actions, except: :show do
+      member do
+        get :deletion_dialog
+        post :toggle
+        put :drop
+      end
+
+      collection do
+        put :enable_all
+        put :disable_all
+        post :toggle_setting
       end
     end
 

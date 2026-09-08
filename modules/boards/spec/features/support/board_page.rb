@@ -188,17 +188,8 @@ module Pages
     # visibility of every method declared after it in this class.
     private def drag_onto_list(source, list_name)
       # rubocop:enable Style/AccessModifierDeclarations
-      # Scroll to source first: perform_native_drag's internal scroll must not
-      # move the page after the target rect below is read.
-      scroll_to_element(source)
-
       target = page.find("#{list_selector(list_name)} [data-test-selector='op-wp-card-view']")
-      rect = target.native.rect
-      perform_native_drag(
-        source:,
-        target_x: rect.x + (rect.width / 2),
-        target_y: rect.y + (rect.height / 2)
-      )
+      perform_native_drag(source:, target:)
       wait_for_lists_reload
 
       # Wait a little more because the cards sorting order can still be changing

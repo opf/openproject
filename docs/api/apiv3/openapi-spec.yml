@@ -215,6 +215,8 @@ paths:
     "$ref": "./paths/custom_action.yml"
   "/api/v3/custom_actions/{id}/execute":
     "$ref": "./paths/custom_action_execute.yml"
+  "/api/v3/custom_fields/{id}":
+    "$ref": "./paths/custom_field.yml"
   "/api/v3/custom_fields/{id}/items":
     "$ref": "./paths/custom_field_items.yml"
   "/api/v3/custom_field_items/{id}":
@@ -834,6 +836,8 @@ components:
       "$ref": "./components/schemas/custom_field_linked_properties.yml"
     CustomFieldProperties:
       "$ref": "./components/schemas/custom_field_properties.yml"
+    CustomFieldModel:
+      "$ref": "./components/schemas/custom_field_model.yml"
     CustomOptionModel:
       "$ref": "./components/schemas/custom_option_model.yml"
     DayCollectionModel:
@@ -1196,6 +1200,7 @@ tags:
   - "$ref": "./tags/categories.yml"
   - "$ref": "./tags/configuration.yml"
   - "$ref": "./tags/custom_actions.yml"
+  - "$ref": "./tags/custom_fields.yml"
   - "$ref": "./tags/custom_options.yml"
   - "$ref": "./tags/documents.yml"
   - "$ref": "./tags/file_links.yml"

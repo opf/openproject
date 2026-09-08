@@ -42,7 +42,9 @@ module McpTools
 
     filter :id
     filter :user_id
-    filter :work_package_id, filter_proc: ->(entries, v) { entries.where(entity_type: "WorkPackage", entity_id: v) }
+    filter :work_package_id, filter_proc: ->(entries, v) {
+      entries.where(entity_type: "WorkPackage", entity_id: WorkPackage.where_display_id_in(v))
+    }
     filter :spent_since, filter_proc: ->(entries, v) { entries.where(spent_on: v..) }
     filter :spent_until, filter_proc: ->(entries, v) { entries.where(spent_on: ..v) }
 
@@ -51,7 +53,10 @@ module McpTools
       properties: {
         id: { type: "number", description: "The ID of the time entry." },
         user_id: { type: "number", description: "The ID of the user that the time entry tracks expenditures for." },
-        work_package_id: { type: "number", description: "The ID of the work package that the time entry is created on." },
+        work_package_id: {
+          type: %w[string number],
+          description: "The identifier of the work package that the time entry is created on."
+        },
         spent_since: {
           type: :string,
           format: :date,

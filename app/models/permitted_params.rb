@@ -600,6 +600,7 @@ class PermittedParams
           :due_date,
           :status_id,
           { target_version_ids: [] },
+          { observed_in_version_ids: [] },
           :priority_id
         ],
         oauth_application: [

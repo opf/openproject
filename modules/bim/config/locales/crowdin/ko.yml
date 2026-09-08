@@ -107,6 +107,7 @@ ko:
       zero: BCF 이슈 없음
   bim:
     error_direct_upload_failed: 직접 업로드에 실패했습니다.
+    error_direct_upload_file_too_large: IFC model is too large (maximum size is %{size} Bytes).
     label_bim: BIM
   export:
     format:

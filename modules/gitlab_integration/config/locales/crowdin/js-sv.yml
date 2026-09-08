@@ -29,23 +29,23 @@ sv:
         title: Problem
       tab_header_mr:
         copy_menu:
-          description: Copy git snippets to clipboard
-          label: Git snippets
+          description: Kopiera git snippets till urklipp
+          label: Git-kodsnuttar
         create_mr:
-          description: Create a Merge Request
+          description: Skapa en merge request
           label: Skapa MR
         git_actions:
-          branch_name: Branch name
-          cmd: Create branch with empty commit
-          commit_message: Commit message
-          copy_error: "❌ Copy failed!"
+          branch_name: Grenens namn
+          cmd: Skapa en gren med en tom commit
+          commit_message: Skicka commit
+          copy_error: "❌ Kopiering misslyckades!"
           copy_success: "✅ Kopierad!"
-          title: Quick snippets for Git
+          title: Snabb snippets för Git
         title: Merge requests
       tab_issue:
-        empty: There are no issues linked yet. Link an existing issue by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the issue title/description or create a new issue.
+        empty: Inga ärenden är länkade ännu. Länka ett befintligt ärende med koden <code>OP#%{wp_id}</code> (eller <code>PP#%{wp_id}</code> för privata länkar) i ärendets titel/beskrivning eller skapa ett nytt ärende.
       tab_mrs:
-        empty: There are no merge requests linked yet. Link an existing MR by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the MR title/description or create a new MR.
+        empty: Inga merge requests är länkade ännu. Länka en befintlig MR med koden <code>OP#%{wp_id}</code> (eller <code>PP#%{wp_id}</code> för privata länkar) i MR:ens titel/beskrivning eller skapa en ny MR.
       updated_on: Uppdaterat den
       work_packages:
         tab_name: GitLab

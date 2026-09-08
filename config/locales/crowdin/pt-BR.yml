@@ -353,6 +353,7 @@ pt-BR:
       token/named:
         token_name: Nome do token
       type:
+        allow_project_variants: Permitir variantes específicas do projeto
         color: Cor
         is_in_roadmap: Exibido no planejamento como padrão
         is_milestone: É marco
@@ -361,11 +362,11 @@ pt-BR:
       type/configuration_link:
         source: Tipo de fonte
       type_variant:
-        attribute_groups: Form
+        attribute_groups: Formulário
         default_work_package_description: Texto padrão para descrição
         defaults_source: Fonte dos padrões
         enabled_in_new_projects: Ativo em novos projetos
-        form_configuration_source: Form source
+        form_configuration_source: Fonte do formulário
         patterns: Padrões
         pdf_export_source: Fonte da exportação em PDF
         project_attributes_source: Fonte dos atributos do projeto
@@ -845,6 +846,7 @@ pt-BR:
             base:
               borrowed_by_variants: Não pode ser excluído enquanto sua configuração for reutilizada por %{names}.
               is_default_variant: A configuração padrão de um tipo não pode ser excluída.
+              project_variants_not_allowed: Esse tipo não permite a criação de variantes dentro dos projetos.
               restrict_dependent_destroy:
                 has_many: Não pode ser excluído enquanto houver projetos que ainda o utilizem.
             defaults_source_id:
@@ -1372,7 +1374,12 @@ pt-BR:
     banners:
       environment_configured_readonly: Esses valores são configurados por meio de variáveis de ambiente e não podem ser editados aqui.
     custom_styles:
+      color_groups:
+        base_colors: Base colors
+        main_menu: Main lateral menu
+        top_header_colors: Top header colors
       color_theme: Tema Colorido
+      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
       color_theme_custom: "(Personalizado)"
       colors:
         accent-color: Destaque
@@ -1381,12 +1388,15 @@ pt-BR:
         main-menu-bg-selected-background: Menu principal quando selecionado
         primary-button-color: Botão primário
       custom_colors: Cores personalizadas
+      edit_color: Edit %{color}
       fonts:
         file_is_invalid: não é um arquivo de fonte TTF válido.
         file_too_large: é muito grande (tamanho máximo é %{count} MB).
       instructions:
         accent-color: Cor para os links e outros elementos destacados adequadamente.
+        header-bg-color: Default background color of the app header.
         main-menu-bg-color: Cor de fundo do menu esquerdo.
+        main-menu-bg-selected-background: Background color of menu items when selected.
         primary-button-color: Cor de destaque forte, usada para o botão mais importante na tela.
       manage_colors: Editar opções de seleção de cor
       tab_branding: Gestão de marca
@@ -1875,6 +1885,41 @@ pt-BR:
         page_header:
           description: Escolha entre IDs de pacotes de trabalho numéricos clássicos ou IDs semânticos específicos do projeto, que adicionam o identificador do projeto ao ID do pacote de trabalho.
         success_banner: Formato de identificador de pacote de trabalho atualizado com sucesso.
+    text_transform_actions:
+      delete_dialog_component:
+        description: Os usuários não poderão mais executar essa ação no editor de texto rico.
+        heading: Tem certeza de que deseja excluir a ação “%{label}”?
+        title: Excluir ação de transformação de texto
+      form:
+        injects_type_template_caption: Se marcado, o modelo de descrição do tipo de pacote de trabalho é adicionado automaticamente ao prompt. O prompt deve conter instruções sobre o que fazer com o template.
+        label_caption: Este é o nome que ficará visível para os usuários no editor.
+        select_types: Selecione tipos
+        types_caption: Adicionar tipos de pacote de trabalho para os quais esta ação deve estar disponível. Todas as variantes disponíveis serão automaticamente incluídas.
+        usage_scope_caption: 'Você pode limitar onde esta ação está visível: em todos os lugares (incluindo comentários, wikis e campos personalizados), para todos os tipos de pacotes de trabalho ou para certos tipos de pacotes de trabalho.'
+      index:
+        description: As ações de transformação de texto oferecem aos usuários recursos baseados em LLM para escrever, organizar e revisar textos em qualquer lugar onde o editor de texto rico seja utilizado, como descrições de pacotes de trabalho, comentários e páginas wiki. O senhor pode criar novas ações utilizando seus próprios prompts e instruções.
+        label_add_action: Ação
+        label_aria_add_action: Adicionar ação de transformação de texto
+      index_component:
+        blank_slate:
+          description: Adicione uma ação para vê-la aqui
+          title: Nenhuma transformação de texto configurado ainda
+        disabled_warning: As ações de transformação de texto estão desativadas. As seguintes ações não estarão disponíveis em lugar nenhum.
+        label_disable_all: Desativar tudo
+        label_enable_all: Habilitar tudo
+        title: Ações
+      new:
+        title: Nova ação de transformação de texto
+      row_component:
+        label_actions: Menu de ações
+        label_toggle: Alternar %{label}
+        scope_specific_work_package_types:
+          one: Categoria de pacote de trabalho %{count}
+          other: Categorias de pacote %{count}
+      usage_scopes:
+        all_work_package_types: Todos os tipos de pacote de trabalho
+        everywhere: Em todos os lugares
+        specific_work_package_types: Tipos específicos de pacote de trabalho
     workflows:
       blankslate:
         description: Adicione status para começar a configurar fluxos de trabalho para esta função
@@ -2762,7 +2807,7 @@ pt-BR:
         more_info: 'Obs.: o logotipo usado pode ser acessado publicamente.'
         title: Tema de cor e logotipo personalizados
       edit_attribute_groups:
-        description: 'Customize the form with these additional add-ons:'
+        description: 'Personalize o formulário com esses complementos adicionais:'
         features:
           groups: Adicionar novas seções de atributo
           related: Adicionar uma tabela de pacotes de trabalho relacionados
@@ -4346,6 +4391,7 @@ pt-BR:
       mail_notification: Notificações por e-mail
       mails_and_notifications: E-mails e notificações
       mcp_configurations: Protocolo de Contexto de Modelo (MCP)
+      text_transform_actions: Ações de transformação de texto
     quick_add:
       label: Adicionar…
   more_actions: Mais funções
@@ -4868,7 +4914,7 @@ pt-BR:
       caption: Detalhes do pacote de trabalho renderizados como um artefato PMflex.
       label: Artefato PMflex
     template_attributes:
-      caption: All the attributes present in the current form using the default template.
+      caption: Todos os atributos presentes no formulário atual usando o modelo padrão.
       label: Atributos e descrição
     template_contract:
       caption: Detalhes do pacote de trabalho formatados conforme o padrão do contrato alemão.
@@ -5286,6 +5332,7 @@ pt-BR:
         use_in_project: Usar neste projeto
         variant_in_use: Variante neste projeto
         variant_label: Variante
+        variants_not_allowed: Esse tipo não permite a criação de variantes dentro dos projetos.
       versions:
         no_results_content_text: Criar uma nova versão
         no_results_title_text: Atualmente, não há versões para o projeto.
@@ -5472,6 +5519,7 @@ pt-BR:
   setting_after_login_default_redirect_url_example_html: 'Defina um caminho padrão para redirecionar os usuários após o login, se nenhum link de retorno foi fornecido. Redireciona para a página inicial se não estiver definido. <br/> Exemplo: %{example_code}
 
     '
+  setting_ai_text_transform_actions_enabled: Ativar ações de transformação de texto
   setting_allowed_link_protocols: Protocolos de link permitidos
   setting_allowed_link_protocols_text_html: Permite que estes protocolos sejam apresentados como links nas descrições do pacote de trabalho, campos de texto e comentários. Por exemplo, %{tel_code} ou %{element_code}. Insira um protocolo por linha. <br/> Os protocolos %{http_code}, %{https_code} e %{mailto_code} estão sempre permitidos.
   setting_antivirus_scan_action: Ação do arquivo infectado
@@ -5551,7 +5599,7 @@ pt-BR:
   setting_default_language: Idioma padrão
   setting_default_projects_modules: Módulos habilitados por padrão para novos projetos
   setting_default_projects_public: Novos projetos são públicos por padrão
-  setting_default_projects_wiki: Enable wiki functionality for new projects by default
+  setting_default_projects_wiki: Ativar a funcionalidade wiki para novos projetos por padrão
   setting_diff_max_lines_displayed: Número máximo de linhas diferentes exibidas
   setting_disable_password_login: Desativar a autenticação por senha
   setting_display_subprojects_work_packages: Exibir pacotes de trabalho de subprojetos no projeto principal por padrão
@@ -6242,7 +6290,7 @@ pt-BR:
       steps:
         defaults: Padrões
         details: Detalhes
-        form_configuration: Form
+        form_configuration: Formulário
         pdf: Geração do PDF
         project_attributes: Atributos do projeto
         projects: Projetos
@@ -6272,10 +6320,11 @@ pt-BR:
             work_package: Pacote de trabalho
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
+        allow_project_variants_caption: Para administradores de projeto com permissão para gerenciar variantes, esse tipo pode ser ampliado ou modificado dentro de um projeto.
         inherited_from_type_html: Herdado do tipo <b>%{type}</b>.
         tab: Detalhes
         type_color_text: A cor selecionada distingue diferentes tipos nos gráficos de Gantt ou nas tabelas de pacotes de trabalho. Portanto, recomenda-se usar uma cor forte.
-        variant_name_caption_html: This is an internal name only visible to administrators. Variants replace the original parent type, so if this variant is used in a project, it will appear as <b>%{type}</b> to all members.
+        variant_name_caption_html: Este é um nome interno somente visível para administradores. Variantes substituem o tipo pai original, então se esta variante for usada em um projeto, ele aparecerá como <b>%{type}</b> para todos os membros.
       export_configuration:
         artefact_export:
           attachment:
@@ -6314,7 +6363,7 @@ pt-BR:
         blankslate_title: Nenhum grupo ainda
         builtin_field: Campo integrado
         confirm_delete_group: Tem certeza que deseja excluir esta seção? Esta ação não pode ser revertida automaticamente.
-        confirm_reset: Are you sure you want to reset the form?
+        confirm_reset: Tem certeza de que deseja redefinir o formulário?
         custom_field: Campo personalizado
         delete_group: Excluir seção
         drag_to_activate: Arraste campos daqui para ativá-los
@@ -6329,21 +6378,21 @@ pt-BR:
         group_actions: Ações da seção
         group_name_label: Nome da seção
         inactive_attributes_heading: Atributos inativos
-        invalid_attribute_groups: The form payload is invalid.
+        invalid_attribute_groups: A carga do formulário é inválida.
         invalid_query: A configuração da consulta incorporada é inválida.
         label_group: Seção
         no_inactive_attributes: Nenhum atributo inativo
-        not_found: The requested form item could not be found.
+        not_found: Não foi possível localizar o campo do formulário solicitado.
         query_group_label: Tabela de pacotes de trabalho relacionados
         remove_attribute: Remover da seção
         rename_group: Renomear seção
         reset_description: 'Isto irá redefinir os atributos para seu grupo padrão e desativar TODOS os campos personalizados.
 
           '
-        reset_title: Reset form
+        reset_title: Redefinir formulário
         reset_to_defaults: Redefinir formulário
         row_actions: Ações de linha
-        tab: Form
+        tab: Formulário
         untitled_group: Grupo sem título
       project_attributes:
         actions:
@@ -6354,8 +6403,8 @@ pt-BR:
             description: Esse tipo não possui nenhum atributo de projeto associado a ele.
             title: Nenhum atributo do projeto foi configurado
           manual:
-            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
-            title: No project attributes available
+            description: Depois de [criar atributos do projeto](administration_url), eles serão visíveis aqui e podem ser adicionados a um tipo.
+            title: Não há atributos de projeto disponíveis
         description: Selecione os atributos do projeto que deseja habilitar para este tipo de pacote de trabalho. Os atributos do projeto habilitados são exibidos em uma guia separada nos pacotes de trabalho deste tipo. Usuários com as permissões necessárias podem visualizar e editar esses atributos nessa guia.
         disabled: Desativado
         exclusions:
@@ -6385,7 +6434,7 @@ pt-BR:
             description_html: Ao copiar dados de %{source_name}, você substituirá as configurações atuais e isso poderá afetar informações existentes nos pacotes de trabalho deste tipo.
             title: Copiar configuração?
           dialog:
-            description: Copy the configuration from a source type and use it as a one-time base. The configuration stays manual and does not inherit later changes of the source.
+            description: Copie a configuração de um tipo de fonte e use-a como uma base única. A configuração permanece manual e não herda mudanças posteriores da fonte.
             source_label: Tipo de fonte
             source_placeholder: Selecione um tipo ou variante
             submit: Salvar e copiar
@@ -6394,75 +6443,75 @@ pt-BR:
           success: A configuração foi copiada.
         dependents:
           blank:
-            description: No other type or variant inherits from this configuration
-            title: No dependent types
+            description: Nenhum outro tipo ou variante herda desta configuração
+            title: Nenhum tipo dependente
           description:
-            one: The following configuration is inherited by 1 other type or variant. Any changes you make here will also affect the dependent.
-            other: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
+            one: A seguinte configuração é herdada por 1 outro tipo ou variante. Quaisquer alterações que você fizer aqui também afetarão a dependência.
+            other: A configuração a seguir é herdada por %{count} outros tipos ou variantes. Quaisquer alterações feitas aqui também afetarão os elementos dependentes.
           dialog:
-            description: These types and variants inherit the configuration of this section. A change you make here applies to all of them.
-            direct_heading: Direct dependents
-            indirect_heading: Dependents through other types
-            title: Dependent types
-            variant_of_html: Variant of %{type_name}
-            variant_of_via_html: Variant of %{type_name}, inheriting via %{source_name}
-            via_html: Inheriting via %{source_name}
+            description: Estes tipos e variantes herdam a configuração desta seção. Uma alteração que você faz aqui se aplica a todos eles.
+            direct_heading: Dependentes diretos
+            indirect_heading: Dependentes através de outros tipos
+            title: Tipos dependentes
+            variant_of_html: Variante de %{type_name}
+            variant_of_via_html: Variante de %{type_name}, herdando via %{source_name}
+            via_html: Herdança por meio de %{source_name}
           title:
-            one: 1 dependent type
-            other: "%{count} dependent types"
-          view: View dependent types
+            one: 1 tipo dependente
+            other: "%{count} Tipos dependentes"
+          view: Exibir tipos dependentes
         exclusions:
-          not_inherited: This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead.
+          not_inherited: Esta configuração não é herdada, então não há nada para excluir. Edite a configuração diretamente.
           unknown_aspect: Seção de configuração desconhecida "%{aspect}".
         inherited:
-          change_source: Change source type
-          configure_manually: Configure manually
+          change_source: Alterar tipo de origem
+          configure_manually: Configurar manualmente
           confirm_dialog:
             change_source:
-              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
-              heading: Change source type?
-              title: Change source type
-            check_box: I understand that this will override the current settings
+              description_html: Ao alterar o tipo de fonte para %{source_name}, você sobrescreverá as configurações atuais e poderá afetar as informações existentes nos pacotes de trabalho desse tipo.
+              heading: Alterar tipo de origem?
+              title: Alterar tipo de origem
+            check_box: Entendo que isso substituirá as configurações atuais
             from_manual:
-              description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
-              heading: Switch configuration mode?
-              title: Switch configuration mode
-          description: This configuration is inherited from the source type [%{source_name}](source_url)%{source_suffix}.
-          description_unlinked: This configuration is inherited from the source type %{source_name}%{source_suffix}.
+              description: Todas as configurações selecionadas no momento serão substituídas e poderão afetar as informações existentes sobre os pacotes de trabalho desse tipo.
+              heading: Alternar modo de configuração?
+              title: Alternar modo de configuração
+          description: Essa configuração é herdada do tipo de origem [%{source_name}](source_url)%{source_suffix}.
+          description_unlinked: Essa configuração é herdada do tipo de origem %{source_name}%{source_suffix}.
           dialog:
-            description: Inherit this configuration from a source type. Any new configuration added to the source also applies here.
-            source_label: Source type
-            source_placeholder: Select a type or variant
-            submit: Switch
-            title: Inherit from another type
-          invalid_source: The configuration cannot be inherited from the selected type. Please select a different source type.
-          success: The configuration mode was switched.
-          title: Inherited configuration
+            description: Herdar esta configuração de um tipo de fonte. Qualquer nova configuração adicionada à fonte também se aplica aqui.
+            source_label: Tipo de fonte
+            source_placeholder: Selecione um tipo ou uma variante
+            submit: Alternar
+            title: Herdar de outro tipo
+          invalid_source: A configuração não pode ser herdada do tipo selecionado. Por favor, selecione outro tipo de origem.
+          success: O modo de configuração foi alterado.
+          title: Configuração herdada
         manual:
           confirm_dialog:
-            check_box: I understand that this will override the current settings
-            description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
-            heading: Switch configuration mode?
-            title: Switch configuration mode
-          copy_from_type: Copy from another type
-          description: No settings are inherited. You can still copy the settings from another type one time.
+            check_box: Entendo que isso substituirá as configurações atuais
+            description: Todas as configurações selecionadas atualmente serão substituídas e poderão afetar as informações existentes sobre os pacotes de trabalho desse tipo.
+            heading: Alternar modo de configuração?
+            title: Alternar modo de configuração
+          copy_from_type: Copiar para outro tipo
+          description: Nenhuma configuração é herdada. No entanto, é possível copiar as configurações de outro tipo uma única vez.
           dialog:
-            submit: Switch
-            title: Configure manually
-          inherit_from_type: Inherit from another type
-          invalid_mode: The selected mode is not available for this configuration. Please choose a different mode.
+            submit: Alternar
+            title: Configurar manualmente
+          inherit_from_type: Herdar de outro tipo
+          invalid_mode: O modo selecionado não está disponível para esta configuração. Por favor, escolha um modo diferente.
           modes:
             copy:
-              caption: Start with a one-time copy of the settings that this configuration inherits now.
-              label: Copy inherited settings
+              caption: Iniciar com uma cópia única das configurações que esta configuração herda agora.
+              label: Copiar configurações herdadas
             default:
-              caption: Use the default settings for new types.
-              label: Default settings
+              caption: Use as configurações padrão para novos tipos.
+              label: Configurações padrão
             empty:
-              caption: Set everything up from scratch, beginning from a blank configuration.
+              caption: Configure tudo do zero, partindo de uma configuração em branco.
               label: Vazio
-          success: The configuration mode was switched.
-          title: Manual configuration
+          success: O modo de configuração foi alterado.
+          title: Configuração manual
         parent_suffix: " (pai)"
       variants:
         blankslate:
@@ -6470,22 +6519,22 @@ pt-BR:
 
             '
           title: Não existem variantes para este tipo
-        created_in_html: Created in %{project}
+        created_in_html: Criado em %{project}
         delete:
-          description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
-          title: Delete %{name}
+          description: Os projetos usando esta variante serão alterados para a variante escolhida abaixo antes desta variante ser excluída.
+          title: Excluir %{name}
         filter: Filtrar por texto
         filter_no_results: Nenhuma variante corresponde a este filtro
         global_section:
-          description: These variants are available across all projects.
-          title: Variants
+          description: Estas variantes estão disponíveis em todos os projectos.
+          title: Variantes
         project_specific_section:
-          description: These variants are only available within the projects in which they were created.
-          title: Project-specific variants
+          description: Estas variantes só estão disponíveis nos projetos em que foram criadas.
+          title: Variante específica do projeto
       workflow:
         tab: Fluxos de trabalho
     index:
-      add_variant: Add a variant to %{name}
+      add_variant: Adicionar uma variante a %{name}
       add_variant_action: Adicionar variante
       description: 'Cada área de configuração em tipos e variantes pode ser configurada independentemente, limitada por outro tipo ou totalmente vinculada a uma origem.
 
@@ -6498,8 +6547,8 @@ pt-BR:
       no_results_content_text: Criar um novo tipo
       no_results_title_text: Atualmente, não há nenhum tipo.
       project_variants_count:
-        one: 1 project-specific variant
-        other: "%{count} project-specific variants"
+        one: 1 variante específica do projeto
+        other: "%{count} variantes"
       remove_default: Não ativar em novos projetos
       remove_default_notice: "%{name} não está mais ativado em novos projetos."
       type_label: Tipo
