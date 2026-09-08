@@ -30,6 +30,8 @@ import { TestBed } from '@angular/core/testing';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { AiActionsService } from 'core-app/core/ai-actions/ai-actions.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 const halCollection = (elements:unknown[]) => ({
   _type: 'Collection',
@@ -58,24 +60,192 @@ const existingWorkPackage = {
 
 const newWorkPackage = { ...existingWorkPackage, id: 'new' };
 
+class FakeEditor {
+  content = '# Old text';
+
+  inserted:string|null = null;
+
+  readOnlyLocks:string[] = [];
+
+  data = {
+    processor: { toView: (markdown:string) => ({ markdown }) },
+    toModel: (view:{ markdown:string }) => ({ fragment: view.markdown }),
+  };
+
+  model = {
+    document: { getRoot: () => 'root' },
+    createRangeIn: (root:string) => `range-in-${root}`,
+    change: (callback:() => void) => callback(),
+    insertContent: (fragment:{ fragment:string }, range:string) => {
+      expect(range).toBe('range-in-root');
+      this.inserted = fragment.fragment;
+    },
+  };
+
+  state = 'ready';
+
+  private listeners:Record<string, (() => void)[]> = {};
+
+  getData():string { return this.content; }
+
+  once(event:string, callback:() => void):void {
+    (this.listeners[event] ||= []).push(callback);
+  }
+
+  destroy():void {
+    this.state = 'destroyed';
+    (this.listeners.destroy || []).splice(0).forEach((callback) => callback());
+  }
+
+  enableReadOnlyMode(lock:string):void { this.readOnlyLocks.push(lock); }
+
+  disableReadOnlyMode(lock:string):void { this.readOnlyLocks = this.readOnlyLocks.filter((l) => l !== lock); }
+}
+
+const runResource = (id:string, status:string, events:unknown[]) => ({
+  _type: 'AITextTransformRun', id, status, events,
+});
+
+const fixGrammar = { id: 1, label: 'Fix grammar', position: 1, injectsTypeTemplate: false };
+
 describe('AiActionsService', () => {
   let service:AiActionsService;
   let httpMock:HttpTestingController;
+  let toasts:{ type:string, message:string }[];
+  let editor:FakeEditor;
 
   beforeEach(() => {
+    toasts = [];
+    const toastStub = {
+      addSuccess: (message:string) => { toasts.push({ type: 'success', message }); },
+      addError: (message:string) => { toasts.push({ type: 'error', message }); },
+      addNotice: (message:string) => { const toast = { type: 'notice', message }; toasts.push(toast); return toast; },
+      remove: (toast:{ type:string, message:string }) => { toasts = toasts.filter((t) => t !== toast); },
+    };
+
     TestBed.configureTestingModule({
       providers: [
         AiActionsService,
+        { provide: ToastService, useValue: toastStub },
+        { provide: I18nService, useValue: { t: (key:string, options?:Record<string, unknown>) => `${key}${options ? JSON.stringify(options) : ''}` } },
         provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
     });
 
     service = TestBed.inject(AiActionsService);
+    service.delay = () => Promise.resolve();
     httpMock = TestBed.inject(HttpTestingController);
+    editor = new FakeEditor();
   });
 
   afterEach(() => httpMock.verify());
+
+  const nextRequest = async (urlPart:string) => {
+    for (let attempt = 0; attempt < 50; attempt++) {
+      const [request] = httpMock.match((req) => req.url.includes(urlPart));
+      if (request) return request;
+      await new Promise((resolve) => { setTimeout(resolve, 0); });
+    }
+    throw new Error(`no request for ${urlPart}`);
+  };
+
+  describe('run', () => {
+    it('leaves the content untouched and reports an error when the run completes without text', async () => {
+      const promise = service.run(fixGrammar, editor, existingWorkPackage);
+
+      (await nextRequest('/api/v3/ai_text_transform_runs')).flush(runResource('run-4', 'queued', []), { status: 202, statusText: 'Accepted' });
+      (await nextRequest('run-4?after=0')).flush(runResource('run-4', 'succeeded', [
+        { seq: 1, kind: 'completed', payload: { text: '  ' } },
+      ]));
+
+      await promise;
+      expect(editor.inserted).toBeNull();
+      expect(editor.readOnlyLocks).toEqual([]);
+      expect(toasts).toEqual([{ type: 'error', message: 'js.editor.ai_actions.failed' }]);
+    });
+
+    it('unlocks the editor and reports a timeout when a request never answers', async () => {
+      service.requestTimeout = 20;
+      const promise = service.run(fixGrammar, editor, existingWorkPackage);
+
+      await nextRequest('/api/v3/ai_text_transform_runs');
+
+      await promise;
+      expect(editor.inserted).toBeNull();
+      expect(editor.readOnlyLocks).toEqual([]);
+      expect(toasts).toEqual([{ type: 'error', message: 'js.editor.ai_actions.timeout' }]);
+    });
+
+    it('cancels the run and applies nothing once the editor is destroyed', async () => {
+      const promise = service.run(fixGrammar, editor, existingWorkPackage);
+
+      (await nextRequest('/api/v3/ai_text_transform_runs')).flush(runResource('run-5', 'queued', []), { status: 202, statusText: 'Accepted' });
+      (await nextRequest('run-5?after=0')).flush(runResource('run-5', 'running', [
+        { seq: 1, kind: 'status', payload: { status: 'running' } },
+      ]));
+      editor.destroy();
+      (await nextRequest('run-5/cancel')).flush(null, { status: 204, statusText: 'No Content' });
+
+      await promise;
+      expect(editor.inserted).toBeNull();
+      expect(toasts).toEqual([]);
+    });
+
+    it('replaces the editor content with the completed text once the run succeeds', async () => {
+      const promise = service.run(fixGrammar, editor, existingWorkPackage);
+
+      const create = await nextRequest('/api/v3/ai_text_transform_runs');
+      expect(create.request.method).toBe('POST');
+      expect(create.request.body).toEqual({ actionId: 1, content: '# Old text', workPackageId: '123' });
+      expect(editor.readOnlyLocks).toEqual(['ai-actions']);
+      create.flush(runResource('run-1', 'queued', []), { status: 202, statusText: 'Accepted' });
+
+      const firstPoll = await nextRequest('/api/v3/ai_text_transform_runs/run-1?after=0');
+      firstPoll.flush(runResource('run-1', 'running', [
+        { seq: 1, kind: 'status', payload: { status: 'running' } },
+        { seq: 2, kind: 'text_delta', payload: { delta: 'Hello' } },
+      ]));
+
+      const secondPoll = await nextRequest('/api/v3/ai_text_transform_runs/run-1?after=2');
+      secondPoll.flush(runResource('run-1', 'succeeded', [
+        { seq: 3, kind: 'completed', payload: { text: 'Hello world' } },
+      ]));
+
+      await promise;
+      expect(editor.inserted).toBe('Hello world');
+      expect(editor.readOnlyLocks).toEqual([]);
+      expect(toasts).toEqual([{ type: 'success', message: 'js.editor.ai_actions.succeeded{"action":"Fix grammar"}' }]);
+    });
+
+    it('leaves the content untouched and reports the error when the run fails', async () => {
+      const promise = service.run(fixGrammar, editor, existingWorkPackage);
+
+      (await nextRequest('/api/v3/ai_text_transform_runs')).flush(runResource('run-2', 'queued', []), { status: 202, statusText: 'Accepted' });
+      (await nextRequest('run-2?after=0')).flush(runResource('run-2', 'failed', [
+        { seq: 1, kind: 'error', payload: { message: 'The AI service did not respond in time.', reason: 'timeout' } },
+      ]));
+
+      await promise;
+      expect(editor.inserted).toBeNull();
+      expect(editor.readOnlyLocks).toEqual([]);
+      expect(toasts).toEqual([{ type: 'error', message: 'The AI service did not respond in time.' }]);
+    });
+
+    it('leaves the content untouched and reports the message when the run cannot be created', async () => {
+      const promise = service.run(fixGrammar, editor, existingWorkPackage);
+
+      (await nextRequest('/api/v3/ai_text_transform_runs')).flush(
+        { _type: 'Error', message: 'This AI action is not active.' },
+        { status: 422, statusText: 'Unprocessable Content' },
+      );
+
+      await promise;
+      expect(editor.inserted).toBeNull();
+      expect(editor.readOnlyLocks).toEqual([]);
+      expect(toasts).toEqual([{ type: 'error', message: 'This AI action is not active.' }]);
+    });
+  });
 
   it('lists the actions of an existing work package ordered by position', async () => {
     const promise = service.actionsFor(existingWorkPackage, 'description');
@@ -115,8 +285,9 @@ describe('AiActionsService', () => {
     const forComment = await service.actionsFor(existingWorkPackage, 'comment');
     const forOtherResource = await service.actionsFor({ id: '5', _type: 'Meeting' }, 'description');
     const forNoResource = await service.actionsFor(undefined, 'description');
+    const forNoField = await service.actionsFor(existingWorkPackage, undefined);
 
-    expect([forComment, forOtherResource, forNoResource]).toEqual([[], [], []]);
+    expect([forComment, forOtherResource, forNoResource, forNoField]).toEqual([[], [], [], []]);
     httpMock.expectNone(() => true);
   });
 

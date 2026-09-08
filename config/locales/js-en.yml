@@ -228,6 +228,10 @@ en:
     editor:
       ai_actions:
         caption: "Assistant"
+        failed: "The assistant could not transform the text."
+        running: "The assistant is working on \"%{action}\"…"
+        succeeded: "\"%{action}\" applied. Use undo to restore the previous text."
+        timeout: "The assistant did not answer in time."
       ckeditor_error: "An error occurred within CKEditor"
       error_saving_failed: "Saving the document failed with the following error: %{error}"
       macro:

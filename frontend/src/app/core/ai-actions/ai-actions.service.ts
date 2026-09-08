@@ -27,11 +27,14 @@
 //++
 
 import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { firstValueFrom } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { firstValueFrom, Observable, timeout, TimeoutError } from 'rxjs';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import { IEditorWithContent, replaceEditorContent } from 'core-app/core/ai-actions/editor-content';
 
 export interface IAiTextTransformAction {
   id:number;
@@ -49,6 +52,38 @@ interface IEditorContextResource {
   };
 }
 
+interface IRunEvent {
+  seq:number;
+  kind:'status'|'text_delta'|'completed'|'error';
+  payload:{ text?:string; message?:string; delta?:string; status?:string };
+}
+
+interface IRunResource {
+  id:string;
+  status:'queued'|'running'|'succeeded'|'failed'|'cancelled';
+  events:IRunEvent[];
+}
+
+interface IRunOutcome {
+  status:IRunResource['status'];
+  text?:string;
+  message?:string;
+}
+
+interface IRunState {
+  deadline:number;
+  runId:string|null;
+  editorGone:boolean;
+  cancelRequested:boolean;
+}
+
+const TERMINAL_STATUSES = ['succeeded', 'failed', 'cancelled'];
+const READ_ONLY_LOCK = 'ai-actions';
+const MIN_POLL_DELAY = 400;
+const MAX_POLL_DELAY = 1000;
+const RUN_TIMEOUT = 200_000;
+const REQUEST_TIMEOUT = 30_000;
+
 // Counterpart of the CKEditor AI actions dropdown, which only renders the
 // list and reports the selection. Availability is decided entirely
 // server-side; an empty list keeps the dropdown hidden.
@@ -57,6 +92,14 @@ export class AiActionsService {
   private http = inject(HttpClient);
 
   private pathHelper = inject(PathHelperService);
+
+  private toast = inject(ToastService);
+
+  private I18n = inject(I18nService);
+
+  delay = (ms:number):Promise<void> => new Promise((resolve) => { setTimeout(resolve, ms); });
+
+  requestTimeout = REQUEST_TIMEOUT;
 
   async actionsFor(resource:IEditorContextResource|undefined, field:string|undefined):Promise<IAiTextTransformAction[]> {
     const path = this.listPath(resource, field);
@@ -75,33 +118,155 @@ export class AiActionsService {
     }
   }
 
-  // Entry point for the editor plugin; the execute flow (request, loading
-  // state, diff preview, accept/reject) lands in a follow-up.
-  run(_action:IAiTextTransformAction, _editor:unknown, _resource:IEditorContextResource|undefined):Promise<void> {
-    return Promise.resolve();
+  async run(action:IAiTextTransformAction, editor:IEditorWithContent, resource:IEditorContextResource|undefined):Promise<void> {
+    const context = this.runContext(resource);
+
+    if (context === null) {
+      return;
+    }
+
+    const state:IRunState = {
+      deadline: Date.now() + RUN_TIMEOUT, runId: null, editorGone: false, cancelRequested: false,
+    };
+    editor.once('destroy', () => {
+      state.editorGone = true;
+      void this.cancelRun(state);
+    });
+    editor.enableReadOnlyMode(READ_ONLY_LOCK);
+    const notice = this.toast.addNotice(this.I18n.t('js.editor.ai_actions.running', { action: action.label }));
+
+    try {
+      const run = await this.createRun(action, editor.getData(), context);
+      state.runId = run.id;
+      const outcome = await this.awaitOutcome(state);
+
+      if (state.editorGone) {
+        return;
+      }
+
+      if (outcome.status === 'succeeded' && outcome.text?.trim()) {
+        replaceEditorContent(editor, outcome.text);
+        this.toast.addSuccess(this.I18n.t('js.editor.ai_actions.succeeded', { action: action.label }));
+      } else if (outcome.status !== 'cancelled') {
+        this.toast.addError(outcome.message ?? this.I18n.t('js.editor.ai_actions.failed'));
+      }
+    } catch (error) {
+      void this.cancelRun(state);
+      if (!state.editorGone) {
+        this.toast.addError(this.errorMessage(error));
+      }
+    } finally {
+      this.toast.remove(notice);
+      if (!state.editorGone) {
+        editor.disableReadOnlyMode(READ_ONLY_LOCK);
+      }
+    }
+  }
+
+  private createRun(action:IAiTextTransformAction, content:string, context:Record<string, string>):Promise<IRunResource> {
+    return this.request(this.http.post<IRunResource>(this.runsPath(), { actionId: action.id, content, ...context }));
+  }
+
+  private async awaitOutcome(state:IRunState):Promise<IRunOutcome> {
+    const outcome:IRunOutcome = { status: 'queued' };
+    let cursor = 0;
+    let pollDelay = MIN_POLL_DELAY;
+
+    while (!TERMINAL_STATUSES.includes(outcome.status)) {
+      if (state.editorGone) {
+        await this.cancelRun(state);
+        return { status: 'cancelled' };
+      }
+
+      if (Date.now() > state.deadline) {
+        await this.cancelRun(state);
+        return { status: 'failed', message: this.I18n.t('js.editor.ai_actions.timeout') };
+      }
+
+      const run = await this.request(this.http.get<IRunResource>(`${this.runsPath()}/${state.runId}?after=${cursor}`));
+      outcome.status = run.status;
+
+      run.events.forEach((event) => {
+        cursor = Math.max(cursor, event.seq);
+        if (event.kind === 'completed') {
+          outcome.text = event.payload.text;
+        } else if (event.kind === 'error') {
+          outcome.message = event.payload.message;
+        }
+      });
+
+      if (!TERMINAL_STATUSES.includes(outcome.status)) {
+        await this.delay(pollDelay);
+        pollDelay = Math.min(MAX_POLL_DELAY, pollDelay + 100);
+      }
+    }
+
+    return outcome;
+  }
+
+  private cancelRun(state:IRunState):Promise<unknown> {
+    if (state.cancelRequested || state.runId === null) {
+      return Promise.resolve();
+    }
+
+    state.cancelRequested = true;
+    return this.request(this.http.post(`${this.runsPath()}/${state.runId}/cancel`, {})).catch(() => undefined);
+  }
+
+  private request<T>(source:Observable<T>):Promise<T> {
+    return firstValueFrom(source.pipe(timeout(this.requestTimeout)));
+  }
+
+  private errorMessage(error:unknown):string {
+    if (error instanceof TimeoutError) {
+      return this.I18n.t('js.editor.ai_actions.timeout');
+    }
+
+    if (error instanceof HttpErrorResponse) {
+      const message = (error.error as { message?:string }|null)?.message;
+      if (message) {
+        return message;
+      }
+    }
+
+    return this.I18n.t('js.editor.ai_actions.failed');
+  }
+
+  private runsPath():string {
+    return `${this.pathHelper.api.v3.apiV3Base}/ai_text_transform_runs`;
   }
 
   // v1 applies to the work package description editor only. Everything else
   // (comments, wiki pages, meeting notes) resolves to "no actions".
   private listPath(resource:IEditorContextResource|undefined, field:string|undefined):string|null {
-    if (!resource || field !== 'description' || resource._type !== 'WorkPackage') {
+    const context = field === 'description' ? this.runContext(resource) : null;
+
+    if (context === null) {
       return null;
     }
 
     const base = this.pathHelper.api.v3.apiV3Base;
 
+    if (context.workPackageId) {
+      return `${base}/work_packages/${context.workPackageId}/ai_text_transform_actions`;
+    }
+
+    return `${base}/projects/${context.projectId}/ai_text_transform_actions?typeId=${context.typeId}`;
+  }
+
+  private runContext(resource:IEditorContextResource|undefined):Record<string, string>|null {
+    if (resource?._type !== 'WorkPackage') {
+      return null;
+    }
+
     if (resource.id && resource.id !== 'new') {
-      return `${base}/work_packages/${resource.id}/ai_text_transform_actions`;
+      return { workPackageId: resource.id };
     }
 
     const projectId = this.linkedId(resource.$links?.project?.href);
     const typeId = this.linkedId(resource.$links?.type?.href);
 
-    if (!projectId || !typeId) {
-      return null;
-    }
-
-    return `${base}/projects/${projectId}/ai_text_transform_actions?typeId=${typeId}`;
+    return projectId && typeId ? { projectId, typeId } : null;
   }
 
   private linkedId(href:string|undefined):string|null {
