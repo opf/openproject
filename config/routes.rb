@@ -157,6 +157,8 @@ Rails.application.routes.draw do
   # Configuring one variant of a type, from administration or from the settings of a project
   # that owns one.
   concern :type_variant_configuration do
+    resources :settings, controller: "settings_tab", only: %i[index]
+
     # ProjectsTabController turns a project away: which projects use a type is instance-wide.
     resource :projects, controller: "projects_tab", only: %i[edit update] do
       collection do

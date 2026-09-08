@@ -6630,6 +6630,15 @@ en:
         row_actions: "Row actions"
         tab: "Form"
         untitled_group: "Untitled group"
+      overview:
+        configuration_mode: "Configuration mode"
+        dependents: "Dependent types and variants"
+        mode:
+          always_manual: "Always manual"
+          inheriting_from_html: "Inheriting from %{source_name}"
+          manual: "Manually configured"
+        settings: "Settings"
+        tab: "Overview"
       project_attributes:
         actions:
           label_disable_all: "Disable all"
