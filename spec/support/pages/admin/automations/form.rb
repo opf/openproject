@@ -49,6 +49,24 @@ module Pages
           fill_in "Button label", with: label
         end
 
+        def set_trigger(label)
+          select label, from: "Triggers"
+        end
+
+        def expect_trigger_options(*labels)
+          field = page.find_field("Triggers")
+
+          expect(field).not_to be_disabled
+          expect(field.all("option").map(&:text)).to eq(Array(labels))
+        end
+
+        def expect_trigger_instructions
+          within "#automations-form--trigger" do
+            expect(page).to have_css(".form--field-instructions",
+                                     text: I18n.t("automations.triggers.more_coming"))
+          end
+        end
+
         def add_action(name, value)
           retry_block do
             select name, from: "Add action"

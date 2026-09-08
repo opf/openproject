@@ -86,6 +86,10 @@ class Automation < ApplicationRecord
     order(:position)
   end
 
+  def available_triggers
+    ::Automations::Register.triggers
+  end
+
   def all_actions
     all_of(available_actions, actions)
   end

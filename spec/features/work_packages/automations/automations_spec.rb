@@ -151,6 +151,9 @@ RSpec.describe "Automations", :js, with_ee: %i[custom_actions] do
 
     new_ca_page = index_ca_page.new
 
+    new_ca_page.expect_trigger_options("Manual button click")
+    new_ca_page.expect_trigger_instructions
+
     new_ca_page.set_name("Unassign")
     new_ca_page.set_button_label("Unassign")
     new_ca_page.set_description("Removes the assignee")

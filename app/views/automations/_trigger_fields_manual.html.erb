@@ -27,9 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= hidden_field_tag "automation[triggers_attributes][0][type]", "Automations::Triggers::Manual" %>
-<%= hidden_field_tag "automation[triggers_attributes][0][id]", trigger.id if trigger.persisted? %>
-
 <div class="form--field -required">
   <%= styled_label_tag "automation_triggers_attributes_0_options_button_label", t("automations.triggers.manual.button_label"), class: "-top" %>
   <div class="form--field-container">

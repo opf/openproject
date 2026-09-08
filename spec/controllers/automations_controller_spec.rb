@@ -435,4 +435,48 @@ RSpec.describe AutomationsController, with_ee: %i[custom_actions] do
 
     it_behaves_like "403 for non admins"
   end
+
+  describe "the trigger field" do
+    render_views
+
+    let(:automation) { create(:automation) }
+
+    before do
+      login_as(admin)
+    end
+
+    shared_examples_for "a trigger select" do
+      it "offers every registered trigger type" do
+        options = response.parsed_body
+                          .css("select[name='automation[triggers_attributes][0][type]'] option")
+
+        expect(options.map { |option| [option.text, option[:value]] })
+          .to eq([["Manual button click", "Automations::Triggers::Manual"]])
+      end
+
+      it "explains that more trigger types are coming" do
+        expect(response.body)
+          .to include(I18n.t("automations.triggers.more_coming"))
+      end
+    end
+
+    context "on a new automation" do
+      before { get(:new) }
+
+      it_behaves_like "a trigger select"
+    end
+
+    context "on an existing automation" do
+      before { get(:edit, params: { id: automation.id }) }
+
+      it_behaves_like "a trigger select"
+
+      it "preselects the stored trigger type" do
+        selected = response.parsed_body
+                           .at_css("select[name='automation[triggers_attributes][0][type]'] option[selected]")
+
+        expect(selected[:value]).to eq("Automations::Triggers::Manual")
+      end
+    end
+  end
 end

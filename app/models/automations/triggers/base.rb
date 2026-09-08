@@ -36,6 +36,18 @@ module Automations
       belongs_to :automation, inverse_of: :triggers
 
       acts_as_list scope: :automation
+
+      validates :type, inclusion: { in: ->(_) { Automations::Register.triggers.map(&:name) } }
+
+      def self.key
+        name.demodulize.underscore.to_sym
+      end
+
+      def self.human_name
+        I18n.t("automations.triggers.#{key}.label", default: name.demodulize)
+      end
+
+      delegate :key, :human_name, to: :class
     end
   end
 end

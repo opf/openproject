@@ -29,6 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% active_section_keys = @automation.actions.map(&:key) %>
 <% trigger = @automation.triggers.detect { |t| t.is_a?(Automations::Triggers::Manual) } || @automation.triggers.build(type: "Automations::Triggers::Manual") %>
+<% trigger_options = @automation.available_triggers.map { |klass| [klass.human_name, klass.name] } %>
 
 <div class="form--field -required">
   <%= f.text_field :name, required: true, container_class: "-middle" %>
@@ -40,14 +41,18 @@ See COPYRIGHT and LICENSE files for more details.
 <fieldset class="form--fieldset" id="automations-form--trigger">
   <legend class="form--fieldset-legend"><%= t("automations.trigger") %></legend>
   <div class="form--field">
-    <%= styled_label_tag "automation_trigger_type", t("automations.triggers.name"), class: "-top" %>
+    <%= styled_label_tag "automation_triggers_attributes_0_type", t("automations.triggers.name"), class: "-top" %>
     <div class="form--field-container">
-      <%= styled_text_field_tag "automation_trigger_type",
-                                t("automations.triggers.manual.label"),
-                                disabled: true,
-                                container_class: "-middle" %>
+      <%= styled_select_tag "automation[triggers_attributes][0][type]",
+                            options_for_select(trigger_options, trigger.type),
+                            container_class: "-middle",
+                            aria: { describedby: "automation_triggers_attributes_0_type_instructions" } %>
+    </div>
+    <div class="form--field-instructions" id="automation_triggers_attributes_0_type_instructions">
+      <%= t("automations.triggers.more_coming") %>
     </div>
   </div>
+  <%= hidden_field_tag "automation[triggers_attributes][0][id]", trigger.id if trigger.persisted? %>
   <%= render partial: "trigger_fields_manual", locals: { trigger: } %>
 </fieldset>
 

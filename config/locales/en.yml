@@ -2221,6 +2221,7 @@ en:
       manual:
         button_label: "Button label"
         label: "Manual button click"
+      more_coming: "OpenProject will add more trigger types soon."
       name: "Triggers"
 
   background_jobs:

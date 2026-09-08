@@ -28,39 +28,52 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Automations::Register
-  class << self
-    def actions
-      [
-        Automations::Actions::AssignedTo,
-        Automations::Actions::Responsible,
-        Automations::Actions::Status,
-        Automations::Actions::Priority,
-        Automations::Actions::CustomField,
-        Automations::Actions::Type,
-        Automations::Actions::Project,
-        Automations::Actions::Notify,
-        Automations::Actions::DoneRatio,
-        Automations::Actions::EstimatedHours,
-        Automations::Actions::StartDate,
-        Automations::Actions::DueDate,
-        Automations::Actions::Date
-      ]
+require "spec_helper"
+
+RSpec.describe Automations::Triggers::Manual do
+  describe ".key" do
+    it "derives from the class name" do
+      expect(described_class.key).to eq(:manual)
+    end
+  end
+
+  describe ".human_name" do
+    it "is the translated label" do
+      expect(described_class.human_name).to eq("Manual button click")
     end
 
-    def triggers
-      [
-        Automations::Triggers::Manual
-      ]
+    it "falls back to the class name when no translation exists" do
+      expect(Automations::Triggers::Base.human_name).to eq("Base")
+    end
+  end
+
+  describe "#human_name" do
+    it "delegates to the class" do
+      expect(described_class.new.human_name).to eq("Manual button click")
+    end
+  end
+
+  describe "type" do
+    let(:automation) { build(:automation) }
+
+    it "accepts a registered trigger type" do
+      trigger = automation.triggers.detect { |t| t.is_a?(described_class) }
+
+      expect(trigger).to be_valid
     end
 
-    def conditions
-      [
-        Automations::Conditions::Status,
-        Automations::Conditions::Role,
-        Automations::Conditions::Type,
-        Automations::Conditions::Project
-      ]
+    it "rejects a type that is not registered" do
+      trigger = automation.triggers.first
+      trigger.type = "Automations::Triggers::Base"
+
+      expect(trigger).not_to be_valid
+      expect(trigger.errors.symbols_for(:type)).to include(:inclusion)
+    end
+
+    it "makes the automation invalid" do
+      automation.triggers.first.type = "Automations::Triggers::Base"
+
+      expect(automation).not_to be_valid
     end
   end
 end

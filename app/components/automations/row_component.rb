@@ -39,14 +39,7 @@ module Automations
     end
 
     def triggers
-      automation.triggers.map do |trigger|
-        case trigger
-        when Automations::Triggers::Manual
-          I18n.t("automations.triggers.manual.label")
-        else
-          trigger.type.demodulize
-        end
-      end.join(", ")
+      automation.triggers.map(&:human_name).join(", ")
     end
 
     def conditions

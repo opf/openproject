@@ -169,7 +169,7 @@ RSpec.describe Automations::UpdateWorkPackageService do
       end
 
       # The lambda runs as the update service stub, so it must assert at call time
-      # rubocop:disable RSpec/ExpectInLet
+      # rubocop:disable-next RSpec/ExpectInLet
       let(:update_service_call_implementation) do
         -> do
           # check that the work package retains only the valid changes
@@ -186,7 +186,6 @@ RSpec.describe Automations::UpdateWorkPackageService do
           result
         end
       end
-      # rubocop:enable RSpec/ExpectInLet
 
       it "is successful" do
         expect(subject)
@@ -199,7 +198,7 @@ RSpec.describe Automations::UpdateWorkPackageService do
         ServiceResult.failure(result: work_package)
       end
       # The lambda runs as the update service stub, so it must assert at call time
-      # rubocop:disable RSpec/ExpectInLet
+      # rubocop:disable-next RSpec/ExpectInLet
       let(:update_service_call_implementation) do
         -> do
           # check that the work package has all the changes
@@ -216,7 +215,6 @@ RSpec.describe Automations::UpdateWorkPackageService do
           result
         end
       end
-      # rubocop:enable RSpec/ExpectInLet
 
       before do
         allow(contract)
