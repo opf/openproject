@@ -452,7 +452,7 @@ class AccountController < ApplicationController
         render status: :unprocessable_entity
       else
         # incorrect password
-        flash_and_log_invalid_credentials
+        flash_and_log_invalid_credentials(sso_hint: true)
         render status: :unprocessable_entity
       end
     elsif user.new_record?
@@ -465,7 +465,7 @@ class AccountController < ApplicationController
 
   def invited_account_not_activated(_user)
     flash_error_message(log_reason: "invited, NOT ACTIVATED", flash_now: false) do
-      "account.error_inactive_activation_by_mail"
+      I18n.t("account.error_inactive_activation_by_mail")
     end
   end
 

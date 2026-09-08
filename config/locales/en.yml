@@ -4698,6 +4698,7 @@ en:
   notice_account_already_activated: The account has already been activated.
   notice_account_invalid_credentials: "Invalid user or password"
   notice_account_invalid_credentials_or_blocked: "Invalid user or password or the account is blocked due to multiple failed login attempts. If so, it will be unblocked automatically in a short time."
+  notice_account_invalid_credentials_sso_hint: "If your account is set up for single sign-on, please use your identity provider to sign in instead."
   notice_account_invalid_token: Invalid activation token
   notice_account_lost_email_sent: "An email with instructions to choose a new password has been sent to you."
   notice_account_new_password_forced: "A new password is required."
