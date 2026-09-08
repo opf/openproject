@@ -113,15 +113,21 @@ RSpec.describe "Projects autocomplete page", :js do
     top_menu.search "Plain pr"
     top_menu.expect_result "Plain project"
     top_menu.expect_result "Plain other project"
-    top_menu.expect_no_result "Project with different name and identifier"
 
-    # Expect search to match names only and not the identifier
+    # Expect every term to match, not just one of them
+    top_menu.clear_search
+
+    top_menu.search "Plain other"
+    top_menu.expect_result "Plain other project"
+    top_menu.expect_no_result "Plain project"
+
+    # Expect search to match the identifier as well as the name
     top_menu.clear_search
 
     top_menu.search "plain"
     top_menu.expect_result "Plain project"
     top_menu.expect_result "Plain other project"
-    top_menu.expect_no_result "Project with different name and identifier"
+    top_menu.expect_result "Project with different name and identifier"
 
     # Expect hierarchy
     top_menu.clear_search
