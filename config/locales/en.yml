@@ -1487,6 +1487,7 @@ en:
           Connection blocked: the Jira host resolves to a private IP address. If your Jira instance
           runs on an internal network, allow its IP via the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST
           environment variable.
+        unsupported_endpoint: "Jira API has no endpoint at %{path} (status %{status})"
       columns:
         added: "Added"
         creator: "Creator"

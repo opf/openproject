@@ -101,9 +101,12 @@ field migration.
 
 ### Option lists with incomplete allowed values
 
-The Jira API only reports the options a field currently offers on an issue's edit screen. Options removed from a field 
-context after issues were set - and fields that sit on no edit screen at all - therefore report no allowed values, or 
-fewer than the imported issues actually use.
+On Jira Data Center 9.3 and newer, the migrator reads each field's options per field context directly, so options are
+reported also for a field that sits on no edit screen. 
+
+On older Jira versions the options have to be read off an issue's edit screen, which only reports the options 
+a field currently offers there. Options removed from a field context after issues were set - and fields that sit on 
+no edit screen at all - therefore report no allowed values, or fewer than the imported issues actually use.
 
 To avoid losing those values, the migrator also collects the options found on the imported issues themselves and adds 
 any that the API did not report to the option list of the custom field the issue is imported into. This applies to 
@@ -127,11 +130,11 @@ The migrator handles this as follows:
 - Each distinct set of allowed values becomes a **separate OpenProject custom field**.
 - If multiple context groups are detected for one Jira field, each resulting custom field is named `<FieldName> (<ProjectKey>)` to disambiguate.
 - If all contexts share the same allowed values, a single custom field is created without a project suffix.
-- Field contexts are not available with their values via the API.
+- Context names are not available via the API.
   The migrator uses project keys as suffixes to disambiguate contexts, but the original context names are not preserved.
 
 During issue import, each issue is matched to the context whose projects and issue types fit. 
-If no context matches (for example, the field was removed from a screen after values were set), the first available context is used as a fallback so no data is silently lost. 
+If no context matches, the first available context is used as a fallback so no data is silently lost. 
 The custom field an issue resolves to is activated in that issue's project, whether it was matched or used as a fallback.
 
 ### Deduplication with existing custom fields

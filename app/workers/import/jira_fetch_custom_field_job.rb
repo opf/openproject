@@ -93,12 +93,8 @@ module Import
     #   ]
     #
     # In Jira DC, custom-field lists can be overridden per project and per issue type via
-    # Field Contexts; there is no officially supported public API to enumerate those contexts
-    # or fetch options across them. We derive them by calling /rest/api/2/issue/{key}/editmeta
-    # once per distinct (project, issuetype) pair appearing in the imported issues - editmeta
-    # returns the allowed values for that issue's current context. Identical option sets are
-    # merged into a single group so the import job can later materialize one OP custom field
-    # per distinct group.
+    # Field Contexts. Identical option sets are merged into a single group so the import job can
+    # later materialize one OP custom field per distinct group.
     def sync_custom_field_options
       option_based_fields_by_jira_id = Import::JiraField
                                          .where(jira_import_id: @jira_import.id)
@@ -106,9 +102,105 @@ module Import
                                          .index_by(&:origin_id)
       return if option_based_fields_by_jira_id.empty?
 
+      collect_field_contexts_via_options_api(option_based_fields_by_jira_id)
+    rescue Import::JiraClient::UnsupportedEndpointError => e
+      Rails.logger.info("Jira custom field options endpoint unusable (#{e.message}), falling back to editmeta.")
       collect_field_contexts_via_editmeta(option_based_fields_by_jira_id)
     end
 
+    # Jira DC >= 9.3 reports a custom field's options per Field Context directly. Compared to the
+    # editmeta route below this asks only for the fields the import actually needs instead of the
+    # metadata of every field on an edit screen, and it also covers fields that sit on no edit
+    # screen at all. Raises UnsupportedEndpointError if the endpoint never answered, so that the
+    # caller can fall back before anything has been persisted.
+    def collect_field_contexts_via_options_api(option_based_fields_by_jira_id)
+      @options_api_confirmed = false
+      groups_by_field = Hash.new { |h, k| h[k] = {} }
+      field_scopes_from_issues(option_based_fields_by_jira_id.keys).each do |field_key, scopes|
+        jira_field = option_based_fields_by_jira_id.fetch(field_key)
+        context_allowed_values(jira_field, scopes).each do |allowed_values, project_key, issuetype_id|
+          record_context(groups_by_field[field_key], allowed_values, project_key, issuetype_id)
+        end
+      end
+      persist_context_groups(groups_by_field, option_based_fields_by_jira_id)
+    end
+
+    def context_allowed_values(jira_field, scopes)
+      scopes.filter_map do |project_key, project_id, issuetype_id|
+        allowed_values = fetch_context_allowed_values(jira_field, project_id, issuetype_id)
+        [allowed_values, project_key, issuetype_id] if allowed_values.present?
+      end
+    end
+
+    def field_scopes_from_issues(field_keys)
+      wanted = field_keys.to_set
+      scopes = Hash.new { |h, k| h[k] = Set.new }
+      import_issues.find_each { |issue| record_issue_field_scopes(issue, wanted, scopes) }
+      scopes
+    end
+
+    def record_issue_field_scopes(issue, wanted_field_keys, scopes)
+      scope = issue_context_scope(issue)
+      issue.payload["fields"].each do |field_key, value|
+        scopes[field_key] << scope if wanted_field_keys.include?(field_key) && value.present?
+      end
+    end
+
+    def fetch_context_allowed_values(jira_field, project_id, issuetype_id)
+      custom_field_id = custom_field_numeric_id(jira_field)
+      return if custom_field_id.blank?
+
+      options = @jira_client.custom_field_options(custom_field_id,
+                                                  project_ids: [project_id].compact,
+                                                  issue_type_ids: [issuetype_id].compact)
+      @options_api_confirmed = true
+      nested_allowed_values(options)
+    rescue Import::JiraClient::UnsupportedEndpointError, Import::JiraClient::ApiError => e
+      raise Import::JiraClient::UnsupportedEndpointError, e.message unless @options_api_confirmed
+
+      Rails.logger.warn("Could not fetch options of custom field #{jira_field.origin_id}: #{e.message}.")
+      nil
+    end
+
+    def custom_field_numeric_id(jira_field)
+      jira_field.payload.dig("schema", "customId") || jira_field.origin_id.to_s[/\d+/]
+    end
+
+    # Rebuilds the nested allowedValues structure of a context group from the flat option list the
+    # options endpoint returns, where a cascading select expresses its tree through "childrenIds".
+    # Disabled options are left out to match what editmeta reports; values that imported issues
+    # still hold are recovered from the issues themselves during custom field creation.
+    def nested_allowed_values(options)
+      options_by_id = options.index_by { |option| option["id"].to_s }
+      seen = Set.new
+      root_options(options).filter_map { |option| allowed_value_tree(option, options_by_id, seen) }
+    end
+
+    def root_options(options)
+      child_ids = options.flat_map { |option| Array(option["childrenIds"]).map(&:to_s) }.to_set
+      options.reject { |option| child_ids.include?(option["id"].to_s) }
+    end
+
+    def allowed_value_tree(option, options_by_id, seen)
+      return if option["disabled"]
+      return unless seen.add?(option["id"].to_s)
+
+      allowed_value = { "id" => option["id"].to_s, "value" => option["value"] }
+      children = child_allowed_values(option, options_by_id, seen)
+      allowed_value["children"] = children if children.any?
+      allowed_value
+    end
+
+    def child_allowed_values(option, options_by_id, seen)
+      Array(option["childrenIds"])
+        .filter_map { |child_id| options_by_id[child_id.to_s] }
+        .filter_map { |child| allowed_value_tree(child, options_by_id, seen) }
+    end
+
+    # Fallback for Jira DC < 9.3, which has no endpoint enumerating a field's contexts or their
+    # options. It derives them by calling /rest/api/2/issue/{key}/editmeta once per distinct
+    # (project, issuetype) pair appearing in the imported issues - editmeta returns the allowed
+    # values for that issue's current context, so a field on no edit screen stays invisible here.
     def collect_field_contexts_via_editmeta(option_based_fields_by_jira_id)
       groups_by_field = Hash.new { |h, k| h[k] = {} }
       each_sample_issue_per_project_issuetype do |jira_issue|
@@ -117,12 +209,19 @@ module Import
       persist_context_groups(groups_by_field, option_based_fields_by_jira_id)
     end
 
+    def import_project_ids
+      @import_project_ids ||= Import::JiraProject
+                                .where(jira_import_id: @jira_import.id, origin_id: @jira_import.project_ids)
+                                .pluck(:id)
+    end
+
+    def import_issues
+      Import::JiraIssue.where(jira_import_id: @jira_import.id, jira_project_id: import_project_ids)
+    end
+
     def each_sample_issue_per_project_issuetype
       seen = Set.new
-      project_ids = Import::JiraProject
-                      .where(jira_import_id: @jira_import.id, origin_id: @jira_import.project_ids)
-                      .pluck(:id)
-      Import::JiraIssue.where(jira_import_id: @jira_import.id, jira_project_id: project_ids).find_each do |jira_issue|
+      import_issues.find_each do |jira_issue|
         key = issue_context_key(jira_issue)
         next if seen.include?(key)
 
@@ -134,6 +233,14 @@ module Import
     def issue_context_key(jira_issue)
       [
         jira_issue.payload.dig("fields", "project", "key"),
+        jira_issue.payload.dig("fields", "issuetype", "id")
+      ]
+    end
+
+    def issue_context_scope(jira_issue)
+      [
+        jira_issue.payload.dig("fields", "project", "key"),
+        jira_issue.payload.dig("fields", "project", "id"),
         jira_issue.payload.dig("fields", "issuetype", "id")
       ]
     end
