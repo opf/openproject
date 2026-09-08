@@ -166,6 +166,75 @@ RSpec.describe WorkPackageTypes::VariantsController, with_flag: { type_variants:
         expect(response).to redirect_to(types_path)
       end
     end
+
+    describe "POST convert_to_global" do
+      let!(:variant) { create(:project_owned_type_variant, type:, project: create(:project), variant_name: "Hardware") }
+
+      it "detaches it from its project and falls back to the types index" do
+        post :convert_to_global, params: { type_id: type.id, id: variant.id }
+
+        expect(response).to redirect_to(types_path)
+        expect(variant.reload.project_id).to be_nil
+      end
+
+      context "when the variant inherits from a project-specific variant" do
+        before do
+          variant.update!(workflows_source: create(:project_owned_type_variant, type:, project: variant.project,
+                                                                                variant_name: "Sibling"))
+        end
+
+        it "refuses and leaves it project-owned" do
+          post :convert_to_global, params: { type_id: type.id, id: variant.id }, format: :turbo_stream
+
+          expect(variant.reload).to be_project_owned
+        end
+      end
+
+      context "for a variant of another type" do
+        let(:other_variant) { create(:project_owned_type_variant, project: create(:project)) }
+
+        it "does not find it, so nothing is converted" do
+          post :convert_to_global, params: { type_id: type.id, id: other_variant.id }
+
+          expect(response).to have_http_status(:not_found)
+          expect(other_variant.reload).to be_project_owned
+        end
+      end
+    end
+
+    describe "POST convert_to_global_rename" do
+      let!(:variant) { create(:project_owned_type_variant, type:, project: create(:project), variant_name: "Hardware") }
+
+      # A global sibling already holds the name
+      before { create(:type_variant, type:, variant_name: "Hardware") }
+
+      it "renames the still project-owned variant so the conversion can proceed" do
+        post :convert_to_global_rename,
+             params: { type_id: type.id, id: variant.id, type_variant: { variant_name: "Firmware" } },
+             format: :turbo_stream
+
+        expect(variant.reload).to have_attributes(variant_name: "Firmware")
+        expect(variant).to be_project_owned
+      end
+
+      it "keeps the dialog open when the new name is taken too" do
+        post :convert_to_global_rename,
+             params: { type_id: type.id, id: variant.id, type_variant: { variant_name: "Hardware" } },
+             format: :turbo_stream
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(variant.reload.variant_name).to eq("Hardware")
+      end
+
+      it "keeps the dialog open when the new name is blank" do
+        post :convert_to_global_rename,
+             params: { type_id: type.id, id: variant.id, type_variant: { variant_name: "" } },
+             format: :turbo_stream
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(variant.reload.variant_name).to eq("Hardware")
+      end
+    end
   end
 
   context "without admin access" do
@@ -178,6 +247,41 @@ RSpec.describe WorkPackageTypes::VariantsController, with_flag: { type_variants:
       it "is forbidden and leaves the flag untouched" do
         expect(response).to have_http_status(:forbidden)
         expect(variant.reload).not_to be_enabled_in_new_projects
+      end
+    end
+
+    describe "GET convert_to_global_dialog" do
+      let(:variant) { create(:project_owned_type_variant, type:, project: create(:project)) }
+
+      before { get :convert_to_global_dialog, params: { type_id: type.id, id: variant.id } }
+
+      it "is forbidden" do
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
+
+    describe "POST convert_to_global" do
+      let(:variant) { create(:project_owned_type_variant, type:, project: create(:project)) }
+
+      before { post :convert_to_global, params: { type_id: type.id, id: variant.id } }
+
+      it "is forbidden and leaves the variant project-owned" do
+        expect(response).to have_http_status(:forbidden)
+        expect(variant.reload).to be_project_owned
+      end
+    end
+
+    describe "POST convert_to_global_rename" do
+      let(:variant) { create(:project_owned_type_variant, type:, project: create(:project), variant_name: "Hardware") }
+
+      before do
+        post :convert_to_global_rename,
+             params: { type_id: type.id, id: variant.id, type_variant: { variant_name: "Firmware" } }
+      end
+
+      it "is forbidden and leaves the name untouched" do
+        expect(response).to have_http_status(:forbidden)
+        expect(variant.reload.variant_name).to eq("Hardware")
       end
     end
   end

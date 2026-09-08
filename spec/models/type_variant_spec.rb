@@ -259,4 +259,54 @@ RSpec.describe TypeVariant, with_flag: { type_variants: true } do
       end
     end
   end
+
+  describe "#global_name_conflict?" do
+    shared_let(:project) { create(:project) }
+    let(:variant) { create(:project_owned_type_variant, type: bug, project:, variant_name: "Hardware") }
+
+    it "is true when a global sibling of the same type carries the name" do
+      create(:type_variant, type: bug, variant_name: "Hardware")
+
+      expect(variant).to be_global_name_conflict
+    end
+
+    it "matches case-insensitively" do
+      create(:type_variant, type: bug, variant_name: "hardware")
+
+      expect(variant).to be_global_name_conflict
+    end
+
+    it "is false when the name is taken only in another type" do
+      create(:type_variant, type: task, variant_name: "Hardware")
+
+      expect(variant).not_to be_global_name_conflict
+    end
+
+    it "considers only global variants, ignoring other project-owned ones" do
+      create(:project_owned_type_variant, type: bug, variant_name: "Hardware")
+
+      expect(variant).not_to be_global_name_conflict
+    end
+  end
+
+  describe "#inherits_from_project_owned_variant?" do
+    shared_let(:project) { create(:project) }
+    let(:variant) { create(:project_owned_type_variant, type: bug, project:, variant_name: "Hardware") }
+
+    it "is false when the variant holds no reuse links" do
+      expect(variant).not_to be_inherits_from_project_owned_variant
+    end
+
+    it "is false when every source is global" do
+      variant.update!(workflows_source: create(:type_variant, type: bug, variant_name: "Base config"))
+
+      expect(variant).not_to be_inherits_from_project_owned_variant
+    end
+
+    it "is true when an aspect is sourced from a project-owned variant" do
+      variant.update!(workflows_source: create(:project_owned_type_variant, type: bug, project:, variant_name: "Sibling"))
+
+      expect(variant).to be_inherits_from_project_owned_variant
+    end
+  end
 end
