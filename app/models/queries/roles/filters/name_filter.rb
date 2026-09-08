@@ -28,12 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Roles
-  ::Queries::Register.register(RoleQuery) do
-    filter Filters::AllowsBecomingAssigneeFilter
-    filter Filters::GrantableFilter
-    filter Filters::NameFilter
-    filter Filters::TypeFilter
-    filter Filters::UnitFilter
+class Queries::Roles::Filters::NameFilter < Queries::Roles::Filters::RoleFilter
+  def type
+    :string
+  end
+
+  def where
+    escaped = ActiveRecord::Base.sanitize_sql_like(values.first)
+
+    case operator
+    when "~", "**"
+      ["roles.name ILIKE :name", { name: "%#{escaped}%" }]
+    when "!~"
+      ["roles.name NOT ILIKE :name", { name: "%#{escaped}%" }]
+    when "="
+      ["roles.name IN (?)", values]
+    else
+      raise "Unsupported operator #{operator}"
+    end
   end
 end

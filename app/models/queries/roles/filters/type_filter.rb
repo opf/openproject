@@ -28,12 +28,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Roles
-  ::Queries::Register.register(RoleQuery) do
-    filter Filters::AllowsBecomingAssigneeFilter
-    filter Filters::GrantableFilter
-    filter Filters::NameFilter
-    filter Filters::TypeFilter
-    filter Filters::UnitFilter
+# Filters roles by their kind. Unlike UnitFilter, which answers "which roles can be
+# granted in this unit" and therefore drops builtin roles, this keeps them: the
+# administration list shows the builtin project roles as project roles.
+class Queries::Roles::Filters::TypeFilter < Queries::Roles::Filters::RoleFilter
+  def type
+    :list
+  end
+
+  def where
+    if operator == "!"
+      ["roles.type != ?", role_class_name]
+    else
+      ["roles.type = ?", role_class_name]
+    end
+  end
+
+  def allowed_values
+    [
+      [I18n.t("roles.index.types.global"), "global"],
+      [I18n.t("roles.index.types.project"), "project"]
+    ]
+  end
+
+  private
+
+  def role_class_name
+    values.first == "global" ? GlobalRole.name : ProjectRole.name
   end
 end

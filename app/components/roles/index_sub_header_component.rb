@@ -28,12 +28,41 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Roles
-  ::Queries::Register.register(RoleQuery) do
-    filter Filters::AllowsBecomingAssigneeFilter
-    filter Filters::GrantableFilter
-    filter Filters::NameFilter
-    filter Filters::TypeFilter
-    filter Filters::UnitFilter
+module Roles
+  class IndexSubHeaderComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
+
+    options :query
+
+    private
+
+    def filter_input_value
+      query.find_active_filter(:name)&.values&.first
+    end
+
+    def clear_button_id = "roles-filter-clear"
+
+    def filter_input_id = "roles-filter-name"
+
+    def sub_header_data_attributes
+      {
+        controller: "filter--filters-form",
+        "filter--filters-form-output-format-value": "json",
+        "filter--filters-form-turbo-frame-request-value": Roles::IndexComponent::FRAME_ID,
+        "filter--filters-form-clear-button-id-value": clear_button_id
+      }
+    end
+
+    # turbo_permanent carries the live input across the frame render this component is part
+    # of, so typing keeps both its focus and its caret.
+    def filter_input_data_attributes
+      {
+        turbo_permanent: true,
+        "filter-name": "name",
+        "filter-type": "string",
+        "filter-operator": "~",
+        "filter--filters-form-target": "simpleFilter filterValueContainer simpleValue"
+      }
+    end
   end
 end

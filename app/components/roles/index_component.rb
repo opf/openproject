@@ -28,12 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Roles
-  ::Queries::Register.register(RoleQuery) do
-    filter Filters::AllowsBecomingAssigneeFilter
-    filter Filters::GrantableFilter
-    filter Filters::NameFilter
-    filter Filters::TypeFilter
-    filter Filters::UnitFilter
+module Roles
+  class IndexComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
+
+    FRAME_ID = "roles-list"
+
+    options :query, :rows
   end
 end

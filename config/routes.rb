@@ -756,6 +756,10 @@ Rails.application.routes.draw do
     end
 
     resources :roles, except: %i[show] do
+      member do
+        put :drop
+      end
+
       collection do
         put "/" => "roles#bulk_update"
         get :report
