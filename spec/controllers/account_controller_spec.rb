@@ -449,6 +449,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
         expect(response).to render_template "omniauth_direct_login"
         expect(response.body).to include('action="/auth/some_provider"')
         expect(response.body).to include('method="post"')
+        expect(response.body).to include('data-controller="omniauth-direct-login"')
       end
     end
 
