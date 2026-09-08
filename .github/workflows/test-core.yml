@@ -26,8 +26,12 @@ jobs:
   all:
     name: Units + Features
     if: github.repository_owner == 'opf'
+    strategy:
+      fail-fast: false
+      matrix:
+        family: [m8azn.3xlarge, m8a.4xlarge, m8i.4xlarge, m8i-flex.4xlarge]
     runs-on:
-      labels: "runs-on=${{ github.run_id }}/image=ubuntu24-full-x64/family=m8azn.3xlarge/volume=50gb"
+      labels: "runs-on=${{ github.run_id }}/image=ubuntu24-full-x64/family=${{ matrix.family }}/volume=50gb"
     timeout-minutes: 40
     env:
       DOCKER_BUILDKIT: 1
