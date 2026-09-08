@@ -28,33 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
-
-RSpec.describe OpenProject::Llm::Features do
-  let(:key) { :spec_only_feature }
-
-  after { described_class.all.delete(key) }
-
-  describe ".register" do
-    it "refuses a capability the kind cannot have" do
-      expect { described_class.register(key, kind: :chat, requires: %i[embeddings]) }
-        .to raise_error(ArgumentError, /embeddings/)
+class RemovePrefixesFromLlmFeatureBindings < ActiveRecord::Migration[8.1]
+  def change
+    change_table :llm_feature_bindings, bulk: true do |t|
+      t.remove :input_prefix, type: :string
+      t.remove :query_prefix, type: :string
     end
-
-    it "refuses an unknown kind" do
-      expect { described_class.register(key, kind: :completion) }
-        .to raise_error(ArgumentError, /unknown kind/)
-    end
-
-    it "scopes the translations by the key unless told otherwise" do
-      described_class.register(key, kind: :chat)
-
-      expect(described_class[key].i18n_scope).to eq("llm.features.spec_only_feature")
-    end
-  end
-
-  it "registers semantic search as a pinned embedding feature" do
-    expect(described_class[:semantic_search])
-      .to have_attributes(kind: :embedding, pinned: true, requires: %i[embeddings])
   end
 end

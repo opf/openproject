@@ -180,34 +180,21 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
       mock_llm_embeddings_response(base_url)
     end
 
-    it "stores the vector settings, keeping the prefixes exactly as typed" do
+    it "stores the vector size" do
       patch llm_feature_binding_path(:semantic_search),
-            params: { llm_feature_binding: { model_id: "bge-m3",
-                                             dimensions: "1024",
-                                             input_prefix: "passage: ",
-                                             query_prefix: "query: " } }
+            params: { llm_feature_binding: { model_id: "bge-m3", dimensions: "1024" } }
 
       binding = connection.feature_bindings.find_by(feature_key: "semantic_search")
 
       expect(binding.dimensions).to eq(1024)
-      # The trailing space is load-bearing for the E5 and BGE families.
-      expect(binding.input_prefix).to eq("passage: ")
-      expect(binding.query_prefix).to eq("query: ")
     end
 
-    # Typing a prefix by hand is a chore nobody should have to get right, so the
-    # registration supplies one and an untouched save stores it.
-    it "prefills the prefixes from the feature registration" do
+    # The embedder owns them, and nothing read them here.
+    it "offers no document or query prefix" do
       get llm_feature_bindings_path
 
-      expect(response.body).to include('value="semantic_search_"')
-    end
-
-    it "stores a cleared prefix as empty rather than restoring the default" do
-      patch llm_feature_binding_path(:semantic_search),
-            params: { llm_feature_binding: { model_id: "bge-m3", input_prefix: "" } }
-
-      expect(connection.feature_bindings.find_by(feature_key: "semantic_search").input_prefix).to eq("")
+      expect(response.body).not_to include("input_prefix")
+      expect(response.body).not_to include("query_prefix")
     end
 
     it "rejects a dimension count that is not a positive integer" do
@@ -231,15 +218,14 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
     # index depends on is frozen, not just the model.
     it "refuses to change anything a locked index depends on" do
       binding = connection.feature_bindings.create!(feature_key: "semantic_search", model_id: "bge-m3",
-                                                    dimensions: 1024, input_prefix: "passage: ",
-                                                    locked_at: Time.current)
+                                                    dimensions: 1024, locked_at: Time.current)
 
       patch llm_feature_binding_path(:semantic_search),
-            params: { llm_feature_binding: { model_id: "bge-m3", dimensions: "512", input_prefix: "other: " } }
+            params: { llm_feature_binding: { model_id: "qwen3.6-27b", dimensions: "512" } }
 
       binding.reload
+      expect(binding.model_id).to eq("bge-m3")
       expect(binding.dimensions).to eq(1024)
-      expect(binding.input_prefix).to eq("passage: ")
     end
   end
 end

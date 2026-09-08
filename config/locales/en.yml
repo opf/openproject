@@ -217,10 +217,8 @@ en:
       llm_feature_binding:
         dimensions: "Dimensions"
         feature_key: "Feature"
-        input_prefix: "Document prefix"
         # ActiveRecord::Base.human_attribute_name strips the _id suffix.
         model: "Model"
-        query_prefix: "Query prefix"
       llm_model:
         display_name: "Display name"
         # human_attribute_name strips the _id suffix, so the key omits it.
@@ -725,14 +723,8 @@ en:
               not_for_chat_feature: "only applies to features that create embeddings."
             feature_key:
               not_registered: "does not belong to a known AI feature."
-            input_prefix:
-              locked: "cannot be changed while data indexed with it still exists. Re-index to change it."
-              not_for_chat_feature: "only applies to features that create embeddings."
             model_id:
               locked: "cannot be changed while data indexed with it still exists. Re-index to switch models."
-            query_prefix:
-              locked: "cannot be changed while data indexed with it still exists. Re-index to change it."
-              not_for_chat_feature: "only applies to features that create embeddings."
         meeting:
           error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         member:
@@ -1785,9 +1777,7 @@ en:
       form:
         dimensions_caption: "How many numbers each vector has. Leave blank to use whatever the server returns."
         dimensions_caption_probed: "The server returned %{dimensions}-dimension vectors for this model. Leave blank to use whatever it returns at index time."
-        input_prefix_caption: "Prepended to each document before it is indexed. Preset for this feature; some models expect their own, for example \"passage: \" including the trailing space."
         model_caption_embedding: "Only models known to create embeddings are offered. [Read more](docs_url) about model types."
-        query_prefix_caption: "Prepended to each search query. Preset for this feature; some models expect their own, for example \"query: \" including the trailing space."
       index:
         description: "Choose which model each AI feature uses. Features without a choice use the default models set on the [LLMs](models_url) tab."
       inherit_with_default: "Use the default (%{model})"

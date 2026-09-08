@@ -38,7 +38,7 @@ class LlmFeatureBinding < ApplicationRecord
 
   # Settings that describe how vectors are written, and so only mean anything
   # for an embedding feature.
-  EMBEDDING_SETTINGS = %i[dimensions input_prefix query_prefix].freeze
+  EMBEDDING_SETTINGS = %i[dimensions].freeze
 
   # Everything a stored index depends on. Changing any of it invalidates the
   # vectors already written, not just the model.
@@ -112,11 +112,6 @@ class LlmFeatureBinding < ApplicationRecord
   # Vectors written under one embedding model are meaningless under another, and
   # the dimension count is baked into the index, so a locked binding can only be
   # changed by an explicit re-index.
-  #
-  # The prefixes are locked for the same reason and matter just as much: an index
-  # built with "passage: " but queried under a different prefix does not error,
-  # it quietly returns worse results, which is the hardest kind of failure to
-  # notice.
   #
   # TODO(#69620): re-indexing is what clears locked_at. Until that job exists a
   # locked binding can only be changed in the database.

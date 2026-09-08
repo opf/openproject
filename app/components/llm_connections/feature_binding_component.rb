@@ -44,9 +44,7 @@ module LlmConnections
     # The record the select binds to. A feature without a stored binding still
     # needs one so the form has a model_id to read.
     def form_model
-      binding || connection.feature_bindings.new(feature_key: feature.key.to_s,
-                                                 input_prefix: feature.input_prefix,
-                                                 query_prefix: feature.query_prefix)
+      binding || connection.feature_bindings.new(feature_key: feature.key.to_s)
     end
 
     # Not named +options+: ApplicationComponent already owns that name and
@@ -78,14 +76,10 @@ module LlmConnections
       connection.capability_verdicts.for_model(model_id).for_capability(:embeddings).first&.dimensions
     end
 
-    # Quoted so a trailing space -- load-bearing for the E5 and BGE families --
-    # is visible rather than invisible.
     def locked_values
       [
         [LlmFeatureBinding.human_attribute_name(:model_id), binding.model_id],
-        [LlmFeatureBinding.human_attribute_name(:dimensions), binding.dimensions || "—"],
-        [LlmFeatureBinding.human_attribute_name(:input_prefix), binding.input_prefix.to_s.inspect],
-        [LlmFeatureBinding.human_attribute_name(:query_prefix), binding.query_prefix.to_s.inspect]
+        [LlmFeatureBinding.human_attribute_name(:dimensions), binding.dimensions || "—"]
       ]
     end
 

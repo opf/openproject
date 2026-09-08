@@ -73,8 +73,8 @@ module LlmConnections
       end
 
       # Only for an embedding feature, and only while unlocked. A locked binding
-      # renders these as text instead: a disabled input submits nothing, so the
-      # values would arrive blank and wipe the columns.
+      # renders it as text instead: a disabled input submits nothing, so the
+      # value would arrive blank and wipe the column.
       if embedding && !locked
         f.text_field(
           name: :dimensions,
@@ -84,22 +84,6 @@ module LlmConnections
           caption: dimensions_caption,
           input_width: :small,
           data: { test_selector: "llm-feature-binding--dimensions-#{feature_key}" }
-        )
-
-        f.text_field(
-          name: :input_prefix,
-          label: LlmFeatureBinding.human_attribute_name(:input_prefix),
-          caption: I18n.t("admin.llm_feature_bindings.form.input_prefix_caption"),
-          input_width: :medium,
-          data: { test_selector: "llm-feature-binding--input-prefix-#{feature_key}" }
-        )
-
-        f.text_field(
-          name: :query_prefix,
-          label: LlmFeatureBinding.human_attribute_name(:query_prefix),
-          caption: I18n.t("admin.llm_feature_bindings.form.query_prefix_caption"),
-          input_width: :medium,
-          data: { test_selector: "llm-feature-binding--query-prefix-#{feature_key}" }
         )
       end
 
