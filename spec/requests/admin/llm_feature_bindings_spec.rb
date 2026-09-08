@@ -35,6 +35,14 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
   let(:admin) { create(:admin) }
   let(:base_url) { "https://example.com/v1" }
 
+  # The picker is an autocompleter, so its options are serialised into the
+  # element rather than rendered as markup.
+  def offered_models(feature_key)
+    items = page.find("form[action='#{llm_feature_binding_path(feature_key)}'] opce-autocompleter")["data-items"]
+
+    JSON.parse(items).pluck("id").compact_blank
+  end
+
   describe "GET /admin/llm_feature_bindings" do
     before { login_as admin }
 
@@ -64,21 +72,33 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
         expect(response.body).to include(llm_models_path)
       end
 
-      # Hiding an unusable model is the one thing that produces an unanswerable
-      # support question, so it stays listed and says why it cannot be chosen.
-      it "offers a model with no verdict, marked as unverified" do
+      # An unconfirmed capability is not a capability: offering such a model
+      # invites a choice that fails much later, at index time.
+      it "offers an embedding feature only models known to create embeddings" do
+        connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                               state: "supported", source: "probe", checked_at: Time.current)
+
         get llm_feature_bindings_path
 
-        expect(response.body).to include("qwen3.6-27b — not verified")
+        expect(offered_models(:semantic_search)).to contain_exactly("bge-m3")
+        expect(offered_models(:description_assistant)).to contain_exactly("qwen3.6-27b")
       end
 
-      it "disables a model known not to support a required capability" do
-        connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "embeddings",
-                                               state: "unsupported", source: "probe", checked_at: Time.current)
+      it "says so, and where to read up on model types" do
+        get llm_feature_bindings_path
+
+        expect(response.body).to include("Only models known to create embeddings are offered")
+        expect(response.body).to include("huggingface.co/blog/getting-started-with-embeddings")
+      end
+
+      # Otherwise opening the page and saving it would blank a working binding.
+      it "keeps the bound model listed once it no longer qualifies" do
+        connection.feature_bindings.create!(feature_key: "semantic_search", model_id: "qwen3.6-27b")
 
         get llm_feature_bindings_path
 
-        expect(response.body).to include("qwen3.6-27b — no Embeddings support")
+        expect(offered_models(:semantic_search)).to include("qwen3.6-27b")
+        expect(response.body).to include("no longer eligible for this feature")
       end
     end
   end

@@ -1785,6 +1785,7 @@ en:
         dimensions_caption: "How many numbers each vector has. Leave blank to use whatever the server returns."
         dimensions_caption_probed: "The server returned %{dimensions}-dimension vectors for this model. Leave blank to use whatever it returns at index time."
         input_prefix_caption: "Prepended to each document before it is indexed. Some models expect one, for example \"passage: \" including the trailing space."
+        model_caption_embedding: "Only models known to create embeddings are offered. [Read more](docs_url) about model types."
         query_prefix_caption: "Prepended to each search query. Some models expect one, for example \"query: \" including the trailing space."
       index:
         blank_description: "Connect OpenProject to an LLM server first. Models can be assigned once the server reports which ones it offers."
@@ -1794,8 +1795,7 @@ en:
       inherit_without_default: "Use the default (none set)"
       locked: "%{model} is in use by indexed data and cannot be changed here. Re-index to switch models."
       locked_values_heading: "Values fixed by the existing index"
-      option_unknown: "%{model} — not verified"
-      option_unsupported: "%{model} — no %{capability} support"
+      option_unqualified: "%{model} (no longer eligible for this feature)"
       update:
         model_incapable: "The model for %{feature} has been saved, but the server just reported that it does not support %{capability}. Pick a different model, or assert the capability on the model if you know better."
         success: "The model for %{feature} has been saved."

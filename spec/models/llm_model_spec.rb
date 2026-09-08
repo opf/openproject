@@ -87,6 +87,18 @@ RSpec.describe LlmModel do
       expect(options.map(&:model_id)).to include("qwen3.6-27b")
     end
 
+    it "still offers it to an embedding feature that is bound to it" do
+      connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "embeddings",
+                                             state: "supported", source: "admin", checked_at: Time.current)
+      connection.feature_bindings.create!(feature_key: "semantic_search", model_id: "qwen3.6-27b")
+
+      options = LlmConnections::SelectableModelsQuery
+                  .new(connection, OpenProject::Llm::Features[:semantic_search])
+                  .call
+
+      expect(options.map(&:model_id)).to include("qwen3.6-27b")
+    end
+
     # The reason deactivated_at exists rather than reusing active: the sync writes
     # active on every refresh, so an administrator's choice stored there would be
     # undone by the next "Refresh models".

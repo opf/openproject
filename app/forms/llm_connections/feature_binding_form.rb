@@ -31,6 +31,8 @@
 module LlmConnections
   # The model select for one registered feature.
   class FeatureBindingForm < ApplicationForm
+    include Redmine::I18n
+
     # Primer::Forms::Base.new assigns the builder itself and calls this with the
     # remaining keywords, so the builder must not appear in the signature.
     def initialize(options:, inherit_label:, feature_key:, locked: false, embedding: false, dimensions_hint: nil,
@@ -52,6 +54,7 @@ module LlmConnections
       f.autocompleter(
         name: :model_id,
         label: LlmFeatureBinding.human_attribute_name(:model_id),
+        caption: model_caption,
         disabled: locked,
         autocomplete_options: {
           decorated: true,
@@ -63,12 +66,9 @@ module LlmConnections
         list.option(label: inherit_label, value: "", selected: selected_model_id.blank?)
 
         model_options.each do |option|
-          # Listed but not choosable when a required capability is known to be
-          # missing: hiding it would leave the reason invisible too.
           list.option(label: option_label(option),
                       value: option.model_id,
-                      selected: selected_model_id == option.model_id,
-                      disabled: !option.selectable?)
+                      selected: selected_model_id == option.model_id)
         end
       end
 
@@ -127,17 +127,22 @@ module LlmConnections
       I18n.t("admin.llm_feature_bindings.form.dimensions_caption_probed", dimensions: dimensions_hint)
     end
 
+    # Says why only a few of the stored models are on offer, for an administrator
+    # who does not know what an embedding model is.
+    def model_caption
+      return unless embedding
+
+      link_translate("admin.llm_feature_bindings.form.model_caption_embedding",
+                     links: { docs_url: %i[embeddings_explanation] },
+                     external: true)
+    end
+
+    # The bound model stays choosable once it no longer qualifies, so that saving
+    # the form again does not blank the binding. The label says what changed.
     def option_label(option)
-      case option.state
-      when :unsupported
-        I18n.t("admin.llm_feature_bindings.option_unsupported",
-               model: option.model_id,
-               capability: option.reasons.map { |reason| Llm::Capabilities.label(reason) }.join(", "))
-      when :unknown
-        I18n.t("admin.llm_feature_bindings.option_unknown", model: option.model_id)
-      else
-        option.model_id
-      end
+      return option.model_id if option.qualifies
+
+      I18n.t("admin.llm_feature_bindings.option_unqualified", model: option.model_id)
     end
   end
 end

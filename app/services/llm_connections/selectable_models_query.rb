@@ -29,19 +29,18 @@
 #++
 
 module LlmConnections
-  # The models offerable to a feature, each with why it is or is not usable.
+  # The models offerable to a feature.
   #
-  # Models are never hidden. Hiding one produces the single support question
-  # nobody can answer -- "why can I not pick the model I know works" -- and it is
-  # exactly wrong when most verdicts are unknown. Instead each option carries a
-  # state the UI renders: selectable, selectable with a warning, or disabled with
-  # a reason.
+  # A feature is offered the models of its own kind: chat features never see an
+  # embedding model, and an embedding feature sees only models known to embed.
+  # Offering a model on the grounds that nothing has ruled it out invites a
+  # choice whose failure surfaces much later, at index time.
+  #
+  # The one exception is the model a feature is already bound to. It stays
+  # listed even once it no longer qualifies, flagged, so that opening the page
+  # cannot silently blank a working binding.
   class SelectableModelsQuery
-    Option = Data.define(:model_id, :state, :reasons) do
-      def selectable? = state != :unsupported
-
-      def warning? = state == :unknown
-    end
+    Option = Data.define(:model_id, :qualifies)
 
     def initialize(connection, feature)
       @connection = connection
@@ -49,48 +48,25 @@ module LlmConnections
     end
 
     def call
-      offerable_model_ids.map { |model_id| option_for(model_id) }
+      offerable_model_ids.map { |model_id| Option.new(model_id:, qualifies: qualifying_ids.include?(model_id)) }
     end
 
     private
 
     attr_reader :connection, :feature
 
-    # Models an administrator has switched off are not offered, but the one this
-    # feature is already bound to stays listed -- otherwise the select silently
-    # shows nothing where a working binding exists.
     def offerable_model_ids
-      (connection.selectable_model_ids + [bound_model_id]).compact_blank.uniq
+      (qualifying_ids + [bound_model_id]).compact_blank.uniq
+    end
+
+    # Models an administrator has switched off are not offered: both lists are
+    # built from the selectable ones.
+    def qualifying_ids
+      @qualifying_ids ||= feature.embedding? ? connection.embedding_model_ids : connection.chat_model_ids
     end
 
     def bound_model_id
       connection.feature_bindings.find_by(feature_key: feature.key.to_s)&.model_id
-    end
-
-    def option_for(model_id)
-      states = feature.requires.index_with { |capability| verdict_state(model_id, capability) }
-
-      if states.value?(:unsupported)
-        Option.new(model_id:, state: :unsupported,
-                   reasons: states.select { |_, s| s == :unsupported }.keys)
-      elsif states.value?(:unknown)
-        Option.new(model_id:, state: :unknown,
-                   reasons: states.select { |_, s| s == :unknown }.keys)
-      else
-        Option.new(model_id:, state: :supported, reasons: [])
-      end
-    end
-
-    # No verdict at all is the same as an inconclusive one: we do not know.
-    def verdict_state(model_id, capability)
-      verdicts.dig(model_id, capability.to_s)&.to_sym || :unknown
-    end
-
-    def verdicts
-      @verdicts ||= connection.capability_verdicts
-                              .pluck(:model_id, :capability, :state)
-                              .group_by(&:first)
-                              .transform_values { |rows| rows.to_h { |(_, capability, state)| [capability, state] } }
     end
   end
 end
