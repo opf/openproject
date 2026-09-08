@@ -44,7 +44,9 @@ module LlmConnections
     # The record the select binds to. A feature without a stored binding still
     # needs one so the form has a model_id to read.
     def form_model
-      binding || connection.feature_bindings.new(feature_key: feature.key.to_s)
+      binding || connection.feature_bindings.new(feature_key: feature.key.to_s,
+                                                 input_prefix: feature.input_prefix,
+                                                 query_prefix: feature.query_prefix)
     end
 
     # Not named +options+: ApplicationComponent already owns that name and

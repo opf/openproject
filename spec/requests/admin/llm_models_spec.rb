@@ -180,6 +180,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         get llm_models_path
 
         expect(offered_default_models(:default_embedding_model_id)).to contain_exactly("bge-m3")
+        expect(response.body).to include("huggingface.co/blog/getting-started-with-embeddings")
       end
 
       # An unconfirmed capability is not a capability: offering such a model

@@ -179,6 +179,21 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
       expect(binding.query_prefix).to eq("query: ")
     end
 
+    # Typing a prefix by hand is a chore nobody should have to get right, so the
+    # registration supplies one and an untouched save stores it.
+    it "prefills the prefixes from the feature registration" do
+      get llm_feature_bindings_path
+
+      expect(response.body).to include('value="semantic_search_"')
+    end
+
+    it "stores a cleared prefix as empty rather than restoring the default" do
+      patch llm_feature_binding_path(:semantic_search),
+            params: { llm_feature_binding: { model_id: "bge-m3", input_prefix: "" } }
+
+      expect(connection.feature_bindings.find_by(feature_key: "semantic_search").input_prefix).to eq("")
+    end
+
     it "rejects a dimension count that is not a positive integer" do
       patch llm_feature_binding_path(:semantic_search),
             params: { llm_feature_binding: { model_id: "bge-m3", dimensions: "0" } }

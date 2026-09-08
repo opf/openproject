@@ -37,7 +37,8 @@ module OpenProject
     # Features declare the capabilities they need so the administration UI can
     # tell an administrator which models are usable for which job, and so a
     # feature never silently runs against a model that cannot serve it.
-    Feature = Data.define(:key, :kind, :requires, :prefers, :overridable, :pinned, :available, :i18n_scope) do
+    Feature = Data.define(:key, :kind, :requires, :prefers, :overridable, :pinned, :available, :i18n_scope,
+                          :input_prefix, :query_prefix) do
       def available? = available.call
 
       def chat? = kind == :chat
@@ -82,14 +83,19 @@ module OpenProject
                    overridable: false,
                    pinned: false,
                    available: -> { true },
-                   i18n_scope: nil)
+                   i18n_scope: nil,
+                   input_prefix: nil,
+                   query_prefix: nil)
         key = key.to_sym
         validate!(key, kind, requires + prefers)
+        validate_prefixes!(key, kind, [input_prefix, query_prefix])
 
         all[key] = Feature.new(key:, kind:, requires: requires.map(&:to_sym).freeze,
                                prefers: prefers.map(&:to_sym).freeze,
                                overridable:, pinned:, available:,
-                               i18n_scope: i18n_scope || "llm.features.#{key}")
+                               i18n_scope: i18n_scope || "llm.features.#{key}",
+                               input_prefix: prefix_for(kind, key, input_prefix),
+                               query_prefix: prefix_for(kind, key, query_prefix))
       end
 
       def all = @all ||= {}
@@ -105,6 +111,22 @@ module OpenProject
       def available = all.values.select(&:available?)
 
       def for_kind(kind) = available.select { |feature| feature.kind == kind }
+
+      # Each embedding feature indexes its own documents, so its prefixes are
+      # derived from the key unless the feature names better ones. Administrators
+      # then never have to type them, while a model that expects its own, such as
+      # "passage: ", can still be accommodated on the binding.
+      def prefix_for(kind, key, given)
+        return unless kind == :embedding
+
+        given || "#{key}_"
+      end
+
+      def validate_prefixes!(key, kind, prefixes)
+        return if kind == :embedding || prefixes.none?
+
+        raise ArgumentError, "prefixes are not valid for the chat feature #{key}"
+      end
 
       def validate!(key, kind, capabilities)
         raise ArgumentError, "unknown kind #{kind.inspect}" unless KINDS.include?(kind)

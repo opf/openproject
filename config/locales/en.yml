@@ -1784,9 +1784,9 @@ en:
       form:
         dimensions_caption: "How many numbers each vector has. Leave blank to use whatever the server returns."
         dimensions_caption_probed: "The server returned %{dimensions}-dimension vectors for this model. Leave blank to use whatever it returns at index time."
-        input_prefix_caption: "Prepended to each document before it is indexed. Some models expect one, for example \"passage: \" including the trailing space."
+        input_prefix_caption: "Prepended to each document before it is indexed. Preset for this feature; some models expect their own, for example \"passage: \" including the trailing space."
         model_caption_embedding: "Only models known to create embeddings are offered. [Read more](docs_url) about model types."
-        query_prefix_caption: "Prepended to each search query. Some models expect one, for example \"query: \" including the trailing space."
+        query_prefix_caption: "Prepended to each search query. Preset for this feature; some models expect their own, for example \"query: \" including the trailing space."
       index:
         blank_description: "Connect OpenProject to an LLM server first. Models can be assigned once the server reports which ones it offers."
         blank_title: "No LLM server configured"
