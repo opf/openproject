@@ -29,48 +29,14 @@
 # ++
 
 module CustomStyles
-  class ThemeSelectorComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
+  class ConfirmThemeDialogComponent < ApplicationComponent
+    include OpTurbo::Streamable
 
-    attr_reader :theme_options, :current_theme, :selected_tab_name
-
-    def initialize(theme_options:, current_theme:, selected_tab_name:)
+    def initialize(theme:, selected_tab_name:)
       super()
 
-      @theme_options = theme_options
-      @current_theme = current_theme
+      @theme = theme
       @selected_tab_name = selected_tab_name
-    end
-
-    private
-
-    def form_arguments
-      {
-        url: if current_theme.blank?
-               url_helpers.confirm_design_theme_path(tab: selected_tab_name)
-             else
-               url_helpers.update_design_themes_path(tab: selected_tab_name)
-             end,
-        method: :post,
-        data: {
-          controller: "auto-submit",
-          turbo: current_theme.blank?
-        }
-      }
-    end
-
-    def select_arguments
-      {
-        name: :theme,
-        label: I18n.t("admin.custom_styles.color_theme"),
-        caption: I18n.t("admin.custom_styles.color_theme_caption"),
-        input_width: :medium,
-        scope_name_to_model: false,
-        data: {
-          action: "auto-submit#submit",
-          test_selector: "color-theme-select"
-        }
-      }
     end
   end
 end

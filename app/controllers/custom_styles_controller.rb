@@ -31,6 +31,7 @@
 class CustomStylesController < ApplicationController
   include EnterpriseHelper
   include CustomStylesControllerHelper
+  include OpTurbo::ComponentStream
 
   layout "admin"
   menu_item :custom_style
@@ -195,6 +196,10 @@ class CustomStylesController < ApplicationController
       .call
 
     redirect_to action: :show
+  end
+
+  def confirm_theme
+    respond_with_dialog CustomStyles::ConfirmThemeDialogComponent.new(theme: params[:theme], selected_tab_name: params[:tab])
   end
 
   def update_themes
