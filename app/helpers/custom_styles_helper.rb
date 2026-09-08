@@ -136,7 +136,7 @@ module CustomStylesHelper
   def custom_logo_url(custom_style, attachment)
     return if attachment.blank?
 
-    custom_logo_source(custom_style, attachment.mounted_as, true)
+    custom_logo_source(custom_style, attachment.mounted_as)
   end
 
   def custom_logo_urls(custom_style, mobile: false)
@@ -161,10 +161,10 @@ module CustomStylesHelper
   end
 
   def custom_logo_uploads(custom_style, mobile: false)
-    logo_context = mobile ? :mobile : :desktop
+    logo_type = mobile ? :mobile : :desktop
 
-    CustomStyle::LOGO_FIELDS.fetch(logo_context).map do |mode, field|
-      custom_logo_upload(custom_style, mode:, field:, mobile:)
+    CustomStyle::LOGO_FIELDS.fetch(logo_type).map do |mode, field|
+      custom_logo_upload(custom_style, mode:, field:)
     end
   end
 
@@ -259,7 +259,7 @@ module CustomStylesHelper
     end
   end
 
-  def custom_logo_upload(custom_style, mode:, field:, mobile:)
+  def custom_logo_upload(custom_style, mode:, field:)
     attachment = custom_style.public_send(field)
     present = custom_style.persisted? && attachment.present?
 
@@ -267,38 +267,23 @@ module CustomStylesHelper
       field:,
       label: t("admin.custom_styles.branding.modes.#{mode}.name"),
       present:,
-      source: custom_logo_source(custom_style, field, present),
-      img_class: mobile ? "custom-logo-mobile-preview" : "custom-logo-preview",
+      source: present ? custom_logo_source(custom_style, field) : nil,
+      img_class: field.to_s.start_with?("logo_mobile") ? "custom-logo-mobile-preview" : "custom-logo-preview",
       accept: "image/*",
       delete_path: custom_logo_delete_path(field),
       instructions: t("admin.custom_styles.branding.modes.#{mode}.description")
     }
   end
 
-  def custom_logo_source(custom_style, field, present)
-    return unless present
-
-    path_options = {
+  def custom_logo_source(custom_style, field)
+    custom_style_logo_path(
       digest: custom_style.digest,
-      filename: custom_style.public_send(:"#{field}_identifier")
-    }
-
-    if field == :logo
-      custom_style_logo_path(**path_options)
-    elsif field == :logo_mobile
-      custom_style_logo_mobile_path(**path_options)
-    else
-      custom_style_logo_variant_path(**path_options, variant: field)
-    end
+      filename: custom_style.public_send(:"#{field}_identifier"),
+      field:
+    )
   end
 
   def custom_logo_delete_path(field)
-    if field == :logo
-      custom_style_logo_delete_path
-    elsif field == :logo_mobile
-      custom_style_logo_mobile_delete_path
-    else
-      custom_style_logo_variant_delete_path(variant: field)
-    end
+    custom_style_logo_delete_path(field:)
   end
 end

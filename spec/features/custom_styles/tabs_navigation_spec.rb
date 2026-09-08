@@ -103,7 +103,7 @@ RSpec.describe "Tabs navigation and content switching on the admin/design page" 
           expect(page).to have_text(I18n.t("admin.custom_styles.theme_warning_confirmation"))
           expect(page).to have_button(I18n.t(:button_apply), disabled: true)
 
-          check "confirm_dangerous_action"
+          find_field("confirm_dangerous_action").click
 
           expect(page).to have_button(I18n.t(:button_apply), disabled: false)
           click_on I18n.t(:button_apply)
@@ -167,6 +167,7 @@ RSpec.describe "Tabs navigation and content switching on the admin/design page" 
       visit custom_style_path(tab: "branding")
       custom_logo_path = custom_style_logo_path(
         digest: custom_style.digest,
+        field: :logo,
         filename: custom_style.logo_identifier
       )
 
