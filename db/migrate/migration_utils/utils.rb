@@ -59,7 +59,7 @@ module Migration
 
         This is the same situation as restoring a cloud backup on premises. Back up the database, then drop the stale
         schema as described here before continuing the upgrade:
-        https://www.openproject.org/docs/installation-and-operations/operation/restoring/#changing-the-database-schema-from-cloud-to-on-premises
+        #{OpenProject::Static::Links.url_for(:restore_cloud_backup_documentation, localize_url: false)}
 
       MESSAGE
     end
@@ -88,14 +88,20 @@ module Migration
 
     def remove_index_on(table_name, index_name, columns = nil, **)
       actual_name = resolved_index_name(table_name, index_name, columns)
-      return unless actual_name
+      return say_index_missing(table_name, index_name) unless actual_name
 
       remove_index table_name, name: actual_name, **
     end
 
     def rename_index_on(table_name, index_name, new_name, columns = nil)
       actual_name = resolved_index_name(table_name, index_name, columns)
-      rename_index table_name, actual_name, new_name if actual_name
+      return say_index_missing(table_name, index_name) unless actual_name
+
+      rename_index table_name, actual_name, new_name
+    end
+
+    def say_index_missing(table_name, index_name)
+      say "No index matching #{index_name} found on #{table_name}, skipping"
     end
 
     ##
