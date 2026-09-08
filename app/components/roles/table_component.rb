@@ -30,7 +30,7 @@
 
 module Roles
   class TableComponent < OpPrimer::BorderBoxTableComponent
-    columns :name, :global, :sort
+    columns :name, :global
     main_column :name
     mobile_columns :name
     mobile_labels :global
@@ -50,9 +50,24 @@ module Roles
     def headers
       [
         [:name, { caption: Role.model_name.human }],
-        [:global, { caption: t(:label_global) }],
-        [:sort, { caption: t(:button_sort) }]
+        [:global, { caption: t(:label_global) }]
       ]
+    end
+
+    def first_movable_position
+      movable_position_bounds.first
+    end
+
+    def last_movable_position
+      movable_position_bounds.last
+    end
+
+    private
+
+    # Builtin roles share the position list but cannot be reordered, so the bounds are taken
+    # from the reorderable roles only. Queried instead of derived from the rows, which are paginated.
+    def movable_position_bounds
+      @movable_position_bounds ||= Role.visible.builtin(false).pluck(:position).minmax
     end
   end
 end

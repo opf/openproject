@@ -43,35 +43,95 @@ module Roles
     end
 
     def global
-      checkmark(role.is_a?(GlobalRole))
-    end
+      return unless role.is_a?(GlobalRole)
 
-    def sort
-      return if role.builtin?
-
-      helpers.reorder_links("role", { action: "update", id: role }, method: :put)
+      render(Primer::Beta::Octicon.new(icon: :check, test_selector: "role-global-checkmark"))
     end
 
     def button_links
-      return [] if role.builtin?
-
-      [delete_button]
+      [action_menu]
     end
 
     private
 
-    def delete_button
-      render(
-        Primer::Beta::IconButton.new(
-          icon: :trash,
+    def action_menu
+      render(Primer::Alpha::ActionMenu.new(test_selector: "role-action-menu")) do |menu|
+        menu.with_show_button(
           scheme: :invisible,
-          tag: :a,
-          href: role_path(role),
-          "aria-label": t(:button_delete),
-          data: { turbo_method: :delete, turbo_confirm: t(:text_are_you_sure) },
-          test_selector: "role-delete-button"
+          size: :small,
+          icon: :"kebab-horizontal",
+          "aria-label": t(:button_actions),
+          tooltip_direction: :w
         )
-      )
+
+        edit_action(menu)
+
+        unless role.builtin?
+          move_action(menu) if movable?
+          menu.with_divider
+          delete_action(menu)
+        end
+      end
+    end
+
+    def edit_action(menu)
+      menu.with_item(label: t(:button_edit), href: edit_role_path(role)) do |item|
+        item.with_leading_visual_icon(icon: :pencil)
+      end
+    end
+
+    def movable?
+      !(first? && last?)
+    end
+
+    def first?
+      role.position == table.first_movable_position
+    end
+
+    def last?
+      role.position == table.last_movable_position
+    end
+
+    def move_action(menu)
+      menu.with_item(
+        component_klass: Primer::Alpha::ActionMenu::SubMenuItem,
+        label: t(:button_move),
+        select_variant: :none,
+        form_arguments: {}
+      ) do |submenu|
+        submenu.with_leading_visual_icon(icon: :"op-arrow-in")
+
+        unless first?
+          move_item(submenu, "highest", t(:label_sort_highest), "move-to-top")
+          move_item(submenu, "higher", t(:label_sort_higher), "chevron-up")
+        end
+
+        unless last?
+          move_item(submenu, "lower", t(:label_sort_lower), "chevron-down")
+          move_item(submenu, "lowest", t(:label_sort_lowest), "move-to-bottom")
+        end
+      end
+    end
+
+    def move_item(submenu, move_to, label, icon)
+      submenu.with_item(
+        label:,
+        href: role_path(role, role: { move_to: }),
+        form_arguments: { method: :put }
+      ) do |item|
+        item.with_leading_visual_icon(icon:)
+      end
+    end
+
+    def delete_action(menu)
+      menu.with_item(
+        label: t(:button_delete),
+        scheme: :danger,
+        href: role_path(role),
+        form_arguments: { method: :delete, data: { turbo_confirm: t(:text_are_you_sure) } }
+      ) do |item|
+        item.with_leading_visual_icon(icon: :trash)
+      end
     end
   end
 end
