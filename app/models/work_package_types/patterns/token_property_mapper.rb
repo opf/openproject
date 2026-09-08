@@ -39,6 +39,7 @@ module WorkPackageTypes
         return nil if item.nil?
         return item.label if format == "label"
         return item.short if format == "short"
+        return NumberFormatHelper.number_with_limit(item.weight) if format == "weight"
 
         item.to_s
       }
@@ -102,7 +103,7 @@ module WorkPackageTypes
                         ARRAY
                       elsif format == "date"
                         DATE
-                      elsif format == "hierarchy"
+                      elsif %w[hierarchy weighted_item_list].include?(format)
                         HIERARCHY
                       else
                         ->(v, format) { v.is_a?(Symbol) ? v : STRING_OR_NIL.call(v, format) }
