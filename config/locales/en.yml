@@ -1806,6 +1806,7 @@ en:
         description: "Used by AI features that do not choose a model themselves."
         embedding_caption: "Only models known to create embeddings are offered. [Read more](docs_url) about model types."
         embedding_none: "No model is known to create embeddings. If you know one does, open it in the list below and set its type to Embedding model."
+        embedding_option_deactivated: "%{model} (switched off)"
         embedding_option_unqualified: "%{model} (not known to create embeddings)"
         heading: "Default models"
         success: "The default models have been saved."

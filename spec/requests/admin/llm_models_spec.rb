@@ -193,6 +193,36 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(response.body).to include("set its type to Embedding model")
       end
 
+      # Switched off is a different problem from unqualified: the model does embed,
+      # an administrator simply hid it, and saying otherwise sends them to the
+      # model form to fix a type that is already right.
+      it "tells a switched-off embedding default apart from an unqualified one" do
+        connection = create(:llm_connection, :with_models, :enabled, base_url:)
+        connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                               state: "supported", source: "probe", checked_at: Time.current)
+        connection.update_column(:default_embedding_model_id, "bge-m3")
+        connection.models.find_by(external_id: "bge-m3").update!(deactivated_at: Time.current)
+
+        get llm_models_path
+
+        expect(offered_default_models(:default_embedding_model_id)).to include("bge-m3")
+        expect(response.body).to include("switched off")
+        expect(response.body).not_to include("not known to create embeddings")
+      end
+
+      # The remedy the caption names is only the right one while nothing embeds.
+      it "keeps the documentation caption while a known embedding model is switched off" do
+        connection = create(:llm_connection, :with_models, :enabled, base_url:)
+        connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                               state: "supported", source: "probe", checked_at: Time.current)
+        connection.models.find_by(external_id: "bge-m3").update!(deactivated_at: Time.current)
+
+        get llm_models_path
+
+        expect(response.body).to include("huggingface.co/blog/getting-started-with-embeddings")
+        expect(response.body).not_to include("set its type to Embedding model")
+      end
+
       # Otherwise a save would silently blank a working configuration.
       it "keeps the stored embedding default listed, flagged, once it is ruled out" do
         connection = create(:llm_connection, :with_models, :enabled, base_url:)

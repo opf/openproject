@@ -126,11 +126,18 @@ class LlmConnection < ApplicationRecord
     selectable_models.select(&:embedding?)
   end
 
-  def embedding_model_ids
-    embedding = capability_verdicts.for_capability(:embeddings).where(state: "supported").pluck(:model_id)
-
-    selectable_model_ids & embedding
+  # Every model the server is known to embed with, including ones an
+  # administrator has switched off: whether a model can embed is a fact about
+  # the server, not about what a picker currently offers.
+  def embedding_capable_models
+    models.active.by_identifier.select(&:embedding?)
   end
+
+  def embedding_capable_model_ids
+    capability_verdicts.for_capability(:embeddings).where(state: "supported").pluck(:model_id)
+  end
+
+  def embedding_model_ids = selectable_model_ids & embedding_capable_model_ids
 
   def chat_model_ids = selectable_model_ids - embedding_model_ids
 
