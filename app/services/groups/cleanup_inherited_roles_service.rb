@@ -37,7 +37,7 @@
 
 module Groups
   class CleanupInheritedRolesService < ::BaseServices::BaseContracted
-    include Groups::Concerns::MembershipManipulation
+    include MembershipManipulation
 
     def initialize(group, current_user:, contract_class: AdminOnlyContract)
       self.model = group

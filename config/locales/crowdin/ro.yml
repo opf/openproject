@@ -1480,7 +1480,12 @@ ro:
     banners:
       environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
     custom_styles:
+      color_groups:
+        base_colors: Base colors
+        main_menu: Main lateral menu
+        top_header_colors: Top header colors
       color_theme: Culoarea temei
+      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
       color_theme_custom: "(Personalizat)"
       colors:
         accent-color: Accent
@@ -1489,12 +1494,15 @@ ro:
         main-menu-bg-selected-background: Meniul principal când este selectat
         primary-button-color: Butonul principal
       custom_colors: Culori personalizate
+      edit_color: Edit %{color}
       fonts:
         file_is_invalid: is not a valid TTF font file.
         file_too_large: is too large (maximum size is %{count} MB).
       instructions:
         accent-color: Color for links and other decently highlighted elements.
+        header-bg-color: Default background color of the app header.
         main-menu-bg-color: Culoarea de fundal pentru meniul din partea stângă.
+        main-menu-bg-selected-background: Background color of menu items when selected.
         primary-button-color: Strong accent color, used for the most important button on a screen.
       manage_colors: Modificați opțiunile de selecție ale culorilor
       tab_branding: Elemente de marcă

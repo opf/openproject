@@ -1588,7 +1588,12 @@ cs:
     banners:
       environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
     custom_styles:
+      color_groups:
+        base_colors: Base colors
+        main_menu: Main lateral menu
+        top_header_colors: Top header colors
       color_theme: Barevné téma
+      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
       color_theme_custom: Vlastní
       colors:
         accent-color: Odstín
@@ -1597,12 +1602,15 @@ cs:
         main-menu-bg-selected-background: Hlavní menu při výběru
         primary-button-color: Primární tlačítko
       custom_colors: Vlastní barvy
+      edit_color: Edit %{color}
       fonts:
         file_is_invalid: není platný soubor TTF.
         file_too_large: je příliš velký (maximální velikost je %{count} MB).
       instructions:
         accent-color: Barva pro odkazy a další decentně zvýrazněné prvky.
+        header-bg-color: Default background color of the app header.
         main-menu-bg-color: Barva pozadí levého menu.
+        main-menu-bg-selected-background: Background color of menu items when selected.
         primary-button-color: Výrazná akcentní barva, která se používá pro nejdůležitější tlačítko na obrazovce.
       manage_colors: Upravit možnosti výběru barvy
       tab_branding: Značka

@@ -1268,7 +1268,12 @@ zh-CN:
     banners:
       environment_configured_readonly: 这些值通过环境变量配置，无法在此处编辑。
     custom_styles:
+      color_groups:
+        base_colors: Base colors
+        main_menu: Main lateral menu
+        top_header_colors: Top header colors
       color_theme: 主题颜色
+      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
       color_theme_custom: "（自定义）"
       colors:
         accent-color: 强调色
@@ -1277,12 +1282,15 @@ zh-CN:
         main-menu-bg-selected-background: 选择时的主菜单
         primary-button-color: 主按钮色
       custom_colors: 自定义颜色
+      edit_color: Edit %{color}
       fonts:
         file_is_invalid: 不是有效的 TTF 字体文件。
         file_too_large: 太大（大小上限为 %{count} MB）。
       instructions:
         accent-color: 链接和其他适当突出元素的颜色。
+        header-bg-color: Default background color of the app header.
         main-menu-bg-color: 左菜单的背景色。
+        main-menu-bg-selected-background: Background color of menu items when selected.
         primary-button-color: 强烈的强调色，通常用于屏幕上最重要的按钮。
       manage_colors: 编辑颜色选择选项
       tab_branding: 品牌

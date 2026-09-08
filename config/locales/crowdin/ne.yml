@@ -1374,7 +1374,12 @@ ne:
     banners:
       environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
     custom_styles:
+      color_groups:
+        base_colors: Base colors
+        main_menu: Main lateral menu
+        top_header_colors: Top header colors
       color_theme: रंग विषयवस्तु
+      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
       color_theme_custom: "(अनुकूलन)"
       colors:
         accent-color: Accent
@@ -1383,12 +1388,15 @@ ne:
         main-menu-bg-selected-background: मुख्य मेनू चयन गरिदा
         primary-button-color: Primary button
       custom_colors: 'बैकल्पिक रंगहरु '
+      edit_color: Edit %{color}
       fonts:
         file_is_invalid: is not a valid TTF font file.
         file_too_large: is too large (maximum size is %{count} MB).
       instructions:
         accent-color: Color for links and other decently highlighted elements.
+        header-bg-color: Default background color of the app header.
         main-menu-bg-color: Left side menu's background color.
+        main-menu-bg-selected-background: Background color of menu items when selected.
         primary-button-color: Strong accent color, used for the most important button on a screen.
       manage_colors: रङ चयन गर्न सकिने विकल्पहरू सम्पादन गर्नुहोस्
       tab_branding: Branding

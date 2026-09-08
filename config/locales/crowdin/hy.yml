@@ -1374,7 +1374,12 @@ hy:
     banners:
       environment_configured_readonly: Այս արժեքները կազմաձևված են միջավայրի փոփոխականների միջոցով և հնարավոր չէ խմբագրել այստեղ։
     custom_styles:
+      color_groups:
+        base_colors: Base colors
+        main_menu: Main lateral menu
+        top_header_colors: Top header colors
       color_theme: Գունային թեմա
+      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
       color_theme_custom: "(Հատուկ)"
       colors:
         accent-color: Ակցենտ
@@ -1383,12 +1388,15 @@ hy:
         main-menu-bg-selected-background: Հիմնական ընտրացանկ ընտրված վիճակում
         primary-button-color: Հիմնական կոճակ
       custom_colors: Հատուկ գույներ
+      edit_color: Edit %{color}
       fonts:
         file_is_invalid: վավեր TTF տառատեսակի նիշք չէ։
         file_too_large: չափազանց մեծ է (առավելագույն չափը՝ %{count} MB)։
       instructions:
         accent-color: Հղումների և այլ չափավոր ընդգծված տարրերի գույնը։
+        header-bg-color: Default background color of the app header.
         main-menu-bg-color: Ձախ կողային ընտրացանկի ֆոնի գույնը։
+        main-menu-bg-selected-background: Background color of menu items when selected.
         primary-button-color: Ուժեղ ակցենտային գույն, որն օգտագործվում է էկրանի ամենակարևոր կոճակի համար։
       manage_colors: Խմբագրել գույների ընտրության տարբերակները
       tab_branding: Բրենդավորում

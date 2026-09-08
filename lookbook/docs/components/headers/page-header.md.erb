@@ -14,7 +14,7 @@ There are minor adjustments on how the composition of this component is defined 
 - **Tablet:** The content of the context bar will be a [breadcrumb](https://primer.style/components/breadcrumbs).
 - **Mobile:**
   - The content of the breadcrumb will collapse to a single element using the parent link style. The text and href for that link will be taken from the second-last item of the breadcrumb, (which should be the parent of the current page).
-    The only exception to that behavior are index pages, where the parent link might lead to the page itself again. To avoid these kind of loops on mobile, we can exclude certain elements from being taken as a mobile back link. An example can be found the [component previews](../../inspect/primer/open_project/page_header/skip_breadcrumb_item).
+    The only exception to that behavior are index pages, where the parent link might lead to the page itself again. To avoid these kind of loops on mobile, we can exclude certain elements from being taken as a mobile back link. An example can be found the [component previews](../../../inspect/primer/open_project/page_header/skip_breadcrumb_item).
   - All the PageHeader actions will merge into an [ActionMenu](https://primer.style/components/action-menu) triggered by a single [Icon button](https://primer.style/components/icon-button) in the context bar.
 
 **[Title bar](https://primer.style/components/page-header#title-bar):** The default (medium) size will be always used keeping the capability as optionals of adding leading and trailing visuals and actions.
@@ -76,7 +76,7 @@ The PageHeader is a navigational mandatory component in all pages that will alwa
 
 ## Examples
 
-For detailed examples have a look at the other [preview examples](../../inspect/primer/open_project/page_header/playground) of the component.
+For detailed examples have a look at the other [preview examples](../../../inspect/primer/open_project/page_header/playground) of the component.
 
 This is an exemplary playground of the `Primer::OpenProject::PageHeader`.
 
@@ -86,19 +86,19 @@ This is an exemplary playground of the `Primer::OpenProject::PageHeader`.
 
 The PageHeader actions offer a set of predefined slots, to use specific components inside the PageHeader actions, such as:
 
-* **Primer::Alpha::Dialog** ([`with_action_dialog`](../../inspect/primer/open_project/page_header/dialog_actions))
+* **Primer::Alpha::Dialog** ([`with_action_dialog`](../../../inspect/primer/open_project/page_header/dialog_actions))
   * The trigger button will be part of the actions and collapse on mobile into the mobile action menu. Therefore, an additional `mobile_label`, as well as a `mobile_label` have to be passed.
-* **Primer::Alpha::ActionMenu** ([`with_action_menu`](../../inspect/primer/open_project/page_header/menu_actions)):
+* **Primer::Alpha::ActionMenu** ([`with_action_menu`](../../../inspect/primer/open_project/page_header/menu_actions)):
   * The trigger button will be part of the actions. On mobile, the options of the menu will be added to the options of the mobile action menu.
-* **Primer::OpenProject::ZenModeButton** ([`with_action_zen_mode_button`](../../inspect/primer/open_project/page_header/zen_mode_button_actions)):
+* **Primer::OpenProject::ZenModeButton** ([`with_action_zen_mode_button`](../../../inspect/primer/open_project/page_header/zen_mode_button_actions)):
   * The button will collapse on mobile into the mobile action menu.
-* **Primer::Beta::IconButton** ([`with_action_icon_button`](../../inspect/primer/open_project/page_header/actions)):
+* **Primer::Beta::IconButton** ([`with_action_icon_button`](../../../inspect/primer/open_project/page_header/actions)):
   * The button will collapse on mobile into the mobile action menu. Therefore, an additional `mobile_label` has to be passed.
-* **Primer::Beta::Button** ([`with_action_button`](../../inspect/primer/open_project/page_header/actions)):
+* **Primer::Beta::Button** ([`with_action_button`](../../../inspect/primer/open_project/page_header/actions)):
   * The button will collapse on mobile into the mobile action menu. Therefore, an additional `mobile_label`, as well as a `mobile_label` have to be passed.
-* **Primer::Beta::Link** ([`with_action_link`](../../inspect/primer/open_project/page_header/actions)):
+* **Primer::Beta::Link** ([`with_action_link`](../../../inspect/primer/open_project/page_header/actions)):
   * The button will collapse on mobile into the mobile action menu. Therefore, an additional `mobile_label`, as well as a `mobile_label` have to be passed.
-* **Primer::Beta::Text** ([`with_action_text`](../../inspect/primer/open_project/page_header/actions)):
+* **Primer::Beta::Text** ([`with_action_text`](../../../inspect/primer/open_project/page_header/actions)):
   * The text will be hidden on mobile.
 
 ### Editable Title - Text Selection
