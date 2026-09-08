@@ -66,13 +66,11 @@ module Migration
 
     def schemas_containing(table_name)
       connection.select_values(<<~SQL.squish)
-        SELECT n.nspname
-        FROM pg_class c
-        JOIN pg_namespace n ON n.oid = c.relnamespace
-        WHERE c.relname = #{connection.quote(table_name.to_s)}
-          AND c.relkind IN ('r', 'p')
-          AND n.nspname = ANY (current_schemas(false))
-        ORDER BY array_position(current_schemas(false), n.nspname)
+        SELECT schemaname
+        FROM pg_tables
+        WHERE tablename = #{connection.quote(table_name.to_s)}
+          AND schemaname = ANY (current_schemas(false))
+        ORDER BY array_position(current_schemas(false), schemaname)
       SQL
     end
 
