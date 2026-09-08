@@ -48,12 +48,11 @@ let splitCreateInstanceCount = 0;
   hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
   standalone: false,
   template: `
-    <div class="op-work-package-split-view">
-      <wp-new-split-view
-        [stateParams]="{ projectPath: projectIdentifier, type: type, parent_id: parentId }"
-        [routedFromAngular]="false"
-      />
-    </div>
+    <wp-new-split-view
+      [stateParams]="{ projectPath: projectIdentifier, type: type, parent_id: parentId }"
+      [routedFromAngular]="false"
+      [resizerClass]="resizerClass"
+    />
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -63,6 +62,7 @@ export class WorkPackageSplitCreateEntryComponent implements AfterViewInit, OnDe
   @Input() projectIdentifier?:string;
   @Input() type?:string;
   @Input() parentId?:string;
+  @Input() resizerClass:string;
 
   constructor() {
     populateInputsFromDataset(this);

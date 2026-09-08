@@ -29,6 +29,8 @@
 #++
 
 class WorkPackages::SplitCreateComponent < ApplicationComponent
+  include OpTurbo::Streamable
+
   def initialize(project_identifier:, type: nil, parent_id: nil)
     super
 

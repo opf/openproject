@@ -28,7 +28,9 @@
 
 import { WorkPackageCreateComponent } from 'core-app/features/work-packages/components/wp-new/wp-create.component';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy, Component, inject, Input,
+} from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
@@ -43,6 +45,8 @@ export class WorkPackageNewSplitViewComponent extends WorkPackageCreateComponent
   private readonly wpListService = inject(WorkPackagesListService);
 
   private readonly urlParams = inject(UrlParamsService);
+
+  @Input() resizerClass = 'work-packages-partitioned-page--content-right';
 
   /**
    * Before creating the new WP form, load the current query (with its active filters)
