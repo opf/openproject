@@ -65,9 +65,10 @@ module LlmConnections
 
     private
 
-    # Only a model known to embed can serve the embedding default, the same rule
-    # the picker offers by. A model the connection does not know at all is left
-    # to default_models_offered_by_server.
+    # Only a model the server has ruled out is refused. "We could not tell" is the
+    # normal state on a self-hosted server, and an environment-provisioned default
+    # would otherwise fail on a catalogue row nothing has probed yet. The picker
+    # still offers confirmed models only.
     def default_embedding_model_can_embed
       model_id = model.default_embedding_model_id
       return if model_id.blank?
@@ -75,7 +76,7 @@ module LlmConnections
 
       llm_model = model.models.find_by(external_id: model_id)
 
-      errors.add(:default_embedding_model_id, :cannot_embed) if llm_model && !llm_model.embedding?
+      errors.add(:default_embedding_model_id, :cannot_embed) if llm_model&.verdict_for(:embeddings)&.blocking?
     end
 
     # A model the server identifies as an embedding model is not a chat candidate.

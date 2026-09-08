@@ -714,7 +714,7 @@ en:
               cannot_chat: "is an embedding model, according to the LLM server, and cannot be used for chat."
               not_available: "is not offered by the configured LLM server."
             default_embedding_model_id:
-              cannot_embed: "is not known to create embeddings."
+              cannot_embed: "is known not to create embeddings, according to the LLM server."
               not_available: "is not offered by the configured LLM server."
             llm_features_enabled:
               requires_connection: "cannot be turned on before a connection has been configured."

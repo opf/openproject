@@ -761,11 +761,22 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       expect(connection.reload.default_embedding_model_id).to eq("bge-m3")
     end
 
-    it "refuses a model that is not known to embed" do
+    it "refuses a model the server has ruled out" do
+      connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "embeddings",
+                                             state: "unsupported", source: "probe", checked_at: Time.current)
+
       patch defaults_llm_models_path, params: { llm_connection: { default_embedding_model_id: "qwen3.6-27b" } }
 
       expect(connection.reload.default_embedding_model_id).to be_nil
       expect(flash[:error]).to be_present
+    end
+
+    # Nothing has probed the row: refusing here would break provisioning from the
+    # environment, where the same configuration passes on an empty catalogue.
+    it "accepts a model nothing has ruled out" do
+      patch defaults_llm_models_path, params: { llm_connection: { default_embedding_model_id: "qwen3.6-27b" } }
+
+      expect(connection.reload.default_embedding_model_id).to eq("qwen3.6-27b")
     end
 
     it "leaves the server settings alone" do
