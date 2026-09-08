@@ -34,6 +34,10 @@ import { States } from 'core-app/core/states/states.service';
 import { KeepTabService } from '../../wp-single-view-tabs/keep-tab/keep-tab.service';
 import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import {
+  GlobalEditFormChangesTrackerService,
+} from 'core-app/shared/components/fields/edit/services/global-edit-form-changes-tracker/global-edit-form-changes-tracker.service';
 
 @Component({
   templateUrl: '../wp-button.template.html',
@@ -48,6 +52,8 @@ export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageBu
   wpTableFocus = inject(WorkPackageViewFocusService);
   keepTab = inject(KeepTabService);
   urlParams = inject(UrlParamsService);
+  configurationService = inject(ConfigurationService);
+  globalEditFormChangesTracker = inject(GlobalEditFormChangesTrackerService);
 
   public projectIdentifier:string;
 
@@ -109,6 +115,16 @@ export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageBu
   public openDetailsView():void {
     const focused = this.wpTableFocus.focusedWorkPackage;
     if (!focused) {
+      return;
+    }
+
+    // Previously we checked that via uiRouter (via $transitions.onBefore). Since that got removed,
+    // we need to check that here explicitly.
+    if (
+      this.globalEditFormChangesTracker.thereAreFormsBeingEdited
+      && this.configurationService.warnOnLeavingUnsaved()
+      && !window.confirm(this.I18n.t('js.work_packages.confirm_edit_cancel'))
+    ) {
       return;
     }
 
