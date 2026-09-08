@@ -1268,7 +1268,12 @@ ko:
     banners:
       environment_configured_readonly: 이러한 값은 환경 변수를 통해 구성되며 여기에서 편집할 수 없습니다.
     custom_styles:
+      color_groups:
+        base_colors: Base colors
+        main_menu: Main lateral menu
+        top_header_colors: Top header colors
       color_theme: 컬러 테마
+      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
       color_theme_custom: "(사용자 지정)"
       colors:
         accent-color: 강조 색
@@ -1277,12 +1282,15 @@ ko:
         main-menu-bg-selected-background: 선택할 때 기본 메뉴
         primary-button-color: 기본 버튼
       custom_colors: 사용자 정의 색상
+      edit_color: Edit %{color}
       fonts:
         file_is_invalid: "- 유효한 TTF 글꼴 파일이 아닙니다."
         file_too_large: "- 너무 큽니다(최대 크기 %{count}MB)."
       instructions:
         accent-color: 링크 및 기타 적절하게 강조 표시된 요소의 색상을 지정하세요.
+        header-bg-color: Default background color of the app header.
         main-menu-bg-color: 왼쪽 메뉴의 배경색입니다.
+        main-menu-bg-selected-background: Background color of menu items when selected.
         primary-button-color: 강한 강조 색은 화면의 가장 중요한 버튼에 사용됩니다.
       manage_colors: 색상 선택 옵션 편집
       tab_branding: 브랜딩

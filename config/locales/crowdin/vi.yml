@@ -1268,7 +1268,12 @@ vi:
     banners:
       environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
     custom_styles:
+      color_groups:
+        base_colors: Base colors
+        main_menu: Main lateral menu
+        top_header_colors: Top header colors
       color_theme: Màu sắc giao diện
+      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
       color_theme_custom: "(Tùy chỉnh)"
       colors:
         accent-color: Màu nhấn
@@ -1277,12 +1282,15 @@ vi:
         main-menu-bg-selected-background: Menu chính khi được chọn
         primary-button-color: Nút chính
       custom_colors: Tùy chỉnh màu sắc
+      edit_color: Edit %{color}
       fonts:
         file_is_invalid: không phải là tệp phông chữ TTF hợp lệ.
         file_too_large: quá lớn (kích thước tối đa là %{count} MB).
       instructions:
         accent-color: Màu sắc cho các liên kết và các yếu tố được đánh dấu rõ ràng khác.
+        header-bg-color: Default background color of the app header.
         main-menu-bg-color: Màu nền của trình đơn ở bên trái.
+        main-menu-bg-selected-background: Background color of menu items when selected.
         primary-button-color: Màu nhấn mạnh, được sử dụng cho nút quan trọng nhất trên màn hình.
       manage_colors: Chỉnh sửa màu sắc trong select option
       tab_branding: Xây dựng thương hiệu
