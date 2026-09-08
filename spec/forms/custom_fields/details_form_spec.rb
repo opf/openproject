@@ -77,20 +77,58 @@ RSpec.describe CustomFields::DetailsForm, type: :forms do
     create(:user_custom_field_section) if model_class == UserCustomField
   end
 
+  def field_label(field)
+    case field
+    when :custom_field_section_id
+      I18n.t("activerecord.attributes.project_custom_field.custom_field_section")
+    when :formula
+      I18n.t(:label_formula)
+    else
+      I18n.t("activerecord.attributes.custom_field.#{field}")
+    end
+  end
+
+  def expect_labeled_control(field)
+    label = field_label(field)
+    name = "custom_field[#{field}]"
+
+    if field == :formula
+      expect(page).to have_selector(:pattern_input, label)
+      expect(page).to have_css("input[type='hidden'][name='#{name}']", visible: :all)
+    elsif field == :default_value && field_format == "text"
+      expect(page).to have_selector(:rich_text_field, label)
+      expect(page).to have_field(label, type: "textarea", name:, visible: :all)
+    else
+      expect(page).to have_field(label, type: control_type(field), name:)
+    end
+  end
+
+  def control_type(field)
+    case field
+    when :custom_field_section_id then "select"
+    when :min_length, :max_length then "number"
+    when :regexp then "text"
+    when :default_value then field_format == "bool" ? "checkbox" : "text"
+    else "checkbox"
+    end
+  end
+
   format_cases.each do |custom_field_class, formats|
     formats.each do |format|
       context "with a #{custom_field_class.name} in #{format} format" do
         let(:model_class) { custom_field_class }
         let(:field_format) { format }
 
-        it "renders the format-specific fields", :aggregate_failures do
+        it "renders labeled controls of the correct type for the format", :aggregate_failures do
+          expect(page).to have_field(I18n.t(:label_name), type: "text", name: "custom_field[name]")
           field_rules.each do |field, visible|
             selector = "[name='custom_field[#{field}]']"
 
             if visible.call(model)
-              expect(page).to have_css(selector, visible: :all)
+              expect_labeled_control(field)
             else
               expect(page).to have_no_css(selector, visible: :all)
+              expect(page).to have_no_selector(:label, field_label(field))
             end
           end
         end
