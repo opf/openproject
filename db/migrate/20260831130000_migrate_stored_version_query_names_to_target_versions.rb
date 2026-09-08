@@ -30,7 +30,7 @@
 
 require Rails.root.join("db/migrate/migration_utils/utils")
 
-class MigrateStoredVersionQueryNamesToActiveRepresentation < ActiveRecord::Migration[8.1]
+class MigrateStoredVersionQueryNamesToTargetVersions < ActiveRecord::Migration[8.1]
   include Migration::Utils
 
   class MigratedQuery < ActiveRecord::Base
@@ -42,13 +42,8 @@ class MigrateStoredVersionQueryNamesToActiveRepresentation < ActiveRecord::Migra
   DEFAULT_COLUMNS_SETTING = "work_package_list_default_columns"
 
   def up
-    if Setting.work_package_multiple_versions?
-      migrate_stored_names(select_from: "version", select_to: "target_versions",
-                           filter_from: "version_id", filter_to: "target_version_id")
-    else
-      migrate_stored_names(select_from: "target_versions", select_to: "version",
-                           filter_from: "target_version_id", filter_to: "version_id")
-    end
+    migrate_stored_names(select_from: "version", select_to: "target_versions",
+                         filter_from: "version_id", filter_to: "target_version_id")
   end
 
   def down

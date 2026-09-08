@@ -650,6 +650,95 @@ RSpec.describe "POST /api/v3/queries/form",
     end
   end
 
+  describe "with both version filter keys present, carrying different values",
+           with_settings: { work_package_multiple_versions: true } do
+    let(:version_a) { create(:version, project:) }
+    let(:version_b) { create(:version, project:) }
+    let(:version_filter) do
+      {
+        _links: {
+          filter: { href: "/api/v3/queries/filters/version" },
+          operator: { href: "/api/v3/queries/operators/=" },
+          values: [{ href: api_v3_paths.version(version_a.id) }]
+        }
+      }
+    end
+    let(:target_version_filter) do
+      {
+        _links: {
+          filter: { href: "/api/v3/queries/filters/targetVersion" },
+          operator: { href: "/api/v3/queries/operators/=" },
+          values: [{ href: api_v3_paths.version(version_b.id) }]
+        }
+      }
+    end
+
+    context "with the version filter listed first" do
+      let(:parameters) { { name: "Some Query", filters: [version_filter, target_version_filter] } }
+
+      it "renders a single filter under targetVersion, keeping the targetVersion filter's values" do
+        expect(form.dig("_embedded", "payload", "filters").size).to eq 1
+
+        expect(form.dig("_embedded", "payload", "filters", 0, "_links", "filter", "href"))
+          .to eq "/api/v3/queries/filters/targetVersion"
+
+        expect(form.dig("_embedded", "payload", "filters", 0, "_links", "values", 0, "href"))
+          .to eq api_v3_paths.version(version_b.id)
+      end
+    end
+
+    context "with the targetVersion filter listed first" do
+      let(:parameters) { { name: "Some Query", filters: [target_version_filter, version_filter] } }
+
+      it "renders a single filter under targetVersion, keeping the targetVersion filter's values" do
+        expect(form.dig("_embedded", "payload", "filters").size).to eq 1
+
+        expect(form.dig("_embedded", "payload", "filters", 0, "_links", "filter", "href"))
+          .to eq "/api/v3/queries/filters/targetVersion"
+
+        expect(form.dig("_embedded", "payload", "filters", 0, "_links", "values", 0, "href"))
+          .to eq api_v3_paths.version(version_b.id)
+      end
+    end
+  end
+
+  describe "with both version filter keys present, carrying different values",
+           with_settings: { work_package_multiple_versions: false } do
+    let(:version_a) { create(:version, project:) }
+    let(:version_b) { create(:version, project:) }
+    let(:parameters) do
+      {
+        name: "Some Query",
+        filters: [
+          {
+            _links: {
+              filter: { href: "/api/v3/queries/filters/version" },
+              operator: { href: "/api/v3/queries/operators/=" },
+              values: [{ href: api_v3_paths.version(version_a.id) }]
+            }
+          },
+          {
+            _links: {
+              filter: { href: "/api/v3/queries/filters/targetVersion" },
+              operator: { href: "/api/v3/queries/operators/=" },
+              values: [{ href: api_v3_paths.version(version_b.id) }]
+            }
+          }
+        ]
+      }
+    end
+
+    it "renders a single filter under version, keeping the targetVersion filter's values" do
+      expect(form.dig("_embedded", "payload", "filters").size).to eq 1
+
+      expect(form.dig("_embedded", "payload", "filters", 0, "_links", "filter", "href"))
+        .to eq "/api/v3/queries/filters/version"
+
+      expect(form.dig("_embedded", "payload", "filters", 0, "_links", "values", 0, "href"))
+        .to eq api_v3_paths.version(version_b.id)
+    end
+  end
+
   describe "posting to a project-query form with a CF present only there (Regression #29873)" do
     let(:custom_field) do
       create(

@@ -96,6 +96,31 @@ RSpec.describe "Work package table target versions column", :js do
       columns.expect_checked "Target versions"
       columns.expect_column_not_available(/^Version$/)
     end
+
+    context "with a query saved while the feature was still inactive" do
+      let!(:query) do
+        create(:query,
+               user:,
+               project:,
+               column_names: %w[id subject version],
+               group_by: "version",
+               sort_criteria: [%w[version asc]])
+      end
+
+      it "keeps showing the column, now as target versions" do
+        wp_table.visit_query query
+        wp_table.expect_work_package_listed work_package
+
+        expect(page).to have_css(".wp-table--table-header", text: "TARGET VERSIONS")
+
+        field = wp_table.edit_field(work_package, :targetVersions)
+        field.expect_text version_one.name
+        field.expect_text version_two.name
+
+        columns.open_modal
+        columns.expect_checked "Target versions"
+      end
+    end
   end
 
   context "with multiple versions inactive",
@@ -118,6 +143,30 @@ RSpec.describe "Work package table target versions column", :js do
       columns.open_modal
       columns.expect_checked "Version"
       columns.expect_column_not_available "Target versions"
+    end
+
+    context "with a query saved while the feature was still active" do
+      let!(:query) do
+        create(:query,
+               user:,
+               project:,
+               column_names: %w[id subject target_versions],
+               group_by: "target_versions",
+               sort_criteria: [%w[target_versions asc]])
+      end
+
+      it "keeps showing the column, now as version" do
+        wp_table.visit_query query
+        wp_table.expect_work_package_listed work_package
+
+        expect(page).to have_css(".wp-table--table-header", text: "VERSION")
+
+        field = wp_table.edit_field(work_package, :version)
+        field.expect_text version_one.name
+
+        columns.open_modal
+        columns.expect_checked "Version"
+      end
     end
   end
 end

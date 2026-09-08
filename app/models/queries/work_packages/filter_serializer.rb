@@ -32,8 +32,6 @@ module Queries::WorkPackages::FilterSerializer
   extend Queries::Filters::AvailableFilters
   extend Queries::Filters::AvailableFilters::ClassMethods
 
-  INTERCHANGEABLE_VERSION_KEYS = %w[version_id target_version_id].freeze
-
   def self.load(serialized_filter_hash)
     return [] if serialized_filter_hash.nil?
 
@@ -43,39 +41,40 @@ module Queries::WorkPackages::FilterSerializer
 
     filter_hash = YAML.load(yaml, permitted_classes: [Symbol, Date]) || {}
 
-    collapse_interchangeable_version_keys(filter_hash).each_with_object([]) do |(field, options), array|
-      options = options.with_indifferent_access
-      filter = filter_for(field, no_memoization: true)
-      filter.operator = options["operator"]
-      filter.values = options["values"]
-      array << filter
-    end
+    collapse_to_active_version_key(filter_hash)
+      .each_with_object([]) do |(field, options), array|
+        options = options.with_indifferent_access
+        filter = filter_for(field, no_memoization: true)
+        filter.operator = options["operator"]
+        filter.values = options["values"]
+        array << filter
+      end
   end
 
   def self.dump(filters)
-    YAML.dump ((filters || []).map(&:to_hash).reduce(:merge) || {}).stringify_keys
+    merged = (filters || []).map(&:to_hash).reduce(:merge) || {}
+
+    YAML.dump collapse_to_canonical_version_key(merged).stringify_keys
   end
 
   def self.registered_filters
     Queries::Register.filters[Query]
   end
 
-  # `version_id` and `target_version_id` are interchangeable representations
-  # of one filter, and only one of them is available at a time. A hash naming
-  # both collapses to the one currently available.
-  def self.collapse_interchangeable_version_keys(filter_hash)
+  def self.collapse_to_active_version_key(filter_hash)
+    collapse_to_canonical_version_key(filter_hash)
+      .transform_keys { |key| Queries::WorkPackages::VersionNames.active_filter(key) }
+  end
+  private_class_method :collapse_to_active_version_key
+
+  def self.collapse_to_canonical_version_key(filter_hash)
     filter_hash.each_with_object({}) do |(key, options), collapsed|
-      normalized_key = active_version_key(key)
+      normalized_key = Queries::WorkPackages::VersionNames.canonical_filter(key)
 
       next if collapsed.key?(normalized_key) && normalized_key.to_s != key.to_s
 
       collapsed[normalized_key] = options
     end
   end
-
-  def self.active_version_key(key)
-    return key if INTERCHANGEABLE_VERSION_KEYS.exclude?(key.to_s)
-
-    Setting::WorkPackageMultipleVersions.active? ? "target_version_id" : "version_id"
-  end
+  private_class_method :collapse_to_canonical_version_key
 end

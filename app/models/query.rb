@@ -197,7 +197,7 @@ class Query < ApplicationRecord
   # of one filter, and only one of them is available at a time; a caller
   # naming either one gets the currently available filter.
   def filter_for(field)
-    field = Queries::WorkPackages::FilterSerializer.active_version_key(field)
+    field = Queries::WorkPackages::VersionNames.active_filter(field)
     filter = (filters || []).detect { |f| f.field.to_s == field.to_s } || super
 
     filter.context = self
@@ -210,7 +210,7 @@ class Query < ApplicationRecord
   #
   # @param [String] name the filter to remove
   def remove_filter(name)
-    name = Queries::WorkPackages::FilterSerializer.active_version_key(name)
+    name = Queries::WorkPackages::VersionNames.active_filter(name)
     filters.delete_if { |f| f.field.to_s == name.to_s }
   end
 
@@ -220,7 +220,7 @@ class Query < ApplicationRecord
   # by name. Signature kept identical to BaseQuery's (symbol arg in, filter
   # or nil out).
   def find_active_filter(name)
-    key = Queries::WorkPackages::FilterSerializer.active_version_key(name)
+    key = Queries::WorkPackages::VersionNames.active_filter(name)
     key = key.to_sym if name.is_a?(Symbol)
 
     filters.detect { |f| f.name == key }
@@ -308,14 +308,7 @@ class Query < ApplicationRecord
   end
 
   def columns
-    column_list = if has_default_columns?
-                    column_list = Setting.work_package_list_default_columns.map(&:to_sym).uniq
-                    # Adds the project column by default for cross-project lists
-                    column_list += [:project] if project.nil? && column_list.exclude?(:project)
-                    column_list
-                  else
-                    column_names
-                  end
+    column_list = has_default_columns? ? default_column_list : column_names
 
     # preserve the order
     column_list.filter_map { |name| displayable_columns.find { |col| col.name == name.to_sym } }
@@ -324,13 +317,20 @@ class Query < ApplicationRecord
   def column_names=(names)
     col_names = Array(names)
                 .compact_blank
-                .map(&:to_sym)
+                .map { Queries::WorkPackages::VersionNames.canonical_select(it).to_sym }
+                .uniq
 
     write_attribute(:column_names, col_names)
   end
 
+  def column_names
+    read_attribute(:column_names)
+      .map { Queries::WorkPackages::VersionNames.active_select(it).to_sym }
+      .uniq
+  end
+
   def has_column?(column)
-    column_names&.include?(column.name)
+    column_names.include?(column.name)
   end
 
   def has_default_columns?
@@ -341,16 +341,18 @@ class Query < ApplicationRecord
     if arg.is_a?(Hash)
       arg = arg.keys.sort.map { |k| arg[k] }
     end
-    c = arg.reject { |k, _o| k.to_s.blank? }.slice(0, 3).map { |k, o| [k.to_s, o == "desc" ? o : "asc"] }
+
+    c = canonicalized_sort_criteria(arg)
+        .slice(0, 3)
+        .map { |k, o| [k, o == "desc" ? o : "asc"] }
+
     write_attribute(:sort_criteria, c)
   end
 
   def sort_criteria
-    (read_attribute(:sort_criteria) || []).tap do |criteria|
-      criteria.map! do |attr, direction|
-        attr = "id" if attr == "parent"
-        [attr, direction]
-      end
+    read_attribute(:sort_criteria).map do |attr, direction|
+      attr = "id" if attr == "parent"
+      [Queries::WorkPackages::VersionNames.active_select(attr).to_s, direction]
     end
   end
 
@@ -388,6 +390,14 @@ class Query < ApplicationRecord
 
   def display_sums?
     display_sums
+  end
+
+  def group_by=(name)
+    write_attribute(:group_by, Queries::WorkPackages::VersionNames.canonical_select(name))
+  end
+
+  def group_by
+    Queries::WorkPackages::VersionNames.active_select(read_attribute(:group_by))
   end
 
   def group_by_column
@@ -462,6 +472,23 @@ class Query < ApplicationRecord
 
   private
 
+  def canonicalized_sort_criteria(arg)
+    arg
+      .reject { |k, _o| k.to_s.blank? }
+      .map { |k, o| [Queries::WorkPackages::VersionNames.canonical_select(k).to_s, o] }
+      .uniq { |k, _o| k }
+  end
+
+  def default_column_list
+    column_list = Setting.work_package_list_default_columns
+                          .map { Queries::WorkPackages::VersionNames.active_select(it).to_sym }
+                          .uniq
+
+    # Adds the project column by default for cross-project lists
+    column_list += [:project] if project.nil? && column_list.exclude?(:project)
+    column_list
+  end
+
   ##
   # Determine whether there are explicit filters
   # on whether work packages from
@@ -506,8 +533,6 @@ class Query < ApplicationRecord
   def valid_sort_criteria_subset!
     available_criteria = sortable_columns.map(&:name).map(&:to_s)
 
-    # Assigns rather than mutating: `sort_criteria` no longer hands out the
-    # stored array itself.
     self.sort_criteria = sort_criteria.select do |criteria|
       available_criteria.include? criteria.first.to_s
     end
