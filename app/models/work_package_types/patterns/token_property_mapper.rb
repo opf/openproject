@@ -31,26 +31,13 @@
 module WorkPackageTypes
   module Patterns
     class TokenPropertyMapper
-      STRING_OR_NIL = ->(v, _) { v&.to_s }
-      ARRAY = ->(v, _) { v.compact.presence&.join(", ") }
-      DATE = ->(v, _) { v&.strftime(Setting.date_format || "%Y-%m-%d") }
-      DURATION = ->(v, _) { DurationConverter.output(v) }
-      HIERARCHY = ->(item, format) {
-        return nil if item.nil?
-        return item.label if format == "label"
-        return item.short if format == "short"
-        return NumberFormatHelper.number_with_limit(item.weight) if format == "weight"
-
-        item.to_s
-      }
-
       class StaticAttributeDSL
         def initialize(context:, label_model:)
           @context = context
           @label_model = label_model
         end
 
-        def add(key, value_fn, formatter = STRING_OR_NIL, label: key)
+        def add(key, value_fn, formatter = Formatters::DefaultFormatter, label: key)
           label_fn = label
           unless label_fn.respond_to?(:call)
             raise ArgumentError, "label must be passed as function when no label_model is provided" if @label_model.nil?
@@ -100,13 +87,15 @@ module WorkPackageTypes
       def tokenize(custom_field_scope, context_name, prefix = nil)
         custom_field_scope.pluck(:name, :id, :field_format, :multi_value).map do |name, id, format, multiple|
           formatter = if multiple
-                        ARRAY
+                        Formatters::ArrayFormatter
                       elsif format == "date"
-                        DATE
-                      elsif %w[hierarchy weighted_item_list].include?(format)
-                        HIERARCHY
+                        Formatters::DateFormatter
+                      elsif format == "hierarchy"
+                        Formatters::HierarchyFormatter
+                      elsif format == "weighted_item_list"
+                        Formatters::WeightedItemListFormatter
                       else
-                        ->(v, format) { v.is_a?(Symbol) ? v : STRING_OR_NIL.call(v, format) }
+                        Formatters::DefaultFormatter
                       end
           AttributeToken.new(
             :"#{prefix}custom_field_#{id}",

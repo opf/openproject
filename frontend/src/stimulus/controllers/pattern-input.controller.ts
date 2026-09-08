@@ -45,6 +45,12 @@ interface AttributeToken {
   label_with_context?:string;
   insert_as_text?:boolean;
   enabled:boolean;
+  available_formats:FormatDefinition[];
+};
+
+interface FormatDefinition {
+  label:string;
+  format:string|null;
 };
 
 const COMPLETION_CHARACTER = '/';
