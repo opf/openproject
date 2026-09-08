@@ -29,15 +29,12 @@
 require "open_project/plugins/auth_plugin"
 
 module OmniAuth
+  # OmniAuth decides request vs callback by comparing
+  # the current path to +request_path+ / +callback_path+, which it derives from
+  # +name+ and then memoizes later on.
+  # For this reason, we need to verride the on_request_path and on_callback_path? methods
+  # to make sure we match our provider strategy class from the request (e.g., /auth/saml)
   module FlexibleStrategy
-    def on_auth_path?
-      possible_auth_path? && (match_provider! || false) && super
-    end
-
-    # OmniAuth 2 switch to memoizing request_path during +warn_if_using_get_on_request_path+,
-    # before we can consider the provider name.
-    #
-    # As a result, we need to match the provider using the following two methods.
     def on_request_path?
       possible_auth_path? && match_provider! && super
     end
