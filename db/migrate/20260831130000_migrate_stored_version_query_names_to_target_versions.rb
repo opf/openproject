@@ -46,9 +46,7 @@ class MigrateStoredVersionQueryNamesToTargetVersions < ActiveRecord::Migration[8
                          filter_from: "version_id", filter_to: "target_version_id")
   end
 
-  def down
-    raise ActiveRecord::IrreversibleMigration
-  end
+  def down; end
 
   private
 
