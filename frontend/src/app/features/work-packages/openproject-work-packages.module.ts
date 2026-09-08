@@ -225,6 +225,9 @@ import {
   CustomDateActionAdminComponent,
 } from 'core-app/features/work-packages/components/wp-custom-actions/date-action/custom-date-action-admin.component';
 import {
+  CustomDateTimeActionAdminComponent,
+} from 'core-app/features/work-packages/components/wp-custom-actions/datetime-action/custom-datetime-action-admin.component';
+import {
   WorkPackagesTableConfigMenuComponent,
 } from 'core-app/features/work-packages/components/wp-table/config-menu/config-menu.component';
 import {
@@ -638,6 +641,7 @@ import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work
     WpCustomActionComponent,
     WpCustomActionsComponent,
     CustomDateActionAdminComponent,
+    CustomDateTimeActionAdminComponent,
 
     // CKEditor macros which could not be included in the
     // editor module to avoid circular dependencies

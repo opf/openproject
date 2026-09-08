@@ -35,6 +35,7 @@ import { XIconComponent } from '@openproject/octicons-angular';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpBasicRangeDatePickerComponent } from './basic-range-date-picker/basic-range-date-picker.component';
 import { OpBasicSingleDatePickerComponent } from './basic-single-date-picker/basic-single-date-picker.component';
+import { OpBasicSingleDateTimePickerComponent } from './basic-single-datetime-picker/basic-single-datetime-picker.component';
 
 @NgModule({
   imports: [
@@ -51,11 +52,13 @@ import { OpBasicSingleDatePickerComponent } from './basic-single-date-picker/bas
   declarations: [
     OpBasicRangeDatePickerComponent,
     OpBasicSingleDatePickerComponent,
+    OpBasicSingleDateTimePickerComponent,
   ],
 
   exports: [
     OpBasicRangeDatePickerComponent,
     OpBasicSingleDatePickerComponent,
+    OpBasicSingleDateTimePickerComponent,
   ],
 })
 export class OpBasicDatePickerModule {

@@ -469,6 +469,20 @@ RSpec.shared_examples_for "date values transformation" do
   end
 end
 
+RSpec.shared_examples_for "datetime values transformation" do
+  describe "#values" do
+    it "transforms the values to datetimes" do
+      instance.values = ["2015-03-29T14:30:00Z", nil, "bogus", "%CURRENT_DATETIME%", "%RELATIVE_DATETIME%-3600"]
+
+      expect(instance.values)
+        .to contain_exactly(DateTime.parse("2015-03-29T14:30:00Z"),
+                            nil,
+                            "%CURRENT_DATETIME%",
+                            "%RELATIVE_DATETIME%-3600")
+    end
+  end
+end
+
 RSpec.shared_examples_for "associated custom condition" do
   let(:instance) do
     described_class.new

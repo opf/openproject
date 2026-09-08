@@ -95,9 +95,9 @@ class CustomField < ApplicationRecord
     self.class.visible(usr).exists?(id: id)
   end
 
-  # make sure int, float, date, and bool are not searchable
+  # make sure int, float, date, datetime, and bool are not searchable
   def check_searchability
-    self.searchable = false if %w(int float date bool user version).include?(field_format)
+    self.searchable = false if %w(int float date datetime bool user version).include?(field_format)
     true
   end
 
@@ -247,6 +247,12 @@ class CustomField < ApplicationRecord
     when "date"
       begin
         value.to_date
+      rescue StandardError
+        nil
+      end
+    when "datetime"
+      begin
+        value.to_datetime
       rescue StandardError
         nil
       end

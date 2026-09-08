@@ -94,6 +94,8 @@ module API
             case format
             when "list"
               "API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresenter"
+            when "datetime"
+              "API::V3::Queries::Schemas::DateTimeFilterDependencyRepresenter"
             when "bool"
               "API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter"
             when "user", "version", "float"

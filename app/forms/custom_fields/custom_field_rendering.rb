@@ -38,6 +38,7 @@ module CustomFields::CustomFieldRendering
     "float" => "CustomFields::Inputs::Float",
     %w[hierarchy weighted_item_list list] => "CustomFields::Inputs::SingleSelectList",
     "date" => "CustomFields::Inputs::Date",
+    "datetime" => "CustomFields::Inputs::DateTime",
     "bool" => "CustomFields::Inputs::Bool",
     "user" => "CustomFields::Inputs::SingleUserSelectList",
     "version" => "CustomFields::Inputs::SingleVersionSelectList",

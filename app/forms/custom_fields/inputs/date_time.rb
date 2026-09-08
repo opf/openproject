@@ -28,28 +28,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Filters
-  STRATEGIES = {
-    list: Queries::Filters::Strategies::List,
-    list_all: Queries::Filters::Strategies::ListAll,
-    list_optional: Queries::Filters::Strategies::ListOptional,
-    shared_with_user_list_optional: Queries::Filters::Strategies::WorkPackages::SharedWithUser::ListOptional,
-    integer: Queries::Filters::Strategies::Integer,
-    date: Queries::Filters::Strategies::Date,
-    datetime: Queries::Filters::Strategies::DateTime,
-    datetime_past: Queries::Filters::Strategies::DateTimePast,
-    string: Queries::Filters::Strategies::String,
-    text: Queries::Filters::Strategies::Text,
-    search: Queries::Filters::Strategies::Search,
-    float: Queries::Filters::Strategies::Float,
-    inexistent: Queries::Filters::Strategies::Inexistent,
-    empty_value: Queries::Filters::Strategies::EmptyValue,
-    hierarchy: Queries::Filters::Strategies::Hierarchy
-  }.freeze
+class CustomFields::Inputs::DateTime < CustomFields::Inputs::Base::Input
+  form do |custom_value_form|
+    custom_value_form.text_field(**input_attributes)
+  end
 
-  ##
-  # Wrapper class for invalid filters being created
-  class InvalidError < StandardError; end
+  def input_attributes
+    super.merge({ input_width: :small, type: "datetime-local" })
+  end
 
-  class MissingError < StandardError; end
+  # The value is stored as a UTC ISO 8601 string, but a datetime-local input
+  # requires a zone-less value in the user's local time.
+  def value
+    typed = custom_value&.typed_value
+    return super unless typed.is_a?(::DateTime)
+
+    typed.in_time_zone(User.current.time_zone).strftime("%Y-%m-%dT%H:%M")
+  end
 end

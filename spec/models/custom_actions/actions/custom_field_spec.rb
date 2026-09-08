@@ -70,6 +70,9 @@ RSpec.describe CustomActions::Actions::CustomField do
   let(:date_custom_field) do
     build_stubbed(:date_wp_custom_field)
   end
+  let(:datetime_custom_field) do
+    build_stubbed(:datetime_wp_custom_field)
+  end
 
   let(:custom_field) do
     list_custom_field
@@ -84,7 +87,8 @@ RSpec.describe CustomActions::Actions::CustomField do
      text_custom_field,
      string_custom_field,
      link_custom_field,
-     date_custom_field]
+     date_custom_field,
+     datetime_custom_field]
   end
   let(:klass) do
     allow(WorkPackageCustomField)
@@ -187,6 +191,12 @@ RSpec.describe CustomActions::Actions::CustomField do
       let(:custom_field) { date_custom_field }
 
       it_behaves_like "date values transformation"
+    end
+
+    context "for a datetime custom field" do
+      let(:custom_field) { datetime_custom_field }
+
+      it_behaves_like "datetime values transformation"
     end
   end
 
@@ -345,6 +355,15 @@ RSpec.describe CustomActions::Actions::CustomField do
       it "is :date_property" do
         expect(instance.type)
           .to be(:date_property)
+      end
+    end
+
+    context "for a datetime custom field" do
+      let(:custom_field) { datetime_custom_field }
+
+      it "is :datetime_property" do
+        expect(instance.type)
+          .to be(:datetime_property)
       end
     end
   end
@@ -617,6 +636,12 @@ RSpec.describe CustomActions::Actions::CustomField do
 
       it_behaves_like "date custom action validations"
     end
+
+    context "for a datetime custom field" do
+      let(:custom_field) { datetime_custom_field }
+
+      it_behaves_like "date custom action validations"
+    end
   end
 
   describe "#apply" do
@@ -665,6 +690,42 @@ RSpec.describe CustomActions::Actions::CustomField do
           expect(work_package)
             .to have_received(custom_field.attribute_setter)
                   .with(Date.current)
+        end
+      end
+    end
+
+    context "for a datetime custom field" do
+      let(:custom_field) { datetime_custom_field }
+
+      it "sets the value to now for a dynamic value" do
+        freeze_time do
+          without_partial_double_verification do
+            allow(work_package)
+              .to receive(custom_field.attribute_setter)
+
+            instance.values = "%CURRENT_DATETIME%"
+            instance.apply(work_package)
+
+            expect(work_package)
+              .to have_received(custom_field.attribute_setter)
+                    .with(DateTime.current)
+          end
+        end
+      end
+
+      it "sets the value relative to now for a relative value" do
+        freeze_time do
+          without_partial_double_verification do
+            allow(work_package)
+              .to receive(custom_field.attribute_setter)
+
+            instance.values = "%RELATIVE_DATETIME%3600"
+            instance.apply(work_package)
+
+            expect(work_package)
+              .to have_received(custom_field.attribute_setter)
+                    .with(DateTime.current + 3600.seconds)
+          end
         end
       end
     end

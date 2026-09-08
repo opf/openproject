@@ -28,28 +28,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Filters
-  STRATEGIES = {
-    list: Queries::Filters::Strategies::List,
-    list_all: Queries::Filters::Strategies::ListAll,
-    list_optional: Queries::Filters::Strategies::ListOptional,
-    shared_with_user_list_optional: Queries::Filters::Strategies::WorkPackages::SharedWithUser::ListOptional,
-    integer: Queries::Filters::Strategies::Integer,
-    date: Queries::Filters::Strategies::Date,
-    datetime: Queries::Filters::Strategies::DateTime,
-    datetime_past: Queries::Filters::Strategies::DateTimePast,
-    string: Queries::Filters::Strategies::String,
-    text: Queries::Filters::Strategies::Text,
-    search: Queries::Filters::Strategies::Search,
-    float: Queries::Filters::Strategies::Float,
-    inexistent: Queries::Filters::Strategies::Inexistent,
-    empty_value: Queries::Filters::Strategies::EmptyValue,
-    hierarchy: Queries::Filters::Strategies::Hierarchy
-  }.freeze
-
-  ##
-  # Wrapper class for invalid filters being created
-  class InvalidError < StandardError; end
-
-  class MissingError < StandardError; end
+module Queries::Filters::Strategies
+  class DateTime < Queries::Filters::Strategies::DateTimePast
+    self.supported_operators = ["<t+", ">t+", "t+", "t", "w", ">t-", "<t-", "t-", "=d", "<>d", "!*"]
+    self.default_operator = "t"
+  end
 end

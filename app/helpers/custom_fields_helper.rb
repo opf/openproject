@@ -81,6 +81,14 @@ module CustomFieldsHelper
                               name: field_name,
                               value:
                             }
+    when "datetime"
+      angular_component_tag "opce-basic-single-datetime-picker",
+                            inputs: {
+                              required: custom_field.required?,
+                              id: field_id,
+                              name: field_name,
+                              value:
+                            }
     when "text"
       styled_text_area_tag(field_name, value, id: field_id, rows: 3, with_text_formatting: true)
     when "bool"

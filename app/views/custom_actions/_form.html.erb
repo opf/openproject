@@ -123,6 +123,12 @@
               <%= angular_component_tag "opce-custom-date-action-admin",
                                         data: { "field-value": date.try(:iso8601) || date, "field-name": input_name } %>
             </div>
+          <% elsif %i(datetime_property).include?(action.type) %>
+            <div class="form--field-container">
+              <% datetime = action.values.first %>
+              <%= angular_component_tag "opce-custom-datetime-action-admin",
+                                        data: { "field-value": datetime.try(:iso8601) || datetime, "field-name": input_name } %>
+            </div>
           <% elsif %i(string_property text_property).include?(action.type) %>
             <div class="form--field-container">
               <%= styled_text_field_tag input_name,
