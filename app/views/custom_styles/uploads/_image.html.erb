@@ -56,6 +56,7 @@ See COPYRIGHT and LICENSE files for more details.
         <%= render(
               Primer::Beta::Button.new(
                 tag: :a,
+                scheme: :danger,
                 href: image[:delete_path],
                 data: {
                   turbo_method: :delete,

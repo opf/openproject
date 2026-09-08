@@ -1390,10 +1390,6 @@ en:
     banners:
       environment_configured_readonly: "These values are configured via environment variables and cannot be edited here."
     custom_styles:
-      color_groups:
-        base_colors: "Base colors"
-        main_menu: "Main lateral menu"
-        top_header_colors: "Top header colors"
       branding:
         desktop:
           description: "The logo automatically scales to fit the header. For best results, upload a transparent 130×47px image."
@@ -1411,6 +1407,10 @@ en:
           light_high_contrast:
             description: "Used in light high contrast mode. Falls back to the light logo when empty."
             name: "Light high contrast"
+      color_groups:
+        base_colors: "Base colors"
+        main_menu: "Main lateral menu"
+        top_header_colors: "Top header colors"
       color_theme: "Color theme"
       color_theme_caption: "Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme."
       color_theme_custom: "(Custom)"
