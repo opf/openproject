@@ -36,11 +36,7 @@ class CustomStylesController < ApplicationController
   layout "admin"
   menu_item :custom_style
 
-  LOGO_VARIANTS = CustomStyle::LOGO_VARIANTS
-
   UNGUARDED_ACTIONS = %i[logo_download
-                         logo_mobile_download
-                         logo_variant_download
                          favicon_download
                          touch_icon_download].freeze
 
@@ -105,17 +101,9 @@ class CustomStylesController < ApplicationController
   end
 
   def logo_download
-    file_download(:logo_path)
-  end
+    return unless (field = logo_field)
 
-  def logo_mobile_download
-    file_download(:logo_mobile_path)
-  end
-
-  def logo_variant_download
-    return unless (variant = logo_variant)
-
-    file_download(:"#{variant}_path")
+    file_download(:"#{field}_path")
   end
 
   def export_logo_download
@@ -139,17 +127,9 @@ class CustomStylesController < ApplicationController
   end
 
   def logo_delete
-    file_delete(:remove_logo)
-  end
+    return unless (field = logo_field)
 
-  def logo_mobile_delete
-    file_delete(:remove_logo_mobile)
-  end
-
-  def logo_variant_delete
-    return unless (variant = logo_variant)
-
-    file_delete(:"remove_#{variant}")
+    file_delete(:"remove_#{field}")
   end
 
   def export_logo_delete
@@ -272,11 +252,12 @@ class CustomStylesController < ApplicationController
                   ])
   end
 
-  def logo_variant
-    LOGO_VARIANTS.fetch(params[:variant]) do
-      head :not_found
-      nil
-    end
+  def logo_field
+    field = CustomStyle::LOGO_FIELDS.values.flat_map(&:values).find { |value| value.to_s == params[:field] }
+    return field if field
+
+    head :not_found
+    nil
   end
 
   def file_download(path_method)

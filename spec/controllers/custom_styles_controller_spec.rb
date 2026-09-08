@@ -200,11 +200,35 @@ RSpec.describe CustomStylesController do
       before do
         allow(CustomStyle).to receive(:current).and_return(custom_style)
         allow(controller).to receive(:send_file) { controller.head 200 }
-        get :logo_download, params: { digest: "1234", filename: "logo_image.png" }
+
+        get :logo_download, params: {
+          digest: "1234",
+          field:,
+          filename: "logo_image.png"
+        }
       end
 
-      context "when logo is present" do
+      context "when a desktop light logo is present" do
         let(:custom_style) { build(:custom_style_with_logo) }
+        let(:field) { "logo" }
+
+        it "sends a file" do
+          expect(response).to have_http_status(:ok)
+        end
+      end
+
+      context "when a mobile light logo is present" do
+        let(:custom_style) { build(:custom_style_with_logo_mobile) }
+        let(:field) { "logo_mobile" }
+
+        it "sends a file" do
+          expect(response).to have_http_status(:ok)
+        end
+      end
+
+      context "when a dark logo is present" do
+        let(:custom_style) { build(:custom_style_with_logo_dark) }
+        let(:field) { "logo_dark" }
 
         it "sends a file" do
           expect(response).to have_http_status(:ok)
@@ -213,6 +237,7 @@ RSpec.describe CustomStylesController do
 
       context "when no custom style is present" do
         let(:custom_style) { nil }
+        let(:field) { "logo" }
 
         it "renders with error" do
           expect(controller).not_to have_received(:send_file)
@@ -222,6 +247,7 @@ RSpec.describe CustomStylesController do
 
       context "when no logo is present" do
         let(:custom_style) { build_stubbed(:custom_style) }
+        let(:field) { "logo" }
 
         it "renders with error" do
           expect(controller).not_to have_received(:send_file)
@@ -231,139 +257,39 @@ RSpec.describe CustomStylesController do
     end
 
     describe "#logo_delete", with_ee: %i[define_custom_style] do
-      let(:custom_style) { create(:custom_style_with_logo) }
+      before do
+        allow(CustomStyle).to receive(:current).and_return(custom_style)
 
-      context "if it exists" do
-        before do
-          allow(CustomStyle).to receive(:current).and_return(custom_style)
-          allow(custom_style).to receive(:remove_logo).and_call_original
-          delete :logo_delete
-        end
+        delete :logo_delete, params: {
+          field:
+        }
+      end
+
+      context "when a desktop light logo exists" do
+        let(:custom_style) { create(:custom_style_with_logo) }
+        let(:field) { "logo" }
 
         it "removes the logo from custom_style" do
+          expect(custom_style.reload.logo).not_to be_present
           expect(response).to redirect_to(action: :show)
           expect(response).to have_http_status(:see_other)
         end
       end
 
-      context "if it does not exist" do
-        before do
-          allow(CustomStyle).to receive(:current).and_return(nil)
-          delete :logo_delete
-        end
-
-        it "renders 404" do
-          expect(response).to have_http_status :not_found
-        end
-      end
-    end
-
-    describe "#logo_mobile_download" do
-      before do
-        allow(CustomStyle).to receive(:current).and_return(custom_style)
-        allow(controller).to receive(:send_file) { controller.head 200 }
-
-        get :logo_mobile_download, params: {
-          digest: "1234",
-          filename: "logo_mobile_image.png"
-        }
-      end
-
-      context "when mobile logo is present" do
-        let(:custom_style) { build(:custom_style_with_logo_mobile) }
-
-        it "sends a file" do
-          expect(response).to have_http_status(:ok)
-        end
-      end
-
-      context "when no custom style is present" do
-        let(:custom_style) { nil }
-
-        it "renders with error" do
-          expect(controller).not_to have_received(:send_file)
-          expect(response).to have_http_status(:not_found)
-        end
-      end
-
-      context "when no mobile logo is present" do
-        let(:custom_style) { build_stubbed(:custom_style) }
-
-        it "renders with error" do
-          expect(controller).not_to have_received(:send_file)
-          expect(response).to have_http_status(:not_found)
-        end
-      end
-    end
-
-    describe "#logo_mobile_delete", with_ee: %i[define_custom_style] do
-      let(:custom_style) { create(:custom_style_with_logo_mobile) }
-
-      context "if it exists" do
-        before do
-          allow(CustomStyle).to receive(:current).and_return(custom_style)
-          allow(custom_style).to receive(:remove_logo_mobile).and_call_original
-
-          delete :logo_mobile_delete
-        end
+      context "when a mobile light logo exists" do
+        let(:custom_style) { create(:custom_style_with_logo_mobile) }
+        let(:field) { "logo_mobile" }
 
         it "removes the mobile logo from custom_style" do
+          expect(custom_style.reload.logo_mobile).not_to be_present
           expect(response).to redirect_to(action: :show)
           expect(response).to have_http_status(:see_other)
         end
       end
 
-      context "if it does not exist" do
-        before do
-          allow(CustomStyle).to receive(:current).and_return(nil)
-          delete :logo_mobile_delete
-        end
-
-        it "renders 404" do
-          expect(response).to have_http_status :not_found
-        end
-      end
-    end
-
-    describe "#logo_variant_download" do
-      before do
-        allow(CustomStyle).to receive(:current).and_return(custom_style)
-        allow(controller).to receive(:send_file) { controller.head 200 }
-
-        get :logo_variant_download, params: {
-          digest: "1234",
-          filename: "logo_image.png",
-          variant: "logo_dark"
-        }
-      end
-
-      context "when the logo variant is present" do
-        let(:custom_style) { build(:custom_style_with_logo_dark) }
-
-        it "sends the file" do
-          expect(response).to have_http_status(:ok)
-        end
-      end
-
-      context "when the logo variant is not present" do
-        let(:custom_style) { build_stubbed(:custom_style) }
-
-        it "returns not found" do
-          expect(controller).not_to have_received(:send_file)
-          expect(response).to have_http_status(:not_found)
-        end
-      end
-    end
-
-    describe "#logo_variant_delete", with_ee: %i[define_custom_style] do
-      let(:custom_style) { create(:custom_style_with_logo_dark) }
-
-      context "when the logo variant is valid" do
-        before do
-          allow(CustomStyle).to receive(:current).and_return(custom_style)
-
-          delete :logo_variant_delete, params: { variant: "logo_dark" }
-        end
+      context "when a dark logo exists" do
+        let(:custom_style) { create(:custom_style_with_logo_dark) }
+        let(:field) { "logo_dark" }
 
         it "removes the logo variant" do
           expect(custom_style.reload.logo_dark).not_to be_present
@@ -371,13 +297,22 @@ RSpec.describe CustomStylesController do
           expect(response).to have_http_status(:see_other)
         end
       end
+
+      context "when it does not exist" do
+        let(:custom_style) { nil }
+        let(:field) { "logo" }
+
+        it "renders 404" do
+          expect(response).to have_http_status :not_found
+        end
+      end
     end
 
-    describe "an invalid logo variant", with_ee: %i[define_custom_style] do
+    describe "an invalid logo field", with_ee: %i[define_custom_style] do
       before do
         routes.draw do
-          get "logo_variant/:variant" => "custom_styles#logo_variant_download"
-          delete "logo_variant/:variant" => "custom_styles#logo_variant_delete"
+          get "logo/:field" => "custom_styles#logo_download"
+          delete "logo/:field" => "custom_styles#logo_delete"
         end
 
         allow(controller).to receive(:file_download)
@@ -387,14 +322,14 @@ RSpec.describe CustomStylesController do
       after { Rails.application.reload_routes! }
 
       it "does not run the download" do
-        get :logo_variant_download, params: { variant: "invalid" }
+        get :logo_download, params: { field: "invalid" }
 
         expect(controller).not_to have_received(:file_download)
         expect(response).to have_http_status(:not_found)
       end
 
       it "does not run the deletion" do
-        delete :logo_variant_delete, params: { variant: "invalid" }
+        delete :logo_delete, params: { field: "invalid" }
 
         expect(controller).not_to have_received(:file_delete)
         expect(response).to have_http_status(:not_found)
@@ -973,7 +908,11 @@ RSpec.describe CustomStylesController do
       before do
         allow(CustomStyle).to receive(:current).and_return(custom_style)
         allow(controller).to receive(:send_file) { controller.head 200 }
-        get :logo_download, params: { digest: "1234", filename: "logo_image.png" }
+        get :logo_download, params: {
+          digest: "1234",
+          field: "logo",
+          filename: "logo_image.png"
+        }
       end
 
       context "when logo is present" do
