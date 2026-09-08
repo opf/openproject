@@ -37,10 +37,17 @@ module WorkPackageTypes
       DURATION = ->(v, _) { DurationConverter.output(v) }
       HIERARCHY = ->(item, format) {
         return nil if item.nil?
-        return item.label if format == "label"
-        return item.short if format == "short"
 
-        item.to_s
+        case format
+        when "label"
+          item.label
+        when "short"
+          item.short
+        when "weight"
+          NumberFormatHelper.number_with_limit(item.weight)
+        else
+          item.to_s
+        end
       }
 
       class StaticAttributeDSL
@@ -102,7 +109,7 @@ module WorkPackageTypes
                         ARRAY
                       elsif format == "date"
                         DATE
-                      elsif format == "hierarchy"
+                      elsif %w[hierarchy weighted_item_list].include?(format)
                         HIERARCHY
                       else
                         ->(v, format) { v.is_a?(Symbol) ? v : STRING_OR_NIL.call(v, format) }
