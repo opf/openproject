@@ -146,7 +146,7 @@ export function singleItemBatch({ type, itemId }:{ type:string; itemId:string })
 }
 
 // The source-only fields are what isItemFromRoot narrows on beyond this.
-export function isSortableItemData(data:Record<string|symbol, unknown>):data is SortableItemIdentity {
+export function isSortableItemIdentity(data:Record<string|symbol, unknown>):data is SortableItemIdentity {
   return data[sortableItemDataKey] === true
     && typeof data.type === 'string'
     && data.type.length > 0
@@ -231,8 +231,9 @@ export function isItemFromRoot(
   data:Record<string|symbol, unknown>,
 ):data is SortableItemData {
   return rootElement != null
-    && isSortableItemData(data)
-    && (data as SortableItemData).rootElement === rootElement;
+    && isSortableItemIdentity(data)
+    && data.rootElement === rootElement
+    && (data.permittedDestinations === null || Array.isArray(data.permittedDestinations));
 }
 
 // Whether a drop into the given destination may amount to a move for this
@@ -258,7 +259,7 @@ export function permittedDestinationsAllowDrop(
 }
 
 export function destinationOfList(listData:SortableListData):DestinationIdentity {
-  return { type: listData.type, id: listData.listId };
+  return { type: listData.type, id: listData.listId == null ? null : String(listData.listId) };
 }
 
 export function resolvePreviousSortableItemId({
@@ -353,7 +354,7 @@ export function resolveDropIntent({
   // the destination a drop into it would reach.
   const targetItem = location.current.dropTargets.find(
     (target):target is typeof target & { data:SortableItemIdentity; element:HTMLElement } => (
-      isSortableItemData(target.data) && target.element instanceof HTMLElement
+      isSortableItemIdentity(target.data) && target.element instanceof HTMLElement
         && targetList.element.contains(target.element)
     ),
   );

@@ -33,7 +33,7 @@ import {
   destinationOfList,
   permittedDestinationsAllowDrop,
   isItemFromRoot,
-  isSortableItemData,
+  isSortableItemIdentity,
   sortableListData,
   type RootAwareChild,
   type SortableListData,
@@ -188,7 +188,7 @@ export default class ListController extends Controller<HTMLElement> implements R
   // so it can signal that a drop will not land here.
   private syncDropIndicator(location:DragLocationHistory, sourceData:Record<string|symbol, unknown>):void {
     if (!isItemFromRoot(this.root?.element ?? null, sourceData)
-      || location.current.dropTargets.some(({ data }) => isSortableItemData(data))) {
+      || location.current.dropTargets.some(({ data }) => isSortableItemIdentity(data))) {
       this.clearDropIndicator();
     } else if (permittedDestinationsAllowDrop(sourceData, destinationOfList(this.listData))) {
       this.renderDropIndicator('active');

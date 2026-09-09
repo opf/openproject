@@ -39,6 +39,7 @@ import { flipMove } from 'core-stimulus/helpers/flip-helper';
 import { parseTemplate } from 'url-template';
 import {
   buildMoveFormData,
+  destinationOfList,
   isItemFromRoot,
   resolveDropIntent,
   singleItemBatch,
@@ -272,7 +273,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
 
     const lists = this.ownedListOutlets();
     const permitted = lists
-      .map((list) => this.destinationOf(list.listData))
+      .map((list) => destinationOfList(list.listData))
       .filter((destination) => members.every((member) => itemAcceptsDestination(member, destination, ownerDestinationOf)));
 
     return permitted.length === lists.length ? null : permitted;
@@ -301,10 +302,6 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   externalDragItems(itemElement:HTMLElement):HTMLElement[] {
     const scope = this.selection?.actionScopeFor(itemElement);
     return scope?.kind === 'batch' ? scope.items : [itemElement];
-  }
-
-  private destinationOf(listData:SortableListData):DestinationIdentity {
-    return { type: listData.type, id: listData.listId == null ? null : String(listData.listId) };
   }
 
   // Outlets match document-wide; another root's lists are not ours.
@@ -530,7 +527,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     }
 
     const listData = this.ownerListOf(element)?.listData;
-    const destination = listData ? this.destinationOf(listData) : null;
+    const destination = listData ? destinationOfList(listData) : null;
     this.dragOwnerDestinations?.set(element, destination);
     return destination;
   }

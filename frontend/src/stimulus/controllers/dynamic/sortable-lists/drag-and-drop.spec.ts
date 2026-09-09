@@ -32,12 +32,14 @@ import { attachClosestEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/clos
 import { type DragLocationHistory } from '@atlaskit/pragmatic-drag-and-drop/types';
 import {
   buildMoveFormData,
+  destinationOfList,
   isItemFromRoot,
-  isSortableItemData,
+  isSortableItemIdentity,
   isSortableListData,
   resolveDropIntent,
   resolvePreviousSortableItemId,
   sortableItemData,
+  sortableItemIdentity,
   sortableListData,
 } from './drag-and-drop';
 
@@ -100,25 +102,29 @@ describe('sortable lists drag and drop helpers', () => {
     document.body.replaceChildren();
   });
 
-  describe('isSortableItemData', () => {
+  describe('isSortableItemIdentity', () => {
+    it('accepts an identity-only target', () => {
+      expect(isSortableItemIdentity(sortableItemIdentity({ type: 'work_package', itemId: '42' }))).toBe(true);
+    });
+
     it('accepts backlogs item data', () => {
-      expect(isSortableItemData(sortableItemData({ type: 'work_package', itemId: '42' }))).toBe(true);
+      expect(isSortableItemIdentity(sortableItemData({ type: 'work_package', itemId: '42' }))).toBe(true);
     });
 
     it('rejects lookalike data from another drag source', () => {
-      expect(isSortableItemData({ type: 'work_package', itemId: '42' })).toBe(false);
+      expect(isSortableItemIdentity({ type: 'work_package', itemId: '42' })).toBe(false);
     });
 
     it('rejects data without an item id', () => {
-      expect(isSortableItemData({ type: 'work_package' })).toBe(false);
+      expect(isSortableItemIdentity({ type: 'work_package' })).toBe(false);
     });
 
     it('rejects data with a blank item id', () => {
-      expect(isSortableItemData(sortableItemData({ type: 'work_package', itemId: '' }))).toBe(false);
+      expect(isSortableItemIdentity(sortableItemData({ type: 'work_package', itemId: '' }))).toBe(false);
     });
 
     it('rejects data with a blank type', () => {
-      expect(isSortableItemData(sortableItemData({ type: '', itemId: '1' }))).toBe(false);
+      expect(isSortableItemIdentity(sortableItemData({ type: '', itemId: '1' }))).toBe(false);
     });
   });
 
@@ -138,7 +144,7 @@ describe('sortable lists drag and drop helpers', () => {
 
       expect(data.type).toEqual('work_package');
       expect(data.itemId).toEqual('42');
-      expect(isSortableItemData(data)).toBe(true);
+      expect(isSortableItemIdentity(data)).toBe(true);
     });
 
     it('carries the root element on the item payload when provided', () => {
@@ -146,7 +152,7 @@ describe('sortable lists drag and drop helpers', () => {
       const data = sortableItemData({ itemId: '1', type: 'work_package', rootElement: root });
 
       expect(data.rootElement).toBe(root);
-      expect(isSortableItemData(data)).toBe(true);
+      expect(isSortableItemIdentity(data)).toBe(true);
     });
 
     it('defaults the item payload root element to null', () => {
@@ -172,11 +178,28 @@ describe('sortable lists drag and drop helpers', () => {
     });
   });
 
+  describe('destinationOfList', () => {
+    it.each(['7', null, ''])('preserves destination identity %s', (listId) => {
+      expect(destinationOfList(sortableListData({ type: 'sprint', listId })))
+        .toEqual({ type: 'sprint', id: listId });
+    });
+  });
+
   describe('isItemFromRoot', () => {
     const root = document.createElement('div');
 
     it('accepts a sortable item whose rootElement is this root', () => {
       const data = sortableItemData({ itemId: '1', type: 'work_package', rootElement: root });
+      expect(isItemFromRoot(root, data)).toBe(true);
+    });
+
+    it.each([undefined, {}, 'invalid'])('rejects invalid destination restrictions: %s', (permittedDestinations) => {
+      const data = { ...sortableItemIdentity({ itemId: '1', type: 'work_package' }), rootElement: root, permittedDestinations };
+      expect(isItemFromRoot(root, data)).toBe(false);
+    });
+
+    it.each([null, [], [{ type: 'sprint', id: '7' }]])('accepts valid destination restrictions: %s', (permittedDestinations) => {
+      const data = { ...sortableItemIdentity({ itemId: '1', type: 'work_package' }), rootElement: root, permittedDestinations };
       expect(isItemFromRoot(root, data)).toBe(true);
     });
 
