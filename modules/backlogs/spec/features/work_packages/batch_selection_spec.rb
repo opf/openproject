@@ -95,18 +95,18 @@ RSpec.describe "Backlogs batch selection", :js, :selenium, :settings_reset do
     end
 
     # BatchSelection#toggle re-bases the anchor even on a deselect, so a
-    # later range starts from story2 rather than story1.
+    # later range starts from story3 rather than story1.
     it "re-bases the anchor to a toggled card even when the toggle deselects it" do
       backlogs_page.select_card(story1)
-      backlogs_page.toggle_card(story2)
-      backlogs_page.toggle_card(story2)
+      backlogs_page.toggle_card(story3)
+      backlogs_page.toggle_card(story3)
 
       expect(page).to have_css("[data-batch-selected]", count: 1)
 
       backlogs_page.extend_selection_to(story4)
 
       expect(page).to have_css("[data-batch-selected]", count: 3)
-      expect(backlogs_page.selected_card_ids).to eq([story2, story3, story4].map { it.id.to_s })
+      expect(backlogs_page.selected_card_ids).to eq([story1, story3, story4].map { it.id.to_s })
     end
 
     it "resizes one fixed-anchor range rather than walking it" do

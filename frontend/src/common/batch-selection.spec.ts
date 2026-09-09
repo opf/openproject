@@ -66,13 +66,96 @@ describe('BatchSelection', () => {
     expect(selection.anchor).toEqual({ type: 'work_package', id: '1', listKey: 'sprint:7' });
   });
 
-  it('replaces the batch with a range and preserves the anchor', () => {
+  it('resizes a range and preserves the anchor', () => {
     selection.replace({ type: 'work_package', id: '1' }, 'sprint:7');
     selection.range([{ type: 'work_package', id: '1' }, { type: 'work_package', id: '2' }, { type: 'work_package', id: '3' }]);
     selection.range([{ type: 'work_package', id: '1' }, { type: 'work_package', id: '2' }]);
 
     expect(selection.items().map((entry) => entry.id)).toEqual(['1', '2']);
     expect(selection.anchor).toEqual({ type: 'work_package', id: '1', listKey: 'sprint:7' });
+  });
+
+  describe('range sessions', () => {
+    const wp = (id:string) => ({ type: 'work_package', id });
+    const ids = () => selection.items().map((entry) => entry.id).sort();
+
+    beforeEach(() => {
+      selection.replace(wp('1'), 'sprint:7');
+      selection.toggle(wp('3'), 'sprint:7');
+    });
+
+    it('preserves independent selections while extending, shrinking and reversing', () => {
+      selection.range(['3', '4', '5'].map(wp));
+      expect(ids()).toEqual(['1', '3', '4', '5']);
+      selection.range(['3', '4'].map(wp));
+      expect(ids()).toEqual(['1', '3', '4']);
+      selection.range(['2', '3'].map(wp));
+      expect(ids()).toEqual(['1', '2', '3']);
+    });
+
+    it('preserves baseline members even when they overlap a previous range', () => {
+      selection.range(['1', '2', '3'].map(wp));
+      selection.range(['3', '4'].map(wp));
+      expect(ids()).toEqual(['1', '3', '4']);
+    });
+
+    it('starts a new baseline after toggling off the anchor', () => {
+      selection.range(['3', '4'].map(wp));
+      selection.toggle(wp('3'), 'sprint:7');
+      selection.range(['2', '3'].map(wp));
+      expect(ids()).toEqual(['1', '2', '3', '4']);
+      expect(selection.anchor?.id).toBe('3');
+    });
+
+    it.each(['replace', 'clear', 'selectAll'] as const)('ends the session on %s', (operation) => {
+      selection.range(['3', '4'].map(wp));
+      if (operation === 'replace') {
+        selection.replace(wp('5'), 'sprint:7');
+      } else if (operation === 'selectAll') {
+        selection.selectAll([wp('5')], { ...wp('5'), listKey: 'sprint:7' });
+      } else {
+        selection.clear();
+      }
+      selection.range(['5', '6'].map(wp));
+      expect(ids()).toEqual(['5', '6']);
+    });
+
+    it('narrows and reverses a selection made with select-all', () => {
+      selection.selectAll(['1', '2', '3', '4', '5'].map(wp), { ...wp('3'), listKey: 'sprint:7' });
+      selection.range(['3', '4'].map(wp));
+      expect(ids()).toEqual(['3', '4']);
+      selection.range(['2', '3'].map(wp));
+      expect(ids()).toEqual(['2', '3']);
+    });
+
+    it('starts a fresh baseline when toggling after select-all', () => {
+      selection.selectAll(['1', '2', '3', '4'].map(wp), { ...wp('3'), listKey: 'sprint:7' });
+      selection.toggle(wp('2'), 'sprint:7');
+      selection.range(['2', '3'].map(wp));
+      expect(ids()).toEqual(['1', '2', '3', '4']);
+    });
+
+    it('does not restore pruned baseline members', () => {
+      selection.range(['3', '4'].map(wp));
+      selection.prune(new Set(['3', '4', '5'].map((id) => selectionKey(wp(id)))));
+      selection.range(['3', '5'].map(wp));
+      expect(ids()).toEqual(['3', '5']);
+    });
+
+    it('keeps the session through unchanged reconciliation', () => {
+      selection.range(['3', '4', '5'].map(wp));
+      selection.prune(new Set(['1', '3', '4', '5'].map((id) => selectionKey(wp(id)))));
+      selection.rebindAnchor('sprint:7');
+      selection.range(['3', '4'].map(wp));
+      expect(ids()).toEqual(['1', '3', '4']);
+    });
+
+    it('ends the session when the anchor moves to another list', () => {
+      selection.range(['3', '4'].map(wp));
+      selection.rebindAnchor('sprint:8');
+      selection.range(['3', '5'].map(wp));
+      expect(ids()).toEqual(['1', '3', '4', '5']);
+    });
   });
 
   it('selects all with an explicit anchor', () => {

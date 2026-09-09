@@ -62,16 +62,13 @@ export interface SelectionAnchor extends SelectionItem {
 }
 
 /**
- * Batch selection state and anchor semantics, free of any framework.
- *
- * Stores membership and an anchor, and nothing else. Visual order belongs to
- * the live document, and range feasibility is resolved outside: callers hand
- * in an already resolved range. Whether the members agree on a type is
- * likewise their caller's policy.
+ * Visual order belongs to the live document. Callers resolve ranges and
+ * determine whether their members may belong to the same batch.
  */
 export class BatchSelection {
   private selectedItems = new Map<SelectionKey, SelectionItem>();
   private selectionAnchor:SelectionAnchor|null = null;
+  private rangeBaseline:Map<SelectionKey, SelectionItem>|null = null;
 
   // Keys, for membership tests and presentation matching.
   get keys():ReadonlySet<SelectionKey> {
@@ -96,6 +93,7 @@ export class BatchSelection {
   }
 
   replace(item:SelectionItem, listKey:string):void {
+    this.rangeBaseline = null;
     this.selectedItems = new Map([[selectionKey(item), item]]);
     this.selectionAnchor = { ...item, listKey };
   }
@@ -103,6 +101,7 @@ export class BatchSelection {
   // Re-bases the anchor even when the toggle deselects: the user's last
   // touched card is where they expect the next range to start from.
   toggle(item:SelectionItem, listKey:string):void {
+    this.rangeBaseline = null;
     const key = selectionKey(item);
 
     if (this.selectedItems.has(key)) {
@@ -117,15 +116,21 @@ export class BatchSelection {
   // The anchor stays put so repeated Shift gestures resize one range rather
   // than walking it across the list.
   range(rangeItems:readonly SelectionItem[]):void {
-    this.selectedItems = new Map(rangeItems.map((item) => [selectionKey(item), item]));
+    this.rangeBaseline ??= new Map(this.selectedItems);
+    this.selectedItems = new Map(this.rangeBaseline);
+    for (const item of rangeItems) {
+      this.selectedItems.set(selectionKey(item), item);
+    }
   }
 
   selectAll(items:readonly SelectionItem[], anchor:SelectionAnchor|null):void {
+    this.rangeBaseline = new Map();
     this.selectedItems = new Map(items.map((item) => [selectionKey(item), item]));
     this.selectionAnchor = anchor;
   }
 
   clear():void {
+    this.rangeBaseline = null;
     this.selectedItems = new Map();
     this.selectionAnchor = null;
   }
@@ -138,7 +143,8 @@ export class BatchSelection {
    * live document and hands it back.
    */
   rebindAnchor(listKey:string):void {
-    if (this.selectionAnchor) {
+    if (this.selectionAnchor && this.selectionAnchor.listKey !== listKey) {
+      this.rangeBaseline = null;
       this.selectionAnchor = { ...this.selectionAnchor, listKey };
     }
   }
@@ -158,12 +164,14 @@ export class BatchSelection {
     for (const key of [...this.selectedItems.keys()]) {
       if (!liveKeys.has(key)) {
         this.selectedItems.delete(key);
+        this.rangeBaseline?.delete(key);
         changed = true;
       }
     }
 
     if (this.selectionAnchor && !liveKeys.has(selectionKey(this.selectionAnchor))) {
       this.selectionAnchor = null;
+      this.rangeBaseline = null;
       changed = true;
     }
 

@@ -142,6 +142,12 @@ describe('SelectionOrchestrator', () => {
     return event;
   };
 
+  const keydownOn = (element:HTMLElement, key:string, init:KeyboardEventInit = {}) => {
+    const event = new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true, ...init });
+    Object.defineProperty(event, 'target', { value: element });
+    return event;
+  };
+
   it('selects the clicked card without any Stimulus wiring', () => {
     const orchestrator = new SelectionOrchestrator(hostFor(root));
 
@@ -158,6 +164,80 @@ describe('SelectionOrchestrator', () => {
     orchestrator.handleClick(clickOn(item('3'), { shiftKey: true }));
 
     expect(orchestrator.selectedIds()).toEqual(['1', '2', '3']);
+  });
+
+  it.each(['mouse', 'keyboard'] as const)('preserves independent selection when resizing with %s', (input) => {
+    const orchestrator = new SelectionOrchestrator(hostFor(root));
+    pretendPlatform('macOS');
+    const gesture = (id:string, shiftKey = false) => {
+      if (input === 'mouse') {
+        orchestrator.handleClick(clickOn(item(id), { metaKey: !shiftKey, shiftKey }));
+      } else {
+        orchestrator.handleKeydown(keydownOn(item(id), ' ', { metaKey: !shiftKey, shiftKey }));
+      }
+    };
+
+    gesture('4');
+    gesture('2');
+    gesture('3', true);
+    expect(orchestrator.selectedIds()).toEqual(['2', '3', '4']);
+    expect(isSelected(item('4'))).toBe(true);
+
+    orchestrator.reconcile();
+    gesture('2', true);
+    expect(orchestrator.selectedIds()).toEqual(['2', '4']);
+    expect(isSelected(item('3'))).toBe(false);
+
+    gesture('1', true);
+    expect(orchestrator.selectedIds()).toEqual(['1', '2', '4']);
+  });
+
+  it.each(['mouse', 'keyboard'] as const)('narrows select-all with %s while replacing picks outside the list', (input) => {
+    const orchestrator = new SelectionOrchestrator(hostFor(root));
+    orchestrator.handleClick(clickOn(item('4'), { ctrlKey: true }));
+    orchestrator.handleKeydown(keydownOn(item('2'), 'a', { ctrlKey: true }));
+    expect(orchestrator.selectedIds()).toEqual(['1', '2', '3']);
+
+    if (input === 'mouse') {
+      orchestrator.handleClick(clickOn(item('3'), { shiftKey: true }));
+    } else {
+      orchestrator.handleKeydown(keydownOn(item('3'), ' ', { shiftKey: true }));
+    }
+    expect(orchestrator.selectedIds()).toEqual(['2', '3']);
+    expect(isSelected(item('1'))).toBe(false);
+    expect(isSelected(item('4'))).toBe(false);
+  });
+
+  it.each(['mouse', 'keyboard'] as const)('preserves same-list picks and prunes a removed baseline card with %s', (input) => {
+    item('3').after(item('4'), item('5'));
+    const orchestrator = new SelectionOrchestrator(hostFor(root));
+    const gesture = (id:string, shiftKey = false) => {
+      if (input === 'mouse') {
+        orchestrator.handleClick(clickOn(item(id), { ctrlKey: !shiftKey, shiftKey }));
+      } else {
+        orchestrator.handleKeydown(keydownOn(item(id), ' ', { ctrlKey: !shiftKey, shiftKey }));
+      }
+    };
+
+    gesture('1');
+    gesture('3');
+    gesture('5', true);
+    expect(orchestrator.selectedIds()).toEqual(['1', '3', '4', '5']);
+    gesture('4', true);
+    expect(orchestrator.selectedIds()).toEqual(['1', '3', '4']);
+    gesture('2', true);
+    expect(orchestrator.selectedIds()).toEqual(['1', '2', '3']);
+
+    const removed = item('1');
+    removed.remove();
+    orchestrator.reconcile();
+    gesture('4', true);
+    expect(orchestrator.selectedIds()).toEqual(['3', '4']);
+    item('2').before(removed);
+    orchestrator.reconcile();
+    gesture('5', true);
+    expect(orchestrator.selectedIds()).toEqual(['3', '4', '5']);
+    expect(isSelected(removed)).toBe(false);
   });
 
   it('routes focus through the host rather than touching the element', () => {
@@ -316,12 +396,6 @@ describe('SelectionOrchestrator', () => {
   });
 
   describe('keyboard and pointer edge cases', () => {
-    const keydownOn = (element:HTMLElement, key:string, init:KeyboardEventInit = {}) => {
-      const event = new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true, ...init });
-      Object.defineProperty(event, 'target', { value: element });
-      return event;
-    };
-
     it('still moves focus with the arrows while a move is in flight', () => {
       const orchestrator = new SelectionOrchestrator(hostFor(root));
       busy = true;
