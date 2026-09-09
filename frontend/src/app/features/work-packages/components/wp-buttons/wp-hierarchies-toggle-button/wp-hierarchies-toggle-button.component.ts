@@ -1,6 +1,6 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -21,20 +21,25 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-interface IGroupsCollapseEvent {
-  state:Record<string, boolean>;
-  allGroupsAreCollapsed:boolean;
-  allGroupsAreExpanded:boolean;
-  lastChangedGroup:string|null;
-  allGroupsChanged:boolean;
-  groupedBy:string|null;
-}
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-interface IHierarchiesCollapseEvent {
-  allHierarchiesChanged:boolean;
+@Component({
+  template: `
+    <button class="button"
+            id="wp-hierarchy-toggle-button"
+            opHierarchyToggleDropdown>
+      <op-icon icon-classes="button--icon icon-outline"></op-icon>
+      <span class="button--text"></span>
+      <op-icon icon-classes="button--icon icon-small icon-pulldown"></op-icon>
+    </button>
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'op-wp-hierarchy-toggle-view-button',
+})
+export class WorkPackageHierarchiesToggleButtonComponent {
 }
