@@ -34,12 +34,14 @@ class CreatedResolved
 
     make_date_series sprint
 
-    series_data = OpenProject::Backlogs::CreatedResolved::SeriesRawData.new(project,
-                                                                     sprint,
-                                                                     workpackages: ["wp_created", "wp_resolved"])
+    series_data = OpenProject::Backlogs::CreatedResolved::SeriesRawData.new(
+      project,
+      sprint,
+      workpackages: ["wp_created", "wp_resolved"]
+    )
 
-    
     series_data.collect_data
+
     calculate_series series_data
 
     determine_max

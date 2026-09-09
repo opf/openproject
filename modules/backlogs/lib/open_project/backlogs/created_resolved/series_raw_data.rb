@@ -53,14 +53,14 @@ module OpenProject::Backlogs::CreatedResolved
 
     def collect_data
       initialize_self_for_collection
-      data_for_dates.each do |day_data| 
+      data_for_dates.each do |day_data|
         date = day_data["date"]
         date = Date.parse(date) unless date.is_a?(Date)
-       
+
         day_data.each do |key, value|
           next if key == "date"
-          
-          @data.transform_values do |v|
+
+          @data.transform_values do
             @data[key][date] = value.to_f
           end
         end
@@ -113,7 +113,7 @@ module OpenProject::Backlogs::CreatedResolved
         ORDER BY days.date
       SQL
 
-      Journal::WorkPackageJournal.connection.select_all query_string
+      Journal::WorkPackageJournal.connection.select_all(query_string)
     end
 
     def done_status_query

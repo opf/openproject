@@ -66,7 +66,7 @@ module Backlogs
           entries_displayed = (created_resolved.days.length / 14.0).ceil
           created_resolved.days.enum_for(:each_with_index).map do |d, i|
             if (i % entries_displayed) == 0
-              ["#{format_date(d, format: I18n.t("date.formats.short"))}"]
+              ["#{format_date(d, format: I18n.t('date.formats.short'))}"]
             end
           end
         end
