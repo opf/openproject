@@ -30,7 +30,7 @@
 
 require Rails.root.join("db/migrate/migration_utils/migration_squasher").to_s
 
-class SquashedMigration < ActiveRecord::Migration[8.0]
+class SquashedMigration < ActiveRecord::Migration[8.1]
   class_attribute :minimum_version, default: "16"
 
   def self.squashed_migrations(*migrations)
