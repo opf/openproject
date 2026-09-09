@@ -29,16 +29,18 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   component_wrapper do
-    render(Primer::Alpha::Layout.new(stacking_breakpoint: :md, mt: 3, style: SIDEBAR_WIDTH)) do |layout|
-      layout.with_main(width: :md) do
-        flex_layout do |column|
-          column.with_row(mb: 3) do
+    render(Primer::Alpha::Layout.new) do |layout|
+      layout.with_main do
+        flex_layout(col_placement: :start) do |column|
+          # TODO: This ensures the same witdth as the filter component. This is NOT the right solution.
+          # This must be fixed before merging
+          column.with_row(mb: 3, style: "max-width: 752px") do
             render(Primer::Forms::ToggleSwitchForm.new(**toggle_arguments))
           end
 
           if active?
             column.with_row do
-              settings_primer_form_with(model: placeholder_user, url: form_url, method: :put) do |f|
+              primer_form_with(model: placeholder_user, url: form_url, method: :put) do |f|
                 render(PlaceholderUsers::CriteriaForm.new(f, submit: false, live_update_path:))
               end
             end
@@ -46,7 +48,7 @@ See COPYRIGHT and LICENSE files for more details.
         end
       end
 
-      layout.with_sidebar(row_placement: :start, col_placement: :end) do
+      layout.with_sidebar(width: :wide, col_placement: :end) do
         render(PlaceholderUsers::MatchingUsersComponent.new(placeholder_user:))
       end
     end

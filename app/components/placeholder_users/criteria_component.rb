@@ -36,10 +36,6 @@ module PlaceholderUsers
     include OpPrimer::ComponentHelpers
     include OpPrimer::FormHelpers
 
-    # Primer's sidebar widths stop at 336px, which leaves the matching users
-    # cramped next to the criteria.
-    SIDEBAR_WIDTH = "--Layout-sidebar-width: 30rem"
-
     # Criteria are active as long as any are stored. `active` covers the step in
     # between: the switch has just been turned on and the builder is offered
     # before anything is saved.
