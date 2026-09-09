@@ -211,6 +211,20 @@ RSpec.describe Meeting do
     let!(:first_agenda_item) { create(:meeting_agenda_item, meeting:) }
     let!(:second_agenda_item) { create(:meeting_agenda_item, meeting:) }
 
+    it "changes when an agenda item is updated within the same second" do
+      timestamp = Time.current.change(usec: 0)
+      section = create(:meeting_section, meeting:)
+      first_agenda_item.update!(meeting_section: section, updated_at: timestamp)
+      second_agenda_item.update!(meeting_section: section, updated_at: timestamp)
+      hash_before_update = meeting.changed_hash
+
+      travel_to(timestamp + 0.5.seconds, with_usec: true) do
+        first_agenda_item.update!(title: "Updated item")
+      end
+
+      expect(meeting.changed_hash).not_to eq(hash_before_update)
+    end
+
     it "changes when an agenda item is deleted" do
       hash_before_deletion = meeting.changed_hash
 
