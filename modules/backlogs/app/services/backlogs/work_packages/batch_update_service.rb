@@ -164,12 +164,11 @@ class Backlogs::WorkPackages::BatchUpdateService
     [record.class.name, record.id]
   end
 
-  # Unanchored placement depends on target-relative state no row can carry:
-  # in an empty Inbox two batches would otherwise both commit positions 1..N.
-  # Explicit placement needs none of this, being serialized by its anchor's
-  # own lock.
+  # Inbox has no lifecycle mutex. Even distinct explicit anchors share its
+  # position scope, so their positions must not shift between read and insert.
+  # Unanchored placement also needs serialization when the target is empty.
   def acquire_placement_serialization_lock(target, prev_id)
-    return if prev_id.present?
+    return if prev_id.present? && target != Backlogs::Target::InboxId
 
     suffix = ["backlogs_batch_update_destination", target.list_type, target.list_id].compact.join("_")
     # rubocop:disable-next Lint/EmptyBlock -- the lock outlives the block; see acquire_ordered_locks

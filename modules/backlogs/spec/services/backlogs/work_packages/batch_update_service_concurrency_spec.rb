@@ -255,6 +255,60 @@ RSpec.describe Backlogs::WorkPackages::BatchUpdateService,
   end
 
   # rubocop:disable-next RSpec/ExampleLength
+  it "serializes inbox batches with distinct explicit anchors", retry: 0 do
+    anchors = create_list(:work_package, 2, type:, project:)
+    first_service = described_class.new(user:, work_packages: sprint_work_packages)
+    second_service = described_class.new(user:, work_packages: bucket_work_packages)
+    first_paused = Concurrent::Event.new
+    release_first = Concurrent::Event.new
+    second_progress = Queue.new
+
+    allow(sprint_work_packages.first).to receive(:insert_at).and_wrap_original do |method, *args|
+      first_paused.set
+      raise "timed out waiting to insert after the first anchor" unless release_first.wait(5)
+
+      method.call(*args)
+    end
+    allow(OpenProject::Mutex).to receive(:with_advisory_lock_transaction)
+      .and_wrap_original do |method, entry, suffix = nil, *args, &block|
+        if Thread.current[:batch_explicit] == :second &&
+           entry == project && suffix == "backlogs_batch_update_destination_inbox"
+          second_progress << :target_lock_attempted
+        end
+        method.call(entry, suffix, *args, &block)
+      end
+
+    first_thread = Thread.new do
+      ActiveRecord::Base.connection_pool.with_connection do
+        first_service.call(list_type: "inbox", prev_id: anchors.last.id.to_s)
+      end
+    end
+    raise "first move did not reach the insertion barrier" unless first_paused.wait(5)
+
+    second_thread = Thread.new do
+      ActiveRecord::Base.connection_pool.with_connection do
+        Thread.current[:batch_explicit] = :second
+        result = second_service.call(list_type: "inbox", prev_id: anchors.first.id.to_s)
+        second_progress << :placement_finished
+        result
+      end
+    end
+
+    observed_progress = Timeout.timeout(5) { second_progress.pop }
+    release_first.set
+    results = [first_thread.value, second_thread.value]
+
+    expect(results).to all(be_success)
+    inbox = WorkPackage.where(project:, sprint_id: nil, backlog_bucket_id: nil).order(:position)
+    expect(inbox.pluck(:id))
+      .to eq [anchors.first.id, *bucket_work_packages.map(&:id), anchors.last.id, *sprint_work_packages.map(&:id)]
+    expect(inbox.pluck(:position)).to eq (1..6).to_a
+    expect(observed_progress).to eq :target_lock_attempted
+  ensure
+    cleanup_concurrency_threads(release_events: [release_first], threads: [first_thread, second_thread])
+  end
+
+  # rubocop:disable-next RSpec/ExampleLength
   it "waits for a destination mutation before checking a same-list move", retry: 0 do
     release_mutation = Concurrent::Event.new
     mutation_ready = Concurrent::Event.new
