@@ -240,7 +240,7 @@ gem "opentelemetry-exporter-otlp", "~> 0.34.0", require: false
 gem "opentelemetry-instrumentation-all", "~> 0.95.0", require: false
 gem "opentelemetry-sdk", "~> 1.13", require: false
 
-gem "view_component", "~> 4.12.0"
+gem "view_component", "~> 4.15.0"
 # Lookbook
 gem "lookbook", "2.3.14"
 
