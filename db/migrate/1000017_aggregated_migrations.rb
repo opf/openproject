@@ -152,5 +152,6 @@ class AggregatedMigrations < SquashedMigration
     20250610111413_add_validity_period_to_enterprise_token
     20250612133700_service_account_association_foreign_keys
     20250613141234_add_formula_to_custom_fields
+    20250627121119_change_default_main_menu_color
   ]
 end
