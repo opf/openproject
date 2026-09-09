@@ -55,7 +55,7 @@ import {
   type MoveAvailability,
   type MoveDirection,
 } from './list-dom';
-import type { ActionScope } from './selection-orchestrator';
+import type { ActionScope } from './action-scope';
 
 // The Pragmatic DnD payloads exchanged between the sortable-lists root and
 // item controllers, built on top of the DOM contract in list-dom.ts.

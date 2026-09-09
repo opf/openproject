@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import type { ActionScope } from './action-scope';
 import { BatchSelection, type SelectionAnchor, type SelectionKey } from 'core-common/batch-selection';
 import { announce } from '@primer/live-region-element';
 import { resolveItemId, resolveItemType } from './list-dom';
@@ -57,19 +58,6 @@ export interface SelectionHost {
   // Must be the container moves use, so ranges and moves agree on what a
   // list's rows are.
   ownerRowsContainer(itemElement:HTMLElement):HTMLElement|null;
-}
-
-export type ActionScope =
-  | { kind:'batch'; items:HTMLElement[] }
-  | { kind:'refused'; items:[] };
-
-// The ids a scope's members carry, in the scope's own order. Derived on
-// demand rather than frozen into the scope: the elements are its identity,
-// and a stale id list would outlive a morph that replaced a row.
-export function scopeIds(scope:ActionScope):string[] {
-  return scope.items
-    .map((item) => resolveItemId(item))
-    .filter((id):id is string => id !== null);
 }
 
 // What resolving an action scope does to the selection: nothing, replace it
@@ -408,12 +396,11 @@ export class SelectionOrchestrator {
       return;
     }
 
+    event.preventDefault();
     if (this.host.busy) {
-      event.preventDefault();
       return;
     }
 
-    event.preventDefault();
     escapesClearedBySelection.add(event);
     this.selection.clear();
     this.renderSelection('selection');

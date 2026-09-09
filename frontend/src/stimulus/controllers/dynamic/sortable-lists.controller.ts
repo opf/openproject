@@ -70,7 +70,8 @@ import {
   type MoveAvailability,
   type MoveDirection,
 } from './sortable-lists/list-dom';
-import { SelectionOrchestrator, scopeIds, type ActionScope, type SelectionHost } from './sortable-lists/selection-orchestrator';
+import { SelectionOrchestrator, type SelectionHost } from './sortable-lists/selection-orchestrator';
+import { scopeIds, type ActionScope } from './sortable-lists/action-scope';
 import { itemIdentity, orderedItemElements } from './sortable-lists/selection';
 
 type CleanupFn = () => void;

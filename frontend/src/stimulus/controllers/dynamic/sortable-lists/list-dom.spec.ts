@@ -26,7 +26,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { environment } from '../../../../environments/environment';
+
 import {
+  parseDestinationCandidates,
   captureRowPositions,
   isOrderableItem,
   itemAcceptsDestination,
@@ -749,5 +752,38 @@ describe('resolveItemType', () => {
     expect(resolveItemType(el)).toBeNull();
     el.setAttribute('data-sortable-lists--item-type-value', '');
     expect(resolveItemType(el)).toBeNull();
+  });
+});
+
+
+describe('destination metadata', () => {
+  let wasProduction:boolean;
+  let log:ReturnType<typeof vi.spyOn>;
+  beforeEach(() => {
+    wasProduction = environment.production;
+    environment.production = false;
+    log = vi.spyOn(console, 'log').mockImplementation(() => undefined);
+  });
+  afterEach(() => {
+    environment.production = wasProduction;
+    vi.restoreAllMocks();
+  });
+
+  it.each([undefined, ''])('ignores missing metadata without logging', (metadata) => {
+    expect(parseDestinationCandidates(metadata)).toEqual([]);
+    expect(log).not.toHaveBeenCalled();
+  });
+
+  it.each(['{invalid', '{}', '[{"type":"","id":null}]', '[{"type":"sprint","id":1}]',
+    '[{"type":"sprint","id":"1"},{"type":"sprint"}]'])('rejects malformed metadata as a whole: %s', (metadata) => {
+    expect(parseDestinationCandidates(metadata)).toEqual([]);
+    expect(log).toHaveBeenCalledWith('[DEBUG] sortable-lists: malformed destination metadata');
+  });
+
+  it('preserves ordered destinations and the null inbox identity', () => {
+    expect(parseDestinationCandidates('[{"type":"sprint","id":"2"},{"type":"inbox","id":null}]')).toEqual([
+      { type: 'sprint', id: '2' }, { type: 'inbox', id: null },
+    ]);
+    expect(log).not.toHaveBeenCalled();
   });
 });
