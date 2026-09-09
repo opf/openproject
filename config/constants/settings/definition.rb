@@ -47,16 +47,16 @@ module Settings
         format: :string,
         default: nil
       },
+      ai_text_transform_actions_enabled: {
+        description: "Enable AI text transform actions in the rich text editor",
+        default: false
+      },
       ai_text_transform_run_retention_seconds: {
         description: "How long AI text transform runs and their events are kept before a cron job removes them. " \
                      "Applies to finished runs from their finish time and to unfinished runs from their creation time.",
         format: :integer,
         writable: false,
         default: 1.hour
-      },
-      ai_text_transform_actions_enabled: {
-        description: "Enable AI text transform actions in the rich text editor",
-        default: false
       },
       allowed_link_protocols: {
         format: :array,
