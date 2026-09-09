@@ -72,12 +72,6 @@ class Queries::Filters::Base
   ##
   # Key under which saved queries persist this filter when it stands in for
   # another filter; +nil+ means the filter is stored under its own key.
-  #
-  # @example A filter offered while a setting is off, stored as the newer filter
-  #   class VersionFilter < WorkPackageFilter
-  #     def self.key = :version_id
-  #     def self.stored_key = :target_version_id
-  #   end
   def self.stored_key = nil
 
   def [](name)

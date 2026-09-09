@@ -63,7 +63,7 @@ module Queries::WorkPackages::FilterSerializer
 
   def self.collapse_to_offered_key(filter_hash)
     collapse_to_stored_key(filter_hash)
-      .transform_keys { |key| Queries::WorkPackages::StoredNames.offered_filter(key) }
+      .transform_keys { Queries::WorkPackages::StoredNames.offered_filter(it) }
   end
   private_class_method :collapse_to_offered_key
 
