@@ -70,13 +70,17 @@ module Llm
       rescue Llm::Errors::TimeoutError
         fail_check(:chat_round_trip, :request_timed_out)
       rescue Llm::Errors::ApiError => e
-        if e.status == 404
-          fail_check(:chat_round_trip, :model_not_served, context: { model: model_id })
-        else
-          fail_check(:chat_round_trip, :chat_failed, context: { model: model_id, status: e.status.to_s })
-        end
+        answered_with_error(e, model_id)
       rescue Llm::Errors::Error
         fail_check(:chat_round_trip, :connection_error)
+      end
+
+      def answered_with_error(error, model_id)
+        if error.status == 404
+          fail_check(:chat_round_trip, :model_not_served, context: { model: model_id })
+        else
+          fail_check(:chat_round_trip, :chat_failed, context: { model: model_id, status: error.status.to_s })
+        end
       end
 
       # The configured default first, so the check exercises what features will

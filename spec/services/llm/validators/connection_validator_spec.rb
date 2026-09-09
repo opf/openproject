@@ -97,7 +97,7 @@ RSpec.describe Llm::Validators::ConnectionValidator, :llm_server_helpers, :webmo
 
       expect(result_for(:inference, :chat_round_trip).state).to eq(:success)
       expect(WebMock).to have_requested(:post, "#{base_url}/chat/completions")
-        .with { |request| JSON.parse(request.body)["model"] == "qwen3.6-27b" }
+        .with(body: hash_including("model" => "qwen3.6-27b"))
     end
   end
 
