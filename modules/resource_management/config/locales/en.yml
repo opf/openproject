@@ -8,6 +8,7 @@ en:
         date_range: Dates
         end_date: Finish date
         entity: Entity
+        placeholder_or_user: Assignee
         placeholder_user: Placeholder user
         principal: Assignee
         start_date: Start date

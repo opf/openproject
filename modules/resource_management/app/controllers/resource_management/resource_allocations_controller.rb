@@ -373,7 +373,7 @@ module ::ResourceManagement
     def submitted_allocation_params
       params
         .fetch(:resource_allocation, {})
-        .permit(:principal_id, :placeholder_user_id, :date_range, :allocated_hours, :entity_type, :entity_id)
+        .permit(:placeholder_or_user_id, :date_range, :allocated_hours, :entity_type, :entity_id)
         .to_h
     end
 
@@ -388,31 +388,24 @@ module ::ResourceManagement
 
     def allocation_params
       permitted = params
-                    .expect(resource_allocation: %i[principal_id placeholder_user_id date_range allocated_hours
+                    .expect(resource_allocation: %i[placeholder_or_user_id date_range allocated_hours
                                                     entity_type entity_id])
                     .to_h
                     .symbolize_keys
 
-      principal_id = permitted.delete(:principal_id)
-      placeholder_user_id = permitted.delete(:placeholder_user_id)
+      placeholder_or_user = selected_placeholder_or_user(permitted.delete(:placeholder_or_user_id))
       entity = resolve_visible_entity(permitted.delete(:entity_type), permitted.delete(:entity_id))
-      permitted.merge(entity:, **resource_params(principal_id, placeholder_user_id))
+      permitted.merge(entity:, placeholder_or_user:)
     end
 
-    # The form offers either picker, never both, so the id that was not
-    # submitted clears its association.
-    def resource_params(principal_id, placeholder_user_id)
-      {
-        principal: User.visible.in_project(@project).find_by(id: principal_id),
-        placeholder_user: selected_placeholder_user(placeholder_user_id)
-      }
-    end
+    # The picker offers the project's users and the placeholders that may be
+    # allocated against; anything else is dropped. A picked placeholder is only
+    # ever linked, its criteria are left untouched.
+    def selected_placeholder_or_user(placeholder_or_user_id)
+      return if placeholder_or_user_id.blank?
 
-    # Only ever links an existing placeholder; its criteria are left untouched.
-    def selected_placeholder_user(placeholder_user_id)
-      return if placeholder_user_id.blank?
-
-      PlaceholderUser.allocatable(current_user).find_by(id: placeholder_user_id)
+      User.visible.in_project(@project).find_by(id: placeholder_or_user_id) ||
+        PlaceholderUser.allocatable(current_user).find_by(id: placeholder_or_user_id)
     end
 
     def preselected_work_package

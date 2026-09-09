@@ -50,7 +50,7 @@ RSpec.describe "ResourceAllocations requests",
       # Autocompleters render as Angular custom elements carrying the field
       # name in `data-input-name` rather than a plain `name` attribute.
       expect(response.body).to include("opce-user-autocompleter")
-      expect(response.body).to include("resource_allocation[principal_id]")
+      expect(response.body).to include("resource_allocation[placeholder_or_user_id]")
       expect(response.body).to include("resource_allocation[entity_id]")
       expect(response.body).to include("resource_allocation[allocated_hours]")
     end
@@ -71,7 +71,7 @@ RSpec.describe "ResourceAllocations requests",
           as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("resource_allocation[principal_id]")
+      expect(response.body).to include("resource_allocation[placeholder_or_user_id]")
       expect(response.body).to include(%(data-input-value="#{assignee.id}"))
       expect(response.body).to include("2026-06-10", "2026-06-12")
     end
@@ -81,7 +81,7 @@ RSpec.describe "ResourceAllocations requests",
     it "refreshes the form via POST as a turbo stream" do
       post refresh_form_project_resource_allocations_path(project),
            params: { resource_allocation: {
-             principal_id: assignee.id,
+             placeholder_or_user_id: assignee.id,
              entity_type: "WorkPackage",
              entity_id: work_package.id,
              date_range: "2026-03-02 - 2026-03-03",
@@ -105,7 +105,7 @@ RSpec.describe "ResourceAllocations requests",
     def refresh(start_date:, end_date:, entity_id: dated_work_package.id)
       post refresh_form_project_resource_allocations_path(project),
            params: { resource_allocation: {
-             principal_id: assignee.id,
+             placeholder_or_user_id: assignee.id,
              entity_type: "WorkPackage",
              entity_id:,
              date_range: "#{start_date} - #{end_date}",
@@ -150,7 +150,7 @@ RSpec.describe "ResourceAllocations requests",
       subject(:perform) do
         post project_resource_allocations_path(project),
              params: { resource_allocation: {
-               principal_id: assignee.id,
+               placeholder_or_user_id: assignee.id,
                entity_type: "WorkPackage",
                entity_id: work_package.id,
                date_range: "2026-03-02 - 2026-03-03",
@@ -190,7 +190,7 @@ RSpec.describe "ResourceAllocations requests",
       subject(:perform) do
         post project_resource_allocations_path(project),
              params: { resource_allocation: {
-               placeholder_user_id: existing.id,
+               placeholder_or_user_id: existing.id,
                entity_type: "WorkPackage",
                entity_id: work_package.id,
                date_range: "2026-03-02 - 2026-03-03",
@@ -220,7 +220,7 @@ RSpec.describe "ResourceAllocations requests",
       subject(:perform) do
         post project_resource_allocations_path(project),
              params: { resource_allocation: {
-               principal_id: assignee.id,
+               placeholder_or_user_id: assignee.id,
                entity_type: "WorkPackage",
                entity_id: work_package.id,
                date_range: "2026-03-03 - 2026-03-02", # finish date before the start date
@@ -241,7 +241,7 @@ RSpec.describe "ResourceAllocations requests",
       subject(:perform) do
         post project_resource_allocations_path(project),
              params: { resource_allocation: {
-               principal_id: assignee.id,
+               placeholder_or_user_id: assignee.id,
                entity_type: "WorkPackage",
                entity_id: other_work_package.id,
                date_range: "2026-03-02 - 2026-03-03",
@@ -262,7 +262,7 @@ RSpec.describe "ResourceAllocations requests",
       subject(:perform) do
         post project_resource_allocations_path(project),
              params: { resource_allocation: {
-               principal_id: non_member.id,
+               placeholder_or_user_id: non_member.id,
                entity_type: "WorkPackage",
                entity_id: work_package.id,
                date_range: "2026-03-02 - 2026-03-03",
@@ -281,7 +281,7 @@ RSpec.describe "ResourceAllocations requests",
       subject(:perform) do
         post project_resource_allocations_path(project),
              params: { resource_allocation: {
-               principal_id: assignee.id,
+               placeholder_or_user_id: assignee.id,
                entity_type: "Project",
                entity_id: project.id,
                date_range: "2026-03-02 - 2026-03-03",
@@ -303,7 +303,7 @@ RSpec.describe "ResourceAllocations requests",
 
       let(:base_params) do
         { resource_allocation: {
-          principal_id: assignee.id,
+          placeholder_or_user_id: assignee.id,
           entity_type: "WorkPackage",
           entity_id: dated_work_package.id,
           date_range: "2026-02-24 - 2026-02-25", # after the work package's finish date
@@ -331,7 +331,7 @@ RSpec.describe "ResourceAllocations requests",
         expect do
           post project_resource_allocations_path(project),
                params: { resource_allocation: {
-                 principal_id: assignee.id,
+                 placeholder_or_user_id: assignee.id,
                  entity_type: "WorkPackage",
                  entity_id: dated_work_package.id,
                  date_range: "2026-01-20 - 2026-01-21",
@@ -353,7 +353,7 @@ RSpec.describe "ResourceAllocations requests",
       # 40h (2400 min) across Mon-Tue (960 min of capacity) overbooks the user.
       let(:base_params) do
         { resource_allocation: {
-          principal_id: working_assignee.id,
+          placeholder_or_user_id: working_assignee.id,
           entity_type: "WorkPackage",
           entity_id: work_package.id,
           date_range: "2026-03-02 - 2026-03-03",
@@ -379,7 +379,7 @@ RSpec.describe "ResourceAllocations requests",
         partially_available = create(:user, member_with_permissions: { project => %i[view_work_packages] })
         create(:user_working_hours, user: partially_available, valid_from: Date.new(2025, 1, 1), availability_factor: 80)
 
-        params = base_params.deep_merge(resource_allocation: { principal_id: partially_available.id })
+        params = base_params.deep_merge(resource_allocation: { placeholder_or_user_id: partially_available.id })
         post project_resource_allocations_path(project), params:, as: :turbo_stream
 
         expect(response.body).to include("Mon-Fri 8h (80% available for project work)")
@@ -429,7 +429,7 @@ RSpec.describe "ResourceAllocations requests",
         expect do
           post project_resource_allocations_path(project),
                params: { resource_allocation: {
-                 principal_id: assignee.id,
+                 placeholder_or_user_id: assignee.id,
                  entity_type: "WorkPackage",
                  entity_id: work_package.id,
                  date_range: "2026-03-02 - 2026-03-03",
@@ -470,12 +470,13 @@ RSpec.describe "ResourceAllocations requests",
         create(:resource_allocation, entity: work_package, principal: nil, placeholder_user: placeholder)
       end
 
-      it "offers the placeholder user picker instead of the user picker" do
+      it "pre-fills the picker with the placeholder and shows its criteria" do
         get edit_project_resource_allocation_path(project, filter_allocation), as: :turbo_stream
 
         expect(response).to have_http_status(:ok)
-        expect(response.body).to include("resource_allocation[placeholder_user_id]")
-        expect(response.body).to include(API::V3::Utilities::PathHelper::ApiV3Path.allocatable_placeholder_users)
+        expect(response.body).to include("resource_allocation[placeholder_or_user_id]")
+        expect(response.body).to include(%(data-input-value="#{placeholder.id}"))
+        expect(response.body).to include(I18n.t("resource_management.allocate_resource_dialog.criteria.label"))
       end
     end
 
@@ -498,7 +499,7 @@ RSpec.describe "ResourceAllocations requests",
     def perform(allocated_hours: "16h")
       patch project_resource_allocation_path(project, allocation),
             params: { resource_allocation: {
-              principal_id: assignee.id,
+              placeholder_or_user_id: assignee.id,
               entity_type: "WorkPackage",
               entity_id: work_package.id,
               date_range: "2026-03-02 - 2026-03-06",
@@ -562,7 +563,7 @@ RSpec.describe "ResourceAllocations requests",
       def perform(extra = {})
         patch project_resource_allocation_path(project, allocation),
               params: { resource_allocation: {
-                principal_id: working_assignee.id,
+                placeholder_or_user_id: working_assignee.id,
                 entity_type: "WorkPackage",
                 entity_id: work_package.id,
                 date_range: "2026-03-02 - 2026-03-03",
@@ -673,7 +674,7 @@ RSpec.describe "ResourceAllocations requests",
       expect do
         post project_resource_allocations_path(project),
              params: { resource_allocation: {
-               principal_id: assignee.id,
+               placeholder_or_user_id: assignee.id,
                entity_type: "WorkPackage",
                entity_id: work_package.id,
                date_range: "2026-03-02 - 2026-03-03",
@@ -709,7 +710,7 @@ RSpec.describe "ResourceAllocations requests",
     it "reopens a refreshed utilization dialog after a successful create" do
       post project_resource_allocations_path(project, resource_planner_view_id: card_view.id),
            params: { resource_allocation: {
-             principal_id: assignee.id, entity_type: "WorkPackage", entity_id: work_package.id,
+             placeholder_or_user_id: assignee.id, entity_type: "WorkPackage", entity_id: work_package.id,
              date_range: "2026-03-02 - 2026-03-03", allocated_hours: "40h"
            } },
            as: :turbo_stream

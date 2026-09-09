@@ -28,20 +28,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module AllocatablePlaceholderUsers
-      # The placeholder users an allocation can be made against. Separate from
-      # `/placeholder_users`, whose scope answers who may *administer* them —
-      # a higher bar than picking one in the allocation dialog.
-      class AllocatablePlaceholderUsersAPI < ::API::OpenProjectAPI
-        resources :allocatable_placeholder_users do
-          get &::API::V3::Utilities::Endpoints::Index
-            .new(model: PlaceholderUser,
-                 scope: -> { PlaceholderUser.allocatable(current_user) })
-            .mount
-        end
-      end
-    end
+# Narrows the users an allocation may name to the members of a project.
+# Placeholder users describe criteria rather than membership, so they are
+# offered in every project and pass this filter untouched.
+class Queries::Principals::Filters::AllocatableInProjectFilter < Queries::Principals::Filters::PrincipalFilter
+  def allowed_values
+    Project.visible(User.current).active.pluck(:name, :id)
+  end
+
+  def type
+    :list
+  end
+
+  def available_operators
+    [::Queries::Operators::Equals]
+  end
+
+  def self.key
+    :allocatable_in_project
+  end
+
+  def apply_to(query_scope)
+    query_scope
+      .in_project(values)
+      .or(query_scope.where(type: PlaceholderUser.name))
   end
 end

@@ -72,19 +72,11 @@ module ResourceAllocations
 
       def form_list_component(form)
         Primer::Forms::FormList.new(
-          resource_form(form),
+          ResourceAllocations::Forms::PlaceholderOrUserForm.new(form, project: @project, dialog_id:, view: @view),
           ResourceAllocations::Forms::WorkPackageForm.new(form, project: @project, dialog_id: dialog_id, view: @view),
           ResourceAllocations::Forms::DateRangeForm.new(form, dialog_id: dialog_id),
           ResourceAllocations::Forms::HoursForm.new(form)
         )
-      end
-
-      def resource_form(form)
-        if @allocation.filter_based?
-          ResourceAllocations::Forms::PlaceholderUserForm.new(form, dialog_id: dialog_id)
-        else
-          ResourceAllocations::Forms::PrincipalForm.new(form, project: @project, dialog_id: dialog_id, view: @view)
-        end
       end
     end
   end
