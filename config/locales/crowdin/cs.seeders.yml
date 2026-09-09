@@ -71,6 +71,15 @@ cs:
           name: Manažer zaměstnanců a projektů
         item_1:
           name: Standardní globální role
+      ai_text_transform_actions:
+        item_0:
+          label: Fix grammar
+        item_1:
+          label: Make concise
+        item_2:
+          label: Translate to English
+        item_3:
+          label: Sort into template
     standard:
       project_phases:
         item_0:
@@ -319,7 +328,7 @@ cs:
 
                     _Vyzkoušejte následující kroky:_[Backlogs]. *Pozvěte nové členy do svého projektu*: &rightarrow; Jděte do [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) v projektové navigaci.
                     2. *Podívejte se na nevyřízené produkty a nevyřízené záznamy*: &rightarrow; Přejděte do [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) v projektové navigaci.
-                    3. *Zobrazit tvou tabulku*: &rightarrow; Přejdi na [Backlogs] ({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Klikni na šipku vpravo na Sprint &rightarrow; Vyberte [Pracovní tabuli](##sprint:scrum_project__version__sprint_1).
+                    3. *Zobrazit tvou tabulku*: &rightarrow; Přejdi na [Backlogs] ({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Klikni na šipku vpravo na Sprint &rightarrow; Vyberte Pracovní tabuli.
                     4. *Vytvořte nový pracovní balíček*: &rightarrow; Přejít na [Pracovní balíčky &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
                     5. *Vytvořte a aktualizujte plán projektu*: &rightarrow; Jděte na [Plán projektu](##query:scrum_project__query__project_plan) v projektové navigaci.
                     6. *Vytvoř Sprint wiki*: &rightarrow; Přejít na [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) a otevři wiki sprintu z nabídky vpravo v nabídce sprintu. Můžete upravit [wiki template]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) na základě vašich potřeb.

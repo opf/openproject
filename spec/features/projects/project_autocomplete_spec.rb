@@ -191,6 +191,25 @@ RSpec.describe "Projects autocomplete page", :js do
     top_menu.expect_current_project project2.name
   end
 
+  it "nests projects below their nearest visible ancestor" do
+    visible_grandparent = create(:project, name: "Visible Grandparent", members: { user => role })
+    invisible_parent = create(:private_project, name: "Invisible Parent", parent: visible_grandparent)
+    visible_grandchild = create(:project,
+                                name: "Visible Grandchild",
+                                parent: invisible_parent,
+                                members: { user => role })
+
+    retry_block do
+      top_menu.toggle unless top_menu.open?
+      top_menu.expect_open
+
+      top_menu.expect_result visible_grandparent.name
+      top_menu.expect_no_result invisible_parent.name
+      top_menu.expect_item_with_hierarchy_level hierarchy_level: 2,
+                                                item_name: visible_grandchild.name
+    end
+  end
+
   it "displays workspace type badges for portfolios and programs" do
     retry_block do
       top_menu.toggle unless top_menu.open?

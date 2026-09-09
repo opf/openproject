@@ -110,33 +110,63 @@ RSpec.describe OAuthClients::TokenFetcher, :webmock do
       )
     end
 
-    context "and when the token was concurrently refreshed in the background" do
-      let(:changed_access_token) { "changed-access-token" }
-      let(:changed_refresh_token) { "changed-refresh-token" }
+    context "and when the token is concurrently being refreshed in the background" do
+      subject(:fetch_token) do
+        concurrency_semaphore.release
+        described_class.new(user:).access_token_for(oauth_client:)
+      end
 
-      before do
-        allow(OAuthClientToken).to receive(:find_by) do |user:, oauth_client:|
-          result = OAuthClientToken.where(user:, oauth_client:).first
+      # Semaphore used to ensure that the background thread performs the first request
+      let(:startup_semaphore) { Concurrent::Semaphore.new(0) }
 
-          # changing the token in the background, without reflecting the result back into the returned value
-          OAuthClientToken.where(user:, oauth_client:).update_all(
-            access_token: changed_access_token,
-            refresh_token: changed_refresh_token,
-            lock_version: result.lock_version + 1 # lock_version needs manual update during update_all
-          )
+      # Semaphore used to slow down response of background thread enough to ensure that the foreground
+      # thread had to wait for the background thread
+      let(:concurrency_semaphore) { Concurrent::Semaphore.new(0) }
 
-          result
+      let(:token_request) do
+        instance_double(OAuthClients::TokenRequest).tap do |request|
+          # RSpec seems to have multi-threading limits, calculating refresh_response while the main thread is locked up does
+          # not seem to work. Thus we assign it outside of the mocked response block below
+          response = refresh_response
+          main_thread = Thread.current
+          first_request = true
+          allow(request).to receive(:refresh) do
+            unless first_request
+              next Success(
+                { "access_token" => "wrong-access-token", "refresh_token" => "wrong-refresh-token", "expires_in" => new_ttl }
+              )
+            end
+            first_request = false
+            startup_semaphore.release
+            concurrency_semaphore.acquire
+            # our test locking is imperfect: we want to continue here, once the foreground thread ran into the SQL lock
+            # we are testing. So we give the foreground thread additional time to acquire the lock-under-test
+            loop do
+              sleep(0.5)
+              break if main_thread.status == "sleep"
+            end
+
+            response
+          end
         end
       end
 
-      it "keeps the originally refreshed value" do
-        fetch_token
-        expect(existing_token.reload).to have_attributes(access_token: changed_access_token, refresh_token: changed_refresh_token)
+      before do
+        Thread.new do
+          described_class.new(user:).access_token_for(oauth_client:)
+        end
+
+        startup_semaphore.acquire
       end
 
-      it "returns the refreshed access token" do
+      it "refreshes the token only once (in the background)" do
+        fetch_token
+        expect(token_request).to have_received(:refresh).once
+      end
+
+      it "returns the previously refreshed token on the foreground request" do
         expect(fetch_token).to be_success
-        expect(fetch_token.value!).to eq(changed_access_token)
+        expect(fetch_token.value!).to eq(new_access_token)
       end
     end
 

@@ -33,7 +33,7 @@ RSpec.describe WorkPackageTypes::ProjectAttributes::IndexComponent, type: :compo
     context "with no project attributes at all" do
       it "renders the blankslate instead of the filter", :aggregate_failures do
         expect(rendered_component).to have_test_selector("type-project-attributes-blankslate",
-                                                         text: blankslate_text(:independent, :title))
+                                                         text: blankslate_text(:manual, :title))
         expect(rendered_component).to have_link("create project attributes",
                                                 href: admin_settings_project_custom_fields_path)
         expect(rendered_component).to have_no_field("border-box-filter")
@@ -64,8 +64,8 @@ RSpec.describe WorkPackageTypes::ProjectAttributes::IndexComponent, type: :compo
     context "when the source enables no project attribute" do
       it "renders the blankslate instead of the filter", :aggregate_failures do
         expect(rendered_component).to have_test_selector("type-project-attributes-blankslate",
-                                                         text: blankslate_text(:linked, :title))
-        expect(rendered_component).to have_text(blankslate_text(:linked, :description))
+                                                         text: blankslate_text(:inherited, :title))
+        expect(rendered_component).to have_text(blankslate_text(:inherited, :description))
         expect(rendered_component).to have_no_field("border-box-filter")
       end
     end

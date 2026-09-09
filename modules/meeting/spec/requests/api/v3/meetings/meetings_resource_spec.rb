@@ -366,6 +366,144 @@ RSpec.describe "API v3 Meeting resource", content_type: :json do
         subject { last_response }
       end
     end
+
+    context "when updating the notify flag" do
+      let(:meeting) { create(:meeting, project:, author: current_user, notify: false) }
+      let(:body) do
+        {
+          notify: true,
+          lockVersion: meeting.lock_version
+        }.to_json
+      end
+
+      it "updates the notify flag" do
+        expect(meeting.notify).to be(false)
+
+        response
+
+        expect(response).to have_http_status(:ok)
+        expect(meeting.reload.notify).to be(true)
+        expect(response.body).to be_json_eql(true.to_json).at_path("notify")
+      end
+    end
+
+    context "when exiting draft mode with notifications enabled" do
+      let(:participant) do
+        create(:user, member_with_permissions: { project => %i[view_meetings] })
+      end
+      let(:meeting) do
+        create(:meeting, project:, author: current_user, state: :draft, notify: false).tap do |m|
+          create(:meeting_participant, meeting: m, user: participant, invited: true)
+        end
+      end
+      let(:body) do
+        {
+          state: "open",
+          notify: true,
+          lockVersion: meeting.lock_version
+        }.to_json
+      end
+
+      before { ActionMailer::Base.deliveries.clear }
+
+      it "sends invitation mails to the invited participants" do
+        expect(meeting.state).to eq("draft")
+        expect(ActionMailer::Base.deliveries).to be_empty
+
+        perform_enqueued_jobs { response }
+
+        expect(last_response).to have_http_status(:ok)
+        expect(meeting.reload.state).to eq("open")
+        expect(ActionMailer::Base.deliveries.flat_map(&:to)).to include(participant.mail)
+      end
+
+      context "when transitioning directly from draft to in_progress" do
+        # notify is already enabled, so only the state transition can trigger invitations
+        let(:meeting) do
+          create(:meeting, project:, author: current_user, state: :draft, notify: true).tap do |m|
+            create(:meeting_participant, meeting: m, user: participant, invited: true)
+          end
+        end
+        let(:body) do
+          {
+            state: "in_progress",
+            lockVersion: meeting.lock_version
+          }.to_json
+        end
+
+        it "still sends invitation mails to the invited participants" do
+          expect(meeting.state).to eq("draft")
+          expect(ActionMailer::Base.deliveries).to be_empty
+
+          perform_enqueued_jobs { response }
+
+          expect(last_response).to have_http_status(:ok)
+          expect(meeting.reload.state).to eq("in_progress")
+          expect(ActionMailer::Base.deliveries.flat_map(&:to)).to include(participant.mail)
+        end
+      end
+    end
+
+    context "when changing participants on an open meeting with notifications enabled" do
+      let(:existing_participant) do
+        create(:user, member_with_permissions: { project => %i[view_meetings] })
+      end
+      let(:added_participant) do
+        create(:user, member_with_permissions: { project => %i[view_meetings] })
+      end
+      let(:other_participant) do
+        create(:user, member_with_permissions: { project => %i[view_meetings] })
+      end
+      let(:meeting) do
+        create(:meeting, project:, author: current_user, notify: true).tap do |m|
+          create(:meeting_participant, meeting: m, user: existing_participant, invited: true)
+        end
+      end
+
+      before { ActionMailer::Base.deliveries.clear }
+
+      def perform_debounced_jobs
+        perform_enqueued_jobs(only: Meetings::NotificationDebounceJob, at: 2.minutes.from_now)
+        perform_enqueued_jobs
+      end
+
+      it "invites a newly added participant" do
+        body = {
+          lockVersion: meeting.lock_version,
+          _links: {
+            participants: [
+              { href: api_v3_paths.user(existing_participant.id) },
+              { href: api_v3_paths.user(added_participant.id) }
+            ]
+          }
+        }.to_json
+
+        patch path, body
+        expect(last_response).to have_http_status(:ok)
+
+        perform_debounced_jobs
+
+        expect(ActionMailer::Base.deliveries.flat_map(&:to)).to include(added_participant.mail)
+      end
+
+      it "notifies a removed participant" do
+        create(:meeting_participant, meeting:, user: other_participant, invited: true)
+
+        body = {
+          lockVersion: meeting.lock_version,
+          _links: {
+            participants: [{ href: api_v3_paths.user(existing_participant.id) }]
+          }
+        }.to_json
+
+        patch path, body
+        expect(last_response).to have_http_status(:ok)
+
+        perform_debounced_jobs
+
+        expect(ActionMailer::Base.deliveries.flat_map(&:to)).to include(other_participant.mail)
+      end
+    end
   end
 
   describe "DELETE /api/v3/meetings/:id" do

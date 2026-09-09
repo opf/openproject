@@ -992,12 +992,6 @@ RSpec.describe PermittedParams do
     let (:attribute) { :settings }
 
     describe "with password login enabled" do
-      before do
-        allow(OpenProject::Configuration)
-          .to receive(:disable_password_login?)
-                .and_return(false)
-      end
-
       let(:hash) do
         {
           "sendmail_arguments" => "value",
@@ -1011,14 +1005,8 @@ RSpec.describe PermittedParams do
       it_behaves_like "allows params"
     end
 
-    describe "with password login disabled" do
+    describe "with password login disabled", with_settings: { password_login: "none" } do
       include_context "with prepare params comparison"
-
-      before do
-        allow(OpenProject::Configuration)
-          .to receive(:disable_password_login?)
-                .and_return(true)
-      end
 
       let(:hash) do
         {

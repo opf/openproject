@@ -61,3 +61,18 @@ RSpec.describe WorkPackage, "target versions" do
     expect(work_package.reload.target_versions).to be_empty
   end
 end
+
+RSpec.describe WorkPackage, "observed in versions" do
+  let(:project) { create(:project) }
+  let!(:lower_version) { create(:version, project:) }
+  let!(:higher_version) { create(:version, project:) }
+  let(:work_package) { create(:work_package, project:) }
+
+  it "returns observed in versions in id order even when preloaded" do
+    work_package.observed_in_version_ids_replacements = [higher_version.id, lower_version.id]
+    work_package.save!
+
+    preloaded = described_class.where(id: work_package.id).includes(:observed_in_versions).first
+    expect(preloaded.observed_in_versions.map(&:id)).to eq([lower_version.id, higher_version.id])
+  end
+end

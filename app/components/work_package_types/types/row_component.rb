@@ -45,7 +45,7 @@ module WorkPackageTypes
       end
 
       def name
-        link_to(model.name, edit_type_details_path(type_id: model.id))
+        link_to(model.name, type_settings_path(type_id: model.id))
       end
 
       def workflow_warning

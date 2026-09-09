@@ -71,6 +71,15 @@ uk:
           name: Персонал і менеджер проєктів
         item_1:
           name: Стандартна глобальна роль
+      ai_text_transform_actions:
+        item_0:
+          label: Виправити граматику
+        item_1:
+          label: Скоротити
+        item_2:
+          label: Перекласти англійською
+        item_3:
+          label: Упорядкувати за шаблоном
     standard:
       project_phases:
         item_0:

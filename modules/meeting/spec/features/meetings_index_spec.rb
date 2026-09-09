@@ -262,7 +262,7 @@ RSpec.describe "Meetings", "Index", :js do
           meetings_page.set_quick_filter upcoming: true
         end
 
-        it "lets the quick filter enter an unselected state" do
+        it "re-applies the upcoming quick filter automatically" do
           meetings_page.expect_quick_filter_selected "Upcoming"
 
           meetings_page.open_filters
@@ -270,7 +270,7 @@ RSpec.describe "Meetings", "Index", :js do
 
           wait_for_network_idle
 
-          meetings_page.expect_quick_filter_unselected
+          meetings_page.expect_quick_filter_selected "Upcoming"
         end
       end
 

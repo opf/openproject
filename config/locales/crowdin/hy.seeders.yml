@@ -71,6 +71,15 @@ hy:
           name: Աշխատակազմի և նախագծերի կառավարիչ
         item_1:
           name: Ստանդարտ գլոբալ դեր
+      ai_text_transform_actions:
+        item_0:
+          label: Fix grammar
+        item_1:
+          label: Make concise
+        item_2:
+          label: Translate to English
+        item_3:
+          label: Sort into template
     standard:
       project_phases:
         item_0:

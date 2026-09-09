@@ -31,6 +31,7 @@
 class Projects::Settings::WorkPackages::Types::SwitchesController < Projects::SettingsController
   include WorkPackageTypes::TypeVariantsFeature
   include OpTurbo::ComponentStream
+  include WorkPackageTypes::SwitchLookup
 
   menu_item :settings_work_packages
 
@@ -39,7 +40,7 @@ class Projects::Settings::WorkPackages::Types::SwitchesController < Projects::Se
 
   def new
     respond_with_dialog Projects::Settings::WorkPackages::Types::SwitchDialogComponent
-                          .new(project: @project, source: @source, url: switch_path)
+                          .new(project: @project, source: @source, url: switch_path, selected: requested_target)
   end
 
   def create
@@ -57,18 +58,6 @@ class Projects::Settings::WorkPackages::Types::SwitchesController < Projects::Se
 
   private
 
-  # The route addresses a type, since a project applies exactly one of its variants. Which one
-  # is the project's own answer.
-  def load_source
-    type = ::Type.find_by(id: params[:type_id])
-    @source = @project.type_variant(type) if type && @project.project_types.exists?(type_id: type.id)
-
-    return if @source
-
-    render_error_flash_message_via_turbo_stream(message: t("projects.settings.types.type_not_found"))
-    respond_to_with_turbo_streams(status: :unprocessable_entity)
-  end
-
   # Repainted with the refusal under the select, so the choice can be corrected where it was
   # made. A refusal that belongs to no field is the contract turning away a user the permission
   # map already turned away, and has nowhere to show.
@@ -83,18 +72,24 @@ class Projects::Settings::WorkPackages::Types::SwitchesController < Projects::Se
     )
   end
 
+  # A list row asks about the variant it sits on, so the dialog opens on that one. It comes off a
+  # URL: only a variant this project may use counts, as in the list itself.
+  def requested_target
+    @source.type.variants.available_in(@project).find_by(id: params[:target_id]) || @source
+  end
+
   def switch_path
     project_settings_work_packages_type_switch_path(@project, @source.type)
   end
 
   # Reload so the repainted list no longer sees the association's cached types.
   def on_switched(target)
-    close_dialog_via_turbo_stream("##{Projects::Settings::WorkPackages::Types::SwitchDialogComponent::DIALOG_ID}")
+    close_dialog_via_turbo_stream(Projects::Settings::WorkPackages::Types::SwitchDialogComponent::DIALOG_ID)
     replace_via_turbo_stream(
       component: Projects::Settings::WorkPackages::Types::ListComponent.new(project: @project.reload)
     )
     render_success_flash_message_via_turbo_stream(
-      message: t("projects.settings.types.switch_dialog.success", type: target.composite_name)
+      message: t("projects.settings.types.switch.success", type: target.composite_name)
     )
   end
 end

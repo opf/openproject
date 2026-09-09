@@ -46,7 +46,9 @@ RSpec.describe "Project settings work package types", :js, with_flag: { type_var
   let(:settings_page) { Pages::Projects::Settings::WorkPackageTypes.new(project) }
 
   current_user do
-    create(:user, member_with_permissions: { project => %i[edit_project manage_types view_work_packages] })
+    permissions = %i[edit_project manage_types manage_project_variants view_work_packages]
+
+    create(:user, member_with_permissions: { project => permissions })
   end
 
   before { settings_page.visit! }
@@ -121,13 +123,13 @@ because it's still in use by work packages)
     expect(project.reload.project_types.find_by(type: epic).variant).to eq(epic.default_variant)
   end
 
-  it "warns about hidden custom field data and opens on the variant in use" do
+  it "opens on the type's own configuration, with nothing reported yet" do
     settings_page.open_switch_dialog(design)
 
     within(settings_page.switch_dialog) do
       expect(page).to have_text("Epic: Switch variant")
-      expect(page).to have_text("you might lose information associated with custom fields")
-      expect(page).to have_select("Variant", selected: "Epic: Design")
+      expect(page).to have_select("Variant", selected: "Epic")
+      expect(page).to have_no_text("Fields that")
     end
   end
 
@@ -135,6 +137,7 @@ because it's still in use by work packages)
   # was made.
   it "refuses to apply the variant the project already uses" do
     settings_page.open_switch_dialog(design)
+    settings_page.choose_switch_target("Epic: Design")
     settings_page.apply_switch
 
     within(settings_page.switch_dialog) do
@@ -144,10 +147,49 @@ because it's still in use by work packages)
     expect(project.reload.project_types.find_by(type: epic).variant).to eq(design)
   end
 
-  # A type with no named variants has nothing to switch to, so offering the action
-  # would open a dialog whose only option is the current one.
-  it "does not offer the switch action on a type without variants" do
+  it "does not offer the type's own configuration when the project already uses it" do
     settings_page.expect_no_switch_action(bug.default_variant)
+  end
+
+  context "with configurations that differ between the two variants" do
+    before do
+      # Each variant owns its configuration, so give them differing ones for the
+      # report to have something to compare.
+
+      design.attribute_groups = [["Details", %w[assignee]]]
+      design.save!
+      blueprint.attribute_groups = [["Details", %w[priority]]]
+      blueprint.save!
+
+      create(:work_package, project:, type: epic)
+    end
+
+    it "reports the impact once a different variant is chosen" do
+      settings_page.open_switch_dialog(design)
+      settings_page.expect_no_switch_impact
+
+      settings_page.choose_switch_target("Epic: Blueprint")
+
+      settings_page.expect_switch_impact("1 work package will use the new configuration")
+      settings_page.expect_switch_impact("Fields that will no longer be shown")
+      settings_page.expect_switch_impact("Fields that become available")
+    end
+
+    # The field sections keep their contents behind a disclosure. A status the target
+    # cannot move a work package out of is the reason to call the switch off, so it has
+    # to be readable without anybody thinking to expand anything.
+    it "opens the statuses expanded while the field sections stay closed" do
+      reachable = create(:status, name: "New")
+      create(:workflow, type: blueprint, role: create(:project_role), old_status: reachable, new_status: reachable)
+      create(:work_package, project:, type: epic, status: create(:status, name: "Blocked"))
+
+      settings_page.open_switch_dialog(design)
+      settings_page.choose_switch_target("Epic: Blueprint")
+
+      settings_page.expect_switch_impact("Work packages that get stuck")
+      expect(settings_page.switch_dialog).to have_text("Blocked")
+      expect(settings_page.switch_dialog).to have_no_text("Assignee")
+    end
   end
 
   # Located by test selector because the tab nav above renders a "Types" link,

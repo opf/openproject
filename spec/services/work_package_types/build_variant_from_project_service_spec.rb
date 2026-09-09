@@ -75,6 +75,20 @@ RSpec.describe WorkPackageTypes::BuildVariantFromProjectService, with_flag: { ty
       expect(variant.type_id).to eq(type.id)
     end
 
+    # It describes one project's narrowing and nothing else, so it is that project's to own and to
+    # go on configuring, and no other project sees it.
+    it "makes the variant the project's own" do
+      expect(service_call.result.project).to eq(project)
+    end
+
+    # The narrowing predates the setting, so it is carried over rather than dropped on the floor.
+    it "creates it even when the type disallows project-specific variants" do
+      type.update!(allow_project_variants: false)
+
+      expect { service_call }.to change(TypeVariant, :count).by(1)
+      expect(service_call).to be_success
+    end
+
     it "links every aspect to the type's base variant" do
       variant = service_call.result
 
@@ -111,11 +125,25 @@ RSpec.describe WorkPackageTypes::BuildVariantFromProjectService, with_flag: { ty
       expect(project.reload.project_types.where(variant_id: variant.id)).to be_empty
     end
 
-    context "when a variant of that name already exists" do
-      before { create(:type_variant, type:, variant_name: "Bug - Website Relaunch") }
+    context "when the project already owns a variant of that name" do
+      before { create(:project_owned_type_variant, type:, project:, variant_name: "Bug - Website Relaunch") }
 
       it "appends a counter" do
         expect(service_call.result.variant_name).to eq("Bug - Website Relaunch (2)")
+      end
+    end
+
+    # A name is only taken within the project owning it, so the counter must not fire for one
+    # nobody in this project can see.
+    context "when a variant of that name exists outside the project" do
+      before do
+        create(:type_variant, type:, variant_name: "Bug - Website Relaunch")
+        create(:project_owned_type_variant, type:, project: create(:project),
+                                            variant_name: "Bug - Website Relaunch")
+      end
+
+      it "keeps the name" do
+        expect(service_call.result.variant_name).to eq("Bug - Website Relaunch")
       end
     end
   end
@@ -191,6 +219,13 @@ RSpec.describe WorkPackageTypes::BuildVariantFromProjectService, with_flag: { ty
       TypeVariant::ASPECTS.each do |aspect|
         expect(variant.source_for(aspect)).to eq(source)
       end
+    end
+
+    # The source is a global variant and the new one is a project's. That is the combination a
+    # variant may borrow from, so the links above have to survive validation.
+    it "owns the variant while borrowing a configuration nobody owns" do
+      expect(service_call.result.project).to eq(project)
+      expect(source.project).to be_nil
     end
 
     it "accumulates the source variant's exclusions with the project's" do

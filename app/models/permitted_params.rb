@@ -571,6 +571,7 @@ class PermittedParams
           :due_date,
           :estimated_hours,
           { target_version_ids: [] },
+          { observed_in_version_ids: [] },
           :budget_id,
           :parent_id,
           :priority_id,
@@ -599,6 +600,7 @@ class PermittedParams
           :due_date,
           :status_id,
           { target_version_ids: [] },
+          { observed_in_version_ids: [] },
           :priority_id
         ],
         oauth_application: [

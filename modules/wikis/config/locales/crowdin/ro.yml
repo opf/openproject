@@ -3,17 +3,17 @@ ro:
   activerecord:
     attributes:
       wikis/page_link:
-        identifier: Identifier
-        provider: Wiki Provider
+        identifier: Identificator
+        provider: Furnizor Wiki
       wikis/provider:
-        name: Name
-        universal_identifier: Universal identifier
+        name: Nume
+        universal_identifier: Identificator universal
       wikis/xwiki_provider:
-        authentication_method: Authentication method
+        authentication_method: Metodă de autentificare
         authentication_methods:
           oauth2_sso: Single-Sign-On through OpenID Connect Identity Provider
           two_way_oauth2: Two-way OAuth 2.0 authorization code flow
-        token_exchange_scope: XWiki Scope
+        token_exchange_scope: Scop XWiki
         url: Instance URL
         wiki_audience: XWiki Audience
     errors:
@@ -25,7 +25,7 @@ ro:
               wiki_provider_unreachable: could not be reached.
     models:
       wikis/inline_page_link:
-        one: Inline page link
+        one: Link către pagină în text
         few: Inline page links
         other: Inline page links
       wikis/internal_provider:
@@ -33,15 +33,15 @@ ro:
         few: Internal providers
         other: Internal providers
       wikis/page_link:
-        one: Page link
-        few: Page links
-        other: Page links
+        one: Link-ul paginii
+        few: Link-urile paginii
+        other: Link-urile paginii
       wikis/provider:
-        one: Wiki provider
-        few: Wiki providers
-        other: Wiki providers
+        one: Furnizor Wiki
+        few: Furnizori Wiki
+        other: Furnizori Wiki
       wikis/relation_page_link:
-        one: Relation page link
+        one: Link-ul paginii de legătură
         few: Relation page links
         other: Relation page links
       wikis/xwiki_provider:
@@ -52,16 +52,16 @@ ro:
     admin:
       external_wiki_providers: External wiki providers
       internal_wiki_provider: Project wikis
-      wikis: Wikis
+      wikis: Wiki-uri
     project_settings:
       wiki: Project wiki
-  permission_manage_wiki_page_links: Manage wiki page links
+  permission_manage_wiki_page_links: Gestionează link-urile paginii wiki
   wikis:
     admin:
       destroy_confirmation_dialog_component:
         description_html: The wiki provider %{wiki_provider} and all the related wiki page links will be deleted. In addition, every inline wiki page link will no longer be accessible. This action is irreversible.
         heading: Permanently delete this wiki provider?
-        title: Delete wiki provider
+        title: Șterge furnizorul wiki
       forms:
         general_info_form_component:
           provider_description: Please make sure you have administration privileges in your XWiki instance before doing the setup.
@@ -71,8 +71,6 @@ ro:
         oauth_client_form_component:
           client_id: Wiki OAuth Client ID
           client_secret: Wiki OAuth Client secret
-          redirect_uri: Redirect URI
-          redirect_uri_caption: Copy this value into the Redirect URI field of your XWiki OIDC client registration.
       health_status:
         show:
           actions:
@@ -97,6 +95,10 @@ ro:
         confirm_replace_oauth_client: This action will reset the current XWiki OAuth credentials. All users will need to reauthorize against XWiki. Are you sure you want to proceed?
         label_oauth_client_id: OAuth Client ID
         replace_oauth_client: Replace XWiki OAuth application
+      redirect_uri_info_component:
+        description: The redirect URI is generated once the wiki OAuth client is configured.
+        label_uri: URI
+        show_redirect_uri: Show redirect URI
       side_panel:
         health_status_component:
           last_check: 'Last check: %{datetime}'
@@ -118,8 +120,11 @@ ro:
         name_caption: Give your wiki provider a name so that users can differentiate between multiple wiki platforms.
         name_placeholder: XWiki knowledge base
         new_provider_html: Read our documentation on [setting up an XWiki integration](docs_url) for more information.
+        successful_setup: Wiki provider configured successfully!
         oauth:
           openproject_oauth: OpenProject OAuth
+          redirect_uri: Redirect URI
+          redirect_uri_caption: Copy this value into the Redirect URI field of your XWiki OIDC client registration.
         sections:
           general_information: General information
           oauth_configuration: OAuth configuration
@@ -138,17 +143,17 @@ ro:
       done_continue: Done, continue
       open_wiki: Open wiki
       save_and_continue: Save and continue
-      wiki_page: Wiki page
+      wiki_page: Pagină wiki
     create_new_wiki_page_dialog:
       title: Create new wiki page
     deferred_inline_page_link_macro_component:
-      loading: Loading…
+      loading: Se încarcă…
     delete_relation_page_link_confirmation_dialog:
-      heading: Delete related wiki page link?
-      title: Delete related wiki page link
+      heading: Șterge link-ul asociat paginii wiki?
+      title: Șterge linkul asociat paginii wiki
     errors:
       connection_error: Could not connect to the wiki provider.
-      invalid_parent: The selected page is not a valid parent page.
+      invalid_parent: Pagina selectată nu este o pagină părinte validă.
       invalid_response: The wiki provider responded unexpectedly.
       missing_token: The user account is not yet connected to the wiki provider.
       request_failed: The wiki provider experienced an unexpected error.
@@ -171,26 +176,26 @@ ro:
         xwiki_oauth_token_missing: OpenProject cannot test the user-level communication with XWiki as the user did not yet connect their XWiki account.
         xwiki_oauth_unauthorized: The user token was not recognized by XWiki.
     index:
-      column_last_edited: Last edited
-      column_name: Wiki page
+      column_last_edited: Ultima editare
+      column_name: Pagină wiki
       column_parent: Parent
       column_project: Project
-      column_sub_pages: Sub-pages
-      filter_by_name: Filter by page name
-      filter_placeholder: Search by name
+      column_sub_pages: Subpagini
+      filter_by_name: Filtrează după numele paginii
+      filter_placeholder: Caută după nume
       menu_title: Wiki
-      no_results_description: No wiki pages are available.
-      no_results_title: No wiki pages yet
+      no_results_description: Nu sunt disponibile pagini wiki.
+      no_results_title: Nu există încă pagini wiki
       queries:
-        all: All wiki pages
-        main: Main wiki pages
+        all: Toate paginile wiki
+        main: Pagini wiki principale
       sub_pages_count:
-        one: 1 sub-page
-        few: "%{count} sub-pages"
-        other: "%{count} sub-pages"
+        one: 1 subpagină
+        few: "%{count} subpagini"
+        other: "%{count} subpagini"
     inline_wiki_page_dialog:
-      title_add: Add existing wiki page
-      title_create: Create new wiki page
+      title_add: Adaugă o pagină wiki existentă
+      title_create: Creează o pagină wiki nouă
     instructions:
       xwiki:
         integration: XWiki Administration
@@ -206,12 +211,12 @@ ro:
       remove: Remove page link
     page_link_forms:
       labels:
-        page_title: Title
-        parent: Parent
-        wiki_page: Wiki page
+        page_title: Titlu
+        parent: Părinte
+        wiki_page: Pagină wiki
       search:
-        no_results: No wiki pages found
-        placeholder: Search for a wiki page (or enter its URL)
+        no_results: Nicio pagină wiki găsită
+        placeholder: Caută o pagină wiki (sau introdu adresa URL a acesteia)
     page_links:
       aria_label: A dynamic link to a wiki page placed using a macro.
       errors:
@@ -219,7 +224,7 @@ ro:
         page_not_found: Linked wiki page no longer available
         unexpected: An unexpected error occurred
       source:
-        parent: As parent
+        parent: Ca părinte
     project_settings:
       project_internal_wiki_component:
         blankslate_description: For this instance, project wikis are disabled globally and therefore can’t be enabled per project. Please, ask your administrator to enable the global wikis in the administration settings.
@@ -234,12 +239,12 @@ ro:
     relation_page_links_component:
       empty_heading: No related pages
       empty_text: Add wiki pages that are relevant to this work package.
-      link_existing: Existing wiki page
-      link_new: New wiki page
+      link_existing: Pagină wiki existentă
+      link_new: Pagină wiki nouă
     upsell:
       xwiki:
-        description: Connect XWiki with OpenProject and keep documentation and work in sync, link pages, track references and manage everything in one place.
+        description: Conectează XWiki cu OpenProject și menține documentația și activitatea sincronizate, creează legături între pagini, urmărește referințele și gestionează totul dintr-un singur loc.
         title: XWiki Integration
     work_package_wikis_tab_component:
-      inline_page_links: Mentioned in description
-      referencing_pages: Referenced in
+      inline_page_links: Menționată în descriere
+      referencing_pages: Menționată în

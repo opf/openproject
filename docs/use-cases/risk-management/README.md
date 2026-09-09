@@ -60,10 +60,10 @@ stateDiagram-v2
     Evaluated --> MitigationPlanned: Response and actions defined
     MitigationPlanned --> MitigationDone: Actions completed
 
-    New --> Occured: Risk event happens
-    Evaluated --> Occured: Risk event happens
-    MitigationPlanned --> Occured: Risk event happens
-    MitigationDone --> Occured: Risk event happens
+    New --> Occurred: Risk event happens
+    Evaluated --> Occurred: Risk event happens
+    MitigationPlanned --> Occurred: Risk event happens
+    MitigationDone --> Occurred: Risk event happens
 
     New --> Rejected: Invalid, duplicate or out of scope
     Evaluated --> Rejected: No longer relevant
@@ -98,9 +98,9 @@ Monitor the mitigation work packages in the embedded `Risk response` table and d
 
 Change the risk status to `Mitigation done` only after the actions and their effectiveness have been reviewed. This status records completion of the planned response; it does not mean that the risk event occurred.
 
-### Handle an occurred risk: `Occured`
+### Handle an occurred risk: `Occurred`
 
-When the uncertain event happens, change the risk status to `Occured`. Create or link a separate issue for resolution, carry over the relevant owner, actual impact, contingency actions and due dates, and keep the relation to the original risk for traceability.
+When the uncertain event happens, change the risk status to `Occurred`. Create or link a separate issue for resolution, carry over the relevant owner, actual impact, contingency actions and due dates, and keep the relation to the original risk for traceability.
 
 The issue is managed through its own workflow while the original risk retains the assessment and response history.
 
@@ -117,7 +117,7 @@ Review risks in `New`, `Evaluated` and `Mitigation planned` regularly. Check ass
 > [!TIP]
 > OpenProject does not provide a dedicated `Next review date` field. To schedule a risk review, use the risk's finish date as the review date and enable [date alerts](../../user-guide/notifications/notification-settings/#date-alerts-enterprise-add-on). OpenProject will then notify participating users as the date approaches. Date alerts are an Enterprise add-on.
 
-Use comments for review notes and decisions. The activity history provides a chronological audit trail. For status reporting and lessons learned, include risks in `Mitigation done`, `Occured` and `Rejected` as separate outcome groups.
+Use comments for review notes and decisions. The activity history provides a chronological audit trail. For status reporting and lessons learned, include risks in `Mitigation done`, `Occurred` and `Rejected` as separate outcome groups.
 
 ## Step-by-step configuration guide
 
@@ -181,20 +181,20 @@ The example configuration uses the following statuses:
 2. `Evaluated`: likelihood, impact and ownership have been assessed and documented.
 3. `Mitigation planned`: the response strategy and concrete mitigation actions have been defined and assigned.
 4. `Mitigation done`: the planned mitigation actions have been completed and their effectiveness has been reviewed.
-5. `Occured`: the uncertain event has happened; create or link an issue for resolution and execute the applicable contingency actions.
+5. `Occurred`: the uncertain event has happened; create or link an issue for resolution and execute the applicable contingency actions.
 6. `Rejected`: the entry is a duplicate, is outside the project scope or was determined not to represent a relevant project risk.
 
 Configure these statuses under [work package statuses](../../system-admin-guide/manage-work-packages/work-package-status/) and the permitted transitions under [work package workflows](../../system-admin-guide/manage-work-packages/work-package-workflows/).
 
 ![Workflow transition configuration for the Risk work package type in OpenProject administration](openproject_system_admin_risk_workflow.png)
 
-Restrict sensitive transitions where appropriate. For example, allow only the project manager or risk manager to transition a risk to `Mitigation done`, `Occured` or `Rejected`. Configure the corresponding transition permissions under [roles and permissions](../../system-admin-guide/users-permissions/roles-permissions/).
+Restrict sensitive transitions where appropriate. For example, allow only the project manager or risk manager to transition a risk to `Mitigation done`, `Occurred` or `Rejected`. Configure the corresponding transition permissions under [roles and permissions](../../system-admin-guide/users-permissions/roles-permissions/).
 
 ### Step 4: Create a Risk management board and project template
 
 Create one shared board named `Risk management` and filter it by type `Risk`. Configure the board columns by status so that they reflect the risk lifecycle. The board complements the table view of the Risk Register and uses the same underlying risk items.
 
-Project members can open a risk from its card and move the card to another column when its status changes. The example board shows the lifecycle from `New` through `Occured`. Items with the status `Rejected` can remain excluded from day to day monitoring.
+Project members can open a risk from its card and move the card to another column when its status changes. The example board shows the lifecycle from `New` through `Occurred`. Items with the status `Rejected` can remain excluded from day to day monitoring.
 
 Open the [Risk management demo board](https://pm2.openproject.com/projects/pm2-test/boards/26) to explore the configuration.
 

@@ -213,6 +213,7 @@ RSpec.describe RootSeeder,
     include_examples "it creates records", model: TimeEntryActivity, expected_count: 6
     include_examples "it creates records", model: Workflow, expected_count: 1758
     include_examples "it creates records", model: RecurringMeeting, expected_count: 1
+    include_examples "it creates records", model: AI::TextTransformAction, expected_count: 4
     include_examples "it is compatible with the automatic scheduling mode"
   end
 

@@ -52,7 +52,7 @@ module Admin::Import::Jira::ImportRuns
 
       @jira_import.update!(projects:)
       stream_wizard do
-        close_dialog_via_turbo_stream("##{Admin::Import::Jira::ImportRuns::SelectProjects::ModalComponent::MODAL_ID}")
+        close_dialog_via_turbo_stream(Admin::Import::Jira::ImportRuns::SelectProjects::ModalComponent::MODAL_ID)
       end
     end
 

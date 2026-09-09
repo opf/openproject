@@ -381,6 +381,11 @@ module Costs
       ::Queries::Register.register(::ProjectQuery) do
         filter ::Queries::Projects::Filters::AvailableCostTypesProjectsFilter
       end
+
+      McpTools.register McpTools::CreateTimeEntry,
+                        McpTools::DeleteTimeEntry,
+                        McpTools::SearchTimeEntries,
+                        McpTools::UpdateTimeEntry
     end
   end
 end

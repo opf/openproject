@@ -67,6 +67,30 @@ RSpec.describe TypesHelper do
           expect(tab_names).not_to include("variants")
         end
       end
+
+      context "when a variant a project owns is addressed" do
+        let(:addressed_variant) do
+          build_stubbed(:project_owned_type_variant, type:, project: build_stubbed(:project))
+        end
+
+        # It is only ever used in the project owning it, so which projects use it is not a
+        # question — for an administrator either, which is who sees this tab set.
+        it "omits the projects tab" do
+          expect(tab_names).not_to include("projects")
+        end
+
+        it "still offers the tabs that configure it" do
+          expect(tab_names).to include("details", "defaults", "form_configuration")
+        end
+      end
+
+      context "when a variant every project may use is addressed" do
+        let(:addressed_variant) { variant }
+
+        it "offers the projects tab" do
+          expect(tab_names).to include("projects")
+        end
+      end
     end
 
     context "with the type_variants feature disabled", with_flag: { type_variants: false } do
@@ -75,6 +99,31 @@ RSpec.describe TypesHelper do
       it "omits the variants tab" do
         expect(tab_names).not_to include("variants")
       end
+    end
+  end
+
+  describe "#type_tab" do
+    it "labels a tab from its name" do
+      expect(helper.type_tab("details", "/details", aspect: nil))
+        .to eq(name: "details", path: "/details", label: "Details", aspect: nil)
+    end
+
+    it "takes a label of its own when the name does not name its translation" do
+      tab = helper.type_tab("settings", "/settings", aspect: nil, label: "Overview")
+
+      expect(tab[:label]).to eq("Overview")
+    end
+
+    it "carries anything else a tab needs through" do
+      tab = helper.type_tab("export_configuration", "/pdf", aspect: nil, view_component: String)
+
+      expect(tab[:view_component]).to eq(String)
+    end
+
+    # Pairs with the fetch in WorkPackageTypes::Overview::RowComponent: a tab that never says
+    # whether its configuration is reusable cannot reach the overview table.
+    it "insists on an aspect" do
+      expect { helper.type_tab("details", "/details") }.to raise_error(ArgumentError)
     end
   end
 

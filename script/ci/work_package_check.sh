@@ -69,17 +69,37 @@ if [ "$HTTP_STATUS" -ne 200 ]; then
   exit 0
 fi
 
-# Extract and compare the version from the api response
+# Extract and compare the versions from the api response.
+# Since 17.8., we are using targetVersions as the linked field. It may contain multiple references.
+# We still fall back to the version.title for now.
+VERSIONS_FROM_API=$(jq -r '
+  def target_version_titles:
+    if (._links.targetVersions? | type) == "array" then
+      [._links.targetVersions[]?.title // empty]
+    else
+      []
+    end;
 
-VERSION_FROM_API=$(jq -r '._links.version.title // "not set"' response.json)
-if [ -z "$VERSION_FROM_API" ]; then
-  echo "::warning::Failed to extract version from API response."
-  exit 0
+  (target_version_titles) as $target_versions |
+  if ($target_versions | length) > 0 then
+    $target_versions[]
+  elif ._links.version.title? then
+    ._links.version.title
+  else
+    empty
+  end
+' response.json)
+
+if [ -z "$VERSIONS_FROM_API" ]; then
+  VERSIONS_FROM_API="not set"
 fi
 
-echo "Version from API: $VERSION_FROM_API"
+echo "Versions from API:"
+while IFS= read -r VERSION_FROM_API; do
+  echo " - ${VERSION_FROM_API}"
+done <<< "$VERSIONS_FROM_API"
 
-if [[ "$VERSION_FROM_API" == "Behind feature flag" ]]; then
+if printf '%s\n' "$VERSIONS_FROM_API" | grep -Fxq "Behind feature flag"; then
   echo "Work package ${WORK_PACKAGE_ID} is assigned to \"Behind feature flag\". Skipping version check."
   echo "behind_feature_flag=true" >> "$GITHUB_OUTPUT"
   exit 0
@@ -91,15 +111,17 @@ VERSION_FROM_FILE=$(ruby -e 'require_relative "./lib/open_project/version"; puts
 echo "Version from file: $VERSION_FROM_FILE"
 
 # Compare the versions
-if [[ "$VERSION_FROM_API" != "$VERSION_FROM_FILE" ]]; then
+if ! printf '%s\n' "$VERSIONS_FROM_API" | grep -Fxq "$VERSION_FROM_FILE"; then
   echo "Version mismatch detected."
+
+  WP_VERSIONS_FROM_API=$(printf '%s\n' "$VERSIONS_FROM_API" | paste -sd ',' -)
 
   echo "version_mismatch=true" >> "$GITHUB_OUTPUT"
   echo "wp_url=${WP_URL}" >> "$GITHUB_OUTPUT"
-  echo "wp_version=${VERSION_FROM_API}" >> "$GITHUB_OUTPUT"
+  echo "wp_version=${WP_VERSIONS_FROM_API}" >> "$GITHUB_OUTPUT"
   echo "core_version=${VERSION_FROM_FILE}" >> "$GITHUB_OUTPUT"
 else
-  echo "Version from the work package ${WORK_PACKAGE_ID} matches the version in the version file this PR targets."
+  echo "One of the target versions from the work package ${WORK_PACKAGE_ID} matches the version in the version file this PR targets."
 fi
 
 # Extract and check the presence of an Enterprise plan field from the api response

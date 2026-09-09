@@ -198,4 +198,65 @@ RSpec.describe TypeVariant, with_flag: { type_variants: true } do
         .to raise_error(ArgumentError)
     end
   end
+
+  describe "#work_packages" do
+    let(:variant) { create(:type_variant, type: bug, variant_name: "Hardware") }
+    let(:applying) { create(:project, types: [bug]) }
+    let(:other) { create(:project, types: [bug]) }
+
+    before { applying.project_types.find_by(type: bug).update!(variant:) }
+
+    it "returns its type's work packages in the projects applying it, and no others" do
+      mine = create(:work_package, project: applying, type: bug)
+      create(:work_package, project: other, type: bug)      # a project not applying this variant
+      create(:work_package, project: applying, type: task)  # applying project, different type
+
+      expect(variant.work_packages).to contain_exactly(mine)
+    end
+  end
+
+  describe "#migration_targets" do
+    let(:variant) { create(:type_variant, type: bug, variant_name: "Hardware") }
+    let(:sibling) { create(:type_variant, type: bug, variant_name: "Firmware") }
+
+    it "offers other variants of the same type, including the base, but not itself" do
+      expect(variant.migration_targets).to include(sibling, bug.default_variant)
+      expect(variant.migration_targets).not_to include(variant)
+    end
+
+    it "does not offer variants of another type" do
+      onsite = create(:type_variant, type: task, variant_name: "Onsite")
+
+      expect(variant.migration_targets).not_to include(onsite)
+    end
+
+    context "when a single project applies it" do
+      let(:project) { create(:project, types: [bug]) }
+      let(:owned_here) { create(:type_variant, type: bug, variant_name: "Owned here", project_id: project.id) }
+      let(:owned_elsewhere) { create(:type_variant, type: bug, variant_name: "Owned elsewhere", project_id: create(:project).id) }
+
+      before { project.project_types.find_by(type: bug).update!(variant:) }
+
+      it "offers a variant owned by that project but not one owned by another" do
+        expect(variant.migration_targets).to include(owned_here)
+        expect(variant.migration_targets).not_to include(owned_elsewhere)
+      end
+    end
+
+    context "when several projects apply it" do
+      let(:project_a) { create(:project, types: [bug]) }
+      let(:project_b) { create(:project, types: [bug]) }
+      let(:owned_by_a) { create(:type_variant, type: bug, variant_name: "Owned by A", project_id: project_a.id) }
+
+      before do
+        project_a.project_types.find_by(type: bug).update!(variant:)
+        project_b.project_types.find_by(type: bug).update!(variant:)
+      end
+
+      it "offers only global variants, none owned by a single applying project" do
+        expect(variant.migration_targets).to include(sibling)
+        expect(variant.migration_targets).not_to include(owned_by_a)
+      end
+    end
+  end
 end

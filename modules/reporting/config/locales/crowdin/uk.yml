@@ -24,10 +24,10 @@ uk:
   activerecord:
     models:
       cost_query:
-        one: Cost report
-        few: Cost reports
-        many: Cost reports
-        other: Cost reports
+        one: Звіт про витрати
+        few: Звіти про витрати
+        many: Звіти про витрати
+        other: Звіти про витрати
   button_save_report_as: Зберегти звіт як…
   comments: Коментар
   cost_reports_title: Час і витрати

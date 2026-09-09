@@ -62,15 +62,15 @@ The `color_ref` and `color_namespace` are used together to build internally the 
 **Note** For this to work, your `color_namespace` has to be registered so that the classes are created beforehand. Have a look [here](https://github.com/opf/openproject/blob/dev/app/views/highlighting/styles.css.erb) on how this is done for the already existing namespaces.
 
 ```css
-&lt;%# For persisted objects %&gt;
-&lt;%= resources_scope_color_css("status", ::Status) %&gt;
-&lt;%= resources_scope_color_css("priority", ::IssuePriority) %&gt;
-&lt;%= resources_scope_color_css("type", ::Type, inline_foreground: true) %&gt;
+<%%# For persisted objects %>
+<%%= resources_scope_color_css("status", ::Status) %>
+<%%= resources_scope_color_css("priority", ::IssuePriority) %>
+<%%= resources_scope_color_css("type", ::Type, inline_foreground: true) %>
 
-&lt;%# For non-persisted objects %&gt;
-&lt;% Meetings::Statuses::AVAILABLE.each do |meeting_status| %&gt;
-  &lt;%= resource_color_css("meeting_status", meeting_status) %&gt;
-&lt;% end %&gt;
+<%%# For non-persisted objects %>
+<%% Meetings::Statuses::AVAILABLE.each do |meeting_status| %>
+  <%%= resource_color_css("meeting_status", meeting_status) %>
+<%% end %>
 ```
 
 ### Code structure
@@ -78,7 +78,7 @@ The `color_ref` and `color_namespace` are used together to build internally the 
 The status button can be called directly
 
 ```html
-  &lt;%=
+  <%%=
     items = [
         OpPrimer::StatusButtonOption.new(name: "Closed",
                                          icon: :lock,
@@ -92,7 +92,7 @@ The status button can be called directly
                                                     readonly: false,
                                                     button_arguments: { size: :medium, title: "foo" })
     end
-  %&gt;
+  %>
 ```
 
 Further, you can pass all options you'd want to pass to the `ActionMenu` item, e.g the description:

@@ -63,3 +63,6 @@ OpenProject::FeatureDecisions.add :sprint_reports,
 OpenProject::FeatureDecisions.add :llm_connection,
                                   description: "Enables the administration page connecting OpenProject to an " \
                                                "OpenAI-API-compatible LLM server, and the AI features built on it."
+
+OpenProject::FeatureDecisions.add :ai_text_transform_actions,
+                                  description: "Enables the admin UI to manage AI text transform actions."

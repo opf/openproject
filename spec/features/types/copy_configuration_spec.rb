@@ -47,10 +47,10 @@ RSpec.describe "Copying a type's form configuration from another type", :js, wit
   it "copies the configuration through the dialog and danger confirmation and reloads in place" do
     visit edit_type_form_configuration_path(type_id: type.id)
 
-    expect(page).to have_text("Independent mode")
+    expect(page).to have_text("Manual configuration")
     expect(page).to have_no_text("Copied group")
 
-    click_on "Copy from type"
+    click_on "Copy from another type"
 
     expect(page).to have_text("Copy configuration")
     select_autocomplete(page.find('[data-test-selector="configuration-copy-source"]'),
@@ -76,7 +76,7 @@ RSpec.describe "Copying a type's form configuration from another type", :js, wit
   it "does not copy anything when the danger confirmation is dismissed" do
     visit edit_type_form_configuration_path(type_id: type.id)
 
-    click_on "Copy from type"
+    click_on "Copy from another type"
     select_autocomplete(page.find('[data-test-selector="configuration-copy-source"]'),
                         query: "Feature",
                         select_text: "Feature")

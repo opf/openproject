@@ -24,8 +24,8 @@ fr:
   activerecord:
     models:
       cost_query:
-        one: Cost report
-        other: Cost reports
+        one: Rapport de coûts
+        other: Rapports de coûts
   button_save_report_as: Enregistrer le rapport sous...
   comments: Commentaire
   cost_reports_title: Temps et coûts
@@ -42,7 +42,7 @@ fr:
       button: Exporter la feuille de temps PDF
       overview_per_user_day: 'Aperçu : heures par utilisateur et par jour'
       overview_per_user_total: 'Aperçu : total des heures par utilisateur'
-      sums_hours: Total 
+      sums_hours: Sommes
       time: Temps
       timesheet: Feuille de temps
       title: Export de votre feuille de temps PDF
@@ -97,7 +97,7 @@ fr:
   permission_save_cost_reports: Enregistrer des rapports publics de coûts
   permission_save_private_cost_reports: Enregistrer des rapports privés de coûts
   plugin_openproject_reporting:
-    description: Ce plugin permet de créer des rapports de coûts personnalisés avec filtrage et regroupement.
+    description: Ce plugin permet de créer des rapports de coûts personnalisés à l'aide des fonctions de filtrage et de regroupement fournies par le plugin OpenProject Temps et coûts.
     name: Rapports OpenProject
   project_module_reporting_module: Rapports de coût
   reporting:

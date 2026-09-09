@@ -23,9 +23,9 @@ ko:
           overlaps_other_tree: 동일한 LDAP 연결에서 다른 동기화의 기본 DN과 중복됩니다.
     models:
       ldap_departments/synchronized_department:
-        other: Synchronized departments
+        other: 동기화된 부서
       ldap_departments/synchronized_tree:
-        other: LDAP department synchronizations
+        other: LDAP 부서 동기화
   ee:
     upsell:
       ldap_departments:
