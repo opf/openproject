@@ -33,7 +33,6 @@ module OpenProject::CustomStyles
 
     OpenProject::CustomStyles::ColorThemes::DEFAULT_THEME_NAME = "OpenProject (default)"
 
-    DEPRECATED_MAIN_MENU_COLOR = "#333739"
     PRIMER_PRIMARY_BUTTON_COLOR = "#1F883D"
     ACCENT_COLOR = "#0F41B5"
     DEFAULT_HEADER_BG_COLOR = "#0F41B5"
