@@ -248,18 +248,21 @@ class Backlogs::WorkPackages::BatchUpdateService
   # project, same list, and for append still the last non-batch member. A
   # concurrently moved anchor would otherwise fall through to move_after's
   # silent insert-at-top.
-  def revalidate_anchor(placement, target) # rubocop:disable Metrics/AbcSize
+  def revalidate_anchor(placement, target)
     anchor = placement.anchor
+    return stale_predecessor_failure if append_anchor_changed?(placement, target)
     return if anchor.nil?
 
     anchor.reload
     unless anchor.project_id == batch_project_id && Backlogs::Target.for_work_package(anchor) == target
-      return stale_predecessor_failure
+      stale_predecessor_failure
     end
-
-    stale_predecessor_failure if placement.mode == :append && last_non_batch_member(target)&.id != anchor.id
   rescue ActiveRecord::RecordNotFound
     stale_predecessor_failure
+  end
+
+  def append_anchor_changed?(placement, target)
+    placement.mode == :append && last_non_batch_member(target)&.id != placement.anchor&.id
   end
 
   # The contract only revalidates a sprint or bucket target when the
