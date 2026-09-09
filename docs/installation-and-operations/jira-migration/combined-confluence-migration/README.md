@@ -28,25 +28,27 @@ Today, Confluence and Jira are tightly integrated — issues link to pages and v
 flowchart TB
     subgraph Source["Source (today)"]
         direction LR
-        Confluence1["Confluence"]
-        Jira1["Jira"]
-        Confluence1 <--> Jira1
+        Confluence["Confluence"]
+        Jira["Jira"]
+        Confluence <--> Jira
     end
     subgraph Target["Target (after migration)"]
         direction LR
-        XWiki1["XWiki"]
-        OpenProject1["OpenProject"]
-        XWiki1 <--> OpenProject1
+        XWiki["XWiki"]
+        OpenProject["OpenProject"]
+        XWiki <--> OpenProject
     end
     Source --> Target
 
-    classDef atlassian fill:#e9f0fb,stroke:#0052CC,stroke-width:2px,color:#0052CC;
-    classDef openproject fill:#e8eef2,stroke:#0D4A73,stroke-width:2px,color:#0D4A73;
-    classDef xwiki fill:#e6f4fa,stroke:#0087CB,stroke-width:2px,color:#0087CB;
+    classDef atlassian fill:#e9f0fb,stroke:#0052CC,stroke-width:1px,color:#0052CC;
+    classDef openproject fill:#e8eef2,stroke:#0D4A73,stroke-width:1px,color:#0D4A73;
+    classDef xwiki fill:#e6f4fa,stroke:#0087CB,stroke-width:1px,color:#0087CB;
+    classDef neutral fill:#FFFFFF,stroke:#000000,stroke-width:1px,color:#000000;
 
-    class Confluence1,Jira1 atlassian
-    class OpenProject1 openproject
-    class XWiki1 xwiki
+    class Confluence,Jira atlassian
+    class OpenProject openproject
+    class XWiki xwiki
+    class Source,Target neutral
 ```
 
 Because the two migrations run independently, a link between an issue and a page can be in any of four states at any given time — and different links can be in different states simultaneously:
@@ -69,27 +71,25 @@ At the same time, each side's native integration is swapped for its equivalent o
 
 ```mermaid
 flowchart TB
-    C["<b>Confluence</b><br/>links to <code>https://jira.company.com/browse/FOO-1</code>"]
+    C["<b>Confluence</b>"]
     R{"<b>Redirect Component</b><br/>Has issue <code>FOO-1</code> been<br/>migrated yet?"}
-    O["<b>OpenProject</b><br/>serves the migrated work package"]
-    J["<b>Jira</b><br/>serves <code>FOO-1</code> as it always has"]
+    O["<b>OpenProject</b>"]
+    J["<b>Jira</b>"]
     Done(["content of <code>FOO-1</code>"])
 
-    C --> R
+    C -->|calls link to <code>https://jira.company.com/browse/FOO-1</code>| R
     R -- "Yes" --> O
     R -- "Not Yet" --> J
-    O --> Done
-    J --> Done
+    O -->|serves the migrated work package| Done
+    J -->|serves <code>FOO-1</code> as it always has| Done
 
-    classDef atlassian fill:#e9f0fb,stroke:#0052CC,stroke-width:2px,color:#0052CC;
-    classDef openproject fill:#e8eef2,stroke:#0D4A73,stroke-width:2px,color:#0D4A73;
-    classDef process fill:#fff8e6,stroke:#b8860b,stroke-width:2px,color:#7a5c00;
-    classDef neutral fill:#f5f5f5,stroke:#333,stroke-width:1.5px,color:#333;
+    classDef atlassian fill:#e9f0fb,stroke:#0052CC,stroke-width:1px,color:#0052CC;
+    classDef openproject fill:#e8eef2,stroke:#0D4A73,stroke-width:1px,color:#0D4A73;
+    classDef neutral fill:#f5f5f5,stroke:#333,stroke-width:1px,color:#333;
 
     class C,J atlassian
     class O openproject
-    class R process
-    class Done neutral
+    class Done,R neutral
 ```
 
 **Step 2 — Update links to their final destination (optional, on demand).**
@@ -97,7 +97,7 @@ Once you're ready, an admin can trigger a cleanup step that rewrites old links t
 
 ```mermaid
 flowchart
-    subgraph SOURCE["Source"]
+    subgraph Source["Source"]
       direction LR
       subgraph OPC["OpenProject"]
           OPCI["Confluence integration"]
@@ -109,7 +109,7 @@ flowchart
       OPC <--> XW1
     end
 
-    subgraph TARGET["Target"]
+    subgraph Target["Target"]
       direction LR
       subgraph OPXW["OpenProject"]
           OPXWI["XWiki integration"]
@@ -120,18 +120,19 @@ flowchart
       OPXW <--> XW2
     end
 
-    SOURCE -->|<b>Rewrite Links</b><br/><code>confluence.com/pages/65538</code> => <code>xwiki.com/Space/Page</code>| TARGET
+    Source -->|<b>Rewrite Links</b><br/><code>confluence.com/pages/65538</code> => <code>xwiki.com/Space/Page</code>| Target
 
     
     classDef atlassian fill:#e9f0fb,stroke:#0052CC,stroke-width:2px,color:#0052CC;
     classDef openproject fill:#e8eef2,stroke:#0D4A73,stroke-width:2px,color:#0D4A73;
     classDef xwiki fill:#e6f4fa,stroke:#0087CB,stroke-width:2px,color:#0087CB;
     classDef atlassian fill:#e9f0fb,stroke:#0052CC,stroke-width:2px,color:#0052CC;
-    
+    classDef neutral fill:#FFFFFF,stroke:#000000,stroke-width:1px,color:#000000;
 
     class OPC,OPXW,XW1I,XW2I,R openproject
     class OPCI atlassian
     class XW1,XW2,OPXWI xwiki
+    class Source,Target neutral
 ```
 
 ## Current limitations
