@@ -143,5 +143,6 @@ class AggregatedMigrations < SquashedMigration
     20250403150639_link_wp_to_project_phase_definition
     20250411104802_add_duration_to_project_phases
     20250422072119_rename_comment_permissions
+    20250423123519_add_index_to_sessions
   ]
 end
