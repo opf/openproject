@@ -93,7 +93,7 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<% if @connection.persisted? %>
+<% if @connection.persisted? && @connection.enabled? %>
   <%= render(Primer::Alpha::Layout.new(stacking_breakpoint: :lg)) do |layout| %>
     <% layout.with_main do %>
       <%= render(LlmConnections::FormComponent.new(@connection)) %>
@@ -106,6 +106,5 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
   <% end %>
 <% else %>
-  <%# Nothing to show alongside the form until a connection exists. %>
   <%= render(LlmConnections::FormComponent.new(@connection)) %>
 <% end %>

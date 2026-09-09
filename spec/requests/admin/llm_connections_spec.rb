@@ -138,6 +138,28 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
         end
       end
 
+      context "with a connection that is switched on" do
+        let!(:connection) { create(:llm_connection, :enabled, base_url:) }
+
+        it "offers the health checks next to the form" do
+          get llm_connection_path
+
+          expect(page).to have_css("[data-test-selector='llm-connection--run-health-checks']")
+        end
+      end
+
+      # Nothing checks a connection no feature may use, and the scheduled check
+      # is switched off with it.
+      context "with a connection that is switched off" do
+        let!(:connection) { create(:llm_connection, base_url:) }
+
+        it "leaves the health checks out" do
+          get llm_connection_path
+
+          expect(page).to have_no_css("[data-test-selector='llm-connection--run-health-checks']")
+        end
+      end
+
       context "when the connection comes from the environment" do
         let!(:connection) { create(:llm_connection, base_url:, api_key: "sk-original") }
 
