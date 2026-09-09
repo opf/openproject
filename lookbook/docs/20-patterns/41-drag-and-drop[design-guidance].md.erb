@@ -1,0 +1,76 @@
+---
+label: Design guidance
+---
+
+> **Draft:** The design guidance on this page has not been reviewed by the design team yet.
+
+Drag and drop lets a user change the order of rows, or move a row into a
+neighboring list, by picking it up and releasing it where it belongs. In
+OpenProject it is always paired with a move menu, so the same change is
+reachable from the keyboard and with a screen reader. For implementation
+details, choose **Implementation overview** in the [tabs above](#page-tabbed-sections),
+then the scenario that matches your list.
+
+## Anatomy
+
+<img src="<%= image_path("lookbook/drag_and_drop_anatomy.png") %>" alt="A list of four rows with drag handles; the second row is dimmed while its preview floats beside the list and a line between the third and fourth rows marks where it will land" width="636" style="max-width: 100%">
+
+1. **Drag handle**: the grip at the start of a list row. A drag starts here,
+   nowhere else on the row. A card has no grip: the whole card is its handle.
+2. **Drag source**: the row being moved. It stays in place, dimmed, until the
+   drop.
+3. **Drag preview**: the copy of the row that follows the pointer.
+4. **Drop indicator**: the line marking where the row will land. It marks a
+   spot without reserving space.
+5. **Drop container**: the outline on the list that will receive the row.
+
+## When to use it
+
+Use drag and drop when the order of a list is itself the setting: the
+position of an enumeration value, the sequence of sections on a form, the
+position of work packages in a sprint. Do not add it to lists whose order
+is derived (sorted by name or date) or where a single row moves rarely; a
+move menu alone serves those.
+
+## Where it is used today
+
+* Admin lists with a persisted order: enumerations, text transform actions,
+  project phase definitions, export templates, work package types.
+* Project Attributes settings: sections reorder, and custom fields reorder
+  within a section or move to another.
+* Backlogs: work packages reorder within the inbox and sprints and move
+  between them.
+
+## What users can expect
+
+* **A visible drag handle** at the start of a list row. The row is picked up
+  from the handle, not from anywhere on it, so links and buttons inside the
+  row keep working. A card (Backlogs) shows no grip and is picked up from
+  anywhere on it except its links and buttons.
+* **A drop indicator** that marks where the row will land, and a highlight
+  on the list that will receive it.
+* **A move menu** in the row's action menu ("Move to top", "Move up", "Move
+  down", "Move to bottom") offering only the directions that apply.
+* **An announcement** for screen-reader users when a row lands in another
+  list, naming that list.
+* **Rows that cannot move** still show a position and can be dropped next
+  to; they simply refuse to be picked up, or refuse to leave their list.
+* **Selecting several rows and moving them together** is being added for
+  Backlogs ([AGILE-278](https://community.openproject.org/wp/AGILE-278)).
+
+## Vocabulary
+
+Design and review discussions use one set of terms: *drag source* (the
+original row), *drag preview* (what follows the pointer), *drop indicator*
+(the line marking the landing spot), *drop container* (the highlighted
+receiving list), *reorder* (within a list) and *move* (between lists).
+Avoid "mirror", "placeholder" and "container" for these; they meant other
+things in the previous implementation.
+
+## Further reading
+
+The implementation is built on Atlassian's Pragmatic drag and drop, whose
+design guidance applies here too:
+
+* [Web platform design constraints](https://atlassian.design/components/pragmatic-drag-and-drop/web-platform-design-constraints)
+* [Accessibility guidelines](https://atlassian.design/components/pragmatic-drag-and-drop/accessibility-guidelines)

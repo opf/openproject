@@ -1,3 +1,7 @@
+---
+label: Implementation overview
+---
+
 Server-rendered lists become sortable through the `sortable-lists` Stimulus
 controller suite. A drag or a move menu action sends one request describing
 where the row landed; the server persists the order and streams the list
@@ -5,9 +9,8 @@ back. The same suite drives a single admin list, the Backlogs board and the
 nested Project Attributes settings.
 
 This page documents the markup and HTTP contract for wiring the controllers
-by hand. The design decisions behind the interaction (when drag and drop is
-appropriate, what users expect from it) are on the
-[Drag and drop](../patterns/drag_and_drop) pattern page.
+by hand. The **Design guidance** tab covers when drag and drop is appropriate
+and what users expect from it.
 
 ## Before you wire anything
 
@@ -20,7 +23,7 @@ under one root, per-type move endpoints, non-`BorderBoxList` markup such as
 table rows or cards, or optimistic placement.
 
 **Do not use `generic-drag-and-drop`.** The Dragula-based controller is
-deprecated and closed to new consumers. The Reference tab has a migration
+deprecated and closed to new consumers. The API reference tab has a migration
 table for its remaining call sites.
 
 ## Anatomy
@@ -92,17 +95,11 @@ root serve nested lists as well as flat ones.
 
 ## Choosing a scenario
 
-* **One list**: rows reorder within a single list.
-
-  Examples: admin enumerations, text transform actions.
-
-* **Sibling lists**: several lists of the same kind, rows move between them.
-
-  Examples: Backlogs.
-
-* **Nested lists**: rows that are themselves lists.
-
-  Examples: Project Attributes sections and their custom fields.
-
-* **Reference**: every attribute, the backend request, the server half, the
+* **One list**: rows reorder within a single list, such as admin enumerations
+  or text transform actions.
+* **Sibling lists**: several lists of the same kind, with rows moving between
+  them, as in Backlogs.
+* **Nested lists**: rows that are themselves lists, such as Project Attributes
+  sections and their custom fields.
+* **API reference**: every attribute, the backend request, the server half, the
   Angular counterpart, migration.
