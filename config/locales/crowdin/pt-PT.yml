@@ -1374,7 +1374,12 @@ pt-PT:
     banners:
       environment_configured_readonly: Estes valores são configurados através de variáveis de ambiente e não podem ser editados aqui.
     custom_styles:
+      color_groups:
+        base_colors: Base colors
+        main_menu: Main lateral menu
+        top_header_colors: Top header colors
       color_theme: Cores do tema
+      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
       color_theme_custom: "(Personalizado)"
       colors:
         accent-color: Destaque
@@ -1383,12 +1388,15 @@ pt-PT:
         main-menu-bg-selected-background: Menu principal quando selecionado
         primary-button-color: Botão principal
       custom_colors: Cores personalizadas
+      edit_color: Edit %{color}
       fonts:
         file_is_invalid: não é um ficheiro de tipo de letra TTF válido.
         file_too_large: é demasiado grande (o tamanho máximo é %{count} MB).
       instructions:
         accent-color: Cor para as ligações e outros elementos bem realçados.
+        header-bg-color: Default background color of the app header.
         main-menu-bg-color: Cor de fundo do menu do lado esquerdo.
+        main-menu-bg-selected-background: Background color of menu items when selected.
         primary-button-color: Cor de contraste forte, utilizada no botão mais importante de um ecrã.
       manage_colors: Editar opções de selecção de cor
       tab_branding: Marca
@@ -5480,6 +5488,12 @@ pt-PT:
   roles:
     edit:
       default_for_new_projects_warning: 'Esta função está configurada como função predefinida atribuída aos utilizadores não administradores que criam um projeto. Não remova as seguintes permissões, caso contrário os criadores não conseguirão concluir a configuração dos seus projetos recém-criados:'
+    index:
+      filter_label: Search roles
+      types:
+        all: All roles
+        global: Global roles
+        project: Project roles
     permissions:
       section_check_all_label: Atribua todas as permissões de %{module}
       section_uncheck_all_label: Anular a atribuição de todas as permissões de %{module}

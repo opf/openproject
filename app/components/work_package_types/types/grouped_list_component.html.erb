@@ -45,7 +45,7 @@ See COPYRIGHT and LICENSE files for more details.
              ) do |header| %>
             <% header.with_title do %>
               <%= render(Primer::Beta::Text.new(tag: :span, pl: 1)) { helpers.icon_for_type(root) } %>
-              <%= render(Primer::Beta::Text.new(tag: :a, href: edit_type_details_path(type_id: root.id), color: :accent, font_weight: :bold)) { root.name } %>
+              <%= render(Primer::Beta::Text.new(tag: :a, href: type_settings_path(type_id: root.id), color: :accent, font_weight: :bold)) { root.name } %>
             <% end %>
             <% add_default_label(header, root) %>
             <% header.with_menu(menu_id: menu_id(root), src: menu_src(root)) %>
