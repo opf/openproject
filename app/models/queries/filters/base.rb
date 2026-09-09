@@ -69,6 +69,8 @@ class Queries::Filters::Base
     new(name, options)
   end
 
+  def self.stored_key = nil
+
   def [](name)
     send(name)
   end

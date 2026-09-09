@@ -41,7 +41,7 @@ module Queries::WorkPackages::FilterSerializer
 
     filter_hash = YAML.load(yaml, permitted_classes: [Symbol, Date]) || {}
 
-    collapse_to_active_version_key(filter_hash)
+    collapse_to_offered_key(filter_hash)
       .each_with_object([]) do |(field, options), array|
         options = options.with_indifferent_access
         filter = filter_for(field, no_memoization: true)
@@ -54,27 +54,27 @@ module Queries::WorkPackages::FilterSerializer
   def self.dump(filters)
     merged = (filters || []).map(&:to_hash).reduce(:merge) || {}
 
-    YAML.dump collapse_to_canonical_version_key(merged).stringify_keys
+    YAML.dump collapse_to_stored_key(merged)
   end
 
   def self.registered_filters
     Queries::Register.filters[Query]
   end
 
-  def self.collapse_to_active_version_key(filter_hash)
-    collapse_to_canonical_version_key(filter_hash)
-      .transform_keys { |key| Queries::WorkPackages::VersionNames.active_filter(key) }
+  def self.collapse_to_offered_key(filter_hash)
+    collapse_to_stored_key(filter_hash)
+      .transform_keys { |key| Queries::WorkPackages::StoredNames.offered_filter(key) }
   end
-  private_class_method :collapse_to_active_version_key
+  private_class_method :collapse_to_offered_key
 
-  def self.collapse_to_canonical_version_key(filter_hash)
+  def self.collapse_to_stored_key(filter_hash)
     filter_hash.each_with_object({}) do |(key, options), collapsed|
-      normalized_key = Queries::WorkPackages::VersionNames.canonical_filter(key)
+      stored_key = Queries::WorkPackages::StoredNames.stored_filter(key).to_s
 
-      next if collapsed.key?(normalized_key) && normalized_key.to_s != key.to_s
+      next if collapsed.key?(stored_key) && stored_key != key.to_s
 
-      collapsed[normalized_key] = options
+      collapsed[stored_key] = options
     end
   end
-  private_class_method :collapse_to_canonical_version_key
+  private_class_method :collapse_to_stored_key
 end

@@ -46,11 +46,25 @@ RSpec.describe Queries::WorkPackages::FilterSerializer do
       expect(YAML.load(yaml, permitted_classes: [Symbol]).keys).to eq ["target_version_id"]
     end
 
-    it "keeps the target_version_id entry when both keys are present" do
+    it "keeps the target_version_id entry's values when the alias appears before it" do
       yaml = described_class.dump(
         [
           { version_id: { operator: "=", values: %w[1] } },
           { target_version_id: { operator: "=", values: %w[2] } }
+        ]
+      )
+
+      loaded = YAML.load(yaml, permitted_classes: [Symbol]).transform_values(&:with_indifferent_access)
+
+      expect(loaded.keys).to eq ["target_version_id"]
+      expect(loaded["target_version_id"]["values"]).to eq %w[2]
+    end
+
+    it "keeps the target_version_id entry's values when it appears before the alias" do
+      yaml = described_class.dump(
+        [
+          { target_version_id: { operator: "=", values: %w[2] } },
+          { version_id: { operator: "=", values: %w[1] } }
         ]
       )
 

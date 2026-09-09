@@ -28,33 +28,39 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Query rows store the canonical version name regardless of the
-# work_package_multiple_versions setting; readers translate it to whichever
-# name the setting currently offers.
-module Queries::WorkPackages::VersionNames
-  SELECTS = %w[version target_versions].freeze
-  FILTERS = %w[version_id target_version_id].freeze
+module Queries::WorkPackages::StoredNames
+  def self.stored_select(name) = Queries::WorkPackages::Selects::PropertySelect.stored_name(name)
 
-  def self.canonical_select(name)
-    translate(name, SELECTS, "target_versions")
+  def self.offered_select(name) = Queries::WorkPackages::Selects::PropertySelect.offered_name(name)
+
+  def self.stored_filter(key)
+    return nil if key.nil?
+
+    Query.find_registered_filter(key)&.stored_key&.to_s || key
   end
 
-  def self.active_select(name)
-    translate(name, SELECTS, Setting::WorkPackageMultipleVersions.active? ? "target_versions" : "version")
+  def self.offered_filter(stored)
+    return nil if stored.nil?
+
+    declaration = alias_declaration_for(stored)
+    return stored unless declaration
+
+    offered = available_alias_of(declaration)
+    return stored if offered.nil? || offered.key.to_s == stored.to_s
+
+    offered.key.to_s
   end
 
-  def self.canonical_filter(key)
-    translate(key, FILTERS, "target_version_id")
+  def self.alias_declaration_for(stored)
+    Query.registered_filters.find do |filter|
+      filter.stored_key && [filter.key, filter.stored_key].map(&:to_s).include?(stored.to_s)
+    end
   end
+  private_class_method :alias_declaration_for
 
-  def self.active_filter(key)
-    translate(key, FILTERS, Setting::WorkPackageMultipleVersions.active? ? "target_version_id" : "version_id")
+  def self.available_alias_of(declaration)
+    candidates = [Query.find_registered_filter(declaration.stored_key), declaration].compact
+    candidates.find { it.create!(name: it.key).available? }
   end
-
-  def self.translate(value, interchangeable_names, target_name)
-    return value if interchangeable_names.exclude?(value.to_s)
-
-    target_name
-  end
-  private_class_method :translate
+  private_class_method :available_alias_of
 end
