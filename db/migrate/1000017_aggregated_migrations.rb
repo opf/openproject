@@ -86,6 +86,7 @@ class AggregatedMigrations < SquashedMigration
          Tables::Queries,
          Tables::Settings,
          Tables::Tokens,
+         Tables::AutologinSessionLinks,
          Tables::UserPreferences,
          Tables::UserPasswords,
          Tables::Versions,
@@ -163,5 +164,6 @@ class AggregatedMigrations < SquashedMigration
     20250908072653_create_calculated_value_errors
     20250908151957_rename_favorites_favored_to_favorited
     20250908172222_fix_wording_in_settings_enabled_projects_columns_value
+    20250923142124_add_autologin_session_link
   ]
 end
