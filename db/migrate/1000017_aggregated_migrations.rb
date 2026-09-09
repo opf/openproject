@@ -129,6 +129,7 @@ class AggregatedMigrations < SquashedMigration
          Tables::AuthProviders,
          Tables::UserAuthProviderLinks,
          Tables::ScimClients,
+         Tables::CalculatedValueErrors,
          Tables::RemoteIdentities,
          Tables::HierarchicalItems,
          Tables::HierarchicalItemHierarchies,
@@ -159,5 +160,6 @@ class AggregatedMigrations < SquashedMigration
     20250811102200_add_pdf_fonts_to_custom_styles
     20250818133654_add_list_item_score
     20250905204438_migrate_theme_preferences
+    20250908072653_create_calculated_value_errors
   ]
 end
