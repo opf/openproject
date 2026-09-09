@@ -156,6 +156,57 @@ RSpec.describe AccountController, :skip_2fa_stage do
         expect(response).to render_template "login"
         expect(flash[:error]).to include "Invalid user or password"
       end
+
+      context "with unrestricted password login", with_settings: { password_login: "all" } do
+        it "does not hint at single sign-on" do
+          post :login, params: { username: "admin", password: "bad" }
+
+          expect(flash[:error]).to include "Invalid user or password"
+          expect(flash[:error]).not_to include I18n.t(:notice_account_invalid_credentials_sso_hint)
+        end
+      end
+
+      context "with password login restricted to non-SSO accounts",
+              with_settings: { password_login: "except_sso" } do
+        it "hints that the account might be set up for single sign-on" do
+          post :login, params: { username: "admin", password: "bad" }
+
+          expect(flash[:error]).to include I18n.t(:notice_account_invalid_credentials_sso_hint)
+        end
+      end
+
+      context "with password login restricted to the bypass allowlist",
+              with_settings: { password_login: "none" } do
+        before do
+          Setting.password_login_bypass_principal_ids = [admin.id.to_s]
+        end
+
+        it "hints that the account might be set up for single sign-on" do
+          post :login, params: { username: admin.login, password: "bad" }
+
+          expect(flash[:error]).to include I18n.t(:notice_account_invalid_credentials_sso_hint)
+        end
+      end
+
+      context "when the account is connected to an authentication provider",
+              with_settings: { password_login: "except_sso" } do
+        shared_let(:auth_provider) { create(:oidc_provider) }
+        shared_let(:sso_user) do
+          create(:user,
+                 login: "sso_user",
+                 password: "adminADMIN!",
+                 password_confirmation: "adminADMIN!",
+                 authentication_provider: auth_provider)
+        end
+
+        it "hints at single sign-on even though the password is correct" do
+          post :login, params: { username: sso_user.login, password: "adminADMIN!" }
+
+          expect(response).to have_http_status :unprocessable_entity
+          expect(flash[:error]).to include "Invalid user or password"
+          expect(flash[:error]).to include I18n.t(:notice_account_invalid_credentials_sso_hint)
+        end
+      end
     end
 
     context "with first login" do
