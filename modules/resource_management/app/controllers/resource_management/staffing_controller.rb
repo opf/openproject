@@ -108,7 +108,6 @@ module ::ResourceManagement
         component: ResourceAllocations::WarningStep::FormComponent.new(
           allocation: @allocation,
           project: @project,
-          allocation_kind: "principal",
           form_values: {},
           overbooked_ranges: ranges,
           working_schedules: working_schedules(principal, ranges),

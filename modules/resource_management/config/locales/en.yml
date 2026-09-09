@@ -99,14 +99,6 @@ en:
       criteria:
         empty: No criteria set.
         label: Criteria
-      kind:
-        filter:
-          caption: Set filter criteria based on user attributes to create a placeholder resource.
-          label: Filter criteria
-        label: Allocation type
-        principal:
-          caption: Allocate hours for a specific user.
-          label: User
       outside_dates:
         description: >-
           The selected resource dates, %{resource_dates}, are outside of the work package's dates, %{work_package_dates}.

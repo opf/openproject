@@ -46,35 +46,15 @@ RSpec.describe "Allocate resource dialog", :js, with_ee: %i[resource_management]
     visit project_resource_planner_view_path(project, resource_planner, view)
   end
 
-  it "opens the dialog and advances from the kind step to the allocation step" do
+  it "opens the dialog directly on the allocation form" do
     click_on I18n.t("resource_management.work_package_list.subheader.allocate")
 
     within_dialog do
       expect(page).to have_text(I18n.t("resource_management.allocate_resource_dialog.title"))
-      expect(page).to have_text(I18n.t("resource_management.allocate_resource_dialog.kind.principal.label"))
-      expect(page).to have_text(I18n.t("resource_management.allocate_resource_dialog.kind.filter.label"))
-
-      # "User" is selected by default — advance to step 2.
-      click_on I18n.t("button_next")
-
+      expect(page).to have_field(ResourceAllocation.human_attribute_name(:principal))
       expect(page).to have_field(WorkPackage.model_name.human)
       expect(page).to have_field(ResourceAllocation.human_attribute_name(:allocated_hours))
       expect(page).to have_button(I18n.t("resource_management.allocate_resource_dialog.submit"))
-    end
-  end
-
-  it "shows the placeholder user picker on the filter step" do
-    click_on I18n.t("resource_management.work_package_list.subheader.allocate")
-
-    within_dialog do
-      choose I18n.t("resource_management.allocate_resource_dialog.kind.filter.label")
-      click_on I18n.t("button_next")
-
-      expect(page).to have_text(ResourceAllocation.human_attribute_name(:placeholder_user))
-      # Criteria are picked, not described here, so the step offers the
-      # catalogue rather than a filter builder.
-      expect(page).to have_css("opce-user-autocompleter")
-      expect(page).to have_no_css(".op-filters-form")
     end
   end
 
