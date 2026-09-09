@@ -66,6 +66,15 @@ RSpec.describe "LLM connection health status", :llm_server_helpers, :skip_csrf, 
         expect(response.body).to include("Configuration")
       end
     end
+
+    it "sends the administrator to the settings while the connection is disabled" do
+      create(:llm_connection, :with_models, base_url:)
+
+      get llm_connection_health_status_report_path
+
+      expect(response).to redirect_to(llm_connection_path)
+      expect(flash[:notice]).to eq(I18n.t("admin.llm_connections.disabled_notice"))
+    end
   end
 
   describe "POST /admin/llm_connection/health_status_report" do
@@ -74,6 +83,16 @@ RSpec.describe "LLM connection health status", :llm_server_helpers, :skip_csrf, 
     before do
       mock_llm_models_response(base_url)
       mock_llm_chat_response(base_url)
+    end
+
+    it "refuses to run the checks while the connection is disabled" do
+      connection.update!(enabled: false)
+
+      expect { post llm_connection_health_status_report_path }
+        .not_to change(connection.health_reports, :count)
+
+      expect(response).to redirect_to(llm_connection_path)
+      expect(flash[:notice]).to eq(I18n.t("admin.llm_connections.disabled_notice"))
     end
 
     it "stores a report and sends the completion an administrator asked for" do

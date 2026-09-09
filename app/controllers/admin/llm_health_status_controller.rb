@@ -37,6 +37,7 @@ module Admin
     before_action :require_feature
     before_action :require_admin
     before_action :find_connection
+    before_action :require_enabled_connection
 
     menu_item :llm_connection
 
@@ -107,6 +108,13 @@ module Admin
       @connection = LlmConnection.instance
 
       redirect_to llm_connection_path unless @connection.persisted?
+    end
+
+    def require_enabled_connection
+      return if @connection.enabled?
+
+      flash[:notice] = t("admin.llm_connections.disabled_notice")
+      redirect_to llm_connection_path, status: :see_other
     end
 
     # The flag gates the endpoints, not only the menu entry: an unfinished page
