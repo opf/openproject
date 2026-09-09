@@ -69,17 +69,17 @@ At the same time, each side's native integration is swapped for its equivalent o
 
 ```mermaid
 flowchart TB
-    C["Confluence<br/>links to jira.company.com/browse/FOO-1"]
-    R{"Has FOO-1 been<br/>migrated yet?"}
-    J["Jira<br/>serves FOO-1 as it always has"]
-    O["OpenProject<br/>shows the migrated work package instead"]
-    Done(["The person always lands on the right content"])
+    C["<b>Confluence</b><br/>links to <code>https://jira.company.com/browse/FOO-1</code>"]
+    R{"<b>Redirect Component</b><br/>Has issue <code>FOO-1</code> been<br/>migrated yet?"}
+    O["<b>OpenProject</b><br/>serves the migrated work package"]
+    J["<b>Jira</b><br/>serves <code>FOO-1</code> as it always has"]
+    Done(["content of <code>FOO-1</code>"])
 
     C --> R
-    R -- "Not yet" --> J
     R -- "Yes" --> O
-    J --> Done
+    R -- "Not Yet" --> J
     O --> Done
+    J --> Done
 
     classDef atlassian fill:#e9f0fb,stroke:#0052CC,stroke-width:2px,color:#0052CC;
     classDef openproject fill:#e8eef2,stroke:#0D4A73,stroke-width:2px,color:#0D4A73;
