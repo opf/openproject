@@ -155,5 +155,7 @@ class AggregatedMigrations < SquashedMigration
     20250627121119_change_default_main_menu_color
     20250731144436_add_workspace_type_to_project
     20250804133700_migrate_auth_provider_urls_again
+    20250806132912_add_export_footer_to_custom_styles
+    20250811102200_add_pdf_fonts_to_custom_styles
   ]
 end
