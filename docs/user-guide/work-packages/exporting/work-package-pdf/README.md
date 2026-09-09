@@ -45,7 +45,7 @@ The export contains:
 
 > [!NOTE]
 >
-> Layout of the PDF export follows the [work package configuration form](../../../..//manage-work-packages/work-package-types/form-configuration) defined for specific work package types.
+> Layout of the PDF export follows the [work package configuration form](../../../../system-admin-guide/manage-work-packages/work-package-types/form-configuration) defined for specific work package types.
 
 In addition to the options above, you can adjust the following:
 
