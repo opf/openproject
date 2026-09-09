@@ -207,6 +207,27 @@ class ResourceAllocation < ApplicationRecord
     principal_id.present?
   end
 
+  # An allocation names either a person or the placeholder standing in for one,
+  # picked from a single autocompleter. The placeholder wins on a staffed
+  # allocation: it is what was asked for.
+  def placeholder_or_user
+    placeholder_user || principal
+  end
+
+  def placeholder_or_user_id
+    placeholder_user_id || principal_id
+  end
+
+  def placeholder_or_user=(value)
+    if value.is_a?(PlaceholderUser)
+      self.placeholder_user = value
+      self.principal = nil
+    else
+      self.principal = value
+      self.placeholder_user = nil
+    end
+  end
+
   def needs_principal_assignment?
     filter_based? && principal_id.blank?
   end
