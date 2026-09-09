@@ -31,15 +31,16 @@
 require "spec_helper"
 
 RSpec.describe "Placeholder user filter criteria", :js, with_ee: %i[placeholder_users] do
-  shared_let(:without_criteria) { create(:placeholder_user, name: "Just a seat") }
+  shared_let(:matching_user) { create(:user, firstname: "Dev", lastname: "Eloper") }
 
-  shared_let(:with_criteria) do
+  # Each example edits its placeholder's criteria, so they cannot share one.
+  let!(:without_criteria) { create(:placeholder_user, name: "Just a seat") }
+
+  let!(:with_criteria) do
     query = UserQuery.new
     query.where("name", "~", ["Eloper"])
     create(:placeholder_user, name: "Senior Developer", user_filter: query.filters)
   end
-
-  shared_let(:matching_user) { create(:user, firstname: "Dev", lastname: "Eloper") }
 
   current_user { create(:admin) }
 
