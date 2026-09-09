@@ -162,5 +162,6 @@ class AggregatedMigrations < SquashedMigration
     20250905204438_migrate_theme_preferences
     20250908072653_create_calculated_value_errors
     20250908151957_rename_favorites_favored_to_favorited
+    20250908172222_fix_wording_in_settings_enabled_projects_columns_value
   ]
 end
