@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import type { ActionScope } from './action-scope';
 import { BatchSelection, type SelectionAnchor, type SelectionItem, type SelectionKey } from 'core-common/batch-selection';
 import { announce } from '@primer/live-region-element';
 import { resolveItemId, resolveItemType } from './list-dom';
@@ -60,22 +61,9 @@ export interface SelectionHost {
   ownerRowsContainer(itemElement:HTMLElement):HTMLElement|null;
 }
 
-export type ActionScope =
-  | { kind:'batch'; items:HTMLElement[] }
-  | { kind:'refused'; items:[] };
-
-// The ids a scope's members carry, in the scope's own order. Derived on
-// demand rather than frozen into the scope: the elements are its identity,
-// and a stale id list would outlive a morph that replaced a row.
-export function scopeIds(scope:ActionScope):string[] {
-  return scope.items
-    .map((item) => resolveItemId(item))
-    .filter((id):id is string => id !== null);
-}
-
-// What resolving an action scope does to the selection: nothing, add the
-// card to it, or replace it with the card alone.
-type ScopeMutation = 'none'|'join'|'collapse';
+// Resolving a scope preserves selection, replaces an unselected invoker,
+// or collapses the selection onto the invoker.
+type ScopeMutation = 'none'|'select-if-outside'|'collapse';
 
 /**
  * Batch selection: gestures in, model and presentation out.
@@ -127,7 +115,7 @@ export class SelectionOrchestrator {
   // Same, but an unselected orderable card becomes the selection first, so
   // a drag or a menu action on it leaves one consistent state behind.
   selectForAction(itemElement:HTMLElement):ActionScope {
-    return this.resolveActionScope(itemElement, 'join');
+    return this.resolveActionScope(itemElement, 'select-if-outside');
   }
 
   // A menu action relocates exactly this card, so a wider batch collapses
@@ -145,7 +133,7 @@ export class SelectionOrchestrator {
     }
 
     const key = { type: candidate.type, id: candidate.id };
-    if (mutation === 'collapse' || (mutation === 'join' && !this.selection.has(key))) {
+    if (mutation === 'collapse' || (mutation === 'select-if-outside' && !this.selection.has(key))) {
       this.selection.replace(key, candidate.listKey);
       // Speaks only when a wider batch actually collapsed: selecting the
       // card a gesture landed on is not a loss the user needs read back.
@@ -412,12 +400,11 @@ export class SelectionOrchestrator {
       return;
     }
 
+    event.preventDefault();
     if (this.host.busy) {
-      event.preventDefault();
       return;
     }
 
-    event.preventDefault();
     escapesClearedBySelection.add(event);
     this.selection.clear();
     this.renderSelection('selection');

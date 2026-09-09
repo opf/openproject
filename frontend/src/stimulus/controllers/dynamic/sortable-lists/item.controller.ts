@@ -52,6 +52,7 @@ import {
 } from './drag-and-drop';
 import {
   isMoveDirection,
+  parseDestinationCandidates,
   isOrderableItem,
   itemMobility,
   resolveItemExternalUrl,
@@ -61,20 +62,10 @@ import {
 } from './list-dom';
 import { webLinkHref } from './external-data';
 import { renderDragPreview } from './preview';
-import { scopeIds, type ActionScope } from './selection-orchestrator';
+import { scopeIds } from './action-scope';
+import { refreshMenuAvailability } from './menu-availability';
 
 type CleanupFn = () => void;
-
-function isDestinationIdentity(candidate:unknown):candidate is DestinationIdentity {
-  if (typeof candidate !== 'object' || candidate === null) {
-    return false;
-  }
-
-  return 'type' in candidate
-    && 'id' in candidate
-    && typeof candidate.type === 'string'
-    && (typeof candidate.id === 'string' || candidate.id === null);
-}
 
 export default class ItemController extends Controller<HTMLElement> implements RootAwareChild {
   static targets = ['handle', 'preview', 'destinationItem', 'moveItem', 'moveMenu', 'moveDivider', 'focus'];
@@ -176,11 +167,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
 
   move(event:ActionEvent):void {
     const item = event.currentTarget;
-    if (!isOrderableItem(this.element) || !this.hasMenuElement || !(item instanceof HTMLElement)) {
-      return;
-    }
-
-    if (this.menuElement.isItemDisabled(item) || this.menuElement.isItemHidden(item)) {
+    if (!isOrderableItem(this.element) || !this.menuItemActionable(item)) {
       return;
     }
 
@@ -217,11 +204,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
 
   moveToDestination(event:ActionEvent):void {
     const item = event.currentTarget;
-    if (!this.hasMenuElement || !(item instanceof HTMLElement)) {
-      return;
-    }
-
-    if (this.menuElement.isItemDisabled(item) || this.menuElement.isItemHidden(item)) {
+    if (!this.menuItemActionable(item)) {
       return;
     }
 
@@ -539,109 +522,26 @@ export default class ItemController extends Controller<HTMLElement> implements R
       return;
     }
 
-    const scope = root.actionScopeFor(this.element);
-    this.refreshDestinationAvailability(root, scope);
-    this.refreshMoveMenuAvailability(root, scope);
-    this.refreshMoveDivider();
+    refreshMenuAvailability({
+      menu: this.menuElement,
+      scope: root.actionScopeFor(this.element),
+      destinationItems: this.destinationItemTargets,
+      moveItems: this.moveItemTargets,
+      moveMenu: this.hasMoveMenuTarget ? this.moveMenuTarget : null,
+      divider: this.hasMoveDividerTarget ? this.moveDividerTarget : null,
+      hideUnavailable: this.hideUnavailableValue,
+      identifier: this.identifier,
+      availableDestinations: (scope, candidates) => root.availableDestinations(scope, candidates),
+      moveAvailability: () => root.moveAvailability(this.element),
+    });
   }
 
-  private refreshDestinationAvailability(root:SortableListsRoot, scope:ActionScope):void {
-    for (const item of this.destinationItemTargets) {
-      const candidates = this.destinationCandidates(item);
-      this.setAvailability(item, candidates.length > 0 && root.availableDestinations(scope, candidates).length > 0);
-    }
+  private menuItemActionable(item:EventTarget|null):item is HTMLElement {
+    return this.hasMenuElement && item instanceof HTMLElement
+      && !this.menuElement.isItemDisabled(item) && !this.menuElement.isItemHidden(item);
   }
 
   private destinationCandidates(item:HTMLElement):DestinationIdentity[] {
-    try {
-      const candidates:unknown = JSON.parse(item.dataset.sortableListsDestinations ?? '');
-      if (!Array.isArray(candidates)) {
-        return [];
-      }
-
-      const destinations = candidates.filter(isDestinationIdentity);
-      return destinations.length === candidates.length ? destinations : [];
-    } catch {
-      return [];
-    }
-  }
-
-  private refreshMoveMenuAvailability(root:SortableListsRoot, scope:ActionScope):void {
-    if (scope.kind === 'batch' && scope.items.length > 1) {
-      this.moveItemTargets.forEach((item) => this.setAvailability(item, false));
-      if (this.hasMoveMenuTarget) {
-        this.setAvailability(this.moveMenuTarget, false);
-      }
-      return;
-    }
-
-    // Null availability means the item is not in a list yet; leave the menu
-    // alone until the outlet wiring settles.
-    const availability = root.moveAvailability(this.element);
-    if (!availability) {
-      return;
-    }
-
-    let available = 0;
-    for (const item of this.moveItemTargets) {
-      // Outside a Stimulus action there is no event.params, so read the
-      // param's backing attribute directly.
-      const direction = item.getAttribute(`data-${this.identifier}-direction-param`);
-      const enabled = isMoveDirection(direction) && availability[direction];
-      this.setAvailability(item, enabled);
-      if (enabled) {
-        available += 1;
-      }
-    }
-
-    if (this.hasMoveMenuTarget) {
-      this.setAvailability(this.moveMenuTarget, available > 0);
-    }
-  }
-
-  // The divider that opens the move group is rendered server-side from a
-  // permission check alone, so hiding the last entry below it would otherwise
-  // leave a separator with nothing to separate. It never goes through
-  // setAvailability: `disableItem` writes to the item's `.ActionListContent`,
-  // which a divider does not have — and in that mode the group stays visible
-  // anyway, only disabled.
-  private refreshMoveDivider():void {
-    if (!this.hasMoveDividerTarget || !this.hideUnavailableValue) {
-      return;
-    }
-
-    const divider = this.moveDividerTarget;
-    let sibling = divider.nextElementSibling;
-
-    while (sibling) {
-      if (sibling instanceof HTMLLIElement && !sibling.hasAttribute('hidden')) {
-        divider.removeAttribute('hidden');
-        return;
-      }
-
-      sibling = sibling.nextElementSibling;
-    }
-
-    divider.setAttribute('hidden', 'hidden');
-  }
-
-  // Availability goes through the action-menu element's API: disableItem sets the
-  // ActionListItem--disabled class plus aria-disabled on the item's content, and
-  // hideItem toggles hidden. It operates on any descendant li, including the ones
-  // in the nested move submenu. Default is hide; hideUnavailable=false switches to disable.
-  private setAvailability(item:HTMLElement, available:boolean):void {
-    const menu = this.menuElement;
-
-    if (this.hideUnavailableValue) {
-      if (available) {
-        menu.showItem(item);
-      } else {
-        menu.hideItem(item);
-      }
-    } else if (available) {
-      menu.enableItem(item);
-    } else {
-      menu.disableItem(item);
-    }
+    return parseDestinationCandidates(item.dataset.sortableListsDestinations);
   }
 }
