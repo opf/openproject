@@ -32,14 +32,17 @@ require Rails.root.join("db/migrate/migration_utils/squashed_migration").to_s
 require_relative "tables/oidc_user_session_links"
 require_relative "tables/oidc_user_tokens"
 require_relative "tables/oidc_group_links"
+require_relative "tables/oidc_group_memberships"
 
 class AggregatedOpenIDConnectMigrations < SquashedMigration
   tables Tables::OidcUserSessionLinks,
          Tables::OidcUserTokens,
-         Tables::OidcGroupLinks
+         Tables::OidcGroupLinks,
+         Tables::OidcGroupMemberships
 
   squashed_migrations *%w[
     1018016_aggregated_openid_connect_migrations
     20250710133700_add_oidc_group_links
+    20250711133700_add_oidc_group_memberships
   ]
 end
