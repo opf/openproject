@@ -139,33 +139,6 @@ class AggregatedMigrations < SquashedMigration
          Tables::ExportSettings
 
   squashed_migrations *%w[
-    1000015_aggregated_migrations
-    20241030154245_create_project_life_cycles
-    20241119131205_create_reminders
-    20241120095318_update_scheduling_mode_and_lags
-    20241121094113_migrate_cost_settings_to_regular_settings
-    20241121113638_create_reminder_notifications
-    20241125161226_unique_index_on_project_life_cycle_steps
-    20241126111225_add_project_life_cycle_step_roles
-    20241127161228_grant_select_project_life_cycle_permission
-    20241129135602_populate_manage_own_reminders_permission
-    20241211152749_introduce_patterns_to_types
-    20241217190533_add_uniqueness_index_to_project_life_cycle_step_definitions_name
-    20250102161733_adds_position_cache_to_hierarchy_items
-    20250108100511_remove_incorrect_manage_own_reminders_permission
-    20250114162956_create_project_life_cycle_step_journals
-    20250117105334_remove_manage_own_reminders_permission
-    20250128164217_remove_is_default_for_time_entry_activities
-    20250210163523_add_export_templates_to_type
-    20250213193012_fix_typo_in_settings_user_format_value
-    20250214162601_add_project_life_cycle_step_date_indices
-    20250220123358_add_polymorphic_auth_source_and_integration_to_remote_identities
-    20250226134521_add_restricted_to_journals
-    20250227161653_populate_comments_with_restricted_visibility_permissions
-    20250324133701_create_service_account_associations
-    20250324161229_merge_lifecycle_steps
-    20250326151553_export_settings
-    20250327071204_add_dismissed_enterprise_banners_to_user_preference
-    20250402083709_change_remote_identities_foreign_key_indices
+    1000016_aggregated_migrations
   ]
 end

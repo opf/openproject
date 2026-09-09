@@ -29,39 +29,22 @@
 #++
 
 require Rails.root.join("db/migrate/migration_utils/squashed_migration").to_s
-require Rails.root.join("db/migrate/tables/base").to_s
-Dir[File.join(__dir__, "tables/*.rb")].each { |file| require file }
+require_relative "tables/cost_entries"
+require_relative "tables/cost_types"
+require_relative "tables/rates"
+require_relative "tables/time_entries"
+require_relative "tables/time_entry_activities_projects"
+require_relative "tables/time_entry_journals"
 
-class AggregatedMeetingMigrations < SquashedMigration
+class AggregatedCostsMigrations < SquashedMigration
   squashed_migrations *%w[
-    1003015_aggregated_meeting_migrations
-    20250318123314_add_backlog_to_meeting_sections
-    20240426073948_create_recurring_meetings
-    20241122143600_add_interval_to_recurring_meeting
-    20241128190428_create_scheduled_meetings
-    20250211185841_create_meeting_outcomes
-    20250227140619_change_unique_constraint_on_scheduled_meetings
-    20250304082924_add_time_zone_to_recurring_meetings
+    1009016_aggregated_costs_migrations
   ].freeze
 
-  tables Tables::MeetingContents,
-         Tables::MeetingParticipants,
-         Tables::Meetings,
-         Tables::MeetingJournals,
-         Tables::MeetingContentJournals,
-         Tables::MeetingSections,
-         Tables::MeetingAgendaItems,
-         Tables::MeetingAgendaItemJournals,
-         Tables::RecurringMeetings,
-         Tables::ScheduledMeetings,
-         Tables::MeetingOutcomes
-
-  modifications do
-    # There's no easy way to express deferrable unique constraints in Rails migrations
-    execute <<~SQL.squish
-      ALTER TABLE scheduled_meetings
-      ADD CONSTRAINT unique_recurring_meeting_start_time
-      UNIQUE (recurring_meeting_id, start_time) DEFERRABLE INITIALLY DEFERRED;
-    SQL
-  end
+  tables Tables::CostEntries,
+         Tables::CostTypes,
+         Tables::Rates,
+         Tables::TimeEntries,
+         Tables::TimeEntryActivitiesProjects,
+         Tables::TimeEntryJournals
 end

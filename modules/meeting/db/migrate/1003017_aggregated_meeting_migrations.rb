@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,19 +26,35 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require Rails.root.join("db/migrate/migration_utils/squashed_migration").to_s
-require_relative "tables/oidc_user_session_links"
-require_relative "tables/oidc_user_tokens"
+require Rails.root.join("db/migrate/tables/base").to_s
+Dir[File.join(__dir__, "tables/*.rb")].each { |file| require file }
 
-class AggregatedOpenIDConnectMigrations < SquashedMigration
-  tables Tables::OidcUserSessionLinks,
-         Tables::OidcUserTokens
-
+class AggregatedMeetingMigrations < SquashedMigration
   squashed_migrations *%w[
-    1018015_aggregated_openid_connect_migrations
-    20241212131910_add_oidc_user_tokens
-    20250218133700_add_expires_at_to_oidc_user_tokens
-  ]
+    1003016_aggregated_meeting_migrations
+  ].freeze
+
+  tables Tables::MeetingContents,
+         Tables::MeetingParticipants,
+         Tables::Meetings,
+         Tables::MeetingJournals,
+         Tables::MeetingContentJournals,
+         Tables::MeetingSections,
+         Tables::MeetingAgendaItems,
+         Tables::MeetingAgendaItemJournals,
+         Tables::RecurringMeetings,
+         Tables::ScheduledMeetings,
+         Tables::MeetingOutcomes
+
+  modifications do
+    # There's no easy way to express deferrable unique constraints in Rails migrations
+    execute <<~SQL.squish
+      ALTER TABLE scheduled_meetings
+      ADD CONSTRAINT unique_recurring_meeting_start_time
+      UNIQUE (recurring_meeting_id, start_time) DEFERRABLE INITIALLY DEFERRED;
+    SQL
+  end
 end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,18 +26,27 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
 require Rails.root.join("db/migrate/migration_utils/squashed_migration").to_s
-require_relative "tables/documents"
-require_relative "tables/document_journals"
+require_relative "tables/budgets"
+require_relative "tables/budget_journals"
+require_relative "tables/labor_budget_items"
+require_relative "tables/material_budget_items"
 
-class AggregatedDocumentsMigrations < SquashedMigration
+# This migration aggregates the migrations detailed in MIGRATION_FILES
+class AggregatedBudgetMigrations < SquashedMigration
   squashed_migrations *%w[
-    20180323140208_to_v710_aggregated_documents_migrations
-    20200217090016_document_timestamps
+    1004015_aggregated_budget_migrations
   ]
 
-  tables Tables::Documents,
-         Tables::DocumentJournals
+  tables Tables::Budgets,
+         Tables::BudgetJournals,
+         Tables::LaborBudgetItems,
+         Tables::MaterialBudgetItems
+
+  modifications do
+    add_column :work_packages, :budget_id, :integer
+    add_column :work_package_journals, :budget_id, :integer, null: true
+  end
 end

@@ -29,10 +29,14 @@
 # ++
 
 require Rails.root.join("db/migrate/migration_utils/squashed_migration").to_s
+require_relative "tables/oidc_user_session_links"
+require_relative "tables/oidc_user_tokens"
 
-class AggregatedOverviewsMigrations < SquashedMigration
+class AggregatedOpenIDConnectMigrations < SquashedMigration
+  tables Tables::OidcUserSessionLinks,
+         Tables::OidcUserTokens
+
   squashed_migrations *%w[
-    20190826083604_my_project_page_to_grid
-    20241025072902_remove_project_details_widget
+    1018016_aggregated_openid_connect_migrations
   ]
 end
