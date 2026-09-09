@@ -204,6 +204,7 @@ class Meeting < ApplicationRecord
                 Arel.sql("COUNT(DISTINCT meeting_outcomes.id)")
               )
 
+    parts.map! { |part| part.is_a?(Time) ? part.utc.iso8601(6) : part }
     parts << lock_version
 
     OpenProject::Cache::CacheKey.expand(parts)
