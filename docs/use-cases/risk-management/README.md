@@ -184,7 +184,7 @@ The example configuration uses the following statuses:
 5. `Occurred`: the uncertain event has happened; create or link an issue for resolution and execute the applicable contingency actions.
 6. `Rejected`: the entry is a duplicate, is outside the project scope or was determined not to represent a relevant project risk.
 
-Configure these statuses under [work package statuses](../../system-admin-guide/manage-work-packages/work-package-status/) and the permitted transitions under [work package workflows](../../system-admin-guide/manage-work-packages/work-package-workflows/).
+Configure these statuses under [work package statuses](../../system-admin-guide/manage-work-packages/work-package-status/) and the permitted transitions under [work package workflows](../../system-admin-guide/manage-work-packages/work-package-types/workflows/).
 
 ![Workflow transition configuration for the Risk work package type in OpenProject administration](openproject_system_admin_risk_workflow.png)
 
