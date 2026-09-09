@@ -157,57 +157,86 @@ class BackupJob < ApplicationJob
   end
 
   def create_backup_archive!(file_name:, db_dump_file_name:, attachments: attachments_to_include)
-    paths_to_clean = []
-    clean_up = OpenProject::Configuration.remote_storage?
-
-    Zip::File.open(file_name, Zip::File::CREATE) do |zipfile|
+    Zip::OutputStream.open(file_name) do |zos|
       attachments.each do |attachment|
-        path = local_disk_path(attachment)
-        next unless path
-
-        zipfile.add "attachment/file/#{attachment.id}/#{attachment[:file]}", path
-
-        paths_to_clean << get_cache_folder_path(attachment) if clean_up && attachment.file.cached?
+        archive_attachment! zos, attachment
       end
-      zipfile.add "openproject.sql", db_dump_file_name
-    end
 
-    remove_paths! paths_to_clean # delete locally cached files that were downloaded just for the backup
+      write_missing_attachments! zos
+      write_to_archive! zos, "openproject.sql", db_dump_file_name
+    end
 
     @archived = true
 
-    file_name
+    finalize_archive_file_name! file_name
   end
 
-  def local_disk_path(attachment)
-    # If an attachment is destroyed on disk, skip it
-    diskfile = attachment.diskfile
-    return unless diskfile
+  def finalize_archive_file_name!(file_name)
+    return file_name if missing_attachments.empty?
 
-    diskfile.path
+    incomplete_file_name = file_name.sub(/\.zip\z/, "-incomplete.zip")
+    File.rename(file_name, incomplete_file_name)
+
+    @archive_file_name = incomplete_file_name
+  end
+
+  ##
+  # Adds a local file to the given ZIP archive.
+  #
+  # @param zos [Zip::OutputStream] Stream to ZIP archive
+  # @param entry_name [String] Name of the zip entry / file
+  # @param path [String] Path to local file to be written to stream
+  def write_to_archive!(zos, entry_name, path)
+    zos.put_next_entry entry_name
+
+    File.open(path, "rb") do |file|
+      ::Zip::IOExtras.copy_stream zos, file # copies file to zos
+    end
+  end
+
+  ##
+  # Streams an attachment's content straight into the archive.
+  #
+  # @param zos [Zip::OutputStream] Stream to archive
+  # @param attachment [Attachment] Attachment
+  def archive_attachment!(zos, attachment)
+    # If an attachment is destroyed/missing, skip it
+    return missing_attachments << attachment unless attachment.file.readable?
+
+    zos.put_next_entry "attachment/file/#{attachment.id}/#{attachment[:file]}"
+
+    attachment.file.stream_to zos
   rescue StandardError => e
+    log_attachment_error!(attachment, e)
+
+    missing_attachments << attachment
+  end
+
+  def log_attachment_error!(attachment, error)
     Rails.logger.error do
-      "Failed to access attachment #{attachment.id} #{attachment.file&.path} for backup: #{e.message}"
-    end
-
-    nil
-  end
-
-  def remove_paths!(paths)
-    paths.each do |path|
-      FileUtils.rm_rf path
+      "Failed to access attachment #{attachment.id} #{attachment.file&.path} for backup: #{error.message}"
     end
   end
 
-  def get_cache_folder_path(attachment)
-    # expecting paths like /tmp/op_uploaded_files/1639754082-3468-0002-0911/file.ext
-    # just making extra sure so we don't delete anything wrong later on
-    unless /#{attachment.file.cache_dir}\/[^\/]+\/[^\/]+/.match?(attachment.diskfile.path)
-      raise "Unexpected cache path for attachment ##{attachment.id}: #{attachment.diskfile}"
-    end
+  def missing_attachments
+    @missing_attachments ||= []
+  end
 
-    # returning parent as each cached file is in a separate folder which shall be removed too
-    Pathname(attachment.diskfile.path).parent.to_s
+  def write_missing_attachments!(zos)
+    return if missing_attachments.empty?
+
+    zos.put_next_entry "MISSING_ATTACHMENTS.txt"
+    zos.write missing_attachments_content
+  end
+
+  def missing_attachments_content
+    lines = missing_attachments.map { |attachment| "#{attachment.id}\t#{attachment[:file]}" }
+
+    <<~TEXT
+      The following attachments could not be read and were not included in this backup:
+
+      #{lines.join("\n")}
+    TEXT
   end
 
   def attachments_to_include

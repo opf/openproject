@@ -163,8 +163,6 @@ RSpec.describe BackupJob, type: :model do
       end
 
       before do
-        allow(job).to receive(:remove_paths!)
-
         perform
       end
 
@@ -174,6 +172,10 @@ RSpec.describe BackupJob, type: :model do
 
       it "stores a new backup as an attachment" do
         expect(stored_backup.filename).to eq "openproject.zip"
+      end
+
+      it "does not mark the backup as incomplete" do
+        expect(stored_backup.filename).not_to include "-incomplete"
       end
 
       it "includes the database dump in the backup" do
@@ -192,16 +194,6 @@ RSpec.describe BackupJob, type: :model do
 
         it "does not include pending direct uploads" do
           expect(backup_files).not_to include backed_up_attachment(pending_direct_upload)
-        end
-
-        if opts[:remote_storage] == true
-          it "cleans up locally cached files afterwards" do
-            expect(job).to have_received(:remove_paths!).with([Pathname(attachment.diskfile.path).parent.to_s])
-          end
-        else
-          it "does not clean up files afterwards as none were cached" do
-            expect(job).to have_received(:remove_paths!).with([])
-          end
         end
       end
     end
@@ -227,7 +219,6 @@ RSpec.describe BackupJob, type: :model do
       dummy_file.parent.mkpath
       dummy_file.write("dummy")
 
-      allow_any_instance_of(LocalFileUploader).to receive(:cached?).and_return(true)
       allow_any_instance_of(LocalFileUploader).to receive(:local_file).and_return(File.new(dummy_file))
     end
 
@@ -240,5 +231,76 @@ RSpec.describe BackupJob, type: :model do
 
   context "with include_attachments: false" do
     it_behaves_like "it creates a backup", include_attachments: false
+  end
+
+  context "with an unreadable attachment" do
+    let(:job) { BackupJob.new }
+    let(:backup) { create(:backup) }
+    let(:user) { create(:admin) }
+    let(:job_id) { 42 }
+
+    let!(:job_status) do
+      create(
+        :delayed_job_status,
+        user:,
+        reference: backup,
+        status: JobStatus::Status.statuses[:in_queue],
+        job_id:
+      )
+    end
+
+    let(:openproject_sql) do
+      Tempfile.new(["openproject", ".sql"]).tap { |f| f.write("SOME SQL") }
+    end
+
+    let!(:readable_attachment) { create(:attachment) }
+    let!(:unreadable_attachment) { create(:attachment) }
+
+    let(:stored_backup) { Attachment.where(container_type: "Export").last }
+    let(:backup_files) { Zip::File.open(stored_backup.file.path) { |zip| zip.entries.map(&:name) } }
+    let(:missing_attachments_txt) do
+      Zip::File.open(stored_backup.file.path) { |zip| zip.read("MISSING_ATTACHMENTS.txt") }
+    end
+
+    def backed_up_attachment(attachment)
+      "attachment/file/#{attachment.id}/#{attachment.filename}"
+    end
+
+    before do
+      allow(job).to receive(:arguments).and_return [{ backup:, user: }]
+      allow(job).to receive(:job_id).and_return job_id
+
+      allow(Open3).to receive(:capture3).and_return [nil, "", instance_double(Process::Status, success?: true)]
+
+      allow_any_instance_of(BackupJob)
+        .to receive(:tmp_file_name).with("openproject", ".sql").and_return(openproject_sql.path)
+
+      allow_any_instance_of(BackupJob)
+        .to receive(:tmp_file_name).with("openproject-backup", ".zip").and_return("/tmp/openproject-unreadable.zip")
+
+      allow_any_instance_of(LocalFileUploader).to receive(:readable?) do |uploader|
+        uploader.model.id != unreadable_attachment.id
+      end
+
+      job.perform(backup:, user:)
+    end
+
+    it "includes MISSING_ATTACHMENTS.txt listing the missing attachment" do
+      expect(backup_files).to include "MISSING_ATTACHMENTS.txt"
+      expect(missing_attachments_txt).to include(unreadable_attachment.id.to_s)
+      expect(missing_attachments_txt).to include(unreadable_attachment[:file])
+    end
+
+    it "still includes the readable attachment" do
+      expect(backup_files).to include backed_up_attachment(readable_attachment)
+    end
+
+    it "does not include the unreadable attachment" do
+      expect(backup_files).not_to include backed_up_attachment(unreadable_attachment)
+    end
+
+    it "names the backup archive with an -incomplete suffix" do
+      expect(stored_backup.filename).to eq "openproject-unreadable-incomplete.zip"
+    end
   end
 end

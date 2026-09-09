@@ -60,6 +60,16 @@ class FogFileUploader < CarrierWave::Uploader::Base
   end
 
   ##
+  # Streams this remote file's content into +output+ in chunks.
+  #
+  # @param output [IO] Stream to copy the file to
+  def stream_to(output)
+    fog_directory_files.get(remote_file.path) do |chunk, _remaining_bytes, _total_bytes|
+      output.write(chunk)
+    end
+  end
+
+  ##
   # This is necessary for carrierwave to set the Content-Type in the S3 metadata for instance.
   def fog_attributes
     content_type = model.respond_to?(:content_type) ? model.content_type : ""
@@ -103,6 +113,10 @@ class FogFileUploader < CarrierWave::Uploader::Base
   end
 
   private
+
+  def fog_directory_files
+    storage.connection.directories.new(key: fog_directory, public: fog_public).files
+  end
 
   def set_content_disposition!(url_options, options:)
     return if options[:content_disposition].blank?
