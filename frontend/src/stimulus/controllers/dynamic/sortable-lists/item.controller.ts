@@ -120,6 +120,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
   private cleanupFn?:CleanupFn;
   private dropIndicatorElement?:HTMLElement;
   private root?:SortableListsRoot;
+  private refreshToken?:object;
 
   private readonly onMenuToggle = (event:Event):void => {
     // The toggle event does not bubble, so listen in capture phase; recompute
@@ -127,7 +128,9 @@ export default class ItemController extends Controller<HTMLElement> implements R
     // shifted siblings meanwhile. Read newState by duck typing rather than
     // `instanceof ToggleEvent` so a browser without the ToggleEvent global
     // cannot throw.
-    if ((event as ToggleEvent).newState === 'open') {
+    if (this.hasMenuElement
+        && event.target === this.menuElement.popoverElement
+        && (event as ToggleEvent).newState === 'open') {
       this.refreshActionAvailability();
     }
   };
@@ -139,6 +142,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
   }
 
   disconnect():void {
+    this.refreshToken = undefined;
     // A morph can remove a hovering row mid-drag; without this the drop indicator
     // it owns on a sibling row is never cleared (no onDrop fires, and no other
     // controller may clear a foreign owner), leaving a phantom drop line.
@@ -149,19 +153,25 @@ export default class ItemController extends Controller<HTMLElement> implements R
     this.disconnectRoot();
   }
 
-  // An action item entering the DOM (inline or via a deferred fragment)
-  // triggers an availability refresh here, but `this.root` is usually unset at
-  // this point (the outlet's connectRoot callback runs later), so this call
-  // typically no-ops. The menu-open toggle handler is what actually
-  // establishes correct availability, refreshing on every open once the root
-  // is connected and after any reorder has shifted siblings. No
-  // include-fragment knowledge, so both hooks work for any menu.
   moveItemTargetConnected():void {
-    this.refreshActionAvailability();
+    this.scheduleAvailabilityRefresh();
   }
 
   destinationItemTargetConnected():void {
-    this.refreshActionAvailability();
+    this.scheduleAvailabilityRefresh();
+  }
+
+  private scheduleAvailabilityRefresh():void {
+    if (this.refreshToken) return;
+
+    const token = {};
+    this.refreshToken = token;
+    queueMicrotask(() => {
+      if (this.refreshToken !== token) return;
+
+      this.refreshToken = undefined;
+      if (this.element.isConnected) this.refreshActionAvailability();
+    });
   }
 
   move(event:ActionEvent):void {
@@ -523,8 +533,9 @@ export default class ItemController extends Controller<HTMLElement> implements R
   }
 
   private refreshActionAvailability():void {
+    this.refreshToken = undefined;
     const root = this.root;
-    if (!root || !this.hasMenuElement) {
+    if (!root || !this.hasMenuElement || (this.destinationItemTargets.length === 0 && this.moveItemTargets.length === 0)) {
       return;
     }
 
@@ -557,6 +568,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
 
   private refreshMoveMenuAvailability(root:SortableListsRoot, scope:ActionScope):void {
     if (scope.kind === 'batch' && scope.items.length > 1) {
+      this.moveItemTargets.forEach((item) => this.setAvailability(item, false));
       if (this.hasMoveMenuTarget) {
         this.setAvailability(this.moveMenuTarget, false);
       }
@@ -602,7 +614,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
     let sibling = divider.nextElementSibling;
 
     while (sibling) {
-      if (!sibling.hasAttribute('hidden')) {
+      if (sibling instanceof HTMLLIElement && !sibling.hasAttribute('hidden')) {
         divider.removeAttribute('hidden');
         return;
       }
