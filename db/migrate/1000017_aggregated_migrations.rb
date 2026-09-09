@@ -140,5 +140,6 @@ class AggregatedMigrations < SquashedMigration
 
   squashed_migrations *%w[
     1000016_aggregated_migrations
+    20250403150639_link_wp_to_project_phase_definition
   ]
 end
