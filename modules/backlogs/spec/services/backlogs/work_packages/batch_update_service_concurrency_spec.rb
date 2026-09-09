@@ -263,6 +263,7 @@ RSpec.describe Backlogs::WorkPackages::BatchUpdateService,
     release_first = Concurrent::Event.new
     second_progress = Queue.new
 
+    # insert_at receives the predecessor position already read by move_after.
     allow(sprint_work_packages.first).to receive(:insert_at).and_wrap_original do |method, *args|
       first_paused.set
       raise "timed out waiting to insert after the first anchor" unless release_first.wait(5)
