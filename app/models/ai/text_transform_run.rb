@@ -68,7 +68,7 @@ module AI
     end
 
     def append_event(kind, payload = {})
-      OpenProject::Mutex.with_advisory_lock(self.class, "ai_text_transform_run_#{id}_events") do
+      OpenProject::Mutex.with_advisory_lock_transaction(self, "events") do
         events.create!(kind:, payload:, seq: events.maximum(:seq).to_i + 1)
       end
     end
