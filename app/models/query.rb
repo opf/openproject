@@ -193,10 +193,10 @@ class Query < ApplicationRecord
     filters << filter if filters.none? { it.field.to_s == filter.field.to_s }
   end
 
-  # `version_id` and `target_version_id` are interchangeable representations
-  # of one filter, and only one of them is available at a time; a caller
-  # naming either one gets the currently available filter.
   def filter_for(field)
+    # `version_id` and `target_version_id` are interchangeable representations
+    # of one filter, and only one of them is available at a time; a caller
+    # naming either one gets the currently available filter.
     field = Queries::WorkPackages::VersionNames.active_filter(field)
     filter = (filters || []).detect { |f| f.field.to_s == field.to_s } || super
 
