@@ -36,6 +36,7 @@ RSpec.describe WorkPackageTypes::DetailsComponent, type: :component do
   current_user { create(:admin) }
 
   let(:checkbox_label) { "Allow project-specific variants" }
+  let(:default_label) { "Active in new projects" }
 
   context "with the variants feature enabled", with_flag: { type_variants: true } do
     it "offers the setting on the type" do
@@ -50,6 +51,12 @@ RSpec.describe WorkPackageTypes::DetailsComponent, type: :component do
 
       expect(page).to have_no_field(checkbox_label)
     end
+
+    it "leaves the default-in-new-projects checkbox out" do
+      render_inline(described_class.new(bug))
+
+      expect(page).to have_no_field(default_label)
+    end
   end
 
   context "with the variants feature disabled" do
@@ -57,6 +64,12 @@ RSpec.describe WorkPackageTypes::DetailsComponent, type: :component do
       render_inline(described_class.new(bug))
 
       expect(page).to have_no_field(checkbox_label)
+    end
+
+    it "offers the default-in-new-projects checkbox, unchecked by default" do
+      render_inline(described_class.new(bug))
+
+      expect(page).to have_unchecked_field(default_label)
     end
   end
 end

@@ -51,7 +51,23 @@ module WorkPackageTypes
       super
     end
 
+    # TODO: Remove with type_variants feature flag
+    def after_perform(service_call)
+      return service_call unless params.key?(:enabled_in_new_projects)
+
+      service_call.merge!(toggle_default_in_new_projects(service_call.result))
+    end
+
     private
+
+    def toggle_default_in_new_projects(type)
+      variant = type.default_variant
+      if ActiveRecord::Type::Boolean.new.cast(params[:enabled_in_new_projects])
+        MakeDefaultService.new(variant:, user:).call
+      else
+        RemoveDefaultService.new(variant:, user:).call
+      end
+    end
 
     def default_contract_class = UpdateDetailsContract
 
