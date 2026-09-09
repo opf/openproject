@@ -32,6 +32,7 @@ module PlaceholderUsers
   # The users a placeholder's criteria currently select, listed beside the
   # criteria that produce them.
   class MatchingUsersComponent < ApplicationComponent
+    include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
     include AvatarHelper
 
@@ -43,11 +44,13 @@ module PlaceholderUsers
       @placeholder_user = placeholder_user
     end
 
-    def render?
+    private
+
+    # The wrapper always renders so the list stays a turbo stream target while
+    # the criteria are edited.
+    def criteria?
       @placeholder_user.user_filter.present?
     end
-
-    private
 
     def users
       @users ||= @placeholder_user.candidate_query.results.limit(MAX_USERS).to_a

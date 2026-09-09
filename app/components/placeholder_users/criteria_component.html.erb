@@ -39,7 +39,7 @@ See COPYRIGHT and LICENSE files for more details.
           if active?
             column.with_row do
               settings_primer_form_with(model: placeholder_user, url: form_url, method: :put) do |f|
-                render(PlaceholderUsers::CriteriaForm.new(f))
+                render(PlaceholderUsers::CriteriaForm.new(f, submit: false, live_update_path:))
               end
             end
           end

@@ -39,6 +39,7 @@ class PlaceholderUsersController < ApplicationController
                                                  edit
                                                  update
                                                  toggle_criteria
+                                                 update_criteria
                                                  deletion_info
                                                  destroy]
 
@@ -82,6 +83,22 @@ class PlaceholderUsersController < ApplicationController
   def edit
     @membership ||= Member.new
     @individual_principal = @placeholder_user
+  end
+
+  # The criteria tab has no save button: the filter builder sends its selection
+  # as it is edited, which stores it and refreshes the users it selects. The
+  # builder only ever issues GETs, hence the verb.
+  def update_criteria
+    call = PlaceholderUsers::UpdateService
+             .new(user: User.current, model: @placeholder_user)
+             .call(user_filter: parsed_user_filter)
+
+    render_error_flash_message_via_turbo_stream(message: call.message) if call.failure?
+
+    update_via_turbo_stream(
+      component: PlaceholderUsers::MatchingUsersComponent.new(placeholder_user: @placeholder_user)
+    )
+    respond_with_turbo_streams
   end
 
   def create # rubocop:disable Metrics/AbcSize

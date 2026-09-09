@@ -70,6 +70,10 @@ module PlaceholderUsers
       placeholder_user_path(placeholder_user, tab: :criteria)
     end
 
+    def live_update_path
+      update_criteria_placeholder_user_path(placeholder_user)
+    end
+
     def toggle_arguments
       {
         name: :criteria_active,

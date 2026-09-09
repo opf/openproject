@@ -28,19 +28,23 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%=
-  render(Primer::Beta::BorderBox.new(padding: :condensed)) do |box|
-    box.with_header do
-      render(Primer::Beta::Text.new(font_weight: :bold)) { title }
-    end
+  component_wrapper do
+    next unless criteria?
 
-    if users.empty?
-      box.with_row do
-        render(Primer::Beta::Text.new(color: :muted)) { empty_text }
+    render(Primer::Beta::BorderBox.new(padding: :condensed)) do |box|
+      box.with_header do
+        render(Primer::Beta::Text.new(font_weight: :bold)) { title }
       end
-    else
-      users.each do |user|
+
+      if users.empty?
         box.with_row do
-          avatar(user, size: "mini", hide_name: false, hover_card: { active: true })
+          render(Primer::Beta::Text.new(color: :muted)) { empty_text }
+        end
+      else
+        users.each do |user|
+          box.with_row do
+            avatar(user, size: "mini", hide_name: false, hover_card: { active: true })
+          end
         end
       end
     end
