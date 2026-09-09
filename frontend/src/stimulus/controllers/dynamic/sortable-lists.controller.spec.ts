@@ -59,6 +59,7 @@ import type { monitorForElements as monitorForElementsFn } from '@atlaskit/pragm
 import { usePlatform } from 'core-common/testing/platform';
 import { waitFor } from '@testing-library/dom';
 import { type Mock, type MockInstance } from 'vitest';
+import { TurboHelpers } from 'core-turbo/helpers';
 import { LiveRegionElement } from '@primer/live-region-element';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import type SortableListsControllerType from './sortable-lists.controller';
@@ -1268,6 +1269,23 @@ describe('Sortable lists controller', () => {
     function destinationSelected(element:HTMLElement):boolean {
       return element.hasAttribute('data-batch-selected');
     }
+
+    it.each([200, 422, 500])('cleans up destination progress after HTTP %s', async (status) => {
+      const show = vi.spyOn(TurboHelpers, 'showProgressBar').mockImplementation(() => undefined);
+      const hide = vi.spyOn(TurboHelpers, 'hideProgressBar').mockImplementation(() => undefined);
+      const { root, items } = renderSelectableRoot({ collectionMoveUrl: '/batch/move' });
+      await ctx.nextFrame();
+      let finish!:(response:Response) => void;
+      fetchMock.mockReturnValueOnce(new Promise<Response>((resolve) => { finish = resolve; }));
+      selectItem(items[0]);
+      destinationController(root).moveToDestination(items[0], destination);
+      expect(show).toHaveBeenCalledOnce();
+      expect(hide).not.toHaveBeenCalled();
+      await vi.waitFor(() => expect(fetchMock).toHaveBeenCalled());
+      finish(new Response('', { status, headers: { 'Content-Type': 'text/vnd.turbo-stream.html' } }));
+      await vi.waitFor(() => expect(hide).toHaveBeenCalledOnce());
+      expect(root.hasAttribute('data-sortable-lists-busy')).toBe(false);
+    });
 
     it('submits the selected scope in document order without optimistic or positional fields', async () => {
       fetchMock.mockResolvedValueOnce(new Response('', {
