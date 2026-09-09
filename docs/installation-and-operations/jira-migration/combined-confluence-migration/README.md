@@ -96,27 +96,42 @@ flowchart TB
 Once you're ready, an admin can trigger a cleanup step that rewrites old links to point directly at their final destination — e.g. straight to the OpenProject work package or XWiki page, instead of via the redirect. This step can run incrementally and independently on either side — you don't need both systems ready at once, and you can do it project by project or space by space. This is optional: everything already works without it.
 
 ```mermaid
-flowchart LR
-    subgraph OP["OpenProject"]
-        OPI["XWiki integration"]
+flowchart
+    subgraph SOURCE["Source"]
+      direction LR
+      subgraph OPC["OpenProject"]
+          OPCI["Confluence integration"]
+      end
+      subgraph XW1["XWiki"]
+          XW1I["OpenProject plug-in"]
+      end
+      
+      OPC <--> XW1
     end
-    subgraph XW["XWiki"]
-        XWI["OpenProject plug-in"]
+
+    subgraph TARGET["Target"]
+      direction LR
+      subgraph OPXW["OpenProject"]
+          OPXWI["XWiki integration"]
+      end
+      subgraph XW2["XWiki"]
+          XW2I["OpenProject plug-in"]
+      end
+      OPXW <--> XW2
     end
-    OP <--> XW
 
-    Before["BEFORE<br/>confluence.com/pages/65538 (old link)"]
-    After["AFTER<br/>xwiki.com/Space/Page"]
-    Before -- "rewritten" --> After
+    SOURCE -->|<b>Rewrite Links</b><br/><code>confluence.com/pages/65538</code> => <code>xwiki.com/Space/Page</code>| TARGET
 
+    
+    classDef atlassian fill:#e9f0fb,stroke:#0052CC,stroke-width:2px,color:#0052CC;
     classDef openproject fill:#e8eef2,stroke:#0D4A73,stroke-width:2px,color:#0D4A73;
     classDef xwiki fill:#e6f4fa,stroke:#0087CB,stroke-width:2px,color:#0087CB;
     classDef atlassian fill:#e9f0fb,stroke:#0052CC,stroke-width:2px,color:#0052CC;
+    
 
-    class OP,OPI openproject
-    class XW,XWI xwiki
-    class Before atlassian
-    class After xwiki
+    class OPC,OPXW,XW1I,XW2I,R openproject
+    class OPCI atlassian
+    class XW1,XW2,OPXWI xwiki
 ```
 
 ## Current limitations
