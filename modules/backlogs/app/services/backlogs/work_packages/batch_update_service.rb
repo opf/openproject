@@ -80,6 +80,11 @@ class Backlogs::WorkPackages::BatchUpdateService
       [work_package.id, Backlogs::Target.for_work_package(work_package)]
     end
 
+    preflight = Backlogs::WorkPackages::DestinationAvailability.new(project: batch_project, user:, work_packages: [])
+    return unavailable_target_failure unless preflight.manage_permission? && preflight.candidate?(target)
+
+    # Each call needs fresh under-lock state, including when this instance is reused.
+    @destination_availability = nil
     call = nil
     # Its own savepoint: joined into an enclosing transaction, the rollback
     # below would be swallowed and half the batch would commit.
@@ -273,7 +278,7 @@ class Backlogs::WorkPackages::BatchUpdateService
   # changed since the controller loaded it, which is exactly what this check
   # under the lock exists to catch.
   def revalidate_destination(target)
-    return unavailable_target_failure unless target_available?(target)
+    return unavailable_target_failure unless destination_availability.manage_permission? && target_available?(target)
 
     refused = destination_availability.refusing(target)
     refused_members_failure(refused) if refused.any?
@@ -290,7 +295,7 @@ class Backlogs::WorkPackages::BatchUpdateService
     @destination_availability ||= Backlogs::WorkPackages::DestinationAvailability.new(
       project: batch_project,
       user:,
-      work_packages: WorkPackage.where(id: work_packages.map(&:id)).to_a
+      work_packages: WorkPackage.where(id: work_packages.map(&:id)).includes(:status).to_a
     )
   end
 

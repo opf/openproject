@@ -57,6 +57,27 @@ RSpec.describe Backlogs::WorkPackages::BatchUpdateService, type: :model do
     sprint.work_packages_for(project).pluck(:id)
   end
 
+  it "rejects a foreign destination before taking any movement locks" do
+    foreign = create(:sprint, project: create(:project))
+    allow(OpenProject::Mutex).to receive(:with_advisory_lock_transaction).and_call_original
+
+    result = service([bucket_wp1]).call(list_type: "sprint", list_id: foreign.id.to_s)
+
+    expect(result).to be_failure
+    expect(OpenProject::Mutex).not_to have_received(:with_advisory_lock_transaction)
+  end
+
+  it "rejects a user without movement permission before taking locks" do
+    unauthorized = create(:user, member_with_permissions: { project => %i[view_work_packages view_sprints] })
+    allow(OpenProject::Mutex).to receive(:with_advisory_lock_transaction).and_call_original
+
+    result = described_class.new(user: unauthorized, work_packages: [bucket_wp1])
+      .call(list_type: "inbox")
+
+    expect(result).to be_failure
+    expect(OpenProject::Mutex).not_to have_received(:with_advisory_lock_transaction)
+  end
+
   it "moves a cross-list batch as one contiguous block after the predecessor" do
     result = service([bucket_wp1, sprint_wp3])
       .call(list_type: "sprint", list_id: sprint.id.to_s, prev_id: sprint_wp1.id.to_s)

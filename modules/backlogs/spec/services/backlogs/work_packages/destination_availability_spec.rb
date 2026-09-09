@@ -66,7 +66,7 @@ RSpec.describe Backlogs::WorkPackages::DestinationAvailability, type: :model do
 
       expect(result.sprints).to eq [earlier_sprint, later_sprint]
       expect(result.buckets).to eq [alpha_bucket, zulu_bucket]
-      expect(result.inbox?).to be true
+      expect(result.refusing(Backlogs::Target::InboxId)).to be_empty
     end
 
     it "intersects a confined member's current list with a free member", with_ee: %i[readonly_work_packages] do
@@ -77,7 +77,7 @@ RSpec.describe Backlogs::WorkPackages::DestinationAvailability, type: :model do
 
       expect(result.sprints).to eq [earlier_sprint]
       expect(result.buckets).to be_empty
-      expect(result.inbox?).to be false
+      expect(result.refusing(Backlogs::Target::InboxId)).not_to be_empty
     end
 
     it "offers nothing when confined members are in different lists", with_ee: %i[readonly_work_packages] do
@@ -88,7 +88,7 @@ RSpec.describe Backlogs::WorkPackages::DestinationAvailability, type: :model do
 
       expect(result.sprints).to be_empty
       expect(result.buckets).to be_empty
-      expect(result.inbox?).to be false
+      expect(result.refusing(Backlogs::Target::InboxId)).not_to be_empty
     end
 
     it "omits an all-members-current option without revoking positional reuse" do
@@ -98,16 +98,16 @@ RSpec.describe Backlogs::WorkPackages::DestinationAvailability, type: :model do
       result = availability(work_packages)
 
       expect(result.sprints).to eq [later_sprint]
-      expect(result.permitted?(current_target)).to be true
+      expect(result.candidate?(current_target)).to be true
+      expect(result.refusing(current_target)).to be_empty
     end
 
     it "loads read-only status identity in one query for the whole batch",
        with_ee: %i[readonly_work_packages] do
       work_packages = create_list(:work_package, 5, project:, type:, status: readonly_status)
-      work_packages.each(&:reload)
-
       recorder = ActiveRecord::QueryRecorder.new do
-        availability(work_packages).permitted?(Backlogs::Target::InboxId)
+        loaded = WorkPackage.where(id: work_packages.map(&:id)).includes(:status).to_a
+        expect(availability(loaded).refusing(Backlogs::Target::InboxId)).to be_empty
       end
 
       status_queries = recorder.log.grep(/FROM "statuses"/)
@@ -119,8 +119,28 @@ RSpec.describe Backlogs::WorkPackages::DestinationAvailability, type: :model do
       persisted_readonly_status.update_column(:is_readonly, true)
       work_package = create(:work_package, project:, type:, status: persisted_readonly_status)
 
-      expect(availability([work_package]).permitted?(Backlogs::Target.for(alpha_bucket))).to be true
+      expect(availability([work_package]).refusing(Backlogs::Target.for(alpha_bucket))).to be_empty
     end
+  end
+
+  it "keeps the invoking member's current destination in the candidate universe" do
+    member = create(:work_package, project:, type:, sprint: earlier_sprint)
+    result = availability([member])
+
+    expect(result.candidate_sprints).to eq [earlier_sprint, later_sprint]
+    expect(result.candidate_buckets).to eq [alpha_bucket, zulu_bucket]
+    expect(result.sprints).to eq [later_sprint]
+  end
+
+  it "checks management permission once while offering both destination kinds" do
+    member = create(:work_package, project:, type:)
+    result = availability([member])
+    allow(user).to receive(:allowed_in_project?).and_call_original
+
+    result.sprints
+    result.buckets
+
+    expect(user).to have_received(:allowed_in_project?).with(:manage_sprint_items, project).once
   end
 
   describe "authoritative candidates" do
@@ -130,14 +150,14 @@ RSpec.describe Backlogs::WorkPackages::DestinationAvailability, type: :model do
       result = availability([work_package])
 
       expect(result.sprints).not_to include(completed_sprint)
-      expect(result.permitted?(Backlogs::Target.for(completed_sprint))).to be false
+      expect(result.candidate?(Backlogs::Target.for(completed_sprint))).to be false
     end
 
     it "rejects buckets outside the batch project" do
       result = availability([work_package])
 
       expect(result.buckets).not_to include(foreign_bucket)
-      expect(result.permitted?(Backlogs::Target.for(foreign_bucket))).to be false
+      expect(result.candidate?(Backlogs::Target.for(foreign_bucket))).to be false
     end
 
     it "rejects every destination without manage_sprint_items permission" do
@@ -148,10 +168,7 @@ RSpec.describe Backlogs::WorkPackages::DestinationAvailability, type: :model do
 
       expect(result.sprints).to be_empty
       expect(result.buckets).to be_empty
-      expect(result.inbox?).to be false
-      expect(result.permitted?(Backlogs::Target.for(earlier_sprint))).to be false
-      expect(result.permitted?(Backlogs::Target.for(alpha_bucket))).to be false
-      expect(result.permitted?(Backlogs::Target::InboxId)).to be false
+      expect(result.manage_permission?).to be false
     end
   end
 end

@@ -40,11 +40,12 @@ module Backlogs
 
     # Deferred ActionMenu items (Primer include-fragment).
     def menu
+      availability = destination_availability([@work_package])
       render(Backlogs::WorkPackageCardMenuComponent.new(
                project: @project,
                work_package: @work_package,
-               sprint_ids: Sprint.assignable(project: @project, user: current_user).order_by_date.ids,
-               bucket_ids: BacklogBucket.for_project(@project).order_alphabetically.ids,
+               sprint_ids: availability.candidate_sprints.map(&:id),
+               bucket_ids: availability.candidate_buckets.map(&:id),
                current_user:
              ),
              layout: false)
@@ -369,7 +370,7 @@ module Backlogs
     # this project, in the submitted order: silently dropping a member would
     # break the client's optimistic block. Nil when any id does not resolve.
     def find_collection_work_packages(ids)
-      found = WorkPackage.visible.where(project: @project, id: ids).index_by { |wp| wp.id.to_s }
+      found = WorkPackage.visible.where(project: @project, id: ids).includes(:type, :status).index_by { |wp| wp.id.to_s }
       ordered = ids.map { |id| found[id.to_s] }
 
       ordered.any?(&:nil?) ? nil : ordered

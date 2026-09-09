@@ -116,8 +116,11 @@ module Backlogs
     end
 
     def destination_data(type, ids)
-      candidates = ids.map { |id| { type:, id: id.to_s } }
-      candidates = [{ type:, id: nil }] if type == Backlogs::Target::InboxId.list_type
+      candidates = if type == Backlogs::Target::InboxId.list_type
+                     [{ type:, id: nil }]
+                   else
+                     ids.map { |id| { type:, id: id.to_s } }
+                   end
 
       {
         sortable_lists__item_target: "destinationItem",
