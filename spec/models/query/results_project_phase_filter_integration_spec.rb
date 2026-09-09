@@ -86,7 +86,7 @@ RSpec.describe Query::Results, "project phase filter" do
     let!(:wp_with_other_phase) do
       create(:work_package, project:, project_phase_definition: other_definition)
     end
-    let(:other_project) { create(:project) }
+    let(:other_project) { create(:project, name: "Another project") }
     let!(:other_project_phase) do
       create(:project_phase, project: other_project, definition:, active: other_project_phase_active)
     end
@@ -106,7 +106,7 @@ RSpec.describe Query::Results, "project phase filter" do
     end
 
     def results_for(operator, values = nil)
-      query = build(:query, user:, project: query_project, show_hierarchies: false)
+      query = build(:query, user:, project: query_project&.reload, show_hierarchies: false)
       query.filters.clear
       query.add_filter("project_phase_definition_id", operator, values)
       described_class.new(query).work_packages.to_a

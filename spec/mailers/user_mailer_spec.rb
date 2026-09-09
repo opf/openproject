@@ -237,7 +237,7 @@ RSpec.describe UserMailer do
   describe "#incoming_email_error" do
     let(:logs) { ["info: foo", "error: bar"] }
     let(:recipient) { user }
-    let(:current_time) { "2022-11-03 9:15".to_time }
+    let(:current_time) { Time.utc(2022, 11, 3, 9, 15) }
     let(:mail_subject) { "New work package 42" }
     let(:message_id) { "000501c8d452$a95cd7e0$0a00a8c0@osiris" }
     let(:from) { "l.lustig@openproject.com" }
