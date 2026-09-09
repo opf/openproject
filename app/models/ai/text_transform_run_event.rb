@@ -34,6 +34,8 @@ module AI
 
     belongs_to :run, class_name: "AI::TextTransformRun", inverse_of: :events
 
+    normalizes :payload, with: ->(payload) { payload.deep_stringify_keys }
+
     validates :kind, inclusion: { in: KINDS }
     validates :seq, presence: true, uniqueness: { scope: :run_id }
 
