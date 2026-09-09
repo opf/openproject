@@ -35,12 +35,27 @@ See COPYRIGHT and LICENSE files for more details.
       url: form_url,
       method: :post,
       html: {
-        data: { turbo_stream: true },
+        data: form_data,
         id: ResourceManagement::PlaceholderUsers::NewDialogComponent::FORM_ID
       }
     ) do |f|
-      render(ResourceManagement::PlaceholderUsers::Forms::DetailsForm.new(f)) +
+      banner = if criteria_errors.any?
+                 render(Primer::Alpha::Banner.new(icon: :stop, scheme: :danger, mb: 3)) do
+                   criteria_errors.to_sentence
+                 end
+               end
+
+      criteria = content_tag(:div, class: "op-filters-form -expanded") do
         render(criteria_form(f))
+      end
+
+      safe_join(
+        [
+          banner,
+          render(ResourceManagement::PlaceholderUsers::Forms::DetailsForm.new(f)),
+          criteria
+        ].compact
+      )
     end
   end
 %>

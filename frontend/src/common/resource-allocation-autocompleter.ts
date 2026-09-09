@@ -26,37 +26,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  TemplateRef,
-  ViewChild,
-  inject,
-} from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import {
-  IAutocompleterTemplateComponent,
-  OpAutocompleterComponent,
-} from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
+// Dispatched on the resource allocation autocompleter element to select a
+// principal that is not among the loaded options yet, e.g. a placeholder user
+// that was just created.
+export const SELECT_PRINCIPAL_EVENT = 'resource-allocation-autocompleter:select-principal';
 
-@Component({
-  templateUrl: './resource-allocation-autocompleter-template.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
-})
-export class ResourceAllocationAutocompleterTemplateComponent implements IAutocompleterTemplateComponent {
-  @Input() public canCreatePlaceholderUser$:Observable<boolean> = of(false);
-
-  @Input() public createPlaceholderUser:(name:string) => void = () => undefined;
-
-  @ViewChild('notFoundTemplate') notFoundTemplate:TemplateRef<Element>;
-
-  readonly I18n = inject(I18nService);
-  readonly autocompleter = inject(OpAutocompleterComponent);
-
-  text = {
-    createPlaceholderUser: this.I18n.t('js.resource_management.create_placeholder_user'),
-  };
+export interface SelectPrincipalDetail {
+  id:string;
 }

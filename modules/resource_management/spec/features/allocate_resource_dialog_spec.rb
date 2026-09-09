@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Allocate resource dialog", :js, with_ee: %i[resource_management] do
+RSpec.describe "Allocate resource dialog", :js, with_ee: %i[resource_management placeholder_users] do
   shared_let(:project) { create(:project, enabled_module_names: %w[resource_management work_package_tracking]) }
   shared_let(:user) do
     create(:user,
@@ -60,13 +60,14 @@ RSpec.describe "Allocate resource dialog", :js, with_ee: %i[resource_management]
 
   describe "the resource picker with a name nothing matches" do
     include Components::Autocompleter::NgSelectAutocompleteHelpers
+    include Components::Common::Filters
 
     let(:autocompleter) { find("opce-resource-allocation-autocompleter") }
 
-    def open_picker_and_search
+    def open_picker_and_search(query = "Nobody goes by this name")
       click_on I18n.t("resource_management.work_package_list.subheader.allocate")
       search_autocomplete(autocompleter,
-                          query: "Nobody goes by this name",
+                          query:,
                           results_selector: "##{ResourceAllocations::NewDialogComponent::DIALOG_ID}")
     end
 
@@ -88,6 +89,28 @@ RSpec.describe "Allocate resource dialog", :js, with_ee: %i[resource_management]
         open_picker_and_search
 
         expect(page).to have_text(I18n.t("js.resource_management.create_placeholder_user"))
+      end
+
+      it "creates one from the searched name and picks it for the allocation" do
+        open_picker_and_search("Backend Developer")
+        click_on I18n.t("js.resource_management.create_placeholder_user")
+
+        within("##{ResourceManagement::PlaceholderUsers::NewDialogComponent::DIALOG_ID}") do
+          expect(page).to have_field(PlaceholderUser.human_attribute_name(:name), with: "Backend Developer")
+
+          select_filter("name", User.human_attribute_name(:name))
+          fill_in "name_value", with: "dev"
+
+          click_on I18n.t("resource_management.create_placeholder_user_dialog.submit")
+        end
+
+        placeholder_user = PlaceholderUser.find_by(lastname: "Backend Developer")
+        expect(placeholder_user.user_filter.map(&:field)).to eq([:name])
+
+        within_dialog do
+          expect(page).to have_css(".ng-value", text: "Backend Developer")
+          expect(page).to have_text(I18n.t("resource_management.allocate_resource_dialog.criteria.label"))
+        end
       end
     end
 

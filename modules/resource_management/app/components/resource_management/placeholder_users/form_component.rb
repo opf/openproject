@@ -51,6 +51,12 @@ module ResourceManagement
         resource_management_placeholder_users_path
       end
 
+      # The criteria are built by a filter form rather than a model-bound field,
+      # so their errors have nowhere to render inline.
+      def criteria_errors
+        @placeholder_user.errors.full_messages_for(:user_filter)
+      end
+
       # Only project members can be allocated, so the project scoping is applied
       # when the criteria are read rather than offered as a filter here.
       def criteria_form(form)
@@ -58,11 +64,22 @@ module ResourceManagement
           builder: form,
           query: @placeholder_user.candidate_query,
           excluded_filters: [:member],
-          wrap_with_controller: true,
           hidden_input_name: "filters",
           output_format: :json,
           autocomplete_append_to: "##{NewDialogComponent::DIALOG_ID}"
         )
+      end
+
+      # The filter controller sits on the form so that submitting it serializes
+      # the criteria into the hidden field first; on its own it only syncs them
+      # after a debounce.
+      def form_data
+        {
+          turbo_stream: true,
+          controller: "filter--filters-form",
+          action: "submit->filter--filters-form#sendForm",
+          filter__filters_form_output_format_value: "json"
+        }
       end
     end
   end

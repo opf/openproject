@@ -93,6 +93,24 @@ RSpec.describe "ResourceManagement PlaceholderUsers requests",
       expect(response.body).to include(CGI.escapeHTML({ placeholderUserId: PlaceholderUser.last.id }.to_json))
     end
 
+    context "without any criteria" do
+      subject(:perform) do
+        post resource_management_placeholder_users_path,
+             params: { placeholder_user: { name: "Backend Developer" }, filters: [].to_json },
+             as: :turbo_stream
+      end
+
+      it "refuses to create a placeholder nothing can be allocated against" do
+        expect { perform }.not_to change(PlaceholderUser, :count)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body).to include(
+          CGI.escapeHTML("#{PlaceholderUser.human_attribute_name(:user_filter)} " \
+                         "#{I18n.t('activerecord.errors.messages.blank')}")
+        )
+      end
+    end
+
     context "with an invalid name" do
       subject(:perform) do
         post resource_management_placeholder_users_path,

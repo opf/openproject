@@ -59,6 +59,7 @@ import WorkingHoursFormController from './controllers/dynamic/users/working-hour
 import DailyRemindersController from './controllers/dynamic/my/daily-reminders.controller';
 import HeaderProjectSelectController from './controllers/header-project-select.controller';
 import ResourceTimelineController from './controllers/dynamic/resource-management/resource-timeline.controller';
+import CreatedPlaceholderUserController from './controllers/dynamic/resource-management/created-placeholder-user.controller';
 import NonWorkingTimesController from './controllers/dynamic/users/non-working-times.controller';
 import NonWorkingTimesFormController from './controllers/dynamic/users/non-working-times-form.controller';
 import OpPasswordForceChangeController from './controllers/password-force-change.controller';
@@ -125,6 +126,7 @@ OpenProjectStimulusApplication.preregister('editable-page-header-title', Editabl
 OpenProjectStimulusApplication.preregister('users--working-hours-form', WorkingHoursFormController);
 OpenProjectStimulusApplication.preregister('my--daily-reminders', DailyRemindersController);
 OpenProjectStimulusApplication.preregister('resource-management--resource-timeline', ResourceTimelineController);
+OpenProjectStimulusApplication.preregister('resource-management--created-placeholder-user', CreatedPlaceholderUserController);
 OpenProjectStimulusApplication.preregister('users--non-working-times', NonWorkingTimesController);
 OpenProjectStimulusApplication.preregister('users--non-working-times-form', NonWorkingTimesFormController);
 OpenProjectStimulusApplication.preregister('password-force-change', OpPasswordForceChangeController);

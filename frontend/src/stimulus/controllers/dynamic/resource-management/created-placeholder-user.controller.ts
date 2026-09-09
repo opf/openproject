@@ -26,37 +26,41 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  TemplateRef,
-  ViewChild,
-  inject,
-} from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import {
-  IAutocompleterTemplateComponent,
-  OpAutocompleterComponent,
-} from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
+import { Controller } from '@hotwired/stimulus';
+import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
+import { SELECT_PRINCIPAL_EVENT } from 'core-common/resource-allocation-autocompleter';
 
-@Component({
-  templateUrl: './resource-allocation-autocompleter-template.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: false,
-})
-export class ResourceAllocationAutocompleterTemplateComponent implements IAutocompleterTemplateComponent {
-  @Input() public canCreatePlaceholderUser$:Observable<boolean> = of(false);
+interface CreatedPlaceholderUser {
+  placeholderUserId?:number;
+}
 
-  @Input() public createPlaceholderUser:(name:string) => void = () => undefined;
+export default class CreatedPlaceholderUserController extends Controller<HTMLElement> {
+  static values = {
+    dialogId: String,
+    autocompleter: String,
+  };
 
-  @ViewChild('notFoundTemplate') notFoundTemplate:TemplateRef<Element>;
+  declare readonly dialogIdValue:string;
+  declare readonly autocompleterValue:string;
 
-  readonly I18n = inject(I18nService);
-  readonly autocompleter = inject(OpAutocompleterComponent);
+  connect():void {
+    document.addEventListener('dialog:close', this.onDialogClose);
+  }
 
-  text = {
-    createPlaceholderUser: this.I18n.t('js.resource_management.create_placeholder_user'),
+  disconnect():void {
+    document.removeEventListener('dialog:close', this.onDialogClose);
+  }
+
+  private onDialogClose = (event:Event):void => {
+    const { dialog, submitted, additional } = (event as CustomEvent<DialogCloseDetail>).detail;
+
+    if (dialog.id !== this.dialogIdValue || !submitted) { return; }
+
+    const { placeholderUserId } = (additional ?? {}) as CreatedPlaceholderUser;
+    if (!placeholderUserId) { return; }
+
+    this.element.querySelector(this.autocompleterValue)?.dispatchEvent(
+      new CustomEvent(SELECT_PRINCIPAL_EVENT, { detail: { id: placeholderUserId.toString() } }),
+    );
   };
 }
