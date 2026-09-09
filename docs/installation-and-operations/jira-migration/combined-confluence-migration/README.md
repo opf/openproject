@@ -14,9 +14,11 @@ Many organizations run Jira and Confluence tightly linked — issues reference p
 
 | Your situation                                              | What happens                                                 |
 | ----------------------------------------------------------- | ------------------------------------------------------------ |
-| **You keep Confluence** (only migrating Jira)               | An OpenProject–Confluence integration lets your Jira → Confluence links keep working unchanged. *(In development.)* |
 | **You migrate Confluence to XWiki**                         | Links stay intact automatically via redirects, whether Jira and Confluence migrate together or on separate schedules. See below. |
-| **You migrate Confluence to another tool** (e.g. BlueSpice) | Not currently supported.                                     |
+| **You keep Confluence** (only migrating Jira)               | An OpenProject–Confluence integration lets your Jira → Confluence links keep working unchanged. *(In development.)* |
+| **You migrate Confluence to another tool**                  | Not currently supported.                                     |
+
+Note: the rest of this guide covers the first secnario (migrating Confluence to XWiki alongside Jira) only. 
 
 ## Goal
 
