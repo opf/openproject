@@ -95,6 +95,21 @@ en:
         prompt: "Prompt"
         types: "Work package types"
         usage_scope: "Scope"
+      ai/text_transform_run:
+        action: "Action"
+        cancel_requested: "Cancel requested"
+        error_message: "Error message"
+        finished_at: "Finished at"
+        input: "Input"
+        status: "Status"
+        system_prompt: "System prompt"
+        user: "User"
+        uuid: "UUID"
+      ai/text_transform_run_event:
+        kind: "Kind"
+        payload: "Payload"
+        run: "Run"
+        seq: "Sequence number"
       announcements:
         show_until: "Display until"
       attachment:
@@ -1013,6 +1028,12 @@ en:
       ai/text_transform_action:
         one: "Text transform action"
         other: "Text transform actions"
+      ai/text_transform_run:
+        one: "Text transform run"
+        other: "Text transform runs"
+      ai/text_transform_run_event:
+        one: "Text transform run event"
+        other: "Text transform run events"
       announcement:
         one: "Announcement"
         other: "Announcements"
