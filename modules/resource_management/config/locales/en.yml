@@ -150,6 +150,9 @@ en:
             A custom list of items you manually add and remove. Filtering is not possible.
           label: Manually hand-picked
       title: Configure view
+    create_placeholder_user_dialog:
+      submit: Create
+      title: Create placeholder user
     edit_allocation_dialog:
       submit: Save
       success_message: Resource allocation updated.
