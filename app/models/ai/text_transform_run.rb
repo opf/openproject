@@ -51,7 +51,7 @@ module AI
       cancelled: "cancelled"
     }, default: "queued", validate: true
 
-    attribute :uuid, :string, default: -> { SecureRandom.uuid }
+    attribute :uuid, default: -> { SecureRandom.uuid }
 
     validates :system_prompt, presence: true
     validates :input, presence: true, length: { maximum: MAX_INPUT_LENGTH }
