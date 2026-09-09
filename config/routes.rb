@@ -72,7 +72,7 @@ Rails.application.routes.draw do
   # Add catch method for Rack OmniAuth to allow route helpers
   # Note: This renders a 404 in rails but is caught by omniauth in Rack before
   get "/auth/failure", to: "omni_auth_login#failure", as: "omni_auth_failure"
-  get "/auth/:provider", to: proc { [404, {}, [""]] }, as: "omni_auth_start"
+  match "/auth/:provider", to: proc { [404, {}, [""]] }, as: "omni_auth_start", via: %i[get post]
   match "/auth/:provider/callback", to: "omni_auth_login#callback", as: "omni_auth_callback", via: %i[get post]
 
   scope ".well-known" do
@@ -157,6 +157,8 @@ Rails.application.routes.draw do
   # Configuring one variant of a type, from administration or from the settings of a project
   # that owns one.
   concern :type_variant_configuration do
+    resources :settings, controller: "settings_tab", only: %i[index]
+
     # ProjectsTabController turns a project away: which projects use a type is instance-wide.
     resource :projects, controller: "projects_tab", only: %i[edit update] do
       collection do
@@ -1067,6 +1069,7 @@ Rails.application.routes.draw do
       collection do
         match :reassign, via: %i[get delete]
         get :delete_dialog
+        post :confirm_delete
       end
     end
   end

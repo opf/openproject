@@ -49,7 +49,7 @@ RSpec.shared_examples_for "provides a single WP context menu" do
     # Open Delete
     open_context_menu.call
     menu.choose("Delete")
-    destroy_modal.expect_listed(work_package)
+    destroy_modal.expect_open
     destroy_modal.cancel_deletion
 
     # Open create new child

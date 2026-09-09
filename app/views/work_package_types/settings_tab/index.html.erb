@@ -26,12 +26,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%= error_messages_for "forum" %>
-<!--[form:forum]-->
-<div class="form--field -required">
-  <%= f.text_field :name, required: true, container_class: "-wide" %>
-</div>
-<div class="form--field -required">
-  <%= f.text_field :description, required: true, container_class: "-wide" %>
-</div>
-<!--[eoform:forum]-->
+
+<% html_title variant_scope_title, "#{t(:label_edit)} #{t(:label_work_package_types)} #{h @variant.composite_name}" %>
+
+<% tabs = types_tabs %>
+
+<%= render ::Types::EditPageHeaderComponent.new(type: @type, variant: @variant, tabs:) %>
+
+<%= render WorkPackageTypes::Overview::TableComponent.new(variant: @variant, tabs:) %>

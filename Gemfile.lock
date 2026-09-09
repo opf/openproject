@@ -35,22 +35,13 @@ GIT
       ttfunk (~> 1.7.0)
 
 GIT
-  remote: https://github.com/opf/omniauth
-  revision: 7eb21563ba047ef86d71f099975587b5ec88f9c9
-  ref: 7eb21563ba047ef86d71f099975587b5ec88f9c9
-  specs:
-    omniauth (1.9.2)
-      hashie (>= 3.4.6)
-      rack (>= 1.6.2, < 3)
-
-GIT
   remote: https://github.com/opf/omniauth-openid-connect.git
-  revision: 825d06235b64f6bc872bba709f1c2d48fd5cede4
-  ref: 825d06235b64f6bc872bba709f1c2d48fd5cede4
+  revision: 21f27e8c0bf5b7523bd7c7caddf87dd68de3143a
+  ref: 21f27e8c0bf5b7523bd7c7caddf87dd68de3143a
   specs:
     omniauth-openid-connect (0.5.0)
       addressable (~> 2.5)
-      omniauth (~> 1.6)
+      omniauth (~> 2.1, >= 2.1.4)
       openid_connect (~> 2.2.0)
 
 GIT
@@ -84,13 +75,13 @@ PATH
   remote: modules/auth_plugins
   specs:
     openproject-auth_plugins (1.0.0)
-      omniauth (~> 1.0)
+      omniauth (~> 2.1)
 
 PATH
   remote: modules/auth_saml
   specs:
     openproject-auth_saml (1.0.0)
-      omniauth-saml (~> 1.10.6)
+      omniauth-saml (~> 2.2)
 
 PATH
   remote: modules/avatars
@@ -190,7 +181,6 @@ PATH
   remote: modules/openid_connect
   specs:
     openproject-openid_connect (1.0.0)
-      lobby_boy (~> 0.1.3)
       omniauth-openid_connect-providers (~> 0.1)
       openproject-auth_plugins
 
@@ -794,10 +784,6 @@ GEM
       logger
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
-    lobby_boy (0.1.3)
-      omniauth (~> 1.1)
-      omniauth-openid-connect (>= 0.2.1)
-      rails (>= 3.2.21)
     logger (1.7.0)
     lograge (0.15.0)
       actionpack (>= 4)
@@ -881,8 +867,16 @@ GEM
       racc (~> 1.4)
     okcomputer (1.19.2)
       benchmark
-    omniauth-saml (1.10.6)
-      omniauth (~> 1.3, >= 1.3.2)
+    omniauth (2.1.4)
+      hashie (>= 3.4.6)
+      logger
+      rack (>= 2.2.3)
+      rack-protection
+    omniauth-rails_csrf_protection (2.0.1)
+      actionpack (>= 4.2)
+      omniauth (~> 2.0)
+    omniauth-saml (2.2.5)
+      omniauth (~> 2.1)
       ruby-saml (~> 1.18)
     op-clamav-client (3.4.2)
     open4 (1.3.4)
@@ -1489,7 +1483,7 @@ GEM
       public_suffix
     vcr (6.4.0)
     vernier (1.10.1)
-    view_component (4.12.0)
+    view_component (4.15.0)
       actionview (>= 7.1.0)
       activesupport (>= 7.1.0)
       concurrent-ruby (~> 1)
@@ -1658,9 +1652,10 @@ DEPENDENCIES
   net-ldap (~> 0.20.0)
   nokogiri (~> 1.19.4)
   okcomputer (~> 1.19.1)
-  omniauth!
+  omniauth (~> 2.1)
   omniauth-openid-connect!
   omniauth-openid_connect-providers!
+  omniauth-rails_csrf_protection (~> 2.0)
   op-clamav-client (~> 3.4)
   openproject-auth_plugins!
   openproject-auth_saml!
@@ -1776,7 +1771,7 @@ DEPENDENCIES
   validate_url
   vcr
   vernier
-  view_component (~> 4.12.0)
+  view_component (~> 4.15.0)
   warden (~> 1.2)
   warden-basic_auth (~> 0.2.1)
   webmock (~> 3.26)
@@ -1994,7 +1989,6 @@ CHECKSUMS
   letter_opener_web (3.0.0) sha256=3f391efe0e8b9b24becfab5537dfb17a5cf5eb532038f947daab58cb4b749860
   lint_roller (1.1.0) sha256=2c0c845b632a7d172cb849cc90c1bce937a28c5c8ccccb50dfd46a485003cc87
   listen (3.10.0) sha256=c6e182db62143aeccc2e1960033bebe7445309c7272061979bb098d03760c9d2
-  lobby_boy (0.1.3) sha256=9460bb3c052aef158eb3f137b8f7679ca756b8e2983d140dbdc0caa85c018172
   logger (1.7.0) sha256=196edec7cc44b66cfb40f9755ce11b392f21f7967696af15d274dde7edff0203
   lograge (0.15.0) sha256=34072c1f50b95019dc185137f5fec1a6759f5a1b6d55c28163d0cba204e6df16
   loofah (2.25.2) sha256=2007f746959ac65552456e04b433e83deb22759ab38c838b4445c70e43425918
@@ -2033,10 +2027,11 @@ CHECKSUMS
   nokogiri (1.19.4-x86_64-linux-gnu) sha256=379fae440b28915e3f19d752ce2dcf8465ed2b2fbefd2a7ca0dd497bc981a06a
   nokogiri (1.19.4-x86_64-linux-musl) sha256=17dfb7c1fa194ae02fbf7c51a7afc8d278045ab3fdacfd86f91d02d7b274470b
   okcomputer (1.19.2) sha256=d069aedf1e31b8ebe7e1fdf9e327dee158ea49b9fbdebebc2f1bed4690cb7a6d
-  omniauth (1.9.2)
+  omniauth (2.1.4) sha256=42a05b0496f0d22e1dd85d42aaf602f064e36bb47a6826a27ab55e5ba608763c
   omniauth-openid-connect (0.5.0)
   omniauth-openid_connect-providers (0.2.0)
-  omniauth-saml (1.10.6) sha256=13dde22f4fd1beff0ef2d6dae576f7b68594f159990e8e886d8a02b32397afbd
+  omniauth-rails_csrf_protection (2.0.1) sha256=c6e3204d7e3925bb537cb52d50fdfc9f05293f1a9d87c5d4ab4ca3a39ba8c32d
+  omniauth-saml (2.2.5) sha256=552ad464564d711f0dfd169e0ad801de809cf3ac71c4bc9094f152d5a0d7ab59
   op-clamav-client (3.4.2) sha256=f28d697d11758a2ba3dc530cfdf4871a00ecd517631e8bac30dee30cd6012964
   open4 (1.3.4) sha256=a1df037310624ecc1ea1d81264b11c83e96d0c3c1c6043108d37d396dcd0f4b1
   openid_connect (2.2.1) sha256=31264e85b5a36e33dff5e31560cc176175c26f30c260d7e95af93ff0065f3101
@@ -2291,7 +2286,7 @@ CHECKSUMS
   validate_url (1.0.15) sha256=72fe164c0713d63a9970bd6700bea948babbfbdcec392f2342b6704042f57451
   vcr (6.4.0) sha256=077ac92cc16efc5904eb90492a18153b5e6ca5398046d8a249a7c96a9ea24ae6
   vernier (1.10.1) sha256=f2ab2e163b75ac3ef4e3173262d27d27da6219cf04b1b4a7171e4798114275ce
-  view_component (4.12.0) sha256=b9a5979d1c43eba2aa21a06a86f661aab3990104855f2909ef7c3779acdcdcb4
+  view_component (4.15.0) sha256=2924e207b102c04ab51c4d318535f03f1c3aab3c81ecff99b1cc631b43e14eac
   warden (1.2.9) sha256=46684f885d35a69dbb883deabf85a222c8e427a957804719e143005df7a1efd0
   warden-basic_auth (0.2.1) sha256=bfc752e0109c0182c3e69e930284c5e1e81e7b4a354aeb2b5914ead1391f3c6e
   webauthn (3.4.3) sha256=9be6f5f838f3405b0226e560aa40b67cc8c15ec9154509b997caa7ec9a05e1fc

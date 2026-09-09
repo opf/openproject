@@ -5498,6 +5498,12 @@ hy:
   roles:
     edit:
       default_for_new_projects_warning: Այս դերը կազմաձևված է որպես կանխադրված դեր, որը տրվում է նախագիծ ստեղծող ոչ ադմինիստրատոր օգտատերերին։ Մի հեռացրեք հետևյալ թույլտվությունները, հակառակ դեպքում նախագիծ ստեղծողները չեն կարողանա ավարտել իրենց նոր ստեղծած նախագծերի կարգավորումը՝
+    index:
+      filter_label: Search roles
+      types:
+        all: All roles
+        global: Global roles
+        project: Project roles
     permissions:
       section_check_all_label: Նշանակել %{module} մոդուլի բոլոր թույլտվությունները
       section_uncheck_all_label: Հանել %{module} մոդուլի բոլոր թույլտվությունները
