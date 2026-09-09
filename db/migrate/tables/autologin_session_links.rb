@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -22,14 +22,17 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-class AddAutologinSessionLink < ActiveRecord::Migration[8.0]
-  def change
-    create_table :autologin_session_links do |t|
+require_relative "base"
+
+class Tables::AutologinSessionLinks < Tables::Base
+  def self.table(migration)
+    create_table migration do |t|
       t.belongs_to :token, null: false, index: true, foreign_key: { on_delete: :cascade }
       t.belongs_to :session, index: true, null: false # cascade deletion not possible for unlogged sessions table
 
