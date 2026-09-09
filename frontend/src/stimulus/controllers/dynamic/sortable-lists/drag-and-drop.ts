@@ -55,7 +55,7 @@ import {
   type MoveAvailability,
   type MoveDirection,
 } from './list-dom';
-import type { ActionScope } from './selection-orchestrator';
+import type { ActionScope } from './action-scope';
 
 // Shared with the global generic-drag-and-drop controller and its row
 // styles, so it is not scoped to sortable lists.

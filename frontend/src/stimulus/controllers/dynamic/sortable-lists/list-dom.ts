@@ -121,6 +121,33 @@ export interface DestinationIdentity {
   id:string|null;
 }
 
+export function isDestinationIdentity(candidate:unknown):candidate is DestinationIdentity {
+  if (typeof candidate !== 'object' || candidate === null) {
+    return false;
+  }
+
+  return 'type' in candidate
+    && 'id' in candidate
+    && typeof candidate.type === 'string'
+    && candidate.type.length > 0
+    && (typeof candidate.id === 'string' || candidate.id === null);
+}
+
+export function parseDestinationCandidates(raw:string|undefined):DestinationIdentity[] {
+  if (!raw) return [];
+
+  try {
+    const candidates:unknown = JSON.parse(raw);
+    if (Array.isArray(candidates) && candidates.every(isDestinationIdentity)) {
+      return candidates;
+    }
+  } catch {
+    // Invalid JSON and invalid identities share the same fail-closed result.
+  }
+  debugLog('sortable-lists: malformed destination metadata');
+  return [];
+}
+
 export function sameDestination(left:DestinationIdentity|null, right:DestinationIdentity):boolean {
   return left !== null && left.type === right.type && left.id === right.id;
 }
@@ -151,12 +178,12 @@ export function permittedDestinations({
   candidates:DestinationIdentity[];
   ownerDestinationOf:(item:HTMLElement) => DestinationIdentity|null;
 }):DestinationIdentity[] {
-  if (items.length === 0 || items.some((item) => itemMobility(item) === 'fixed')) {
+  if (items.length === 0) {
     return [];
   }
 
   return candidates.filter((target) => (
-    items.every((item) => itemMobility(item) === 'free' || sameDestination(ownerDestinationOf(item), target))
+    items.every((item) => itemAcceptsDestination(item, target, ownerDestinationOf))
   ));
 }
 

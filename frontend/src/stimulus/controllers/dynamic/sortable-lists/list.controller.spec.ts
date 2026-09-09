@@ -38,7 +38,7 @@ import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-
 import type ListControllerType from './list.controller';
 import type { sortableDragSourceData as sortableDragSourceDataFn, SortableListsRoot } from './drag-and-drop';
 import type { DestinationIdentity } from './list-dom';
-import type { ActionScope } from './selection-orchestrator';
+import type { ActionScope } from './action-scope';
 
 // The list controller is tested in ISOLATION: the root drives the outlet
 // hand-over in production (sortable-lists.controller.ts), so here we render only

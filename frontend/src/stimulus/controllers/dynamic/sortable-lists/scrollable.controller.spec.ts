@@ -29,7 +29,7 @@ import { type autoScrollForElements as autoScrollForElementsFn } from '@atlaskit
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import type ScrollableControllerType from './scrollable.controller';
 import type { sortableDragSourceData as sortableDragSourceDataFn, SortableListsRoot } from './drag-and-drop';
-import type { ActionScope } from './selection-orchestrator';
+import type { ActionScope } from './action-scope';
 
 vi.doMock('@atlaskit/pragmatic-drag-and-drop-auto-scroll/element', () => ({
   autoScrollForElements: vi.fn(() => vi.fn()),

@@ -59,7 +59,7 @@ import type { ActionEvent } from '@hotwired/stimulus';
 import type ItemControllerType from './item.controller';
 import type { SortableListsRoot } from './drag-and-drop';
 import type { DestinationIdentity } from './list-dom';
-import type { ActionScope } from './selection-orchestrator';
+import type { ActionScope } from './action-scope';
 import { type SelectionItem } from 'core-common/batch-selection';
 import { DragSession, type DragSessionHost } from './drag-session';
 import { type Mock } from 'vitest';
@@ -1743,6 +1743,7 @@ describe('Sortable lists item controller', () => {
 
     it.each([
       ['invalid JSON', '{invalid'],
+      ['an empty destination type', '[{"type":"","id":null}]'],
       ['non-array JSON', '{"type":"sprint","id":"12"}'],
       ['a malformed candidate member', '[{"type":"sprint","id":"12"},{"type":"sprint"}]'],
     ])('fails closed for %s destination metadata', async (_description, metadata) => {
