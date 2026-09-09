@@ -140,6 +140,74 @@ RSpec.describe ResourceAllocation do
     end
   end
 
+  describe "#placeholder_or_user" do
+    let(:assignee) { build_stubbed(:user) }
+    let(:placeholder_user) { build_stubbed(:placeholder_user) }
+
+    describe "reader" do
+      it "is the principal of a user allocation" do
+        allocation = described_class.new(principal: assignee)
+
+        expect(allocation.placeholder_or_user).to eq(assignee)
+        expect(allocation.placeholder_or_user_id).to eq(assignee.id)
+      end
+
+      it "is the placeholder of a filter-based allocation" do
+        allocation = described_class.new(placeholder_user:, principal: nil)
+
+        expect(allocation.placeholder_or_user).to eq(placeholder_user)
+        expect(allocation.placeholder_or_user_id).to eq(placeholder_user.id)
+      end
+
+      # The placeholder is what was asked for, so staffing does not change what
+      # the allocation is out to.
+      it "is the placeholder of a staffed filter-based allocation" do
+        allocation = described_class.new(placeholder_user:, principal: assignee)
+
+        expect(allocation.placeholder_or_user).to eq(placeholder_user)
+        expect(allocation.placeholder_or_user_id).to eq(placeholder_user.id)
+      end
+
+      it "is nil without either" do
+        allocation = described_class.new
+
+        expect(allocation.placeholder_or_user).to be_nil
+        expect(allocation.placeholder_or_user_id).to be_nil
+      end
+    end
+
+    describe "writer" do
+      it "assigns a user as the principal" do
+        allocation = described_class.new(placeholder_user:)
+
+        allocation.placeholder_or_user = assignee
+
+        expect(allocation.principal).to eq(assignee)
+        expect(allocation.placeholder_user).to be_nil
+        expect(allocation).not_to be_filter_based
+      end
+
+      it "assigns a placeholder user as the placeholder" do
+        allocation = described_class.new(principal: assignee)
+
+        allocation.placeholder_or_user = placeholder_user
+
+        expect(allocation.placeholder_user).to eq(placeholder_user)
+        expect(allocation.principal).to be_nil
+        expect(allocation).to be_filter_based
+      end
+
+      it "clears both when set to nil" do
+        allocation = described_class.new(placeholder_user:, principal: assignee)
+
+        allocation.placeholder_or_user = nil
+
+        expect(allocation.principal).to be_nil
+        expect(allocation.placeholder_user).to be_nil
+      end
+    end
+  end
+
   describe "#schedule_violation, #entity_start_date, #entity_due_date" do
     let(:work_package) { build_stubbed(:work_package, start_date: Date.new(2026, 1, 10), due_date: Date.new(2026, 1, 20)) }
 
