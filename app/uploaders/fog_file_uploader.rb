@@ -45,6 +45,21 @@ class FogFileUploader < CarrierWave::Uploader::Base
     attachment.file = local_file
   end
 
+  ##
+  # Moves a freshly assigned local file into the cache instead of copying it.
+  # Avoids briefly holding two copies of large files (e.g. backup archives) on
+  # disk while caching them ahead of the upload to S3.
+  #
+  # This only affects genuinely local, path-backed sources (e.g. a Tempfile just
+  # written to disk). Re-caching an already-remote file (e.g. Attachment#copy's
+  # `attachment.file = diskfile`) never takes this path, since that source isn't
+  # a local path but a remote file reference, so the original stored file is safe.
+  # rubocop:disable Naming/PredicateMethod -- name is a CarrierWave config hook, not ours to choose
+  def move_to_cache
+    true
+  end
+  # rubocop:enable Naming/PredicateMethod
+
   def store_dir
     "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
