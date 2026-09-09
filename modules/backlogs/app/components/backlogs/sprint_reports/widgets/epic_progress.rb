@@ -38,7 +38,8 @@ module Backlogs
         param :project
 
         def title
-          epic_type.name
+          # TODO
+          "Epic progress"
         end
 
         def wrapper_arguments
@@ -46,7 +47,13 @@ module Backlogs
         end
 
         def render?
-          epic_type.present? && user_allowed?(:view_sprints)
+          user_allowed?(:view_sprints) && epic_type.present?
+        end
+
+        def resolved_percentage(epic)
+          return 0 if total_work_packages_count(epic).zero?
+
+          (resolved_work_packages_count(epic).to_f / total_work_packages_count(epic) * 100).round
         end
 
         private
@@ -55,16 +62,27 @@ module Backlogs
           WorkPackage.where(sprint:, project:).visible
         end
 
-        def epics
-          WorkPackage.where(id: ancestor_ids, type: epic_type).visible
+        def relevant_epics
+          @relevant_epics ||= begin
+            epic_ids = WorkPackageHierarchy
+                         .where(descendant_id: work_packages_in_sprint.select(:id))
+                         .distinct
+                         .pluck(:ancestor_id)
+
+            WorkPackage.where(id: epic_ids, type: epic_type).visible
+          end
         end
 
-        def ancestor_ids
-          @ancestor_ids ||= WorkPackageHierarchy
-                              .where(descendant_id: work_packages_in_sprint.select(:id))
-                              .where("generations > 0")
-                              .distinct
-                              .pluck(:ancestor_id)
+        def work_packages_in_epic(epic)
+          epic.descendants.visible
+        end
+
+        def resolved_work_packages_count(epic)
+          work_packages_in_epic(epic).where(status_id: project.done_status_ids).count
+        end
+
+        def total_work_packages_count(epic)
+          work_packages_in_epic(epic).count
         end
 
         def epic_type
