@@ -1152,21 +1152,39 @@ RSpec.describe Backlogs::WorkPackagesController do
 
     subject(:response) { post :move_to_sprint_dialog, params:, format: :turbo_stream }
 
-    before do
-      allow(controller).to receive(:build_move_to_sprint_dialog).and_return(Object.new)
-      allow(controller).to receive(:respond_with_dialog) { controller.head :ok }
-    end
-
-    it "passes the exact ordered collection and authoritative sprints to the dialog" do
+    it "renders the ordered collection and authoritative sprints" do
       response
 
-      expect(controller)
-        .to have_received(:build_move_to_sprint_dialog)
-        .with(
-          work_packages: [second, first],
-          sprints: [available_sprint],
-          move_action: move_project_backlogs_work_packages_path(project)
-        )
+      expect(response).to have_turbo_stream action: "dialog"
+      document = Nokogiri::HTML.fragment(response.body)
+      expect(document.css('input[name="ids[]"]').pluck("value"))
+        .to eq [second.id.to_s, first.id.to_s]
+      expect(document.css("select option").pluck("value"))
+        .to eq [available_sprint.id.to_s]
+      expect(document.css('input[name="prev_id"]')).to be_empty
+      expect(document.css("form").pluck("action"))
+        .to include(move_project_backlogs_work_packages_path(project))
+    end
+
+    context "with several distinct card types and statuses" do
+      let!(:stories) do
+        Array.new(5) do |index|
+          create(:work_package, project:,
+                                type: create(:type, name: "Dialog type #{index}"),
+                                status: create(:status, name: "Dialog status #{index}"))
+        end
+      end
+      let(:ids) { stories.map(&:id).reverse }
+
+      it "loads card type and policy status in one query each" do
+        recorder = ActiveRecord::QueryRecorder.new { response }
+
+        expect(response).to have_turbo_stream action: "dialog"
+        expect(recorder.log.grep(/FROM "types"/).size).to eq 1
+        expect(recorder.log.grep(/FROM "statuses"/).size).to eq 1
+        document = Nokogiri::HTML.fragment(response.body)
+        expect(document.css('input[name="ids[]"]').pluck("value")).to eq ids.map(&:to_s)
+      end
     end
 
     shared_examples "rejects invalid dialog ids" do
@@ -1174,7 +1192,6 @@ RSpec.describe Backlogs::WorkPackagesController do
         expect(response).to have_http_status :unprocessable_entity
         expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
         expect(response).not_to have_turbo_stream action: "dialog"
-        expect(controller).not_to have_received(:build_move_to_sprint_dialog)
       end
     end
 
@@ -1229,7 +1246,6 @@ RSpec.describe Backlogs::WorkPackagesController do
         expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
         expect(body).to include(I18n.t("backlogs.work_packages.move_to_sprint_dialog.no_available_destinations"))
         expect(response).not_to have_turbo_stream action: "dialog"
-        expect(controller).not_to have_received(:build_move_to_sprint_dialog)
       end
     end
   end
@@ -1242,21 +1258,18 @@ RSpec.describe Backlogs::WorkPackagesController do
 
     subject(:response) { post :move_to_bucket_dialog, params:, format: :turbo_stream }
 
-    before do
-      allow(controller).to receive(:build_move_to_bucket_dialog).and_return(Object.new)
-      allow(controller).to receive(:respond_with_dialog) { controller.head :ok }
-    end
-
-    it "passes the exact ordered collection and authoritative buckets to the dialog" do
+    it "renders the ordered collection and authoritative buckets" do
       response
 
-      expect(controller)
-        .to have_received(:build_move_to_bucket_dialog)
-        .with(
-          work_packages: [second, first],
-          buckets: [available_bucket],
-          move_action: move_project_backlogs_work_packages_path(project)
-        )
+      expect(response).to have_turbo_stream action: "dialog"
+      document = Nokogiri::HTML.fragment(response.body)
+      expect(document.css('input[name="ids[]"]').pluck("value"))
+        .to eq [second.id.to_s, first.id.to_s]
+      expect(document.css("select option").pluck("value"))
+        .to eq [available_bucket.id.to_s]
+      expect(document.css('input[name="prev_id"]')).to be_empty
+      expect(document.css("form").pluck("action"))
+        .to include(move_project_backlogs_work_packages_path(project))
     end
 
     context "when every bucket destination is omitted" do
@@ -1269,7 +1282,6 @@ RSpec.describe Backlogs::WorkPackagesController do
         expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
         expect(body).to include(I18n.t("backlogs.work_packages.move_to_bucket_dialog.no_available_destinations"))
         expect(response).not_to have_turbo_stream action: "dialog"
-        expect(controller).not_to have_received(:build_move_to_bucket_dialog)
       end
     end
   end

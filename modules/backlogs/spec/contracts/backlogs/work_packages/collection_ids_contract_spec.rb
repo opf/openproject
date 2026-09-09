@@ -28,30 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Backlogs
-  module WorkPackages
-    class BatchMoveParamsContract < CollectionIdsContract
-      validate :target_resolvable
-      validate :predecessor_well_formed
+require "spec_helper"
 
-      private
+RSpec.describe Backlogs::WorkPackages::CollectionIdsContract, type: :model do
+  shared_let(:project) { create(:project) }
+  shared_let(:user) { create(:user) }
 
-      def target_resolvable
-        return if Backlogs::Target.from_list(params[:list_type], params[:list_id])
+  it "accepts the full cap without requiring a destination" do
+    contract = described_class.new(project, user, params: { ids: (1..500).map(&:to_s) })
+    expect(contract).to be_valid
+  end
 
-        errors.add(:base, I18n.t("backlogs.work_packages.update_service.invalid_target_type"))
-      end
-
-      # A nonblank prev_id must be a pure integer id, or Active Record would
-      # integer-cast a digit-prefixed string; and a member cannot anchor its
-      # own batch.
-      def predecessor_well_formed
-        prev_id = params[:prev_id]
-        return if prev_id.nil? || prev_id.to_s.blank?
-        return if prev_id.to_s.match?(/\A\d+\z/) && ids.exclude?(prev_id.to_s)
-
-        errors.add(:base, I18n.t("backlogs.work_packages.batch_update_service.stale_predecessor"))
-      end
+  [[], [""], %w[1 1], (1..501).map(&:to_s)].each do |ids|
+    it "rejects invalid membership of size #{ids.size}" do
+      contract = described_class.new(project, user, params: { ids: })
+      expect(contract).not_to be_valid
+      expect(contract.errors).not_to be_empty
+      expect(project.errors).to be_empty
     end
   end
 end

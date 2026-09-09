@@ -852,22 +852,6 @@ module Pages
       end.to eq(message)
     end
 
-    def expect_persisted_sprint_order(sprint, *work_packages)
-      wait_for { sprint.work_packages_for(project).pluck(:id) }
-        .to eq(work_packages.map(&:id))
-    end
-
-    def expect_persisted_bucket_order(bucket, *work_packages)
-      wait_for { WorkPackage.where(backlog_bucket: bucket).order_by_position.pluck(:id) }
-        .to eq(work_packages.map(&:id))
-    end
-
-    def expect_persisted_inbox_order(*work_packages)
-      wait_for do
-        WorkPackage.where(project:, sprint_id: nil, backlog_bucket_id: nil).order_by_position.pluck(:id)
-      end.to eq(work_packages.map(&:id))
-    end
-
     # The shared description every selected card's `aria-describedby` points
     # at. Rendered once, permanently `hidden` — screen readers still reach it
     # through the reference despite that — so `visible: :all` is required.
