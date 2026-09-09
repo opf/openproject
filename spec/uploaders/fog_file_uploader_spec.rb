@@ -43,6 +43,9 @@ RSpec.describe FogFileUploader,
   let(:content) { "a" * 500_000 } # larger than fog-aws/excon's chunk size to exercise multiple reads
 
   before do
+    uploader.fog_credentials = MockCarrierwave.credentials
+    uploader.fog_directory = MockCarrierwave.bucket
+
     file = CarrierWave::SanitizedFile.new(
       tempfile: StringIO.new(content),
       filename: "test.bin",
