@@ -127,6 +127,7 @@ class AggregatedMigrations < SquashedMigration
          Tables::Favorites,
          Tables::EmojiReactions,
          Tables::AuthProviders,
+         Tables::UserAuthProviderLinks,
          Tables::RemoteIdentities,
          Tables::HierarchicalItems,
          Tables::HierarchicalItemHierarchies,
@@ -145,5 +146,6 @@ class AggregatedMigrations < SquashedMigration
     20250422072119_rename_comment_permissions
     20250423123519_add_index_to_sessions
     20250428135623_disallow_null_in_project_phases_references
+    20250512114003_move_users_identity_url_to_user_auth_provider_links
   ]
 end

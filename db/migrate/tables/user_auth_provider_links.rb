@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,19 +26,21 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-class MoveUsersIdentityUrlToUserAuthProviderLinks < ActiveRecord::Migration[8.0]
-  def change
-    create_table :user_auth_provider_links do |t|
+require_relative "base"
+
+class Tables::UserAuthProviderLinks < Tables::Base
+  def self.table(migration)
+    create_table migration do |t|
       t.references :user, null: false, foreign_key: { on_delete: :cascade, on_update: :cascade }
       t.references :auth_provider, null: false, foreign_key: { on_delete: :cascade, on_update: :cascade }
       t.string :external_id, null: false
+
       t.timestamps null: false
+
       t.index %i[user_id auth_provider_id], unique: true
       t.index %i[auth_provider_id external_id], unique: true
     end
-
-    # Code to migrate data into the new table was moved into 20250804133700 after adding a fix
   end
 end
