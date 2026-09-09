@@ -29,17 +29,17 @@
 #++
 
 module WorkPackages
-  class DeleteDialogComponent < ApplicationComponent
+  class BulkDeleteDescendantsDialogComponent < ApplicationComponent
     include OpTurbo::Streamable
     include WorkPackages::DeleteDialogs::Descendants
 
-    DIALOG_ID = "wp-delete-dialog"
+    DIALOG_ID = "wp-delete-descendants-dialog"
 
-    attr_reader :work_package
+    attr_reader :work_packages
 
-    def initialize(work_package:, back_url: nil)
+    def initialize(work_packages:, back_url: nil)
       super
-      @work_package = work_package
+      @work_packages = work_packages
       @back_url = back_url
     end
 
@@ -47,34 +47,60 @@ module WorkPackages
 
     def id = DIALOG_ID
 
-    def i18n_scope = "work_packages.delete_dialog"
+    def i18n_scope = "work_packages.bulk_delete_dialog"
 
-    def deletion_roots = [work_package]
+    def deletion_roots = work_packages.to_a
 
     def title
-      t_dialog(has_descendants? ? "descendants_choice.heading" : "title")
+      t_dialog("title", count: total_count)
     end
 
     def heading
-      t_dialog(has_descendants? ? "descendants_choice.heading" : "heading")
+      t_dialog("heading", count: total_count)
     end
 
     def description
-      return t_dialog("descendants_choice.question") if has_descendants?
+      key =
+        case variant
+        when :all then "description_with_descendants"
+        when :hidden then nothing_deleted? ? "description" : "description_with_visible_descendants"
+        when :undeletable then nothing_deleted? ? "description" : "description_with_all_descendants"
+        else "description"
+        end
 
-      t_dialog("description", name: work_package.to_s)
+      t_dialog(key)
     end
 
     def confirmation_checkbox_text
-      t_dialog("confirm_deletion")
+      t_dialog(deleted_descendants.any? ? "confirm_descendants_deletion" : "confirm_deletion")
+    end
+
+    def total_count
+      @total_count ||= work_package_ids.size + deleted_descendants.size
+    end
+
+    def multiple_projects?
+      projects.size > 1
+    end
+
+    def project_links
+      link_to_projects(projects)
+    end
+
+    def descendants_for(work_package)
+      deleted_descendants_under(work_package)
     end
 
     def form_action
-      helpers.work_packages_bulk_path(ids: [work_package.id], delete_descendants: false, back_url: @back_url)
+      helpers.work_packages_bulk_path(ids: work_package_ids, delete_descendants: true, back_url: @back_url)
     end
 
-    def confirm_delete_path
-      helpers.confirm_delete_work_packages_bulk_path(ids: [work_package.id], back_url: @back_url)
+    def projects
+      @projects ||= (work_packages.to_a + deleted_descendants).filter_map(&:project).uniq
+    end
+
+    def work_package_ids
+      @work_package_ids ||= work_packages.map(&:id)
     end
   end
 end
