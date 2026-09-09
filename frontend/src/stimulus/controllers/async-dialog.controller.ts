@@ -28,8 +28,7 @@
 
 import { Controller } from '@hotwired/stimulus';
 import { FetchRequest } from '@rails/request.js';
-import { performTurboStreamRequest } from 'core-stimulus/helpers/request-helpers';
-import { TurboHelpers } from 'core-turbo/helpers';
+import { performTurboStreamRequest, withProgressBar } from 'core-stimulus/helpers/request-helpers';
 
 export default class AsyncDialogController extends Controller {
   static values = { disableDuringLoad: { type: Boolean, default: true } };
@@ -77,16 +76,14 @@ export default class AsyncDialogController extends Controller {
     const body = form ? new FormData(form) : undefined;
 
     this.setLoading(true);
-    TurboHelpers.showProgressBar();
 
     try {
-      await performTurboStreamRequest(new FetchRequest(method, url, {
+      await withProgressBar(performTurboStreamRequest(new FetchRequest(method, url, {
         body,
         responseKind: 'turbo-stream',
-      }));
+      })));
     } finally {
       this.setLoading(false);
-      TurboHelpers.hideProgressBar();
     }
   }
 
