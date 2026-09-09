@@ -43,7 +43,19 @@ See COPYRIGHT and LICENSE files for more details.
       else
         users.each do |user|
           box.with_row do
-            avatar(user, size: "mini", hide_name: false, hover_card: { active: true })
+            flex_layout(align_items: :center) do |row|
+              row.with_column(mr: 2) do
+                avatar(user, size: "mini", hide_name: false, hover_card: { active: true })
+              end
+
+              if details_for(user)
+                row.with_column(classes: "min-width-0") do
+                  render(Primer::Beta::Truncate.new) do |truncate|
+                    truncate.with_item(font_size: :small, color: :muted) { details_for(user) }
+                  end
+                end
+              end
+            end
           end
         end
       end

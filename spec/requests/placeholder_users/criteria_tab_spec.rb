@@ -47,6 +47,13 @@ RSpec.describe "Placeholder user filter criteria tab",
   current_user { create(:admin) }
 
   describe "with criteria" do
+    shared_let(:department) { create(:group, organizational_unit: true, name: "Titan Team", members: [matching_user]) }
+    shared_let(:job_title) do
+      create(:user_custom_field, :string, name: "Position", semantic_key: :job_title).tap do |field|
+        matching_user.custom_values.create!(custom_field: field, value: "Frontend Developer")
+      end
+    end
+
     before { get edit_placeholder_user_path(with_criteria, tab: :criteria) }
 
     it "offers the criteria builder next to the users meeting them" do
@@ -59,6 +66,11 @@ RSpec.describe "Placeholder user filter criteria tab",
     it "lists the users the criteria select" do
       expect(response.body).to include("Eloper")
       expect(response.body).not_to include("Sales")
+    end
+
+    it "names each user's department and job title where they are known" do
+      expect(response.body).to include("Titan Team")
+      expect(response.body).to include("Frontend Developer")
     end
   end
 
