@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { FC, RefObject } from 'react';
 import type { SuggestionMenuProps } from '@blocknote/react';
 import styled from 'styled-components';
@@ -7,6 +7,7 @@ import { defaultWpVariables, menuSurfaceStyles } from '../WorkPackage/atoms';
 import { SearchMessage } from '../Search/SearchContainer';
 import { Spinner } from '../Spinner';
 import { supportsHover } from '../../utils/device';
+import { useActiveOptionInView } from '../../hooks/useActiveOptionInView';
 import type { HashMenuItem, HashSearchState } from './types';
 import { useTranslation } from 'react-i18next';
 
@@ -44,8 +45,6 @@ const MenuItem = styled.div.attrs({ className: 'op-bn-hash-menu-item' })<{ $high
   padding: 0 var(--spacer-s);
 `;
 
-const MAX_RESULTS = 5;
-
 export function createHashWpMenuComponent(
   searchStateRef:RefObject<HashSearchState>,
 ):FC<SuggestionMenuProps<HashMenuItem>> {
@@ -57,10 +56,12 @@ export function createHashWpMenuComponent(
   }) => {
     const { t } = useTranslation();
     const { query, results, error } = searchStateRef.current;
-    const visibleResults = results.slice(0, MAX_RESULTS);
 
     const canHover = useMemo(() => supportsHover(), []);
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+    const menuRef = useRef<HTMLDivElement>(null);
+
+    useActiveOptionInView(menuRef, selectedIndex ?? -1, results);
 
     useEffect(() => {
       setHoveredIndex(null);
@@ -87,7 +88,7 @@ export function createHashWpMenuComponent(
       );
     }
 
-    if (error || visibleResults.length === 0) {
+    if (error || results.length === 0) {
       return (
         <Menu>
           <SearchMessage>{error ? t('search.error') : t('search.noResults')}</SearchMessage>
@@ -96,13 +97,19 @@ export function createHashWpMenuComponent(
     }
 
     return (
-      <Menu onMouseLeave={canHover ? () => setHoveredIndex(null) : undefined}>
-        {visibleResults.map((wp, index) => (
+      <Menu
+        ref={menuRef}
+        role="listbox"
+        aria-label={t('search.dropdownAriaLabel')}
+        onMouseLeave={canHover ? () => setHoveredIndex(null) : undefined}
+      >
+        {results.map((wp, index) => (
           <MenuItem
             key={wp.id}
             $highlighted={highlightedIndex === index}
             onMouseMove={canHover ? () => setHoveredIndex(index) : undefined}
-            role="button"
+            role="option"
+            aria-selected={selectedIndex === index}
             onMouseDown={(e) => e.preventDefault()}
             onClick={() => {
               if (items[index]) onItemClick?.(items[index]);

@@ -161,7 +161,7 @@ export const BlockWorkPackageComponent = ({
   };
 
   const trackBlockElement = (node:HTMLDivElement | null) => {
-    if (pendingMode === 'create' || node === null) setBlockEl(node);
+    if (pendingMode !== undefined || node === null) setBlockEl(node);
   };
 
   const optionsPopover = (
@@ -191,8 +191,9 @@ export const BlockWorkPackageComponent = ({
           />
         )}
 
-        {pendingMode === 'link' && (
+        {pendingMode === 'link' && blockEl && (
           <WorkPackageSearchPopover
+            anchorEl={blockEl}
             onSelect={handleSelectWorkPackage}
             onCancel={handleCancelPending}
           />

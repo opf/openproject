@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import type { WorkPackage } from '../openProjectTypes';
 import { searchWorkPackages } from '../services/openProjectApi';
 
+export const MAX_SEARCH_RESULTS = 5;
+
 interface UseWorkPackageSearchOptions {
   debounce?:number;
 }
