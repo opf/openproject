@@ -51,14 +51,19 @@ namespace :bug_found_in_version do
     [custom_options, custom_values, option_version_map]
   end
 
-  def fetch_rows_data(batch, option_version_map)
+  def fetch_rows_data(batch, option_version_map) # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
     rows = batch.pluck(:customized_id, :value)
-    work_packages = WorkPackage.where(id: rows.map(&:first)).index_by(&:id)
+    work_packages = WorkPackage.where(id: rows.map(&:first)).includes(:project).index_by(&:id)
     version_names = rows.filter_map { |_, value| option_version_map[value] }.uniq
-    project_ids = work_packages.values.map(&:project_id).uniq
-    versions = Version
-      .where(project_id: project_ids, name: version_names)
-      .index_by { |version| [version.project_id, version.name] }
+    version_names_set = version_names.to_set
+    projects = work_packages.values.map(&:project).uniq
+
+    versions = projects.each_with_object({}) do |project, result|
+      project.assignable_versions(only_open: false)
+        .select { |version| version_names_set.include?(version.name) }
+        .group_by(&:name)
+        .each { |name, matches| result[[project.id, name]] = matches.first if matches.one? }
+    end
 
     [rows, work_packages, version_names, versions]
   end
@@ -78,26 +83,52 @@ namespace :bug_found_in_version do
 
     rows, work_packages, _version_names, versions = fetch_rows_data(custom_values, option_version_map)
 
-    missing = rows.filter_map do |work_package_id, value|
+    existing_observed_in_ids = WorkPackageVersion
+      .where(work_package_id: rows.map(&:first), kind: "observed_in")
+      .pluck(:work_package_id, :version_id)
+      .group_by(&:first)
+      .transform_values { |pairs| pairs.map(&:last) }
+
+    missing = []
+    skipped_unmapped = 0
+    to_create = 0
+
+    rows.each do |work_package_id, value|
       version_name = option_version_map[value]
-      next if version_name.nil?
+
+      if version_name.nil?
+        skipped_unmapped += 1
+        next
+      end
 
       work_package = work_packages.fetch(work_package_id)
-      [work_package.project_id, version_name] unless versions.key?([work_package.project_id, version_name])
-    end.uniq
+      version = versions[[work_package.project_id, version_name]]
+
+      if version.nil?
+        missing << [work_package.project_id, version_name]
+        next
+      end
+
+      to_create += 1 unless (existing_observed_in_ids[work_package_id] || []).include?(version.id)
+    end
+
+    missing.uniq!
 
     if missing.empty?
-      puts " ALL VERSIONS HAVE A MATCH "
+      puts " ALL MAPPED VERSIONS HAVE A MATCH "
     else
       puts " (PROJECT_ID, VERSION NAME) PAIRS WITH NO MATCH: #{missing.inspect} "
     end
+
+    puts " #{skipped_unmapped} VALUES HAVE NO VERSION MAPPING (e.g. 'unreleased/dev') "
+    puts " #{to_create} RECORDS TO BE CREATED "
   end
 
   desc "Copy 'Bug found in version' values onto Observed in Versions (does not remove the original value)"
   task copy: :environment do
     puts " GATHERING DATA "
 
-    custom_options, custom_values, option_version_map = fetch_custom_fields_data
+    _custom_options, custom_values, option_version_map = fetch_custom_fields_data
 
     puts " DATA IS IN "
 
@@ -120,7 +151,6 @@ namespace :bug_found_in_version do
 
       rows.each do |work_package_id, value|
         work_package = work_packages.fetch(work_package_id)
-        option = custom_options[value]
         version_name = option_version_map[value]
         version = version_name && versions[[work_package.project_id, version_name]]
 
@@ -129,24 +159,20 @@ namespace :bug_found_in_version do
           next
         end
 
-        current_ids = existing_observed_in_ids[work_package_id] || []
-        if current_ids.include?(version.id)
+        if (existing_observed_in_ids[work_package_id] || []).include?(version.id)
           skipped_already_observed += 1
           next
         end
 
-        result = WorkPackages::UpdateService
-          .new(user: User.system, model: work_package)
-          .call(
-            observed_in_version_ids: (current_ids + [version.id]).uniq,
-            journal_notes: "Copied 'Bug found in version' #{option&.value} to 'Observed in version' #{version.name}."
-          )
+        begin
+          WorkPackageVersion.create!(work_package_id:, version_id: version.id, kind: "observed_in")
+          result = Journals::CreateService.new(work_package, User.system).call
+          raise "failed to create journal" if result.result.nil?
 
-        if result.success?
           copied += 1
-        else
+        rescue StandardError => e
           failed += 1
-          puts "WP[#{work_package.id}] - FAILED: #{result.errors.full_messages.to_sentence}"
+          puts "WP[#{work_package.id}] - FAILED: #{e.message}"
         end
       end
     end
