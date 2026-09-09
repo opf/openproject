@@ -45,6 +45,7 @@ class Tables::Meetings < Tables::Base
       t.string :type, default: "Meeting", null: false
       t.references :recurring_meeting, index: true
       t.boolean :template, default: false, null: false
+      t.boolean :notify, default: true, null: false
 
       t.index %i[project_id updated_at]
     end
