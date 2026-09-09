@@ -115,7 +115,7 @@ module Pages
             click_on
           end
         end
-        click_on "Edit"
+        wait_for_turbo_stream { click_on "Edit" }
       end
 
       def delete_project(project)
@@ -131,6 +131,7 @@ module Pages
         within_test_selector "project-specific-settings-form" do
           click_button "Save"
         end
+        expect(page).to have_no_test_selector("project-specific-settings-form")
         expect_and_dismiss_flash
       end
 

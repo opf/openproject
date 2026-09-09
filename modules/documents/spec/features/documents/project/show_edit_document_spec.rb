@@ -63,26 +63,28 @@ RSpec.describe "Show/Edit Document View",
 
     aggregate_failures "can edit document title" do
       within_test_selector("document-page-header") do
+        page.find(:button, accessible_name: "Document actions").ancestor('action-menu[data-ready="true"]')
         click_button accessible_name: "Document actions"
         expect(page).to have_selector :menuitem, "Edit title"
 
-        page.find(:menuitem, "Edit title").click
+        wait_for_turbo_stream { page.find(:menuitem, "Edit title").click }
 
         fill_in "document_title", with: ""
-        click_on "Save"
+        wait_for_turbo_stream { click_on "Save" }
         expect(page).to have_content("Title can't be blank")
 
         fill_in "document_title", with: "Updated collaborative document"
-        click_on "Save"
+        wait_for_turbo_stream { click_on "Save" }
 
         expect(page).to have_content("Updated collaborative document")
       end
 
       within_test_selector("document-page-header") do
+        page.find(:button, accessible_name: "Document actions").ancestor('action-menu[data-ready="true"]')
         click_button accessible_name: "Document actions"
         expect(page).to have_selector :menuitem, "Edit title"
-        page.find(:menuitem, "Edit title").click
-        click_on "Cancel"
+        wait_for_turbo_stream { page.find(:menuitem, "Edit title").click }
+        wait_for_turbo_stream { click_on "Cancel" }
         expect(page).to have_content("Updated collaborative document")
       end
     end
