@@ -10,6 +10,9 @@
           name_classes: "op-rm-timeline-bar--label",
           hover_card: { active: true }
         ) %>
+    <% if job_title.present? %>
+      <span class="op-rm-timeline-bar--label color-fg-muted"><%= job_title %></span>
+    <% end %>
   <% else %>
     <%= render(Primer::Beta::Octicon.new(icon: :"person-add", size: :small)) %>
     <span class="op-rm-timeline-bar--label"><%= placeholder_label %></span>

@@ -71,6 +71,10 @@ module ResourcePlannerViews
         end
       end
 
+      def job_title
+        allocation.principal&.job_title
+      end
+
       def candidate_badge?
         candidate_count.positive?
       end

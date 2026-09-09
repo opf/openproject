@@ -66,32 +66,11 @@ module PlaceholderUsers
     # Built as HTML so only the department is bold.
     def details_for(user)
       segments = []
-      segments << tag.b(department_name(user)) if department_name(user).present?
-      segments << job_title(user) if job_title(user).present?
+      segments << tag.b(user.department.name) if user.department
+      segments << user.job_title if user.job_title
       return if segments.empty?
 
       safe_join(segments, " - ")
-    end
-
-    def department_name(user)
-      user.department&.name
-    end
-
-    def job_title(user)
-      return if job_title_field.nil?
-
-      user.custom_values
-          .select { |custom_value| custom_value.custom_field_id == job_title_field.id }
-          .filter_map { |custom_value| custom_value.formatted_value.presence }
-          .join(", ")
-          .presence
-    end
-
-    # The same for every user, so it is resolved once per render.
-    def job_title_field
-      return @job_title_field if defined?(@job_title_field)
-
-      @job_title_field = UserCustomField.for_semantic_key(:job_title)
     end
 
     def title

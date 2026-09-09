@@ -63,17 +63,9 @@ module ResourceManagement
 
       def render_cell(user, overbooked:, schedule_missing:)
         ResourcePlannerViews::UserTimeline::ResourceCellComponent
-          .new(user:, overbooked:, schedule_missing:, job_title_field:,
+          .new(user:, overbooked:, schedule_missing:,
                project: @project, resource_planner: @resource_planner, view: @view)
           .render_in(view_context)
-      end
-
-      # The "job title" custom field is the same for every user, so resolve it
-      # once per request rather than per cell.
-      def job_title_field
-        return @job_title_field if defined?(@job_title_field)
-
-        @job_title_field = UserCustomField.for_semantic_key(:job_title)
       end
     end
   end
