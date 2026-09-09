@@ -102,12 +102,49 @@ RSpec.describe Import::JiraClient do
       expect(request).to have_been_requested.once
     end
 
-    it "asks again for as many options as the context has when the first response was short" do
+    it "reads on when the first response was short of the total" do
       stub_options(query: {}, options: [option(10200, "Red")], total: 3)
-      stub_options(query: { "maxResults" => "3" },
+      stub_options(query: { "maxResults" => "10000", "page" => "1" },
                    options: [option(10200, "Red"), option(10201, "Purple"), option(10202, "Green")], total: 3)
 
       expect(client.custom_field_options(10264).pluck("value")).to eq(%w[Red Purple Green])
+    end
+
+    # Jira caps maxResults server side, so a page can come back smaller than the one asked for.
+    it "keeps reading pages until the context holds as many options as the total promises" do
+      stub_options(query: {}, options: [option(10200, "Red")], total: 4)
+      stub_options(query: { "maxResults" => "10000", "page" => "1" },
+                   options: [option(10200, "Red"), option(10201, "Purple")], total: 4)
+      stub_options(query: { "maxResults" => "10000", "page" => "2" },
+                   options: [option(10202, "Green"), option(10203, "Blue")], total: 4)
+
+      expect(client.custom_field_options(10264).pluck("value")).to eq(%w[Red Purple Green Blue])
+    end
+
+    it "stops once a page adds no option the previous ones did not already hold" do
+      stub_options(query: {}, options: [option(10200, "Red")], total: 4)
+      stub_options(query: { "maxResults" => "10000", "page" => "1" }, options: [option(10200, "Red")], total: 4)
+      second_page = stub_options(query: { "maxResults" => "10000", "page" => "2" },
+                                 options: [option(10201, "Purple")], total: 4)
+
+      expect(client.custom_field_options(10264).pluck("value")).to eq(%w[Red])
+      expect(second_page).not_to have_been_requested
+    end
+
+    # An endpoint answering every page with the same options would otherwise never let go.
+    it "gives up after the page limit when every page keeps adding options" do
+      stub_options(query: {}, options: [option(10200, "Red")], total: nil)
+      stub_request(:get, options_url)
+        .with(query: hash_including({ "page" => /\d+/ }))
+        .to_return do |request|
+          page = CGI.parse(URI(request.uri).query).fetch("page").first.to_i
+          { status: 200,
+            body: { options: [option(10_200 + page, "Colour #{page}")] }.to_json,
+            headers: { "Content-Type" => "application/json" } }
+        end
+
+      expect(client.custom_field_options(10264).size)
+        .to eq(described_class::CUSTOM_FIELD_OPTIONS_PAGE_LIMIT + 1)
     end
 
     context "when Jira reports no total" do

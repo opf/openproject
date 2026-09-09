@@ -60,6 +60,7 @@ module Import
     UNSUPPORTED_ENDPOINT_STATUSES = [404, 405].freeze
 
     CUSTOM_FIELD_OPTIONS_PAGE_SIZE = 10_000
+    CUSTOM_FIELD_OPTIONS_PAGE_LIMIT = 100
 
     def initialize(url:, personal_access_token:)
       raise ApiError.new(I18n.t(:"admin.jira.test.token_error")) if personal_access_token.nil?
@@ -201,11 +202,10 @@ module Import
       scope = { project_ids:, issue_type_ids: }
       body = custom_field_options_request(custom_field_id, **scope)
       options = Array(body["options"])
-      total = body["total"]
-      return paged_custom_field_options(custom_field_id, scope) if total.nil?
-      return options if options.size >= total.to_i
+      total = body["total"]&.to_i
+      return options if total && options.size >= total
 
-      Array(custom_field_options_request(custom_field_id, max_results: total.to_i, **scope)["options"])
+      paged_custom_field_options(custom_field_id, scope, options, total)
     end
 
     def issue_createmeta(project_keys: nil, project_ids: nil, issuetype_ids: nil, expand: "projects.issuetypes.fields")
@@ -304,18 +304,24 @@ module Import
 
     private
 
-    def paged_custom_field_options(custom_field_id, scope)
-      options = []
-      page = 1
-      loop do
+    def paged_custom_field_options(custom_field_id, scope, options, total)
+      collected = options.index_by { |option| custom_field_option_key(option) }
+      1.upto(CUSTOM_FIELD_OPTIONS_PAGE_LIMIT) do |page|
         body = custom_field_options_request(custom_field_id, max_results: CUSTOM_FIELD_OPTIONS_PAGE_SIZE, page:, **scope)
-        page_options = Array(body["options"])
-        break if page_options.empty?
-
-        options.concat(page_options)
-        page += 1
+        added = merge_custom_field_options(collected, Array(body["options"]))
+        break if added.zero? || (total && collected.size >= total)
       end
-      options
+      collected.values
+    end
+
+    def merge_custom_field_options(collected, page_options)
+      size_before = collected.size
+      page_options.each { |option| collected[custom_field_option_key(option)] ||= option }
+      collected.size - size_before
+    end
+
+    def custom_field_option_key(option)
+      option["id"] || option
     end
 
     def custom_field_options_request(custom_field_id, project_ids:, issue_type_ids:, max_results: nil, page: nil)

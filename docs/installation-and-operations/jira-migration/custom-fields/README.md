@@ -51,8 +51,6 @@ Jira custom field types not listed above are skipped. This includes, but is not 
 
 If a field is skipped, its values are not imported and no OpenProject custom field is created for it.
 
-
-
 ## Field type details and edge cases
 
 ### Checkboxes
@@ -150,3 +148,28 @@ A new custom field with a numeric suffix may be created for these types.
 This is a separate mechanism from the option merging described under [Field contexts](#field-contexts) above, which only
 combines identical option sets *within a single import run*. Deduplication decides whether to reuse a field that already
 exists before that run starts; it does not retroactively affect how contexts were grouped during the run itself.
+
+## Custom fields you see in OpenProject but not on the Jira issue
+
+After a migration you may find custom fields on a work package that the corresponding Jira issue does not show at
+all - often company-wide fields belonging to entirely different teams or projects.
+
+This is expected. Jira decides *separately* whether a field holds a value and whether it is displayed:
+
+- The issue view renders only the fields on the screen configured for that project and issue type.
+- The value itself lives on the issue regardless, and Jira's REST API reports every field that has one.
+
+The migrator imports what the API reports, because a value that exists is data worth keeping - it does not read
+your screen or field configuration schemes. A field whose context covers all projects (a "global" custom field)
+therefore comes across as soon as any imported issue carries a value for it, even where Jira keeps it hidden.
+
+Such values usually arrive without anyone filling the field in on that issue:
+
+- a **default value** on the field, applied when the issue was created
+- a **workflow post function**, **automation rule** or **script** writing to the field
+- a **bulk change** or CSV import that covered the field
+- the issue having been **moved from another project** whose screens did show it
+
+To check one in Jira, open *Administration → Issues → Custom fields*, find the field and inspect its contexts and
+the screens it is on. If you do not want these fields in OpenProject, you have two options in
+Jira before importing: clear the values or assign them only to projects where you want them to appear in OpenProject.

@@ -251,9 +251,9 @@ RSpec.describe Import::JiraFetchCustomFieldJob do
       expect(select_field.reload.payload).not_to have_key("contextGroups")
     end
 
-    it "falls back to editmeta when the very first options request fails outright" do
+    it "falls back to editmeta when the very first options request finds no endpoint" do
       allow(jira_client).to receive(:custom_field_options)
-        .and_raise(Import::JiraClient::ApiError.new("boom", status: 500))
+        .and_raise(Import::JiraClient::UnsupportedEndpointError, "no such endpoint")
       allow(jira_client).to receive(:issue_editmeta).and_return(
         { "fields" => { "customfield_10264" => { "allowedValues" => [{ "id" => "1", "value" => "Red" }] } } }
       )
@@ -262,6 +262,29 @@ RSpec.describe Import::JiraFetchCustomFieldJob do
 
       expect(jira_client).to have_received(:issue_editmeta).at_least(:once)
       expect(context_groups.first["allowedValues"]).to eq([{ "id" => "1", "value" => "Red" }])
+    end
+
+    # A hiccup on the first request says nothing about the endpoint. Downgrading the whole run to
+    # editmeta over it would quietly import the poorer option sets; failing lets the job retry.
+    it "fails instead of falling back when the very first options request errors" do
+      allow(jira_client).to receive(:custom_field_options)
+        .and_raise(Import::JiraClient::ApiError.new("boom", status: 500))
+
+      expect { fetch_custom_fields }.to raise_error(Import::JiraClient::ApiError)
+      expect(jira_client).not_to have_received(:issue_editmeta)
+    end
+
+    it "keeps to the options endpoint when a later request errors after an earlier one answered" do
+      allow(jira_client).to receive(:custom_field_options)
+        .with(10264, project_ids: [jira_project_id], issue_type_ids: ["10100"])
+        .and_return([option(10200, "Red")])
+      allow(jira_client).to receive(:custom_field_options)
+        .with(10264, project_ids: [jira_project_id], issue_type_ids: ["10200"])
+        .and_raise(Import::JiraClient::UnsupportedEndpointError, "no such field")
+
+      expect { fetch_custom_fields }.not_to raise_error
+      expect(context_groups.map { |group| group["allowedValues"].pluck("value") }).to eq([["Red"]])
+      expect(jira_client).not_to have_received(:issue_editmeta)
     end
 
     it "keeps cascading contexts apart when they share their parents but differ in children" do
@@ -439,6 +462,17 @@ RSpec.describe Import::JiraFetchCustomFieldJob do
       expect(select_field.reload.payload["contextGroups"].pluck("issuetypes")).to eq([["10200"]])
     end
 
+    # The options route only asks about the (project, issue type) pairs a field carries a value in.
+    # Recording an edit screen's other fields here would put project keys and issue types into a
+    # context group that the options route never adds - and project keys disambiguate field names.
+    it "ignores an editmeta field the issues of that project and issue type hold no value for" do
+      issue(key: "#{jira_project_key}-2", issuetype_id: "10200", fields: { "customfield_10999" => "unrelated" })
+
+      fetch_custom_fields
+
+      expect(select_field.reload.payload["contextGroups"].pluck("issuetypes")).to eq([["10100"]])
+    end
+
     it "ignores an editmeta field that reports no allowed values" do
       allow(jira_client).to receive(:issue_editmeta)
         .and_return({ "fields" => { "customfield_10264" => { "allowedValues" => [] } } })
@@ -457,6 +491,76 @@ RSpec.describe Import::JiraFetchCustomFieldJob do
 
       expect(select_field.reload.payload).not_to have_key("contextGroups")
       expect(Import::JiraField.where(jira_import:, origin_id: "customfield_19999")).not_to exist
+    end
+  end
+
+  describe "the stored issue value index" do
+    let!(:task) { issue(key: "#{jira_project_key}-1", issuetype_id: "10100") }
+
+    before { allow(jira_client).to receive(:custom_field_options).and_return([option(10200, "Red")]) }
+
+    it "stores the values and scopes of a used field" do
+      fetch_custom_fields
+
+      expect(select_field.reload.issue_values)
+        .to eq("used" => true,
+               "options" => [[{ "value" => "Red" }, [0]]],
+               "strings" => [],
+               "scopes" => [[jira_project_key, jira_project.id, "10100"]])
+    end
+
+    # An option shared by every scope is what a wide run is mostly made of, and storing it per
+    # scope is what made the index grow with projects and issue types instead of with options.
+    it "stores an option once, as the positions of the scopes it occurs in" do
+      issue(key: "#{jira_project_key}-2", issuetype_id: "10200")
+
+      fetch_custom_fields
+
+      expect(select_field.reload.issue_values.slice("options", "scopes"))
+        .to eq("options" => [[{ "value" => "Red" }, [0, 1]]],
+               "scopes" => [[jira_project_key, jira_project.id, "10100"],
+                            [jira_project_key, jira_project.id, "10200"]])
+    end
+
+    it "prunes an option down to the keys the registry reads" do
+      task.update!(payload: task.payload.deep_merge(
+        "fields" => { "customfield_10264" => { "self" => "https://jira.example.com/x", "id" => "7",
+                                               "disabled" => false, "value" => "Animals",
+                                               "child" => { "id" => "8", "value" => "Cat" } } }
+      ))
+
+      fetch_custom_fields
+
+      expect(select_field.reload.issue_values["options"])
+        .to eq([[{ "value" => "Animals", "child" => { "value" => "Cat" } }, [0]]])
+    end
+
+    it "marks a field no imported issue carries a value for as unused" do
+      unused = create(:jira_field, jira_import:, origin_id: "customfield_10888",
+                                   payload: { "id" => "customfield_10888", "name" => "CF Unused",
+                                              "schema" => { "type" => "string", "customId" => 10888 } })
+
+      fetch_custom_fields
+
+      expect(unused.reload.issue_values).to eq("used" => false)
+    end
+
+    it "leaves no index behind when the context groups could not be persisted" do
+      allow(jira_client).to receive(:custom_field_options)
+        .and_raise(Import::JiraClient::UnsupportedEndpointError, "no such endpoint")
+      allow(jira_client).to receive(:issue_editmeta).and_raise(ActiveRecord::StatementInvalid, "boom")
+
+      expect { fetch_custom_fields }.to raise_error(ActiveRecord::StatementInvalid)
+      expect(select_field.reload.issue_values).to be_nil
+    end
+
+    it "rewrites the index of a field whose payload is fetched again" do
+      described_class.perform_now(jira_import.id)
+      Import::JiraField.where(id: select_field.id).update_all(issue_values: { "used" => true, "options" => [] })
+
+      described_class.perform_now(jira_import.id)
+
+      expect(select_field.reload.issue_values["options"]).to eq([[{ "value" => "Red" }, [0]]])
     end
   end
 end
