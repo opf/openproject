@@ -127,12 +127,19 @@ module Llm
         apply_credentials(config)
 
         config.openproject_custom_headers = connection.custom_headers
-        config.request_timeout = timeout
-        # RubyLLM retries POSTs three times by default, so one completion can be
-        # billed four times. Callers state what they are willing to pay for.
-        config.max_retries = max_retries
-        config.logger = Rails.logger
+        apply_request_options(config)
       end
+    end
+
+    def apply_request_options(config)
+      config.request_timeout = timeout
+      # RubyLLM retries POSTs three times by default, so one completion can be
+      # billed four times. Callers state what they are willing to pay for.
+      config.max_retries = max_retries
+      # OpenAI-compatible gateways ignore the "developer" role RubyLLM uses by
+      # default, which silently drops the whole system prompt.
+      config.openai_use_system_role = true
+      config.logger = Rails.logger
     end
 
     def apply_credentials(config)
