@@ -172,6 +172,19 @@ RSpec.describe Llm::Validators::ConnectionValidator, :llm_server_helpers, :webmo
     end
   end
 
+  describe "the models group" do
+    before { mock_llm_models_response(base_url) }
+
+    it "asks for a refresh when the settings changed after the last one" do
+      connection.update!(connection_fingerprint: "a-different-deployment")
+
+      result = result_for(:models, :catalogue_fresh)
+
+      expect(result.state).to eq(:warning)
+      expect(result.code).to eq(:catalogue_stale_settings)
+    end
+  end
+
   describe "the features group" do
     before { mock_llm_models_response(base_url) }
 

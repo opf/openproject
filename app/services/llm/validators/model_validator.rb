@@ -60,6 +60,8 @@ module Llm
 
         if fetched_at.blank?
           warn_check(:catalogue_fresh, :catalogue_never_fetched)
+        elsif subject.models_stale?
+          warn_check(:catalogue_fresh, :catalogue_stale_settings)
         elsif fetched_at < STALE_AFTER.ago
           # Context is serialised to jsonb, so a Time has to be formatted here.
           warn_check(:catalogue_fresh, :catalogue_stale, context: { fetched_at: I18n.l(fetched_at.to_date) })
