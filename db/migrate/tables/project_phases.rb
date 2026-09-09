@@ -41,6 +41,8 @@ class Tables::ProjectPhases < Tables::Base
 
       t.timestamps
 
+      t.integer :duration, null: true
+
       t.index %i[project_id definition_id], unique: true
     end
   end
