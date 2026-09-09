@@ -83,6 +83,41 @@ RSpec.describe "LLM connection health status", :llm_server_helpers, :skip_csrf, 
       expect(response).to redirect_to(llm_connection_health_status_report_path)
       expect(WebMock).to have_requested(:post, "#{base_url}/chat/completions").once
     end
+
+    it "says what the checks found" do
+      post llm_connection_health_status_report_path
+
+      expect(flash[:notice]).to include("The checks have run")
+      expect(flash[:notice]).to match(/\d+ passed/)
+    end
+
+    # Without it a second run within the same minute renders an identical page.
+    it "counts the results next to the timestamp" do
+      post llm_connection_health_status_report_path
+
+      get llm_connection_health_status_report_path
+
+      expect(response.body).to include("Last checked")
+      expect(response.body).to match(/\d+ passed, \d+ warnings, \d+ failed/)
+    end
+  end
+
+  describe "POST /admin/llm_connection/health_status_report/create_health_status_report" do
+    let!(:connection) { create(:llm_connection, :with_models, :enabled, base_url:, default_chat_model_id: "qwen3.6-27b") }
+
+    before do
+      mock_llm_models_response(base_url)
+      mock_llm_chat_response(base_url)
+    end
+
+    it "updates the side panel and confirms the run" do
+      post create_health_status_report_llm_connection_health_status_report_path,
+           headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("llm-connections-side-panel-health-status-component")
+      expect(response.body).to include("The checks have run.")
+    end
   end
 
   describe "GET /admin/llm_connection/health_status_report.txt" do

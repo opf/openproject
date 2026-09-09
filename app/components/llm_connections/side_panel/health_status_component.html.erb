@@ -33,22 +33,23 @@
           container.with_row do
             render(Primer::Beta::Text.new(color: :muted)) { t(".never_checked") }
           end
+        end
 
-          container.with_row(mt: 2) do
-            primer_form_with(
-              url: create_health_status_report_llm_connection_health_status_report_path,
-              method: :post,
-              data: { turbo: true }
-            ) do
-              render(
-                Primer::Beta::Button.new(
-                  scheme: :link, color: :default, font_weight: :bold, type: :submit,
-                  test_selector: "llm-connection--run-health-checks"
-                )
-              ) do |button|
-                button.with_leading_visual_icon(icon: :meter)
-                t(".run_checks")
-              end
+        container.with_row(mt: 2) do
+          primer_form_with(
+            url: create_health_status_report_llm_connection_health_status_report_path,
+            method: :post,
+            data: { turbo: true }
+          ) do
+            render(
+              Primer::Beta::Button.new(
+                scheme: :link, color: :default, font_weight: :bold, type: :submit,
+                data: { turbo_submits_with: t(".running") },
+                test_selector: "llm-connection--run-health-checks"
+              )
+            ) do |button|
+              button.with_leading_visual_icon(icon: :meter)
+              t(".run_checks")
             end
           end
         end

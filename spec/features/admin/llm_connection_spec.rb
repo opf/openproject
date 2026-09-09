@@ -245,6 +245,7 @@ RSpec.describe "LLM connection administration",
 
         find_test_selector("llm-connection--run-health-checks").click
 
+        expect(page).to have_text("The checks have run.")
         wait_for { connection.health_reports.count }.to eq(1)
 
         find_test_selector("llm-connection--open-health-report").click
@@ -252,6 +253,11 @@ RSpec.describe "LLM connection administration",
         expect(page).to have_current_path(llm_connection_health_status_report_path)
         expect(page).to have_text("Configuration")
         expect(page).to be_axe_clean.within("#content")
+
+        find_test_selector("llm-connection--rerun-health-checks").click
+
+        expect(page).to have_text(/The checks have run: \d+ passed/)
+        expect(connection.health_reports.count).to eq(2)
       end
     end
   end

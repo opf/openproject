@@ -32,13 +32,15 @@ module Admin
   class LlmHealthStatusController < ApplicationController
     include OpTurbo::ComponentStream
 
-    layout :admin_or_frame_layout
+    layout "admin"
 
     before_action :require_feature
     before_action :require_admin
     before_action :find_connection
 
     menu_item :llm_connection
+
+    helper_method :tally_counts
 
     def show
       @report = @connection.latest_health_report
@@ -60,20 +62,24 @@ module Admin
     # A full run, including the billed completion: an administrator clicking
     # "Run checks" is asking whether the connection actually works.
     def create
-      run_checks
+      report = run_checks
+      flash[:notice] = t(".success", **tally_counts(report))
       redirect_to llm_connection_health_status_report_path, status: :see_other
     end
 
     def create_health_status_report
       run_checks
       update_via_turbo_stream(component: LlmConnections::SidePanel::HealthStatusComponent.new(@connection))
+      render_success_flash_message_via_turbo_stream(message: t(".success"))
       respond_with_turbo_streams
     end
 
     private
 
-    def admin_or_frame_layout
-      turbo_frame_request? ? "turbo_rails/frame" : "admin"
+    def tally_counts(report)
+      tally = report.tally
+
+      { passed: tally[:success].to_i, warnings: tally[:warning].to_i, failures: tally[:failure].to_i }
     end
 
     def run_checks

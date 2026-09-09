@@ -29,24 +29,26 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title t(:label_administration), t("menus.admin.llm_connection"), t(".title") %>
 
-<%= turbo_frame_tag "llm_health_status_report", refresh: :morph do %>
-  <%=
-    render(Primer::OpenProject::PageHeader.new) do |header|
-      header.with_title { t(".title") }
-      if @report.present?
-        header.with_description { t(".last_check", datetime: format_time(@report.created_at)) }
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t(".title") }
+    if @report.present?
+      header.with_description do
+        "#{t('.last_check', datetime: format_time(@report.created_at))} #{t('.summary', **tally_counts(@report))}"
       end
-      header.with_breadcrumbs(
-        [{ href: admin_index_path, text: t(:label_administration) },
-         { href: mcp_configurations_path, text: t("menus.admin.ai") },
-         { href: llm_connection_path, text: t("menus.admin.llm_connection") },
-         t(".title")]
-      )
     end
-  %>
+    header.with_breadcrumbs(
+      [{ href: admin_index_path, text: t(:label_administration) },
+       { href: mcp_configurations_path, text: t("menus.admin.ai") },
+       { href: llm_connection_path, text: t("menus.admin.llm_connection") },
+       t(".title")]
+    )
+  end
+%>
 
-  <% if @report.present? %>
-    <%=
+<% if @report.present? %>
+  <%=
+    primer_form_with(url: llm_connection_health_status_report_path, method: :post) do
       render(Primer::OpenProject::SubHeader.new) do |subheader|
         subheader.with_action_button(
           scheme: :secondary,
@@ -65,37 +67,36 @@ See COPYRIGHT and LICENSE files for more details.
           mobile_label: t(".run_checks"),
           mobile_icon: "op-reload",
           leading_icon: "op-reload",
-          tag: :a,
-          href: llm_connection_health_status_report_path,
-          data: { turbo_method: :post, turbo: true },
+          type: :submit,
+          data: { turbo_submits_with: t(".running") },
           test_selector: "llm-connection--rerun-health-checks"
         ) { t(".run_checks") }
       end
-    %>
+    end
+  %>
 
-    <%=
-      render(
-        HealthReports::ReportComponent.new(
-          @report,
-          i18n_scope: "llm.health_checks",
-          # No admin guide page exists for this yet. Every check explains itself
-          # in its own message, so a "More information" link would only lead
-          # somewhere unrelated -- suppressed until that page is written.
-          docs_href: false
-        )
+  <%=
+    render(
+      HealthReports::ReportComponent.new(
+        @report,
+        i18n_scope: "llm.health_checks",
+        # No admin guide page exists for this yet. Every check explains itself
+        # in its own message, so a "More information" link would only lead
+        # somewhere unrelated -- suppressed until that page is written.
+        docs_href: false
       )
-    %>
-  <% else %>
-    <%=
-      render(Primer::Beta::Blankslate.new(test_selector: "llm-connection--health-blankslate")) do |blankslate|
-        blankslate.with_visual_icon(icon: :meter)
-        blankslate.with_heading(tag: :h2) { t(".blankslate_heading") }
-        blankslate.with_description { t(".blankslate_description") }
-        blankslate.with_primary_action(
-          href: llm_connection_health_status_report_path,
-          data: { turbo_method: :post, turbo: true }
-        ) { t(".run_checks") }
-      end
-    %>
-  <% end %>
+    )
+  %>
+<% else %>
+  <%=
+    render(Primer::Beta::Blankslate.new(test_selector: "llm-connection--health-blankslate")) do |blankslate|
+      blankslate.with_visual_icon(icon: :meter)
+      blankslate.with_heading(tag: :h2) { t(".blankslate_heading") }
+      blankslate.with_description { t(".blankslate_description") }
+      blankslate.with_primary_action(
+        href: llm_connection_health_status_report_path,
+        data: { turbo_method: :post, turbo_submits_with: t(".running") }
+      ) { t(".run_checks") }
+    end
+  %>
 <% end %>

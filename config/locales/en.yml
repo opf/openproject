@@ -1789,12 +1789,18 @@ en:
         model_incapable: "The model for %{feature} has been saved, but the server just reported that it does not support %{capability}. Pick a different model, or assert the capability on the model if you know better."
         success: "The model for %{feature} has been saved."
     llm_health_status:
+      create:
+        success: "The checks have run: %{passed} passed, %{warnings} warnings, %{failures} failed."
+      create_health_status_report:
+        success: "The checks have run."
       show:
         blankslate_description: "Run the checks to find out whether OpenProject can reach the LLM server, whether it accepts the API key, and whether every AI feature has a usable model."
         blankslate_heading: "This connection has not been checked yet"
         download: "Download report"
         last_check: "Last checked %{datetime}."
         run_checks: "Run checks"
+        running: "Running checks..."
+        summary: "%{passed} passed, %{warnings} warnings, %{failures} failed."
         title: "Health status"
     llm_models:
       create:
@@ -4471,6 +4477,7 @@ en:
         never_checked: "This connection has not been checked yet."
         open_report: "Open full health report"
         run_checks: "Run checks now"
+        running: "Running checks..."
         title: "Health status"
   macro_execution_error: "Error executing the macro %{macro_name}"
   macro_unavailable: "Macro %{macro_name} cannot be displayed."
