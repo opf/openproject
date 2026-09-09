@@ -38,6 +38,7 @@ require_relative "tables/material_budget_items"
 class AggregatedBudgetMigrations < SquashedMigration
   squashed_migrations *%w[
     1004015_aggregated_budget_migrations
+    20250714142919_add_base_amount_to_budget
   ]
 
   tables Tables::Budgets,
