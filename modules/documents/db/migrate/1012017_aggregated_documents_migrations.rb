@@ -35,6 +35,7 @@ require_relative "tables/document_journals"
 class AggregatedDocumentsMigrations < SquashedMigration
   squashed_migrations *%w[
     1012015_aggregated_documents_migrations
+    20250923064241_add_y_doc_blob_to_documents
   ]
 
   tables Tables::Documents,
