@@ -1374,7 +1374,12 @@ sv:
     banners:
       environment_configured_readonly: Dessa värden är konfigurerade via miljövariabler och kan inte redigeras här.
     custom_styles:
+      color_groups:
+        base_colors: Base colors
+        main_menu: Main lateral menu
+        top_header_colors: Top header colors
       color_theme: Färgtema
+      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
       color_theme_custom: "(Anpassad)"
       colors:
         accent-color: Accent
@@ -1383,12 +1388,15 @@ sv:
         main-menu-bg-selected-background: Huvudmeny när vald
         primary-button-color: Primär knapp
       custom_colors: Anpassade färger
+      edit_color: Edit %{color}
       fonts:
         file_is_invalid: är inte en giltig TTF-typsnittsfil.
         file_too_large: är för stor (maximal storlek är %{count} MB).
       instructions:
         accent-color: Färg för länkar och andra måttligt framhävda element.
+        header-bg-color: Default background color of the app header.
         main-menu-bg-color: Bakgrundsfärg på den vänstra sidomenyn.
+        main-menu-bg-selected-background: Background color of menu items when selected.
         primary-button-color: Stark accentfärg som används för den viktigaste knappen på en skärm.
       manage_colors: Redigera alternativ för valbara färger
       tab_branding: Profilering
@@ -5484,6 +5492,12 @@ sv:
   roles:
     edit:
       default_for_new_projects_warning: 'Den här rollen är konfigurerad som standardroll för icke-administratörer som skapar ett projekt. Ta inte bort följande behörigheter, annars kan projektskapare inte slutföra konfigurationen av sina nyskapade projekt:'
+    index:
+      filter_label: Search roles
+      types:
+        all: All roles
+        global: Global roles
+        project: Project roles
     permissions:
       section_check_all_label: Tilldela alla behörigheter för %{module}
       section_uncheck_all_label: Ta bort alla behörigheter för %{module}

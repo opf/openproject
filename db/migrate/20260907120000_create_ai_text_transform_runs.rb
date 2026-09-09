@@ -38,7 +38,7 @@ class CreateAITextTransformRuns < ActiveRecord::Migration[8.1]
 
   def create_runs
     create_table :ai_text_transform_runs do |t|
-      t.string :uuid, null: false, index: { unique: true }
+      t.uuid :uuid, null: false, default: -> { "gen_random_uuid()" }, index: { unique: true }
       t.references :user, null: false, foreign_key: { on_delete: :cascade }
       t.references :ai_text_transform_action, null: false, foreign_key: { on_delete: :cascade }
       t.string :status, null: false, default: "queued"

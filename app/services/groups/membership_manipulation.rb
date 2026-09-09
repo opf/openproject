@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Groups::Concerns
+module Groups
   module MembershipManipulation
     extend ActiveSupport::Concern
 

@@ -51,10 +51,12 @@ module AI
       cancelled: "cancelled"
     }, default: "queued", validate: true
 
-    attribute :uuid, :string, default: -> { SecureRandom.uuid }
+    attribute :uuid, default: -> { SecureRandom.uuid }
 
     validates :system_prompt, presence: true
     validates :input, presence: true, length: { maximum: MAX_INPUT_LENGTH }
+
+    before_save :stamp_finished_at, if: -> { status_changed? && terminal? }
 
     scope :expired, ->(retention) do
       where(finished_at: ...retention.ago)
@@ -66,7 +68,7 @@ module AI
     end
 
     def append_event(kind, payload = {})
-      OpenProject::Mutex.with_advisory_lock(self.class, "ai_text_transform_run_#{id}_events") do
+      OpenProject::Mutex.with_advisory_lock_transaction(self, "events") do
         events.create!(kind:, payload:, seq: events.maximum(:seq).to_i + 1)
       end
     end
@@ -82,7 +84,13 @@ module AI
     def finish!(status, error_message: nil)
       raise ArgumentError, "#{status} is not a terminal status" unless TERMINAL_STATUSES.include?(status.to_s)
 
-      update!(status:, error_message:, finished_at: Time.current)
+      update!(status:, error_message:)
+    end
+
+    private
+
+    def stamp_finished_at
+      self.finished_at ||= Time.current
     end
   end
 end

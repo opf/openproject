@@ -1408,7 +1408,12 @@ hu:
     banners:
       environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
     custom_styles:
+      color_groups:
+        base_colors: Base colors
+        main_menu: Main lateral menu
+        top_header_colors: Top header colors
       color_theme: Színséma
+      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
       color_theme_custom: "(Egyéni)"
       colors:
         accent-color: Kiemelőszín
@@ -1417,12 +1422,15 @@ hu:
         main-menu-bg-selected-background: Főmenü, ha ki van választva
         primary-button-color: Elsődleges gomb
       custom_colors: Egyéni színek
+      edit_color: Edit %{color}
       fonts:
         file_is_invalid: is not a valid TTF font file.
         file_too_large: is too large (maximum size is %{count} MB).
       instructions:
         accent-color: Szín a linkekhez és más kiemelt elemekhez.
+        header-bg-color: Default background color of the app header.
         main-menu-bg-color: Baloldali menü háttérszíne.
+        main-menu-bg-selected-background: Background color of menu items when selected.
         primary-button-color: Kiemelt szín, tipikusan a képernyőn megjelenő legfontosabb gomb esetén.
       manage_colors: A színválasztás beállításainak módosítása
       tab_branding: Branding
@@ -5598,6 +5606,12 @@ hu:
   roles:
     edit:
       default_for_new_projects_warning: 'This role is configured as the default role given to non-admin users who create a project. Do not remove the following permissions, otherwise project creators will be unable to complete the setup of their newly created projects:'
+    index:
+      filter_label: Search roles
+      types:
+        all: All roles
+        global: Global roles
+        project: Project roles
     permissions:
       section_check_all_label: Assign all %{module} permissions
       section_uncheck_all_label: Unassign all %{module} permissions
