@@ -60,6 +60,21 @@ RSpec.describe "Placeholder user filter criteria", :js, with_ee: %i[placeholder_
     expect(toggle).to have_no_css("button[disabled]")
   end
 
+  it "stores the criteria as they are edited and refreshes the users they select" do
+    other_user = create(:user, firstname: "Sales", lastname: "Person")
+
+    visit edit_placeholder_user_path(with_criteria, tab: :criteria)
+
+    expect(page).to have_text(matching_user.name)
+    expect(page).to have_no_button(I18n.t(:button_save))
+
+    fill_in "name_value", with: "Person"
+
+    expect(page).to have_text(other_user.name)
+    expect(page).to have_no_text(matching_user.name)
+    expect(with_criteria.reload.user_filter.first.values).to eq(["Person"])
+  end
+
   it "drops the criteria when deactivating them" do
     visit edit_placeholder_user_path(with_criteria, tab: :criteria)
 

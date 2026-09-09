@@ -39,7 +39,8 @@ module PlaceholderUsers
                  query: model.candidate_query,
                  wrap_with_controller: true,
                  hidden_input_name: "filters",
-                 output_format: :json
+                 output_format: :json,
+                 **live_update_arguments
                ))
       end
 
@@ -52,13 +53,27 @@ module PlaceholderUsers
       )
     end
 
-    def initialize(submit: true)
+    # `live_update_path` receives the criteria as they are edited, replacing the
+    # explicit save.
+    def initialize(submit: true, live_update_path: nil)
       super()
       @submit = submit
+      @live_update_path = live_update_path
     end
 
     private
 
     def submit? = @submit
+
+    def live_update_arguments
+      return {} if @live_update_path.blank?
+
+      {
+        data: {
+          filter__filters_form_turbo_stream_request_value: true,
+          filter__filters_form_url_path_name_value: @live_update_path
+        }
+      }
+    end
   end
 end

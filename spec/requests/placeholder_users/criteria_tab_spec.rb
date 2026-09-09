@@ -73,6 +73,32 @@ RSpec.describe "Placeholder user filter criteria tab",
     end
   end
 
+  describe "GET update_criteria" do
+    it "stores the edited criteria and lists the users they select" do
+      get update_criteria_placeholder_user_path(
+        without_criteria,
+        filters: [{ name: { operator: "~", values: ["Eloper"] } }].to_json
+      ), as: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+      expect(response).to have_turbo_stream(
+        action: "update",
+        target: PlaceholderUsers::MatchingUsersComponent.wrapper_key
+      )
+      expect(response.body).to include("Eloper")
+      expect(response.body).not_to include("Sales")
+
+      expect(without_criteria.reload.user_filter.first.values).to eq(["Eloper"])
+    end
+
+    it "stores an emptied criteria set" do
+      get update_criteria_placeholder_user_path(with_criteria, filters: [].to_json), as: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+      expect(with_criteria.reload.user_filter).to be_empty
+    end
+  end
+
   describe "POST toggle_criteria" do
     it "drops the criteria when switched off and re-renders the tab" do
       post toggle_criteria_placeholder_user_path(with_criteria, value: "0"), as: :turbo_stream
