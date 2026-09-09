@@ -39,6 +39,7 @@ class AggregatedMeetingMigrations < SquashedMigration
     20250404061503_migrate_classic_meetings
     20250428114958_cleanup_meeting_permissions
     20250624155721_rename_create_minutes_to_manage_outcomes
+    20250703143214_add_uid_to_meetings
     20250416141059_add_backlogs_to_one_time_meetings
     20250709103506_add_notify_status_to_meetings
   ].freeze

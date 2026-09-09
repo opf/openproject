@@ -44,9 +44,11 @@ class Tables::Meetings < Tables::Base
       t.integer :lock_version, default: 0, null: false
       t.references :recurring_meeting, index: true
       t.boolean :template, default: false, null: false
+      t.string :uid
       t.boolean :notify, default: true, null: false
 
       t.index %i[project_id updated_at]
+      t.index :uid, unique: true
     end
   end
 end
