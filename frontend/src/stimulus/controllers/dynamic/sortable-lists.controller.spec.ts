@@ -2739,6 +2739,69 @@ describe('Sortable lists controller', () => {
       expect(rowIdsIn(list1)).toEqual(['2', '1', '3']);
     });
 
+    it('submits an independent pick and a Shift-built range in DOM order', async () => {
+      const [item4, item5] = Array.from(list2.children) as HTMLElement[];
+      selectItems(item4, item1);
+      click(item3, { shiftKey: true });
+      click(item2, { shiftKey: true });
+
+      await simulateDrop({ source: item2, targetList: list2, targetItem: item5, edge: 'bottom' });
+
+      expect((fetchMock.mock.calls[0][1].body as FormData).getAll('ids[]')).toEqual(['1', '2', '4']);
+      expect(rowIdsIn(list2)).toEqual(['5', '1', '2', '4']);
+    });
+
+    it('moves the narrowed range after Select All', async () => {
+      keydown(item2, 'a', { ctrlKey: true });
+      click(item3, { shiftKey: true });
+
+      await simulateDrop({ source: item2, targetList: list2, targetItem: null, edge: null });
+
+      expect((fetchMock.mock.calls[0][1].body as FormData).getAll('ids[]')).toEqual(['2', '3']);
+    });
+
+    it('moves a reversed range within the same list', async () => {
+      selectItems(item2);
+      click(item3, { shiftKey: true });
+      click(item1, { shiftKey: true });
+
+      await simulateDrop({ source: item1, targetList: list1, targetItem: item3, edge: 'bottom' });
+
+      expect((fetchMock.mock.calls[0][1].body as FormData).getAll('ids[]')).toEqual(['1', '2']);
+      expect(rowIdsIn(list1)).toEqual(['3', '1', '2']);
+    });
+
+    it('clears same-list presentation and the range anchor after optimistic success', async () => {
+      root.setAttribute('data-sortable-lists-selection-description-id-value', 'selected-description');
+      item1.setAttribute('aria-describedby', 'own-description');
+      await ctx.nextFrame();
+      selectItems(item1);
+      click(item2, { shiftKey: true });
+      expect(item1.getAttribute('aria-describedby')).toBe('own-description selected-description');
+
+      await simulateDrop({ source: item1, targetList: list1, targetItem: item3, edge: 'bottom' });
+
+      expect(list1.contains(item1)).toBe(true);
+      expect(selectedRowIds()).toEqual([]);
+      expect(item1.getAttribute('aria-describedby')).toBe('own-description');
+      expect(item2.hasAttribute('aria-describedby')).toBe(false);
+      click(item3, { shiftKey: true });
+      expect(selectedRowIds()).toEqual(['3']);
+    });
+
+    it('retains a Shift-built range after cancellation and a failed retry', async () => {
+      selectItems(item1);
+      click(item2, { shiftKey: true });
+      await simulateCancelledDrop({ source: item1 });
+      expect(selectedRowIds()).toEqual(['1', '2']);
+      fetchMock.mockResolvedValueOnce(new Response('', { status: 500 }));
+
+      await simulateDrop({ source: item2, targetList: list2, targetItem: null, edge: null });
+
+      expect((fetchMock.mock.calls[0][1].body as FormData).getAll('ids[]')).toEqual(['1', '2']);
+      expect(selectedRowIds()).toEqual(['1', '2']);
+    });
+
     it('drags an unselected card alone through the collection URL', async () => {
       // select item 3, drag item 2: it is not part of the batch, so it
       // collapses any selection onto itself and moves alone.
@@ -2810,12 +2873,12 @@ describe('Sortable lists controller', () => {
       expect(selectedRowIds()).toEqual(['1', '3']);
     });
 
-    it('aborts when a frozen member row vanished mid-drag', async () => {
-      // select 1 and 3; begin the drag of item 1; remove item 3's row from
-      // the DOM (as a mid-drag morph would); then complete the drop.
+    it('aborts after registration healing prunes a missing frozen member', async () => {
       selectItems(item1, item3);
       beginDrag(item1);
       item3.remove();
+      root.dispatchEvent(new CustomEvent('turbo:morph-element', { bubbles: true }));
+      await Promise.resolve();
 
       await completeDrop({ source: item1, targetList: list1, targetItem: item2, edge: 'bottom' });
 
@@ -2915,7 +2978,7 @@ describe('Sortable lists controller', () => {
       // A morph can replace a batch-mate's row with a fresh element that
       // never went through markDraggingRows, so it arrives unmarked while
       // still part of the frozen batch.
-      it('re-marks a batch-mate row a mid-drag morph replaced', async () => {
+      it('preserves frozen membership through registration healing and synthetic selection clearing', async () => {
         selectItems(item1, item3);
         beginDrag(item1);
 
@@ -2927,10 +2990,13 @@ describe('Sortable lists controller', () => {
         replacement.dispatchEvent(new CustomEvent('turbo:morph-element', { bubbles: true }));
         await Promise.resolve();
 
+        keydown(item1, 'Escape');
+        expect(selectedRowIds()).toEqual([]);
         expect(replacement.getAttribute('data-dragging')).toBe('source');
 
         await completeDrop({ source: item1, targetList: list1, targetItem: item2, edge: 'bottom' });
 
+        expect((fetchMock.mock.calls[0][1].body as FormData).getAll('ids[]')).toEqual(['1', '3']);
         expect(root.querySelectorAll('[data-dragging]')).toHaveLength(0);
       });
     });

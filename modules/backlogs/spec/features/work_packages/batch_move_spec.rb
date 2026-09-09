@@ -76,6 +76,20 @@ RSpec.describe "Backlogs batch move", :js, :selenium, :settings_reset do
       .to eq [sprint_wp1.id, bucket_wp2.id, sprint_wp3.id, sprint_wp2.id]
   end
 
+  it "moves an independent selection together with a Shift-built range" do
+    backlogs_page.toggle_card(bucket_wp2)
+    backlogs_page.toggle_card(sprint_wp2)
+    backlogs_page.extend_selection_to(sprint_wp3)
+
+    backlogs_page.drag_work_package(sprint_wp2, after: bucket_wp1)
+
+    backlogs_page.expect_sprint_items_in_order(sprint, items: [sprint_wp1])
+    backlogs_page.expect_bucket_items_in_order(bucket, items: [bucket_wp1, bucket_wp2, sprint_wp2, sprint_wp3])
+    expect(backlogs_page.selected_card_ids).to be_empty
+    wait_for { WorkPackage.where(backlog_bucket: bucket).order(:position).pluck(:id) }
+      .to eq [bucket_wp1.id, bucket_wp2.id, sprint_wp2.id, sprint_wp3.id]
+  end
+
   it "moves an unselected card alone, replacing the batch" do
     backlogs_page.toggle_card(sprint_wp1)
     backlogs_page.toggle_card(sprint_wp2)
