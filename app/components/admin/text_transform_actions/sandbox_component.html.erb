@@ -1,0 +1,141 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%=
+  render(Primer::Beta::BorderBox.new(mt: 5, data: controller_data, test_selector: "ai-text-transform-sandbox")) do |box|
+    box.with_header do |header|
+      header.with_title(tag: :h2) { label(:title) }
+    end
+
+    box.with_body do
+      flex_layout(direction: :column, gap: 3) do |layout|
+        layout.with_row do
+          render(Primer::Beta::Text.new(tag: :p, color: :muted)) { label(:description) }
+        end
+
+        layout.with_row do
+          render(
+            Primer::Alpha::TextArea.new(
+              name: "sandbox[content]",
+              label: label(:content_label),
+              rows: 8,
+              full_width: true,
+              data: target(:content)
+            )
+          )
+        end
+
+        layout.with_row do
+          flex_layout(gap: 3, wrap: :wrap) do |fields|
+            fields.with_column do
+              render(
+                Primer::Alpha::TextField.new(
+                  name: "sandbox[work_package_id]",
+                  label: label(:work_package_id_label),
+                  data: target(:workPackageId)
+                )
+              )
+            end
+            fields.with_column do
+              render(
+                Primer::Alpha::TextField.new(
+                  name: "sandbox[project_id]",
+                  label: label(:project_id_label),
+                  data: target(:projectId)
+                )
+              )
+            end
+            fields.with_column do
+              render(
+                Primer::Alpha::TextField.new(
+                  name: "sandbox[type_id]",
+                  label: label(:type_id_label),
+                  data: target(:typeId)
+                )
+              )
+            end
+          end
+        end
+
+        layout.with_row do
+          flex_layout(gap: 2, align_items: :center) do |buttons|
+            buttons.with_column do
+              render(
+                Primer::Beta::Button.new(
+                  scheme: :primary,
+                  data: target(:execute).merge(action: "ai-text-transform-sandbox#execute")
+                )
+              ) { label(:execute) }
+            end
+            buttons.with_column do
+              render(
+                Primer::Beta::Button.new(
+                  scheme: :danger,
+                  disabled: true,
+                  data: target(:cancel).merge(action: "ai-text-transform-sandbox#cancel")
+                )
+              ) { label(:cancel) }
+            end
+            buttons.with_column do
+              render(Primer::Beta::Text.new(tag: :span, font_family: :mono, data: target(:status))) { "idle" }
+            end
+          end
+        end
+
+        layout.with_row do
+          content_tag(
+            :pre,
+            "",
+            class: "op-uc-p",
+            style: "white-space: pre-wrap; min-height: 6rem;",
+            data: target(:output)
+          )
+        end
+
+        layout.with_row do
+          render(Primer::Beta::Details.new) do |details|
+            details.with_summary { label(:system_prompt) }
+            details.with_body do
+              content_tag(:pre, "", style: "white-space: pre-wrap; font-size: 12px;", data: target(:systemPrompt))
+            end
+          end
+        end
+
+        layout.with_row do
+          render(Primer::Beta::Details.new) do |details|
+            details.with_summary { label(:raw_events) }
+            details.with_body do
+              content_tag(:pre, "", style: "white-space: pre-wrap; font-size: 12px;", data: target(:log))
+            end
+          end
+        end
+      end
+    end
+  end
+%>
