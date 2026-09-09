@@ -72,6 +72,35 @@ RSpec.describe Llm::Validators::ConnectionValidator, :llm_server_helpers, :webmo
     end
   end
 
+  describe "the inference group" do
+    before do
+      mock_llm_models_response(base_url)
+      connection.deep_health_check = true
+    end
+
+    it "names a model the server has no route for" do
+      connection.update!(default_chat_model_id: "qwen3.6-27b")
+      mock_llm_chat_response(base_url, response_code: 404)
+
+      result = result_for(:inference, :chat_round_trip)
+
+      expect(result.state).to eq(:failure)
+      expect(result.code).to eq(:model_not_served)
+      expect(result.context[:model]).to eq("qwen3.6-27b")
+    end
+
+    it "tests a model that can chat when no default is chosen" do
+      create(:llm_model, :deactivated, llm_connection: connection, external_id: "abandoned-7b")
+      connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                             state: "supported", source: "probe", checked_at: Time.current)
+      mock_llm_chat_response(base_url)
+
+      expect(result_for(:inference, :chat_round_trip).state).to eq(:success)
+      expect(WebMock).to have_requested(:post, "#{base_url}/chat/completions")
+        .with { |request| JSON.parse(request.body)["model"] == "qwen3.6-27b" }
+    end
+  end
+
   context "when the server publishes no model list" do
     before { mock_llm_models_response(base_url, response_code: 404) }
 

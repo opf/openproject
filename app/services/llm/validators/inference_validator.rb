@@ -70,15 +70,20 @@ module Llm
       rescue Llm::Errors::TimeoutError
         fail_check(:chat_round_trip, :request_timed_out)
       rescue Llm::Errors::ApiError => e
-        fail_check(:chat_round_trip, :chat_failed, context: { model: model_id, status: e.status.to_s })
+        if e.status == 404
+          fail_check(:chat_round_trip, :model_not_served, context: { model: model_id })
+        else
+          fail_check(:chat_round_trip, :chat_failed, context: { model: model_id, status: e.status.to_s })
+        end
       rescue Llm::Errors::Error
         fail_check(:chat_round_trip, :connection_error)
       end
 
       # The configured default first, so the check exercises what features will
-      # actually use rather than an arbitrary entry in the catalogue.
+      # actually use rather than an arbitrary entry in the catalogue. Without one,
+      # a model that can chat and is switched on, never one that only embeds.
       def chat_model_id
-        subject.default_chat_model_id.presence || subject.available_model_ids.first
+        subject.default_chat_model_id.presence || subject.chat_model_ids.first
       end
 
       # Never retried: a failing check should report the failure, not pay for it

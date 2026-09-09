@@ -4437,6 +4437,7 @@ en:
         features_unbound: "%{features} have no model chosen yet."
         invalid_api_key: "The server rejected the stored API key."
         locked_model_missing: "%{features} indexed data with a model the server no longer offers. The index cannot be extended until it is rebuilt."
+        model_not_served: "The server has no route for %{model} (404). Check that the model is still offered to your account and that the host URL includes the API version segment."
         no_model_to_test: "No model is available to test with. Add a model or choose a default first."
         no_models: "The server does not publish a model list. Either it does not offer one, or the endpoint is missing its API version segment. Models can be added manually; the inference check is what proves the endpoint is right."
         no_models_endpoint: "The server does not offer a model list, so the API key could not be verified. Run the inference check to verify it."
