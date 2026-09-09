@@ -41,6 +41,7 @@ class Tables::HierarchicalItems < Tables::Base
       t.timestamps
       t.references :custom_field, foreign_key: true
       t.bigint :position_cache, null: true
+      t.decimal :score
 
       t.index :position_cache
     end

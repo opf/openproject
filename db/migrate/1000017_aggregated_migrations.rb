@@ -157,5 +157,6 @@ class AggregatedMigrations < SquashedMigration
     20250804133700_migrate_auth_provider_urls_again
     20250806132912_add_export_footer_to_custom_styles
     20250811102200_add_pdf_fonts_to_custom_styles
+    20250818133654_add_list_item_score
   ]
 end
