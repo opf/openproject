@@ -397,12 +397,6 @@ export function resolveItemExternalUrl(itemElement:Element):string|null {
   return url === '' ? null : url;
 }
 
-// text/html reaches targets that follow the link, so only a web URL becomes
-// one; any other scheme stays confined to the plain flavours.
-export function webLinkHref(url:string):string|null {
-  return url.startsWith('http://') || url.startsWith('https://') ? url : null;
-}
-
 // A row a predecessor id can be read from: an item row, or a non-item row
 // annotated with the id of the last hidden item it stands in for (a
 // truncation marker). Unannotated non-item rows (a divider, a heading) give

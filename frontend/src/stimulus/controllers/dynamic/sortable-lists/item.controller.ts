@@ -57,8 +57,8 @@ import {
   resolveItemExternalUrl,
   resolveItemLabel,
   sortableItemSelector,
-  webLinkHref,
 } from './list-dom';
+import { webLinkHref } from './external-data';
 import { renderDragPreview } from './preview';
 
 type CleanupFn = () => void;
