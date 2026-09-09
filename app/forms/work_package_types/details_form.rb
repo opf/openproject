@@ -62,6 +62,12 @@ module WorkPackageTypes
                              label: label(:is_in_roadmap),
                              disabled: inherited?,
                              caption: inherited_caption)
+
+      if offers_new_project_default?
+        details_form.check_box(name: :is_default,
+                               label: I18n.t("types.index.enabled_in_new_projects"),
+                               checked: model.is_default?)
+      end
     end
 
     private
@@ -69,6 +75,11 @@ module WorkPackageTypes
     def carries_parent? = model.new_record? && model.parent_id.present?
 
     def inherited? = model.variant?
+
+    # TODO: Remove with type_variants feature flag
+    def offers_new_project_default?
+      !inherited? && !OpenProject::FeatureDecisions.type_variants_active?
+    end
 
     def color_caption
       inherited? ? inherited_caption : I18n.t("types.edit.details.type_color_text")
