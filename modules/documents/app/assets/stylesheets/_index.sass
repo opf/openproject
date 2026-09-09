@@ -32,6 +32,16 @@ $blocknote-side-menu-gutter: 48px // Left lane for BlockNote's side menu (drag h
     padding-inline: 0 // Drop BlockNote's default 54px inline padding
     padding-left: $blocknote-side-menu-gutter
     font-size: var(--body-font-size)
+
+    // Mirrors a collaborator's name label onto the caret's left, for the cursors
+    // `CollaborationCursorLabelFitExtension` flags as clipped.
+    .bn-collaboration-cursor__base[data-op-label-flipped] .bn-collaboration-cursor__label
+      left: auto
+      right: 0
+      border-radius: 1.5px 0 0 1.5px
+
+    .bn-collaboration-cursor__base[data-op-label-flipped][data-active] .bn-collaboration-cursor__label
+      border-radius: 3px 3px 0 3px
   > .bn-default-styles
     font-family: var(--body-font-family)
 
