@@ -122,9 +122,9 @@ export class SelectionOrchestrator {
   }
 
   readonly handleClick = (event:MouseEvent):void => {
-    // Ctrl-click is the secondary click on Apple platforms, where it opens
-    // the contextual menu and Cmd is the multi-select key instead.
-    if (event.ctrlKey && !event.metaKey && !event.shiftKey && isApplePlatform()) {
+    // Ctrl-click is the secondary click on Apple platforms whatever else is
+    // held, so it opens the contextual menu; Cmd is the multi-select key.
+    if (event.ctrlKey && isApplePlatform()) {
       return;
     }
 

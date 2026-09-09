@@ -597,14 +597,19 @@ describe('SelectionOrchestrator', () => {
       expect(announceSpy.mock.calls.map((call) => call[0])).toEqual(['[range_blocked]']);
     });
 
-    // Ctrl-click opens the contextual menu on Apple platforms: it must
-    // neither toggle nor fall through to the ordinary-click path.
-    it('ignores Ctrl-click entirely on Apple platforms', () => {
+    // Ctrl-click opens the contextual menu on Apple platforms whatever else
+    // is held: it must neither toggle, nor range, nor fall through to the
+    // ordinary-click path.
+    it.each([
+      ['on its own', {}],
+      ['with Shift', { shiftKey: true }],
+      ['with Cmd', { metaKey: true }],
+    ])('ignores Ctrl-click %s on Apple platforms', (_label, extra) => {
       pretendPlatform('macOS');
       const orchestrator = new SelectionOrchestrator(hostFor(root));
       orchestrator.handleClick(clickOn(item('1')));
 
-      const event = clickOn(item('2'), { ctrlKey: true });
+      const event = clickOn(item('2'), { ctrlKey: true, ...extra });
       orchestrator.handleClick(event);
 
       expect(orchestrator.selectedIds()).toEqual(['1']);
