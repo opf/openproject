@@ -42,7 +42,6 @@ class Tables::Meetings < Tables::Base
       t.timestamps precision: nil, null: false
       t.integer :state, default: 0, null: false
       t.integer :lock_version, default: 0, null: false
-      t.string :type, default: "Meeting", null: false
       t.references :recurring_meeting, index: true
       t.boolean :template, default: false, null: false
       t.boolean :notify, default: true, null: false
