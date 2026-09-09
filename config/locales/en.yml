@@ -3765,7 +3765,6 @@ en:
   label_managed_by_ldap: "Managed by LDAP synchronization"
   label_managed_repositories_vendor: "Managed %{vendor} repositories"
   label_mapping_for: "Mapping for: %{attribute}"
-  label_matching_users: "Matching users"
   label_max_size: "Maximum size"
   label_me: "me"
   label_member_all_admin: "(All roles due to admin status)"
@@ -5187,8 +5186,14 @@ en:
   permission_work_package_assigned_explanation: "Work packages can be assigned to users and groups in possession of this role in the respective project"
   placeholder_users:
     criteria:
+      activate: "Activate filter criteria"
+      activate_caption: >
+        This allows to add a set of filters to this placeholder user used to define the possible users
+        that fit the desired criteria.
       enable: "Match users by criteria"
       enable_caption: "Describe the kind of user this placeholder stands for, so matching users can be suggested for it."
+      matching_users: "Users meeting the filter criteria"
+      no_matching_users: "No user meets these criteria."
     delete_tooltip: "Delete placeholder user"
     deletion_info:
       data_consequences: >

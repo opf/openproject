@@ -30,11 +30,8 @@
 
 require "spec_helper"
 
-RSpec.describe "Placeholder user matching users tab",
-               type: :rails_request,
-               with_ee: %i[placeholder_users] do
-  shared_let(:matching_user) { create(:user, firstname: "Dev", lastname: "Eloper") }
-  shared_let(:other_user) { create(:user, firstname: "Sales", lastname: "Person") }
+RSpec.describe "Placeholder user filter criteria", :js, with_ee: %i[placeholder_users] do
+  shared_let(:without_criteria) { create(:placeholder_user, name: "Just a seat") }
 
   shared_let(:with_criteria) do
     query = UserQuery.new
@@ -42,33 +39,36 @@ RSpec.describe "Placeholder user matching users tab",
     create(:placeholder_user, name: "Senior Developer", user_filter: query.filters)
   end
 
-  shared_let(:without_criteria) { create(:placeholder_user, name: "Just a seat") }
+  shared_let(:matching_user) { create(:user, firstname: "Dev", lastname: "Eloper") }
 
   current_user { create(:admin) }
 
-  context "for a placeholder user with criteria" do
-    before { get edit_placeholder_user_path(with_criteria, tab: :matching_users) }
-
-    it "renders the tab" do
-      expect(response).to have_http_status(:ok)
-      expect(response.body).to include(I18n.t(:label_matching_users))
-    end
-
-    it "lists the users the criteria select" do
-      expect(response.body).to include("Eloper")
-      expect(response.body).not_to include("Sales")
-    end
-
-    it "shows the criteria the list is based on" do
-      expect(response.body).to include(Queries::FilterSummary.new(with_criteria.user_filter).to_s)
-    end
+  def toggle
+    find('[data-test-selector="placeholder-user-criteria-toggle"]')
   end
 
-  context "for a placeholder user without criteria" do
-    it "does not offer the tab" do
-      get edit_placeholder_user_path(without_criteria, tab: :general)
+  it "offers the filter builder right after activating the criteria" do
+    visit edit_placeholder_user_path(without_criteria, tab: :criteria)
 
-      expect(response.body).not_to include(I18n.t(:label_matching_users))
-    end
+    expect(page).to have_text(I18n.t("placeholder_users.criteria.activate"))
+    expect(page).to have_no_css(".op-filters-form")
+
+    toggle.click
+
+    expect(page).to have_css(".op-filters-form")
+    expect(toggle).to have_css("button[aria-pressed='true']")
+    expect(toggle).to have_no_css("button[disabled]")
+  end
+
+  it "drops the criteria when deactivating them" do
+    visit edit_placeholder_user_path(with_criteria, tab: :criteria)
+
+    expect(page).to have_text(I18n.t("placeholder_users.criteria.matching_users"))
+    expect(page).to have_text(matching_user.name)
+
+    toggle.click
+
+    expect(page).to have_no_css(".op-filters-form")
+    expect(with_criteria.reload.user_filter).to be_empty
   end
 end

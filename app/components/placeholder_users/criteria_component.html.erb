@@ -28,9 +28,27 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%=
-  render(Primer::Beta::Text.new(tag: :div, color: :muted, mb: 3)) do
-    ::Queries::FilterSummary.new(@placeholder_user.user_filter).to_s
+  component_wrapper do
+    render(Primer::Alpha::Layout.new(stacking_breakpoint: :md, mt: 3, style: SIDEBAR_WIDTH)) do |layout|
+      layout.with_main(width: :md) do
+        flex_layout do |column|
+          column.with_row(mb: 3) do
+            render(Primer::Forms::ToggleSwitchForm.new(**toggle_arguments))
+          end
+
+          if active?
+            column.with_row do
+              settings_primer_form_with(model: placeholder_user, url: form_url, method: :put) do |f|
+                render(PlaceholderUsers::CriteriaForm.new(f))
+              end
+            end
+          end
+        end
+      end
+
+      layout.with_sidebar(row_placement: :start, col_placement: :end) do
+        render(PlaceholderUsers::MatchingUsersComponent.new(placeholder_user:))
+      end
+    end
   end
 %>
-
-<%= render Users::TableComponent.new(rows: @placeholder_user.candidate_query, current_user:) %>
