@@ -40,7 +40,7 @@ export async function performTurboStreamRequest(request:FetchRequest):Promise<Fe
   const response = await request.perform();
 
   if (!response.isTurboStream) {
-    throw new Error('Response is not a Turbo Stream');
+    throw new FetchRequestError(response.statusCode, 'Response is not a Turbo Stream');
   }
 
   if (!response.ok && !response.unprocessableEntity) {

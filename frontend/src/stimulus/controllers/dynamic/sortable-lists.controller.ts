@@ -36,7 +36,7 @@ import { announce } from '@primer/live-region-element';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { OPToastEvent } from 'core-app/shared/components/toaster/toast-event';
 import { flipMove } from 'core-stimulus/helpers/flip-helper';
-import { performTurboStreamRequest } from 'core-stimulus/helpers/request-helpers';
+import { performTurboStreamRequest, withProgressBar } from 'core-stimulus/helpers/request-helpers';
 import { parseTemplate } from 'url-template';
 import {
   buildMoveFormData,
@@ -714,7 +714,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
 
     this.startMoveRequest();
     try {
-      await performTurboStreamRequest(request);
+      await withProgressBar(performTurboStreamRequest(request));
     } catch (error) {
       // Only a request that never produced a stream lands here — a rejection
       // streams its own flash. Without the toast the busy state would simply
