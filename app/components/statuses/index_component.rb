@@ -66,16 +66,27 @@ module Statuses
     def wrapper_data_attributes
       return {} unless reorderable?
 
-      { controller: "generic-drag-and-drop" }
+      {
+        controller: "sortable-lists",
+        sortable_lists_move_url_template_value: move_url_template,
+        sortable_lists_sortable_lists__list_outlet: "##{wrapper_key} [data-controller~='sortable-lists--list']",
+        sortable_lists_sortable_lists__item_outlet: "##{wrapper_key} [data-controller~='sortable-lists--item']"
+      }
+    end
+
+    def move_url_template
+      id_placeholder = "__id__"
+      move_status_path(id_placeholder, **page_args.to_h).sub(id_placeholder, "{id}")
     end
 
     def drop_target_config
       return {} unless reorderable?
 
       {
-        generic_drag_and_drop_target: "container",
-        "target-container-accessor": ":scope > ul",
-        "target-allowed-drag-type": "status"
+        controller: "sortable-lists--list",
+        sortable_lists__list_type_value: Status::SORTABLE_LIST_TYPE,
+        sortable_lists__list_accepted_type_value: Status::SORTABLE_LIST_TYPE,
+        sortable_lists__list_name_value: t(:label_status_plural)
       }
     end
 
@@ -83,9 +94,10 @@ module Statuses
       return {} unless reorderable?
 
       {
-        "draggable-id": status.id,
-        "draggable-type": "status",
-        "drop-url": move_status_path(status, **page_args.to_h)
+        controller: "sortable-lists--item",
+        sortable_lists__item_id_value: status.id,
+        sortable_lists__item_type_value: Status::SORTABLE_LIST_TYPE,
+        sortable_lists__item_label_value: status.name
       }
     end
   end

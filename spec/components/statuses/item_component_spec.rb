@@ -120,7 +120,7 @@ RSpec.describe Statuses::ItemComponent, type: :component do
 
   describe "reordering" do
     it "offers a drag handle and every move from the middle of the list", :aggregate_failures do
-      expect(rendered_component).to have_css(".DragHandle")
+      expect(rendered_component).to have_css(".DragHandle[data-sortable-lists--item-target='handle']")
       expect(rendered_component).to have_button("Move to top")
       expect(rendered_component).to have_button("Move up")
       expect(rendered_component).to have_button("Move down")
