@@ -48,7 +48,6 @@ RSpec.describe PlaceholderUser do
                                  user_filter: filters_for("name", "~", ["dev"]))).not_to be_valid
     end
 
-    # A placeholder that just holds a seat in a plan describes nobody.
     it "does not require a filter" do
       expect(described_class.new(name: "Anyone at all")).to be_valid
     end
@@ -92,8 +91,6 @@ RSpec.describe PlaceholderUser do
       expect(placeholder_user.candidate_query(project:).results).to contain_exactly(matching)
     end
 
-    # Membership is applied last, so it wins over a `member` value that made it
-    # into the stored criteria.
     it "overrides a member filter smuggled into the stored criteria" do
       project = create(:project, members: { matching => create(:project_role) })
       other_project = create(:project, members: { other => create(:project_role) })
@@ -121,8 +118,6 @@ RSpec.describe PlaceholderUser do
       expect(resource).to have_received(:candidate_query).once
     end
 
-    # One incompletely configured resource must not take down the view it is
-    # rendered in.
     it "falls back to zero when the filter cannot be resolved" do
       allow(resource).to receive(:candidate_query).and_raise(StandardError, "broken filter")
 
@@ -165,7 +160,6 @@ RSpec.describe PlaceholderUser do
       expect(recorder.log).to be_empty
     end
 
-    # A single unresolvable filter must not cost the whole list its counts.
     it "falls back to zero for a resource whose filter cannot be resolved" do
       allow(designers).to receive(:candidate_query).and_raise(StandardError, "broken filter")
 
@@ -185,8 +179,6 @@ RSpec.describe PlaceholderUser do
       expect(Principal.find(placeholder_user.id)).to eq(placeholder_user)
     end
 
-    # UserQuery's default scope is User.user.visible, so a resource can never
-    # match its own filter or another resource's.
     it "is not a candidate for any user filter" do
       placeholder_user.update!(user_filter: filters_for("name", "~", ["Senior"]))
 

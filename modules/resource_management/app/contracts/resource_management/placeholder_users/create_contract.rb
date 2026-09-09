@@ -30,8 +30,6 @@
 
 module ResourceManagement
   module PlaceholderUsers
-    # Only placeholders describing who they stand for can be allocated against,
-    # so one created for an allocation must carry criteria.
     class CreateContract < ::PlaceholderUsers::CreateContract
       validate :user_filter_present
 

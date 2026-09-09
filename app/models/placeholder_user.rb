@@ -63,8 +63,6 @@ class PlaceholderUser < Principal
     lastname
   end
 
-  # Resolves the candidate counts for many placeholders in one round trip, so a
-  # list rendering "N matching users" per row does not fire a query per row.
   def self.preload_candidate_counts(placeholders, project: nil)
     persisted = Array(placeholders).select(&:persisted?)
     counts = candidate_counts_by_id(persisted, project)
@@ -119,7 +117,6 @@ class PlaceholderUser < Principal
 
   private
 
-  # An incompletely configured filter must not take down the whole view.
   def resolve_candidate_count(project)
     candidate_query(project:).results.count
   rescue StandardError => e

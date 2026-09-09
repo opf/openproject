@@ -31,13 +31,12 @@
 module OpenProject::ResourceManagement::Patches::PlaceholderUserPatch
   def self.included(base) # :nodoc:
     base.class_eval do
-      # Allocating against a placeholder only needs to know what it stands for,
-      # which is a lower bar than the administrative rules of `visible`: someone
-      # who may allocate has no reason to be able to manage placeholders.
       scope :allocatable, ->(user = User.current) {
-        next none unless user.allowed_in_any_project?(:allocate_user_resources)
-
-        with_criteria
+        if user.allowed_in_any_project?(:allocate_user_resources)
+          with_criteria
+        else
+          none
+        end
       }
     end
   end

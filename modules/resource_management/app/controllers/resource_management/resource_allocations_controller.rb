@@ -398,9 +398,6 @@ module ::ResourceManagement
       permitted.merge(entity:, placeholder_or_user:)
     end
 
-    # The picker offers the project's users and the placeholders that may be
-    # allocated against; anything else is dropped. A picked placeholder is only
-    # ever linked, its criteria are left untouched.
     def selected_placeholder_or_user(placeholder_or_user_id)
       return if placeholder_or_user_id.blank?
 
@@ -420,9 +417,6 @@ module ::ResourceManagement
       @preselected_user = User.visible(current_user).in_project(@project).find_by(id: params[:principal_id])
     end
 
-    # The planner passes whatever it already knows — the work package or user a
-    # row stands for, and any date range picked on the timeline — so the form
-    # opens pre-filled.
     def prefilled_allocation
       ResourceAllocation.new(
         principal: preselected_user,

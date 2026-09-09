@@ -28,11 +28,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Lifts the inline user filters of the existing generic allocations into
-# placeholder users and links the allocations to them.
-#
-# Allocations asking for the same filter are merged into one placeholder even
-# when they were labelled differently.
 class BackfillPlaceholderUsersFromAllocations < ActiveRecord::Migration[8.1]
   ACTIVE_STATUS = 1 # Principal.statuses[:active]
 
@@ -144,8 +139,6 @@ class BackfillPlaceholderUsersFromAllocations < ActiveRecord::Migration[8.1]
     principal_id
   end
 
-  # `principal_id` is left alone: a staffed allocation keeps its user and gains
-  # the placeholder it was originally requested as.
   def link_allocations(principal_id, canonical_filter)
     execute(<<~SQL.squish)
       UPDATE resource_allocations

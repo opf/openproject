@@ -40,8 +40,6 @@ module ResourceAllocations
           validation_message: principal_error,
           autocomplete_options: {
             component: "opce-resource-allocation-autocompleter",
-            # The endpoint answers who may be allocated against, so the criteria
-            # and permission rules are not repeated here.
             url: ::API::V3::Utilities::PathHelper::ApiV3Path.allocatable_principals,
             resource: "principals",
             searchKey: "any_name_attribute",
@@ -80,9 +78,6 @@ module ResourceAllocations
              .presence
       end
 
-      # Constrains the picker to the project's users — placeholder users are not
-      # bound to a project and pass this filter — and additionally to the planner
-      # view's users when the dialog was opened from a user view.
       def principal_filters
         filters = [
           { name: "allocatable_in_project", operator: "=", values: [@project.id.to_s] }

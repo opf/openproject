@@ -146,9 +146,6 @@ class PlaceholderUsersController < ApplicationController
     end
   end
 
-  # Criteria are active as long as any are stored, so switching the toggle off
-  # drops them. Switching it on has nothing to store yet and only opens the
-  # empty builder.
   def toggle_criteria
     unless criteria_activated?
       call = PlaceholderUsers::UpdateService
@@ -185,8 +182,6 @@ class PlaceholderUsersController < ApplicationController
 
   private
 
-  # Only active placeholders are listed, so the ones queued for deletion stay
-  # out of the way.
   def index_query
     query = Queries::PlaceholderUsers::PlaceholderUserQuery.new
     query.where(:status, "=", ["active"])
@@ -215,8 +210,6 @@ class PlaceholderUsersController < ApplicationController
     attributes.merge(user_filter: parsed_user_filter)
   end
 
-  # The criteria tab submits its selection as a JSON string in a top-level
-  # `filters` field and carries none of the placeholder's own attributes.
   def update_attributes
     return { user_filter: parsed_user_filter } if params.key?(:filters)
 

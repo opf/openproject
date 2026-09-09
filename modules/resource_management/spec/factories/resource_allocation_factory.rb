@@ -75,8 +75,6 @@ FactoryBot.define do
         end
       end
 
-      # Allocations asking for the same thing share one placeholder, so that
-      # several generic allocations in a spec do not collide on the name.
       placeholder_user do
         PlaceholderUser.find_by(lastname: filter_name) ||
           create(:placeholder_user, name: filter_name, user_filter: generic_filters)

@@ -113,9 +113,6 @@ class ResourceAllocation < ApplicationRecord
     Principal.visible(user).where(id: principal_ids).pluck(:id).to_set
   end
 
-  # Counts the candidates each filter-based allocation selects, keyed by
-  # allocation id. Allocations commonly request the same placeholder, so the
-  # pools are resolved once per placeholder and in a single round trip.
   def self.candidate_counts(allocations, project:)
     return {} if project.nil?
 
@@ -169,8 +166,6 @@ class ResourceAllocation < ApplicationRecord
             inclusion: { in: ALLOWED_ENTITY_TYPES },
             allow_blank: true
 
-  # An allocation either names a person outright or asks for a resource. Once a
-  # generic allocation is staffed it carries both.
   validates :principal, presence: true, unless: :filter_based?
 
   validate :end_date_after_start_date
@@ -207,9 +202,6 @@ class ResourceAllocation < ApplicationRecord
     principal_id.present?
   end
 
-  # An allocation names either a person or the placeholder standing in for one,
-  # picked from a single autocompleter. The placeholder wins on a staffed
-  # allocation: it is what was asked for.
   def placeholder_or_user
     placeholder_user || principal
   end
@@ -232,9 +224,6 @@ class ResourceAllocation < ApplicationRecord
     filter_based? && principal_id.blank?
   end
 
-  # Only project members can be allocated, so the stored criteria are always
-  # narrowed to the project's members. Callers that already hold the project pass
-  # it in to avoid loading the entity.
   def candidate_query(project: self.project)
     placeholder_user&.candidate_query(project:)
   end

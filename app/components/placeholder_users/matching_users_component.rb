@@ -29,8 +29,6 @@
 #++
 
 module PlaceholderUsers
-  # The users a placeholder's criteria currently select, listed beside the
-  # criteria that produce them.
   class MatchingUsersComponent < ApplicationComponent
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
@@ -46,14 +44,10 @@ module PlaceholderUsers
 
     private
 
-    # The wrapper always renders so the list stays a turbo stream target while
-    # the criteria are edited.
     def criteria?
       @placeholder_user.user_filter.present?
     end
 
-    # Everything the rows read off a user is eager-loaded, so the list stays a
-    # fixed number of queries regardless of how many users the criteria select.
     def users
       @users ||= @placeholder_user
                    .candidate_query
@@ -63,7 +57,6 @@ module PlaceholderUsers
                    .to_a
     end
 
-    # Built as HTML so only the department is bold.
     def details_for(user)
       segments = []
       segments << tag.b(user.department.name) if user.department

@@ -29,8 +29,6 @@
 #++
 
 module PlaceholderUsers
-  # The criteria tab: the switch activating them, the filter builder they are
-  # edited in, and the users they currently select.
   class CriteriaComponent < ApplicationComponent
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers

@@ -53,8 +53,6 @@ module PlaceholderUsers
       )
     end
 
-    # `live_update_path` receives the criteria as they are edited, replacing the
-    # explicit save.
     def initialize(submit: true, live_update_path: nil)
       super()
       @submit = submit

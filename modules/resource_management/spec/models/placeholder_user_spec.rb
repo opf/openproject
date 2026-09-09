@@ -51,8 +51,6 @@ RSpec.describe PlaceholderUser do
       expect(described_class.allocatable(allocator)).to contain_exactly(with_criteria)
     end
 
-    # Allocating says nothing about being allowed to manage placeholders, so
-    # this deliberately does not go through the administrative `visible` rule.
     it "does not require the permissions that managing placeholders needs" do
       expect(allocator.allowed_globally?(:manage_placeholder_user)).to be(false)
       expect(described_class.visible(allocator)).to be_empty
