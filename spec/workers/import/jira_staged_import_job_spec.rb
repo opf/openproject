@@ -72,6 +72,36 @@ RSpec.describe Import::JiraStagedImportJob, with_good_job_batches: [Import::Jira
   context "when batch succeeded" do
     let(:discarded) { false }
 
+    context "when the import is being aborted" do
+      before { jira_import.transition_to!(:import_aborting) }
+
+      describe "a stage that finished before the abort reached its jobs" do
+        let(:stage) { 4 }
+
+        it "does not enqueue the next stage" do
+          run_callback
+
+          expect(GoodJob::Job.where(job_class: "Import::JiraCreateProjectRoleJob").count).to eq(0)
+          expect(GoodJob::Job.where(job_class: "Import::JiraCreateCustomFieldsJob").count).to eq(0)
+        end
+
+        it "transitions the import to import_error" do
+          run_callback
+
+          expect(jira_import.reload.current_state).to eq("import_error")
+        end
+      end
+
+      describe "the final stage" do
+        let(:stage) { 8 }
+
+        it "transitions the import to import_error instead of raising" do
+          expect { run_callback }.not_to raise_error
+          expect(jira_import.reload.current_state).to eq("import_error")
+        end
+      end
+    end
+
     describe "stage nil (initial stage)" do
       let(:stage) { nil }
 

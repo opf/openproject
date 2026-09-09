@@ -35,6 +35,12 @@ module Import
       jira_import = Import::JiraImport.find(batch.properties[:jira_import_id])
 
       if batch.succeeded?
+        # happens when jobs are not progressable and can't react to impot_aborting by discarding themselves.
+        if jira_import.in_state?(:import_aborting)
+          jira_import.transition_to!(:import_error)
+          return
+        end
+
         if batch.properties[:stage].nil?
           batch.enqueue(stage: 1) do
             Import::JiraFetchIssueTypesJob.set(good_job_labels: ["stage_1"]).perform_later(jira_import.id)
