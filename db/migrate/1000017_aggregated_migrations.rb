@@ -165,5 +165,6 @@ class AggregatedMigrations < SquashedMigration
     20250908151957_rename_favorites_favored_to_favorited
     20250908172222_fix_wording_in_settings_enabled_projects_columns_value
     20250923142124_add_autologin_session_link
+    20251017111720_set_anonymous_user_theme_to_sync_with_os
   ]
 end
