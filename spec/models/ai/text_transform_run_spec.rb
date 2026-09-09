@@ -137,6 +137,28 @@ RSpec.describe AI::TextTransformRun do
     end
   end
 
+  describe "finished_at" do
+    subject(:run) { create(:ai_text_transform_run, :running) }
+
+    it "is stamped when a status bang method reaches a terminal status" do
+      run.cancelled!
+
+      expect(run.reload.finished_at).to be_within(5.seconds).of(Time.current)
+    end
+
+    it "keeps an explicitly assigned value" do
+      run.update!(status: "succeeded", finished_at: 10.minutes.ago)
+
+      expect(run.reload.finished_at).to be_within(5.seconds).of(10.minutes.ago)
+    end
+
+    it "stays empty while the run is not terminal" do
+      run.update!(status: "queued")
+
+      expect(run.reload.finished_at).to be_nil
+    end
+  end
+
   describe "#terminal?" do
     it "is false for queued and running" do
       expect(build(:ai_text_transform_run)).not_to be_terminal
