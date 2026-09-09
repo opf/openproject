@@ -46,19 +46,35 @@ class FogFileUploader < CarrierWave::Uploader::Base
   end
 
   ##
-  # Moves a freshly assigned local file into the cache instead of copying it.
-  # Avoids briefly holding two copies of large files (e.g. backup archives) on
-  # disk while caching them ahead of the upload to S3.
+  # Marker callers can `extend` onto a local File/Tempfile before assigning it to this
+  # uploader, to opt that specific file into being moved (rather than copied) into the
+  # cache (see #move_to_cache below) — e.g. BackupJob does this for the backup archive
+  # it just wrote, to avoid briefly holding two copies of a large file on disk while
+  # caching it ahead of the upload to S3.
+  #
+  # Only extend a file with this if you don't need it afterwards and control it
+  # exclusively (e.g. a freshly written, disposable tempfile) — the source file is
+  # deleted from its original location once moved. Regular attachments never opt in,
+  # so their source file (e.g. a fixture, a seeded asset) is always left untouched.
+  module MovableSource
+  end
+
+  def cache!(new_file = file)
+    @move_new_file_to_cache = new_file.is_a?(MovableSource)
+    super
+  end
+
+  ##
+  # Moves a freshly assigned local file into the cache instead of copying it, if the
+  # caller explicitly opted in via MovableSource (see above).
   #
   # This only affects genuinely local, path-backed sources (e.g. a Tempfile just
   # written to disk). Re-caching an already-remote file (e.g. Attachment#copy's
   # `attachment.file = diskfile`) never takes this path, since that source isn't
   # a local path but a remote file reference, so the original stored file is safe.
-  # rubocop:disable Naming/PredicateMethod -- name is a CarrierWave config hook, not ours to choose
   def move_to_cache
-    true
+    @move_new_file_to_cache
   end
-  # rubocop:enable Naming/PredicateMethod
 
   def store_dir
     "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"

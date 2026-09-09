@@ -135,6 +135,8 @@ class BackupJob < ApplicationJob
 
   def store_backup(file_name, backup:, user:)
     File.open(file_name) do |file|
+      file.extend FogFileUploader::MovableSource
+
       call = Attachments::CreateService
         .bypass_allowlist(user:)
         .call(container: backup, filename: file_name, file:, description: "OpenProject backup")
