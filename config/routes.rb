@@ -194,6 +194,7 @@ Rails.application.routes.draw do
         member do
           put :drop
           put :move
+          put :toggle_required
         end
       end
     end

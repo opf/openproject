@@ -6658,6 +6658,15 @@ en:
         query_group_label: "Related work packages table"
         remove_attribute: "Remove from section"
         rename_group: "Rename section"
+        required:
+          already_required_globally: "This custom field is required for all types."
+          for_variant: "Required in this type"
+          globally: "Required"
+          globally_hint: "Change this on the custom field"
+          mark: "Require in this type"
+          not_a_custom_field: "Only a custom field can be made required for a single type."
+          not_available_when_linked: "This configuration is inherited. Configure it manually to change what is required."
+          unmark: "Do not require in this type"
         reset_description: >
           This will reset the attributes to their default group and disable ALL custom fields.
         reset_title: "Reset form"

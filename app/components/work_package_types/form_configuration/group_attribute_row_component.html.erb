@@ -20,6 +20,15 @@
           render(Primer::Beta::Text.new(color: :muted, font_size: :small)) { @attribute[:field_format_label] }
         end
       end
+      if required_label.present?
+        left.with_column(ml: 2) do
+          label = Primer::Beta::Label.new(
+            scheme: required_label_scheme,
+            test_selector: "type-form-configuration-required-#{@attribute[:key]}"
+          )
+          render(label) { required_label }
+        end
+      end
     end
 
     if exclusion_toggle.render?
@@ -66,6 +75,15 @@
               label: t("label_agenda_item_move_to_bottom"),
               icon: "move-to-bottom"
             )
+          end
+
+          if show_required_action?
+            menu.with_divider if attribute_can_move_up? || attribute_can_move_down?
+
+            menu.with_item(**toggle_required_item_arguments) do |item|
+              item.with_leading_visual_icon(icon: toggle_required_icon)
+              item.with_description { toggle_required_hint } if required_action_disabled?
+            end
           end
 
           menu.with_divider if show_delete_divider?
