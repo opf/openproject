@@ -150,5 +150,6 @@ class AggregatedMigrations < SquashedMigration
     20250512114003_move_users_identity_url_to_user_auth_provider_links
     20250605133700_create_scim_clients
     20250610111413_add_validity_period_to_enterprise_token
+    20250612133700_service_account_association_foreign_keys
   ]
 end
