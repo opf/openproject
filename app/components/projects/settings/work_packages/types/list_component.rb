@@ -98,23 +98,23 @@ module Projects
           end
 
           def variant_caption(variant)
-            if owned?(variant)
+            if owned_by_project?(variant)
               t("projects.settings.types.project_specific_variant")
             else
               t("projects.settings.types.variant_label")
             end
           end
 
-          def owned?(variant)
+          def owned_by_project?(variant)
             variant.project_id == project.id
           end
 
           def configurable?(variant)
-            owned?(variant) && manageable?
+            owned_by_project?(variant) && manageable?
           end
 
           def convertible?(variant)
-            owned?(variant) && User.current.admin?
+            owned_by_project?(variant) && User.current.admin?
           end
 
           def manageable?
