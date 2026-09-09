@@ -35,6 +35,7 @@ Dir[File.join(__dir__, "tables/*.rb")].each { |file| require file }
 class AggregatedMeetingMigrations < SquashedMigration
   squashed_migrations *%w[
     1003016_aggregated_meeting_migrations
+    20250416141059_add_backlogs_to_one_time_meetings
   ].freeze
 
   tables Tables::MeetingContents,
