@@ -102,6 +102,31 @@ RSpec.describe TypesHelper do
     end
   end
 
+  describe "#type_tab" do
+    it "labels a tab from its name" do
+      expect(helper.type_tab("details", "/details", aspect: nil))
+        .to eq(name: "details", path: "/details", label: "Details", aspect: nil)
+    end
+
+    it "takes a label of its own when the name does not name its translation" do
+      tab = helper.type_tab("settings", "/settings", aspect: nil, label: "Overview")
+
+      expect(tab[:label]).to eq("Overview")
+    end
+
+    it "carries anything else a tab needs through" do
+      tab = helper.type_tab("export_configuration", "/pdf", aspect: nil, view_component: String)
+
+      expect(tab[:view_component]).to eq(String)
+    end
+
+    # Pairs with the fetch in WorkPackageTypes::Overview::RowComponent: a tab that never says
+    # whether its configuration is reusable cannot reach the overview table.
+    it "insists on an aspect" do
+      expect { helper.type_tab("details", "/details") }.to raise_error(ArgumentError)
+    end
+  end
+
   describe "#form_configuration_groups" do
     it "returns a Hash with the keys :actives and :inactives Arrays" do
       expect(helper.form_configuration_groups(variant)[:actives]).to be_an Array

@@ -69,7 +69,7 @@ module WorkPackageTypes
         return back_url if back_url.present?
         return helpers.variant_scope_types_path if helpers.variant_scope_project || !type.persisted?
 
-        edit_type_details_path(type_id: type.id)
+        type_settings_path(type_id: type.id)
       end
 
       def step_title = Steps.title(current_step)
