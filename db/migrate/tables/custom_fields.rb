@@ -54,8 +54,10 @@ class Tables::CustomFields < Tables::Base
       t.boolean :allow_non_open_versions, default: false # rubocop:disable Rails/ThreeStateBooleanColumn
       t.references :custom_field_section
       t.integer :position_in_custom_field_section, null: true
+      t.jsonb :formula, null: true
 
       t.index %i[id type], name: "index_custom_fields_on_id_and_type"
+      t.index :formula, using: :gin
     end
   end
 end
