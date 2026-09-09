@@ -130,7 +130,7 @@ RSpec.describe WorkPackageTypes::TypesController do
 
         it do
           type = Type.find_by(name: "New type")
-          expect(response).to redirect_to(edit_type_details_path(type_id: type.id))
+          expect(response).to redirect_to(type_settings_path(type_id: type.id))
         end
       end
 
@@ -182,7 +182,7 @@ RSpec.describe WorkPackageTypes::TypesController do
 
         it do
           type = Type.find_by(name: "New type")
-          expect(response).to redirect_to(edit_type_details_path(type_id: type.id))
+          expect(response).to redirect_to(type_settings_path(type_id: type.id))
         end
 
         it "has the copied workflows" do
