@@ -130,7 +130,7 @@ RSpec.describe Backlogs::WorkPackages::BatchUpdateService,
     cleanup_errors << e
   end
 
-  # rubocop:disable RSpec/ExampleLength
+  # rubocop:disable-next RSpec/ExampleLength
   it "serializes disjoint batches before resolving append placement in an empty target", retry: 0 do
     first_service = described_class.new(user:, work_packages: sprint_work_packages)
     second_service = described_class.new(user:, work_packages: bucket_work_packages)
@@ -187,9 +187,8 @@ RSpec.describe Backlogs::WorkPackages::BatchUpdateService,
       threads: [first_thread, second_thread]
     )
   end
-  # rubocop:enable RSpec/ExampleLength
 
-  # rubocop:disable RSpec/ExampleLength
+  # rubocop:disable-next RSpec/ExampleLength
   it "serializes whitespace-top moves before placing into an empty inbox", retry: 0 do
     first_service = described_class.new(user:, work_packages: sprint_work_packages)
     second_service = described_class.new(user:, work_packages: bucket_work_packages)
@@ -254,9 +253,8 @@ RSpec.describe Backlogs::WorkPackages::BatchUpdateService,
       threads: [first_thread, second_thread]
     )
   end
-  # rubocop:enable RSpec/ExampleLength
 
-  # rubocop:disable RSpec/ExampleLength
+  # rubocop:disable-next RSpec/ExampleLength
   it "waits for a destination mutation before checking a same-list move", retry: 0 do
     release_mutation = Concurrent::Event.new
     mutation_ready = Concurrent::Event.new
@@ -321,9 +319,8 @@ RSpec.describe Backlogs::WorkPackages::BatchUpdateService,
       threads: [mutation_thread, batch_thread]
     )
   end
-  # rubocop:enable RSpec/ExampleLength
 
-  # rubocop:disable RSpec/ExampleLength
+  # rubocop:disable-next RSpec/ExampleLength
   it "waits for sprint finish before resolving an append", retry: 0 do
     finish_paused = Concurrent::Event.new
     release_finish = Concurrent::Event.new
@@ -398,9 +395,8 @@ RSpec.describe Backlogs::WorkPackages::BatchUpdateService,
       threads: [finish_thread, batch_thread]
     )
   end
-  # rubocop:enable RSpec/ExampleLength
 
-  # rubocop:disable RSpec/ExampleLength
+  # rubocop:disable-next RSpec/ExampleLength
   it "waits for sprint finish before moving its enumerated cohort out", retry: 0 do
     finish_paused = Concurrent::Event.new
     release_finish = Concurrent::Event.new
@@ -467,7 +463,6 @@ RSpec.describe Backlogs::WorkPackages::BatchUpdateService,
       threads: [finish_thread, batch_thread]
     )
   end
-  # rubocop:enable RSpec/ExampleLength
 
   it "terminates a thread that misses the cleanup deadline and reports the cleanup failure" do
     release = Concurrent::Event.new

@@ -172,9 +172,8 @@ class Backlogs::WorkPackages::BatchUpdateService
     return if prev_id.present?
 
     suffix = ["backlogs_batch_update_destination", target.list_type, target.list_id].compact.join("_")
-    # rubocop:disable Lint/EmptyBlock -- the lock outlives the block; see acquire_ordered_locks
+    # rubocop:disable-next Lint/EmptyBlock -- the lock outlives the block; see acquire_ordered_locks
     OpenProject::Mutex.with_advisory_lock_transaction(batch_project, suffix) {}
-    # rubocop:enable Lint/EmptyBlock
   end
 
   # Ascending id order, so two overlapping batches request the same lock
@@ -190,9 +189,8 @@ class Backlogs::WorkPackages::BatchUpdateService
   # session already holds without waiting.
   def acquire_ordered_locks(entries)
     entries.each do |entry|
-      # rubocop:disable Lint/EmptyBlock -- the lock outlives the block; see the comment above
+      # rubocop:disable-next Lint/EmptyBlock -- the lock outlives the block; see the comment above
       OpenProject::Mutex.with_advisory_lock_transaction(entry) {}
-      # rubocop:enable Lint/EmptyBlock
     end
   end
 
