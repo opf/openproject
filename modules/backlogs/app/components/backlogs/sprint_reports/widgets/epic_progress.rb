@@ -38,8 +38,7 @@ module Backlogs
         param :project
 
         def title
-          # TODO
-          "Epic progress"
+          t("backlogs.show_epic_progress")
         end
 
         def wrapper_arguments

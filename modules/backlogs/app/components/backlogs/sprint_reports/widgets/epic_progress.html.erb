@@ -34,14 +34,31 @@ See COPYRIGHT and LICENSE files for more details.
         OpenProject::Common::BorderBoxListComponent.new(
           container: "op-sprint-reports--epic-progress",
           scheme: :transparent,
-          position: :relative)
+          position: :relative
+        )
       ) do |list|
         relevant_epics.each do |epic|
           list.with_item do
             render(OpenProject::Common::WorkPackageCardComponent.new(work_package: epic)) do |card|
               card.with_additional_details do
-                render(Primer::Beta::ProgressBar.new) do |bar|
-                  bar.with_item(percentage: resolved_percentage(epic))
+                flex_layout do |flex|
+                  flex.with_row(mb: 1) do
+                    flex_layout(justify_content: :space_between) do |row|
+                      row.with_column do
+                        render(Primer::Beta::Text.new) do
+                          t(".work_package_counts", total: total_work_packages_count(epic), completed: resolved_work_packages_count(epic))
+                        end
+                      end
+                      row.with_column do
+                        t(".work_package_completed", percentage: resolved_percentage(epic))
+                      end
+                    end
+                  end
+                  flex.with_row do
+                    render(Primer::Beta::ProgressBar.new) do |bar|
+                      bar.with_item(percentage: resolved_percentage(epic))
+                    end
+                  end
                 end
               end
             end
