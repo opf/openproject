@@ -105,6 +105,20 @@ RSpec.describe API::V3::AllocatablePrincipals::AllocatablePrincipalsAPI,
       end
     end
 
+    context "when filtering by id" do
+      let(:send_request) do
+        get api_v3_paths.path_for(:allocatable_principals,
+                                  filters: [{ id: { operator: "=", values: [with_criteria.id.to_s] } }])
+      end
+
+      # The placeholders this endpoint offers are outside `Principal.visible`,
+      # which the plain id filter validates against.
+      it "accepts the id of a placeholder it returns" do
+        expect(last_response).to have_http_status(:ok)
+        expect(returned_ids).to contain_exactly(with_criteria.id)
+      end
+    end
+
     context "when filtering for a project" do
       let(:send_request) do
         get api_v3_paths.path_for(:allocatable_principals,

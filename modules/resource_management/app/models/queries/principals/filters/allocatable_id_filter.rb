@@ -28,31 +28,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Principals
-  # Who an allocation can be made out to: the users someone may pick, and the
-  # placeholder users standing for a set of them.
-  #
-  # Placeholders are deliberately not taken from `Principal.visible`, whose rules
-  # answer who may *administer* a placeholder — a higher bar than picking one in
-  # the allocation dialog. They are global, so no project scoping applies to
-  # them; see AllocatableInProjectFilter.
-  class AllocatablePrincipalQuery < PrincipalQuery
-    def default_scope
-      Principal
-        .where(id: User.visible(user).active.select(:id))
-        .or(Principal.where(id: PlaceholderUser.allocatable(user).select(:id)))
-        .ordered_by_name
-    end
+# The allocatable placeholder users this endpoint returns are outside
+# `Principal.visible`, which the plain id filter validates against — filtering
+# for one it just returned would be rejected as an invalid value.
+class Queries::Principals::Filters::AllocatableIdFilter < Queries::Principals::Filters::IdFilter
+  def self.key
+    :id
   end
 
-  ::Queries::Register.register(AllocatablePrincipalQuery) do
-    filter Filters::AllocatableInProjectFilter
-    filter Filters::TypeFilter
-    filter Filters::AnyNameAttributeFilter
-    filter Filters::TypeaheadFilter
-    filter Filters::NameFilter
-    filter Filters::AllocatableIdFilter
+  def allowed_values_subset
+    submitted = Principal.where(id: values)
 
-    order Orders::NameOrder
+    submitted.where(id: User.visible.select(:id)).pluck(:id).map(&:to_s) +
+      submitted.where(id: PlaceholderUser.allocatable.select(:id)).pluck(:id).map(&:to_s) +
+      [me_value_key]
   end
 end

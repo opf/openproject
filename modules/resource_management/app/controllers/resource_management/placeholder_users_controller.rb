@@ -42,7 +42,8 @@ module ::ResourceManagement
 
     def create
       call = ::PlaceholderUsers::CreateService
-               .new(user: current_user)
+               .new(user: current_user,
+                    contract_class: ResourceManagement::PlaceholderUsers::CreateContract)
                .call(create_attributes)
 
       if call.success?

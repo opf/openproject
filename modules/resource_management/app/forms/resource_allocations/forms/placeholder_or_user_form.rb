@@ -45,6 +45,7 @@ module ResourceAllocations
             url: ::API::V3::Utilities::PathHelper::ApiV3Path.allocatable_principals,
             resource: "principals",
             searchKey: "any_name_attribute",
+            createPlaceholderUserPath: @create_placeholder_user_path,
             filters: principal_filters,
             defaultData: true,
             focusDirectly: false,
@@ -59,10 +60,11 @@ module ResourceAllocations
         end
       end
 
-      def initialize(project:, dialog_id:, view: nil)
+      def initialize(project:, dialog_id:, create_placeholder_user_path:, view: nil)
         super()
         @project = project
         @dialog_id = dialog_id
+        @create_placeholder_user_path = create_placeholder_user_path
         @view = view
       end
 

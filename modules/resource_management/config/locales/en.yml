@@ -2,6 +2,8 @@
 en:
   activerecord:
     attributes:
+      placeholder_user:
+        user_filter: Filter criteria
       resource_allocation:
         allocated_hours: Hours
         allocated_time: Allocated time

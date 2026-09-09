@@ -28,31 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Principals
-  # Who an allocation can be made out to: the users someone may pick, and the
-  # placeholder users standing for a set of them.
-  #
-  # Placeholders are deliberately not taken from `Principal.visible`, whose rules
-  # answer who may *administer* a placeholder — a higher bar than picking one in
-  # the allocation dialog. They are global, so no project scoping applies to
-  # them; see AllocatableInProjectFilter.
-  class AllocatablePrincipalQuery < PrincipalQuery
-    def default_scope
-      Principal
-        .where(id: User.visible(user).active.select(:id))
-        .or(Principal.where(id: PlaceholderUser.allocatable(user).select(:id)))
-        .ordered_by_name
+module ResourceManagement
+  module PlaceholderUsers
+    # Only placeholders describing who they stand for can be allocated against,
+    # so one created for an allocation must carry criteria.
+    class CreateContract < ::PlaceholderUsers::CreateContract
+      validate :user_filter_present
+
+      private
+
+      def user_filter_present
+        return if model.user_filter.present?
+
+        errors.add(:user_filter, :blank)
+      end
     end
-  end
-
-  ::Queries::Register.register(AllocatablePrincipalQuery) do
-    filter Filters::AllocatableInProjectFilter
-    filter Filters::TypeFilter
-    filter Filters::AnyNameAttributeFilter
-    filter Filters::TypeaheadFilter
-    filter Filters::NameFilter
-    filter Filters::AllocatableIdFilter
-
-    order Orders::NameOrder
   end
 end
