@@ -75,7 +75,7 @@ class BackupJob < ApplicationJob
   end
 
   def after_backup
-    remove_files! db_dump_file_name, archive_file_name
+    remove_files! db_dump_file_name
     remove_backup_attachment! unless success?
 
     Rails.logger.info(
