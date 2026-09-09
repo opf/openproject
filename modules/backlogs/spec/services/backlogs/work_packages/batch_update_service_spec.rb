@@ -420,10 +420,8 @@ RSpec.describe Backlogs::WorkPackages::BatchUpdateService, type: :model do
       batch = service([bucket_wp1])
       lock_names = []
 
-      allow(batch).to receive(:raw_destination).and_wrap_original do |method, target|
-        destination = method.call(target)
-        destination.is_a?(Sprint) && destination.id == sprint.id ? concrete_sprint : destination
-      end
+      allow(Sprint).to receive(:find_by).and_call_original
+      allow(Sprint).to receive(:find_by).with(id: sprint.id).and_return(concrete_sprint)
       allow(OpenProject::Mutex)
         .to receive(:with_advisory_lock)
         .and_wrap_original do |method, resource_class, lock_name, *args, &block|

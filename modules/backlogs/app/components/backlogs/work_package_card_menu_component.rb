@@ -108,11 +108,11 @@ module Backlogs
     end
 
     def sprint_list_type
-      Backlogs::Target::SprintId[nil].list_type
+      Backlogs::Target::SprintId.list_type
     end
 
     def bucket_list_type
-      Backlogs::Target::BucketId[nil].list_type
+      Backlogs::Target::BucketId.list_type
     end
 
     def destination_data(type, ids)
