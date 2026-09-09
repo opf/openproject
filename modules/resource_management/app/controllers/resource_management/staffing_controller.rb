@@ -28,9 +28,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 module ::ResourceManagement
-  # Lists generic (filter-based) allocations in the project still awaiting a
-  # user, and assigns real users to them. Keeps the requested `placeholder_user`
-  # untouched — only `principal` and `principal_assigned_by` change.
   class StaffingController < BaseController
     include OpTurbo::ComponentStream
 

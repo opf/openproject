@@ -36,7 +36,6 @@ module ResourceAllocations
     DIALOG_ID = "allocate-resource-dialog"
     FORM_ID = "allocate-resource-form"
     FOOTER_ID = "allocate-resource-footer"
-    # Shared by the allocation form and the confirmation step so swapping them targets the same Turbo stream wrapper.
     BODY_ID = "allocate-resource-dialog-body"
 
     def initialize(project:, allocation:, view: nil)

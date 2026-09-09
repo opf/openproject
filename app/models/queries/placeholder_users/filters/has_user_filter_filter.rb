@@ -28,8 +28,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Selects placeholder users by whether they describe the kind of person they
-# stand for.
 class Queries::PlaceholderUsers::Filters::HasUserFilterFilter < Queries::PlaceholderUsers::Filters::PlaceholderUserFilter
   include Queries::Filters::Shared::BooleanFilter
 

@@ -31,10 +31,6 @@
 module API
   module V3
     module AllocatablePrincipals
-      # The principals an allocation can be made out to: users and the
-      # placeholder users standing for a set of them, searchable in one picker.
-      # `filters=[{"allocatable_in_project":{"operator":"=","values":["42"]}}]`
-      # narrows the users to a project's members.
       class AllocatablePrincipalsAPI < ::API::OpenProjectAPI
         # The query is not the one deduced from the model, as `Principal`'s
         # visibility rules would drop the placeholders again.

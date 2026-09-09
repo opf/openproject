@@ -47,8 +47,6 @@ RSpec.describe "ResourceAllocations requests",
       get new_project_resource_allocation_path(project), as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
-      # Autocompleters render as Angular custom elements carrying the field
-      # name in `data-input-name` rather than a plain `name` attribute.
       expect(response.body).to include("opce-resource-allocation-autocompleter")
       expect(response.body).to include("resource_allocation[placeholder_or_user_id]")
       expect(response.body).to include("resource_allocation[entity_id]")
@@ -181,7 +179,6 @@ RSpec.describe "ResourceAllocations requests",
     end
 
     context "for a filter-criteria placeholder" do
-      # Only a placeholder describing who it stands for can be allocated against.
       let!(:existing) do
         filters = UserQuery.new.tap { |query| query.where("name", "~", ["dev"]) }.filters
         create(:placeholder_user, name: "Senior Developer", user_filter: filters)
@@ -210,7 +207,6 @@ RSpec.describe "ResourceAllocations requests",
         expect(allocation).to be_needs_principal_assignment
       end
 
-      # Criteria belong to the catalogue entry; the allocation form only links.
       it "leaves the resource's own filter untouched" do
         expect { perform }.not_to change { existing.reload.user_filter.map(&:name) }
       end

@@ -26,11 +26,6 @@
 
 module ResourceAllocations
   module AllocationStep
-    # The criteria of the resource an allocation asks for, shown read-only:
-    # a resource is picked from the catalogue here, never described inline.
-    #
-    # Streamable so picking a resource refreshes just this section — the same
-    # round-trip the date fields already use for their warning banner.
     class ResourceFilterComponent < ApplicationComponent
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers

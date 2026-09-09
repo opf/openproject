@@ -87,8 +87,6 @@ RSpec.describe API::V3::AllocatablePrincipals::AllocatablePrincipalsAPI,
       expect(names).to eq(names.sort_by(&:downcase))
     end
 
-    # The point of the endpoint: allocating must not require the permissions
-    # that administering placeholder users does.
     it "does so without the permissions /placeholder_users demands" do
       expect(user.allowed_globally?(:manage_placeholder_user)).to be(false)
       expect(PlaceholderUser.visible(user)).to be_empty
@@ -111,8 +109,6 @@ RSpec.describe API::V3::AllocatablePrincipals::AllocatablePrincipalsAPI,
                                   filters: [{ id: { operator: "=", values: [with_criteria.id.to_s] } }])
       end
 
-      # The placeholders this endpoint offers are outside `Principal.visible`,
-      # which the plain id filter validates against.
       it "accepts the id of a placeholder it returns" do
         expect(last_response).to have_http_status(:ok)
         expect(returned_ids).to contain_exactly(with_criteria.id)

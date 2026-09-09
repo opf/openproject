@@ -28,16 +28,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# The user attributes an instance maps onto its own custom fields, addressed by
-# the semantic key of the field rather than by the field an instance happens to
-# have named for it (see UserCustomField.semantic_key).
 module Users::SemanticCustomFields
   extend ActiveSupport::Concern
 
   class_methods do
-    # The mapped field is the same for every user, so it is looked up once per
-    # request. Only its id is kept: the values themselves carry the field they
-    # need to format.
     def job_title_custom_field_id
       RequestStore.fetch(:job_title_custom_field_id) do
         UserCustomField.for_semantic_key(:job_title)&.id
@@ -45,12 +39,6 @@ module Users::SemanticCustomFields
     end
   end
 
-  # The value of the user custom field mapped to the `job_title` semantic key,
-  # joined when that field takes several values. Nil when no field is mapped.
-  #
-  # Lists rendering this for many users should eager-load with
-  # `User.includes(custom_values: :custom_field)`; the values are then read from
-  # memory rather than queried per user.
   def job_title
     job_title_values
       .filter_map { |custom_value| custom_value.formatted_value.presence }

@@ -75,7 +75,6 @@ module ResourcePlannerViews
         safe_join(segments, " - ")
       end
 
-      # `departments` is preloaded by the controller, so this hits no query.
       def department_name
         user.department&.name
       end

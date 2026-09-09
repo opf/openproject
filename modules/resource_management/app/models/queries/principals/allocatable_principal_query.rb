@@ -29,13 +29,6 @@
 #++
 
 module Queries::Principals
-  # Who an allocation can be made out to: the users someone may pick, and the
-  # placeholder users standing for a set of them.
-  #
-  # Placeholders are deliberately not taken from `Principal.visible`, whose rules
-  # answer who may *administer* a placeholder — a higher bar than picking one in
-  # the allocation dialog. They are global, so no project scoping applies to
-  # them; see AllocatableInProjectFilter.
   class AllocatablePrincipalQuery < PrincipalQuery
     def default_scope
       Principal

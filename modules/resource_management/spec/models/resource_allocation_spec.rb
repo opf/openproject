@@ -159,8 +159,6 @@ RSpec.describe ResourceAllocation do
         expect(allocation.placeholder_or_user_id).to eq(placeholder_user.id)
       end
 
-      # The placeholder is what was asked for, so staffing does not change what
-      # the allocation is out to.
       it "is the placeholder of a staffed filter-based allocation" do
         allocation = described_class.new(placeholder_user:, principal: assignee)
 
