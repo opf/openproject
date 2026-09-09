@@ -63,10 +63,7 @@ module Grids
         return [].to_json unless view_sprints_allowed?
 
         assign_sprint_rows(sprints_scope)
-          .map do |sprint, row|
-          { id: sprint.id, name: sprint.name, startDate: sprint.start_date.iso8601,
-            endDate: sprint.finish_date.iso8601, status: sprint.status, row: }
-        end
+          .map { |sprint, row| sprint_data(sprint, row) }
           .to_json
       end
 
@@ -167,6 +164,18 @@ module Grids
           end
           [sprint, row_index]
         end
+      end
+
+      def sprint_data(sprint, row)
+        {
+          id: sprint.id,
+          name: sprint.name,
+          startDate: sprint.start_date.iso8601,
+          endDate: sprint.finish_date.iso8601,
+          status: sprint.status,
+          row:,
+          href: helpers.project_backlogs_backlog_path(project, sprint_ids: [sprint.id])
+        }
       end
 
       def phase_data(phase) # rubocop:disable Metrics/AbcSize
