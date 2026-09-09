@@ -36,7 +36,7 @@ module AI
       end
 
       def self.build
-        PrototypeGateway.configured? ? PrototypeGateway.new : NullGateway.new
+        LlmGateway.new
       end
     end
   end
