@@ -188,6 +188,9 @@ RSpec.describe "Backlogs batch destination menus",
       present: [],
       absent: ["Move to sprint", "Move to backlog bucket", "Move to backlog inbox"]
     )
+    backlogs_page.within_work_package_menu(confined_first) do |menu|
+      expect(menu).to have_no_css("li[role=separator]", visible: :visible)
+    end
   end
 
   it "omits Move to position from a multi-card action scope" do
