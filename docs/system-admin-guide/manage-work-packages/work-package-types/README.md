@@ -3,7 +3,7 @@ sidebar_navigation:
   title: Types
   priority: 800
 description: Configure work package types in OpenProject.
-keywords: work package types, work package form, related work package, work package table, relations, pdf export, automatic subject
+keywords: work package types, work package form, related work package, work package table, relations, pdf export, automatic subject, workflows
 ---
 
 # Manage work package types
@@ -26,7 +26,7 @@ Click the green **+ Type** button to add a new work package type in the system, 
 
 1. Give the new work package type a **name** that easily identifies what kind of work should be tracked.
 2. Choose a **color** from the drop-down list which should be used for this work package type in the Gantt chart. You can configure new colors [here](../../design/#set-a-new-color).
-3. You can **copy a [workflow](../work-package-workflows)** from an existing type.
+3. You can **copy a workflow** from an existing type.
 4. You can enter **default text for the work package description field**, which always be shown when creating new work package from this type. This way, you can easily create work package templates, e.g. for risk management or bug tracking, that already contain certain required information in the description.
 5. Choose whether the type should be a **milestone**, e.g. displayed as a milestone in the Gantt chart with the same start and finish date.
 6. Choose whether the type should be displayed in the [roadmap](../../../user-guide/roadmap/) by default.
@@ -34,6 +34,42 @@ Click the green **+ Type** button to add a new work package type in the system, 
 8. Click the **Save** button to add the new type.
 
 ![Create a new work package type in OpenProject administration](openproject_system_guide_new_work_package_typ.png)
+
+## Configure workflows
+
+A **workflow** in OpenProject defines which transitions between work package statuses are allowed for a given role and work package type. For example, the workflow for a Task can allow transitions such as _New → In progress → Closed_, and the available transitions can differ depending on a user's [role in a project](../../users-permissions/roles-permissions).
+
+To configure the workflow for a type, navigate to **Administration → Work packages → Types**, select the work package type you want to edit and open the **Workflows** tab.
+
+The workflow editor lets you configure transitions for one or more roles. Use the workflow transitions ActionMenu above the table to switch between:
+
+- **Default transitions**
+- **User is author**
+- **User is assignee**
+
+Then configure the workflow as follows:
+
+1. Select the **role** or **roles** for which you want to configure the workflow. The workflow table updates automatically when you switch roles. When multiple roles are selected, checked transitions apply to all selected roles; partially checked transitions apply only to some of them.
+2. Define which **statuses** are available for this type by clicking **+ Status**. Removing a status makes it unavailable for this type and removes its existing workflow transitions. Newly added statuses appear in the workflow table immediately.
+3. Configure the allowed status transitions in the workflow matrix. The **current status is shown in the rows** and the **new status in the columns**. A checked cell therefore allows the transition from the row status to the column status.
+4. If needed, use the ActionMenu to define additional transitions for cases where the user is the **author** or **assignee** of the work package.
+5. Click **Save** to apply your changes. If you try to leave the page with unsaved changes, OpenProject asks whether you want to save or discard them.
+
+> [!NOTE]
+> If a status has no transitions configured, it will be removed automatically when saving.
+
+If no statuses are configured for a role yet, an empty state is shown and you can add statuses to start defining the workflow.
+
+### Copy an existing workflow
+
+You can copy an existing workflow directly from the **Workflows** tab by clicking **Copy**.
+
+Choose the existing workflow you want to use as the source, then select the target type or types. You can also copy the workflow to one or more roles.
+
+This lets you use an existing type and role as a blueprint and adjust the copied workflow afterwards to match the required status transitions.
+
+> [!TIP]
+> For more examples on using workflows in OpenProject, see [this blog article](https://www.openproject.org/blog/status-and-workflows/).
 
 ## Work package form configuration (Enterprise add-on)
 
