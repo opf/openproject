@@ -69,8 +69,10 @@ RSpec.describe Reminders::NotificationMailer do
     end
 
     it "sets the expected message_id header" do
-      expect(mail.message_id)
-        .to eql "op.reminder.#{Time.current.strftime('%Y%m%d%H%M%S')}.#{recipient.id}@example.net"
+      freeze_time do
+        expect(mail.message_id)
+          .to eql "op.reminder.#{Time.current.strftime('%Y%m%d%H%M%S')}.#{recipient.id}@example.net"
+      end
     end
 
     it "sets the expected openproject headers" do
