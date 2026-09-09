@@ -42,7 +42,7 @@ module ResourceAllocations
       # create and edit flows are unchanged. The Staffing flow hosts the same
       # confirmation in its own dialog by passing its ids, a custom `form_url`
       # and the plain `hidden_fields` to carry through a confirmed resubmit.
-      def initialize(allocation:, project:, allocation_kind:, form_values:, overbooked_ranges: [],
+      def initialize(allocation:, project:, form_values:, overbooked_ranges: [],
                      working_schedules: [], filters: nil, view: nil,
                      body_id: ResourceAllocations::NewDialogComponent::BODY_ID,
                      form_id: ResourceAllocations::NewDialogComponent::FORM_ID,
@@ -50,7 +50,6 @@ module ResourceAllocations
         super
         @allocation = allocation
         @project = project
-        @allocation_kind = allocation_kind
         @form_values = form_values
         @overbooked_ranges = overbooked_ranges
         @working_schedules = working_schedules

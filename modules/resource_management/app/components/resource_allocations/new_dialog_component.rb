@@ -36,8 +36,7 @@ module ResourceAllocations
     DIALOG_ID = "allocate-resource-dialog"
     FORM_ID = "allocate-resource-form"
     FOOTER_ID = "allocate-resource-footer"
-    # Shared by both step forms so swapping step 1 for step 2 targets the same
-    # Turbo stream wrapper.
+    # Shared by the allocation form and the confirmation step so swapping them targets the same Turbo stream wrapper.
     BODY_ID = "allocate-resource-dialog-body"
 
     def initialize(project:, allocation:, view: nil)
@@ -52,17 +51,6 @@ module ResourceAllocations
 
     def title
       I18n.t("resource_management.allocate_resource_dialog.title")
-    end
-
-    # A pre-selected user means the allocation kind is already decided
-    # (principal-based), so the dialog opens directly on the allocation form
-    # and skips the kind-selection step.
-    def skip_kind_step?
-      @allocation.principal.present?
-    end
-
-    def allocation_kind
-      @allocation.filter_based? ? "filter" : "principal"
     end
   end
 end

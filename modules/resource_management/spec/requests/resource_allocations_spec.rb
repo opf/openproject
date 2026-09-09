@@ -43,91 +43,50 @@ RSpec.describe "ResourceAllocations requests",
   before { login_as user }
 
   describe "GET new" do
-    it "opens the dialog on the kind-selection step" do
+    it "opens the dialog on the allocation form" do
       get new_project_resource_allocation_path(project), as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include('value="principal"')
-      expect(response.body).to include('value="filter"')
+      # Autocompleters render as Angular custom elements carrying the field
+      # name in `data-input-name` rather than a plain `name` attribute.
+      expect(response.body).to include("opce-user-autocompleter")
+      expect(response.body).to include("resource_allocation[principal_id]")
+      expect(response.body).to include("resource_allocation[entity_id]")
+      expect(response.body).to include("resource_allocation[allocated_hours]")
     end
 
-    it "carries a timeline date selection as hidden fields through the kind step" do
+    it "pre-fills the form from a timeline selection" do
       get new_project_resource_allocation_path(project, work_package_id: work_package.id,
                                                         start_date: "2026-06-10", end_date: "2026-06-12"),
           as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include('name="start_date"', 'value="2026-06-10"')
-      expect(response.body).to include('name="end_date"', 'value="2026-06-12"')
+      expect(response.body).to include(work_package.id.to_s)
+      expect(response.body).to include("2026-06-10", "2026-06-12")
     end
 
-    it "opens the allocation step for a preselected user with the timeline dates filled" do
-      # The user timeline passes `principal_id`; the dialog skips the kind step and
-      # pre-fills the allocation (incl. the selected date range).
+    it "pre-fills the form for a preselected user" do
       get new_project_resource_allocation_path(project, principal_id: assignee.id,
                                                         start_date: "2026-06-10", end_date: "2026-06-12"),
           as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("resource_allocation[principal_id]")
+      expect(response.body).to include(%(data-input-value="#{assignee.id}"))
       expect(response.body).to include("2026-06-10", "2026-06-12")
-    end
-  end
-
-  describe "GET step" do
-    context "with allocation_kind=principal" do
-      it "renders the allocation step with a user picker" do
-        get step_project_resource_allocations_path(project, allocation_kind: "principal"), as: :turbo_stream
-
-        expect(response).to have_http_status(:ok)
-        # Autocompleters render as Angular custom elements carrying the field
-        # name in `data-input-name` rather than a plain `name` attribute.
-        expect(response.body).to include("opce-user-autocompleter")
-        expect(response.body).to include("resource_allocation[principal_id]")
-        expect(response.body).to include("resource_allocation[entity_id]")
-        expect(response.body).to include("resource_allocation[allocated_hours]")
-      end
-    end
-
-    context "with allocation_kind=filter" do
-      it "renders the allocation step with a placeholder user autocompleter" do
-        get step_project_resource_allocations_path(project, allocation_kind: "filter"), as: :turbo_stream
-
-        expect(response).to have_http_status(:ok)
-        expect(response.body).to include("resource_allocation[placeholder_user_id]")
-        expect(response.body).to include(API::V3::Utilities::PathHelper::ApiV3Path.allocatable_placeholder_users)
-      end
-    end
-
-    context "with start_date and end_date carried from a timeline selection" do
-      it "pre-fills the date fields from the params" do
-        get step_project_resource_allocations_path(project,
-                                                   allocation_kind: "principal",
-                                                   work_package_id: work_package.id,
-                                                   start_date: "2026-06-10",
-                                                   end_date: "2026-06-12"),
-            as: :turbo_stream
-
-        expect(response).to have_http_status(:ok)
-        expect(response.body).to include("2026-06-10")
-        expect(response.body).to include("2026-06-12")
-      end
     end
   end
 
   describe "POST refresh_form" do
     it "refreshes the form via POST as a turbo stream" do
       post refresh_form_project_resource_allocations_path(project),
-           params: {
-             allocation_kind: "principal",
-             resource_allocation: {
-               principal_id: assignee.id,
-               entity_type: "WorkPackage",
-               entity_id: work_package.id,
-               date_range: "2026-03-02 - 2026-03-03",
-               allocated_hours: "40h"
-             }
-           },
+           params: { resource_allocation: {
+             principal_id: assignee.id,
+             entity_type: "WorkPackage",
+             entity_id: work_package.id,
+             date_range: "2026-03-02 - 2026-03-03",
+             allocated_hours: "40h"
+           } },
            as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
@@ -145,16 +104,13 @@ RSpec.describe "ResourceAllocations requests",
 
     def refresh(start_date:, end_date:, entity_id: dated_work_package.id)
       post refresh_form_project_resource_allocations_path(project),
-           params: {
-             allocation_kind: "principal",
-             resource_allocation: {
-               principal_id: assignee.id,
-               entity_type: "WorkPackage",
-               entity_id:,
-               date_range: "#{start_date} - #{end_date}",
-               allocated_hours: "40h"
-             }
-           },
+           params: { resource_allocation: {
+             principal_id: assignee.id,
+             entity_type: "WorkPackage",
+             entity_id:,
+             date_range: "#{start_date} - #{end_date}",
+             allocated_hours: "40h"
+           } },
            as: :turbo_stream
     end
 
@@ -193,16 +149,13 @@ RSpec.describe "ResourceAllocations requests",
     context "for an explicit user" do
       subject(:perform) do
         post project_resource_allocations_path(project),
-             params: {
-               allocation_kind: "principal",
-               resource_allocation: {
-                 principal_id: assignee.id,
-                 entity_type: "WorkPackage",
-                 entity_id: work_package.id,
-                 date_range: "2026-03-02 - 2026-03-03",
-                 allocated_hours: "40h"
-               }
-             },
+             params: { resource_allocation: {
+               principal_id: assignee.id,
+               entity_type: "WorkPackage",
+               entity_id: work_package.id,
+               date_range: "2026-03-02 - 2026-03-03",
+               allocated_hours: "40h"
+             } },
              as: :turbo_stream
       end
 
@@ -236,16 +189,13 @@ RSpec.describe "ResourceAllocations requests",
 
       subject(:perform) do
         post project_resource_allocations_path(project),
-             params: {
-               allocation_kind: "filter",
-               resource_allocation: {
-                 placeholder_user_id: existing.id,
-                 entity_type: "WorkPackage",
-                 entity_id: work_package.id,
-                 date_range: "2026-03-02 - 2026-03-03",
-                 allocated_hours: "40h"
-               }
-             },
+             params: { resource_allocation: {
+               placeholder_user_id: existing.id,
+               entity_type: "WorkPackage",
+               entity_id: work_package.id,
+               date_range: "2026-03-02 - 2026-03-03",
+               allocated_hours: "40h"
+             } },
              as: :turbo_stream
       end
 
@@ -269,16 +219,13 @@ RSpec.describe "ResourceAllocations requests",
     context "with invalid input" do
       subject(:perform) do
         post project_resource_allocations_path(project),
-             params: {
-               allocation_kind: "principal",
-               resource_allocation: {
-                 principal_id: assignee.id,
-                 entity_type: "WorkPackage",
-                 entity_id: work_package.id,
-                 date_range: "2026-03-03 - 2026-03-02", # finish date before the start date
-                 allocated_hours: "40h"
-               }
-             },
+             params: { resource_allocation: {
+               principal_id: assignee.id,
+               entity_type: "WorkPackage",
+               entity_id: work_package.id,
+               date_range: "2026-03-03 - 2026-03-02", # finish date before the start date
+               allocated_hours: "40h"
+             } },
              as: :turbo_stream
       end
 
@@ -293,16 +240,13 @@ RSpec.describe "ResourceAllocations requests",
 
       subject(:perform) do
         post project_resource_allocations_path(project),
-             params: {
-               allocation_kind: "principal",
-               resource_allocation: {
-                 principal_id: assignee.id,
-                 entity_type: "WorkPackage",
-                 entity_id: other_work_package.id,
-                 date_range: "2026-03-02 - 2026-03-03",
-                 allocated_hours: "40h"
-               }
-             },
+             params: { resource_allocation: {
+               principal_id: assignee.id,
+               entity_type: "WorkPackage",
+               entity_id: other_work_package.id,
+               date_range: "2026-03-02 - 2026-03-03",
+               allocated_hours: "40h"
+             } },
              as: :turbo_stream
       end
 
@@ -317,16 +261,13 @@ RSpec.describe "ResourceAllocations requests",
 
       subject(:perform) do
         post project_resource_allocations_path(project),
-             params: {
-               allocation_kind: "principal",
-               resource_allocation: {
-                 principal_id: non_member.id,
-                 entity_type: "WorkPackage",
-                 entity_id: work_package.id,
-                 date_range: "2026-03-02 - 2026-03-03",
-                 allocated_hours: "40h"
-               }
-             },
+             params: { resource_allocation: {
+               principal_id: non_member.id,
+               entity_type: "WorkPackage",
+               entity_id: work_package.id,
+               date_range: "2026-03-02 - 2026-03-03",
+               allocated_hours: "40h"
+             } },
              as: :turbo_stream
       end
 
@@ -339,16 +280,13 @@ RSpec.describe "ResourceAllocations requests",
     context "with an entity type outside the allow-list" do
       subject(:perform) do
         post project_resource_allocations_path(project),
-             params: {
-               allocation_kind: "principal",
-               resource_allocation: {
-                 principal_id: assignee.id,
-                 entity_type: "Project",
-                 entity_id: project.id,
-                 date_range: "2026-03-02 - 2026-03-03",
-                 allocated_hours: "40h"
-               }
-             },
+             params: { resource_allocation: {
+               principal_id: assignee.id,
+               entity_type: "Project",
+               entity_id: project.id,
+               date_range: "2026-03-02 - 2026-03-03",
+               allocated_hours: "40h"
+             } },
              as: :turbo_stream
       end
 
@@ -364,16 +302,13 @@ RSpec.describe "ResourceAllocations requests",
       end
 
       let(:base_params) do
-        {
-          allocation_kind: "principal",
-          resource_allocation: {
-            principal_id: assignee.id,
-            entity_type: "WorkPackage",
-            entity_id: dated_work_package.id,
-            date_range: "2026-02-24 - 2026-02-25", # after the work package's finish date
-            allocated_hours: "40h"
-          }
-        }
+        { resource_allocation: {
+          principal_id: assignee.id,
+          entity_type: "WorkPackage",
+          entity_id: dated_work_package.id,
+          date_range: "2026-02-24 - 2026-02-25", # after the work package's finish date
+          allocated_hours: "40h"
+        } }
       end
 
       # Falling outside the work package's dates no longer blocks creation; it is
@@ -395,16 +330,13 @@ RSpec.describe "ResourceAllocations requests",
       it "creates the allocation directly without confirmation" do
         expect do
           post project_resource_allocations_path(project),
-               params: {
-                 allocation_kind: "principal",
-                 resource_allocation: {
-                   principal_id: assignee.id,
-                   entity_type: "WorkPackage",
-                   entity_id: dated_work_package.id,
-                   date_range: "2026-01-20 - 2026-01-21",
-                   allocated_hours: "40h"
-                 }
-               },
+               params: { resource_allocation: {
+                 principal_id: assignee.id,
+                 entity_type: "WorkPackage",
+                 entity_id: dated_work_package.id,
+                 date_range: "2026-01-20 - 2026-01-21",
+                 allocated_hours: "40h"
+               } },
                as: :turbo_stream
         end.to change(ResourceAllocation, :count).by(1)
       end
@@ -420,16 +352,13 @@ RSpec.describe "ResourceAllocations requests",
 
       # 40h (2400 min) across Mon-Tue (960 min of capacity) overbooks the user.
       let(:base_params) do
-        {
-          allocation_kind: "principal",
-          resource_allocation: {
-            principal_id: working_assignee.id,
-            entity_type: "WorkPackage",
-            entity_id: work_package.id,
-            date_range: "2026-03-02 - 2026-03-03",
-            allocated_hours: "40h"
-          }
-        }
+        { resource_allocation: {
+          principal_id: working_assignee.id,
+          entity_type: "WorkPackage",
+          entity_id: work_package.id,
+          date_range: "2026-03-02 - 2026-03-03",
+          allocated_hours: "40h"
+        } }
       end
 
       it "does not create yet and renders the overbooking confirmation step" do
@@ -499,16 +428,13 @@ RSpec.describe "ResourceAllocations requests",
       it "skips the overbooking check and creates directly" do
         expect do
           post project_resource_allocations_path(project),
-               params: {
-                 allocation_kind: "principal",
-                 resource_allocation: {
-                   principal_id: assignee.id,
-                   entity_type: "WorkPackage",
-                   entity_id: work_package.id,
-                   date_range: "2026-03-02 - 2026-03-03",
-                   allocated_hours: "40h"
-                 }
-               },
+               params: { resource_allocation: {
+                 principal_id: assignee.id,
+                 entity_type: "WorkPackage",
+                 entity_id: work_package.id,
+                 date_range: "2026-03-02 - 2026-03-03",
+                 allocated_hours: "40h"
+               } },
                as: :turbo_stream
         end.to change(ResourceAllocation, :count).by(1)
       end
@@ -535,6 +461,24 @@ RSpec.describe "ResourceAllocations requests",
       end
     end
 
+    context "for a filter-based allocation" do
+      shared_let(:placeholder) do
+        filters = UserQuery.new.tap { |query| query.where("name", "~", ["ops"]) }.filters
+        create(:placeholder_user, name: "Site Reliability Engineer", user_filter: filters)
+      end
+      shared_let(:filter_allocation) do
+        create(:resource_allocation, entity: work_package, principal: nil, placeholder_user: placeholder)
+      end
+
+      it "offers the placeholder user picker instead of the user picker" do
+        get edit_project_resource_allocation_path(project, filter_allocation), as: :turbo_stream
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include("resource_allocation[placeholder_user_id]")
+        expect(response.body).to include(API::V3::Utilities::PathHelper::ApiV3Path.allocatable_placeholder_users)
+      end
+    end
+
     context "for an allocation of another project's work package" do
       let(:other_allocation) { create(:resource_allocation) }
 
@@ -553,16 +497,13 @@ RSpec.describe "ResourceAllocations requests",
 
     def perform(allocated_hours: "16h")
       patch project_resource_allocation_path(project, allocation),
-            params: {
-              allocation_kind: "principal",
-              resource_allocation: {
-                principal_id: assignee.id,
-                entity_type: "WorkPackage",
-                entity_id: work_package.id,
-                date_range: "2026-03-02 - 2026-03-06",
-                allocated_hours:
-              }
-            },
+            params: { resource_allocation: {
+              principal_id: assignee.id,
+              entity_type: "WorkPackage",
+              entity_id: work_package.id,
+              date_range: "2026-03-02 - 2026-03-06",
+              allocated_hours:
+            } },
             as: :turbo_stream
     end
 
@@ -620,16 +561,13 @@ RSpec.describe "ResourceAllocations requests",
 
       def perform(extra = {})
         patch project_resource_allocation_path(project, allocation),
-              params: {
-                allocation_kind: "principal",
-                resource_allocation: {
-                  principal_id: working_assignee.id,
-                  entity_type: "WorkPackage",
-                  entity_id: work_package.id,
-                  date_range: "2026-03-02 - 2026-03-03",
-                  allocated_hours: "40h"
-                }
-              }.deep_merge(extra),
+              params: { resource_allocation: {
+                principal_id: working_assignee.id,
+                entity_type: "WorkPackage",
+                entity_id: work_package.id,
+                date_range: "2026-03-02 - 2026-03-03",
+                allocated_hours: "40h"
+              } }.deep_merge(extra),
               as: :turbo_stream
       end
 
@@ -717,7 +655,7 @@ RSpec.describe "ResourceAllocations requests",
 
     it "denies updating an allocation" do
       patch project_resource_allocation_path(project, allocation),
-            params: { allocation_kind: "principal", resource_allocation: { allocated_hours: "1h" } },
+            params: { resource_allocation: { allocated_hours: "1h" } },
             as: :turbo_stream
 
       expect(response).to have_http_status(:forbidden)
@@ -734,16 +672,13 @@ RSpec.describe "ResourceAllocations requests",
     it "denies creating an allocation" do
       expect do
         post project_resource_allocations_path(project),
-             params: {
-               allocation_kind: "principal",
-               resource_allocation: {
-                 principal_id: assignee.id,
-                 entity_type: "WorkPackage",
-                 entity_id: work_package.id,
-                 date_range: "2026-03-02 - 2026-03-03",
-                 allocated_hours: "40h"
-               }
-             },
+             params: { resource_allocation: {
+               principal_id: assignee.id,
+               entity_type: "WorkPackage",
+               entity_id: work_package.id,
+               date_range: "2026-03-02 - 2026-03-03",
+               allocated_hours: "40h"
+             } },
              as: :turbo_stream
       end.not_to change(ResourceAllocation, :count)
 
@@ -773,13 +708,10 @@ RSpec.describe "ResourceAllocations requests",
 
     it "reopens a refreshed utilization dialog after a successful create" do
       post project_resource_allocations_path(project, resource_planner_view_id: card_view.id),
-           params: {
-             allocation_kind: "principal",
-             resource_allocation: {
-               principal_id: assignee.id, entity_type: "WorkPackage", entity_id: work_package.id,
-               date_range: "2026-03-02 - 2026-03-03", allocated_hours: "40h"
-             }
-           },
+           params: { resource_allocation: {
+             principal_id: assignee.id, entity_type: "WorkPackage", entity_id: work_package.id,
+             date_range: "2026-03-02 - 2026-03-03", allocated_hours: "40h"
+           } },
            as: :turbo_stream
 
       expect(response.body).to include(user_dialog_id)

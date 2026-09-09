@@ -38,13 +38,12 @@ module ResourceAllocations
       # `dialog_id` names the dialog hosting the form (autocompleter dropdowns
       # attach to it): the create wizard's by default, the edit dialog's when
       # editing a persisted allocation.
-      def initialize(allocation:, project:, allocation_kind:,
+      def initialize(allocation:, project:,
                      dialog_id: ResourceAllocations::NewDialogComponent::DIALOG_ID,
                      view: nil)
         super
         @allocation = allocation
         @project = project
-        @allocation_kind = allocation_kind
         @dialog_id = dialog_id
         @view = view
       end
@@ -56,10 +55,6 @@ module ResourceAllocations
       private
 
       attr_reader :dialog_id
-
-      def filter_based?
-        @allocation_kind.to_s == "filter"
-      end
 
       # A persisted allocation submits an update to itself; a new one goes
       # through the create flow (with its confirmation step).
@@ -76,28 +71,20 @@ module ResourceAllocations
       end
 
       def form_list_component(form)
-        prepends = if filter_based?
-                     [
-                       ResourceAllocations::Forms::PlaceholderUserForm.new(form, dialog_id: dialog_id)
-                     ]
-                   else
-                     [
-                       ResourceAllocations::Forms::PrincipalForm.new(
-                         form,
-                         project: @project,
-                         dialog_id: dialog_id,
-                         view: @view
-                       )
-                     ]
-                   end
-
         Primer::Forms::FormList.new(
-          *prepends,
+          resource_form(form),
           ResourceAllocations::Forms::WorkPackageForm.new(form, project: @project, dialog_id: dialog_id, view: @view),
           ResourceAllocations::Forms::DateRangeForm.new(form, dialog_id: dialog_id),
-          ResourceAllocations::Forms::HoursForm.new(form),
-          ResourceAllocations::Forms::AllocationKindForm.new(form, allocation_kind: @allocation_kind)
+          ResourceAllocations::Forms::HoursForm.new(form)
         )
+      end
+
+      def resource_form(form)
+        if @allocation.filter_based?
+          ResourceAllocations::Forms::PlaceholderUserForm.new(form, dialog_id: dialog_id)
+        else
+          ResourceAllocations::Forms::PrincipalForm.new(form, project: @project, dialog_id: dialog_id, view: @view)
+        end
       end
     end
   end

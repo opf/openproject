@@ -94,7 +94,6 @@
           else
             safe_join(
               [
-                hidden_field_tag("allocation_kind", @allocation_kind),
                 (hidden_field_tag("filters", @filters) if @filters.present?),
                 *@form_values.map { |name, value| hidden_field_tag("resource_allocation[#{name}]", value) }
               ].compact

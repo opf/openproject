@@ -51,15 +51,6 @@ module ::ResourceManagement
       )
     end
 
-    def step
-      # Pre-select the autocompleter when the dialog was opened from a work package,
-      # and carry any date range picked on the timeline into the new allocation.
-      render_allocation_step(
-        ResourceAllocation.new(entity: preselected_work_package,
-                               start_date: params[:start_date], end_date: params[:end_date])
-      )
-    end
-
     # Recomputes the inline "outside dates" warning whenever a date field
     # changes. Only the banner is replaced — replacing the whole form would
     # make Turbo restore focus to the date input afterwards, reopening its
@@ -137,7 +128,6 @@ module ::ResourceManagement
         component: ResourceAllocations::AllocationStep::FormComponent.new(
           allocation:,
           project: @project,
-          allocation_kind:,
           view: resource_planner_view
         ),
         status:
@@ -153,7 +143,6 @@ module ::ResourceManagement
         component: ResourceAllocations::WarningStep::FormComponent.new(
           allocation:,
           project: @project,
-          allocation_kind:,
           form_values: submitted_allocation_params,
           filters: params[:filters],
           view: resource_planner_view,
@@ -315,7 +304,6 @@ module ::ResourceManagement
         component: ResourceAllocations::AllocationStep::FormComponent.new(
           allocation:,
           project: @project,
-          allocation_kind:,
           dialog_id: ResourceAllocations::EditDialogComponent::DIALOG_ID,
           view: resource_planner_view
         ),
@@ -380,14 +368,6 @@ module ::ResourceManagement
       dispatch_event_via_turbo_stream("op-dispatched:resource-allocations:changed", detail: { work_package_id: entity.id })
     end
 
-    def allocation_kind
-      params[:allocation_kind].presence || "principal"
-    end
-
-    def filter_based_kind?
-      allocation_kind == "filter"
-    end
-
     # Raw, untransformed values to carry through the confirmation step as hidden
     # inputs so a confirmed resubmit recreates exactly what the user entered.
     def submitted_allocation_params
@@ -419,18 +399,13 @@ module ::ResourceManagement
       permitted.merge(entity:, **resource_params(principal_id, placeholder_user_id))
     end
 
+    # The form offers either picker, never both, so the id that was not
+    # submitted clears its association.
     def resource_params(principal_id, placeholder_user_id)
-      if filter_based_kind?
-        {
-          principal: nil,
-          placeholder_user: selected_placeholder_user(placeholder_user_id)
-        }
-      else
-        {
-          principal: User.visible.in_project(@project).find_by(id: principal_id),
-          placeholder_user: nil
-        }
-      end
+      {
+        principal: User.visible.in_project(@project).find_by(id: principal_id),
+        placeholder_user: selected_placeholder_user(placeholder_user_id)
+      }
     end
 
     # Only ever links an existing placeholder; its criteria are left untouched.
@@ -452,8 +427,9 @@ module ::ResourceManagement
       @preselected_user = User.visible(current_user).in_project(@project).find_by(id: params[:principal_id])
     end
 
-    # A pre-selected user lets the dialog skip the kind step and open directly on
-    # the allocation form.
+    # The planner passes whatever it already knows — the work package or user a
+    # row stands for, and any date range picked on the timeline — so the form
+    # opens pre-filled.
     def prefilled_allocation
       ResourceAllocation.new(
         principal: preselected_user,

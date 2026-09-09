@@ -89,7 +89,6 @@ Rails.application.routes.draw do
               controller: "resource_management/resource_allocations",
               only: %i[new create edit update destroy] do
       collection do
-        get :step
         post :refresh_form
       end
     end
