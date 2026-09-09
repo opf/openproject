@@ -105,13 +105,13 @@ module Admin
     # HealthReports::Validator builds the report through the association, which
     # would insert an unpersisted singleton along with it.
     def find_connection
-      @connection = LlmConnection.instance
+      @connection = LlmConnection.active_connection
 
       redirect_to llm_connection_path unless @connection.persisted?
     end
 
     def require_enabled_connection
-      return if @connection.enabled?
+      return if Setting.llm_features_enabled? && @connection.configured?
 
       flash[:notice] = t("admin.llm_connections.disabled_notice")
       redirect_to llm_connection_path, status: :see_other

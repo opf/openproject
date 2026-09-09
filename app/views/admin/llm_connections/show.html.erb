@@ -93,7 +93,7 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<% if @connection.persisted? && @connection.enabled? %>
+<% if @connection.persisted? && Setting.llm_features_enabled? %>
   <%= render(Primer::Alpha::Layout.new(stacking_breakpoint: :lg)) do |layout| %>
     <% layout.with_main do %>
       <%= render(LlmConnections::FormComponent.new(@connection)) %>

@@ -30,12 +30,13 @@
 
 require "spec_helper"
 
-RSpec.describe Llm::HealthCheckJob, :llm_server_helpers, :webmock, with_flag: { llm_connection: true } do
+RSpec.describe Llm::HealthCheckJob, :llm_server_helpers, :webmock, with_flag: { llm_connection: true },
+                                                                   with_settings: { llm_features_enabled: true } do
   let(:base_url) { "https://example.com/v1" }
 
   describe "#perform" do
-    context "with an enabled connection" do
-      let!(:connection) { create(:llm_connection, :with_models, :enabled, base_url:) }
+    context "with the AI features switched on" do
+      let!(:connection) { create(:llm_connection, :with_models, base_url:) }
 
       before { mock_llm_models_response(base_url) }
 
@@ -65,15 +66,16 @@ RSpec.describe Llm::HealthCheckJob, :llm_server_helpers, :webmock, with_flag: { 
       expect { described_class.perform_now }.not_to change(HealthReport, :count)
     end
 
-    it "does nothing while the connection is switched off" do
-      create(:llm_connection, :with_models, enabled: false, base_url:)
+    it "does nothing while the AI features are switched off",
+       with_settings: { llm_features_enabled: false } do
+      create(:llm_connection, :with_models, base_url:)
 
       expect { described_class.perform_now }.not_to change(HealthReport, :count)
     end
 
     context "with the feature flag off", with_flag: { llm_connection: false } do
       it "does nothing" do
-        create(:llm_connection, :with_models, :enabled, base_url:)
+        create(:llm_connection, :with_models, base_url:)
 
         expect { described_class.perform_now }.not_to change(HealthReport, :count)
       end
@@ -82,14 +84,15 @@ RSpec.describe Llm::HealthCheckJob, :llm_server_helpers, :webmock, with_flag: { 
 
   describe ".toggle_cron_job" do
     it "enables the cron once a connection is usable" do
-      create(:llm_connection, :with_models, :enabled, base_url:)
+      create(:llm_connection, :with_models, base_url:)
 
       described_class.toggle_cron_job
 
       expect(GoodJob::Setting.cron_key_enabled?(described_class::CRON_JOB_KEY)).to be(true)
     end
 
-    it "disables the cron while there is nothing to check" do
+    it "disables the cron while there is nothing to check",
+       with_settings: { llm_features_enabled: false } do
       GoodJob::Setting.cron_key_enable(described_class::CRON_JOB_KEY)
 
       described_class.toggle_cron_job

@@ -178,7 +178,7 @@ class LlmConnection < ApplicationRecord
     {
       base_url:,
       api_format:,
-      enabled:,
+      llm_features_enabled: Setting.llm_features_enabled?,
       server_flavour:,
       catalogue_fetched_at:,
       last_connected_at:,

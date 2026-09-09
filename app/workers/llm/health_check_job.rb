@@ -56,8 +56,7 @@ module Llm
       def runnable?
         return false unless OpenProject::FeatureDecisions.llm_connection_active?
 
-        connection = LlmConnection.first
-        connection.present? && connection.configured? && connection.enabled?
+        LlmConnection.available?
       end
     end
 

@@ -31,7 +31,8 @@
 require "spec_helper"
 
 RSpec.describe "LLM connection health status", :llm_server_helpers, :skip_csrf, :webmock,
-               type: :rails_request, with_flag: { llm_connection: true } do
+               type: :rails_request, with_flag: { llm_connection: true },
+               with_settings: { llm_features_enabled: true } do
   shared_let(:admin) { create(:admin) }
 
   let(:base_url) { "https://example.com/v1" }
@@ -46,7 +47,7 @@ RSpec.describe "LLM connection health status", :llm_server_helpers, :skip_csrf, 
     end
 
     context "with a connection" do
-      let!(:connection) { create(:llm_connection, :with_models, :enabled, base_url:) }
+      let!(:connection) { create(:llm_connection, :with_models, base_url:) }
 
       it "offers to run the checks when none have run" do
         get llm_connection_health_status_report_path
@@ -67,7 +68,8 @@ RSpec.describe "LLM connection health status", :llm_server_helpers, :skip_csrf, 
       end
     end
 
-    it "sends the administrator to the settings while the connection is disabled" do
+    it "sends the administrator to the settings while the features are off",
+       with_settings: { llm_features_enabled: false } do
       create(:llm_connection, :with_models, base_url:)
 
       get llm_connection_health_status_report_path
@@ -78,7 +80,7 @@ RSpec.describe "LLM connection health status", :llm_server_helpers, :skip_csrf, 
   end
 
   describe "POST /admin/llm_connection/health_status_report" do
-    let!(:connection) { create(:llm_connection, :with_models, :enabled, base_url:, default_chat_model_id: "qwen3.6-27b") }
+    let!(:connection) { create(:llm_connection, :with_models, base_url:, default_chat_model_identifier: "qwen3.6-27b") }
 
     before do
       mock_llm_models_response(base_url)
@@ -86,7 +88,7 @@ RSpec.describe "LLM connection health status", :llm_server_helpers, :skip_csrf, 
     end
 
     it "refuses to run the checks while the connection is disabled" do
-      connection.update!(enabled: false)
+      allow(Setting).to receive(:llm_features_enabled?).and_return(false)
 
       expect { post llm_connection_health_status_report_path }
         .not_to change(connection.health_reports, :count)
@@ -122,7 +124,7 @@ RSpec.describe "LLM connection health status", :llm_server_helpers, :skip_csrf, 
   end
 
   describe "POST /admin/llm_connection/health_status_report/create_health_status_report" do
-    let!(:connection) { create(:llm_connection, :with_models, :enabled, base_url:, default_chat_model_id: "qwen3.6-27b") }
+    let!(:connection) { create(:llm_connection, :with_models, base_url:, default_chat_model_identifier: "qwen3.6-27b") }
 
     before do
       mock_llm_models_response(base_url)
@@ -141,9 +143,9 @@ RSpec.describe "LLM connection health status", :llm_server_helpers, :skip_csrf, 
 
   describe "GET /admin/llm_connection/health_status_report.txt" do
     let!(:connection) do
-      create(:llm_connection, :with_models, :enabled, base_url:,
-                                                      api_key: "sk-super-secret",
-                                                      custom_headers: { "apikey" => "gateway-secret" })
+      create(:llm_connection, :with_models, base_url:,
+                                            api_key: "sk-super-secret",
+                                            custom_headers: { "apikey" => "gateway-secret" })
     end
 
     before do
@@ -170,7 +172,7 @@ RSpec.describe "LLM connection health status", :llm_server_helpers, :skip_csrf, 
   end
 
   describe "authorisation" do
-    let!(:connection) { create(:llm_connection, :enabled, base_url:) }
+    let!(:connection) { create(:llm_connection, base_url:) }
 
     it "is refused to a non-admin" do
       login_as(create(:user))

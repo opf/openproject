@@ -87,7 +87,7 @@ module Llm
       # actually use rather than an arbitrary entry in the catalogue. Without one,
       # a model that can chat and is switched on, never one that only embeds.
       def chat_model_id
-        subject.default_chat_model_id.presence || subject.chat_model_ids.first
+        subject.default_chat_model&.external_id || subject.chat_model_ids.first
       end
 
       # Never retried: a failing check should report the failure, not pay for it

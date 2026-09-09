@@ -31,11 +31,11 @@
 require "spec_helper"
 
 RSpec.describe Llm::Validators::ConnectionValidator, :llm_server_helpers, :webmock,
-               with_flag: { llm_connection: true } do
+               with_flag: { llm_connection: true }, with_settings: { llm_features_enabled: true } do
   subject(:report) { described_class.new(connection).call }
 
   let(:base_url) { "https://example.com/v1" }
-  let(:connection) { create(:llm_connection, :with_models, :enabled, base_url:) }
+  let(:connection) { create(:llm_connection, :with_models, base_url:) }
 
   def result_for(group, key)
     report.group(group)&.result_for(key)
@@ -44,7 +44,7 @@ RSpec.describe Llm::Validators::ConnectionValidator, :llm_server_helpers, :webmo
   context "with a healthy connection" do
     before do
       mock_llm_models_response(base_url)
-      connection.update!(default_chat_model_id: "qwen3.6-27b")
+      connection.update!(default_chat_model: connection.models.find_by(external_id: "qwen3.6-27b"))
     end
 
     it "passes the configuration and server groups" do
@@ -79,7 +79,7 @@ RSpec.describe Llm::Validators::ConnectionValidator, :llm_server_helpers, :webmo
     end
 
     it "names a model the server has no route for" do
-      connection.update!(default_chat_model_id: "qwen3.6-27b")
+      connection.update!(default_chat_model: connection.models.find_by(external_id: "qwen3.6-27b"))
       mock_llm_chat_response(base_url, response_code: 404)
 
       result = result_for(:inference, :chat_round_trip)
@@ -113,7 +113,7 @@ RSpec.describe Llm::Validators::ConnectionValidator, :llm_server_helpers, :webmo
 
     it "can still prove the connection works through inference" do
       connection.deep_health_check = true
-      connection.update!(default_chat_model_id: "qwen3.6-27b")
+      connection.update!(default_chat_model: connection.models.find_by(external_id: "qwen3.6-27b"))
       mock_llm_chat_response(base_url)
 
       expect(result_for(:inference, :chat_round_trip).state).to eq(:success)
@@ -140,7 +140,7 @@ RSpec.describe Llm::Validators::ConnectionValidator, :llm_server_helpers, :webmo
   end
 
   context "without a base URL" do
-    let(:connection) { create(:llm_connection, :enabled).tap { |c| c.update_column(:base_url, "") } }
+    let(:connection) { create(:llm_connection).tap { |c| c.update_column(:base_url, "") } }
 
     it "fails and does not ask the server anything" do
       expect(result_for(:configuration, :base_url_present).state).to eq(:failure)
@@ -151,7 +151,7 @@ RSpec.describe Llm::Validators::ConnectionValidator, :llm_server_helpers, :webmo
 
   describe "the server group" do
     context "with a format whose catalogue comes from the registry" do
-      let(:connection) { create(:llm_connection, :with_models, :enabled, base_url:, api_format: "anthropic") }
+      let(:connection) { create(:llm_connection, :with_models, base_url:, api_format: "anthropic") }
 
       it "omits the group instead of rendering it empty" do
         expect(report.group(:server)).to be_nil
@@ -161,7 +161,7 @@ RSpec.describe Llm::Validators::ConnectionValidator, :llm_server_helpers, :webmo
 
     context "with a gateway that serves the model list in OpenAI shape" do
       let(:base_url) { "https://openrouter.ai/api/v1" }
-      let(:connection) { create(:llm_connection, :with_models, :enabled, base_url:, api_format: "openrouter") }
+      let(:connection) { create(:llm_connection, :with_models, base_url:, api_format: "openrouter") }
 
       before { mock_llm_models_response(base_url) }
 

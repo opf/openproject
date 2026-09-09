@@ -138,8 +138,8 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
         end
       end
 
-      context "with a connection that is switched on" do
-        let!(:connection) { create(:llm_connection, :enabled, base_url:) }
+      context "with a connection that is switched on", with_settings: { llm_features_enabled: true } do
+        let!(:connection) { create(:llm_connection, base_url:) }
 
         it "offers the health checks next to the form" do
           get llm_connection_path

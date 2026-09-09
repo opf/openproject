@@ -78,7 +78,7 @@ module Llm
       end
 
       def connection_enabled
-        return pass_check(:enabled) if subject.enabled?
+        return pass_check(:enabled) if Setting.llm_features_enabled?
 
         warn_check(:enabled, :connection_disabled)
       end
