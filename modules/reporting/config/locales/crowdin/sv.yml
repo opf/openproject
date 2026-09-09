@@ -24,8 +24,8 @@ sv:
   activerecord:
     models:
       cost_query:
-        one: Cost report
-        other: Cost reports
+        one: Kostnadsrapport
+        other: Kostnadsrapporter
   button_save_report_as: Spara rapporten som...
   comments: Kommentar
   cost_reports_title: Tid och kostnader
@@ -70,7 +70,7 @@ sv:
   label_is_project_with_subprojects: är (inkluderar delprojekt)
   label_is_work_package_with_descendants: är (inkluderar ättlingar)
   label_less: "<"
-  label_logged_by_reporting: Loggad av
+  label_logged_by_reporting: Loggat av
   label_money: Kontantvärde
   label_month_reporting: Månad (spenderade)
   label_new_report: Nya kostnadsrapport

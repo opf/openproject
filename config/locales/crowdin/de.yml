@@ -1374,7 +1374,12 @@ de:
     banners:
       environment_configured_readonly: Diese Werte werden über Umgebungsvariablen konfiguriert und können hier nicht bearbeitet werden.
     custom_styles:
+      color_groups:
+        base_colors: Base colors
+        main_menu: Main lateral menu
+        top_header_colors: Top header colors
       color_theme: Farbschema
+      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
       color_theme_custom: "(Benutzerdefiniert)"
       colors:
         accent-color: Akzent
@@ -1383,12 +1388,15 @@ de:
         main-menu-bg-selected-background: Hintergrundfarbe des Hauptmenüs bei Auswahl
         primary-button-color: Primäre Schaltfläche
       custom_colors: Benutzerdefinierte Farben
+      edit_color: Edit %{color}
       fonts:
         file_is_invalid: ist keine gültige TTF-Schriftdatei.
         file_too_large: ist zu groß (maximale Größe ist %{count} MB).
       instructions:
         accent-color: Farbe für Links und andere dezent hervorgehobene Elemente.
+        header-bg-color: Default background color of the app header.
         main-menu-bg-color: Hintergrundfarbe des Menüs in der linken Seitenleiste.
+        main-menu-bg-selected-background: Background color of menu items when selected.
         primary-button-color: Starke Akzentfarbe, die für die wichtigste Schaltfläche auf einem Bildschirm verwendet wird.
       manage_colors: Farbauswahloptionen bearbeiten
       tab_branding: Branding
@@ -1525,7 +1533,7 @@ de:
         step_not_available: This action is not available for the current state of the import run.
         title: Importlauf
         wizard:
-          button_abort: Abort
+          button_abort: Abbrechen
           button_retry: Erneut versuchen
           finalize_dialog:
             confirm: Ich verstehe, dass diese Aktion nicht rückgängig gemacht werden kann
@@ -1569,8 +1577,8 @@ de:
             title: Diesen Import dauerhaft rückgängig machen?
           sections:
             confirm_import:
-              button_importing: Importing data
-              button_revert: Revert import
+              button_importing: Daten werden importiert
+              button_revert: Import rückgängig machen
               button_start: Import starten
               caption: Überprüfen Sie Ihre Importeinstellungen und starten Sie den Import
               caption_done: Abgeschlossen
@@ -1885,33 +1893,33 @@ de:
       form:
         injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
         label_caption: This is the name that will be visible to users in the editor.
-        select_types: Select types
+        select_types: Typen auswählen
         types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
         usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
       index:
         description: Text transform actions give users LLM-powered actions to write, organise and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
-        label_add_action: Action
+        label_add_action: Aktion
         label_aria_add_action: Add text transform action
       index_component:
         blank_slate:
           description: Add an action to see it here
           title: No text transform actions configured yet
         disabled_warning: Text transform actions are disabled. The following actions will not be available anywhere.
-        label_disable_all: Disable all
-        label_enable_all: Enable all
-        title: Actions
+        label_disable_all: Alles deaktivieren
+        label_enable_all: Alles aktivieren
+        title: Aktionen
       new:
         title: New text transform action
       row_component:
-        label_actions: Action menu
-        label_toggle: Toggle %{label}
+        label_actions: Aktionsmenü
+        label_toggle: "%{label} umschalten"
         scope_specific_work_package_types:
           one: "%{count} work package type"
           other: "%{count} work package types"
       usage_scopes:
-        all_work_package_types: All work package types
-        everywhere: Everywhere
-        specific_work_package_types: Specific work package types
+        all_work_package_types: Alle Arbeitspakettypen
+        everywhere: Überall
+        specific_work_package_types: Bestimmte Arbeitspakettypen
     workflows:
       blankslate:
         description: Status hinzufügen, um mit der Konfiguration von Arbeitsabläufen für diese Rolle zu beginnen
@@ -5291,15 +5299,15 @@ de:
           type_label: Typ
           type_placeholder: Typ auswählen
         add_type: Typ hinzufügen
-        add_variant: Add a project-specific variant
-        base_type_in_use: Base type used in this project
+        add_variant: Eine projektspezifische Variante hinzufügen
+        base_type_in_use: In diesem Projekt verwendeter Basistyp
         empty_state:
           description: Fügen Sie einen Typ hinzu, damit die Benutzer in diesem Projekt Arbeitspakete dieses Typs erstellen können.
           title: In diesem Projekt sind keine Typen aktiv
         form:
           enable_type_in_project: Typ "%{type}" aktivieren
         no_results_title_text: Derzeit stehen keine Typen zur Verfügung.
-        project_specific_variant: Project-specific variant
+        project_specific_variant: Projektspezifische Variante
         remove_from_project: Aus dem Projekt entfernen
         switch:
           apply: Anwenden
@@ -5323,9 +5331,9 @@ de:
           target_label: Variante
           title: "%{type}: Variante wechseln"
         type_not_found: Der ausgewählte Typ konnte nicht gefunden werden.
-        use_in_project: Use in this project
-        variant_in_use: Variant in this project
-        variant_label: Variant
+        use_in_project: In diesem Projekt verwenden
+        variant_in_use: Variante in diesem Projekt
+        variant_label: Variante
         variants_not_allowed: This type does not allow creation of variants inside projects.
       versions:
         no_results_content_text: Neue Version erstellen
@@ -5495,6 +5503,12 @@ de:
   roles:
     edit:
       default_for_new_projects_warning: 'Diese Rolle ist als Standardrolle für diejenigen Benutzer konfiguriert, die ein Projekt erstellen und keine Administratoren sind. Entfernen Sie die folgenden Berechtigungen nicht, sonst können die Projekt-Ersteller die Einrichtung ihrer neu erstellten Projekte nicht abschließen:'
+    index:
+      filter_label: Search roles
+      types:
+        all: All roles
+        global: Global roles
+        project: Project roles
     permissions:
       section_check_all_label: Alle %{module} Berechtigungen zuweisen
       section_uncheck_all_label: Alle %{module} Berechtigungen zuweisen
@@ -5648,7 +5662,7 @@ de:
   setting_password_count_former_banned: Anzahl zuletzt benutzter Passwörter, die nicht wiederverwendet werden dürfen
   setting_password_days_valid: Anzahl von Tagen, nach denen ein Passwortwechsel erzwungen wird
   setting_password_login: Password login
-  setting_password_login_all: Allow for everyone
+  setting_password_login_all: Für alle erlauben
   setting_password_login_all_caption: Anyone with an internal password can sign in with it, including users linked to an identity provider.
   setting_password_login_bypass_principal_ids: Users and groups who may still use a password
   setting_password_login_except_sso: Disallow for SSO users
@@ -6283,7 +6297,7 @@ de:
   total_progress: Gesamtfortschritt
   types:
     creation_wizard:
-      add_variant: Add a variant to %{name}
+      add_variant: Variante zu %{name} hinzufügen
       create_type: Typ erstellen
       create_variant: Variante erstellen
       fields:
@@ -6359,9 +6373,9 @@ de:
           readonly_error: Cannot be changed while linked to a source type.
           section_title: PDF-Exportvorlagen
           settings:
-            edit_link: Edit settings
-            reset_to_default: Reset to default
-            title: 'Settings: %{template}'
+            edit_link: Einstellungen bearbeiten
+            reset_to_default: Auf Standard zurücksetzen
+            title: 'Einstellungen: %{template}'
       form_configuration:
         add_attribute_group: Abschnitt
         add_query_group: Zugehörige Arbeitspaket-Tabelle
@@ -6410,7 +6424,7 @@ de:
             title: No project attributes configured
           manual:
             description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
-            title: No project attributes available
+            title: Es sind keine Projektattribute verfügbar
         description: Wählen Sie die Projektattribute aus, die Sie für diesen Arbeitspaket-Typ anzeigen möchten. Diese Attribute werden in einem separaten Tab in Arbeitspaketen dieses Typs angezeigt. Benutzer mit den erforderlichen Berechtigungen können diese Attribute dort einsehen und bearbeiten.
         disabled: Deaktiviert
         exclusions:
@@ -6441,7 +6455,7 @@ de:
             title: Konfiguration kopieren?
           dialog:
             description: Copy the configuration from a source type and use it as a one-time base. The configuration stays manual and does not inherit later changes of the source.
-            source_label: Source type
+            source_label: Quellentyp
             source_placeholder: Wählen Sie einen Typ oder eine Variante aus
             submit: Speichern und kopieren
             title: Konfiguration kopieren
@@ -6450,7 +6464,7 @@ de:
         dependents:
           blank:
             description: No other type or variant inherits from this configuration
-            title: No dependent types
+            title: Keine abhängigen Typen
           description:
             one: The following configuration is inherited by 1 other type or variant. Any changes you make here will also affect the dependent.
             other: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
@@ -6458,66 +6472,66 @@ de:
             description: These types and variants inherit the configuration of this section. A change you make here applies to all of them.
             direct_heading: Direct dependents
             indirect_heading: Dependents through other types
-            title: Dependent types
-            variant_of_html: Variant of %{type_name}
-            variant_of_via_html: Variant of %{type_name}, inheriting via %{source_name}
-            via_html: Inheriting via %{source_name}
+            title: Abhängige Typen
+            variant_of_html: Variante von %{type_name}
+            variant_of_via_html: Variante von %{type_name}, vererbt über %{source_name}
+            via_html: Vererbung über %{source_name}
           title:
-            one: 1 dependent type
-            other: "%{count} dependent types"
-          view: View dependent types
+            one: 1 abhängiger Typ
+            other: "%{count} abhängige Typen"
+          view: Abhängige Typen ansehen
         exclusions:
           not_inherited: This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead.
           unknown_aspect: Unbekannter Konfigurationsabschnitt "%{aspect}".
         inherited:
-          change_source: Change source type
-          configure_manually: Configure manually
+          change_source: Quellentyp ändern
+          configure_manually: Manuell konfigurieren
           confirm_dialog:
             change_source:
               description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
-              heading: Change source type?
-              title: Change source type
+              heading: Quellentyp ändern?
+              title: Quellentyp ändern
             check_box: I understand that this will override the current settings
             from_manual:
               description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
-              heading: Switch configuration mode?
-              title: Switch configuration mode
+              heading: Konfigurationsmodus wechseln?
+              title: Konfigurationsmodus wechseln
           description: This configuration is inherited from the source type [%{source_name}](source_url)%{source_suffix}.
           description_unlinked: This configuration is inherited from the source type %{source_name}%{source_suffix}.
           dialog:
             description: Inherit this configuration from a source type. Any new configuration added to the source also applies here.
-            source_label: Source type
-            source_placeholder: Select a type or variant
-            submit: Switch
-            title: Inherit from another type
+            source_label: Quellentyp
+            source_placeholder: Typ oder Variante auswählen
+            submit: Wechseln
+            title: Von einem anderen Typ erben
           invalid_source: The configuration cannot be inherited from the selected type. Please select a different source type.
           success: The configuration mode was switched.
-          title: Inherited configuration
+          title: Vererbte Konfiguration
         manual:
           confirm_dialog:
             check_box: I understand that this will override the current settings
             description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
-            heading: Switch configuration mode?
-            title: Switch configuration mode
-          copy_from_type: Copy from another type
+            heading: Konfigurationsmodus wechseln?
+            title: Konfigurationsmodus wechseln
+          copy_from_type: Von einem anderen Typ kopieren
           description: No settings are inherited. You can still copy the settings from another type one time.
           dialog:
-            submit: Switch
-            title: Configure manually
-          inherit_from_type: Inherit from another type
+            submit: Wechseln
+            title: Manuell konfigurieren
+          inherit_from_type: Von einem anderen Typ erben
           invalid_mode: The selected mode is not available for this configuration. Please choose a different mode.
           modes:
             copy:
               caption: Start with a one-time copy of the settings that this configuration inherits now.
-              label: Copy inherited settings
+              label: Vererbte Einstellungen kopieren
             default:
               caption: Use the default settings for new types.
-              label: Default settings
+              label: Standardeinstellungen
             empty:
               caption: Set everything up from scratch, beginning from a blank configuration.
-              label: Empty
+              label: Leer
           success: The configuration mode was switched.
-          title: Manual configuration
+          title: Manuelle Konfiguration
         parent_suffix: " (übergeordneter Typ)"
       variants:
         blankslate:
@@ -6525,22 +6539,22 @@ de:
 
             '
           title: Keine Varianten für diesen Typ vorhanden
-        created_in_html: Created in %{project}
+        created_in_html: Erstellt in %{project}
         delete:
           description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
-          title: Delete %{name}
+          title: "%{name} löschen"
         filter: Nach Text filtern
         filter_no_results: Keine Varianten entsprechen diesem Filter
         global_section:
           description: These variants are available across all projects.
-          title: Variants
+          title: Varianten
         project_specific_section:
           description: These variants are only available within the projects in which they were created.
-          title: Project-specific variants
+          title: Projektspezifische Varianten
       workflow:
         tab: Workflows
     index:
-      add_variant: Add a variant to %{name}
+      add_variant: Variante zu %{name} hinzufügen
       add_variant_action: Variante hinzufügen
       description: 'Typen und Varianten ermöglichen flexible Konfiguration der Darstellung und Verhalten von Arbeitspaketen. Formulare, Workflows und weitere Bereiche können hierbei in einem Typ definiert und von beliebig vielen Varianten wiederverwendet werden. Jeder Bereich kann hierbei pro Variante individuell konfiguriert werden.
 
@@ -6553,7 +6567,7 @@ de:
       no_results_content_text: Neuen Typ erstellen
       no_results_title_text: Derzeit gibt es keine Typen.
       project_variants_count:
-        one: 1 project-specific variant
+        one: 1 projektspezifische Variante
         other: "%{count} project-specific variants"
       remove_default: In neuen Projekten nicht aktivieren
       remove_default_notice: "%{name} ist in neuen Projekten nicht länger aktiviert."

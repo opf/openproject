@@ -23,8 +23,8 @@
 sv:
   js:
     burndown:
-      day: Day
-      points: Points
+      day: Dag
+      points: Poäng
     work_packages:
       properties:
         storyPoints: Berättelsepoäng

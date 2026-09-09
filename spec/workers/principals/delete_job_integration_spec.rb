@@ -574,6 +574,17 @@ RSpec.describe Principals::DeleteJob, type: :model do
           expect(project.favoriting_users.reload).to be_empty
         end
       end
+
+      describe "AI text transform runs" do
+        let!(:run) { create(:ai_text_transform_run, user: principal).tap { |run| run.append_event("completed") } }
+
+        before { job }
+
+        it "removes the runs together with their events" do
+          expect(AI::TextTransformRun.exists?(run.id)).to be(false)
+          expect(AI::TextTransformRunEvent.where(run_id: run.id)).not_to exist
+        end
+      end
     end
 
     context "with a group" do

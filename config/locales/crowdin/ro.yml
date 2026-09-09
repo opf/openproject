@@ -234,7 +234,7 @@ ro:
         identifier: Identificator
         latest_activity_at: Ultima activitate la
         parent: Subproiect în
-        portfolio: Portfolio
+        portfolio: Portofoliu
         program: Program
         project_creation_wizard_assignee_custom_field: Assignee when submitted
         project_creation_wizard_enabled: Cerere de inițiere a proiectului
@@ -451,7 +451,7 @@ ro:
       wiki_page:
         parent_title: Pagină părinte
         redirect_existing_links: Redirectare link-uri existente
-        text: Page content
+        text: Conținut pagină
       work_package:
         ancestor: Descendants of
         begin_deletion: Început de ștergere
@@ -922,7 +922,7 @@ ro:
           attributes:
             slug:
               undeducible: nu poate fi dedusă din titlul "%{title}".
-          error_conflict: The wiki page has been updated by someone else while you were editing it.
+          error_conflict: Pagina wiki a fost actualizată de altcineva în timp ce o editai.
         work_package:
           attributes:
             assigned_to:
@@ -1168,9 +1168,9 @@ ro:
         few: Menu items
         other: Menu items
       menu_items/wiki_menu_item:
-        one: Wiki menu item
-        few: Wiki menu items
-        other: Wiki menu items
+        one: Element meniu wiki
+        few: Elemente meniu wiki
+        other: Elemente meniu wiki
       message:
         one: Message
         few: Messages
@@ -1377,12 +1377,12 @@ ro:
         other: Views
       wiki:
         one: Wiki
-        few: Wikis
-        other: Wikis
+        few: Wiki
+        other: Wiki
       wiki_page:
-        one: Wiki page
-        few: Wiki pages
-        other: Wiki pages
+        one: Pagină wiki
+        few: Pagini wiki
+        other: Pagini wiki
       work_package:
         one: Work package
         few: Work packages
@@ -1480,7 +1480,12 @@ ro:
     banners:
       environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
     custom_styles:
+      color_groups:
+        base_colors: Base colors
+        main_menu: Main lateral menu
+        top_header_colors: Top header colors
       color_theme: Culoarea temei
+      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
       color_theme_custom: "(Personalizat)"
       colors:
         accent-color: Accent
@@ -1489,12 +1494,15 @@ ro:
         main-menu-bg-selected-background: Meniul principal când este selectat
         primary-button-color: Butonul principal
       custom_colors: Culori personalizate
+      edit_color: Edit %{color}
       fonts:
         file_is_invalid: is not a valid TTF font file.
         file_too_large: is too large (maximum size is %{count} MB).
       instructions:
         accent-color: Color for links and other decently highlighted elements.
+        header-bg-color: Default background color of the app header.
         main-menu-bg-color: Culoarea de fundal pentru meniul din partea stângă.
+        main-menu-bg-selected-background: Background color of menu items when selected.
         primary-button-color: Strong accent color, used for the most important button on a screen.
       manage_colors: Modificați opțiunile de selecție ale culorilor
       tab_branding: Elemente de marcă
@@ -2004,7 +2012,7 @@ ro:
         types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
         usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
       index:
-        description: Text transform actions give users LLM-powered actions to write, organise and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
+        description: Acțiunile de transformare a textului le oferă utilizatorilor funcționalități bazate pe modele lingvistice mari (LLM) pentru a scrie, organiza și revizui textul oriunde se utilizează editorul de text formatat, cum ar fi descrierile pachetelor de lucru, comentariile și paginile wiki. Puteți crea acțiuni noi folosind propriile solicitări și instrucțiuni.
         label_add_action: Action
         label_aria_add_action: Add text transform action
       index_component:
@@ -2349,7 +2357,7 @@ ro:
   button_duplicate: Duplicare
   button_duplicate_and_follow: Duplicate and follow
   button_edit: Editare
-  button_edit_associated_wikipage: 'Edit associated wiki page: %{page_title}'
+  button_edit_associated_wikipage: 'Editează pagina wiki asociată: %{page_title}'
   button_edit_non_working_time: Edit time off
   button_enable: Enable
   button_expand_all: Extindere totală
@@ -2463,8 +2471,8 @@ ro:
       zero: Nu există obiecte de acest tip
   create_portfolio:
     blank_template:
-      description: Start from scratch. Manually add portfolio attributes, members and modules.
-      label: Blank portfolio
+      description: Începe de la zero. Adaugă manual atributele portofoliului, membrii și modulele.
+      label: Portofoliu gol
     template_heading: Selectează un șablon de portofoliu pentru a lucra cu cele mai comune metode de gestionare a proiectului sau creează un portofoliu de la zero.
   create_program:
     blank_template:
@@ -2481,7 +2489,7 @@ ro:
       dependencies_label: Copy from template
     template_heading: Selectează un șablon de proiect pentru a lucra cu cele mai comune metode de gestionare a proiectului sau creează un proiect de la zero.
     template_label: Utilizează șablon
-  create_wiki_page: Create new wiki page
+  create_wiki_page: Creează o pagină wiki nouă
   create_wiki_page_button: Pagină wiki
   custom_actions:
     actions:
@@ -2864,7 +2872,7 @@ ro:
       nextcloud_sso: Single Sign-On for Nextcloud Storage
       one_drive_sharepoint_file_storage: OneDrive/SharePoint File Storage
       placeholder_users: Placeholder Users
-      portfolio_management: Portfolio management
+      portfolio_management: Administrarea portofoliului
       project_creation_wizard: Cerere de inițiere a proiectului
       project_list_sharing: Project List Sharing
       readonly_work_packages: Readonly Work Packages
@@ -2971,7 +2979,7 @@ ro:
       plan_title: Enterprise %{plan} add-on
       plans_title: Enterprise plans
       portfolio_management:
-        description: Align your projects to your strategic goals by organizing them into portfolios and programs.
+        description: Aliniarăți proiectele la obiectivele strategice organizându-le în portofolii și programe.
       project_creation_wizard:
         description: Generate a step-by-step wizard to help project managers fill out a project initiation request.
       project_list_sharing:
@@ -3271,7 +3279,7 @@ ro:
   header:
     project_select_component:
       all_projects: All projects
-      favorites: Favorites
+      favorites: Favorite
       leave_project: Leave project
       no_favorite_projects: You have no favorite projects.
       title: Projects
@@ -3319,7 +3327,7 @@ ro:
             line_1: Multiple target versions for work packages.
             line_2: Global limits and restrictions for time entries (Professional plan).
             line_3: Agile improvements for bulk editing and dragging Backlogs cards to external applications.
-            line_4: Wiki macros available in more text editors.
+            line_4: Macrouri Wiki disponibile în mai multe editoare de text.
             line_5: Improved search for work package identifiers.
             line_6: 'Released to Community: Display relations in work package tables.'
           new_features_title: 'The release contains various new features and improvements, such as:
@@ -3910,9 +3918,9 @@ ro:
   label_planning: Planificare
   label_please_login: Te rog să te autentifici
   label_plugins: Module
-  label_portfolio: Portfolio
-  label_portfolio_new: New portfolio
-  label_portfolio_plural: Portfolios
+  label_portfolio: Portofoliu
+  label_portfolio_new: Portofoliu nou
+  label_portfolio_plural: Portofolii
   label_precedes: precede
   label_preferences: Preferinţe
   label_preview: Previzualizare
@@ -4134,7 +4142,7 @@ ro:
   label_wiki_page_attachments: Atașamentele paginilor Wiki
   label_wiki_page_id: ID-ul paginii Wiki
   label_wiki_page_plural: Pagini wiki
-  label_wiki_page_versions: Wiki page versions
+  label_wiki_page_versions: Versiuni pagină Wiki
   label_wiki_show_index_page_link: Afișare submeniu 'Cuprins'
   label_wiki_show_menu_item: Afișare ca meniu în navigarea proiectului
   label_wiki_show_new_page_link: Afișează submeniu 'Creează pagină copil'
@@ -4208,7 +4216,7 @@ ro:
     few: 'Time off: %{count} working days'
     other: 'Time off: %{count} working days'
   label_yesterday: ieri
-  label_zen_mode: Zen mode
+  label_zen_mode: Mod zen
   ldap_auth_sources:
     attribute_texts:
       admin_map_html: 'Opțional: Cheia atributului în LDAP care, <strong>dacă este prezentă</strong>, marchează utilizatorul OpenProject ca fiind administrator. Lăsați gol dacă aveți îndoieli.'
@@ -4650,8 +4658,8 @@ ro:
         news_commented: Comment on a news item
         submit_button: Update alerts
         title: Email alerts for other items that are not work packages
-        wiki_page_added: Wiki page added
-        wiki_page_updated: Wiki page updated
+        wiki_page_added: Pagină wiki adăugată
+        wiki_page_updated: Pagină wiki actualizată
       immediate_reminders:
         mentioned: Notify me when I am mentioned
         personal_reminder: Notify me for personal reminders
@@ -5070,7 +5078,7 @@ ro:
       label: Contract
   permission_add_internal_comments: Scrie comentarii interne
   permission_add_messages: Publicare mesaje
-  permission_add_portfolios: Create portfolios
+  permission_add_portfolios: Creează portofolii
   permission_add_programs: Create programs
   permission_add_project: Creează proiecte
   permission_add_subprojects: Creează subproiecte
@@ -5212,25 +5220,25 @@ ro:
     name: OmniAuth SAML / Single-Sign On
   portfolio:
     count:
-      one: 1 portfolio
-      other: "%{count} portfolios"
-      zero: 0 portfolios
+      one: 1 portofoliu
+      other: "%{count} portofolii"
+      zero: 0 portofolii
     filters:
-      name: Part of Portfolio
+      name: Parte din portofoliu
   portfolios:
     index:
       search:
         label: Filtru nume portofoliu
         placeholder: Caută portofolii
       sub_items_html:
-        one: "<strong>1</strong> sub-item"
-        few: "<strong>%{count}</strong> sub-items"
-        other: "<strong>%{count}</strong> sub-items"
+        one: "<strong>1</strong> subelement"
+        few: "<strong>%{count}</strong> subelemente"
+        other: "<strong>%{count}</strong> subelemente"
     lists:
-      active: Active portfolios
-      archived: Archived portfolios
-      favorited: Favorite portfolios
-      my: My portfolios
+      active: Portofolii active
+      archived: Portofolii arhivate
+      favorited: Portofolii preferate
+      my: Portofoliile mele
   present_access_key_value: "%{key_name} tău/ta este: %{value}"
   priorities:
     edit:
@@ -5653,6 +5661,12 @@ ro:
   roles:
     edit:
       default_for_new_projects_warning: 'This role is configured as the default role given to non-admin users who create a project. Do not remove the following permissions, otherwise project creators will be unable to complete the setup of their newly created projects:'
+    index:
+      filter_label: Search roles
+      types:
+        all: All roles
+        global: Global roles
+        project: Project roles
     permissions:
       section_check_all_label: Assign all %{module} permissions
       section_uncheck_all_label: Unassign all %{module} permissions
@@ -5757,7 +5771,7 @@ ro:
   setting_default_language: Limbă implicită
   setting_default_projects_modules: Module activate implicit la creare proiect
   setting_default_projects_public: Proiectele noi sunt implicit publice
-  setting_default_projects_wiki: Enable wiki functionality for new projects by default
+  setting_default_projects_wiki: Activează funcționalitate wiki pentru proiectele noi implicit
   setting_diff_max_lines_displayed: Numărul maxim de linii afișate în comparație
   setting_disable_password_login: Disable password authentication
   setting_display_subprojects_work_packages: Afișare pachete de lucru din subproiecte pe pagina proiectului principal
@@ -6367,7 +6381,7 @@ ro:
   text_project_identifier_url_description: The project identifier is included in the URL of the project.
   text_reassign: 'Reatribuire la pachetul de lucru:'
   text_regexp_multiline: 'Formula regex este aplicată într-un mod multilinie - de exemplu: ^---\s+'
-  text_rename_wiki_page: Rename wiki page
+  text_rename_wiki_page: Redenumește pagină wiki
   text_repository_usernames_mapping: |-
     Selectați sau modificați contul OpenProject mapat la fiecare cont din istoricul repo-ului.
     Utilizatorii cu cont sau e-mail identic în OpenProject și repo sunt echivalați automat.
@@ -6384,8 +6398,8 @@ ro:
   text_user_wrote: "%{value} a scris:"
   text_warn_on_leaving_unsaved: Pachetul de lucru conține text nesemnat care va fi pierdut dacă părăsiți această pagină.
   text_wiki_destroy_confirmation: Sunteți sigur că doriți să ștergeți acest wiki şi a întregului conținut?
-  text_wiki_page_comment_caption: This will only be visible in the wiki history.
-  text_wiki_page_comment_placeholder: Did you change something? Add a comment
+  text_wiki_page_comment_caption: Aceasta va fi vizibilă doar în istoricul wiki.
+  text_wiki_page_comment_placeholder: Ai schimbat ceva? Adaugă un comentariu
   text_wiki_page_destroy_children: Ștergere pagini fii și a tuturor descendenților
   text_wiki_page_destroy_question: Această pagină are %{descendants} pagini fii și descendenți. Ce doriți să faceți?
   text_wiki_page_nullify_children: Păstrare pagini fii ca pagini rădăcină
@@ -6474,7 +6488,7 @@ ro:
           caption: Users can manually enter and edit work package subjects without restrictions.
           label: Manually editable subjects
         pattern:
-          caption: Create patterns by adding text, or type "/" to search for [supported attributes](attributes_url).
+          caption: Creează modele adăugând text sau tastează „/” pentru a căuta [atributele acceptate](attributes_url).
           insert_as_text: 'No attributes found. Add as text: "%{word}"'
           label: Subject pattern
         tab: Defaults
@@ -6574,7 +6588,7 @@ ro:
         disabled: Disabled
         exclusions:
           attribute_label: Inherit %{attribute}
-        filter: Search by section or name
+        filter: Caută după secțiune sau nume
         tab: Project attributes
       projects:
         actions:

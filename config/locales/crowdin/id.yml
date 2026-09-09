@@ -1275,7 +1275,12 @@ id:
     banners:
       environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
     custom_styles:
+      color_groups:
+        base_colors: Base colors
+        main_menu: Main lateral menu
+        top_header_colors: Top header colors
       color_theme: Warna tema
+      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
       color_theme_custom: Kustomisasi
       colors:
         accent-color: Accent
@@ -1284,12 +1289,15 @@ id:
         main-menu-bg-selected-background: Menu utama ketika dipilih
         primary-button-color: Primary button
       custom_colors: Warna kostum
+      edit_color: Edit %{color}
       fonts:
         file_is_invalid: is not a valid TTF font file.
         file_too_large: is too large (maximum size is %{count} MB).
       instructions:
         accent-color: Color for links and other decently highlighted elements.
+        header-bg-color: Default background color of the app header.
         main-menu-bg-color: Warna latar belakang menu sisi kiri.
+        main-menu-bg-selected-background: Background color of menu items when selected.
         primary-button-color: Strong accent color, used for the most important button on a screen.
       manage_colors: Edit warna pilih opsi
       tab_branding: Branding
@@ -5329,6 +5337,12 @@ id:
   roles:
     edit:
       default_for_new_projects_warning: 'This role is configured as the default role given to non-admin users who create a project. Do not remove the following permissions, otherwise project creators will be unable to complete the setup of their newly created projects:'
+    index:
+      filter_label: Search roles
+      types:
+        all: All roles
+        global: Global roles
+        project: Project roles
     permissions:
       section_check_all_label: Assign all %{module} permissions
       section_uncheck_all_label: Unassign all %{module} permissions

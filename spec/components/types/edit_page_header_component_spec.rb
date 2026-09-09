@@ -56,7 +56,7 @@ RSpec.describe Types::EditPageHeaderComponent, type: :component do
 
     # An administrator may open the type's own configuration, so its name is a way in.
     it "links the parent type" do
-      expect(page).to have_link("Bug", href: edit_type_details_path(type_id: type.id))
+      expect(page).to have_link("Bug", href: type_settings_path(type_id: type.id))
     end
 
     it "names the variant being configured" do
@@ -94,7 +94,7 @@ RSpec.describe Types::EditPageHeaderComponent, type: :component do
     end
 
     it "offers no way into the type's own configuration" do
-      expect(page).to have_no_link(href: edit_type_details_path(type_id: type.id))
+      expect(page).to have_no_link(href: type_settings_path(type_id: type.id))
     end
 
     it "still names the variant being configured" do
