@@ -331,6 +331,22 @@ RSpec.describe Journable::HistoricActiveRecordRelation do
             expect(subject).to include work_package_matching
             expect(subject).not_to include work_package
           end
+
+          # Operators referencing custom_values.value more than once put the later references
+          # wherever the filter value happens to leave them. The substitution has to reach those
+          # too, or the rewritten statement keeps a custom_values reference that the CTE, which
+          # joins customizable_journals instead, does not provide.
+          context "with a reference on a line of its own" do
+            let(:relation) do
+              sql = is_empty_filter.where
+
+              WorkPackage.where(sql.dup.insert(sql.rindex("custom_values.value"), "\n"))
+            end
+
+            it "substitutes that reference as well" do
+              expect(subject.to_sql).not_to include "custom_values.value"
+            end
+          end
         end
       end
 
@@ -578,6 +594,41 @@ RSpec.describe Journable::HistoricActiveRecordRelation do
       it "has the typecasted value matching the journable class's data type" do
         expect(subject).to eq 0
       end
+    end
+  end
+
+  describe "the journals CTE" do
+    let(:cte_project) { create(:project) }
+    let!(:cte_work_package) do
+      create(:work_package,
+             project: cte_project,
+             subject: "Now",
+             journals: { monday => { subject: "On monday" } })
+    end
+
+    # PostgreSQL inlines a CTE automatically only when it is referenced once, and `visible` and the
+    # custom field filters reference the model table again. Without the hint the planner builds a
+    # snapshot of every journable before any filter is applied.
+    it "is marked NOT MATERIALIZED so PostgreSQL inlines it" do
+      expect(WorkPackage.at_timestamp(wednesday).to_sql)
+        .to include('WITH "work_packages" AS NOT MATERIALIZED (')
+    end
+
+    it "emits no bind placeholders into the CTE body" do
+      sql = WorkPackage.visible.at_timestamp(wednesday).where(id: [cte_work_package.id]).to_sql
+
+      expect(sql).not_to match(/\$\d/)
+      expect(sql).not_to include("?")
+    end
+
+    it "reconstructs the attributes of a restricted set" do
+      expect(WorkPackage.at_timestamp(monday).where(id: cte_work_package.id).pluck(:id, :subject))
+        .to contain_exactly([cte_work_package.id, "On monday"])
+    end
+
+    it "returns the complement for a negated restriction" do
+      expect(WorkPackage.at_timestamp(monday).where.not(id: cte_work_package.id).pluck(:id))
+        .not_to include(cte_work_package.id)
     end
   end
 end
