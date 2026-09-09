@@ -27,6 +27,20 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% unless Rails.env.production? %>
-  <%= omniauth_provider_button(:developer, display_name: "Omniauth Developer") %>
-<% end %>
+<% html_title t(:label_login) %>
+
+<div id="login-form" class="form -bordered">
+  <h1><%= I18n.t(:label_login) %></h1>
+  <hr class="form--separator">
+  <p><%= t("account.omniauth_direct_login_redirecting") %></p>
+  <%= form_tag omni_auth_start_path(direct_login_provider, omniauth_start_url_options),
+               method: :post,
+               authenticity_token: true,
+               id: "omniauth-direct-login-form",
+               data: { turbo: false, controller: "omniauth-direct-login" } do %>
+    <% if @direct_login_origin.present? %>
+      <%= hidden_field_tag :origin, @direct_login_origin %>
+    <% end %>
+    <%= submit_tag t("account.omniauth_direct_login_continue"), class: "button -highlight" %>
+  <% end %>
+</div>

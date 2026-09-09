@@ -28,18 +28,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "omniauth/rails_csrf_protection"
+require "spec_helper"
 
-OmniAuth.config.logger = Rails.logger
-# Disable GET as an allowed request method to prevent CVE-2015-9284
-OmniAuth.config.allowed_request_methods = %i[post]
+RSpec.describe "OmniAuth request phase", type: :rails_request do
+  describe "GET /auth/developer" do
+    it "does not start authentication" do
+      get "/auth/developer"
 
-OmniAuth.config.on_failure = Proc.new do |env|
-  OmniAuthLoginController.action(:failure).call(env)
-end
+      expect(response).to have_http_status(:not_found)
+    end
+  end
 
-Rails.application.config.middleware.use OmniAuth::Builder do
-  unless Rails.env.production?
-    provider :developer, fields: %i[first_name last_name email]
+  describe "POST /auth/developer without an authenticity token" do
+    it "rejects the request" do
+      post "/auth/developer"
+
+      expect(response).to have_http_status(:found)
+      expect(response).to redirect_to(signin_path)
+    end
+  end
+
+  describe "POST /auth/developer with an authenticity token", :skip_csrf do
+    it "starts the developer request phase" do
+      post "/auth/developer"
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("first_name")
+    end
   end
 end

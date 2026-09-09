@@ -28,18 +28,45 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "omniauth/rails_csrf_protection"
+require "spec_helper"
 
-OmniAuth.config.logger = Rails.logger
-# Disable GET as an allowed request method to prevent CVE-2015-9284
-OmniAuth.config.allowed_request_methods = %i[post]
+RSpec.describe "OmniAuth POST login", :js do
+  OpenProject::Hooks::ViewAccountLoginAuthProvider
 
-OmniAuth.config.on_failure = Proc.new do |env|
-  OmniAuthLoginController.action(:failure).call(env)
-end
+  let(:user_menu) { Components::UserMenu.new }
 
-Rails.application.config.middleware.use OmniAuth::Builder do
-  unless Rails.env.production?
-    provider :developer, fields: %i[first_name last_name email]
+  let(:user) do
+    create(:user,
+           force_password_change: false,
+           firstname: "omni",
+           lastname: "bob",
+           mail: "omnibob@example.com")
+  end
+
+  it "signs in through a POST to the provider" do
+    visit signin_path
+
+    form = find("button.auth-provider-developer").ancestor("form")
+    expect(form[:method]).to eq "post"
+    expect(form[:action]).to end_with "/auth/developer"
+
+    click_button "Omniauth Developer"
+
+    fill_in "first_name", with: user.firstname
+    fill_in "last_name", with: user.lastname
+    fill_in "email", with: user.mail
+    click_button "Sign In"
+
+    user_menu.expect_user_shown "omni bob"
+  end
+
+  context "with direct login",
+          with_settings: { omniauth_direct_login_provider: "developer" } do
+    it "auto-submits a POST form to the provider" do
+      visit signin_path
+
+      expect(page).to have_field("first_name")
+      expect(page).to have_no_css("#omniauth-direct-login-form")
+    end
   end
 end

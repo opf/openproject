@@ -73,6 +73,8 @@ en:
       User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the
       account for you or change the self registration limit for this provider.
     login_with_auth_provider: "or sign in with your existing account"
+    omniauth_direct_login_continue: "Continue to sign in"
+    omniauth_direct_login_redirecting: "Redirecting you to your identity provider…"
     omniauth_login: Please login to activate your account.
     signup_title: "Create an account in %{app_title}"
     signup_with_external_account: "Sign up with an external account"
