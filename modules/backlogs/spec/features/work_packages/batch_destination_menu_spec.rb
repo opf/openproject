@@ -50,209 +50,311 @@ RSpec.describe "Backlogs batch destination menus",
     create(:user, member_with_roles: { project => manage_sprint_items_role })
   end
 
-  it "moves a selected cross-list batch in live document order and announces its appended range" do
-    source_sprint = create(:sprint, project:, name: "Source sprint")
-    destination_sprint = create(:sprint, project:, name: "Destination sprint")
-    bucket = create(:backlog_bucket, project:, name: "Source bucket")
-    destination_story = create(:work_package, project:, type:, sprint: destination_sprint, position: 1)
-    bucket_story = create(:work_package, project:, type:, backlog_bucket: bucket, position: 1)
-    sprint_story = create(:work_package, project:, type:, sprint: source_sprint, position: 1)
-    backlogs_page.visit!
+  context "with selected members in different source lists" do
+    let!(:source_sprint) { create(:sprint, project:, name: "Source sprint") }
+    let!(:destination_sprint) { create(:sprint, project:, name: "Destination sprint") }
+    let!(:bucket) { create(:backlog_bucket, project:, name: "Source bucket") }
+    let!(:destination_story) { create(:work_package, project:, type:, sprint: destination_sprint) }
+    let!(:bucket_story) { create(:work_package, project:, type:, backlog_bucket: bucket) }
+    let!(:sprint_story) { create(:work_package, project:, type:, sprint: source_sprint) }
 
-    backlogs_page.select_cards(sprint_story, bucket_story)
-    backlogs_page.expect_selected_cards_in_order(bucket_story, sprint_story)
+    it "moves a selected cross-list batch in live document order and announces its appended range" do
+      backlogs_page.visit!
 
-    backlogs_page.open_destination_dialog(sprint_story, "Move to sprint")
-    backlogs_page.expect_destination_dialog(
-      "Move to sprint",
-      work_packages: [bucket_story, sprint_story]
-    )
-    backlogs_page.submit_destination_dialog(
-      "Move to sprint",
-      field_label: Sprint.human_model_name,
-      option: destination_sprint.name
-    )
+      backlogs_page.select_cards(sprint_story, bucket_story)
+      backlogs_page.expect_selected_cards_in_order(bucket_story, sprint_story)
 
-    backlogs_page.expect_sprint_items_in_order(
-      destination_sprint,
-      items: [destination_story, bucket_story, sprint_story]
-    )
-    backlogs_page.expect_polite_announcement(
-      I18n.t(
-        "backlogs.work_packages.move_collection.moved_announcement",
-        count: 2,
-        list: destination_sprint.name,
-        first: 2,
-        last: 3,
-        total: 3
+      backlogs_page.open_destination_dialog(sprint_story, "Move to sprint")
+      backlogs_page.expect_destination_dialog(
+        "Move to sprint",
+        work_packages: [bucket_story, sprint_story]
       )
-    )
-    backlogs_page.expect_no_selected_cards
+      backlogs_page.submit_destination_dialog(
+        "Move to sprint",
+        field_label: Sprint.human_model_name,
+        option: destination_sprint.name
+      )
 
-    backlogs_page.visit!
-    backlogs_page.expect_sprint_items_in_order(
-      destination_sprint,
-      items: [destination_story, bucket_story, sprint_story]
-    )
-  end
+      backlogs_page.expect_sprint_items_in_order(
+        destination_sprint,
+        items: [destination_story, bucket_story, sprint_story]
+      )
+      backlogs_page.expect_polite_announcement(
+        I18n.t(
+          "backlogs.work_packages.move_collection.moved_announcement",
+          count: 2,
+          list: destination_sprint.name,
+          first: 2,
+          last: 3,
+          total: 3
+        )
+      )
+      backlogs_page.expect_no_selected_cards
 
-  it "replaces the old selection when an unselected card invokes a destination action" do
-    first_sprint = create(:sprint, project:, name: "First sprint")
-    second_sprint = create(:sprint, project:, name: "Second sprint")
-    bucket = create(:backlog_bucket, project:, name: "Source bucket")
-    selected_bucket_story = create(:work_package, project:, type:, backlog_bucket: bucket, position: 1)
-    selected_sprint_story = create(:work_package, project:, type:, sprint: first_sprint, position: 1)
-    invoker = create(:work_package, project:, type:, sprint: second_sprint, position: 1)
-    backlogs_page.visit!
-
-    backlogs_page.select_cards(selected_sprint_story, selected_bucket_story)
-    backlogs_page.expect_selected_cards_in_order(selected_bucket_story, selected_sprint_story)
-
-    backlogs_page.move_to_backlog_inbox(invoker)
-
-    backlogs_page.expect_inbox_items_in_order(items: [invoker])
-    backlogs_page.expect_bucket_items_in_order(bucket, items: [selected_bucket_story])
-    backlogs_page.expect_sprint_items_in_order(first_sprint, items: [selected_sprint_story])
-    backlogs_page.expect_no_selected_cards
-
-    backlogs_page.visit!
-    backlogs_page.expect_inbox_items_in_order(items: [invoker])
-    backlogs_page.expect_bucket_items_in_order(bucket, items: [selected_bucket_story])
-    backlogs_page.expect_sprint_items_in_order(first_sprint, items: [selected_sprint_story])
-  end
-
-  it "offers a partly occupied destination and gathers the whole batch at its end" do
-    destination_sprint = create(:sprint, project:, name: "Destination sprint")
-    bucket = create(:backlog_bucket, project:, name: "Source bucket")
-    destination_story = create(:work_package, project:, type:, sprint: destination_sprint, position: 1)
-    selected_destination_story = create(:work_package, project:, type:, sprint: destination_sprint, position: 2)
-    bucket_story = create(:work_package, project:, type:, backlog_bucket: bucket, position: 1)
-    backlogs_page.visit!
-
-    backlogs_page.select_cards(selected_destination_story, bucket_story)
-    backlogs_page.expect_selected_cards_in_order(bucket_story, selected_destination_story)
-    backlogs_page.expect_work_package_action(selected_destination_story, "Move to sprint")
-
-    backlogs_page.open_destination_dialog(selected_destination_story, "Move to sprint")
-    backlogs_page.expect_destination_dialog_options(
-      "Move to sprint",
-      field_label: Sprint.human_model_name,
-      options: [destination_sprint.name]
-    )
-    backlogs_page.submit_destination_dialog(
-      "Move to sprint",
-      field_label: Sprint.human_model_name,
-      option: destination_sprint.name
-    )
-
-    backlogs_page.expect_sprint_items_in_order(
-      destination_sprint,
-      items: [destination_story, bucket_story, selected_destination_story]
-    )
-
-    backlogs_page.visit!
-    backlogs_page.expect_sprint_items_in_order(
-      destination_sprint,
-      items: [destination_story, bucket_story, selected_destination_story]
-    )
-  end
-
-  it "intersects destinations for confined selections and offers none when their lists conflict" do
-    first_sprint = create(:sprint, project:, name: "First sprint")
-    second_sprint = create(:sprint, project:, name: "Second sprint")
-    bucket = create(:backlog_bucket, project:, name: "Source bucket")
-    readonly_status = create(:status, is_readonly: true)
-    confined_first = create(:work_package, project:, type:, sprint: first_sprint, status: readonly_status)
-    confined_second = create(:work_package, project:, type:, sprint: second_sprint, status: readonly_status)
-    free_story = create(:work_package, project:, type:, backlog_bucket: bucket)
-    backlogs_page.visit!
-
-    backlogs_page.select_cards(confined_first, free_story)
-    backlogs_page.expect_destination_actions(
-      confined_first,
-      present: ["Move to sprint"],
-      absent: ["Move to backlog bucket", "Move to backlog inbox"]
-    )
-    backlogs_page.open_destination_dialog(confined_first, "Move to sprint")
-    backlogs_page.expect_destination_dialog_options(
-      "Move to sprint",
-      field_label: Sprint.human_model_name,
-      options: [first_sprint.name]
-    )
-    backlogs_page.cancel_destination_dialog("Move to sprint")
-    backlogs_page.clear_card_selection(confined_first)
-
-    backlogs_page.select_cards(confined_first, confined_second)
-    backlogs_page.expect_destination_actions(
-      confined_first,
-      present: [],
-      absent: ["Move to sprint", "Move to backlog bucket", "Move to backlog inbox"]
-    )
-    backlogs_page.within_work_package_menu(confined_first) do |menu|
-      expect(menu).to have_no_css("li[role=separator]", visible: :visible)
+      backlogs_page.visit!
+      backlogs_page.expect_sprint_items_in_order(
+        destination_sprint,
+        items: [destination_story, bucket_story, sprint_story]
+      )
     end
   end
 
-  it "omits Move to position from a multi-card action scope" do
-    sprint = create(:sprint, project:, name: "Sprint")
-    create(:backlog_bucket, project:, name: "Destination bucket")
-    first_story = create(:work_package, project:, type:, sprint:, position: 1)
-    second_story = create(:work_package, project:, type:, sprint:, position: 2)
-    backlogs_page.visit!
+  context "with an unselected destination invoker" do
+    let!(:first_sprint) { create(:sprint, project:, name: "First sprint") }
+    let!(:second_sprint) { create(:sprint, project:, name: "Second sprint") }
+    let!(:bucket) { create(:backlog_bucket, project:, name: "Source bucket") }
+    let!(:selected_bucket_story) { create(:work_package, project:, type:, backlog_bucket: bucket) }
+    let!(:selected_sprint_story) { create(:work_package, project:, type:, sprint: first_sprint) }
+    let!(:invoker) { create(:work_package, project:, type:, sprint: second_sprint) }
 
-    backlogs_page.select_cards(first_story, second_story)
+    it "replaces the old selection when an unselected card invokes a destination action" do
+      backlogs_page.visit!
 
-    backlogs_page.expect_no_work_package_action(first_story, "Move to position")
-    backlogs_page.expect_work_package_action(first_story, "Move to backlog bucket")
+      backlogs_page.select_cards(selected_sprint_story, selected_bucket_story)
+      backlogs_page.expect_selected_cards_in_order(selected_bucket_story, selected_sprint_story)
+
+      backlogs_page.move_to_backlog_inbox(invoker)
+
+      backlogs_page.expect_inbox_items_in_order(items: [invoker])
+      backlogs_page.expect_bucket_items_in_order(bucket, items: [selected_bucket_story])
+      backlogs_page.expect_sprint_items_in_order(first_sprint, items: [selected_sprint_story])
+      backlogs_page.expect_no_selected_cards
+
+      backlogs_page.visit!
+      backlogs_page.expect_inbox_items_in_order(items: [invoker])
+      backlogs_page.expect_bucket_items_in_order(bucket, items: [selected_bucket_story])
+      backlogs_page.expect_sprint_items_in_order(first_sprint, items: [selected_sprint_story])
+    end
   end
 
-  it "shows feedback without an empty modal when the last destination disappears before loading" do
-    sprint = create(:sprint, project:, name: "Only sprint")
-    bucket = create(:backlog_bucket, project:, name: "Source bucket")
-    first_story = create(:work_package, project:, type:, backlog_bucket: bucket, position: 1)
-    second_story = create(:work_package, project:, type:, backlog_bucket: bucket, position: 2)
-    backlogs_page.visit!
+  context "with a partly occupied destination" do
+    let!(:destination_sprint) { create(:sprint, project:, name: "Destination sprint") }
+    let!(:bucket) { create(:backlog_bucket, project:, name: "Source bucket") }
+    let!(:destination_story) { create(:work_package, project:, type:, sprint: destination_sprint, position: 1) }
+    let!(:selected_destination_story) { create(:work_package, project:, type:, sprint: destination_sprint, position: 2) }
+    let!(:bucket_story) { create(:work_package, project:, type:, backlog_bucket: bucket) }
 
-    backlogs_page.select_cards(first_story, second_story)
-    backlogs_page.invoke_destination_action_after_menu_load(first_story, "Move to sprint") do
-      sprint.update_columns(status: "completed")
+    it "offers a partly occupied destination and gathers the whole batch at its end" do
+      backlogs_page.visit!
+
+      backlogs_page.select_cards(selected_destination_story, bucket_story)
+      backlogs_page.expect_selected_cards_in_order(bucket_story, selected_destination_story)
+      backlogs_page.expect_work_package_action(selected_destination_story, "Move to sprint")
+
+      backlogs_page.open_destination_dialog(selected_destination_story, "Move to sprint")
+      backlogs_page.expect_destination_dialog_options(
+        "Move to sprint",
+        field_label: Sprint.human_model_name,
+        options: [destination_sprint.name]
+      )
+      backlogs_page.submit_destination_dialog(
+        "Move to sprint",
+        field_label: Sprint.human_model_name,
+        option: destination_sprint.name
+      )
+
+      backlogs_page.expect_sprint_items_in_order(
+        destination_sprint,
+        items: [destination_story, bucket_story, selected_destination_story]
+      )
+
+      backlogs_page.visit!
+      backlogs_page.expect_sprint_items_in_order(
+        destination_sprint,
+        items: [destination_story, bucket_story, selected_destination_story]
+      )
+    end
+  end
+
+  context "with confined members" do
+    let!(:first_sprint) { create(:sprint, project:, name: "First sprint") }
+    let!(:second_sprint) { create(:sprint, project:, name: "Second sprint") }
+    let!(:bucket) { create(:backlog_bucket, project:, name: "Source bucket") }
+    let!(:readonly_status) { create(:status, is_readonly: true) }
+    let!(:confined_first) { create(:work_package, project:, type:, sprint: first_sprint, status: readonly_status) }
+    let!(:confined_second) { create(:work_package, project:, type:, sprint: second_sprint, status: readonly_status) }
+    let!(:free_story) { create(:work_package, project:, type:, backlog_bucket: bucket) }
+
+    it "intersects destinations for confined selections and offers none when their lists conflict" do
+      backlogs_page.visit!
+
+      backlogs_page.select_cards(confined_first, free_story)
+      backlogs_page.expect_destination_actions(
+        confined_first,
+        present: ["Move to sprint"],
+        absent: ["Move to backlog bucket", "Move to backlog inbox"]
+      )
+      backlogs_page.open_destination_dialog(confined_first, "Move to sprint")
+      backlogs_page.expect_destination_dialog_options(
+        "Move to sprint",
+        field_label: Sprint.human_model_name,
+        options: [first_sprint.name]
+      )
+      backlogs_page.cancel_destination_dialog("Move to sprint")
+      backlogs_page.clear_card_selection(confined_first)
+
+      backlogs_page.select_cards(confined_first, confined_second)
+      backlogs_page.within_work_package_menu(confined_first) do |menu|
+        ["Move to sprint", "Move to backlog bucket", "Move to backlog inbox"].each do |label|
+          expect(menu).to have_no_selector(:menuitem, text: label, exact_text: true)
+        end
+        expect(menu).to have_no_css('[data-sortable-lists--item-target="moveDivider"]', visible: :visible)
+      end
+    end
+  end
+
+  context "with a multi-card action scope" do
+    let!(:sprint) { create(:sprint, project:, name: "Sprint") }
+    let!(:destination_bucket) { create(:backlog_bucket, project:, name: "Destination bucket") }
+    let!(:first_story) { create(:work_package, project:, type:, sprint:, position: 1) }
+    let!(:second_story) { create(:work_package, project:, type:, sprint:, position: 2) }
+
+    it "omits Move to position from a multi-card action scope" do
+      backlogs_page.visit!
+
+      backlogs_page.select_cards(first_story, second_story)
+
+      backlogs_page.expect_no_work_package_action(first_story, "Move to position")
+      backlogs_page.expect_work_package_action(first_story, "Move to backlog bucket")
+    end
+  end
+
+  context "when the last destination disappears" do
+    let!(:sprint) { create(:sprint, project:, name: "Only sprint") }
+    let!(:bucket) { create(:backlog_bucket, project:, name: "Source bucket") }
+    let!(:first_story) { create(:work_package, project:, type:, backlog_bucket: bucket, position: 1) }
+    let!(:second_story) { create(:work_package, project:, type:, backlog_bucket: bucket, position: 2) }
+
+    it "shows feedback without an empty modal when the last destination disappears before loading" do
+      backlogs_page.visit!
+
+      backlogs_page.select_cards(first_story, second_story)
+      backlogs_page.invoke_destination_action_after_menu_load(first_story, "Move to sprint") do
+        sprint.update_columns(status: "completed")
+      end
+
+      backlogs_page.expect_move_error(
+        I18n.t("backlogs.work_packages.move_to_sprint_dialog.no_available_destinations")
+      )
+      backlogs_page.expect_no_destination_dialog
+      backlogs_page.expect_selected_cards_in_order(first_story, second_story)
+      backlogs_page.expect_bucket_items_in_order(bucket, items: [first_story, second_story])
+    end
+  end
+
+  context "when a batch member refuses the destination" do
+    let!(:sprint) { create(:sprint, project:, name: "Destination sprint") }
+    let!(:bucket) { create(:backlog_bucket, project:, name: "Source bucket") }
+    let!(:first_story) { create(:work_package, project:, type:, backlog_bucket: bucket, position: 1) }
+    let!(:second_story) { create(:work_package, project:, type:, backlog_bucket: bucket, position: 2) }
+
+    it "rejects the complete batch atomically and retains its selection" do
+      backlogs_page.visit!
+
+      backlogs_page.select_cards(first_story, second_story)
+      backlogs_page.open_destination_dialog(first_story, "Move to sprint")
+
+      second_story.update_columns(status_id: create(:status, is_readonly: true).id)
+      backlogs_page.submit_destination_dialog(
+        "Move to sprint",
+        field_label: Sprint.human_model_name,
+        option: sprint.name,
+        frame_reload: false
+      )
+
+      backlogs_page.expect_move_error(
+        I18n.t("backlogs.work_packages.move_collection.member_failed",
+               work_package: second_story.reload.to_fs(:caption),
+               reason: I18n.t("backlogs.work_packages.batch_update_service.unavailable_target"))
+      )
+      backlogs_page.expect_bucket_items_in_order(bucket, items: [first_story, second_story])
+      backlogs_page.expect_selected_cards_in_order(first_story, second_story)
+
+      backlogs_page.visit!
+      backlogs_page.expect_bucket_items_in_order(bucket, items: [first_story, second_story])
+    end
+  end
+
+  context "with a selected batch moving to a backlog bucket" do
+    let!(:sprint) { create(:sprint, project:) }
+    let!(:bucket) { create(:backlog_bucket, project:) }
+    let!(:existing) { create(:work_package, project:, type:, backlog_bucket: bucket) }
+    let!(:first) { create(:work_package, project:, type:, sprint:, position: 1) }
+    let!(:second) { create(:work_package, project:, type:, sprint:, position: 2) }
+
+    it "appends the ordered batch and announces its range" do
+      backlogs_page.visit!
+      backlogs_page.select_cards(first, second)
+      backlogs_page.open_destination_dialog(first, "Move to backlog bucket")
+      backlogs_page.expect_destination_dialog("Move to backlog bucket", work_packages: [first, second])
+      backlogs_page.submit_destination_dialog(
+        "Move to backlog bucket", field_label: BacklogBucket.human_attribute_name(:name), option: bucket.name
+      )
+
+      backlogs_page.expect_bucket_items_in_order(bucket, items: [existing, first, second])
+      backlogs_page.expect_polite_announcement(
+        I18n.t("backlogs.work_packages.move_collection.moved_announcement",
+               count: 2, list: bucket.name, first: 2, last: 3, total: 3)
+      )
+      backlogs_page.expect_no_selected_cards
+      backlogs_page.visit!
+      backlogs_page.expect_bucket_items_in_order(bucket, items: [existing, first, second])
+    end
+  end
+
+  context "with a selected batch moving to the inbox" do
+    let!(:sprint) { create(:sprint, project:) }
+    let!(:existing) { create(:work_package, project:, type:) }
+    let!(:first) { create(:work_package, project:, type:, sprint:, position: 1) }
+    let!(:second) { create(:work_package, project:, type:, sprint:, position: 2) }
+
+    it "appends the whole selection and announces its range" do
+      backlogs_page.visit!
+      backlogs_page.select_cards(first, second)
+      backlogs_page.move_to_backlog_inbox(first)
+
+      backlogs_page.expect_inbox_items_in_order(items: [existing, first, second])
+      backlogs_page.expect_polite_announcement(
+        I18n.t("backlogs.work_packages.move_collection.moved_announcement",
+               count: 2, list: I18n.t(:label_inbox), first: 2, last: 3, total: 3)
+      )
+      backlogs_page.expect_no_selected_cards
+      backlogs_page.visit!
+      backlogs_page.expect_inbox_items_in_order(items: [existing, first, second])
+    end
+  end
+
+  context "with additive selection followed by a shrinking Shift range" do
+    let!(:source) { create(:sprint, project:, name: "Source sprint") }
+    let!(:destination) { create(:sprint, project:, name: "Destination sprint") }
+    let!(:existing) { create(:work_package, project:, type:, sprint: destination, subject: "X") }
+    let!(:stories) do
+      %w[A B C D E].map.with_index(1) do |subject, position|
+        create(:work_package, project:, type:, sprint: source, subject:, position:)
+      end
     end
 
-    backlogs_page.expect_move_error(
-      I18n.t("backlogs.work_packages.move_to_sprint_dialog.no_available_destinations")
-    )
-    backlogs_page.expect_no_destination_dialog
-    backlogs_page.expect_selected_cards_in_order(first_story, second_story)
-    backlogs_page.expect_bucket_items_in_order(bucket, items: [first_story, second_story])
-  end
+    it "submits the current range while preserving the earlier additive member" do
+      a, b, c, d, e = stories
+      backlogs_page.visit!
+      backlogs_page.toggle_card(a)
+      backlogs_page.toggle_card(c)
+      backlogs_page.extend_selection_to(e)
+      backlogs_page.expect_selected_cards_in_order(a, c, d, e)
+      backlogs_page.extend_selection_to(d)
+      backlogs_page.expect_selected_cards_in_order(a, c, d)
+      backlogs_page.open_destination_dialog(c, "Move to sprint")
+      backlogs_page.expect_destination_dialog("Move to sprint", work_packages: [a, c, d])
+      backlogs_page.submit_destination_dialog(
+        "Move to sprint", field_label: Sprint.human_model_name, option: destination.name
+      )
 
-  it "rejects the complete batch atomically and retains its selection" do
-    sprint = create(:sprint, project:, name: "Destination sprint")
-    bucket = create(:backlog_bucket, project:, name: "Source bucket")
-    first_story = create(:work_package, project:, type:, backlog_bucket: bucket, position: 1)
-    second_story = create(:work_package, project:, type:, backlog_bucket: bucket, position: 2)
-    backlogs_page.visit!
-
-    backlogs_page.select_cards(first_story, second_story)
-    backlogs_page.open_destination_dialog(first_story, "Move to sprint")
-
-    second_story.update_columns(status_id: create(:status, is_readonly: true).id)
-    backlogs_page.submit_destination_dialog(
-      "Move to sprint",
-      field_label: Sprint.human_model_name,
-      option: sprint.name,
-      frame_reload: false
-    )
-
-    backlogs_page.expect_move_error(
-      I18n.t("backlogs.work_packages.move_collection.member_failed",
-             work_package: second_story.reload.to_fs(:caption),
-             reason: I18n.t("backlogs.work_packages.batch_update_service.unavailable_target"))
-    )
-    backlogs_page.expect_bucket_items_in_order(bucket, items: [first_story, second_story])
-    backlogs_page.expect_selected_cards_in_order(first_story, second_story)
-
-    backlogs_page.visit!
-    backlogs_page.expect_bucket_items_in_order(bucket, items: [first_story, second_story])
+      backlogs_page.expect_sprint_items_in_order(destination, items: [existing, a, c, d])
+      backlogs_page.expect_sprint_items_in_order(source, items: [b, e])
+      backlogs_page.expect_no_selected_cards
+      backlogs_page.visit!
+      backlogs_page.expect_sprint_items_in_order(destination, items: [existing, a, c, d])
+      backlogs_page.expect_sprint_items_in_order(source, items: [b, e])
+    end
   end
 end
