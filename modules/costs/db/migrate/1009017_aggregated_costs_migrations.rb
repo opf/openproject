@@ -28,10 +28,22 @@
 #++
 
 require Rails.root.join("db/migrate/migration_utils/squashed_migration").to_s
+require_relative "tables/cost_entries"
+require_relative "tables/cost_types"
+require_relative "tables/rates"
+require_relative "tables/time_entries"
+require_relative "tables/time_entry_activities_projects"
+require_relative "tables/time_entry_journals"
 
-class AggregatedOverviewsMigrations < SquashedMigration
+class AggregatedCostsMigrations < SquashedMigration
   squashed_migrations *%w[
-    20190826083604_my_project_page_to_grid
-    20241025072902_remove_project_details_widget
-  ]
+    1009016_aggregated_costs_migrations
+  ].freeze
+
+  tables Tables::CostEntries,
+         Tables::CostTypes,
+         Tables::Rates,
+         Tables::TimeEntries,
+         Tables::TimeEntryActivitiesProjects,
+         Tables::TimeEntryJournals
 end

@@ -28,25 +28,24 @@
 #++
 
 require Rails.root.join("db/migrate/migration_utils/squashed_migration").to_s
-require_relative "tables/cost_entries"
-require_relative "tables/cost_types"
-require_relative "tables/rates"
-require_relative "tables/time_entries"
-require_relative "tables/time_entry_activities_projects"
-require_relative "tables/time_entry_journals"
+require_relative "tables/budgets"
+require_relative "tables/budget_journals"
+require_relative "tables/labor_budget_items"
+require_relative "tables/material_budget_items"
 
-class AggregatedCostsMigrations < SquashedMigration
+# This migration aggregates the migrations detailed in MIGRATION_FILES
+class AggregatedBudgetMigrations < SquashedMigration
   squashed_migrations *%w[
-    1009015_aggregated_costs_migrations
-    20241120103858_add_start_end_times_to_time_entries
-    20241125104347_add_timezone_identifier_to_time_entry
-    20250219103939_make_time_entry_comment_text_field
-  ].freeze
+    1004015_aggregated_budget_migrations
+  ]
 
-  tables Tables::CostEntries,
-         Tables::CostTypes,
-         Tables::Rates,
-         Tables::TimeEntries,
-         Tables::TimeEntryActivitiesProjects,
-         Tables::TimeEntryJournals
+  tables Tables::Budgets,
+         Tables::BudgetJournals,
+         Tables::LaborBudgetItems,
+         Tables::MaterialBudgetItems
+
+  modifications do
+    add_column :work_packages, :budget_id, :integer
+    add_column :work_package_journals, :budget_id, :integer, null: true
+  end
 end

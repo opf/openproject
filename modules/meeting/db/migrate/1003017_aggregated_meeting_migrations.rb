@@ -28,15 +28,32 @@
 #++
 
 require Rails.root.join("db/migrate/migration_utils/squashed_migration").to_s
-require_relative "tables/documents"
-require_relative "tables/document_journals"
+require Rails.root.join("db/migrate/tables/base").to_s
+Dir[File.join(__dir__, "tables/*.rb")].each { |file| require file }
 
-class AggregatedDocumentsMigrations < SquashedMigration
+class AggregatedMeetingMigrations < SquashedMigration
   squashed_migrations *%w[
-    20180323140208_to_v710_aggregated_documents_migrations
-    20200217090016_document_timestamps
-  ]
+    1003016_aggregated_meeting_migrations
+  ].freeze
 
-  tables Tables::Documents,
-         Tables::DocumentJournals
+  tables Tables::MeetingContents,
+         Tables::MeetingParticipants,
+         Tables::Meetings,
+         Tables::MeetingJournals,
+         Tables::MeetingContentJournals,
+         Tables::MeetingSections,
+         Tables::MeetingAgendaItems,
+         Tables::MeetingAgendaItemJournals,
+         Tables::RecurringMeetings,
+         Tables::ScheduledMeetings,
+         Tables::MeetingOutcomes
+
+  modifications do
+    # There's no easy way to express deferrable unique constraints in Rails migrations
+    execute <<~SQL.squish
+      ALTER TABLE scheduled_meetings
+      ADD CONSTRAINT unique_recurring_meeting_start_time
+      UNIQUE (recurring_meeting_id, start_time) DEFERRABLE INITIALLY DEFERRED;
+    SQL
+  end
 end
