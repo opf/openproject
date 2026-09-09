@@ -28,45 +28,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module CustomFields::Inputs::Base::Utils
-  delegate :attribute_name, to: :@custom_field
-
-  def base_input_attributes
-    attributes = {
-      name:,
-      label:,
-      value:,
-      required: required?,
-      invalid: invalid?,
-      validation_message:,
-      help_text_options: { attribute_name: }
-    }
-    attributes[:disabled] = true if options[:disabled]
-    attributes
-  end
-
-  def name
-    @custom_field.id.to_s
-  end
-
-  def label
-    @custom_field.name
-  end
-
-  def value
-    custom_value
-  end
-
-  def required?
-    options.fetch(:required) { @custom_field.is_required? }
-  end
-
-  def test_selector
-    attribute_name(:kebab_case)
-  end
-
-  # used within autocompleter inputs
-  def append_to
-    options.fetch(:wrapper_id, "body")
+class AddRequiredAttributesToTypeVariants < ActiveRecord::Migration[8.1]
+  def change
+    add_column :type_variants,
+               :required_attributes,
+               :text,
+               array: true,
+               null: false,
+               default: []
   end
 end

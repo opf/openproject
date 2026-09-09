@@ -258,7 +258,7 @@ Rails.application.reloader.to_prepare do
                        "work_package_types/creation_wizard": %i[new create show update],
                        "work_package_types/details_tab": %i[edit update],
                        "work_package_types/defaults_tab": %i[edit update],
-                       "work_package_types/form_configuration_tab": %i[edit update reset_dialog],
+                       "work_package_types/form_configuration_tab": %i[edit update reset_dialog toggle_required],
                        "work_package_types/form_configuration_groups_tab":
                          %i[create edit update destroy add_group cancel_edit drop move update_query],
                        "work_package_types/project_attributes_tab":
