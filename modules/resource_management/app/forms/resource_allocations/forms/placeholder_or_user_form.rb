@@ -39,7 +39,7 @@ module ResourceAllocations
           invalid: principal_error.present?,
           validation_message: principal_error,
           autocomplete_options: {
-            component: "opce-user-autocompleter",
+            component: "opce-resource-allocation-autocompleter",
             # The endpoint answers who may be allocated against, so the criteria
             # and permission rules are not repeated here.
             url: ::API::V3::Utilities::PathHelper::ApiV3Path.allocatable_principals,
