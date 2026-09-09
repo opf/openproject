@@ -109,6 +109,28 @@ RSpec.describe "Types", :js do
     end
   end
 
+  it "toggles 'Active in new projects' from a type's 'Details' tab", with_flag: { type_variants: false } do
+    expect(existing_type.reload.is_default?).to be false
+
+    visit edit_type_details_path(type_id: existing_type.id)
+    expect(page).to have_unchecked_field("Active in new projects")
+
+    check "Active in new projects"
+    click_on "Save"
+
+    expect(page).to have_text I18n.t(:notice_successful_update)
+    expect(existing_type.reload.is_default?).to be true
+
+    visit edit_type_details_path(type_id: existing_type.id)
+    expect(page).to have_checked_field("Active in new projects")
+
+    uncheck "Active in new projects"
+    click_on "Save"
+
+    expect(page).to have_text I18n.t(:notice_successful_update)
+    expect(existing_type.reload.is_default?).to be false
+  end
+
   # Variants are only ever created through the creation wizard, so the create page
   # never offers a parent and always creates a root type.
   it "creates a root type with editable core settings", with_flag: { type_variants: true } do

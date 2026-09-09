@@ -41,12 +41,36 @@ module WorkPackageTypes
         return result if result.failure?
       end
 
+      # TODO: Remove with type_variants feature flag
+      extract_new_project_default_param
+
       set_active_custom_fields
 
       super
     end
 
+    # TODO: Remove with type_variants feature flag
+    def after_perform(service_call)
+      return service_call if @new_project_default.nil?
+
+      service_call.merge!(toggle_default_in_new_projects(service_call.result))
+    end
+
     private
+
+    def extract_new_project_default_param
+      return unless params.key?(:is_default)
+
+      @new_project_default = ActiveRecord::Type::Boolean.new.cast(params.delete(:is_default))
+    end
+
+    def toggle_default_in_new_projects(type)
+      if @new_project_default
+        MakeDefaultService.new(type:, user:).call
+      else
+        RemoveDefaultService.new(type:, user:).call
+      end
+    end
 
     def default_contract_class = UpdateDetailsContract
 
