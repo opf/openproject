@@ -25,6 +25,12 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
     expect(page).to have_text("Assignee")
   end
 
+  it "renders built-in attributes as secondary labels" do
+    render_inline(described_class.new(attribute:, variant:, index: 0, total_count: 2, readonly: true))
+
+    expect(page).to have_css(".Label.Label--secondary", text: I18n.t("types.edit.form_configuration.builtin_field"))
+  end
+
   # The switch itself is covered by ExclusionToggleComponent; what matters here is that the row
   # hands it this attribute's key and label, and asks for it only in read-only mode.
   describe "the exclusion toggle" do
@@ -50,6 +56,18 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
 
       toggle = page.find("[data-test-selector='toggle-form-config-exclusion-assignee']")
       expect(toggle.find("button")["aria-label"]).to eq("Inherit Assignee")
+    end
+  end
+
+  describe "custom field" do
+    let(:attribute) do
+      { key: "custom_field_5", is_cf: true, is_required: false, translation: "Alt description", field_format_label: "Text" }
+    end
+
+    it "shows a muted field format label" do
+      render_inline(described_class.new(attribute:, variant:, index: 0, total_count: 2, readonly: true))
+
+      expect(page).to have_css(".color-fg-muted.text-small", text: attribute[:field_format_label])
     end
   end
 end
