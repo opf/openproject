@@ -132,6 +132,9 @@ module Llm
         # RubyLLM retries POSTs three times by default, so one completion can be
         # billed four times. Callers state what they are willing to pay for.
         config.max_retries = max_retries
+        # Demo only (AI-100): OpenAI-compatible gateways ignore the "developer" role
+        # RubyLLM uses by default, which silently drops the whole system prompt.
+        config.openai_use_system_role = true
         # Not Rails.logger: RubyLLM wires its Faraday logger middleware with
         # "bodies: RubyLLM.logger.debug?", so an instance running at debug level
         # would write full request and response bodies through a path
@@ -140,6 +143,7 @@ module Llm
         config.logger = Logger.new(IO::NULL)
       end
     end
+
 
     def apply_credentials(config)
       key = connection.api_key.presence || (PLACEHOLDER_API_KEY if api_key_required?)
