@@ -42,6 +42,7 @@ class AggregatedMeetingMigrations < SquashedMigration
     20250703143214_add_uid_to_meetings
     20250804083253_remove_times_for_meeting_agenda_items
     20250808062421_fix_missing_meetings_attachments
+    20250821092618_add_indices_to_meeting_participants
     20250416141059_add_backlogs_to_one_time_meetings
     20250709103506_add_notify_status_to_meetings
   ].freeze
