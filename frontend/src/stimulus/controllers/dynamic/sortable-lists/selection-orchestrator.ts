@@ -500,9 +500,9 @@ export class SelectionOrchestrator {
   // plain click) speaks only when it collapsed a batch, since the details
   // pane it opens is its own feedback for the card itself; `selection`
   // speaks on any membership change.
-  private renderSelection(kind:'navigation'|'selection'):void {
+  private renderSelection(kind:'navigation'|'selection', fullRepair = false):void {
     const previous = this.lastRenderedKeys;
-    this.syncSelectionPresentation();
+    this.syncSelectionPresentation(fullRepair);
 
     const current = this.selection.keys;
     this.lastRenderedKeys = current;
@@ -516,8 +516,14 @@ export class SelectionOrchestrator {
     }
   }
 
-  private syncSelectionPresentation():void {
-    applySelectionPresentation(this.host.rootElement, this.selection.keys, this.host.descriptionId);
+  private syncSelectionPresentation(fullRepair = false):void {
+    const current = this.selection.keys;
+    const changedKeys = fullRepair ? undefined : new Set([
+      ...[...this.lastRenderedKeys].filter((key) => !current.has(key)),
+      ...[...current].filter((key) => !this.lastRenderedKeys.has(key)),
+    ]);
+
+    applySelectionPresentation(this.host.rootElement, current, this.host.descriptionId, changedKeys);
   }
 
   private announceSelection(key:'selected'|'cleared'|'not_selectable'|'range_unavailable'|'range_blocked'|'range_restarted'):void {
@@ -534,7 +540,7 @@ export class SelectionOrchestrator {
   reconcile():void {
     this.selection.prune(liveOrderableKeys(this.host.rootElement));
     this.rebindAnchorList();
-    this.renderSelection('selection');
+    this.renderSelection('selection', true);
   }
 
   // The anchor's list key is stamped when the anchor is set — drag *start*

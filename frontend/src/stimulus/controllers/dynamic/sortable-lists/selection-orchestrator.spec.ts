@@ -157,6 +157,33 @@ describe('SelectionOrchestrator', () => {
     expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['1']);
   });
 
+  it('repairs stripped presentation during reconciliation without a membership change', () => {
+    const orchestrator = new SelectionOrchestrator(hostFor(root));
+    orchestrator.handleClick(clickOn(item('1'), { ctrlKey: true }));
+    item('1').removeAttribute(batchSelectedAttribute);
+    item('1').removeAttribute('aria-describedby');
+    announceSpy.mockClear();
+
+    orchestrator.reconcile();
+
+    expect(isSelected(item('1'))).toBe(true);
+    expect(item('1').getAttribute('aria-describedby')).toBe('selection-description');
+    expect(announceSpy).not.toHaveBeenCalled();
+  });
+
+  it('does not repaint unchanged members on an ordinary gesture', () => {
+    const orchestrator = new SelectionOrchestrator(hostFor(root));
+    orchestrator.handleClick(clickOn(item('1'), { ctrlKey: true }));
+    const observer = new MutationObserver(vi.fn());
+    observer.observe(item('1'), { attributes: true });
+
+    orchestrator.handleClick(clickOn(item('3'), { ctrlKey: true }));
+
+    const mutations = observer.takeRecords();
+    observer.disconnect();
+    expect(mutations).toEqual([]);
+  });
+
   it('extends a range from the anchor', () => {
     const orchestrator = new SelectionOrchestrator(hostFor(root));
 
@@ -893,6 +920,9 @@ describe('SelectionOrchestrator', () => {
 
       expect(orchestrator.selectedItems()).toEqual([]);
       expect(isSelected(item('1'))).toBe(false);
+      expect(announceSpy).not.toHaveBeenCalled();
+
+      orchestrator.reconcile();
       expect(announceSpy).not.toHaveBeenCalled();
     });
 

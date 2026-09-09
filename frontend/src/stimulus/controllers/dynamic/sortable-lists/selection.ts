@@ -263,9 +263,18 @@ export function applySelectionPresentation(
   root:HTMLElement,
   keys:ReadonlySet<SelectionKey>,
   describedById:string,
+  changedKeys?:ReadonlySet<SelectionKey>,
 ):void {
+  if (changedKeys?.size === 0) {
+    return;
+  }
+
   for (const item of orderedItemElements(root)) {
     const identity = itemIdentity(item);
+    if (changedKeys && (!identity || !changedKeys.has(selectionKey(identity)))) {
+      continue;
+    }
+
     const focusHost = focusHostOf(item);
 
     if (identity && keys.has(selectionKey(identity))) {
