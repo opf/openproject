@@ -365,7 +365,7 @@ module Backlogs
     # this project, in the submitted order: silently dropping a member would
     # break the client's optimistic block. Nil when any id does not resolve.
     def find_collection_work_packages(ids)
-      found = WorkPackage.visible.where(project: @project, id: ids).index_by { |wp| wp.id.to_s }
+      found = WorkPackage.visible.where(project: @project, id: ids).includes(:type, :status).index_by { |wp| wp.id.to_s }
       ordered = ids.map { |id| found[id.to_s] }
 
       ordered.any?(&:nil?) ? nil : ordered
