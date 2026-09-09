@@ -2916,7 +2916,7 @@ fr:
         progress_calculation_adjusted_from_disabled_mode: Le calcul de la progression est automatiquement <a href="%{href}" target="_blank">défini en mode travail et ajusté avec la mise à jour de la version</a>.
         scheduling_mode_adjusted: Mode de planification automatiquement ajusté avec la mise à jour de version.
         sprint_migration: La version '%{version_name}' a été copiée en tant que sprint.
-        stale_target_versions_removed: Outdated target version automatically removed. It had been incorrectly re-added when multiple target versions were enabled.
+        stale_target_versions_removed: La version cible obsolète a été supprimée automatiquement. Elle avait été rajoutée par erreur lorsque plusieurs versions cibles étaient activées.
         target_versions_repaired: Les versions cibles ont été automatiquement synchronisées avec le champ Version avant d'activer plusieurs versions cibles.
         totals_removed_from_childless_work_packages: Les totaux de travail et de progression sont automatiquement supprimés pour les lots de travaux non parents avec <a href="%{href}" target="_blank">la mise à jour de la version</a>. Il s'agit d'une tâche de maintenance qui peut être ignorée.
       total_percent_complete_mode_changed_to_simple_average: Les valeurs de travail des lots de travaux enfants sont ignorées.
@@ -5259,7 +5259,7 @@ fr:
   setting_default_language: Langue par défaut
   setting_default_projects_modules: Modules activés par défaut pour les nouveaux projets
   setting_default_projects_public: Les nouveaux projets sont publics par défaut
-  setting_default_projects_wiki: Enable wiki functionality for new projects by default
+  setting_default_projects_wiki: Activer par défaut les fonctionnalités wiki pour les nouveaux projets
   setting_diff_max_lines_displayed: Nombre maximal de lignes de «diff» affichées
   setting_disable_password_login: Désactiver l'authentification par mot de passe
   setting_display_subprojects_work_packages: Par défaut, afficher les lots de travaux des sous-projets dans les projets parents
@@ -6068,8 +6068,8 @@ fr:
           confirm_dialog:
             check_box: Je comprends que cela remplacera les paramètres actuels
             description: Tous les paramètres actuellement sélectionnés seront remplacés et pourraient affecter les informations existantes des lots de travaux de ce type.
-            heading: Switch configuration mode?
-            title: Switch configuration mode
+            heading: Changer de mode de configuration ?
+            title: Changer de mode de configuration
           copy_from_type: Copier à partir du type
           description: Aucun paramètre n'est hérité. Si vous le souhaitez, vous pouvez toutefois copier ponctuellement les paramètres d'un autre type.
           dialog:
@@ -6094,13 +6094,13 @@ fr:
           confirm_dialog:
             change_source:
               description_html: En remplaçant le type source par %{source_name}, vous écraserez les paramètres actuels, ce qui pourrait affecter les informations existantes des lots de travaux de ce type.
-              heading: Change source type?
-              title: Change source type
+              heading: Modifier le type source ?
+              title: Modifier le type source
             check_box: Je comprends que cela remplacera les paramètres actuels
             from_independent:
               description: Tous les paramètres actuellement sélectionnés seront remplacés et pourraient avoir une incidence sur les informations existantes concernant les lots de travaux de ce type.
-              heading: Switch configuration mode?
-              title: Switch configuration mode
+              heading: Changer de mode de configuration ?
+              title: Changer de mode de configuration
           description: Cette configuration est liée au type source [%{source_name}](source_url)%{source_suffix}, dont elle hérite les paramètres.
           dialog:
             description: Copiez ces paramètres depuis une source et héritez-en. Toute nouvelle configuration ajoutée à la source sera également ajoutée ici.
