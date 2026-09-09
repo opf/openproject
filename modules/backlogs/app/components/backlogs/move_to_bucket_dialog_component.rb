@@ -49,7 +49,7 @@ module Backlogs
     private
 
     def destination_list_type
-      Backlogs::Target::BucketId.new(nil).list_type
+      Backlogs::Target::BucketId.list_type
     end
   end
 end
