@@ -32,10 +32,10 @@ module Llm
   module Validators
     # Whether the server answers, and whether it accepts our credentials.
     #
-    # Uses the model list, which costs nothing on any provider. That only exists
-    # for OpenAI-compatible endpoints -- for the others the catalogue comes from
-    # RubyLLM's registry, so there is nothing free to ask, and reachability can
-    # only be established by the inference group's billed request.
+    # Uses the model list, which costs nothing. Only the formats Llm::Adapters
+    # discovers live serve one; for the registry-backed formats the group is not
+    # registered at all, and reachability can only be established by the
+    # inference group's billed request.
     class ServerValidator < HealthReports::ValidatorGroup
       # A gateway may implement chat and nothing else. That is a supported
       # deployment, not a broken one, so it must not read as unreachable.
@@ -46,18 +46,9 @@ module Llm
       private
 
       def validate
-        # For a registry-backed format there is nothing free to ask, so the
-        # group is omitted entirely rather than rendered as two skipped checks
-        # that read as neither healthy nor warning.
-        return unless queries_the_server?
-
         register_checks(:reachable, :credentials_accepted)
 
         list_models
-      end
-
-      def queries_the_server?
-        subject.api_format == Llm::Adapters::OPENAI_COMPATIBLE
       end
 
       def list_models

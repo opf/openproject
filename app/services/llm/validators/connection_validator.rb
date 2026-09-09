@@ -39,7 +39,10 @@ module Llm
       register_group ConfigurationValidator
 
       register_group ServerValidator,
-                     precondition: ->(_, report) { report.group(:configuration).non_failure? }
+                     precondition: lambda { |connection, report|
+                       Llm::Adapters.live_discovery?(connection.api_format) &&
+                         report.group(:configuration).non_failure?
+                     }
 
       # Costs a real completion, so it is not part of the scheduled run.
       register_group InferenceValidator,

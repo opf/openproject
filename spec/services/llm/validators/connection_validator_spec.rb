@@ -120,6 +120,29 @@ RSpec.describe Llm::Validators::ConnectionValidator, :llm_server_helpers, :webmo
     end
   end
 
+  describe "the server group" do
+    context "with a format whose catalogue comes from the registry" do
+      let(:connection) { create(:llm_connection, :with_models, :enabled, base_url:, api_format: "anthropic") }
+
+      it "omits the group instead of rendering it empty" do
+        expect(report.group(:server)).to be_nil
+        expect(WebMock).not_to have_requested(:get, "#{base_url}/models")
+      end
+    end
+
+    context "with a gateway that serves the model list in OpenAI shape" do
+      let(:base_url) { "https://openrouter.ai/api/v1" }
+      let(:connection) { create(:llm_connection, :with_models, :enabled, base_url:, api_format: "openrouter") }
+
+      before { mock_llm_models_response(base_url) }
+
+      it "probes it like an OpenAI endpoint" do
+        expect(result_for(:server, :reachable).state).to eq(:success)
+        expect(result_for(:server, :credentials_accepted).state).to eq(:success)
+      end
+    end
+  end
+
   describe "the features group" do
     before { mock_llm_models_response(base_url) }
 
