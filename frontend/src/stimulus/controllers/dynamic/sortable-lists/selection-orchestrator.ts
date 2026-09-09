@@ -223,7 +223,6 @@ export class SelectionOrchestrator {
       this.extendSelectionTo(candidate);
     } else {
       this.toggleWithinCohort(candidate);
-      this.renderSelection('selection');
     }
   };
 
@@ -296,7 +295,6 @@ export class SelectionOrchestrator {
       this.extendSelectionTo(candidate);
     } else {
       this.toggleWithinCohort(candidate);
-      this.renderSelection('selection');
     }
   }
 
