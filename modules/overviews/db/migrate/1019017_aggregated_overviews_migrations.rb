@@ -33,5 +33,7 @@ require Rails.root.join("db/migrate/migration_utils/squashed_migration").to_s
 class AggregatedOverviewsMigrations < SquashedMigration
   squashed_migrations *%w[
     1019015_aggregated_overviews_migrations
+    20250910085916_rename_manage_overview_to_manage_dashboards
+    20250923120330_remove_news_beta_widgets
   ]
 end
