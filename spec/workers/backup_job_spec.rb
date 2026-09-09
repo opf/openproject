@@ -234,7 +234,7 @@ RSpec.describe BackupJob, type: :model do
   end
 
   context "with an unreadable attachment" do
-    let(:job) { BackupJob.new }
+    let(:job) { described_class.new }
     let(:backup) { create(:backup) }
     let(:user) { create(:admin) }
     let(:job_id) { 42 }
@@ -267,20 +267,21 @@ RSpec.describe BackupJob, type: :model do
     end
 
     before do
-      allow(job).to receive(:arguments).and_return [{ backup:, user: }]
-      allow(job).to receive(:job_id).and_return job_id
+      allow(job).to receive_messages(arguments: [{ backup:, user: }], job_id:)
 
       allow(Open3).to receive(:capture3).and_return [nil, "", instance_double(Process::Status, success?: true)]
 
-      allow_any_instance_of(BackupJob)
-        .to receive(:tmp_file_name).with("openproject", ".sql").and_return(openproject_sql.path)
+      allow(job).to receive(:tmp_file_name).with("openproject", ".sql").and_return(openproject_sql.path)
+      allow(job).to receive(:tmp_file_name)
+        .with("openproject-backup", ".zip").and_return("/tmp/openproject-unreadable.zip")
 
-      allow_any_instance_of(BackupJob)
-        .to receive(:tmp_file_name).with("openproject-backup", ".zip").and_return("/tmp/openproject-unreadable.zip")
-
+      # Attachments are re-queried from the database inside the job, so there is no handle to the
+      # specific instances whose uploader needs stubbing.
+      # rubocop:disable RSpec/AnyInstance
       allow_any_instance_of(LocalFileUploader).to receive(:readable?) do |uploader|
         uploader.model.id != unreadable_attachment.id
       end
+      # rubocop:enable RSpec/AnyInstance
 
       job.perform(backup:, user:)
     end
