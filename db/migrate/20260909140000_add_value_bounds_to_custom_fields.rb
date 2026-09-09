@@ -28,40 +28,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module CustomFields
-  class BaseContract < ::ModelContract
-    include RequiresAdminGuard
+class AddValueBoundsToCustomFields < ActiveRecord::Migration[8.1]
+  # Convert at max 15 digits to try and get the correct range values
+  # A double precision column holds integers exactly up to 2^53, which is approximately 9e15.
+  # A longer length gives a bound that is not exact so we skip those
+  MAX_CONVERTIBLE_LENGTH = 15
 
-    attribute :admin_only
-    attribute :allow_non_open_versions
-    attribute :content_right_to_left
-    attribute :custom_field_section_id
-    attribute :default_value
-    attribute :editable
-    attribute :field_format
-    attribute :formula
-    attribute :has_comment
-    attribute :is_filter
-    attribute :is_for_all
-    attribute :is_required do
-      validate_non_true_for_some_formats
+  def up
+    change_table :custom_fields, bulk: true do |t|
+      t.float :min_value, null: true
+      t.float :max_value, null: true
     end
-    attribute :max_length
-    attribute :min_length
-    attribute :max_value
-    attribute :min_value
-    attribute :multi_value
-    attribute :name
-    attribute :possible_values
-    attribute :regexp
-    attribute :searchable
-    attribute :visible_on_user_card
-    attribute :type
 
-    def validate_non_true_for_some_formats
-      return unless %w[bool calculated_value].include?(field_format)
+    execute <<~SQL.squish
+      UPDATE custom_fields
+      SET min_value = CASE
+                        WHEN min_length BETWEEN 2 AND #{MAX_CONVERTIBLE_LENGTH}
+                        THEN power(10::double precision, min_length - 1)
+                      END,
+          max_value = CASE
+                        WHEN max_length BETWEEN 1 AND #{MAX_CONVERTIBLE_LENGTH}
+                        THEN power(10::double precision, max_length) - 1
+                      END,
+          min_length = 0,
+          max_length = 0
+      WHERE field_format IN ('int', 'float')
+    SQL
+  end
 
-      errors.add(:is_required, :cannot_be_true) if is_required == true
+  def down
+    change_table :custom_fields, bulk: true do |t|
+      t.remove :min_value, :max_value
     end
   end
 end

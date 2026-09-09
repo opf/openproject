@@ -152,7 +152,9 @@ en:
         is_for_all: "For all projects"
         is_required: "Required"
         max_length: "Maximum length"
+        max_value: "Maximum value"
         min_length: "Minimum length"
+        min_value: "Minimum value"
         multi_value: "Allow multi-select"
         possible_values: "Possible values"
         regexp: "Regular expression"
@@ -598,6 +600,7 @@ en:
         regex_list_invalid: "Lines %{invalid_lines} could not be parsed as regular expression."
         regex_match_failed: "does not match the regular expression %{expression}."
         smaller_than_or_equal_to_max_length: "must be smaller than or equal to maximum length."
+        smaller_than_or_equal_to_max_value: "must be smaller than or equal to maximum value."
         ssrf_filtered: "violates the SSRF policy of this OpenProject instance."
         status_transition_invalid: "is invalid because no valid transition exists from old to new status for the current user's roles."
         system_wide_non_working_day_exists: "conflicts with an existing system-wide non-working day for this date."
@@ -2538,6 +2541,9 @@ en:
       min_max:
         all: "0 means no restriction"
         project: "0 means no restriction"
+      min_max_value:
+        all: "Leave blank for no restriction"
+        project: "Leave blank for no restriction"
       multi_select:
         all: "Allows the user to assign multiple values to this custom field."
         project: "Allows the user to assign multiple values to this attribute."
@@ -3799,7 +3805,6 @@ en:
   label_message_new: "New message"
   label_message_plural: "Messages"
   label_message_posted: "Message added"
-  label_min_max_length: "Min - Max length"
   label_minute_plural: "minutes"
   label_missing_api_access_key: "Missing API access key"
   label_missing_feeds_access_key: "Missing RSS access key"
