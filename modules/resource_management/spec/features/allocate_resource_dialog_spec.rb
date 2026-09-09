@@ -36,7 +36,7 @@ RSpec.describe "Allocate resource dialog", :js, with_ee: %i[resource_management]
     create(:user,
            member_with_permissions: { project => %i[view_resource_planners allocate_user_resources view_work_packages] })
   end
-  shared_let(:resource_planner) { create(:resource_planner, project:, principal: user) }
+  shared_let(:resource_planner) { create(:resource_planner, project:, principal: user, public: true) }
   shared_let(:view) do
     ResourceWorkPackageList.create!(name: "WP list", parent: resource_planner, project:, principal: user)
   end
@@ -55,6 +55,48 @@ RSpec.describe "Allocate resource dialog", :js, with_ee: %i[resource_management]
       expect(page).to have_field(WorkPackage.model_name.human)
       expect(page).to have_field(ResourceAllocation.human_attribute_name(:allocated_hours))
       expect(page).to have_button(I18n.t("resource_management.allocate_resource_dialog.submit"))
+    end
+  end
+
+  describe "the resource picker with a name nothing matches" do
+    include Components::Autocompleter::NgSelectAutocompleteHelpers
+
+    let(:autocompleter) { find("opce-resource-allocation-autocompleter") }
+
+    def open_picker_and_search
+      click_on I18n.t("resource_management.work_package_list.subheader.allocate")
+      search_autocomplete(autocompleter,
+                          query: "Nobody goes by this name",
+                          results_selector: "##{ResourceAllocations::NewDialogComponent::DIALOG_ID}")
+    end
+
+    context "for a user who may create placeholder users" do
+      shared_let(:placeholder_manager) do
+        create(:user,
+               global_permissions: %i[manage_placeholder_user],
+               member_with_permissions: {
+                 project => %i[view_resource_planners allocate_user_resources view_work_packages]
+               })
+      end
+
+      before do
+        login_as placeholder_manager
+        visit project_resource_planner_view_path(project, resource_planner, view)
+      end
+
+      it "offers creating a placeholder user" do
+        open_picker_and_search
+
+        expect(page).to have_text(I18n.t("js.resource_management.create_placeholder_user"))
+      end
+    end
+
+    context "for a user who may not create placeholder users" do
+      it "offers nothing to create" do
+        open_picker_and_search
+
+        expect(page).to have_no_text(I18n.t("js.resource_management.create_placeholder_user"))
+      end
     end
   end
 

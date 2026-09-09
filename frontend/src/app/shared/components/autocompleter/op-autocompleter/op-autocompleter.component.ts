@@ -74,6 +74,7 @@ export interface IAutocompleterTemplateComponent {
   headerTemplate?:TemplateRef<Element>;
   labelTemplate?:TemplateRef<Element>;
   footerTemplate?:TemplateRef<Element>;
+  notFoundTemplate?:TemplateRef<Element>;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-redundant-type-constituents
@@ -314,6 +315,8 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
 
   footerTemplate:TemplateRef<Element>;
 
+  notFoundTemplate:TemplateRef<Element>;
+
   readonly opAutocompleterService = inject(OpAutocompleterService);
 
   ngOnInit() {
@@ -551,7 +554,7 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
 
     componentRef.changeDetectorRef.detectChanges();
 
-    ['optionTemplate', 'headerTemplate', 'labelTemplate', 'footerTemplate'].forEach((name:keyof IAutocompleterTemplateComponent) => {
+    ['optionTemplate', 'headerTemplate', 'labelTemplate', 'footerTemplate', 'notFoundTemplate'].forEach((name:keyof IAutocompleterTemplateComponent) => {
       const template = componentRef.instance[name];
       if (template) {
         this[name] = template;

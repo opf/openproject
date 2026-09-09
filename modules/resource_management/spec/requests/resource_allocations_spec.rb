@@ -49,7 +49,7 @@ RSpec.describe "ResourceAllocations requests",
       expect(response).to have_http_status(:ok)
       # Autocompleters render as Angular custom elements carrying the field
       # name in `data-input-name` rather than a plain `name` attribute.
-      expect(response.body).to include("opce-user-autocompleter")
+      expect(response.body).to include("opce-resource-allocation-autocompleter")
       expect(response.body).to include("resource_allocation[placeholder_or_user_id]")
       expect(response.body).to include("resource_allocation[entity_id]")
       expect(response.body).to include("resource_allocation[allocated_hours]")
@@ -120,7 +120,7 @@ RSpec.describe "ResourceAllocations requests",
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("outside of the work")
       # Only the banner is replaced; the form and its focused date field stay untouched.
-      expect(response.body).not_to include("opce-user-autocompleter")
+      expect(response.body).not_to include("opce-resource-allocation-autocompleter")
     end
 
     it "streams an empty banner when the dates fit" do

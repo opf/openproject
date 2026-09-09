@@ -1,0 +1,16 @@
+<ng-template #notFoundTemplate>
+  <div class="ng-option ng-option-disabled">{{ autocompleter.notFoundText }}</div>
+  @if (canCreatePlaceholderUser$ | async) {
+    <div class="op-select-footer">
+      <button
+        class="op-select-footer--label"
+        type="button"
+        >
+        <span class="icon-context">
+          <op-icon icon-classes="icon-user-plus icon-context" />
+          {{ text.createPlaceholderUser }}
+        </span>
+      </button>
+    </div>
+  }
+</ng-template>
