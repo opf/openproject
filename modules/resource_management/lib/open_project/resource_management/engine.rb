@@ -80,7 +80,7 @@ module OpenProject::ResourceManagement
         # The `contract_actions` map keeps the permission discoverable for the
         # API contracts that consume it via `allowed_in_project?`.
         permission :allocate_user_resources,
-                   { "resource_management/resource_allocations": %i[new step refresh_form create edit update destroy] },
+                   { "resource_management/resource_allocations": %i[new refresh_form create edit update destroy] },
                    permissible_on: :project,
                    dependencies: %i[view_resource_planners],
                    contract_actions: { resource_allocation: %i[create update destroy] }
@@ -132,6 +132,17 @@ module OpenProject::ResourceManagement
            partial: "resource_management/menus/menu",
            last: true,
            caption: :label_resource_management
+    end
+
+    initializer "resource_management.permissions" do
+      Rails.application.reloader.to_prepare do
+        OpenProject::AccessControl.permission(:manage_placeholder_user)
+                                  .controller_actions
+                                  .push(
+                                    "resource_management/placeholder_users/new",
+                                    "resource_management/placeholder_users/create"
+                                  )
+      end
     end
 
     add_api_path :allocatable_principals do
