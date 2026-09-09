@@ -37,73 +37,51 @@ class Backlogs::WorkPackages::DestinationAvailability
     @work_packages = work_packages
   end
 
-  def permitted?(target)
-    user.allowed_in_project?(:manage_sprint_items, project) &&
-      candidate?(target) &&
-      work_packages.all? { |work_package| free?(work_package) || current_target(work_package) == target }
+  def manage_permission?
+    return @manage_permission if defined?(@manage_permission)
+
+    @manage_permission = user.allowed_in_project?(:manage_sprint_items, project)
   end
 
-  def sprints
-    sprint_candidates.select { |sprint| offered?(Backlogs::Target.for(sprint)) }
+  def candidate_sprints
+    @candidate_sprints ||= Sprint.assignable(project:, user:).order_by_date.to_a
   end
 
-  def buckets
-    bucket_candidates.select { |bucket| offered?(Backlogs::Target.for(bucket)) }
+  def candidate_buckets
+    @candidate_buckets ||= BacklogBucket.assignable(project:, user:).to_a
   end
 
-  def inbox?
-    offered?(Backlogs::Target::InboxId)
-  end
-
-  # The members that cannot enter the target: a work package frozen by its
-  # status stays where it is, so only its own destination accepts it.
-  def refusing(target)
-    work_packages.reject { |work_package| free?(work_package) || current_target(work_package) == target }
-  end
-
-  # Target candidacy alone, without the per-member arm of permitted?: the
-  # batch move reports which members refused rather than collapsing the whole
-  # batch into one anonymous failure.
   def candidate?(target)
-    case target
-    in Backlogs::Target::SprintId
-      sprint_candidates.any? { |sprint| sprint.id == target.list_id }
-    in Backlogs::Target::BucketId
-      bucket_candidates.any? { |bucket| bucket.id == target.list_id }
-    in Backlogs::Target::InboxId
-      true
-    else
-      false
-    end
+    candidate_targets.include?(target)
   end
+
+  def refusing(target)
+    work_packages.reject { |work_package| accepts?(work_package, target) }
+  end
+
+  def sprints = offered(candidate_sprints)
+  def buckets = offered(candidate_buckets)
 
   private
 
-  def offered?(target)
-    permitted?(target) && work_packages.any? { |work_package| current_target(work_package) != target }
+  def candidate_targets
+    @candidate_targets ||= Set.new(
+      [Backlogs::Target::InboxId] +
+      (candidate_sprints + candidate_buckets).map { |container| Backlogs::Target.for(container) }
+    )
   end
 
-  def sprint_candidates
-    @sprint_candidates ||= Sprint.assignable(project:, user:).order_by_date.to_a
+  def accepts?(work_package, target)
+    !work_package.readonly_status? || Backlogs::Target.for_work_package(work_package) == target
   end
 
-  def bucket_candidates
-    @bucket_candidates ||= BacklogBucket.for_project(project).order_alphabetically.to_a
-  end
+  def offered(containers)
+    return [] unless manage_permission?
 
-  def free?(work_package)
-    readonly_status_ids.exclude?(work_package.status_id)
-  end
-
-  def readonly_status_ids
-    @readonly_status_ids ||= if Status.can_readonly?
-                               Status.where(id: work_packages.map(&:status_id), is_readonly: true).ids
-                             else
-                               []
-                             end
-  end
-
-  def current_target(work_package)
-    Backlogs::Target.for_work_package(work_package)
+    containers.select do |container|
+      target = Backlogs::Target.for(container)
+      refusing(target).empty? &&
+        work_packages.any? { |wp| Backlogs::Target.for_work_package(wp) != target }
+    end
   end
 end
