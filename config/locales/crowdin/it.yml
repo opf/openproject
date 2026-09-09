@@ -5503,6 +5503,12 @@ it:
   roles:
     edit:
       default_for_new_projects_warning: 'Questo ruolo è configurato come ruolo predefinito assegnato agli utenti non amministratori che creano un progetto. Non rimuovere le seguenti autorizzazioni, altrimenti i creatori di progetto non potranno completare la configurazione dei progetti appena creati:'
+    index:
+      filter_label: Search roles
+      types:
+        all: All roles
+        global: Global roles
+        project: Project roles
     permissions:
       section_check_all_label: Assegna tutti i permessi di %{module}
       section_uncheck_all_label: Annulla l'assegnazione di tutti i permessi di %{module}

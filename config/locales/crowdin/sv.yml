@@ -5492,6 +5492,12 @@ sv:
   roles:
     edit:
       default_for_new_projects_warning: 'Den här rollen är konfigurerad som standardroll för icke-administratörer som skapar ett projekt. Ta inte bort följande behörigheter, annars kan projektskapare inte slutföra konfigurationen av sina nyskapade projekt:'
+    index:
+      filter_label: Search roles
+      types:
+        all: All roles
+        global: Global roles
+        project: Project roles
     permissions:
       section_check_all_label: Tilldela alla behörigheter för %{module}
       section_uncheck_all_label: Ta bort alla behörigheter för %{module}

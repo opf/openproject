@@ -53,7 +53,7 @@ module McpTools
     # an instantiated Query to be used.
     filter :assigned_to_id
     filter :author_id
-    filter :id
+    filter :id, filter_proc: ->(wps, v) { wps.where_display_id_in(v) }
     filter :project_id
     filter :status_id
     filter :type_id
@@ -76,7 +76,7 @@ module McpTools
                        "Pass null to search for work packages without an assignee."
         },
         author_id: { type: "number", description: "The ID of the user that created this work package." },
-        id: { type: "number", description: "The ID of the work package." },
+        id: { type: %w[string number], description: "The identifier of the work package." },
         project_id: { type: "number", description: "The ID of the project that this work package belongs to." },
         status_id: { type: "number", description: "The ID of the work package's status." },
         subject: {
