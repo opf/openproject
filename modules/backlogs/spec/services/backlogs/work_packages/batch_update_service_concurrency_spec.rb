@@ -46,6 +46,7 @@ RSpec.describe Backlogs::WorkPackages::BatchUpdateService,
 
   after do
     side_user_ids = factory_side_user_ids
+    project.work_packages.each { |work_package| work_package.reload.destroy! }
     project.destroy!
     user.destroy!
     User.where(id: side_user_ids).destroy_all
