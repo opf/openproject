@@ -1462,6 +1462,9 @@ describe('Sortable lists item controller', () => {
         isItemHidden: vi.fn((li:Element|null) => !!li?.hasAttribute('hidden')),
       };
       Object.assign(menuElement, menu);
+      const popover = document.createElement('anchored-position');
+      menuElement.append(popover);
+      Object.defineProperty(menuElement, 'popoverElement', { value: popover });
 
       return { el, menu };
     }
@@ -1510,12 +1513,55 @@ describe('Sortable lists item controller', () => {
       return { root, actionScopeFor, availableDestinations };
     }
 
+    it('ignores opening tooltips and submenu overlays', async () => {
+      const { el } = renderItemWithMenu(1);
+      const controller = await mountItemController(el);
+      const { root, actionScopeFor } = stubMenuRoot(el, { isFirst: false, isLast: false });
+      controller.connectRoot(root);
+      const tooltip = document.createElement('tool-tip');
+      const submenu = document.createElement('anchored-position');
+      el.append(tooltip, submenu);
+      tooltip.dispatchEvent(new ToggleEvent('toggle', { newState: 'open' }));
+      submenu.dispatchEvent(new ToggleEvent('toggle', { newState: 'open' }));
+      expect(actionScopeFor).not.toHaveBeenCalled();
+    });
+
+    it('projects a deferred fragment once after its menu has already opened', async () => {
+      const { el } = renderItemWithMenu(1);
+      const parent = el.querySelector('[data-sortable-lists--item-target="moveMenu"]')!;
+      parent.remove();
+      const controller = await mountItemController(el);
+      const { root, actionScopeFor, availableDestinations } = stubMenuRoot(el, { isFirst: false, isLast: false });
+      controller.connectRoot(root);
+      el.querySelector('anchored-position')!.dispatchEvent(new ToggleEvent('toggle', { newState: 'open' }));
+      expect(actionScopeFor).not.toHaveBeenCalled();
+
+      el.querySelector('action-menu')!.append(parent);
+      destinationFor(el, [{ type: 'sprint', id: '1' }]);
+      destinationFor(el, [{ type: 'backlog_bucket', id: '2' }]);
+      destinationFor(el, [{ type: 'inbox', id: null }]);
+      await vi.waitFor(() => expect(availableDestinations).toHaveBeenCalledTimes(3));
+      expect(actionScopeFor).toHaveBeenCalledTimes(1);
+    });
+
+    it('cancels a queued refresh when disconnected', async () => {
+      const { el } = renderItemWithMenu(1);
+      const controller = await mountItemController(el);
+      const { root, actionScopeFor } = stubMenuRoot(el, { isFirst: false, isLast: false });
+      controller.connectRoot(root);
+      controller.moveItemTargetConnected();
+      controller.disconnect();
+      await Promise.resolve();
+      expect(actionScopeFor).not.toHaveBeenCalled();
+    });
+
     it('hides up/top for a first item and shows the rest', async () => {
       const { el, menu } = renderItemWithMenu(1);
       document.body.appendChild(el);
       const controller = await mountItemController(el);
       controller.connectRoot(stubRoot(el, { isFirst: true, isLast: false }));
       controller.moveItemTargetConnected();
+      await Promise.resolve();
 
       expect(menu.hideItem).toHaveBeenCalledWith(liFor(el, 'top'));
       expect(menu.hideItem).toHaveBeenCalledWith(liFor(el, 'up'));
@@ -1532,6 +1578,7 @@ describe('Sortable lists item controller', () => {
       const gappedAvailability = { top: true, up: true, down: false, bottom: true };
       controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, vi.fn(), gappedAvailability));
       controller.moveItemTargetConnected();
+      await Promise.resolve();
 
       expect(menu.hideItem).toHaveBeenCalledWith(liFor(el, 'down'));
       expect(menu.showItem).toHaveBeenCalledWith(liFor(el, 'up'));
@@ -1544,6 +1591,7 @@ describe('Sortable lists item controller', () => {
       const controller = await mountItemController(el);
       controller.connectRoot(stubRoot(el, { isFirst: true, isLast: false }));
       controller.moveItemTargetConnected();
+      await Promise.resolve();
 
       expect(menu.disableItem).toHaveBeenCalledWith(liFor(el, 'top'));
       expect(menu.disableItem).toHaveBeenCalledWith(liFor(el, 'up'));
@@ -1559,6 +1607,7 @@ describe('Sortable lists item controller', () => {
       const controller = await mountItemController(el);
       controller.connectRoot(stubRoot(el, { isFirst: true, isLast: true }));
       controller.moveItemTargetConnected();
+      await Promise.resolve();
 
       const parent = el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveMenu"]')!;
       expect(menu.hideItem).toHaveBeenCalledWith(parent);
@@ -1616,7 +1665,7 @@ describe('Sortable lists item controller', () => {
 
       const menuElement = el.querySelector('action-menu')!;
       const toggle = new ToggleEvent('toggle', { newState: 'open', oldState: 'closed' });
-      menuElement.dispatchEvent(toggle);
+      menuElement.querySelector('anchored-position')!.dispatchEvent(toggle);
 
       expect(actionScopeFor).toHaveBeenLastCalledWith(el);
       expect(availableDestinations).toHaveBeenCalledWith(prospectiveScope, [{ type: 'sprint', id: '1' }]);
@@ -1646,8 +1695,14 @@ describe('Sortable lists item controller', () => {
       expect(menu.hideItem).toHaveBeenCalledWith(moveToSprint);
       expect(menu.hideItem).toHaveBeenCalledWith(moveToInbox);
       expect(menu.hideItem).toHaveBeenCalledWith(moveMenu);
-      expect(menu.hideItem).not.toHaveBeenCalledWith(liFor(el, 'top'));
+      expect(menu.hideItem).toHaveBeenCalledWith(liFor(el, 'top'));
       expect(divider.hasAttribute('hidden')).toBe(true);
+
+      actionScopeFor.mockReturnValue({ kind: 'batch', items: [el] });
+      el.querySelector('action-menu > anchored-position')!.dispatchEvent(new ToggleEvent('toggle', { newState: 'open' }));
+      expect(moveMenu.hasAttribute('hidden')).toBe(false);
+      expect(liFor(el, 'top').hasAttribute('hidden')).toBe(false);
+      expect(divider.hasAttribute('hidden')).toBe(false);
     });
 
     it('keeps only the current owner destination for a confined batch scope', async () => {
@@ -1709,10 +1764,14 @@ describe('Sortable lists item controller', () => {
     // and nothing below it.
     it('hides the divider when nothing below it is left visible', async () => {
       const { el } = renderItemWithMenu(1, true);
+      const overlay = document.createElement('anchored-position');
+      overlay.setAttribute('popover', 'auto');
+      el.querySelector('action-menu')!.append(overlay);
       document.body.appendChild(el);
       const controller = await mountItemController(el);
       controller.connectRoot(stubRoot(el, { isFirst: true, isLast: true }));
       controller.moveItemTargetConnected();
+      await Promise.resolve();
 
       const divider = el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveDivider"]')!;
       expect(divider.hasAttribute('hidden')).toBe(true);
@@ -1724,6 +1783,7 @@ describe('Sortable lists item controller', () => {
       const controller = await mountItemController(el);
       controller.connectRoot(stubRoot(el, { isFirst: true, isLast: false }));
       controller.moveItemTargetConnected();
+      await Promise.resolve();
 
       const divider = el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveDivider"]')!;
       expect(divider.hasAttribute('hidden')).toBe(false);
@@ -1739,6 +1799,7 @@ describe('Sortable lists item controller', () => {
       const controller = await mountItemController(el);
       controller.connectRoot(stubRoot(el, { isFirst: true, isLast: true }));
       controller.moveItemTargetConnected();
+      await Promise.resolve();
 
       const divider = el.querySelector<HTMLElement>('li[data-sortable-lists--item-target="moveDivider"]')!;
       expect(divider.hasAttribute('hidden')).toBe(false);
@@ -1751,6 +1812,7 @@ describe('Sortable lists item controller', () => {
       const controller = await mountItemController(el);
       controller.connectRoot(stubRoot(el, { isFirst: false, isLast: false }, moveInDirection));
       controller.moveItemTargetConnected();
+      await Promise.resolve();
 
       liFor(el, 'down').click();
       expect(moveInDirection).toHaveBeenCalledWith(el, 'down');
