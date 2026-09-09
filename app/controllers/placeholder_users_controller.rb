@@ -38,6 +38,7 @@ class PlaceholderUsersController < ApplicationController
   before_action :find_placeholder_user, only: %i[show
                                                  edit
                                                  update
+                                                 toggle_criteria
                                                  deletion_info
                                                  destroy]
 
@@ -128,6 +129,25 @@ class PlaceholderUsersController < ApplicationController
     end
   end
 
+  # Criteria are active as long as any are stored, so switching the toggle off
+  # drops them. Switching it on has nothing to store yet and only opens the
+  # empty builder.
+  def toggle_criteria
+    unless criteria_activated?
+      call = PlaceholderUsers::UpdateService
+               .new(user: User.current, model: @placeholder_user)
+               .call(user_filter: [])
+
+      render_error_flash_message_via_turbo_stream(message: call.message) if call.failure?
+    end
+
+    update_via_turbo_stream(
+      component: PlaceholderUsers::CriteriaComponent.new(placeholder_user: @placeholder_user.reload,
+                                                         active: criteria_activated?)
+    )
+    respond_with_turbo_streams
+  end
+
   def deletion_info
     respond_with_dialog PlaceholderUsers::DeleteDialogComponent.new(placeholder_user: @placeholder_user)
   end
@@ -192,6 +212,10 @@ class PlaceholderUsersController < ApplicationController
                            .fetch(:filters, [])
                            .each { |filter| query.where(filter[:attribute], filter[:operator], filter[:values]) }
     query.filters
+  end
+
+  def criteria_activated?
+    ActiveRecord::Type::Boolean.new.cast(params.permit(:value)[:value])
   end
 
   def find_placeholder_user

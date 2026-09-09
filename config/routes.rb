@@ -1240,6 +1240,7 @@ Rails.application.routes.draw do
     member do
       get "/edit(/:tab)" => "placeholder_users#edit", as: "edit"
       get :deletion_info
+      post :toggle_criteria
     end
   end
 

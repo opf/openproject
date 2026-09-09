@@ -29,12 +29,4 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= error_messages_for @placeholder_user %>
 
-<%=
-  settings_primer_form_with(
-    model: @placeholder_user,
-    url: placeholder_user_path(@placeholder_user, tab: :criteria),
-    method: :put
-  ) do |f|
-    render PlaceholderUsers::CriteriaForm.new(f)
-  end
-%>
+<%= render(PlaceholderUsers::CriteriaComponent.new(placeholder_user: @placeholder_user)) %>

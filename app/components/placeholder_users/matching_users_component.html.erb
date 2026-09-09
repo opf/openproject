@@ -26,22 +26,23 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<% html_title t(:label_administration), t(:label_placeholder_user_plural) -%>
 
 <%=
-  render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title { t(:label_placeholder_user_plural) }
-    header.with_breadcrumbs(
-      [
-        { href: admin_index_path, text: t("label_administration") },
-        { href: admin_settings_users_path, text: t(:label_user_and_permission) },
-        PlaceholderUser.model_name.human(count: :other)
-      ]
-    )
+  render(Primer::Beta::BorderBox.new(padding: :condensed)) do |box|
+    box.with_header do
+      render(Primer::Beta::Text.new(font_weight: :bold)) { title }
+    end
+
+    if users.empty?
+      box.with_row do
+        render(Primer::Beta::Text.new(color: :muted)) { empty_text }
+      end
+    else
+      users.each do |user|
+        box.with_row do
+          avatar(user, size: "mini", hide_name: false, hover_card: { active: true })
+        end
+      end
+    end
   end
 %>
-
-<%= with_enterprise_banner_guard(:placeholder_users, variant: :large, video: "enterprise/placeholder_users.mp4") do %>
-  <%= render PlaceholderUsers::IndexSubHeaderComponent.new(query: @query) %>
-  <%= render PlaceholderUsers::TableComponent.new(rows: @query) %>
-<% end %>
