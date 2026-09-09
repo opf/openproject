@@ -166,5 +166,6 @@ class AggregatedMigrations < SquashedMigration
     20250908172222_fix_wording_in_settings_enabled_projects_columns_value
     20250923142124_add_autologin_session_link
     20251017111720_set_anonymous_user_theme_to_sync_with_os
+    20251103123548_rename_item_score_to_weight
   ]
 end
