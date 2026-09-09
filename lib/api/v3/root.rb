@@ -45,6 +45,7 @@ module API
 
       mount ::API::V3::Actions::ActionsAPI
       mount ::API::V3::Activities::ActivitiesAPI
+      mount ::API::V3::AI::TextTransformRunsAPI
       mount ::API::V3::Attachments::AttachmentsAPI
       mount ::API::V3::Backups::BackupsAPI
       mount ::API::V3::Capabilities::CapabilitiesAPI

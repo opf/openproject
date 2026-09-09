@@ -85,6 +85,21 @@ en:
         dependencies: "Dependencies"
   activerecord:
     attributes:
+      ai/text_transform_run:
+        action: "Action"
+        cancel_requested: "Cancel requested"
+        error_message: "Error message"
+        finished_at: "Finished at"
+        input: "Input"
+        status: "Status"
+        system_prompt: "System prompt"
+        user: "User"
+        uuid: "UUID"
+      ai/text_transform_run_event:
+        kind: "Kind"
+        payload: "Payload"
+        run: "Run"
+        seq: "Sequence number"
       ai/text_transform_action:
         active: "Active"
         injects_type_template: "Insert work package type template"
@@ -1069,6 +1084,12 @@ en:
       action:
         one: "Action"
         other: "Actions"
+      ai/text_transform_run:
+        one: "Text transform run"
+        other: "Text transform runs"
+      ai/text_transform_run_event:
+        one: "Text transform run event"
+        other: "Text transform run events"
       ai/text_transform_action:
         one: "Text transform action"
         other: "Text transform actions"
@@ -2114,6 +2135,17 @@ en:
         scope_specific_work_package_types:
           one: "%{count} work package type"
           other: "%{count} work package types"
+      sandbox:
+        cancel: "Cancel"
+        content_label: "Text to transform"
+        description: "Prototype: runs this action against the text below through the execute API and polls the run until it finishes. Context is optional; type-scoped actions and template injection need a work package or a project and type."
+        execute: "Execute"
+        project_id_label: "Project ID (optional, with type ID)"
+        raw_events: "Raw events"
+        system_prompt: "System prompt stored for this run"
+        title: "Sandbox"
+        type_id_label: "Type ID (optional, with project ID)"
+        work_package_id_label: "Work package ID (optional)"
       usage_scopes:
         all_work_package_types: "All work package types"
         everywhere: "Everywhere"
@@ -2172,6 +2204,13 @@ en:
       error_cannot_act_self: "Cannot perform actions on your own uploaded files."
       title: "Quarantined attachments"
     quarantined_message: "A virus was detected in file '%{filename}'. It has been quarantined and is not available for download."
+  ai:
+    text_transform:
+      errors:
+        connection_failed: "The AI service could not be reached."
+        not_available: "The AI assistant is not available."
+        timeout: "The AI service did not respond in time."
+        upstream_error: "The AI service returned an error."
   api_v3:
     attributes:
       property: "Property"
@@ -2182,6 +2221,8 @@ en:
           `targetVersions` accepts at most one value and must not be written together
           with `version` in the same request.
     errors:
+      ai_text_transform:
+        action_not_available: "This action is not available for this work package."
       bad_request:
         emoji_reactions_activity_type_not_supported: "This activity type does not support emoji reactions."
         invalid_link: "The link under key '%{key}' is not valid."
