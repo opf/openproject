@@ -52,8 +52,46 @@ module PlaceholderUsers
       @placeholder_user.user_filter.present?
     end
 
+    # Everything the rows read off a user is eager-loaded, so the list stays a
+    # fixed number of queries regardless of how many users the criteria select.
     def users
-      @users ||= @placeholder_user.candidate_query.results.limit(MAX_USERS).to_a
+      @users ||= @placeholder_user
+                   .candidate_query
+                   .results
+                   .includes(:departments, { custom_values: :custom_field })
+                   .limit(MAX_USERS)
+                   .to_a
+    end
+
+    # Built as HTML so only the department is bold.
+    def details_for(user)
+      segments = []
+      segments << tag.b(department_name(user)) if department_name(user).present?
+      segments << job_title(user) if job_title(user).present?
+      return if segments.empty?
+
+      safe_join(segments, " - ")
+    end
+
+    def department_name(user)
+      user.department&.name
+    end
+
+    def job_title(user)
+      return if job_title_field.nil?
+
+      user.custom_values
+          .select { |custom_value| custom_value.custom_field_id == job_title_field.id }
+          .filter_map { |custom_value| custom_value.formatted_value.presence }
+          .join(", ")
+          .presence
+    end
+
+    # The same for every user, so it is resolved once per render.
+    def job_title_field
+      return @job_title_field if defined?(@job_title_field)
+
+      @job_title_field = UserCustomField.for_semantic_key(:job_title)
     end
 
     def title
