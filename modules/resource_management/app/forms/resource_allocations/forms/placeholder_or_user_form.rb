@@ -30,26 +30,33 @@
 
 module ResourceAllocations
   module Forms
-    class PrincipalForm < ApplicationForm
+    class PlaceholderOrUserForm < ApplicationForm
       form do |f|
         f.autocompleter(
-          name: :principal_id,
-          label: ResourceAllocation.human_attribute_name(:principal),
+          name: :placeholder_or_user_id,
+          label: ResourceAllocation.human_attribute_name(:placeholder_or_user),
           required: true,
           invalid: principal_error.present?,
           validation_message: principal_error,
           autocomplete_options: {
             component: "opce-user-autocompleter",
-            url: ::API::V3::Utilities::PathHelper::ApiV3Path.principals,
+            # The endpoint answers who may be allocated against, so the criteria
+            # and permission rules are not repeated here.
+            url: ::API::V3::Utilities::PathHelper::ApiV3Path.allocatable_principals,
             resource: "principals",
             searchKey: "any_name_attribute",
             filters: principal_filters,
             defaultData: true,
             focusDirectly: false,
             multiple: false,
-            appendTo: "##{@dialog_id}"
+            appendTo: "##{@dialog_id}",
+            data: { action: "change->refresh-on-form-changes#triggerTurboStream" }
           }
         )
+
+        f.html_content do
+          render(ResourceAllocations::AllocationStep::ResourceFilterComponent.new(allocation: model))
+        end
       end
 
       def initialize(project:, dialog_id:, view: nil)
@@ -61,23 +68,22 @@ module ResourceAllocations
 
       private
 
-      # The field is `principal_id` but the model keys errors on the `principal`
-      # association; relabel them onto this field.
+      # The field is `placeholder_or_user_id` but the model keys errors on the
+      # `principal` association; relabel them onto this field.
       def principal_error
-        label = ResourceAllocation.human_attribute_name(:principal)
+        label = ResourceAllocation.human_attribute_name(:placeholder_or_user)
         model.errors.messages_for(:principal)
              .map { |message| "#{label} #{message}" }
              .join(" ")
              .presence
       end
 
-      # Constrains the picker to active users of the project, and additionally
-      # to the planner view's users when the dialog was opened from a user view.
+      # Constrains the picker to the project's users — placeholder users are not
+      # bound to a project and pass this filter — and additionally to the planner
+      # view's users when the dialog was opened from a user view.
       def principal_filters
         filters = [
-          { name: "type", operator: "=", values: %w[User] },
-          { name: "status", operator: "=", values: [Principal.statuses[:active]] },
-          { name: "member", operator: "=", values: [@project.id.to_s] }
+          { name: "allocatable_in_project", operator: "=", values: [@project.id.to_s] }
         ]
         filters.concat(@view.allocation_principal_filters) if @view&.allocation_principal_filters
         filters

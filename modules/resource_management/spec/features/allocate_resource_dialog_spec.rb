@@ -51,7 +51,7 @@ RSpec.describe "Allocate resource dialog", :js, with_ee: %i[resource_management]
 
     within_dialog do
       expect(page).to have_text(I18n.t("resource_management.allocate_resource_dialog.title"))
-      expect(page).to have_field(ResourceAllocation.human_attribute_name(:principal))
+      expect(page).to have_field(ResourceAllocation.human_attribute_name(:placeholder_or_user))
       expect(page).to have_field(WorkPackage.model_name.human)
       expect(page).to have_field(ResourceAllocation.human_attribute_name(:allocated_hours))
       expect(page).to have_button(I18n.t("resource_management.allocate_resource_dialog.submit"))

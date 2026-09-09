@@ -134,12 +134,12 @@ module OpenProject::ResourceManagement
            caption: :label_resource_management
     end
 
-    add_api_path :allocatable_placeholder_users do
-      "#{root}/allocatable_placeholder_users"
+    add_api_path :allocatable_principals do
+      "#{root}/allocatable_principals"
     end
 
     add_api_endpoint "API::V3::Root" do
-      mount ::API::V3::AllocatablePlaceholderUsers::AllocatablePlaceholderUsersAPI
+      mount ::API::V3::AllocatablePrincipals::AllocatablePrincipalsAPI
     end
   end
 end
