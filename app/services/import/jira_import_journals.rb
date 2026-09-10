@@ -72,6 +72,14 @@ module Import
       restore_update_time(updated_at)
     end
 
+    def add_migration_entry(updated_at: nil)
+      journalize_at(Time.current) do
+        work_package.add_journal(user: User.system, notes: "", cause: Journal::CausedByImport.new(migrated: true))
+      end
+
+      restore_update_time(updated_at)
+    end
+
     private
 
     # Journals inherit their timestamps from the journable, so the work package has to carry the
@@ -82,8 +90,8 @@ module Import
       work_package.save_journals
     end
 
-    # Each journalized entry leaves its own timestamp on the work package, so the Jira update
-    # date is put back once every entry has been written.
+    # The migration entry is journalized at import time, which must not leak into the work package
+    # itself: it keeps reporting the timestamps it had in Jira.
     def restore_update_time(date_time)
       return if date_time.blank?
 

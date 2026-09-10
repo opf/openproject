@@ -61,7 +61,23 @@ RSpec.describe Import::JiraCreateProjectWorkPackageAttachmentsJob,
 
     it "journalizes the attachment on the work package" do
       expect { create_work_package_attachments }
-        .to change { WorkPackage.find("DPPP-6").journals.count }.by(1)
+        .to change { WorkPackage.find("DPPP-6").journals.count }.by(2)
+    end
+
+    it "closes the activity with a migration entry" do
+      create_work_package_attachments
+
+      journal = WorkPackage.find("DPPP-6").journals.order(:version).last
+      expect(journal.cause).to eq("type" => "import", "migrated" => true)
+      expect(journal.created_at).to be_within(1.minute).of(Time.current)
+    end
+
+    it "keeps the Jira timestamps on the work package" do
+      create_work_package_attachments
+
+      work_package = WorkPackage.find("DPPP-6")
+      expect(work_package.created_at).to eq(Time.zone.parse(jira_issue_payload["fields"]["created"]))
+      expect(work_package.updated_at).to eq(Time.zone.parse(jira_issue_payload["fields"]["updated"]))
     end
 
     it "adds the attachment author as a project member" do

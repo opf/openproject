@@ -87,6 +87,12 @@ module Import
             create_member(@project, author) if author.present?
             create_attachment(work_package, attachment, author || User.system)
           end
+
+          # This is the last stage touching a work package, so the migration entry closes its
+          # activity behind everything the import journalized.
+          Import::JiraImportJournals
+            .new(work_package:)
+            .add_migration_entry(updated_at: jira_issue.payload.dig("fields", "updated"))
         end
       end
     end

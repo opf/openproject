@@ -3326,6 +3326,7 @@ en:
         field_set: "%{field} set to %{value}"
         field_updated: "%{field} updated"
         header: "changes by %{author}"
+        migrated: "from Jira"
         set_with_diff: "%{field} set (%{link})"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"

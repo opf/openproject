@@ -70,6 +70,44 @@ RSpec.describe Import::JiraImportJournals, "integration" do
     end
   end
 
+  describe "#add_migration_entry" do
+    let(:jira_updated_at) { "2022-03-15T13:00:00.000+0000" }
+
+    before do
+      service.add_comment(
+        comment: { "created" => "2022-03-15T12:00:00.000+0000", "body" => "A comment." },
+        user: commenter
+      )
+      service.call
+    end
+
+    it "appends a migrated import entry after the imported journals" do
+      service.add_migration_entry(updated_at: jira_updated_at)
+
+      journals = work_package.journals.reload.order(:version)
+      expect(journals.count).to eq(3)
+      expect(journals.last.cause).to eq("type" => "import", "migrated" => true)
+    end
+
+    it "journalizes the entry at import time" do
+      service.add_migration_entry(updated_at: jira_updated_at)
+
+      expect(work_package.journals.reload.last.created_at).to be_within(1.minute).of(Time.current)
+    end
+
+    it "sets updated_at of the work package to the Jira timestamp instead of the import time" do
+      service.add_migration_entry(updated_at: jira_updated_at)
+
+      expect(work_package.reload.updated_at).to be_within(1.second).of(Time.zone.parse(jira_updated_at))
+    end
+
+    it "keeps the import time on the work package when no Jira timestamp is given" do
+      service.add_migration_entry
+
+      expect(work_package.reload.updated_at).to be_within(1.minute).of(Time.current)
+    end
+  end
+
   describe "#call" do
     context "with a jira update timestamp" do
       let(:jira_updated_at) { "2022-03-15T13:00:00.000+0000" }
