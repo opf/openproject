@@ -2112,6 +2112,7 @@ en:
       form:
         injects_type_template_caption: "If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template."
         label_caption: "This is the name that will be visible to users in the editor."
+        save_and_stay: "Save and stay"
         select_types: "Select types"
         types_caption: "Add work package types for which this action should be available. All available variants will automatically be included."
         usage_scope_caption: "You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types."
