@@ -345,7 +345,7 @@ it:
 
                     1. *Invita nuovi membri al tuo progetto*: &rightarrow; Vai su [Membri]({{opSetting:base_url}}/projects/your-scrum-project/members) nella navigazione del progetto.
                     2. *Visualizza il tuo Product Backlog e gli Sprint Backlog*: &rightarrow; Vai su [Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) nella navigazione del progetto.
-                    3. *Visualizza il tuo pannello delle attività*: &rightarrow; Vai su [Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Fai clic sulla freccia destra su Sprint &rightarrow; Seleziona Pannello delle attività.
+                    3. *Visualizza il tuo pannello delle attività*: &rightarrow; Vai su [Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Fai clic sulla freccia destra su Sprint &rightarrow; Seleziona [Pannello delle attività](##sprint:scrum_project__version__sprint_1).
                     4. *Crea una nuova macro-attività*: &rightarrow; Vai su [Macro-attività &rightarrow; Crea]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
                     5. *Crea e aggiorna un piano di progetto*: &rightarrow; Vai su [Piano del progetto](##query:scrum_project__query__project_plan) nella navigazione del progetto.
                     6. *Crea una wiki di Sprint*: &rightarrow; Vai a [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) e apri la wiki dello sprint dal menu a discesa a destra in uno sprint. Puoi modificare il [modello wiki]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) in base alle tue esigenze.

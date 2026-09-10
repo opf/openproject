@@ -342,7 +342,7 @@
 
                     _Prøv følgende trinn:_[Backlogs]. *Inviter nye medlemmer til prosjektet ditt*: &rightarrow; Gå til [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) i prosjektmenyen.
                     2. *Vis dine produkt backlog og print backlogs*: &rightarrow; Gå til [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) i prosjektmenyen.
-                    3. *Vis tavlen din*: &rightarrow; Gå til [Backlogs] ({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Klikk på høyre pil på Sprint &rightarrow; Velg Task Board.
+                    3. *Vis tavlen din*: &rightarrow; Gå til [Backlogs] ({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Klikk på høyre pil på Sprint &rightarrow; Velg [Task Board](##sprint:scrum_project__version__sprint_1).
                     4. *Lag en ny arbeidspakke*: &rightarrow; Gå til [Arbeidspakker &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
                     5. *Lag og oppdater en prosjektplan*: &rightarrow; Gå til [Project plan](##query:scrum_project__query__project_plan) i prosjektmenyen.
                     6. *Opprett en Lufthavn-wiki*: &rightarrow; Gå til [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) og åpne sprint wiki fra høyre rullegardinmeny i en sprint. Du kan redigere [wiki-malen]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) basert på dine behov.
@@ -428,10 +428,10 @@
 
             * Kort oppsummering av status fra teamet.
             * Tid avsatt (maks 15 min).
-            * Stående møte for å diksutere de følgende emnene fra Oppgavetavle.
+            * Stående møte for å diksutere de følgende emnene fra [Oppgavetavle](##sprint:scrum_project__version__sprint_1).
                 * Hva planlegger jeg å gjøre til neste daglige Scrum-møte?
                 * Hva har hindret meg i arbeidet (Hindringer)?
-            * Scrum-leder leder møtet og noterer Sprint Impediments.
+            * Scrum-leder leder møtet og noterer [Sprint Impediments](##sprint:scrum_project__version__sprint_1).
             * Produkteier kan delta for å holde seg oppdatert.
 
             ### Etappe evalueringsmøte

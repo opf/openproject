@@ -345,7 +345,7 @@ pl:
 
                     1. *Zaproś nowych członków do swojego projektu*: &rightarrow; Przejdź do obszaru [Członkowie]({{opSetting:base_url}}/projects/your-scrum-project/members) w nawigacji projektu.
                     2. *Wyświetl backlog produktowy i backlog sprintów*: &rightarrow; Przejdź do obszaru [Backlogi]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) w nawigacji projektu.
-                    3. *Wyświetl panel zadań*: &rightarrow; Przejdź do obaszru [Backlogi]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Kliknij strzałkę w prawo na opcji Sprint &rightarrow; Wybierz opcję Panel zadań.
+                    3. *Wyświetl panel zadań*: &rightarrow; Przejdź do obaszru [Backlogi]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Kliknij strzałkę w prawo na opcji Sprint &rightarrow; Wybierz opcję [Panel zadań](##sprint:scrum_project__version__sprint_1).
                     4. *Utwórz nowy pakiet roboczy*: &rightarrow; Przejdź do obszaru [Pakiety robocze &rightarrow; Utwórz]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
                     5. *Utwórz i zaktualizuj plan projektu*: &rightarrow; Przejdź do obszaru [Plan projektu](##query:scrum_project__query__project_plan) w nawigacji projektu.
                     6. *Utwórz stronę wiki sprintu*: &rightarrow; Przejdź do obszaru [Backlogi]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) i otwórz stronę wiki sprintu z prawego menu rozwijanego w sprincie. Możesz edytować [szablon wiki]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) w zależności od potrzeb.

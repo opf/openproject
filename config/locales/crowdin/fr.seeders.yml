@@ -344,7 +344,7 @@ fr:
 
                     1. *Invitez de nouveaux membres à votre projet* : &rightarrow ; Accédez à [Membres]({{opSetting:base_url}}/projets/votre-projet-scrum/membres) dans la navigation du projet.
                     2. *Consulter votre backlogs de produit et de sprint* : &rightarrow ; Accédez à [Backlogs]({{opSetting:base_url}}/projets/votre-scrum-projet/backlogs) dans la navigation du projet.
-                    3. *Consulter votre tableau des tâches* : &rightarrow ; Accéder à [Backlogs]({{opSetting:base_url}}/projects/votre-projet-scrum/backlogs) &rightarrow ; Cliquer sur la flèche droite sur Sprint &rightarrow ; Sélectionner Task Board.
+                    3. *Consulter votre tableau des tâches* : &rightarrow ; Accéder à [Backlogs]({{opSetting:base_url}}/projects/votre-projet-scrum/backlogs) &rightarrow ; Cliquer sur la flèche droite sur Sprint &rightarrow ; Sélectionner [Task Board](##sprint:scrum_project__version__sprint_1).
                     4. *Créer un nouveau lot de travaux* : &rightarrow ; Aller sur [Lots de travaux &rightarrow ; Créer]({{opSetting:base_url}}/projets/votre-scrum-projet/lots_de_travaux/nouveau).
                     5. *Créer et mettre à jour un plan de projet* : &rightarrow ; Aller sur [Plan de projet](##query:scrum_project__query__project_plan) dans la navigation du projet.
                     6. *Créer un wiki de sprint* : &rightarrow ; Allez dans [Backlogs]({{opSetting:base_url}}/projects/votre-projet-scrum/backlogs) et ouvrez le wiki de sprint à partir du menu déroulant de droite dans un sprint. Vous pouvez modifier le [modèle de wiki]({{opSetting:base_url}}/projets/votre-scrum-projet/wiki/) en fonction de vos besoins.

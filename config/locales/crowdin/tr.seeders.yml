@@ -345,7 +345,7 @@ tr:
 
                     1. *Projenize yeni üyeler davet edin*: &rightarrow; Proje gezintisinde [Üyeler]({{opSetting:base_url}}/projects/your-scrum-project/members) bölümüne gidin.
                     2. *Ürün birikiminizi ve Sprint birikimlerinizi görüntüleyin*: &rightarrow; Proje navigasyonunda [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) bölümüne gidin.
-                    3. *Görev panonuzu görüntüleyin*: &rightarrow; Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; adresine gidin Sprint &rightarrow; üzerinde sağ oka tıklayın Task Board öğesini seçin.
+                    3. *Görev panonuzu görüntüleyin*: &rightarrow; Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; adresine gidin Sprint &rightarrow; üzerinde sağ oka tıklayın [Task Board](##sprint:scrum_project__version__sprint_1) öğesini seçin.
                     4. *Yeni bir iş paketi oluşturun*: &rightarrow; İş paketleri &rightarrow; Oluştur]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new) bölümüne gidin.
                     5. *Bir proje planı oluşturun ve güncelleyin*: &rightarrow; Proje navigasyonunda [Proje planı](##query:scrum_project__query__project_plan) bölümüne gidin.
                     6. *Bir Sprint wiki* oluşturun: &rightarrow; Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) adresine gidin ve bir sprintte sağ açılır menüden sprint wikisini açın. Wiki şablonunu]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) ihtiyaçlarınıza göre düzenleyebilirsiniz.

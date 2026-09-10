@@ -331,7 +331,7 @@ zh-CN:
 
                     1. *邀请新成员加入项目*：&rightarrow; 在项目导航中前往[成员]({{opSetting:base_url}}/projects/your-scrum-project/members)。
                     2. *查看产品待办和迭代待办*：&rightarrow; 在项目导航中前往[待办]({{opSetting:base_url}}/projects/your-scrum-project/backlogs)。
-                    3. *查看任务看板*：&rightarrow; 在项目导航中前往[待办]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; 点击迭代右侧的箭头 &rightarrow; 选择任务看板。
+                    3. *查看任务看板*：&rightarrow; 在项目导航中前往[待办]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; 点击迭代右侧的箭头 &rightarrow; 选择[任务看板](##sprint:scrum_project__version__sprint_1)。
                     4. *创建新的工作包*：&rightarrow; 在工作包 &rightarrow; [创建]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new)中进行操作。
                     5. *创建和更新项目计划*：&rightarrow; 在项目导航中前往[项目计划](##query:scrum_project__query__project_plan)。
                     6. *创建迭代Wiki*：&rightarrow; 在[待办]({{opSetting:base_url}}/projects/your-scrum-project/backlogs)中打开迭代右侧下拉菜单中的Wiki。您可以根据需要编辑[Wiki模板]({{opSetting:base_url}}/projects/your-scrum-project/wiki/)。

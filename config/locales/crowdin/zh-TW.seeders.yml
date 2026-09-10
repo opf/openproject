@@ -352,7 +352,7 @@ zh-TW:
 
                     1.*邀請新會員加入您的專案*： &rightarrow; 前往專案導覽中的【會員】({{opSetting:base_url}}/projects/your-scrum-project/members)。
                     2.*查看您的 Product backlogs 和 Sprint backlogs*： &rightarrow; 前往專案導覽中的 [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) 。
-                    3.*檢視您的任務板*： &rightarrow; 進入 [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; 點擊 Sprint 上的向右箭頭 &rightarrow; 選擇 Task Board。
+                    3.*檢視您的任務板*： &rightarrow; 進入 [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; 點擊 Sprint 上的向右箭頭 &rightarrow; 選擇 [Task Board](##sprint:scrum_project__version__sprint_1)。
                     4.*Create a new work package*： &rightarrow; 進入 [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
                     5.*Create and update a project plan*： &rightarrow; 前往專案導覽中的 [Project plan](##query:scrum_project__query__project_plan)。
                     6.*建立 Sprint wiki*： &rightarrow; 轉到 [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs)，然後在 sprint 中從右邊的下拉式功能表開啟 sprint wiki。您可以根據需要編輯 [wiki 模板]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) 。
