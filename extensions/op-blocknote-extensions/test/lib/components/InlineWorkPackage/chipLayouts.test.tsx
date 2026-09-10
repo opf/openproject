@@ -2,7 +2,7 @@
 import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { ServerStyleSheet } from 'styled-components';
-import { InlineChip } from '../../../../lib/components/InlineWorkPackage/chipLayouts';
+import { ChipBase, InlineChip } from '../../../../lib/components/InlineWorkPackage/chipLayouts';
 
 describe('Inline chip styles', () => {
   beforeAll(() => vi.stubGlobal('matchMedia', () => ({ matches: false })));
@@ -18,5 +18,14 @@ describe('Inline chip styles', () => {
 
     expect(css).toContain('-webkit-user-select:none');
     expect(css).toContain('-webkit-touch-callout:none');
+  });
+
+  it('aligns the chip parts on the baseline in every engine', () => {
+    const sheet = new ServerStyleSheet();
+    renderToStaticMarkup(sheet.collectStyles(<ChipBase />));
+    const css = sheet.getStyleTags();
+
+    expect(css).toContain('vertical-align:baseline');
+    expect(css).not.toMatch(/@supports[^{]*-(webkit|moz|ms)-/);
   });
 });
