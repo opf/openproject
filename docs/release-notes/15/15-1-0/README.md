@@ -37,7 +37,7 @@ Additionally, you can now add a description to add further information about the
 ![Screenshot showing the new Relations tab in a work package](openproject-15-1-relations.png)
 
 > [!TIP]
-> As a workaround you can [include a table of related work packages to work package forms (Enterprise add-on)](../../../system-admin-guide/manage-work-packages/work-package-types/#add-table-of-related-work-packages-to-a-work-package-form-enterprise-add-on). Under this table you can directly create new children work packages or link existing ones. 
+> As a workaround you can [include a table of related work packages to work package forms (Enterprise add-on)](../../../system-admin-guide/manage-work-packages/work-package-types/form-configuration/#add-table-of-related-work-packages-to-a-work-package-form-enterprise-add-on). Under this table you can directly create new children work packages or link existing ones. 
 
 ![A table of related work packages in OpenProject](open_project_admin_related_wp_table.png)
 

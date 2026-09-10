@@ -76,11 +76,6 @@ RSpec.describe "types routes" do
     end
 
     it do
-      expect(post("/types/42/workflow/copy/from_variant"))
-        .to route_to("workflows/copies/from_variants#create", type_id: "42")
-    end
-
-    it do
       expect(post("/types/42/workflow/copy/from_role"))
         .to route_to("workflows/copies/from_roles#create", type_id: "42")
     end

@@ -41,8 +41,6 @@ module Projects
 
         if current_project_type&.variant_id == variant.id
           service_call
-        elsif named_variant_without_feature?(variant)
-          failure(:cannot_assign_variants_yet)
         elsif current_project_type
           failure(conflict_with(current_project_type, variant))
         else
@@ -57,10 +55,6 @@ module Projects
         else
           :cannot_assign_multiple_variants_of_parent
         end
-      end
-
-      def named_variant_without_feature?(variant)
-        !variant.is_default_variant? && !OpenProject::FeatureDecisions.type_variants_active?
       end
 
       def add_variant(variant)

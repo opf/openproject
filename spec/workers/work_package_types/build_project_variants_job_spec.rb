@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe WorkPackageTypes::BuildProjectVariantsJob, with_flag: { type_variants: true } do
+RSpec.describe WorkPackageTypes::BuildProjectVariantsJob do
   let(:kept_field) { create(:work_package_custom_field, is_for_all: false) }
   let(:dropped_field) { create(:work_package_custom_field, is_for_all: false) }
 
@@ -80,6 +80,14 @@ RSpec.describe WorkPackageTypes::BuildProjectVariantsJob, with_flag: { type_vari
     run_job
 
     expect(narrowing_project.enabled_types).to contain_exactly(type)
+  end
+
+  # The variant describes one project's narrowing, so it belongs to that project rather than
+  # standing in the instance's list of variants for everyone to see and pick.
+  it "gives the variant to the project it was built for" do
+    run_job
+
+    expect(applied_variant(narrowing_project).project).to eq(narrowing_project)
   end
 
   it "leaves the base variant untouched" do
@@ -153,13 +161,6 @@ RSpec.describe WorkPackageTypes::BuildProjectVariantsJob, with_flag: { type_vari
 
       expect(variant).not_to be_is_default_variant
       expect(variant.custom_fields).to contain_exactly(kept_field)
-    end
-  end
-
-  context "when the type_variants feature is inactive", with_flag: { type_variants: false } do
-    it "refuses to run, as exclusions would have no effect" do
-      expect { run_job }.to raise_error(/type_variants/)
-      expect(applied_variant(narrowing_project)).to eq(base)
     end
   end
 

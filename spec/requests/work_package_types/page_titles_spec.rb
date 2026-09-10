@@ -31,8 +31,7 @@
 require "spec_helper"
 
 RSpec.describe "Work package type tab page titles",
-               type: :rails_request,
-               with_flag: { type_variants: true } do
+               type: :rails_request do
   shared_let(:admin) { create(:admin) }
   shared_let(:type) { create(:type, name: "Bug") }
   shared_let(:variant) { create(:type_variant, type:, variant_name: "Hardware") }

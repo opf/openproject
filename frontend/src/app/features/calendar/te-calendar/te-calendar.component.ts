@@ -72,6 +72,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { ensureId, generateId } from 'core-app/shared/helpers/dom-helpers';
 import { target } from 'core-app/shared/helpers/event-helpers';
 import { html, render } from 'lit-html';
+import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
 
 interface TimeEntrySchema extends SchemaResource {
   activity:IFieldSchema;
@@ -730,10 +731,8 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
       .filter((value) => value !== null);
   }
 
-  private handleDialogClose(event:CustomEvent):void {
-    const {
-      detail: { dialog, submitted },
-    } = event as { detail:{ dialog:HTMLDialogElement; submitted:boolean } };
+  private handleDialogClose(event:CustomEvent<DialogCloseDetail>):void {
+    const { detail: { dialog, submitted } } = event;
     if (dialog.id === 'time-entry-dialog' && submitted) {
       void this.fetchTimeEntries(
         this.memoizedTimeEntries.start,

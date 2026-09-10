@@ -44,6 +44,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     validate_custom_fields = attributes.delete(:validate_custom_fields)
 
     set_attachments_attributes(attributes)
+    claim_attachments_referenced_in_description(attributes)
     set_versions_attributes(attributes)
     set_static_attributes(attributes)
 
@@ -63,6 +64,16 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     else
       super(attributes)
     end
+  end
+
+  def claim_attachments_referenced_in_description(attributes)
+    return unless model.new_record? && attributes.key?(:description)
+
+    claimable_ids = Attachments::ClaimableIdsFromText.call(attributes[:description], user:)
+    return if claimable_ids.empty?
+
+    explicit_ids = model.attachments_replacements&.ids || []
+    model.attachments_replacements = Attachment.where(id: explicit_ids | claimable_ids)
   end
 
   def set_versions_attributes(attributes)

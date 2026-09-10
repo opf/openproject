@@ -30,15 +30,15 @@ uk:
         many: Вставлені посилання на сторінку
         other: Вставлені посилання на сторінку
       wikis/internal_provider:
-        one: Internal provider
-        few: Internal providers
-        many: Internal providers
-        other: Internal providers
+        one: Внутрішній постачальник
+        few: Внутрішні постачальники
+        many: Внутрішні постачальники
+        other: Внутрішні постачальники
       wikis/page_link:
-        one: Page link
-        few: Page links
-        many: Page links
-        other: Page links
+        one: Посилання на сторінку
+        few: Посилання на сторінки
+        many: Посилання на сторінки
+        other: Посилання на сторінки
       wikis/provider:
         one: Постачальник Wiki
         few: Постачальники Wiki
@@ -56,11 +56,11 @@ uk:
         other: Постачальники XWiki
   menus:
     admin:
-      external_wiki_providers: External wiki providers
-      internal_wiki_provider: Project wikis
+      external_wiki_providers: Wiki від зовнішніх постачальників
+      internal_wiki_provider: Wiki проєктів
       wikis: Вікі
     project_settings:
-      wiki: Project wiki
+      wiki: Wiki проєкту
   permission_manage_wiki_page_links: Керувати посиланнями на сторінки Wiki
   wikis:
     admin:
@@ -77,8 +77,6 @@ uk:
         oauth_client_form_component:
           client_id: Ідентифікатор клієнта Wiki OAuth
           client_secret: Секрет клієнта Wiki OAuth
-          redirect_uri: URI переспрямування
-          redirect_uri_caption: Скопіюйте це значення в поле Redirect URI (URI переспрямування) під час реєстрації клієнта XWiki OIDC.
       health_status:
         show:
           actions:
@@ -90,11 +88,11 @@ uk:
           no_health_report_description: Запустіть перевірки, щоб отримати комплексний звіт про стан справності цього постачальника Wiki.
           title: Звіт про справність
       internal_provider_form:
-        checkbox_caption: Allow projects to use project wikis along with external wiki providers
-        checkbox_label: Enable OpenProject project wikis
+        checkbox_caption: Дозволити проєктам використовувати Wiki проєктів разом із зовнішніми джерелами Wiki
+        checkbox_label: Увімкнути Wiki проєктів OpenProject
       internal_wiki_provider:
         show:
-          description: Choose to enable or disable project wikis
+          description: Виберіть, ввімкнути чи вимкнути Wiki проєктів
       oauth_application_info_component:
         confirm_replace_oauth_application: Ця дія призведе до скидання поточних облікових даних OAuth. Коли ви підтвердите дію, вам потрібно буде повторно ввести облікові дані у своєму екземплярі XWiki. У такому разі всім користувачам знадобиться знову пройти авторизацію. Продовжити?
         label_oauth_client_id: Ідентифікатор клієнта OAuth
@@ -103,6 +101,10 @@ uk:
         confirm_replace_oauth_client: Ця дія призведе до скидання поточних облікових даних XWiki OAuth. Усім користувачам знадобиться знову пройти авторизацію в XWiki. Продовжити?
         label_oauth_client_id: Ідентифікатор клієнта OAuth
         replace_oauth_client: Замінити застосунок XWiki OAuth
+      redirect_uri_info_component:
+        description: The redirect URI is generated once the wiki OAuth client is configured.
+        label_uri: URI
+        show_redirect_uri: Show redirect URI
       side_panel:
         health_status_component:
           last_check: 'Остання перевірка: %{datetime}'
@@ -124,8 +126,11 @@ uk:
         name_caption: Назвіть свого постачальника Wiki, щоб користувачі могли відрізняти його від інших платформ Wiki.
         name_placeholder: База знань XWiki
         new_provider_html: Щоб дізнатися більше, перегляньте документацію про [налаштування інтеграції з XWiki](docs_url).
+        successful_setup: Wiki provider configured successfully!
         oauth:
           openproject_oauth: OpenProject OAuth
+          redirect_uri: Redirect URI
+          redirect_uri_caption: Copy this value into the Redirect URI field of your XWiki OIDC client registration.
         sections:
           general_information: Загальна інформація
           oauth_configuration: Конфігурація OAuth
@@ -179,7 +184,7 @@ uk:
     index:
       column_last_edited: Останнє редагування
       column_name: Сторінка Wiki
-      column_parent: Parent
+      column_parent: Батьківський об’єкт
       column_project: Проєкт
       column_sub_pages: Підсторінки
       filter_by_name: Фільтрувати за назвою сторінки
@@ -214,7 +219,7 @@ uk:
     page_link_forms:
       labels:
         page_title: Заголовок
-        parent: Parent
+        parent: Батьківський об’єкт
         wiki_page: Сторінка вікі
       search:
         no_results: Сторінок вікі не знайдено
@@ -229,10 +234,10 @@ uk:
         parent: Як батьківський об’єкт
     project_settings:
       project_internal_wiki_component:
-        blankslate_description: For this instance, project wikis are disabled globally and therefore can’t be enabled per project. Please, ask your administrator to enable the global wikis in the administration settings.
-        blankslate_title: Project wikis are disabled globally
+        blankslate_description: Для цього екземпляра Wiki проєктів вимкнені на глобальному рівні, тому їх неможливо ввімкнути окремо для певного проєкту. Попросіть адміністратора ввімкнути Wiki в налаштуваннях.
+        blankslate_title: Wiki проєктів вимкнені на глобальному рівні
         caption: Це забезпечує нативну роботу Wiki для цього проєкту. Учасники зможуть створювати й переглядати сторінки Wiki, що зберігаються в OpenProject.
-        enable: Enable the OpenProject wiki for this project
+        enable: Увімкнути Wiki OpenProject для цього проєкту
     provider_types:
       internal:
         name: OpenProject

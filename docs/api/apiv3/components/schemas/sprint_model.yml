@@ -33,6 +33,22 @@ properties:
       - "string"
       - "null"
     format: date
+  startedAt:
+    type:
+      - "string"
+      - "null"
+    format: date-time
+    description: |-
+      The time when the sprint was started. This is an explicit action performed by users, the date can thus divert
+      from the (planned) sprint start_date.
+  completedAt:
+    type:
+      - "string"
+      - "null"
+    format: date-time
+    description: |-
+      The time when the sprint was completed. This is an explicit action performed by users, the date can thus divert
+      from the (planned) sprint finish_date.
   createdAt:
     type: string
     format: date-time

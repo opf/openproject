@@ -28,11 +28,11 @@ pt-BR:
         one: Link de página em linha
         other: Links de página em linha
       wikis/internal_provider:
-        one: Internal provider
-        other: Internal providers
+        one: Provedor interno
+        other: Provedores internos
       wikis/page_link:
-        one: Page link
-        other: Page links
+        one: Link da página
+        other: Links da página
       wikis/provider:
         one: Provedor de wiki
         other: Provedores de wiki
@@ -44,11 +44,11 @@ pt-BR:
         other: Provedores de Xwiki
   menus:
     admin:
-      external_wiki_providers: External wiki providers
-      internal_wiki_provider: Project wikis
+      external_wiki_providers: Provedores de wiki externos
+      internal_wiki_provider: Wikis do projeto
       wikis: Wikis
     project_settings:
-      wiki: Project wiki
+      wiki: Wiki do projeto
   permission_manage_wiki_page_links: Gerenciar links das páginas wiki
   wikis:
     admin:
@@ -65,8 +65,6 @@ pt-BR:
         oauth_client_form_component:
           client_id: ID do cliente OAuth da wiki
           client_secret: Segredo do cliente OAuth da wiki
-          redirect_uri: URI de redirecionamento
-          redirect_uri_caption: Copie este valor para o campo URI de redirecionamento do registo do cliente OIDC do XWiki.
       health_status:
         show:
           actions:
@@ -78,11 +76,11 @@ pt-BR:
           no_health_report_description: Executar as verificações agora para obter um relatório completo de estado de saúde deste provedor de wiki.
           title: Relatório de integridade
       internal_provider_form:
-        checkbox_caption: Allow projects to use project wikis along with external wiki providers
-        checkbox_label: Enable OpenProject project wikis
+        checkbox_caption: Permitir que os projetos usem wikis de projeto juntamente com provedores de wiki externos
+        checkbox_label: Ativar wikis de projeto do OpenProject
       internal_wiki_provider:
         show:
-          description: Choose to enable or disable project wikis
+          description: Escolha se deseja ativar ou desativar as wikis de projeto
       oauth_application_info_component:
         confirm_replace_oauth_application: Esta ação irá redefinir as credenciais OAuth atuais. Após confirmar, será necessário inserir novamente as credenciais na sua instância do XWiki e todos os usuários terão de reautorizar. Tem certeza de que deseja continuar?
         label_oauth_client_id: ID do cliente OAuth
@@ -91,6 +89,10 @@ pt-BR:
         confirm_replace_oauth_client: Esta ação irá redefinir as credenciais OAuth atuais do XWiki. Todos os usuários precisarão reautorizar o acesso ao XWiki. Tem certeza de que deseja continuar?
         label_oauth_client_id: ID do cliente OAuth
         replace_oauth_client: Substituir aplicação OAuth do XWiki
+      redirect_uri_info_component:
+        description: The redirect URI is generated once the wiki OAuth client is configured.
+        label_uri: URI
+        show_redirect_uri: Show redirect URI
       side_panel:
         health_status_component:
           last_check: 'Última verificaçã: %{datetime}'
@@ -112,8 +114,11 @@ pt-BR:
         name_caption: Dê um nome ao seu provedor de wiki para que os usuários possam diferenciar entre múltiplas plataformas de wiki.
         name_placeholder: Base de conhecimento XWiki
         new_provider_html: Leia nossa documentação sobre [configuração de uma integração com o XWiki](docs_url) para mais informações.
+        successful_setup: Wiki provider configured successfully!
         oauth:
           openproject_oauth: OAuth do OpenProject
+          redirect_uri: Redirect URI
+          redirect_uri_caption: Copy this value into the Redirect URI field of your XWiki OIDC client registration.
         sections:
           general_information: Informações gerais
           oauth_configuration: Configuração de OAuth
@@ -167,7 +172,7 @@ pt-BR:
     index:
       column_last_edited: Última edição
       column_name: Página Wiki
-      column_parent: Parent
+      column_parent: Pai
       column_project: Projeto
       column_sub_pages: Subpáginas
       filter_by_name: Filtrar por nome de página
@@ -200,7 +205,7 @@ pt-BR:
     page_link_forms:
       labels:
         page_title: Título
-        parent: Parent
+        parent: Pai
         wiki_page: Página Wiki
       search:
         no_results: Nenhuma página de wiki encontrada
@@ -215,10 +220,10 @@ pt-BR:
         parent: Como pai
     project_settings:
       project_internal_wiki_component:
-        blankslate_description: For this instance, project wikis are disabled globally and therefore can’t be enabled per project. Please, ask your administrator to enable the global wikis in the administration settings.
-        blankslate_title: Project wikis are disabled globally
+        blankslate_description: Nesta instância, as wikis de projeto estão desativadas globalmente e, portanto, não podem ser ativadas por projeto. Peça ao administrador para ativar as wikis globais nas configurações de administração.
+        blankslate_title: As wikis de projeto estão desativadas globalmente
         caption: Isso habilita a funcionalidade nativa de wiki para este projeto. Os membros poderão criar e ler páginas de wiki armazenadas no OpenProject.
-        enable: Enable the OpenProject wiki for this project
+        enable: Habilitar a wiki OpenProject deste projeto
     provider_types:
       internal:
         name: OpenProject

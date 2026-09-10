@@ -26,9 +26,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  afterEach, beforeEach, describe, expect, it, vi,
-} from 'vitest';
 import type { ApplicationRef, ComponentRef } from '@angular/core';
 import type { OpenProjectPluginContext } from 'core-app/features/plugins/plugin-context';
 import { addTurboAngularWrapper } from './turbo-angular-wrapper';
@@ -140,5 +137,56 @@ describe('addTurboAngularWrapper — Angular re-bootstrap on Turbo navigation', 
     await flush();
 
     expect(bootstrap).not.toHaveBeenCalled();
+  });
+
+  describe('pageshow (Back/Forward Cache) handling', () => {
+    let windowTarget:EventTarget;
+
+    beforeEach(() => {
+      windowTarget = new EventTarget();
+    });
+
+    function pageshow(persisted:boolean):Event {
+      const event = new Event('pageshow') as PageTransitionEvent;
+      Object.defineProperty(event, 'persisted', { value: persisted });
+      return event;
+    }
+
+    it('forces a replace visit when the page is resumed from bfcache', () => {
+      const visit = vi.fn();
+
+      addTurboAngularWrapper({
+        target, windowTarget, signal: controller.signal, visit,
+      });
+
+      windowTarget.dispatchEvent(pageshow(true));
+
+      expect(visit).toHaveBeenCalledWith(window.location.href, { action: 'replace' });
+    });
+
+    it('does nothing on a normal (non-persisted) pageshow', () => {
+      const visit = vi.fn();
+
+      addTurboAngularWrapper({
+        target, windowTarget, signal: controller.signal, visit,
+      });
+
+      windowTarget.dispatchEvent(pageshow(false));
+
+      expect(visit).not.toHaveBeenCalled();
+    });
+
+    it('stops forcing visits once the signal aborts', () => {
+      const visit = vi.fn();
+
+      addTurboAngularWrapper({
+        target, windowTarget, signal: controller.signal, visit,
+      });
+
+      controller.abort();
+      windowTarget.dispatchEvent(pageshow(true));
+
+      expect(visit).not.toHaveBeenCalled();
+    });
   });
 });

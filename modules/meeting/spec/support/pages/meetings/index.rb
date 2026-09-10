@@ -155,13 +155,6 @@ module Pages::Meetings
       end
     end
 
-    def expect_quick_filter_unselected
-      within "#content-body" do
-        expect(page).to have_css("segmented-control")
-        expect(page).to have_no_css("segmented-control .SegmentedControl-item--selected")
-      end
-    end
-
     def set_project_filter(*projects)
       find_test_selector("quick-filter-select-panel-button").click
 
@@ -172,6 +165,17 @@ module Pages::Meetings
 
       within("[data-controller='quick-filter--select-panel']") do
         click_link_or_button I18n.t(:button_apply)
+      end
+
+      wait_for_network_idle
+    end
+
+    def set_title_filter(value)
+      open_filters
+      select_filter("title", "Title") unless page.has_css?(filter_selector("title"), wait: 0)
+
+      within(filter_selector("title")) do
+        fill_in "title_value", with: value
       end
 
       wait_for_network_idle

@@ -59,11 +59,21 @@ module API
               end
             end
 
+            def required(property, given)
+              custom_field_id = property.to_s[/\AcustomField(\d+)\z/, 1]
+              return given if custom_field_id.nil?
+
+              lambda do
+                given || represented.custom_field_required?(custom_field_id.to_i)
+              end
+            end
+
             # override the various schema methods to include
 
             def schema(property, *args)
               opts, = args
               opts[:attribute_group] = attribute_group property
+              opts[:required] = required(property, opts.fetch(:required, true))
 
               super(property, **opts)
             end
@@ -71,6 +81,7 @@ module API
             def schema_with_allowed_link(property, *args)
               opts, = args
               opts[:attribute_group] = attribute_group property
+              opts[:required] = required(property, opts.fetch(:required, true))
 
               super(property, **opts)
             end
@@ -78,6 +89,7 @@ module API
             def schema_with_allowed_collection(property, *args)
               opts, = args
               opts[:attribute_group] = attribute_group property
+              opts[:required] = required(property, opts.fetch(:required, true))
 
               super(property, **opts)
             end
@@ -341,6 +353,18 @@ module API
                                          writable: ->(*) { represented.writable?(:target_versions) },
                                          required: false,
                                          options: -> { { multiple: Setting::WorkPackageMultipleVersions.active? } }
+
+          schema_with_allowed_collection :observed_in_versions,
+                                         type: "[]Version",
+                                         value_representer: Versions::VersionRepresenter,
+                                         link_factory: ->(version) {
+                                           {
+                                             href: api_v3_paths.version(version.id),
+                                             title: version.name
+                                           }
+                                         },
+                                         writable: ->(*) { represented.writable?(:observed_in_versions) },
+                                         required: false
 
           schema_with_allowed_collection :priority,
                                          value_representer: Priorities::PriorityRepresenter,

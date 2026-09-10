@@ -1,7 +1,9 @@
 class OpenProject::Reporting::CostEntryXlsTable < OpenProject::XlsExport::XlsViews
   def generate
     @spreadsheet = OpenProject::XlsExport::SpreadsheetBuilder.new(I18n.t(:label_money))
-    default_query = serialize_query_without_hidden(@query)
+    # The unit is view state rather than a stored filter, so the configuration
+    # can be rebuilt per tab with a different one.
+    default_query = @query.to_query_params
 
     available_cost_type_tabs(options[:cost_types]).each_with_index do |(unit_id, name), idx|
       setup_query_for_tab(default_query, unit_id)
@@ -13,15 +15,13 @@ class OpenProject::Reporting::CostEntryXlsTable < OpenProject::XlsExport::XlsVie
     spreadsheet
   end
 
-  def setup_query_for_tab(query, unit_id)
-    @query = CostQuery.deserialize(query)
+  def setup_query_for_tab(report_params, unit_id)
     @cost_type = nil
     @unit_id = unit_id
+    params = @unit_id == 0 ? report_params.except(:unit) : report_params.merge(unit: @unit_id)
 
-    if @unit_id != 0
-      @query.filter :cost_type_id, operator: "=", value: @unit_id.to_s
-      @cost_type = CostType.find(unit_id) if unit_id.positive?
-    end
+    @query = ::CostReports::ParamsToReport.new(params, project: @project, user: User.current).call
+    @cost_type = CostType.find(unit_id) if unit_id.positive?
   end
 
   def build_spreadsheet
