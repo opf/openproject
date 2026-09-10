@@ -39,16 +39,16 @@ and lock both lists: a failed insert must leave the record where it started.
 
 ## Keyboard path between lists
 
-The move menu from the One list tab only reorders within the row's current
-list; its four directions never change the list. A keyboard user still has
-to be able to change list, so the consumer adds its own actions that send
-the same `PUT` with the destination's `list_type` and `list_id` and no
-`prev_id`, landing the row first. Backlogs'
-`WorkPackageCardMenuComponent` shows both shapes: "Move to inbox" is a form
-item submitting `list_type=inbox` directly, while "Move to sprint…" and
-"Move to backlog…" open a dialog to pick the destination and then submit the
-same request. The preview above has no such action, so its cross-list move
-is drag-only.
+The move menu from the One list tab reorders within the current list. To
+change lists without dragging, add destination actions. Backlogs' card menu
+uses `moveToDestination` for a direct destination and `prepareDialog` to put
+ordered `ids[]` into a destination dialog's form. Both act on the selected
+batch when invoked from a selected card; an unselected movable card becomes
+the single-item scope.
+
+These actions submit to `collectionMoveUrl`. An omitted `prev_id` appends the
+batch; an explicitly blank `prev_id` inserts it at the top. The preview above
+has no destination action, so its cross-list move is drag-only.
 
 ## Drops on empty space
 
@@ -59,15 +59,15 @@ on lists that read newest-first, as the Backlogs inbox does.
 
 ## Rows that may not leave
 
-Set `data-sortable-lists--item-confined-value="true"` on a row the server
-will reorder in place but refuses to relocate. It stays fully draggable and
-its own list accepts it, so reordering keeps working; every other list
-refuses the drop and a release there leaves the row where it was.
+Set `data-sortable-lists--item-mobility-value="confined"` on a row the server
+will reorder in place but refuses to relocate. It remains draggable and
+selectable. A batch can drop only where every member's destination policy
+allows it; a confined member therefore constrains the whole batch.
 
-That is different from a row that may not move at all. Backlogs renders a
-work package the user may not sort as a plain row: no `sortable-lists--item`
-controller and no item id, so it neither drags nor anchors its neighbors'
-drops.
+A `fixed` item cannot be selected or dragged but remains an addressable
+position for its neighbors' drops. Structural rows such as “Show more” have
+no sortable item identity and do not participate in selection. Missing
+`mobility` means `free`; an unrecognised value is treated as `fixed`.
 
 ## Auto-scrolling columns
 
@@ -118,8 +118,63 @@ state wins.
 
 ## Batch selection
 
-Selecting several rows and moving them together is in development
-([AGILE-278](https://community.openproject.org/wp/AGILE-278),
-[AGILE-361](https://community.openproject.org/wp/AGILE-361)). The root's
-`selection_enabled` value and the collection move endpoint it drives are not
-yet a stable contract; this section documents them once they settle.
+Selection is opt-in on the root with `selectionEnabled`. Set
+`collectionMoveUrl` to enable moving the selection, including a selection of
+one item. The root's `announcementScope` supplies selection translations;
+`moveAnnouncementScope` supplies movement translations. Set
+`selectionDescriptionId` to one shared description element: selected items
+reference it with `aria-describedby` on their `focus` target, or on the item
+itself when that target is absent. See the API reference tab for defaults.
+
+## Gestures and range sessions
+
+Ctrl/Cmd-click toggles individual items and can build a sparse batch across
+lists. The toggled item becomes the anchor even when deselected. Plain click
+replaces the selection with the movable item while allowing its activation.
+
+Shift-click, Shift+Space, and Shift+Arrow resize a range within the anchor's
+list. Independent selections present when the range starts remain selected,
+including selections in other lists. Repeated Shift gestures extend, shrink,
+or reverse only the range's contribution. Without an anchor, or when Shift
+crosses into another list, selection restarts at the acted-on item. Ranges
+crossing unloaded or non-movable items are rejected without changing selection.
+
+Ctrl/Cmd+A replaces the batch with loaded movable items of the focused item's
+type in its list. A subsequent Shift gesture can narrow or reverse that
+selection. An individual toggle starts a fresh range baseline.
+
+Space toggles the focused item. Arrows move focus between items, including fixed
+items; Home/End target the first/last movable item. Focus movement remains
+available during a move, but selection mutations are blocked. Escape clears
+selection and the anchor at document level, while respecting fields and overlays
+that own the key.
+
+## Moving the selection
+
+Dragging a selected item moves the whole batch in document order. Dragging an
+unselected movable item replaces the batch with that item. The batch is frozen
+before the drag preview is rendered, and a multi-item preview shows its count.
+Only destinations permitted for every member accept the drop.
+
+Position actions require a contiguous block in one list. Destination actions
+can move a sparse batch across lists. A menu opened from a selected item acts
+on the batch and presents its batch actions; singular actions remain tied to
+the invoking item. Unavailable actions are hidden by default, or disabled when
+`hideUnavailable` is false.
+
+`maxBatchSize` limits move operations, not selection. Backlogs sets it to 500
+and independently enforces that limit on the server. The server authorizes
+and moves the whole batch atomically. Failed drag or position requests roll
+back optimistic placement unless a newer server morph has already moved the
+rows; destination actions use the server's streamed result.
+
+## Selection, current item, and focus
+
+`data-batch-selected` marks the sortable row. Backlogs places `aria-current`
+on the inner card whose work package is open in the details pane. Opening
+details does not itself alter batch membership; focus is a third, independent
+state. See **Styles → Box list item states** for the visual treatment.
+
+Selection gestures announce membership changes even when the count stays the
+same. Plain navigation clicks announce only when they collapse a wider batch.
+Rejected ranges and range restarts have separate announcement keys.
