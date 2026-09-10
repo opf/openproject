@@ -75,8 +75,7 @@ jobs:
             > The `AI involvement` section of this pull request is not filled out.
 
             Please uncomment the one line that fits by deleting its surrounding `<!--` and `-->`
-            markers. If the level is `Directed` or `Autonomous`, also name the tool/model used,
-            e.g. `Claude Code (Sonnet 5)`.
+            markers.
 
       - name: Add comment if multiple levels are stated
         if: steps.ai-involvement-check.outputs.multiple_levels == 'true'
