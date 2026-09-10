@@ -45,6 +45,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { firstValueFrom, Observable } from 'rxjs';
 import {
@@ -118,6 +119,8 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
   readonly halResourceService = inject(HalResourceService);
   readonly timezoneService = inject(TimezoneService);
   readonly pathHelper = inject(PathHelperService);
+
+  readonly urlParamsService = inject(UrlParamsService);
   readonly halEditing = inject(HalResourceEditingService);
   readonly wpTableSelection = inject(WorkPackageViewSelectionService);
   readonly contextMenuService = inject(OPContextMenuService);
@@ -320,7 +323,7 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
   }
 
   private visitSplitViewLink(id:string, extraParams?:Record<string, string>):void {
-    const basePath = window.location.pathname.replace(/\/details\/.*$/, '');
+    const basePath = this.urlParamsService.basePathWithoutDetails();
     const params = new URLSearchParams(window.location.search);
     if (extraParams) {
       Object.entries(extraParams).forEach(([key, value]) => params.set(key, value));

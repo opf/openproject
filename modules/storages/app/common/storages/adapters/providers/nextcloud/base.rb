@@ -79,6 +79,16 @@ module Storages
             end
           end
 
+          # Parses a response body as JSON. Nextcloud does not always answer in the requested format: OCS responses
+          # rendered outside of the integration app (e.g. when it is disabled) fall back to XML, and reverse proxies
+          # may answer with an HTML page. Those bodies make HTTPX raise, which would escape the adapter contract.
+          # @return [Dry::Result]
+          def parse_json(response, error)
+            Success(response.json(symbolize_keys: true))
+          rescue HTTPX::Error, MultiJSON::ParseError
+            Failure(error.with(code: :invalid_response, payload: response))
+          end
+
           # Validates the OCS Meta Statuscode for fatal errors (i.e. unexpected server-side errors). Client-side errors,
           # such as a 404 File Not Found do not cause an error.
           # @return [Dry::Result]

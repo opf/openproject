@@ -163,17 +163,6 @@ RSpec.describe TypeVariants::Scopes::WithEffectiveConfiguration do
     end
   end
 
-  describe "with the flag off", with_flag: { type_variants: false } do
-    it "resolves the preloaded values the same" do
-      link(type, source: owner, excluded: %w[custom_field_1])
-
-      record = loaded(type)
-
-      expect(record.effective_source_id(aspect)).to eq(owner.id)
-      expect(record.effective_excluded_elements(aspect)).to contain_exactly("custom_field_1")
-    end
-  end
-
   it "rejects an unknown aspect instead of interpolating it into a column alias" do
     expect { TypeVariant.with_effective_configuration("bogus; DROP TABLE types") }
       .to raise_error(ArgumentError, /Unknown configuration aspect/)

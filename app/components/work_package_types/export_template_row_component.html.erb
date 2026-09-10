@@ -36,8 +36,12 @@ See COPYRIGHT and LICENSE files for more details.
       end
       item_information.with_column(flex: 1, flex_layout: true) do |title_container|
         title_container.with_column(pt: 1, mr: 2) do
-          render(Primer::Beta::Text.new) do
-            @template.label
+          if readonly?
+            render(Primer::Beta::Text.new) { @template.label }
+          else
+            render(Primer::Beta::Link.new(href: edit_settings_path, data: { "turbo-frame": "_top" })) do
+              @template.label
+            end
           end
         end
         title_container.with_column(pt: 1, mr: 2) do

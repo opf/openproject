@@ -65,6 +65,7 @@ module API
 
             PageLinkCollectionRepresenter.new(
               enrich_models_with_wiki_metadata(relation).result,
+              page: params[:offset],
               per_page: params[:pageSize],
               self_link: api_v3_paths.wiki_page_links,
               current_user:

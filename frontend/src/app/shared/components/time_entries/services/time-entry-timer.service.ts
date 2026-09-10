@@ -55,6 +55,7 @@ import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { octiconElement } from 'core-app/shared/helpers/op-icon-builder';
 import { clockIconData } from '@openproject/octicons-angular';
+import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
 
 @Injectable()
 export class TimeEntryTimerService {
@@ -202,8 +203,8 @@ export class TimeEntryTimerService {
   }
 
 
-  private handleTimeEntryDialogClose(event:CustomEvent):void {
-    const { detail: { dialog, submitted } } = event as { detail:{ dialog:HTMLDialogElement, submitted:boolean } };
+  private handleTimeEntryDialogClose(event:CustomEvent<DialogCloseDetail>):void {
+    const { detail: { dialog, submitted } } = event;
     const isOngoing = dialog.dataset.ongoing === 'true';
 
     if (dialog.id === 'time-entry-dialog' && submitted && isOngoing) {

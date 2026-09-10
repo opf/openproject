@@ -3,7 +3,7 @@
 delete:
   parameters:
   - description: Project id
-    example: '1'
+    example: 1
     in: path
     name: id
     required: true
@@ -56,7 +56,7 @@ delete:
 post:
   parameters:
   - description: Project id
-    example: '1'
+    example: 1
     in: path
     name: id
     required: true

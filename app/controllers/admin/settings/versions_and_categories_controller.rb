@@ -41,18 +41,11 @@ module Admin::Settings
     end
 
     def enable_multiple_versions
-      state = target_versions_state
-
-      if state == :action_required && Setting.work_package_multiple_versions_writable?
-        WorkPackages::EnableMultipleVersionsJob.perform_later
-        state = :in_progress
+      unless Setting.work_package_multiple_versions?
+        result = Settings::UpdateService.new(user: current_user).call(work_package_multiple_versions: "1")
+        Rails.logger.error(result.message) unless result.success?
       end
 
-      replace_target_versions_section_via_turbo_stream(state)
-      respond_with_turbo_streams
-    end
-
-    def status
       replace_target_versions_section_via_turbo_stream(target_versions_state)
       respond_with_turbo_streams
     end
@@ -69,16 +62,8 @@ module Admin::Settings
       )
     end
 
-    # The job is checked before the setting because the setting only flips once the job
-    # finishes, so a run in progress would otherwise be reported as :action_required.
     def target_versions_state
-      if WorkPackages::EnableMultipleVersionsJob.in_progress?
-        :in_progress
-      elsif Setting.work_package_multiple_versions?
-        :completed
-      else
-        :action_required
-      end
+      Setting.work_package_multiple_versions? ? :completed : :action_required
     end
   end
 end

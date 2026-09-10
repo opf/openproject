@@ -41,7 +41,7 @@ module WorkPackageTypes
 
       def call
         render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:)) do
-          render(WorkPackageTypes::ReuseModeBannerComponent.new(
+          render(WorkPackageTypes::ReuseMode::SectionComponent.new(
                    variant: model,
                    aspect: TypeVariant::FORM_CONFIGURATION
                  )) +
@@ -56,7 +56,7 @@ module WorkPackageTypes
       private
 
       def reload_url
-        helpers.type_creation_wizard_path(model, step: :form_configuration)
+        type_creation_wizard_path(**model.path_args, step: :form_configuration)
       end
 
       def no_filter_query

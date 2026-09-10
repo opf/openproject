@@ -37,10 +37,7 @@ module HealthReports
 
     # The i18n_scope parameter defines the I18n scope that should be used to resolve
     # names of groups, checks and error messages indicated by the results.
-    #
-    # docs_href overrides where each result's "More information" link points;
-    # without it, results link to the file storages troubleshooting page.
-    def initialize(*, i18n_scope:, docs_href: nil, **)
+    def initialize(*, i18n_scope:, docs_href:, **)
       super(*, **)
       @i18n_scope = i18n_scope
       @docs_href = docs_href

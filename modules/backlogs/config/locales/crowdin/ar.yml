@@ -135,6 +135,7 @@ ar:
         other: السباقات
         zero: جميع السباقات القصيرة
       select_panel_title: تحديد عناصر
+    blankslate_filtered_title: No work packages match the filter criteria.
     bucket_component:
       action_menu:
         add_existing_work_package: إضافة حزمة عمل موجودة
@@ -181,6 +182,8 @@ ar:
         many: Show %{count} more items
         other: عرض %{count} عناصر أخرى
       title: البريد الوارد
+    index_subheader_component:
+      label_search_by_subject: Search work packages by subject
     label_burndown_chart: مخطط العمل المتبقي
     label_is_done_status: الحالة %{status_name} تعني أنها منجزة
     label_sprint_board: لوحة السباق

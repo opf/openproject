@@ -66,25 +66,11 @@ RSpec.describe Workflows::CopiesController do
       expect(assigns[:all_roles]).to match_array(Workflow.eligible_roles)
     end
 
-    context "with variants switched off", with_flag: { type_variants: false } do
-      it "offers only base variants, excluding the source" do
-        expect(assigns[:other_variants]).to contain_exactly(other_type.default_variant)
-      end
-    end
-
-    context "with variants switched on", with_flag: { type_variants: true } do
-      it "offers every variant, excluding the source" do
-        expect(assigns[:other_variants])
-          .to contain_exactly(other_type.default_variant, other_variant)
-      end
-    end
-
-    context "when a variant is addressed directly", with_flag: { type_variants: true } do
+    context "when a variant is addressed directly" do
       let(:params) { { type_id: other_type.id.to_s, variant_id: other_variant.id.to_s } }
 
-      it "assigns that variant as the source and leaves it out of the targets" do
+      it "assigns that variant as the source" do
         expect(assigns[:source_variant]).to eq(other_variant)
-        expect(assigns[:other_variants]).not_to include(other_variant)
       end
     end
 

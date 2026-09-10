@@ -68,84 +68,74 @@ RSpec.describe Projects::Types::AddService do
     let(:type) { create(:type) }
     let(:variant) { create(:type_variant, type:) }
 
-    context "and the variants feature is not active", with_flag: { type_variants: false } do
-      it "fails and does not enable the type" do
-        expect(service_call).to be_failure
-        expect(service_call.errors.symbols_for(:types)).to contain_exactly(:cannot_assign_variants_yet)
-        expect(project.enabled_types).to be_empty
+    it "uses the type and applies the variant" do
+      expect(service_call).to be_success
+      expect(project.enabled_types).to contain_exactly(type)
+      expect(project.project_types.sole.variant).to eq(variant)
+    end
+
+    context "when the variant is already the one applied" do
+      let(:project) { create(:project, types: [variant]) }
+
+      it "succeeds without adding a second row" do
+        expect(service_call).to be_success
+        expect(project.reload.project_types.sole.variant).to eq(variant)
       end
     end
 
-    context "and the variants feature is active", with_flag: { type_variants: true } do
-      it "uses the type and applies the variant" do
-        expect(service_call).to be_success
-        expect(project.enabled_types).to contain_exactly(type)
-        expect(project.project_types.sole.variant).to eq(variant)
+    # Without this the work package form is empty for the variant: a variant inheriting its
+    # form configuration owns no custom_fields_types rows of its own.
+    context "when the variant inherits its form configuration" do
+      let!(:type_custom_field) { create(:text_wp_custom_field, type_variants: [type.default_variant]) }
+
+      before do
+        variant.update!(form_configuration_source: type.default_variant)
       end
 
-      context "when the variant is already the one applied" do
-        let(:project) { create(:project, types: [variant]) }
-
-        it "succeeds without adding a second row" do
-          expect(service_call).to be_success
-          expect(project.reload.project_types.sole.variant).to eq(variant)
-        end
+      it "enables the fields the variant actually shows, which are the type's" do
+        expect { service_call }
+          .to change { project.reload.work_package_custom_field_ids }
+          .from([])
+          .to([type_custom_field.id])
       end
+    end
 
-      # Without this the work package form is empty for the variant: a variant inheriting its
-      # form configuration owns no custom_fields_types rows of its own.
-      context "when the variant inherits its form configuration" do
-        let!(:type_custom_field) { create(:text_wp_custom_field, type_variants: [type.default_variant]) }
+    context "when the variant owns its form configuration" do
+      let!(:type_custom_field) { create(:text_wp_custom_field, type_variants: [type.default_variant]) }
+      let!(:variant_custom_field) { create(:text_wp_custom_field, type_variants: [variant]) }
 
-        before do
-          variant.update!(form_configuration_source: type.default_variant)
-        end
-
-        it "enables the fields the variant actually shows, which are the type's" do
-          expect { service_call }
-            .to change { project.reload.work_package_custom_field_ids }
-            .from([])
-            .to([type_custom_field.id])
-        end
+      it "enables its own fields rather than the type's" do
+        expect { service_call }
+          .to change { project.reload.work_package_custom_field_ids }
+          .from([])
+          .to([variant_custom_field.id])
       end
+    end
 
-      context "when the variant owns its form configuration" do
-        let!(:type_custom_field) { create(:text_wp_custom_field, type_variants: [type.default_variant]) }
-        let!(:variant_custom_field) { create(:text_wp_custom_field, type_variants: [variant]) }
+    context "when a sibling variant is already enabled" do
+      let(:sibling) { create(:type_variant, type:) }
+      let(:project) { create(:project, types: [sibling]) }
 
-        it "enables its own fields rather than the type's" do
-          expect { service_call }
-            .to change { project.reload.work_package_custom_field_ids }
-            .from([])
-            .to([variant_custom_field.id])
-        end
+      it "fails and keeps the sibling applied" do
+        expect(service_call).to be_failure
+        expect(service_call.errors.symbols_for(:types))
+          .to contain_exactly(:cannot_assign_multiple_variants_of_parent)
+        expect(project.reload.project_types.sole.variant).to eq(sibling)
       end
+    end
 
-      context "when a sibling variant is already enabled" do
-        let(:sibling) { create(:type_variant, type:) }
-        let(:project) { create(:project, types: [sibling]) }
+    context "when the base variant is already enabled" do
+      let(:project) { create(:project, types: [type]) }
 
-        it "fails and keeps the sibling applied" do
-          expect(service_call).to be_failure
-          expect(service_call.errors.symbols_for(:types))
-            .to contain_exactly(:cannot_assign_multiple_variants_of_parent)
-          expect(project.reload.project_types.sole.variant).to eq(sibling)
-        end
-      end
-
-      context "when the base variant is already enabled" do
-        let(:project) { create(:project, types: [type]) }
-
-        it "fails and keeps the base variant applied" do
-          expect(service_call).to be_failure
-          expect(service_call.errors.symbols_for(:types)).to contain_exactly(:cannot_assign_variant_and_parent)
-          expect(project.reload.project_types.sole.variant).to eq(type.default_variant)
-        end
+      it "fails and keeps the base variant applied" do
+        expect(service_call).to be_failure
+        expect(service_call.errors.symbols_for(:types)).to contain_exactly(:cannot_assign_variant_and_parent)
+        expect(project.reload.project_types.sole.variant).to eq(type.default_variant)
       end
     end
   end
 
-  context "with a base variant whose sibling is already enabled", with_flag: { type_variants: true } do
+  context "with a base variant whose sibling is already enabled" do
     let(:type) { create(:type) }
     let(:variant) { type.default_variant }
     let(:named_variant) { create(:type_variant, type:) }

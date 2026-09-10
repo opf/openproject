@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render(Settings::ProjectWorkPackages::HeaderComponent.new(@project)) %>
 
-<% if OpenProject::FeatureDecisions.type_variants_active? %>
+<% if User.current.allowed_in_project?(:manage_types, @project) %>
   <%= render(Primer::OpenProject::SubHeader.new) do |subheader| %>
     <% subheader.with_action_button(
          scheme: :primary,
@@ -41,19 +41,6 @@ See COPYRIGHT and LICENSE files for more details.
          test_selector: "project-types-add-button"
        ) { t("activerecord.attributes.work_package.type") } %>
   <% end %>
-
-  <%= render(Projects::Settings::WorkPackages::Types::ListComponent.new(project: @project)) %>
-<% elsif Type.any? %>
-  <%= form_for @project,
-               url: bulk_update_project_settings_work_packages_types_path(@project),
-               method: :patch,
-               html: { id: "types-form" } do |f| %>
-    <%= render partial: "form",
-               locals: { f: f, project: @project } %>
-
-  <% end %>
-
-  <br>
-<% else %>
-  <%= no_results_box custom_title: t("projects.settings.types.no_results_title_text") %>
 <% end %>
+
+<%= render(Projects::Settings::WorkPackages::Types::ListComponent.new(project: @project)) %>

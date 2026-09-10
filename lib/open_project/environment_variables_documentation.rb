@@ -90,11 +90,18 @@ module OpenProject
         DERIVED_DEFAULT_INPUTS.select { |setting, _| Setting[setting].present? }
       end
 
+      def rows
+        I18n.with_locale(:en) do
+          sorted_definitions.map do |env_name, definition|
+            # Using strip as description is nil for some settings
+            "#{env_name} (default=#{rendered_default(definition)}) #{definition.description}".strip
+          end
+        end
+      end
+
       # The delimited block, markers included, as expected on disk.
       def block
-        I18n.with_locale(:en) do
-          "#{BEGIN_MARKER}\n\n```text\n#{rows.join("\n")}\n```\n\n#{END_MARKER}"
-        end
+        "#{BEGIN_MARKER}\n\n```text\n#{rows.join("\n")}\n```\n\n#{END_MARKER}"
       end
 
       # The page with its delimited block regenerated.
@@ -108,13 +115,6 @@ module OpenProject
       end
 
       private
-
-      def rows
-        sorted_definitions.map do |env_name, definition|
-          # `strip` as `description` is nil for a few settings.
-          "#{env_name} (default=#{rendered_default(definition)}) #{definition.description}".strip
-        end
-      end
 
       def rendered_default(definition)
         if RANDOM_DEFAULTS.include?(definition.name.to_sym)

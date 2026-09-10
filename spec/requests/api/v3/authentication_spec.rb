@@ -123,6 +123,26 @@ RSpec.describe "API V3 Authentication" do
     end
   end
 
+  describe "without a known application hostname", with_settings: { host_name: nil } do
+    let(:expected_message) { "You need to be authenticated to access this resource." }
+
+    before do
+      allow(ActionMailer::Base).to receive(:default_url_options).and_return({})
+      header "Host", "central.example.com"
+
+      get resource
+    end
+
+    it "uses the request host for the resource metadata" do
+      expect(last_response).to have_http_status :unauthorized
+      expect(last_response.header["WWW-Authenticate"]).to eq(
+        'Bearer realm="OpenProject API", ' \
+        'resource_metadata="http://central.example.com/.well-known/oauth-protected-resource", scope="api_v3"'
+      )
+      expect(JSON.parse(last_response.body)).to eq(error_response_body)
+    end
+  end
+
   describe "oauth" do
     let(:oauth_access_token) { "" }
     let(:expected_message) { "You did not provide the correct credentials." }

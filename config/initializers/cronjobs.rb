@@ -83,6 +83,10 @@ Rails.application.config.after_initialize do
       "RecurringMeetings::InitNextOccurrenceWatchdogJob": {
         cron: "11 05 * * *",
         class: RecurringMeetings::InitNextOccurrenceWatchdogJob.name
+      },
+      "AI::TextTransformRuns::CleanupJob": {
+        cron: "*/10 * * * *",
+        class: AI::TextTransformRuns::CleanupJob.name
       }
     }
   )
