@@ -142,7 +142,7 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::FormConfigurationService do
     end
   end
 
-  describe "with a Linked source", with_flag: { type_variants: true } do
+  describe "with a Linked source" do
     let(:owner) { create(:type).default_variant }
 
     before do
@@ -160,7 +160,7 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::FormConfigurationService do
     end
   end
 
-  describe "when the variant's link excludes elements", with_flag: { type_variants: true } do
+  describe "when the variant's link excludes elements" do
     let!(:kept_field) { create(:work_package_custom_field, field_format: "string") }
     let!(:excluded_field) { create(:work_package_custom_field, field_format: "string") }
     let!(:solo_field) { create(:work_package_custom_field, field_format: "string") }
@@ -265,9 +265,7 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::FormConfigurationService do
     end
   end
 
-  # "Copy from type" on the form configuration tab passes an arbitrary source, whose own
-  # exclusions are what the user saw when picking it.
-  describe "copying from an unrelated Linked type", with_flag: { type_variants: true } do
+  describe "copying from an unrelated Linked type" do
     let(:owner) { create(:type).default_variant }
     let!(:kept_field) { create(:work_package_custom_field, field_format: "string") }
     let!(:excluded_field) { create(:work_package_custom_field, field_format: "string") }

@@ -53,12 +53,12 @@ OpenProject::FeatureDecisions.add :wiki_enhancements,
                                   description: "Enables Wiki enhancements, such as the Wikis tab and XWiki integration.",
                                   force_active: true
 
-OpenProject::FeatureDecisions.add :type_variants,
-                                  description: "Enables work package type variants."
-
 OpenProject::FeatureDecisions.add :sprint_reports,
                                   description: "Enables sprint reporting within the backlogs module. " \
                                                "It shows a dashboard with various widgets regarding the sprint progress."
+
+OpenProject::FeatureDecisions.add :ai_text_transform_actions,
+                                  description: "Enables the admin UI to manage AI text transform actions."
 
 OpenProject::FeatureDecisions.add :llm_connection,
                                   description: "Enables the administration page connecting OpenProject to an " \

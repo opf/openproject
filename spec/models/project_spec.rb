@@ -250,6 +250,15 @@ RSpec.describe Project do
       it "resolves the type to that variant" do
         expect(project.type_variant(type)).to eq(variant)
       end
+
+      it "uses preloaded project types and variants" do
+        preloaded_project = described_class.preload(project_types: :variant).find(project.id)
+        expected_variant = variant
+        resolved_type = type
+
+        expect { expect(preloaded_project.type_variant(resolved_type)).to eq(expected_variant) }
+          .to have_a_query_limit(0)
+      end
     end
 
     context "when the project uses the type without choosing a variant" do

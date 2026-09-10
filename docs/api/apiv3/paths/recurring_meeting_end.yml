@@ -1,0 +1,74 @@
+# /api/v3/recurring_meetings/{id}/end
+---
+post:
+  summary: End a meeting series
+  operationId: end_recurring_meeting
+  tags:
+    - Recurring Meetings
+  description: |-
+    Ends the recurring meeting series. The series end date is set so that no further
+    occurrences are scheduled, any future already-instantiated occurrences are cancelled
+    and removed, and participants receive cancellation and "series ended" notification emails
+    if `notify` is set to true for the series.
+
+    Ending a series before its first occurrence is rejected.
+
+    Returns the updated `RecurringMeeting` resource.
+  parameters:
+    - description: Recurring meeting ID
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+  responses:
+    '200':
+      description: Returned if the series was ended successfully.
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/recurring_meeting_model.yml"
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** edit meetings in the recurring meeting's project
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the recurring meeting does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view meetings in the recurring meeting's project
+    '422':
+      description: |-
+        Returned if the series could not be ended, for example because it has not started yet.
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+                message: End date must be after the series start date.

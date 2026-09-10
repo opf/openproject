@@ -27,11 +27,57 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
+<%
+  omniauth_configured = Users::PasswordLogin.omniauth_configured?
+  policy_values = Users::PasswordLogin::MODES.map do |value|
+    if value == Users::PasswordLogin::NONE
+      {
+        name: value,
+        value:,
+        caption: t(
+          :setting_password_login_none_caption_html,
+          internal_login_link: link_to(internal_signin_url, internal_signin_path)
+        )
+      }
+    else
+      value
+    end
+  end
+%>
+
 <% with_enterprise_banner_guard(:sso_auth_providers, variant: :large, video: "enterprise/sso-login.mp4") do %>
+  <% unless omniauth_configured %>
+    <%= render(Primer::Alpha::Banner.new(scheme: :warning, mb: 3)) do %>
+      <%= t("settings.authentication.password_login_requires_sso_provider") %>
+    <% end %>
+  <% end %>
+
+  <%
+    environment_configured_settings = [
+      (I18n.t(:setting_password_login) unless Setting.password_login_writable?),
+      (I18n.t(:setting_password_login_bypass_principal_ids) unless Setting.password_login_bypass_principal_ids_writable?)
+    ].compact
+  %>
+  <% if environment_configured_settings.any? %>
+    <%=
+      render(Primer::Alpha::Banner.new(mb: 2, scheme: :default, spacious: true)) do
+        safe_join(
+          [
+            t("settings.authentication.password_login_configured_by_environment"),
+            tag.ul(safe_join(environment_configured_settings.map { |setting| tag.li(setting) }))
+          ]
+        )
+      end
+    %>
+  <% end %>
+
   <%=
-    settings_primer_form_with(scope: :settings,
-                              url: admin_settings_authentication_path(tab: params[:tab]),
-                              method: :patch) do |f|
+    settings_primer_form_with(
+      scope: :settings,
+      url: admin_settings_authentication_path(tab: params[:tab]),
+      method: :patch,
+      data: { controller: "show-when-value-selected" }
+    ) do |f|
       render_inline_settings_form(f) do |form|
         form.select_list(
           name: :omniauth_direct_login_provider,
@@ -39,9 +85,10 @@ See COPYRIGHT and LICENSE files for more details.
           label: I18n.t(:setting_omniauth_direct_login_provider),
           caption: t(
             "settings.authentication.omniauth_direct_login_hint_html",
-            internal_path: internal_signin_url
+            internal_path: link_to(internal_signin_url, internal_signin_path)
           ),
-          include_blank: I18n.t(:label_none_parentheses)
+          include_blank: I18n.t(:label_none_parentheses),
+          disabled: !omniauth_configured
         ) do |select|
           AuthProvider
             .where(available: true)
@@ -61,6 +108,56 @@ See COPYRIGHT and LICENSE files for more details.
           name: :oauth_allow_remapping_of_existing_users,
           caption: I18n.t("settings.authentication.remapping_existing_users_hint")
         )
+
+        password_login_disabled = !omniauth_configured || form.setting_disabled?(:password_login)
+        form.radio_button_group(
+          name: :password_login,
+          values: policy_values,
+          disabled: password_login_disabled,
+          button_options: {
+            data: {
+              show_when_value_selected_target: "cause",
+              target_name: "password_login"
+            }
+          }
+        )
+
+        form.group(
+          hidden: Users::PasswordLogin.all?,
+          data: {
+            show_when_value_selected_target: "effect",
+            target_name: "password_login",
+            not_value: Users::PasswordLogin::ALL
+          }
+        ) do |group|
+          bypass_disabled = !omniauth_configured || form.setting_disabled?(:password_login_bypass_principal_ids)
+          group.hidden(
+            name: "settings[password_login_bypass_principal_ids][]",
+            value: "",
+            disabled: bypass_disabled,
+            scope_name_to_model: false,
+            scope_id_to_model: false
+          )
+
+          group.autocompleter(
+            name: :password_login_bypass_principal_ids,
+            label: I18n.t(:setting_password_login_bypass_principal_ids),
+            caption: t("settings.authentication.password_login_bypass_principal_ids_hint"),
+            disabled: bypass_disabled,
+            autocomplete_options: {
+              resource: "principals",
+              component: "opce-user-autocompleter",
+              url: ::API::V3::Utilities::PathHelper::ApiV3Path.principals,
+              searchKey: "any_name_attribute",
+              filters: [{ name: "type", operator: "=", values: %w[User Group] }],
+              multiple: true,
+              defaultData: false,
+              focusDirectly: false,
+              disabled: bypass_disabled,
+              inputValue: Users::PasswordLogin.bypass_principal_ids
+            }
+          )
+        end
 
         form.submit
       end

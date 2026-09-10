@@ -71,6 +71,15 @@ tr:
           name: Personel ve proje yöneticisi
         item_1:
           name: Standart genel rol
+      ai_text_transform_actions:
+        item_0:
+          label: Fix grammar
+        item_1:
+          label: Make concise
+        item_2:
+          label: Translate to English
+        item_3:
+          label: Sort into template
     standard:
       project_phases:
         item_0:
@@ -330,20 +339,21 @@ tr:
                 options:
                   name: Başlarken
                   text: |
-                    Katıldığınız için çok mutluyuz! OpenProject'e başlamak için birkaç şey denemenizi öneririz.
+                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
-                    Aşağıdaki adımları deneyin:_
+                    _Try the following steps:_
 
-                    1. *Projenize yeni üyeler davet edin*: &rightarrow; Proje gezintisinde [Üyeler]({{opSetting:base_url}}/projects/your-scrum-project/members) bölümüne gidin.
-                    2. *Ürün birikiminizi ve Sprint birikimlerinizi görüntüleyin*: &rightarrow; Proje navigasyonunda [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) bölümüne gidin.
-                    3. *Görev panonuzu görüntüleyin*: &rightarrow; Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; adresine gidin Sprint &rightarrow; üzerinde sağ oka tıklayın [Task Board](##sprint:scrum_project__version__sprint_1) öğesini seçin.
-                    4. *Yeni bir iş paketi oluşturun*: &rightarrow; İş paketleri &rightarrow; Oluştur]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new) bölümüne gidin.
-                    5. *Bir proje planı oluşturun ve güncelleyin*: &rightarrow; Proje navigasyonunda [Proje planı](##query:scrum_project__query__project_plan) bölümüne gidin.
-                    6. *Bir Sprint wiki* oluşturun: &rightarrow; Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) adresine gidin ve bir sprintte sağ açılır menüden sprint wikisini açın. Wiki şablonunu]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) ihtiyaçlarınıza göre düzenleyebilirsiniz.
-                    7. *Diğer modülleri etkinleştirin*: &rightarrow; Proje ayarları &rightarrow; Modüller]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules) bölümüne gidin.
+                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
+                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
+                    3. *Create a sprint*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and click "+ Sprint" to create a new sprint. Move work packages from the backlog to the sprint to plan the work to be done. When ready, click "Start sprint".
+                    4. *View your Sprint board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select Sprint Board.
+                    5. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    6. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
+                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
-                    Burada [Kullanıcı Kılavuzlarımızı] (https://www.openproject.org/docs/user-guide/) bulacaksınız.
-                    Herhangi bir sorunuz varsa veya desteğe ihtiyacınız varsa lütfen bize bildirin. Bize ulaşın: [support[at]openproject.com](mailto:support@openproject.com).
+
+                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
+                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: İş paketleri

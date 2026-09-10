@@ -45,11 +45,11 @@ es:
           non_object_attribute: no define un objeto JSON en %{attribute}.
     models:
       openid_connect/provider:
-        one: OpenID Connect provider
-        other: OpenID Connect providers
+        one: Proveedor de OpenID Connect
+        other: Proveedores de OpenID Connect
       openid_connect/user_token:
-        one: OpenID Connect token
-        other: OpenID Connect tokens
+        one: Token de OpenID Connect
+        other: Tokens de OpenID Connect
   logout_warning: 'Se ha cerrado la sesión. Puede que se haya perdido el contenido de cualquier formulario que haya enviado. [Inicie la sesión].
 
     '

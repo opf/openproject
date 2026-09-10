@@ -67,6 +67,7 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { PrincipalsResourceService } from 'core-app/core/state/principals/principals.service';
 import {
@@ -139,6 +140,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   private wpTableFilters = inject(WorkPackageViewFiltersService);
   private querySpace = inject(IsolatedQuerySpace);
   private currentProject = inject(CurrentProjectService);
+
+  private urlParams = inject(UrlParamsService);
   private I18n = inject(I18nService);
   readonly injector = inject(Injector);
   readonly calendar = inject(OpCalendarService);
@@ -811,7 +814,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     ['$event.detail.start', '$event.detail.end', '$event.detail.assignee'],
   )
   openNewSplitCreate(start:string, end:string, resourceHref:string, nonWorkingDays?:boolean):void {
-    const basePath = window.location.pathname.replace(/\/details\/.*$/, '');
+    const basePath = this.urlParams.basePathWithoutDetails();
     const search = new URLSearchParams(window.location.search);
     search.set('startDate', start);
     search.set('dueDate', end);

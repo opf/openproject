@@ -67,7 +67,7 @@ See COPYRIGHT and LICENSE files for more details.
 
             result_group.results.each do |value|
               box.with_row do
-                render(HealthReports::ResultComponent.new(group: result_group.key, result: value, i18n_scope:))
+                render(HealthReports::ResultComponent.new(group: result_group.key, result: value, i18n_scope:, docs_href:))
               end
             end
           end

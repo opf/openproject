@@ -77,6 +77,10 @@ module Queries::Filters::Shared
         # calculated_value hijacks float instead of adding separate strategy.
         {
           **Queries::Filters::STRATEGIES,
+          string: Queries::Filters::Strategies::CfString,
+          text: Queries::Filters::Strategies::CfText,
+          date: Queries::Filters::Strategies::CfDate,
+          hierarchy: Queries::Filters::Strategies::CfHierarchy,
           integer: Queries::Filters::Strategies::CfInteger,
           float: if custom_field.field_format == "calculated_value"
                    Queries::Filters::Strategies::CfCalculatedValue

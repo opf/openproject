@@ -29,6 +29,7 @@
 import { ApplicationController } from 'stimulus-use';
 import { renderStreamMessage } from '@hotwired/turbo';
 import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
+import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
 
 export default class RequirePasswordConfirmationController extends ApplicationController {
   static services:ServiceKey[] = ['pathHelperService'];
@@ -75,9 +76,9 @@ export default class RequirePasswordConfirmationController extends ApplicationCo
     document.removeEventListener('password-confirmation-dialog:submit', this.dialogSubmitListener);
   }
 
-  private onDialogClose(event:CustomEvent) {
-    const dialog = (event.detail as { dialog?:HTMLElement }|undefined)?.dialog;
-    if (dialog?.id !== 'password-confirmation-dialog') {
+  private onDialogClose(event:CustomEvent<DialogCloseDetail>) {
+    const { detail: { dialog } } = event;
+    if (dialog.id !== 'password-confirmation-dialog') {
       return;
     }
 

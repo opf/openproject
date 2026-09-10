@@ -15,15 +15,15 @@ uk:
         url: URL корисних даних
     models:
       webhooks/log:
-        one: Webhook log
-        few: Webhook logs
-        many: Webhook logs
-        other: Webhook logs
+        one: Журнал вебхуків
+        few: Журнали вебхуків
+        many: Журнали вебхуків
+        other: Журнали вебхуків
       webhooks/webhook:
-        one: Webhook
-        few: Webhooks
-        many: Webhooks
-        other: Webhooks
+        one: Вебхук
+        few: Вебхуки
+        many: Вебхуки
+        other: Вебхуки
   plugin_openproject_webhooks:
     description: Надає плагіну API для підтримки вебгуків OpenProject для кращої інтеграції сторонніх розробників.
     name: Вебгуки OpenProject

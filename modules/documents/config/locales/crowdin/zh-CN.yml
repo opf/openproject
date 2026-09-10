@@ -32,15 +32,15 @@ zh-CN:
           one_or_more_required: 无法删除最后一个文档类型
     models:
       document:
-        other: Documents
+        other: 文档
       document_type:
-        other: Document types
+        other: 文档类型
   activity:
     filter:
       document: 文档
   attributes:
     collaborative_editing_hocuspocus_url: Hocuspocus 服务器 URL
-    documents: Documents
+    documents: 文档
   default_doc_category_tech: 技术文档
   default_doc_category_user: 用户文档
   documents:

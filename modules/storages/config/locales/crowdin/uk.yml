@@ -66,7 +66,7 @@ uk:
             host:
               authorization_header_missing: налаштовано не повністю. Екземпляр Nextcloud не отримує заголовка «Authorization», який необхідний для авторизації запитів API на основі маркерів власника. Перевірте свою конфігурацію сервера HTTP.
               cannot_be_connected_to: недоступний. Переконайтеся, що до нього можна підключитися й додаток OpenProject Integration установлено.
-              minimal_nextcloud_version_unmet: "– не відповідає мінімальним вимогам до версії (Nextcloud 23 або новішої версії)"
+              minimal_nextcloud_version_not_met: does not meet minimal version requirements (must be Nextcloud %{minimal_version} or higher, but %{detected_version} was detected)
               not_nextcloud_server: "– не є сервером Nextcloud."
               op_application_not_installed: схоже, у вас не встановлено додаток OpenProject integration. Спочатку встановіть його, а потім спробуйте знову.
             password:
@@ -74,35 +74,35 @@ uk:
               unknown_error: не вдалося перевірити через постачальника файлового сховища. Переконайтеся, що з’єднання працює належним чином.
     models:
       storages/file_link:
-        one: File link
-        few: File links
-        many: File links
-        other: File links
+        one: Посилання на файл
+        few: Посилання на файли
+        many: Посилання на файли
+        other: Посилання на файли
       storages/nextcloud_storage:
-        one: Nextcloud storage
-        few: Nextcloud storages
-        many: Nextcloud storages
-        other: Nextcloud storages
+        one: Сховище Nextcloud
+        few: Сховища Nextcloud
+        many: Сховища Nextcloud
+        other: Сховища Nextcloud
       storages/one_drive_storage:
-        one: OneDrive storage
-        few: OneDrive storages
-        many: OneDrive storages
-        other: OneDrive storages
+        one: Сховище OneDrive
+        few: Сховища OneDrive
+        many: Сховища OneDrive
+        other: Сховища OneDrive
       storages/project_storage:
-        one: Project storage
-        few: Project storages
-        many: Project storages
-        other: Project storages
+        one: Сховище проєкту
+        few: Сховища проєкту
+        many: Сховища проєкту
+        other: Сховища проєкту
       storages/sharepoint_storage:
-        one: SharePoint storage
-        few: SharePoint storages
-        many: SharePoint storages
-        other: SharePoint storages
+        one: Сховище SharePoint
+        few: Сховища SharePoint
+        many: Сховища SharePoint
+        other: Сховища SharePoint
       storages/storage:
-        one: Storage
-        few: Storages
-        many: Storages
-        other: Storages
+        one: Сховище
+        few: Сховища
+        many: Сховища
+        other: Сховища
   api_v3:
     errors:
       too_many_elements_created_at_once: Забагато елементів, створених за раз. Очікувалося щонайбільше %{max}; отримано %{actual}.
@@ -163,6 +163,7 @@ uk:
         error: Сталася неочікувана помилка. Щоб дізнатися більше, перегляньте журнали OpenProject або зверніться до адміністратора.
         folder_id_collision: Папкою проєкту «%{folder}» намагаються керувати кілька сховищ проєктів. Її синхронізацію було пропущено.
         forbidden: OpenProject не вдалось отримати доступ до запитаного ресурсу. Перевірте конфігурацію дозволів на доступ до сховища.
+        invalid_response: OpenProject could not process the response received from the Storage Provider. Please check OpenProject logs for more information or contact an administrator.
         unauthorized: OpenProject не вдалося автентифікуватись у постачальника сховища. Переконайтеся, що ви маєте до нього доступ.
       models:
         copy_project_folders_service:

@@ -3,6 +3,7 @@ sv:
   activerecord:
     attributes:
       saml/provider:
+        allowed_clock_drift: Tillåten klockavvikelse
         assertion_consumer_service_url: URL för ACS (Assertion consumer service)
         authn_requests_signed: Signera SAML AuthnRequests
         certificate: Certifikat som används av OpenProject för SAML-förfrågningar
@@ -12,7 +13,7 @@ sv:
         icon: Anpassad ikon
         identifier: Identifierare
         idp_cert: Offentligt certifikat för identitetsleverantör
-        idp_entity_id: Identity provider entity ID
+        idp_entity_id: Identitetsleverantörens entitets-ID
         idp_slo_service_url: Utloggningsslutpunkt för identitetsleverantör
         idp_sso_service_url: Identitetsleverantörens inloggningsändpunkt
         limit_self_registration: Begränsa självregistrering
@@ -34,10 +35,10 @@ sv:
           unmatched_private_key: inte tillhör det angivna certifikatet
     models:
       saml/provider:
-        one: SAML provider
-        other: SAML providers
+        one: SAML-leverantör
+        other: SAML leverantörer
   saml:
-    delete_heading: Delete this SAML provider?
+    delete_heading: Ta bort den här SAML-leverantören?
     delete_title: Ta bort SAML-leverantör
     info:
       description: 'Använd dessa parametrar för att konfigurera din identitetsleverantörsanslutning till OpenProject.
@@ -45,6 +46,9 @@ sv:
         '
       title: Konfigurationsparametrar för SAML-protokoll
     instructions:
+      allowed_clock_drift: 'Tolerans i sekunder som tillämpas vid validering av tidsstämplarna i identitetsleverantörens svar. Bråkdelar av en sekund godtas. Använd detta endast om OpenProjects och identitetsleverantörens klockor bevisligen inte är synkroniserade, och håll värdet så lågt som möjligt (standard: 0).
+
+        '
       authn_requests_signed: 'Om markerad, kommer OpenProject signera SAML AuthnRequest. Du måste ange ett signeringscertifikat och privat nyckel med fälten nedan.
 
         '
@@ -66,7 +70,7 @@ sv:
       idp_cert: 'Ange det X509 PEM-formaterade offentliga certifikatet för identitetsleverantören. Du kan ange flera certifikat genom att skilja dem åt med en ny rad.
 
         '
-      idp_entity_id: 'Optional: Useful when the metadata URL points to a federation aggregate with a lot of entries. Enter the entity ID of your institution''s identity provider. Leave blank for single-entity metadata URLs.
+      idp_entity_id: 'Valfritt: Användbart när metadata-URL:en pekar på ett federationsaggregat med många poster. Ange entitets-ID:t för din organisations identitetsleverantör. Lämna tomt för metadata-URL:er med en enda entitet.
 
         '
       idp_slo_service_url: 'URL-adressen till slutpunkten för identitetsleverantörens utloggning.
@@ -141,11 +145,11 @@ sv:
     menu_title: SAML leverantörer
     metadata_parser:
       error: 'Misslyckades med att hämta metadata för identitetsleverantören: %{error}'
-      federation_metadata: 'The metadata URL points to a federation aggregate (many identity providers). Use your institution''s direct metadata URL, or enter your institution''s IdP entity ID in the metadata form and try again.
+      federation_metadata: 'Metadata-URL:en pekar på ett federationsaggregat (många identitetsleverantörer). Använd den direkta metadata-URL:en för din organisation eller ange organisationens IdP-entitets-ID i metadataformuläret och försök igen.
 
         '
       invalid_url: Tillhandahållen metadata URL är ogiltig. Ange en HTTP(s) URL.
-      metadata_too_large: The metadata file exceeds the maximum allowed size.
+      metadata_too_large: Metadatafilen överskrider den största tillåtna storleken.
       success: Uppdaterade konfigurationen med hjälp av identitetsleverantörens metadata.
     providers:
       attribute_mapping: Attributmappning

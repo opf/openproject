@@ -3,6 +3,7 @@ fa:
   activerecord:
     attributes:
       saml/provider:
+        allowed_clock_drift: اختلاف مجاز ساعت
         assertion_consumer_service_url: آدرس ACS (سرویس احراز هویت سخت افزاری)
         authn_requests_signed: امضای SAML AuthnRequestها
         certificate: گواهی استفاده‌شده توسط اوپن‌پروجکت برای درخواست‌های SAML
@@ -45,6 +46,9 @@ fa:
         '
       title: پارامترهای پیکربندی پروتکل احراز هویت سخت افزاری
     instructions:
+      allowed_clock_drift: 'میزان خطای مجاز، بر حسب ثانیه، هنگام اعتبارسنجی مُهرهای زمانی پاسخ ارائه‌دهنده هویت. کسرهای ثانیه نیز پذیرفته می‌شوند. فقط زمانی از این گزینه استفاده کنید که مشخص باشد ساعت OpenProject و ارائه‌دهنده هویت با هم همگام نیستند، و مقدار را تا حد ممکن پایین نگه دارید (پیش‌فرض: 0).
+
+        '
       authn_requests_signed: 'اگر علامت زده شود، OpenProject SAML AuthnRequest را امضا خواهد کرد. باید گواهی امضا و کلید خصوصی را با استفاده از فیلدهای زیر ارائه دهید.
 
         '

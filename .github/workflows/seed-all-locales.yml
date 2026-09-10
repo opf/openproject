@@ -41,7 +41,7 @@ jobs:
           fi
 
       - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ steps.use_input_or_find_latest_release.outputs.ref }}
           persist-credentials: false
@@ -89,7 +89,7 @@ jobs:
       RAILS_ENV: development
     steps:
       - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ needs.prepare.outputs.ref }}
           persist-credentials: false
@@ -98,7 +98,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y libpq-dev
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@003a5c4d8d6321bd302e38f6f0ec593f77f06600 # v1
+        uses: ruby/setup-ruby@95ef2b042f9d7a56d8268cba8559e2842e2ad01b # v1
         with:
           bundler-cache: true
 
