@@ -62,7 +62,7 @@ RSpec.describe "Workflow copy from role", :js do
   describe "from the workflow tab" do
     before do
       visit edit_type_workflow_path(type_id: type)
-      click_link "Copy"
+      within("#workflow-table") { click_link I18n.t(:label_copy_workflow_from_role) }
     end
 
     it_behaves_like "a copy-to-other-roles dialog", host: :tab
@@ -71,7 +71,7 @@ RSpec.describe "Workflow copy from role", :js do
   describe "from the creation wizard" do
     before do
       visit type_creation_wizard_path(type_id: type, step: :workflows)
-      within("#workflow-table") { click_link "Copy" }
+      within("#workflow-table") { click_link I18n.t(:label_copy_workflow_from_role) }
     end
 
     it_behaves_like "a copy-to-other-roles dialog", host: :wizard

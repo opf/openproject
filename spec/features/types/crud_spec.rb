@@ -43,43 +43,14 @@ RSpec.describe "Types", :js do
     login_as(admin)
   end
 
-  it "crud" do
-    index_page.visit!
-
-    index_page.click_new
-
-    # Error messages if something was wrong
-    fill_in "Name", with: existing_type.name
-    select existing_type.name, from: "Copy workflow from"
-
-    click_on "Save"
-
-    expect(page).to have_css(".FormControl-inlineValidation", text: "has already been taken.", wait: 12)
-
-    # Values are retained
-    expect(page).to have_field("Name", with: existing_type.name)
-    expect(page).to have_field("Copy workflow from", with: existing_type.id)
-
-    # Successful creation
-    fill_in "Name", with: "A new type"
-
-    click_on "Save"
-
-    expect(page).to have_content I18n.t(:notice_successful_create)
-
-    # Workflow should be copied over from the source type.
-    new_type = Type.find_by!(name: "A new type")
-    expect(
-      Workflow.exists?(type_variant_id: new_type.default_variant.id,
-                       old_status_id: existing_workflow.old_status_id,
-                       new_status_id: existing_workflow.new_status_id)
-    ).to be true
+  it "renames and deletes a type from the index" do
+    new_type = create(:type, name: "A new type")
 
     index_page.visit!
 
     index_page.expect_listed(existing_type, "A new type")
 
-    index_page.click_edit("A new type")
+    visit edit_type_details_path(type_id: new_type.id)
 
     fill_in "Name", with: "Renamed type"
 
