@@ -100,6 +100,7 @@ module Import
 
     private
 
+    # rubocop:disable-next Metrics/AbcSize
     def create_attachment(work_package, attachment, author)
       filename = attachment["filename"]
       content_url = attachment["content"]
