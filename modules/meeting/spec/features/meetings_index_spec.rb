@@ -194,6 +194,23 @@ RSpec.describe "Meetings", "Index", :js do
           meetings_page.expect_meetings_not_listed(tomorrows_meeting)
         end
 
+        context 'and the "Meeting status" filter' do
+          before do
+            yesterdays_meeting.update!(state: :closed)
+            meeting.update!(state: :in_progress)
+          end
+
+          it "narrows the past meetings down to the selected statuses" do
+            meetings_page.open_filters
+            meetings_page.set_filter("state", "Meeting status", "is (OR)", ["In progress", "Closed"])
+
+            wait_for_network_idle
+
+            meetings_page.expect_meetings_listed(meeting, yesterdays_meeting)
+            meetings_page.expect_meetings_not_listed(ongoing_meeting)
+          end
+        end
+
         it "keeps the past filter selected when changing advanced filters (Regression #61875)" do
           meetings_page.set_sidebar_filter "My meetings"
           meetings_page.set_quick_filter upcoming: false

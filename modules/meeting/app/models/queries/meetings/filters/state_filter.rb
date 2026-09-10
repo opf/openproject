@@ -28,26 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Meetings
-  module Statuses
-    RECORD = Struct.new(:id, :color, keyword_init: true) do
-      def name = I18n.t("label_meeting_state_#{id}")
-    end
+class Queries::Meetings::Filters::StateFilter < Queries::Meetings::Filters::MeetingFilter
+  def type
+    :list
+  end
 
-    DRAFT = RECORD.new(id: "draft", color: Color.new(hexcode: "#BF3989"))
-    OPEN = RECORD.new(id: "open", color: Color.new(hexcode: "#006edb"))
-    IN_PROGRESS = RECORD.new(id: "in_progress", color: Color.new(hexcode: "#894ceb"))
-    CLOSED = RECORD.new(id: "closed", color: Color.new(hexcode: "#25292e"))
+  def allowed_values
+    Meetings::Statuses::AVAILABLE.map { [it.name, Meeting.states.fetch(it.id)] }
+  end
 
-    AVAILABLE = [
-      DRAFT,
-      OPEN,
-      IN_PROGRESS,
-      CLOSED
-    ].freeze
+  def human_name
+    I18n.t(:label_meeting_state)
+  end
 
-    def self.find_by_id(id)
-      AVAILABLE.find { |status| status.id == id }
-    end
+  def self.key
+    :state
   end
 end
