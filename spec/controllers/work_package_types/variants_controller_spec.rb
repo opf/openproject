@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe WorkPackageTypes::VariantsController, with_flag: { type_variants: true } do
+RSpec.describe WorkPackageTypes::VariantsController do
   shared_let(:admin) { create(:admin) }
 
   let(:type) { create(:type) }
@@ -51,12 +51,6 @@ RSpec.describe WorkPackageTypes::VariantsController, with_flag: { type_variants:
         expect(response).to have_http_status(:ok)
         expect(response).to render_template(:index)
         expect(response.body).to include("Hardware")
-      end
-
-      context "with the type_variants feature disabled", with_flag: { type_variants: false } do
-        it "is not found" do
-          expect(response).to have_http_status(:not_found)
-        end
       end
     end
 

@@ -63,8 +63,6 @@ module ::TypesHelper
   end
 
   def settings_tab
-    return unless OpenProject::FeatureDecisions.type_variants_active?
-
     type_tab(SETTINGS_TAB, type_settings_path(**type_variant_tab_args),
              aspect: nil, label: I18n.t("types.edit.overview.tab"))
   end
@@ -78,7 +76,6 @@ module ::TypesHelper
   end
 
   def variants_tab
-    return unless OpenProject::FeatureDecisions.type_variants_active?
     return if @variant.present? && !@variant.is_default_variant?
     # This lists every project's variants of the type, so it is administration's view of them.
     return if variant_scope_project

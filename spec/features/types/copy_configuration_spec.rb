@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Copying a type's form configuration from another type", :js, with_flag: { type_variants: true } do
+RSpec.describe "Copying a type's form configuration from another type", :js do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   shared_let(:admin) { create(:admin) }

@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe TypeVariant, with_flag: { type_variants: true } do
+RSpec.describe TypeVariant do
   shared_let(:bug) { create(:type, name: "Bug") }
   shared_let(:task) { create(:type, name: "Task") }
 

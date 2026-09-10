@@ -31,8 +31,7 @@
 require "rails_helper"
 
 RSpec.describe Projects::Settings::WorkPackages::Types::SwitchFormComponent,
-               type: :component,
-               with_flag: { type_variants: true } do
+               type: :component do
   shared_let(:type) { create(:type, name: "Bug") }
   shared_let(:base) { type.default_variant }
   shared_let(:global) { create(:type_variant, type:, variant_name: "Mobile") }
