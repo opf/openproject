@@ -103,7 +103,7 @@ flowchart
           OPCI["Confluence integration"]
       end
       subgraph XW1["XWiki"]
-          XW1I["OpenProject plug-in"]
+          XW1I["OpenProject plugin"]
       end
       
       OPC <--> XW1
