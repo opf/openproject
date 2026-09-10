@@ -44,7 +44,7 @@ RSpec.describe "Projects", "work packages settings menu", :js do
       it "displays the types tab" do
         work_packages_settings_page.visit!
         expect(page).to have_css(".tabnav-tab", text: "Types")
-        expect(page).to have_css("#types-form")
+        expect(page).to have_test_selector("project-types-add-button")
       end
     end
 

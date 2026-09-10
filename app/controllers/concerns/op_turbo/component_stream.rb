@@ -140,9 +140,9 @@ module OpTurbo
         .render_in(view_context)
     end
 
-    def close_dialog_via_turbo_stream(target, additional: {})
+    def close_dialog_via_turbo_stream(dialog_id, additional: {})
       turbo_streams << OpTurbo::StreamComponent
-        .new(action: :closeDialog, target:, additional: additional.to_json)
+        .new(action: :closeDialog, target: dialog_id, additional: additional.to_json)
         .render_in(view_context)
     end
 

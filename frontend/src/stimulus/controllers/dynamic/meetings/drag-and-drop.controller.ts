@@ -30,6 +30,10 @@ import GenericDragAndDropController from '../generic-drag-and-drop.controller';
 import { appendCollapsedState } from '../../../helpers/meetings-helpers';
 import { hasUnsavedChanges } from '../../../helpers/meetings-helpers';
 
+/**
+ * @deprecated Inherits the deprecated {@link GenericDragAndDropController};
+ * migrate this surface to the `sortable-lists` controller suite.
+ */
 export default class extends GenericDragAndDropController {
   protected override buildData(el:Element, target:Element):FormData {
     const data = super.buildData(el, target);

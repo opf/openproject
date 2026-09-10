@@ -1091,6 +1091,34 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
+    describe "observedInVersions" do
+      context "when has permission to assign versions" do
+        let(:permissions) { [:assign_versions] }
+
+        it_behaves_like "has basic schema properties" do
+          let(:path) { "observedInVersions" }
+          let(:type) { "[]Version" }
+          let(:name) { I18n.t("activerecord.attributes.work_package.observed_in_versions") }
+          let(:required) { false }
+          let(:writable) { true }
+          let(:location) { "_links" }
+        end
+      end
+
+      context "when does not have permission to assign versions" do
+        let(:permissions) { [:edit_work_packages] }
+
+        it_behaves_like "has basic schema properties" do
+          let(:path) { "observedInVersions" }
+          let(:type) { "[]Version" }
+          let(:name) { I18n.t("activerecord.attributes.work_package.observed_in_versions") }
+          let(:required) { false }
+          let(:writable) { false }
+          let(:location) { "_links" }
+        end
+      end
+    end
+
     describe "priorities" do
       before do
         allow(schema).to receive(:writable?).with("priority").and_return true
@@ -1423,7 +1451,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
   end
 
-  describe "when the project resolves the type to a variant", with_flag: { type_variants: true } do
+  describe "when the project resolves the type to a variant" do
     shared_let(:family_root) { create(:type, name: "Family root") }
     shared_let(:base_variant) { family_root.default_variant }
     shared_let(:variant) do

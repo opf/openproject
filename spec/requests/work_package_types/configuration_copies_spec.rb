@@ -32,8 +32,7 @@ require "spec_helper"
 
 RSpec.describe "Work package type configuration copies",
                :skip_csrf,
-               type: :rails_request,
-               with_flag: { type_variants: true } do
+               type: :rails_request do
   shared_let(:admin) { create(:admin) }
 
   let(:type) { create(:type) }
@@ -71,12 +70,6 @@ RSpec.describe "Work package type configuration copies",
     it "is not found for aspects without a copy service" do
       get type_configuration_copy_dialog_path(type_id: type.id, variant_id: variant.id, aspect: "unknown_aspect"),
           as: :turbo_stream
-
-      expect(response).to have_http_status(:not_found)
-    end
-
-    it "is not found when the variants feature is disabled", with_flag: { type_variants: false } do
-      get type_configuration_copy_dialog_path(type_id: type.id, variant_id: variant.id, aspect:), as: :turbo_stream
 
       expect(response).to have_http_status(:not_found)
     end

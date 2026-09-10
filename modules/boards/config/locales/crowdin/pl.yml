@@ -3,10 +3,10 @@ pl:
   activerecord:
     models:
       boards/grid:
-        one: Board
-        few: Boards
-        many: Boards
-        other: Boards
+        one: Tablica
+        few: Tablice
+        many: Tablice
+        other: Tablice
   boards:
     board_type_attributes:
       assignee: Przypisany do

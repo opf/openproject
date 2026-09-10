@@ -35,6 +35,7 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { WorkDisplayField } from 'core-app/shared/components/fields/display/field-types/work-display-field.module';
 import moment from 'moment-timezone';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
+import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
 
 export class WorkPackageSpentTimeDisplayField extends WorkDisplayField {
   public text = {
@@ -122,12 +123,10 @@ export class WorkPackageSpentTimeDisplayField extends WorkDisplayField {
     );
   }
 
-  private handleDialogClose(event:CustomEvent):void {
+  private handleDialogClose(event:CustomEvent<DialogCloseDetail>):void {
     document.removeEventListener('dialog:close', this.closeDialogHandler);
 
-    const {
-      detail: { dialog, submitted },
-    } = event as { detail:{ dialog:HTMLDialogElement; submitted:boolean } };
+    const { detail: { dialog, submitted } } = event;
     if (dialog.id === 'time-entry-dialog' && submitted) {
       void this.apiV3Service.work_packages
         .id(this.workPackageForHandler.id!)

@@ -3,310 +3,310 @@ sv:
   activerecord:
     attributes:
       resource_allocation:
-        allocated_hours: Hours
-        allocated_time: Allocated time
-        date_range: Dates
-        end_date: Finish date
-        entity: Entity
-        filter_name: Resource filter name
-        principal: Assignee
-        start_date: Start date
-        state: State
-        user_filter: User filter
+        allocated_hours: Timmar
+        allocated_time: Tilldelad tid
+        date_range: Datum
+        end_date: Slutdatum
+        entity: Entitet
+        filter_name: Namn på resursfilter
+        principal: Tilldelad till
+        start_date: Startdatum
+        state: Tillstånd
+        user_filter: Användarfilter
       resource_planner:
-        date_range: Dates
-        default_view_class_name: Default view
-        end_date: Finish date
-        favorite: Favorite
-        name: Name
-        public: Public
-        start_date: Start date
+        date_range: Datum
+        default_view_class_name: Standardvy
+        end_date: Slutdatum
+        favorite: Favorit
+        name: Namn
+        public: Offentlig
+        start_date: Startdatum
     errors:
       models:
         resource_allocation:
           attributes:
             end_date:
-              greater_than_start_date: must be after the start date.
+              greater_than_start_date: måste vara efter startdatumet.
         resource_planner:
           attributes:
             end_date:
-              greater_than_start_date: must be after the start date.
-              required_with_start_date: must be set when a start date is set.
+              greater_than_start_date: måste vara efter startdatumet.
+              required_with_start_date: måste anges när ett startdatum anges.
             start_date:
-              required_with_end_date: must be set when a finish date is set.
+              required_with_end_date: måste anges när ett slutdatum anges.
         resource_work_package_list:
           attributes:
             query:
-              must_be_work_package_query: must be a work package query.
+              must_be_work_package_query: måste vara en arbetspaketsfråga.
     models:
       resource_allocation:
-        one: Resource Allocation
-        other: Resource Allocations
+        one: Resurstilldelning
+        other: Resurstilldelningar
       resource_planner:
-        one: Resource Planner
-        other: Resource Planners
+        one: Resursplanerare
+        other: Resursplanerare
       resource_user_card:
-        one: User card
-        other: User cards
+        one: Användarkort
+        other: Användarkort
       resource_user_timeline:
-        one: User timeline
-        other: User timelines
+        one: Användartidslinje
+        other: Användartidslinjer
       resource_work_package_list:
-        one: Work packages list
-        other: Work packages lists
+        one: Arbetspaketslista
+        other: Arbetspaketslistor
       resource_work_package_timeline:
-        one: Work packages timeline
-        other: Work packages timelines
-  button_next: Next
+        one: Arbetspaketstidslinje
+        other: Arbetspaketstidslinjer
+  button_next: Nästa
   ee:
     features:
-      resource_management: Resource management
+      resource_management: Resurshantering
     upsell:
       resource_management:
-        description: Plan and balance your team's workload with resource planners. Allocate people to work packages, track capacity over time and spot over- and under-allocation at a glance.
-        title: Resource management
-  label_resource_management: Resource management
-  permission_allocate_user_resources: Allocate user resources
-  permission_allocate_user_resources_explanation: Allows users to create, update, and delete resource allocations within a resource planner. This includes assigning users (or user filters) to a planner and adjusting the allocated time and date range.
-  permission_assign_users_to_generic_allocations: Assign users to generic allocations
-  permission_assign_users_to_generic_allocations_explanation: Allows users to use the Staffing view to assign real users to generic (filter-based) resource allocations that do not yet have a user. It does not allow creating or editing allocations.
-  permission_manage_public_resource_planners: Manage public resource planners
-  permission_manage_public_resource_planners_explanation: Allows users to create and manage public resource planners. It allows them to view, create, manage and publish their own resource planners. It does not allow users to view resource planners created by other users that are not shared publicly.
-  permission_view_resource_planners: View resource planners
-  permission_view_resource_planners_explanation: Allows users to access resource planners. It allows them to create and manage their own resource planners and view public resource planners. It does not allow users to view resource planners created by other users that are not shared publicly.
+        description: Planera och balansera teamets arbetsbelastning med resursplanerare. Tilldela personer till arbetspaket, följ kapaciteten över tid och upptäck över- och undertilldelning med en blick.
+        title: Resurshantering
+  label_resource_management: Resurshantering
+  permission_allocate_user_resources: Tilldela användarresurser
+  permission_allocate_user_resources_explanation: Tillåter användare att skapa, uppdatera och ta bort resurstilldelningar i en resursplanerare. Detta omfattar att tilldela användare (eller användarfilter) till en planerare och justera tilldelad tid och datumintervall.
+  permission_assign_users_to_generic_allocations: Tilldela användare till generiska tilldelningar
+  permission_assign_users_to_generic_allocations_explanation: Tillåter användare att använda bemanningsvyn för att tilldela verkliga användare till generiska (filterbaserade) resurstilldelningar som ännu inte har någon användare. Det tillåter inte att tilldelningar skapas eller redigeras.
+  permission_manage_public_resource_planners: Hantera offentliga resursplanerare
+  permission_manage_public_resource_planners_explanation: Tillåter användare att skapa och hantera offentliga resursplanerare. De kan visa, skapa, hantera och publicera sina egna resursplanerare. Det tillåter inte användare att visa resursplanerare som skapats av andra användare och inte delas offentligt.
+  permission_view_resource_planners: Visa resursplanerare
+  permission_view_resource_planners_explanation: Tillåter användare att komma åt resursplanerare. De kan skapa och hantera sina egna resursplanerare och visa offentliga resursplanerare. Det tillåter inte användare att visa resursplanerare som skapats av andra användare och inte delas offentligt.
   plugin_openproject_resource_management:
-    description: Provides resource management and capacity planning.
-    name: OpenProject Resource Management
-  project_module_resource_management: Resource management
+    description: Tillhandahåller resurshantering och kapacitetsplanering.
+    name: OpenProject resurshantering
+  project_module_resource_management: Resurshantering
   resource_management:
     action:
-      delete: Delete
-      edit: Edit
-      favorite: Add to favorites
-      make_private: Make private
-      make_public: Make public
-      unfavorite: Remove from favorites
+      delete: Ta bort
+      edit: Redigera
+      favorite: Lägg till i favoriter
+      make_private: Gör privat
+      make_public: Gör offentlig
+      unfavorite: Ta bort från favoriter
     allocate_resource_dialog:
       kind:
         filter:
-          caption: Set filter criteria based on user attributes to create a placeholder resource.
-          label: Filter criteria
-        label: Allocation type
+          caption: Ange filterkriterier baserade på användarattribut för att skapa en platshållarresurs.
+          label: Filterkriterier
+        label: Tilldelningstyp
         principal:
-          caption: Allocate hours for a specific user.
-          label: User
+          caption: Tilldela timmar för en viss användare.
+          label: Användare
       outside_dates:
-        description: The selected resource dates, %{resource_dates}, are outside of the work package's dates, %{work_package_dates}.
+        description: De valda resursdatumen, %{resource_dates}, ligger utanför arbetspaketets datum, %{work_package_dates}.
       overbooking:
-        capacity_summary: "%{available} available · %{scheduled} scheduled"
-        description: The selected user, %{user}, would be allocated beyond their working hours during this period.
-        hidden_work: Other allocations
-        schedule_availability: "%{schedule} (%{factor}% available for project work)"
-        schedule_change: until %{date}, then %{schedule}
-        schedule_note: This user works %{schedule}.
-        submit: Allocate overtime
-        title: Do you want to allocate overtime to the user?
-      submit: Allocate
-      success_message: Resource allocated.
-      title: Allocate resource
+        capacity_summary: "%{available} tillgängligt · %{scheduled} schemalagt"
+        description: Den valda användaren, %{user}, skulle tilldelas mer tid än sina arbetstimmar under den här perioden.
+        hidden_work: Andra tilldelningar
+        schedule_availability: "%{schedule} (%{factor} % tillgänglig för projektarbete)"
+        schedule_change: till %{date}, därefter %{schedule}
+        schedule_note: Den här användaren arbetar %{schedule}.
+        submit: Tilldela övertid
+        title: Vill du tilldela användaren övertid?
+      submit: Tilldela
+      success_message: Resursen har tilldelats.
+      title: Tilldela resurs
     allocation:
-      hours: "%{value}h"
-      no_work: No work planned on this work package
+      hours: "%{value} tim"
+      no_work: Inget arbete planerat för det här arbetspaketet
       summary: "%{allocated} / %{scheduled}"
     assignment_dialog:
-      available: "%{hours} available"
-      confirm_overtime: Assign anyway
-      filter_criteria: Filter criteria
+      available: "%{hours} tillgängliga"
+      confirm_overtime: Tilldela ändå
+      filter_criteria: Filterkriterier
       no_candidates:
-        description: No project member matches this allocation's filter criteria.
-        title: No matching members
-      no_schedule: This user has no work schedule set up, so we cannot determine whether this allocation fits.
-      overbooked_detail: This user has %{available} available in this period, the work package requires %{requested}.
-      requested_for: Requested for
-      select_user: Please select a user to assign.
-      submit: Assign
-      title: Assign %{filter_name}
+        description: Ingen projektmedlem matchar filterkriterierna för den här tilldelningen.
+        title: Inga matchande medlemmar
+      no_schedule: Den här användaren har inget arbetsschema konfigurerat, så vi kan inte avgöra om tilldelningen passar.
+      overbooked_detail: Den här användaren har %{available} tillgängligt under perioden, medan arbetspaketet kräver %{requested}.
+      requested_for: Begärt för
+      select_user: Välj en användare att tilldela.
+      submit: Tilldela
+      title: Tilldela %{filter_name}
     blankslate:
-      desc: Create a resource planner to start planning capacity for this project.
-      title: No resource planners yet
+      desc: Skapa en resursplanerare för att börja planera kapaciteten för det här projektet.
+      title: Inga resursplanerare ännu
     configure_view_dialog:
-      delete_confirmation: Are you sure you want to delete this view? This cannot be undone.
+      delete_confirmation: Är du säker på att du vill ta bort den här vyn? Detta kan inte ångras.
       filter_mode:
         automatic:
-          caption: An automatically-generated list that displays items that meet criteria you define.
-          label: Automatically filtered
-        label: Item selection
+          caption: En automatiskt genererad lista som visar poster som uppfyller kriterier som du definierar.
+          label: Automatiskt filtrerad
+        label: Posturval
         manual:
-          caption: A custom list of items you manually add and remove. Filtering is not possible.
-          label: Manually hand-picked
-      title: Configure view
+          caption: En anpassad lista med poster som du lägger till och tar bort manuellt. Filtrering är inte möjlig.
+          label: Manuellt utvalda
+      title: Konfigurera vy
     edit_allocation_dialog:
-      submit: Save
-      success_message: Resource allocation updated.
-      title: Edit allocation
-    favorite_caption: Make this view a favorite to add it on the top section of the sidebar menu.
-    label_edit_resource_planner: Edit resource planner
-    label_new_resource_planner: New resource planner
-    label_resource_planner: Resource planner
-    label_resource_planner_plural: Resource planners
+      submit: Spara
+      success_message: Resurstilldelningen har uppdaterats.
+      title: Redigera tilldelning
+    favorite_caption: Gör den här vyn till favorit för att lägga till den högst upp i sidofältsmenyn.
+    label_edit_resource_planner: Redigera resursplanerare
+    label_new_resource_planner: Ny resursplanerare
+    label_resource_planner: Resursplanerare
+    label_resource_planner_plural: Resursplanerare
     new_view_dialog:
-      title: Add View
-    public_caption: Make this view public to all members of the project. This does not affect the visibility of work packages which still depends on each user permission.
+      title: Lägg till vy
+    public_caption: Gör den här vyn offentlig för alla projektmedlemmar. Detta påverkar inte synligheten för arbetspaket, som fortfarande beror på varje användares behörigheter.
     show:
-      placeholder: The detailed view for this resource planner is coming soon.
+      placeholder: Detaljvyn för den här resursplaneraren kommer snart.
     sidebar:
-      private: Private
-      public: Public
+      private: Privat
+      public: Offentlig
     staffing:
-      assign: Assign user
+      assign: Tilldela användare
       blank:
-        description: All generic allocations in this project have a user assigned.
-        title: Nothing to staff
+        description: Alla generiska tilldelningar i det här projektet har en användare tilldelad.
+        title: Inget att bemanna
       columns:
-        dates: Dates
-        requested_time: Requested time
-        resource: Resource
-        work_package: Work package
-      context_menu_label: Allocation actions
-      delete_confirmation: Are you sure you want to delete this allocation?
-      menu_item: Staffing
-      starts_in_past: This allocation has already started and is still unassigned.
-      success_message: User assigned.
-      title: Staffing
-    sub_views: Views in this resource planner
+        dates: Datum
+        requested_time: Begärd tid
+        resource: Resurs
+        work_package: Arbetspaket
+      context_menu_label: Tilldelningsåtgärder
+      delete_confirmation: Är du säker på att du vill ta bort den här tilldelningen?
+      menu_item: Bemanning
+      starts_in_past: Den här tilldelningen har redan börjat och är fortfarande otilldelad.
+      success_message: Användaren har tilldelats.
+      title: Bemanning
+    sub_views: Vyer i den här resursplaneraren
     timeframe:
-      full: From %{start} to %{end}
+      full: Från %{start} till %{end}
     timeline:
       granularity:
-        day: Day
-        month: Month
-        week: Calendar week
+        day: Dag
+        month: Månad
+        week: Kalendervecka
       navigation:
-        next: Next period
-        previous: Previous period
-        today: Today
+        next: Nästa period
+        previous: Föregående period
+        today: I dag
       subheader:
-        add: Add
-        allocate: Allocate
-        settings: Configure view
+        add: Lägg till
+        allocate: Tilldela
+        settings: Konfigurera vy
     user_allocations_dialog:
-      allocate_work_package: Allocate work package
-      blank: This user has no allocated work packages.
+      allocate_work_package: Tilldela arbetspaket
+      blank: Den här användaren har inga tilldelade arbetspaket.
       other_work_packages:
-        one: 1 other work package
-        other: "%{count} other work packages"
-      title: Utilization
+        one: 1 annat arbetspaket
+        other: "%{count} andra arbetspaket"
+      title: Utnyttjandegrad
     user_card_list:
       add_user_dialog:
-        title: Add user
+        title: Lägg till användare
       blank:
-        description: There are no users matching this view's filters yet.
-        manual_description: No users have been added to this view yet.
-        title: No users to display
+        description: Det finns ännu inga användare som matchar filtren i den här vyn.
+        manual_description: Inga användare har ännu lagts till i den här vyn.
+        title: Inga användare att visa
       card:
-        multi_value_more: "+%{count} more"
-        remove: Remove user
-        remove_confirmation: Remove this user from the view?
+        multi_value_more: "+%{count} till"
+        remove: Ta bort användare
+        remove_confirmation: Ta bort den här användaren från vyn?
       fields:
-        drag_area_label: Displayed fields
-        input_caption: Select the fields that will be displayed in the user card for this view
-        input_label: Fields
-        input_placeholder: Add a field
-        working_times: Working times
+        drag_area_label: Visade fält
+        input_caption: Välj vilka fält som ska visas på användarkortet i den här vyn
+        input_label: Fält
+        input_placeholder: Lägg till ett fält
+        working_times: Arbetstider
       subheader:
-        resource: Resource
-        settings: Configure view
+        resource: Resurs
+        settings: Konfigurera vy
       utilization:
-        label: Utilization
+        label: Utnyttjandegrad
       working_hours:
-        blank: No working hours configured
-        schedule_availability_compact: "%{schedule} (%{factor}% available)"
-        schedule_change_compact: until %{date}, %{schedule}
+        blank: Inga arbetstider konfigurerade
+        schedule_availability_compact: "%{schedule} (%{factor} % tillgänglig)"
+        schedule_change_compact: till %{date}, %{schedule}
     user_timeline:
       blank:
-        add_user: Add user
-        configure_view: Configure view
-        description: There are no users matching this view's filters yet.
-        manual_description: Add users to this view to see their allocation over time.
-        title: No users to display
-      no_work_schedule: No work schedule planned for this user
-      overbooked: This user is over-allocated in the selected period.
+        add_user: Lägg till användare
+        configure_view: Konfigurera vy
+        description: Det finns ännu inga användare som matchar filtren i den här vyn.
+        manual_description: Lägg till användare i den här vyn för att se deras tilldelning över tid.
+        title: Inga användare att visa
+      no_work_schedule: Inget arbetsschema planerat för den här användaren
+      overbooked: Den här användaren är övertilldelad under den valda perioden.
       overbooked_tooltip:
-        range: "%{dates}: %{scheduled} scheduled, %{available} available"
+        range: "%{dates}: %{scheduled} schemalagt, %{available} tillgängligt"
       subheader:
-        add_user: Add user
+        add_user: Lägg till användare
     view_types:
       resource_user_card:
-        caption: Create a view based on users and see their details and allocation in a list of user cards
-        label: Users card list
+        caption: Skapa en vy baserad på användare och se deras information och tilldelning i en lista med användarkort
+        label: Lista med användarkort
       resource_user_timeline:
-        caption: Create a view based on users and see their allocations over time on a timeline
-        label: Users timeline
+        caption: Skapa en vy baserad på användare och se deras tilldelningar över tid på en tidslinje
+        label: Användartidslinje
       resource_work_package_list:
-        caption: Create a view based on work packages and see its details and allocation in a list
-        label: Work packages list
+        caption: Skapa en vy baserad på arbetspaket och se deras information och tilldelning i en lista
+        label: Arbetspaketslista
       resource_work_package_timeline:
-        caption: Create a view based on work packages and see their allocations over time on a timeline
-        label: Work packages timeline
+        caption: Skapa en vy baserad på arbetspaket och se deras tilldelningar över tid på en tidslinje
+        label: Arbetspaketstidslinje
       user_card:
-        caption: Create a view based on users and see their details and allocation in a list of user cards
-        label: Users card list
+        caption: Skapa en vy baserad på användare och se deras information och tilldelning i en lista med användarkort
+        label: Lista med användarkort
     work_package_allocations_dialog:
-      allocate_resource: Allocate resource
-      context_menu_label: Allocation actions
-      delete_confirmation: Are you sure you want to delete this allocation? This cannot be undone.
-      delete_success: Resource allocation deleted.
-      hidden_user: Hidden user
-      overbooked: The user is allocated beyond their working hours during this period.
-      title: Allocation
+      allocate_resource: Tilldela resurs
+      context_menu_label: Tilldelningsåtgärder
+      delete_confirmation: Är du säker på att du vill ta bort den här tilldelningen? Detta kan inte ångras.
+      delete_success: Resurstilldelningen har tagits bort.
+      hidden_user: Dold användare
+      overbooked: Användaren är tilldelad mer tid än sina arbetstimmar under den här perioden.
+      title: Tilldelning
     work_package_list:
       add_work_package_dialog:
-        title: Add work package
+        title: Lägg till arbetspaket
       allocated_members:
         additional: "+%{count}"
         other_users:
-          one: "%{count} user"
-          other: "%{count} users"
-        unassigned: Unassigned
+          one: "%{count} användare"
+          other: "%{count} användare"
+        unassigned: Ej tilldelad
       allocation_placeholder: "—"
       blank:
-        description: There are no work packages matching this view's filters yet.
-        title: No work packages to display
+        description: Det finns ännu inga arbetspaket som matchar filtren i den här vyn.
+        title: Inga arbetspaket att visa
       columns:
-        allocated_members: Allocated members
-        allocation: Allocation
-        dates: Dates
+        allocated_members: Tilldelade medlemmar
+        allocation: Tilldelning
+        dates: Datum
       context_menu:
-        add_filter_criteria: Add filter criteria
-        add_user_group: Add user group
-        edit_total_work: Edit total work
-        label: More actions
-        move: Move
-        move_down: Move down
-        move_to_bottom: Move to bottom
-        move_to_top: Move to top
-        move_up: Move up
-        remove: Remove
-        remove_confirmation: Remove this work package from the view?
-        see_allocation: See allocation
-      mobile_title: Work packages
-      query_name: 'Resource management work packages: %{name}'
+        add_filter_criteria: Lägg till filterkriterier
+        add_user_group: Lägg till användargrupp
+        edit_total_work: Redigera totalt arbete
+        label: Fler åtgärder
+        move: Flytta
+        move_down: Flytta ned
+        move_to_bottom: Flytta längst ned
+        move_to_top: Flytta till toppen
+        move_up: Flytta upp
+        remove: Ta bort
+        remove_confirmation: Ta bort det här arbetspaketet från vyn?
+        see_allocation: Visa tilldelning
+      mobile_title: Arbetspaket
+      query_name: 'Arbetspaket för resurshantering: %{name}'
       subheader:
-        add: Add
-        add_work_package: Add work package
-        allocate: Allocate
-        settings: Configure view
+        add: Lägg till
+        add_work_package: Lägg till arbetspaket
+        allocate: Tilldela
+        settings: Konfigurera vy
     work_package_timeline:
       allocation_bar:
         matching_members_description:
-          one: "%{count} member of this project matches the allocation's filter criteria."
-          other: "%{count} members of this project match the allocation's filter criteria."
+          one: "%{count} medlem i det här projektet matchar tilldelningens filterkriterier."
+          other: "%{count} medlemmar i det här projektet matchar tilldelningens filterkriterier."
       blank:
-        add_work_package: Add work package
-        configure_view: Configure view
-        description: There are no work packages matching this view's filters yet.
-        manual_description: Add work packages to this view to plan their allocation over time.
-        title: No work packages to display
-      query_name: 'Resource management work package timeline: %{name}'
+        add_work_package: Lägg till arbetspaket
+        configure_view: Konfigurera vy
+        description: Det finns ännu inga arbetspaket som matchar filtren i den här vyn.
+        manual_description: Lägg till arbetspaket i den här vyn för att planera deras tilldelning över tid.
+        title: Inga arbetspaket att visa
+      query_name: 'Tidslinje för arbetspaket i resurshantering: %{name}'
       subheader:
-        add_work_package: Add work package
+        add_work_package: Lägg till arbetspaket

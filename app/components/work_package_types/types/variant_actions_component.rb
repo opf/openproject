@@ -55,6 +55,7 @@ module WorkPackageTypes
       def variant_actions(menu)
         configure_action(menu)
         default_action(menu)
+        convert_action(menu)
         menu.with_divider
 
         delete_action(menu)
@@ -63,19 +64,33 @@ module WorkPackageTypes
       def configure_action(menu)
         menu.with_item(
           label: t(:button_configure),
-          href: edit_type_details_path(type_id: variant.type_id, variant_id: variant.id)
+          href: type_settings_path(type_id: variant.type_id, variant_id: variant.id)
         ) do |item|
           item.with_leading_visual_icon(icon: :gear)
         end
       end
 
-      # Either variant of a type can be the one new projects start with, so a named variant
-      # offers this just as its type's base variant does.
+      # A new project cannot start on a variant a project owns: it would be a configuration only
+      # that project can see.
       def default_action(menu)
+        return if variant.project_owned?
+
         if variant.enabled_in_new_projects?
           remove_default_action(menu)
         else
           make_default_action(menu)
+        end
+      end
+
+      def convert_action(menu)
+        return unless variant.project_owned?
+
+        menu.with_item(
+          label: t("types.index.convert_to_global"),
+          href: convert_to_global_dialog_type_variant_path(type_id: variant.type_id, id: variant.id),
+          content_arguments: { data: { controller: "async-dialog" } }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :"stack-check")
         end
       end
 
@@ -100,6 +115,25 @@ module WorkPackageTypes
       end
 
       def delete_action(menu)
+        if variant.project_types.exists?
+          delete_with_migration_action(menu)
+        else
+          simple_delete_action(menu)
+        end
+      end
+
+      def delete_with_migration_action(menu)
+        menu.with_item(
+          label: t(:button_delete),
+          scheme: :danger,
+          href: deletion_dialog_type_variant_path(type_id: variant.type_id, id: variant.id),
+          content_arguments: { data: { controller: "async-dialog" } }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :trash)
+        end
+      end
+
+      def simple_delete_action(menu)
         menu.with_item(
           label: t(:button_delete),
           scheme: :danger,

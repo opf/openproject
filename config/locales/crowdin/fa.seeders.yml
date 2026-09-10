@@ -71,6 +71,15 @@ fa:
           name: مدیر کارکنان و پروژه‌ها
         item_1:
           name: نقش سراسری استاندارد
+      ai_text_transform_actions:
+        item_0:
+          label: اصلاح دستور زبان
+        item_1:
+          label: خلاصه‌تر کردن
+        item_2:
+          label: ترجمه به انگلیسی
+        item_3:
+          label: مرتب‌سازی در الگو
     standard:
       project_phases:
         item_0:
@@ -330,20 +339,21 @@ fa:
                 options:
                   name: شروع کار
                   text: |
-                    خوشحالیم که به ما پیوستید! پیشنهاد می‌کنیم برای شروع چند مورد را در اوپن‌پروجکت امتحان کنید.
+                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
-                    _مراحل زیر را امتحان کنید:_
+                    _Try the following steps:_
 
-                    1. *اعضای جدید را به پروژه دعوت کنید*: &rightarrow; در پیمایش پروژه به [اعضا]({{opSetting:base_url}}/projects/your-scrum-project/members) بروید.
-                    2. *بک‌لاگ محصول و بک‌لاگ‌های اسپرینت را مشاهده کنید*: &rightarrow; در پیمایش پروژه به [بک‌لاگ‌ها]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) بروید.
-                    3. *برد وظایف را مشاهده کنید*: &rightarrow; به [بک‌لاگ‌ها]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) بروید &rightarrow; روی پیکان سمت راست اسپرینت کلیک کنید &rightarrow; [برد وظایف](##sprint:scrum_project__version__sprint_1) را انتخاب کنید.
-                    4. *یک بستهٔ کاری جدید ایجاد کنید*: &rightarrow; به [بسته‌های کاری &rightarrow; ایجاد]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new) بروید.
-                    5. *برنامهٔ پروژه را ایجاد و به‌روزرسانی کنید*: &rightarrow; در پیمایش پروژه به [برنامهٔ پروژه](##query:scrum_project__query__project_plan) بروید.
-                    6. *ویکی اسپرینت ایجاد کنید*: &rightarrow; به [بک‌لاگ‌ها]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) بروید و از منوی کشویی سمت راست یک اسپرینت، ویکی آن را باز کنید. می‌توانید [الگوی ویکی]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) را بر اساس نیاز خود ویرایش کنید.
-                    7. *ماژول‌های بیشتری فعال کنید*: &rightarrow; به [تنظیمات پروژه &rightarrow; ماژول‌ها]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules) بروید.
+                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
+                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
+                    3. *Create a sprint*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and click "+ Sprint" to create a new sprint. Move work packages from the backlog to the sprint to plan the work to be done. When ready, click "Start sprint".
+                    4. *View your Sprint board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select Sprint Board.
+                    5. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    6. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
+                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
-                    [راهنماهای کاربر](https://www.openproject.org/docs/user-guide/) را اینجا می‌توانید پیدا کنید.
-                    اگر سؤال دارید یا به پشتیبانی نیاز دارید، با ما تماس بگیرید: [support[at]openproject.com](mailto:support@openproject.com).
+
+                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
+                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: بسته‌های کاری

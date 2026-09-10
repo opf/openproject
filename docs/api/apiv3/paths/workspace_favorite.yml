@@ -3,7 +3,7 @@
 delete:
   parameters:
     - description: Workspace id
-      example: '1'
+      example: 1
       in: path
       name: id
       required: true
@@ -54,7 +54,7 @@ delete:
 post:
   parameters:
     - description: Workspace id
-      example: '1'
+      example: 1
       in: path
       name: id
       required: true

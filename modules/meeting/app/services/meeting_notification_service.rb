@@ -20,7 +20,7 @@ class MeetingNotificationService
 
   def send_notifications!(action, **)
     recipients_with_errors = []
-    meeting.participants.includes(:user).find_each do |recipient|
+    meeting.participants.invited.includes(:user).find_each do |recipient|
       send_notification(action, recipient, **)
     rescue StandardError => e
       Rails.logger.error do

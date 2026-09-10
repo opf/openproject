@@ -3,8 +3,8 @@ es:
   activerecord:
     models:
       job_status/status:
-        one: Background job status
-        other: Background job statuses
+        one: Estado de trabajo en segundo plano
+        other: Estados de trabajo en segundo plano
   job_status_dialog:
     click_to_download: O bien, [haz clic aquí](download_url) para descargarlo.
     download_starts: La descarga debería iniciarse automáticamente.

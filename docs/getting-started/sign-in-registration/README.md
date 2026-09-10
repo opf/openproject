@@ -70,12 +70,19 @@ Enter the following information:
 - Last name
 - Company E-Mail address
 - Choose a password
+- Confirm your password
 
 Click the **Create** button.
 
 ![Create a new account for OpenProject](openproject_user_guide_sign_in_activation_screen.png)
 
 Make sure to remember your password in order to sign in again at a later point.
+
+> [!NOTE]
+>
+> If your administrator has already enforced [two-factor authentication](../../system-admin-guide/authentication/two-factor-authentication/) , you'll need to add a 2FA device to complete the sign-in process.
+
+![Add new two-factor authentication device](openproject_user_guide_sign_in_first_time_2fa.png)
 
 ## Choose your language
 

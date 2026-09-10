@@ -8,11 +8,34 @@ keywords: wiki menu, wiki navigation
 
 # Wiki project navigation
 
-You can add a wiki page directly to the project menu as a separate menu item to have the pages easily accessible for all team members.
+The project wiki sidebar displays the wiki page hierarchy for the project and makes it easy to navigate between wiki pages and sub-pages.
 
-Wiki menu items are marked with the wiki icon to clearly identify the pages in the project menu.
+You can also add a wiki page directly to the project menu as a separate menu item to have the page easily accessible for all team members.
 
 ![Wiki pages displayed as part of the project navigation menu in OpenProject](openproject_user_guide_wiki_name_project_navigation_wiki_menu.png)
+
+## Navigate wiki pages in the sidebar
+
+When you open the **Wiki** module, the sidebar displays the wiki hierarchy for the project. Only the first level is shown by default and all pages are collapsed.
+
+Each item in the hierarchy is a wiki page. Any wiki page can also have sub-pages. If a page has sub-pages, you can expand it to view them.
+
+When accessing a particular wiki page:
+
+- The current page is marked as current in the sidebar.
+- Its parent pages are expanded to show the location of the current page in the wiki hierarchy.
+- The current page is expanded to show its immediate sub-pages, if there are any.
+
+Select a wiki page in the sidebar to display it in the main content area.
+
+
+## Search the wiki hierarchy
+
+You can use the search field at the top of the wiki sidebar to filter the wiki hierarchy using a text search.
+
+When a matching wiki page is displayed, its parent pages are also listed in grey so that you can see where the page is located in the wiki hierarchy.
+
+![Example of a search field used in the wiki module in OpenProject](openproject_user_guide_wiki_search.png)
 
 ## Add a wiki page to the project menu
 

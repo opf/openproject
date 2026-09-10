@@ -75,7 +75,7 @@ module OpenProject
       end
 
       def unauthorized_header(env)
-        header = OpenProject::Authentication::WWWAuthenticate.response_header(scope: scope(env))
+        header = OpenProject::Authentication::WWWAuthenticate.response_header(env:, scope: scope(env))
 
         { "WWW-Authenticate" => header }
       end

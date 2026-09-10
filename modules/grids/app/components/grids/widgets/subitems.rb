@@ -45,6 +45,10 @@ module Grids
         t(".title")
       end
 
+      def render?
+        !project.project? || project.children.visible.exists?
+      end
+
       def displayed_subitems
         subitems_with_more.first
       end
