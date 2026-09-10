@@ -31,6 +31,8 @@
 require "spec_helper"
 
 RSpec.describe "types", :js do
+  include Components::Autocompleter::NgSelectAutocompleteHelpers
+
   let(:user) do
     create(:user,
            member_with_permissions: { project => %i(edit_project manage_types add_work_packages view_work_packages) })
@@ -38,7 +40,7 @@ RSpec.describe "types", :js do
   let!(:active_type) { create(:type) }
   let!(:type) { create(:type) }
   let!(:project) { create(:project, types: [active_type]) }
-  let(:project_type_settings_page) { Pages::Projects::Settings::Type.new(project) }
+  let(:settings_page) { Pages::Projects::Settings::WorkPackageTypes.new(project) }
   let(:work_packages_page) { Pages::WorkPackagesTable.new(project) }
 
   before do
@@ -52,25 +54,21 @@ RSpec.describe "types", :js do
     work_packages_page.expect_type_available_for_create(active_type)
     work_packages_page.expect_type_not_available_for_create(type)
 
-    project_type_settings_page.visit!
+    settings_page.visit!
 
-    expect(page)
-      .to have_unchecked_field(type.name)
-    expect(page)
-      .to have_checked_field(active_type.name)
+    settings_page.expect_type_row(active_type.default_variant)
+    settings_page.expect_no_type_row(type.default_variant)
 
     # switch enabled types
-    check(type.name)
-    uncheck(active_type.name)
+    page.find("[data-test-selector='project-types-add-button']").click
+    select_autocomplete(page.find("[data-test-selector='project-types-add-select']"), query: type.name)
+    click_on "Add"
 
-    project_type_settings_page.save!
+    settings_page.expect_type_row(type.default_variant)
 
-    project_type_settings_page.expect_and_dismiss_flash(message: "Successful update.")
+    settings_page.remove_type(active_type.default_variant)
 
-    expect(page)
-      .to have_checked_field(type.name)
-    expect(page)
-      .to have_unchecked_field(active_type.name)
+    settings_page.expect_no_type_row(active_type.default_variant)
 
     # the newly activated types are available for work package creation
     # disabled ones are not

@@ -3,7 +3,7 @@ sv:
   activerecord:
     models:
       grids/my_page:
-        one: My page
-        other: My pages
+        one: Min sida
+        other: Mina sidor
   my_page:
     label: Min sida

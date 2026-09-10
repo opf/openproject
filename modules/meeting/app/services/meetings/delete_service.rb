@@ -34,6 +34,8 @@ module Meetings
 
     def after_validate(call)
       Meetings::NotificationDebounceJob.cancel_pending(model)
+      # The occurrence becomes an EXDATE on the series event, so we have to increase the SEQUENCE counter
+      model.recurring_meeting.bump_ical_sequence! if cancel_occurrence?(model)
       send_cancellation_mail(model) if model.notify?
 
       call
@@ -42,12 +44,16 @@ module Meetings
     # For occurrences of a recurring series, keep the record and set state to
     # cancelled instead of destroying it, so the slot remains visible in the series.
     def destroy(meeting)
-      if meeting.recurring? && meeting.recurrence_start_time.present?
+      if cancel_occurrence?(meeting)
         meeting.update_column(:state, Meeting.states[:cancelled])
         true
       else
         meeting.destroy # rubocop:disable Rails/SaveBang
       end
+    end
+
+    def cancel_occurrence?(meeting)
+      meeting.recurring? && meeting.recurrence_start_time.present?
     end
 
     def send_cancellation_mail(meeting)

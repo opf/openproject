@@ -34,9 +34,10 @@ RSpec.describe OpenProject::GitlabIntegration::HookHandler do
   describe "#process" do
     let(:handler) { described_class.new }
     let(:hook) { "fake hook" }
-    let(:params) { ActionController::Parameters.new({ payload: { "fake" => "value" } }) }
+    let(:params) { ActionController::Parameters.new({ event_type:, payload: { "fake" => "value", event_type: } }) }
+    let(:event_type) { "merge_request" }
     let(:environment) do
-      { "HTTP_X_GITLAB_EVENT" => "Merge Request Hook" }
+      {}
     end
     let(:request) { Struct.new(:env).new(env: environment) }
     let(:user) do
@@ -46,9 +47,7 @@ RSpec.describe OpenProject::GitlabIntegration::HookHandler do
     end
 
     context "with an unsupported event" do
-      let(:environment) do
-        { "HTTP_X_GITLAB_EVENT" => "Unsupported Hook" }
-      end
+      let(:event_type) { "unsupported" }
 
       it "returns 404" do
         result = handler.process(hook, request, params, user)
@@ -73,8 +72,7 @@ RSpec.describe OpenProject::GitlabIntegration::HookHandler do
       context "when a secret is configured and the token matches",
               with_settings: { plugin_openproject_gitlab_integration: { webhook_secret: "super_secret" } } do
         let(:environment) do
-          { "HTTP_X_GITLAB_EVENT" => "Merge Request Hook",
-            "HTTP_X_GITLAB_TOKEN" => secret }
+          { "HTTP_X_GITLAB_TOKEN" => secret }
         end
 
         it "returns 200" do
@@ -85,8 +83,7 @@ RSpec.describe OpenProject::GitlabIntegration::HookHandler do
       context "when a secret is configured and the token is wrong",
               with_settings: { plugin_openproject_gitlab_integration: { webhook_secret: "super_secret" } } do
         let(:environment) do
-          { "HTTP_X_GITLAB_EVENT" => "Merge Request Hook",
-            "HTTP_X_GITLAB_TOKEN" => "wrong_secret" }
+          { "HTTP_X_GITLAB_TOKEN" => "wrong_secret" }
         end
 
         it "returns 403" do
@@ -122,9 +119,9 @@ RSpec.describe OpenProject::GitlabIntegration::HookHandler do
     context "with a supported event and a user" do
       let(:expected_params) do
         {
-          "fake" => "value",
-          "open_project_user_id" => 12,
-          "gitlab_event" => "merge_request_hook"
+          fake: "value",
+          open_project_user_id: 12,
+          event_type:
         }
       end
 

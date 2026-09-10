@@ -116,10 +116,10 @@ RSpec.describe "Create work package", :js do
         .to have_no_text "Another story"
 
       backlogs_page
-        .expect_work_packages_in_sprint_in_order(sprint1,
-                                                 work_packages: [sprint1_wp1,
-                                                                 sprint1_wp2,
-                                                                 created_work_package])
+        .expect_sprint_items_in_order(sprint1,
+                                      items: [sprint1_wp1,
+                                              sprint1_wp2,
+                                              created_work_package])
 
       # created with the selected type (HighlightedTypeComponent renders type name in uppercase)
       backlogs_page.within_work_package(created_work_package) do
@@ -143,8 +143,7 @@ RSpec.describe "Create work package", :js do
       created_work_package = WorkPackage.last
 
       backlogs_page
-        .expect_work_packages_in_sprint_in_order(sprint2,
-                                                 work_packages: [created_work_package])
+        .expect_sprint_items_in_order(sprint2, items: [created_work_package])
     end
   end
 
@@ -165,9 +164,9 @@ RSpec.describe "Create work package", :js do
       created_work_package = WorkPackage.last
 
       backlogs_page
-        .expect_work_packages_in_sprint_in_order(sprint1,
-                                                 work_packages: [sprint1_other_project_wp1,
-                                                                 created_work_package])
+        .expect_sprint_items_in_order(sprint1,
+                                      items: [sprint1_other_project_wp1,
+                                              created_work_package])
     end
   end
 
@@ -182,7 +181,7 @@ RSpec.describe "Create work package", :js do
 
       expect_and_dismiss_flash type: :success, exact_message: "Successful creation."
 
-      backlogs_page.expect_work_package_in_backlog_bucket(WorkPackage.last, bucket)
+      backlogs_page.expect_bucket_items(bucket, items: WorkPackage.last)
     end
   end
 
@@ -197,7 +196,7 @@ RSpec.describe "Create work package", :js do
 
       expect_and_dismiss_flash type: :success, exact_message: "Successful creation."
 
-      backlogs_page.expect_inbox_item(WorkPackage.last)
+      backlogs_page.expect_inbox_items(items: WorkPackage.last)
     end
   end
 

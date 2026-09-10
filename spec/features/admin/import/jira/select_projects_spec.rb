@@ -23,7 +23,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -57,11 +57,6 @@ RSpec.describe "Jira import select projects modal", :js do
   let(:filter_label) { I18n.t(:"admin.jira.run.wizard.select_projects.filter_projects") }
 
   before do
-    allow(Import::JiraInstanceMetaDataJob).to receive(:perform_later)
-    allow(Import::JiraProjectsMetaDataJob).to receive(:perform_later)
-    allow(Import::JiraFetchAndImportProjectsJob).to receive(:perform_later)
-    allow(Import::JiraRevertImportJob).to receive(:perform_later).and_return(double(job_id: "job-stub"))
-    allow(Import::JiraFinalizeImportJob).to receive(:perform_later)
     visit admin_import_jira_run_path(jira_id: jira.id, id: jira_import.id)
   end
 

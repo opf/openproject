@@ -83,7 +83,7 @@ export class ProjectTimelineGraphComponent {
   );
 
   readonly accessibleItems = computed<AccessibleProjectTimelineItem[]>(
-    () => this.itemBuilder.buildAccessibleItems(this.phases()),
+    () => this.itemBuilder.buildAccessibleItems(this.phases(), this.milestones(), this.sprints()),
   );
 
   private readonly pathHelper = inject(PathHelperService);

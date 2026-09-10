@@ -62,8 +62,7 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::ProjectAttributesService do
       end
     end
 
-    context "when the variant's link excludes some of the source's attributes",
-            with_flag: { type_variants: true } do
+    context "when the variant's link excludes some of the source's attributes" do
       let(:source) { create(:type).default_variant }
       let(:kept_field) { create(:project_custom_field) }
       let(:excluded_field) { create(:project_custom_field) }
@@ -117,7 +116,7 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::ProjectAttributesService do
       end
     end
 
-    context "when the source resolves through a link", with_flag: { type_variants: true } do
+    context "when the source resolves through a link" do
       let(:owner) { create(:type).default_variant }
       let(:source) { create(:type).default_variant }
       let(:owner_field) { create(:project_custom_field) }

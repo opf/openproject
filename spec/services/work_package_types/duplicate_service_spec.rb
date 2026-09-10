@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe WorkPackageTypes::DuplicateService, with_flag: { type_variants: true } do
+RSpec.describe WorkPackageTypes::DuplicateService do
   shared_let(:admin) { create(:admin) }
   shared_let(:color) { create(:color) }
 

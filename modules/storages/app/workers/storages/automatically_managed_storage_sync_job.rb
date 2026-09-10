@@ -59,8 +59,19 @@ module Storages
 
       sync_result = ManagedFolderSyncService.call(storage)
 
-      sync_result.on_failure { raise Errors::IntegrationJobError, sync_result.errors.full_messages.join(", ") }
+      sync_result.on_failure { raise Errors::IntegrationJobError, health_reason(sync_result.errors) }
       sync_result.on_success { OpenProject::Notifications.send(OpenProject::Events::STORAGE_TURNED_HEALTHY, storage:) }
+    end
+
+    private
+
+    # Health reasons are stored as "<identifier>|<description>".
+    # @see Storages::Storage#health_reason_identifier
+    def health_reason(errors)
+      types = errors.map(&:type).uniq
+      identifier = types.one? ? types.first : :sync_failed
+
+      "#{identifier}|#{errors.map(&:message).uniq.join(', ')}"
     end
   end
 end

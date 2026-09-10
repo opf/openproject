@@ -2,152 +2,106 @@
       Primer::Alpha::Dialog.new(
         title: I18n.t("pdf_generator.dialog.title"),
         id: MODAL_ID,
-        size: :medium_portrait
+        size: :medium_portrait,
+        data: {
+          controller: "work-packages--export--generate-pdf-form"
+        }
       )
     ) do |dialog| %>
   <% dialog.with_header(variant: :large) %>
   <% dialog.with_body do %>
-    <%= primer_form_with(
-          url: generate_pdf_work_package_path(work_package),
-          data: {
-            turbo: false,
-            controller: "work-packages--export--generate-pdf-form"
-          },
-          id: GENERATE_PDF_FORM_ID
-        ) do
-      flex_layout do |modal_body|
-        modal_body.with_row(mt: 0) do
-          render(
-            Primer::Alpha::Select.new(
-              name: "template",
-              label: I18n.t("pdf_generator.dialog.templates.label"),
-              caption: templates_default&.caption || I18n.t("pdf_generator.dialog.templates.none_enabled"),
-              disabled: templates_default.nil?,
-              input_width: :large,
-              data: {
-                "work-packages--export--generate-pdf-form-target": "templates",
-                action: "change->work-packages--export--generate-pdf-form#templatesChanged"
-              }
-            )
-          ) do |component|
-            selected = templates_default&.id
-            templates_options.each do |entry|
-              component.option(
-                label: entry.label,
-                value: entry.id,
-                selected: selected == entry.id,
+    <%= flex_layout do |modal_body|
+          modal_body.with_row(mt: 0) do
+            render(
+              Primer::Alpha::Select.new(
+                name: "template",
+                label: I18n.t("pdf_generator.dialog.templates.label"),
+                caption: templates_default&.caption || I18n.t("pdf_generator.dialog.templates.none_enabled"),
+                disabled: templates_default.nil?,
+                input_width: :large,
                 data: {
-                  caption: entry.caption
+                  "work-packages--export--generate-pdf-form-target": "templates",
+                  action: "change->work-packages--export--generate-pdf-form#templatesChanged"
                 }
+              )
+            ) do |component|
+              selected = templates_default&.id
+              templates_options.each do |entry|
+                component.option(
+                  label: entry.label,
+                  value: entry.id,
+                  selected: selected == entry.id,
+                  data: {
+                    caption: entry.caption
+                  }
+                )
+              end
+            end
+          end
+          modal_body.with_row(
+            mt: 3,
+            classes: templates_default&.id == "artefact" ? nil : "d-none",
+            data: {
+              template: "artefact",
+              "work-packages--export--generate-pdf-form-target": "inputGroups"
+            }
+          ) do
+            primer_form_with(
+              url: generate_pdf_work_package_path(work_package),
+              data: { turbo: false },
+              id: template_form_id("artefact")
+            ) do
+              safe_join(
+                [
+                  hidden_field_tag(:template, "artefact", id: nil),
+                  render(WorkPackages::Exports::Generate::Templates::ArtefactSettingsComponent.new(settings: artefact_settings))
+                ]
               )
             end
           end
-        end
-        modal_body.with_row(
-          mt: 3,
-          classes: templates_default&.id == "artefact" ? nil : "d-none",
-          data: {
-            template: "artefact",
-            "work-packages--export--generate-pdf-form-target": "inputGroups"
-          }
-        ) do
-          render(
-            Primer::Alpha::CheckBox.new(
-              id: "toc_enabled",
-              name: "toc",
-              checked: true,
-              value: "true",
-              unchecked_value: "false",
-              label: I18n.t("pdf_generator.dialog.toc.label"),
-              caption: I18n.t("pdf_generator.dialog.toc.caption"),
-              visually_hide_label: false
-            )
-          )
-        end
-        modal_body.with_row(mt: 3) do
-          render(
-            Primer::Alpha::CheckBox.new(
-              id: "hyphenation_enabled",
-              name: "hyphenation",
-              checked: false,
-              value: "true",
-              unchecked_value: "false",
-              label: I18n.t("pdf_generator.dialog.hyphenation.label"),
-              caption: I18n.t("pdf_generator.dialog.hyphenation.caption"),
-              visually_hide_label: false
-            )
-          )
-        end
-        modal_body.with_row(mt: 3) do
-          render(
-            Primer::Alpha::Select.new(
-              name: "hyphenation_language",
-              label: I18n.t("pdf_generator.dialog.hyphenation_language.label"),
-              input_width: :large
-            )
-          ) do |component|
-            selected = hyphenation_default[:value]
-            hyphenation_options.each do |entry|
-              component.option(label: entry[:label], value: entry[:value], selected: selected == entry[:value])
+          modal_body.with_row(
+            mt: 3,
+            classes: templates_default&.id == "attributes" ? nil : "d-none",
+            data: {
+              template: "attributes",
+              "work-packages--export--generate-pdf-form-target": "inputGroups"
+            }
+          ) do
+            primer_form_with(
+              url: generate_pdf_work_package_path(work_package),
+              data: { turbo: false },
+              id: template_form_id("attributes")
+            ) do
+              safe_join(
+                [
+                  hidden_field_tag(:template, "attributes", id: nil),
+                  render(WorkPackages::Exports::Generate::Templates::AttributesSettingsComponent.new(settings: attributes_settings))
+                ]
+              )
             end
           end
-        end
-        modal_body.with_row(
-          mt: 3,
-          classes: templates_default&.id == "attributes" ? nil : "d-none",
-          data: {
-            template: "attributes",
-            "work-packages--export--generate-pdf-form-target": "inputGroups"
-          }
-        ) do
-          render Primer::Alpha::TextField.new(
-            name: :footer_text,
-            label: I18n.t("pdf_generator.dialog.footer_center.label"),
-            caption: I18n.t("pdf_generator.dialog.footer_center.caption"),
-            visually_hide_label: false,
-            value: default_footer_text
-          )
-        end
-        modal_body.with_row(
-          mt: 3,
-          classes: templates_default&.id == "contract" ? nil : "d-none",
-          data: {
-            template: "contract",
-            "work-packages--export--generate-pdf-form-target": "inputGroups"
-          }
-        ) do
-          render Primer::Alpha::TextField.new(
-            name: :footer_text_center,
-            label: I18n.t("pdf_generator.dialog.footer_center.label"),
-            caption: I18n.t("pdf_generator.dialog.footer_center.caption"),
-            visually_hide_label: false,
-            value: default_footer_text_center
-          )
-        end
-        modal_body.with_row(
-          mt: 3,
-          classes: templates_default&.id == "attributes" ? nil : "d-none",
-          data: {
-            template: "attributes",
-            "work-packages--export--generate-pdf-form-target": "inputGroups"
-          }
-        ) do
-          render(
-            Primer::Alpha::Select.new(
-              name: "page_orientation",
-              label: I18n.t("pdf_generator.dialog.page_orientation.label"),
-              caption: I18n.t("pdf_generator.dialog.page_orientation.caption"),
-              input_width: :large
-            )
-          ) do |component|
-            selected = page_orientation_default[:value]
-            page_orientation_options.each do |entry|
-              component.option(label: entry[:label], value: entry[:value], selected: selected == entry[:value])
+          modal_body.with_row(
+            mt: 3,
+            classes: templates_default&.id == "contract" ? nil : "d-none",
+            data: {
+              template: "contract",
+              "work-packages--export--generate-pdf-form-target": "inputGroups"
+            }
+          ) do
+            primer_form_with(
+              url: generate_pdf_work_package_path(work_package),
+              data: { turbo: false },
+              id: template_form_id("contract")
+            ) do
+              safe_join(
+                [
+                  hidden_field_tag(:template, "contract", id: nil),
+                  render(WorkPackages::Exports::Generate::Templates::ContractSettingsComponent.new(settings: contract_settings))
+                ]
+              )
             end
           end
-        end
-      end
-    end %>
+        end %>
   <% end %>
   <% dialog.with_footer do %>
     <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": MODAL_ID })) { I18n.t(:button_cancel) } %>
@@ -155,9 +109,12 @@
           Primer::Beta::Button.new(
             scheme: :primary,
             type: :submit,
-            form: GENERATE_PDF_FORM_ID,
+            form: templates_default && template_form_id(templates_default.id),
             disabled: templates_default.nil?,
-            data: { "close-dialog-id": MODAL_ID }
+            data: {
+              "close-dialog-id": MODAL_ID,
+              "work-packages--export--generate-pdf-form-target": "submit"
+            }
           )
         ) { I18n.t("pdf_generator.dialog.submit") } %>
   <% end %>

@@ -45,7 +45,7 @@ module WorkPackageTypes
       def filters_form_attributes
         {
           controller: "filter--filters-form",
-          "filter--filters-form-perform-turbo-requests-value": true,
+          "filter--filters-form-turbo-stream-request-value": true,
           "filter--filters-form-clear-button-id-value": clear_button_id,
           "filter--filters-form-current-filters-value": serialized_filters
         }

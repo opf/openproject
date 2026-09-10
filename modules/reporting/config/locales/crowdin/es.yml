@@ -22,10 +22,17 @@
 ---
 es:
   activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: The rows and columns must together cover exactly the grouping criteria of the query.
     models:
-      cost_query:
+      cost_report:
         one: Cost report
         other: Cost reports
+      cost_query:
+        one: Informe de costes
+        other: Informes de costes
   button_save_report_as: Guardar informe como...
   comments: Comentario
   cost_reports_title: Tiempo y costos

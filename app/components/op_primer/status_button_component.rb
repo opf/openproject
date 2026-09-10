@@ -83,8 +83,10 @@ module OpPrimer
 
     def highlight_class_name(status, style)
       case style
-      when :inline
-        helpers.hl_inline_class(status.color_namespace, status.color_ref)
+      when :dot
+        helpers.hl_dot_class(status.color_namespace, status.color_ref)
+      when :foreground
+        helpers.hl_foreground_class(status.color_namespace, status.color_ref)
       when :background
         helpers.hl_background_class(status.color_namespace, status.color_ref)
       end

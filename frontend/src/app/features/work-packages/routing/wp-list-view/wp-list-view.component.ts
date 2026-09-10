@@ -52,13 +52,19 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { StateService } from '@uirouter/core';
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { WorkPackageViewBaselineService } from '../wp-view-base/view-services/wp-view-baseline.service';
 import { combineLatest } from 'rxjs';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { States } from 'core-app/core/states/states.service';
-import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
+import { resolveNumericId, resolveRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
+import { isSemanticWorkPackageId } from 'core-app/shared/helpers/work-package-id-pattern';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import {
+  GlobalEditFormChangesTrackerService,
+} from 'core-app/shared/components/fields/edit/services/global-edit-form-changes-tracker/global-edit-form-changes-tracker.service';
+import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 
 @Component({
   selector: 'wp-list-view',
@@ -76,8 +82,9 @@ import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-p
 export class WorkPackageListViewComponent extends UntilDestroyedMixin implements OnInit {
   readonly I18n = inject(I18nService);
   readonly injector = inject(Injector);
-  readonly $state = inject(StateService);
   readonly keepTab = inject(KeepTabService);
+  readonly configurationService = inject(ConfigurationService);
+  readonly globalEditFormChangesTracker = inject(GlobalEditFormChangesTrackerService);
   readonly querySpace = inject(IsolatedQuerySpace);
   readonly wpViewFilters = inject(WorkPackageViewFiltersService);
   readonly deviceService = inject(DeviceService);
@@ -87,7 +94,9 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
   readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly wpTableBaseline = inject(WorkPackageViewBaselineService);
   readonly pathHelper = inject(PathHelperService);
+  readonly urlParams = inject(UrlParamsService);
   readonly states = inject(States);
+  readonly wpTableSelection = inject(WorkPackageViewSelectionService);
 
   text = {
     jump_to_pagination: this.I18n.t('js.work_packages.jump_marks.pagination'),
@@ -115,6 +124,22 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
   };
 
   ngOnInit() {
+    // If a work package is open in the split view (per the URL), select its row.
+    // The split view lives in its own isolated query space and can't reach this
+    // list's own WorkPackageViewSelectionService directly - the old uiRouter-based
+    // WorkPackageSplitViewComponent#init did this via a shared query space/injector.
+    const details = this.urlParams.currentDetailsRouteParams();
+    if (details) {
+      // Plain numeric ids need no lookup; resolving a semantic id needs the
+      // work package cached already, which may not be the case yet this early.
+      const numericId = isSemanticWorkPackageId(details.routingId)
+        ? resolveNumericId(this.states, details.routingId)
+        : details.routingId;
+      if (numericId) {
+        this.wpTableSelection.initializeSelection([numericId]);
+      }
+    }
+
     // Mark tableInformationLoaded when initially loading done
     this.setupInformationLoadedListener();
     const statesCombined = combineLatest([
@@ -182,13 +207,8 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
 
   openStateLink(event:{ workPackageId:string; requestedState:'show'|'split' }) {
     const routingId = resolveRoutingId(this.states, event.workPackageId);
-    const params = {
-      workPackageId: routingId,
-      focus: true,
-    };
-
     if (event.requestedState === 'split') {
-      this.keepTab.goCurrentDetailsState(params);
+      this.openInSplitView(routingId);
     } else {
       this.openInFullView(routingId);
     }
@@ -210,5 +230,32 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
     const routingId = resolveRoutingId(this.states, workPackageId);
     const projectIdentifier = this.CurrentProject.identifier;
     window.location.href = this.pathHelper.genericWorkPackagePath(projectIdentifier, routingId) + window.location.search;
+  }
+
+  /**
+   * Works for both the plain work-packages list and the gantt list, since both
+   * mount this component and only differ in their base path (/work_packages vs /gantt).
+   */
+  private openInSplitView(workPackageId:string):void {
+    // Previously we checked that via uiRouter (via $transitions.onBefore). Since that got removed,
+    // we need to check that here explicitly.
+    if (
+      this.globalEditFormChangesTracker.thereAreFormsBeingEdited
+      && this.configurationService.warnOnLeavingUnsaved()
+      && !window.confirm(this.I18n.t('js.work_packages.confirm_edit_cancel'))
+    ) {
+      return;
+    }
+
+    const basePath = this.urlParams.basePathWithoutDetails();
+    const tab = this.keepTab.currentDetailsTab;
+    // Match the details/:work_package_id(/:tab) route's own defaults: { tab: 'overview' } -
+    // Rails' path helpers omit the segment when it's the default, so keep the same canonical
+    // (shorter) URL here rather than always spelling the tab out.
+    const tabSegment = tab === 'overview' ? '' : `/${tab}`;
+    Turbo.visit(
+      `${basePath}/details/${workPackageId}${tabSegment}${window.location.search}`,
+      { frame: 'content-bodyRight', action: 'advance' },
+    );
   }
 }

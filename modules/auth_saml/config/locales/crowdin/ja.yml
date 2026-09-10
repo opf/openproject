@@ -3,6 +3,7 @@ ja:
   activerecord:
     attributes:
       saml/provider:
+        allowed_clock_drift: Allowed clock drift
         assertion_consumer_service_url: ACS(アサーション・コンシューマ・サービス)URL
         authn_requests_signed: SAML AuthnRequests に署名する
         certificate: SAML 要求の OpenProject によって使用される証明書
@@ -44,6 +45,9 @@ ja:
         '
       title: SAML プロトコル構成パラメータ
     instructions:
+      allowed_clock_drift: 'Tolerance in seconds applied when validating the timestamps of the identity provider response. Fractions of a second are accepted. Use this only if the clocks of OpenProject and the identity provider are known to be out of sync, and keep the value as low as possible (Default: 0).
+
+        '
       authn_requests_signed: 'チェックすると、OpenProject は SAML AuthnRequest に署名します。以下のフィールドを使用して、署名証明書と秘密鍵を提供する必要があります。
 
         '

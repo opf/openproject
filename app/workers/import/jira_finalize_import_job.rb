@@ -37,8 +37,7 @@ module Import
       jira_import.destroy_jira_objects
       jira_import.transition_to!(:finalizing_done)
     rescue StandardError => e
-      jira_import&.transition_to!(:finalizing_error, error: e.message)
-      jira_import&.update!(job_id: nil, error: e.message)
+      jira_import&.transition_to!(:finalizing_error, error: e.message, error_backtrace: e.backtrace)
     end
 
     private

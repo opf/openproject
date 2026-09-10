@@ -32,6 +32,8 @@ module Saml
     class BaseContract < ModelContract
       include RequiresAdminGuard
 
+      MAX_ALLOWED_CLOCK_DRIFT = 5.minutes.to_i
+
       def self.model
         Saml::Provider
       end
@@ -67,6 +69,15 @@ module Saml
 
       attribute :authn_requests_signed
       validate :valid_certificate_key_pair
+
+      attribute :allowed_clock_drift
+      validates :allowed_clock_drift,
+                numericality: {
+                  allow_nil: true,
+                  greater_than_or_equal_to: 0,
+                  less_than_or_equal_to: MAX_ALLOWED_CLOCK_DRIFT
+                },
+                if: -> { model.allowed_clock_drift_changed? }
 
       attribute :limit_self_registration
 

@@ -36,18 +36,17 @@ class WorkPackages::StatusBadgeComponent < ApplicationComponent
 
     @status = status
     @system_arguments = system_arguments
-    if @system_arguments[:scheme].nil? || @system_arguments[:scheme] == :default
-      @system_arguments.delete(:scheme)
-      @system_arguments[:classes] = class_names(
-        @system_arguments[:classes],
-        "__hl_background_status_#{@status.id}"
-      )
-    end
 
-    # Applied for every scheme: the `:secondary` badge skips the block above and
-    # still needs the hook the read-only layout is scoped to.
+    @highlighted = @system_arguments[:scheme].nil? || @system_arguments[:scheme] == :default
+    @system_arguments.delete(:scheme) if @highlighted
+  end
+
+  def before_render
     @system_arguments[:classes] = class_names(
       @system_arguments[:classes],
+      # The `:secondary` badge carries no status color, but every scheme needs the
+      # hook the read-only layout is scoped to.
+      (helpers.hl_background_class("status", @status) if @highlighted),
       "op-status-badge",
       "op-status-badge_readonly" => readonly?
     )

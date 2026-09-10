@@ -72,6 +72,13 @@ export abstract class DialogPreviewController extends Controller {
       const schedulingChanged = requestUrl.searchParams.has('schedule_manually');
 
       event.detail.render = (currentElement, newElement) => {
+        // Replacing a node from inside `beforeNodeMorphed` corrupts idiomorph's
+        // walk: it detaches the node it is tracking its position by, and removes
+        // the replacement from the new tree it is iterating. Either one makes it
+        // skip every sibling that follows. Collect the replacements instead and
+        // apply them once the morph has finished.
+        const pendingReplacements:[HTMLElement, Node][] = [];
+
         Idiomorph.morph(currentElement, newElement, {
           ignoreActiveValue: this.ignoreActiveValueWhenMorphing(),
           callbacks: {
@@ -80,7 +87,7 @@ export abstract class DialogPreviewController extends Controller {
               // replace the angular tag with the new version.
               if (isOpenProjectCustomElement(oldNode)) {
                 if (schedulingChanged) {
-                  oldNode.replaceWith(newNode);
+                  pendingReplacements.push([oldNode, newNode.cloneNode(true)]);
                 }
                 return false;
               }
@@ -88,6 +95,9 @@ export abstract class DialogPreviewController extends Controller {
             },
           },
         });
+
+        pendingReplacements.forEach(([oldNode, newNode]) => oldNode.replaceWith(newNode));
+
         this.afterRendering({ shouldFocusBanner: schedulingChanged });
       };
     };

@@ -44,7 +44,7 @@ RSpec.describe WorkPackageTypes::Types::TypeActionsComponent, type: :component d
 
       it "offers configure, make default, add variant, duplicate, move and delete", :aggregate_failures do
         expect(rendered_component).to have_selector :menuitem, text: I18n.t(:button_configure) do |item|
-          expect(item[:href]).to eq edit_type_details_path(type_id: root_type.id)
+          expect(item[:href]).to eq type_settings_path(type_id: root_type.id)
         end
         expect(rendered_component).to have_selector :menuitem, text: I18n.t("types.index.make_default")
         expect(rendered_component).to have_selector :menuitem, text: I18n.t("types.index.add_variant_action")

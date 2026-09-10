@@ -26,9 +26,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  afterEach, beforeEach, describe, expect, it, vi,
-} from 'vitest';
 import { addTurboEventListeners } from './turbo-event-listeners';
 
 describe('addTurboEventListeners — dialog close on turbo:submit-end', () => {
