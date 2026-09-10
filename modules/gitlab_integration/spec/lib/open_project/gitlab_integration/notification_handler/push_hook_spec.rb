@@ -99,8 +99,7 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PushHook do
           "git_ssh_url" => "git@c7e7cd2d54c3:openprojecttest/test.git",
           "visibility_level" => 10
         },
-      "open_project_user_id" => gitlab_system_user.id,
-      "gitlab_event" => "push_hook"
+      "open_project_user_id" => gitlab_system_user.id
     }
   end
 
