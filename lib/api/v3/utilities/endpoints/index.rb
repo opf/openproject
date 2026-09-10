@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -34,10 +36,12 @@ module API
           def initialize(model:,
                          api_name: model.name.demodulize,
                          scope: nil,
+                         query_class: nil,
                          render_representer: nil,
                          self_path: api_name.underscore.pluralize)
             super(model:, api_name:, scope:, render_representer:)
 
+            self.query_class = query_class
             self.self_path = self_path
           end
 
@@ -53,7 +57,7 @@ module API
 
           def parse(request)
             ParamsToQueryService
-              .new(model, request.current_user)
+              .new(model, request.current_user, query_class:)
               .call(request.params)
           end
 
@@ -71,6 +75,7 @@ module API
           attr_accessor :model,
                         :api_name,
                         :scope,
+                        :query_class,
                         :render_representer,
                         :self_path
 

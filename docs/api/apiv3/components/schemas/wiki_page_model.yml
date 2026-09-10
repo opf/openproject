@@ -15,6 +15,11 @@ properties:
   _links:
     type: object
     properties:
+      showWikiPage:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: Open this wiki page in the web application
+          readOnly: true
       addAttachment:
         allOf:
         - "$ref": "./link.yml"

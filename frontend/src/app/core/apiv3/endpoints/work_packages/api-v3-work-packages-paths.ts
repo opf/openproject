@@ -114,8 +114,13 @@ export class ApiV3WorkPackagesPaths extends ApiV3Collection<WorkPackageResource,
    * @param idOnly
    * @param additionalParams Additional set of params to the API
    */
-  public filterByTypeaheadOrId(term:string, idOnly = false, additionalParams:Record<string, string> = {}):ApiV3WorkPackageCachedSubresource {
-    const filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
+  public filterByTypeaheadOrId(
+    term:string,
+    idOnly = false,
+    additionalParams:Record<string, string> = {},
+    additionalFilters:ApiV3FilterBuilder = new ApiV3FilterBuilder(),
+  ):ApiV3WorkPackageCachedSubresource {
+    const filters = additionalFilters.clone();
 
     if (idOnly) {
       filters.add('id', '=', [term]);

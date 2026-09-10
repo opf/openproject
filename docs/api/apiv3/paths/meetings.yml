@@ -7,6 +7,30 @@ get:
     - Meetings
   description: |-
     Retrieve a paginated collection of meetings visible to the authenticated user.
+  parameters:
+    - name: offset
+      in: query
+      required: false
+      description: Page number inside the requested collection.
+      schema:
+        type: integer
+        default: 1
+    - name: pageSize
+      in: query
+      required: false
+      description: Number of elements to display per page.
+      schema:
+        type: integer
+    - name: filters
+      in: query
+      required: false
+      description: |-
+        JSON specifying filter conditions. The `search` filter with the `**` operator searches meeting titles,
+        agenda item titles and notes, and outcome notes. Results always remain restricted to meetings visible to
+        the authenticated user.
+      example: '[{ "search": { "operator": "**", "values": ["quarterly planning"] } }]'
+      schema:
+        type: string
   responses:
     '200':
       description: OK

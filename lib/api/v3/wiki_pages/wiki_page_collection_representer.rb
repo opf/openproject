@@ -23,7 +23,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,35 +31,7 @@
 module API
   module V3
     module WikiPages
-      class WikiPageRepresenter < ::API::Decorators::Single
-        include API::Decorators::LinkedResource
-        include API::V3::Workspaces::LinkedResource
-        include API::Caching::CachedRepresenter
-        include ::API::V3::Attachments::AttachableRepresenterMixin
-
-        self_link title_getter: ->(*) {}
-
-        link :showWikiPage do
-          next unless represented.project && represented.slug.present?
-
-          {
-            href: api_v3_paths.show_wiki_page(represented.project.identifier, represented.slug),
-            type: "text/html"
-          }
-        end
-
-        property :id
-
-        property :title
-
-        date_time_property :updated_at
-
-        associated_project
-
-        def _type
-          "WikiPage"
-        end
-      end
+      class WikiPageCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection; end
     end
   end
 end

@@ -334,6 +334,10 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
     }
   }
 
+  public updateItems(items:unknown[]):void {
+    this.items$.next(items as IOPAutocompleterOption[]);
+  }
+
   ngAfterViewInit():void {
     // Store ng-select instance on the host element for access from Stimulus controllers
     this.elementRef.nativeElement.ngSelectComponentInstance = this.ngSelectInstance;

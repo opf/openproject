@@ -1,0 +1,41 @@
+# /api/v3/wiki_pages
+---
+get:
+  summary: List visible wiki pages
+  operationId: list_wiki_pages
+  tags:
+    - Wiki Pages
+  description: |-
+    Retrieve a paginated collection of wiki pages in projects where the authenticated user may view the wiki.
+  parameters:
+    - name: offset
+      in: query
+      required: false
+      description: Page number inside the requested collection.
+      schema:
+        type: integer
+        default: 1
+    - name: pageSize
+      in: query
+      required: false
+      description: Number of elements to display per page.
+      schema:
+        type: integer
+    - name: filters
+      in: query
+      required: false
+      description: |-
+        JSON specifying filter conditions. The `search` filter with the `**` operator searches wiki page titles
+        and text. Results always remain restricted to pages visible to the authenticated user.
+      example: '[{ "search": { "operator": "**", "values": ["release plan"] } }]'
+      schema:
+        type: string
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/wiki_page_collection_model.yml"
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"

@@ -127,6 +127,9 @@ export class ApiV3Service {
   // /api/v3/meetings
   public readonly meetings = this.apiV3CollectionEndpoint('meetings');
 
+  // /api/v3/wiki_pages
+  public readonly wiki_pages = this.apiV3CollectionEndpoint('wiki_pages');
+
   // /api/v3/memberships
   public readonly memberships = this.apiV3CustomEndpoint(ApiV3MembershipsPaths);
 

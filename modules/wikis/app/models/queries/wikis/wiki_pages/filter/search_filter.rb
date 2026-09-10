@@ -23,41 +23,37 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
+module Queries
+  module Wikis
     module WikiPages
-      class WikiPageRepresenter < ::API::Decorators::Single
-        include API::Decorators::LinkedResource
-        include API::V3::Workspaces::LinkedResource
-        include API::Caching::CachedRepresenter
-        include ::API::V3::Attachments::AttachableRepresenterMixin
+      module Filter
+        class SearchFilter < Filters::Base
+          self.model = ::WikiPage
 
-        self_link title_getter: ->(*) {}
+          def type = :search
 
-        link :showWikiPage do
-          next unless represented.project && represented.slug.present?
+          def human_name = I18n.t("label_search")
 
-          {
-            href: api_v3_paths.show_wiki_page(represented.project.identifier, represented.slug),
-            type: "text/html"
-          }
-        end
+          def where
+            values.first.split(/\s+/).map do |token|
+              condition = searchable_columns.map do |column|
+                ::Queries::Operators::Contains.sql_for_field([token], ::WikiPage.table_name, column)
+              end.join(" OR ")
 
-        property :id
+              "(#{condition})"
+            end.join(" AND ")
+          end
 
-        property :title
+          private
 
-        date_time_property :updated_at
-
-        associated_project
-
-        def _type
-          "WikiPage"
+          def searchable_columns
+            %w[title text]
+          end
         end
       end
     end

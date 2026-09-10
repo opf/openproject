@@ -56,6 +56,34 @@ RSpec.describe "API v3 wiki_pages resource" do
     login_as(current_user)
   end
 
+  describe "GET /api/v3/wiki_pages" do
+    let(:path) { api_v3_paths.wiki_pages }
+    let!(:matching_page) { create(:wiki_page, wiki:, title: "Release plan", text: "Launch checklist") }
+    let!(:non_matching_page) { create(:wiki_page, wiki:, title: "Retrospective", text: "Team notes") }
+    let!(:invisible_page) { create(:wiki_page, wiki: other_wiki, title: "Release plan") }
+
+    before do
+      get path, filters: [{ search: { operator: "**", values: [search_term] } }].to_json
+    end
+
+    context "when the title matches" do
+      let(:search_term) { "release" }
+
+      it "returns only matching visible wiki pages" do
+        expect(subject).to have_http_status(:ok)
+        expect(JSON.parse(subject.body).dig("_embedded", "elements").pluck("id")).to eq([matching_page.id])
+      end
+    end
+
+    context "when the body matches" do
+      let(:search_term) { "launch checklist" }
+
+      it "searches the page body" do
+        expect(JSON.parse(subject.body).dig("_embedded", "elements").pluck("id")).to eq([matching_page.id])
+      end
+    end
+  end
+
   describe "GET /api/v3/wiki_pages/:id" do
     let(:path) { api_v3_paths.wiki_page(wiki_page.id) }
 

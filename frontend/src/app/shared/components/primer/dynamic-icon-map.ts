@@ -26,12 +26,24 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { circleSlashIconData, graphIconData, starIconData, SVGData, xIconData } from '@openproject/octicons-angular';
+import {
+  bookIconData,
+  circleSlashIconData,
+  commentDiscussionIconData,
+  graphIconData,
+  opViewListIconData,
+  starIconData,
+  SVGData,
+  xIconData,
+} from '@openproject/octicons-angular';
 
 export const ICON_MAP:Record<string, SVGData> = {
   x: xIconData,
   star: starIconData,
   'circle-slash': circleSlashIconData,
   graph: graphIconData,
+  book: bookIconData,
+  'comment-discussion': commentDiscussionIconData,
+  'op-view-list': opViewListIconData,
   // TODO add more icons
 };

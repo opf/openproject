@@ -40,9 +40,9 @@ export class GlobalSearchService {
   protected currentProjectService = inject(CurrentProjectService);
 
 
-  public submitSearch(query:string, scope:string):void {
+  public submitSearch(query:string, scope:string, filter = 'work_packages'):void {
     const path = this.searchPath(scope);
-    const params = this.searchQueryParams(query, scope);
+    const params = this.searchQueryParams(query, scope, filter);
     window.location.href = `${path}?${params}`;
   }
 
@@ -54,14 +54,15 @@ export class GlobalSearchService {
     return `${searchPath}/search`;
   }
 
-  private searchQueryParams(query:string, scope:string):string {
+  private searchQueryParams(query:string, scope:string, filter:string):string {
     const params = new URLSearchParams(window.location.search);
     params.set('q', query);
     params.set('scope', scope);
 
-    // Filter work packages by default
-    if (!params.get('filter')) {
-      params.set('filter', 'work_packages');
+    if (filter === 'all') {
+      params.delete('filter');
+    } else {
+      params.set('filter', filter);
     }
 
     return params.toString();
