@@ -59,8 +59,6 @@ ko:
         oauth_client_form_component:
           client_id: 위키 OAuth 클라이언트 ID
           client_secret: 위키 OAuth 클라이언트 비밀번호
-          redirect_uri: 리디렉션 URI
-          redirect_uri_caption: 이 값을 XWiki OIDC 클라이언트 등록의 리디렉션 URI 필드에 복사하세요.
       health_status:
         show:
           actions:
@@ -85,6 +83,10 @@ ko:
         confirm_replace_oauth_client: 이 작업은 현재 XWiki OAuth 자격 증명을 재설정합니다. 모든 사용자는 XWiki에 대해 다시 인증해야 합니다. 계속하시겠습니까?
         label_oauth_client_id: OAuth 클라이언트 ID
         replace_oauth_client: XWiki OAuth 애플리케이션 바꾸기
+      redirect_uri_info_component:
+        description: The redirect URI is generated once the wiki OAuth client is configured.
+        label_uri: URI
+        show_redirect_uri: Show redirect URI
       side_panel:
         health_status_component:
           last_check: '마지막 검사: %{datetime}'
@@ -106,8 +108,11 @@ ko:
         name_caption: 사용자가 여러 위키 플랫폼 간에 구분할 수 있도록 위키 공급자에 이름을 지정합니다.
         name_placeholder: XWiki 지식 베이스
         new_provider_html: 자세한 내용은 [XWiki 통합 설정] 관련 문서(docs_url)를 참조하세요.
+        successful_setup: Wiki provider configured successfully!
         oauth:
           openproject_oauth: OpenProject OAuth
+          redirect_uri: Redirect URI
+          redirect_uri_caption: Copy this value into the Redirect URI field of your XWiki OIDC client registration.
         sections:
           general_information: 일반 정보
           oauth_configuration: OAuth 구성

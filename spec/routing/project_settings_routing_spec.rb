@@ -131,13 +131,6 @@ RSpec.describe Projects::SettingsController do
     end
 
     it do
-      expect(patch("/projects/123/settings/work_packages/types/bulk_update"))
-        .to route_to(
-          controller: "projects/settings/work_packages/types", action: "bulk_update", project_id: "123"
-        )
-    end
-
-    it do
       expect(get("/projects/123/settings/work_packages/internal_comments"))
         .to route_to(
           controller: "projects/settings/work_packages/internal_comments", action: "show", project_id: "123"

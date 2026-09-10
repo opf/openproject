@@ -113,7 +113,7 @@ RSpec.describe "Authentication Stages", :skip_2fa_stage do
     end
 
     it "redirects to authentication stage after registration via omniauth too" do
-      visit "/auth/developer"
+      start_omniauth_developer
 
       fill_in "first_name", with: "Adam"
       fill_in "last_name", with: "Apfel"

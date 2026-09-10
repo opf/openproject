@@ -138,7 +138,9 @@ module API
               represented.public_send("#{name}_id=", result[:id])
               represented.public_send("#{name}_type=", "Meeting")
             when "work_packages"
-              represented.public_send("#{name}_id=", result[:id])
+              id = WorkPackage.find_by_display_id(result[:id])&.id if WorkPackage::SemanticIdentifier.semantic_id?(result[:id])
+              id ||= result[:id]
+              represented.public_send("#{name}_id=", id)
               represented.public_send("#{name}_type=", "WorkPackage")
             else
               # TODO: Handle error if unexpected object

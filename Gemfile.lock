@@ -35,22 +35,13 @@ GIT
       ttfunk (~> 1.7.0)
 
 GIT
-  remote: https://github.com/opf/omniauth
-  revision: 7eb21563ba047ef86d71f099975587b5ec88f9c9
-  ref: 7eb21563ba047ef86d71f099975587b5ec88f9c9
-  specs:
-    omniauth (1.9.2)
-      hashie (>= 3.4.6)
-      rack (>= 1.6.2, < 3)
-
-GIT
   remote: https://github.com/opf/omniauth-openid-connect.git
-  revision: 825d06235b64f6bc872bba709f1c2d48fd5cede4
-  ref: 825d06235b64f6bc872bba709f1c2d48fd5cede4
+  revision: 21f27e8c0bf5b7523bd7c7caddf87dd68de3143a
+  ref: 21f27e8c0bf5b7523bd7c7caddf87dd68de3143a
   specs:
     omniauth-openid-connect (0.5.0)
       addressable (~> 2.5)
-      omniauth (~> 1.6)
+      omniauth (~> 2.1, >= 2.1.4)
       openid_connect (~> 2.2.0)
 
 GIT
@@ -84,13 +75,13 @@ PATH
   remote: modules/auth_plugins
   specs:
     openproject-auth_plugins (1.0.0)
-      omniauth (~> 1.0)
+      omniauth (~> 2.1)
 
 PATH
   remote: modules/auth_saml
   specs:
     openproject-auth_saml (1.0.0)
-      omniauth-saml (~> 1.10.6)
+      omniauth-saml (~> 2.2)
 
 PATH
   remote: modules/avatars
@@ -190,7 +181,6 @@ PATH
   remote: modules/openid_connect
   specs:
     openproject-openid_connect (1.0.0)
-      lobby_boy (~> 0.1.3)
       omniauth-openid_connect-providers (~> 0.1)
       openproject-auth_plugins
 
@@ -453,13 +443,15 @@ GEM
     coderay (1.1.3)
     color_conversion (0.1.2)
     colored2 (4.0.3)
-    commonmarker (2.8.3-aarch64-linux)
-    commonmarker (2.8.3-aarch64-linux-musl)
-    commonmarker (2.8.3-arm-linux)
-    commonmarker (2.8.3-arm64-darwin)
-    commonmarker (2.8.3-x86_64-darwin)
-    commonmarker (2.8.3-x86_64-linux)
-    commonmarker (2.8.3-x86_64-linux-musl)
+    commonmarker (2.10.0)
+      rb_sys (~> 0.9)
+    commonmarker (2.10.0-aarch64-linux)
+    commonmarker (2.10.0-aarch64-linux-musl)
+    commonmarker (2.10.0-arm-linux-gnu)
+    commonmarker (2.10.0-arm64-darwin)
+    commonmarker (2.10.0-x86_64-darwin)
+    commonmarker (2.10.0-x86_64-linux)
+    commonmarker (2.10.0-x86_64-linux-musl)
     compare-xml (1.0.0)
       nokogiri (>= 1.6)
     concurrent-ruby (1.3.8)
@@ -639,7 +631,7 @@ GEM
       fugit (>= 1.11.0)
       railties (>= 6.1.0)
       thor (>= 1.0.0)
-    google-apis-core (1.2.4)
+    google-apis-core (1.2.5)
       addressable (~> 2.9)
       faraday (~> 2.13)
       faraday-follow_redirects (~> 0.3)
@@ -648,7 +640,7 @@ GEM
       multi_json (~> 1.11)
       representable (~> 3.0)
       retriable (>= 3.1, < 5.0)
-    google-apis-gmail_v1 (0.52.0)
+    google-apis-gmail_v1 (0.53.0)
       google-apis-core (>= 0.15.0, < 2.a)
     google-cloud-env (2.4.0)
       base64 (~> 0.2)
@@ -794,10 +786,6 @@ GEM
       logger
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
-    lobby_boy (0.1.3)
-      omniauth (~> 1.1)
-      omniauth-openid-connect (>= 0.2.1)
-      rails (>= 3.2.21)
     logger (1.7.0)
     lograge (0.15.0)
       actionpack (>= 4)
@@ -826,7 +814,7 @@ GEM
       net-pop
       net-smtp
     marcel (1.0.4)
-    markly (0.16.0)
+    markly (0.17.0)
     matrix (0.4.3)
     mcp (1.3.0)
       json_schemer (>= 2.4)
@@ -881,8 +869,16 @@ GEM
       racc (~> 1.4)
     okcomputer (1.19.2)
       benchmark
-    omniauth-saml (1.10.6)
-      omniauth (~> 1.3, >= 1.3.2)
+    omniauth (2.1.4)
+      hashie (>= 3.4.6)
+      logger
+      rack (>= 2.2.3)
+      rack-protection
+    omniauth-rails_csrf_protection (2.0.1)
+      actionpack (>= 4.2)
+      omniauth (~> 2.0)
+    omniauth-saml (2.2.5)
+      omniauth (~> 2.1)
       ruby-saml (~> 1.18)
     op-clamav-client (3.4.2)
     open4 (1.3.4)
@@ -934,7 +930,7 @@ GEM
       opentelemetry-common (~> 0.21)
     opentelemetry-instrumentation-action_mailer (0.8.1)
       opentelemetry-instrumentation-active_support (~> 0.10)
-    opentelemetry-instrumentation-action_pack (0.18.0)
+    opentelemetry-instrumentation-action_pack (0.18.1)
       opentelemetry-instrumentation-rack (~> 0.29)
     opentelemetry-instrumentation-action_view (0.13.0)
       opentelemetry-instrumentation-active_support (~> 0.10)
@@ -948,11 +944,11 @@ GEM
       opentelemetry-instrumentation-active_support (~> 0.10)
     opentelemetry-instrumentation-active_support (0.12.1)
       opentelemetry-instrumentation-base (~> 0.25)
-    opentelemetry-instrumentation-all (0.95.0)
+    opentelemetry-instrumentation-all (0.96.0)
       opentelemetry-instrumentation-active_model_serializers (~> 0.25.0)
       opentelemetry-instrumentation-anthropic (~> 0.5.0)
       opentelemetry-instrumentation-aws_lambda (~> 0.7.0)
-      opentelemetry-instrumentation-aws_sdk (~> 0.12.0)
+      opentelemetry-instrumentation-aws_sdk (~> 0.13.0)
       opentelemetry-instrumentation-bunny (~> 0.25.0)
       opentelemetry-instrumentation-concurrent_ruby (~> 0.25.0)
       opentelemetry-instrumentation-dalli (~> 0.30.0)
@@ -990,7 +986,7 @@ GEM
       opentelemetry-instrumentation-base (~> 0.25)
     opentelemetry-instrumentation-aws_lambda (0.7.0)
       opentelemetry-instrumentation-base (~> 0.25)
-    opentelemetry-instrumentation-aws_sdk (0.12.0)
+    opentelemetry-instrumentation-aws_sdk (0.13.0)
       opentelemetry-instrumentation-base (~> 0.25)
     opentelemetry-instrumentation-base (0.26.1)
       opentelemetry-api (~> 1.7)
@@ -1488,8 +1484,8 @@ GEM
       activemodel (>= 3.0.0)
       public_suffix
     vcr (6.4.0)
-    vernier (1.10.1)
-    view_component (4.12.0)
+    vernier (1.11.0)
+    view_component (4.15.0)
       actionview (>= 7.1.0)
       activesupport (>= 7.1.0)
       concurrent-ruby (~> 1)
@@ -1591,7 +1587,7 @@ DEPENDENCIES
   climate_control
   closure_tree (~> 9.8.0)
   colored2
-  commonmarker (~> 2.8.3)
+  commonmarker (~> 2.10.0)
   compare-xml (~> 1.0)
   connection_pool (~> 3.0.2)
   costs!
@@ -1646,7 +1642,7 @@ DEPENDENCIES
   lograge (~> 0.15.0)
   lookbook (= 2.3.14)
   mail (= 2.9.1)
-  markly (~> 0.15)
+  markly (~> 0.17)
   matrix (~> 0.4.3)
   mcp (~> 1.3.0)
   md_to_pdf!
@@ -1658,9 +1654,10 @@ DEPENDENCIES
   net-ldap (~> 0.20.0)
   nokogiri (~> 1.19.4)
   okcomputer (~> 1.19.1)
-  omniauth!
+  omniauth (~> 2.1)
   omniauth-openid-connect!
   omniauth-openid_connect-providers!
+  omniauth-rails_csrf_protection (~> 2.0)
   op-clamav-client (~> 3.4)
   openproject-auth_plugins!
   openproject-auth_saml!
@@ -1692,7 +1689,7 @@ DEPENDENCIES
   openproject-wikis!
   openproject-xls_export!
   opentelemetry-exporter-otlp (~> 0.34.0)
-  opentelemetry-instrumentation-all (~> 0.95.0)
+  opentelemetry-instrumentation-all (~> 0.96.0)
   opentelemetry-sdk (~> 1.13)
   overviews!
   ox
@@ -1776,7 +1773,7 @@ DEPENDENCIES
   validate_url
   vcr
   vernier
-  view_component (~> 4.12.0)
+  view_component (~> 4.15.0)
   warden (~> 1.2)
   warden-basic_auth (~> 0.2.1)
   webmock (~> 3.26)
@@ -1840,6 +1837,7 @@ CHECKSUMS
   browser (6.2.0) sha256=281d5295788825c9396427c292c2d2be0a5c91875c93c390fde6e5d61a5ace2d
   budgets (1.0.0)
   builder (3.3.0) sha256=497918d2f9dca528fdca4b88d84e4ef4387256d984b8154e9d5d3fe5a9c8835f
+  bundler (4.0.20) sha256=7978a8ac648767f5e635bc522445b79e80a52b907a39a36c2d8085ed6bc762ae
   byebug (13.0.0) sha256=d2263efe751941ca520fa29744b71972d39cbc41839496706f5d9b22e92ae05d
   capybara (3.40.0) sha256=42dba720578ea1ca65fd7a41d163dd368502c191804558f6e0f71b391054aeef
   capybara-screenshot (1.0.27) sha256=afa1896cc23df77be1774e8d3b3ce3953bf060aeaa04ff87607b5daf689174f2
@@ -1854,13 +1852,14 @@ CHECKSUMS
   coderay (1.1.3) sha256=dc530018a4684512f8f38143cd2a096c9f02a1fc2459edcfe534787a7fc77d4b
   color_conversion (0.1.2) sha256=99bea5fa412e1527a11389975aa6ad445ff8528ebae202c11d08c45ea2b94c96
   colored2 (4.0.3) sha256=63e1038183976287efc43034f5cca17fb180b4deef207da8ba78d051cbce2b37
-  commonmarker (2.8.3-aarch64-linux) sha256=e1dc00363acc6795cdbf4f5131d9daef4e3ca08102f9a7577ea47d9ba4d4b7d6
-  commonmarker (2.8.3-aarch64-linux-musl) sha256=362302bf9b7520e9c0527f4c1a428c6c14d530361b982ae86ad670c29a2cb0dc
-  commonmarker (2.8.3-arm-linux) sha256=63903a4d8cd82b6681e88f2bdf6df7d51d0a241009a80fdc7ac6cf9c784f6cab
-  commonmarker (2.8.3-arm64-darwin) sha256=ee2e8b00530f7c95acdee7717d8c47f419f3eab78127ea0ef19b6739a148d5ba
-  commonmarker (2.8.3-x86_64-darwin) sha256=8ecfee9d2c4768b9f66eafcf9fba82b91495f90f7d4242d0a85f6266684591f3
-  commonmarker (2.8.3-x86_64-linux) sha256=8b78d99ed454346a488988b2ac530e88a98b44f116fb9db19a5b2d5c46c67f83
-  commonmarker (2.8.3-x86_64-linux-musl) sha256=0a42f71205697edf8a488b50b6209b9cee882c39f8b18ac0a323be83ff17b250
+  commonmarker (2.10.0) sha256=1884529957bf59bcd4f19fcc29e931f2042760ced273353e8010a20fe4ae68cb
+  commonmarker (2.10.0-aarch64-linux) sha256=eeb167dea203dee066eb0dd99b3fd2deb526c8b5e7297ad385f7a5d60f869478
+  commonmarker (2.10.0-aarch64-linux-musl) sha256=e95d9e87ea6306e21ffa11855a7bb55518538143b23a227fe3bb00b41873ce25
+  commonmarker (2.10.0-arm-linux-gnu) sha256=2165642969df6816625c5fa4470a8959345d715daf96dd063fc56913fdbb1b90
+  commonmarker (2.10.0-arm64-darwin) sha256=39ecc891d1e4308b5233cc28b40383de854a2bfbefe17d68e49174347a8aa79e
+  commonmarker (2.10.0-x86_64-darwin) sha256=01e0830ed0319825ecdc16411c90acd3f661d1568dfc178731b3f64d0ce2363d
+  commonmarker (2.10.0-x86_64-linux) sha256=945c510c0bfca9022245928e2248468fe3ddad58c939be0c37b20082cc392880
+  commonmarker (2.10.0-x86_64-linux-musl) sha256=288cd4fb9f17eed2ffa73551ef241dcf594e0f484b2aee2a0999540333c0618e
   compare-xml (1.0.0) sha256=e5d46e0b016362532c8e47ebcf6cb77767d8a7f267b9533ee27bcabe81c59202
   concurrent-ruby (1.3.8) sha256=b2f1be836e968ccc78ccfce277ea79c72a88633f22306782c16ff23fb415d1e1
   connection_pool (3.0.2) sha256=33fff5ba71a12d2aa26cb72b1db8bba2a1a01823559fb01d29eb74c286e62e0a
@@ -1937,8 +1936,8 @@ CHECKSUMS
   glob (0.5.0) sha256=6397ae620b2f71b00424ec6c880c92d5ddcf6c44e6035c0b610a59efe16418fd
   globalid (1.4.0) sha256=037f12fbf1d9d7a014d501c2d5c77356fd4ddd96d7a7991d6700bba96706f427
   good_job (4.19.2) sha256=73f4ea0595a29d28b9d9c0bf23361cc7434542b4d286f59b803819110c26e4b0
-  google-apis-core (1.2.4) sha256=da9d12dbc7a3fbf3a68fc461e23e6f23245e57ab3b47eb71137d4dcf61a686b3
-  google-apis-gmail_v1 (0.52.0) sha256=94efe9b6f323e5e5e58ba126fb2c0105642874906b3375cf7e887562398652ff
+  google-apis-core (1.2.5) sha256=e21562b5627a0fc6a0c3165e429c3afed0f6a628eaa514e83f7204dda1adff69
+  google-apis-gmail_v1 (0.53.0) sha256=8ac02850e636de42bd6f54f20565eab4bf089f4334ae6ee76ad7c051e92cd5a4
   google-cloud-env (2.4.0) sha256=01cb35ecee5d1c4d1cd4deaed8bb5bddc838e296bcc2a35c5d1ddd07ce40d28d
   google-logging-utils (0.2.0) sha256=675462b4ea5affa825a3442694ca2d75d0069455a1d0956127207498fca3df7b
   google-protobuf (4.35.1) sha256=a3a6471331d918f58dfa4d014a8f6286f0af2cf4840216bde52fcf2ea3fe3726
@@ -1993,14 +1992,13 @@ CHECKSUMS
   letter_opener_web (3.0.0) sha256=3f391efe0e8b9b24becfab5537dfb17a5cf5eb532038f947daab58cb4b749860
   lint_roller (1.1.0) sha256=2c0c845b632a7d172cb849cc90c1bce937a28c5c8ccccb50dfd46a485003cc87
   listen (3.10.0) sha256=c6e182db62143aeccc2e1960033bebe7445309c7272061979bb098d03760c9d2
-  lobby_boy (0.1.3) sha256=9460bb3c052aef158eb3f137b8f7679ca756b8e2983d140dbdc0caa85c018172
   logger (1.7.0) sha256=196edec7cc44b66cfb40f9755ce11b392f21f7967696af15d274dde7edff0203
   lograge (0.15.0) sha256=34072c1f50b95019dc185137f5fec1a6759f5a1b6d55c28163d0cba204e6df16
   loofah (2.25.2) sha256=2007f746959ac65552456e04b433e83deb22759ab38c838b4445c70e43425918
   lookbook (2.3.14) sha256=c11a693bde9915b553c4463440ad5e750829f90bff08abdb6b8610373864cd7c
   mail (2.9.1) sha256=06574eca475253d6c18145dd70af80d0eb970182d55053497c5f4d797ea160e8
   marcel (1.0.4) sha256=0d5649feb64b8f19f3d3468b96c680bae9746335d02194270287868a661516a4
-  markly (0.16.0) sha256=6f70d79e385b1efc9e171f74c81628826259039fe6c778e03c3924c71dac5511
+  markly (0.17.0) sha256=fab61b604f7c4c8f771c3b7f2f16b971034bb72ddd27009b90c3fae1990b17e6
   matrix (0.4.3) sha256=a0d5ab7ddcc1973ff690ab361b67f359acbb16958d1dc072b8b956a286564c5b
   mcp (1.3.0) sha256=9395aa3a054eb8986b7714ec8abb25b533729af896f4875da4c4cb7a3024fbae
   md_to_pdf (0.2.7)
@@ -2032,10 +2030,11 @@ CHECKSUMS
   nokogiri (1.19.4-x86_64-linux-gnu) sha256=379fae440b28915e3f19d752ce2dcf8465ed2b2fbefd2a7ca0dd497bc981a06a
   nokogiri (1.19.4-x86_64-linux-musl) sha256=17dfb7c1fa194ae02fbf7c51a7afc8d278045ab3fdacfd86f91d02d7b274470b
   okcomputer (1.19.2) sha256=d069aedf1e31b8ebe7e1fdf9e327dee158ea49b9fbdebebc2f1bed4690cb7a6d
-  omniauth (1.9.2)
+  omniauth (2.1.4) sha256=42a05b0496f0d22e1dd85d42aaf602f064e36bb47a6826a27ab55e5ba608763c
   omniauth-openid-connect (0.5.0)
   omniauth-openid_connect-providers (0.2.0)
-  omniauth-saml (1.10.6) sha256=13dde22f4fd1beff0ef2d6dae576f7b68594f159990e8e886d8a02b32397afbd
+  omniauth-rails_csrf_protection (2.0.1) sha256=c6e3204d7e3925bb537cb52d50fdfc9f05293f1a9d87c5d4ab4ca3a39ba8c32d
+  omniauth-saml (2.2.5) sha256=552ad464564d711f0dfd169e0ad801de809cf3ac71c4bc9094f152d5a0d7ab59
   op-clamav-client (3.4.2) sha256=f28d697d11758a2ba3dc530cfdf4871a00ecd517631e8bac30dee30cd6012964
   open4 (1.3.4) sha256=a1df037310624ecc1ea1d81264b11c83e96d0c3c1c6043108d37d396dcd0f4b1
   openid_connect (2.2.1) sha256=31264e85b5a36e33dff5e31560cc176175c26f30c260d7e95af93ff0065f3101
@@ -2077,17 +2076,17 @@ CHECKSUMS
   opentelemetry-helpers-sql (0.4.0) sha256=b10e8c3a2cca28a98af951bbb3e4efdc59e68b25ba0825e055574af543420afb
   opentelemetry-helpers-sql-processor (0.5.0) sha256=b199241bc9451fcbd9f00b2f454830af19d4ca27c2219ea379c9b0d53cd0e0f1
   opentelemetry-instrumentation-action_mailer (0.8.1) sha256=2f2784ca41de0f284b4e3339181cf2ed24ce4e1dfc2751355f0939fcd0872b09
-  opentelemetry-instrumentation-action_pack (0.18.0) sha256=90ba2c826b15539f7d02a4f37898592a41317e5c02785a7c2e7a8f782cbd5681
+  opentelemetry-instrumentation-action_pack (0.18.1) sha256=0b827d703baa2951458e36f2bdfa4a2cdb17a0130cfb0e1b6fe5d67fadc85c2d
   opentelemetry-instrumentation-action_view (0.13.0) sha256=5b855610d1143972c527d4482d238ecc3d343c8d59e3c1390bad4056317f1568
   opentelemetry-instrumentation-active_job (0.13.0) sha256=42da156924bbabdaca6268be1e46963a04829bd0b2b82fc6e368597a3525cde2
   opentelemetry-instrumentation-active_model_serializers (0.25.0) sha256=98bb004f38781aff425f1fc52636eafd0e7b32d5479957f343e361f946786ad7
   opentelemetry-instrumentation-active_record (0.13.0) sha256=239fceaae5a42e82dd9dd87bc63b1888bea32058dac0779b5ea36110fcb3a299
   opentelemetry-instrumentation-active_storage (0.5.1) sha256=7acbab82184db6bf00c52fdb4ce7e2f4e6a1c6e3e5585b100d43d5d3e2d69b5b
   opentelemetry-instrumentation-active_support (0.12.1) sha256=c90dc3bb2a02ab614f95bee56f8f14ba6164a7dfaee6f87a2ca3de30fa87413d
-  opentelemetry-instrumentation-all (0.95.0) sha256=9dd132021dfd07819cd593a81e3ba6e59abcb269e4458b8002870d4781079d06
+  opentelemetry-instrumentation-all (0.96.0) sha256=8bd08dfd485f1ad7a559003dfc5e5031424991816ea7da6497ce0db5073b9689
   opentelemetry-instrumentation-anthropic (0.5.0) sha256=a6b1e1f324d35323d4714a7f204c9d34c46da07529877a725829420a4a44bb13
   opentelemetry-instrumentation-aws_lambda (0.7.0) sha256=50e5a32c454f2d38ecb53cc94e77dc646b33c47294cc6e6363e7c226097fa132
-  opentelemetry-instrumentation-aws_sdk (0.12.0) sha256=e2f48bf471cefe4d4bd9cfdafabffce65790b73381040e82d337933ac8bfb366
+  opentelemetry-instrumentation-aws_sdk (0.13.0) sha256=9f8cc9c80f5a520b5307eebc9f511120d35135e024045a5b3b30d42de6dc7355
   opentelemetry-instrumentation-base (0.26.1) sha256=49e8d35d565e1a13b4a6b794a4cca4ed8c590d9b33bda5244249bd98c8673775
   opentelemetry-instrumentation-bunny (0.25.0) sha256=a8b20b7b4cdbfcfd64036b41c160061b164da2938aa7a7621849ee9f7ecb81b8
   opentelemetry-instrumentation-concurrent_ruby (0.25.0) sha256=722912e7078e3025a84a25d0b6085702417598c58187c19a762234702cbf7b2d
@@ -2289,8 +2288,8 @@ CHECKSUMS
   validate_email (0.1.6) sha256=9dfe9016d527b17a8d3a6e95e4dc50a125400eef899d13d4cc2a254393f82ee4
   validate_url (1.0.15) sha256=72fe164c0713d63a9970bd6700bea948babbfbdcec392f2342b6704042f57451
   vcr (6.4.0) sha256=077ac92cc16efc5904eb90492a18153b5e6ca5398046d8a249a7c96a9ea24ae6
-  vernier (1.10.1) sha256=f2ab2e163b75ac3ef4e3173262d27d27da6219cf04b1b4a7171e4798114275ce
-  view_component (4.12.0) sha256=b9a5979d1c43eba2aa21a06a86f661aab3990104855f2909ef7c3779acdcdcb4
+  vernier (1.11.0) sha256=ffc3859da1d53df96a109c6609892dab9f1d96ffbdd77cf13fa4d74032331216
+  view_component (4.15.0) sha256=2924e207b102c04ab51c4d318535f03f1c3aab3c81ecff99b1cc631b43e14eac
   warden (1.2.9) sha256=46684f885d35a69dbb883deabf85a222c8e427a957804719e143005df7a1efd0
   warden-basic_auth (0.2.1) sha256=bfc752e0109c0182c3e69e930284c5e1e81e7b4a354aeb2b5914ead1391f3c6e
   webauthn (3.4.3) sha256=9be6f5f838f3405b0226e560aa40b67cc8c15ec9154509b997caa7ec9a05e1fc
@@ -2316,4 +2315,4 @@ RUBY VERSION
   ruby 4.0.6
 
 BUNDLED WITH
-  4.0.16
+  4.0.20

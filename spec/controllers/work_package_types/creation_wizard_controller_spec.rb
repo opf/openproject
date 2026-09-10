@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { type_variants: true } do
+RSpec.describe WorkPackageTypes::CreationWizardController do
   render_views
 
   before { login_as user }
@@ -167,16 +167,6 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { type_var
       before { get :new }
 
       it { expect(response).to have_http_status(:forbidden) }
-    end
-  end
-
-  context "when the variants feature is disabled", with_flag: { type_variants: false } do
-    let(:user) { create(:admin) }
-
-    describe "GET new" do
-      before { get :new }
-
-      it { expect(response).to have_http_status(:not_found) }
     end
   end
 

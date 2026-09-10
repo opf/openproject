@@ -31,8 +31,7 @@ require "spec_helper"
 
 RSpec.describe "Work package type configuration dependents",
                :skip_csrf,
-               type: :rails_request,
-               with_flag: { type_variants: true } do
+               type: :rails_request do
   shared_let(:admin) { create(:admin) }
   shared_let(:type) { create(:type, name: "Task") }
   shared_let(:borrowing_type) { create(:type, name: "Feature") }
@@ -101,14 +100,6 @@ RSpec.describe "Work package type configuration dependents",
       get type_configuration_dependents_dialog_path(type_id: type.id, aspect: "nonsense"), as: :turbo_stream
 
       expect(response).to have_http_status(:not_found)
-    end
-
-    context "when the variants feature is disabled", with_flag: { type_variants: false } do
-      it "blocks the dialog" do
-        get type_configuration_dependents_dialog_path(type_id: type.id, aspect:), as: :turbo_stream
-
-        expect(response).to have_http_status(:not_found)
-      end
     end
 
     context "when the user is not an admin" do

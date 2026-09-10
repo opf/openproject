@@ -88,7 +88,7 @@ module OpenProject::Wikis
 
     replace_principal_references "Wikis::PageLink" => %i[author_id]
 
-    register "openproject-wikis", author_url: "https://openproject.org" do
+    register "openproject-wikis", author_url: "https://openproject.org", bundled: true do
       project_module nil do
         permission :view_wiki_pages,
                    { wiki: %i[index show special menu menu_tree export] },

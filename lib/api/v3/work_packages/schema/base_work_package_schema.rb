@@ -45,6 +45,10 @@ module API
             project&.type_variant(type)
           end
 
+          def custom_field_required?(custom_field_id)
+            type_variant&.required_custom_field_ids&.include?(custom_field_id) || false
+          end
+
           def assignable_values(_property, _current_user)
             nil
           end

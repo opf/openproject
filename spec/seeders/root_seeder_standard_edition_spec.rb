@@ -529,8 +529,8 @@ RSpec.describe RootSeeder,
     end
 
     it "creates 1 project with custom fields" do
-      # 12 development work package custom fields + 4 development user custom fields
-      expect(CustomField.count).to eq 16
+      # 13 development work package custom fields + 4 development user custom fields
+      expect(CustomField.count).to eq 17
     end
 
     include_examples "creates the company staff and the demo data referencing it"

@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe WorkPackageTypes::DeleteVariantService, with_flag: { type_variants: true } do
+RSpec.describe WorkPackageTypes::DeleteVariantService do
   shared_let(:admin) { create(:admin) }
   shared_let(:bug) { create(:type, name: "Bug") }
 

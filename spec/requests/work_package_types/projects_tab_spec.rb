@@ -30,8 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Work package type projects tab", :skip_csrf, type: :rails_request,
-                                                             with_flag: { type_variants: true } do
+RSpec.describe "Work package type projects tab", :skip_csrf, type: :rails_request do
   shared_let(:admin) { create(:admin) }
   shared_let(:type) { create(:type, name: "Bug") }
   shared_let(:hardware) { create(:type_variant, type:, variant_name: "Hardware") }

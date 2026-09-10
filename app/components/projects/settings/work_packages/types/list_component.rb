@@ -140,7 +140,7 @@ module Projects
           end
 
           def edit_variant_path(variant)
-            edit_type_details_path(in_project_id: project, type_id: variant.type_id, variant_id: variant.id)
+            type_settings_path(in_project_id: project, type_id: variant.type_id, variant_id: variant.id)
           end
 
           def delete_variant_path(variant)

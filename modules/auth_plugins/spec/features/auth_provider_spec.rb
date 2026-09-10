@@ -46,8 +46,10 @@ RSpec.describe "rendering the login buttons", :js do
       visit project_path(public_project)
 
       click_link_or_button "Sign in"
-      item = page.find("a.auth-provider", text: "mock_auth")
-      expect(item[:href]).to end_with "/auth/mock_auth"
+      item = page.find("button.auth-provider", text: "mock_auth")
+      form = item.ancestor("form")
+      expect(form[:action]).to end_with "/auth/mock_auth"
+      expect(form[:method]).to eq "post"
     end
   end
 end

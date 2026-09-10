@@ -66,6 +66,8 @@ ko:
 
       '
     login_with_auth_provider: 또는 이미 있는 계정으로 로그인
+    omniauth_direct_login_continue: Continue to sign in
+    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: 계정을 활성화하려면 로그인하시기 바랍니다.
     signup_title: "%{app_title}에서 계정 만들기"
     signup_with_external_account: 외부 계정으로 가입
@@ -83,6 +85,21 @@ ko:
         prompt: 프롬프트
         types: 작업 패키지 유형
         usage_scope: 범위
+      ai/text_transform_run:
+        action: Action
+        cancel_requested: Cancel requested
+        error_message: Error message
+        finished_at: Finished at
+        input: Input
+        status: Status
+        system_prompt: System prompt
+        user: User
+        uuid: UUID
+      ai/text_transform_run_event:
+        kind: Kind
+        payload: Payload
+        run: Run
+        seq: Sequence number
       announcements:
         show_until: 표시 기한
       attachment:
@@ -125,7 +142,9 @@ ko:
         is_for_all: 모든 프로젝트용
         is_required: 필수
         max_length: 최대 길이
+        max_value: Maximum value
         min_length: 최소 길이
+        min_value: Minimum value
         multi_value: 다중 선택 허용
         possible_values: 가능한 값
         regexp: 정규 표현식
@@ -571,6 +590,7 @@ ko:
         regex_list_invalid: "%{invalid_lines} 라인을 정규 표현식으로 구문 분석할 수 없습니다."
         regex_match_failed: "%{expression} 정규 표현식과 일치하지 않습니다."
         smaller_than_or_equal_to_max_length: 은(는) 최대 길이보다 같거나 작아야 합니다.
+        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: "- 이 OpenProject 인스턴스의 SSRF 정책을 위반합니다."
         status_transition_invalid: "- 현재 사용자의 역할에 대해 기존 상태에서 새로운 상태로의 유효한 전환이 없으므로 유효하지 않습니다."
         system_wide_non_working_day_exists: "- 이 날짜의 기존 시스템 전체 휴무일과 충돌합니다."
@@ -993,6 +1013,10 @@ ko:
         other: 작업
       ai/text_transform_action:
         other: 텍스트 변환 작업
+      ai/text_transform_run:
+        other: Text transform runs
+      ai/text_transform_run_event:
+        other: Text transform run events
       announcement:
         other: 공지 사항
       anonymous_user:
@@ -2341,6 +2365,9 @@ ko:
       min_max:
         all: 0은 제한이 없음을 의미합니다
         project: 0은 제한이 없음을 의미합니다
+      min_max_value:
+        all: Leave blank for no restriction
+        project: Leave blank for no restriction
       multi_select:
         all: 사용자가 이 사용자 지정 필드에 여러 값을 할당할 수 있도록 허용합니다.
         project: 사용자가 이 특성에 여러 값을 할당할 수 있도록 허용합니다.
@@ -3545,7 +3572,6 @@ ko:
   label_message_new: 새 메시지
   label_message_plural: 메시지
   label_message_posted: 메시지 추가됨
-  label_min_max_length: 최소 - 최대 길이
   label_minute_plural: minutes
   label_missing_api_access_key: 사라진 API 접근 키
   label_missing_feeds_access_key: 사라진 RSS 접근 키
@@ -4440,6 +4466,7 @@ ko:
   notice_account_already_activated: 계정이 이미 활성화 되었습니다.
   notice_account_invalid_credentials: 잘못된 사용자 또는 암호
   notice_account_invalid_credentials_or_blocked: 여러 번 실패한 로그인 시도로 인해 잘못된 사용자나 암호 또는 계정이 차단되었습니다. 이러한 경우 짧은 시간 동안 자동으로 차단됩니다.
+  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
   notice_account_invalid_token: 잘못 된 활성화 토큰
   notice_account_lost_email_sent: 새로운 암호를 선택하기 위한 지침이 포함된 이메일이 전송되었습니다.
   notice_account_new_password_forced: 새 암호를 입력해야 합니다.
@@ -5354,6 +5381,12 @@ ko:
   roles:
     edit:
       default_for_new_projects_warning: '이 역할은 프로젝트를 만드는 비관리자 사용자에게 지정된 기본 역할로 구성됩니다. 다음 권한을 제거하지 마세요. 그렇지 않으면 프로젝트 생성자가 새로 생성된 프로젝트의 설정을 완료할 수 없게 됩니다:'
+    index:
+      filter_label: Search roles
+      types:
+        all: All roles
+        global: Global roles
+        project: Project roles
     permissions:
       section_check_all_label: 모든 %{module} 권한 할당
       section_uncheck_all_label: 모든 %{module} 권한 할당 취소
@@ -6258,6 +6291,15 @@ ko:
         row_actions: 행 작업
         tab: Form
         untitled_group: 제목이 없는 그룹
+      overview:
+        configuration_mode: Configuration mode
+        dependents: Dependent types and variants
+        mode:
+          always_manual: Always manual
+          inheriting_from_html: Inheriting from %{source_name}
+          manual: Manually configured
+        settings: Settings
+        tab: Overview
       project_attributes:
         actions:
           label_disable_all: 모두 비활성화
@@ -6784,6 +6826,13 @@ ko:
       confirm_deletion: 선택한 작업 패키지 및 모든 관련 데이터가 삭제될 것임을 확인합니다.
       confirm_descendants_deletion: 위에 나열된 모든 하위 항목도 삭제될 것임을 확인합니다.
       cross_project_warning_html: '다음 작업 패키지는 여러 프로젝트에 걸쳐 있습니다: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
+        self_only_label: Delete just the selected work packages
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete the selected work packages and their descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: 선택한 작업 패키지 및 모든 관련 데이터를 삭제하시겠습니까?
       description_with_all_descendants: 선택한 작업 패키지 및 모든 해당 하위 항목을 삭제하시겠습니까?
       description_with_descendants: 선택한 작업 패키지 및 다음의 모든 하위 항목을 삭제하시겠습니까?
@@ -6844,6 +6893,13 @@ ko:
       confirm_deletion: 작업 패키지 및 모든 관련 데이터가 삭제될 것임을 확인합니다.
       confirm_descendants_deletion: 위에 나열된 모든 하위 항목도 삭제될 것임을 확인합니다.
       cross_project_warning_html: '다음 프로젝트의 작업 패키지가 삭제됩니다: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: This work package has descendants. Do you want to delete them as well?
+        self_only_label: Delete just this work package
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete this work package and descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: '"%{name}"을(를) 삭제하시겠습니까?'
       heading: 이 작업 패키지를 영구적으로 삭제하시겠습니까?
       hidden_descendants_only_warning:

@@ -66,6 +66,8 @@ tr:
 
       '
     login_with_auth_provider: veya varolan hesabınızı kullanarak oturum açın
+    omniauth_direct_login_continue: Continue to sign in
+    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: Hesabınızı aktifleştirmek için lütfen giriş yapın.
     signup_title: Create an account in %{app_title}
     signup_with_external_account: Sign up with an external account
@@ -83,6 +85,21 @@ tr:
         prompt: Prompt
         types: Work package types
         usage_scope: Scope
+      ai/text_transform_run:
+        action: Action
+        cancel_requested: Cancel requested
+        error_message: Error message
+        finished_at: Finished at
+        input: Input
+        status: Status
+        system_prompt: System prompt
+        user: User
+        uuid: UUID
+      ai/text_transform_run_event:
+        kind: Kind
+        payload: Payload
+        run: Run
+        seq: Sequence number
       announcements:
         show_until: Son yayın tarihi
       attachment:
@@ -125,7 +142,9 @@ tr:
         is_for_all: Tüm projeler için
         is_required: Gerekli
         max_length: Maksimum uzunluk
+        max_value: Maximum value
         min_length: Minimum uzunluk
+        min_value: Minimum value
         multi_value: Çoklu seçime izin ver
         possible_values: Olası değerler
         regexp: Düzenli ifade
@@ -575,6 +594,7 @@ tr:
         regex_list_invalid: "%{invalid_lines} satırları düzenli ifade olarak ayrıştırılamadı."
         regex_match_failed: "%{expression} düzenli ifadesiyle eşleşmiyor."
         smaller_than_or_equal_to_max_length: en fazla uzunluğa eşit veya daha küçük olmalıdır.
+        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: violates the SSRF policy of this OpenProject instance.
         status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
         system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
@@ -1002,6 +1022,12 @@ tr:
       ai/text_transform_action:
         one: Text transform action
         other: Text transform actions
+      ai/text_transform_run:
+        one: Text transform run
+        other: Text transform runs
+      ai/text_transform_run_event:
+        one: Text transform run event
+        other: Text transform run events
       announcement:
         one: Announcement
         other: Announcements
@@ -2467,6 +2493,9 @@ tr:
       min_max:
         all: 0 sınırlama yok demektir
         project: 0 sınırlama yok demektir
+      min_max_value:
+        all: Leave blank for no restriction
+        project: Leave blank for no restriction
       multi_select:
         all: Kullanıcının bu özel alana birden fazla değer atamasına izin verir.
         project: Kullanıcının bu özniteliğe birden fazla değer atamasına izin verir.
@@ -3678,7 +3707,6 @@ tr:
   label_message_new: Yeni mesaj
   label_message_plural: Mesajlar
   label_message_posted: Mesaj eklendi
-  label_min_max_length: En az - En çok uzunluk
   label_minute_plural: dakika
   label_missing_api_access_key: Eksik API erişim anahtarı
   label_missing_feeds_access_key: Eksik RSS erişim anahtarı
@@ -4584,6 +4612,7 @@ tr:
   notice_account_already_activated: Hesap zaten etkinleştirildi.
   notice_account_invalid_credentials: Geçersiz kullanıcı ya da parola
   notice_account_invalid_credentials_or_blocked: Geçersiz kullanıcı, parola ya da hesap birden fazla başarısız giriş denemesinden dolayı engellendi. Eğer öyleyse kısa bir zaman sonra otomatik olarak engel kaldırılacaktır.
+  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
   notice_account_invalid_token: Geçersiz etkinleştirme belirteci
   notice_account_lost_email_sent: Size yeni bir parola seçme talimatlarını içeren bir e-posta göndermiştir.
   notice_account_new_password_forced: Yeni bir parola gerekli.
@@ -5510,6 +5539,12 @@ tr:
   roles:
     edit:
       default_for_new_projects_warning: 'This role is configured as the default role given to non-admin users who create a project. Do not remove the following permissions, otherwise project creators will be unable to complete the setup of their newly created projects:'
+    index:
+      filter_label: Search roles
+      types:
+        all: All roles
+        global: Global roles
+        project: Project roles
     permissions:
       section_check_all_label: Assign all %{module} permissions
       section_uncheck_all_label: Unassign all %{module} permissions
@@ -6410,6 +6445,15 @@ tr:
         row_actions: Row actions
         tab: Form
         untitled_group: Untitled group
+      overview:
+        configuration_mode: Configuration mode
+        dependents: Dependent types and variants
+        mode:
+          always_manual: Always manual
+          inheriting_from_html: Inheriting from %{source_name}
+          manual: Manually configured
+        settings: Settings
+        tab: Overview
       project_attributes:
         actions:
           label_disable_all: Disable all
@@ -6942,6 +6986,13 @@ tr:
       confirm_deletion: I confirm that the selected work packages and all associated data will be deleted.
       confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
       cross_project_warning_html: 'These work packages span multiple projects: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
+        self_only_label: Delete just the selected work packages
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete the selected work packages and their descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: Are you sure you want to delete the selected work packages and all associated data?
       description_with_all_descendants: Are you sure you want to delete the selected work packages and all of their descendants?
       description_with_descendants: Are you sure you want to delete the selected work packages and all the following descendants?
@@ -7006,6 +7057,13 @@ tr:
       confirm_deletion: I confirm that the work package and all associated data will be deleted.
       confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
       cross_project_warning_html: 'Work packages from the following projects will be deleted: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: This work package has descendants. Do you want to delete them as well?
+        self_only_label: Delete just this work package
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete this work package and descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: Are you sure you want to delete "%{name}"?
       heading: Permanently delete this work package?
       hidden_descendants_only_warning:
