@@ -182,6 +182,10 @@ RSpec.describe BackupJob, type: :model do
         expect(backup_files).to include "openproject.sql"
       end
 
+      it "does not leave the temporary archive behind" do
+        expect(File.exist?("/tmp/openproject.zip")).to be false
+      end
+
       if opts[:include_attachments] == false
         it "does not include attachments in the backup" do
           expect(backup_files).not_to include backed_up_attachment(attachment)
@@ -190,6 +194,12 @@ RSpec.describe BackupJob, type: :model do
       else
         it "includes attachments in the backup" do
           expect(backup_files).to include backed_up_attachment(attachment)
+        end
+
+        it "includes the attachment's original content" do
+          Zip::File.open(stored_backup.file.path) do |zip|
+            expect(zip.read(backed_up_attachment(attachment))).to eq File.binread(attachment.diskfile.path)
+          end
         end
 
         it "does not include pending direct uploads" do
@@ -302,6 +312,77 @@ RSpec.describe BackupJob, type: :model do
 
     it "names the backup archive with an -incomplete suffix" do
       expect(stored_backup.filename).to eq "openproject-unreadable-incomplete.zip"
+    end
+  end
+
+  context "with an attachment that fails while streaming" do
+    let(:job) { described_class.new }
+    let(:backup) { create(:backup) }
+    let(:user) { create(:admin) }
+    let(:job_id) { 42 }
+
+    let!(:job_status) do
+      create(
+        :delayed_job_status,
+        user:,
+        reference: backup,
+        status: JobStatus::Status.statuses[:in_queue],
+        job_id:
+      )
+    end
+
+    let(:openproject_sql) do
+      Tempfile.new(["openproject", ".sql"]).tap { |f| f.write("SOME SQL") }
+    end
+
+    let!(:readable_attachment) { create(:attachment) }
+    let!(:failing_attachment) { create(:attachment) }
+
+    let(:stored_backup) { Attachment.where(container_type: "Export").last }
+    let(:backup_files) { Zip::File.open(stored_backup.file.path) { |zip| zip.entries.map(&:name) } }
+    let(:failing_entry) { "attachment/file/#{failing_attachment.id}/#{failing_attachment.filename}" }
+
+    def backed_up_attachment(attachment)
+      "attachment/file/#{attachment.id}/#{attachment.filename}"
+    end
+
+    before do
+      allow(job).to receive_messages(arguments: [{ backup:, user: }], job_id:)
+
+      allow(Open3).to receive(:capture3).and_return [nil, "", instance_double(Process::Status, success?: true)]
+
+      allow(job).to receive(:tmp_file_name).with("openproject", ".sql").and_return(openproject_sql.path)
+      allow(job).to receive(:tmp_file_name)
+        .with("openproject-backup", ".zip").and_return("/tmp/openproject-stream-fail.zip")
+
+      # Attachments are re-queried from the database inside the job, so there is no handle to the
+      # specific instances whose uploader needs stubbing.
+      # rubocop:disable RSpec/AnyInstance
+      allow_any_instance_of(LocalFileUploader).to receive(:stream_to).and_wrap_original do |method, output|
+        if method.receiver.model.id == failing_attachment.id
+          output.write("truncated-bytes")
+          raise StandardError, "download failed"
+        else
+          method.call(output)
+        end
+      end
+      # rubocop:enable RSpec/AnyInstance
+
+      job.perform(backup:, user:)
+    end
+
+    it "does not leave a truncated zip entry for the failed attachment" do
+      expect(backup_files).not_to include failing_entry
+    end
+
+    it "lists the failed attachment in MISSING_ATTACHMENTS.txt" do
+      expect(backup_files).to include "MISSING_ATTACHMENTS.txt"
+      missing = Zip::File.open(stored_backup.file.path) { |zip| zip.read("MISSING_ATTACHMENTS.txt") }
+      expect(missing).to include(failing_attachment.id.to_s)
+    end
+
+    it "still includes the readable attachment's content" do
+      expect(backup_files).to include backed_up_attachment(readable_attachment)
     end
   end
 end

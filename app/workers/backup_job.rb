@@ -75,7 +75,10 @@ class BackupJob < ApplicationJob
   end
 
   def after_backup
-    remove_files! db_dump_file_name
+    # Always try to remove the archive path. After a successful fog upload the
+    # file has already been moved into CarrierWave's cache (no-op here). After a
+    # local copy, or if storing the backup failed, this prevents a leftover large tmpfile
+    remove_files! db_dump_file_name, archive_file_name
     remove_backup_attachment! unless success?
 
     Rails.logger.info(
@@ -197,7 +200,12 @@ class BackupJob < ApplicationJob
   end
 
   ##
-  # Streams an attachment's content straight into the archive.
+  # Adds an attachment to the archive. The content is fully received into a
+  # tempfile first so a failed download cannot leave a truncated zip entry
+  # (Zip::OutputStream cannot unwrite an already-opened member).
+  #
+  # Peak extra disk is one attachment at a time; the tempfile is unlinked when
+  # this method returns.
   #
   # @param zos [Zip::OutputStream] Stream to archive
   # @param attachment [Attachment] Attachment
@@ -205,13 +213,25 @@ class BackupJob < ApplicationJob
     # If an attachment is destroyed/missing, skip it
     return missing_attachments << attachment unless attachment.file.readable?
 
-    zos.put_next_entry "attachment/file/#{attachment.id}/#{attachment[:file]}"
-
-    attachment.file.stream_to zos
+    archive_readable_attachment!(zos, attachment)
   rescue StandardError => e
     log_attachment_error!(attachment, e)
 
     missing_attachments << attachment
+  end
+
+  def archive_readable_attachment!(zos, attachment)
+    Tempfile.create(["backup-attachment-#{attachment.id}", ".bin"]) do |tmp|
+      tmp.binmode
+      attachment.file.stream_to(tmp)
+      tmp.flush
+
+      write_to_archive! zos, backup_attachment_entry_name(attachment), tmp.path
+    end
+  end
+
+  def backup_attachment_entry_name(attachment)
+    "attachment/file/#{attachment.id}/#{attachment[:file]}"
   end
 
   def log_attachment_error!(attachment, error)
