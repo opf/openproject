@@ -239,7 +239,6 @@ class Attachment < ApplicationRecord
   def file=(file)
     # Take size, type, digest from source before CarrierWave caches it in super.
     # FogFileUploader may move the source into the cache (MovableSource), after which +file.path+ no longer exists.
-    # (MovableSource), after which +file.path+ no longer exists.
     set_file_size file
     set_content_type file
     set_digest file if File.readable?(file.path)
