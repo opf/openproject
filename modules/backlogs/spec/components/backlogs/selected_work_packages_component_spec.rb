@@ -62,6 +62,14 @@ RSpec.describe Backlogs::SelectedWorkPackagesComponent, type: :component do
     expect(page).to have_link(epic.formatted_id, href: "/work_packages/#{epic.id}")
   end
 
+  it "renders the selection as a semantic list", :aggregate_failures do
+    render_component
+
+    expect(page).to have_list_item count: 2
+    expect(page).to have_list_item position: 1, text: feature.subject
+    expect(page).to have_list_item position: 2, text: epic.subject
+  end
+
   it "heads the box with the selected count on the description element" do
     render_component
 
