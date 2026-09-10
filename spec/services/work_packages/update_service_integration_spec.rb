@@ -440,8 +440,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     end
   end
 
-  describe "changing the type when the project resolves it to a variant",
-           with_flag: { type_variants: true } do
+  describe "changing the type when the project resolves it to a variant" do
     shared_let(:family_root) { create(:type, name: "Family root") }
     shared_let(:variant) { create(:type_variant, type: family_root, variant_name: "Variant") }
     shared_let(:root_only_status) { create(:status, name: "root_only_status") }
@@ -1835,8 +1834,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     end
   end
 
-  context "with a type whose subject configuration is linked to a source type",
-          with_flag: { type_variants: true } do
+  context "with a type whose subject configuration is linked to a source type" do
     shared_let(:linked_type) do
       create(:type, name: "Linked").tap do |t|
         link_configuration(t, source: autosubject_type, aspect: TypeVariant::DEFAULTS)

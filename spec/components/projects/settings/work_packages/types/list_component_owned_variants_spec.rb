@@ -32,8 +32,7 @@ require "rails_helper"
 
 RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
                "the variants a project owns",
-               type: :component,
-               with_flag: { type_variants: true } do
+               type: :component do
   include Rails.application.routes.url_helpers
 
   shared_let(:bug) { create(:type, name: "Bug").tap { |type| type.update_column(:position, 1) } }

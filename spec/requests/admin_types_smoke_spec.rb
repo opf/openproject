@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Admin types UI smoke", :skip_csrf, type: :rails_request, with_flag: { type_variants: true } do
+RSpec.describe "Admin types UI smoke", :skip_csrf, type: :rails_request do
   shared_let(:admin) { create(:admin) }
   shared_let(:type) { create(:type, name: "SmokeType") }
 
@@ -16,15 +16,6 @@ RSpec.describe "Admin types UI smoke", :skip_csrf, type: :rails_request, with_fl
     get types_path
     expect(response).to have_http_status(:ok)
     expect(response.body).to include("Hardware")
-  end
-
-  # The flag-off index renders through the table row rather than the grouped list, so a green
-  # flag-on run says nothing about it. A workflow-less type is what reaches #workflow_warning.
-  it "renders the types index with the feature flag disabled", with_flag: { type_variants: false } do
-    get types_path
-
-    expect(response).to have_http_status(:ok)
-    expect(response.body).to include(edit_type_workflow_path(type_id: type.id))
   end
 
   it "renders the details tab" do

@@ -1451,7 +1451,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
   end
 
-  describe "when the project resolves the type to a variant", with_flag: { type_variants: true } do
+  describe "when the project resolves the type to a variant" do
     shared_let(:family_root) { create(:type, name: "Family root") }
     shared_let(:base_variant) { family_root.default_variant }
     shared_let(:variant) do
