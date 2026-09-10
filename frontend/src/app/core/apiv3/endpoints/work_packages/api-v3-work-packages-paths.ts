@@ -69,25 +69,51 @@ export class ApiV3WorkPackagesPaths extends ApiV3Collection<WorkPackageResource,
       return Promise.resolve();
     }
 
+    const uniqueIds = Array.from(new Set(ids));
     return new Promise<undefined>((resolve, reject) => {
       this
-        .loadCollectionsFor(Array.from(new Set(ids)), timestamps)
+        .loadCollectionsFor(uniqueIds, timestamps)
         .then((pagedResults:WorkPackageCollectionResource[]) => {
-          pagedResults.forEach((results) => {
-            if (results.schemas) {
-              results.schemas.elements.forEach((schema:SchemaResource) => {
-                this.states.schemas.get(schema.href!).putValue(schema);
-              });
-            }
+          const loadedIds = this.cacheCollection(pagedResults);
 
-            if (results.elements) {
-              this.cache.updateWorkPackageList(results.elements);
-            }
-          });
+          // Load current state of WPs that didn't exist at any timestamp
+          if (timestamps?.length && uniqueIds.length !== loadedIds.size) {
+            const missingIds = uniqueIds.filter(id => !loadedIds.has(String(id)));
 
-          resolve(undefined);
+            if (missingIds.length > 0) {
+              this
+                .loadCollectionsFor(missingIds)
+                .then((fallbackResults:WorkPackageCollectionResource[]) => {
+                  this.cacheCollection(fallbackResults);
+                  resolve(undefined);
+                }, reject);
+            } else {
+              resolve(undefined);
+            }
+          } else {
+            resolve(undefined);
+          }
         }, reject);
     });
+  }
+
+  private cacheCollection(pagedResults:WorkPackageCollectionResource[]):Set<string> {
+    const loadedIds = new Set<string>;
+
+    pagedResults.forEach(results => {
+      if (results.schemas) {
+        results.schemas.elements.forEach((schema:SchemaResource) => {
+          this.states.schemas.get(schema.href!).putValue(schema);
+        });
+      }
+
+      if (results.elements) {
+        this.cache.updateWorkPackageList(results.elements);
+        results.elements.forEach(el => loadedIds.add(String(el.id)));
+      }
+    });
+
+    return loadedIds;
   }
 
   /**
