@@ -22,7 +22,7 @@ pt-PT:
       use_this_link_to_manage: Use este link para fazer upload e gerenciar seus modelos IFC
       views:
         split: Visualizador e tabela
-        split_cards: Visualizador e cards
+        split_cards: Visualizador e cartões
         viewer: Visualizador
     revit:
       revit_add_in: Complemento Revit

@@ -54,7 +54,18 @@ module OpenProject::Bim
                    permissible_on: :project,
                    contract_actions: { ifc_models: %i[read] }
         permission :manage_ifc_models,
-                   { "bim/ifc_models/ifc_models": %i[index show destroy edit update create new set_direct_upload_file_name direct_upload_finished] },
+                   {
+                     "bim/ifc_models/ifc_models": %i[index
+                                                     show
+                                                     destroy
+                                                     edit
+                                                     update
+                                                     create
+                                                     new
+                                                     set_direct_upload_file_name
+                                                     set_direct_upload_default_value
+                                                     direct_upload_finished]
+                   },
                    permissible_on: :project,
                    dependencies: %i[view_ifc_models],
                    contract_actions: { ifc_models: %i[create update destroy] }
@@ -200,7 +211,7 @@ module OpenProject::Bim
       links :bcfViewpoints do
         journable = represented.journable
         next unless current_user.allowed_in_project?(:view_linked_issues, represented.project) &&
-          represented.bcf_comment.present? && journable.bcf_issue?
+                    represented.bcf_comment.present? && journable.bcf_issue?
 
         # There will only be one viewpoint per comment but we nevertheless return a collection here so that it is more
         # similar to the work package representer.

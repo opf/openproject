@@ -627,7 +627,7 @@ RSpec.describe "Workflow edit", :js do
 
   context "with copy dialog" do
     it "allows navigating to any Copy page", :js do
-      click_on "Copy"
+      open_copy_dialog
 
       expect(page).to have_dialog "Copy workflow"
     end
@@ -638,7 +638,7 @@ RSpec.describe "Workflow edit", :js do
           check workflow_checkbox(1, 0)
         end
 
-        click_link "Copy"
+        open_copy_dialog
 
         within_dialog "Save changes before continuing?" do
           click_button "Ignore changes"
@@ -655,7 +655,7 @@ RSpec.describe "Workflow edit", :js do
           check workflow_checkbox(1, 0)
         end
 
-        click_link "Copy"
+        open_copy_dialog
 
         within_dialog "Save changes before continuing?" do
           click_button "Save changes and continue"
@@ -673,7 +673,7 @@ RSpec.describe "Workflow edit", :js do
           check workflow_checkbox(1, 0)
         end
 
-        click_link "Copy"
+        open_copy_dialog
 
         within_dialog "Save changes before continuing?" do
           find(".close-button").click
@@ -694,7 +694,7 @@ RSpec.describe "Workflow edit", :js do
         add_status_via_dialog(statuses[2])
         expect(page).to have_field workflow_checkbox(0, 2)
 
-        click_link "Copy"
+        open_copy_dialog
 
         expect(page).to have_dialog("Save changes before continuing?")
       end
@@ -703,7 +703,7 @@ RSpec.describe "Workflow edit", :js do
         add_status_via_dialog(statuses[2])
         expect(page).to have_field workflow_checkbox(0, 2)
 
-        click_link "Copy"
+        open_copy_dialog
 
         within_dialog "Save changes before continuing?" do
           click_button "Ignore changes"
@@ -723,7 +723,7 @@ RSpec.describe "Workflow edit", :js do
 
         expect(page).to have_no_field workflow_checkbox(0, 1)
 
-        click_link "Copy"
+        open_copy_dialog
 
         within_dialog "Save changes before continuing?" do
           click_button "Ignore changes"
@@ -762,16 +762,16 @@ RSpec.describe "Workflow edit", :js do
     end
   end
 
-  describe "reuse mode banner", with_flag: { type_variants: true } do
+  describe "reuse mode boxes" do
     let(:source_type) { create(:type, name: "Feature") }
 
     context "when the workflow configuration is independent" do
       before { visit_workflow_edit(roles: [role]) }
 
-      it "shows the independent banner offering to switch to linked, or to copy from type" do
-        expect(page).to have_text("Independent mode")
-        expect(page).to have_link("Switch to linked mode")
-        expect(page).to have_link("Copy from type")
+      it "shows the manual box offering to inherit from another type, or to copy from one" do
+        expect(page).to have_text("Manual configuration")
+        expect(page).to have_link("Inherit from another type")
+        expect(page).to have_link("Copy from another type")
       end
     end
 
@@ -781,18 +781,10 @@ RSpec.describe "Workflow edit", :js do
         visit_workflow_edit(roles: [role])
       end
 
-      it "shows the linked banner naming the source with change and switch actions" do
-        expect(page).to have_text("Linked mode")
+      it "shows the inherited box naming the source with change and switch actions" do
+        expect(page).to have_text("Inherited configuration")
         expect(page).to have_link("Change source type")
-        expect(page).to have_link("Switch to independent mode")
-      end
-    end
-
-    context "when the variants feature is disabled", with_flag: { type_variants: false } do
-      before { visit_workflow_edit(roles: [role]) }
-
-      it "does not show the reuse mode banner" do
-        expect(page).to have_no_text("Independent mode")
+        expect(page).to have_link("Configure manually")
       end
     end
   end

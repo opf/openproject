@@ -172,6 +172,10 @@ module Redmine
 
         def custom_field_values(all: false) = cached_custom_field_values[all ? :all_available : :available]
 
+        def custom_field_required?(custom_field)
+          custom_field.required?
+        end
+
         # Finds a comment for the given custom field using a Ruby finder.
         #
         # This method is expected to be used when more comments are needed, so it

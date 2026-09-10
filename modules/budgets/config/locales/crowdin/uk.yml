@@ -47,20 +47,20 @@ uk:
               not_a_member_of_budget_project: не є учасником проєкту бюджету
     models:
       budget:
-        one: Budget
-        few: Budgets
-        many: Budgets
-        other: Budgets
+        one: Бюджет
+        few: Бюджети
+        many: Бюджети
+        other: Бюджети
       labor_budget_item:
-        one: Planned labor cost
-        few: Planned labor costs
-        many: Planned labor costs
-        other: Planned labor costs
+        one: Планові витрати на працю
+        few: Планові витрати на працю
+        many: Планові витрати на працю
+        other: Планові витрати на працю
       material_budget_item:
-        one: Unit
-        few: Units
-        many: Units
-        other: Units
+        one: Одиниця
+        few: Одиниці
+        many: Одиниці
+        other: Одиниці
   activity:
     filter:
       budget: Бюджети

@@ -86,7 +86,7 @@ module ::ResourceManagement
       render_success_flash_message_via_turbo_stream(
         message: I18n.t("resource_management.staffing.success_message")
       )
-      close_dialog_via_turbo_stream("##{ResourceAllocations::AssignmentDialogComponent::DIALOG_ID}")
+      close_dialog_via_turbo_stream(ResourceAllocations::AssignmentDialogComponent::DIALOG_ID)
       replace_via_turbo_stream(component: list_component)
       respond_with_turbo_streams
     end

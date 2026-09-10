@@ -129,7 +129,7 @@ RSpec.describe "Team planner add existing work packages",
 
       # Select work package in add existing
       add_existing_pane.card(second_wp).click
-      split_screen = Pages::SplitWorkPackage.new second_wp
+      split_screen = Pages::PrimerizedSplitWorkPackage.new second_wp
       # Wait for navigation to complete before checking the split panel DOM
       expect(page).to have_current_path /\/details\/#{second_wp.id}/
       split_screen.expect_subject

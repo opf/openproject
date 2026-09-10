@@ -30,10 +30,19 @@
 
 module Projects
   module Types
-    class SwitchVariantContract < ManageTypesContract
+    class SwitchVariantContract < ::BaseContract
+      validate :validate_user_allowed_to_switch
       validate :validate_target_selectable
 
       protected
+
+      # Deferred to validate_target_selectable, which names what is wrong with the pair itself.
+      def validate_user_allowed_to_switch
+        return if target.nil? || target.type_id != source.type_id
+        return if ::TypeVariant.switchable?(user:, project: model, source:, target:)
+
+        errors.add :base, :error_unauthorized
+      end
 
       def validate_target_selectable
         if target.nil?

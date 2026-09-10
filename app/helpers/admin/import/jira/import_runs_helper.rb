@@ -58,4 +58,19 @@ module Admin::Import::Jira::ImportRunsHelper
   def users_label(count)
     I18n.t(:"admin.jira.run.wizard.parts.users", count: count || 0)
   end
+
+  def job_status_icon(status)
+    case status
+    when :running
+      { icon: :sync, animation: :rotate }
+    when :queued,
+      :retried,
+      :scheduled
+      { icon: :clock, color: :muted }
+    when :succeeded
+      { icon: :"check-circle-fill", color: :success }
+    when :discarded
+      { icon: :"x-circle-fill", color: :danger }
+    end
+  end
 end

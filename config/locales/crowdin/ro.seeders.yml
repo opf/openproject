@@ -71,6 +71,15 @@ ro:
           name: Manager de personal și de proiecte
         item_1:
           name: Rol global standard
+      ai_text_transform_actions:
+        item_0:
+          label: Fix grammar
+        item_1:
+          label: Make concise
+        item_2:
+          label: Translate to English
+        item_3:
+          label: Sort into template
     standard:
       project_phases:
         item_0:
@@ -215,20 +224,20 @@ ro:
             item_5:
               subject: End of project
           wiki: |
-            _In this wiki you can collaboratively create and edit pages and sub-pages to create a project wiki._
+            _În acest wiki puteți crea și edita în mod colaborativ pagini și subpagini pentru a realiza un proiect wiki._
 
-            **You can:**
+            **Puteți:**
 
-            * Insert text and images, also with copy and paste from other documents
-            * Create a page hierarchy with parent pages
-            * Include wiki pages to the project menu
-            * Use macros to include, e.g. table of contents, work package lists, or Gantt charts
-            * Include wiki pages in other text fields, e.g. project overview page
-            * Include links to other documents
-            * View the change history
-            * View as Markdown
+            * Să inserați text și imagini, inclusiv prin copiere și lipire din alte documente
+            * Să creați o ierarhie de pagini cu pagini părinte
+            * Să includeți pagini wiki în meniul proiectului
+            * Să utilizați macrocomenzi pentru a include, de exemplu, cuprins, liste de pachete de lucru sau diagrame Gantt
+            * Includeți pagini wiki în alte câmpuri de text, de exemplu pagina de prezentare generală a proiectului
+            * Includeți linkuri către alte documente
+            * Vizualizați istoricul modificărilor
+            * Vizualizați ca Markdown
 
-            More information: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
+            Mai multe informații: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
         scrum-project:
           name: Scrum project
           status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
@@ -336,11 +345,12 @@ ro:
 
                     1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
                     2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
-                    3. *View your Task board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select [Task Board](##sprint:scrum_project__version__sprint_1).
-                    4. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    5. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
-                    6. *Create a Sprint wiki*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and open the sprint wiki from the right drop down menu in a sprint. You can edit the [wiki template]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) based on your needs.
+                    3. *Create a sprint*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and click "+ Sprint" to create a new sprint. Move work packages from the backlog to the sprint to plan the work to be done. When ready, click "Start sprint".
+                    4. *View your Sprint board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select Sprint Board.
+                    5. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    6. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
                     7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
+
 
                     Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
@@ -521,18 +531,18 @@ ro:
       welcome:
         title: Welcome to OpenProject!
         text: |
-          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
+          OpenProject este cel mai important software open source de gestionare a proiectelor. Acesta suportă atât gestionarea clasică, cât și cea agilă și hibridă a proiectelor și vă oferă control deplin asupra datelor dumneavoastră.
 
-          Core features and use cases:
+          Funcționalități principale și cazuri de utilizare:
 
-          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
-          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
-          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
-          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
-          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
+          * [Gestionarea portofoliului de proiecte](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [Planificarea și programarea proiectelor](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [Gestionarea sarcinilor și urmărirea problemelor](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [Tablouri agile (Scrum și Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [Gestionarea cerințelor și planificarea lansărilor](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [Urmărirea timpului și a costurilor, bugete](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [Colaborarea în echipă și documentația](https://www.openproject.org/collaboration-software-features/team-collaboration/)
 
-          Welcome to the future of project management.
+          Bine ați venit în viitorul managementului de proiect.
 
-          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
+          Pentru administratori: Puteți modifica acest text de bun venit [aici]({{opSetting:base_url}}/admin/settings/general).

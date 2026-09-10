@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -49,6 +51,7 @@ Rails.application.routes.draw do
           get :defaults
           get :direct_upload_finished
           post :set_direct_upload_file_name
+          post :set_direct_upload_default_value
         end
       end
     end

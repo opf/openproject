@@ -55,7 +55,7 @@ zh-CN:
         presenter: 演讲者
         title: 标题
       meeting_outcome:
-        kind: Kind
+        kind: 种类
       meeting_participant:
         attended: 已参加
         invited: 已邀请
@@ -100,19 +100,19 @@ zh-CN:
           not_an_occurrence: 不是此定期会议的有效事件时间
     models:
       meeting:
-        other: One-time meetings
+        other: 一次性会议
       meeting_agenda_item:
-        other: Agenda items
+        other: 议程条目
       meeting_outcome:
-        other: Outcomes
+        other: 成果
       meeting_participant:
-        other: Meeting participants
+        other: 会议参与者
       meeting_section:
-        other: Sections
+        other: 小节
       recurring_meeting:
-        other: Recurring meetings
+        other: 定期会议
       scheduled_meeting:
-        other: Scheduled meetings
+        other: 预定会议
       token/ical_meeting:
         other: iCal 会议订阅
   activity:

@@ -23,7 +23,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 # ++
@@ -37,10 +37,13 @@ RSpec.describe Admin::Import::Jira::ImportRunsController do
   shared_let(:jira) { create(:jira) }
 
   # Walks a JiraImport through the state machine to reach the target state.
-  # All after_transition job callbacks are stubbed.
+  # The after_transition callbacks enqueueing single jobs are stubbed, the import
+  # batch is enqueued for real so its lifecycle stays observable.
   def transition_to_state(jira_import, target_state)
     prefix = %w[instance_meta_fetching instance_meta_done]
     imported_prefix = prefix + %w[configuring projects_meta_fetching projects_meta_done importing imported]
+
+    importing_prefix = prefix + %w[configuring projects_meta_fetching projects_meta_done importing]
 
     paths = {
       "initial" => [],
@@ -51,16 +54,15 @@ RSpec.describe Admin::Import::Jira::ImportRunsController do
       "projects_meta_fetching" => prefix + %w[configuring projects_meta_fetching],
       "projects_meta_error" => prefix + %w[configuring projects_meta_fetching projects_meta_error],
       "projects_meta_done" => prefix + %w[configuring projects_meta_fetching projects_meta_done],
-      "importing" => prefix + %w[configuring projects_meta_fetching projects_meta_done importing],
-      "import_error" => prefix + %w[configuring projects_meta_fetching projects_meta_done importing import_error],
+      "importing" => importing_prefix,
+      "import_aborting" => importing_prefix + %w[import_aborting],
+      "import_error" => importing_prefix + %w[import_error],
       "imported" => imported_prefix,
       "finalizing" => imported_prefix + %w[finalizing],
       "finalizing_error" => imported_prefix + %w[finalizing finalizing_error],
       "finalizing_done" => imported_prefix + %w[finalizing finalizing_done],
       "reverting" => imported_prefix + %w[reverting],
       "revert_error" => imported_prefix + %w[reverting revert_error],
-      "revert_cancelling" => imported_prefix + %w[reverting revert_cancelling],
-      "revert_cancelled" => imported_prefix + %w[reverting revert_cancelling revert_cancelled],
       "reverted" => imported_prefix + %w[reverting reverted]
     }
 
@@ -72,7 +74,6 @@ RSpec.describe Admin::Import::Jira::ImportRunsController do
     login_as(admin)
     allow(Import::JiraInstanceMetaDataJob).to receive(:perform_later).and_return(double(job_id: "job-stub"))
     allow(Import::JiraProjectsMetaDataJob).to receive(:perform_later).and_return(double(job_id: "job-stub"))
-    allow(Import::JiraFetchAndImportProjectsJob).to receive(:perform_later).and_return(double(job_id: "job-stub"))
     allow(Import::JiraRevertImportJob).to receive(:perform_later).and_return(double(job_id: "job-stub"))
     allow(Import::JiraFinalizeImportJob).to receive(:perform_later).and_return(double(job_id: "job-stub"))
   end
@@ -218,23 +219,76 @@ RSpec.describe Admin::Import::Jira::ImportRunsController do
       end
     end
 
-    context "when step is import" do
+    context "when step is import",
+            with_settings: { work_packages_identifier: Setting::WorkPackageIdentifier::SEMANTIC } do
       before { transition_to_state(jira_import, "projects_meta_done") }
 
-      it "transitions to importing and triggers the job" do
-        post :continue, params: { jira_id: jira.id, id: jira_import.id, step: "import" }, format: :turbo_stream
-        expect(jira_import.current_state).to eq("importing")
-        expect(Import::JiraFetchAndImportProjectsJob).to have_received(:perform_later).with(jira_import.id)
+      it "transitions to importing and enqueues the import batch" do
+        expect do
+          post :continue, params: { jira_id: jira.id, id: jira_import.id, step: "import" }, format: :turbo_stream
+        end.to change(GoodJob::BatchRecord, :count).by(1)
+
+        expect(jira_import.reload.current_state).to eq("importing")
+        expect(jira_import.last_transition.metadata).to include("batch_id" => GoodJob::BatchRecord.last.id,
+                                                                "user_id" => admin.id)
       end
     end
 
-    context "when step is import from import_error" do
+    context "when step is import with classic work package identifiers",
+            with_settings: { work_packages_identifier: Setting::WorkPackageIdentifier::CLASSIC } do
+      before { transition_to_state(jira_import, "projects_meta_done") }
+
+      it "does not start the import" do
+        expect do
+          post :continue, params: { jira_id: jira.id, id: jira_import.id, step: "import" }, format: :turbo_stream
+        end.not_to change(GoodJob::BatchRecord, :count)
+
+        expect(jira_import.reload.current_state).to eq("projects_meta_done")
+      end
+
+      it "explains that semantic identifiers must be enabled and links to the setting" do
+        post :continue, params: { jira_id: jira.id, id: jira_import.id, step: "import" }, format: :turbo_stream
+
+        expect(response.body).to include("Project-based semantic identifiers must be enabled.")
+        expect(response.body).to include(admin_settings_work_packages_identifier_path)
+      end
+    end
+
+    context "when step is import from import_error",
+            with_settings: { work_packages_identifier: Setting::WorkPackageIdentifier::SEMANTIC } do
       before { transition_to_state(jira_import, "import_error") }
 
-      it "retries the import" do
-        post :continue, params: { jira_id: jira.id, id: jira_import.id, step: "import" }, format: :turbo_stream
-        expect(jira_import.current_state).to eq("importing")
-        expect(Import::JiraFetchAndImportProjectsJob).to have_received(:perform_later).with(jira_import.id).twice
+      it "retries the existing import batch instead of enqueueing a new one" do
+        batch_id = jira_import.last_transition_to(:importing).actual_batch.id
+        expect(batch_id).to be_present
+
+        expect do
+          post :continue, params: { jira_id: jira.id, id: jira_import.id, step: "import" }, format: :turbo_stream
+        end.not_to change(GoodJob::BatchRecord, :count)
+
+        expect(jira_import.reload.current_state).to eq("importing")
+        expect(jira_import.last_transition_to(:importing).metadata["batch_id"]).to eq(batch_id)
+      end
+    end
+
+    context "when step is abort_import" do
+      before { transition_to_state(jira_import, "importing") }
+
+      it "transitions to import_aborting" do
+        post :continue, params: { jira_id: jira.id, id: jira_import.id, step: "abort_import" }, format: :turbo_stream
+
+        expect(jira_import.reload.current_state).to eq("import_aborting")
+      end
+    end
+
+    context "when step is abort_import while already aborting" do
+      before { transition_to_state(jira_import, "import_aborting") }
+
+      it "rejects the step" do
+        post :continue, params: { jira_id: jira.id, id: jira_import.id, step: "abort_import" }, format: :turbo_stream
+
+        expect(jira_import.reload.current_state).to eq("import_aborting")
+        expect(response.body).to include(I18n.t(:"admin.jira.run.step_not_available"))
       end
     end
 
@@ -305,32 +359,49 @@ RSpec.describe Admin::Import::Jira::ImportRunsController do
       end
     end
 
-    context "when import is running (status_running? is true)" do
+    context "when the import is still running" do
       before { transition_to_state(jira_import, "importing") }
 
-      it "does not change the step" do
+      it "rejects the step" do
         post :continue, params: { jira_id: jira.id, id: jira_import.id, step: "finalize" }, format: :turbo_stream
-        expect(jira_import.current_state).to eq("importing")
+        expect(jira_import.reload.current_state).to eq("importing")
+        expect(response.body).to include(I18n.t(:"admin.jira.run.step_not_available"))
       end
     end
 
-    context "when finalizing is running (status_running? is true)" do
+    context "when finalizing is still running" do
       before { transition_to_state(jira_import, "finalizing") }
 
-      it "does not change the step" do
+      it "rejects the step" do
         post :continue, params: { jira_id: jira.id, id: jira_import.id, step: "finalize" }, format: :turbo_stream
-        expect(jira_import.current_state).to eq("finalizing")
+        expect(jira_import.reload.current_state).to eq("finalizing")
+        expect(response.body).to include(I18n.t(:"admin.jira.run.step_not_available"))
       end
     end
 
-    context "when transition is invalid for current state" do
-      before { transition_to_state(jira_import, "imported") }
+    context "when the step is not offered in the current state" do
+      it "rejects a step belonging to a later state" do
+        post :continue, params: { jira_id: jira.id, id: jira_import.id, step: "import" }, format: :turbo_stream
 
-      it "handles the transition error via turbo_stream" do
-        post :continue, params: { jira_id: jira.id, id: jira_import.id, step: "fetch_instance_meta" }, format: :turbo_stream
-        expect(jira_import.current_state).to eq("imported")
+        expect(jira_import.reload.current_state).to eq("initial")
         expect(response).to have_http_status(:ok)
         expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+        expect(response.body).to include(I18n.t(:"admin.jira.run.step_not_available"))
+      end
+
+      it "rejects a step belonging to an earlier state" do
+        transition_to_state(jira_import, "imported")
+
+        post :continue, params: { jira_id: jira.id, id: jira_import.id, step: "fetch_instance_meta" }, format: :turbo_stream
+
+        expect(jira_import.reload.current_state).to eq("imported")
+        expect(response.body).to include(I18n.t(:"admin.jira.run.step_not_available"))
+      end
+
+      it "does not run the transition" do
+        post :continue, params: { jira_id: jira.id, id: jira_import.id, step: "import" }, format: :turbo_stream
+
+        expect(GoodJob::BatchRecord.count).to eq(0)
       end
     end
 

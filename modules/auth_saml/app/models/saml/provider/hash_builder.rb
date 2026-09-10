@@ -78,7 +78,8 @@ module Saml
         limit_self_registration:,
         attribute_statements: formatted_attribute_statements,
         request_attributes: formatted_request_attributes,
-        uid_attribute: mapping_uid.presence
+        uid_attribute: mapping_uid.presence,
+        allowed_clock_drift:
       }
         .merge(idp_cert_options_hash)
         .merge(security: security_options_hash)
