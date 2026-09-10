@@ -6640,7 +6640,6 @@ en:
         add_query_group: "Related work packages table"
         blankslate_description: "Add groups using the button above or drag attributes from the left panel."
         blankslate_title: "No groups yet"
-        builtin_field: "Built-in field"
         confirm_delete_group: "Are you sure you want to delete this section? This action cannot be automatically reversed."
         confirm_reset: "Are you sure you want to reset the form?"
         custom_field: "Custom field"
