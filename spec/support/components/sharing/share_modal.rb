@@ -144,15 +144,21 @@ module Components
 
       def bulk_remove
         within shares_header do
-          page.find_test_selector("op-share-dialog--bulk-remove").click
+          wait_for_turbo_stream(wait: 10) do
+            page.find_test_selector("op-share-dialog--bulk-remove").click
+          end
         end
       end
 
       def bulk_update(role_name)
         within shares_header do
-          find('[data-test-selector="op-share-dialog-bulk-update-role"]').click
+          overlay = open_action_menu do
+            find('action-menu[data-test-selector="op-share-dialog-bulk-update-role"][data-ready="true"]', wait: 0)
+          end
 
-          find(".ActionListContent", text: role_name).click
+          wait_for_turbo_stream(wait: 10) do
+            overlay.find(".ActionListContent", text: role_name, visible: :visible).click
+          end
         end
       end
 
@@ -214,7 +220,7 @@ module Components
         select_invite_role(role_name)
 
         within_modal do
-          click_on "Share"
+          wait_for_turbo_stream(wait: 10) { click_on "Share" }
         end
       end
 
@@ -239,43 +245,43 @@ module Components
 
       def remove_user(user)
         within user_row(user) do
-          page.find_test_selector("op-share-dialog--remove").click
+          wait_for_turbo_stream(wait: 10) do
+            page.find_test_selector("op-share-dialog--remove").click
+          end
         end
       end
 
       def select_invite_role(role_name)
-        within modal_element.find('[data-test-selector="op-share-dialog-invite-role"]') do
-          # Open the ActionMenu
-          click_on "View"
-
-          find(".ActionListContent", text: role_name).click
+        overlay = open_action_menu do
+          modal_element.find(
+            'action-menu[data-test-selector="op-share-dialog-invite-role"][data-ready="true"]',
+            wait: 0
+          )
         end
+        overlay.find(".ActionListItem-label", text: role_name, exact_text: true, visible: :visible).click
       end
 
       def change_role(user, role_name)
-        within user_row(user) do
-          find('[data-test-selector="op-share-dialog-update-role"]').click
+        overlay = open_action_menu do
+          user_row(user).find(
+            'action-menu[data-test-selector="op-share-dialog-update-role"][data-ready="true"]',
+            wait: 0
+          )
+        end
 
-          within ".ActionListWrap" do
-            click_on role_name
-          end
+        wait_for_turbo_stream(wait: 10) do
+          overlay.find(".ActionListItem-label", text: role_name, exact_text: true, visible: :visible).click
         end
       end
 
       def filter(filter_name, value)
         within(shares_header) do
-          retry_block do
-            # The button's text changes dynamically based on the currently selected option
-            # Hence the spec's readability is hindered by using something like
-            # `click_button filter_name.capitalize`
-            find("[data-test-selector='op-share-dialog-filter-#{filter_name}-button']").click
+          find("[data-test-selector='op-share-dialog-filter-#{filter_name}-button']").click
 
-            # Open the ActionMenu
+          wait_for_turbo_frame(frame: Shares::ModalBodyComponent.wrapper_key, wait: 10) do
             find(".ActionListContent", text: value).click
           end
         end
-
-        wait_for_network_idle # Ensures filtering is done
       end
 
       def close
@@ -292,7 +298,8 @@ module Components
 
       def expect_shared_with(user, role_name = nil, position: nil, editable: true)
         within_modal do
-          within shares_list do
+          list = page.find_by_id("op-share-dialog-active-shares", text: user.name, wait: 10)
+          within list do
             expect(page).to have_list_item(text: user.name, position:)
             within(:list_item, text: user.name, position:) do
               if role_name
@@ -310,17 +317,21 @@ module Components
       end
 
       def expect_not_shared_with(*principals)
-        within shares_list do
+        within_modal do
           principals.each do |principal|
             expect(page)
-              .to have_no_text(principal.name)
+              .to have_no_css("#op-share-dialog-active-shares > li", text: principal.name)
           end
         end
       end
 
       def expect_shared_count_of(count)
-        expect(shares_header)
-          .to have_text(I18n.t("sharing.count", count:))
+        within_modal do
+          expect(page)
+            .to have_css('[data-test-selector="op-share-dialog-header"]',
+                         text: I18n.t("sharing.count", count:),
+                         wait: 20)
+        end
       end
 
       def expect_no_invite_option
@@ -366,10 +377,12 @@ module Components
       end
 
       def select_existing_user(user)
-        select_autocomplete page.find('[data-test-selector="op-share-dialog-invite-autocomplete"]'),
+        autocomplete = page.find('[data-test-selector="op-share-dialog-invite-autocomplete"]')
+        select_autocomplete autocomplete,
                             query: user.firstname,
                             select_text: user.name,
                             results_selector: "#sharing-modal"
+        expect_current_autocompleter_value(autocomplete, user.name)
       end
 
       def select_not_existing_user_option(email)
@@ -419,6 +432,22 @@ module Components
         within modal_element do
           expect(page)
             .to have_no_text(I18n.t("sharing.warning_no_selected_user", entity: WorkPackage.model_name.human), wait: 0)
+        end
+      end
+
+      private
+
+      def open_action_menu
+        page.document.synchronize(20) do
+          menu = yield
+          button = menu.find("button", wait: 0)
+          overlay_selector = "##{button['popovertarget']}:popover-open"
+          page.execute_script("arguments[0].click()", button) unless page.has_selector?(
+            overlay_selector,
+            visible: :all,
+            wait: 0
+          )
+          page.find(overlay_selector, visible: :all, wait: 0)
         end
       end
     end

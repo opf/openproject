@@ -56,17 +56,29 @@ RSpec.describe "Copying a work package with linked project phases", :js do
 
   current_user { user }
 
+  def submit_copy(button_text)
+    submit_button = find_button(button_text)
+    page.execute_script("arguments[0].click()", submit_button)
+
+    copied_work_package_id = nil
+    page.document.synchronize(20) do
+      copied_work_package_id = page.current_path[%r{/work_packages/(\d+)}, 1]&.to_i
+      raise Capybara::ElementNotFound if copied_work_package_id.nil? || copied_work_package_id == work_package.id
+    end
+
+    WorkPackage.find(copied_work_package_id)
+  end
+
   context "when duplicating within the same project" do
     it "keeps the linked project phase" do
       work_package_page.visit!
 
       work_package_page.select_from_context_menu("Duplicate")
 
-      # Not actually the same work package page any more but works just the same.
-      work_package_page.save!
+      copied_work_package = submit_copy(I18n.t("js.button_save"))
 
-      work_package_page.expect_and_dismiss_toaster(message: "Successful creation.")
-
+      expect(copied_work_package.project).to eq(source_project)
+      expect(copied_work_package.project_phase_definition).to eq(phase_definition)
       work_package_page.expect_attributes(project_phase: phase_definition.name)
     end
   end
@@ -84,18 +96,17 @@ RSpec.describe "Copying a work package with linked project phases", :js do
 
       wait_for_network_idle
 
-      click_on "Duplicate and follow"
+      copied_work_package = submit_copy("Duplicate and follow")
 
-      # Not actually the same work package page any more but works just the same.
-      work_package_page.expect_and_dismiss_flash(message: "Successful creation.")
-
+      expect(copied_work_package.project).to eq(target_project)
+      expect(copied_work_package.project_phase_definition).to eq(phase_definition)
       work_package_page.expect_attributes(project_phase: phase_definition.name)
     end
   end
 
   context "when the target project does not have the linked definition active" do
     before do
-      target_phase.update_column(:active, false)
+      target_phase.update!(active: false)
     end
 
     it "copies the work package but not the link to the inactive phase" do
@@ -110,16 +121,13 @@ RSpec.describe "Copying a work package with linked project phases", :js do
 
       wait_for_network_idle
 
-      click_on "Duplicate and follow"
+      copied_work_package = submit_copy("Duplicate and follow")
 
-      # Not actually the same work package page any more but works just the same.
-      work_package_page.expect_and_dismiss_flash(message: "Successful creation.")
-
-      work_package_page.expect_attributes(project_phase: nil)
+      expect(copied_work_package.project).to eq(target_project)
+      work_package_page.expect_no_attribute("projectPhase")
 
       # Since the phase is deactivated, it is not displayed as linked. But in the database, the value is attached.
-      created_work_package = WorkPackage.last
-      expect(created_work_package.project_phase_definition).to eq(phase_definition)
+      expect(copied_work_package.project_phase_definition).to eq(phase_definition)
     end
   end
 end

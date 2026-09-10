@@ -17,7 +17,7 @@ class WorkPackageStatusField < EditField
   end
 
   def display_element
-    @context.find "#{@selector} .button"
+    context.find "#{@selector} .button"
   end
 
   def activate!

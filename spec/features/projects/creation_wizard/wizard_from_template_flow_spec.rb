@@ -183,9 +183,9 @@ RSpec.describe "Project creation wizard from a template",
 
     # Complete the wizard - this should create the artefact work package
     # via User.execute_as_admin despite lacking add_work_packages permission
-    click_button "Complete"
+    wait_for_turbo(wait: 20) { click_button "Complete" }
 
-    expect(page).to have_text("Project attributes saved and artefact work package created successfully.")
+    expect(page.document).to have_text("Project attributes saved and artefact work package created successfully.")
 
     # Verify we're redirected to the artefact work package
     project.reload

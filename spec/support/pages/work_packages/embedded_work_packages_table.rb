@@ -60,8 +60,7 @@ module Pages
       autocomplete_container = container.find('[data-test-selector="wp-relations-autocomplete"]')
       select_autocomplete autocomplete_container,
                           query:,
-                          results_selector: ".ng-dropdown-panel-items",
-                          wait_for_fetched_options: false
+                          results_selector: ".ng-dropdown-panel-items"
 
       expect_work_package_listed work_package
     end

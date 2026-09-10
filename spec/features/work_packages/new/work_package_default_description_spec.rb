@@ -34,30 +34,34 @@ RSpec.describe "new work package", :js, :selenium do
 
     type_field.openSelectField
     type_field.set_value type_task
+    loading_indicator_saveguard
     expect(page).to have_css(".inline-edit--container.description h1", text: "New Task template")
 
     type_field.openSelectField
     type_field.set_value type_bug
+    loading_indicator_saveguard
     expect(page).to have_css(".inline-edit--container.description h1", text: "New Bug template")
 
-    description_field.set_value "Something different than the default."
-
-    sleep 0.1
+    wait_for_browser_event("work-package-updated") do
+      description_field.set_value "Something different than the default."
+    end
+    description_field.expect_value "Something different than the default."
 
     type_field.openSelectField
     type_field.set_value type_task
+    loading_indicator_saveguard
     expect(page).to have_css(".inline-edit--container.description", text: "Something different than the default.")
-
-    sleep 0.1
 
     type_field.openSelectField
     type_field.set_value type_bug
+    loading_indicator_saveguard
     expect(page).to have_css(".inline-edit--container.description", text: "Something different than the default.")
 
     if set_project
       project_field.openSelectField
-      project_field.set_value project
-      sleep 1
+      wait_for_browser_event("work-package-form-updated") do
+        project_field.set_value project
+      end
     end
 
     scroll_to_and_click find_by_id("work-packages--edit-actions-save")

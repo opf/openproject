@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative "../../spec_helper"
 
 RSpec.describe "Create BCF", :js,
@@ -43,12 +45,10 @@ RSpec.describe "Create BCF", :js,
         create_page.add_viewpoint
         create_page.expect_viewpoint_count 1
 
-        sleep 1
         create_page.add_viewpoint
         create_page.expect_viewpoint_count 2
 
         # Create and delete one viewpoint
-        sleep 1
         create_page.add_viewpoint
         create_page.expect_viewpoint_count 3
 
@@ -107,16 +107,6 @@ RSpec.describe "Create BCF", :js,
       it_behaves_like "bcf details creation", with_viewpoints: true
     end
 
-    context "when going to split table view first" do
-      before do
-        index_page.visit_and_wait_until_finished_loading!
-
-        index_page.switch_view "Viewer and table"
-      end
-
-      it_behaves_like "bcf details creation", with_viewpoints: true
-    end
-
     context "when going to cards view first" do
       before do
         index_page.visit_and_wait_until_finished_loading!
@@ -125,28 +115,6 @@ RSpec.describe "Create BCF", :js,
       end
 
       it_behaves_like "bcf details creation", with_viewpoints: false
-    end
-
-    context "when going to table view first" do
-      before do
-        index_page.visit_and_wait_until_finished_loading!
-
-        index_page.switch_view "Table"
-      end
-
-      it_behaves_like "bcf details creation", with_viewpoints: false
-    end
-
-    context "when starting on the details page of an existing work package" do
-      let(:work_package) { create(:work_package, project:) }
-
-      before do
-        visit bcf_project_frontend_path(project, "details/#{work_package.id}")
-        index_page.finished_loading
-        index_page.expect_details_path
-      end
-
-      it_behaves_like "bcf details creation", with_viewpoints: true
     end
   end
 

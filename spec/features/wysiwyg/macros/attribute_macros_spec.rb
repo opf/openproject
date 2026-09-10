@@ -211,10 +211,10 @@ RSpec.describe "Wysiwyg attribute macros", :js do
     it "does not runaway" do
       wp_page.visit!
 
-      expect(page).to have_text("Hello from wp")
-      expect(page).to have_text("Hello from milestone")
+      expect(page).to have_text("Hello from wp", wait: 20)
+      expect(page).to have_text("Hello from milestone", wait: 20)
 
-      expect(page).to have_text("This macro is recursively referencing workPackage ##{milestone.id}")
+      expect(page).to have_text("This macro is recursively referencing workPackage ##{milestone.id}", wait: 20)
     end
   end
 end

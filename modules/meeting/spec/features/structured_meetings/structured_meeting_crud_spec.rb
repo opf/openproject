@@ -128,11 +128,11 @@ RSpec.describe "Meetings CRUD",
     show_page.assert_agenda_order! "Updated title", "First", "Second"
 
     second = MeetingAgendaItem.find_by!(title: "Second")
-    show_page.select_action(second, I18n.t(:label_sort_higher))
+    wait_for_turbo_stream { show_page.select_action(second, I18n.t(:label_sort_higher)) }
     show_page.assert_agenda_order! "Updated title", "Second", "First"
 
     first = MeetingAgendaItem.find_by!(title: "First")
-    show_page.select_action(first, I18n.t(:label_sort_highest))
+    wait_for_turbo_stream { show_page.select_action(first, I18n.t(:label_sort_highest)) }
     show_page.assert_agenda_order! "First", "Updated title", "Second"
 
     # Can edit and cancel with escape
@@ -181,8 +181,10 @@ RSpec.describe "Meetings CRUD",
     show_page.expect_item_edit_form(second, visible: true)
 
     # Accepting the confirmation reorders items and closes the edit state
-    accept_confirm do
-      show_page.select_action(wp_item, I18n.t(:label_sort_highest))
+    wait_for_turbo_stream do
+      accept_confirm do
+        show_page.select_action(wp_item, I18n.t(:label_sort_highest))
+      end
     end
 
     show_page.assert_agenda_order! "Important task", "Updated title", "Second"

@@ -165,8 +165,26 @@ RSpec.describe "Edit", :js do
 
             within_dialog "Edit sprint" do
               page.fill_in "Sprint name", with: ""
-              page.fill_in "Start date", with: ""
-              page.fill_in "Finish date", with: ""
+
+              finish_date = page.find_field("Finish date")
+              finish_date.set("")
+              page.find_field("Sprint name").click
+              page.document.synchronize(20) do
+                raise Capybara::ElementNotFound if page.evaluate_script("document.contains(arguments[0])", finish_date)
+              rescue Ferrum::NodeNotFoundError
+                nil
+              end
+              expect(page).to have_field("Finish date", with: "")
+
+              start_date = page.find_field("Start date")
+              start_date.set("")
+              page.find_field("Sprint name").click
+              page.document.synchronize(20) do
+                raise Capybara::ElementNotFound if page.evaluate_script("document.contains(arguments[0])", start_date)
+              rescue Ferrum::NodeNotFoundError
+                nil
+              end
+              expect(page).to have_field("Start date", with: "")
 
               page.click_button "Save"
 

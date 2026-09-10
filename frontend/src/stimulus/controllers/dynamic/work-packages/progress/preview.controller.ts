@@ -31,12 +31,17 @@ import { DialogPreviewController } from '../dialog/preview.controller';
 
 export default class PreviewController extends DialogPreviewController {
   private debouncedPreview:DebouncedFunc<(event:Event) => void>;
+  private readonly cancelPendingPreview = () => this.debouncedPreview.cancel();
 
   connect() {
     this.debouncedPreview = debounce((event:Event) => {
       let field:HTMLInputElement;
       if (event.type === 'blur') {
-        field = (event as FocusEvent).relatedTarget as HTMLInputElement;
+        const relatedTarget = (event as FocusEvent).relatedTarget;
+        if (relatedTarget instanceof HTMLElement &&
+            relatedTarget.matches("[data-test-selector='op-progress-modal--close-icon']")) return;
+
+        field = relatedTarget as HTMLInputElement;
       } else {
         field = event.target as HTMLInputElement;
       }
@@ -44,10 +49,12 @@ export default class PreviewController extends DialogPreviewController {
       void this.preview(field);
     }, 100);
 
+    document.addEventListener('work-package-progress-modal-closed', this.cancelPendingPreview);
     super.connect();
   }
 
   disconnect() {
+    document.removeEventListener('work-package-progress-modal-closed', this.cancelPendingPreview);
     this.debouncedPreview.cancel();
     super.disconnect();
   }

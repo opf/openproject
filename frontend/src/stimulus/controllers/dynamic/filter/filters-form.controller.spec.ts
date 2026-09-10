@@ -27,6 +27,7 @@
 //++
 
 import { waitFor } from '@testing-library/dom';
+import { vi, type Mock } from 'vitest';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import type FiltersFormControllerType from './filters-form.controller';
 
@@ -152,5 +153,69 @@ describe('Filters form controller - filter count badge', () => {
       expect(counter.textContent).toBe('1');
       expect(counter.hidden).toBe(false);
     });
+  });
+});
+
+describe('Filters form controller', () => {
+  let ctx:StimulusTestContext;
+  let FiltersFormController:typeof FiltersFormControllerType;
+  let fetchSpy:Mock;
+  let resolveResponse!:(response:Response) => void;
+
+  beforeAll(async () => {
+    ({ default: FiltersFormController } = await import('./filters-form.controller'));
+  });
+
+  beforeEach(async () => {
+    fetchSpy = vi.fn().mockImplementation(() => new Promise<Response>((resolve) => {
+      resolveResponse = resolve;
+    }));
+    vi.spyOn(window, 'fetch').mockImplementation(fetchSpy);
+
+    ctx = await setupStimulusTest({
+      controllers: { 'filter--filters-form': FiltersFormController },
+    });
+  });
+
+  afterEach(() => {
+    ctx.dispose();
+    vi.restoreAllMocks();
+  });
+
+  async function renderForm() {
+    await ctx.mount(`
+      <div id="global-loading-indicator" class="d-none"></div>
+      <div data-controller="filter--filters-form"
+           data-filter--filters-form-turbo-stream-request-value="true">
+        <form data-filter--filters-form-target="filterForm">
+          <div data-filter--filters-form-target="simpleFilter"
+               data-filter-name="name"
+               data-filter-type="string"
+               data-filter-operator="~">
+            <input data-filter--filters-form-target="simpleValue"
+                   data-filter-name="name"
+                   value="old">
+          </div>
+        </form>
+      </div>
+    `);
+
+    return ctx.getController<FiltersFormControllerType>('filter--filters-form');
+  }
+
+  it('ignores a response when the form has a newer unsent value', async () => {
+    const controller = await renderForm();
+    const replaceState = vi.spyOn(window.history, 'replaceState').mockImplementation(() => undefined);
+
+    controller.sendForm();
+    await waitFor(() => expect(fetchSpy).toHaveBeenCalledOnce());
+
+    const input = ctx.container.querySelector<HTMLInputElement>('input')!;
+    input.value = 'new';
+    resolveResponse(new Response('<turbo-stream action="remove" target="filter-result"></turbo-stream>'));
+    await ctx.nextFrame();
+    await ctx.nextFrame();
+
+    expect(replaceState).not.toHaveBeenCalled();
   });
 });

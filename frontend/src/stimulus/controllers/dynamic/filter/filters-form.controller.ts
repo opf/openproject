@@ -500,13 +500,17 @@ export default class FiltersFormController extends Controller {
       })
         .then((response:Response) => response.text())
         .then((html:string) => {
+          const currentFilters = this.buildFiltersParam(this.currentFilters());
+          if (this.sentFilters !== newFilters || currentFilters !== newFilters) return;
+
           renderStreamMessage(html);
-          if (this.sentFilters === newFilters) {
-            window.history.replaceState(window.history.state, '', browserUrl);
-          }
+          window.history.replaceState(window.history.state, '', browserUrl);
           hideElement(loadingIndicator);
         })
         .catch((error:Error) => {
+          const currentFilters = this.buildFiltersParam(this.currentFilters());
+          if (this.sentFilters !== newFilters || currentFilters !== newFilters) return;
+
           this.sentFilters = previousFilters;
           console.error('Error:', error);
           hideElement(loadingIndicator);

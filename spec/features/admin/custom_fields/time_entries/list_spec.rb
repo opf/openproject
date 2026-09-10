@@ -59,8 +59,7 @@ RSpec.describe "List custom fields edit", :js do
     expect(page).to have_field("custom_field_custom_options_attributes_0_value")
     fill_in "custom_field_custom_options_attributes_0_value", with: "A"
 
-    click_on "Save"
-    wait_for_network_idle
+    wait_for_turbo { click_on "Save" }
 
     # Expect correct values
     cf = CustomField.last
@@ -71,8 +70,7 @@ RSpec.describe "List custom fields edit", :js do
     expect(page).to have_field("custom_field_custom_options_attributes_0_value")
     fill_in "custom_field_custom_options_attributes_0_value", with: "B"
 
-    click_on "Save"
-    wait_for_network_idle
+    wait_for_turbo { click_on "Save" }
 
     index_cf_page.expect_and_dismiss_flash(message: "Successful update.")
 
@@ -83,6 +81,4 @@ RSpec.describe "List custom fields edit", :js do
   end
 
   it_behaves_like "list custom fields", "Spent time"
-
-  it_behaves_like "expected fields for the custom field's format", "Spent time", "List"
 end

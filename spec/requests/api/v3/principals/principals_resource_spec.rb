@@ -353,4 +353,17 @@ RSpec.describe "API v3 Principals resource" do
       end
     end
   end
+
+  describe "#GET /api/v3/principals/:id" do
+    let(:principal) { create(:user) }
+
+    current_user { create(:admin) }
+
+    before { get "/api/v3/principals/#{principal.id}" }
+
+    it "returns the visible principal" do
+      expect(last_response).to have_http_status(200)
+      expect(last_response.body).to be_json_eql(principal.id.to_json).at_path("id")
+    end
+  end
 end

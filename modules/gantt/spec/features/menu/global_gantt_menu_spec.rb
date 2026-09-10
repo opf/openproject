@@ -29,8 +29,7 @@
 require "spec_helper"
 
 RSpec.describe "Gantt charts menu",
-               :js,
-               :selenium do
+               :js do
   let(:user) { create(:admin) }
   let(:enabled_module_names) { %i[work_package_tracking gantt] }
   let(:project) { create(:project, enabled_module_names:) }

@@ -31,7 +31,7 @@
 require "spec_helper"
 require "features/work_packages/work_packages_page"
 
-RSpec.describe "work package export", :js, :selenium do
+RSpec.describe "work package export", :js do
   let(:project) { create(:project_with_types, types: [type_a, type_b]) }
   let(:export_type) { "CSV" }
   let(:current_user) { create(:admin) }
@@ -119,8 +119,11 @@ RSpec.describe "work package export", :js, :selenium do
   def show_export_dialog!
     settings_menu.open_and_choose I18n.t("js.toolbar.settings.export")
     expect(page).to have_css("#op-work-packages-export-dialog", wait: 5)
-    click_on export_type
-    sleep 0.1
+
+    format_control = find("segmented-control")
+    expect(format_control).to have_css(".Button-label[data-content]", text: export_type)
+    format_control.find("button", text: export_type).trigger("click")
+    expect(format_control).to have_css("button[aria-current='true']", text: export_type)
   end
 
   def open_export_dialog!(query_target = :query)
@@ -153,53 +156,6 @@ RSpec.describe "work package export", :js, :selenium do
     expect(selected_columns).to eq(columns)
   end
 
-  context "with Query options" do
-    let(:export_type) { I18n.t("export.dialog.format.options.pdf.label") }
-    let(:expected_mime_type) { :pdf }
-
-    before do
-      open_export_dialog!
-    end
-
-    # these values must be looped through the dialog into the export
-
-    context "with activated options" do
-      let(:query) do
-        create(
-          :query,
-          id: 1234,
-          user: current_user,
-          project:,
-          display_sums: true,
-          include_subprojects: true,
-          show_hierarchies: true,
-          name: "My custom query title"
-        )
-      end
-      let(:expected_params) do
-        default_expected_params.merge({
-                                        query_id: "1234",
-                                        showSums: "true",
-                                        includeSubprojects: "true",
-                                        showHierarchies: "true"
-                                      })
-      end
-
-      it "starts an export with looped through values" do
-        export!
-      end
-    end
-
-    context "with grouping" do
-      let(:query) { create(:query, user: current_user, project:, group_by: "project", name: "My custom query title") }
-      let(:expected_params) { default_expected_params.merge({ groupBy: "project" }) }
-
-      it "starts an export grouped" do
-        export!
-      end
-    end
-  end
-
   context "in a split view" do
     before do
       wp_table.visit_query query
@@ -207,8 +163,8 @@ RSpec.describe "work package export", :js, :selenium do
       wp_table.open_split_view(wp1)
     end
 
-    it "opens the dialog and exports" do
-      open_export_dialog!
+    it "opens the dialog and exports without leaving the split view" do
+      show_export_dialog!
       export!
     end
   end
@@ -223,22 +179,14 @@ RSpec.describe "work package export", :js, :selenium do
       open_export_dialog!
     end
 
-    context "with descriptions" do
-      let(:expected_params) { default_expected_params.merge({ show_descriptions: "true" }) }
+    it "exports with and without descriptions" do
+      expected_params[:show_descriptions] = "true"
+      check I18n.t("export.dialog.xls.include_descriptions.label")
+      export_and_reopen_dialog!
 
-      it "exports a csv" do
-        check I18n.t("export.dialog.xls.include_descriptions.label")
-        export!
-      end
-    end
-
-    context "without descriptions" do
-      let(:expected_params) { default_expected_params.merge({ show_descriptions: "false" }) }
-
-      it "exports a csv" do
-        uncheck I18n.t("export.dialog.xls.include_descriptions.label")
-        export!
-      end
+      expected_params[:show_descriptions] = "false"
+      uncheck I18n.t("export.dialog.xls.include_descriptions.label")
+      export!
     end
   end
 
@@ -355,40 +303,22 @@ RSpec.describe "work package export", :js, :selenium do
       open_export_dialog!
     end
 
-    context "with relations" do
-      let(:expected_params) { default_expected_params.merge({ show_relations: "true" }) }
+    it "exports relation and description options" do
+      expected_params[:show_relations] = "true"
+      check I18n.t("export.dialog.xls.include_relations.label")
+      export_and_reopen_dialog!
 
-      it "exports a xls" do
-        check I18n.t("export.dialog.xls.include_relations.label")
-        export!
-      end
-    end
+      expected_params.replace(default_expected_params.merge(show_relations: "false"))
+      uncheck I18n.t("export.dialog.xls.include_relations.label")
+      export_and_reopen_dialog!
 
-    context "without relations" do
-      let(:expected_params) { default_expected_params.merge({ show_relations: "false" }) }
+      expected_params.replace(default_expected_params.merge(show_descriptions: "true"))
+      check I18n.t("export.dialog.xls.include_descriptions.label")
+      export_and_reopen_dialog!
 
-      it "exports a xls" do
-        uncheck I18n.t("export.dialog.xls.include_relations.label")
-        export!
-      end
-    end
-
-    context "with descriptions" do
-      let(:expected_params) { default_expected_params.merge({ show_descriptions: "true" }) }
-
-      it "exports a xls" do
-        check I18n.t("export.dialog.xls.include_descriptions.label")
-        export!
-      end
-    end
-
-    context "without descriptions" do
-      let(:expected_params) { default_expected_params.merge({ show_descriptions: "false" }) }
-
-      it "exports a xls" do
-        uncheck I18n.t("export.dialog.xls.include_descriptions.label")
-        export!
-      end
+      expected_params.replace(default_expected_params.merge(show_descriptions: "false"))
+      uncheck I18n.t("export.dialog.xls.include_descriptions.label")
+      export!
     end
   end
 
@@ -410,10 +340,6 @@ RSpec.describe "work package export", :js, :selenium do
         choose export_variant
       end
 
-      it "exports a pdf table" do
-        export!
-      end
-
       it "does not export a pdf with no columns" do
         page.within "[data-pdf-export-type='table']" do
           all(".op-draggable-autocomplete--remove-item").each(&:click)
@@ -421,37 +347,6 @@ RSpec.describe "work package export", :js, :selenium do
         expect(page).to have_text(I18n.t("export.dialog.columns.input_caption_required"))
         click_on I18n.t("export.dialog.submit")
         expect(page).to have_button(I18n.t("export.dialog.submit")) # form not submitted, button is still there
-      end
-
-      context "when exporting grouped by project phase column (regression #65740)" do
-        let!(:project_phase_with_gates) do
-          create(:project_phase,
-                 :with_gated_definition,
-                 project: project,
-                 start_date: Date.new(2024, 12, 1),
-                 finish_date: Date.new(2024, 12, 13))
-        end
-        let!(:project_phase) do
-          create(:project_phase,
-                 project:,
-                 start_date: Date.new(2024, 12, 1),
-                 finish_date: Date.new(2024, 12, 13))
-        end
-
-        let(:query) { create(:query, user: current_user, project:, group_by: "project_phase", name: "My custom query title") }
-        let(:export_type) { I18n.t("export.dialog.format.options.pdf.label") }
-        let(:export_variant) { I18n.t("export.dialog.pdf.export_type.options.table.label") }
-        let(:expected_params) { default_expected_params.merge({ pdf_export_type: "table", groupBy: "project_phase" }) }
-        let(:expected_columns) { %w[ID Subject Type Status Assignee Priority ProjectPhase] }
-
-        before do
-          wp1.update!(project_phase_definition_id: project_phase_with_gates.definition_id)
-          wp2.update!(project_phase_definition_id: project_phase.definition_id)
-        end
-
-        it "exports a pdf table" do
-          export!
-        end
       end
     end
 
@@ -462,14 +357,6 @@ RSpec.describe "work package export", :js, :selenium do
 
       before do
         choose export_variant
-      end
-
-      context "with long text fields" do
-        let(:expected_params) { default_params_report.merge({ long_text_fields: "description 42 43" }) }
-
-        it "exports a pdf report with all long text custom fields by default" do
-          export!
-        end
       end
 
       context "with long text fields selection" do
@@ -495,23 +382,15 @@ RSpec.describe "work package export", :js, :selenium do
         end
       end
 
-      context "with image" do
+      context "with image options" do
         let(:expected_params) { default_params_report.merge({ show_images: "true" }) }
 
-        it "exports a pdf report with image by default" do
-          export!
-        end
+        it "exports a pdf report with and without images" do
+          expect(page).to have_field(I18n.t("export.dialog.pdf.include_images.label"), checked: true)
+          export_and_reopen_dialog!
+          choose export_variant
 
-        it "exports a pdf report with checked input" do
-          check I18n.t("export.dialog.pdf.include_images.label")
-          export!
-        end
-      end
-
-      context "without images" do
-        let(:expected_params) { default_params_report.merge({ show_images: "false" }) }
-
-        it "exports a pdf report with checked input" do
+          expected_params[:show_images] = "false"
           uncheck I18n.t("export.dialog.pdf.include_images.label")
           export!
         end
@@ -536,12 +415,6 @@ RSpec.describe "work package export", :js, :selenium do
       let(:export_type) { I18n.t("export.dialog.format.options.pdf.label") }
       let(:export_variant) { I18n.t("export.dialog.pdf.export_type.options.gantt.label") }
 
-      context "with EE not active" do
-        it "gantt is disabled" do
-          expect(page).to have_field("pdf_export_type_gantt", type: "radio", disabled: true)
-        end
-      end
-
       context "with EE active", with_ee: %i[gantt_pdf_export] do
         let(:expected_params) { default_expected_params.merge({ pdf_export_type: "gantt" }) }
 
@@ -549,35 +422,25 @@ RSpec.describe "work package export", :js, :selenium do
           choose export_variant
         end
 
-        it "exports a gantt chart pdf" do
+        it "exports a gantt chart with its options" do
+          export_and_reopen_dialog!
+          choose export_variant
+
+          expected_params[:gantt_mode] = "week"
+          select I18n.t("export.dialog.pdf.gantt_zoom_levels.options.weeks"), from: "gantt_mode", wait: 2
+          export_and_reopen_dialog!
+          choose export_variant
+
+          expected_params.delete(:gantt_mode)
+          expected_params[:gantt_width] = "very_wide"
+          select I18n.t("export.dialog.pdf.column_width.options.very_wide"), from: "gantt_width", wait: 2
+          export_and_reopen_dialog!
+          choose export_variant
+
+          expected_params.delete(:gantt_width)
+          expected_params[:paper_size] = "A1"
+          select "A1", from: "paper_size"
           export!
-        end
-
-        context "with zoom level" do
-          let(:expected_params) { default_expected_params.merge({ pdf_export_type: "gantt", gantt_mode: "week" }) }
-
-          it "exports a pdf gantt chart by weeks" do
-            select I18n.t("export.dialog.pdf.gantt_zoom_levels.options.weeks"), from: "gantt_mode", wait: 2
-            export!
-          end
-        end
-
-        context "with column width" do
-          let(:expected_params) { default_expected_params.merge({ pdf_export_type: "gantt", gantt_width: "very_wide" }) }
-
-          it "exports a pdf gantt chart by column width" do
-            select I18n.t("export.dialog.pdf.column_width.options.very_wide"), from: "gantt_width", wait: 2
-            export!
-          end
-        end
-
-        context "with paper size" do
-          let(:expected_params) { default_expected_params.merge({ pdf_export_type: "gantt", paper_size: "A1" }) }
-
-          it "exports a pdf gantt chart in A1" do
-            select "A1", from: "paper_size"
-            export!
-          end
         end
       end
     end

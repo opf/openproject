@@ -28,8 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-def start_dragging(from, offset_x: nil, offset_y: nil)
-  scroll_to_element(from)
+def start_dragging(from, offset_x: nil, offset_y: nil, scroll: true)
+  scroll_to_element(from) if scroll
   page
     .driver
     .browser
@@ -98,6 +98,7 @@ def drag_by_pixel(element:, by_x:, by_y:)
     .action
     .move_to(element.native)
     .click_and_hold(element.native)
+    .pause(duration: 0.2)
     .perform
 
   page
@@ -105,6 +106,7 @@ def drag_by_pixel(element:, by_x:, by_y:)
     .browser
     .action
     .move_by(by_x, by_y)
+    .pause(duration: 0.2)
     .release
     .perform
 end

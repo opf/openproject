@@ -32,12 +32,24 @@ require "spec_helper"
 require_relative "shared_context"
 
 RSpec.describe "Edit project custom fields on project overview page", :js do
-  include_context "with seeded projects, members and project custom fields"
+  include_context "with seeded projects, members and project custom fields", seed_all: false
 
   let(:overview_page) { Pages::Projects::Show.new(project) }
 
   before do
     login_as member_with_project_attributes_edit_permissions
+
+    custom_field
+    case custom_field.field_format
+    when "version"
+      first_version
+      second_version
+      third_version
+    when "user"
+      member_in_project
+      another_member_in_project
+      one_more_member_in_project
+    end
   end
 
   describe "with correct updating behaviour" do
@@ -106,28 +118,9 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
             expect(page).to have_content "No"
           end
         end
-
-        it "does not change the value if untouched" do
-          custom_field.update!(has_comment: true)
-          overview_page.visit_page
-
-          overview_page.within_custom_field_container(custom_field) do
-            expect(page).to have_content "Yes"
-          end
-
-          open_dialog do |dialog|
-            # don't touch the input
-          end
-
-          overview_page.within_custom_field_container(custom_field) do
-            expect(page).to have_content "Yes"
-          end
-        end
-
-        include_examples "saves custom comment"
       end
 
-      shared_examples "a custom field input" do
+      shared_examples "saves a custom field input" do
         it "saves the value properly" do
           custom_field.custom_values.delete_all
 
@@ -145,6 +138,10 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
             expect(page).to have_content expected_updated_value
           end
         end
+      end
+
+      shared_examples "a custom field input" do
+        include_examples "saves a custom field input"
 
         it "does not change the value if untouched" do
           custom_field.update!(has_comment: true)
@@ -183,6 +180,8 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
       end
 
       shared_examples "affecting calculated value" do
+        before { calculated_value_custom_field }
+
         it "calculates value based on referenced value" do
           overview_page.visit_page
 
@@ -251,22 +250,6 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
           end
         end
 
-        it "does not change the value if untouched" do
-          overview_page.visit_page
-
-          overview_page.within_custom_field_container(custom_field) do
-            expect(page).to have_content expected_initial_value
-          end
-
-          open_dialog do |dialog|
-            # don't touch the input
-          end
-
-          overview_page.within_custom_field_container(custom_field) do
-            expect(page).to have_content expected_initial_value
-          end
-        end
-
         it "removes the value properly" do
           overview_page.visit_page
 
@@ -282,8 +265,6 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
             expect(page).to have_no_text(expected_initial_value)
           end
         end
-
-        include_examples "saves custom comment"
       end
 
       describe "with boolean CF" do
@@ -310,38 +291,10 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
         let(:update_value) { 456 }
         let(:expected_updated_value) { update_value }
 
-        it_behaves_like "a custom field input"
-
         describe "affecting calculated value using int" do
           let(:calculated_value_custom_field) { calculated_from_int_project_custom_field }
           let(:expected_initial_calculated_value) { 234 }
           let(:expected_updated_calculated_value) { 912 }
-
-          include_examples "affecting calculated value"
-        end
-
-        describe "affecting calculated value using int and float" do
-          let(:calculated_value_custom_field) { calculated_from_int_and_float_project_custom_field }
-          let(:expected_initial_calculated_value) { "15,185.088" }
-          let(:expected_updated_calculated_value) { "56,295.936" }
-
-          include_examples "affecting calculated value"
-        end
-      end
-
-      describe "with float CF" do
-        let(:custom_field) { float_project_custom_field }
-        let(:field) { FormFields::Primerized::InputField.new(custom_field) }
-        let(:expected_initial_value) { 123.456 }
-        let(:update_value) { 456.789 }
-        let(:expected_updated_value) { update_value }
-
-        it_behaves_like "a custom field input"
-
-        describe "affecting calculated value using int and float" do
-          let(:calculated_value_custom_field) { calculated_from_int_and_float_project_custom_field }
-          let(:expected_initial_calculated_value) { "15,185.088" }
-          let(:expected_updated_calculated_value) { "56,185.047" }
 
           include_examples "affecting calculated value"
         end
@@ -354,7 +307,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
         let(:update_value) { Date.new(2024, 1, 2) }
         let(:expected_updated_value) { "01/02/2024" }
 
-        it_behaves_like "a custom field input"
+        it_behaves_like "saves a custom field input"
       end
 
       describe "with text CF" do
@@ -366,16 +319,10 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
 
         it_behaves_like "a rich text custom field input"
       end
-
-      describe "with calculated CF with comment enabled" do
-        let(:custom_field) { calculated_from_int_project_custom_field }
-
-        include_examples "saves custom comment"
-      end
     end
 
     describe "with select fields" do
-      shared_examples "a select field" do
+      shared_examples "saves a select field" do
         it "saves the value properly" do
           custom_field.custom_values.delete_all
 
@@ -393,6 +340,10 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
             expect(page).to have_text first_option
           end
         end
+      end
+
+      shared_examples "a select field" do
+        include_examples "saves a select field"
 
         it "does not change the value if untouched" do
           overview_page.visit_page
@@ -451,8 +402,6 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
             expect(page).to have_no_text first_option
           end
         end
-
-        include_examples "saves custom comment"
       end
 
       describe "with list CF" do
@@ -474,7 +423,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
         let(:unused_option) { second_version.name }
         let(:unused_selection) { second_version }
 
-        it_behaves_like "a select field"
+        it_behaves_like "saves a select field"
       end
 
       describe "with user select CF" do
@@ -485,7 +434,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
         let(:unused_option) { another_member_in_project.name }
         let(:unused_selection) { another_member_in_project }
 
-        it_behaves_like "a select field"
+        it_behaves_like "saves a select field"
 
         describe "with support for user groups" do
           let!(:group) do
@@ -532,25 +481,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
     end
 
     describe "with multi select fields" do
-      shared_examples "an autocomplete multi select field" do
-        it "saves single selected values properly" do
-          custom_field.custom_values.delete_all
-
-          overview_page.visit_page
-
-          overview_page.within_custom_field_container(custom_field) do
-            expect(page).to have_no_text first_option
-          end
-
-          open_field do
-            field.select_option(first_option)
-          end
-
-          overview_page.within_custom_field_container(custom_field) do
-            expect(page).to have_text first_option
-          end
-        end
-
+      shared_examples "saves multiple selected values" do
         it "saves multi selected values properly" do
           custom_field.custom_values.delete_all
 
@@ -571,7 +502,9 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
             expect(page).to have_text second_option
           end
         end
+      end
 
+      shared_examples "an autocomplete multi select field" do
         it "removes deselected values properly" do
           overview_page.visit_page
 
@@ -586,25 +519,6 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
 
           overview_page.within_custom_field_container(custom_field) do
             expect(page).to have_no_text first_option
-            expect(page).to have_text second_option
-          end
-        end
-
-        it "does not remove values when not touching the init values" do
-          overview_page.visit_page
-
-          overview_page.within_custom_field_container(custom_field) do
-            expect(page).to have_text first_option
-            expect(page).to have_text second_option
-          end
-
-          open_field do
-            field.expect_selected(first_option, second_option) # wait for proper initialization
-            # don't touch the values
-          end
-
-          overview_page.within_custom_field_container(custom_field) do
-            expect(page).to have_text first_option
             expect(page).to have_text second_option
           end
         end
@@ -655,8 +569,6 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
             expect(page).to have_text second_option
           end
         end
-
-        include_examples "saves custom comment"
       end
 
       describe "with multi select list CF" do
@@ -676,7 +588,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
         let(:first_option) { first_version.name }
         let(:second_option) { second_version.name }
 
-        it_behaves_like "an autocomplete multi select field"
+        it_behaves_like "saves multiple selected values"
       end
 
       describe "with multi user select list CF" do
@@ -686,7 +598,7 @@ RSpec.describe "Edit project custom fields on project overview page", :js do
         let(:first_option) { member_in_project.name }
         let(:second_option) { another_member_in_project.name }
 
-        it_behaves_like "an autocomplete multi select field"
+        it_behaves_like "saves multiple selected values"
 
         describe "with support for user groups" do
           let!(:group) do

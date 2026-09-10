@@ -161,8 +161,13 @@ export class ProgressPopoverEditFieldComponent extends ProgressEditFieldComponen
   }
 
   public onModalClosed():void {
+    // The body is teleported into a shared portal. Clear the live element
+    // before the portal detaches it so Turbo cancels an in-flight preview and
+    // cannot reload the previous URL when the modal is opened again.
+    document.getElementById(this.frameId)?.removeAttribute('src');
     this.opened = false;
     this.frameSrc = '';
+    document.dispatchEvent(new CustomEvent('work-package-progress-modal-closed'));
 
     if (!this.handler.inEditMode) {
       this.handler.deactivate(false);

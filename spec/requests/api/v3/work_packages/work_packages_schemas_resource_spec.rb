@@ -160,6 +160,15 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI do
 
           expect(OpenProject::Cache.fetch(represented_schema.json_cache_key)).not_to be_nil
         end
+
+        it "returns HTTP 304 without a body when the cached ETag matches" do
+          header "If-None-Match", last_response.headers.fetch("ETag")
+
+          get schema_path
+
+          expect(last_response).to have_http_status(:not_modified)
+          expect(last_response.body).to be_empty
+        end
       end
 
       context "id is too long" do

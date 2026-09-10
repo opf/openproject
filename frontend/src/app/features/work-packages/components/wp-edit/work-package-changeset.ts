@@ -37,7 +37,11 @@ export class WorkPackageChangeset extends ResourceChangeset<WorkPackageResource>
     super.setValue(key, val);
 
     if (key === 'project' || key === 'type') {
-      this.updateForm();
+      void this.updateForm().then(() => {
+        document.dispatchEvent(
+          new CustomEvent('work-package-form-updated', { detail: { key } }),
+        );
+      });
     }
 
     // Emit event to notify Stimulus controller in activities tab in order to update the activities list

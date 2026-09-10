@@ -65,16 +65,14 @@ RSpec.describe "Cost report showing my own times", :js do
 
   shared_examples "redirects to cost reports with the work package filter pre-populated" do
     it "allows visiting the costs which redirects to cost reports" do
-      new_window = window_opened_by do
-        page.find(".costsByType a", text: "10 Foobar").click
-      end
+      costs_link = page.find(".costsByType a", text: "10 Foobar", wait: 20)
+      expect(costs_link["target"]).to eq("_blank")
+      visit costs_link["href"]
 
-      within_window new_window do
-        expect(page).to have_css("#query_saved_name", text: "New cost report")
-        wp_autocompleter = find("opce-autocompleter#work_package_id_select_1")
-        expect_current_autocompleter_value(wp_autocompleter, expected_autocompleter_label)
-        expect(page).to have_css("td.units", text: "10.0 Foobars")
-      end
+      expect(page).to have_css("#query_saved_name", text: "New cost report")
+      wp_autocompleter = find("opce-autocompleter#work_package_id_select_1")
+      expect_current_autocompleter_value(wp_autocompleter, expected_autocompleter_label)
+      expect(page).to have_css("td.units", text: "10.0 Foobars")
     end
   end
 

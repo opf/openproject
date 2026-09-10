@@ -80,8 +80,13 @@ RSpec.describe "Create", :js do
 
       within_dialog "New sprint" do
         page.fill_in "Sprint name", with: "Created sprint"
-        page.fill_in "Start date", with: start_date_fmt
-        page.fill_in "Finish date", with: finish_date_fmt
+        wait_for_turbo_stream(wait: 30) do
+          page.fill_in("Start date", with: start_date_fmt).send_keys(:tab)
+        end
+        wait_for_turbo_stream(wait: 30) do
+          page.fill_in("Finish date", with: finish_date_fmt).send_keys(:tab)
+        end
+        expect(page).to have_field "Duration", with: "16 days", readonly: true, wait: 30
 
         click_on "Create"
       end
@@ -103,12 +108,16 @@ RSpec.describe "Create", :js do
 
       within_dialog "New sprint" do
         fill_in "Sprint name", with: "Created sprint"
-        fill_in "Start date", with: start_date_fmt
-        fill_in("Finish date", with: finish_date_fmt).send_keys(:tab)
+        wait_for_turbo_stream(wait: 30) do
+          fill_in("Start date", with: start_date_fmt).send_keys(:tab)
+        end
+        wait_for_turbo_stream(wait: 30) do
+          fill_in("Finish date", with: finish_date_fmt).send_keys(:tab)
+        end
         # Wait for the date-triggered form refresh to settle before filling the
         # goal, otherwise the in-flight refresh re-renders the form and discards
         # the goal that was just typed.
-        expect(page).to have_field "Duration", with: "16 days", readonly: true
+        expect(page).to have_field "Duration", with: "16 days", readonly: true, wait: 30
         fill_in "Sprint goal", with: "Deliver the first MVP scope."
 
         click_on "Create"
@@ -127,11 +136,15 @@ RSpec.describe "Create", :js do
         fill_in "Sprint name", with: "Created sprint"
         fill_in "Sprint goal", with: "Deliver the first MVP scope."
 
-        fill_in "Start date", with: start_date_fmt
-        fill_in("Finish date", with: finish_date_fmt).send_keys(:tab)
+        wait_for_turbo_stream(wait: 30) do
+          fill_in("Start date", with: start_date_fmt).send_keys(:tab)
+        end
+        wait_for_turbo_stream(wait: 30) do
+          fill_in("Finish date", with: finish_date_fmt).send_keys(:tab)
+        end
 
         # Entering the dates triggers a form refresh; it must not wipe the goal.
-        expect(page).to have_field "Duration", with: "16 days", readonly: true
+        expect(page).to have_field "Duration", with: "16 days", readonly: true, wait: 30
         expect(page).to have_field "Sprint goal", with: "Deliver the first MVP scope."
       end
     end
@@ -144,10 +157,14 @@ RSpec.describe "Create", :js do
       within_dialog "New sprint" do
         expect(page).to have_field "Duration", with: "", readonly: true
 
-        page.fill_in "Start date", with: start_date_fmt
-        page.fill_in("Finish date", with: finish_date_fmt).send_keys(:tab)
+        wait_for_turbo_stream(wait: 30) do
+          page.fill_in("Start date", with: start_date_fmt).send_keys(:tab)
+        end
+        wait_for_turbo_stream(wait: 30) do
+          page.fill_in("Finish date", with: finish_date_fmt).send_keys(:tab)
+        end
 
-        expect(page).to have_field "Duration", with: "16 days", readonly: true
+        expect(page).to have_field "Duration", with: "16 days", readonly: true, wait: 30
       end
     end
 
@@ -176,12 +193,16 @@ RSpec.describe "Create", :js do
         planning_page.open_create_sprint_dialog
 
         within_dialog "New sprint" do
-          page.fill_in "Start date", with: start_date_fmt
-          page.fill_in("Finish date", with: too_early_finish_date.strftime("%Y-%m-%d"))
-              .send_keys(:tab)
+          wait_for_turbo_stream(wait: 30) do
+            page.fill_in("Start date", with: start_date_fmt).send_keys(:tab)
+          end
+          wait_for_turbo_stream(wait: 30) do
+            page.fill_in("Finish date", with: too_early_finish_date.strftime("%Y-%m-%d"))
+                .send_keys(:tab)
+          end
 
           # Shows duration as zero if finish date is before start date:
-          expect(page).to have_field "Duration", with: "0 days", readonly: true
+          expect(page).to have_field "Duration", with: "0 days", readonly: true, wait: 30
 
           click_on "Create"
 

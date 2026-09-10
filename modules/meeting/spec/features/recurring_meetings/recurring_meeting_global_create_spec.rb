@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -64,9 +65,10 @@ RSpec.describe "Recurring meetings global creation",
         meetings_page.click_on "Recurring"
       end
 
+      meetings_page.set_starts_on Time.zone.tomorrow.iso8601
+      meetings_page.set_start_time "10:00"
       meetings_page.set_project project
-      meetings_page.click_create
-      wait_for_network_idle
+      meetings_page.click_create(wait_for: false)
 
       expect(page).to have_text "Title can't be blank."
 
@@ -76,7 +78,6 @@ RSpec.describe "Recurring meetings global creation",
 
       meetings_page.set_title "Some title"
       meetings_page.click_create
-      wait_for_network_idle
 
       expect(page).to have_heading "Some title"
       meeting = Meeting.last
@@ -92,9 +93,10 @@ RSpec.describe "Recurring meetings global creation",
         meetings_page.click_on "Recurring"
       end
 
+      meetings_page.set_starts_on Time.zone.tomorrow.iso8601
+      meetings_page.set_start_time "10:00"
       meetings_page.set_title "Some title"
-      meetings_page.click_create
-      wait_for_network_idle
+      meetings_page.click_create(wait_for: false)
 
       expect(page).to have_text "Project can't be blank."
       meetings_page.set_project project
@@ -103,7 +105,6 @@ RSpec.describe "Recurring meetings global creation",
         expect(page).to have_text project.name
       end
       meetings_page.click_create
-      wait_for_network_idle
 
       expect(page).to have_heading "Some title (Template)"
       meeting = Meeting.last

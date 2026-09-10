@@ -43,9 +43,6 @@ export function wpFullViewOnboardingTourSteps():OnboardingStep[] {
       'next #main-menu-gantt': I18n.t('js.onboarding.steps.wp.gantt_menu'),
       showSkip: false,
       nextButton: { text: I18n.t('js.onboarding.buttons.next') },
-      onNext() {
-        document.querySelector<HTMLElement>('#main-menu-gantt')?.click();
-      },
     },
     {
       containerClass: '-dark -hidden-arrow',

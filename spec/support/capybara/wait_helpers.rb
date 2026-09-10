@@ -112,6 +112,22 @@ module WaitHelpers
     wait_for_browser_event("turbo:frame-load", target_id: frame&.to_s, wait:, &)
   end
 
+  def wait_for_stimulus_controller(selector, identifier, wait: Capybara.default_max_wait_time)
+    page.document.synchronize(wait) do
+      connected = page.evaluate_script(<<~JS, selector, identifier)
+        (() => {
+          const element = document.querySelector(arguments[0]);
+          return element != null &&
+            window.Stimulus?.getControllerForElementAndIdentifier(element, arguments[1]) != null;
+        })()
+      JS
+
+      raise Capybara::ExpectationNotMet, "#{identifier} controller is not connected" unless connected
+
+      page.find(selector, wait: 0)
+    end
+  end
+
   # Arms a one-shot reload probe for the Turbo frame with `frame_id`.
   #
   # The listener latches the probe state when the named frame loads. Each call
@@ -238,17 +254,19 @@ module WaitHelpers
 
     block_result = yield
 
-    result = page.evaluate_async_script(<<~JS, key)
-      const key = arguments[0];
-      const done = arguments[arguments.length - 1];
-      window.__opAwaitedBrowserEvents[key].then(() => {
-        delete window.__opAwaitedBrowserEvents[key];
-        done({ success: true });
-      }).catch((e) => {
-        delete window.__opAwaitedBrowserEvents[key];
-        done({ success: false, error: e.message });
-      });
-    JS
+    result = Capybara.using_wait_time(timeout + 1) do
+      page.evaluate_async_script(<<~JS, key)
+        const key = arguments[0];
+        const done = arguments[arguments.length - 1];
+        window.__opAwaitedBrowserEvents[key].then(() => {
+          delete window.__opAwaitedBrowserEvents[key];
+          done({ success: true });
+        }).catch((e) => {
+          delete window.__opAwaitedBrowserEvents[key];
+          done({ success: false, error: e.message });
+        });
+      JS
+    end
 
     raise result["error"] if result.is_a?(Hash) && !result["success"]
 

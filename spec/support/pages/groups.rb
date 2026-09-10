@@ -136,7 +136,7 @@ module Pages
       open_users_tab!
       SeleniumHubWaiter.wait
 
-      select_autocomplete page.find(".new-group-members--autocomplete"),
+      select_autocomplete -> { page.find(".new-group-members--autocomplete") },
                           query: user_name
       click_on "Add"
     end

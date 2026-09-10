@@ -71,6 +71,7 @@ RSpec.describe "Document collaboration settings admin",
 
       # Now disable text collaboration
       click_on "Disable"
+      expect(page).to have_css("danger-dialog-form-helper:defined", wait: 20)
 
       within_dialog("Disable real-time collaboration") do
         expect(page).to have_heading "Disable real-time collaboration?"
@@ -78,7 +79,11 @@ RSpec.describe "Document collaboration settings admin",
                                      "Please only do this if you are certain you want to " \
                                      "disable real-time collaboration and the BlockNote editor in this instance."
 
-        check "I understand that I might permanently lose data"
+        page.document.synchronize do
+          confirmation = find_field("I understand that I might permanently lose data", exact: true, wait: 0)
+          confirmation.click unless confirmation.checked?
+          expect(confirmation).to be_checked
+        end
 
         click_on "Disable"
       end

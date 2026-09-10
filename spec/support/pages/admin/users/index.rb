@@ -78,9 +78,8 @@ module Pages
           unless page.has_css?(".advanced-filters--filter[data-filter-name='status']")
             select "Status", from: "add_filter_select"
           end
-          within(".advanced-filters--filter[data-filter-name='status']") do
-            set_autocomplete_filter([value])
-          end
+          element = -> { page.find(".advanced-filters--filter[data-filter-name='status'] [data-filter-autocomplete='true']") }
+          set_autocomplete_filter([value], element:)
 
           wait_for_network_idle
         end
@@ -100,11 +99,13 @@ module Pages
             select "Group", from: "add_filter_select"
           end
 
-          within_filter("group") do
-            select_autocomplete find('[data-filter-autocomplete="true"]'),
-                                query: value,
-                                results_selector: "body"
+          autocomplete = lambda do
+            page.find(".advanced-filters--filter[data-filter-name='group']:not([hidden]) " \
+                      '[data-filter-autocomplete="true"]')
           end
+          select_autocomplete autocomplete,
+                              query: value,
+                              results_selector: "body"
 
           wait_for_network_idle
         end
@@ -157,7 +158,7 @@ module Pages
 
           find("[data-test-selector='filter-component-toggle']").click
           # Wait for the toggle's Stimulus action to actually expose the form.
-          expect(page).to have_select("add_filter_select", visible: true)
+          expect(page).to have_select("add_filter_select", visible: :visible)
         end
 
         def filter_panel_open?

@@ -31,6 +31,54 @@
 require "spec_helper"
 
 RSpec.describe Queries::WorkPackages::Filter::UpdatedAtFilter do
+  describe "filtering work packages" do
+    let(:reference_time) { Time.utc(2025, 1, 8, 12) }
+    let!(:updated_today) { create(:work_package, updated_at: reference_time) }
+    let!(:updated_three_days_ago) { create(:work_package, updated_at: reference_time - 3.days) }
+    let!(:updated_five_days_ago) { create(:work_package, updated_at: reference_time - 5.days) }
+    let(:instance) do
+      described_class.create!(name: :updated_at, operator:, values:)
+    end
+
+    subject(:results) { WorkPackage.where(instance.where) }
+
+    context "with an on-date filter" do
+      let(:operator) { "=d" }
+      let(:values) { ["2025-01-08T00:00:00Z"] }
+
+      it "finds work packages updated on that date" do
+        expect(results).to contain_exactly(updated_today)
+      end
+    end
+
+    context "with both boundaries" do
+      let(:operator) { "<>d" }
+      let(:values) { ["2025-01-04T00:00:00Z", "2025-01-06T23:59:59Z"] }
+
+      it "finds work packages within the range" do
+        expect(results).to contain_exactly(updated_three_days_ago)
+      end
+    end
+
+    context "with only the lower boundary" do
+      let(:operator) { "<>d" }
+      let(:values) { ["2025-01-05T00:00:00Z"] }
+
+      it "finds work packages on or after the boundary" do
+        expect(results).to contain_exactly(updated_today, updated_three_days_ago)
+      end
+    end
+
+    context "with only the upper boundary" do
+      let(:operator) { "<>d" }
+      let(:values) { ["", "2025-01-04T23:59:59Z"] }
+
+      it "finds work packages on or before the boundary" do
+        expect(results).to contain_exactly(updated_five_days_ago)
+      end
+    end
+  end
+
   it_behaves_like "basic query filter" do
     let(:type) { :datetime_past }
     let(:class_key) { :updated_at }

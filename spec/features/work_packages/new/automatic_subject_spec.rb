@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "new work package with automatic subject type", :js, :selenium do
+RSpec.describe "new work package with automatic subject type", :js do
   let!(:type) { create(:type, :with_subject_pattern) }
   let!(:status) { create(:status, is_default: true) }
   let!(:priority) { create(:priority, is_default: true) }

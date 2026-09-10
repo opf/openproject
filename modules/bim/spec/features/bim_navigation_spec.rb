@@ -51,6 +51,7 @@ RSpec.describe "BIM navigation spec", :js, with_config: { edition: "bim" } do
   let(:full_view) { Pages::FullWorkPackage.new(work_package) }
   let(:model_tree) { Components::XeokitModelTree.new }
   let(:destroy_modal) { Components::WorkPackages::DestroyModal.new }
+  let(:model_page) { Pages::IfcModels::ShowDefault.new project }
 
   before do
     login_as user
@@ -61,22 +62,15 @@ RSpec.describe "BIM navigation spec", :js, with_config: { edition: "bim" } do
     before do
       model_page.visit!
       model_page.finished_loading
+      model_page.model_viewer_visible true
+      model_page.model_viewer_shows_a_toolbar true
+      model_page.page_shows_a_toolbar true
+      model_tree.sidebar_shows_viewer_menu true
+      page.find_test_selector("op-wp-card-view")
+      card_view.expect_work_package_listed work_package
     end
 
     context "deep link on the page" do
-      before do
-        model_page.visit!
-        model_page.finished_loading
-
-        # Should be at split view
-        model_page.model_viewer_visible true
-        model_page.model_viewer_shows_a_toolbar true
-        model_page.page_shows_a_toolbar true
-        model_tree.sidebar_shows_viewer_menu true
-        expect(page).to have_test_selector("op-wp-card-view")
-        card_view.expect_work_package_listed work_package
-      end
-
       it "can switch between the different view modes" do
         # Opening details view with info icon
         card_view.click_info_icon(work_package)
@@ -157,15 +151,5 @@ RSpec.describe "BIM navigation spec", :js, with_config: { edition: "bim" } do
     end
   end
 
-  context "on default page" do
-    let(:model_page) { Pages::IfcModels::ShowDefault.new project }
-
-    it_behaves_like "can switch from split to viewer to list-only"
-  end
-
-  context "on show page" do
-    let(:model_page) { Pages::IfcModels::Show.new project, model.id }
-
-    it_behaves_like "can switch from split to viewer to list-only"
-  end
+  it_behaves_like "can switch from split to viewer to list-only"
 end

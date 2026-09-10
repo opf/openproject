@@ -56,6 +56,8 @@ RSpec.describe Meetings::RowComponent, type: :component do
 
         it "shows default menu items" do
           expect(subject).to have_link "Download iCalendar event"
+          expect(subject).to have_no_link "Duplicate meeting"
+          expect(subject).to have_no_link "Delete meeting"
         end
       end
 

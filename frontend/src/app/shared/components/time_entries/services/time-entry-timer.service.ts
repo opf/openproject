@@ -79,23 +79,34 @@ export class TimeEntryTimerService {
 
   private closeDialogHandler:EventListener = this.handleTimeEntryDialogClose.bind(this);
   private shouldStartTimerFor:WorkPackageResource|null = null;
+  private refreshTimeout:ReturnType<typeof setTimeout>|undefined;
+  private initialized = false;
 
   public initialize() {
-    // Listen to dialog close events to possibly start a new timer
-    document.addEventListener('dialog:close', this.closeDialogHandler);
+    if (!this.initialized) {
+      // Listen to dialog close events to possibly start a new timer
+      document.addEventListener('dialog:close', this.closeDialogHandler);
 
-    // Refresh the timer after some interval to not block other resources
-    setTimeout(() => this.refresh().subscribe(), 100);
+      this
+        .activeTimer$
+        .subscribe((entry) => {
+          this.removeTimer();
 
-    this
-      .activeTimer$
-      .subscribe((entry) => {
-        this.removeTimer();
+          if (entry) {
+            this.renderTimer();
+          }
+        });
 
-        if (entry) {
-          this.renderTimer();
-        }
-      });
+      this.initialized = true;
+    }
+
+    // Turbo can emit render and load for the same navigation. Keep only the
+    // final scheduled refresh so the timer button cannot race stale lookups.
+    clearTimeout(this.refreshTimeout);
+    this.refreshTimeout = setTimeout(() => {
+      this.refreshTimeout = undefined;
+      this.refresh().subscribe();
+    }, 100);
   }
 
   public refresh():Observable<TimeEntryResource|null> {
@@ -108,7 +119,7 @@ export class TimeEntryTimerService {
       .filtered(filters)
       .get()
       .pipe(
-        map((collection) => collection.elements.pop() || null),
+        map((collection) => collection.elements.pop() ?? null),
         tap((active) => this.timer$.next(active)),
       );
   }

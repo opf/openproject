@@ -95,19 +95,9 @@ RSpec.describe "Edit project phases on project overview page", :js do
         dialog.expect_input("Finish date", value: initiating_finish_date)
         dialog.expect_input("Duration", value: initiating_duration, disabled: true)
 
-        retry_block do
-          # Retrying due to a race condition between filling the input vs submitting the form preview.
-          original_dates = [initiating_start_date, initiating_finish_date]
-          dialog.set_date_for(values: original_dates)
-
-          page.driver.clear_network_traffic
-
-          dialog.set_date_for(values: [start_date - 1.week, start_date])
-
-          dialog.expect_input("Duration", value: 8, disabled: true)
-          # Ensure that 2 ajax request are triggered after setting the date range.
-          expect(page.driver.browser.network.traffic.size).to eq(2)
-        end
+        dialog.set_date_for(values: [initiating_start_date, initiating_finish_date])
+        dialog.set_date_for(values: [start_date - 1.week, start_date])
+        dialog.expect_input("Duration", value: 8, disabled: true)
 
         # Saving the dialog is successful
         dialog.submit

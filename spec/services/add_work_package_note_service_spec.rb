@@ -213,4 +213,24 @@ RSpec.describe AddWorkPackageNoteService, type: :model do
       end
     end
   end
+
+  describe "integration" do
+    let(:user) { create(:admin) }
+    let(:project) { create(:project) }
+    let(:work_package) { create(:work_package, project:) }
+
+    before do
+      create(:integer_wp_custom_field, is_required: true, is_for_all: true, default_value: nil) do |custom_field|
+        project.enabled_variants.first.custom_fields << custom_field
+        project.work_package_custom_fields << custom_field
+      end
+    end
+
+    it "adds a comment when another required work package field is invalid" do
+      result = described_class.new(user:, work_package:).call("A comment", send_notifications: false)
+
+      expect(result).to be_success
+      expect(work_package.journals.reload.last.notes).to eq("A comment")
+    end
+  end
 end

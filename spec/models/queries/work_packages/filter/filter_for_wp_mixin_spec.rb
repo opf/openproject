@@ -31,6 +31,43 @@
 require "spec_helper"
 
 RSpec.describe Queries::WorkPackages::Filter::FilterForWpMixin do
+  describe "#apply_to" do
+    subject(:filter) { Queries::WorkPackages::Filter::RelatableFilter.create!(name: :relatable, operator:, values: [work_package.id]) }
+
+    let(:work_package) { build_stubbed(:work_package) }
+    let(:query_scope) { class_double(WorkPackage) }
+    let(:visible_scope) { class_double(WorkPackage) }
+
+    before do
+      allow(WorkPackage).to receive(:visible).and_return(visible_scope)
+      allow(visible_scope).to receive(:find_by).with(id: work_package.id.to_s).and_return(work_package)
+    end
+
+    context "with the legacy children operator" do
+      let(:operator) { "children" }
+
+      it "queries the child relation scope" do
+        allow(query_scope).to receive(:relatable)
+
+        filter.apply_to(query_scope)
+
+        expect(query_scope).to have_received(:relatable).with(work_package, Relation::TYPE_CHILD)
+      end
+    end
+
+    context "with another relation operator" do
+      let(:operator) { Relation::TYPE_BLOCKS }
+
+      it "passes the operator through" do
+        allow(query_scope).to receive(:relatable)
+
+        filter.apply_to(query_scope)
+
+        expect(query_scope).to have_received(:relatable).with(work_package, Relation::TYPE_BLOCKS)
+      end
+    end
+  end
+
   describe "#autocomplete_options" do
     context "on a list-type filter (e.g. ParentFilter)" do
       subject(:filter) { Queries::WorkPackages::Filter::ParentFilter.create!(name: :parent) }

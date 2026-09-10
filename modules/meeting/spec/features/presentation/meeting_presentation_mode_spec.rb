@@ -81,6 +81,15 @@ RSpec.describe "Meeting Presentation Mode", :js do
     TextEditorField.new(page, "Outcome", selector: test_selector("meeting-outcome-input-for-#{agenda_item.id}"))
   end
 
+  def disable_presentation_polling
+    polling_root = page.find("[data-controller~='poll-for-changes']")
+    page.execute_script(
+      "window.Stimulus.getControllerForElementAndIdentifier(arguments[0], 'poll-for-changes').disconnect()",
+      polling_root
+    )
+    wait_for_network_idle
+  end
+
   before do
     login_as user
   end
@@ -100,6 +109,7 @@ RSpec.describe "Meeting Presentation Mode", :js do
     # Verify we're in presentation mode
     expect(page).to have_current_path(project_meeting_presentation_path(project, meeting), ignore_query: true)
     expect(page).to have_css(".op-meeting-presentation")
+    disable_presentation_polling
     expect(page).to have_text("Sprint Planning")
     expect(page).to have_text("First Item")
     expect(page).to have_link("Next")
@@ -188,35 +198,41 @@ RSpec.describe "Meeting Presentation Mode", :js do
     end
 
     # 3. Manage outcomes: add, edit, and delete
+    disable_presentation_polling
+
     # Add an outcome
-    show_page.add_outcome_from_menu(item) do
-      field = outcome_field_for(item)
-      field.expect_active!
-      field.set_value "Team agreed on approach"
-      click_link_or_button "Save"
-    end
+    show_page.add_outcome_from_menu(item)
+    field = outcome_field_for(item)
+    field.expect_active!
+    field.set_value "Team agreed on approach"
+    show_page.save_outcome(item)
 
     show_page.in_outcome_component(item) do
       show_page.expect_outcome "Team agreed on approach"
+    end
 
+    wait_for_turbo_stream(wait: 20) do
       show_page.select_outcome_action "Edit outcome"
-      field = outcome_field_for(item)
-      field.expect_active!
-      field.set_value "Updated outcome"
-      click_link_or_button "Save"
+    end
 
+    show_page.expect_outcome_form(item)
+    field = outcome_field_for(item)
+    field.expect_active!
+    field.set_value "Updated outcome"
+    show_page.save_outcome(item)
+
+    show_page.in_outcome_component(item) do
       show_page.expect_outcome "Updated outcome"
     end
 
     # Delete the outcome
-    show_page.in_outcome_component(item) do
-      show_page.expect_outcome "Updated outcome"
+    show_page.expect_outcome "Updated outcome"
+    wait_for_turbo_stream(wait: 20) do
       accept_confirm(I18n.t(:text_are_you_sure)) do
         show_page.select_outcome_action "Remove outcome"
       end
-
-      show_page.expect_no_outcome "Updated outcome"
     end
+    show_page.expect_no_outcome "Updated outcome"
 
     # 4. Close the presentation
     page.find_test_selector("exit-presentation-button").click
@@ -226,6 +242,10 @@ RSpec.describe "Meeting Presentation Mode", :js do
   end
 
   it "automatically refreshes when things get updated" do
+    allow_any_instance_of(Meetings::PresentationMode::ShowComponent) # rubocop:disable RSpec/AnyInstance
+      .to receive(:check_for_updates_interval)
+            .and_return(100)
+
     visit project_meeting_presentation_path(project, meeting)
     expect(page).to have_css(".op-meeting-presentation")
     expect(page).to have_text("Sprint Planning")
@@ -237,6 +257,9 @@ RSpec.describe "Meeting Presentation Mode", :js do
       .call(title: "Updated Item")
       .on_failure { |result| raise "Failed to update agenda item in background: #{result.errors.full_messages}" }
 
+    # Wait for the change to appear
+    expect(page).to have_text("Updated Item", wait: 10)
+
     # In the background, delete the second item
     # so that the "new" second item is now the third one
     MeetingAgendaItems::DeleteService
@@ -244,8 +267,6 @@ RSpec.describe "Meeting Presentation Mode", :js do
       .call
       .on_failure { |result| raise "Failed to update agenda item in background: #{result.errors.full_messages}" }
 
-    # Wait for the changes to appear
-    expect(page).to have_text("Updated Item", wait: 10)
     expect(page).to have_no_text("Second Item")
 
     # On third item, footer shows second item and first item

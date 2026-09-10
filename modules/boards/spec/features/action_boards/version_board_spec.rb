@@ -129,14 +129,13 @@ RSpec.describe "Version action board",
       board_page.add_list option: "Shared version"
       board_page.expect_list "Shared version"
       board_page.add_card "Open version", "Task 1"
-      sleep 2
 
       # Expect added to query
       queries = board_page.board(reload: true).contained_queries
       expect(queries.count).to eq 3
       first = queries.find_by(name: "Open version")
       second = queries.find_by(name: "A second version")
-      expect(first.ordered_work_packages.count).to eq(1)
+      wait_for { first.reload.ordered_work_packages.count }.to eq(1)
       expect(second.ordered_work_packages).to be_empty
 
       # Expect work package to be saved in query first
@@ -153,11 +152,8 @@ RSpec.describe "Version action board",
       board_page.expect_card("A second version", "Task 1", present: true)
 
       # Expect work package to be saved in query second
-      sleep 2
-      retry_block do
-        expect(first.reload.ordered_work_packages.count).to eq(0)
-        expect(second.reload.ordered_work_packages.count).to eq(1)
-      end
+      wait_for { first.reload.ordered_work_packages }.to be_empty
+      wait_for { second.reload.ordered_work_packages.count }.to eq(1)
 
       subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id))
                             .map { [it.subject, it.target_versions.map(&:id)] }
@@ -174,7 +170,6 @@ RSpec.describe "Version action board",
 
       filters.quick_filter "Task"
       board_page.expect_changed
-      sleep 2
 
       board_page.expect_card("Open version", "Foo", present: false)
       board_page.expect_card("A second version", "Task 1", present: true)
@@ -281,16 +276,12 @@ RSpec.describe "Version action board",
       board_page.expect_card("Closed version", "Closed", present: false)
 
       # Expect work package to be saved in query second
-      sleep 2
-
       queries = board_page.board(reload: true).contained_queries
       open = queries.find_by(name: "Open version")
       closed = queries.find_by(name: "Closed version")
 
-      retry_block do
-        expect(open.reload.ordered_work_packages.count).to eq(2)
-        expect(closed.reload.ordered_work_packages.count).to eq(0)
-      end
+      wait_for { open.reload.ordered_work_packages.count }.to eq(2)
+      wait_for { closed.reload.ordered_work_packages }.to be_empty
 
       ids = open.ordered_work_packages.pluck(:work_package_id)
       expect(ids).to contain_exactly(work_package.id, closed_version_wp.id)

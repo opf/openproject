@@ -56,6 +56,12 @@ RSpec.describe "Admin lists project mappings for a storage",
 
   current_user { admin }
 
+  def choose_manually_managed_folder
+    input = find_by_id("storages_project_storage_project_folder_mode_manual", visible: :all)
+    page.execute_script("arguments[0].click()", input)
+    expect(page).to have_checked_field("storages_project_storage_project_folder_mode_manual")
+  end
+
   context "with insufficient permissions" do
     it "is not accessible" do
       login_as(non_admin)
@@ -211,7 +217,7 @@ RSpec.describe "Admin lists project mappings for a storage",
             expect(page)
               .to have_checked_field("storages_project_storage_project_folder_mode_automatic")
 
-            choose "Existing folder with manually managed permissions"
+            choose_manually_managed_folder
             wait_for { page }.to have_text("No selected folder")
             click_on "Select folder"
 
@@ -249,7 +255,7 @@ RSpec.describe "Admin lists project mappings for a storage",
               find(".ng-option-label", text: project.name).click
               check "Include sub-projects"
 
-              choose "Existing folder with manually managed permissions"
+              choose_manually_managed_folder
               wait_for { page }.to have_text("No selected folder")
 
               click_on "Add"
@@ -322,11 +328,8 @@ RSpec.describe "Admin lists project mappings for a storage",
           project_storages_index_page.click_menu_item_of("Edit project folder", project_storage.project)
 
           within("dialog") do
-            choose "Existing folder with manually managed permissions"
-            # The login button is an Angular custom element whose label is set asynchronously
-            # in ngOnInit(). On slow CI, bootstrapping can take longer than the default wait.
-            expect(page).to have_button("Nextcloud login", wait: 20)
-            click_on("Nextcloud login")
+            choose_manually_managed_folder
+            find("opce-storage-login-button[ng-version] button", visible: true, wait: 20).click
             wait_for { page }.to have_current_path(
               %r{/index.php/apps/oauth2/authorize\?client_id=.*&redirect_uri=.*&response_type=code&state=.*}
             )

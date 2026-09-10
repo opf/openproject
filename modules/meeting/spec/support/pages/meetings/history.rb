@@ -36,13 +36,18 @@ module Pages::Meeting
     end
 
     def open_history_modal
-      retry_block do
-        click_link_or_button "op-meetings-header-action-trigger"
-        click_link_or_button "History"
-        # dynamically wait for the modal to be loaded
-        # otherwise running into timing issues with `item = history_page.first_item`
-        expect(page).to have_css(".op-activity-list--item")
+      menu_item = page.document.synchronize(10) do
+        button = page.find(
+          "action-menu[data-ready='true'] [data-test-selector='op-meetings-header-action-trigger']",
+          wait: 0
+        )
+        overlay_selector = "##{button['popovertarget']}:popover-open"
+        button.click unless page.has_selector?(overlay_selector, visible: :all, wait: 0)
+        page.find(overlay_selector, visible: :all, wait: 0).find("[role='menuitem']", text: "History", wait: 0)
       end
+
+      page.execute_script("arguments[0].click()", menu_item)
+      expect(page).to have_css(".op-activity-list--item", wait: 20)
     end
 
     def close_history_modal

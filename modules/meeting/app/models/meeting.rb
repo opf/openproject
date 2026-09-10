@@ -198,9 +198,13 @@ class Meeting < ApplicationRecord
               .pick(
                 Arel.sql("MAX(CASE WHEN meeting_sections.backlog = FALSE THEN meeting_agenda_items.updated_at END)"),
                 Arel.sql("MAX(CASE WHEN meeting_sections.backlog = FALSE THEN meeting_sections.updated_at END)"),
-                Arel.sql("MAX(meeting_outcomes.updated_at)")
+                Arel.sql("MAX(meeting_outcomes.updated_at)"),
+                Arel.sql("COUNT(DISTINCT CASE WHEN meeting_sections.backlog = FALSE THEN meeting_agenda_items.id END)"),
+                Arel.sql("COUNT(DISTINCT CASE WHEN meeting_sections.backlog = FALSE THEN meeting_sections.id END)"),
+                Arel.sql("COUNT(DISTINCT meeting_outcomes.id)")
               )
 
+    parts.map! { |part| part.is_a?(Time) ? part.utc.iso8601(6) : part }
     parts << lock_version
 
     OpenProject::Cache::CacheKey.expand(parts)

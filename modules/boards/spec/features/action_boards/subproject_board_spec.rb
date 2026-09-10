@@ -141,14 +141,13 @@ RSpec.describe "Subproject action board",
 
       # Add item
       board_page.add_card "Child 1", "Task 1"
-      sleep 2
 
       # Expect added to query
       queries = board_page.board(reload: true).contained_queries
       expect(queries.count).to eq 2
       first = queries.find_by(name: "Child 1")
       second = queries.find_by(name: "Child 2")
-      expect(first.ordered_work_packages.count).to eq(1)
+      wait_for { first.reload.ordered_work_packages.count }.to eq(1)
       expect(second.ordered_work_packages).to be_empty
 
       # Expect work package to be saved in query first
@@ -165,10 +164,8 @@ RSpec.describe "Subproject action board",
       board_page.expect_card("Child 2", "Task 1", present: true)
 
       # Expect work package to be saved in query second
-      retry_block(args: { tries: 3, base_interval: 5 }) do
-        raise "first should be empty" if first.reload.ordered_work_packages.any?
-        raise "second should have one item" if second.reload.ordered_work_packages.count != 1
-      end
+      wait_for { first.reload.ordered_work_packages }.to be_empty
+      wait_for { second.reload.ordered_work_packages.count }.to eq(1)
 
       subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject, :project_id)
       expect(subjects).to contain_exactly(["Task 1", subproject2.id])

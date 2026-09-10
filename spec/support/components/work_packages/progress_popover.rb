@@ -36,6 +36,7 @@ module Components
       include Capybara::DSL
       include Capybara::RSpecMatchers
       include RSpec::Matchers
+      include WaitHelpers
 
       # include Toasts::Expectations
 
@@ -61,9 +62,10 @@ module Components
 
       attr_reader :create_form
 
-      def initialize(container: page, create_form: false)
+      def initialize(container: page, create_form: false, field_selector_prefix: nil)
         @container_or_lambda_to_get_container = container
         @create_form = create_form
+        @field_selector_prefix = field_selector_prefix
       end
 
       def container
@@ -79,12 +81,15 @@ module Components
       end
 
       def open_by_clicking_on_field(field_name)
-        field(field_name).activate!
-        wait_for_network_idle # Wait for initial loading to be ready
+        wait_for_turbo_frame(frame: ProgressEditField::MODAL_SELECTOR.delete_prefix("#"), wait: 20) do
+          field(field_name).activate!
+        end
       end
 
       def close
-        field(:work).close!
+        progress_field = field(:work)
+        progress_field.close!
+        progress_field.expect_inactive!
       end
 
       def save
@@ -181,7 +186,10 @@ module Components
 
       def field(field_name)
         field_name = js_field_name(field_name)
-        ProgressEditField.new(container, field_name, create_form:)
+        selector = if @field_selector_prefix
+                     "#{@field_selector_prefix} .inline-edit--container.#{field_name.to_s.camelize(:lower)}"
+                   end
+        ProgressEditField.new(container, field_name, create_form:, selector:)
       end
 
       def js_field_name(field_name)

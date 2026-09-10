@@ -4,10 +4,10 @@ class EditField
   include Capybara::DSL
   include Capybara::RSpecMatchers
   include RSpec::Matchers
+  include WaitHelpers
   include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
-  attr_reader :context,
-              :property_name,
+  attr_reader :property_name,
               :selector
 
   attr_accessor :field_type
@@ -40,6 +40,10 @@ class EditField
     @create_form
   end
 
+  def context
+    @context.respond_to?(:call) ? @context.call : @context
+  end
+
   def visible_on_create_form?
     true
   end
@@ -57,11 +61,8 @@ class EditField
   end
 
   def display_trigger_element
-    if display_element.has_selector?(".inline-edit--display-trigger", wait: 0)
-      display_element.find(".inline-edit--display-trigger")
-    else
-      display_element
-    end
+    display = display_element
+    display.first(".inline-edit--display-trigger", minimum: 0, wait: 0) || display
   end
 
   def input_element
@@ -107,24 +108,25 @@ class EditField
   # Activate the field and check it opened correctly
   # @return [EditField] self
   def activate!(expect_open: true)
-    retry_block(args: { tries: 2 }) do
-      unless active?
-        SeleniumHubWaiter.wait unless using_cuprite?
-        scroll_to_and_click(display_trigger_element, block: :nearest)
-        SeleniumHubWaiter.wait unless using_cuprite?
-      end
-
-      if expect_open && !active?
-        raise "Expected field for attribute '#{property_name}' to be active."
-      end
-
-      self
+    unless active?
+      wait_for_network_idle if using_cuprite?
+      SeleniumHubWaiter.wait unless using_cuprite?
+      scroll_to_and_click(block: :nearest) { display_trigger_element }
+      SeleniumHubWaiter.wait unless using_cuprite?
     end
+
+    if expect_open
+      expect_active!
+      wait_for_network_idle
+    end
+
+    self
   end
 
   alias :activate_edition :activate!
 
   def openSelectField
+    expect_enabled!
     autocomplete_selector.click
     wait_for_network_idle
   end
@@ -145,15 +147,15 @@ class EditField
   end
 
   def active?
-    @context.has_selector? "#{@selector} #{input_selector}", wait: 1
+    context.has_selector? "#{@selector} #{input_selector}", wait: 1
   end
 
   alias :editing? :active?
 
   def expect_active!
-    expect(field_container)
-      .to have_selector(field_type, wait: 10),
-          "Expected field input type '#{field_type}' for attribute '#{property_name}'."
+    expect(context)
+      .to have_css("#{@selector} #{input_selector}", wait: 30),
+          "Expected field for attribute '#{property_name}' to be active."
 
     # Also ensure the element is not disabled
     expect_enabled!
@@ -161,12 +163,13 @@ class EditField
   end
 
   def expect_inactive!
-    expect(field_container).to have_selector(display_selector, wait: 10)
-    expect(field_container).to have_no_selector(field_type)
+    expect(context).to have_css("#{@selector} #{display_selector}", wait: 10)
+    expect(context).to have_no_selector("#{@selector} #{field_type}")
   end
 
   def expect_enabled!
-    expect(@context).to have_no_css "#{@selector} #{input_selector}[disabled]", wait: 10
+    expect(context).to have_no_css "#{@selector} #{input_selector}[disabled]", wait: 10
+    expect(context).to have_no_css "#{@selector} ng-select.ng-select-disabled", wait: 10
   end
 
   def expect_invalid
@@ -208,9 +211,13 @@ class EditField
     raise ArgumentError.new("Is not an autocompleter field") unless autocompleter_field?
 
     if select
-      select_autocomplete field_container, query:, select_text:, results_selector: "body"
+      select_autocomplete -> { field_container },
+                          query:,
+                          select_text:,
+                          results_selector: "body",
+                          wait_dropdown_open: false
     else
-      search_autocomplete field_container, query:, results_selector: "body"
+      search_autocomplete -> { field_container }, query:, results_selector: "body", wait_dropdown_open: false
     end
   end
 
@@ -249,10 +256,8 @@ class EditField
   ##
   # Use option of ng-select field to create new element from within the autocompleter
   def set_new_value(content)
-    scroll_to_element(input_element)
-    input_element.find("input").set content
-
-    page.find(".ng-option", text: "Create: #{content}").click
+    dropdown = search_autocomplete(-> { input_element }, query: content)
+    dropdown.find(".ng-option", text: "Create: #{content}").click
   end
 
   def type(text)

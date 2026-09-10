@@ -67,7 +67,7 @@ RSpec.describe "My account session management", :js do
 
   before do
     login_as(user)
-    Sessions::UserSession.where(id: user_session.id).update_all(updated_at: 5.days.ago)
+    Sessions::UserSession.where(id: user_session.id).update_all(updated_at: old_session_time)
     visit my_account_path
     click_on "Session management"
   end
@@ -92,19 +92,18 @@ RSpec.describe "My account session management", :js do
 
       # Revoke the old session
       accept_confirm do
-        within trs[0] do
+        within ".session-row", text: "Mozilla Firefox (Version 12.3)" do
           find_test_selector("session-revoke-button").click
         end
       end
     end
 
-    wait_for_network_idle
+    expect(page).to have_no_css(".session-row", text: "Mozilla Firefox (Version 12.3)")
     expect(page).to have_current_path "/my/sessions"
     page.within_test_selector("Users::Sessions::TableComponent") do
-      trs = page.all(".session-row")
       # Revoke the remembered device (this will also delete the linked session)
       accept_confirm do
-        within trs[0] do
+        within ".session-row", text: "Firefox (Version 142)" do
           find_test_selector("session-revoke-button").click
         end
       end
