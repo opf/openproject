@@ -117,12 +117,28 @@ module OpenProject
         #   # @return [ViewComponent::Slot]
         #   def with_action_icon_button(**system_arguments)
         #   end
+        #
+        #   # Adds an inline labeled action menu to the header actions area.
+        #   #
+        #   # A deliberate local extension (upstream's DataTable has the same
+        #   # arm on main, but it is not in the locked gem). Use this for
+        #   # visible, labeled menus such as a position selector — the
+        #   # trailing overflow/kebab menu stays on `with_menu`. The caller
+        #   # composes the show button.
+        #   #
+        #   # @param system_arguments [Hash] forwarded to `Primer::Alpha::ActionMenu`.
+        #   # @return [ViewComponent::Slot]
+        #   def with_action_menu(**system_arguments, &block)
+        #   end
         renders_many :actions, types: {
           button: ->(scheme: DEFAULT_ACTION_SCHEME, **system_arguments) do
             Primer::Beta::Button.new(scheme:, **system_arguments)
           end,
           icon_button: ->(**system_arguments) do
             Primer::Beta::IconButton.new(**system_arguments)
+          end,
+          menu: ->(**system_arguments) do
+            Primer::Alpha::ActionMenu.new(**system_arguments)
           end
         }
 
@@ -150,9 +166,11 @@ module OpenProject
                     :interactive,
                     :collapsed,
                     :collapsible,
-                    :show_drag_handle
+                    :show_drag_handle,
+                    :sortable_handle
 
         alias_method :show_drag_handle?, :show_drag_handle
+        alias_method :sortable_handle?, :sortable_handle
 
         attr_writer :collapsible_id
 
@@ -177,6 +195,11 @@ module OpenProject
         #   with a toggle button.
         # @param show_drag_handle [Boolean] whether the header renders a leading
         #   drag handle. Defaults to `false`.
+        # @param sortable_handle [Boolean] whether the rendered drag handle
+        #   carries sortable-lists wiring. Injected internally by the parent
+        #   list based on its `sortable_item:` or `sortable_handle:`
+        #   configuration; has no effect unless `show_drag_handle` is also
+        #   `true`.
         # @param system_arguments [Hash] forwarded to `Primer::Beta::BorderBox#with_header`.
         def initialize(
           title: nil,
@@ -190,6 +213,7 @@ module OpenProject
           collapsed: false,
           collapsible: false,
           show_drag_handle: false,
+          sortable_handle: false,
           **system_arguments
         )
           super()
@@ -206,6 +230,7 @@ module OpenProject
           @collapsed = collapsed
           @collapsible = collapsible
           @show_drag_handle = show_drag_handle
+          @sortable_handle = sortable_handle
           @system_arguments = system_arguments
         end
 
@@ -276,6 +301,15 @@ module OpenProject
         # @return [String, nil] ids controlled by the collapsible header.
         def collapsible_id
           @collapsible_id.presence
+        end
+
+        # @return [Hash] arguments forwarded to the leading drag handle's
+        #   `Primer::OpenProject::DragHandle`. Empty unless `sortable_handle`
+        #   is set.
+        def drag_handle_arguments
+          return {} unless sortable_handle?
+
+          { classes: "handle", data: { sortable_lists__item_target: "handle" } }
         end
 
         private

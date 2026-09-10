@@ -28,25 +28,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Settings
-  module ProjectCustomFieldSections
-    class IndexComponent < ApplicationComponent
-      include ApplicationHelper
-      include OpPrimer::ComponentHelpers
-      include OpTurbo::Streamable
+module OpenProject
+  module Common
+    class BorderBoxListCollectionComponent
+      # Free-form collection row that renders its slot content directly. The
+      # sortable-lists wiring (when any) lives in `row_args`, not on this
+      # component's own render — it is applied to the outer flex row element
+      # that wraps this component, so the collection controls exactly one
+      # element per row regardless of what the row's content renders.
+      class ItemRow < ApplicationComponent
+        # @param system_arguments [Hash] forwarded to the outer flex row.
+        def initialize(**system_arguments)
+          super()
 
-      def initialize(project_custom_field_sections:)
-        super
+          @system_arguments = system_arguments
+        end
 
-        @project_custom_field_sections = project_custom_field_sections
-      end
-
-      def row_component_class
-        Settings::ProjectCustomFieldSections::ShowComponent
-      end
-
-      def first_and_last
-        [@project_custom_field_sections.first, @project_custom_field_sections.last]
+        # @return [Hash] arguments forwarded to the outer flex row element.
+        def row_args
+          @system_arguments.deep_dup
+        end
       end
     end
   end

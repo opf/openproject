@@ -1,0 +1,108 @@
+The `BorderBoxListCollectionComponent` is a stable-id wrapper that owns the
+outer sortable-lists region for a page: the drop target for its rows, and —
+for pages composed of a single collection — the page-level root wiring too.
+
+## Overview
+
+<%= embed OpenProject::Common::BorderBoxListCollectionComponentPreview, :default, panels: %i[source] %>
+
+## Anatomy
+
+The collection is structured in three layers:
+
+**Wrapper**
+The outer element, identified by `container:`. Carries the page-level
+`sortable-lists` root wiring when `root:` is set.
+
+**Inner list container**
+A genuine descendant of the wrapper that directly holds the item rows.
+Carries the `sortable_list:` wiring when set. Kept separate from the
+wrapper because a page-level root's outlet selectors are plain CSS
+descendant combinators scoped from the wrapper id, and by the DOM spec a
+descendant combinator can never match the element it is scoped from — so
+mounting the list role on the wrapper itself would make it invisible to
+the root's own outlets.
+
+**Item rows**
+Free-form row content, one `with_item_row` per row. Unlike
+`BorderBoxListComponent#with_item`, `with_item_row` does not assume Primer
+BorderBox row semantics: a row can itself be a `BorderBoxListComponent`
+box (a dual-role page's per-box list, as shown above) or any other
+content.
+
+## Parameters
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `container` | `String`, `Symbol`, `Class`, `Object` | required | Seed used to derive the wrapper's stable DOM id. Related sortable-lists selectors (the root's outlets, an explicit root's `scope_id`) are derived from the resulting id, not from `container` directly |
+| `sortable_list` | `OpPrimer::SortableLists::List`, `Hash`, `nil` | - | Marks the inner list container (not the wrapper) as a sortable-lists drop target for its rows, providing the type/accepted_type context row items default from |
+| `root` | `true`, `OpPrimer::SortableLists::Root`, `nil` | - | Page-level sortable-lists root wiring. `true` derives a `Root` scoped to the wrapper's own id, built from `move_urls:`. An explicit `Root` is used as-is once its `scope_id` is confirmed to match the wrapper id — this is how several boxes composed inside one collection share a single page-level root without any one box claiming ownership of it |
+| `move_urls` | `Proc`, `nil` | - | `->(id)` returning a `{ type => url }` map, forwarded to `Root` when `root: true`. Required when `root: true`; ignored otherwise |
+| `system_arguments` | `Hash` | `{}` | Forwarded to the wrapper element (`Primer::Box`). Pass `id:` to override the derived wrapper id |
+
+## Slots
+
+| Slot | Description |
+|---|---|
+| `with_item_row` | Free-form collection row. Pass `sortable:` with the row's identity when the component's `sortable_list:` is set — a Hash's `type:` defaults from the `sortable_list:`'s accepted type when omitted |
+
+## Root wiring
+
+Use this component when a page is a flat collection of rows (e.g. a
+sections index), or when several `BorderBoxListComponent` boxes need a
+shared page-level root without any one of them claiming ownership of it.
+`root: true` and `move_urls:` derive that root for you — see the
+[Border Box List sortable lists docs](./border_box_list#sortable-lists)
+for the full page-level root story, including the `move_url:`/`#merge_into`
+variant for plain views that don't use this component.
+
+An explicit `Root` (rather than `root: true`) is only accepted when its
+`scope_id` matches the wrapper's own id — a mismatched scope would derive
+outlet selectors that search under the wrong element, so the component
+raises rather than silently wiring a root that can never see its own
+children.
+
+## Usage guidelines
+
+**Do**
+
+- Use this component to give a flat collection of rows (no per-row
+  headers or footers) a stable, sortable-lists-ready wrapper.
+- Use `root: true` when the collection page owns the whole page-level
+  root by itself.
+- Nest `BorderBoxListComponent` boxes as row content for a dual-role page
+  — a collection-level list of boxes, each with its own inner list.
+
+**Don't**
+
+- Don't reach for this component for a single `BorderBoxListComponent`
+  box on its own — it only adds value once a page needs a shared root or
+  free-form (non-BorderBox) row content.
+
+## Code structure
+
+```ruby
+render(
+  OpenProject::Common::BorderBoxListCollectionComponent.new(
+    container: "project-custom-field-sections",
+    sortable_list: { type: "section" },
+    root: true,
+    move_urls: ->(id) {
+      {
+        section: drop_admin_settings_project_custom_field_section_path(id),
+        custom_field: drop_admin_settings_project_custom_field_path(id)
+      }
+    }
+  )
+) do |collection|
+  @project_custom_field_sections.each do |section|
+    collection.with_item_row(sortable: OpPrimer::SortableLists::Item.for(section, type: "section")) do
+      render(row_component_class.new(project_custom_field_section: section, first_and_last:))
+    end
+  end
+end
+```
+
+See `Settings::ProjectCustomFieldSections::IndexComponent` for the live
+example, and the [Border Box List docs](./border_box_list) for the
+`BorderBoxListComponent` boxes nested inside each row.

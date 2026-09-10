@@ -586,6 +586,38 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
         aria: { describedby: "goal-text" }
       )
     end
+
+    it "renders an inline action menu in the actions area" do
+      rendered = render_inline(described_class.new(container: "hdr-action-menu")) do |list|
+        list.with_header(title: "Sections") do |header|
+          header.with_action_menu(test_selector: "position-menu") do |menu|
+            menu.with_show_button { "Overview" }
+            menu.with_item(label: "Side panel")
+          end
+        end
+        list.with_item { "row" }
+      end
+
+      expect(rendered).to have_css(".op-border-box-list-header--actions action-menu[data-test-selector='position-menu']")
+    end
+
+    it "lets an inline action menu coexist with the trailing overflow menu" do
+      rendered = render_inline(described_class.new(container: "hdr-two-menus")) do |list|
+        list.with_header(title: "Sections") do |header|
+          header.with_action_menu do |menu|
+            menu.with_show_button { "Position" }
+            menu.with_item(label: "Side panel")
+          end
+          header.with_menu do |menu|
+            menu.with_item(label: "Edit") { |item| item.with_leading_visual_icon(icon: :pencil) }
+          end
+        end
+        list.with_item { "row" }
+      end
+
+      expect(rendered).to have_css(".op-border-box-list-header--actions action-menu")
+      expect(rendered).to have_css(".op-border-box-list-header--menu action-menu")
+    end
   end
 
   describe "header collapsible behavior" do
@@ -1321,6 +1353,221 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       expect(placeholder.text).to include(I18n.t(:label_nothing_display))
       expect(page).to have_css("ul > li", count: 1)
       expect(page).to have_no_css("ul [data-empty-list-item]")
+    end
+  end
+
+  describe "sortable wiring" do
+    it "emits list wiring on the box root even for dual-role consumers" do
+      # replaced: combining roles now raises; list wiring is always root-mounted
+      rendered = render_inline(
+        described_class.new(
+          container: "sortable-list",
+          sortable_list: { type: "custom_field", id: 7, name: "General" }
+        )
+      ) do |list|
+        list.with_item(sortable: { id: 1, label: "Row" }) { "row" }
+      end
+
+      expect(rendered).to have_element("div", class: "op-border-box-list") do |box|
+        expect(box["data-controller"]).to include("sortable-lists--list")
+        expect(box["data-sortable-lists--list-type-value"]).to eq("custom_field")
+        expect(box["data-sortable-lists--list-accepted-type-value"]).to eq("custom_field")
+        expect(box["data-sortable-lists--list-id-value"]).to eq("7")
+        expect(box["data-sortable-lists--list-name-value"]).to eq("General")
+      end
+      expect(rendered).to have_css("[data-controller~='sortable-lists--list']", count: 1)
+      expect(rendered).to have_no_css("ul[data-controller~='sortable-lists--list']")
+    end
+
+    it "rejects combining sortable_list: with sortable_item:" do
+      expect do
+        render_inline(
+          described_class.new(
+            container: "dual-role",
+            sortable_list: { type: "custom_field" },
+            sortable_item: { id: 1, type: "section" }
+          )
+        ) { |list| list.with_item { "row" } }
+      end.to raise_error(ArgumentError, /BorderBoxListCollectionComponent/)
+    end
+
+    it "defaults a row's item type from the list's accepted type" do
+      rendered = render_inline(
+        described_class.new(container: "sortable-rows", sortable_list: { type: "sprint", accepted_type: "work_package" })
+      ) do |list|
+        list.with_item(sortable: { id: 3, label: "Task" }) { "row" }
+      end
+
+      expect(rendered).to have_css("li") do |row|
+        expect(row["data-controller"]).to include("sortable-lists--item")
+        expect(row["data-sortable-lists--item-id-value"]).to eq("3")
+        expect(row["data-sortable-lists--item-type-value"]).to eq("work_package")
+        expect(row["data-sortable-lists--item-label-value"]).to eq("Task")
+      end
+    end
+
+    it "defaults a row's item type from the list type when no accepted type is given" do
+      rendered = render_inline(
+        described_class.new(container: "sortable-rows-sym", sortable_list: { type: "custom_field" })
+      ) do |list|
+        list.with_item(sortable: { id: 4 }) { "row" }
+      end
+
+      expect(rendered).to have_css("li[data-sortable-lists--item-type-value='custom_field']")
+    end
+
+    it "raises when hand-wired sortable keys on a row conflict with generated wiring" do
+      expect do
+        render_inline(
+          described_class.new(container: "sortable-row-conflict", sortable_list: { type: "custom_field" })
+        ) do |list|
+          list.with_item(sortable: { id: 5 }, data: { sortable_lists__item_id_value: 99 }) { "row" }
+        end
+      end.to raise_error(ArgumentError, /sortable_lists__item_id_value/)
+    end
+
+    it "emits box-item wiring with a preview target and wires the header drag handle" do
+      rendered = render_inline(
+        described_class.new(
+          container: "sortable-box",
+          sortable_item: { id: 9, type: "section", label: "Marketing" }
+        )
+      ) do |list|
+        list.with_header(title: "Marketing", show_drag_handle: true)
+        list.with_item { "row" }
+      end
+
+      expect(rendered).to have_element("div", class: "op-border-box-list") do |box|
+        expect(box["data-controller"]).to include("sortable-lists--item")
+        expect(box["data-sortable-lists--item-id-value"]).to eq("9")
+        expect(box["data-sortable-lists--item-type-value"]).to eq("section")
+        expect(box["data-sortable-lists--item-target"]).to include("preview")
+      end
+      expect(rendered).to have_css(
+        ".op-border-box-list-header--drag_handle .handle[data-sortable-lists--item-target~='handle']"
+      )
+    end
+
+    it "emits handle and preview targets without an item controller for sortable_handle" do
+      rendered = render_inline(
+        described_class.new(container: "handle-only", sortable_list: { type: "custom_field" }, sortable_handle: true)
+      ) do |list|
+        list.with_header(title: "Section", show_drag_handle: true)
+        list.with_item { "row" }
+      end
+
+      expect(rendered).to have_element("div", class: "op-border-box-list") do |box|
+        expect(box["data-sortable-lists--item-target"]).to include("preview")
+        expect(box["data-controller"]).not_to include("sortable-lists--item")
+      end
+      expect(rendered).to have_css(".Box-header .handle[data-sortable-lists--item-target~='handle']")
+    end
+
+    it "rejects sortable_handle without a drag-handle-showing header" do
+      expect do
+        render_inline(
+          described_class.new(container: "handle-orphan", sortable_handle: true)
+        ) { |list| list.with_item { "row" } }
+      end.to raise_error(ArgumentError, /show_drag_handle/)
+    end
+
+    it "rejects sortable_handle combined with sortable_item" do
+      expect do
+        render_inline(
+          described_class.new(container: "handle-redundant", sortable_item: { id: 1, type: "x" }, sortable_handle: true)
+        ) { |list| list.with_item { "row" } }
+      end.to raise_error(ArgumentError, /sortable_item/)
+    end
+
+    it "token-merges configured and role-added targets into one attribute" do
+      rendered = render_inline(
+        described_class.new(
+          container: "sortable-targets",
+          sortable_item: { id: 2, type: "section", targets: %w[moveMenu preview] }
+        )
+      ) do |list|
+        list.with_item { "row" }
+      end
+
+      expect(rendered).to have_css(".op-border-box-list[data-sortable-lists--item-target='moveMenu preview']")
+    end
+
+    it "preserves caller data and combines controller tokens without mutating the caller hash" do
+      caller_data = { controller: "other-controller", test_selector: "kept" }
+      rendered = render_inline(
+        described_class.new(
+          container: "sortable-merge",
+          sortable_item: { id: 4, type: "section" },
+          data: caller_data
+        )
+      ) do |list|
+        list.with_item { "row" }
+      end
+
+      expect(rendered).to have_css(".op-border-box-list") do |box|
+        expect(box["data-controller"]).to include("other-controller")
+        expect(box["data-controller"]).to include("sortable-lists--item")
+        expect(box["data-test-selector"]).to eq("kept")
+      end
+      expect(caller_data).to eq(controller: "other-controller", test_selector: "kept")
+    end
+
+    it "raises when hand-wired sortable keys conflict with generated wiring" do
+      expect do
+        render_inline(
+          described_class.new(
+            container: "sortable-conflict",
+            sortable_item: { id: 4, type: "section" },
+            data: { sortable_lists__item_id_value: 99 }
+          )
+        ) { |list| list.with_item { "row" } }
+      end.to raise_error(ArgumentError, /sortable_lists__item_id_value/)
+    end
+
+    it "raises when a string-keyed hand-wired sortable key conflicts with generated wiring" do
+      expect do
+        render_inline(
+          described_class.new(
+            container: "sortable-conflict-string-key",
+            sortable_item: { id: 4, type: "section" },
+            data: { "sortable_lists__item_id_value" => 99 }
+          )
+        ) { |list| list.with_item { "row" } }
+      end.to raise_error(ArgumentError, /sortable_lists__item_id_value/)
+    end
+
+    it "raises for a sortable row without a sortable_list" do
+      expect do
+        render_inline(described_class.new(container: "sortable-orphan")) do |list|
+          list.with_item(sortable: { id: 1, type: "x" }) { "row" }
+        end
+      end.to raise_error(ArgumentError, /sortable_list/)
+    end
+
+    it "defaults the empty-state drop target label from the list name" do
+      rendered = render_inline(
+        described_class.new(container: "sortable-empty", sortable_list: { type: "custom_field", name: "General" })
+      )
+
+      # The empty-state slot renders the supplied drop_target_label string
+      # directly (border_box_list_component.rb:145,:160) — no i18n involved;
+      # the default is the list's name verbatim. Assert on the overlay node
+      # itself, since "General" also appears in the list's own data
+      # attributes and would make a bare text-inclusion check vacuous.
+      expect(rendered).to have_css(".op-border-box-list-empty-state--drop-overlay", text: "General")
+    end
+
+    it "accepts value objects directly" do
+      rendered = render_inline(
+        described_class.new(
+          container: "sortable-objects",
+          sortable_list: OpPrimer::SortableLists::List.new(type: "custom_field")
+        )
+      ) do |list|
+        list.with_item(sortable: OpPrimer::SortableLists::Item.new(id: 1, type: "custom_field")) { "row" }
+      end
+
+      expect(rendered).to have_css("li[data-controller~='sortable-lists--item']")
     end
   end
 end
