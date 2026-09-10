@@ -30,13 +30,10 @@
 
 class Projects::Settings::WorkPackages::TypesController < Projects::SettingsController
   include WorkPackageTypes::TypeDeactivationErrorMessage
-  include WorkPackageTypes::TypeVariantsFeature
   include OpTurbo::ComponentStream
   include FlashMessagesOutputSafetyHelper
 
   menu_item :settings_work_packages
-
-  before_action :require_type_variants_feature, only: %i[new create destroy]
 
   def index
     @types = ::Type.all

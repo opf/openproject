@@ -32,12 +32,10 @@ module WorkPackageTypes
   class TypesController < ApplicationController
     include PaginationHelper
     include OpTurbo::ComponentStream
-    include TypeVariantsFeature
 
     layout "admin"
 
     before_action :require_admin
-    before_action :require_type_variants_feature, only: %i[drop duplicate menu]
     before_action :find_type, only: %i[move destroy drop duplicate menu]
 
     current_menu_item do
