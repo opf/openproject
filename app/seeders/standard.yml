@@ -759,6 +759,8 @@ projects:
         type: :default_type_bug
         target_versions:
           - :scrum_project__version__1_1
+        observed_in_versions:
+          - :scrum_project__version__1_0
         position: 1
       - t_subject: New website
         reference: :new_website
@@ -825,6 +827,9 @@ projects:
         reference: :wrong_hover_color
         status: :default_status_rejected
         type: :default_type_bug
+        observed_in_versions:
+          - :scrum_project__version__1_0
+          - :scrum_project__version__1_1
         position: 4
         story_points: 1
         start: 21

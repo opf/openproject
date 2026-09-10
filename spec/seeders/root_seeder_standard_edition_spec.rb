@@ -94,6 +94,12 @@ RSpec.describe RootSeeder,
       expect(count_by_version).to eq("1.0" => 9, "1.1" => 5, "2.0" => 5)
     end
 
+    it "links bugs to the versions they were observed in" do
+      count_by_version = WorkPackage.joins(:observed_in_versions).group("versions.name").count
+
+      expect(count_by_version).to eq("1.0" => 2, "1.1" => 1)
+    end
+
     it "adds the backlogs, board, costs, meetings, and reporting modules to the default_projects_modules setting" do
       default_modules = Setting.find_by(name: "default_projects_modules").value
       expect(default_modules).to include("backlogs")
