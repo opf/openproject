@@ -67,6 +67,7 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
 
   subject(:pdf_strings) do
     content = export_pdf.content
+    # File.binwrite("artefact-test-preview.pdf", content)
     PDF::Inspector::Text.analyze(content).strings
   end
 
@@ -313,6 +314,12 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
     let!(:material_item) { create(:material_budget_item, budget:, cost_type:, units: 2.0) }
     let!(:labor_item) { create(:labor_budget_item, budget:, principal: labor_user, hours: 15.0) }
 
+    let(:budgets_section) do
+      strings = pdf_strings
+      section = strings[strings.rindex(I18n.t("pdf_generator.dialog.include_budget.label"))..]
+      section[..section.index(I18n.t("pdf_generator.budgets_table.total"))].join(" ")
+    end
+
     it "renders the section title and the column headers" do
       joined = pdf_strings.join(" ")
       expect(joined).to include(I18n.t("pdf_generator.dialog.include_budget.label"))
@@ -322,21 +329,21 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
       expect(joined).to include(I18n.t("pdf_generator.budgets_table.sum"))
     end
 
-    it "renders the budget heading with its planned total" do
+    it "renders the budget heading with its total" do
       joined = pdf_strings.join(" ")
       expect(joined).to include("#{budget.id} Phase 1 rollout")
       expect(joined).to include("8,000.00")
     end
 
     it "renders both cost groups with their line items and subtotals" do
-      joined = pdf_strings.join(" ")
-      expect(joined).to include(Budget.human_attribute_name(:material_budget))
+      joined = budgets_section
+      expect(joined).to include("Unit costs")
       expect(joined).to include("2.00")
       expect(joined).to include("API Development")
       expect(joined).to include("1,000.00")
       expect(joined).to include("2,000.00")
 
-      expect(joined).to include(Budget.human_attribute_name(:labor_budget))
+      expect(joined).to include("Labor costs")
       expect(joined).to include("15h")
       expect(joined).to include(labor_user.name)
       expect(joined).to include("400.00")
@@ -370,10 +377,10 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
     context "when a budget has no unit cost items" do
       let!(:material_item) { nil }
 
-      it "omits the planned unit costs group" do
-        joined = pdf_strings.join(" ")
-        expect(joined).not_to include(Budget.human_attribute_name(:material_budget))
-        expect(joined).to include(Budget.human_attribute_name(:labor_budget))
+      it "omits the unit costs group" do
+        joined = budgets_section
+        expect(joined).not_to include("Unit costs")
+        expect(joined).to include("Labor costs")
       end
     end
 
