@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Convert a project-owned variant to global", :js, with_flag: { type_variants: true } do
+RSpec.describe "Convert a project-owned variant to global", :js do
   shared_let(:admin) { create(:admin) }
   shared_let(:bug_type) { create(:type, name: "Bug") }
   shared_let(:project) { create(:project) }
@@ -63,9 +63,13 @@ RSpec.describe "Convert a project-owned variant to global", :js, with_flag: { ty
   context "when a global variant already carries the name" do
     let!(:clashing_global) { create(:type_variant, type: bug_type, variant_name: "Internal") }
 
-    it "asks for a new name, validates it, then confirms and converts" do
+    it "confirms first, then asks for a new name and converts" do
       within(find_test_selector("type-variant-#{owned.id}")) { find("action-menu > button").click }
       click_on convert_action
+
+      within_dialog(confirm_dialog) do
+        click_on I18n.t("types.index.convert_to_global_dialog.confirm")
+      end
 
       within_dialog(rename_dialog) do
         fill_in "Name", with: "Internal"
@@ -74,10 +78,6 @@ RSpec.describe "Convert a project-owned variant to global", :js, with_flag: { ty
 
         fill_in "Name", with: "Shared config"
         click_on I18n.t("types.index.convert_to_global_rename.confirm")
-      end
-
-      within_dialog(confirm_dialog) do
-        click_on I18n.t("types.index.convert_to_global_dialog.confirm")
       end
 
       expect_flash(type: :success,

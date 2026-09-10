@@ -46,12 +46,10 @@ module WorkPackageTypes
       ServiceResult.failure(result: variant)
     end
 
-    def validate(name: nil)
+    def validate
       return blocked if blocked?
 
-      assign(name)
-
-      ServiceResult.new(success: variant.valid?, result: variant)
+      ServiceResult.success(result: variant)
     end
 
     private

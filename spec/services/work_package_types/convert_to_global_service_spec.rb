@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe WorkPackageTypes::ConvertToGlobalService, with_flag: { type_variants: true } do
+RSpec.describe WorkPackageTypes::ConvertToGlobalService do
   let(:type) { create(:type) }
   let(:project) { create(:project) }
   let(:variant) { create(:project_owned_type_variant, type:, project:, variant_name: "Hardware") }
@@ -114,32 +114,15 @@ RSpec.describe WorkPackageTypes::ConvertToGlobalService, with_flag: { type_varia
   end
 
   describe "#validate" do
-    it "reports success without persisting anything" do
-      expect(service.validate(name: "Firmware")).to be_success
+    it "succeeds without persisting anything when the variant can be converted" do
+      expect(service.validate).to be_success
       expect(variant.reload).to have_attributes(variant_name: "Hardware", project_id: project.id)
     end
 
-    context "when the proposed name is taken by a global sibling" do
-      before { create(:type_variant, type:, variant_name: "Firmware") }
+    it "ignores a name clash, leaving it for the conversion itself" do
+      create(:type_variant, type:, variant_name: "Hardware")
 
-      it "fails with a taken error and persists nothing" do
-        result = service.validate(name: "Firmware")
-
-        expect(result).to be_failure
-        expect(result.errors).to be_of_kind(:variant_name, :taken)
-        expect(variant.reload).to have_attributes(variant_name: "Hardware", project_id: project.id)
-      end
-    end
-
-    context "when the standing name already clashes with a global sibling" do
-      before { create(:type_variant, type:, variant_name: "Hardware") }
-
-      it "flags it so the first click can offer a rename" do
-        result = service.validate
-
-        expect(result).to be_failure
-        expect(result.errors).to be_of_kind(:variant_name, :taken)
-      end
+      expect(service.validate).to be_success
     end
 
     context "when the variant inherits an aspect from a project-owned variant" do
@@ -147,7 +130,7 @@ RSpec.describe WorkPackageTypes::ConvertToGlobalService, with_flag: { type_varia
         variant.update!(workflows_source: create(:project_owned_type_variant, type:, project:, variant_name: "Sibling"))
       end
 
-      it "reports the block instead of a name error" do
+      it "reports the block" do
         result = service.validate
 
         expect(result).to be_failure

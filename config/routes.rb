@@ -290,7 +290,6 @@ Rails.application.routes.draw do
             post :make_default
             post :remove_default
             get :convert_to_global_dialog
-            post :convert_to_global_rename
             post :convert_to_global
             get :deletion_dialog
             post :deletion_preview

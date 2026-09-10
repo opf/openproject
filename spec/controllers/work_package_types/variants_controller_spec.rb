@@ -171,15 +171,31 @@ RSpec.describe WorkPackageTypes::VariantsController do
         expect(variant.reload.project_id).to be_nil
       end
 
-      context "when a new name is no longer conflicting" do
+      context "when a global sibling already carries the name" do
         before { create(:type_variant, type:, variant_name: "Hardware") }
 
-        it "renames the variant and detaches it in one step" do
+        it "opens the rename dialog and leaves it project-owned" do
+          post :convert_to_global, params: { type_id: type.id, id: variant.id }, format: :turbo_stream
+
+          expect(response.body).to include(WorkPackageTypes::Types::ConvertToGlobalRenameDialogComponent::DIALOG_ID)
+          expect(variant.reload).to be_project_owned
+        end
+
+        it "renames and detaches it when a free name is supplied" do
           post :convert_to_global,
                params: { type_id: type.id, id: variant.id, type_variant: { variant_name: "Firmware" } }
 
           expect(response).to redirect_to(types_path)
           expect(variant.reload).to have_attributes(variant_name: "Firmware", project_id: nil)
+        end
+
+        it "repaints the rename form when the supplied name is taken too" do
+          post :convert_to_global,
+               params: { type_id: type.id, id: variant.id, type_variant: { variant_name: "Hardware" } },
+               format: :turbo_stream
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(variant.reload).to be_project_owned
         end
       end
 
@@ -189,9 +205,11 @@ RSpec.describe WorkPackageTypes::VariantsController do
                                                                                 variant_name: "Sibling"))
         end
 
-        it "refuses and leaves it project-owned" do
+        it "refuses via a page reload and a flash, leaving it project-owned" do
           post :convert_to_global, params: { type_id: type.id, id: variant.id }, format: :turbo_stream
 
+          expect(response.body).to include("reloadPage")
+          expect(flash[:error].to_sentence).to include("inherits from a project-specific variant")
           expect(variant.reload).to be_project_owned
         end
       end
@@ -208,41 +226,6 @@ RSpec.describe WorkPackageTypes::VariantsController do
       end
     end
 
-    describe "POST convert_to_global_rename" do
-      let!(:variant) { create(:project_owned_type_variant, type:, project: create(:project), variant_name: "Hardware") }
-
-      # A global sibling already holds the name
-      before { create(:type_variant, type:, variant_name: "Hardware") }
-
-      it "advances to the confirmation dialog without yet touching the variant" do
-        post :convert_to_global_rename,
-             params: { type_id: type.id, id: variant.id, type_variant: { variant_name: "Firmware" } },
-             format: :turbo_stream
-
-        expect(response).to have_http_status(:ok)
-        expect(variant.reload).to have_attributes(variant_name: "Hardware")
-        expect(variant).to be_project_owned
-      end
-
-      it "keeps the dialog open when the new name is taken too" do
-        post :convert_to_global_rename,
-             params: { type_id: type.id, id: variant.id, type_variant: { variant_name: "Hardware" } },
-             format: :turbo_stream
-
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(variant.reload.variant_name).to eq("Hardware")
-      end
-
-      it "keeps the dialog open when the new name is blank" do
-        post :convert_to_global_rename,
-             params: { type_id: type.id, id: variant.id, type_variant: { variant_name: "" } },
-             format: :turbo_stream
-
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(variant.reload.variant_name).to eq("Hardware")
-      end
-    end
-
     describe "GET convert_to_global_dialog" do
       let!(:variant) { create(:project_owned_type_variant, type:, project: create(:project), variant_name: "Hardware") }
 
@@ -255,10 +238,10 @@ RSpec.describe WorkPackageTypes::VariantsController do
       context "when a global sibling already carries the name" do
         before { create(:type_variant, type:, variant_name: "Hardware") }
 
-        it "opens the rename dialog instead" do
+        it "still opens the confirmation dialog, deferring the name clash to the conversion" do
           get :convert_to_global_dialog, params: { type_id: type.id, id: variant.id }, format: :turbo_stream
 
-          expect(response.body).to include(WorkPackageTypes::Types::ConvertToGlobalRenameDialogComponent::DIALOG_ID)
+          expect(response.body).to include(WorkPackageTypes::Types::ConvertToGlobalDialogComponent::DIALOG_ID)
         end
       end
 
@@ -310,20 +293,6 @@ RSpec.describe WorkPackageTypes::VariantsController do
       it "is forbidden and leaves the variant project-owned" do
         expect(response).to have_http_status(:forbidden)
         expect(variant.reload).to be_project_owned
-      end
-    end
-
-    describe "POST convert_to_global_rename" do
-      let(:variant) { create(:project_owned_type_variant, type:, project: create(:project), variant_name: "Hardware") }
-
-      before do
-        post :convert_to_global_rename,
-             params: { type_id: type.id, id: variant.id, type_variant: { variant_name: "Firmware" } }
-      end
-
-      it "is forbidden and leaves the name untouched" do
-        expect(response).to have_http_status(:forbidden)
-        expect(variant.reload.variant_name).to eq("Hardware")
       end
     end
   end
