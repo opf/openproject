@@ -110,6 +110,14 @@ module AI
           label: model.persisted? ? I18n.t(:button_save) : I18n.t(:button_create),
           scheme: :primary
         )
+
+        if model.persisted?
+          f.submit(
+            name: :save_and_stay,
+            label: I18n.t("admin.text_transform_actions.form.save_and_stay"),
+            scheme: :default
+          )
+        end
       end
 
       private
