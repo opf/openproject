@@ -96,6 +96,10 @@ class Queries::Filters::Base
     true
   end
 
+  def required?
+    false
+  end
+
   def available_operators
     type_strategy.supported_operator_classes
   end

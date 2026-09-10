@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -27,40 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Meetings::Filters::TimeFilter < Queries::Meetings::Filters::MeetingFilter
-  def available_operators
-    [Queries::Operators::Upcoming, Queries::Operators::Past]
-  end
+require "spec_helper"
 
-  def default_operator
-    Queries::Operators::Upcoming
-  end
+RSpec.describe Queries::Meetings::Filters::TimeFilter do
+  it_behaves_like "basic query filter" do
+    let(:type) { :date }
+    let(:class_key) { :time }
+    let(:human_name) { Meeting.human_attribute_name(:start_time) }
 
-  def past?
-    operator.to_sym == Queries::Operators::Past.to_sym
-  end
-
-  def where
-    if past?
-      ['"meetings"."start_time" < ?', Time.current]
-    else
-      ['"meetings"."start_time" + "meetings"."duration" * interval \'1 hour\' >= ?', Time.current]
+    describe "#required?" do
+      it "is true" do
+        expect(instance).to be_required
+      end
     end
-  end
 
-  def human_name
-    Meeting.human_attribute_name(:start_time)
-  end
-
-  def type
-    :date
-  end
-
-  def self.key
-    :time
-  end
-
-  def required?
-    true
+    it_behaves_like "non ar filter"
   end
 end
