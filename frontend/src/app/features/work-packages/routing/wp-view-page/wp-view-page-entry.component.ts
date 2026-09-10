@@ -26,27 +26,30 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { NgModule } from '@angular/core';
-import { UIRouterModule } from '@uirouter/angular';
-import { WORK_PACKAGES_ROUTES } from 'core-app/features/work-packages/routing/work-packages-routes';
-import { OpenprojectWorkPackagesModule } from 'core-app/features/work-packages/openproject-work-packages.module';
-import { WORK_PACKAGES_GANTT_ROUTES } from 'core-app/features/work-packages/routing/work-packages-gantt-routes';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  WorkPackageIsolatedQuerySpaceDirective,
+} from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
 
 /**
- * Separate module for work package routes because WP modules
- * are required by other lazy-loaded modules such as calendar.
- *
- * And we must not re-import a module with route definitions.
+ * An entry component to be rendered by Rails for the plain work packages list
+ * and the gantt chart list. Both share the same table/toolbar implementation
+ * (WorkPackageViewPageComponent) and only differ in their URL (/work_packages
+ * vs /gantt) - the query itself is loaded from the current URL's query_id/query_props,
+ * so no inputs are needed here.
  */
-
-@NgModule({
-  imports: [
-    // Import the actual WP modules
-    OpenprojectWorkPackagesModule,
-
-    // Routes for /work_packages
-    UIRouterModule.forChild({ states: [...WORK_PACKAGES_ROUTES, ...WORK_PACKAGES_GANTT_ROUTES] }),
-  ],
+@Component({
+  hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
+  standalone: false,
+  template: `
+    <wp-view-page>
+      <wp-list-view />
+    </wp-view-page>
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OpenprojectWorkPackageRoutesModule {
+export class WorkPackageViewPageEntryComponent {
+  constructor() {
+    document.body.classList.add('router--work-packages-partitioned-split-view', 'router--work-packages-base');
+  }
 }

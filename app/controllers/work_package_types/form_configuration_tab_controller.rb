@@ -34,7 +34,7 @@ module WorkPackageTypes
     include OpTurbo::ComponentStream
     include WorkPackageTypes::FormConfigurationComponentStreams
 
-    current_menu_item [:edit, :update, :reset_dialog, :move, :drop, :destroy] do
+    current_menu_item [:edit, :update, :reset_dialog, :move, :drop, :destroy, :toggle_required] do
       :types
     end
 
@@ -76,6 +76,14 @@ module WorkPackageTypes
 
     def destroy
       call = ::WorkPackageTypes::FormConfigurationRows::DeleteService
+        .new(user: current_user, variant: @variant, row_key: row_key_param)
+        .call
+
+      handle_row_update_response(call)
+    end
+
+    def toggle_required
+      call = ::WorkPackageTypes::FormConfigurationRows::ToggleRequiredService
         .new(user: current_user, variant: @variant, row_key: row_key_param)
         .call
 

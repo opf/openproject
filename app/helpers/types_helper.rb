@@ -154,12 +154,12 @@ module ::TypesHelper
     }
   end
 
-  def active_group_attributes_map(group, available, inactive)
+  def active_group_attributes_map(group, available, inactive, required_keys: [])
     return nil unless group.group_type == :attribute
 
     group.attributes
          .select { |key| inactive.delete(key) }
-         .map! { |key| attr_form_map(key, available[key]) }
+         .map! { |key| attr_form_map(key, available[key], required_keys:) }
   end
 
   def query_to_query_props(group)
@@ -184,13 +184,15 @@ module ::TypesHelper
   # Using the available attributes from +work_package_attributes+,
   # determines which attributes are not used
   def get_active_groups(variant, available, inactive)
+    required_keys = variant.required_attributes.map(&:to_s)
+
     variant.attribute_groups.map do |group|
       {
         key: group.key,
         type: group.group_type,
         name: group.translated_key,
         element_key: exclusion_element_key(group),
-        attributes: active_group_attributes_map(group, available, inactive),
+        attributes: active_group_attributes_map(group, available, inactive, required_keys:),
         query: query_to_query_props(group)
       }
     end
@@ -204,11 +206,12 @@ module ::TypesHelper
     group.query_attribute_name.to_s
   end
 
-  def attr_form_map(key, represented)
+  def attr_form_map(key, represented, required_keys: [])
     {
       key:,
       is_cf: CustomField.custom_field_attribute?(key),
-      is_required: represented[:required] && !represented[:has_default],
+      required_globally: represented[:required].present?,
+      required_for_variant: required_keys.include?(key.to_s),
       translation: TypeVariant.translated_attribute_name(key, represented),
       field_format_label: field_format_label(represented)
     }
