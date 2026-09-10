@@ -97,23 +97,26 @@ module WorkPackageTypes
 
     def convert_to_global_dialog
       variant = named_variant
+      service_call = ConvertToGlobalService.new(variant:).validate
 
-      if variant.global_name_conflict?
-        respond_with_dialog Types::ConvertToGlobalRenameDialogComponent.new(
-          variant:, url: convert_to_global_rename_path(variant)
-        )
+      if service_call.success?
+        dialog_via_turbo_stream(component: convert_confirm_dialog(variant))
+      elsif service_call.errors.added?(:base, :inherits_from_project_owned)
+        refuse_blocked_convert(service_call)
       else
-        respond_with_dialog convert_confirm_dialog(variant)
+        open_rename_dialog
       end
+
+      respond_with_turbo_streams
     end
 
     def convert_to_global_rename
       variant = named_variant
+      service_call = ConvertToGlobalService.new(variant:).validate(name: requested_name)
 
-      if convert_to_global_rename_valid?(variant)
-        variant.save!
+      if service_call.success?
         close_dialog_via_turbo_stream(Types::ConvertToGlobalRenameDialogComponent::DIALOG_ID)
-        dialog_via_turbo_stream(component: convert_confirm_dialog(variant))
+        dialog_via_turbo_stream(component: convert_confirm_dialog(variant, name: requested_name))
       else
         update_via_turbo_stream(
           component: Types::ConvertToGlobalRenameFormComponent.new(variant:, url: convert_to_global_rename_path(variant)),
@@ -126,16 +129,9 @@ module WorkPackageTypes
 
     def convert_to_global
       variant = named_variant
-      return flash_convert_blocked if variant.inherits_from_project_owned_variant?
+      service_call = ConvertToGlobalService.new(variant:).call(name: requested_name)
 
-      service_call = ConvertToGlobalService.new(variant:).call
-
-      if service_call.success?
-        flash[:notice] = t("types.index.convert_to_global_notice", name: variant.composite_name)
-      else
-        flash[:error] = service_call.errors.full_messages
-      end
-
+      flash_convert_result(service_call, variant)
       redirect_back_or_default(types_path, status: :see_other)
     end
 
@@ -206,29 +202,43 @@ module WorkPackageTypes
       respond_to_with_turbo_streams
     end
 
-    def flash_convert_blocked
-      render_error_flash_message_via_turbo_stream(message: t("types.index.convert_to_global_blocked"))
-      respond_with_turbo_streams
+    def refuse_blocked_convert(service_call)
+      flash[:error] = service_call.errors.full_messages
+      reload_page_via_turbo_stream
     end
 
-    def convert_confirm_dialog(variant)
-      Types::ConvertToGlobalDialogComponent.new(
-        url: convert_to_global_type_variant_path(type_id: variant.type_id, id: variant.id)
-      )
+    def open_rename_dialog
+      variant = named_variant # Fresh version, no preexisting errors
+      dialog_via_turbo_stream(component: Types::ConvertToGlobalRenameDialogComponent.new(
+        variant:, url: convert_to_global_rename_path(variant)
+      ))
+    end
+
+    def flash_convert_result(service_call, variant)
+      if service_call.success?
+        flash[:notice] = t("types.index.convert_to_global_notice", name: variant.composite_name)
+      else
+        flash[:error] = service_call.errors.full_messages
+      end
+    end
+
+    def requested_name
+      params.dig(:type_variant, :variant_name)
+    end
+
+    def convert_confirm_dialog(variant, name: nil)
+      Types::ConvertToGlobalDialogComponent.new(url: convert_path(variant, name:))
+    end
+
+    def convert_path(variant, name: nil)
+      options = { type_id: variant.type_id, id: variant.id }
+      options[:type_variant] = { variant_name: name } if name.present?
+
+      convert_to_global_type_variant_path(options)
     end
 
     def convert_to_global_rename_path(variant)
       convert_to_global_rename_type_variant_path(type_id: variant.type_id, id: variant.id)
-    end
-
-    def convert_to_global_rename_valid?(variant)
-      variant.variant_name = params.expect(type_variant: [:variant_name])[:variant_name]
-      variant.validate
-      if variant.global_name_conflict? && !variant.errors.added?(:variant_name, :taken)
-        variant.errors.add(:variant_name, :taken)
-      end
-
-      variant.errors.empty?
     end
   end
 end

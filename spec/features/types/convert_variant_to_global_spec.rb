@@ -96,7 +96,8 @@ RSpec.describe "Convert a project-owned variant to global", :js, with_flag: { ty
       within(find_test_selector("type-variant-#{owned.id}")) { find("action-menu > button").click }
       click_on convert_action
 
-      expect_flash(type: :error, message: I18n.t("types.index.convert_to_global_blocked").strip)
+      expect_flash(type: :error,
+                   message: I18n.t("activerecord.errors.models.type_variant.attributes.base.inherits_from_project_owned").strip)
       expect(page).to have_no_css("dialog[open]")
       expect(owned.reload).to be_project_owned
     end

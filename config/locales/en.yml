@@ -853,6 +853,9 @@ en:
               query_invalid: "The embedded query '%{group}' is invalid: %{details}"
             base:
               borrowed_by_variants: "Cannot be deleted while its configuration is reused by %{names}."
+              inherits_from_project_owned: >
+                This variant currently inherits from a project-specific variant and cannot be
+                converted to a global variant.
               is_default_variant: "The default configuration of a type cannot be deleted."
               restrict_dependent_destroy:
                 has_many: "Cannot be deleted while projects are still using it."
@@ -6724,9 +6727,6 @@ en:
       add_variant: "Add a variant to %{name}"
       add_variant_action: "Add variant"
       convert_to_global: "Convert to global variant"
-      convert_to_global_blocked: >
-        This variant currently inherits from a project-specific variant and cannot be
-        converted to a global variant.
       convert_to_global_notice: "%{name} is now a global variant."
       convert_to_global_dialog:
         text: >

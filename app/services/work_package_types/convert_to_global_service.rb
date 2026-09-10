@@ -34,8 +34,11 @@ module WorkPackageTypes
       @variant = variant
     end
 
-    def call
-      variant.update!(project: nil)
+    def call(name: nil)
+      return blocked if blocked?
+
+      assign(name)
+      variant.save!
 
       ServiceResult.success(result: variant)
     rescue StandardError => e
@@ -43,8 +46,28 @@ module WorkPackageTypes
       ServiceResult.failure(result: variant)
     end
 
+    def validate(name: nil)
+      return blocked if blocked?
+
+      assign(name)
+
+      ServiceResult.new(success: variant.valid?, result: variant)
+    end
+
     private
 
     attr_reader :variant
+
+    def blocked? = variant.inherits_from_project_owned_variant?
+
+    def blocked
+      variant.errors.add(:base, :inherits_from_project_owned)
+      ServiceResult.failure(result: variant)
+    end
+
+    def assign(name)
+      variant.project = nil
+      variant.variant_name = name unless name.nil?
+    end
   end
 end

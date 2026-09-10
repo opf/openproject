@@ -91,6 +91,68 @@ RSpec.describe WorkPackageTypes::ConvertToGlobalService, with_flag: { type_varia
         expect(result.errors).to be_of_kind(:variant_name, :taken)
         expect(variant.reload.project_id).to eq(project.id)
       end
+
+      it "renames and detaches it when given a free name" do
+        expect(service.call(name: "Firmware")).to be_success
+        expect(variant.reload).to have_attributes(variant_name: "Firmware", project_id: nil)
+      end
+    end
+
+    context "when the variant inherits an aspect from a project-owned variant" do
+      before do
+        variant.update!(workflows_source: create(:project_owned_type_variant, type:, project:, variant_name: "Sibling"))
+      end
+
+      it "is blocked and leaves the variant project-owned" do
+        result = service.call
+
+        expect(result).to be_failure
+        expect(result.errors).to be_of_kind(:base, :inherits_from_project_owned)
+        expect(variant.reload.project_id).to eq(project.id)
+      end
+    end
+  end
+
+  describe "#validate" do
+    it "reports success without persisting anything" do
+      expect(service.validate(name: "Firmware")).to be_success
+      expect(variant.reload).to have_attributes(variant_name: "Hardware", project_id: project.id)
+    end
+
+    context "when the proposed name is taken by a global sibling" do
+      before { create(:type_variant, type:, variant_name: "Firmware") }
+
+      it "fails with a taken error and persists nothing" do
+        result = service.validate(name: "Firmware")
+
+        expect(result).to be_failure
+        expect(result.errors).to be_of_kind(:variant_name, :taken)
+        expect(variant.reload).to have_attributes(variant_name: "Hardware", project_id: project.id)
+      end
+    end
+
+    context "when the standing name already clashes with a global sibling" do
+      before { create(:type_variant, type:, variant_name: "Hardware") }
+
+      it "flags it so the first click can offer a rename" do
+        result = service.validate
+
+        expect(result).to be_failure
+        expect(result.errors).to be_of_kind(:variant_name, :taken)
+      end
+    end
+
+    context "when the variant inherits an aspect from a project-owned variant" do
+      before do
+        variant.update!(workflows_source: create(:project_owned_type_variant, type:, project:, variant_name: "Sibling"))
+      end
+
+      it "reports the block instead of a name error" do
+        result = service.validate
+
+        expect(result).to be_failure
+        expect(result.errors).to be_of_kind(:base, :inherits_from_project_owned)
+      end
     end
   end
 end

@@ -177,6 +177,18 @@ RSpec.describe WorkPackageTypes::VariantsController, with_flag: { type_variants:
         expect(variant.reload.project_id).to be_nil
       end
 
+      context "when a new name is no longer conflicting" do
+        before { create(:type_variant, type:, variant_name: "Hardware") }
+
+        it "renames the variant and detaches it in one step" do
+          post :convert_to_global,
+               params: { type_id: type.id, id: variant.id, type_variant: { variant_name: "Firmware" } }
+
+          expect(response).to redirect_to(types_path)
+          expect(variant.reload).to have_attributes(variant_name: "Firmware", project_id: nil)
+        end
+      end
+
       context "when the variant inherits from a project-specific variant" do
         before do
           variant.update!(workflows_source: create(:project_owned_type_variant, type:, project: variant.project,
@@ -208,12 +220,13 @@ RSpec.describe WorkPackageTypes::VariantsController, with_flag: { type_variants:
       # A global sibling already holds the name
       before { create(:type_variant, type:, variant_name: "Hardware") }
 
-      it "renames the still project-owned variant so the conversion can proceed" do
+      it "advances to the confirmation dialog without yet touching the variant" do
         post :convert_to_global_rename,
              params: { type_id: type.id, id: variant.id, type_variant: { variant_name: "Firmware" } },
              format: :turbo_stream
 
-        expect(variant.reload).to have_attributes(variant_name: "Firmware")
+        expect(response).to have_http_status(:ok)
+        expect(variant.reload).to have_attributes(variant_name: "Hardware")
         expect(variant).to be_project_owned
       end
 
@@ -233,6 +246,41 @@ RSpec.describe WorkPackageTypes::VariantsController, with_flag: { type_variants:
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(variant.reload.variant_name).to eq("Hardware")
+      end
+    end
+
+    describe "GET convert_to_global_dialog" do
+      let!(:variant) { create(:project_owned_type_variant, type:, project: create(:project), variant_name: "Hardware") }
+
+      it "opens the confirmation dialog when the variant can be converted as-is" do
+        get :convert_to_global_dialog, params: { type_id: type.id, id: variant.id }, format: :turbo_stream
+
+        expect(response.body).to include(WorkPackageTypes::Types::ConvertToGlobalDialogComponent::DIALOG_ID)
+      end
+
+      context "when a global sibling already carries the name" do
+        before { create(:type_variant, type:, variant_name: "Hardware") }
+
+        it "opens the rename dialog instead" do
+          get :convert_to_global_dialog, params: { type_id: type.id, id: variant.id }, format: :turbo_stream
+
+          expect(response.body).to include(WorkPackageTypes::Types::ConvertToGlobalRenameDialogComponent::DIALOG_ID)
+        end
+      end
+
+      context "when the variant inherits from a project-specific variant" do
+        before do
+          variant.update!(workflows_source: create(:project_owned_type_variant, type:, project: variant.project,
+                                                                                variant_name: "Sibling"))
+        end
+
+        it "refuses via a page reload and a flash, opening no dialog" do
+          get :convert_to_global_dialog, params: { type_id: type.id, id: variant.id }, format: :turbo_stream
+
+          expect(response.body).to include("reloadPage")
+          expect(response.body).not_to include(WorkPackageTypes::Types::ConvertToGlobalDialogComponent::DIALOG_ID)
+          expect(flash[:error].to_sentence).to include("inherits from a project-specific variant")
+        end
       end
     end
   end
