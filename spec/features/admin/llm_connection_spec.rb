@@ -169,7 +169,7 @@ RSpec.describe "LLM connection administration",
 
       expect(page).to have_field("Tool calling", visible: :hidden)
 
-      click_on "+ Model"
+      click_on "Create"
 
       expect(page).to have_current_path(llm_models_path)
       expect(page).to have_text("nomic-embed-text")
