@@ -51,22 +51,6 @@ module WorkPackageTypes
       @type
     end
 
-    def new
-      @type = Type.new(new_type_params)
-      load_projects_and_types
-    end
-
-    def create
-      service_call = WorkPackageTypes::CreateService.new(user: current_user).call(create_params)
-
-      @type = service_call.result
-      if service_call.success?
-        redirect_to type_settings_path(type_id: @type.id), notice: t(:notice_successful_create), status: :see_other
-      else
-        render action: :new, status: :unprocessable_entity
-      end
-    end
-
     def move
       if @type.update(permitted_params.type_move)
         flash[:notice] = I18n.t(:notice_successful_update)
@@ -124,33 +108,6 @@ module WorkPackageTypes
                   variants: %i[own_workflows custom_fields])
         .page(page_param)
         .per_page(per_page_param)
-    end
-
-    def new_type_params
-      return {} if params[:type].blank?
-
-      permitted_type_params
-    end
-
-    # copy_workflow_from is a creation-time instruction rather than a type attribute,
-    # so it is read straight off the request and only passed on when one was chosen.
-    # TODO: Remove with type_variants feature flag
-    def create_params
-      copy_workflow_from = params.dig(:type, :copy_workflow_from)
-      return permitted_type_params if copy_workflow_from.blank?
-
-      permitted_type_params.merge(copy_workflow_from:)
-    end
-
-    def permitted_type_params
-      # having to call #to_unsafe_h as a query hash the attribute_groups
-      # parameters would otherwise still be an ActiveSupport::Parameter
-      permitted_params.type.to_unsafe_h
-    end
-
-    def load_projects_and_types
-      @types = ::Type.order(Arel.sql("position"))
-      @projects = Project.all
     end
 
     def destroy_error_message

@@ -156,10 +156,6 @@ class PermittedParams
     end
   end
 
-  def projects_type_ids
-    params.require(:project).require(:type_ids).map(&:to_i).select { |x| x > 0 }
-  end
-
   def query
     # there is a weird bug in strong_parameters gem which makes the permit call
     # on the sort_criteria pattern return the sort_criteria-hash contents AND

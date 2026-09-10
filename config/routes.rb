@@ -239,7 +239,6 @@ Rails.application.routes.draw do
       end
 
       resource :copy, only: %i[new], controller: "/workflows/copies" do
-        resource :from_variant, only: %i[create], controller: "/workflows/copies/from_variants"
         resource :from_role, only: %i[create], controller: "/workflows/copies/from_roles"
       end
     end
@@ -264,7 +263,7 @@ Rails.application.routes.draw do
     resource :creation_wizard, controller: "creation_wizard", only: %i[show update]
   end
 
-  resources :types, module: "work_package_types", except: [:update] do
+  resources :types, module: "work_package_types", only: %i[index destroy] do
     collection do
       post "move/:id", action: "move", as: :move
       get :workflow_summary, to: "/workflows/summaries#show"
@@ -483,8 +482,6 @@ Rails.application.routes.draw do
         namespace :work_packages do
           resource :internal_comments, only: %i[show update]
           resources :types, only: %i[index new create destroy] do
-            patch :bulk_update, on: :collection
-
             resource :switch, only: %i[new create], controller: "types/switches" do
               resource :impact, only: :create, controller: "types/switches/impacts"
             end

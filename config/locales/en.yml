@@ -751,7 +751,6 @@ en:
             types:
               cannot_assign_multiple_variants_of_parent: "Can only enable a single variant of a Type on the project"
               cannot_assign_variant_and_parent: "Cannot assign a variant and its parent "
-              cannot_assign_variants_yet: "Variants cannot be enabled on a project yet. Enable the feature flag to try out variants"
               in_use_by_work_packages: "still in use by work packages: %{types}"
               switch_target_blank: "Select the variant to switch to"
               switch_target_identical: "The target type must be different from the type the project uses now"
@@ -4989,8 +4988,6 @@ en:
       not_found: "not found."
       respond_to?: "does not implement required method."
       rules:
-        copy_workflow_from:
-          workflow_missing: "has no own workflow."
         custom_field:
           format_not_supported: "format '%{field_format}' is unsupported."
         item:
@@ -5010,7 +5007,6 @@ en:
     or: "or"
     rules:
       blueprint: "Pattern blueprint"
-      copy_workflow_from: "Type for workflow copy"
       depth: "Depth"
       enabled: "Enabled"
       item: "Item"
@@ -7395,29 +7391,13 @@ en:
   workflows:
     copies:
       form:
-        mode:
-          from_role:
-            caption: "Copy the current workflow to one or more roles inside the same work package type. If the selected role already has a workflow the current one will be overwritten."
-            label: "Copy to other roles"
-          from_type:
-            caption: "Copy the current workflow to another work packages type. If the selected type already has a workflow the current one will be overwritten. This affects all roles."
-            label: "Copy to another type"
-        source_role_id:
-          label: "Source role"
         target_role_ids:
           label: "Target roles"
-        target_variant_ids:
-          label: "Target types"
       from_roles:
         create:
           notice:
             one: "Successfully copied workflow to '%{role_name}' role."
             other: "Successfully copied workflow to %{count} roles."
-      from_variants:
-        create:
-          notice:
-            one: "Successfully copied workflow to '%{type_name}'."
-            other: "Successfully copied workflow to %{count} types."
       new:
         title: 'Copy workflow of "%{source_type}"'
     form:
