@@ -3558,7 +3558,6 @@ en:
   label_copy_target: "Target"
   label_copy_workflow_from: "Copy workflow from"
   label_copy_workflow_from_role: "Copy to other roles"
-  label_copy_workflow_from_type: "Copy to another type"
   label_core_build: "Core build"
   label_core_version: "Core version"
   label_created_by: "Created by %{user}"

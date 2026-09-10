@@ -565,10 +565,6 @@ class TypeVariant
     # True when a lookup should resolve `aspect` through the chain in SQL rather than reading
     # this variant's own columns. Only an unsaved variant is exempt: it has no id to seed the
     # chain with, and nothing can be linked to it yet.
-    #
-    # Deliberately not gated on the type_variants feature. Every type owns a base variant
-    # either way, and an unlinked variant resolves to itself, so resolving unconditionally is
-    # what keeps reads identical whether the feature is on or off.
     def resolve_aspect_in_sql?
       !new_record?
     end

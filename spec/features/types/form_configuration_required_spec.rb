@@ -120,7 +120,7 @@ RSpec.describe "form configuration required attributes", :js do
     end
   end
 
-  context "with a variant that borrows the form configuration", with_flag: { type_variants: true } do
+  context "with a variant that borrows the form configuration" do
     let!(:owner) { variant_showing(custom_field) }
     let!(:borrower) { create(:type_variant, type: owner.type) }
 
