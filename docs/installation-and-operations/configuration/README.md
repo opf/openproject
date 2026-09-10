@@ -467,9 +467,10 @@ OPENPROJECT_BACKUP__ENABLED="false"
 
 #### Backup attachment size max sum mb
 
-Per default the maximum overall size of all attachments must not exceed 1GB for them to be included in the backup. If they are larger only the database dump will be included.
+Per default the maximum overall size of all attachments must not exceed 4GB for them to be included in the backup. If they are larger only the database dump will be included. The main limiting factor here is the disk space available on /tmp. Make sure there is enough to support creating a backup archive
+of the desired size with some space to spare.
 
-_default=1024_
+_default=4096_
 
 ```yaml
 OPENPROJECT_BACKUP__ATTACHMENT__SIZE__MAX__SUM__MB="8192"

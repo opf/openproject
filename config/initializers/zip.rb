@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -27,17 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Meetings
-  ::Queries::Register.register(MeetingQuery) do
-    filter Filters::ProjectFilter
-    filter Filters::TimeFilter
-    filter Filters::AttendedUserFilter
-    filter Filters::InvitedUserFilter
-    filter Filters::AuthorFilter
-    filter Filters::DatesIntervalFilter
-    filter Filters::RecurringFilter
-    filter Filters::TitleFilter
+require "zip"
 
-    order Orders::DefaultOrder
-  end
-end
+# Archives (e.g. backups) or individual entries within them can exceed 4GB, which the ZIP
+# format only supports via the Zip64 extension. rubyzip does not write Zip64 fields by
+# default, which silently produces a corrupted archive (wrapped 32-bit sizes/offsets) once
+# that limit is crossed instead of raising an error. This is a global, process-wide setting
+# with no per-call equivalent, and only changes output once entries/offsets actually exceed
+# 4GB, so enabling it here has no effect on smaller archives.
+Zip.write_zip64_support = true

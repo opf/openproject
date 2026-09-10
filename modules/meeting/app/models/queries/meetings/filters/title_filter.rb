@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -27,17 +28,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Meetings
-  ::Queries::Register.register(MeetingQuery) do
-    filter Filters::ProjectFilter
-    filter Filters::TimeFilter
-    filter Filters::AttendedUserFilter
-    filter Filters::InvitedUserFilter
-    filter Filters::AuthorFilter
-    filter Filters::DatesIntervalFilter
-    filter Filters::RecurringFilter
-    filter Filters::TitleFilter
+class Queries::Meetings::Filters::TitleFilter < Queries::Meetings::Filters::MeetingFilter
+  def self.key
+    :title
+  end
 
-    order Orders::DefaultOrder
+  def type
+    :text
+  end
+
+  def left_outer_joins
+    :recurring_meeting
+  end
+
+  def where
+    matches = [Meeting, RecurringMeeting]
+      .map { |model| "(#{Queries::Operators::Contains.sql_for_field(values, model.table_name, 'title')})" }
+      .join(" OR ")
+
+    if operator == "!~"
+      "NOT COALESCE(#{matches}, FALSE)"
+    else
+      matches
+    end
   end
 end

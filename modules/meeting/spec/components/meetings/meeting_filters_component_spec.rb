@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -27,17 +28,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Meetings
-  ::Queries::Register.register(MeetingQuery) do
-    filter Filters::ProjectFilter
-    filter Filters::TimeFilter
-    filter Filters::AttendedUserFilter
-    filter Filters::InvitedUserFilter
-    filter Filters::AuthorFilter
-    filter Filters::DatesIntervalFilter
-    filter Filters::RecurringFilter
-    filter Filters::TitleFilter
+require "rails_helper"
 
-    order Orders::DefaultOrder
+RSpec.describe Meetings::MeetingFiltersComponent, type: :component do
+  shared_let(:project) { create(:project) }
+  shared_let(:user) { create(:admin) }
+
+  current_user { user }
+
+  let(:query) { Queries::Meetings::MeetingQuery.new(user:) }
+
+  subject(:component) { described_class.new(query:, project:) }
+
+  before do
+    vc_test_controller.request.path_parameters = {
+      controller: "meetings/filters", action: "show", project_id: project.id.to_s
+    }
+  end
+
+  describe "#allowed_filters" do
+    it "advertises the title filter" do
+      expect(component.allowed_filters.map(&:name)).to include(:title)
+    end
+  end
+
+  it "renders the title filter as a text input with the contains operators" do
+    render_inline(component)
+
+    expect(page).to have_css("[data-filter-name='title']", visible: :all)
+    expect(page).to have_field("title_value", type: "text", visible: :all)
+
+    operators = page.all("select[name='operator_title'] option", visible: :all).pluck(:value)
+    expect(operators).to contain_exactly("~", "!~")
   end
 end

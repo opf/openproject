@@ -461,6 +461,45 @@ RSpec.describe "Meetings", "Index", :js do
       expect(page).to have_no_button I18n.t(:label_project), exact: true
     end
 
+    context 'with the "Title" filter' do
+      shared_let(:ux_meeting) do
+        create(:meeting,
+               :author_participates,
+               project:,
+               title: "UX Design Daily",
+               start_time: business_day_at_noon + 4.hours)
+      end
+      shared_let(:series) do
+        create(:recurring_meeting,
+               project:,
+               title: "UX Research Sync",
+               start_time: business_day_at_noon + 5.hours)
+      end
+      shared_let(:occurrence) do
+        create(:recurring_meeting_occurrence,
+               recurring_meeting: series,
+               title: "Renamed occurrence",
+               start_time: business_day_at_noon + 5.hours)
+      end
+
+      before do
+        meetings_page.visit!
+        meetings_page.set_sidebar_filter "All meetings"
+      end
+
+      it "matches the meeting title as well as the title of the meeting series" do
+        meetings_page.set_title_filter "ux"
+
+        meetings_page.expect_meetings_listed(ux_meeting, occurrence)
+        meetings_page.expect_meetings_not_listed(meeting, tomorrows_meeting)
+
+        meetings_page.set_title_filter "research"
+
+        meetings_page.expect_meetings_listed(occurrence)
+        meetings_page.expect_meetings_not_listed(ux_meeting)
+      end
+    end
+
     include_examples "sidebar filtering", context: :project
 
     specify "with 1 meeting listed" do

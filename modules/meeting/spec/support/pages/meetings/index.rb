@@ -170,6 +170,17 @@ module Pages::Meetings
       wait_for_network_idle
     end
 
+    def set_title_filter(value)
+      open_filters
+      select_filter("title", "Title") unless page.has_css?(filter_selector("title"), wait: 0)
+
+      within(filter_selector("title")) do
+        fill_in "title_value", with: value
+      end
+
+      wait_for_network_idle
+    end
+
     def expect_no_meetings_listed
       within "#content-wrapper" do
         expect(page)
