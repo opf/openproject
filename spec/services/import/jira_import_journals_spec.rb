@@ -70,6 +70,52 @@ RSpec.describe Import::JiraImportJournals, "integration" do
     end
   end
 
+  describe "#backfill_attachments" do
+    let!(:attachment) { create(:attachment, container: work_package) }
+
+    before do
+      service.add_comment(
+        comment: { "created" => "2022-03-15T12:00:00.000+0000", "body" => "A comment." },
+        user: commenter
+      )
+      service.call
+    end
+
+    it "records the attachment in every journal" do
+      service.backfill_attachments
+
+      expect(work_package.journals.reload.map { |journal| journal.attachable_journals.pluck(:attachment_id) })
+        .to all(eq([attachment.id]))
+    end
+
+    it "keeps the journals from reporting the attachment as a later change" do
+      service.backfill_attachments
+
+      expect(work_package.journals.reload.reject(&:initial?).flat_map { |journal| journal.details.keys })
+        .not_to include("attachments_#{attachment.id}")
+    end
+
+    it "creates no journal of its own" do
+      expect { service.backfill_attachments }
+        .not_to change { work_package.journals.reload.count }
+    end
+
+    it "can run again without duplicating the records" do
+      service.backfill_attachments
+
+      expect { service.backfill_attachments }
+        .not_to change { Journal::AttachableJournal.where(attachment_id: attachment.id).count }
+    end
+
+    context "without attachments" do
+      let!(:attachment) { nil }
+
+      it "does nothing" do
+        expect { service.backfill_attachments }.not_to change(Journal::AttachableJournal, :count)
+      end
+    end
+  end
+
   describe "#add_migration_entry" do
     let(:jira_updated_at) { "2022-03-15T13:00:00.000+0000" }
 

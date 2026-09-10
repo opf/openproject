@@ -72,6 +72,13 @@ module Import
       restore_update_time(updated_at)
     end
 
+    # Records the attachments in every existing journal, so that the import does not surface them
+    # as a change of its own: the replayed Jira changelog is the only record of them.
+    def backfill_attachments
+      rows = missing_attachable_rows
+      Journal::AttachableJournal.insert_all(rows) if rows.any?
+    end
+
     def add_migration_entry(updated_at: nil)
       journalize_at(Time.current) do
         work_package.add_journal(user: User.system, notes: "", cause: Journal::CausedByImport.new(migrated: true))
@@ -81,6 +88,25 @@ module Import
     end
 
     private
+
+    def missing_attachable_rows
+      attachments = work_package.attachments.pluck(:id, :file)
+      return [] if attachments.empty?
+
+      journal_ids = work_package.journals.reload.pluck(:id)
+      existing = recorded_attachable_pairs(journal_ids)
+
+      journal_ids.product(attachments).filter_map do |journal_id, (attachment_id, filename)|
+        { journal_id:, attachment_id:, filename: } unless existing.include?([journal_id, attachment_id])
+      end
+    end
+
+    def recorded_attachable_pairs(journal_ids)
+      Journal::AttachableJournal
+        .where(journal_id: journal_ids)
+        .pluck(:journal_id, :attachment_id)
+        .to_set
+    end
 
     # Journals inherit their timestamps from the journable, so the work package has to carry the
     # Jira timestamp of the entry while it is being journalized.
