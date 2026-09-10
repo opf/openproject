@@ -41,7 +41,9 @@ module Attachments
     def set_prepared_attributes(params)
       # We need to do it like this because `file` is an uploader which expects a File (not a string)
       # to upload usually. But in this case the data has already been uploaded and we just point to it.
-      model[:file] = pending_direct_upload_filename(params[:filename])
+      # A blank filename is left for the contract to reject with a proper validation error instead of
+      # being sanitized here, as `CarrierWave::SanitizedFile#sanitize` cannot handle a nil value.
+      model[:file] = pending_direct_upload_filename(params[:filename]) if params[:filename].present?
 
       # Explicitly set the filesize from metadata
       # as the provided file is not actually uploaded

@@ -1,0 +1,46 @@
+# Schema: AttachmentPrepareUploadWriteModel
+---
+type: object
+required:
+  - fileName
+  - fileSize
+properties:
+  fileName:
+    type: string
+    description: The name the file will be stored under.
+  fileSize:
+    type: integer
+    description: The size of the file in Bytes, exactly as it will be uploaded.
+    minimum: 0
+  contentType:
+    type: string
+    description: |-
+      The MIME-Type of the file, as best known by the client (e.g. from the browser's `File` object).
+
+      If omitted, a generic default is assumed for this step. The actual content type is determined
+      authoritatively by the server once the upload has been completed (see the `completeUpload` step),
+      at which point it is also matched against the configured content type allowlist, if any is
+      configured (see [`attachment_whitelist`](../../system-settings/)).
+  description:
+    allOf:
+      - $ref: "./formattable.yml"
+      - description: A user provided description of the file.
+  digest:
+    type: object
+    description: |-
+      An optional checksum for the file's content, as computed by the client. It is stored alongside
+      the attachment but not verified by the server.
+    properties:
+      algorithm:
+        type: string
+        description: The algorithm used to generate the digest.
+      hash:
+        type: string
+        description: The hexadecimal representation of the digested hash value.
+example:
+  fileName: cat.png
+  fileSize: 24
+  contentType: image/png
+  description:
+    format: plain
+    raw: A picture of a cute cat

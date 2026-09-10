@@ -3,6 +3,15 @@ description: |-
   Attachments are files that were uploaded to OpenProject. Each attachment belongs to a single
   container (e.g. a work package or a board message).
 
+  ## Direct uploads
+
+  Instead of sending the file content to `POST /api/v3/attachments` (or one of its per-container
+  equivalents, e.g. `POST /api/v3/work_packages/{id}/attachments`) directly, clients can, where
+  supported by the server configuration, upload the file straight to the underlying storage
+  backend. This is a three-step process starting at `POST /api/v3/attachments/prepare` (or its
+  per-container equivalents, e.g. `POST /api/v3/work_packages/{id}/attachments/prepare`) - see
+  that operation for a full description of the flow.
+
   ## Actions
 
   | Link                | Description                                                          | Condition                                                                                          |
