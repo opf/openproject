@@ -249,7 +249,10 @@ RSpec.describe "LLM connection administration",
   describe "the Feature configuration tab" do
     let!(:connection) { create(:llm_connection, :with_models, base_url:) }
 
-    before { mock_llm_embeddings_response(base_url) }
+    before do
+      Setting.llm_features_enabled = true
+      mock_llm_embeddings_response(base_url)
+    end
 
     it "offers the vector settings only for features that embed" do
       visit llm_feature_bindings_path
