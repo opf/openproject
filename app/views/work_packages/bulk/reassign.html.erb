@@ -54,9 +54,11 @@ See COPYRIGHT and LICENSE files for more details.
     raw_back_url = (params[:back_url] || request.env["HTTP_REFERER"]).presence
     cancel_url = RedirectPolicy.new(raw_back_url, hostname: request.host, default: work_packages_path).redirect_url
     back_url = back_url_is_wp_show? ? nil : raw_back_url&.then { |url| CGI.escape(CGI.unescape(url.to_s)) }
+    delete_descendants = params[:delete_descendants]
 
     render_inline_form(f) do |form|
       form.hidden(name: "back_url", value: back_url, scope_name_to_model: false) if back_url
+      form.hidden(name: "delete_descendants", value: delete_descendants, scope_name_to_model: false)
 
       work_packages.each do |wp|
         form.hidden(name: "ids[]", value: wp.id, scope_name_to_model: false)

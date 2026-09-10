@@ -48,10 +48,10 @@ module API
 
           def projects_by_id
             @projects_by_id ||= ::Project
-                .includes(:enabled_modules, phases: :definition)
+                .includes(:enabled_modules, { project_types: :variant, phases: :definition })
                 .where(id: project_ids)
                 .to_a
-                .index_by { |p| p.id }
+                .index_by(&:id)
           end
 
           def project_ids

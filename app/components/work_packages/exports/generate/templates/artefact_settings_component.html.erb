@@ -1,0 +1,27 @@
+<%= flex_layout do |fields|
+      fields.with_row(mt: 0) do
+        render(
+          Primer::Alpha::CheckBox.new(
+            id: "toc_enabled",
+            name: "toc",
+            checked: toc,
+            value: "true",
+            unchecked_value: "false",
+            label: I18n.t("pdf_generator.dialog.toc.label"),
+            caption: I18n.t("pdf_generator.dialog.toc.caption"),
+            visually_hide_label: false,
+            disabled: disabled
+          )
+        )
+      end
+      fields.with_row(mt: 3) do
+        render(
+          WorkPackages::Exports::Generate::Templates::HyphenationFieldsComponent.new(
+            template_id: TEMPLATE_ID,
+            enabled: hyphenation_enabled,
+            language: hyphenation_language,
+            disabled: disabled
+          )
+        )
+      end
+    end %>

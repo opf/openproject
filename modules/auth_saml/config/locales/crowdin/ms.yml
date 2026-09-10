@@ -3,6 +3,7 @@ ms:
   activerecord:
     attributes:
       saml/provider:
+        allowed_clock_drift: Allowed clock drift
         assertion_consumer_service_url: URL ACS (Perkhidmatan pengguna Penegasan).
         authn_requests_signed: Tandatangan SAML AuthnRequests
         certificate: Sijil yang digunakan oleh OpenProject untuk permintaan SAML
@@ -44,6 +45,9 @@ ms:
         '
       title: Parameter Konfigurasi Protokol SAML
     instructions:
+      allowed_clock_drift: 'Tolerance in seconds applied when validating the timestamps of the identity provider response. Fractions of a second are accepted. Use this only if the clocks of OpenProject and the identity provider are known to be out of sync, and keep the value as low as possible (Default: 0).
+
+        '
       authn_requests_signed: 'Jika ditandakan, OpenProject akan menandatangani SAML AuthnRequest. Anda perlu memberikan sijil tandatangan dan kunci peribadi menggunakan medan di bawah.
 
         '

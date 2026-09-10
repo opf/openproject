@@ -40,17 +40,17 @@ pt-BR:
               invalid_schema: 'deve ser um array de hashes com as chaves: cor, título'
     models:
       gitlab_issue:
-        one: GitLab issue
-        other: GitLab issues
+        one: Problema do GitLab
+        other: Problemas do GitLab
       gitlab_merge_request:
-        one: GitLab merge request
-        other: GitLab merge requests
+        one: Solicitação de merge do GitLab
+        other: Solicitações de merge do GitLab
       gitlab_pipeline:
-        one: GitLab pipeline
-        other: GitLab pipelines
+        one: Pipeline do GitLab
+        other: Pipelines do GitLab
       gitlab_user:
-        one: GitLab user
-        other: GitLab users
+        one: Usuário do GitLab
+        other: Usuários do GitLab
   attributes:
     commit: Confirmar
     gitlab: Identificador do GitLab

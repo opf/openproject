@@ -1,0 +1,95 @@
+## What are ARIA Live Regions?
+ARIA Live Regions are a crucial accessibility feature that allow assistive technologies to announce dynamic content updates without requiring user focus changes.
+
+### ARIA Live Attributes
+ARIA Live Regions rely on specific attributes to control how updates are announced:
+- `aria-live="polite"`: Announces updates when the user is idle.
+- `aria-live="assertive"`: Announces updates immediately, interrupting the user.
+- `aria-atomic="true"`: Ensures the entire content of the region is read when it changes.
+
+## Implementing ARIA Live Regions in Primer
+The Primer project provides a custom element (Web Component) to ease working with ARIA Live Regions.
+We have decided to use a single global ARIA live region in `base.html` to ensure live regions are present in the DOM before updates occur. This approach is better than having multiple live regions because it ensures that announcements are delivered in a clear and consistent manner. By centralizing updates, we avoid potential conflicts between overlapping live regions and provide a more seamless experience for screen reader users.
+
+### Live Region in `base.html`
+```html
+<live-region>
+</live-region>
+```
+
+The `@primer/live-region-element` package provides methods to trigger announcements programmatically:
+
+```ts
+import { announce } from '@primer/live-region-element';
+
+announce('Example polite message', { politeness: 'polite' });
+```
+
+### Using Turbo Streams to Trigger ARIA Live Updates
+To use it in a Rails Turbo response, and send updates to the assistive technology after any action, we created a new Turbo stream component that triggers an liveRegion action:
+
+```ruby
+OpTurbo::StreamComponent.new(action: :liveRegion, message: "Form submission successful!", politeness: "polite", role: "status", target: nil)
+```
+
+- This creates a **Turbo Stream update** with:
+  - `action: :liveRegion` → Calls the `liveRegion` action defined in `live-region-stream-action.ts`
+  - `message: "Form submission successful!"` → The text to be announced to user
+  - `politeness: "polite"` → Ensures the message is read when the user is idle
+  - `target: nil` → Ensures the update isn't inserted into the DOM but is handled as an announcement
+
+### How to Trigger an ARIA Update from the Controller
+You can trigger a assistive technology announcement from your Rails controller by calling the provided `render_live_region_update_message` helper:
+
+```ruby
+render_live_region_update_message(
+  message: "A relation is added",
+  politeness: "polite"
+)
+```
+
+This helper internally renders a Turbo Stream using the liveRegion action to announce the message via ARIA live regions.
+For reference only — you do not need to define this yourself.
+Here is the internal implementation of `render_live_region_update_message`:
+
+```ruby
+    def render_live_region_update_message(message:, politeness:)
+      turbo_streams << OpTurbo::StreamComponent.new(action: :liveRegion, message:, politeness:, target: nil).render_in(view_context)
+    end
+```
+
+### How to Trigger an ARIA Update from a Turbo Frame
+If you're using a Turbo Frame and want to announce dynamic content changes to assistive technologies, you can embed a Turbo Stream using the `liveRegion` action directly inside the frame.
+
+```erb
+<%%= content_tag("turbo-frame", id: "frame-id") do %>
+....
+  <%%= render OpTurbo::StreamComponent.new(
+    action: :liveRegion,
+    message: "Update!!",
+    politeness: "polite",
+    target: nil
+  ) %>
+<%% end %>
+
+```
+
+### How ARIA Live Messages Are Delivered via Turbo Streams
+The `registerLiveRegionStreamAction` method defines a custom Turbo Stream action called `liveRegion`. When triggered, it announces a message (using ARIA live regions) to assistive technologies, with a tone of either `"polite"` or `"assertive"`, depending on the `politeness` attribute in the stream element.
+
+```ts
+<%%= render file: "frontend/src/turbo/live-region-stream-action.ts" %>
+```
+
+## Live Regions in Dialogs and Modals
+There is an important exception to our use of the global ARIA Live Region in `base.html`.
+
+When a modal or dialog is open, screen readers often restrict focus and reading context to the content inside the dialog. In this case, live regions outside the dialog (such as those defined in `base.html`) become inaccessible to the screen reader.
+
+To ensure that announcements are still read aloud in this situation, we should include a live-region component within the dialog itself, like what we have implemented for primerized date picker.
+
+```erb
+  <live-region>
+  </live-region>
+  <%%= render OpTurbo::StreamComponent.new(action: :liveRegion, message: "Date picker is updated.", politeness: "polite", target: nil) %>
+```

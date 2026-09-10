@@ -37,8 +37,12 @@ export interface AngularTurboBridgeOptions {
   // a spec can pass its own `EventTarget` to drive synthetic `turbo:load`
   // events in isolation.
   target?:EventTarget;
-  // Aborts the `turbo:load` subscription so a spec (or future caller) can tear
-  // the bridge down between cases.
+  // The event source for the `pageshow` listener below. Defaults to the global
+  // `window`; a spec can pass its own `EventTarget` to drive a synthetic
+  // `pageshow` event in isolation.
+  windowTarget?:EventTarget;
+  // Aborts both subscriptions so a spec (or future caller) can tear the
+  // bridge down between cases.
   signal?:AbortSignal;
   // Resolves the Angular plugin context carrying the `appRef`. Defaults to the
   // real `window.OpenProject` lookup; injected so specs need no global.
@@ -46,14 +50,20 @@ export interface AngularTurboBridgeOptions {
   // Re-bootstraps the root application onto a fresh `appBaseSelector`. Defaults
   // to `app.module`'s `runBootstrap`.
   bootstrap?:(appRef:ApplicationRef) => void;
+  // Issues a Turbo visit to force a real render. Defaults to the global
+  // `Turbo.visit` (provided by `@hotwired/turbo-rails`); injected so specs
+  // don't need to touch the real Turbo session.
+  visit?:(location:string, options:{ action:'replace' }) => void;
 }
 
 export function addTurboAngularWrapper(options:AngularTurboBridgeOptions = {}) {
   const {
     target = document,
+    windowTarget = window,
     signal,
     getPluginContext = () => window.OpenProject.getPluginContext(),
     bootstrap = runBootstrap,
+    visit = (location, visitOptions) => Turbo.visit(location, visitOptions),
   } = options;
 
   // When turbo:load fires, the angular application needs to be rebootstrapped.
@@ -79,5 +89,22 @@ export function addTurboAngularWrapper(options:AngularTurboBridgeOptions = {}) {
         });
     });
 
-  signal?.addEventListener('abort', () => subscription.unsubscribe(), { once: true });
+  // Chrome's Back/Forward Cache can resume a frozen page on browser back/
+  // forward entirely outside Turbo's own visit pipeline: no turbo:visit, no
+  // turbo:load, nothing re-renders even though the URL bar changes. The page
+  // is just the frozen snapshot from before the user navigated away.
+  // `pageshow`'s `persisted` flag is the standard way to detect this. Forcing
+  // a real Turbo visit here makes it go through turbo:load (and thus the
+  // rebuild above) like any other navigation would.
+  const pageshowSubscription = fromEvent<PageTransitionEvent>(windowTarget, 'pageshow')
+    .subscribe((event) => {
+      if (event.persisted) {
+        visit(window.location.href, { action: 'replace' });
+      }
+    });
+
+  signal?.addEventListener('abort', () => {
+    subscription.unsubscribe();
+    pageshowSubscription.unsubscribe();
+  }, { once: true });
 }

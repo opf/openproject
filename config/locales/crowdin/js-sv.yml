@@ -120,7 +120,7 @@ sv:
     button_cancel: Avbryt
     button_change_project: Flytta till ett annat projekt
     button_check_all: Markera alla
-    button_clear: Clear
+    button_clear: Rensa
     button_close: Stäng
     button_close_details: Stäng detaljvyn
     button_collapse_all: Fäll ihop alla
@@ -129,8 +129,8 @@ sv:
     button_continue: Fortsätt
     button_copy: Kopiera
     button_copy_link_to_clipboard: Kopiera länk till urklipp
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
-    button_copy_to_clipboard: Kopiera till Urklipp
+    button_copy_numeric_id_to_clipboard: Kopiera numeriskt ID till urklipp
+    button_copy_to_clipboard: Kopiera till urklipp
     button_copy_to_other_project: Duplicera i ett annat projekt
     button_create: Skapa
     button_custom-fields: Anpassade fält
@@ -179,12 +179,12 @@ sv:
         graph_settings: Allmänt
       type: Typ av diagram
       types:
-        bar: Stapel
-        doughnut: Munk
-        horizontal_bar: Horisontell linje
-        line: Linje
-        pie: Paj
-        polar_area: Polarområde
+        bar: Stapeldiagram
+        doughnut: Ringdiagram
+        horizontal_bar: Horisontellt stapeldiagram
+        line: Linjediagram
+        pie: Cirkeldiagram
+        polar_area: Polärområdesdiagram
         radar: Radar
     clipboard:
       browser_error: 'Din webbläsare stöder inte kopiering till urklipp. Kopiera den manuellt: %{content}'
@@ -195,31 +195,31 @@ sv:
     custom_actions:
       date:
         current_date: Aktuellt datum
-        specific: på
+        specific: den
     description_available_columns: Tillgängliga kolumner
-    description_current_position: 'Du är här: '
+    description_current_position: 'Du är här:'
     description_select_work_package: 'Välj arbetspaket #%{id}'
-    description_subwork_package: 'Barn till arbetspaket #%{id}'
+    description_subwork_package: 'Underordnad till arbetspaket #%{id}'
     editor:
       ckeditor_error: Ett fel inträffade inom CKEditor
       error_saving_failed: 'Misslyckades med att spara dokumentet på grund av följande fel: %{error}'
       macro:
         attribute_reference:
-          aria_label_project_attribute: A dynamic project attribute placed using a macro.
+          aria_label_project_attribute: Ett dynamiskt projektattribut som placerats med ett makro.
           aria_label_with_name: "%{name}: %{description}"
-          aria_label_work_package_attribute: A dynamic work package attribute placed using a macro.
-          aria_label_work_package_link: A dynamic link to a work package placed using a macro.
+          aria_label_work_package_attribute: Ett dynamiskt arbetspaketsattribut som placerats med ett makro.
+          aria_label_work_package_link: En dynamisk länk till ett arbetspaket som infogats med ett makro.
           invalid_attribute: Det valda attributet '%{name}' finns inte.
           nested_macro: Detta makro refererar rekursivt till %{model} %{id}.
           not_found: Begärd resurs kunde inte hittas
         child_pages:
-          button: List of sub-pages
+          button: Lista över undersidor
           hint: 'Lämna fältet tomt om du vill lista alla underordnade sidor på den aktuella sidan. Om du vill referera till en annan sida, ange dess titel eller slug.
 
             '
           include_parent: Inkludera överordnade
           page: Wiki-sida
-          text: "[Placeholder] List of sub-pages of"
+          text: "[Platshållare] Lista över undersidor till"
           this_page: den här sidan
         code_block:
           button: Infoga kodstycket
@@ -229,13 +229,13 @@ sv:
         embedded_calendar:
           text: "[Placeholder] Inbäddad kalender"
         embedded_table:
-          button: Bädda in arbetspaket-tabell
+          button: Bädda in arbetspaketstabell
           text: "[Placeholder] Inbäddade tabeller för arbetspaket"
         error: 'Kan inte expandera makro: %{message}'
         macro_dropdown:
-          caption: Insert
+          caption: Infoga
         toc: Innehållsförteckning
-        toolbar_help: Klicka på välj widget och visa verktygsfältet. Dubbelklicka om du vill redigera widget
+        toolbar_help: Klicka för att välja widgeten och visa verktygsfältet. Dubbelklicka för att redigera widgeten.
         wiki_page_include:
           button: Inkludera innehåll från en annan wiki-sida
           hint: 'Inkludera innehåll från en annan wiki-sida genom att ange dess titel eller slug. Du kan inkludera wiki-sidan för ett annat projekt genom att separera dem med ett kolon som följande exempel.
@@ -245,10 +245,10 @@ sv:
           page: Wiki-sida
           text: "[Placeholder] Inkluderad wiki-sida för"
         work_package_button:
-          button: Lägg till skapa arbetspaket-knapp
+          button: Infoga knapp för att skapa arbetspaket
           button_style: Använd knappstil
           button_style_hint: 'Frivilligt: Markera för att makrot ska synas som en knapp istället för en länk.'
-          type: Arbetspaketstyper
+          type: Arbetspaketstyp
           with_type: 'Skapa arbetspaket (Typ: %{typename})'
           without_type: Skapa arbetspaket
       mode:
@@ -262,7 +262,7 @@ sv:
     enumeration_doc_categories: Dokumentkategorier
     enumeration_work_package_priorities: Arbetspaketsprioritering
     error:
-      cannot_save_changes_with_message: 'Kan inte spara dina ändringar på grund av följande error: %{error}'
+      cannot_save_changes_with_message: 'Det går inte att spara dina ändringar på grund av följande fel: %{error}'
       embedded_table_loading: 'Den inbäddade vyn kunde inte laddas: %{message}'
       internal: Ett internt fel har inträffat.
       query_saving: Vyn kunde inte sparas.
@@ -272,11 +272,11 @@ sv:
     error_could_not_resolve_version_name: Kunde inte fastställa versionsnamn
     exclusion_info:
       modal:
-        content: The status '%{status_name}' has been configured to be excluded from hierarchy totals of Work, Remaining work, and % Complete. The totals do not take this value into account.
-        title: Status excluded from hierarchy totals
+        content: Statusen "%{status_name}" har konfigurerats att undantas från hierarkins totalsummor för Arbete, Återstående arbete och % klart. Totalsummorna tar inte hänsyn till detta värde.
+        title: Status undantagen från hierarkins totalsummor
     favorite_projects:
-      no_results: You have no favorite projects
-      no_results_subtext: Add one or multiple projects as favorite through their overview or in a project list.
+      no_results: Du har inga favoritprojekt
+      no_results_subtext: Lägg till ett eller flera projekt som favoriter via deras översikt eller i en projektlista.
     field_value_enter_prompt: Ange ett värde för "%{field}"
     filter:
       description:
@@ -290,9 +290,9 @@ sv:
           three: Tredje sorteringskriteriet
           two: Andra sorteringskriteriet
       time_zone_converted:
-        only_end: Till %{to} lokala tid.
-        only_start: Från %{from} lokala tid.
-        two_values: "%{from} - %{to} lokal tid."
+        only_end: Till %{to} i din lokala tid.
+        only_start: Från %{from} i din lokala tid.
+        two_values: "%{from}–%{to} i din lokala tid."
       value_spacer: "-"
     forms:
       advanced_settings: Avancerade inställningar
@@ -300,20 +300,20 @@ sv:
       submit_success_message: Formuläret har skickats in framgångsrikt
       validation_error_message: Vänligen åtgärda de fel som finns i formuläret
     gantt_chart:
-      button_activate: Visa Gantt-schema
-      button_deactivate: Dölj Gantt-schema
+      button_activate: Visa Gantt-diagram
+      button_deactivate: Dölj Gantt-diagram
       filter:
         noneSelection: "(ingen)"
-      label: Gantt-schema
+      label: Gantt-diagram
       labels:
-        bar: Bar etiketter
-        description: 'Välj de attribut som du vill ska visas på respektive position i Gantt-schemat hela tiden. Observera att när du håller muspekaren över ett element visas dess datumetiketter i stället för dessa attribut.
+        bar: Stapeletiketter
+        description: 'Välj de attribut som du vill ska visas på respektive position i Gantt-diagramt hela tiden. Observera att när du håller muspekaren över ett element visas dess datumetiketter i stället för dessa attribut.
 
           '
         farRight: Längst till höger
         left: Vänster
         right: Höger
-        title: Etikettsinställning
+        title: Etikettkonfiguration
       quarter_label: Q%{quarter_number}
       selection_mode:
         notification: Klicka på ett markerat arbetspaket för att skapa relationen. Tryck på escape för att avbryta.
@@ -338,21 +338,21 @@ sv:
       close_search: Stäng sökning
       current_project: I detta projekt
       current_project_and_all_descendants: I detta projekt + delprojekt
-      direct_hit_available: Work package with exact ID found. Press Enter to open it.
-      items_available: "%{count} items available"
+      direct_hit_available: Arbetspaket med exakt ID hittades. Tryck på Retur för att öppna det.
+      items_available: "%{count} poster tillgängliga"
       recently_viewed: Nyligen visade
-      search_placeholder_expanded: Search work packages by subject, project, type, status or ID
+      search_placeholder_expanded: Sök arbetspaket efter rubrik, projekt, typ, status eller ID
       title:
         all_projects: alla projekt
         project_and_subprojects: och alla delprojekt
         search_for: Sök efter
     hal:
       error:
-        edit_prohibited: Redigering av %{attribute} är blockerad för denna resurs. Antingen härrör detta attribut från relationer (t.ex. barn) eller på annat sätt inte konfigurerbar.
+        edit_prohibited: Redigering av %{attribute} är blockerad för den här resursen. Attributet är antingen härlett från relationer (t.ex. underordnade) eller kan av annan anledning inte konfigureras.
         format:
           date: "%{attribute} är inget giltigt datum - förväntat format är åååå-mm-dd."
         general: Ett fel har inträffat.
-        update_conflict_refresh: Klicka här för att uppdatera resursen och uppdatera till den nyaste versionen.
+        update_conflict_refresh: Klicka här för att läsa in resursen på nytt och uppdatera till den senaste versionen.
     help_texts:
       show_modal: Visa hjälptext
     ical_sharing_modal:
@@ -362,19 +362,19 @@ sv:
       inital_setup_error_message: Ett fel inträffade vid hämtning av data.
       success_message: URL "%{name}" har kopierats till ditt urklipp. Klistra in den i din kalenderklient för att slutföra prenumerationen.
       title: Prenumerera på kalender
-      token_name_description_text: Om du prenumererar på denna kalender från flera enheter kommer detta namn hjälpa dig att skilja mellan dem i din <a href="%{myAccessTokensUrl}" target="_blank">åtkomst-tokens</a> -lista.
+      token_name_description_text: Om du prenumererar på den här kalendern från flera enheter hjälper namnet dig att skilja dem åt i listan över <a href="%{myAccessTokensUrl}" target="_blank">åtkomsttoken</a>.
       token_name_label: Var kommer du att använda den här?
       token_name_placeholder: Ange ett namn, t. ex. "Telefon"
       warning: Vänligen dela inte denna URL med andra användare. Alla med denna länk kommer att kunna se detaljer om arbetspaket utan ett konto eller lösenord.
     include_projects:
       apply: Tilldela
-      clear_selection: Clear selection
-      include_subprojects: Include all sub-projects
+      clear_selection: Rensa markering
+      include_subprojects: Inkludera alla underprojekt
       no_results: Inget projekt matchar dina sökkriterier.
       search_placeholder: Sök projekt...
       selected_filter:
         all: Alla projekt
-        selected: Only selected
+        selected: Endast valda
       title: Projekt
       toggle_title: Inkludera projekt
       tooltip:
@@ -395,31 +395,31 @@ sv:
       button_save_all: Spara
       clear_value_label: "-"
       errors:
-        maxlength: "%{field} kan inte innehålla mer än %{maxLength} siffra/siffror"
+        maxlength: "%{field} får inte innehålla fler än %{maxLength} siffror"
         messages_on_field: 'Fältet är ogiltigt: %{messages}'
-        minlength: "%{field} kan inte innehålla mindre än %{minLength} siffra/siffror"
+        minlength: "%{field} får inte innehålla färre än %{minLength} siffror"
         number: "%{field} är inte ett giltigt tal"
         required: "%{field} kan inte vara tomt"
       link_formatting_help: Hjälp med textformatering
       null_value_label: Inget värde
-    invalid_job_response: Invalid response from server.
+    invalid_job_response: Ogiltigt svar från servern.
     invite_user_modal:
       invite: Bjud in
-      placeholder_add_tag: Create placeholder user
+      placeholder_add_tag: Skapa platshållaranvändare
     label_activate: Aktivera
-    label_activity_show_all: Visa aktiviteter
+    label_activity_show_all: Visa alla aktiviteter
     label_activity_show_only_comments: Visa aktiviteter med endast kommentarer
     label_add_attachments: Bifoga filer
     label_add_column_after: Lägg till kolumn efter
     label_add_column_before: Lägg till kolumn före
-    label_add_columns: Lägg till kolumn
+    label_add_columns: Lägg till kolumner
     label_add_comment: Lägg till kommentar
     label_add_comment_title: Kommentera och skriv @ för att meddela andra personer
-    label_add_description: Lägga till en beskrivning för %{file}
+    label_add_description: Lägg till en beskrivning för %{file}
     label_add_row_after: Lägg till rad efter
     label_add_row_before: Lägg till rad före
     label_add_selected_columns: Lägga till markerade kolumner
-    label_added_by: lagts till av
+    label_added_by: tillagd av
     label_added_time_by: Tillagd av <a href="%{authorLink}">%{author}</a> på %{age}
     label_ago: dagar sedan
     label_all: alla
@@ -440,17 +440,17 @@ sv:
     label_board_sticky: Klistrad
     label_cancel_comment: Avbryt kommentar
     label_change: Ändra
-    label_children_derived_duration: Work package's children derived duration
-    label_closed_work_packages: stängt
+    label_children_derived_duration: Varaktighet härledd från arbetspaketets underordnade objekt
+    label_closed_work_packages: stängd
     label_collapse: Fäll ihop
     label_collapse_all: Fäll ihop alla
-    label_collapse_text: Collapse text
-    label_collapsed: hopfällda
+    label_collapse_text: Fäll ihop text
+    label_collapsed: hopfälld
     label_columns: Kolumner
     label_comment: Kommentar
     label_contains: innehåller
     label_create: Skapa
-    label_create_work_package: Skapa nya arbetspaket
+    label_create_work_package: Skapa nytt arbetspaket
     label_created_by: Skapad av
     label_created_on: skapad den
     label_current: nuvarande
@@ -463,9 +463,9 @@ sv:
     label_description: Beskrivning
     label_details: Detaljer
     label_display: Visa
-    label_drop_files: Drop files here to attach files.
+    label_drop_files: Släpp filer här för att bifoga dem.
     label_drop_folders_hint: Du kan inte ladda upp mappar som bilaga. Välj enstaka filer.
-    label_drop_or_click_files: Drop files here or click to attach files.
+    label_drop_or_click_files: Släpp filer här eller klicka för att bifoga filer.
     label_edit_comment: Redigera kommentaren
     label_edit_status: Redigera status för arbetspaketet
     label_email: E-post
@@ -473,15 +473,15 @@ sv:
     label_expand: Expandera
     label_expand_all: Expandera alla
     label_expand_project_menu: Expandera projektmenyn
-    label_expand_text: Show full text
-    label_expanded: expanderade
+    label_expand_text: Visa hela texten
+    label_expanded: utfälld
     label_export: Exportera
     label_export_preparing: Exporten förbereds och kommer att laddas ner inom kort.
     label_favorites: Favoriter
     label_filename: Fil
     label_files_to_upload: 'Dessa filer kommer att laddas upp:'
     label_filesize: Filstorlek
-    label_formattable_attachment_hint: Bifoga och länka filer genom att släppa på fältet, eller klistra in från Urklipp.
+    label_formattable_attachment_hint: Bifoga och länka filer genom att släppa dem på det här fältet eller klistra in dem från urklipp.
     label_general: Allmänt
     label_global_queries: Offentlig
     label_greater_or_equal: ">="
@@ -496,7 +496,7 @@ sv:
     label_in_less_than: i mindre än
     label_in_more_than: i mer än
     label_incoming_emails: Inkommande E-post
-    label_infinity: Infinity
+    label_infinity: Oändlighet
     label_information_plural: Information
     label_invalid: Ogiltig
     label_last_updated_on: Senast uppdaterad den
@@ -508,7 +508,7 @@ sv:
     label_mail_notification: E-postaviseringar
     label_manage_columns: Hantera och ändra ordning på kolumner
     label_me: mig
-    label_meeting_agenda: Agenda
+    label_meeting_agenda: Dagordning
     label_meeting_minutes: Protokoll
     label_moderate_comment: Moderera kommentar
     label_more_than_ago: mer än dagar sedan
@@ -516,17 +516,17 @@ sv:
     label_no_color: Ingen färg
     label_no_data: Ingen data att visa
     label_no_date: inget datum
-    label_no_due_date: no finish date
+    label_no_due_date: inget slutdatum
     label_no_start_date: inget startdatum
     label_no_value: Inget värde
     label_none: inga
-    label_not_available: Not available
+    label_not_available: Inte tillgänglig
     label_not_contains: innehåller inte
     label_not_equals: är inte
-    label_on: på
+    label_on: den
     label_open_context_menu: Öppna kontextmenyn
     label_open_menu: Öppna meny
-    label_open_work_packages: öppna
+    label_open_work_packages: öppen
     label_password: Lösenord
     label_per_page: 'Per sida:'
     label_please_wait: Vänligen vänta
@@ -549,7 +549,7 @@ sv:
     label_report: Rapport
     label_repository_plural: Versionsarkiv
     label_reset: Återställ
-    label_resize_project_menu: Resize project menu
+    label_resize_project_menu: Ändra storlek på projektmenyn
     label_save_as: Spara som
     label_search_columns: Sök i en kolumn
     label_select_watcher: Välj en bevakare...
@@ -559,20 +559,20 @@ sv:
     label_sort_by: Sortera efter
     label_sort_higher: Flytta upp
     label_sort_lower: Flytta ned
-    label_sorted_by: sorterade efter
+    label_sorted_by: sorterad efter
     label_sorting: Sortering
     label_spent_time: Förbrukad tid
-    label_star_query: Favorited
+    label_star_query: Favoritmarkerad
     label_starred_queries: Favorit
     label_subject: Ämne
     label_sum: Summa
     label_sum_for: Summa för
     label_this_week: denna vecka
     label_time_entry_plural: Förbrukad tid
-    label_today: Idag
+    label_today: I dag
     label_total_amount: 'Totalt: %{amount}'
-    label_total_progress: "%{percent}% Totalt klart"
-    label_total_sum: Total sum
+    label_total_progress: "%{percent}% totalt klart"
+    label_total_sum: Totalsumma
     label_unwatch: Sluta bevaka
     label_unwatch_work_package: Sluta bevaka arbetspaket
     label_up: Upp
@@ -582,20 +582,20 @@ sv:
     label_uploaded_by: Uppladdad av
     label_user_plural: Användare
     label_validation_error: 'Arbetspaketet kunde inte sparas på grund av följande fel:'
-    label_value_derived_from_children: "(värde härrör från barn)"
+    label_value_derived_from_children: "(värde härlett från underordnade)"
     label_version_plural: Versioner
     label_view_has_changed: Denna vy har osparade ändringar. Klicka för att spara dem.
-    label_visibility_settings: Synlighet inställningar
-    label_wait: Vänligen vänta för konfiguration...
+    label_visibility_settings: Synlighetsinställningar
+    label_wait: Vänta medan konfigurationen läses in...
     label_warning: Varning
     label_watch: Bevaka
     label_watch_work_package: Bevaka arbetspaket
     label_watcher_added_successfully: Bevakare har lagts till!
     label_watcher_deleted_successfully: Bevakare har tagits bort!
     label_work_package: Arbetspaket
-    label_work_package_context_menu: Work package context menu
-    label_work_package_details_you_are_here: You are on the %{tab} tab for %{type} %{subject}.
-    label_work_package_parent: Parent work package
+    label_work_package_context_menu: Snabbmeny för arbetspaket
+    label_work_package_details_you_are_here: Du är på fliken %{tab} för %{type} %{subject}.
+    label_work_package_parent: Överordnat arbetspaket
     label_work_package_plural: Arbetspaket
     label_work_package_upload_notification: 'Ladda upp filer för arbetspaket #%{id}: %{subject}'
     label_wp_id_added_by: "#%{id} tillagd av %{author}"
@@ -606,16 +606,16 @@ sv:
       button_save: Spara
       button_submit: Skicka
       destroy_time_entry:
-        text: Are you sure you want to delete the following time entry?
-        title: Confirm deletion of time entry
+        text: Är du säker på att du vill ta bort följande tidsregistrering?
+        title: Bekräfta borttagning av tidsregistrering
       form_submit:
         text: Är du säker på att du vill utföra den här åtgärden?
         title: Bekräfta för att fortsätta
       label_delete_page: Ta bort aktuell sida
       label_name: Namn
-    no_job_id: No job ID returned from server.
+    no_job_id: Inget jobb-ID returnerades från servern.
     notice_bad_request: Felaktig förfrågan.
-    notice_job_started: job started.
+    notice_job_started: jobbet startade.
     notice_no_results_to_display: Inga synliga resultat att visa.
     notice_successful_create: Skapades utan problem.
     notice_successful_delete: Raderades utan problem.
@@ -626,40 +626,40 @@ sv:
           one: och 1 annan
           other: och %{count} andra
         empty_state:
-          no_notification: Looks like you are all caught up.
+          no_notification: Du är helt uppdaterad.
           no_notification_for_filter: Det ser ut som om du är klar med det här filtret.
           no_notification_with_current_filter: Det ser ut som om du är klar med %{filter} filter.
-          no_notification_with_current_project_filter: Looks like you are all caught up with the selected project.
+          no_notification_with_current_project_filter: Du är helt uppdaterad för det valda projektet.
           no_selection: Klicka på en avisering för att se alla aktivitetsdetaljer.
         label_actor_and: och
         mark_all_read: Markera alla som lästa
-        mark_all_read_confirmation: This will mark all notifications in this view as read. Are you sure you want to do this?
+        mark_all_read_confirmation: Detta markerar alla aviseringar i den här vyn som lästa. Är du säker på att du vill göra det?
         mark_as_read: Markera som läst
         new_notifications:
           link_text: Klicka här för att ladda dem.
           message: Det finns nya meddelanden.
         no_results:
-          at_all: New notifications will appear here when there is activity that concerns you.
-          with_current_filter: There are no notifications in this view at the moment
+          at_all: Nya aviseringar visas här när det finns aktivitet som berör dig.
+          with_current_filter: Det finns inga aviseringar i den här vyn just nu
         text_update_date_by: "%{date} av"
-        total_count_warning: Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed.
+        total_count_warning: Visar de %{newest_count} senaste aviseringarna. Ytterligare %{more_count} visas inte.
       date_alerts:
-        milestone_date: Milestone date
-        overdue: Overdue
-        overdue_since: for %{difference_in_days}.
+        milestone_date: Milstolpedatum
+        overdue: Försenad
+        overdue_since: under %{difference_in_days}.
         property_is: är i %{difference_in_days}.
         property_is_deleted: är raderad.
         property_today: är idag.
         property_was: var %{difference_in_days} sedan.
-      no_unread: No unread notifications
+      no_unread: Inga olästa aviseringar
       reasons:
         assigned: Tilldelad till
         commented: Kommenterade
         created: Skapad
-        dateAlert: Date alert
+        dateAlert: Datumavisering
         mentioned: Omnämnd
-        prioritized: Prioritized
-        processed: Processed
+        prioritized: Prioriterad
+        processed: Behandlad
         reminder: Påminnelse
         responsible: Huvudansvarig
         scheduled: Schemalagt
@@ -670,39 +670,39 @@ sv:
       settings:
         change_notification_settings: Du kan ändra dina <a target="_blank" href="%{url}">aviseringsinställningar</a> för att säkerställa att du aldrig missar en viktig uppdatering.
         title: Inställningar för aviseringar
-      title: Notifications
+      title: Aviseringar
     onboarding:
       buttons:
-        got_it: Jag fattar
+        got_it: Jag förstår
         next: Nästa
         skip: Hoppa över
       steps:
         boards:
-          add: Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board.
-          drag: Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details.
-          lists_basic: Here you can create multiple lists (columns) within your agile board.
-          lists_kanban: Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example.
-          overview: Select <b>boards</b> to shift the view and manage your project using the agile boards view.
-        help_menu: The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!
-        members: Invite new <b>members</b> to join your project.
-        quick_add_button: Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.
-        sidebar_arrow: Use the return arrow in the top left corner to return to the project’s <b>main menu</b>.
+          add: Klicka på plusikonen (+) för att <b>skapa ett nytt kort</b> eller <b>lägga till ett befintligt kort</b> i listan på tavlan.
+          drag: Dra och släpp kort inom en lista för att ändra ordningen eller flytta dem till en annan lista. <br> Du kan klicka på informationsikonen (i) i det övre högra hörnet eller dubbelklicka på ett kort för att öppna dess detaljer.
+          lists_basic: Här kan du skapa flera listor (kolumner) på din agila tavla.
+          lists_kanban: Här kan du skapa flera listor (kolumner) på din tavla. Funktionen gör det exempelvis möjligt att skapa en <b>Kanban-tavla</b>.
+          overview: Välj <b>Tavlor</b> för att byta vy och hantera projektet med den agila tavelvyn.
+        help_menu: Menyn Hjälp (?) ger <b>ytterligare hjälpresurser</b>. Här hittar du en användarguide, praktiska instruktionsvideor och mer. <br> Lycka till med arbetet i OpenProject!
+        members: Bjud in nya <b>medlemmar</b> till projektet.
+        quick_add_button: Klicka på plusikonen (+) i sidhuvudets navigering för att <b>skapa ett nytt projekt</b> eller <b>bjuda in kollegor</b>.
+        sidebar_arrow: Använd returpilen i det övre vänstra hörnet för att återgå till projektets <b>huvudmeny</b>.
         team_planner:
-          add_assignee: To get started, add assignees to the team planner.
-          add_existing: Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.
-          calendar: The weekly or biweekly planning board displays all work packages assigned to your team members.
-          card: Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.
-          overview: The team planner lets you visually assign tasks to team members and get an overview of who is working on what.
-        welcome: Take a three-minute introduction tour to learn the most <b>important features</b>. <br> We recommend completing the steps until the end. You can restart the tour any time.
-        wiki: Within the <b>wiki</b> you can document and share knowledge together with your team.
+          add_assignee: Börja genom att lägga till tilldelade personer i teamplaneraren.
+          add_existing: Sök efter befintliga arbetspaket och dra dem till teamplaneraren för att direkt tilldela dem till en teammedlem och ange start- och slutdatum.
+          calendar: Planeringstavlan för en eller två veckor visar alla arbetspaket som tilldelats dina teammedlemmar.
+          card: Dra arbetspaket horisontellt för att flytta dem bakåt eller framåt i tiden, dra i kanterna för att ändra start- och slutdatum eller dra dem vertikalt till en annan rad för att tilldela dem till en annan medlem.
+          overview: Med teamplaneraren kan du visuellt tilldela uppgifter till teammedlemmar och få en översikt över vem som arbetar med vad.
+        welcome: Gå en tre minuter lång introduktionstur för att lära dig de <b>viktigaste funktionerna</b>. <br> Vi rekommenderar att du slutför alla steg. Du kan starta om rundturen när som helst.
+        wiki: I <b>Wiki</b> kan du dokumentera och dela kunskap tillsammans med ditt team.
         wp:
-          back_button: Use the return arrow in the top left corner to exit and return to the work package list.
-          create_button: The <b>+ Create</b> button will add a new work package to your project.
-          full_view: The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments.
-          gantt_menu: Create project schedules and timelines effortlessly using the Gantt chart module.
-          list: This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row.
-          timeline: Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.
-          toggler: Now let's have a look at the <b>work package</b> section, which gives you a more detailed view of your work.
+          back_button: Använd returpilen i det övre vänstra hörnet för att avsluta och återgå till arbetspaketslistan.
+          create_button: Knappen <b>+ Skapa</b> lägger till ett nytt arbetspaket i projektet.
+          full_view: Vyn <b>arbetspaketsdetaljer</b> innehåller all relevant information om ett visst arbetspaket, till exempel beskrivning, status, prioritet, aktiviteter, beroenden och kommentarer.
+          gantt_menu: Skapa projektscheman och tidslinjer enkelt med Gantt-diagrammodulen.
+          list: Den här översikten över <b>arbetspaket</b> ger en lista över allt arbete i projektet, till exempel uppgifter, milstolpar, faser och mer. <br> Arbetspaket kan skapas och redigeras direkt från den här vyn. Dubbelklicka på raden för ett arbetspaket för att öppna dess detaljer.
+          timeline: Här kan du <b>redigera projektplanen</b>, skapa nya arbetspaket som uppgifter, milstolpar och faser samt <b>lägga till beroenden</b>. Alla teammedlemmar kan när som helst se och uppdatera den senaste planen.
+          toggler: Nu tittar vi på avsnittet <b>arbetspaket</b>, som ger en mer detaljerad vy över ditt arbete.
     open_project_storage_modal:
       waiting_subtitle:
         network_off: Det finns ett nätverksproblem.
@@ -735,8 +735,8 @@ sv:
     project_menu_details: Detaljer
     projects:
       identifier_suggestion:
-        loading: Loading suggestion...
-        set_name_first: Please set the name first.
+        loading: Läser in förslag...
+        set_name_first: Ange namnet först.
     relation_buttons:
       abort: Avbryt
       add_existing: Lägg till befintlig
@@ -744,7 +744,7 @@ sv:
       add_existing_relation: Lägg till befintlig relation
       add_new_child: Skapa nytt barn
       add_new_relation: Skapa ny relation
-      add_parent: Lägga till befintlig förälder
+      add_parent: Lägg till befintlig överordnad
       add_predecessor: Lägg till föregångare
       add_successor: Lägg till efterträdare
       change_parent: Ändra överordnad
@@ -754,45 +754,45 @@ sv:
       hierarchy_indent: Öka indrag för hierarki
       hierarchy_outdent: Minska indrag för hierarki
       remove: Radera relation
-      remove_child: Ta bort barn
-      remove_parent: Ta bort förälder
+      remove_child: Ta bort underordnad
+      remove_parent: Ta bort överordnad
       save: Spara relation
-      set_parent: Ange förälder
+      set_parent: Ange överordnad
       show_relations: Visa relationer
       toggle_description: Visa/dölj relationsbeskrivning
       update_description: Ange eller uppdatera beskrivningen av denna relation
       update_relation: Klicka för att ändra relationstypen
     relation_labels:
       blocked: Blockerad av
-      blocks: Block
-      child: Child
-      children: Barn
+      blocks: Blockerar
+      child: Underordnad
+      children: Underordnade
       duplicated: Duplicerad av
-      duplicates: Dubbletter
+      duplicates: Duplicerar
       follows: Följer
       includes: Inkluderar
       parent: Överordnad
       partof: Del av
       precedes: Föregår
-      relates: Relaterade till
+      relates: Relaterad till
       relation_type: relationstyp
       required: Krävs av
       requires: Kräver
     relations:
-      empty: Inga samband finns
+      empty: Ingen relation finns
       remove: Radera relation
     relations_autocomplete:
       parent_placeholder: Välj ny förälder eller tryck på escape för att avbryta.
       placeholder: Skriv för att söka
     relations_hierarchy:
-      children_headline: Barn
-      hierarchy_headline: Hierarchy
+      children_headline: Underordnade
+      hierarchy_headline: Hierarki
       parent_headline: Överordnad
     repositories:
       select_branch: Välj gren
-      select_tag: Välj etikett
+      select_tag: Välj tagg
     sharing:
-      selected_count: "%{count} selected"
+      selected_count: "%{count} valda"
       selection:
         mixed: Blandad
       share: Dela
@@ -806,12 +806,12 @@ sv:
       sorting_disabled: sortering är inaktiverad
     sortable_lists:
       announcements:
-        fallback_item_label: Item
-        fallback_list_name: another list
-        move_failed_check_position: Move failed. Check the item's current position.
-        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
-        moved: "%{label} moved to position %{position} of %{total}"
-        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+        fallback_item_label: Objekt
+        fallback_list_name: en annan lista
+        move_failed_check_position: Flytten misslyckades. Kontrollera postens aktuella position.
+        move_failed_rolled_back: Flytten misslyckades. %{label} återställdes till sin tidigare position.
+        moved: "%{label} flyttades till position %{position} av %{total}"
+        moved_to_list: "%{label} flyttades till %{list}, position %{position} av %{total}"
     spot:
       drop_modal:
         close: Stäng modal
@@ -825,16 +825,16 @@ sv:
     text_user_wrote: "%{value} skrev:"
     text_work_packages_destroy_confirmation: Är du säker du vill ta bort det valda arbetspaket(paketen)?
     time_entry:
-      stop: Stop
+      stop: Stoppa
       title: Logga tid
       tracking: Tidredovisning
       work_package_required: Kräver att man först väljer ett arbetspaket.
     timer:
-      button_stop: Stop current timer
+      button_stop: Stoppa aktuell timer
       start_new_timer: Starta ny timer
-      timer_already_running: 'To start a new timer, you must first stop the current timer:'
-      timer_already_stopped: No active timer for this work package, have you stopped it in another window?
-      tracking_time: Tracking time
+      timer_already_running: 'För att starta en ny timer måste du först stoppa den aktuella timern:'
+      timer_already_stopped: Ingen aktiv timer för det här arbetspaketet. Har du stoppat den i ett annat fönster?
+      tracking_time: Tidsspårning
     tl_toolbar:
       outlines: Hierarkinivå
       zooms: Zoomnivå
@@ -854,16 +854,16 @@ sv:
         page_settings: Byt namn på vyn
         save: Spara
         save_as: Spara som
-        share_calendar: Subscribe to calendar
+        share_calendar: Prenumerera på kalender
         sort_by: Sortera efter
-        visibility_settings: Synlighet inställningar
+        visibility_settings: Synlighetsinställningar
       unselected_title: Arbetspaket
     two_factor_authentication:
       label_two_factor_authentication: Tvåfaktorsautentisering
     units:
       child_work_packages:
-        one: ett barnarbetspaket
-        other: "%{count} arbetspaket barn"
+        one: ett underordnat arbetspaket
+        other: "%{count} underordnade arbetspaket"
       day:
         one: En dag
         other: "%{count} dagar"
@@ -871,8 +871,8 @@ sv:
       hour:
         one: 1 tim
         other: "%{count} timmar"
-        zero: 0 h
-      hour_string: "%{hours} h"
+        zero: 0 tim
+      hour_string: "%{hours} tim"
       word:
         one: 1 ord
         other: "%{count} ord"
@@ -880,11 +880,11 @@ sv:
         one: arbetspaket
         other: arbetspaket
     upsell:
-      ee_only: Enterprise edition add-on
+      ee_only: Tillägg i Enterprise Edition
     views:
       card: Kort
       list: Tabell
-      timeline: Gantt-schema
+      timeline: Gantt-diagram
     watchers:
       label_add: Lägg till bevakare
       label_discard: Förkasta val
@@ -901,24 +901,24 @@ sv:
       image: Bild
       italic: Kursiv
       ordered_list: Sorterad lista
-      preformatted_text: Förformaterad Text
+      preformatted_text: Förformaterad text
       quote: Citat
       strong: Fetstil
       underline: Understruken
       unordered_list: Osorterad lista
-      unquote: Slutcitat
+      unquote: Ta bort citat
       wiki_link: Länka till en Wiki-sida
     work_packages:
       baseline:
-        addition_label: Added to view within the comparison time period
-        column_incompatible: This column does not show changes in Baseline mode.
-        modification_label: Modified within the comparison time period
-        removal_label: Removed from view within the comparison time period
+        addition_label: Tillagd att visa inom jämförelseperioden
+        column_incompatible: Den här kolumnen visar inte ändringar i baslinjeläge.
+        modification_label: Ändrad inom jämförelseperioden
+        removal_label: Borttagen från vyn inom jämförelseperioden
       bulk_actions:
         delete: Massborttagning
         duplicate: Bulk duplicera
-        edit: Lägg till/Ändra
-        move: Bulk-ändra projekt
+        edit: Massredigering
+        move: Massändring av projekt
       button_clear: Rensa
       comment_added: Kommentaren lades till.
       comment_send_failed: Ett fel har inträffat. Kommentaren kunde inte läggas till.
@@ -935,10 +935,10 @@ sv:
         assigned_to_me: Tilldelad till mig
         created_by_me: Skapad av mig
         latest_activity: Senaste aktivitet
-        manually_sorted: New manually sorted query
-        overdue: Overdue
+        manually_sorted: Ny manuellt sorterad fråga
+        overdue: Försenad
         recently_created: Nyligen skapade
-        shared_with_me: Delade med mig
+        shared_with_me: Delat med mig
         shared_with_users: Delade med användare
         summary: Sammanfattning
       description_enter_text: Ange text
@@ -952,12 +952,12 @@ sv:
         description: Din vy är felaktig och kunde inte bearbetas.
         title: Arbetspaket kunde inte laddas.
       filters:
-        baseline_incompatible: This filter attribute is not taken into consideration in Baseline mode.
-        baseline_warning: Baseline mode is on but some of your active filters are not included in the comparison.
+        baseline_incompatible: Det här filterattributet beaktas inte i baslinjeläge.
+        baseline_warning: Baslinjeläget är aktiverat, men vissa av dina aktiva filter ingår inte i jämförelsen.
         title: Filtrera arbetspaket
       hierarchy:
-        children_collapsed: Hierarkinivå %{level} kollapsade. Klicka för att visa de filtrerade barnen
-        children_expanded: Hierarkinivå %{level} expanderade. Klicka för att dölja de filtrerade barnen
+        children_collapsed: Hierarkinivå %{level}, hopfälld. Klicka för att visa de filtrerade underordnade
+        children_expanded: Hierarkinivå %{level}, utfälld. Klicka för att dölja de filtrerade underordnade
         hide: Dölj hierarkiläge
         leaf: Arbetspaketsnod på nivå %{level}.
         show: Visa hierarkiläge
@@ -967,22 +967,22 @@ sv:
       jump_marks:
         content: Gå till innehåll
         label_content: Klicka här för att hoppa över menyn och gå till innehållet
-        label_pagination: Klicka här för att hoppa arbetspaketets tabell och gå till sidnumrering
-        pagination: Gå till sidnumrering för tabell
+        label_pagination: Klicka här för att hoppa över arbetspaketstabellen och gå till sidnavigeringen
+        pagination: Gå till tabellens sidnavigering
       key_value: "%{key}: %{value}"
       label_column_multiselect: 'Kombinerade nedrullningsbara fält: Markera med piltangenterna, bekräfta val med RETUR, ta bort med BACKSTEG'
       label_disable_multi_select: Inaktivera multival
       label_enable_multi_select: Aktivera multival
       label_filter_add: Lägg till filter
-      label_filter_by_text: Filtrera på text
+      label_filter_by_text: Filtrera efter text
       label_options: Alternativ
-      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
+      limited_results: Endast %{count} arbetspaket kan visas i manuellt sorteringsläge. Minska antalet resultat genom filtrering eller byt till automatisk sortering.
       message_error_during_bulk_delete: Ett fel uppstod vid försök att ta bort arbetspaket.
       message_successful_bulk_delete: Arbetspaket togs bort.
       message_successful_show_in_fullscreen: Klicka här för att öppna det här arbetspaketet i fullskärmsläge.
       message_view_spent_time: Visa loggad tid för detta arbetspaket
       message_work_package_read_only: Arbetspaketet är låst i denna status. Inget annat attribut än status kan ändras.
-      message_work_package_status_blocked: Status för arbetspaketet är inte skrivbar på grund av stängd status och stängd version tilldelas.
+      message_work_package_status_blocked: Arbetspaketets status kan inte ändras eftersom både en stängd status och en stängd version har tilldelats.
       no_results:
         description: Antingen finns det inga arbetspaket eller så har alla filtrerats bort.
         title: Inga arbetspaket att visa.
@@ -991,7 +991,7 @@ sv:
         date: Välj datum
         default: "-"
       progress:
-        title: Work estimates and progress
+        title: Arbetsuppskattningar och förlopp
       properties:
         assignee: Tilldelad till
         author: Upphovsman
@@ -1001,9 +1001,9 @@ sv:
         description: Beskrivning
         dueDate: Slutdatum
         duration: Varaktighet
-        percentComplete: "% Complete"
-        percentCompleteAlternative: Progress
-        percentageDone: Procent gjort
+        percentComplete: "% klart"
+        percentCompleteAlternative: Förlopp
+        percentageDone: Procent klart
         priority: Prioritet
         projectName: Projekt
         remainingTime: Återstående arbete
@@ -1024,7 +1024,7 @@ sv:
         workAlternative: Beräknad tid
       property_groups:
         details: Detaljer
-        estimatesAndTime: Uppskattningar & tid
+        estimatesAndTime: Uppskattningar och tid
         other: Andra
         people: Personer
       query:
@@ -1045,49 +1045,49 @@ sv:
         insert_columns: Infoga kolumner
         move_column_left: Flytta kolumnen till vänster
         move_column_right: Flytta kolumnen till höger
-        public_text: 'Publicera den här vyn så att andra användare kan komma åt vyn. Användare med behörigheten "Hantera offentliga vyer" kan ändra eller ta bort offentlig fråga. Detta påverkar inte synligheten av arbetspaketet resultat i den vyn och beroende på deras behörigheter kan användare se olika resultat.
+        public_text: 'Publicera den här vyn så att andra användare kan komma åt den. Användare med behörigheten ''Hantera offentliga vyer'' kan ändra eller ta bort offentliga frågor. Detta påverkar inte synligheten för arbetspaketsresultaten i vyn; beroende på sina behörigheter kan användare se olika resultat.
 
           '
         rename_query_placeholder: Namn på denna vy
         sort_ascending: Sortera stigande
         sort_descending: Sortera fallande
-        star_text: Markera denna vy som favorit och lägg till den sparade vyn sidofältet till vänster.
+        star_text: Markera den här vyn som favorit och lägg till den i sidofältet med sparade vyer till vänster.
         text_no_results: Inga matchande vyer hittades.
       reminders:
-        button_label: Set reminder
+        button_label: Ange påminnelse
         presets:
-          custom: At a particular date/time
+          custom: Vid ett visst datum/en viss tid
           month: Om en månad
           three_days: Om 3 dagar
           tomorrow: Imorgon
           week: Om en vecka
-        subtitle: You will receive a notification for this work package at the chosen time.
+        subtitle: Du får en avisering för det här arbetspaketet vid den valda tidpunkten.
         title:
           edit: Redigera påminnelse
-          new: Set a reminder
+          new: Ställ in en påminnelse
       scheduling:
-        is_parent: The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates.
-        is_switched_from_manual_to_automatic: The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages.
+        is_parent: Datumen för det här arbetspaketet härleds automatiskt från dess underordnade objekt. Aktivera "Manuell schemaläggning" för att ange datumen.
+        is_switched_from_manual_to_automatic: Datumen för det här arbetspaketet kan behöva räknas om efter byte från manuell till automatisk schemaläggning på grund av relationer till andra arbetspaket.
       sharing:
         show_all_users: Visa alla användare med vilka arbetspaketet har delats med
-        title: Share work package
+        title: Dela arbetspaket
       table:
-        configure_button: Konfigurera arbetspakets-tabell
+        configure_button: Konfigurera arbetspaketstabell
         summary: Tabell med ett arbetspaket för varje rad och kolumner för varje arbetspaketsattribut.
         text_inline_edit: Du kan klicka på de flesta celler i den här tabellen för att redigera attributens funktion.
         text_select_hint: Valda celler öppnas med 'ALT' och piltangenterna.
         text_sort_hint: Med hjälp av länkarna i tabellrubrikerna kan du sortera, gruppera, ändra ordning, radera och lägga till kolumner.
       table_configuration:
-        button: Konfigurera detta arbetspaket-tabell
+        button: Konfigurera den här arbetspaketstabellen
         choose_display_mode: Visa arbetspaket som
-        columns_help_text: Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them.
+        columns_help_text: Använd inmatningsfältet ovan för att lägga till kolumner i tabellvyn. Du kan dra och släppa kolumnerna för att ändra ordningen.
         default: standard
         default_mode: Platt lista
-        display_settings: Skärminställningar
-        display_sums_hint: Visa summor av alla sammanlagda attribut i en rad under tabellresultatet.
-        embedded_tab_disabled: This configuration tab is not available for the embedded view you are editing.
-        hierarchy_hint: Alla filtrerade tabellresultat kommer att kompletteras med sina förfäder. Hierarkier kan utökas och kollapsas.
-        hierarchy_mode: Hierarchy
+        display_settings: Visningsinställningar
+        display_sums_hint: Visa summan av alla summerbara attribut på en rad under tabellresultaten.
+        embedded_tab_disabled: Den här konfigurationsfliken är inte tillgänglig för den inbäddade vy som du redigerar.
+        hierarchy_hint: Alla filtrerade tabellresultat kompletteras med sina överordnade. Hierarkier kan fällas ut och fällas ihop.
+        hierarchy_mode: Hierarki
         highlighting: Markering
         highlighting_mode:
           description: Markera med färg
@@ -1098,9 +1098,9 @@ sv:
           priority: Prioritet
           status: Status
           type: Typ
-        modal_title: Inställningar för arbetspaket-tabell
+        modal_title: Konfiguration av arbetspaketstabell
         relation_filters:
-          filter_work_packages_by_relation_type: Filter work packages by relation type
+          filter_work_packages_by_relation_type: Filtrera arbetspaket efter relationstyp
         show_timeline_hint: Visa ett interaktivt gantt-diagram på höger sida av tabellen. Du kan ändra dess bredd genom att dra delaren mellan tabellen och gantt-diagrammet.
         sorting_mode:
           automatic: Automatisk
@@ -1111,7 +1111,7 @@ sv:
         activity: Aktivitet
         files: Filer
         overview: Översikt
-        project_attributes: Project attributes
+        project_attributes: Projektattribut
         relations: Relationer
         watchers: Bevakare
       time_relative:
@@ -1120,4 +1120,4 @@ sv:
         weeks: veckor
     zen_mode:
       button_activate: Aktivera zen-läge
-      button_deactivate: Inaktivera avskalat läge
+      button_deactivate: Inaktivera zen-läge

@@ -219,7 +219,7 @@ RSpec.describe "Select work package row", :js, :selenium do
 
     it do
       find_by_id("work-packages-details-view-button").click
-      split_wp = Pages::SplitWorkPackage.new(work_package_2)
+      split_wp = Pages::PrimerizedSplitWorkPackage.new(work_package_2)
       split_wp.expect_attributes Subject: work_package_2.subject
 
       find_by_id("work-packages-details-view-button").click

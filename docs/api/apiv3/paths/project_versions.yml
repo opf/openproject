@@ -3,7 +3,7 @@
 get:
   parameters:
   - description: ID of the project whose versions will be listed
-    example: '1'
+    example: 1
     in: path
     name: id
     required: true

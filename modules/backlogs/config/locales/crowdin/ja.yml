@@ -115,6 +115,7 @@ ja:
         other: スプリント
         zero: すべてのスプリント
       select_panel_title: アイテムの選択
+    blankslate_filtered_title: No work packages match the filter criteria.
     bucket_component:
       action_menu:
         add_existing_work_package: 既存のワークパッケージを追加する
@@ -156,6 +157,8 @@ ja:
       show_more:
         other: "「 %{count} 」のその他の商品を表示"
       title: 受信箱
+    index_subheader_component:
+      label_search_by_subject: Search work packages by subject
     label_burndown_chart: バーンダウンチャート
     label_is_done_status: ステータス%{status_name}は完了として扱う
     label_sprint_board: スプリントの取締役会

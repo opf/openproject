@@ -15,15 +15,15 @@ pl:
         url: URL do wywołania
     models:
       webhooks/log:
-        one: Webhook log
-        few: Webhook logs
-        many: Webhook logs
-        other: Webhook logs
+        one: Dziennik webhooka
+        few: Dzienniki webhooka
+        many: Dzienniki webhooka
+        other: Dzienniki webhooka
       webhooks/webhook:
         one: Webhook
-        few: Webhooks
-        many: Webhooks
-        other: Webhooks
+        few: Webhooki
+        many: Webhooki
+        other: Webhooki
   plugin_openproject_webhooks:
     description: Udostępnia interfejs API wtyczek do obsługi webhooków OpenProject w celu lepszej integracji z rozwiązaniami innych firm.
     name: Webhooki OpenProject

@@ -13,18 +13,18 @@ uk:
           meeting_agenda_items:
             item_0:
               title: Гарні новини
-              notes: What went well this week?
+              notes: Які успіхи були цього тижня?
             item_1:
-              title: Team updates
-              notes: News and focused topics for the upcoming week.
+              title: Новини команди
+              notes: Новини й актуальні теми на наступний тиждень.
             item_2:
-              notes: "**Today's topic**: Organizing the open-source conference."
+              notes: "**Тема дня** — організація конференції з рішень із відкритим кодом."
             item_3:
-              title: Review of quarterly goals
-              notes: Assessing the status and progress of the defined quarterly goals.
+              title: Перегляд квартальних цілей
+              notes: Оцінка статусу визначених квартальних цілей і прогресу на шляху до їх досягнення.
             item_4:
-              title: Core values feedback
-              notes: Highlight employees who have lived the core values this week.
+              title: Відгук щодо ключових цінностей
+              notes: Відзначити працівників, які цього тижня демонстрували відданість основним цінностям.
             item_5:
-              title: General topics
-              notes: Solving or discussing topics together.
+              title: Загальні теми
+              notes: Спільне розвʼязання проблем чи обговорення тем.

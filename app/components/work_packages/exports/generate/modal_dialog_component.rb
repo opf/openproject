@@ -23,7 +23,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 # ++
@@ -37,6 +37,8 @@ module WorkPackages
         GENERATE_PDF_FORM_ID = "op-work-packages-generate-pdf-dialog-form"
         include OpTurbo::Streamable
         include OpPrimer::ComponentHelpers
+        include Templates::HyphenationOptions
+
         attr_reader :work_package, :params
 
         def initialize(work_package:, params:)
@@ -44,14 +46,6 @@ module WorkPackages
 
           @work_package = work_package
           @params = params
-        end
-
-        def default_footer_text_center
-          work_package.subject
-        end
-
-        def default_footer_text
-          work_package.project.name
         end
 
         def templates_default
@@ -62,59 +56,71 @@ module WorkPackages
           work_package.type_variant.pdf_export_templates.list_enabled
         end
 
+        def template_form_id(template_id)
+          "#{GENERATE_PDF_FORM_ID}-#{template_id}"
+        end
+
+        def attributes_settings
+          stored = template_settings("attributes")
+          {
+            footer_text: resolve_setting(stored, :footer_text, work_package.project.name),
+            page_orientation: resolve_setting(stored, :page_orientation, "portrait"),
+            hyphenation: resolve_boolean_setting(stored, :hyphenation, false),
+            hyphenation_language: hyphenation_language_for(stored)
+          }
+        end
+
+        def contract_settings
+          stored = template_settings("contract")
+          {
+            footer_text_center: resolve_setting(stored, :footer_text_center, work_package.subject),
+            hyphenation: resolve_boolean_setting(stored, :hyphenation, false),
+            hyphenation_language: hyphenation_language_for(stored)
+          }
+        end
+
+        def artefact_settings
+          stored = template_settings("artefact")
+          {
+            toc: resolve_boolean_setting(stored, :toc, WorkPackage::PDFExport::Artefact::DEFAULT_TOC),
+            hyphenation: resolve_boolean_setting(stored, :hyphenation, false),
+            hyphenation_language: hyphenation_language_for(stored)
+          }
+        end
+
         def hyphenation_default
           hyphenation_language_by_locale || hyphenation_options[0]
         end
 
-        def page_orientation_default
-          page_orientation_options[0]
+        private
+
+        def template_settings(template_id)
+          work_package.type_variant.pdf_export_templates.settings_for(template_id)
         end
 
-        def page_orientation_options
-          [
-            { label: I18n.t("pdf_generator.dialog.page_orientation.options.portrait"), value: "portrait" },
-            { label: I18n.t("pdf_generator.dialog.page_orientation.options.landscape"), value: "landscape" }
-          ]
+        # `stored` only ever has keys the admin explicitly saved (see
+        # Type::PdfExportTemplates#settings_for), so `key?` - not `||` - is what tells "explicitly
+        # set to a blank/false value" apart from "never configured, use today's default".
+        def resolve_setting(stored, key, default)
+          stored.key?(key) ? stored[key] : default
         end
 
-        def hyphenation_language_by_locale
-          search_locale = I18n.locale.to_s
-          hyphenation_options.find { |lang| lang[:value] == search_locale }
+        # Stored checkbox settings round-trip through the jsonb column as the strings "true"/
+        # "false" (they arrive from a form submit). Rails' checked-state check
+        # (ActionView::Helpers::Tags::Checkable#input_checked?) only treats the literal `true` or
+        # the string "checked" as checked, so passing the stored string "true" straight through
+        # would render the box unchecked. Cast the same way the exporters' own read sites already
+        # do (e.g. WorkPackage::PDFExport::Artefact#with_toc?).
+        def resolve_boolean_setting(stored, key, default)
+          return default unless stored.key?(key)
+
+          ActiveModel::Type::Boolean.new.cast(stored[key])
         end
 
-        def hyphenation_options
-          # This is a list of languages that are supported by the hyphenation library
-          # https://rubygems.org/gems/text-hyphen
-          # The labels are the language names in the language itself (NOT to be put I18n)
-          [
-            { label: "-", value: "" },
-            { label: "Català", value: "ca" },
-            { label: "Dansk", value: "da" },
-            { label: "Deutsch", value: "de" },
-            { label: "Eesti", value: "et" },
-            { label: "English", value: "en" },
-            { label: "Español", value: "es" },
-            { label: "Euskara", value: "eu" },
-            { label: "Français", value: "fr" },
-            { label: "Gaeilge", value: "ga" },
-            { label: "Hrvatski", value: "hr" },
-            { label: "Indonesia", value: "id" },
-            { label: "Interlingua", value: "ia" },
-            { label: "Italiano", value: "it" },
-            { label: "Magyar", value: "hu" },
-            { label: "Melayu", value: "ms" },
-            { label: "Nederlands", value: "nl" },
-            { label: "Norsk", value: "no" },
-            { label: "Polski", value: "pl" },
-            { label: "Português", value: "pt" },
-            { label: "Slovenčina", value: "sk" },
-            { label: "Suomi", value: "fi" },
-            { label: "Svenska", value: "sv" },
-            { label: "Ísland", value: "is" },
-            { label: "Čeština", value: "cs" },
-            { label: "Монгол", value: "mn" },
-            { label: "Русский", value: "ru" }
-          ]
+        def hyphenation_language_for(stored)
+          resolve_setting(stored, :hyphenation_language, nil) ||
+            hyphenation_language_by_locale&.fetch(:value) ||
+            hyphenation_options[0][:value]
         end
       end
     end

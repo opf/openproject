@@ -3,7 +3,7 @@ zh-CN:
   activerecord:
     models:
       job_status/status:
-        other: Background job statuses
+        other: 后台作业状态
   job_status_dialog:
     click_to_download: 或 [点击此处](download_url) 下载。
     download_starts: 下载会自动开始。

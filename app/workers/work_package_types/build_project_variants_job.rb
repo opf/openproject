@@ -44,10 +44,6 @@ module WorkPackageTypes
     good_job_control_concurrency_with(total_limit: 1)
 
     def perform
-      unless OpenProject::FeatureDecisions.type_variants_active?
-        raise "expected the type_variants feature to be active"
-      end
-
       @built = 0
       @unchanged = 0
       @failed = 0
