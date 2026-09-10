@@ -37,14 +37,15 @@ module HealthReports
 
     # The i18n_scope parameter defines the I18n scope that should be used to resolve
     # names of groups, checks and error messages indicated by the results.
-    def initialize(*, i18n_scope:, **)
+    def initialize(*, i18n_scope:, docs_href:, **)
       super(*, **)
       @i18n_scope = i18n_scope
+      @docs_href = docs_href
     end
 
     private
 
-    attr_reader :i18n_scope
+    attr_reader :i18n_scope, :docs_href
 
     def summary_scheme(check_tally)
       case check_tally

@@ -75,57 +75,57 @@ fr:
         time_entry:
           attributes:
             entity:
-              blank: Logged for can't be blank.
-              cannot_log_for_this_work_package: You don't have permissions to log time for this work package.
+              blank: "« Enregistré pour » ne peut pas être vide."
+              cannot_log_for_this_work_package: Vous n'avez pas les permissions nécessaires pour saisir du temps sur ce lot de travaux.
               format: "%{message}"
             hours:
-              exceeds_user_working_hours: The logged hours cannot exceed the limit of %{limit} hours available on the user's working day.
+              exceeds_user_working_hours: Le nombre d'heures saisies ne peut pas dépasser la limite de %{limit} heures disponibles au cours de la journée de travail de l'utilisateur.
               format: "%{message}"
-              max_hours_per_day_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single day defined by the administrator.
-              max_hours_per_entry_exceeded: The logged hours cannot exceed the limit of %{limit} hours for a single time entry defined by the administrator.
+              max_hours_per_day_exceeded: Le nombre d'heures saisies ne peut pas dépasser la limite de %{limit} heures par jour définie par l'administrateur.
+              max_hours_per_entry_exceeded: Les heures enregistrées ne peuvent pas dépasser la limite de %{limit} heures pour une seule saisie de temps définie par l'administrateur.
             spent_on:
               format: "%{message}"
-              in_past_month: You can't plan time into a past month. Time entries can only be added, changed or deleted from %{date} onwards.
-              not_a_working_day: The selected day is a non-working day for this user.
+              in_past_month: Vous ne pouvez pas saisir de temps pour un mois écoulé. Les saisies de temps ne peuvent être ajoutées, modifiées ou supprimées qu'à partir du %{date}.
+              not_a_working_day: Le jour sélectionné est un jour non travaillé pour cet utilisateur.
             start_time:
               format: "%{message}"
-              invalid_time: Invalid time. The time must be between 00:00 and 23:59.
-          duplicate_ongoing: Another timer is already running. Only one timer can be active at the same time.
+              invalid_time: Heure invalide. L'heure doit être comprise entre 00:00 et 23:59.
+          duplicate_ongoing: Un autre minuteur est déjà en cours. Un seul minuteur peut être actif à la fois.
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Le lot de travaux #%{id} n''est pas une cible valide pour réaffecter les entrées de coût.'
           nullify_is_not_valid_for_cost_entries: Des entrées de coût ne peuvent pas être assignées à un projet.
     models:
       cost_entry:
         one: Entrée de coût
-        other: Saisies de coûts
+        other: Entrées de coûts
       cost_rate:
-        one: Cost rate
-        other: Cost rates
+        one: Coût horaire
+        other: Coûts horaires
       cost_type:
         one: Types de coût
         other: Types de coûts
       default_hourly_rate:
-        one: Default hourly rate
-        other: Default hourly rates
+        one: Taux horaire par défaut
+        other: Taux horaires par défaut
       hourly_rate:
-        one: Hourly rate
-        other: Hourly rates
+        one: Taux horaire
+        other: Taux horaires
       rate:
-        one: Rate
-        other: Rates
+        one: Tarif
+        other: Tarifs
       time_entry:
-        one: Saisie du temps
-        other: Saisies du temps
+        one: Saisie de temps
+        other: Saisies de temps
       time_entry_activity:
-        one: Activités de suivi du temps
+        one: Activité de suivi du temps
         other: Activités de suivi du temps
       time_entry_custom_field:
-        one: Time entry custom field
-        other: Time entry custom fields
+        one: Champ personnalisé de saisie de temps
+        other: Champs personnalisés de saisie de temps
   api_v3:
     errors:
       validation:
-        start_time_different_date: La partie date de startTime (%{start_time}) doit être identique à la date de spentOn (%{spent_on}).
+        start_time_different_date: La date de startTime (%{start_time}) doit être identique à celle de spentOn (%{spent_on}).
   attributes:
     comment: Commentaire
     cost_type: Types de coût
@@ -141,7 +141,7 @@ fr:
   button_log_costs: Consigner des coûts unitaires
   button_log_time: Consigner
   button_stop_timer: Arrêter le suivi du temps
-  button_update_limits: Limites de mise à jour
+  button_update_limits: Mettre à jour les limites
   button_update_start_finish_times: Mettre à jour les heures de début et de fin
   caption_booked_on_project: Réservé pour le projet
   caption_default: Défaut
@@ -161,11 +161,11 @@ fr:
         active_projects: Projets actifs
       cost_type_projects:
         for_all_projects_blank_slate:
-          description: Décochez la case "Pour tous les projets" dans l'onglet "Détails" pour limiter ce type de coût à des projets spécifiques.
+          description: Décochez la case « Pour tous les projets » dans l'onglet « Détails » pour limiter ce type de coût à des projets spécifiques.
           heading: Ce type de coût est activé dans tous les projets
         no_projects:
           description: Ajoutez des projets pour que ce type de coût puisse y être utilisé.
-          heading: Aucun projet assigné
+          heading: Aucun projet associé
       rates:
         title: Historique des tarifs
     errors:
@@ -188,16 +188,16 @@ fr:
         view_details: Voir les détails des coûts réels
   description_costs_settings: Définissez le format souhaité pour les coûts dans tous les projets.
   description_date_for_new_rate: Date pour le nouveau tarif
-  description_time_entry_restrictions: Définissez les limites relatives à la saisie des heures par les utilisateurs. Cela s'applique à tous les projets.
-  description_time_settings: Les enregistrements de temps peuvent comporter des heures de début et de fin précises, qui peuvent être facultatives ou obligatoires.
+  description_time_entry_restrictions: Définissez les limites applicables à la saisie de temps par les utilisateurs. Cela s'applique à tous les projets.
+  description_time_settings: Les saisies de temps peuvent comporter des heures de début et de fin précises, qui peuvent être facultatives ou obligatoires.
   ee:
     features:
-      time_entry_time_restrictions: Restrictions relatives à la saisie des heures
+      time_entry_time_restrictions: Restrictions relatives à la saisie de temps
     upsell:
       time_entry_time_restrictions:
-        description: Améliorez le suivi de votre temps de travail en autorisant ou en imposant des heures de début et de fin précises, et en fixant des limites quant au moment et à la durée pendant lesquels un membre de l'équipe peut enregistrer du temps sur un projet.
+        description: Améliorez le suivi du temps en autorisant ou en imposant des heures de début et de fin précises, et en définissant des limites quant au moment où un membre du projet peut saisir du temps et au nombre d'heures qu'il peut saisir.
   group_by_others: dans aucun groupe
-  label_available_cost_types_projects: Projets de types de coûts disponibles
+  label_available_cost_types_projects: Projets pour lesquels des types de coûts sont disponibles
   label_between: entre
   label_cost: Coût
   label_cost_filter_add: Ajouter filtre d'entrée de coût
@@ -227,13 +227,13 @@ fr:
   label_log_costs: Consigner des coûts unitaires
   label_month: Mois
   label_my_time_tracking: Mon suivi du temps
-  label_new_time_entry_activity: Nouvelle saisie de temps d'activité
+  label_new_time_entry_activity: Nouvelle activité de saisie de temps
   label_next_day: Jour suivant
   label_next_month: Mois suivant
   label_next_week: Semaine suivante
   label_next_workweek: Prochaine semaine de travail
   label_no: Non
-  label_no_time: Aucun suivi de temps
+  label_no_time: Aucun temps saisi
   label_option_plural: Options
   label_overall_costs: Coûts globaux
   label_previous_day: Jour précédent
@@ -244,10 +244,10 @@ fr:
   label_show: Afficher
   label_specific_day: Jour %{day}
   label_specific_month: Mois %{month}
-  label_start_and_finished: Heures de départ et d'arrivée
+  label_start_and_finished: Heures de début et de fin
   label_status_finished: Terminé
   label_time: Heure 
-  label_time_entry_activity_form_description: Les modifications apportées à cette saisie du temps d'activité seront répercutées dans tous les projets où elle est activée.
+  label_time_entry_activity_form_description: Les modifications apportées à cette activité de saisie de temps seront répercutées dans tous les projets où elle est activée.
   label_time_entry_restrictions: Limites
   label_timer_since: Commencé à %{time}
   label_today_capitalized: Aujourd'hui
@@ -259,7 +259,7 @@ fr:
   label_workweek: Semaine de travail
   label_yes: Oui
   notice_cost_logged_successfully: Coût unitaire enregistré avec succès.
-  notice_different_time_zones: Cet utilisateur a un fuseau horaire différent (%{tz}). L'heure sera enregistrée en utilisant son fuseau horaire.
+  notice_different_time_zones: Cet utilisateur a un fuseau horaire différent (%{tz}). Le temps sera saisi selon son fuseau horaire.
   notice_something_wrong: Quelque chose s'est mal passé. Veuillez réessayer.
   notice_successful_lock: Bloqué avec succès.
   notice_successful_restore: Restauration réussie.
@@ -273,7 +273,7 @@ fr:
   permission_log_costs: Réserver des coûts unitaires
   permission_log_own_costs: Réserver coûts unitaires propres
   permission_view_cost_entries: Afficher coûts réservés
-  permission_view_cost_rates: Voir les tarifs de coût
+  permission_view_cost_rates: Voir les coûts horaires
   permission_view_hourly_rates: Voir tous les tarifs horaires
   permission_view_own_cost_entries: Afficher coûts propres réservés
   permission_view_own_hourly_rate: Voir son propre tarif horaire
@@ -288,23 +288,23 @@ fr:
   setting_costs_currency: Devise
   setting_costs_currency_caption: Il s'agit de l'unité monétaire. Il peut s'agir d'un code ISO à trois lettres comme EUR, USD ou JPY ou d'un symbole comme €, $ ou ¥.
   setting_costs_currency_format: Format de devise
-  setting_costs_currency_format_prefix: Avant le nombre (par exemple 100 EUR)
+  setting_costs_currency_format_prefix: Avant le nombre (par exemple EUR 100)
   setting_costs_currency_format_suffix: Après le nombre (par exemple 100 EUR)
   setting_enforce_tracking_start_and_end_times: Exiger les heures de début et de fin
   setting_enforce_tracking_start_and_end_times_caption: Rend la saisie des heures de début et de fin obligatoire lors de la journalisation.
   setting_enforce_without_allow: Il est nécessaire d'autoriser les heures de début et de fin pour pouvoir les exiger
-  setting_time_entries_limit_to_user_working_hours: Se limiter aux heures de travail de l'utilisateur
-  setting_time_entries_limit_to_user_working_hours_caption: Limits the total hours that can be logged per day to that user’s effective working hours. Users without defined working times will not be restricted.
+  setting_time_entries_limit_to_user_working_hours: Limiter aux heures de travail de l'utilisateur
+  setting_time_entries_limit_to_user_working_hours_caption: Limite le nombre total d'heures pouvant être saisies par jour aux heures de travail effectives de l'utilisateur. Les utilisateurs sans horaires de travail définis ne sont pas concernés par cette restriction.
   setting_time_entries_max_hours_per_day: Nombre maximal d'heures par jour
-  setting_time_entries_max_hours_per_day_caption: Limite le nombre total d'heures pendant lesquelles un utilisateur peut se connecter au cours d'une même journée. La valeur 0 signifie qu'il n'y a aucune restriction.
-  setting_time_entries_max_hours_per_entry: Nombre maximal d'heures par enregistrement de temps
+  setting_time_entries_max_hours_per_day_caption: Limite le nombre total d'heures qu'un utilisateur peut saisir au cours d'une même journée. Une valeur de 0 signifie qu'il n'y a aucune restriction.
+  setting_time_entries_max_hours_per_entry: Nombre maximal d'heures par saisie de temps
   setting_time_entries_max_hours_per_entry_caption: Limite le nombre d'heures pouvant figurer dans une seule saisie de temps. Une valeur égale à 0 signifie qu'il n'y a aucune restriction.
   setting_time_entries_past_month_grace_days: Délai de grâce pour les mois écoulés
-  setting_time_entries_past_month_grace_days_caption: Définissez le nombre de jours dont dispose un utilisateur, dès le début d'un nouveau mois, pour saisir ses relevés d'heures relatifs au mois écoulé. Une valeur de 5 permet aux utilisateurs de saisir leurs relevés d'heures pour le mois précédent jusqu'au 5 du mois en cours. Une valeur de 0 signifie qu'il n'y a aucun délai de grâce.
-  setting_time_entries_prohibit_logging_for_past_months: Ne pas autoriser la saisie des données des mois précédents
-  setting_time_entries_prohibit_logging_for_past_months_caption: Limite l'ajout, la modification et la suppression des relevés d'heures au mois en cours. Les heures enregistrées au cours des mois précédents ne peuvent plus être modifiées.
-  setting_time_entries_prohibit_logging_on_non_working_days: Ne pas autoriser l'enregistrement des heures de travail les jours chômés
-  setting_time_entries_prohibit_logging_on_non_working_days_caption: Les utilisateurs ne pourront pas enregistrer d'heures les jours définis comme jours chômés, que ce soit par un administrateur ou par les utilisateurs eux-mêmes dans les paramètres de leur compte.
+  setting_time_entries_past_month_grace_days_caption: Définissez le nombre de jours dont dispose un utilisateur, au début d'un nouveau mois, pour saisir du temps pour le mois écoulé. Une valeur de 5 permet aux utilisateurs de saisir du temps pour le mois précédent jusqu'au 5 du mois en cours. Une valeur de 0 signifie qu'il n'y a aucun délai de grâce.
+  setting_time_entries_prohibit_logging_for_past_months: Ne pas autoriser la saisie de temps pour les mois écoulés
+  setting_time_entries_prohibit_logging_for_past_months_caption: Limite l'ajout, la modification et la suppression des saisies de temps au mois en cours. Le temps saisi pour les mois écoulés ne peut plus être modifié.
+  setting_time_entries_prohibit_logging_on_non_working_days: Ne pas autoriser la saisie de temps les jours non travaillés
+  setting_time_entries_prohibit_logging_on_non_working_days_caption: Les utilisateurs ne pourront pas saisir de temps les jours définis comme non travaillés, que ce soit par un administrateur ou par eux-mêmes dans les paramètres de leur compte.
   text_assign_time_and_cost_entries_to_project: Assigner les heures et coûts consignés au projet
   text_destroy_cost_entries_question: "%{cost_entries} ont été consignés sur les lots de travaux que vous êtes sur le point de supprimer. Que voulez-vous faire ?"
   text_destroy_time_and_cost_entries: Supprimer les heures et coûts consignés
@@ -312,8 +312,8 @@ fr:
   text_reassign_time_and_cost_entries: 'Réassigner les heures et coûts consignés à ce lot de travaux :'
   text_warning_hidden_elements: Certaines entrées peuvent avoir été exclues de l'agrégation.
   total_times:
-    day: 'Total du jour : %{hours}'
-    month: 'Total du mois : %{hours}'
-    week: 'Total de la semaine : %{hours}'
+    day: 'Total du jour : %{hours}'
+    month: 'Total du mois : %{hours}'
+    week: 'Total de la semaine : %{hours}'
     workweek: 'Total de la semaine de travail : %{hours}'
   week: semaine

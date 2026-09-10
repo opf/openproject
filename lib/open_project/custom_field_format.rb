@@ -42,6 +42,8 @@ module OpenProject
                    edit_as: name,
                    only: nil,
                    multi_value_possible: false,
+                   numeric_bounds_possible: false,
+                   length_limits_possible: false,
                    enterprise_feature: nil,
                    enabled: lambda { true },
                    formatter: "CustomValue::StringStrategy")
@@ -51,6 +53,8 @@ module OpenProject
       @edit_as = edit_as
       @class_names = only
       @multi_value_possible = multi_value_possible
+      @numeric_bounds_possible = numeric_bounds_possible
+      @length_limits_possible = length_limits_possible
       @enterprise_feature = enterprise_feature
       @enabled = enabled
       @formatter = formatter
@@ -58,6 +62,14 @@ module OpenProject
 
     def multi_value_possible?
       @multi_value_possible
+    end
+
+    def numeric_bounds_possible?
+      @numeric_bounds_possible
+    end
+
+    def length_limits_possible?
+      @length_limits_possible
     end
 
     def formatter

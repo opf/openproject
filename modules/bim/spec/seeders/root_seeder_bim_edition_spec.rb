@@ -110,6 +110,7 @@ RSpec.describe RootSeeder,
     include_examples "it creates records", model: Status, expected_count: 4
     include_examples "it creates records", model: TimeEntryActivity, expected_count: 3
     include_examples "it creates records", model: Workflow, expected_count: 273
+    include_examples "it creates records", model: AI::TextTransformAction, expected_count: 4
     include_examples "it is compatible with the automatic scheduling mode"
   end
 
@@ -265,8 +266,8 @@ RSpec.describe RootSeeder,
     end
 
     it "creates 1 project with custom fields" do
-      # 12 development work package custom fields + 4 demo user custom fields
-      expect(CustomField.count).to eq 16
+      # 13 development work package custom fields + 4 demo user custom fields
+      expect(CustomField.count).to eq 17
     end
 
     it "creates 2 additional types for development" do

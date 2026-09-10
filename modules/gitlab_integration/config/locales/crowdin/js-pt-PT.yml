@@ -32,7 +32,7 @@ pt-PT:
           description: Copiar trechos de código git para área de transferência
           label: Fragmentos de código Git
         create_mr:
-          description: Crie Pedido de Fusão
+          description: Criar um pedido de fusão
           label: Criar MR
         git_actions:
           branch_name: Nome do ramo

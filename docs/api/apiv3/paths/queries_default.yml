@@ -15,7 +15,7 @@ get:
       JSON specifying filter conditions.
       The filters provided as parameters are not applied to the query but are instead used to override the query's persisted filters.
       All filters also accepted by the work packages endpoint are accepted. If no filter is to be applied, the client should send an empty array (`[]`).
-    example: '[{ "assignee": { "operator": "=", "values": ["1", "5"] }" }]'
+    example: '[{ "assignee": { "operator": "=", "values": ["1", "5"] } }]'
     in: query
     required: false
     schema:

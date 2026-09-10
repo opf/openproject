@@ -58,7 +58,7 @@ pl:
         presenter: Prezenter
         title: Tytuł
       meeting_outcome:
-        kind: Kind
+        kind: Rodzaj
       meeting_participant:
         attended: Uczestniczył
         invited: Zaproszeni
@@ -103,40 +103,40 @@ pl:
           not_an_occurrence: nie jest prawidłowym czasem wystąpienia tego spotkania cyklicznego
     models:
       meeting:
-        one: One-time meeting
-        few: One-time meetings
-        many: One-time meetings
-        other: One-time meetings
+        one: Spotkanie jednorazowe
+        few: Spotkani jednorazowe
+        many: Spotkania jednorazowe
+        other: Spotkania jednorazowe
       meeting_agenda_item:
-        one: Agenda item
-        few: Agenda items
-        many: Agenda items
-        other: Agenda items
+        one: Punkt planu spotkania
+        few: Punkty planu spotkania
+        many: Punkty planu spotkania
+        other: Punkty planu spotkania
       meeting_outcome:
-        one: Outcome
-        few: Outcomes
-        many: Outcomes
-        other: Outcomes
+        one: Wynik
+        few: Wyniki
+        many: Wyniki
+        other: Wyniki
       meeting_participant:
-        one: Meeting participant
-        few: Meeting participants
-        many: Meeting participants
-        other: Meeting participants
+        one: Uczestnik spotkania
+        few: Uczestnicy spotkania
+        many: Uczestnicy spotkania
+        other: Uczestnicy spotkania
       meeting_section:
-        one: Section
-        few: Sections
-        many: Sections
-        other: Sections
+        one: Sekcja
+        few: Sekcje
+        many: Sekcje
+        other: Sekcje
       recurring_meeting:
-        one: Recurring meeting
-        few: Recurring meetings
-        many: Recurring meetings
-        other: Recurring meetings
+        one: Spotkanie cykliczne
+        few: Spotkania cykliczne
+        many: Spotkania cykliczne
+        other: Spotkania cykliczne
       scheduled_meeting:
-        one: Scheduled meeting
-        few: Scheduled meetings
-        many: Scheduled meetings
-        other: Scheduled meetings
+        one: Zaplanowane spotkanie
+        few: Zaplanowane spotkania
+        many: Zaplanowane spotkania
+        other: Zaplanowane spotkania
       token/ical_meeting:
         one: Subskrypcja spotkań iCal
         few: Subskrypcje spotkań iCal

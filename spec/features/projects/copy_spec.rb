@@ -510,14 +510,14 @@ RSpec.describe "Projects copy", :js,
       copied_settings_wp_cf_page.expect_inactive(inactive_wp_custom_field)
 
       # has types of original project active
-      copied_settings_type_page = Pages::Projects::Settings::Type.new(copied_project)
+      copied_settings_type_page = Pages::Projects::Settings::WorkPackageTypes.new(copied_project)
       copied_settings_type_page.visit!
 
       active_types.each do |type|
-        copied_settings_type_page.expect_type_active(type)
+        copied_settings_type_page.expect_type_row(type.default_variant)
       end
 
-      copied_settings_type_page.expect_type_inactive(inactive_type)
+      copied_settings_type_page.expect_no_type_row(inactive_type.default_variant)
 
       # Expect wiki was copied
       expect(copied_project.wiki.pages.count).to eq(project.wiki.pages.count)

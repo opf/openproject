@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { type_variants: true } do
+RSpec.describe WorkPackageTypes::CreationWizardController do
   render_views
 
   before { login_as user }
@@ -170,13 +170,25 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { type_var
     end
   end
 
-  context "when the variants feature is disabled", with_flag: { type_variants: false } do
-    let(:user) { create(:admin) }
+  context "when adding a variant from inside a project" do
+    shared_let(:type) { create(:type, name: "Critical") }
+    shared_let(:project) { create(:project, types: [type]) }
+
+    let(:user) { create(:user, member_with_permissions: { project => %i[view_project manage_project_variants] }) }
 
     describe "GET new" do
-      before { get :new }
+      before { get :new, params: { in_project_id: project.id, type_id: type.id } }
 
-      it { expect(response).to have_http_status(:not_found) }
+      it { expect(response).to have_http_status(:ok) }
+
+      context "when the type does not allow project-specific variants" do
+        before do
+          type.update!(allow_project_variants: false)
+          get :new, params: { in_project_id: project.id, type_id: type.id }
+        end
+
+        it { expect(response).to have_http_status(:not_found) }
+      end
     end
   end
 end

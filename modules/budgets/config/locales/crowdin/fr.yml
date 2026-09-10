@@ -50,11 +50,11 @@ fr:
         one: Budget
         other: Budgets
       labor_budget_item:
-        one: Planned labor cost
-        other: Planned labor costs
+        one: Coût de main-d'œuvre prévu
+        other: Coûts de main-d'œuvre prévus
       material_budget_item:
-        one: Unit
-        other: Units
+        one: Unité
+        other: Unités
   activity:
     filter:
       budget: Budgets
@@ -68,7 +68,7 @@ fr:
           heading: Démarrer le contrôle du projet
         blankslate_zero:
           description: Ajoutez les détails de votre budget prévisionnel pour voir les données ici
-          heading: Détails du budget manquant
+          heading: Détails du budget manquants
         count_caption:
           one: Données agrégées à partir de %{count} budget
           other: Données agrégées à partir de %{count} budgets

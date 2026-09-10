@@ -26,9 +26,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  afterEach, beforeEach, describe, expect, it,
-} from 'vitest';
 import { addTurboGlobalListeners } from './turbo-global-listeners';
 
 describe('addTurboGlobalListeners — OPCE custom element morph guard', () => {

@@ -12,7 +12,7 @@ RSpec.describe "activity comments", :js, :selenium do
            project:,
            journal_notes: initial_comment)
   end
-  let(:wp_page) { Pages::SplitWorkPackage.new(work_package, project) }
+  let(:wp_page) { Pages::PrimerizedSplitWorkPackage.new(work_package, project) }
   let(:activity_tab) { Components::WorkPackages::Activities.new(work_package) }
   let(:initial_comment) { "the first comment in this WP" }
 
@@ -63,13 +63,13 @@ RSpec.describe "activity comments", :js, :selenium do
     end
 
     context "with the project page" do
-      let(:wp_page) { Pages::SplitWorkPackage.new(work_package, project) }
+      let(:wp_page) { Pages::PrimerizedSplitWorkPackage.new(work_package, project) }
 
       it_behaves_like "principal autocomplete on field"
     end
 
     context "without the project page" do
-      let(:wp_page) { Pages::SplitWorkPackage.new(work_package) }
+      let(:wp_page) { Pages::PrimerizedSplitWorkPackage.new(work_package) }
 
       it_behaves_like "principal autocomplete on field"
     end
