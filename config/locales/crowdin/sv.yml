@@ -2197,6 +2197,9 @@ sv:
     label_delete_token: Ta bort token för säkerhetskopia
     label_reset_token: Återställ token för säkerhetskopia
     label_token_users: Följande användare har aktiva token för säkerhetskopiering
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: Skapa
       action_reset: Återställ
@@ -4282,6 +4285,9 @@ sv:
   mail_body_account_information: Din kontoinformation
   mail_body_account_information_external: Du kan använda ditt %{value} konto för att logga in.
   mail_body_backup_ready: 'Den säkerhetskopia du begärde är klar. Du kan hämta den här:'
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: Föregående token är inte längre giltig.
   mail_body_backup_token_reset_admin_info: Säkerhetskopieringstoken för användaren "%{user}" har återställts.
   mail_body_backup_token_reset_user_info: Din säkerhetskopieringstoken har återställts.
@@ -6396,7 +6402,6 @@ sv:
         add_query_group: Tabell med relaterade arbetspaket
         blankslate_description: Lägg till grupper med knappen ovan eller dra attribut från den vänstra panelen.
         blankslate_title: Inga grupper ännu
-        builtin_field: Inbyggt fält
         confirm_delete_group: Är du säker på att du vill ta bort det här avsnittet? Åtgärden kan inte ångras automatiskt.
         confirm_reset: Är du säker på att du vill återställa formuläret?
         custom_field: Anpassat fält
@@ -7111,7 +7116,7 @@ sv:
         target_role_ids:
           label: Målroller
         target_variant_ids:
-          label: Måltyper
+          label: Target types
       from_roles:
         create:
           notice:
@@ -7120,8 +7125,8 @@ sv:
       from_variants:
         create:
           notice:
-            one: Arbetsflödet kopierades till "%{type_name}".
-            other: Arbetsflödet kopierades till %{count} typer.
+            one: Successfully copied workflow to '%{type_name}'.
+            other: Successfully copied workflow to %{count} types.
       new:
         title: Kopiera arbetsflödet för "%{source_type}"
     form:

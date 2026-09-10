@@ -87,19 +87,19 @@ fr:
         usage_scope: Périmètre
       ai/text_transform_run:
         action: Action
-        cancel_requested: Cancel requested
-        error_message: Error message
-        finished_at: Finished at
-        input: Input
-        status: Status
-        system_prompt: System prompt
-        user: User
+        cancel_requested: Annulation demandée
+        error_message: Message d'Erreur
+        finished_at: Terminé à
+        input: Entrée
+        status: Statut
+        system_prompt: Invite du système
+        user: Utilisateur
         uuid: UUID
       ai/text_transform_run_event:
         kind: Kind
         payload: Payload
         run: Run
-        seq: Sequence number
+        seq: Numéro de séquence
       announcements:
         show_until: Afficher jusqu'à
       attachment:
@@ -142,9 +142,9 @@ fr:
         is_for_all: Pour tous les projets
         is_required: Obligatoire
         max_length: Longueur maximale
-        max_value: Maximum value
+        max_value: Valeur maximale
         min_length: Longueur minimale
-        min_value: Minimum value
+        min_value: Valeur minimale
         multi_value: Autoriser la sélection multiple
         possible_values: Valeurs possibles
         regexp: Expression régulière
@@ -590,7 +590,7 @@ fr:
         regex_list_invalid: Les lignes %{invalid_lines} n'ont pas pu être analysées comme des expressions régulières.
         regex_match_failed: ne correspond pas à l'expression régulière %{expression}.
         smaller_than_or_equal_to_max_length: doit être inférieur ou égal à la longueur maximale.
-        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
+        smaller_than_or_equal_to_max_value: doit être inférieure ou égale à la valeur maximale.
         ssrf_filtered: enfreint la politique SSRF de cette instance OpenProject.
         status_transition_invalid: n'est pas valide, car les rôles de l'utilisateur actuel ne permettent aucune transition de l'ancien statut vers le nouveau.
         system_wide_non_working_day_exists: entre en conflit avec un jour non travaillé existant dans l'ensemble du système pour cette date.
@@ -2197,6 +2197,9 @@ fr:
     label_delete_token: Supprimer le jeton de sauvegarde
     label_reset_token: Réinitialiser le jeton de sauvegarde
     label_token_users: Les utilisateurs suivants ont des jetons de sauvegarde actifs
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: Créer
       action_reset: Réinitialiser
@@ -4282,6 +4285,9 @@ fr:
   mail_body_account_information: Informations sur votre compte
   mail_body_account_information_external: Vous pouvez utiliser votre compte %{value} pour vous connecter.
   mail_body_backup_ready: 'La sauvegarde que vous avez demandée est prête. Vous pouvez la télécharger ici :'
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: Le jeton précédent n'est plus valide.
   mail_body_backup_token_reset_admin_info: Le jeton de sauvegarde pour l'utilisateur « %{user} » a été réinitialisé.
   mail_body_backup_token_reset_user_info: Votre jeton de sauvegarde a été réinitialisé.
@@ -6407,7 +6413,6 @@ fr:
         add_query_group: Tableau des lots de travaux associés
         blankslate_description: Ajoutez des groupes à l'aide du bouton ci-dessus ou faites glisser des attributs depuis le panneau de gauche.
         blankslate_title: Aucun groupe pour le moment
-        builtin_field: Champ natif
         confirm_delete_group: Voulez-vous vraiment supprimer cette section ? Cette action ne peut pas être annulée automatiquement.
         confirm_reset: Êtes-vous sûr de vouloir réinitialiser le formulaire ?
         custom_field: Champ personnalisé
@@ -7122,7 +7127,7 @@ fr:
         target_role_ids:
           label: Rôles cibles
         target_variant_ids:
-          label: Types cibles
+          label: Target types
       from_roles:
         create:
           notice:
@@ -7131,8 +7136,8 @@ fr:
       from_variants:
         create:
           notice:
-            one: Le flux de travail a été copié avec succès dans « %{type_name} ».
-            other: Le flux de travail a été copié avec succès dans %{count} types.
+            one: Successfully copied workflow to '%{type_name}'.
+            other: Successfully copied workflow to %{count} types.
       new:
         title: Copier le flux de travail de « %{source_type} »
     form:

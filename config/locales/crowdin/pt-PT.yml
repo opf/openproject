@@ -2197,6 +2197,9 @@ pt-PT:
     label_delete_token: 'Eliminar token de cópia de segurança '
     label_reset_token: 'Redefinir token de cópia de segurança '
     label_token_users: Os seguintes utilizadores têm tokens de cópia de segurança ativos
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: Criar
       action_reset: Repor
@@ -4281,6 +4284,9 @@ pt-PT:
   mail_body_account_information: Sua informação de conta
   mail_body_account_information_external: Pode utilizar a sua conta %{value} para iniciar a sessão.
   mail_body_backup_ready: 'A sua cópia de segurança está pronta. Pode transferi-la aqui:'
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: O token anterior já não é válido.
   mail_body_backup_token_reset_admin_info: O token de cópia de segurança para o utilizador '%{user}' foi redefinido.
   mail_body_backup_token_reset_user_info: O seu token de cópia de segurança foi redefinido.
@@ -6397,7 +6403,6 @@ pt-PT:
         add_query_group: Tabela de pacotes de trabalho relacionados
         blankslate_description: Adicione grupos no botão acima ou arraste atributos do painel esquerdo.
         blankslate_title: Ainda sem grupos
-        builtin_field: Campo incorporado
         confirm_delete_group: Tem a certeza de que quer eliminar esta secção? Esta ação não pode ser revertida automaticamente.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Campo personalizado
@@ -7112,7 +7117,7 @@ pt-PT:
         target_role_ids:
           label: Funções de destino
         target_variant_ids:
-          label: 'Tipos de destino:'
+          label: Target types
       from_roles:
         create:
           notice:
@@ -7121,8 +7126,8 @@ pt-PT:
       from_variants:
         create:
           notice:
-            one: O fluxo de trabalho foi copiado com sucesso para '%{type_name}'.
-            other: O fluxo de trabalho foi copiado com sucesso para %{count} tipos.
+            one: Successfully copied workflow to '%{type_name}'.
+            other: Successfully copied workflow to %{count} types.
       new:
         title: Copiar fluxo de trabalho de "%{source_type}"
     form:

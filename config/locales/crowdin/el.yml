@@ -2197,6 +2197,9 @@ el:
     label_delete_token: Διαγραφή token αντιγράφου ασφαλείας
     label_reset_token: Επαναφορά token αντιγράφου ασφαλείας
     label_token_users: Οι ακόλουθοι χρήστες έχουν ενεργά token αντιγράφων ασφαλείας
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: Δημιουργία
       action_reset: Επαναφορά
@@ -4281,6 +4284,9 @@ el:
   mail_body_account_information: Πληροφορίες του λογαριασμού σας
   mail_body_account_information_external: Μπορείτε να χρησιμοποιήσετε τον λογαριασμό %{value} για να συνδεθείτε.
   mail_body_backup_ready: 'Το ζητούμενο αντίγραφο ασφαλείας είναι έτοιμο. Μπορείτε να το κατεβάσετε εδώ:'
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: The previous token is no longer valid.
   mail_body_backup_token_reset_admin_info: Το token αντιγράφου ασφαλείας για το χρήστη '%{user}' έχει επαναφερθεί.
   mail_body_backup_token_reset_user_info: Your backup token has been reset.
@@ -6409,7 +6415,6 @@ el:
         add_query_group: Related work packages table
         blankslate_description: Add groups using the button above or drag attributes from the left panel.
         blankslate_title: No groups yet
-        builtin_field: Built-in field
         confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Custom field

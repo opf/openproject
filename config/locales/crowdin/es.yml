@@ -2197,6 +2197,9 @@ es:
     label_delete_token: Eliminar token de copias de seguridad
     label_reset_token: Restablecer token de copias de seguridad
     label_token_users: Los siguientes usuarios tienen tokens de copia de seguridad activos
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: Crear
       action_reset: Reiniciar
@@ -4275,6 +4278,9 @@ es:
   mail_body_account_information: Información de su cuenta
   mail_body_account_information_external: Puede usar su %{value} cuenta para ingresar.
   mail_body_backup_ready: 'La copia de seguridad solicitada está preparada. Puede descargarla desde aquí:'
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: El token anterior ya no es válido.
   mail_body_backup_token_reset_admin_info: Se ha restablecido el token de copias de seguridad para el usuario «%{user}».
   mail_body_backup_token_reset_user_info: Se ha restablecido su token de copias de seguridad.
@@ -6397,7 +6403,6 @@ es:
         add_query_group: Tabla de paquetes de trabajo relacionados
         blankslate_description: Añade grupos usando el botón de arriba o arrastra atributos desde el panel de la izquierda.
         blankslate_title: Aún no hay grupos
-        builtin_field: Campo integrado
         confirm_delete_group: "¿Seguro que quieres eliminar esta sección? Esta acción no se puede deshacer automáticamente."
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Campo personalizado
@@ -7008,7 +7013,7 @@ es:
           automatic_with_children: Fechas determinadas por paquetes de trabajo secundarios.
           automatic_with_predecessor: La fecha de inicio la fija un predecesor.
           manual_mobile: Programado manualmente.
-          manually_scheduled: Programado manualmente. Fechas no afectadas por relaciones.
+          manually_scheduled: Programado manualmente. No afectadas por relaciones.
       blankslate:
         description: Para activar la programación automática, este paquete de trabajo debe tener al menos un predecesor. Entonces se programará automáticamente para que comience después del predecesor más cercano.
         title: Sin predecesores
@@ -7110,7 +7115,7 @@ es:
         target_role_ids:
           label: Roles de destino
         target_variant_ids:
-          label: Tipos de destino
+          label: Target types
       from_roles:
         create:
           notice:
@@ -7119,8 +7124,8 @@ es:
       from_variants:
         create:
           notice:
-            one: El flujo de trabajo se ha copiado correctamente a «%{type_name}».
-            other: El flujo de trabajo se ha copiado correctamente a %{count} tipos.
+            one: Successfully copied workflow to '%{type_name}'.
+            other: Successfully copied workflow to %{count} types.
       new:
         title: Copiar el flujo de trabajo de «%{source_type}»
     form:

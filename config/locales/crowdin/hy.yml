@@ -2195,6 +2195,9 @@ hy:
     label_delete_token: Ջնջել պահուստավորման թոքենը
     label_reset_token: Վերակայել պահուստավորման թոքենը
     label_token_users: Հետևյալ օգտատերերն ունեն ակտիվ պահուստավորման թոքեններ
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: Ստեղծել
       action_reset: Վերակայել
@@ -4278,6 +4281,9 @@ hy:
   mail_body_account_information: Ձեր հաշվի տվյալները
   mail_body_account_information_external: Դուք կարող եք մտնել Ձեր %{value} հաշվով։
   mail_body_backup_ready: Ձեր պահանջած պահուստային պատճենը պատրաստ է։ Դուք կարող եք ներբեռնել այն այստեղ՝
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: Նախորդ թոքենն այլևս վավեր չէ։
   mail_body_backup_token_reset_admin_info: "'%{user}' օգտատիրոջ պահուստավորման թոքենը վերակայվել է։"
   mail_body_backup_token_reset_user_info: Ձեր պահուստավորման թոքենը վերակայվել է։
@@ -6406,7 +6412,6 @@ hy:
         add_query_group: Կապակցված աշխատանքային փաթեթների աղյուսակ
         blankslate_description: Ավելացրեք խմբեր վերևի կոճակի միջոցով կամ քաշեք հատկանիշները ձախ վահանակից։
         blankslate_title: Դեռ խմբեր չկան
-        builtin_field: Ներկառուցված դաշտ
         confirm_delete_group: Համոզվա՞ծ եք, որ ցանկանում եք ջնջել այս բաժինը։ Այս գործողությունը հնարավոր չէ ավտոմատ կերպով հետարկել։
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Հատուկ դաշտ

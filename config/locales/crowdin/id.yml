@@ -2084,6 +2084,9 @@ id:
     label_delete_token: Hapus token cadangan
     label_reset_token: Setel ulang token cadangan
     label_token_users: Pengguna berikut memiliki token cadangan aktif
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: Buat baru
       action_reset: Reset
@@ -4138,6 +4141,9 @@ id:
   mail_body_account_information: Info akun Anda
   mail_body_account_information_external: Anda dapat gunakan akun %{value} untuk login.
   mail_body_backup_ready: 'Cadangan yang Anda minta sudah siap.  Anda dapat mengunduhnya di sini:'
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: Token sebelumnya tidak lagi valid.
   mail_body_backup_token_reset_admin_info: Token cadangan untuk pengguna '%{user}' telah disetel ulang.
   mail_body_backup_token_reset_user_info: Token cadangan Anda telah disetel ulang.
@@ -6239,7 +6245,6 @@ id:
         add_query_group: Related work packages table
         blankslate_description: Add groups using the button above or drag attributes from the left panel.
         blankslate_title: No groups yet
-        builtin_field: Built-in field
         confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Custom field

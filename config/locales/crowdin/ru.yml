@@ -2439,6 +2439,9 @@ ru:
     label_delete_token: Удалить маркер резервного копирования
     label_reset_token: Сбросить маркер резервного копирования
     label_token_users: Следующие пользователи имеют действительные маркеры резервного копирования
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: Создать
       action_reset: Сбросить
@@ -4581,6 +4584,9 @@ ru:
   mail_body_account_information: Информация о вашей учетной записи
   mail_body_account_information_external: Вы можете использовать учетную запись %{value} для входа.
   mail_body_backup_ready: 'Запрошенная резервная копия готова. Вы можете скачать ее здесь:'
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: Предыдущий маркер больше не действителен.
   mail_body_backup_token_reset_admin_info: Маркер резервной копии пользователя '%{user}' был сброшен.
   mail_body_backup_token_reset_user_info: Маркер вашей резервной копии был сброшен.
@@ -6719,7 +6725,6 @@ ru:
         add_query_group: Таблица связанных пакетов работ
         blankslate_description: Добавьте группы с помощью кнопки выше или перетащите атрибуты с левой панели.
         blankslate_title: Нет групп
-        builtin_field: Встроенное поле
         confirm_delete_group: Вы уверены, что хотите удалить эту секцию? Это действие нельзя автоматически отменить.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Настраиваемое поле
@@ -7466,7 +7471,7 @@ ru:
         target_role_ids:
           label: Целевые роли
         target_variant_ids:
-          label: Целевые типы
+          label: Target types
       from_roles:
         create:
           notice:
@@ -7477,10 +7482,10 @@ ru:
       from_variants:
         create:
           notice:
-            one: Рабочий процесс успешно скопирован в тип '%{type_name}'.
-            few: Рабочий процесс успешно скопирован в %{count} типа.
-            many: Рабочий процесс успешно скопирован в %{count} типов.
-            other: Рабочий процесс успешно скопирован в %{count} типов.
+            one: Successfully copied workflow to '%{type_name}'.
+            few: Successfully copied workflow to %{count} types.
+            many: Successfully copied workflow to %{count} types.
+            other: Successfully copied workflow to %{count} types.
       new:
         title: Копировать рабочий процесс из типа "%{source_type}"
     form:

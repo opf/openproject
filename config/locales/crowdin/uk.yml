@@ -2441,6 +2441,9 @@ uk:
     label_delete_token: Видалити маркер резервного копіювання
     label_reset_token: Скинути маркер резервного копіювання
     label_token_users: Наведені нижче користувачі мають активні маркери резервного копіювання
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: Створити
       action_reset: Скинути
@@ -3925,7 +3928,7 @@ uk:
   label_index_by_title: Індекс за назвою
   label_information: Інформація
   label_information_plural: Інформація
-  label_installation_guides: Інструкції зі встановлення
+  label_installation_guides: Інструкції із встановлення
   label_integer: Ціле число
   label_integrations: Інтеграції
   label_interface: Інтерфейс
@@ -4586,6 +4589,9 @@ uk:
   mail_body_account_information: Інформація по Вашому обліковому запису
   mail_body_account_information_external: Ви можете використовувати ваш %{value} обліковий запис для входу.
   mail_body_backup_ready: 'Запитана вами резервна копія готова. Її можна завантажити тут:'
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: Попередній маркер більше не дійсний.
   mail_body_backup_token_reset_admin_info: Маркер резервного копіювання для користувача «%{user}» скинуто.
   mail_body_backup_token_reset_user_info: Ваш маркер резервного копіювання скинуто.
@@ -6740,7 +6746,6 @@ uk:
         add_query_group: Таблиця пов’язаних робочих пакетів
         blankslate_description: Додайте групи за допомогою кнопки вище або перетягніть атрибути з лівої панелі.
         blankslate_title: Ще немає груп
-        builtin_field: Вбудоване поле
         confirm_delete_group: Справді видалити цей розділ? Цю дію не можна буде скасувати автоматично.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Користувацьке поле
@@ -7483,7 +7488,7 @@ uk:
         target_role_ids:
           label: Цільові ролі
         target_variant_ids:
-          label: Цільові типи
+          label: Target types
       from_roles:
         create:
           notice:
@@ -7494,10 +7499,10 @@ uk:
       from_variants:
         create:
           notice:
-            one: Робочий процес успішно скопійовано в тип «%{type_name}».
-            few: Робочий процес успішно скопійовано в %{count} типи.
-            many: Робочий процес успішно скопійовано в %{count} типів.
-            other: Робочий процес успішно скопійовано в %{count} типу.
+            one: Successfully copied workflow to '%{type_name}'.
+            few: Successfully copied workflow to %{count} types.
+            many: Successfully copied workflow to %{count} types.
+            other: Successfully copied workflow to %{count} types.
       new:
         title: Скопіювати робочий процес типу «%{source_type}»
     form:

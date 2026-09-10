@@ -2083,6 +2083,9 @@ zh-TW:
     label_delete_token: 刪除備份令牌(Token)
     label_reset_token: 重置備份令牌(Token)
     label_token_users: 以下用戶擁有啟用的備份令牌(Token)
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: 建立
       action_reset: 重置
@@ -3431,7 +3434,7 @@ zh-TW:
   label_filter_add: 新增條件
   label_filter_any_name_attribute: 名稱屬性
   label_filter_by: 篩選條件：
-  label_filter_plural: 篩選器
+  label_filter_plural: 篩選條件
   label_filters_toggle: 顯示/隱藏篩選條件
   label_float: 浮點數
   label_folder: 資料夾
@@ -3452,9 +3455,9 @@ zh-TW:
   label_global_roles: 全域角色
   label_go_back: 回到上一層選單
   label_go_forward: 開啟 %{module} 子選單
-  label_greater_or_equal: ">="
+  label_greater_or_equal: 之前
   label_group: 群組
-  label_group_by: 分組依據
+  label_group_by: 分類
   label_group_named: 群組名稱 %{name}
   label_group_new: 新增群組
   label_group_plural: 群組
@@ -3521,7 +3524,7 @@ zh-TW:
   label_ldap_auth_source_plural: LDAP 連線
   label_ldap_authentication: LDAP 認證
   label_learn_more: 了解更多
-  label_less_or_equal: "<="
+  label_less_or_equal: 之後
   label_less_than_ago: 幾天內
   label_life_cycle_step_plural: 專案生命週期
   label_link_url: 連結(URL)
@@ -3801,7 +3804,7 @@ zh-TW:
   label_storage_used_space: 已用磁碟空間
   label_string: 文字
   label_subitems: 子項目
-  label_subject_or_id: 主旨或 id
+  label_subject_or_id: 名稱或 id
   label_subproject: 子專案
   label_subproject_add: Add subproject
   label_subproject_plural: 子專案
@@ -4139,6 +4142,9 @@ zh-TW:
   mail_body_account_information: 您的帳號資訊
   mail_body_account_information_external: 您可以使用您的帳號 %{value} 登錄。
   mail_body_backup_ready: 您請求的備份已就緒。您可以在此處下載：
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: 之前的令牌(Token)不再有效。
   mail_body_backup_token_reset_admin_info: 用戶“%{user}”的備份令牌(Token)已重置。
   mail_body_backup_token_reset_user_info: 您備份用令牌(Token)已重置。
@@ -6254,7 +6260,6 @@ zh-TW:
         add_query_group: Related work packages table
         blankslate_description: Add groups using the button above or drag attributes from the left panel.
         blankslate_title: No groups yet
-        builtin_field: Built-in field
         confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Custom field

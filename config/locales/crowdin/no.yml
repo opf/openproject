@@ -2197,6 +2197,9 @@
     label_delete_token: Slett sikkerhetskopieringsnøkkel
     label_reset_token: Tilbakestill sikkerhetskopieringsnøkkel
     label_token_users: Følgende brukere har aktive sikkerhetskopinøkler
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: Opprett
       action_reset: Nullstill
@@ -4282,6 +4285,9 @@
   mail_body_account_information: Din kontoinformasjon
   mail_body_account_information_external: Du kan bruke din %{value}-konto for innlogging.
   mail_body_backup_ready: 'Din forespurte sikkerhetskopi er klar. Du kan laste den ned her:'
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: Den forrige nøkkelen er ikke lenger gyldig.
   mail_body_backup_token_reset_admin_info: Sikkerhetskopieringsnøkkel for brukeren '%{user}' er tilbakestilt.
   mail_body_backup_token_reset_user_info: Din sikkerhetskopi-nøkkel har blitt tilbakestilt.
@@ -6412,7 +6418,6 @@
         add_query_group: Related work packages table
         blankslate_description: Add groups using the button above or drag attributes from the left panel.
         blankslate_title: No groups yet
-        builtin_field: Built-in field
         confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Custom field

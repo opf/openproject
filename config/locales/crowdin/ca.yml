@@ -2197,6 +2197,9 @@ ca:
     label_delete_token: Elimina el token de còpia de seguretat
     label_reset_token: Reinicia el token de còpia de seguretat
     label_token_users: Els següents usuaris no tenen cap token de còpia de seguretat actiu
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: Crear
       action_reset: Reinciar
@@ -4279,6 +4282,9 @@ ca:
   mail_body_account_information: Informació del teu compte
   mail_body_account_information_external: Pots utilitzar el compte «%{value}» per entrar.
   mail_body_backup_ready: 'La teva còpia de seguretat demanada ja està llesta. Pots descarregar-la aquí:'
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: El token anterior ja no és vàlid.
   mail_body_backup_token_reset_admin_info: El token de còpia de seguretat per a l'usuari "%{user}" no s'ha reiniciat.
   mail_body_backup_token_reset_user_info: El teu token de còpia de seguretat s'ha reiniciat.
@@ -6401,7 +6407,6 @@ ca:
         add_query_group: Related work packages table
         blankslate_description: Add groups using the button above or drag attributes from the left panel.
         blankslate_title: No groups yet
-        builtin_field: Built-in field
         confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Custom field

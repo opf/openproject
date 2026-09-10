@@ -2317,6 +2317,9 @@ ro:
     label_delete_token: Șterge token copie de rezervă
     label_reset_token: Resetează token copie de rezervă
     label_token_users: Următorii utilizatori au tokeni pentru copie de rezervă activi
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: Creează
       action_reset: Resetează
@@ -3675,7 +3678,7 @@ ro:
   label_duplicate: duplicat
   label_duplicated_by: dublat de
   label_duplicates: dublează
-  label_edit: Editare
+  label_edit: Editează
   label_edit_x: 'Editare: %{x}'
   label_empty_element: "(gol)"
   label_enable_multi_select: Comutare selecție multiplă
@@ -3740,7 +3743,7 @@ ro:
   label_go_forward: Open %{module} sub-menu
   label_greater_or_equal: ">="
   label_group: Grup
-  label_group_by: Grupare după
+  label_group_by: Grupează după
   label_group_named: Grup %{name}
   label_group_new: Grupare nouă
   label_group_plural: Grupuri
@@ -4432,6 +4435,9 @@ ro:
   mail_body_account_information: Informații despre contul dumneavoastră
   mail_body_account_information_external: Puteți utiliza contul %{value} pentru autentificare.
   mail_body_backup_ready: 'Backup-ul solicitat este gata. Îl puteți descărca aici:'
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: Token-ul anterior nu mai este valid.
   mail_body_backup_token_reset_admin_info: Token-ul de backup pentru utilizatorul '%{user}' a fost resetat.
   mail_body_backup_token_reset_user_info: Token-ul backup a fost resetat.
@@ -6571,7 +6577,6 @@ ro:
         add_query_group: Related work packages table
         blankslate_description: Add groups using the button above or drag attributes from the left panel.
         blankslate_title: No groups yet
-        builtin_field: Built-in field
         confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Custom field

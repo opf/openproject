@@ -2197,6 +2197,9 @@ nl:
     label_delete_token: Back-up token verwijderen
     label_reset_token: Reset back-up token
     label_token_users: De volgende gebruikers hebben actieve back-up tokens
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: Maken
       action_reset: Herstel
@@ -4278,6 +4281,9 @@ nl:
   mail_body_account_information: Uw accountinformatie
   mail_body_account_information_external: U kunt uw account %{value} gebruiken om in te loggen.
   mail_body_backup_ready: 'Uw gevraagde back-up is gereed. U kunt de back-up hier downloaden:'
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: Het vorige token is niet langer geldig.
   mail_body_backup_token_reset_admin_info: De back-up token voor gebruiker '%{user}' is gereset.
   mail_body_backup_token_reset_user_info: Uw back-up token is gereset.
@@ -6398,7 +6404,6 @@ nl:
         add_query_group: Related work packages table
         blankslate_description: Add groups using the button above or drag attributes from the left panel.
         blankslate_title: No groups yet
-        builtin_field: Built-in field
         confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Custom field

@@ -46,7 +46,7 @@ ja:
   documents:
     active_editors: アクティブな編集者
     active_editors_count:
-      other: "%{count} アクティブな編集者"
+      other: "%{count} active editors"
     admin:
       collaboration_settings:
         banner:
@@ -117,7 +117,7 @@ ja:
       currently_offline: 現在、オフラインです。
     label_attachment_author: 添付ファイルの作成者
     label_categories: カテゴリ
-    last_updated_at: 最終保存日時： %{time}。
+    last_updated_at: Last saved %{time}.
     menu:
       all: 全てのドキュメント
       collaboration_settings: リアルタイムのコラボレーション

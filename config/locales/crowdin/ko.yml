@@ -2075,6 +2075,9 @@ ko:
     label_delete_token: 백업 토큰 제거
     label_reset_token: 백업 토큰 초기화
     label_token_users: 아래 사용자들은 활성화된 백업 토큰을 가지고 있습니다
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: 만들기
       action_reset: 재설정
@@ -4148,6 +4151,9 @@ ko:
   mail_body_account_information: 계정 정보
   mail_body_account_information_external: "%{value} 계정을 사용하여 로그인할 수 있습니다."
   mail_body_backup_ready: '요청한 백업이 준비되었습니다. 여기서 내려받으십시오:'
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: 이전 토큰은 더 이상 유효하지 않습니다.
   mail_body_backup_token_reset_admin_info: 사용자 '%{user}'님에 대한 백업 토큰이 초기화되었습니다.
   mail_body_backup_token_reset_user_info: 백업 토큰이 초기화되었습니다.
@@ -6258,7 +6264,6 @@ ko:
         add_query_group: 관련 작업 패키지 테이블
         blankslate_description: 위의 버튼을 사용하여 그룹을 추가하거나 왼쪽 패널에서 특성을 드래그합니다.
         blankslate_title: 아직 그룹 없음
-        builtin_field: 기본 제공 필드
         confirm_delete_group: 이 섹션을 삭제하시겠습니까? 이 작업은 자동으로 되돌릴 수 없습니다.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: 사용자 지정 필드
@@ -6958,7 +6963,7 @@ ko:
         target_role_ids:
           label: 대상 역할
         target_variant_ids:
-          label: 대상 유형
+          label: Target types
       from_roles:
         create:
           notice:
@@ -6966,7 +6971,7 @@ ko:
       from_variants:
         create:
           notice:
-            other: 워크플로를 %{count}개 유형에 복사했습니다.
+            other: Successfully copied workflow to %{count} types.
       new:
         title: '"%{source_type}"의 워크플로 복사'
     form:

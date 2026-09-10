@@ -2087,7 +2087,7 @@ fa:
     body: بدنه
     category: دسته‌بندی
     color: رنگ
-    comment: نظر
+    comment: دیدگاه
     comments: دیدگاه
     content: محتوا
     created_at: ایجادشده در
@@ -2195,6 +2195,9 @@ fa:
     label_delete_token: حذف پشتیبان گیری توکن
     label_reset_token: بازنشانی پشتیبانی گیری توکن
     label_token_users: کاربران زیر توکن نسخه پشتیبان فعال دارند
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: ایجاد
       action_reset: بازنشانی
@@ -4277,6 +4280,9 @@ fa:
   mail_body_account_information: اطلاعات حساب شما
   mail_body_account_information_external: می‌توانید از حساب %{value} خود برای ورود استفاده کنید.
   mail_body_backup_ready: 'درخواست پشتیبان گیری شما آماده است. می توانید از اینجا دانلود کنید: '
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: توکن قبلی دیگر معتبر نیست.
   mail_body_backup_token_reset_admin_info: پشتیبان گیری توکن برای کاربر %{user} بازنشانی(ریست) شد.
   mail_body_backup_token_reset_user_info: پشتیبان گیری توکن شما بازنشانی شد.
@@ -6408,7 +6414,6 @@ fa:
         add_query_group: جدول بسته‌های کاری مرتبط
         blankslate_description: با دکمه بالا گروه اضافه کنید یا ویژگی‌ها را از پنل چپ Drag کنید.
         blankslate_title: هنوز گروهی وجود ندارد
-        builtin_field: فیلد داخلی
         confirm_delete_group: مطمئنید می‌خواهید این بخش را حذف کنید؟ این اقدام به‌طور خودکار قابل بازگشت نیست.
         confirm_reset: آیا مطمئن هستید که می‌خواهید فرم را بازنشانی کنید؟
         custom_field: فیلد سفارشی
@@ -7123,7 +7128,7 @@ fa:
         target_role_ids:
           label: نقش‌های مقصد
         target_variant_ids:
-          label: نوع‌های مقصد
+          label: Target types
       from_roles:
         create:
           notice:
@@ -7132,8 +7137,8 @@ fa:
       from_variants:
         create:
           notice:
-            one: گردش‌کار با موفقیت به «%{type_name}» کپی شد.
-            other: گردش‌کار با موفقیت به %{count} نوع کپی شد.
+            one: Successfully copied workflow to '%{type_name}'.
+            other: Successfully copied workflow to %{count} types.
       new:
         title: کپی گردش‌کار «%{source_type}»
     form:

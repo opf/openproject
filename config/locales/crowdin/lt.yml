@@ -2437,6 +2437,9 @@ lt:
     label_delete_token: Pašalinti atsarginės kopijos žetoną
     label_reset_token: Atstatyti atsarginės kopijos žetoną
     label_token_users: Šie naudotojai turi atsarginės kopijos žetonus
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: Kurti
       action_reset: Atstatyti
@@ -4585,6 +4588,9 @@ lt:
   mail_body_account_information: Informacija apie Jūsų paskyrą
   mail_body_account_information_external: Norėdami prisijungti Jūs galite naudoti savo %{value} paskyrą.
   mail_body_backup_ready: 'Jūsų prašyta atsarginė kopija yra paruošta. Ją galite parsisiųsti čia:'
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: Ankstesnis žetonas nebegalioja.
   mail_body_backup_token_reset_admin_info: Atsarginės kopijos žetonas naudotojui „%{user}“ buvo atstatytas.
   mail_body_backup_token_reset_user_info: Jūsų atsarginės kopijos žetonas buvo atstatytas.
@@ -6735,7 +6741,6 @@ lt:
         add_query_group: Related work packages table
         blankslate_description: Add groups using the button above or drag attributes from the left panel.
         blankslate_title: No groups yet
-        builtin_field: Built-in field
         confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Custom field

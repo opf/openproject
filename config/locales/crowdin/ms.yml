@@ -2085,6 +2085,9 @@ ms:
     label_delete_token: Padam token sandaran
     label_reset_token: Set semula token sandaran
     label_token_users: Pengguna berikut mempunyai token sandaran aktif
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: Cipta
       action_reset: Tetapkan semula
@@ -4146,6 +4149,9 @@ ms:
   mail_body_account_information: Maklumat akaun anda
   mail_body_account_information_external: Anda boleh menggunakan akaun %{value} anda untuk log masuk.
   mail_body_backup_ready: 'Permintaan sandaran anda sudah bersedia. Anda boleh memuat turunnya di sini:'
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: Token sebelumnya sudah tidak sah.
   mail_body_backup_token_reset_admin_info: Token sandaran untuk pengguna '%{user}' telah ditetapkan semula.
   mail_body_backup_token_reset_user_info: Token sandaran anda telah ditetapkan semula.
@@ -6259,7 +6265,6 @@ ms:
         add_query_group: Related work packages table
         blankslate_description: Add groups using the button above or drag attributes from the left panel.
         blankslate_title: No groups yet
-        builtin_field: Built-in field
         confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Custom field

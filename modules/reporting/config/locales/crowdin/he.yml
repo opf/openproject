@@ -26,7 +26,6 @@ he:
       cost_query:
         one: Cost report
         two: Cost reports
-        many: Cost reports
         other: Cost reports
   button_save_report_as: שמור דוח כ...
   comments: הערה

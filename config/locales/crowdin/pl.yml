@@ -2437,6 +2437,9 @@ pl:
     label_delete_token: Usuń token kopii zapasowej
     label_reset_token: Resetuj token kopii zapasowej
     label_token_users: Następujący użytkownicy mają aktywne tokeny kopii zapasowej
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: Utwórz
       action_reset: Reset
@@ -4577,6 +4580,9 @@ pl:
   mail_body_account_information: Informacje o koncie
   mail_body_account_information_external: You can use your %{value} account to log in.
   mail_body_backup_ready: 'Żądana kopia zapasowa jest gotowa. Możesz ją pobrać tutaj:'
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: Poprzedni token jest już nieprawidłowy.
   mail_body_backup_token_reset_admin_info: Token kopii zapasowej użytkownika „%{user}” został zresetowany.
   mail_body_backup_token_reset_user_info: Twój token kopii zapasowej został zresetowany.
@@ -6725,7 +6731,6 @@ pl:
         add_query_group: Tabela powiązanych pakietów roboczych
         blankslate_description: Dodaj grupy, używając powyższego przycisku lub przeciągnij atrybuty z lewego panelu.
         blankslate_title: Nie ma jeszcze grup
-        builtin_field: Wbudowane pole
         confirm_delete_group: Czy na pewno chcesz usunąć tę sekcję? Tego działania nie można automatycznie cofnąć.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Pole niestandardowe
@@ -7468,7 +7473,7 @@ pl:
         target_role_ids:
           label: Role docelowe
         target_variant_ids:
-          label: Typy docelowe
+          label: Target types
       from_roles:
         create:
           notice:
@@ -7479,10 +7484,10 @@ pl:
       from_variants:
         create:
           notice:
-            one: Przepływ pracy został skopiowany do „%{type_name}”.
-            few: Przepływ pracy został skopiowany do %{count} typów.
-            many: Przepływ pracy został skopiowany do %{count} typów.
-            other: Przepływ pracy został skopiowany do %{count} typu.
+            one: Successfully copied workflow to '%{type_name}'.
+            few: Successfully copied workflow to %{count} types.
+            many: Successfully copied workflow to %{count} types.
+            other: Successfully copied workflow to %{count} types.
       new:
         title: Kopiuj przepływ pracy z „%{source_type}”
     form:
