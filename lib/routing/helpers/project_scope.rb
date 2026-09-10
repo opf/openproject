@@ -28,16 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Constraints
-  class ProjectIdentifier
-    REGEX = /(?!#{Regexp.union(Projects::Identifier::RESERVED_IDENTIFIERS)}\z)[\w-]+/
-
-    REGEX_ANCHORED = /\A#{REGEX}\z/
-    private_constant :REGEX_ANCHORED
-
-    def self.matches?(request)
-      project_id = request.path_parameters[:project_id] || request.params[:project_id]
-      REGEX_ANCHORED === project_id
+module Routing
+  module Helpers
+    module ProjectScope
+      def project_scope(as: :project, **, &)
+        scope("projects/:project_id", constraints: { project_id: Constraints::ProjectIdentifier::REGEX }, as:, **, &)
+      end
     end
   end
 end

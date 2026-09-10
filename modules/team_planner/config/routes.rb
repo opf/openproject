@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  extend Routing::Helpers::ProjectScope
+
   resources :team_planners,
             controller: "team_planner/team_planner",
             only: %i[create] do
@@ -8,7 +10,7 @@ Rails.application.routes.draw do
     end
   end
 
-  scope "projects/:project_id", as: "project" do
+  project_scope do
     resources :team_planners,
               controller: "team_planner/team_planner",
               only: %i[index destroy show],

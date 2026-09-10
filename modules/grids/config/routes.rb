@@ -29,9 +29,11 @@
 #++
 
 Rails.application.routes.draw do
+  extend Routing::Helpers::ProjectScope
+
   scope module: "grids" do
     # project-scoped widget routes
-    scope "projects/:project_id", as: "project", constraints: { project_id: Constraints::ProjectIdentifier::REGEX } do
+    project_scope do
       namespace :widgets do
         resource :members, only: %i[show]
         resource :news, only: %i[show]

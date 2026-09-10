@@ -29,6 +29,8 @@
 #++
 
 Rails.application.routes.draw do
+  extend Routing::Helpers::ProjectScope
+
   namespace :admin do
     namespace :settings do
       resources :storages, controller: "/storages/admin/storages", except: [:show] do
@@ -77,7 +79,7 @@ Rails.application.routes.draw do
       action: "open",
       as: "open_project_storage"
 
-  scope "projects/:project_id", as: "project" do
+  project_scope do
     namespace "settings" do
       resources :project_storages, controller: "/storages/admin/project_storages", except: %i[index show] do
         collection do

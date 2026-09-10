@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  scope "projects/:project_id", as: "project" do
+  extend Routing::Helpers::ProjectScope
+
+  project_scope do
     resources :gantt, controller: "gantt/gantt", only: [:index] do
       collection do
         # The menu route has to be above the state routes! Otherwise, the menu will be interpreted as another state
