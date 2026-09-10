@@ -28,25 +28,39 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::WorkPackages::Filter::VersionFilter <
-  Queries::WorkPackages::Filter::WorkPackageFilter
-  include ::Queries::WorkPackages::Filter::FilterOnVersionsMixin
+module Queries::WorkPackages::StoredNames
+  def self.stored_select(name) = Queries::WorkPackages::Selects::PropertySelect.stored_name(name)
 
-  def human_name
-    WorkPackage.human_attribute_name("version")
+  def self.offered_select(name) = Queries::WorkPackages::Selects::PropertySelect.offered_name(name)
+
+  def self.stored_filter(key)
+    return nil if key.nil?
+
+    Query.find_registered_filter(key)&.stored_key&.to_s || key
   end
 
-  def self.key
-    :version_id
+  def self.offered_filter(stored)
+    return nil if stored.nil?
+
+    declaration = alias_declaration_for(stored)
+    return stored unless declaration
+
+    offered = available_alias_of(declaration)
+    return stored if offered.nil? || offered.key.to_s == stored.to_s
+
+    offered.key.to_s
   end
 
-  def self.stored_key = :target_version_id
-
-  def available?
-    !Setting::WorkPackageMultipleVersions.active?
+  def self.alias_declaration_for(stored)
+    Query.registered_filters.find do |filter|
+      filter.stored_key && [filter.key, filter.stored_key].map(&:to_s).include?(stored.to_s)
+    end
   end
+  private_class_method :alias_declaration_for
 
-  private
-
-  def version_kind = "target"
+  def self.available_alias_of(declaration)
+    candidates = [Query.find_registered_filter(declaration.stored_key), declaration].compact
+    candidates.find { it.create!(name: it.key).available? }
+  end
+  private_class_method :available_alias_of
 end

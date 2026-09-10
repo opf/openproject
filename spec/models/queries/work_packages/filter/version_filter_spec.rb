@@ -33,6 +33,12 @@ require "spec_helper"
 RSpec.describe Queries::WorkPackages::Filter::VersionFilter do
   let(:version) { build_stubbed(:version) }
 
+  describe ".stored_key" do
+    it "is target_version_id" do
+      expect(described_class.stored_key).to eq(:target_version_id)
+    end
+  end
+
   it_behaves_like "basic query filter" do
     let(:type) { :list_optional }
     let(:class_key) { :version_id }
