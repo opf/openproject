@@ -91,7 +91,7 @@ SECTION=$(
 )
 
 if [ -z "$(printf '%s' "$SECTION" | tr -d '[:space:]')" ]; then
-  echo "::warning::The PR description does not contain an 'AI involvement' section."
+  echo "::error::The PR description does not contain an 'AI involvement' section."
   write_output "section_missing=true"
   exit 0
 fi
@@ -100,13 +100,13 @@ SELECTED=$(printf '%s\n' "$SECTION" | grep -oE "^[[:space:]]*($LEVELS)\b" | tr -
 SELECTED_COUNT=$(printf '%s' "$SELECTED" | grep -c . || true)
 
 if [ "$SELECTED_COUNT" -eq 0 ]; then
-  echo "::warning::The 'AI involvement' section does not state an AI involvement level."
+  echo "::error::The 'AI involvement' section does not state an AI involvement level."
   write_output "level_missing=true"
   exit 0
 fi
 
 if [ "$SELECTED_COUNT" -gt 1 ]; then
-  echo "::warning::The 'AI involvement' section states more than one level: $(echo "$SELECTED" | tr '\n' ' ')"
+  echo "::error::The 'AI involvement' section states more than one level: $(echo "$SELECTED" | tr '\n' ' ')"
   write_output "multiple_levels=true"
   write_output "selected_levels=$(echo "$SELECTED" | paste -sd ', ' -)"
   exit 0

@@ -84,3 +84,13 @@ jobs:
         with:
           header: ai-involvement-comment
           delete: true
+
+      - name: Fail if the AI involvement section is not filled out
+        if: >-
+          steps.ai-involvement-check.outputs.section_missing == 'true'
+          || steps.ai-involvement-check.outputs.level_missing == 'true'
+          || steps.ai-involvement-check.outputs.multiple_levels == 'true'
+        run: |
+          echo "The 'AI involvement' section of the pull request description is not filled out."
+          echo "See the comment on the pull request for what to change."
+          exit 1
