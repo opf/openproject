@@ -30,10 +30,8 @@
 
 module WorkPackageTypes
   class VariantsController < BaseTabController
-    include TypeVariantsFeature
     include OpTurbo::ComponentStream
 
-    before_action :require_type_variants_feature
     administration_only! :index, :make_default, :remove_default
 
     current_menu_item do

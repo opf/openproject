@@ -339,20 +339,21 @@ sv:
                 options:
                   name: Komma igång
                   text: |
-                    Vi är glada att du är med! Vi föreslår att du provar några saker för att komma igång med OpenProject.
+                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
-                    _Prova följande steg:_
+                    _Try the following steps:_
 
-                    1. *Bjud in nya medlemmar till projektet*: &rightarrow; Gå till [Medlemmar]({{opSetting:base_url}}/projects/your-scrum-project/members) i projektnavigeringen.
-                    2. *Visa produktbackloggen och sprintbackloggarna*: &rightarrow; Gå till [Backloggar]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) i projektnavigeringen.
-                    3. *Visa uppgiftstavlan*: &rightarrow; Gå till [Backloggar]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Klicka på högerpilen på sprinten &rightarrow; Välj [Uppgiftstavla](##sprint:scrum_project__version__sprint_1).
-                    4. *Skapa ett nytt arbetspaket*: &rightarrow; Gå till [Arbetspaket &rightarrow; Skapa]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    5. *Skapa och uppdatera en projektplan*: &rightarrow; Gå till [Projektplan](##query:scrum_project__query__project_plan) i projektnavigeringen.
-                    6. *Skapa en sprint-Wiki*: &rightarrow; Gå till [Backloggar]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) och öppna sprintens Wiki från rullgardinsmenyn till höger i sprinten. Du kan redigera [Wiki-mallen]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) efter behov.
-                    7. *Aktivera fler moduler*: &rightarrow; Gå till [Projektinställningar &rightarrow; Moduler]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
+                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
+                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
+                    3. *Create a sprint*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and click "+ Sprint" to create a new sprint. Move work packages from the backlog to the sprint to plan the work to be done. When ready, click "Start sprint".
+                    4. *View your Sprint board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select Sprint Board.
+                    5. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    6. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
+                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
-                    Här hittar du våra [användarguider](https://www.openproject.org/docs/user-guide/).
-                    Kontakta oss om du har frågor eller behöver support: [support[at]openproject.com](mailto:support@openproject.com).
+
+                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
+                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: Arbetspaket

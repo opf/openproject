@@ -66,6 +66,8 @@ hy:
 
       '
     login_with_auth_provider: կամ մտեք Ձեր գործող հաշվով
+    omniauth_direct_login_continue: Continue to sign in
+    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: Ձեր հաշիվն ակտիվացնելու համար խնդրում ենք մտնել։
     signup_title: Create an account in %{app_title}
     signup_with_external_account: Sign up with an external account
@@ -83,6 +85,21 @@ hy:
         prompt: Prompt
         types: Work package types
         usage_scope: Scope
+      ai/text_transform_run:
+        action: Action
+        cancel_requested: Cancel requested
+        error_message: Error message
+        finished_at: Finished at
+        input: Input
+        status: Status
+        system_prompt: System prompt
+        user: User
+        uuid: UUID
+      ai/text_transform_run_event:
+        kind: Kind
+        payload: Payload
+        run: Run
+        seq: Sequence number
       announcements:
         show_until: Ցուցադրել մինչև
       attachment:
@@ -125,7 +142,9 @@ hy:
         is_for_all: Բոլոր նախագծերի համար
         is_required: Պարտադիր
         max_length: Առավելագույն երկարություն
+        max_value: Maximum value
         min_length: Նվազագույն երկարություն
+        min_value: Minimum value
         multi_value: Թույլատրել բազմակի ընտրություն
         possible_values: Հնարավոր արժեքներ
         regexp: Կանոնավոր արտահայտություն
@@ -215,6 +234,7 @@ hy:
         position: Դիրք
       persisted_query:
         filters: Զտիչներ
+        group_bys: Group results by
         name: Անվանում
         orders: Դասավորություններ
         selects: Ընտրություններ
@@ -571,6 +591,7 @@ hy:
         regex_list_invalid: "%{invalid_lines} տողերը հնարավոր չէ վերլուծել որպես կանոնավոր արտահայտություն։"
         regex_match_failed: չի համապատասխանում %{expression} կանոնավոր արտահայտությանը։
         smaller_than_or_equal_to_max_length: պետք է փոքր կամ հավասար լինի առավելագույն երկարությանը։
+        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: խախտում է այս OpenProject համակարգի SSRF քաղաքականությունը։
         status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
         system_wide_non_working_day_exists: հակասում է այս ամսաթվի համար գործող համակարգային ոչ աշխատանքային օրվան։
@@ -722,7 +743,6 @@ hy:
             types:
               cannot_assign_multiple_variants_of_parent: Նախագծում հնարավոր է միացնել Տեսակի միայն մեկ տարատեսակ
               cannot_assign_variant_and_parent: 'Հնարավոր չէ միաժամանակ նշանակել տարատեսակը և դրա ծնողը '
-              cannot_assign_variants_yet: Տարատեսակները դեռ հնարավոր չէ միացնել նախագծում։ Տարատեսակները փորձարկելու համար միացրեք գործառույթի դրոշակը
               in_use_by_work_packages: դեռ օգտագործվում են աշխատանքային փաթեթների կողմից՝ %{types}
               switch_target_blank: Select the variant to switch to
               switch_target_identical: The target type must be different from the type the project uses now
@@ -998,6 +1018,12 @@ hy:
       ai/text_transform_action:
         one: Text transform action
         other: Text transform actions
+      ai/text_transform_run:
+        one: Text transform run
+        other: Text transform runs
+      ai/text_transform_run_event:
+        one: Text transform run event
+        other: Text transform run events
       announcement:
         one: Announcement
         other: Announcements
@@ -2169,6 +2195,9 @@ hy:
     label_delete_token: Ջնջել պահուստավորման թոքենը
     label_reset_token: Վերակայել պահուստավորման թոքենը
     label_token_users: Հետևյալ օգտատերերն ունեն ակտիվ պահուստավորման թոքեններ
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: Ստեղծել
       action_reset: Վերակայել
@@ -2459,6 +2488,9 @@ hy:
       min_max:
         all: 0 նշանակում է առանց սահմանափակման
         project: 0 նշանակում է առանց սահմանափակման
+      min_max_value:
+        all: Leave blank for no restriction
+        project: Leave blank for no restriction
       multi_select:
         all: Թույլ է տալիս օգտատիրոջը մի քանի արժեք նշանակել այս հատուկ դաշտին։
         project: Թույլ է տալիս օգտատիրոջը մի քանի արժեք նշանակել այս հատկանիշին։
@@ -3423,7 +3455,6 @@ hy:
   label_copy_target: Նպատակակետ
   label_copy_workflow_from: Պատճենել աշխատանքային հոսքը՝
   label_copy_workflow_from_role: Պատճենել այլ դերերի
-  label_copy_workflow_from_type: Պատճենել այլ տեսակի
   label_core_build: Միջուկի բիլդ
   label_core_version: Միջուկի տարբերակ
   label_created_by: Ստեղծվել է %{user}-ի կողմից
@@ -3668,7 +3699,6 @@ hy:
   label_message_new: Նոր հաղորդագրություն
   label_message_plural: Հաղորդագրություններ
   label_message_posted: Հաղորդագրությունն ավելացվել է
-  label_min_max_length: Նվազագույն - առավելագույն երկարություն
   label_minute_plural: րոպե
   label_missing_api_access_key: Բացակայում է API մուտքի բանալին
   label_missing_feeds_access_key: Բացակայում է RSS մուտքի բանալին
@@ -4250,6 +4280,9 @@ hy:
   mail_body_account_information: Ձեր հաշվի տվյալները
   mail_body_account_information_external: Դուք կարող եք մտնել Ձեր %{value} հաշվով։
   mail_body_backup_ready: Ձեր պահանջած պահուստային պատճենը պատրաստ է։ Դուք կարող եք ներբեռնել այն այստեղ՝
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: Նախորդ թոքենն այլևս վավեր չէ։
   mail_body_backup_token_reset_admin_info: "'%{user}' օգտատիրոջ պահուստավորման թոքենը վերակայվել է։"
   mail_body_backup_token_reset_user_info: Ձեր պահուստավորման թոքենը վերակայվել է։
@@ -4574,6 +4607,7 @@ hy:
   notice_account_already_activated: Հաշիվն արդեն ակտիվացվել է։
   notice_account_invalid_credentials: Անվավեր օգտատեր կամ գաղտնաբառ
   notice_account_invalid_credentials_or_blocked: Անվավեր օգտատեր կամ գաղտնաբառ, կամ հաշիվն արգելափակված է մուտքի բազմաթիվ ձախողված փորձերի պատճառով։ Այդ դեպքում արգելափակումն ավտոմատ կերպով կհանվի կարճ ժամանակ անց։
+  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
   notice_account_invalid_token: Ակտիվացման անվավեր թոքեն
   notice_account_lost_email_sent: Ձեզ ուղարկվել է էլ. նամակ՝ նոր գաղտնաբառ ընտրելու հրահանգներով։
   notice_account_new_password_forced: Պահանջվում է նոր գաղտնաբառ։
@@ -4826,8 +4860,6 @@ hy:
       not_found: չի գտնվել։
       respond_to?: չի իրականացնում պահանջվող մեթոդը։
       rules:
-        copy_workflow_from:
-          workflow_missing: չունի սեփական աշխատանքային հոսք։
         custom_field:
           format_not_supported: "'%{field_format}' ձևաչափը չի աջակցվում։"
         item:
@@ -4847,7 +4879,6 @@ hy:
     or: կամ
     rules:
       blueprint: Կաղապարի սխեմա
-      copy_workflow_from: Աշխատանքային հոսքի պատճենման տեսակ
       depth: Խորություն
       enabled: Միացված
       item: Տարր
@@ -6402,6 +6433,15 @@ hy:
         query_group_label: Կապակցված աշխատանքային փաթեթների աղյուսակ
         remove_attribute: Հեռացնել բաժնից
         rename_group: Վերանվանել բաժինը
+        required:
+          already_required_globally: This custom field is required for all types.
+          for_variant: Required in this type
+          globally: Required
+          globally_hint: Change this on the custom field
+          mark: Require in this type
+          not_a_custom_field: Only a custom field can be made required for a single type.
+          not_available_when_linked: This configuration is inherited. Configure it manually to change what is required.
+          unmark: Do not require in this type
         reset_description: 'Սա հատկանիշները կվերակայի դրանց կանխադրված խմբում և կանջատի ԲՈԼՈՐ հատուկ դաշտերը։
 
           '
@@ -6410,6 +6450,15 @@ hy:
         row_actions: Տողի գործողություններ
         tab: Form
         untitled_group: Անանուն խումբ
+      overview:
+        configuration_mode: Configuration mode
+        dependents: Dependent types and variants
+        mode:
+          always_manual: Always manual
+          inheriting_from_html: Inheriting from %{source_name}
+          manual: Manually configured
+        settings: Settings
+        tab: Overview
       project_attributes:
         actions:
           label_disable_all: Անջատել բոլորը
@@ -6942,6 +6991,13 @@ hy:
       confirm_deletion: Ես հաստատում եմ, որ ընտրված աշխատանքային փաթեթները և դրանց հետ կապված բոլոր տվյալները կջնջվեն։
       confirm_descendants_deletion: Ես հաստատում եմ, որ վերևում թվարկված բոլոր հետնորդները նույնպես կջնջվեն։
       cross_project_warning_html: Այս աշխատանքային փաթեթներն ընդգրկում են մի քանի նախագիծ՝ %{projects}
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        self_only_label: Delete just the selected work packages
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete the selected work packages and their descendants
       description: Համոզվա՞ծ եք, որ ցանկանում եք ջնջել ընտրված աշխատանքային փաթեթները և դրանց հետ կապված բոլոր տվյալները։
       description_with_all_descendants: Համոզվա՞ծ եք, որ ցանկանում եք ջնջել ընտրված աշխատանքային փաթեթները և դրանց բոլոր հետնորդները։
       description_with_descendants: Համոզվա՞ծ եք, որ ցանկանում եք ջնջել ընտրված աշխատանքային փաթեթները և հետևյալ բոլոր հետնորդները։
@@ -7006,6 +7062,13 @@ hy:
       confirm_deletion: Ես հաստատում եմ, որ աշխատանքային փաթեթը և դրա հետ կապված բոլոր տվյալները կջնջվեն։
       confirm_descendants_deletion: Ես հաստատում եմ, որ վերևում թվարկված բոլոր հետնորդները նույնպես կջնջվեն։
       cross_project_warning_html: Հետևյալ նախագծերի աշխատանքային փաթեթները կջնջվեն՝ %{projects}
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: This work package has descendants. Do you want to delete them as well?
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        self_only_label: Delete just this work package
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete this work package and descendants
       description: Համոզվա՞ծ եք, որ ցանկանում եք ջնջել "%{name}"։
       heading: Ընդմիշտ ջնջե՞լ այս աշխատանքային փաթեթը։
       hidden_descendants_only_warning:
@@ -7057,29 +7120,13 @@ hy:
   workflows:
     copies:
       form:
-        mode:
-          from_role:
-            caption: Պատճենել ընթացիկ աշխատանքային հոսքը աշխատանքային փաթեթի նույն տեսակի ներսում մեկ կամ մի քանի դերերի։ Եթե ընտրված դերն արդեն ունի աշխատանքային հոսք, այն կվերագրվի ընթացիկով։
-            label: Պատճենել այլ դերերի
-          from_type:
-            caption: Պատճենել ընթացիկ աշխատանքային հոսքը աշխատանքային փաթեթի այլ տեսակի։ Եթե ընտրված տեսակն արդեն ունի աշխատանքային հոսք, այն կվերագրվի ընթացիկով։ Սա ազդում է բոլոր դերերի վրա։
-            label: Պատճենել այլ տեսակի
-        source_role_id:
-          label: Աղբյուրի դեր
         target_role_ids:
           label: Նպատակային դերեր
-        target_variant_ids:
-          label: Target types
       from_roles:
         create:
           notice:
             one: Աշխատանքային հոսքը հաջողությամբ պատճենվել է '%{role_name}' դերին։
             other: Աշխատանքային հոսքը հաջողությամբ պատճենվել է %{count} դերի։
-      from_variants:
-        create:
-          notice:
-            one: Successfully copied workflow to '%{type_name}'.
-            other: Successfully copied workflow to %{count} types.
       new:
         title: Պատճենել "%{source_type}"-ի աշխատանքային հոսքը
     form:

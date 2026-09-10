@@ -194,6 +194,7 @@ Rails.application.routes.draw do
         member do
           put :drop
           put :move
+          put :toggle_required
         end
       end
     end
@@ -239,7 +240,6 @@ Rails.application.routes.draw do
       end
 
       resource :copy, only: %i[new], controller: "/workflows/copies" do
-        resource :from_variant, only: %i[create], controller: "/workflows/copies/from_variants"
         resource :from_role, only: %i[create], controller: "/workflows/copies/from_roles"
       end
     end
@@ -264,7 +264,7 @@ Rails.application.routes.draw do
     resource :creation_wizard, controller: "creation_wizard", only: %i[show update]
   end
 
-  resources :types, module: "work_package_types", except: [:update] do
+  resources :types, module: "work_package_types", only: %i[index destroy] do
     collection do
       post "move/:id", action: "move", as: :move
       get :workflow_summary, to: "/workflows/summaries#show"
@@ -483,8 +483,6 @@ Rails.application.routes.draw do
         namespace :work_packages do
           resource :internal_comments, only: %i[show update]
           resources :types, only: %i[index new create destroy] do
-            patch :bulk_update, on: :collection
-
             resource :switch, only: %i[new create], controller: "types/switches" do
               resource :impact, only: :create, controller: "types/switches/impacts"
             end
@@ -591,10 +589,11 @@ Rails.application.routes.draw do
       get "(/:tab)" => "work_packages#show", on: :member, as: "",
           constraints: { id: WorkPackage::SemanticIdentifier::ID_ROUTE_CONSTRAINT, state: /(?!(shares|copy|dialog)).+/ }
 
-      # states managed by client-side routing on work_package#index
-      get "(/*state)" => "work_packages#index", on: :collection, as: "", constraints: { state: /(?!(dialog|new)).+/ }
+      get "details/:work_package_id(/:tab)" => "work_packages#split_view", on: :collection, as: :details,
+          defaults: { tab: "overview" }, work_package_split_view: true,
+          constraints: { work_package_id: WorkPackage::SemanticIdentifier::ID_ROUTE_CONSTRAINT }
 
-      get "/create_new" => "work_packages#index", on: :collection, as: "new_split"
+      get "/create_new" => "work_packages#split_create", on: :collection, as: "new_split", work_package_split_create: true
     end
 
     namespace :work_packages do
@@ -1092,6 +1091,7 @@ Rails.application.routes.draw do
       collection do
         match :reassign, via: %i[get delete]
         get :delete_dialog
+        post :confirm_delete
       end
     end
   end
@@ -1112,8 +1112,9 @@ Rails.application.routes.draw do
     # move individual wp
     resource :move, controller: "work_packages/moves", only: %i[new create]
 
-    # states managed by client-side routing on work_package#index
-    get "details/*state" => "work_packages#index", on: :collection, as: :details
+    get "details/:work_package_id(/:tab)" => "work_packages#split_view", on: :collection, as: :details,
+        defaults: { tab: "overview" }, work_package_split_view: true,
+        constraints: { work_package_id: WorkPackage::SemanticIdentifier::ID_ROUTE_CONSTRAINT }
 
     resources :activities, controller: "work_packages/activities_tab", only: %i[index create edit update] do
       member do
@@ -1186,7 +1187,7 @@ Rails.application.routes.draw do
 
     # states managed by client-side (angular) routing on work_package#show
     get "/" => "work_packages#index", on: :collection, as: "index"
-    get "/create_new" => "work_packages#index", on: :collection, as: "new_split"
+    get "/create_new" => "work_packages#split_create", on: :collection, as: "new_split", work_package_split_create: true
 
     get "/share_upsell" => "work_packages#share_upsell", on: :collection, as: "share_upsell"
     get "/edit" => "work_packages#show", on: :member, as: "edit"

@@ -56,7 +56,7 @@ module Projects
     end
 
     def icon_color_class
-      helpers.hl_inline_class("project_phase_definition", model.id)
+      helpers.hl_foreground_class("project_phase_definition", model.id)
     end
 
     def gates_text_options

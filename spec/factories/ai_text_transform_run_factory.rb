@@ -46,7 +46,7 @@ FactoryBot.define do
 
     trait :failed do
       status { "failed" }
-      error_message { "The AI service returned an error." }
+      error_message { "Something went wrong" }
       finished_at { Time.current }
     end
 

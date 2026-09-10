@@ -66,6 +66,8 @@ ms:
 
       '
     login_with_auth_provider: atau daftar masuk dengan akaun sedia ada anda
+    omniauth_direct_login_continue: Continue to sign in
+    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: Sila log masuk untuk mengaktifkan akaun anda.
     signup_title: Create an account in %{app_title}
     signup_with_external_account: Sign up with an external account
@@ -83,6 +85,21 @@ ms:
         prompt: Prompt
         types: Work package types
         usage_scope: Scope
+      ai/text_transform_run:
+        action: Action
+        cancel_requested: Cancel requested
+        error_message: Error message
+        finished_at: Finished at
+        input: Input
+        status: Status
+        system_prompt: System prompt
+        user: User
+        uuid: UUID
+      ai/text_transform_run_event:
+        kind: Kind
+        payload: Payload
+        run: Run
+        seq: Sequence number
       announcements:
         show_until: Paparkan sehingga
       attachment:
@@ -125,7 +142,9 @@ ms:
         is_for_all: Untuk semua projek
         is_required: Diperlukan
         max_length: Panjang maksima
+        max_value: Maximum value
         min_length: Panjang minimum
+        min_value: Minimum value
         multi_value: Benarkan pemilihan berganda
         possible_values: Nilai yang mungkin
         regexp: Ungkapan biasa
@@ -217,6 +236,7 @@ ms:
         position: Position
       persisted_query:
         filters: Filters
+        group_bys: Group results by
         name: Name
         orders: Orders
         selects: Selects
@@ -573,6 +593,7 @@ ms:
         regex_list_invalid: Lines %{invalid_lines} could not be parsed as regular expression.
         regex_match_failed: tidak padan dengan ungkapan biasa %{expression}.
         smaller_than_or_equal_to_max_length: perlu kurang daripada atau sama dengan panjang maksima.
+        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: violates the SSRF policy of this OpenProject instance.
         status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
         system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
@@ -723,7 +744,6 @@ ms:
             types:
               cannot_assign_multiple_variants_of_parent: Can only enable a single variant of a Type on the project
               cannot_assign_variant_and_parent: 'Cannot assign a variant and its parent '
-              cannot_assign_variants_yet: Variants cannot be enabled on a project yet. Enable the feature flag to try out variants
               in_use_by_work_packages: 'masih digunakan oleh pakej kerja: %{types}'
               switch_target_blank: Select the variant to switch to
               switch_target_identical: The target type must be different from the type the project uses now
@@ -995,6 +1015,10 @@ ms:
         other: Actions
       ai/text_transform_action:
         other: Text transform actions
+      ai/text_transform_run:
+        other: Text transform runs
+      ai/text_transform_run_event:
+        other: Text transform run events
       announcement:
         other: Announcements
       anonymous_user:
@@ -2061,6 +2085,9 @@ ms:
     label_delete_token: Padam token sandaran
     label_reset_token: Set semula token sandaran
     label_token_users: Pengguna berikut mempunyai token sandaran aktif
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: Cipta
       action_reset: Tetapkan semula
@@ -2351,6 +2378,9 @@ ms:
       min_max:
         all: 0 means no restriction
         project: 0 means no restriction
+      min_max_value:
+        all: Leave blank for no restriction
+        project: Leave blank for no restriction
       multi_select:
         all: Allows the user to assign multiple values to this custom field.
         project: Allows the user to assign multiple values to this attribute.
@@ -3294,7 +3324,6 @@ ms:
   label_copy_target: Sasaran
   label_copy_workflow_from: Salin aliran kerja dari
   label_copy_workflow_from_role: Copy to other roles
-  label_copy_workflow_from_type: Copy to another type
   label_core_build: Binaan teras
   label_core_version: Versi teras
   label_created_by: Dicipta oleh %{user}
@@ -3541,7 +3570,6 @@ ms:
   label_message_new: Mesej baharu
   label_message_plural: Mesej
   label_message_posted: Mesej ditambah
-  label_min_max_length: Min - Maks panjang
   label_minute_plural: minit
   label_missing_api_access_key: Kunci akses API hilang
   label_missing_feeds_access_key: Kunci akses RSS hilang
@@ -4120,6 +4148,9 @@ ms:
   mail_body_account_information: Maklumat akaun anda
   mail_body_account_information_external: Anda boleh menggunakan akaun %{value} anda untuk log masuk.
   mail_body_backup_ready: 'Permintaan sandaran anda sudah bersedia. Anda boleh memuat turunnya di sini:'
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: Token sebelumnya sudah tidak sah.
   mail_body_backup_token_reset_admin_info: Token sandaran untuk pengguna '%{user}' telah ditetapkan semula.
   mail_body_backup_token_reset_user_info: Token sandaran anda telah ditetapkan semula.
@@ -4438,6 +4469,7 @@ ms:
   notice_account_already_activated: Akaun tersebut sudah diaktifkan.
   notice_account_invalid_credentials: Pengguna atau kata laluan tidak sah
   notice_account_invalid_credentials_or_blocked: Pengguna atau kata laluan tidak sah atau akaun disekat kerana beberapa cubaan log masuk yang gagal. Jika begitu, ianya akan dinyahsekat secara automatik dalam masa yang singkat.
+  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
   notice_account_invalid_token: Token pengaktifan tidak sah
   notice_account_lost_email_sent: E-mel bersertaan arahan untuk memilih kata laluan baharu telah dihantar kepada anda.
   notice_account_new_password_forced: Kata laluan baharu diperlukan.
@@ -4690,8 +4722,6 @@ ms:
       not_found: tidak dijumpai.
       respond_to?: does not implement required method.
       rules:
-        copy_workflow_from:
-          workflow_missing: has no own workflow.
         custom_field:
           format_not_supported: format '%{field_format}' is unsupported.
         item:
@@ -4711,7 +4741,6 @@ ms:
     or: atau
     rules:
       blueprint: Pattern blueprint
-      copy_workflow_from: Type for workflow copy
       depth: Kedalaman
       enabled: Didayakan
       item: Item
@@ -6257,6 +6286,15 @@ ms:
         query_group_label: Related work packages table
         remove_attribute: Remove from section
         rename_group: Rename section
+        required:
+          already_required_globally: This custom field is required for all types.
+          for_variant: Required in this type
+          globally: Required
+          globally_hint: Change this on the custom field
+          mark: Require in this type
+          not_a_custom_field: Only a custom field can be made required for a single type.
+          not_available_when_linked: This configuration is inherited. Configure it manually to change what is required.
+          unmark: Do not require in this type
         reset_description: 'This will reset the attributes to their default group and disable ALL custom fields.
 
           '
@@ -6265,6 +6303,15 @@ ms:
         row_actions: Row actions
         tab: Form
         untitled_group: Untitled group
+      overview:
+        configuration_mode: Configuration mode
+        dependents: Dependent types and variants
+        mode:
+          always_manual: Always manual
+          inheriting_from_html: Inheriting from %{source_name}
+          manual: Manually configured
+        settings: Settings
+        tab: Overview
       project_attributes:
         actions:
           label_disable_all: Disable all
@@ -6791,6 +6838,13 @@ ms:
       confirm_deletion: I confirm that the selected work packages and all associated data will be deleted.
       confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
       cross_project_warning_html: 'These work packages span multiple projects: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        self_only_label: Delete just the selected work packages
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete the selected work packages and their descendants
       description: Are you sure you want to delete the selected work packages and all associated data?
       description_with_all_descendants: Are you sure you want to delete the selected work packages and all of their descendants?
       description_with_descendants: Are you sure you want to delete the selected work packages and all the following descendants?
@@ -6851,6 +6905,13 @@ ms:
       confirm_deletion: I confirm that the work package and all associated data will be deleted.
       confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
       cross_project_warning_html: 'Work packages from the following projects will be deleted: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: This work package has descendants. Do you want to delete them as well?
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        self_only_label: Delete just this work package
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete this work package and descendants
       description: Are you sure you want to delete "%{name}"?
       heading: Permanently delete this work package?
       hidden_descendants_only_warning:
@@ -6897,27 +6958,12 @@ ms:
   workflows:
     copies:
       form:
-        mode:
-          from_role:
-            caption: Copy the current workflow to one or more roles inside the same work package type. If the selected role already has a workflow the current one will be overwritten.
-            label: Copy to other roles
-          from_type:
-            caption: Copy the current workflow to another work packages type. If the selected type already has a workflow the current one will be overwritten. This affects all roles.
-            label: Copy to another type
-        source_role_id:
-          label: Source role
         target_role_ids:
           label: Target roles
-        target_variant_ids:
-          label: Target types
       from_roles:
         create:
           notice:
             other: Successfully copied workflow to %{count} roles.
-      from_variants:
-        create:
-          notice:
-            other: Successfully copied workflow to %{count} types.
       new:
         title: Copy workflow of "%{source_type}"
     form:

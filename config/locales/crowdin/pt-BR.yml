@@ -66,6 +66,8 @@ pt-BR:
 
       '
     login_with_auth_provider: ou entre com a sua conta existente
+    omniauth_direct_login_continue: Continue to sign in
+    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: Faça login para ativar sua conta.
     signup_title: Crie uma conta no %{app_title}
     signup_with_external_account: Cadastre-se com uma conta externa
@@ -83,6 +85,21 @@ pt-BR:
         prompt: Prompt
         types: Tipos de pacote de trabalho
         usage_scope: Escopo
+      ai/text_transform_run:
+        action: Action
+        cancel_requested: Cancel requested
+        error_message: Error message
+        finished_at: Finished at
+        input: Input
+        status: Status
+        system_prompt: System prompt
+        user: User
+        uuid: UUID
+      ai/text_transform_run_event:
+        kind: Kind
+        payload: Payload
+        run: Run
+        seq: Sequence number
       announcements:
         show_until: Exibir até
       attachment:
@@ -125,7 +142,9 @@ pt-BR:
         is_for_all: Para todos os projetos
         is_required: Obrigatório
         max_length: Tamanho máximo
+        max_value: Maximum value
         min_length: Tamanho mínimo
+        min_value: Minimum value
         multi_value: Permitir seleção múltipla
         possible_values: Valores possíveis
         regexp: Expressão regular
@@ -215,6 +234,7 @@ pt-BR:
         position: Posição
       persisted_query:
         filters: Filtros
+        group_bys: Group results by
         name: Nome
         orders: Pedidos
         selects: Seleções
@@ -571,6 +591,7 @@ pt-BR:
         regex_list_invalid: As linhas %{invalid_lines} não puderam ser interpretadas como expressão regular.
         regex_match_failed: não corresponde à expressão regular %{expression}.
         smaller_than_or_equal_to_max_length: deve ser menor ou igual ao tamanho máximo.
+        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: viola a política de SSRF desta instância do OpenProject.
         status_transition_invalid: é inválido porque não existe uma transição válida do status antigo para o novo status para as funções do usuário atual.
         system_wide_non_working_day_exists: conflita com um dia não útil já existente em todo o sistema para esta data.
@@ -722,7 +743,6 @@ pt-BR:
             types:
               cannot_assign_multiple_variants_of_parent: Só é possível habilitar uma única variante de um Tipo no projeto
               cannot_assign_variant_and_parent: 'Não é possível atribuir uma variante e seu tipo pai '
-              cannot_assign_variants_yet: As variantes ainda não podem ser habilitadas em um projeto. Ative o recurso experimental para testar as variantes
               in_use_by_work_packages: 'ainda em uso pelos pacotes de trabalho: %{types}'
               switch_target_blank: Selecione a variante para a qual deseja mudar
               switch_target_identical: O tipo de destino deve ser diferente do tipo que o projeto usa atualmente
@@ -998,6 +1018,12 @@ pt-BR:
       ai/text_transform_action:
         one: Ação de transformação de texto
         other: Ações de transformação de texto
+      ai/text_transform_run:
+        one: Text transform run
+        other: Text transform runs
+      ai/text_transform_run_event:
+        one: Text transform run event
+        other: Text transform run events
       announcement:
         one: Anúncio
         other: Anúncios
@@ -2171,6 +2197,9 @@ pt-BR:
     label_delete_token: Excluir token de backup
     label_reset_token: Redefinir token de backup
     label_token_users: Os seguintes usuários têm tokens de backup ativos
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: Criar
       action_reset: Reiniciar
@@ -2461,6 +2490,9 @@ pt-BR:
       min_max:
         all: 0 significa que não há restrição
         project: 0 significa que não há restrição
+      min_max_value:
+        all: Leave blank for no restriction
+        project: Leave blank for no restriction
       multi_select:
         all: Permite que o usuário atribua múltiplos valores a este campo personalizado.
         project: Permite que o usuário atribua múltiplos valores a este atributo.
@@ -3427,7 +3459,6 @@ pt-BR:
   label_copy_target: Destino
   label_copy_workflow_from: Copiar o fluxo de trabalho de
   label_copy_workflow_from_role: Copiar para outras funções
-  label_copy_workflow_from_type: Copiar para outro tipo
   label_core_build: Construção principal
   label_core_version: Versão do núcleo
   label_created_by: Criado por %{user}
@@ -3672,7 +3703,6 @@ pt-BR:
   label_message_new: Nova mensagem
   label_message_plural: Mensagens
   label_message_posted: Mensagem adicionada
-  label_min_max_length: Tamanho Mín - Max
   label_minute_plural: minutos
   label_missing_api_access_key: Falta chave de acesso a API
   label_missing_feeds_access_key: Falta chave de acesso RSS
@@ -4254,6 +4284,9 @@ pt-BR:
   mail_body_account_information: Suas informações de conta
   mail_body_account_information_external: Você pode usar sua conta %{value} para logar.
   mail_body_backup_ready: 'Seu backup solicitado está pronto. Você pode baixá-lo aqui:'
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: O token anterior não é mais válido.
   mail_body_backup_token_reset_admin_info: O token de backup para o usuário %{user} foi redefinido.
   mail_body_backup_token_reset_user_info: Seu token de backup foi redefinido.
@@ -4577,6 +4610,7 @@ pt-BR:
   notice_account_already_activated: A conta já está ativada.
   notice_account_invalid_credentials: Usuário ou senha inválidos
   notice_account_invalid_credentials_or_blocked: Usuário ou senha inválido ou a conta está bloqueada devido a várias tentativas de login. Se for assim, será desbloqueado automaticamente em um curto espaço de tempo.
+  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
   notice_account_invalid_token: Token de ativação inválido
   notice_account_lost_email_sent: Um e-mail com instruções para escolher uma nova senha foi enviado para você.
   notice_account_new_password_forced: Uma nova senha é necessária.
@@ -4831,8 +4865,6 @@ pt-BR:
       not_found: não encontrado.
       respond_to?: não implementa o método obrigatório.
       rules:
-        copy_workflow_from:
-          workflow_missing: não possui fluxo de trabalho próprio.
         custom_field:
           format_not_supported: o formato "%{field_format}" não é compatível.
         item:
@@ -4852,7 +4884,6 @@ pt-BR:
     or: ou
     rules:
       blueprint: Esquema de padrão
-      copy_workflow_from: Tipo de cópia do fluxo de trabalho
       depth: Profundidade
       enabled: Habilitado
       item: Item
@@ -6392,6 +6423,15 @@ pt-BR:
         query_group_label: Tabela de pacotes de trabalho relacionados
         remove_attribute: Remover da seção
         rename_group: Renomear seção
+        required:
+          already_required_globally: This custom field is required for all types.
+          for_variant: Required in this type
+          globally: Required
+          globally_hint: Change this on the custom field
+          mark: Require in this type
+          not_a_custom_field: Only a custom field can be made required for a single type.
+          not_available_when_linked: This configuration is inherited. Configure it manually to change what is required.
+          unmark: Do not require in this type
         reset_description: 'Isto irá redefinir os atributos para seu grupo padrão e desativar TODOS os campos personalizados.
 
           '
@@ -6400,6 +6440,15 @@ pt-BR:
         row_actions: Ações de linha
         tab: Formulário
         untitled_group: Grupo sem título
+      overview:
+        configuration_mode: Configuration mode
+        dependents: Dependent types and variants
+        mode:
+          always_manual: Always manual
+          inheriting_from_html: Inheriting from %{source_name}
+          manual: Manually configured
+        settings: Settings
+        tab: Overview
       project_attributes:
         actions:
           label_disable_all: Desabilitar todos
@@ -6932,6 +6981,13 @@ pt-BR:
       confirm_deletion: Confirmo que os pacotes de trabalho selecionados e todos os dados associados serão excluídos.
       confirm_descendants_deletion: Confirmo que todos os descendentes listados acima também serão excluídos.
       cross_project_warning_html: 'Esses pacotes de trabalho abrangem vários projetos: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        self_only_label: Delete just the selected work packages
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete the selected work packages and their descendants
       description: Tem certeza de que deseja excluir os pacotes de trabalho selecionados e todos os dados associados?
       description_with_all_descendants: Tem certeza de que deseja excluir os pacotes de trabalho selecionados e todos os seus descendentes?
       description_with_descendants: Tem certeza de que deseja excluir os pacotes de trabalho selecionados e todos os seguintes descendentes?
@@ -6996,6 +7052,13 @@ pt-BR:
       confirm_deletion: Confirmo que o pacote de trabalho e todos os dados associados serão excluídos.
       confirm_descendants_deletion: Confirmo que todos os descendentes listados acima também serão excluídos.
       cross_project_warning_html: 'Pacotes de trabalho dos seguintes projetos serão excluídos: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: This work package has descendants. Do you want to delete them as well?
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        self_only_label: Delete just this work package
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete this work package and descendants
       description: Tem certeza de que deseja excluir "%{name}"?
       heading: Excluir este pacote de trabalho de forma permanente?
       hidden_descendants_only_warning:
@@ -7047,29 +7110,13 @@ pt-BR:
   workflows:
     copies:
       form:
-        mode:
-          from_role:
-            caption: Copiar o fluxo de trabalho atual para uma ou mais funções dentro do mesmo tipo de pacote de trabalho. Se a função selecionada já tiver um fluxo de trabalho, o atual será substituído.
-            label: Copiar para outras funções
-          from_type:
-            caption: Copiar o fluxo de trabalho atual para outro tipo de pacote de trabalho. Se o tipo selecionado já tiver um fluxo de trabalho, o atual será substituído. Isso afeta todas as funções.
-            label: Copiar para outro tipo
-        source_role_id:
-          label: Função de origem
         target_role_ids:
           label: Funções alvo
-        target_variant_ids:
-          label: Tipos alvo
       from_roles:
         create:
           notice:
             one: Fluxo de trabalho copiado com sucesso para a função "%{role_name}".
             other: Fluxo de trabalho copiado com sucesso para %{count} funções.
-      from_variants:
-        create:
-          notice:
-            one: Fluxo de trabalho copiado com sucesso para "%{type_name}".
-            other: Fluxos de trabalho copiados com sucesso para %{count} tipos.
       new:
         title: Copiar fluxo de trabalho de “%{source_type}”
     form:

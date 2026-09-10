@@ -34,7 +34,6 @@ module WorkPackageTypes
   # off it, so nothing here may resolve the scope another way.
   module ConfiguredInScope
     extend ActiveSupport::Concern
-    include ::WorkPackageTypes::TypeVariantsFeature
 
     class_methods do
       # Answered after ApplicationController#user_setup, so the refusal renders in the signed-in
@@ -56,7 +55,7 @@ module WorkPackageTypes
       # named here rather than called from a guard of our own. Both run after user_setup and
       # before any callback a controller adds, which read what they resolve.
       before_action :require_admin, unless: :variant_scope_requested?
-      before_action :find_project_by_in_project_id, :authorize, :require_type_variants_feature,
+      before_action :find_project_by_in_project_id, :authorize,
                     if: :variant_scope_requested?
     end
 

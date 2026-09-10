@@ -29,13 +29,11 @@
 #++
 
 class Projects::Settings::WorkPackages::Types::SwitchesController < Projects::SettingsController
-  include WorkPackageTypes::TypeVariantsFeature
   include OpTurbo::ComponentStream
   include WorkPackageTypes::SwitchLookup
 
   menu_item :settings_work_packages
 
-  before_action :require_type_variants_feature
   before_action :load_source
 
   def new

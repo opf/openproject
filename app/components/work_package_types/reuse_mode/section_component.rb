@@ -38,8 +38,6 @@ module WorkPackageTypes
         super(variant)
       end
 
-      def render? = OpenProject::FeatureDecisions.type_variants_active?
-
       private
 
       attr_reader :aspect

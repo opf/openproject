@@ -33,12 +33,10 @@ module WorkPackageTypes
   class CreationWizardController < ApplicationController
     include AddressesVariant
     include ::WorkPackageTypes::ConfiguredInScope
-    include TypeVariantsFeature
 
     layout "no_menu"
 
     helper_method :adding_variant?
-    before_action :require_type_variants_feature
     before_action :find_type, only: %i[show update]
     before_action :find_variant, only: %i[show update]
     before_action :set_current_step, only: %i[show update]

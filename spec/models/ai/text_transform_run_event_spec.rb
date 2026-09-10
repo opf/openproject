@@ -33,13 +33,45 @@ require "spec_helper"
 RSpec.describe AI::TextTransformRunEvent do
   subject(:event) { build(:ai_text_transform_run_event) }
 
+  it { is_expected.to validate_inclusion_of(:kind).in_array(described_class::KINDS) }
   it { is_expected.to validate_presence_of(:seq) }
-  it { is_expected.to validate_inclusion_of(:kind).in_array(AI::TextTransformRunEvent::KINDS) }
 
-  it "is append-only once persisted" do
-    event = create(:ai_text_transform_run_event)
+  describe "seq" do
+    let(:run) { create(:ai_text_transform_run) }
 
-    expect { event.update!(kind: "completed") }.to raise_error(ActiveRecord::ReadOnlyRecord)
-    expect { event.destroy! }.to raise_error(ActiveRecord::ReadOnlyRecord)
+    it "must be unique per run" do
+      create(:ai_text_transform_run_event, run:, seq: 1)
+      duplicate = build(:ai_text_transform_run_event, run:, seq: 1)
+
+      expect(duplicate).not_to be_valid
+      expect(duplicate.errors[:seq]).to be_present
+    end
+
+    it "may repeat across runs" do
+      create(:ai_text_transform_run_event, run:, seq: 1)
+
+      expect(build(:ai_text_transform_run_event, seq: 1)).to be_valid
+    end
+  end
+
+  describe "payload" do
+    it "has string keys before and after reload" do
+      event = create(:ai_text_transform_run_event, payload: { delta: "x", meta: { lang: "de" } })
+
+      expect(event.payload).to eq({ "delta" => "x", "meta" => { "lang" => "de" } })
+      expect(event.reload.payload).to eq(event.payload)
+    end
+  end
+
+  describe "append-only behaviour" do
+    subject(:event) { create(:ai_text_transform_run_event) }
+
+    it "refuses updates once persisted" do
+      expect { event.update!(kind: "completed") }.to raise_error(ActiveRecord::ReadOnlyRecord)
+    end
+
+    it "refuses destruction once persisted" do
+      expect { event.destroy! }.to raise_error(ActiveRecord::ReadOnlyRecord)
+    end
   end
 end

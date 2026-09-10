@@ -66,6 +66,8 @@ tr:
 
       '
     login_with_auth_provider: veya varolan hesabınızı kullanarak oturum açın
+    omniauth_direct_login_continue: Continue to sign in
+    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: Hesabınızı aktifleştirmek için lütfen giriş yapın.
     signup_title: Create an account in %{app_title}
     signup_with_external_account: Sign up with an external account
@@ -83,6 +85,21 @@ tr:
         prompt: Prompt
         types: Work package types
         usage_scope: Scope
+      ai/text_transform_run:
+        action: Action
+        cancel_requested: Cancel requested
+        error_message: Error message
+        finished_at: Finished at
+        input: Input
+        status: Status
+        system_prompt: System prompt
+        user: User
+        uuid: UUID
+      ai/text_transform_run_event:
+        kind: Kind
+        payload: Payload
+        run: Run
+        seq: Sequence number
       announcements:
         show_until: Son yayın tarihi
       attachment:
@@ -125,7 +142,9 @@ tr:
         is_for_all: Tüm projeler için
         is_required: Gerekli
         max_length: Maksimum uzunluk
+        max_value: Maximum value
         min_length: Minimum uzunluk
+        min_value: Minimum value
         multi_value: Çoklu seçime izin ver
         possible_values: Olası değerler
         regexp: Düzenli ifade
@@ -215,6 +234,7 @@ tr:
         position: Position
       persisted_query:
         filters: Filters
+        group_bys: Group results by
         name: Name
         orders: Orders
         selects: Selects
@@ -575,6 +595,7 @@ tr:
         regex_list_invalid: "%{invalid_lines} satırları düzenli ifade olarak ayrıştırılamadı."
         regex_match_failed: "%{expression} düzenli ifadesiyle eşleşmiyor."
         smaller_than_or_equal_to_max_length: en fazla uzunluğa eşit veya daha küçük olmalıdır.
+        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: violates the SSRF policy of this OpenProject instance.
         status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
         system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
@@ -726,7 +747,6 @@ tr:
             types:
               cannot_assign_multiple_variants_of_parent: Can only enable a single variant of a Type on the project
               cannot_assign_variant_and_parent: 'Cannot assign a variant and its parent '
-              cannot_assign_variants_yet: Variants cannot be enabled on a project yet. Enable the feature flag to try out variants
               in_use_by_work_packages: hala iş paketleri tarafından kullanılmaktadır:%{types}
               switch_target_blank: Select the variant to switch to
               switch_target_identical: The target type must be different from the type the project uses now
@@ -1002,6 +1022,12 @@ tr:
       ai/text_transform_action:
         one: Text transform action
         other: Text transform actions
+      ai/text_transform_run:
+        one: Text transform run
+        other: Text transform runs
+      ai/text_transform_run_event:
+        one: Text transform run event
+        other: Text transform run events
       announcement:
         one: Announcement
         other: Announcements
@@ -2177,6 +2203,9 @@ tr:
     label_delete_token: Yedek jetonu silin
     label_reset_token: Yedekleme jetonunu sıfırlayın
     label_token_users: Aşağıdaki kullanıcıların aktif yedekleme jetonları var
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: Oluştur
       action_reset: Sıfırla
@@ -2467,6 +2496,9 @@ tr:
       min_max:
         all: 0 sınırlama yok demektir
         project: 0 sınırlama yok demektir
+      min_max_value:
+        all: Leave blank for no restriction
+        project: Leave blank for no restriction
       multi_select:
         all: Kullanıcının bu özel alana birden fazla değer atamasına izin verir.
         project: Kullanıcının bu özniteliğe birden fazla değer atamasına izin verir.
@@ -3433,7 +3465,6 @@ tr:
   label_copy_target: Hedef
   label_copy_workflow_from: İş akışı kopyala
   label_copy_workflow_from_role: Copy to other roles
-  label_copy_workflow_from_type: Copy to another type
   label_core_build: Çekirdek yapı
   label_core_version: Çekirdek sürümü
   label_created_by: "%{user} tarafından oluşturuldu"
@@ -3678,7 +3709,6 @@ tr:
   label_message_new: Yeni mesaj
   label_message_plural: Mesajlar
   label_message_posted: Mesaj eklendi
-  label_min_max_length: En az - En çok uzunluk
   label_minute_plural: dakika
   label_missing_api_access_key: Eksik API erişim anahtarı
   label_missing_feeds_access_key: Eksik RSS erişim anahtarı
@@ -4261,6 +4291,9 @@ tr:
   mail_body_account_information: Hesap bilgilerinizi giriniz
   mail_body_account_information_external: Giriş yapmak için %{value} hesabınızı kullanabilirsiniz.
   mail_body_backup_ready: 'İstediğiniz yedekleme hazır. Buradan indirebilirsiniz:'
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: Önceki jeton artık geçerli değil.
   mail_body_backup_token_reset_admin_info: "'%{user}' kullanıcısının yedek simgesi sıfırlandı."
   mail_body_backup_token_reset_user_info: Yedek jetonunuz sıfırlandı.
@@ -4584,6 +4617,7 @@ tr:
   notice_account_already_activated: Hesap zaten etkinleştirildi.
   notice_account_invalid_credentials: Geçersiz kullanıcı ya da parola
   notice_account_invalid_credentials_or_blocked: Geçersiz kullanıcı, parola ya da hesap birden fazla başarısız giriş denemesinden dolayı engellendi. Eğer öyleyse kısa bir zaman sonra otomatik olarak engel kaldırılacaktır.
+  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
   notice_account_invalid_token: Geçersiz etkinleştirme belirteci
   notice_account_lost_email_sent: Size yeni bir parola seçme talimatlarını içeren bir e-posta göndermiştir.
   notice_account_new_password_forced: Yeni bir parola gerekli.
@@ -4838,8 +4872,6 @@ tr:
       not_found: bulunamadı.
       respond_to?: does not implement required method.
       rules:
-        copy_workflow_from:
-          workflow_missing: kendi iş akışına sahip değildir.
         custom_field:
           format_not_supported: "'%{field_format}' biçimi desteklenmiyor."
         item:
@@ -4859,7 +4891,6 @@ tr:
     or: ya da
     rules:
       blueprint: Kalıp planı
-      copy_workflow_from: İş akışı kopyası için tür
       depth: Derinlik
       enabled: Etkin
       item: Öğe
@@ -6408,6 +6439,15 @@ tr:
         query_group_label: Related work packages table
         remove_attribute: Remove from section
         rename_group: Rename section
+        required:
+          already_required_globally: This custom field is required for all types.
+          for_variant: Required in this type
+          globally: Required
+          globally_hint: Change this on the custom field
+          mark: Require in this type
+          not_a_custom_field: Only a custom field can be made required for a single type.
+          not_available_when_linked: This configuration is inherited. Configure it manually to change what is required.
+          unmark: Do not require in this type
         reset_description: 'This will reset the attributes to their default group and disable ALL custom fields.
 
           '
@@ -6416,6 +6456,15 @@ tr:
         row_actions: Row actions
         tab: Form
         untitled_group: Untitled group
+      overview:
+        configuration_mode: Configuration mode
+        dependents: Dependent types and variants
+        mode:
+          always_manual: Always manual
+          inheriting_from_html: Inheriting from %{source_name}
+          manual: Manually configured
+        settings: Settings
+        tab: Overview
       project_attributes:
         actions:
           label_disable_all: Disable all
@@ -6948,6 +6997,13 @@ tr:
       confirm_deletion: I confirm that the selected work packages and all associated data will be deleted.
       confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
       cross_project_warning_html: 'These work packages span multiple projects: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        self_only_label: Delete just the selected work packages
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete the selected work packages and their descendants
       description: Are you sure you want to delete the selected work packages and all associated data?
       description_with_all_descendants: Are you sure you want to delete the selected work packages and all of their descendants?
       description_with_descendants: Are you sure you want to delete the selected work packages and all the following descendants?
@@ -7012,6 +7068,13 @@ tr:
       confirm_deletion: I confirm that the work package and all associated data will be deleted.
       confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
       cross_project_warning_html: 'Work packages from the following projects will be deleted: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: This work package has descendants. Do you want to delete them as well?
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        self_only_label: Delete just this work package
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete this work package and descendants
       description: Are you sure you want to delete "%{name}"?
       heading: Permanently delete this work package?
       hidden_descendants_only_warning:
@@ -7063,29 +7126,13 @@ tr:
   workflows:
     copies:
       form:
-        mode:
-          from_role:
-            caption: Copy the current workflow to one or more roles inside the same work package type. If the selected role already has a workflow the current one will be overwritten.
-            label: Copy to other roles
-          from_type:
-            caption: Copy the current workflow to another work packages type. If the selected type already has a workflow the current one will be overwritten. This affects all roles.
-            label: Copy to another type
-        source_role_id:
-          label: Source role
         target_role_ids:
           label: Target roles
-        target_variant_ids:
-          label: Target types
       from_roles:
         create:
           notice:
             one: Successfully copied workflow to '%{role_name}' role.
             other: Successfully copied workflow to %{count} roles.
-      from_variants:
-        create:
-          notice:
-            one: Successfully copied workflow to '%{type_name}'.
-            other: Successfully copied workflow to %{count} types.
       new:
         title: Copy workflow of "%{source_type}"
     form:

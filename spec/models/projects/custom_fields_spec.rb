@@ -59,7 +59,7 @@ RSpec.describe Projects::CustomFields do
       end
     end
 
-    context "when the variant is Linked for project attributes", with_flag: { type_variants: true } do
+    context "when the variant is Linked for project attributes" do
       before do
         link_configuration(variant, source:, aspect: TypeVariant::PROJECT_ATTRIBUTES)
       end
@@ -70,7 +70,7 @@ RSpec.describe Projects::CustomFields do
       end
     end
 
-    context "when the link excludes an attribute", with_flag: { type_variants: true } do
+    context "when the link excludes an attribute" do
       let(:kept_field) { create(:project_custom_field, projects: [project]) }
 
       before do
@@ -94,14 +94,6 @@ RSpec.describe Projects::CustomFields do
                                  excluded: [kept_field.attribute_name])
 
         expect(project.available_custom_fields_for_variant(leaf.id).to_a).to be_empty
-      end
-    end
-
-    context "when the variant is Linked and the feature flag is off", with_flag: { type_variants: false } do
-      it "resolves to the source variant's attributes just the same" do
-        link_configuration(variant, source:, aspect: TypeVariant::PROJECT_ATTRIBUTES)
-
-        expect(available).to contain_exactly(custom_field)
       end
     end
   end

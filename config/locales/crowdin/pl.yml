@@ -66,6 +66,8 @@ pl:
 
       '
     login_with_auth_provider: lub zaloguj się za pomocą istniejącego konta
+    omniauth_direct_login_continue: Continue to sign in
+    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: Zaloguj się, aby aktywować konto.
     signup_title: Utwórz konto w %{app_title}
     signup_with_external_account: Zarejestruj się za pomocą konta zewnętrznego
@@ -83,6 +85,21 @@ pl:
         prompt: Prompt
         types: Work package types
         usage_scope: Scope
+      ai/text_transform_run:
+        action: Action
+        cancel_requested: Cancel requested
+        error_message: Error message
+        finished_at: Finished at
+        input: Input
+        status: Status
+        system_prompt: System prompt
+        user: User
+        uuid: UUID
+      ai/text_transform_run_event:
+        kind: Kind
+        payload: Payload
+        run: Run
+        seq: Sequence number
       announcements:
         show_until: Wyświetlaj do
       attachment:
@@ -125,7 +142,9 @@ pl:
         is_for_all: Dla wszystkich projektów
         is_required: Wymagane
         max_length: Maksymalna długość
+        max_value: Maximum value
         min_length: Minimalna długość
+        min_value: Minimum value
         multi_value: Zezwól na wybór wielokrotny
         possible_values: Możliwe wartości
         regexp: Wyrażenie regularne
@@ -215,6 +234,7 @@ pl:
         position: Pozycja
       persisted_query:
         filters: Filtry
+        group_bys: Group results by
         name: Nazwa
         orders: Zamówienia
         selects: Wybory
@@ -571,6 +591,7 @@ pl:
         regex_list_invalid: Nie można przeanalizować %{invalid_lines} wierszy jako wyrażenia regularnego.
         regex_match_failed: nie pasuje do wyrażenia regularnego %{expression}.
         smaller_than_or_equal_to_max_length: musi być mniejsze niż lub równe z maksymalnej długości.
+        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: narusza zasady tego wystąpienia OpenProject dotyczące SSRF.
         status_transition_invalid: jest nieprawidłowy z powodu braku prawidłowego dla bieżącej roli użytkownika przejścia ze starego do nowego statusu.
         system_wide_non_working_day_exists: koliduje z istniejącym dniem wolnym od pracy w całym systemie dla tej daty.
@@ -724,7 +745,6 @@ pl:
             types:
               cannot_assign_multiple_variants_of_parent: W projekcie można włączyć tylko jeden wariant typu
               cannot_assign_variant_and_parent: 'Nie można przypisać wariantu i jego elementu nadrzędnego '
-              cannot_assign_variants_yet: Wariantów nie można jeszcze włączyć w projekcie. Włącz flagę funkcji, aby wypróbować warianty
               in_use_by_work_packages: 'nadal w użyciu przez Zestawy zadań: %{types}'
               switch_target_blank: Wybierz wariant, na który chcesz się przełączyć
               switch_target_identical: Typ docelowy musi różnić się od typu obecnie stosowanego w projekcie
@@ -1008,6 +1028,16 @@ pl:
         few: Text transform actions
         many: Text transform actions
         other: Text transform actions
+      ai/text_transform_run:
+        one: Text transform run
+        few: Text transform runs
+        many: Text transform runs
+        other: Text transform runs
+      ai/text_transform_run_event:
+        one: Text transform run event
+        few: Text transform run events
+        many: Text transform run events
+        other: Text transform run events
       announcement:
         one: Ogłoszenie
         few: Ogłoszenia
@@ -2407,6 +2437,9 @@ pl:
     label_delete_token: Usuń token kopii zapasowej
     label_reset_token: Resetuj token kopii zapasowej
     label_token_users: Następujący użytkownicy mają aktywne tokeny kopii zapasowej
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: Utwórz
       action_reset: Reset
@@ -2697,6 +2730,9 @@ pl:
       min_max:
         all: 0 oznacza brak ograniczeń
         project: 0 oznacza brak ograniczeń
+      min_max_value:
+        all: Leave blank for no restriction
+        project: Leave blank for no restriction
       multi_select:
         all: Umożliwia użytkownikowi przypisanie wielu wartości do tego pola niestandardowego.
         project: Umożliwia użytkownikowi przypisanie wielu wartości do tego atrybutu.
@@ -3709,7 +3745,6 @@ pl:
   label_copy_target: Cel
   label_copy_workflow_from: Kopiowanie pracy z
   label_copy_workflow_from_role: Kopiuj do innych ról
-  label_copy_workflow_from_type: Kopiuj do innego typu
   label_core_build: Kompilacja bazowa
   label_core_version: Wersja bazowa
   label_created_by: 'Autor: %{user}'
@@ -3954,7 +3989,6 @@ pl:
   label_message_new: Nowa wiadomość
   label_message_plural: Wiadomości
   label_message_posted: Wiadomość dodana
-  label_min_max_length: Min. - Maks. długość
   label_minute_plural: minuty
   label_missing_api_access_key: Brak klucza dostępu API
   label_missing_feeds_access_key: Brak klucza dostępu RSS
@@ -4545,6 +4579,9 @@ pl:
   mail_body_account_information: Informacje o koncie
   mail_body_account_information_external: You can use your %{value} account to log in.
   mail_body_backup_ready: 'Żądana kopia zapasowa jest gotowa. Możesz ją pobrać tutaj:'
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: Poprzedni token jest już nieprawidłowy.
   mail_body_backup_token_reset_admin_info: Token kopii zapasowej użytkownika „%{user}” został zresetowany.
   mail_body_backup_token_reset_user_info: Twój token kopii zapasowej został zresetowany.
@@ -4881,6 +4918,7 @@ pl:
   notice_account_already_activated: Konto już aktywowane.
   notice_account_invalid_credentials: Nieprawidłowy użytkownik lub hasło
   notice_account_invalid_credentials_or_blocked: Nieprawidłowy użytkownik lub hasło lub konto jest zablokowane z powodu wielu nieudanych logowań. Jeśli tak, to będzie ono odblokowane automatycznie w niedługim czasie.
+  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
   notice_account_invalid_token: Błędny token aktywacji
   notice_account_lost_email_sent: E-mail z instrukcjami ustawienia nowego hasła został do Ciebie wysłany.
   notice_account_new_password_forced: Nowe hasło jest wymagane.
@@ -5143,8 +5181,6 @@ pl:
       not_found: "– nie znaleziono."
       respond_to?: nie implementuje wymaganej metody.
       rules:
-        copy_workflow_from:
-          workflow_missing: nie ma własnego przepływu pracy.
         custom_field:
           format_not_supported: "– format „%{field_format}” nie jest obsługiwany."
         item:
@@ -5164,7 +5200,6 @@ pl:
     or: lub
     rules:
       blueprint: Plan wzorca
-      copy_workflow_from: Typ kopii przepływu pracy
       depth: Głębokość
       enabled: Włączone
       item: Element
@@ -6717,6 +6752,15 @@ pl:
         query_group_label: Tabela powiązanych pakietów roboczych
         remove_attribute: Usuń z sekcji
         rename_group: Zmień nazwę sekcji
+        required:
+          already_required_globally: This custom field is required for all types.
+          for_variant: Required in this type
+          globally: Required
+          globally_hint: Change this on the custom field
+          mark: Require in this type
+          not_a_custom_field: Only a custom field can be made required for a single type.
+          not_available_when_linked: This configuration is inherited. Configure it manually to change what is required.
+          unmark: Do not require in this type
         reset_description: 'Spowoduje to zresetowanie atrybutów do ich domyślnej grupy i wyłączenie WSZYSTKICH pól niestandardowych.
 
           '
@@ -6725,6 +6769,15 @@ pl:
         row_actions: Działania wiersza
         tab: Form
         untitled_group: Grupa bez nazwy
+      overview:
+        configuration_mode: Configuration mode
+        dependents: Dependent types and variants
+        mode:
+          always_manual: Always manual
+          inheriting_from_html: Inheriting from %{source_name}
+          manual: Manually configured
+        settings: Settings
+        tab: Overview
       project_attributes:
         actions:
           label_disable_all: Wyłącz wszystkie
@@ -7267,6 +7320,13 @@ pl:
       confirm_deletion: Potwierdzam, że wybrane pakiety robocze i wszystkie powiązane dane zostaną usunięte.
       confirm_descendants_deletion: Potwierdzam, że zostaną usunięte również wszystkie elementy potomne wymienione powyżej.
       cross_project_warning_html: 'Te pakiety robocze obejmują wiele projektów: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        self_only_label: Delete just the selected work packages
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete the selected work packages and their descendants
       description: Czy na pewno chcesz usunąć wybrane pakiety robocze i wszystkie powiązane dane?
       description_with_all_descendants: Czy na pewno chcesz usunąć wybrane pakiety robocze i wszystkie ich elementy potomne?
       description_with_descendants: Czy na pewno chcesz usunąć wybrane pakiety robocze i wszystkie następujące elementy potomne?
@@ -7339,6 +7399,13 @@ pl:
       confirm_deletion: Potwierdzam, że pakiet roboczy i wszystkie powiązane dane zostaną usunięte.
       confirm_descendants_deletion: Potwierdzam, że zostaną usunięte również wszystkie elementy potomne wymienione powyżej.
       cross_project_warning_html: 'Zostaną usunięte pakiety robocze z następujących projektów: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: This work package has descendants. Do you want to delete them as well?
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        self_only_label: Delete just this work package
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete this work package and descendants
       description: Czy na pewno chcesz usunąć „%{name}”?
       heading: Czy trwale usunąć ten pakiet roboczy?
       hidden_descendants_only_warning:
@@ -7400,19 +7467,8 @@ pl:
   workflows:
     copies:
       form:
-        mode:
-          from_role:
-            caption: Skopiuj bieżący przepływ pracy do co najmniej jednej z ról wewnątrz tego samego typu pakietu roboczego. Jeśli wybrana rola ma już przepływ pracy, zostanie on zastąpiony.
-            label: Kopiuj do innych ról
-          from_type:
-            caption: Skopiuj bieżący przepływ pracy do innego typu pakietów roboczych. Jeśli wybrany typ ma już przepływ pracy, zostanie on zastąpiony. Dotyczy to wszystkich ról.
-            label: Kopiuj do innego typu
-        source_role_id:
-          label: Rola źródłowa
         target_role_ids:
           label: Role docelowe
-        target_variant_ids:
-          label: Typy docelowe
       from_roles:
         create:
           notice:
@@ -7420,13 +7476,6 @@ pl:
             few: Przepływ pracy został skopiowany do %{count} ról.
             many: Przepływ pracy został skopiowany do %{count} ról.
             other: Przepływ pracy został skopiowany do %{count} roli.
-      from_variants:
-        create:
-          notice:
-            one: Przepływ pracy został skopiowany do „%{type_name}”.
-            few: Przepływ pracy został skopiowany do %{count} typów.
-            many: Przepływ pracy został skopiowany do %{count} typów.
-            other: Przepływ pracy został skopiowany do %{count} typu.
       new:
         title: Kopiuj przepływ pracy z „%{source_type}”
     form:

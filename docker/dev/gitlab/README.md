@@ -22,3 +22,15 @@ Starting GitLab works through
 
 You'll have to wait some time before GitLab becomes reachable via your browser. In the meantime you might still see a 404 error
 from the shared front proxy.
+
+## Configuring webhooks
+
+GitLab by default does not allow certain kinds of webhooks to target the local network, however that's usually required for
+local testing of webhooks. To enable them go to
+
+    https://<your-gitlab-hostname>/admin/application_settings/network#js-outbound-settings
+
+Ensure that both relevant options are **enabled**:
+
+* Allow requests to the local network from webhooks and integrations
+* Allow requests to the local network from system hooks

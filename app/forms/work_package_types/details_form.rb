@@ -61,7 +61,7 @@ module WorkPackageTypes
                              disabled: inherited?,
                              caption: inherited_caption)
 
-      if offers_project_variants?
+      unless inherited?
         details_form.check_box(name: :allow_project_variants,
                                label: label(:allow_project_variants),
                                caption: I18n.t("types.edit.details.allow_project_variants_caption"))
@@ -71,10 +71,6 @@ module WorkPackageTypes
     private
 
     def inherited? = model.is_a?(TypeVariant)
-
-    def offers_project_variants?
-      !inherited? && OpenProject::FeatureDecisions.type_variants_active?
-    end
 
     def name_attribute = inherited? ? :variant_name : :name
 
