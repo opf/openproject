@@ -27,10 +27,13 @@
 //++
 
 import { Injectable, Injector, inject } from '@angular/core';
-import { WorkPackagesListChecksumService } from 'core-app/features/work-packages/components/wp-list/wp-list-checksum.service';
+import {
+  WorkPackagesListChecksumService,
+  consumeSelfInitiatedUrlChangeFlag,
+} from 'core-app/features/work-packages/components/wp-list/wp-list-checksum.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
-import { TransitionService } from '@uirouter/core';
-import { Subject } from 'rxjs';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
+import { Subject, Subscription } from 'rxjs';
 
 @Injectable()
 export class QueryParamListenerService {
@@ -40,31 +43,42 @@ export class QueryParamListenerService {
 
   readonly wpListService:WorkPackagesListService = this.injector.get(WorkPackagesListService);
 
-  readonly $transitions:TransitionService = this.injector.get(TransitionService);
+  readonly urlParams:UrlParamsService = this.injector.get(UrlParamsService);
 
   public observe$ = new Subject<any>();
 
-  public queryChangeListener:Function;
+  private queryChangeSubscription:Subscription;
 
   constructor() {
     this.listenForQueryParamsChanged();
   }
 
-  public listenForQueryParamsChanged():any {
+  public listenForQueryParamsChanged():void {
     // Listen for param changes
-    return this.queryChangeListener = this.$transitions.onSuccess({}, (transition):any => {
-      const options = transition.options();
-      const params = transition.params('to');
-
-      const newChecksum = this.wpListService.getCurrentQueryProps(params);
-      const newId:string = params.query_id ? params.query_id.toString() : null;
-
-      // Avoid performing any changes when we're going to reload
-      if (options.reload || (options.custom?.notify === false)) {
-        return true;
+    this.queryChangeSubscription = this.urlParams.changed$.subscribe(() => {
+      // Skip self-initiated syncs (see WorkPackagesListChecksumService#maintainUrlQueryState) -
+      // the checksum they reflect into the URL is already up to date, reloading here would
+      // just be undoing the change that triggered them in the first place.
+      if (consumeSelfInitiatedUrlChangeFlag()) {
+        return;
       }
 
-      return this.wpListChecksumService
+      // Skip while the initial query load for this page is still in flight - it will itself
+      // seed the checksum via WorkPackageStatesInitializationService#initialize once done.
+      // Reacting here too races that in-flight load with a second, redundant reload (#62847).
+      if (this.wpListChecksumService.isUninitialized()) {
+        return;
+      }
+
+      const params = {
+        query_id: this.urlParams.get('query_id'),
+        query_props: this.urlParams.get('query_props'),
+      };
+
+      const newChecksum = this.wpListService.getCurrentQueryProps(params);
+      const newId = params.query_id;
+
+      this.wpListChecksumService
         .executeIfOutdated(newId,
           newChecksum,
           () => {
@@ -74,6 +88,6 @@ export class QueryParamListenerService {
   }
 
   public removeQueryChangeListener() {
-    this.queryChangeListener();
+    this.queryChangeSubscription.unsubscribe();
   }
 }
