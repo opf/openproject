@@ -304,8 +304,7 @@ module Import
         journal_service.add_comment(comment:, user: author || User.system)
       end
 
-      jira_updated_at = jira_issue.payload.dig("fields", "updated")
-      journal_service.call(updated_at: jira_updated_at) if jira_updated_at.present?
+      journal_service.call(updated_at: jira_issue.payload.dig("fields", "updated"))
     end
     # rubocop:enable Metrics/AbcSize
 

@@ -130,6 +130,20 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
           .to change(Import::JiraOpenProjectReference, :count).by_at_least(4)
       end
 
+      context "when the issue carries no updated timestamp" do
+        let(:jira_issue_payload) do
+          super().tap { |payload| payload["fields"].delete("updated") }
+        end
+
+        it "still replays the changelog and the comments" do
+          create_work_packages
+
+          work_package = WorkPackage.find("DPPP-6")
+          expect(work_package.journals.count).to be 17
+          expect(work_package.journals.where(notes: "Demo comment 2").count).to be 1
+        end
+      end
+
       context "if priority is nil or hidden in jira filed configuration" do
         let(:jira_issue_payload) { JSON.parse(Rails.root.join("spec/fixtures/import/jira/issue_without_priority.json").read) }
 
