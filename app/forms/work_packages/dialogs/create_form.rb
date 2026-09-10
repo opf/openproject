@@ -67,7 +67,7 @@ module WorkPackages::Dialogs
           .map do |value, label|
           select.option(label:,
                         value:,
-                        classes: "__hl_inline_type_#{value}",
+                        classes: "__hl_uppercase __hl_foreground __hl_type_#{value}",
                         selected: work_package.type_id == value)
         end
       end

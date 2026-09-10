@@ -108,7 +108,7 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger implements
       linkText: type.name,
       href: this.buildHref(type),
       ariaLabel: type.name,
-      class: Highlighting.inlineClass('type', type.id!),
+      class: Highlighting.typeClass(type.id!),
       onClick: (event:MouseEvent) => this.handleClick(event, type),
     }));
   }
