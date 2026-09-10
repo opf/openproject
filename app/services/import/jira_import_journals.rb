@@ -44,7 +44,7 @@ module Import
       parsed = Time.zone.parse(date_time.to_s)
       work_package.update_column(:created_at, parsed)
 
-      creation_journal = work_package.journals.reload.first
+      creation_journal = work_package.journals.first
       return unless creation_journal
 
       creation_journal.update_columns(
@@ -96,7 +96,7 @@ module Import
       attachments = work_package.attachments.pluck(:id, :file)
       return [] if attachments.empty?
 
-      journal_ids = work_package.journals.reload.pluck(:id)
+      journal_ids = work_package.journals.pluck(:id)
       existing = recorded_attachable_pairs(journal_ids)
 
       journal_ids.product(attachments).filter_map do |journal_id, (attachment_id, filename)|
