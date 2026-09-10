@@ -293,6 +293,8 @@ RSpec.describe BackupJob, type: :model do
       end
       # rubocop:enable RSpec/AnyInstance
 
+      allow(UserMailer).to receive(:backup_ready).and_call_original
+
       job.perform(backup:, user:)
     end
 
@@ -312,6 +314,16 @@ RSpec.describe BackupJob, type: :model do
 
     it "names the backup archive with an -incomplete suffix" do
       expect(stored_backup.filename).to eq "openproject-unreadable-incomplete.zip"
+    end
+
+    it "mentions the missing attachment in the job status payload" do
+      payload = JobStatus::Status.find_by(job_id:).payload
+
+      expect(payload["html"]).to include(I18n.t(:label_x_files, count: 1))
+    end
+
+    it "notifies the user via mail that an attachment is missing" do
+      expect(UserMailer).to have_received(:backup_ready).with(user, missing_attachments_count: 1)
     end
   end
 

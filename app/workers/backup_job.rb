@@ -89,7 +89,7 @@ class BackupJob < ApplicationJob
   end
 
   def notify_backup_ready!
-    UserMailer.backup_ready(user).deliver_later
+    UserMailer.backup_ready(user, missing_attachments_count: missing_attachments.size).deliver_later
   end
 
   def dumped?
@@ -144,21 +144,30 @@ class BackupJob < ApplicationJob
         .bypass_allowlist(user:)
         .call(container: backup, filename: file_name, file:, description: "OpenProject backup")
 
-      call.on_success do
-        download_url = ::API::V3::Utilities::PathHelper::ApiV3Path.attachment_content(call.result.id)
-
-        upsert_status(
-          status: :success,
-          message: I18n.t("export.succeeded"),
-          payload: download_payload(download_url, "application/zip")
-        )
-      end
+      call.on_success { upsert_success_status! call.result }
 
       call.on_failure do
         upsert_status status: :failure,
                       message: I18n.t("export.failed", message: call.message)
       end
     end
+  end
+
+  def upsert_success_status!(result)
+    download_url = ::API::V3::Utilities::PathHelper::ApiV3Path.attachment_content(result.id)
+
+    upsert_status(
+      status: :success,
+      message: I18n.t("export.succeeded"),
+      payload: success_status_payload(download_url)
+    )
+  end
+
+  def success_status_payload(download_url)
+    payload = download_payload(download_url, "application/zip")
+    payload = payload.merge(html: missing_attachments_html) if missing_attachments.any?
+
+    payload
   end
 
   def create_backup_archive!(file_name:, db_dump_file_name:, attachments: attachments_to_include)
@@ -249,6 +258,13 @@ class BackupJob < ApplicationJob
 
     zos.put_next_entry "MISSING_ATTACHMENTS.txt"
     zos.write missing_attachments_content
+  end
+
+  def missing_attachments_html
+    I18n.t(
+      "backup.missing_attachments_notice_html",
+      file_count: I18n.t(:label_x_files, count: missing_attachments.size)
+    )
   end
 
   def missing_attachments_content
