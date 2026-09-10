@@ -40,16 +40,20 @@ See COPYRIGHT and LICENSE files for more details.
     ) { t(".label", count: work_packages.size) }
   %>
 
-  <% work_packages.each do |work_package| %>
-    <%=
-      render(
-        WorkPackages::InfoLineComponent.new(
-          work_package:,
-          show_subject: true,
-          show_status: false,
-          my: 1
-        )
-      )
-    %>
+  <%= render(OpPrimer::ListComponent.new(ml: 0, tag: :ol)) do |list| %>
+    <% work_packages.each do |work_package| %>
+      <% list.with_item do %>
+        <%=
+          render(
+            WorkPackages::InfoLineComponent.new(
+              work_package:,
+              show_subject: true,
+              show_status: false,
+              my: 1
+            )
+          )
+        %>
+      <% end %>
+    <% end %>
   <% end %>
 <% end %>
