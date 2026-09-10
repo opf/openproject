@@ -224,7 +224,7 @@ RSpec.describe TypesHelper do
 
       it "returns 'Builtin field' for built-in attributes" do
         builtin = groups[:inactives].find { |a| a[:key] == "date" }
-        expect(builtin[:field_format_label]).to eq I18n.t("types.edit.form_configuration.builtin_field")
+        expect(builtin[:field_format_label]).to eq I18n.t("label_builtin")
       end
 
       context "with a custom field" do

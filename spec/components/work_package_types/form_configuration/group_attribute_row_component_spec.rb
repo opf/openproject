@@ -28,7 +28,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
   it "renders built-in attributes as secondary labels" do
     render_inline(described_class.new(attribute:, variant:, index: 0, total_count: 2, readonly: true))
 
-    expect(page).to have_css(".Label.Label--secondary", text: I18n.t("types.edit.form_configuration.builtin_field"))
+    expect(page).to have_css(".Label.Label--secondary", text: I18n.t("label_builtin"))
   end
 
   # The switch itself is covered by ExclusionToggleComponent; what matters here is that the row
