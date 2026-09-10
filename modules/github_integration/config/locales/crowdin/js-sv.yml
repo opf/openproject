@@ -25,15 +25,15 @@ sv:
     github_integration:
       github_actions: Åtgärder
       pull_requests:
-        merged_message: 'Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}.'
-        message: 'Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} has been %{pr_state}.'
-        referenced_message: 'Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} referenced this work package.'
+        merged_message: 'Pull request #%{pr_number} %{pr_link} för %{repository_link} har %{pr_state} av %{github_user_link}.'
+        message: 'Pull request #%{pr_number} %{pr_link} för %{repository_link}, skapad av %{github_user_link}, har %{pr_state}.'
+        referenced_message: 'Pull request #%{pr_number} %{pr_link} för %{repository_link}, skapad av %{github_user_link}, refererade till detta arbetspaket.'
         states:
-          closed: stängt
-          draft: drafted
-          merged: merged
-          opened: opened
-          ready_for_review: marked ready for review
+          closed: stängd
+          draft: skapats som utkast
+          merged: sammanfogats
+          opened: öppnats
+          ready_for_review: markerats som klar för granskning
       tab_header:
         copy_menu:
           description: Kopiera git snippets till urklipp

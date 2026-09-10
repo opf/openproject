@@ -184,9 +184,9 @@ module Accounts::Registration
   def account_not_activated(flash_now: true)
     flash_error_message(log_reason: "NOT ACTIVATED", flash_now:) do
       if Setting::SelfRegistration.by_email?
-        "account.error_inactive_activation_by_mail"
+        I18n.t("account.error_inactive_activation_by_mail")
       else
-        "account.error_inactive_manual_activation"
+        I18n.t("account.error_inactive_manual_activation")
       end
     end
   end

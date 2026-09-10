@@ -36,9 +36,10 @@ module Filter
     # If none is provided, the filters are rendered right away.
     options lazy_loaded_path: false
     options initially_expanded: false
+    options excluded_filters: []
 
     def filter_form(form)
-      Filters::FilterFormComponent.new(builder: form, query:, allowed_filters:)
+      Filters::FilterFormComponent.new(builder: form, query:, allowed_filters:, excluded_filters:)
     end
 
     def allowed_filters

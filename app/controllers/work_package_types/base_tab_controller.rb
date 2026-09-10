@@ -31,10 +31,8 @@
 module WorkPackageTypes
   class BaseTabController < ApplicationController
     include AddressesVariant
+    include ::WorkPackageTypes::ConfiguredInScope
 
-    layout "admin"
-
-    before_action :require_admin
     before_action :find_type
     before_action :find_variant
 

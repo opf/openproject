@@ -3,8 +3,8 @@ it:
   activerecord:
     models:
       boards/grid:
-        one: Board
-        other: Boards
+        one: Bacheca
+        other: Bacheche
   boards:
     board_type_attributes:
       assignee: Assegnatario

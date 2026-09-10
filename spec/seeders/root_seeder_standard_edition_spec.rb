@@ -72,20 +72,26 @@ RSpec.describe RootSeeder,
       expect(WorkPackageRole.count).to eq 3
       expect(GlobalRole.count).to eq 2
       expect(Grids::Overview.count).to eq 2
-      expect(Version.count).to eq 4
+      expect(Version.count).to eq 3
       expect(Boards::Grid.count).to eq 5
       expect(Boards::Grid.count { |grid| grid.options.has_key?(:filters) }).to eq 1
       expect(Project::PhaseDefinition.count).to eq 4
       expect(DocumentType.count).to be >= 3 # at least the 3 default types
     end
 
-    it "links work packages to their version" do
+    it "dates the versions like their release milestones" do
+      monday = Date.current.monday
+
+      expect(Version.pluck(:name, :start_date, :effective_date))
+        .to contain_exactly(["1.0", monday + 14.days, monday + 18.days],
+                            ["1.1", monday + 21.days, monday + 25.days],
+                            ["2.0", monday + 28.days, monday + 32.days])
+    end
+
+    it "links work packages to their target version" do
       count_by_version = WorkPackage.joins(:target_versions).group("versions.name").count
-      # testing with strings would fail for the German language test
-      # 'Bug Backlog' => 1,
-      # 'Sprint 1' => 8,
-      # 'Product Backlog' => 7
-      expect(count_by_version.values).to contain_exactly(1, 8, 7)
+
+      expect(count_by_version).to eq("1.0" => 9, "1.1" => 5, "2.0" => 5)
     end
 
     it "adds the backlogs, board, costs, meetings, and reporting modules to the default_projects_modules setting" do
@@ -213,6 +219,7 @@ RSpec.describe RootSeeder,
     include_examples "it creates records", model: TimeEntryActivity, expected_count: 6
     include_examples "it creates records", model: Workflow, expected_count: 1758
     include_examples "it creates records", model: RecurringMeeting, expected_count: 1
+    include_examples "it creates records", model: AI::TextTransformAction, expected_count: 4
     include_examples "it is compatible with the automatic scheduling mode"
   end
 
@@ -384,7 +391,7 @@ RSpec.describe RootSeeder,
         expect(WorkPackageRole.count).to eq 3
         expect(GlobalRole.count).to eq 2
         expect(Grids::Overview.count).to eq 2
-        expect(Version.count).to eq 4
+        expect(Version.count).to eq 3
         expect(Boards::Grid.count).to eq 5
         expect(Project::PhaseDefinition.count).to eq 4
       end
@@ -522,8 +529,8 @@ RSpec.describe RootSeeder,
     end
 
     it "creates 1 project with custom fields" do
-      # 12 development work package custom fields + 4 development user custom fields
-      expect(CustomField.count).to eq 16
+      # 13 development work package custom fields + 4 development user custom fields
+      expect(CustomField.count).to eq 17
     end
 
     include_examples "creates the company staff and the demo data referencing it"

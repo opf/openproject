@@ -59,6 +59,26 @@ RSpec.describe Colors::HexColor do
     end
   end
 
+  describe "#perceived_lightness" do
+    it "is 0 for black and 1 for white" do
+      expect(color_class.new(hexcode: "#000000").perceived_lightness).to eq 0.0
+      expect(color_class.new(hexcode: "#FFFFFF").perceived_lightness).to eq 1.0
+    end
+
+    it "weights the channels by their contribution to luma" do
+      expect(color_class.new(hexcode: "#FF0000").perceived_lightness).to eq 0.2126
+      expect(color_class.new(hexcode: "#00FF00").perceived_lightness).to eq 0.7152
+      expect(color_class.new(hexcode: "#0000FF").perceived_lightness).to eq 0.0722
+    end
+
+    it "reads green as much brighter than blue at equal channel values" do
+      green = color_class.new(hexcode: "#008000").perceived_lightness
+      blue = color_class.new(hexcode: "#000080").perceived_lightness
+
+      expect(green).to be > blue
+    end
+  end
+
   describe "#darken" do
     context "when hexcode is valid" do
       it "returns the darkened color's hexcode" do

@@ -21,17 +21,17 @@ pt-BR:
               error_phone_number_format: deve ter o formato +XX XXXXXXXXX
     models:
       two_factor_authentication/backup_code:
-        one: Backup code
-        other: Backup codes
+        one: Código de backup
+        other: Códigos de backup
       two_factor_authentication/device:
-        one: 2FA device
-        other: 2FA devices
+        one: Dispositivo de 2FA
+        other: Dispositivos de 2FA
       two_factor_authentication/device/sms:
-        one: Mobile phone
-        other: Mobile phones
+        one: Celular
+        other: Celulares
       two_factor_authentication/device/totp:
-        one: Authenticator application
-        other: Authenticator applications
+        one: Aplicativo autenticador
+        other: Aplicativos autenticadores
       two_factor_authentication/device/webauthn:
         one: WebAuthn
         other: WebAuthn

@@ -30,8 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Work package type projects tab", :skip_csrf, type: :rails_request,
-                                                             with_flag: { type_variants: true } do
+RSpec.describe "Work package type projects tab", :skip_csrf, type: :rails_request do
   shared_let(:admin) { create(:admin) }
   shared_let(:type) { create(:type, name: "Bug") }
   shared_let(:hardware) { create(:type_variant, type:, variant_name: "Hardware") }
@@ -176,7 +175,7 @@ RSpec.describe "Work package type projects tab", :skip_csrf, type: :rails_reques
       get edit_type_projects_path(type_id: type.id)
 
       expect(page).to have_css("[data-controller~='filter--filters-form']" \
-                               "[data-filter--filters-form-perform-turbo-requests-value='true']")
+                               "[data-filter--filters-form-turbo-stream-request-value='true']")
     end
   end
 

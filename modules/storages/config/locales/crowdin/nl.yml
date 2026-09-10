@@ -66,7 +66,7 @@ nl:
             host:
               authorization_header_missing: is niet volledig ingesteld. De Nextcloud instantie ontvangt geen "Autorisatie" header, wat nodig is voor een Bearer token gebaseerd op API verzoeken. Controleer de configuratie van uw HTTP-server.
               cannot_be_connected_to: could not be reached. Please ensure the host is reachable and the OpenProject integration app is installed.
-              minimal_nextcloud_version_unmet: voldoet niet aan minimale versie vereisten (moet Nextcloud 23 of hoger zijn)
+              minimal_nextcloud_version_not_met: does not meet minimal version requirements (must be Nextcloud %{minimal_version} or higher, but %{detected_version} was detected)
               not_nextcloud_server: is geen Nextcloud server
               op_application_not_installed: lijkt de app "OpenProject integratie" niet te hebben geïnstalleerd. Installeer het eerst en probeer het dan opnieuw.
             password:
@@ -151,6 +151,7 @@ nl:
         error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
         folder_id_collision: Multiple project storages try to manage the project folder %{folder}. Its synchronization was skipped.
         forbidden: OpenProject could not access the requested resource. Please check your permissions configuration on the Storage Provider.
+        invalid_response: OpenProject could not process the response received from the Storage Provider. Please check OpenProject logs for more information or contact an administrator.
         unauthorized: OpenProject could not authenticate with the Storage Provider. Please ensure that you have access to it.
       models:
         copy_project_folders_service:

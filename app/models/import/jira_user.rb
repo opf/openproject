@@ -34,7 +34,6 @@ module Import
 
     FALLBACK_NAME_KEY = "admin.jira.user.unknown_name"
 
-    belongs_to :jira, class_name: "Import::Jira"
     belongs_to :jira_import, class_name: "Import::JiraImport"
 
     def to_op_attributes

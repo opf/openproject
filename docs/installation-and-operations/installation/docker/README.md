@@ -44,6 +44,56 @@ OpenProject follows semantic versioning, and tags are pushed on [Docker Hub open
 
 We recommend to use non-floating tags for production systems, and use the built-in version check, or our release notes (subscribe to them through GitHub, or release newsletters) to be informed of updates.
 
+## Verifying image integrity and provenance
+
+Every OpenProject image published to Docker Hub is signed and embeds signed attestations, so you can verify where an image came from and what it contains before you deploy it. This is optional, but recommended for production and air-gapped installations.
+
+The following artifacts are attached to each image and signed with [Sigstore cosign](https://github.com/sigstore/cosign) using keyless (OIDC) signing:
+
+| Attestation | Predicate type | Purpose |
+|-------------|----------------|---------|
+| Release | `https://in-toto.io/attestation/release/v0.1` | Build provenance: source repository, git ref, commit, build workflow and timestamp |
+| SBOM | `https://cyclonedx.org/bom/v1.6` | Software Bill of Materials listing every component in the image |
+| VEX (CycloneDX) | `https://cyclonedx.org/vex/v1.6` | Exploitability statement of known vulnerabilities that are not fixable in the underlying containers |
+| VEX (OpenVEX) | `https://openvex.dev/ns/v0.2.0` | The same attestation in the format that Docker Scout expects |
+
+### Verify the attestations
+
+Install [cosign](https://docs.sigstore.dev/system_config/installation/), then verify each attestation. The attestations are signed by the OpenProject build workflow through GitHub OIDC, so you check the signing identity against that workflow:
+
+```shell
+cosign verify-attestation \
+  --type https://cyclonedx.org/bom/v1.6 \
+  --certificate-identity-regexp 'https://github.com/.*/.github/workflows/.*' \
+  --certificate-oidc-issuer https://token.actions.githubusercontent.com \
+  openproject/openproject:16
+```
+
+Repeat with the other predicate types from the table to verify the release attestation and the VEX documents. For production, pin the check to an immutable digest (`openproject/openproject@sha256:...`) instead of a tag. To list everything attached to an image, run `cosign tree openproject/openproject:16`.
+
+### Read the Bill of Materials
+
+The SBOM lists every component and version in the image. You can view it with Docker Scout:
+
+```shell
+docker scout sbom openproject/openproject:16
+```
+
+The signed copy lives in the SBOM attestation above, so an operator can confirm the component list has not been altered.
+
+### Vulnerability scanning and VEX
+
+OpenProject scans its published images with [Docker Scout](https://www.docker.com/products/docker-scout/) and documents findings in a VEX document that ships with each image. Docker Scout reads this VEX and suppresses vulnerabilities that do not affect OpenProject, for example a CVE in a component that is present but never executed, so the reported findings reflect real exposure rather than raw CVE counts. 
+
+To apply OpenProject's triage when you scan an image yourself, tell Scout to trust the OpenProject author:
+
+```shell
+docker scout cves openproject/openproject:16 \
+  --vex-author 'OpenProject Foundation <operations@openproject.com>'
+```
+
+The process itself and how it is produced are described in the [secure coding guidelines](../../../development/concepts/secure-coding/#packaging-and-containerization).
+
 ## Installation overview
 
 OpenProject's docker setup can be launched in two ways:

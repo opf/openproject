@@ -3,10 +3,10 @@ uk:
   activerecord:
     models:
       boards/grid:
-        one: Board
-        few: Boards
-        many: Boards
-        other: Boards
+        one: Дошка
+        few: Дошки
+        many: Дошки
+        other: Дошки
   boards:
     board_type_attributes:
       assignee: Виконавець
