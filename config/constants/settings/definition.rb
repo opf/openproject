@@ -209,7 +209,7 @@ module Settings
       },
       backup_attachment_size_max_sum_mb: {
         description: "Maximum limit of attachment size to include into application backups",
-        default: 16384
+        default: 4096
       },
       blacklisted_routes: {
         description: "Blocked routes to prevent access to certain modules or pages",
