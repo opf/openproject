@@ -17,6 +17,13 @@ permissions:
   contents: read # to fetch code (actions/checkout)
   pull-requests: write # to comment on the PR
 
+concurrency:
+  # Editing a description fires several events in quick succession and only the
+  # latest state matters. Keyed on the pull request number rather than the head
+  # branch, as two forks can have a branch of the same name.
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
 jobs:
   ai-involvement-check:
     # Only contributor pull requests, i.e. those cut from a fork. Automation PRs
