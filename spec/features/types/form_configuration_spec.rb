@@ -365,7 +365,7 @@ RSpec.describe "form configuration", :js, :selenium do
           expect(page).to have_text(I18n.t("button_delete"))
         end
 
-        find("body").click
+        form.close_menu(first_row_menu_id)
 
         last_row_menu_id = form.open_attribute_menu(details_order.last)
 
