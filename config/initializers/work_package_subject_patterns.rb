@@ -45,7 +45,7 @@ Rails.application.config.to_prepare do
     add(:start_date, ->(wp) { wp.start_date }, ns::Formatters::DateFormatter, label: :start_date)
     add(:status, ->(wp) { wp.status }, label: :status)
     add(:type, ->(wp) { wp.type }, label: :type)
-    add(:version, ->(wp) { wp.target_versions }, ns::Formatters::ArrayFormatter, label: -> { Setting::WorkPackageMultipleVersions.active? ? WorkPackage.human_attribute_name(:target_versions) : WorkPackage.human_attribute_name(:version) }) # rubocop:disable Metrics/LineLength
+    add(:version, ->(wp) { wp.target_versions }, ns::Formatters::ArrayFormatter, label: -> { Setting::WorkPackageMultipleVersions.active? ? WorkPackage.human_attribute_name(:target_versions) : WorkPackage.human_attribute_name(:version) }) # rubocop:disable Layout/LineLength
   end
 
   ns::TokenPropertyMapper.configure_static_attributes(context: :parent, label_model: WorkPackage) do
@@ -65,7 +65,7 @@ Rails.application.config.to_prepare do
     add(:parent_subject, ->(parent) { parent.subject }, label: :subject)
     add(:parent_status, ->(parent) { parent.status }, label: :status)
     add(:parent_type, ->(parent) { parent.type }, label: :type)
-    add(:parent_version, ->(parent) { parent.target_versions }, ns::Formatters::ArrayFormatter, label: -> { Setting::WorkPackageMultipleVersions.active? ? WorkPackage.human_attribute_name(:target_versions) : WorkPackage.human_attribute_name(:version) }) # rubocop:disable Metrics/LineLength
+    add(:parent_version, ->(parent) { parent.target_versions }, ns::Formatters::ArrayFormatter, label: -> { Setting::WorkPackageMultipleVersions.active? ? WorkPackage.human_attribute_name(:target_versions) : WorkPackage.human_attribute_name(:version) }) # rubocop:disable Layout/LineLength
   end
 
   ns::TokenPropertyMapper.configure_static_attributes(context: :project, label_model: Project) do
