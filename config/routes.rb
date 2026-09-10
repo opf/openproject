@@ -1043,6 +1043,8 @@ Rails.application.routes.draw do
         put :enable_all
         put :disable_all
         post :toggle_setting
+        get :sandbox_work_packages, to: "text_transform_actions/sandbox#work_packages"
+        get :sandbox_projects, to: "text_transform_actions/sandbox#projects"
       end
     end
 

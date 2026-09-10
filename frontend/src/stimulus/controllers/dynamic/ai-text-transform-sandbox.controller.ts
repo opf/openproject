@@ -64,7 +64,7 @@ const LABEL_SCHEMES:Record<string, string> = {
  */
 export default class AiTextTransformSandboxController extends Controller<HTMLElement> {
   static targets = [
-    'content', 'contextMode', 'workPackageId', 'projectId', 'typeId',
+    'content', 'contextMode', 'typeId',
     'execute', 'cancel', 'spinner', 'status', 'timer', 'output',
     'runMeta', 'systemPrompt', 'eventsBody',
   ];
@@ -73,8 +73,6 @@ export default class AiTextTransformSandboxController extends Controller<HTMLEle
 
   declare readonly contentTarget:HTMLTextAreaElement;
   declare readonly contextModeTarget:HTMLSelectElement;
-  declare readonly workPackageIdTarget:HTMLSelectElement;
-  declare readonly projectIdTarget:HTMLSelectElement;
   declare readonly typeIdTarget:HTMLSelectElement;
   declare readonly executeTarget:HTMLButtonElement;
   declare readonly cancelTarget:HTMLButtonElement;
@@ -157,13 +155,13 @@ export default class AiTextTransformSandboxController extends Controller<HTMLEle
 
     switch (this.contextModeTarget.value) {
       case 'work_package':
-        if (this.workPackageIdTarget.value) {
-          body.workPackageId = Number(this.workPackageIdTarget.value);
+        if (this.hiddenValue('work_package_id')) {
+          body.workPackageId = Number(this.hiddenValue('work_package_id'));
         }
         break;
       case 'new_work_package':
-        if (this.projectIdTarget.value || this.typeIdTarget.value) {
-          body.projectId = Number(this.projectIdTarget.value);
+        if (this.hiddenValue('project_id') || this.typeIdTarget.value) {
+          body.projectId = Number(this.hiddenValue('project_id'));
           body.typeId = Number(this.typeIdTarget.value);
         }
         break;
@@ -171,6 +169,11 @@ export default class AiTextTransformSandboxController extends Controller<HTMLEle
         break;
     }
     return body;
+  }
+
+  private hiddenValue(name:string):string {
+    const input = this.element.querySelector<HTMLInputElement>(`input[type="hidden"][name="${name}"]`);
+    return input?.value ?? '';
   }
 
   private schedule():void {
