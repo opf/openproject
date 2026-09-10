@@ -68,6 +68,14 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
         expect(work_package.semantic_aliases.pluck(:identifier).sort).to eq(["DP-6", "DPPP-1", "DPPP-6", "KIWNEU1-8"])
       end
 
+      it "takes the work package timestamps from the jira issue" do
+        create_work_packages
+
+        work_package = WorkPackage.find("DPPP-6")
+        expect(work_package.created_at).to eq(Time.zone.parse(jira_issue_payload["fields"]["created"]))
+        expect(work_package.updated_at).to eq(Time.zone.parse(jira_issue_payload["fields"]["updated"]))
+      end
+
       # rubocop:disable Layout/LineLength
       # rubocop:disable RSpec/ExampleLength
       it "creates appropriate comments on the work package" do

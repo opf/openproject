@@ -37,11 +37,13 @@ module Import
       @pending_entries = []
     end
 
-    def update_creation_entry(date_time:)
+    def set_creation_time(date_time:)
+      parsed = Time.zone.parse(date_time.to_s)
+      work_package.update_column(:created_at, parsed)
+
       creation_journal = work_package.journals.reload.first
       return unless creation_journal
 
-      parsed = Time.zone.parse(date_time.to_s)
       creation_journal.update_columns(
         created_at: parsed,
         updated_at: parsed,
@@ -59,16 +61,34 @@ module Import
       @pending_entries << { type: :comment, data: comment, user:, created: comment["created"] }
     end
 
-    def call
+    def call(updated_at: nil)
       @pending_entries.sort_by { |e| e[:created] }.each do |entry|
         case entry[:type]
         when :history then create_history_journal(entry[:data])
         when :comment then create_comment_journal(entry[:data], entry[:user])
         end
       end
+
+      restore_update_time(updated_at)
     end
 
     private
+
+    # Journals inherit their timestamps from the journable, so the work package has to carry the
+    # Jira timestamp of the entry while it is being journalized.
+    def journalize_at(date_time)
+      work_package.update_column(:updated_at, date_time)
+      yield
+      work_package.save_journals
+    end
+
+    # Each journalized entry leaves its own timestamp on the work package, so the Jira update
+    # date is put back once every entry has been written.
+    def restore_update_time(date_time)
+      return if date_time.blank?
+
+      work_package.update_column(:updated_at, Time.zone.parse(date_time.to_s))
+    end
 
     def same_minute?(time1, time2)
       Time.zone.parse(time1.to_s).change(sec: 0) == Time.zone.parse(time2.to_s).change(sec: 0)
@@ -118,22 +138,19 @@ module Import
     def create_history_journal(entry)
       author_name = entry.dig("author", "displayName")
       items = convert_history_items(entry["items"])
-      date_time = Time.zone.parse(entry["created"].to_s)
 
-      work_package.update_column(:updated_at, date_time)
-
-      cause = Journal::CausedByImport.new(author_name:, history: items)
-      work_package.add_journal(user: User.system, notes: "", cause:)
-      work_package.save_journals
+      journalize_at(Time.zone.parse(entry["created"].to_s)) do
+        cause = Journal::CausedByImport.new(author_name:, history: items)
+        work_package.add_journal(user: User.system, notes: "", cause:)
+      end
     end
 
     def create_comment_journal(comment, user)
       notes = convert_rich_text(comment["body"])
-      date_time = Time.zone.parse(comment["created"].to_s)
 
-      work_package.update_column(:updated_at, date_time)
-      work_package.add_journal(user:, notes:, internal: false)
-      work_package.save_journals
+      journalize_at(Time.zone.parse(comment["created"].to_s)) do
+        work_package.add_journal(user:, notes:, internal: false)
+      end
     end
 
     def convert_history_items(items)

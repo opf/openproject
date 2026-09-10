@@ -44,11 +44,11 @@ RSpec.describe Import::JiraImportJournals, "integration" do
     }
   end
 
-  describe "#update_creation_entry" do
+  describe "#set_creation_time" do
     let(:import_date) { "2022-03-15T10:00:00.000+0000" }
 
     it "updates created_at, updated_at and validity_period of the first journal" do
-      service.update_creation_entry(date_time: import_date)
+      service.set_creation_time(date_time: import_date)
 
       journal = work_package.journals.reload.first
       expected_time = Time.zone.parse(import_date)
@@ -58,13 +58,32 @@ RSpec.describe Import::JiraImportJournals, "integration" do
       expect(journal.validity_period.begin).to be_within(1.second).of(expected_time)
     end
 
+    it "sets created_at of the work package" do
+      service.set_creation_time(date_time: import_date)
+
+      expect(work_package.reload.created_at).to be_within(1.second).of(Time.zone.parse(import_date))
+    end
+
     it "does not create extra journals" do
-      expect { service.update_creation_entry(date_time: import_date) }
+      expect { service.set_creation_time(date_time: import_date) }
         .not_to change { work_package.journals.reload.count }
     end
   end
 
   describe "#call" do
+    context "with a jira update timestamp" do
+      let(:jira_updated_at) { "2022-03-15T13:00:00.000+0000" }
+
+      it "sets updated_at of the work package without journalizing it" do
+        service.add_history(history: [history_entry(created: "2022-03-15T11:00:00.000+0000")])
+
+        expect { service.call(updated_at: jira_updated_at) }
+          .to change { work_package.journals.reload.count }.by(1)
+
+        expect(work_package.reload.updated_at).to be_within(1.second).of(Time.zone.parse(jira_updated_at))
+      end
+    end
+
     context "with a single history entry" do
       let(:history_items) do
         [{ "field" => "status", "fromString" => "Open", "toString" => "In Progress" }]
