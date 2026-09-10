@@ -98,13 +98,6 @@ RSpec.shared_examples_for "error response" do |code, id, provided_message = nil|
   end
 end
 
-RSpec.shared_examples_for "invalid render context" do |message|
-  it_behaves_like "error response",
-                  400,
-                  "InvalidRenderContext",
-                  message
-end
-
 RSpec.shared_examples_for "invalid request body" do |message|
   it_behaves_like "error response",
                   400,

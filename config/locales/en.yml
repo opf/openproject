@@ -2082,10 +2082,6 @@ en:
       not_found:
         reminder: "The reminder you are looking for cannot be found or has been deleted."
         work_package: "The work package you are looking for cannot be found or has been deleted."
-      render:
-        context_not_parsable: "The context provided is not a link to a resource."
-        context_object_not_found: "Cannot find the resource given as the context."
-        unsupported_context: "The resource given is not supported as context."
       unable_to_create_attachment: "The attachment could not be created"
       unable_to_create_attachment_permissions: "The attachment could not be saved due to lacking file system permissions"
       user:
