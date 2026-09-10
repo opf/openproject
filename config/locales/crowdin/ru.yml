@@ -66,6 +66,8 @@ ru:
 
       '
     login_with_auth_provider: или войдите своей учетной записью
+    omniauth_direct_login_continue: Continue to sign in
+    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: Пожалуйста, авторизируйтесь для активации вашей учетной записи.
     signup_title: Создать учетную запись в %{app_title}
     signup_with_external_account: Регистрация с помощью внешней учетной записи
@@ -83,6 +85,21 @@ ru:
         prompt: Prompt
         types: Work package types
         usage_scope: Scope
+      ai/text_transform_run:
+        action: Action
+        cancel_requested: Cancel requested
+        error_message: Error message
+        finished_at: Finished at
+        input: Input
+        status: Status
+        system_prompt: System prompt
+        user: User
+        uuid: UUID
+      ai/text_transform_run_event:
+        kind: Kind
+        payload: Payload
+        run: Run
+        seq: Sequence number
       announcements:
         show_until: Отобразить до
       attachment:
@@ -125,7 +142,9 @@ ru:
         is_for_all: Для всех проектов
         is_required: Обязательно
         max_length: Максимальная длина
+        max_value: Maximum value
         min_length: Минимальная длина
+        min_value: Minimum value
         multi_value: Разрешить множественный выбор
         possible_values: Возможные значения
         regexp: Регулярное выражение
@@ -353,6 +372,7 @@ ru:
       token/named:
         token_name: Имя токена
       type:
+        allow_project_variants: Allow project-specific variants
         color: Цвет
         is_in_roadmap: По умолчанию отображается в дорожной карте
         is_milestone: Это веха
@@ -361,11 +381,11 @@ ru:
       type/configuration_link:
         source: Тип источника
       type_variant:
-        attribute_groups: Конфигурация формы
+        attribute_groups: Form
         default_work_package_description: Текст для описания по умолчанию
         defaults_source: Источник по умолчанию
         enabled_in_new_projects: Активно в новых проектах
-        form_configuration_source: Источник конфигурации формы
+        form_configuration_source: Form source
         patterns: Шаблоны
         pdf_export_source: Источник экспорта PDF
         project_attributes_source: Источник атрибутов проекта
@@ -570,6 +590,7 @@ ru:
         regex_list_invalid: Строки %{invalid_lines} не могут быть проанализированы как регулярное выражение.
         regex_match_failed: не соответствует регулярному выражению %{expression}.
         smaller_than_or_equal_to_max_length: должно быть меньше или равно максимальной длине.
+        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: нарушает политику SSRF данного экземпляра OpenProject.
         status_transition_invalid: недопустимо, так как для текущих ролей пользователя нет правильного перехода от старого статуса к новому.
         system_wide_non_working_day_exists: конфликтует с существующим общесистемным нерабочим днем для этой даты.
@@ -847,6 +868,7 @@ ru:
             base:
               borrowed_by_variants: Нельзя удалить, пока его конфигурация повторно используется %{names}.
               is_default_variant: Конфигурация по умолчанию для типа не может быть удалена.
+              project_variants_not_allowed: This type does not allow creation of variants inside projects.
               restrict_dependent_destroy:
                 has_many: Невозможно удалить, пока он используется в проектах.
             defaults_source_id:
@@ -1006,6 +1028,16 @@ ru:
         few: Text transform actions
         many: Text transform actions
         other: Text transform actions
+      ai/text_transform_run:
+        one: Text transform run
+        few: Text transform runs
+        many: Text transform runs
+        other: Text transform runs
+      ai/text_transform_run_event:
+        one: Text transform run event
+        few: Text transform run events
+        many: Text transform run events
+        other: Text transform run events
       announcement:
         one: Объявление
         few: Announcements
@@ -1584,7 +1616,12 @@ ru:
     banners:
       environment_configured_readonly: Эти значения настраиваются через переменные окружения и не могут быть отредактированы.
     custom_styles:
+      color_groups:
+        base_colors: Base colors
+        main_menu: Main lateral menu
+        top_header_colors: Top header colors
       color_theme: Цветовая тема
+      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
       color_theme_custom: "(Пользовательская)"
       colors:
         accent-color: Оттенок
@@ -1593,12 +1630,15 @@ ru:
         main-menu-bg-selected-background: Главное меню при выборе
         primary-button-color: Основная кнопка
       custom_colors: Настроить цвета
+      edit_color: Edit %{color}
       fonts:
         file_is_invalid: не является действительным файлом шрифта TTF.
         file_too_large: слишком большой (максимальный размер - %{count} MB).
       instructions:
         accent-color: Цвет ссылок и других удачно выделенных элементов.
+        header-bg-color: Default background color of the app header.
         main-menu-bg-color: Цвет фона меню слева.
+        main-menu-bg-selected-background: Background color of menu items when selected.
         primary-button-color: Яркий контрастный цвет, который обычно используют для важных кнопок на экране.
       manage_colors: Изменить цвет выбранных опций
       tab_branding: Фирменное оформление
@@ -2105,6 +2145,43 @@ ru:
         page_header:
           description: Выберите между классическими числовыми идентификаторами пакета работ или семантическими, специфичными для проекта, которые добавляют идентификатор проекта к ID пакета работ.
         success_banner: Формат идентификатора пакета работ успешно обновлен.
+    text_transform_actions:
+      delete_dialog_component:
+        description: Users will no longer be able to run this action in the rich text editor.
+        heading: Are you sure you want to delete the action "%{label}"?
+        title: Delete text transform action
+      form:
+        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
+        label_caption: This is the name that will be visible to users in the editor.
+        select_types: Select types
+        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
+        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
+      index:
+        description: Text transform actions give users LLM-powered actions to write, organise and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
+        label_add_action: Action
+        label_aria_add_action: Add text transform action
+      index_component:
+        blank_slate:
+          description: Add an action to see it here
+          title: No text transform actions configured yet
+        disabled_warning: Text transform actions are disabled. The following actions will not be available anywhere.
+        label_disable_all: Disable all
+        label_enable_all: Enable all
+        title: Actions
+      new:
+        title: New text transform action
+      row_component:
+        label_actions: Action menu
+        label_toggle: Toggle %{label}
+        scope_specific_work_package_types:
+          one: "%{count} work package type"
+          few: "%{count} work package types"
+          many: "%{count} work package types"
+          other: "%{count} work package types"
+      usage_scopes:
+        all_work_package_types: All work package types
+        everywhere: Everywhere
+        specific_work_package_types: Specific work package types
     workflows:
       blankslate:
         description: Добавьте статусы, чтобы начать настройку рабочих процессов для этой роли
@@ -2652,6 +2729,9 @@ ru:
       min_max:
         all: 0 означает отсутствие ограничений
         project: 0 означает отсутствие ограничений
+      min_max_value:
+        all: Leave blank for no restriction
+        project: Leave blank for no restriction
       multi_select:
         all: Разрешить пользователю присвоить несколько значений этому пользовательскому полю.
         project: Разрешить пользователю присвоить несколько значений этому атрибуту.
@@ -3040,7 +3120,7 @@ ru:
         more_info: 'Примечание: используемый логотип будет общедоступным.'
         title: Пользовательская цветовая тема и логотип
       edit_attribute_groups:
-        description: 'Настроить конфигурацию формы с помощью этих дополнений:'
+        description: 'Customize the form with these additional add-ons:'
         features:
           groups: Добавить новые секции атрибутов
           related: Добавить таблицу связанных пакетов работ
@@ -3787,7 +3867,6 @@ ru:
   label_float: Плавающий
   label_folder: Папка
   label_follows: Следует
-  label_form_configuration: Настройка форм
   label_formula: Формула
   label_forum_new: Новый форум
   label_forum_plural: Форумы
@@ -3912,7 +3991,6 @@ ru:
   label_message_new: Новое сообщение
   label_message_plural: Сообщения
   label_message_posted: Сообщение добавлено
-  label_min_max_length: Минимальная - Максимальная длина
   label_minute_plural: минуты
   label_missing_api_access_key: Отсутствует ключ доступа к API
   label_missing_feeds_access_key: Отсутствует ключ доступа к RSS
@@ -4653,6 +4731,7 @@ ru:
       mail_notification: Уведомления по электронной почте
       mails_and_notifications: Письма и уведомления
       mcp_configurations: Протокол контекста модели (MCP)
+      text_transform_actions: Text transform actions
     quick_add:
       label: Добавить…
   more_actions: Больше функций
@@ -4838,6 +4917,7 @@ ru:
   notice_account_already_activated: Учетная запись уже активирована.
   notice_account_invalid_credentials: Неправильное имя пользователя или пароль
   notice_account_invalid_credentials_or_blocked: Неправильное имя пользователя/пароль или учетная запись была заблокирована из-за многочисленных неуспешных попыток входа. Учетная запись будет разблокирована автоматически через некоторое время.
+  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
   notice_account_invalid_token: Неверный маркер активации
   notice_account_lost_email_sent: Письмо с инструкциями, как установить новый пароль, было отправлено на Ваш электронный адрес.
   notice_account_new_password_forced: Требуется новый пароль.
@@ -5177,7 +5257,7 @@ ru:
       caption: Сведения о пакете работ, представлены в виде артефакта PMflex.
       label: Артефакт PMflex
     template_attributes:
-      caption: Все атрибуты, представленные в текущей форме настроек, используют шаблон по умолчанию.
+      caption: All the attributes present in the current form using the default template.
       label: Атрибуты и описание
     template_contract:
       caption: Подробности пакета работ отформатированы в стандартной договорной форме Германии.
@@ -5603,6 +5683,7 @@ ru:
         use_in_project: Use in this project
         variant_in_use: Variant in this project
         variant_label: Variant
+        variants_not_allowed: This type does not allow creation of variants inside projects.
       versions:
         no_results_content_text: Создать новую версию
         no_results_title_text: На данный момент этапы в проекте отсутствуют.
@@ -5763,6 +5844,12 @@ ru:
   roles:
     edit:
       default_for_new_projects_warning: 'Эта роль настроена как роль по умолчанию, предоставляемая пользователям, не являющимся администраторами, которые создают проект. Не удаляйте следующие разрешения, иначе создатели проектов не смогут завершить настройку своих новых проектов:'
+    index:
+      filter_label: Search roles
+      types:
+        all: All roles
+        global: Global roles
+        project: Project roles
     permissions:
       section_check_all_label: Назначьте все разрешения %{module}
       section_uncheck_all_label: Отменить все разрешения %{module}
@@ -5787,6 +5874,7 @@ ru:
   setting_after_login_default_redirect_url_example_html: 'Установите путь по умолчанию для перенаправления пользователей после входа в систему, если обратная ссылка не была предоставлена. Если путь не задан, он перенаправляет на домашнюю страницу. <br/> Пример: %{example_code}
 
     '
+  setting_ai_text_transform_actions_enabled: Enable text transform actions
   setting_allowed_link_protocols: Разрешить ссылки на протоколы
   setting_allowed_link_protocols_text_html: Разрешить отображать эти протоколы как ссылки в описаниях пакетов работ, длинных текстовых полях и комментариях. Например, %{tel_code} или %{element_code}. Введите по одному протоколу в строке. <br/>Протоколы %{http_code}, %{https_code} и %{mailto_code} всегда разрешены.
   setting_antivirus_scan_action: Действие с зараженным файлом
@@ -6560,7 +6648,7 @@ ru:
       steps:
         defaults: По умолчанию
         details: Детали
-        form_configuration: Конфигурация формы
+        form_configuration: Form
         pdf: Создание PDF
         project_attributes: Атрибуты проекта
         projects: Проекты
@@ -6590,9 +6678,11 @@ ru:
             work_package: Пакет работ
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
+        allow_project_variants_caption: For project administrators with the permission to manage variants, this type can be extended or modified within a project.
         inherited_from_type_html: Унаследовано от типа <b>%{type}</b>.
         tab: Подробности
         type_color_text: Выбранный цвет выделяет разные типы в диаграммах Ганта или таблицах пакетов работ. Поэтому рекомендуется использовать насыщенный цвет.
+        variant_name_caption_html: This is an internal name only visible to administrators. Variants replace the original parent type, so if this variant is used in a project, it will appear as <b>%{type}</b> to all members.
       export_configuration:
         artefact_export:
           attachment:
@@ -6631,7 +6721,7 @@ ru:
         blankslate_title: Нет групп
         builtin_field: Встроенное поле
         confirm_delete_group: Вы уверены, что хотите удалить эту секцию? Это действие нельзя автоматически отменить.
-        confirm_reset: Вы уверены, что хотите сбросить конфигурацию формы?
+        confirm_reset: Are you sure you want to reset the form?
         custom_field: Настраиваемое поле
         delete_group: Удалить секцию
         drag_to_activate: Чтобы включить поля, перетащите их отсюда
@@ -6646,22 +6736,31 @@ ru:
         group_actions: Действия с секциями
         group_name_label: Название секции
         inactive_attributes_heading: Неактивные атрибуты
-        invalid_attribute_groups: Конфигурация формы является недопустимой.
+        invalid_attribute_groups: The form payload is invalid.
         invalid_query: Недопустимая конфигурация встраиваемого представления.
         label_group: Секция
         no_inactive_attributes: Нет неактивных атрибутов
-        not_found: Запрашиваемый элемент конфигурации формы не найден.
+        not_found: The requested form item could not be found.
         query_group_label: Таблица связанных пакетов работ
         remove_attribute: Удалить из секции
         rename_group: Переименовать секцию
         reset_description: 'Это сбросит атрибуты к группе по умолчанию и отключит ВСЕ настраиваемые поля.
 
           '
-        reset_title: Сбросить настройки формы
+        reset_title: Reset form
         reset_to_defaults: Сбросить форму
         row_actions: Действия со строками
-        tab: Настройка форм
+        tab: Form
         untitled_group: Безымянная группа
+      overview:
+        configuration_mode: Configuration mode
+        dependents: Dependent types and variants
+        mode:
+          always_manual: Always manual
+          inheriting_from_html: Inheriting from %{source_name}
+          manual: Manually configured
+        settings: Settings
+        tab: Overview
       project_attributes:
         actions:
           label_disable_all: Отключить все
@@ -7208,6 +7307,13 @@ ru:
       confirm_deletion: Подтверждаю, что выбранные пакеты работ и все связанные с ними данные будут удалены.
       confirm_descendants_deletion: Подтверждаю, что все перечисленные выше потомки также будут удалены.
       cross_project_warning_html: 'Эти пакеты работ охватывают несколько проектов: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
+        self_only_label: Delete just the selected work packages
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete the selected work packages and their descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: Вы уверены, что хотите удалить выбранные пакеты работ и все связанные с ними данные?
       description_with_all_descendants: Вы уверены, что хотите удалить выбранные пакеты работ и все их вложенные элементы?
       description_with_descendants: Вы уверены, что хотите удалить выбранные пакеты работ и все их вложенные элементы?
@@ -7280,6 +7386,13 @@ ru:
       confirm_deletion: Подтверждаю, что пакет работ и все связанные с ним данные будут удалены.
       confirm_descendants_deletion: Подтверждаю, что все перечисленные выше потомки также будут удалены.
       cross_project_warning_html: 'Пакеты работ из следующих проектов будут удалены: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: This work package has descendants. Do you want to delete them as well?
+        self_only_label: Delete just this work package
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete this work package and descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: Вы уверены, что хотите удалить "%{name}"?
       heading: Удалить этот пакет работ навсегда?
       hidden_descendants_only_warning:

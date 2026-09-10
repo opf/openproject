@@ -66,6 +66,8 @@ pt-PT:
 
       '
     login_with_auth_provider: ou inicie sessão com a sua conta
+    omniauth_direct_login_continue: Continue to sign in
+    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: Por favor, inicie a sessão para ativar a sua conta.
     signup_title: Crie uma conta em %{app_title}
     signup_with_external_account: Registe-se com uma conta externa
@@ -83,6 +85,21 @@ pt-PT:
         prompt: Prompt
         types: Tipos de pacotes de trabalho
         usage_scope: Âmbito
+      ai/text_transform_run:
+        action: Action
+        cancel_requested: Cancel requested
+        error_message: Error message
+        finished_at: Finished at
+        input: Input
+        status: Status
+        system_prompt: System prompt
+        user: User
+        uuid: UUID
+      ai/text_transform_run_event:
+        kind: Kind
+        payload: Payload
+        run: Run
+        seq: Sequence number
       announcements:
         show_until: Exibir até
       attachment:
@@ -125,7 +142,9 @@ pt-PT:
         is_for_all: Para todos os projetos
         is_required: Obrigatório
         max_length: Tamanho máximo
+        max_value: Maximum value
         min_length: Tamanho mínimo
+        min_value: Minimum value
         multi_value: Permitir seleção múltipla
         possible_values: Valores possíveis
         regexp: Expressão regular
@@ -353,6 +372,7 @@ pt-PT:
       token/named:
         token_name: Nome do token
       type:
+        allow_project_variants: Allow project-specific variants
         color: Cor
         is_in_roadmap: Apresentado no roteiro por defeito
         is_milestone: É um marco
@@ -361,11 +381,11 @@ pt-PT:
       type/configuration_link:
         source: Tipo de origem
       type_variant:
-        attribute_groups: Configuração do formulário
+        attribute_groups: Form
         default_work_package_description: Texto padrão para a descrição
         defaults_source: Origem das predefinições
         enabled_in_new_projects: Ativo em novos projetos
-        form_configuration_source: Origem da configuração do formulário
+        form_configuration_source: Form source
         patterns: Padrões
         pdf_export_source: Origem da exportação para PDF
         project_attributes_source: Origem dos atributos do projeto
@@ -570,6 +590,7 @@ pt-PT:
         regex_list_invalid: Não foi possível analisar as linhas %{invalid_lines} como expressão regular.
         regex_match_failed: não corresponde à expressão regular %{expression}.
         smaller_than_or_equal_to_max_length: deve ser menor ou igual ao comprimento máximo.
+        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: viola a política de SSRF desta instância do OpenProject.
         status_transition_invalid: é inválido porque não existe transição válida da antiga para as funções do utilizador atual.
         system_wide_non_working_day_exists: entra em conflito com um dia não útil existente em todo o sistema para esta data.
@@ -845,6 +866,7 @@ pt-PT:
             base:
               borrowed_by_variants: Não pode ser eliminado enquanto a sua configuração for reutilizada por %{names}.
               is_default_variant: A configuração predefinida de um tipo não pode ser eliminada.
+              project_variants_not_allowed: This type does not allow creation of variants inside projects.
               restrict_dependent_destroy:
                 has_many: Não pode ser eliminada enquanto houver projetos a utilizá-la.
             defaults_source_id:
@@ -996,6 +1018,12 @@ pt-PT:
       ai/text_transform_action:
         one: Ação de transformação de texto
         other: Ações de transformação de texto
+      ai/text_transform_run:
+        one: Text transform run
+        other: Text transform runs
+      ai/text_transform_run_event:
+        one: Text transform run event
+        other: Text transform run events
       announcement:
         one: Anúncio
         other: Anúncios
@@ -1372,7 +1400,12 @@ pt-PT:
     banners:
       environment_configured_readonly: Estes valores são configurados através de variáveis de ambiente e não podem ser editados aqui.
     custom_styles:
+      color_groups:
+        base_colors: Base colors
+        main_menu: Main lateral menu
+        top_header_colors: Top header colors
       color_theme: Cores do tema
+      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
       color_theme_custom: "(Personalizado)"
       colors:
         accent-color: Destaque
@@ -1381,12 +1414,15 @@ pt-PT:
         main-menu-bg-selected-background: Menu principal quando selecionado
         primary-button-color: Botão principal
       custom_colors: Cores personalizadas
+      edit_color: Edit %{color}
       fonts:
         file_is_invalid: não é um ficheiro de tipo de letra TTF válido.
         file_too_large: é demasiado grande (o tamanho máximo é %{count} MB).
       instructions:
         accent-color: Cor para as ligações e outros elementos bem realçados.
+        header-bg-color: Default background color of the app header.
         main-menu-bg-color: Cor de fundo do menu do lado esquerdo.
+        main-menu-bg-selected-background: Background color of menu items when selected.
         primary-button-color: Cor de contraste forte, utilizada no botão mais importante de um ecrã.
       manage_colors: Editar opções de selecção de cor
       tab_branding: Marca
@@ -1875,6 +1911,41 @@ pt-PT:
         page_header:
           description: Escolha entre IDs de pacotes de trabalho numéricos clássicos ou específicos de projetos semânticos, que acrescentam o identificador do projeto ao ID do pacote de trabalho.
         success_banner: Formato de identificador de pacote de trabalho atualizado com sucesso.
+    text_transform_actions:
+      delete_dialog_component:
+        description: Users will no longer be able to run this action in the rich text editor.
+        heading: Are you sure you want to delete the action "%{label}"?
+        title: Delete text transform action
+      form:
+        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
+        label_caption: This is the name that will be visible to users in the editor.
+        select_types: Select types
+        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
+        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
+      index:
+        description: Text transform actions give users LLM-powered actions to write, organise and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
+        label_add_action: Action
+        label_aria_add_action: Add text transform action
+      index_component:
+        blank_slate:
+          description: Add an action to see it here
+          title: No text transform actions configured yet
+        disabled_warning: Text transform actions are disabled. The following actions will not be available anywhere.
+        label_disable_all: Disable all
+        label_enable_all: Enable all
+        title: Actions
+      new:
+        title: New text transform action
+      row_component:
+        label_actions: Action menu
+        label_toggle: Toggle %{label}
+        scope_specific_work_package_types:
+          one: "%{count} work package type"
+          other: "%{count} work package types"
+      usage_scopes:
+        all_work_package_types: All work package types
+        everywhere: Everywhere
+        specific_work_package_types: Specific work package types
     workflows:
       blankslate:
         description: Adicione estados para começar a configurar fluxos de trabalho para esta função
@@ -2416,6 +2487,9 @@ pt-PT:
       min_max:
         all: 0 significa sem restrições
         project: 0 significa sem restrições
+      min_max_value:
+        all: Leave blank for no restriction
+        project: Leave blank for no restriction
       multi_select:
         all: Permite que o utilizador atribua vários valores a este campo personalizado.
         project: Permite ao utilizador atribuir vários valores a este atributo.
@@ -2762,7 +2836,7 @@ pt-PT:
         more_info: 'Nota: o logótipo usado ficará acessível ao público.'
         title: Tema e logótipo de cor personalizada
       edit_attribute_groups:
-        description: 'Personalize a configuração do formulário com estes complementos adicionais:'
+        description: 'Customize the form with these additional add-ons:'
         features:
           groups: Adicionar novas secções de atributos
           related: Adicione uma tabela de pacotes de trabalho relacionados
@@ -3503,7 +3577,6 @@ pt-PT:
   label_float: Float
   label_folder: Pasta
   label_follows: segue
-  label_form_configuration: Configuração do formulário
   label_formula: Fórmula
   label_forum_new: Novo fórum
   label_forum_plural: Fóruns
@@ -3628,7 +3701,6 @@ pt-PT:
   label_message_new: Nova mensagem
   label_message_plural: Mensagens
   label_message_posted: Mensagem adicionada
-  label_min_max_length: Tamanho Mín - Max
   label_minute_plural: minutos
   label_missing_api_access_key: Chave de acesso da API em falta
   label_missing_feeds_access_key: Chave de acesso da RSS em falta
@@ -4346,6 +4418,7 @@ pt-PT:
       mail_notification: Notificações por e-mail
       mails_and_notifications: E-mails e notificações
       mcp_configurations: Protocolo de contexto de modelo (MCP)
+      text_transform_actions: Text transform actions
     quick_add:
       label: Adicionar…
   more_actions: Mais funções
@@ -4531,6 +4604,7 @@ pt-PT:
   notice_account_already_activated: A conta já foi ativada.
   notice_account_invalid_credentials: Utilizador ou senha inválida
   notice_account_invalid_credentials_or_blocked: Utilizador ou senha inválida, ou a conta está bloqueada devido às várias tentativas de iniciar a sessão. Se assim for, esta será desbloqueada automaticamente em um curto espaço de tempo.
+  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
   notice_account_invalid_token: Token de ativação inválido
   notice_account_lost_email_sent: Foi enviada uma mensagem com as instruções para alterar a sua senha.
   notice_account_new_password_forced: É necessário uma nova senha.
@@ -4866,7 +4940,7 @@ pt-PT:
       caption: Dados do pacote de trabalho apresentados como artefacto do PMflex.
       label: Artefacto PMflex
     template_attributes:
-      caption: Todos os atributos presentes na configuração atual do formulário usando o modelo padrão.
+      caption: All the attributes present in the current form using the default template.
       label: Atributos e descrição
     template_contract:
       caption: Detalhes do pacote de trabalho formatados de acordo com o modelo de contrato alemão.
@@ -5284,6 +5358,7 @@ pt-PT:
         use_in_project: Use in this project
         variant_in_use: Variant in this project
         variant_label: Variant
+        variants_not_allowed: This type does not allow creation of variants inside projects.
       versions:
         no_results_content_text: Crie uma nova versão
         no_results_title_text: Atualmente, não existem versões para o projeto.
@@ -5442,6 +5517,12 @@ pt-PT:
   roles:
     edit:
       default_for_new_projects_warning: 'Esta função está configurada como função predefinida atribuída aos utilizadores não administradores que criam um projeto. Não remova as seguintes permissões, caso contrário os criadores não conseguirão concluir a configuração dos seus projetos recém-criados:'
+    index:
+      filter_label: Search roles
+      types:
+        all: All roles
+        global: Global roles
+        project: Project roles
     permissions:
       section_check_all_label: Atribua todas as permissões de %{module}
       section_uncheck_all_label: Anular a atribuição de todas as permissões de %{module}
@@ -5466,6 +5547,7 @@ pt-PT:
   setting_after_login_default_redirect_url_example_html: 'Defina um caminho predefinido para redirecionar os utilizadores após o início de sessão, caso não tenha sido fornecido um link de retorno. Redireciona para a página inicial se não estiver definido. <br/> Exemplo: %{example_code}
 
     '
+  setting_ai_text_transform_actions_enabled: Enable text transform actions
   setting_allowed_link_protocols: Protocolos de ligação permitidos
   setting_allowed_link_protocols_text_html: Permitir que estes protocolos sejam apresentados como ligações nas descrições do pacote de trabalho, campos de texto longos e comentários. Por exemplo, %{tel_code} ou %{element_code}. Introduza um protocolo por linha. <br/> Protocolos %{http_code}, %{https_code} e %{mailto_code} são sempre permitidos.
   setting_antivirus_scan_action: Ação para ficheiro infetado
@@ -6244,7 +6326,7 @@ pt-PT:
       steps:
         defaults: Padrões
         details: Detalhes
-        form_configuration: Configuração do formulário
+        form_configuration: Form
         pdf: Geração de PDF
         project_attributes: Atributos do projeto
         projects: Projetos
@@ -6274,9 +6356,11 @@ pt-PT:
             work_package: Pacote de trabalho
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
+        allow_project_variants_caption: For project administrators with the permission to manage variants, this type can be extended or modified within a project.
         inherited_from_type_html: Herdado do tipo <b>%{type}</b>.
         tab: Detalhes
         type_color_text: A cor selecionada distingue diferentes tipos em gráficos de Gantt ou tabelas de pacotes de trabalho. Portanto é recomendado usar uma cor forte.
+        variant_name_caption_html: This is an internal name only visible to administrators. Variants replace the original parent type, so if this variant is used in a project, it will appear as <b>%{type}</b> to all members.
       export_configuration:
         artefact_export:
           attachment:
@@ -6315,7 +6399,7 @@ pt-PT:
         blankslate_title: Ainda sem grupos
         builtin_field: Campo incorporado
         confirm_delete_group: Tem a certeza de que quer eliminar esta secção? Esta ação não pode ser revertida automaticamente.
-        confirm_reset: Tem a certeza de que quer repor a configuração do formulário?
+        confirm_reset: Are you sure you want to reset the form?
         custom_field: Campo personalizado
         delete_group: Eliminar secção
         drag_to_activate: Arraste campos daqui para ativá-los
@@ -6330,22 +6414,31 @@ pt-PT:
         group_actions: Ações da secção
         group_name_label: Nome da secção
         inactive_attributes_heading: Atributos inativos
-        invalid_attribute_groups: A carga útil da configuração do formulário é inválida.
+        invalid_attribute_groups: The form payload is invalid.
         invalid_query: A configuração da consulta incorporada é inválida.
         label_group: Secção
         no_inactive_attributes: Não há atributos inativos
-        not_found: Não foi possível encontrar o elemento de configuração do formulário solicitado.
+        not_found: The requested form item could not be found.
         query_group_label: Tabela de pacotes de trabalho relacionados
         remove_attribute: Remover da secção
         rename_group: Mudar o nome da secção
         reset_description: 'Isto irá redefinir os atributos para o seu grupo predefinido e desativar TODOS os campos personalizados.
 
           '
-        reset_title: Repor configuração do formulário
+        reset_title: Reset form
         reset_to_defaults: Repor formulário
         row_actions: Ações de linha
-        tab: Configuração do formulário
+        tab: Form
         untitled_group: Grupo sem título
+      overview:
+        configuration_mode: Configuration mode
+        dependents: Dependent types and variants
+        mode:
+          always_manual: Always manual
+          inheriting_from_html: Inheriting from %{source_name}
+          manual: Manually configured
+        settings: Settings
+        tab: Overview
       project_attributes:
         actions:
           label_disable_all: Desativar tudo
@@ -6878,6 +6971,13 @@ pt-PT:
       confirm_deletion: Confirmo que os pacotes de trabalho selecionados e todos os dados associados serão eliminados.
       confirm_descendants_deletion: Confirmo que todos os descendentes listados acima também serão eliminados.
       cross_project_warning_html: 'Estes pacotes de trabalho abrangem vários projetos: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
+        self_only_label: Delete just the selected work packages
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete the selected work packages and their descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: Tem a certeza de que quer eliminar os pacotes de trabalho selecionados e todos os dados associados?
       description_with_all_descendants: Tem a certeza de que pretende eliminar os pacotes de trabalho selecionados e todos os seus descendentes?
       description_with_descendants: Tem a certeza de que pretende eliminar os pacotes de trabalho selecionados e todos os descendentes seguintes?
@@ -6942,6 +7042,13 @@ pt-PT:
       confirm_deletion: Confirmo que o pacote de trabalho e todos os dados associados serão eliminados.
       confirm_descendants_deletion: Confirmo que todos os descendentes listados acima também serão eliminados.
       cross_project_warning_html: 'Os pacotes de trabalho dos seguintes projetos serão eliminados: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: This work package has descendants. Do you want to delete them as well?
+        self_only_label: Delete just this work package
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete this work package and descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: Tem a certeza de que quer eliminar "%{name}"?
       heading: Eliminar permanentemente este pacote de trabalho?
       hidden_descendants_only_warning:

@@ -66,6 +66,8 @@ de:
 
       '
     login_with_auth_provider: oder melden Sie sich mit einem bestehenden Konto an
+    omniauth_direct_login_continue: Continue to sign in
+    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: Bitte loggen Sie sich ein um Ihr Konto zu aktivieren.
     signup_title: Erstellen Sie ein Konto bei %{app_title}
     signup_with_external_account: Mit einem externen Konto anmelden
@@ -83,6 +85,21 @@ de:
         prompt: Eingabe
         types: Arbeitspaket-Typen
         usage_scope: Scope
+      ai/text_transform_run:
+        action: Action
+        cancel_requested: Cancel requested
+        error_message: Error message
+        finished_at: Finished at
+        input: Input
+        status: Status
+        system_prompt: System prompt
+        user: User
+        uuid: UUID
+      ai/text_transform_run_event:
+        kind: Kind
+        payload: Payload
+        run: Run
+        seq: Sequence number
       announcements:
         show_until: Anzeigen bis
       attachment:
@@ -125,7 +142,9 @@ de:
         is_for_all: Für alle Projekte
         is_required: Erforderlich
         max_length: Maximale Länge
+        max_value: Maximum value
         min_length: Minimale Länge
+        min_value: Minimum value
         multi_value: Mehrfachauswahl zulassen
         possible_values: Mögliche Werte
         regexp: Regulärer Ausdruck
@@ -353,6 +372,7 @@ de:
       token/named:
         token_name: Tokenname
       type:
+        allow_project_variants: Allow project-specific variants
         color: Farbe
         is_in_roadmap: In Roadmap standardmäßig angezeigt
         is_milestone: Ist ein Meilenstein
@@ -361,11 +381,11 @@ de:
       type/configuration_link:
         source: Quelltyp
       type_variant:
-        attribute_groups: Formularkonfiguration
+        attribute_groups: Form
         default_work_package_description: Standardtext für Beschreibung
         defaults_source: Standardquelle
         enabled_in_new_projects: Aktiv in neuen Projekten
-        form_configuration_source: Quelle der Formularkonfiguration
+        form_configuration_source: Form source
         patterns: Muster
         pdf_export_source: Quelle für den PDF-Export
         project_attributes_source: Quelle der Projektattribute
@@ -570,6 +590,7 @@ de:
         regex_list_invalid: Die Zeilen %{invalid_lines} konnten nicht als regulärer Ausdruck gelesen werden.
         regex_match_failed: stimmt nicht mit dem regulären Ausdruck %{expression} überein.
         smaller_than_or_equal_to_max_length: muss kleiner als oder gleich der maximalen Länge sein.
+        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: verstößt gegen die SSRF-Richtlinien dieser OpenProject Instanz.
         status_transition_invalid: ist ungültig, da kein valider Übergang vom alten zum neuen Status für die aktuelle Rolle des Nutzers existiert.
         system_wide_non_working_day_exists: widerspricht einem systemweiten Nicht-Arbeitstag für dieses Datum.
@@ -845,6 +866,7 @@ de:
             base:
               borrowed_by_variants: Kann nicht gelöscht werden, solange die Konfiguration noch von %{names} verwendet wird.
               is_default_variant: Die Standardkonfiguration eines Typs kann nicht gelöscht werden.
+              project_variants_not_allowed: This type does not allow creation of variants inside projects.
               restrict_dependent_destroy:
                 has_many: Kann nicht gelöscht werden, solange es noch in Projekten verwendet wird.
             defaults_source_id:
@@ -996,6 +1018,12 @@ de:
       ai/text_transform_action:
         one: Text-Bearbeitung
         other: Text-Bearbeitungen
+      ai/text_transform_run:
+        one: Text transform run
+        other: Text transform runs
+      ai/text_transform_run_event:
+        one: Text transform run event
+        other: Text transform run events
       announcement:
         one: Ankündigung
         other: Ankündigungen
@@ -1372,7 +1400,12 @@ de:
     banners:
       environment_configured_readonly: Diese Werte werden über Umgebungsvariablen konfiguriert und können hier nicht bearbeitet werden.
     custom_styles:
+      color_groups:
+        base_colors: Base colors
+        main_menu: Main lateral menu
+        top_header_colors: Top header colors
       color_theme: Farbschema
+      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
       color_theme_custom: "(Benutzerdefiniert)"
       colors:
         accent-color: Akzent
@@ -1381,12 +1414,15 @@ de:
         main-menu-bg-selected-background: Hintergrundfarbe des Hauptmenüs bei Auswahl
         primary-button-color: Primäre Schaltfläche
       custom_colors: Benutzerdefinierte Farben
+      edit_color: Edit %{color}
       fonts:
         file_is_invalid: ist keine gültige TTF-Schriftdatei.
         file_too_large: ist zu groß (maximale Größe ist %{count} MB).
       instructions:
         accent-color: Farbe für Links und andere dezent hervorgehobene Elemente.
+        header-bg-color: Default background color of the app header.
         main-menu-bg-color: Hintergrundfarbe des Menüs in der linken Seitenleiste.
+        main-menu-bg-selected-background: Background color of menu items when selected.
         primary-button-color: Starke Akzentfarbe, die für die wichtigste Schaltfläche auf einem Bildschirm verwendet wird.
       manage_colors: Farbauswahloptionen bearbeiten
       tab_branding: Branding
@@ -1523,7 +1559,7 @@ de:
         step_not_available: This action is not available for the current state of the import run.
         title: Importlauf
         wizard:
-          button_abort: Abort
+          button_abort: Abbrechen
           button_retry: Erneut versuchen
           finalize_dialog:
             confirm: Ich verstehe, dass diese Aktion nicht rückgängig gemacht werden kann
@@ -1567,8 +1603,8 @@ de:
             title: Diesen Import dauerhaft rückgängig machen?
           sections:
             confirm_import:
-              button_importing: Importing data
-              button_revert: Revert import
+              button_importing: Daten werden importiert
+              button_revert: Import rückgängig machen
               button_start: Import starten
               caption: Überprüfen Sie Ihre Importeinstellungen und starten Sie den Import
               caption_done: Abgeschlossen
@@ -1875,6 +1911,41 @@ de:
         page_header:
           description: Wählen Sie zwischen einfachen numerischen Arbeitspaket- oder projektspezifischen Kennungen, bei denen die Projektkennung der Arbeitspaket-ID vorangestellt wird.
         success_banner: Das Format der Arbeitspaket-Kennung wurde erfolgreich aktualisiert.
+    text_transform_actions:
+      delete_dialog_component:
+        description: Users will no longer be able to run this action in the rich text editor.
+        heading: Are you sure you want to delete the action "%{label}"?
+        title: Delete text transform action
+      form:
+        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
+        label_caption: This is the name that will be visible to users in the editor.
+        select_types: Typen auswählen
+        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
+        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
+      index:
+        description: Text transform actions give users LLM-powered actions to write, organise and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
+        label_add_action: Aktion
+        label_aria_add_action: Add text transform action
+      index_component:
+        blank_slate:
+          description: Add an action to see it here
+          title: No text transform actions configured yet
+        disabled_warning: Text transform actions are disabled. The following actions will not be available anywhere.
+        label_disable_all: Alles deaktivieren
+        label_enable_all: Alles aktivieren
+        title: Aktionen
+      new:
+        title: New text transform action
+      row_component:
+        label_actions: Aktionsmenü
+        label_toggle: "%{label} umschalten"
+        scope_specific_work_package_types:
+          one: "%{count} work package type"
+          other: "%{count} work package types"
+      usage_scopes:
+        all_work_package_types: Alle Arbeitspakettypen
+        everywhere: Überall
+        specific_work_package_types: Bestimmte Arbeitspakettypen
     workflows:
       blankslate:
         description: Status hinzufügen, um mit der Konfiguration von Arbeitsabläufen für diese Rolle zu beginnen
@@ -2416,6 +2487,9 @@ de:
       min_max:
         all: 0 heißt keine Beschränkung
         project: 0 heißt keine Beschränkung
+      min_max_value:
+        all: Leave blank for no restriction
+        project: Leave blank for no restriction
       multi_select:
         all: Ermöglicht dem Benutzer, diesem benutzerdefinierten Feld mehrere Werte zuzuweisen.
         project: Ermöglicht dem Benutzer, diesem benutzerdefinierten Feld mehrere Werte zuzuweisen.
@@ -2762,7 +2836,7 @@ de:
         more_info: 'Hinweis: Das verwendete Logo wird öffentlich zugänglich sein.'
         title: Selbstdefiniertes Farbthema und Logo
       edit_attribute_groups:
-        description: 'Anpassen der Form-Konfiguration mit diesen zusätzlichen Add-ons:'
+        description: 'Customize the form with these additional add-ons:'
         features:
           groups: Neue Attributabschnitte hinzufügen
           related: Tabelle mit zugehörigen Arbeitspaketen hinzufügen
@@ -3501,7 +3575,6 @@ de:
   label_float: Gleitkommazahl
   label_folder: Ordner
   label_follows: folgt
-  label_form_configuration: Formularkonfiguration
   label_formula: Formel
   label_forum_new: Neues Forum
   label_forum_plural: Foren
@@ -3626,7 +3699,6 @@ de:
   label_message_new: Neues Thema
   label_message_plural: Forenbeiträge
   label_message_posted: Forenbeitrag hinzugefügt
-  label_min_max_length: Länge (Min. - Max.)
   label_minute_plural: Minuten
   label_missing_api_access_key: Fehlender API Zugriffsschlüssel
   label_missing_feeds_access_key: Fehlender RSS Zugriffsschlüssel
@@ -4345,6 +4417,7 @@ de:
       mail_notification: Mailbenachrichtigung
       mails_and_notifications: E-Mails und Benachrichtigungen
       mcp_configurations: Model Context Protocol (MCP)
+      text_transform_actions: Text transform actions
     quick_add:
       label: Hinzufügen…
   more_actions: Weitere Funktionen
@@ -4530,6 +4603,7 @@ de:
   notice_account_already_activated: Dieses Benutzerkonto wurde bereits aktiviert.
   notice_account_invalid_credentials: Benutzer oder Kennwort ist ungültig.
   notice_account_invalid_credentials_or_blocked: Benutzer oder Kennwort ist ungültig oder der Account wurde wegen mehrfacher Falscheingabe temporär gesperrt, in diesem Fall wird er in Kürze automatisch wieder freigeschaltet.
+  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
   notice_account_invalid_token: Ungültiger Aktivierungs-Token
   notice_account_lost_email_sent: Eine E-Mail mit Anweisungen, wie ein neues Kennwort gewählt wird, wurde Ihnen zugeschickt.
   notice_account_new_password_forced: Ein neues Passwort muss gesetzt werden.
@@ -4871,7 +4945,7 @@ de:
       caption: Details zum Arbeitspaket, dargestellt als PMflex-Artefakt.
       label: PMflex-Artefakt
     template_attributes:
-      caption: Alle Attribute, die in der aktuellen Formularkonfiguration mit der Standardvorlage vorhanden sind.
+      caption: All the attributes present in the current form using the default template.
       label: Attribute und Beschreibung
     template_contract:
       caption: Details des Arbeitspakets im Format der deutschen Standardvertragsform.
@@ -5254,15 +5328,15 @@ de:
           type_label: Typ
           type_placeholder: Typ auswählen
         add_type: Typ hinzufügen
-        add_variant: Add a project-specific variant
-        base_type_in_use: Base type used in this project
+        add_variant: Eine projektspezifische Variante hinzufügen
+        base_type_in_use: In diesem Projekt verwendeter Basistyp
         empty_state:
           description: Fügen Sie einen Typ hinzu, damit die Benutzer in diesem Projekt Arbeitspakete dieses Typs erstellen können.
           title: In diesem Projekt sind keine Typen aktiv
         form:
           enable_type_in_project: Typ "%{type}" aktivieren
         no_results_title_text: Derzeit stehen keine Typen zur Verfügung.
-        project_specific_variant: Project-specific variant
+        project_specific_variant: Projektspezifische Variante
         remove_from_project: Aus dem Projekt entfernen
         switch:
           apply: Anwenden
@@ -5286,9 +5360,10 @@ de:
           target_label: Variante
           title: "%{type}: Variante wechseln"
         type_not_found: Der ausgewählte Typ konnte nicht gefunden werden.
-        use_in_project: Use in this project
-        variant_in_use: Variant in this project
-        variant_label: Variant
+        use_in_project: In diesem Projekt verwenden
+        variant_in_use: Variante in diesem Projekt
+        variant_label: Variante
+        variants_not_allowed: This type does not allow creation of variants inside projects.
       versions:
         no_results_content_text: Neue Version erstellen
         no_results_title_text: Derzeit gibt es keine Versionen für das Projekt.
@@ -5457,6 +5532,12 @@ de:
   roles:
     edit:
       default_for_new_projects_warning: 'Diese Rolle ist als Standardrolle für diejenigen Benutzer konfiguriert, die ein Projekt erstellen und keine Administratoren sind. Entfernen Sie die folgenden Berechtigungen nicht, sonst können die Projekt-Ersteller die Einrichtung ihrer neu erstellten Projekte nicht abschließen:'
+    index:
+      filter_label: Search roles
+      types:
+        all: All roles
+        global: Global roles
+        project: Project roles
     permissions:
       section_check_all_label: Alle %{module} Berechtigungen zuweisen
       section_uncheck_all_label: Alle %{module} Berechtigungen zuweisen
@@ -5481,6 +5562,7 @@ de:
   setting_after_login_default_redirect_url_example_html: 'Legen Sie einen Standardpfad fest, zu dem nach der Anmeldung weitergeleitet wird, wenn kein Back-Link vorhanden ist. Falls nicht gesetzt, wird zur Startseite weitergeleitet. <br/> Beispiel: %{example_code}
 
     '
+  setting_ai_text_transform_actions_enabled: Enable text transform actions
   setting_allowed_link_protocols: Erlaubte Link-Protokolle
   setting_allowed_link_protocols_text_html: Erlauben Sie es, diese Protokolle als Links in Arbeitspaket-Beschreibungen, langen Textfeldern und Kommentaren darzustellen. Zum Beispiel %{tel_code} oder %{element_code}. Geben Sie ein Protokoll pro Zeile ein. <br/> Protokolle %{http_code}, %{https_code} und %{mailto_code} sind immer erlaubt.
   setting_antivirus_scan_action: Aktion für infizierte Datei
@@ -5609,7 +5691,7 @@ de:
   setting_password_count_former_banned: Anzahl zuletzt benutzter Passwörter, die nicht wiederverwendet werden dürfen
   setting_password_days_valid: Anzahl von Tagen, nach denen ein Passwortwechsel erzwungen wird
   setting_password_login: Password login
-  setting_password_login_all: Allow for everyone
+  setting_password_login_all: Für alle erlauben
   setting_password_login_all_caption: Anyone with an internal password can sign in with it, including users linked to an identity provider.
   setting_password_login_bypass_principal_ids: Users and groups who may still use a password
   setting_password_login_except_sso: Disallow for SSO users
@@ -6244,7 +6326,7 @@ de:
   total_progress: Gesamtfortschritt
   types:
     creation_wizard:
-      add_variant: Add a variant to %{name}
+      add_variant: Variante zu %{name} hinzufügen
       create_type: Typ erstellen
       create_variant: Variante erstellen
       fields:
@@ -6255,7 +6337,7 @@ de:
       steps:
         defaults: Standardwerte
         details: Details
-        form_configuration: Formularkonfiguration
+        form_configuration: Form
         pdf: PDF-Erstellung
         project_attributes: Projektattribute
         projects: Projekte
@@ -6285,11 +6367,13 @@ de:
             work_package: Arbeitspaket
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
+        allow_project_variants_caption: For project administrators with the permission to manage variants, this type can be extended or modified within a project.
         inherited_from_type_html: Vom übergeordneten Typ <b>%{type}</b> gesetzt.
         tab: Details
         type_color_text: |-
           Die ausgewählte Farbe unterscheidet verschiedene Typen
           in Gantt-Diagrammen und Arbeitspakettabellen. Es wird daher empfohlen, gut unterscheidbare Farben zu verwenden.
+        variant_name_caption_html: This is an internal name only visible to administrators. Variants replace the original parent type, so if this variant is used in a project, it will appear as <b>%{type}</b> to all members.
       export_configuration:
         artefact_export:
           attachment:
@@ -6318,9 +6402,9 @@ de:
           readonly_error: Cannot be changed while linked to a source type.
           section_title: PDF-Exportvorlagen
           settings:
-            edit_link: Edit settings
-            reset_to_default: Reset to default
-            title: 'Settings: %{template}'
+            edit_link: Einstellungen bearbeiten
+            reset_to_default: Auf Standard zurücksetzen
+            title: 'Einstellungen: %{template}'
       form_configuration:
         add_attribute_group: Abschnitt
         add_query_group: Zugehörige Arbeitspaket-Tabelle
@@ -6328,7 +6412,7 @@ de:
         blankslate_title: Noch keine Gruppen
         builtin_field: Vordefiniertes Feld
         confirm_delete_group: Sind Sie sicher, dass Sie diesen Abschnitt löschen möchten? Diese Aktion kann nicht automatisch rückgängig gemacht werden.
-        confirm_reset: Sind Sie sicher, dass Sie die Konfiguration des Formulars zurücksetzen möchten?
+        confirm_reset: Are you sure you want to reset the form?
         custom_field: Benutzerdefiniertes Feld
         delete_group: Abschnitt löschen
         drag_to_activate: Felder aus diesem Bereich herausziehen, um sie zu aktivieren
@@ -6343,22 +6427,31 @@ de:
         group_actions: Abschnittsoptionen
         group_name_label: Name des Abschnitts
         inactive_attributes_heading: Inaktive Attribute
-        invalid_attribute_groups: Die abgesendeten Daten der Formularkonfiguration sind ungültig.
+        invalid_attribute_groups: The form payload is invalid.
         invalid_query: Die eingebettete Abfrage ist ungültig.
         label_group: Abschnitt
         no_inactive_attributes: Keine inaktiven Attribute
-        not_found: Die angeforderte Formularkonfiguration konnte nicht gefunden werden.
+        not_found: The requested form item could not be found.
         query_group_label: Zugehörige Arbeitspaket-Tabelle
         remove_attribute: Aus Abschnitt entfernen
         rename_group: Abschnitt umbenennen
         reset_description: 'Dadurch werden die Attribute auf ihre Standardgruppe zurückgesetzt und ALLE benutzerdefinierten Felder deaktiviert.
 
           '
-        reset_title: Formularkonfiguration zurücksetzen
+        reset_title: Reset form
         reset_to_defaults: Formular zurücksetzen
         row_actions: Weitere Aktionen
-        tab: Formularkonfiguration
+        tab: Form
         untitled_group: Unbenannte Gruppe
+      overview:
+        configuration_mode: Configuration mode
+        dependents: Dependent types and variants
+        mode:
+          always_manual: Always manual
+          inheriting_from_html: Inheriting from %{source_name}
+          manual: Manually configured
+        settings: Settings
+        tab: Overview
       project_attributes:
         actions:
           label_disable_all: Alle deaktivieren
@@ -6369,7 +6462,7 @@ de:
             title: No project attributes configured
           manual:
             description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
-            title: No project attributes available
+            title: Es sind keine Projektattribute verfügbar
         description: Wählen Sie die Projektattribute aus, die Sie für diesen Arbeitspaket-Typ anzeigen möchten. Diese Attribute werden in einem separaten Tab in Arbeitspaketen dieses Typs angezeigt. Benutzer mit den erforderlichen Berechtigungen können diese Attribute dort einsehen und bearbeiten.
         disabled: Deaktiviert
         exclusions:
@@ -6400,7 +6493,7 @@ de:
             title: Konfiguration kopieren?
           dialog:
             description: Copy the configuration from a source type and use it as a one-time base. The configuration stays manual and does not inherit later changes of the source.
-            source_label: Source type
+            source_label: Quellentyp
             source_placeholder: Wählen Sie einen Typ oder eine Variante aus
             submit: Speichern und kopieren
             title: Konfiguration kopieren
@@ -6409,7 +6502,7 @@ de:
         dependents:
           blank:
             description: No other type or variant inherits from this configuration
-            title: No dependent types
+            title: Keine abhängigen Typen
           description:
             one: The following configuration is inherited by 1 other type or variant. Any changes you make here will also affect the dependent.
             other: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
@@ -6417,66 +6510,66 @@ de:
             description: These types and variants inherit the configuration of this section. A change you make here applies to all of them.
             direct_heading: Direct dependents
             indirect_heading: Dependents through other types
-            title: Dependent types
-            variant_of_html: Variant of %{type_name}
-            variant_of_via_html: Variant of %{type_name}, inheriting via %{source_name}
-            via_html: Inheriting via %{source_name}
+            title: Abhängige Typen
+            variant_of_html: Variante von %{type_name}
+            variant_of_via_html: Variante von %{type_name}, vererbt über %{source_name}
+            via_html: Vererbung über %{source_name}
           title:
-            one: 1 dependent type
-            other: "%{count} dependent types"
-          view: View dependent types
+            one: 1 abhängiger Typ
+            other: "%{count} abhängige Typen"
+          view: Abhängige Typen ansehen
         exclusions:
           not_inherited: This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead.
           unknown_aspect: Unbekannter Konfigurationsabschnitt "%{aspect}".
         inherited:
-          change_source: Change source type
-          configure_manually: Configure manually
+          change_source: Quellentyp ändern
+          configure_manually: Manuell konfigurieren
           confirm_dialog:
             change_source:
               description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
-              heading: Change source type?
-              title: Change source type
+              heading: Quellentyp ändern?
+              title: Quellentyp ändern
             check_box: I understand that this will override the current settings
             from_manual:
               description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
-              heading: Switch configuration mode?
-              title: Switch configuration mode
+              heading: Konfigurationsmodus wechseln?
+              title: Konfigurationsmodus wechseln
           description: This configuration is inherited from the source type [%{source_name}](source_url)%{source_suffix}.
           description_unlinked: This configuration is inherited from the source type %{source_name}%{source_suffix}.
           dialog:
             description: Inherit this configuration from a source type. Any new configuration added to the source also applies here.
-            source_label: Source type
-            source_placeholder: Select a type or variant
-            submit: Switch
-            title: Inherit from another type
+            source_label: Quellentyp
+            source_placeholder: Typ oder Variante auswählen
+            submit: Wechseln
+            title: Von einem anderen Typ erben
           invalid_source: The configuration cannot be inherited from the selected type. Please select a different source type.
           success: The configuration mode was switched.
-          title: Inherited configuration
+          title: Vererbte Konfiguration
         manual:
           confirm_dialog:
             check_box: I understand that this will override the current settings
             description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
-            heading: Switch configuration mode?
-            title: Switch configuration mode
-          copy_from_type: Copy from another type
+            heading: Konfigurationsmodus wechseln?
+            title: Konfigurationsmodus wechseln
+          copy_from_type: Von einem anderen Typ kopieren
           description: No settings are inherited. You can still copy the settings from another type one time.
           dialog:
-            submit: Switch
-            title: Configure manually
-          inherit_from_type: Inherit from another type
+            submit: Wechseln
+            title: Manuell konfigurieren
+          inherit_from_type: Von einem anderen Typ erben
           invalid_mode: The selected mode is not available for this configuration. Please choose a different mode.
           modes:
             copy:
               caption: Start with a one-time copy of the settings that this configuration inherits now.
-              label: Copy inherited settings
+              label: Vererbte Einstellungen kopieren
             default:
               caption: Use the default settings for new types.
-              label: Default settings
+              label: Standardeinstellungen
             empty:
               caption: Set everything up from scratch, beginning from a blank configuration.
-              label: Empty
+              label: Leer
           success: The configuration mode was switched.
-          title: Manual configuration
+          title: Manuelle Konfiguration
         parent_suffix: " (übergeordneter Typ)"
       variants:
         blankslate:
@@ -6484,22 +6577,22 @@ de:
 
             '
           title: Keine Varianten für diesen Typ vorhanden
-        created_in_html: Created in %{project}
+        created_in_html: Erstellt in %{project}
         delete:
           description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
-          title: Delete %{name}
+          title: "%{name} löschen"
         filter: Nach Text filtern
         filter_no_results: Keine Varianten entsprechen diesem Filter
         global_section:
           description: These variants are available across all projects.
-          title: Variants
+          title: Varianten
         project_specific_section:
           description: These variants are only available within the projects in which they were created.
-          title: Project-specific variants
+          title: Projektspezifische Varianten
       workflow:
         tab: Workflows
     index:
-      add_variant: Add a variant to %{name}
+      add_variant: Variante zu %{name} hinzufügen
       add_variant_action: Variante hinzufügen
       description: 'Typen und Varianten ermöglichen flexible Konfiguration der Darstellung und Verhalten von Arbeitspaketen. Formulare, Workflows und weitere Bereiche können hierbei in einem Typ definiert und von beliebig vielen Varianten wiederverwendet werden. Jeder Bereich kann hierbei pro Variante individuell konfiguriert werden.
 
@@ -6512,7 +6605,7 @@ de:
       no_results_content_text: Neuen Typ erstellen
       no_results_title_text: Derzeit gibt es keine Typen.
       project_variants_count:
-        one: 1 project-specific variant
+        one: 1 projektspezifische Variante
         other: "%{count} project-specific variants"
       remove_default: In neuen Projekten nicht aktivieren
       remove_default_notice: "%{name} ist in neuen Projekten nicht länger aktiviert."
@@ -6889,6 +6982,13 @@ de:
       confirm_deletion: Ich bestätige, dass die ausgewählten Arbeitspakete und alle zugehörigen Daten gelöscht werden.
       confirm_descendants_deletion: Ich bestätige, dass alle oben aufgeführten Unteraufgaben ebenfalls gelöscht werden.
       cross_project_warning_html: 'Diese Arbeitspakete sind über mehrere Projekte verteilt: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
+        self_only_label: Delete just the selected work packages
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete the selected work packages and their descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete und alle zugehörigen Daten löschen möchten?
       description_with_all_descendants: Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete und alle deren untergeordneten Elemente löschen möchten?
       description_with_descendants: Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete und alle folgenden untergeordneten Elemente löschen möchten?
@@ -6953,6 +7053,13 @@ de:
       confirm_deletion: Ich bestätige, dass die ausgewählten Arbeitspakete und alle zugehörigen Daten gelöscht werden.
       confirm_descendants_deletion: Ich bestätige, dass alle oben aufgeführten Unteraufgaben ebenfalls gelöscht werden.
       cross_project_warning_html: 'Die zur Löschung vorgesehenen Arbeitspakete stammen aus folgenden Projekten: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: This work package has descendants. Do you want to delete them as well?
+        self_only_label: Delete just this work package
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete this work package and descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: Möchten Sie "%{name}" wirklich löschen?
       heading: Dieses Arbeitspaket unwiderruflich löschen?
       hidden_descendants_only_warning:

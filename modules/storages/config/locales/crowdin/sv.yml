@@ -4,7 +4,7 @@ sv:
     attributes:
       oauth_client:
         client_id: Klient-ID
-        client_secret: Client secret
+        client_secret: Klienthemlighet
       project:
         project_folder_type: Typ av projektmapp
       storages/file_link:
@@ -31,18 +31,18 @@ sv:
         authentication_method: Autentiseringsmetod
         creator: Skapare
         drive: Drive ID
-        file_link_origin: File link origin ID
-        host: Host
-        linkable_to_storage: Linkable to storage
-        linkable_to_storage_url: Linkable to storage URL
+        file_link_origin: Ursprungs-ID för fillänk
+        host: Värd
+        linkable_to_storage: Kan länkas till lagring
+        linkable_to_storage_url: URL som kan länkas till lagring
         name: Namn
         password: Applikationens lösenord
         provider_type: Typ av leverantör
-        storage: Storage
-        storage_url: Storage URL
+        storage: Lagring
+        storage_url: Lagrings-URL
         tenant: Katalog (hyresgäst) ID
       work_package:
-        file_links: File links
+        file_links: Fillänkar
     errors:
       messages:
         invalid_host_url: är inte ett giltigt URL.
@@ -66,7 +66,7 @@ sv:
             host:
               authorization_header_missing: är inte helt uppsatt. Nextcloud-instansen tar inte emot "Authorization"-huvudet, vilket är nödvändigt för en Bearer-tokenbaserad auktorisering av API-förfrågningar. Vänligen dubbelkolla din HTTP-serverkonfiguration.
               cannot_be_connected_to: kunde inte nås. Kontrollera att värden är nåbar och att OpenProject integrationsappen är installerad.
-              minimal_nextcloud_version_not_met: does not meet minimal version requirements (must be Nextcloud %{minimal_version} or higher, but %{detected_version} was detected)
+              minimal_nextcloud_version_not_met: uppfyller inte minimikraven för version (måste vara Nextcloud %{minimal_version} eller senare, men %{detected_version} upptäcktes)
               not_nextcloud_server: är inte en Nextcloud-server
               op_application_not_installed: verkar inte ha appen "OpenProject integration" installerad. Installera den först och försök sedan igen.
             password:
@@ -74,23 +74,23 @@ sv:
               unknown_error: kunde inte valideras med fillagringsleverantören. Kontrollera att anslutningen fungerar korrekt.
     models:
       storages/file_link:
-        one: File link
-        other: File links
+        one: Fillänk
+        other: Fillänkar
       storages/nextcloud_storage:
-        one: Nextcloud storage
-        other: Nextcloud storages
+        one: Nextcloud-lagring
+        other: Nextcloud-lagringar
       storages/one_drive_storage:
-        one: OneDrive storage
-        other: OneDrive storages
+        one: OneDrive-lagring
+        other: OneDrive-lagringar
       storages/project_storage:
-        one: Project storage
-        other: Project storages
+        one: Projektlagring
+        other: Projektlagringar
       storages/sharepoint_storage:
-        one: SharePoint storage
-        other: SharePoint storages
+        one: SharePoint-lagring
+        other: SharePoint-lagringar
       storages/storage:
-        one: Storage
-        other: Storages
+        one: Lagring
+        other: Lagringar
   api_v3:
     errors:
       too_many_elements_created_at_once: Alltför många element skapade på en gång. Förväntade %{max} som mest, fick %{actual}.
@@ -128,103 +128,103 @@ sv:
         create_folder: 'Skapad av hanterad projektmapp:'
         ensure_root_folder_permissions: 'Ange grundläggande mappbehörigheter:'
         hide_inactive_folders: 'Dölj inaktiva mappsteg:'
-        remote_folders: 'Read contents of the team folder:'
+        remote_folders: 'Läs innehållet i teammappen:'
         remove_user_from_group: 'Ta bort användare från grupp:'
         rename_project_folder: 'Döp om hanterad projektmapp:'
-        set_folder_permission: 'Set managed project Folder permissions:'
+        set_folder_permission: 'Ange behörigheter för hanterad projektmapp:'
       one_drive_sync_service:
         create_folder: 'Skapad av hanterad projektmapp:'
         ensure_root_folder_permissions: 'Ange grundläggande mappbehörigheter:'
         hide_inactive_folders: 'Dölj inaktiva mappsteg:'
-        remote_folders: 'Read contents of the drive root folder:'
-        rename_project_folder: 'Rename managed project Folder:'
-        set_folder_permission: 'Set managed project Folder permissions:'
+        remote_folders: 'Läs innehållet i enhetens rotmapp:'
+        rename_project_folder: 'Döp om hanterad projektmapp:'
+        set_folder_permission: 'Ange behörigheter för hanterad projektmapp:'
       sharepoint_sync_service:
-        create_folder: 'Managed Project Folder Creation:'
-        ensure_root_folder_permissions: 'Set Base Folder Permissions:'
-        hide_inactive_folders: 'Hide Inactive Folders Step:'
-        remote_folders: 'Read contents of the drive root folder:'
-        rename_project_folder: 'Rename managed project Folder:'
-        set_folder_permission: 'Set managed project Folder permissions:'
+        create_folder: 'Skapad av hanterad projektmapp:'
+        ensure_root_folder_permissions: 'Ange grundläggande mappbehörigheter:'
+        hide_inactive_folders: 'Dölj inaktiva mappsteg:'
+        remote_folders: 'Läs innehållet i enhetens rotmapp:'
+        rename_project_folder: 'Döp om hanterad projektmapp:'
+        set_folder_permission: 'Ange behörigheter för hanterad projektmapp:'
     errors:
       messages:
-        error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
-        folder_id_collision: Multiple project storages try to manage the project folder %{folder}. Its synchronization was skipped.
-        forbidden: OpenProject could not access the requested resource. Please check your permissions configuration on the Storage Provider.
-        invalid_response: OpenProject could not process the response received from the Storage Provider. Please check OpenProject logs for more information or contact an administrator.
-        unauthorized: OpenProject could not authenticate with the Storage Provider. Please ensure that you have access to it.
+        error: Ett oväntat fel inträffade. Mer information finns i OpenProjects loggar, eller kontakta en administratör
+        folder_id_collision: Flera projektlagringar försöker hantera projektmappen %{folder}. Synkroniseringen av den hoppades över.
+        forbidden: OpenProject kunde inte komma åt den begärda resursen. Kontrollera din behörighetskonfiguration hos lagringsleverantören.
+        invalid_response: OpenProject kunde inte behandla svaret från lagringsleverantören. Mer information finns i OpenProjects loggar, eller kontakta en administratör.
+        unauthorized: OpenProject kunde inte autentisera mot lagringsleverantören. Kontrollera att du har åtkomst till den.
       models:
         copy_project_folders_service:
-          conflict: The folder %{destination_path} already exists. Interrupting process to avoid overwrites.
-          error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
-          forbidden: OpenProject could not access the source folder. Please check your permissions configuration on the Storage Provider
-          not_found: The source template location %{source_path} wasn't found.
-          unauthorized: OpenProject could not authenticate with the Storage Provider. Please check your storage configuration
+          conflict: Mappen %{destination_path} finns redan. Processen avbryts för att undvika överskrivning.
+          error: Ett oväntat fel inträffade. Mer information finns i OpenProjects loggar, eller kontakta en administratör
+          forbidden: OpenProject kunde inte komma åt källmappen. Kontrollera din behörighetskonfiguration hos lagringsleverantören
+          not_found: Källmallens plats %{source_path} hittades inte.
+          unauthorized: OpenProject kunde inte autentisera mot lagringsleverantören. Kontrollera din lagringskonfiguration
         nextcloud_sync_service:
           attributes:
             add_user_to_group:
-              conflict: 'The user %{user} could not be added to the %{group} group for the following reason: %{reason}'
-              failed_to_add: 'The user %{user} could not be added to the %{group} group for the following reason: %{reason}'
+              conflict: 'Användaren %{user} kunde inte läggas till i gruppen %{group} av följande anledning: %{reason}'
+              failed_to_add: 'Användaren %{user} kunde inte läggas till i gruppen %{group} av följande anledning: %{reason}'
             create_folder:
-              conflict: The folder %{folder_name} already exists on %{parent_location}.
-              not_found: "%{parent_location} wasn't found."
+              conflict: Mappen %{folder_name} finns redan på %{parent_location}.
+              not_found: "%{parent_location} hittades inte."
             ensure_root_folder_permissions:
-              not_found: "%{group_folder} wasn't found. Please check your Nextcloud Team Folder setup."
-              permission_not_set: could not set permissions on %{group_folder}.
+              not_found: "%{group_folder} hittades inte. Kontrollera konfigurationen av Nextcloud Team Folders."
+              permission_not_set: kunde inte ange behörigheter för %{group_folder}.
             hide_inactive_folders:
-              permission_not_set: could not set permissions on %{path}.
+              permission_not_set: kunde inte ange behörigheter för %{path}.
             remote_folders:
-              not_allowed: The %{username} doesn't have access to the %{group_folder} folder. Please check the folder permissions on Nextcloud.
+              not_allowed: "%{username} har inte åtkomst till mappen %{group_folder}. Kontrollera mappbehörigheterna i Nextcloud."
               not_found: "%{group_folder} mappen kunde inte hittas. Kontrollera din Nextcloud-inställning."
             remove_user_from_group:
-              conflict: 'The user %{user} could not be removed from the %{group} group for the following reason: %{reason}'
-              failed_to_remove: 'The user %{user} could not be removed from the %{group} group for the following reason: %{reason}'
+              conflict: 'Användaren %{user} kunde inte tas bort från gruppen %{group} av följande anledning: %{reason}'
+              failed_to_remove: 'Användaren %{user} kunde inte tas bort från gruppen %{group} av följande anledning: %{reason}'
             rename_project_folder:
-              conflict: OpenProject could not rename the project folder to %{current_path} as a folder with the same name already exists
-              forbidden: OpenProject user does not have access to %{current_path} folder.
-              not_found: "%{current_path} wasn't found."
+              conflict: OpenProject kunde inte byta namn på projektmappen till %{current_path} eftersom det redan finns en mapp med samma namn
+              forbidden: OpenProject-användaren har inte åtkomst till mappen %{current_path}.
+              not_found: "%{current_path} hittades inte."
             set_folders_permissions:
-              permission_not_set: could not set permissions on %{path}.
-          error: An unexpected error occurred. Please ensure that your Nextcloud instance is reachable and check OpenProject worker logs for more information
+              permission_not_set: kunde inte ange behörigheter för %{path}.
+          error: Ett oväntat fel inträffade. Kontrollera att din Nextcloud-instans går att nå och läs OpenProject-arbetarnas loggar för mer information
           group_does_not_exist: "%{group} finns inte. Kontrollera din Nextcloud-instans-konfiguration."
-          insufficient_privileges: OpenProject does not have enough privileges to add %{user} to %{group}. Check you group settings in Nextcloud.
-          not_allowed: Nextcloud block the request.
+          insufficient_privileges: OpenProject har inte tillräckliga behörigheter för att lägga till %{user} i %{group}. Kontrollera gruppinställningarna i Nextcloud.
+          not_allowed: Nextcloud blockerade begäran.
           not_found: OpenProject kunde inte hitta filen på Nextcloud Storage Provider. Kontrollera om den inte togs bort.
           unauthorized: OpenProject kunde inte synkroniseras med Nextcloud. Kontrollera din lagrings- och Nextcloud-konfiguration.
-          user_does_not_exist: "%{user} does not exist in Nextcloud."
+          user_does_not_exist: "%{user} finns inte i Nextcloud."
         one_drive_sync_service:
           attributes:
             create_folder:
-              conflict: The %{folder_name} already exists on %{parent_location}.
-              not_found: "%{parent_location} wasn't found."
+              conflict: "%{folder_name} finns redan på %{parent_location}."
+              not_found: "%{parent_location} hittades inte."
             hide_inactive_folders:
-              permission_not_set: could not set permissions on %{path}.
+              permission_not_set: kunde inte ange behörigheter för %{path}.
             remote_folders:
-              request_error: OpenProject could not access your drive %{drive_id}. Please check if your storage configuration is correct.
+              request_error: OpenProject kunde inte komma åt din enhet %{drive_id}. Kontrollera att lagringskonfigurationen är korrekt.
             rename_project_folder:
-              conflict: OpenProject could not rename the folder %{current_path} to %{project_folder_name} as a folder with the same name already exists.
-              forbidden: OpenProject does not have access to %{current_path} in order to rename it.
-              not_found: "%{current_path} wasn't found."
+              conflict: OpenProject kunde inte byta namn på mappen %{current_path} till %{project_folder_name} eftersom det redan finns en mapp med samma namn.
+              forbidden: OpenProject har inte åtkomst till %{current_path} för att kunna byta namn på den.
+              not_found: "%{current_path} hittades inte."
             set_folders_permissions:
-              permission_not_set: could not set permissions on %{path}.
-          error: An unexpected error occurred. Please ensure that OneDrive is reachable and check OpenProject worker logs for more information.
-          not_allowed: OpenProject wasn't allowed to access your OneDrive drive. Please check the permissions set on the Azure Application.
+              permission_not_set: kunde inte ange behörigheter för %{path}.
+          error: Ett oväntat fel inträffade. Kontrollera att OneDrive går att nå och läs OpenProject-arbetarnas loggar för mer information.
+          not_allowed: OpenProject fick inte åtkomst till din OneDrive-enhet. Kontrollera behörigheterna på Azure-programmet.
           unauthorized: OpenProject kunde inte synkroniseras med OneDrive. Kontrollera din lagrings- och Azure-applikationskonfiguration.
-          user_does_not_exist: "%{user} does not exist in Nextcloud."
+          user_does_not_exist: "%{user} finns inte i Nextcloud."
         sharepoint_sync_service:
           attributes:
             create_folder:
-              conflict: The %{folder_name} already exists on %{parent_location}.
-              not_found: "%{parent_location} wasn't found."
+              conflict: "%{folder_name} finns redan på %{parent_location}."
+              not_found: "%{parent_location} hittades inte."
             hide_inactive_folders:
-              permission_not_set: could not set permissions on %{path}.
+              permission_not_set: kunde inte ange behörigheter för %{path}.
             rename_project_folder:
-              conflict: OpenProject could not rename the folder %{current_path} to %{project_folder_name} as a folder with the same name already exists
-              forbidden: OpenProject does not have access to %{current_path} in order to rename it.
-              not_found: "%{current_path} wasn't found."
+              conflict: OpenProject kunde inte byta namn på mappen %{current_path} till %{project_folder_name} eftersom det redan finns en mapp med samma namn
+              forbidden: OpenProject har inte åtkomst till %{current_path} för att kunna byta namn på den.
+              not_found: "%{current_path} hittades inte."
             set_folders_permissions:
-              permission_not_set: could not set permissions on %{path}.
-          error: An unexpected error occurred. Please ensure that OneDrive is reachable and check OpenProject worker logs for more information
+              permission_not_set: kunde inte ange behörigheter för %{path}.
+          error: Ett oväntat fel inträffade. Kontrollera att OneDrive går att nå och läs OpenProject-arbetarnas loggar för mer information
           not_allowed: OpenProject fick inte åtkomst till din OneDrive-enhet. Kontrollera behörigheterna på Azure-programmet.
           not_found: OpenProject kunde inte komma åt ditt bibliotek %{drive_name}. Kontrollera att du har dokumentbibliotek för Sharepoint-sajten.
           unauthorized: OpenProject kunde inte synkroniseras med OneDrive. Kontrollera din lagrings- och Azure-applikationskonfiguration.
@@ -235,8 +235,8 @@ sv:
     admin:
       side_panel:
         health_notifications_component:
-          sync_now: Sync now
-          sync_queued: Synchronization queued.
+          sync_now: Synkronisera nu
+          sync_queued: Synkronisering har köats.
     buttons:
       done_continue: Klar, fortsätt
       open_storage: Öppna fillagring
@@ -255,16 +255,16 @@ sv:
     confirm_replace_oauth_application: Den här åtgärden kommer att återställa de nuvarande OAuth-uppgifterna. Efter att du har bekräftat att du måste ange inloggningsuppgifterna på lagringsleverantören och alla fjärranvändare måste auktorisera mot OpenProject igen. Är du säker du vill fortsätta?
     confirm_replace_oauth_client: Den här åtgärden kommer att återställa de nuvarande OAuth-uppgifterna. När du har bekräftat att du måste ange nya uppgifter från lagringsleverantören och alla användare måste godkänna %{provider_type} igen. Är du säker du vill fortsätta?
     delete_warning:
-      project_storage_delete_result_1: All links to corresponding files and folders will be removed
-      project_storage_delete_result_2: The automatically-managed project folder and all files in it will be deleted
-      project_storage_html: Are you sure you want to remove %{file_storage} from this project?
-      storage_delete_result_1: The storage will be removed from all projects currently using it
-      storage_delete_result_2: All links to corresponding files and folders will be removed
-      storage_delete_result_3: The automatically-managed project folder and all files in it will be deleted
-      storage_html: Are you sure you want to delete %{file_storage} as an external file storage?
+      project_storage_delete_result_1: Alla länkar till motsvarande filer och mappar tas bort
+      project_storage_delete_result_2: Den automatiskt hanterade projektmappen och alla filer i den tas bort
+      project_storage_html: Är du säker på att du vill ta bort %{file_storage} från det här projektet?
+      storage_delete_result_1: Lagringen tas bort från alla projekt som för närvarande använder den
+      storage_delete_result_2: Alla länkar till motsvarande filer och mappar tas bort
+      storage_delete_result_3: Den automatiskt hanterade projektmappen och alla filer i den tas bort
+      storage_html: Är du säker på att du vill ta bort %{file_storage} som extern fillagring?
     dependencies:
       nextcloud:
-        group_folders_app: Team Folders
+        group_folders_app: Teammappar
         integration_app: Integration OpenProject
     enabled_in_projects:
       setup_incomplete_description: Den här lagringen har en ofullständig inställning. Var god och slutföra installationen innan du aktiverar den i flera projekt.
@@ -272,23 +272,23 @@ sv:
     error_invalid_provider_type: Välj en giltig lagringsleverantör.
     file_storage_view:
       access_management:
-        automatic_management: Enable automatically-managed access and folders
-        automatic_management_description: Each project will be able to decide, when a storage is added to it, whether they want the automatically-managed or the manual approach to folder and access management.
-        description: OpenProject can automatically create and manage project folders when a file storage is added to a project. This can result in a more organized folder structure and straightforward access management that guarantees access to all relevant users.
-        manual_management: Only allow manually-managed access and folders
-        manual_management_description: Projects using this storage will not be offered the option of the automatically-managed approach. Folders and access must be managed manually.
+        automatic_management: Aktivera automatiskt hanterad åtkomst och mappar
+        automatic_management_description: När en lagring läggs till i ett projekt kan varje projekt välja mellan automatiskt hanterad eller manuell hantering av mappar och åtkomst.
+        description: OpenProject kan automatiskt skapa och hantera projektmappar när en fillagring läggs till i ett projekt. Detta kan ge en mer organiserad mappstruktur och enkel åtkomsthantering som garanterar åtkomst för alla relevanta användare.
+        manual_management: Tillåt endast manuellt hanterad åtkomst och mappar
+        manual_management_description: Projekt som använder den här lagringen erbjuds inte alternativet med automatisk hantering. Mappar och åtkomst måste hanteras manuellt.
         setup_incomplete: Välj typ av hantering av användaråtkomst och skapande av mappar.
-        subtitle: Folder and access management
+        subtitle: Mapp- och åtkomsthantering
       access_management_section: Åtkomst och projektmappar
       automatically_managed_folders: Automatiskt hanterade mappar
       general_information: Allmän information
       oauth_configuration: OAuth konfiguration
       one_drive:
         access_management:
-          automatic_management: Enable automatically-managed access and folders
-          automatic_management_description: Each project using this file storage will necessarily have to use the automatically-managed approach to folder and access management. They cannot do it manually.
-          manual_management: Only allow manually-managed access and folders
-          manual_management_description: Projects using this storage will not be offered the option of the automatically-managed approach. Folders and access must be managed manually.
+          automatic_management: Aktivera automatiskt hanterad åtkomst och mappar
+          automatic_management_description: Varje projekt som använder den här fillagringen måste använda automatisk hantering av mappar och åtkomst. Manuell hantering är inte möjlig.
+          manual_management: Tillåt endast manuellt hanterad åtkomst och mappar
+          manual_management_description: Projekt som använder den här lagringen erbjuds inte alternativet med automatisk hantering. Mappar och åtkomst måste hanteras manuellt.
       one_drive_oauth: Azure OAuth
       openproject_oauth: OpenProject OAuth
       project_folders: Projektmappar
@@ -311,81 +311,81 @@ sv:
           client_folder_creation: Automatiskt skapande av mapp
           client_folder_removal: Radering av mapp automatiskt
           drive_contents: Diskinnehåll
-          files_request: Fetching team folder files
-          header: Automatically managed project folders
-          project_folders_exist: Project folders exist
-          project_folders_linked: Project folders linked
-          team_folder_app: 'Dependency: Team Folders'
-          team_folder_contents: Team folder content
-          team_folder_presence: Team folder exists
-          userless_access: Server-side request authentication
+          files_request: Hämtar filer i teammappen
+          header: Automatiskt hanterade projektmappar
+          project_folders_exist: Projektmappar finns
+          project_folders_linked: Projektmappar länkade
+          team_folder_app: 'Beroende: Teammappar'
+          team_folder_contents: Teammappens innehåll
+          team_folder_presence: Teammappen finns
+          userless_access: Autentisering av begäranden på serversidan
         authentication:
-          existing_token: User token
+          existing_token: Användartoken
           header: Autentisering
-          non_provisioned_user: User provisioned by IDP
-          offline_access: Configured OIDC offline_access scope
-          provider_capabilities: Provider capabilities
-          provisioned_user_provider: User provisioned by OIDC
-          token_negotiable: User token capabilities
-          user_bound_request: User-based request authentication
+          non_provisioned_user: Användaren provisionerad av IDP
+          offline_access: Konfigurerat OIDC-scope offline_access
+          provider_capabilities: Leverantörsfunktioner
+          provisioned_user_provider: Användaren provisionerad av OIDC
+          token_negotiable: Funktioner för användartoken
+          user_bound_request: Användarbaserad autentisering av begäranden
         base_configuration:
-          capabilities_request: Remote file storage capabilities
+          capabilities_request: Funktioner för fjärrfillagring
           client_id: Klient-ID
-          client_secret: Client secret
+          client_secret: Klienthemlighet
           dependencies_check: Beroenden
-          dependencies_versions: Dependencies (version)
-          diagnostic_request: Diagnostic request
-          drive_id_exists: Drive exists
-          drive_id_format: Drive ID format
+          dependencies_versions: Beroenden (version)
+          diagnostic_request: Diagnostisk begäran
+          drive_id_exists: Enheten finns
+          drive_id_format: Format för enhets-ID
           header: Konfiguration
           host: Värd-URL
-          host_url_accessible: Host URL accessible
-          storage_configured: Configuration complete
-          tenant_id: Tenant ID
+          host_url_accessible: Värd-URL tillgänglig
+          storage_configured: Konfigurationen är slutförd
+          tenant_id: Klientorganisations-ID
         errors:
-          client_id_invalid: The configured OAuth 2 client id is invalid. Please check the configuration.
-          client_secret_invalid: The configured OAuth 2 client secret is invalid. Please check the configuration.
-          nc_dependency_missing: 'A required dependency is missing on the file storage. Please add the following dependency: %{dependency}.'
-          nc_dependency_version_mismatch: The %{dependency} app version is not supported. Please update your Nextcloud server.
-          nc_host_not_found: No Nextcloud server found at the configured host url. Please check the configuration.
-          nc_oauth_request_not_found: The endpoint to fetch the currently connected user was not found. Please check the server logs for further information.
-          nc_oauth_request_unauthorized: The current user isn't authorized to access the remote file storage. Please check the server logs for further information.
-          nc_oauth_token_missing: OpenProject cannot test the user level communication with Nextcloud as the user did not yet link their Nextcloud account.
-          nc_project_folder_missing: The previously created project folder for project "%{project}" could not be found.
-          nc_team_folder_not_found: The team folder could not be found.
-          nc_unexpected_files: 'Unexpected files found in the managed team folder. For example: %{sample}'
-          nc_unlinked_project_folders: Not all project folders have been created yet (%{actual} / %{expected}). This can indicate errors during the AMPF background synchronization.
-          nc_userless_access_denied: The configured app password is invalid.
-          not_configured: The connection could not be validated. Please finish configuration first.
-          od_client_cant_delete_folder: The client is having trouble deleting folders. Please check the setup documentation for your storage.
-          od_client_write_permission_missing: The client seems to have write permissions missing. Please check the setup documentation for your storage.
-          od_drive_id_invalid: The configured drive id seems invalid. Please check the configuration.
-          od_drive_id_not_found: The configured drive id could not be found. Please check the configuration.
-          od_oauth_request_not_found: The endpoint to fetch the currently connected user was not found. Please check the server logs for further information.
-          od_oauth_request_unauthorized: The current user isn't authorized to access the remote file storage. Please check the server logs for further information.
-          od_oauth_token_missing: OpenProject cannot test the user level communication with OneDrive as the user did not yet link their Microsoft account.
-          od_tenant_id_wrong: The configured directory (tenant) id is invalid. Please check the configuration.
-          od_test_folder_exists: The folder %{folder_name} needed for testing already exists. Please delete it and try again.
-          od_unexpected_content: Unexpected content found in the drive.
-          offline_access_scope_missing: It is recommended to configure the OpenID Connect provider to request the offline_access scope. The integration may still work anyways, but make sure that refresh tokens do not expire.
-          oidc_cant_refresh_token: There was an error while trying to check your access to the storage. Please check the server logs for further information.
-          oidc_non_oidc_user: The current user, while provisioned, wasn't provisioned by an OpenID Connect (OIDC) Identity Provider. Please re-run the check with an OIDC provisioned user.
-          oidc_non_provisioned_user: The current user isn't provided by an OpenID Connect Identity Provider. Please re-run the check with a provided user.
-          oidc_provider_cant_exchange: The OpenID Connect provider does not seem to support token exchange, but token exchange was configured for the storage.
-          oidc_token_acquisition_failed: Your OpenID Connect setup doesn't provide the necessary audience, nor does it provide token exchange capabilities. Please check out our documentation for more information.
-          oidc_token_exchange_failed: There seems to be a problem with the Token Exchange setup on your OpenID Connect Provider. Please check its configuration and try again.
-          oidc_token_refresh_failed: There was an error while trying to check your access to the storage. Please check the server logs for further information.
-          sp_client_cant_delete_folder: The client is having trouble deleting folders in SharePoint. Please check the setup documentation for your storage.
-          sp_client_id_missing: The configured OAuth 2 client id is missing for SharePoint. Please check the configuration.
-          sp_client_secret_missing: The configured OAuth 2 client secret is missing for SharePoint. Please check the configuration.
-          sp_client_write_permission_missing: The client seems to have write permissions missing in SharePoint. Please check the setup documentation for your storage.
-          sp_existing_test_folder: The folder %{folder_name} needed for testing already exists in SharePoint. Please delete it and try again.
-          sp_oauth_request_error: The user-bound request to SharePoint failed. Please check the server logs for further information.
-          sp_oauth_request_unauthorized: The current user isn't authorized to access the remote file storage. Please check the server logs for further information.
-          sp_oauth_token_missing: OpenProject cannot test the user level communication with SharePoint as the user did not yet link their SharePoint account.
-          sp_tenant_id_missing: The configured directory (tenant) id is missing for SharePoint. Please check the configuration.
-          sp_unexpected_content: Unexpected content found in the SharePoint Document Library.
-          unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
+          client_id_invalid: Det konfigurerade OAuth 2-klient-ID:t är ogiltigt. Kontrollera konfigurationen.
+          client_secret_invalid: Den konfigurerade OAuth 2-klienthemligheten är ogiltig. Kontrollera konfigurationen.
+          nc_dependency_missing: 'Ett obligatoriskt beroende saknas i fillagringen. Lägg till följande beroende: %{dependency}.'
+          nc_dependency_version_mismatch: Versionen av programmet %{dependency} stöds inte. Uppdatera din Nextcloud-server.
+          nc_host_not_found: Ingen Nextcloud-server hittades på den konfigurerade värd-URL:en. Kontrollera konfigurationen.
+          nc_oauth_request_not_found: Slutpunkten för att hämta den för närvarande anslutna användaren hittades inte. Mer information finns i serverloggarna.
+          nc_oauth_request_unauthorized: Den aktuella användaren har inte behörighet att komma åt fjärrfillagringen. Mer information finns i serverloggarna.
+          nc_oauth_token_missing: OpenProject kan inte testa kommunikationen på användarnivå med Nextcloud eftersom användaren ännu inte har länkat sitt Nextcloud-konto.
+          nc_project_folder_missing: Den tidigare skapade projektmappen för projektet "%{project}" hittades inte.
+          nc_team_folder_not_found: Teammappen hittades inte.
+          nc_unexpected_files: 'Oväntade filer hittades i den hanterade teammappen. Exempel: %{sample}'
+          nc_unlinked_project_folders: Alla projektmappar har ännu inte skapats (%{actual} / %{expected}). Detta kan tyda på fel under AMPF-synkroniseringen i bakgrunden.
+          nc_userless_access_denied: Det konfigurerade programlösenordet är ogiltigt.
+          not_configured: Anslutningen kunde inte valideras. Slutför konfigurationen först.
+          od_client_cant_delete_folder: Klienten har problem med att ta bort mappar. Kontrollera installationsdokumentationen för lagringen.
+          od_client_write_permission_missing: Klienten verkar sakna skrivbehörighet. Kontrollera installationsdokumentationen för lagringen.
+          od_drive_id_invalid: Det konfigurerade enhets-ID:t verkar vara ogiltigt. Kontrollera konfigurationen.
+          od_drive_id_not_found: Det konfigurerade enhets-ID:t hittades inte. Kontrollera konfigurationen.
+          od_oauth_request_not_found: Slutpunkten för att hämta den för närvarande anslutna användaren hittades inte. Mer information finns i serverloggarna.
+          od_oauth_request_unauthorized: Den aktuella användaren har inte behörighet att komma åt fjärrfillagringen. Mer information finns i serverloggarna.
+          od_oauth_token_missing: OpenProject kan inte testa kommunikationen på användarnivå med OneDrive eftersom användaren ännu inte har länkat sitt Microsoft-konto.
+          od_tenant_id_wrong: Det konfigurerade katalog-ID:t (klientorganisation) är ogiltigt. Kontrollera konfigurationen.
+          od_test_folder_exists: Mappen %{folder_name} som behövs för testning finns redan. Ta bort den och försök igen.
+          od_unexpected_content: Oväntat innehåll hittades på enheten.
+          offline_access_scope_missing: Det rekommenderas att konfigurera OpenID Connect-leverantören så att den begär scopet offline_access. Integrationen kan ändå fungera, men se till att uppdateringstoken inte löper ut.
+          oidc_cant_refresh_token: Ett fel inträffade när din åtkomst till lagringen skulle kontrolleras. Mer information finns i serverloggarna.
+          oidc_non_oidc_user: Den aktuella användaren är provisionerad men provisionerades inte av en OpenID Connect-identitetsleverantör (OIDC). Kör kontrollen igen med en OIDC-provisionerad användare.
+          oidc_non_provisioned_user: Den aktuella användaren tillhandahålls inte av en OpenID Connect-identitetsleverantör. Kör kontrollen igen med en sådan användare.
+          oidc_provider_cant_exchange: OpenID Connect-leverantören verkar inte stödja tokenutbyte, men tokenutbyte har konfigurerats för lagringen.
+          oidc_token_acquisition_failed: Din OpenID Connect-konfiguration tillhandahåller inte den nödvändiga målgruppen och saknar även stöd för tokenutbyte. Mer information finns i vår dokumentation.
+          oidc_token_exchange_failed: Det verkar finnas ett problem med konfigurationen av tokenutbyte hos din OpenID Connect-leverantör. Kontrollera konfigurationen och försök igen.
+          oidc_token_refresh_failed: Ett fel inträffade när din åtkomst till lagringen skulle kontrolleras. Mer information finns i serverloggarna.
+          sp_client_cant_delete_folder: Klienten har problem med att ta bort mappar i SharePoint. Kontrollera installationsdokumentationen för lagringen.
+          sp_client_id_missing: Det konfigurerade OAuth 2-klient-ID:t för SharePoint saknas. Kontrollera konfigurationen.
+          sp_client_secret_missing: Den konfigurerade OAuth 2-klienthemligheten för SharePoint saknas. Kontrollera konfigurationen.
+          sp_client_write_permission_missing: Klienten verkar sakna skrivbehörighet i SharePoint. Kontrollera installationsdokumentationen för lagringen.
+          sp_existing_test_folder: Mappen %{folder_name} som behövs för testning finns redan i SharePoint. Ta bort den och försök igen.
+          sp_oauth_request_error: Den användarbundna begäran till SharePoint misslyckades. Mer information finns i serverloggarna.
+          sp_oauth_request_unauthorized: Den aktuella användaren har inte behörighet att komma åt fjärrfillagringen. Mer information finns i serverloggarna.
+          sp_oauth_token_missing: OpenProject kan inte testa kommunikationen på användarnivå med SharePoint eftersom användaren ännu inte har länkat sitt SharePoint-konto.
+          sp_tenant_id_missing: Det konfigurerade katalog-ID:t (klientorganisation) för SharePoint saknas. Kontrollera konfigurationen.
+          sp_unexpected_content: Oväntat innehåll hittades i SharePoint-dokumentbiblioteket.
+          unknown_error: Anslutningen kunde inte valideras. Ett okänt fel inträffade. Mer information finns i serverloggarna.
       label_error: Fel
       label_healthy: Friska
       label_pending: Väntande
@@ -395,7 +395,7 @@ sv:
       project_folders:
         subtitle: Automatiskt hanterade projektmappar
       since: sedan %{datetime}
-      synced: 'Last sync: %{datetime}'
+      synced: 'Senaste synkronisering: %{datetime}'
       title: Rapport om hälsostatus
     health_email_notifications:
       description_disabled: Administratörer kommer inte att få uppdateringar via e-post när det finns viktiga uppdateringar.
@@ -414,7 +414,7 @@ sv:
       host: Lägg till värdadressen för din lagring inklusive https://. Den får inte vara längre än 255 tecken.
       managed_project_folders_application_password_caption: 'Aktivera automatiska hanterade mappar genom att kopiera detta värde från: %{provider_type_link}.'
       name: Ge ditt lagringsutrymme ett namn så att användarna kan skilja mellan flera lagringsutrymmen.
-      new_storage_html: Read our documentation on [setting up a %{provider_name} file storage](docs_url) integration for more information.
+      new_storage_html: Läs vår dokumentation om [konfiguration av %{provider_name}-fillagring](docs_url) för mer information.
       nextcloud:
         application_link_text: applikationen ”Integration OpenProject”
         integration: Nextcloud Administration / OpenProject
@@ -426,160 +426,160 @@ sv:
       no_specific_folder: Som standard kommer varje användare att börja i sin egen hemmapp när de laddar upp en fil.
       no_storage_set_up: Det finns inga fillagringar konfigurerade ännu.
       not_logged_into_storage: För att välja en projektmapp, vänligen logga in först
-      oauth_application_details_html: The client secret value will not be accessible again after you close this window. Please copy these values into the [Nextcloud OpenProject Integration settings](oauth_application_details_link).
+      oauth_application_details_html: Värdet för klienthemligheten kommer inte att vara tillgängligt igen när du stänger det här fönstret. Kopiera dessa värden till [inställningarna för Nextcloud OpenProject Integration](oauth_application_details_link).
       one_drive:
         application_link_text: Azure portal
         copy_redirect_uri: Kopiera URI för omdirigering
         documentation_link_text: Dokumentation för OneDrive-filer
         drive_id: Kopiera ID från önskad enhet genom att följa stegen i %{drive_id_link_text}.
         integration: OneDrive
-        missing_client_id_for_redirect_uri: Please fill the OAuth values to generate a URI
-        oauth_client_redirect_uri: Please copy this value to a new Web redirect URI under Redirect URIs.
+        missing_client_id_for_redirect_uri: Fyll i OAuth-värdena för att generera en URI
+        oauth_client_redirect_uri: Kopiera detta värde till en ny webbomdirigerings-URI under Omdirigerings-URI:er.
         oauth_client_secret: Om det inte finns någon applikationsklient hemlig under Klientuppgifter, vänligen skapa en ny.
         oauth_configuration: Kopiera dessa värden från önskad applikation i %{application_link_text}.
         provider_configuration: Kontrollera att du har administratörsrättigheter i %{application_link_text} eller kontakta din Microsoft-administratör innan du gör inställningen. I portalen behöver du också registrera en Azure-applikation eller använda en befintlig för autentisering.
         tenant_id: Vänligen kopiera Katalog (hyresgäst) ID från önskad applikation och appregistrering i %{application_link_text}.
-        tenant_id_placeholder: Name or UUID
-      setting_up_additional_storages: For setting up additional file storages, please visit
-      setting_up_additional_storages_non_admin: Administrators can set up additional file storages in Administration / File storages.
-      setting_up_storages: For setting up file storages, please visit
-      setting_up_storages_non_admin: Administrators can set up file storages in Administration / File storages.
+        tenant_id_placeholder: Namn eller UUID
+      setting_up_additional_storages: För att konfigurera ytterligare fillagringar, gå till
+      setting_up_additional_storages_non_admin: Administratörer kan konfigurera ytterligare fillagringar under Administration / Fillagring.
+      setting_up_storages: För att konfigurera fillagring, gå till
+      setting_up_storages_non_admin: Administratörer kan konfigurera fillagring under Administration / Fillagring.
       sharepoint:
-        application_link_text: SharePoint site
-        integration: SharePoint Administration / OpenProject
-        oauth_configuration: Copy these values from the desired application in the %{application_link_text}.
-        provider_configuration: Please make sure you have administration privileges in the %{application_link_text} or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
-      type: 'Please make sure you have administration privileges in your Nextcloud instance and have the following application installed before doing the setup:'
-      type_link_text: "“Integration OpenProject”"
+        application_link_text: SharePoint-webbplats
+        integration: SharePoint-administration / OpenProject
+        oauth_configuration: Kopiera dessa värden från önskad applikation i %{application_link_text}.
+        provider_configuration: Kontrollera att du har administratörsrättigheter i %{application_link_text} eller kontakta din Microsoft-administratör innan du gör inställningen. I portalen behöver du också registrera en Azure-applikation eller använda en befintlig för autentisering.
+      type: 'Se till att du har administratörsbehörighet i din Nextcloud-instans och att följande program är installerat innan du påbörjar konfigurationen:'
+      type_link_text: "”Integration OpenProject”"
     label_active: Aktiv
     label_add_new_storage: Lägg till ny lagring
-    label_automatic_folder: New folder with automatically managed permissions
-    label_creation_time: Creation time
+    label_automatic_folder: Ny mapp med automatiskt hanterade behörigheter
+    label_creation_time: Skapandetid
     label_creator: Skapare
     label_delete_storage: Ta bort lagring
-    label_edit_storage_access_management: Edit storage access management
-    label_edit_storage_automatically_managed_folders: Edit storage automatically managed folders
+    label_edit_storage_access_management: Redigera åtkomsthantering för lagring
+    label_edit_storage_automatically_managed_folders: Redigera automatiskt hanterade mappar för lagring
     label_edit_storage_host: Redigera lagringsvärd
-    label_edit_token_exchange: Edit token exchange configuration
-    label_existing_manual_folder: Existing folder with manually managed permissions
-    label_file_storage: File storage
+    label_edit_token_exchange: Redigera konfiguration för tokenutbyte
+    label_existing_manual_folder: Befintlig mapp med manuellt hanterade behörigheter
+    label_file_storage: Fillagring
     label_host: Värd-URL
     label_inactive: Inaktiv
     label_managed_project_folders:
-      application_password: Application password
-      automatically_managed_folders: Automatically managed folders
+      application_password: Applikationens lösenord
+      automatically_managed_folders: Automatiskt hanterade mappar
     label_name: Namn
-    label_new_file_storage: New %{provider} storage
+    label_new_file_storage: Ny %{provider}-lagring
     label_new_storage: Ny lagring
     label_no_selected_folder: Ingen vald mapp
     label_no_specific_folder: Ingen specifik mapp
-    label_oauth_client_id: OAuth Client ID
-    label_openproject_oauth_application_id: OpenProject OAuth Client ID
-    label_openproject_oauth_application_secret: OpenProject OAuth Client Secret
+    label_oauth_client_id: OAuth-klient-ID
+    label_openproject_oauth_application_id: OpenProject OAuth-klient-ID
+    label_openproject_oauth_application_secret: OpenProject OAuth-klienthemlighet
     label_project_folder: Projektmapp
-    label_provider: Provider
+    label_provider: Leverantör
     label_redirect_uri: Omdirigerings-URI
-    label_show_storage_redirect_uri: Show redirect URI
+    label_show_storage_redirect_uri: Visa omdirigerings-URI
     label_status: Status
     label_storage: Lagring
     label_uri: URI
     member_connection_status:
       connected: Ansluten
-      connected_no_permissions: User role has no storages permissions
+      connected_no_permissions: Användarrollen har inga lagringsbehörigheter
       not_connectable: Ej anslutbar. Lagringen kräver inloggning via en SSO-leverantör, men användaren loggar inte in via SSO.
-      not_connected: Not connected. The user should login to the storage via the following %{link}.
-      not_connected_sso: Not yet connected, SSO should automatically connect them, once looking at files.
-    members_no_results: No members to display.
-    no_results: No storages set up yet.
+      not_connected: Inte ansluten. Användaren bör logga in på lagringen via följande %{link}.
+      not_connected_sso: Ännu inte ansluten. SSO bör ansluta användaren automatiskt när filer visas.
+    members_no_results: Inga medlemmar att visa.
+    no_results: Inga lagringar har konfigurerats ännu.
     oauth_access_granted_modal:
-      access_granted: Access granted
+      access_granted: Åtkomst beviljad
       project_settings:
-        access_granted_screen_reader: Access granted. You are now ready to use %{storage}
-        storage_ready: You are now ready to use %{storage}
+        access_granted_screen_reader: Åtkomst beviljad. Du kan nu använda %{storage}
+        storage_ready: Du kan nu använda %{storage}
       storage_admin:
-        access_granted_screen_reader: Access granted. You are now ready to add projects to %{storage}
-        storage_ready: You are now ready to add projects to %{storage}
+        access_granted_screen_reader: Åtkomst beviljad. Du kan nu lägga till projekt i %{storage}
+        storage_ready: Du kan nu lägga till projekt i %{storage}
     oauth_grant_nudge_modal:
       cancel_button_label: Jag gör det senare
-      heading: Login to %{provider_type} required
-      login_button_aria_label: Login to %{storage}
-      login_button_label: "%{provider_type} log in"
+      heading: Inloggning till %{provider_type} krävs
+      login_button_aria_label: Logga in på %{storage}
+      login_button_label: "%{provider_type}-inloggning"
       project_settings:
-        description: To get access to the project folder you need to login to %{storage}.
-      requesting_access_to: Requesting access to %{storage}
+        description: För att få åtkomst till projektmappen måste du logga in på %{storage}.
+      requesting_access_to: Begär åtkomst till %{storage}
       storage_admin:
-        description: In order to add projects to this storage you need to be logged into %{provider_type}. Please, log in and try again.
+        description: För att lägga till projekt i den här lagringen måste du vara inloggad på %{provider_type}. Logga in och försök igen.
     open_project_storage_modal:
       success:
-        subtitle: You are being redirected
-        title: Integration setup completed
+        subtitle: Du omdirigeras
+        title: Integrationskonfigurationen är slutförd
       timeout:
-        link_text: health status of the file storage setup
+        link_text: hälsostatus för fillagringskonfigurationen
         subtitle: OpenProject kunde inte ge dig tillgång till projektmappen inom den förväntade tidsperioden. Försök igen.<br><br> Om problemet kvarstår, kontakta din OpenProject administratör för att kontrollera %{storages_health_link}.
       waiting:
-        subtitle: One moment please, this might take some time...
-        title: We are setting up your permissions on the project folder.
+        subtitle: Ett ögonblick, det här kan ta en stund...
+        title: Vi konfigurerar dina behörigheter för projektmappen.
     page_titles:
       file_storages:
-        delete: Delete file storage?
-        subtitle: Add an external file storage in order to upload, link and manage files in work packages.
+        delete: Ta bort fillagring?
+        subtitle: Lägg till en extern fillagring för att ladda upp, länka och hantera filer i arbetspaket.
       managed_project_folders:
         subtitle: |-
-          Let OpenProject create folders per project automatically. This is recommended as it ensures that every team
-          member always has the correct access permissions.
-        subtitle_short: Let OpenProject create folders per project automatically.
-        title: Automatically managed project folders
+          Låt OpenProject skapa mappar automatiskt för varje projekt. Detta rekommenderas eftersom det säkerställer att varje team-
+          medlem alltid har rätt åtkomstbehörigheter.
+        subtitle_short: Låt OpenProject skapa mappar automatiskt för varje projekt.
+        title: Automatiskt hanterade projektmappar
       project_settings:
-        edit: Edit the file storage to this project
-        members_connection_status: Members connection status
-        new: Add a file storage to this project
+        edit: Redigera fillagringen för det här projektet
+        members_connection_status: Medlemmarnas anslutningsstatus
+        new: Lägg till en fillagring i det här projektet
       project_storage_members:
-        subtitle_html: Check the connection status for the storage %{storage_name_link} of all project members.
-        title: Members connection status
+        subtitle_html: Kontrollera anslutningsstatusen för lagringen %{storage_name_link} för alla projektmedlemmar.
+        title: Medlemmarnas anslutningsstatus
       project_storages:
-        delete: Remove file storage from project?
+        delete: Ta bort fillagring från projektet?
     permission_header_explanation: Filrättigheter på externa lagringsplatser tillämpas endast på mappar och filer inom automatiskt hanterade projektmappar. Observera att inte alla filrättigheter stöds av alla lagringsleverantörer. Kontrollera dokumentationen för <a target='_blank' href='https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#file-storages-permissions'>fillagringsrättigheter</a> för mer information.
     provider_types:
-      label: Provider type
+      label: Typ av leverantör
       nextcloud:
-        label_oauth_client_id: Nextcloud OAuth Client ID
-        label_oauth_client_secret: Nextcloud OAuth Client Secret
+        label_oauth_client_id: Nextcloud OAuth-klient-ID
+        label_oauth_client_secret: Nextcloud OAuth-klienthemlighet
         name: Nextcloud
         name_placeholder: t. ex. Nextcloud
       one_drive:
-        label_oauth_client_id: Azure OAuth Application (client) ID
-        label_oauth_client_secret: Azure OAuth Client Secret Value
+        label_oauth_client_id: Azure OAuth-program-ID (klient)
+        label_oauth_client_secret: Värde för Azure OAuth-klienthemlighet
         name: OneDrive
         name_placeholder: t. ex. OneDrive
       sharepoint:
-        drive_description: OpenProject access-managed document library
-        label_oauth_client_id: Azure OAuth Application (client) ID
-        label_oauth_client_secret: Azure OAuth Client Secret Value
+        drive_description: Dokumentbibliotek med OpenProject-hanterad åtkomst
+        label_oauth_client_id: Azure OAuth-program-ID (klient)
+        label_oauth_client_secret: Värde för Azure OAuth-klienthemlighet
         name: SharePoint
         name_placeholder: t.ex. SharePoint
     show_attachments_toggle:
-      description: Deactivating this option will hide the attachments list on the work packages files tab. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
-      label: Show attachments in the work packages files tab
+      description: Om du inaktiverar detta alternativ döljs listan över bilagor på arbetspaketens filflik. Filer som bifogas i beskrivningen av ett arbetspaket laddas fortfarande upp till den interna bilagelagringen.
+      label: Visa bilagor på arbetspaketens filflik
     storage_audience:
-      documentation_intro: Please read our documentation for details on the following options and configuration of the identity provider.
+      documentation_intro: Läs vår dokumentation för detaljer om följande alternativ och konfigurationen av identitetsleverantören.
       idp:
-        helptext: OpenProject will use the access token received by the identity provider during log in to authenticate requests to the storage. It will not try to obtain another token.
-        label: Use access token obtained during user log in
+        helptext: OpenProject använder den åtkomsttoken som tas emot från identitetsleverantören vid inloggning för att autentisera begäranden till lagringen. Programmet försöker inte hämta någon annan token.
+        label: Använd åtkomsttoken som erhålls vid användarinloggning
       manual:
-        helptext: OpenProject will exchange a token with the identity provider for the given audience.
+        helptext: OpenProject byter ut en token med identitetsleverantören för den angivna målgruppen.
         label: Ange manuellt målgrupp för vilken åtkomsttoken ska bytas (rekommenderas)
     storage_list_blank_slate:
-      description: Add a storage to see them here.
-      heading: You don't have any storages yet.
+      description: Lägg till en lagring för att se dem här.
+      heading: Du har inga lagringar ännu.
     successful_storage_connection: Lagring ansluten framgångsrikt! Kom ihåg att aktivera lagring i fliken Projekt för varje önskat projekt för att använda den.
     upsell:
       one_drive:
         description: |-
-          Integrate your OneDrive drive as a file storage with OpenProject. Upload files and link them directly to
-          work packages in a project.
-        title: OneDrive integration
+          Integrera din OneDrive-enhet som fillagring med OpenProject. Ladda upp filer och länka dem direkt till
+          arbetspaket i ett projekt.
+        title: OneDrive-integration
       sharepoint:
         description: |-
-          Integrate your SharePoint site as a file storage with OpenProject. Upload files and link them directly to
-          work packages in a project.
-        title: SharePoint integration
+          Integrera din SharePoint-webbplats som fillagring med OpenProject. Ladda upp filer och länka dem direkt till
+          arbetspaket i ett projekt.
+        title: SharePoint-integration

@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe WorkPackageTypes::BuildVariantFromProjectService, with_flag: { type_variants: true } do
+RSpec.describe WorkPackageTypes::BuildVariantFromProjectService do
   shared_let(:admin) { create(:admin) }
 
   let(:kept_field) { create(:work_package_custom_field, is_for_all: false) }
@@ -79,6 +79,14 @@ RSpec.describe WorkPackageTypes::BuildVariantFromProjectService, with_flag: { ty
     # go on configuring, and no other project sees it.
     it "makes the variant the project's own" do
       expect(service_call.result.project).to eq(project)
+    end
+
+    # The narrowing predates the setting, so it is carried over rather than dropped on the floor.
+    it "creates it even when the type disallows project-specific variants" do
+      type.update!(allow_project_variants: false)
+
+      expect { service_call }.to change(TypeVariant, :count).by(1)
+      expect(service_call).to be_success
     end
 
     it "links every aspect to the type's base variant" do

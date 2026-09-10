@@ -33,12 +33,10 @@ module WorkPackageTypes
   class CreationWizardController < ApplicationController
     include AddressesVariant
     include ::WorkPackageTypes::ConfiguredInScope
-    include TypeVariantsFeature
 
     layout "no_menu"
 
     helper_method :adding_variant?
-    before_action :require_type_variants_feature
     before_action :find_type, only: %i[show update]
     before_action :find_variant, only: %i[show update]
     before_action :set_current_step, only: %i[show update]
@@ -46,9 +44,11 @@ module WorkPackageTypes
 
     def show; end
 
-    def new
+    def new # rubocop:disable Metrics/AbcSize
       if params[:type_id]
         @type = ::Type.find(params.expect(:type_id))
+        return render_404 if variant_scope_project && !@type.allow_project_variants?
+
         @variant = @type.variants.new(project: variant_scope_project)
       else
         return render_404 if variant_scope_project # a type itself is created in administration
@@ -224,7 +224,7 @@ module WorkPackageTypes
     end
 
     def details_params
-      params.expect(type: %i[name color_id is_milestone is_in_roadmap])
+      params.expect(type: %i[name color_id is_milestone is_in_roadmap allow_project_variants])
     end
 
     def variant_details_params

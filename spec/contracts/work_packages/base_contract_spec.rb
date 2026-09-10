@@ -1793,12 +1793,6 @@ RSpec.describe WorkPackages::BaseContract do
 
         expect(contract.assignable_statuses.pluck(:id)).to include(target_status.id)
       end
-
-      # The feature flag opens the admin surface; it never changes what a link resolves to.
-      it "resolves the link the same with the variants feature disabled",
-         with_flag: { type_variants: false } do
-        expect(contract.assignable_statuses.pluck(:id)).to include(target_status.id)
-      end
     end
   end
 
@@ -1882,8 +1876,7 @@ RSpec.describe WorkPackages::BaseContract do
   # The work package stores the family's type, so the subject pattern in force is the one the
   # project's variant resolves to. Following the stored type alone would answer with the base
   # pattern and silently ignore a variant owning its defaults.
-  describe "subject patterns when the project resolves the type to a variant",
-           with_flag: { type_variants: true } do
+  describe "subject patterns when the project resolves the type to a variant" do
     shared_let(:family_root) { create(:type, name: "Family root") }
     shared_let(:variant) do
       create(:type_variant, type: family_root, variant_name: "Variant").tap do |named|
@@ -1931,8 +1924,7 @@ RSpec.describe WorkPackages::BaseContract do
 
   # #new_statuses_by_workflow reads the workflows of the type in force, which is the variant the
   # project resolves the stored type to.
-  describe "#assignable_statuses when the project resolves the type to a variant",
-           with_flag: { type_variants: true } do
+  describe "#assignable_statuses when the project resolves the type to a variant" do
     shared_let(:family_root) { create(:type, name: "Family root") }
     shared_let(:variant) { create(:type_variant, type: family_root, variant_name: "Variant") }
     shared_let(:current_status) { create(:status, name: "Current") }

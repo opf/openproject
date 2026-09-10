@@ -66,6 +66,8 @@ fi:
 
       '
     login_with_auth_provider: tai kirjaudu sisään jo olemassa olevalle tilille
+    omniauth_direct_login_continue: Continue to sign in
+    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: Kirjaudu sisään aktivoidaksesi tilisi.
     signup_title: Create an account in %{app_title}
     signup_with_external_account: Sign up with an external account
@@ -83,6 +85,21 @@ fi:
         prompt: Prompt
         types: Work package types
         usage_scope: Scope
+      ai/text_transform_run:
+        action: Action
+        cancel_requested: Cancel requested
+        error_message: Error message
+        finished_at: Finished at
+        input: Input
+        status: Status
+        system_prompt: System prompt
+        user: User
+        uuid: UUID
+      ai/text_transform_run_event:
+        kind: Kind
+        payload: Payload
+        run: Run
+        seq: Sequence number
       announcements:
         show_until: Näytä tähän päivään asti
       attachment:
@@ -125,7 +142,9 @@ fi:
         is_for_all: Kaikille projekteille
         is_required: Pakollinen tieto
         max_length: Enimmäispituus
+        max_value: Maximum value
         min_length: Vähimmäispituus
+        min_value: Minimum value
         multi_value: Salli usean kohteen valinta
         possible_values: Mahdolliset arvot
         regexp: Säännöllinen lauseke (reg exp)
@@ -353,6 +372,7 @@ fi:
       token/named:
         token_name: Token name
       type:
+        allow_project_variants: Allow project-specific variants
         color: Väri
         is_in_roadmap: Näytä oletuksena tiekartalla
         is_milestone: On virstanpylväs
@@ -361,11 +381,11 @@ fi:
       type/configuration_link:
         source: Source type
       type_variant:
-        attribute_groups: Form configuration
+        attribute_groups: Form
         default_work_package_description: Default text for description
         defaults_source: Defaults source
         enabled_in_new_projects: Active in new projects
-        form_configuration_source: Form configuration source
+        form_configuration_source: Form source
         patterns: Patterns
         pdf_export_source: PDF export source
         project_attributes_source: Project attributes source
@@ -570,6 +590,7 @@ fi:
         regex_list_invalid: Lines %{invalid_lines} could not be parsed as regular expression.
         regex_match_failed: does not match the regular expression %{expression}.
         smaller_than_or_equal_to_max_length: on oltava pienempi tai yhtä suuri kuin suurin sallittu pituus.
+        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: violates the SSRF policy of this OpenProject instance.
         status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
         system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
@@ -845,6 +866,7 @@ fi:
             base:
               borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
               is_default_variant: The default configuration of a type cannot be deleted.
+              project_variants_not_allowed: This type does not allow creation of variants inside projects.
               restrict_dependent_destroy:
                 has_many: Cannot be deleted while projects are still using it.
             defaults_source_id:
@@ -996,6 +1018,12 @@ fi:
       ai/text_transform_action:
         one: Text transform action
         other: Text transform actions
+      ai/text_transform_run:
+        one: Text transform run
+        other: Text transform runs
+      ai/text_transform_run_event:
+        one: Text transform run event
+        other: Text transform run events
       announcement:
         one: Announcement
         other: Announcements
@@ -1372,7 +1400,12 @@ fi:
     banners:
       environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
     custom_styles:
+      color_groups:
+        base_colors: Base colors
+        main_menu: Main lateral menu
+        top_header_colors: Top header colors
       color_theme: Väriteema
+      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
       color_theme_custom: "(Mukautettu)"
       colors:
         accent-color: Accent
@@ -1381,12 +1414,15 @@ fi:
         main-menu-bg-selected-background: Main menu when selected
         primary-button-color: Primary button
       custom_colors: Mukautetut värit
+      edit_color: Edit %{color}
       fonts:
         file_is_invalid: is not a valid TTF font file.
         file_too_large: is too large (maximum size is %{count} MB).
       instructions:
         accent-color: Color for links and other decently highlighted elements.
+        header-bg-color: Default background color of the app header.
         main-menu-bg-color: Left side menu's background color.
+        main-menu-bg-selected-background: Background color of menu items when selected.
         primary-button-color: Strong accent color, used for the most important button on a screen.
       manage_colors: Muokkaa värin valitsemis asetuksia
       tab_branding: Branding
@@ -1875,6 +1911,41 @@ fi:
         page_header:
           description: Choose between classic numerical work package IDs or semantic project-specific ones that prepend the project identifier to the work package ID.
         success_banner: Successfully updated work package identifier format.
+    text_transform_actions:
+      delete_dialog_component:
+        description: Users will no longer be able to run this action in the rich text editor.
+        heading: Are you sure you want to delete the action "%{label}"?
+        title: Delete text transform action
+      form:
+        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
+        label_caption: This is the name that will be visible to users in the editor.
+        select_types: Select types
+        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
+        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
+      index:
+        description: Text transform actions give users LLM-powered actions to write, organise and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
+        label_add_action: Action
+        label_aria_add_action: Add text transform action
+      index_component:
+        blank_slate:
+          description: Add an action to see it here
+          title: No text transform actions configured yet
+        disabled_warning: Text transform actions are disabled. The following actions will not be available anywhere.
+        label_disable_all: Disable all
+        label_enable_all: Enable all
+        title: Actions
+      new:
+        title: New text transform action
+      row_component:
+        label_actions: Action menu
+        label_toggle: Toggle %{label}
+        scope_specific_work_package_types:
+          one: "%{count} work package type"
+          other: "%{count} work package types"
+      usage_scopes:
+        all_work_package_types: All work package types
+        everywhere: Everywhere
+        specific_work_package_types: Specific work package types
     workflows:
       blankslate:
         description: Add statuses to start configuring workflows for this role
@@ -2416,6 +2487,9 @@ fi:
       min_max:
         all: 0 means no restriction
         project: 0 means no restriction
+      min_max_value:
+        all: Leave blank for no restriction
+        project: Leave blank for no restriction
       multi_select:
         all: Allows the user to assign multiple values to this custom field.
         project: Allows the user to assign multiple values to this attribute.
@@ -2762,7 +2836,7 @@ fi:
         more_info: 'Note: the used logo will be publicly accessible.'
         title: Custom color theme and logo
       edit_attribute_groups:
-        description: 'Customize form configuration with these additional add-ons:'
+        description: 'Customize the form with these additional add-ons:'
         features:
           groups: Add new attribute sections
           related: Add a table of related work packages
@@ -3501,7 +3575,6 @@ fi:
   label_float: Liukuluku
   label_folder: Kansio
   label_follows: seuraa
-  label_form_configuration: Lomakkeen muokkaus
   label_formula: Formula
   label_forum_new: Uusi keskustelupalsta
   label_forum_plural: Keskustelupalstat
@@ -3626,7 +3699,6 @@ fi:
   label_message_new: Uusi viesti
   label_message_plural: Viestit
   label_message_posted: Viesti lisätty
-  label_min_max_length: Min - Max pituudet
   label_minute_plural: minuuttia
   label_missing_api_access_key: API avain puuttuu
   label_missing_feeds_access_key: RSS avain puuttuu
@@ -4346,6 +4418,7 @@ fi:
       mail_notification: Sähköposti-ilmoitukset
       mails_and_notifications: Emails and notifications
       mcp_configurations: Model Context Protocol (MCP)
+      text_transform_actions: Text transform actions
     quick_add:
       label: Add…
   more_actions: Enemmän toimintoja
@@ -4531,6 +4604,7 @@ fi:
   notice_account_already_activated: The account has already been activated.
   notice_account_invalid_credentials: Virheellinen käyttäjätunnus tai salasana
   notice_account_invalid_credentials_or_blocked: Virheellinen käyttäjä, salasana tai tili on lukittu virheellisten kirjautumisyritysten seurauksena. Lukitus vapautuu automaattisesti hetken kuluttua.
+  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
   notice_account_invalid_token: Invalid activation token
   notice_account_lost_email_sent: Sinulle on lähetetty sähköposti jossa on ohje kuinka vaihdat salasanasi.
   notice_account_new_password_forced: Uusi salasana on vaaditaan.
@@ -4868,7 +4942,7 @@ fi:
       caption: Work package details rendered as a PMflex Artefact.
       label: PMflex Artefact
     template_attributes:
-      caption: All the attributes present in the current form configuration using the default template.
+      caption: All the attributes present in the current form using the default template.
       label: Attributes and description
     template_contract:
       caption: Work package details formatted to the standard German contract form.
@@ -5286,6 +5360,7 @@ fi:
         use_in_project: Use in this project
         variant_in_use: Variant in this project
         variant_label: Variant
+        variants_not_allowed: This type does not allow creation of variants inside projects.
       versions:
         no_results_content_text: Luo uusi versio
         no_results_title_text: Projektille ei ole versioita.
@@ -5456,6 +5531,12 @@ fi:
   roles:
     edit:
       default_for_new_projects_warning: 'This role is configured as the default role given to non-admin users who create a project. Do not remove the following permissions, otherwise project creators will be unable to complete the setup of their newly created projects:'
+    index:
+      filter_label: Search roles
+      types:
+        all: All roles
+        global: Global roles
+        project: Project roles
     permissions:
       section_check_all_label: Assign all %{module} permissions
       section_uncheck_all_label: Unassign all %{module} permissions
@@ -5480,6 +5561,7 @@ fi:
   setting_after_login_default_redirect_url_example_html: 'Set a default path to redirect users after login, if no back link was provided. Redirects to home page if not set. <br/> Example: %{example_code}
 
     '
+  setting_ai_text_transform_actions_enabled: Enable text transform actions
   setting_allowed_link_protocols: Allowed link protocols
   setting_allowed_link_protocols_text_html: Allow these protocols to be rendered as links in work package descriptions, long text fields and comments. For example, %{tel_code} or %{element_code}. Enter one protocol per line. <br/> Protocols %{http_code}, %{https_code}, and %{mailto_code} are always allowed.
   setting_antivirus_scan_action: Infected file action
@@ -6257,7 +6339,7 @@ fi:
       steps:
         defaults: Defaults
         details: Details
-        form_configuration: Form configuration
+        form_configuration: Form
         pdf: PDF generation
         project_attributes: Project attributes
         projects: Projects
@@ -6287,9 +6369,11 @@ fi:
             work_package: Work package
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
+        allow_project_variants_caption: For project administrators with the permission to manage variants, this type can be extended or modified within a project.
         inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: Details
         type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
+        variant_name_caption_html: This is an internal name only visible to administrators. Variants replace the original parent type, so if this variant is used in a project, it will appear as <b>%{type}</b> to all members.
       export_configuration:
         artefact_export:
           attachment:
@@ -6328,7 +6412,7 @@ fi:
         blankslate_title: No groups yet
         builtin_field: Built-in field
         confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
-        confirm_reset: Are you sure you want to reset the form configuration?
+        confirm_reset: Are you sure you want to reset the form?
         custom_field: Custom field
         delete_group: Delete section
         drag_to_activate: Drag fields from here to activate them
@@ -6343,22 +6427,31 @@ fi:
         group_actions: Section actions
         group_name_label: Section name
         inactive_attributes_heading: Inactive attributes
-        invalid_attribute_groups: The form configuration payload is invalid.
+        invalid_attribute_groups: The form payload is invalid.
         invalid_query: The embedded query configuration is invalid.
         label_group: Section
         no_inactive_attributes: No inactive attributes
-        not_found: The requested form configuration item could not be found.
+        not_found: The requested form item could not be found.
         query_group_label: Related work packages table
         remove_attribute: Remove from section
         rename_group: Rename section
         reset_description: 'This will reset the attributes to their default group and disable ALL custom fields.
 
           '
-        reset_title: Reset form configuration
+        reset_title: Reset form
         reset_to_defaults: Reset form
         row_actions: Row actions
-        tab: Lomakkeen muokkaus
+        tab: Form
         untitled_group: Untitled group
+      overview:
+        configuration_mode: Configuration mode
+        dependents: Dependent types and variants
+        mode:
+          always_manual: Always manual
+          inheriting_from_html: Inheriting from %{source_name}
+          manual: Manually configured
+        settings: Settings
+        tab: Overview
       project_attributes:
         actions:
           label_disable_all: Disable all
@@ -6891,6 +6984,13 @@ fi:
       confirm_deletion: I confirm that the selected work packages and all associated data will be deleted.
       confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
       cross_project_warning_html: 'These work packages span multiple projects: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
+        self_only_label: Delete just the selected work packages
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete the selected work packages and their descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: Are you sure you want to delete the selected work packages and all associated data?
       description_with_all_descendants: Are you sure you want to delete the selected work packages and all of their descendants?
       description_with_descendants: Are you sure you want to delete the selected work packages and all the following descendants?
@@ -6955,6 +7055,13 @@ fi:
       confirm_deletion: I confirm that the work package and all associated data will be deleted.
       confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
       cross_project_warning_html: 'Work packages from the following projects will be deleted: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: This work package has descendants. Do you want to delete them as well?
+        self_only_label: Delete just this work package
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete this work package and descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: Are you sure you want to delete "%{name}"?
       heading: Permanently delete this work package?
       hidden_descendants_only_warning:

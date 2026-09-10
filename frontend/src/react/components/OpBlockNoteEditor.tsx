@@ -38,7 +38,8 @@ import {
   initializeOpBlockNoteExtensions,
   openProjectWorkPackageBlockSpec,
   openProjectWorkPackageInlineSpec,
-  workPackageSlashMenu,
+  getOpenProjectSlashMenuItems,
+  OpenProjectFormattingToolbar,
   useHashWpMenu,
 } from 'op-blocknote-extensions';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
@@ -58,6 +59,7 @@ export interface OpBlockNoteEditorProps {
   openProjectUrl:string;
   attachmentsUploadUrl:string;
   attachmentsCollectionKey:string;
+  projectId:string;
   captureExternalLinks:boolean;
   hocuspocusProvider?:HocuspocusProvider;
   doc:Y.Doc;
@@ -82,6 +84,7 @@ export function OpBlockNoteEditor({
   openProjectUrl,
   attachmentsUploadUrl,
   attachmentsCollectionKey,
+  projectId,
   captureExternalLinks,
   hocuspocusProvider,
   doc,
@@ -90,8 +93,8 @@ export function OpBlockNoteEditor({
   const { enabled: attachmentsEnabled, uploadFile } = useBlockNoteAttachments(attachmentsCollectionKey, attachmentsUploadUrl);
 
   useEffect(() => {
-    initializeOpBlockNoteExtensions({ baseUrl: openProjectUrl, locale: localeString });
-  }, [openProjectUrl, localeString]);
+    initializeOpBlockNoteExtensions({ baseUrl: openProjectUrl, locale: localeString, projectId });
+  }, [openProjectUrl, localeString, projectId]);
 
   const editorParams = useMemo<Partial<BlockNoteEditorOptions<typeof schema.blockSchema, typeof schema.inlineContentSchema, typeof schema.styleSchema>>>(() => {
     return {
@@ -148,7 +151,7 @@ export function OpBlockNoteEditor({
 
   const getCustomSlashMenuItems = useCallback((editorInstance:EditorType) => [
     ...getDefaultReactSlashMenuItems(editorInstance),
-    workPackageSlashMenu(editorInstance),
+    ...getOpenProjectSlashMenuItems(editorInstance),
   ], []);
   const { getHashItems, HashWpMenu } = useHashWpMenu(editor);
 
@@ -157,10 +160,12 @@ export function OpBlockNoteEditor({
       <BlockNoteView
         editor={editor}
         slashMenu={false}
+        formattingToolbar={false}
         theme={theme}
         editable={!readOnly}
         className={'block-note-editor-container'}
       >
+        <OpenProjectFormattingToolbar />
         <SuggestionMenuController
           triggerCharacter="/"
           getItems={async (query:string) => Promise.resolve(filterSuggestionItems(getCustomSlashMenuItems(editor), query))}

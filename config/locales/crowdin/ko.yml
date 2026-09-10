@@ -66,6 +66,8 @@ ko:
 
       '
     login_with_auth_provider: 또는 이미 있는 계정으로 로그인
+    omniauth_direct_login_continue: Continue to sign in
+    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: 계정을 활성화하려면 로그인하시기 바랍니다.
     signup_title: "%{app_title}에서 계정 만들기"
     signup_with_external_account: 외부 계정으로 가입
@@ -83,6 +85,21 @@ ko:
         prompt: 프롬프트
         types: 작업 패키지 유형
         usage_scope: 범위
+      ai/text_transform_run:
+        action: Action
+        cancel_requested: Cancel requested
+        error_message: Error message
+        finished_at: Finished at
+        input: Input
+        status: Status
+        system_prompt: System prompt
+        user: User
+        uuid: UUID
+      ai/text_transform_run_event:
+        kind: Kind
+        payload: Payload
+        run: Run
+        seq: Sequence number
       announcements:
         show_until: 표시 기한
       attachment:
@@ -125,7 +142,9 @@ ko:
         is_for_all: 모든 프로젝트용
         is_required: 필수
         max_length: 최대 길이
+        max_value: Maximum value
         min_length: 최소 길이
+        min_value: Minimum value
         multi_value: 다중 선택 허용
         possible_values: 가능한 값
         regexp: 정규 표현식
@@ -353,6 +372,7 @@ ko:
       token/named:
         token_name: 토큰 이름
       type:
+        allow_project_variants: Allow project-specific variants
         color: 색상
         is_in_roadmap: 기본적으로 로드맵에 표시됨
         is_milestone: 마일스톤
@@ -361,11 +381,11 @@ ko:
       type/configuration_link:
         source: 소스 유형
       type_variant:
-        attribute_groups: 양식 구성
+        attribute_groups: Form
         default_work_package_description: 설명의 기본 텍스트
         defaults_source: 기본값 소스
         enabled_in_new_projects: 새로운 프로젝트에서 활성 상태
-        form_configuration_source: 양식 구성 소스
+        form_configuration_source: Form source
         patterns: 패턴
         pdf_export_source: PDF 내보내기 소스
         project_attributes_source: 프로젝트 특성 소스
@@ -570,6 +590,7 @@ ko:
         regex_list_invalid: "%{invalid_lines} 라인을 정규 표현식으로 구문 분석할 수 없습니다."
         regex_match_failed: "%{expression} 정규 표현식과 일치하지 않습니다."
         smaller_than_or_equal_to_max_length: 은(는) 최대 길이보다 같거나 작아야 합니다.
+        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: "- 이 OpenProject 인스턴스의 SSRF 정책을 위반합니다."
         status_transition_invalid: "- 현재 사용자의 역할에 대해 기존 상태에서 새로운 상태로의 유효한 전환이 없으므로 유효하지 않습니다."
         system_wide_non_working_day_exists: "- 이 날짜의 기존 시스템 전체 휴무일과 충돌합니다."
@@ -844,6 +865,7 @@ ko:
             base:
               borrowed_by_variants: "%{names}에서 해당 구성을 재사용하고 있는 동안에는 삭제할 수 없습니다."
               is_default_variant: 유형의 기본 구성은 삭제할 수 없습니다.
+              project_variants_not_allowed: This type does not allow creation of variants inside projects.
               restrict_dependent_destroy:
                 has_many: 프로젝트에서 계속 사용 중인 동안에는 삭제할 수 없습니다.
             defaults_source_id:
@@ -991,6 +1013,10 @@ ko:
         other: 작업
       ai/text_transform_action:
         other: 텍스트 변환 작업
+      ai/text_transform_run:
+        other: Text transform runs
+      ai/text_transform_run_event:
+        other: Text transform run events
       announcement:
         other: 공지 사항
       anonymous_user:
@@ -1266,7 +1292,12 @@ ko:
     banners:
       environment_configured_readonly: 이러한 값은 환경 변수를 통해 구성되며 여기에서 편집할 수 없습니다.
     custom_styles:
+      color_groups:
+        base_colors: Base colors
+        main_menu: Main lateral menu
+        top_header_colors: Top header colors
       color_theme: 컬러 테마
+      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
       color_theme_custom: "(사용자 지정)"
       colors:
         accent-color: 강조 색
@@ -1275,12 +1306,15 @@ ko:
         main-menu-bg-selected-background: 선택할 때 기본 메뉴
         primary-button-color: 기본 버튼
       custom_colors: 사용자 정의 색상
+      edit_color: Edit %{color}
       fonts:
         file_is_invalid: "- 유효한 TTF 글꼴 파일이 아닙니다."
         file_too_large: "- 너무 큽니다(최대 크기 %{count}MB)."
       instructions:
         accent-color: 링크 및 기타 적절하게 강조 표시된 요소의 색상을 지정하세요.
+        header-bg-color: Default background color of the app header.
         main-menu-bg-color: 왼쪽 메뉴의 배경색입니다.
+        main-menu-bg-selected-background: Background color of menu items when selected.
         primary-button-color: 강한 강조 색은 화면의 가장 중요한 버튼에 사용됩니다.
       manage_colors: 색상 선택 옵션 편집
       tab_branding: 브랜딩
@@ -1758,6 +1792,40 @@ ko:
         page_header:
           description: 클래식 숫자 작업 패키지 ID 또는 작업 패키지 ID 앞에 프로젝트 식별자를 붙이는 프로젝트별 시맨틱 ID 중에서 선택합니다.
         success_banner: 작업 패키지 식별자 형식을 업데이트했습니다.
+    text_transform_actions:
+      delete_dialog_component:
+        description: Users will no longer be able to run this action in the rich text editor.
+        heading: Are you sure you want to delete the action "%{label}"?
+        title: Delete text transform action
+      form:
+        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
+        label_caption: This is the name that will be visible to users in the editor.
+        select_types: Select types
+        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
+        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
+      index:
+        description: Text transform actions give users LLM-powered actions to write, organise and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
+        label_add_action: Action
+        label_aria_add_action: Add text transform action
+      index_component:
+        blank_slate:
+          description: Add an action to see it here
+          title: No text transform actions configured yet
+        disabled_warning: Text transform actions are disabled. The following actions will not be available anywhere.
+        label_disable_all: Disable all
+        label_enable_all: Enable all
+        title: Actions
+      new:
+        title: New text transform action
+      row_component:
+        label_actions: Action menu
+        label_toggle: Toggle %{label}
+        scope_specific_work_package_types:
+          other: "%{count} work package types"
+      usage_scopes:
+        all_work_package_types: All work package types
+        everywhere: Everywhere
+        specific_work_package_types: Specific work package types
     workflows:
       blankslate:
         description: 상태를 추가하여 이 역할에 대한 워크플로 구성을 시작합니다
@@ -2297,6 +2365,9 @@ ko:
       min_max:
         all: 0은 제한이 없음을 의미합니다
         project: 0은 제한이 없음을 의미합니다
+      min_max_value:
+        all: Leave blank for no restriction
+        project: Leave blank for no restriction
       multi_select:
         all: 사용자가 이 사용자 지정 필드에 여러 값을 할당할 수 있도록 허용합니다.
         project: 사용자가 이 특성에 여러 값을 할당할 수 있도록 허용합니다.
@@ -2642,7 +2713,7 @@ ko:
         more_info: '참고: 사용된 로그는 공개적으로 액세스 가능합니다.'
         title: 사용자 지정 색상 테마 및 로고
       edit_attribute_groups:
-        description: 다음과 같은 기타 추가 기능으로 양식 구성을 사용자 지정하세요.
+        description: 'Customize the form with these additional add-ons:'
         features:
           groups: 새로운 특성 섹션 추가
           related: 관련 작업 패키지의 테이블 추가
@@ -3377,7 +3448,6 @@ ko:
   label_float: 부동
   label_folder: 폴더
   label_follows: 팔로우
-  label_form_configuration: 양식 구성
   label_formula: 공식
   label_forum_new: 새 포럼
   label_forum_plural: 포럼
@@ -3502,7 +3572,6 @@ ko:
   label_message_new: 새 메시지
   label_message_plural: 메시지
   label_message_posted: 메시지 추가됨
-  label_min_max_length: 최소 - 최대 길이
   label_minute_plural: minutes
   label_missing_api_access_key: 사라진 API 접근 키
   label_missing_feeds_access_key: 사라진 RSS 접근 키
@@ -4211,6 +4280,7 @@ ko:
       mail_notification: 이메일 알림
       mails_and_notifications: 이메일 및 알림
       mcp_configurations: 모델 컨텍스트 프로토콜(MCP)
+      text_transform_actions: Text transform actions
     quick_add:
       label: 추가…
   more_actions: 추가 기능
@@ -4396,6 +4466,7 @@ ko:
   notice_account_already_activated: 계정이 이미 활성화 되었습니다.
   notice_account_invalid_credentials: 잘못된 사용자 또는 암호
   notice_account_invalid_credentials_or_blocked: 여러 번 실패한 로그인 시도로 인해 잘못된 사용자나 암호 또는 계정이 차단되었습니다. 이러한 경우 짧은 시간 동안 자동으로 차단됩니다.
+  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
   notice_account_invalid_token: 잘못 된 활성화 토큰
   notice_account_lost_email_sent: 새로운 암호를 선택하기 위한 지침이 포함된 이메일이 전송되었습니다.
   notice_account_new_password_forced: 새 암호를 입력해야 합니다.
@@ -4733,7 +4804,7 @@ ko:
       caption: PMflex 아티팩트로 렌더링된 작업 패키지 세부 정보입니다.
       label: PMflex 아티팩트
     template_attributes:
-      caption: 기본 템플릿을 사용하는 현재 양식 구성에 있는 모든 특성입니다.
+      caption: All the attributes present in the current form using the default template.
       label: 특성 및 설명
     template_contract:
       caption: 표준 독일 계약 양식에 맞춰 작성된 작업 패키지 세부 정보입니다.
@@ -5144,6 +5215,7 @@ ko:
         use_in_project: Use in this project
         variant_in_use: Variant in this project
         variant_label: Variant
+        variants_not_allowed: This type does not allow creation of variants inside projects.
       versions:
         no_results_content_text: 새 버전 생성
         no_results_title_text: 프로젝트에 버전이 없습니다.
@@ -5309,6 +5381,12 @@ ko:
   roles:
     edit:
       default_for_new_projects_warning: '이 역할은 프로젝트를 만드는 비관리자 사용자에게 지정된 기본 역할로 구성됩니다. 다음 권한을 제거하지 마세요. 그렇지 않으면 프로젝트 생성자가 새로 생성된 프로젝트의 설정을 완료할 수 없게 됩니다:'
+    index:
+      filter_label: Search roles
+      types:
+        all: All roles
+        global: Global roles
+        project: Project roles
     permissions:
       section_check_all_label: 모든 %{module} 권한 할당
       section_uncheck_all_label: 모든 %{module} 권한 할당 취소
@@ -5333,6 +5411,7 @@ ko:
   setting_after_login_default_redirect_url_example_html: '로그인 후 백링크가 제공되지 않은 경우 사용자를 리디렉션할 기본 경로를 설정합니다. 설정되지 않은 경우 홈 페이지로 리디렉션합니다. <br/> 예제: %{example_code}
 
     '
+  setting_ai_text_transform_actions_enabled: Enable text transform actions
   setting_allowed_link_protocols: 허용된 링크 프로토콜
   setting_allowed_link_protocols_text_html: '이러한 프로토콜이 작업 패키지 설명, 긴 텍스트 필드 및 코멘트에서 링크로 렌더링되도록 허용합니다. 예: %{tel_code} 또는 %{element_code}. 라인별로 하나의 프로토콜을 입력합니다. <br/> %{http_code}, %{https_code} 및 %{mailto_code} 프로토콜은 항상 허용됩니다.'
   setting_antivirus_scan_action: 감염된 파일 작업
@@ -6108,7 +6187,7 @@ ko:
       steps:
         defaults: 기본값
         details: 세부 정보
-        form_configuration: 양식 구성
+        form_configuration: Form
         pdf: PDF 생성
         project_attributes: 프로젝트 특성
         projects: 프로젝트
@@ -6138,9 +6217,11 @@ ko:
             work_package: 작업 패키지
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
+        allow_project_variants_caption: For project administrators with the permission to manage variants, this type can be extended or modified within a project.
         inherited_from_type_html: 유형 <b>%{type}</b>에서 상속되었습니다.
         tab: 세부 정보
         type_color_text: 선택한 색상은 Gantt 차트 또는 작업 패키지 테이블에서 다양한 유형을 구분합니다. 따라서 진한 색상을 사용하는 것이 좋습니다.
+        variant_name_caption_html: This is an internal name only visible to administrators. Variants replace the original parent type, so if this variant is used in a project, it will appear as <b>%{type}</b> to all members.
       export_configuration:
         artefact_export:
           attachment:
@@ -6179,7 +6260,7 @@ ko:
         blankslate_title: 아직 그룹 없음
         builtin_field: 기본 제공 필드
         confirm_delete_group: 이 섹션을 삭제하시겠습니까? 이 작업은 자동으로 되돌릴 수 없습니다.
-        confirm_reset: 양식 구성을 재설정하시겠습니까?
+        confirm_reset: Are you sure you want to reset the form?
         custom_field: 사용자 지정 필드
         delete_group: 섹션 삭제
         drag_to_activate: 여기에서 필드를 드래그하여 활성화
@@ -6194,22 +6275,31 @@ ko:
         group_actions: 섹션 작업
         group_name_label: 섹션 이름
         inactive_attributes_heading: 비활성 특성
-        invalid_attribute_groups: 양식 구성 페이로드가 유효하지 않습니다.
+        invalid_attribute_groups: The form payload is invalid.
         invalid_query: 포함된 쿼리 구성이 유효하지 않습니다.
         label_group: 섹션
         no_inactive_attributes: 비활성 특성 없음
-        not_found: 요청한 양식 구성 항목을 찾을 수 없습니다.
+        not_found: The requested form item could not be found.
         query_group_label: 관련 작업 패키지 테이블
         remove_attribute: 섹션에서 제거
         rename_group: 섹션 이름 바꾸기
         reset_description: '이렇게 하면 특성이 해당 기본 그룹으로 재설정되고 모든 사용자 지정 필드가 비활성화됩니다.
 
           '
-        reset_title: 양식 구성 재설정
+        reset_title: Reset form
         reset_to_defaults: 양식 재설정
         row_actions: 행 작업
-        tab: 양식 구성
+        tab: Form
         untitled_group: 제목이 없는 그룹
+      overview:
+        configuration_mode: Configuration mode
+        dependents: Dependent types and variants
+        mode:
+          always_manual: Always manual
+          inheriting_from_html: Inheriting from %{source_name}
+          manual: Manually configured
+        settings: Settings
+        tab: Overview
       project_attributes:
         actions:
           label_disable_all: 모두 비활성화
@@ -6736,6 +6826,13 @@ ko:
       confirm_deletion: 선택한 작업 패키지 및 모든 관련 데이터가 삭제될 것임을 확인합니다.
       confirm_descendants_deletion: 위에 나열된 모든 하위 항목도 삭제될 것임을 확인합니다.
       cross_project_warning_html: '다음 작업 패키지는 여러 프로젝트에 걸쳐 있습니다: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
+        self_only_label: Delete just the selected work packages
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete the selected work packages and their descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: 선택한 작업 패키지 및 모든 관련 데이터를 삭제하시겠습니까?
       description_with_all_descendants: 선택한 작업 패키지 및 모든 해당 하위 항목을 삭제하시겠습니까?
       description_with_descendants: 선택한 작업 패키지 및 다음의 모든 하위 항목을 삭제하시겠습니까?
@@ -6796,6 +6893,13 @@ ko:
       confirm_deletion: 작업 패키지 및 모든 관련 데이터가 삭제될 것임을 확인합니다.
       confirm_descendants_deletion: 위에 나열된 모든 하위 항목도 삭제될 것임을 확인합니다.
       cross_project_warning_html: '다음 프로젝트의 작업 패키지가 삭제됩니다: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: This work package has descendants. Do you want to delete them as well?
+        self_only_label: Delete just this work package
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete this work package and descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: '"%{name}"을(를) 삭제하시겠습니까?'
       heading: 이 작업 패키지를 영구적으로 삭제하시겠습니까?
       hidden_descendants_only_warning:

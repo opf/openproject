@@ -45,6 +45,8 @@ RSpec.shared_examples_for "custom_field contract" do
   let(:custom_field_is_required) { true }
   let(:custom_field_max_length) { 0 }
   let(:custom_field_min_length) { 0 }
+  let(:custom_field_max_value) { nil }
+  let(:custom_field_min_value) { nil }
   let(:custom_field_possible_values) { [] }
   let(:custom_field_regexp) { nil }
   let(:custom_field_formula) { nil }

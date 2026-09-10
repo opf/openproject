@@ -47,6 +47,17 @@ module Settings
         format: :string,
         default: nil
       },
+      ai_text_transform_actions_enabled: {
+        description: "Enable AI text transform actions in the rich text editor",
+        default: false
+      },
+      ai_text_transform_run_retention_seconds: {
+        description: "How long AI text transform runs and their events are kept before a cron job removes them. " \
+                     "Applies to finished runs from their finish time and to unfinished runs from their creation time.",
+        format: :integer,
+        writable: false,
+        default: 1.hour
+      },
       allowed_link_protocols: {
         format: :array,
         description: "Allowed protocols for links in the WYSIWYG editor and formatted texts",
@@ -209,7 +220,7 @@ module Settings
       },
       backup_attachment_size_max_sum_mb: {
         description: "Maximum limit of attachment size to include into application backups",
-        default: 1024
+        default: 4096
       },
       blacklisted_routes: {
         description: "Blocked routes to prevent access to certain modules or pages",

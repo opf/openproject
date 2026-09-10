@@ -29,6 +29,7 @@
 require "spec_helper"
 
 RSpec.describe "rendering the login buttons for all providers" do
+  helper OmniauthHelper
   let(:providers) do
     [
       { name: "mock_auth" },
@@ -49,6 +50,10 @@ RSpec.describe "rendering the login buttons for all providers" do
 
   it "shows the test_auth button with the given display_name as its label" do
     expect(rendered).to match /#{providers[1][:display_name]}/
+  end
+
+  it "posts to the OmniAuth request phase" do
+    expect(rendered).to have_css("form.button_to[action='/auth/mock_auth'][method='post']")
   end
 
   context "with relative url root", with_config: { rails_relative_url_root: "/foobar" } do

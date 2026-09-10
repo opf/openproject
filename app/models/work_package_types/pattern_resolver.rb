@@ -50,11 +50,11 @@ module WorkPackageTypes
     private
 
     def get_value(work_package, pattern_token)
-      context = pattern_token.context == :work_package ? work_package : work_package.public_send(pattern_token.context)
-      return ATTRIBUTE_PLACEHOLDER if context.nil?
-
       attribute_token = @tokens.detect { |t| t.key == pattern_token.key }
       return ATTRIBUTE_PLACEHOLDER if attribute_token.nil?
+
+      context = attribute_token.context == :work_package ? work_package : work_package.public_send(attribute_token.context)
+      return ATTRIBUTE_PLACEHOLDER if context.nil?
 
       I18n.with_locale(Setting.default_language) do
         stringify(attribute_token.call(context), nil_replacement(attribute_token))

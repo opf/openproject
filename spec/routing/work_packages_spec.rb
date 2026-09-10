@@ -70,20 +70,39 @@ RSpec.describe WorkPackagesController do
                    tab: "overview")
   end
 
-  it "connects GET /work_packages/details/:state to work_packages#index" do
+  it "connects GET /work_packages/details/:work_package_id/:tab to work_packages#split_view" do
     expect(get("/work_packages/details/5/overview"))
       .to route_to(controller: "work_packages",
-                   action: "index",
-                   state: "5/overview")
+                   action: "split_view",
+                   work_package_id: "5",
+                   tab: "overview",
+                   work_package_split_view: true)
   end
 
-  it "connects GET /projects/:project_id/work_packages/details/:id/:state " \
-     "to work_packages#index" do
+  it "connects GET /projects/:project_id/work_packages/details/:work_package_id/:tab " \
+     "to work_packages#split_view" do
     expect(get("/projects/1/work_packages/details/2/overview"))
       .to route_to(controller: "work_packages",
-                   action: "index",
+                   action: "split_view",
                    project_id: "1",
-                   state: "details/2/overview")
+                   work_package_id: "2",
+                   tab: "overview",
+                   work_package_split_view: true)
+  end
+
+  it "connects GET /work_packages/create_new to work_packages#split_create" do
+    expect(get("/work_packages/create_new"))
+      .to route_to(controller: "work_packages",
+                   action: "split_create",
+                   work_package_split_create: true)
+  end
+
+  it "connects GET /projects/:project_id/work_packages/create_new to work_packages#split_create" do
+    expect(get("/projects/1/work_packages/create_new"))
+      .to route_to(controller: "work_packages",
+                   action: "split_create",
+                   project_id: "1",
+                   work_package_split_create: true)
   end
 
   it "connects GET /work_packages/:id to work_packages#show" do

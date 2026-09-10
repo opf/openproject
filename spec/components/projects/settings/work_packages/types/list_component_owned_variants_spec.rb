@@ -32,8 +32,7 @@ require "rails_helper"
 
 RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
                "the variants a project owns",
-               type: :component,
-               with_flag: { type_variants: true } do
+               type: :component do
   include Rails.application.routes.url_helpers
 
   shared_let(:bug) { create(:type, name: "Bug").tap { |type| type.update_column(:position, 1) } }
@@ -105,7 +104,7 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
     it "links the name of the variant it owns" do
       expect(page).to have_link(
         "Internal review",
-        href: edit_type_details_path(in_project_id: project, type_id: bug.id, variant_id: ours.id)
+        href: type_settings_path(in_project_id: project, type_id: bug.id, variant_id: ours.id)
       )
     end
 
@@ -121,7 +120,7 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
     it "offers to configure the one it owns" do
       expect(page).to have_link(
         "Edit",
-        href: edit_type_details_path(in_project_id: project, type_id: bug.id, variant_id: ours.id)
+        href: type_settings_path(in_project_id: project, type_id: bug.id, variant_id: ours.id)
       )
     end
 
@@ -173,7 +172,7 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
     it "offers no action on a global variant" do
       expect(page).to have_no_link(
         "Edit",
-        href: edit_type_details_path(in_project_id: project, type_id: bug.id, variant_id: global.id)
+        href: type_settings_path(in_project_id: project, type_id: bug.id, variant_id: global.id)
       )
     end
   end
@@ -421,6 +420,42 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
 
     it "renders no action menu on a row it can do nothing with" do
       expect(row(ours)).to have_no_css("action-menu")
+    end
+  end
+
+  context "when the type does not allow project-specific variants" do
+    current_user do
+      create(:user, member_with_permissions: { project => %i[view_project manage_project_variants] })
+    end
+
+    before do
+      bug.update!(allow_project_variants: false)
+      render_inline(component)
+    end
+
+    it "shows the way to add one, without offering it" do
+      expect(page).to have_css("button[aria-disabled='true']", text: "Add a project-specific variant")
+      expect(page).to have_no_link("Add a project-specific variant")
+    end
+
+    it "says why it cannot be used" do
+      expect(page).to have_css(
+        "tool-tip[for='add-project-variant-#{bug.id}']",
+        text: "This type does not allow creation of variants inside projects",
+        visible: :all
+      )
+    end
+
+    it "says it on the entry in the type's menu too" do
+      expect(header_of(bug.default_variant)).to have_css(
+        "tool-tip",
+        text: "This type does not allow creation of variants inside projects",
+        visible: :all
+      )
+    end
+
+    it "keeps the variants the project already owns" do
+      expect(page).to have_text("Internal review")
     end
   end
 end

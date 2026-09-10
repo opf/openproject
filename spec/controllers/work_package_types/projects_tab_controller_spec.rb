@@ -152,7 +152,7 @@ because it's still in use by work packages)
 
       # A ticked project is one applying the variant the tab addresses, so where the project
       # stands on the type decides which service runs for it.
-      context "on a named variant's tab", with_flag: { type_variants: true } do
+      context "on a named variant's tab" do
         let(:variant) { create(:type_variant, type:, variant_name: "Hardware") }
         let(:params) do
           {
@@ -283,7 +283,7 @@ because it's still in use by work packages)
         expect(response.body).to include(I18n.t("types.edit.projects.add_dialog.no_projects_selected"))
       end
 
-      context "when a project already applies another variant", with_flag: { type_variants: true } do
+      context "when a project already applies another variant" do
         let(:variant) { create(:type_variant, type:, variant_name: "Hardware") }
         let(:other_variant) { create(:type_variant, type:, variant_name: "Firmware") }
 
@@ -332,7 +332,7 @@ because it's still in use by work packages)
       end
     end
 
-    describe "the switch flow", with_flag: { type_variants: true } do
+    describe "the switch flow" do
       let(:variant) { create(:type_variant, type:, variant_name: "Hardware") }
       let(:target) { create(:type_variant, type:, variant_name: "Firmware") }
 

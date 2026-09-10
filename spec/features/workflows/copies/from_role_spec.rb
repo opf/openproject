@@ -39,16 +39,8 @@ RSpec.describe "Workflow copy from role", :js do
 
   current_user { admin }
 
-  shared_examples "a copy-to-other-roles dialog" do |with_source_role:, host:|
-    it "permits to select a source role and target roles" do
-      # TODO: Remove with type_variants feature flag
-      unless with_source_role
-        choose "Copy to other roles"
-
-        expect(page).to have_select("Source role", text: roles.first.name)
-        select(roles.last.name, from: "Source role")
-      end
-
+  shared_examples "a copy-to-other-roles dialog" do |host:|
+    it "permits to select target roles" do
       target_roles_autocompleter.select_option roles.first.name, roles.second.name
       target_roles_autocompleter.close_autocompleter
 
@@ -70,18 +62,18 @@ RSpec.describe "Workflow copy from role", :js do
   describe "from the workflow tab" do
     before do
       visit edit_type_workflow_path(type_id: type)
-      click_link "Copy"
+      within("#workflow-table") { click_link I18n.t(:label_copy_workflow_from_role) }
     end
 
-    it_behaves_like "a copy-to-other-roles dialog", with_source_role: true, host: :tab
+    it_behaves_like "a copy-to-other-roles dialog", host: :tab
   end
 
-  describe "from the creation wizard", with_flag: { type_variants: true } do
+  describe "from the creation wizard" do
     before do
       visit type_creation_wizard_path(type_id: type, step: :workflows)
-      within("#workflow-table") { click_link "Copy" }
+      within("#workflow-table") { click_link I18n.t(:label_copy_workflow_from_role) }
     end
 
-    it_behaves_like "a copy-to-other-roles dialog", with_source_role: true, host: :wizard
+    it_behaves_like "a copy-to-other-roles dialog", host: :wizard
   end
 end
