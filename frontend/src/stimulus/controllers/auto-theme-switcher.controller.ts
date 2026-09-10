@@ -107,7 +107,6 @@ export default class AutoThemeSwitcher extends Controller {
       this.desktopLogoTarget.classList.toggle(this.desktopLightHighContrastLogoClass, isLightHighContrast);
     }
 
-    // Custom logos are not supported on mobile
     if (this.hasMobileLogoTarget) {
       this.mobileLogoTarget.classList.toggle(this.mobileWhiteLogoClass, !isLightHighContrast);
     }
