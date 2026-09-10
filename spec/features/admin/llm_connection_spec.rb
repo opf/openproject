@@ -51,8 +51,9 @@ RSpec.describe "LLM connection administration",
   # for the item itself to become visible.
   def offered_default_models
     items = find("[data-test-selector='llm-connection--defaults-form'] opce-autocompleter")["data-items"]
+    ids = JSON.parse(items).pluck("id").compact_blank
 
-    JSON.parse(items).pluck("id").compact_blank
+    LlmModel.where(id: ids).pluck(:external_id)
   end
 
   def choose_action(item)
