@@ -83,6 +83,66 @@ RSpec.describe "API v3 documents resource" do
         .to be_json_eql(document.title.to_json)
         .at_path("_embedded/elements/0/title")
     end
+
+    context "when filtering by project" do
+      let(:filters) { [{ project: { operator: "=", values: [filter_value] } }] }
+      let(:path) { "#{api_v3_paths.documents}?filters=#{CGI.escape(JSON.dump(filters))}" }
+
+      shared_examples "returns the documents of the project" do
+        it "returns 200 OK" do
+          expect(subject.status)
+            .to be(200)
+        end
+
+        it "returns only the documents of the project" do
+          expect(subject.body)
+            .to be_json_eql(1.to_json)
+            .at_path("total")
+
+          expect(subject.body)
+            .to be_json_eql(document.id.to_json)
+            .at_path("_embedded/elements/0/id")
+        end
+      end
+
+      context "with the project id" do
+        let(:filter_value) { project.id.to_s }
+
+        it_behaves_like "returns the documents of the project"
+      end
+
+      context "with the project identifier" do
+        let(:filter_value) { project.identifier }
+
+        it_behaves_like "returns the documents of the project"
+      end
+
+      context "with a semantic project identifier", with_settings: { work_packages_identifier: "semantic" } do
+        let(:project) { create(:project, identifier: "SDT") }
+        let(:filter_value) { "SDT" }
+
+        it_behaves_like "returns the documents of the project"
+      end
+
+      context "with the project identifier in a different case" do
+        let(:filter_value) { project.identifier.upcase }
+
+        it_behaves_like "returns the documents of the project"
+      end
+
+      context "with an unknown project identifier" do
+        let(:filter_value) { "does-not-exist" }
+
+        it "returns 400 Bad Request" do
+          expect(subject.status)
+            .to be(400)
+
+          expect(subject.body)
+            .to be_json_eql("urn:openproject-org:api:v3:errors:InvalidQuery".to_json)
+            .at_path("errorIdentifier")
+        end
+      end
+    end
   end
 
   describe "GET /api/v3/documents/:id" do

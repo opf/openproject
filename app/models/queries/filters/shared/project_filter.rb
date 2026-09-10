@@ -28,12 +28,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
+module Queries::Filters::Shared::ProjectFilter
+  PROJECT_ID_FORMAT = /\A-?\d+\z/
 
-RSpec.describe Queries::News::Filters::ProjectFilter do
-  include_context "with visible projects"
+  # A project identifier is never all-numeric (see Projects::Identifier), so an
+  # integer value can only ever mean a primary key.
+  def self.replace_identifiers_with_ids(values)
+    values = Array(values).map(&:to_s)
+    identifiers = values.reject { |value| value.blank? || value.match?(PROJECT_ID_FORMAT) }
+    return values if identifiers.empty?
 
-  let(:model) { News }
+    ids = ids_by_identifier(identifiers)
 
-  it_behaves_like "project_id list_optional filter"
+    values.map { |value| ids.fetch(value.downcase, value) }
+  end
+
+  def self.ids_by_identifier(identifiers)
+    Project
+      .visible
+      .by_identifiers_ci(identifiers)
+      .pluck(:identifier, :id)
+      .to_h { |identifier, id| [identifier.downcase, id.to_s] }
+  end
+  private_class_method :ids_by_identifier
 end
