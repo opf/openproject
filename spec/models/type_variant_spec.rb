@@ -259,4 +259,25 @@ RSpec.describe TypeVariant do
       end
     end
   end
+
+  describe "#inherits_from_project_owned_variant?" do
+    shared_let(:project) { create(:project) }
+    let(:variant) { create(:project_owned_type_variant, type: bug, project:, variant_name: "Hardware") }
+
+    it "is false when the variant holds no reuse links" do
+      expect(variant).not_to be_inherits_from_project_owned_variant
+    end
+
+    it "is false when every source is global" do
+      variant.update!(workflows_source: create(:type_variant, type: bug, variant_name: "Base config"))
+
+      expect(variant).not_to be_inherits_from_project_owned_variant
+    end
+
+    it "is true when an aspect is sourced from a project-owned variant" do
+      variant.update!(workflows_source: create(:project_owned_type_variant, type: bug, project:, variant_name: "Sibling"))
+
+      expect(variant).to be_inherits_from_project_owned_variant
+    end
+  end
 end

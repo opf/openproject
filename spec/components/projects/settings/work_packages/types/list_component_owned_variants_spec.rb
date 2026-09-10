@@ -124,6 +124,10 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
       )
     end
 
+    it "does not offer converting it to a global variant, an administrator-only action" do
+      expect(row(ours)).to have_no_link(I18n.t("types.index.convert_to_global"))
+    end
+
     it "puts a divider before deleting the one it owns" do
       items = row(ours).all("action-menu li").map do |item|
         item[:class].to_s.include?("ActionList-sectionDivider") ? "---" : item.text.strip
@@ -370,6 +374,20 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
 
     it "offers the type's own configuration for use, so the variant can be taken back off" do
       expect(page).to have_link("Use in this project", href: switch_path(bug.default_variant))
+    end
+  end
+
+  context "when a global administrator views it" do
+    current_user { create(:admin) }
+
+    before { render_inline(component) }
+
+    it "offers to convert the project's own variant to a global one" do
+      expect(row(ours)).to have_link(I18n.t("types.index.convert_to_global"))
+    end
+
+    it "does not offer to convert a variant that is already global" do
+      expect(row(global)).to have_no_link(I18n.t("types.index.convert_to_global"))
     end
   end
 
