@@ -7228,10 +7228,10 @@ en:
       descendants_choice:
         heading: "Delete all descendants too?"
         question: "You are trying to delete work packages that have descendants. Do you want to delete them as well?"
-        self_only_label: "Delete just the selected work packages"
         self_only_caption: "This will not delete descendants but will remove hierarchical relations."
-        with_descendants_label: "Delete the selected work packages and their descendants"
+        self_only_label: "Delete just the selected work packages"
         with_descendants_caption: "This will delete all child work packages visible to you. You will have a chance to review the full list in the next step."
+        with_descendants_label: "Delete the selected work packages and their descendants"
       description: "Are you sure you want to delete the selected work packages and all associated data?"
       description_with_all_descendants: "Are you sure you want to delete the selected work packages and all of their descendants?"
       description_with_descendants: "Are you sure you want to delete the selected work packages and all the following descendants?"
@@ -7314,10 +7314,10 @@ en:
       descendants_choice:
         heading: "Delete all descendants too?"
         question: "This work package has descendants. Do you want to delete them as well?"
-        self_only_label: "Delete just this work package"
         self_only_caption: "This will not delete descendants but will remove hierarchical relations."
-        with_descendants_label: "Delete this work package and descendants"
+        self_only_label: "Delete just this work package"
         with_descendants_caption: "This will delete all child work packages visible to you. You will have a chance to review the full list in the next step."
+        with_descendants_label: "Delete this work package and descendants"
       description: 'Are you sure you want to delete "%{name}"?'
       heading: "Permanently delete this work package?"
       hidden_descendants_only_warning:
