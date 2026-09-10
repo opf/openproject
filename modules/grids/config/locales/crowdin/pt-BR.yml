@@ -16,8 +16,8 @@ pt-BR:
           overlaps: sobreposição.
     models:
       grids/grid:
-        one: Grid
-        other: Grids
+        one: Grade
+        other: Grades
       grids/widget:
         one: Widget
         other: Widgets

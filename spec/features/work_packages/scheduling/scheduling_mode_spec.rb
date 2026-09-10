@@ -114,7 +114,7 @@ RSpec.describe "scheduling mode", :js do
            due_date: Date.parse("2016-01-10"),
            parent: wp_suc)
   end
-  let(:work_packages_page) { Pages::SplitWorkPackage.new(wp, project) }
+  let(:work_packages_page) { Pages::PrimerizedSplitWorkPackage.new(wp, project) }
   let(:activity_tab) { Components::WorkPackages::Activities.new(wp) }
   let(:combined_field) { work_packages_page.edit_field(:combinedDate) }
   # get a simplified table showing dates and durations for easier debugging.

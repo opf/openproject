@@ -74,7 +74,10 @@ properties:
     description: Whether this meeting is a template.
   notify:
     type: boolean
-    description: Whether to send email notifications to participants.
+    description: |-
+      Whether email notifications are enabled for this meeting. When enabled, changes made
+      through the API (leaving draft, updating the schedule, adding or removing participants,
+      deleting the meeting) notify participants, mirroring the web application.
   createdAt:
     type: string
     format: date-time

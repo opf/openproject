@@ -30,8 +30,6 @@
 
 module WorkPackageTypes
   class DetailsTabController < BaseTabController
-    layout "admin"
-
     current_menu_item %i[edit update] do
       :types
     end
@@ -71,7 +69,7 @@ module WorkPackageTypes
     end
 
     def permitted_details_params
-      params.expect(type: %i[name color_id is_milestone is_in_roadmap])
+      params.expect(type: %i[name color_id is_milestone is_in_roadmap allow_project_variants])
     end
 
     def permitted_variant_params

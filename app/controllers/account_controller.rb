@@ -76,6 +76,7 @@ class AccountController < ApplicationController
   end
 
   def internal_login
+    @force_password_login_form = true
     render "account/login"
   end
 
@@ -292,8 +293,8 @@ class AccountController < ApplicationController
 
   def activate_user(user)
     if omniauth_direct_login?
-      direct_login user
-    elsif OpenProject::Configuration.disable_password_login?
+      direct_login(user)
+    elsif Users::PasswordLogin.none?
       flash[:notice] = I18n.t("account.omniauth_login")
 
       redirect_to signin_path
@@ -314,7 +315,7 @@ class AccountController < ApplicationController
   end
 
   def allow_registration?
-    allow = Setting::SelfRegistration.enabled? && !OpenProject::Configuration.disable_password_login?
+    allow = Setting::SelfRegistration.enabled? && Users::PasswordLogin.enabled?
 
     invited = session[:invitation_token].present?
     get = request.get? && allow
@@ -324,7 +325,7 @@ class AccountController < ApplicationController
   end
 
   def allow_lost_password_recovery?
-    Setting.lost_password? && !OpenProject::Configuration.disable_password_login?
+    Setting.lost_password? && Users::PasswordLogin.enabled?
   end
 
   # Returns the valid, unexpired recovery token for the request, or redirects
@@ -400,10 +401,8 @@ class AccountController < ApplicationController
 
   def direct_login(user)
     if !flash_message_pending?
-      ps = {}
-      ps[:origin] = params[:back_url] if params[:back_url]
-
-      redirect_to direct_login_provider_url(ps)
+      @direct_login_origin = params[:back_url]
+      render :omniauth_direct_login
     elsif Setting.login_required?
       # I'm not sure why it is considered an error if we don't have the anonymous user here.
       # Before the line read `user.active? || flash[:error]` but since a recent
@@ -416,7 +415,7 @@ class AccountController < ApplicationController
   end
 
   def authenticate_user
-    if OpenProject::Configuration.disable_password_login?
+    if Users::PasswordLogin.none? && !Users::PasswordLogin.internal_login_available?
       render_404
     else
       password_authentication(params[:username]&.strip, params[:password])
@@ -451,7 +450,7 @@ class AccountController < ApplicationController
         render status: :unprocessable_entity
       else
         # incorrect password
-        flash_and_log_invalid_credentials
+        flash_and_log_invalid_credentials(sso_hint: true)
         render status: :unprocessable_entity
       end
     elsif user.new_record?
@@ -464,7 +463,7 @@ class AccountController < ApplicationController
 
   def invited_account_not_activated(_user)
     flash_error_message(log_reason: "invited, NOT ACTIVATED", flash_now: false) do
-      "account.error_inactive_activation_by_mail"
+      I18n.t("account.error_inactive_activation_by_mail")
     end
   end
 
@@ -503,7 +502,7 @@ class AccountController < ApplicationController
   end
 
   def check_internal_login_enabled
-    render_404 unless omniauth_direct_login?
+    render_404 unless omniauth_direct_login? || Users::PasswordLogin.internal_login_available?
   end
 
   def auth_source_sso_failure_user(failure)

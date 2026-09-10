@@ -8,7 +8,7 @@ keywords: Jira, Jira Migrator, Jira migration, Jira Data Center, Import tool, Mi
 
 # Migrating from Jira to OpenProject
 
-Last edited on: May 06, 2026.
+Last edited on: August 21, 2026.
 
 The OpenProject team is actively developing the Jira Migrator, an import tool for Jira Data Center. This feature is under active development. We release new features with every release. Information on this page may change as new migration options become available.
 
@@ -31,12 +31,14 @@ This import tool is currently in beta and can only import basic data:
 
 - Projects
 - Project identifiers
-- Issues (name, title, description, attachments, due date, estimated hours, remaining hours)
-- Issues identifiers (Beta, see [Work package identifiers](../../system-admin-guide/manage-work-packages/work-package-identifiers))
+- Issues
+- Issue identifiers (Beta, see [Work package identifiers](../../system-admin-guide/manage-work-packages/work-package-identifiers))
 - Basic custom fields (see [Custom fields migration](./custom-fields/))
-- Users (name, email, project membership)
+- Users
 - Statuses
 - Types
+
+See [field mapping reference](./field-mapping/) for details.
 
 ## Data not yet covered by the Migrator 
 
@@ -51,20 +53,22 @@ This import tool is currently in beta and can only import basic data:
 - Permissions
 - Schemas
 
+See [field mapping reference](./field-mapping/) for details.
+
 ## Supported Jira versions
 
-- We currently only support Jira Server/Data Center versions 10.x and 11.x.
-- Cloud  instances are **not** supported at this time.
+- We currently only support Jira Data Center versions 10.x and 11.x.
+- Cloud instances are **not** supported at this time.
 
 ## Import preparation
 
 ### Prepare a backup
 
 Imports change your OpenProject configuration. After the import you will have the opportunity to review the changes.
-While in review, you have an option to revert or approve the import. After approving the import reverting will no longer be possible.
+While in review, you have an option to revert or approve the import. After approving the import, reverting will no longer be possible.
 Therefore, please make sure that you have [a backup of your OpenProject instance](../../system-admin-guide/backup) before proceeding.
 
-### Setup the API connection
+### Set up the API connection
 
 Navigate to _Administration → Import_. To create a new import configuration, click the **+ Jira configuration** button.
 
@@ -78,7 +82,7 @@ Navigate to _Administration → Import_. To create a new import configuration, c
 Provide the following details:
 
 - A name for the import configuration
-- Your Jira Server or Data Center URL
+- Your Jira URL
 - A Personal Access Token. The migration tool requires a token with admin permissions. Otherwise, you will get a 403 error during the import process.
 
 ### Test configuration
@@ -89,7 +93,7 @@ Click **Test configuration** to verify the connection.
 If the connection is successful, a confirmation banner will appear.
 
 > [!IMPORTANT]
-> If your Jira instance is hosted on a private or internal network (e.g. a corporate intranet), the connection test may fail because OpenProject blocks outbound requests to non-public IP addresses by default. This is a security measure to prevent SSRF attacks. To allow connections to internal IP addresses, configure the `OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST` environment variable. See [SSRF protection](../configuration/ssrf-protection/) for details.
+> If your Jira instance is hosted on a private or internal network (e.g., a corporate intranet), the connection test may fail because OpenProject blocks outbound requests to non-public IP addresses by default. This is a security measure to prevent SSRF attacks. To allow connections to internal IP addresses, configure the `OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST` environment variable. See [SSRF protection](../configuration/ssrf-protection/) for details.
 
 ![Successful connection message for Jira import](openproject_admin_import_jira_import_new_config_test.png)
 
@@ -97,7 +101,7 @@ Click **Add configuration** to proceed to the import runs overview. Initially, n
 
 ## Import run
 
-You can import different sets of data with each import run. It is possible to undo an import run immediately after in review mode, but not after approving.
+You can import different sets of data with each import run. It is possible to undo an import run while it is in review mode, but not after approving.
 
 ![Empty import runs overview after creating a Jira import configuration](openproject_admin_import_jira_import_new_config_import_run_button.png)
 
@@ -135,7 +139,7 @@ A warning dialog will appear. Confirm that you understand the limitations (e.g.,
 
 ![Warning dialog before starting Jira import](openproject_admin_import_jira_import_warning_banner.png)
 
-During import, Jira [wiki markup](#wiki-markup) is automatically converted to OpenProject’s markdown format.
+During import, Jira wiki markup is automatically converted to OpenProject’s markdown format.
 
 > [!TIP]
 > If a user already exists in OpenProject from a previous import, they will not be duplicated.
@@ -182,9 +186,7 @@ A confirmation warning will also be shown.
 
 ### 1. Preparation
 
-- Document your existing Jira and Confluence configuration (projects, issue types, workflows, fields, spaces).
-- Identify which data to migrate and which to archive.
-- Clean up legacy data before starting.
+- Review the [Jira Pre-Migration checklist](./pre-migration-checklist/).
 
 ### 2. Testing
 
@@ -200,22 +202,11 @@ A confirmation warning will also be shown.
 
 ### 4. Post-migration
 
+- Review the [Jira Post-Migration checklist](./post-migration-checklist/).
 - Provide training to users.
 - Archive or decommission the legacy systems if applicable.
 
-## Known limitations
-
-### Wiki markup
-
-Most standard Jira wiki markup converts to Markdown automatically, but Jira-specific macro boxes do not have a Markdown equivalent and convert imperfectly:
-
-- `{info}`, `{warning}`, `{note}`, `{tip}` callout boxes - content is preserved but the visual callout styling is lost
-- `{toc}` (table of contents) - dropped
-- `{expand}` (collapsible sections) - content is preserved but the expand/collapse behaviour is lost
-- `{section}`/`{column}` (multi-column layouts) - columns are collapsed into a single flow
-- `[^attachment.pdf]` (inline attachment links) - link target is lost
-- Bare Jira issue key links (e.g. `[PROJECT-123]`) - not yet supported
 
 ## Current status and next steps of the Jira Migrator
 
-You can follow the progress of OpenProject's [Jira migration Stream](https://community.openproject.org/projects/jira-migration) and provide feedback.
+You can follow the progress of OpenProject's [Jira migration stream](https://community.openproject.org/projects/jira-migration) and provide feedback.

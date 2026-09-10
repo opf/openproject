@@ -38,7 +38,7 @@ RSpec.describe "Cost report calculations", :js do
 
   before do
     login_as user
-    visit cost_reports_path(project)
+    visit project_reporting_cost_reports_path(project)
   end
 
   def clear_project_filter

@@ -22,9 +22,15 @@
 ---
 zh-CN:
   activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: The rows and columns must together cover exactly the grouping criteria of the query.
     models:
-      cost_query:
+      cost_report:
         other: Cost reports
+      cost_query:
+        other: 成本报告
   button_save_report_as: 报表另存为...
   comments: 注释
   cost_reports_title: 工时和成本

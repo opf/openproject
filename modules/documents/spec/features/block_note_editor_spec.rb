@@ -32,6 +32,7 @@ require "rails_helper"
 
 RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { real_time_text_collaboration_enabled: true } do
   include_context "with hocuspocus"
+  include FormFields::Primerized::BlockNoteEditorBrowserActions
 
   let(:admin) { create(:admin) }
   let(:document) { create(:document, :collaborative) }
@@ -63,6 +64,13 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
     expect(editor.content).to include("Heading")
   end
 
+  it "hands the project of the document to the editor, so a work package can be created in it" do
+    visit document_path(document)
+
+    expect(page).to have_test_selector("blocknote-document-description")
+    expect(find("op-block-note", visible: false)["project-id"]).to eq(document.project_id.to_s)
+  end
+
   context "when real time text collaboration is disabled",
           with_settings: { real_time_text_collaboration_enabled: false } do
     it "does not render the BlockNote editor" do
@@ -75,6 +83,31 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
               "Please contact your administrator to enable real-time text collaboration " \
               "if you want to access this document."
       )
+    end
+  end
+
+  context "when a heading is the very first block of a document (COMMS-909)" do
+    # A BlockNote/Yjs collaboration-bootstrap race leaves the first block rendered
+    # at the wrong font-size until the next transaction (e.g. a click) recomputes it.
+    # It only reproduces on a genuine fresh editor mount of an already-persisted
+    # document.
+    it "renders the heading at full size immediately on reload, without needing a click" do
+      visit document_path(document)
+      expect(page).to have_test_selector("blocknote-document-description")
+
+      editor.fill_in("# Test heading")
+      editor.element.send_keys(:enter)
+      editor.fill_in("Some text here")
+      wait_for { document.reload.content_binary }.to be_present
+
+      visit home_path
+      visit document_path(document)
+
+      expect(page).to have_test_selector("blocknote-document-description")
+      wait_for { editor.content }.to have_text("Test heading")
+
+      # No click between the reload and here, since a click would trigger re-rendering (and with that "fix" the font size).
+      wait_for { editor.heading_to_paragraph_font_size_ratio }.to be > 2
     end
   end
 
@@ -139,7 +172,7 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
 
         expect(editor.element).to have_no_text("Link existing work package") # search dialog is closed
         expect(editor.element).to have_no_text("Loading")
-        expect(editor.element.text).to match(/LIFE GOALS\s##{work_package.display_id}\sOpen\spet a tiger/)
+        expect(editor.element.text).to match(/LIFE GOALS\s*##{work_package.display_id}\s*Open\s*pet a tiger/)
 
         # Capybara's have_link seems not to work in a shadow dom, so it's tested via the property
         expect(editor.element.find_link(text: "pet a tiger").native.property("href")).to end_with("/wp/#{work_package.id}")
@@ -251,6 +284,82 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
 
           expect(editor.element).to have_no_text(/##{work_package.display_id}/)
         end
+      end
+    end
+
+    context "when creating a work package from the document" do
+      let(:type) { create(:type_task) }
+      let(:project) { create(:project, name: "Documented project", types: [create(:type_bug), type]) }
+      let(:document) { create(:document, :collaborative, project:) }
+      let!(:release_note) do
+        create(:string_wp_custom_field, name: "Release note", is_required: true, types: [type], projects: [project])
+      end
+      let!(:default_status) { create(:status, is_default: true) }
+      let!(:default_priority) { create(:priority, is_default: true) }
+      let!(:other_project) { create(:project, name: "Another project", types: [type]) }
+
+      it "creates it in the project of the document, with the fields the chosen type requires" do
+        visit document_path(document)
+        expect(page).to have_test_selector("blocknote-document-description")
+
+        editor.open_create_work_package_dialog
+
+        within editor.create_work_package_form do
+          expect(page).to have_field("Project", with: project.name)
+
+          find_field("Type").click
+          find("[role='option']", text: type.name).click
+          fill_in "Subject", with: "Write the release notes"
+          fill_in "Release note", with: "16.0"
+
+          click_on "Create"
+        end
+
+        expect(page).to have_no_css("[data-testid='create-wp-modal']")
+        expect(editor.element).to have_text("Write the release notes")
+
+        work_package = WorkPackage.last
+        expect(work_package.project).to eq(project)
+        expect(work_package.type).to eq(type)
+        expect(work_package.subject).to eq("Write the release notes")
+        expect(work_package.custom_value_for(release_note).value).to eq("16.0")
+      end
+    end
+
+    context "when creating a work package from a text selection" do
+      let(:type) { create(:type_task) }
+      let(:project) { create(:project, name: "Documented project", types: [type]) }
+      let(:document) { create(:document, :collaborative, project:, description: "") }
+      let!(:default_status) { create(:status, is_default: true) }
+      let!(:default_priority) { create(:priority, is_default: true) }
+
+      it "names the work package after the selected text and links it in its place" do
+        expect(WorkPackage.where(subject: "Write the release notes")).not_to exist
+
+        visit document_path(document)
+        expect(page).to have_test_selector("blocknote-document-description")
+
+        editor.fill_in("Write the release notes")
+        select_to_line_start
+        editor.click_formatting_toolbar_button("Create work package")
+
+        within editor.create_work_package_form do
+          expect(page).to have_field("Subject", with: "Write the release notes")
+
+          find_field("Type").click
+          find("[role='option']", text: type.name).click
+
+          click_on "Create"
+        end
+
+        expect(page).to have_no_css("[data-testid='create-wp-modal']")
+
+        work_package = WorkPackage.find_by(subject: "Write the release notes")
+        expect(work_package).to be_present
+        expect(work_package.project).to eq(project)
+
+        expect(editor.element.find_link(text: "Write the release notes").native.property("href"))
+          .to end_with("/wp/#{work_package.id}")
       end
     end
   end

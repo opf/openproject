@@ -23,7 +23,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -112,6 +112,56 @@ RSpec.describe TypeVariant::ConfigurationLinkable do
       expect(source.destroy).to be(false)
       expect(source).to be_persisted
       expect(source.errors.full_messages.to_sentence).to include(type.composite_name)
+    end
+  end
+
+  describe "#dependents_for" do
+    let(:direct) { create(:type, name: "Direct").default_variant }
+    let(:indirect) { create(:type, name: "Indirect").default_variant }
+    let(:deeper) { create(:type, name: "Deeper").default_variant }
+
+    it "is empty while nothing reuses the aspect" do
+      expect(source.dependents_for(aspect)).to be_empty
+    end
+
+    it "walks the whole chain, depth 1 for a direct reuse and up from there" do
+      link_configuration(direct, source:, aspect:)
+      link_configuration(indirect, source: direct, aspect:)
+      link_configuration(deeper, source: indirect, aspect:)
+
+      expect(source.dependents_for(aspect).map { |v| [v.type.name, v.dependent_depth] })
+        .to contain_exactly(["Direct", 1], ["Indirect", 2], ["Deeper", 3])
+    end
+
+    it "counts only the part of the chain below the variant asked" do
+      link_configuration(direct, source:, aspect:)
+      link_configuration(indirect, source: direct, aspect:)
+
+      expect(direct.dependents_for(aspect).map { |v| [v.type.name, v.dependent_depth] })
+        .to contain_exactly(["Indirect", 1])
+    end
+
+    it "follows a branching chain down every branch" do
+      link_configuration(direct, source:, aspect:)
+      link_configuration(indirect, source:, aspect:)
+      link_configuration(deeper, source: indirect, aspect:)
+
+      expect(source.dependents_for(aspect).map(&:id))
+        .to contain_exactly(direct.id, indirect.id, deeper.id)
+    end
+
+    it "keeps the aspects apart" do
+      link_configuration(direct, source:, aspect: TypeVariant::WORKFLOWS)
+
+      expect(source.dependents_for(aspect)).to be_empty
+      expect(source.dependents_for(TypeVariant::WORKFLOWS).map(&:id)).to eq([direct.id])
+    end
+
+    it "terminates on a cycle written before cycle prevention" do
+      link_configuration(direct, source:, aspect:)
+      link_without_validation(source, source: direct, aspect:)
+
+      expect(source.dependents_for(aspect).map(&:id)).to contain_exactly(direct.id)
     end
   end
 
@@ -266,38 +316,13 @@ RSpec.describe TypeVariant::ConfigurationLinkable do
       expect(type.pdf_export_templates.list_enabled.map(&:id)).to contain_exactly("attributes", "artefact")
     end
 
-    # The templates object mutates whatever type it wraps, so it must never be the
-    # owner's — otherwise a linked variant would rewrite the source's configuration.
-    it "writes template changes to this type rather than the owner" do
+    # Mutating methods refuse to run while linked (Type::PdfExportTemplates#readonly?):
+    # merging onto a read that resolves through the link would otherwise silently
+    # corrupt this type's own stored configuration for other templates once unlinked.
+    it "refuses to mutate while linked, rather than writing onto the owner's or its own resolved data" do
       link_configuration(type, source: owner, aspect: TypeVariant::PDF_EXPORT)
-      type.pdf_export_templates.disable_all
-      type.save!
 
-      expect(type.read_attribute(:pdf_export_templates_config)["export_templates_disabled"])
-        .to contain_exactly("attributes", "contract", "artefact")
-      expect(owner.reload.export_templates_disabled).to eq(%w[contract])
-    end
-  end
-
-  describe "with the variants flag off", with_flag: { type_variants: false } do
-    let(:owner) do
-      create(:type).default_variant.tap do |variant|
-        variant.update!(patterns: { subject: { blueprint: "Owner {{id}}", enabled: true } },
-                        default_work_package_description: "Owner description",
-                        artefact_export_mode: Type::ArtefactExport::ATTACHMENT)
-      end
-    end
-
-    before do
-      link_configuration(type, source: owner, aspect: TypeVariant::DEFAULTS)
-      link_configuration(type, source: owner, aspect: TypeVariant::PDF_EXPORT)
-    end
-
-    it "resolves links exactly as it does with the flag on" do
-      expect(type.effective_source_for(TypeVariant::DEFAULTS)).to eq(owner)
-      expect(type.default_work_package_description).to eq("Owner description")
-      expect(type.artefact_export_mode).to eq(Type::ArtefactExport::ATTACHMENT)
-      expect(type).to be_replacement_pattern_defined_for(:subject)
+      expect { type.pdf_export_templates.disable_all }.to raise_error(Type::PdfExportTemplates::ReadonlyError)
     end
   end
 
@@ -348,21 +373,6 @@ RSpec.describe TypeVariant::ConfigurationLinkable do
       type.custom_fields << cf
 
       expect(type.custom_fields).to include(cf)
-    end
-  end
-
-  describe "form configuration with the flag off", with_flag: { type_variants: false } do
-    it "reads the linked owner's attribute_groups just the same" do
-      source = create(:type).default_variant.tap do |t|
-        t.attribute_groups = [["source_only_group", %w(assignee)]]
-        t.save!
-      end
-      type.update!(attribute_groups: [["own_group", %w(assignee)]])
-      link_configuration(type, source:, aspect: TypeVariant::FORM_CONFIGURATION)
-
-      keys = type.attribute_groups.map(&:key)
-      expect(keys).to include("source_only_group")
-      expect(keys).not_to include("own_group")
     end
   end
 
@@ -509,14 +519,6 @@ RSpec.describe TypeVariant::ConfigurationLinkable do
     it "excludes nothing for a new record" do
       expect(TypeVariant.new.effective_excluded_elements(aspect)).to eq([])
     end
-
-    context "with the flag off", with_flag: { type_variants: false } do
-      it "resolves the chain's exclusions the same" do
-        link(type, source: owner, aspect:, excluded: %w[custom_field_1])
-
-        expect(type.effective_excluded_elements(aspect)).to contain_exactly("custom_field_1")
-      end
-    end
   end
 
   # The call sites inline this as `<key> <> ALL (<subquery>)`, so the cases that matter
@@ -582,20 +584,6 @@ RSpec.describe TypeVariant::ConfigurationLinkable do
       condition = TypeVariant.excluded_custom_field_condition("7", subquery)
 
       expect(TypeVariant.connection.select_value("SELECT 1 WHERE #{condition}")).to eq(1)
-    end
-  end
-
-  describe "project attributes resolution with the flag off", with_flag: { type_variants: false } do
-    it "reads the linked owner's mappings just the same" do
-      owner = create(:type).default_variant
-      owner_field = create(:project_custom_field)
-      own_field = create(:project_custom_field)
-      ProjectCustomFieldTypeMapping.create!(type_variant: owner, project_custom_field: owner_field)
-      ProjectCustomFieldTypeMapping.create!(type_variant: type, project_custom_field: own_field)
-      link_configuration(type, source: owner, aspect: TypeVariant::PROJECT_ATTRIBUTES)
-
-      expect(type.project_custom_field_type_mappings.map(&:custom_field_id))
-        .to contain_exactly(owner_field.id)
     end
   end
 end

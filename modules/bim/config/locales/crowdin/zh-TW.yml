@@ -107,6 +107,7 @@ zh-TW:
       zero: 無 BCF 問題
   bim:
     error_direct_upload_failed: Direct upload failed.
+    error_direct_upload_file_too_large: IFC model is too large (maximum size is %{size} Bytes).
     label_bim: BIM
   export:
     format:

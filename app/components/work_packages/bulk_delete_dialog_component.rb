@@ -43,59 +43,52 @@ module WorkPackages
 
     private
 
-    def id = "wp-delete-dialog"
+    def id = DeleteDialogComponent::DIALOG_ID
 
     def i18n_scope = "work_packages.bulk_delete_dialog"
 
     def deletion_roots = work_packages.to_a
 
     def title
+      return t_dialog("descendants_choice.heading") if has_descendants?
+
       t_dialog("title", count: total_count)
     end
 
     def heading
+      return t_dialog("descendants_choice.heading") if has_descendants?
+
       t_dialog("heading", count: total_count)
     end
 
     def description
-      key =
-        case variant
-        when :all then "description_with_descendants"
-        when :hidden then nothing_deleted? ? "description" : "description_with_visible_descendants"
-        when :undeletable then nothing_deleted? ? "description" : "description_with_all_descendants"
-        else "description"
-        end
+      return t_dialog("descendants_choice.question") if has_descendants?
 
-      t_dialog(key)
+      t_dialog("description")
     end
 
-    # Only the deleted descendants are listed, so only those can be confirmed.
     def confirmation_checkbox_text
-      t_dialog(deleted_descendants.any? ? "confirm_descendants_deletion" : "confirm_deletion")
+      t_dialog("confirm_deletion")
     end
 
     def total_count
       @total_count ||= work_package_ids.size + deleted_descendants.size
     end
 
+    def form_action
+      helpers.work_packages_bulk_path(ids: work_package_ids, delete_descendants: false, back_url: @back_url)
+    end
+
+    def confirm_delete_path
+      helpers.confirm_delete_work_packages_bulk_path(ids: work_package_ids, back_url: @back_url)
+    end
+
     def multiple_projects?
       projects.size > 1
     end
 
-    def project_links
-      link_to_projects(projects)
-    end
-
-    def descendants_for(work_package)
-      deleted_descendants_under(work_package)
-    end
-
-    def form_action
-      helpers.work_packages_bulk_path(ids: work_package_ids, back_url: @back_url)
-    end
-
     def projects
-      @projects ||= (work_packages.to_a + deleted_descendants).filter_map(&:project).uniq
+      @projects ||= work_packages.filter_map(&:project).uniq
     end
 
     def work_package_ids

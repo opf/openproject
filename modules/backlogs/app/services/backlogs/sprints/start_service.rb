@@ -48,7 +48,7 @@ class Backlogs::Sprints::StartService < BaseServices::BaseContracted
     ensure_task_boards(service_call)
     return service_call if service_call.failure?
 
-    unless model.update(status: "active")
+    unless model.update(status: "active", started_at: Time.zone.now)
       service_call.success = false
       service_call.errors = model.errors
     end

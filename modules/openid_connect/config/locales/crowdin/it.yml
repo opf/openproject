@@ -45,11 +45,11 @@ it:
           non_object_attribute: non definisce un oggetto JSON in %{attribute}.
     models:
       openid_connect/provider:
-        one: OpenID Connect provider
-        other: OpenID Connect providers
+        one: Provider OpenID Connect
+        other: Provider OpenID Connect
       openid_connect/user_token:
-        one: OpenID Connect token
-        other: OpenID Connect tokens
+        one: Token OpenID Connect
+        other: Token OpenID Connect
   logout_warning: 'Sei stato disconnesso. Il contenuto di qualsiasi modulo che invii potrebbe essere perso. Per favore [accedi].
 
     '

@@ -80,7 +80,7 @@ RSpec.describe "Role creation", :js do
       .to have_current_path(roles_path)
 
     expect(page)
-      .to have_css("table td", text: "New role name")
+      .to have_link("New role name")
 
     click_link "New role name"
 

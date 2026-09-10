@@ -19,7 +19,7 @@ pt-PT:
         item_5:
           name: Amarelo
         item_6:
-          name: Cor de Laranja
+          name: Laranja
         item_7:
           name: Vermelho
         item_8:
@@ -27,11 +27,11 @@ pt-PT:
         item_9:
           name: Branco
         item_10:
-          name: Cinza (claro)
+          name: Cinzento (claro)
         item_11:
-          name: Cinza
+          name: Cinzento
         item_12:
-          name: Cinza (escuro)
+          name: Cinzento (escuro)
         item_13:
           name: Preto
       project_phase_colors:
@@ -65,12 +65,21 @@ pt-PT:
         item_3:
           name: Leitor
         item_4:
-          name: Administrador do Projeto
+          name: Administrador do projeto
       global_roles:
         item_0:
           name: Equipa e gestor de projetos
         item_1:
           name: Função global padrão
+      ai_text_transform_actions:
+        item_0:
+          label: Corrigir a gramática
+        item_1:
+          label: Tornar conciso
+        item_2:
+          label: Traduzir para inglês
+        item_3:
+          label: Organizar num modelo
     standard:
       project_phases:
         item_0:
@@ -130,7 +139,7 @@ pt-PT:
             item_2:
               name: Tarefas
             item_3:
-              name: Planificador de equipas
+              name: Planeador de equipa
           boards:
             kanban:
               name: Quadro Kanban
@@ -154,7 +163,7 @@ pt-PT:
                   name: Damos-lhe as boas-vindas
               item_1:
                 options:
-                  name: Por onde começar
+                  name: Introdução
                   text: |
                     Estamos contentes por se juntar a nós! Sugerimos que experimente algumas coisas para começar a utilizar o OpenProject.
 
@@ -328,22 +337,23 @@ pt-PT:
                   name: Damos-lhe as boas-vindas
               item_1:
                 options:
-                  name: Por onde começar
+                  name: Introdução
                   text: |
-                    Estamos contentes por se ter juntado a nós! Sugerimos que experimente algumas coisas para começar a usar o OpenProject.
+                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
-                    _Experimente os seguintes passos:_
+                    _Try the following steps:_
 
-                    1. *Convidar novos membros para o projeto*: &rightarrow; Aceda a [Membros]({{opSetting:base_url}}/projects/your-scrum-project/members) na navegação do projeto.
-                    2. *Ver o seu backlog de produtos e backlog de sprint*: &rightarrow; Aceda a [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) na navegação do projeto.
-                    3. *Ver o seu quadro de tarefas*: &rightarrow; Aceda a [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Clique na seta para a direita em Sprint &rightarrow; Selecione [Quadro de tarefas](##sprint:scrum_project__version__sprint_1).
-                    4. *Criar um novo pacote de trabalho*: &rightarrow; Aceda a [Pacotes de trabalho &rightarrow; Criar]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    5. *Criar e atualizar um plano de projeto*: &rightarrow; Aceda a [Plano do projeto](##query:scrum_project__query__project_plan) na navegação do projeto.
-                    6. *Criar uma wiki do Sprint*: &rightarrow; Aceda a [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) e abra a wiki do sprint a partir do menu pendente do lado direito num sprint. Pode editar o [modelo da wiki]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) mediante as suas necessidades.
-                    7. *Ativar mais módulos*: &rightarrow; Aceda a [Definições do projeto &rightarrow; Módulos]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
+                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
+                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
+                    3. *Create a sprint*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and click "+ Sprint" to create a new sprint. Move work packages from the backlog to the sprint to plan the work to be done. When ready, click "Start sprint".
+                    4. *View your Sprint board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select Sprint Board.
+                    5. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    6. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
+                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
-                    Aqui encontra as nossas [Guias do Utilizador](https://www.openproject.org/docs/user-guide/).
-                    Informe-nos se tiver alguma dúvida ou precisar de apoio. Contacte-nos: [support[at]openproject.com](mailto:support@openproject.com).
+
+                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
+                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: Pacotes de trabalho
@@ -457,11 +467,11 @@ pt-PT:
         item_3:
           name: Confirmado
         item_4:
-          name: Para ser agendado
+          name: Por agendar
         item_5:
           name: Agendado
         item_6:
-          name: A decorrer
+          name: Em curso
         item_7:
           name: Desenvolvido
         item_8:
@@ -469,7 +479,7 @@ pt-PT:
         item_9:
           name: Testado
         item_10:
-          name: Teste falhou
+          name: O teste falhou
         item_11:
           name: Fechado
         item_12:
@@ -484,9 +494,9 @@ pt-PT:
         item_2:
           name: Desenvolvimento
         item_3:
-          name: Testar
+          name: Em teste
         item_4:
-          name: Suporte
+          name: Apoio
         item_5:
           name: Outro
       types:
@@ -503,7 +513,7 @@ pt-PT:
         item_5:
           name: História do utilizador
         item_6:
-          name: Bug
+          name: Erro
       global_queries:
         item_0:
           name: 'Filhos épicos: histórias de utilizadores e erros'
