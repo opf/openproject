@@ -37,8 +37,8 @@ module WorkPackageTypes
     layout "admin"
 
     before_action :require_admin
-    before_action :require_type_variants_feature, only: %i[drop duplicate menu]
-    before_action :find_type, only: %i[move destroy drop duplicate menu]
+    before_action :require_type_variants_feature, only: %i[drop duplicate menu deletion_dialog]
+    before_action :find_type, only: %i[move destroy drop duplicate menu deletion_dialog]
 
     current_menu_item do
       :types
@@ -79,14 +79,23 @@ module WorkPackageTypes
     end
 
     def destroy
-      if @type.work_packages.any?
-        flash[:error] = destroy_error_message
-      elsif @type.destroy
+      return refuse_deletion if @type.work_packages.exists?
+
+      service_call = WorkPackageTypes::DeleteService.new(user: current_user, model: @type).call
+
+      if service_call.success?
         flash[:notice] = I18n.t(:notice_successful_delete)
       else
-        flash[:error] = @type.errors.full_messages
+        flash[:error] = service_call.errors.full_messages
       end
+
       redirect_to action: "index", status: :see_other
+    end
+
+    def deletion_dialog
+      return refuse_deletion if @type.work_packages.exists?
+
+      respond_with_dialog Types::TypeDeletionDialogComponent.new(type: @type)
     end
 
     def duplicate
@@ -153,6 +162,11 @@ module WorkPackageTypes
     def load_projects_and_types
       @types = ::Type.order(Arel.sql("position"))
       @projects = Project.all
+    end
+
+    def refuse_deletion
+      flash[:error] = destroy_error_message
+      redirect_to action: "index", status: :see_other
     end
 
     def destroy_error_message

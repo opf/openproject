@@ -100,7 +100,7 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
       find("action-menu > button").click
       expect(page).to have_link(I18n.t(:button_configure))
       expect(page).to have_button(I18n.t(:button_move))
-      expect(page).to have_button(I18n.t(:button_delete))
+      expect(page).to have_link(I18n.t(:button_delete))
     end
   end
 
