@@ -10,6 +10,10 @@ rules:
     ignore:
       # CLA workflow intentionally uses pull_request_target to handle outside contributors
       - cla.yml
+      # Same for the AI involvement check: it only runs on pull requests from
+      # forks, and needs a writable token to comment on them. It checks out the
+      # base branch and never executes anything from the pull request.
+      - ai-involvement-check.yml
   cache-poisoning:
     ignore:
       # Frontend unit tests cache npm packages; only triggered on push/PR from trusted branches
