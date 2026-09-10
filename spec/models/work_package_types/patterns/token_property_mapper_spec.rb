@@ -105,12 +105,12 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
     end
   end
 
-  described_class::BASE_ATTRIBUTE_TOKENS.each do |token|
+  described_class::static_tokens.each do |token|
     it "the attribute token named #{token.key} resolves successfully" do
-      context = case token.key
-                when /^parent_/
+      context = case token.context
+                when :parent
                   work_package_parent
-                when /^project_/
+                when :project
                   project
                 else
                   work_package
