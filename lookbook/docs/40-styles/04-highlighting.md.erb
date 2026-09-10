@@ -1,0 +1,187 @@
+Users pick their own colors for statuses, types, priorities and project phase definitions. Highlighting is how those colors reach the UI: the status badge, the uppercase type label, the priority dot on a work package card, a highlighted row in the work package table, a phase bar in the project timeline.
+
+Because the colors live in the database, the CSS cannot be written by hand. It is split in two layers.
+
+## The two layers
+
+**1. One generated rule per resource**, from `app/views/highlighting/styles.css.erb`. It declares nothing but the color, as two custom properties:
+
+```css
+.__hl_status_42 { --hl-color: #1098AD; --hl-perceived-lightness: 0.4886 }
+.__hl_type_7    { --hl-color: #CF222E; --hl-perceived-lightness: 0.2126 }
+.__hl_color_12  { --hl-color: #A5D8FF; --hl-perceived-lightness: 0.8156 }
+```
+
+Statuses, priorities, types, project phase definitions, meeting statuses and project statuses all get a rule. So does every `Color` record itself, under `__hl_color_<id>` — less obvious, because a color is not a resource that *has* a color, it *is* one. Those classes are what the color autocompleter uses to show each option in its own color.
+
+`--hl-perceived-lightness` is the color's relative luminance on a 0..1 scale, from `Colors::HexColor#perceived_lightness`. The stylesheet needs it to decide whether a color takes light or dark text, and it is a pure function of the color, so it is computed server side rather than in CSS.
+
+**2. A fixed set of classes that consume them**, in the `Highlighting colors` section of `frontend/src/global_styles/layout/_colors.sass`. These never change with the data.
+
+Both go on the same element, so the color is in scope:
+
+```html
+<span class="__hl_background __hl_status_42">In progress</span>
+```
+
+Nothing else is generated. Adding a status adds one rule, not seven.
+
+## Classes
+
+There are two kinds, and an element normally carries one of each: a class that says *which color*, and a class that says *how to apply it*.
+
+### Defining the color
+
+Generated, one per record. They carry no styling at all — only the two custom properties.
+
+| Class | Declares |
+|---|---|
+| `__hl_<resource>_<id>` | The color of a status, priority, type, project phase definition, meeting status or project status. |
+| `__hl_color_<id>` | The color of a `Color` record itself, for picking colors rather than displaying a resource. |
+
+### Using the color
+
+Static, from `_colors.sass`. None of them work on their own — without a color class alongside they have no `--hl-color` to read.
+
+| Class | Effect |
+|---|---|
+| `__hl_background` | Color as background, with text flipped to black or white for contrast. Dark mode tints the background instead and lightens the text. |
+| `__hl_foreground` | Color as text, darkened in light mode and lightened in dark mode so it stays legible. |
+| `__hl_dot` | A 12px round `::before` dot in the color, ahead of the label. |
+| `__hl_dot_small` | Modifier on `__hl_dot`, shrinking it to 6px. |
+| `__hl_uppercase` | Uppercase and bold. Work package types only. |
+| `__hl_border_top` | 4px top border in the color. Used for time entry calendar events. |
+
+`__hl_background`, `__hl_foreground` and `__hl_dot` are mutually exclusive — pick the one that matches how the color should read.
+
+<%= embed Colors::HighlightingPreview, :usage_classes %>
+
+The dot has three sizes: 12px by default, 10px inside `.-small-font`, and 6px with `__hl_dot_small`.
+
+<%= embed Colors::HighlightingPreview, :dot_sizes %>
+
+### Exceptions
+
+`__hl_date_due_today` and `__hl_date_overdue` share the prefix but not the mechanism. They are fixed Primer colors for date fields, they ignore `--hl-color`, and they are used on their own.
+
+## Helpers
+
+Most of the times you will not build these class names by hand. The helpers pair the usage class with the color class.
+
+### Ruby
+
+`ColorsHelper` gives you one method per treatment. Each takes the resource name and either a model or a bare id.
+
+| Call | Result |
+|---|---|
+| `hl_background_class("status", status)` | `"__hl_background __hl_status_42"` |
+| `hl_foreground_class("project_phase_definition", definition)` | `"__hl_foreground __hl_project_phase_definition_3"` |
+| `hl_dot_class("priority", work_package.priority)` | `"__hl_dot __hl_priority_8"` |
+| `hl_color_class("type", 7)` | `"__hl_type_7"` |
+
+`hl_color_class` is the bare color, for the rare case where you pair it with some custom class that uses the color, like `__hl_border_top` for the time entries and resource management.
+
+In a component, build the classes in `before_render`. `helpers` is not available during `initialize`:
+
+```ruby
+def before_render
+  @system_arguments[:classes] = class_names(
+    @system_arguments[:classes],
+    helpers.hl_background_class("status", @status)
+  )
+end
+```
+
+In an ERB view the helper is available directly:
+
+```erb
+<%%= render Primer::Beta::Text.new(classes: hl_dot_class("priority", work_package.priority)) do %>
+  <%%= work_package.priority.name %>
+<%% end %>
+```
+
+### Frontend
+
+`Highlighting` in `core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions` mirrors the Ruby side:
+
+```ts
+Highlighting.backgroundClass('status', status.id!);  // '__hl_background __hl_status_42'
+Highlighting.foregroundClass('project_phase_definition', definitionId);
+Highlighting.dotClass('priority', priority.id!);
+Highlighting.resourceClass('type', typeId);          // '__hl_type_7'
+Highlighting.typeClass(typeId);                      // adds __hl_uppercase
+```
+
+Every function returns two classes separated by a space. That is fine for a `class` attribute or an `[ngClass]` binding, but `classList.add` throws on a string containing a space, so spread it:
+
+```ts
+element.classList.add(...Highlighting.backgroundClass('status', id).split(' '));
+```
+
+`Highlighting.typeClass` exists because work package types are always rendered as uppercase bold text rather than getting a dot.
+
+#### When the resource is only known at runtime
+
+A few call sites — the autocompleter, global search, the highlighted resource display field — receive the property name as a string and cannot pick a treatment statically. `Highlighting.inlineClass(property, id)` decides for them:
+
+```ts
+Highlighting.inlineClass('type', 7);        // '__hl_uppercase __hl_foreground __hl_type_7'
+Highlighting.inlineClass('meeting_status', 'open');  // '__hl_foreground __hl_meeting_status_open'
+Highlighting.inlineClass('status', 42);     // '__hl_dot __hl_status_42'
+```
+
+Resources whose color reads as text are listed in `FOREGROUND_PROPERTIES`; everything else gets a dot. Reach for `inlineClass` only when the property really is dynamic — prefer the explicit function otherwise.
+
+## Resources without a color
+
+Status, priority and type may have no color at all. Those need no rule: every declaration in the usage classes references `--hl-color`, so with nothing declared they are invalid at computed-value time and fall back to `unset` — no background, no border, inherited text color.
+
+The dot is the exception. It turns transparent but keeps its box, so the generated stylesheet emits one rule to collapse it:
+
+```css
+.__hl_priority_8.__hl_dot::before { display: none }
+```
+
+The dashed outline below marks the element's box, so you can see the gap the transparent dot leaves behind on the third row and how the generated rule collapses it on the fourth.
+
+<%= embed Colors::HighlightingPreview, :without_color %>
+
+## Overdue dates
+
+`Highlighting.overdueDate(diff)` returns a fixed class from the difference to today. These use Primer's semantic foreground colors and have nothing to do with resource colors. `__hl_date_not_overdue` is a marker with no styling attached.
+
+<%= embed Colors::HighlightingPreview, :overdue_dates %>
+
+## Themes
+
+The generated stylesheet is identical for every user; it holds colors, not decisions. Light, dark and both high contrast variants are resolved in CSS against the `data-color-mode` and `data-light-theme`/`data-dark-theme` attributes that the theme controller stamps onto `<body>`.
+
+Light is the default and dark an override, because those attributes only appear once Stimulus connects. A rule that must apply in light mode belongs on the bare class, not under a `[data-color-mode="light"]` selector.
+
+Derived values stay in CSS on purpose:
+
+```sass
+--hl-lightness-switch: max(0, min(calc(1 / (0.453 - var(--hl-perceived-lightness))), 1))
+--hl-lighten-by: calc((0.6 - var(--hl-perceived-lightness)) * 100 * var(--hl-lightness-switch))
+```
+
+`--hl-lightness-switch` collapses to 0 or 1 and is what decides the text color on `__hl_background` in light mode: below a perceived lightness of 0.453 white, above it black. `--hl-lighten-by` is the dark mode counterpart, lightening the color by however far it sits below 0.6.
+
+Saturated blues are where the switch looks most surprising, because they read as darker than their luminance is. `indigo-5` (`#5C7CFA`, 0.4953) lands just above the threshold and gets black text, which is the accessible choice even though it looks odd — 5.72:1 against black versus 3.67:1 against white. Being a single hard cut rather than a contrast calculation, it is not always the better of the two: `indigo-6` (`#4C6EF5`, 0.4412) falls just below and takes white at 4.32:1, where black would have given 4.86:1.
+
+The lightness arithmetic uses relative color syntax, so a single hexcode covers what previously needed separate RGB and HSL triples:
+
+```sass
+background: var(--hl-color)
+background: rgb(from var(--hl-color) r g b / 0.18)
+border: 1px solid hsl(from var(--hl-color) h s calc(l - 15))
+```
+
+In `hsl(from …)` the `s` and `l` channels resolve as 0..100 numbers, so `calc(l - 15)` subtracts 15 percentage points of lightness.
+
+## Adding a highlightable resource
+
+1. Register it in `app/views/highlighting/styles.css.erb`. The scope needs to respond to `id` and `color`; `Color` records are accepted as their own color, and plain `Struct`/`Data` constants work too, which is how `Meetings::Statuses::AVAILABLE` is handled.
+2. Add the model to `highlight_css_updated_at` in `HighlightingHelper` so the version tag changes when it does. Skipping this serves stale CSS for up to a year.
+3. Use the helpers at the call sites. Nothing new is needed in `_colors.sass` unless the resource wants a treatment that does not exist yet.
+4. If the color reads as text and the resource can arrive through `inlineClass`, add it to `FOREGROUND_PROPERTIES`.
