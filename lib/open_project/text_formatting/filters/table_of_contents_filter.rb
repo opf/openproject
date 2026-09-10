@@ -43,13 +43,21 @@ module OpenProject::TextFormatting
       end
 
       def add_header_link_class_and_id(node, id)
-        anchor = node.css("a").first
+        anchor = permalink_anchor(node)
         if anchor
           anchor["class"] = "op-uc-link_permalink icon-link"
           anchor["href"] = "##{fragment_id_prefix}#{id}"
+          anchor["aria-hidden"] = "true"
+          anchor.remove_attribute("aria-label") # Commonmarker only labels it in English
           anchor.remove_attribute("id") # avoid duplicate id with heading; only heading keeps the id
         end
         node["id"] = "#{fragment_id_prefix}#{id}"
+      end
+
+      # Commonmarker renders the permalink as an empty anchor, placed before or
+      # after the heading text depending on its version. Author links carry text.
+      def permalink_anchor(node)
+        node.css("a").find { |anchor| anchor.text.blank? }
       end
 
       ##

@@ -42,7 +42,7 @@ RSpec.describe TypesHelper do
       helper.instance_variable_set(:@variant, addressed_variant)
     end
 
-    context "with the type_variants feature enabled", with_flag: { type_variants: true } do
+    context "when the tabs are built for a type" do
       context "when no variant is addressed" do
         let(:addressed_variant) { nil }
 
@@ -92,13 +92,30 @@ RSpec.describe TypesHelper do
         end
       end
     end
+  end
 
-    context "with the type_variants feature disabled", with_flag: { type_variants: false } do
-      let(:addressed_variant) { nil }
+  describe "#type_tab" do
+    it "labels a tab from its name" do
+      expect(helper.type_tab("details", "/details", aspect: nil))
+        .to eq(name: "details", path: "/details", label: "Details", aspect: nil)
+    end
 
-      it "omits the variants tab" do
-        expect(tab_names).not_to include("variants")
-      end
+    it "takes a label of its own when the name does not name its translation" do
+      tab = helper.type_tab("settings", "/settings", aspect: nil, label: "Overview")
+
+      expect(tab[:label]).to eq("Overview")
+    end
+
+    it "carries anything else a tab needs through" do
+      tab = helper.type_tab("export_configuration", "/pdf", aspect: nil, view_component: String)
+
+      expect(tab[:view_component]).to eq(String)
+    end
+
+    # Pairs with the fetch in WorkPackageTypes::Overview::RowComponent: a tab that never says
+    # whether its configuration is reusable cannot reach the overview table.
+    it "insists on an aspect" do
+      expect { helper.type_tab("details", "/details") }.to raise_error(ArgumentError)
     end
   end
 

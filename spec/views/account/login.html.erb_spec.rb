@@ -43,12 +43,24 @@ RSpec.describe "account/login" do
 
   context "with password login disabled" do
     before do
-      allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
+      allow(Setting).to receive(:password_login).and_return("none")
       render
     end
 
     it "does not show a login field" do
       expect(rendered).not_to include "Password"
+    end
+  end
+
+  context "with password login disabled on the internal login page" do
+    before do
+      allow(Setting).to receive(:password_login).and_return("none")
+      assign(:force_password_login_form, true)
+      render
+    end
+
+    it "shows a login field" do
+      expect(rendered).to include "Password"
     end
   end
 

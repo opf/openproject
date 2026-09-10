@@ -33,6 +33,10 @@ require "spec_helper"
 RSpec.describe WorkPackageSemanticAlias do
   let(:work_package) { create(:work_package) }
 
+  describe "database indexes" do
+    it { is_expected.to have_db_index("lower((identifier)::text) text_pattern_ops") }
+  end
+
   describe "validations" do
     it "is valid with an identifier and work_package" do
       record = described_class.new(identifier: "PROJ-1", work_package:)

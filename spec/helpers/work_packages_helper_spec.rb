@@ -117,9 +117,27 @@ RSpec.describe WorkPackagesHelper do
           { name: "Status", id: "status" }
         )
     end
+
+    context "with multiple versions disabled", with_settings: { work_package_multiple_versions: false } do
+      it "offers the version column under the canonical target_versions id" do
+        expect(helper.work_packages_columns_options)
+          .to include({ name: WorkPackage.human_attribute_name(:version), id: "target_versions" })
+      end
+
+      it "does not offer a separate version id" do
+        expect(helper.work_packages_columns_options.pluck(:id)).not_to include("version")
+      end
+    end
+
+    context "with multiple versions enabled", with_settings: { work_package_multiple_versions: true } do
+      it "offers the target versions column under its own id" do
+        expect(helper.work_packages_columns_options)
+          .to include({ name: WorkPackage.human_attribute_name(:target_versions), id: "target_versions" })
+      end
+    end
   end
 
-  describe "#selected_project_columns_options",
+  describe "#selected_work_packages_columns_options",
            with_settings: { work_package_list_default_columns: %w[id subject type status] } do
     it "returns the columns options currently persisted in the setting (in that order)" do
       expect(helper.selected_work_packages_columns_options)
@@ -130,9 +148,61 @@ RSpec.describe WorkPackagesHelper do
                   { name: "Status", id: "status" }
                 ])
     end
+
+    context "with target_versions persisted" do
+      context "and multiple versions disabled",
+              with_settings: { work_package_multiple_versions: false,
+                               work_package_list_default_columns: %w[id target_versions] } do
+        it "resolves the version column" do
+          expect(helper.selected_work_packages_columns_options)
+            .to eql([
+                      { name: "ID", id: "id" },
+                      { name: WorkPackage.human_attribute_name(:version), id: "target_versions" }
+                    ])
+        end
+      end
+
+      context "and multiple versions enabled",
+              with_settings: { work_package_multiple_versions: true,
+                               work_package_list_default_columns: %w[id target_versions] } do
+        it "resolves the target versions column" do
+          expect(helper.selected_work_packages_columns_options)
+            .to eql([
+                      { name: "ID", id: "id" },
+                      { name: WorkPackage.human_attribute_name(:target_versions), id: "target_versions" }
+                    ])
+        end
+      end
+    end
+
+    context "with the legacy version name persisted" do
+      context "and multiple versions disabled",
+              with_settings: { work_package_multiple_versions: false,
+                               work_package_list_default_columns: %w[id version] } do
+        it "resolves the version column" do
+          expect(helper.selected_work_packages_columns_options)
+            .to eql([
+                      { name: "ID", id: "id" },
+                      { name: WorkPackage.human_attribute_name(:version), id: "target_versions" }
+                    ])
+        end
+      end
+
+      context "and multiple versions enabled",
+              with_settings: { work_package_multiple_versions: true,
+                               work_package_list_default_columns: %w[id version] } do
+        it "resolves the target versions column" do
+          expect(helper.selected_work_packages_columns_options)
+            .to eql([
+                      { name: "ID", id: "id" },
+                      { name: WorkPackage.human_attribute_name(:target_versions), id: "target_versions" }
+                    ])
+        end
+      end
+    end
   end
 
-  describe "#protected_project_columns_options" do
+  describe "#protected_work_packages_columns_options" do
     it "returns the columns options currently persisted in the setting (in that order)" do
       expect(helper.protected_work_packages_columns_options)
         .to eql([

@@ -29,66 +29,33 @@
   ++#
 %>
 
-<%=
-  render(
-    Primer::OpenProject::DangerDialog.new(
-      id:,
-      title:,
-      form_arguments: {
-        action: form_action,
-        method: :delete,
-        data: { turbo: false }
-      },
-      size: :medium_portrait
-    )
-  ) do |dialog|
-%>
-  <% dialog.with_confirmation_message do |message|
-       message.with_heading(tag: :h2) { heading }
-       message.with_description_content(description)
-     end %>
-
-  <% if has_descendants? %>
-    <% dialog.with_additional_details(display: :block) do %>
-      <% if cross_project_descendants? %>
-        <%= render(Primer::Alpha::Banner.new(mb: 2, scheme: :warning, icon: :alert)) do %>
-          <%= helpers.t("work_packages.delete_dialog.cross_project_warning_html", projects: all_project_links) %>
-        <% end %>
+<% if has_descendants? %>
+  <%= render(Primer::Alpha::Dialog.new(id:, title:, size: :medium_portrait)) do |dialog| %>
+    <% dialog.with_header(variant: :large) %>
+    <%= primer_form_with(url: confirm_delete_path, method: :post) do %>
+      <%= render(Primer::Alpha::Dialog::Body.new) do %>
+        <%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { description } %>
+        <%= render_descendants_choice %>
       <% end %>
-      <% if variant == :hidden %>
-        <%= render(Primer::Alpha::Banner.new(mb: 2, scheme: :warning, icon: :alert)) do %>
-          <%= I18n.t("work_packages.delete_dialog.#{hidden_warning_key}", count: undeletable_count) %>
-        <% end %>
-      <% end %>
-      <% if variant == :undeletable %>
-        <%= render(Primer::Alpha::Banner.new(mb: 2, scheme: :warning, icon: :alert)) do %>
-          <%# helpers.t, not I18n.t: only the Rails helper honours the _html suffix %>
-          <%= helpers.t(
-                "work_packages.delete_dialog.#{undeletable_warning_key}",
-                count: undeletable_count,
-                projects: undeletable_project_links
-              ) %>
-        <% end %>
-      <% end %>
-      <% if deleted_descendants.any? %>
-        <%= render(OpPrimer::InsetBoxComponent.new) do %>
-          <%= render(Primer::Beta::Text.new(font_size: :small, font_weight: :bold, display: :block, mb: 2)) do %>
-            <%= I18n.t("work_packages.bulk_delete_dialog.children_label") %>
-          <% end %>
-          <% deleted_descendants.each do |descendant| %>
-            <%= render WorkPackages::InfoLineComponent.new(
-                  pl: 2,
-                  my: 1,
-                  work_package: descendant,
-                  show_subject: true,
-                  show_status: false,
-                  show_project: descendant.project != work_package.project
-                ) %>
-          <% end %>
-        <% end %>
+      <%= render(Primer::Alpha::Dialog::Footer.new) do %>
+        <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": id })) { t(:button_cancel) } %>
+        <%= render(Primer::Beta::Button.new(scheme: :danger, type: :submit)) { t(:button_delete) } %>
       <% end %>
     <% end %>
   <% end %>
-
-  <% dialog.with_confirmation_check_box_content(confirmation_checkbox_text) %>
+<% else %>
+  <%= render(
+        Primer::OpenProject::DangerDialog.new(
+          id:,
+          title:,
+          form_arguments: { action: form_action, method: :delete, data: { turbo: false } },
+          size: :medium_portrait
+        )
+      ) do |dialog| %>
+    <% dialog.with_confirmation_message do |message|
+         message.with_heading(tag: :h2) { heading }
+         message.with_description_content(description)
+       end %>
+    <% dialog.with_confirmation_check_box_content(confirmation_checkbox_text) %>
+  <% end %>
 <% end %>

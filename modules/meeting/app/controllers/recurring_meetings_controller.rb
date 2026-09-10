@@ -189,11 +189,10 @@ class RecurringMeetingsController < ApplicationController
     )
   end
 
-  def destroy_scheduled # rubocop:disable Metrics/AbcSize
-    if @meeting_to_cancel.persisted?
-      meeting.update_column(:state, Meeting.states[:cancelled])
-      flash[:notice] = I18n.t(:notice_successful_cancel)
-    elsif @meeting_to_cancel.save
+  def destroy_scheduled
+    if cancel_occurrence
+      # The cancelled occurrence becomes an EXDATE on the series event.
+      @recurring_meeting.bump_ical_sequence!
       flash[:notice] = I18n.t(:notice_successful_cancel)
     else
       flash[:error] = I18n.t(:error_failed_to_delete_entry)
@@ -231,6 +230,12 @@ class RecurringMeetingsController < ApplicationController
   end
 
   private
+
+  def cancel_occurrence
+    return meeting.update_column(:state, Meeting.states[:cancelled]) if @meeting_to_cancel.persisted?
+
+    @meeting_to_cancel.save
+  end
 
   def redirect_to_project
     return if @project

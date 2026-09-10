@@ -75,7 +75,7 @@ module Types
     # The type's own screen is administration's, so from a project this leads to that project's
     # list of types instead.
     def variant_breadcrumb_href
-      return edit_type_details_path(type_id: @type.id) if scope_project.nil?
+      return type_settings_path(type_id: @type.id) if scope_project.nil?
 
       project_settings_work_packages_types_path(scope_project)
     end
@@ -86,7 +86,7 @@ module Types
       text = variant_or_type_name
       return [text] if @additional_breadcrumb_items.blank?
 
-      [{ href: edit_type_details_path(**(@variant&.path_args || { type_id: @type.id })), text: }]
+      [{ href: type_settings_path(**(@variant&.path_args || { type_id: @type.id })), text: }]
     end
   end
 end

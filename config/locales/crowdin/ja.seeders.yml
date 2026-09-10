@@ -339,20 +339,21 @@ ja:
                 options:
                   name: はじめに
                   text: |
-                    ご参加いただきありがとうございます！OpenProjectを始めるにあたって、いくつかのことを試してみることをお勧めします。
+                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+
+                    _Try the following steps:_
+
+                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
+                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
+                    3. *Create a sprint*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and click "+ Sprint" to create a new sprint. Move work packages from the backlog to the sprint to plan the work to be done. When ready, click "Start sprint".
+                    4. *View your Sprint board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select Sprint Board.
+                    5. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    6. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
+                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
 
-
-                    1.*プロジェクトに新しいメンバーを招待する： &rightarrow; プロジェクトナビゲーションの [メンバー]({{opSetting:base_url}}/projects/your-scrum-project/members) に移動します。
-                    2.*プロダクトバックログとスプリントバックログを見る*： &rightarrow; プロジェクトナビゲーションの[Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs)に行く。
-                    3.*タスクボードを見る &rightarrow; Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; スプリントの右矢印をクリック &rightarrow; [Task Board](##sprint:scrum_project__version__sprint_1)を選択する。
-                    4.*新しいワークパッケージを作成する： &rightarrow; Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new) に行く。
-                    5.*プロジェクト計画の作成と更新*： &rightarrow; プロジェクトナビゲーションの[プロジェクト計画](##query:scrum_project__query__project_plan)に行く。
-                    6.*スプリントWikiを作成する： &rightarrow; Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs)に移動し、スプリント内の右ドロップダウンメニューからスプリントwikiを開きます。wiki テンプレート]({{opSetting:base_url}}/projects/your-scrum-project/wiki/)を必要に応じて編集する。
-                    7.*さらにモジュールを有効にする &rightarrow; Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules) にアクセスしてください。
-
-                    ここに[ユーザーガイド](https://www.openproject.org/docs/user-guide/)があります。
-                    ご質問やサポートが必要な場合はご連絡ください。ご連絡ください：[support[at]openproject.com](mailto:support@openproject.com)。
+                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
+                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: ワークパッケージ

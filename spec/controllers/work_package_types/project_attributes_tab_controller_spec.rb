@@ -155,7 +155,7 @@ RSpec.describe WorkPackageTypes::ProjectAttributesTabController do
       end
     end
 
-    context "when the type is linked", with_flag: { type_variants: true } do
+    context "when the type is linked" do
       let(:aspect) { TypeVariant::PROJECT_ATTRIBUTES }
       let(:source) { create(:type).default_variant }
       let(:link) { variant }

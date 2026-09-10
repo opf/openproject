@@ -47,19 +47,19 @@ See COPYRIGHT and LICENSE files for more details.
     <% if changing_source? %>
       <% message.with_description_content(
            t(
-             "types.edit.reuse_mode.linked.confirm_dialog.change_source.description_html",
+             "types.edit.reuse_mode.inherited.confirm_dialog.change_source.description_html",
              source_name: tag.strong(source.name)
            )
          ) %>
     <% else %>
       <% message.with_description_content(
-           t("types.edit.reuse_mode.linked.confirm_dialog.from_independent.description")
+           t("types.edit.reuse_mode.inherited.confirm_dialog.from_manual.description")
          ) %>
     <% end %>
   <% end %>
 
   <% dialog.with_confirmation_check_box do %>
-    <%= t("types.edit.reuse_mode.linked.confirm_dialog.check_box") %>
+    <%= t("types.edit.reuse_mode.inherited.confirm_dialog.check_box") %>
   <% end %>
 
   <% dialog.with_additional_details do %>

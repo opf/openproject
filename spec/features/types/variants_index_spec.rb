@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Work package variants index", :js, with_flag: { type_variants: true } do
+RSpec.describe "Work package variants index", :js do
   shared_let(:admin) { create(:admin) }
   shared_let(:bug_type) { create(:type, name: "Bug") }
   shared_let(:feature_type) { create(:type, name: "Feature") }
@@ -55,7 +55,7 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
   it "links a type's header to its settings page" do
     visit types_path
 
-    expect(page).to have_link(bug_type.name, href: edit_type_details_path(type_id: bug_type.id))
+    expect(page).to have_link(bug_type.name, href: type_settings_path(type_id: bug_type.id))
   end
 
   it "links a variant to its settings page, as a type's header links to its own" do
@@ -63,19 +63,19 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
 
     expect(page).to have_link(
       alfa_variant.variant_name,
-      href: edit_type_details_path(type_id: bug_type.id, variant_id: alfa_variant.id)
+      href: type_settings_path(type_id: bug_type.id, variant_id: alfa_variant.id)
     )
   end
 
-  it "counts a type's named variants in its header" do
+  it "counts a type's named variants in a badge on its header" do
     visit types_path
 
     within("[data-draggable-id='#{bug_type.id}'] .Box-header") do
-      expect(page).to have_text(I18n.t("types.index.variants_count", count: 2))
+      expect(page).to have_css(".Counter", text: "2")
     end
 
     within("[data-draggable-id='#{feature_type.id}'] .Box-header") do
-      expect(page).to have_no_text(I18n.t("types.index.variants_count", count: 0))
+      expect(page).to have_no_css(".Counter")
     end
   end
 
@@ -112,7 +112,7 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
 
       expect(page).to have_link(
         I18n.t(:button_configure),
-        href: edit_type_details_path(type_id: bug_type.id, variant_id: alfa_variant.id)
+        href: type_settings_path(type_id: bug_type.id, variant_id: alfa_variant.id)
       )
       expect(page).to have_button(I18n.t(:button_delete))
     end
@@ -202,5 +202,29 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
 
     expect(page).to have_text(I18n.t(:notice_successful_update))
     expect(feature_type.reload.position).to be < bug_type.reload.position
+  end
+
+  describe "deleting a variant that projects still apply" do
+    shared_let(:project) { create(:project, types: [bug_type]) }
+
+    before { project.project_types.find_by(type: bug_type).update!(variant: zeta_variant) }
+
+    it "migrates the applying projects to a chosen sibling, then deletes it" do
+      visit types_path(expand: bug_type.id)
+
+      within(".Box-row", text: zeta_variant.variant_name) do
+        find("action-menu > button").click
+        click_on I18n.t(:button_delete)
+      end
+
+      within("##{WorkPackageTypes::Types::DeletionDialogComponent::DIALOG_ID}") do
+        select alfa_variant.composite_name, from: I18n.t("projects.settings.types.switch.target_label")
+        click_on I18n.t(:button_delete)
+      end
+
+      expect(page).to have_text(I18n.t(:notice_successful_delete))
+      expect { zeta_variant.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      expect(project.project_types.find_by(type: bug_type).variant).to eq(alfa_variant)
+    end
   end
 end

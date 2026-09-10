@@ -30,8 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Type shown in the work package table type column when a variant applies", :js,
-               with_flag: { type_variants: true } do
+RSpec.describe "Type shown in the work package table type column when a variant applies", :js do
   let(:user) { create(:admin) }
 
   let(:root_type) { create(:type, name: "Task") }

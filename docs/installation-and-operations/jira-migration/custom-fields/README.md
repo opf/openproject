@@ -139,14 +139,11 @@ The custom field an issue resolves to is activated in that issue's project, whet
 If an OpenProject custom field with the same name and format already exists (from a previous import run or created manually), 
 the migrator reuses it instead of creating a duplicate. The existing custom field is linked to the import and its values are preserved.
 
-For **Hierarchy** and **List** fields, deduplication is not attempted because option lists may differ - a new custom field is always created for these types.
-This applies every time the import runs, not just once: if you migrate in separate batches, each batch creates its own new
-Hierarchy or List fields rather than reusing ones a previous batch already created, even when the option values are identical. 
-
 If a name collision exists but the formats differ, the migrator appends a numeric suffix to the new field name (e.g., `My Field (2)`).
+
+For **Hierarchy** and **List** fields, deduplication is attempted but not guaranteed because option lists may differ. 
+A new custom field with a numeric suffix may be created for these types.
 
 This is a separate mechanism from the option merging described under [Field contexts](#field-contexts) above, which only
 combines identical option sets *within a single import run*. Deduplication decides whether to reuse a field that already
 exists before that run starts; it does not retroactively affect how contexts were grouped during the run itself.
-
-Note that the deduplication behavior is under active development and that the number of duplicated fields will be reduced in the future (tracked by [JIM-170](https://community.openproject.org/projects/JIM/work_packages/JIM-170/activity)).

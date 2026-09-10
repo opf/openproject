@@ -43,7 +43,7 @@ RSpec.describe WorkPackageTypes::Types::VariantActionsComponent, type: :componen
   describe "menu items" do
     it "offers configure, make default and delete", :aggregate_failures do
       expect(rendered_component).to have_selector :menuitem, text: I18n.t(:button_configure) do |item|
-        expect(item[:href]).to eq edit_type_details_path(type_id: root_type.id, variant_id: variant.id)
+        expect(item[:href]).to eq type_settings_path(type_id: root_type.id, variant_id: variant.id)
       end
       expect(rendered_component).to have_selector :menuitem, text: I18n.t("types.index.make_default")
       expect(rendered_component).to have_selector :menuitem, text: I18n.t(:button_delete)
@@ -53,6 +53,10 @@ RSpec.describe WorkPackageTypes::Types::VariantActionsComponent, type: :componen
       expect(rendered_component).to have_css(
         "form[action='#{make_default_type_variant_path(type_id: root_type.id, id: variant.id)}']"
       )
+    end
+
+    it "does not offer converting a global variant" do
+      expect(rendered_component).to have_no_selector :menuitem, text: I18n.t("types.index.convert_to_global")
     end
 
     # A new project would start on a configuration only the owning project can see, so this is
@@ -73,6 +77,10 @@ RSpec.describe WorkPackageTypes::Types::VariantActionsComponent, type: :componen
         expect(rendered_component).to have_selector :menuitem, text: I18n.t(:button_configure)
         expect(rendered_component).to have_selector :menuitem, text: I18n.t(:button_delete)
       end
+
+      it "offers converting it to a global variant" do
+        expect(rendered_component).to have_selector :menuitem, text: I18n.t("types.index.convert_to_global")
+      end
     end
 
     context "when the variant is the one new projects start with" do
@@ -81,6 +89,33 @@ RSpec.describe WorkPackageTypes::Types::VariantActionsComponent, type: :componen
       it "offers removing the default instead of setting it", :aggregate_failures do
         expect(rendered_component).to have_selector :menuitem, text: I18n.t("types.index.remove_default")
         expect(rendered_component).to have_no_selector :menuitem, text: I18n.t("types.index.make_default")
+      end
+    end
+
+    describe "deleting" do
+      context "when no project applies the variant" do
+        it "deletes it directly, behind a confirmation" do
+          rendered_component
+
+          expect(page).to have_css(
+            "form[action='#{type_variant_path(type_id: root_type.id, id: variant.id)}'][data-turbo-confirm]"
+          )
+        end
+      end
+
+      context "when projects apply the variant" do
+        before do
+          project = create(:project, types: [root_type])
+          project.project_types.find_by(type: root_type).update!(variant:)
+        end
+
+        it "opens the migration dialog instead of deleting straight away", :aggregate_failures do
+          rendered_component
+          link = page.find_link(I18n.t(:button_delete))
+
+          expect(link[:href]).to eq deletion_dialog_type_variant_path(type_id: root_type.id, id: variant.id)
+          expect(link["data-controller"]).to eq("async-dialog")
+        end
       end
     end
   end

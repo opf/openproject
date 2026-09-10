@@ -26,9 +26,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  afterEach, beforeEach, describe, expect, it,
-} from 'vitest';
 import { StreamActions } from '@hotwired/turbo';
 import { registerInputCaptionStreamAction } from './input-caption-stream-action';
 

@@ -69,8 +69,8 @@ RSpec.describe "Move a backlog card via its menu",
 
   it "moves the card up optimistically and persists" do
     backlogs_page
-      .expect_work_packages_in_sprint_in_order(sprint,
-                                               work_packages: [sprint_wp1, sprint_wp2, sprint_wp3, sprint_wp4])
+      .expect_sprint_items_in_order(sprint,
+                                    items: [sprint_wp1, sprint_wp2, sprint_wp3, sprint_wp4])
 
     # Arm the reload probe before triggering the move: a full frame reload
     # (the old behaviour) would still leave the list in the expected order
@@ -88,8 +88,8 @@ RSpec.describe "Move a backlog card via its menu",
       .click_in_sprint_story_move_menu(sprint_wp2, "Move up", wait: false)
 
     backlogs_page
-      .expect_work_packages_in_sprint_in_order(sprint,
-                                               work_packages: [sprint_wp2, sprint_wp1, sprint_wp3, sprint_wp4])
+      .expect_sprint_items_in_order(sprint,
+                                    items: [sprint_wp2, sprint_wp1, sprint_wp3, sprint_wp4])
 
     backlogs_page.expect_backlogs_container_not_reloaded
 
@@ -101,7 +101,7 @@ RSpec.describe "Move a backlog card via its menu",
     # reflected in the client's optimistic DOM state.
     backlogs_page.visit!
     backlogs_page
-      .expect_work_packages_in_sprint_in_order(sprint,
-                                               work_packages: [sprint_wp2, sprint_wp1, sprint_wp3, sprint_wp4])
+      .expect_sprint_items_in_order(sprint,
+                                    items: [sprint_wp2, sprint_wp1, sprint_wp3, sprint_wp4])
   end
 end

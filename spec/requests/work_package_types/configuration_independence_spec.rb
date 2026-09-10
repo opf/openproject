@@ -32,8 +32,7 @@ require "spec_helper"
 
 RSpec.describe "Work package type configuration independence",
                :skip_csrf,
-               type: :rails_request,
-               with_flag: { type_variants: true } do
+               type: :rails_request do
   shared_let(:admin) { create(:admin) }
   shared_let(:type) { create(:type) }
   shared_let(:source) { create(:type) }
@@ -41,13 +40,13 @@ RSpec.describe "Work package type configuration independence",
   before { login_as admin }
 
   describe "GET dialog" do
-    it "renders the independent mode picker with the aspect's modes" do
+    it "renders the manual mode picker with the aspect's modes" do
       get type_configuration_independence_dialog_path(type_id: type.id, aspect: TypeVariant::FORM_CONFIGURATION),
           as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("Independent mode")
-      expect(response.body).to include("Copy from linked")
+      expect(response.body).to include("Configure manually")
+      expect(response.body).to include("Copy inherited settings")
       expect(response.body).to include("Default settings")
       expect(response.body).not_to include("Empty")
     end
@@ -56,7 +55,7 @@ RSpec.describe "Work package type configuration independence",
       get type_configuration_independence_dialog_path(type_id: type.id, aspect: TypeVariant::DEFAULTS),
           as: :turbo_stream
 
-      expect(response.body).to include("Copy from linked")
+      expect(response.body).to include("Copy inherited settings")
       expect(response.body).to include("Empty")
       expect(response.body).not_to include("Default settings")
     end
@@ -65,7 +64,7 @@ RSpec.describe "Work package type configuration independence",
       get type_configuration_independence_dialog_path(type_id: type.id, aspect: TypeVariant::PDF_EXPORT),
           as: :turbo_stream
 
-      expect(response.body).to include("Copy from linked")
+      expect(response.body).to include("Copy inherited settings")
       expect(response.body).to include("Default settings")
       expect(response.body).not_to include("Empty")
     end
@@ -85,13 +84,6 @@ RSpec.describe "Work package type configuration independence",
 
     it "is not found for an unknown aspect" do
       get type_configuration_independence_dialog_path(type_id: type.id, aspect: "not_an_aspect"), as: :turbo_stream
-
-      expect(response).to have_http_status(:not_found)
-    end
-
-    it "is not found when the variants feature is disabled", with_flag: { type_variants: false } do
-      get type_configuration_independence_dialog_path(type_id: type.id, aspect: TypeVariant::DEFAULTS),
-          as: :turbo_stream
 
       expect(response).to have_http_status(:not_found)
     end
@@ -129,7 +121,7 @@ RSpec.describe "Work package type configuration independence",
            as: :turbo_stream
 
       expect(response.body).not_to include("Switch configuration mode?")
-      expect(response.body).to include(I18n.t("types.edit.reuse_mode.independent.invalid_mode"))
+      expect(response.body).to include(I18n.t("types.edit.reuse_mode.manual.invalid_mode"))
     end
   end
 
@@ -150,7 +142,7 @@ RSpec.describe "Work package type configuration independence",
       expect(response.body).to include("dispatchEvent")
       expect(response.body)
         .to include(WorkPackageTypes::ReloadableConfigurationFrameComponent::RELOAD_EVENT_NAME)
-      expect(response.body).to include(I18n.t("types.edit.reuse_mode.independent.success"))
+      expect(response.body).to include(I18n.t("types.edit.reuse_mode.manual.success"))
     end
 
     it "flashes an error and keeps the link for an unavailable mode" do
