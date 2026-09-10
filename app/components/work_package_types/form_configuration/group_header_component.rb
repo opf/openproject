@@ -106,7 +106,7 @@ module WorkPackageTypes
       end
 
       def create_path
-        type_form_configuration_groups_path(**@variant.path_args)
+        type_form_configuration_group_path(**@variant.path_args)
       end
 
       def move_action(menu:, href:, label:, icon:)

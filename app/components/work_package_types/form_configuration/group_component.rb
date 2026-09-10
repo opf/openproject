@@ -88,6 +88,7 @@ module WorkPackageTypes
           group_type: @group[:type].to_s,
           group_key: @group[:key].to_s,
           group_query: @group[:query],
+          update_query_url: update_query_path,
           edit_mode: (true if edit_mode?)
         }.compact.merge(draggable_item_config)
       end
@@ -140,6 +141,10 @@ module WorkPackageTypes
 
       def destroy_path
         type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id, key: @group[:key])
+      end
+
+      def update_query_path
+        update_query_type_form_configuration_group_path(type_id: @variant.type_id, variant_id: @variant.id, key: @group[:key])
       end
 
       def row_drop_path(attribute)

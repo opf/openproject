@@ -23,6 +23,14 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupComponent, type: :compo
     expect(page).to have_test_selector("type-form-configuration-attribute-handle-assignee")
   end
 
+  it "renders the update-query URL for the group as data" do
+    render_inline(described_class.new(group:, variant:, ee_available: true, first: true, last: true))
+
+    expect(page).to have_css(
+      "[data-group-key='details'][data-update-query-url$='/form_configuration/group/update_query?key=details']"
+    )
+  end
+
   it "renders no handles, menus, or drag data when readonly", :aggregate_failures do
     render_inline(described_class.new(group:, variant:, ee_available: true, first: true, last: true, readonly: true))
 

@@ -33,7 +33,7 @@
                 menu.with_item(
                   label: t("types.edit.form_configuration.add_attribute_group"),
                   tag: :a,
-                  href: add_group_type_form_configuration_groups_path(**@variant.path_args, group_type: :attribute),
+                  href: add_group_type_form_configuration_group_path(**@variant.path_args, group_type: :attribute),
                   content_arguments: {
                     data: { turbo_method: :post, turbo_stream: true }
                   }
