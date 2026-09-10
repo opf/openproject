@@ -11,7 +11,7 @@ import {
   openProjectWorkPackageInlineSpec,
   getOpenProjectSlashMenuItems,
   OpenProjectFormattingToolbar,
-  useHashWpMenu,
+  OpenProjectHashMenu,
   ShadowDomWrapper,
 } from '../../lib';
 
@@ -42,8 +42,6 @@ function Editor({ onEditor, schema, editable = true, initialContent }:EditorOpti
   });
   onEditor?.(editor);
 
-  const { getHashItems, HashWpMenu } = useHashWpMenu(editor as any);
-
   const getSlashItems = useCallback(
     async (query:string) =>
       filterSuggestionItems(
@@ -61,11 +59,7 @@ function Editor({ onEditor, schema, editable = true, initialContent }:EditorOpti
     <BlockNoteView editor={editor} slashMenu={false} formattingToolbar={false} editable={editable}>
       <OpenProjectFormattingToolbar />
       <SuggestionMenuController triggerCharacter="/" getItems={getSlashItems} />
-      <SuggestionMenuController
-        triggerCharacter="#"
-        getItems={getHashItems}
-        suggestionMenuComponent={HashWpMenu}
-      />
+      <OpenProjectHashMenu />
     </BlockNoteView>
     </div>
   );

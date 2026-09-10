@@ -33,10 +33,31 @@ export async function insertInlineWorkPackageViaSlashMenu(searchTerm='Fix', resu
   await expect.element(page.getByText(resultTerm)).toBeVisible();
 }
 
-export async function insertInlineWorkPackageViaHash(hashes:string) {
-  await openEditorAndType(`${hashes}Fix`);
+export const BLOCK_CARD_HASHES = '####';
+
+async function pickHashMenuResult() {
   await expect.element(page.getByText('Fix login bug')).toBeVisible();
   await userEvent.click(page.getByText('Fix login bug'));
+}
+
+async function insertWorkPackageViaHash(trigger:string) {
+  await openEditorAndType(`${trigger}Fix`);
+  await pickHashMenuResult();
+}
+
+export async function insertInlineWorkPackageViaHash(hashes:string) {
+  await insertWorkPackageViaHash(hashes);
+}
+
+export async function insertBlockWorkPackageViaHash(textBefore = '') {
+  await insertWorkPackageViaHash(`${textBefore}${BLOCK_CARD_HASHES}`);
+  await expect.element(page.getByTestId('block-card')).toBeVisible();
+}
+
+export async function insertBlockWorkPackageViaHashAtCursor() {
+  await userEvent.keyboard(`${BLOCK_CARD_HASHES}Fix`);
+  await pickHashMenuResult();
+  await expect.element(page.getByTestId('block-card')).toBeVisible();
 }
 
 // Inline chip - popover & size menu
@@ -94,11 +115,6 @@ export async function convertToCompactCard(displayId = '#123') {
 }
 
 export async function insertInlineWorkPackageViaHashWithTextBefore(before:string) {
-  const editorEl = page.getByRole('textbox');
-  await expect.element(editorEl).toBeVisible();
-  await userEvent.click(editorEl);
-  await userEvent.type(editorEl, `${before}#Fix`);
-  await expect.element(page.getByText('Fix login bug')).toBeVisible();
-  await userEvent.click(page.getByText('Fix login bug'));
+  await insertWorkPackageViaHash(`${before}#`);
   await expect.element(page.getByText('#123')).toBeVisible();
 }

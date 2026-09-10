@@ -2,10 +2,12 @@ import { useCallback, useMemo, useRef } from 'react';
 import { MAX_SEARCH_RESULTS, useWorkPackageSearch } from '../../hooks/useWorkPackageSearch';
 import { createHashWpMenuComponent } from './HashWpMenu';
 import { isHashWpQuery } from './types';
-import { getSizeFromCurrentBlock, insertWpChip, restoreHashQuery } from './editorUtils';
+import { canOpenHashMenu, hashTargetFor } from './hashTrigger';
+import { insertWpForTarget, restoreHashQuery } from './editorUtils';
 import type { HashMenuItem, HashSearchState } from './types';
 import type { AnyEditor } from '../../editorTypes';
 import { cacheColors } from '../../services/colors';
+import { closeSuggestionMenu } from '../../utils/suggestionMenu';
 
 export function useHashWpMenu(editor:AnyEditor) {
   const { search } = useWorkPackageSearch();
@@ -26,6 +28,12 @@ export function useHashWpMenu(editor:AnyEditor) {
     async (query:string):Promise<HashMenuItem[]> => {
       latestQueryRef.current = query;
 
+      const target = hashTargetFor(editor, query);
+      if (target.kind === 'none') {
+        closeSuggestionMenu(editor);
+        return [];
+      }
+
       if (!isHashWpQuery(query)) {
         searchStateRef.current = { query, results: [], error: null };
         return placeholderItems(query);
@@ -41,11 +49,10 @@ export function useHashWpMenu(editor:AnyEditor) {
 
         if (results.length === 0) return placeholderItems(query);
 
-        const size = getSizeFromCurrentBlock(editor);
         return results.map((wp) => ({
           title: query,
           onItemClick: () => {
-            insertWpChip(editor, wp, size);
+            insertWpForTarget(editor, wp, target);
           },
         }));
       } catch (error) {
@@ -70,5 +77,5 @@ export function useHashWpMenu(editor:AnyEditor) {
   );
   /* eslint-enable react-hooks/refs */
 
-  return { getHashItems, HashWpMenu };
+  return { getHashItems, HashWpMenu, shouldOpenHashMenu: canOpenHashMenu };
 }

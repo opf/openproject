@@ -25,7 +25,7 @@ import { useTranslation } from 'react-i18next';
  * a flex item won't actually clip / scroll unless its min-height is
  * explicitly zero. (Harmless on non-flex layouts.)
  */
-const Menu = styled.div.attrs({ className: 'op-bn-hash-menu' })`
+const Menu = styled.div.attrs({ className: 'op-bn-hash-menu', 'data-testid': 'hash-menu' })`
   ${defaultWpVariables}
   ${menuSurfaceStyles}
   box-shadow: var(--bn-shadow-medium);

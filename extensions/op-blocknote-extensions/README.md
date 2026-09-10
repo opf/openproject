@@ -82,7 +82,7 @@ Create the editor:
 const editor = useCreateBlockNote({ schema });
 ```
 
-Build the slash and hash menus:
+Build the slash menu:
 
 ```tsx
 const getSlashItems = useCallback(
@@ -96,8 +96,6 @@ const getSlashItems = useCallback(
     ),
   [editor]
 );
-
-const { getHashItems, HashWpMenu } = useHashWpMenu(editor);
 ```
 
 `OpenProjectFormattingToolbar` is BlockNote's formatting toolbar with everything this library adds to it - currently a "Create work package" button on a text selection: the selected text names the work package, and the rich link for it takes the text's place in the document once it exists - a card where the selection hands over whole paragraphs, an inline chip within a line of text. It is offered for a selection that reads as a subject, so not for one that already holds a work package. Render it beside the editor and turn off the toolbar BlockNote brings itself, with `formattingToolbar={false}`.
@@ -105,6 +103,10 @@ const { getHashItems, HashWpMenu } = useHashWpMenu(editor);
 Where the host has toolbar items of its own to place, compose the toolbar by hand with `useCreateWorkPackageFromSelection(editor)` instead: it hands back the button, for the children of `FormattingToolbar`, and the form, which has to stay outside the controller - BlockNote takes the toolbar away as soon as the selection is gone, and a form that was filled in must not go with it.
 
 `getOpenProjectSlashMenuItems` returns every item this library offers: linking an existing work package, and creating a new one through a form and linking it. Both insert a card on an empty line and an inline chip within a line of text.
+
+`OpenProjectHashMenu` is the `#` command for linking a work package: typing anything after the hash searches, and how many hashes stand before the query decides what the picked work package becomes - `#` a chip carrying its ID, `##` one that adds the type and the subject, `###` one that adds the status as well, and `####` a card of its own. Invoked within a line, `####` breaks the line around the card, the way resizing an inline link into a card does. A longer run of hashes is not a command and stays on screen as typed. Render it beside the editor.
+
+Where the host builds the `#` menu itself, `useHashWpMenu(editor)` hands back the pieces instead: `getHashItems`, `HashWpMenu` and `shouldOpenHashMenu`. All three belong on the `SuggestionMenuController` - the last one is what keeps a run longer than `####` from searching.
 
 The create form is built from the work package form endpoint of the API, so the attributes it asks for - and their labels - come from the OpenProject instance: subject, project, type, assignee, plus every other attribute the selected type requires. Attributes the API already has a default for (status and priority, for instance) are left to it and are not shown, required or not.
 
@@ -118,11 +120,7 @@ return (
       triggerCharacter="/"
       getItems={getSlashItems}
     />
-    <SuggestionMenuController
-      triggerCharacter="#"
-      getItems={getHashItems}
-      suggestionMenuComponent={HashWpMenu}
-    />
+    <OpenProjectHashMenu />
   </BlockNoteView>
 );
 ```
