@@ -30,7 +30,7 @@
 
 module WorkPackageTypes
   module Types
-    class DeletionDialogComponent < ApplicationComponent
+    class VariantDeletionDialogComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
