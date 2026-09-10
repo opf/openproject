@@ -627,7 +627,7 @@ RSpec.describe "Workflow edit", :js do
 
   context "with copy dialog" do
     it "allows navigating to any Copy page", :js do
-      click_on "Copy"
+      open_copy_dialog
 
       expect(page).to have_dialog "Copy workflow"
     end
@@ -638,7 +638,7 @@ RSpec.describe "Workflow edit", :js do
           check workflow_checkbox(1, 0)
         end
 
-        click_link "Copy"
+        open_copy_dialog
 
         within_dialog "Save changes before continuing?" do
           click_button "Ignore changes"
@@ -655,7 +655,7 @@ RSpec.describe "Workflow edit", :js do
           check workflow_checkbox(1, 0)
         end
 
-        click_link "Copy"
+        open_copy_dialog
 
         within_dialog "Save changes before continuing?" do
           click_button "Save changes and continue"
@@ -673,7 +673,7 @@ RSpec.describe "Workflow edit", :js do
           check workflow_checkbox(1, 0)
         end
 
-        click_link "Copy"
+        open_copy_dialog
 
         within_dialog "Save changes before continuing?" do
           find(".close-button").click
@@ -694,7 +694,7 @@ RSpec.describe "Workflow edit", :js do
         add_status_via_dialog(statuses[2])
         expect(page).to have_field workflow_checkbox(0, 2)
 
-        click_link "Copy"
+        open_copy_dialog
 
         expect(page).to have_dialog("Save changes before continuing?")
       end
@@ -703,7 +703,7 @@ RSpec.describe "Workflow edit", :js do
         add_status_via_dialog(statuses[2])
         expect(page).to have_field workflow_checkbox(0, 2)
 
-        click_link "Copy"
+        open_copy_dialog
 
         within_dialog "Save changes before continuing?" do
           click_button "Ignore changes"
@@ -723,7 +723,7 @@ RSpec.describe "Workflow edit", :js do
 
         expect(page).to have_no_field workflow_checkbox(0, 1)
 
-        click_link "Copy"
+        open_copy_dialog
 
         within_dialog "Save changes before continuing?" do
           click_button "Ignore changes"
