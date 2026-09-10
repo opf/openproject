@@ -339,20 +339,21 @@ vi:
                 options:
                   name: Bắt đầu
                   text: |
-                    Chúng tôi rất vui vì bạn đã tham gia! Chúng tôi khuyên bạn nên thử một số thứ để bắt đầu trong OpenProject.
+                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
-                    _Hãy thử các bước sau:_
+                    _Try the following steps:_
 
-                    1. *Mời thành viên mới tham gia dự án của bạn*: &rightarrow; Đi tới [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) trong điều hướng dự án.
-                    2. *Xem Product backlog và Sprint backlog của bạn*: &rightarrow; Đi đến [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) trong phần điều hướng dự án.
-                    3. *Xem bảng Nhiệm vụ của bạn*: &rightarrow; Đi tới [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Nhấp vào mũi tên phải trên Sprint &rightarrow; Chọn [Task Board](##sprint:scrum_project__version__sprint_1).
-                    4. *Tạo gói công việc mới*: &rightarrow; Đi tới [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    5. *Tạo và cập nhật kế hoạch dự án*: &rightarrow; Đi tới [Project plan](##query:scrum_project__query__project_plan) trong điều hướng dự án.
-                    6. *Tạo một wiki Sprint*: &rightarrow; Đi tới [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) và mở wiki Sprint từ menu thả xuống bên phải trong một lần Sprint. Bạn có thể chỉnh sửa [wiki template]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) tùy theo nhu cầu của mình.
-                    7. *Kích hoạt thêm các mô-đun*: &rightarrow; Đi tới [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
+                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
+                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
+                    3. *Create a sprint*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and click "+ Sprint" to create a new sprint. Move work packages from the backlog to the sprint to plan the work to be done. When ready, click "Start sprint".
+                    4. *View your Sprint board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select Sprint Board.
+                    5. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    6. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
+                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
-                    Tại đây bạn sẽ tìm thấy [User Guides](https://www.openproject.org/docs/user-guide/) của chúng tôi.
-                    Vui lòng cho chúng tôi biết nếu bạn có bất kỳ câu hỏi nào hoặc cần hỗ trợ. Liên hệ với chúng tôi: [support[at]openproject.com](mailto:support@openproject.com).
+
+                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
+                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: Gói công việc

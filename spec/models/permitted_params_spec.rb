@@ -410,27 +410,6 @@ RSpec.describe PermittedParams do
     end
   end
 
-  describe "#projects_type_ids" do
-    let(:attribute) { :projects_type_ids }
-    let(:hash_key) { "project" }
-
-    let(:hash) do
-      { "type_ids" => ["1", "", "2"] }
-    end
-
-    let(:expected_permitted) do
-      [1, 2]
-    end
-
-    include_context "with prepare params comparison"
-
-    it do
-      actual = described_class.new(params, user).send(attribute)
-
-      expect(actual).to eq(expected_permitted)
-    end
-  end
-
   describe "#color" do
     let(:attribute) { :color }
 
@@ -992,12 +971,6 @@ RSpec.describe PermittedParams do
     let (:attribute) { :settings }
 
     describe "with password login enabled" do
-      before do
-        allow(OpenProject::Configuration)
-          .to receive(:disable_password_login?)
-                .and_return(false)
-      end
-
       let(:hash) do
         {
           "sendmail_arguments" => "value",
@@ -1011,14 +984,8 @@ RSpec.describe PermittedParams do
       it_behaves_like "allows params"
     end
 
-    describe "with password login disabled" do
+    describe "with password login disabled", with_settings: { password_login: "none" } do
       include_context "with prepare params comparison"
-
-      before do
-        allow(OpenProject::Configuration)
-          .to receive(:disable_password_login?)
-                .and_return(true)
-      end
 
       let(:hash) do
         {

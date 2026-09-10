@@ -32,7 +32,7 @@ See COPYRIGHT and LICENSE files for more details.
         id: DIALOG_ID,
         test_selector: DIALOG_ID,
         size: :medium_portrait,
-        title: t("types.edit.reuse_mode.independent.confirm_dialog.title"),
+        title: t("types.edit.reuse_mode.manual.confirm_dialog.title"),
         confirm_button_text: t(:button_confirm),
         cancel_button_text: t(:button_close),
         form_arguments: {
@@ -43,12 +43,12 @@ See COPYRIGHT and LICENSE files for more details.
       )
     ) do |dialog| %>
   <% dialog.with_confirmation_message do |message| %>
-    <% message.with_heading(tag: :h2) { t("types.edit.reuse_mode.independent.confirm_dialog.heading") } %>
-    <% message.with_description_content(t("types.edit.reuse_mode.independent.confirm_dialog.description")) %>
+    <% message.with_heading(tag: :h2) { t("types.edit.reuse_mode.manual.confirm_dialog.heading") } %>
+    <% message.with_description_content(t("types.edit.reuse_mode.manual.confirm_dialog.description")) %>
   <% end %>
 
   <% dialog.with_confirmation_check_box do %>
-    <%= t("types.edit.reuse_mode.independent.confirm_dialog.check_box") %>
+    <%= t("types.edit.reuse_mode.manual.confirm_dialog.check_box") %>
   <% end %>
 
   <% dialog.with_additional_details do %>

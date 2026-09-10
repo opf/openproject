@@ -69,7 +69,7 @@ module WorkPackageTypes
         return back_url if back_url.present?
         return helpers.variant_scope_types_path if helpers.variant_scope_project || !type.persisted?
 
-        edit_type_details_path(type_id: type.id)
+        type_settings_path(type_id: type.id)
       end
 
       def step_title = Steps.title(current_step)
@@ -139,10 +139,10 @@ module WorkPackageTypes
         )
       end
 
-      def reuse_mode_banner
+      def reuse_mode_section
         return unless step_editor.linkable_aspect?
 
-        render(WorkPackageTypes::ReuseModeBannerComponent.new(variant:, aspect: step_editor.aspect))
+        render(WorkPackageTypes::ReuseMode::SectionComponent.new(variant:, aspect: step_editor.aspect))
       end
 
       # Editors that self-persist through their own turbo endpoints.

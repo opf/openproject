@@ -120,6 +120,21 @@ See COPYRIGHT and LICENSE files for more details.
               </div>
             </div>
             <div class="form--field">
+              <label class="form--label" for="observed_in_version_ids">
+                <%= WorkPackage.human_attribute_name(:observed_in_versions) %>
+              </label>
+              <div class="form--field-container">
+                <%# Preselect "(no change)" so the multi-select defaults to it instead of an empty selection. %>
+                <%= styled_select_tag(
+                      "observed_in_version_ids[]",
+                      content_tag("option", t(:label_no_change_option), value: "", selected: selected_observed_in_versions.empty?) +
+                        version_options_for_select(available_observed_in_versions, selected_observed_in_versions),
+                      id: "observed_in_version_ids",
+                      multiple: true
+                    ) %>
+              </div>
+            </div>
+            <div class="form--field">
               <label class="form--label" for="priority_id"><%= WorkPackage.human_attribute_name(:priority) %></label>
               <div class="form--field-container">
                 <%= styled_select_tag(

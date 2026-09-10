@@ -51,9 +51,8 @@ gem "connection_pool", "~> 3.0.2"
 gem "rdoc", ">= 2.4.2"
 
 gem "doorkeeper", "~> 5.9.6"
-# Maintain our own omniauth due to relative URL root issues
-# see upstream PR: https://github.com/omniauth/omniauth/pull/903
-gem "omniauth", git: "https://github.com/opf/omniauth", ref: "7eb21563ba047ef86d71f099975587b5ec88f9c9"
+gem "omniauth", "~> 2.1"
+gem "omniauth-rails_csrf_protection", "~> 2.0"
 gem "request_store", "~> 1.7.0"
 
 gem "warden", "~> 1.2"
@@ -87,7 +86,7 @@ gem "htmldiff"
 gem "stringex", "~> 2.8.5"
 
 # CommonMark markdown parser with GFM extension
-gem "commonmarker", "~> 2.8.3"
+gem "commonmarker", "~> 2.10.0"
 
 # HTML pipeline for transformations on text formatter output
 # such as sanitization or additional features
@@ -153,7 +152,7 @@ gem "structured_warnings", "~> 0.5.0"
 # don't require by default, instead load on-demand when actually configured
 gem "airbrake", "~> 13.0.0", require: false
 
-gem "markly", "~> 0.15" # another markdown parser like commonmarker, but with AST support used in PDF export
+gem "markly", "~> 0.17" # another markdown parser like commonmarker, but with AST support used in PDF export
 gem "md_to_pdf", git: "https://github.com/opf/md-to-pdf", ref: "a0c4345367e4b9fc869e0da191ec56bcc24bd877"
 gem "prawn", "~> 2.4"
 gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues/1346 resolved.
@@ -161,7 +160,7 @@ gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.3"
 
-gem "mcp", "~> 1.1.0"
+gem "mcp", "~> 1.3.0"
 
 gem "meta-tags", "~> 2.23.0"
 
@@ -183,7 +182,7 @@ gem "ice_cube", "~> 0.17.0"
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.6+
-  gem "dalli", "~> 5.0.6"
+  gem "dalli", "~> 5.1.0"
   gem "redis", "~> 6.0.0"
 end
 
@@ -237,10 +236,10 @@ gem "yabeda-rails"
 
 # opentelemetry
 gem "opentelemetry-exporter-otlp", "~> 0.34.0", require: false
-gem "opentelemetry-instrumentation-all", "~> 0.95.0", require: false
+gem "opentelemetry-instrumentation-all", "~> 0.96.0", require: false
 gem "opentelemetry-sdk", "~> 1.13", require: false
 
-gem "view_component", "~> 4.12.0"
+gem "view_component", "~> 4.15.0"
 # Lookbook
 gem "lookbook", "2.3.14"
 
@@ -254,7 +253,7 @@ gem "factory_bot_rails", "~> 6.5.0", require: false
 gem "turbo_power", "~> 0.8.0"
 gem "turbo-rails", "~> 2.0.20"
 
-gem "httpx", "~> 1.8.1"
+gem "httpx", "~> 1.8.2"
 
 # Brings actual deep-freezing to most ruby objects
 gem "ice_nine"
@@ -296,7 +295,7 @@ group :test do
   gem "capybara", "~> 3.40.0"
   gem "capybara_accessible_selectors", git: "https://github.com/citizensadvice/capybara_accessible_selectors", tag: "v0.16.0"
   gem "capybara-screenshot", "~> 1.0.17"
-  gem "cuprite", "~> 0.17.0"
+  gem "cuprite", "~> 0.18.0"
   gem "rspec-wait"
   gem "selenium-devtools"
   gem "selenium-webdriver", "~> 4.47"

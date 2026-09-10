@@ -66,6 +66,8 @@ pt-BR:
 
       '
     login_with_auth_provider: ou entre com a sua conta existente
+    omniauth_direct_login_continue: Continue to sign in
+    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: Faça login para ativar sua conta.
     signup_title: Crie uma conta no %{app_title}
     signup_with_external_account: Cadastre-se com uma conta externa
@@ -83,6 +85,21 @@ pt-BR:
         prompt: Prompt
         types: Tipos de pacote de trabalho
         usage_scope: Escopo
+      ai/text_transform_run:
+        action: Action
+        cancel_requested: Cancel requested
+        error_message: Error message
+        finished_at: Finished at
+        input: Input
+        status: Status
+        system_prompt: System prompt
+        user: User
+        uuid: UUID
+      ai/text_transform_run_event:
+        kind: Kind
+        payload: Payload
+        run: Run
+        seq: Sequence number
       announcements:
         show_until: Exibir até
       attachment:
@@ -125,7 +142,9 @@ pt-BR:
         is_for_all: Para todos os projetos
         is_required: Obrigatório
         max_length: Tamanho máximo
+        max_value: Maximum value
         min_length: Tamanho mínimo
+        min_value: Minimum value
         multi_value: Permitir seleção múltipla
         possible_values: Valores possíveis
         regexp: Expressão regular
@@ -215,6 +234,7 @@ pt-BR:
         position: Posição
       persisted_query:
         filters: Filtros
+        group_bys: Group results by
         name: Nome
         orders: Pedidos
         selects: Seleções
@@ -353,6 +373,7 @@ pt-BR:
       token/named:
         token_name: Nome do token
       type:
+        allow_project_variants: Permitir variantes específicas do projeto
         color: Cor
         is_in_roadmap: Exibido no planejamento como padrão
         is_milestone: É marco
@@ -361,11 +382,11 @@ pt-BR:
       type/configuration_link:
         source: Tipo de fonte
       type_variant:
-        attribute_groups: Configuração do formulário
+        attribute_groups: Formulário
         default_work_package_description: Texto padrão para descrição
         defaults_source: Fonte dos padrões
         enabled_in_new_projects: Ativo em novos projetos
-        form_configuration_source: Fonte da configuração do formulário
+        form_configuration_source: Fonte do formulário
         patterns: Padrões
         pdf_export_source: Fonte da exportação em PDF
         project_attributes_source: Fonte dos atributos do projeto
@@ -471,7 +492,7 @@ pt-BR:
           true: incluindo dias não-úteis
         journal_internal: Diário interno
         notify: Notificar
-        observed_in_versions: Observed in versions
+        observed_in_versions: Observado nas versões
         parent: Pai
         parent_issue: Pai
         parent_work_package: Pai
@@ -547,6 +568,8 @@ pt-BR:
         is_for_all_cannot_modify: é aplicável a todos os projetos e, portanto, não pode ser modificado.
         ldap_managed: Este departamento é gerenciado pela sincronização LDAP e não pode ser alterado manualmente.
         less_than_or_equal_to: deve ser menor ou igual a %{count}.
+        migration_failed: 'Não foi possível alternar a variante para o projeto ''%{project}'': %{reason}'
+        migration_target_invalid: A variante selecionada deve ser outra variante do mesmo tipo que todos os projetos afetados possam utilizar.
         not_a_date: não é uma data válida.
         not_a_datetime: não é uma data/hora válida.
         not_a_number: não é um número.
@@ -568,6 +591,7 @@ pt-BR:
         regex_list_invalid: As linhas %{invalid_lines} não puderam ser interpretadas como expressão regular.
         regex_match_failed: não corresponde à expressão regular %{expression}.
         smaller_than_or_equal_to_max_length: deve ser menor ou igual ao tamanho máximo.
+        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: viola a política de SSRF desta instância do OpenProject.
         status_transition_invalid: é inválido porque não existe uma transição válida do status antigo para o novo status para as funções do usuário atual.
         system_wide_non_working_day_exists: conflita com um dia não útil já existente em todo o sistema para esta data.
@@ -719,7 +743,6 @@ pt-BR:
             types:
               cannot_assign_multiple_variants_of_parent: Só é possível habilitar uma única variante de um Tipo no projeto
               cannot_assign_variant_and_parent: 'Não é possível atribuir uma variante e seu tipo pai '
-              cannot_assign_variants_yet: As variantes ainda não podem ser habilitadas em um projeto. Ative o recurso experimental para testar as variantes
               in_use_by_work_packages: 'ainda em uso pelos pacotes de trabalho: %{types}'
               switch_target_blank: Selecione a variante para a qual deseja mudar
               switch_target_identical: O tipo de destino deve ser diferente do tipo que o projeto usa atualmente
@@ -741,7 +764,7 @@ pt-BR:
         project_type:
           attributes:
             variant:
-              must_be_owned_by_the_project: must not be a variant another project owns.
+              must_be_owned_by_the_project: não deve ser uma variante pertencente a outro projeto.
               must_belong_to_the_type: deve ser uma variante do tipo que o projeto utiliza.
         queries/filters/base:
           attributes:
@@ -814,6 +837,7 @@ pt-BR:
               hours_per_day_are_missing: O número de horas por dia deve ser definido.
               hours_per_day_is_out_of_bounds: As horas por dia não podem ultrapassar 24
               journal_aggregation_time_minutes_is_out_of_bounds: O período de agregação deve estar entre %{min} e %{max} minutos.
+              password_login_requires_sso_provider: As restrições de login por senha exigem que haja pelo menos um provedor de SSO disponível.
               previous_working_day_changes_unprocessed: As alterações anteriores na configuração de dias úteis ainda não foram aplicadas.
               working_days_are_missing: Pelo menos um dia da semana deve ser definido como um dia útil.
         status:
@@ -842,29 +866,30 @@ pt-BR:
             base:
               borrowed_by_variants: Não pode ser excluído enquanto sua configuração for reutilizada por %{names}.
               is_default_variant: A configuração padrão de um tipo não pode ser excluída.
+              project_variants_not_allowed: Esse tipo não permite a criação de variantes dentro dos projetos.
               restrict_dependent_destroy:
                 has_many: Não pode ser excluído enquanto houver projetos que ainda o utilizem.
             defaults_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
+              must_be_available_to_the_variant: deve ser uma configuração que este projeto possa utilizar.
               would_create_cycle: criaria um loop ao vincular estas configurações.
             enabled_in_new_projects:
-              not_available_to_project_owned_variant: cannot be set on a variant a project owns.
+              not_available_to_project_owned_variant: não pode ser definido em uma variante pertencente a um projeto.
               taken: já está definido para outra configuração deste tipo.
             form_configuration_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
+              must_be_available_to_the_variant: deve ser uma configuração que este projeto possa utilizar.
               would_create_cycle: criaria um loop ao vincular estas configurações.
             patterns:
               invalid_tokens: Um ou mais atributos dentro do campo não são válidos. Corrija os atributos antes de salvar.
             pdf_export_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
+              must_be_available_to_the_variant: deve ser uma configuração que este projeto possa utilizar.
               would_create_cycle: criaria um loop ao vincular estas configurações.
             project_attributes_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
+              must_be_available_to_the_variant: deve ser uma configuração que este projeto possa utilizar.
               would_create_cycle: criaria um loop ao vincular estas configurações.
             variant:
               must_belong_to_the_type: deve ser uma variante deste tipo.
             workflows_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
+              must_be_available_to_the_variant: deve ser uma configuração que este projeto possa utilizar.
               would_create_cycle: criaria um loop ao vincular estas configurações.
         user:
           attributes:
@@ -993,6 +1018,12 @@ pt-BR:
       ai/text_transform_action:
         one: Ação de transformação de texto
         other: Ações de transformação de texto
+      ai/text_transform_run:
+        one: Text transform run
+        other: Text transform runs
+      ai/text_transform_run_event:
+        one: Text transform run event
+        other: Text transform run events
       announcement:
         one: Anúncio
         other: Anúncios
@@ -1369,7 +1400,12 @@ pt-BR:
     banners:
       environment_configured_readonly: Esses valores são configurados por meio de variáveis de ambiente e não podem ser editados aqui.
     custom_styles:
+      color_groups:
+        base_colors: Cores básicas
+        main_menu: Menu lateral principal
+        top_header_colors: Cores do cabeçalho superior
       color_theme: Tema Colorido
+      color_theme_caption: Utilize um dos temas padrão do OpenProject ou crie seu próprio tema com suas cores, selecionando “Tema personalizado”.
       color_theme_custom: "(Personalizado)"
       colors:
         accent-color: Destaque
@@ -1378,12 +1414,15 @@ pt-BR:
         main-menu-bg-selected-background: Menu principal quando selecionado
         primary-button-color: Botão primário
       custom_colors: Cores personalizadas
+      edit_color: Editar %{color}
       fonts:
         file_is_invalid: não é um arquivo de fonte TTF válido.
         file_too_large: é muito grande (tamanho máximo é %{count} MB).
       instructions:
         accent-color: Cor para os links e outros elementos destacados adequadamente.
+        header-bg-color: Cor de fundo padrão do cabeçalho do aplicativo.
         main-menu-bg-color: Cor de fundo do menu esquerdo.
+        main-menu-bg-selected-background: Cor de fundo dos itens do menu quando selecionado.
         primary-button-color: Cor de destaque forte, usada para o botão mais importante na tela.
       manage_colors: Editar opções de seleção de cor
       tab_branding: Gestão de marca
@@ -1502,7 +1541,7 @@ pt-BR:
           finalizing: Finalizando
           finalizing_done: Concluído
           finalizing_error: Erro ao finalizar
-          import_aborting: Aborting
+          import_aborting: Interrompendo
           import_error: Erro durante importação
           import_scope: Selecionar escopo
           imported: Modo de revisão
@@ -1517,10 +1556,10 @@ pt-BR:
           revert_error: Erro durante a reversão
           reverted: Revertido
           reverting: Revertendo
-        step_not_available: This action is not available for the current state of the import run.
+        step_not_available: Essa ação não está disponível para o estado atual da execução da importação.
         title: Execução de importação
         wizard:
-          button_abort: Abort
+          button_abort: Interromper
           button_retry: Tentar novamente
           finalize_dialog:
             confirm: Compreendo que esta ação é irreversível
@@ -1564,14 +1603,14 @@ pt-BR:
             title: Deseja reverter esta importação de forma permanente?
           sections:
             confirm_import:
-              button_importing: Importing data
-              button_revert: Revert import
+              button_importing: Importando dados
+              button_revert: Reverter importação
               button_start: Iniciar importação
               caption: Revise suas configurações de importação e inicie a importação
               caption_done: Concluído
               caption_done_info: Todos os dados foram importados
               description: Você está prestes a iniciar uma execução de importação com as seguintes configurações.
-              info_importing: The import is now in progress. Closing this tab will not stop it, and you can always revisit the status of the import by opening the run.
+              info_importing: A importação está em andamento. Fechar esta aba não irá interrompê-la, e você poderá verificar o status da importação a qualquer momento abrindo a execução.
               label_available_data: Dados a serem importados
               label_import_data: Importando no momento
               label_progress: Importação em andamento...
@@ -1592,7 +1631,7 @@ pt-BR:
               button_done: Aprovar a importação
               button_revert: Reverter importação
               caption: Revisar execução de importação ou reverter importação
-              info: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
+              info: Os dados importados estão, no momento, no modo de revisão. Clique em “Aprovar importação” para tornar a importação definitiva ou em “Reverter importação” para desfazer todas as alterações feitas nesta execução de importação.
               label_finalize_import: Aprovar importação
               label_finalizing: Aprovando importação...
               label_finalizing_done: Importação aprovada.
@@ -1872,6 +1911,41 @@ pt-BR:
         page_header:
           description: Escolha entre IDs de pacotes de trabalho numéricos clássicos ou IDs semânticos específicos do projeto, que adicionam o identificador do projeto ao ID do pacote de trabalho.
         success_banner: Formato de identificador de pacote de trabalho atualizado com sucesso.
+    text_transform_actions:
+      delete_dialog_component:
+        description: Os usuários não poderão mais executar essa ação no editor de texto rico.
+        heading: Tem certeza de que deseja excluir a ação “%{label}”?
+        title: Excluir ação de transformação de texto
+      form:
+        injects_type_template_caption: Se marcado, o modelo de descrição do tipo de pacote de trabalho é adicionado automaticamente ao prompt. O prompt deve conter instruções sobre o que fazer com o template.
+        label_caption: Este é o nome que ficará visível para os usuários no editor.
+        select_types: Selecione tipos
+        types_caption: Adicionar tipos de pacote de trabalho para os quais esta ação deve estar disponível. Todas as variantes disponíveis serão automaticamente incluídas.
+        usage_scope_caption: 'Você pode limitar onde esta ação está visível: em todos os lugares (incluindo comentários, wikis e campos personalizados), para todos os tipos de pacotes de trabalho ou para certos tipos de pacotes de trabalho.'
+      index:
+        description: As ações de transformação de texto oferecem aos usuários recursos baseados em LLM para escrever, organizar e revisar textos em qualquer lugar onde o editor de texto rico seja utilizado, como descrições de pacotes de trabalho, comentários e páginas wiki. O senhor pode criar novas ações utilizando seus próprios prompts e instruções.
+        label_add_action: Ação
+        label_aria_add_action: Adicionar ação de transformação de texto
+      index_component:
+        blank_slate:
+          description: Adicione uma ação para vê-la aqui
+          title: Nenhuma transformação de texto configurado ainda
+        disabled_warning: As ações de transformação de texto estão desativadas. As seguintes ações não estarão disponíveis em lugar nenhum.
+        label_disable_all: Desativar tudo
+        label_enable_all: Habilitar tudo
+        title: Ações
+      new:
+        title: Nova ação de transformação de texto
+      row_component:
+        label_actions: Menu de ações
+        label_toggle: Alternar %{label}
+        scope_specific_work_package_types:
+          one: Categoria de pacote de trabalho %{count}
+          other: Categorias de pacote %{count}
+      usage_scopes:
+        all_work_package_types: Todos os tipos de pacote de trabalho
+        everywhere: Em todos os lugares
+        specific_work_package_types: Tipos específicos de pacote de trabalho
     workflows:
       blankslate:
         description: Adicione status para começar a configurar fluxos de trabalho para esta função
@@ -2123,6 +2197,9 @@ pt-BR:
     label_delete_token: Excluir token de backup
     label_reset_token: Redefinir token de backup
     label_token_users: Os seguintes usuários têm tokens de backup ativos
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: Criar
       action_reset: Reiniciar
@@ -2413,6 +2490,9 @@ pt-BR:
       min_max:
         all: 0 significa que não há restrição
         project: 0 significa que não há restrição
+      min_max_value:
+        all: Leave blank for no restriction
+        project: Leave blank for no restriction
       multi_select:
         all: Permite que o usuário atribua múltiplos valores a este campo personalizado.
         project: Permite que o usuário atribua múltiplos valores a este atributo.
@@ -2759,7 +2839,7 @@ pt-BR:
         more_info: 'Obs.: o logotipo usado pode ser acessado publicamente.'
         title: Tema de cor e logotipo personalizados
       edit_attribute_groups:
-        description: 'Personalize a configuração do formulário com estes complementos adicionais:'
+        description: 'Personalize o formulário com esses complementos adicionais:'
         features:
           groups: Adicionar novas seções de atributo
           related: Adicionar uma tabela de pacotes de trabalho relacionados
@@ -3203,7 +3283,7 @@ pt-BR:
         progress_calculation_adjusted_from_disabled_mode: Cálculo de progresso automaticamente <a href="%{href}" target="_blank">definido para o modo com base em trabalho e ajustado com a atualização de versão</a>.
         scheduling_mode_adjusted: Modo de agendamento ajustado automaticamente com a atualização da versão.
         sprint_migration: A versão "%{version_name}" foi copiada como um sprint.
-        stale_target_versions_removed: Outdated target version automatically removed. It had been incorrectly re-added when multiple target versions were enabled.
+        stale_target_versions_removed: A versão de destino desatualizada foi removida automaticamente. Ela havia sido adicionada incorretamente quando várias versões de destino estavam ativadas.
         target_versions_repaired: Versões de destino sincronizadas automaticamente com o campo Versão antes de habilitar várias versões de destino.
         totals_removed_from_childless_work_packages: Os totais de trabalho e progresso foram removidos automaticamente para pacotes de trabalho que não são principais com a <a href="%{href}" target="_blank">atualização de versão</a>. Esta é uma tarefa de manutenção e pode ser ignorada com segurança.
       total_percent_complete_mode_changed_to_simple_average: Os valores de trabalho dos pacotes de trabalho filhos são ignorados.
@@ -3379,7 +3459,6 @@ pt-BR:
   label_copy_target: Destino
   label_copy_workflow_from: Copiar o fluxo de trabalho de
   label_copy_workflow_from_role: Copiar para outras funções
-  label_copy_workflow_from_type: Copiar para outro tipo
   label_core_build: Construção principal
   label_core_version: Versão do núcleo
   label_created_by: Criado por %{user}
@@ -3500,7 +3579,6 @@ pt-BR:
   label_float: Ponto flutuante
   label_folder: Pasta
   label_follows: Segue
-  label_form_configuration: Configuração do formulário
   label_formula: Fórmula
   label_forum_new: Novo fórum
   label_forum_plural: Fóruns
@@ -3625,7 +3703,6 @@ pt-BR:
   label_message_new: Nova mensagem
   label_message_plural: Mensagens
   label_message_posted: Mensagem adicionada
-  label_min_max_length: Tamanho Mín - Max
   label_minute_plural: minutos
   label_missing_api_access_key: Falta chave de acesso a API
   label_missing_feeds_access_key: Falta chave de acesso RSS
@@ -4207,6 +4284,9 @@ pt-BR:
   mail_body_account_information: Suas informações de conta
   mail_body_account_information_external: Você pode usar sua conta %{value} para logar.
   mail_body_backup_ready: 'Seu backup solicitado está pronto. Você pode baixá-lo aqui:'
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: O token anterior não é mais válido.
   mail_body_backup_token_reset_admin_info: O token de backup para o usuário %{user} foi redefinido.
   mail_body_backup_token_reset_user_info: Seu token de backup foi redefinido.
@@ -4344,6 +4424,7 @@ pt-BR:
       mail_notification: Notificações por e-mail
       mails_and_notifications: E-mails e notificações
       mcp_configurations: Protocolo de Contexto de Modelo (MCP)
+      text_transform_actions: Ações de transformação de texto
     quick_add:
       label: Adicionar…
   more_actions: Mais funções
@@ -4529,6 +4610,7 @@ pt-BR:
   notice_account_already_activated: A conta já está ativada.
   notice_account_invalid_credentials: Usuário ou senha inválidos
   notice_account_invalid_credentials_or_blocked: Usuário ou senha inválido ou a conta está bloqueada devido a várias tentativas de login. Se for assim, será desbloqueado automaticamente em um curto espaço de tempo.
+  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
   notice_account_invalid_token: Token de ativação inválido
   notice_account_lost_email_sent: Um e-mail com instruções para escolher uma nova senha foi enviado para você.
   notice_account_new_password_forced: Uma nova senha é necessária.
@@ -4783,8 +4865,6 @@ pt-BR:
       not_found: não encontrado.
       respond_to?: não implementa o método obrigatório.
       rules:
-        copy_workflow_from:
-          workflow_missing: não possui fluxo de trabalho próprio.
         custom_field:
           format_not_supported: o formato "%{field_format}" não é compatível.
         item:
@@ -4804,7 +4884,6 @@ pt-BR:
     or: ou
     rules:
       blueprint: Esquema de padrão
-      copy_workflow_from: Tipo de cópia do fluxo de trabalho
       depth: Profundidade
       enabled: Habilitado
       item: Item
@@ -4836,8 +4915,8 @@ pt-BR:
     dialog:
       footer_center:
         caption: Este texto aparecerá centralizado no rodapé de todas as páginas.
-        default_hint_project_name: When left blank, defaults to the project name.
-        default_hint_subject: When left blank, defaults to the work package's subject.
+        default_hint_project_name: Quando deixado em branco, o padrão é o nome do projeto.
+        default_hint_subject: Quando deixado em branco, o padrão é o assunto do pacote de trabalho.
         label: Texto do rodapé
       footer_right:
         caption: Este texto aparecerá em todas as páginas à direita do rodapé.
@@ -4866,7 +4945,7 @@ pt-BR:
       caption: Detalhes do pacote de trabalho renderizados como um artefato PMflex.
       label: Artefato PMflex
     template_attributes:
-      caption: Todos os atributos da configuração atual do formulário com o modelo padrão.
+      caption: Todos os atributos presentes no formulário atual usando o modelo padrão.
       label: Atributos e descrição
     template_contract:
       caption: Detalhes do pacote de trabalho formatados conforme o padrão do contrato alemão.
@@ -4940,7 +5019,7 @@ pt-BR:
     '
   permission_manage_placeholder_user: Criar, editar e excluir usuários do espaço reservado
   permission_manage_project_activities: Gerenciar atividades do projeto
-  permission_manage_project_variants: Manage the project's own type variants
+  permission_manage_project_variants: Gerenciar as variantes de tipo específicas do projeto
   permission_manage_public_bcf_queries: Gerenciar consultas públicas a BCF
   permission_manage_public_project_queries: Gerenciar listas de projetos públicos
   permission_manage_public_queries: Gerenciar visões públicas
@@ -5249,19 +5328,18 @@ pt-BR:
           type_label: Tipo
           type_placeholder: Selecione um tipo
         add_type: Adicionar tipo
-        add_variant: Add a variant for this project
+        add_variant: Adicionar uma variante específica do projeto
+        base_type_in_use: Tipo de base utilizado neste projeto
         empty_state:
           description: Adicione um tipo para permitir que as pessoas criem pacotes de trabalho desse tipo neste projeto.
           title: Nenhum tipo está ativo neste projeto
         form:
           enable_type_in_project: Habilitar o tipo "%{type}"
-        in_use: In use
         no_results_title_text: Atualmente, não há tipos disponíveis.
-        only_available_here: Only available in this project
+        project_specific_variant: Variante específica do projeto
         remove_from_project: Remover do projeto
         switch:
           apply: Aplicar
-          description: Selecione uma variante diferente deste tipo para usar neste projeto.
           impact:
             hidden_heading: Campos que não serão mais exibidos
             missing_statuses_description: O fluxo de trabalho para o qual você está mudando não tem transição a partir desses status, portanto, ninguém poderá avançar esses pacotes de trabalho.
@@ -5281,9 +5359,11 @@ pt-BR:
           success: O projeto agora usa %{type}.
           target_label: Variante
           title: "%{type}: Trocar variante"
-        switch_type: Trocar de variante
         type_not_found: Não foi possível encontrar o tipo selecionado.
-        variant_prefix: 'Variante:'
+        use_in_project: Usar neste projeto
+        variant_in_use: Variante neste projeto
+        variant_label: Variante
+        variants_not_allowed: Esse tipo não permite a criação de variantes dentro dos projetos.
       versions:
         no_results_content_text: Criar uma nova versão
         no_results_title_text: Atualmente, não há versões para o projeto.
@@ -5446,6 +5526,12 @@ pt-BR:
   roles:
     edit:
       default_for_new_projects_warning: 'Falha ao mover o usuário entre departamentos. Este perfil está configurado como o perfil padrão atribuído a usuários não administradores que criam um projeto. Não remova as permissões a seguir, caso contrário os criadores de projetos não conseguirão concluir a configuração dos novos projetos que criarem:'
+    index:
+      filter_label: Search roles
+      types:
+        all: All roles
+        global: Global roles
+        project: Project roles
     permissions:
       section_check_all_label: Atribuir todas as permissões de %{module}
       section_uncheck_all_label: Remover todas as permissões de %{module}
@@ -5470,6 +5556,7 @@ pt-BR:
   setting_after_login_default_redirect_url_example_html: 'Defina um caminho padrão para redirecionar os usuários após o login, se nenhum link de retorno foi fornecido. Redireciona para a página inicial se não estiver definido. <br/> Exemplo: %{example_code}
 
     '
+  setting_ai_text_transform_actions_enabled: Ativar ações de transformação de texto
   setting_allowed_link_protocols: Protocolos de link permitidos
   setting_allowed_link_protocols_text_html: Permite que estes protocolos sejam apresentados como links nas descrições do pacote de trabalho, campos de texto e comentários. Por exemplo, %{tel_code} ou %{element_code}. Insira um protocolo por linha. <br/> Os protocolos %{http_code}, %{https_code} e %{mailto_code} estão sempre permitidos.
   setting_antivirus_scan_action: Ação do arquivo infectado
@@ -5549,7 +5636,7 @@ pt-BR:
   setting_default_language: Idioma padrão
   setting_default_projects_modules: Módulos habilitados por padrão para novos projetos
   setting_default_projects_public: Novos projetos são públicos por padrão
-  setting_default_projects_wiki: Enable wiki functionality for new projects by default
+  setting_default_projects_wiki: Ativar a funcionalidade wiki para novos projetos por padrão
   setting_diff_max_lines_displayed: Número máximo de linhas diferentes exibidas
   setting_disable_password_login: Desativar a autenticação por senha
   setting_display_subprojects_work_packages: Exibir pacotes de trabalho de subprojetos no projeto principal por padrão
@@ -5597,6 +5684,14 @@ pt-BR:
   setting_password_active_rules: Requisitos de senha
   setting_password_count_former_banned: Número de senhas usadas mais recentemente banidas para reutilização
   setting_password_days_valid: Número de dias antes de exigir alteração de senha
+  setting_password_login: Senha de login
+  setting_password_login_all: Permitir para todos
+  setting_password_login_all_caption: Qualquer pessoa com uma senha interna pode fazer login com ela, incluindo usuários ligados a um provedor de identidade.
+  setting_password_login_bypass_principal_ids: Usuários e grupos que ainda podem usar uma senha
+  setting_password_login_except_sso: Proibir usuários de SSO
+  setting_password_login_except_sso_caption: Os usuários vinculados a um provedor de identidade não podem fazer login com sua senha interna. Os demais usuários podem continuar usando-a.
+  setting_password_login_none: Proibir para todos
+  setting_password_login_none_caption_html: O campo de senha está oculto. Apenas os usuários e grupos listados abaixo podem fazer login com uma senha por meio de %{internal_login_link}.
   setting_password_min_length: Tamanho mínimo
   setting_per_page_options: Opções de objetos por página
   setting_percent_complete_on_status_closed: "% de conclusão quando o status for fechado"
@@ -5731,6 +5826,15 @@ pt-BR:
     authentication:
       login: Login
       omniauth_direct_login_hint_html: 'Se esta opção estiver ativada, as solicitações de login serão redirecionadas para o provedor omniauth configurado. O menu suspenso de login e a página de login serão desativados. <br/> <strong>Obs.:</strong> A menos que você também desative os logins por senha, com esta opção ativada, os usuários ainda poderão fazer login internamente acessando a página de login em <code>%{internal_path}</code>.
+
+        '
+      password_login_bypass_principal_ids_hint: 'Mesmo quando o login por senha estiver desativado, esses usuários e grupos poderão usar suas senhas para fazer login. Isso é útil, por exemplo, caso o provedor de identidade fique indisponível. Se você incluir um grupo, o acesso será estendido a todos os usuários desse grupo.
+
+        '
+      password_login_configured_by_environment: 'As seguintes configurações são definidas pelo ambiente e não podem ser editadas aqui:
+
+        '
+      password_login_requires_sso_provider: 'As restrições de login por senha não estão disponíveis, pois nenhum provedor de SSO está ativado no momento. Configure e ative um provedor de SSO antes de alterar essas configurações.
 
         '
       registration: Registro
@@ -6212,7 +6316,7 @@ pt-BR:
   total_progress: Progresso total
   types:
     creation_wizard:
-      add_variant: Adicionar variante a %{name}
+      add_variant: Adicionar uma variante a %{name}
       create_type: Criar tipo
       create_variant: Criar variante
       fields:
@@ -6223,7 +6327,7 @@ pt-BR:
       steps:
         defaults: Padrões
         details: Detalhes
-        form_configuration: Configuração do formulário
+        form_configuration: Formulário
         pdf: Geração do PDF
         project_attributes: Atributos do projeto
         projects: Projetos
@@ -6253,9 +6357,11 @@ pt-BR:
             work_package: Pacote de trabalho
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
+        allow_project_variants_caption: Para administradores de projeto com permissão para gerenciar variantes, esse tipo pode ser ampliado ou modificado dentro de um projeto.
         inherited_from_type_html: Herdado do tipo <b>%{type}</b>.
         tab: Detalhes
         type_color_text: A cor selecionada distingue diferentes tipos nos gráficos de Gantt ou nas tabelas de pacotes de trabalho. Portanto, recomenda-se usar uma cor forte.
+        variant_name_caption_html: Este é um nome interno somente visível para administradores. Variantes substituem o tipo pai original, então se esta variante for usada em um projeto, ele aparecerá como <b>%{type}</b> para todos os membros.
       export_configuration:
         artefact_export:
           attachment:
@@ -6281,12 +6387,12 @@ pt-BR:
           label: Modelos de exportação de PDF
         tab: Gerar PDF
         templates:
-          readonly_error: Cannot be changed while linked to a source type.
+          readonly_error: Não pode ser alterado enquanto estiver vinculado a um tipo de fonte.
           section_title: Modelos de exportação de PDF
           settings:
-            edit_link: Edit settings
-            reset_to_default: Reset to default
-            title: 'Settings: %{template}'
+            edit_link: Editar configurações
+            reset_to_default: Redefinir para os padrões
+            title: 'Configurações: %{template}'
       form_configuration:
         add_attribute_group: Seção
         add_query_group: Tabela de pacotes de trabalho relacionados
@@ -6294,7 +6400,7 @@ pt-BR:
         blankslate_title: Nenhum grupo ainda
         builtin_field: Campo integrado
         confirm_delete_group: Tem certeza que deseja excluir esta seção? Esta ação não pode ser revertida automaticamente.
-        confirm_reset: Tem certeza de que deseja redefinir as configurações do formulário?
+        confirm_reset: Tem certeza de que deseja redefinir o formulário?
         custom_field: Campo personalizado
         delete_group: Excluir seção
         drag_to_activate: Arraste campos daqui para ativá-los
@@ -6309,33 +6415,51 @@ pt-BR:
         group_actions: Ações da seção
         group_name_label: Nome da seção
         inactive_attributes_heading: Atributos inativos
-        invalid_attribute_groups: O payload de configuração do formulário é inválido.
+        invalid_attribute_groups: A carga do formulário é inválida.
         invalid_query: A configuração da consulta incorporada é inválida.
         label_group: Seção
         no_inactive_attributes: Nenhum atributo inativo
-        not_found: O item de configuração de formulário solicitado não foi encontrado.
+        not_found: Não foi possível localizar o campo do formulário solicitado.
         query_group_label: Tabela de pacotes de trabalho relacionados
         remove_attribute: Remover da seção
         rename_group: Renomear seção
+        required:
+          already_required_globally: This custom field is required for all types.
+          for_variant: Required in this type
+          globally: Required
+          globally_hint: Change this on the custom field
+          mark: Require in this type
+          not_a_custom_field: Only a custom field can be made required for a single type.
+          not_available_when_linked: This configuration is inherited. Configure it manually to change what is required.
+          unmark: Do not require in this type
         reset_description: 'Isto irá redefinir os atributos para seu grupo padrão e desativar TODOS os campos personalizados.
 
           '
-        reset_title: Redefinir a configuração do formulário
+        reset_title: Redefinir formulário
         reset_to_defaults: Redefinir formulário
         row_actions: Ações de linha
-        tab: Configuração do formulário
+        tab: Formulário
         untitled_group: Grupo sem título
+      overview:
+        configuration_mode: Configuration mode
+        dependents: Dependent types and variants
+        mode:
+          always_manual: Always manual
+          inheriting_from_html: Inheriting from %{source_name}
+          manual: Manually configured
+        settings: Settings
+        tab: Overview
       project_attributes:
         actions:
           label_disable_all: Desabilitar todos
           label_enable_all: Habilitar todos
         blankslate:
-          independent:
-            description: Depois que você [criar atributos de projeto](administration_url), eles ficarão visíveis aqui e poderão ser adicionados a um tipo.
-            title: Nenhum atributo de projeto disponível
-          linked:
-            description: Este tipo não tem nenhum atributo de projeto associado a ele.
-            title: Este tipo não tem nenhum atributo de projeto associado a ele
+          inherited:
+            description: Esse tipo não possui nenhum atributo de projeto associado a ele.
+            title: Nenhum atributo do projeto foi configurado
+          manual:
+            description: Depois de [criar atributos do projeto](administration_url), eles serão visíveis aqui e podem ser adicionados a um tipo.
+            title: Não há atributos de projeto disponíveis
         description: Selecione os atributos do projeto que deseja habilitar para este tipo de pacote de trabalho. Os atributos do projeto habilitados são exibidos em uma guia separada nos pacotes de trabalho deste tipo. Usuários com as permissões necessárias podem visualizar e editar esses atributos nessa guia.
         disabled: Desativado
         exclusions:
@@ -6365,65 +6489,84 @@ pt-BR:
             description_html: Ao copiar dados de %{source_name}, você substituirá as configurações atuais e isso poderá afetar informações existentes nos pacotes de trabalho deste tipo.
             title: Copiar configuração?
           dialog:
-            description: Copie a configuração de um tipo de origem e use-a como base única. Isso não vincula permanentemente os dois tipos.
-            source_label: Copiar o original
+            description: Copie a configuração de um tipo de fonte e use-a como uma base única. A configuração permanece manual e não herda mudanças posteriores da fonte.
+            source_label: Tipo de fonte
             source_placeholder: Selecione um tipo ou variante
             submit: Salvar e copiar
             title: Copiar configuração
           invalid_source: A configuração não pode ser copiada do tipo selecionado. Selecione um tipo de origem diferente.
           success: A configuração foi copiada.
+        dependents:
+          blank:
+            description: Nenhum outro tipo ou variante herda desta configuração
+            title: Nenhum tipo dependente
+          description:
+            one: A seguinte configuração é herdada por 1 outro tipo ou variante. Quaisquer alterações que você fizer aqui também afetarão a dependência.
+            other: A configuração a seguir é herdada por %{count} outros tipos ou variantes. Quaisquer alterações feitas aqui também afetarão os elementos dependentes.
+          dialog:
+            description: Estes tipos e variantes herdam a configuração desta seção. Uma alteração que você faz aqui se aplica a todos eles.
+            direct_heading: Dependentes diretos
+            indirect_heading: Dependentes através de outros tipos
+            title: Tipos dependentes
+            variant_of_html: Variante de %{type_name}
+            variant_of_via_html: Variante de %{type_name}, herdando via %{source_name}
+            via_html: Herdança por meio de %{source_name}
+          title:
+            one: 1 tipo dependente
+            other: "%{count} Tipos dependentes"
+          view: Exibir tipos dependentes
         exclusions:
-          not_linked: Este tipo tem sua própria configuração para esta seção, portanto, não há nada a excluir. Edite a configuração diretamente.
+          not_inherited: Esta configuração não é herdada, então não há nada para excluir. Edite a configuração diretamente.
           unknown_aspect: Seção de configuração desconhecida "%{aspect}".
-        independent:
+        inherited:
+          change_source: Alterar tipo de origem
+          configure_manually: Configurar manualmente
           confirm_dialog:
-            check_box: Eu entendo que isso substituirá as configurações atuais
-            description: Todas as configurações selecionadas atualmente serão substituídas e isso poderá afetar informações existentes nos pacotes de trabalho deste tipo.
-            heading: Switch configuration mode?
-            title: Switch configuration mode
-          copy_from_type: Copiar de um tipo
-          description: Nenhuma configuração é herdada. Se desejar, você ainda pode copiar as configurações de outro tipo uma única vez.
+            change_source:
+              description_html: Ao alterar o tipo de fonte para %{source_name}, você sobrescreverá as configurações atuais e poderá afetar as informações existentes nos pacotes de trabalho desse tipo.
+              heading: Alterar tipo de origem?
+              title: Alterar tipo de origem
+            check_box: Entendo que isso substituirá as configurações atuais
+            from_manual:
+              description: Todas as configurações selecionadas no momento serão substituídas e poderão afetar as informações existentes sobre os pacotes de trabalho desse tipo.
+              heading: Alternar modo de configuração?
+              title: Alternar modo de configuração
+          description: Essa configuração é herdada do tipo de origem [%{source_name}](source_url)%{source_suffix}.
+          description_unlinked: Essa configuração é herdada do tipo de origem %{source_name}%{source_suffix}.
+          dialog:
+            description: Herdar esta configuração de um tipo de fonte. Qualquer nova configuração adicionada à fonte também se aplica aqui.
+            source_label: Tipo de fonte
+            source_placeholder: Selecione um tipo ou uma variante
+            submit: Alternar
+            title: Herdar de outro tipo
+          invalid_source: A configuração não pode ser herdada do tipo selecionado. Por favor, selecione outro tipo de origem.
+          success: O modo de configuração foi alterado.
+          title: Configuração herdada
+        manual:
+          confirm_dialog:
+            check_box: Entendo que isso substituirá as configurações atuais
+            description: Todas as configurações selecionadas atualmente serão substituídas e poderão afetar as informações existentes sobre os pacotes de trabalho desse tipo.
+            heading: Alternar modo de configuração?
+            title: Alternar modo de configuração
+          copy_from_type: Copiar para outro tipo
+          description: Nenhuma configuração é herdada. No entanto, é possível copiar as configurações de outro tipo uma única vez.
           dialog:
             submit: Alternar
-            title: Modo independente
-          invalid_mode: O modo selecionado não está disponível para esta configuração. Escolha um modo diferente.
+            title: Configurar manualmente
+          inherit_from_type: Herdar de outro tipo
+          invalid_mode: O modo selecionado não está disponível para esta configuração. Por favor, escolha um modo diferente.
           modes:
             copy:
-              caption: Comece com uma cópia única das configurações atuais definidas no modo vinculado.
-              label: Copiar do vinculado
+              caption: Iniciar com uma cópia única das configurações que esta configuração herda agora.
+              label: Copiar configurações herdadas
             default:
               caption: Use as configurações padrão para novos tipos.
               label: Configurações padrão
             empty:
-              caption: Configure tudo do zero, começando com uma configuração em branco.
+              caption: Configure tudo do zero, partindo de uma configuração em branco.
               label: Vazio
           success: O modo de configuração foi alterado.
-          switch_to_linked: Alternar para o modo vinculado
-          title: Modo independente
-        linked:
-          change_source: Alterar tipo de origem
-          confirm_dialog:
-            change_source:
-              description_html: Ao copiar o tipo de origem de %{source_name}, você substituirá as configurações atuais e isso poderá afetar informações existentes nos pacotes de trabalho deste tipo.
-              heading: Change source type?
-              title: Change source type
-            check_box: Eu entendo que isso substituirá as configurações atuais
-            from_independent:
-              description: Todas as configurações selecionadas atualmente serão substituídas e isso poderá afetar informações existentes nos pacotes de trabalho deste tipo.
-              heading: Switch configuration mode?
-              title: Switch configuration mode
-          description: Esta configuração está vinculada e herdando suas configurações do tipo de origem [%{source_name}](source_url)%{source_suffix}.
-          description_unlinked: This configuration is linked and inheriting its settings from the source type %{source_name}%{source_suffix}.
-          dialog:
-            description: Copie e herde estas configurações de uma origem. Qualquer nova configuração adicionada à origem também será adicionada aqui.
-            source_label: Origem vinculada
-            source_placeholder: Selecione um tipo ou variante
-            submit: Alternar
-            title: Modo vinculado
-          invalid_source: A configuração não pode ser vinculada ao tipo selecionado. Selecione um tipo de origem diferente.
-          success: O modo de configuração foi alterado.
-          switch_to_independent: Alternar para o modo independente
-          title: Modo vinculado
+          title: Configuração manual
         parent_suffix: " (pai)"
       variants:
         blankslate:
@@ -6431,12 +6574,22 @@ pt-BR:
 
             '
           title: Não existem variantes para este tipo
+        created_in_html: Criado em %{project}
+        delete:
+          description: Os projetos usando esta variante serão alterados para a variante escolhida abaixo antes desta variante ser excluída.
+          title: Excluir %{name}
         filter: Filtrar por texto
         filter_no_results: Nenhuma variante corresponde a este filtro
+        global_section:
+          description: Estas variantes estão disponíveis em todos os projectos.
+          title: Variantes
+        project_specific_section:
+          description: Estas variantes só estão disponíveis nos projetos em que foram criadas.
+          title: Variante específica do projeto
       workflow:
         tab: Fluxos de trabalho
     index:
-      add_variant: Adicionar variante a %{name}
+      add_variant: Adicionar uma variante a %{name}
       add_variant_action: Adicionar variante
       description: 'Cada área de configuração em tipos e variantes pode ser configurada independentemente, limitada por outro tipo ou totalmente vinculada a uma origem.
 
@@ -6448,18 +6601,13 @@ pt-BR:
       make_default_notice: "%{name} agora está ativado em novos projetos."
       no_results_content_text: Criar um novo tipo
       no_results_title_text: Atualmente, não há nenhum tipo.
-      owned_by: Owned by %{project}
       project_variants_count:
-        one: 1 variant owned by a project
-        other: "%{count} variants owned by projects"
+        one: 1 variante específica do projeto
+        other: "%{count} variantes"
       remove_default: Não ativar em novos projetos
       remove_default_notice: "%{name} não está mais ativado em novos projetos."
       type_label: Tipo
-      variant_enabled_in_new_projects: Variante %{name} ativa em novos projetos
       variant_label: Variante
-      variants_count:
-        one: 1 variante
-        other: "%{count} variantes"
     milestone_indicator: Marco
   unsupported_browser:
     close_warning: Ignorar este aviso.
@@ -6833,6 +6981,13 @@ pt-BR:
       confirm_deletion: Confirmo que os pacotes de trabalho selecionados e todos os dados associados serão excluídos.
       confirm_descendants_deletion: Confirmo que todos os descendentes listados acima também serão excluídos.
       cross_project_warning_html: 'Esses pacotes de trabalho abrangem vários projetos: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        self_only_label: Delete just the selected work packages
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete the selected work packages and their descendants
       description: Tem certeza de que deseja excluir os pacotes de trabalho selecionados e todos os dados associados?
       description_with_all_descendants: Tem certeza de que deseja excluir os pacotes de trabalho selecionados e todos os seus descendentes?
       description_with_descendants: Tem certeza de que deseja excluir os pacotes de trabalho selecionados e todos os seguintes descendentes?
@@ -6897,6 +7052,13 @@ pt-BR:
       confirm_deletion: Confirmo que o pacote de trabalho e todos os dados associados serão excluídos.
       confirm_descendants_deletion: Confirmo que todos os descendentes listados acima também serão excluídos.
       cross_project_warning_html: 'Pacotes de trabalho dos seguintes projetos serão excluídos: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: This work package has descendants. Do you want to delete them as well?
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        self_only_label: Delete just this work package
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete this work package and descendants
       description: Tem certeza de que deseja excluir "%{name}"?
       heading: Excluir este pacote de trabalho de forma permanente?
       hidden_descendants_only_warning:
@@ -6948,29 +7110,13 @@ pt-BR:
   workflows:
     copies:
       form:
-        mode:
-          from_role:
-            caption: Copiar o fluxo de trabalho atual para uma ou mais funções dentro do mesmo tipo de pacote de trabalho. Se a função selecionada já tiver um fluxo de trabalho, o atual será substituído.
-            label: Copiar para outras funções
-          from_type:
-            caption: Copiar o fluxo de trabalho atual para outro tipo de pacote de trabalho. Se o tipo selecionado já tiver um fluxo de trabalho, o atual será substituído. Isso afeta todas as funções.
-            label: Copiar para outro tipo
-        source_role_id:
-          label: Função de origem
         target_role_ids:
           label: Funções alvo
-        target_variant_ids:
-          label: Tipos alvo
       from_roles:
         create:
           notice:
             one: Fluxo de trabalho copiado com sucesso para a função "%{role_name}".
             other: Fluxo de trabalho copiado com sucesso para %{count} funções.
-      from_variants:
-        create:
-          notice:
-            one: Fluxo de trabalho copiado com sucesso para "%{type_name}".
-            other: Fluxos de trabalho copiados com sucesso para %{count} tipos.
       new:
         title: Copiar fluxo de trabalho de “%{source_type}”
     form:

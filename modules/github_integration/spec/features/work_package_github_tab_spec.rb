@@ -140,13 +140,6 @@ RSpec.describe "Open the GitHub tab", :js do
     it_behaves_like "a github tab"
   end
 
-  describe "work package split view" do
-    let(:work_package_page) { Pages::SplitWorkPackage.new(work_package) }
-    let(:activity_tab) { Components::WorkPackages::Activities.new(work_package) }
-
-    it_behaves_like "a github tab"
-  end
-
   describe "primerized work package split view" do
     let(:work_package_page) { Pages::PrimerizedSplitWorkPackage.new(work_package) }
     let(:activity_tab) { Components::WorkPackages::Activities.new(work_package) }

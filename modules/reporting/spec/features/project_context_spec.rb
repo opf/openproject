@@ -15,10 +15,10 @@ RSpec.describe "Cost report project context", :js do
   end
 
   it "switches the project context when visiting another project's cost report" do
-    visit cost_reports_path(project1)
+    visit project_reporting_cost_reports_path(project1)
     expect(page).to have_css(".ng-value-label", text: project1.name)
 
-    visit cost_reports_path(project2)
+    visit project_reporting_cost_reports_path(project2)
     expect(page).to have_css(".ng-value-label", text: project2.name)
   end
 end

@@ -36,25 +36,25 @@ sv:
           name: Svart
       project_phase_colors:
         item_0:
-          name: PM2 Orange
+          name: PM2-orange
         item_1:
-          name: PM2 Red
+          name: PM2-röd
         item_2:
-          name: PM2 Magenta
+          name: PM2-magenta
         item_3:
-          name: PM2 Green Yellow
+          name: PM2-gröngul
       project_query_roles:
         item_0:
-          name: Project query viewer
+          name: Visare för projektfrågor
         item_1:
-          name: Project query editor
+          name: Redigerare för projektfrågor
       work_package_roles:
         item_0:
-          name: Work package editor
+          name: Arbetspaketsredigerare
         item_1:
-          name: Work package commenter
+          name: Arbetspaketskommentator
         item_2:
-          name: Work package viewer
+          name: Arbetspaketsvisare
       project_roles:
         item_0:
           name: Icke medlem
@@ -68,31 +68,31 @@ sv:
           name: Projektadministratör
       global_roles:
         item_0:
-          name: Staff and projects manager
+          name: Personal- och projekthanterare
         item_1:
-          name: Standard global role
+          name: Global standardroll
       ai_text_transform_actions:
         item_0:
-          label: Fix grammar
+          label: Korrigera grammatiken
         item_1:
-          label: Make concise
+          label: Gör kortfattad
         item_2:
-          label: Translate to English
+          label: Översätt till engelska
         item_3:
-          label: Sort into template
+          label: Sortera in i mall
     standard:
       project_phases:
         item_0:
-          name: Initiating
+          name: Initiering
         item_1:
           name: Planering
-          start_gate: Ready for Planning
+          start_gate: Klar för planering
         item_2:
-          name: Executing
-          start_gate: Ready for Executing
+          name: Genomförande
+          start_gate: Klar för genomförande
         item_3:
-          name: Closing
-          start_gate: Ready for Closing
+          name: Avslutning
+          start_gate: Klar för avslutning
       priorities:
         item_0:
           name: Låg
@@ -104,33 +104,33 @@ sv:
           name: Omedelbar
       departments:
         item_0:
-          name: Marketing & Communications
+          name: Marknadsföring och kommunikation
         item_1:
-          name: Public Relations
+          name: PR och mediekontakter
         item_2:
-          name: Design & Content
+          name: Design och innehåll
         item_3:
-          name: Events & Operations
+          name: Evenemang och drift
         item_4:
-          name: Web & IT
+          name: Webb och IT
         item_5:
-          name: Finance & Administration
+          name: Ekonomi och administration
         item_6:
-          name: Quality Assurance
+          name: Kvalitetssäkring
       projects:
         demo-project:
-          name: Demo project
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo project.
+          name: Demoprojekt
+          status_explanation: Alla arbetsuppgifter följer tidsplanen. De inblandade känner till sina uppgifter. Systemet är helt klart.
+          description: Detta är en kort sammanfattning av målen för demoprojektet.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Välkommen till ditt demoprojekt
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                Vi är glada att du anslöt dig.
+                I den här modulen kan du kommunicera projektnyheter till dina teammedlemmar.
+              description: De faktiska nyheterna
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Kategori 1 (ändras i Projektinställningar)
           queries:
             item_0:
               name: Projektplan
@@ -139,10 +139,10 @@ sv:
             item_2:
               name: Uppgifter
             item_3:
-              name: Team planerare
+              name: Teamplanerare
           boards:
             kanban:
-              name: Kanban board
+              name: Kanban-tavla
             basic:
               name: Grundläggande tavla
               lists:
@@ -151,11 +151,11 @@ sv:
                 item_1:
                   name: Kort lista
                 item_2:
-                  name: Priority list for today
+                  name: Prioritetslista för i dag
                 item_3:
                   name: Aldrig
             parent_child:
-              name: Work breakdown structure
+              name: Arbetsnedbrytningsstruktur
           project-overview:
             widgets:
               item_0:
@@ -165,21 +165,21 @@ sv:
                 options:
                   name: Komma igång
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Vi är glada att du är med! Vi föreslår att du provar några saker för att komma igång med OpenProject.
 
-                    Discover the most important features with our [Guided Tour]({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true).
+                    Upptäck de viktigaste funktionerna med vår [guidade rundtur]({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true).
 
-                    _Try the following steps:_
+                    _Prova följande steg:_
 
-                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/demo-project/members) in the project navigation.
-                    2. *View the work in your project*: &rightarrow; Go to [Work packages]({{opSetting:base_url}}/projects/demo-project/work_packages) in the project navigation.
-                    3. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/demo-project/work_packages/new).
-                    4. *Create and update a project plan*: &rightarrow; Go to [Project plan]({{opSetting:base_url}}/projects/demo-project/work_packages?query_id=##query.id:demo_project__query__project_plan) in the project navigation.
-                    5. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/demo-project/settings/modules).
-                    6. *Complete your tasks in the project*: &rightarrow; Go to [Work packages &rightarrow; Tasks]({{opSetting:base_url}}/projects/demo-project/work_packages/details/##wp.id:set_date_and_location_of_conference/overview?query_id=##query.id:demo_project__query__tasks).
+                    1. *Bjud in nya medlemmar till projektet*: &rightarrow; Gå till [Medlemmar]({{opSetting:base_url}}/projects/demo-project/members) i projektnavigeringen.
+                    2. *Visa arbetet i projektet*: &rightarrow; Gå till [Arbetspaket]({{opSetting:base_url}}/projects/demo-project/work_packages) i projektnavigeringen.
+                    3. *Skapa ett nytt arbetspaket*: &rightarrow; Gå till [Arbetspaket &rightarrow; Skapa]({{opSetting:base_url}}/projects/demo-project/work_packages/new).
+                    4. *Skapa och uppdatera en projektplan*: &rightarrow; Gå till [Projektplan]({{opSetting:base_url}}/projects/demo-project/work_packages?query_id=##query.id:demo_project__query__project_plan) i projektnavigeringen.
+                    5. *Aktivera fler moduler*: &rightarrow; Gå till [Projektinställningar &rightarrow; Moduler]({{opSetting:base_url}}/projects/demo-project/settings/modules).
+                    6. *Slutför dina uppgifter i projektet*: &rightarrow; Gå till [Arbetspaket &rightarrow; Uppgifter]({{opSetting:base_url}}/projects/demo-project/work_packages/details/##wp.id:set_date_and_location_of_conference/overview?query_id=##query.id:demo_project__query__tasks).
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
+                    Här hittar du våra [användarguider](https://www.openproject.org/docs/user-guide/).
+                    Kontakta oss om du har frågor eller behöver support: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: Arbetspaket
@@ -188,125 +188,125 @@ sv:
                   name: Milstolpar
           work_packages:
             item_0:
-              subject: Start of project
+              subject: Projektstart
             item_1:
-              subject: Organize open source conference
+              subject: Anordna open source-konferens
               children:
                 item_0:
-                  subject: Set date and location of conference
+                  subject: Ange datum och plats för konferensen
                   children:
                     item_0:
-                      subject: Send invitation to speakers
+                      subject: Skicka inbjudan till talare
                     item_1:
-                      subject: Contact sponsoring partners
+                      subject: Kontakta sponsringspartner
                     item_2:
-                      subject: Create sponsorship brochure and hand-outs
+                      subject: Skapa sponsringsbroschyr och informationsmaterial
                 item_1:
-                  subject: Invite attendees to conference
+                  subject: Bjud in deltagare till konferensen
                 item_2:
-                  subject: Setup conference website
+                  subject: Konfigurera konferenswebbplats
             item_2:
-              subject: Test and quality-check the conference website
+              subject: Testa och kvalitetsgranska konferenswebbplatsen
             item_3:
-              subject: Conference
+              subject: Konferens
             item_4:
-              subject: Follow-up tasks
+              subject: Uppföljningsuppgifter
               children:
                 item_0:
-                  subject: Upload presentations to website
+                  subject: Ladda upp presentationer till webbplatsen
                 item_1:
-                  subject: Party for conference supporters :-)
+                  subject: Fest för konferensens supportrar :-)
                   description: |-
-                    *   [ ] Beer
+                    *   [ ] Öl
                     *   [ ] Snacks
-                    *   [ ] Music
-                    *   [ ] Even more beer
+                    *   [ ] Musik
+                    *   [ ] Ännu mer öl
             item_5:
-              subject: End of project
+              subject: Projektets slut
           wiki: |
-            _In this wiki you can collaboratively create and edit pages and sub-pages to create a project wiki._
+            _I denna Wiki kan ni tillsammans skapa och redigera sidor och undersidor för att bygga en projekt-Wiki._
 
-            **You can:**
+            **Du kan:**
 
-            * Insert text and images, also with copy and paste from other documents
-            * Create a page hierarchy with parent pages
-            * Include wiki pages to the project menu
-            * Use macros to include, e.g. table of contents, work package lists, or Gantt charts
-            * Include wiki pages in other text fields, e.g. project overview page
-            * Include links to other documents
-            * View the change history
-            * View as Markdown
+            * Infoga text och bilder, även genom att kopiera och klistra in från andra dokument
+            * Skapa en sidhierarki med överordnade sidor
+            * Lägga till Wiki-sidor i projektmenyn
+            * Använda makron för att till exempel infoga innehållsförteckningar, arbetspaketslistor eller Gantt-diagram
+            * Infoga Wiki-sidor i andra textfält, till exempel projektets översiktssida
+            * Lägga till länkar till andra dokument
+            * Visa ändringshistoriken
+            * Visa som Markdown
 
-            More information: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
+            Mer information: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
         scrum-project:
           name: Scrum-projekt
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo Scrum project.
+          status_explanation: Alla arbetsuppgifter följer tidsplanen. De inblandade känner till sina uppgifter. Systemet är helt klart.
+          description: Detta är en kort sammanfattning av målen för detta Scrum-demoprojekt.
           news:
             item_0:
-              title: Welcome to your Scrum demo project
+              title: Välkommen till ditt Scrum-demoprojekt
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
+                Vi är glada att du anslöt dig.
+                I den här modulen kan du kommunicera projektnyheter till dina teammedlemmar.
           versions:
             item_0:
-              name: Bug Backlog
+              name: Buggbacklogg
             item_1:
-              name: Product Backlog
+              name: Produktbacklogg
             item_2:
               name: Sprint 1
               wiki:
                 title: Sprint 1
                 content: |
-                  ### Sprint planning meeting
+                  ### Sprintplaneringsmöte
 
-                  _Please document here topics to the Sprint planning meeting_
+                  _Dokumentera ämnen för sprintplaneringsmötet här_
 
-                  * Time boxed (8 h)
-                  * Input: Product Backlog
-                  * Output: Sprint Backlog
+                  * Tidsbegränsat (8 tim)
+                  * Indata: Produktbacklogg
+                  * Utdata: Sprintbacklogg
 
-                  * Divided into two additional time boxes of 4 h:
+                  * Uppdelat i ytterligare två tidsblock om 4 tim:
 
-                      * The Product Owner presents the [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and the priorities to the team and explains the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team commits to the discussed delivery.
-                      * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
-
-
-                  ### Daily Scrum meeting
-
-                  _Please document here topics to the Daily Scrum meeting_
-
-                  * Short, daily status meeting of the team.
-                  * Time boxed (max. 15 min).
-                  * Stand-up meeting to discuss the following topics from the [Task board](##sprint:scrum_project__version__sprint_1).
-                      * What do I plan to do until the next Daily Scrum?
-                      * What has blocked my work (Impediments)?
-                  * Scrum Master moderates and notes down [Sprint Impediments](##sprint:scrum_project__version__sprint_1).
-                  * Product Owner may participate may participate in order to stay informed.
-
-                  ### Sprint Review meeting
-
-                  _Please document here topics to the Sprint Review meeting_
-
-                  * Time boxed (4 h).
-                  * A maximum of one hour of preparation time per person.
-                  * The team shows the product owner and other interested persons what has been achieved in this sprint.
-                  * Important: no dummies and no PowerPoint! Just finished product functionality (Increments) should be demonstrated.
-                  * Feedback from Product Owner, stakeholders and others is desired and will be included in further work.
-                  * Based on the demonstrated functionalities, the Product Owner decides to go live with this increment or to develop it further. This possibility allows an early ROI.
+                      * Produktägaren presenterar [Produktbackloggen]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) och prioriteringarna för teamet och förklarar sprintmålet, som teamet måste enas om. Tillsammans prioriterar de ämnen från produktbackloggen som teamet ska arbeta med under nästa sprint. Teamet förbinder sig till den diskuterade leveransen.
+                      * Teamet planerar självständigt (utan produktägaren) i detalj och bryter ned uppgifterna från de diskuterade kraven för att sammanställa en [Sprintbacklogg]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
 
 
-                  ### Sprint Retrospective
+                  ### Dagligt Scrum-möte
 
-                  _Please document here topics to the Sprint Retrospective meeting_
+                  _Dokumentera ämnen för det dagliga Scrum-mötet här_
 
-                  * Time boxed (3 h).
-                  * After Sprint Review, will be moderated by Scrum Master.
-                  * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+                  * Kort, dagligt statusmöte för teamet.
+                  * Tidsbegränsat (högst 15 min).
+                  * Ståmöte för att diskutera följande ämnen från [uppgiftstavlan](##sprint:scrum_project__version__sprint_1).
+                      * Vad planerar jag att göra till nästa Daily Scrum?
+                      * Vad har hindrat mitt arbete (hinder)?
+                  * Scrum Mastern modererar och antecknar [sprinthinder](##sprint:scrum_project__version__sprint_1).
+                  * Produktägaren kan delta för att hålla sig informerad.
+
+                  ### Sprintgranskningsmöte
+
+                  _Dokumentera ämnen för sprintgranskningsmötet här_
+
+                  * Tidsbegränsat (4 tim).
+                  * Högst en timmes förberedelsetid per person.
+                  * Teamet visar produktägaren och andra intresserade vad som har uppnåtts under sprinten.
+                  * Viktigt: inga attrapper och ingen PowerPoint! Endast färdig produktfunktionalitet (inkrement) ska demonstreras.
+                  * Feedback från produktägaren, intressenter och andra är önskvärd och tas med i det fortsatta arbetet.
+                  * Utifrån de demonstrerade funktionerna beslutar produktägaren om inkrementet ska tas i drift eller utvecklas vidare. Denna möjlighet ger tidig avkastning på investeringen.
+
+
+                  ### Sprintretrospektiv
+
+                  _Dokumentera ämnen för sprintretrospektivet här_
+
+                  * Tidsbegränsat (3 tim).
+                  * Efter sprintgranskningen och modererat av Scrum Mastern.
+                  * Teamet diskuterar sprinten: vad gick bra, vad behöver förbättras för att vara mer produktiva under nästa sprint eller till och med ha roligare.
             item_3:
               name: Sprint 2
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Kategori 1 (ändras i Projektinställningar)
           queries:
             item_0:
               name: Projektplan
@@ -318,7 +318,7 @@ sv:
               name: Uppgifter
           boards:
             kanban:
-              name: Kanban board
+              name: Kanban-tavla
             basic:
               name: Aktivitetstavla
               lists:
@@ -327,7 +327,7 @@ sv:
                 item_1:
                   name: Kort lista
                 item_2:
-                  name: Priority list for today
+                  name: Prioritetslista för i dag
                 item_3:
                   name: Aldrig
           project-overview:
@@ -345,11 +345,12 @@ sv:
 
                     1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
                     2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
-                    3. *View your Task board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select [Task Board](##sprint:scrum_project__version__sprint_1).
-                    4. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    5. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
-                    6. *Create a Sprint wiki*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and open the sprint wiki from the right drop down menu in a sprint. You can edit the [wiki template]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) based on your needs.
+                    3. *Create a sprint*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and click "+ Sprint" to create a new sprint. Move work packages from the backlog to the sprint to plan the work to be done. When ready, click "Start sprint".
+                    4. *View your Sprint board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select Sprint Board.
+                    5. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    6. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
                     7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
+
 
                     Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
@@ -363,106 +364,104 @@ sv:
             item_0:
               subject: Ny inloggningsskärm
             item_1:
-              subject: Password reset does not send email
+              subject: Lösenordsåterställning skickar inget e-postmeddelande
             item_2:
               subject: Ny webbplats
               children:
                 item_0:
-                  subject: Newsletter registration form
+                  subject: Formulär för nyhetsbrevsregistrering
                 item_1:
-                  subject: Implement product tour
+                  subject: Implementera produktrundtur
                 item_2:
                   subject: Ny landningssida
                   children:
                     item_0:
-                      subject: Create wireframes for new landing page
+                      subject: Skapa wireframes för ny landningssida
             item_3:
               subject: Kontaktformulär
             item_4:
-              subject: Feature carousel
+              subject: Funktionskarusell
               children:
                 item_0:
-                  subject: Make screenshots for feature tour
+                  subject: Ta skärmbilder för funktionsrundturen
             item_5:
-              subject: Wrong hover color
+              subject: Fel hovringsfärg
             item_6:
               subject: SSL-certifikat
             item_7:
-              subject: Set-up Staging environment
+              subject: Konfigurera stagingmiljö
             item_8:
-              subject: Choose a content management system
+              subject: Välj ett innehållshanteringssystem
             item_9:
-              subject: Website navigation structure
+              subject: Webbplatsens navigeringsstruktur
               children:
                 item_0:
-                  subject: Set up navigation concept for website.
+                  subject: Skapa ett navigeringskoncept för webbplatsen.
             item_10:
-              subject: Internal link structure
+              subject: Intern länkstruktur
             item_11:
-              subject: Develop v1.0
+              subject: Utveckla v1.0
             item_12:
-              subject: Release v1.0
+              subject: Släpp v1.0
             item_13:
-              subject: Develop v1.1
+              subject: Utveckla v1.1
             item_14:
-              subject: Release v1.1
+              subject: Släpp v1.1
             item_15:
-              subject: Develop v2.0
+              subject: Utveckla v2.0
             item_16:
-              subject: Release v2.0
+              subject: Släpp v2.0
           wiki: |
-            ### Sprint planning meeting
+            ### Sprintplaneringsmöte
 
-            _Please document here topics to the Sprint planning meeting_
+            _Dokumentera ämnen för sprintplaneringsmötet här_
 
-            * Time boxed (8 h)
-            * Input: Product Backlog
-            * Output: Sprint Backlog
+            * Tidsbegränsat (8 tim)
+            * Indata: Produktbacklogg
+            * Utdata: Sprintbacklogg
 
-            * Divided into two additional time boxes of 4 h:
+            * Uppdelat i ytterligare två tidsblock om 4 tim:
 
-                * The Product Owner presents the [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and the priorities to the team and explains the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team commits to the discussed delivery.
-                * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
+                * Produktägaren presenterar [Produktbackloggen]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) och prioriteringarna för teamet och förklarar sprintmålet, som teamet måste enas om. Tillsammans prioriterar de ämnen från produktbackloggen som teamet ska arbeta med under nästa sprint. Teamet förbinder sig till den diskuterade leveransen.
+                * Teamet planerar självständigt (utan produktägaren) i detalj och bryter ned uppgifterna från de diskuterade kraven för att sammanställa en [Sprintbacklogg]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
 
+            ### Dagligt Scrum-möte
 
-            ### Daily Scrum meeting
+            _Dokumentera ämnen för det dagliga Scrum-mötet här_
 
-            _Please document here topics to the Daily Scrum meeting_
+            * Kort, dagligt statusmöte för teamet.
+            * Tidsbegränsat (högst 15 min).
+            * Ståmöte för att diskutera följande ämnen från uppgiftstavlan.
+                * Vad planerar jag att göra till nästa Daily Scrum?
+                * Vad har hindrat mitt arbete (hinder)?
+            * Scrum Mastern modererar och antecknar sprinthinder.
+            * Produktägaren kan delta för att hålla sig informerad.
 
-            * Short, daily status meeting of the team.
-            * Time boxed (max. 15 min).
-            * Stand-up meeting to discuss the following topics from the Task board.
-                * What do I plan to do until the next Daily Scrum?
-                * What has blocked my work (Impediments)?
-            * Scrum Master moderates and notes down Sprint Impediments.
-            * Product Owner may participate may participate in order to stay informed.
+            ### Sprintgranskningsmöte
 
-            ### Sprint Review meeting
+            _Dokumentera ämnen för sprintgranskningsmötet här_
 
-            _Please document here topics to the Sprint Review meeting_
+            * Tidsbegränsat (4 tim).
+            * Högst en timmes förberedelsetid per person.
+            * Teamet visar produktägaren och andra intresserade vad som har uppnåtts under sprinten.
+            * Viktigt: inga attrapper och ingen PowerPoint! Endast färdig produktfunktionalitet (inkrement) ska demonstreras.
+            * Feedback från produktägaren, intressenter och andra är önskvärd och tas med i det fortsatta arbetet.
+            * Utifrån de demonstrerade funktionerna beslutar produktägaren om inkrementet ska tas i drift eller utvecklas vidare. Denna möjlighet ger tidig avkastning på investeringen.
 
-            * Time boxed (4 h).
-            * A maximum of one hour of preparation time per person.
-            * The team shows the product owner and other interested persons what has been achieved in this sprint.
-            * Important: no dummies and no PowerPoint! Just finished product functionality (Increments) should be demonstrated.
-            * Feedback from Product Owner, stakeholders and others is desired and will be included in further work.
-            * Based on the demonstrated functionalities, the Product Owner decides to go live with this increment or to develop it further. This possibility allows an early ROI.
+            ### Sprintretrospektiv
 
+            _Dokumentera ämnen för sprintretrospektivet här_
 
-            ### Sprint Retrospective
-
-            _Please document here topics to the Sprint Retrospective meeting_
-
-            * Time boxed (3 h).
-            * After Sprint Review, will be moderated by Scrum Master.
-            * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+            * Tidsbegränsat (3 tim).
+            * Efter sprintgranskningen och modererat av Scrum Mastern.
+            * Teamet diskuterar sprinten: vad gick bra, vad behöver förbättras för att vara mer produktiva under nästa sprint eller till och med ha roligare.
       statuses:
         item_0:
           name: Ny
         item_1:
-          name: I specifikation
+          name: Under specificering
         item_2:
-          name: Specifierat
+          name: Specificerad
         item_3:
           name: Bekräftad
         item_4:
@@ -470,11 +469,11 @@ sv:
         item_5:
           name: Schemalagt
         item_6:
-          name: Pågående
+          name: Pågår
         item_7:
           name: Utvecklad
         item_8:
-          name: I test
+          name: Under testning
         item_9:
           name: Testat
         item_10:
@@ -504,44 +503,44 @@ sv:
         item_1:
           name: Milstolpe
         item_2:
-          name: Summary task
+          name: Sammanfattningsuppgift
         item_3:
           name: Funktion
         item_4:
           name: Epic
         item_5:
-          name: User story
+          name: Användarberättelse
         item_6:
           name: Bugg
       global_queries:
         item_0:
-          name: 'Epic children: User stories and bugs'
+          name: 'Epic-underposter: användarberättelser och buggar'
         item_1:
-          name: 'User story children: Tasks'
+          name: 'Underposter till användarberättelse: uppgifter'
       type_configuration:
         item_0:
           form_configuration:
             item_0:
-              group_name: User stories and bugs
+              group_name: Användarberättelser och buggar
         item_1:
           form_configuration:
             item_0:
-              group_name: Tasks
+              group_name: Uppgifter
       welcome:
         title: Välkommen till OpenProject!
         text: |
-          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
+          OpenProject är den ledande programvaran med öppen källkod för projektledning. Den stöder klassisk, agil och hybrid projektledning och ger dig full kontroll över dina data.
 
-          Core features and use cases:
+          Centrala funktioner och användningsområden:
 
-          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
-          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
-          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
-          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
-          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
+          * [Projektportföljhantering](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [Projektplanering och schemaläggning](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [Uppgiftshantering och ärendeuppföljning](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [Agila tavlor (Scrum och Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [Kravhantering och versionsplanering](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [Tids- och kostnadsuppföljning, budgetar](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [Teamsamarbete och dokumentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
 
-          Welcome to the future of project management.
+          Välkommen till framtidens projektledning.
 
-          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
+          För administratörer: Du kan ändra den här välkomsttexten [här]({{opSetting:base_url}}/admin/settings/general).

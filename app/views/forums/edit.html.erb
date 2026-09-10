@@ -37,8 +37,12 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%= labelled_tabular_form_for [@project, @forum] do |f| %>
-  <%= render partial: "form", locals: { f: f } %>
-  <%= f.button t(:button_save), class: "button -primary -with-icon icon-checkmark" %>
-  <%= link_to t(:button_cancel), project_forums_path(@project), class: "button -with-icon icon-cancel" %>
-<% end %>
+<%=
+  primer_form_with(
+    model: [@project, @forum],
+    url: project_forum_path(@project, @forum),
+    method: :patch
+  ) do |f|
+    render Forums::Form.new(f, project: @project)
+  end
+%>

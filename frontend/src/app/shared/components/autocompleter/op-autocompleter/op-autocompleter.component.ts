@@ -31,7 +31,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, forwardRef, HostBinding, Injector, Input, OnChanges, OnInit, Output, SimpleChanges, TemplateRef, Type, ViewChild, ViewContainerRef, ViewEncapsulation, inject } from '@angular/core';
 import { DropdownPosition, NgSelectComponent } from '@ng-select/ng-select';
 import { BehaviorSubject, merge, NEVER, Observable, of, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, switchMap, tap } from 'rxjs/operators';
+import { catchError, debounceTime, distinctUntilChanged, filter, switchMap, tap } from 'rxjs/operators';
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import {
@@ -490,19 +490,22 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
       tap(() => this.loading$.next(true)),
       debounceTime(this.debounceTimeForCurrentEnvironment),
       switchMap((queryString:string) => {
+        let source$:Observable<unknown> = NEVER;
+
         if (this.getOptionsFn) {
-          return this.getOptionsFn(queryString);
+          source$ = this.getOptionsFn(queryString);
+        } else if (this.url) {
+          source$ = this.opAutocompleterService.loadFromUrl(this.url, queryString, this.resource, this.filters, this.searchKey);
+        } else if (this.defaultData) {
+          source$ = this.opAutocompleterService.loadData(queryString, this.resource, this.filters, this.searchKey);
         }
 
-        if (this.url) {
-          return this.opAutocompleterService.loadFromUrl(this.url, queryString, this.resource, this.filters, this.searchKey);
-        }
-
-        if (this.defaultData) {
-          return this.opAutocompleterService.loadData(queryString, this.resource, this.filters, this.searchKey);
-        }
-
-        return NEVER;
+        return source$.pipe(
+          catchError((error) => {
+            console.error(error);
+            return of([]);
+          }),
+        );
       }),
       tap({
         next: () => this.loading$.next(false),

@@ -58,7 +58,7 @@ RSpec.describe "Work package with relation query group", :js, :selenium do
     end
   end
 
-  let(:work_packages_page) { Pages::SplitWorkPackage.new(work_package) }
+  let(:work_packages_page) { Pages::PrimerizedSplitWorkPackage.new(work_package) }
   let(:full_wp) { Pages::FullWorkPackage.new(work_package) }
   let(:relations) { Components::WorkPackages::Relations.new(work_package) }
   let(:tabs) { Components::WorkPackages::Tabs.new(work_package) }

@@ -34,11 +34,11 @@ See COPYRIGHT and LICENSE files for more details.
     <% else %>
       <%= render(Primer::Beta::Text.new(font_weight: :bold)) { variant.variant_name } %>
     <% end %>
-    <% if caption %>
-      <%= render(Primer::Beta::Text.new(color: :muted, ml: 2)) { caption } %>
+    <% if caption? %>
+      <%= caption %>
     <% end %>
-    <% labels.each do |label| %>
-      <%= label %>
+    <% if state? %>
+      <%= state %>
     <% end %>
   <% end %>
 

@@ -49,7 +49,13 @@ module Admin::Import::Jira::ImportRuns
               # concat(render(Primer::Beta::Text.new) { "(36/45)" })
             end)
             concat(render(Primer::Box.new(display: :flex, align_items: :center, style: "gap: 8px;")) do
-              concat(render(Primer::Beta::Octicon.new(**job_status_icon(@job.status))))
+              concat(
+                if @job.status == :running
+                  render(OpPrimer::SpinnerIconComponent.new)
+                else
+                  render(Primer::Beta::Octicon.new(**job_status_icon(@job.status)))
+                end
+              )
               concat(
                 render(Primer::Beta::ProgressBar.new(size: :default, style: "min-width: 300px;")) do |c|
                   percentage = if @job.status == :succeeded

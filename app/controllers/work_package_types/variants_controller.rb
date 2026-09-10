@@ -30,10 +30,10 @@
 
 module WorkPackageTypes
   class VariantsController < BaseTabController
-    include TypeVariantsFeature
+    include OpTurbo::ComponentStream
 
-    before_action :require_type_variants_feature
-    administration_only! :index, :make_default, :remove_default
+    administration_only! :index, :make_default, :remove_default,
+                         :convert_to_global_dialog, :convert_to_global
 
     current_menu_item do
       :types
@@ -52,15 +52,36 @@ module WorkPackageTypes
              layout: false
     end
 
+    def deletion_dialog
+      variant = named_variant
+      targets = variant.migration_targets.in_display_order
+
+      respond_with_dialog Types::DeletionDialogComponent.new(
+        variant:, targets:, selected: targets.first, impact: deletion_impact(variant, targets.first),
+        url: type_variant_path(type_id: variant.type_id, id: variant.id)
+      )
+    end
+
+    def deletion_preview
+      variant = named_variant
+
+      update_via_turbo_stream(
+        component: ::Projects::Settings::WorkPackages::Types::SwitchImpactComponent.new(
+          impact: deletion_impact(variant, chosen_target(variant))
+        )
+      )
+
+      respond_to_with_turbo_streams
+    end
+
     def destroy
-      service_call = DeleteVariantService.new(user: current_user, model: named_variant).call
+      variant = named_variant
+      target = chosen_target(variant)
+      service_call = DeleteVariantService.new(user: current_user, model: variant).call(target:)
 
-      if service_call.success?
-        flash[:notice] = t(:notice_successful_delete)
-      else
-        flash[:error] = service_call.errors.full_messages.to_sentence
-      end
+      return repaint_deletion_form(variant, target, service_call) if target && !service_call.success?
 
+      flash_delete_result(service_call)
       redirect_back_or_default(helpers.variant_scope_types_path, status: :see_other)
     end
 
@@ -70,6 +91,32 @@ module WorkPackageTypes
 
     def remove_default
       apply_default_service(RemoveDefaultService, "types.index.remove_default_notice")
+    end
+
+    def convert_to_global_dialog
+      variant = named_variant
+      service_call = ConvertToGlobalService.new(variant:).validate
+
+      if service_call.errors.added?(:base, :inherits_from_project_owned)
+        refuse_blocked_convert(service_call)
+      else
+        dialog_via_turbo_stream(component: convert_confirm_dialog(variant))
+      end
+
+      respond_with_turbo_streams
+    end
+
+    def convert_to_global
+      variant = named_variant
+      service_call = ConvertToGlobalService.new(variant:).call(name: requested_name)
+
+      if service_call.success?
+        flash[:notice] = t("types.index.convert_to_global_notice", name: variant.composite_name)
+        return redirect_back_or_default(types_path, status: :see_other)
+      end
+
+      handle_failed_convert(service_call)
+      respond_with_turbo_streams
     end
 
     private
@@ -102,6 +149,85 @@ module WorkPackageTypes
       addressable = addressable.owned_by(variant_scope_project) if variant_scope_project
 
       addressable.find(params.expect(:id))
+    end
+
+    def chosen_target(variant)
+      return if params[:target_id].blank?
+
+      variant.migration_targets.find_by(id: params[:target_id])
+    end
+
+    def flash_delete_result(service_call)
+      if service_call.success?
+        flash[:notice] = t(:notice_successful_delete)
+      else
+        flash[:error] = service_call.errors.full_messages.to_sentence
+      end
+    end
+
+    # The impact spans every project applying the variant,
+    # so work packages are passed in rather than scoping Impact to a particular project.
+    def deletion_impact(variant, target)
+      return if target.nil?
+
+      ::Projects::Types::Switch::Impact.new(source: variant, target:, work_packages: variant.work_packages)
+    end
+
+    def repaint_deletion_form(variant, target, service_call)
+      update_via_turbo_stream(
+        component: Types::DeletionFormComponent.new(
+          variant:, targets: variant.migration_targets.in_display_order, selected: target,
+          impact: deletion_impact(variant, target),
+          url: type_variant_path(type_id: variant.type_id, id: variant.id),
+          validation_message: service_call.errors.full_messages.to_sentence
+        )
+      )
+
+      respond_to_with_turbo_streams
+    end
+
+    def handle_failed_convert(service_call)
+      if service_call.errors.added?(:base, :inherits_from_project_owned)
+        refuse_blocked_convert(service_call)
+      elsif params.key?(:type_variant)
+        repaint_rename_form(service_call)
+      else
+        open_rename_dialog
+      end
+    end
+
+    def refuse_blocked_convert(service_call)
+      flash[:error] = service_call.errors.full_messages
+      reload_page_via_turbo_stream
+    end
+
+    def open_rename_dialog
+      close_dialog_via_turbo_stream(Types::ConvertToGlobalDialogComponent::DIALOG_ID)
+      variant = named_variant # Fresh version, no preexisting errors
+      dialog_via_turbo_stream(component: Types::ConvertToGlobalRenameDialogComponent.new(
+        variant:, url: convert_path(variant)
+      ))
+    end
+
+    def repaint_rename_form(service_call)
+      update_via_turbo_stream(
+        component: Types::ConvertToGlobalRenameFormComponent.new(
+          variant: service_call.result, url: convert_path(service_call.result)
+        ),
+        status: :unprocessable_entity
+      )
+    end
+
+    def requested_name
+      params.dig(:type_variant, :variant_name)
+    end
+
+    def convert_confirm_dialog(variant)
+      Types::ConvertToGlobalDialogComponent.new(url: convert_path(variant))
+    end
+
+    def convert_path(variant)
+      convert_to_global_type_variant_path(type_id: variant.type_id, id: variant.id)
     end
   end
 end

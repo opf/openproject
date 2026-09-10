@@ -30,7 +30,7 @@
 
 require "rails_helper"
 
-RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component, with_flag: { type_variants: true } do
+RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component do
   include Rails.application.routes.url_helpers
 
   let(:source) { create(:type, name: "Phase") }
@@ -87,7 +87,7 @@ RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component, with_f
 
     context "when the type has been created" do
       it "points the close (X) and cancel actions to the type's edit page" do
-        edit_href = url_helpers.edit_type_details_path(type_id: type.id)
+        edit_href = url_helpers.type_settings_path(type_id: type.id)
 
         render_inline(described_class.new(type:, current_step: :defaults))
 
