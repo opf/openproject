@@ -116,7 +116,10 @@ module CustomStylesHelper
   end
 
   def custom_logo?
-    desktop_logo_present?
+    style = CustomStyle.current
+    return false unless style
+
+    style.logo.present? || style.theme_logo.present?
   end
 
   def desktop_logo_present?
@@ -136,20 +139,27 @@ module CustomStylesHelper
   def custom_logo_url(custom_style, attachment)
     return if attachment.blank?
 
-    custom_logo_source(custom_style, attachment.mounted_as)
+    field = attachment.mounted_as
+    custom_style_logo_path(
+      digest: custom_style.digest,
+      filename: custom_style.public_send(:"#{field}_identifier"),
+      field:
+    )
   end
 
-  def custom_logo_urls(custom_style, mobile: false)
-    context = mobile ? :mobile : :desktop
+  def custom_logo_urls(custom_style)
+    CustomStyle::LOGO_FIELDS.to_h do |logo_type, fields|
+      modes = fields.keys.to_h do |mode|
+        attachment = custom_style.logo_for(
+          color_mode: mode == :dark ? :dark : :light,
+          high_contrast: mode == :light_high_contrast,
+          mobile: logo_type == :mobile
+        )
 
-    CustomStyle::LOGO_FIELDS.fetch(context).keys.to_h do |mode|
-      attachment = custom_style.logo_for(
-        color_mode: mode == :dark ? :dark : :light,
-        high_contrast: mode == :light_high_contrast,
-        mobile:
-      )
+        [mode, custom_logo_url(custom_style, attachment)]
+      end
 
-      [mode, custom_logo_url(custom_style, attachment)]
+      [logo_type, modes]
     end
   end
 
@@ -160,9 +170,7 @@ module CustomStylesHelper
     logo_urls_with_custom_style(CustomStyle.current, defaults)
   end
 
-  def custom_logo_uploads(custom_style, mobile: false)
-    logo_type = mobile ? :mobile : :desktop
-
+  def custom_logo_uploads(custom_style, logo_type: :desktop)
     CustomStyle::LOGO_FIELDS.fetch(logo_type).map do |mode, field|
       custom_logo_upload(custom_style, mode:, field:)
     end
@@ -226,35 +234,28 @@ module CustomStylesHelper
       },
       mobile: {
         light: asset_path("icon_logo.svg"),
+        white: mobile_white,
         light_high_contrast: asset_path("icon_logo.svg"),
         dark: mobile_white
-      },
-      mobile_white_class: mobile_white
+      }
     }
   end
 
   def logo_urls_with_custom_style(custom_style, defaults)
-    desktop = custom_logo_urls(custom_style)
-    mobile = custom_logo_urls(custom_style, mobile: true)
+    desktop, mobile = custom_logo_urls(custom_style).fetch_values(:desktop, :mobile)
+    theme_logo = asset_path(custom_style.theme_logo) if custom_style.theme_logo.present?
+
     # Preserve the legacy fallback to the mobile logo when no desktop logo is configured.
     desktop = mobile unless desktop.values.any?
 
     {
-      desktop: desktop_logo_defaults(custom_style, defaults[:desktop]).merge(desktop.compact),
-      mobile: defaults[:mobile].merge(mobile.compact),
-      mobile_white_class: mobile[:light] || defaults[:mobile_white_class]
+      desktop: defaults[:desktop].merge({ light: theme_logo, dark: theme_logo }.compact).merge(desktop.compact),
+      mobile: defaults[:mobile].merge(mobile.compact).merge(white: mobile[:light] || defaults.dig(:mobile, :white))
     }
   end
 
-  def desktop_logo_defaults(custom_style, defaults)
-    return defaults if custom_style.theme_logo.blank?
-
-    theme_logo = asset_path(custom_style.theme_logo)
-    defaults.merge(light: theme_logo, dark: theme_logo)
-  end
-
-  def custom_logo_fields_present?(custom_style, context)
-    CustomStyle::LOGO_FIELDS.fetch(context).values.any? do |field|
+  def custom_logo_fields_present?(custom_style, logo_type)
+    CustomStyle::LOGO_FIELDS.fetch(logo_type).values.any? do |field|
       custom_style.public_send(field).present?
     end
   end
@@ -267,23 +268,11 @@ module CustomStylesHelper
       field:,
       label: t("admin.custom_styles.branding.modes.#{mode}.name"),
       present:,
-      source: present ? custom_logo_source(custom_style, field) : nil,
+      source: present ? custom_logo_url(custom_style, attachment) : nil,
       img_class: field.to_s.start_with?("logo_mobile") ? "custom-logo-mobile-preview" : "custom-logo-preview",
       accept: "image/*",
-      delete_path: custom_logo_delete_path(field),
+      delete_path: custom_style_logo_delete_path(field:),
       instructions: t("admin.custom_styles.branding.modes.#{mode}.description")
     }
-  end
-
-  def custom_logo_source(custom_style, field)
-    custom_style_logo_path(
-      digest: custom_style.digest,
-      filename: custom_style.public_send(:"#{field}_identifier"),
-      field:
-    )
-  end
-
-  def custom_logo_delete_path(field)
-    custom_style_logo_delete_path(field:)
   end
 end

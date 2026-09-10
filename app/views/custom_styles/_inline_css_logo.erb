@@ -43,7 +43,7 @@ See COPYRIGHT and LICENSE files for more details.
   }
 
   .op-logo--icon_white {
-    background-image: url(<%= logo_urls[:mobile_white_class] %>);
+    background-image: url(<%= logo_urls.dig(:mobile, :white) %>);
   }
 
   [data-light-theme="light_high_contrast"] .op-logo--link {

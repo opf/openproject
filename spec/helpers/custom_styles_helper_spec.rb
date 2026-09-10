@@ -126,6 +126,28 @@ RSpec.describe CustomStylesHelper do
     it_behaves_like "apply when ee present"
   end
 
+  describe ".custom_logo?" do
+    subject { helper.custom_logo? }
+
+    context "with only a dark desktop logo" do
+      let(:current_theme) { build(:custom_style_with_logo_dark) }
+
+      it { is_expected.to be false }
+    end
+
+    context "with a light desktop logo" do
+      let(:current_theme) { build(:custom_style_with_logo) }
+
+      it { is_expected.to be true }
+    end
+
+    context "without a desktop logo" do
+      let(:current_theme) { build_stubbed(:custom_style) }
+
+      it { is_expected.to be false }
+    end
+  end
+
   describe ".desktop_logo_present?" do
     subject { helper.desktop_logo_present? }
 
@@ -164,7 +186,22 @@ RSpec.describe CustomStylesHelper do
     context "without custom styles" do
       it "returns distinct default mobile logos" do
         expect(logo_urls.dig(:mobile, :light)).to eq(helper.asset_path("icon_logo.svg"))
-        expect(logo_urls[:mobile_white_class]).to eq(helper.asset_path("icon_logo_white.svg"))
+        expect(logo_urls.dig(:mobile, :white)).to eq(helper.asset_path("icon_logo_white.svg"))
+        expect(logo_urls.dig(:mobile, :dark)).to eq(helper.asset_path("icon_logo_white.svg"))
+      end
+    end
+
+    context "with a custom mobile light logo", with_ee: %i[define_custom_style] do
+      let(:current_theme) { create(:custom_style_with_logo_mobile) }
+
+      it "uses it for the light mobile header" do
+        path = custom_style_logo_path(
+          digest: current_theme.digest,
+          filename: current_theme.logo_mobile_identifier,
+          field: :logo_mobile
+        )
+
+        expect(logo_urls.dig(:mobile, :white)).to eq(path)
       end
     end
 

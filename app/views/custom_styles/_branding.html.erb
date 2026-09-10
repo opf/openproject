@@ -32,7 +32,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% subhead.with_description { t("admin.custom_styles.branding.desktop.description") } %>
 <% end %>
 
-<% custom_logo_uploads(@custom_style).each do |image| %>
+<% custom_logo_uploads(@custom_style, logo_type: :desktop).each do |image| %>
   <%= render partial: "custom_styles/uploads/image", locals: { image: } %>
 <% end %>
 
@@ -41,7 +41,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% subhead.with_description { t("admin.custom_styles.branding.mobile.description") } %>
 <% end %>
 
-<% custom_logo_uploads(@custom_style, mobile: true).each do |image| %>
+<% custom_logo_uploads(@custom_style, logo_type: :mobile).each do |image| %>
   <%= render partial: "custom_styles/uploads/image", locals: { image: } %>
 <% end %>
 
