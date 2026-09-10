@@ -77,12 +77,6 @@ strip_html_comments() {
   '
 }
 
-write_output() {
-  if [ -n "$GITHUB_OUTPUT" ]; then
-    echo "$1" >> "$GITHUB_OUTPUT"
-  fi
-}
-
 SECTION=$(
   printf '%s\n' "$PR_BODY" |
     tr -d '\r' |
@@ -90,9 +84,9 @@ SECTION=$(
     sed -n '/^#\{1,6\}[[:space:]]*AI involvement/,/^#\{1,6\}[[:space:]]/p'
 )
 
-if [ -z "$(printf '%s' "$SECTION" | tr -d '[:space:]')" ]; then
+if [ -z "${SECTION//[[:space:]]/}" ]; then
   echo "::error::The PR description does not contain an 'AI involvement' section."
-  write_output "section_missing=true"
+  echo "status=section_missing" >> "${GITHUB_OUTPUT:-/dev/stdout}"
   exit 0
 fi
 
@@ -101,16 +95,19 @@ SELECTED_COUNT=$(printf '%s' "$SELECTED" | grep -c . || true)
 
 if [ "$SELECTED_COUNT" -eq 0 ]; then
   echo "::error::The 'AI involvement' section does not state an AI involvement level."
-  write_output "level_missing=true"
+  echo "status=level_missing" >> "${GITHUB_OUTPUT:-/dev/stdout}"
   exit 0
 fi
 
 if [ "$SELECTED_COUNT" -gt 1 ]; then
-  echo "::error::The 'AI involvement' section states more than one level: $(echo "$SELECTED" | tr '\n' ' ')"
-  write_output "multiple_levels=true"
-  write_output "selected_levels=$(echo "$SELECTED" | paste -sd ', ' -)"
+  LEVEL_LIST="${SELECTED//$'\n'/, }"
+  echo "::error::The 'AI involvement' section states more than one level: $LEVEL_LIST"
+  {
+    echo "status=multiple_levels"
+    echo "selected_levels=$LEVEL_LIST"
+  } >> "${GITHUB_OUTPUT:-/dev/stdout}"
   exit 0
 fi
 
 echo "AI involvement level: $SELECTED"
-write_output "selected_levels=$SELECTED"
+echo "status=ok" >> "${GITHUB_OUTPUT:-/dev/stdout}"

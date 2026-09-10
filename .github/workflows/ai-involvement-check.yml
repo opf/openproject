@@ -35,6 +35,7 @@ jobs:
       && github.event.pull_request.user.type != 'Bot'
       && github.event.pull_request.user.login != 'openprojectci'
     runs-on: ubuntu-latest
+    timeout-minutes: 5
 
     steps:
       # No ref: under pull_request_target this checks out the base branch, so the
@@ -53,7 +54,7 @@ jobs:
         run: ./script/ci/ai_involvement_check.sh
 
       - name: Add comment if the section is missing
-        if: steps.ai-involvement-check.outputs.section_missing == 'true'
+        if: steps.ai-involvement-check.outputs.status == 'section_missing'
         uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
         with:
           header: ai-involvement-comment
@@ -66,7 +67,7 @@ jobs:
             and self-assess how much AI drove this PR.
 
       - name: Add comment if no level is stated
-        if: steps.ai-involvement-check.outputs.level_missing == 'true'
+        if: steps.ai-involvement-check.outputs.status == 'level_missing'
         uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
         with:
           header: ai-involvement-comment
@@ -78,7 +79,7 @@ jobs:
             markers.
 
       - name: Add comment if multiple levels are stated
-        if: steps.ai-involvement-check.outputs.multiple_levels == 'true'
+        if: steps.ai-involvement-check.outputs.status == 'multiple_levels'
         uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
         with:
           header: ai-involvement-comment
@@ -91,20 +92,14 @@ jobs:
             or delete the others.
 
       - name: AI involvement check passed
-        if: |
-          steps.ai-involvement-check.outputs.section_missing != 'true'
-          && steps.ai-involvement-check.outputs.level_missing != 'true'
-          && steps.ai-involvement-check.outputs.multiple_levels != 'true'
+        if: steps.ai-involvement-check.outputs.status == 'ok'
         uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
         with:
           header: ai-involvement-comment
           delete: true
 
       - name: Fail if the AI involvement section is not filled out
-        if: >-
-          steps.ai-involvement-check.outputs.section_missing == 'true'
-          || steps.ai-involvement-check.outputs.level_missing == 'true'
-          || steps.ai-involvement-check.outputs.multiple_levels == 'true'
+        if: steps.ai-involvement-check.outputs.status != 'ok'
         run: |
           echo "The 'AI involvement' section of the pull request description is not filled out."
           echo "See the comment on the pull request for what to change."
