@@ -217,7 +217,7 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
         click_on I18n.t(:button_delete)
       end
 
-      within("##{WorkPackageTypes::Types::DeletionDialogComponent::DIALOG_ID}") do
+      within("##{WorkPackageTypes::Types::VariantDeletionDialogComponent::DIALOG_ID}") do
         select alfa_variant.composite_name, from: I18n.t("projects.settings.types.switch.target_label")
         click_on I18n.t(:button_delete)
       end
