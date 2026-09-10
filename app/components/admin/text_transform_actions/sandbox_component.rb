@@ -37,8 +37,6 @@ module Admin
       include API::V3::Utilities::PathHelper
 
       DIALOG_ID = "ai-text-transform-sandbox-details"
-      WORK_PACKAGE_LIMIT = 50
-      PROJECT_LIMIT = 100
 
       alias action model
 
@@ -65,17 +63,6 @@ module Admin
 
       def label(key)
         I18n.t("admin.text_transform_actions.sandbox.#{key}")
-      end
-
-      def work_packages
-        WorkPackage.visible(User.current)
-                   .includes(:project, :type)
-                   .order(updated_at: :desc)
-                   .limit(WORK_PACKAGE_LIMIT)
-      end
-
-      def projects
-        Project.visible(User.current).active.order(:name).limit(PROJECT_LIMIT)
       end
 
       def types

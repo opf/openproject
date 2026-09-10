@@ -41,7 +41,7 @@ See COPYRIGHT and LICENSE files for more details.
 
         layout.with_row(mb: 3) do
           helpers.primer_form_with(url: "#", method: :post, data: form_data) do |f|
-            render(Admin::TextTransformActions::SandboxForm.new(f, work_packages:, projects:, types:))
+            render(Admin::TextTransformActions::SandboxForm.new(f, types:))
           end
         end
 
