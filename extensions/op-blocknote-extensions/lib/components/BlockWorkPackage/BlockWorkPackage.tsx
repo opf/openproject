@@ -17,9 +17,10 @@ import { CreateWorkPackageModal } from '../CreateWorkPackage';
 import { defaultWpVariables, nonSelectableStyles } from '../WorkPackage/atoms';
 import { CHIP_STYLES } from '../WorkPackage/tokens';
 import { moveCursorAfterBlock } from '../../utils/cursor';
-import { hideSafariPhantomSelection } from '../../utils/selection';
+import { hideSafariPhantomSelection, selectBlockNode } from '../../utils/selection';
 import { pendingBlockRegistry } from './pendingBlockRegistry';
 import { useSuppressFormattingToolbar } from '../../hooks/useSuppressFormattingToolbar';
+import { useTapActivation } from '../../utils/tapActivation';
 
 const Block = styled.div.attrs({ className: 'op-bn-extensions', 'data-testid': 'block-wp-wrapper' })<{ $pending?:boolean; $selected?:boolean }>`
   ${defaultWpVariables}
@@ -77,6 +78,13 @@ export const BlockWorkPackageComponent = ({
 
   useSuppressFormattingToolbar(editor, isOptionsOpen);
 
+  const tapProps = useTapActivation();
+  const toggleOptions = (event?:React.MouseEvent) => {
+    event?.stopPropagation();
+    selectBlockNode(editor, block.id);
+    setIsOptionsOpen((prev) => !prev);
+  };
+
   const workPackageResult = useWorkPackage(block.props.wpid);
   const selectedWorkPackage = workPackageResult.workPackage;
 
@@ -132,17 +140,22 @@ export const BlockWorkPackageComponent = ({
     sideMenu?.blockDragStart(e.nativeEvent, block as any);
   };
 
-  // Close options popover on outside click
+  // Touch is listened for in its own right: a tap another element answers
+  // never becomes a mousedown.
   useEffect(() => {
     if (!isOptionsOpen) return;
-    const handleClickOutside = (e:MouseEvent) => {
+    const handlePressOutside = (e:Event) => {
       const path = e.composedPath();
       if (cardRef.current && !path.includes(cardRef.current)) {
         setIsOptionsOpen(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('mousedown', handlePressOutside);
+    document.addEventListener('touchstart', handlePressOutside);
+    return () => {
+      document.removeEventListener('mousedown', handlePressOutside);
+      document.removeEventListener('touchstart', handlePressOutside);
+    };
   }, [isOptionsOpen]);
 
   const handleConvertToInline = (size:InlineWpSize) => {
@@ -211,10 +224,7 @@ export const BlockWorkPackageComponent = ({
               <UnavailableCardWrapper
                 ref={cardRef}
                 role="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setIsOptionsOpen((prev) => !prev);
-                }}
+                {...tapProps(toggleOptions)}
               >
                 {workPackageResult.error ? (
                   <UnavailableCard
@@ -245,10 +255,7 @@ export const BlockWorkPackageComponent = ({
                     workPackage={selectedWorkPackage}
                     size={cardSize}
                     linkTitle
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setIsOptionsOpen((prev) => !prev);
-                    }}
+                    onActivation={tapProps(toggleOptions)}
                   />
                   {isOptionsOpen && optionsPopover}
                 </BlockCardWrapper>

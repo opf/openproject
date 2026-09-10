@@ -3,6 +3,23 @@ import { page, userEvent } from 'vitest/browser';
 
 export const SEARCH_PLACEHOLDER = 'Search by work package ID or subject';
 
+export function tapElement(element:Element) {
+  const rect = element.getBoundingClientRect();
+  const touch = new Touch({
+    identifier: 1,
+    target: element,
+    clientX: rect.left + rect.width / 2,
+    clientY: rect.top + rect.height / 2,
+  });
+
+  element.dispatchEvent(new TouchEvent('touchstart', {
+    bubbles: true, cancelable: true, changedTouches: [touch], touches: [touch],
+  }));
+  element.dispatchEvent(new TouchEvent('touchend', {
+    bubbles: true, cancelable: true, changedTouches: [touch], touches: [],
+  }));
+}
+
 // Insert
 export async function openEditorAndType(text:string) {
   const editorEl = page.getByRole('textbox');

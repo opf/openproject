@@ -7,6 +7,7 @@ import { WorkPackageId, WorkPackageTitleLink, workPackageLinkProps } from '../Wo
 import { WpPreviewPopover } from '../WorkPackage/PreviewPopover';
 import { UnavailableCard } from '../WorkPackage/UnavailableCard';
 import { formatWorkPackageId } from '../../utils/id';
+import type { TapActivationProps } from '../../utils/tapActivation';
 import type { InlineWpSize } from '../WorkPackage/types';
 import type { WorkPackagePreview } from '../../hooks/useWorkPackagePreview';
 
@@ -18,7 +19,7 @@ export interface UnavailableChipProps {
   anchorEl:HTMLElement | null;
   selected:boolean;
   preview:WorkPackagePreview;
-  onClick:(e:React.MouseEvent) => void;
+  onActivation:TapActivationProps;
   optionsPopover:ReactNode;
 }
 
@@ -34,7 +35,7 @@ export const UnavailableChip = ({
   anchorEl,
   selected,
   preview,
-  onClick,
+  onActivation,
   optionsPopover,
 }:UnavailableChipProps) => {
   const { t } = useTranslation();
@@ -64,7 +65,7 @@ export const UnavailableChip = ({
       selected={selected}
       aria-label={iconOnly ? shortLabel : undefined}
       {...triggerProps}
-      onClick={onClick}
+      {...onActivation}
     >
       <Base>
         {inlineIcon}

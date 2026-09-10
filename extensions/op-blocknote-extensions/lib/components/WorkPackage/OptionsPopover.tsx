@@ -14,6 +14,7 @@ import {
   ChevronDownIcon,
 } from '@primer/octicons-react';
 import {formatWorkPackageId} from '../../utils/id';
+import { useTapActivation } from '../../utils/tapActivation';
 
 export interface WpOptionsProps {
   wp?:WorkPackage;
@@ -103,6 +104,7 @@ export const WpOptionsPopover = ({
   const { t } = useTranslation();
   const [showSizes, setShowSizes] = useState(false);
 
+  const tapProps = useTapActivation();
   const popoverRef = useRef<HTMLDivElement | null>(null);
   useAnchoredPopover({ anchorEl, popoverRef, placement: 'above' });
 
@@ -142,16 +144,20 @@ export const WpOptionsPopover = ({
     // stopPropagation stops the outside-tap handlers from closing the popover.
     // Do NOT add preventDefault: on iOS it suppresses the first tap's click, so
     // every button then needs a priming tap.
-    <Popover ref={popoverRef} onMouseDown={(e) => e.stopPropagation()}>
+    <Popover
+      ref={popoverRef}
+      onMouseDown={(e) => e.stopPropagation()}
+      onTouchStart={(e) => e.stopPropagation()}
+    >
       {openId && (
         <>
           <PopBtn
             title={t('options.openInNewTab')}
             aria-label={t('options.openAriaLabel', { id: formatWorkPackageId(openId) })}
-            onClick={(e) => {
-              e.stopPropagation();
+            {...tapProps((event) => {
+              event?.stopPropagation();
               window.open(linkToWorkPackage(openId), '_blank', 'noopener,noreferrer');
-            }}
+            })}
           >
             <IcOpen /> {t('options.open')}
           </PopBtn>
@@ -165,10 +171,10 @@ export const WpOptionsPopover = ({
           ref={setSizeButtonEl}
           title={t('options.changeSize')}
           aria-label={t('options.changeSize')}
-          onClick={(e) => {
-            e.stopPropagation();
+          {...tapProps((event) => {
+            event?.stopPropagation();
             setShowSizes((prev) => !prev);
-          }}
+          })}
         >
           {displayedSize}
           <IcChevron />
@@ -191,11 +197,11 @@ export const WpOptionsPopover = ({
         title={t('options.remove')}
         data-testid="remove-btn"
         aria-label={t('options.removeAriaLabel')}
-        onClick={(e) => {
-          e.stopPropagation();
+        {...tapProps((event) => {
+          event?.stopPropagation();
           onRemove?.();
           onClose();
-        }}
+        })}
       >
         <IcDelete /> {t('options.remove')}
       </PopBtn>

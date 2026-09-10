@@ -24,6 +24,7 @@ import { useTranslation } from 'react-i18next';
 import { formatWorkPackageId } from '../../utils/id';
 import { useIsNodeInSelection } from '../../hooks/useIsNodeInSelection';
 import { useSuppressFormattingToolbar } from '../../hooks/useSuppressFormattingToolbar';
+import { useTapActivation } from '../../utils/tapActivation';
 import type { BlockNoteEditor } from '@blocknote/core';
 
 export interface InlineWorkPackageChipProps {
@@ -81,28 +82,39 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
     editor.getExtension('formattingToolbar')?.store?.setState(false);
   };
 
-  const handleWorkPackageClick = (e:React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    // A long press already opened the preview; swallow the trailing click.
+  const toggleOptions = () => {
+    // A long press already opened the preview; swallow the trailing tap.
     if (wasLongPress()) return;
     closePreview();
     setIsSelected((prev) => !prev);
     selectWorkPackageNode();
   };
 
+  const tapProps = useTapActivation();
+  // The closure is handed to the element, not run while rendering.
+  // eslint-disable-next-line react-hooks/refs
+  const onChipActivation = tapProps((event) => {
+    event?.preventDefault();
+    event?.stopPropagation();
+    toggleOptions();
+  });
+
   // Close the options popover and long-press preview when the user taps outside the chip
   useEffect(() => {
     if (!isSelected && !previewOpen) return;
-    const onClickOutside = (e:MouseEvent) => {
+    const onPressOutside = (e:Event) => {
       if (chipRef.current && !chipRef.current.contains(e.target as Node)) {
         setIsSelected(false);
         closePreview();
       }
     };
-    document.addEventListener('mousedown', onClickOutside);
-    return () => document.removeEventListener('mousedown', onClickOutside);
+    // Touch as well: a tap another element answers never becomes a mousedown.
+    document.addEventListener('mousedown', onPressOutside);
+    document.addEventListener('touchstart', onPressOutside);
+    return () => {
+      document.removeEventListener('mousedown', onPressOutside);
+      document.removeEventListener('touchstart', onPressOutside);
+    };
   }, [isSelected, previewOpen, closePreview]);
 
   const optionsPopover = (
@@ -186,7 +198,7 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
         ref={setRef}
         selected={isSelected || isEditorSelected}
         {...triggerProps}
-        onClick={handleWorkPackageClick}
+        {...onChipActivation}
       >
         {size === 'xxs' && <WpChipXXS wp={wp} />}
         {size === 'xs' && <WpChipXS wp={wp} />}
@@ -219,7 +231,7 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
         anchorEl={chipRef.current}
         selected={isSelected || isEditorSelected}
         preview={preview}
-        onClick={handleWorkPackageClick}
+        onActivation={onChipActivation}
         optionsPopover={isSelected && optionsPopover}
       />
     );
