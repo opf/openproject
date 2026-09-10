@@ -234,6 +234,7 @@ it:
         position: Posizione
       persisted_query:
         filters: Filtri
+        group_bys: Group results by
         name: Nome
         orders: Ordini
         selects: Seleziona
@@ -742,7 +743,6 @@ it:
             types:
               cannot_assign_multiple_variants_of_parent: Nel progetto è possibile abilitare una sola variante di un tipo
               cannot_assign_variant_and_parent: 'Non è possibile assegnare una variante insieme al suo genitore '
-              cannot_assign_variants_yet: Non è ancora possibile abilitare le varianti in un progetto. Abilita il flag di funzionalità per provarle
               in_use_by_work_packages: 'ancora in uso dalla macro-attività: %{types}'
               switch_target_blank: Seleziona la variante a cui passare
               switch_target_identical: Il tipo di destinazione deve essere diverso da quello attualmente utilizzato dal progetto
@@ -2201,6 +2201,9 @@ it:
     label_delete_token: Elimina token di backup
     label_reset_token: Ripristina token di backup
     label_token_users: I seguenti utenti hanno token di backup attivi
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: Crea
       action_reset: Reimposta
@@ -3458,7 +3461,6 @@ it:
   label_copy_target: Destinazione
   label_copy_workflow_from: Copia flusso di lavoro da
   label_copy_workflow_from_role: Copia in altri ruoli
-  label_copy_workflow_from_type: Copia in un altro tipo
   label_core_build: Core build
   label_core_version: Versione core
   label_created_by: Creato da %{user}
@@ -4283,6 +4285,9 @@ it:
   mail_body_account_information: Informazioni sul tuo account
   mail_body_account_information_external: Puoi usare il tuo %{value} account per accedere.
   mail_body_backup_ready: 'Il backup da te richiesto è pronto. Puoi scaricarlo qui:'
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: Il token precedente non è più valido.
   mail_body_backup_token_reset_admin_info: Il token di backup per l'utente '%{user}' è stato ripristinato.
   mail_body_backup_token_reset_user_info: Il tuo token di backup è stato ripristinato.
@@ -4862,8 +4867,6 @@ it:
       not_found: non trovato.
       respond_to?: non implementa il metodo richiesto.
       rules:
-        copy_workflow_from:
-          workflow_missing: non ha un proprio flusso di lavoro.
         custom_field:
           format_not_supported: il formato '%{field_format}' non è supportato.
         item:
@@ -4883,7 +4886,6 @@ it:
     or: oppure
     rules:
       blueprint: Schema del modello
-      copy_workflow_from: Tipo per la copia del flusso di lavoro
       depth: Profondità
       enabled: Attivata
       item: Elemento
@@ -6433,6 +6435,15 @@ it:
         query_group_label: Tabella di macro-attività correlate
         remove_attribute: Rimuovi dalla sezione
         rename_group: Rinomina sezione
+        required:
+          already_required_globally: This custom field is required for all types.
+          for_variant: Required in this type
+          globally: Required
+          globally_hint: Change this on the custom field
+          mark: Require in this type
+          not_a_custom_field: Only a custom field can be made required for a single type.
+          not_available_when_linked: This configuration is inherited. Configure it manually to change what is required.
+          unmark: Do not require in this type
         reset_description: 'Questa operazione ripristinerà gli attributi nel gruppo predefinito e disattiverà TUTTI i campi personalizzati.
 
           '
@@ -6985,10 +6996,10 @@ it:
       descendants_choice:
         heading: Delete all descendants too?
         question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
-        self_only_label: Delete just the selected work packages
         self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        with_descendants_label: Delete the selected work packages and their descendants
+        self_only_label: Delete just the selected work packages
         with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete the selected work packages and their descendants
       description: Vuoi davvero eliminare le macro-attività selezionate e tutti i dati associati?
       description_with_all_descendants: Vuoi davvero eliminare le macro-attività selezionate e tutti i loro discendenti?
       description_with_descendants: Vuoi davvero eliminare le macro-attività selezionate e tutti i seguenti discendenti?
@@ -7056,10 +7067,10 @@ it:
       descendants_choice:
         heading: Delete all descendants too?
         question: This work package has descendants. Do you want to delete them as well?
-        self_only_label: Delete just this work package
         self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        with_descendants_label: Delete this work package and descendants
+        self_only_label: Delete just this work package
         with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete this work package and descendants
       description: Vuoi davvero eliminare "%{name}"?
       heading: Eliminare definitivamente questa macro-attività?
       hidden_descendants_only_warning:
@@ -7111,29 +7122,13 @@ it:
   workflows:
     copies:
       form:
-        mode:
-          from_role:
-            caption: Copia il flusso di lavoro corrente in uno o più ruoli all'interno dello stesso tipo di macro-attività. Se il ruolo selezionato ha già un flusso di lavoro, quello corrente verrà sovrascritto.
-            label: Copia in altri ruoli
-          from_type:
-            caption: Copia il flusso di lavoro corrente in un altro tipo di macro-attività. Se il tipo selezionato ha già un flusso di lavoro, quello corrente verrà sovrascritto. Questa operazione interessa tutti i ruoli.
-            label: Copia in un altro tipo
-        source_role_id:
-          label: Ruolo origine
         target_role_ids:
           label: Ruoli di destinazione
-        target_variant_ids:
-          label: Tipi di destinazione
       from_roles:
         create:
           notice:
             one: Il flusso di lavoro è stato copiato con successo nel ruolo '%{role_name}'.
             other: Il flusso di lavoro è stato copiato con successo in %{count} ruoli.
-      from_variants:
-        create:
-          notice:
-            one: Flusso di lavoro copiato correttamente in '%{type_name}'.
-            other: Flusso di lavoro copiato correttamente in %{count} tipi.
       new:
         title: Copia il flusso di lavoro di "%{source_type}"
     form:

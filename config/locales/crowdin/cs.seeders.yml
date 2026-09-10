@@ -324,18 +324,21 @@ cs:
                 options:
                   name: Začínáme
                   text: |
-                    Jsme rádi, že jste se připojili! Doporučujeme zkusit pár věcí pro začátek v OpenProject.
+                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
-                    _Vyzkoušejte následující kroky:_[Backlogs]. *Pozvěte nové členy do svého projektu*: &rightarrow; Jděte do [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) v projektové navigaci.
-                    2. *Podívejte se na nevyřízené produkty a nevyřízené záznamy*: &rightarrow; Přejděte do [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) v projektové navigaci.
-                    3. *Zobrazit tvou tabulku*: &rightarrow; Přejdi na [Backlogs] ({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Klikni na šipku vpravo na Sprint &rightarrow; Vyberte Pracovní tabuli.
-                    4. *Vytvořte nový pracovní balíček*: &rightarrow; Přejít na [Pracovní balíčky &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    5. *Vytvořte a aktualizujte plán projektu*: &rightarrow; Jděte na [Plán projektu](##query:scrum_project__query__project_plan) v projektové navigaci.
-                    6. *Vytvoř Sprint wiki*: &rightarrow; Přejít na [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) a otevři wiki sprintu z nabídky vpravo v nabídce sprintu. Můžete upravit [wiki template]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) na základě vašich potřeb.
-                    7. *Aktivujte další moduly*: &rightarrow; Přejít na [Nastavení projektu &rightarrow; modulů]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
+                    _Try the following steps:_
 
-                    Zde najdete naši [uživatelskou příručku](https://www. penproject.org/docs/user-guide/).
-                    Prosím, dejte nám vědět, pokud máte nějaké dotazy nebo potřebujete podporu. Kontaktujte nás: [support[at]openproject.com](mailto:support@openproject.com).
+                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
+                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
+                    3. *Create a sprint*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and click "+ Sprint" to create a new sprint. Move work packages from the backlog to the sprint to plan the work to be done. When ready, click "Start sprint".
+                    4. *View your Sprint board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select Sprint Board.
+                    5. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    6. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
+                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
+
+
+                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
+                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: Pracovní balíčky

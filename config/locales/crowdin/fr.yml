@@ -87,19 +87,19 @@ fr:
         usage_scope: Périmètre
       ai/text_transform_run:
         action: Action
-        cancel_requested: Cancel requested
-        error_message: Error message
-        finished_at: Finished at
-        input: Input
-        status: Status
-        system_prompt: System prompt
-        user: User
+        cancel_requested: Annulation demandée
+        error_message: Message d'Erreur
+        finished_at: Terminé à
+        input: Entrée
+        status: Statut
+        system_prompt: Invite du système
+        user: Utilisateur
         uuid: UUID
       ai/text_transform_run_event:
         kind: Kind
         payload: Payload
         run: Run
-        seq: Sequence number
+        seq: Numéro de séquence
       announcements:
         show_until: Afficher jusqu'à
       attachment:
@@ -142,9 +142,9 @@ fr:
         is_for_all: Pour tous les projets
         is_required: Obligatoire
         max_length: Longueur maximale
-        max_value: Maximum value
+        max_value: Valeur maximale
         min_length: Longueur minimale
-        min_value: Minimum value
+        min_value: Valeur minimale
         multi_value: Autoriser la sélection multiple
         possible_values: Valeurs possibles
         regexp: Expression régulière
@@ -234,6 +234,7 @@ fr:
         position: Position
       persisted_query:
         filters: Filtres
+        group_bys: Group results by
         name: Nom
         orders: Tris
         selects: Sélections
@@ -590,7 +591,7 @@ fr:
         regex_list_invalid: Les lignes %{invalid_lines} n'ont pas pu être analysées comme des expressions régulières.
         regex_match_failed: ne correspond pas à l'expression régulière %{expression}.
         smaller_than_or_equal_to_max_length: doit être inférieur ou égal à la longueur maximale.
-        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
+        smaller_than_or_equal_to_max_value: doit être inférieure ou égale à la valeur maximale.
         ssrf_filtered: enfreint la politique SSRF de cette instance OpenProject.
         status_transition_invalid: n'est pas valide, car les rôles de l'utilisateur actuel ne permettent aucune transition de l'ancien statut vers le nouveau.
         system_wide_non_working_day_exists: entre en conflit avec un jour non travaillé existant dans l'ensemble du système pour cette date.
@@ -742,7 +743,6 @@ fr:
             types:
               cannot_assign_multiple_variants_of_parent: Une seule variante d'un type peut être activée dans le projet
               cannot_assign_variant_and_parent: Impossible d'affecter à la fois une variante et son type parent
-              cannot_assign_variants_yet: Les variantes ne peuvent pas encore être activées au niveau d'un projet. Activez l'indicateur de fonctionnalité pour tester les variantes
               in_use_by_work_packages: 'toujours en cours d''utilisation par les lots de travaux : %{types}'
               switch_target_blank: Sélectionnez la variante à utiliser
               switch_target_identical: Le type cible doit être différent du type actuellement utilisé par le projet
@@ -2197,6 +2197,9 @@ fr:
     label_delete_token: Supprimer le jeton de sauvegarde
     label_reset_token: Réinitialiser le jeton de sauvegarde
     label_token_users: Les utilisateurs suivants ont des jetons de sauvegarde actifs
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: Créer
       action_reset: Réinitialiser
@@ -3456,7 +3459,6 @@ fr:
   label_copy_target: Cible
   label_copy_workflow_from: Copier flux de travail à partir de
   label_copy_workflow_from_role: Copier vers d'autres rôles
-  label_copy_workflow_from_type: Copier vers un autre type
   label_core_build: Construction de base
   label_core_version: Version du cœur
   label_created_by: Créé par %{user}
@@ -4282,6 +4284,9 @@ fr:
   mail_body_account_information: Informations sur votre compte
   mail_body_account_information_external: Vous pouvez utiliser votre compte %{value} pour vous connecter.
   mail_body_backup_ready: 'La sauvegarde que vous avez demandée est prête. Vous pouvez la télécharger ici :'
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: Le jeton précédent n'est plus valide.
   mail_body_backup_token_reset_admin_info: Le jeton de sauvegarde pour l'utilisateur « %{user} » a été réinitialisé.
   mail_body_backup_token_reset_user_info: Votre jeton de sauvegarde a été réinitialisé.
@@ -4861,8 +4866,6 @@ fr:
       not_found: est introuvable.
       respond_to?: ne met pas en œuvre la méthode requise.
       rules:
-        copy_workflow_from:
-          workflow_missing: n'a pas de flux de travail propre.
         custom_field:
           format_not_supported: Le format « %{field_format} » n'est pas pris en charge.
         item:
@@ -4882,7 +4885,6 @@ fr:
     or: ou
     rules:
       blueprint: Modèle de plan
-      copy_workflow_from: Type de copie du flux de travail
       depth: Profondeur
       enabled: Activé
       item: Élément
@@ -6432,6 +6434,15 @@ fr:
         query_group_label: Tableau des lots de travaux associés
         remove_attribute: Retirer de la section
         rename_group: Renommer la section
+        required:
+          already_required_globally: This custom field is required for all types.
+          for_variant: Required in this type
+          globally: Required
+          globally_hint: Change this on the custom field
+          mark: Require in this type
+          not_a_custom_field: Only a custom field can be made required for a single type.
+          not_available_when_linked: This configuration is inherited. Configure it manually to change what is required.
+          unmark: Do not require in this type
         reset_description: 'Cette opération réaffectera les attributs à leur groupe par défaut et désactivera TOUS les champs personnalisés.
 
           '
@@ -6984,10 +6995,10 @@ fr:
       descendants_choice:
         heading: Delete all descendants too?
         question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
-        self_only_label: Delete just the selected work packages
         self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        with_descendants_label: Delete the selected work packages and their descendants
+        self_only_label: Delete just the selected work packages
         with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete the selected work packages and their descendants
       description: Voulez-vous vraiment supprimer les lots de travaux sélectionnés et toutes les données associées ?
       description_with_all_descendants: Voulez-vous vraiment supprimer les lots de travaux sélectionnés ainsi que tous leurs descendants ?
       description_with_descendants: Voulez-vous vraiment supprimer les lots de travaux sélectionnés ainsi que tous les descendants suivants ?
@@ -7055,10 +7066,10 @@ fr:
       descendants_choice:
         heading: Delete all descendants too?
         question: This work package has descendants. Do you want to delete them as well?
-        self_only_label: Delete just this work package
         self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        with_descendants_label: Delete this work package and descendants
+        self_only_label: Delete just this work package
         with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete this work package and descendants
       description: Voulez-vous vraiment supprimer « %{name} » ?
       heading: Supprimer définitivement ce lot de travaux ?
       hidden_descendants_only_warning:
@@ -7110,29 +7121,13 @@ fr:
   workflows:
     copies:
       form:
-        mode:
-          from_role:
-            caption: Copiez le flux de travail actuel vers un ou plusieurs rôles dans le même type de lot de travaux. Si le rôle sélectionné a déjà un flux de travail, celui-ci sera remplacé.
-            label: Copier vers d'autres rôles
-          from_type:
-            caption: Copiez le flux de travail actuel vers un autre type de lots de travaux. Si le type sélectionné a déjà un flux de travail, celui-ci sera remplacé. Cela affecte tous les rôles.
-            label: Copier vers un autre type
-        source_role_id:
-          label: Rôle source
         target_role_ids:
           label: Rôles cibles
-        target_variant_ids:
-          label: Types cibles
       from_roles:
         create:
           notice:
             one: Copie réussie du flux de travail dans le rôle « %{role_name} ».
             other: Copie réussie du flux de travail vers les %{count} rôles.
-      from_variants:
-        create:
-          notice:
-            one: Le flux de travail a été copié avec succès dans « %{type_name} ».
-            other: Le flux de travail a été copié avec succès dans %{count} types.
       new:
         title: Copier le flux de travail de « %{source_type} »
     form:

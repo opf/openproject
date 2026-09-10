@@ -346,20 +346,21 @@ zh-TW:
                 options:
                   name: 開始
                   text: |
-                    我們很高興您加入！我們建議您嘗試幾個步驟來開始使用 OpenProject。
+                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
-                    _嘗試以下步驟：_
+                    _Try the following steps:_
 
-                    1.*邀請新會員加入您的專案*： &rightarrow; 前往專案導覽中的【會員】({{opSetting:base_url}}/projects/your-scrum-project/members)。
-                    2.*查看您的 Product backlogs 和 Sprint backlogs*： &rightarrow; 前往專案導覽中的 [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) 。
-                    3.*檢視您的任務板*： &rightarrow; 進入 [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; 點擊 Sprint 上的向右箭頭 &rightarrow; 選擇 [Task Board](##sprint:scrum_project__version__sprint_1)。
-                    4.*Create a new work package*： &rightarrow; 進入 [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    5.*Create and update a project plan*： &rightarrow; 前往專案導覽中的 [Project plan](##query:scrum_project__query__project_plan)。
-                    6.*建立 Sprint wiki*： &rightarrow; 轉到 [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs)，然後在 sprint 中從右邊的下拉式功能表開啟 sprint wiki。您可以根據需要編輯 [wiki 模板]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) 。
-                    7.*啟動更多模組*： &rightarrow; 進入 [專案設定 &rightarrow; 模組]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
+                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
+                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
+                    3. *Create a sprint*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and click "+ Sprint" to create a new sprint. Move work packages from the backlog to the sprint to plan the work to be done. When ready, click "Start sprint".
+                    4. *View your Sprint board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select Sprint Board.
+                    5. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    6. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
+                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
-                    在這裡您可以找到我們的 [使用者指南](https://www.openproject.org/docs/user-guide/)。
-                    如果您有任何問題或需要支援，請告訴我們。聯絡我們：[support[at]openproject.com](mailto:support@openproject.com).
+
+                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
+                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: 工作套件

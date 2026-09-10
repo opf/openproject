@@ -337,21 +337,21 @@ pt-BR:
                 options:
                   name: Guia de introdução
                   text: |
-                    Ficamos felizes que você tenha se juntado! Sugerimos que você tente algumas coisas para começar no OpenProject.
+                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
-                    _Tente as seguintes etapas:_
+                    _Try the following steps:_
 
-                    1. *Convide novos membros para o seu projeto*: &rightarrow; Vá para [Membros]({{opSetting:base_url}}/projects/your-scrum-project/members) na navegação do projeto.
-                    2. *Veja seu backlog de Produto e backlogs da Sprint*: &rightarrow; Vá para [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) na navegação do projeto.
-                    3. *Veja seu quadro de tarefas*: &rightarrow; Vá para [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Clique na seta para a direita em Sprint &rightarrow; Selecione [Quadro de tarefas](##sprint:scrum_project__version__sprint_1).
-                    4. *Crie um novo pacote de trabalho*: &rightarrow; Vá para [Pacotes de trabalho &rightarrow; Criar]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    5. *Crie e atualize um plano de projeto*: &rightarrow; Vá para [Plano de projeto](##query:scrum_project__query__project_plan) na navegação do projeto.
-                    6. *Crie um wiki da Sprint*: &rightarrow; Vá para [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) e abra o wiki da sprint no menu suspenso direito em uma sprint. Você pode editar o [modelo wiki]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) com base em suas necessidades.
-                    7. *Ative mais módulos*: &rightarrow; Vá para [Configurações do projeto &rightarrow; Módulos]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
+                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
+                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
+                    3. *Create a sprint*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and click "+ Sprint" to create a new sprint. Move work packages from the backlog to the sprint to plan the work to be done. When ready, click "Start sprint".
+                    4. *View your Sprint board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select Sprint Board.
+                    5. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    6. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
+                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
-                    Aqui você encontrará nossos [Guias do Usuário] (https://www.openproject.org/docs/user-guide/).
 
-                    Avise-nos se tiver alguma dúvida ou precisar de suporte. Entre em contato conosco: [support[at]openproject.com](mailto:support@openproject.com).
+                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
+                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: Pacotes de trabalho

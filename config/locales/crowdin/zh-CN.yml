@@ -234,6 +234,7 @@ zh-CN:
         position: 位置
       persisted_query:
         filters: 筛选器
+        group_bys: Group results by
         name: 名称
         orders: 订单
         selects: 选择
@@ -741,7 +742,6 @@ zh-CN:
             types:
               cannot_assign_multiple_variants_of_parent: 只能在项目上启用一个类型的单个变体
               cannot_assign_variant_and_parent: 无法指定变体及其父项
-              cannot_assign_variants_yet: 目前无法在项目上启用变体。请启用功能标志以试用变体
               in_use_by_work_packages: '仍在使用的工作包: %{types}'
               switch_target_blank: 选择要切换到的变体
               switch_target_identical: 目标类型必须不同于项目现在使用的类型
@@ -2079,6 +2079,9 @@ zh-CN:
     label_delete_token: 删除备份令牌
     label_reset_token: 重置备份令牌
     label_token_users: 以下用户具有有效的备份令牌
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: 创建
       action_reset: 重置
@@ -3313,7 +3316,6 @@ zh-CN:
   label_copy_target: 目标
   label_copy_workflow_from: 复制工作流自
   label_copy_workflow_from_role: 复制到其他角色
-  label_copy_workflow_from_type: 复制到其他类型
   label_core_build: 核心构建
   label_core_version: 核心版本
   label_created_by: 由 %{user} 创建
@@ -4133,6 +4135,9 @@ zh-CN:
   mail_body_account_information: 您的帐户信息
   mail_body_account_information_external: 你可以使用 %{value} 帐号登录。
   mail_body_backup_ready: 您请求的备份已就绪。您可以在此处下载：
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: 之前的令牌不再有效。
   mail_body_backup_token_reset_admin_info: 用户“%{user}”的备份令牌已重置。
   mail_body_backup_token_reset_user_info: 您的备份令牌已重置。
@@ -4705,8 +4710,6 @@ zh-CN:
       not_found: 未找到。
       respond_to?: 不实现所需方法。
       rules:
-        copy_workflow_from:
-          workflow_missing: 无独立工作流。
         custom_field:
           format_not_supported: 格式 '%{field_format}' 不受支持。
         item:
@@ -4726,7 +4729,6 @@ zh-CN:
     or: 或
     rules:
       blueprint: 图案蓝图
-      copy_workflow_from: 工作流副本的类型
       depth: 深
       enabled: 已启用
       item: 条目
@@ -6267,6 +6269,15 @@ zh-CN:
         query_group_label: 相关的工作包表
         remove_attribute: 从小节中移除
         rename_group: 重命名小节
+        required:
+          already_required_globally: This custom field is required for all types.
+          for_variant: Required in this type
+          globally: Required
+          globally_hint: Change this on the custom field
+          mark: Require in this type
+          not_a_custom_field: Only a custom field can be made required for a single type.
+          not_available_when_linked: This configuration is inherited. Configure it manually to change what is required.
+          unmark: Do not require in this type
         reset_description: '此操作会将特性重置为其默认群组，并禁用所有自定义字段。
 
           '
@@ -6813,10 +6824,10 @@ zh-CN:
       descendants_choice:
         heading: Delete all descendants too?
         question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
-        self_only_label: Delete just the selected work packages
         self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        with_descendants_label: Delete the selected work packages and their descendants
+        self_only_label: Delete just the selected work packages
         with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete the selected work packages and their descendants
       description: 确定要删除所选工作包和所有相关数据吗？
       description_with_all_descendants: 确定要删除所选工作包及其所有后代吗？
       description_with_descendants: 确定要删除所选工作包和以下所有后代吗？
@@ -6880,10 +6891,10 @@ zh-CN:
       descendants_choice:
         heading: Delete all descendants too?
         question: This work package has descendants. Do you want to delete them as well?
-        self_only_label: Delete just this work package
         self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        with_descendants_label: Delete this work package and descendants
+        self_only_label: Delete just this work package
         with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete this work package and descendants
       description: 确定要删除“%{name}”吗？
       heading: 是否永久删除此工作包？
       hidden_descendants_only_warning:
@@ -6930,27 +6941,12 @@ zh-CN:
   workflows:
     copies:
       form:
-        mode:
-          from_role:
-            caption: 将当前工作流复制到同一工作包类型中的一个或多个角色。如果所选角色已具有工作流，当前工作流将被覆盖。
-            label: 复制到其他角色
-          from_type:
-            caption: 将当前工作流复制到其他工作包类型中。如果所选类型已具有工作流，当前工作流将被覆盖。这会影响所有角色。
-            label: 复制到其他类型
-        source_role_id:
-          label: 源角色
         target_role_ids:
           label: 目标角色
-        target_variant_ids:
-          label: 目标类型
       from_roles:
         create:
           notice:
             other: 已成功将工作流复制到 %{count} 个角色。
-      from_variants:
-        create:
-          notice:
-            other: 已成功将工作流复制到 %{count} 种类型。
       new:
         title: 复制“%{source_type}”的工作流
     form:
