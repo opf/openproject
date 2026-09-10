@@ -67,7 +67,7 @@ Migration happens in two steps, and you control when the second one runs:
 **Step 1 — Migrate content, keep old links working.**
 A redirect component is added at both the Jira and the Confluence address. Every request to either address is automatically routed to the right place: to the original system if the content hasn't moved yet, or to the new system if it has. For example, if a Confluence page links to `jira.company.com/browse/FOO-1` and that issue has since been migrated, the redirect component sends the reader straight to the corresponding OpenProject work package instead — no broken link, no page edit required. This works the same way in reverse, and regardless of whether Jira and Confluence migrate together or on entirely separate schedules.
 
-At the same time, each side's native integration is swapped for its equivalent on the new system: Confluence's built-in Jira integration is replaced by XWiki's Jira plug-in, and Jira's built-in Confluence integration is replaced by OpenProject's Confluence integration. This keeps cross-references (like an issue embedded in a page) rendering correctly throughout the transition, not just plain links.
+At the same time, each side's native integration is swapped for its equivalent on the new system: Confluence's built-in Jira integration is replaced by XWiki's Jira plugin, and Jira's built-in Confluence integration is replaced by OpenProject's Confluence integration. This keeps cross-references (like an issue embedded in a page) rendering correctly throughout the transition, not just plain links.
 
 ```mermaid
 flowchart TB
