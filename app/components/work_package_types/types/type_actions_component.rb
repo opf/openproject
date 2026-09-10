@@ -126,11 +126,30 @@ module WorkPackageTypes
       end
 
       def delete_action(menu)
+        if type.work_packages.exists?
+          refused_delete_action(menu)
+        else
+          confirmed_delete_action(menu)
+        end
+      end
+
+      def refused_delete_action(menu)
         menu.with_item(
           label: t(:button_delete),
           scheme: :danger,
           href: type_path(type),
-          form_arguments: { method: :delete, data: { turbo_confirm: t(:text_are_you_sure) } }
+          form_arguments: { method: :delete }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :trash)
+        end
+      end
+
+      def confirmed_delete_action(menu)
+        menu.with_item(
+          label: t(:button_delete),
+          scheme: :danger,
+          href: deletion_dialog_type_path(type),
+          content_arguments: { data: { controller: "async-dialog" } }
         ) do |item|
           item.with_leading_visual_icon(icon: :trash)
         end

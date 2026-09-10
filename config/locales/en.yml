@@ -864,6 +864,10 @@ en:
               blank: "Please provide a token name"
               format: "%{message}"
               in_use: "This token name is already in use, please select a different one"
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: "This type cannot be deleted while work packages still use it."
         type_variant:
           attributes:
             attribute_groups:
@@ -6829,6 +6833,13 @@ en:
       description: >
         Each configuration area inside types and variants can be independently configured, limited
         from another type, or fully linked to a source.
+      delete:
+        description: "The type and all of its variants will be deleted permanently. This action cannot be undone."
+        heading: "Delete type '%{name}?"
+        projects:
+          one: "The type will be removed from 1 project:"
+          other: "The type will be removed from %{count} projects:"
+        title: "Delete type"
       duplicate_name: "Copy of %{name}"
       duplicate_notice: "%{name} was duplicated."
       enabled_in_new_projects: "Active in new projects"

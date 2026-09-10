@@ -30,39 +30,24 @@
 
 module WorkPackageTypes
   module Types
-    class DeletionFormComponent < ApplicationComponent
+    class TypeDeletionDialogComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
-      def initialize(variant:, targets:, url:, selected: nil, impact: nil, validation_message: nil)
+      DIALOG_ID = "type-deletion-dialog"
+
+      def initialize(type:)
         super()
 
-        @variant = variant
-        @targets = targets
-        @url = url
-        @selected = selected
-        @impact = impact
-        @validation_message = validation_message
+        @type = type
       end
 
       private
 
-      attr_reader :variant, :targets, :url, :selected, :impact, :validation_message
+      attr_reader :type
 
-      def preview_path
-        deletion_preview_type_variant_path(type_id: variant.type_id, id: variant.id)
-      end
-
-      def refresh_data
-        {
-          controller: "refresh-on-form-changes",
-          refresh_on_form_changes_target: "form",
-          refresh_on_form_changes_turbo_stream_url_value: preview_path
-        }
-      end
-
-      def dialog_id
-        VariantDeletionDialogComponent::DIALOG_ID
+      def affected_projects
+        @affected_projects ||= type.projects.reorder(:name).to_a
       end
     end
   end

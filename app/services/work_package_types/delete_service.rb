@@ -29,26 +29,13 @@
 #++
 
 module WorkPackageTypes
-  module Types
-    class DeletionDialogComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
-      include OpTurbo::Streamable
+  # Removes a type and every configuration it defines
+  class DeleteService < ::BaseServices::Delete
+    def destroy(type)
+      type.project_types.delete_all
+      type.variants.each { |variant| variant.project_types.reset }
 
-      DIALOG_ID = "variant-deletion-dialog"
-
-      def initialize(variant:, targets:, selected:, impact:, url:)
-        super()
-
-        @variant = variant
-        @targets = targets
-        @selected = selected
-        @impact = impact
-        @url = url
-      end
-
-      private
-
-      attr_reader :variant, :targets, :selected, :impact, :url
+      type.destroy
     end
   end
 end

@@ -57,7 +57,7 @@ module WorkPackageTypes
       variant = named_variant
       targets = variant.migration_targets.in_display_order
 
-      respond_with_dialog Types::DeletionDialogComponent.new(
+      respond_with_dialog Types::VariantDeletionDialogComponent.new(
         variant:, targets:, selected: targets.first, impact: deletion_impact(variant, targets.first),
         url: type_variant_path(type_id: variant.type_id, id: variant.id)
       )
