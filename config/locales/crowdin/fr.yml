@@ -66,6 +66,8 @@ fr:
 
       '
     login_with_auth_provider: ou connectez-vous avec votre compte existant
+    omniauth_direct_login_continue: Continue to sign in
+    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: Veuillez vous connecter pour activer votre compte.
     signup_title: Créer un compte sur %{app_title}
     signup_with_external_account: S'inscrire avec un compte externe
@@ -83,6 +85,21 @@ fr:
         prompt: Invite
         types: Types de lots de travaux
         usage_scope: Périmètre
+      ai/text_transform_run:
+        action: Action
+        cancel_requested: Cancel requested
+        error_message: Error message
+        finished_at: Finished at
+        input: Input
+        status: Status
+        system_prompt: System prompt
+        user: User
+        uuid: UUID
+      ai/text_transform_run_event:
+        kind: Kind
+        payload: Payload
+        run: Run
+        seq: Sequence number
       announcements:
         show_until: Afficher jusqu'à
       attachment:
@@ -125,7 +142,9 @@ fr:
         is_for_all: Pour tous les projets
         is_required: Obligatoire
         max_length: Longueur maximale
+        max_value: Maximum value
         min_length: Longueur minimale
+        min_value: Minimum value
         multi_value: Autoriser la sélection multiple
         possible_values: Valeurs possibles
         regexp: Expression régulière
@@ -571,6 +590,7 @@ fr:
         regex_list_invalid: Les lignes %{invalid_lines} n'ont pas pu être analysées comme des expressions régulières.
         regex_match_failed: ne correspond pas à l'expression régulière %{expression}.
         smaller_than_or_equal_to_max_length: doit être inférieur ou égal à la longueur maximale.
+        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: enfreint la politique SSRF de cette instance OpenProject.
         status_transition_invalid: n'est pas valide, car les rôles de l'utilisateur actuel ne permettent aucune transition de l'ancien statut vers le nouveau.
         system_wide_non_working_day_exists: entre en conflit avec un jour non travaillé existant dans l'ensemble du système pour cette date.
@@ -998,6 +1018,12 @@ fr:
       ai/text_transform_action:
         one: Action de transformation de texte
         other: Actions de transformation de texte
+      ai/text_transform_run:
+        one: Text transform run
+        other: Text transform runs
+      ai/text_transform_run_event:
+        one: Text transform run event
+        other: Text transform run events
       announcement:
         one: Annonce
         other: Annonces
@@ -2461,6 +2487,9 @@ fr:
       min_max:
         all: 0 signifie aucune restriction
         project: 0 signifie aucune restriction
+      min_max_value:
+        all: Leave blank for no restriction
+        project: Leave blank for no restriction
       multi_select:
         all: Permet à l'utilisateur d'assigner plusieurs valeurs à ce champ personnalisé.
         project: Permet à l'utilisateur d'assigner plusieurs valeurs à cet attribut.
@@ -3672,7 +3701,6 @@ fr:
   label_message_new: Nouveau message
   label_message_plural: Messages
   label_message_posted: Message ajouté
-  label_min_max_length: longueur Min - Max
   label_minute_plural: minutes
   label_missing_api_access_key: Clé d'accès API manquante
   label_missing_feeds_access_key: Clé d'accès RSS manquante
@@ -4578,6 +4606,7 @@ fr:
   notice_account_already_activated: Le compte a déjà été activé.
   notice_account_invalid_credentials: Nom d'utilisateur ou mot de passe incorrect
   notice_account_invalid_credentials_or_blocked: Nom d'utilisateur ou mot de passe incorrect ou le compte est bloqué dû aux nombreuses tentatives de connexion échouées. Si c'est le cas, le compte sera débloqué sous peu.
+  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
   notice_account_invalid_token: Jeton d'activation incorrect
   notice_account_lost_email_sent: Un e-mail d'instructions pour choisir un nouveau mot de passe vient de vous être envoyé.
   notice_account_new_password_forced: Un nouveau mot de passe est requis.
@@ -5503,11 +5532,11 @@ fr:
     edit:
       default_for_new_projects_warning: 'Ce rôle est configuré comme le rôle par défaut attribué aux utilisateurs non administrateurs qui créent un projet. Ne supprimez pas les autorisations suivantes, sinon les créateurs de projets ne pourront pas terminer la configuration de leurs projets nouvellement créés :'
     index:
-      filter_label: Search roles
+      filter_label: Rechercher des rôles
       types:
-        all: All roles
-        global: Global roles
-        project: Project roles
+        all: Tous les rôles
+        global: Rôles globaux
+        project: Rôles dans le projet
     permissions:
       section_check_all_label: Attribuer toutes les autorisations %{module}
       section_uncheck_all_label: Désattribuer toutes les autorisations %{module}
@@ -6411,6 +6440,15 @@ fr:
         row_actions: Actions de ligne
         tab: Formulaire
         untitled_group: Groupe sans titre
+      overview:
+        configuration_mode: Configuration mode
+        dependents: Dependent types and variants
+        mode:
+          always_manual: Always manual
+          inheriting_from_html: Inheriting from %{source_name}
+          manual: Manually configured
+        settings: Settings
+        tab: Overview
       project_attributes:
         actions:
           label_disable_all: Désactiver tout
@@ -6943,6 +6981,13 @@ fr:
       confirm_deletion: Je confirme que les lots de travaux sélectionnés ainsi que toutes les données associées seront supprimés.
       confirm_descendants_deletion: Je confirme que tous les descendants mentionnés ci-dessus seront également supprimés.
       cross_project_warning_html: 'Ces lots de travaux sont répartis entre plusieurs projets : %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
+        self_only_label: Delete just the selected work packages
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete the selected work packages and their descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: Voulez-vous vraiment supprimer les lots de travaux sélectionnés et toutes les données associées ?
       description_with_all_descendants: Voulez-vous vraiment supprimer les lots de travaux sélectionnés ainsi que tous leurs descendants ?
       description_with_descendants: Voulez-vous vraiment supprimer les lots de travaux sélectionnés ainsi que tous les descendants suivants ?
@@ -7007,6 +7052,13 @@ fr:
       confirm_deletion: Je confirme que le lot de travaux et toutes les données associées seront supprimés.
       confirm_descendants_deletion: Je confirme que tous les descendants mentionnés ci-dessus seront également supprimés.
       cross_project_warning_html: 'Les lots de travaux des projets suivants seront supprimés : %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: This work package has descendants. Do you want to delete them as well?
+        self_only_label: Delete just this work package
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete this work package and descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: Voulez-vous vraiment supprimer « %{name} » ?
       heading: Supprimer définitivement ce lot de travaux ?
       hidden_descendants_only_warning:

@@ -38,6 +38,7 @@ class CustomValue < ApplicationRecord
   validate :validate_format_of_value
   validate :validate_type_of_value
   validate :validate_length_of_value
+  validate :validate_range_of_value
 
   after_create :activate_custom_field_in_customized_project, if: -> { customized.is_a?(Project) }
 
@@ -51,6 +52,10 @@ class CustomValue < ApplicationRecord
            :is_for_all?,
            :max_length,
            :min_length,
+           :max_bound,
+           :min_bound,
+           :numeric_bounds_possible?,
+           :length_limits_possible?,
            :calculated_value?,
            to: :custom_field
 
@@ -120,10 +125,20 @@ class CustomValue < ApplicationRecord
   end
 
   def validate_length_of_value
+    return unless length_limits_possible?
+
     if value.present? && (min_length.present? || max_length.present?)
       validate_min_length_of_value
       validate_max_length_of_value
     end
+  end
+
+  def validate_range_of_value
+    return unless numeric_bounds_possible?
+    return if value.blank? || errors.include?(:value)
+
+    validate_min_bound_of_value
+    validate_max_bound_of_value
   end
 
   private
@@ -134,5 +149,13 @@ class CustomValue < ApplicationRecord
 
   def validate_max_length_of_value
     errors.add(:value, :too_long, count: max_length) if max_length > 0 && value.length > max_length
+  end
+
+  def validate_min_bound_of_value
+    errors.add(:value, :greater_than_or_equal_to, count: min_bound) if min_bound && typed_value < min_bound
+  end
+
+  def validate_max_bound_of_value
+    errors.add(:value, :less_than_or_equal_to, count: max_bound) if max_bound && typed_value > max_bound
   end
 end

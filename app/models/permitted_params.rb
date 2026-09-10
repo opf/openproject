@@ -521,6 +521,8 @@ class PermittedParams
           :is_required,
           :max_length,
           :min_length,
+          :max_value,
+          :min_value,
           :move_to,
           :name,
           :possible_values,

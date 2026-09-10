@@ -66,6 +66,8 @@ si:
 
       '
     login_with_auth_provider: හෝ ඔබගේ පවතින ගිණුම සමඟ පුරනය වන්න
+    omniauth_direct_login_continue: Continue to sign in
+    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: කරුණාකර ඔබගේ ගිණුම සක්රිය කිරීමට පුරනය වන්න.
     signup_title: Create an account in %{app_title}
     signup_with_external_account: Sign up with an external account
@@ -83,6 +85,21 @@ si:
         prompt: Prompt
         types: Work package types
         usage_scope: Scope
+      ai/text_transform_run:
+        action: Action
+        cancel_requested: Cancel requested
+        error_message: Error message
+        finished_at: Finished at
+        input: Input
+        status: Status
+        system_prompt: System prompt
+        user: User
+        uuid: UUID
+      ai/text_transform_run_event:
+        kind: Kind
+        payload: Payload
+        run: Run
+        seq: Sequence number
       announcements:
         show_until: ප්රදර්ශනය වන තුරු
       attachment:
@@ -125,7 +142,9 @@ si:
         is_for_all: සියලුම ව්යාපෘති සඳහා
         is_required: අවශ්‍යයි
         max_length: උපරිම දිග
+        max_value: Maximum value
         min_length: අවම දිග
+        min_value: Minimum value
         multi_value: බහු-තේරීමට ඉඩ දෙන්න
         possible_values: හැකි අගයන්
         regexp: නිතිපතා ප්රකාශනය
@@ -571,6 +590,7 @@ si:
         regex_list_invalid: Lines %{invalid_lines} could not be parsed as regular expression.
         regex_match_failed: does not match the regular expression %{expression}.
         smaller_than_or_equal_to_max_length: උපරිම දිගට වඩා කුඩා හෝ සමාන විය යුතුය.
+        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: violates the SSRF policy of this OpenProject instance.
         status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
         system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
@@ -998,6 +1018,12 @@ si:
       ai/text_transform_action:
         one: Text transform action
         other: Text transform actions
+      ai/text_transform_run:
+        one: Text transform run
+        other: Text transform runs
+      ai/text_transform_run_event:
+        one: Text transform run event
+        other: Text transform run events
       announcement:
         one: Announcement
         other: Announcements
@@ -2461,6 +2487,9 @@ si:
       min_max:
         all: 0 means no restriction
         project: 0 means no restriction
+      min_max_value:
+        all: Leave blank for no restriction
+        project: Leave blank for no restriction
       multi_select:
         all: Allows the user to assign multiple values to this custom field.
         project: Allows the user to assign multiple values to this attribute.
@@ -3672,7 +3701,6 @@ si:
   label_message_new: නව පණිවිඩයක්
   label_message_plural: පණිවිඩ
   label_message_posted: පණිවුඩය එකතු කරන ලදි
-  label_min_max_length: විනාඩි - මැක්ස් දිග
   label_minute_plural: විනාඩි
   label_missing_api_access_key: API ප්රවේශ යතුර නැතිවීම
   label_missing_feeds_access_key: නැතිවූ RSS ප්රවේශ යතුර
@@ -4578,6 +4606,7 @@ si:
   notice_account_already_activated: ගිණුම දැනටමත් සක්රිය කර ඇත.
   notice_account_invalid_credentials: වලංගු නොවන පරිශීලක හෝ මුරපදය
   notice_account_invalid_credentials_or_blocked: වලංගු නොවන පරිශීලකයා හෝ මුරපදය හෝ බහු අසාර්ථක පිවිසුම් උත්සාහයන් හේතුවෙන් ගිණුම අවහිර කර ඇත. එසේ නම්, එය කෙටි කාලයක් තුළ ස්වයංක්රීයව අවහිර කරනු ලැබේ.
+  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
   notice_account_invalid_token: වලංගු නොවන සක්රීය ටෝකනය
   notice_account_lost_email_sent: නව මුරපදයක් තෝරා ගැනීමට උපදෙස් සහිත විද්යුත් තැපෑලක් ඔබ වෙත යවා ඇත.
   notice_account_new_password_forced: නව මුරපදයක් අවශ්ය වේ.
@@ -6418,6 +6447,15 @@ si:
         row_actions: Row actions
         tab: Form
         untitled_group: Untitled group
+      overview:
+        configuration_mode: Configuration mode
+        dependents: Dependent types and variants
+        mode:
+          always_manual: Always manual
+          inheriting_from_html: Inheriting from %{source_name}
+          manual: Manually configured
+        settings: Settings
+        tab: Overview
       project_attributes:
         actions:
           label_disable_all: Disable all
@@ -6950,6 +6988,13 @@ si:
       confirm_deletion: I confirm that the selected work packages and all associated data will be deleted.
       confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
       cross_project_warning_html: 'These work packages span multiple projects: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
+        self_only_label: Delete just the selected work packages
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete the selected work packages and their descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: Are you sure you want to delete the selected work packages and all associated data?
       description_with_all_descendants: Are you sure you want to delete the selected work packages and all of their descendants?
       description_with_descendants: Are you sure you want to delete the selected work packages and all the following descendants?
@@ -7014,6 +7059,13 @@ si:
       confirm_deletion: I confirm that the work package and all associated data will be deleted.
       confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
       cross_project_warning_html: 'Work packages from the following projects will be deleted: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: This work package has descendants. Do you want to delete them as well?
+        self_only_label: Delete just this work package
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete this work package and descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: Are you sure you want to delete "%{name}"?
       heading: Permanently delete this work package?
       hidden_descendants_only_warning:

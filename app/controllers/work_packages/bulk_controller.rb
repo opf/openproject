@@ -52,6 +52,15 @@ class WorkPackages::BulkController < ApplicationController
     respond_with_dialog component
   end
 
+  def confirm_delete
+    return perform_deletion unless delete_descendants?
+
+    close_dialog_via_turbo_stream(WorkPackages::DeleteDialogComponent::DIALOG_ID)
+    dialog_via_turbo_stream(component: delete_descendants_dialog_component)
+
+    respond_with_turbo_streams
+  end
+
   def edit
     setup_edit
   end
@@ -83,9 +92,18 @@ class WorkPackages::BulkController < ApplicationController
     end
   end
 
-  def destroy # rubocop:disable Metrics/AbcSize
+  def destroy
+    perform_deletion
+  end
+
+  private
+
+  def perform_deletion # rubocop:disable Metrics/AbcSize
     unless WorkPackage.cleanup_associated_before_destructing_if_required(@work_packages, current_user, params[:to_do])
-      return redirect_to(action: :reassign, ids: @work_packages.map(&:id), back_url: params[:back_url])
+      return redirect_to(action: :reassign,
+                         ids: @work_packages.map(&:id),
+                         delete_descendants: delete_descendants?,
+                         back_url: params[:back_url])
     end
 
     calls = destroy_work_packages(@work_packages)
@@ -108,7 +126,13 @@ class WorkPackages::BulkController < ApplicationController
     end
   end
 
-  private
+  def delete_descendants_dialog_component
+    if @work_packages.one?
+      WorkPackages::DeleteDescendantsDialogComponent.new(work_package: @work_packages.first, back_url: params[:back_url])
+    else
+      WorkPackages::BulkDeleteDescendantsDialogComponent.new(work_packages: @work_packages, back_url: params[:back_url])
+    end
+  end
 
   def setup_edit
     @available_statuses = @projects.map { |p| Workflow.available_statuses(p) }.inject(&:&)
@@ -138,12 +162,17 @@ class WorkPackages::BulkController < ApplicationController
       WorkPackages::DeleteService
         .new(user: current_user,
              model: work_package.reload)
-        .call
+        .call(delete_descendants: delete_descendants?)
     rescue ::ActiveRecord::RecordNotFound
       # raised by #reload if work package no longer exists
       # nothing to do, work package was already deleted (eg. by a parent)
       nil
     end
+  end
+
+  # Absent means cascade, consistent with WorkPackages::DeleteService's default.
+  def delete_descendants?
+    ActiveModel::Type::Boolean.new.cast(params.fetch(:delete_descendants, true))
   end
 
   # A call also carries the descendants it deleted, next to work packages it only

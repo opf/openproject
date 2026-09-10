@@ -102,7 +102,7 @@ You can add as many sub-times and hierarchy levels as you need. You can always n
 Once you have specified all items for the hierarchy custom field, you need to: 
 
 1. [Activate this custom field for projects under the _Projects_ tab](#add-a-custom-field-to-one-or-multiple-projects)
-2. [Assign a custom field to a work package type](../manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on) 
+2. [Assign a custom field to a work package type](../manage-work-packages/work-package-types/form-configuration/#add-table-of-related-work-packages-to-a-work-package-form-enterprise-add-on) 
 
 ### Weighted item list custom field (Enterprise add-on)
 
@@ -157,7 +157,7 @@ When using multi-select custom fields, you can add as many options as required. 
 
 ### Assign a custom field to a work package type (Enterprise add-on)
 
-You can [assign a custom field to a work package type](../manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on) (form configuration) directly via the link in the custom field overview.
+You can [assign a custom field to a work package type](../manage-work-packages/work-package-types/form-configuration/#add-table-of-related-work-packages-to-a-work-package-form-enterprise-add-on) (form configuration) directly via the link in the custom field overview.
 
 ![Add a custom field to a work package type](system-admin-add-field-to-wp-type.png)
 
