@@ -51,8 +51,9 @@ RSpec.describe "LLM connection administration",
   # for the item itself to become visible.
   def offered_default_models
     items = find("[data-test-selector='llm-connection--defaults-form'] opce-autocompleter")["data-items"]
+    ids = JSON.parse(items).pluck("id").compact_blank
 
-    JSON.parse(items).pluck("id").compact_blank
+    LlmModel.where(id: ids).pluck(:external_id)
   end
 
   def choose_action(item)
@@ -117,6 +118,8 @@ RSpec.describe "LLM connection administration",
   context "when a key is stored" do
     let!(:connection) { create(:llm_connection, base_url:, api_key: "sk-original") }
 
+    before { Setting.llm_features_enabled = true }
+
     it "removes the key from beside the field" do
       visit llm_connection_path
 
@@ -137,7 +140,12 @@ RSpec.describe "LLM connection administration",
   context "with a configured connection" do
     let!(:connection) { create(:llm_connection, :with_models, base_url:) }
 
-    before { mock_llm_models_response(base_url) }
+    # Written for real rather than through with_settings:, which stubs
+    # Setting.[] and would hide the write the disconnect example asserts.
+    before do
+      Setting.llm_features_enabled = true
+      mock_llm_models_response(base_url)
+    end
 
     it "renders the model list accessibly" do
       create(:llm_model,
@@ -191,7 +199,7 @@ RSpec.describe "LLM connection administration",
 
       expect(page).to have_field("Tool calling", visible: :hidden)
 
-      click_on "+ Model"
+      click_on "Create"
 
       expect(page).to have_current_path(llm_models_path)
       expect(page).to have_text("nomic-embed-text")
@@ -227,7 +235,7 @@ RSpec.describe "LLM connection administration",
       end
 
       wait_for { Setting.llm_features_enabled? }.to be(false)
-      expect(connection.api_key).to be_blank
+      expect(connection.reload.api_key).to be_blank
       # The point of disconnecting rather than deleting.
       expect(connection.models.count).to eq(2)
     end
