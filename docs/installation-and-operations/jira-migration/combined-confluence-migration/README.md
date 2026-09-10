@@ -116,7 +116,7 @@ flowchart
           OPXWI["XWiki integration"]
       end
       subgraph XW2["XWiki"]
-          XW2I["OpenProject plug-in"]
+          XW2I["OpenProject plugin"]
       end
       OPXW <--> XW2
     end
