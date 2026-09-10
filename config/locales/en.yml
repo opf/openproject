@@ -2240,6 +2240,10 @@ en:
     label_delete_token: "Delete backup token"
     label_reset_token: "Reset backup token"
     label_token_users: "The following users have active backup tokens"
+    missing_attachments_notice_html: >
+      <br/>
+      <b>%{file_count} could not be read</b> and were excluded from this backup.
+      The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
     reset_token:
       action_create: Create
       action_reset: Reset
@@ -4390,6 +4394,9 @@ en:
   mail_body_account_information: "Your account information"
   mail_body_account_information_external: "You can use your %{value} account to log in."
   mail_body_backup_ready: "Your requested backup is ready. You can download it here:"
+  mail_body_backup_ready_incomplete: >
+    %{file_count} could not be read and were excluded from this backup.
+    The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
   mail_body_backup_token_info: The previous token is no longer valid.
   mail_body_backup_token_reset_admin_info: The backup token for user '%{user}' has been reset.
   mail_body_backup_token_reset_user_info: Your backup token has been reset.
