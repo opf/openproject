@@ -234,6 +234,7 @@ ru:
         position: Позиция
       persisted_query:
         filters: Фильтры
+        group_bys: Group results by
         name: Имя
         orders: Порядок
         selects: Выбирает
@@ -744,7 +745,6 @@ ru:
             types:
               cannot_assign_multiple_variants_of_parent: В проекте можно включить только один вариант типа
               cannot_assign_variant_and_parent: 'Не удается назначить вариант и его родителя '
-              cannot_assign_variants_yet: Варианты пока не могут быть включены в проекте. Включите feature флаг, чтобы попробовать варианты
               in_use_by_work_packages: 'всё ещё используются в пакетах работ: %{types}'
               switch_target_blank: Выберите вариант, на который хотите переключиться
               switch_target_identical: Целевой тип должен отличаться от типа, который сейчас используется в проекте
@@ -2439,6 +2439,9 @@ ru:
     label_delete_token: Удалить маркер резервного копирования
     label_reset_token: Сбросить маркер резервного копирования
     label_token_users: Следующие пользователи имеют действительные маркеры резервного копирования
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: Создать
       action_reset: Сбросить
@@ -3746,7 +3749,6 @@ ru:
   label_copy_target: Цель
   label_copy_workflow_from: Копировать рабочий поток из
   label_copy_workflow_from_role: Копировать в другие роли
-  label_copy_workflow_from_type: Копировать в другой тип
   label_core_build: Сборка ядра
   label_core_version: Текущая версия
   label_created_by: Создано %{user}
@@ -4581,6 +4583,9 @@ ru:
   mail_body_account_information: Информация о вашей учетной записи
   mail_body_account_information_external: Вы можете использовать учетную запись %{value} для входа.
   mail_body_backup_ready: 'Запрошенная резервная копия готова. Вы можете скачать ее здесь:'
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: Предыдущий маркер больше не действителен.
   mail_body_backup_token_reset_admin_info: Маркер резервной копии пользователя '%{user}' был сброшен.
   mail_body_backup_token_reset_user_info: Маркер вашей резервной копии был сброшен.
@@ -5174,8 +5179,6 @@ ru:
       not_found: не найдено.
       respond_to?: не реализует требуемый метод.
       rules:
-        copy_workflow_from:
-          workflow_missing: не имеет собственного рабочего процесса.
         custom_field:
           format_not_supported: формат '%{field_format}' не поддерживается.
         item:
@@ -5195,7 +5198,6 @@ ru:
     or: или
     rules:
       blueprint: Шаблон чертежа
-      copy_workflow_from: Тип копии рабочего процесса
       depth: Глубина
       enabled: Включено
       item: Элемент
@@ -6744,6 +6746,15 @@ ru:
         query_group_label: Таблица связанных пакетов работ
         remove_attribute: Удалить из секции
         rename_group: Переименовать секцию
+        required:
+          already_required_globally: This custom field is required for all types.
+          for_variant: Required in this type
+          globally: Required
+          globally_hint: Change this on the custom field
+          mark: Require in this type
+          not_a_custom_field: Only a custom field can be made required for a single type.
+          not_available_when_linked: This configuration is inherited. Configure it manually to change what is required.
+          unmark: Do not require in this type
         reset_description: 'Это сбросит атрибуты к группе по умолчанию и отключит ВСЕ настраиваемые поля.
 
           '
@@ -7310,10 +7321,10 @@ ru:
       descendants_choice:
         heading: Delete all descendants too?
         question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
-        self_only_label: Delete just the selected work packages
         self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        with_descendants_label: Delete the selected work packages and their descendants
+        self_only_label: Delete just the selected work packages
         with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete the selected work packages and their descendants
       description: Вы уверены, что хотите удалить выбранные пакеты работ и все связанные с ними данные?
       description_with_all_descendants: Вы уверены, что хотите удалить выбранные пакеты работ и все их вложенные элементы?
       description_with_descendants: Вы уверены, что хотите удалить выбранные пакеты работ и все их вложенные элементы?
@@ -7389,10 +7400,10 @@ ru:
       descendants_choice:
         heading: Delete all descendants too?
         question: This work package has descendants. Do you want to delete them as well?
-        self_only_label: Delete just this work package
         self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        with_descendants_label: Delete this work package and descendants
+        self_only_label: Delete just this work package
         with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete this work package and descendants
       description: Вы уверены, что хотите удалить "%{name}"?
       heading: Удалить этот пакет работ навсегда?
       hidden_descendants_only_warning:
@@ -7454,19 +7465,8 @@ ru:
   workflows:
     copies:
       form:
-        mode:
-          from_role:
-            caption: Скопируйте текущий рабочий процесс в одну или несколько ролей внутри одного и того же типа пакета работ. Если выбранная роль уже имеет рабочий процесс, текущий будет перезаписан.
-            label: Копировать в другие роли
-          from_type:
-            caption: Скопируйте текущий рабочий процесс в другой тип пакетов работ. Если у выбранного типа уже есть рабочий процесс, текущий рабочий процесс будет перезаписан. Это влияет на все роли.
-            label: Копировать в другой тип
-        source_role_id:
-          label: Исходная роль
         target_role_ids:
           label: Целевые роли
-        target_variant_ids:
-          label: Целевые типы
       from_roles:
         create:
           notice:
@@ -7474,13 +7474,6 @@ ru:
             few: Рабочий процесс успешно скопирован в %{count} ролей.
             many: Рабочий процесс успешно скопирован в %{count} ролей.
             other: Рабочий процесс успешно скопирован в %{count} ролей.
-      from_variants:
-        create:
-          notice:
-            one: Рабочий процесс успешно скопирован в тип '%{type_name}'.
-            few: Рабочий процесс успешно скопирован в %{count} типа.
-            many: Рабочий процесс успешно скопирован в %{count} типов.
-            other: Рабочий процесс успешно скопирован в %{count} типов.
       new:
         title: Копировать рабочий процесс из типа "%{source_type}"
     form:

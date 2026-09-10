@@ -234,6 +234,7 @@ zh-TW:
         position: Position
       persisted_query:
         filters: Filters
+        group_bys: Group results by
         name: Name
         orders: Orders
         selects: Selects
@@ -741,7 +742,6 @@ zh-TW:
             types:
               cannot_assign_multiple_variants_of_parent: Can only enable a single variant of a Type on the project
               cannot_assign_variant_and_parent: 'Cannot assign a variant and its parent '
-              cannot_assign_variants_yet: Variants cannot be enabled on a project yet. Enable the feature flag to try out variants
               in_use_by_work_packages: "%{types} 仍在被工作套件使用中"
               switch_target_blank: Select the variant to switch to
               switch_target_identical: The target type must be different from the type the project uses now
@@ -2083,6 +2083,9 @@ zh-TW:
     label_delete_token: 刪除備份令牌(Token)
     label_reset_token: 重置備份令牌(Token)
     label_token_users: 以下用戶擁有啟用的備份令牌(Token)
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: 建立
       action_reset: 重置
@@ -3315,7 +3318,6 @@ zh-TW:
   label_copy_target: 目標
   label_copy_workflow_from: 工作流程來自於
   label_copy_workflow_from_role: Copy to other roles
-  label_copy_workflow_from_type: Copy to another type
   label_core_build: 核心編譯
   label_core_version: 核心版本
   label_created_by: 由 %{user} 建立
@@ -4139,6 +4141,9 @@ zh-TW:
   mail_body_account_information: 您的帳號資訊
   mail_body_account_information_external: 您可以使用您的帳號 %{value} 登錄。
   mail_body_backup_ready: 您請求的備份已就緒。您可以在此處下載：
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: 之前的令牌(Token)不再有效。
   mail_body_backup_token_reset_admin_info: 用戶“%{user}”的備份令牌(Token)已重置。
   mail_body_backup_token_reset_user_info: 您備份用令牌(Token)已重置。
@@ -4710,8 +4715,6 @@ zh-TW:
       not_found: 未找到。
       respond_to?: 未執行所需的方法。
       rules:
-        copy_workflow_from:
-          workflow_missing: 沒有自己的工作流程。
         custom_field:
           format_not_supported: 格式 '%{field_format}' 不支援。
         item:
@@ -4731,7 +4734,6 @@ zh-TW:
     or: 或
     rules:
       blueprint: 樣式藍圖
-      copy_workflow_from: 工作流程複製的類型
       depth: 深度
       enabled: 啟用
       item: 項目
@@ -6279,6 +6281,15 @@ zh-TW:
         query_group_label: Related work packages table
         remove_attribute: Remove from section
         rename_group: Rename section
+        required:
+          already_required_globally: This custom field is required for all types.
+          for_variant: Required in this type
+          globally: Required
+          globally_hint: Change this on the custom field
+          mark: Require in this type
+          not_a_custom_field: Only a custom field can be made required for a single type.
+          not_available_when_linked: This configuration is inherited. Configure it manually to change what is required.
+          unmark: Do not require in this type
         reset_description: 'This will reset the attributes to their default group and disable ALL custom fields.
 
           '
@@ -6823,10 +6834,10 @@ zh-TW:
       descendants_choice:
         heading: Delete all descendants too?
         question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
-        self_only_label: Delete just the selected work packages
         self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        with_descendants_label: Delete the selected work packages and their descendants
+        self_only_label: Delete just the selected work packages
         with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete the selected work packages and their descendants
       description: Are you sure you want to delete the selected work packages and all associated data?
       description_with_all_descendants: Are you sure you want to delete the selected work packages and all of their descendants?
       description_with_descendants: Are you sure you want to delete the selected work packages and all the following descendants?
@@ -6890,10 +6901,10 @@ zh-TW:
       descendants_choice:
         heading: Delete all descendants too?
         question: This work package has descendants. Do you want to delete them as well?
-        self_only_label: Delete just this work package
         self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        with_descendants_label: Delete this work package and descendants
+        self_only_label: Delete just this work package
         with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete this work package and descendants
       description: Are you sure you want to delete "%{name}"?
       heading: Permanently delete this work package?
       hidden_descendants_only_warning:
@@ -6940,27 +6951,12 @@ zh-TW:
   workflows:
     copies:
       form:
-        mode:
-          from_role:
-            caption: Copy the current workflow to one or more roles inside the same work package type. If the selected role already has a workflow the current one will be overwritten.
-            label: Copy to other roles
-          from_type:
-            caption: Copy the current workflow to another work packages type. If the selected type already has a workflow the current one will be overwritten. This affects all roles.
-            label: Copy to another type
-        source_role_id:
-          label: Source role
         target_role_ids:
           label: Target roles
-        target_variant_ids:
-          label: Target types
       from_roles:
         create:
           notice:
             other: Successfully copied workflow to %{count} roles.
-      from_variants:
-        create:
-          notice:
-            other: Successfully copied workflow to %{count} types.
       new:
         title: Copy workflow of "%{source_type}"
     form:
