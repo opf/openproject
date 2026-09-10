@@ -32,9 +32,7 @@ See COPYRIGHT and LICENSE files for more details.
     render(Primer::Alpha::Layout.new) do |layout|
       layout.with_main do
         flex_layout(col_placement: :start) do |column|
-          # TODO: This ensures the same witdth as the filter component. This is NOT the right solution.
-          # This must be fixed before merging
-          column.with_row(mb: 3, style: "max-width: 752px") do
+          column.with_row(mb: 3) do
             render(Primer::Forms::ToggleSwitchForm.new(**toggle_arguments))
           end
 
@@ -48,6 +46,7 @@ See COPYRIGHT and LICENSE files for more details.
         end
       end
 
+      # TODO: When the new width have been introduced, switch to a new one: https://community.openproject.org/projects/DREAM/work_packages/DREAM-829/activity
       layout.with_sidebar(width: :wide, col_placement: :end) do
         render(PlaceholderUsers::MatchingUsersComponent.new(placeholder_user:))
       end
