@@ -210,9 +210,12 @@ module WorkPackageTypes
       )
     end
 
-    def render_existing_group_update_error(call)
+    def render_existing_group_update_error(call) # rubocop:disable Metrics/AbcSize
       @variant.reload
       group = active_groups_for_form.find { |active_group| active_group[:key].to_s == group_key_param.to_s }
+
+      # A group deleted from another tab leaves no editor to re-render the rejected name into.
+      return render_form_configuration_error(call) if group.nil?
 
       update_main_content_via_turbo_stream(
         editing_group_key: group_key_param,

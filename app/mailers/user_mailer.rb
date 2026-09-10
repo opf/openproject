@@ -41,8 +41,9 @@ class UserMailer < ApplicationMailer
     send_localized_mail(user, delivery_method_options:) { "#{Setting.app_title} Test" }
   end
 
-  def backup_ready(user)
+  def backup_ready(user, missing_attachments_count: 0)
     @download_url = admin_backups_url
+    @missing_attachments_count = missing_attachments_count
 
     send_localized_mail(user) { I18n.t(:mail_subject_backup_ready) }
   end

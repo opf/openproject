@@ -261,6 +261,24 @@ RSpec.describe Meetings::IcalendarBuilder,
       meeting
     end
 
+    context "when the series has advanced its ICS revision" do
+      subject(:builder) { described_class.new(timezone:) }
+
+      before do
+        recurring_meeting.update_column(:ical_sequence, 7)
+      end
+
+      it "takes the master SEQUENCE from the series, not from the template lock version" do
+        builder.add_series_event(recurring_meeting:)
+
+        parsed_calendar = Icalendar::Calendar.parse(builder.to_ical).first
+        master = parsed_calendar.events.find { |e| e.rrule.present? && e.recurrence_id.blank? }
+
+        expect(recurring_meeting.template.lock_version).not_to eq 7
+        expect(master.sequence).to eq 7
+      end
+    end
+
     context "when emitting an instantiated occurrence within the current schedule" do
       subject(:builder) { described_class.new(timezone:) }
 

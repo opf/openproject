@@ -45,7 +45,7 @@ ro:
         no_results_title: No project timeline content configured
         sprints_link: Sprints overview
         title: Project timeline
-        title_portfolio: Portfolio timeline
+        title_portfolio: Cronologia portofoliului
         title_program: Program timeline
       subitems:
         button_text: Subelement

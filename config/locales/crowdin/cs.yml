@@ -66,6 +66,8 @@ cs:
 
       '
     login_with_auth_provider: nebo se přihlaste pomocí stávajícího účtu
+    omniauth_direct_login_continue: Continue to sign in
+    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: Prosím přihlaste se pro aktivaci účtu.
     signup_title: Create an account in %{app_title}
     signup_with_external_account: Sign up with an external account
@@ -76,6 +78,28 @@ cs:
         dependencies: Závislosti
   activerecord:
     attributes:
+      ai/text_transform_action:
+        active: Active
+        injects_type_template: Insert work package type template
+        label: Label
+        prompt: Prompt
+        types: Work package types
+        usage_scope: Scope
+      ai/text_transform_run:
+        action: Action
+        cancel_requested: Cancel requested
+        error_message: Error message
+        finished_at: Finished at
+        input: Input
+        status: Status
+        system_prompt: System prompt
+        user: User
+        uuid: UUID
+      ai/text_transform_run_event:
+        kind: Kind
+        payload: Payload
+        run: Run
+        seq: Sequence number
       announcements:
         show_until: Zobrazit do
       attachment:
@@ -120,7 +144,9 @@ cs:
         is_for_all: Pro všechny projekty
         is_required: Požadováno
         max_length: Maximální délka
+        max_value: Maximum value
         min_length: Minimální délka
+        min_value: Minimum value
         multi_value: Povolit multi-select
         possible_values: Možné hodnoty
         regexp: Regulární výraz
@@ -210,6 +236,7 @@ cs:
         position: Pozice
       persisted_query:
         filters: Filtry
+        group_bys: Group results by
         name: Název
         orders: Orders
         selects: Selects
@@ -348,6 +375,7 @@ cs:
       token/named:
         token_name: Název tokenu
       type:
+        allow_project_variants: Allow project-specific variants
         color: Barva
         is_in_roadmap: Ve výchozím nastavení zobrazeno v plánu
         is_milestone: Je milník
@@ -356,11 +384,11 @@ cs:
       type/configuration_link:
         source: Source type
       type_variant:
-        attribute_groups: Form configuration
+        attribute_groups: Form
         default_work_package_description: Default text for description
         defaults_source: Defaults source
         enabled_in_new_projects: Active in new projects
-        form_configuration_source: Form configuration source
+        form_configuration_source: Form source
         patterns: Patterns
         pdf_export_source: PDF export source
         project_attributes_source: Project attributes source
@@ -466,6 +494,7 @@ cs:
           true: zahrnuje nepracovní dny
         journal_internal: Internal Journal
         notify: Oznámit
+        observed_in_versions: Observed in versions
         parent: Nadřazený
         parent_issue: Nadřazený
         parent_work_package: Nadřazený
@@ -541,6 +570,8 @@ cs:
         is_for_all_cannot_modify: je pro všechny projekty, a proto je nelze měnit.
         ldap_managed: This department is managed by LDAP synchronization and cannot be changed manually.
         less_than_or_equal_to: musí být menší než nebo rovno %{count}.
+        migration_failed: 'The variant could not be switched for project ''%{project}'': %{reason}'
+        migration_target_invalid: The selected variant must be another variant of the same type that every affected project can use.
         not_a_date: není platné datum.
         not_a_datetime: není platný čas.
         not_a_number: není číslo.
@@ -562,6 +593,7 @@ cs:
         regex_list_invalid: Lines %{invalid_lines} could not be parsed as regular expression.
         regex_match_failed: neodpovídá regulárnímu výrazu %{expression}.
         smaller_than_or_equal_to_max_length: musí být menší než nebo rovno maximální délce.
+        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: violates the SSRF policy of this OpenProject instance.
         status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
         system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
@@ -715,7 +747,6 @@ cs:
             types:
               cannot_assign_multiple_variants_of_parent: Can only enable a single variant of a Type on the project
               cannot_assign_variant_and_parent: 'Cannot assign a variant and its parent '
-              cannot_assign_variants_yet: Variants cannot be enabled on a project yet. Enable the feature flag to try out variants
               in_use_by_work_packages: 'stále používáno pracovními balíčky: %{types}'
               switch_target_blank: Select the variant to switch to
               switch_target_identical: The target type must be different from the type the project uses now
@@ -737,6 +768,7 @@ cs:
         project_type:
           attributes:
             variant:
+              must_be_owned_by_the_project: must not be a variant another project owns.
               must_belong_to_the_type: must be a variant of the type the project uses.
         queries/filters/base:
           attributes:
@@ -809,6 +841,7 @@ cs:
               hours_per_day_are_missing: Musí být stanoven počet hodin denně.
               hours_per_day_is_out_of_bounds: Počet hodin za den nesmí být více než 24.
               journal_aggregation_time_minutes_is_out_of_bounds: Aggregation period must be between %{min} and %{max} minutes.
+              password_login_requires_sso_provider: Password login restrictions require at least one available SSO provider.
               previous_working_day_changes_unprocessed: Předchozí změny nastavení pracovních dnů ještě nebyly použity.
               working_days_are_missing: Nejméně jeden den v týdnu musí být definován jako pracovní den.
         status:
@@ -837,23 +870,30 @@ cs:
             base:
               borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
               is_default_variant: The default configuration of a type cannot be deleted.
+              project_variants_not_allowed: This type does not allow creation of variants inside projects.
               restrict_dependent_destroy:
                 has_many: Cannot be deleted while projects are still using it.
             defaults_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: would link these configurations in a loop.
             enabled_in_new_projects:
+              not_available_to_project_owned_variant: cannot be set on a variant a project owns.
               taken: is already set for another configuration of this type.
             form_configuration_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: would link these configurations in a loop.
             patterns:
               invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
             pdf_export_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: would link these configurations in a loop.
             project_attributes_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: would link these configurations in a loop.
             variant:
               must_belong_to_the_type: must be a variant of this type.
             workflows_source_id:
+              must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: would link these configurations in a loop.
         user:
           attributes:
@@ -985,6 +1025,21 @@ cs:
         few: Actions
         many: Actions
         other: Actions
+      ai/text_transform_action:
+        one: Text transform action
+        few: Text transform actions
+        many: Text transform actions
+        other: Text transform actions
+      ai/text_transform_run:
+        one: Text transform run
+        few: Text transform runs
+        many: Text transform runs
+        other: Text transform runs
+      ai/text_transform_run_event:
+        one: Text transform run event
+        few: Text transform run events
+        many: Text transform run events
+        other: Text transform run events
       announcement:
         one: Announcement
         few: Announcements
@@ -1563,7 +1618,12 @@ cs:
     banners:
       environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
     custom_styles:
+      color_groups:
+        base_colors: Base colors
+        main_menu: Main lateral menu
+        top_header_colors: Top header colors
       color_theme: Barevné téma
+      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
       color_theme_custom: Vlastní
       colors:
         accent-color: Odstín
@@ -1572,12 +1632,15 @@ cs:
         main-menu-bg-selected-background: Hlavní menu při výběru
         primary-button-color: Primární tlačítko
       custom_colors: Vlastní barvy
+      edit_color: Edit %{color}
       fonts:
         file_is_invalid: není platný soubor TTF.
         file_too_large: je příliš velký (maximální velikost je %{count} MB).
       instructions:
         accent-color: Barva pro odkazy a další decentně zvýrazněné prvky.
+        header-bg-color: Default background color of the app header.
         main-menu-bg-color: Barva pozadí levého menu.
+        main-menu-bg-selected-background: Background color of menu items when selected.
         primary-button-color: Výrazná akcentní barva, která se používá pro nejdůležitější tlačítko na obrazovce.
       manage_colors: Upravit možnosti výběru barvy
       tab_branding: Značka
@@ -1696,6 +1759,7 @@ cs:
           finalizing: Finalizing
           finalizing_done: Completed
           finalizing_error: Error during finalizing
+          import_aborting: Aborting
           import_error: Chyba při importu
           import_scope: Zvolte rozsah
           imported: Review mode
@@ -1707,13 +1771,13 @@ cs:
           projects_meta_done: Shromážděná data
           projects_meta_error: Chyba při načítání dat projektu
           projects_meta_fetching: Načítání dat projektu
-          revert_cancelled: Revert cancelled
-          revert_cancelling: Cancelling revert
           revert_error: Error during revert
           reverted: Reverted
           reverting: Reverting
+        step_not_available: This action is not available for the current state of the import run.
         title: Běh importu
         wizard:
+          button_abort: Abort
           button_retry: Retry
           finalize_dialog:
             confirm: Beru na vědomí, že tento úkon nelze vzít zpět
@@ -1769,11 +1833,14 @@ cs:
             title: Trvale revertovat tento import?
           sections:
             confirm_import:
+              button_importing: Importing data
+              button_revert: Revert import
               button_start: Spustit import
               caption: Review your import settings and start the import
               caption_done: Dokončeno
               caption_done_info: All data has been imported
               description: Chystáte se spustit import s následujícím. nastavením.
+              info_importing: The import is now in progress. Closing this tab will not stop it, and you can always revisit the status of the import by opening the run.
               label_available_data: Data k importu
               label_import_data: Momentálně importováno
               label_progress: Probíhá import...
@@ -1794,6 +1861,7 @@ cs:
               button_done: Schválit import
               button_revert: Revertovat import
               caption: Zkontrolovat spuštění importu nebo revertovat import
+              info: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               label_finalize_import: Approve import
               label_finalizing: Approving import...
               label_finalizing_done: Import approved.
@@ -1801,7 +1869,6 @@ cs:
               label_revert: Revert importu
               label_revert_progress: Revertování importu...
               label_reverted: Import byl revertován.
-              preview_description: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               stats:
                 other_settings:
                   label: Other settings
@@ -2028,8 +2095,6 @@ cs:
             manual_conversion_hint: You can choose to manually run the conversion to enable multiple values before this automatic migration happens.
             not_writable_hint: These settings are configured via environment variables. If you would like to manually run the conversion to enable multiple values before the automatic migration, update your configuration.yml file.
           heading: Target versions
-          in_progress:
-            heading: Enabling multiple versions
           planned_changes:
             heading: Planned changes in a future release
             renamed: The “Version” field will be renamed “Target versions”.
@@ -2082,6 +2147,43 @@ cs:
         page_header:
           description: Choose between classic numerical work package IDs or semantic project-specific ones that prepend the project identifier to the work package ID.
         success_banner: Úspěšně aktualizován formát identifikátoru pracovního balíčku.
+    text_transform_actions:
+      delete_dialog_component:
+        description: Users will no longer be able to run this action in the rich text editor.
+        heading: Are you sure you want to delete the action "%{label}"?
+        title: Delete text transform action
+      form:
+        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
+        label_caption: This is the name that will be visible to users in the editor.
+        select_types: Select types
+        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
+        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
+      index:
+        description: Text transform actions give users LLM-powered actions to write, organise and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
+        label_add_action: Action
+        label_aria_add_action: Add text transform action
+      index_component:
+        blank_slate:
+          description: Add an action to see it here
+          title: No text transform actions configured yet
+        disabled_warning: Text transform actions are disabled. The following actions will not be available anywhere.
+        label_disable_all: Disable all
+        label_enable_all: Enable all
+        title: Actions
+      new:
+        title: New text transform action
+      row_component:
+        label_actions: Action menu
+        label_toggle: Toggle %{label}
+        scope_specific_work_package_types:
+          one: "%{count} work package type"
+          few: "%{count} work package types"
+          many: "%{count} work package types"
+          other: "%{count} work package types"
+      usage_scopes:
+        all_work_package_types: All work package types
+        everywhere: Everywhere
+        specific_work_package_types: Specific work package types
     workflows:
       blankslate:
         description: Add statuses to start configuring workflows for this role
@@ -2337,6 +2439,9 @@ cs:
     label_delete_token: Odstranit záložní token
     label_reset_token: Resetovat záložní token
     label_token_users: Následující uživatelé mají aktivní tokeny pro zálohy
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: Vytvořit
       action_reset: Obnovit
@@ -2627,6 +2732,9 @@ cs:
       min_max:
         all: 0 znamená bez omezení
         project: 0 znamená bez omezení
+      min_max_value:
+        all: Leave blank for no restriction
+        project: Leave blank for no restriction
       multi_select:
         all: Allows the user to assign multiple values to this custom field.
         project: Allows the user to assign multiple values to this attribute.
@@ -3015,7 +3123,7 @@ cs:
         more_info: 'Poznámka: použité logo bude veřejně přístupné.'
         title: Vlastní barevný motiv a logo
       edit_attribute_groups:
-        description: 'Customize form configuration with these additional add-ons:'
+        description: 'Customize the form with these additional add-ons:'
         features:
           groups: Add new attribute sections
           related: Add a table of related work packages
@@ -3467,6 +3575,7 @@ cs:
         progress_calculation_adjusted_from_disabled_mode: Progress calculation automatically <a href="%{href}" target="_blank">set to work-based mode and adjusted with version update</a>.
         scheduling_mode_adjusted: Scheduling mode automatically adjusted with version update.
         sprint_migration: Verze '%{version_name}' byla zkopírována jako sprint.
+        stale_target_versions_removed: Outdated target version automatically removed. It had been incorrectly re-added when multiple target versions were enabled.
         target_versions_repaired: Target versions automatically synchronized with the Version field before enabling multiple target versions.
         totals_removed_from_childless_work_packages: Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
       total_percent_complete_mode_changed_to_simple_average: Pracovní hodnoty podřízených pracovních balíčků jsou ignorovány.
@@ -3574,6 +3683,7 @@ cs:
   label_available_project_work_package_categories: Dostupné kategorie pracovních balíčků
   label_available_project_work_package_types: Dostupné kategorie pracovních balíčků
   label_available_projects: Dostupné projekty
+  label_backtrace: Backtrace
   label_backup: Záloha
   label_basic_details: Základní údaje
   label_between: mezi
@@ -3641,7 +3751,6 @@ cs:
   label_copy_target: Cíl
   label_copy_workflow_from: Kopírovat pracovní postup z
   label_copy_workflow_from_role: Kopírovat do dalších rolí
-  label_copy_workflow_from_type: Kopírovat do jiného typu
   label_core_build: Build jádra
   label_core_version: Verze jádra
   label_created_by: Vytvořil %{user}
@@ -3762,7 +3871,6 @@ cs:
   label_float: Desetinné číslo
   label_folder: Složka
   label_follows: sleduje
-  label_form_configuration: Konfigurace formuláře
   label_formula: Vzorec
   label_forum_new: Nové fórum
   label_forum_plural: Fóra
@@ -3887,7 +3995,6 @@ cs:
   label_message_new: Nová zpráva
   label_message_plural: Zprávy
   label_message_posted: Zpráva přidána
-  label_min_max_length: Min - Max délka
   label_minute_plural: minuty
   label_missing_api_access_key: Chybí přístupový klíč API
   label_missing_feeds_access_key: Chybí RSS přístupový klíč
@@ -4479,6 +4586,9 @@ cs:
   mail_body_account_information: Informace o vašem účtu
   mail_body_account_information_external: Můžete použít váš %{value} účet pro přihlášení.
   mail_body_backup_ready: 'Vaše požadovaná záloha je připravena. Můžete ji stáhnout zde:'
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: Předchozí token již není platný.
   mail_body_backup_token_reset_admin_info: Záložní token pro uživatele '%{user}' byl resetován.
   mail_body_backup_token_reset_user_info: Váš záložní token byl resetován.
@@ -4629,6 +4739,7 @@ cs:
       mail_notification: E-mailová upozornění
       mails_and_notifications: E-maily a oznámení
       mcp_configurations: Protokol MCP (Model Context Protocol)
+      text_transform_actions: Text transform actions
     quick_add:
       label: Přidat…
   more_actions: Další funkce
@@ -4814,6 +4925,7 @@ cs:
   notice_account_already_activated: Účet byl již aktivován.
   notice_account_invalid_credentials: Neplatný uživatel nebo heslo
   notice_account_invalid_credentials_or_blocked: Neplatný uživatel nebo heslo nebo účet je zablokován z důvodu několika neúspěšných pokusů o přihlášení. Pokud ano, bude automaticky odblokován za krátkou dobu.
+  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
   notice_account_invalid_token: Neplatný aktivační token
   notice_account_lost_email_sent: Byl vám zaslán email s intrukcemi jak si nastavíte nové heslo.
   notice_account_new_password_forced: Vyžadováno nové heslo.
@@ -5072,8 +5184,6 @@ cs:
       not_found: nenalezeno
       respond_to?: neimplementuje požadovanou metodu.
       rules:
-        copy_workflow_from:
-          workflow_missing: nemá vlastní pracovní postup.
         custom_field:
           format_not_supported: formát '%{field_format}' není podporován.
         item:
@@ -5093,7 +5203,6 @@ cs:
     or: nebo
     rules:
       blueprint: Vzhled plánu
-      copy_workflow_from: Type for workflow copy
       depth: Hloubka
       enabled: Zapnuto
       item: Položka
@@ -5125,6 +5234,8 @@ cs:
     dialog:
       footer_center:
         caption: Tento text se zobrazí na každé stránce uprostřed zápatí.
+        default_hint_project_name: When left blank, defaults to the project name.
+        default_hint_subject: When left blank, defaults to the work package's subject.
         label: Text záhlaví
       footer_right:
         caption: Tento text se zobrazí na každé stránce napravo v zápatí.
@@ -5153,7 +5264,7 @@ cs:
       caption: Work package details rendered as a PMflex Artefact.
       label: PMflex Artefact
     template_attributes:
-      caption: All the attributes present in the current form configuration using the default template.
+      caption: All the attributes present in the current form using the default template.
       label: Atributy a popis
     template_contract:
       caption: Work package details formatted to the standard German contract form.
@@ -5227,6 +5338,7 @@ cs:
     '
   permission_manage_placeholder_user: Vytvořit, upravit a odstranit placeholder uživatele
   permission_manage_project_activities: Spravovat projektové aktivity
+  permission_manage_project_variants: Manage the project's own type variants
   permission_manage_public_bcf_queries: Spravovat veřejné dotazy BCF.
   permission_manage_public_project_queries: Spravovat veřejné seznamy projektů
   permission_manage_public_queries: Spravovat veřejné dotazy
@@ -5537,23 +5649,48 @@ cs:
           type_label: Type
           type_placeholder: Select a type
         add_type: Add type
+        add_variant: Add a project-specific variant
+        base_type_in_use: Base type used in this project
         empty_state:
           description: Add a type to let people create work packages of that type in this project.
           title: No types are active in this project
         form:
           enable_type_in_project: Povolit typ "%{type}"
         no_results_title_text: V současné době nejsou k dispozici žádné typy.
+        project_specific_variant: Project-specific variant
         remove_from_project: Remove from project
-        switch_dialog:
+        switch:
           apply: Apply
-          description: Select a different variant of this type to use in this project.
+          impact:
+            hidden_heading: Fields that will no longer be shown
+            missing_statuses_description: The workflow you are switching to has no transition out of these statuses, so nobody will be able to move these work packages on.
+            missing_statuses_heading: Work packages that get stuck
+            new_heading: Fields that become available
+            nothing_affected: No fields or statuses are affected.
+            status_count:
+              one: 1 work package
+              few: "%{count} work packages"
+              many: "%{count} work packages"
+              other: "%{count} work packages"
+            table_suffix: "(table)"
+            value_count:
+              one: 1 work package has a value
+              few: "%{count} work packages have a value"
+              many: "%{count} work packages have a value"
+              other: "%{count} work packages have a value"
+            work_packages:
+              one: 1 work package will use the new configuration
+              few: "%{count} work packages will use the new configuration"
+              many: "%{count} work packages will use the new configuration"
+              other: "%{count} work packages will use the new configuration"
           success: The project now uses %{type}.
           target_label: Variant
           title: "%{type}: Switch variant"
-          warning: If you switch variants, you might lose information associated with custom fields that might not be present in the new one.
-        switch_type: Switch variant
         type_not_found: The selected type could not be found.
-        variant_prefix: 'Variant:'
+        use_in_project: Use in this project
+        variant_in_use: Variant in this project
+        variant_label: Variant
+        variants_not_allowed: This type does not allow creation of variants inside projects.
       versions:
         no_results_content_text: Vytvořit novou verzi
         no_results_title_text: V současné době neexistují žádné verze pro projekt.
@@ -5726,6 +5863,12 @@ cs:
   roles:
     edit:
       default_for_new_projects_warning: 'This role is configured as the default role given to non-admin users who create a project. Do not remove the following permissions, otherwise project creators will be unable to complete the setup of their newly created projects:'
+    index:
+      filter_label: Search roles
+      types:
+        all: All roles
+        global: Global roles
+        project: Project roles
     permissions:
       section_check_all_label: Assign all %{module} permissions
       section_uncheck_all_label: Unassign all %{module} permissions
@@ -5750,6 +5893,7 @@ cs:
   setting_after_login_default_redirect_url_example_html: 'Set a default path to redirect users after login, if no back link was provided. Redirects to home page if not set. <br/> Example: %{example_code}
 
     '
+  setting_ai_text_transform_actions_enabled: Enable text transform actions
   setting_allowed_link_protocols: Allowed link protocols
   setting_allowed_link_protocols_text_html: Allow these protocols to be rendered as links in work package descriptions, long text fields and comments. For example, %{tel_code} or %{element_code}. Enter one protocol per line. <br/> Protocols %{http_code}, %{https_code}, and %{mailto_code} are always allowed.
   setting_antivirus_scan_action: Akce s infikovaným souborem
@@ -5829,7 +5973,7 @@ cs:
   setting_default_language: Výchozí jazyk
   setting_default_projects_modules: Výchozí zapnutné moduly pro nový projekt
   setting_default_projects_public: Nové projekty nastavovat jako veřejné
-  setting_default_projects_wiki: Enables wiki functionality for new projects by default
+  setting_default_projects_wiki: Enable wiki functionality for new projects by default
   setting_diff_max_lines_displayed: Maximální počet zobrazených řádků rozdílu
   setting_disable_password_login: Zakázat ověřování hesla
   setting_display_subprojects_work_packages: Automaticky zobrazit úkoly podprojektu v hlavním projektu
@@ -5877,6 +6021,14 @@ cs:
   setting_password_active_rules: Password requirements
   setting_password_count_former_banned: Počet naposledy použitých hesel zakázaných pro opakované použití
   setting_password_days_valid: Počet dní, po kterých bude možné vynutit změnu hesla
+  setting_password_login: Password login
+  setting_password_login_all: Allow for everyone
+  setting_password_login_all_caption: Anyone with an internal password can sign in with it, including users linked to an identity provider.
+  setting_password_login_bypass_principal_ids: Users and groups who may still use a password
+  setting_password_login_except_sso: Disallow for SSO users
+  setting_password_login_except_sso_caption: Users linked to an identity provider cannot sign in with their internal password. Other users can continue using it.
+  setting_password_login_none: Disallow for everyone
+  setting_password_login_none_caption_html: The password form is hidden. Only users and groups listed below can sign in with a password via %{internal_login_link}.
   setting_password_min_length: Minimální délka
   setting_per_page_options: Objektů na stránku
   setting_percent_complete_on_status_closed: "% Dokončeno, když je stav uzavřen"
@@ -6011,6 +6163,15 @@ cs:
     authentication:
       login: Přihlášení
       omniauth_direct_login_hint_html: 'If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
+
+        '
+      password_login_bypass_principal_ids_hint: 'Even when password login in disabled, these users and groups will be able to use their password to sign in. This is useful, for example, if the identity provider becomes unavailable. If you include a group, access will be extended to all users in that group.
+
+        '
+      password_login_configured_by_environment: 'The following settings are configured through the environment and cannot be edited here:
+
+        '
+      password_login_requires_sso_provider: 'Password login restrictions are unavailable because no SSO provider is currently enabled. Configure and enable an SSO provider before changing these settings.
 
         '
       registration: Registrace
@@ -6501,7 +6662,7 @@ cs:
   total_progress: Celkový průběh
   types:
     creation_wizard:
-      add_variant: Add variant to %{name}
+      add_variant: Add a variant to %{name}
       create_type: Create type
       create_variant: Create variant
       fields:
@@ -6512,7 +6673,7 @@ cs:
       steps:
         defaults: Defaults
         details: Details
-        form_configuration: Form configuration
+        form_configuration: Form
         pdf: PDF generation
         project_attributes: Project attributes
         projects: Projects
@@ -6542,9 +6703,11 @@ cs:
             work_package: Work package
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
+        allow_project_variants_caption: For project administrators with the permission to manage variants, this type can be extended or modified within a project.
         inherited_from_type_html: Inherited from type <b>%{type}</b>.
         tab: Details
         type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
+        variant_name_caption_html: This is an internal name only visible to administrators. Variants replace the original parent type, so if this variant is used in a project, it will appear as <b>%{type}</b> to all members.
       export_configuration:
         artefact_export:
           attachment:
@@ -6570,7 +6733,12 @@ cs:
           label: Šablony pro export do PDF
         tab: Vytvořit PDF
         templates:
+          readonly_error: Cannot be changed while linked to a source type.
           section_title: PDF export templates
+          settings:
+            edit_link: Edit settings
+            reset_to_default: Reset to default
+            title: 'Settings: %{template}'
       form_configuration:
         add_attribute_group: Section
         add_query_group: Related work packages table
@@ -6578,7 +6746,7 @@ cs:
         blankslate_title: No groups yet
         builtin_field: Built-in field
         confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
-        confirm_reset: Are you sure you want to reset the form configuration?
+        confirm_reset: Are you sure you want to reset the form?
         custom_field: Custom field
         delete_group: Delete section
         drag_to_activate: Drag fields from here to activate them
@@ -6593,33 +6761,51 @@ cs:
         group_actions: Section actions
         group_name_label: Section name
         inactive_attributes_heading: Inactive attributes
-        invalid_attribute_groups: The form configuration payload is invalid.
+        invalid_attribute_groups: The form payload is invalid.
         invalid_query: The embedded query configuration is invalid.
         label_group: Section
         no_inactive_attributes: No inactive attributes
-        not_found: The requested form configuration item could not be found.
+        not_found: The requested form item could not be found.
         query_group_label: Related work packages table
         remove_attribute: Remove from section
         rename_group: Rename section
+        required:
+          already_required_globally: This custom field is required for all types.
+          for_variant: Required in this type
+          globally: Required
+          globally_hint: Change this on the custom field
+          mark: Require in this type
+          not_a_custom_field: Only a custom field can be made required for a single type.
+          not_available_when_linked: This configuration is inherited. Configure it manually to change what is required.
+          unmark: Do not require in this type
         reset_description: 'This will reset the attributes to their default group and disable ALL custom fields.
 
           '
-        reset_title: Reset form configuration
+        reset_title: Reset form
         reset_to_defaults: Reset form
         row_actions: Row actions
-        tab: Konfigurace formuláře
+        tab: Form
         untitled_group: Untitled group
+      overview:
+        configuration_mode: Configuration mode
+        dependents: Dependent types and variants
+        mode:
+          always_manual: Always manual
+          inheriting_from_html: Inheriting from %{source_name}
+          manual: Manually configured
+        settings: Settings
+        tab: Overview
       project_attributes:
         actions:
           label_disable_all: Disable all
           label_enable_all: Enable all
         blankslate:
-          independent:
-            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
-            title: No project attributes available
-          linked:
+          inherited:
             description: This type does not have any project attributes associated with it.
             title: No project attributes configured
+          manual:
+            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
+            title: No project attributes available
         description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
         disabled: Disabled
         exclusions:
@@ -6649,31 +6835,80 @@ cs:
             description_html: By copying data from %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
             title: Copy configuration?
           dialog:
-            description: Copy the configuration from a source type and use it as a one-time base. This does not link the two types permanently.
-            source_label: Copy source
+            description: Copy the configuration from a source type and use it as a one-time base. The configuration stays manual and does not inherit later changes of the source.
+            source_label: Source type
             source_placeholder: Select a type or variant
             submit: Save and copy
             title: Copy configuration
           invalid_source: The configuration cannot be copied from the selected type. Please select a different source type.
           success: The configuration was copied.
+        dependents:
+          blank:
+            description: No other type or variant inherits from this configuration
+            title: No dependent types
+          description:
+            one: The following configuration is inherited by 1 other type or variant. Any changes you make here will also affect the dependent.
+            few: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
+            many: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
+            other: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
+          dialog:
+            description: These types and variants inherit the configuration of this section. A change you make here applies to all of them.
+            direct_heading: Direct dependents
+            indirect_heading: Dependents through other types
+            title: Dependent types
+            variant_of_html: Variant of %{type_name}
+            variant_of_via_html: Variant of %{type_name}, inheriting via %{source_name}
+            via_html: Inheriting via %{source_name}
+          title:
+            one: 1 dependent type
+            few: "%{count} dependent types"
+            many: "%{count} dependent types"
+            other: "%{count} dependent types"
+          view: View dependent types
         exclusions:
-          not_linked: This type owns its configuration for this section, so there is nothing to exclude. Edit the configuration directly instead.
+          not_inherited: This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead.
           unknown_aspect: Unknown configuration section "%{aspect}".
-        independent:
+        inherited:
+          change_source: Change source type
+          configure_manually: Configure manually
+          confirm_dialog:
+            change_source:
+              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
+              heading: Change source type?
+              title: Change source type
+            check_box: I understand that this will override the current settings
+            from_manual:
+              description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
+              heading: Switch configuration mode?
+              title: Switch configuration mode
+          description: This configuration is inherited from the source type [%{source_name}](source_url)%{source_suffix}.
+          description_unlinked: This configuration is inherited from the source type %{source_name}%{source_suffix}.
+          dialog:
+            description: Inherit this configuration from a source type. Any new configuration added to the source also applies here.
+            source_label: Source type
+            source_placeholder: Select a type or variant
+            submit: Switch
+            title: Inherit from another type
+          invalid_source: The configuration cannot be inherited from the selected type. Please select a different source type.
+          success: The configuration mode was switched.
+          title: Inherited configuration
+        manual:
           confirm_dialog:
             check_box: I understand that this will override the current settings
             description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
-            title: Switch configuration mode?
-          copy_from_type: Copy from type
-          description: No settings are inherited. If desired you can still one-time copy settings from another type.
+            heading: Switch configuration mode?
+            title: Switch configuration mode
+          copy_from_type: Copy from another type
+          description: No settings are inherited. You can still copy the settings from another type one time.
           dialog:
             submit: Switch
-            title: Independent mode
+            title: Configure manually
+          inherit_from_type: Inherit from another type
           invalid_mode: The selected mode is not available for this configuration. Please choose a different mode.
           modes:
             copy:
-              caption: Start with a one-time copy of the current settings set in the linked mode.
-              label: Copy from linked
+              caption: Start with a one-time copy of the settings that this configuration inherits now.
+              label: Copy inherited settings
             default:
               caption: Use the default settings for new types.
               label: Default settings
@@ -6681,29 +6916,7 @@ cs:
               caption: Set everything up from scratch, beginning from a blank configuration.
               label: Empty
           success: The configuration mode was switched.
-          switch_to_linked: Switch to linked mode
-          title: Independent mode
-        linked:
-          change_source: Change source type
-          confirm_dialog:
-            change_source:
-              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
-              title: Change source type?
-            check_box: I understand that this will override the current settings
-            from_independent:
-              description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
-              title: Switch configuration mode?
-          description: This configuration is linked and inheriting its settings from the source type [%{source_name}](source_url)%{source_suffix}.
-          dialog:
-            description: Copy and inherit this settings from a source. Any new configuration added to the source will also be added here.
-            source_label: Linked source
-            source_placeholder: Select a type or variant
-            submit: Switch
-            title: Linked mode
-          invalid_source: The configuration cannot be linked to the selected type. Please select a different source type.
-          success: The configuration mode was switched.
-          switch_to_independent: Switch to independent mode
-          title: Linked mode
+          title: Manual configuration
         parent_suffix: " (parent)"
       variants:
         blankslate:
@@ -6711,12 +6924,22 @@ cs:
 
             '
           title: No variants exist for this type
+        created_in_html: Created in %{project}
+        delete:
+          description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
+          title: Delete %{name}
         filter: Filter by text
         filter_no_results: No variants match this filter
+        global_section:
+          description: These variants are available across all projects.
+          title: Variants
+        project_specific_section:
+          description: These variants are only available within the projects in which they were created.
+          title: Project-specific variants
       workflow:
         tab: Workflows
     index:
-      add_variant: Add variant to %{name}
+      add_variant: Add a variant to %{name}
       add_variant_action: Add variant
       description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
@@ -6728,16 +6951,15 @@ cs:
       make_default_notice: "%{name} is now activated in new projects."
       no_results_content_text: Vytvořit nový typ
       no_results_title_text: V současné době neexistují žádné typy.
+      project_variants_count:
+        one: 1 project-specific variant
+        few: "%{count} project-specific variants"
+        many: "%{count} project-specific variants"
+        other: "%{count} project-specific variants"
       remove_default: Do not activate in new projects
       remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: Type
-      variant_enabled_in_new_projects: Variant %{name} active in new projects
       variant_label: Variant
-      variants_count:
-        one: 1 variant
-        few: "%{count} variants"
-        many: "%{count} variants"
-        other: "%{count} variants"
     milestone_indicator: Milestone
   unsupported_browser:
     close_warning: Ignorovat toto upozornění.
@@ -7117,6 +7339,13 @@ cs:
       confirm_deletion: I confirm that the selected work packages and all associated data will be deleted.
       confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
       cross_project_warning_html: 'These work packages span multiple projects: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        self_only_label: Delete just the selected work packages
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete the selected work packages and their descendants
       description: Are you sure you want to delete the selected work packages and all associated data?
       description_with_all_descendants: Are you sure you want to delete the selected work packages and all of their descendants?
       description_with_descendants: Are you sure you want to delete the selected work packages and all the following descendants?
@@ -7189,6 +7418,13 @@ cs:
       confirm_deletion: I confirm that the work package and all associated data will be deleted.
       confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
       cross_project_warning_html: 'Work packages from the following projects will be deleted: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: This work package has descendants. Do you want to delete them as well?
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        self_only_label: Delete just this work package
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete this work package and descendants
       description: Are you sure you want to delete "%{name}"?
       heading: Permanently delete this work package?
       hidden_descendants_only_warning:
@@ -7250,19 +7486,8 @@ cs:
   workflows:
     copies:
       form:
-        mode:
-          from_role:
-            caption: Copy the current workflow to one or more roles inside the same work package type. If the selected role already has a workflow the current one will be overwritten.
-            label: Copy to other roles
-          from_type:
-            caption: Copy the current workflow to another work packages type. If the selected type already has a workflow the current one will be overwritten. This affects all roles.
-            label: Copy to another type
-        source_role_id:
-          label: Source role
         target_role_ids:
           label: Target roles
-        target_variant_ids:
-          label: Target types
       from_roles:
         create:
           notice:
@@ -7270,13 +7495,6 @@ cs:
             few: Successfully copied workflow to %{count} roles.
             many: Successfully copied workflow to %{count} roles.
             other: Successfully copied workflow to %{count} roles.
-      from_variants:
-        create:
-          notice:
-            one: Successfully copied workflow to '%{type_name}'.
-            few: Successfully copied workflow to %{count} types.
-            many: Successfully copied workflow to %{count} types.
-            other: Successfully copied workflow to %{count} types.
       new:
         title: Copy workflow of "%{source_type}"
     form:

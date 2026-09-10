@@ -30,6 +30,8 @@
 
 module McpTools
   class Base
+    include Dry::Monads::Result(String)
+
     RESPONSE_FORMATS = %i[full content_only structured_only].freeze
 
     class << self
@@ -59,69 +61,10 @@ module McpTools
         @name
       end
 
-      def pagination_enabled?
-        @pagination_enabled || false
-      end
-
-      def enable_pagination
-        @pagination_enabled = true
-      end
-
       def input_schema(schema = nil)
-        if schema.present?
-          if pagination_enabled?
-            page = {
-              type: "number",
-              default: 1,
-              description: "Page number for pagination. If no page is defined, the first result set is returned. " \
-                           "To get the rest of the results, use a page number of 2 or higher."
-            }
-
-            @input_schema = schema.deep_merge({ properties: { page: } })
-          else
-            @input_schema = schema
-          end
-        end
+        @input_schema = schema if schema
 
         @input_schema
-      end
-
-      ##
-      # Defines a filter for selecting results through input parameters. Only one of filter_proc and filter_class are allowed at
-      # the same time. If none is provided, a default where-based filter is created, using name as the filtered attribute name.
-      #
-      # Filters defined here can later be applied by the tool implementation using #apply_filters.
-      #
-      # @param name [Symbol] The name of the input parameter used for filtering.
-      # @param filter_class [String] Class name of a shared filter implementation to be used to perform filtering,
-      #                              inheriting from Queries::Filters::Base.
-      # @param operator [String] When using a filter_class, this is the operator that will be used for filtering. Default: "="
-      # @param filter_proc [Proc] A callback procedure used for filtering that must accept two arguments:
-      #                           The base scope that the filter applies to and the value that's used as a filter input.
-      # @example
-      #   filter :id
-      #
-      # @example
-      #   filter :name, filter_class: Queries::Projects::Filters::NameFilter, operator: "~"
-      #
-      # @example
-      #   filter :status, filter_proc: ->(scope, value) { scope.where(status_name: value) }
-      def filter(name, filter_class: nil, filter_proc: nil, operator: "=")
-        if filter_class && filter_proc
-          raise ArgumentError, "filter_proc and filter_class are mutually exclusive, please only specify one"
-        end
-
-        if filter_class
-          filter_proc = ->(scope, value) { filter_class.constantize.create!(operator:, values: Array(value)).apply_to(scope) }
-        elsif !filter_proc
-          filter_proc = ->(scope, value) { scope.where(name.to_sym => value) }
-        end
-
-        filters[name.to_sym] = filter_proc
-      end
-
-      def filters
-        @filters ||= {}
       end
 
       def output_filter(filter_class)
@@ -170,31 +113,37 @@ module McpTools
     def handle_request(**)
       result = call(**)
 
-      format_response(result)
+      response = result.either(
+        ->(r) { r },
+        ->(error) { { error: } }
+      )
+
+      format_response(response)
     end
 
     private
 
-    # Intended to be implemented by subclasses. It should return a structured result (e.g. a Hash or Array).
+    # Intended to be implemented by subclasses. It should return a success monad with structured result (e.g. a Hash or Array)
+    # or a failure monad with an error message.
     def call(**)
-      raise NotImplemented, "#{self.class} needs to implement #call method"
+      raise SubclassResponsibilityError, "#{self.class} needs to implement #call method"
     end
 
-    def format_response(result)
-      result = self.class.output_filters.inject(JSON.parse(result.to_json)) { |r, f| f.filter(r) }
-      plain = render_plain_content? ? format_content(result) : []
-      structured_content = render_structured_content? ? format_structured_content(result) : nil
+    def format_response(response)
+      response = self.class.output_filters.each_with_object(response.as_json) { |f, r| f.filter(r) }
+      plain = render_plain_content? ? format_content(response) : []
+      structured_content = render_structured_content? ? format_structured_content(response) : nil
       MCP::Tool::Response.new(plain, **{ structured_content: }.compact)
     end
 
-    def format_content(result)
-      [{ type: "text", text: result.to_json }]
+    def format_content(response)
+      [{ type: "text", text: response.to_json }]
     end
 
-    def format_structured_content(result)
-      # performing a useless JSON roundtrip to ensure that our representers get converted into proper Ruby hashes,
+    def format_structured_content(response)
+      # Ensure that our representers get converted into proper Ruby hashes,
       # because the mcp gem performs strict type checks on the structured content
-      JSON.parse(result.to_json)
+      response.as_json
     end
 
     def current_user
@@ -207,31 +156,6 @@ module McpTools
 
     def render_structured_content?
       %i[full structured_only].include?(Setting.mcp_tool_response_format)
-    end
-
-    # Usable by tool implementations. Takes a scope and filters it according to the passed params.
-    # Filtering happens based on the filters defined for the tool, see .filter.
-    def apply_filters(scope, params)
-      params.each do |name, value|
-        filter_proc = filter_proc_for(name)
-        scope = filter_proc.call(scope, value)
-      end
-
-      scope
-    end
-
-    def filter_proc_for(name)
-      self.class.filters[name] || raise(ArgumentError, "Don't know how to handle filter argument called #{name}")
-    end
-
-    def apply_pagination(scope, page)
-      total = scope.count
-      return [scope, total] unless self.class.pagination_enabled?
-
-      page_number = page || 1
-      page_size = self.class.page_size
-
-      [scope.offset((page_number - 1) * page_size).limit(page_size), total]
     end
   end
 end

@@ -32,24 +32,24 @@ sv:
           one_or_more_required: Kan inte ta bort den sista dokumenttypen
     models:
       document:
-        one: Document
-        other: Documents
+        one: Dokument
+        other: Dokument
       document_type:
-        one: Document type
-        other: Document types
+        one: Dokumenttyp
+        other: Dokumenttyper
   activity:
     filter:
       document: Dokument
   attributes:
-    collaborative_editing_hocuspocus_url: Hocuspocus server URL
-    documents: Documents
+    collaborative_editing_hocuspocus_url: URL till Hocuspocus-server
+    documents: Dokument
   default_doc_category_tech: Teknisk dokumentation
   default_doc_category_user: Användardokumentation
   documents:
     active_editors: Aktiva redigerare
     active_editors_count:
-      one: 1 active editor
-      other: "%{count} active editors"
+      one: 1 aktiv redigerare
+      other: "%{count} aktiva redigerare"
     admin:
       collaboration_settings:
         banner:
@@ -60,8 +60,8 @@ sv:
           caption: Klistra in hemligheten som tillhandahålls av Hocuspocus server.
           label: Klienthemlighet
         hocuspocus_server_url:
-          caption: The WebSocket address of a working Hocuspocus server.
-          invalid_scheme: Must use a WebSocket protocol (ws:// or wss://).
+          caption: WebSocket-adressen till en fungerande Hocuspocus-server.
+          invalid_scheme: Måste använda ett WebSocket-protokoll (ws:// eller wss://).
           label: Hocuspocus server URL
         page_header:
           description: |-
@@ -83,7 +83,7 @@ sv:
         heading: Realtidssamarbete är inte aktiverat
         primary_action: Aktivera samarbete i realtid
         success: Samarbetet i realtid har aktiverats.
-    button_add_type: Type
+    button_add_type: Typ
     delete_dialog:
       confirmation_message_html: Detta kommer att ta bort detta dokument permanent och alla bifogade filer. Är du säker på att du vill göra detta?
       heading: Radera detta dokument?
@@ -117,8 +117,8 @@ sv:
       type: Typ
       updated_at: Senast redigerad
     info_line:
-      connection_restored: You are now back online.
-      currently_offline: You are currently offline.
+      connection_restored: Du är nu online igen.
+      currently_offline: Du är för närvarande offline.
     label_attachment_author: Författare för bilaga
     label_categories: Kategorier
     last_updated_at: Senast sparad %{time}.
@@ -136,10 +136,8 @@ sv:
     show_edit_view:
       connection_error_notice:
         action: Försök igen
-        description_server_unavailable: |-
-          Unable to open document because the real-time text collaboration server is unreachable.
-          Please contact the administrator if the problem persists.
-      tabs: Document tabs
+        description_server_unavailable: Det går inte att öppna dokumentet eftersom servern för textsamarbete i realtid inte kan nås.\nKontakta administratören om problemet kvarstår.
+      tabs: Dokumentflikar
     subheader:
       filter:
         label: Filter för dokumentnamn

@@ -37,10 +37,7 @@ module Import
     validate :url_must_be_http_or_https
 
     def client
-      Import::JiraClient.new(
-        url:,
-        personal_access_token:
-      )
+      Import::JiraClient.new(url:, personal_access_token:)
     end
 
     private

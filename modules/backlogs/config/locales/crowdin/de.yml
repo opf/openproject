@@ -119,6 +119,7 @@ de:
         other: Sprints
         zero: Alle Sprints
       select_panel_title: Elemente auswählen
+    blankslate_filtered_title: Es wurden keine Arbeitspakete gefunden, die den Filterkriterien entsprechen.
     bucket_component:
       action_menu:
         add_existing_work_package: Vorhandenes Arbeitspaket hinzufügen
@@ -161,6 +162,8 @@ de:
         one: Zeige ein weiteres Element
         other: Zeige %{count} weitere Elemente
       title: Posteingang
+    index_subheader_component:
+      label_search_by_subject: Arbeitspakete nach Betreff suchen
     label_burndown_chart: Burndown-Diagramm
     label_is_done_status: Status %{status_name} bedeutet abgeschlossen
     label_sprint_board: Sprint-Board
@@ -205,7 +208,7 @@ de:
     sprint_reports:
       page_header_component:
         breadcrumb: Bericht
-        title: "%{sprint} Report"
+        title: "%{sprint} Bericht"
     sprints:
       row_component:
         action_menu:
@@ -260,7 +263,7 @@ de:
       sprint_sharing: Sprints teilen
     upsell:
       multiple_active_sprints:
-        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
+        description: Führen Sie in einem Projekt mehrere Sprints parallel mit verschiedene Teams aus.
       sprint_sharing:
         description: Teilen Sie Sprints über Projekte hinweg, um Teams aufeinander abzustimmen und die Arbeit in skalierten agilen Setups (SAFe) zu koordinieren.
   label_all_sprints: Alle Sprints

@@ -67,6 +67,11 @@ RSpec.describe "Work package Parent field ranks exact matches first", :js, :sele
     dropdown = field.autocomplete("#PARENTFIELD-5", select: false)
 
     within(dropdown) do
+      # Both matches must be rendered before the options are read, otherwise the
+      # snapshot can be taken while the dropdown still shows the previous results.
+      expect(page).to have_css(".ng-option", text: exact_match.subject)
+      expect(page).to have_css(".ng-option", text: prefix_match.subject)
+
       # The first option is always a "-" (clear/no-parent) entry, unrelated to ranking.
       # This autocompleter's options only render the work package's subject, not its id.
       candidate_texts = all(".ng-option").map(&:text).reject { |text| text == "-" }

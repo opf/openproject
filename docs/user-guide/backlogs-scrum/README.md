@@ -70,6 +70,7 @@ A work package:
 
 You can sort work packages within all containers (backlog bucket, inbox and sprints)  via drag and drop or by using the **Move** option from the work package menu. You can also add new and existing work packages within all containers (backlog bucket, inbox and sprints) by using the **More (three dots)** menu.
 
+
 #### Create a backlog bucket
 
 To create a backlog bucket, click the **+ Backlog bucket** button in the Backlog and sprints view. This will open a dialog where you can enter the bucket name. Click **Create** to proceed.
@@ -91,6 +92,11 @@ Open the **More (three dots)** menu of a backlog bucket to:
 When deleting a backlog bucket, all contained work packages are automatically moved to the bottom of the Inbox backlog. 
 
 Work packages can also be moved directly into a backlog bucket from the work packages More menu. If multiple backlog buckets exist, OpenProject lets you choose the target bucket. The work package is placed at the bottom of the selected bucket.
+
+Changes to a work package's backlog bucket are recorded in the work package **Activity** tab. This allows you to see when a work package was moved into, out of or between backlog buckets.
+
+> [!NOTE]
+> Backlog bucket changes are only visible in the Activity tab if you have the required permissions to view sprint and backlog information.
 
 #### All backlog buckets
 
@@ -140,6 +146,17 @@ Depending on the current location of the work package, you can move it:
 - within the current backlog bucket or sprint
 
 ![Move options menu for a backlog item showing reorder and sprint assignment options](openproject_user_guide_backlog_move_options.png)
+
+You can also drag a work package card out of OpenProject and drop it into an external application that supports browser drag and drop. Depending on the target application, this can:
+
+- insert the work package URL as plain text,
+- open the work package URL when dropped onto another browser window's address bar or tab strip,
+- insert a hyperlink with the work package subject as link text when dropped into a rich-text editor.
+
+The URL is the same URL available through **More (three dots) → Copy**.
+
+> [!NOTE]
+> How a dropped work package is handled and displayed depends on the target application, browser and operating system. Some applications may not accept drag and drop from all browsers.
 
 ### Excluded work package types and statuses
 
@@ -284,6 +301,8 @@ The Sprint property can also be used in work package tables. You can:
 
 > [!NOTE]
 > Viewing Sprint information in work package tables requires the appropriate project permissions.
+
+You can also change the Sprint or Backlog assignment of multiple work packages at once using [bulk edit](../work-packages/edit-work-package/#bulk-edit-work-packages).
 
 ### Burndown charts
 

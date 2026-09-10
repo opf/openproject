@@ -17,7 +17,7 @@ OpenProject can be setup in these different ways:
 | [Other](misc/)                                       | Extra information on installing OpenProject on specific platforms such as Kubernetes. |
 
 >[!NOTE]]
-> **We recommend using the Docker installation.**
+> **We recommend using the Docker Compose installtion for smaller instances and the Helm installtion for larg instance.**
 
 ## Frequently asked questions (FAQ)
 

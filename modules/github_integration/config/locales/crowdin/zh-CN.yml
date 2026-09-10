@@ -24,15 +24,15 @@ zh-CN:
   activerecord:
     models:
       deploy_status_check:
-        other: Deployment status checks
+        other: 部署状态检查
       deploy_target:
-        other: Deployment targets
+        other: 部署目标
       github_check_run:
-        other: GitHub check runs
+        other: GitHub 检查运行
       github_pull_request:
-        other: GitHub pull requests
+        other: GitHub 拉取请求
       github_user:
-        other: GitHub users
+        other: GitHub 用户
   attributes:
     additions_count: 新增的数量
     changed_files_count: 已更改的文件

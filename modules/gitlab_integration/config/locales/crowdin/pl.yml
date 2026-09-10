@@ -40,25 +40,25 @@ pl:
               invalid_schema: 'musi być tablicą skrótów z kluczami: color, title'
     models:
       gitlab_issue:
-        one: GitLab issue
-        few: GitLab issues
-        many: GitLab issues
-        other: GitLab issues
+        one: Zgłoszenie w GitLab
+        few: Zgłoszenia w GitLab
+        many: Zgłoszenia w GitLab
+        other: Zgłoszenia w GitLab
       gitlab_merge_request:
-        one: GitLab merge request
-        few: GitLab merge requests
-        many: GitLab merge requests
-        other: GitLab merge requests
+        one: Żądanie scalenia GitLab
+        few: Żądania scalenia GitLab
+        many: Żądania scalenia GitLab
+        other: Żądania scalenia GitLab
       gitlab_pipeline:
-        one: GitLab pipeline
-        few: GitLab pipelines
-        many: GitLab pipelines
-        other: GitLab pipelines
+        one: Potok GitLab
+        few: Potoki GitLab
+        many: Potoki GitLab
+        other: Potoki GitLab
       gitlab_user:
-        one: GitLab user
-        few: GitLab users
-        many: GitLab users
-        other: GitLab users
+        one: Użytkownik GitLab
+        few: Użytkownicy GitLab
+        many: Użytkownicy GitLab
+        other: Użytkownicy GitLab
   attributes:
     commit: Zatwierdź
     gitlab: Identyfikator GitLab

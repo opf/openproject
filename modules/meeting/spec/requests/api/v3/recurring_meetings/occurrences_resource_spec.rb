@@ -168,6 +168,37 @@ RSpec.describe "API v3 Recurring Meeting Occurrences", content_type: :json do
         expect(cancelled_occurrence.reload).to be_cancelled
       end
     end
+
+    context "when restoring a cancelled occurrence with notifications enabled" do
+      let(:invited_user) do
+        create(:user, member_with_permissions: { project => %i[view_meetings] })
+      end
+      let!(:cancelled_occurrence) do
+        create(:meeting,
+               project:,
+               author: current_user,
+               recurring_meeting:,
+               start_time:,
+               recurrence_start_time: start_time,
+               state: :cancelled)
+      end
+
+      before do
+        recurring_meeting.template.update!(notify: true)
+        create(:meeting_participant, meeting: recurring_meeting.template, user: invited_user, invited: true)
+        ActionMailer::Base.deliveries.clear
+      end
+
+      it "restores the occurrence and re-invites its participants" do
+        expect(cancelled_occurrence).to be_cancelled
+
+        perform_enqueued_jobs { response }
+
+        expect(last_response).to have_http_status(:created)
+        expect(cancelled_occurrence.reload).not_to be_cancelled
+        expect(ActionMailer::Base.deliveries.flat_map(&:to)).to include(invited_user.mail)
+      end
+    end
   end
 
   describe "an in progress occurrence" do
