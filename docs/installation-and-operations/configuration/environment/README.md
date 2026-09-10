@@ -290,6 +290,7 @@ OPENPROJECT_LDAP__GROUPS__DISABLE__SYNC__JOB (default=false) Deactivate regular 
 OPENPROJECT_LDAP__USERS__DISABLE__SYNC__JOB (default=false) Deactivate user attributes synchronization from LDAP
 OPENPROJECT_LDAP__USERS__SYNC__STATUS (default=false) Enable user status (locked/unlocked) synchronization from LDAP
 OPENPROJECT_LLM__CONNECTION (default={}) Configure the connection to an OpenAI-API-compatible LLM server through environment variables
+OPENPROJECT_LLM__FEATURES__ENABLED (default=false) Enable the AI features backed by the configured LLM connection
 OPENPROJECT_LOG__LEVEL (default="info") Set the OpenProject logger level
 OPENPROJECT_LOG__REQUESTING__USER (default=false) Log user login, name, and mail address for all requests
 OPENPROJECT_LOGIN__REQUIRED (default=true) Authentication required
