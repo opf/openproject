@@ -46,6 +46,17 @@ const TERMINAL_STATUSES = ['succeeded', 'failed', 'cancelled'];
 const MIN_DELAY = 400;
 const MAX_DELAY = 1000;
 const DELAY_STEP = 150;
+const TIMER_TICK = 100;
+const LABEL_SCHEMES:Record<string, string> = {
+  idle: 'Label--secondary',
+  creating: 'Label--secondary',
+  queued: 'Label--secondary',
+  running: 'Label--accent',
+  succeeded: 'Label--success',
+  failed: 'Label--danger',
+  cancelled: 'Label--attention',
+  error: 'Label--danger',
+};
 
 /**
  * Prototype sandbox for the description assistant: posts the textarea content
@@ -53,29 +64,39 @@ const DELAY_STEP = 150;
  */
 export default class AiTextTransformSandboxController extends Controller<HTMLElement> {
   static targets = [
-    'content', 'workPackageId', 'projectId', 'typeId', 'execute', 'cancel', 'status', 'output', 'log', 'systemPrompt',
+    'content', 'contextMode', 'workPackageId', 'projectId', 'typeId',
+    'execute', 'cancel', 'spinner', 'status', 'timer', 'output',
+    'runMeta', 'systemPrompt', 'eventsBody',
   ];
 
   static values = { url: String, actionId: Number };
 
   declare readonly contentTarget:HTMLTextAreaElement;
-  declare readonly workPackageIdTarget:HTMLInputElement;
-  declare readonly projectIdTarget:HTMLInputElement;
-  declare readonly typeIdTarget:HTMLInputElement;
+  declare readonly contextModeTarget:HTMLSelectElement;
+  declare readonly workPackageIdTarget:HTMLSelectElement;
+  declare readonly projectIdTarget:HTMLSelectElement;
+  declare readonly typeIdTarget:HTMLSelectElement;
   declare readonly executeTarget:HTMLButtonElement;
   declare readonly cancelTarget:HTMLButtonElement;
+  declare readonly spinnerTarget:HTMLElement;
   declare readonly statusTarget:HTMLElement;
+  declare readonly timerTarget:HTMLElement;
   declare readonly outputTarget:HTMLElement;
-  declare readonly logTarget:HTMLElement;
+  declare readonly runMetaTarget:HTMLElement;
   declare readonly systemPromptTarget:HTMLElement;
+  declare readonly eventsBodyTarget:HTMLElement;
   declare readonly urlValue:string;
   declare readonly actionIdValue:number;
 
+  private runId:string|null = null;
   private runUrl:string|null = null;
   private cancelUrl:string|null = null;
   private cursor = 0;
   private delay = MIN_DELAY;
-  private timer:ReturnType<typeof setTimeout>|null = null;
+  private pollTimer:ReturnType<typeof setTimeout>|null = null;
+  private tickTimer:ReturnType<typeof setInterval>|null = null;
+  private startedAt = 0;
+  private finishedAt:number|null = null;
   private inFlight = false;
   private text = '';
   private readonly onVisibilityChange = () => { this.handleVisibilityChange(); };
@@ -87,25 +108,34 @@ export default class AiTextTransformSandboxController extends Controller<HTMLEle
   disconnect():void {
     document.removeEventListener('visibilitychange', this.onVisibilityChange);
     this.stopPolling();
+    this.stopTimer();
+  }
+
+  submit(event:Event):void {
+    event.preventDefault();
+    void this.execute();
   }
 
   async execute():Promise<void> {
     this.reset();
-    this.setStatus('creating run');
+    this.setStatus('creating');
+    this.startTimer();
 
     const response = await this.request(this.urlValue, 'POST', JSON.stringify(this.body()));
     if (!response.ok) {
-      this.setStatus(`create failed: HTTP ${response.status}`);
-      this.appendLog(await response.text());
+      this.stopTimer();
+      this.setStatus('error');
+      this.outputTarget.textContent = `HTTP ${response.status}\n\n${await response.text()}`;
       this.executeTarget.disabled = false;
+      this.spinnerTarget.hidden = true;
       return;
     }
 
     const run = await response.json() as RunResponse;
+    this.runId = run.id;
     this.runUrl = run._links.self.href;
     this.cancelUrl = run._links.cancel?.href ?? null;
     this.cancelTarget.disabled = this.cancelUrl === null;
-    this.appendLog(`created ${run.id}`);
     this.systemPromptTarget.textContent = run.systemPrompt ?? '';
     this.apply(run);
     this.schedule();
@@ -115,9 +145,8 @@ export default class AiTextTransformSandboxController extends Controller<HTMLEle
     if (!this.cancelUrl) {
       return;
     }
-    this.appendLog('cancel requested');
-    const response = await this.request(this.cancelUrl, 'POST');
-    this.appendLog(`cancel -> HTTP ${response.status}`);
+    this.cancelTarget.disabled = true;
+    await this.request(this.cancelUrl, 'POST');
   }
 
   private body() {
@@ -125,22 +154,28 @@ export default class AiTextTransformSandboxController extends Controller<HTMLEle
       actionId: this.actionIdValue,
       content: this.contentTarget.value,
     };
-    const workPackageId = this.workPackageIdTarget.value.trim();
-    const projectId = this.projectIdTarget.value.trim();
-    const typeId = this.typeIdTarget.value.trim();
 
-    if (workPackageId) {
-      body.workPackageId = Number(workPackageId);
-    } else if (projectId || typeId) {
-      body.projectId = Number(projectId);
-      body.typeId = Number(typeId);
+    switch (this.contextModeTarget.value) {
+      case 'work_package':
+        if (this.workPackageIdTarget.value) {
+          body.workPackageId = Number(this.workPackageIdTarget.value);
+        }
+        break;
+      case 'new_work_package':
+        if (this.projectIdTarget.value || this.typeIdTarget.value) {
+          body.projectId = Number(this.projectIdTarget.value);
+          body.typeId = Number(this.typeIdTarget.value);
+        }
+        break;
+      default:
+        break;
     }
     return body;
   }
 
   private schedule():void {
     this.stopPolling();
-    this.timer = setTimeout(() => { void this.poll(); }, this.delay);
+    this.pollTimer = setTimeout(() => { void this.poll(); }, this.delay);
     this.delay = Math.min(MAX_DELAY, this.delay + DELAY_STEP);
   }
 
@@ -158,7 +193,9 @@ export default class AiTextTransformSandboxController extends Controller<HTMLEle
     try {
       const response = await this.request(`${this.runUrl}?after=${requestedCursor}`, 'GET');
       if (!response.ok) {
-        this.setStatus(`poll failed: HTTP ${response.status}`);
+        this.setStatus('error');
+        this.outputTarget.textContent = `Poll failed: HTTP ${response.status}`;
+        this.finish();
         return;
       }
       if (requestedCursor !== this.cursor) {
@@ -178,7 +215,7 @@ export default class AiTextTransformSandboxController extends Controller<HTMLEle
     this.setStatus(run.status);
     run.events.forEach((event) => {
       this.cursor = Math.max(this.cursor, event.seq);
-      this.appendLog(`#${event.seq} ${event.kind} ${JSON.stringify(event.payload)}`);
+      this.appendEventRow(event);
       switch (event.kind) {
         case 'text_delta':
           this.text += event.payload.delta ?? '';
@@ -197,11 +234,19 @@ export default class AiTextTransformSandboxController extends Controller<HTMLEle
     });
 
     if (TERMINAL_STATUSES.includes(run.status)) {
-      this.stopPolling();
-      this.cancelTarget.disabled = true;
-      this.executeTarget.disabled = false;
-      this.appendLog(`finished with ${run.status}`);
+      this.finish();
     }
+    this.renderRunMeta(run.status);
+  }
+
+  private finish():void {
+    this.stopPolling();
+    this.stopTimer();
+    this.finishedAt = performance.now();
+    this.renderTimer();
+    this.cancelTarget.disabled = true;
+    this.executeTarget.disabled = false;
+    this.spinnerTarget.hidden = true;
   }
 
   private request(url:string, method:'GET'|'POST', body?:string):Promise<Response> {
@@ -219,36 +264,95 @@ export default class AiTextTransformSandboxController extends Controller<HTMLEle
 
   private reset():void {
     this.stopPolling();
+    this.stopTimer();
+    this.runId = null;
     this.runUrl = null;
     this.cancelUrl = null;
     this.cursor = 0;
     this.delay = MIN_DELAY;
     this.text = '';
+    this.finishedAt = null;
     this.outputTarget.textContent = '';
-    this.logTarget.textContent = '';
     this.systemPromptTarget.textContent = '';
+    this.runMetaTarget.textContent = '';
+    this.eventsBodyTarget.textContent = '';
+    this.timerTarget.textContent = '';
     this.executeTarget.disabled = true;
     this.cancelTarget.disabled = true;
+    this.spinnerTarget.hidden = false;
+  }
+
+  private startTimer():void {
+    this.startedAt = performance.now();
+    this.tickTimer = setInterval(() => this.renderTimer(), TIMER_TICK);
+    this.renderTimer();
+  }
+
+  private stopTimer():void {
+    if (this.tickTimer !== null) {
+      clearInterval(this.tickTimer);
+      this.tickTimer = null;
+    }
+  }
+
+  private renderTimer():void {
+    const end = this.finishedAt ?? performance.now();
+    const seconds = ((end - this.startedAt) / 1000).toFixed(1);
+    this.timerTarget.textContent = this.finishedAt === null ? `${seconds} s` : `${seconds} s total`;
   }
 
   private stopPolling():void {
-    if (this.timer !== null) {
-      clearTimeout(this.timer);
-      this.timer = null;
+    if (this.pollTimer !== null) {
+      clearTimeout(this.pollTimer);
+      this.pollTimer = null;
     }
   }
 
   private handleVisibilityChange():void {
-    if (!document.hidden && this.runUrl && this.timer === null && !this.inFlight) {
+    if (!document.hidden && this.runUrl && this.pollTimer === null && !this.inFlight) {
       this.schedule();
     }
   }
 
   private setStatus(status:string):void {
     this.statusTarget.textContent = status;
+    Object.values(LABEL_SCHEMES).forEach((cls) => this.statusTarget.classList.remove(cls));
+    this.statusTarget.classList.add(LABEL_SCHEMES[status] ?? 'Label--secondary');
   }
 
-  private appendLog(line:string):void {
-    this.logTarget.textContent += `${new Date().toISOString().slice(11, 23)} ${line}\n`;
+  private renderRunMeta(status:string):void {
+    const rows:[string, string][] = [
+      ['Run', this.runId ?? ''],
+      ['Status', status],
+      ['Events', String(this.cursor)],
+      ['Elapsed', this.timerTarget.textContent ?? ''],
+    ];
+    this.runMetaTarget.textContent = '';
+    rows.forEach(([term, value]) => {
+      const dt = document.createElement('dt');
+      dt.textContent = term;
+      dt.className = 'text-bold';
+      const dd = document.createElement('dd');
+      dd.textContent = value;
+      dd.className = 'mb-2';
+      this.runMetaTarget.append(dt, dd);
+    });
+  }
+
+  private appendEventRow(event:RunEvent):void {
+    const row = document.createElement('tr');
+    const cells = [
+      String(event.seq),
+      event.kind,
+      JSON.stringify(event.payload),
+      new Date().toISOString().slice(11, 23),
+    ];
+    cells.forEach((value, index) => {
+      const cell = document.createElement('td');
+      cell.textContent = value;
+      cell.className = index === 2 ? 'p-2 border-bottom wb-break-all' : 'p-2 border-bottom no-wrap';
+      row.append(cell);
+    });
+    this.eventsBodyTarget.append(row);
   }
 }
