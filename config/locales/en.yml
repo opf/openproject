@@ -1793,8 +1793,8 @@ en:
         api_key_remove: "Remove key"
         base_url_caption: "The base URL of the server, for example https://example.com/v1."
         button_connect: "Connect"
-        llm_features_enabled_caption: "When turned off, all LLM-backed AI features stop working. The connection settings are kept."
         label_connecting: "Contacting the LLM server…"
+        llm_features_enabled_caption: "When turned off, all LLM-backed AI features stop working. The connection settings are kept."
         server_description: "Connect OpenProject to a server that speaks the %{api_format} API, so AI features can use it. The host URL below decides which server that is."
         server_group: "Server"
       show:
