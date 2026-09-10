@@ -232,6 +232,42 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
         editor.wait_for_autosave { document.reload.description&.include?("####{work_package.id}") }
       end
 
+      it "inserts a block card via #### notation" do
+        visit document_path(document)
+        expect(page).to have_test_selector("blocknote-document-description")
+
+        editor.element.send_keys("####tiger")
+        editor.wait_for_shadow_content("pet a tiger")
+        send_keys(:enter)
+        expect(editor.element).to have_no_text("####tiger") # wait for work package to load
+
+        expect(editor.element).to have_no_text("Loading") # the card's loading state, not the chip's "…"
+        # A card leads with the type, where every inline chip leads with the ID
+        expect(editor.element.text).to match(/LIFE GOALS\s*##{work_package.display_id}\s*Open\s*pet a tiger/)
+        # Capybara's have_link seems not to work in a shadow dom, so it's tested via the property
+        expect(editor.element.find_link(text: "pet a tiger").native.property("href"))
+          .to end_with("/wp/#{work_package.id}")
+
+        editor.wait_for_autosave do
+          document.reload.description&.include?("[####{work_package.id}](https://openproject.local/wp/#{work_package.id})")
+        end
+      end
+
+      it "does not search for work packages past #### notation" do
+        visit document_path(document)
+        expect(page).to have_test_selector("blocknote-document-description")
+
+        editor.element.send_keys("#####tiger")
+        # With a menu open this would pick a work package; with none it breaks the
+        # line, and by the time the next words render a search would have answered.
+        send_keys(:enter)
+        send_keys("still typing")
+
+        expect(editor.element).to have_text("still typing")
+        expect(editor.element).to have_text("#####tiger")
+        expect(editor.element).to have_no_text("pet a tiger")
+      end
+
       it "allows deleting text with Backspace after inserting an inline work package link (bugfix STC-806)" do
         visit document_path(document)
         expect(page).to have_test_selector("blocknote-document-description")
