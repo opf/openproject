@@ -280,6 +280,65 @@ RSpec.describe Import::JiraImportJournals, "integration" do
       end
     end
 
+    # Regression: https://community.openproject.org/projects/JIM/work_packages/JIM-152
+    # Journals::CreateService only keeps the timestamp the importer put on the work
+    # package when it is strictly newer than the preceding journal. On a tie it falls back to
+    # statement_timestamp(), stamping the entry with the import date instead.
+    context "when a history entry and a comment share the same timestamp" do
+      let(:shared_time) { "2020-10-06T14:21:57.000+0200" }
+
+      before do
+        service.set_creation_time(date_time: "2020-09-01T10:00:00.000+0000")
+        service.add_history(history: [history_entry(created: shared_time)])
+        service.add_comment(comment: { "created" => shared_time, "body" => "Resolved." }, user: commenter)
+        service.call
+      end
+
+      it "creates a journal per entry" do
+        expect(work_package.journals.reload.count).to eq(3)
+      end
+
+      it "keeps the Jira timestamp on both entries" do
+        imported = work_package.journals.reload.order(:version).drop(1)
+
+        expect(imported.map(&:created_at))
+          .to all(be_within(1.second).of(Time.zone.parse(shared_time)))
+      end
+    end
+
+    context "when two comments share the same timestamp" do
+      let(:shared_time) { "2020-10-06T14:21:57.000+0200" }
+
+      before do
+        service.set_creation_time(date_time: "2020-09-01T10:00:00.000+0000")
+        service.add_comment(comment: { "created" => shared_time, "body" => "First." }, user: commenter)
+        service.add_comment(comment: { "created" => shared_time, "body" => "Second." }, user: commenter)
+        service.call
+      end
+
+      it "keeps the Jira timestamp on both comments" do
+        imported = work_package.journals.reload.order(:version).drop(1)
+
+        expect(imported.map(&:created_at))
+          .to all(be_within(1.second).of(Time.zone.parse(shared_time)))
+      end
+    end
+
+    context "when the first entry shares the work package creation timestamp" do
+      let(:creation_time) { "2020-10-06T14:21:57.000+0200" }
+
+      before do
+        service.set_creation_time(date_time: creation_time)
+        service.add_comment(comment: { "created" => creation_time, "body" => "Filed and closed." }, user: commenter)
+        service.call
+      end
+
+      it "keeps the Jira timestamp on the entry" do
+        expect(work_package.journals.reload.order(:version).last.created_at)
+          .to be_within(1.second).of(Time.zone.parse(creation_time))
+      end
+    end
+
     context "when history entries from the same author within the same minute are grouped" do
       let(:time1) { "2022-03-15T11:00:10.000+0000" }
       let(:time2) { "2022-03-15T11:00:50.000+0000" }

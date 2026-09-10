@@ -30,6 +30,9 @@
 
 module Import
   class JiraImportJournals
+    # Timestamps keep microseconds; a rational addition stays exact where a float loses a nanosecond.
+    TIMESTAMP_STEP = Rational(1, 1_000_000).seconds
+
     attr_reader :work_package
 
     def initialize(work_package:)
@@ -62,10 +65,10 @@ module Import
     end
 
     def call(updated_at: nil)
-      @pending_entries.sort_by { |e| e[:created] }.each do |entry|
+      monotonic_entries.each do |entry, date_time|
         case entry[:type]
-        when :history then create_history_journal(entry[:data])
-        when :comment then create_comment_journal(entry[:data], entry[:user])
+        when :history then create_history_journal(entry[:data], date_time)
+        when :comment then create_comment_journal(entry[:data], entry[:user], date_time)
         end
       end
 
@@ -106,6 +109,29 @@ module Import
         .where(journal_id: journal_ids)
         .pluck(:journal_id, :attachment_id)
         .to_set
+    end
+
+    # Journals::CreateService keeps the journals of a journable strictly ordered in time: a
+    # timestamp that is not newer than the preceding journal's is discarded in favour of the
+    # current time. Entries sharing a Jira timestamp, with each other or with the creation
+    # journal, would therefore be stamped with the import date, so they are spaced out by the
+    # smallest step a timestamp column can represent.
+    def monotonic_entries
+      previous = work_package.journals.maximum(:updated_at)
+
+      chronological_entries.map do |entry|
+        date_time = Time.zone.parse(entry[:created].to_s)
+        date_time = previous + TIMESTAMP_STEP if previous && date_time <= previous
+        previous = date_time
+
+        [entry, date_time]
+      end
+    end
+
+    def chronological_entries
+      @pending_entries.sort_by.with_index do |entry, index|
+        [Time.zone.parse(entry[:created].to_s), index]
+      end
     end
 
     # Journals inherit their timestamps from the journable, so the work package has to carry the
@@ -169,20 +195,20 @@ module Import
       (entry["items"] || []).any? { |item| item["field"]&.downcase == "description" }
     end
 
-    def create_history_journal(entry)
+    def create_history_journal(entry, date_time)
       author_name = entry.dig("author", "displayName")
       items = convert_history_items(entry["items"])
 
-      journalize_at(Time.zone.parse(entry["created"].to_s)) do
+      journalize_at(date_time) do
         cause = Journal::CausedByImport.new(author_name:, history: items)
         work_package.add_journal(user: User.system, notes: "", cause:)
       end
     end
 
-    def create_comment_journal(comment, user)
+    def create_comment_journal(comment, user, date_time)
       notes = convert_rich_text(comment["body"])
 
-      journalize_at(Time.zone.parse(comment["created"].to_s)) do
+      journalize_at(date_time) do
         work_package.add_journal(user:, notes:, internal: false)
       end
     end
