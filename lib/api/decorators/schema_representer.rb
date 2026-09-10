@@ -61,6 +61,8 @@ module API
                    attribute_group: nil,
                    min_length: nil,
                    max_length: nil,
+                   minimum: nil,
+                   maximum: nil,
                    regular_expression: nil,
                    options: {},
                    formula: nil,
@@ -69,21 +71,23 @@ module API
                    deprecated: nil,
                    placeholder: nil)
           getter = ->(*) do
-            schema_property_getter(type,
-                                   name_source,
-                                   required,
-                                   has_default,
-                                   writable,
-                                   attribute_group,
-                                   min_length,
-                                   max_length,
-                                   regular_expression,
-                                   options,
-                                   formula,
-                                   location,
-                                   description,
-                                   deprecated,
-                                   placeholder)
+            schema_property_getter(type:,
+                                   name_source:,
+                                   required:,
+                                   has_default:,
+                                   writable:,
+                                   attribute_group:,
+                                   min_length:,
+                                   max_length:,
+                                   minimum:,
+                                   maximum:,
+                                   regular_expression:,
+                                   options:,
+                                   formula:,
+                                   location:,
+                                   description:,
+                                   deprecated:,
+                                   placeholder:)
           end
 
           schema_property(property,
@@ -299,25 +303,26 @@ module API
         []
       end
 
-      def schema_property_getter(type,
-                                 name_source,
-                                 required,
-                                 has_default,
-                                 writable,
-                                 attribute_group,
-                                 min_length,
-                                 max_length,
-                                 regular_expression,
-                                 options,
-                                 formula,
-                                 location,
-                                 description,
-                                 deprecated,
-                                 placeholder)
-        name = call_or_translate(name_source)
+      def schema_property_getter(type:,
+                                 name_source:,
+                                 required:,
+                                 has_default:,
+                                 writable:,
+                                 attribute_group:,
+                                 min_length:,
+                                 max_length:,
+                                 minimum:,
+                                 maximum:,
+                                 regular_expression:,
+                                 options:,
+                                 formula:,
+                                 location:,
+                                 description:,
+                                 deprecated:,
+                                 placeholder:)
         schema = ::API::Decorators::PropertySchemaRepresenter
                  .new(type: call_or_use(type),
-                      name:,
+                      name: call_or_translate(name_source),
                       location:,
                       description: call_or_use(description),
                       required: call_or_use(required),
@@ -326,11 +331,9 @@ module API
                       attribute_group: call_or_use(attribute_group),
                       deprecated:,
                       placeholder: call_or_use(placeholder))
-        schema.min_length = min_length
-        schema.max_length = max_length
-        schema.regular_expression = regular_expression
-        schema.options = options
-        schema.formula = formula
+
+        { min_length:, max_length:, minimum:, maximum:, regular_expression:, options:, formula: }
+          .each { |attribute, value| schema.public_send(:"#{attribute}=", value) }
 
         schema
       end

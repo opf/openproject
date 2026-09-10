@@ -166,7 +166,7 @@ Once applied, the filtered view shows only the work packages assigned to the sel
 
 > [!TIP]
 >
-> To be able to assign a work package to a specific project phase,  it is required to enable the **project phase** attribute in the administration for a a specific work package type and to active this work package type for a project. Read more about [configuring work package forms](../../../system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on)
+> To be able to assign a work package to a specific project phase,  it is required to enable the **project phase** attribute in the administration for a a specific work package type and to active this work package type for a project. Read more about [configuring work package forms](../../../system-admin-guide/manage-work-packages/work-package-types/form-configuration)
 
 ![Work packages filtered by project phase in OpenProject](openproject_user_guide_wp_table_project_phases_displayed.png)
 

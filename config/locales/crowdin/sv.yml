@@ -66,6 +66,8 @@ sv:
 
       '
     login_with_auth_provider: eller logga in med ditt befintliga konto
+    omniauth_direct_login_continue: Continue to sign in
+    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: Vänligen logga in för att aktivera ditt konto.
     signup_title: Skapa ett konto i %{app_title}
     signup_with_external_account: Registrera dig med ett externt konto
@@ -83,6 +85,21 @@ sv:
         prompt: Prompt
         types: Arbetspaketstyper
         usage_scope: Omfattning
+      ai/text_transform_run:
+        action: Action
+        cancel_requested: Cancel requested
+        error_message: Error message
+        finished_at: Finished at
+        input: Input
+        status: Status
+        system_prompt: System prompt
+        user: User
+        uuid: UUID
+      ai/text_transform_run_event:
+        kind: Kind
+        payload: Payload
+        run: Run
+        seq: Sequence number
       announcements:
         show_until: Visa fram till
       attachment:
@@ -125,7 +142,9 @@ sv:
         is_for_all: För alla projekt
         is_required: Krävs
         max_length: Maximal längd
+        max_value: Maximum value
         min_length: Minsta längd
+        min_value: Minimum value
         multi_value: Tillåt flerval
         possible_values: Möjliga värden
         regexp: Reguljära uttryck
@@ -571,6 +590,7 @@ sv:
         regex_list_invalid: Raderna %{invalid_lines} kunde inte tolkas som reguljära uttryck.
         regex_match_failed: matchar inte det reguljära uttrycket %{expression}.
         smaller_than_or_equal_to_max_length: måste vara mindre än eller lika med maximal längd.
+        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: bryter mot SSRF-policyn för den här OpenProject-instansen.
         status_transition_invalid: är ogiltig eftersom det finns någon giltig övergång ifrån den gamla till nya statusen för den aktuella användarens roller.
         system_wide_non_working_day_exists: står i konflikt med en befintlig systemomfattande arbetsfri dag för detta datum.
@@ -998,6 +1018,12 @@ sv:
       ai/text_transform_action:
         one: Åtgärd för textomvandling
         other: Åtgärder för textomvandling
+      ai/text_transform_run:
+        one: Text transform run
+        other: Text transform runs
+      ai/text_transform_run_event:
+        one: Text transform run event
+        other: Text transform run events
       announcement:
         one: Meddelande
         other: Meddelanden
@@ -1374,7 +1400,12 @@ sv:
     banners:
       environment_configured_readonly: Dessa värden är konfigurerade via miljövariabler och kan inte redigeras här.
     custom_styles:
+      color_groups:
+        base_colors: Base colors
+        main_menu: Main lateral menu
+        top_header_colors: Top header colors
       color_theme: Färgtema
+      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
       color_theme_custom: "(Anpassad)"
       colors:
         accent-color: Accent
@@ -1383,12 +1414,15 @@ sv:
         main-menu-bg-selected-background: Huvudmeny när vald
         primary-button-color: Primär knapp
       custom_colors: Anpassade färger
+      edit_color: Edit %{color}
       fonts:
         file_is_invalid: är inte en giltig TTF-typsnittsfil.
         file_too_large: är för stor (maximal storlek är %{count} MB).
       instructions:
         accent-color: Färg för länkar och andra måttligt framhävda element.
+        header-bg-color: Default background color of the app header.
         main-menu-bg-color: Bakgrundsfärg på den vänstra sidomenyn.
+        main-menu-bg-selected-background: Background color of menu items when selected.
         primary-button-color: Stark accentfärg som används för den viktigaste knappen på en skärm.
       manage_colors: Redigera alternativ för valbara färger
       tab_branding: Profilering
@@ -2453,6 +2487,9 @@ sv:
       min_max:
         all: 0 innebär ingen begränsning
         project: 0 innebär ingen begränsning
+      min_max_value:
+        all: Leave blank for no restriction
+        project: Leave blank for no restriction
       multi_select:
         all: Tillåter användaren att tilldela flera värden till det här anpassade fältet.
         project: Tillåter användaren att tilldela flera värden till det här attributet.
@@ -3664,7 +3701,6 @@ sv:
   label_message_new: Nytt meddelande
   label_message_plural: Meddelanden
   label_message_posted: Meddelande tillaggt
-  label_min_max_length: Min - Maxlängd
   label_minute_plural: minuter
   label_missing_api_access_key: Åtkomstnyckel för API saknas
   label_missing_feeds_access_key: Åtkomstnyckel för RSS saknas
@@ -4570,6 +4606,7 @@ sv:
   notice_account_already_activated: Kontot har redan aktiverats.
   notice_account_invalid_credentials: Ogiltig användare eller lösenord
   notice_account_invalid_credentials_or_blocked: Ogiltig användare eller lösenord eller konto är låst på grund av flera misslyckade inloggningsförsök. Om kontot är låst så kommer det bli upplåst inom kort.
+  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
   notice_account_invalid_token: Ogiltig aktiveringsnyckel
   notice_account_lost_email_sent: Ett E-postmeddelande med instruktioner att välja ett nytt lösenord har skickats till dig.
   notice_account_new_password_forced: Ett nytt lösenord krävs.
@@ -5484,6 +5521,12 @@ sv:
   roles:
     edit:
       default_for_new_projects_warning: 'Den här rollen är konfigurerad som standardroll för icke-administratörer som skapar ett projekt. Ta inte bort följande behörigheter, annars kan projektskapare inte slutföra konfigurationen av sina nyskapade projekt:'
+    index:
+      filter_label: Search roles
+      types:
+        all: All roles
+        global: Global roles
+        project: Project roles
     permissions:
       section_check_all_label: Tilldela alla behörigheter för %{module}
       section_uncheck_all_label: Ta bort alla behörigheter för %{module}
@@ -6386,6 +6429,15 @@ sv:
         row_actions: Radåtgärder
         tab: Formulär
         untitled_group: Namnlös grupp
+      overview:
+        configuration_mode: Configuration mode
+        dependents: Dependent types and variants
+        mode:
+          always_manual: Always manual
+          inheriting_from_html: Inheriting from %{source_name}
+          manual: Manually configured
+        settings: Settings
+        tab: Overview
       project_attributes:
         actions:
           label_disable_all: Inaktivera alla
@@ -6918,6 +6970,13 @@ sv:
       confirm_deletion: Jag bekräftar att de valda arbetspaketen och alla tillhörande data kommer att tas bort.
       confirm_descendants_deletion: Jag bekräftar att alla underordnade objekt som anges ovan också kommer att tas bort.
       cross_project_warning_html: 'Dessa arbetspaket finns i flera projekt: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
+        self_only_label: Delete just the selected work packages
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete the selected work packages and their descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: Är du säker på att du vill ta bort de valda arbetspaketen och alla tillhörande data?
       description_with_all_descendants: Är du säker på att du vill ta bort de valda arbetspaketen och alla deras underordnade objekt?
       description_with_descendants: Är du säker på att du vill ta bort de valda arbetspaketen och alla följande underordnade objekt?
@@ -6982,6 +7041,13 @@ sv:
       confirm_deletion: Jag bekräftar att arbetspaketet och alla tillhörande data kommer att tas bort.
       confirm_descendants_deletion: Jag bekräftar att alla underordnade objekt som anges ovan också kommer att tas bort.
       cross_project_warning_html: 'Arbetspaket från följande projekt tas bort: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: This work package has descendants. Do you want to delete them as well?
+        self_only_label: Delete just this work package
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete this work package and descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: Är du säker på att du vill ta bort "%{name}"?
       heading: Ta bort det här arbetspaketet permanent?
       hidden_descendants_only_warning:

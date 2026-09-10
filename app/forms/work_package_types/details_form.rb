@@ -65,6 +65,10 @@ module WorkPackageTypes
         details_form.check_box(name: :allow_project_variants,
                                label: label(:allow_project_variants),
                                caption: I18n.t("types.edit.details.allow_project_variants_caption"))
+      elsif offers_new_project_default?
+        details_form.check_box(name: :enabled_in_new_projects,
+                               label: I18n.t("types.index.enabled_in_new_projects"),
+                               checked: model.default_variant.enabled_in_new_projects?)
       end
     end
 
@@ -77,6 +81,11 @@ module WorkPackageTypes
     end
 
     def name_attribute = inherited? ? :variant_name : :name
+
+    # TODO: Remove with type_variants feature flag
+    def offers_new_project_default?
+      !inherited? && !OpenProject::FeatureDecisions.type_variants_active?
+    end
 
     def color_caption
       inherited? ? inherited_caption : I18n.t("types.edit.details.type_color_text")

@@ -66,6 +66,8 @@ fa:
 
       '
     login_with_auth_provider: یا با حساب موجود خود وارد سیستم شوید
+    omniauth_direct_login_continue: Continue to sign in
+    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: برای فعال‌سازی حساب خود لطفاً وارد شوید.
     signup_title: ایجاد حساب در %{app_title}
     signup_with_external_account: ثبت‌نام با حساب خارجی
@@ -83,6 +85,21 @@ fa:
         prompt: پرامپت
         types: انواع بسته کاری
         usage_scope: دامنه
+      ai/text_transform_run:
+        action: Action
+        cancel_requested: Cancel requested
+        error_message: Error message
+        finished_at: Finished at
+        input: Input
+        status: Status
+        system_prompt: System prompt
+        user: User
+        uuid: UUID
+      ai/text_transform_run_event:
+        kind: Kind
+        payload: Payload
+        run: Run
+        seq: Sequence number
       announcements:
         show_until: نمایش تا
       attachment:
@@ -125,7 +142,9 @@ fa:
         is_for_all: برای همه پروژه‌ها
         is_required: الزامی
         max_length: حداکثر طول
+        max_value: Maximum value
         min_length: حداقل طول
+        min_value: Minimum value
         multi_value: اجازه انتخاب چندگانه
         possible_values: مقادیر ممکن
         regexp: عبارت منظم
@@ -571,6 +590,7 @@ fa:
         regex_list_invalid: خطوط %{invalid_lines} به‌عنوان عبارت منظم قابل تجزیه نیستند.
         regex_match_failed: با عبارت منظم %{expression} مطابقت ندارد.
         smaller_than_or_equal_to_max_length: باید کوچک‌تر از یا برابر با حداکثر طول باشد.
+        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: سیاست SSRF این نمونه OpenProject را نقض می‌کند.
         status_transition_invalid: نامعتبر است، زیرا برای نقش‌های کاربر فعلی هیچ انتقال معتبری از وضعیت قبلی به وضعیت جدید وجود ندارد.
         system_wide_non_working_day_exists: با یک روز غیرکاری سراسری موجود برای این تاریخ تداخل دارد.
@@ -996,6 +1016,12 @@ fa:
       ai/text_transform_action:
         one: عملیات تبدیل متن
         other: عملیات تبدیل متن
+      ai/text_transform_run:
+        one: Text transform run
+        other: Text transform runs
+      ai/text_transform_run_event:
+        one: Text transform run event
+        other: Text transform run events
       announcement:
         one: اعلان
         other: اعلان‌ها
@@ -1372,7 +1398,12 @@ fa:
     banners:
       environment_configured_readonly: این مقادیر از طریق متغیرهای محیطی پیکربندی شده‌اند و در اینجا قابل ویرایش نیستند.
     custom_styles:
+      color_groups:
+        base_colors: Base colors
+        main_menu: Main lateral menu
+        top_header_colors: Top header colors
       color_theme: رنگ زمینه
+      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
       color_theme_custom: شخصی
       colors:
         accent-color: رنگ تأکیدی
@@ -1381,12 +1412,15 @@ fa:
         main-menu-bg-selected-background: منوی اصلی در حالت انتخاب
         primary-button-color: دکمه اصلی
       custom_colors: رنگ های سفارشی
+      edit_color: Edit %{color}
       fonts:
         file_is_invalid: فایل فونت TTF معتبر نیست.
         file_too_large: بیش از حد بزرگ است (حداکثر اندازه %{count} مگابایت).
       instructions:
         accent-color: رنگ پیوندها و سایر عناصر دارای تأکید متوسط.
+        header-bg-color: Default background color of the app header.
         main-menu-bg-color: رنگ پس‌زمینه منوی سمت چپ.
+        main-menu-bg-selected-background: Background color of menu items when selected.
         primary-button-color: رنگ تأکیدی قوی که برای مهم‌ترین دکمه هر صفحه استفاده می‌شود.
       manage_colors: ویرایش گزینه‌های انتخاب رنگ
       tab_branding: برندسازی
@@ -2449,6 +2483,9 @@ fa:
       min_max:
         all: ۰ یعنی بدون محدودیت
         project: ۰ یعنی بدون محدودیت
+      min_max_value:
+        all: Leave blank for no restriction
+        project: Leave blank for no restriction
       multi_select:
         all: به کاربر اجازه می‌دهد چند مقدار به این فیلد سفارشی تخصیص دهد.
         project: به کاربر اجازه می‌دهد چند مقدار به این ویژگی تخصیص دهد.
@@ -3660,7 +3697,6 @@ fa:
   label_message_new: پیام جدید
   label_message_plural: پیام‌ها
   label_message_posted: پیام اضافه شد
-  label_min_max_length: حداقل - حداکثر طول
   label_minute_plural: دقیقه
   label_missing_api_access_key: کلید دسترسی API وجود ندارد
   label_missing_feeds_access_key: کلید دسترسی RSS وجود ندارد
@@ -4564,6 +4600,7 @@ fa:
   notice_account_already_activated: حساب از قبل فعال شده است.
   notice_account_invalid_credentials: نام کاربری یا گذرواژه نامعتبر است
   notice_account_invalid_credentials_or_blocked: نام کاربری یا گذرواژه نامعتبر است یا حساب به‌دلیل چند تلاش ناموفق ورود مسدود شده است. در این صورت پس از مدت کوتاهی به‌طور خودکار رفع مسدودی می‌شود.
+  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
   notice_account_invalid_token: توکن فعال‌سازی نامعتبر است
   notice_account_lost_email_sent: ایمیلی با دستورالعمل انتخاب گذرواژه جدید برای شما ارسال شده است.
   notice_account_new_password_forced: گذرواژه جدید لازم است.
@@ -5490,6 +5527,12 @@ fa:
   roles:
     edit:
       default_for_new_projects_warning: 'این نقش به‌عنوان نقش پیش‌فرض برای کاربران غیرمدیری که پروژه ایجاد می‌کنند پیکربندی شده است. مجوزهای زیر را حذف نکنید؛ در غیر این صورت ایجادکنندگان پروژه نمی‌توانند راه‌اندازی پروژه‌های تازه خود را کامل کنند:'
+    index:
+      filter_label: Search roles
+      types:
+        all: All roles
+        global: Global roles
+        project: Project roles
     permissions:
       section_check_all_label: تخصیص همه مجوزهای %{module}
       section_uncheck_all_label: لغو تخصیص همه مجوزهای %{module}
@@ -6398,6 +6441,15 @@ fa:
         row_actions: اقدام‌های ردیف
         tab: فرم
         untitled_group: گروه بدون عنوان
+      overview:
+        configuration_mode: Configuration mode
+        dependents: Dependent types and variants
+        mode:
+          always_manual: Always manual
+          inheriting_from_html: Inheriting from %{source_name}
+          manual: Manually configured
+        settings: Settings
+        tab: Overview
       project_attributes:
         actions:
           label_disable_all: غیرفعال‌کردن همه
@@ -6930,6 +6982,13 @@ fa:
       confirm_deletion: تأیید می‌کنم بسته‌های کاری انتخاب‌شده و همه داده‌های مرتبط حذف خواهند شد.
       confirm_descendants_deletion: تأیید می‌کنم همه فرزندان فهرست‌شده بالا نیز حذف خواهند شد.
       cross_project_warning_html: 'این بسته‌های کاری در چند پروژه قرار دارند: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
+        self_only_label: Delete just the selected work packages
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete the selected work packages and their descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: مطمئنید می‌خواهید بسته‌های کاری انتخاب‌شده و همه داده‌های مرتبط را حذف کنید؟
       description_with_all_descendants: مطمئنید می‌خواهید بسته‌های کاری انتخاب‌شده و همه فرزندان آن‌ها را حذف کنید؟
       description_with_descendants: مطمئنید می‌خواهید بسته‌های کاری انتخاب‌شده و همه فرزندان زیر را حذف کنید؟
@@ -6994,6 +7053,13 @@ fa:
       confirm_deletion: تأیید می‌کنم بسته کاری و همه داده‌های مرتبط حذف خواهند شد.
       confirm_descendants_deletion: تأیید می‌کنم همه فرزندان فهرست‌شده بالا نیز حذف خواهند شد.
       cross_project_warning_html: 'بسته‌های کاری پروژه‌های زیر حذف خواهند شد: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: This work package has descendants. Do you want to delete them as well?
+        self_only_label: Delete just this work package
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete this work package and descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: مطمئنید می‌خواهید «%{name}» را حذف کنید؟
       heading: این بسته کاری برای همیشه حذف شود؟
       hidden_descendants_only_warning:

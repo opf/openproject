@@ -103,7 +103,7 @@ module WorkPackages::Dialogs
     end
 
     def additional_custom_field_input_arguments
-      { wrapper_id: }
+      { wrapper_id:, required: true }
     end
 
     def autofocus_subject?
@@ -113,7 +113,9 @@ module WorkPackages::Dialogs
     private
 
     def custom_fields
-      @custom_fields ||= work_package.available_custom_fields.select(&:required?)
+      @custom_fields ||= work_package.available_custom_fields.select do |custom_field|
+        work_package.custom_field_required?(custom_field)
+      end
     end
 
     def writable_attributes

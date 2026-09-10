@@ -66,6 +66,8 @@ hy:
 
       '
     login_with_auth_provider: կամ մտեք Ձեր գործող հաշվով
+    omniauth_direct_login_continue: Continue to sign in
+    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: Ձեր հաշիվն ակտիվացնելու համար խնդրում ենք մտնել։
     signup_title: Create an account in %{app_title}
     signup_with_external_account: Sign up with an external account
@@ -83,6 +85,21 @@ hy:
         prompt: Prompt
         types: Work package types
         usage_scope: Scope
+      ai/text_transform_run:
+        action: Action
+        cancel_requested: Cancel requested
+        error_message: Error message
+        finished_at: Finished at
+        input: Input
+        status: Status
+        system_prompt: System prompt
+        user: User
+        uuid: UUID
+      ai/text_transform_run_event:
+        kind: Kind
+        payload: Payload
+        run: Run
+        seq: Sequence number
       announcements:
         show_until: Ցուցադրել մինչև
       attachment:
@@ -125,7 +142,9 @@ hy:
         is_for_all: Բոլոր նախագծերի համար
         is_required: Պարտադիր
         max_length: Առավելագույն երկարություն
+        max_value: Maximum value
         min_length: Նվազագույն երկարություն
+        min_value: Minimum value
         multi_value: Թույլատրել բազմակի ընտրություն
         possible_values: Հնարավոր արժեքներ
         regexp: Կանոնավոր արտահայտություն
@@ -571,6 +590,7 @@ hy:
         regex_list_invalid: "%{invalid_lines} տողերը հնարավոր չէ վերլուծել որպես կանոնավոր արտահայտություն։"
         regex_match_failed: չի համապատասխանում %{expression} կանոնավոր արտահայտությանը։
         smaller_than_or_equal_to_max_length: պետք է փոքր կամ հավասար լինի առավելագույն երկարությանը։
+        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: խախտում է այս OpenProject համակարգի SSRF քաղաքականությունը։
         status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
         system_wide_non_working_day_exists: հակասում է այս ամսաթվի համար գործող համակարգային ոչ աշխատանքային օրվան։
@@ -998,6 +1018,12 @@ hy:
       ai/text_transform_action:
         one: Text transform action
         other: Text transform actions
+      ai/text_transform_run:
+        one: Text transform run
+        other: Text transform runs
+      ai/text_transform_run_event:
+        one: Text transform run event
+        other: Text transform run events
       announcement:
         one: Announcement
         other: Announcements
@@ -1374,7 +1400,12 @@ hy:
     banners:
       environment_configured_readonly: Այս արժեքները կազմաձևված են միջավայրի փոփոխականների միջոցով և հնարավոր չէ խմբագրել այստեղ։
     custom_styles:
+      color_groups:
+        base_colors: Base colors
+        main_menu: Main lateral menu
+        top_header_colors: Top header colors
       color_theme: Գունային թեմա
+      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
       color_theme_custom: "(Հատուկ)"
       colors:
         accent-color: Ակցենտ
@@ -1383,12 +1414,15 @@ hy:
         main-menu-bg-selected-background: Հիմնական ընտրացանկ ընտրված վիճակում
         primary-button-color: Հիմնական կոճակ
       custom_colors: Հատուկ գույներ
+      edit_color: Edit %{color}
       fonts:
         file_is_invalid: վավեր TTF տառատեսակի նիշք չէ։
         file_too_large: չափազանց մեծ է (առավելագույն չափը՝ %{count} MB)։
       instructions:
         accent-color: Հղումների և այլ չափավոր ընդգծված տարրերի գույնը։
+        header-bg-color: Default background color of the app header.
         main-menu-bg-color: Ձախ կողային ընտրացանկի ֆոնի գույնը։
+        main-menu-bg-selected-background: Background color of menu items when selected.
         primary-button-color: Ուժեղ ակցենտային գույն, որն օգտագործվում է էկրանի ամենակարևոր կոճակի համար։
       manage_colors: Խմբագրել գույների ընտրության տարբերակները
       tab_branding: Բրենդավորում
@@ -2451,6 +2485,9 @@ hy:
       min_max:
         all: 0 նշանակում է առանց սահմանափակման
         project: 0 նշանակում է առանց սահմանափակման
+      min_max_value:
+        all: Leave blank for no restriction
+        project: Leave blank for no restriction
       multi_select:
         all: Թույլ է տալիս օգտատիրոջը մի քանի արժեք նշանակել այս հատուկ դաշտին։
         project: Թույլ է տալիս օգտատիրոջը մի քանի արժեք նշանակել այս հատկանիշին։
@@ -3660,7 +3697,6 @@ hy:
   label_message_new: Նոր հաղորդագրություն
   label_message_plural: Հաղորդագրություններ
   label_message_posted: Հաղորդագրությունն ավելացվել է
-  label_min_max_length: Նվազագույն - առավելագույն երկարություն
   label_minute_plural: րոպե
   label_missing_api_access_key: Բացակայում է API մուտքի բանալին
   label_missing_feeds_access_key: Բացակայում է RSS մուտքի բանալին
@@ -4566,6 +4602,7 @@ hy:
   notice_account_already_activated: Հաշիվն արդեն ակտիվացվել է։
   notice_account_invalid_credentials: Անվավեր օգտատեր կամ գաղտնաբառ
   notice_account_invalid_credentials_or_blocked: Անվավեր օգտատեր կամ գաղտնաբառ, կամ հաշիվն արգելափակված է մուտքի բազմաթիվ ձախողված փորձերի պատճառով։ Այդ դեպքում արգելափակումն ավտոմատ կերպով կհանվի կարճ ժամանակ անց։
+  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
   notice_account_invalid_token: Ակտիվացման անվավեր թոքեն
   notice_account_lost_email_sent: Ձեզ ուղարկվել է էլ. նամակ՝ նոր գաղտնաբառ ընտրելու հրահանգներով։
   notice_account_new_password_forced: Պահանջվում է նոր գաղտնաբառ։
@@ -5490,6 +5527,12 @@ hy:
   roles:
     edit:
       default_for_new_projects_warning: Այս դերը կազմաձևված է որպես կանխադրված դեր, որը տրվում է նախագիծ ստեղծող ոչ ադմինիստրատոր օգտատերերին։ Մի հեռացրեք հետևյալ թույլտվությունները, հակառակ դեպքում նախագիծ ստեղծողները չեն կարողանա ավարտել իրենց նոր ստեղծած նախագծերի կարգավորումը՝
+    index:
+      filter_label: Search roles
+      types:
+        all: All roles
+        global: Global roles
+        project: Project roles
     permissions:
       section_check_all_label: Նշանակել %{module} մոդուլի բոլոր թույլտվությունները
       section_uncheck_all_label: Հանել %{module} մոդուլի բոլոր թույլտվությունները
@@ -6396,6 +6439,15 @@ hy:
         row_actions: Տողի գործողություններ
         tab: Form
         untitled_group: Անանուն խումբ
+      overview:
+        configuration_mode: Configuration mode
+        dependents: Dependent types and variants
+        mode:
+          always_manual: Always manual
+          inheriting_from_html: Inheriting from %{source_name}
+          manual: Manually configured
+        settings: Settings
+        tab: Overview
       project_attributes:
         actions:
           label_disable_all: Անջատել բոլորը
@@ -6928,6 +6980,13 @@ hy:
       confirm_deletion: Ես հաստատում եմ, որ ընտրված աշխատանքային փաթեթները և դրանց հետ կապված բոլոր տվյալները կջնջվեն։
       confirm_descendants_deletion: Ես հաստատում եմ, որ վերևում թվարկված բոլոր հետնորդները նույնպես կջնջվեն։
       cross_project_warning_html: Այս աշխատանքային փաթեթներն ընդգրկում են մի քանի նախագիծ՝ %{projects}
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
+        self_only_label: Delete just the selected work packages
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete the selected work packages and their descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: Համոզվա՞ծ եք, որ ցանկանում եք ջնջել ընտրված աշխատանքային փաթեթները և դրանց հետ կապված բոլոր տվյալները։
       description_with_all_descendants: Համոզվա՞ծ եք, որ ցանկանում եք ջնջել ընտրված աշխատանքային փաթեթները և դրանց բոլոր հետնորդները։
       description_with_descendants: Համոզվա՞ծ եք, որ ցանկանում եք ջնջել ընտրված աշխատանքային փաթեթները և հետևյալ բոլոր հետնորդները։
@@ -6992,6 +7051,13 @@ hy:
       confirm_deletion: Ես հաստատում եմ, որ աշխատանքային փաթեթը և դրա հետ կապված բոլոր տվյալները կջնջվեն։
       confirm_descendants_deletion: Ես հաստատում եմ, որ վերևում թվարկված բոլոր հետնորդները նույնպես կջնջվեն։
       cross_project_warning_html: Հետևյալ նախագծերի աշխատանքային փաթեթները կջնջվեն՝ %{projects}
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: This work package has descendants. Do you want to delete them as well?
+        self_only_label: Delete just this work package
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete this work package and descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: Համոզվա՞ծ եք, որ ցանկանում եք ջնջել "%{name}"։
       heading: Ընդմիշտ ջնջե՞լ այս աշխատանքային փաթեթը։
       hidden_descendants_only_warning:

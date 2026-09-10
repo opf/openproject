@@ -66,6 +66,8 @@ he:
 
       '
     login_with_auth_provider: או היכנס באמצעות החשבון הקיים שלך
+    omniauth_direct_login_continue: Continue to sign in
+    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: Please login to activate your account.
     signup_title: Create an account in %{app_title}
     signup_with_external_account: Sign up with an external account
@@ -83,6 +85,21 @@ he:
         prompt: Prompt
         types: Work package types
         usage_scope: Scope
+      ai/text_transform_run:
+        action: Action
+        cancel_requested: Cancel requested
+        error_message: Error message
+        finished_at: Finished at
+        input: Input
+        status: Status
+        system_prompt: System prompt
+        user: User
+        uuid: UUID
+      ai/text_transform_run_event:
+        kind: Kind
+        payload: Payload
+        run: Run
+        seq: Sequence number
       announcements:
         show_until: Display until
       attachment:
@@ -125,7 +142,9 @@ he:
         is_for_all: עבור כל הפרוייקטים
         is_required: נדרש
         max_length: אורך מירבי
+        max_value: Maximum value
         min_length: אורך מינימלי
+        min_value: Minimum value
         multi_value: Allow multi-select
         possible_values: הערכים האפשריים
         regexp: ביטוי רגולרי
@@ -571,6 +590,7 @@ he:
         regex_list_invalid: Lines %{invalid_lines} could not be parsed as regular expression.
         regex_match_failed: does not match the regular expression %{expression}.
         smaller_than_or_equal_to_max_length: must be smaller than or equal to maximum length.
+        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: violates the SSRF policy of this OpenProject instance.
         status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
         system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
@@ -1003,6 +1023,14 @@ he:
         one: Text transform action
         two: Text transform actions
         other: Text transform actions
+      ai/text_transform_run:
+        one: Text transform run
+        two: Text transform runs
+        other: Text transform runs
+      ai/text_transform_run_event:
+        one: Text transform run event
+        two: Text transform run events
+        other: Text transform run events
       announcement:
         one: Announcement
         two: Announcements
@@ -1480,7 +1508,12 @@ he:
     banners:
       environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
     custom_styles:
+      color_groups:
+        base_colors: Base colors
+        main_menu: Main lateral menu
+        top_header_colors: Top header colors
       color_theme: Color theme
+      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
       color_theme_custom: "(Custom)"
       colors:
         accent-color: Accent
@@ -1489,12 +1522,15 @@ he:
         main-menu-bg-selected-background: Main menu when selected
         primary-button-color: Primary button
       custom_colors: צבעים מותאמים אישית
+      edit_color: Edit %{color}
       fonts:
         file_is_invalid: is not a valid TTF font file.
         file_too_large: is too large (maximum size is %{count} MB).
       instructions:
         accent-color: Color for links and other decently highlighted elements.
+        header-bg-color: Default background color of the app header.
         main-menu-bg-color: Left side menu's background color.
+        main-menu-bg-selected-background: Background color of menu items when selected.
         primary-button-color: Strong accent color, used for the most important button on a screen.
       manage_colors: ערוך אפשרויות בחירת צבע
       tab_branding: Branding
@@ -2571,6 +2607,9 @@ he:
       min_max:
         all: 0 means no restriction
         project: 0 means no restriction
+      min_max_value:
+        all: Leave blank for no restriction
+        project: Leave blank for no restriction
       multi_select:
         all: Allows the user to assign multiple values to this custom field.
         project: Allows the user to assign multiple values to this attribute.
@@ -3807,7 +3846,6 @@ he:
   label_message_new: הודעה חדשה
   label_message_plural: הודעות
   label_message_posted: Message added
-  label_min_max_length: Min - Max length
   label_minute_plural: minutes
   label_missing_api_access_key: Missing API access key
   label_missing_feeds_access_key: Missing RSS access key
@@ -4724,6 +4762,7 @@ he:
   notice_account_already_activated: The account has already been activated.
   notice_account_invalid_credentials: Invalid user or password
   notice_account_invalid_credentials_or_blocked: Invalid user or password or the account is blocked due to multiple failed login attempts. If so, it will be unblocked automatically in a short time.
+  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
   notice_account_invalid_token: Invalid activation token
   notice_account_lost_email_sent: An email with instructions to choose a new password has been sent to you.
   notice_account_new_password_forced: A new password is required.
@@ -5657,6 +5696,12 @@ he:
   roles:
     edit:
       default_for_new_projects_warning: 'This role is configured as the default role given to non-admin users who create a project. Do not remove the following permissions, otherwise project creators will be unable to complete the setup of their newly created projects:'
+    index:
+      filter_label: Search roles
+      types:
+        all: All roles
+        global: Global roles
+        project: Project roles
     permissions:
       section_check_all_label: Assign all %{module} permissions
       section_uncheck_all_label: Unassign all %{module} permissions
@@ -6565,6 +6610,15 @@ he:
         row_actions: Row actions
         tab: Form
         untitled_group: Untitled group
+      overview:
+        configuration_mode: Configuration mode
+        dependents: Dependent types and variants
+        mode:
+          always_manual: Always manual
+          inheriting_from_html: Inheriting from %{source_name}
+          manual: Manually configured
+        settings: Settings
+        tab: Overview
       project_attributes:
         actions:
           label_disable_all: Disable all
@@ -7103,6 +7157,13 @@ he:
       confirm_deletion: I confirm that the selected work packages and all associated data will be deleted.
       confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
       cross_project_warning_html: 'These work packages span multiple projects: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
+        self_only_label: Delete just the selected work packages
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete the selected work packages and their descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: Are you sure you want to delete the selected work packages and all associated data?
       description_with_all_descendants: Are you sure you want to delete the selected work packages and all of their descendants?
       description_with_descendants: Are you sure you want to delete the selected work packages and all the following descendants?
@@ -7171,6 +7232,13 @@ he:
       confirm_deletion: I confirm that the work package and all associated data will be deleted.
       confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
       cross_project_warning_html: 'Work packages from the following projects will be deleted: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: This work package has descendants. Do you want to delete them as well?
+        self_only_label: Delete just this work package
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete this work package and descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: Are you sure you want to delete "%{name}"?
       heading: Permanently delete this work package?
       hidden_descendants_only_warning:

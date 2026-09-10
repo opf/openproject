@@ -66,6 +66,8 @@ fr:
 
       '
     login_with_auth_provider: ou connectez-vous avec votre compte existant
+    omniauth_direct_login_continue: Continue to sign in
+    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: Veuillez vous connecter pour activer votre compte.
     signup_title: Créer un compte sur %{app_title}
     signup_with_external_account: S'inscrire avec un compte externe
@@ -83,6 +85,21 @@ fr:
         prompt: Invite
         types: Types de lots de travaux
         usage_scope: Périmètre
+      ai/text_transform_run:
+        action: Action
+        cancel_requested: Cancel requested
+        error_message: Error message
+        finished_at: Finished at
+        input: Input
+        status: Status
+        system_prompt: System prompt
+        user: User
+        uuid: UUID
+      ai/text_transform_run_event:
+        kind: Kind
+        payload: Payload
+        run: Run
+        seq: Sequence number
       announcements:
         show_until: Afficher jusqu'à
       attachment:
@@ -125,7 +142,9 @@ fr:
         is_for_all: Pour tous les projets
         is_required: Obligatoire
         max_length: Longueur maximale
+        max_value: Maximum value
         min_length: Longueur minimale
+        min_value: Minimum value
         multi_value: Autoriser la sélection multiple
         possible_values: Valeurs possibles
         regexp: Expression régulière
@@ -353,7 +372,7 @@ fr:
       token/named:
         token_name: Nom du jeton
       type:
-        allow_project_variants: Allow project-specific variants
+        allow_project_variants: Autoriser les variantes spécifiques à chaque projet
         color: Couleur
         is_in_roadmap: Affiché par défaut dans la feuille de route
         is_milestone: Est un jalon
@@ -548,8 +567,8 @@ fr:
         is_for_all_cannot_modify: s'applique à tous les projets et ne peut donc pas être modifié.
         ldap_managed: Ce service est géré par synchronisation LDAP et ne peut pas être modifié manuellement.
         less_than_or_equal_to: doit être inférieur ou égal à %{count}.
-        migration_failed: 'The variant could not be switched for project ''%{project}'': %{reason}'
-        migration_target_invalid: The selected variant must be another variant of the same type that every affected project can use.
+        migration_failed: 'La variante n''a pas pu être changée pour le projet ''%{project}'' : %{reason}'
+        migration_target_invalid: La variante sélectionnée doit être une autre variante du même type que tous les projets concernés peuvent utiliser.
         not_a_date: n'est pas une date valide.
         not_a_datetime: n'est pas une heure valide.
         not_a_number: n'est pas un nombre.
@@ -571,6 +590,7 @@ fr:
         regex_list_invalid: Les lignes %{invalid_lines} n'ont pas pu être analysées comme des expressions régulières.
         regex_match_failed: ne correspond pas à l'expression régulière %{expression}.
         smaller_than_or_equal_to_max_length: doit être inférieur ou égal à la longueur maximale.
+        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: enfreint la politique SSRF de cette instance OpenProject.
         status_transition_invalid: n'est pas valide, car les rôles de l'utilisateur actuel ne permettent aucune transition de l'ancien statut vers le nouveau.
         system_wide_non_working_day_exists: entre en conflit avec un jour non travaillé existant dans l'ensemble du système pour cette date.
@@ -744,7 +764,7 @@ fr:
         project_type:
           attributes:
             variant:
-              must_be_owned_by_the_project: must not be a variant another project owns.
+              must_be_owned_by_the_project: ne doit pas s'agir d'une variante appartenant à un autre projet.
               must_belong_to_the_type: doit être une variante du type utilisé par le projet.
         queries/filters/base:
           attributes:
@@ -817,7 +837,7 @@ fr:
               hours_per_day_are_missing: Le nombre d'heures par jour doit être défini.
               hours_per_day_is_out_of_bounds: Le nombre d'heures par jour ne peut être supérieur à 24.
               journal_aggregation_time_minutes_is_out_of_bounds: La période d'agrégation doit être comprise entre %{min} et %{max} minutes.
-              password_login_requires_sso_provider: Password login restrictions require at least one available SSO provider.
+              password_login_requires_sso_provider: Les restrictions relatives à la connexion par mot de passe nécessitent au moins un fournisseur SSO disponible.
               previous_working_day_changes_unprocessed: Les modifications précédentes de la configuration des jours ouvrables n'ont pas encore été appliquées.
               working_days_are_missing: Au moins un jour de la semaine doit être défini comme jour de travail.
         status:
@@ -846,7 +866,7 @@ fr:
             base:
               borrowed_by_variants: Ne peut pas être supprimé tant que sa configuration est réutilisée par %{names}.
               is_default_variant: La configuration par défaut d'un type ne peut pas être supprimée.
-              project_variants_not_allowed: This type does not allow creation of variants inside projects.
+              project_variants_not_allowed: Ce type ne permet pas la création de variantes au sein des projets.
               restrict_dependent_destroy:
                 has_many: Il ne peut pas être supprimé tant que des projets l'utilisent encore.
             defaults_source_id:
@@ -998,6 +1018,12 @@ fr:
       ai/text_transform_action:
         one: Action de transformation de texte
         other: Actions de transformation de texte
+      ai/text_transform_run:
+        one: Text transform run
+        other: Text transform runs
+      ai/text_transform_run_event:
+        one: Text transform run event
+        other: Text transform run events
       announcement:
         one: Annonce
         other: Annonces
@@ -1374,7 +1400,12 @@ fr:
     banners:
       environment_configured_readonly: Ces valeurs sont configurées par des variables d'environnement et ne peuvent pas être modifiées ici.
     custom_styles:
+      color_groups:
+        base_colors: Couleurs de base
+        main_menu: Menu latéral principal
+        top_header_colors: Couleurs de l'en-tête supérieur
       color_theme: Thème de couleur
+      color_theme_caption: Utilisez l'un des thèmes par défaut d'OpenProject ou créez votre propre thème avec vos couleurs en sélectionnant « Thème personnalisé ».
       color_theme_custom: "(Personnalisé)"
       colors:
         accent-color: Couleur d'accentuation
@@ -1383,12 +1414,15 @@ fr:
         main-menu-bg-selected-background: Menu principal quand sélectionné
         primary-button-color: Bouton principal
       custom_colors: Couleurs personnalisées
+      edit_color: Modifier %{color}
       fonts:
         file_is_invalid: n'est pas un fichier de police TTF valide.
         file_too_large: est trop volumineux (la taille maximale est de %{count} Mo).
       instructions:
         accent-color: Couleur pour les liens et autres éléments correctement mis en évidence.
+        header-bg-color: Couleur d'arrière-plan par défaut de l'en-tête de l'application.
         main-menu-bg-color: Couleur d'arrière-plan du menu de gauche.
+        main-menu-bg-selected-background: Couleur d'arrière-plan des éléments de menu lorsqu'ils sont sélectionnés.
         primary-button-color: Couleur d'accentuation, utilisée pour le bouton le plus important à l'écran.
       manage_colors: Modifier les options du sélecteur de couleur
       tab_branding: Image de marque
@@ -1597,7 +1631,7 @@ fr:
               button_done: Approuver l'importation
               button_revert: Annuler l'importation
               caption: Examiner le cycle d'importation ou annuler l'importation
-              info: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
+              info: Les données importées sont actuellement en mode révision. Cliquez sur « Approuver l'importation » pour rendre l'importation permanente ou sur « Annuler l'importation » pour annuler toutes les modifications apportées lors de cette importation.
               label_finalize_import: Approuver l'importation
               label_finalizing: Approuver l'importation...
               label_finalizing_done: Importation approuvée.
@@ -1879,39 +1913,39 @@ fr:
         success_banner: Le format de l'identifiant du lot de travaux a été mis à jour.
     text_transform_actions:
       delete_dialog_component:
-        description: Users will no longer be able to run this action in the rich text editor.
-        heading: Are you sure you want to delete the action "%{label}"?
-        title: Delete text transform action
+        description: Les utilisateurs ne pourront plus exécuter cette action dans l'éditeur de texte enrichi.
+        heading: Êtes-vous sûr de vouloir supprimer l'action «%{label} » ?
+        title: Supprimer l'action de transformation du texte
       form:
-        injects_type_template_caption: If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template.
-        label_caption: This is the name that will be visible to users in the editor.
-        select_types: Select types
-        types_caption: Add work package types for which this action should be available. All available variants will automatically be included.
-        usage_scope_caption: 'You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types.'
+        injects_type_template_caption: Si cette case est cochée, le modèle de description du type de lot de travail est automatiquement ajouté à l'invite. L'invite doit contenir des instructions indiquant comment utiliser ce modèle.
+        label_caption: Il s'agit du nom qui apparaîtra aux utilisateurs dans l'éditeur.
+        select_types: Sélectionner les types
+        types_caption: Ajoutez les types de lots de travail pour lesquels cette action doit être disponible. Toutes les variantes disponibles seront automatiquement incluses.
+        usage_scope_caption: 'Vous pouvez limiter la visibilité de cette action : partout (y compris dans les commentaires, les wikis et les champs personnalisés), pour tous les types de lots de travail ou pour certains types de lots de travail.'
       index:
-        description: Text transform actions give users LLM-powered actions to write, organise and review text wherever the rich text editor is used, such as work package descriptions, comments and wiki pages. You create new actions using your own prompts and instructions.
+        description: Les actions de transformation de texte offrent aux utilisateurs des fonctionnalités basées sur les modèles de langage de grande envergure (LLM) pour rédiger, organiser et relire du texte partout où l'éditeur de texte enrichi est utilisé, par exemple dans les descriptions de lots de travail, les commentaires et les pages wiki. Vous pouvez créer de nouvelles actions à l'aide de vos propres invites et instructions.
         label_add_action: Action
-        label_aria_add_action: Add text transform action
+        label_aria_add_action: Ajouter une action de transformation de texte
       index_component:
         blank_slate:
-          description: Add an action to see it here
-          title: No text transform actions configured yet
-        disabled_warning: Text transform actions are disabled. The following actions will not be available anywhere.
-        label_disable_all: Disable all
-        label_enable_all: Enable all
+          description: Ajoutez une action pour la voir ici
+          title: Aucune action de transformation de texte n'a encore été configurée
+        disabled_warning: Les actions de transformation de texte sont désactivées. Les actions suivantes ne seront disponibles nulle part.
+        label_disable_all: Désactiver tout
+        label_enable_all: Activer tout
         title: Actions
       new:
-        title: New text transform action
+        title: Ajouter une action de transformation de texte
       row_component:
-        label_actions: Action menu
-        label_toggle: Toggle %{label}
+        label_actions: Menu des actions
+        label_toggle: Basculer %{label}
         scope_specific_work_package_types:
-          one: "%{count} work package type"
-          other: "%{count} work package types"
+          one: "%{count} type de lot de travail"
+          other: "%{count} types de lots de travail"
       usage_scopes:
-        all_work_package_types: All work package types
-        everywhere: Everywhere
-        specific_work_package_types: Specific work package types
+        all_work_package_types: Tous les types de lots de travail
+        everywhere: Partout
+        specific_work_package_types: Types spécifiques de lots de travail
     workflows:
       blankslate:
         description: Ajoutez des statuts pour commencer à configurer les flux de travail pour ce rôle
@@ -2453,6 +2487,9 @@ fr:
       min_max:
         all: 0 signifie aucune restriction
         project: 0 signifie aucune restriction
+      min_max_value:
+        all: Leave blank for no restriction
+        project: Leave blank for no restriction
       multi_select:
         all: Permet à l'utilisateur d'assigner plusieurs valeurs à ce champ personnalisé.
         project: Permet à l'utilisateur d'assigner plusieurs valeurs à cet attribut.
@@ -3243,7 +3280,7 @@ fr:
         progress_calculation_adjusted_from_disabled_mode: Le calcul de la progression est automatiquement <a href="%{href}" target="_blank">défini en mode travail et ajusté avec la mise à jour de la version</a>.
         scheduling_mode_adjusted: Mode de planification automatiquement ajusté avec la mise à jour de version.
         sprint_migration: La version '%{version_name}' a été copiée en tant que sprint.
-        stale_target_versions_removed: Outdated target version automatically removed. It had been incorrectly re-added when multiple target versions were enabled.
+        stale_target_versions_removed: La version cible obsolète a été supprimée automatiquement. Elle avait été rajoutée par erreur lorsque plusieurs versions cibles étaient activées.
         target_versions_repaired: Les versions cibles ont été automatiquement synchronisées avec le champ Version avant d'activer plusieurs versions cibles.
         totals_removed_from_childless_work_packages: Les totaux de travail et de progression sont automatiquement supprimés pour les lots de travaux non parents avec <a href="%{href}" target="_blank">la mise à jour de la version</a>. Il s'agit d'une tâche de maintenance qui peut être ignorée.
       total_percent_complete_mode_changed_to_simple_average: Les valeurs de travail des lots de travaux enfants sont ignorées.
@@ -3664,7 +3701,6 @@ fr:
   label_message_new: Nouveau message
   label_message_plural: Messages
   label_message_posted: Message ajouté
-  label_min_max_length: longueur Min - Max
   label_minute_plural: minutes
   label_missing_api_access_key: Clé d'accès API manquante
   label_missing_feeds_access_key: Clé d'accès RSS manquante
@@ -4384,7 +4420,7 @@ fr:
       mail_notification: Notifications par e-mail
       mails_and_notifications: E-mails et notifications
       mcp_configurations: Protocole de contexte de modèle (MCP)
-      text_transform_actions: Text transform actions
+      text_transform_actions: Actions de transformation de texte
     quick_add:
       label: Ajouter...
   more_actions: Plus de fonctions
@@ -4570,6 +4606,7 @@ fr:
   notice_account_already_activated: Le compte a déjà été activé.
   notice_account_invalid_credentials: Nom d'utilisateur ou mot de passe incorrect
   notice_account_invalid_credentials_or_blocked: Nom d'utilisateur ou mot de passe incorrect ou le compte est bloqué dû aux nombreuses tentatives de connexion échouées. Si c'est le cas, le compte sera débloqué sous peu.
+  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
   notice_account_invalid_token: Jeton d'activation incorrect
   notice_account_lost_email_sent: Un e-mail d'instructions pour choisir un nouveau mot de passe vient de vous être envoyé.
   notice_account_new_password_forced: Un nouveau mot de passe est requis.
@@ -4877,8 +4914,8 @@ fr:
     dialog:
       footer_center:
         caption: Ce texte apparaîtra sur chaque page au centre du pied de page.
-        default_hint_project_name: When left blank, defaults to the project name.
-        default_hint_subject: When left blank, defaults to the work package's subject.
+        default_hint_project_name: Si ce champ est laissé vide, la valeur par défaut est le nom du projet.
+        default_hint_subject: Si ce champ est laissé vide, la valeur par défaut est l'objet du lot de travail.
         label: Texte de pied de page
       footer_right:
         caption: Ce texte apparaîtra sur chaque page à droite du pied de page.
@@ -4907,7 +4944,7 @@ fr:
       caption: Détails du lot de travaux présentés sous la forme d'un artefact PMflex.
       label: Artefact PMflex
     template_attributes:
-      caption: All the attributes present in the current form using the default template.
+      caption: Tous les attributs présents dans le formulaire actuel utilisent le modèle par défaut.
       label: Attributs et description
     template_contract:
       caption: Les détails du lot de travaux sont formatés sur le formulaire standard allemand de contrat.
@@ -4981,7 +5018,7 @@ fr:
     '
   permission_manage_placeholder_user: Créer, modifier et supprimer des utilisateurs fictifs
   permission_manage_project_activities: Gérer les activités du projet
-  permission_manage_project_variants: Manage the project's own type variants
+  permission_manage_project_variants: Gérer les variantes de type propres au projet
   permission_manage_public_bcf_queries: Gérer les requêtes publiques BCF
   permission_manage_public_project_queries: Gérer les listes de projets publics
   permission_manage_public_queries: Gérer les vues publiques
@@ -5322,10 +5359,10 @@ fr:
           target_label: Variante
           title: "%{type} : Changer de variante"
         type_not_found: Le type sélectionné est introuvable.
-        use_in_project: Use in this project
-        variant_in_use: Variant in this project
-        variant_label: Variant
-        variants_not_allowed: This type does not allow creation of variants inside projects.
+        use_in_project: Utiliser dans ce projet
+        variant_in_use: Variante dans ce projet
+        variant_label: Variante
+        variants_not_allowed: Ce type ne permet pas la création de variantes au sein des projets.
       versions:
         no_results_content_text: Créer une nouvelle version
         no_results_title_text: Aucune version du projet pour le moment.
@@ -5494,6 +5531,12 @@ fr:
   roles:
     edit:
       default_for_new_projects_warning: 'Ce rôle est configuré comme le rôle par défaut attribué aux utilisateurs non administrateurs qui créent un projet. Ne supprimez pas les autorisations suivantes, sinon les créateurs de projets ne pourront pas terminer la configuration de leurs projets nouvellement créés :'
+    index:
+      filter_label: Rechercher des rôles
+      types:
+        all: Tous les rôles
+        global: Rôles globaux
+        project: Rôles dans le projet
     permissions:
       section_check_all_label: Attribuer toutes les autorisations %{module}
       section_uncheck_all_label: Désattribuer toutes les autorisations %{module}
@@ -5518,7 +5561,7 @@ fr:
   setting_after_login_default_redirect_url_example_html: 'Définissez un chemin par défaut pour rediriger les utilisateurs après leur connexion, si aucun lien de retour n''est fourni. Les utilisateurs sont redirigés vers la page d''accueil si ce champ n''est pas défini. <br/> Exemple : %{example_code}
 
     '
-  setting_ai_text_transform_actions_enabled: Enable text transform actions
+  setting_ai_text_transform_actions_enabled: Activer les actions de transformation de texte
   setting_allowed_link_protocols: Protocoles de lien autorisés
   setting_allowed_link_protocols_text_html: Permettre que ces protocoles soient affichés sous forme de liens dans les descriptions des lots de travaux, les champs de texte long et les commentaires. Par exemple, %{tel_code} ou %{element_code}. Saisissez un protocole par ligne. <br/>Les protocoles %{http_code}, %{https_code} et %{mailto_code} sont toujours autorisés.
   setting_antivirus_scan_action: Action sur le fichier infecté
@@ -5598,7 +5641,7 @@ fr:
   setting_default_language: Langue par défaut
   setting_default_projects_modules: Modules activés par défaut pour les nouveaux projets
   setting_default_projects_public: Les nouveaux projets sont publics par défaut
-  setting_default_projects_wiki: Enable wiki functionality for new projects by default
+  setting_default_projects_wiki: Activer par défaut les fonctionnalités wiki pour les nouveaux projets
   setting_diff_max_lines_displayed: Nombre maximal de lignes de «diff» affichées
   setting_disable_password_login: Désactiver l'authentification par mot de passe
   setting_display_subprojects_work_packages: Par défaut, afficher les lots de travaux des sous-projets dans les projets parents
@@ -5790,13 +5833,13 @@ fr:
       omniauth_direct_login_hint_html: 'Si cette option est activée, les demandes de connexion seront redirigées vers le fournisseur omniauth configuré. La liste déroulante de connexion et la page de connexion seront désactivées. <br/> <strong>Remarque :</strong> lorsque cette option est activée, les utilisateurs peuvent toujours se connecter en interne en visitant la page de connexion <code>%{internal_path}</code>, sauf si vous désactivez également les connexions par mot de passe.
 
         '
-      password_login_bypass_principal_ids_hint: 'Even when password login in disabled, these users and groups will be able to use their password to sign in. This is useful, for example, if the identity provider becomes unavailable. If you include a group, access will be extended to all users in that group.
+      password_login_bypass_principal_ids_hint: 'Même lorsque la connexion par mot de passe est désactivée, ces utilisateurs et groupes pourront utiliser leur mot de passe pour se connecter. Cela s’avère utile, par exemple, si le fournisseur d’identité devient indisponible. Si vous incluez un groupe, l’accès sera étendu à tous les utilisateurs de ce groupe.
 
         '
-      password_login_configured_by_environment: 'The following settings are configured through the environment and cannot be edited here:
+      password_login_configured_by_environment: 'Les paramètres suivants sont définis au niveau de l''environnement et ne peuvent pas être modifiés ici :
 
         '
-      password_login_requires_sso_provider: 'Password login restrictions are unavailable because no SSO provider is currently enabled. Configure and enable an SSO provider before changing these settings.
+      password_login_requires_sso_provider: 'Les restrictions relatives à la connexion par mot de passe ne sont pas disponibles, car aucun fournisseur d''authentification unique (SSO) n''est actuellement activé. Veuillez configurer et activer un fournisseur SSO avant de modifier ces paramètres.
 
         '
       registration: Inscription
@@ -6282,7 +6325,7 @@ fr:
   total_progress: Progression totale
   types:
     creation_wizard:
-      add_variant: Add a variant to %{name}
+      add_variant: Ajouter une variante à %{name}
       create_type: Créer un type
       create_variant: Créer une variante
       fields:
@@ -6293,7 +6336,7 @@ fr:
       steps:
         defaults: Valeurs par défaut
         details: Détails
-        form_configuration: Form
+        form_configuration: Formulaire
         pdf: Génération de PDF
         project_attributes: Attributs du projet
         projects: Projets
@@ -6323,11 +6366,11 @@ fr:
             work_package: Lot de travaux
           label_with_context: "%{attribute_context} : %{attribute_label}"
       details:
-        allow_project_variants_caption: For project administrators with the permission to manage variants, this type can be extended or modified within a project.
+        allow_project_variants_caption: Pour les administrateurs de projet disposant d'une autorisation de gestion des variantes, ce type peut être étendu ou modifié au sein d'un projet.
         inherited_from_type_html: Hérite du type <b>%{type}</b>.
         tab: Détails
         type_color_text: La couleur sélectionnée permet de distinguer les différents types dans les diagrammes de Gantt ou les tableaux de lots de travaux. Il est donc recommandé d'utiliser une couleur vive.
-        variant_name_caption_html: This is an internal name only visible to administrators. Variants replace the original parent type, so if this variant is used in a project, it will appear as <b>%{type}</b> to all members.
+        variant_name_caption_html: Il s'agit d'un nom interne visible uniquement par les administrateurs. Les variantes remplacent le type parent d'origine ; ainsi, si cette variante est utilisée dans un projet, elle apparaîtra sous la forme <b>%{type}</b> pour tous les membres.
       export_configuration:
         artefact_export:
           attachment:
@@ -6353,7 +6396,7 @@ fr:
           label: Modèles d'exportation PDF
         tab: Générer un fichier PDF
         templates:
-          readonly_error: Cannot be changed while linked to a source type.
+          readonly_error: Ne peut pas être modifié tant qu'il est associé à un type de source.
           section_title: Modèles d'exportation PDF
           settings:
             edit_link: Modifier les paramètres
@@ -6366,7 +6409,7 @@ fr:
         blankslate_title: Aucun groupe pour le moment
         builtin_field: Champ natif
         confirm_delete_group: Voulez-vous vraiment supprimer cette section ? Cette action ne peut pas être annulée automatiquement.
-        confirm_reset: Are you sure you want to reset the form?
+        confirm_reset: Êtes-vous sûr de vouloir réinitialiser le formulaire ?
         custom_field: Champ personnalisé
         delete_group: Supprimer la section
         drag_to_activate: Faites glisser les champs à partir d'ici pour les activer
@@ -6381,22 +6424,31 @@ fr:
         group_actions: Actions de la section
         group_name_label: Nom de la section
         inactive_attributes_heading: Attributs inactifs
-        invalid_attribute_groups: The form payload is invalid.
+        invalid_attribute_groups: Le contenu du formulaire n'est pas valide.
         invalid_query: La configuration de la requête intégrée n'est pas valide.
         label_group: Section
         no_inactive_attributes: Aucun attribut inactif
-        not_found: The requested form item could not be found.
+        not_found: L'élément du formulaire demandé est introuvable.
         query_group_label: Tableau des lots de travaux associés
         remove_attribute: Retirer de la section
         rename_group: Renommer la section
         reset_description: 'Cette opération réaffectera les attributs à leur groupe par défaut et désactivera TOUS les champs personnalisés.
 
           '
-        reset_title: Reset form
+        reset_title: Réinitialiser le formulaire
         reset_to_defaults: Réinitialiser le formulaire
         row_actions: Actions de ligne
-        tab: Form
+        tab: Formulaire
         untitled_group: Groupe sans titre
+      overview:
+        configuration_mode: Configuration mode
+        dependents: Dependent types and variants
+        mode:
+          always_manual: Always manual
+          inheriting_from_html: Inheriting from %{source_name}
+          manual: Manually configured
+        settings: Settings
+        tab: Overview
       project_attributes:
         actions:
           label_disable_all: Désactiver tout
@@ -6404,10 +6456,10 @@ fr:
         blankslate:
           inherited:
             description: Ce type n'est associé à aucun attribut de projet.
-            title: No project attributes configured
+            title: Aucun attribut de projet n'a été configuré
           manual:
-            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
-            title: No project attributes available
+            description: Une fois que vous aurez [créé des attributs de projet](administration_url), ceux-ci apparaîtront ici et pourront être associés à un type.
+            title: Aucun attribut de projet n'est disponible
         description: Sélectionnez les attributs de projet à activer pour ce type de lot de travaux. Les attributs activés s'affichent dans un onglet distinct des lots de travaux de ce type. Les utilisateurs disposant des autorisations nécessaires peuvent les y consulter et les modifier.
         disabled: Désactivé
         exclusions:
@@ -6437,7 +6489,7 @@ fr:
             description_html: En copiant les données depuis %{source_name}, vous écraserez les paramètres actuels et risquez d'altérer les informations existantes des lots de travaux de ce type.
             title: Copier la configuration ?
           dialog:
-            description: Copy the configuration from a source type and use it as a one-time base. The configuration stays manual and does not inherit later changes of the source.
+            description: Copiez la configuration à partir d'un type source et utilisez-la comme base ponctuelle. La configuration reste manuelle et n'hérite pas des modifications ultérieures apportées à la source.
             source_label: Type de source
             source_placeholder: Sélectionnez un type ou une variante
             submit: Enregistrer et copier
@@ -6446,75 +6498,75 @@ fr:
           success: La configuration a été copiée.
         dependents:
           blank:
-            description: No other type or variant inherits from this configuration
-            title: No dependent types
+            description: Aucun autre type ni aucune autre variante n'hérite de cette configuration
+            title: Pas de types dépendants
           description:
-            one: The following configuration is inherited by 1 other type or variant. Any changes you make here will also affect the dependent.
-            other: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
+            one: La configuration suivante est héritée par un autre type ou une autre variante. Toute modification que vous y apporterez aura également des répercussions sur l'élément dépendant.
+            other: La configuration suivante est héritée par %{count} d'autres types ou variantes. Toute modification que vous y apportez aura également des répercussions sur les éléments qui en dépendent.
           dialog:
-            description: These types and variants inherit the configuration of this section. A change you make here applies to all of them.
-            direct_heading: Direct dependents
-            indirect_heading: Dependents through other types
-            title: Dependent types
-            variant_of_html: Variant of %{type_name}
-            variant_of_via_html: Variant of %{type_name}, inheriting via %{source_name}
-            via_html: Inheriting via %{source_name}
+            description: Ces types et variantes héritent de la configuration de cette section. Toute modification que vous effectuez ici s'applique à l'ensemble de ces éléments.
+            direct_heading: Dépendants directs
+            indirect_heading: Dépendants à travers d'autres types
+            title: Types dépendants
+            variant_of_html: Variante de %{type_name}
+            variant_of_via_html: Variante de %{type_name}, hérité via %{source_name}
+            via_html: Hérité via %{source_name}
           title:
-            one: 1 dependent type
-            other: "%{count} dependent types"
-          view: View dependent types
+            one: 1 type dépendant
+            other: "%{count} types dépendants"
+          view: Afficher les types dépendants
         exclusions:
-          not_inherited: This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead.
+          not_inherited: Cette configuration n'est pas héritée ; il n'y a donc rien à exclure. Modifiez plutôt la configuration directement.
           unknown_aspect: Section de configuration inconnue « %{aspect} ».
         inherited:
-          change_source: Change source type
-          configure_manually: Configure manually
+          change_source: Modifier le type source
+          configure_manually: Configurer manuellement
           confirm_dialog:
             change_source:
-              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
-              heading: Change source type?
-              title: Change source type
-            check_box: I understand that this will override the current settings
+              description_html: En remplaçant le type source par %{source_name}, vous écraserez les paramètres actuels, ce qui pourrait affecter les informations existantes des lots de travaux de ce type.
+              heading: Modifier le type source ?
+              title: Modifier le type source
+            check_box: Je comprends que cela remplacera les paramètres actuels
             from_manual:
-              description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
-              heading: Switch configuration mode?
-              title: Switch configuration mode
-          description: This configuration is inherited from the source type [%{source_name}](source_url)%{source_suffix}.
-          description_unlinked: This configuration is inherited from the source type %{source_name}%{source_suffix}.
+              description: Tous les paramètres actuellement sélectionnés seront remplacés et pourraient avoir une incidence sur les informations existantes concernant les lots de travaux de ce type.
+              heading: Changer de mode de configuration ?
+              title: Changer de mode de configuration
+          description: Cette configuration est héritée du type source [%{source_name}](source_url)%{source_suffix}.
+          description_unlinked: Cette configuration est héritée du type source %{source_name}%{source_suffix}.
           dialog:
-            description: Inherit this configuration from a source type. Any new configuration added to the source also applies here.
-            source_label: Source type
-            source_placeholder: Select a type or variant
-            submit: Switch
-            title: Inherit from another type
-          invalid_source: The configuration cannot be inherited from the selected type. Please select a different source type.
-          success: The configuration mode was switched.
-          title: Inherited configuration
+            description: Hériter de cette configuration d'un type de source. Toute nouvelle configuration ajoutée à la source s'applique également ici.
+            source_label: Type source
+            source_placeholder: Sélectionnez un type ou une variante
+            submit: Permuter
+            title: Hériter d'un autre type
+          invalid_source: La configuration ne peut pas être héritée du type sélectionné. Veuillez sélectionner un autre type source.
+          success: Le mode de configuration a été permuté.
+          title: Configuration héritée
         manual:
           confirm_dialog:
-            check_box: I understand that this will override the current settings
-            description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
-            heading: Switch configuration mode?
-            title: Switch configuration mode
-          copy_from_type: Copy from another type
-          description: No settings are inherited. You can still copy the settings from another type one time.
+            check_box: Je comprends que cela remplacera les paramètres actuels
+            description: Tous les paramètres actuellement sélectionnés seront remplacés et pourraient avoir une incidence sur les informations existantes concernant les lots de travaux de ce type.
+            heading: Changer de mode de configuration ?
+            title: Changer de mode de configuration
+          copy_from_type: Copier à partir d'un autre type
+          description: Aucun paramètre n'est hérité. Vous pouvez toutefois copier les paramètres d'un autre type une seule fois.
           dialog:
-            submit: Switch
-            title: Configure manually
-          inherit_from_type: Inherit from another type
-          invalid_mode: The selected mode is not available for this configuration. Please choose a different mode.
+            submit: Permuter
+            title: Configurer manuellement
+          inherit_from_type: Hériter d'un autre type
+          invalid_mode: Le mode sélectionné n'est pas disponible pour cette configuration. Veuillez choisir un autre mode.
           modes:
             copy:
-              caption: Start with a one-time copy of the settings that this configuration inherits now.
-              label: Copy inherited settings
+              caption: Commencez par effectuer une copie ponctuelle des paramètres dont cette configuration hérite actuellement.
+              label: Copier les paramètres hérités
             default:
-              caption: Use the default settings for new types.
-              label: Default settings
+              caption: Utilisez les paramètres par défaut pour les nouveaux types.
+              label: Paramètres par défaut
             empty:
-              caption: Set everything up from scratch, beginning from a blank configuration.
-              label: Empty
-          success: The configuration mode was switched.
-          title: Manual configuration
+              caption: Configurez tout à partir de zéro, en partant d'une configuration vierge.
+              label: Vide
+          success: Le mode de configuration a été modifié.
+          title: Configuration manuelle
         parent_suffix: " (parent)"
       variants:
         blankslate:
@@ -6522,22 +6574,22 @@ fr:
 
             '
           title: Il n'existe aucune variante pour ce type
-        created_in_html: Created in %{project}
+        created_in_html: Créé dans %{project}
         delete:
-          description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
-          title: Delete %{name}
+          description: Les projets utilisant cette variante seront basculés vers la variante que vous choisirez ci-dessous avant que cette variante ne soit supprimée.
+          title: Supprimer %{name}
         filter: Filtrer par texte
         filter_no_results: Aucune variante ne correspond à ce filtre
         global_section:
-          description: These variants are available across all projects.
-          title: Variants
+          description: Ces variantes sont disponibles dans tous les projets.
+          title: Variantes
         project_specific_section:
-          description: These variants are only available within the projects in which they were created.
-          title: Project-specific variants
+          description: Ces variantes ne sont disponibles que dans les projets au sein desquels elles ont été créées.
+          title: Variantes spécifiques à un projet
       workflow:
         tab: Flux de travail
     index:
-      add_variant: Add a variant to %{name}
+      add_variant: Ajouter une variante à %{name}
       add_variant_action: Ajouter une variante
       description: 'Chaque zone de configuration des types et variantes peut être configurée indépendamment, copiée depuis un autre type ou entièrement liée à une source.
 
@@ -6550,8 +6602,8 @@ fr:
       no_results_content_text: Créer un nouveau type
       no_results_title_text: Il n'y a actuellement aucun type.
       project_variants_count:
-        one: 1 project-specific variant
-        other: "%{count} project-specific variants"
+        one: Variante spécifique au projet
+        other: "%{count} variantes spécifiques au projet"
       remove_default: Ne pas activer dans les nouveaux projets
       remove_default_notice: "%{name} n'est plus activé dans les nouveaux projets."
       type_label: Type
@@ -6929,6 +6981,13 @@ fr:
       confirm_deletion: Je confirme que les lots de travaux sélectionnés ainsi que toutes les données associées seront supprimés.
       confirm_descendants_deletion: Je confirme que tous les descendants mentionnés ci-dessus seront également supprimés.
       cross_project_warning_html: 'Ces lots de travaux sont répartis entre plusieurs projets : %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
+        self_only_label: Delete just the selected work packages
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete the selected work packages and their descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: Voulez-vous vraiment supprimer les lots de travaux sélectionnés et toutes les données associées ?
       description_with_all_descendants: Voulez-vous vraiment supprimer les lots de travaux sélectionnés ainsi que tous leurs descendants ?
       description_with_descendants: Voulez-vous vraiment supprimer les lots de travaux sélectionnés ainsi que tous les descendants suivants ?
@@ -6993,6 +7052,13 @@ fr:
       confirm_deletion: Je confirme que le lot de travaux et toutes les données associées seront supprimés.
       confirm_descendants_deletion: Je confirme que tous les descendants mentionnés ci-dessus seront également supprimés.
       cross_project_warning_html: 'Les lots de travaux des projets suivants seront supprimés : %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: This work package has descendants. Do you want to delete them as well?
+        self_only_label: Delete just this work package
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete this work package and descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: Voulez-vous vraiment supprimer « %{name} » ?
       heading: Supprimer définitivement ce lot de travaux ?
       hidden_descendants_only_warning:

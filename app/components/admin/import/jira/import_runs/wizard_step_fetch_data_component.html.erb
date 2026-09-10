@@ -98,14 +98,15 @@ See COPYRIGHT and LICENSE files for more details.
         end
       elsif model.in_state?(:instance_meta_fetching)
         box.with_row(display: :flex, align_items: :center) do
+          job_status = model.state_machine.last_transition_to(:instance_meta_fetching).actual_job.status
           concat(
             render(
-              Primer::Beta::Button.new(
+              (job_status == :running ? OpPrimer::SpinnerButtonComponent : Primer::Beta::Button).new(
                 tag: :a,
                 size: :medium
               )
             ) do |button|
-              button.with_leading_visual_icon(**job_status_icon(model.state_machine.last_transition_to(:instance_meta_fetching).actual_job.status))
+              button.with_leading_visual_icon(**job_status_icon(job_status)) unless job_status == :running
               I18n.t(:"admin.jira.run.wizard.sections.fetch_data.label_progress")
             end
           )

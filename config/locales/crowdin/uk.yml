@@ -66,6 +66,8 @@ uk:
 
       '
     login_with_auth_provider: або ввійдіть у свій існуючий обліковий запис
+    omniauth_direct_login_continue: Continue to sign in
+    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: Увійдіть, щоб активувати свій обліковий запис.
     signup_title: Створіть обліковий запис у %{app_title}
     signup_with_external_account: Реєстрація за допомогою стороннього облікового запису
@@ -83,6 +85,21 @@ uk:
         prompt: Запит
         types: Типи пакетів робіт
         usage_scope: Область
+      ai/text_transform_run:
+        action: Action
+        cancel_requested: Cancel requested
+        error_message: Error message
+        finished_at: Finished at
+        input: Input
+        status: Status
+        system_prompt: System prompt
+        user: User
+        uuid: UUID
+      ai/text_transform_run_event:
+        kind: Kind
+        payload: Payload
+        run: Run
+        seq: Sequence number
       announcements:
         show_until: Показувати до
       attachment:
@@ -125,7 +142,9 @@ uk:
         is_for_all: Для всіх проєктів
         is_required: Обов'язкове поле
         max_length: Максимальна довжина
+        max_value: Maximum value
         min_length: Мінімальна довжина
+        min_value: Minimum value
         multi_value: Дозволити вибір
         possible_values: Можливі значення
         regexp: Регулярний вираз
@@ -571,6 +590,7 @@ uk:
         regex_list_invalid: Неможливо проаналізувати рядки %{invalid_lines} як регулярний вираз.
         regex_match_failed: не збігається з регулярним виразом %{expression}.
         smaller_than_or_equal_to_max_length: має бути меншою або дорівнює максимальній довжині.
+        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: порушує політику SSRF цього екземпляра OpenProject.
         status_transition_invalid: неприпустимий, оскільки для ролей поточного користувача немає дійсного переходу від старого статусу до нового.
         system_wide_non_working_day_exists: конфліктує з наявним загальним неробочим днем, указаним для цієї дати.
@@ -1012,6 +1032,16 @@ uk:
         few: Дії з перетворення тексту
         many: Дії з перетворення тексту
         other: Дії з перетворення тексту
+      ai/text_transform_run:
+        one: Text transform run
+        few: Text transform runs
+        many: Text transform runs
+        other: Text transform runs
+      ai/text_transform_run_event:
+        one: Text transform run event
+        few: Text transform run events
+        many: Text transform run events
+        other: Text transform run events
       announcement:
         one: Оголошення
         few: Оголошення
@@ -1590,7 +1620,12 @@ uk:
     banners:
       environment_configured_readonly: Ці значення налаштовуються за допомогою змінних середовища, і їх не можна змінити тут.
     custom_styles:
+      color_groups:
+        base_colors: Base colors
+        main_menu: Main lateral menu
+        top_header_colors: Top header colors
       color_theme: Колірна тема
+      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
       color_theme_custom: "(Власний)"
       colors:
         accent-color: Акцент
@@ -1599,12 +1634,15 @@ uk:
         main-menu-bg-selected-background: Головне меню в разі вибору
         primary-button-color: Основна кнопка
       custom_colors: Кольори за власними вподобаннями
+      edit_color: Edit %{color}
       fonts:
         file_is_invalid: не є дійсним файлом шрифту TTF.
         file_too_large: завеликий (максимальний розмір – %{count} МБ).
       instructions:
         accent-color: Колір для посилань та інших елементів, які має бути виділено.
+        header-bg-color: Default background color of the app header.
         main-menu-bg-color: Колір фону меню зліва.
+        main-menu-bg-selected-background: Background color of menu items when selected.
         primary-button-color: Насичений акцентний колір використовується для більшості важливих кнопок на екрані.
       manage_colors: Редагувати параметри вибору кольору
       tab_branding: Брендування
@@ -2695,6 +2733,9 @@ uk:
       min_max:
         all: 0 означає відсутність обмежень
         project: 0 означає відсутність обмежень
+      min_max_value:
+        all: Leave blank for no restriction
+        project: Leave blank for no restriction
       multi_select:
         all: Це дає змогу користувачу присвоїти користувацькому полю кілька значень.
         project: Це дає змогу користувачу присвоїти атрибуту кілька значень.
@@ -3956,7 +3997,6 @@ uk:
   label_message_new: Нове повідомлення
   label_message_plural: Повідомлення
   label_message_posted: Повідомлення додано
-  label_min_max_length: Мінімальна - максимальна довжина
   label_minute_plural: хвилини
   label_missing_api_access_key: Відсутній ключ доступу до API
   label_missing_feeds_access_key: Відсутній ключ доступу RSS
@@ -4881,6 +4921,7 @@ uk:
   notice_account_already_activated: Обліковий запис вже активовано.
   notice_account_invalid_credentials: Неправильне ім’я користувача або пароль
   notice_account_invalid_credentials_or_blocked: Неправильне ім'я користувача або пароль або ваш обліковий запис заблокований через багаторазових невдалих спроб входу. Якщо це так, то вона буде автоматично розблокована протягом короткого часу.
+  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
   notice_account_invalid_token: Недійсний маркер активації
   notice_account_lost_email_sent: Електронний лист з інструкціями щодо зміни паролю було надіслано до вас.
   notice_account_new_password_forced: Потрібен новий пароль.
@@ -5821,6 +5862,12 @@ uk:
   roles:
     edit:
       default_for_new_projects_warning: 'Відповідно до налаштувань, ця роль за умовчанням надається користувачам, які створюють проєкт, але не є адміністраторами. Не вилучайте вказані далі права, інакше автори не зможуть завершити налаштування новостворених проєктів:'
+    index:
+      filter_label: Search roles
+      types:
+        all: All roles
+        global: Global roles
+        project: Project roles
     permissions:
       section_check_all_label: Призначити всі дозволи модуля «%{module}»
       section_uncheck_all_label: Скасувати призначення всіх дозволів модуля «%{module}»
@@ -6726,6 +6773,15 @@ uk:
         row_actions: Дії з рядком
         tab: Form
         untitled_group: Безіменна група
+      overview:
+        configuration_mode: Configuration mode
+        dependents: Dependent types and variants
+        mode:
+          always_manual: Always manual
+          inheriting_from_html: Inheriting from %{source_name}
+          manual: Manually configured
+        settings: Settings
+        tab: Overview
       project_attributes:
         actions:
           label_disable_all: Вимкнути все
@@ -7268,6 +7324,13 @@ uk:
       confirm_deletion: Я розумію, що вибрані пакети робіт і всі пов’язані з ними дані буде видалено.
       confirm_descendants_deletion: Я розумію, що також видаляться всі нащадки, наведені вище.
       cross_project_warning_html: 'Ці пакети робіт використовуються в кількох проєктах: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
+        self_only_label: Delete just the selected work packages
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete the selected work packages and their descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: Справді видалити вибрані пакети робіт і всі пов’язані з ними дані?
       description_with_all_descendants: Справді видалити вибрані пакети робіт разом зі всіма їх нащадками?
       description_with_descendants: Справді видалити вибрані пакети робіт разом зі всіма нащадками, наведеними нижче?
@@ -7340,6 +7403,13 @@ uk:
       confirm_deletion: Я розумію, що пакет робіт і всі пов’язані з ним дані буде видалено.
       confirm_descendants_deletion: Я розумію, що також видаляться всі нащадки, наведені вище.
       cross_project_warning_html: 'Буде видалено пакети робіт із таких проєктів: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: This work package has descendants. Do you want to delete them as well?
+        self_only_label: Delete just this work package
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete this work package and descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: Справді видалити обʼєкт «%{name}»?
       heading: Видалити цей пакет робіт остаточно?
       hidden_descendants_only_warning:

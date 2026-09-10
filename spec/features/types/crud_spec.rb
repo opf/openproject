@@ -43,6 +43,10 @@ RSpec.describe "Types", :js do
     login_as(admin)
   end
 
+  def default_variant_enabled_in_new_projects?
+    existing_type.default_variant.reload.enabled_in_new_projects?
+  end
+
   it "crud" do
     index_page.visit!
 
@@ -105,6 +109,28 @@ RSpec.describe "Types", :js do
     index_page.visit!
 
     expect(page).to have_text("Phase")
+  end
+
+  it "toggles 'Active in new projects' from a type's 'Details' tab", with_flag: { type_variants: false } do
+    expect(default_variant_enabled_in_new_projects?).to be false
+
+    visit edit_type_details_path(type_id: existing_type.id)
+    expect(page).to have_unchecked_field("Active in new projects")
+
+    check "Active in new projects"
+    click_on "Save"
+
+    expect(page).to have_text I18n.t(:notice_successful_update)
+    expect(default_variant_enabled_in_new_projects?).to be true
+
+    visit edit_type_details_path(type_id: existing_type.id)
+    expect(page).to have_checked_field("Active in new projects")
+
+    uncheck "Active in new projects"
+    click_on "Save"
+
+    expect(page).to have_text I18n.t(:notice_successful_update)
+    expect(default_variant_enabled_in_new_projects?).to be false
   end
 
   it "creates a type with editable core settings", with_flag: { type_variants: true } do

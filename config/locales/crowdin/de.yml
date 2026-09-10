@@ -66,6 +66,8 @@ de:
 
       '
     login_with_auth_provider: oder melden Sie sich mit einem bestehenden Konto an
+    omniauth_direct_login_continue: Continue to sign in
+    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: Bitte loggen Sie sich ein um Ihr Konto zu aktivieren.
     signup_title: Erstellen Sie ein Konto bei %{app_title}
     signup_with_external_account: Mit einem externen Konto anmelden
@@ -83,6 +85,21 @@ de:
         prompt: Eingabe
         types: Arbeitspaket-Typen
         usage_scope: Scope
+      ai/text_transform_run:
+        action: Action
+        cancel_requested: Cancel requested
+        error_message: Error message
+        finished_at: Finished at
+        input: Input
+        status: Status
+        system_prompt: System prompt
+        user: User
+        uuid: UUID
+      ai/text_transform_run_event:
+        kind: Kind
+        payload: Payload
+        run: Run
+        seq: Sequence number
       announcements:
         show_until: Anzeigen bis
       attachment:
@@ -125,7 +142,9 @@ de:
         is_for_all: Für alle Projekte
         is_required: Erforderlich
         max_length: Maximale Länge
+        max_value: Maximum value
         min_length: Minimale Länge
+        min_value: Minimum value
         multi_value: Mehrfachauswahl zulassen
         possible_values: Mögliche Werte
         regexp: Regulärer Ausdruck
@@ -571,6 +590,7 @@ de:
         regex_list_invalid: Die Zeilen %{invalid_lines} konnten nicht als regulärer Ausdruck gelesen werden.
         regex_match_failed: stimmt nicht mit dem regulären Ausdruck %{expression} überein.
         smaller_than_or_equal_to_max_length: muss kleiner als oder gleich der maximalen Länge sein.
+        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: verstößt gegen die SSRF-Richtlinien dieser OpenProject Instanz.
         status_transition_invalid: ist ungültig, da kein valider Übergang vom alten zum neuen Status für die aktuelle Rolle des Nutzers existiert.
         system_wide_non_working_day_exists: widerspricht einem systemweiten Nicht-Arbeitstag für dieses Datum.
@@ -998,6 +1018,12 @@ de:
       ai/text_transform_action:
         one: Text-Bearbeitung
         other: Text-Bearbeitungen
+      ai/text_transform_run:
+        one: Text transform run
+        other: Text transform runs
+      ai/text_transform_run_event:
+        one: Text transform run event
+        other: Text transform run events
       announcement:
         one: Ankündigung
         other: Ankündigungen
@@ -1374,7 +1400,12 @@ de:
     banners:
       environment_configured_readonly: Diese Werte werden über Umgebungsvariablen konfiguriert und können hier nicht bearbeitet werden.
     custom_styles:
+      color_groups:
+        base_colors: Base colors
+        main_menu: Main lateral menu
+        top_header_colors: Top header colors
       color_theme: Farbschema
+      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
       color_theme_custom: "(Benutzerdefiniert)"
       colors:
         accent-color: Akzent
@@ -1383,12 +1414,15 @@ de:
         main-menu-bg-selected-background: Hintergrundfarbe des Hauptmenüs bei Auswahl
         primary-button-color: Primäre Schaltfläche
       custom_colors: Benutzerdefinierte Farben
+      edit_color: Edit %{color}
       fonts:
         file_is_invalid: ist keine gültige TTF-Schriftdatei.
         file_too_large: ist zu groß (maximale Größe ist %{count} MB).
       instructions:
         accent-color: Farbe für Links und andere dezent hervorgehobene Elemente.
+        header-bg-color: Default background color of the app header.
         main-menu-bg-color: Hintergrundfarbe des Menüs in der linken Seitenleiste.
+        main-menu-bg-selected-background: Background color of menu items when selected.
         primary-button-color: Starke Akzentfarbe, die für die wichtigste Schaltfläche auf einem Bildschirm verwendet wird.
       manage_colors: Farbauswahloptionen bearbeiten
       tab_branding: Branding
@@ -2453,6 +2487,9 @@ de:
       min_max:
         all: 0 heißt keine Beschränkung
         project: 0 heißt keine Beschränkung
+      min_max_value:
+        all: Leave blank for no restriction
+        project: Leave blank for no restriction
       multi_select:
         all: Ermöglicht dem Benutzer, diesem benutzerdefinierten Feld mehrere Werte zuzuweisen.
         project: Ermöglicht dem Benutzer, diesem benutzerdefinierten Feld mehrere Werte zuzuweisen.
@@ -3662,7 +3699,6 @@ de:
   label_message_new: Neues Thema
   label_message_plural: Forenbeiträge
   label_message_posted: Forenbeitrag hinzugefügt
-  label_min_max_length: Länge (Min. - Max.)
   label_minute_plural: Minuten
   label_missing_api_access_key: Fehlender API Zugriffsschlüssel
   label_missing_feeds_access_key: Fehlender RSS Zugriffsschlüssel
@@ -4567,6 +4603,7 @@ de:
   notice_account_already_activated: Dieses Benutzerkonto wurde bereits aktiviert.
   notice_account_invalid_credentials: Benutzer oder Kennwort ist ungültig.
   notice_account_invalid_credentials_or_blocked: Benutzer oder Kennwort ist ungültig oder der Account wurde wegen mehrfacher Falscheingabe temporär gesperrt, in diesem Fall wird er in Kürze automatisch wieder freigeschaltet.
+  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
   notice_account_invalid_token: Ungültiger Aktivierungs-Token
   notice_account_lost_email_sent: Eine E-Mail mit Anweisungen, wie ein neues Kennwort gewählt wird, wurde Ihnen zugeschickt.
   notice_account_new_password_forced: Ein neues Passwort muss gesetzt werden.
@@ -5495,6 +5532,12 @@ de:
   roles:
     edit:
       default_for_new_projects_warning: 'Diese Rolle ist als Standardrolle für diejenigen Benutzer konfiguriert, die ein Projekt erstellen und keine Administratoren sind. Entfernen Sie die folgenden Berechtigungen nicht, sonst können die Projekt-Ersteller die Einrichtung ihrer neu erstellten Projekte nicht abschließen:'
+    index:
+      filter_label: Search roles
+      types:
+        all: All roles
+        global: Global roles
+        project: Project roles
     permissions:
       section_check_all_label: Alle %{module} Berechtigungen zuweisen
       section_uncheck_all_label: Alle %{module} Berechtigungen zuweisen
@@ -6400,6 +6443,15 @@ de:
         row_actions: Weitere Aktionen
         tab: Form
         untitled_group: Unbenannte Gruppe
+      overview:
+        configuration_mode: Configuration mode
+        dependents: Dependent types and variants
+        mode:
+          always_manual: Always manual
+          inheriting_from_html: Inheriting from %{source_name}
+          manual: Manually configured
+        settings: Settings
+        tab: Overview
       project_attributes:
         actions:
           label_disable_all: Alle deaktivieren
@@ -6930,6 +6982,13 @@ de:
       confirm_deletion: Ich bestätige, dass die ausgewählten Arbeitspakete und alle zugehörigen Daten gelöscht werden.
       confirm_descendants_deletion: Ich bestätige, dass alle oben aufgeführten Unteraufgaben ebenfalls gelöscht werden.
       cross_project_warning_html: 'Diese Arbeitspakete sind über mehrere Projekte verteilt: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
+        self_only_label: Delete just the selected work packages
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete the selected work packages and their descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete und alle zugehörigen Daten löschen möchten?
       description_with_all_descendants: Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete und alle deren untergeordneten Elemente löschen möchten?
       description_with_descendants: Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete und alle folgenden untergeordneten Elemente löschen möchten?
@@ -6994,6 +7053,13 @@ de:
       confirm_deletion: Ich bestätige, dass die ausgewählten Arbeitspakete und alle zugehörigen Daten gelöscht werden.
       confirm_descendants_deletion: Ich bestätige, dass alle oben aufgeführten Unteraufgaben ebenfalls gelöscht werden.
       cross_project_warning_html: 'Die zur Löschung vorgesehenen Arbeitspakete stammen aus folgenden Projekten: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: This work package has descendants. Do you want to delete them as well?
+        self_only_label: Delete just this work package
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete this work package and descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: Möchten Sie "%{name}" wirklich löschen?
       heading: Dieses Arbeitspaket unwiderruflich löschen?
       hidden_descendants_only_warning:

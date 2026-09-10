@@ -66,6 +66,8 @@ it:
 
       '
     login_with_auth_provider: o accedi con il tuo account esistente
+    omniauth_direct_login_continue: Continue to sign in
+    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: Accedi per attivare il tuo account.
     signup_title: Crea un account in %{app_title}
     signup_with_external_account: Registrati con un account esterno
@@ -83,6 +85,21 @@ it:
         prompt: Prompt
         types: Work package types
         usage_scope: Scope
+      ai/text_transform_run:
+        action: Action
+        cancel_requested: Cancel requested
+        error_message: Error message
+        finished_at: Finished at
+        input: Input
+        status: Status
+        system_prompt: System prompt
+        user: User
+        uuid: UUID
+      ai/text_transform_run_event:
+        kind: Kind
+        payload: Payload
+        run: Run
+        seq: Sequence number
       announcements:
         show_until: Visualizza fino a
       attachment:
@@ -125,7 +142,9 @@ it:
         is_for_all: Per tutti i progetti
         is_required: Richiesto
         max_length: Lunghezza massima
+        max_value: Maximum value
         min_length: Lunghezza minima
+        min_value: Minimum value
         multi_value: Consenti selezione multipla
         possible_values: Valori possibili
         regexp: Espressione regolare
@@ -571,6 +590,7 @@ it:
         regex_list_invalid: Le righe %{invalid_lines} non possono essere analizzate come espressione regolare.
         regex_match_failed: non corrisponde all'espressione regolare %{expression}.
         smaller_than_or_equal_to_max_length: deve essere minore o uguale alla lunghezza massima.
+        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: viola i criteri SSRF di questa istanza di OpenProject.
         status_transition_invalid: non è valido perché non esiste una transizione valida dal vecchio al nuovo stato per i ruoli dell'utente corrente.
         system_wide_non_working_day_exists: È in conflitto con un giorno non lavorativo già definito a livello di sistema per questa data.
@@ -1002,6 +1022,12 @@ it:
       ai/text_transform_action:
         one: Text transform action
         other: Text transform actions
+      ai/text_transform_run:
+        one: Text transform run
+        other: Text transform runs
+      ai/text_transform_run_event:
+        one: Text transform run event
+        other: Text transform run events
       announcement:
         one: Annuncio
         other: Annunci
@@ -1378,7 +1404,12 @@ it:
     banners:
       environment_configured_readonly: Questi valori sono configurati tramite variabili ambiente e non possono essere modificati qui.
     custom_styles:
+      color_groups:
+        base_colors: Base colors
+        main_menu: Main lateral menu
+        top_header_colors: Top header colors
       color_theme: Tema a colori
+      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
       color_theme_custom: "(Personalizzato)"
       colors:
         accent-color: Accento
@@ -1387,12 +1418,15 @@ it:
         main-menu-bg-selected-background: Menu principale quando selezionato
         primary-button-color: Pulsante principale
       custom_colors: Colori personalizzati
+      edit_color: Edit %{color}
       fonts:
         file_is_invalid: non è un file font TTF valido.
         file_too_large: è troppo grande (la dimensione massima è %{count} MB).
       instructions:
         accent-color: Colore per i link e altri elementi ben evidenziati.
+        header-bg-color: Default background color of the app header.
         main-menu-bg-color: Colore di sfondo del menu a sinistra.
+        main-menu-bg-selected-background: Background color of menu items when selected.
         primary-button-color: Colore forte, utilizzato per far risaltare il pulsante principale sullo schermo.
       manage_colors: Modifica opzioni di selezione del colore
       tab_branding: Branding
@@ -2457,6 +2491,9 @@ it:
       min_max:
         all: 0 significa nessuna restrizione
         project: 0 significa nessuna restrizione
+      min_max_value:
+        all: Leave blank for no restriction
+        project: Leave blank for no restriction
       multi_select:
         all: Consente all'utente di assegnare più valori a questo campo personalizzato.
         project: Consente all'utente di assegnare più valori a questo attributo.
@@ -3666,7 +3703,6 @@ it:
   label_message_new: Nuovo messaggio
   label_message_plural: Messaggi
   label_message_posted: Messaggio aggiunto
-  label_min_max_length: Lunghezza Min - Max
   label_minute_plural: minuti
   label_missing_api_access_key: Chiave di accesso alle API mancante
   label_missing_feeds_access_key: Chiave di accesso agli RSS mancante
@@ -4571,6 +4607,7 @@ it:
   notice_account_already_activated: L'account è già stato attivato.
   notice_account_invalid_credentials: Utente o password non validi
   notice_account_invalid_credentials_or_blocked: Utente o password non validi oppure l'account è bloccato a causa di molteplici tentativi di accesso non riusciti. Se così è, sarà sbloccato a breve automaticamente.
+  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
   notice_account_invalid_token: Token di attivazione non valido
   notice_account_lost_email_sent: Un'email con le istruzioni per scegliere una nuova password ti è stata inviata.
   notice_account_new_password_forced: Viene richiesta una nuova password.
@@ -5495,6 +5532,12 @@ it:
   roles:
     edit:
       default_for_new_projects_warning: 'Questo ruolo è configurato come ruolo predefinito assegnato agli utenti non amministratori che creano un progetto. Non rimuovere le seguenti autorizzazioni, altrimenti i creatori di progetto non potranno completare la configurazione dei progetti appena creati:'
+    index:
+      filter_label: Search roles
+      types:
+        all: All roles
+        global: Global roles
+        project: Project roles
     permissions:
       section_check_all_label: Assegna tutti i permessi di %{module}
       section_uncheck_all_label: Annulla l'assegnazione di tutti i permessi di %{module}
@@ -6398,6 +6441,15 @@ it:
         row_actions: Azioni sulle righe
         tab: Form
         untitled_group: Gruppo senza titolo
+      overview:
+        configuration_mode: Configuration mode
+        dependents: Dependent types and variants
+        mode:
+          always_manual: Always manual
+          inheriting_from_html: Inheriting from %{source_name}
+          manual: Manually configured
+        settings: Settings
+        tab: Overview
       project_attributes:
         actions:
           label_disable_all: Disabilita tutto
@@ -6930,6 +6982,13 @@ it:
       confirm_deletion: Confermo che le macro-attività selezionate e tutti i dati associati verranno eliminati.
       confirm_descendants_deletion: Confermo anche che tutti i discendenti sopra elencati saranno cancellati.
       cross_project_warning_html: 'Queste macro-attività comprendono più progetti: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
+        self_only_label: Delete just the selected work packages
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete the selected work packages and their descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: Vuoi davvero eliminare le macro-attività selezionate e tutti i dati associati?
       description_with_all_descendants: Vuoi davvero eliminare le macro-attività selezionate e tutti i loro discendenti?
       description_with_descendants: Vuoi davvero eliminare le macro-attività selezionate e tutti i seguenti discendenti?
@@ -6994,6 +7053,13 @@ it:
       confirm_deletion: Confermo che la macro-attività e tutti i dati associati verranno eliminati.
       confirm_descendants_deletion: Confermo anche che tutti i discendenti sopra elencati saranno cancellati.
       cross_project_warning_html: 'Le macro-attività dei seguenti progetti saranno eliminate: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: This work package has descendants. Do you want to delete them as well?
+        self_only_label: Delete just this work package
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete this work package and descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: Vuoi davvero eliminare "%{name}"?
       heading: Eliminare definitivamente questa macro-attività?
       hidden_descendants_only_warning:

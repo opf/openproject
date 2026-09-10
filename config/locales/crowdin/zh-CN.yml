@@ -66,6 +66,8 @@ zh-CN:
 
       '
     login_with_auth_provider: 或使用您的现有帐户登录
+    omniauth_direct_login_continue: Continue to sign in
+    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: 请登录以激活您的帐户。
     signup_title: 在 %{app_title} 中创建帐户
     signup_with_external_account: 使用外部帐户注册
@@ -83,6 +85,21 @@ zh-CN:
         prompt: 提示
         types: 工作包类型
         usage_scope: 范围
+      ai/text_transform_run:
+        action: Action
+        cancel_requested: Cancel requested
+        error_message: Error message
+        finished_at: Finished at
+        input: Input
+        status: Status
+        system_prompt: System prompt
+        user: User
+        uuid: UUID
+      ai/text_transform_run_event:
+        kind: Kind
+        payload: Payload
+        run: Run
+        seq: Sequence number
       announcements:
         show_until: 显示截止日期
       attachment:
@@ -125,7 +142,9 @@ zh-CN:
         is_for_all: 适用于所有项目
         is_required: 必填
         max_length: 最大长度
+        max_value: Maximum value
         min_length: 最小长度
+        min_value: Minimum value
         multi_value: 允许多选
         possible_values: 可能的值
         regexp: 正则表达式
@@ -571,6 +590,7 @@ zh-CN:
         regex_list_invalid: 行 %{invalid_lines} 无法解析为正则表达式。
         regex_match_failed: 与正则表达式 %{expression}不匹配。
         smaller_than_or_equal_to_max_length: 必须小于或等于最大长度。
+        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: 违反了此 OpenProject 实例的 SSRF 政策。
         status_transition_invalid: 无效，因为当前用户的角色不存在从旧状态到新状态的有效过渡。
         system_wide_non_working_day_exists: 与此日期现有的系统范围非工作日冲突。
@@ -993,6 +1013,10 @@ zh-CN:
         other: 操作
       ai/text_transform_action:
         other: 文本转换操作
+      ai/text_transform_run:
+        other: Text transform runs
+      ai/text_transform_run_event:
+        other: Text transform run events
       announcement:
         other: 公告
       anonymous_user:
@@ -1268,7 +1292,12 @@ zh-CN:
     banners:
       environment_configured_readonly: 这些值通过环境变量配置，无法在此处编辑。
     custom_styles:
+      color_groups:
+        base_colors: Base colors
+        main_menu: Main lateral menu
+        top_header_colors: Top header colors
       color_theme: 主题颜色
+      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
       color_theme_custom: "（自定义）"
       colors:
         accent-color: 强调色
@@ -1277,12 +1306,15 @@ zh-CN:
         main-menu-bg-selected-background: 选择时的主菜单
         primary-button-color: 主按钮色
       custom_colors: 自定义颜色
+      edit_color: Edit %{color}
       fonts:
         file_is_invalid: 不是有效的 TTF 字体文件。
         file_too_large: 太大（大小上限为 %{count} MB）。
       instructions:
         accent-color: 链接和其他适当突出元素的颜色。
+        header-bg-color: Default background color of the app header.
         main-menu-bg-color: 左菜单的背景色。
+        main-menu-bg-selected-background: Background color of menu items when selected.
         primary-button-color: 强烈的强调色，通常用于屏幕上最重要的按钮。
       manage_colors: 编辑颜色选择选项
       tab_branding: 品牌
@@ -2337,6 +2369,9 @@ zh-CN:
       min_max:
         all: 0 表示无限制
         project: 0 表示无限制
+      min_max_value:
+        all: Leave blank for no restriction
+        project: Leave blank for no restriction
       multi_select:
         all: 允许用户为此自定义字段指定多个值。
         project: 允许用户为此特性指定多个值。
@@ -3523,7 +3558,6 @@ zh-CN:
   label_message_new: 新消息
   label_message_plural: 消息
   label_message_posted: 添加消息
-  label_min_max_length: 最小 - 最大长度
   label_minute_plural: 分钟
   label_missing_api_access_key: 失效的 API 访问键
   label_missing_feeds_access_key: 缺少一个 RSS 访问键
@@ -4416,6 +4450,7 @@ zh-CN:
   notice_account_already_activated: 已激活该帐户。
   notice_account_invalid_credentials: 无效的用户名或密码
   notice_account_invalid_credentials_or_blocked: 无效的用户或密码或帐户由于多个失败的登录尝试被阻止。如果是这样，它将自动在短时间内解除。
+  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
   notice_account_invalid_token: 无效的激活标记
   notice_account_lost_email_sent: 一个用来重置密码的电子邮件已经发送给你。
   notice_account_new_password_forced: 需要新的密码。
@@ -5327,6 +5362,12 @@ zh-CN:
   roles:
     edit:
       default_for_new_projects_warning: 此角色被配置为创建项目的非管理员用户所具有的默认角色。请勿移除以下权限，否则项目创建者将无法完成新建项目的设置：
+    index:
+      filter_label: Search roles
+      types:
+        all: All roles
+        global: Global roles
+        project: Project roles
     permissions:
       section_check_all_label: 指定所有 %{module} 权限
       section_uncheck_all_label: 取消指定所有 %{module} 权限
@@ -5431,7 +5472,7 @@ zh-CN:
   setting_default_language: 默认语言
   setting_default_projects_modules: 新项目的默认启用模块
   setting_default_projects_public: 新项目默认公开
-  setting_default_projects_wiki: Enable wiki functionality for new projects by default
+  setting_default_projects_wiki: 默认为新项目启用 wiki 功能
   setting_diff_max_lines_displayed: 最大差异显示行数
   setting_disable_password_login: 禁用密码验证
   setting_display_subprojects_work_packages: 默认在主项目上显示子项目工作包
@@ -6234,6 +6275,15 @@ zh-CN:
         row_actions: 行操作
         tab: Form
         untitled_group: 无标题群组
+      overview:
+        configuration_mode: Configuration mode
+        dependents: Dependent types and variants
+        mode:
+          always_manual: Always manual
+          inheriting_from_html: Inheriting from %{source_name}
+          manual: Manually configured
+        settings: Settings
+        tab: Overview
       project_attributes:
         actions:
           label_disable_all: 全部禁用
@@ -6760,6 +6810,13 @@ zh-CN:
       confirm_deletion: 我确认所选工作包和所有相关数据都将被删除。
       confirm_descendants_deletion: 我确认上述所有后代也将被删除。
       cross_project_warning_html: 这些工作包跨越多个项目：%{projects}
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
+        self_only_label: Delete just the selected work packages
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete the selected work packages and their descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: 确定要删除所选工作包和所有相关数据吗？
       description_with_all_descendants: 确定要删除所选工作包及其所有后代吗？
       description_with_descendants: 确定要删除所选工作包和以下所有后代吗？
@@ -6820,6 +6877,13 @@ zh-CN:
       confirm_deletion: 我确认此工作包和所有相关数据都将被删除。
       confirm_descendants_deletion: 我确认上述所有后代也将被删除。
       cross_project_warning_html: 将删除以下项目中的工作包：%{projects}
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: This work package has descendants. Do you want to delete them as well?
+        self_only_label: Delete just this work package
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete this work package and descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: 确定要删除“%{name}”吗？
       heading: 是否永久删除此工作包？
       hidden_descendants_only_warning:

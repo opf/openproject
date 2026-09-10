@@ -31,61 +31,51 @@
 module ::TypesHelper
   include CustomFieldsHelper
 
+  SETTINGS_TAB = "settings"
+
   # rubocop:disable Rails/HelperInstanceVariable
-  # The projects tab is dropped from a project: a variant it owns is only ever used there.
   def types_tabs # rubocop:disable Metrics/AbcSize
-    variant_args = type_variant_tab_args
+    args = type_variant_tab_args
 
-    tabs = [
-      {
-        name: "details",
-        path: edit_type_details_path(**variant_args),
-        label: I18n.t("types.edit.details.tab")
-      },
-      {
-        name: "defaults",
-        path: edit_type_defaults_path(**variant_args),
-        label: I18n.t("types.edit.defaults.tab")
-      },
+    [
+      settings_tab,
+      type_tab("details", edit_type_details_path(**args), aspect: nil),
+      type_tab("defaults", edit_type_defaults_path(**args), aspect: TypeVariant::DEFAULTS),
       variants_tab,
-      {
-        name: "form_configuration",
-        path: edit_type_form_configuration_path(**variant_args),
-        label: I18n.t("types.edit.form_configuration.tab")
-      },
-      {
-        name: "workflow",
-        path: edit_type_workflow_path(**variant_args),
-        label: I18n.t("types.edit.workflow.tab")
-      },
-      {
-        name: "project_attributes",
-        path: edit_type_project_attributes_path(**variant_args),
-        label: I18n.t("types.edit.project_attributes.tab")
-      },
-      {
-        name: "projects",
-        path: (edit_type_projects_path(**variant_args) if projects_tab?),
-        label: I18n.t("types.edit.projects.tab")
-      },
-      {
-        name: "export_configuration",
-        path: edit_type_pdf_export_template_index_path(**variant_args),
-        label: I18n.t("types.edit.export_configuration.tab"),
-        view_component: WorkPackageTypes::ExportConfigurationComponent
-      }
+      type_tab("form_configuration", edit_type_form_configuration_path(**args),
+               aspect: TypeVariant::FORM_CONFIGURATION),
+      type_tab("workflow", edit_type_workflow_path(**args), aspect: TypeVariant::WORKFLOWS),
+      type_tab("project_attributes", edit_type_project_attributes_path(**args),
+               aspect: TypeVariant::PROJECT_ATTRIBUTES),
+      projects_tab,
+      type_tab("export_configuration", edit_type_pdf_export_template_index_path(**args),
+               aspect: TypeVariant::PDF_EXPORT,
+               view_component: WorkPackageTypes::ExportConfigurationComponent)
     ].compact
+  end
 
-    tabs.select { |tab| tab[:path] }
+  def type_tab(name, path, aspect:, label: I18n.t("types.edit.#{name}.tab"), **extra)
+    { name:, path:, label:, aspect:, **extra }
   end
 
   def type_variant_tab_args
     @variant&.path_args || { type_id: @type.id }
   end
 
+  def settings_tab
+    return unless OpenProject::FeatureDecisions.type_variants_active?
+
+    type_tab(SETTINGS_TAB, type_settings_path(**type_variant_tab_args),
+             aspect: nil, label: I18n.t("types.edit.overview.tab"))
+  end
+
   # A variant a project owns may only ever be used there, an administrator included, so which
   # projects use it is not a question. Mirrors Wizard::Steps.available_for.
-  def projects_tab? = variant_scope_project.nil? && !@variant&.project_owned?
+  def projects_tab
+    return if variant_scope_project || @variant&.project_owned?
+
+    type_tab("projects", edit_type_projects_path(**type_variant_tab_args), aspect: nil)
+  end
 
   def variants_tab
     return unless OpenProject::FeatureDecisions.type_variants_active?
@@ -93,11 +83,8 @@ module ::TypesHelper
     # This lists every project's variants of the type, so it is administration's view of them.
     return if variant_scope_project
 
-    {
-      name: "variants",
-      path: type_variants_path(type_id: @type.id),
-      label: TypeVariant.model_name.human(count: 2)
-    }
+    type_tab("variants", type_variants_path(type_id: @type.id),
+             aspect: nil, label: TypeVariant.model_name.human(count: 2))
   end
   # rubocop:enable Rails/HelperInstanceVariable
 
@@ -170,12 +157,12 @@ module ::TypesHelper
     }
   end
 
-  def active_group_attributes_map(group, available, inactive)
+  def active_group_attributes_map(group, available, inactive, required_keys: [])
     return nil unless group.group_type == :attribute
 
     group.attributes
          .select { |key| inactive.delete(key) }
-         .map! { |key| attr_form_map(key, available[key]) }
+         .map! { |key| attr_form_map(key, available[key], required_keys:) }
   end
 
   def query_to_query_props(group)
@@ -200,13 +187,15 @@ module ::TypesHelper
   # Using the available attributes from +work_package_attributes+,
   # determines which attributes are not used
   def get_active_groups(variant, available, inactive)
+    required_keys = variant.required_attributes.map(&:to_s)
+
     variant.attribute_groups.map do |group|
       {
         key: group.key,
         type: group.group_type,
         name: group.translated_key,
         element_key: exclusion_element_key(group),
-        attributes: active_group_attributes_map(group, available, inactive),
+        attributes: active_group_attributes_map(group, available, inactive, required_keys:),
         query: query_to_query_props(group)
       }
     end
@@ -220,11 +209,12 @@ module ::TypesHelper
     group.query_attribute_name.to_s
   end
 
-  def attr_form_map(key, represented)
+  def attr_form_map(key, represented, required_keys: [])
     {
       key:,
       is_cf: CustomField.custom_field_attribute?(key),
-      is_required: represented[:required] && !represented[:has_default],
+      required_globally: represented[:required].present?,
+      required_for_variant: required_keys.include?(key.to_s),
       translation: TypeVariant.translated_attribute_name(key, represented),
       field_format_label: field_format_label(represented)
     }

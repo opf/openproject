@@ -82,7 +82,7 @@ RSpec.describe "Work Package boards spec",
 
     # Open the details page with the info icon
     card = board_page.card_for(wp)
-    split_view = card.open_details_view(primerized: true)
+    split_view = card.open_details_view
     split_view.expect_subject
 
     expect(page).to have_current_path /details\/#{wp.id}/
@@ -139,7 +139,7 @@ RSpec.describe "Work Package boards spec",
     expect(wp.subject).to eq "Task 1"
     # Open the details page with the info icon
     card = board_page.card_for(wp)
-    split_view = card.open_details_view(primerized: true)
+    split_view = card.open_details_view
     split_view.expect_subject
     split_view.switch_to_tab tab: :relations
     expect(page).to have_current_path /details\/#{wp.id}\/relations/
@@ -170,7 +170,7 @@ RSpec.describe "Work Package boards spec",
     expect(wp.subject).to eq "Task 1"
     # Open the details page with the info icon
     card = board_page.card_for(wp)
-    split_view = card.open_details_view(primerized: true)
+    split_view = card.open_details_view
     split_view.expect_subject
 
     page.driver.refresh
@@ -195,7 +195,7 @@ RSpec.describe "Work Package boards spec",
 
     # Open the details page with the info icon
     card = board_page.card_for(wp)
-    split_view = card.open_details_view(primerized: true)
+    split_view = card.open_details_view
     split_view.expect_subject
 
     # Go to full view of WP

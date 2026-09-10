@@ -183,6 +183,8 @@ The authentication setting controlling who can create projects now includes a no
 
 The page for creating a new two-factor authentication device during an enforced 2FA login has also been updated to the modern Primer-based interface. For more information, see the [two-factor authentication (2FA) documentation](../../system-admin-guide/authentication/two-factor-authentication/).
 
+[Workflow configuration](../../system-admin-guide/manage-work-packages/work-package-types/workflows/) has moved directly into the work package type settings under **Administration → Work packages → Types → Workflows**, bringing type-specific configuration together in one place. The workflow interface has been updated as well: **Default transitions**, **User is author**, and **User is assignee** can now be selected from a dropdown alongside the role selection.
+
 ## Important updates and breaking changes
 
 The Activity tab polling interval can now be configured using the `WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS` setting. Previously, this interval was hardcoded or configurable only through an environment variable.
@@ -235,6 +237,7 @@ Users can also reduce the minimum width of split-screen views to **430 px**, pro
 - Feature: Enable wiki macros in more editors \[[#76758](https://community.openproject.org/wp/76758)\]
 - Feature: Update internal wiki create/edit page with modern UI \[[#77225](https://community.openproject.org/wp/77225)\]
 - Feature: Always show &quot;project wiki&quot; settings menu \[[#78266](https://community.openproject.org/wp/78266)\]
+- Feature: Move workflows as a tab under type edit  \[[#77228](https://community.openproject.org/wp/77228)\]
 - Bugfix: Multiple active sprints coexist with sharing if there was one active sprint in the subproject before sharing was enabled \[[#77498](https://community.openproject.org/wp/77498)\]
 - Bugfix: Variants are indistinguishable from their parent type when choosing a configuration source \[[#78002](https://community.openproject.org/wp/78002)\]
 - Bugfix: Admin user cannot update their own profile from My Account page on BIM instance \[[#78487](https://community.openproject.org/wp/78487)\]
