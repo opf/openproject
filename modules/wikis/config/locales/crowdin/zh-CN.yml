@@ -92,9 +92,9 @@ zh-CN:
         label_oauth_client_id: OAuth 客户端 ID
         replace_oauth_client: 替换 XWiki OAuth 应用程序
       redirect_uri_info_component:
-        description: The redirect URI is generated once the wiki OAuth client is configured.
+        description: 配置好 Wiki OAuth 客户端后，重定向 URI 就会生成。
         label_uri: URI
-        show_redirect_uri: Show redirect URI
+        show_redirect_uri: 显示重定向 URI
       side_panel:
         health_status_component:
           last_check: 上次检查时间：%{datetime}
@@ -116,11 +116,11 @@ zh-CN:
         name_caption: 为您的 Wiki 提供商命名，以便用户可以区分多个 Wiki 平台。
         name_placeholder: XWiki 知识库
         new_provider_html: 有关详情，请阅读我们关于[设置 XWiki 集成](docs_url)的文档。
-        successful_setup: Wiki provider configured successfully!
+        successful_setup: Wiki 提供商配置成功！
         oauth:
           openproject_oauth: OpenProject OAuth
-          redirect_uri: Redirect URI
-          redirect_uri_caption: Copy this value into the Redirect URI field of your XWiki OIDC client registration.
+          redirect_uri: 重定向 URI
+          redirect_uri_caption: 将该值复制进您 XWiki OIDC 客户端注册的重定向 URI 字段中。
         sections:
           general_information: 常规信息
           oauth_configuration: OAuth 配置

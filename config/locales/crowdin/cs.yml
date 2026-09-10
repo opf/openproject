@@ -66,6 +66,8 @@ cs:
 
       '
     login_with_auth_provider: nebo se přihlaste pomocí stávajícího účtu
+    omniauth_direct_login_continue: Continue to sign in
+    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: Prosím přihlaste se pro aktivaci účtu.
     signup_title: Create an account in %{app_title}
     signup_with_external_account: Sign up with an external account
@@ -83,6 +85,21 @@ cs:
         prompt: Prompt
         types: Work package types
         usage_scope: Scope
+      ai/text_transform_run:
+        action: Action
+        cancel_requested: Cancel requested
+        error_message: Error message
+        finished_at: Finished at
+        input: Input
+        status: Status
+        system_prompt: System prompt
+        user: User
+        uuid: UUID
+      ai/text_transform_run_event:
+        kind: Kind
+        payload: Payload
+        run: Run
+        seq: Sequence number
       announcements:
         show_until: Zobrazit do
       attachment:
@@ -127,7 +144,9 @@ cs:
         is_for_all: Pro všechny projekty
         is_required: Požadováno
         max_length: Maximální délka
+        max_value: Maximum value
         min_length: Minimální délka
+        min_value: Minimum value
         multi_value: Povolit multi-select
         possible_values: Možné hodnoty
         regexp: Regulární výraz
@@ -573,6 +592,7 @@ cs:
         regex_list_invalid: Lines %{invalid_lines} could not be parsed as regular expression.
         regex_match_failed: neodpovídá regulárnímu výrazu %{expression}.
         smaller_than_or_equal_to_max_length: musí být menší než nebo rovno maximální délce.
+        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: violates the SSRF policy of this OpenProject instance.
         status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
         system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
@@ -1010,6 +1030,16 @@ cs:
         few: Text transform actions
         many: Text transform actions
         other: Text transform actions
+      ai/text_transform_run:
+        one: Text transform run
+        few: Text transform runs
+        many: Text transform runs
+        other: Text transform runs
+      ai/text_transform_run_event:
+        one: Text transform run event
+        few: Text transform run events
+        many: Text transform run events
+        other: Text transform run events
       announcement:
         one: Announcement
         few: Announcements
@@ -2699,6 +2729,9 @@ cs:
       min_max:
         all: 0 znamená bez omezení
         project: 0 znamená bez omezení
+      min_max_value:
+        all: Leave blank for no restriction
+        project: Leave blank for no restriction
       multi_select:
         all: Allows the user to assign multiple values to this custom field.
         project: Allows the user to assign multiple values to this attribute.
@@ -3960,7 +3993,6 @@ cs:
   label_message_new: Nová zpráva
   label_message_plural: Zprávy
   label_message_posted: Zpráva přidána
-  label_min_max_length: Min - Max délka
   label_minute_plural: minuty
   label_missing_api_access_key: Chybí přístupový klíč API
   label_missing_feeds_access_key: Chybí RSS přístupový klíč
@@ -4888,6 +4920,7 @@ cs:
   notice_account_already_activated: Účet byl již aktivován.
   notice_account_invalid_credentials: Neplatný uživatel nebo heslo
   notice_account_invalid_credentials_or_blocked: Neplatný uživatel nebo heslo nebo účet je zablokován z důvodu několika neúspěšných pokusů o přihlášení. Pokud ano, bude automaticky odblokován za krátkou dobu.
+  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
   notice_account_invalid_token: Neplatný aktivační token
   notice_account_lost_email_sent: Byl vám zaslán email s intrukcemi jak si nastavíte nové heslo.
   notice_account_new_password_forced: Vyžadováno nové heslo.
@@ -6742,6 +6775,15 @@ cs:
         row_actions: Row actions
         tab: Form
         untitled_group: Untitled group
+      overview:
+        configuration_mode: Configuration mode
+        dependents: Dependent types and variants
+        mode:
+          always_manual: Always manual
+          inheriting_from_html: Inheriting from %{source_name}
+          manual: Manually configured
+        settings: Settings
+        tab: Overview
       project_attributes:
         actions:
           label_disable_all: Disable all
@@ -7286,6 +7328,13 @@ cs:
       confirm_deletion: I confirm that the selected work packages and all associated data will be deleted.
       confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
       cross_project_warning_html: 'These work packages span multiple projects: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
+        self_only_label: Delete just the selected work packages
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete the selected work packages and their descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: Are you sure you want to delete the selected work packages and all associated data?
       description_with_all_descendants: Are you sure you want to delete the selected work packages and all of their descendants?
       description_with_descendants: Are you sure you want to delete the selected work packages and all the following descendants?
@@ -7358,6 +7407,13 @@ cs:
       confirm_deletion: I confirm that the work package and all associated data will be deleted.
       confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
       cross_project_warning_html: 'Work packages from the following projects will be deleted: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: This work package has descendants. Do you want to delete them as well?
+        self_only_label: Delete just this work package
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        with_descendants_label: Delete this work package and descendants
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
       description: Are you sure you want to delete "%{name}"?
       heading: Permanently delete this work package?
       hidden_descendants_only_warning:
