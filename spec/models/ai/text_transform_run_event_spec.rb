@@ -54,6 +54,15 @@ RSpec.describe AI::TextTransformRunEvent do
     end
   end
 
+  describe "payload" do
+    it "has string keys before and after reload" do
+      event = create(:ai_text_transform_run_event, payload: { delta: "x", meta: { lang: "de" } })
+
+      expect(event.payload).to eq({ "delta" => "x", "meta" => { "lang" => "de" } })
+      expect(event.reload.payload).to eq(event.payload)
+    end
+  end
+
   describe "append-only behaviour" do
     subject(:event) { create(:ai_text_transform_run_event) }
 

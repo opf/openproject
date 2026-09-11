@@ -55,7 +55,7 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
   it "links a type's header to its settings page" do
     visit types_path
 
-    expect(page).to have_link(bug_type.name, href: edit_type_details_path(type_id: bug_type.id))
+    expect(page).to have_link(bug_type.name, href: type_settings_path(type_id: bug_type.id))
   end
 
   it "links a variant to its settings page, as a type's header links to its own" do
@@ -63,7 +63,7 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
 
     expect(page).to have_link(
       alfa_variant.variant_name,
-      href: edit_type_details_path(type_id: bug_type.id, variant_id: alfa_variant.id)
+      href: type_settings_path(type_id: bug_type.id, variant_id: alfa_variant.id)
     )
   end
 
@@ -112,7 +112,7 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
 
       expect(page).to have_link(
         I18n.t(:button_configure),
-        href: edit_type_details_path(type_id: bug_type.id, variant_id: alfa_variant.id)
+        href: type_settings_path(type_id: bug_type.id, variant_id: alfa_variant.id)
       )
       expect(page).to have_button(I18n.t(:button_delete))
     end

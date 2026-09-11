@@ -1586,7 +1586,12 @@ be:
     banners:
       environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
     custom_styles:
+      color_groups:
+        base_colors: Base colors
+        main_menu: Main lateral menu
+        top_header_colors: Top header colors
       color_theme: Каляровая тэма
+      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
       color_theme_custom: "(Карыстальніцкая)"
       colors:
         accent-color: Акцэнт
@@ -1595,12 +1600,15 @@ be:
         main-menu-bg-selected-background: Галоўнае меню калі выбрана
         primary-button-color: Асноўная кнопка
       custom_colors: Карыстальніцкія колеры
+      edit_color: Edit %{color}
       fonts:
         file_is_invalid: is not a valid TTF font file.
         file_too_large: is too large (maximum size is %{count} MB).
       instructions:
         accent-color: Колер для спасылак і іншых добра вылучаных элементаў.
+        header-bg-color: Default background color of the app header.
         main-menu-bg-color: Left side menu's background color.
+        main-menu-bg-selected-background: Background color of menu items when selected.
         primary-button-color: Моцны колер з акцэнтам, які выкарыстоўваецца для самай важнай кнопкі на экране.
       manage_colors: Рэдагаваць параметры выбару колеру
       tab_branding: Branding
@@ -5818,6 +5826,12 @@ be:
   roles:
     edit:
       default_for_new_projects_warning: 'This role is configured as the default role given to non-admin users who create a project. Do not remove the following permissions, otherwise project creators will be unable to complete the setup of their newly created projects:'
+    index:
+      filter_label: Search roles
+      types:
+        all: All roles
+        global: Global roles
+        project: Project roles
     permissions:
       section_check_all_label: Assign all %{module} permissions
       section_uncheck_all_label: Unassign all %{module} permissions

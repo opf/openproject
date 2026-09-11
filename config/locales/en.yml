@@ -73,6 +73,8 @@ en:
       User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the
       account for you or change the self registration limit for this provider.
     login_with_auth_provider: "or sign in with your existing account"
+    omniauth_direct_login_continue: "Continue to sign in"
+    omniauth_direct_login_redirecting: "Redirecting you to your identity provider…"
     omniauth_login: Please login to activate your account.
     signup_title: "Create an account in %{app_title}"
     signup_with_external_account: "Sign up with an external account"
@@ -4726,6 +4728,7 @@ en:
   notice_account_already_activated: The account has already been activated.
   notice_account_invalid_credentials: "Invalid user or password"
   notice_account_invalid_credentials_or_blocked: "Invalid user or password or the account is blocked due to multiple failed login attempts. If so, it will be unblocked automatically in a short time."
+  notice_account_invalid_credentials_sso_hint: "If your account is set up for single sign-on, please use your identity provider to sign in instead."
   notice_account_invalid_token: Invalid activation token
   notice_account_lost_email_sent: "An email with instructions to choose a new password has been sent to you."
   notice_account_new_password_forced: "A new password is required."
@@ -5678,6 +5681,12 @@ en:
         This role is configured as the default role given to non-admin users who create a project.
         Do not remove the following permissions, otherwise project creators will be unable to complete
         the setup of their newly created projects:
+    index:
+      filter_label: "Search roles"
+      types:
+        all: "All roles"
+        global: "Global roles"
+        project: "Project roles"
     permissions:
       section_check_all_label: "Assign all %{module} permissions"
       section_uncheck_all_label: "Unassign all %{module} permissions"
@@ -6658,6 +6667,15 @@ en:
         row_actions: "Row actions"
         tab: "Form"
         untitled_group: "Untitled group"
+      overview:
+        configuration_mode: "Configuration mode"
+        dependents: "Dependent types and variants"
+        mode:
+          always_manual: "Always manual"
+          inheriting_from_html: "Inheriting from %{source_name}"
+          manual: "Manually configured"
+        settings: "Settings"
+        tab: "Overview"
       project_attributes:
         actions:
           label_disable_all: "Disable all"
@@ -7213,6 +7231,13 @@ en:
       confirm_deletion: "I confirm that the selected work packages and all associated data will be deleted."
       confirm_descendants_deletion: "I confirm that all descendants listed above will also be deleted."
       cross_project_warning_html: "These work packages span multiple projects: %{projects}"
+      descendants_choice:
+        heading: "Delete all descendants too?"
+        question: "You are trying to delete work packages that have descendants. Do you want to delete them as well?"
+        self_only_label: "Delete just the selected work packages"
+        self_only_caption: "This will not delete descendants but will remove hierarchical relations."
+        with_descendants_label: "Delete the selected work packages and their descendants"
+        with_descendants_caption: "This will delete all child work packages visible to you. You will have a chance to review the full list in the next step."
       description: "Are you sure you want to delete the selected work packages and all associated data?"
       description_with_all_descendants: "Are you sure you want to delete the selected work packages and all of their descendants?"
       description_with_descendants: "Are you sure you want to delete the selected work packages and all the following descendants?"
@@ -7292,6 +7317,13 @@ en:
       confirm_deletion: "I confirm that the work package and all associated data will be deleted."
       confirm_descendants_deletion: "I confirm that all descendants listed above will also be deleted."
       cross_project_warning_html: "Work packages from the following projects will be deleted: %{projects}"
+      descendants_choice:
+        heading: "Delete all descendants too?"
+        question: "This work package has descendants. Do you want to delete them as well?"
+        self_only_label: "Delete just this work package"
+        self_only_caption: "This will not delete descendants but will remove hierarchical relations."
+        with_descendants_label: "Delete this work package and descendants"
+        with_descendants_caption: "This will delete all child work packages visible to you. You will have a chance to review the full list in the next step."
       description: 'Are you sure you want to delete "%{name}"?'
       heading: "Permanently delete this work package?"
       hidden_descendants_only_warning:

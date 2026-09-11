@@ -253,6 +253,7 @@ Rails.application.reloader.to_prepare do
                        "projects/settings/work_packages/types": %i[index],
                        "projects/settings/work_packages/types/switches": %i[new create],
                        "projects/settings/work_packages/types/switches/impacts": %i[create],
+                       "work_package_types/settings_tab": %i[index],
                        "work_package_types/variants": %i[destroy menu],
                        "work_package_types/creation_wizard": %i[new create show update],
                        "work_package_types/details_tab": %i[edit update],
@@ -270,6 +271,7 @@ Rails.application.reloader.to_prepare do
                        "work_package_types/configuration_links": %i[dialog confirm switch],
                        "work_package_types/configuration_independence": %i[dialog confirm switch],
                        "work_package_types/configuration_copies": %i[dialog confirm copy],
+                       "work_package_types/configuration_dependents": %i[dialog],
                        "workflows/matrix": %i[show update status_dialog confirm_statuses],
                        "workflows/copies": %i[new],
                        "workflows/copies/from_variants": %i[create],
@@ -469,7 +471,7 @@ Rails.application.reloader.to_prepare do
       wpt.permission :delete_work_packages,
                      {
                        work_packages: :destroy,
-                       "work_packages/bulk": %i[delete_dialog destroy reassign]
+                       "work_packages/bulk": %i[delete_dialog confirm_delete destroy reassign]
                      },
                      permissible_on: :project,
                      require: :member,

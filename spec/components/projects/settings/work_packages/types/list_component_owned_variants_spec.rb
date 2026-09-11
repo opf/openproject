@@ -105,7 +105,7 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
     it "links the name of the variant it owns" do
       expect(page).to have_link(
         "Internal review",
-        href: edit_type_details_path(in_project_id: project, type_id: bug.id, variant_id: ours.id)
+        href: type_settings_path(in_project_id: project, type_id: bug.id, variant_id: ours.id)
       )
     end
 
@@ -121,7 +121,7 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
     it "offers to configure the one it owns" do
       expect(page).to have_link(
         "Edit",
-        href: edit_type_details_path(in_project_id: project, type_id: bug.id, variant_id: ours.id)
+        href: type_settings_path(in_project_id: project, type_id: bug.id, variant_id: ours.id)
       )
     end
 
@@ -169,7 +169,7 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
     it "offers no action on a global variant" do
       expect(page).to have_no_link(
         "Edit",
-        href: edit_type_details_path(in_project_id: project, type_id: bug.id, variant_id: global.id)
+        href: type_settings_path(in_project_id: project, type_id: bug.id, variant_id: global.id)
       )
     end
   end

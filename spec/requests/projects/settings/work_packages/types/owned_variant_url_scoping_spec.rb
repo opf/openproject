@@ -69,6 +69,7 @@ RSpec.describe "The URLs a project's variant screens generate",
   end
 
   {
+    "configuration overview" => :type_settings_path,
     "details" => :edit_type_details_path,
     "defaults" => :edit_type_defaults_path,
     "form configuration" => :edit_type_form_configuration_path,

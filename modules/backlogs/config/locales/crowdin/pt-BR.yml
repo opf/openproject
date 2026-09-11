@@ -119,7 +119,7 @@ pt-BR:
         other: Sprints
         zero: Todos os sprints
       select_panel_title: Selecionar itens
-    blankslate_filtered_title: No work packages match the filter criteria.
+    blankslate_filtered_title: Nenhum pacote de trabalho atende aos critérios de filtragem.
     bucket_component:
       action_menu:
         add_existing_work_package: Adicionar pacote de trabalho existente
@@ -163,7 +163,7 @@ pt-BR:
         other: Mostrar mais %{count} itens
       title: Caixa de entrada
     index_subheader_component:
-      label_search_by_subject: Search work packages by subject
+      label_search_by_subject: Pesquisar pacotes de trabalho por assunto
     label_burndown_chart: Gráfico de burndown
     label_is_done_status: Situação %{status_name} significa pronto
     label_sprint_board: Quadro de sprints

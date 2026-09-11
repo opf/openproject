@@ -1374,7 +1374,12 @@ ca:
     banners:
       environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
     custom_styles:
+      color_groups:
+        base_colors: Base colors
+        main_menu: Main lateral menu
+        top_header_colors: Top header colors
       color_theme: Tema de color
+      color_theme_caption: Use one of the default OpenProject themes or create your own theme with your colors by selecting Custom theme.
       color_theme_custom: "(Personalitzat)"
       colors:
         accent-color: Accent
@@ -1383,12 +1388,15 @@ ca:
         main-menu-bg-selected-background: Menú principal quan es selecciona
         primary-button-color: Botó principal
       custom_colors: Colors personalitzats
+      edit_color: Edit %{color}
       fonts:
         file_is_invalid: is not a valid TTF font file.
         file_too_large: is too large (maximum size is %{count} MB).
       instructions:
         accent-color: Color per a enllaços i altres elements ben destacats.
+        header-bg-color: Default background color of the app header.
         main-menu-bg-color: Color de fons del menú lateral de l'esquerra.
+        main-menu-bg-selected-background: Background color of menu items when selected.
         primary-button-color: Color d'accent fort, utilitzat per al botó més important de la pantalla.
       manage_colors: Edita les opcions de selecció de colors
       tab_branding: Branding
@@ -5483,6 +5491,12 @@ ca:
   roles:
     edit:
       default_for_new_projects_warning: 'This role is configured as the default role given to non-admin users who create a project. Do not remove the following permissions, otherwise project creators will be unable to complete the setup of their newly created projects:'
+    index:
+      filter_label: Search roles
+      types:
+        all: All roles
+        global: Global roles
+        project: Project roles
     permissions:
       section_check_all_label: Assign all %{module} permissions
       section_uncheck_all_label: Unassign all %{module} permissions

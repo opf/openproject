@@ -35,22 +35,13 @@ GIT
       ttfunk (~> 1.7.0)
 
 GIT
-  remote: https://github.com/opf/omniauth
-  revision: 7eb21563ba047ef86d71f099975587b5ec88f9c9
-  ref: 7eb21563ba047ef86d71f099975587b5ec88f9c9
-  specs:
-    omniauth (1.9.2)
-      hashie (>= 3.4.6)
-      rack (>= 1.6.2, < 3)
-
-GIT
   remote: https://github.com/opf/omniauth-openid-connect.git
-  revision: 825d06235b64f6bc872bba709f1c2d48fd5cede4
-  ref: 825d06235b64f6bc872bba709f1c2d48fd5cede4
+  revision: 21f27e8c0bf5b7523bd7c7caddf87dd68de3143a
+  ref: 21f27e8c0bf5b7523bd7c7caddf87dd68de3143a
   specs:
     omniauth-openid-connect (0.5.0)
       addressable (~> 2.5)
-      omniauth (~> 1.6)
+      omniauth (~> 2.1, >= 2.1.4)
       openid_connect (~> 2.2.0)
 
 GIT
@@ -84,13 +75,13 @@ PATH
   remote: modules/auth_plugins
   specs:
     openproject-auth_plugins (1.0.0)
-      omniauth (~> 1.0)
+      omniauth (~> 2.1)
 
 PATH
   remote: modules/auth_saml
   specs:
     openproject-auth_saml (1.0.0)
-      omniauth-saml (~> 1.10.6)
+      omniauth-saml (~> 2.2)
 
 PATH
   remote: modules/avatars
@@ -190,7 +181,6 @@ PATH
   remote: modules/openid_connect
   specs:
     openproject-openid_connect (1.0.0)
-      lobby_boy (~> 0.1.3)
       omniauth-openid_connect-providers (~> 0.1)
       openproject-auth_plugins
 
@@ -479,9 +469,9 @@ GEM
       addressable
       ssrf_filter (~> 1.5)
     csv (3.3.6)
-    cuprite (0.17)
+    cuprite (0.18)
       capybara (~> 3.0)
-      ferrum (~> 0.17.0)
+      ferrum (~> 0.18.0)
     daemons (1.4.1)
     dalli (5.1.0)
       logger
@@ -588,11 +578,10 @@ GEM
       faraday (>= 1, < 3)
     faraday-net_http (3.4.4)
       net-http (~> 0.5)
-    ferrum (0.17.2)
+    ferrum (0.18.0)
       addressable (~> 2.5)
       base64 (~> 0.2)
       concurrent-ruby (~> 1.1)
-      webrick (~> 1.7)
       websocket-driver (~> 0.7)
     ffi (1.17.4-aarch64-linux-gnu)
     ffi (1.17.4-aarch64-linux-musl)
@@ -795,10 +784,6 @@ GEM
       logger
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
-    lobby_boy (0.1.3)
-      omniauth (~> 1.1)
-      omniauth-openid-connect (>= 0.2.1)
-      rails (>= 3.2.21)
     logger (1.7.0)
     lograge (0.15.0)
       actionpack (>= 4)
@@ -829,7 +814,7 @@ GEM
     marcel (1.0.4)
     markly (0.16.0)
     matrix (0.4.3)
-    mcp (1.1.0)
+    mcp (1.3.0)
       json_schemer (>= 2.4)
     messagebird-rest (5.0.0)
       jwt (< 4)
@@ -882,8 +867,16 @@ GEM
       racc (~> 1.4)
     okcomputer (1.19.2)
       benchmark
-    omniauth-saml (1.10.6)
-      omniauth (~> 1.3, >= 1.3.2)
+    omniauth (2.1.4)
+      hashie (>= 3.4.6)
+      logger
+      rack (>= 2.2.3)
+      rack-protection
+    omniauth-rails_csrf_protection (2.0.1)
+      actionpack (>= 4.2)
+      omniauth (~> 2.0)
+    omniauth-saml (2.2.5)
+      omniauth (~> 2.1)
       ruby-saml (~> 1.18)
     op-clamav-client (3.4.2)
     open4 (1.3.4)
@@ -1333,8 +1326,8 @@ GEM
     rspec-support (3.13.7)
     rspec-wait (1.0.2)
       rspec (>= 3.4)
-    rubocop (1.89.0)
-      json (~> 2.3)
+    rubocop (1.90.0)
+      json (>= 2.3)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.1.0)
       parallel (>= 1.10)
@@ -1490,7 +1483,7 @@ GEM
       public_suffix
     vcr (6.4.0)
     vernier (1.10.1)
-    view_component (4.12.0)
+    view_component (4.15.0)
       actionview (>= 7.1.0)
       activesupport (>= 7.1.0)
       concurrent-ruby (~> 1)
@@ -1598,7 +1591,7 @@ DEPENDENCIES
   costs!
   counter_culture (~> 3.14)
   csv (~> 3.3)
-  cuprite (~> 0.17.0)
+  cuprite (~> 0.18.0)
   daemons
   dalli (~> 5.1.0)
   date_validator (~> 0.12.0)
@@ -1649,7 +1642,7 @@ DEPENDENCIES
   mail (= 2.9.1)
   markly (~> 0.15)
   matrix (~> 0.4.3)
-  mcp (~> 1.1.0)
+  mcp (~> 1.3.0)
   md_to_pdf!
   meta-tags (~> 2.23.0)
   mini_magick (~> 5.3.3)
@@ -1659,9 +1652,10 @@ DEPENDENCIES
   net-ldap (~> 0.20.0)
   nokogiri (~> 1.19.4)
   okcomputer (~> 1.19.1)
-  omniauth!
+  omniauth (~> 2.1)
   omniauth-openid-connect!
   omniauth-openid_connect-providers!
+  omniauth-rails_csrf_protection (~> 2.0)
   op-clamav-client (~> 3.4)
   openproject-auth_plugins!
   openproject-auth_saml!
@@ -1777,7 +1771,7 @@ DEPENDENCIES
   validate_url
   vcr
   vernier
-  view_component (~> 4.12.0)
+  view_component (~> 4.15.0)
   warden (~> 1.2)
   warden-basic_auth (~> 0.2.1)
   webmock (~> 3.26)
@@ -1841,6 +1835,7 @@ CHECKSUMS
   browser (6.2.0) sha256=281d5295788825c9396427c292c2d2be0a5c91875c93c390fde6e5d61a5ace2d
   budgets (1.0.0)
   builder (3.3.0) sha256=497918d2f9dca528fdca4b88d84e4ef4387256d984b8154e9d5d3fe5a9c8835f
+  bundler (4.0.20) sha256=7978a8ac648767f5e635bc522445b79e80a52b907a39a36c2d8085ed6bc762ae
   byebug (13.0.0) sha256=d2263efe751941ca520fa29744b71972d39cbc41839496706f5d9b22e92ae05d
   capybara (3.40.0) sha256=42dba720578ea1ca65fd7a41d163dd368502c191804558f6e0f71b391054aeef
   capybara-screenshot (1.0.27) sha256=afa1896cc23df77be1774e8d3b3ce3953bf060aeaa04ff87607b5daf689174f2
@@ -1873,7 +1868,7 @@ CHECKSUMS
   crass (1.0.7) sha256=94868719948664c89ddcaf0a37c65048413dfcb1c869470a5f7a7ceb5390b295
   css_parser (3.0.0) sha256=eaf0e9283fd581d06e815235ceef4f0910c0b394c606355dbc69f93e84443885
   csv (3.3.6) sha256=aba61e7e507a66f03d45cb1f3c4b6359861c3504038b422962875dce099e4456
-  cuprite (0.17) sha256=b140d5dc70d08b97ad54bcf45cd95d0bd430e291e9dffe76fff851fddd57c12b
+  cuprite (0.18) sha256=32c3203a492f25dbd5a3525716ae09610bcef8936ddd32ff39f34477a98062b2
   daemons (1.4.1) sha256=8fc76d76faec669feb5e455d72f35bd4c46dc6735e28c420afb822fac1fa9a1d
   dalli (5.1.0) sha256=a387fd8068777329aee25d2cb65ca636787028c4fbaf041156ef45cd5d1e03a3
   date (3.5.1) sha256=750d06384d7b9c15d562c76291407d89e368dda4d4fff957eb94962d325a0dc0
@@ -1916,7 +1911,7 @@ CHECKSUMS
   faraday (2.14.3) sha256=1882247e6766615c8220b4392bf1d27f6ebb63d8e28267587cef1fb0bf37f278
   faraday-follow_redirects (0.5.0) sha256=5cde93c894b30943a5d2b93c2fe9284216a6b756f7af406a1e55f211d97d10ad
   faraday-net_http (3.4.4) sha256=0e78af151747ed1b00f33e25973b4bc220d7f16c00c39676817c8b12331eb588
-  ferrum (0.17.2) sha256=2c2540a850b211a46f4d81de21bfd62048f507e4c327d1807225c3823c17e6ee
+  ferrum (0.18.0) sha256=4cb8be16e352fc1d75f087e9214b34ec1b93ba932410c730a4724909ca89d7c6
   ffi (1.17.4-aarch64-linux-gnu) sha256=b208f06f91ffd8f5e1193da3cae3d2ccfc27fc36fba577baf698d26d91c080df
   ffi (1.17.4-aarch64-linux-musl) sha256=9286b7a615f2676245283aef0a0a3b475ae3aae2bb5448baace630bb77b91f39
   ffi (1.17.4-arm-linux-gnu) sha256=d6dbddf7cb77bf955411af5f187a65b8cd378cb003c15c05697f5feee1cb1564
@@ -1994,7 +1989,6 @@ CHECKSUMS
   letter_opener_web (3.0.0) sha256=3f391efe0e8b9b24becfab5537dfb17a5cf5eb532038f947daab58cb4b749860
   lint_roller (1.1.0) sha256=2c0c845b632a7d172cb849cc90c1bce937a28c5c8ccccb50dfd46a485003cc87
   listen (3.10.0) sha256=c6e182db62143aeccc2e1960033bebe7445309c7272061979bb098d03760c9d2
-  lobby_boy (0.1.3) sha256=9460bb3c052aef158eb3f137b8f7679ca756b8e2983d140dbdc0caa85c018172
   logger (1.7.0) sha256=196edec7cc44b66cfb40f9755ce11b392f21f7967696af15d274dde7edff0203
   lograge (0.15.0) sha256=34072c1f50b95019dc185137f5fec1a6759f5a1b6d55c28163d0cba204e6df16
   loofah (2.25.2) sha256=2007f746959ac65552456e04b433e83deb22759ab38c838b4445c70e43425918
@@ -2003,7 +1997,7 @@ CHECKSUMS
   marcel (1.0.4) sha256=0d5649feb64b8f19f3d3468b96c680bae9746335d02194270287868a661516a4
   markly (0.16.0) sha256=6f70d79e385b1efc9e171f74c81628826259039fe6c778e03c3924c71dac5511
   matrix (0.4.3) sha256=a0d5ab7ddcc1973ff690ab361b67f359acbb16958d1dc072b8b956a286564c5b
-  mcp (1.1.0) sha256=930dafc0a8f34941d210ad907dd70bf93c1763fa60b98cb9162c77263e5dac32
+  mcp (1.3.0) sha256=9395aa3a054eb8986b7714ec8abb25b533729af896f4875da4c4cb7a3024fbae
   md_to_pdf (0.2.7)
   messagebird-rest (5.0.0) sha256=da4cc1efba3d5e4aa021fad07426c2cb6b326ce5670da5104bb8f6056a39d59c
   meta-tags (2.23.0) sha256=ffe78b5bee398de4ff5ac3316f5a786049538a651643b8476def06c3acc762c1
@@ -2033,10 +2027,11 @@ CHECKSUMS
   nokogiri (1.19.4-x86_64-linux-gnu) sha256=379fae440b28915e3f19d752ce2dcf8465ed2b2fbefd2a7ca0dd497bc981a06a
   nokogiri (1.19.4-x86_64-linux-musl) sha256=17dfb7c1fa194ae02fbf7c51a7afc8d278045ab3fdacfd86f91d02d7b274470b
   okcomputer (1.19.2) sha256=d069aedf1e31b8ebe7e1fdf9e327dee158ea49b9fbdebebc2f1bed4690cb7a6d
-  omniauth (1.9.2)
+  omniauth (2.1.4) sha256=42a05b0496f0d22e1dd85d42aaf602f064e36bb47a6826a27ab55e5ba608763c
   omniauth-openid-connect (0.5.0)
   omniauth-openid_connect-providers (0.2.0)
-  omniauth-saml (1.10.6) sha256=13dde22f4fd1beff0ef2d6dae576f7b68594f159990e8e886d8a02b32397afbd
+  omniauth-rails_csrf_protection (2.0.1) sha256=c6e3204d7e3925bb537cb52d50fdfc9f05293f1a9d87c5d4ab4ca3a39ba8c32d
+  omniauth-saml (2.2.5) sha256=552ad464564d711f0dfd169e0ad801de809cf3ac71c4bc9094f152d5a0d7ab59
   op-clamav-client (3.4.2) sha256=f28d697d11758a2ba3dc530cfdf4871a00ecd517631e8bac30dee30cd6012964
   open4 (1.3.4) sha256=a1df037310624ecc1ea1d81264b11c83e96d0c3c1c6043108d37d396dcd0f4b1
   openid_connect (2.2.1) sha256=31264e85b5a36e33dff5e31560cc176175c26f30c260d7e95af93ff0065f3101
@@ -2220,7 +2215,7 @@ CHECKSUMS
   rspec-retry (0.6.2) sha256=6101ba23a38809811ae3484acde4ab481c54d846ac66d5037ccb40131a60d858
   rspec-support (3.13.7) sha256=0640e5570872aafefd79867901deeeeb40b0c9875a36b983d85f54fb7381c47c
   rspec-wait (1.0.2) sha256=865f921239325d3d26fc10ded4bdd485d8b58bcaaad1a28dd85ed15266b5a912
-  rubocop (1.89.0) sha256=4dee8e3ee9c45e474834efd9e8d6fd031e8331c8dacdff0de4ad65ae0a6faae7
+  rubocop (1.90.0) sha256=9eb4c065b5c5154e4ef554c547972f3905a9eb6b53e657e580b6796b54bf8242
   rubocop-ast (1.50.0) sha256=b9ca88300da0803ee222ad20cdb30494c0a784eed06fdc35d254b06d662788db
   rubocop-capybara (3.0.0) sha256=7a64655238acda7f8f3c87e37ac825a64c615a79c17c253f1a28270dc3768c4b
   rubocop-factory_bot (2.28.0) sha256=4b17fc02124444173317e131759d195b0d762844a71a29fe8139c1105d92f0cb
@@ -2291,7 +2286,7 @@ CHECKSUMS
   validate_url (1.0.15) sha256=72fe164c0713d63a9970bd6700bea948babbfbdcec392f2342b6704042f57451
   vcr (6.4.0) sha256=077ac92cc16efc5904eb90492a18153b5e6ca5398046d8a249a7c96a9ea24ae6
   vernier (1.10.1) sha256=f2ab2e163b75ac3ef4e3173262d27d27da6219cf04b1b4a7171e4798114275ce
-  view_component (4.12.0) sha256=b9a5979d1c43eba2aa21a06a86f661aab3990104855f2909ef7c3779acdcdcb4
+  view_component (4.15.0) sha256=2924e207b102c04ab51c4d318535f03f1c3aab3c81ecff99b1cc631b43e14eac
   warden (1.2.9) sha256=46684f885d35a69dbb883deabf85a222c8e427a957804719e143005df7a1efd0
   warden-basic_auth (0.2.1) sha256=bfc752e0109c0182c3e69e930284c5e1e81e7b4a354aeb2b5914ead1391f3c6e
   webauthn (3.4.3) sha256=9be6f5f838f3405b0226e560aa40b67cc8c15ec9154509b997caa7ec9a05e1fc
@@ -2317,4 +2312,4 @@ RUBY VERSION
   ruby 4.0.6
 
 BUNDLED WITH
-  4.0.16
+  4.0.20
