@@ -44,7 +44,9 @@ module Queries::WorkPackages::Filter::CustomFieldContext
 
     def custom_fields(context)
       if context&.project
-        WorkPackageCustomField.filter
+        WorkPackageCustomField
+          .filter
+          .on_visible_type_and_project(projects: Project.where(id: context.project.id))
       else
         custom_field_class
           .filter
@@ -74,7 +76,7 @@ module Queries::WorkPackages::Filter::CustomFieldContext
       form_join, form_configuration_id, excluded = TypeVariant.form_configuration_join(own_variant_expr)
       exclusion = TypeVariant.excluded_custom_field_condition(custom_field.id.to_s, excluded)
 
-      joins = <<~SQL.squish
+      <<~SQL.squish
         LEFT OUTER JOIN #{cv_db_table}
           ON #{cv_db_table}.customized_type = 'WorkPackage'
          AND #{cv_db_table}.customized_id = #{work_package_db_table}.id
@@ -88,8 +90,6 @@ module Queries::WorkPackages::Filter::CustomFieldContext
         #{form_join}
         #{placed_on_form_join(custom_field, form_configuration_id, exclusion)}
       SQL
-
-      joins
     end
 
     def where_subselect_conditions
