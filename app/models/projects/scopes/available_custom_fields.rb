@@ -33,6 +33,19 @@ module Projects::Scopes
     extend ActiveSupport::Concern
 
     class_methods do
+      # Work package custom fields reach a project through the form configuration of the variant
+      # the project applies, so the question is asked of that configuration rather than of any
+      # association on the project.
+      def with_available_custom_fields(custom_field_ids)
+        condition = available_custom_fields_condition(custom_field_ids)
+        condition ? where(condition) : none
+      end
+
+      def without_available_custom_fields(custom_field_ids)
+        condition = available_custom_fields_condition(custom_field_ids)
+        condition ? where("NOT (#{condition})") : all
+      end
+
       def with_available_project_custom_fields(custom_field_ids)
         where(id: project_custom_fields_project_mapping_subquery(custom_field_ids:))
       end
@@ -42,6 +55,28 @@ module Projects::Scopes
       end
 
       private
+
+      def available_custom_fields_condition(custom_field_ids)
+        ids = Array(custom_field_ids).map { Integer(it) }
+        return nil if ids.empty?
+
+        source_join, source_variant_id, excluded =
+          TypeVariant::FormConfigurationSql.remap("pt.variant_id")
+        exclusion = TypeVariant.excluded_custom_field_condition("cft.custom_field_id", excluded)
+
+        <<~SQL.squish
+          EXISTS (
+            SELECT 1
+            FROM project_types pt
+            #{source_join}
+            JOIN custom_fields_types cft
+              ON cft.type_variant_id = #{source_variant_id}
+             AND cft.custom_field_id IN (#{ids.join(', ')})
+             AND #{exclusion}
+            WHERE pt.project_id = projects.id
+          )
+        SQL
+      end
 
       def project_custom_fields_project_mapping_subquery(custom_field_ids:)
         ProjectCustomFieldProjectMapping.select(:project_id)

@@ -3489,6 +3489,7 @@ en:
   label_attribute_plural: "Attributes"
   label_authentication: "Authentication"
   label_auto_option: "(auto)"
+  label_available_custom_fields_projects: "Available custom fields projects"
   label_available_global_roles: "Available global roles"
   label_available_project_attributes: "Available project attributes"
   label_available_project_forums: "Available forums"
