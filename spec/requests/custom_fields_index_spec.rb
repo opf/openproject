@@ -45,4 +45,15 @@ RSpec.describe "Administration custom fields index", type: :rails_request do
     expect(response.body).to include("Severity").and include("Orphan")
     expect(response.body).to include("Bug")
   end
+
+  describe "the projects a field reaches" do
+    shared_let(:reaching) { create(:project, types: [type]) }
+
+    it "counts the projects whose form configuration shows the field" do
+      get custom_fields_path
+
+      expect(response.body).to include(I18n.t(:label_used_in_projects))
+      expect(response.body).to include(I18n.t(:label_x_projects, count: 1))
+    end
+  end
 end
