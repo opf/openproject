@@ -54,6 +54,24 @@ RSpec.describe Queries::WorkPackages::Selects::CustomFieldSelect do
       end
     end
 
+    context "with a second project the user can also see" do
+      shared_let(:other_type) { create(:type) }
+      shared_let(:other_project) { create(:project, public: false, types: [other_type]) }
+      shared_let(:other_field) { create(:list_wp_custom_field, types: [other_type]) }
+
+      before { create(:member, principal: member, project: other_project, roles: [create(:project_role)]) }
+
+      it "offers only the fields the given project shows" do
+        expect(described_class.instances(visible_project).map(&:custom_field))
+          .to contain_exactly(list_custom_field)
+      end
+
+      it "offers every visible project's fields when no project is given" do
+        expect(described_class.instances.map(&:custom_field))
+          .to contain_exactly(list_custom_field, other_field)
+      end
+    end
+
     context "with a user who cannot see the project" do
       current_user { create(:user) }
 
