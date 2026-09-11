@@ -485,6 +485,7 @@ sv:
         end_deletion: Slutet av raderingen
         end_insertion: Slutet av införandet
         identifier: Identifierare
+        has_spent_time: Has spent time
         ignore_non_working_days: Ignorera arbetsfria dagar
         include_non_working_days:
           false: endast arbetsdagar
