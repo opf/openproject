@@ -125,9 +125,9 @@ class WorkPackages::JournalTimeline
   end
 
   def interval_condition
-    from, to = ticks.minmax
-
-    sanitize("#{Journal.table_name}.validity_period && tstzrange(:from, :to, '[]')", from:, to:)
+    sanitize("#{Journal.table_name}.validity_period && tstzrange(:from, :to, '[]')",
+             from: ticks.min,
+             to: ticks.max)
   end
 
   def ticks_join
