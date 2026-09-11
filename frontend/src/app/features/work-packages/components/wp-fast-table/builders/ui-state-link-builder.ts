@@ -34,8 +34,6 @@ import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
 
 export const uiStateLinkClass = '__ui-state-link';
-export const checkedClassName = '-checked';
-export const pressedClassName = '-pressed';
 
 export class UiStateLinkBuilder {
   constructor(
