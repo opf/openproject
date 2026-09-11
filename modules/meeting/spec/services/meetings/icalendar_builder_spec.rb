@@ -261,6 +261,16 @@ RSpec.describe Meetings::IcalendarBuilder,
       meeting
     end
 
+    context "with the master and its overrides together" do
+      subject(:builder) { described_class.new(timezone:) }
+
+      it "conforms to RFC 5545 and RFC 5546" do
+        builder.add_series_event(recurring_meeting:)
+
+        expect(builder.to_ical).to be_a_conforming_calendar
+      end
+    end
+
     context "when the series has advanced its ICS revision" do
       subject(:builder) { described_class.new(timezone:) }
 
@@ -564,6 +574,12 @@ RSpec.describe Meetings::IcalendarBuilder,
              rrule: "FREQ=WEEKLY;UNTIL=20260831T070000Z",
              exdates: [berlin.parse("2026-04-06 09:00")],
              ical_sequence: 3)
+    end
+
+    it "conforms to RFC 5545 and RFC 5546 beside the live series" do
+      builder.historic_schedule_event(recurring_meeting:)
+
+      expect(builder.to_ical).to be_a_conforming_calendar
     end
 
     it "emits the frozen values, not the ones the series has now" do

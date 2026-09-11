@@ -56,6 +56,10 @@ RSpec.describe AllMeetings::ICalService, type: :model do
       expect(service.call).to be_success
     end
 
+    it "conforms to RFC 5545" do
+      expect(result).to be_a_conforming_calendar
+    end
+
     context "when exception is raised" do
       subject { service.call }
 
