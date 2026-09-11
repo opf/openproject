@@ -51,6 +51,7 @@ module Llm
     ConnectionError = Llm::Errors::ConnectionError
     SsrfError = Llm::Errors::SsrfError
     TimeoutError = Llm::Errors::TimeoutError
+    SslError = Llm::Errors::SslError
     AuthenticationError = Llm::Errors::AuthenticationError
     ApiError = Llm::Errors::ApiError
     ParseError = Llm::Errors::ParseError
@@ -122,6 +123,8 @@ module Llm
         raise SsrfError, "Host resolves to a blocked address"
       when HTTPX::TimeoutError
         raise TimeoutError, "Request timed out"
+      when OpenSSL::SSL::SSLError
+        raise SslError, error.class.name
       else
         raise ConnectionError, error.class.name
       end
