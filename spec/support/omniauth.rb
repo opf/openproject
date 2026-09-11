@@ -2,14 +2,24 @@
 
 module OmniauthSpecHelpers
   def start_omniauth_developer
-    visit signin_path unless page.has_css?(".auth-provider-developer, #omniauth-direct-login-form") ||
-      page.has_field?("first_name")
+    visit signin_path unless omniauth_developer_flow_visible?
 
-    if page.has_button?(I18n.t("account.omniauth_direct_login_continue"))
-      click_button I18n.t("account.omniauth_direct_login_continue")
-    elsif page.has_button?("Omniauth Developer") || page.has_link?("Omniauth Developer")
+    if page.has_css?(".auth-provider-developer", wait: 0)
       click_link_or_button "Omniauth Developer", match: :first
     end
+
+    submit_omniauth_direct_login_form
+  end
+
+  def submit_omniauth_direct_login_form
+    return unless page.has_css?("#omniauth-direct-login-form", wait: 0)
+
+    click_button I18n.t("account.omniauth_direct_login_continue")
+  end
+
+  def omniauth_developer_flow_visible?
+    page.has_css?(".auth-provider-developer, #omniauth-direct-login-form", wait: 0) ||
+      page.has_field?("first_name", wait: 0)
   end
 end
 

@@ -28,23 +28,44 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
+class OmniAuthStartController < ApplicationController
+  include OmniauthHelper
+  include Accounts::RedirectAfterLogin
 
-RSpec.describe AuthProvider do
-  describe "#available=" do
-    it "unsets the direct login provider when disabled" do
-      provider = create(:oidc_provider)
-      Setting.omniauth_direct_login_provider = provider.slug
+  skip_before_action :check_if_login_required
+  no_authorization_required! :show
 
-      provider.update!(available: false)
+  layout "no_menu"
 
-      expect(Setting.omniauth_direct_login_provider).to be_blank
-    end
+  def show
+    return redirect_after_login(User.current) if User.current.logged?
+
+    provider_name = permitted_omniauth_provider_name(params[:provider])
+    return render_404 if provider_name.blank?
+
+    @omniauth_provider_name = provider_name
+    @direct_login_origin = params[:back_url]
+    append_omniauth_form_action(provider_name)
+    render "account/omniauth_direct_login"
   end
 
-  describe "#csp_form_action_origin" do
-    it "raises SubclassResponsibilityError on the abstract base class" do
-      expect { described_class.new.csp_form_action_origin }.to raise_error(SubclassResponsibilityError)
-    end
+  private
+
+  def permitted_omniauth_provider_name(name)
+    requested = name.to_s
+    return requested if requested == direct_login_provider
+
+    provider = OpenProject::Plugins::AuthPlugin.find_provider_by_name(requested)
+    return provider[:name].to_s if provider.present?
+    return requested if requested == "developer" && !Rails.env.production?
+
+    nil
+  end
+
+  def append_omniauth_form_action(provider_name)
+    origin = AuthProvider.find_by(slug: provider_name)&.csp_form_action_origin
+    return if origin.blank?
+
+    append_content_security_policy_directives(form_action: [origin])
   end
 end

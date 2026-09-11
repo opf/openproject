@@ -87,6 +87,11 @@ module OpenIDConnect
       "OpenID Connect"
     end
 
+    def csp_form_action_origin
+      origin_from_redirect_url(authorization_endpoint) ||
+        origin_from_redirect_url(issuer)
+    end
+
     def seeded_from_env?
       (Setting.seed_oidc_provider || {}).key?(slug)
     end
