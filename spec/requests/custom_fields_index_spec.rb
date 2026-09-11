@@ -37,12 +37,22 @@ RSpec.describe "Administration custom fields index", type: :rails_request do
 
   current_user { create(:admin) }
 
-  # The work package tab is the default one.
   it "lists the work package custom fields and the types configuring them" do
-    get custom_fields_path
+    get admin_settings_work_package_custom_fields_path
 
     expect(response).to have_http_status(:ok)
     expect(response.body).to include("Severity").and include("Orphan")
     expect(response.body).to include("Bug")
+  end
+
+  describe "the projects a field reaches" do
+    shared_let(:reaching) { create(:project, types: [type]) }
+
+    it "counts the projects whose form configuration shows the field" do
+      get admin_settings_work_package_custom_fields_path
+
+      expect(response.body).to include(I18n.t(:label_used_in_projects))
+      expect(response.body).to include(I18n.t(:label_x_projects, count: 1))
+    end
   end
 end

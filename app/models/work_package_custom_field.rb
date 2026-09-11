@@ -29,6 +29,26 @@
 #++
 
 class WorkPackageCustomField < CustomField
+  # How many projects each field reaches, in one query: a field reaches a project when the
+  # variant that project applies shows it.
+  def self.project_counts
+    memberships = FormConfigurationAttribute.table_name
+    form_join, form_configuration_id, excluded = TypeVariant.form_configuration_join("pt.variant_id")
+    exclusion = TypeVariant.excluded_custom_field_condition("#{memberships}.custom_field_id", excluded)
+
+    connection.select_all(<<~SQL.squish).rows.to_h
+      SELECT #{memberships}.custom_field_id, COUNT(DISTINCT pt.project_id)
+      FROM project_types pt
+      #{form_join}
+      JOIN #{memberships}
+        ON #{memberships}.form_configuration_id = #{form_configuration_id}
+       AND #{memberships}.custom_field_id IS NOT NULL
+       AND #{memberships}.form_configuration_group_id IS NOT NULL
+       AND #{exclusion}
+      GROUP BY #{memberships}.custom_field_id
+    SQL
+  end
+
   has_many :form_configuration_memberships, -> { active },
            class_name: "FormConfigurationAttribute",
            foreign_key: :custom_field_id,
