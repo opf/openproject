@@ -54,18 +54,29 @@ namespace :bug_found_in_version do
   def fetch_rows_data(batch, option_version_map) # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
     rows = batch.pluck(:customized_id, :value)
     work_packages = WorkPackage.where(id: rows.map(&:first)).includes(:project).index_by(&:id)
+    rows, orphaned = rows.partition { |work_package_id, _| work_packages[work_package_id]&.project }
+
     version_names = rows.filter_map { |_, value| option_version_map[value] }.uniq
     version_names_set = version_names.to_set
-    projects = work_packages.values.map(&:project).uniq
+    projects = rows.map { |work_package_id, _| work_packages.fetch(work_package_id).project }.uniq
 
-    versions = projects.each_with_object({}) do |project, result|
+    versions = {}
+    ambiguous = Set.new
+
+    projects.each do |project|
       project.assignable_versions(only_open: false)
         .select { |version| version_names_set.include?(version.name) }
         .group_by(&:name)
-        .each { |name, matches| result[[project.id, name]] = matches.first if matches.one? }
+        .each do |name, matches|
+          if matches.one?
+            versions[[project.id, name]] = matches.first
+          else
+            ambiguous << [project.id, name]
+          end
+        end
     end
 
-    [rows, work_packages, version_names, versions]
+    [rows, work_packages, version_names, versions, orphaned, ambiguous]
   end
 
   desc "Checks if all conditions are okay to copy Bug found in version to Observed in versions"
@@ -81,7 +92,8 @@ namespace :bug_found_in_version do
       puts "#{custom_options[option_id].value.inspect} -> #{version_name.inspect}"
     end
 
-    rows, work_packages, _version_names, versions = fetch_rows_data(custom_values, option_version_map)
+    rows, work_packages, _version_names, versions, orphaned, ambiguous =
+      fetch_rows_data(custom_values, option_version_map)
 
     existing_observed_in_ids = WorkPackageVersion
       .where(work_package_id: rows.map(&:first), kind: "observed_in")
@@ -90,6 +102,7 @@ namespace :bug_found_in_version do
       .transform_values { |pairs| pairs.map(&:last) }
 
     missing = []
+    ambiguous_pairs = []
     skipped_unmapped = 0
     to_create = 0
 
@@ -105,7 +118,8 @@ namespace :bug_found_in_version do
       version = versions[[work_package.project_id, version_name]]
 
       if version.nil?
-        missing << [work_package.project_id, version_name]
+        pair = [work_package.project_id, version_name]
+        ambiguous.include?(pair) ? ambiguous_pairs << pair : missing << pair
         next
       end
 
@@ -113,6 +127,7 @@ namespace :bug_found_in_version do
     end
 
     missing.uniq!
+    ambiguous_pairs.uniq!
 
     if missing.empty?
       puts " ALL MAPPED VERSIONS HAVE A MATCH "
@@ -120,12 +135,18 @@ namespace :bug_found_in_version do
       puts " (PROJECT_ID, VERSION NAME) PAIRS WITH NO MATCH: #{missing.inspect} "
     end
 
+    unless ambiguous_pairs.empty?
+      puts " (PROJECT_ID, VERSION NAME) PAIRS AMBIGUOUS - MULTIPLE VERSIONS SHARE THIS NAME, " \
+           "DEDUPE INSTEAD OF CREATING: #{ambiguous_pairs.inspect} "
+    end
+
     puts " #{skipped_unmapped} VALUES HAVE NO VERSION MAPPING (e.g. 'unreleased/dev') "
+    puts " #{orphaned.size} VALUES SKIPPED (WORK PACKAGE DELETED OR HAS NO PROJECT) "
     puts " #{to_create} RECORDS TO BE CREATED "
   end
 
   desc "Copy 'Bug found in version' values onto Observed in Versions (does not remove the original value)"
-  task copy: :environment do
+  task copy: %i[environment check] do
     puts " GATHERING DATA "
 
     _custom_options, custom_values, option_version_map = fetch_custom_fields_data
@@ -134,14 +155,17 @@ namespace :bug_found_in_version do
 
     copied = 0
     skipped_no_version = 0
+    skipped_ambiguous = 0
     skipped_already_observed = 0
+    skipped_orphaned = 0
     failed = 0
 
     total = custom_values.count
     custom_values.in_batches(of: 1000).each_with_index do |batch, index|
       puts " HANDLING BATCH #{index + 1} OF #{(total / 1000.0).ceil} "
 
-      rows, work_packages, _version_names, versions = fetch_rows_data(batch, option_version_map)
+      rows, work_packages, _version_names, versions, orphaned, ambiguous = fetch_rows_data(batch, option_version_map)
+      skipped_orphaned += orphaned.size
 
       existing_observed_in_ids = WorkPackageVersion
         .where(work_package_id: rows.map(&:first), kind: "observed_in")
@@ -155,7 +179,11 @@ namespace :bug_found_in_version do
         version = version_name && versions[[work_package.project_id, version_name]]
 
         if version.nil?
-          skipped_no_version += 1
+          if version_name && ambiguous.include?([work_package.project_id, version_name])
+            skipped_ambiguous += 1
+          else
+            skipped_no_version += 1
+          end
           next
         end
 
@@ -165,14 +193,16 @@ namespace :bug_found_in_version do
         end
 
         begin
-          WorkPackageVersion.create!(work_package_id:, version_id: version.id, kind: "observed_in")
-          result = Journals::CreateService.new(work_package, User.system).call
-          raise "failed to create journal" if result.result.nil?
+          ActiveRecord::Base.transaction do
+            WorkPackageVersion.create!(work_package_id:, version_id: version.id, kind: "observed_in")
+            result = Journals::CreateService.new(work_package, User.system).call
+            raise "failed to create journal" if result.result.nil?
+          end
 
           copied += 1
         rescue StandardError => e
           failed += 1
-          puts "WP[#{work_package.id}] - FAILED: #{e.message}"
+          puts "WP[#{work_package_id}] - FAILED: #{e.message}"
         end
       end
     end
@@ -180,7 +210,9 @@ namespace :bug_found_in_version do
     puts " SUMMARY "
     puts "Copied: #{copied}"
     puts "Skipped (no matching version): #{skipped_no_version}"
+    puts "Skipped (ambiguous - multiple versions share the name): #{skipped_ambiguous}"
     puts "Skipped (already observed): #{skipped_already_observed}"
+    puts "Skipped (orphaned - work package deleted or has no project): #{skipped_orphaned}"
     puts "Failed: #{failed}"
   end
 end
