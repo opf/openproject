@@ -130,6 +130,13 @@ RSpec.describe Costs::NumberHelper do
             .to eql "123456a78"
         end
       end
+
+      it "parses a string with only commas as separators when no dot is present" do
+        I18n.with_locale(:en) do
+          expect(helper.parse_number_string("123,456"))
+            .to eql "123.456"
+        end
+      end
     end
 
     context "for nil" do
