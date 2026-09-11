@@ -28,7 +28,7 @@
 
 import { Injector } from '@angular/core';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
-import { takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
@@ -37,6 +37,7 @@ import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { paintRowSelection } from '../../builders/rows/row-selection-paint';
 import { locateTableRow, scrollTableRowIntoView } from '../../helpers/wp-table-row-helpers';
 import { WorkPackageTable } from '../../wp-fast-table';
+import { registerWorkPackageSelectAll } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/wp-selection-keyboard';
 
 export class SelectionTransformer {
   @LazyInject() public wpTableSelection:WorkPackageViewSelectionService;
@@ -72,7 +73,17 @@ export class SelectionTransformer {
       .pipe(takeUntil(this.querySpace.stopAllSubscriptions))
       .subscribe(() => this.paintRows());
 
-    this.wpTableSelection.registerSelectAllListener(() => table.renderedRows);
+    const unregisterSelectAll = registerWorkPackageSelectAll({
+      root: table.tableAndTimelineContainer,
+      focusSelector: '.wp-table--row',
+      occurrenceSelector: '.wp-table--row[data-work-package-id][data-class-identifier]',
+      rendered: () => table.renderedRows,
+      selectAll: (rows, anchor) => {
+        this.wpTableSelection.selectAll(rows, anchor);
+        this.wpTableSelection.opContextMenu.close();
+      },
+    });
+    this.querySpace.stopAllSubscriptions.pipe(take(1)).subscribe(unregisterSelectAll);
     this.wpTableSelection.registerDeselectAllListener();
   }
 

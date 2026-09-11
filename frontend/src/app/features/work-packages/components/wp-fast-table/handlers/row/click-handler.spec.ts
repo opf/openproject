@@ -31,13 +31,29 @@ import { buildTable, TableHarness } from '../../testing/table-harness';
 
 describe('RowClickHandler', () => {
   let harness:TableHarness;
+  let platformSpy:ReturnType<typeof vi.spyOn>;
+  let userAgentDataDescriptor:PropertyDescriptor|undefined;
 
   beforeEach(async () => {
+    platformSpy = vi.spyOn(navigator, 'platform', 'get').mockReturnValue('Linux');
+    userAgentDataDescriptor = Object.getOwnPropertyDescriptor(navigator, 'userAgentData');
+    Object.defineProperty(navigator, 'userAgentData', {
+      configurable: true,
+      value: undefined,
+    });
     harness = buildTable({ workPackages: [{ id: '1' }, { id: '2' }, { id: '3' }, { id: '4' }] });
     await harness.render();
   });
 
-  afterEach(() => harness.destroy());
+  afterEach(() => {
+    harness.destroy();
+    platformSpy.mockRestore();
+    if (userAgentDataDescriptor) {
+      Object.defineProperty(navigator, 'userAgentData', userAgentDataDescriptor);
+    } else {
+      delete (navigator as Navigator & { userAgentData?:unknown }).userAgentData;
+    }
+  });
 
   const selectedIds = () => harness.selection.getSelectedWorkPackageIds().sort();
   const checkedIds = () => harness
@@ -90,6 +106,27 @@ describe('RowClickHandler', () => {
     expect(checkedIds()).toEqual(['2', '3', '4']);
   });
 
+  it('starts the next range at the Select All event target', () => {
+    harness.click('1');
+    fireEvent.keyDown(harness.row('3'), { key: 'a', ctrlKey: true });
+    harness.click('4', { shiftKey: true });
+
+    expect(selectedIds()).toEqual(['3', '4']);
+  });
+
+  it('disposes Select All with the table view', () => {
+    const row = harness.row('3');
+    harness.destroy();
+    const event = new KeyboardEvent('keydown', {
+      key: 'a', ctrlKey: true, bubbles: true, cancelable: true,
+    });
+
+    row.dispatchEvent(event);
+
+    expect(event.defaultPrevented).toBe(false);
+    expect(selectedIds()).toEqual([]);
+  });
+
   it.each([false, true])('uses the clicked occurrence when a work package appears twice (reverse: %s)', async (reverse) => {
     await harness.render([{ id: '1' }, { id: '3' }, { id: '2' }, { id: '4' }]);
     const primaryRow = harness.row('2');
@@ -102,6 +139,23 @@ describe('RowClickHandler', () => {
 
     const rows = reverse ? [harness.row('4'), primaryRow] : [primaryRow, harness.row('4')];
     rows.forEach((row, index) => fireEvent.click(row, { shiftKey: index === 1 }));
+
+    expect(selectedIds()).toEqual(['2', '4']);
+  });
+
+  it('anchors Select All at the targeted duplicate occurrence', async () => {
+    await harness.render([{ id: '1' }, { id: '3' }, { id: '2' }, { id: '4' }]);
+    const primaryRow = harness.row('2');
+    const relationRow = primaryRow.cloneNode(true) as HTMLTableRowElement;
+    relationRow.dataset.classIdentifier = 'wp-relation-row-1-to-2';
+    harness.row('1').after(relationRow);
+    const rendered = [...harness.table.renderedRows];
+    rendered.splice(1, 0, { classIdentifier: 'wp-relation-row-1-to-2', workPackageId: '2', hidden: false });
+    harness.querySpace.tableRendered.putValue(rendered);
+    harness.click('1');
+
+    expect(fireEvent.keyDown(primaryRow, { key: 'a', ctrlKey: true })).toBe(false);
+    harness.click('4', { shiftKey: true });
 
     expect(selectedIds()).toEqual(['2', '4']);
   });
