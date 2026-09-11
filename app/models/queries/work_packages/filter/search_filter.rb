@@ -74,7 +74,7 @@ class Queries::WorkPackages::Filter::SearchFilter <
   end
 
   def searchable_in_context
-    return ::WorkPackageCustomField unless context&.project
+    return ::WorkPackageCustomField unless context&.project&.persisted?
 
     ::WorkPackageCustomField.on_visible_type_and_project(projects: Project.where(id: context.project.id))
   end
