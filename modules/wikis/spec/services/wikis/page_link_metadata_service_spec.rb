@@ -74,6 +74,30 @@ module Wikis
       expect(page_links.first.title).to eq("Wikis, now with more cheese! Part #{page_links.first.identifier}")
     end
 
+    context "when every page link fails to resolve" do
+      before do
+        build_inputs.each do |input|
+          allow(query_double).to receive(:call).with(input_data: input, auth_strategy: anything)
+                                                .and_return(Failure(:not_found))
+        end
+      end
+
+      it "returns the relation without raising, instead of crashing on an empty VALUES clause" do
+        service_result = nil
+        expect { service_result = service.call }.not_to raise_error
+
+        expect(service_result).to be_success
+      end
+
+      it "returns every link with a nil title rather than dropping them" do
+        service_result = service.call
+        returned_links = service_result.result.to_a
+
+        expect(returned_links.size).to eq(page_links.count)
+        expect(returned_links.map(&:title)).to all(be_nil)
+      end
+    end
+
     context "when page links have the same identifier but different providers" do
       shared_let(:xwiki_provider) { create(:xwiki_provider) }
       let(:new_page_links) do
