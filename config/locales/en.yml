@@ -1808,8 +1808,32 @@ en:
         no_models: "Saved, but no models are stored yet. Either the server offers no model list, or the endpoint is missing its API version segment (for example /v1). Refresh the list on the LLMs tab."
         success: "Successfully connected to the LLM server."
     llm_models:
+      create:
+        success: "%{model} has been added."
+      destroy:
+        description: "The model will no longer be offered to AI features."
+        description_bound: "This model is currently used by %{features}. Those features will stop working until another model is selected."
+        heading: "Remove %{model}?"
+        success: "%{model} has been removed."
+        title: "Remove model"
+      edit:
+        description: "Edit how OpenProject uses this model."
+      form:
+        context_window: "Context window"
+        context_window_caption: "How many tokens this model accepts. Leave blank if you do not know."
+        context_window_known: "Leave blank to use %{value}, %{source}."
+        display_name_caption: "An optional friendly name shown instead of the model id."
+        external_id_caption: "The model name exactly as the server expects it."
+        model_type: "Model type"
+        model_type_caption: "Chat models answer requests. Embedding models turn text into vectors for search. [Read more](docs_url)."
+        model_type_chat: "Chat model"
+        model_type_embedding: "Embedding model"
+        state_inherited: "Inherit from server (%{state})"
+        state_supported: "Supported"
+        state_unsupported: "Not supported"
       index:
-        blank_description: "The server reported no models. Refresh the list once the server is reachable."
+        add_model: "Model"
+        blank_description: "The server reported no models. Refresh the list once the server is reachable, or add one by hand."
         blank_title: "No models available"
         context_window: "Context window"
         description: "Reported by the server on %{fetched_at}."
@@ -1826,9 +1850,14 @@ en:
         source_withdrawn: "Withdrawn"
         source_withdrawn_description: "No longer reported by the server"
         stale_warning: "The connection settings changed after the model list was last refreshed, so the list may be out of date. Refresh the models to be sure."
+      new:
+        description: "Name a model this server can use but does not advertise, and describe what it can do."
+        title: "Add a model"
       refresh:
         failure: "The model list could not be refreshed. Please check that the LLM server is still reachable."
         success: "The model list has been refreshed."
+      update:
+        success: "%{model} has been updated."
     mcp_configurations:
       index:
         description: "The model context protocol allows AI agents to provide its users with tools and resources exposed by this OpenProject instance. This feature is still in beta."
@@ -4398,9 +4427,27 @@ en:
       perplexity: "Perplexity"
       vertexai: "Google Vertex AI"
       xai: "xAI"
+    capabilities:
+      embeddings:
+        label: "Embeddings"
+      function_calling:
+        label: "Tool calling"
+      reasoning:
+        label: "Reasoning"
+      structured_output:
+        label: "Structured output"
+      vision:
+        label: "Vision"
+    context_window_sources:
+      registry: "the figure published for this model"
+      server: "reported by the server"
     model_kinds:
       chat: "Chat"
       embedding: "Embedding"
+    verdict_states:
+      supported: "supported"
+      unknown: "not verified"
+      unsupported: "not supported"
   macro_execution_error: "Error executing the macro %{macro_name}"
   macro_unavailable: "Macro %{macro_name} cannot be displayed."
   macro_unknown: "Unknown or unsupported macro."

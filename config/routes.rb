@@ -782,10 +782,14 @@ Rails.application.routes.draw do
       post :disconnect
     end
 
-    resources :llm_models, only: %i[index], controller: "admin/llm_models" do
+    resources :llm_models, only: %i[index new create edit update destroy], controller: "admin/llm_models" do
       collection do
         get :search, defaults: { format: :turbo_stream }
         post :refresh
+      end
+
+      member do
+        get :delete_dialog
       end
     end
 

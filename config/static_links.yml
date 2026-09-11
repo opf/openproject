@@ -41,6 +41,8 @@ docker_installation:
   label: Docker installation
 documents_docs:
   href: https://www.openproject.org/docs/user-guide/documents/
+embeddings_explanation:
+  href: https://huggingface.co/blog/getting-started-with-embeddings
 enterprise_features:
   board_view:
     href: https://www.openproject.org/docs/user-guide/agile-boards/#action-boards-enterprise-add-on

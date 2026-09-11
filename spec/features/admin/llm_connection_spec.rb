@@ -152,6 +152,30 @@ RSpec.describe "LLM connection administration",
       expect(page).to be_axe_clean.within("#content")
     end
 
+    # The chat capabilities are hidden client-side, so only a browser shows that
+    # the type choice actually reaches them.
+    it "adds a model by hand and offers the capabilities its type can have" do
+      visit llm_models_path
+      expect(page).to have_test_selector("llm-model--refresh-button")
+
+      find_test_selector("llm-model--add-button").click
+
+      expect(page).to have_field("Model name")
+      expect(page).to be_axe_clean.within("#content")
+      expect(page).to have_field("Tool calling")
+
+      fill_in "Model name", with: "nomic-embed-text"
+      select "Embedding model", from: "Model type"
+
+      expect(page).to have_field("Tool calling", visible: :hidden)
+
+      click_on "Create"
+
+      expect(page).to have_current_path(llm_models_path)
+      expect(page).to have_text("nomic-embed-text")
+      expect(connection.models.find_by(external_id: "nomic-embed-text")).to be_embedding
+    end
+
     it "removes the stored API key" do
       visit llm_connection_path
       expect(page).to have_field("Host URL")
