@@ -837,4 +837,195 @@ RSpec.describe RecurringMeetings::UpdateService, "integration", type: :model do
       end
     end
   end
+  describe "the ICS identity" do
+    around do |example|
+      travel_to(Time.utc(2026, 6, 15, 9, 0, 0)) { example.run }
+    end
+
+    let(:anchor) { Time.utc(2026, 5, 4, 10, 0, 0) }
+
+    let(:series) do
+      create(:recurring_meeting,
+             project:,
+             start_time: anchor,
+             frequency: "weekly",
+             interval: 1,
+             end_after: "never",
+             end_date: nil,
+             time_zone: "UTC")
+    end
+
+    let!(:previous_uid) { series.uid }
+
+    context "with a change that leaves the schedule alone" do
+      let(:params) { { title: "A new title" } }
+
+      it "keeps the UID and the anchor" do
+        expect(service_result).to be_success
+
+        series.reload
+        expect(series.uid).to eq previous_uid
+        expect(series.current_schedule_start).to eq anchor
+        expect(series.last_historic_schedule).to be_nil
+      end
+    end
+
+    context "with a schedule change that keeps the anchor on the grid" do
+      let(:params) { { interval: 2 } }
+
+      it "sends one message only" do
+        series.template.participants.delete_all
+        series.template.participants << MeetingParticipant.new(
+          user: create(:user, member_with_permissions: { project => %i(view_meetings) }),
+          invited: true
+        )
+
+        expect(service_result).to be_success
+        perform_enqueued_jobs
+
+        expect(ActionMailer::Base.deliveries.count).to eq 1
+      end
+
+      it "keeps the UID and the anchor" do
+        expect(service_result).to be_success
+
+        series.reload
+        expect(series.uid).to eq previous_uid
+        expect(series.current_schedule_start).to eq anchor
+        expect(series.last_historic_schedule).to be_nil
+      end
+    end
+
+    context "with a schedule change that moves the anchor off the grid" do
+      let(:params) { { start_date: Date.new(2026, 6, 22), start_time_hour: "14:00" } }
+
+      it "mints a new UID and keeps the schedule that ended" do
+        expect(service_result).to be_success
+
+        series.reload
+        expect(series.uid).not_to eq previous_uid
+        expect(series.current_schedule_start).to eq Time.utc(2026, 6, 22, 14, 0, 0)
+
+        historic = series.last_historic_schedule
+        expect(historic.uid).to eq previous_uid
+        expect(historic.dtstart).to eq anchor
+        expect(historic.sequence).to eq 1
+        expect(historic.rrule).to include "FREQ=WEEKLY"
+
+        # SEQUENCE counts the revisions of one UID, thus the new UID starts again.
+        expect(series.ical_sequence).to eq 0
+      end
+
+      it "ends the old schedule at the last slot that already happened" do
+        expect(service_result).to be_success
+
+        # Monday 8 June 10:00 is the last one before the frozen now. Monday 15 June 10:00 is
+        # still ahead, thus this update moved it and the successor owns it.
+        expect(series.reload.last_historic_schedule.rrule).to include "UNTIL=20260608T100000Z"
+      end
+
+      context "with an invited participant" do
+        let(:recipient) do
+          create(:user, member_with_permissions: { project => %i(view_meetings) })
+        end
+
+        # RFC 5546 3.2.2 permits one UID for each REQUEST. A master and its overrides share it.
+        let(:message_uids) do
+          ActionMailer::Base.deliveries.map do |mail|
+            part = mail.all_parts.find { |p| p.mime_type == "text/calendar" }
+            Icalendar::Calendar.parse(part.body.decoded).first.events.map { it.uid.to_s }.uniq
+          end
+        end
+
+        before do
+          series.template.participants.delete_all
+          series.template.participants << MeetingParticipant.new(user: recipient, invited: true)
+        end
+
+        it "sends one message per UID, the ended schedule first" do
+          expect(service_result).to be_success
+          perform_enqueued_jobs
+
+          expect(ActionMailer::Base.deliveries.count).to eq 2
+          expect(message_uids.first).to contain_exactly(previous_uid)
+          expect(message_uids.second).to contain_exactly(series.reload.uid)
+        end
+
+        it "shows the ended schedule in the first message, and the live one in the second" do
+          expect(service_result).to be_success
+          perform_enqueued_jobs
+
+          live_schedule = User.execute_as(recipient) { series.reload.full_schedule_in_words }
+
+          expect(ActionMailer::Base.deliveries.first.text_part.body.to_s).not_to include live_schedule
+          expect(ActionMailer::Base.deliveries.second.text_part.body.to_s).to include live_schedule
+        end
+
+        it "gives the ended schedule the old grid with an end date as its new side" do
+          expect(service_result).to be_success
+          perform_enqueued_jobs
+
+          # The old grid was weekly at the anchor, and 8 June is its last slot before the
+          # frozen now.
+          ended_schedule = User.execute_as(recipient) do
+            RecurringMeeting.new(frequency: "weekly",
+                                 interval: 1,
+                                 time_zone: "UTC",
+                                 start_time: anchor,
+                                 end_after: :specific_date,
+                                 end_date: Date.new(2026, 6, 8)).full_schedule_in_words
+          end
+
+          expect(ActionMailer::Base.deliveries.first.text_part.body.to_s).to include ended_schedule
+        end
+
+        it "leaves out the ended schedule for a participant who joined after the change" do
+          # The historic schedule is written at the frozen now, thus a later record stands for a
+          # person who was not there when the old series ran.
+          series.template.participants.update_all(created_at: 1.hour.from_now)
+
+          expect(service_result).to be_success
+          perform_enqueued_jobs
+
+          expect(ActionMailer::Base.deliveries.count).to eq 1
+          expect(message_uids.first).to contain_exactly(series.reload.uid)
+        end
+      end
+    end
+
+    context "with a cancelled occurrence in the past of the old grid" do
+      let(:cancelled_slot) { Time.utc(2026, 5, 18, 10, 0, 0) }
+      let(:params) { { start_date: Date.new(2026, 6, 22), start_time_hour: "14:00" } }
+
+      let!(:cancelled_occurrence) do
+        create(:meeting,
+               recurring_meeting: series,
+               project:,
+               start_time: cancelled_slot,
+               recurrence_start_time: cancelled_slot,
+               state: :cancelled)
+      end
+
+      it "freezes it as an EXDATE, before the reschedule destroys the row" do
+        expect(service_result).to be_success
+
+        expect(series.reload.last_historic_schedule.exdates).to contain_exactly(cancelled_slot)
+        expect { cancelled_occurrence.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    context "with a schedule change on a series that did not run yet" do
+      let(:anchor) { Time.utc(2026, 7, 6, 10, 0, 0) }
+      let(:params) { { start_date: Date.new(2026, 7, 13), start_time_hour: "14:00" } }
+
+      it "moves the anchor and keeps the UID" do
+        expect(service_result).to be_success
+
+        series.reload
+        expect(series.uid).to eq previous_uid
+        expect(series.current_schedule_start).to eq Time.utc(2026, 7, 13, 14, 0, 0)
+        expect(series.last_historic_schedule).to be_nil
+      end
+    end
+  end
 end

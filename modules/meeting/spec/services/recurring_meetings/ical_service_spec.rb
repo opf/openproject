@@ -84,6 +84,59 @@ RSpec.describe RecurringMeetings::ICalService, type: :model do # rubocop:disable
     end
   end
 
+  describe "#generate_historic_schedule" do
+    let(:new_york) { ActiveSupport::TimeZone["America/New_York"] }
+    let(:result) { service.generate_historic_schedule.result }
+
+    # A parameter is not searchable in the raw text: iCalendar folds a long line, thus RSVP=TRUE
+    # can arrive as "RSVP=TRU", CRLF, space, "E".
+    def rsvp_flags(ics)
+      Icalendar::Calendar
+        .parse(ics)
+        .first
+        .events
+        .flat_map(&:attendee)
+        .flat_map { Array(it.ical_params["rsvp"]) }
+    end
+
+    context "when the series ended a previous schedule" do
+      before do
+        create(:recurring_meeting_historic_schedule,
+               recurring_meeting: series,
+               uid: "historic@example.com",
+               tzid: "America/New_York",
+               dtstart: new_york.parse("2024-06-03 09:00"),
+               ends_at: new_york.parse("2024-11-25 09:00"),
+               duration: 1.0,
+               summary: "The old weekly schedule",
+               location: "Room 1",
+               rrule: "FREQ=WEEKLY;UNTIL=20241125T140000Z",
+               ical_sequence: 5)
+      end
+
+      it "carries the frozen event alone, as a REQUEST" do
+        expect(parsed_events.map(&:uid)).to contain_exactly("historic@example.com")
+        expect(result).to include("METHOD:REQUEST")
+        expect(series_ical).to include("SUMMARY:The old weekly schedule")
+        expect(series_ical).to include("LOCATION:Room 1")
+        expect(series_ical).to include("RRULE:FREQ=WEEKLY;UNTIL=20241125T140000Z")
+      end
+
+      it "asks nobody to answer again, where the live series does ask" do
+        template.participants.update_all(participation_status: "needs-action")
+
+        expect(rsvp_flags(service.generate_series.result)).to include("TRUE")
+        expect(rsvp_flags(result)).to be_empty
+      end
+    end
+
+    context "when the series never ended a schedule" do
+      it "fails rather than sending an empty calendar" do
+        expect(service.generate_historic_schedule).to be_failure
+      end
+    end
+  end
+
   describe "series with no end_date" do
     shared_let(:series) do
       create(:recurring_meeting,

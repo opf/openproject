@@ -129,6 +129,46 @@ module Meetings
       add_virtual_occurences_for_interim_responses(recurring_meeting: recurring_meeting)
     end
 
+    # If a series ever has been rescheduled, we record its past historic schedules.
+    # We need to output that as a separate master event.
+    # RFC 5546 3.2.2 allows only one UID per REQUEST, so we need to actually send out separate mails for this.
+    # This matches the behavior of other cross-service series schedule changes.
+    def historic_schedule_event(recurring_meeting:) # rubocop:disable Metrics/AbcSize
+      historic = recurring_meeting.last_historic_schedule
+      return if historic.nil?
+
+      timezone = historic.time_zone
+
+      calendar.event do |e|
+        e.uid = historic.uid
+        e.summary = historic.summary
+
+        url = url_helpers.recurring_meeting_url(recurring_meeting)
+        e.url = url
+        e.description = I18n.t(:text_meeting_ics_meeting_series_description, url:)
+        e.organizer = ical_organizer
+
+        e.created = recurring_meeting.template.created_at.utc
+        e.last_modified = historic.created_at.utc
+        e.sequence = historic.sequence
+
+        e.rrule = historic.rrule
+        e.dtstart = ical_datetime(historic.dtstart, timezone:)
+        e.dtend = ical_datetime(historic.dtend, timezone:)
+        e.location = historic.location.presence
+        e.status = "CONFIRMED"
+
+        # include the exdate rules in that old series to make sure that
+        # exception times stay where they were before
+        e.exdate = historic.exdates.map { ical_datetime(it, timezone:) }
+
+        # The last occurrence will act as the until/end date of the old series
+        all_times[timezone].push(historic.ends_at.in_time_zone(timezone))
+
+        add_attendees(event: e, meeting: recurring_meeting.template, rsvp: false)
+      end
+    end
+
     def add_single_recurring_occurrence(meeting:, cancelled: false) # rubocop:disable Metrics/AbcSize
       recurring_meeting = meeting.recurring_meeting
 
@@ -214,7 +254,7 @@ module Meetings
       end
     end
 
-    def add_attendees(event:, meeting:, override_participation_status: {})
+    def add_attendees(event:, meeting:, override_participation_status: {}, rsvp: true)
       meeting.participants.includes(:user).find_each do |participant|
         user = participant.user
         next unless user
@@ -227,7 +267,7 @@ module Meetings
             "CN" => user.name,
             "EMAIL" => user.mail,
             "PARTSTAT" => attendee_participation_status(participant),
-            "RSVP" => attendee_rsvp_needed?(participant) ? "TRUE" : nil,
+            "RSVP" => rsvp && attendee_rsvp_needed?(participant) ? "TRUE" : nil,
             "CUTYPE" => "INDIVIDUAL",
             "ROLE" => "REQ-PARTICIPANT"
           }.compact
@@ -322,24 +362,21 @@ module Meetings
     end
 
     def instantiated_occurrences_for_export(recurring_meeting)
-      # We should not emit previous-schedule instances as individual VEVENTs as some implementations (such as OpenXchange)
-      # reject the whole series if an event is < master DTSTART.
-      upcoming_schedule_occurrences(recurring_meeting)
+      @export_occurrences_cache ||= {}
+      @export_occurrences_cache[recurring_meeting.id] ||= begin
+        past, upcoming = exportable_occurrences(recurring_meeting)
+                           .partition { it.recurrence_start_time < Time.current }
+
+        past.last(PAST_OCCURRENCES_LIMIT) + upcoming
+      end
     end
 
-    def upcoming_schedule_occurrences(recurring_meeting)
-      instantiated_schedules_partitioned(recurring_meeting).second
-    end
-
-    def instantiated_schedules_partitioned(recurring_meeting)
-      @instantiated_schedules_partition_cache ||= {}
-      @instantiated_schedules_partition_cache[recurring_meeting.id] ||=
-        instantiated_schedules(recurring_meeting)
-          .partition { |meeting| in_previous_schedule?(meeting, recurring_meeting) }
-    end
-
-    def in_previous_schedule?(meeting, recurring_meeting)
-      meeting.recurrence_start_time < recurring_meeting.current_schedule_start
+    # Some implementations (such as OpenXchange) reject the full series if an event starts
+    # before the master DTSTART.
+    def exportable_occurrences(recurring_meeting)
+      instantiated_schedules(recurring_meeting)
+        .reject { it.recurrence_start_time < recurring_meeting.current_schedule_start }
+        .sort_by(&:recurrence_start_time)
     end
 
     def add_virtual_occurences_for_interim_responses(recurring_meeting:) # rubocop:disable Metrics/AbcSize

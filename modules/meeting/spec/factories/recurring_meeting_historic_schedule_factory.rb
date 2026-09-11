@@ -28,41 +28,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module RecurringMeetings
-  class SetAttributesService < ::BaseServices::SetAttributes
-    private
+FactoryBot.define do
+  factory :recurring_meeting_historic_schedule, class: "RecurringMeetings::HistoricSchedule" do
+    recurring_meeting
+    sequence(:uid) { |n| "historic-#{n}@example.com" }
 
-    def set_attributes(params)
-      super
-
-      model.change_by_system do
-        if model.frequency_working_days?
-          model.interval = 1
-        end
-
-        determine_current_schedule_start
-      end
+    transient do
+      tzid { "UTC" }
+      dtstart { 20.weeks.ago.change(usec: 0) }
+      ends_at { 1.week.ago.change(usec: 0) }
+      duration { 1.0 }
+      summary { "The old schedule" }
+      location { "Room 1" }
+      rrule { "FREQ=WEEKLY" }
+      exdates { [] }
+      ical_sequence { 1 }
     end
 
-    # current_schedule_start is used as the DTSTART of the ICS series event.
-    # As a result, it needs to be conencted to the UID.
-    # If DTSTART moves while the UID stays the same, some clients delete all earlier
-    # occurrences
-    #
-    # Only RecurringMeetings::StartNewScheduleService will update it again, and
-    # update DTSTART and UID together when the series already has past occurrences.
-    def determine_current_schedule_start
-      return if model.current_schedule_start.present?
-
-      model.current_schedule_start = model.next_occurrence(from_time: Time.current) || model.start_time
-    end
-
-    def set_default_attributes(_params)
-      model.change_by_system do
-        model.time_zone = user.time_zone.name
-        model.author = user
-        model.duration ||= 1
-      end
+    snapshot do
+      {
+        "dtstart" => dtstart.iso8601,
+        "ends_at" => ends_at.iso8601,
+        "tzid" => tzid,
+        "duration" => duration,
+        "summary" => summary,
+        "location" => location,
+        "rrule" => rrule,
+        "exdates" => exdates.map(&:iso8601),
+        "sequence" => ical_sequence
+      }
     end
   end
 end

@@ -29,40 +29,31 @@
 #++
 
 module RecurringMeetings
-  class SetAttributesService < ::BaseServices::SetAttributes
-    private
-
-    def set_attributes(params)
-      super
-
-      model.change_by_system do
-        if model.frequency_working_days?
-          model.interval = 1
-        end
-
-        determine_current_schedule_start
-      end
+  # The state of a series schedule before we update it, including its ice-cube schedule.
+  # StartNewScheduleService will save it as a HistoricSchedule if we find out the change is meaningful
+  # (e.g., it's not a future series we're changing)
+  ScheduleSnapshot = Data.define(:uid, :anchor, :schedule, :rule, :tzid, :summary, :location,
+                                 :duration, :sequence) do
+    def self.capture(recurring_meeting)
+      new(
+        uid: recurring_meeting.uid,
+        anchor: recurring_meeting.current_schedule_start,
+        schedule: recurring_meeting.schedule,
+        rule: recurring_meeting.frequency_rule,
+        tzid: recurring_meeting.time_zone.tzinfo.canonical_identifier,
+        summary: recurring_meeting.title,
+        location: recurring_meeting.template.location,
+        duration: recurring_meeting.template.duration.to_f,
+        sequence: recurring_meeting.ical_sequence
+      )
     end
 
-    # current_schedule_start is used as the DTSTART of the ICS series event.
-    # As a result, it needs to be conencted to the UID.
-    # If DTSTART moves while the UID stays the same, some clients delete all earlier
-    # occurrences
-    #
-    # Only RecurringMeetings::StartNewScheduleService will update it again, and
-    # update DTSTART and UID together when the series already has past occurrences.
-    def determine_current_schedule_start
-      return if model.current_schedule_start.present?
-
-      model.current_schedule_start = model.next_occurrence(from_time: Time.current) || model.start_time
+    def last_occurrence_before(time)
+      schedule.previous_occurrence(time)&.to_time
     end
 
-    def set_default_attributes(_params)
-      model.change_by_system do
-        model.time_zone = user.time_zone.name
-        model.author = user
-        model.duration ||= 1
-      end
+    def rrule_until(time)
+      rule.until(time).to_ical
     end
   end
 end
