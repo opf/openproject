@@ -87,6 +87,12 @@ module Import
             create_member(@project, author) if author.present?
             create_attachment(work_package, attachment, author || User.system)
           end
+
+          journal_service = Import::JiraImportJournals.new(work_package:)
+          journal_service.backfill_attachments
+          # This is the last stage touching a work package, so the migration entry closes its
+          # activity behind everything the import journalized.
+          journal_service.add_migration_entry(updated_at: jira_issue.payload.dig("fields", "updated"))
         end
       end
     end
@@ -94,6 +100,7 @@ module Import
 
     private
 
+    # rubocop:disable-next Metrics/AbcSize
     def create_attachment(work_package, attachment, author)
       filename = attachment["filename"]
       content_url = attachment["content"]
@@ -104,14 +111,25 @@ module Import
         tempfile.define_singleton_method(:original_filename) { filename }
         tempfile.define_singleton_method(:content_type) { mime_type }
         tempfile.define_singleton_method(:size) { size }
-        call = Attachments::CreateService
+        call = Attachments::ImportCreateService
                  .new(user: author, contract_class: EmptyContract)
                  .call(container: work_package, filename:, file: tempfile)
 
         call.on_failure do
           raise call.message
         end
+
+        backdate(call.result, attachment["created"])
       end
+    end
+
+    # Jira attachments cannot be replaced, so both timestamps take the date the file was
+    # attached in Jira rather than the date the import downloaded it.
+    def backdate(record, created)
+      return if created.blank?
+
+      attached_at = Time.zone.parse(created)
+      record.update_columns(created_at: attached_at, updated_at: attached_at)
     end
 
     def create_member(project, member)

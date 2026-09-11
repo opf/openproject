@@ -27,13 +27,30 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
-class Journal::CausedByImport < CauseOfChange::Base
-  def initialize(author_name: nil, history: [], migrated: false)
-    entry = { "author_name" => author_name, "items" => history.presence }.compact
-    additional = entry.present? ? { "import_history" => [entry] } : {}
-    additional["migrated"] = true if migrated
 
-    super("import", additional)
+require "spec_helper"
+
+RSpec.describe Attachments::ImportCreateService do
+  subject(:service) { described_class.new(user:, contract_class: EmptyContract) }
+
+  let(:user) { create(:admin) }
+  let(:work_package) { create(:work_package) }
+  let(:file) { FileHelpers.mock_uploaded_file(name: "picture.png", content_type: "image/png") }
+
+  it "creates the attachment on the container" do
+    call = service.call(container: work_package, filename: "picture.png", file:)
+
+    expect(call).to be_success
+    expect(work_package.attachments.reload.map(&:filename)).to eq(["picture.png"])
+  end
+
+  it "does not journalize the container" do
+    expect { service.call(container: work_package, filename: "picture.png", file:) }
+      .not_to change { work_package.journals.reload.count }
+  end
+
+  it "does not touch the container" do
+    expect { service.call(container: work_package, filename: "picture.png", file:) }
+      .not_to change { work_package.reload.updated_at }
   end
 end

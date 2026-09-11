@@ -291,7 +291,7 @@ module Import
       journal_service = Import::JiraImportJournals.new(work_package:)
 
       jira_created_at = jira_issue.payload.dig("fields", "created")
-      journal_service.update_creation_entry(date_time: jira_created_at) if jira_created_at.present?
+      journal_service.set_creation_time(date_time: jira_created_at) if jira_created_at.present?
 
       history = jira_issue.payload.dig("changelog", "histories")
       journal_service.add_history(history:) if history.present?
@@ -304,7 +304,7 @@ module Import
         journal_service.add_comment(comment:, user: author || User.system)
       end
 
-      journal_service.call
+      journal_service.call(updated_at: jira_issue.payload.dig("fields", "updated"))
     end
     # rubocop:enable Metrics/AbcSize
 

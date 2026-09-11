@@ -178,6 +178,8 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
   end
 
   def import_message
+    return I18n.t("journals.cause_descriptions.import.migrated") if cause["migrated"]
+
     entries = cause["import_history"]
     return "" if entries.blank?
 

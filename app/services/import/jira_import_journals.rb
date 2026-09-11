@@ -30,6 +30,9 @@
 
 module Import
   class JiraImportJournals
+    # Timestamps keep microseconds; a rational addition stays exact where a float loses a nanosecond.
+    TIMESTAMP_STEP = Rational(1, 1_000_000).seconds
+
     attr_reader :work_package
 
     def initialize(work_package:)
@@ -37,11 +40,13 @@ module Import
       @pending_entries = []
     end
 
-    def update_creation_entry(date_time:)
-      creation_journal = work_package.journals.reload.first
+    def set_creation_time(date_time:)
+      parsed = Time.zone.parse(date_time.to_s)
+      work_package.update_column(:created_at, parsed)
+
+      creation_journal = work_package.journals.first
       return unless creation_journal
 
-      parsed = Time.zone.parse(date_time.to_s)
       creation_journal.update_columns(
         created_at: parsed,
         updated_at: parsed,
@@ -59,16 +64,91 @@ module Import
       @pending_entries << { type: :comment, data: comment, user:, created: comment["created"] }
     end
 
-    def call
-      @pending_entries.sort_by { |e| e[:created] }.each do |entry|
+    def call(updated_at: nil)
+      monotonic_entries.each do |entry, date_time|
         case entry[:type]
-        when :history then create_history_journal(entry[:data])
-        when :comment then create_comment_journal(entry[:data], entry[:user])
+        when :history then create_history_journal(entry[:data], date_time)
+        when :comment then create_comment_journal(entry[:data], entry[:user], date_time)
         end
       end
+
+      restore_update_time(updated_at)
+    end
+
+    # Records the attachments in every existing journal, so that the import does not surface them
+    # as a change of its own: the replayed Jira changelog is the only record of them.
+    def backfill_attachments
+      rows = missing_attachable_rows
+      Journal::AttachableJournal.insert_all(rows) if rows.any?
+    end
+
+    def add_migration_entry(updated_at: nil)
+      journalize_at(Time.current) do
+        work_package.add_journal(user: User.system, notes: "", cause: Journal::CausedByImport.new(migrated: true))
+      end
+
+      restore_update_time(updated_at)
     end
 
     private
+
+    def missing_attachable_rows
+      attachments = work_package.attachments.pluck(:id, :file)
+      return [] if attachments.empty?
+
+      journal_ids = work_package.journals.pluck(:id)
+      existing = recorded_attachable_pairs(journal_ids)
+
+      journal_ids.product(attachments).filter_map do |journal_id, (attachment_id, filename)|
+        { journal_id:, attachment_id:, filename: } unless existing.include?([journal_id, attachment_id])
+      end
+    end
+
+    def recorded_attachable_pairs(journal_ids)
+      Journal::AttachableJournal
+        .where(journal_id: journal_ids)
+        .pluck(:journal_id, :attachment_id)
+        .to_set
+    end
+
+    # Journals::CreateService keeps the journals of a journable strictly ordered in time: a
+    # timestamp that is not newer than the preceding journal's is discarded in favour of the
+    # current time. Entries sharing a Jira timestamp, with each other or with the creation
+    # journal, would therefore be stamped with the import date, so they are spaced out by the
+    # smallest step a timestamp column can represent.
+    def monotonic_entries
+      previous = work_package.journals.maximum(:updated_at)
+
+      chronological_entries.map do |entry|
+        date_time = Time.zone.parse(entry[:created].to_s)
+        date_time = previous + TIMESTAMP_STEP if previous && date_time <= previous
+        previous = date_time
+
+        [entry, date_time]
+      end
+    end
+
+    def chronological_entries
+      @pending_entries.sort_by.with_index do |entry, index|
+        [Time.zone.parse(entry[:created].to_s), index]
+      end
+    end
+
+    # Journals inherit their timestamps from the journable, so the work package has to carry the
+    # Jira timestamp of the entry while it is being journalized.
+    def journalize_at(date_time)
+      work_package.update_column(:updated_at, date_time)
+      yield
+      work_package.save_journals
+    end
+
+    # The migration entry is journalized at import time, which must not leak into the work package
+    # itself: it keeps reporting the timestamps it had in Jira.
+    def restore_update_time(date_time)
+      return if date_time.blank?
+
+      work_package.update_column(:updated_at, Time.zone.parse(date_time.to_s))
+    end
 
     def same_minute?(time1, time2)
       Time.zone.parse(time1.to_s).change(sec: 0) == Time.zone.parse(time2.to_s).change(sec: 0)
@@ -115,25 +195,22 @@ module Import
       (entry["items"] || []).any? { |item| item["field"]&.downcase == "description" }
     end
 
-    def create_history_journal(entry)
+    def create_history_journal(entry, date_time)
       author_name = entry.dig("author", "displayName")
       items = convert_history_items(entry["items"])
-      date_time = Time.zone.parse(entry["created"].to_s)
 
-      work_package.update_column(:updated_at, date_time)
-
-      cause = Journal::CausedByImport.new(author_name:, history: items)
-      work_package.add_journal(user: User.system, notes: "", cause:)
-      work_package.save_journals
+      journalize_at(date_time) do
+        cause = Journal::CausedByImport.new(author_name:, history: items)
+        work_package.add_journal(user: User.system, notes: "", cause:)
+      end
     end
 
-    def create_comment_journal(comment, user)
+    def create_comment_journal(comment, user, date_time)
       notes = convert_rich_text(comment["body"])
-      date_time = Time.zone.parse(comment["created"].to_s)
 
-      work_package.update_column(:updated_at, date_time)
-      work_package.add_journal(user:, notes:, internal: false)
-      work_package.save_journals
+      journalize_at(date_time) do
+        work_package.add_journal(user:, notes:, internal: false)
+      end
     end
 
     def convert_history_items(items)
