@@ -1,5 +1,7 @@
 {
-  "entryPoints": ["src/stimulus/**/*.ts"],
+  "entryPoints": [
+    "src/stimulus/**/*.ts"
+  ],
   "entryPointStrategy": "expand",
   "exclude": [
     "**/*.spec.ts",
@@ -18,6 +20,23 @@
   "disableGit": true,
   "gitRevision": "dev",
   "sourceLinkTemplate": "https://github.com/opf/openproject/blob/{gitRevision}/frontend/src/stimulus/{path}#L{line}",
-  "projectDocuments": ["doc/**/*.md"],
-  "tsconfig": "tsconfig.app.json"
+  "projectDocuments": [
+    "doc/**/*.md"
+  ],
+  "tsconfig": "tsconfig.app.json",
+  "highlightLanguages": [
+    "bash",
+    "console",
+    "css",
+    "html",
+    "javascript",
+    "json",
+    "jsonc",
+    "json5",
+    "ruby",
+    "shell",
+    "tsx",
+    "typescript",
+    "yaml"
+  ]
 }

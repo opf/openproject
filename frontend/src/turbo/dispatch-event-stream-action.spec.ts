@@ -45,7 +45,7 @@ describe('dispatchEvent turbo stream action', () => {
   beforeEach(() => {
     registerDispatchEventStreamAction();
     dispatched = [];
-    // jsdom does not let us add a listener for an arbitrary name retroactively,
+    // A listener cannot be added for an arbitrary event name retroactively,
     // so we spy on dispatchEvent itself to record everything.
     vi.spyOn(document, 'dispatchEvent').mockImplementation((event:Event) => {
       dispatched.push(event as CustomEvent);

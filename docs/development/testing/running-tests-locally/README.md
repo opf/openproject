@@ -63,6 +63,8 @@ Alternatively, when in the `frontend/` folder, you can also use the watch mode o
 ./node_modules/.bin/ng test --watch
 ```
 
+For guidance on writing frontend specs — the Stimulus test helpers, Testing Library queries and coverage — see [frontend/doc/TESTING.md](https://github.com/opf/openproject/blob/dev/frontend/doc/TESTING.md).
+
 ## Unit tests
 
 After following the prerequisites, use the following command to run individual specs:
