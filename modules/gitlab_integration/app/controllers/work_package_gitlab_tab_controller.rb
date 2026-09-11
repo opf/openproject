@@ -23,25 +23,32 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-Rails.application.routes.draw do
-  namespace "gitlab_integration" do
-    namespace "admin" do
-      resource :settings, only: %i[show update]
+class WorkPackageGitlabTabController < ApplicationController
+  include OpTurbo::ComponentStream
+
+  load_and_authorize_with_permission_in_project :show_gitlab_content
+
+  before_action :set_work_package
+
+  def index
+    tab_component = GitlabIntegration::WorkPackageGitlabTabComponent.new(@work_package)
+    replace_via_turbo_stream(component: tab_component)
+
+    respond_to_with_turbo_streams do |format|
+      format.html do
+        render(tab_component, layout: false)
+      end
     end
   end
 
-  resources :projects, only: %i[] do
-    resources :work_packages, only: %i[] do
-      resources :gitlab, only: %i[] do
-        collection do
-          resources :tab, only: %i[index], controller: "work_package_gitlab_tab", as: "gitlab_tab"
-        end
-      end
-    end
+  private
+
+  def set_work_package
+    @work_package = @project.work_packages.visible.find(params.expect(:work_package_id))
   end
 end
