@@ -32,7 +32,7 @@ module Bim
     class ViewConverterService
       attr_reader :ifc_model, :errors
 
-      PIPELINE_COMMANDS ||= %w[IfcConvert COLLADA2GLTF gltf2xkt xeokit-metadata].freeze
+      PIPELINE_COMMANDS = %w[IfcConvert COLLADA2GLTF gltf2xkt web-ifc-xeokit-metadata].freeze
 
       def initialize(ifc_model)
         @errors = ActiveModel::Errors.new(self)
@@ -175,14 +175,14 @@ module Bim
       end
 
       ##
-      # Call xeokit-metadata
+      # Call web-ifc-xeokit-metadata
       #
       # @param ifc_filepath {String} Path to the converted IFC model file
       def convert_metadata(ifc_filepath)
         Rails.logger.debug { "Retrieving metadata of #{ifc_model.inspect}" }
 
         convert!(ifc_filepath, "json") do |target_file|
-          Open3.capture2e("xeokit-metadata", ifc_filepath, target_file)
+          Open3.capture2e("web-ifc-xeokit-metadata", ifc_filepath, target_file)
         end
       end
 
