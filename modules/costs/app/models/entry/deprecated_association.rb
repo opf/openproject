@@ -31,10 +31,6 @@
 module Entry::DeprecatedAssociation
   extend ActiveSupport::Concern
 
-  included do |base|
-    base.ignored_columns += %w[work_package_id]
-  end
-
   def work_package
     OpenProject::Deprecation.replaced(:work_package, :entity, caller_locations)
 

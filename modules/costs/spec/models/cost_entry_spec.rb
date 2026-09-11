@@ -530,10 +530,6 @@ RSpec.describe CostEntry do
   end
 
   describe "deprecated work package association" do
-    it "ignores the deprecated work package association" do
-      expect(described_class.ignored_columns).to include("work_package_id")
-    end
-
     it "allows access to the work package" do
       allow(OpenProject::Deprecation).to receive(:replaced)
 
