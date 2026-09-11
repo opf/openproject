@@ -52,7 +52,9 @@ module OpenProject
             {
               data: { controller: "inplace-edit",
                       inplace_edit_url_value: reset_url,
-                      action: "keydown.esc->inplace-edit#request",
+                      action: "keydown.esc->inplace-edit#request " \
+                              "keydown.enter->inplace-edit#submitForm " \
+                              "change->inplace-edit#submitForm",
                       test_selector: }
             }
           else
