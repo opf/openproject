@@ -250,70 +250,26 @@ pt-PT:
                 Neste módulo, pode comunicar as novidades do projeto aos membros da sua equipa.
           versions:
             item_0:
-              name: Lista de acumulados de erros
-            item_1:
-              name: Lista de acumulados de produto
-            item_2:
-              name: Sprint 1
               wiki:
-                title: Sprint 1
+                title: Release 1.0
                 content: |
-                  ### Reunião de planeamento do Sprint
+                  ### Release 1.0
 
-                  _Documente aqui os tópicos da reunião de planeamento do Sprint_
+                  _Please document here what this release contains._
 
-                  * Tempo atribuído (8 h)
-                  * Entrada: Backlog do produto
-                  * Saída: Backlog do Sprint
-
-                  * Dividido em dois períodos adicionais de 4 h:
-
-                      * O Proprietário do Produto apresenta o [Backlog do produto]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) e as prioridades à equipa, e explica o objetivo do Sprint, com o qual a equipa deve concordar. Juntos, dão prioridade aos tópicos do backlog de produto que a equipa irá tratar no próximo sprint. A equipa compromete-se com a entrega discutida.
-                      * A equipa planeia autonomamente (sem o Proprietário do Produto) em pormenor, e divide as tarefas a partir dos requisitos discutidos para consolidar um [Backlog do Sprint]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
-
-
-                  ### Reunião diária do Scrum
-
-                  _Documente aqui os tópicos da reunião diária do Scrum_
-
-                  * Reunião breve diária sobre o estado da equipa.
-                  * Tempo atribuído (máx. 15 min).
-                  * Reunião de pé para debater os seguintes temas do [Quadro de tarefas](##sprint:scrum_project__version__sprint_1).
-                      * O que tenciono fazer até à próxima reunião diária do Scrum?
-                      * O que é que bloqueou o meu trabalho (Impedimentos)?
-                  * O Scrum Master modera e anota [Impedimentos do Sprint](##sprint:scrum_project__version__sprint_1).
-                  * O Proprietário do Produto pode participar para se manter a par.
-
-                  ### Reunião de revisão do Sprint
-
-                  _Documente aqui os tópicos da reunião de revisão do Sprint_
-
-                  * Tempo atribuído (4 h).
-                  * No máximo, uma hora de preparação por pessoa.
-                  * A equipa mostra ao proprietário do produto e a outras pessoas interessadas o que foi alcançado neste sprint.
-                  * Importante: sem guias e sem PowerPoint! Apenas deve ser demonstrada a funcionalidade do produto acabado (incrementos).
-                  * O feedback do Proprietário do Produto, das partes interessadas e de outros é desejado e será incluído no trabalho futuro.
-                  * Com base nas funcionalidades demonstradas, o Proprietário do Produto decide avançar com este incremento ou desenvolvê-lo mais. Esta possibilidade permite um retorno sobre o investimento antecipado.
-
-
-                  ### Retrospetiva do Sprint
-
-                  _Documente aqui os tópicos da reunião de retrospetiva do Sprint_
-
-                  * Tempo atribuído (3 h).
-                  * Após a revisão do Sprint, será moderado pelo Scrum Master.
-                  * A equipa discute o sprint: o que correu bem, o que precisa de ser melhorado para ser mais produtivo no próximo sprint ou até para se divertirem mais.
-            item_3:
-              name: Sprint 2
+                  * The work packages of this release are the ones with the target version 1.0.
+                  * The release date is the date of the *Release v1.0* milestone.
+                  * Open the [Roadmap]({{opSetting:base_url}}/projects/your-scrum-project/roadmap) to follow the progress of all versions.
+                  * Open [Project settings &rightarrow; Versions]({{opSetting:base_url}}/projects/your-scrum-project/settings/versions) to link another wiki page to a version.
           categories:
             item_0: Categoria 1 (para ser alterado nas definições do Projeto)
           queries:
             item_0:
               name: Plano do projeto
             item_1:
-              name: Backlog do produto
+              name: Version 1.1
             item_2:
-              name: Sprint 1
+              name: Version 1.0
             item_3:
               name: Tarefas
           boards:
@@ -339,20 +295,21 @@ pt-PT:
                 options:
                   name: Introdução
                   text: |
-                    Estamos contentes por se ter juntado a nós! Sugerimos que experimente algumas coisas para começar a usar o OpenProject.
+                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
-                    _Experimente os seguintes passos:_
+                    _Try the following steps:_
 
-                    1. *Convidar novos membros para o projeto*: &rightarrow; Aceda a [Membros]({{opSetting:base_url}}/projects/your-scrum-project/members) na navegação do projeto.
-                    2. *Ver o seu backlog de produtos e backlog de sprint*: &rightarrow; Aceda a [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) na navegação do projeto.
-                    3. *Ver o seu quadro de tarefas*: &rightarrow; Aceda a [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Clique na seta para a direita em Sprint &rightarrow; Selecione [Quadro de tarefas](##sprint:scrum_project__version__sprint_1).
-                    4. *Criar um novo pacote de trabalho*: &rightarrow; Aceda a [Pacotes de trabalho &rightarrow; Criar]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    5. *Criar e atualizar um plano de projeto*: &rightarrow; Aceda a [Plano do projeto](##query:scrum_project__query__project_plan) na navegação do projeto.
-                    6. *Criar uma wiki do Sprint*: &rightarrow; Aceda a [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) e abra a wiki do sprint a partir do menu pendente do lado direito num sprint. Pode editar o [modelo da wiki]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) mediante as suas necessidades.
-                    7. *Ativar mais módulos*: &rightarrow; Aceda a [Definições do projeto &rightarrow; Módulos]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
+                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
+                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
+                    3. *Create a sprint*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and click "+ Sprint" to create a new sprint. Move work packages from the backlog to the sprint to plan the work to be done. When ready, click "Start sprint".
+                    4. *View your Sprint board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select Sprint Board.
+                    5. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    6. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
+                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
-                    Aqui encontra as nossas [Guias do Utilizador](https://www.openproject.org/docs/user-guide/).
-                    Informe-nos se tiver alguma dúvida ou precisar de apoio. Contacte-nos: [support[at]openproject.com](mailto:support@openproject.com).
+
+                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
+                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: Pacotes de trabalho

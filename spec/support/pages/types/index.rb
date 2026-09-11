@@ -38,46 +38,28 @@ module Pages
       end
 
       def expect_listed(*types)
-        rows = page.all "td.timelines-pet-name"
+        headers = page.all(".Box-header .Button-label, .Box-header a")
 
-        expected = types.map { |t| canonical_name(t) }
-
-        expect(rows.map(&:text)).to eq(expected)
-      end
-
-      def expect_successful_create
-        expect_toast message: I18n.t(:notice_successful_create)
-      end
-
-      def expect_successful_update
-        expect_toast message: I18n.t(:notice_successful_update)
+        expect(headers.map(&:text)).to include(*types.map { |t| canonical_name(t) })
       end
 
       def click_new
         page.find_test_selector("op-admin-types--button-new", text: "Type").click
       end
 
-      def click_edit(type)
-        within_row(type) do
-          click_link canonical_name(type)
-        end
-      end
-
       def delete(type)
-        accept_alert do
-          within_row(type) do
-            find(".icon-delete").click
-          end
-        end
+        within_header(type) { find("action-menu > button").click }
+
+        accept_confirm { click_button I18n.t(:button_delete) }
       end
 
       private
 
-      def within_row(type)
-        row = page.find("table tr", text: canonical_name(type))
+      def within_header(type)
+        header = page.find(".Box-header", text: canonical_name(type))
 
-        within row do
-          yield row
+        within header do
+          yield header
         end
       end
 

@@ -240,7 +240,7 @@ Rails.application.reloader.to_prepare do
       map.permission :manage_types,
                      {
                        "projects/settings/work_packages": %i[show],
-                       "projects/settings/work_packages/types": %i[index new create destroy bulk_update]
+                       "projects/settings/work_packages/types": %i[index new create destroy]
                      },
                      permissible_on: :project,
                      require: :member
@@ -274,7 +274,6 @@ Rails.application.reloader.to_prepare do
                        "work_package_types/configuration_dependents": %i[dialog],
                        "workflows/matrix": %i[show update status_dialog confirm_statuses],
                        "workflows/copies": %i[new],
-                       "workflows/copies/from_variants": %i[create],
                        "workflows/copies/from_roles": %i[create]
                      },
                      permissible_on: :project,

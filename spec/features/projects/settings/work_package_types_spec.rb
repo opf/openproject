@@ -31,7 +31,7 @@
 require "spec_helper"
 require "support/pages/projects/settings/work_package_types"
 
-RSpec.describe "Project settings work package types", :js, with_flag: { type_variants: true } do
+RSpec.describe "Project settings work package types", :js do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   shared_let(:epic) { create(:type, name: "Epic") }

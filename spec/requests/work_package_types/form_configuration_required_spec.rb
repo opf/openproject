@@ -23,8 +23,7 @@ require "spec_helper"
 
 RSpec.describe "Work package type required attributes",
                :skip_csrf,
-               type: :rails_request,
-               with_flag: { type_variants: true } do
+               type: :rails_request do
   shared_let(:admin) { create(:admin) }
   shared_let(:custom_field) { create(:integer_wp_custom_field) }
   shared_let(:type) { create(:type) }
@@ -132,14 +131,6 @@ RSpec.describe "Work package type required attributes",
 
         expect(response).to have_http_status(:not_found)
         expect(required_on(other_projects_variant)).to be_empty
-      end
-
-      it "hides the project address while the variants feature is off",
-         :aggregate_failures, with_flag: { type_variants: false } do
-        toggle(owned_variant, in_project: project)
-
-        expect(response).to have_http_status(:not_found)
-        expect(required_on(owned_variant)).to be_empty
       end
     end
 

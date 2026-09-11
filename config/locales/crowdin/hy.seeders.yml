@@ -250,70 +250,26 @@ hy:
                 Այս մոդուլում կարող եք Ձեր թիմի անդամներին հաղորդել նախագծի նորությունները։
           versions:
             item_0:
-              name: Վրիպակների բեքլոգ
-            item_1:
-              name: Արտադրանքի բեքլոգ
-            item_2:
-              name: Սպրինտ 1
               wiki:
-                title: Սպրինտ 1
+                title: Release 1.0
                 content: |
-                  ### Սպրինտի պլանավորման հանդիպում
+                  ### Release 1.0
 
-                  _Խնդրում ենք այստեղ փաստագրել սպրինտի պլանավորման հանդիպման թեմաները_
+                  _Please document here what this release contains._
 
-                  * Ժամանակով սահմանափակված (8 ժ)
-                  * Մուտք՝ Արտադրանքի բեքլոգ
-                  * Ելք՝ Սպրինտի բեքլոգ
-
-                  * Բաժանված է 4 ժ տևողությամբ երկու լրացուցիչ ժամանակահատվածի՝
-
-                      * Product Owner-ը թիմին ներկայացնում է [Արտադրանքի բեքլոգը]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) և առաջնահերթությունները և բացատրում է Սպրինտի նպատակը, որին թիմը պետք է համաձայնի։ Միասին նրանք ըստ առաջնահերթության դասավորում են Արտադրանքի բեքլոգի այն թեմաները, որոնցով թիմը կզբաղվի հաջորդ սպրինտում։ Թիմը պարտավորվում է կատարել քննարկված առաքումը։
-                      * Թիմն ինքնուրույն (առանց Product Owner-ի) մանրամասն պլանավորում է և քննարկված պահանջներից առանձնացնում է առաջադրանքները՝ [Սպրինտի բեքլոգը]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) ձևավորելու համար։
-
-
-                  ### Ամենօրյա Scrum հանդիպում
-
-                  _Խնդրում ենք այստեղ փաստագրել ամենօրյա Scrum հանդիպման թեմաները_
-
-                  * Թիմի կարճ, ամենօրյա հանդիպում ընթացիկ վիճակի վերաբերյալ։
-                  * Ժամանակով սահմանափակված (առավ. 15 ր)։
-                  * Ոտքի վրա անցկացվող հանդիպում՝ [Առաջադրանքների տախտակից](##sprint:scrum_project__version__sprint_1) հետևյալ թեմաները քննարկելու համար։
-                      * Ի՞նչ եմ պլանավորում անել մինչև հաջորդ ամենօրյա Scrum-ը։
-                      * Ի՞նչն է խոչընդոտել իմ աշխատանքը (խոչընդոտներ)։
-                  * Scrum Master-ը վարում է հանդիպումը և գրանցում [սպրինտի խոչընդոտները](##sprint:scrum_project__version__sprint_1)։
-                  * Product Owner-ը կարող է մասնակցել՝ տեղեկացված մնալու համար։
-
-                  ### Սպրինտի վերանայման հանդիպում
-
-                  _Խնդրում ենք այստեղ փաստագրել սպրինտի վերանայման հանդիպման թեմաները_
-
-                  * Ժամանակով սահմանափակված (4 ժ)։
-                  * Յուրաքանչյուր մասնակցի համար առավելագույնը մեկ ժամ նախապատրաստման ժամանակ։
-                  * Թիմը Product Owner-ին և այլ շահագրգիռ անձանց ցույց է տալիս, թե ինչ է ձեռք բերվել այս սպրինտում։
-                  * Կարևոր՝ ոչ մի մակետ և ոչ մի PowerPoint։ Պետք է ցուցադրվի միայն ավարտված արտադրանքի ֆունկցիոնալությունը (ինկրեմենտներ)։
-                  * Product Owner-ի, շահագրգիռ կողմերի և այլոց արձագանքը ցանկալի է և հաշվի կառնվի հետագա աշխատանքում։
-                  * Ցուցադրված ֆունկցիոնալության հիման վրա Product Owner-ը որոշում է այս ինկրեմենտը գործարկել կամ շարունակել մշակել այն։ Այս հնարավորությունը թույլ է տալիս ապահովել վաղ ROI։
-
-
-                  ### Սպրինտի ռետրոսպեկտիվ
-
-                  _Խնդրում ենք այստեղ փաստագրել սպրինտի ռետրոսպեկտիվ հանդիպման թեմաները_
-
-                  * Ժամանակով սահմանափակված (3 ժ)։
-                  * Անցկացվում է Սպրինտի վերանայումից հետո, վարում է Scrum Master-ը։
-                  * Թիմը քննարկում է սպրինտը՝ ինչն է լավ անցել, ինչը պետք է բարելավել, որպեսզի հաջորդ սպրինտում ավելի արդյունավետ լինի կամ նույնիսկ ավելի հաճելի անցնի։
-            item_3:
-              name: Սպրինտ 2
+                  * The work packages of this release are the ones with the target version 1.0.
+                  * The release date is the date of the *Release v1.0* milestone.
+                  * Open the [Roadmap]({{opSetting:base_url}}/projects/your-scrum-project/roadmap) to follow the progress of all versions.
+                  * Open [Project settings &rightarrow; Versions]({{opSetting:base_url}}/projects/your-scrum-project/settings/versions) to link another wiki page to a version.
           categories:
             item_0: Կատեգորիա 1 (ենթակա է փոփոխման նախագծի կարգավորումներում)
           queries:
             item_0:
               name: Նախագծի պլան
             item_1:
-              name: Արտադրանքի բեքլոգ
+              name: Version 1.1
             item_2:
-              name: Սպրինտ 1
+              name: Version 1.0
             item_3:
               name: Առաջադրանքներ
           boards:
@@ -339,20 +295,21 @@ hy:
                 options:
                   name: Ինչպես սկսել
                   text: |
-                    Ուրախ ենք, որ միացել եք։ Առաջարկում ենք փորձել մի քանի բան՝ OpenProject-ում աշխատանքը սկսելու համար։
+                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
-                    _Փորձեք հետևյալ քայլերը՝_
+                    _Try the following steps:_
 
-                    1. *Հրավիրեք նոր անդամներ Ձեր նախագիծ*՝ &rightarrow; անցեք նախագծի նավիգացիայի [Անդամներ]({{opSetting:base_url}}/projects/your-scrum-project/members) բաժին։
-                    2. *Դիտեք Ձեր Արտադրանքի բեքլոգը և Սպրինտի բեքլոգները*՝ &rightarrow; անցեք նախագծի նավիգացիայի [Բեքլոգներ]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) բաժին։
-                    3. *Դիտեք Ձեր առաջադրանքների տախտակը*՝ &rightarrow; անցեք [Բեքլոգներ]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; սեղմեք սպրինտի աջ սլաքի վրա &rightarrow; ընտրեք [Առաջադրանքների տախտակ](##sprint:scrum_project__version__sprint_1)։
-                    4. *Ստեղծեք նոր աշխատանքային փաթեթ*՝ &rightarrow; անցեք [Աշխատանքային փաթեթներ &rightarrow; Ստեղծել]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new)։
-                    5. *Ստեղծեք և թարմացրեք նախագծի պլան*՝ &rightarrow; անցեք նախագծի նավիգացիայի [Նախագծի պլան](##query:scrum_project__query__project_plan) բաժին։
-                    6. *Ստեղծեք Սպրինտի վիքի*՝ &rightarrow; անցեք [Բեքլոգներ]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) և սպրինտի աջ բացվող ընտրացանկից բացեք սպրինտի վիքին։ Դուք կարող եք խմբագրել [վիքի ձևանմուշը]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) ըստ Ձեր կարիքների։
-                    7. *Ակտիվացրեք լրացուցիչ մոդուլներ*՝ &rightarrow; անցեք [Նախագծի կարգավորումներ &rightarrow; Մոդուլներ]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules)։
+                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
+                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
+                    3. *Create a sprint*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and click "+ Sprint" to create a new sprint. Move work packages from the backlog to the sprint to plan the work to be done. When ready, click "Start sprint".
+                    4. *View your Sprint board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select Sprint Board.
+                    5. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    6. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
+                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
-                    Այստեղ կգտնեք մեր [Օգտատերի ուղեցույցները](https://www.openproject.org/docs/user-guide/)։
-                    Խնդրում ենք տեղեկացնել մեզ, եթե հարցեր ունեք կամ աջակցության կարիք։ Կապվեք մեզ հետ՝ [support[at]openproject.com](mailto:support@openproject.com)։
+
+                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
+                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: Աշխատանքային փաթեթներ

@@ -51,7 +51,7 @@ RSpec.describe WorkPackageTypes::ProjectAttributes::IndexComponent, type: :compo
     end
   end
 
-  context "when the variant is linked for the aspect", with_flag: { type_variants: true } do
+  context "when the variant is linked for the aspect" do
     let(:source_type) { create(:type) }
     let(:source) { source_type.default_variant }
     let(:custom_field) { create(:project_custom_field) }

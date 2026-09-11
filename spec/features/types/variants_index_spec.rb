@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Work package variants index", :js, with_flag: { type_variants: true } do
+RSpec.describe "Work package variants index", :js do
   shared_let(:admin) { create(:admin) }
   shared_let(:bug_type) { create(:type, name: "Bug") }
   shared_let(:feature_type) { create(:type, name: "Feature") }

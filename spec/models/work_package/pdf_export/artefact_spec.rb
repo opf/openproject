@@ -264,7 +264,7 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
     end
   end
 
-  describe "linked form configuration", with_flag: { type_variants: true } do
+  describe "linked form configuration" do
     let(:source_type) do
       create(:type_bug).tap do |t|
         variant = t.default_variant
@@ -289,7 +289,7 @@ RSpec.describe WorkPackage::PDFExport::Artefact do
     end
   end
 
-  describe "form configuration when the project resolves a variant", with_flag: { type_variants: true } do
+  describe "form configuration when the project resolves a variant" do
     let(:type) do
       create(:type_bug).tap do |t|
         variant = t.default_variant

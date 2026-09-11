@@ -72,7 +72,7 @@ RSpec.describe WorkPackageTypes::SwitchToIndependentModeService do
       end
     end
 
-    context "with the copy mode and exclusions (form configuration)", with_flag: { type_variants: true } do
+    context "with the copy mode and exclusions (form configuration)" do
       let(:aspect) { TypeVariant::FORM_CONFIGURATION }
       let(:owner) do
         create(:type).default_variant.tap do |owner_variant|
@@ -129,7 +129,7 @@ RSpec.describe WorkPackageTypes::SwitchToIndependentModeService do
       end
     end
 
-    context "with the empty mode (workflows)", with_flag: { type_variants: true } do
+    context "with the empty mode (workflows)" do
       let(:aspect) { TypeVariant::WORKFLOWS }
 
       it "removes all transitions and severs the link" do
@@ -167,8 +167,7 @@ RSpec.describe WorkPackageTypes::SwitchToIndependentModeService do
         expect(variant.own_project_custom_field_type_mappings.map(&:custom_field_id)).to contain_exactly(field.id)
       end
 
-      it "copies only the attributes the variant kept active, dropping the ones it disabled",
-         with_flag: { type_variants: true } do
+      it "copies only the attributes the variant kept active, dropping the ones it disabled" do
         source = create(:type).default_variant
         kept = create(:project_custom_field)
         disabled = create(:project_custom_field)

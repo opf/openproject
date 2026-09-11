@@ -16,13 +16,13 @@ ro:
           overlaps: suprapunere.
     models:
       grids/grid:
-        one: Grid
-        few: Grids
-        other: Grids
+        one: Grilă
+        few: Grile
+        other: Grile
       grids/widget:
         one: Widget
-        few: Widgets
-        other: Widgets
+        few: Widget-uri
+        other: Widget-uri
   grids:
     label_widget_in_grid: Widget conținut în grila %{grid_name}
     widgets:

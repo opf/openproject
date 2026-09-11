@@ -250,70 +250,26 @@ ja:
                 このモジュールでは、プロジェクトのニュースをチームメンバーに伝えることができます。
           versions:
             item_0:
-              name: バグバックログ
-            item_1:
-              name: 製品バックログ
-            item_2:
-              name: スプリント1
               wiki:
-                title: スプリント1
+                title: Release 1.0
                 content: |
-                  ### スプリント計画会議
+                  ### Release 1.0
 
-                  _スプリント計画会議へのトピックをここに文書化してください_
+                  _Please document here what this release contains._
 
-                  * タイムボックス（8時間）
-                  * インプット：プロダクトバックログ
-                  * アウトプット：スプリントバックログ
-
-                  * 4時間の追加タイムボックス2つに分割：
-
-                      * プロダクトオーナーは、[プロダクトバックログ]({{opSetting:base_url}}/projects/your-scrum-project/backlogs)と優先順位をチームに提示し、チームが同意しなければならないスプリントゴールを説明する。一緒に、プロダクトバックログから、チームが次のスプリントで担当するトピックに優先順位をつける。チームは議論された納品にコミットする。
-                      * チームは自律的に（プロダクトオーナーなしで）詳細な計画を立て、議論された要件からタスクを分解して[スプリントバックログ]({{opSetting:base_url}}/projects/your-scrum-project/backlogs)を統合する。
-
-
-                  ### デイリースクラムミーティング
-
-                  _デイリースクラムミーティングのトピックをここに文書化してください_
-
-                  * 短い、毎日のチームのステータスミーティング。
-                  * 時間枠（最大15分）。
-                  * タスクボード](##sprint:scrum_project__version__sprint_1)から以下のトピックについて議論する。
-                      * 次のデイリースクラムまで何をする予定か？
-                      * 次のデイリースクラムまで何をする予定か？
-                  * スクラムマスターがモデレーターとなり、[スプリントの阻害要因](##sprint:scrum_project__version__sprint_1)をメモします。
-                  * プロダクトオーナーは情報を得るために参加することができる。
-
-                  ### スプリントレビューミーティング
-
-                  _スプリントレビューミーティングのトピックをここに記録してください_
-
-                  * タイムボックス（4時間）。
-                  * 準備時間は1人あたり最大1時間。
-                  * チームは、プロダクトオーナーやその他の関係者に、このスプリントで達成されたことを示す。
-                  * 重要：ダミーやパワーポイントは使わない！完成した製品の機能（インクリメント）だけを示すこと。
-                  * プロダクトオーナー、利害関係者、その他からのフィードバックが望まれ、今後の作業に含まれる。
-                  * 実証された機能性に基づいて、プロダクトオーナーはこのインクリメントを本番稼動させるか、あるいはさらに開発するかを決定する。この可能性は、早期の ROI を可能にする。
-
-
-                  ### スプリントレトロスペクティブ
-
-                  _スプリントレトロスペクティブミーティングへのトピックをここに文書化してください_
-
-                  * 時間枠（3時間）。
-                  * スプリントレビューの後、スクラムマスターが司会を務める。
-                  * チームはスプリントについて議論する：何がうまくいったか、次のスプリントでより生産的になるために何を改善する必要があるか、あるいはもっと楽しむ必要があるか。
-            item_3:
-              name: スプリント2
+                  * The work packages of this release are the ones with the target version 1.0.
+                  * The release date is the date of the *Release v1.0* milestone.
+                  * Open the [Roadmap]({{opSetting:base_url}}/projects/your-scrum-project/roadmap) to follow the progress of all versions.
+                  * Open [Project settings &rightarrow; Versions]({{opSetting:base_url}}/projects/your-scrum-project/settings/versions) to link another wiki page to a version.
           categories:
             item_0: カテゴリー1（プロジェクト設定で変更可能）
           queries:
             item_0:
               name: プロジェクト計画
             item_1:
-              name: プロダクトバックログ
+              name: Version 1.1
             item_2:
-              name: スプリント1
+              name: Version 1.0
             item_3:
               name: タスク
           boards:
@@ -339,20 +295,21 @@ ja:
                 options:
                   name: はじめに
                   text: |
-                    ご参加いただきありがとうございます！OpenProjectを始めるにあたって、いくつかのことを試してみることをお勧めします。
+                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+
+                    _Try the following steps:_
+
+                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
+                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
+                    3. *Create a sprint*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and click "+ Sprint" to create a new sprint. Move work packages from the backlog to the sprint to plan the work to be done. When ready, click "Start sprint".
+                    4. *View your Sprint board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select Sprint Board.
+                    5. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    6. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
+                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
 
-
-                    1.*プロジェクトに新しいメンバーを招待する： &rightarrow; プロジェクトナビゲーションの [メンバー]({{opSetting:base_url}}/projects/your-scrum-project/members) に移動します。
-                    2.*プロダクトバックログとスプリントバックログを見る*： &rightarrow; プロジェクトナビゲーションの[Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs)に行く。
-                    3.*タスクボードを見る &rightarrow; Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; スプリントの右矢印をクリック &rightarrow; [Task Board](##sprint:scrum_project__version__sprint_1)を選択する。
-                    4.*新しいワークパッケージを作成する： &rightarrow; Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new) に行く。
-                    5.*プロジェクト計画の作成と更新*： &rightarrow; プロジェクトナビゲーションの[プロジェクト計画](##query:scrum_project__query__project_plan)に行く。
-                    6.*スプリントWikiを作成する： &rightarrow; Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs)に移動し、スプリント内の右ドロップダウンメニューからスプリントwikiを開きます。wiki テンプレート]({{opSetting:base_url}}/projects/your-scrum-project/wiki/)を必要に応じて編集する。
-                    7.*さらにモジュールを有効にする &rightarrow; Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules) にアクセスしてください。
-
-                    ここに[ユーザーガイド](https://www.openproject.org/docs/user-guide/)があります。
-                    ご質問やサポートが必要な場合はご連絡ください。ご連絡ください：[support[at]openproject.com](mailto:support@openproject.com)。
+                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
+                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: ワークパッケージ

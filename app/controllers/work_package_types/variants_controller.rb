@@ -30,11 +30,10 @@
 
 module WorkPackageTypes
   class VariantsController < BaseTabController
-    include TypeVariantsFeature
     include OpTurbo::ComponentStream
 
-    before_action :require_type_variants_feature
-    administration_only! :index, :make_default, :remove_default
+    administration_only! :index, :make_default, :remove_default,
+                         :convert_to_global_dialog, :convert_to_global
 
     current_menu_item do
       :types
@@ -92,6 +91,32 @@ module WorkPackageTypes
 
     def remove_default
       apply_default_service(RemoveDefaultService, "types.index.remove_default_notice")
+    end
+
+    def convert_to_global_dialog
+      variant = named_variant
+      service_call = ConvertToGlobalService.new(variant:).validate
+
+      if service_call.errors.added?(:base, :inherits_from_project_owned)
+        refuse_blocked_convert(service_call)
+      else
+        dialog_via_turbo_stream(component: convert_confirm_dialog(variant))
+      end
+
+      respond_with_turbo_streams
+    end
+
+    def convert_to_global
+      variant = named_variant
+      service_call = ConvertToGlobalService.new(variant:).call(name: requested_name)
+
+      if service_call.success?
+        flash[:notice] = t("types.index.convert_to_global_notice", name: variant.composite_name)
+        return redirect_back_or_default(types_path, status: :see_other)
+      end
+
+      handle_failed_convert(service_call)
+      respond_with_turbo_streams
     end
 
     private
@@ -159,6 +184,50 @@ module WorkPackageTypes
       )
 
       respond_to_with_turbo_streams
+    end
+
+    def handle_failed_convert(service_call)
+      if service_call.errors.added?(:base, :inherits_from_project_owned)
+        refuse_blocked_convert(service_call)
+      elsif params.key?(:type_variant)
+        repaint_rename_form(service_call)
+      else
+        open_rename_dialog
+      end
+    end
+
+    def refuse_blocked_convert(service_call)
+      flash[:error] = service_call.errors.full_messages
+      reload_page_via_turbo_stream
+    end
+
+    def open_rename_dialog
+      close_dialog_via_turbo_stream(Types::ConvertToGlobalDialogComponent::DIALOG_ID)
+      variant = named_variant # Fresh version, no preexisting errors
+      dialog_via_turbo_stream(component: Types::ConvertToGlobalRenameDialogComponent.new(
+        variant:, url: convert_path(variant)
+      ))
+    end
+
+    def repaint_rename_form(service_call)
+      update_via_turbo_stream(
+        component: Types::ConvertToGlobalRenameFormComponent.new(
+          variant: service_call.result, url: convert_path(service_call.result)
+        ),
+        status: :unprocessable_entity
+      )
+    end
+
+    def requested_name
+      params.dig(:type_variant, :variant_name)
+    end
+
+    def convert_confirm_dialog(variant)
+      Types::ConvertToGlobalDialogComponent.new(url: convert_path(variant))
+    end
+
+    def convert_path(variant)
+      convert_to_global_type_variant_path(type_id: variant.type_id, id: variant.id)
     end
   end
 end

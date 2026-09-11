@@ -234,6 +234,7 @@ sv:
         position: Position
       persisted_query:
         filters: Filter
+        group_bys: Group results by
         name: Namn
         orders: Sorteringar
         selects: Val
@@ -742,7 +743,6 @@ sv:
             types:
               cannot_assign_multiple_variants_of_parent: Endast en variant av en typ kan aktiveras i projektet
               cannot_assign_variant_and_parent: Det går inte att tilldela både en variant och dess överordnade variant
-              cannot_assign_variants_yet: Varianter kan ännu inte aktiveras i ett projekt. Aktivera funktionsflaggan för att prova varianter
               in_use_by_work_packages: 'används fortfarande av arbetspaket: %{types}'
               switch_target_blank: Välj varianten att byta till
               switch_target_identical: Måltypen måste skilja sig från den typ som projektet använder nu
@@ -865,6 +865,9 @@ sv:
               query_invalid: 'Den inbäddade frågan ''%{group}'' är ogiltigt: %{details}'
             base:
               borrowed_by_variants: Kan inte tas bort medan dess konfiguration återanvänds av %{names}.
+              inherits_from_project_owned: 'This variant currently inherits from a project-specific variant and cannot be converted to a global variant.
+
+                '
               is_default_variant: Standardkonfigurationen för en typ kan inte tas bort.
               project_variants_not_allowed: Den här typen tillåter inte att varianter skapas i projekt.
               restrict_dependent_destroy:
@@ -2197,6 +2200,9 @@ sv:
     label_delete_token: Ta bort token för säkerhetskopia
     label_reset_token: Återställ token för säkerhetskopia
     label_token_users: Följande användare har aktiva token för säkerhetskopiering
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: Skapa
       action_reset: Återställ
@@ -3456,7 +3462,6 @@ sv:
   label_copy_target: Mål
   label_copy_workflow_from: Kopiera arbetsflöde från
   label_copy_workflow_from_role: Kopiera till andra roller
-  label_copy_workflow_from_type: Kopiera till en annan typ
   label_core_build: Kärnbygge
   label_core_version: Kärnversion
   label_created_by: Skapad av %{user}
@@ -4282,6 +4287,9 @@ sv:
   mail_body_account_information: Din kontoinformation
   mail_body_account_information_external: Du kan använda ditt %{value} konto för att logga in.
   mail_body_backup_ready: 'Den säkerhetskopia du begärde är klar. Du kan hämta den här:'
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: Föregående token är inte längre giltig.
   mail_body_backup_token_reset_admin_info: Säkerhetskopieringstoken för användaren "%{user}" har återställts.
   mail_body_backup_token_reset_user_info: Din säkerhetskopieringstoken har återställts.
@@ -4859,8 +4867,6 @@ sv:
       not_found: hittades inte.
       respond_to?: implementerar inte den obligatoriska metoden.
       rules:
-        copy_workflow_from:
-          workflow_missing: har inget eget arbetsflöde.
         custom_field:
           format_not_supported: formatet "%{field_format}" stöds inte.
         item:
@@ -4880,7 +4886,6 @@ sv:
     or: eller
     rules:
       blueprint: Mönsterritning
-      copy_workflow_from: Typ för kopiering av arbetsflöde
       depth: Djup
       enabled: Aktiverad
       item: Objekt
@@ -6421,6 +6426,15 @@ sv:
         query_group_label: Tabell med relaterade arbetspaket
         remove_attribute: Ta bort från avsnitt
         rename_group: Döp om sektion
+        required:
+          already_required_globally: This custom field is required for all types.
+          for_variant: Required in this type
+          globally: Required
+          globally_hint: Change this on the custom field
+          mark: Require in this type
+          not_a_custom_field: Only a custom field can be made required for a single type.
+          not_available_when_linked: This configuration is inherited. Configure it manually to change what is required.
+          unmark: Do not require in this type
         reset_description: 'Detta återställer attributen till deras standardgrupp och inaktiverar ALLA anpassade fält.
 
           '
@@ -6571,7 +6585,7 @@ sv:
         filter_no_results: Inga varianter matchar filtret
         global_section:
           description: Dessa varianter är tillgängliga i alla projekt.
-          title: Varianter
+          title: Global variants
         project_specific_section:
           description: Dessa varianter är endast tillgängliga i de projekt där de skapades.
           title: Projektspecifika varianter
@@ -6580,6 +6594,17 @@ sv:
     index:
       add_variant: Lägg till en variant till %{name}
       add_variant_action: Lägg till variant
+      convert_to_global: Convert to global variant
+      convert_to_global_dialog:
+        confirm: Convert
+        text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
+
+          '
+      convert_to_global_notice: "%{name} is now a global variant."
+      convert_to_global_rename:
+        confirm: Convert
+        text: A global variant with this name already exists. Please choose a different name.
+        title: Pick another name for this variant
       description: 'Varje konfigurationsområde i typer och varianter kan konfigureras separat, begränsas från en annan typ eller kopplas helt till en källa.
 
         '
@@ -6973,10 +6998,10 @@ sv:
       descendants_choice:
         heading: Delete all descendants too?
         question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
-        self_only_label: Delete just the selected work packages
         self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        with_descendants_label: Delete the selected work packages and their descendants
+        self_only_label: Delete just the selected work packages
         with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete the selected work packages and their descendants
       description: Är du säker på att du vill ta bort de valda arbetspaketen och alla tillhörande data?
       description_with_all_descendants: Är du säker på att du vill ta bort de valda arbetspaketen och alla deras underordnade objekt?
       description_with_descendants: Är du säker på att du vill ta bort de valda arbetspaketen och alla följande underordnade objekt?
@@ -7044,10 +7069,10 @@ sv:
       descendants_choice:
         heading: Delete all descendants too?
         question: This work package has descendants. Do you want to delete them as well?
-        self_only_label: Delete just this work package
         self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        with_descendants_label: Delete this work package and descendants
+        self_only_label: Delete just this work package
         with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete this work package and descendants
       description: Är du säker på att du vill ta bort "%{name}"?
       heading: Ta bort det här arbetspaketet permanent?
       hidden_descendants_only_warning:
@@ -7099,29 +7124,13 @@ sv:
   workflows:
     copies:
       form:
-        mode:
-          from_role:
-            caption: Kopiera det aktuella arbetsflödet till en eller flera roller inom samma arbetspaketstyp. Om den valda rollen redan har ett arbetsflöde skrivs det aktuella över.
-            label: Kopiera till andra roller
-          from_type:
-            caption: Kopiera det aktuella arbetsflödet till en annan arbetspaketstyp. Om den valda typen redan har ett arbetsflöde skrivs det aktuella över. Detta påverkar alla roller.
-            label: Kopiera till en annan typ
-        source_role_id:
-          label: Källroll
         target_role_ids:
           label: Målroller
-        target_variant_ids:
-          label: Måltyper
       from_roles:
         create:
           notice:
             one: Arbetsflödet kopierades till rollen "%{role_name}".
             other: Arbetsflödet kopierades till %{count} roller.
-      from_variants:
-        create:
-          notice:
-            one: Arbetsflödet kopierades till "%{type_name}".
-            other: Arbetsflödet kopierades till %{count} typer.
       new:
         title: Kopiera arbetsflödet för "%{source_type}"
     form:

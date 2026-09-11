@@ -71,7 +71,7 @@ RSpec.describe "Configuring the workflow for work package sharing", :js,
 
     # On the copy workflow form, the source role is pre-selected from the tab;
     # copy its workflow to the work package edit role.
-    click_link "Copy"
+    within("#workflow-table") { click_link I18n.t(:label_copy_workflow_from_role) }
     target_roles_autocompleter.select_option work_package_role.name
     target_roles_autocompleter.close_autocompleter
 
