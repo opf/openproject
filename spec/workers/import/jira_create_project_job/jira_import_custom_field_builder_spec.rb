@@ -846,15 +846,6 @@ RSpec.describe Import::JiraCreateProjectJob::JiraImportCustomFieldBuilder do
                           context_group:, needs_disambiguation:, jira_import:)
     end
 
-    def import_owned(custom_field)
-      create(:jira_open_project_reference,
-             jira_import:,
-             op_entity_id: custom_field.id,
-             op_entity_class: "WorkPackageCustomField",
-             jira_entity_class: "Import::JiraField")
-      custom_field
-    end
-
     def with_mode(mode)
       stub_const("#{described_class}::VALUE_MATCH_MODE", mode)
     end
@@ -921,7 +912,7 @@ RSpec.describe Import::JiraCreateProjectJob::JiraImportCustomFieldBuilder do
       it "creates a new field when no candidate shares a value, under every mode" do
         create(:list_wp_custom_field, name: "Severity", possible_values: %w[Red Green])
 
-        %i[subset exact extend].each do |mode|
+        %i[subset exact].each do |mode|
           with_mode(mode)
           expect(list_builder.find_existing_custom_field).to be_nil
         end
@@ -936,14 +927,6 @@ RSpec.describe Import::JiraCreateProjectJob::JiraImportCustomFieldBuilder do
         with_mode(:subset)
 
         expect(builder.find_existing_custom_field).to eq(existing)
-      end
-
-      it "reuses it untouched under :extend" do
-        with_mode(:extend)
-
-        expect(builder.find_existing_custom_field).to eq(existing)
-        builder.apply_pending_value_extension(existing, user: User.system)
-        expect(existing.reload.custom_options.pluck(:value)).to eq(%w[Low High Critical])
       end
 
       it "creates a new field under :exact" do
@@ -968,32 +951,6 @@ RSpec.describe Import::JiraCreateProjectJob::JiraImportCustomFieldBuilder do
 
         expect(builder.find_existing_custom_field).to be_nil
       end
-
-      it "leaves a custom field this import does not own alone under :extend" do
-        with_mode(:extend)
-
-        expect(builder.find_existing_custom_field).to be_nil
-      end
-
-      context "with :extend, on a field this import owns" do
-        before do
-          with_mode(:extend)
-          import_owned(existing)
-        end
-
-        it "reuses the best overlapping candidate" do
-          expect(builder.find_existing_custom_field).to eq(existing)
-        end
-
-        it "appends only the missing labels and keeps the existing options" do
-          option_ids = existing.custom_options.pluck(:id)
-          builder.find_existing_custom_field
-          builder.apply_pending_value_extension(existing, user: User.system)
-
-          expect(existing.reload.custom_options.pluck(:value)).to eq(%w[Low High Critical])
-          expect(existing.custom_options.pluck(:id).first(2)).to eq(option_ids)
-        end
-      end
     end
 
     context "with two context groups of the same run" do
@@ -1007,14 +964,6 @@ RSpec.describe Import::JiraCreateProjectJob::JiraImportCustomFieldBuilder do
 
       it "keeps the split when the second group only needs a subset" do
         builder = list_builder(values: %w[Low], projects: %w[ABC], needs_disambiguation: true)
-
-        expect(builder.find_existing_custom_field(run_custom_field_ids: [sibling.id])).to be_nil
-      end
-
-      it "keeps the split under :extend as well" do
-        with_mode(:extend)
-        import_owned(sibling)
-        builder = list_builder(values: %w[Low Critical], projects: %w[ABC], needs_disambiguation: true)
 
         expect(builder.find_existing_custom_field(run_custom_field_ids: [sibling.id])).to be_nil
       end
@@ -1077,22 +1026,6 @@ RSpec.describe Import::JiraCreateProjectJob::JiraImportCustomFieldBuilder do
         hierarchy_cf_with([{ "value" => "Critical" }])
 
         expect(hierarchy_builder([{ "value" => "Minor" }]).find_existing_custom_field).to be_nil
-      end
-
-      it "walks into existing branches and adds only the missing nodes under :extend" do
-        with_mode(:extend)
-        existing = import_owned(hierarchy_cf_with([{ "value" => "Critical", "children" => [{ "value" => "Security" }] }]))
-        builder = hierarchy_builder(
-          [{ "value" => "Critical", "children" => [{ "value" => "Security" }, { "value" => "Performance" }] }]
-        )
-
-        expect(builder.find_existing_custom_field).to eq(existing)
-        builder.apply_pending_value_extension(existing, user: User.system)
-
-        root = existing.reload.hierarchy_root
-        expect(root.children.pluck(:label)).to contain_exactly("Critical")
-        expect(root.children.find_by(label: "Critical").children.pluck(:label))
-          .to contain_exactly("Security", "Performance")
       end
     end
   end

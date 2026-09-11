@@ -80,9 +80,9 @@ RSpec.describe Import::JiraCreateProjectJob,
       end
     end
 
-    # Custom fields are built by Import::JiraCreateProjectWorkPackagesJob, which needs the
-    # registry anyway to convert values. Building them here as well duplicated every list and
-    # hierarchy custom field, because those are never looked up by name.
+    # Custom fields belong to Import::JiraCreateCustomFieldsJob, and Import::JiraCreateProjectWorkPackagesJob
+    # resolves the registry again because it needs it to convert values. Building them here as well
+    # created a second copy of every field before the registry was able to resolve existing ones.
     context "with a jira issue carrying a list custom field" do
       let!(:jira_field) do
         create(:jira_field, jira_import:,

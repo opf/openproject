@@ -51,8 +51,6 @@ Jira custom field types not listed above are skipped. This includes, but is not 
 
 If a field is skipped, its values are not imported and no OpenProject custom field is created for it.
 
-
-
 ## Field type details and edge cases
 
 ### Checkboxes
@@ -101,9 +99,12 @@ field migration.
 
 ### Option lists with incomplete allowed values
 
-The Jira API only reports the options a field currently offers on an issue's edit screen. Options removed from a field 
-context after issues were set - and fields that sit on no edit screen at all - therefore report no allowed values, or 
-fewer than the imported issues actually use.
+On Jira Data Center 9.3 and newer, the migrator reads each field's options per field context directly, so options are
+reported also for a field that sits on no edit screen. 
+
+On older Jira versions the options have to be read off an issue's edit screen, which only reports the options 
+a field currently offers there. Options removed from a field context after issues were set - and fields that sit on 
+no edit screen at all - therefore report no allowed values, or fewer than the imported issues actually use.
 
 To avoid losing those values, the migrator also collects the options found on the imported issues themselves and adds 
 any that the API did not report to the option list of the custom field the issue is imported into. This applies to 
@@ -127,11 +128,11 @@ The migrator handles this as follows:
 - Each distinct set of allowed values becomes a **separate OpenProject custom field**.
 - If multiple context groups are detected for one Jira field, each resulting custom field is named `<FieldName> (<ProjectKey>)` to disambiguate.
 - If all contexts share the same allowed values, a single custom field is created without a project suffix.
-- Field contexts are not available with their values via the API.
+- Context names are not available via the API.
   The migrator uses project keys as suffixes to disambiguate contexts, but the original context names are not preserved.
 
 During issue import, each issue is matched to the context whose projects and issue types fit. 
-If no context matches (for example, the field was removed from a screen after values were set), the first available context is used as a fallback so no data is silently lost. 
+If no context matches, the first available context is used as a fallback so no data is silently lost. 
 The custom field an issue resolves to is activated in that issue's project, whether it was matched or used as a fallback.
 
 ### Deduplication with existing custom fields
@@ -147,3 +148,28 @@ A new custom field with a numeric suffix may be created for these types.
 This is a separate mechanism from the option merging described under [Field contexts](#field-contexts) above, which only
 combines identical option sets *within a single import run*. Deduplication decides whether to reuse a field that already
 exists before that run starts; it does not retroactively affect how contexts were grouped during the run itself.
+
+## Custom fields you see in OpenProject but not on the Jira issue
+
+After a migration you may find custom fields on a work package that the corresponding Jira issue does not show at
+all - often company-wide fields belonging to entirely different teams or projects.
+
+This is expected. Jira decides *separately* whether a field holds a value and whether it is displayed:
+
+- The issue view renders only the fields on the screen configured for that project and issue type.
+- The value itself lives on the issue regardless, and Jira's REST API reports every field that has one.
+
+The migrator imports what the API reports, because a value that exists is data worth keeping - it does not read
+your screen or field configuration schemes. A field whose context covers all projects (a "global" custom field)
+therefore comes across as soon as any imported issue carries a value for it, even where Jira keeps it hidden.
+
+Such values usually arrive without anyone filling the field in on that issue:
+
+- a **default value** on the field, applied when the issue was created
+- a **workflow post function**, **automation rule** or **script** writing to the field
+- a **bulk change** or CSV import that covered the field
+- the issue having been **moved from another project** whose screens did show it
+
+To check one in Jira, open *Administration → Issues → Custom fields*, find the field and inspect its contexts and
+the screens it is on. If you do not want these fields in OpenProject, you have two options in
+Jira before importing: clear the values or assign them only to projects where you want them to appear in OpenProject.
