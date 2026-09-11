@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import type { KeyboardEvent } from 'react';
 import { fetchAllowedValues } from '../../services/openProjectApi';
 import { listedValues, toAllowedValues } from './formSchema';
 import type { AllowedValue, ListedValue } from './formSchema';
@@ -52,6 +53,22 @@ function remember(key:string, ask:() => Promise<AllowedValue[]>):Promise<Allowed
     rememberedValues.delete(key);
     throw error;
   });
+}
+
+export function foldsBranch(
+  event:KeyboardEvent,
+  focused:ListedValue | undefined,
+  toggleExpanded:(href:string) => void
+):boolean {
+  if (!focused) return false;
+
+  const unfolds = event.key === 'ArrowRight' && focused.hasChildren && !focused.expanded;
+  const folds = event.key === 'ArrowLeft' && focused.expanded;
+  if (!unfolds && !folds) return false;
+
+  event.preventDefault();
+  toggleExpanded(focused.href);
+  return true;
 }
 
 export function usePickerOptions({

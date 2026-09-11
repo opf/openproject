@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { XCircleFillIcon } from '@primer/octicons-react';
 import { PickerArrowsGlyph } from './PickerArrows';
 import { Suggestions, usePickerMotion } from './Suggestions';
-import { usePickerOptions } from './usePickerOptions';
+import { foldsBranch, usePickerOptions } from './usePickerOptions';
 import type { AllowedValue } from './formSchema';
 import {
   ACTION_ICON_SIZE,
@@ -108,6 +108,9 @@ export const ProjectPicker = ({
       return;
     }
 
+    // While a term is typed the arrows belong to the caret.
+    if (isOpen && !query && foldsBranch(event, focused, toggleExpanded)) return;
+
     switch (event.key) {
       case 'Backspace':
       case 'Delete':
@@ -124,18 +127,6 @@ export const ProjectPicker = ({
       case 'ArrowUp':
         event.preventDefault();
         if (isOpen) setFocusedIndex(Math.max(activeIndex - 1, 0));
-        break;
-      case 'ArrowRight':
-        if (isOpen && !query && focused?.hasChildren && !focused.expanded) {
-          event.preventDefault();
-          toggleExpanded(focused.href);
-        }
-        break;
-      case 'ArrowLeft':
-        if (isOpen && !query && focused?.expanded) {
-          event.preventDefault();
-          toggleExpanded(focused.href);
-        }
         break;
       case 'Enter':
         event.preventDefault();

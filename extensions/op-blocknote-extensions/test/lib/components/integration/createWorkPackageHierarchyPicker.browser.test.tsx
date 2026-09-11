@@ -10,7 +10,9 @@ import { worker } from '../../../mocks/browser';
 afterEach(() => worker.resetHandlers());
 
 const FIELD = 'Room *';
+const MULTI_FIELD = 'Rooms *';
 const LIST = 'op-bn-create-wp-customField5-list';
+const MULTI_LIST = 'op-bn-create-wp-customField6-list';
 const ITEMS_HREF = '/api/v3/custom_fields/5/items';
 
 const roomSchema = {
@@ -18,6 +20,8 @@ const roomSchema = {
   location: '_links',
   _links: { allowedValues: { href: ITEMS_HREF } },
 };
+
+const roomsSchema = { ...roomSchema, type: '[]CustomField::Hierarchy::Item', name: 'Rooms' };
 
 const items = [
   { id: 1, label: null, short: null, depth: null, _links: { self: { href: '/api/v3/custom_field_items/1' } } },
@@ -50,7 +54,7 @@ function serveHierarchyField() {
       const form = createFormFor(await request.json() as FormRequestBody);
       // A custom field of a type is offered once the type is picked.
       const schema = form._embedded.schema;
-      if (schema.status) schema.customField5 = roomSchema;
+      if (schema.status) Object.assign(schema, { customField5: roomSchema, customField6: roomsSchema });
 
       return HttpResponse.json(form);
     }),
@@ -64,31 +68,31 @@ function serveHierarchyField() {
   );
 }
 
-async function openRoomPicker() {
+async function openPicker(field = FIELD) {
   serveHierarchyField();
   renderEditor();
   await openCreateModal();
   await pickProject();
   await selectOptionNamed('Type *', 'Task');
 
-  await expect.element(page.getByLabelText(FIELD)).toBeVisible();
-  await userEvent.click(page.getByLabelText(FIELD));
+  await expect.element(page.getByLabelText(field)).toBeVisible();
+  await userEvent.click(page.getByLabelText(field));
   await expect.element(page.getByRole('treeitem', { name: 'room 1 (R1)' })).toBeVisible();
 }
 
-const optionLabels = () =>
-  Array.from(document.querySelectorAll(`[data-testid="${LIST}-popover"] [role="treeitem"]`))
+const optionLabels = (list = LIST) =>
+  Array.from(document.querySelectorAll(`[data-testid="${list}-popover"] [role="treeitem"]`))
     .map((option) => option.textContent?.trim());
 
 describe('create work package: hierarchy custom field picker', () => {
   it('names every item and leaves the nameless root out', async () => {
-    await openRoomPicker();
+    await openPicker();
 
     expect(optionLabels()).toEqual(['room 1 (R1)', 'room 2 (R2)']);
   });
 
   it('unfolds an item into its children, and folds it back', async () => {
-    await openRoomPicker();
+    await openPicker();
 
     await userEvent.click(page.getByTestId(`${LIST}-twisty-0`));
 
@@ -99,8 +103,25 @@ describe('create work package: hierarchy custom field picker', () => {
     await expect.element(page.getByRole('treeitem', { name: 'room 1a' })).not.toBeInTheDocument();
   });
 
+  it('says it opens a tree, so the rows and the field agree', async () => {
+    await openPicker();
+
+    await expect.element(page.getByLabelText(FIELD)).toHaveAttribute('aria-haspopup', 'tree');
+  });
+
+  it('unfolds and picks a branch with the arrow keys alone', async () => {
+    await openPicker();
+
+    await userEvent.keyboard('{ArrowRight}');
+    await expect.element(page.getByRole('treeitem', { name: 'room 1a' })).toBeVisible();
+
+    await userEvent.keyboard('{ArrowDown}{Enter}');
+
+    await expect.element(page.getByLabelText(FIELD)).toHaveValue('room 1a');
+  });
+
   it('picks a child the search unfolded', async () => {
-    await openRoomPicker();
+    await openPicker();
     await userEvent.fill(page.getByLabelText(FIELD), 'room 1a');
 
     const child = page.getByRole('treeitem', { name: 'room 1a' });
@@ -108,5 +129,17 @@ describe('create work package: hierarchy custom field picker', () => {
     await userEvent.click(child);
 
     await expect.element(page.getByLabelText(FIELD)).toHaveValue('room 1a');
+  });
+
+  it('takes on a child of a field holding several values', async () => {
+    await openPicker(MULTI_FIELD);
+
+    await expect.element(page.getByLabelText(MULTI_FIELD)).toHaveAttribute('aria-haspopup', 'tree');
+    expect(optionLabels(MULTI_LIST)).toEqual(['room 1 (R1)', 'room 2 (R2)']);
+
+    await userEvent.click(page.getByTestId(`${MULTI_LIST}-twisty-0`));
+    await userEvent.click(page.getByRole('treeitem', { name: 'room 1a' }));
+
+    await expect.element(page.getByRole('button', { name: 'Remove room 1a' })).toBeVisible();
   });
 });
