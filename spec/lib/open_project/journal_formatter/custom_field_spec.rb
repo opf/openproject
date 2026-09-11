@@ -489,67 +489,56 @@ RSpec.describe OpenProject::JournalFormatter::CustomField do
     end
   end
 
-  context "with a Proc-based :view_permission option" do
-    let(:values) { [nil, "1"] }
+  # The #permission_granted? method is used by the JournalFormatter#render_detail
+  # to check whether the user has the permission to see the rendered activity.
+  # It receives a permission as a Proc or a Symbol and a CustomField key.
+  # In case a Symbol is provided, the permission check happens on the project.
+  # In case a Proc is provided, the CustomField resolved by the key is yielded
+  # to the Proc allowing customized permission checks.
+  describe "#permission_granted?" do
+    subject { instance.permission_granted?(permission, key:) }
 
-    context "when the proc, receiving the resolved custom field, allows" do
-      let(:options) do
-        expected_custom_field = custom_field
-        { view_permission: ->(field) { field == expected_custom_field } }
+    context "with a Proc permission" do
+      context "when the proc, receiving the resolved custom field, allows" do
+        let(:permission) do
+          expected_custom_field = custom_field
+          ->(field) { field == expected_custom_field }
+        end
+
+        it { is_expected.to be(true) }
       end
 
-      let(:expected) do
-        I18n.t(:text_journal_set_to,
-               label: custom_field.name,
-               value: format_value(values.last, custom_field))
-      end
+      context "when the proc, receiving the resolved custom field, denies" do
+        let(:permission) do
+          expected_custom_field = custom_field
+          ->(field) { field != expected_custom_field }
+        end
 
-      it "renders normally" do
-        expect(rendered).to eq(expected)
-      end
-    end
-
-    context "when the proc, receiving the resolved custom field, denies" do
-      let(:options) do
-        expected_custom_field = custom_field
-        { view_permission: ->(field) { field != expected_custom_field } }
-      end
-
-      it "renders the permission denied message" do
-        expect(rendered).to eq("_#{I18n.t(:text_journal_permission_denied)}_")
+        it { is_expected.to be(false) }
       end
     end
-  end
 
-  context "with a named (Symbol) :view_permission option" do
-    let(:values) { [nil, "1"] }
-    let(:options) { { view_permission: :view_project } }
-    let(:project) { build_stubbed(:project) }
-    let(:journal) { instance_double(Journal, id:, project:) }
-    let(:expected_journal_set_to_message) do
-      I18n.t(:text_journal_set_to,
-             label: custom_field.name,
-             value: format_value(values.last, custom_field))
-    end
+    context "with a named (Symbol) permission" do
+      let(:permission) { :view_project }
+      let(:project) { build_stubbed(:project) }
+      let(:journal) { instance_double(Journal, project:) }
 
-    context "when the current user has the permission in the project" do
       before do
-        allow(User.current).to receive(:allowed_in_project?).with(:view_project, project).and_return(true)
+        mock_permissions_for(User.current) do |mock|
+          mock.allow_in_project(*permissions, project:)
+        end
       end
 
-      it "renders normally" do
-        expect(rendered).to eq(expected_journal_set_to_message)
-      end
-    end
+      context "when the current user has the permission in the project" do
+        let(:permissions) { [:view_project] }
 
-    context "when the current user lacks the permission in the project" do
-      before do
-        allow(User.current).to receive(:allowed_in_project?).with(:view_project, project).and_return(false)
+        it { is_expected.to be(true) }
       end
 
-      it "renders the permission denied message" do
-        expect(rendered).to include(I18n.t(:text_journal_permission_denied))
-        expect(rendered).not_to include(expected_journal_set_to_message)
+      context "when the current user lacks the permission in the project" do
+        let(:permissions) { [] }
+
+        it { is_expected.to be(false) }
       end
     end
   end
