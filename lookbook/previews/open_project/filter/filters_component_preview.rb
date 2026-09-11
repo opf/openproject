@@ -38,6 +38,13 @@ module OpenProject
                                                         initially_expanded: true))
         render_with_template(locals: { query: ProjectQuery.new })
       end
+
+      # @label Constrained width
+      # `constrained: true` caps the inputs while the box keeps spanning its container.
+      # Widen the preview pane to see it diverge from the default.
+      def constrained
+        render_with_template(locals: { query: ProjectQuery.new })
+      end
     end
   end
 end

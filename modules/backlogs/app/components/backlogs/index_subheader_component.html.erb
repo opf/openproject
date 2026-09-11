@@ -56,7 +56,8 @@ See COPYRIGHT and LICENSE files for more details.
           Backlogs::BacklogFiltersComponent.new(
             query: @query,
             lazy_loaded_path: :project_backlogs_filters_path,
-            initially_expanded: filters_expanded?
+            initially_expanded: filters_expanded?,
+            constrained: true
           )
         )
       end
