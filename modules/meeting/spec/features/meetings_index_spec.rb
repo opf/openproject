@@ -274,23 +274,6 @@ RSpec.describe "Meetings", "Index", :js do
         end
       end
 
-      context "when the time filter is removed via the all filters form" do
-        before do
-          meetings_page.set_quick_filter upcoming: true
-        end
-
-        it "re-applies the upcoming quick filter automatically" do
-          meetings_page.expect_quick_filter_selected "Upcoming"
-
-          meetings_page.open_filters
-          meetings_page.remove_filter "time"
-
-          wait_for_network_idle
-
-          meetings_page.expect_quick_filter_selected "Upcoming"
-        end
-      end
-
       context 'with the "Attendee" filter' do
         before do
           meetings_page.set_sidebar_filter "Attended"

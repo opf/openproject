@@ -118,6 +118,8 @@ class Filters::Inputs::BaseFilterForm < ApplicationForm
   end
 
   def add_delete_button(group)
+    return if @filter.required?
+
     filter_name = @filter.name
     group.html_content do
       render(Primer::Beta::IconButton.new(
