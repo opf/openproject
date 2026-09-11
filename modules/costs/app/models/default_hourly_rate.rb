@@ -77,10 +77,10 @@ class DefaultHourlyRate < Rate
 
   def rate_updated
     # FIXME: This might be extremely slow. Consider using an implementation like in HourlyRateObserver
-    unless valid_from_changed?
+    unless saved_change_to_valid_from?
       # We have not moved a rate, maybe just changed the rate value
 
-      return unless rate_changed?
+      return unless saved_change_to_rate?
 
       # Only the rate value was changed so just update the currently assigned entries
       return rate_created
