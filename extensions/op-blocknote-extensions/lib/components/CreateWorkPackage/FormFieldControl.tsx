@@ -43,6 +43,7 @@ const PLACEHOLDERS:Record<string, string> = {
 };
 
 const PROJECT_KEY = 'project';
+const SUBJECT_KEY = 'subject';
 
 export const FormFieldControl = ({
   field,
@@ -160,6 +161,7 @@ export const FormFieldControl = ({
         <TextAreaControl
           id={id}
           maxLength={field.maxLength}
+          autoComplete="off"
           value={textValue}
           onChange={(event) => onChange(event.target.value)}
           {...invalid}
@@ -167,15 +169,21 @@ export const FormFieldControl = ({
       );
       break;
     case 'text':
-      control = textInput('text', { maxLength: field.maxLength });
+      control = textInput('text', {
+        maxLength: field.maxLength,
+        autoComplete: field.key === SUBJECT_KEY ? 'off' : undefined,
+      });
       break;
     case 'date':
-      control = textInput('date');
+      control = textInput('date', { autoComplete: 'off' });
       break;
     // Held as text: a number input hands over an empty value for what it cannot
     // read, which would leave the form refusing input it does not point at.
     case 'number':
-      control = textInput('text', { inputMode: field.integer ? 'numeric' : 'decimal' });
+      control = textInput('text', {
+        inputMode: field.integer ? 'numeric' : 'decimal',
+        autoComplete: 'off',
+      });
       break;
     // Also every kind added to the schema reader but not answered here yet.
     default:
