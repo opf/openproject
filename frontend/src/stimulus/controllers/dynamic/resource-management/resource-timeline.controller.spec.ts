@@ -26,7 +26,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { vi } from 'vitest';
+import * as Turbo from '@hotwired/turbo';
+import { waitFor } from '@testing-library/dom';
+import { vi, type Mock } from 'vitest';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import ResourceTimelineController from './resource-timeline.controller';
 
@@ -93,5 +95,84 @@ describe('ResourceTimelineController', () => {
 
     expect(calendar.refetchResources).not.toHaveBeenCalled();
     expect(calendar.refetchEvents).not.toHaveBeenCalled();
+  });
+  describe('openDialog', () => {
+    const progressBar = (Turbo.session.adapter as Turbo.BrowserAdapter).progressBar;
+    const STREAM_HTML = '<turbo-stream action="append" target="timeline-dialog-target"><template><span class="chunk"></span></template></turbo-stream>';
+    let fetchSpy:Mock;
+    let hideSpy:ReturnType<typeof vi.spyOn>;
+    let target:HTMLElement;
+
+    const streamResponse = (status = 200) => new Response(STREAM_HTML, {
+      status,
+      headers: { 'Content-Type': 'text/vnd.turbo-stream.html; charset=utf-8' },
+    });
+    const renderedChunks = () => target.querySelectorAll('.chunk').length;
+    const openDialog = (url:string) => {
+      const controller = ctx.getController<ResourceTimelineController>('resource-management--resource-timeline');
+      const method = Reflect.get(controller, 'openDialog') as (this:ResourceTimelineController, url:string) => void;
+
+      method.call(controller, url);
+    };
+
+    beforeEach(async () => {
+      fetchSpy = vi.fn().mockImplementation(() => Promise.resolve(streamResponse()));
+      vi.spyOn(window, 'fetch').mockImplementation(fetchSpy);
+      vi.spyOn(progressBar, 'setValue').mockImplementation(() => undefined);
+      vi.spyOn(progressBar, 'show').mockImplementation(() => undefined);
+      hideSpy = vi.spyOn(progressBar, 'hide').mockImplementation(() => undefined);
+
+      target = document.createElement('div');
+      target.id = 'timeline-dialog-target';
+      document.body.appendChild(target);
+
+      await mountTimeline();
+    });
+
+    afterEach(() => {
+      target.remove();
+    });
+
+    it('requests the dialog as a stream and renders it', async () => {
+      openDialog('/allocations/new?start_date=2026-09-01');
+
+      await waitFor(() => { expect(renderedChunks()).toBe(1); });
+      const [url, init] = fetchSpy.mock.lastCall as [string, RequestInit & { headers:Headers }];
+      expect(url).toBe('/allocations/new?start_date=2026-09-01');
+      expect(init.method).toBe('GET');
+      expect(init.headers.get('Accept')).toBe('text/vnd.turbo-stream.html, text/html, application/xhtml+xml');
+      expect(init.headers.has('X-CSRF-Token')).toBe(false);
+      await waitFor(() => { expect(hideSpy).toHaveBeenCalledOnce(); });
+    });
+
+    it('renders error streams for failed requests', async () => {
+      fetchSpy.mockResolvedValueOnce(streamResponse(403));
+
+      openDialog('/allocations/1/edit');
+
+      await waitFor(() => { expect(renderedChunks()).toBe(1); });
+      await waitFor(() => { expect(hideSpy).toHaveBeenCalledOnce(); });
+    });
+
+    it('logs and hides progress when the response is not a stream', async () => {
+      const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+      fetchSpy.mockResolvedValueOnce(new Response('<p>Login</p>', { status: 200, headers: { 'Content-Type': 'text/html' } }));
+
+      openDialog('/allocations/1/edit');
+
+      await waitFor(() => { expect(consoleError).toHaveBeenCalledOnce(); });
+      expect(renderedChunks()).toBe(0);
+      expect(hideSpy).toHaveBeenCalledOnce();
+    });
+
+    it('logs and hides progress when the request fails', async () => {
+      const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+      fetchSpy.mockRejectedValueOnce(new TypeError('Failed to fetch'));
+
+      openDialog('/allocations/1/edit');
+
+      await waitFor(() => { expect(consoleError).toHaveBeenCalledOnce(); });
+      expect(hideSpy).toHaveBeenCalledOnce();
+    });
   });
 });
