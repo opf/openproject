@@ -312,13 +312,12 @@ Rails.application.routes.draw do
 
   resources :statuses, except: :show
 
-  get "custom_style/:digest/logo/:filename" => "custom_styles#logo_download",
+  get "custom_style/:digest/logo/:field/:filename" => "custom_styles#logo_download",
       as: "custom_style_logo",
-      constraints: { filename: /[^\/]*/ }
-
-  get "custom_style/:digest/logo_mobile/:filename" => "custom_styles#logo_mobile_download",
-      as: "custom_style_logo_mobile",
-      constraints: { filename: /[^\/]*/ }
+      constraints: {
+        field: Regexp.union(CustomStyle::LOGO_FIELDS.values.flat_map(&:values).map(&:to_s)),
+        filename: /[^\/]*/
+      }
 
   get "custom_style/:digest/export_logo/:filename" => "custom_styles#export_logo_download",
       as: "custom_style_export_logo",
@@ -721,8 +720,11 @@ Rails.application.routes.draw do
       end
     end
 
-    delete "design/logo" => "custom_styles#logo_delete", as: "custom_style_logo_delete"
-    delete "design/logo_mobile" => "custom_styles#logo_mobile_delete", as: "custom_style_logo_mobile_delete"
+    delete "design/logo/:field" => "custom_styles#logo_delete",
+           as: "custom_style_logo_delete",
+           constraints: {
+             field: Regexp.union(CustomStyle::LOGO_FIELDS.values.flat_map(&:values).map(&:to_s))
+           }
     delete "design/export_logo" => "custom_styles#export_logo_delete", as: "custom_style_export_logo_delete"
     delete "design/export_cover" => "custom_styles#export_cover_delete", as: "custom_style_export_cover_delete"
     delete "design/export_footer" => "custom_styles#export_footer_delete", as: "custom_style_export_footer_delete"
@@ -736,6 +738,7 @@ Rails.application.routes.draw do
     delete "design/touch_icon" => "custom_styles#touch_icon_delete", as: "custom_style_touch_icon_delete"
     post "design/colors" => "custom_styles#update_colors", as: "update_design_colors"
     post "design/themes" => "custom_styles#update_themes", as: "update_design_themes"
+    post "design/themes/confirm" => "custom_styles#confirm_theme", as: "confirm_design_theme"
     post "design/export_cover_text_color" => "custom_styles#update_export_cover_text_color",
          as: "update_custom_style_export_cover_text_color"
 

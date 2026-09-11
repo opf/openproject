@@ -1419,6 +1419,23 @@ en:
     banners:
       environment_configured_readonly: "These values are configured via environment variables and cannot be edited here."
     custom_styles:
+      branding:
+        desktop:
+          description: "By default the OpenProject logos are used, but if you upload new logos the theme will automatically be changed to Custom theme. For better results, we recommend a transparent logo."
+          title: "Custom desktop logos"
+        mobile:
+          description: "By default the OpenProject logos are used for the mobile browser version, the native mobile app will not be updated by this change. For better results, we recommend a transparent logo."
+          title: "Custom mobile logos"
+        modes:
+          dark:
+            description: "The app header will be black. We recommend a white logo on transparent background."
+            name: "Dark mode logo"
+          light:
+            description: "Make sure to upload a logo that has enough contrast with the app header colour selected."
+            name: "Light mode logo"
+          light_high_contrast:
+            description: "The app header will be grey. We recommend a black logo on transparent background."
+            name: "High contrast mode logo"
       color_groups:
         base_colors: "Base colors"
         main_menu: "Main lateral menu"
@@ -1449,7 +1466,7 @@ en:
       tab_interface: "Interface"
       tab_pdf_export_font: "PDF export font"
       tab_pdf_export_styles: "PDF export styles"
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+      theme_warning_confirmation: Changing the theme will overwrite you custom style. The design will then be lost.
     enterprise:
       add_token: "Upload an Enterprise edition support token"
       book_now: "Book now"
@@ -3591,8 +3608,6 @@ en:
   label_custom_field_default_type: "Empty type"
   label_custom_field_new: "New custom field"
   label_custom_field_plural: "Custom fields"
-  label_custom_logo: "Custom logo desktop"
-  label_custom_logo_mobile: "Custom logo mobile"
   label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_style: "Design"
   label_custom_style_description: "Choose how OpenProject looks to you with themes, select your default colors to use in the app and how exports look like."
@@ -6384,14 +6399,6 @@ en:
     Custom fields need to be activated per work
     package type and per project.
   text_custom_field_possible_values_info: "One line for each value"
-  text_custom_logo_instructions: >
-    The logo automatically scales to fit the header.
-    For best results, upload a white logo on a transparent 130×47px image.
-    You can add as much spacing inside that image as you like.
-  text_custom_logo_mobile_instructions: >
-    The logo automatically scales to fit the header.
-    For best results, upload a white logo on a transparent 130×33px image.
-    You can add as much spacing inside that image as you like.
   text_custom_touch_icon_instructions: >
     This is the icon that appears in your mobile or tablet when you place a
     bookmark on your homescreen.

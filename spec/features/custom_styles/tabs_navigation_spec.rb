@@ -75,16 +75,47 @@ RSpec.describe "Tabs navigation and content switching on the admin/design page" 
       selector = find_test_selector("color-theme-select")
 
       expect(selector["data-action"]).to eq("auto-submit#submit")
-      expect(selector.find(:xpath, "ancestor::form")["data-controller"]).to eq("auto-submit")
+      expect(selector.find(:xpath, "ancestor::form")["data-controller"].split).to include("auto-submit")
     end
 
     it "selects a color theme", :js do
       select("OpenProject Gray", from: "theme")
+      wait_for_reload
 
       expect_flash(message: I18n.t(:notice_successful_update))
       expect(page).to have_select("theme", selected: "OpenProject Gray")
       expect(page).to have_current_path custom_style_path(tab: "interface")
       expect(custom_style.reload.theme).to eq("OpenProject Gray")
+    end
+
+    context "with a custom theme", :js do
+      before do
+        custom_style.update!(theme: nil)
+        create(:design_color, variable: "accent-color", hexcode: "#333333")
+        visit custom_style_path(tab: "branding")
+        select("OpenProject Gray", from: "theme")
+      end
+
+      it "shows the warning and applies the confirmed theme" do
+        within "#confirm-theme-dialog[open]" do
+          expect(page).to have_heading(I18n.t("admin.custom_styles.color_theme"))
+          expect(page).to have_text(I18n.t(:text_are_you_sure_continue))
+          expect(page).to have_text(I18n.t("admin.custom_styles.theme_warning_confirmation"))
+          expect(page).to have_button(I18n.t(:button_apply), disabled: true)
+
+          find_field("confirm_dangerous_action").click
+
+          expect(page).to have_button(I18n.t(:button_apply), disabled: false)
+          click_on I18n.t(:button_apply)
+        end
+        wait_for_reload
+
+        expect_flash(message: I18n.t(:notice_successful_update))
+        expect(page).to have_current_path custom_style_path(tab: "branding")
+        expect(custom_style.reload.theme).to eq("OpenProject Gray")
+        expect(DesignColor.find_by(variable: "accent-color").hexcode)
+          .to eq(OpenProject::CustomStyles::ColorThemes::ACCENT_COLOR)
+      end
     end
 
     it "changes accent color and redirects to interface tab", :js do
@@ -113,9 +144,16 @@ RSpec.describe "Tabs navigation and content switching on the admin/design page" 
       click_on "Branding"
       expect(page).to have_current_path custom_style_path(tab: "branding")
       expect(page).to have_test_selector("color-theme-select")
+      expect(page).to have_field("custom_style_logo")
+      expect(page).to have_field("custom_style_logo_dark")
+      expect(page).to have_field("custom_style_logo_light_high_contrast")
+      expect(page).to have_field("custom_style_logo_mobile")
+      expect(page).to have_field("custom_style_logo_mobile_dark")
+      expect(page).to have_field("custom_style_logo_mobile_light_high_contrast")
 
       # select a color theme and redirect to the branding tab
       select("OpenProject Navy Blue", from: "theme")
+      wait_for_reload
       expect_flash(message: I18n.t(:notice_successful_update))
       expect(page).to have_current_path custom_style_path(tab: "branding")
 
@@ -123,6 +161,23 @@ RSpec.describe "Tabs navigation and content switching on the admin/design page" 
       custom_style.send :remove_logo!
       expect(File.exist?(file_path)).to be false
       expect(page).to have_current_path custom_style_path(tab: "branding")
+    end
+
+    it "shows the default logo immediately after deleting the custom logo", :js do
+      visit custom_style_path(tab: "branding")
+      custom_logo_path = custom_style_logo_path(
+        digest: custom_style.digest,
+        field: :logo,
+        filename: custom_style.logo_identifier
+      )
+
+      expect(desktop_logo_background).to include(custom_logo_path)
+
+      find_test_selector("delete-custom-style-image-logo").click
+      wait_for_reload
+
+      expect(custom_style.reload.logo).not_to be_present
+      expect(desktop_logo_background).not_to include(custom_logo_path)
     end
 
     it "redirects to pdf export styles tab" do
@@ -135,5 +190,11 @@ RSpec.describe "Tabs navigation and content switching on the admin/design page" 
       expect(page).to have_css("#export_cover_text_color", value: "#333")
       expect(page).to have_current_path custom_style_path(tab: "pdf_export_styles")
     end
+  end
+
+  def desktop_logo_background
+    first(".op-logo--link", minimum: 1, visible: :all)
+      .style("background-image")
+      .fetch("background-image")
   end
 end

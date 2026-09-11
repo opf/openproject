@@ -27,38 +27,28 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<style type="text/css" data-turbo-track="reload">
-  <% logo_urls = resolved_logo_urls %>
+<%=
+  render(
+    Primer::OpenProject::DangerDialog.new(
+      id: "confirm-theme-dialog",
+      title: t("admin.custom_styles.color_theme"),
+      confirm_button_text: t(:button_apply),
+      form_arguments: {
+        action: helpers.update_design_themes_path(tab: @selected_tab_name),
+        method: :post,
+        data: { turbo: false }
+      }
+    )
+  ) do |dialog|
+    dialog.with_confirmation_message do |message|
+      message.with_heading(tag: :h2) { t("admin.custom_styles.color_theme") }
+      message.with_description_content(t(:text_are_you_sure_continue))
+    end
 
-  .op-logo--link {
-    background-image: url(<%= logo_urls.dig(:desktop, :light) %>);
-  }
+    dialog.with_confirmation_check_box_content(t("admin.custom_styles.theme_warning_confirmation"))
 
-  .op-logo--link_high_contrast {
-    background-image: url(<%= logo_urls.dig(:desktop, :light_high_contrast) %>);
-  }
-
-  .op-logo--icon {
-    background-image: url(<%= logo_urls.dig(:mobile, :light) %>);
-  }
-
-  .op-logo--icon_white {
-    background-image: url(<%= logo_urls.dig(:mobile, :white) %>);
-  }
-
-  [data-light-theme="light_high_contrast"] .op-logo--link {
-    background-image: url(<%= logo_urls.dig(:desktop, :light_high_contrast) %>);
-  }
-
-  [data-light-theme="light_high_contrast"] .op-logo--icon {
-    background-image: url(<%= logo_urls.dig(:mobile, :light_high_contrast) %>);
-  }
-
-  [data-color-mode="dark"] .op-logo--link {
-    background-image: url(<%= logo_urls.dig(:desktop, :dark) %>);
-  }
-
-  [data-color-mode="dark"] .op-logo--icon {
-    background-image: url(<%= logo_urls.dig(:mobile, :dark) %>);
-  }
-</style>
+    dialog.with_additional_details do
+      hidden_field_tag(:theme, @theme)
+    end
+  end
+%>

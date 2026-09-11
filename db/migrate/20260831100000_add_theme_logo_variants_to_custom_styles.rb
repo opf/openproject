@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,51 +26,15 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-module CustomStyles
-  class ThemeSelectorComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-
-    attr_reader :theme_options, :current_theme, :selected_tab_name
-
-    def initialize(theme_options:, current_theme:, selected_tab_name:)
-      super()
-
-      @theme_options = theme_options
-      @current_theme = current_theme
-      @selected_tab_name = selected_tab_name
-    end
-
-    private
-
-    def form_arguments
-      {
-        url: if current_theme.blank?
-               url_helpers.confirm_design_theme_path(tab: selected_tab_name)
-             else
-               url_helpers.update_design_themes_path(tab: selected_tab_name)
-             end,
-        method: :post,
-        data: {
-          controller: "auto-submit",
-          turbo: current_theme.blank?
-        }
-      }
-    end
-
-    def select_arguments
-      {
-        name: :theme,
-        label: I18n.t("admin.custom_styles.color_theme"),
-        caption: I18n.t("admin.custom_styles.color_theme_caption"),
-        input_width: :medium,
-        scope_name_to_model: false,
-        data: {
-          action: "auto-submit#submit",
-          test_selector: "color-theme-select"
-        }
-      }
+class AddThemeLogoVariantsToCustomStyles < ActiveRecord::Migration[8.1]
+  def change
+    change_table :custom_styles, bulk: true do |t|
+      t.string :logo_dark
+      t.string :logo_light_high_contrast
+      t.string :logo_mobile_dark
+      t.string :logo_mobile_light_high_contrast
     end
   end
 end
