@@ -35,15 +35,39 @@ module API
         # delegate class check to wrapped object, as there are cases where the type is checked explicitly.
         delegate :is_a?, to: :__getobj__
 
+        def favorited_by?(user)
+          return super unless favorite_preloaded_for?(user)
+
+          @preloaded_favorite
+        end
+
+        def favorite_preloaded_for?(user)
+          defined?(@preloaded_favorite_user) && user == @preloaded_favorite_user
+        end
+        private :favorite_preloaded_for?
+
         class << self
-          def wrap(projects, eager_loaded: %i[custom_fields ancestors])
+          def wrap(projects, favorite_user: nil, eager_loaded: %i[custom_fields ancestors favorites])
             super(projects).tap do |wrapped_projects|
               eager_load_custom_fields(wrapped_projects) if eager_loaded.include?(:custom_fields)
               eager_load_ancestors(wrapped_projects) if eager_loaded.include?(:ancestors)
+              eager_load_favorites(wrapped_projects, favorite_user) if favorite_user && eager_loaded.include?(:favorites)
             end
           end
 
           private
+
+          def eager_load_favorites(projects, favorite_user)
+            favorite_project_ids = Favorite
+              .where(user: favorite_user, favorited_type: Project.base_class.name, favorited_id: projects.map(&:id))
+              .pluck(:favorited_id)
+              .index_with { true }
+
+            projects.each do |project|
+              project.instance_variable_set(:@preloaded_favorite_user, favorite_user)
+              project.instance_variable_set(:@preloaded_favorite, favorite_project_ids.fetch(project.id, false))
+            end
+          end
 
           def eager_load_custom_fields(projects)
             custom_fields_by_project_id = custom_fields_from_projects(projects)
