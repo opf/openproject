@@ -1,0 +1,46 @@
+---
+name: AI
+description: |-
+  The AI endpoints expose the description assistant: admin-managed text transform actions that
+  rewrite the text of a work package description field with the configured LLM. This tag covers
+  listing the actions available in a given context. Running an action is added in a later release.
+
+  All AI endpoints are behind the feature flag `ai_text_transform_actions` and the
+  administrative setting *AI text transform actions enabled*. When either one is off, or when no
+  LLM connection is ready, the list endpoints answer with an empty collection. They never answer
+  with an error for that reason, so a client can treat an empty collection as
+  "assistant not available".
+
+  ## Text transform action
+
+  An action is an entry of the administration's AI action list. Only active actions are listed and
+  they are ordered by their `position`.
+
+  ### Linked Properties
+
+  | Link | Description              | Type                  | Constraints | Supported operations |
+  |:----:|--------------------------|-----------------------|-------------|----------------------|
+  | self | This text transform action | AITextTransformAction | not null    | READ                 |
+
+  ### Local Properties
+
+  | Property            | Description                                                                  | Type    | Constraints | Supported operations |
+  |:-------------------:|------------------------------------------------------------------------------|---------|-------------|----------------------|
+  | id                  | Action id                                                                    | Integer | x > 0       | READ                 |
+  | label               | Label shown to the user                                                      | String  | not null    | READ                 |
+  | position            | Sort index of the action                                                     | Integer |             | READ                 |
+  | injectsTypeTemplate | Whether the action injects the work package type's description template     | Boolean |             | READ                 |
+
+  ### Availability rules
+
+  Which actions are listed depends on the context of the request:
+
+  * `GET /api/v3/ai_text_transform_actions` has no context and lists only actions usable
+    everywhere. Actions scoped to work package types are omitted.
+  * `GET /api/v3/work_packages/{id}/ai_text_transform_actions` lists the actions for an existing
+    work package. Actions scoped to all types or to the work package's type are included.
+  * `GET /api/v3/projects/{id}/ai_text_transform_actions?typeId={typeId}` lists the actions for a
+    work package about to be created with the given type in the project.
+
+  An action that injects the type template is only listed when the type, as configured in the
+  project, has a default description.

@@ -195,6 +195,8 @@ paths:
     "$ref": "./paths/activity_attachments.yml"
   "/api/v3/activities/{id}/emoji_reactions":
     "$ref": "./paths/activity_emoji_reactions.yml"
+  "/api/v3/ai_text_transform_actions":
+    "$ref": "./paths/ai_text_transform_actions.yml"
   "/api/v3/attachments":
     "$ref": "./paths/attachments.yml"
   "/api/v3/attachments/{id}":
@@ -423,6 +425,8 @@ paths:
     "$ref": "./paths/project_favorite.yml"
   "/api/v3/projects/{id}/configuration":
     "$ref": "./paths/project_configuration.yml"
+  "/api/v3/projects/{id}/ai_text_transform_actions":
+    "$ref": "./paths/ai_text_transform_actions_by_project.yml"
   "/api/v3/queries":
     "$ref": "./paths/queries.yml"
   "/api/v3/queries/available_projects":
@@ -589,6 +593,8 @@ paths:
     "$ref": "./paths/work_package_activities.yml"
   "/api/v3/work_packages/{id}/activities_emoji_reactions":
     "$ref": "./paths/work_package_activities_emoji_reactions.yml"
+  "/api/v3/work_packages/{id}/ai_text_transform_actions":
+    "$ref": "./paths/ai_text_transform_actions_by_work_package.yml"
   "/api/v3/work_packages/{id}/attachments":
     "$ref": "./paths/work_package_attachments.yml"
   "/api/v3/work_packages/{id}/available_assignees":
@@ -794,6 +800,10 @@ components:
       "$ref": "./components/schemas/activity_model.yml"
     ActivityCommentWriteModel:
       "$ref": "./components/schemas/activity_comment_write_model.yml"
+    AITextTransformActionModel:
+      "$ref": "./components/schemas/ai_text_transform_action_model.yml"
+    AITextTransformActionCollectionModel:
+      "$ref": "./components/schemas/ai_text_transform_action_collection_model.yml"
     AttachmentModel:
       "$ref": "./components/schemas/attachment_model.yml"
     Attachments_Model:
@@ -1195,6 +1205,7 @@ tags:
   - "$ref": "./tags/signaling.yml"
   - "$ref": "./tags/actions_and_capabilities.yml"
   - "$ref": "./tags/activities.yml"
+  - "$ref": "./tags/ai.yml"
   - "$ref": "./tags/attachments.yml"
   - "$ref": "./tags/budgets.yml"
   - "$ref": "./tags/categories.yml"
