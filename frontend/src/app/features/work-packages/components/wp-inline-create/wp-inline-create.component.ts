@@ -58,6 +58,7 @@ import {
   HalResourceEditingService,
 } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { delegate, DelegateEvent } from '@knowledgecode/delegate';
+import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 
 @Component({
   selector: '[wpInlineCreate]',
@@ -69,6 +70,8 @@ import { delegate, DelegateEvent } from '@knowledgecode/delegate';
   changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit {
+  protected readonly wpTableSelection = inject(WorkPackageViewSelectionService);
+
   readonly injector = inject(Injector);
   protected readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   protected readonly schemaCache = inject(SchemaCacheService);
@@ -194,6 +197,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
 
           // Split view on the last inserted id if any
           if (!this.table.configuration.isEmbedded) {
+            this.wpTableSelection.ensureSelected(wp.id!);
             this.wpTableFocus.updateFocus(wp.id!);
           }
 
