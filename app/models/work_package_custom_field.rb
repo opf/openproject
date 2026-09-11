@@ -29,8 +29,7 @@
 #++
 
 class WorkPackageCustomField < CustomField
-  # How many projects each field reaches, in one query: a field reaches a project when the
-  # variant that project applies shows it.
+  # A field reaches a project when the variant that project applies shows it.
   def self.project_counts
     source_join, source_variant_id, excluded =
       TypeVariant::FormConfigurationSql.remap("pt.variant_id")
