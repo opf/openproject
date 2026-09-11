@@ -51,4 +51,54 @@ RSpec.describe Projects::Scopes::AvailableCustomFields do
       expect(Project.without_available_project_custom_fields([project_custom_field.id])).to be_empty
     end
   end
+
+  describe ".with_available_custom_fields / .without_available_custom_fields" do
+    shared_let(:type) { create(:type) }
+    shared_let(:work_package_custom_field) { create(:integer_wp_custom_field) }
+    shared_let(:other_field) { create(:integer_wp_custom_field) }
+
+    shared_let(:using_project) { create(:project, types: [type]) }
+    shared_let(:bystander) { create(:project, no_types: true) }
+
+    before do
+      base = type.default_variant
+      base.custom_field_ids = [work_package_custom_field.id]
+      base.attribute_groups = [["Details", [work_package_custom_field.attribute_name]]]
+      base.save!
+    end
+
+    it "finds the project whose applied variant shows the field" do
+      expect(Project.with_available_custom_fields([work_package_custom_field.id]))
+        .to contain_exactly(using_project)
+      expect(Project.without_available_custom_fields([work_package_custom_field.id]))
+        .to include(bystander)
+    end
+
+    it "ignores a field no variant shows" do
+      expect(Project.with_available_custom_fields([other_field.id])).to be_empty
+    end
+
+    it "follows a variant that inherits the configuration rather than owning it" do
+      variant = create(:type_variant, type:, form_configuration_source: type.default_variant)
+      ProjectType.find_by(project: using_project, type:).update!(variant:)
+
+      expect(Project.with_available_custom_fields([work_package_custom_field.id]))
+        .to contain_exactly(using_project)
+    end
+
+    it "drops a project whose variant excludes the field" do
+      variant = create(:type_variant, type:,
+                                      form_configuration_source: type.default_variant,
+                                      form_configuration_excluded_elements: [work_package_custom_field.attribute_name])
+      ProjectType.find_by(project: using_project, type:).update!(variant:)
+
+      expect(Project.with_available_custom_fields([work_package_custom_field.id])).to be_empty
+      expect(Project.without_available_custom_fields([work_package_custom_field.id]))
+        .to include(using_project)
+    end
+
+    it "matches nothing for an empty list" do
+      expect(Project.with_available_custom_fields([])).to be_empty
+    end
+  end
 end
