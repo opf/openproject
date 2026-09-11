@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { fireEvent } from '@testing-library/dom';
 import { buildTable, TableHarness } from '../../testing/table-harness';
 
 describe('RowClickHandler', () => {
@@ -87,6 +88,22 @@ describe('RowClickHandler', () => {
 
     expect(selectedIds()).toEqual(['2', '3', '4']);
     expect(checkedIds()).toEqual(['2', '3', '4']);
+  });
+
+  it.each([false, true])('uses the clicked occurrence when a work package appears twice (reverse: %s)', async (reverse) => {
+    await harness.render([{ id: '1' }, { id: '3' }, { id: '2' }, { id: '4' }]);
+    const primaryRow = harness.row('2');
+    const relationRow = primaryRow.cloneNode(true) as HTMLTableRowElement;
+    relationRow.dataset.classIdentifier = 'wp-relation-row-1-to-2';
+    harness.row('1').after(relationRow);
+    const rendered = [...harness.table.renderedRows];
+    rendered.splice(1, 0, { classIdentifier: 'wp-relation-row-1-to-2', workPackageId: '2', hidden: false });
+    harness.querySpace.tableRendered.putValue(rendered);
+
+    const rows = reverse ? [harness.row('4'), primaryRow] : [primaryRow, harness.row('4')];
+    rows.forEach((row, index) => fireEvent.click(row, { shiftKey: index === 1 }));
+
+    expect(selectedIds()).toEqual(['2', '4']);
   });
 
   it('keeps the range anchored to the first selected row', () => {

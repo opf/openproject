@@ -122,6 +122,17 @@ describe('DragAndDropTransformer', () => {
     expect(drops).toEqual([]);
   });
 
+  it('anchors a following shift-click at the picked-up row when group headers precede it', () => {
+    harness.click('1');
+    harness.click('3', { ctrlKey: true });
+
+    harness.dragStart('3');
+    harness.click('4', { shiftKey: true });
+
+    expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['3', '4']);
+    expect(harness.row('2')).not.toHaveClass('-checked');
+  });
+
   it('puts the row back and reports the error when the drop action fails', async () => {
     const error = new Error('drop failed');
     dropAction = () => Promise.reject(error);

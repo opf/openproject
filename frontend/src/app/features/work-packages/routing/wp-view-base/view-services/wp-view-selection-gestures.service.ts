@@ -39,15 +39,15 @@ export interface SelectionModifiers {
 export class WorkPackageViewSelectionGesturesService {
   private readonly selection = inject(WorkPackageViewSelectionService);
 
-  click(workPackageId:string, rendered:RenderedWorkPackage[], modifiers:SelectionModifiers):string[] {
+  click(workPackageId:string, rendered:RenderedWorkPackage[], modifiers:SelectionModifiers, classIdentifier?:string):string[] {
     const toggle = Boolean(modifiers.ctrlKey) || Boolean(modifiers.metaKey);
 
     if (!modifiers.shiftKey && !toggle) {
-      this.replace(workPackageId, rendered);
+      this.replace(workPackageId, rendered, classIdentifier);
     }
 
     if (modifiers.shiftKey) {
-      this.selection.setMultiSelectionFrom(rendered, workPackageId, positionOf(rendered, workPackageId));
+      this.selection.setMultiSelectionFrom(rendered, workPackageId, positionOf(rendered, workPackageId, classIdentifier));
     }
 
     if (toggle) {
@@ -57,26 +57,28 @@ export class WorkPackageViewSelectionGesturesService {
     return this.selection.getSelectedWorkPackageIds();
   }
 
-  replace(workPackageId:string, rendered:RenderedWorkPackage[]):void {
-    this.selection.setSelection(workPackageId, positionOf(rendered, workPackageId));
+  replace(workPackageId:string, rendered:RenderedWorkPackage[], classIdentifier?:string):void {
+    this.selection.setSelection(workPackageId, positionOf(rendered, workPackageId, classIdentifier));
   }
 
-  contextMenu(workPackageId:string, rendered:RenderedWorkPackage[]):void {
+  contextMenu(workPackageId:string, rendered:RenderedWorkPackage[], classIdentifier?:string):void {
     if (!this.selection.isSelected(workPackageId)) {
-      this.replace(workPackageId, rendered);
+      this.replace(workPackageId, rendered, classIdentifier);
     }
   }
 
-  collapseTo(workPackageId:string, rendered:RenderedWorkPackage[]):void {
+  collapseTo(workPackageId:string, rendered:RenderedWorkPackage[], classIdentifier?:string):void {
     const selected = this.selection.getSelectedWorkPackageIds();
     const soleSelection = selected.length === 1 && selected[0] === workPackageId;
 
     if (selected.length > 0 && !soleSelection) {
-      this.replace(workPackageId, rendered);
+      this.replace(workPackageId, rendered, classIdentifier);
     }
   }
 }
 
-function positionOf(rendered:RenderedWorkPackage[], workPackageId:string):number {
-  return rendered.findIndex((row) => row.workPackageId === workPackageId);
+function positionOf(rendered:RenderedWorkPackage[], workPackageId:string, classIdentifier?:string):number {
+  return rendered.findIndex((row) => (classIdentifier === undefined
+    ? row.workPackageId === workPackageId
+    : row.classIdentifier === classIdentifier));
 }

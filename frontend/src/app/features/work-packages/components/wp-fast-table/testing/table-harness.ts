@@ -110,6 +110,8 @@ export interface TableHarness {
   row(workPackageId:string):HTMLTableRowElement;
   groupHeaderOf(row:HTMLElement):HTMLTableRowElement|null;
   click(workPackageId:string, init?:MouseEventInit):void;
+  /** Tells the registered drag member a drag of the given row has begun. */
+  dragStart(workPackageId:string):void;
   /** Feeds a drop to the registered drag member; resolves with the transaction's `complete` value. */
   drop(sourceId:string, targetId:string|null, edge:Edge|null):Promise<boolean>;
   destroy():Promise<void>;
@@ -205,6 +207,10 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
       const row = this.row(workPackageId);
       const target = row.querySelector('td') ?? row;
       fireEvent.click(target, init);
+    },
+
+    dragStart(workPackageId) {
+      dragService.memberOf(dom.tbody).onDragStarted?.(this.row(workPackageId));
     },
 
     drop(sourceId, targetId, edge) {

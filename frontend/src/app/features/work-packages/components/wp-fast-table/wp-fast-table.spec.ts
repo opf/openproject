@@ -54,4 +54,14 @@ describe('WorkPackageTable', () => {
     expect(cells[1]).toHaveClass('subject');
     expect(cells[2]).not.toHaveClass('subject');
   });
+
+  it('mirrors each row identifier onto its timeline cell', async () => {
+    harness = buildTable({ workPackages: [{ id: '1' }, { id: '2' }] });
+
+    await harness.render();
+
+    const cells = Array.from(harness.table.timelineBody.querySelectorAll<HTMLElement>('.wp-timeline-cell'));
+    expect(cells.map((cell) => cell.dataset.classIdentifier)).toEqual(['wp-row-1', 'wp-row-2']);
+    expect(cells.map((cell) => cell.dataset.workPackageId)).toEqual(['1', '2']);
+  });
 });

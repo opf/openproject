@@ -37,7 +37,7 @@ import { TableDragActionService } from 'core-app/features/work-packages/componen
 import { States } from 'core-app/core/states/states.service';
 import { DragAndDropService, DragIntent } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
 import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
-import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
+import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -60,7 +60,7 @@ export class DragAndDropTransformer {
 
   @LazyInject() private readonly wpTableOrder:WorkPackageViewOrderService;
 
-  @LazyInject() private readonly wpTableSelection:WorkPackageViewSelectionService;
+  @LazyInject() private readonly selectionGestures:WorkPackageViewSelectionGesturesService;
 
   @LazyInject() private readonly apiV3Service:ApiV3Service;
 
@@ -129,19 +129,10 @@ export class DragAndDropTransformer {
     });
   }
 
-  /** Reduce a multi-row selection to just the picked-up row (see onDragStarted). */
   private collapseSelectionTo(row:HTMLElement):void {
     const wpId = row.dataset.workPackageId;
-    if (!wpId) {
-      return;
-    }
-
-    // `getSelectedWorkPackageIds`, not `selectionCount`: the count also
-    // includes false-valued entries a deselect leaves behind.
-    const selected = this.wpTableSelection.getSelectedWorkPackageIds();
-    const soleSelection = selected.length === 1 && selected[0] === wpId;
-    if (selected.length > 0 && !soleSelection) {
-      this.wpTableSelection.setSelection(wpId, this.currentOrder.indexOf(wpId));
+    if (wpId) {
+      this.selectionGestures.collapseTo(wpId, this.table.renderedRows, row.dataset.classIdentifier);
     }
   }
 
