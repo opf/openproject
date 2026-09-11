@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,15 +26,28 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
-require Rails.root.join("db/migrate/migration_utils/permission_renamer")
+# ++
 
-class RenameManageOverviewToManageDashboards < ActiveRecord::Migration[8.0]
-  def up
-    ::Migration::MigrationUtils::PermissionRenamer.rename("manage_overview", "manage_dashboards")
-  end
+require Rails.root.join("db/migrate/migration_utils/squashed_migration").to_s
+require_relative "tables/budgets"
+require_relative "tables/budget_journals"
+require_relative "tables/labor_budget_items"
+require_relative "tables/material_budget_items"
 
-  def down
-    ::Migration::MigrationUtils::PermissionRenamer.rename("manage_dashboards", "manage_overview")
+# This migration aggregates the migrations detailed in MIGRATION_FILES
+class AggregatedBudgetMigrations < SquashedMigration
+  squashed_migrations *%w[
+    1004015_aggregated_budget_migrations
+    20250714142919_add_base_amount_to_budget
+  ]
+
+  tables Tables::Budgets,
+         Tables::BudgetJournals,
+         Tables::LaborBudgetItems,
+         Tables::MaterialBudgetItems
+
+  modifications do
+    add_column :work_packages, :budget_id, :integer
+    add_column :work_package_journals, :budget_id, :integer, null: true
   end
 end

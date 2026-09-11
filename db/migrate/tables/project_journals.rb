@@ -42,6 +42,7 @@ class Tables::ProjectJournals < Tables::Base
       t.boolean :templated, null: false
       t.integer :status_code
       t.text :status_explanation
+      t.string :workspace_type, null: false
     end
   end
 end

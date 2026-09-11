@@ -31,7 +31,7 @@
 require Rails.root.join("db/migrate/tables/base").to_s
 
 class Tables::MeetingAgendaItems < Tables::Base
-  def self.table(migration) # rubocop:disable Metrics/AbcSize
+  def self.table(migration)
     create_table migration do |t|
       t.references :meeting, foreign_key: true
       t.references :author, foreign_key: { to_table: :users }
@@ -39,8 +39,6 @@ class Tables::MeetingAgendaItems < Tables::Base
       t.text :notes
       t.integer :position
       t.integer :duration_in_minutes
-      t.timestamp :start_time, precision: nil
-      t.timestamp :end_time, precision: nil
       t.timestamp :created_at, precision: nil, null: false
       t.timestamp :updated_at, precision: nil, null: false
       t.references :work_package, index: true

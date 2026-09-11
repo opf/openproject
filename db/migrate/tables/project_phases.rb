@@ -36,10 +36,12 @@ class Tables::ProjectPhases < Tables::Base
       t.date :start_date, index: true
       t.date :finish_date, index: true
       t.boolean :active, default: false, null: false
-      t.references :project, foreign_key: true
-      t.references :definition, foreign_key: { to_table: :project_phase_definitions }
+      t.references :project, foreign_key: true, null: false
+      t.references :definition, foreign_key: { to_table: :project_phase_definitions }, null: false
 
       t.timestamps
+
+      t.integer :duration, null: true
 
       t.index %i[project_id definition_id], unique: true
     end

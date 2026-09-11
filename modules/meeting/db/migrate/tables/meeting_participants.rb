@@ -40,6 +40,9 @@ class Tables::MeetingParticipants < Tables::Base
       t.boolean :invited
       t.boolean :attended
       t.timestamps precision: nil, null: false
+
+      t.index :meeting_id
+      t.index :user_id
     end
   end
 end

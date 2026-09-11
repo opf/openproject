@@ -46,6 +46,9 @@ class Tables::RecurringMeetings < Tables::Base
 
       t.integer :interval, default: 1, null: false
       t.string :time_zone, null: false
+      t.string :uid
+
+      t.index :uid, unique: true
     end
   end
 end

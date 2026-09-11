@@ -63,7 +63,7 @@ class Tables::WorkPackages < Tables::Base
 
       t.check_constraint "due_date >= start_date", name: "work_packages_due_larger_start_date"
 
-      t.references :project_phase, foreign_key: false, null: true
+      t.references :project_phase_definition, foreign_key: false, null: true
     end
   end
 end

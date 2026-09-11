@@ -49,6 +49,11 @@ class Tables::TimeEntryJournals < Tables::Base
       t.references :logged_by, foreign_key: { to_table: :users }, index: true, null: false
       t.integer :start_time, null: true
       t.string :time_zone, null: true
+      # The polymorphic reference's index duplicates the one on
+      # entity_type and entity_id below.
+      t.references :entity, polymorphic: true
+
+      t.index %i[entity_type entity_id]
     end
   end
 end
