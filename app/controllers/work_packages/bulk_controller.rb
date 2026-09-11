@@ -144,10 +144,11 @@ class WorkPackages::BulkController < ApplicationController
   # Each project applies its own variant of a type, so the variant is resolved per project
   # before #custom_fields follows the form configuration link from there.
   def custom_fields_of_type_variants
-    @projects.flat_map { |project| project.type_variants(*@types) }
-             .uniq
+    @projects.map do |project|
+      project.type_variants(*@types)
              .flat_map { |variant| variant.custom_fields.to_a }
              .uniq
+    end.inject(&:&) || []
   end
 
   # Deletion is not all or nothing: one work package may be deleted while another
