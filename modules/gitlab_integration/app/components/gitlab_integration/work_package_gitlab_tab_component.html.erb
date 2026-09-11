@@ -1,0 +1,99 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= content_tag("turbo-frame", id: TURBO_FRAME_ID) do
+  component_wrapper do
+    flex_layout(test_selector: "op-work-package-gitlab-tab-container") do |container|
+      container.with_row(mb: 3) do
+        render(Primer::Alpha::Stack.new(direction: :horizontal, gap: :condensed, align: :center)) do %>
+          <%=
+            render(Primer::Alpha::StackItem.new(grow: true)) do
+              render(Primer::Beta::Text.new(color: :muted)) { t(".description_html", code: content_tag(:code, "OP#123")) }
+            end
+          %>
+
+          <%=
+            render(Primer::Beta::Button.new) do |button|
+              button.with_leading_visual_icon(icon: :terminal)
+              button.with_trailing_action_icon(icon: "triangle-down")
+              t(".git_snippets")
+            end
+          %>
+
+<%
+        end
+      end
+
+      container.with_row(mb: 3) do
+        render(
+          ::GitlabIntegration::CollapsibleItemsComponent.new(
+            work_package.gitlab_issues.pluck(:title),
+            container_id: :issues,
+            heading: t(".issues"),
+            work_package:
+          )
+        )
+      end
+
+      container.with_row(mb: 3) do
+        render(
+          ::GitlabIntegration::CollapsibleItemsComponent.new(
+            work_package.gitlab_merge_requests.pluck(:title),
+            container_id: :merge_requests,
+            heading: t(".merge_requests"),
+            work_package:
+          )
+        )
+      end
+
+      container.with_row(mb: 3) do
+        render(
+          ::GitlabIntegration::CollapsibleItemsComponent.new(
+            [],
+            container_id: :branches,
+            heading: t(".branches"),
+            work_package:
+          )
+        )
+      end
+
+      container.with_row(mb: 3) do
+        render(
+          ::GitlabIntegration::CollapsibleItemsComponent.new(
+            [],
+            container_id: :commits,
+            heading: t(".commits"),
+            work_package:
+          )
+        )
+      end
+    end
+  end
+end
+%>

@@ -23,25 +23,26 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-Rails.application.routes.draw do
-  namespace "gitlab_integration" do
-    namespace "admin" do
-      resource :settings, only: %i[show update]
-    end
-  end
+module GitlabIntegration
+  class CollapsibleItemsComponent < ApplicationComponent
+    include ApplicationHelper
+    include OpPrimer::ComponentHelpers
 
-  resources :projects, only: %i[] do
-    resources :work_packages, only: %i[] do
-      resources :gitlab, only: %i[] do
-        collection do
-          resources :tab, only: %i[index], controller: "work_package_gitlab_tab", as: "gitlab_tab"
-        end
-      end
+    attr_reader :heading, :container
+
+    alias_method :items, :model
+
+    def initialize(model = nil, container_id:, heading:, work_package:, **)
+      @container_id = container_id
+      @heading = heading
+      @work_package = work_package
+
+      super(model, **)
     end
   end
 end
