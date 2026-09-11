@@ -30,6 +30,15 @@
 module OpenProject::GitlabIntegration
   module NotificationHandler
     module Helper
+      # Matches a single branch-name path segment that begins with a work package
+      # display id, capturing that id. The id is numeric or semantic, and may be
+      # followed by a "-", "_" or "." and any text — the shape the "Git snippets"
+      # menu produces (see GitActionsService#branchName):
+      #   "42" / "42-fix-the-thing"                    -> "42"
+      #   "dp-5" / "dp-5-contact-sponsoring-partners"  -> "dp-5"
+      #   "task" / "update-readme"                     -> no match
+      BRANCH_WP_ID = /\A(\d+|[A-Za-z][A-Za-z0-9_]*-\d+)(?:[-_.].*)?\z/
+
       ##
       # Parses the given source string and returns a list of work package display identifiers
       # (numeric strings or semantic IDs like "PROJ-42") found in that text.
@@ -65,6 +74,12 @@ module OpenProject::GitlabIntegration
           .scan(wp_regex)
           .filter_map { |groups| groups.compact.first }
           .uniq
+      end
+
+      def extract_work_package_ids_from_branch(branch_name)
+        branch_name.split("/").filter_map { BRANCH_WP_ID.match(it)&.captures&.first }
+                   .first(1)
+                   .map { it.match?(/\A\d+\z/) ? it : it.upcase }
       end
 
       ##
