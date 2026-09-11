@@ -88,7 +88,6 @@ class TimeEntry < ApplicationRecord
   include ::Scopes::Scoped
   include Entry::Costs
   include Entry::SplashedDates
-  include Entry::DeprecatedAssociation
 
   scopes :of_user_and_day,
          :ongoing,

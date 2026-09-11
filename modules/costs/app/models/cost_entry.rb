@@ -63,7 +63,6 @@ class CostEntry < ApplicationRecord
   extend CostEntryScopes
   include Entry::Costs
   include Entry::SplashedDates
-  include Entry::DeprecatedAssociation
 
   def before_validation
     self.project = entity.project if entity && project.nil?
