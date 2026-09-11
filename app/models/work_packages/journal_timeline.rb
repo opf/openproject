@@ -93,7 +93,6 @@ class WorkPackages::JournalTimeline
     journals
       .where(project_id: Project.allowed_to(user, :view_work_packages))
       .or(journals.where(work_package_id: shared_work_package_ids))
-      .select("#{Entry.table_name}.*")
   end
 
   # Work packages visible but not through project permission are exactly the shared ones.
