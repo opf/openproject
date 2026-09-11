@@ -48,7 +48,7 @@ module Import
       end
     end
 
-    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable-next Metrics/AbcSize
     def build_enumerator(jira_import_id, jira_project_id, cursor:)
       @jira_import = Import::JiraImport.find(jira_import_id)
       jira = @jira_import.jira
@@ -70,9 +70,8 @@ module Import
         cursor: cursor
       )
     end
-    # rubocop:enable Metrics/AbcSize
 
-    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable-next Metrics/AbcSize
     def each_iteration(jira_issue, _jira_import_id, _jira_project_id)
       Journal::NotificationConfiguration.with(false) do
         Journal::EventConfiguration.with(false) do
@@ -90,10 +89,10 @@ module Import
         end
       end
     end
-    # rubocop:enable Metrics/AbcSize
 
     private
 
+    # rubocop:disable-next Metrics/AbcSize
     def create_attachment(work_package, attachment, author)
       filename = attachment["filename"]
       content_url = attachment["content"]
@@ -112,6 +111,16 @@ module Import
           raise call.message
         end
       end
+    rescue StandardError => e
+      app_backtrace = Rails.backtrace_cleaner.clean(e.backtrace)
+      project = work_package.project
+      jira_project_for_log = project.slice(:identifier)
+      jira_issue_for_log = work_package.slice(:identifier)
+      attachment_for_log = attachment.slice("id", "size", "self", "content", "filename", "mimeType")
+      OpenProject.logger.error(
+        "Error during jira import attachment creation. Error: #{e}. Jira Project: #{jira_project_for_log} " \
+        "Jira Issue: #{jira_issue_for_log}. Attachment: #{attachment_for_log}. Backtrace: #{app_backtrace}. "
+      )
     end
 
     def create_member(project, member)
