@@ -28,10 +28,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 module ::ResourceManagement
-  # Lists generic (filter-based) allocations in the project still awaiting a
-  # user, and assigns real users to them. Keeps the allocation's `user_filter`,
-  # `filter_name` and `principal_explicit: false` untouched — only `principal`
-  # and `principal_assigned_by` change.
   class StaffingController < BaseController
     include OpTurbo::ComponentStream
 
@@ -109,7 +105,6 @@ module ::ResourceManagement
         component: ResourceAllocations::WarningStep::FormComponent.new(
           allocation: @allocation,
           project: @project,
-          allocation_kind: "principal",
           form_values: {},
           overbooked_ranges: ranges,
           working_schedules: working_schedules(principal, ranges),
@@ -177,7 +172,7 @@ module ::ResourceManagement
     end
 
     def assignable_allocations
-      assignable_scope.includes(:entity).order(:start_date)
+      assignable_scope.includes(:entity, placeholder_user: :placeholder_user_detail).order(:start_date)
     end
 
     def visible_work_package_ids(allocations)

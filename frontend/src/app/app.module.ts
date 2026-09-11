@@ -110,6 +110,9 @@ import {
   UserAutocompleterComponent,
 } from 'core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter.component';
 import {
+  ResourceAllocationAutocompleterComponent,
+} from 'core-app/shared/components/autocompleter/resource-allocation-autocompleter/resource-allocation-autocompleter.component';
+import {
   MeetingAutocompleterComponent,
 } from 'core-app/shared/components/autocompleter/meeting-autocompleter/meeting-autocompleter.component';
 import { AttributeValueMacroComponent } from 'core-app/shared/components/fields/macros/attribute-value-macro.component';
@@ -368,6 +371,7 @@ export class OpenProjectModule implements DoBootstrap {
     registerCustomElement('opce-project-autocompleter', ProjectAutocompleterComponent, { injector });
     registerCustomElement('opce-members-autocompleter', MembersAutocompleterComponent, { injector });
     registerCustomElement('opce-user-autocompleter', UserAutocompleterComponent, { injector });
+    registerCustomElement('opce-resource-allocation-autocompleter', ResourceAllocationAutocompleterComponent, { injector });
     registerCustomElement('opce-meeting-autocompleter', MeetingAutocompleterComponent, { injector });
     registerCustomElement('opce-time-entries-work-package-autocompleter', TimeEntriesWorkPackageAutocompleterComponent, { injector });
     registerCustomElement('opce-macro-attribute-value', AttributeValueMacroComponent, { injector });

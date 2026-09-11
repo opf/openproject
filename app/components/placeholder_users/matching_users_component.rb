@@ -28,21 +28,50 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ResourceAllocations
-  module Forms
-    class AllocationKindForm < ApplicationForm
-      def initialize(allocation_kind:)
-        @allocation_kind = allocation_kind
-        super()
-      end
+module PlaceholderUsers
+  class MatchingUsersComponent < ApplicationComponent
+    include OpTurbo::Streamable
+    include OpPrimer::ComponentHelpers
+    include AvatarHelper
 
-      form do |f|
-        f.hidden(
-          name: :allocation_kind,
-          value: @allocation_kind,
-          scope_name_to_model: false
-        )
-      end
+    MAX_USERS = 50
+
+    def initialize(placeholder_user:)
+      super
+
+      @placeholder_user = placeholder_user
+    end
+
+    private
+
+    def criteria?
+      @placeholder_user.user_filter.present?
+    end
+
+    def users
+      @users ||= @placeholder_user
+                   .candidate_query
+                   .results
+                   .includes(:departments, { custom_values: :custom_field })
+                   .limit(MAX_USERS)
+                   .to_a
+    end
+
+    def details_for(user)
+      segments = []
+      segments << tag.b(user.department.name) if user.department
+      segments << user.job_title if user.job_title
+      return if segments.empty?
+
+      safe_join(segments, " - ")
+    end
+
+    def title
+      I18n.t("placeholder_users.criteria.matching_users")
+    end
+
+    def empty_text
+      I18n.t("placeholder_users.criteria.no_matching_users")
     end
   end
 end

@@ -107,8 +107,8 @@ RSpec.describe ResourceAllocations::ListItemComponent, type: :component do
 
   context "with a filter-based allocation" do
     let(:allocation) do
-      create(:resource_allocation,
-             entity: work_package, principal_explicit: false, principal: nil, filter_name: "Full stack developer")
+      create(:resource_allocation, :with_user_filter,
+             entity: work_package, filter_name: "Full stack developer")
     end
 
     it "shows the filter name with a person-add icon instead of an avatar" do

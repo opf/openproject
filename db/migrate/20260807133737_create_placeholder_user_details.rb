@@ -28,21 +28,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ResourceAllocations
-  module KindStep
-    class FormComponent < ApplicationComponent
-      include ApplicationHelper
-      include OpTurbo::Streamable
-      include OpPrimer::ComponentHelpers
+class CreatePlaceholderUserDetails < ActiveRecord::Migration[8.1]
+  def change
+    create_table :placeholder_user_details do |t|
+      t.references :principal, null: false, foreign_key: { to_table: :users }, index: { unique: true }
+      # Nullable: ActiveRecord serializes an empty filter to NULL, because the
+      # coder loads NULL back as `[]`.
+      t.jsonb :user_filter, default: []
+      t.text :description
 
-      def initialize(project:, allocation:)
-        super
-        @project = project
-        @allocation = allocation
-      end
+      t.timestamps
+    end
 
-      def wrapper_key
-        ResourceAllocations::NewDialogComponent::BODY_ID
+    # Delegation assumes a detail is always there; it is only auto-built for new
+    # records, so existing placeholder users need one.
+    reversible do |dir|
+      dir.up do
+        execute <<~SQL.squish
+          INSERT INTO placeholder_user_details (principal_id, user_filter, created_at, updated_at)
+          SELECT id, '[]'::jsonb, NOW(), NOW()
+          FROM users
+          WHERE type = 'PlaceholderUser'
+        SQL
       end
     end
   end

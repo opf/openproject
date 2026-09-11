@@ -75,7 +75,7 @@ RSpec.describe ResourceAllocations::CreateService, type: :model do
 
   it "leaves principal_assigned_by blank for a generic allocation" do
     result = described_class.new(user: owner).call(
-      params.merge(principal: nil, principal_explicit: false, filter_name: "Ruby Developer")
+      params.merge(principal: nil, placeholder_user: create(:placeholder_user, name: "Ruby Developer"))
     )
     expect(result).to be_success, "expected success but got: #{result.errors.full_messages}"
     expect(result.result.principal_assigned_by).to be_nil

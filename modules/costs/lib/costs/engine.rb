@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -186,7 +188,7 @@ module Costs
 
     activity_provider :time_entries, class_name: "Activities::TimeEntryActivityProvider", default: false
 
-    patches %i[Project User PermittedParams WorkPackage]
+    patches %i[Project Principal User PlaceholderUser PermittedParams WorkPackage]
     patch_with_namespace :BasicData, :SettingSeeder
     patch_with_namespace :ActiveSupport, :NumberHelper, :NumberToCurrencyConverter
 
@@ -194,6 +196,13 @@ module Costs
                   name: "rates",
                   partial: "users/rates",
                   path: ->(params) { edit_user_path(params[:user], tab: :rates) },
+                  only_if: ->(*) { User.current.admin? },
+                  label: :caption_rate_history
+
+    add_tab_entry :placeholder_user,
+                  name: "rates",
+                  partial: "placeholder_users/rates",
+                  path: ->(params) { edit_placeholder_user_path(params[:placeholder_user], tab: :rates) },
                   only_if: ->(*) { User.current.admin? },
                   label: :caption_rate_history
 

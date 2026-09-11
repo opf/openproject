@@ -33,7 +33,7 @@ module Queries
   # ["Job title is Developer", "Spoken language is German, English"].
   #
   #   Queries::FilterSummary.new(query.filters).phrases
-  #   Queries::FilterSummary.new(allocation.user_filter).to_s
+  #   Queries::FilterSummary.new(placeholder_user.user_filter).to_s
   #
   # List filters (custom fields, status, …) have their value ids resolved to the
   # corresponding objects; other filters fall back to their raw values. A filter

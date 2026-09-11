@@ -34,7 +34,7 @@ class Budget < ApplicationRecord
     includes(:cost_type).order(Arel.sql("material_budget_items.id ASC"))
   }, dependent: :destroy
   has_many :labor_budget_items, -> {
-    includes(:user).order(Arel.sql("labor_budget_items.id ASC"))
+    includes(:principal).order(Arel.sql("labor_budget_items.id ASC"))
   }, dependent: :destroy
 
   validates_associated :material_budget_items

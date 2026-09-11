@@ -27,12 +27,35 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= error_messages_for @placeholder_user %>
+<%=
+  component_wrapper do
+    primer_form_with(
+      model: @placeholder_user,
+      scope: :placeholder_user,
+      url: form_url,
+      method: :post,
+      html: {
+        data: form_data,
+        id: ResourceManagement::PlaceholderUsers::NewDialogComponent::FORM_ID
+      }
+    ) do |f|
+      banner = if criteria_errors.any?
+                 render(Primer::Alpha::Banner.new(icon: :stop, scheme: :danger, mb: 3)) do
+                   criteria_errors.to_sentence
+                 end
+               end
 
-<!--[form:placeholder_user]-->
-<section class="form--section">
-  <div class="form--field -required"><%= f.text_field :name, label: t("label_name"), required: true, container_class: "-middle" %></div>
+      criteria = content_tag(:div, class: "op-filters-form -expanded") do
+        render(criteria_form(f))
+      end
 
-  <%= call_hook(:view_placeholder_users_form, placeholder_user: @placeholder_user, form: f) %>
-</section>
-<!--[eoform:placeholder_user]-->
+      safe_join(
+        [
+          banner,
+          render(ResourceManagement::PlaceholderUsers::Forms::DetailsForm.new(f)),
+          criteria
+        ].compact
+      )
+    end
+  end
+%>

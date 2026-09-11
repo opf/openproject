@@ -38,13 +38,12 @@ module ResourceAllocations
       # `dialog_id` names the dialog hosting the form (autocompleter dropdowns
       # attach to it): the create wizard's by default, the edit dialog's when
       # editing a persisted allocation.
-      def initialize(allocation:, project:, allocation_kind:,
+      def initialize(allocation:, project:,
                      dialog_id: ResourceAllocations::NewDialogComponent::DIALOG_ID,
                      view: nil)
         super
         @allocation = allocation
         @project = project
-        @allocation_kind = allocation_kind
         @dialog_id = dialog_id
         @view = view
       end
@@ -56,10 +55,6 @@ module ResourceAllocations
       private
 
       attr_reader :dialog_id
-
-      def filter_based?
-        @allocation_kind.to_s == "filter"
-      end
 
       # A persisted allocation submits an update to itself; a new one goes
       # through the create flow (with its confirmation step).
@@ -76,37 +71,17 @@ module ResourceAllocations
       end
 
       def form_list_component(form)
-        prepends = if filter_based?
-                     [
-                       ResourceAllocations::Forms::FilterNameForm.new(form),
-                       ::Filters::FilterFormComponent.new(
-                         builder: form,
-                         query: @allocation.candidate_query,
-                         # Membership in the allocation's project is implied, not a criterion to edit.
-                         excluded_filters: [:member],
-                         wrap_with_controller: true,
-                         hidden_input_name: "filters",
-                         output_format: :json,
-                         autocomplete_append_to: "##{dialog_id}"
-                       )
-                     ]
-                   else
-                     [
-                       ResourceAllocations::Forms::PrincipalForm.new(
-                         form,
-                         project: @project,
-                         dialog_id: dialog_id,
-                         view: @view
-                       )
-                     ]
-                   end
-
         Primer::Forms::FormList.new(
-          *prepends,
+          ResourceAllocations::Forms::PlaceholderOrUserForm.new(
+            form,
+            project: @project,
+            dialog_id:,
+            create_placeholder_user_path: new_resource_management_placeholder_user_path,
+            view: @view
+          ),
           ResourceAllocations::Forms::WorkPackageForm.new(form, project: @project, dialog_id: dialog_id, view: @view),
           ResourceAllocations::Forms::DateRangeForm.new(form, dialog_id: dialog_id),
-          ResourceAllocations::Forms::HoursForm.new(form),
-          ResourceAllocations::Forms::AllocationKindForm.new(form, allocation_kind: @allocation_kind)
+          ResourceAllocations::Forms::HoursForm.new(form)
         )
       end
     end

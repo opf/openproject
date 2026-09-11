@@ -1,0 +1,55 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%=
+  component_wrapper do
+    render(Primer::Alpha::Layout.new) do |layout|
+      layout.with_main do
+        flex_layout(col_placement: :start) do |column|
+          column.with_row(mb: 3) do
+            render(Primer::Forms::ToggleSwitchForm.new(**toggle_arguments))
+          end
+
+          if active?
+            column.with_row do
+              primer_form_with(model: placeholder_user, url: form_url, method: :put) do |f|
+                render(PlaceholderUsers::CriteriaForm.new(f, submit: false, live_update_path:))
+              end
+            end
+          end
+        end
+      end
+
+      # TODO: When the new width have been introduced, switch to a new one: https://community.openproject.org/projects/DREAM/work_packages/DREAM-829/activity
+      layout.with_sidebar(width: :wide, col_placement: :end) do
+        render(PlaceholderUsers::MatchingUsersComponent.new(placeholder_user:))
+      end
+    end
+  end
+%>

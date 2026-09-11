@@ -8,9 +8,12 @@
       html: {
         data: {
           turbo_stream: true,
-          controller: "refresh-on-form-changes",
+          controller: "refresh-on-form-changes resource-management--created-placeholder-user",
           "refresh-on-form-changes-target": "form",
-          "refresh-on-form-changes-turbo-stream-url-value": refresh_form_project_resource_allocations_path(@project)
+          "refresh-on-form-changes-turbo-stream-url-value": refresh_form_project_resource_allocations_path(@project),
+          "resource-management--created-placeholder-user-dialog-id-value":
+            ResourceManagement::PlaceholderUsers::NewDialogComponent::DIALOG_ID,
+          "resource-management--created-placeholder-user-autocompleter-value": "opce-resource-allocation-autocompleter"
         },
         id: ResourceAllocations::NewDialogComponent::FORM_ID
       }

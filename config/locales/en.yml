@@ -451,6 +451,13 @@ en:
         time_zone: "Time zone"
         warn_on_leaving_unsaved: "Warn me when leaving a work package with unsaved changes"
         workdays: "Working days"
+      user_resource:
+        description: "Description"
+        name: "Name"
+        user_filter: "User filter"
+      user_resource_detail:
+        description: "Description"
+        user_filter: "User filter"
       user_working_hours:
         availability_factor: "Availability factor"
         days: "Working days"
@@ -1946,7 +1953,7 @@ en:
     text_transform_actions:
       delete_dialog_component:
         description: "Users will no longer be able to run this action in the rich text editor."
-        heading: "Are you sure you want to delete the action \"%{label}\"?"
+        heading: 'Are you sure you want to delete the action "%{label}"?'
         title: "Delete text transform action"
       form:
         injects_type_template_caption: "If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template."
@@ -3005,7 +3012,7 @@ en:
   error_can_not_find_all_resources: "Could not find all related resources to this request."
   error_can_not_invite_user: "Failed to send invitation to user."
   error_can_not_remove_role: "This role is in use and cannot be deleted."
-  error_can_not_remove_type_from_project: "Unable to remove \"%{name}\" from project \"%{project}\" because it's still in use by %{work_packages_link}"
+  error_can_not_remove_type_from_project: 'Unable to remove "%{name}" from project "%{project}" because it''s still in use by %{work_packages_link}'
   error_can_not_reopen_work_package_on_closed_version: "A work package assigned to a closed version cannot be reopened"
   error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
   error_check_user_and_role: "Please choose a user and a role."
@@ -3569,6 +3576,7 @@ en:
   label_core_build: "Core build"
   label_core_version: "Core version"
   label_created_by: "Created by %{user}"
+  label_criteria: "Criteria"
   label_current_status: "Current status"
   label_current_version: "Current version"
   label_custom_comment: "%{name} comment"
@@ -4144,6 +4152,8 @@ en:
   label_wiki_start: "Start page"
   label_wiki_toc: "Table of Contents"
   label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
+  label_with_criteria: "With criteria"
+  label_without_criteria: "Without criteria"
   label_work: "Work"
   label_work_package: "Work package"
   label_work_package_attachments: "Work package attachments"
@@ -5207,6 +5217,15 @@ en:
   permission_work_package_assigned: "Become assignee/responsible"
   permission_work_package_assigned_explanation: "Work packages can be assigned to users and groups in possession of this role in the respective project"
   placeholder_users:
+    criteria:
+      activate: "Activate filter criteria"
+      activate_caption: >
+        This allows to add a set of filters to this placeholder user used to define the possible users
+        that fit the desired criteria.
+      enable: "Match users by criteria"
+      enable_caption: "Describe the kind of user this placeholder stands for, so matching users can be suggested for it."
+      matching_users: "Users meeting the filter criteria"
+      no_matching_users: "No user meets these criteria."
     delete_tooltip: "Delete placeholder user"
     deletion_info:
       data_consequences: >

@@ -28,16 +28,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ResourceAllocations
-  module Forms
-    class FilterNameForm < ApplicationForm
-      form do |f|
-        f.text_field(
-          name: :filter_name,
-          label: ResourceAllocation.human_attribute_name(:filter_name),
-          required: true
-        )
-      end
-    end
+# The allocatable placeholder users this endpoint returns are outside
+# `Principal.visible`, which the plain id filter validates against — filtering
+# for one it just returned would be rejected as an invalid value.
+class Queries::Principals::Filters::AllocatableIdFilter < Queries::Principals::Filters::IdFilter
+  def self.key
+    :id
+  end
+
+  def allowed_values_subset
+    submitted = Principal.where(id: values)
+
+    submitted.where(id: User.visible.select(:id)).pluck(:id).map(&:to_s) +
+      submitted.where(id: PlaceholderUser.allocatable.select(:id)).pluck(:id).map(&:to_s) +
+      [me_value_key]
   end
 end
