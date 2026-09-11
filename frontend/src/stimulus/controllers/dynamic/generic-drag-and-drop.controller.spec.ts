@@ -27,7 +27,7 @@
 //++
 
 import { waitFor } from '@testing-library/dom';
-import { vi } from 'vitest';
+import { vi, type Mock } from 'vitest';
 
 import GenericDragAndDropController from './generic-drag-and-drop.controller';
 import { createControllerInstance, setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
@@ -240,6 +240,74 @@ describe('GenericDragAndDropController', () => {
       await ctx.nextFrame();
 
       expect(FakeAutoscroll.constructedWith).toHaveLength(0);
+    });
+  });
+
+  describe('drop', () => {
+    let fetchSpy:Mock;
+    let source:HTMLUListElement;
+    let target:HTMLUListElement;
+    let row:HTMLLIElement;
+
+    const callDrop = () => {
+      const drop = Reflect.get(controller, 'drop') as (this:GenericDragAndDropController, el:Element, target:Element) => Promise<void>;
+
+      return drop.call(controller, row, target);
+    };
+
+    beforeEach(() => {
+      fetchSpy = vi.fn().mockImplementation(() => Promise.resolve(new Response('', { status: 200 })));
+      vi.spyOn(window, 'fetch').mockImplementation(fetchSpy);
+
+      source = document.createElement('ul');
+      target = document.createElement('ul');
+      target.dataset.targetId = '7';
+      row = draggableRow();
+      source.append(row);
+      document.body.append(source, target);
+
+      // Mirror the drag callbacks: the row now sits in the target, and the
+      // controller remembers where it came from.
+      target.append(row);
+      Reflect.set(controller, 'dragOriginSource', source);
+      Reflect.set(controller, 'dragOriginNextSibling', null);
+      Reflect.set(controller, 'targetConfigs', [{ container: target, allowedDragType: 'story', targetId: '7' }]);
+      Object.defineProperty(controller, 'positionModeValue', { value: 'index', configurable: true });
+    });
+
+    afterEach(() => {
+      source.remove();
+      target.remove();
+      vi.restoreAllMocks();
+    });
+
+    it('puts the new position as form data with Request.JS stream headers', async () => {
+      await callDrop();
+
+      const [url, init] = fetchSpy.mock.lastCall as [string, RequestInit & { headers:Headers }];
+      expect(url).toBe('/drop');
+      expect(init.method).toBe('PUT');
+      expect((init.body as FormData).get('position')).toBe('1');
+      expect((init.body as FormData).get('target_id')).toBe('7');
+      expect(init.headers.get('Accept')).toBe('text/vnd.turbo-stream.html, text/html, application/xhtml+xml');
+      expect(init.headers.get('X-Requested-With')).toBe('XMLHttpRequest');
+      expect(row.parentElement).toBe(target);
+    });
+
+    it('reverts the drop when the server rejects it', async () => {
+      fetchSpy.mockResolvedValueOnce(new Response('', { status: 422 }));
+
+      await callDrop();
+
+      expect(row.parentElement).toBe(source);
+    });
+
+    it('reverts the drop when the request fails', async () => {
+      fetchSpy.mockRejectedValueOnce(new TypeError('Failed to fetch'));
+
+      await callDrop();
+
+      expect(row.parentElement).toBe(source);
     });
   });
 });
