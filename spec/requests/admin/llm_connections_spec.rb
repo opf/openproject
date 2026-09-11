@@ -36,6 +36,7 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
   let(:non_admin) { create(:user) }
   let(:base_url) { "https://example.com/v1" }
   let(:api_key_field) { "#llm_connection_api_key" }
+  let(:remove_api_key) { "[data-test-selector='llm-connection--remove-api-key']" }
 
   describe "with the feature flag off", with_flag: { llm_connection: false } do
     before { login_as admin }
@@ -72,6 +73,7 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
 
         expect(response.body).not_to include("A key is stored")
         expect(page).to have_no_css("#{api_key_field}[placeholder]", visible: :all)
+        expect(page).to have_no_css(remove_api_key, visible: :all)
       end
 
       context "when an API key is stored" do
@@ -89,6 +91,12 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
 
           expect(page).to have_css("#{api_key_field}[placeholder='API key stored']", visible: :all)
           expect(page).to have_no_css("#{api_key_field}[value]", visible: :all)
+        end
+
+        it "offers to remove the key beside the field" do
+          get llm_connection_path
+
+          expect(page).to have_css(remove_api_key, text: "Remove key", visible: :all)
         end
       end
     end
@@ -147,6 +155,20 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
         expect(response.body).to include('value="sk-typed"')
         expect(response.body).not_to include("A key is stored")
       end
+
+      context "when the stored connection has no key" do
+        let!(:connection) { create(:llm_connection, base_url:, api_key: nil) }
+
+        it "does not offer to remove a key that was only typed" do
+          patch llm_connection_path,
+                params: { llm_connection: { base_url:, api_key: "sk-typed" } },
+                headers: { "Accept" => "text/html" }
+
+          expect(response.body).to include('value="sk-typed"')
+          expect(response.body).not_to include("llm-connection--delete-api-key")
+          expect(page).to have_no_css(remove_api_key, visible: :all)
+        end
+      end
     end
 
     # Reachability and credentials still gate the save; only the model list is
@@ -176,6 +198,69 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
 
         expect(connection.reload.api_key).to eq("sk-rotated")
       end
+    end
+  end
+
+  describe "DELETE /admin/llm_connection/api_key" do
+    before { login_as admin }
+
+    it "removes the key but keeps the connection" do
+      connection = create(:llm_connection, base_url:, api_key: "sk-original")
+
+      delete api_key_llm_connection_path
+
+      expect(response).to have_http_status(:see_other)
+      expect(connection.reload.api_key).to be_nil
+      expect(connection.base_url).to eq(base_url)
+    end
+
+    it "renders the page after removal exactly as on first load" do
+      create(:llm_connection, base_url:, api_key: "sk-original")
+
+      delete api_key_llm_connection_path
+      get llm_connection_path
+
+      expect(response.body).not_to include("A key is stored")
+      expect(response.body).not_to include("llm-connection--delete-api-key")
+      expect(page).to have_no_css(remove_api_key, visible: :all)
+    end
+  end
+
+  describe "disconnecting" do
+    let!(:connection) do
+      create(:llm_connection,
+             base_url: "https://example.com/v1", api_key: "sk-test")
+    end
+
+    before do
+      login_as admin
+      # Not with_settings:, which stubs Setting.[] and would hide the write.
+      Setting.llm_features_enabled = true
+    end
+
+    it "offers the confirmation, naming what is kept" do
+      get disconnect_dialog_llm_connection_path,
+          headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Disconnect from the LLM server?")
+    end
+
+    it "clears the credential and switches the connection off, keeping everything else" do
+      post disconnect_llm_connection_path
+
+      connection.reload
+      expect(connection.api_key).to be_blank
+      expect(Setting.llm_features_enabled?).to be(false)
+      expect(connection.base_url).to eq("https://example.com/v1")
+    end
+
+    it "is refused to a non-admin" do
+      login_as create(:user)
+
+      post disconnect_llm_connection_path
+
+      expect(connection.reload.api_key).to eq("sk-test")
     end
   end
 end
