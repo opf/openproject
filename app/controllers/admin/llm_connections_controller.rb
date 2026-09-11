@@ -57,6 +57,8 @@ module Admin
     # Clears the credential and switches the AI features off, keeping the endpoint
     # and the catalogue. Deliberately not a destroy.
     def disconnect
+      return redirect_with_error(t(".configured_from_env")) if @connection.configured_from_env?
+
       ApplicationRecord.transaction do
         @connection.update!(api_key: nil)
         Setting.llm_features_enabled = false
@@ -69,7 +71,12 @@ module Admin
       respond_with_dialog LlmConnections::DeleteApiKeyDialogComponent.new(@connection)
     end
 
+    # The environment guard is checked explicitly because this write bypasses
+    # the contract: removing a credential must always be possible, even against
+    # a server that would reject the resulting unauthenticated probe.
     def delete_api_key
+      return redirect_with_error(t(".configured_from_env")) if @connection.configured_from_env?
+
       @connection.update!(api_key: nil)
 
       redirect_with_notice(t(".success"))
