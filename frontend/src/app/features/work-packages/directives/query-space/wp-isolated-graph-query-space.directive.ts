@@ -59,6 +59,7 @@ import { WorkPackageService } from 'core-app/features/work-packages/services/wor
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { WorkPackageIsolatedQuerySpaceDirective } from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
 import { IsolatedGraphQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-graph-query-space';
+import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 
 export const WpIsolatedGraphQuerySpaceProviders = [
   // Open the isolated space first, order is important here
@@ -77,6 +78,7 @@ export const WpIsolatedGraphQuerySpaceProviders = [
   WorkPackageViewFiltersService,
   WorkPackageViewTimelineService,
   WorkPackageViewSelectionService,
+  WorkPackageViewSelectionGesturesService,
   WorkPackageViewSumService,
   WorkPackageViewAdditionalElementsService,
   WorkPackageViewFocusService,

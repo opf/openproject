@@ -81,6 +81,7 @@ import { TableHandlerRegistry } from '../handlers/table-handler-registry';
 import { locatePredecessorBySelector } from '../helpers/wp-table-row-helpers';
 import { WorkPackageTable } from '../wp-fast-table';
 import { buildGroup, buildWorkPackage, GroupFixture, WorkPackageFixture } from './work-package-fixture';
+import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 
 export interface TableHarnessOptions {
   workPackages:WorkPackageFixture[];
@@ -249,6 +250,7 @@ function harnessProviders(dragService:FakeDragAndDropService, dragAction:Partial
     IsolatedQuerySpace,
     ActionsService,
     WorkPackageViewSelectionService,
+    WorkPackageViewSelectionGesturesService,
     WorkPackageViewFocusService,
     WorkPackageViewColumnsService,
     WorkPackageViewSortByService,
