@@ -221,4 +221,30 @@ RSpec.describe Queries::WorkPackages::Filter::SearchFilter do
       end
     end
   end
+
+  describe "#filter_configurations" do
+    shared_let(:type) { create(:type) }
+    shared_let(:other_type) { create(:type) }
+    shared_let(:here) { create(:project, types: [type]) }
+    shared_let(:elsewhere) { create(:project, types: [other_type]) }
+
+    shared_let(:searchable_here) do
+      create(:string_wp_custom_field, searchable: true, is_filter: true, types: [type])
+    end
+    shared_let(:searchable_elsewhere) do
+      create(:string_wp_custom_field, searchable: true, is_filter: true, types: [other_type])
+    end
+
+    def searched_columns(for_project)
+      described_class.create!(name: :search, context: instance_double(Query, project: for_project),
+                              operator: "**", values: ["x"])
+                     .send(:custom_field_configurations)
+                     .map(&:filter_name)
+    end
+
+    it "searches only the custom fields the project's form configuration shows" do
+      expect(searched_columns(here)).to include(searchable_here.column_name)
+      expect(searched_columns(here)).not_to include(searchable_elsewhere.column_name)
+    end
+  end
 end
