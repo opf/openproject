@@ -30,6 +30,7 @@
 
 require "spec_helper"
 require "rack/test"
+require "uri"
 
 RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI do
   include Rack::Test::Methods
@@ -75,6 +76,15 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI do
             .to be_json_eql(schema_path.to_json)
             .at_path("_links/self/href")
         end
+
+        it "round-trips the self link filters as valid JSON" do
+          href = JSON.parse(last_response.body).dig("_links", "self", "href")
+          filters = URI.decode_www_form(URI(href).query).to_h.fetch("filters")
+
+          expect(JSON.parse(filters)).to eq([
+            { "id" => { "operator" => "=", "values" => filter_values } }
+          ])
+        end
       end
 
       context "for a non existing project" do
@@ -116,6 +126,14 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI do
           expect(last_response.body)
             .to be_json_eql("urn:openproject-org:api:v3:errors:InvalidQuery".to_json)
             .at_path("errorIdentifier")
+        end
+      end
+
+      context "with malformed filter JSON" do
+        it "returns HTTP 400" do
+          get "#{api_v3_paths.work_package_schemas}?filters=%7B"
+
+          expect(last_response).to have_http_status(:bad_request)
         end
       end
     end

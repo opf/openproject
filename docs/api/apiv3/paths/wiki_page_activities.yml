@@ -1,0 +1,18 @@
+# /api/v3/wiki_pages/{id}/activities
+---
+get:
+  summary: List wiki page activities
+  operationId: List_Wiki_Page_Activities
+  tags:
+  - Wiki Pages
+  parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      description: OK
+    '404':
+      description: Wiki page not found or not visible

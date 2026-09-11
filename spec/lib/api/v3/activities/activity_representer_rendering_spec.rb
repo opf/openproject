@@ -178,6 +178,21 @@ RSpec.describe API::V3::Activities::ActivityRepresenter, "rendering" do
         let(:href) { api_v3_paths.work_package work_package.id }
         let(:title) { work_package.subject }
       end
+
+      context "with a WikiPage journal" do
+        let(:journal) do
+          build_stubbed(:wiki_page_journal, notes:, user: other_user, journable: build_stubbed(:wiki_page)).tap do |wiki_journal|
+            allow(wiki_journal).to receive(:get_changes).and_return(changes)
+          end
+        end
+
+        it "omits the work package link while rendering activity details" do
+          rendered = JSON.parse(generated)
+
+          expect(rendered.fetch("_links")).not_to have_key("workPackage")
+          expect(rendered.fetch("details")).to be_an(Array)
+        end
+      end
     end
 
     describe "user" do

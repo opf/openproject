@@ -1,0 +1,17 @@
+# /api/v3/wiki_pages/schema
+---
+get:
+  responses:
+    "200":
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/schema_model.yml"
+      description: OK
+  tags:
+  - Wiki Pages
+  description: |-
+    Retrieve the schema for wiki pages, including writable properties and
+    constraints for create/update forms.
+  operationId: Wiki_Page_Schema
+  summary: Wiki Page schema

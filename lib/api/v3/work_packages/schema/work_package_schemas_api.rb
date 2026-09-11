@@ -52,7 +52,7 @@ module API
               def parse_filter_for_project_type_pairs
                 begin
                   filter = JSON::parse(params[:filters])
-                rescue TypeError, JSON::ParseError
+                rescue TypeError, JSON::ParserError
                   raise_invalid_query
                 end
 

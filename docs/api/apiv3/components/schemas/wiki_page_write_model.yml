@@ -1,0 +1,18 @@
+---
+type: object
+properties:
+  title:
+    type: string
+  text:
+    "$ref": "./formattable.yml"
+  protected:
+    type: boolean
+  lockVersion:
+    type: integer
+  _links:
+    type: object
+    properties:
+      project:
+        "$ref": "./link.yml"
+      parent:
+        "$ref": "./link.yml"
