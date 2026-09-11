@@ -32,6 +32,7 @@ module Queries::Projects
   ::Queries::Register.register(ProjectQuery) do
     filter Filters::ActiveFilter
     filter Filters::AncestorFilter
+    filter Filters::AvailableCustomFieldsProjectsFilter
     filter Filters::AvailableProjectAttributesFilter
     filter Filters::CreatedAtFilter
     filter Filters::CustomFieldFilter
