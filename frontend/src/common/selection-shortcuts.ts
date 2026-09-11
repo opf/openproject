@@ -26,4 +26,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-export { isApplePlatform } from 'core-common/platform';
+export function isSelectAllShortcut(event:KeyboardEvent, applePlatform:boolean):boolean {
+  if (event.isComposing || event.altKey || event.getModifierState('AltGraph')) return false;
+  if (!(applePlatform ? event.metaKey : event.ctrlKey)) return false;
+  return event.key === 'a' || event.key === 'A'
+    || (event.code === 'KeyA' && /^\p{L}$/u.test(event.key) && !/^\p{Script=Latin}$/u.test(event.key));
+}
