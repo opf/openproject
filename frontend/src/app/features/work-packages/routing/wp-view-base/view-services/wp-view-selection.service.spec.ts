@@ -126,6 +126,14 @@ describe('WorkPackageViewSelectionService', () => {
     expect(selection.getSelectedWorkPackageIds()).toEqual(['2']);
   });
 
+  it('closes the context menu only when Select All has selectable rows', () => {
+    const close = vi.spyOn(TestBed.inject(OPContextMenuService), 'close');
+    selection.selectAll([]);
+    expect(close).not.toHaveBeenCalled();
+    selection.selectAll(rows, rows[1]);
+    expect(close).toHaveBeenCalledOnce();
+  });
+
   it('selects all with the requested occurrence as the range anchor', () => {
     selection.selectAll(rows, rows[1]);
     expect(selection.getSelectedWorkPackageIds()).toEqual(['1', '2', '3', '4']);

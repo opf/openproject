@@ -77,7 +77,7 @@ RSpec.describe "Bulk update work packages through Rails view", :js do
     wp_table.expect_work_package_listed work_package, work_package2
 
     # Select all work packages
-    find("body").send_keys [:control, "a"]
+    wp_table.select_all_work_packages
   end
 
   context "with permission" do
