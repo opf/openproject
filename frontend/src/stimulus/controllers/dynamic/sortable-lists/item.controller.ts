@@ -48,13 +48,13 @@ import {
   type SortableItemData,
   type SortableListsRoot,
 } from './drag-and-drop';
-import { isMoveDirection, sortableItemSelector } from './list-dom';
+import { isConfinedItem, isMoveDirection, isOrderableItem, sortableItemSelector } from './list-dom';
 import { renderDragPreview } from './preview';
 
 type CleanupFn = () => void;
 
 export default class ItemController extends Controller<HTMLElement> implements RootAwareChild {
-  static targets = ['handle', 'preview', 'moveItem', 'moveMenu', 'moveDivider'];
+  static targets = ['handle', 'preview', 'moveItem', 'moveMenu', 'moveDivider', 'focus'];
   static elements = { menu: 'action-menu' };
 
   static values = {
@@ -62,13 +62,11 @@ export default class ItemController extends Controller<HTMLElement> implements R
     type: String,
     externalUrl: String,
     hideUnavailable: { type: Boolean, default: true },
-    // A confined item is still a full drag source, but only its own list and
-    // that list's rows accept it as a drop target; foreign containers refuse
-    // it, so a release there lands nowhere and the item stays put. Consumers
-    // use this for items the server allows to reorder in place but refuses to
-    // relocate to another container.
-    confined: { type: Boolean, default: false },
     label: String,
+    // See ItemMobility in list-dom. A `confined` item is still a full drag
+    // source; only its own list accepts it as a drop target, so a release
+    // anywhere else lands nowhere and the item stays put.
+    mobility: { type: String, default: 'free' },
   };
 
   declare readonly idValue:string;
@@ -78,7 +76,6 @@ export default class ItemController extends Controller<HTMLElement> implements R
   declare readonly externalUrlValue:string;
   declare readonly hasExternalUrlValue:boolean;
   declare readonly hideUnavailableValue:boolean;
-  declare readonly confinedValue:boolean;
   declare readonly labelValue:string;
   declare readonly hasLabelValue:boolean;
 
@@ -91,6 +88,8 @@ export default class ItemController extends Controller<HTMLElement> implements R
   declare readonly hasMoveMenuTarget:boolean;
   declare readonly moveDividerTarget:HTMLElement;
   declare readonly hasMoveDividerTarget:boolean;
+  declare readonly focusTarget:HTMLElement;
+  declare readonly hasFocusTarget:boolean;
 
   // Provided by the stimulus-elements blessing; absent when the item is not
   // inside a Primer action-menu (a drag-only consumer), in which case the move
@@ -143,7 +142,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
 
   move(event:ActionEvent):void {
     const item = event.currentTarget;
-    if (!this.hasMenuElement || !(item instanceof HTMLElement)) {
+    if (!isOrderableItem(this.element) || !this.hasMenuElement || !(item instanceof HTMLElement)) {
       return;
     }
 
@@ -155,6 +154,12 @@ export default class ItemController extends Controller<HTMLElement> implements R
     if (isMoveDirection(direction)) {
       this.root?.moveInDirection(this.element, direction);
     }
+  }
+
+  // The focus host is the consumer's business: Backlogs puts the tab stop on
+  // the card inside the row, another consumer may focus the row itself.
+  focusItem():void {
+    (this.hasFocusTarget ? this.focusTarget : this.element).focus();
   }
 
   // Called by the root controller's outlet-connected callback.
@@ -178,14 +183,16 @@ export default class ItemController extends Controller<HTMLElement> implements R
 
   private register():void {
     this.cleanupFn = combine(
-      this.registerDraggable(),
+      // A non-movable item registers no draggable but stays a drop target:
+      // its movable neighbours still anchor on it.
+      isOrderableItem(this.element) ? this.registerDraggable() : () => undefined,
       this.registerDropTarget(),
     );
   }
 
   // Both values are required: an item with an empty id can never be persisted,
-  // and an empty type never matches a list's accepted type, so the item would
-  // appear draggable yet silently refuse every drop. Surface that wiring mistake.
+  // and an empty type would never match a list's accepted type, so it could
+  // neither be dropped nor anchor a drop. Surface that wiring mistake.
   private warnOnMissingValues():void {
     if (!this.hasIdValue) {
       console.warn(
@@ -221,6 +228,9 @@ export default class ItemController extends Controller<HTMLElement> implements R
       },
       getInitialData: () => this.getItemData(),
       onDragStart: () => {
+        // One drag moves one item until AGILE-278 lands, so a wider batch
+        // collapses onto it rather than appearing to come along.
+        this.root?.collapseSelectionForDrag(this.element);
         // Cancels drops landing outside registered drop targets. This also
         // guards the external data channel: a misdropped card carrying
         // text/uri-list would otherwise navigate the current tab to that URL.
@@ -357,7 +367,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
       type: this.typeValue,
       rootElement: this.root?.element ?? null,
       sourceListElement: this.root?.ownerListElementOf(this.element) ?? null,
-      confined: this.confinedValue,
+      confined: isConfinedItem(this.element),
     });
   }
 

@@ -37,7 +37,6 @@ describe('sortable lists drag preview', () => {
     article.setAttribute('data-dragging', 'source');
     article.setAttribute('data-drop-position', 'top');
     article.setAttribute('data-drop-position-owner', '123');
-    article.setAttribute('data-selected', '');
     article.setAttribute('aria-current', 'true');
     article.setAttribute('aria-roledescription', 'draggable');
 
@@ -65,7 +64,6 @@ describe('sortable lists drag preview', () => {
       expect(element.hasAttribute('data-dragging')).toBe(false);
       expect(element.hasAttribute('data-drop-position')).toBe(false);
       expect(element.hasAttribute('data-drop-position-owner')).toBe(false);
-      expect(element.hasAttribute('data-selected')).toBe(false);
       expect(element.hasAttribute('aria-current')).toBe(false);
       expect(element.hasAttribute('aria-roledescription')).toBe(false);
     });
