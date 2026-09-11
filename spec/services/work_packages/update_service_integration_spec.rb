@@ -205,6 +205,20 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
         expect(time_entry.rate).to eq(target_rate)
         expect(time_entry.costs).to eq(198.0)
       end
+
+      it "journals the move on the time entry",
+         :aggregate_failures,
+         with_settings: { journal_aggregation_time_minutes: 0 } do
+        expect { subject }
+          .to change { time_entry.journals.reload.count }
+          .by(1)
+
+        journal = time_entry.journals.last.data
+
+        expect(journal.project_id).to eq(target_project.id)
+        expect(journal.rate_id).to eq(target_rate.id)
+        expect(journal.costs).to eq(198.0)
+      end
     end
 
     describe "memberships" do
