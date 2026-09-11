@@ -30,17 +30,14 @@
 
 class Burndown
   def initialize(sprint, project, _burn_direction = nil)
+    @sprint = sprint
+    @project = project
     @sprint_id = sprint.id
 
     make_date_series sprint
 
-    series_data = OpenProject::Backlogs::Burndown::SeriesRawData.new(project,
-                                                                     sprint,
-                                                                     points: ["story_points"])
-
-    series_data.collect_data
-
-    calculate_series series_data
+    make_series :story_points, :points, remaining_story_points
+    calculate_ideal :story_points, :points
 
     determine_max
   end
@@ -53,6 +50,8 @@ class Burndown
 
   private
 
+  attr_reader :sprint, :project
+
   def make_date_series(sprint)
     @days = if sprint.start_date && sprint.finish_date
               Day.working.from_range(from: sprint.start_date, to: sprint.finish_date).map(&:date)
@@ -61,19 +60,39 @@ class Burndown
             end
   end
 
-  def calculate_series(series_data)
-    series_data.collect_names.each do |c|
-      # need to differentiate between hours and sp
-      make_series c.to_sym, series_data.unit_for(c), series_data[c].to_a.sort_by(&:first).map(&:last)
-    end
+  # The story points still open at the end of each working day elapsed so far.
+  def remaining_story_points
+    sums = WorkPackages::JournalTimeline
+             .new(sprint_journals, ticks:)
+             .relation
+             .where(status_id: open_status_ids)
+             .group(:tick)
+             .sum(:story_points)
+             .transform_keys(&:to_i)
 
-    calculate_ideals(series_data)
+    ticks.map { (sums[it.to_i] || 0).to_f }
   end
 
-  def calculate_ideals(data)
-    (["story_points"] & data.collect_names).each do |ideal|
-      calculate_ideal(ideal, data.unit_for(ideal))
-    end
+  def sprint_journals
+    Journal::WorkPackageJournal.where(project_id: project.id, sprint_id: sprint.id)
+  end
+
+  def ticks
+    @ticks ||= elapsed_days.map { User.current.time_zone.local(it.year, it.month, it.day, 23, 59, 59) }
+  end
+
+  def elapsed_days
+    return [] unless sprint.date_range_set?
+
+    last_day = [Time.zone.today, sprint.finish_date].min
+
+    return [] if last_day < sprint.start_date
+
+    Day.working.from_range(from: sprint.start_date, to: last_day).map(&:date)
+  end
+
+  def open_status_ids
+    Status.where(is_closed: false).pluck(:id) - project.done_statuses.pluck(:id)
   end
 
   def calculate_ideal(name, unit)
@@ -85,7 +104,7 @@ class Burndown
       ideal[i] = max - (delta * i)
     end
 
-    make_series "#{name}_ideal", unit, ideal
+    make_series :"#{name}_ideal", unit, ideal
   end
 
   def make_series(name, units, data)
