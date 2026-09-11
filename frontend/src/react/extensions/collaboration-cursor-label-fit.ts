@@ -34,23 +34,68 @@ const pluginKey = new PluginKey('collaborationCursorLabelFit');
 const BASE_SELECTOR = '.bn-collaboration-cursor__base';
 const LABEL_SELECTOR = '.bn-collaboration-cursor__label';
 export const FLIPPED_ATTRIBUTE = 'data-op-label-flipped';
+export const BELOW_ATTRIBUTE = 'data-op-label-below';
 
 // Inline padding BlockNote gives an expanded label (2 * 0.3rem), plus a pixel of slack.
 const LABEL_PADDING = 11;
+// Ceiling BlockNote puts on an expanded label (`max-width: 20rem`); a longer name is cut.
+// In rem, so a reader's larger default font raises it and the label is measured as wide
+// as it will actually be drawn.
+const LABEL_MAX_WIDTH_REM = 20;
+// How far above the caret BlockNote lifts an expanded label (`top: -17px`).
+const LABEL_RISE = 17;
+// A table's first row leaves a label exactly that rise and nothing more, so rounding
+// alone would decide its fit. Flip only for a clip deeper than the label's corner.
+const CLIP_TOLERANCE = 2;
+
+interface LabelFit {
+  base:HTMLElement;
+  flipped:boolean;
+  below:boolean;
+}
+
+function clippingRect(base:HTMLElement, editorDom:HTMLElement):DOMRect {
+  for (let node = base.parentElement; node && node !== editorDom; node = node.parentElement) {
+    const { overflowX, overflowY } = window.getComputedStyle(node);
+
+    if (overflowX !== 'visible' || overflowY !== 'visible') return node.getBoundingClientRect();
+  }
+
+  return editorDom.getBoundingClientRect();
+}
+
+function expandedLabelWidth(label:HTMLElement):number {
+  const { paddingLeft, paddingRight } = window.getComputedStyle(label);
+  const text = label.scrollWidth - parseFloat(paddingLeft) - parseFloat(paddingRight);
+  const rem = parseFloat(window.getComputedStyle(document.documentElement).fontSize);
+
+  return Math.min(text + LABEL_PADDING, LABEL_MAX_WIDTH_REM * rem);
+}
+
+function measureLabelFit(base:HTMLElement, editorDom:HTMLElement):LabelFit|null {
+  const label = base.querySelector<HTMLElement>(LABEL_SELECTOR);
+  if (!label) return null;
+
+  const bounds = clippingRect(base, editorDom);
+  const caret = base.getBoundingClientRect();
+
+  return {
+    base,
+    flipped: caret.left + expandedLabelWidth(label) > bounds.right,
+    below: caret.top - LABEL_RISE < bounds.top - CLIP_TOLERANCE,
+  };
+}
 
 export function fitCollaborationCursorLabels(editorDom:HTMLElement):void {
-  const bases = editorDom.querySelectorAll<HTMLElement>(BASE_SELECTOR);
-  if (bases.length === 0) return;
+  const bases = Array.from(editorDom.querySelectorAll<HTMLElement>(BASE_SELECTOR));
 
-  const editorRight = editorDom.getBoundingClientRect().right;
+  const fits = bases
+    .map((base) => measureLabelFit(base, editorDom))
+    .filter((fit):fit is LabelFit => fit !== null);
 
-  bases.forEach((base) => {
-    const label = base.querySelector<HTMLElement>(LABEL_SELECTOR);
-    if (!label) return;
-
-    const labelRight = base.getBoundingClientRect().left + label.scrollWidth + LABEL_PADDING;
-
-    base.toggleAttribute(FLIPPED_ATTRIBUTE, labelRight > editorRight);
+  fits.forEach(({ base, flipped, below }) => {
+    base.toggleAttribute(FLIPPED_ATTRIBUTE, flipped);
+    base.toggleAttribute(BELOW_ATTRIBUTE, below);
   });
 }
 
