@@ -32,6 +32,11 @@ $advanced-filters--values-size: 25%
 $advanced-filters--values-and-operator-size: 45%
 $advanced-filters--close-icon-size: 50px
 $advanced-filters--grid-gap: 10px
+// Primer exposes its form control widths only as classes capping the inner field wrap, so these
+// have to be literals. The operator column fits the widest operator label ("more than days ago"
+// needs 158px including the select's arrow reserve); Primer's scale jumps 144px -> 256px.
+$advanced-filters--operator-column-width: 160px
+$advanced-filters--value-min-width: 256px
 
 .advanced-filters--container
   @extend %filters--container
@@ -151,31 +156,23 @@ $advanced-filters--grid-gap: 10px
     margin-top: var(--base-size-16)
 
   .FormControl-horizontalGroup.advanced-filters--filter
-    max-width: 752px
     align-items: center
+    flex-wrap: wrap
     gap: $advanced-filters--grid-gap
 
-    &:not([data-filter-type="boolean"])
-      flex-wrap: wrap
-
     > .advanced-filters--filter-name
+      flex: 0 0 100%
       text-align: left
       overflow: hidden
       text-overflow: ellipsis
       white-space: nowrap
 
-    &:not([data-filter-type="boolean"]) > .advanced-filters--filter-name
-      flex: 0 0 100%
-
-    &[data-filter-type="boolean"] > .advanced-filters--filter-name
-      flex: 0 0 $advanced-filters--label-size
-
-    > .FormControl:not(.advanced-filters--filter-value)
-      flex: 0 0 $advanced-filters--operator-size
-
-    > .FormControl.advanced-filters--filter-value
-      flex: 1 1 0
+    > .FormControl
+      flex: 1 1 $advanced-filters--value-min-width
       min-width: 0
+
+    > .FormControl:has([data-filter--filters-form-target="operator"])
+      flex: 0 0 $advanced-filters--operator-column-width
 
     > .advanced-filters--remove-filter
       margin-left: auto
@@ -185,7 +182,6 @@ $advanced-filters--grid-gap: 10px
     border-top: 1px solid var(--borderColor-muted)
     margin-top: var(--base-size-8)
     padding-top: var(--base-size-16)
-    max-width: 752px
 
   .advanced-filters--filter-value .FormControl-select-wrap
     display: flex
