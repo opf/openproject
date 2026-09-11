@@ -60,11 +60,22 @@ RSpec.describe WorkPackages::JournalTimeline do
 
     it "yields one row per tick and work package" do
       expect(relation.count).to eq 3
-      expect(relation.distinct.count(:id)).to eq 1
+      expect(relation.distinct.count(:work_package_id)).to eq 1
     end
 
-    it "exposes the work package id rather than the journal id" do
-      expect(relation.distinct.pluck(:id)).to eq [work_package.id]
+    it "exposes the work package it belongs to" do
+      expect(relation.distinct.pluck(:work_package_id)).to eq [work_package.id]
+    end
+
+    it "returns read-only entries carrying no work package behaviour" do
+      entry = relation.order(:tick).last
+
+      expect(entry).to be_a WorkPackages::JournalTimeline::Entry
+      expect(entry).to be_readonly
+      expect(entry.tick).to eq wednesday
+      expect(entry.story_points).to eq 8
+      expect(entry.work_package_id).to eq work_package.id
+      expect(entry).not_to respond_to :journals
     end
 
     context "when a tick falls exactly on the instant a journal becomes valid" do

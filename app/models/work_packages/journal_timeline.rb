@@ -30,8 +30,8 @@
 
 # Reads historic work package attributes at many points in time at once.
 #
-# Returns a relation shaped like work_packages, carrying one row per (tick, work package) with
-# a +tick+ column and the journalized attribute values in effect at that tick:
+# Returns a relation of Entry, carrying one row per (tick, work package) with a +tick+ column
+# and the journalized attribute values in effect at that tick:
 #
 #     WorkPackages::JournalTimeline.new(
 #       Journal::WorkPackageJournal.where(project_id: project.id, sprint_id: sprint.id),
@@ -40,6 +40,8 @@
 #       .where.not(status_id: closed_status_ids)
 #       .group(:tick)
 #       .sum(:story_points)                    # => { Time(UTC) => Float }
+#
+# Entries are read-only and carry no work package behaviour; see Entry.
 #
 # A single tick is the frozen-snapshot case and needs no separate code path.
 #
@@ -63,7 +65,7 @@ class WorkPackages::JournalTimeline
   attr_reader :filters, :ticks, :user
 
   def relation
-    return WorkPackage.none if ticks.empty?
+    return Entry.none if ticks.empty?
 
     from(ticked_journals)
   end
@@ -72,13 +74,13 @@ class WorkPackages::JournalTimeline
 
   def journal_class = Journal::WorkPackageJournal
 
-  def from(scope) = WorkPackage.from(Arel.sql("(#{scope.to_sql}) #{WorkPackage.table_name}"))
+  def from(scope) = Entry.from(Arel.sql("(#{scope.to_sql}) #{Entry.table_name}"))
 
   # Spreading last keeps the row-multiplying step off the visibility check.
   def ticked_journals
     from(visible_journals)
       .joins(ticks_join)
-      .select("ticks.tick", "#{WorkPackage.table_name}.*")
+      .select("ticks.tick", "#{Entry.table_name}.*")
   end
 
   # WorkPackage.visible cannot be used here: its semi-join matches on work package id, so with
@@ -90,8 +92,8 @@ class WorkPackages::JournalTimeline
 
     journals
       .where(project_id: Project.allowed_to(user, :view_work_packages))
-      .or(journals.where(id: shared_work_package_ids))
-      .select("#{WorkPackage.table_name}.*")
+      .or(journals.where(work_package_id: shared_work_package_ids))
+      .select("#{Entry.table_name}.*")
   end
 
   # Work packages visible but not through project permission are exactly the shared ones.
@@ -108,20 +110,18 @@ class WorkPackages::JournalTimeline
 
   def filtered_journals
     filters
-      .joins(journals_join, work_packages_join)
+      .joins(journals_join)
       .where(interval_condition)
       .select(journal_selects)
   end
 
   def journal_selects
     [
-      "#{Journal.table_name}.journable_id AS id",
+      "#{journal_class.table_name}.*",
+      "#{Journal.table_name}.journable_id AS work_package_id",
       "#{Journal.table_name}.id AS journal_id",
       "#{Journal.table_name}.validity_period",
-      "#{WorkPackage.table_name}.created_at",
-      "#{Journal.table_name}.updated_at",
-      *journal_class.column_names.excluding("id").map { "#{journal_class.table_name}.#{it}" },
-      *WorkPackage.column_names_missing_in_journal.map { "NULL AS #{it}" }
+      "#{Journal.table_name}.updated_at"
     ]
   end
 
@@ -130,13 +130,6 @@ class WorkPackages::JournalTimeline
       INNER JOIN #{Journal.table_name}
         ON #{Journal.table_name}.data_id = #{journal_class.table_name}.id
        AND #{Journal.table_name}.data_type = :data_type
-    SQL
-  end
-
-  def work_packages_join
-    <<~SQL.squish
-      INNER JOIN #{WorkPackage.table_name}
-        ON #{WorkPackage.table_name}.id = #{Journal.table_name}.journable_id
     SQL
   end
 
@@ -149,7 +142,7 @@ class WorkPackages::JournalTimeline
   def ticks_join
     <<~SQL.squish
       INNER JOIN (VALUES #{tick_values}) AS ticks(tick)
-        ON #{WorkPackage.table_name}.validity_period @> ticks.tick
+        ON #{Entry.table_name}.validity_period @> ticks.tick
     SQL
   end
 
