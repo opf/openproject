@@ -219,6 +219,36 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
         expect(journal.rate_id).to eq(target_rate.id)
         expect(journal.costs).to eq(198.0)
       end
+
+      context "when the target project's rate changed after the time was logged" do
+        let!(:historic_source_rate) do
+          create(:hourly_rate, user: logging_user, project:, rate: 5.0, valid_from: 4.years.ago)
+        end
+        let!(:historic_target_rate) do
+          create(:hourly_rate, user: logging_user, project: target_project, rate: 50.0, valid_from: 4.years.ago)
+        end
+        let!(:time_entry) do
+          create(:time_entry,
+                 project:,
+                 entity: work_package,
+                 user: logging_user,
+                 logged_by: logging_user,
+                 hours: 2.0,
+                 spent_on: 3.years.ago.to_date)
+        end
+
+        it "re-rates using the rate valid on spent_on, not the current one", :aggregate_failures do
+          expect(time_entry.reload.costs).to eq(10.0)
+
+          expect(subject)
+            .to be_success
+
+          time_entry.reload
+
+          expect(time_entry.rate).to eq(historic_target_rate)
+          expect(time_entry.costs).to eq(100.0)
+        end
+      end
     end
 
     describe "memberships" do
