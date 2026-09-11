@@ -28,59 +28,34 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Statuses
-  class RowComponent < ::RowComponent
-    def status
-      model
-    end
+# Statuses reach types and roles only through the transitions naming them. Both
+# filters join through this one clause so that Rails collapses it to a single
+# join and their conditions land on the same transition: picking Task and Member
+# then matches the Task/Member workflow alone, rather than every status used by
+# some Task workflow and, separately, by some Member workflow.
+class Queries::Statuses::Filters::WorkflowFilter < Queries::Filters::Base
+  TRANSITION_JOIN = <<~SQL.squish
+    INNER JOIN workflows
+    ON workflows.old_status_id = statuses.id OR workflows.new_status_id = statuses.id
+  SQL
 
-    def name
-      link_to status.name, edit_status_path(status)
-    end
+  self.model = Status
 
-    def default?
-      checkmark(status.is_default?)
-    end
+  def joins
+    TRANSITION_JOIN
+  end
 
-    def closed?
-      checkmark(status.is_closed?)
-    end
+  def type
+    :list
+  end
 
-    def readonly?
-      checkmark(status.is_readonly?)
-    end
+  def available_operators
+    [::Queries::Operators::Equals]
+  end
 
-    def excluded_from_totals?
-      checkmark(status.excluded_from_totals?)
-    end
+  private
 
-    def color
-      helpers.icon_for_color status.color
-    end
-
-    def done_ratio
-      h(status.default_done_ratio)
-    end
-
-    def sort
-      helpers.reorder_links "status",
-                            { action: "update", id: status },
-                            method: :patch
-    end
-
-    def button_links
-      [
-        delete_link
-      ]
-    end
-
-    def delete_link
-      link_to(
-        helpers.op_icon("icon icon-delete"),
-        status_path(status),
-        data: { turbo_method: :delete, turbo_confirm: I18n.t(:text_are_you_sure) },
-        title: t(:button_delete)
-      )
-    end
+  def transition_where(field, ids)
+    operator_strategy.sql_for_field(ids, "workflows", field)
   end
 end
