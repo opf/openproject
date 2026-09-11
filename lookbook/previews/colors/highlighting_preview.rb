@@ -29,7 +29,7 @@
 #++
 
 module Colors
-  # @logical_path OpenProject
+  # @hidden
   class HighlightingPreview < Lookbook::Preview
     # Fractions of the way through the palette ordered by perceived lightness. Spread so
     # that the point where __hl_background flips its text from white to black is visible.
