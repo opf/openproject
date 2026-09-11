@@ -63,9 +63,8 @@ class Burndown
   # The story points still open at the end of each working day elapsed so far.
   def remaining_story_points
     sums = WorkPackages::JournalTimeline
-             .new(sprint_journals, ticks:)
+             .new(open_sprint_journals, ticks:)
              .relation
-             .where(status_id: open_status_ids)
              .group(:tick)
              .sum(:story_points)
              .transform_keys(&:to_i)
@@ -73,8 +72,10 @@ class Burndown
     ticks.map { (sums[it.to_i] || 0).to_f }
   end
 
-  def sprint_journals
-    Journal::WorkPackageJournal.where(project_id: project.id, sprint_id: sprint.id)
+  def open_sprint_journals
+    Journal::WorkPackageJournal.where(project_id: project.id,
+                                      sprint_id: sprint.id,
+                                      status_id: open_status_ids)
   end
 
   def ticks

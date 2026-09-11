@@ -34,10 +34,11 @@
 # and the journalized attribute values in effect at that tick:
 #
 #     WorkPackages::JournalTimeline.new(
-#       Journal::WorkPackageJournal.where(project_id: project.id, sprint_id: sprint.id),
+#       Journal::WorkPackageJournal.where(project_id: project.id,
+#                                         sprint_id: sprint.id,
+#                                         status_id: open_status_ids),
 #       ticks:
 #     ).relation
-#       .where.not(status_id: closed_status_ids)
 #       .group(:tick)
 #       .sum(:story_points)                    # => { Time(UTC) => Float }
 #
@@ -45,11 +46,11 @@
 #
 # A single tick is the frozen-snapshot case and needs no separate code path.
 #
-# The filters are a constructor argument rather than chained onto the result because they run
-# before the visibility check, which is the more expensive of the two. They belong on the
-# journalized columns rather than on the current work_packages row, because membership is
-# historic -- a work package moved out of a sprint drops out of the series from that point
-# onwards.
+# Every condition on a journalized column belongs in the constructor rather than chained onto
+# the result: filters there run before the visibility check and before the row-multiplying tick
+# spread, whereas anything chained afterwards runs after both. They belong on the journalized
+# columns rather than on the current work_packages row, because membership is historic -- a work
+# package moved out of a sprint drops out of the series from that point onwards.
 #
 # Unlike Journable::HistoricActiveRecordRelation (which powers baseline comparison), this
 # yields a row per tick rather than collapsing to the first matching one, so it can back a
