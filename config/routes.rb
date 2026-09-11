@@ -782,6 +782,13 @@ Rails.application.routes.draw do
       post :disconnect
     end
 
+    resources :llm_models, only: %i[index], controller: "admin/llm_models" do
+      collection do
+        get :search, defaults: { format: :turbo_stream }
+        post :refresh
+      end
+    end
+
     resources :mcp_configurations, only: %i[index update], controller: "admin/mcp_configurations" do
       collection do
         post :multi_update

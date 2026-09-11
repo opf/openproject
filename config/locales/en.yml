@@ -1776,6 +1776,7 @@ en:
         menu_label: "Remove API key"
         success: "The API key has been removed."
         title: "Remove API key"
+      disabled_notice: "LLM features are switched off for this instance. Switch them on here first."
       disconnect:
         description: "OpenProject will stop using the LLM server. AI features will be unavailable until you connect again."
         heading: "Disconnect from the LLM server?"
@@ -1798,10 +1799,36 @@ en:
         server_group: "Server"
       show:
         description: "Connect OpenProject to an LLM server so that AI features can use it."
+        description_enabled: "Once connected, review the models offered by the server on the [LLMs](models_url) tab."
+      tabs:
+        connection: "Connection"
+        models: "LLMs"
       update:
         disabled: "Saved. LLM features are switched off for this instance."
-        no_models: "Saved, but no models are stored yet. Either the server offers no model list, or the endpoint is missing its API version segment (for example /v1)."
+        no_models: "Saved, but no models are stored yet. Either the server offers no model list, or the endpoint is missing its API version segment (for example /v1). Refresh the list on the LLMs tab."
         success: "Successfully connected to the LLM server."
+    llm_models:
+      index:
+        blank_description: "The server reported no models. Refresh the list once the server is reachable."
+        blank_title: "No models available"
+        context_window: "Context window"
+        description: "Reported by the server on %{fetched_at}."
+        description_unfetched: "The server has not returned a model list yet. Refresh the models once it is reachable."
+        filter_label: "Filter models"
+        identifier: "Model"
+        kind: "Type"
+        refresh: "Refresh models"
+        source: "Source"
+        source_discovered: "Server"
+        source_discovered_description: "Reported by the server"
+        source_manual: "Manual"
+        source_manual_description: "Added manually by an administrator"
+        source_withdrawn: "Withdrawn"
+        source_withdrawn_description: "No longer reported by the server"
+        stale_warning: "The connection settings changed after the model list was last refreshed, so the list may be out of date. Refresh the models to be sure."
+      refresh:
+        failure: "The model list could not be refreshed. Please check that the LLM server is still reachable."
+        success: "The model list has been refreshed."
     mcp_configurations:
       index:
         description: "The model context protocol allows AI agents to provide its users with tools and resources exposed by this OpenProject instance. This feature is still in beta."
@@ -4371,6 +4398,9 @@ en:
       perplexity: "Perplexity"
       vertexai: "Google Vertex AI"
       xai: "xAI"
+    model_kinds:
+      chat: "Chat"
+      embedding: "Embedding"
   macro_execution_error: "Error executing the macro %{macro_name}"
   macro_unavailable: "Macro %{macro_name} cannot be displayed."
   macro_unknown: "Unknown or unsupported macro."

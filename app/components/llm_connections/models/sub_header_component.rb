@@ -29,35 +29,37 @@
 #++
 
 module LlmConnections
-  class FormComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
+  module Models
+    # The filter bar above the model list.
+    class SubHeaderComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
 
-    def self.wrapper_key = :llm_connection_form
+      alias_method :query, :model
 
-    alias_method :connection, :model
+      def filter_input_value
+        query.find_active_filter(:name)&.values&.first
+      end
 
-    private
+      def clear_button_id = "llm-models-filter-clear"
 
-    def wrapper_options
-      {
-        data: {
-          controller: "admin--llm-connection-form show-when-checked show-when-value-selected",
-          test_selector: "llm-connection--form"
+      def sub_header_data_attributes
+        {
+          controller: "filter--filters-form",
+          "filter--filters-form-perform-turbo-requests-value": true,
+          "filter--filters-form-output-format-value": "json",
+          "filter--filters-form-url-path-name-value": helpers.search_llm_models_path,
+          "filter--filters-form-clear-button-id-value": clear_button_id
         }
-      }
-    end
+      end
 
-    # The save can turn the connection on, which adds the tabs to the page
-    # header outside this frame, so the response replaces the whole page.
-    def form_options
-      {
-        model: connection,
-        url: llm_connection_path,
-        method: :patch,
-        data: { turbo_frame: "_top" }
-      }
+      def filter_input_data_attributes
+        {
+          "filter-name": "name",
+          "filter-type": "string",
+          "filter-operator": "~",
+          "filter--filters-form-target": "simpleFilter filterValueContainer simpleValue"
+        }
+      end
     end
   end
 end

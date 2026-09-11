@@ -23,41 +23,37 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module LlmConnections
-  class FormComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
+class Queries::LlmModels::Filters::NameFilter < Queries::LlmModels::Filters::LlmModelFilter
+  def self.key
+    :name
+  end
 
-    def self.wrapper_key = :llm_connection_form
+  def type
+    :string
+  end
 
-    alias_method :connection, :model
+  def human_name
+    I18n.t("admin.llm_models.index.filter_label")
+  end
 
-    private
+  # Matches the identifier the server uses and the friendly name an
+  # administrator may have given it, since either is what someone types.
+  def where
+    escaped = ActiveRecord::Base.sanitize_sql_like(values.first)
 
-    def wrapper_options
-      {
-        data: {
-          controller: "admin--llm-connection-form show-when-checked show-when-value-selected",
-          test_selector: "llm-connection--form"
-        }
-      }
-    end
-
-    # The save can turn the connection on, which adds the tabs to the page
-    # header outside this frame, so the response replaces the whole page.
-    def form_options
-      {
-        model: connection,
-        url: llm_connection_path,
-        method: :patch,
-        data: { turbo_frame: "_top" }
-      }
+    case operator
+    when "~", "**"
+      ["llm_models.external_id ILIKE :q OR llm_models.display_name ILIKE :q", { q: "%#{escaped}%" }]
+    when "!~"
+      ["llm_models.external_id NOT ILIKE :q AND (llm_models.display_name IS NULL OR llm_models.display_name NOT ILIKE :q)",
+       { q: "%#{escaped}%" }]
+    else
+      raise "Unsupported operator #{operator}"
     end
   end
 end
