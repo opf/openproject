@@ -75,7 +75,7 @@ class Burndown
   def open_sprint_journals
     Journal::WorkPackageJournal.where(project_id: project.id,
                                       sprint_id: sprint.id,
-                                      status_id: open_status_ids)
+                                      status_id: open_statuses)
   end
 
   def ticks
@@ -92,8 +92,10 @@ class Burndown
     Day.working.from_range(from: sprint.start_date, to: last_day).map(&:date)
   end
 
-  def open_status_ids
-    Status.where(is_closed: false).pluck(:id) - project.done_statuses.pluck(:id)
+  def open_statuses
+    Status.where(is_closed: false)
+          .where.not(id: project.done_statuses.reorder(nil))
+          .reorder(nil)
   end
 
   def calculate_ideal(name, unit)
