@@ -73,11 +73,17 @@ class Queries::WorkPackages::Filter::SearchFilter <
     I18n.t("label_search")
   end
 
+  def searchable_in_context
+    return ::WorkPackageCustomField unless context&.project
+
+    ::WorkPackageCustomField.on_visible_type_and_project(projects: Project.where(id: context.project.id))
+  end
+
   def custom_field_configurations
     # Does not remove custom fields that are not marked as filters
     # as the intend of this filter is to search and it is used in the
     # search context. Thus, only the searchable flag is of interest.
-    ::WorkPackageCustomField
+    searchable_in_context
       .where(field_format: %w(text string),
              searchable: true)
       .map do |custom_field|
