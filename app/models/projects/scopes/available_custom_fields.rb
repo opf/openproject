@@ -33,9 +33,6 @@ module Projects::Scopes
     extend ActiveSupport::Concern
 
     class_methods do
-      # Work package custom fields reach a project through the form configuration of the variant
-      # the project applies, so the question is asked of that configuration rather than of any
-      # association on the project.
       def with_available_custom_fields(custom_field_ids)
         condition = available_custom_fields_condition(custom_field_ids)
         condition ? where(condition) : none
