@@ -47,6 +47,11 @@ class LlmConnection < ApplicationRecord
 
   scope :active, -> { where(active: true) }
 
+  has_many :models, class_name: "LlmModel", dependent: :delete_all
+
+  belongs_to :default_chat_model, class_name: "LlmModel", optional: true
+  belongs_to :default_embedding_model, class_name: "LlmModel", optional: true
+  has_many :capability_verdicts, class_name: "LlmCapabilityVerdict", dependent: :delete_all
   validates :base_url, presence: true
   validate :single_active_connection, if: :active?
 
@@ -74,6 +79,28 @@ class LlmConnection < ApplicationRecord
   # from the environment is never probed, and must still count as configured.
   def configured?
     base_url.present?
+  end
+
+  # Every model that can be addressed today: discovered and still offered, plus
+  # anything an administrator entered by hand.
+  #
+  # Deliberately includes models an administrator has deactivated. This is what
+  # Llm::Runtime resolves against, and hiding a model from the pickers must not
+  # break a feature that is already bound to it.
+  def available_model_ids
+    models.active.by_identifier.pluck(:external_id)
+  end
+
+  # Identifies the deployment the models were fetched from. Recorded by
+  # LlmConnections::SyncModelsService as +connection_fingerprint+.
+  def settings_fingerprint
+    Digest::SHA256.hexdigest("#{api_format}\0#{base_url}\0#{api_key}")
+  end
+
+  # The stored models were fetched from another deployment than the one
+  # configured now, so the list may no longer describe what the server offers.
+  def models_stale?
+    connection_fingerprint.present? && connection_fingerprint != settings_fingerprint
   end
 
   def server_flavour

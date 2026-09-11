@@ -31,8 +31,7 @@
 module LlmConnections
   # Confirms removing the stored API key.
   #
-  # No confirmation checkbox: the key itself can simply be pasted again. The
-  # dialog exists for what is *not* recoverable.
+  # No confirmation checkbox: the key itself can simply be pasted again.
   class DeleteApiKeyDialogComponent < ApplicationComponent
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers

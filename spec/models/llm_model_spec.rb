@@ -28,29 +28,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module LlmConnections
-  class UpdateService < BaseServices::Update
-    private
+require "spec_helper"
 
-    # The contract has already proven the server reachable when the credentials
-    # changed, so refreshing the catalogue here cannot be the thing that fails
-    # the save. A sync failure is therefore logged, not surfaced.
-    def after_perform(service_call)
-      super.tap do
-        next unless service_call.success?
+RSpec.describe LlmModel do
+  let(:connection) { create(:llm_connection) }
+  let(:llm_model) { create(:llm_model, llm_connection: connection, external_id: "bge-m3") }
 
-        Setting.llm_features_enabled = model.llm_features_enabled
-        next unless initial_fill?(service_call.result)
-
-        SyncModelsService.new(service_call.result).call
-      end
+  describe "#model_type" do
+    it "is chat while nothing says the model embeds" do
+      expect(llm_model).not_to be_embedding
+      expect(llm_model.model_type).to eq(:chat)
     end
 
-    # The only automatic refresh: nothing is stored yet, so nothing an
-    # administrator curated can be lost. Every later refresh is asked for.
-    def initial_fill?(connection)
-      connection.saved_changes.keys.intersect?(LlmServerValidator::CONNECTION_ATTRIBUTES) &&
-        connection.models.none?
+    it "is embedding once the embeddings verdict says so" do
+      connection.capability_verdicts.create!(model_id: llm_model.external_id, capability: "embeddings",
+                                             state: "supported", source: "admin", checked_at: Time.current)
+
+      expect(llm_model).to be_embedding
+      expect(llm_model.model_type).to eq(:embedding)
+    end
+
+    it "is chat when the embeddings verdict is unknown" do
+      connection.capability_verdicts.create!(model_id: llm_model.external_id, capability: "embeddings",
+                                             state: "unknown", source: "metadata", checked_at: Time.current)
+
+      expect(llm_model.model_type).to eq(:chat)
     end
   end
 end
