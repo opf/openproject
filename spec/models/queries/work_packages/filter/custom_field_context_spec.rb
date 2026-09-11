@@ -46,6 +46,11 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldContext do
       expect(described_class.custom_fields(context)).to contain_exactly(shown_here)
     end
 
+    it "offers every filterable field for a project that is not saved yet" do
+      expect(described_class.custom_fields(instance_double(Query, project: Project.new)))
+        .to include(shown_here, shown_elsewhere)
+    end
+
     it "offers the globally available fields without a project" do
       expect(described_class.custom_fields(nil)).not_to include(shown_here, shown_elsewhere)
     end
