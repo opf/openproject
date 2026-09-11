@@ -3,7 +3,7 @@ ro:
   activerecord:
     attributes:
       ldap_groups/synchronized_filter:
-        auth_source: Auth source
+        auth_source: Sursă autentificare
         base_dn: Baza de căutare DN
         filter_string: Filtru LDAP
         group_name_attribute: Atributul nume de grup

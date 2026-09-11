@@ -3,7 +3,7 @@ ro:
   activerecord:
     models:
       grids/overview:
-        one: Overview
+        one: Vedere de ansamblu
         few: Overviews
         other: Overviews
   overviews:

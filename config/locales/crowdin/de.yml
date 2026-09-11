@@ -5699,11 +5699,11 @@ de:
   setting_password_login: Passwort-Login
   setting_password_login_all: Für alle erlauben
   setting_password_login_all_caption: Jeder, der über ein internes Passwort verfügt, kann sich damit anmelden, einschließlich Benutzer, die mit einem SSO-Anbieter verknüpft sind.
-  setting_password_login_bypass_principal_ids: Users and groups who may still use a password
-  setting_password_login_except_sso: Disallow for SSO users
-  setting_password_login_except_sso_caption: Users linked to an identity provider cannot sign in with their internal password. Other users can continue using it.
-  setting_password_login_none: Disallow for everyone
-  setting_password_login_none_caption_html: The password form is hidden. Only users and groups listed below can sign in with a password via %{internal_login_link}.
+  setting_password_login_bypass_principal_ids: Benutzer und Gruppen, die sich immer mit Passwort anmelden können
+  setting_password_login_except_sso: Für SSO-Benutzer deaktivieren
+  setting_password_login_except_sso_caption: Benutzer, die mit einem Identitätsanbieter verknüpft sind, können sich nicht mit ihrem internen Passwort anmelden. Andere Benutzer können dieses weiterhin verwenden.
+  setting_password_login_none: Für alle verbieten
+  setting_password_login_none_caption_html: Der Login mit Passwort ist ausgeblendet. Nur die unten aufgeführten Benutzer und Gruppen können sich über %{internal_login_link} mit einem Passwort anmelden.
   setting_password_min_length: Minimale Länge
   setting_per_page_options: Objekte pro Seite
   setting_percent_complete_on_status_closed: "% abgeschlossen, wenn der Status geschlossen ist"
@@ -5840,13 +5840,13 @@ de:
       omniauth_direct_login_hint_html: 'Wenn diese Option aktiviert ist, werden die Anmeldeanfragen an den konfigurierten SSO-Anbieter weitergeleitet. Das Login-Dropdown und die Anmeldeseite sind dann deaktiviert. <br/> <strong>Hinweis:</strong> Sofern Sie nicht auch die Passwortanmeldung deaktivieren, können sich Benutzer bei aktivierter Option immer noch intern anmelden, indem sie die interne Anmeldeseite <code>%{internal_path}</code> verwenden.
 
         '
-      password_login_bypass_principal_ids_hint: 'Even when password login in disabled, these users and groups will be able to use their password to sign in. This is useful, for example, if the identity provider becomes unavailable. If you include a group, access will be extended to all users in that group.
+      password_login_bypass_principal_ids_hint: 'Selbst wenn die Anmeldung per Passwort deaktiviert ist, können sich diese Benutzer und Gruppen weiterhin mit ihrem Passwort anmelden. Dies ist beispielsweise nützlich, falls der Identitätsanbieter nicht mehr verfügbar ist. Wenn Sie eine Gruppe hinzufügen, wird der Zugriff auf alle Benutzer dieser Gruppe ausgeweitet.
 
         '
-      password_login_configured_by_environment: 'The following settings are configured through the environment and cannot be edited here:
+      password_login_configured_by_environment: 'Die folgenden Einstellungen werden über Umgebungsvariablen konfiguriert und können hier nicht bearbeitet werden:
 
         '
-      password_login_requires_sso_provider: 'Password login restrictions are unavailable because no SSO provider is currently enabled. Configure and enable an SSO provider before changing these settings.
+      password_login_requires_sso_provider: 'Einschränkungen für die Anmeldung per Passwort sind nicht verfügbar, da derzeit kein Identitätsanbieter aktiviert ist. Bitte konfigurieren und aktivieren Sie einen Identitätsanbieter bevor Sie diese Einstellungen ändern.
 
         '
       registration: Registrierung
@@ -6343,7 +6343,7 @@ de:
       steps:
         defaults: Standardwerte
         details: Details
-        form_configuration: Form
+        form_configuration: Formular
         pdf: PDF-Erstellung
         project_attributes: Projektattribute
         projects: Projekte
@@ -6456,7 +6456,7 @@ de:
           inheriting_from_html: Vererbt von %{source_name}
           manual: Manuell konfiguriert
         settings: Einstellungen
-        tab: Overview
+        tab: Übersicht
       project_attributes:
         actions:
           label_disable_all: Alle deaktivieren
@@ -6611,7 +6611,7 @@ de:
       no_results_title_text: Derzeit gibt es keine Typen.
       project_variants_count:
         one: 1 projektspezifische Variante
-        other: "%{count} project-specific variants"
+        other: "%{count} projektspezifische Varianten"
       remove_default: In neuen Projekten nicht aktivieren
       remove_default_notice: "%{name} ist in neuen Projekten nicht länger aktiviert."
       type_label: Typ

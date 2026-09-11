@@ -81,12 +81,12 @@ ro:
       ai/text_transform_action:
         active: Active
         injects_type_template: Insert work package type template
-        label: Label
+        label: Etichetă
         prompt: Prompt
         types: Work package types
-        usage_scope: Scope
+        usage_scope: Scop
       ai/text_transform_run:
-        action: Action
+        action: Acțiune
         cancel_requested: Cancel requested
         error_message: Error message
         finished_at: Finished at
