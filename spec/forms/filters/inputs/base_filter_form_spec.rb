@@ -99,6 +99,18 @@ RSpec.describe Filters::Inputs::BaseFilterForm, type: :forms do
     end
   end
 
+  context "when the filter is required" do
+    before do
+      allow(filter).to receive(:required?).and_return(true)
+    end
+
+    it "does not render a delete button" do
+      expect(rendered_form).to have_element "data-filter--filters-form-target": "filter" do |row|
+        expect(row).to have_no_element "tool-tip", text: I18n.t("button_delete")
+      end
+    end
+  end
+
   context "when inactive" do
     let(:active) { false }
 
