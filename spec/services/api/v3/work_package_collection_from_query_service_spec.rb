@@ -461,4 +461,34 @@ RSpec.describe API::V3::WorkPackageCollectionFromQueryService,
       end
     end
   end
+
+  # Query#results hands out a fresh Query::Results every time, and four code paths in #call need
+  # one. Everything Results memoises would be thrown away in between.
+  describe "reusing one Query::Results" do
+    before do
+      stub_const("::API::V3::WorkPackages::WorkPackageCollectionRepresenter", mock_wp_representer)
+      stub_const("::API::V3::WorkPackages::WorkPackageAggregationGroup", mock_aggregation_representer)
+
+      allow(API::V3::UpdateQueryFromV3ParamsService)
+        .to receive(:new)
+        .with(query, user)
+        .and_return(mock_update_query_service)
+
+      query.display_sums = true
+      query.group_by = "status"
+    end
+
+    it "asks the query for its results once, although four code paths need them" do
+      instance.call(params)
+
+      expect(query).to have_received(:results).once
+    end
+
+    it "asks again on the next call, which may have changed the query" do
+      instance.call(params)
+      instance.call(params)
+
+      expect(query).to have_received(:results).twice
+    end
+  end
 end

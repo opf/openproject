@@ -91,6 +91,8 @@ module API
       protected
 
       def total_count(models)
+        return page_row_count(models) if first_page_shorter_than_its_limit?
+
         models.count(:id)
       end
 
@@ -132,13 +134,29 @@ module API
         end
       end
 
+      # Fewer rows than the limit means the LIMIT was never exhausted, so nothing follows this page
+      # and `total` needs no COUNT.
+      def first_page_shorter_than_its_limit?
+        @page == 1 && @paged_ids && @paged_ids.size < @per_page
+      end
+
+      # `count(:id)` counts distinct ids only on an eager loading relation, where rails switches to
+      # COUNT(DISTINCT id); on any other relation it counts rows, joined duplicates included.
+      def page_row_count(models)
+        models.eager_loading? ? @paged_ids.uniq.size : @paged_ids.size
+      end
+
+      def paged_ids(models)
+        @paged_ids = models.pluck(:id)
+      end
+
       def eager_loaded_paged_models(models)
         # Whenever eager loading and limit is combined, rails switches to issuing two SQL statement.
         # This is done to avoid the potential duplicate records added by a 'LEFT JOIN' messing with the LIMIT.
         # What is unfortunate is that both statements will have the complete where conditions included.
         # This can be quite costly, especially when the where conditions are complex.
         # To avoid this, we fetch the ids and then fetch the actual records reapplying the order.
-        ids = models.pluck(:id)
+        ids = paged_ids(models)
 
         models
           .model

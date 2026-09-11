@@ -55,6 +55,12 @@ class Query::Results
     end
   end
 
+  # Same semantics as the historic branch of #work_packages, minus the sorting: the caller only
+  # needs ids.
+  def work_package_ids_at_timestamp(timestamp, ids:)
+    visible_work_packages_at(timestamp, ids:).pluck(:id)
+  end
+
   private
 
   def sorted_work_packages_matching_the_filters_today
@@ -71,7 +77,14 @@ class Query::Results
   # ensure to not reveal information.
   def sorted_work_packages_matching_the_filters_at_any_of_the_given_timestamps
     sorted_work_packages
-      .where(id: filtered_work_packages.visible.at_timestamp(query.timestamps))
+      .where(id: visible_work_packages_at(query.timestamps))
+  end
+
+  def visible_work_packages_at(timestamps, ids: nil)
+    scope = filtered_work_packages.visible
+    scope = scope.where(id: ids) if ids
+
+    scope.at_timestamp(timestamps)
   end
 
   # Returns an active-record relation that applies the filters to find the matching
