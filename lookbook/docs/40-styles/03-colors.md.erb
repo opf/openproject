@@ -1,8 +1,6 @@
 This document serves as a reference guide for developers and designers with essential information about the colors used within OpenProject.
 Consistent utilization of colors not only enhances the visual appeal of the application but also improves user experience by creating a cohesive and intuitive design language.
 
-
-
 ## Primer colors
 
 Primer already offers a wide palette of color variables as well as a [clear guide](https://primer.style/foundations/color/overview) on how to use them. We follow these rules within OpenProject. Thus we gain two main advantages:
@@ -43,7 +41,6 @@ The following variables of Primer are overwritten with the `--primary-button-col
 |------------------|------------------|-------------------------------------------------------------------------------|
 | `--accent-color` | #1A67A3          | This shade of blue is used for links and other decently highlighted elements. |
 
-
 #### Where it's used
 
 - All links
@@ -70,39 +67,7 @@ When implementing colors in the application, we should ensure compliance with Pr
 
 ## Type and Status colors
 
-Currently, users can freely chose the colors for types, status and some other attributes (e.g priority). These are used for:
-
-- Font color
-  - Type
-- Background color
-  - Status selector button
-  - Inline highlighting of complete rows inside the WP table
-  - Inline highlighting via bubbles
-  - Inline highlighting of cards
-
-With the introduction of the dark mode, some of those colors are not readable/visible any more. To ensure that there is always a high enough contrast we calculate brighter (respective darker) versions of these colours. It is notable that the current class name structure is kept,
-
-For the calculation of those values, we decompose the color hex code into the individual `rgb` and `hsl` values. Based on those and on the mode we generate values for:
-
-* background-color
-* font-color
-* border-color
-
-
-Here is an example of defined method for highlighting foreground of an attribute in dark mode:
-
-```css
---lightness-threshold: 0.6;
---perceived-lightness: calc( ((var(--color-r) * 0.2126) + (var(--color-g) * 0.7152) + (var(--color-b) * 0.0722)) / 255 );
---lightness-switch: max(0, min(calc((1/(var(--lightness-threshold) - var(--perceived-lightness)))), 1));
---lighten-by: calc(((var(--lightness-threshold) - var(--perceived-lightness)) * 100) * var(--lightness-switch));
-```
-
-```rb
-def highlighted_foreground_dark
-  "color: hsla(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) + var(--lighten-by)) * 1%), 1) !important;"
-end
-```
+Users can freely choose the colors for types, statuses, priorities and project phase definitions. Because those colors live in the database, the CSS that applies them is generated, and the classes and helpers for it have their own page: see [Highlighting](./highlighting).
 
 ## Modes
 
