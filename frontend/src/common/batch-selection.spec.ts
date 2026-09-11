@@ -156,6 +156,18 @@ describe('BatchSelection', () => {
       selection.range(['3', '5'].map(wp));
       expect(ids()).toEqual(['1', '3', '4', '5']);
     });
+
+    it('clears the anchor and range session without losing membership', () => {
+      const selection = new BatchSelection();
+      selection.replace(wp('1'), 'view');
+      selection.range([wp('1'), wp('2')]);
+      selection.clearAnchor();
+      selection.clearAnchor();
+      expect(selection.anchor).toBeNull();
+      expect(selection.items()).toEqual([wp('1'), wp('2')]);
+      selection.range([wp('3')]);
+      expect(selection.items()).toEqual([wp('1'), wp('2'), wp('3')]);
+    });
   });
 
   it('selects all with an explicit anchor', () => {
