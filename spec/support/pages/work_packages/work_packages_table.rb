@@ -286,6 +286,11 @@ module Pages
       drag_and_drop_list(from:, to:, elements: ".wp-table--row", handler: ".wp-table--drag-and-drop-handle")
     end
 
+    def select_all_work_packages
+      send_select_all(table_container.first('tr.wp-table--row[tabindex="0"]', minimum: 1))
+      expect(page).to have_no_css "#work-package-context-menu"
+    end
+
     # Returns the row element for the specified work package.
     #
     # @param work_package [WorkPackage] The work package object.

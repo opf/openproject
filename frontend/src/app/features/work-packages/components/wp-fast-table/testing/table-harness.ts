@@ -116,6 +116,7 @@ export interface TableHarness {
   dragStart(workPackageId:string):void;
   /** Feeds a drop to the registered drag member; resolves with the transaction's `complete` value. */
   drop(sourceId:string, targetId:string|null, edge:Edge|null):Promise<boolean>;
+  addRelationRow(workPackageId:string, afterId:string):HTMLTableRowElement;
   destroy():Promise<void>;
 }
 
@@ -221,6 +222,17 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
       return new Promise((resolve) => {
         dragService.memberOf(dom.tbody).onMoved({ sourceId, targetId, edge }, resolve);
       });
+    },
+
+    addRelationRow(workPackageId, afterId) {
+      const row = this.row(workPackageId).cloneNode(true) as HTMLTableRowElement;
+      row.dataset.classIdentifier = `wp-relation-row-${afterId}-to-${workPackageId}`;
+      this.row(afterId).after(row);
+      const rendered = [...table.renderedRows];
+      const index = rendered.findIndex((entry) => entry.classIdentifier === this.row(afterId).dataset.classIdentifier);
+      rendered.splice(index + 1, 0, { classIdentifier: row.dataset.classIdentifier, workPackageId, hidden: false });
+      querySpace.tableRendered.putValue(rendered);
+      return row;
     },
 
     // The table redraws in a requestAnimationFrame followed by a setTimeout;

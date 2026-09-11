@@ -171,6 +171,7 @@ export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<
     });
     this.anchorOccurrence = { ...anchor };
     this.publish();
+    this.opContextMenu.close();
   }
 
   public setSelection(id:string, position:number):void {
@@ -202,18 +203,6 @@ export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<
     this.model.clear();
     this.anchorOccurrence = null;
     Mousetrap.unbind(['command+d', 'ctrl+d']);
-    Mousetrap.unbind(['command+a', 'ctrl+a']);
-  }
-
-  public registerSelectAllListener(renderedElements:() => RenderedWorkPackage[]) {
-    // Bind CTRL+A to select all work packages
-    Mousetrap.bind(['command+a', 'ctrl+a'], (e) => {
-      this.selectAll(renderedElements());
-      e.preventDefault();
-
-      this.opContextMenu.close();
-      return false;
-    });
   }
 
   public registerDeselectAllListener() {

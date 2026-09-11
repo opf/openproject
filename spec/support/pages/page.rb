@@ -233,6 +233,13 @@ module Pages
       sleep 1
     end
 
+    def send_select_all(element)
+      platform = page.evaluate_script("navigator.userAgentData?.platform || navigator.platform")
+      apple_platform = platform.match?(/mac|iphone|ipad|ipod/i)
+      element.execute_script("this.focus()")
+      element.send_keys [apple_platform ? :command : :control, "a"]
+    end
+
     def path
       nil
     end
