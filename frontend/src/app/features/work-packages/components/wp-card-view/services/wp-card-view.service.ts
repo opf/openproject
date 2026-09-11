@@ -44,11 +44,6 @@ export class WorkPackageCardViewService {
     return this.querySpace.tableRendered.getValueOr([]);
   }
 
-  public findRenderedCard(classIdentifier:string):number {
-    const index = this.renderedCards.findIndex((card) => card.classIdentifier === classIdentifier);
-
-    return index;
-  }
 
   public updateRenderedCardsValues(workPackages:WorkPackageResource[]) {
     this.querySpace.tableRendered.putValue(
