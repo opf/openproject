@@ -36,6 +36,19 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
   let(:admin) { create(:admin) }
   let(:base_url) { "https://example.com/v1" }
 
+  # The picker is an autocompleter, so its options are serialised into the
+  # element rather than rendered as markup.
+  def offered_default_models(markup = page)
+    items = markup.find("[data-test-selector='llm-connection--defaults-form'] opce-autocompleter")["data-items"]
+    ids = JSON.parse(items).pluck("id").compact_blank
+
+    LlmModel.where(id: ids).pluck(:external_id)
+  end
+
+  # Nokogiri does not descend into a <template>, which is where a turbo stream
+  # carries its markup.
+  def streamed_markup = Capybara.string(response.body.gsub(%r{</?template>}, ""))
+
   describe "with the feature flag off", with_flag: { llm_connection: false } do
     before { login_as admin }
 
@@ -125,6 +138,38 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(cell.find(".Label")[:title]).to eq("Reported by the server")
       end
 
+      it "offers the default chat model next to the models it may be chosen from" do
+        connection = create(:llm_connection, :with_models, base_url:)
+        connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                               state: "supported", source: "probe", checked_at: Time.current)
+
+        get llm_models_path
+
+        expect(response.body).to include("Default models")
+        # An embedding model is a different kind of model, not a chat choice.
+        expect(offered_default_models).to contain_exactly("qwen3.6-27b")
+      end
+
+      it "asks for no default while the connection has no model to offer" do
+        create(:llm_connection, base_url:)
+
+        get llm_models_path
+
+        expect(response.body).to include("No models available")
+        expect(response.body).not_to include("Default models")
+      end
+
+      it "keeps a stored default listed once its model is switched off" do
+        connection = create(:llm_connection, :with_models, base_url:)
+        chat_model = connection.models.find_by(external_id: "qwen3.6-27b")
+        connection.update!(default_chat_model: chat_model)
+        chat_model.update!(deactivated_at: Time.current)
+
+        get llm_models_path
+
+        expect(offered_default_models).to include("qwen3.6-27b")
+      end
+
       it "sends the administrator to the settings while the features are off",
          with_settings: { llm_features_enabled: false } do
         create(:llm_connection, :with_models, base_url:)
@@ -177,7 +222,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       25.times { |n| create(:llm_model, llm_connection: connection, external_id: format("model-%03d", n)) }
     end
 
-    def rendered_rows(body) = body.scan(/model-\d{3}/).uniq.size
+    def rendered_rows(body) = body.scan("llm-model--toggle-").size
 
     it "shows one page of rows at a time rather than every model" do
       get llm_models_path, params: { per_page: 20 }
@@ -204,7 +249,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       create(:llm_model, llm_connection: connection, external_id: "e5-large", display_name: "BGE compatible")
     end
 
-    def rendered_rows(body) = ["qwen3.6-27b", "bge-m3", "BGE compatible"].count { |name| body.include?(name) }
+    def rendered_rows(body) = body.scan("llm-model--toggle-").size
 
     it "narrows the table to matching models" do
       get search_llm_models_path, params: { filters: }
@@ -582,6 +627,99 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(response.body).to include("Inherit from server (not verified)")
         expect(response.body).not_to include("Inherit from server (supported)")
       end
+    end
+  end
+
+  describe "PATCH /admin/llm_models/defaults" do
+    let!(:connection) { create(:llm_connection, :with_models, base_url:) }
+    let(:chat_model) { connection.models.find_by(external_id: "qwen3.6-27b") }
+
+    before { login_as admin }
+
+    it "stores the default chat model without contacting the server" do
+      patch defaults_llm_models_path, params: { llm_connection: { default_chat_model_id: chat_model.id } }
+
+      expect(response).to redirect_to(llm_models_path)
+      expect(connection.reload.default_chat_model).to eq(chat_model)
+      expect(flash[:notice]).to eq("The default models have been saved.")
+      expect(a_request(:get, "#{base_url}/models")).not_to have_been_made
+    end
+
+    it "refuses a model the server does not offer" do
+      patch defaults_llm_models_path,
+            params: { llm_connection: { default_chat_model_id: LlmModel.maximum(:id).to_i + 1 } }
+
+      expect(connection.reload.default_chat_model_id).to be_nil
+      expect(flash[:error]).to be_present
+    end
+
+    it "leaves the server settings alone" do
+      patch defaults_llm_models_path,
+            params: { llm_connection: { default_chat_model_id: chat_model.id, base_url: "https://elsewhere.test/v1" } }
+
+      expect(connection.reload.base_url).to eq(base_url)
+    end
+
+    it "is refused to a non-admin" do
+      login_as create(:user)
+
+      patch defaults_llm_models_path, params: { llm_connection: { default_chat_model_id: chat_model.id } }
+
+      expect(connection.reload.default_chat_model_id).to be_nil
+    end
+  end
+
+  describe "POST /admin/llm_models/:id/toggle" do
+    let!(:connection) { create(:llm_connection, base_url:) }
+    let!(:llm_model) { create(:llm_model, llm_connection: connection, external_id: "qwen3.6-27b") }
+
+    before { login_as admin }
+
+    it "hides the model from the pickers and puts it back" do
+      post toggle_llm_model_path(llm_model)
+
+      expect(response).to have_http_status(:ok)
+      expect(llm_model.reload).to be_deactivated
+      expect(connection.selectable_model_ids).not_to include("qwen3.6-27b")
+
+      post toggle_llm_model_path(llm_model)
+
+      expect(llm_model.reload).not_to be_deactivated
+      expect(connection.selectable_model_ids).to include("qwen3.6-27b")
+    end
+
+    it "offers the default pickers again without the model it just switched off" do
+      post toggle_llm_model_path(llm_model)
+
+      expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+      expect(response.body).to include('target="llm-connections-default-models-component"')
+      expect(offered_default_models(streamed_markup)).not_to include("qwen3.6-27b")
+    end
+
+    it "refuses a model the server has withdrawn" do
+      withdrawn = create(:llm_model, :withdrawn, llm_connection: connection, external_id: "gone")
+
+      post toggle_llm_model_path(withdrawn)
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(withdrawn.reload).not_to be_deactivated
+    end
+
+    it "is refused to a non-admin" do
+      login_as create(:user)
+
+      post toggle_llm_model_path(llm_model)
+
+      expect(llm_model.reload).not_to be_deactivated
+    end
+
+    it "leaves the source of a hidden model answering where it came from" do
+      create(:llm_model, :manual, :deactivated, llm_connection: connection, external_id: "by-hand")
+
+      get llm_models_path
+
+      expect(response.body).to include("Added manually by an administrator")
+      expect(response.body).not_to include("Hidden")
     end
   end
 end

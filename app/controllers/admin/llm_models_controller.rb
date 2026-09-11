@@ -124,7 +124,39 @@ module Admin
       redirect_to llm_models_path, status: :see_other
     end
 
+    def update_defaults
+      result = ::LlmConnections::UpdateService
+                 .new(user: current_user, model: @connection)
+                 .call(**default_model_params)
+
+      result.on_success { flash[:notice] = t("admin.llm_models.defaults.success") }
+      result.on_failure { flash[:error] = result.errors.full_messages.join(", ") }
+
+      redirect_to llm_models_path, status: :see_other
+    end
+
+    # Hides a model from the pickers, or puts it back. Deliberately does not
+    # touch +active+, which the catalogue sync owns and would overwrite.
+    def toggle
+      llm_model = @connection.models.find(params.expect(:id))
+
+      # A withdrawn model has nothing to switch on; its toggle is rendered
+      # disabled, and this refuses a request that got here anyway.
+      return render(json: {}, status: :unprocessable_entity) unless llm_model.active?
+
+      llm_model.update!(deactivated_at: llm_model.deactivated? ? nil : Time.current)
+
+      # The default pickers offer the models that are switched on, so they go
+      # stale the moment a toggle flips.
+      update_via_turbo_stream(component: ::LlmConnections::DefaultModelsComponent.new(@connection))
+      respond_with_turbo_streams
+    end
+
     private
+
+    def default_model_params
+      params.expect(llm_connection: %i[default_chat_model_id]).to_h.symbolize_keys
+    end
 
     def set_connection
       @connection = LlmConnection.active_connection
