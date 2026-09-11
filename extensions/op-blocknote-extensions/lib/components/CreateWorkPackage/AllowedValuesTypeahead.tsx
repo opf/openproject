@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { XCircleFillIcon } from '@primer/octicons-react';
 import { Suggestions, usePickerMotion } from './Suggestions';
 import { usePickerOptions } from './usePickerOptions';
+import { isNested } from './formSchema';
 import type { AllowedValue } from './formSchema';
 import {
   ACTION_ICON_SIZE,
@@ -169,6 +170,7 @@ export const AllowedValuesTypeahead = ({
           options={options}
           focusedIndex={activeIndex}
           selectedHref={value}
+          hierarchical={isNested(options)}
           optionId={optionId}
           onFocusIndex={setFocusedIndex}
           onPick={select}

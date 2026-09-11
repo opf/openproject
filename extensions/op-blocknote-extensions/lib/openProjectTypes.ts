@@ -73,7 +73,7 @@ export interface HalResource {
   subject?:string;
   value?:string;
   favorited?:boolean;
-  _links?:{ self?:HalLink; ancestors?:HalLink[] };
+  _links?:{ self?:HalLink; ancestors?:HalLink[]; parent?:HalLink };
 }
 
 export interface HalCollection<T> {

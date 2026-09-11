@@ -98,7 +98,13 @@ export function readSchemaProperty(
 }
 
 export function labelOfResource(resource:HalResource):string {
-  return resource.name ?? resource.subject ?? resource.value ?? '';
+  return resource.name ?? resource.subject ?? resource.value ?? resource._links?.self?.title ?? '';
+}
+
+function ancestorsOf(resource:HalResource):string[] {
+  const links = resource._links;
+  const named = links?.ancestors ?? (links?.parent ? [links.parent] : []);
+  return named.flatMap((link) => (typeof link.href === 'string' ? [link.href] : []));
 }
 
 export function toAllowedValues(resources:HalResource[]):AllowedValue[] {
@@ -106,12 +112,14 @@ export function toAllowedValues(resources:HalResource[]):AllowedValue[] {
     const href = resource._links?.self?.href;
     if (!href) return [];
 
-    const ancestors = (resource._links?.ancestors ?? [])
-      .flatMap((link) => (typeof link.href === 'string' ? [link.href] : []));
+    const label = labelOfResource(resource);
+    if (!label) return [];
+
+    const ancestors = ancestorsOf(resource);
 
     return [{
       href,
-      label: labelOfResource(resource),
+      label,
       ...(resource.favorited ? { favored: true } : {}),
       ...(ancestors.length > 0 ? { ancestors } : {}),
     }];
@@ -121,6 +129,10 @@ export function toAllowedValues(resources:HalResource[]):AllowedValue[] {
 export function allowedValueOf(field:FormField | undefined, href:string | undefined):AllowedValue | undefined {
   if (!field || !href) return undefined;
   return field.allowedValues?.find((value) => value.href === href);
+}
+
+export function isNested(values:AllowedValue[]):boolean {
+  return values.some((value) => (value.ancestors?.length ?? 0) > 0);
 }
 
 export function listedValues(values:AllowedValue[], expanded:ReadonlySet<string>):ListedValue[] {

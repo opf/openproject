@@ -11,6 +11,7 @@ import {
   extraRequiredFields,
   fieldFor,
   fixedFields,
+  isNested,
   listedValues,
   missingProblems,
   missingRequiredFields,
@@ -683,6 +684,39 @@ describe('formSchema', () => {
         // Nothing but projects is favored, and silence is not a claim to be one.
         { href: '/api/v3/projects/9', label: 'Flat' },
       ]);
+    });
+
+    // A hierarchy item names itself in its self link alone and hangs on a parent
+    // rather than on ancestors; its root names nothing and is no value to pick.
+    it('names a hierarchy item by its self link and drops the nameless root', () => {
+      expect(toAllowedValues([
+        { id: 1, _links: { self: { href: '/api/v3/custom_field_items/1' } } },
+        {
+          id: 2,
+          _links: {
+            self: { href: '/api/v3/custom_field_items/2', title: 'room 1 (R1)' },
+            parent: { href: '/api/v3/custom_field_items/1' },
+          },
+        },
+        {
+          id: 3,
+          _links: {
+            self: { href: '/api/v3/custom_field_items/3', title: 'room 1a' },
+            parent: { href: '/api/v3/custom_field_items/2', title: 'room 1 (R1)' },
+          },
+        },
+      ])).toEqual([
+        { href: '/api/v3/custom_field_items/2', label: 'room 1 (R1)', ancestors: ['/api/v3/custom_field_items/1'] },
+        { href: '/api/v3/custom_field_items/3', label: 'room 1a', ancestors: ['/api/v3/custom_field_items/2'] },
+      ]);
+    });
+  });
+
+  describe('isNested', () => {
+    it('goes by the ancestors of the values, not by the nesting on show', () => {
+      expect(isNested([{ href: '/items/2', label: 'room 1 (R1)', ancestors: ['/items/1'] }])).toBe(true);
+      expect(isNested([{ href: '/users/5', label: 'Elif Yildiz' }])).toBe(false);
+      expect(isNested([])).toBe(false);
     });
   });
 

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { XIcon } from '@primer/octicons-react';
 import { Suggestions, usePickerMotion } from './Suggestions';
 import { usePickerOptions } from './usePickerOptions';
+import { isNested } from './formSchema';
 import type { AllowedValue } from './formSchema';
 import {
   Token,
@@ -179,6 +180,7 @@ export const MultiValueTypeahead = ({
           anchorEl={fieldEl}
           options={offered}
           focusedIndex={activeIndex}
+          hierarchical={isNested(offered)}
           optionId={optionId}
           onFocusIndex={setFocusedIndex}
           onPick={add}
