@@ -129,7 +129,8 @@ export class ProjectAutocompleterComponent extends OpAutocompleterComponent<IPro
       filtered = elements;
     } else {
       const lowered = matching.toLowerCase();
-      filtered = elements.filter((el) => el.name.toLowerCase().includes(lowered));
+      filtered = elements.filter((el) => el.name.toLowerCase().includes(lowered)
+        || !!el.identifier?.toLowerCase().includes(lowered));
     }
 
     return of(filtered);
@@ -194,6 +195,7 @@ export class ProjectAutocompleterComponent extends OpAutocompleterComponent<IPro
             id: project.id,
             href: project._links.self.href,
             name: project.name,
+            identifier: project.identifier,
             _type: project._type,
             disabled,
             disabledReason: (typeof this.disabledProjects[id] === 'string') ? this.disabledProjects[id] : '',

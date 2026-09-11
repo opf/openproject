@@ -250,6 +250,14 @@ because it's still in use by work packages)
 
         expect(response.body).not_to include(other.name)
       end
+
+      it "matches a project by its identifier" do
+        create(:project, name: "Bookshop", identifier: "libris-nova")
+
+        get :tree, params: { type_id: type.id, name: "project_ids", query: "libris" }
+
+        expect(response.body).to include("Bookshop")
+      end
     end
 
     describe "POST link" do
