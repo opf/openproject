@@ -38,9 +38,10 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
   # The picker is an autocompleter, so its options are serialised into the
   # element rather than rendered as markup.
-  def offered_default_models(markup = page)
-    items = markup.find("[data-test-selector='llm-connection--defaults-form'] opce-autocompleter")["data-items"]
-    ids = JSON.parse(items).pluck("id").compact_blank
+  def offered_default_models(field = :default_chat_model_id, markup: page)
+    element = markup.all("[data-test-selector='llm-connection--defaults-form'] opce-autocompleter")
+                    .find { |node| node["data-input-name"].include?(field.to_s) }
+    ids = JSON.parse(element["data-items"]).pluck("id").compact_blank
 
     LlmModel.where(id: ids).pluck(:external_id)
   end
@@ -169,6 +170,68 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
         expect(response.body).to include("configured via environment variables")
         expect(page).to have_css("[data-test-selector='llm-connection--defaults-form'] opce-autocompleter[data-disabled='true']")
         expect(page).to have_no_button("Save")
+      end
+
+      it "offers only models known to embed as the default embedding model" do
+        connection = create(:llm_connection, :with_models, base_url:)
+        connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                               state: "supported", source: "probe", checked_at: Time.current)
+
+        get llm_models_path
+
+        expect(offered_default_models(:default_embedding_model_id)).to contain_exactly("bge-m3")
+        expect(response.body).to include("huggingface.co/blog/getting-started-with-embeddings")
+      end
+
+      # An unconfirmed capability is not a capability: offering such a model
+      # invites a choice that fails much later, at index time.
+      it "says how to make a model eligible while none is known to embed" do
+        create(:llm_connection, :with_models, base_url:)
+
+        get llm_models_path
+
+        expect(response.body).to include("set its type to Embedding model")
+      end
+
+      # Switched off is a different problem from unqualified: the model does embed,
+      # an administrator simply hid it, and saying otherwise sends them to the
+      # model form to fix a type that is already right.
+      it "tells a switched-off embedding default apart from an unqualified one" do
+        connection = create(:llm_connection, :with_models, base_url:)
+        connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                               state: "supported", source: "probe", checked_at: Time.current)
+        connection.update_column(:default_embedding_model_id, connection.models.find_by(external_id: "bge-m3").id)
+        connection.models.find_by(external_id: "bge-m3").update!(deactivated_at: Time.current)
+
+        get llm_models_path
+
+        expect(offered_default_models(:default_embedding_model_id)).to include("bge-m3")
+        expect(response.body).to include("switched off")
+        expect(response.body).not_to include("not known to create embeddings")
+      end
+
+      # The remedy the caption names is only the right one while nothing embeds.
+      it "keeps the documentation caption while a known embedding model is switched off" do
+        connection = create(:llm_connection, :with_models, base_url:)
+        connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                               state: "supported", source: "probe", checked_at: Time.current)
+        connection.models.find_by(external_id: "bge-m3").update!(deactivated_at: Time.current)
+
+        get llm_models_path
+
+        expect(response.body).to include("huggingface.co/blog/getting-started-with-embeddings")
+        expect(response.body).not_to include("set its type to Embedding model")
+      end
+
+      # Otherwise a save would silently blank a working configuration.
+      it "keeps the stored embedding default listed, flagged, once it is ruled out" do
+        connection = create(:llm_connection, :with_models, base_url:)
+        connection.update_column(:default_embedding_model_id, connection.models.find_by(external_id: "qwen3.6-27b").id)
+
+        get llm_models_path
+
+        expect(offered_default_models(:default_embedding_model_id)).to include("qwen3.6-27b")
+        expect(response.body).to include("not known to create embeddings")
       end
 
       it "keeps a stored default listed once its model is switched off" do
@@ -330,6 +393,16 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
         expect(connection.models.where(external_id: "already-there").count).to eq(1)
       end
+
+      it "makes the model bindable straight away" do
+        post llm_models_path, params: { llm_model: { external_id: "qwen3.6-35b-a3b" } }
+
+        patch llm_feature_binding_path("description_assistant"),
+              params: { llm_feature_binding: { model_id: "qwen3.6-35b-a3b" } }
+
+        expect(connection.feature_bindings.find_by(feature_key: "description_assistant").model_id)
+          .to eq("qwen3.6-35b-a3b")
+      end
     end
 
     describe "a refresh that cannot see the manual model" do
@@ -397,6 +470,15 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
         expect(llm_model.reload.context_window).to eq(8192)
         expect(llm_model.context_window_source).to eq(:server)
+      end
+
+      it "makes an asserted type satisfy a feature that requires it" do
+        patch llm_model_path(llm_model), params: { llm_model: { model_type: "embedding" } }
+
+        patch llm_feature_binding_path("semantic_search"),
+              params: { llm_feature_binding: { model_id: "hand-typed" } }
+
+        expect(connection.feature_bindings.find_by(feature_key: "semantic_search").model_id).to eq("hand-typed")
       end
 
       # Clearing an assertion records nothing rather than recording ignorance as
@@ -559,6 +641,21 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       end
     end
 
+    describe "GET /admin/llm_models/:id/delete_dialog" do
+      it "offers a confirmation naming the features that would break" do
+        llm_model = create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed")
+        connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "hand-typed")
+
+        # Requested by the async-dialog Stimulus controller, which asks for a
+        # turbo stream rather than HTML.
+        get delete_dialog_llm_model_path(llm_model),
+            headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include("Description assistant")
+      end
+    end
+
     describe "renaming a manually added model" do
       let!(:llm_model) do
         create(:llm_model, :manual, llm_connection: connection, external_id: "qwen/qwen3.6-35b-a3b")
@@ -566,6 +663,8 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
       before do
         connection.update!(default_chat_model: llm_model)
+        connection.feature_bindings.create!(feature_key: "description_assistant",
+                                            model_id: "qwen/qwen3.6-35b-a3b")
         connection.capability_verdicts.create!(model_id: "qwen/qwen3.6-35b-a3b", capability: "embeddings",
                                                state: "unsupported", source: "probe", checked_at: Time.current)
       end
@@ -593,7 +692,23 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
         expect(llm_model.reload.external_id).to eq("qwen/qwen3.6-35b-a3b:bf16")
         expect(connection.reload.default_chat_model).to eq(llm_model)
+        expect(connection.feature_bindings.first.model_id).to eq("qwen/qwen3.6-35b-a3b:bf16")
         expect(connection.capability_verdicts.first.model_id).to eq("qwen/qwen3.6-35b-a3b:bf16")
+      end
+
+      it "keeps the feature resolving afterwards", with_flag: { llm_connection: true } do
+        patch llm_model_path(llm_model), params: { llm_model: { external_id: "qwen/qwen3.6-35b-a3b:bf16" } }
+
+        expect(Llm::Runtime.for(:description_assistant).model_id).to eq("qwen/qwen3.6-35b-a3b:bf16")
+      end
+
+      it "follows a model a locked binding depends on" do
+        binding = connection.feature_bindings.first
+        binding.update!(locked_at: Time.current)
+
+        patch llm_model_path(llm_model), params: { llm_model: { external_id: "qwen/qwen3.6-35b-a3b:bf16" } }
+
+        expect(binding.reload.model_id).to eq("qwen/qwen3.6-35b-a3b:bf16")
       end
 
       # The server names its own models; renaming one here would only be undone by
@@ -665,6 +780,36 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       expect(flash[:error]).to be_present
     end
 
+    it "stores the default embedding model" do
+      connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                             state: "supported", source: "probe", checked_at: Time.current)
+
+      patch defaults_llm_models_path,
+            params: { llm_connection: { default_embedding_model_id: connection.models.find_by(external_id: "bge-m3").id } }
+
+      expect(connection.reload.default_embedding_model.external_id).to eq("bge-m3")
+    end
+
+    it "refuses a model the server has ruled out" do
+      connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "embeddings",
+                                             state: "unsupported", source: "probe", checked_at: Time.current)
+
+      patch defaults_llm_models_path,
+            params: { llm_connection: { default_embedding_model_id: connection.models.find_by(external_id: "qwen3.6-27b").id } }
+
+      expect(connection.reload.default_embedding_model_id).to be_nil
+      expect(flash[:error]).to be_present
+    end
+
+    # Nothing has probed the row: refusing here would break provisioning from the
+    # environment, where the same configuration passes on an empty catalogue.
+    it "accepts a model nothing has ruled out" do
+      patch defaults_llm_models_path,
+            params: { llm_connection: { default_embedding_model_id: connection.models.find_by(external_id: "qwen3.6-27b").id } }
+
+      expect(connection.reload.default_embedding_model.external_id).to eq("qwen3.6-27b")
+    end
+
     it "leaves the server settings alone" do
       patch defaults_llm_models_path,
             params: { llm_connection: { default_chat_model_id: chat_model.id, base_url: "https://elsewhere.test/v1" } }
@@ -675,7 +820,8 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
     it "refuses a default the environment owns" do
       allow(Setting).to receive(:llm_connection).and_return({ "base_url" => base_url })
 
-      patch defaults_llm_models_path, params: { llm_connection: { default_chat_model_id: "qwen3.6-27b" } }
+      patch defaults_llm_models_path,
+            params: { llm_connection: { default_chat_model_id: connection.models.find_by(external_id: "qwen3.6-27b").id } }
 
       expect(connection.reload.default_chat_model_id).to be_nil
       expect(flash[:error]).to be_present
@@ -714,7 +860,17 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
       expect(response.media_type).to eq("text/vnd.turbo-stream.html")
       expect(response.body).to include('target="llm-connections-default-models-component"')
-      expect(offered_default_models(streamed_markup)).not_to include("qwen3.6-27b")
+      expect(offered_default_models(markup: streamed_markup)).not_to include("qwen3.6-27b")
+    end
+
+    # Curation, not enforcement: a feature already pointing at the model keeps
+    # resolving, so switching a row off cannot silently break anything.
+    it "leaves an existing binding working" do
+      connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
+
+      post toggle_llm_model_path(llm_model)
+
+      expect(connection.available_model_ids).to include("qwen3.6-27b")
     end
 
     it "refuses a model the server has withdrawn" do

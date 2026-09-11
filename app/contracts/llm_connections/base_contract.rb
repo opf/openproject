@@ -54,6 +54,7 @@ module LlmConnections
     validate :features_require_connection
     validate :default_models_offered_by_server
     validate :default_chat_model_can_chat
+    validate :default_embedding_model_can_embed
     validate :not_configured_from_env
 
     def not_configured_from_env
@@ -64,13 +65,25 @@ module LlmConnections
 
     private
 
+    # Only a model the server has ruled out is refused. "We could not tell" is the
+    # normal state on a self-hosted server, and an environment-provisioned default
+    # would otherwise fail on a catalogue row nothing has probed yet. The picker
+    # still offers confirmed models only.
+    def default_embedding_model_can_embed
+      llm_model = model.default_embedding_model
+      return if llm_model.blank?
+      return unless model.changed_attributes.include?("default_embedding_model_id")
+
+      errors.add(:default_embedding_model_id, :cannot_embed) if llm_model.verdict_for(:embeddings)&.blocking?
+    end
+
     # A model the server identifies as an embedding model is not a chat candidate.
     def default_chat_model_can_chat
       llm_model = model.default_chat_model
       return if llm_model.blank?
       return unless model.changed_attributes.include?("default_chat_model_id")
 
-      errors.add(:default_chat_model_id, :cannot_chat) if model.default_chat_model&.embedding?
+      errors.add(:default_chat_model_id, :cannot_chat) if llm_model.embedding?
     end
 
     def features_require_connection

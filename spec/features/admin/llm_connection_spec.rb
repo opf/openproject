@@ -49,9 +49,10 @@ RSpec.describe "LLM connection administration",
   # The kebab is a Primer ActionMenu: clicking it before its behaviour is
   # attached silently does nothing, so wait for the page to settle first and
   # for the item itself to become visible.
-  def offered_default_models
-    items = find("[data-test-selector='llm-connection--defaults-form'] opce-autocompleter")["data-items"]
-    ids = JSON.parse(items).pluck("id").compact_blank
+  def offered_default_models(field = :default_chat_model_id)
+    element = all("[data-test-selector='llm-connection--defaults-form'] opce-autocompleter")
+                .find { |node| node["data-input-name"].include?(field.to_s) }
+    ids = JSON.parse(element["data-items"]).pluck("id").compact_blank
 
     LlmModel.where(id: ids).pluck(:external_id)
   end
@@ -83,7 +84,7 @@ RSpec.describe "LLM connection administration",
       expect(page).to have_field("Host URL")
     end
 
-    it "offers the models tab only once the connection is enabled" do
+    it "offers the models and feature tabs only once the connection is enabled" do
       mock_llm_models_response(base_url)
 
       visit llm_connection_path
@@ -99,6 +100,10 @@ RSpec.describe "LLM connection administration",
       within_test_selector("llm-settings--tabs") { click_on "LLMs" }
 
       expect(page).to have_current_path(llm_models_path)
+
+      within_test_selector("llm-settings--tabs") { click_on "Feature configuration" }
+
+      expect(page).to have_current_path(llm_feature_bindings_path)
     end
 
     it "describes the server the selected API format expects" do
@@ -238,6 +243,24 @@ RSpec.describe "LLM connection administration",
       expect(connection.reload.api_key).to be_blank
       # The point of disconnecting rather than deleting.
       expect(connection.models.count).to eq(2)
+    end
+  end
+
+  describe "the Feature configuration tab" do
+    let!(:connection) { create(:llm_connection, :with_models, base_url:) }
+
+    before do
+      Setting.llm_features_enabled = true
+      mock_llm_embeddings_response(base_url)
+    end
+
+    it "offers the vector settings only for features that embed" do
+      visit llm_feature_bindings_path
+
+      expect(page).to have_test_selector("llm-settings--tabs")
+      expect(page).to have_test_selector("llm-feature-binding--dimensions-semantic_search")
+      expect(page).to have_no_test_selector("llm-feature-binding--dimensions-description_assistant")
+      expect(page).to be_axe_clean.within("#content")
     end
   end
 end

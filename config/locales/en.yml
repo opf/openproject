@@ -237,7 +237,13 @@ en:
         # ActiveRecord::Base.human_attribute_name strips the _id suffix, so these
         # keys deliberately do not carry it (see lib/open_project/patches/active_record_i18n.rb).
         default_chat_model: "Default chat model"
+        default_embedding_model: "Default embedding model"
         llm_features_enabled: "Enable LLMs for this instance"
+      llm_feature_binding:
+        dimensions: "Dimensions"
+        feature_key: "Feature"
+        # ActiveRecord::Base.human_attribute_name strips the _id suffix.
+        model: "Model"
       llm_model:
         display_name: "Display name"
         # human_attribute_name strips the _id suffix, so the key omits it.
@@ -737,10 +743,19 @@ en:
               cannot_chat: "is an embedding model, according to the LLM server, and cannot be used for chat."
               not_available: "is not offered by the configured LLM server."
             default_embedding_model_id:
-              cannot_embed: "cannot create embeddings, according to the LLM server."
+              cannot_embed: "is known not to create embeddings, according to the LLM server."
               not_available: "is not offered by the configured LLM server."
             llm_features_enabled:
               requires_connection: "cannot be turned on before a connection has been configured."
+        llm_feature_binding:
+          attributes:
+            dimensions:
+              locked: "cannot be changed while data indexed with it still exists. Re-index to change it."
+              not_for_chat_feature: "only applies to features that create embeddings."
+            feature_key:
+              not_registered: "does not belong to a known AI feature."
+            model_id:
+              locked: "cannot be changed while data indexed with it still exists. Re-index to switch models."
         meeting:
           error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         member:
@@ -1789,6 +1804,7 @@ en:
         configured_from_env: "This connection is configured through the environment and cannot be changed here."
         description: "OpenProject will stop using the LLM server. AI features will be unavailable until you connect again."
         heading: "Disconnect from the LLM server?"
+        keeps_bindings: "The model chosen for each feature is kept: %{features}."
         keeps_models: "The model list, including any models you added manually, is kept."
         keeps_settings: "The endpoint and API format are kept. Only the stored API key is removed."
         menu_label: "Disconnect"
@@ -1812,17 +1828,39 @@ en:
         description_enabled: "Once connected, review the models offered by the server on the [LLMs](models_url) tab."
       tabs:
         connection: "Connection"
+        features: "Feature configuration"
         models: "LLMs"
       update:
         disabled: "Saved. LLM features are switched off for this instance."
         no_models: "Saved, but no models are stored yet. Either the server offers no model list, or the endpoint is missing its API version segment (for example /v1). Refresh the list on the LLMs tab."
         success: "Successfully connected to the LLM server."
+    llm_feature_bindings:
+      dangling: "%{model} is no longer offered by the LLM server. This feature will not run until another model is selected."
+      deactivated: "%{model} has been hidden by an administrator. This feature keeps using it, but it can no longer be chosen elsewhere."
+      form:
+        dimensions_caption: "How many numbers each vector has. Leave blank to use whatever the server returns."
+        dimensions_caption_probed: "The server returned %{dimensions}-dimension vectors for this model. Leave blank to use whatever it returns at index time."
+        model_caption_embedding: "Only models known to create embeddings are offered. [Read more](docs_url) about model types."
+      index:
+        description: "Choose which model each AI feature uses. Features without a choice use the default models set on the [LLMs](models_url) tab."
+      inherit_with_default: "Use the default (%{model})"
+      inherit_without_default: "Use the default (none set)"
+      locked: "%{model} is in use by indexed data and cannot be changed here. Re-index to switch models."
+      locked_values_heading: "Values fixed by the existing index"
+      option_unqualified: "%{model} (no longer eligible for this feature)"
+      update:
+        model_incapable: "The model for %{feature} has been saved, but the server just reported that it does not support %{capability}. Pick a different model, or assert the capability on the model if you know better."
+        success: "The model for %{feature} has been saved."
     llm_models:
       create:
         success: "%{model} has been added."
       defaults:
         chat_caption: "Only models that are switched on in the list below are offered."
         description: "Used by AI features that do not choose a model themselves."
+        embedding_caption: "Only models known to create embeddings are offered. [Read more](docs_url) about model types."
+        embedding_none: "No model is known to create embeddings. If you know one does, open it in the list below and set its type to Embedding model."
+        embedding_option_deactivated: "%{model} (switched off)"
+        embedding_option_unqualified: "%{model} (not known to create embeddings)"
         heading: "Default models"
         success: "The default models have been saved."
       destroy:
@@ -4458,6 +4496,13 @@ en:
     context_window_sources:
       registry: "the figure published for this model"
       server: "reported by the server"
+    features:
+      description_assistant:
+        caption: "Rewrites and restructures work package text on request."
+        label: "Description assistant"
+      semantic_search:
+        caption: "Indexes work packages so they can be found by meaning rather than by keyword."
+        label: "Semantic search"
     model_kinds:
       chat: "Chat"
       embedding: "Embedding"

@@ -28,27 +28,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module LlmConnections
-  # The "Default models" section of the LLMs tab.
-  class DefaultModelsComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
+require_relative "../../lib_static/open_project/llm/features"
 
-    alias_method :connection, :model
+# Features that send requests to the configured LLM server.
+#
+# Add a feature here (or from a module engine initializer) so that
+# administrators can assign it a model on the "Feature configuration" tab.
 
-    # Nothing to choose from, and the empty table right below says so.
-    def render? = connection.available_model_ids.any?
+# The description assistant rewrites work package text on explicit user action.
+# Plain chat completions only: no tools, no JSON mode, no streaming. Individual
+# actions may override the model, which is why it is overridable.
+OpenProject::Llm::Features.register :description_assistant,
+                                    kind: :chat,
+                                    prefers: %i[structured_output],
+                                    overridable: true
 
-    private
-
-    def form_options
-      {
-        model: connection,
-        url: url_helpers.defaults_llm_models_path,
-        method: :patch,
-        data: { test_selector: "llm-connection--defaults-form" }
-      }
-    end
-  end
-end
+# Semantic search embeds work packages into a pgvector index. Pinned because the
+# stored vectors are meaningless under a different model: changing it is a
+# destructive re-index rather than a swap.
+OpenProject::Llm::Features.register :semantic_search,
+                                    kind: :embedding,
+                                    requires: %i[embeddings],
+                                    pinned: true

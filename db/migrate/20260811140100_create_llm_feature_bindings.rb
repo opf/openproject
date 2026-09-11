@@ -28,27 +28,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module LlmConnections
-  # The "Default models" section of the LLMs tab.
-  class DefaultModelsComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
+class CreateLlmFeatureBindings < ActiveRecord::Migration[8.1]
+  def change
+    create_table :llm_feature_bindings do |t|
+      t.references :llm_connection, null: false, foreign_key: true
+      t.string :feature_key, null: false
+      # NULL means "use the connection default for this kind of model".
+      t.string :model_id
+      # Embedding features only. Frozen together with model_id once vectors exist.
+      t.integer :dimensions
+      t.string :input_prefix
+      t.string :query_prefix
+      # Set once the binding has data depending on it, after which the model
+      # cannot be swapped without a destructive re-index.
+      t.datetime :locked_at
+      t.datetime :last_seen_at
 
-    alias_method :connection, :model
-
-    # Nothing to choose from, and the empty table right below says so.
-    def render? = connection.available_model_ids.any?
-
-    private
-
-    def form_options
-      {
-        model: connection,
-        url: url_helpers.defaults_llm_models_path,
-        method: :patch,
-        data: { test_selector: "llm-connection--defaults-form" }
-      }
+      t.timestamps null: false
     end
+
+    add_index :llm_feature_bindings, %i[llm_connection_id feature_key], unique: true
   end
 end

@@ -52,6 +52,7 @@ class LlmConnection < ApplicationRecord
   belongs_to :default_chat_model, class_name: "LlmModel", optional: true
   belongs_to :default_embedding_model, class_name: "LlmModel", optional: true
   has_many :capability_verdicts, class_name: "LlmCapabilityVerdict", dependent: :delete_all
+  has_many :feature_bindings, class_name: "LlmFeatureBinding", dependent: :delete_all
   validates :base_url, presence: true
   validate :single_active_connection, if: :active?
 
@@ -121,11 +122,22 @@ class LlmConnection < ApplicationRecord
     selectable_models.reject(&:embedding?)
   end
 
-  def embedding_model_ids
-    embedding = capability_verdicts.for_capability(:embeddings).where(state: "supported").pluck(:model_id)
-
-    selectable_model_ids & embedding
+  def embedding_models
+    selectable_models.select(&:embedding?)
   end
+
+  # Every model the server is known to embed with, including ones an
+  # administrator has switched off: whether a model can embed is a fact about
+  # the server, not about what a picker currently offers.
+  def embedding_capable_models
+    models.active.by_identifier.select(&:embedding?)
+  end
+
+  def embedding_capable_model_ids
+    capability_verdicts.for_capability(:embeddings).where(state: "supported").pluck(:model_id)
+  end
+
+  def embedding_model_ids = selectable_model_ids & embedding_capable_model_ids
 
   def chat_model_ids = selectable_model_ids - embedding_model_ids
 
