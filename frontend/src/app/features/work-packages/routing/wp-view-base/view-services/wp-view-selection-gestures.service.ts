@@ -40,25 +40,17 @@ export class WorkPackageViewSelectionGesturesService {
   private readonly selection = inject(WorkPackageViewSelectionService);
 
   click(workPackageId:string, rendered:RenderedWorkPackage[], modifiers:SelectionModifiers, classIdentifier?:string):string[] {
-    const toggle = Boolean(modifiers.ctrlKey) || Boolean(modifiers.metaKey);
-
-    if (!modifiers.shiftKey && !toggle) {
-      this.replace(workPackageId, rendered, classIdentifier);
-    }
-
-    if (modifiers.shiftKey) {
-      this.selection.setMultiSelectionFrom(rendered, workPackageId, positionOf(rendered, workPackageId, classIdentifier));
-    }
-
-    if (toggle) {
-      this.selection.toggleRow(workPackageId);
-    }
-
+    const row = findSelectionOccurrence(rendered, workPackageId, classIdentifier);
+    if (!row) return this.selection.getSelectedWorkPackageIds();
+    if (modifiers.shiftKey) this.selection.rangeTo(row, rendered);
+    else if (modifiers.ctrlKey || modifiers.metaKey) this.selection.toggleOccurrence(row);
+    else this.selection.replaceOccurrence(row);
     return this.selection.getSelectedWorkPackageIds();
   }
 
   replace(workPackageId:string, rendered:RenderedWorkPackage[], classIdentifier?:string):void {
-    this.selection.setSelection(workPackageId, positionOf(rendered, workPackageId, classIdentifier));
+    const row = findSelectionOccurrence(rendered, workPackageId, classIdentifier);
+    if (row) this.selection.replaceOccurrence(row);
   }
 
   contextMenu(workPackageId:string, rendered:RenderedWorkPackage[], classIdentifier?:string):void {
@@ -77,8 +69,9 @@ export class WorkPackageViewSelectionGesturesService {
   }
 }
 
-function positionOf(rendered:RenderedWorkPackage[], workPackageId:string, classIdentifier?:string):number {
-  return rendered.findIndex((row) => (classIdentifier === undefined
-    ? row.workPackageId === workPackageId
-    : row.classIdentifier === classIdentifier));
+export function findSelectionOccurrence(
+  rows:RenderedWorkPackage[], id:string, classIdentifier?:string,
+):RenderedWorkPackage|undefined {
+  return rows.find((row) => row.workPackageId === id
+    && (classIdentifier === undefined || row.classIdentifier === classIdentifier));
 }
