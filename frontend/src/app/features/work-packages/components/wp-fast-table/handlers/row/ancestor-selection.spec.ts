@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { usePlatform } from 'core-common/testing/platform';
 import { TableEditForm } from 'core-app/features/work-packages/components/wp-edit-form/table-edit-form';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { WpTableHoverSync } from 'core-app/features/work-packages/components/wp-table/wp-table-hover-sync';
@@ -34,6 +35,8 @@ import { buildTable, TableHarness } from '../../testing/table-harness';
 
 describe('Ancestor row selection', () => {
   let harness:TableHarness;
+
+  const pretendPlatform = usePlatform();
 
   beforeEach(async () => {
     harness = buildTable({
@@ -60,6 +63,22 @@ describe('Ancestor row selection', () => {
     fireEvent.contextMenu(harness.row('1'));
     expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['1']);
     expect(harness.row('1')).toHaveClass('-checked');
+  });
+
+  it.each([
+    { platform: 'Linux', ctrlKey: true },
+    { platform: 'MacIntel', metaKey: true },
+  ])('anchors Select All on the ancestor on $platform', ({ platform, ...modifiers }) => {
+    pretendPlatform(platform);
+    expect(fireEvent.keyDown(harness.row('1'), { key: 'a', ...modifiers })).toBe(false);
+    harness.click('2', { shiftKey: true });
+    expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['1', '2']);
+  });
+
+  it('leaves the hierarchy collapse control shortcut alone', () => {
+    const control = harness.row('1').querySelector<HTMLElement>('a[role="button"]')!;
+    expect(fireEvent.keyDown(control, { key: 'a', ctrlKey: true })).toBe(true);
+    expect(harness.selection.isEmpty).toBe(true);
   });
 
   it('resolves the ancestor edit cell using the dataset identity', () => {

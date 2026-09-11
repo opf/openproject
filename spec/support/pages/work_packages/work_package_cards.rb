@@ -124,7 +124,7 @@ module Pages
     end
 
     def select_all_work_packages
-      find("body").send_keys [:control, "a"]
+      send_select_all(page.first('.op-wp-single-card[tabindex="0"]', minimum: 1))
       expect(page).to have_no_css "#work-package-context-menu"
     end
 
