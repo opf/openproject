@@ -64,6 +64,10 @@ RSpec.describe Meetings::ICalService, type: :model do # rubocop:disable RSpec/Sp
       expect(service.call).to be_success
     end
 
+    it "conforms to RFC 5545 and RFC 5546" do
+      expect(result).to be_a_conforming_calendar
+    end
+
     context "when exception is raised" do
       subject { service.call }
 

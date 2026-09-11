@@ -60,8 +60,8 @@ module Meetings
         e.dtstart = ical_datetime(meeting.start_time)
         e.dtend = ical_datetime(meeting.end_time)
 
-        e.created = meeting.created_at.utc
-        e.last_modified = meeting.updated_at.utc
+        e.created = ical_utc(meeting.created_at)
+        e.last_modified = ical_utc(meeting.updated_at)
         e.sequence = meeting.lock_version
 
         url = url_helpers.meeting_url(meeting)
@@ -93,8 +93,8 @@ module Meetings
         e.description = I18n.t(:text_meeting_ics_meeting_series_description, url:)
         e.organizer = ical_organizer
 
-        e.created = recurring_meeting.template.created_at.utc
-        e.last_modified = [recurring_meeting.template.updated_at, recurring_meeting.updated_at].max.utc
+        e.created = ical_utc(recurring_meeting.template.created_at)
+        e.last_modified = ical_utc([recurring_meeting.template.updated_at, recurring_meeting.updated_at].max)
         e.sequence = recurring_meeting.ical_sequence
 
         e.rrule = recurring_meeting.ical_schedule.rrules.first.to_ical # We currently only have one recurrence rule
@@ -148,8 +148,8 @@ module Meetings
         e.description = I18n.t(:text_meeting_ics_meeting_series_description, url:)
         e.organizer = ical_organizer
 
-        e.created = recurring_meeting.template.created_at.utc
-        e.last_modified = historic.created_at.utc
+        e.created = ical_utc(recurring_meeting.template.created_at)
+        e.last_modified = ical_utc(historic.created_at)
         e.sequence = historic.sequence
 
         e.rrule = historic.rrule
@@ -183,8 +183,8 @@ module Meetings
                                url: occurrence_url)
         e.organizer = ical_organizer
 
-        e.created = meeting.created_at.utc
-        e.last_modified = meeting.updated_at.utc
+        e.created = ical_utc(meeting.created_at)
+        e.last_modified = ical_utc(meeting.updated_at)
         e.sequence = [meeting.lock_version, recurring_meeting.ical_sequence].max
 
         e.recurrence_id = ical_datetime(meeting.recurrence_start_time, timezone: recurring_meeting.time_zone)
@@ -297,6 +297,12 @@ module Meetings
       calendar_generated_for_user == participant.user && participant.participation_needs_action?
     end
 
+    # Helper method to ensure output as UTC times
+    # RFC 5545 3.8.7: CREATED and LAST-MODIFIED need to be UTC values
+    def ical_utc(time)
+      Icalendar::Values::DateTime.new(time.utc, "tzid" => "UTC")
+    end
+
     def ical_datetime(time, timezone: builder_internal_timezone)
       tzid = timezone.tzinfo.canonical_identifier
 
@@ -396,8 +402,8 @@ module Meetings
           e.description = I18n.t(:text_meeting_ics_meeting_series_description, url:)
           e.organizer = ical_organizer
 
-          e.created = recurring_meeting.template.created_at.utc
-          e.last_modified = [recurring_meeting.template.updated_at, recurring_meeting.updated_at].max.utc
+          e.created = ical_utc(recurring_meeting.template.created_at)
+          e.last_modified = ical_utc([recurring_meeting.template.updated_at, recurring_meeting.updated_at].max)
           e.sequence = recurring_meeting.ical_sequence
 
           e.dtstart = ical_datetime(start_time, timezone: recurring_meeting.time_zone)
