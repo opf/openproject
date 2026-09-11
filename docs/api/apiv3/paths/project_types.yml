@@ -79,3 +79,4 @@ get:
     This endpoint is deprecated and replaced by [`/api/v3/workspaces/{id}/types`](https://www.openproject.org/docs/api/endpoints/types/#list-types-available-in-a-workspace)
   operationId: List_types_available_in_a_project
   summary: List types available in a project
+  deprecated: true

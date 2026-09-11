@@ -2,6 +2,7 @@
 ---
 get:
   summary: Get work packages of project
+  deprecated: true
   operationId: Get_Project_Work_Package_Collection
   tags:
     - Work Packages
@@ -115,6 +116,7 @@ get:
 
 post:
   summary: Create work package in project
+  deprecated: true
   operationId: Create_Project_Work_Package
   tags:
     - Work Packages

@@ -77,3 +77,4 @@ get:
   '
   operationId: List_categories_of_a_project
   summary: List categories of a project
+  deprecated: true
