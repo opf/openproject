@@ -28,33 +28,53 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module CustomActions::Register
-  class << self
-    def actions
-      [
-        CustomActions::Actions::AssignedTo,
-        CustomActions::Actions::Responsible,
-        CustomActions::Actions::Status,
-        CustomActions::Actions::Priority,
-        CustomActions::Actions::CustomField,
-        CustomActions::Actions::Type,
-        CustomActions::Actions::Project,
-        CustomActions::Actions::Notify,
-        CustomActions::Actions::DoneRatio,
-        CustomActions::Actions::EstimatedHours,
-        CustomActions::Actions::StartDate,
-        CustomActions::Actions::DueDate,
-        CustomActions::Actions::Date
-      ]
-    end
+module CustomActions
+  module Register
+    class << self
+      def add(type, klass)
+        raise "A #{type} '#{klass}' is already registered!" if [actions, conditions].flatten.include? klass
 
-    def conditions
-      [
-        CustomActions::Conditions::Status,
-        CustomActions::Conditions::Role,
-        CustomActions::Conditions::Type,
-        CustomActions::Conditions::Project
-      ]
+        case type
+        when :condition
+          conditions << klass
+        when :action
+          actions << klass
+        else
+          raise "Wrong type specified"
+        end
+      end
+
+      def remove(klass)
+        deletetion_result = [actions.delete(klass), conditions.delete(klass)].flatten.compact
+        raise "A '#{klass}' wasn't registered!" if deletetion_result.blank?
+      end
+
+      def actions
+        @actions ||= [
+          CustomActions::Actions::AssignedTo,
+          CustomActions::Actions::CustomField,
+          CustomActions::Actions::Date,
+          CustomActions::Actions::DoneRatio,
+          CustomActions::Actions::DueDate,
+          CustomActions::Actions::EstimatedHours,
+          CustomActions::Actions::Notify,
+          CustomActions::Actions::Project,
+          CustomActions::Actions::Priority,
+          CustomActions::Actions::Responsible,
+          CustomActions::Actions::StartDate,
+          CustomActions::Actions::Status,
+          CustomActions::Actions::Type
+        ]
+      end
+
+      def conditions
+        @conditions ||= [
+          CustomActions::Conditions::Project,
+          CustomActions::Conditions::Role,
+          CustomActions::Conditions::Status,
+          CustomActions::Conditions::Type
+        ]
+      end
     end
   end
 end
