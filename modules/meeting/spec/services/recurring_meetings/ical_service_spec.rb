@@ -73,6 +73,10 @@ RSpec.describe RecurringMeetings::ICalService, type: :model do # rubocop:disable
   end
 
   describe "exported series" do
+    it "conforms to RFC 5545 and RFC 5546" do
+      expect(result).to be_a_conforming_calendar
+    end
+
     it "contains serise and template information" do
       expect(parsed_events.count).to eq(1)
       expect(series_ical).to include("LOCATION:https://example.com/meet/important-meeting")
@@ -112,6 +116,10 @@ RSpec.describe RecurringMeetings::ICalService, type: :model do # rubocop:disable
                location: "Room 1",
                rrule: "FREQ=WEEKLY;UNTIL=20241125T140000Z",
                ical_sequence: 5)
+      end
+
+      it "conforms to RFC 5545 and RFC 5546" do
+        expect(result).to be_a_conforming_calendar
       end
 
       it "carries the frozen event alone, as a REQUEST" do
