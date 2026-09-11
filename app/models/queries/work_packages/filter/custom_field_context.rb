@@ -43,10 +43,12 @@ module Queries::WorkPackages::Filter::CustomFieldContext
     end
 
     def custom_fields(context)
-      if context&.project
+      if context&.project&.persisted?
         WorkPackageCustomField
           .filter
           .on_visible_type_and_project(projects: Project.where(id: context.project.id))
+      elsif context&.project
+        WorkPackageCustomField.filter
       else
         custom_field_class
           .filter
