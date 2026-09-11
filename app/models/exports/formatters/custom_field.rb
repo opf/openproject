@@ -32,7 +32,7 @@ module Exports
   module Formatters
     class CustomField < Default
       def self.apply?(attribute, export_format)
-        export_format != :pdf && attribute.start_with?("cf_")
+        export_format == :csv && attribute.start_with?("cf_")
       end
 
       ##

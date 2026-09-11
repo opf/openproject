@@ -55,7 +55,6 @@ module XlsExport::WorkPackage::Exporter
     end
 
     def export!
-      enable! WithTimeZone
       enable! WithDescription if with_descriptions
       enable! WithRelations if with_relations
 
@@ -63,20 +62,8 @@ module XlsExport::WorkPackage::Exporter
     end
   end
 
-  module WithTimeZone
-    def format_column_value(column, work_package)
-      value = super
-
-      if value.is_a? ActiveSupport::TimeWithZone
-        value.in_time_zone current_user.time_zone
-      else
-        value
-      end
-    end
-  end
-
   module WithDescription
-    def headers
+    def record_headers
       super + [WorkPackage.human_attribute_name(:description)]
     end
 
@@ -92,7 +79,7 @@ module XlsExport::WorkPackage::Exporter
   module WithRelations
     def add_headers!(spreadsheet)
       headers_0 = [I18n.t(:label_work_package_plural)] +
-        columns.size.times.map { |_| "" } +
+        Array.new(record_headers.size, "") +
         [I18n.t("js.work_packages.tabs.relations")]
 
       spreadsheet.add_headers headers_0, 0
@@ -103,11 +90,19 @@ module XlsExport::WorkPackage::Exporter
       # The filtered work packages columns +
       # the relations columns +
       # the columns of the work packages connected by the relations.
-      [""] + super + [""] + with_relations_headers + super
+      [""] + record_headers + [""] + with_relations_headers + record_headers
     end
 
     def rows
       super.flatten(1) # since we will now generate several rows for each original row
+    end
+
+    def column_format_indexes(index)
+      [1 + index, related_block_offset + index]
+    end
+
+    def related_block_offset
+      @related_block_offset ||= 2 + record_headers.size + with_relations_headers.size
     end
 
     def row(work_package)

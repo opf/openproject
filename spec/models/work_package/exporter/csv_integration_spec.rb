@@ -221,6 +221,37 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
     end
   end
 
+  context "with typed columns" do
+    let(:options) { { show_descriptions: false } }
+    let(:query) do
+      create(:query, project:, user:, column_names: %i(start_date done_ratio estimated_hours))
+    end
+
+    shared_let(:work_package) do
+      create(:work_package,
+             project:,
+             type: type_a,
+             start_date: Date.new(2026, 8, 24),
+             done_ratio: 25,
+             estimated_hours: 10.0)
+    end
+
+    subject(:header_value_pairs) do
+      headers, values = CSV.parse instance.export!.content
+      headers.zip(values)
+    end
+
+    it "keeps rendering formatted strings" do
+      expect(header_value_pairs).to eq [
+        ["#{byte_order_mark}Start date", "08/24/2026"],
+        ["% Complete", "25"],
+        ["Total % complete", ""],
+        ["Work", "10.0"],
+        ["Total work", ""]
+      ]
+    end
+  end
+
   context "with multiple work packages" do
     shared_let(:wp1) { create(:work_package, project:, done_ratio: 25, subject: "WP1", type: type_a, id: 1) }
     shared_let(:wp2) { create(:work_package, project:, done_ratio: 0, subject: "WP2", type: type_a, id: 2) }
