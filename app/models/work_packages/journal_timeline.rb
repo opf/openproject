@@ -109,7 +109,7 @@ class WorkPackages::JournalTimeline
 
   def filtered_journals
     filters
-      .joins(journals_join)
+      .joins(:journal)
       .where(interval_condition)
       .select(journal_selects)
   end
@@ -122,14 +122,6 @@ class WorkPackages::JournalTimeline
       "#{Journal.table_name}.validity_period",
       "#{Journal.table_name}.updated_at"
     ]
-  end
-
-  def journals_join
-    sanitize(<<~SQL.squish, data_type: journal_class.name)
-      INNER JOIN #{Journal.table_name}
-        ON #{Journal.table_name}.data_id = #{journal_class.table_name}.id
-       AND #{Journal.table_name}.data_type = :data_type
-    SQL
   end
 
   def interval_condition
