@@ -246,7 +246,7 @@ RSpec.describe "API v3 Work package resource",
   end
 
   describe "GET /api/v3/work_packages/:id?timestamps=" do
-    let(:timestamps_param) { CGI.escape(timestamps.map(&:to_s).join(",")) }
+    let(:timestamps_param) { CGI.escape(timestamps.join(",")) }
     let(:get_path) { "#{api_v3_paths.work_package(work_package.id)}?timestamps=#{timestamps_param}" }
 
     describe "response body" do
@@ -325,6 +325,33 @@ RSpec.describe "API v3 Work package resource",
                     .to be_json_eql("PT0S".to_json)
                     .at_path("_embedded/attributesByTimestamp/1/_meta/timestamp")
                 end
+              end
+            end
+          end
+
+          describe "update links" do
+            context "when last timestamp is current" do
+              it "has the update links" do
+                expect(subject).to have_json_path("_links/update/href")
+                expect(subject).to have_json_path("_links/updateImmediately/href")
+              end
+            end
+
+            context "when requesting with one timestamp in the past" do
+              let(:timestamps) { [Timestamp.parse("P-2D")] }
+
+              it "has no update links because the historic state cannot be edited" do
+                expect(subject).not_to have_json_path("_links/update/href")
+                expect(subject).not_to have_json_path("_links/updateImmediately/href")
+              end
+            end
+
+            context "when requesting with two timestamps in the past" do
+              let(:timestamps) { [Timestamp.parse("P-5D"), Timestamp.parse("P-2D")] }
+
+              it "has no update links because the historic state cannot be edited" do
+                expect(subject).not_to have_json_path("_links/update/href")
+                expect(subject).not_to have_json_path("_links/updateImmediately/href")
               end
             end
           end
@@ -471,10 +498,6 @@ RSpec.describe "API v3 Work package resource",
 
             before do
               travel_to(business_day_at_noon)
-            end
-
-            after do
-              travel_back
             end
 
             it "has an embedded link to the baseline work package" do
