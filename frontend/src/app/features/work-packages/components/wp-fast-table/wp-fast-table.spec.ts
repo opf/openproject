@@ -64,4 +64,28 @@ describe('WorkPackageTable', () => {
     expect(cells.map((cell) => cell.dataset.classIdentifier)).toEqual(['wp-row-1', 'wp-row-2']);
     expect(cells.map((cell) => cell.dataset.workPackageId)).toEqual(['1', '2']);
   });
+
+  it('paints a pre-selected and the current work package at build time', async () => {
+    harness = buildTable({ workPackages: [{ id: '1' }, { id: '2' }, { id: '3' }] });
+    harness.selection.initializeSelection(['2']);
+    harness.focus.updateFocus('3', false, false);
+
+    await harness.render();
+
+    expect(harness.row('2')).toHaveClass('-checked');
+    expect(harness.row('3')).toHaveClass('-pressed');
+    expect(harness.row('1')).not.toHaveClass('-checked');
+    expect(harness.row('1')).not.toHaveClass('-pressed');
+  });
+
+  it('repaints when the current work package changes', async () => {
+    harness = buildTable({ workPackages: [{ id: '1' }, { id: '2' }] });
+    await harness.render();
+
+    harness.focus.updateFocus('1', false, false);
+    harness.focus.updateFocus('2', false, false);
+
+    expect(harness.row('1')).not.toHaveClass('-pressed');
+    expect(harness.row('2')).toHaveClass('-pressed');
+  });
 });
