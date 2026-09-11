@@ -124,11 +124,8 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
   protected override init():void {
     super.init();
     const numericId = this.workPackage.id!;
+    this.wpTableSelection.ensureSelected(numericId);
     this.wpTableFocus.updateFocus(numericId, false);
-
-    if (this.wpTableSelection.isEmpty) {
-      this.wpTableSelection.setRowState(numericId, true);
-    }
 
     this.recentItemsService.add(numericId);
   }
