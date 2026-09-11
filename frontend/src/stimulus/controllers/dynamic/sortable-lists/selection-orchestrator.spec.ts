@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { usePlatform } from 'core-common/testing/platform';
 import { LiveRegionElement } from '@primer/live-region-element';
 import { type MockInstance } from 'vitest';
 import type { SelectionHost } from './selection-orchestrator';
@@ -65,6 +66,8 @@ describe('SelectionOrchestrator', () => {
     };
   }
 
+  const pretendPlatform = usePlatform();
+
   beforeEach(() => {
     busy = false;
     focused = null;
@@ -103,29 +106,11 @@ describe('SelectionOrchestrator', () => {
     window.I18n.store({ en: { js: { sortable_lists: { selection: selectionTranslations } } } });
   });
 
-  const userAgentDataDescriptor = Object.getOwnPropertyDescriptor(navigator, 'userAgentData');
-
   afterEach(() => {
     root.remove();
     document.querySelector('live-region')?.remove();
     announceSpy.mockRestore();
-    restorePlatform();
   });
-
-  function pretendPlatform(platform:string):void {
-    Object.defineProperty(navigator, 'userAgentData', {
-      value: { platform },
-      configurable: true,
-    });
-  }
-
-  function restorePlatform():void {
-    if (userAgentDataDescriptor) {
-      Object.defineProperty(navigator, 'userAgentData', userAgentDataDescriptor);
-    } else {
-      delete (navigator as { userAgentData?:unknown }).userAgentData;
-    }
-  }
 
   // Type-qualified, because the fixture deliberately holds a section and a
   // work package that share id 1 — the collision a nested topology makes
