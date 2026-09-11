@@ -494,13 +494,10 @@ RSpec.describe AccountController, :skip_2fa_stage do
     describe "GET" do
       render_views
 
-      it "renders an auto-submitting POST form to some_provider" do
+      it "redirects to the OmniAuth start form for some_provider" do
         get :login
 
-        expect(response).to render_template "omniauth_direct_login"
-        expect(response.body).to include('action="/auth/some_provider"')
-        expect(response.body).to include('method="post"')
-        expect(response.body).to include('data-controller="omniauth-direct-login"')
+        expect(response).to redirect_to omniauth_login_path("some_provider")
       end
     end
 

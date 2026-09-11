@@ -53,6 +53,10 @@ class AuthProvider < ApplicationRecord
     raise SubclassResponsibilityError
   end
 
+  def csp_form_action_origin
+    raise SubclassResponsibilityError
+  end
+
   def auth_url
     root_url = OpenProject::StaticRouting::StaticUrlHelpers.new.root_url
     URI.join(root_url, "auth/#{slug}/").to_s
@@ -68,5 +72,16 @@ class AuthProvider < ApplicationRecord
     if Setting.omniauth_direct_login_provider == slug
       Setting.omniauth_direct_login_provider = ""
     end
+  end
+
+  def origin_from_redirect_url(url)
+    return if url.blank?
+
+    uri = URI.parse(url.to_s)
+    return unless uri.scheme.in?(%w[http https]) && uri.host.present?
+
+    URI.join(uri, "/").to_s
+  rescue URI::InvalidURIError, ArgumentError
+    nil
   end
 end

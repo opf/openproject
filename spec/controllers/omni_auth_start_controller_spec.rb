@@ -30,21 +30,35 @@
 
 require "spec_helper"
 
-RSpec.describe AuthProvider do
-  describe "#available=" do
-    it "unsets the direct login provider when disabled" do
-      provider = create(:oidc_provider)
-      Setting.omniauth_direct_login_provider = provider.slug
+RSpec.describe OmniAuthStartController do
+  render_views
 
-      provider.update!(available: false)
+  describe "GET #show" do
+    it "renders an auto-submitting POST form to the provider" do
+      get :show, params: { provider: "developer" }
 
-      expect(Setting.omniauth_direct_login_provider).to be_blank
+      expect(response).to render_template "account/omniauth_direct_login"
+      expect(response.body).to include('action="/auth/developer"')
+      expect(response.body).to include('method="post"')
+      expect(response.body).to include('data-controller="omniauth-direct-login"')
     end
-  end
 
-  describe "#csp_form_action_origin" do
-    it "raises SubclassResponsibilityError on the abstract base class" do
-      expect { described_class.new.csp_form_action_origin }.to raise_error(SubclassResponsibilityError)
+    it "returns 404 for an unknown provider" do
+      get :show, params: { provider: "unknown" }
+
+      expect(response).to have_http_status :not_found
+    end
+
+    context "when already logged in" do
+      let(:user) { create(:user) }
+
+      before { login_as user }
+
+      it "redirects after login" do
+        get :show, params: { provider: "developer" }
+
+        expect(response).to redirect_to home_path
+      end
     end
   end
 end
