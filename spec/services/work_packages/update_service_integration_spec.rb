@@ -175,6 +175,38 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
       end
     end
 
+    describe "time entry costs" do
+      shared_let(:logging_user) { create(:user) }
+
+      let!(:source_rate) do
+        create(:hourly_rate, user: logging_user, project:, rate: 10.0, valid_from: 2.years.ago)
+      end
+      let!(:target_rate) do
+        create(:hourly_rate, user: logging_user, project: target_project, rate: 99.0, valid_from: 2.years.ago)
+      end
+      let!(:time_entry) do
+        create(:time_entry,
+               project:,
+               entity: work_package,
+               user: logging_user,
+               logged_by: logging_user,
+               hours: 2.0)
+      end
+
+      it "recalculates the costs using the target project's rate", :aggregate_failures do
+        expect(time_entry.reload.costs).to eq(20.0)
+
+        expect(subject)
+          .to be_success
+
+        time_entry.reload
+
+        expect(time_entry.project_id).to eq(target_project.id)
+        expect(time_entry.rate).to eq(target_rate)
+        expect(time_entry.costs).to eq(198.0)
+      end
+    end
+
     describe "memberships" do
       let(:wp_role) { create(:work_package_role, permissions: [:view_work_packages]) }
       let(:other_user) { create(:user) }
