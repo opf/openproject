@@ -41,6 +41,8 @@ class WorkPackage::PDFExport::Artefact < Exports::Exporter
   include Exports::PDF::Artefact::Cover
   include Exports::PDF::Artefact::Styles
   include Exports::PDF::Artefact::Toc
+  include Exports::PDF::Artefact::Lifecycle
+  include Exports::PDF::Artefact::Budgets
   include WorkPackage::PDFExport::Common::MarkdownField
   include WorkPackage::PDFExport::Wp::Attributes
 
@@ -49,6 +51,8 @@ class WorkPackage::PDFExport::Artefact < Exports::Exporter
   self.model = WorkPackage
 
   DEFAULT_TOC = true
+  DEFAULT_INCLUDE_LIFECYCLE = true
+  DEFAULT_INCLUDE_BUDGET = true
 
   alias :work_package :object
 
@@ -200,13 +204,27 @@ class WorkPackage::PDFExport::Artefact < Exports::Exporter
 
   def write_artefact
     write_artefact_project_attributes
+    write_artefact_lifecycle if with_lifecycle?
+    write_artefact_budgets if with_budget?
     write_artefact_wp_attributes
   end
 
   def with_toc?
-    return DEFAULT_TOC if options[:toc].nil?
+    boolean_option(:toc, DEFAULT_TOC)
+  end
 
-    ActiveModel::Type::Boolean.new.cast(options[:toc])
+  def with_lifecycle?
+    boolean_option(:include_lifecycle, DEFAULT_INCLUDE_LIFECYCLE)
+  end
+
+  def with_budget?
+    boolean_option(:include_budget, DEFAULT_INCLUDE_BUDGET) && budget_enabled? && budget_allowed?
+  end
+
+  def boolean_option(key, default)
+    return default if options[key].nil?
+
+    ActiveModel::Type::Boolean.new.cast(options[key])
   end
 
   def toc_entries
@@ -214,15 +232,36 @@ class WorkPackage::PDFExport::Artefact < Exports::Exporter
   end
 
   def build_toc_entries
-    entries = collect_project_attributes_data.filter_map do |section|
+    build_project_attributes_toc_entries +
+      build_lifecycle_toc_entries +
+      build_budget_toc_entries +
+      build_wp_attribute_group_toc_entries
+  end
+
+  def build_project_attributes_toc_entries
+    collect_project_attributes_data.filter_map do |section|
       next if section[:fields].empty?
 
       toc_entry("project_section_#{section[:section_id]}", section[:caption])
     end
-    work_package.type_variant.attribute_groups.each do |group|
-      entries << toc_entry("wp_group_#{group.key}", group.translated_key)
+  end
+
+  def build_lifecycle_toc_entries
+    return [] unless with_lifecycle? && lifecycle_section?
+
+    [toc_entry("lifecycle", I18n.t("pdf_generator.dialog.include_lifecycle.label"))]
+  end
+
+  def build_budget_toc_entries
+    return [] unless with_budget? && budget_section?
+
+    [toc_entry("budgets", I18n.t("pdf_generator.dialog.include_budget.label"))]
+  end
+
+  def build_wp_attribute_group_toc_entries
+    work_package.type_variant.attribute_groups.map do |group|
+      toc_entry("wp_group_#{group.key}", group.translated_key)
     end
-    entries
   end
 
   def toc_entry(key, title)

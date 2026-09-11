@@ -417,9 +417,9 @@ module Exports::PDF::Common::Common
     prawn_draw_vertical_border(colors[3], widths[3], bounds.bottom, bounds.top, bounds.left) if borders.include?(:left)
   end
 
-  def write_optional_page_break
+  def write_optional_page_break(threshold: styles.page_break_threshold)
     space_from_bottom = pdf.y - pdf.bounds.bottom
-    if space_from_bottom < styles.page_break_threshold
+    if space_from_bottom < threshold
       pdf.start_new_page
     end
   end
