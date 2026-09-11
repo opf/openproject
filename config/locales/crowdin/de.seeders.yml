@@ -250,70 +250,26 @@ de:
                 In diesem Modul können Sie Projektnachrichten an Ihre Teammitglieder weiterleiten.
           versions:
             item_0:
-              name: Bug Backlog
-            item_1:
-              name: Produkt Backlog
-            item_2:
-              name: Sprint 1
               wiki:
-                title: Sprint 1
+                title: Release 1.0
                 content: |
-                  ### Sprint Planungsmeeting
+                  ### Release 1.0
 
-                  _Bitte dokumentieren Sie hier Themen zum Sprint Planungsmeeting_
+                  _Please document here what this release contains._
 
-                  * Zeitrahmen (8 Stunden)
-                  * Eingabe: Produkt-Backlog
-                  * Ausgabe: Sprint-Backlog
-
-                  * Aufgeteilt in zwei zusätzliche Zeitfelder von 4 Stunden:
-
-                      * Der Product Owner stellt das [Produkt-Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) und die Prioritäten dem Team vor und erklärt das Sprint-Ziel. Dem muss das Team zustimmen. Gemeinsam priorisieren sie die Themen aus dem Produkt-Backlog, um die sich das Team im nächsten Sprint kümmern wird. Das Team verpflichtet sich zur diskutierten Auslieferung.
-                      * Das Team plant eigenständig (ohne den Produkteigentümer) und unterteilt die Aufgaben aus den diskutierten Anforderungen zur Konsolidierung eines [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
-
-
-                  ### Tägliches Scrum Meeting
-
-                  _Bitte dokumentieren Sie hier Themen zum täglichen Scrum Meeting_
-
-                  * Kurze, tägliche Status-Sitzung des Teams.
-                  * Zeitrahmen (max. 15 Minuten).
-                  * Stand-up-Meeting, um die folgenden Themen vom [Task Board](##sprint:scrum_project__version__sprint_1).
-                      * Was mache ich bis zum nächsten täglichen Scrum?
-                      * Was hat meine Arbeit blockiert (Impediments)?
-                  * Scrum Master moderiert [Sprint Impediments](##sprint:scrum_project__version__sprint_1).
-                  * Der Product Owner kann optional teilnehmen, um auf dem Laufenden zu bleiben.
-
-                  ### Sprint Review Meeting
-
-                  _Bitte dokumentieren Sie hier Themen zum Sprint Review Meeting_
-
-                  * Zeitrahmen (4 Stunden).
-                  * Maximal eine Stunde Vorbereitungszeit pro Person.
-                  * Das Team zeigt dem Product Owner und anderen beteiligten Personen (Stakeholder), was in diesem Sprint erreicht wurde.
-                  * Wichtig: Keine Attrappen und kein PowerPoint!
-                  * Feedback von Product Ownern, Stakeholdern und anderen ist gewünscht und wird in die weitere Arbeit aufgenommen.
-                  * Basierend auf den nachgewiesenen Funktionalitäten entscheidet sich der Product Owner, diesen Stand abzunehmen oder weiterzuentwickeln. Diese Möglichkeit ermöglicht eine frühzeitige ROI.
-
-
-                  ### Sprint Retrospektive
-
-                  _Bitte dokumentieren Sie hier Themen zum Sprint Retrospektive Meeting_
-
-                  * Zeitrahmen (3 h).
-                  * Erfolgt nach dem Sprint Review und wird vom Scrum Master moderiert.
-                  * Das Team diskutiert den Sprint: Was gut gelaufen ist sowie was verbessert werden muss, um für den nächsten Sprint produktiver zu sein oder sogar noch mehr Spaß zu haben.
-            item_3:
-              name: Sprint 2
+                  * The work packages of this release are the ones with the target version 1.0.
+                  * The release date is the date of the *Release v1.0* milestone.
+                  * Open the [Roadmap]({{opSetting:base_url}}/projects/your-scrum-project/roadmap) to follow the progress of all versions.
+                  * Open [Project settings &rightarrow; Versions]({{opSetting:base_url}}/projects/your-scrum-project/settings/versions) to link another wiki page to a version.
           categories:
             item_0: Kategorie 1 (zu ändern in den Projekteinstellungen)
           queries:
             item_0:
               name: Projektplan
             item_1:
-              name: Produkt-Backlog
+              name: Version 1.1
             item_2:
-              name: Sprint 1
+              name: Version 1.0
             item_3:
               name: Aufgaben
           boards:

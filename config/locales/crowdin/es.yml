@@ -865,6 +865,9 @@ es:
               query_invalid: 'La consulta insertada «%{group}» no es válida: %{details}'
             base:
               borrowed_by_variants: No se puede eliminar mientras %{names} esté reutilizando su configuración.
+              inherits_from_project_owned: 'This variant currently inherits from a project-specific variant and cannot be converted to a global variant.
+
+                '
               is_default_variant: La configuración predeterminada de un tipo no se puede eliminar.
               project_variants_not_allowed: This type does not allow creation of variants inside projects.
               restrict_dependent_destroy:
@@ -6583,7 +6586,7 @@ es:
         filter_no_results: No hay variantes que coincidan con este filtro
         global_section:
           description: These variants are available across all projects.
-          title: Variants
+          title: Global variants
         project_specific_section:
           description: These variants are only available within the projects in which they were created.
           title: Project-specific variants
@@ -6592,6 +6595,17 @@ es:
     index:
       add_variant: Add a variant to %{name}
       add_variant_action: Añadir variante
+      convert_to_global: Convert to global variant
+      convert_to_global_dialog:
+        confirm: Convert
+        text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
+
+          '
+      convert_to_global_notice: "%{name} is now a global variant."
+      convert_to_global_rename:
+        confirm: Convert
+        text: A global variant with this name already exists. Please choose a different name.
+        title: Pick another name for this variant
       description: 'Cada área de configuración dentro de los tipos y variantes puede configurarse de forma independiente, limitarse con respecto a otro tipo o vincularse por completo a una fuente.
 
         '

@@ -864,6 +864,9 @@ zh-CN:
               query_invalid: 嵌入式查询 '%{group}' 无效：%{details}
             base:
               borrowed_by_variants: 无法删除，其配置被 %{names} 重复使用。
+              inherits_from_project_owned: 'This variant currently inherits from a project-specific variant and cannot be converted to a global variant.
+
+                '
               is_default_variant: 无法删除类型的默认配置。
               project_variants_not_allowed: This type does not allow creation of variants inside projects.
               restrict_dependent_destroy:
@@ -6426,7 +6429,7 @@ zh-CN:
         filter_no_results: 没有任何变体匹配此筛选条件
         global_section:
           description: These variants are available across all projects.
-          title: Variants
+          title: Global variants
         project_specific_section:
           description: These variants are only available within the projects in which they were created.
           title: Project-specific variants
@@ -6435,6 +6438,17 @@ zh-CN:
     index:
       add_variant: Add a variant to %{name}
       add_variant_action: 添加变体
+      convert_to_global: Convert to global variant
+      convert_to_global_dialog:
+        confirm: Convert
+        text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
+
+          '
+      convert_to_global_notice: "%{name} is now a global variant."
+      convert_to_global_rename:
+        confirm: Convert
+        text: A global variant with this name already exists. Please choose a different name.
+        title: Pick another name for this variant
       description: '类型和变体内的每个配置区域都可以独立配置、受限于另一种类型，或者完全关联到一个源类型。
 
         '

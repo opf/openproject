@@ -250,70 +250,26 @@ lt:
                 Šiame modulyje jūs galite iškomunikuoti projekto naujienas jūsų komandos nariams.
           versions:
             item_0:
-              name: Neištaisyti riktai
-            item_1:
-              name: Neatlikti produkto darbai
-            item_2:
-              name: Sprintas 1
               wiki:
-                title: Sprintas 1
+                title: Release 1.0
                 content: |
-                  ### Sprinto planavimo susitikimas
+                  ### Release 1.0
 
-                  _Prašome čia dokumentuoti Sprinto planavimo susitikimo temas_
+                  _Please document here what this release contains._
 
-                  * Laikas (8 val)
-                  * Įvestis: Produkto likę darbai
-                  * Rezultatas: Sprinto likę darbai
-
-                  * Padalinta į du papildomus laikus po 4 val:
-
-                      * Produkto savininkas pristato komandai [Produkto likusius darbus]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) ir prioritetus bei paaiškina Sprinto tikslą, su kuriuo komanda turi sutikti. Kartu jie prioritetizuoja likusių produkto darbų temas, kuriomis komanda užsiims kito sprinto metu. Komanda įsipareigoja dėl aptartų rezultatų.
-                      * Komanda detaliai planuoja autonomiškai (be Produkto savininko), padalina aptartų tikslų užduotis ir konsoliduoja [Likusius sprinto darbus]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
-
-
-                  ### Kasdieninis Scrum susitikimas
-
-                  _Prašome čia dokumentuoti kasdieninio Scrum susitikimo temas_
-
-                  * Trumpas, kasdieninis komandos būsenos susitikimas.
-                  * Laikas (ne daugiau 15 min).
-                  * Stovimas susitikimas šių temų iš [Užduočių lentos](##sprint:scrum_project__version__sprint_1) aptarimui.
-                      * Ką aš planuoju daryti iki kito kasdieninio Scrum susitikimo?
-                      * Kas blokuoja mano darbą (Trukdžiai)?
-                  * Scrum vadovas moderuoja ir užsirašo [Sprinto trukdžius](##sprint:scrum_project__version__sprint_1).
-                  * Produkto savininkas gali dalyvauti, kad būtų informuotas.
-
-                  ### Sprinto peržiūros susitikimas
-
-                  _Prašome čia dokumentuoti Sprinto peržiūros susitikimo temas_
-
-                  * Laikas (4 h).
-                  * Daugiausia vienos valandos pasiruošimas vienam asmeniui.
-                  * Komanda parodo produkto savininkui ir kitims suinteresuotiems asmenims, kas buvo pasiekta šiame sprinte.
-                  * Svarbu: jokių maketų ir jokių skaidrių! Turi būti demonstruojamas tik baigtas produkto funkcionalumas (padidėjimas).
-                  * Produkto savininko, suinteresuotų asmenų ir kitų grįžtamasis ryšys pageidaujamas ir bus įtrauktas į ateities darbus.
-                  * Priklausomai nuo pademonstruoto funkcionalumo, Produkto savininkas nusprendžia ar ar diegti šį padidėjimą, ar dar toliau jį vystyti. Ši galimybė leidžia ankstyvą ROI.
-
-
-                  ### Sprinto retrospektyva
-
-                  _Prašome čia dokumentuoti Sprinto retrospektyvos susitikimo temas_
-
-                  * Laikas (3 h).
-                  * Po Sprinto peržiūros, moderuoja Scrum vadovas.
-                  * Komanda aptaria sprintą: kas suveikė gerai, ką reikia pagerinti norint padidinti kitų sprintų produktyvumą ar net labiau pasilinksminti.
-            item_3:
-              name: Sprintas 2
+                  * The work packages of this release are the ones with the target version 1.0.
+                  * The release date is the date of the *Release v1.0* milestone.
+                  * Open the [Roadmap]({{opSetting:base_url}}/projects/your-scrum-project/roadmap) to follow the progress of all versions.
+                  * Open [Project settings &rightarrow; Versions]({{opSetting:base_url}}/projects/your-scrum-project/settings/versions) to link another wiki page to a version.
           categories:
             item_0: Kategorija 1 (keičiama Projekto nustatymuose)
           queries:
             item_0:
               name: Projekto planas
             item_1:
-              name: Produkto darbų sąrašas
+              name: Version 1.1
             item_2:
-              name: Sprintas 1
+              name: Version 1.0
             item_3:
               name: Užduotys
           boards:

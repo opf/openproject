@@ -250,69 +250,26 @@ fr:
                 Dans ce module, vous pouvez communiquer les actualités du projet aux membres de votre équipe.
           versions:
             item_0:
-              name: Backlog des bugs
-            item_1:
-              name: Backlog des produits
-            item_2:
-              name: Sprint 1
               wiki:
-                title: Sprint 1
+                title: Release 1.0
                 content: |
-                  ### Réunion de planification du sprint
+                  ### Release 1.0
 
-                  _Veuillez documenter ici les sujets de la réunion de planification du sprint_
+                  _Please document here what this release contains._
 
-                  * Temps prévu (8 h)
-                  * Entrée : backlog du produit
-                  * Sortie : backlog du sprint
-
-                  * Divisé en deux périodes de temps supplémentaires de 4 h :
-
-                      * Le propriétaire du produit présente le [Backlog du produit]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) et les priorités à l'équipe et explique l'objectif du sprint, que l'équipe doit accepter. Ensemble, ils priorisent les sujets du Backlog du produit dont l'équipe s'occupera lors du prochain sprint. L'équipe s'engage à réaliser la livraison convenue.
-                      * L'équipe planifie de manière autonome (sans le Propriétaire du produit) en détail et décompose les tâches des exigences discutées pour consolider un [Backlog du sprint]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
-
-                  ### Réunion quotidienne Scrum
-
-                  _Veuillez documenter ici les sujets de la réunion quotidienne Scrum_
-
-                  * Courte réunion d'étape quotidienne de l'équipe.
-                  * Temps prévu (max. 15 min).
-                  * Réunion debout pour discuter des sujets suivants du [Tableau de travail](##sprint:scrum_project__version__sprint_1).
-                      * Que dois-je faire jusqu'au prochain Scrum quotidien ?
-                      * Qu'est-ce qui a bloqué mon travail (obstacles) ?
-                  * Le Maître Scrum gère la modération et prend des notes [Obstacles du sprint](##sprint:scrum_project__version__sprint_1).
-                  * Le Propriétaire du produit peut participer pour se maintenir au courant.
-
-                  ### Réunion d'examen du sprint
-
-                  _Veuillez documenter ici les sujets de la réunion d'examen du sprint_
-
-                  * Temps prévu (4 h).
-                  * Un maximum d'une heure de préparation par personne.
-                  * L'équipe montre au Propriétaire du produit et aux autres personnes intéressées ce qui a été réalisé au cours de ce sprint.
-                  * Important : pas de maquettes et pas de PowerPoint ! Il suffit de démontrer la fonctionnalité du produit fini (incréments).
-                  * Les commentaires du Propriétaire du produit, des intervenants et d'autres personnes sont recueillis et seront inclus dans les travaux ultérieurs.
-                  * Sur la base des fonctionnalités démontrées, le Propriétaire du produit décide de mettre en œuvre cet incrément ou de le développer davantage. Cette possibilité permet un RSI précoce.
-
-
-                  ### Rétrospective du sprint
-
-                  _Veuillez documenter ici les sujets de la réunion rétrospective du sprint_
-
-                  * Temps prévu (3 h).
-                  * Après l'examen du sprint, elle sera modérée par le Maître Scrum.
-                  * L'équipe discute du sprint : ce qui s'est bien passé, ce qui doit être amélioré pour améliorer la productivité pour le prochain sprint ou même avoir plus de plaisir.
-            item_3:
-              name: Sprint 2
+                  * The work packages of this release are the ones with the target version 1.0.
+                  * The release date is the date of the *Release v1.0* milestone.
+                  * Open the [Roadmap]({{opSetting:base_url}}/projects/your-scrum-project/roadmap) to follow the progress of all versions.
+                  * Open [Project settings &rightarrow; Versions]({{opSetting:base_url}}/projects/your-scrum-project/settings/versions) to link another wiki page to a version.
           categories:
             item_0: Catégorie 1 (à modifier dans les paramètres du projet)
           queries:
             item_0:
               name: Plan de projet
             item_1:
-              name: Backlog de produit
+              name: Version 1.1
             item_2:
-              name: Sprint 1
+              name: Version 1.0
             item_3:
               name: Tâches
           boards:

@@ -865,6 +865,9 @@ sv:
               query_invalid: 'Den inbäddade frågan ''%{group}'' är ogiltigt: %{details}'
             base:
               borrowed_by_variants: Kan inte tas bort medan dess konfiguration återanvänds av %{names}.
+              inherits_from_project_owned: 'This variant currently inherits from a project-specific variant and cannot be converted to a global variant.
+
+                '
               is_default_variant: Standardkonfigurationen för en typ kan inte tas bort.
               project_variants_not_allowed: Den här typen tillåter inte att varianter skapas i projekt.
               restrict_dependent_destroy:
@@ -6582,7 +6585,7 @@ sv:
         filter_no_results: Inga varianter matchar filtret
         global_section:
           description: Dessa varianter är tillgängliga i alla projekt.
-          title: Varianter
+          title: Global variants
         project_specific_section:
           description: Dessa varianter är endast tillgängliga i de projekt där de skapades.
           title: Projektspecifika varianter
@@ -6591,6 +6594,17 @@ sv:
     index:
       add_variant: Lägg till en variant till %{name}
       add_variant_action: Lägg till variant
+      convert_to_global: Convert to global variant
+      convert_to_global_dialog:
+        confirm: Convert
+        text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
+
+          '
+      convert_to_global_notice: "%{name} is now a global variant."
+      convert_to_global_rename:
+        confirm: Convert
+        text: A global variant with this name already exists. Please choose a different name.
+        title: Pick another name for this variant
       description: 'Varje konfigurationsområde i typer och varianter kan konfigureras separat, begränsas från en annan typ eller kopplas helt till en källa.
 
         '

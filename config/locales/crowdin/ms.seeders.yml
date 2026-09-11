@@ -235,25 +235,26 @@ ms:
                 Dalam modul ini, anda boleh menyampaikan berita projek ke ahli pasukan anda.
           versions:
             item_0:
-              name: Bug Tunggakan
-            item_1:
-              name: Tunggakan Produk
-            item_2:
-              name: Pecutan 1
               wiki:
-                title: Pecutan 1
-                content: "### Pecutan pelan mesyuarat\n\n_Sila dokumen di sini topik untuk Pecutan perancangan mesyuarat_\n\n* Kotak masa (8 j)\n* Input: Tunggakan Produk\n* Output: Tunggakan Pecutan\n\n* Dibahagi kepada dua kotak masa tambahan selama 4 j:\n\n    * Pemilik produk menyampaikan [Tunggakan Produk]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) dan keutamaan kepada pasukan dan menjelaskan Matlamat Pecutan, di mana pasukan harus mempersetujuinya. Bersama-sama mereka mengutamakan topik dari Tunggakan Produk yang akan ditangani dalam pecutan seterusnya. Pasukan memberi komitmen terhadap penghantaran yang telah dibincangkan.\n    * Pasukan merancang secara autonomi (tanpa pemilik produk) dengan terperinci dan memecahkan tugasan-tugasan dari keperluan yang dibincangkan untuk menyusun sebuah [Tunggakan Pecutan]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).\n\n\n### Mesyuarat Harian Scrum\n\n_Sila dokumen di sini topik untuk mesyuarat Harian Scrum_\n\n* Pendek, status harian mesyuarat pasukan.\n* Kotak masa (maks. 15 minit).\n* Mesyuarat stand-up untuk membincangkan topik-topik berikut dari [Board tugasan](##sprint:scrum_project__version__sprint_1).\n    * Apa yang saya rancang untuk lakukan sehingga mesyuarat harian Scrum?\n    * Apa yang telah menghalang kerja saya (Halangan)? \n* Ketua Scrum menyelia dan mencatat [Halangan Pecutan](##sprint:scrum_project__version__sprint_1).\n* Pemilik produk boleh mengambil bahagian untuk kekal maklum.\n\n### Mesyuarat Semakan Pecutan\n\n_Sila dokumen di sini topik untuk mesyuarat Semakan Pecutan_\n\n* Kotak masa (4 j).\n* Maksimum 1 jam masa persediaan bagi setiap orang.\n* Pasukan menunjukkan kepada pemilik produk dan orang lain yang berminat tentang apa yang telah dicapai dalam pecutan ini.\n* Penting: tiada model dan tiada PowerPoint! Hanya fungsi (Peningkatan) perlu dipamerkan.\n* Maklum balas Pemilik Produk, pihak berkepentingan, dan orang lain dikehendaki dan akan dimasukkan dalam kerja seterusnya.\n* Berdasarkan kefungsian yang ditunjukkan, Pemilik Produk memutuskan untuk mengimplementasikan peningkatan ini atau untuk membangunkannya lebih lanjut. Kemungkinan ini membolehkan Pulangan Pelaburan (ROI) lebih awal.\n\n\n### Retrospektif Pecutan\n\n_Sila dokumen di sini topik untuk mesyuarat Retrospektif Pecutan_\n\n* Kotak masa (3 j).\n* Setelah Semakan Pecutan, ia akan dikendalikan oleh Ketua Scrum.\n* Pasukan membincangkan pecutan: apa yang berjalan lancar, apa yang perlu diperbaiki untuk menjadi lebih produktif untuk pecutan seterusnya atau lebih menyeronokkan.\n"
-            item_3:
-              name: Pecutan 2
+                title: Release 1.0
+                content: |
+                  ### Release 1.0
+
+                  _Please document here what this release contains._
+
+                  * The work packages of this release are the ones with the target version 1.0.
+                  * The release date is the date of the *Release v1.0* milestone.
+                  * Open the [Roadmap]({{opSetting:base_url}}/projects/your-scrum-project/roadmap) to follow the progress of all versions.
+                  * Open [Project settings &rightarrow; Versions]({{opSetting:base_url}}/projects/your-scrum-project/settings/versions) to link another wiki page to a version.
           categories:
             item_0: Kategori 1 (untuk diubah dalam tetapan Projek)
           queries:
             item_0:
               name: Pelan projek
             item_1:
-              name: Tunggakan produk
+              name: Version 1.1
             item_2:
-              name: Pecutan 1
+              name: Version 1.0
             item_3:
               name: Tugasan-tugasan
           boards:

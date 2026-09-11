@@ -250,69 +250,26 @@
                 I denne modulen kan du kommunisere nyheter om prosjektet til medlemmene i teamet.
           versions:
             item_0:
-              name: Forsinkelser feilretting
-            item_1:
-              name: Produktforsinkelser
-            item_2:
-              name: Etappe 1
               wiki:
-                title: Etappe 1
+                title: Release 1.0
                 content: |
-                  ### Planleggingsmøte for etappe
+                  ### Release 1.0
 
-                  _Sett inn emnene for møtet her_
+                  _Please document here what this release contains._
 
-                  * Tid satt av (8 t)
-                  * Input: Produkt Forsinkelser
-                  * Output: Etappe Forsinkelser
-
-                  * Delt i to bolker på 4 timer:
-
-                      * Eieren av produktet presenterer [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) og prioriteringene til teamet, og forklarer etappens mål.  Teamet må være enige i dette. De må sammen prioritere emnene fra produkt-forsnkelsene som teamet skal ta tak i på neste etappe.  Teamet forplikter seg til det som har blitt diskutert.
-                      * Teamet planlegger på egnehånd (uten produkteier) i detalj og bryter ned oppgavene fra diskusjonen for å konsolidere en [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
-
-
-                  ### Daglig Scrum-møte
-
-                  _Sett inn emnene for møtet her_
-
-                  * Kort oppsummering av status fra teamet.
-                  * Tid avsatt (maks 15 min).
-                  * Stående møte for å diksutere de følgende emnene fra [Oppgavetavle](##sprint:scrum_project__version__sprint_1).
-                      * Hva planlegger jeg å gjøre til neste daglige Scrum-møte?
-                      * Hva har hindret meg i arbeidet (Hindringer)?
-                  * Scrum-leder leder møtet og noterer [Sprint Impediments](##sprint:scrum_project__version__sprint_1).
-                  * Produkteier kan delta for å holde seg oppdatert.
-
-                  ### Etappe evalueringsmøte
-
-                  _Sett inn emner for evalueringsmøtet her_
-
-                  * Avsatt tid (4 timer).
-                  * Maks en times forberedelsestid per person.
-                  * Teamet viser produkteier og andre interesserte hva som er oppnådd i denne etappen.
-                  *Viktig: ingen "dummies" og ingen Powerpoint! Bare fullførte funksjonaliteter (fremganger) bør demonstreses.
-                  * Tilbakemeldinger fra produkteier, aksjeeiere og andre er ønsket, og vil bli inkludert i videre arbeid.
-                  * Basert på de demonstrerte fremgangene kan produkteier bestemme at fremgangene holder, eller må utvikles ytterligere. Denne muligheten tillater en tidlig avkastning.
-
-                  ### Etappe i retrospekt
-
-                  _Sett inn emnene for møtet her_
-
-                  * Avsatt tid (3 timer).
-                  * Etter evalueringsmøtet, etappe.  Ledes av Scrum-leder.
-                  * Teamet diskuterer etappen: Hva gikk bra, hva må forbedres for å bli mer produktive på neste etappe, eller kanskje ha litt mere morro.
-            item_3:
-              name: Etappe 2
+                  * The work packages of this release are the ones with the target version 1.0.
+                  * The release date is the date of the *Release v1.0* milestone.
+                  * Open the [Roadmap]({{opSetting:base_url}}/projects/your-scrum-project/roadmap) to follow the progress of all versions.
+                  * Open [Project settings &rightarrow; Versions]({{opSetting:base_url}}/projects/your-scrum-project/settings/versions) to link another wiki page to a version.
           categories:
             item_0: Kategori 1 (som skal endres i Prosjektinnstillingene)
           queries:
             item_0:
               name: Prosjektplan
             item_1:
-              name: Produktforsinkelser
+              name: Version 1.1
             item_2:
-              name: Etappe 1
+              name: Version 1.0
             item_3:
               name: Oppgaver
           boards:

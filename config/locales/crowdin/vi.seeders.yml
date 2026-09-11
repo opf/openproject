@@ -250,70 +250,26 @@ vi:
                 Trong mô-đun này, bạn có thể truyền đạt tin tức dự án cho các thành viên trong nhóm của mình.
           versions:
             item_0:
-              name: Backlog lỗi
-            item_1:
-              name: Backlog sản phẩm
-            item_2:
-              name: Chạy nước rút 1
               wiki:
-                title: Chạy nước rút 1
+                title: Release 1.0
                 content: |
-                  ### Họp lập kế hoạch Sprint
+                  ### Release 1.0
 
-                  _Vui lòng ghi lại các chủ đề ở đây cho cuộc họp lập kế hoạch Sprint_
+                  _Please document here what this release contains._
 
-                  * Thời gian đóng hộp (8 h)
-                  * Đầu vào: Product Backlog
-                  * Đầu ra: Sprint Backlog
-
-                  * Chia làm 2 ô thời gian bổ sung 4h:
-
-                      * Chủ sản phẩm trình bày [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) và các ưu tiên cho nhóm, đồng thời giải thích Mục tiêu Sprint mà nhóm phải đồng ý. Họ cùng nhau ưu tiên các chủ đề trong Product Backlog mà nhóm sẽ xử lý trong lần Sprint tiếp theo. Nhóm cam kết thực hiện việc giao hàng đã thảo luận.
-                      * Nhóm lập kế hoạch một cách tự động (không có Chủ sở hữu sản phẩm) một cách chi tiết và chia nhỏ các nhiệm vụ từ các yêu cầu đã thảo luận để hợp nhất [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
-
-
-                  ### Cuộc họp Scrum hàng ngày
-
-                  _Vui lòng ghi lại các chủ đề ở đây cho cuộc họp Scrum hàng ngày_
-
-                  * Cuộc họp ngắn, hàng ngày về tình trạng của nhóm.
-                  * Thời gian được đóng khung (tối đa 15 phút).
-                  * Cuộc họp độc lập để thảo luận về các chủ đề sau từ [Task board](##sprint:scrum_project__version__sprint_1).
-                      * Tôi dự định làm gì cho đến buổi Daily Scrum tiếp theo?
-                      * Điều gì đã cản trở công việc của tôi (Trở ngại)?
-                  * Scrum Master kiểm duyệt và ghi chú [Sprint Impediments](##sprint:scrum_project__version__sprint_1).
-                  * Chủ sở hữu sản phẩm có thể tham gia có thể tham gia để được thông tin.
-
-                  ### Họp sơ kết Sprint
-
-                  _Vui lòng ghi lại các chủ đề ở đây cho cuộc họp Sprint Review_
-
-                  * Thời gian đóng hộp (4 h).
-                  * Thời gian chuẩn bị tối đa một giờ cho mỗi người.
-                  * Nhóm cho chủ sở hữu sản phẩm và những người quan tâm khác thấy những gì đã đạt được trong lần Sprint này.
-                  * Quan trọng: không có hình nộm và không có PowerPoint! Chức năng của sản phẩm vừa hoàn thiện (Tăng dần) phải được thể hiện.
-                  * Phản hồi từ Chủ sở hữu sản phẩm, các bên liên quan và những người khác là mong muốn và sẽ được đưa vào công việc tiếp theo.
-                  * Dựa trên các chức năng đã được chứng minh, Chủ sở hữu sản phẩm quyết định đưa phần tăng trưởng này vào hoạt động hoặc phát triển thêm. Khả năng này cho phép ROI sớm.
-
-
-                  ### Hồi tưởng nước rút
-
-                  _Vui lòng ghi lại các chủ đề ở đây cho cuộc họp Cải tiến Sprint_
-
-                  * Thời gian đóng khung (3 h).
-                  * Sau Sprint Review, sẽ được Scrum Master kiểm duyệt.
-                  * Nhóm thảo luận về lần Sprint: điều gì đã diễn ra tốt đẹp, điều gì cần được cải thiện để đạt năng suất cao hơn cho lần Sprint tiếp theo hoặc thậm chí có nhiều niềm vui hơn.
-            item_3:
-              name: Chạy nước rút 2
+                  * The work packages of this release are the ones with the target version 1.0.
+                  * The release date is the date of the *Release v1.0* milestone.
+                  * Open the [Roadmap]({{opSetting:base_url}}/projects/your-scrum-project/roadmap) to follow the progress of all versions.
+                  * Open [Project settings &rightarrow; Versions]({{opSetting:base_url}}/projects/your-scrum-project/settings/versions) to link another wiki page to a version.
           categories:
             item_0: Loại 1 (sẽ được thay đổi trong cài đặt Dự án)
           queries:
             item_0:
               name: kế hoạch dự án
             item_1:
-              name: Sản phẩm Backlog
+              name: Version 1.1
             item_2:
-              name: Chạy nước rút 1
+              name: Version 1.0
             item_3:
               name: Nhiệm vụ
           boards:

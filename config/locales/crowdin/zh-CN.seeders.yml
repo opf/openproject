@@ -236,70 +236,26 @@ zh-CN:
                 在这个模块中，您可以向您的团队成员传送项目新闻。
           versions:
             item_0:
-              name: 缺陷待办事项
-            item_1:
-              name: 产品待办事项
-            item_2:
-              name: 开发冲刺 1
               wiki:
-                title: 开发冲刺 1
+                title: Release 1.0
                 content: |
-                  ### 冲刺计划会议
+                  ### Release 1.0
 
-                  _请记录冲刺计划会议的主题_
+                  _Please document here what this release contains._
 
-                  * 时间盒(8 h)
-                  * 输入: 产品待办事项
-                  * 输出: 冲刺待办事项
-
-                  * 4 h的两个额外时间盒：
-
-                      * 产品所有者向团队提交[产品待办事项]({{opSetting:base_url}}/projects/your-scrum-project/backlog) 和优先事项，并解释冲刺目标， 小组必须同意。 它们共同确定了产品积压的主题，工作队将在下次喷洒时处理这些主题。 该小组致力于讨论的交付。
-                      * 团队自动规划(不包括产品所有者)，并从讨论的要求中分解任务，以合并[冲刺目标]({{opSetting:base_url}}/projects/your-scrum-project/packlogs)。
-
-
-                  ### 每日敏捷会议
-
-                  _请将主题记录到每日敏捷会议上。
-
-                  * 团队每日状态短会。
-                  * 时间盒(最多15分钟)。
-                  * 待命会议，讨论[任务板]的下列议题(##sprint:scrum_project__version__sprint_1)。
-                      * 我打算在下次每日快递之前做些什么？
-                      * 什么阻碍了我的工作(障碍)？
-                  * Scrum Master modificates and notes [Sprint Impacts](##sprint:scrum_project__version__sprint_1)。
-                  * 产品所有者可以参与，以便随时了解情况。
-
-                  ### 敏捷总结会议
-
-                  _请将主题记录到敏捷总结会议上_
-
-                  * 时间盒(4 h)。
-                  * 每人最多准备一小时的时间。
-                  * 团队向产品所有者和其他感兴趣的人展示了在这次冲压中取得的成就。
-                  * 重要：没有垃圾信息和PowerPoint！只需演示完成的产品功能(增量)。
-                  * 需要产品所有者、利益攸关者和其他方面的反馈，并将纳入今后的工作。
-                  * 根据已证明的功能，产品所有者决定接受这种递增或进一步发展。 这种可能性使得能够早日建立ROI。
-
-
-                  ### 敏捷回顾会议
-
-                  _请将主题记录到敏捷回顾会议_
-
-                  * 时间盒(3 h)。
-                  * 冲刺评论后，将由敏捷教练主持。
-                  * 团队讨论冲刺：情况良好。 为了提高下一次冲刺的生产力，需要改进的是什么，甚至有更多的趣味。
-            item_3:
-              name: 开发冲刺 2
+                  * The work packages of this release are the ones with the target version 1.0.
+                  * The release date is the date of the *Release v1.0* milestone.
+                  * Open the [Roadmap]({{opSetting:base_url}}/projects/your-scrum-project/roadmap) to follow the progress of all versions.
+                  * Open [Project settings &rightarrow; Versions]({{opSetting:base_url}}/projects/your-scrum-project/settings/versions) to link another wiki page to a version.
           categories:
             item_0: 第1类(在项目设置中更改)
           queries:
             item_0:
               name: 项目计划
             item_1:
-              name: 产品待办事项
+              name: Version 1.1
             item_2:
-              name: 开发冲刺 1
+              name: Version 1.0
             item_3:
               name: 任务
           boards:

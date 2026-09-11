@@ -250,68 +250,26 @@ ca:
                 En aquest mòdul pots comunicar notícies del projecte a nous membres de l'equip.
           versions:
             item_0:
-              name: Backlog d'errors
-            item_1:
-              name: Backlog del producte
-            item_2:
-              name: Sprint 1
               wiki:
-                title: Sprint 1
+                title: Release 1.0
                 content: |
-                  ### Planificació de la reunió Sprint
+                  ### Release 1.0
 
-                  _Si us plau, documenta aquí els tòpics per a la planificació de la reunió Sprint_
+                  _Please document here what this release contains._
 
-                  * Temps estimat (8 h).
-                  * Input: Backlog de producte.
-                  * Output: Backlog d'Sprint.
-
-                  * Dividit entre dos intervals de temps de 4 h:
-
-                  * El Cap de Producte presenta el [Backlog de producte]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) i prioritza i explica a l'equip els objectius de l'Sprint, els quals l'equip ha d'acceptar. Conjuntament, prioritzen els tòpics del Backlog de producte que l'equip resoldrà en els següents sprints. L'equip es compromet a entregar el que s'ha acordat.
-                  * L'equip planifica de forma autònoma (sense el Cap de Projecte) i en detall, i divideix les tasques acordades per a consolidar el [Backlog Sprint]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
-
-                  ### Reunió diària Scrum
-
-                  _Si us plau, documenta aquí els tòpics per a la reunió diària Scrum_
-
-                  * Ràpidament, l'estat de l'equip dia a dia.
-                  * Temps estimat (màxim 15 min).
-                  * Reunió a peu dret per a discutir els tòpics del [Tauler de tasques](##sprint:scrum_project__version__sprint_1)..
-                  * Què vull assolir fins a la següent reunió diària Scrum?
-                  * Que està bloquejant la meva feina (Impediments)?
-                  * Scrum Master moderà i anota els [Impediments de l'Sprint](##sprint:scrum_project__version__sprint_1).
-                  * El cap de producte pot participar per tal de mantindre's informat.
-
-                  ### Reunió de revisió de Sprint
-
-                  _Si us plau, documenta aquí els tòpics per a la reunió de revisió de Sprintg_
-
-                  * Temps estimat (4 h).
-                  * Un màxim d'una hora de temps de preparació per persona.
-                  * L'equip mostra el cap de producte i altres persones interessades que s'ha aconseguit en el passat sprint.
-                  * Important: no mostrar maquetes, pantalles o presentacions PowerPoint! Només s'han de mostrar funcionalitats del producte finalitzades i funcionals (Increments).
-                  * Els comentaris del cap de producte, inversors i altres són benvinguts i s'inclouran en la reunió.
-                  * Basat en les funcionalitats mostrades, el cap de producte decideix si llançar el producte o continuar desenvolupant. Això pot permetre un ROI avançat.
-
-                  ### Retrospectiva Sprint
-
-                  _Si us plau, documenta aquí els tòpics per a la reunió retrospectiva Sprintg_
-
-                  * Temps estimat (3 h).
-                  * Després de la revisió de Sprint Review i moderat per l'Scrum Master.
-                  * L'equip discuteix l'sprint: que ha anat bé, que s'ha de millorar per ser més productiu en el següent sprint o inclús per fer la feina més amena.
-            item_3:
-              name: Sprint 2
+                  * The work packages of this release are the ones with the target version 1.0.
+                  * The release date is the date of the *Release v1.0* milestone.
+                  * Open the [Roadmap]({{opSetting:base_url}}/projects/your-scrum-project/roadmap) to follow the progress of all versions.
+                  * Open [Project settings &rightarrow; Versions]({{opSetting:base_url}}/projects/your-scrum-project/settings/versions) to link another wiki page to a version.
           categories:
             item_0: Categoria 1 (per ser canviat en la configuració del projecte)
           queries:
             item_0:
               name: Pla de projecte
             item_1:
-              name: Llista de pendents del producte
+              name: Version 1.1
             item_2:
-              name: Sprint 1
+              name: Version 1.0
             item_3:
               name: Tasques
           boards:
