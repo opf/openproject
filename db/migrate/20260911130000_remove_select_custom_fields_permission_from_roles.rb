@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,10 +26,10 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-# Join table between to store the work package custom fields active in a project.
-class CustomFieldsProject < ApplicationRecord
-  belongs_to :project
-  belongs_to :custom_field
+class RemoveSelectCustomFieldsPermissionFromRoles < ActiveRecord::Migration[8.0]
+  def up
+    RolePermission.delete_by(permission: "select_custom_fields")
+  end
 end

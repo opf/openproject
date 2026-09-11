@@ -42,33 +42,17 @@ RSpec.shared_context "given a visible setup" do
                                              project_with_user_and_bug => [] })
   end
 
-  # User cannot see this field:
-  #   * the type is not enabled in any project
-  shared_let(:type_non_enabled_in_project_cf) do
-    create(:text_wp_custom_field, projects: [project_with_user_and_feature, project_without_user], types: [])
+  shared_let(:cf_on_no_type) do
+    create(:text_wp_custom_field, types: [])
   end
-  # User cannot see this field:
-  #   * The field is not enabled in any project the user can see
-  shared_let(:not_a_member_cf) { create(:integer_wp_custom_field, projects: [project_without_user], types: [feature, task]) }
-  # User cannot see this field:
-  #   * the field is for all
-  #   * the type is not enabled in any project the user can see
-  shared_let(:type_disabled_for_all_cf) { create(:text_wp_custom_field, is_for_all: true, projects: [], types: [task]) }
-  # User cannot see this field:
-  #   * the type is enabled in a project the user can see
-  #   * the field is enabled in a different project the user can see
-  shared_let(:type_enabled_in_different_project_than_member_cf) do
-    create(:text_wp_custom_field, projects: [project_with_user_and_feature], types: [bug])
-  end
+  shared_let(:cf_on_type_outside_visible_projects) { create(:text_wp_custom_field, is_for_all: true, types: [task]) }
 
-  # User can see this field:
-  #   * the type is enabled in a project the user can see
-  #   * the field is enabled in that same project
-  shared_let(:type_enabled_and_member_cf) do
-    create(:boolean_wp_custom_field, projects: [project_with_user_and_feature], types: [feature, task])
+  shared_let(:integer_cf_on_visible_type) { create(:integer_wp_custom_field, types: [feature, task]) }
+  shared_let(:cf_on_bug_type) do
+    create(:text_wp_custom_field, types: [bug])
   end
-  # User can see this field:
-  #   * the type is enabled in a project the user can see
-  #   * the field is for all projects (including the one the user is member in)
-  shared_let(:type_enabled_for_all_cf) { create(:text_wp_custom_field, is_for_all: true, projects: [], types: [feature, task]) }
+  shared_let(:boolean_cf_on_visible_type) do
+    create(:boolean_wp_custom_field, types: [feature, task])
+  end
+  shared_let(:for_all_cf_on_visible_type) { create(:text_wp_custom_field, is_for_all: true, types: [feature, task]) }
 end

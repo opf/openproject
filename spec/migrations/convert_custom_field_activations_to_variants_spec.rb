@@ -28,22 +28,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects::WorkPackageCustomFields
-  extend ActiveSupport::Concern
+require "spec_helper"
+require Rails.root.join("db/migrate/20260911120000_convert_custom_field_activations_to_variants.rb")
 
-  included do
-    # Custom field for the project's work_packages
-    has_and_belongs_to_many :work_package_custom_fields, # rubocop:disable Rails/HasAndBelongsToMany
-                            -> { order("#{CustomField.table_name}.position") },
-                            join_table: :custom_fields_projects,
-                            association_foreign_key: "custom_field_id"
+RSpec.describe ConvertCustomFieldActivationsToVariants, type: :model do
+  subject { ActiveRecord::Migration.suppress_messages { described_class.new.up } }
 
-    # Returns an AR scope of all custom fields enabled for project's work packages
-    # (explicitly associated custom fields and custom fields enabled for all projects)
-    def all_work_package_custom_fields
-      WorkPackageCustomField
-        .for_all
-        .or(WorkPackageCustomField.where(id: work_package_custom_fields))
-    end
+  it "hands the conversion to the job that performs it" do
+    expect { subject }.to have_enqueued_job(WorkPackageTypes::BuildProjectVariantsJob)
   end
 end

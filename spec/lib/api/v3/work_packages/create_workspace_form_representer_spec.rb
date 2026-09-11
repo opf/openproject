@@ -133,30 +133,6 @@ RSpec.describe API::V3::WorkPackages::CreateWorkspaceFormRepresenter do
       end
     end
 
-    describe "customFields" do
-      context "with the permission to select custom fields" do
-        let(:permissions) { [:select_custom_fields] }
-
-        it "has a link to set the custom fields for that project" do
-          expected = {
-            href: project_settings_custom_fields_path(work_package.project),
-            type: "text/html",
-            title: "Custom fields"
-          }
-
-          expect(generated)
-            .to be_json_eql(expected.to_json)
-                  .at_path("_links/customFields")
-        end
-      end
-
-      context "without the permission to select custom fields" do
-        it "has no link to set the custom fields for that project" do
-          expect(generated).not_to have_json_path("_links/customFields")
-        end
-      end
-    end
-
     describe "configureForm" do
       context "for an admin and with a type" do
         let(:user) { build_stubbed(:user, admin: true) }
@@ -187,6 +163,22 @@ RSpec.describe API::V3::WorkPackages::CreateWorkspaceFormRepresenter do
       context "for a non admin" do
         it "has no link to configure the form" do
           expect(generated).not_to have_json_path("_links/configureForm")
+        end
+      end
+
+      context "for a non admin allowed to manage the project's own variants" do
+        let(:permissions) { %i(edit_work_packages manage_project_variants) }
+        let(:owning_project) { create(:project) }
+        let(:variant) { create(:project_owned_type_variant, type: create(:type), project: owning_project) }
+        let(:work_package) do
+          build_stubbed(:work_package, project: owning_project, type: variant.type)
+            .tap { |wp| allow(wp).to receive(:type_variant).and_return(variant) }
+        end
+
+        it "has a link to the configuration the project owns" do
+          expect(generated)
+            .to be_json_eql(edit_type_form_configuration_path(**variant.path_args).to_json)
+            .at_path("_links/configureForm/href")
         end
       end
     end

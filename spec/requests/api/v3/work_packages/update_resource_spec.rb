@@ -375,7 +375,6 @@ RSpec.describe "API v3 Work package resource",
 
           before do
             project.project_types.create!(type: target_type)
-            project.work_package_custom_fields << custom_field
             target_type.default_variant.custom_fields << custom_field
           end
 
@@ -456,7 +455,6 @@ RSpec.describe "API v3 Work package resource",
           let(:params) { valid_params.merge(project_parameter).merge(custom_field_parameter) }
 
           before do
-            target_project.work_package_custom_fields << custom_field
             work_package.type.default_variant.custom_fields << custom_field
           end
 
@@ -847,7 +845,6 @@ RSpec.describe "API v3 Work package resource",
 
         before do
           allow(User).to receive(:current).and_return current_user
-          work_package.project.work_package_custom_fields << custom_field
           work_package.type.default_variant.custom_fields << custom_field
         end
 
@@ -976,7 +973,6 @@ RSpec.describe "API v3 Work package resource",
                    field_format: "string",
                    name: "Department",
                    is_required: true,
-                   projects: [project],
                    types: [work_package.type])
           end
 

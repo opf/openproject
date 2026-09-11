@@ -23,8 +23,7 @@ RSpec.describe "multi select custom values", :js do
       :user_wp_custom_field,
       name: "Reviewer",
       multi_value: true,
-      types: [type],
-      projects: [project]
+      types: [type]
     )
   end
 

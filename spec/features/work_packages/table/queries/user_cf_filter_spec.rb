@@ -38,7 +38,6 @@ RSpec.describe "Work package filtering by user custom field", :js do
   let!(:user_cf) do
     create(:user_wp_custom_field).tap do |cf|
       type.default_variant.custom_fields << cf
-      project.work_package_custom_fields << cf
     end
   end
   let(:role) { create(:project_role, permissions: %i[view_work_packages save_queries]) }

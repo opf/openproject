@@ -28,12 +28,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module CustomFields
-  module CustomFieldProjects
-    class DeleteService < ::BaseServices::Delete
-      # Mappings have custom deletion rules that are similar to the update rules all derived from the base contract
-      # Reuse the update contract to ensure that the deletion rules are consistent with the update rules
-      def default_contract_class = CustomFields::CustomFieldProjects::UpdateContract
+require "spec_helper"
+
+RSpec.describe Queries::WorkPackages::Filter::CustomFieldContext do
+  describe ".custom_fields" do
+    shared_let(:type) { create(:type) }
+    shared_let(:other_type) { create(:type) }
+    shared_let(:here) { create(:project, types: [type]) }
+    shared_let(:elsewhere) { create(:project, types: [other_type]) }
+
+    shared_let(:shown_here) { create(:list_wp_custom_field, is_filter: true, types: [type]) }
+    shared_let(:shown_elsewhere) { create(:list_wp_custom_field, is_filter: true, types: [other_type]) }
+
+    let(:context) { instance_double(Query, project: here) }
+
+    it "offers only the fields the project's form configuration shows" do
+      expect(described_class.custom_fields(context)).to contain_exactly(shown_here)
+    end
+
+    it "offers every filterable field for a project that is not saved yet" do
+      expect(described_class.custom_fields(instance_double(Query, project: Project.new)))
+        .to include(shown_here, shown_elsewhere)
+    end
+
+    it "offers the globally available fields without a project" do
+      expect(described_class.custom_fields(nil)).not_to include(shown_here, shown_elsewhere)
     end
   end
 end

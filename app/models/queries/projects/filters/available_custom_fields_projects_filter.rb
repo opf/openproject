@@ -39,10 +39,7 @@ class Queries::Projects::Filters::AvailableCustomFieldsProjectsFilter < Queries:
   end
 
   def allowed_values
-    @allowed_values ||= CustomFieldsProject
-      .includes(:custom_field)
-      .distinct
-      .pluck(:name, :custom_field_id)
+    @allowed_values ||= WorkPackageCustomField.order(:name).pluck(:name, :id)
   end
 
   def available?

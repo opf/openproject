@@ -270,16 +270,6 @@ FactoryBot.define do
 
       activatable_on_types
 
-      transient do
-        projects { [] }
-      end
-
-      after(:create) do |custom_field, evaluator|
-        evaluator.projects.each do |project|
-          project.work_package_custom_fields << custom_field
-        end
-      end
-
       %w[
         boolean
         date

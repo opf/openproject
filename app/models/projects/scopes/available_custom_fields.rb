@@ -34,15 +34,17 @@ module Projects::Scopes
 
     class_methods do
       def with_available_custom_fields(custom_field_ids)
-        where(id: project_custom_fields_join_table_subquery(custom_field_ids:))
+        condition = available_custom_fields_condition(custom_field_ids)
+        condition ? where(condition) : none
+      end
+
+      def without_available_custom_fields(custom_field_ids)
+        condition = available_custom_fields_condition(custom_field_ids)
+        condition ? where("NOT (#{condition})") : all
       end
 
       def with_available_project_custom_fields(custom_field_ids)
         where(id: project_custom_fields_project_mapping_subquery(custom_field_ids:))
-      end
-
-      def without_available_custom_fields(custom_field_ids)
-        where.not(id: project_custom_fields_join_table_subquery(custom_field_ids:))
       end
 
       def without_available_project_custom_fields(custom_field_ids)
@@ -51,13 +53,31 @@ module Projects::Scopes
 
       private
 
-      def project_custom_fields_project_mapping_subquery(custom_field_ids:)
-        project_custom_fields_join_table_subquery(custom_field_ids:, join_table: ProjectCustomFieldProjectMapping)
+      def available_custom_fields_condition(custom_field_ids)
+        ids = Array(custom_field_ids).map { Integer(it) }
+        return nil if ids.empty?
+
+        source_join, source_variant_id, excluded =
+          TypeVariant::FormConfigurationSql.remap("pt.variant_id")
+        exclusion = TypeVariant.excluded_custom_field_condition("cft.custom_field_id", excluded)
+
+        <<~SQL.squish
+          EXISTS (
+            SELECT 1
+            FROM project_types pt
+            #{source_join}
+            JOIN custom_fields_types cft
+              ON cft.type_variant_id = #{source_variant_id}
+             AND cft.custom_field_id IN (#{ids.join(', ')})
+             AND #{exclusion}
+            WHERE pt.project_id = projects.id
+          )
+        SQL
       end
 
-      def project_custom_fields_join_table_subquery(custom_field_ids:, join_table: CustomFieldsProject)
-        join_table.select(:project_id)
-                  .where(custom_field_id: custom_field_ids)
+      def project_custom_fields_project_mapping_subquery(custom_field_ids:)
+        ProjectCustomFieldProjectMapping.select(:project_id)
+                                        .where(custom_field_id: custom_field_ids)
       end
     end
   end

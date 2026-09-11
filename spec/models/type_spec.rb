@@ -101,43 +101,6 @@ RSpec.describe Type do
     end
   end
 
-  describe "TypeVariant#activate_custom_fields_in_effective_projects!" do
-    shared_let(:root) { create(:type, name: "Bug") }
-    shared_let(:variant) { create(:type_variant, type: root, variant_name: "Mobile Bug") }
-
-    shared_let(:project_using_variant) { create(:project, types: [variant]) }
-    shared_let(:project_using_root) { create(:project, types: [root]) }
-
-    # A field on the variant's own form is invisible in the work package form until the project
-    # activates it, and nothing else can find the projects a variant configures.
-    it "activates the type's fields in the projects it configures" do
-      custom_field = create(:integer_wp_custom_field, type_variants: [variant])
-
-      expect { variant.activate_custom_fields_in_effective_projects! }
-        .to change { project_using_variant.reload.work_package_custom_field_ids }
-        .from([])
-        .to([custom_field.id])
-    end
-
-    it "leaves projects resolving the family elsewhere alone" do
-      create(:integer_wp_custom_field, type_variants: [variant])
-
-      expect { variant.activate_custom_fields_in_effective_projects! }
-        .not_to change { project_using_root.reload.work_package_custom_field_ids }
-    end
-
-    it "adds to a project's activation rather than replacing it" do
-      existing = create(:integer_wp_custom_field)
-      project_using_variant.work_package_custom_fields << existing
-      added = create(:integer_wp_custom_field, type_variants: [variant])
-
-      variant.activate_custom_fields_in_effective_projects!
-
-      expect(project_using_variant.reload.work_package_custom_field_ids)
-        .to contain_exactly(existing.id, added.id)
-    end
-  end
-
   describe ".visible" do
     subject { described_class.visible(user) }
 

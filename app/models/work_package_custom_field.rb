@@ -29,9 +29,22 @@
 #++
 
 class WorkPackageCustomField < CustomField
-  has_and_belongs_to_many :projects, # rubocop:disable Rails/HasAndBelongsToMany
-                          join_table: "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
-                          foreign_key: "custom_field_id"
+  # A field reaches a project when the variant that project applies shows it.
+  def self.project_counts
+    source_join, source_variant_id, excluded =
+      TypeVariant::FormConfigurationSql.remap("pt.variant_id")
+    exclusion = TypeVariant.excluded_custom_field_condition("cft.custom_field_id", excluded)
+
+    connection.select_all(<<~SQL.squish).rows.to_h
+      SELECT cft.custom_field_id, COUNT(DISTINCT pt.project_id)
+      FROM project_types pt
+      #{source_join}
+      JOIN custom_fields_types cft
+        ON cft.type_variant_id = #{source_variant_id}
+       AND #{exclusion}
+      GROUP BY cft.custom_field_id
+    SQL
+  end
   has_and_belongs_to_many :type_variants, # rubocop:disable Rails/HasAndBelongsToMany
                           join_table: "#{table_name_prefix}custom_fields_types#{table_name_suffix}",
                           foreign_key: "custom_field_id",

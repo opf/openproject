@@ -180,8 +180,7 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
       type
     end
     let(:project) do
-      create(:project,
-             work_package_custom_fields: [custom_field])
+      create(:project)
     end
     let(:work_packages) do
       wps = create_list(:work_package, 4,

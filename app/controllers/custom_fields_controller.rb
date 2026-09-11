@@ -54,6 +54,7 @@ class CustomFieldsController < ApplicationController
     @custom_fields_by_type["WorkPackageCustomField"] =
       WorkPackageCustomField.includes(type_variants: :type).all
 
+    @project_counts = WorkPackageCustomField.project_counts
     @tab = params[:tab] || "WorkPackageCustomField"
   end
 

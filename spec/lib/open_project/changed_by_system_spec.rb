@@ -104,7 +104,6 @@ RSpec.describe OpenProject::ChangedBySystem do
       let(:cf1) { create(:work_package_custom_field) }
 
       before do
-        project.work_package_custom_fields << cf1
         type.default_variant.custom_fields << cf1
       end
 

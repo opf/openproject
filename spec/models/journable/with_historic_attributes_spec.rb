@@ -607,8 +607,7 @@ RSpec.describe Journable::WithHistoricAttributes,
         let!(:custom_field) do
           create(:string_wp_custom_field,
                  name: "String CF",
-                 types: project.enabled_types,
-                 projects: [project])
+                 types: project.enabled_types)
         end
 
         let!(:custom_value) do

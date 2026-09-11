@@ -27,8 +27,7 @@ RSpec.describe "support for non-open version values in version custom field", :j
       name: "Affected version",
       multi_value: false,
       allow_non_open_versions: true,
-      types: [type],
-      projects: [project]
+      types: [type]
     )
   end
 
@@ -88,8 +87,7 @@ RSpec.describe "support for non-open version values in version custom field", :j
         name: "Affected versions",
         multi_value: true,
         allow_non_open_versions: true,
-        types: [type],
-        projects: [project]
+        types: [type]
       )
     end
 
@@ -148,8 +146,7 @@ RSpec.describe "support for non-open version values in version custom field", :j
         name: "Affected versions",
         multi_value: false, # this doesn't matter that much, it's the same for single and multi-values
         allow_non_open_versions: false,
-        types: [type],
-        projects: [project]
+        types: [type]
       )
     end
 

@@ -28,9 +28,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :custom_fields_project do
-    custom_field
-    project
+class ConvertCustomFieldActivationsToVariants < ActiveRecord::Migration[8.0]
+  # The job runs asynchronously, so the table has to outlive this migration.
+  # Drop it in 19.0 with a heads-up in the release statement to not migrate
+  # from 17.x to 19.x directly to leave enough room for the job to complete.
+  def up
+    WorkPackageTypes::BuildProjectVariantsJob.perform_later
   end
+
+  def down; end
 end

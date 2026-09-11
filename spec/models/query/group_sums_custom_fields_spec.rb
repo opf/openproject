@@ -51,8 +51,7 @@ RSpec.describe Query::Results, "Grouping and summing integer/float custom field 
   let(:type) { create(:type_task, custom_fields: [float_custom_field, int_custom_field]) }
   let(:project) do
     create(:project,
-           types: [type],
-           work_package_custom_fields: [float_custom_field, int_custom_field])
+           types: [type])
   end
   let(:wp1) do
     create(:work_package,

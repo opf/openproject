@@ -28,27 +28,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module CustomFields
-  module CustomFieldProjects
-    class BaseContract < ::ModelContract
-      attribute :project_id
-      attribute :custom_field_id
+require "spec_helper"
 
-      validate :select_custom_fields_permission
-      validate :not_for_all
+RSpec.describe "Administration custom fields index", type: :rails_request do
+  shared_let(:type) { create(:type, name: "Bug") }
+  shared_let(:on_a_type) { create(:work_package_custom_field, name: "Severity", types: [type]) }
+  shared_let(:on_no_type) { create(:work_package_custom_field, name: "Orphan") }
 
-      def select_custom_fields_permission
-        return if user.allowed_in_project?(:select_custom_fields, model.project)
+  current_user { create(:admin) }
 
-        errors.add :base, :error_unauthorized
-      end
+  # The work package tab is the default one.
+  it "lists the work package custom fields and the types configuring them" do
+    get custom_fields_path
 
-      def not_for_all
-        # Only mappings of custom fields which are not enabled for all projects can be manipulated by the user
-        return if model.custom_field.nil? || !model.custom_field.is_for_all?
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include("Severity").and include("Orphan")
+    expect(response.body).to include("Bug")
+  end
 
-        errors.add :custom_field_id, :is_for_all_cannot_modify
-      end
+  describe "the projects a field reaches" do
+    shared_let(:reaching) { create(:project, types: [type]) }
+
+    it "counts the projects whose form configuration shows the field" do
+      get custom_fields_path
+
+      expect(response.body).to include(I18n.t(:label_used_in_projects))
+      expect(response.body).to include(I18n.t(:label_x_projects, count: 1))
     end
   end
 end
