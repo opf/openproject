@@ -29,8 +29,7 @@
 #++
 
 class WorkPackageCustomField < CustomField
-  # How many projects each field reaches, in one query: a field reaches a project when the
-  # variant that project applies shows it.
+  # A field reaches a project when the variant that project applies shows it.
   def self.project_counts
     memberships = FormConfigurationAttribute.table_name
     form_join, form_configuration_id, excluded = TypeVariant.form_configuration_join("pt.variant_id")
