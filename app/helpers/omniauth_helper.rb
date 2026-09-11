@@ -37,18 +37,22 @@ module OmniauthHelper
     { script_name: OpenProject::Configuration.rails_relative_url_root }.compact
   end
 
+  def omniauth_login_path_options
+    omniauth_start_url_options.tap do |opts|
+      opts[:back_url] = params["back_url"] if params["back_url"].present?
+    end
+  end
+
   def omniauth_provider_button(name, display_name: nil, icon: false)
     classes = ["auth-provider", "auth-provider-#{name}", "button"]
     classes << "auth-provider--imaged" if icon
 
-    url_opts = omniauth_start_url_options
-    url_opts[:origin] = params["back_url"] if params["back_url"]
+    path_opts = omniauth_login_path_options
 
-    button_to(
-      omni_auth_start_path(name, url_opts),
-      method: :post,
-      data: { turbo: false },
-      class: classes.join(" ")
+    link_to(
+      omniauth_login_path(name, path_opts),
+      class: classes.join(" "),
+      data: { turbo: false }
     ) do
       tag.span(display_name.presence || name, class: "auth-provider-name")
     end
@@ -64,7 +68,6 @@ module OmniauthHelper
   #
   # If this option is active /login will lead directly to the configured omniauth provider,
   # with a temporary form in between so that we can ensure we only POST to the provider (CVE-2015-9284).
-  # a click on 'Sign in' (as opposed to opening the drop down menu) brings them directly there using POST
   def direct_login_provider
     Setting.omniauth_direct_login_provider.presence
   end

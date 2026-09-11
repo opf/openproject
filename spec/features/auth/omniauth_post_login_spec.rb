@@ -43,14 +43,14 @@ RSpec.describe "OmniAuth POST login", :js do
            mail: "omnibob@example.com")
   end
 
-  it "signs in through a POST to the provider" do
+  it "signs in through the auto-submit form" do
     visit signin_path
 
-    form = find("button.auth-provider-developer").ancestor("form")
-    expect(form[:method]).to eq "post"
-    expect(form[:action]).to end_with "/auth/developer"
+    expect(page).to have_link("Omniauth Developer", href: %r{/login/omniauth/developer})
 
-    click_button "Omniauth Developer"
+    within "#login-form" do
+      click_link "Omniauth Developer"
+    end
 
     fill_in "first_name", with: user.firstname
     fill_in "last_name", with: user.lastname

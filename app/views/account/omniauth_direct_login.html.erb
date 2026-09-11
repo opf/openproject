@@ -33,7 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
   <h1><%= I18n.t(:label_login) %></h1>
   <hr class="form--separator">
   <p><%= t("account.omniauth_direct_login_redirecting") %></p>
-  <%= form_tag omni_auth_start_path(direct_login_provider, omniauth_start_url_options),
+  <%= form_tag omni_auth_start_path(@omniauth_provider_name, omniauth_start_url_options),
                method: :post,
                authenticity_token: true,
                id: "omniauth-direct-login-form",
