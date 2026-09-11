@@ -39,12 +39,17 @@ module Import
     class ParseError < Error; end
 
     class ApiError < Error
-      attr_reader :status, :response_body
+      attr_reader :status, :response_body, :response_headers
 
-      def initialize(message, status: nil, response_body: nil)
+      def initialize(message, status:, response_body:, response_headers:)
         super(message)
         @status = status
         @response_body = response_body
+        @response_headers = response_headers
+      end
+
+      def to_s
+        "#{super}. STATUS: #{@status} RESPONSE_BODY: #{@response_body} RESPONSE_HEADERS: #{@response_headers}"
       end
     end
 
@@ -54,7 +59,7 @@ module Import
     }.freeze
 
     def initialize(url:, personal_access_token:)
-      raise ApiError.new(I18n.t(:"admin.jira.test.token_error")) if personal_access_token.nil?
+      raise Error.new(I18n.t(:"admin.jira.test.token_error")) if personal_access_token.nil?
 
       @url = url.chomp("/")
       @headers = {
@@ -261,7 +266,10 @@ module Import
           yield tempfile
         else
           status = response.code.to_i
-          raise ApiError.new(I18n.t("admin.jira.client.api_error", status:), status:, response_body: response.body)
+          raise ApiError.new(I18n.t("admin.jira.client.api_error", status:),
+                             status:,
+                             response_body: response.body,
+                             response_headers: response.to_hash)
         end
       end
       nil
@@ -312,7 +320,8 @@ module Import
         raise ApiError.new(
           I18n.t("admin.jira.client.#{status}_error", status:, default: :"admin.jira.client.api_error"),
           status:,
-          response_body: response.body.to_s
+          response_body: response.body.to_s,
+          response_headers: response.to_hash
         )
       end
     end

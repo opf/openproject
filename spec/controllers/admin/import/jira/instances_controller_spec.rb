@@ -572,7 +572,9 @@ RSpec.describe Admin::Import::Jira::InstancesController do
 
     context "when Import::JiraClient raises ApiError" do
       before do
-        allow(jira_client).to receive(:server_info).and_raise(Import::JiraClient::ApiError.new("Unauthorized", status: 401))
+        allow(jira_client).to receive(:server_info).and_raise(
+          Import::JiraClient::ApiError.new("Unauthorized", status: 401, response_body: "", response_headers: {})
+        )
       end
 
       it "returns an API error message" do

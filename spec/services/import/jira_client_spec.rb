@@ -41,7 +41,7 @@ RSpec.describe Import::JiraClient do
       let(:personal_access_token) { nil }
 
       it "raises ApiError" do
-        expect { client }.to raise_error(Import::JiraClient::ApiError)
+        expect { client }.to raise_error(Import::JiraClient::Error)
       end
     end
   end

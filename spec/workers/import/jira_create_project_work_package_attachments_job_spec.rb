@@ -71,18 +71,36 @@ RSpec.describe Import::JiraCreateProjectWorkPackageAttachmentsJob,
       expect(project.users).to include(op_user)
     end
 
-    context "when the attachment download fails" do
+    context "when the attachment download fails with a redirect" do
       before do
-        stub_request(:get, download_attachment_url).to_return(status: 404, body: "Not Found")
+        stub_request(:get, download_attachment_url).to_return(
+          status: 302, body: "Redirect body.", headers: { "Location" => "https://login.example.com" }
+        )
+        allow(OpenProject.logger).to receive(:error)
       end
 
-      it "fails the job so that the import run reports the error" do
-        expect { create_work_package_attachments }
-          .to raise_error(Import::JiraClient::ApiError, "Jira API returned error status 404")
+      it "logs the error with context details" do
+        create_work_package_attachments
+
+        # rubocop:disable-next Layout/LineLength
+        expect(OpenProject.logger).to have_received(:error).with(
+          a_string_including(
+            "Error during jira import attachment creation. Error: Jira API returned error status 302.",
+            "STATUS: 302 RESPONSE_BODY: Redirect body. RESPONSE_HEADERS: {\"location\" => [\"https://login.example.com\"]}.",
+            "Jira Project: {\"identifier\" => \"DPPP\"}",
+            "Jira Issue: {\"identifier\" => \"DPPP-6\"}.",
+            "Attachment: {\"id\" => \"10100\", \"size\" => 136426, \"self\" => \"https://jira-dc.openproject.org/rest/api/2/attachment/10100\", \"content\" => \"https://jira-dc.openproject.org/secure/attachment/10100/airplane-wing-over-cloudy-sky.jpg\", \"filename\" => \"airplane-wing-over-cloudy-sky.jpg\", \"mimeType\" => \"image/jpeg\"}.",
+            "Backtrace: "
+          )
+        )
+      end
+
+      it "does not interrupt the import" do
+        expect { create_work_package_attachments }.not_to raise_error
       end
 
       it "does not create an attachment" do
-        expect { create_work_package_attachments }.to raise_error(Import::JiraClient::ApiError)
+        create_work_package_attachments
 
         expect(WorkPackage.find("DPPP-6").attachments).to be_empty
       end
@@ -90,10 +108,9 @@ RSpec.describe Import::JiraCreateProjectWorkPackageAttachmentsJob,
 
     context "when the import is aborting" do
       before do
-        # rubocop:disable RSpec/AnyInstance
+        # rubocop:disable-next RSpec/AnyInstance
         allow_any_instance_of(Import::JiraImport)
           .to receive(:in_state?).with(:import_aborting).and_return(true)
-        # rubocop:enable RSpec/AnyInstance
       end
 
       it "stops iterating and reports the abortion" do
