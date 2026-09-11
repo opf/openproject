@@ -26,24 +26,14 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-/**
- * Extend a given URL (string or URL object) with the provided search parameters.
- *
- * @param base - The base URL to extend
- * @param params - A record of key-value pairs to add as search parameters
- * @param addCurrentSearch - Whether to include the current window's search parameters (default: true)
- */
-export function extendSearchParams(
-  base:string,
-  params:Record<string, string>,
-  addCurrentSearch = true,
-) {
-  const url = new URL(base, window.location.origin);
-  url.search = addCurrentSearch ? window.location.search : '';
+import { defineConfig } from 'vitest/config';
 
-  Object.entries(params).forEach(([key, value]) => {
-    url.searchParams.set(key, value);
-  });
-
-  return url.toString();
-}
+// The app's specs run in the browser via the Angular builder. Documentation
+// tooling is Node-side and cannot run there, so it gets its own project.
+export default defineConfig({
+  test: {
+    environment: 'node',
+    include: ['tooling/**/*.spec.mjs'],
+    testTimeout: 60_000,
+  },
+});

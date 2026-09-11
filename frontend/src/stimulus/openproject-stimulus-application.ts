@@ -44,8 +44,8 @@ export class OpenProjectStimulusApplication extends Application {
    *
    * This is useful for plugins that execute code before we call setup.ts
    *
-   * @param name the name/identifier of the controller
-   * @param controller the controller class
+   * @param name - The name/identifier of the controller
+   * @param controller - The controller class
    */
   static preregister(name:string, controller:ControllerConstructor) {
     this.controllers.set(name, controller);
@@ -57,15 +57,17 @@ export class OpenProjectStimulusApplication extends Application {
    *
    * This is useful for plugins that want to define new dynamic controllers.
    * How to use this: In your plugin's main.ts, call this
+   *
    * @example
+   * ```ts
    * OpenProjectStimulusApplication.preregisterDynamic(
    *   'test',
    *   () => import('./test.controller')
    * );
    * ```
    *
-   * @param name the name/identifier of the controller
-   * @param loader A callback to provide the controller asynchronously.
+   * @param name - The name/identifier of the controller
+   * @param loader - A callback to provide the controller asynchronously.
    */
   static preregisterDynamic(name:string, loader:DynamicControllerLoader) {
     this.dynamicImports.set(name, loader);

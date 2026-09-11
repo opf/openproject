@@ -35,6 +35,7 @@ import vitest from '@vitest/eslint-plugin';
 import angular from 'angular-eslint';
 import stylistic from '@stylistic/eslint-plugin';
 import headers from 'eslint-plugin-headers';
+import tsdoc from 'eslint-plugin-tsdoc';
 
 import { defineConfig, globalIgnores } from 'eslint/config';
 
@@ -87,7 +88,12 @@ export default defineConfig([
     processor: angular.processInlineTemplates,
     languageOptions: {
       parserOptions: {
-        projectService: true,
+        // Node-side tooling configs (e.g. `vitest.tooling.config.ts`) live at
+        // the frontend root but aren't referenced by any `tsconfig.json`, so
+        // they need an in-memory default project to be lintable.
+        projectService: {
+          allowDefaultProject: ['vitest.tooling.config.ts'],
+        },
         tsconfigRootDir: import.meta.dirname,
       },
       globals: { ...globals.browser, ...globals.node },
@@ -224,6 +230,14 @@ export default defineConfig([
 
       // Allow more than one class definitions per file (test components)
       'max-classes-per-file': 'off',
+    },
+  },
+  {
+    // Scoped to the `entryPoints` of `typedoc.json`; widen alongside it.
+    files: ['src/stimulus/**/*.ts'],
+    plugins: { tsdoc },
+    rules: {
+      'tsdoc/syntax': 'error',
     },
   },
   {
