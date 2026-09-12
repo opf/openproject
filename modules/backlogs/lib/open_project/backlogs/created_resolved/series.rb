@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,27 +28,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
----
-en:
-  js:
-    backlogs:
-      selection:
-        card_state: "Selected"
-        cleared: "Selection cleared."
-        not_selectable: "Selection unchanged. This work package takes no part in this list's ordering."
-        range_blocked: "Selection unchanged. That range contains a work package that takes no part in this list's ordering."
-        range_restarted:
-          one: "Could not extend the range. 1 work package selected."
-          other: "Could not extend the range. %{count} work packages selected."
-        range_unavailable: "Selection unchanged. Expand this list to select that range."
-        selected:
-          one: "1 work package selected."
-          other: "%{count} work packages selected."
-    burndown:
-      day: "Day"
-      points: "Points"
-    created_resolved:
-      work_packages: "Work packages"
-    work_packages:
-      properties:
-        storyPoints: "Story Points"
+module OpenProject::Backlogs::CreatedResolved
+  class Series
+    UNITS = %i[workpackages].freeze
+
+    attr_reader :name, :unit, :data
+    attr_accessor :display
+
+    def initialize(name, unit, *args)
+      @unit = unit
+      @name = name.to_sym
+      @data = Array.new(*args)
+      @display = true
+
+      raise ArgumentError, "Unsupported unit '#{@unit}'- should be one of: #{UNITS.join(', ')}" unless UNITS.include? @unit
+
+    end    
+  end
+end
