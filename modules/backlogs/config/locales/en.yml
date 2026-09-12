@@ -210,6 +210,7 @@ en:
     remaining_hours: "Remaining work"
     sharing: "Sprint sharing"
     show_burndown_chart: "Burndown chart"
+    show_work_package_overview: "Work packages within the sprint"
 
     sprint_component:
       action_menu:
@@ -239,6 +240,27 @@ en:
       page_header_component:
         breadcrumb: Report
         title: "%{sprint} report"
+      widgets:
+        work_package_overview:
+          blankslate:
+            description: "Set start and end date for the sprint to generate the work package overview."
+            heading: "No sprint data available"
+          blocks:
+            changed_after_start:
+              count_change_html: "+%{added} %{divider} -%{removed}"
+              heading: "Scope change"
+              story_points_change: "+%{added} / -%{removed} story points"
+            completed:
+              heading: "Completed"
+            initially_planned:
+              heading: "Initially planned"
+            unfinished:
+              heading: "Unfinished"
+          breakdown_block:
+            blocks:
+              show_all: "View all"
+          closed_work_packages: "Closed work packages"
+          resolved_summary: "%{percentage}% (%{resolved} of %{total} work packages)"
 
     sprints:
       row_component:

@@ -26,31 +26,42 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module OpenProject
-  module Grids
-    # @logical_path OpenProject/Grids
-    # @display min_height 300px
-    class WidgetBoxComponentPreview < Lookbook::Preview
-      # Use the default body for generic widget content.
-      def default
-        render_with_template
-      end
+module Backlogs
+  module SprintReports
+    module Widgets
+      class WorkPackageOverview
+        class BreakdownBlock < ApplicationComponent
+          include OpPrimer::ComponentHelpers
 
-      def with_counter
-        render_with_template
-      end
+          attr_reader :heading, :show_all_href, :count_color
 
-      # Use rows for the primary repeated widget content.
-      def with_rows
-        render_with_template
-      end
+          def initialize(heading:, show_all_href:, count_color: :default)
+            super
 
-      # Use the footer for secondary navigation or actions that should stay at the bottom,
-      # such as "View all ..." links.
-      def with_footer
-        render_with_template
+            @heading = heading
+            @show_all_href = show_all_href
+            @count_color = count_color
+          end
+
+          renders_one :count, ->(**system_arguments) do
+            text_with_defaults(system_arguments, tag: :p, mb: 0, font_size: 1, font_weight: :bold, color: count_color)
+          end
+          renders_one :story_points, ->(**system_arguments) do
+            text_with_defaults(system_arguments, tag: :p, color: :muted, mb: 2)
+          end
+
+          private
+
+          def text_with_defaults(system_arguments, defaults)
+            Primer::Beta::Text.new(**system_arguments.reverse_merge(defaults))
+          end
+
+          def render_show_all?
+            EnterpriseToken.allows_to?(:baseline_comparison)
+          end
+        end
       end
     end
   end

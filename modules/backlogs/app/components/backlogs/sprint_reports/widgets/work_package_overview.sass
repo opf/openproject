@@ -1,0 +1,18 @@
+.op-wp-overview--blocks
+  container-type: inline-size
+  display: flex
+  flex-wrap: wrap
+  gap: var(--stack-gap-normal)
+
+  > .op-wp-overview--block
+    // 1x4 blocks (all 4 blocks in one row)
+    flex: 1 1 0
+    min-width: 0
+
+    @container (max-width: 800px)
+      // Collapse to 2x2 blocks
+      flex-basis: calc(50% - var(--stack-gap-normal) / 2)
+
+    @container (max-width: 400px)
+      // Collapse to 4x1 blocks
+      flex-basis: 100%

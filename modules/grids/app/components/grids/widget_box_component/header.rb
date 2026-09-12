@@ -49,6 +49,10 @@ module Grids
         }
       }
 
+      renders_one :counter, ->(**system_arguments) do
+        Primer::Beta::Counter.new(**system_arguments.reverse_merge(ml: 2, scheme: :primary, round: true))
+      end
+
       # @param attribute_label [Hash, nil] Optional args for AttributeLabelComponent (model:, attribute:, current_user:)
       # @param system_arguments [Hash] <%= link_to_system_arguments_docs %>
       def initialize(title:, attribute_label: nil, **system_arguments)
