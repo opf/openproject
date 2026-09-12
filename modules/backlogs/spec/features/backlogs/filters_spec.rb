@@ -97,6 +97,21 @@ RSpec.describe "Backlog quick search and advanced filters", :js do
     backlogs_page.expect_inbox_work_package_count(1)
   end
 
+  it "shows the loading spinner on the backlogs container while the subject quick search is in flight" do
+    expect(page).to have_no_css("turbo-frame#backlogs_container[busy]")
+    expect(page).to have_no_css("#global-loading-indicator", visible: :visible)
+
+    # Not using `apply_subject_filter`, as it waits for the network to go
+    # idle, which would hide the very state under test here.
+    fill_in "Search work packages by subject", with: "Needle"
+
+    expect(page).to have_css("turbo-frame#backlogs_container[busy]")
+    expect(page).to have_css("#global-loading-indicator", visible: :visible)
+
+    expect(page).to have_no_css("turbo-frame#backlogs_container[busy]")
+    expect(page).to have_no_css("#global-loading-indicator", visible: :visible)
+  end
+
   it "narrows the listings when an advanced filter is applied" do
     backlogs_page.expect_bucket_items(bucket, items: status_b_bucket_wp)
     backlogs_page.expect_sprint_items(sprint, items: status_b_sprint_wp)

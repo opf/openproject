@@ -28,7 +28,7 @@
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as Turbo from '@hotwired/turbo';
-import { applyTurboNavigationPatch } from './turbo-navigation-patch';
+import { applyTurboNavigationPatch, stripStaleBusyState } from './turbo-navigation-patch';
 
 // The FrameController prototype the patch reaches into. Internal Turbo API,
 // not part of the public types, hence the casts.
@@ -60,5 +60,33 @@ describe('turbo-navigation-patch (tripwire for hotwired/turbo#1300)', () => {
     const patched = proto.proposeVisitIfNavigatedWithAction;
     expect(patched).not.toBe(original);
     expect(String(patched)).toContain('ownerDocument');
+  });
+});
+
+describe('stripStaleBusyState', () => {
+  it('removes busy and aria-busy from every busy turbo-frame in the subtree', () => {
+    const root = document.createElement('div');
+    root.innerHTML = `
+      <turbo-frame id="a" busy aria-busy="true"></turbo-frame>
+      <div><turbo-frame id="b" busy aria-busy="true"></turbo-frame></div>
+      <turbo-frame id="c"></turbo-frame>
+    `;
+
+    stripStaleBusyState(root);
+
+    expect(root.querySelector('#a')!.hasAttribute('busy')).toBe(false);
+    expect(root.querySelector('#a')!.hasAttribute('aria-busy')).toBe(false);
+    expect(root.querySelector('#b')!.hasAttribute('busy')).toBe(false);
+    expect(root.querySelector('#b')!.hasAttribute('aria-busy')).toBe(false);
+    expect(root.querySelector('#c')!.hasAttribute('busy')).toBe(false);
+  });
+
+  it('leaves unrelated content untouched', () => {
+    const root = document.createElement('div');
+    root.innerHTML = '<turbo-frame id="a" busy aria-busy="true"><p>content</p></turbo-frame>';
+
+    stripStaleBusyState(root);
+
+    expect(root.querySelector('p')!.textContent).toBe('content');
   });
 });
