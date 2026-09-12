@@ -31,11 +31,12 @@ import {
   type ElementEventPayloadMap,
 } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { Controller } from '@hotwired/stimulus';
-import { FetchRequest } from '@rails/request.js';
 import { announce } from '@primer/live-region-element';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { OPToastEvent } from 'core-app/shared/components/toaster/toast-event';
 import { flipMove } from 'core-stimulus/helpers/flip-helper';
+import { TurboRequestScope } from 'core-turbo/request-scope';
+import { isUnprocessableEntity, request } from 'core-turbo/requests';
 import { parseTemplate } from 'url-template';
 import {
   buildMoveFormData,
@@ -100,7 +101,14 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   private healScheduled = false;
   private reconcileScheduled = false;
 
+  // Outlives disconnects: a move in flight when the root is detached keeps
+  // running and blocks new moves again once the root reconnects.
+  private readonly moves = new TurboRequestScope();
+  private unsubscribeMoves?:CleanupFn;
+
   connect():void {
+    this.unsubscribeMoves = this.moves.subscribe(this.projectBusyState);
+    this.projectBusyState();
     this.monitorCleanupFn = monitorForElements({
       canMonitor: ({ source }) => !this.busy
         && isSortableItemData(source.data)
@@ -120,6 +128,8 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   }
 
   disconnect():void {
+    this.unsubscribeMoves?.();
+    this.unsubscribeMoves = undefined;
     this.element.removeEventListener('turbo:morph-element', this.scheduleRegistrationHeal);
     this.teardownSelection();
     this.monitorCleanupFn?.();
@@ -311,7 +321,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   }
 
   get busy():boolean {
-    return this.element.hasAttribute(sortableListsBusyAttribute);
+    return this.moves.busy;
   }
 
   // A direction is offered exactly when the move resolver can produce a
@@ -545,45 +555,50 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     previousItemId:string|null;
     moveUrl:string;
   }):Promise<MoveResult> {
-    const request = new FetchRequest(
-      'put',
-      moveUrl,
-      {
-        body: buildMoveFormData({
-          listId: listData.listId,
-          previousItemId,
-          type: listData.type,
-        }),
-        responseKind: 'turbo-stream',
-      },
-    );
+    const body = buildMoveFormData({
+      listId: listData.listId,
+      previousItemId,
+      type: listData.type,
+    });
 
-    this.setBusy(true);
     try {
-      const response = await request.perform();
+      const response = await request(
+        moveUrl,
+        {
+          method: 'PUT',
+          body,
+          responseKind: 'turbo-stream',
+          headers: { 'X-Requested-With': 'XMLHttpRequest' },
+          scope: this.moves,
+        },
+      );
 
-      if (!response.ok) {
+      if (response.failed) {
         debugLog(`Failed to move sortable list item: ${response.statusCode}`);
       }
 
-      return response.ok
+      return response.succeeded
         ? { ok: true }
-        : { ok: false, showToast: response.statusCode !== 422 };
+        : { ok: false, showToast: !isUnprocessableEntity(response) };
     } catch (error) {
       debugLog('Failed to move sortable list item due to request error', error);
       return { ok: false, showToast: true };
-    } finally {
-      this.setBusy(false);
     }
   }
 
-  private setBusy(busy:boolean):void {
-    if (busy) {
+  // Mirrors the scope onto the root element for styling and child guards;
+  // only while connected, so a detached root is never touched.
+  private projectBusyState = ():void => {
+    if (!this.element.isConnected) {
+      return;
+    }
+
+    if (this.moves.busy) {
       this.element.setAttribute(sortableListsBusyAttribute, 'true');
     } else {
       this.element.removeAttribute(sortableListsBusyAttribute);
     }
-  }
+  };
 
   private dispatchErrorToast():void {
     window.dispatchEvent(new CustomEvent(OPToastEvent, {

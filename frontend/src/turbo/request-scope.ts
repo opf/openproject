@@ -26,47 +26,52 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import * as Turbo from '@hotwired/turbo';
+// Counts the in-flight operations of one consumer (a controller root, a
+// dialog trigger) so it can block re-entrant work and reflect busy state onto
+// whatever DOM it currently owns. Knows nothing of DOM or Angular: consumers
+// construct it synchronously, keep it across reconnects and subscribe to
+// project its state.
+export class TurboRequestScope {
+  #pending = 0;
 
-export namespace TurboHelpers {
-  let progressBarTimeout:number | undefined;
-  let pendingOperations = 0;
+  #listeners = new Set<() => void>();
 
-  function getProgressBar():Turbo.ProgressBar {
-    return (Turbo.session.adapter as Turbo.BrowserAdapter).progressBar;
+  get busy():boolean {
+    return this.#pending > 0;
   }
 
-  // Overlapping operations share the bar: it shows for the first one and
-  // hides only once the last one has finished.
-  export function showProgressBar() {
-    pendingOperations += 1;
-    if (pendingOperations > 1) {
-      return;
-    }
+  subscribe(listener:() => void):() => void {
+    this.#listeners.add(listener);
 
-    const progressBar = getProgressBar();
-    progressBar.setValue(0);
-    progressBarTimeout ??= window.setTimeout(() => {
-      progressBar.show();
-    }, Turbo.config.drive.progressBarDelay);
+    return () => {
+      this.#listeners.delete(listener);
+    };
   }
 
-  export function hideProgressBar() {
-    if (pendingOperations === 0) {
-      return;
+  async track<T>(operation:() => Promise<T>):Promise<T> {
+    this.#enter();
+    try {
+      return await operation();
+    } finally {
+      this.#leave();
     }
+  }
 
-    pendingOperations -= 1;
-    if (pendingOperations > 0) {
-      return;
+  #enter():void {
+    this.#pending += 1;
+    if (this.#pending === 1) {
+      this.#notify();
     }
+  }
 
-    const progressBar = getProgressBar();
-    progressBar.setValue(1);
-    progressBar.hide();
-    if (progressBarTimeout != null) {
-      window.clearTimeout(progressBarTimeout);
-      progressBarTimeout = undefined;
+  #leave():void {
+    this.#pending -= 1;
+    if (this.#pending === 0) {
+      this.#notify();
     }
+  }
+
+  #notify():void {
+    this.#listeners.forEach((listener) => listener());
   }
 }

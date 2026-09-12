@@ -27,8 +27,9 @@
 //++
 
 import { ApplicationController } from 'stimulus-use';
-import { renderStreamMessage } from '@hotwired/turbo';
 import { TurboHelpers } from 'core-turbo/helpers';
+import { request } from 'core-turbo/requests';
+import { handleDialogResponse } from 'core-stimulus/helpers/request-helpers';
 
 export default class AsyncDialogController extends ApplicationController {
   static values = { disableDuringLoad: { type: Boolean, default: true } };
@@ -67,29 +68,16 @@ export default class AsyncDialogController extends ApplicationController {
     }
     TurboHelpers.showProgressBar();
 
-    void fetch(url, {
-      method: this.method,
-      headers: {
-        Accept: 'text/vnd.turbo-stream.html',
-      },
-    }).then((response) => {
-      const contentType = response.headers.get('Content-Type') ?? '';
-      const isTurboStream = contentType.includes('text/vnd.turbo-stream.html');
-
-      if (!isTurboStream) {
-        return Promise.reject(new Error('Response is not a Turbo Stream'));
-      }
-
-      return response.text();
-    }).then((html) => {
-      renderStreamMessage(html);
-    }).finally(() => {
-      if (this.disableDuringLoadValue) {
-        this.loading = false;
-        (this.element as HTMLElement).removeAttribute('aria-disabled');
-      }
-      TurboHelpers.hideProgressBar();
-    });
+    void request(url, { method: this.method, responseKind: 'turbo-stream' })
+      .then(handleDialogResponse)
+      .catch((error) => { console.error(error); })
+      .finally(() => {
+        if (this.disableDuringLoadValue) {
+          this.loading = false;
+          (this.element as HTMLElement).removeAttribute('aria-disabled');
+        }
+        TurboHelpers.hideProgressBar();
+      });
   }
 
   handleOpenDialog(event:CustomEvent<{ url:string }>):void {

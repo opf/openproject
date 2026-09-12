@@ -26,9 +26,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { FetchRequest, FetchResponse, Options } from '@rails/request.js';
+import type { FetchResponse } from '@hotwired/turbo';
+import { FetchRequest, type Options } from '@rails/request.js';
 import { hideElement, showElement } from 'core-app/shared/helpers/dom-helpers';
 import { TurboHelpers } from 'core-turbo/helpers';
+import { isTurboStream, renderErrorStream } from 'core-turbo/requests';
 import invariant from 'tiny-invariant';
 
 export function post(url:string|URL, options?:Options) {
@@ -36,7 +38,15 @@ export function post(url:string|URL, options?:Options) {
   return withLoadingIndicator(request.perform());
 }
 
-export function withLoadingIndicator(request:Promise<FetchResponse>) {
+export async function handleDialogResponse(response:FetchResponse):Promise<void> {
+  if (!isTurboStream(response)) {
+    throw new Error(`Expected a Turbo Stream response but got "${response.contentType}" instead`);
+  }
+
+  await renderErrorStream(response);
+}
+
+export function withLoadingIndicator<T>(request:Promise<T>):Promise<T> {
   const loadingIndicator = document.querySelector<HTMLElement>('#global-loading-indicator');
   invariant(loadingIndicator, 'Expected an Element with id global-loading-indicator to be present');
   showElement(loadingIndicator);
@@ -46,7 +56,7 @@ export function withLoadingIndicator(request:Promise<FetchResponse>) {
   });
 }
 
-export function withProgressBar(request:Promise<FetchResponse>) {
+export function withProgressBar<T>(request:Promise<T>):Promise<T> {
   TurboHelpers.showProgressBar();
 
   return request.finally(() => {
