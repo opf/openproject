@@ -95,6 +95,20 @@ describe('ProjectTimelineTooltipPopover', () => {
     expect(popover()?.matches(':popover-open')).toBe(true);
   });
 
+  it('anchors on the visible part of a clipped item', () => {
+    container.style.cssText = 'position: relative; width: 100px; height: 40px; overflow: hidden;';
+    item.style.cssText = 'position: absolute; left: 50px; top: 10px; width: 100px; height: 20px;';
+    new ProjectTimelineTooltipPopover(timeline as unknown as Timeline, container, builder);
+
+    hoverItem();
+    vi.advanceTimersByTime(500);
+
+    const anchor = (popover() as unknown as { anchorElement:DOMRect }).anchorElement;
+    const clipRight = container.getBoundingClientRect().left + container.clientLeft + container.clientWidth;
+    expect(anchor.right).toBeCloseTo(clipRight, 0);
+    expect(anchor.width).toBeCloseTo(50, 0);
+  });
+
   it('unregisters its timeline handlers and removes its host on destroy', () => {
     const tooltip = new ProjectTimelineTooltipPopover(timeline as unknown as Timeline, container, builder);
     hoverItem();
