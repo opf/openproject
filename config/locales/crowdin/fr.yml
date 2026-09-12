@@ -2050,10 +2050,6 @@ fr:
       not_found:
         reminder: Le rappel que vous cherchez est introuvable ou a été supprimé.
         work_package: Le lot de travaux que vous cherchez est introuvable ou a été supprimé.
-      render:
-        context_not_parsable: Le contexte fourni n'est pas un lien vers une ressource.
-        context_object_not_found: Impossible de trouver la ressource donnée comme contexte.
-        unsupported_context: La ressource donnée n'est pas prise en charge comme contexte.
       unable_to_create_attachment: La pièce jointe n'a pas pu être créée
       unable_to_create_attachment_permissions: La pièce jointe n'a pas pu être enregistrée en raison de l'absence de permissions du système de fichiers
       user:
@@ -6116,13 +6112,14 @@ fr:
         <br>
         <strong>Remarque</strong> : les valeurs héritées (par exemple, des enfants ou des relations) s'appliquent toujours.
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Exclus des totaux
         is_closed: Fermé
-        is_default: Défaut
         is_readonly: Lecture seule
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Ajouter un nouveau statut
       no_results_title_text: Aucun statut de lots de travaux pour le moment.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: et
@@ -6412,7 +6409,6 @@ fr:
         add_query_group: Tableau des lots de travaux associés
         blankslate_description: Ajoutez des groupes à l'aide du bouton ci-dessus ou faites glisser des attributs depuis le panneau de gauche.
         blankslate_title: Aucun groupe pour le moment
-        builtin_field: Champ natif
         confirm_delete_group: Voulez-vous vraiment supprimer cette section ? Cette action ne peut pas être annulée automatiquement.
         confirm_reset: Êtes-vous sûr de vouloir réinitialiser le formulaire ?
         custom_field: Champ personnalisé

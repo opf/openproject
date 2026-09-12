@@ -2050,10 +2050,6 @@ de:
       not_found:
         reminder: Die Erinnerung konnte nicht gefunden werden oder wurde gelöscht.
         work_package: Das von Ihnen gesuchte Arbeitspaket konnte nicht gefunden werden oder wurde gelöscht.
-      render:
-        context_not_parsable: Der übergebene Kontext ist kein Link zu einer Ressource.
-        context_object_not_found: Die als Kontext übergebene Ressource konnte nicht gefunden werden.
-        unsupported_context: Die übergebene Ressource wird nicht als Kontext unterstützt.
       unable_to_create_attachment: Der Anhang konnte nicht erstellt werden
       unable_to_create_attachment_permissions: Der Anhang konnte aufgrund fehlender Dateisystemberechtigungen nicht gespeichert werden
       user:
@@ -6119,13 +6115,14 @@ de:
         <br>
         <strong>Hinweis</strong>: Vererbte Attribute (z.B. von Unteraufgaben oder Relationen) werden auch auf Arbeitspakete in diesen Status angewandt.
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Von Gesamtsumme auschließen
         is_closed: Erledigt
-        is_default: Standard
         is_readonly: Schreibgeschützt
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Neuen Status hinzufügen
       no_results_title_text: Derzeit gibt es keine Arbeitspaket-Status.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: und
@@ -6415,7 +6412,6 @@ de:
         add_query_group: Zugehörige Arbeitspaket-Tabelle
         blankslate_description: Fügen Sie Gruppen über die Schaltfläche oben hinzu oder ziehen Sie Attribute aus dem linken Bereich.
         blankslate_title: Noch keine Gruppen
-        builtin_field: Vordefiniertes Feld
         confirm_delete_group: Sind Sie sicher, dass Sie diesen Abschnitt löschen möchten? Diese Aktion kann nicht automatisch rückgängig gemacht werden.
         confirm_reset: Sind Sie sicher, dass Sie das Formular zurücksetzen möchten?
         custom_field: Benutzerdefiniertes Feld

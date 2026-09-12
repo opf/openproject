@@ -2290,10 +2290,6 @@ ru:
       not_found:
         reminder: Напоминание, которое вы ищете, не найдено или было удалено.
         work_package: Пакет работ, который вы ищете, не найден или был удален.
-      render:
-        context_not_parsable: Предоставленного контекста не является ссылка на ресурс.
-        context_object_not_found: Не удается найти ресурс заданный как контекст.
-        unsupported_context: Ресурс не поддерживается как контекст.
       unable_to_create_attachment: Вложение не может быть создано
       unable_to_create_attachment_permissions: Вложение не может быть сохранено из-за отсутствия прав на файловую систему
       user:
@@ -6434,13 +6430,14 @@ ru:
         <br>
         <strong>Примечание</strong>: Будут применены унаследованные значения (например, от дочерних или родительских пакетов работ).
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Исключен из итогов
         is_closed: Закрыт
-        is_default: По умолчанию
         is_readonly: Только для чтения
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Добавить новый статус
       no_results_title_text: В данный момент статусы пакетов работ отсутствуют.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: и
@@ -6724,7 +6721,6 @@ ru:
         add_query_group: Таблица связанных пакетов работ
         blankslate_description: Добавьте группы с помощью кнопки выше или перетащите атрибуты с левой панели.
         blankslate_title: Нет групп
-        builtin_field: Встроенное поле
         confirm_delete_group: Вы уверены, что хотите удалить эту секцию? Это действие нельзя автоматически отменить.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Настраиваемое поле

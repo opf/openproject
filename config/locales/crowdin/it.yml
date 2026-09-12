@@ -2054,10 +2054,6 @@ it:
       not_found:
         reminder: Il promemoria che stai cercando non può essere trovatoo è stato eliminato.
         work_package: La macro-attività che stai cercando non può essere trovata o è stata eliminata.
-      render:
-        context_not_parsable: Il contesto fornito non è un collegamento a una risorsa.
-        context_object_not_found: Impossibile trovare la risorsa indicata come contesto.
-        unsupported_context: La risorsa non è supportata come contesto.
       unable_to_create_attachment: Il tema potrebbe non essere creato
       unable_to_create_attachment_permissions: L'allegato non può essere salvato a causa della mancanza di permessi nel file system
       user:
@@ -6121,13 +6117,14 @@ it:
         <br>
         <strong> Nota </strong>: i valori ereditati (ad esempio, dai figli o dalle relazioni) verranno comunque applicati.
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Escluso dai totali
         is_closed: Chiuso
-        is_default: Predefinito
         is_readonly: Sola lettura
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Aggiungi un nuovo stato
       no_results_title_text: Al momento non vi sono relazioni sullo stato delle macro-attività.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: e
@@ -6413,7 +6410,6 @@ it:
         add_query_group: Tabella di macro-attività correlate
         blankslate_description: Aggiungi gruppi utilizzando il pulsante sopra oppure trascina gli attributi dal pannello di sinistra.
         blankslate_title: Ancora nessun gruppo
-        builtin_field: Campo integrato
         confirm_delete_group: Vuoi davvero eliminare questa sezione? Questa azione non può essere annullata automaticamente.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Campo personalizzato

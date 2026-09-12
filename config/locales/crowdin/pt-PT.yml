@@ -2050,10 +2050,6 @@ pt-PT:
       not_found:
         reminder: O lembrete que procura não pode ser encontrado ou foi eliminado.
         work_package: O pacote de trabalho que procura não foi encontrado ou foi eliminado.
-      render:
-        context_not_parsable: O contexto fornecido não é um link para um recurso.
-        context_object_not_found: Não é possível encontrar o recurso dado como contexto.
-        unsupported_context: Não há suporte para o recurso dado como contexto.
       unable_to_create_attachment: Não foi possível criar o anexo
       unable_to_create_attachment_permissions: Não foi possível guardar o anexo devido a falta de permissões no sistema de ficheiros
       user:
@@ -6106,13 +6102,14 @@ pt-PT:
         <br>
         <strong>Nota</strong>: Valores herdados (p. ex.,: por crianças ou relações) ainda serão aplicados.
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Excluído dos totais
         is_closed: Fechado
-        is_default: Predefinido
         is_readonly: Só de leitura
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Adicione um novo estado
       no_results_title_text: Atualmente, não existem estados de pacote de trabalho.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: e
@@ -6402,7 +6399,6 @@ pt-PT:
         add_query_group: Tabela de pacotes de trabalho relacionados
         blankslate_description: Adicione grupos no botão acima ou arraste atributos do painel esquerdo.
         blankslate_title: Ainda sem grupos
-        builtin_field: Campo incorporado
         confirm_delete_group: Tem a certeza de que quer eliminar esta secção? Esta ação não pode ser revertida automaticamente.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Campo personalizado

@@ -2048,10 +2048,6 @@ hy:
       not_found:
         reminder: Ձեր փնտրած հիշեցումը չի գտնվել կամ ջնջվել է։
         work_package: Ձեր փնտրած աշխատանքային փաթեթը չի գտնվել կամ ջնջվել է։
-      render:
-        context_not_parsable: Տրամադրված համատեքստը ռեսուրսի հղում չէ։
-        context_object_not_found: Հնարավոր չէ գտնել որպես համատեքստ նշված ռեսուրսը։
-        unsupported_context: Նշված ռեսուրսը չի աջակցվում որպես համատեքստ։
       unable_to_create_attachment: Կցորդը չհաջողվեց ստեղծել
       unable_to_create_attachment_permissions: Կցորդը չհաջողվեց պահպանել նիշքային համակարգի բացակայող թույլտվությունների պատճառով
       user:
@@ -6115,13 +6111,14 @@ hy:
         <br>
         <strong>Նշում</strong>՝ ժառանգված արժեքները (օրինակ՝ ենթատարրերից կամ կապերից) դեռևս կկիրառվեն։
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Բացառված ընդհանուր գումարներից
         is_closed: Փակված
-        is_default: Կանխադրված
         is_readonly: Միայն ընթերցելի
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Ավելացրեք նոր կարգավիճակ
       no_results_title_text: Ներկայումս աշխատանքային փաթեթների կարգավիճակներ չկան։
+      status_actions: Status actions
   support:
     array:
       sentence_connector: և
@@ -6411,7 +6408,6 @@ hy:
         add_query_group: Կապակցված աշխատանքային փաթեթների աղյուսակ
         blankslate_description: Ավելացրեք խմբեր վերևի կոճակի միջոցով կամ քաշեք հատկանիշները ձախ վահանակից։
         blankslate_title: Դեռ խմբեր չկան
-        builtin_field: Ներկառուցված դաշտ
         confirm_delete_group: Համոզվա՞ծ եք, որ ցանկանում եք ջնջել այս բաժինը։ Այս գործողությունը հնարավոր չէ ավտոմատ կերպով հետարկել։
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Հատուկ դաշտ

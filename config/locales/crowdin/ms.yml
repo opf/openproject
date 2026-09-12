@@ -1934,10 +1934,6 @@ ms:
       not_found:
         reminder: The reminder you are looking for cannot be found or has been deleted.
         work_package: Pakej kerja yang anda cari tidak dapat ditemui atau telah dipadamkan.
-      render:
-        context_not_parsable: Konteks yang diberi bukan satu pautan untuk sumber.
-        context_object_not_found: Tidak dapat mencari sumber yang diberikan sebagai konteks.
-        unsupported_context: Sumber yang diberi tidak disokong sebagai konteks.
       unable_to_create_attachment: Lampiran tidak boleh dicipta
       unable_to_create_attachment_permissions: Lampiran tidak dapat disimpan kerana kurang kebenaran sistem fail
       user:
@@ -5972,13 +5968,14 @@ ms:
         <br>
         <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Dikecualikan daripada jumlah
         is_closed: Tertutup
-        is_default: Default
         is_readonly: Baca-sahaja
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Tambah status baharu
       no_results_title_text: Tiada status pakej kerja buat masa ini.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: dan
@@ -6264,7 +6261,6 @@ ms:
         add_query_group: Related work packages table
         blankslate_description: Add groups using the button above or drag attributes from the left panel.
         blankslate_title: No groups yet
-        builtin_field: Built-in field
         confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Custom field

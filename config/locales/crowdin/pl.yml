@@ -2290,10 +2290,6 @@ pl:
       not_found:
         reminder: Nie można znaleźć szukanego przypomnienia lub zostało ono usunięte.
         work_package: Pakiet roboczy, którego szukasz nie został znaleziony lub został usunięty.
-      render:
-        context_not_parsable: Podany kontekst nie jest linkiem do zasobu.
-        context_object_not_found: Nie można odnaleźć zasobu z podanym kontekstem.
-        unsupported_context: Podany zasób nie jest obsługiwany jako kontekst.
       unable_to_create_attachment: Nie można utworzyć załącznika
       unable_to_create_attachment_permissions: Nie można zapisać załącznika ze względu na brak uprawnień do systemu plików
       user:
@@ -6434,13 +6430,14 @@ pl:
         <br>
         <strong>Uwaga</strong>: wartości dziedziczone (np. po elementach podrzędnych lub relacjach) będą nadal stosowane.
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Wyłączono z sum
         is_closed: Zamknięty
-        is_default: Domyślny
         is_readonly: Tylko do odczytu
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Dodaj nowy status
       no_results_title_text: Nie ma aktualnie żadnych statusów Zestawu zadań.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: i
@@ -6730,7 +6727,6 @@ pl:
         add_query_group: Tabela powiązanych pakietów roboczych
         blankslate_description: Dodaj grupy, używając powyższego przycisku lub przeciągnij atrybuty z lewego panelu.
         blankslate_title: Nie ma jeszcze grup
-        builtin_field: Wbudowane pole
         confirm_delete_group: Czy na pewno chcesz usunąć tę sekcję? Tego działania nie można automatycznie cofnąć.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Pole niestandardowe

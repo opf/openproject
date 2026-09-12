@@ -2170,10 +2170,6 @@ ro:
       not_found:
         reminder: The reminder you are looking for cannot be found or has been deleted.
         work_package: Pachetul de lucru pe care îl căutați nu poate fi găsit sau a fost șters.
-      render:
-        context_not_parsable: Contextul primit nu reprezintă un link la o resursă.
-        context_object_not_found: Resursa furnizată ca și contet nu poate fi identificată.
-        unsupported_context: Resursa furnizată nu este suportată ca și context.
       unable_to_create_attachment: Atașamentul nu a putut fi creat
       unable_to_create_attachment_permissions: Atașamentul nu a putut fi salvat din cauza lipsei permisiunilor sistemului de fișiere
       user:
@@ -6282,13 +6278,14 @@ ro:
         <br>
         <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Exclus din totaluri
         is_closed: Închis
-        is_default: Implicit
         is_readonly: Doar citire
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Adaugă stare nouă
       no_results_title_text: În acest moment nu există stări pentru pachetele de lucru.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: și
@@ -6576,7 +6573,6 @@ ro:
         add_query_group: Related work packages table
         blankslate_description: Add groups using the button above or drag attributes from the left panel.
         blankslate_title: No groups yet
-        builtin_field: Built-in field
         confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Custom field

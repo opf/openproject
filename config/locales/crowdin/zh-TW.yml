@@ -1934,12 +1934,6 @@ zh-TW:
       not_found:
         reminder: 您查找的提醒不存在或已被刪除。
         work_package: 找不到您要查找的工作套件或者它已被刪除。
-      render:
-        context_not_parsable: 提供的對應文不是指向資源的連結。
-        context_object_not_found: |-
-          Cannot find the resource given with the context.
-          無法找到本文對應的資源。
-        unsupported_context: 所提供的資源不受相對應支援。
       unable_to_create_attachment: 無法創建附件
       unable_to_create_attachment_permissions: 缺乏檔案系統權限，無法儲存此附件
       user:
@@ -5963,13 +5957,14 @@ zh-TW:
         <br>
         <strong>注意</strong>：繼承的值（例如來自子項或關係）仍然適用。
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: 不包括在總計中
         is_closed: 已關閉
-        is_default: 預設
         is_readonly: 唯讀
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: 新增一個狀態
       no_results_title_text: 目前沒有任何工作套件狀態。
+      status_actions: Status actions
   support:
     array:
       sentence_connector: 和
@@ -6259,7 +6254,6 @@ zh-TW:
         add_query_group: Related work packages table
         blankslate_description: Add groups using the button above or drag attributes from the left panel.
         blankslate_title: No groups yet
-        builtin_field: Built-in field
         confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Custom field
