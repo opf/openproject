@@ -42,7 +42,7 @@ RSpec.describe Burndown do
   end
 
   let(:project) { create(:project) }
-  let(:role) { create(:project_role) }
+  let(:role) { create(:project_role, permissions: %i[view_work_packages]) }
   let(:type_feature) { create(:type_feature) }
   let(:type_task) { create(:type_task) }
   let(:issue_priority) { create(:priority, is_default: true) }
