@@ -80,10 +80,7 @@ module Admin
         end
       end
 
-      result.on_success do
-        flash[:notice] = t(:notice_successful_update)
-        redirect_to action: :index
-      end
+      result.on_success { respond_to_successful_update }
     end
 
     def deletion_dialog
@@ -144,6 +141,18 @@ module Admin
     end
 
     private
+
+    def respond_to_successful_update
+      if params.key?(:save_and_stay)
+        render_success_flash_message_via_turbo_stream(message: t(:notice_successful_update))
+        stream_form_component do |format|
+          format.html { redirect_to action: :edit }
+        end
+      else
+        flash[:notice] = t(:notice_successful_update)
+        redirect_to action: :index
+      end
+    end
 
     def find_text_transform_action
       @text_transform_action = AI::TextTransformAction.find(params.expect(:id))
