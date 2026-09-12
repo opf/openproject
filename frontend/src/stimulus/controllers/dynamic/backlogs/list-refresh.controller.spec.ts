@@ -121,7 +121,7 @@ describe('Backlogs list-refresh controller', () => {
     // Emulate a Turbo morph refresh: the response frame carries the same
     // attributes (they are declared identically on both frame tags) and new
     // children, so idiomorph keeps the live element and morphs the content.
-    Idiomorph.morph(
+    void Idiomorph.morph(
       frame,
       `<turbo-frame id="backlogs-list" refresh="morph" data-controller="backlogs--list-refresh">
         <ul><li>two</li></ul>
