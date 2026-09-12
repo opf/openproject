@@ -34,7 +34,7 @@ module API
           route_param :id, type: Integer, desc: "Custom action ID" do
             helpers do
               def custom_action
-                @custom_action ||= CustomAction.find(params[:id])
+                @custom_action ||= Automation.with_manual_trigger.find(params[:id])
               end
             end
 
@@ -63,8 +63,8 @@ module API
               end
 
               after_validation do
-                contract = ::CustomActions::ExecuteContract.new(parsed_params, current_user,
-                                                                options: { custom_action: })
+                contract = ::Automations::ExecuteContract.new(parsed_params, current_user,
+                                                              options: { automation: custom_action })
 
                 unless contract.valid?
                   fail ::API::Errors::ErrorBase.create_and_merge_errors(contract.errors)
@@ -75,7 +75,7 @@ module API
                 work_package = WorkPackage.visible.find_by(id: parsed_params.work_package_id)
                 work_package.lock_version = parsed_params.lock_version
 
-                ::CustomActions::UpdateWorkPackageService
+                ::Automations::UpdateWorkPackageService
                   .new(user: current_user,
                        action: custom_action)
                   .call(work_package:) do |call|

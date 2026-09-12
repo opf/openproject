@@ -50,14 +50,13 @@ RSpec.describe NoResultsHelper do
       expect(no_results_box).to have_link "Add some foo", href: "/"
     end
 
-    it "contains title and content_link with custom text" do
+    it "contains title with custom text" do
       no_results_box = helper.no_results_box(action_url: root_path,
                                              display_action: true,
-                                             custom_title: "This is a different title about foo",
-                                             custom_action_text: "Link to nowhere")
+                                             custom_title: "This is a different title about foo")
 
       expect(no_results_box).to have_content "This is a different title about foo"
-      expect(no_results_box).to have_link "Link to nowhere", href: "/"
+      expect(no_results_box).to have_link "Add some foo", href: "/"
     end
   end
 end
