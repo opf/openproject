@@ -114,8 +114,32 @@ export function isOrderableItem(itemElement:Element):boolean {
   return itemMobility(itemElement) !== 'fixed';
 }
 
-export function isConfinedItem(itemElement:Element):boolean {
-  return itemMobility(itemElement) === 'confined';
+// A destination an item may be moved to: a list, identified by type and id
+// (null for the type's unlisted bucket).
+export interface DestinationIdentity {
+  type:string;
+  id:string|null;
+}
+
+export function sameDestination(left:DestinationIdentity|null, right:DestinationIdentity):boolean {
+  return left?.type === right.type && left.id === right.id;
+}
+
+// Whether the item may enter the destination: the one policy behind every
+// surface offering a move.
+export function itemAcceptsDestination(
+  item:HTMLElement,
+  target:DestinationIdentity,
+  ownerDestinationOf:(item:HTMLElement) => DestinationIdentity|null,
+):boolean {
+  switch (itemMobility(item)) {
+    case 'fixed':
+      return false;
+    case 'confined':
+      return sameDestination(ownerDestinationOf(item), target);
+    default:
+      return true;
+  }
 }
 
 export function resolveItemType(element:Element):string|null {
@@ -160,6 +184,33 @@ export function resolvePreviousItemId(element:Element, boundary:Element):string|
   return item ? resolveItemId(item) : element.getAttribute(sortablePreviousItemIdAttribute);
 }
 
+// resolvePreviousItemId plus the type of the item the id belongs to. A
+// truncation marker row resolves no item element, so its id carries no type.
+export function resolvePreviousItem(element:Element, boundary:Element):{ id:string; type:string|null }|null {
+  const item = resolveItemElement(element, boundary);
+  if (item) {
+    const id = resolveItemId(item);
+    return id ? { id, type: resolveItemType(item) } : null;
+  }
+
+  const markerId = element.getAttribute(sortablePreviousItemIdAttribute);
+  return markerId ? { id: markerId, type: null } : null;
+}
+
+// The dragged batch a predecessor walk must skip. One item type per batch,
+// so a type plus an id set represents it completely.
+export interface ExcludedItems {
+  type:string;
+  ids:ReadonlySet<string>;
+}
+
+// Excluded only when id and type both match: ids collide across source
+// tables, so a same-id row of another type is a legitimate anchor. A
+// truncation marker resolves no type and stays excluded on its id alone.
+export function isExcludedItem(excluded:ExcludedItems, { id, type }:{ id:string; type:string|null }):boolean {
+  return excluded.ids.has(id) && (type === null || type === excluded.type);
+}
+
 // The inverse of resolvePreviousItemId: the previous item id can point at a
 // hidden item collapsed behind a truncation marker row, which carries the id
 // on data-sortable-lists-prev-item-id rather than exposing an item element.
@@ -176,18 +227,18 @@ function resolveAnchorRow(rowsContainer:HTMLElement, previousItemId:string):HTML
 }
 
 export function resolveListAppendPreviousItemId({
-  sourceItemId,
+  excludedItems,
   rowsContainer,
 }:{
-  sourceItemId:string;
+  excludedItems:ExcludedItems;
   rowsContainer:Element;
 }):string|null {
   const rows = listRows(rowsContainer).reverse();
 
   for (const row of rows) {
-    const itemId = resolvePreviousItemId(row, rowsContainer);
-    if (itemId && itemId !== sourceItemId) {
-      return itemId;
+    const item = resolvePreviousItem(row, rowsContainer);
+    if (item && !isExcludedItem(excludedItems, item)) {
+      return item.id;
     }
   }
 
@@ -339,6 +390,11 @@ export function resolveItemLabel(row:Element):string|null {
   return row instanceof HTMLElement && row.matches(sortableItemSelector)
     ? row.getAttribute('data-sortable-lists--item-label-value')
     : null;
+}
+
+export function resolveItemExternalUrl(itemElement:Element):string|null {
+  const url = itemElement.getAttribute('data-sortable-lists--item-external-url-value');
+  return url === '' ? null : url;
 }
 
 // A row a predecessor id can be read from: an item row, or a non-item row

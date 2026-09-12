@@ -177,6 +177,80 @@ describe('Backlogs work package controller', () => {
     }
   });
 
+  // The pressed state is visual only — data-activating, never ARIA — so
+  // every user gets synchronous feedback regardless of batch selection
+  // being enabled for them.
+  describe('activation feedback', () => {
+    it('shows pressed feedback synchronously on click, before any navigation', async () => {
+      const workPackage = renderWorkPackage();
+
+      await nextFrame();
+      workPackage.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+
+      expect(workPackage.hasAttribute('data-activating')).toBe(true);
+      expect(workPackage.hasAttribute('aria-current')).toBe(false);
+      expect(navigation.openSplitPane).not.toHaveBeenCalled();
+    });
+
+    it('shows pressed feedback synchronously on Enter', async () => {
+      const workPackage = renderWorkPackage();
+
+      await nextFrame();
+      keydown(workPackage, 'Enter');
+
+      expect(workPackage.hasAttribute('data-activating')).toBe(true);
+      expect(workPackage.hasAttribute('aria-current')).toBe(false);
+    });
+
+    it('clears pressed feedback when the visit lands on the card', async () => {
+      const workPackage = renderWorkPackage();
+
+      await nextFrame();
+      workPackage.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      document.dispatchEvent(new CustomEvent('turbo:visit', {
+        detail: { url: '/projects/demo/backlogs/details/SP-42' },
+      }));
+
+      expect(workPackage.hasAttribute('data-activating')).toBe(false);
+      expect(workPackage.getAttribute('aria-current')).toBe('true');
+    });
+
+    it('clears pressed feedback when the visit lands elsewhere', async () => {
+      const workPackage = renderWorkPackage();
+
+      await nextFrame();
+      workPackage.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      document.dispatchEvent(new CustomEvent('turbo:visit', {
+        detail: { url: '/projects/demo/backlogs' },
+      }));
+
+      expect(workPackage.hasAttribute('data-activating')).toBe(false);
+      expect(workPackage.hasAttribute('aria-current')).toBe(false);
+    });
+
+    it('clears pressed feedback when a double-click cancels the pending click', async () => {
+      const workPackage = renderWorkPackage();
+
+      await nextFrame();
+      workPackage.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      workPackage.dispatchEvent(new MouseEvent('dblclick', { bubbles: true }));
+
+      expect(workPackage.hasAttribute('data-activating')).toBe(false);
+      expect(navigation.openFullPane).toHaveBeenCalledTimes(1);
+    });
+
+    it('clears pressed feedback when the card disconnects', async () => {
+      const workPackage = renderWorkPackage();
+
+      await nextFrame();
+      workPackage.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      fixture.remove();
+      await nextFrame();
+
+      expect(workPackage.hasAttribute('data-activating')).toBe(false);
+    });
+  });
+
   it('marks the card as current when the URL points at it', async () => {
     const workPackage = renderWorkPackage();
 

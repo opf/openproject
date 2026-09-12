@@ -287,8 +287,19 @@ en:
       add_existing_dialog:
         invalid_target: "The target you are trying to add to is invalid."
         target_not_found: "The sprint or backlog you are trying to add to was not found."
+      batch_update_service:
+        mixed_projects: "All work packages of a batch must belong to the same project."
+        stale_batch: "At least one work package changed while the move was being prepared. Please check the current positions and try again."
+        stale_predecessor: "The work package to insert after has been moved elsewhere. Please check the current positions and try again."
+        unavailable_target: "The destination list is no longer available. Please reload the page and try again."
+        unexpected_failure: "The work packages could not be moved. Please try again."
       move:
         moved_announcement: "%{label} moved to %{list}, position %{position} of %{total}"
+      move_collection:
+        invalid_ids: "The list of work packages to move is invalid."
+        member_failed: "%{work_package}: %{reason}"
+        too_many_work_packages: "No more than %{max} work packages can be moved at once."
+        work_packages_not_found: "At least one work package could not be found in this project."
       update_service:
         invalid_target_type: "list_type must be one of: backlog_bucket with a list_id, sprint with a list_id, or inbox without a list_id."
         missing_target: "list_type or list_id must be present."
@@ -327,8 +338,11 @@ en:
   notice_unsuccessful_finish_with_reason: "The sprint could not be completed: %{reason}"
   notice_unsuccessful_start: "The sprint could not be started."
   notice_unsuccessful_start_with_reason: "The sprint could not be started: %{reason}"
-  notice_work_package_invisible_after_move: >
-    The work package was moved to %{backlog} but is not visible because its type or status is excluded from the backlog.
+  notice_work_package_invisible_after_move:
+    one: >
+      The work package was moved to %{backlog} but is not visible because its type or status is excluded from the backlog.
+    other: >
+      %{count} work packages were moved to %{backlog} but are not visible because their type or status is excluded from the backlog.
   permission_create_sprints: "Create sprints"
   permission_manage_sprint_items: "Manage sprint items"
   permission_select_backlog_types_and_statuses: "Select backlog types and statuses"

@@ -72,9 +72,16 @@ export default class WorkPackageController extends Controller<HTMLElement> imple
       clearTimeout(this.clickTimeout);
       this.clickTimeout = null;
     }
+
+    // A card that reconnects must not come back pressed.
+    this.unmarkAsActivating();
   }
 
   private syncCurrentFromUrl(locationUrl:string):void {
+    // However the visit resolved, the pressed state hands over to
+    // aria-current or to nothing.
+    this.unmarkAsActivating();
+
     const { pathname } = new URL(locationUrl, window.location.origin);
     const [, id] = DETAILS_URL_PATTERN.exec(pathname) ?? [];
     // Bookmarks and external links may still carry a numeric ID after the
@@ -88,13 +95,24 @@ export default class WorkPackageController extends Controller<HTMLElement> imple
 
   // Not set optimistically: activation waits out the double-click delay below
   // and may resolve to the full view instead, so asserting a current work
-  // package here would announce a navigation that may never happen.
+  // package here would announce a navigation that may never happen. Feedback
+  // is visual only: data-activating goes on synchronously and carries no ARIA
+  // semantics, since the card is an article and role=button was rejected in
+  // AGILE-251.
   markAsCurrent():void {
     this.element.setAttribute('aria-current', 'true');
   }
 
   unmarkAsCurrent():void {
     this.element.removeAttribute('aria-current');
+  }
+
+  markAsActivating():void {
+    this.element.setAttribute('data-activating', '');
+  }
+
+  unmarkAsActivating():void {
+    this.element.removeAttribute('data-activating');
   }
 
   handleEvent(event:Event):void {
@@ -119,6 +137,7 @@ export default class WorkPackageController extends Controller<HTMLElement> imple
 
     if (this.clickTimeout !== null) return;
 
+    this.markAsActivating();
     this.clickTimeout = window.setTimeout(() => {
       this.clickTimeout = null;
       this.openSplitPane();
@@ -134,6 +153,7 @@ export default class WorkPackageController extends Controller<HTMLElement> imple
     if (this.clickTimeout !== null) {
       clearTimeout(this.clickTimeout);
       this.clickTimeout = null;
+      this.unmarkAsActivating();
     }
 
     this.openFullPane();
@@ -149,6 +169,7 @@ export default class WorkPackageController extends Controller<HTMLElement> imple
 
     event.preventDefault();
 
+    this.markAsActivating();
     if (event.shiftKey) {
       this.openFullPane();
     } else {

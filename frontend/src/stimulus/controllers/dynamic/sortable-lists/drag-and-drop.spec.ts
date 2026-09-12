@@ -32,12 +32,14 @@ import { attachClosestEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/clos
 import { type DragLocationHistory } from '@atlaskit/pragmatic-drag-and-drop/types';
 import {
   buildMoveFormData,
+  destinationOfList,
   isItemFromRoot,
-  isSortableItemData,
+  isSortableItemIdentity,
   isSortableListData,
   resolveDropIntent,
   resolvePreviousSortableItemId,
   sortableItemData,
+  sortableItemIdentity,
   sortableListData,
 } from './drag-and-drop';
 
@@ -100,21 +102,29 @@ describe('sortable lists drag and drop helpers', () => {
     document.body.replaceChildren();
   });
 
-  describe('isSortableItemData', () => {
+  describe('isSortableItemIdentity', () => {
+    it('accepts an identity-only target', () => {
+      expect(isSortableItemIdentity(sortableItemIdentity({ type: 'work_package', itemId: '42' }))).toBe(true);
+    });
+
     it('accepts backlogs item data', () => {
-      expect(isSortableItemData(sortableItemData({ type: 'work_package', itemId: '42' }))).toBe(true);
+      expect(isSortableItemIdentity(sortableItemData({ type: 'work_package', itemId: '42' }))).toBe(true);
     });
 
     it('rejects lookalike data from another drag source', () => {
-      expect(isSortableItemData({ type: 'work_package', itemId: '42' })).toBe(false);
+      expect(isSortableItemIdentity({ type: 'work_package', itemId: '42' })).toBe(false);
     });
 
     it('rejects data without an item id', () => {
-      expect(isSortableItemData({ type: 'work_package' })).toBe(false);
+      expect(isSortableItemIdentity({ type: 'work_package' })).toBe(false);
     });
 
     it('rejects data with a blank item id', () => {
-      expect(isSortableItemData(sortableItemData({ type: 'work_package', itemId: '' }))).toBe(false);
+      expect(isSortableItemIdentity(sortableItemData({ type: 'work_package', itemId: '' }))).toBe(false);
+    });
+
+    it('rejects data with a blank type', () => {
+      expect(isSortableItemIdentity(sortableItemData({ type: '', itemId: '1' }))).toBe(false);
     });
   });
 
@@ -134,7 +144,7 @@ describe('sortable lists drag and drop helpers', () => {
 
       expect(data.type).toEqual('work_package');
       expect(data.itemId).toEqual('42');
-      expect(isSortableItemData(data)).toBe(true);
+      expect(isSortableItemIdentity(data)).toBe(true);
     });
 
     it('carries the root element on the item payload when provided', () => {
@@ -142,7 +152,7 @@ describe('sortable lists drag and drop helpers', () => {
       const data = sortableItemData({ itemId: '1', type: 'work_package', rootElement: root });
 
       expect(data.rootElement).toBe(root);
-      expect(isSortableItemData(data)).toBe(true);
+      expect(isSortableItemIdentity(data)).toBe(true);
     });
 
     it('defaults the item payload root element to null', () => {
@@ -168,11 +178,28 @@ describe('sortable lists drag and drop helpers', () => {
     });
   });
 
+  describe('destinationOfList', () => {
+    it.each(['7', null, ''])('preserves destination identity %s', (listId) => {
+      expect(destinationOfList(sortableListData({ type: 'sprint', listId })))
+        .toEqual({ type: 'sprint', id: listId });
+    });
+  });
+
   describe('isItemFromRoot', () => {
     const root = document.createElement('div');
 
     it('accepts a sortable item whose rootElement is this root', () => {
       const data = sortableItemData({ itemId: '1', type: 'work_package', rootElement: root });
+      expect(isItemFromRoot(root, data)).toBe(true);
+    });
+
+    it.each([undefined, {}, 'invalid'])('rejects invalid destination restrictions: %s', (permittedDestinations) => {
+      const data = { ...sortableItemIdentity({ itemId: '1', type: 'work_package' }), rootElement: root, permittedDestinations };
+      expect(isItemFromRoot(root, data)).toBe(false);
+    });
+
+    it.each([null, [], [{ type: 'sprint', id: '7' }]])('accepts valid destination restrictions: %s', (permittedDestinations) => {
+      const data = { ...sortableItemIdentity({ itemId: '1', type: 'work_package' }), rootElement: root, permittedDestinations };
       expect(isItemFromRoot(root, data)).toBe(true);
     });
 
@@ -212,6 +239,23 @@ describe('sortable lists drag and drop helpers', () => {
       expect(data.get('list_id')).toEqual('');
       expect(data.get('prev_id')).toEqual('');
     });
+
+    it('appends ordered ids for a batch payload', () => {
+      const data = buildMoveFormData({
+        listId: '7', previousItemId: '3', type: 'sprint', itemIds: ['12', '9', '15'],
+      });
+
+      expect(data.getAll('ids[]')).toEqual(['12', '9', '15']);
+      expect(data.get('list_type')).toBe('sprint');
+      expect(data.get('list_id')).toBe('7');
+      expect(data.get('prev_id')).toBe('3');
+    });
+
+    it('omits ids for a singular payload', () => {
+      const data = buildMoveFormData({ listId: '7', previousItemId: null, type: 'sprint' });
+
+      expect(data.getAll('ids[]')).toEqual([]);
+    });
   });
 
   describe('resolvePreviousSortableItemId', () => {
@@ -222,7 +266,7 @@ describe('sortable lists drag and drop helpers', () => {
 
       rowsContainer.append(targetRow);
 
-      expect(resolvePreviousSortableItemId({ sourceItemId: '1', targetItem: target, closestEdge: 'bottom', rowsContainer })).toEqual('3');
+      expect(resolvePreviousSortableItemId({ excludedItems: { type: 'work_package', ids: new Set(['1']) }, targetItem: target, closestEdge: 'bottom', rowsContainer })).toEqual('3');
     });
 
     it('uses the row item as previous item when the drop target is the row', () => {
@@ -231,7 +275,7 @@ describe('sortable lists drag and drop helpers', () => {
 
       rowsContainer.append(targetRow);
 
-      expect(resolvePreviousSortableItemId({ sourceItemId: '1', targetItem: targetRow, closestEdge: 'bottom', rowsContainer })).toEqual('3');
+      expect(resolvePreviousSortableItemId({ excludedItems: { type: 'work_package', ids: new Set(['1']) }, targetItem: targetRow, closestEdge: 'bottom', rowsContainer })).toEqual('3');
     });
 
     it('uses the previous row item when dropping on the top edge', () => {
@@ -242,7 +286,7 @@ describe('sortable lists drag and drop helpers', () => {
 
       rowsContainer.append(first, targetRow);
 
-      expect(resolvePreviousSortableItemId({ sourceItemId: '2', targetItem: target, closestEdge: 'top', rowsContainer })).toEqual('1');
+      expect(resolvePreviousSortableItemId({ excludedItems: { type: 'work_package', ids: new Set(['2']) }, targetItem: target, closestEdge: 'top', rowsContainer })).toEqual('1');
     });
 
     it('uses the previous row item when dropping on the top edge of a row target', () => {
@@ -252,7 +296,7 @@ describe('sortable lists drag and drop helpers', () => {
 
       rowsContainer.append(first, targetRow);
 
-      expect(resolvePreviousSortableItemId({ sourceItemId: '2', targetItem: targetRow, closestEdge: 'top', rowsContainer })).toEqual('1');
+      expect(resolvePreviousSortableItemId({ excludedItems: { type: 'work_package', ids: new Set(['2']) }, targetItem: targetRow, closestEdge: 'top', rowsContainer })).toEqual('1');
     });
 
     it('treats a missing closest edge as dropping before the target item', () => {
@@ -263,7 +307,7 @@ describe('sortable lists drag and drop helpers', () => {
 
       rowsContainer.append(first, targetRow);
 
-      expect(resolvePreviousSortableItemId({ sourceItemId: '2', targetItem: target, closestEdge: null, rowsContainer })).toEqual('1');
+      expect(resolvePreviousSortableItemId({ excludedItems: { type: 'work_package', ids: new Set(['2']) }, targetItem: target, closestEdge: null, rowsContainer })).toEqual('1');
     });
 
     it('uses a truncation marker when dropping before a tail item', () => {
@@ -274,7 +318,7 @@ describe('sortable lists drag and drop helpers', () => {
 
       rowsContainer.append(first, showMoreRow('5'), targetRow);
 
-      expect(resolvePreviousSortableItemId({ sourceItemId: '2', targetItem: target, closestEdge: 'top', rowsContainer })).toEqual('5');
+      expect(resolvePreviousSortableItemId({ excludedItems: { type: 'work_package', ids: new Set(['2']) }, targetItem: target, closestEdge: 'top', rowsContainer })).toEqual('5');
     });
 
     it('skips the source item and uses a preceding truncation marker when resolving the previous item', () => {
@@ -286,7 +330,7 @@ describe('sortable lists drag and drop helpers', () => {
 
       rowsContainer.append(first, showMoreRow(), sourceRow, targetRow);
 
-      expect(resolvePreviousSortableItemId({ sourceItemId: '2', targetItem: target, closestEdge: 'top', rowsContainer })).toEqual('hidden-item');
+      expect(resolvePreviousSortableItemId({ excludedItems: { type: 'work_package', ids: new Set(['2']) }, targetItem: target, closestEdge: 'top', rowsContainer })).toEqual('hidden-item');
     });
 
     it('returns null when dropping before the first item', () => {
@@ -296,7 +340,89 @@ describe('sortable lists drag and drop helpers', () => {
 
       rowsContainer.append(targetRow);
 
-      expect(resolvePreviousSortableItemId({ sourceItemId: '2', targetItem: target, closestEdge: 'top', rowsContainer })).toBeNull();
+      expect(resolvePreviousSortableItemId({ excludedItems: { type: 'work_package', ids: new Set(['2']) }, targetItem: target, closestEdge: 'top', rowsContainer })).toBeNull();
+    });
+
+    it('skips every excluded id when resolving the previous item', () => {
+      // rows: A, B, C, D — drop with top edge on D while A and C are excluded
+      // (selected): the closest preceding unexcluded item is B.
+      const rowsContainer = document.createElement('ul');
+      const rowA = itemRow('A');
+      const rowB = itemRow('B');
+      const rowC = itemRow('C');
+      const rowD = itemRow('D');
+
+      rowsContainer.append(rowA, rowB, rowC, rowD);
+
+      const result = resolvePreviousSortableItemId({
+        excludedItems: { type: 'work_package', ids: new Set(['A', 'C']) },
+        targetItem: rowD,
+        closestEdge: 'top',
+        rowsContainer,
+      });
+
+      expect(result).toBe('B');
+    });
+
+    it('refuses an excluded item as bottom-edge anchor', () => {
+      // bottom edge on C, but C is excluded: fall through to the sibling walk.
+      const rowsContainer = document.createElement('ul');
+      const rowA = itemRow('A');
+      const rowB = itemRow('B');
+      const rowC = itemRow('C');
+      const rowD = itemRow('D');
+
+      rowsContainer.append(rowA, rowB, rowC, rowD);
+
+      const result = resolvePreviousSortableItemId({
+        excludedItems: { type: 'work_package', ids: new Set(['A', 'C']) },
+        targetItem: rowC,
+        closestEdge: 'bottom',
+        rowsContainer,
+      });
+
+      expect(result).toBe('B');
+    });
+
+    // Ids are unique per source table, so a same-id row of another type is a
+    // legitimate anchor, not a batch member to skip.
+    it('does not exclude a same-id row of another type', () => {
+      const rowsContainer = document.createElement('ul');
+      const collidingRow = itemRow('A');
+      collidingRow.setAttribute('data-sortable-lists--item-type-value', 'section');
+      const targetRow = itemRow('B');
+      targetRow.setAttribute('data-sortable-lists--item-type-value', 'work_package');
+
+      rowsContainer.append(collidingRow, targetRow);
+
+      const result = resolvePreviousSortableItemId({
+        excludedItems: { type: 'work_package', ids: new Set(['A']) },
+        targetItem: targetRow,
+        closestEdge: 'top',
+        rowsContainer,
+      });
+
+      expect(result).toBe('A');
+    });
+
+    // A truncation marker resolves no type, so a bare-id collision there
+    // stays excluded.
+    it('keeps excluding a truncation marker whose previous item id collides', () => {
+      const rowsContainer = document.createElement('ul');
+      const first = itemRow('1');
+      const marker = showMoreRow('A');
+      const targetRow = itemRow('B');
+
+      rowsContainer.append(first, marker, targetRow);
+
+      const result = resolvePreviousSortableItemId({
+        excludedItems: { type: 'work_package', ids: new Set(['A']) },
+        targetItem: targetRow,
+        closestEdge: 'top',
+        rowsContainer,
+      });
+
+      expect(result).toBe('1');
     });
   });
 
@@ -425,8 +551,7 @@ describe('sortable lists drag and drop helpers', () => {
         sourceData: sortableItemData({
           type: 'work_package',
           itemId: '1',
-          sourceListElement: sourceList,
-          confined: true,
+          permittedDestinations: [{ type: 'sprint', id: '9' }],
         }),
       });
 
@@ -447,8 +572,7 @@ describe('sortable lists drag and drop helpers', () => {
         sourceData: sortableItemData({
           type: 'work_package',
           itemId: '1',
-          sourceListElement: list,
-          confined: true,
+          permittedDestinations: [{ type: 'sprint', id: '7' }],
         }),
       });
 

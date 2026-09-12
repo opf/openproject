@@ -168,5 +168,181 @@ describe('sortable lists drag preview', () => {
       expect(container.classList.contains('Box--condensed')).toBe(false);
       expect(container.classList.contains('Box--spacious')).toBe(false);
     });
+
+    describe('batch count badge', () => {
+      const badgeSelector = '.op-sortable-lists-drag-preview-batch-badge';
+
+      it('adds no badge for a single-card drag (the default)', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({ previewTarget: target, sourceElement: target, container });
+
+        expect(container.querySelector(badgeSelector)).toBeNull();
+        expect(container.style.paddingTop).toEqual('');
+        expect(container.style.paddingRight).toEqual('');
+        expect(container.style.paddingBottom).toEqual('');
+      });
+
+      it('adds no badge when batchSize is explicitly 1', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({
+          previewTarget: target, sourceElement: target, container, batchSize: 1,
+        });
+
+        expect(container.querySelector(badgeSelector)).toBeNull();
+      });
+
+      it('adds a badge with the batch count inside the container for a multi-card drag', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({
+          previewTarget: target, sourceElement: target, container, batchSize: 3,
+        });
+
+        const badge = container.querySelector(badgeSelector);
+
+        expect(badge).not.toBeNull();
+        expect(badge?.textContent).toEqual('3');
+        expect(container.contains(badge)).toBe(true);
+      });
+
+      it('carries the Primer Counter classes and the batch-badge class', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({
+          previewTarget: target, sourceElement: target, container, batchSize: 3,
+        });
+
+        const badge = container.querySelector(badgeSelector);
+
+        expect(badge?.classList.contains('Counter')).toBe(true);
+        expect(badge?.classList.contains('Counter--primary')).toBe(true);
+        expect(badge?.classList.contains('op-sortable-lists-drag-preview-batch-badge')).toBe(true);
+      });
+
+      it('anchors the badge to the container without disturbing the already-appended preview clone', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({
+          previewTarget: target, sourceElement: target, container, batchSize: 3,
+        });
+
+        const preview = container.querySelector('[data-preview]');
+        const badge = container.querySelector(badgeSelector);
+
+        // The preview clone survives lit-html's render() alongside the badge:
+        // both are present in the container at once.
+        expect(preview).not.toBeNull();
+        expect(badge).not.toBeNull();
+        expect(container.contains(preview)).toBe(true);
+        expect(container.contains(badge)).toBe(true);
+      });
+
+      // The padding holds the badge's overhang inside the container's border
+      // box. It has to be written inline and after Pragmatic's own popover
+      // reset (padding: 0), which the pre-zeroed padding here reproduces. The
+      // widths stay in drag_and_drop.sass, so what is written is a reference
+      // to its tokens rather than a length.
+      it('pads the container inline past Pragmatic popover reset for a multi-card drag', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+        container.style.padding = '0';
+
+        renderDragPreview({
+          previewTarget: target, sourceElement: target, container, batchSize: 3,
+        });
+
+        expect(container.style.position).toEqual('relative');
+        expect(container.style.paddingTop).toEqual('var(--op-drag-badge-overhang)');
+        expect(container.style.paddingRight).toEqual('var(--op-drag-stack-overhang)');
+        expect(container.style.paddingBottom).toEqual('var(--op-drag-stack-overhang)');
+        expect(container.style.paddingLeft).toEqual('0px');
+      });
+    });
+
+    describe('batch stack', () => {
+      const stackDepth = (container:HTMLElement) => container
+        .querySelector('[data-preview]')
+        ?.getAttribute('data-stack-depth');
+
+      it('leaves the clone unstacked for a single-card drag (the default)', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({ previewTarget: target, sourceElement: target, container });
+
+        expect(stackDepth(container)).toBeNull();
+      });
+
+      it('leaves the clone unstacked when batchSize is explicitly 1', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({
+          previewTarget: target, sourceElement: target, container, batchSize: 1,
+        });
+
+        expect(stackDepth(container)).toBeNull();
+      });
+
+      it.each([
+        [2, '1'],
+        [3, '2'],
+        [4, '3'],
+      ])('gives a batch of %i a layer per card behind the front one', (batchSize, depth) => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({
+          previewTarget: target, sourceElement: target, container, batchSize,
+        });
+
+        expect(stackDepth(container)).toEqual(depth);
+      });
+
+      // Capping how deep the stack draws belongs to the stylesheet, which
+      // holds every depth past its layers at the deepest one it has.
+      it('passes a large batch through uncapped', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({
+          previewTarget: target, sourceElement: target, container, batchSize: 27,
+        });
+
+        expect(stackDepth(container)).toEqual('26');
+      });
+
+      it('stacks the clone for a multi-card drag without disturbing its own classes', () => {
+        const target = withWidth(previewTarget(), 320);
+        target.classList.add('op-card');
+        const container = document.createElement('div');
+
+        renderDragPreview({
+          previewTarget: target, sourceElement: target, container, batchSize: 3,
+        });
+
+        expect(stackDepth(container)).toEqual('2');
+        expect(container.querySelector('[data-preview]')?.classList.contains('op-card')).toBe(true);
+      });
+
+      it('adds no element for the layers, so the container holds only the clone and the badge', () => {
+        const target = withWidth(previewTarget(), 320);
+        const container = document.createElement('div');
+
+        renderDragPreview({
+          previewTarget: target, sourceElement: target, container, batchSize: 3,
+        });
+
+        expect(container.querySelectorAll('[data-preview]')).toHaveLength(1);
+        expect(container.children).toHaveLength(2);
+      });
+    });
   });
 });
