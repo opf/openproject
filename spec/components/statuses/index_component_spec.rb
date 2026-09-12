@@ -77,23 +77,37 @@ RSpec.describe Statuses::IndexComponent, type: :component do
       expect(rendered_component).to have_link("New", href: "/statuses/#{new_status.id}/edit")
     end
 
-    it "renders a drag-and-drop enabled container" do
-      expect(rendered_component).to have_css(".Box[data-generic-drag-and-drop-target='container']") do |box|
-        expect(box["data-target-container-accessor"]).to eq(":scope > ul")
-        expect(box["data-target-allowed-drag-type"]).to eq("status")
+    it "wires a sortable list accepting statuses" do
+      expect(rendered_component).to have_css(".Box[data-controller='sortable-lists--list']") do |box|
+        expect(box["data-sortable-lists--list-type-value"]).to eq("status")
+        expect(box["data-sortable-lists--list-accepted-type-value"]).to eq("status")
+        expect(box["data-sortable-lists--list-name-value"]).to eq("Statuses")
+        expect(box["data-sortable-lists--list-id-value"]).to be_nil
       end
     end
 
-    it "renders each status as a draggable row pointing at its drop URL", :aggregate_failures do
+    it "scopes the sortable outlets and preserves pagination in the URL template" do
+      expect(rendered_component).to have_css("[data-controller='sortable-lists']") do |root|
+        expect(root["data-sortable-lists-move-url-template-value"]).to eq("/statuses/{id}/move?page=1&per_page=20")
+        expect(root["data-sortable-lists-sortable-lists--list-outlet"])
+          .to eq("#statuses-index-component [data-controller~='sortable-lists--list']")
+        expect(root["data-sortable-lists-sortable-lists--item-outlet"])
+          .to eq("#statuses-index-component [data-controller~='sortable-lists--item']")
+      end
+    end
+
+    it "renders each status as an identified sortable row", :aggregate_failures do
       [new_status, closed_status].each do |status|
-        selector = ".Box-row[data-draggable-type='status'][data-draggable-id='#{status.id}']"
+        selector = ".Box-row[data-controller='sortable-lists--item'][data-sortable-lists--item-id-value='#{status.id}']"
 
         expect(rendered_component).to have_css(selector) do |row|
-          # The page travels with the drop so the server can resolve the dropped
-          # index against the whole list.
-          expect(row["data-drop-url"]).to eq("/statuses/#{status.id}/move?page=1&per_page=20")
+          expect(row["data-sortable-lists--item-type-value"]).to eq("status")
+          expect(row["data-sortable-lists--item-label-value"]).to eq(status.name)
         end
       end
+
+      expect(rendered_component).to have_no_css(".Box-header[data-controller='sortable-lists--item']")
+      expect(rendered_component).to have_no_css("[data-controller='generic-drag-and-drop'], [data-draggable-id], [data-drop-url]")
     end
   end
 
@@ -121,8 +135,9 @@ RSpec.describe Statuses::IndexComponent, type: :component do
     end
 
     it "offers no reordering, since positions are global and the list is a subset" do
-      expect(rendered_component).to have_no_css("[data-generic-drag-and-drop-target='container']")
-      expect(rendered_component).to have_no_css(".Box-row[data-draggable-type='status']")
+      expect(rendered_component).to have_no_css("[data-controller*='sortable-lists']")
+      expect(rendered_component).to have_no_css(".DragHandle")
+      expect(rendered_component).to have_no_button("Move to top")
     end
 
     context "when the filter matches nothing" do
@@ -140,6 +155,7 @@ RSpec.describe Statuses::IndexComponent, type: :component do
 
     it "says no status exists yet" do
       expect(rendered_component).to have_text("There are currently no work package statuses.")
+      expect(rendered_component).to have_no_css("[data-controller='sortable-lists--item']")
     end
   end
 end
