@@ -73,13 +73,20 @@ describe('Type form configuration controller', () => {
     vi.restoreAllMocks();
   });
 
+  const updateQueryUrl = '/types/1/form_configuration/group/update_query?key=b%29+%3E+10.000+%2F+20.000+Nutzende';
+
   async function renderConfiguration() {
     await ctx.mount(`
       <div data-controller="admin--type-form-configuration--main"
-           data-admin--type-form-configuration--main-add-group-url-value="/types/1/form_configuration/groups"
-           data-admin--type-form-configuration--main-no-filter-query-value="{}"
-           data-admin--type-form-configuration--main-groups-url-value="/types/1/form_configuration/groups">
-        <div data-admin--type-form-configuration--main-target="groupsContainer"></div>
+           data-admin--type-form-configuration--main-add-group-url-value="/types/1/form_configuration/group/add_group"
+           data-admin--type-form-configuration--main-no-filter-query-value="{}">
+        <div data-admin--type-form-configuration--main-target="groupsContainer">
+          <div data-group-key="b) > 10.000 / 20.000 Nutzende"
+               data-group-query='{"filters":[]}'
+               data-update-query-url="${updateQueryUrl}">
+            <button type="button" data-test-selector="edit-query">Edit query</button>
+          </div>
+        </div>
       </div>
     `);
     return ctx.getController<TypeFormConfigurationControllerType>('admin--type-form-configuration--main');
@@ -110,13 +117,36 @@ describe('Type form configuration controller', () => {
 
     await waitFor(() => {
       expect(request).toHaveBeenCalledWith(
-        '/types/1/form_configuration/groups',
+        '/types/1/form_configuration/group/add_group',
         expect.objectContaining({ method: 'POST' }),
       );
     });
     const body = (request.mock.calls[0][1] as { body:URLSearchParams }).body;
     expect(body.get('group_type')).toBe('query');
     expect(body.get('query')).toBe(JSON.stringify({ filters: [] }));
+  });
+
+  it('patches the query to the URL rendered on the group instead of building one from the key', async () => {
+    const controller = await renderConfiguration();
+    const button = document.querySelector<HTMLButtonElement>('[data-test-selector="edit-query"]')!;
+
+    controller.editQuery({ preventDefault: vi.fn(), currentTarget: button } as unknown as Event);
+
+    await waitFor(() => {
+      expect(show).toHaveBeenCalled();
+    });
+
+    const config = show.mock.calls[0][0] as QueryEditorConfig;
+    expect(config.currentQuery).toEqual({ filters: [] });
+
+    config.callback({ filters: [{ project: { operator: '=', values: ['1'] } }] });
+
+    await waitFor(() => {
+      expect(request).toHaveBeenCalledWith(
+        updateQueryUrl,
+        expect.objectContaining({ method: 'PATCH' }),
+      );
+    });
   });
 
   it('does not open the query editor when disconnected before the context resolves', async () => {

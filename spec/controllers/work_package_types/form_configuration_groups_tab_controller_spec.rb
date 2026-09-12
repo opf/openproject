@@ -217,6 +217,21 @@ RSpec.describe WorkPackageTypes::FormConfigurationGroupsTabController do
     end
   end
 
+  describe "DELETE #destroy", with_ee: %i[edit_attribute_groups] do
+    let(:group_name) { "b) > 10.000 / 20.000 Nutzende" }
+
+    before do
+      variant.update_column(:attribute_groups, [[group_name, %w[priority]]])
+    end
+
+    it "deletes a group whose name contains special characters" do
+      delete :destroy, params: { type_id: type.id, key: group_name }, format: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+      expect(variant.reload.attribute_groups.map(&:key)).not_to include(group_name)
+    end
+  end
+
   describe "PUT #drop", with_ee: %i[edit_attribute_groups] do
     it "reorders groups using the requested position" do
       variant.update_column(:attribute_groups, [

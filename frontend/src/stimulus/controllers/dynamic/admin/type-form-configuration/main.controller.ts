@@ -40,12 +40,10 @@ export default class TypeFormConfigurationController extends Controller {
   static values = {
     addGroupUrl: String,
     noFilterQuery: String,
-    groupsUrl: String,
   };
 
   declare readonly addGroupUrlValue:string;
   declare readonly noFilterQueryValue:string;
-  declare readonly groupsUrlValue:string;
 
   declare services:Promise<PickedServices<'turboRequests'|'externalRelationQueryConfiguration'>>;
 
@@ -76,10 +74,10 @@ export default class TypeFormConfigurationController extends Controller {
     if (!group) return;
 
     void this.openQueryEditor(group.dataset.groupQuery ?? this.noFilterQueryValue, (queryProps:unknown) => {
-      const key = group.dataset.groupKey;
-      if (!key) return;
+      const url = group.dataset.updateQueryUrl;
+      if (!url) return;
 
-      void this.postQueryUpdate(key, queryProps).then((success) => {
+      void this.postQueryUpdate(url, queryProps).then((success) => {
         if (success) {
           group.dataset.groupQuery = JSON.stringify(queryProps);
         }
@@ -107,10 +105,10 @@ export default class TypeFormConfigurationController extends Controller {
     });
   }
 
-  private async postQueryUpdate(groupKey:string, queryProps:unknown):Promise<boolean> {
+  private async postQueryUpdate(url:string, queryProps:unknown):Promise<boolean> {
     const { turboRequests } = await this.services;
 
-    await turboRequests.request(`${this.groupsUrlValue}/${encodeURIComponent(groupKey)}/update_query`, {
+    await turboRequests.request(url, {
       method: 'PATCH',
       headers: {
         Accept: 'text/vnd.turbo-stream.html',

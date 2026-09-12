@@ -324,6 +324,18 @@ RSpec.describe "form configuration", :js, :selenium do
         expect(page).to have_no_css("[data-group-key]", text: /\bRenamed group\b/)
       end
 
+      it "renames and deletes a group whose name contains special characters (Regression INTERNAL-963)" do
+        form.add_attribute_group("b) > 10.000 / 20.000 Nutzende")
+
+        visit edit_type_form_configuration_path(type)
+
+        form.rename_group("b) > 10.000 / 20.000 Nutzende", "b) > 20.000 / 30.000 Nutzende")
+        expect(persisted_group_order).to include("b) > 20.000 / 30.000 Nutzende")
+
+        form.remove_group("b) > 20.000 / 30.000 Nutzende")
+        expect(persisted_group_order).not_to include("b) > 20.000 / 30.000 Nutzende")
+      end
+
       it "shows only the edit action for query rows" do
         form.add_query_group("Subtasks", :children)
 
