@@ -169,16 +169,32 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       end
     end
 
-    it "shows a divider before the Move submenu" do
+    it "shows a divider between the singular and batch-capable actions" do
       render_component
 
-      expect(page).to have_css(".ActionList-sectionDivider")
+      expect(page).to have_css(".ActionList-sectionDivider[data-sortable-lists--item-target='groupDivider']")
     end
 
-    it "wires the divider up to the item controller, so it can be hidden with the group" do
+    it "separates the invoker's own actions from the batch-capable ones", :aggregate_failures do
       render_component
 
-      expect(page).to have_css(".ActionList-sectionDivider[data-sortable-lists--item-target='moveDivider']")
+      invoker_group = page.find("ul[role='group'][data-sortable-lists--item-target='invokerGroup']")
+      expect(invoker_group).to have_css("a[id$='_menu_open_details']")
+      expect(invoker_group).to have_css("a[id$='_menu_open_fullscreen']")
+      expect(invoker_group).to have_css("clipboard-copy[id$='_menu_copy_url_to_clipboard']")
+      expect(invoker_group).to have_css("clipboard-copy[id$='_menu_copy_work_package_id']")
+
+      batch_group = page.find("ul[role='group'][data-sortable-lists--item-target='batchGroup']")
+      expect(batch_group).to have_css("li[data-sortable-lists--item-target~='destinationItem']")
+      expect(batch_group).to have_css("li[data-sortable-lists--item-target='moveMenu']")
+      expect(batch_group).to have_no_css("a[id$='_menu_open_details']")
+    end
+
+    it "renders both groups without headings", :aggregate_failures do
+      render_component
+
+      expect(page).to have_no_css("ul[role='group'][aria-labelledby]")
+      expect(page).to have_no_css("ul[role='group'] h3")
     end
 
     it "shows the Move to position submenu with incoming-arrow icon" do

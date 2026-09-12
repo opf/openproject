@@ -463,6 +463,63 @@ describe('Contextual action menu controller', () => {
     expect(origins).toEqual(['pointer', 'keyboard']);
   });
 
+  it('dispatches a cancelable pointer beforeOpen before the presenter opens', async () => {
+    const { card } = renderCard();
+    await nextFrame();
+    const sequence:string[] = [];
+    const events:CustomEvent<{ origin:string }>[] = [];
+    card.addEventListener('contextual-action-menu:beforeOpen', (event) => {
+      sequence.push('beforeOpen');
+      events.push(event as CustomEvent<{ origin:string }>);
+    });
+    vi.spyOn(ContextualActionMenu.prototype, 'openAtPoint').mockImplementation(() => {
+      sequence.push('present');
+    });
+
+    contextMenu(card);
+
+    expect(sequence).toEqual(['beforeOpen', 'present']);
+    expect(events).toHaveLength(1);
+    expect(events[0]).toMatchObject({ cancelable: true, detail: { origin: 'pointer' } });
+  });
+
+  it.each([
+    ['Context Menu key', 'ContextMenu', {}],
+    ['Shift+F10', 'F10', { shiftKey: true }],
+  ])('dispatches a cancelable keyboard beforeOpen before the presenter opens for %s', async (_label, key, init) => {
+    const { card } = renderCard();
+    await nextFrame();
+    const sequence:string[] = [];
+    const events:CustomEvent<{ origin:string }>[] = [];
+    card.addEventListener('contextual-action-menu:beforeOpen', (event) => {
+      sequence.push('beforeOpen');
+      events.push(event as CustomEvent<{ origin:string }>);
+    });
+    vi.spyOn(ContextualActionMenu.prototype, 'openAtInvoker').mockImplementation(() => {
+      sequence.push('present');
+    });
+
+    keydown(card, key, init);
+
+    expect(sequence).toEqual(['beforeOpen', 'present']);
+    expect(events).toHaveLength(1);
+    expect(events[0]).toMatchObject({ cancelable: true, detail: { origin: 'keyboard' } });
+  });
+
+  it('cancellation prevents both pointer and keyboard presentation', async () => {
+    const { card } = renderCard();
+    await nextFrame();
+    const openAtPoint = vi.spyOn(ContextualActionMenu.prototype, 'openAtPoint');
+    const openAtInvoker = vi.spyOn(ContextualActionMenu.prototype, 'openAtInvoker');
+    card.addEventListener('contextual-action-menu:beforeOpen', (event) => event.preventDefault());
+
+    contextMenu(card);
+    keydown(card, 'ContextMenu');
+
+    expect(openAtPoint).not.toHaveBeenCalled();
+    expect(openAtInvoker).not.toHaveBeenCalled();
+  });
+
   it('leaves the native context menu alone when the card has no action menu', async () => {
     const { card } = renderCardWithoutMenu();
     await nextFrame();
