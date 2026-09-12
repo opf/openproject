@@ -169,7 +169,7 @@ RSpec.describe "Cost reports", :aggregate_failures, type: :rails_request do
     # state and never gets there.
     it "renders the flat entry table when nothing is grouped" do
       work_package = create(:work_package, project:)
-      create(:time_entry, work_package:, project:, user:, hours: 2)
+      create(:time_entry, entity: work_package, project:, user:, hours: 2)
 
       get project_reporting_cost_reports_path(project),
           params: { filters: %(work_package_id = "#{work_package.id}") }

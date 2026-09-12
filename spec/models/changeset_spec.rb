@@ -256,7 +256,7 @@ RSpec.describe Changeset do
           expect(c.work_package_ids).to eq [work_package.id]
 
           time = TimeEntry.order(Arel.sql("id DESC")).first
-          expect(work_package.id).to eq(time.work_package_id)
+          expect(work_package.id).to eq(time.entity_id)
           expect(work_package.project_id).to eq(time.project_id)
           expect(user.id).to eq(time.user_id)
 
@@ -296,7 +296,7 @@ RSpec.describe Changeset do
           expect(work_package2).to be_closed
 
           times = TimeEntry.order(Arel.sql("id desc")).limit(2)
-          expect(times.map(&:work_package_id)).to contain_exactly(work_package.id, work_package2.id)
+          expect(times.map(&:entity_id)).to contain_exactly(work_package.id, work_package2.id)
         end
       end
     end
