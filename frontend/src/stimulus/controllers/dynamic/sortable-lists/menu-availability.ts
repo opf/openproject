@@ -58,13 +58,12 @@ export function refreshMenuAvailability(input:MenuAvailabilityInput):void {
     setAvailability(item, candidates.length > 0 && input.availableDestinations(input.scope, candidates).length > 0);
   }
 
-  const multiItem = input.scope.kind === 'batch' && input.scope.items.length > 1;
-  const availability = multiItem ? null : input.moveAvailability();
-  if (multiItem || availability) {
+  const availability = input.moveAvailability();
+  if (availability) {
     let available = 0;
     for (const item of input.moveItems) {
       const direction = item.getAttribute(`data-${input.identifier}-direction-param`);
-      const enabled = !multiItem && isMoveDirection(direction) && !!availability?.[direction];
+      const enabled = isMoveDirection(direction) && availability[direction];
       setAvailability(item, enabled);
       if (enabled) available += 1;
     }
