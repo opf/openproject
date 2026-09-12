@@ -35,6 +35,12 @@ controller with a double underscore and the rest with single ones:
 | `moveUrlTemplate` | string | | URI template expanded with the dragged row's id; must expand to a relative same-origin URL |
 | `moveUrlTemplates` | JSON object | | per-item-type templates keyed by the dragged row's type; `moveUrlTemplate` is the fallback |
 | `optimistic` | boolean | `false` | appends `optimistic=true` to the move URL and keeps the client's placement when the server answers with an event alone |
+| `selectionEnabled` | boolean | `false` | enables batch selection and its pointer and keyboard gestures |
+| `collectionMoveUrl` | string | | same-origin collection endpoint receiving ordered `ids[]` for one or many items |
+| `announcementScope` | string | `js.sortable_lists.selection` | translation scope for selection feedback |
+| `moveAnnouncementScope` | string | `js.sortable_lists.announcements` | translation scope for move feedback |
+| `selectionDescriptionId` | string | empty | shared description referenced by selected items' focus hosts through `aria-describedby` |
+| `maxBatchSize` | number | `0` | maximum items per move; zero means no client limit; selection itself is not capped |
 
 #### Outlets
 
@@ -65,7 +71,8 @@ controller with a double underscore and the rest with single ones:
 | `id` | string | | the record id; expands `{id}` in the move URL and is sent as a neighbor's `prev_id` |
 | `type` | string | | matched against lists' `acceptedType`; keys `moveUrlTemplates` ([typing data](https://atlassian.design/components/pragmatic-drag-and-drop/core-package/recipes/typing-data)) |
 | `label` | string | | accessible name used in announcements and in the external drag data |
-| `confined` | boolean | `false` | reorders within its own list only; foreign lists refuse it |
+| `mobility` | `free`, `confined`, `fixed` | `free` | controls selection and movement; unknown values are treated as `fixed`; see Sibling lists |
+| `menuLabelKey` | string | | translation key pluralized by action scope size; omit to preserve the server-rendered menu name |
 | `hideUnavailable` | boolean | `true` | hide inapplicable move actions; `false` disables them instead |
 | `externalUrl` | URL | | when set, a drag also carries `text/uri-list`, `text/plain` and, with a label, `text/html` for targets outside the page ([data for external consumers](https://atlassian.design/components/pragmatic-drag-and-drop/core-package/adapters/element/about#data-for-external-consumers-getinitialdataforexternal), [external adapter](https://atlassian.design/components/pragmatic-drag-and-drop/core-package/adapters/external/about)) |
 
@@ -77,13 +84,20 @@ controller with a double underscore and the rest with single ones:
 | `preview` | one | the element that follows the pointer; the row when absent ([drag previews](https://atlassian.design/components/pragmatic-drag-and-drop/core-package/adapters/element/drag-previews)) |
 | `moveItem` | one per move action | a move action; carries the `direction` param |
 | `moveMenu` | one | the submenu or group wrapping the move actions, hidden or disabled when none applies |
-| `moveDivider` | one | the divider above the move actions, hidden together with them |
+| `focus` | one | focus host inside the row; the item itself when absent |
+| `destinationItem` | one per destination action | carries JSON destination candidates in `data-sortable-lists-destinations` |
+| `invokerGroup` | one | singular actions for the invoking item |
+| `batchGroup` | one | actions for the resolved scope, hidden when none is presented |
+| `groupDivider` | one | separates invoker and batch groups; visible only when both groups are presented |
 
 #### Actions
 
 | Action | Params | Meaning |
 | --- | --- | --- |
-| `move` | `direction`: `top`, `up`, `down` or `bottom` | moves the row without a drag; bound as `click->sortable-lists--item#move` |
+| `move` | `direction`: `top`, `up`, `down` or `bottom` | reorders the resolved scope without a drag; a batch must be contiguous in one list |
+| `moveToDestination` | | submits the resolved scope to the destination item's single candidate |
+| `prepareDialog` | event detail: `form` | supplies ordered `ids[]` to the destination form; cancels if the scope is refused or the root is busy |
+| `focusItem` | | focuses the `focus` target, falling back to the item |
 
 ### `sortable-lists--scrollable`
 
@@ -107,6 +121,19 @@ form fields:
 
 `prev_id` is always a record id, whatever the server orders by underneath. A
 drop that leaves the row where it started sends no request.
+
+### Collection moves
+
+A selection-enabled consumer supplies `collectionMoveUrl` instead of expanding
+one URL per item. The request adds ordered `ids[]` to the destination fields
+above, for a single item as well as a batch. In Backlogs, an omitted `prev_id`
+appends after the last non-batch item; an explicitly blank value inserts at the
+top. A nonblank value identifies the anchor before the block.
+
+Backlogs authorizes every member and applies the batch atomically, with a
+server limit of 500 items. The root's `maxBatchSize` provides early feedback
+but does not replace server validation. This collection contract is separate
+from the single-record ordering implementations below.
 
 ## The server half
 

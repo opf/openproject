@@ -152,8 +152,10 @@ export function sameDestination(left:DestinationIdentity|null, right:Destination
   return left !== null && left.type === right.type && left.id === right.id;
 }
 
-// Whether the item may enter the destination: the one policy behind every
-// surface offering a move.
+/**
+ * Whether the item may enter the destination. The one policy behind both
+ * surfaces offering a move, so the menus and a drag cannot drift apart.
+ */
 export function itemAcceptsDestination(
   item:HTMLElement,
   target:DestinationIdentity,
