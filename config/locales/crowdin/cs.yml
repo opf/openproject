@@ -66,6 +66,8 @@ cs:
 
       '
     login_with_auth_provider: nebo se přihlaste pomocí stávajícího účtu
+    omniauth_direct_login_continue: Continue to sign in
+    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: Prosím přihlaste se pro aktivaci účtu.
     signup_title: Create an account in %{app_title}
     signup_with_external_account: Sign up with an external account
@@ -83,6 +85,21 @@ cs:
         prompt: Prompt
         types: Work package types
         usage_scope: Scope
+      ai/text_transform_run:
+        action: Action
+        cancel_requested: Cancel requested
+        error_message: Error message
+        finished_at: Finished at
+        input: Input
+        status: Status
+        system_prompt: System prompt
+        user: User
+        uuid: UUID
+      ai/text_transform_run_event:
+        kind: Kind
+        payload: Payload
+        run: Run
+        seq: Sequence number
       announcements:
         show_until: Zobrazit do
       attachment:
@@ -127,7 +144,9 @@ cs:
         is_for_all: Pro všechny projekty
         is_required: Požadováno
         max_length: Maximální délka
+        max_value: Maximum value
         min_length: Minimální délka
+        min_value: Minimum value
         multi_value: Povolit multi-select
         possible_values: Možné hodnoty
         regexp: Regulární výraz
@@ -217,6 +236,7 @@ cs:
         position: Pozice
       persisted_query:
         filters: Filtry
+        group_bys: Group results by
         name: Název
         orders: Orders
         selects: Selects
@@ -573,6 +593,7 @@ cs:
         regex_list_invalid: Lines %{invalid_lines} could not be parsed as regular expression.
         regex_match_failed: neodpovídá regulárnímu výrazu %{expression}.
         smaller_than_or_equal_to_max_length: musí být menší než nebo rovno maximální délce.
+        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: violates the SSRF policy of this OpenProject instance.
         status_transition_invalid: is invalid because no valid transition exists from old to new status for the current user's roles.
         system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
@@ -726,7 +747,6 @@ cs:
             types:
               cannot_assign_multiple_variants_of_parent: Can only enable a single variant of a Type on the project
               cannot_assign_variant_and_parent: 'Cannot assign a variant and its parent '
-              cannot_assign_variants_yet: Variants cannot be enabled on a project yet. Enable the feature flag to try out variants
               in_use_by_work_packages: 'stále používáno pracovními balíčky: %{types}'
               switch_target_blank: Select the variant to switch to
               switch_target_identical: The target type must be different from the type the project uses now
@@ -849,6 +869,9 @@ cs:
               query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
             base:
               borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
+              inherits_from_project_owned: 'This variant currently inherits from a project-specific variant and cannot be converted to a global variant.
+
+                '
               is_default_variant: The default configuration of a type cannot be deleted.
               project_variants_not_allowed: This type does not allow creation of variants inside projects.
               restrict_dependent_destroy:
@@ -1010,6 +1033,16 @@ cs:
         few: Text transform actions
         many: Text transform actions
         other: Text transform actions
+      ai/text_transform_run:
+        one: Text transform run
+        few: Text transform runs
+        many: Text transform runs
+        other: Text transform runs
+      ai/text_transform_run_event:
+        one: Text transform run event
+        few: Text transform run events
+        many: Text transform run events
+        other: Text transform run events
       announcement:
         one: Announcement
         few: Announcements
@@ -2259,10 +2292,6 @@ cs:
       not_found:
         reminder: Připomínka, kterou hledáte, nebyla nalezena nebo byla odstraněna.
         work_package: Pracovní balíček, který hledáte, nebyl nalezen nebo byl odstraněn.
-      render:
-        context_not_parsable: Poskytnutý kontext není odkazem na zdroj.
-        context_object_not_found: Zdroj nelze najít jako kontext.
-        unsupported_context: Zadaný dokument není podporován jako kontext.
       unable_to_create_attachment: Přílohu nelze vytvořit
       unable_to_create_attachment_permissions: Příloha nemohla být uložena z důvodu nedostatku oprávnění souborového systému
       user:
@@ -2409,6 +2438,9 @@ cs:
     label_delete_token: Odstranit záložní token
     label_reset_token: Resetovat záložní token
     label_token_users: Následující uživatelé mají aktivní tokeny pro zálohy
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: Vytvořit
       action_reset: Obnovit
@@ -2699,6 +2731,9 @@ cs:
       min_max:
         all: 0 znamená bez omezení
         project: 0 znamená bez omezení
+      min_max_value:
+        all: Leave blank for no restriction
+        project: Leave blank for no restriction
       multi_select:
         all: Allows the user to assign multiple values to this custom field.
         project: Allows the user to assign multiple values to this attribute.
@@ -3715,7 +3750,6 @@ cs:
   label_copy_target: Cíl
   label_copy_workflow_from: Kopírovat pracovní postup z
   label_copy_workflow_from_role: Kopírovat do dalších rolí
-  label_copy_workflow_from_type: Kopírovat do jiného typu
   label_core_build: Build jádra
   label_core_version: Verze jádra
   label_created_by: Vytvořil %{user}
@@ -3960,7 +3994,6 @@ cs:
   label_message_new: Nová zpráva
   label_message_plural: Zprávy
   label_message_posted: Zpráva přidána
-  label_min_max_length: Min - Max délka
   label_minute_plural: minuty
   label_missing_api_access_key: Chybí přístupový klíč API
   label_missing_feeds_access_key: Chybí RSS přístupový klíč
@@ -4552,6 +4585,9 @@ cs:
   mail_body_account_information: Informace o vašem účtu
   mail_body_account_information_external: Můžete použít váš %{value} účet pro přihlášení.
   mail_body_backup_ready: 'Vaše požadovaná záloha je připravena. Můžete ji stáhnout zde:'
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: Předchozí token již není platný.
   mail_body_backup_token_reset_admin_info: Záložní token pro uživatele '%{user}' byl resetován.
   mail_body_backup_token_reset_user_info: Váš záložní token byl resetován.
@@ -4888,6 +4924,7 @@ cs:
   notice_account_already_activated: Účet byl již aktivován.
   notice_account_invalid_credentials: Neplatný uživatel nebo heslo
   notice_account_invalid_credentials_or_blocked: Neplatný uživatel nebo heslo nebo účet je zablokován z důvodu několika neúspěšných pokusů o přihlášení. Pokud ano, bude automaticky odblokován za krátkou dobu.
+  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
   notice_account_invalid_token: Neplatný aktivační token
   notice_account_lost_email_sent: Byl vám zaslán email s intrukcemi jak si nastavíte nové heslo.
   notice_account_new_password_forced: Vyžadováno nové heslo.
@@ -5146,8 +5183,6 @@ cs:
       not_found: nenalezeno
       respond_to?: neimplementuje požadovanou metodu.
       rules:
-        copy_workflow_from:
-          workflow_missing: nemá vlastní pracovní postup.
         custom_field:
           format_not_supported: formát '%{field_format}' není podporován.
         item:
@@ -5167,7 +5202,6 @@ cs:
     or: nebo
     rules:
       blueprint: Vzhled plánu
-      copy_workflow_from: Type for workflow copy
       depth: Hloubka
       enabled: Zapnuto
       item: Položka
@@ -6413,13 +6447,14 @@ cs:
         <br>
         <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Vyloučeno z celkových hodnot
         is_closed: Uzavřeno
-        is_default: Výchozí
         is_readonly: Pouze pro čtení
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Přidat nový stav
       no_results_title_text: Momentálně zde nejsou žádné stavy pracovního balíčku.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: a
@@ -6709,7 +6744,6 @@ cs:
         add_query_group: Related work packages table
         blankslate_description: Add groups using the button above or drag attributes from the left panel.
         blankslate_title: No groups yet
-        builtin_field: Built-in field
         confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Custom field
@@ -6734,6 +6768,15 @@ cs:
         query_group_label: Related work packages table
         remove_attribute: Remove from section
         rename_group: Rename section
+        required:
+          already_required_globally: This custom field is required for all types.
+          for_variant: Required in this type
+          globally: Required
+          globally_hint: Change this on the custom field
+          mark: Require in this type
+          not_a_custom_field: Only a custom field can be made required for a single type.
+          not_available_when_linked: This configuration is inherited. Configure it manually to change what is required.
+          unmark: Do not require in this type
         reset_description: 'This will reset the attributes to their default group and disable ALL custom fields.
 
           '
@@ -6742,6 +6785,15 @@ cs:
         row_actions: Row actions
         tab: Form
         untitled_group: Untitled group
+      overview:
+        configuration_mode: Configuration mode
+        dependents: Dependent types and variants
+        mode:
+          always_manual: Always manual
+          inheriting_from_html: Inheriting from %{source_name}
+          manual: Manually configured
+        settings: Settings
+        tab: Overview
       project_attributes:
         actions:
           label_disable_all: Disable all
@@ -6879,7 +6931,7 @@ cs:
         filter_no_results: No variants match this filter
         global_section:
           description: These variants are available across all projects.
-          title: Variants
+          title: Global variants
         project_specific_section:
           description: These variants are only available within the projects in which they were created.
           title: Project-specific variants
@@ -6888,6 +6940,17 @@ cs:
     index:
       add_variant: Add a variant to %{name}
       add_variant_action: Add variant
+      convert_to_global: Convert to global variant
+      convert_to_global_dialog:
+        confirm: Convert
+        text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
+
+          '
+      convert_to_global_notice: "%{name} is now a global variant."
+      convert_to_global_rename:
+        confirm: Convert
+        text: A global variant with this name already exists. Please choose a different name.
+        title: Pick another name for this variant
       description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
         '
@@ -7286,6 +7349,13 @@ cs:
       confirm_deletion: I confirm that the selected work packages and all associated data will be deleted.
       confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
       cross_project_warning_html: 'These work packages span multiple projects: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        self_only_label: Delete just the selected work packages
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete the selected work packages and their descendants
       description: Are you sure you want to delete the selected work packages and all associated data?
       description_with_all_descendants: Are you sure you want to delete the selected work packages and all of their descendants?
       description_with_descendants: Are you sure you want to delete the selected work packages and all the following descendants?
@@ -7358,6 +7428,13 @@ cs:
       confirm_deletion: I confirm that the work package and all associated data will be deleted.
       confirm_descendants_deletion: I confirm that all descendants listed above will also be deleted.
       cross_project_warning_html: 'Work packages from the following projects will be deleted: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: This work package has descendants. Do you want to delete them as well?
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        self_only_label: Delete just this work package
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete this work package and descendants
       description: Are you sure you want to delete "%{name}"?
       heading: Permanently delete this work package?
       hidden_descendants_only_warning:
@@ -7419,19 +7496,8 @@ cs:
   workflows:
     copies:
       form:
-        mode:
-          from_role:
-            caption: Copy the current workflow to one or more roles inside the same work package type. If the selected role already has a workflow the current one will be overwritten.
-            label: Copy to other roles
-          from_type:
-            caption: Copy the current workflow to another work packages type. If the selected type already has a workflow the current one will be overwritten. This affects all roles.
-            label: Copy to another type
-        source_role_id:
-          label: Source role
         target_role_ids:
           label: Target roles
-        target_variant_ids:
-          label: Target types
       from_roles:
         create:
           notice:
@@ -7439,13 +7505,6 @@ cs:
             few: Successfully copied workflow to %{count} roles.
             many: Successfully copied workflow to %{count} roles.
             other: Successfully copied workflow to %{count} roles.
-      from_variants:
-        create:
-          notice:
-            one: Successfully copied workflow to '%{type_name}'.
-            few: Successfully copied workflow to %{count} types.
-            many: Successfully copied workflow to %{count} types.
-            other: Successfully copied workflow to %{count} types.
       new:
         title: Copy workflow of "%{source_type}"
     form:

@@ -64,6 +64,11 @@ module WorkPackageTypes
 
       attr_reader :variant, :aspect
 
+      # Do not offer variants that already inherit from this variant somehow
+      def unavailable_source_ids
+        super + variant.dependents_for(aspect).ids
+      end
+
       def selected_source
         current = variant.source_for(aspect)
         return current if current

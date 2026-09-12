@@ -42,7 +42,7 @@ RSpec.describe TypesHelper do
       helper.instance_variable_set(:@variant, addressed_variant)
     end
 
-    context "with the type_variants feature enabled", with_flag: { type_variants: true } do
+    context "when the tabs are built for a type" do
       context "when no variant is addressed" do
         let(:addressed_variant) { nil }
 
@@ -90,14 +90,6 @@ RSpec.describe TypesHelper do
         it "offers the projects tab" do
           expect(tab_names).to include("projects")
         end
-      end
-    end
-
-    context "with the type_variants feature disabled", with_flag: { type_variants: false } do
-      let(:addressed_variant) { nil }
-
-      it "omits the variants tab" do
-        expect(tab_names).not_to include("variants")
       end
     end
   end
@@ -224,7 +216,7 @@ RSpec.describe TypesHelper do
 
       it "returns 'Builtin field' for built-in attributes" do
         builtin = groups[:inactives].find { |a| a[:key] == "date" }
-        expect(builtin[:field_format_label]).to eq I18n.t("types.edit.form_configuration.builtin_field")
+        expect(builtin[:field_format_label]).to eq I18n.t("label_builtin")
       end
 
       context "with a custom field" do

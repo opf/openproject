@@ -33,16 +33,19 @@ RSpec.shared_context "with rendered filter input form" do
 
   let(:additional_attributes) { {} }
   let(:active) { true }
+  let(:dialog_id) { nil }
 
   def vc_render_filter_form(
     form_class = described_class,
     filter: self.filter,
     additional_attributes: self.additional_attributes,
-    active: self.active
+    active: self.active,
+    dialog_id: self.dialog_id
   )
-    render_in_view_context(form_class, filter, additional_attributes, active) do |form_class, filter, attrs, active|
+    render_in_view_context(form_class, filter, additional_attributes, active,
+                           dialog_id) do |form_class, filter, attrs, active, dialog|
       primer_form_with(url: "/test", method: :post) do |f|
-        render(form_class.new(f, filter:, additional_attributes: attrs, active:))
+        render(form_class.new(f, filter:, additional_attributes: attrs, active:, dialog_id: dialog))
       end
     end
   end

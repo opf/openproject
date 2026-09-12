@@ -34,12 +34,10 @@ he:
       document:
         one: Document
         two: Documents
-        many: Documents
         other: Documents
       document_type:
         one: Document type
         two: Document types
-        many: Document types
         other: Document types
   activity:
     filter:
@@ -54,7 +52,6 @@ he:
     active_editors_count:
       one: 1 active editor
       two: "%{count} active editors"
-      many: "%{count} active editors"
       other: "%{count} active editors"
     admin:
       collaboration_settings:
@@ -104,7 +101,6 @@ he:
       reassign_message:
         one: The type "%{type_name}" is currently being used in %{document_count} document. Please select which type to reassign them to.
         two: The type "%{type_name}" is currently being used in %{document_count} documents. Please select which type to reassign them to.
-        many: The type "%{type_name}" is currently being used in %{document_count} documents. Please select which type to reassign them to.
         other: The type "%{type_name}" is currently being used in %{document_count} documents. Please select which type to reassign them to.
       select_reassign_to_label: Reassign documents to
       title: Delete document type

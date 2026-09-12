@@ -44,14 +44,14 @@ module CostReports
     end
 
     def global_queries
-      CostQuery.public(project)
+      CostReport.public_in(project)
         .pluck(:id, :name)
         .map { |id, name| menu_item(title: name, query_params: query_params(id)) }
         .sort_by { |item| item.title.downcase }
     end
 
     def custom_queries
-      CostQuery.private(project, User.current)
+      CostReport.private_in(project, User.current)
         .pluck(:id, :name)
         .map { |id, name| menu_item(title: name, query_params: query_params(id)) }
         .sort_by { |item| item.title.downcase }
@@ -67,9 +67,9 @@ module CostReports
 
     def query_path(query_params)
       if project.present?
-        cost_report_path(project, query_params)
+        project_reporting_cost_report_path(project, query_params[:id])
       else
-        global_cost_reports_path(query_params)
+        reporting_cost_report_path(query_params[:id])
       end
     end
   end

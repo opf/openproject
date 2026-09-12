@@ -66,6 +66,8 @@ pt-PT:
 
       '
     login_with_auth_provider: ou inicie sessão com a sua conta
+    omniauth_direct_login_continue: Continue to sign in
+    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: Por favor, inicie a sessão para ativar a sua conta.
     signup_title: Crie uma conta em %{app_title}
     signup_with_external_account: Registe-se com uma conta externa
@@ -83,6 +85,21 @@ pt-PT:
         prompt: Prompt
         types: Tipos de pacotes de trabalho
         usage_scope: Âmbito
+      ai/text_transform_run:
+        action: Action
+        cancel_requested: Cancel requested
+        error_message: Error message
+        finished_at: Finished at
+        input: Input
+        status: Status
+        system_prompt: System prompt
+        user: User
+        uuid: UUID
+      ai/text_transform_run_event:
+        kind: Kind
+        payload: Payload
+        run: Run
+        seq: Sequence number
       announcements:
         show_until: Exibir até
       attachment:
@@ -125,7 +142,9 @@ pt-PT:
         is_for_all: Para todos os projetos
         is_required: Obrigatório
         max_length: Tamanho máximo
+        max_value: Maximum value
         min_length: Tamanho mínimo
+        min_value: Minimum value
         multi_value: Permitir seleção múltipla
         possible_values: Valores possíveis
         regexp: Expressão regular
@@ -215,6 +234,7 @@ pt-PT:
         position: Posição
       persisted_query:
         filters: Filtros
+        group_bys: Group results by
         name: Nome
         orders: Pedidos
         selects: Seleciona
@@ -571,6 +591,7 @@ pt-PT:
         regex_list_invalid: Não foi possível analisar as linhas %{invalid_lines} como expressão regular.
         regex_match_failed: não corresponde à expressão regular %{expression}.
         smaller_than_or_equal_to_max_length: deve ser menor ou igual ao comprimento máximo.
+        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: viola a política de SSRF desta instância do OpenProject.
         status_transition_invalid: é inválido porque não existe transição válida da antiga para as funções do utilizador atual.
         system_wide_non_working_day_exists: entra em conflito com um dia não útil existente em todo o sistema para esta data.
@@ -722,7 +743,6 @@ pt-PT:
             types:
               cannot_assign_multiple_variants_of_parent: Só é possível ativar uma única variante de um Tipo no projeto
               cannot_assign_variant_and_parent: 'Não é possível atribuir uma variante e o seu elemento pai '
-              cannot_assign_variants_yet: Ainda não é possível ativar variantes num projeto. Ative o indicador de funcionalidade para experimentar as variantes
               in_use_by_work_packages: 'ainda em uso por pacotes de trabalho: %{types}'
               switch_target_blank: Selecione a variante para a qual pretende mudar
               switch_target_identical: O tipo de destino deve ser diferente do tipo que o projeto utiliza atualmente
@@ -845,6 +865,9 @@ pt-PT:
               query_invalid: 'A consulta incorporada ''%{group}'' é inválida: %{details}'
             base:
               borrowed_by_variants: Não pode ser eliminado enquanto a sua configuração for reutilizada por %{names}.
+              inherits_from_project_owned: 'This variant currently inherits from a project-specific variant and cannot be converted to a global variant.
+
+                '
               is_default_variant: A configuração predefinida de um tipo não pode ser eliminada.
               project_variants_not_allowed: This type does not allow creation of variants inside projects.
               restrict_dependent_destroy:
@@ -998,6 +1021,12 @@ pt-PT:
       ai/text_transform_action:
         one: Ação de transformação de texto
         other: Ações de transformação de texto
+      ai/text_transform_run:
+        one: Text transform run
+        other: Text transform runs
+      ai/text_transform_run_event:
+        one: Text transform run event
+        other: Text transform run events
       announcement:
         one: Anúncio
         other: Anúncios
@@ -2021,10 +2050,6 @@ pt-PT:
       not_found:
         reminder: O lembrete que procura não pode ser encontrado ou foi eliminado.
         work_package: O pacote de trabalho que procura não foi encontrado ou foi eliminado.
-      render:
-        context_not_parsable: O contexto fornecido não é um link para um recurso.
-        context_object_not_found: Não é possível encontrar o recurso dado como contexto.
-        unsupported_context: Não há suporte para o recurso dado como contexto.
       unable_to_create_attachment: Não foi possível criar o anexo
       unable_to_create_attachment_permissions: Não foi possível guardar o anexo devido a falta de permissões no sistema de ficheiros
       user:
@@ -2171,6 +2196,9 @@ pt-PT:
     label_delete_token: 'Eliminar token de cópia de segurança '
     label_reset_token: 'Redefinir token de cópia de segurança '
     label_token_users: Os seguintes utilizadores têm tokens de cópia de segurança ativos
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: Criar
       action_reset: Repor
@@ -2461,6 +2489,9 @@ pt-PT:
       min_max:
         all: 0 significa sem restrições
         project: 0 significa sem restrições
+      min_max_value:
+        all: Leave blank for no restriction
+        project: Leave blank for no restriction
       multi_select:
         all: Permite que o utilizador atribua vários valores a este campo personalizado.
         project: Permite ao utilizador atribuir vários valores a este atributo.
@@ -3427,7 +3458,6 @@ pt-PT:
   label_copy_target: Destino
   label_copy_workflow_from: Copiar Fluxo de Trabalho de
   label_copy_workflow_from_role: Copiar para outras funções
-  label_copy_workflow_from_type: Copiar para outro tipo
   label_core_build: Construção principal
   label_core_version: Versão do núcleo
   label_created_by: Criado por %{user}
@@ -3672,7 +3702,6 @@ pt-PT:
   label_message_new: Nova mensagem
   label_message_plural: Mensagens
   label_message_posted: Mensagem adicionada
-  label_min_max_length: Tamanho Mín - Max
   label_minute_plural: minutos
   label_missing_api_access_key: Chave de acesso da API em falta
   label_missing_feeds_access_key: Chave de acesso da RSS em falta
@@ -4253,6 +4282,9 @@ pt-PT:
   mail_body_account_information: Sua informação de conta
   mail_body_account_information_external: Pode utilizar a sua conta %{value} para iniciar a sessão.
   mail_body_backup_ready: 'A sua cópia de segurança está pronta. Pode transferi-la aqui:'
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: O token anterior já não é válido.
   mail_body_backup_token_reset_admin_info: O token de cópia de segurança para o utilizador '%{user}' foi redefinido.
   mail_body_backup_token_reset_user_info: O seu token de cópia de segurança foi redefinido.
@@ -4576,6 +4608,7 @@ pt-PT:
   notice_account_already_activated: A conta já foi ativada.
   notice_account_invalid_credentials: Utilizador ou senha inválida
   notice_account_invalid_credentials_or_blocked: Utilizador ou senha inválida, ou a conta está bloqueada devido às várias tentativas de iniciar a sessão. Se assim for, esta será desbloqueada automaticamente em um curto espaço de tempo.
+  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
   notice_account_invalid_token: Token de ativação inválido
   notice_account_lost_email_sent: Foi enviada uma mensagem com as instruções para alterar a sua senha.
   notice_account_new_password_forced: É necessário uma nova senha.
@@ -4828,8 +4861,6 @@ pt-PT:
       not_found: não encontrado.
       respond_to?: não implementa o método requerido.
       rules:
-        copy_workflow_from:
-          workflow_missing: não tem um fluxo de trabalho próprio.
         custom_field:
           format_not_supported: o formato '%{field_format}' não é suportado.
         item:
@@ -4849,7 +4880,6 @@ pt-PT:
     or: ou
     rules:
       blueprint: Plano do padrão
-      copy_workflow_from: Tipo de cópia do fluxo de trabalho
       depth: Profundidade
       enabled: Ativado
       item: Elemento
@@ -6072,13 +6102,14 @@ pt-PT:
         <br>
         <strong>Nota</strong>: Valores herdados (p. ex.,: por crianças ou relações) ainda serão aplicados.
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Excluído dos totais
         is_closed: Fechado
-        is_default: Predefinido
         is_readonly: Só de leitura
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Adicione um novo estado
       no_results_title_text: Atualmente, não existem estados de pacote de trabalho.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: e
@@ -6368,7 +6399,6 @@ pt-PT:
         add_query_group: Tabela de pacotes de trabalho relacionados
         blankslate_description: Adicione grupos no botão acima ou arraste atributos do painel esquerdo.
         blankslate_title: Ainda sem grupos
-        builtin_field: Campo incorporado
         confirm_delete_group: Tem a certeza de que quer eliminar esta secção? Esta ação não pode ser revertida automaticamente.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Campo personalizado
@@ -6393,6 +6423,15 @@ pt-PT:
         query_group_label: Tabela de pacotes de trabalho relacionados
         remove_attribute: Remover da secção
         rename_group: Mudar o nome da secção
+        required:
+          already_required_globally: This custom field is required for all types.
+          for_variant: Required in this type
+          globally: Required
+          globally_hint: Change this on the custom field
+          mark: Require in this type
+          not_a_custom_field: Only a custom field can be made required for a single type.
+          not_available_when_linked: This configuration is inherited. Configure it manually to change what is required.
+          unmark: Do not require in this type
         reset_description: 'Isto irá redefinir os atributos para o seu grupo predefinido e desativar TODOS os campos personalizados.
 
           '
@@ -6401,6 +6440,15 @@ pt-PT:
         row_actions: Ações de linha
         tab: Form
         untitled_group: Grupo sem título
+      overview:
+        configuration_mode: Configuration mode
+        dependents: Dependent types and variants
+        mode:
+          always_manual: Always manual
+          inheriting_from_html: Inheriting from %{source_name}
+          manual: Manually configured
+        settings: Settings
+        tab: Overview
       project_attributes:
         actions:
           label_disable_all: Desativar tudo
@@ -6534,7 +6582,7 @@ pt-PT:
         filter_no_results: Nenhuma variante corresponde a este filtro
         global_section:
           description: These variants are available across all projects.
-          title: Variants
+          title: Global variants
         project_specific_section:
           description: These variants are only available within the projects in which they were created.
           title: Project-specific variants
@@ -6543,6 +6591,17 @@ pt-PT:
     index:
       add_variant: Add a variant to %{name}
       add_variant_action: Adicionar variante
+      convert_to_global: Convert to global variant
+      convert_to_global_dialog:
+        confirm: Convert
+        text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
+
+          '
+      convert_to_global_notice: "%{name} is now a global variant."
+      convert_to_global_rename:
+        confirm: Convert
+        text: A global variant with this name already exists. Please choose a different name.
+        title: Pick another name for this variant
       description: 'Cada área de configuração dentro dos tipos e variantes pode ser configurada de forma independente, limitada em relação a outro tipo, ou totalmente associada a uma fonte.
 
         '
@@ -6933,6 +6992,13 @@ pt-PT:
       confirm_deletion: Confirmo que os pacotes de trabalho selecionados e todos os dados associados serão eliminados.
       confirm_descendants_deletion: Confirmo que todos os descendentes listados acima também serão eliminados.
       cross_project_warning_html: 'Estes pacotes de trabalho abrangem vários projetos: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        self_only_label: Delete just the selected work packages
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete the selected work packages and their descendants
       description: Tem a certeza de que quer eliminar os pacotes de trabalho selecionados e todos os dados associados?
       description_with_all_descendants: Tem a certeza de que pretende eliminar os pacotes de trabalho selecionados e todos os seus descendentes?
       description_with_descendants: Tem a certeza de que pretende eliminar os pacotes de trabalho selecionados e todos os descendentes seguintes?
@@ -6997,6 +7063,13 @@ pt-PT:
       confirm_deletion: Confirmo que o pacote de trabalho e todos os dados associados serão eliminados.
       confirm_descendants_deletion: Confirmo que todos os descendentes listados acima também serão eliminados.
       cross_project_warning_html: 'Os pacotes de trabalho dos seguintes projetos serão eliminados: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: This work package has descendants. Do you want to delete them as well?
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        self_only_label: Delete just this work package
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete this work package and descendants
       description: Tem a certeza de que quer eliminar "%{name}"?
       heading: Eliminar permanentemente este pacote de trabalho?
       hidden_descendants_only_warning:
@@ -7048,29 +7121,13 @@ pt-PT:
   workflows:
     copies:
       form:
-        mode:
-          from_role:
-            caption: Copie o fluxo de trabalho atual para uma ou mais funções dentro do mesmo tipo de pacote de trabalho. Se a função selecionada já tiver um fluxo de trabalho, o atual será substituído.
-            label: Copiar para outras funções
-          from_type:
-            caption: Copie o fluxo de trabalho atual para outro tipo de pacote de trabalho. Se o tipo selecionado já tiver um fluxo de trabalho, o atual será substituído. Isto afeta todas as funções.
-            label: Copiar para outro tipo
-        source_role_id:
-          label: Função de origem
         target_role_ids:
           label: Funções de destino
-        target_variant_ids:
-          label: 'Tipos de destino:'
       from_roles:
         create:
           notice:
             one: O fluxo de trabalho foi copiado com sucesso para a função '%{role_name}'.
             other: O fluxo de trabalho foi copiado com sucesso para %{count} funções.
-      from_variants:
-        create:
-          notice:
-            one: O fluxo de trabalho foi copiado com sucesso para '%{type_name}'.
-            other: O fluxo de trabalho foi copiado com sucesso para %{count} tipos.
       new:
         title: Copiar fluxo de trabalho de "%{source_type}"
     form:

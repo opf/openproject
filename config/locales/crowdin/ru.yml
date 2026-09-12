@@ -66,6 +66,8 @@ ru:
 
       '
     login_with_auth_provider: или войдите своей учетной записью
+    omniauth_direct_login_continue: Continue to sign in
+    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: Пожалуйста, авторизируйтесь для активации вашей учетной записи.
     signup_title: Создать учетную запись в %{app_title}
     signup_with_external_account: Регистрация с помощью внешней учетной записи
@@ -83,6 +85,21 @@ ru:
         prompt: Prompt
         types: Work package types
         usage_scope: Scope
+      ai/text_transform_run:
+        action: Action
+        cancel_requested: Cancel requested
+        error_message: Error message
+        finished_at: Finished at
+        input: Input
+        status: Status
+        system_prompt: System prompt
+        user: User
+        uuid: UUID
+      ai/text_transform_run_event:
+        kind: Kind
+        payload: Payload
+        run: Run
+        seq: Sequence number
       announcements:
         show_until: Отобразить до
       attachment:
@@ -125,7 +142,9 @@ ru:
         is_for_all: Для всех проектов
         is_required: Обязательно
         max_length: Максимальная длина
+        max_value: Maximum value
         min_length: Минимальная длина
+        min_value: Minimum value
         multi_value: Разрешить множественный выбор
         possible_values: Возможные значения
         regexp: Регулярное выражение
@@ -215,6 +234,7 @@ ru:
         position: Позиция
       persisted_query:
         filters: Фильтры
+        group_bys: Group results by
         name: Имя
         orders: Порядок
         selects: Выбирает
@@ -571,6 +591,7 @@ ru:
         regex_list_invalid: Строки %{invalid_lines} не могут быть проанализированы как регулярное выражение.
         regex_match_failed: не соответствует регулярному выражению %{expression}.
         smaller_than_or_equal_to_max_length: должно быть меньше или равно максимальной длине.
+        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: нарушает политику SSRF данного экземпляра OpenProject.
         status_transition_invalid: недопустимо, так как для текущих ролей пользователя нет правильного перехода от старого статуса к новому.
         system_wide_non_working_day_exists: конфликтует с существующим общесистемным нерабочим днем для этой даты.
@@ -724,7 +745,6 @@ ru:
             types:
               cannot_assign_multiple_variants_of_parent: В проекте можно включить только один вариант типа
               cannot_assign_variant_and_parent: 'Не удается назначить вариант и его родителя '
-              cannot_assign_variants_yet: Варианты пока не могут быть включены в проекте. Включите feature флаг, чтобы попробовать варианты
               in_use_by_work_packages: 'всё ещё используются в пакетах работ: %{types}'
               switch_target_blank: Выберите вариант, на который хотите переключиться
               switch_target_identical: Целевой тип должен отличаться от типа, который сейчас используется в проекте
@@ -847,6 +867,9 @@ ru:
               query_invalid: 'Встроенный запрос ''%{group}'' является недопустимым: %{details}'
             base:
               borrowed_by_variants: Нельзя удалить, пока его конфигурация повторно используется %{names}.
+              inherits_from_project_owned: 'This variant currently inherits from a project-specific variant and cannot be converted to a global variant.
+
+                '
               is_default_variant: Конфигурация по умолчанию для типа не может быть удалена.
               project_variants_not_allowed: This type does not allow creation of variants inside projects.
               restrict_dependent_destroy:
@@ -1008,6 +1031,16 @@ ru:
         few: Text transform actions
         many: Text transform actions
         other: Text transform actions
+      ai/text_transform_run:
+        one: Text transform run
+        few: Text transform runs
+        many: Text transform runs
+        other: Text transform runs
+      ai/text_transform_run_event:
+        one: Text transform run event
+        few: Text transform run events
+        many: Text transform run events
+        other: Text transform run events
       announcement:
         one: Объявление
         few: Announcements
@@ -2257,10 +2290,6 @@ ru:
       not_found:
         reminder: Напоминание, которое вы ищете, не найдено или было удалено.
         work_package: Пакет работ, который вы ищете, не найден или был удален.
-      render:
-        context_not_parsable: Предоставленного контекста не является ссылка на ресурс.
-        context_object_not_found: Не удается найти ресурс заданный как контекст.
-        unsupported_context: Ресурс не поддерживается как контекст.
       unable_to_create_attachment: Вложение не может быть создано
       unable_to_create_attachment_permissions: Вложение не может быть сохранено из-за отсутствия прав на файловую систему
       user:
@@ -2409,6 +2438,9 @@ ru:
     label_delete_token: Удалить маркер резервного копирования
     label_reset_token: Сбросить маркер резервного копирования
     label_token_users: Следующие пользователи имеют действительные маркеры резервного копирования
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: Создать
       action_reset: Сбросить
@@ -2699,6 +2731,9 @@ ru:
       min_max:
         all: 0 означает отсутствие ограничений
         project: 0 означает отсутствие ограничений
+      min_max_value:
+        all: Leave blank for no restriction
+        project: Leave blank for no restriction
       multi_select:
         all: Разрешить пользователю присвоить несколько значений этому пользовательскому полю.
         project: Разрешить пользователю присвоить несколько значений этому атрибуту.
@@ -3713,7 +3748,6 @@ ru:
   label_copy_target: Цель
   label_copy_workflow_from: Копировать рабочий поток из
   label_copy_workflow_from_role: Копировать в другие роли
-  label_copy_workflow_from_type: Копировать в другой тип
   label_core_build: Сборка ядра
   label_core_version: Текущая версия
   label_created_by: Создано %{user}
@@ -3958,7 +3992,6 @@ ru:
   label_message_new: Новое сообщение
   label_message_plural: Сообщения
   label_message_posted: Сообщение добавлено
-  label_min_max_length: Минимальная - Максимальная длина
   label_minute_plural: минуты
   label_missing_api_access_key: Отсутствует ключ доступа к API
   label_missing_feeds_access_key: Отсутствует ключ доступа к RSS
@@ -4549,6 +4582,9 @@ ru:
   mail_body_account_information: Информация о вашей учетной записи
   mail_body_account_information_external: Вы можете использовать учетную запись %{value} для входа.
   mail_body_backup_ready: 'Запрошенная резервная копия готова. Вы можете скачать ее здесь:'
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: Предыдущий маркер больше не действителен.
   mail_body_backup_token_reset_admin_info: Маркер резервной копии пользователя '%{user}' был сброшен.
   mail_body_backup_token_reset_user_info: Маркер вашей резервной копии был сброшен.
@@ -4885,6 +4921,7 @@ ru:
   notice_account_already_activated: Учетная запись уже активирована.
   notice_account_invalid_credentials: Неправильное имя пользователя или пароль
   notice_account_invalid_credentials_or_blocked: Неправильное имя пользователя/пароль или учетная запись была заблокирована из-за многочисленных неуспешных попыток входа. Учетная запись будет разблокирована автоматически через некоторое время.
+  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
   notice_account_invalid_token: Неверный маркер активации
   notice_account_lost_email_sent: Письмо с инструкциями, как установить новый пароль, было отправлено на Ваш электронный адрес.
   notice_account_new_password_forced: Требуется новый пароль.
@@ -5141,8 +5178,6 @@ ru:
       not_found: не найдено.
       respond_to?: не реализует требуемый метод.
       rules:
-        copy_workflow_from:
-          workflow_missing: не имеет собственного рабочего процесса.
         custom_field:
           format_not_supported: формат '%{field_format}' не поддерживается.
         item:
@@ -5162,7 +5197,6 @@ ru:
     or: или
     rules:
       blueprint: Шаблон чертежа
-      copy_workflow_from: Тип копии рабочего процесса
       depth: Глубина
       enabled: Включено
       item: Элемент
@@ -6396,13 +6430,14 @@ ru:
         <br>
         <strong>Примечание</strong>: Будут применены унаследованные значения (например, от дочерних или родительских пакетов работ).
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Исключен из итогов
         is_closed: Закрыт
-        is_default: По умолчанию
         is_readonly: Только для чтения
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Добавить новый статус
       no_results_title_text: В данный момент статусы пакетов работ отсутствуют.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: и
@@ -6686,7 +6721,6 @@ ru:
         add_query_group: Таблица связанных пакетов работ
         blankslate_description: Добавьте группы с помощью кнопки выше или перетащите атрибуты с левой панели.
         blankslate_title: Нет групп
-        builtin_field: Встроенное поле
         confirm_delete_group: Вы уверены, что хотите удалить эту секцию? Это действие нельзя автоматически отменить.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Настраиваемое поле
@@ -6711,6 +6745,15 @@ ru:
         query_group_label: Таблица связанных пакетов работ
         remove_attribute: Удалить из секции
         rename_group: Переименовать секцию
+        required:
+          already_required_globally: This custom field is required for all types.
+          for_variant: Required in this type
+          globally: Required
+          globally_hint: Change this on the custom field
+          mark: Require in this type
+          not_a_custom_field: Only a custom field can be made required for a single type.
+          not_available_when_linked: This configuration is inherited. Configure it manually to change what is required.
+          unmark: Do not require in this type
         reset_description: 'Это сбросит атрибуты к группе по умолчанию и отключит ВСЕ настраиваемые поля.
 
           '
@@ -6719,6 +6762,15 @@ ru:
         row_actions: Действия со строками
         tab: Form
         untitled_group: Безымянная группа
+      overview:
+        configuration_mode: Configuration mode
+        dependents: Dependent types and variants
+        mode:
+          always_manual: Always manual
+          inheriting_from_html: Inheriting from %{source_name}
+          manual: Manually configured
+        settings: Settings
+        tab: Overview
       project_attributes:
         actions:
           label_disable_all: Отключить все
@@ -6856,7 +6908,7 @@ ru:
         filter_no_results: Нет вариантов, соответствующих этому фильтру
         global_section:
           description: These variants are available across all projects.
-          title: Variants
+          title: Global variants
         project_specific_section:
           description: These variants are only available within the projects in which they were created.
           title: Project-specific variants
@@ -6865,6 +6917,17 @@ ru:
     index:
       add_variant: Add a variant to %{name}
       add_variant_action: Добавить вариант
+      convert_to_global: Convert to global variant
+      convert_to_global_dialog:
+        confirm: Convert
+        text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
+
+          '
+      convert_to_global_notice: "%{name} is now a global variant."
+      convert_to_global_rename:
+        confirm: Convert
+        text: A global variant with this name already exists. Please choose a different name.
+        title: Pick another name for this variant
       description: 'Каждая область конфигурации внутри типов и вариантов может быть настроена самостоятельно, ограничена другим типом или полностью связана с источником.
 
         '
@@ -7265,6 +7328,13 @@ ru:
       confirm_deletion: Подтверждаю, что выбранные пакеты работ и все связанные с ними данные будут удалены.
       confirm_descendants_deletion: Подтверждаю, что все перечисленные выше потомки также будут удалены.
       cross_project_warning_html: 'Эти пакеты работ охватывают несколько проектов: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        self_only_label: Delete just the selected work packages
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete the selected work packages and their descendants
       description: Вы уверены, что хотите удалить выбранные пакеты работ и все связанные с ними данные?
       description_with_all_descendants: Вы уверены, что хотите удалить выбранные пакеты работ и все их вложенные элементы?
       description_with_descendants: Вы уверены, что хотите удалить выбранные пакеты работ и все их вложенные элементы?
@@ -7337,6 +7407,13 @@ ru:
       confirm_deletion: Подтверждаю, что пакет работ и все связанные с ним данные будут удалены.
       confirm_descendants_deletion: Подтверждаю, что все перечисленные выше потомки также будут удалены.
       cross_project_warning_html: 'Пакеты работ из следующих проектов будут удалены: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: This work package has descendants. Do you want to delete them as well?
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        self_only_label: Delete just this work package
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete this work package and descendants
       description: Вы уверены, что хотите удалить "%{name}"?
       heading: Удалить этот пакет работ навсегда?
       hidden_descendants_only_warning:
@@ -7398,19 +7475,8 @@ ru:
   workflows:
     copies:
       form:
-        mode:
-          from_role:
-            caption: Скопируйте текущий рабочий процесс в одну или несколько ролей внутри одного и того же типа пакета работ. Если выбранная роль уже имеет рабочий процесс, текущий будет перезаписан.
-            label: Копировать в другие роли
-          from_type:
-            caption: Скопируйте текущий рабочий процесс в другой тип пакетов работ. Если у выбранного типа уже есть рабочий процесс, текущий рабочий процесс будет перезаписан. Это влияет на все роли.
-            label: Копировать в другой тип
-        source_role_id:
-          label: Исходная роль
         target_role_ids:
           label: Целевые роли
-        target_variant_ids:
-          label: Целевые типы
       from_roles:
         create:
           notice:
@@ -7418,13 +7484,6 @@ ru:
             few: Рабочий процесс успешно скопирован в %{count} ролей.
             many: Рабочий процесс успешно скопирован в %{count} ролей.
             other: Рабочий процесс успешно скопирован в %{count} ролей.
-      from_variants:
-        create:
-          notice:
-            one: Рабочий процесс успешно скопирован в тип '%{type_name}'.
-            few: Рабочий процесс успешно скопирован в %{count} типа.
-            many: Рабочий процесс успешно скопирован в %{count} типов.
-            other: Рабочий процесс успешно скопирован в %{count} типов.
       new:
         title: Копировать рабочий процесс из типа "%{source_type}"
     form:

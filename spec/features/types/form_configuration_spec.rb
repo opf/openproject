@@ -277,7 +277,7 @@ RSpec.describe "form configuration", :js, :selenium do
         end
 
         it "shows field format labels beside attributes" do
-          builtin_label = I18n.t("types.edit.form_configuration.builtin_field")
+          builtin_label = I18n.t("label_builtin")
 
           expect(page.find(form.attribute_selector(:assignee))).to have_text(builtin_label)
           expect(page.find(form.attribute_selector(:date))).to have_text(builtin_label)
@@ -365,7 +365,7 @@ RSpec.describe "form configuration", :js, :selenium do
           expect(page).to have_text(I18n.t("button_delete"))
         end
 
-        find("body").click
+        form.close_menu(first_row_menu_id)
 
         last_row_menu_id = form.open_attribute_menu(details_order.last)
 

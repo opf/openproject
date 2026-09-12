@@ -31,8 +31,7 @@
 require "rails_helper"
 
 RSpec.describe WorkPackageTypes::Overview::RowComponent,
-               type: :component,
-               with_flag: { type_variants: true } do
+               type: :component do
   include Rails.application.routes.url_helpers
 
   shared_let(:type) { create(:type, name: "Bug") }

@@ -419,6 +419,13 @@ class TypeVariant
       without_excluded_elements(source.attribute_groups)
     end
 
+    def required_attributes
+      source = linked_configuration_source(TypeVariant::FORM_CONFIGURATION)
+      return super if source.nil? || required_attributes_changed?
+
+      source.required_attributes - effective_excluded_elements(TypeVariant::FORM_CONFIGURATION)
+    end
+
     # custom_fields resolves through the form source. Beware of reader-driven mutation:
     # currently, the only one is Jira import's `custom_fields <<`, but it runs on a
     # FORM_CONFIGURATION-independent variant, so it reaches super.
@@ -436,14 +443,22 @@ class TypeVariant
     # can also carry plain attribute keys ("assignee") and query groups ("query_7"), which
     # have no custom field to map to and are dropped here.
     def excluded_custom_field_ids(aspect)
-      effective_excluded_elements(aspect).filter_map do |element|
+      custom_field_ids_among(effective_excluded_elements(aspect))
+    end
+
+    def required_custom_field_ids
+      custom_field_ids_among(required_attributes)
+    end
+
+    private
+
+    def custom_field_ids_among(elements)
+      elements.filter_map do |element|
         next unless CustomField.custom_field_attribute?(element)
 
         element.delete_prefix(CUSTOM_FIELD_ELEMENT_PREFIX).to_i
       end
     end
-
-    private
 
     def preloaded_effective_sources
       @preloaded_effective_sources ||= {}
@@ -550,10 +565,6 @@ class TypeVariant
     # True when a lookup should resolve `aspect` through the chain in SQL rather than reading
     # this variant's own columns. Only an unsaved variant is exempt: it has no id to seed the
     # chain with, and nothing can be linked to it yet.
-    #
-    # Deliberately not gated on the type_variants feature. Every type owns a base variant
-    # either way, and an unlinked variant resolves to itself, so resolving unconditionally is
-    # what keeps reads identical whether the feature is on or off.
     def resolve_aspect_in_sql?
       !new_record?
     end

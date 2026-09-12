@@ -154,6 +154,11 @@ module OpTurbo
         .render_in(view_context)
     end
 
+    # Takes the same parts the page passes to +html_title+.
+    def set_page_title_via_turbo_stream(*parts, project: nil)
+      turbo_streams << turbo_stream.set_title(title: helpers.page_title_with_project(*parts, project:))
+    end
+
     def reload_page_via_turbo_stream
       turbo_streams << OpTurbo::StreamComponent.new(action: :reloadPage, target: nil).render_in(view_context)
     end

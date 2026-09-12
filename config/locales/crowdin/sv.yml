@@ -66,6 +66,8 @@ sv:
 
       '
     login_with_auth_provider: eller logga in med ditt befintliga konto
+    omniauth_direct_login_continue: Continue to sign in
+    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: Vänligen logga in för att aktivera ditt konto.
     signup_title: Skapa ett konto i %{app_title}
     signup_with_external_account: Registrera dig med ett externt konto
@@ -83,6 +85,21 @@ sv:
         prompt: Prompt
         types: Arbetspaketstyper
         usage_scope: Omfattning
+      ai/text_transform_run:
+        action: Action
+        cancel_requested: Cancel requested
+        error_message: Error message
+        finished_at: Finished at
+        input: Input
+        status: Status
+        system_prompt: System prompt
+        user: User
+        uuid: UUID
+      ai/text_transform_run_event:
+        kind: Kind
+        payload: Payload
+        run: Run
+        seq: Sequence number
       announcements:
         show_until: Visa fram till
       attachment:
@@ -125,7 +142,9 @@ sv:
         is_for_all: För alla projekt
         is_required: Krävs
         max_length: Maximal längd
+        max_value: Maximum value
         min_length: Minsta längd
+        min_value: Minimum value
         multi_value: Tillåt flerval
         possible_values: Möjliga värden
         regexp: Reguljära uttryck
@@ -215,6 +234,7 @@ sv:
         position: Position
       persisted_query:
         filters: Filter
+        group_bys: Group results by
         name: Namn
         orders: Sorteringar
         selects: Val
@@ -571,6 +591,7 @@ sv:
         regex_list_invalid: Raderna %{invalid_lines} kunde inte tolkas som reguljära uttryck.
         regex_match_failed: matchar inte det reguljära uttrycket %{expression}.
         smaller_than_or_equal_to_max_length: måste vara mindre än eller lika med maximal längd.
+        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: bryter mot SSRF-policyn för den här OpenProject-instansen.
         status_transition_invalid: är ogiltig eftersom det finns någon giltig övergång ifrån den gamla till nya statusen för den aktuella användarens roller.
         system_wide_non_working_day_exists: står i konflikt med en befintlig systemomfattande arbetsfri dag för detta datum.
@@ -722,7 +743,6 @@ sv:
             types:
               cannot_assign_multiple_variants_of_parent: Endast en variant av en typ kan aktiveras i projektet
               cannot_assign_variant_and_parent: Det går inte att tilldela både en variant och dess överordnade variant
-              cannot_assign_variants_yet: Varianter kan ännu inte aktiveras i ett projekt. Aktivera funktionsflaggan för att prova varianter
               in_use_by_work_packages: 'används fortfarande av arbetspaket: %{types}'
               switch_target_blank: Välj varianten att byta till
               switch_target_identical: Måltypen måste skilja sig från den typ som projektet använder nu
@@ -845,6 +865,9 @@ sv:
               query_invalid: 'Den inbäddade frågan ''%{group}'' är ogiltigt: %{details}'
             base:
               borrowed_by_variants: Kan inte tas bort medan dess konfiguration återanvänds av %{names}.
+              inherits_from_project_owned: 'This variant currently inherits from a project-specific variant and cannot be converted to a global variant.
+
+                '
               is_default_variant: Standardkonfigurationen för en typ kan inte tas bort.
               project_variants_not_allowed: Den här typen tillåter inte att varianter skapas i projekt.
               restrict_dependent_destroy:
@@ -998,6 +1021,12 @@ sv:
       ai/text_transform_action:
         one: Åtgärd för textomvandling
         other: Åtgärder för textomvandling
+      ai/text_transform_run:
+        one: Text transform run
+        other: Text transform runs
+      ai/text_transform_run_event:
+        one: Text transform run event
+        other: Text transform run events
       announcement:
         one: Meddelande
         other: Meddelanden
@@ -2021,10 +2050,6 @@ sv:
       not_found:
         reminder: Påminnelsen du söker kunde inte hittas eller har tagits bort.
         work_package: Arbetspaketet du söker kunde inte hittas eller har tagits bort.
-      render:
-        context_not_parsable: Kontexten som angavs är inte en länk till en resurs.
-        context_object_not_found: Kan inte hitta den angivna resursen som kontext.
-        unsupported_context: Resursen som angavs stöds inte som kontext.
       unable_to_create_attachment: Bilagan kunde inte skapas
       unable_to_create_attachment_permissions: Bilagan kunde inte sparas på grund av brist på filsystemsrättigheter
       user:
@@ -2171,6 +2196,9 @@ sv:
     label_delete_token: Ta bort token för säkerhetskopia
     label_reset_token: Återställ token för säkerhetskopia
     label_token_users: Följande användare har aktiva token för säkerhetskopiering
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: Skapa
       action_reset: Återställ
@@ -2461,6 +2489,9 @@ sv:
       min_max:
         all: 0 innebär ingen begränsning
         project: 0 innebär ingen begränsning
+      min_max_value:
+        all: Leave blank for no restriction
+        project: Leave blank for no restriction
       multi_select:
         all: Tillåter användaren att tilldela flera värden till det här anpassade fältet.
         project: Tillåter användaren att tilldela flera värden till det här attributet.
@@ -3427,7 +3458,6 @@ sv:
   label_copy_target: Mål
   label_copy_workflow_from: Kopiera arbetsflöde från
   label_copy_workflow_from_role: Kopiera till andra roller
-  label_copy_workflow_from_type: Kopiera till en annan typ
   label_core_build: Kärnbygge
   label_core_version: Kärnversion
   label_created_by: Skapad av %{user}
@@ -3672,7 +3702,6 @@ sv:
   label_message_new: Nytt meddelande
   label_message_plural: Meddelanden
   label_message_posted: Meddelande tillaggt
-  label_min_max_length: Min - Maxlängd
   label_minute_plural: minuter
   label_missing_api_access_key: Åtkomstnyckel för API saknas
   label_missing_feeds_access_key: Åtkomstnyckel för RSS saknas
@@ -4254,6 +4283,9 @@ sv:
   mail_body_account_information: Din kontoinformation
   mail_body_account_information_external: Du kan använda ditt %{value} konto för att logga in.
   mail_body_backup_ready: 'Den säkerhetskopia du begärde är klar. Du kan hämta den här:'
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: Föregående token är inte längre giltig.
   mail_body_backup_token_reset_admin_info: Säkerhetskopieringstoken för användaren "%{user}" har återställts.
   mail_body_backup_token_reset_user_info: Din säkerhetskopieringstoken har återställts.
@@ -4578,6 +4610,7 @@ sv:
   notice_account_already_activated: Kontot har redan aktiverats.
   notice_account_invalid_credentials: Ogiltig användare eller lösenord
   notice_account_invalid_credentials_or_blocked: Ogiltig användare eller lösenord eller konto är låst på grund av flera misslyckade inloggningsförsök. Om kontot är låst så kommer det bli upplåst inom kort.
+  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
   notice_account_invalid_token: Ogiltig aktiveringsnyckel
   notice_account_lost_email_sent: Ett E-postmeddelande med instruktioner att välja ett nytt lösenord har skickats till dig.
   notice_account_new_password_forced: Ett nytt lösenord krävs.
@@ -4830,8 +4863,6 @@ sv:
       not_found: hittades inte.
       respond_to?: implementerar inte den obligatoriska metoden.
       rules:
-        copy_workflow_from:
-          workflow_missing: har inget eget arbetsflöde.
         custom_field:
           format_not_supported: formatet "%{field_format}" stöds inte.
         item:
@@ -4851,7 +4882,6 @@ sv:
     or: eller
     rules:
       blueprint: Mönsterritning
-      copy_workflow_from: Typ för kopiering av arbetsflöde
       depth: Djup
       enabled: Aktiverad
       item: Objekt
@@ -6077,13 +6107,14 @@ sv:
         <br>
         <strong>Obs!</strong> Ärvda värden (t.ex. från underordnade objekt eller relationer) tillämpas fortfarande.
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Undantagen från totalsummor
         is_closed: Stängt
-        is_default: Standard
         is_readonly: Skrivskyddad
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Lägg till ny status
       no_results_title_text: Det finns för närvarande inga statusar för arbetspaket.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: och
@@ -6367,7 +6398,6 @@ sv:
         add_query_group: Tabell med relaterade arbetspaket
         blankslate_description: Lägg till grupper med knappen ovan eller dra attribut från den vänstra panelen.
         blankslate_title: Inga grupper ännu
-        builtin_field: Inbyggt fält
         confirm_delete_group: Är du säker på att du vill ta bort det här avsnittet? Åtgärden kan inte ångras automatiskt.
         confirm_reset: Är du säker på att du vill återställa formuläret?
         custom_field: Anpassat fält
@@ -6392,6 +6422,15 @@ sv:
         query_group_label: Tabell med relaterade arbetspaket
         remove_attribute: Ta bort från avsnitt
         rename_group: Döp om sektion
+        required:
+          already_required_globally: This custom field is required for all types.
+          for_variant: Required in this type
+          globally: Required
+          globally_hint: Change this on the custom field
+          mark: Require in this type
+          not_a_custom_field: Only a custom field can be made required for a single type.
+          not_available_when_linked: This configuration is inherited. Configure it manually to change what is required.
+          unmark: Do not require in this type
         reset_description: 'Detta återställer attributen till deras standardgrupp och inaktiverar ALLA anpassade fält.
 
           '
@@ -6400,6 +6439,15 @@ sv:
         row_actions: Radåtgärder
         tab: Formulär
         untitled_group: Namnlös grupp
+      overview:
+        configuration_mode: Configuration mode
+        dependents: Dependent types and variants
+        mode:
+          always_manual: Always manual
+          inheriting_from_html: Inheriting from %{source_name}
+          manual: Manually configured
+        settings: Settings
+        tab: Overview
       project_attributes:
         actions:
           label_disable_all: Inaktivera alla
@@ -6533,7 +6581,7 @@ sv:
         filter_no_results: Inga varianter matchar filtret
         global_section:
           description: Dessa varianter är tillgängliga i alla projekt.
-          title: Varianter
+          title: Global variants
         project_specific_section:
           description: Dessa varianter är endast tillgängliga i de projekt där de skapades.
           title: Projektspecifika varianter
@@ -6542,6 +6590,17 @@ sv:
     index:
       add_variant: Lägg till en variant till %{name}
       add_variant_action: Lägg till variant
+      convert_to_global: Convert to global variant
+      convert_to_global_dialog:
+        confirm: Convert
+        text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
+
+          '
+      convert_to_global_notice: "%{name} is now a global variant."
+      convert_to_global_rename:
+        confirm: Convert
+        text: A global variant with this name already exists. Please choose a different name.
+        title: Pick another name for this variant
       description: 'Varje konfigurationsområde i typer och varianter kan konfigureras separat, begränsas från en annan typ eller kopplas helt till en källa.
 
         '
@@ -6932,6 +6991,13 @@ sv:
       confirm_deletion: Jag bekräftar att de valda arbetspaketen och alla tillhörande data kommer att tas bort.
       confirm_descendants_deletion: Jag bekräftar att alla underordnade objekt som anges ovan också kommer att tas bort.
       cross_project_warning_html: 'Dessa arbetspaket finns i flera projekt: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        self_only_label: Delete just the selected work packages
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete the selected work packages and their descendants
       description: Är du säker på att du vill ta bort de valda arbetspaketen och alla tillhörande data?
       description_with_all_descendants: Är du säker på att du vill ta bort de valda arbetspaketen och alla deras underordnade objekt?
       description_with_descendants: Är du säker på att du vill ta bort de valda arbetspaketen och alla följande underordnade objekt?
@@ -6996,6 +7062,13 @@ sv:
       confirm_deletion: Jag bekräftar att arbetspaketet och alla tillhörande data kommer att tas bort.
       confirm_descendants_deletion: Jag bekräftar att alla underordnade objekt som anges ovan också kommer att tas bort.
       cross_project_warning_html: 'Arbetspaket från följande projekt tas bort: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: This work package has descendants. Do you want to delete them as well?
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        self_only_label: Delete just this work package
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete this work package and descendants
       description: Är du säker på att du vill ta bort "%{name}"?
       heading: Ta bort det här arbetspaketet permanent?
       hidden_descendants_only_warning:
@@ -7047,29 +7120,13 @@ sv:
   workflows:
     copies:
       form:
-        mode:
-          from_role:
-            caption: Kopiera det aktuella arbetsflödet till en eller flera roller inom samma arbetspaketstyp. Om den valda rollen redan har ett arbetsflöde skrivs det aktuella över.
-            label: Kopiera till andra roller
-          from_type:
-            caption: Kopiera det aktuella arbetsflödet till en annan arbetspaketstyp. Om den valda typen redan har ett arbetsflöde skrivs det aktuella över. Detta påverkar alla roller.
-            label: Kopiera till en annan typ
-        source_role_id:
-          label: Källroll
         target_role_ids:
           label: Målroller
-        target_variant_ids:
-          label: Måltyper
       from_roles:
         create:
           notice:
             one: Arbetsflödet kopierades till rollen "%{role_name}".
             other: Arbetsflödet kopierades till %{count} roller.
-      from_variants:
-        create:
-          notice:
-            one: Arbetsflödet kopierades till "%{type_name}".
-            other: Arbetsflödet kopierades till %{count} typer.
       new:
         title: Kopiera arbetsflödet för "%{source_type}"
     form:

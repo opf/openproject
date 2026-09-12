@@ -34,10 +34,6 @@ module WorkPackageTypes
       :types
     end
 
-    def index
-      unless type_variants_enabled?
-        redirect_to edit_type_details_path(**@variant.path_args)
-      end
-    end
+    def index; end
   end
 end

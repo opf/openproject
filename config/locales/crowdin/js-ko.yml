@@ -811,6 +811,15 @@ ko:
         move_failed_rolled_back: 이동하지 못했습니다. %{label}이(가) 이전 위치로 돌아갔습니다.
         moved: "%{label}이(가) 위치 %{position}/%{total}(으)로 이동됨"
         moved_to_list: "%{label}이(가) %{list}(으)로 이동됨, 위치 %{position}/%{total}"
+      selection:
+        cleared: Selection cleared.
+        not_selectable: Selection unchanged. This item takes no part in this list's ordering.
+        range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
+        range_restarted:
+          other: Could not extend the range. %{count} items selected.
+        range_unavailable: Selection unchanged. Expand this list to select that range.
+        selected:
+          other: "%{count} items selected."
     spot:
       drop_modal:
         close: 모달 닫기

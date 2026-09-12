@@ -42,32 +42,26 @@ he:
       resource_allocation:
         one: Resource Allocation
         two: Resource Allocations
-        many: Resource Allocations
         other: Resource Allocations
       resource_planner:
         one: Resource Planner
         two: Resource Planners
-        many: Resource Planners
         other: Resource Planners
       resource_user_card:
         one: User card
         two: User cards
-        many: User cards
         other: User cards
       resource_user_timeline:
         one: User timeline
         two: User timelines
-        many: User timelines
         other: User timelines
       resource_work_package_list:
         one: Work packages list
         two: Work packages lists
-        many: Work packages lists
         other: Work packages lists
       resource_work_package_timeline:
         one: Work packages timeline
         two: Work packages timelines
-        many: Work packages timelines
         other: Work packages timelines
   button_next: Next
   ee:
@@ -207,7 +201,6 @@ he:
       other_work_packages:
         one: 1 other work package
         two: "%{count} other work packages"
-        many: "%{count} other work packages"
         other: "%{count} other work packages"
       title: Utilization
     user_card_list:
@@ -281,7 +274,6 @@ he:
         other_users:
           one: "%{count} user"
           two: "%{count} users"
-          many: "%{count} users"
           other: "%{count} users"
         unassigned: Unassigned
       allocation_placeholder: "—"
@@ -317,7 +309,6 @@ he:
         matching_members_description:
           one: "%{count} member of this project matches the allocation's filter criteria."
           two: "%{count} members of this project match the allocation's filter criteria."
-          many: "%{count} members of this project match the allocation's filter criteria."
           other: "%{count} members of this project match the allocation's filter criteria."
       blank:
         add_work_package: Add work package

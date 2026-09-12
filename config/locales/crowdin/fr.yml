@@ -66,6 +66,8 @@ fr:
 
       '
     login_with_auth_provider: ou connectez-vous avec votre compte existant
+    omniauth_direct_login_continue: Continue to sign in
+    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: Veuillez vous connecter pour activer votre compte.
     signup_title: Créer un compte sur %{app_title}
     signup_with_external_account: S'inscrire avec un compte externe
@@ -83,6 +85,21 @@ fr:
         prompt: Invite
         types: Types de lots de travaux
         usage_scope: Périmètre
+      ai/text_transform_run:
+        action: Action
+        cancel_requested: Annulation demandée
+        error_message: Message d'Erreur
+        finished_at: Terminé à
+        input: Entrée
+        status: Statut
+        system_prompt: Invite du système
+        user: Utilisateur
+        uuid: UUID
+      ai/text_transform_run_event:
+        kind: Kind
+        payload: Payload
+        run: Run
+        seq: Numéro de séquence
       announcements:
         show_until: Afficher jusqu'à
       attachment:
@@ -125,7 +142,9 @@ fr:
         is_for_all: Pour tous les projets
         is_required: Obligatoire
         max_length: Longueur maximale
+        max_value: Valeur maximale
         min_length: Longueur minimale
+        min_value: Valeur minimale
         multi_value: Autoriser la sélection multiple
         possible_values: Valeurs possibles
         regexp: Expression régulière
@@ -215,6 +234,7 @@ fr:
         position: Position
       persisted_query:
         filters: Filtres
+        group_bys: Group results by
         name: Nom
         orders: Tris
         selects: Sélections
@@ -571,6 +591,7 @@ fr:
         regex_list_invalid: Les lignes %{invalid_lines} n'ont pas pu être analysées comme des expressions régulières.
         regex_match_failed: ne correspond pas à l'expression régulière %{expression}.
         smaller_than_or_equal_to_max_length: doit être inférieur ou égal à la longueur maximale.
+        smaller_than_or_equal_to_max_value: doit être inférieure ou égale à la valeur maximale.
         ssrf_filtered: enfreint la politique SSRF de cette instance OpenProject.
         status_transition_invalid: n'est pas valide, car les rôles de l'utilisateur actuel ne permettent aucune transition de l'ancien statut vers le nouveau.
         system_wide_non_working_day_exists: entre en conflit avec un jour non travaillé existant dans l'ensemble du système pour cette date.
@@ -722,7 +743,6 @@ fr:
             types:
               cannot_assign_multiple_variants_of_parent: Une seule variante d'un type peut être activée dans le projet
               cannot_assign_variant_and_parent: Impossible d'affecter à la fois une variante et son type parent
-              cannot_assign_variants_yet: Les variantes ne peuvent pas encore être activées au niveau d'un projet. Activez l'indicateur de fonctionnalité pour tester les variantes
               in_use_by_work_packages: 'toujours en cours d''utilisation par les lots de travaux : %{types}'
               switch_target_blank: Sélectionnez la variante à utiliser
               switch_target_identical: Le type cible doit être différent du type actuellement utilisé par le projet
@@ -845,6 +865,9 @@ fr:
               query_invalid: 'La requête intégrée « %{group} » est invalide : %{details}'
             base:
               borrowed_by_variants: Ne peut pas être supprimé tant que sa configuration est réutilisée par %{names}.
+              inherits_from_project_owned: 'This variant currently inherits from a project-specific variant and cannot be converted to a global variant.
+
+                '
               is_default_variant: La configuration par défaut d'un type ne peut pas être supprimée.
               project_variants_not_allowed: Ce type ne permet pas la création de variantes au sein des projets.
               restrict_dependent_destroy:
@@ -998,6 +1021,12 @@ fr:
       ai/text_transform_action:
         one: Action de transformation de texte
         other: Actions de transformation de texte
+      ai/text_transform_run:
+        one: Text transform run
+        other: Text transform runs
+      ai/text_transform_run_event:
+        one: Text transform run event
+        other: Text transform run events
       announcement:
         one: Annonce
         other: Annonces
@@ -2021,10 +2050,6 @@ fr:
       not_found:
         reminder: Le rappel que vous cherchez est introuvable ou a été supprimé.
         work_package: Le lot de travaux que vous cherchez est introuvable ou a été supprimé.
-      render:
-        context_not_parsable: Le contexte fourni n'est pas un lien vers une ressource.
-        context_object_not_found: Impossible de trouver la ressource donnée comme contexte.
-        unsupported_context: La ressource donnée n'est pas prise en charge comme contexte.
       unable_to_create_attachment: La pièce jointe n'a pas pu être créée
       unable_to_create_attachment_permissions: La pièce jointe n'a pas pu être enregistrée en raison de l'absence de permissions du système de fichiers
       user:
@@ -2171,6 +2196,9 @@ fr:
     label_delete_token: Supprimer le jeton de sauvegarde
     label_reset_token: Réinitialiser le jeton de sauvegarde
     label_token_users: Les utilisateurs suivants ont des jetons de sauvegarde actifs
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: Créer
       action_reset: Réinitialiser
@@ -2461,6 +2489,9 @@ fr:
       min_max:
         all: 0 signifie aucune restriction
         project: 0 signifie aucune restriction
+      min_max_value:
+        all: Leave blank for no restriction
+        project: Leave blank for no restriction
       multi_select:
         all: Permet à l'utilisateur d'assigner plusieurs valeurs à ce champ personnalisé.
         project: Permet à l'utilisateur d'assigner plusieurs valeurs à cet attribut.
@@ -3427,7 +3458,6 @@ fr:
   label_copy_target: Cible
   label_copy_workflow_from: Copier flux de travail à partir de
   label_copy_workflow_from_role: Copier vers d'autres rôles
-  label_copy_workflow_from_type: Copier vers un autre type
   label_core_build: Construction de base
   label_core_version: Version du cœur
   label_created_by: Créé par %{user}
@@ -3672,7 +3702,6 @@ fr:
   label_message_new: Nouveau message
   label_message_plural: Messages
   label_message_posted: Message ajouté
-  label_min_max_length: longueur Min - Max
   label_minute_plural: minutes
   label_missing_api_access_key: Clé d'accès API manquante
   label_missing_feeds_access_key: Clé d'accès RSS manquante
@@ -4254,6 +4283,9 @@ fr:
   mail_body_account_information: Informations sur votre compte
   mail_body_account_information_external: Vous pouvez utiliser votre compte %{value} pour vous connecter.
   mail_body_backup_ready: 'La sauvegarde que vous avez demandée est prête. Vous pouvez la télécharger ici :'
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: Le jeton précédent n'est plus valide.
   mail_body_backup_token_reset_admin_info: Le jeton de sauvegarde pour l'utilisateur « %{user} » a été réinitialisé.
   mail_body_backup_token_reset_user_info: Votre jeton de sauvegarde a été réinitialisé.
@@ -4578,6 +4610,7 @@ fr:
   notice_account_already_activated: Le compte a déjà été activé.
   notice_account_invalid_credentials: Nom d'utilisateur ou mot de passe incorrect
   notice_account_invalid_credentials_or_blocked: Nom d'utilisateur ou mot de passe incorrect ou le compte est bloqué dû aux nombreuses tentatives de connexion échouées. Si c'est le cas, le compte sera débloqué sous peu.
+  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
   notice_account_invalid_token: Jeton d'activation incorrect
   notice_account_lost_email_sent: Un e-mail d'instructions pour choisir un nouveau mot de passe vient de vous être envoyé.
   notice_account_new_password_forced: Un nouveau mot de passe est requis.
@@ -4832,8 +4865,6 @@ fr:
       not_found: est introuvable.
       respond_to?: ne met pas en œuvre la méthode requise.
       rules:
-        copy_workflow_from:
-          workflow_missing: n'a pas de flux de travail propre.
         custom_field:
           format_not_supported: Le format « %{field_format} » n'est pas pris en charge.
         item:
@@ -4853,7 +4884,6 @@ fr:
     or: ou
     rules:
       blueprint: Modèle de plan
-      copy_workflow_from: Type de copie du flux de travail
       depth: Profondeur
       enabled: Activé
       item: Élément
@@ -5503,11 +5533,11 @@ fr:
     edit:
       default_for_new_projects_warning: 'Ce rôle est configuré comme le rôle par défaut attribué aux utilisateurs non administrateurs qui créent un projet. Ne supprimez pas les autorisations suivantes, sinon les créateurs de projets ne pourront pas terminer la configuration de leurs projets nouvellement créés :'
     index:
-      filter_label: Search roles
+      filter_label: Rechercher des rôles
       types:
-        all: All roles
-        global: Global roles
-        project: Project roles
+        all: Tous les rôles
+        global: Rôles globaux
+        project: Rôles dans le projet
     permissions:
       section_check_all_label: Attribuer toutes les autorisations %{module}
       section_uncheck_all_label: Désattribuer toutes les autorisations %{module}
@@ -6082,13 +6112,14 @@ fr:
         <br>
         <strong>Remarque</strong> : les valeurs héritées (par exemple, des enfants ou des relations) s'appliquent toujours.
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Exclus des totaux
         is_closed: Fermé
-        is_default: Défaut
         is_readonly: Lecture seule
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Ajouter un nouveau statut
       no_results_title_text: Aucun statut de lots de travaux pour le moment.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: et
@@ -6378,7 +6409,6 @@ fr:
         add_query_group: Tableau des lots de travaux associés
         blankslate_description: Ajoutez des groupes à l'aide du bouton ci-dessus ou faites glisser des attributs depuis le panneau de gauche.
         blankslate_title: Aucun groupe pour le moment
-        builtin_field: Champ natif
         confirm_delete_group: Voulez-vous vraiment supprimer cette section ? Cette action ne peut pas être annulée automatiquement.
         confirm_reset: Êtes-vous sûr de vouloir réinitialiser le formulaire ?
         custom_field: Champ personnalisé
@@ -6403,6 +6433,15 @@ fr:
         query_group_label: Tableau des lots de travaux associés
         remove_attribute: Retirer de la section
         rename_group: Renommer la section
+        required:
+          already_required_globally: This custom field is required for all types.
+          for_variant: Required in this type
+          globally: Required
+          globally_hint: Change this on the custom field
+          mark: Require in this type
+          not_a_custom_field: Only a custom field can be made required for a single type.
+          not_available_when_linked: This configuration is inherited. Configure it manually to change what is required.
+          unmark: Do not require in this type
         reset_description: 'Cette opération réaffectera les attributs à leur groupe par défaut et désactivera TOUS les champs personnalisés.
 
           '
@@ -6411,6 +6450,15 @@ fr:
         row_actions: Actions de ligne
         tab: Formulaire
         untitled_group: Groupe sans titre
+      overview:
+        configuration_mode: Configuration mode
+        dependents: Dependent types and variants
+        mode:
+          always_manual: Always manual
+          inheriting_from_html: Inheriting from %{source_name}
+          manual: Manually configured
+        settings: Settings
+        tab: Overview
       project_attributes:
         actions:
           label_disable_all: Désactiver tout
@@ -6544,7 +6592,7 @@ fr:
         filter_no_results: Aucune variante ne correspond à ce filtre
         global_section:
           description: Ces variantes sont disponibles dans tous les projets.
-          title: Variantes
+          title: Global variants
         project_specific_section:
           description: Ces variantes ne sont disponibles que dans les projets au sein desquels elles ont été créées.
           title: Variantes spécifiques à un projet
@@ -6553,6 +6601,17 @@ fr:
     index:
       add_variant: Ajouter une variante à %{name}
       add_variant_action: Ajouter une variante
+      convert_to_global: Convert to global variant
+      convert_to_global_dialog:
+        confirm: Convert
+        text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
+
+          '
+      convert_to_global_notice: "%{name} is now a global variant."
+      convert_to_global_rename:
+        confirm: Convert
+        text: A global variant with this name already exists. Please choose a different name.
+        title: Pick another name for this variant
       description: 'Chaque zone de configuration des types et variantes peut être configurée indépendamment, copiée depuis un autre type ou entièrement liée à une source.
 
         '
@@ -6943,6 +7002,13 @@ fr:
       confirm_deletion: Je confirme que les lots de travaux sélectionnés ainsi que toutes les données associées seront supprimés.
       confirm_descendants_deletion: Je confirme que tous les descendants mentionnés ci-dessus seront également supprimés.
       cross_project_warning_html: 'Ces lots de travaux sont répartis entre plusieurs projets : %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        self_only_label: Delete just the selected work packages
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete the selected work packages and their descendants
       description: Voulez-vous vraiment supprimer les lots de travaux sélectionnés et toutes les données associées ?
       description_with_all_descendants: Voulez-vous vraiment supprimer les lots de travaux sélectionnés ainsi que tous leurs descendants ?
       description_with_descendants: Voulez-vous vraiment supprimer les lots de travaux sélectionnés ainsi que tous les descendants suivants ?
@@ -7007,6 +7073,13 @@ fr:
       confirm_deletion: Je confirme que le lot de travaux et toutes les données associées seront supprimés.
       confirm_descendants_deletion: Je confirme que tous les descendants mentionnés ci-dessus seront également supprimés.
       cross_project_warning_html: 'Les lots de travaux des projets suivants seront supprimés : %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: This work package has descendants. Do you want to delete them as well?
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        self_only_label: Delete just this work package
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete this work package and descendants
       description: Voulez-vous vraiment supprimer « %{name} » ?
       heading: Supprimer définitivement ce lot de travaux ?
       hidden_descendants_only_warning:
@@ -7058,29 +7131,13 @@ fr:
   workflows:
     copies:
       form:
-        mode:
-          from_role:
-            caption: Copiez le flux de travail actuel vers un ou plusieurs rôles dans le même type de lot de travaux. Si le rôle sélectionné a déjà un flux de travail, celui-ci sera remplacé.
-            label: Copier vers d'autres rôles
-          from_type:
-            caption: Copiez le flux de travail actuel vers un autre type de lots de travaux. Si le type sélectionné a déjà un flux de travail, celui-ci sera remplacé. Cela affecte tous les rôles.
-            label: Copier vers un autre type
-        source_role_id:
-          label: Rôle source
         target_role_ids:
           label: Rôles cibles
-        target_variant_ids:
-          label: Types cibles
       from_roles:
         create:
           notice:
             one: Copie réussie du flux de travail dans le rôle « %{role_name} ».
             other: Copie réussie du flux de travail vers les %{count} rôles.
-      from_variants:
-        create:
-          notice:
-            one: Le flux de travail a été copié avec succès dans « %{type_name} ».
-            other: Le flux de travail a été copié avec succès dans %{count} types.
       new:
         title: Copier le flux de travail de « %{source_type} »
     form:

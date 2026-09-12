@@ -319,33 +319,10 @@ RSpec.describe TypeVariant::ConfigurationLinkable do
     # Mutating methods refuse to run while linked (Type::PdfExportTemplates#readonly?):
     # merging onto a read that resolves through the link would otherwise silently
     # corrupt this type's own stored configuration for other templates once unlinked.
-    it "refuses to mutate while linked, rather than writing onto the owner's or its own resolved data",
-       with_flag: { type_variants: true } do
+    it "refuses to mutate while linked, rather than writing onto the owner's or its own resolved data" do
       link_configuration(type, source: owner, aspect: TypeVariant::PDF_EXPORT)
 
       expect { type.pdf_export_templates.disable_all }.to raise_error(Type::PdfExportTemplates::ReadonlyError)
-    end
-  end
-
-  describe "with the variants flag off", with_flag: { type_variants: false } do
-    let(:owner) do
-      create(:type).default_variant.tap do |variant|
-        variant.update!(patterns: { subject: { blueprint: "Owner {{id}}", enabled: true } },
-                        default_work_package_description: "Owner description",
-                        artefact_export_mode: Type::ArtefactExport::ATTACHMENT)
-      end
-    end
-
-    before do
-      link_configuration(type, source: owner, aspect: TypeVariant::DEFAULTS)
-      link_configuration(type, source: owner, aspect: TypeVariant::PDF_EXPORT)
-    end
-
-    it "resolves links exactly as it does with the flag on" do
-      expect(type.effective_source_for(TypeVariant::DEFAULTS)).to eq(owner)
-      expect(type.default_work_package_description).to eq("Owner description")
-      expect(type.artefact_export_mode).to eq(Type::ArtefactExport::ATTACHMENT)
-      expect(type).to be_replacement_pattern_defined_for(:subject)
     end
   end
 
@@ -396,21 +373,6 @@ RSpec.describe TypeVariant::ConfigurationLinkable do
       type.custom_fields << cf
 
       expect(type.custom_fields).to include(cf)
-    end
-  end
-
-  describe "form configuration with the flag off", with_flag: { type_variants: false } do
-    it "reads the linked owner's attribute_groups just the same" do
-      source = create(:type).default_variant.tap do |t|
-        t.attribute_groups = [["source_only_group", %w(assignee)]]
-        t.save!
-      end
-      type.update!(attribute_groups: [["own_group", %w(assignee)]])
-      link_configuration(type, source:, aspect: TypeVariant::FORM_CONFIGURATION)
-
-      keys = type.attribute_groups.map(&:key)
-      expect(keys).to include("source_only_group")
-      expect(keys).not_to include("own_group")
     end
   end
 
@@ -557,14 +519,6 @@ RSpec.describe TypeVariant::ConfigurationLinkable do
     it "excludes nothing for a new record" do
       expect(TypeVariant.new.effective_excluded_elements(aspect)).to eq([])
     end
-
-    context "with the flag off", with_flag: { type_variants: false } do
-      it "resolves the chain's exclusions the same" do
-        link(type, source: owner, aspect:, excluded: %w[custom_field_1])
-
-        expect(type.effective_excluded_elements(aspect)).to contain_exactly("custom_field_1")
-      end
-    end
   end
 
   # The call sites inline this as `<key> <> ALL (<subquery>)`, so the cases that matter
@@ -630,20 +584,6 @@ RSpec.describe TypeVariant::ConfigurationLinkable do
       condition = TypeVariant.excluded_custom_field_condition("7", subquery)
 
       expect(TypeVariant.connection.select_value("SELECT 1 WHERE #{condition}")).to eq(1)
-    end
-  end
-
-  describe "project attributes resolution with the flag off", with_flag: { type_variants: false } do
-    it "reads the linked owner's mappings just the same" do
-      owner = create(:type).default_variant
-      owner_field = create(:project_custom_field)
-      own_field = create(:project_custom_field)
-      ProjectCustomFieldTypeMapping.create!(type_variant: owner, project_custom_field: owner_field)
-      ProjectCustomFieldTypeMapping.create!(type_variant: type, project_custom_field: own_field)
-      link_configuration(type, source: owner, aspect: TypeVariant::PROJECT_ATTRIBUTES)
-
-      expect(type.project_custom_field_type_mappings.map(&:custom_field_id))
-        .to contain_exactly(owner_field.id)
     end
   end
 end

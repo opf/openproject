@@ -29,7 +29,7 @@
 import {
   ChangeDetectionStrategy, Component, Input, OnInit,
 } from '@angular/core';
-import { UIRouterGlobals } from '@uirouter/core';
+import { StateService, UIRouterGlobals } from '@uirouter/core';
 import { States } from 'core-app/core/states/states.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
@@ -77,6 +77,8 @@ export class BcfListComponent extends WorkPackageListViewComponent implements Un
   @LazyInject() wpTableColumns:WorkPackageViewColumnsService;
 
   @LazyInject() uIRouterGlobals:UIRouterGlobals;
+
+  @LazyInject() $state:StateService;
 
   @LazyInject() viewer:ViewerBridgeService;
 

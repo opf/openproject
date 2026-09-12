@@ -81,7 +81,7 @@ ro:
         start_time: Dată început
         start_time_hour: Dată început
         time_zone: Time zone
-        title: Title
+        title: Titlu
       recurring_meeting_interim_response:
         start_time: Start time
     errors:
@@ -118,9 +118,9 @@ ro:
         few: Meeting participants
         other: Meeting participants
       meeting_section:
-        one: Section
-        few: Sections
-        other: Sections
+        one: Secțiune
+        few: Secțiuni
+        other: Secțiuni
       recurring_meeting:
         one: Recurring meeting
         few: Recurring meetings
@@ -173,7 +173,7 @@ ro:
   label_agenda_item_add_outcome: Add outcome
   label_agenda_item_convert_to_work_package: Convert to work package
   label_agenda_item_deleted_wp: Deleted work package reference
-  label_agenda_item_duplicate: Duplicate
+  label_agenda_item_duplicate: Dublează
   label_agenda_item_duplicate_in_next: Duplicate in next meeting
   label_agenda_item_duplicate_in_next_title: Duplicate in next meeting?
   label_agenda_item_move: Mută
@@ -260,7 +260,7 @@ ro:
   label_meeting_state_agenda_created: Agenda created
   label_meeting_state_cancelled: Cancelled
   label_meeting_state_closed: Închisă
-  label_meeting_state_draft: Draft
+  label_meeting_state_draft: Schiță
   label_meeting_state_in_progress: În lucru
   label_meeting_state_open: Deschisă
   label_meeting_state_planned: Planificat
@@ -274,7 +274,7 @@ ro:
   label_meeting_template_sharing_descendants: With subprojects
   label_meeting_template_sharing_none: Only with this project
   label_meeting_template_sharing_system: With all projects
-  label_meeting_templates: Templates
+  label_meeting_templates: Șabloane
   label_my_meetings: Întâlnirile mele
   label_notify: Trimiteți pentru revizuire
   label_past_invitations: Invitații anterioare
@@ -592,7 +592,7 @@ ro:
       title: Delete meeting series
     end_after:
       iterations: After a number of occurrences
-      never: Never
+      never: Niciodată
       specific_date: After a specific date
     end_series_dialog:
       title: End meeting series

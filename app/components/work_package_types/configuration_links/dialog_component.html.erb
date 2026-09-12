@@ -37,7 +37,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% dialog.with_header(variant: :large) %>
 
   <%= primer_form_with(url: confirm_path, method: :post) do |form| %>
-    <%= render(Primer::Alpha::Dialog::Body.new(classes: "Overlay-body_autocomplete_height")) do %>
+    <%= render(Primer::Alpha::Dialog::Body.new(classes: "Overlay-body_autocomplete_height--lg")) do %>
       <%= render(Primer::Beta::Text.new(tag: :p)) { t("types.edit.reuse_mode.inherited.dialog.description") } %>
       <%= render(WorkPackageTypes::ConfigurationLinks::SourceForm.new(form, variant:, aspect:)) %>
     <% end %>

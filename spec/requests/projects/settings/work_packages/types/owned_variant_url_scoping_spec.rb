@@ -39,8 +39,7 @@ require "spec_helper"
 # administration's address.
 RSpec.describe "The URLs a project's variant screens generate",
                :skip_csrf,
-               type: :rails_request,
-               with_flag: { type_variants: true } do
+               type: :rails_request do
   shared_let(:project) { create(:project) }
   shared_let(:type) { create(:type, name: "Bug") }
   shared_let(:ours) { create(:project_owned_type_variant, type:, project:, variant_name: "Ours") }

@@ -38,7 +38,9 @@ module WorkPackages::SplitViewHelper
   end
 
   def split_create_instance
-    WorkPackages::SplitCreateComponent.new(project_identifier: params[:project_id])
+    WorkPackages::SplitCreateComponent.new(project_identifier: params[:project_id],
+                                           type: params[:type],
+                                           parent_id: params[:parent_id])
   end
 
   def split_view_instance

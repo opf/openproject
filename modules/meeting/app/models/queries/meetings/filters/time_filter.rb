@@ -59,4 +59,8 @@ class Queries::Meetings::Filters::TimeFilter < Queries::Meetings::Filters::Meeti
   def self.key
     :time
   end
+
+  def required?
+    true
+  end
 end

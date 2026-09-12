@@ -239,6 +239,27 @@ RSpec.describe DocumentsController do
     end
   end
 
+  describe "#update_title" do
+    subject(:rendered_title) do
+      Nokogiri::HTML5.fragment(response.body).at_css('turbo-stream[action="set_title"]')&.[]("title")
+    end
+
+    it "keeps the browser title in sync with the renamed document" do
+      put :update_title, params: { id: document.id, document: { title: "Renamed document" } }, format: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+      expect(document.reload.title).to eq("Renamed document")
+      expect(rendered_title).to eq("Renamed document | Documents | Test Project | #{Setting.app_title}")
+    end
+
+    it "leaves the browser title alone when the rename is rejected" do
+      put :update_title, params: { id: document.id, document: { title: "" } }, format: :turbo_stream
+
+      expect(document.reload.title).to eq("Sample Document")
+      expect(rendered_title).to be_nil
+    end
+  end
+
   describe "#render_avatars" do
     let(:user) { create(:user, member_with_permissions: { project => [:view_documents] }) }
     let!(:non_member) { create(:user) }

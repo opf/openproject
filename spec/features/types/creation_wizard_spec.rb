@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Type creation wizard", :js, with_flag: { type_variants: true } do
+RSpec.describe "Type creation wizard", :js do
   shared_let(:admin) { create(:admin) }
   shared_let(:project_role) { create(:project_role) }
 

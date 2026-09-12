@@ -66,6 +66,8 @@ uk:
 
       '
     login_with_auth_provider: або ввійдіть у свій існуючий обліковий запис
+    omniauth_direct_login_continue: Continue to sign in
+    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: Увійдіть, щоб активувати свій обліковий запис.
     signup_title: Створіть обліковий запис у %{app_title}
     signup_with_external_account: Реєстрація за допомогою стороннього облікового запису
@@ -83,6 +85,21 @@ uk:
         prompt: Запит
         types: Типи пакетів робіт
         usage_scope: Область
+      ai/text_transform_run:
+        action: Action
+        cancel_requested: Cancel requested
+        error_message: Error message
+        finished_at: Finished at
+        input: Input
+        status: Status
+        system_prompt: System prompt
+        user: User
+        uuid: UUID
+      ai/text_transform_run_event:
+        kind: Kind
+        payload: Payload
+        run: Run
+        seq: Sequence number
       announcements:
         show_until: Показувати до
       attachment:
@@ -125,7 +142,9 @@ uk:
         is_for_all: Для всіх проєктів
         is_required: Обов'язкове поле
         max_length: Максимальна довжина
+        max_value: Maximum value
         min_length: Мінімальна довжина
+        min_value: Minimum value
         multi_value: Дозволити вибір
         possible_values: Можливі значення
         regexp: Регулярний вираз
@@ -215,6 +234,7 @@ uk:
         position: Позиція
       persisted_query:
         filters: Фільтри
+        group_bys: Group results by
         name: Назва
         orders: Порядок
         selects: Вибране
@@ -571,6 +591,7 @@ uk:
         regex_list_invalid: Неможливо проаналізувати рядки %{invalid_lines} як регулярний вираз.
         regex_match_failed: не збігається з регулярним виразом %{expression}.
         smaller_than_or_equal_to_max_length: має бути меншою або дорівнює максимальній довжині.
+        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: порушує політику SSRF цього екземпляра OpenProject.
         status_transition_invalid: неприпустимий, оскільки для ролей поточного користувача немає дійсного переходу від старого статусу до нового.
         system_wide_non_working_day_exists: конфліктує з наявним загальним неробочим днем, указаним для цієї дати.
@@ -728,7 +749,6 @@ uk:
             types:
               cannot_assign_multiple_variants_of_parent: На рівні проєкту можна ввімкнути лише один варіант типу
               cannot_assign_variant_and_parent: 'Неможливо призначити варіант і його батьківський об’єкт '
-              cannot_assign_variants_yet: Зараз на рівні проєкту не можна вмикати варіанти. Активуйте прапорець функції, щоб випробувати варіанти.
               in_use_by_work_packages: 'як і раніше використовуються робочі пакети: %{types}'
               switch_target_blank: Виберіть варіант, на який потрібно перемкнутися
               switch_target_identical: Цільовий тип має відрізнятися від типу, що використовується в проєкті зараз
@@ -851,6 +871,9 @@ uk:
               query_invalid: 'Вбудований запит «%{group}» недійсний: %{details}'
             base:
               borrowed_by_variants: Не можна видалити, оскільки відповідну конфігурацію повторно використовують %{names}.
+              inherits_from_project_owned: 'This variant currently inherits from a project-specific variant and cannot be converted to a global variant.
+
+                '
               is_default_variant: Стандартну конфігурацію типу не можна видалити.
               project_variants_not_allowed: This type does not allow creation of variants inside projects.
               restrict_dependent_destroy:
@@ -1012,6 +1035,16 @@ uk:
         few: Дії з перетворення тексту
         many: Дії з перетворення тексту
         other: Дії з перетворення тексту
+      ai/text_transform_run:
+        one: Text transform run
+        few: Text transform runs
+        many: Text transform runs
+        other: Text transform runs
+      ai/text_transform_run_event:
+        one: Text transform run event
+        few: Text transform run events
+        many: Text transform run events
+        other: Text transform run events
       announcement:
         one: Оголошення
         few: Оголошення
@@ -2261,10 +2294,6 @@ uk:
       not_found:
         reminder: Нагадування, яке ви шукаєте, не вдалося знайти. Можливо, його видалено.
         work_package: Пакет робіт, який ви шукаєте, не можна знайти або його видалено.
-      render:
-        context_not_parsable: Контексті не посилання на ресурс.
-        context_object_not_found: Не можу знайти ресурс з урахуванням контексту.
-        unsupported_context: Даний ресурс не підтримується як контекст.
       unable_to_create_attachment: Не вдалося створити вкладення
       unable_to_create_attachment_permissions: Вкладення не вдалося зберегти через відсутність дозволів на файлову систему
       user:
@@ -2411,6 +2440,9 @@ uk:
     label_delete_token: Видалити маркер резервного копіювання
     label_reset_token: Скинути маркер резервного копіювання
     label_token_users: Наведені нижче користувачі мають активні маркери резервного копіювання
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: Створити
       action_reset: Скинути
@@ -2703,6 +2735,9 @@ uk:
       min_max:
         all: 0 означає відсутність обмежень
         project: 0 означає відсутність обмежень
+      min_max_value:
+        all: Leave blank for no restriction
+        project: Leave blank for no restriction
       multi_select:
         all: Це дає змогу користувачу присвоїти користувацькому полю кілька значень.
         project: Це дає змогу користувачу присвоїти атрибуту кілька значень.
@@ -3719,7 +3754,6 @@ uk:
   label_copy_target: Ціль
   label_copy_workflow_from: Копіювати робочий процес з
   label_copy_workflow_from_role: Копіювати в інші ролі
-  label_copy_workflow_from_type: Копіювати в інший тип
   label_core_build: Збірка ядра
   label_core_version: Версія ядра
   label_created_by: Створено %{user}
@@ -3964,7 +3998,6 @@ uk:
   label_message_new: Нове повідомлення
   label_message_plural: Повідомлення
   label_message_posted: Повідомлення додано
-  label_min_max_length: Мінімальна - максимальна довжина
   label_minute_plural: хвилини
   label_missing_api_access_key: Відсутній ключ доступу до API
   label_missing_feeds_access_key: Відсутній ключ доступу RSS
@@ -4554,6 +4587,9 @@ uk:
   mail_body_account_information: Інформація по Вашому обліковому запису
   mail_body_account_information_external: Ви можете використовувати ваш %{value} обліковий запис для входу.
   mail_body_backup_ready: 'Запитана вами резервна копія готова. Її можна завантажити тут:'
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: Попередній маркер більше не дійсний.
   mail_body_backup_token_reset_admin_info: Маркер резервного копіювання для користувача «%{user}» скинуто.
   mail_body_backup_token_reset_user_info: Ваш маркер резервного копіювання скинуто.
@@ -4889,6 +4925,7 @@ uk:
   notice_account_already_activated: Обліковий запис вже активовано.
   notice_account_invalid_credentials: Неправильне ім’я користувача або пароль
   notice_account_invalid_credentials_or_blocked: Неправильне ім'я користувача або пароль або ваш обліковий запис заблокований через багаторазових невдалих спроб входу. Якщо це так, то вона буде автоматично розблокована протягом короткого часу.
+  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
   notice_account_invalid_token: Недійсний маркер активації
   notice_account_lost_email_sent: Електронний лист з інструкціями щодо зміни паролю було надіслано до вас.
   notice_account_new_password_forced: Потрібен новий пароль.
@@ -5147,8 +5184,6 @@ uk:
       not_found: "— не знайдено."
       respond_to?: не реалізує потрібний метод.
       rules:
-        copy_workflow_from:
-          workflow_missing: не має власного робочого процесу.
         custom_field:
           format_not_supported: формат «%{field_format}» не підтримується.
         item:
@@ -5168,7 +5203,6 @@ uk:
     or: або
     rules:
       blueprint: Структура шаблону
-      copy_workflow_from: Тип копії робочого процесу
       depth: Глибина
       enabled: Увімкнено
       item: Об’єкт
@@ -6411,13 +6445,14 @@ uk:
         <br>
         <strong>Примітка</strong>: успадковані значення (напр., значення дочірніх елементів або зв’язки) не зміняться.
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Виключено з підсумків
         is_closed: Закрито
-        is_default: За замовчуванням
         is_readonly: Лише для перегляду
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Додати новий статус
       no_results_title_text: Наразі немає статусів робочих пакетів.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: і
@@ -6707,7 +6742,6 @@ uk:
         add_query_group: Таблиця пов’язаних робочих пакетів
         blankslate_description: Додайте групи за допомогою кнопки вище або перетягніть атрибути з лівої панелі.
         blankslate_title: Ще немає груп
-        builtin_field: Вбудоване поле
         confirm_delete_group: Справді видалити цей розділ? Цю дію не можна буде скасувати автоматично.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Користувацьке поле
@@ -6732,6 +6766,15 @@ uk:
         query_group_label: Таблиця пов’язаних робочих пакетів
         remove_attribute: Вилучити з розділу
         rename_group: Перейменувати розділ
+        required:
+          already_required_globally: This custom field is required for all types.
+          for_variant: Required in this type
+          globally: Required
+          globally_hint: Change this on the custom field
+          mark: Require in this type
+          not_a_custom_field: Only a custom field can be made required for a single type.
+          not_available_when_linked: This configuration is inherited. Configure it manually to change what is required.
+          unmark: Do not require in this type
         reset_description: 'Це призведе до скидання атрибутів до групи, що використовується за замовчуванням, і до вимкнення ВСІХ користувацьких полів.
 
           '
@@ -6740,6 +6783,15 @@ uk:
         row_actions: Дії з рядком
         tab: Form
         untitled_group: Безіменна група
+      overview:
+        configuration_mode: Configuration mode
+        dependents: Dependent types and variants
+        mode:
+          always_manual: Always manual
+          inheriting_from_html: Inheriting from %{source_name}
+          manual: Manually configured
+        settings: Settings
+        tab: Overview
       project_attributes:
         actions:
           label_disable_all: Вимкнути все
@@ -6877,7 +6929,7 @@ uk:
         filter_no_results: Немає варіантів, які відповідають фільтру
         global_section:
           description: These variants are available across all projects.
-          title: Variants
+          title: Global variants
         project_specific_section:
           description: These variants are only available within the projects in which they were created.
           title: Project-specific variants
@@ -6886,6 +6938,17 @@ uk:
     index:
       add_variant: Add a variant to %{name}
       add_variant_action: Додати варіант
+      convert_to_global: Convert to global variant
+      convert_to_global_dialog:
+        confirm: Convert
+        text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
+
+          '
+      convert_to_global_notice: "%{name} is now a global variant."
+      convert_to_global_rename:
+        confirm: Convert
+        text: A global variant with this name already exists. Please choose a different name.
+        title: Pick another name for this variant
       description: 'Кожну область конфігурації на рівні типів і варіантів можна налаштувати окремо, обмежити на основі іншого типу або повністю зв’язати з вихідним об’єктом.
 
         '
@@ -7282,6 +7345,13 @@ uk:
       confirm_deletion: Я розумію, що вибрані пакети робіт і всі пов’язані з ними дані буде видалено.
       confirm_descendants_deletion: Я розумію, що також видаляться всі нащадки, наведені вище.
       cross_project_warning_html: 'Ці пакети робіт використовуються в кількох проєктах: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        self_only_label: Delete just the selected work packages
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete the selected work packages and their descendants
       description: Справді видалити вибрані пакети робіт і всі пов’язані з ними дані?
       description_with_all_descendants: Справді видалити вибрані пакети робіт разом зі всіма їх нащадками?
       description_with_descendants: Справді видалити вибрані пакети робіт разом зі всіма нащадками, наведеними нижче?
@@ -7354,6 +7424,13 @@ uk:
       confirm_deletion: Я розумію, що пакет робіт і всі пов’язані з ним дані буде видалено.
       confirm_descendants_deletion: Я розумію, що також видаляться всі нащадки, наведені вище.
       cross_project_warning_html: 'Буде видалено пакети робіт із таких проєктів: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: This work package has descendants. Do you want to delete them as well?
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        self_only_label: Delete just this work package
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete this work package and descendants
       description: Справді видалити обʼєкт «%{name}»?
       heading: Видалити цей пакет робіт остаточно?
       hidden_descendants_only_warning:
@@ -7415,19 +7492,8 @@ uk:
   workflows:
     copies:
       form:
-        mode:
-          from_role:
-            caption: Скопіюйте поточний робочий процес в одну або кілька ролей у межах одного типу пакетів робіт. Якщо у вибраної ролі вже є робочий процес, поточний буде перезаписано.
-            label: Копіювати в інші ролі
-          from_type:
-            caption: Скопіюйте поточний робочий процес в інший тип пакетів робіт. Якщо вибраний тип уже має робочий процес, поточний буде перезаписано. Це впливає на всі ролі.
-            label: Копіювати в інший тип
-        source_role_id:
-          label: Вихідна роль
         target_role_ids:
           label: Цільові ролі
-        target_variant_ids:
-          label: Цільові типи
       from_roles:
         create:
           notice:
@@ -7435,13 +7501,6 @@ uk:
             few: Робочий процес успішно скопійовано в %{count} ролі.
             many: Робочий процес успішно скопійовано в %{count} ролей.
             other: Робочий процес успішно скопійовано в %{count} ролі.
-      from_variants:
-        create:
-          notice:
-            one: Робочий процес успішно скопійовано в тип «%{type_name}».
-            few: Робочий процес успішно скопійовано в %{count} типи.
-            many: Робочий процес успішно скопійовано в %{count} типів.
-            other: Робочий процес успішно скопійовано в %{count} типу.
       new:
         title: Скопіювати робочий процес типу «%{source_type}»
     form:

@@ -22,9 +22,8 @@ RSpec.describe WorkPackageTypes::FormConfigurationComponent, type: :component do
     render_inline(described_class.new(variant:, form_attributes:, no_filter_query:))
   end
 
-  context "when the form configuration aspect is linked (feature enabled)" do
+  context "when the form configuration aspect is linked" do
     before do
-      allow(OpenProject::FeatureDecisions).to receive(:type_variants_active?).and_return(true)
       link_configuration(variant, source:, aspect: TypeVariant::FORM_CONFIGURATION)
     end
 
@@ -109,22 +108,7 @@ RSpec.describe WorkPackageTypes::FormConfigurationComponent, type: :component do
   end
 
   context "when independent" do
-    before { allow(OpenProject::FeatureDecisions).to receive(:type_variants_active?).and_return(true) }
-
     it "renders the editable page with the inactive sidebar", :aggregate_failures do
-      render_component
-
-      expect(page).to have_css(".type-form-configuration-page--sidebar")
-    end
-  end
-
-  context "when linked but the feature flag is off" do
-    before do
-      allow(OpenProject::FeatureDecisions).to receive(:type_variants_active?).and_return(false)
-      link_configuration(variant, source:, aspect: TypeVariant::FORM_CONFIGURATION)
-    end
-
-    it "renders the editable page (read-only branch not taken)", :aggregate_failures do
       render_component
 
       expect(page).to have_css(".type-form-configuration-page--sidebar")

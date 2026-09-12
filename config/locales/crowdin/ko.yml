@@ -66,6 +66,8 @@ ko:
 
       '
     login_with_auth_provider: 또는 이미 있는 계정으로 로그인
+    omniauth_direct_login_continue: Continue to sign in
+    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
     omniauth_login: 계정을 활성화하려면 로그인하시기 바랍니다.
     signup_title: "%{app_title}에서 계정 만들기"
     signup_with_external_account: 외부 계정으로 가입
@@ -83,6 +85,21 @@ ko:
         prompt: 프롬프트
         types: 작업 패키지 유형
         usage_scope: 범위
+      ai/text_transform_run:
+        action: Action
+        cancel_requested: Cancel requested
+        error_message: Error message
+        finished_at: Finished at
+        input: Input
+        status: Status
+        system_prompt: System prompt
+        user: User
+        uuid: UUID
+      ai/text_transform_run_event:
+        kind: Kind
+        payload: Payload
+        run: Run
+        seq: Sequence number
       announcements:
         show_until: 표시 기한
       attachment:
@@ -125,7 +142,9 @@ ko:
         is_for_all: 모든 프로젝트용
         is_required: 필수
         max_length: 최대 길이
+        max_value: Maximum value
         min_length: 최소 길이
+        min_value: Minimum value
         multi_value: 다중 선택 허용
         possible_values: 가능한 값
         regexp: 정규 표현식
@@ -215,6 +234,7 @@ ko:
         position: 위치
       persisted_query:
         filters: 필터
+        group_bys: Group results by
         name: 이름
         orders: 주문
         selects: 선택
@@ -571,6 +591,7 @@ ko:
         regex_list_invalid: "%{invalid_lines} 라인을 정규 표현식으로 구문 분석할 수 없습니다."
         regex_match_failed: "%{expression} 정규 표현식과 일치하지 않습니다."
         smaller_than_or_equal_to_max_length: 은(는) 최대 길이보다 같거나 작아야 합니다.
+        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
         ssrf_filtered: "- 이 OpenProject 인스턴스의 SSRF 정책을 위반합니다."
         status_transition_invalid: "- 현재 사용자의 역할에 대해 기존 상태에서 새로운 상태로의 유효한 전환이 없으므로 유효하지 않습니다."
         system_wide_non_working_day_exists: "- 이 날짜의 기존 시스템 전체 휴무일과 충돌합니다."
@@ -721,7 +742,6 @@ ko:
             types:
               cannot_assign_multiple_variants_of_parent: 프로젝트에서는 유형의 단일 변형만 활성화할 수 있습니다
               cannot_assign_variant_and_parent: '변형 및 해당 부모를 할당할 수 없습니다 '
-              cannot_assign_variants_yet: 아직 프로젝트에서 변형을 활성화할 수 없습니다. 변형을 사용해 보려면 기능 플래그를 활성화하세요
               in_use_by_work_packages: '아직 작업 패키지에 사용됨: %{types}'
               switch_target_blank: 전환할 변형을 선택하세요
               switch_target_identical: 대상 유형은 프로젝트에서 현재 사용하는 유형과 달라야 합니다
@@ -844,6 +864,9 @@ ko:
               query_invalid: '포함된 쿼리 ''%{group}''이(가) 잘못되었습니다: %{details}'
             base:
               borrowed_by_variants: "%{names}에서 해당 구성을 재사용하고 있는 동안에는 삭제할 수 없습니다."
+              inherits_from_project_owned: 'This variant currently inherits from a project-specific variant and cannot be converted to a global variant.
+
+                '
               is_default_variant: 유형의 기본 구성은 삭제할 수 없습니다.
               project_variants_not_allowed: This type does not allow creation of variants inside projects.
               restrict_dependent_destroy:
@@ -993,6 +1016,10 @@ ko:
         other: 작업
       ai/text_transform_action:
         other: 텍스트 변환 작업
+      ai/text_transform_run:
+        other: Text transform runs
+      ai/text_transform_run_event:
+        other: Text transform run events
       announcement:
         other: 공지 사항
       anonymous_user:
@@ -1901,10 +1928,6 @@ ko:
       not_found:
         reminder: 원하는 미리 알림을 찾을 수 없거나 삭제되었습니다.
         work_package: 원하는 작업 패키지를 찾을 수 없거나 삭제되었습니다.
-      render:
-        context_not_parsable: 제공된 컨텍스트는 리소스에 대한 링크가 아닙니다.
-        context_object_not_found: 컨텍스트로 지정된 리소스를 찾을 수 없습니다.
-        unsupported_context: 지정된 리소스는 컨텍스트로 지원되지 않습니다.
       unable_to_create_attachment: 첨부 파일을 만들 수 없습니다.
       unable_to_create_attachment_permissions: 파일 시스템 사용 권한이 부족하여 첨부 파일을 저장할 수 없습니다.
       user:
@@ -2051,6 +2074,9 @@ ko:
     label_delete_token: 백업 토큰 제거
     label_reset_token: 백업 토큰 초기화
     label_token_users: 아래 사용자들은 활성화된 백업 토큰을 가지고 있습니다
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: 만들기
       action_reset: 재설정
@@ -2341,6 +2367,9 @@ ko:
       min_max:
         all: 0은 제한이 없음을 의미합니다
         project: 0은 제한이 없음을 의미합니다
+      min_max_value:
+        all: Leave blank for no restriction
+        project: Leave blank for no restriction
       multi_select:
         all: 사용자가 이 사용자 지정 필드에 여러 값을 할당할 수 있도록 허용합니다.
         project: 사용자가 이 특성에 여러 값을 할당할 수 있도록 허용합니다.
@@ -3300,7 +3329,6 @@ ko:
   label_copy_target: 대상
   label_copy_workflow_from: 다음에서 워크플로 복사
   label_copy_workflow_from_role: 다른 역할에 복사
-  label_copy_workflow_from_type: 다른 유형에 복사
   label_core_build: 코어 빌드
   label_core_version: 코어 버전
   label_created_by: '작성자: %{user}'
@@ -3545,7 +3573,6 @@ ko:
   label_message_new: 새 메시지
   label_message_plural: 메시지
   label_message_posted: 메시지 추가됨
-  label_min_max_length: 최소 - 최대 길이
   label_minute_plural: minutes
   label_missing_api_access_key: 사라진 API 접근 키
   label_missing_feeds_access_key: 사라진 RSS 접근 키
@@ -4122,6 +4149,9 @@ ko:
   mail_body_account_information: 계정 정보
   mail_body_account_information_external: "%{value} 계정을 사용하여 로그인할 수 있습니다."
   mail_body_backup_ready: '요청한 백업이 준비되었습니다. 여기서 내려받으십시오:'
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: 이전 토큰은 더 이상 유효하지 않습니다.
   mail_body_backup_token_reset_admin_info: 사용자 '%{user}'님에 대한 백업 토큰이 초기화되었습니다.
   mail_body_backup_token_reset_user_info: 백업 토큰이 초기화되었습니다.
@@ -4440,6 +4470,7 @@ ko:
   notice_account_already_activated: 계정이 이미 활성화 되었습니다.
   notice_account_invalid_credentials: 잘못된 사용자 또는 암호
   notice_account_invalid_credentials_or_blocked: 여러 번 실패한 로그인 시도로 인해 잘못된 사용자나 암호 또는 계정이 차단되었습니다. 이러한 경우 짧은 시간 동안 자동으로 차단됩니다.
+  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
   notice_account_invalid_token: 잘못 된 활성화 토큰
   notice_account_lost_email_sent: 새로운 암호를 선택하기 위한 지침이 포함된 이메일이 전송되었습니다.
   notice_account_new_password_forced: 새 암호를 입력해야 합니다.
@@ -4694,8 +4725,6 @@ ko:
       not_found: "- 찾을 수 없습니다."
       respond_to?: "- 필수 메서드를 구현하지 않습니다."
       rules:
-        copy_workflow_from:
-          workflow_missing: "- 고유한 워크플로가 없습니다."
         custom_field:
           format_not_supported: 형식 '%{field_format}'은(는) 지원되지 않습니다.
         item:
@@ -4715,7 +4744,6 @@ ko:
     or: 또는
     rules:
       blueprint: 패턴 청사진
-      copy_workflow_from: 워크플로 복사의 유형
       depth: 깊이
       enabled: 활성화됨
       item: 항목
@@ -5935,13 +5963,14 @@ ko:
         <br>
         <strong>참고</strong>: 상속된 값(예: 자식 또는 관계의 값)은 계속 적용됩니다.
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: 합계에서 제외됨
         is_closed: 닫음
-        is_default: 기본
         is_readonly: 읽기 전용
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: 새 상태 추가
       no_results_title_text: 작업 패키지 상태가 없습니다.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: 그리고
@@ -6231,7 +6260,6 @@ ko:
         add_query_group: 관련 작업 패키지 테이블
         blankslate_description: 위의 버튼을 사용하여 그룹을 추가하거나 왼쪽 패널에서 특성을 드래그합니다.
         blankslate_title: 아직 그룹 없음
-        builtin_field: 기본 제공 필드
         confirm_delete_group: 이 섹션을 삭제하시겠습니까? 이 작업은 자동으로 되돌릴 수 없습니다.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: 사용자 지정 필드
@@ -6256,6 +6284,15 @@ ko:
         query_group_label: 관련 작업 패키지 테이블
         remove_attribute: 섹션에서 제거
         rename_group: 섹션 이름 바꾸기
+        required:
+          already_required_globally: This custom field is required for all types.
+          for_variant: Required in this type
+          globally: Required
+          globally_hint: Change this on the custom field
+          mark: Require in this type
+          not_a_custom_field: Only a custom field can be made required for a single type.
+          not_available_when_linked: This configuration is inherited. Configure it manually to change what is required.
+          unmark: Do not require in this type
         reset_description: '이렇게 하면 특성이 해당 기본 그룹으로 재설정되고 모든 사용자 지정 필드가 비활성화됩니다.
 
           '
@@ -6264,6 +6301,15 @@ ko:
         row_actions: 행 작업
         tab: Form
         untitled_group: 제목이 없는 그룹
+      overview:
+        configuration_mode: Configuration mode
+        dependents: Dependent types and variants
+        mode:
+          always_manual: Always manual
+          inheriting_from_html: Inheriting from %{source_name}
+          manual: Manually configured
+        settings: Settings
+        tab: Overview
       project_attributes:
         actions:
           label_disable_all: 모두 비활성화
@@ -6395,7 +6441,7 @@ ko:
         filter_no_results: 이 필터에 해당하는 변형이 없습니다.
         global_section:
           description: These variants are available across all projects.
-          title: Variants
+          title: Global variants
         project_specific_section:
           description: These variants are only available within the projects in which they were created.
           title: Project-specific variants
@@ -6404,6 +6450,17 @@ ko:
     index:
       add_variant: Add a variant to %{name}
       add_variant_action: 변형 추가
+      convert_to_global: Convert to global variant
+      convert_to_global_dialog:
+        confirm: Convert
+        text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
+
+          '
+      convert_to_global_notice: "%{name} is now a global variant."
+      convert_to_global_rename:
+        confirm: Convert
+        text: A global variant with this name already exists. Please choose a different name.
+        title: Pick another name for this variant
       description: '유형 및 변형 내의 각 구성 영역은 독립적으로 구성하거나, 다른 유형으로부터 제한하거나, 소스에 완전히 연결할 수 있습니다.
 
         '
@@ -6790,6 +6847,13 @@ ko:
       confirm_deletion: 선택한 작업 패키지 및 모든 관련 데이터가 삭제될 것임을 확인합니다.
       confirm_descendants_deletion: 위에 나열된 모든 하위 항목도 삭제될 것임을 확인합니다.
       cross_project_warning_html: '다음 작업 패키지는 여러 프로젝트에 걸쳐 있습니다: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        self_only_label: Delete just the selected work packages
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete the selected work packages and their descendants
       description: 선택한 작업 패키지 및 모든 관련 데이터를 삭제하시겠습니까?
       description_with_all_descendants: 선택한 작업 패키지 및 모든 해당 하위 항목을 삭제하시겠습니까?
       description_with_descendants: 선택한 작업 패키지 및 다음의 모든 하위 항목을 삭제하시겠습니까?
@@ -6850,6 +6914,13 @@ ko:
       confirm_deletion: 작업 패키지 및 모든 관련 데이터가 삭제될 것임을 확인합니다.
       confirm_descendants_deletion: 위에 나열된 모든 하위 항목도 삭제될 것임을 확인합니다.
       cross_project_warning_html: '다음 프로젝트의 작업 패키지가 삭제됩니다: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: This work package has descendants. Do you want to delete them as well?
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        self_only_label: Delete just this work package
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete this work package and descendants
       description: '"%{name}"을(를) 삭제하시겠습니까?'
       heading: 이 작업 패키지를 영구적으로 삭제하시겠습니까?
       hidden_descendants_only_warning:
@@ -6896,27 +6967,12 @@ ko:
   workflows:
     copies:
       form:
-        mode:
-          from_role:
-            caption: 동일한 워크플로 패키지 유형 내의 역할 하나 이상에 현재 워크플로를 복사합니다. 선택한 역할에 이미 워크플로가 있는 경우 현재 워크플로를 덮어씁니다.
-            label: 다른 역할에 복사
-          from_type:
-            caption: 다른 워크플로 유형으로 현재 워크플로를 복사합니다. 선택한 유형에 이미 워크플로가 있는 경우 현재 워크플로를 덮어씁니다. 이는 모든 역할에 영향을 줍니다.
-            label: 다른 유형에 복사
-        source_role_id:
-          label: 소스 역할
         target_role_ids:
           label: 대상 역할
-        target_variant_ids:
-          label: 대상 유형
       from_roles:
         create:
           notice:
             other: 워크플로를 %{count}개 역할에 복사했습니다.
-      from_variants:
-        create:
-          notice:
-            other: 워크플로를 %{count}개 유형에 복사했습니다.
       new:
         title: '"%{source_type}"의 워크플로 복사'
     form:
