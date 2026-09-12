@@ -71,7 +71,12 @@ import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { ensureId, generateId } from 'core-app/shared/helpers/dom-helpers';
 import { target } from 'core-app/shared/helpers/event-helpers';
-import { html, render } from 'lit-html';
+import type AnchoredPositionElement from '@openproject/primer-view-components/app/components/primer/anchored_position';
+import { placePopover } from 'core-app/shared/components/anchored-popover/popover-placement';
+import type { CaretPlacement } from 'core-app/shared/components/anchored-popover/caret-placement';
+import { timeEntryPopoverHtml } from './te-calendar-popover';
+import type { PopoverRow } from './te-calendar-popover';
+import { render } from 'lit-html';
 import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
 
 interface TimeEntrySchema extends SchemaResource {
@@ -185,6 +190,10 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
 
   private closeDialogHandler:EventListener = this.handleDialogClose.bind(this);
 
+  private closeOpenPopover = () => {
+    this.element.nativeElement.querySelector<HTMLElement>('.te-calendar--popover:popover-open')?.hidePopover();
+  };
+
   public additionalOptions:CalendarOptionsWithDayGrid = {
     editable: false,
     locales: allLocales,
@@ -238,10 +247,12 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit():void {
     document.addEventListener('dialog:close', this.closeDialogHandler);
+    window.addEventListener('resize', this.closeOpenPopover);
   }
 
   ngOnDestroy():void {
     document.removeEventListener('dialog:close', this.closeDialogHandler);
+    window.removeEventListener('resize', this.closeOpenPopover);
   }
 
   async requireNonWorkingDays(start:Date | string, end:Date | string) {
@@ -556,15 +567,19 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
     anchorEl.role = 'button';
 
     const popoverId = generateId('popover');
-    const popoverHtml = this.popoverHtml(popoverId, anchorId, event.event.extendedProps.entry as TimeEntryResource, schema);
-
-    render(popoverHtml, anchorEl);
+    const rows = this.popoverRows(entry as TimeEntryResource, schema);
+    const draw = (caret:CaretPlacement|null) => render(timeEntryPopoverHtml(popoverId, anchorId, rows, caret), anchorEl);
+    draw(null);
 
     anchorEl.setAttribute('aria-haspopup', 'true');
     anchorEl.setAttribute('popovertarget', popoverId);
 
-    const popoverEl = document.getElementById(popoverId)!;
-    const showPopover = () => { popoverEl.showPopover(); };
+    const popoverEl = document.getElementById(popoverId) as AnchoredPositionElement;
+    const showPopover = () => {
+      if (popoverEl.matches(':popover-open')) return;
+      popoverEl.showPopover();
+      draw(placePopover(popoverEl, anchorEl));
+    };
     const hidePopover = () => { popoverEl.hidePopover(); };
 
     target(anchorEl).on('mouseenter.anchor', showPopover);
@@ -650,54 +665,14 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
     return formatTimeEntryEntityName(entry.entity);
   }
 
-  private popoverHtml(
-    popoverId:string,
-    anchorId:string,
-    entry:TimeEntryResource,
-    schema:TimeEntrySchema) {
-    return html`
-      <anchored-position
-        id="${popoverId}"
-        role="dialog"
-        align="start"
-        anchor="${anchorId}"
-        anchor-offset="condensed"
-        popover="hint"
-        side="outside-right">
-        ${this.popoverContentHtml(entry, schema)}
-      </anchored-position>
-    `;
-  }
-
-  private popoverContentHtml(entry:TimeEntryResource, schema:TimeEntrySchema) {
-    return html`
-        <div class="Popover te-calendar--popover">
-          <div class="Box Popover-message Popover-message--left-top ml-2 mx-auto p-2 text-left text-small">
-            <ul class="list-style-none ml-0">
-              <li class="te-calendar--popover-entry">
-                <span class="text-bold">${schema.project.name}:</span>
-                <span>${this.sanitizedValue(entry.project.name)}</span>
-              </li>
-              <li class="te-calendar--popover-entry">
-                <span class="text-bold">${schema.entity.name}:</span>
-                <span>${entry.entity ? this.sanitizedValue(this.entityName(entry)) : this.i18n.t('js.placeholders.default')}</span>
-              </li>
-              <li class="te-calendar--popover-entry">
-                <span class="text-bold">${schema.activity.name}:</span>
-                <span>${this.sanitizedValue(entry.activity?.name ?? '')}</span>
-              </li>
-              <li class="te-calendar--popover-entry">
-                <span class="text-bold">${schema.hours.name}:</span>
-                <span>${this.timezone.formattedDuration(entry.hours as string)}</span>
-              </li>
-              <li class="te-calendar--popover-entry">
-                <span class="text-bold">${schema.comment.name}:</span>
-                <span>${this.sanitizedValue(entry.comment.raw ?? this.i18n.t('js.placeholders.default'))}</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-        `;
+  private popoverRows(entry:TimeEntryResource, schema:TimeEntrySchema):PopoverRow[] {
+    return [
+      { label: schema.project.name, value: this.sanitizedValue(entry.project.name) },
+      { label: schema.entity.name, value: entry.entity ? this.sanitizedValue(this.entityName(entry)) : this.i18n.t('js.placeholders.default') },
+      { label: schema.activity.name, value: this.sanitizedValue(entry.activity?.name ?? '') },
+      { label: schema.hours.name, value: this.timezone.formattedDuration(entry.hours as string) },
+      { label: schema.comment.name, value: this.sanitizedValue(entry.comment.raw ?? this.i18n.t('js.placeholders.default')) },
+    ];
   }
 
   private sanitizedValue(value:string):string {

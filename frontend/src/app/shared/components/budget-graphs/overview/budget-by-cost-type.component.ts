@@ -29,14 +29,18 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   Signal,
   computed,
+  effect,
   inject,
   input,
+  viewChild,
 } from '@angular/core';
 import { ChartConfiguration, ChartData } from 'chart.js';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { chartFont, chartLegend, createPieTooltipRenderer } from 'core-app/shared/components/budget-graphs/chart.config';
+import type { PieTooltipContext } from 'core-app/shared/components/budget-graphs/chart.config';
 import PrimerColorsPlugin from 'core-app/shared/components/work-package-graphs/plugin.primer-colors';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
@@ -49,6 +53,23 @@ import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2
 })
 export class BudgetByCostTypeComponent {
   private readonly i18n = inject(I18nService);
+  private readonly tooltipHost = viewChild<ElementRef<HTMLDivElement>>('tooltipHost');
+
+  private renderer:ReturnType<typeof createPieTooltipRenderer>|null = null;
+
+  constructor() {
+    effect((onCleanup) => {
+      const host = this.tooltipHost()?.nativeElement;
+      if (!host) return;
+
+      const renderer = createPieTooltipRenderer(host, this.formatCurrency.bind(this));
+      this.renderer = renderer;
+      onCleanup(() => {
+        renderer.destroy();
+        this.renderer = null;
+      });
+    });
+  }
 
   readonly chartData = input.required<string>();
   readonly currency = input<string>('€');
@@ -63,10 +84,12 @@ export class BudgetByCostTypeComponent {
       'primer-colors': { labelBased: true },
       tooltip: {
         enabled: false,
-        external: createPieTooltipRenderer(this.formatCurrency.bind(this)),
+        external: this.tooltipRenderer,
       },
     },
   }));
+
+  private readonly tooltipRenderer = (context:PieTooltipContext) => this.renderer?.(context);
 
   private formatCurrency(value:number):string {
     const currency = this.currency();
