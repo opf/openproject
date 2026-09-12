@@ -28,29 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Backlogs
-  class MoveToSprintDialogComponent < ApplicationComponent
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
+require "spec_helper"
 
-    DIALOG_ID = "move-to-sprint-dialog"
-    FORM_ID = "move-to-sprint-dialog-form"
-    SELECTION_LABEL_ID = "move-to-sprint-dialog-selection"
+RSpec.describe Backlogs::WorkPackages::CollectionIdsContract, type: :model do
+  shared_let(:project) { create(:project) }
+  shared_let(:user) { create(:user) }
 
-    attr_reader :work_packages, :sprints, :move_action
+  it "accepts the full cap without requiring a destination" do
+    contract = described_class.new(project, user, params: { ids: (1..500).map(&:to_s) })
+    expect(contract).to be_valid
+  end
 
-    def initialize(work_packages:, sprints:, move_action:)
-      super()
-
-      @work_packages = work_packages
-      @sprints = sprints
-      @move_action = move_action
-    end
-
-    private
-
-    def destination_list_type
-      Backlogs::Target::SprintId.list_type
+  [[], [""], %w[1 1], (1..501).map(&:to_s)].each do |ids|
+    it "rejects invalid membership of size #{ids.size}" do
+      contract = described_class.new(project, user, params: { ids: })
+      expect(contract).not_to be_valid
+      expect(contract.errors).not_to be_empty
+      expect(project.errors).to be_empty
     end
   end
 end

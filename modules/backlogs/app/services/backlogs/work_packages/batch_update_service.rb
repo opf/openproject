@@ -80,6 +80,11 @@ class Backlogs::WorkPackages::BatchUpdateService
       [work_package.id, Backlogs::Target.for_work_package(work_package)]
     end
 
+    preflight = Backlogs::WorkPackages::DestinationAvailability.new(project: batch_project, user:, work_packages: [])
+    return unavailable_target_failure unless preflight.manage_permission? && preflight.candidate?(target)
+
+    # Each call needs fresh under-lock state, including when this instance is reused.
+    @destination_availability = nil
     call = nil
     # Its own savepoint: joined into an enclosing transaction, the rollback
     # below would be swallowed and half the batch would commit.
@@ -99,17 +104,20 @@ class Backlogs::WorkPackages::BatchUpdateService
   private
 
   def move_batch(target, prev_id, list_type:, list_id:)
-    destination = raw_destination(target)
-    acquire_ordered_locks(ordered_lifecycle_records(destination))
-    acquire_placement_serialization_lock(target, prev_id)
+    locks = Backlogs::WorkPackages::BatchMoveLocks.new(
+      project: batch_project, source_targets: @batch_source_targets.values, target:
+    )
+    locks.acquire_lifecycle
+    locks.acquire_placement(target:, prev_id:)
     placement = resolve_placement(target, prev_id)
     return placement if placement.is_a?(ServiceResult)
 
-    acquire_ordered_locks(lock_entries(placement.anchor))
+    locks.acquire_members(work_packages:, anchor: placement.anchor)
     return stale_batch_failure unless cohort_intact?
 
-    lock_destination_row!(destination)
-    return unavailable_target_failure unless target_available?(target)
+    locks.lock_destination_row
+    destination_failure = revalidate_destination(target)
+    return destination_failure if destination_failure
 
     anchor_failure = revalidate_anchor(placement, target)
     return anchor_failure if anchor_failure
@@ -145,76 +153,6 @@ class Backlogs::WorkPackages::BatchUpdateService
     call
   end
 
-  # Sprint lifecycle services serialize on the Sprint model mutex before
-  # enumerating and moving their work packages, so a batch has to join every
-  # source lifecycle as well as the target's: locking only the target lets a
-  # batch move a member out after FinishService has enumerated it. Sorted by
-  # class and id, so two batches with inverse source/target pairs cannot
-  # deadlock.
-  def ordered_lifecycle_records(destination)
-    source_records = @batch_source_targets.values.uniq.filter_map { |target| raw_destination(target) }
-
-    (source_records + [destination])
-      .compact
-      .uniq { |record| lifecycle_lock_identity(record) }
-      .sort_by { |record| lifecycle_lock_identity(record) }
-  end
-
-  def lifecycle_lock_identity(record)
-    [record.class.name, record.id]
-  end
-
-  # Inbox has no lifecycle mutex. Even distinct explicit anchors share its
-  # position scope, so their positions must not shift between read and insert.
-  # Unanchored placement also needs serialization when the target is empty.
-  def acquire_placement_serialization_lock(target, prev_id)
-    return if prev_id.present? && target != Backlogs::Target::InboxId
-
-    suffix = ["backlogs_batch_update_destination", target.list_type, target.list_id].compact.join("_")
-    # rubocop:disable-next Lint/EmptyBlock -- the lock outlives the block; see acquire_ordered_locks
-    OpenProject::Mutex.with_advisory_lock_transaction(batch_project, suffix) {}
-  end
-
-  # Ascending id order, so two overlapping batches request the same lock
-  # sequence and neither waits on the other while holding one.
-  def lock_entries(anchor)
-    (work_packages + [anchor]).compact.uniq.sort_by(&:id)
-  end
-
-  # Transaction-scoped locks outlive their block until the enclosing
-  # transaction ends, so each one is taken with an empty block in one flat
-  # sequence. The gem's per-thread lock stack forgets the lock at block exit,
-  # so the inner services re-request theirs; Postgres grants a lock the
-  # session already holds without waiting.
-  def acquire_ordered_locks(entries)
-    entries.each do |entry|
-      # rubocop:disable-next Lint/EmptyBlock -- the lock outlives the block; see the comment above
-      OpenProject::Mutex.with_advisory_lock_transaction(entry) {}
-    end
-  end
-
-  # Unscoped by policy so completion, deletion and reassignment all resolve
-  # to the same advisory identity.
-  def raw_destination(target)
-    case target
-    in Backlogs::Target::SprintId
-      Sprint.find_by(id: target.list_id)
-    in Backlogs::Target::BucketId
-      BacklogBucket.find_by(id: target.list_id)
-    in Backlogs::Target::InboxId
-      nil
-    end
-  end
-
-  # lock! reloads under FOR UPDATE, so a concurrent completion, deletion or
-  # reassignment commits before the availability query runs. Inbox has no
-  # destination row; its placement is serialized by the advisory lock alone.
-  def lock_destination_row!(destination)
-    destination&.lock!
-  rescue ActiveRecord::RecordNotFound
-    nil
-  end
-
   # The anchor is scoped to the batch project because the acts_as_list scope
   # includes project_id: in a shared sprint another project's work package
   # would pass a container-only comparison, yet be unresolvable for
@@ -247,34 +185,50 @@ class Backlogs::WorkPackages::BatchUpdateService
   # project, same list, and for append still the last non-batch member. A
   # concurrently moved anchor would otherwise fall through to move_after's
   # silent insert-at-top.
-  def revalidate_anchor(placement, target) # rubocop:disable Metrics/AbcSize
+  def revalidate_anchor(placement, target)
     anchor = placement.anchor
+    return stale_predecessor_failure if append_anchor_changed?(placement, target)
     return if anchor.nil?
 
     anchor.reload
     unless anchor.project_id == batch_project_id && Backlogs::Target.for_work_package(anchor) == target
-      return stale_predecessor_failure
+      stale_predecessor_failure
     end
-
-    stale_predecessor_failure if placement.mode == :append && last_non_batch_member(target)&.id != anchor.id
   rescue ActiveRecord::RecordNotFound
     stale_predecessor_failure
+  end
+
+  def append_anchor_changed?(placement, target)
+    placement.mode == :append && last_non_batch_member(target)&.id != placement.anchor&.id
   end
 
   # The contract only revalidates a sprint or bucket target when the
   # corresponding column changes, so a same-list reorder never triggers it
   # and a sprint completed after the page loaded stays an accepted
-  # destination. Mirrors the contract's own assignable_sprints and
-  # backlog_bucket_belongs_to_project checks for every placement mode alike.
+  # destination. Judged on freshly loaded rows rather than the batch's
+  # loaded instances: a member's status, and so its mobility, may have
+  # changed since the controller loaded it, which is exactly what this check
+  # under the lock exists to catch.
+  def revalidate_destination(target)
+    return unavailable_target_failure unless destination_availability.manage_permission? && target_available?(target)
+
+    refused = destination_availability.refusing(target)
+    refused_members_failure(refused) if refused.any?
+  end
+
   def target_available?(target)
-    case target
-    in Backlogs::Target::SprintId
-      Sprint.assignable(project: batch_project, user:).exists?(id: target.list_id)
-    in Backlogs::Target::BucketId
-      BacklogBucket.for_project(batch_project).exists?(id: target.list_id)
-    in Backlogs::Target::InboxId
-      true
-    end
+    destination_availability.candidate?(target)
+  end
+
+  # Freshly loaded rows, not the batch's loaded instances: a member's status,
+  # and so its mobility, may have changed since the controller loaded it,
+  # which is exactly what this check under the lock exists to catch.
+  def destination_availability
+    @destination_availability ||= Backlogs::WorkPackages::DestinationAvailability.new(
+      project: batch_project,
+      user:,
+      work_packages: WorkPackage.where(id: work_packages.map(&:id)).includes(:status).to_a
+    )
   end
 
   def last_non_batch_member(target)
@@ -313,6 +267,21 @@ class Backlogs::WorkPackages::BatchUpdateService
 
   def unavailable_target_failure
     ServiceResult.failure(message: I18n.t("backlogs.work_packages.batch_update_service.unavailable_target"))
+  end
+
+  # Refused whole, before any member moves, but naming the members that
+  # refused rather than leaving the caller to guess.
+  def refused_members_failure(members)
+    failure = unavailable_target_failure
+    members.each do |member|
+      failure.add_dependent!(
+        ServiceResult.failure(
+          result: member,
+          message: I18n.t("backlogs.work_packages.batch_update_service.unavailable_target")
+        )
+      )
+    end
+    failure
   end
 
   def mixed_projects_failure

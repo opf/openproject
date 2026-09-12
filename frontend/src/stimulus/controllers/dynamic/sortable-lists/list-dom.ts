@@ -121,8 +121,35 @@ export interface DestinationIdentity {
   id:string|null;
 }
 
+export function isDestinationIdentity(candidate:unknown):candidate is DestinationIdentity {
+  if (typeof candidate !== 'object' || candidate === null) {
+    return false;
+  }
+
+  return 'type' in candidate
+    && 'id' in candidate
+    && typeof candidate.type === 'string'
+    && candidate.type.length > 0
+    && (typeof candidate.id === 'string' || candidate.id === null);
+}
+
+export function parseDestinationCandidates(raw:string|undefined):DestinationIdentity[] {
+  if (!raw) return [];
+
+  try {
+    const candidates:unknown = JSON.parse(raw);
+    if (Array.isArray(candidates) && candidates.every(isDestinationIdentity)) {
+      return candidates;
+    }
+  } catch {
+    // Invalid JSON and invalid identities share the same fail-closed result.
+  }
+  debugLog('sortable-lists: malformed destination metadata');
+  return [];
+}
+
 export function sameDestination(left:DestinationIdentity|null, right:DestinationIdentity):boolean {
-  return left?.type === right.type && left.id === right.id;
+  return left !== null && left.type === right.type && left.id === right.id;
 }
 
 // Whether the item may enter the destination: the one policy behind every
@@ -140,6 +167,24 @@ export function itemAcceptsDestination(
     default:
       return true;
   }
+}
+
+export function permittedDestinations({
+  items,
+  candidates,
+  ownerDestinationOf,
+}:{
+  items:HTMLElement[];
+  candidates:DestinationIdentity[];
+  ownerDestinationOf:(item:HTMLElement) => DestinationIdentity|null;
+}):DestinationIdentity[] {
+  if (items.length === 0) {
+    return [];
+  }
+
+  return candidates.filter((target) => (
+    items.every((item) => itemAcceptsDestination(item, target, ownerDestinationOf))
+  ));
 }
 
 export function resolveItemType(element:Element):string|null {

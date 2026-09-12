@@ -28,29 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Backlogs
-  class MoveToSprintDialogComponent < ApplicationComponent
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
+module BacklogBuckets::Scopes::Assignable
+  extend ActiveSupport::Concern
 
-    DIALOG_ID = "move-to-sprint-dialog"
-    FORM_ID = "move-to-sprint-dialog-form"
-    SELECTION_LABEL_ID = "move-to-sprint-dialog-selection"
-
-    attr_reader :work_packages, :sprints, :move_action
-
-    def initialize(work_packages:, sprints:, move_action:)
-      super()
-
-      @work_packages = work_packages
-      @sprints = sprints
-      @move_action = move_action
-    end
-
-    private
-
-    def destination_list_type
-      Backlogs::Target::SprintId.list_type
+  class_methods do
+    def assignable(project:, user: User.current)
+      for_project(project).visible(user)
     end
   end
 end

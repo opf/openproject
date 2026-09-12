@@ -26,11 +26,15 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { environment } from '../../../../environments/environment';
+
 import {
+  parseDestinationCandidates,
   captureRowPositions,
   isOrderableItem,
   itemAcceptsDestination,
   itemMobility,
+  permittedDestinations,
   reorderRows,
   sortableItemMobilityAttribute,
   resolveDirectionalPreviousItemId,
@@ -43,6 +47,7 @@ import {
   restoreRowPositions,
   rowOf,
   rowsRemainAt,
+  sameDestination,
 } from './list-dom';
 
 describe('sortable lists DOM helpers', () => {
@@ -455,6 +460,72 @@ describe('itemAcceptsDestination', () => {
   });
 });
 
+describe('destination intersection', () => {
+  const inbox = { type: 'inbox', id: null };
+  const sprint1 = { type: 'sprint', id: '1' };
+  const sprint2 = { type: 'sprint', id: '2' };
+  const bucket1 = { type: 'bucket', id: '1' };
+
+  function item(mobility:'fixed'|'confined'|'free' = 'free'):HTMLElement {
+    const element = document.createElement('li');
+    element.setAttribute(sortableItemMobilityAttribute, mobility);
+    return element;
+  }
+
+  it('permits every candidate for free-only members', () => {
+    const freeOne = item();
+    const freeTwo = item();
+
+    expect(permittedDestinations({
+      items: [freeOne, freeTwo],
+      candidates: [inbox, sprint1, sprint2, bucket1],
+      ownerDestinationOf: () => null,
+    })).toEqual([inbox, sprint1, sprint2, bucket1]);
+  });
+
+  it('intersects a confined member with free members', () => {
+    const confinedInSprint = item('confined');
+    const freeInBucket = item();
+    const ownerDestinationOf = (member:HTMLElement) => member === confinedInSprint ? sprint1 : bucket1;
+
+    expect(permittedDestinations({
+      items: [confinedInSprint, freeInBucket],
+      candidates: [inbox, sprint1, sprint2, bucket1],
+      ownerDestinationOf,
+    })).toEqual([sprint1]);
+  });
+
+  it('rejects confined members belonging to different destinations', () => {
+    const confinedInSprint = item('confined');
+    const confinedInBucket = item('confined');
+    const ownerDestinationOf = (member:HTMLElement) => member === confinedInSprint ? sprint1 : bucket1;
+
+    expect(permittedDestinations({
+      items: [confinedInSprint, confinedInBucket],
+      candidates: [inbox, sprint1, bucket1],
+      ownerDestinationOf,
+    })).toEqual([]);
+  });
+
+  it('rejects every destination when a member is fixed', () => {
+    expect(permittedDestinations({
+      items: [item('fixed'), item()],
+      candidates: [inbox, sprint1],
+      ownerDestinationOf: () => null,
+    })).toEqual([]);
+  });
+
+  it('identifies targets occupied by every member independently of permission', () => {
+    const freeInSprint = item();
+    const anotherFreeInSprint = item();
+    const items = [freeInSprint, anotherFreeInSprint];
+    const ownerDestinationOf = (_member:HTMLElement) => sprint1;
+    const permitted = permittedDestinations({ items, candidates: [sprint1, sprint2], ownerDestinationOf });
+
+    expect(permitted.filter((target) => !items.every((member) => sameDestination(ownerDestinationOf(member), target)))).toEqual([sprint2]);
+  });
+});
+
 describe('directional move helpers', () => {
   function container(ids:string[]):HTMLElement {
     const ul = document.createElement('ul');
@@ -681,5 +752,38 @@ describe('resolveItemType', () => {
     expect(resolveItemType(el)).toBeNull();
     el.setAttribute('data-sortable-lists--item-type-value', '');
     expect(resolveItemType(el)).toBeNull();
+  });
+});
+
+
+describe('destination metadata', () => {
+  let wasProduction:boolean;
+  let log:ReturnType<typeof vi.spyOn>;
+  beforeEach(() => {
+    wasProduction = environment.production;
+    environment.production = false;
+    log = vi.spyOn(console, 'log').mockImplementation(() => undefined);
+  });
+  afterEach(() => {
+    environment.production = wasProduction;
+    vi.restoreAllMocks();
+  });
+
+  it.each([undefined, ''])('ignores missing metadata without logging', (metadata) => {
+    expect(parseDestinationCandidates(metadata)).toEqual([]);
+    expect(log).not.toHaveBeenCalled();
+  });
+
+  it.each(['{invalid', '{}', '[{"type":"","id":null}]', '[{"type":"sprint","id":1}]',
+    '[{"type":"sprint","id":"1"},{"type":"sprint"}]'])('rejects malformed metadata as a whole: %s', (metadata) => {
+    expect(parseDestinationCandidates(metadata)).toEqual([]);
+    expect(log).toHaveBeenCalledWith('[DEBUG] sortable-lists: malformed destination metadata');
+  });
+
+  it('preserves ordered destinations and the null inbox identity', () => {
+    expect(parseDestinationCandidates('[{"type":"sprint","id":"2"},{"type":"inbox","id":null}]')).toEqual([
+      { type: 'sprint', id: '2' }, { type: 'inbox', id: null },
+    ]);
+    expect(log).not.toHaveBeenCalled();
   });
 });
