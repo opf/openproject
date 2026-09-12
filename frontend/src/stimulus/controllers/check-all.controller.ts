@@ -43,12 +43,12 @@ type CheckableElement = ExtractElement<CheckableController>;
  * all" links and buttons are outside scope of a `CheckableController`, i.e. in
  * another part of the DOM that is not a descendant.
  *
- * @see https://stimulus.hotwired.dev/reference/outlets
- *
  * This controller also handles setting `aria-controls` on its HTML element.
  *
  * Rather than using targets, it is up to the implementer to "wire up" events
  * using descriptors. This is designed for maximum flexibility.
+ *
+ * @see [Stimulus outlets](https://stimulus.hotwired.dev/reference/outlets)
  *
  * @example
  * ```html

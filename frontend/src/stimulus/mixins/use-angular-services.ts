@@ -44,20 +44,22 @@ interface ServiceConsumer {
  *
  * Usage:
  *
- *     export default class ListRefreshController extends Controller<HTMLElement> {
- *       static services:ServiceKey[] = ['halEvents'];
- *       declare halEvents:HalEventsService;
+ * ```ts
+ * export default class ListRefreshController extends Controller<HTMLElement> {
+ *   static services:ServiceKey[] = ['halEvents'];
+ *   declare halEvents:HalEventsService;
  *
- *       initialize() {
- *         useAngularServices(this);
- *       }
+ *   initialize() {
+ *     useAngularServices(this);
+ *   }
  *
- *       // Fires after every connect(), once the context has resolved and the
- *       // element is still connected.
- *       servicesConnected() {
- *         this.subscription = this.halEvents.aggregated$('WorkPackage')...
- *       }
- *     }
+ *   // Fires after every connect(), once the context has resolved and the
+ *   // element is still connected.
+ *   servicesConnected() {
+ *     this.subscription = this.halEvents.aggregated$('WorkPackage')...
+ *   }
+ * }
+ * ```
  *
  * For use outside `servicesConnected()` (e.g. event handlers), the mixin also
  * defines two promise properties on the controller (add matching `declare`
