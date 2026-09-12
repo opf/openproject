@@ -66,8 +66,8 @@ pt-BR:
 
       '
     login_with_auth_provider: ou entre com a sua conta existente
-    omniauth_direct_login_continue: Continue to sign in
-    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
+    omniauth_direct_login_continue: Continuar a iniciar sessão
+    omniauth_direct_login_redirecting: Você será redirecionado para o seu provedor de identidade…
     omniauth_login: Faça login para ativar sua conta.
     signup_title: Crie uma conta no %{app_title}
     signup_with_external_account: Cadastre-se com uma conta externa
@@ -86,20 +86,20 @@ pt-BR:
         types: Tipos de pacote de trabalho
         usage_scope: Escopo
       ai/text_transform_run:
-        action: Action
-        cancel_requested: Cancel requested
-        error_message: Error message
-        finished_at: Finished at
-        input: Input
+        action: Ação
+        cancel_requested: Cancelamento solicitado
+        error_message: Mensagem de erro
+        finished_at: Finalizado em
+        input: Entrada
         status: Status
-        system_prompt: System prompt
-        user: User
+        system_prompt: Prompt do sistema
+        user: Usuário
         uuid: UUID
       ai/text_transform_run_event:
-        kind: Kind
+        kind: Tipo
         payload: Payload
-        run: Run
-        seq: Sequence number
+        run: Executar
+        seq: Número sequencial
       announcements:
         show_until: Exibir até
       attachment:
@@ -142,9 +142,9 @@ pt-BR:
         is_for_all: Para todos os projetos
         is_required: Obrigatório
         max_length: Tamanho máximo
-        max_value: Maximum value
+        max_value: Valor máximo
         min_length: Tamanho mínimo
-        min_value: Minimum value
+        min_value: Valor mínimo
         multi_value: Permitir seleção múltipla
         possible_values: Valores possíveis
         regexp: Expressão regular
@@ -590,7 +590,7 @@ pt-BR:
         regex_list_invalid: As linhas %{invalid_lines} não puderam ser interpretadas como expressão regular.
         regex_match_failed: não corresponde à expressão regular %{expression}.
         smaller_than_or_equal_to_max_length: deve ser menor ou igual ao tamanho máximo.
-        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
+        smaller_than_or_equal_to_max_value: deve ser menor ou igual ao valor máximo.
         ssrf_filtered: viola a política de SSRF desta instância do OpenProject.
         status_transition_invalid: é inválido porque não existe uma transição válida do status antigo para o novo status para as funções do usuário atual.
         system_wide_non_working_day_exists: conflita com um dia não útil já existente em todo o sistema para esta data.
@@ -5533,7 +5533,7 @@ pt-BR:
     index:
       filter_label: Search roles
       types:
-        all: All roles
+        all: Todas as funções
         global: Global roles
         project: Project roles
     permissions:
@@ -6442,7 +6442,7 @@ pt-BR:
           inheriting_from_html: Inheriting from %{source_name}
           manual: Manually configured
         settings: Settings
-        tab: Overview
+        tab: Visão geral
       project_attributes:
         actions:
           label_disable_all: Desabilitar todos
@@ -7047,12 +7047,12 @@ pt-BR:
       confirm_descendants_deletion: Confirmo que todos os descendentes listados acima também serão excluídos.
       cross_project_warning_html: 'Pacotes de trabalho dos seguintes projetos serão excluídos: %{projects}'
       descendants_choice:
-        heading: Delete all descendants too?
+        heading: Excluir todos os descendentes também?
         question: This work package has descendants. Do you want to delete them as well?
-        self_only_label: Delete just this work package
-        self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        with_descendants_label: Delete this work package and descendants
-        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        self_only_label: Excluir apenas este pacote de trabalho
+        self_only_caption: Isto não irá apagar descendentes, mas irá remover relações hierárquicas.
+        with_descendants_label: Excluir este pacote de trabalho e descendentes
+        with_descendants_caption: Isto excluirá todos os pacotes de trabalho filhos visíveis para você. Você terá a chance de rever a lista completa no próximo passo.
       description: Tem certeza de que deseja excluir "%{name}"?
       heading: Excluir este pacote de trabalho de forma permanente?
       hidden_descendants_only_warning:
@@ -7116,7 +7116,7 @@ pt-BR:
         target_role_ids:
           label: Funções alvo
         target_variant_ids:
-          label: Target types
+          label: Tipos alvo
       from_roles:
         create:
           notice:
@@ -7125,8 +7125,8 @@ pt-BR:
       from_variants:
         create:
           notice:
-            one: Successfully copied workflow to '%{type_name}'.
-            other: Successfully copied workflow to %{count} types.
+            one: Fluxo de trabalho copiado com sucesso para "%{type_name}".
+            other: Fluxos de trabalho copiados com sucesso para %{count} tipos.
       new:
         title: Copiar fluxo de trabalho de “%{source_type}”
     form:
