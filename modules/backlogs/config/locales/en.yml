@@ -239,6 +239,9 @@ en:
       page_header_component:
         breadcrumb: Report
         title: "%{sprint} report"
+      widgets:
+        work_package_graph:
+          title: "Work packages graph"
 
     sprints:
       row_component:
