@@ -47,7 +47,7 @@ class Automations::Actions::DoneRatio < Automations::Actions::Base
     100
   end
 
-  def self.all
+  def self.templates
     if WorkPackage.work_based_mode?
       super
     else
