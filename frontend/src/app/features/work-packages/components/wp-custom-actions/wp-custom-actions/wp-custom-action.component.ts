@@ -32,7 +32,9 @@ import { CustomActionResource } from 'core-app/features/hal/resources/custom-act
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import {
   HalResourceEditingService,
+  ResourceChangesetCommit,
 } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { ChangeMap } from 'core-app/shared/components/fields/changeset/changeset';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 import {
@@ -43,6 +45,10 @@ import {
   WorkPackagesActivityService,
 } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+
+// A raw `_links` entry of a HAL source: either a single link or a collection of links.
+interface HalSourceLink { href?:string|null }
+type HalLinkValue = HalSourceLink|HalSourceLink[];
 
 @Component({
   selector: 'wp-custom-action',
@@ -114,6 +120,7 @@ export class WpCustomActionComponent extends UntilDestroyedMixin implements OnIn
       .post<WorkPackageResource>(`${this.action.href}/execute`, payload)
       .subscribe(
         (savedWp:WorkPackageResource) => {
+          const previousWp = this.workPackage;
           this.notificationService.showSave(savedWp, false);
           this.workPackage = savedWp;
           this.wpActivity.clear(this.workPackage.id);
@@ -121,7 +128,14 @@ export class WpCustomActionComponent extends UntilDestroyedMixin implements OnIn
           // project or type.
           void this.apiV3Service.work_packages.cache.updateWorkPackage(savedWp).then(() => {
             this.halEditing.stopEditing(savedWp);
-            this.halEvents.push(savedWp, { eventType: 'updated' });
+            // Custom actions are executed server-side and thus have no Angular
+            // changeset. Attach a commit describing the changed link attributes
+            // (e.g. status, assignee, version) so that action boards can detect
+            // the change and move the card to the correct column.
+            this.halEvents.push(savedWp, {
+              eventType: 'updated',
+              commit: this.commitFor(previousWp, savedWp),
+            });
             this.change.inFlight = false;
             this.cdRef.detectChanges();
           });
@@ -132,6 +146,61 @@ export class WpCustomActionComponent extends UntilDestroyedMixin implements OnIn
           this.cdRef.detectChanges();
         },
       );
+  }
+
+  // Build a commit describing the link attributes that the custom action
+  // changed, by diffing the work package before and after execution. Only the
+  // `changes` map is consumed by the action board listener, where each entry's
+  // `from`/`to` is compared against the column's value via its `href`
+  // (link collections contribute the href of each of their entries).
+  private commitFor(previous:WorkPackageResource, saved:WorkPackageResource):ResourceChangesetCommit<WorkPackageResource> {
+    const previousLinks = this.linksOf(previous);
+    const savedLinks = this.linksOf(saved);
+    const changes:ChangeMap = {};
+
+    // Union of both key sets, so that attributes which were removed by the
+    // action (present before, absent after) are reported as changed as well.
+    const attributes = new Set([...Object.keys(previousLinks), ...Object.keys(savedLinks)]);
+
+    attributes.forEach((attribute) => {
+      const from = previousLinks[attribute];
+      const to = savedLinks[attribute];
+
+      if (!this.sameLinks(from, to)) {
+        changes[attribute] = { from, to };
+      }
+    });
+
+    return {
+      id: saved.id!,
+      resource: saved,
+      wasNew: false,
+      changes,
+    };
+  }
+
+  private sameLinks(from:HalLinkValue|undefined, to:HalLinkValue|undefined):boolean {
+    const fromHrefs = this.hrefsOf(from);
+    const toHrefs = this.hrefsOf(to);
+
+    return fromHrefs.length === toHrefs.length
+      && fromHrefs.every((href, index) => href === toHrefs[index]);
+  }
+
+  private hrefsOf(value:HalLinkValue|undefined):(string|null|undefined)[] {
+    if (value === undefined || value === null) {
+      return [];
+    }
+
+    // Link collections (e.g. `targetVersions`) are arrays of link objects.
+    return (Array.isArray(value) ? value : [value]).map((link) => link?.href);
+  }
+
+  // `$source` is untyped (`any`), so narrow it before reading the HAL `_links`
+  // object. Entries are either a single link or a collection of links.
+  private linksOf(workPackage:WorkPackageResource):Record<string, HalLinkValue> {
+    const source = workPackage.$source as { _links?:Record<string, HalLinkValue> };
+    return source._links ?? {};
   }
 
   @HostListener('mouseenter') onMouseEnter():void {
