@@ -31,7 +31,7 @@
 require "spec_helper"
 require_relative "../../support/pages/backlog"
 
-RSpec.describe "Dragging work packages in backlog buckets", :js, :selenium do
+RSpec.describe "Dragging work packages in backlog buckets", :js do
   create_shared_association_defaults_for_work_package_factory
 
   shared_let(:project) do
