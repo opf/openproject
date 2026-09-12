@@ -1,0 +1,106 @@
+name: Check AI involvement section
+
+# Uses pull_request_target rather than pull_request so that the job has a
+# writable token on pull requests from forks, which is the only population it
+# runs for. Nothing from the pull request is ever checked out or executed: the
+# checkout below takes the base branch, and the description is read from the
+# event payload via an environment variable.
+on:
+  pull_request_target:
+    types:
+      - opened
+      - edited
+      - synchronize
+      - ready_for_review
+
+permissions:
+  contents: read # to fetch code (actions/checkout)
+  pull-requests: write # to comment on the PR
+
+concurrency:
+  # Editing a description fires several events in quick succession and only the
+  # latest state matters. Keyed on the pull request number rather than the head
+  # branch, as two forks can have a branch of the same name.
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  ai-involvement-check:
+    # Only contributor pull requests, i.e. those cut from a fork. Automation PRs
+    # (dependabot, copilot, the release merge PRs opened by openprojectci) are
+    # skipped as well, as they do not fill in the PR template.
+    if: >-
+      github.event.pull_request.head.repo.full_name != github.repository
+      && github.event.pull_request.draft == false
+      && github.event.pull_request.user.type != 'Bot'
+      && github.event.pull_request.user.login != 'openprojectci'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      # No ref: under pull_request_target this checks out the base branch, so the
+      # script cannot be tampered with by the pull request it is checking.
+      - name: Checkout the check script
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          sparse-checkout: script/ci/ai_involvement_check.sh
+          sparse-checkout-cone-mode: false
+
+      - name: Verify the AI involvement section is filled out
+        id: ai-involvement-check
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: ./script/ci/ai_involvement_check.sh
+
+      - name: Add comment if the section is missing
+        if: steps.ai-involvement-check.outputs.status == 'section_missing'
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
+        with:
+          header: ai-involvement-comment
+          message: |
+            > [!WARNING]
+            > This pull request description has no `AI involvement` section.
+
+            Please add it back from the
+            [pull request template](https://github.com/opf/openproject/blob/dev/.github/pull_request_template.md)
+            and self-assess how much AI drove this PR.
+
+      - name: Add comment if no level is stated
+        if: steps.ai-involvement-check.outputs.status == 'level_missing'
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
+        with:
+          header: ai-involvement-comment
+          message: |
+            > [!WARNING]
+            > The `AI involvement` section of this pull request is not filled out.
+
+            Please uncomment the one line that fits by deleting its surrounding `<!--` and `-->`
+            markers.
+
+      - name: Add comment if multiple levels are stated
+        if: steps.ai-involvement-check.outputs.status == 'multiple_levels'
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
+        with:
+          header: ai-involvement-comment
+          message: |
+            > [!WARNING]
+            > The `AI involvement` section states more than one level:
+            > ${{ steps.ai-involvement-check.outputs.selected_levels }}
+
+            This is not multiple-choice. Please keep only the line that fits and comment out
+            or delete the others.
+
+      - name: AI involvement check passed
+        if: steps.ai-involvement-check.outputs.status == 'ok'
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
+        with:
+          header: ai-involvement-comment
+          delete: true
+
+      - name: Fail if the AI involvement section is not filled out
+        if: steps.ai-involvement-check.outputs.status != 'ok'
+        run: |
+          echo "The 'AI involvement' section of the pull request description is not filled out."
+          echo "See the comment on the pull request for what to change."
+          exit 1
