@@ -32,11 +32,24 @@ import { vi, type Mock } from 'vitest';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import type RequirePasswordConfirmationControllerType from './require-password-confirmation.controller';
 
+const STREAM_CONTENT_TYPE = 'text/vnd.turbo-stream.html; charset=utf-8';
+const NEGOTIATED_ACCEPT = 'text/vnd.turbo-stream.html, text/html, application/xhtml+xml';
+const STREAM_HTML = '<turbo-stream action="append" target="stream-target"><template><span class="chunk"></span></template></turbo-stream>';
+
+function streamResponse():Response {
+  return new Response(STREAM_HTML, { status: 200, headers: { 'Content-Type': STREAM_CONTENT_TYPE } });
+}
+
+function htmlResponse():Response {
+  return new Response('<p>Login</p>', { status: 200, headers: { 'Content-Type': 'text/html; charset=utf-8' } });
+}
+
 describe('Require password confirmation controller', () => {
   let ctx:StimulusTestContext;
   let RequirePasswordConfirmationController:typeof RequirePasswordConfirmationControllerType;
   let myPasswordConfirmationDialogPath:Mock;
   let fetchSpy:Mock;
+  let target:HTMLElement;
   let originalOpenProject:typeof window.OpenProject;
 
   beforeAll(async () => {
@@ -45,10 +58,12 @@ describe('Require password confirmation controller', () => {
 
   beforeEach(async () => {
     myPasswordConfirmationDialogPath = vi.fn().mockReturnValue('/my/password_confirmation_dialog');
-    fetchSpy = vi.spyOn(window, 'fetch').mockResolvedValue({
-      headers: new Headers({ 'Content-Type': 'text/vnd.turbo-stream.html' }),
-      text: () => Promise.resolve(''),
-    } as unknown as Response);
+    fetchSpy = vi.fn().mockImplementation(() => Promise.resolve(streamResponse()));
+    vi.spyOn(window, 'fetch').mockImplementation(fetchSpy);
+
+    target = document.createElement('div');
+    target.id = 'stream-target';
+    document.body.appendChild(target);
 
     originalOpenProject = window.OpenProject;
     window.OpenProject = {
@@ -62,11 +77,17 @@ describe('Require password confirmation controller', () => {
     });
   });
 
-  afterEach(() => {
+  const flush = () => new Promise((resolve) => { setTimeout(resolve, 20); });
+
+  afterEach(async () => {
+    await flush();
     ctx.dispose();
+    target.remove();
     window.OpenProject = originalOpenProject;
     vi.restoreAllMocks();
   });
+
+  const renderedChunks = () => target.querySelectorAll('.chunk').length;
 
   async function renderForm() {
     await ctx.mount(`
@@ -75,6 +96,12 @@ describe('Require password confirmation controller', () => {
       </form>
     `);
     return ctx.container.querySelector('form')!;
+  }
+
+  function submit(form:HTMLFormElement):SubmitEvent {
+    const event = new SubmitEvent('submit', { cancelable: true, bubbles: true });
+    form.dispatchEvent(event);
+    return event;
   }
 
   it('binds the declared services after connect', async () => {
@@ -89,8 +116,7 @@ describe('Require password confirmation controller', () => {
   it('intercepts the submit and requests the confirmation dialog', async () => {
     const form = await renderForm();
 
-    const event = new SubmitEvent('submit', { cancelable: true, bubbles: true });
-    form.dispatchEvent(event);
+    const event = submit(form);
 
     expect(event.defaultPrevented).toBe(true);
 
@@ -110,8 +136,7 @@ describe('Require password confirmation controller', () => {
       bubbleOrder.push(`bubble:prevented=${event.defaultPrevented}`);
     });
 
-    const event = new SubmitEvent('submit', { cancelable: true, bubbles: true });
-    form.dispatchEvent(event);
+    const event = submit(form);
 
     expect(event.defaultPrevented).toBe(true);
     expect(bubbleOrder).toEqual(['bubble:prevented=true']);
@@ -122,7 +147,7 @@ describe('Require password confirmation controller', () => {
     const requestSubmit = vi.fn();
     form.requestSubmit = requestSubmit;
 
-    form.dispatchEvent(new SubmitEvent('submit', { cancelable: true, bubbles: true }));
+    submit(form);
     await waitFor(() => {
       expect(fetchSpy).toHaveBeenCalled();
     });
@@ -138,7 +163,7 @@ describe('Require password confirmation controller', () => {
   it('reopens the dialog after a cancelled confirmation', async () => {
     const form = await renderForm();
 
-    form.dispatchEvent(new SubmitEvent('submit', { cancelable: true, bubbles: true }));
+    submit(form);
     await waitFor(() => {
       expect(fetchSpy).toHaveBeenCalledTimes(1);
     });
@@ -149,7 +174,7 @@ describe('Require password confirmation controller', () => {
     document.dispatchEvent(new CustomEvent('dialog:close', { detail: { dialog, submitted: false } }));
 
     fetchSpy.mockClear();
-    form.dispatchEvent(new SubmitEvent('submit', { cancelable: true, bubbles: true }));
+    submit(form);
 
     await waitFor(() => {
       expect(fetchSpy).toHaveBeenCalledTimes(1);
@@ -159,7 +184,7 @@ describe('Require password confirmation controller', () => {
   it('ignores dialog:close events for other dialogs', async () => {
     const form = await renderForm();
 
-    form.dispatchEvent(new SubmitEvent('submit', { cancelable: true, bubbles: true }));
+    submit(form);
     await waitFor(() => {
       expect(fetchSpy).toHaveBeenCalledTimes(1);
     });
@@ -169,7 +194,7 @@ describe('Require password confirmation controller', () => {
     document.dispatchEvent(new CustomEvent('dialog:close', { detail: { dialog: other, submitted: false } }));
 
     fetchSpy.mockClear();
-    form.dispatchEvent(new SubmitEvent('submit', { cancelable: true, bubbles: true }));
+    submit(form);
 
     await ctx.nextFrame();
     expect(fetchSpy).not.toHaveBeenCalled();
@@ -183,8 +208,7 @@ describe('Require password confirmation controller', () => {
 
     const form = await renderForm();
 
-    const event = new SubmitEvent('submit', { cancelable: true, bubbles: true });
-    form.dispatchEvent(event);
+    const event = submit(form);
 
     expect(event.defaultPrevented).toBe(true);
 
@@ -197,5 +221,35 @@ describe('Require password confirmation controller', () => {
     await ctx.nextFrame();
 
     expect(fetchSpy).not.toHaveBeenCalled();
+  });
+
+  it('renders the confirmation dialog stream', async () => {
+    const form = await renderForm();
+
+    submit(form);
+
+    await waitFor(() => { expect(renderedChunks()).toBe(1); });
+    const [, init] = fetchSpy.mock.lastCall as [string, RequestInit & { headers:Headers }];
+    expect(init.headers.get('Accept')).toBe(NEGOTIATED_ACCEPT);
+    expect(init.headers.has('X-CSRF-Token')).toBe(false);
+  });
+
+  it.each([
+    ['a non-stream response', () => Promise.resolve(htmlResponse())],
+    ['a failed request', () => Promise.reject(new TypeError('Failed to fetch'))],
+  ])('allows a new dialog request after %s', async (_label, outcome) => {
+    fetchSpy.mockImplementationOnce(outcome);
+    const form = await renderForm();
+
+    submit(form);
+    await waitFor(() => { expect(fetchSpy).toHaveBeenCalledTimes(1); });
+    expect(renderedChunks()).toBe(0);
+
+    // activeDialog is released asynchronously in the catch; resubmitting
+    // until the second request goes out avoids a fixed sleep.
+    await waitFor(() => {
+      submit(form);
+      expect(fetchSpy).toHaveBeenCalledTimes(2);
+    });
   });
 });

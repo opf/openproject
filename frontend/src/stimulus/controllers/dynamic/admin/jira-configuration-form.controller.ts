@@ -27,8 +27,7 @@
 //++
 
 import {Controller} from '@hotwired/stimulus';
-import * as Turbo from '@hotwired/turbo';
-import {useMeta} from 'stimulus-use';
+import {renderErrorStream, request} from 'core-turbo/requests';
 
 export default class extends Controller {
     static targets = ['button', 'progressBanner', 'urlInput', 'tokenInput'];
@@ -37,9 +36,6 @@ export default class extends Controller {
     declare readonly progressBannerTarget:HTMLButtonElement;
     declare readonly urlInputTarget:HTMLInputElement;
     declare readonly tokenInputTarget:HTMLInputElement;
-
-    static metaNames = ['csrf-token'];
-    declare readonly csrfToken:string;
 
     static values = {
         url: String,
@@ -50,7 +46,6 @@ export default class extends Controller {
     declare idValue:string;
 
     connect():void {
-        useMeta(this, {suffix: false});
         document.addEventListener('turbo:before-cache', this.clearBeforeCache);
     }
 
@@ -89,16 +84,12 @@ export default class extends Controller {
                 formData.append('id', this.idValue);
             }
 
-            const response = await fetch(this.urlValue, {
+            const response = await request(this.urlValue, {
                 method: 'POST',
                 body: formData,
-                headers: {
-                    'Accept': 'text/vnd.turbo-stream.html',
-                    'X-CSRF-Token': this.csrfToken,
-                },
+                responseKind: 'turbo-stream',
             });
-
-            Turbo.renderStreamMessage(await response.text());
+            await renderErrorStream(response);
         } catch (error) {
             console.error(error);
         } finally {

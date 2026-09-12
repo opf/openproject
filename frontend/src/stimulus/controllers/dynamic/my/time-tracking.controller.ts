@@ -37,13 +37,12 @@ import type { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.se
 import type { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import moment from 'moment';
 import allLocales from '@fullcalendar/core/locales-all';
-import { renderStreamMessage } from '@hotwired/turbo';
 import { opStopwatchStopIconData, toDOMString } from '@openproject/octicons-angular';
-import { useMeta } from 'stimulus-use';
 import { html, render, TemplateResult } from 'lit-html';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
+import { renderErrorStream, request } from 'core-turbo/requests';
 
 interface AdditionalDialogCloseData {
   spent_on?:string;
@@ -73,8 +72,6 @@ export default class MyTimeTrackingController extends Controller {
     timeZone: String,
   };
 
-  static metaNames = ['csrf-token'];
-
   declare readonly calendarTarget:HTMLElement;
   declare readonly hasCalendarTarget:boolean;
   declare readonly modeValue:string;
@@ -89,7 +86,6 @@ export default class MyTimeTrackingController extends Controller {
   declare readonly workingDaysValue:number[];
   declare readonly startOfWeekValue:number;
   declare readonly timeZoneValue:string;
-  declare readonly csrfToken:string;
 
   private calendar:Calendar;
   private DEFAULT_TIMED_EVENT_DURATION = '01:00';
@@ -97,10 +93,6 @@ export default class MyTimeTrackingController extends Controller {
 
   initialize() {
     useAngularServices(this);
-  }
-
-  connect() {
-    useMeta(this, { suffix: false });
   }
 
   servicesConnected() {
@@ -427,12 +419,9 @@ export default class MyTimeTrackingController extends Controller {
   }
 
   updateTimeEntry(timeEntryId:string, spentOn:string, startTime:string|null, hours:number, revertFunction:() => void) {
-    fetch(this.pathHelperService.timeEntryUpdate(timeEntryId), {
+    void request(this.pathHelperService.timeEntryUpdate(timeEntryId), {
       method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-Token': this.csrfToken,
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         time_entry: {
           spent_on: spentOn,
@@ -441,20 +430,21 @@ export default class MyTimeTrackingController extends Controller {
         },
         no_dialog: true,
       }),
+      responseKind: 'turbo-stream',
     })
-      .then((response) => {
-        void response.text().then((html) => {
-          renderStreamMessage(html);
-        });
-        if (!response.ok && revertFunction) {
-          revertFunction();
-        }
-      })
-      .catch(() => {
-        if (revertFunction) {
-          revertFunction();
-        }
-      });
+      .then(
+        async (response) => {
+          if (!response.succeeded && revertFunction) {
+            revertFunction();
+          }
+          await renderErrorStream(response);
+        },
+        () => {
+          if (revertFunction) {
+            revertFunction();
+          }
+        },
+      );
   }
 
   displayDuration(duration:number):string {

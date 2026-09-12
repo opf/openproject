@@ -27,7 +27,8 @@
 //++
 
 import { ApplicationController } from 'stimulus-use';
-import { renderStreamMessage } from '@hotwired/turbo';
+import { request } from 'core-turbo/requests';
+import { handleDialogResponse } from 'core-stimulus/helpers/request-helpers';
 import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
 
@@ -102,25 +103,11 @@ export default class RequirePasswordConfirmationController extends ApplicationCo
     this.activeDialog = true;
 
     const { pathHelperService } = await this.services;
-    void fetch(pathHelperService.myPasswordConfirmationDialogPath(), {
-      method: 'GET',
-      headers: {
-        Accept: 'text/vnd.turbo-stream.html',
-      },
-    }).then((response) => {
-      const contentType = response.headers.get('Content-Type') ?? '';
-      const isTurboStream = contentType.includes('text/vnd.turbo-stream.html');
-
-      if (!isTurboStream) {
-        return Promise.reject(new Error('Response is not a Turbo Stream'));
-      }
-
-      return response.text();
-    }).then((html) => {
-      renderStreamMessage(html);
-    }).catch(() => {
-      this.activeDialog = false;
-    });
+    void request(pathHelperService.myPasswordConfirmationDialogPath(), { responseKind: 'turbo-stream' })
+      .then(handleDialogResponse)
+      .catch(() => {
+        this.activeDialog = false;
+      });
 
     return false;
   }
