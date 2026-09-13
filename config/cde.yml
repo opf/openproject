@@ -1,0 +1,12 @@
+# CDE runtime settings.
+# yaml_key_ordering: keep 'enabled_modules' first to avoid config-loader ambiguity.
+# audit_append_only/gate_audit_required — enforced by publication gate; DO NOT relax in production.
+enabled_modules:
+- cde
+cde:
+  require_2fa_for_approval: false
+  audit_export_formats:
+  - csv
+  - json
+  audit_append_only: true
+  gate_audit_required: true

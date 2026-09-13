@@ -1,0 +1,89 @@
+# CDE Domain Conventions — single source of truth.
+#
+# Every CDE rule/skill reads from here. Do NOT duplicate these value lists in
+# code, fixtures, or skills. Change here → run cde-slice-contract-check.
+#
+# [TBC] = EIR-level human decision still pending (see ISO 19650 verification
+# caveat). Code enforces conformance to THESE declarations; whether the
+# declarations themselves are right for a given project is out-of-band governance.
+
+conventions_version: 1
+
+cde:
+  identifier:
+    # Fields joined by '-'. Adjust to project convention — EIR decision.
+    fields: [project, originator, zone, level, type, role, number]
+    separator: "-"
+    number_format: "\\d{4}"
+    validator: "^[A-Z0-9]+(-[A-Z0-9]+){5}-\\d{4}$"
+    unique_per: project
+    # Minted at creation and immutable for the container's life.
+    # New revisions mint a new REVISION code, never a new identifier.
+    immutable: true
+
+  revisions:
+    # P = preliminary (WIP), C = contractual (published/at-issue).
+    preliminary_pattern: "^P\\d+(\\.\\d+)?$"   # P01, P01.01
+    contractual_pattern: "^C\\d+$"            # C01, C02
+    never_reuse: true                          # retired codes stay burned
+    no_gaps: true                              # P01, P03 = invalid
+    # Preconfig for the P→C elevation gate (checked before setting C):
+    elevation_gate:
+      require_metadata_complete: true
+      require_identifier_valid: true
+      require_suitability_assigned: true
+      require_approvals: true
+      mandatory_metadata: [discipline, originator, classification, container_type]
+
+  # Lifecycle states for the information container.
+  states:
+    lifecycle: [wip, shared, published, archived]
+    wip:       { label: Work in Progress }
+    shared:    { label: Shared }
+    published: { label: Published }
+    archived:  { label: Archived }
+
+  # Legal transitions. Anything not listed is forbidden.
+  transitions:
+    - { from: wip,       to: shared }
+    - { from: shared,    to: wip }        # return for rework
+    - { from: shared,    to: published }  # gated by cde-publication-precondition-gate
+    - { from: published, to: archived }
+
+  # Suitability codes are INDEPENDENT of lifecycle state (spec requirement).
+  suitability:
+    codes: [S0, S1, S2, S3, S4, S5, S6, S7, A1, B1, B2, B3, B4, B5, D1]
+    # S0-S2 wip/share; S3+ review/authorization; A* accepted/authorized; B* partials; D* record/discipline-specific.
+    # Full semantics are project-defined; only membership is enforced here.
+
+  # Auditable actions (must match cde-audit-event-scaffold's list).
+  audit_actions:
+    - container_created
+    - revision_created
+    - revision_updated
+    - state_changed
+    - metadata_changed
+    - suitability_changed
+    - approval_granted
+    - approval_rejected
+    - exchange_package_issued
+
+  metadata:
+    mandatory: [discipline, originator, classification, container_type]
+    vocabularies:
+      discipline:     [arch, struct, mep, civil, pm, cost]      # TODO extend per project
+      originator:     [bimpro, consultant_a, contractor_b]      # TODO replace with project parties
+      classification: [uniclass2015, omniclass, project_custom]
+      container_type: [model, drawing, specification, schedule, report]
+    free_text_allowed: false
+
+  # --- Cross-cutting permission capabilities (matrix in modules/cde/config/cde_permissions.seed.yml) ---
+  capabilities:
+    - view_wip_container
+    - edit_container
+    - share_container
+    - approve_container
+    - publish_container
+    - archive_container
+    - manage_exchange_packages
+    - view_shared_container

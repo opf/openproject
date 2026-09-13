@@ -34,9 +34,19 @@ module Bim
 
       PIPELINE_COMMANDS ||= %w[IfcConvert COLLADA2GLTF gltf2xkt xeokit-metadata].freeze
 
+      # Enhanced: 6-stage pipeline with progress tracking
+      CONVERSION_STAGES = [
+        { name: :validation, weight: 5 },
+        { name: :ifc_to_dae, weight: 20 },
+        { name: :dae_to_gltf, weight: 20 },
+        { name: :gltf_to_xkt, weight: 40 },
+        { name: :enhanced_metadata, weight: 15 }
+      ].freeze
+
       def initialize(ifc_model)
         @errors = ActiveModel::Errors.new(self)
         @ifc_model = ifc_model
+        @current_progress = 0
       end
 
       ##
@@ -54,32 +64,105 @@ module Bim
 
       def call
         ifc_model.processing!
+        initialize_conversion_logs
 
         validate!
 
         Dir.mktmpdir do |dir|
           self.working_directory = dir
 
-          perform_conversion!
+          # Enhanced: Execute pipeline with progress tracking
+          execute_stages
 
           ifc_model.conversion_status = ::Bim::IfcModels::IfcModel.conversion_statuses[:completed]
           ifc_model.conversion_error_message = nil
+          ifc_model.conversion_progress = 100
 
           ServiceResult.new(success: ifc_model.save, result: ifc_model)
         end
       rescue StandardError => e
-        OpenProject.logger.error("Failed to convert IFC to XKT", exception: e)
-
-        ifc_model.conversion_status = ::Bim::IfcModels::IfcModel.conversion_statuses[:error]
-        ifc_model.conversion_error_message = e.message
-        ifc_model.save
-
+        handle_conversion_failure(e)
         ServiceResult.failure.tap { |r| r.errors.add(:base, e.message) }
       ensure
         self.working_directory = nil
       end
 
       private
+
+      # Enhanced: Execute all conversion stages with progress tracking
+      def execute_stages
+        # Stage 1: Validation (NEW)
+        execute_stage(:validation) { stage_validation }
+
+        # Stage 2-5: Existing conversion pipeline
+        tmp_ifc_path = link_to_ifc_file
+
+        dae_path = execute_stage(:ifc_to_dae) { convert_to_collada(tmp_ifc_path) }
+        gltf_path = execute_stage(:dae_to_gltf) { convert_to_gltf(dae_path) }
+        xkt_path = execute_stage(:gltf_to_xkt) { convert_to_xkt(gltf_path) }
+
+        save_xkt(xkt_path)
+
+        # Stage 6: Enhanced metadata extraction (NEW)
+        execute_stage(:enhanced_metadata) { stage_enhanced_metadata }
+      end
+
+      def execute_stage(stage_name)
+        stage_config = CONVERSION_STAGES.find { |s| s[:name] == stage_name }
+
+        update_stage_status(stage_name, :started)
+        log_stage_start(stage_name)
+
+        result = yield
+
+        advance_progress(stage_config[:weight])
+        log_stage_success(stage_name)
+
+        result
+      rescue StandardError => e
+        log_stage_error(stage_name, e)
+        raise
+      end
+
+      # NEW: Validation stage using ValidatorService
+      def stage_validation
+        validator = ValidatorService.new(ifc_model_path.to_s)
+        validation_result = validator.call
+
+        unless validation_result[:valid]
+          errors = validation_result[:schema_errors].join('; ')
+          raise "IFC validation failed: #{errors}"
+        end
+
+        # Log warnings if present
+        if validation_result[:warnings].any?
+          validation_result[:warnings].each do |warning|
+            log_warning(:validation, warning)
+          end
+        end
+
+        true
+      end
+
+      # NEW: Enhanced metadata extraction stage
+      def stage_enhanced_metadata
+        extractor = MetadataExtractorService.new(ifc_model)
+        result = extractor.call
+
+        if result.failure?
+          # Don't fail the whole conversion if metadata extraction fails
+          # Just log a warning
+          log_warning(:enhanced_metadata, "Metadata extraction failed: #{result.errors.join('; ')}")
+        else
+          log_stage_info(:enhanced_metadata, "Metadata extracted successfully")
+        end
+
+        true
+      rescue StandardError => e
+        # Metadata extraction failure should not stop conversion
+        log_warning(:enhanced_metadata, "Metadata extraction error: #{e.message}")
+        true
+      end
 
       def perform_conversion!
         # Step 0: avoid file name issues (e.g. umlauts) in the pipeline
@@ -225,6 +308,85 @@ module Bim
 
       def working_directory
         @working_directory
+      end
+
+      # NEW: Progress tracking and logging helpers
+
+      def initialize_conversion_logs
+        ifc_model.update!(conversion_logs: [])
+      end
+
+      def update_stage_status(stage_name, status)
+        ifc_model.update!(conversion_stage: stage_name.to_s)
+      end
+
+      def advance_progress(weight)
+        @current_progress += weight
+        ifc_model.update!(conversion_progress: @current_progress.to_i)
+      end
+
+      def handle_conversion_failure(error)
+        OpenProject.logger.error("Failed to convert IFC to XKT", exception: error)
+
+        ifc_model.conversion_status = ::Bim::IfcModels::IfcModel.conversion_statuses[:error]
+        ifc_model.conversion_error_message = error.message
+        ifc_model.save
+      end
+
+      # Logging methods
+
+      def log_stage_start(stage)
+        add_log_entry(
+          stage: stage.to_s,
+          level: 'info',
+          message: "Starting #{stage.to_s.humanize}",
+          details: { started_at: Time.current.iso8601 }
+        )
+      end
+
+      def log_stage_success(stage)
+        add_log_entry(
+          stage: stage.to_s,
+          level: 'info',
+          message: "Completed #{stage.to_s.humanize}",
+          details: { completed_at: Time.current.iso8601 }
+        )
+      end
+
+      def log_stage_error(stage, error)
+        add_log_entry(
+          stage: stage.to_s,
+          level: 'error',
+          message: "Failed #{stage.to_s.humanize}: #{error.message}",
+          details: {
+            error_class: error.class.name,
+            backtrace: error.backtrace&.first(5)
+          }
+        )
+      end
+
+      def log_warning(stage, message)
+        add_log_entry(
+          stage: stage.to_s,
+          level: 'warning',
+          message: message,
+          details: {}
+        )
+      end
+
+      def log_stage_info(stage, message)
+        add_log_entry(
+          stage: stage.to_s,
+          level: 'info',
+          message: message,
+          details: {}
+        )
+      end
+
+      def add_log_entry(log_data)
+        logs = ifc_model.conversion_logs || []
+        logs << log_data.merge(timestamp: Time.current.iso8601)
+        ifc_model.update!(conversion_logs: logs)
       end
     end
   end

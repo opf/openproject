@@ -1,0 +1,554 @@
+{
+  "project": {
+    "name": "OpenProject BIM Community Edition → Enterprise Feature Parity",
+    "goal": "Upgrade OpenProject Community Edition's BIM module to Enterprise-level functionality",
+    "repository": "/home/user/nexuscde",
+    "branch": "claude/read-this-r-011CUshkgEfR2TS45q8tq7D8",
+    "start_date": "2025-11-07",
+    "mode": "deliberation_complete",
+    "next_phase": "action_mode_ready"
+  },
+
+  "current_bim_module": {
+    "location": "modules/bim/",
+    "technologies": {
+      "backend": ["Ruby 3.4.7", "Rails 8.0.4", "IfcOpenShell"],
+      "frontend": ["Angular 20.3.10", "xeokit-bim-viewer 2.7.1", "TypeScript 5.8.3"],
+      "database": "PostgreSQL 13+"
+    },
+    "existing_capabilities": [
+      "IFC file upload with 4-stage conversion pipeline",
+      "3D model viewer (xeokit)",
+      "BCF 2.1 API for collaboration",
+      "Work package ↔ BCF issue linking",
+      "BCF XML import/export",
+      "Revit add-in integration"
+    ],
+    "test_coverage": "98 spec files",
+    "license": "GPL-3.0-or-later"
+  },
+
+  "slices": [
+    {
+      "id": 1,
+      "name": "ifc_upload",
+      "title": "IFC Upload Enhancement",
+      "priority": 1,
+      "mode": "deliberation_complete",
+      "status": "ready_for_action",
+      "dependencies": {
+        "upstream": [],
+        "downstream": ["3d_viewer", "clash_detection", "federated_models", "model_comparison"]
+      },
+      "design_complete": true,
+      "artifacts": {
+        "design": "artifacts/ifc_upload/design.md",
+        "code": "artifacts/ifc_upload/code/",
+        "tests": "artifacts/ifc_upload/tests/",
+        "demo": "artifacts/ifc_upload/demo/"
+      },
+      "estimated_loc": 1200,
+      "estimated_duration_weeks": 4,
+      "risk_level": "low",
+      "key_enhancements": [
+        "IFC schema validation before conversion",
+        "Real-time multi-stage progress reporting",
+        "Enhanced metadata extraction (spatial structure, Psets, quantities)",
+        "Detailed conversion logs per stage",
+        "File deduplication via checksums",
+        "Conversion priority queue"
+      ],
+      "technologies": {
+        "new": ["ifcopenshell-python >= 0.7.0"],
+        "existing": ["GoodJob", "CarrierWave", "Turbo Streams"]
+      },
+      "database_changes": [
+        "ifc_model_metadata table (spatial structure, Psets, quantities)",
+        "Add conversion_stage, conversion_progress, conversion_logs to ifc_models"
+      ],
+      "api_endpoints": [
+        "POST /api/bim/v1/projects/:id/ifc_models (enhanced with validation options)",
+        "GET /api/bim/v1/ifc_models/:id/logs"
+      ],
+      "success_criteria": {
+        "functional": [
+          "IFC schema validation before conversion starts",
+          "Real-time progress reporting (6 stages)",
+          "Enhanced metadata extraction",
+          "Detailed conversion logs",
+          "File deduplication"
+        ],
+        "performance": [
+          "<5 second validation time for files <100MB",
+          "<2 minute total conversion for typical models (50k entities)",
+          "99% conversion success rate for valid IFC files"
+        ]
+      },
+      "next_action": "switch_to_action_mode"
+    },
+
+    {
+      "id": 2,
+      "name": "3d_viewer",
+      "title": "3D Viewer Enhancement",
+      "priority": 2,
+      "mode": "deliberation_complete",
+      "status": "blocked_by_slice_1",
+      "dependencies": {
+        "upstream": ["ifc_upload"],
+        "downstream": ["clash_detection", "model_comparison"]
+      },
+      "design_complete": true,
+      "artifacts": {
+        "design": "artifacts/3d_viewer/design.md",
+        "code": "artifacts/3d_viewer/code/",
+        "tests": "artifacts/3d_viewer/tests/",
+        "demo": "artifacts/3d_viewer/demo/"
+      },
+      "estimated_loc": 2500,
+      "estimated_duration_weeks": 4,
+      "risk_level": "medium",
+      "key_enhancements": [
+        "Advanced section cuts & clipping (6-plane box, custom planes)",
+        "Comprehensive measurement suite (distance, area, volume, angle, elevation)",
+        "Enhanced navigation (walk mode, fly mode, saved views)",
+        "Visual quality enhancements (shadows, ambient occlusion, PBR)",
+        "Annotation & markup tools",
+        "Performance optimization (LOD, instancing, occlusion culling)"
+      ],
+      "technologies": {
+        "new": ["Custom xeokit plugins/extensions"],
+        "existing": ["@xeokit/xeokit-bim-viewer 2.7.1"]
+      },
+      "database_changes": [
+        "bim_saved_views (camera positions)",
+        "bim_section_configs (section cuts)",
+        "bim_measurements (persistent measurements)",
+        "bim_annotations (3D annotations)"
+      ],
+      "validation_checkpoint": "Validate xeokit capabilities, section box prototype",
+      "next_action": "wait_for_slice_1_completion"
+    },
+
+    {
+      "id": 3,
+      "name": "linking",
+      "title": "Work Package ↔ BIM Element Linking",
+      "priority": 3,
+      "mode": "deliberation_complete",
+      "status": "blocked_by_slices_1_2",
+      "dependencies": {
+        "upstream": ["ifc_upload", "3d_viewer"],
+        "downstream": ["clash_detection", "collaboration", "dashboards", "progress_tracking"]
+      },
+      "design_complete": true,
+      "artifacts": {
+        "design": "artifacts/linking/design.md",
+        "code": "artifacts/linking/code/",
+        "tests": "artifacts/linking/tests/",
+        "demo": "artifacts/linking/demo/"
+      },
+      "estimated_loc": 2000,
+      "estimated_duration_weeks": 4,
+      "risk_level": "medium",
+      "key_enhancements": [
+        "Many-to-many element-to-work package linking",
+        "5 relationship types (affected_by, responsible_for, depends_on, observes, related_to)",
+        "Element property snapshot at link time",
+        "Bulk work package creation from element selection",
+        "Approval workflows for BIM work packages",
+        "Element-based work package queries"
+      ],
+      "technologies": {
+        "new": [],
+        "existing": ["Rails associations", "Angular dialogs"]
+      },
+      "database_changes": [
+        "bim_element_links (many-to-many with relationship types)",
+        "bim_approval_workflows",
+        "bim_approvals"
+      ],
+      "next_action": "wait_for_slices_1_2_completion"
+    },
+
+    {
+      "id": 4,
+      "name": "clash_detection",
+      "title": "Clash Detection",
+      "priority": 4,
+      "mode": "deliberation_complete",
+      "status": "blocked_by_slices_1_2_3",
+      "dependencies": {
+        "upstream": ["ifc_upload", "3d_viewer", "linking"],
+        "downstream": ["dashboards"]
+      },
+      "design_complete": true,
+      "artifacts": {
+        "design": "artifacts/clash_detection/design.md",
+        "code": "artifacts/clash_detection/code/",
+        "tests": "artifacts/clash_detection/tests/",
+        "demo": "artifacts/clash_detection/demo/"
+      },
+      "estimated_loc": 1800,
+      "estimated_duration_weeks": 3,
+      "risk_level": "medium-high",
+      "key_enhancements": [
+        "Geometric clash detection (hard, soft, duplicate)",
+        "Rule-based clash engine with spatial indexing",
+        "Clash matrix and browser",
+        "Auto-create work packages from clashes",
+        "Clash status tracking (new, active, approved, resolved, closed)",
+        "Visual clash highlighting in viewer"
+      ],
+      "technologies": {
+        "new": ["ifcopenshell-python for geometry extraction", "rtree (optional spatial indexing)"],
+        "existing": ["GoodJob for async detection"]
+      },
+      "database_changes": [
+        "bim_clash_tests",
+        "bim_clash_test_models",
+        "bim_clashes",
+        "Add geometry_index to ifc_model_metadata"
+      ],
+      "next_action": "wait_for_slices_1_2_3_completion"
+    },
+
+    {
+      "id": 5,
+      "name": "federated_models",
+      "title": "Federated Models",
+      "priority": 5,
+      "mode": "deliberation_complete",
+      "status": "blocked_by_slices_1_2",
+      "dependencies": {
+        "upstream": ["ifc_upload", "3d_viewer"],
+        "downstream": ["model_comparison", "dashboards"]
+      },
+      "design_complete": true,
+      "artifacts": {
+        "design": "artifacts/federated_models/design.md",
+        "code": "artifacts/federated_models/code/",
+        "tests": "artifacts/federated_models/tests/",
+        "demo": "artifacts/federated_models/demo/"
+      },
+      "estimated_loc": 1200,
+      "estimated_duration_weeks": 2,
+      "risk_level": "medium",
+      "key_enhancements": [
+        "Federation management (group multiple IFC models)",
+        "Spatial alignment with transformations",
+        "Discipline organization (Arch, Struct, MEP)",
+        "Unified visualization with discipline filters",
+        "Federated queries across all models"
+      ],
+      "technologies": {
+        "new": [],
+        "existing": ["xeokit multi-model support"]
+      },
+      "database_changes": [
+        "bim_model_federations",
+        "bim_federation_models (with transforms)"
+      ],
+      "next_action": "wait_for_slices_1_2_completion"
+    },
+
+    {
+      "id": 6,
+      "name": "model_comparison",
+      "title": "Model Comparison",
+      "priority": 6,
+      "mode": "deliberation_complete",
+      "status": "blocked_by_slices_1_2_5",
+      "dependencies": {
+        "upstream": ["ifc_upload", "3d_viewer", "federated_models"],
+        "downstream": ["dashboards"]
+      },
+      "design_complete": true,
+      "artifacts": {
+        "design": "artifacts/model_comparison/design.md",
+        "code": "artifacts/model_comparison/code/",
+        "tests": "artifacts/model_comparison/tests/",
+        "demo": "artifacts/model_comparison/demo/"
+      },
+      "estimated_loc": 800,
+      "estimated_duration_weeks": 2,
+      "risk_level": "medium",
+      "key_enhancements": [
+        "IFC version comparison (detect added/deleted/modified elements)",
+        "Geometry change detection",
+        "Property change tracking",
+        "Visual diff overlay (color-coded: green=added, red=deleted, yellow=modified)",
+        "Change reports (PDF/CSV)"
+      ],
+      "technologies": {
+        "new": [],
+        "existing": ["Metadata comparison algorithms"]
+      },
+      "database_changes": [
+        "bim_model_comparisons (stores change data)"
+      ],
+      "next_action": "wait_for_slices_1_2_5_completion"
+    },
+
+    {
+      "id": 7,
+      "name": "collaboration",
+      "title": "Collaboration Enhancement",
+      "priority": 7,
+      "mode": "deliberation_complete",
+      "status": "blocked_by_slices_2_3",
+      "dependencies": {
+        "upstream": ["3d_viewer", "linking"],
+        "downstream": ["dashboards"]
+      },
+      "design_complete": true,
+      "artifacts": {
+        "design": "artifacts/collaboration/design.md",
+        "code": "artifacts/collaboration/code/",
+        "tests": "artifacts/collaboration/tests/",
+        "demo": "artifacts/collaboration/demo/"
+      },
+      "estimated_loc": 1000,
+      "estimated_duration_weeks": 2,
+      "risk_level": "medium",
+      "key_enhancements": [
+        "Real-time comment updates (Turbo Streams or WebSocket)",
+        "Presence indicators (who's viewing)",
+        "@Mentions and notifications",
+        "Comment reactions (emoji)",
+        "Rich text comments (Markdown)",
+        "Enhanced markup tools"
+      ],
+      "technologies": {
+        "new": ["ActionCable channels (optional)", "Turbo Streams"],
+        "existing": ["BCF comment system"]
+      },
+      "database_changes": [
+        "bim_comment_mentions",
+        "bim_viewer_presence",
+        "Add status and reactions to bcf_comments"
+      ],
+      "next_action": "wait_for_slices_2_3_completion"
+    },
+
+    {
+      "id": 8,
+      "name": "dashboards",
+      "title": "BIM Dashboards & Reporting",
+      "priority": 8,
+      "mode": "deliberation_complete",
+      "status": "blocked_by_slices_3_4_9",
+      "dependencies": {
+        "upstream": ["linking", "clash_detection", "progress_tracking"],
+        "downstream": []
+      },
+      "design_complete": true,
+      "artifacts": {
+        "design": "artifacts/dashboards/design.md",
+        "code": "artifacts/dashboards/code/",
+        "tests": "artifacts/dashboards/tests/",
+        "demo": "artifacts/dashboards/demo/"
+      },
+      "estimated_loc": 1200,
+      "estimated_duration_weeks": 2,
+      "risk_level": "low-medium",
+      "key_enhancements": [
+        "BIM KPI dashboards (model metrics, clash metrics, issue tracking)",
+        "Visual reports (charts, heatmaps, 3D visualizations)",
+        "Configurable widgets (drag-and-drop)",
+        "Export to PDF/Excel"
+      ],
+      "technologies": {
+        "new": ["Chart library (Chart.js or similar)", "Gridster for dashboard layout"],
+        "existing": ["OpenProject reporting infrastructure"]
+      },
+      "database_changes": [
+        "bim_dashboards",
+        "bim_dashboard_widgets"
+      ],
+      "next_action": "wait_for_slices_3_4_9_completion"
+    },
+
+    {
+      "id": 9,
+      "name": "progress_tracking",
+      "title": "Progress & Baseline Tracking",
+      "priority": 9,
+      "mode": "deliberation_complete",
+      "status": "blocked_by_slices_1_3",
+      "dependencies": {
+        "upstream": ["ifc_upload", "linking"],
+        "downstream": ["dashboards"]
+      },
+      "design_complete": true,
+      "artifacts": {
+        "design": "artifacts/progress_tracking/design.md",
+        "code": "artifacts/progress_tracking/code/",
+        "tests": "artifacts/progress_tracking/tests/",
+        "demo": "artifacts/progress_tracking/demo/"
+      },
+      "estimated_loc": 800,
+      "estimated_duration_weeks": 2,
+      "risk_level": "low",
+      "key_enhancements": [
+        "Element-level progress tracking",
+        "Baseline snapshots (planned vs actual)",
+        "Variance analysis",
+        "Visual progress comparison in 3D viewer",
+        "Integration with OpenProject Gantt baselines"
+      ],
+      "technologies": {
+        "new": [],
+        "existing": ["OpenProject work package progress system"]
+      },
+      "database_changes": [
+        "bim_progress_baselines",
+        "bim_element_progresses"
+      ],
+      "next_action": "wait_for_slices_1_3_completion"
+    },
+
+    {
+      "id": 10,
+      "name": "security",
+      "title": "Security & Authentication Enhancement",
+      "priority": 10,
+      "mode": "deliberation_complete",
+      "status": "ready_for_action",
+      "dependencies": {
+        "upstream": [],
+        "downstream": ["all_slices"]
+      },
+      "design_complete": true,
+      "artifacts": {
+        "design": "artifacts/security/design.md",
+        "code": "artifacts/security/code/",
+        "tests": "artifacts/security/tests/",
+        "demo": "artifacts/security/demo/"
+      },
+      "estimated_loc": 600,
+      "estimated_duration_weeks": 1,
+      "risk_level": "low",
+      "key_enhancements": [
+        "Pluggable authentication adapters (SSO, LDAP, 2FA)",
+        "BIM-specific permissions (view_bim_models, run_clash_detection, etc.)",
+        "API key management for external integrations",
+        "Audit logging for BIM actions"
+      ],
+      "technologies": {
+        "new": ["Optional: TOTP for 2FA"],
+        "existing": ["OpenProject authentication system"]
+      },
+      "database_changes": [
+        "bim_audit_logs"
+      ],
+      "cross_cutting": true,
+      "next_action": "implement_in_parallel_with_other_slices"
+    }
+  ],
+
+  "execution_order": [
+    {
+      "phase": 1,
+      "parallel_slices": ["ifc_upload", "security"],
+      "description": "Foundation - can run in parallel"
+    },
+    {
+      "phase": 2,
+      "parallel_slices": ["3d_viewer"],
+      "description": "Viewer enhancements - depends on ifc_upload"
+    },
+    {
+      "phase": 3,
+      "parallel_slices": ["linking", "federated_models"],
+      "description": "Coordination - depends on ifc_upload and 3d_viewer"
+    },
+    {
+      "phase": 4,
+      "parallel_slices": ["clash_detection", "model_comparison", "progress_tracking"],
+      "description": "Analysis - depends on linking and viewer"
+    },
+    {
+      "phase": 5,
+      "parallel_slices": ["collaboration"],
+      "description": "Collaboration - depends on viewer and linking"
+    },
+    {
+      "phase": 6,
+      "parallel_slices": ["dashboards"],
+      "description": "Reporting - depends on all analysis slices"
+    }
+  ],
+
+  "total_estimates": {
+    "total_loc": 13600,
+    "backend_loc": 8700,
+    "frontend_loc": 4900,
+    "total_duration_weeks": 26,
+    "parallel_duration_weeks": "~16 weeks with optimal parallelization",
+    "slices": 10
+  },
+
+  "technology_summary": {
+    "backend_new": [
+      "ifcopenshell-python >= 0.7.0",
+      "rtree (optional)",
+      "TOTP for 2FA (optional)"
+    ],
+    "frontend_new": [
+      "Custom xeokit plugins",
+      "Chart library",
+      "Gridster"
+    ],
+    "infrastructure": [
+      "ActionCable (optional for real-time)",
+      "Turbo Streams",
+      "GoodJob background processing",
+      "Python 3.8+ runtime"
+    ]
+  },
+
+  "quality_gates": {
+    "code_coverage": ">90% for new services",
+    "e2e_tests": "Complete flow for each slice",
+    "api_contracts": "OpenAPI specs for all new endpoints",
+    "documentation": "Design docs, API docs, admin guides",
+    "demo_artifacts": "Working demo for each slice"
+  },
+
+  "risk_assessment": {
+    "low_risk": ["ifc_upload", "progress_tracking", "security", "dashboards"],
+    "medium_risk": ["3d_viewer", "linking", "federated_models", "model_comparison", "collaboration"],
+    "medium_high_risk": ["clash_detection"]
+  },
+
+  "licensing": {
+    "project_license": "GPL-3.0-or-later",
+    "new_dependencies": "All GPL-compatible",
+    "compatibility": "✅ All proposed dependencies are GPL-3.0 compatible"
+  },
+
+  "next_steps": {
+    "immediate": [
+      "Validate deliberation with stakeholders",
+      "Prioritize slices for Action Mode",
+      "Set up development environment (Python, IfcOpenShell)"
+    ],
+    "action_mode_sequence": [
+      "1. Begin Slice 1 (IFC Upload) - foundational",
+      "2. Begin Slice 10 (Security) in parallel - cross-cutting",
+      "3. After Slice 1: Begin Slice 2 (3D Viewer)",
+      "4. Continue sequentially per dependency graph"
+    ],
+    "stakeholder_validation": [
+      "Review design documents for each slice",
+      "Approve technology choices",
+      "Confirm priority order",
+      "Allocate resources"
+    ]
+  },
+
+  "generated_at": "2025-11-07T00:00:00Z",
+  "deliberation_completed_at": "2025-11-07T00:00:00Z",
+  "ready_for_action_mode": true
+}

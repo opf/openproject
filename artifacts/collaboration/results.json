@@ -1,0 +1,26 @@
+{
+  "slice": "collaboration",
+  "mode": "deliberation",
+  "status": "complete",
+  "dependencies": {
+    "upstream": ["3d_viewer", "linking"],
+    "downstream": ["dashboards"]
+  },
+  "design_summary": "Real-time collaboration with live comment updates (Turbo Streams or WebSocket), presence indicators, @mentions, comment reactions, rich text, and enhanced markup tools.",
+  "estimated_loc": {
+    "backend": 500,
+    "frontend": 500,
+    "total": 1000
+  },
+  "technologies": {
+    "new": ["ActionCable (optional)", "Turbo Streams"],
+    "existing": ["BCF comment system"]
+  },
+  "database_tables": ["bim_comment_mentions", "bim_viewer_presence", "ALTER bcf_comments"],
+  "api_endpoints": 6,
+  "test_coverage_target": "85%",
+  "estimated_duration_weeks": 2,
+  "risk_level": "medium",
+  "readiness": "blocked_by_viewer_and_linking",
+  "next_action": "Wait for Slices 2 & 3 completion"
+}

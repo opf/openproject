@@ -73,4 +73,9 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render partial: "no_default_notice", locals: { project: @project } %>
 <% end %>
 
+<%# Subscribe to Turbo Streams for real-time conversion progress updates %>
+<% @ifc_models.each do |ifc_model| %>
+  <%= turbo_stream_from "ifc_model_#{ifc_model.id}" %>
+<% end %>
+
 <%= render ::Bim::IfcModels::TableComponent.new(rows: @ifc_models) %>

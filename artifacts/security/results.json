@@ -1,0 +1,26 @@
+{
+  "slice": "security",
+  "mode": "deliberation",
+  "status": "complete",
+  "dependencies": {
+    "upstream": [],
+    "downstream": ["all_slices"]
+  },
+  "design_summary": "Pluggable authentication adapters (SSO, LDAP, 2FA as optional), BIM-specific permissions, API key management, and audit logging. Cross-cutting enhancement applying to all slices.",
+  "estimated_loc": {
+    "backend": 600,
+    "total": 600
+  },
+  "technologies": {
+    "new": ["TOTP for 2FA (optional)"],
+    "existing": ["OpenProject auth system"]
+  },
+  "database_tables": ["bim_audit_logs"],
+  "api_endpoints": 0,
+  "test_coverage_target": "90%",
+  "estimated_duration_weeks": 1,
+  "risk_level": "low",
+  "readiness": "ready_for_action",
+  "cross_cutting": true,
+  "next_action": "Implement in parallel with Slice 1"
+}

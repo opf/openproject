@@ -1,0 +1,54 @@
+<%# Slice 1: Create Information Container in WIP - Index View %>
+<%= render 'cde/shared/header', title: l(:label_cde_containers) %>
+
+<div class="cde-containers-index">
+  <%= form_tag cde_containers_path, method: :get do %>
+    <div class="index-related">
+      <%= text_field_tag :query, params[:query], placeholder: l(:label_search) %>
+      <%= select_tag :status, options_for_select(Cde::Container.statuses.keys.map { |s| [I18n.t("cde.states.#{s}"), s] }, params[:status]), include_blank: true %>
+      <%= submit_tag l(:button_filter), class: 'btn' %>
+    </div>
+  <% end %>
+
+  <table class="list">
+    <thead>
+      <tr>
+        <th><%= l(:cde_container_identifier) %></th>
+        <th><%= l(:cde_container_title) %></th>
+        <th><%= l(:cde_container_status) %></th>
+        <th><%= l(:cde_container_suitability) %></th>
+        <th><%= l(:cde_container_project) %></th>
+        <th><%= l(:cde_container_owner) %></th>
+        <th><%= l(:cde_container_created_at) %></th>
+        <th><%= l(:label_actions) %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @containers.each do |container| %>
+        <tr>
+          <td><%= link_to container.identifier, cde_container_path(container) %></td>
+          <td><%= container.title %></td>
+          <td><%= content_tag('span', I18n.t("cde.states.#{container.status}"), class: "status status-#{container.status}") %></td>
+          <td><%= container.suitability&.code&.upcase || '-' %></td>
+          <td><%= container.project.name %></td>
+          <td><%= container.owner&.name || '-' %></td>
+          <td><%= format_time(container.created_at) %></td>
+          <td>
+            <%= link_to l(:label_view), cde_container_path(container), class: 'btn btn-sm' %>
+            <% if current_user.allowed_to?(:edit_container, container.project) %>
+              <%= link_to l(:label_edit), edit_cde_container_path(container), class: 'btn btn-sm' %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <%= pagination_links(@containers) if @containers.respond_to?(:total_pages) %>
+
+  <% if current_user.allowed_to?(:edit_container, @project) %>
+    <p class="buttons">
+      <%= link_to l(:label_cde_new_container), new_cde_container_path, class: 'btn btn-new' %>
+    </p>
+  <% end %>
+</div>

@@ -1,0 +1,51 @@
+# CDE Permissions Matrix (Seed — mark [TBC] until approved in EIR)
+#
+# Rows = capabilities from config/cde_conventions.yml#permissions.capabilities
+# Cols = OP-integrated actions. Single source of truth for capability x role.
+matrix:
+  view_wip_container:
+    contributor: allow
+    bim_coordinator: allow
+    bim_manager: allow
+    client_reviewer: deny
+  edit_container:
+    contributor: allow
+    bim_coordinator: allow
+    bim_manager: allow
+    client_reviewer: deny
+  share_container:
+    contributor: allow
+    bim_coordinator: allow
+    bim_manager: allow
+    client_reviewer: deny
+  approve_container:
+    contributor: deny
+    bim_coordinator: allow
+    bim_manager: allow
+    client_reviewer: deny
+  publish_container:
+    contributor: deny
+    bim_coordinator: allow
+    bim_manager: allow
+    client_reviewer: deny
+  archive_container:
+    contributor: deny
+    bim_coordinator: deny
+    bim_manager: allow
+    client_reviewer: deny
+  manage_exchange_packages:
+    contributor: deny
+    bim_coordinator: allow
+    bim_manager: allow
+    client_reviewer: deny
+  view_shared_container:
+    contributor: deny
+    bim_coordinator: allow
+    bim_manager: allow
+    client_reviewer: allow
+enforcement:
+  derive_op_permissions: true
+notes:
+- '[TBC] confirm approver set: coordinator+manager, or manager only?'
+- '[TBC] confirm whether client_reviewer may comment on Shared (likely yes, read+comment).'
+- '[TBC] publication may additionally require project admin — check EIR.'

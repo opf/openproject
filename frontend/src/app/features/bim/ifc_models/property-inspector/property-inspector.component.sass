@@ -1,0 +1,304 @@
+// Property Inspector Component Styles (V9.7 UX/UI Polish)
+
+.op-property-inspector
+  display: flex
+  flex-direction: column
+  height: 100%
+  background: var(--body-background)
+  color: var(--body-font-color)
+  overflow: hidden
+
+  // ==================== TABS ====================
+
+  &--tabs
+    display: flex
+    border-bottom: 2px solid var(--borderColor-default)
+    background: var(--gray-light)
+
+  &--tab
+    flex: 1
+    padding: 10px 12px
+    border: none
+    background: transparent
+    color: var(--body-font-color)
+    cursor: pointer
+    font-size: 0.9rem
+    transition: background 0.2s, color 0.2s
+
+    &:hover
+      background: var(--gray)
+
+    &.active
+      background: var(--body-background)
+      color: var(--accent-color)
+      font-weight: var(--base-text-weight-bold)
+      border-bottom: 2px solid var(--accent-color)
+      margin-bottom: -2px
+
+  // ==================== CONTENT ====================
+
+  &--content
+    flex: 1
+    overflow-y: auto
+    overflow-x: hidden
+    padding: 12px
+
+  // ==================== SECTIONS ====================
+
+  &--section
+    margin-bottom: 16px
+    border: 1px solid var(--borderColor-default)
+    border-radius: 4px
+    background: var(--body-background)
+
+  &--section-header
+    display: flex
+    align-items: center
+    gap: 8px
+    padding: 10px 12px
+    cursor: pointer
+    background: var(--gray-light)
+    border-bottom: 1px solid var(--borderColor-default)
+    transition: background 0.2s
+
+    &:hover
+      background: var(--gray)
+
+    svg
+      width: 12px
+      height: 12px
+      transition: transform 0.2s
+
+    h3
+      margin: 0
+      font-size: 0.95rem
+      font-weight: var(--base-text-weight-bold)
+
+  // ==================== PROPERTIES ====================
+
+  &--properties
+    padding: 8px
+
+  &--property
+    display: grid
+    grid-template-columns: 1fr 2fr auto auto
+    gap: 8px
+    align-items: center
+    padding: 8px
+    border-bottom: 1px solid var(--borderColor-muted)
+
+    &:last-child
+      border-bottom: none
+
+    &.editing
+      grid-template-columns: 1fr 2fr auto auto
+
+  &--property-name
+    font-weight: var(--base-text-weight-bold)
+    font-size: 0.85rem
+    color: var(--body-font-color)
+
+  &--property-value
+    font-size: 0.85rem
+    color: var(--body-font-color)
+    word-break: break-word
+
+  &--property-input
+    padding: 4px 8px
+    border: 1px solid var(--borderColor-default)
+    border-radius: 3px
+    font-size: 0.85rem
+
+    &:focus
+      outline: none
+      border-color: var(--accent-color)
+      box-shadow: 0 0 0 2px rgba(var(--accent-color-rgb), 0.2)
+
+  &--edit-btn,
+  &--copy-btn,
+  &--save-btn,
+  &--cancel-btn
+    padding: 4px 8px
+    border: 1px solid var(--borderColor-default)
+    border-radius: 3px
+    background: transparent
+    color: var(--body-font-color)
+    cursor: pointer
+    font-size: 0.75rem
+    transition: background 0.2s
+
+    &:hover
+      background: var(--gray-light)
+
+    svg
+      width: 14px
+      height: 14px
+
+  &--save-btn
+    background: var(--accent-color)
+    color: white
+    border-color: var(--accent-color)
+
+    &:hover
+      background: var(--accent-color-dark)
+
+    &:disabled
+      opacity: 0.5
+      cursor: not-allowed
+
+  &--cancel-btn
+    background: var(--gray-light)
+
+  // ==================== HISTORY ====================
+
+  &--history
+    padding: 8px
+
+  &--history-entry
+    display: flex
+    gap: 12px
+    padding: 12px
+    border-bottom: 1px solid var(--borderColor-muted)
+
+    &:last-child
+      border-bottom: none
+
+  &--history-icon
+    flex-shrink: 0
+    width: 24px
+    height: 24px
+    display: flex
+    align-items: center
+    justify-content: center
+    border-radius: 50%
+    background: var(--accent-color)
+    color: white
+    font-size: 14px
+
+  &--history-content
+    flex: 1
+
+  &--history-header
+    display: flex
+    align-items: center
+    gap: 8px
+    margin-bottom: 4px
+
+    strong
+      font-size: 0.9rem
+
+    .badge
+      padding: 2px 6px
+      background: var(--gray-light)
+      border-radius: 3px
+      font-size: 0.75rem
+
+  &--history-details
+    font-size: 0.85rem
+    margin-bottom: 4px
+    color: var(--body-font-color)
+
+  &--history-meta
+    font-size: 0.75rem
+    color: var(--gray-dark)
+
+  // ==================== RELATED ELEMENTS ====================
+
+  &--related
+    padding: 8px
+
+  &--related-section
+    margin-bottom: 16px
+
+    h4
+      margin: 0 0 8px 0
+      font-size: 0.9rem
+      font-weight: var(--base-text-weight-bold)
+      color: var(--body-font-color)
+
+  &--related-item
+    display: flex
+    align-items: center
+    gap: 8px
+    padding: 10px
+    border: 1px solid var(--borderColor-default)
+    border-radius: 4px
+    margin-bottom: 6px
+    cursor: pointer
+    transition: background 0.2s, border-color 0.2s
+
+    &:hover
+      background: var(--gray-light)
+      border-color: var(--accent-color)
+
+    svg
+      width: 16px
+      height: 16px
+      flex-shrink: 0
+
+    span
+      font-size: 0.85rem
+
+      &:first-of-type
+        flex: 1
+
+    .badge
+      padding: 2px 6px
+      background: var(--accent-color)
+      color: white
+      border-radius: 3px
+      font-size: 0.75rem
+
+    .count-badge
+      padding: 2px 6px
+      background: var(--gray-light)
+      border-radius: 10px
+      font-size: 0.75rem
+      font-weight: var(--base-text-weight-bold)
+
+  // ==================== LOADING / ERROR / EMPTY STATES ====================
+
+  &--loading,
+  &--error,
+  &--empty
+    padding: 40px 20px
+    text-align: center
+    color: var(--body-font-color)
+
+  &--error
+    color: var(--content-form-danger-zone-bg-color)
+
+  &--empty
+    font-style: italic
+    color: var(--gray-dark)
+
+  .loading-indicator
+    display: inline-block
+    width: 20px
+    height: 20px
+    border: 3px solid var(--borderColor-default)
+    border-top-color: var(--accent-color)
+    border-radius: 50%
+    animation: spin 0.8s linear infinite
+
+  @keyframes spin
+    to
+      transform: rotate(360deg)
+
+// ==================== ACCESSIBILITY ====================
+
+// High contrast mode
+@media (prefers-contrast: high)
+  .op-property-inspector
+    &--property
+      border-bottom-width: 2px
+
+    &--related-item
+      border-width: 2px
+
+// Reduced motion
+@media (prefers-reduced-motion: reduce)
+  .op-property-inspector
+    *
+      animation: none !important
+      transition: none !important

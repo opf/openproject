@@ -1,0 +1,26 @@
+{
+  "slice": "ifc_upload",
+  "mode": "deliberation",
+  "status": "complete",
+  "dependencies": {
+    "upstream": [],
+    "downstream": ["3d_viewer", "clash_detection", "federated_models", "model_comparison"]
+  },
+  "design_summary": "Enhanced IFC upload with schema validation, multi-stage progress reporting, advanced metadata extraction (spatial structure, Psets, quantities), detailed conversion logs, file deduplication, and priority queue. Uses IfcOpenShell Python for validation and metadata extraction.",
+  "estimated_loc": {
+    "backend": 800,
+    "frontend": 400,
+    "total": 1200
+  },
+  "technologies": {
+    "new": ["ifcopenshell-python >= 0.7.0"],
+    "existing": ["GoodJob", "CarrierWave", "Turbo Streams"]
+  },
+  "database_tables": ["ifc_model_metadata", "ALTER ifc_models"],
+  "api_endpoints": 2,
+  "test_coverage_target": "90%",
+  "estimated_duration_weeks": 4,
+  "risk_level": "low",
+  "readiness": "ready_for_action",
+  "next_action": "Switch to Action Mode - begin implementation with TDD"
+}

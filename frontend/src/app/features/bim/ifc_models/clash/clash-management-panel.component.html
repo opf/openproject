@@ -1,0 +1,342 @@
+<div class="clash-panel">
+  <!-- Header -->
+  <div class="clash-panel__header">
+    <h3 class="clash-panel__title">Clash Detection</h3>
+    <div class="clash-panel__actions">
+      <button class="button button--small" (click)="loadClashes()">
+        <span class="icon icon-reload"></span>
+        Refresh
+      </button>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="clash-panel__tabs">
+    <button
+      class="clash-panel__tab"
+      [class.clash-panel__tab--active]="activeTab === 'clashes'"
+      (click)="activeTab = 'clashes'">
+      Clashes ({{ totalClashes }})
+    </button>
+    <button
+      class="clash-panel__tab"
+      [class.clash-panel__tab--active]="activeTab === 'detection'"
+      (click)="activeTab = 'detection'">
+      Detection
+    </button>
+    <button
+      class="clash-panel__tab"
+      [class.clash-panel__tab--active]="activeTab === 'groups'"
+      (click)="activeTab = 'groups'">
+      Groups
+    </button>
+    <button
+      class="clash-panel__tab"
+      [class.clash-panel__tab--active]="activeTab === 'statistics'"
+      (click)="activeTab = 'statistics'">
+      Statistics
+    </button>
+  </div>
+
+  <!-- Content -->
+  <div class="clash-panel__content">
+    <!-- Clashes Tab -->
+    <div *ngIf="activeTab === 'clashes'" class="clash-panel__tab-content">
+      <!-- Filters -->
+      <div class="clash-filters">
+        <div class="clash-filters__row">
+          <div class="clash-filters__field">
+            <label>Status:</label>
+            <select [(ngModel)]="filters.status" (change)="onFilterChange()">
+              <option value="all">All</option>
+              <option value="new">New</option>
+              <option value="active">Active</option>
+              <option value="approved">Approved</option>
+              <option value="resolved">Resolved</option>
+              <option value="closed">Closed</option>
+            </select>
+          </div>
+
+          <div class="clash-filters__field">
+            <label>Severity:</label>
+            <select [(ngModel)]="filters.severity" (change)="onFilterChange()">
+              <option value="all">All</option>
+              <option value="critical">Critical</option>
+              <option value="major">Major</option>
+              <option value="minor">Minor</option>
+            </select>
+          </div>
+
+          <div class="clash-filters__field">
+            <label>Type:</label>
+            <select [(ngModel)]="filters.clashType" (change)="onFilterChange()">
+              <option value="all">All</option>
+              <option value="hard">Hard</option>
+              <option value="soft">Soft</option>
+              <option value="clearance">Clearance</option>
+              <option value="workflow">Workflow</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="clash-filters__row">
+          <input
+            type="text"
+            [(ngModel)]="filters.search"
+            (input)="applyFilters()"
+            placeholder="Search by element ID..."
+            class="clash-filters__search">
+        </div>
+      </div>
+
+      <!-- Clash List -->
+      <div class="clash-list" *ngIf="!isLoading">
+        <div
+          *ngFor="let clash of filteredClashes"
+          class="clash-item"
+          [class.clash-item--selected]="selectedClash?.id === clash.id"
+          (click)="selectClash(clash)">
+
+          <div class="clash-item__header">
+            <span class="clash-item__id">Clash #{{ clash.id }}</span>
+            <span [class]="getSeverityClass(clash.severity)" class="clash-badge">
+              {{ clash.severity }}
+            </span>
+            <span [class]="getStatusClass(clash.status)" class="clash-badge">
+              {{ clash.status }}
+            </span>
+          </div>
+
+          <div class="clash-item__body">
+            <div class="clash-item__type">
+              {{ getClashTypeName(clash.clash_type) }}
+            </div>
+            <div class="clash-item__elements">
+              <div class="clash-item__element">
+                <span class="label">A:</span> {{ clash.element_a_id }}
+              </div>
+              <div class="clash-item__element">
+                <span class="label">B:</span> {{ clash.element_b_id }}
+              </div>
+            </div>
+            <div class="clash-item__details" *ngIf="clash.distance || clash.overlap_volume">
+              <span *ngIf="clash.distance !== undefined">
+                Distance: {{ clash.distance.toFixed(2) }}mm
+              </span>
+              <span *ngIf="clash.overlap_volume">
+                Volume: {{ clash.overlap_volume.toFixed(2) }}
+              </span>
+            </div>
+            <div class="clash-item__date">
+              Detected: {{ clash.detected_at | date:'short' }}
+            </div>
+          </div>
+
+          <div class="clash-item__actions" *ngIf="selectedClash?.id === clash.id">
+            <button
+              class="button button--small button--success"
+              *ngIf="clash.status === 'new' || clash.status === 'active'"
+              (click)="approveClash(clash); $event.stopPropagation()">
+              Approve
+            </button>
+            <button
+              class="button button--small button--primary"
+              *ngIf="clash.status === 'new' || clash.status === 'active'"
+              (click)="resolveClash(clash); $event.stopPropagation()">
+              Resolve
+            </button>
+            <button
+              class="button button--small button--danger"
+              (click)="deleteClash(clash); $event.stopPropagation()">
+              Delete
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="filteredClashes.length === 0" class="clash-list__empty">
+          No clashes found matching your filters.
+        </div>
+      </div>
+
+      <div *ngIf="isLoading" class="clash-list__loading">
+        Loading clashes...
+      </div>
+
+      <!-- Pagination -->
+      <div class="clash-pagination" *ngIf="totalClashes > perPage">
+        <button
+          class="button button--small"
+          [disabled]="currentPage === 1"
+          (click)="changePage(currentPage - 1)">
+          Previous
+        </button>
+        <span class="clash-pagination__info">
+          Page {{ currentPage }} of {{ Math.ceil(totalClashes / perPage) }}
+        </span>
+        <button
+          class="button button--small"
+          [disabled]="currentPage * perPage >= totalClashes"
+          (click)="changePage(currentPage + 1)">
+          Next
+        </button>
+      </div>
+    </div>
+
+    <!-- Detection Tab -->
+    <div *ngIf="activeTab === 'detection'" class="clash-panel__tab-content">
+      <div class="detection-config">
+        <h4>Detection Settings</h4>
+
+        <div class="detection-config__field">
+          <label>
+            <input
+              type="checkbox"
+              [(ngModel)]="detectionOptions.detect_hard_clashes">
+            Detect Hard Clashes (Physical Intersections)
+          </label>
+        </div>
+
+        <div class="detection-config__field">
+          <label>
+            <input
+              type="checkbox"
+              [(ngModel)]="detectionOptions.detect_soft_clashes">
+            Detect Soft Clashes (Clearance Violations)
+          </label>
+        </div>
+
+        <div class="detection-config__field">
+          <label>Clearance Distance (mm):</label>
+          <input
+            type="number"
+            [(ngModel)]="detectionOptions.clearance_distance"
+            min="0"
+            step="10">
+        </div>
+
+        <div class="detection-config__field">
+          <label>Soft Clash Distance (mm):</label>
+          <input
+            type="number"
+            [(ngModel)]="detectionOptions.soft_clash_distance"
+            min="0"
+            step="10">
+        </div>
+
+        <div class="detection-config__actions">
+          <button
+            class="button button--primary"
+            [disabled]="isDetecting"
+            (click)="runDetection()">
+            <span *ngIf="!isDetecting">Run Detection</span>
+            <span *ngIf="isDetecting">Detecting... {{ detectionProgress }}%</span>
+          </button>
+        </div>
+
+        <div class="detection-progress" *ngIf="isDetecting">
+          <div class="detection-progress__bar" [style.width.%]="detectionProgress"></div>
+        </div>
+
+        <div class="detection-results" *ngIf="lastDetectionResults">
+          <h5>Last Detection Results</h5>
+          <div class="detection-results__stat">
+            <span class="label">Clashes Found:</span>
+            <span class="value">{{ lastDetectionResults.count }}</span>
+          </div>
+          <div class="detection-results__stat">
+            <span class="label">Detection Time:</span>
+            <span class="value">{{ lastDetectionResults.detection_time?.toFixed(2) }}s</span>
+          </div>
+          <div class="detection-results__stat">
+            <span class="label">Run ID:</span>
+            <span class="value">{{ lastDetectionResults.detection_run_id }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Groups Tab -->
+    <div *ngIf="activeTab === 'groups'" class="clash-panel__tab-content">
+      <div class="clash-grouping">
+        <h4>Clash Grouping</h4>
+        <p>Group clashes to identify patterns and prioritize resolution efforts.</p>
+
+        <div class="clash-grouping__options">
+          <button class="button" (click)="groupClashes('element')">
+            Group by Element
+          </button>
+          <button class="button" (click)="groupClashes('type')">
+            Group by Type
+          </button>
+          <button class="button" (click)="groupClashes('location')">
+            Group by Status
+          </button>
+        </div>
+
+        <div class="clash-groups" *ngIf="clashGroups.length > 0">
+          <h5>{{ groupingMode }} Groups ({{ clashGroups.length }})</h5>
+          <div *ngFor="let group of clashGroups" class="clash-group">
+            <div class="clash-group__header">
+              <span class="clash-group__key">{{ group.key }}</span>
+              <span class="clash-group__count">{{ group.count }} clashes</span>
+            </div>
+            <div class="clash-group__clashes">
+              <div *ngFor="let clash of group.clashes.slice(0, 3)" class="clash-group__clash">
+                Clash #{{ clash.id }} - {{ clash.severity }}
+              </div>
+              <div *ngIf="group.count > 3" class="clash-group__more">
+                +{{ group.count - 3 }} more
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Statistics Tab -->
+    <div *ngIf="activeTab === 'statistics'" class="clash-panel__tab-content">
+      <div class="clash-statistics" *ngIf="statistics && !isLoadingStatistics">
+        <h4>Clash Statistics</h4>
+
+        <div class="stat-card">
+          <h5>Total Clashes</h5>
+          <div class="stat-card__value">{{ statistics.total_clashes }}</div>
+        </div>
+
+        <div class="stat-card">
+          <h5>By Type</h5>
+          <div class="stat-list">
+            <div *ngFor="let item of objectKeys(statistics.by_type)" class="stat-list__item">
+              <span class="stat-list__label">{{ item }}:</span>
+              <span class="stat-list__value">{{ statistics.by_type[item] }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <h5>By Severity</h5>
+          <div class="stat-list">
+            <div *ngFor="let item of objectKeys(statistics.by_severity)" class="stat-list__item">
+              <span class="stat-list__label">{{ item }}:</span>
+              <span class="stat-list__value">{{ statistics.by_severity[item] }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <h5>By Status</h5>
+          <div class="stat-list">
+            <div *ngFor="let item of objectKeys(statistics.by_status)" class="stat-list__item">
+              <span class="stat-list__label">{{ item }}:</span>
+              <span class="stat-list__value">{{ statistics.by_status[item] }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="isLoadingStatistics" class="clash-statistics__loading">
+        Loading statistics...
+      </div>
+    </div>
+  </div>
+</div>
