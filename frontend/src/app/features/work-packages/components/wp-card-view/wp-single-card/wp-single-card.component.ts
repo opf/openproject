@@ -46,6 +46,7 @@ import { StateService, UIRouterGlobals } from '@uirouter/core';
 import {
   WorkPackageViewSelectionService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
+import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 import {
   WorkPackageCardViewService,
 } from 'core-app/features/work-packages/components/wp-card-view/services/wp-card-view.service';
@@ -130,6 +131,8 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   readonly $state = inject(StateService);
   readonly uiRouterGlobals = inject(UIRouterGlobals);
   readonly wpTableSelection = inject(WorkPackageViewSelectionService);
+
+  readonly selectionGestures = inject(WorkPackageViewSelectionGesturesService);
   readonly wpTableFocus = inject(WorkPackageViewFocusService);
   readonly cardView = inject(WorkPackageCardViewService);
   readonly cdRef = inject(ChangeDetectorRef);
@@ -208,10 +211,9 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
       return;
     }
 
-    const classIdentifier = this.classIdentifier(wp);
     const stateToEmit = detail ? 'split' : 'show';
 
-    this.wpTableSelection.setSelection(wp.id!, this.cardView.findRenderedCard(classIdentifier));
+    this.selectionGestures.replace(wp.id!, this.cardView.renderedCards);
     this.wpTableFocus.updateFocus(wp.id!);
     this.stateLinkClicked.emit({ workPackageId: wp.id!, requestedState: stateToEmit });
     event.preventDefault();

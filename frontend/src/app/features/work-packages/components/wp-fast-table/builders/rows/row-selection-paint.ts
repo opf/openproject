@@ -26,32 +26,15 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable, inject } from '@angular/core';
-import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+export const checkedClassName = '-checked';
+export const pressedClassName = '-pressed';
 
-@Injectable()
-export class WorkPackageCardViewService {
-  readonly querySpace = inject(IsolatedQuerySpace);
+export interface RowSelectionState {
+  selected:boolean;
+  pressed:boolean;
+}
 
-
-  public classIdentifier(wp:WorkPackageResource) {
-    // The same class names are used for the proximity to the table representation.
-    return `wp-row-${wp.id}`;
-  }
-
-  public get renderedCards():RenderedWorkPackage[] {
-    return this.querySpace.tableRendered.getValueOr([]);
-  }
-
-
-  public updateRenderedCardsValues(workPackages:WorkPackageResource[]) {
-    this.querySpace.tableRendered.putValue(
-      workPackages.map((wp) => ({
-        classIdentifier: this.classIdentifier(wp),
-        workPackageId: wp.id,
-        hidden: false,
-      })),
-    );
-  }
+export function paintRowSelection(row:HTMLElement, state:RowSelectionState):void {
+  row.classList.toggle(checkedClassName, state.selected);
+  row.classList.toggle(pressedClassName, state.pressed);
 }

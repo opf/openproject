@@ -29,7 +29,7 @@
 import { Injector } from '@angular/core';
 import { CardEventHandler } from 'core-app/features/work-packages/components/wp-card-view/event-handler/card-view-handler-registry';
 import { WorkPackageCardViewComponent } from 'core-app/features/work-packages/components/wp-card-view/wp-card-view.component';
-import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
+import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { WorkPackageCardViewService } from 'core-app/features/work-packages/components/wp-card-view/services/wp-card-view.service';
 import { StateService } from '@uirouter/core';
@@ -43,7 +43,7 @@ export class CardClickHandler implements CardEventHandler {
 
   @LazyInject() $state:StateService;
 
-  @LazyInject() wpTableSelection:WorkPackageViewSelectionService;
+  @LazyInject() selectionGestures:WorkPackageViewSelectionGesturesService;
 
   @LazyInject() wpTableFocus:WorkPackageViewFocusService;
 
@@ -81,41 +81,21 @@ export class CardClickHandler implements CardEventHandler {
       return true;
     }
 
-    this.handleWorkPackage(card, wpId, element, evt);
+    this.handleWorkPackage(card, wpId, evt);
 
     return false;
   }
 
-  protected handleWorkPackage(card:WorkPackageCardViewComponent, wpId:any, element:HTMLElement, evt:MouseEvent) {
-    this.setSelection(card, wpId, element, evt);
+  protected handleWorkPackage(card:WorkPackageCardViewComponent, wpId:string, evt:MouseEvent) {
+    this.setSelection(card, wpId, evt);
 
     card.itemClicked.emit({ workPackageId: wpId, double: false });
   }
 
-  protected setSelection(card:WorkPackageCardViewComponent, wpId:string, element:HTMLElement, evt:MouseEvent) {
-    const classIdentifier = element.dataset.classIdentifier!;
-    const index = this.wpCardView.findRenderedCard(classIdentifier);
+  protected setSelection(card:WorkPackageCardViewComponent, wpId:string, evt:MouseEvent) {
+    const selected = this.selectionGestures.click(wpId, this.wpCardView.renderedCards, evt);
 
-    // Update single selection if no modifier present
-    if (!(evt.ctrlKey || evt.metaKey || evt.shiftKey)) {
-      this.wpTableSelection.setSelection(wpId, index);
-    }
-
-    // Multiple selection if shift present
-    if (evt.shiftKey) {
-      this.wpTableSelection.setMultiSelectionFrom(this.wpCardView.renderedCards, wpId, index);
-    }
-
-    // Single selection expansion if ctrl / cmd(mac)
-    if (evt.ctrlKey || evt.metaKey) {
-      this.wpTableSelection.toggleRow(wpId);
-    }
-
-    card.selectionChanged.emit(this.wpTableSelection.getSelectedWorkPackageIds());
-
-    // The current card is the last selected work package
-    // not matter what other card are (de-)selected below.
-    // Thus save that card for the details view button.
+    card.selectionChanged.emit(selected);
     this.wpTableFocus.updateFocus(wpId);
   }
 }

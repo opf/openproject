@@ -74,6 +74,7 @@ import { DragAndDropService } from 'core-app/shared/helpers/drag-and-drop/drag-a
 import { TableHandlerRegistry } from '../handlers/table-handler-registry';
 import { WorkPackageTable } from '../wp-fast-table';
 import { buildWorkPackage, WorkPackageFixture } from './work-package-fixture';
+import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 
 export interface TableHarnessOptions {
   workPackages:WorkPackageFixture[];
@@ -189,6 +190,7 @@ function harnessProviders() {
     IsolatedQuerySpace,
     ActionsService,
     WorkPackageViewSelectionService,
+    WorkPackageViewSelectionGesturesService,
     WorkPackageViewFocusService,
     WorkPackageViewColumnsService,
     WorkPackageViewSortByService,

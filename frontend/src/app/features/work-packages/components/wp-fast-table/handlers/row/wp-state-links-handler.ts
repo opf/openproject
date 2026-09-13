@@ -31,7 +31,7 @@ import { WorkPackageViewFocusService } from 'core-app/features/work-packages/rou
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { States } from 'core-app/core/states/states.service';
 import { StateService } from '@uirouter/core';
-import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
+import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { KeepTabService } from '../../../wp-single-view-tabs/keep-tab/keep-tab.service';
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
@@ -47,7 +47,7 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
 
   @LazyInject() public states:States;
 
-  @LazyInject() public wpTableSelection:WorkPackageViewSelectionService;
+  @LazyInject() public selectionGestures:WorkPackageViewSelectionGesturesService;
 
   @LazyInject() public wpTableFocus:WorkPackageViewFocusService;
 
@@ -97,15 +97,8 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
     const row = target.closest<HTMLElement>(`.${tableRowClassName}`);
     if (!row) { return true; }
 
-    const classIdentifier = row.dataset.classIdentifier!;
-    const [index] = view.workPackageTable.findRenderedRow(classIdentifier);
-
-    // Keep the focused work package in sync when opening the details view
-    // from a row other than the currently selected one.
     this.wpTableFocus.updateFocus(workPackageId, false, false);
-
-    // Update single selection if no modifier present
-    this.wpTableSelection.setSelection(workPackageId, index);
+    this.selectionGestures.replace(workPackageId, view.workPackageTable.renderedRows, row.dataset.classIdentifier);
 
     view.stateLinkClicked.emit({ workPackageId, requestedState: state });
 
