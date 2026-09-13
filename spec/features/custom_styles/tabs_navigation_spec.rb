@@ -174,10 +174,12 @@ RSpec.describe "Tabs navigation and content switching on the admin/design page" 
       expect(desktop_logo_background).to include(custom_logo_path)
 
       find_test_selector("delete-custom-style-image-logo").click
-      wait_for_reload
 
+      expect(page).to have_no_test_selector("delete-custom-style-image-logo")
       expect(custom_style.reload.logo).not_to be_present
       expect(desktop_logo_background).not_to include(custom_logo_path)
+      expect(desktop_logo_background)
+        .to include(ActionController::Base.helpers.asset_path("logo_openproject_white_big.png"))
     end
 
     it "redirects to pdf export styles tab" do

@@ -42,16 +42,11 @@ module Redmine::MenuManager::TopMenuHelper
   end
 
   def top_menu_left_menu_items
-    items = [
+    [
       render_module_top_menu_node,
-      render_logo
+      render_logo,
+      render_logo_icon
     ]
-
-    if mobile_logo_present? || !custom_logo?
-      items << render_logo_icon
-    end
-
-    items
   end
 
   def render_top_menu_center

@@ -45,7 +45,7 @@ RSpec.describe CustomStyle do
           .to eq(custom_style.logo_light_high_contrast)
       end
 
-      it "falls back to the light logo in light high contrast mode" do
+      it "falls back to the light logo when no light high contrast logo is uploaded" do
         custom_style = build(:custom_style_with_logo)
 
         expect(custom_style.logo_for(color_mode: :light, high_contrast: true)).to eq(custom_style.logo)
@@ -63,7 +63,7 @@ RSpec.describe CustomStyle do
         expect(custom_style.logo_for(color_mode: :dark, high_contrast: true)).to eq(custom_style.logo_dark)
       end
 
-      it "falls back to the light logo in dark mode" do
+      it "falls back to the light logo when no dark logo is uploaded" do
         custom_style = build(:custom_style_with_logo)
 
         expect(custom_style.logo_for(color_mode: :dark)).to eq(custom_style.logo)
@@ -78,13 +78,20 @@ RSpec.describe CustomStyle do
           .to eq(custom_style.logo_mobile_light_high_contrast)
       end
 
+      it "falls back to the mobile light logo when no mobile light high contrast logo is uploaded" do
+        custom_style = build(:custom_style_with_logo_mobile)
+
+        expect(custom_style.logo_for(color_mode: :light, high_contrast: true, mobile: true))
+          .to eq(custom_style.logo_mobile)
+      end
+
       it "returns the mobile dark logo in dark mode" do
         custom_style = build(:custom_style_with_logo_mobile_dark)
 
         expect(custom_style.logo_for(color_mode: :dark, mobile: true)).to eq(custom_style.logo_mobile_dark)
       end
 
-      it "falls back to the mobile light logo" do
+      it "falls back to the mobile light logo when no mobile dark logo is uploaded" do
         custom_style = build(:custom_style_with_logo_mobile)
 
         expect(custom_style.logo_for(color_mode: :dark, mobile: true)).to eq(custom_style.logo_mobile)

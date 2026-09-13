@@ -126,44 +126,6 @@ RSpec.describe CustomStylesHelper do
     it_behaves_like "apply when ee present"
   end
 
-  describe ".custom_logo?" do
-    subject { helper.custom_logo? }
-
-    context "with only a dark desktop logo" do
-      let(:current_theme) { build(:custom_style_with_logo_dark) }
-
-      it { is_expected.to be false }
-    end
-
-    context "with a light desktop logo" do
-      let(:current_theme) { build(:custom_style_with_logo) }
-
-      it { is_expected.to be true }
-    end
-
-    context "without a desktop logo" do
-      let(:current_theme) { build_stubbed(:custom_style) }
-
-      it { is_expected.to be false }
-    end
-  end
-
-  describe ".desktop_logo_present?" do
-    subject { helper.desktop_logo_present? }
-
-    context "with only a dark desktop logo" do
-      let(:current_theme) { build(:custom_style_with_logo_dark) }
-
-      it { is_expected.to be true }
-    end
-
-    context "without a desktop logo" do
-      let(:current_theme) { build_stubbed(:custom_style) }
-
-      it { is_expected.to be false }
-    end
-  end
-
   describe ".mobile_logo_present?" do
     subject { helper.mobile_logo_present? }
 
@@ -202,6 +164,97 @@ RSpec.describe CustomStylesHelper do
         )
 
         expect(logo_urls.dig(:mobile, :white)).to eq(path)
+      end
+
+      it "uses it for every desktop mode when no desktop logo is uploaded" do
+        path = custom_style_logo_path(
+          digest: current_theme.digest,
+          filename: current_theme.logo_mobile_identifier,
+          field: :logo_mobile
+        )
+
+        expect(logo_urls[:desktop]).to eq(light: path, light_high_contrast: path, dark: path)
+      end
+    end
+
+    context "with only a custom mobile high-contrast logo", with_ee: %i[define_custom_style] do
+      let(:current_theme) { create(:custom_style_with_logo_mobile_light_high_contrast) }
+
+      it "uses it for desktop high contrast and keeps the other desktop defaults" do
+        path = custom_style_logo_path(
+          digest: current_theme.digest,
+          filename: current_theme.logo_mobile_light_high_contrast_identifier,
+          field: :logo_mobile_light_high_contrast
+        )
+
+        expect(logo_urls[:desktop]).to eq(
+          light: helper.asset_path("logo_openproject_white_big.png"),
+          light_high_contrast: path,
+          dark: helper.asset_path("logo_openproject_white_big.png")
+        )
+      end
+    end
+
+    context "with only a custom mobile dark logo", with_ee: %i[define_custom_style] do
+      let(:current_theme) { create(:custom_style_with_logo_mobile_dark) }
+
+      it "uses it for desktop dark and keeps the other desktop defaults" do
+        path = custom_style_logo_path(
+          digest: current_theme.digest,
+          filename: current_theme.logo_mobile_dark_identifier,
+          field: :logo_mobile_dark
+        )
+
+        expect(logo_urls[:desktop]).to eq(
+          light: helper.asset_path("logo_openproject_white_big.png"),
+          light_high_contrast: helper.asset_path("logo_openproject.png"),
+          dark: path
+        )
+      end
+    end
+
+    context "with only a custom dark logo", with_ee: %i[define_custom_style] do
+      let(:current_theme) { create(:custom_style_with_logo_dark) }
+
+      it "uses the custom dark URL and keeps the default light URL" do
+        path = custom_style_logo_path(
+          digest: current_theme.digest,
+          filename: current_theme.logo_dark_identifier,
+          field: :logo_dark
+        )
+
+        expect(logo_urls.dig(:desktop, :dark)).to eq(path)
+        expect(logo_urls.dig(:desktop, :light)).to eq(helper.asset_path("logo_openproject_white_big.png"))
+      end
+    end
+
+    context "with a theme logo and a custom dark logo", with_ee: %i[define_custom_style] do
+      let(:current_theme) { create(:custom_style_with_logo_dark, theme_logo: "icon_logo.svg") }
+
+      it "prefers the custom dark logo and keeps the theme logo for light mode" do
+        path = custom_style_logo_path(
+          digest: current_theme.digest,
+          filename: current_theme.logo_dark_identifier,
+          field: :logo_dark
+        )
+
+        expect(logo_urls[:desktop]).to eq(
+          light: helper.asset_path(current_theme.theme_logo),
+          light_high_contrast: helper.asset_path("logo_openproject.png"),
+          dark: path
+        )
+      end
+    end
+
+    context "with a theme logo and Russian locale", with_ee: %i[define_custom_style] do
+      let(:current_theme) { create(:custom_style, theme_logo: "logo_openproject.png") }
+
+      it "substitutes the Russian variant for the theme logo" do
+        I18n.with_locale(:ru) do
+          expect(logo_urls.dig(:desktop, :light)).to eq(helper.asset_path("logo-black-bg-ua.png"))
+          expect(logo_urls.dig(:desktop, :dark)).to eq(helper.asset_path("logo-black-bg-ua.png"))
+          expect(logo_urls.dig(:desktop, :light_high_contrast)).to eq(helper.asset_path("logo-black-bg-ua.png"))
+        end
       end
     end
 

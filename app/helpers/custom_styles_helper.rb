@@ -115,25 +115,11 @@ module CustomStylesHelper
       (EnterpriseToken.allows_to?(:define_custom_style) || skip_ee_check)
   end
 
-  def custom_logo?
-    style = CustomStyle.current
-    return false unless style
-
-    style.logo.present? || style.theme_logo.present?
-  end
-
-  def desktop_logo_present?
-    style = CustomStyle.current
-    return false unless style
-
-    custom_logo_fields_present?(style, :desktop) || style.theme_logo.present?
-  end
-
   def mobile_logo_present?
     style = CustomStyle.current
     return false unless style
 
-    custom_logo_fields_present?(style, :mobile)
+    custom_logo_fields_present?(style, mobile: true)
   end
 
   def custom_logo_url(custom_style, attachment)
@@ -170,24 +156,12 @@ module CustomStylesHelper
     logo_urls_with_custom_style(CustomStyle.current, defaults)
   end
 
-  def custom_logo_uploads(custom_style, logo_type: :desktop)
+  def custom_logo_uploads(custom_style, mobile: false)
+    logo_type = mobile ? :mobile : :desktop
+
     CustomStyle::LOGO_FIELDS.fetch(logo_type).map do |mode, field|
       custom_logo_upload(custom_style, mode:, field:)
     end
-  end
-
-  def show_waffle_icon?
-    # Both logos → show icon (mobile logo will be applied by CSS)
-    return true if desktop_logo_present? && mobile_logo_present?
-
-    # Only mobile → show icon
-    return true if mobile_logo_present?
-
-    # Only desktop → hide icon on mobile
-    return false if desktop_logo_present?
-
-    # No logos → show fallback icon
-    true
   end
 
   # The default favicon and touch icons are both the same for normal OP and BIM.
@@ -243,10 +217,9 @@ module CustomStylesHelper
 
   def logo_urls_with_custom_style(custom_style, defaults)
     desktop, mobile = custom_logo_urls(custom_style).fetch_values(:desktop, :mobile)
-    theme_logo = asset_path(custom_style.theme_logo) if custom_style.theme_logo.present?
+    theme_logo = locale_aware_theme_logo(custom_style)
 
-    # Preserve the legacy fallback to the mobile logo when no desktop logo is configured.
-    desktop = mobile unless desktop.values.any?
+    desktop = desktop_fallback_to_mobile(desktop, mobile)
 
     {
       desktop: defaults[:desktop].merge({ light: theme_logo, dark: theme_logo }.compact).merge(desktop.compact),
@@ -254,7 +227,24 @@ module CustomStylesHelper
     }
   end
 
-  def custom_logo_fields_present?(custom_style, logo_type)
+  def desktop_fallback_to_mobile(desktop, mobile)
+    return desktop if desktop.values.any?
+
+    mobile.slice(*desktop.keys)
+  end
+
+  def locale_aware_theme_logo(custom_style)
+    return if custom_style.theme_logo.blank?
+
+    logo = custom_style.theme_logo
+    logo = "logo-black-bg-ua.png" if I18n.locale == :ru && logo == "logo_openproject.png"
+
+    asset_path(logo)
+  end
+
+  def custom_logo_fields_present?(custom_style, mobile: false)
+    logo_type = mobile ? :mobile : :desktop
+
     CustomStyle::LOGO_FIELDS.fetch(logo_type).values.any? do |field|
       custom_style.public_send(field).present?
     end
