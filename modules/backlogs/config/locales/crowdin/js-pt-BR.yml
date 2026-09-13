@@ -24,17 +24,17 @@ pt-BR:
   js:
     backlogs:
       selection:
-        card_state: Selected
-        cleared: Selection cleared.
-        not_selectable: Selection unchanged. This work package takes no part in this list's ordering.
-        range_blocked: Selection unchanged. That range contains a work package that takes no part in this list's ordering.
+        card_state: Selecionado
+        cleared: Seleção limpa.
+        not_selectable: Seleção inalterada. Este pacote de trabalho não influencia a ordem desta lista.
+        range_blocked: Seleção inalterada. Esse intervalo contém um pacote de trabalho que não influencia a ordenação desta lista.
         range_restarted:
-          one: Could not extend the range. 1 work package selected.
-          other: Could not extend the range. %{count} work packages selected.
-        range_unavailable: Selection unchanged. Expand this list to select that range.
+          one: Não foi possível ampliar o escopo. 1 pacote de trabalho selecionado.
+          other: Não foi possível ampliar o intervalo. %{count} pacotes de trabalho selecionados.
+        range_unavailable: Seleção inalterada. Expanda esta lista para selecionar esse intervalo.
         selected:
-          one: 1 work package selected.
-          other: "%{count} work packages selected."
+          one: 1 pacote de trabalho selecionado.
+          other: "%{count} pacotes de trabalho selecionados."
     burndown:
       day: Dia
       points: Pontos
