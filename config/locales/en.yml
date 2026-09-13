@@ -6857,6 +6857,13 @@ en:
       type_label: "Type"
       variant_label: "Variant"
     milestone_indicator: "Milestone"
+    patterns:
+      formats:
+        hierarchy_default: Default (label and short)
+        hierarchy_label: Label only
+        hierarchy_short: Short only
+        weighted_item_list_default: Default (label and weight)
+        weighted_item_list_weight: Weight only
 
   unsupported_browser:
     close_warning: "Ignore this warning."
