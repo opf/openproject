@@ -44,9 +44,7 @@ See COPYRIGHT and LICENSE files for more details.
         <div class="op-logo">
           <%= link_to(I18n.t("label_home"), configurable_home_url, class: "op-logo--link") %>
         </div>
-        <% if mobile_logo_present? || !custom_logo? %>
-          <%= link_to(I18n.t("label_home"), configurable_home_url, class: ["op-logo--icon", "op-logo--link"].compact) %>
-        <% end %>
+        <%= link_to(I18n.t("label_home"), configurable_home_url, class: "op-logo--icon op-logo--link op-logo--icon_white") %>
       </div>
     </header>
     <main id="content-wrapper">

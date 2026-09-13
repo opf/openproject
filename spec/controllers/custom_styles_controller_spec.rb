@@ -212,7 +212,8 @@ RSpec.describe CustomStylesController do
         let(:custom_style) { build(:custom_style_with_logo) }
         let(:field) { "logo" }
 
-        it "sends a file" do
+        it "sends the desktop light logo file" do
+          expect(controller).to have_received(:send_file).with(custom_style.logo.local_file.path)
           expect(response).to have_http_status(:ok)
         end
       end
@@ -221,7 +222,8 @@ RSpec.describe CustomStylesController do
         let(:custom_style) { build(:custom_style_with_logo_mobile) }
         let(:field) { "logo_mobile" }
 
-        it "sends a file" do
+        it "sends the mobile light logo file" do
+          expect(controller).to have_received(:send_file).with(custom_style.logo_mobile.local_file.path)
           expect(response).to have_http_status(:ok)
         end
       end
@@ -230,7 +232,8 @@ RSpec.describe CustomStylesController do
         let(:custom_style) { build(:custom_style_with_logo_dark) }
         let(:field) { "logo_dark" }
 
-        it "sends a file" do
+        it "sends the dark logo file" do
+          expect(controller).to have_received(:send_file).with(custom_style.logo_dark.local_file.path)
           expect(response).to have_http_status(:ok)
         end
       end
