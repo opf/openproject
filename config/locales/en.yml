@@ -7233,6 +7233,14 @@ en:
       requires_description: "Marks the related work package as a requirement to this one"
 
   work_packages:
+    bulk_import:
+      columns: "Required column: Subject. Optional columns: Type, Description, Status, Priority, Assignee, Start date, Due date, Estimated hours, % Complete."
+      description: "Upload a CSV or XLSX file. The import is validated as a whole and uses the same permissions and defaults as manual creation."
+      download_sample: "Download sample file"
+      file_label: "CSV or XLSX file"
+      submit: "Upload work packages"
+      success: "%{count} work packages were created."
+      title: "Import work packages"
     bulk:
       copy_failed: "The work packages could not be copied."
       could_not_be_deleted: "The following work packages could not be deleted:"

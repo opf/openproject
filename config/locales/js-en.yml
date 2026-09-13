@@ -993,6 +993,7 @@ en:
         duplicate: "Bulk duplicate"
         edit: "Bulk edit"
         move: "Bulk change of project"
+      bulk_import: "Import work packages"
       button_clear: "Clear"
       comment_added: "The comment was successfully added."
       comment_send_failed: "An error has occurred. Could not submit the comment."

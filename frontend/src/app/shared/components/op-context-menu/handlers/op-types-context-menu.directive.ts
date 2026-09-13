@@ -36,6 +36,7 @@ import { Highlighting } from 'core-app/features/work-packages/components/wp-fast
 import { TypeResource } from 'core-app/features/hal/resources/type-resource';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { extendSearchParams } from 'core-stimulus/helpers/url-helpers';
 import { BrowserDetector } from 'core-app/core/browser/browser-detector.service';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
@@ -50,6 +51,7 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger implements
   readonly $state = inject(StateService);
   readonly pathHelper = inject(PathHelperService);
   readonly currentProject = inject(CurrentProjectService);
+  readonly I18n = inject(I18nService);
   readonly browser = inject(BrowserDetector);
   readonly urlParams = inject(UrlParamsService);
 
@@ -111,6 +113,17 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger implements
       class: Highlighting.typeClass(type.id!),
       onClick: (event:MouseEvent) => this.handleClick(event, type),
     }));
+
+    this.items.push(
+      { divider: true },
+      {
+        disabled: false,
+        linkText: this.I18n.t('js.work_packages.bulk_import'),
+        href: `${this.pathHelper.workPackagesPath(this.projectIdentifier ?? null)}/bulk_import`,
+        ariaLabel: this.I18n.t('js.work_packages.bulk_import'),
+        onClick: () => false,
+      },
+    );
   }
 
   /**

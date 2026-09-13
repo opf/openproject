@@ -1,0 +1,29 @@
+<main class="op-outer-wrapper">
+  <div class="op-spotlight op-spotlight--narrow">
+    <h1><%= I18n.t("work_packages.bulk_import.title") %></h1>
+
+    <p><%= I18n.t("work_packages.bulk_import.description") %></p>
+
+    <% if @errors.present? %>
+      <div class="flash error" role="alert">
+        <% @errors.each do |error| %>
+          <p><%= error %></p>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%= form_with url: bulk_import_project_work_packages_path(@project), multipart: true, local: true do |form| %>
+      <p>
+        <%= form.label :file, I18n.t("work_packages.bulk_import.file_label") %>
+        <%= form.file_field :file, accept: ".csv,.xlsx", required: true %>
+      </p>
+      <p><%= I18n.t("work_packages.bulk_import.columns") %></p>
+      <%= form.submit I18n.t("work_packages.bulk_import.submit"), class: "button -primary" %>
+    <% end %>
+
+    <p>
+      <%= link_to I18n.t("work_packages.bulk_import.download_sample"), bulk_import_sample_project_work_packages_path(@project), class: "button" %>
+      <%= link_to I18n.t(:button_cancel), project_work_packages_path(@project), class: "button" %>
+    </p>
+  </div>
+</main>
