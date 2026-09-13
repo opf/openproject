@@ -26,4 +26,24 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-export { isApplePlatform } from 'core-common/platform';
+interface NavigatorUAData {
+  platform?:string;
+}
+
+/**
+ * Whether the browser is running on an Apple platform.
+ *
+ * Matters for modifier keys: Ctrl-click is the secondary-click gesture on
+ * macOS, where Cmd is the multi-select modifier instead. Treating Ctrl as
+ * multi-select there fights the contextual menu.
+ *
+ * `navigator.platform` is deprecated but still the only universally
+ * available signal, so `userAgentData` is preferred where a browser exposes
+ * it.
+ */
+export function isApplePlatform():boolean {
+  const uaData = (navigator as Navigator & { userAgentData?:NavigatorUAData }).userAgentData;
+  const platform = uaData?.platform ?? navigator.platform;
+
+  return /mac|iphone|ipad|ipod/i.test(platform);
+}

@@ -43,6 +43,7 @@ import {
 } from './selection';
 import { closestInteractiveElement } from 'core-common/interactive-element-helper';
 import { isApplePlatform } from 'core-stimulus/helpers/platform';
+import { isSelectAllShortcut } from 'core-common/selection-shortcuts';
 
 /**
  * What the orchestrator needs from whatever hosts it.
@@ -62,19 +63,6 @@ export interface SelectionHost {
 /**
  * Batch selection: gestures in, model and presentation out.
  */
-// Read the way browsers bind their own select-all: by the key's meaning on
-// Latin layouts (AZERTY's Ctrl+A sits on physical KeyQ), by the physical key
-// where the layout prints another letter (Cyrillic ф, Greek α on KeyA). A
-// dead key, composition or an AltGr chord is input, not a shortcut.
-function isSelectAllKey(event:KeyboardEvent):boolean {
-  if (event.isComposing || event.altKey || event.getModifierState('AltGraph')) {
-    return false;
-  }
-
-  return event.key === 'a' || event.key === 'A'
-    || (event.code === 'KeyA' && /^\p{L}$/u.test(event.key) && !/^\p{Script=Latin}$/u.test(event.key));
-}
-
 // Every root listens for Escape at the document, so the first to clear
 // would otherwise look to the next like an overlay that consumed the key.
 const escapesClearedBySelection = new WeakSet<Event>();
@@ -219,7 +207,7 @@ export class SelectionOrchestrator {
       default:
         // Enter belongs to the card's own activation handler; Escape is
         // handled at the document.
-        if (isSelectAllKey(event)) {
+        if (isSelectAllShortcut(event, isApplePlatform())) {
           this.handleSelectAll(event, candidate);
         }
         break;

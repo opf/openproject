@@ -64,6 +64,7 @@ import type {
   SortableListsDropEvent,
   SortableListsRemovedEvent,
 } from 'core-app/shared/directives/sortable-lists/sortable-lists.directive';
+import { registerWorkPackageSelectAll } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/wp-selection-keyboard';
 
 export type CardViewOrientation = 'horizontal'|'vertical';
 
@@ -151,6 +152,8 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
 
   private static nextListId = 0;
 
+  private unregisterSelectAll:(() => void)|undefined;
+
   /** Default list id when the caller (e.g. wp-grid) does not pass one via `listId` */
   private readonly internalListId = `wp-card-view-list-${WorkPackageCardViewComponent.nextListId += 1}`;
 
@@ -223,11 +226,22 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
     } else {
       new registry(this.injector).attachTo(this);
     }
-    this.wpTableSelection.registerSelectAllListener(() => this.cardView.renderedCards);
+    this.unregisterSelectAll = registerWorkPackageSelectAll({
+      root: this.container.nativeElement,
+      focusSelector: '.op-wp-single-card',
+      occurrenceSelector: 'wp-single-card[data-work-package-id][data-class-identifier]',
+      rendered: () => this.cardView.renderedCards,
+      selectAll: (rows, anchor) => {
+        this.wpTableSelection.selectAll(rows, anchor);
+        this.wpTableSelection.opContextMenu.close();
+      },
+    });
     this.wpTableSelection.registerDeselectAllListener();
   }
 
   ngOnDestroy():void {
+    this.unregisterSelectAll?.();
+    this.unregisterSelectAll = undefined;
     super.ngOnDestroy();
     this.cardDragDrop.destroy();
   }
