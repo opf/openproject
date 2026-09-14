@@ -116,6 +116,17 @@ RSpec.describe "Tabs navigation and content switching on the admin/design page" 
         expect(DesignColor.find_by(variable: "accent-color").hexcode)
           .to eq(OpenProject::CustomStyles::ColorThemes::ACCENT_COLOR)
       end
+
+      it "restores the saved theme when the warning is canceled" do
+        within "#confirm-theme-dialog[open]" do
+          click_on I18n.t(:button_cancel)
+        end
+
+        expect(page).to have_select("theme", selected: I18n.t("admin.custom_styles.color_theme_custom"))
+
+        select("OpenProject Gray", from: "theme")
+        expect(page).to have_css("#confirm-theme-dialog[open]")
+      end
     end
 
     it "changes accent color and redirects to interface tab", :js do
