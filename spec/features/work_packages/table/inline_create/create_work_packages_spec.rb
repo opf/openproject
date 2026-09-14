@@ -113,6 +113,7 @@ RSpec.describe "inline create work package", :js, :selenium do
         wp_table.click_inline_create
 
         callback.call
+        wp_table.expect_toast(type: :error, message: "Subject can't be blank.") unless wp_table.project
 
         type_field = wp_table.edit_field(nil, :type)
         type_field.activate!
