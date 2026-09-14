@@ -27,10 +27,20 @@
 //++
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { GroupObject } from 'core-app/features/hal/resources/wp-collection-resource';
+import { groupIdentifier } from '../builders/modes/grouped/grouped-rows-helpers';
 
 export interface WorkPackageFixture {
   id:string;
   subject?:string;
+  /** Further resource attributes, e.g. a linked `status` the table groups by. */
+  attributes?:Record<string, unknown>;
+}
+
+export interface GroupFixture {
+  value:string;
+  href:string;
+  count:number;
 }
 
 export function buildWorkPackage(fixture:WorkPackageFixture):WorkPackageResource {
@@ -38,6 +48,7 @@ export function buildWorkPackage(fixture:WorkPackageFixture):WorkPackageResource
   const href = `/api/v3/work_packages/${fixture.id}`;
 
   return {
+    ...fixture.attributes,
     id: fixture.id,
     subject,
     href,
@@ -46,4 +57,22 @@ export function buildWorkPackage(fixture:WorkPackageFixture):WorkPackageResource
     $source: { id: fixture.id, subject, _links: { self: { href } } },
     subjectWithId: () => `#${fixture.id} ${subject}`,
   } as unknown as WorkPackageResource;
+}
+
+export function buildGroup(fixture:GroupFixture, groupBy:string, index:number):GroupObject {
+  const group = {
+    value: fixture.value,
+    count: fixture.count,
+    collapsed: false,
+    index,
+    identifier: '',
+    sums: null as unknown as GroupObject['sums'],
+    href: [{ href: fixture.href }],
+    _links: {
+      valueLink: [{ href: fixture.href }],
+      groupBy: { href: `/api/v3/queries/group_bys/${groupBy}` },
+    },
+  };
+
+  return { ...group, identifier: groupIdentifier(group) };
 }
