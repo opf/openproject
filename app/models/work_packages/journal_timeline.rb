@@ -84,28 +84,19 @@ class WorkPackages::JournalTimeline
       .select("ticks.tick", "#{Entry.table_name}.*")
   end
 
-  # WorkPackage.visible cannot be used here: its semi-join matches on work package id, so with
-  # one row per journal a single visible journal would whitelist the whole history. Visibility
-  # is therefore decided per row -- against the journal's own project_id, so that moving a work
-  # package between projects does not retroactively reveal or hide earlier values.
+  # Project permission is decided per row, against the journal's own project_id, so that
+  # moving a work package between projects neither reveals nor hides earlier values. A share
+  # carries no validity period and so grants the whole timeline.
+  # Using the WorkPackage.visible scope, which checks for both project based permission as well as shares
+  # would include all journals of a work package that was ever in a project the user has a membership in.
   def visible_journals
     journals = from(filtered_journals)
 
+    # The .or might be a potential performance bottleneck.
+    # Oftentimes, using a UNION is more performant. Requires measuring to know.
     journals
       .where(project_id: Project.allowed_to(user, :view_work_packages))
-      .or(journals.where(work_package_id: shared_work_package_ids))
-  end
-
-  # Work packages visible but not through project permission are exactly the shared ones.
-  # TODO: replace with a dedicated WorkPackage scope returning only share-visible work packages,
-  # rather than deriving the set by subtraction.
-  def shared_work_package_ids
-    return [] unless Member.of_any_work_package.exists?(principal: user)
-
-    WorkPackage
-      .visible(user)
-      .where.not(project_id: Project.allowed_to(user, :view_work_packages))
-      .select(:id)
+      .or(journals.where(work_package_id: WorkPackage.allowed_to_via_share_only(user, :view_work_packages)))
   end
 
   def filtered_journals

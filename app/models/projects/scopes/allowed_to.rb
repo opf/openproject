@@ -51,14 +51,14 @@ module Projects::Scopes
       end
 
       # Turning this public as it is also used in WorkPackages.allowed_to.
-      def allowed_to_member_union(user, permissions, entity_types: []) # rubocop:disable Metrics/AbcSize
-        membership_selects = if entity_types.any?
+      def allowed_to_member_union(user, permissions, entity_types: [nil]) # rubocop:disable Metrics/AbcSize
+        membership_selects = if entity_types.compact.any?
                                [arel_table[:id], "members.entity_id"]
                              else
                                [arel_table[:id]]
                              end
 
-        non_member_selects = if entity_types.any?
+        non_member_selects = if entity_types.compact.any?
                                [arel_table[:id], "null AS entity_id"]
                              else
                                [arel_table[:id]]
@@ -66,6 +66,20 @@ module Projects::Scopes
 
         Arel::Nodes::UnionAll.new(allowed_to_member_relation(user, permissions, entity_types).select(*membership_selects).arel,
                                   allowed_to_non_member_relation(user, permissions).select(*non_member_selects).arel)
+      end
+
+      # Memberships granting +permissions+ to +user+, of the kinds listed in +entity_types+:
+      # nil for project-wide memberships, a class name such as "WorkPackage" for memberships
+      # on a single entity. Listing only the latter yields the shares alone.
+      #
+      # Public as it is also used in WorkPackages.shared_with.
+      def allowed_to_member_relation(user, permissions, entity_types = [nil])
+        Member
+          .where(member_conditions(user, entity_types))
+          .joins(allowed_to_member_in_active_project_join)
+          .joins(allowed_to_enabled_module_join(permissions))
+          .joins(:roles)
+          .joins(allowed_to_role_permission_join(permissions))
       end
 
       private
@@ -131,15 +145,6 @@ module Projects::Scopes
           .where(Project.arel_table[:active].eq(true))
       end
 
-      def allowed_to_member_relation(user, permissions, entity_types = [])
-        Member
-          .where(member_conditions(user, entity_types))
-          .joins(allowed_to_member_in_active_project_join)
-          .joins(allowed_to_enabled_module_join(permissions))
-          .joins(:roles)
-          .joins(allowed_to_role_permission_join(permissions))
-      end
-
       def allowed_to_enabled_module_join(permissions) # rubocop:disable Metrics/AbcSize
         project_module = permissions.filter_map(&:project_module).uniq
         enabled_module_table = EnabledModule.arel_table
@@ -186,10 +191,10 @@ module Projects::Scopes
                .join_sources
       end
 
-      def member_conditions(user, entity_types = [])
-        entity_condition = entity_types.reduce(Member.arel_table[:entity_type].eq(nil)) do |acc, entity_type|
-          acc.or(Member.arel_table[:entity_type].eq(entity_type))
-        end
+      def member_conditions(user, entity_types = [nil])
+        entity_condition = entity_types
+                             .map { Member.arel_table[:entity_type].eq(it) }
+                             .reduce(:or)
 
         Member.arel_table[:user_id].eq(user.id)
           .and(entity_condition)

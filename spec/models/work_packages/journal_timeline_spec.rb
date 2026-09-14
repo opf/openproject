@@ -177,6 +177,40 @@ RSpec.describe WorkPackages::JournalTimeline do
       end
     end
 
+    context "when a shared work package also sits in a project the user can see" do
+      shared_let(:work_package) do
+        create(:work_package,
+               project: visible_project,
+               journals: {
+                 sunday => { story_points: 7, project_id: hidden_project.id },
+                 tuesday - 1.hour => { story_points: 7, project_id: visible_project.id }
+               })
+      end
+
+      before do
+        create(:work_package_member, entity: work_package, user:, roles: [create(:view_work_package_role)])
+      end
+
+      it "still counts the ticks from while it was out of sight" do
+        expect(relation.group(:tick).sum(:story_points))
+          .to eq(monday => 7, tuesday => 7, wednesday => 7)
+      end
+    end
+
+    context "when the work package is shared with a locked user" do
+      shared_let(:work_package) do
+        create(:work_package, project: hidden_project, journals: { sunday => { story_points: 7 } })
+      end
+
+      let(:user) { create(:user, status: :locked) }
+
+      before do
+        create(:work_package_member, entity: work_package, user:, roles: [create(:view_work_package_role)])
+      end
+
+      it { is_expected.to be_empty }
+    end
+
     context "with an admin" do
       shared_let(:work_package) do
         create(:work_package, project: hidden_project, journals: { sunday => { story_points: 7 } })

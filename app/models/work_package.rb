@@ -129,6 +129,7 @@ class WorkPackage < ApplicationRecord
 
   scopes :covering_dates_or_days_of_week,
          :allowed_to,
+         :allowed_to_via_share_only,
          :for_scheduling,
          :include_derived_dates,
          :include_spent_time,
