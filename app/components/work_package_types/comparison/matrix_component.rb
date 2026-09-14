@@ -29,38 +29,41 @@
 #++
 
 module WorkPackageTypes
-  module Patterns
-    Collection = Data.define(:patterns) do
-      extend Dry::Monads[:result]
+  module Comparison
+    class MatrixComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
 
-      private_class_method :new
+      LABEL_WIDTH = 200
+      COLUMN_WIDTH = 240
 
-      def self.empty
-        new(patterns: {})
+      def initialize(comparison:)
+        super()
+
+        @comparison = comparison
       end
 
-      def self.build(patterns:, contract: CollectionContract.new)
-        contract.call(patterns).to_monad.fmap { |success| new(success.to_h) }
-      rescue ArgumentError => e
-        Failure(e)
+      private
+
+      attr_reader :comparison
+
+      delegate :columns, :sections, :type, to: :comparison
+
+      def grid_style
+        "grid-template-columns: #{LABEL_WIDTH}px repeat(#{columns.size}, minmax(#{COLUMN_WIDTH}px, 1fr))"
       end
 
-      def initialize(patterns:)
-        transformed = patterns.transform_values { Pattern.new(**it) }.freeze
+      def section_label(section) = t("types.comparison.sections.#{section}")
 
-        super(patterns: transformed)
-      end
+      def row_label(row) = t(row.label_key)
 
-      def subject
-        patterns[:subject]
-      end
+      def row_id(row) = "comparison-#{row.section}-#{row.key}"
 
-      def all_enabled
-        patterns.select { |_, pattern| pattern.enabled? }
-      end
+      def duplicates_of(profile) = comparison.duplicates_of(profile)
 
-      def to_h
-        patterns.stringify_keys.transform_values(&:to_h)
+      def same_as_type?(profile) = comparison.same_as_type?(profile)
+
+      def row_classes(row)
+        class_names("type-variant-comparison--label", "type-variant-comparison--label_indented" => row.indented?)
       end
     end
   end

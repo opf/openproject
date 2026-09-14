@@ -29,39 +29,33 @@
 #++
 
 module WorkPackageTypes
-  module Patterns
-    Collection = Data.define(:patterns) do
-      extend Dry::Monads[:result]
+  class FormFieldSet
+    Field = Data.define(:key, :label, :kind)
 
-      private_class_method :new
+    def self.for(variant) = new.for(variant)
 
-      def self.empty
-        new(patterns: {})
+    def for(variant)
+      variant.attribute_groups.flat_map { group_fields(it) }
+    end
+
+    def field_for(key)
+      kind = ::CustomField.custom_field_attribute?(key) ? :custom_field : :builtin
+
+      Field.new(key:, label: attribute_labels[key], kind:)
+    end
+
+    private
+
+    def group_fields(group)
+      if group.is_a?(::Type::QueryGroup)
+        [Field.new(key: "table:#{group.translated_key}", label: group.translated_key, kind: :table)]
+      else
+        group.members.map { field_for(it) }
       end
+    end
 
-      def self.build(patterns:, contract: CollectionContract.new)
-        contract.call(patterns).to_monad.fmap { |success| new(success.to_h) }
-      rescue ArgumentError => e
-        Failure(e)
-      end
-
-      def initialize(patterns:)
-        transformed = patterns.transform_values { Pattern.new(**it) }.freeze
-
-        super(patterns: transformed)
-      end
-
-      def subject
-        patterns[:subject]
-      end
-
-      def all_enabled
-        patterns.select { |_, pattern| pattern.enabled? }
-      end
-
-      def to_h
-        patterns.stringify_keys.transform_values(&:to_h)
-      end
+    def attribute_labels
+      @attribute_labels ||= ::TypeVariant.translated_work_package_form_attributes(merge_date: true)
     end
   end
 end
