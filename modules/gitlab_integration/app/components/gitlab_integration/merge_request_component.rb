@@ -29,33 +29,34 @@
 #++
 
 module GitlabIntegration
-  class CollapsibleItemsComponent < ApplicationComponent
+  class MergeRequestComponent < ApplicationComponent
     include ApplicationHelper
     include OpPrimer::ComponentHelpers
 
-    attr_reader :heading, :container
-
-    alias_method :items, :model
-
-    def initialize(model = nil, container_id:, heading:, work_package:, **)
-      @container_id = container_id
-      @heading = heading
-      @work_package = work_package
-
-      super(model, **)
-    end
+    alias_method :merge_request, :model
 
     private
 
-    def component_for(item)
-      case item
-      when GitlabIssue
-        IssueComponent.new(item)
-      when GitlabMergeRequest
-        MergeRequestComponent.new(item)
+    def state_scheme
+      case merge_request.state.to_sym
+      when :opened
+        :success
+      when :closed
+        :danger
+      when :merged
+        :done
       else
-        raise ArgumentError, "Items of type #{item.class} are not yet supported by #{self.class}"
+        # TODO: complete list
+        raise ArgumentError, "Unsupported merge request state #{state}"
       end
+    end
+
+    def state_label
+      t(".states.#{merge_request.state}")
+    end
+
+    def ensure_color(color)
+      color # TODO: sanitize, preventing XSS
     end
   end
 end

@@ -53,7 +53,7 @@ See COPYRIGHT and LICENSE files for more details.
       container.with_row(mb: 3) do
         render(
           ::GitlabIntegration::CollapsibleItemsComponent.new(
-            work_package.gitlab_issues.pluck(:title),
+            work_package.gitlab_issues,
             container_id: :issues,
             heading: t(".issues"),
             work_package:
@@ -64,7 +64,7 @@ See COPYRIGHT and LICENSE files for more details.
       container.with_row(mb: 3) do
         render(
           ::GitlabIntegration::CollapsibleItemsComponent.new(
-            work_package.gitlab_merge_requests.pluck(:title),
+            work_package.gitlab_merge_requests,
             container_id: :merge_requests,
             heading: t(".merge_requests"),
             work_package:

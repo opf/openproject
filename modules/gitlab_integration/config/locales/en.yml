@@ -82,6 +82,13 @@ en:
     merge_request_closed_comment: >
       **MR Closed:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url})
       has been closed by [%{gitlab_user}](%{gitlab_user_url}).
+    merge_request_component:
+      created_by: Created by %{name}.
+      states:
+        closed: Closed
+        merged: Merged
+        opened: Open
+      updated_at: Updated on %{date_time}.
     merge_request_merged_comment: >
       **MR Merged:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url})
       has been merged by [%{gitlab_user}](%{gitlab_user_url}).
