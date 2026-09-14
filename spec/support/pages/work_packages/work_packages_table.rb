@@ -225,9 +225,16 @@ module Pages
     # Opens the split view for the specified work package.
     #
     # @param work_package [WorkPackage] The work package object.
-    # @return [Pages::SplitWorkPackage] The split work package page object.
-    def open_split_view(work_package)
-      split_page = SplitWorkPackage.new(work_package, project)
+    # @param primerized [Boolean] Whether to return a Pages::PrimerizedSplitWorkPackage
+    #   (the split view now rendered for work packages/gantt, the default) instead of
+    #   the legacy Pages::SplitWorkPackage.
+    # @return [Pages::SplitWorkPackage, Pages::PrimerizedSplitWorkPackage] The split work package page object.
+    def open_split_view(work_package, primerized: true)
+      split_page = if primerized
+                     PrimerizedSplitWorkPackage.new(work_package, project)
+                   else
+                     SplitWorkPackage.new(work_package, project)
+                   end
 
       # Hover row to show split screen button
       row_element = row(work_package)

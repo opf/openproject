@@ -49,6 +49,29 @@ module WorkPackages
         User.current
       end
 
+      # The dialogs always show the full cascade, the user's actual choice is applied later by
+      # WorkPackages::DeleteService.
+      def include_descendants?
+        true
+      end
+
+      def render_descendants_choice
+        render(Primer::Alpha::RadioButtonGroup.new(
+                 name: "delete_descendants",
+                 label: t_dialog("descendants_choice.heading"),
+                 visually_hide_label: true,
+                 mb: 3
+               )) do |group|
+          group.radio_button(value: "false",
+                             label: t_dialog("descendants_choice.self_only_label"),
+                             caption: t_dialog("descendants_choice.self_only_caption"))
+          group.radio_button(value: "true",
+                             checked: true,
+                             label: t_dialog("descendants_choice.with_descendants_label"),
+                             caption: t_dialog("descendants_choice.with_descendants_caption"))
+        end
+      end
+
       def variant
         @variant ||=
           if !has_descendants? then :none

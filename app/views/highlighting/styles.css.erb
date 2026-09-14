@@ -1,24 +1,9 @@
-<%# Highlightable resources %>
-<% resources_scope_color_css("status", ::Status) %>
-<% resources_scope_color_css("priority", ::IssuePriority) %>
-<% resources_scope_color_css("type", ::Type, inline_foreground: true) %>
-
-<%# Color coded icons %>
-<% project_phase_color_css %>
-
-<% Meetings::Statuses::AVAILABLE.each do |meeting_status| %>
-  <% resource_color_css("meeting_status", meeting_status, inline_foreground: true) %>
-<% end %>
-
-<% Projects::Statuses::AVAILABLE.each do |project_status| %>
-  <% resource_color_css("project_status", project_status, inline_foreground: true) %>
-<% end %>
-
-<% color_css %>
-
-<%# usage classes %>
-.__hl_border_top { border-top: 4px solid hsl(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) - 15) * 1%)) !important; }
-
-<%# Overdue tasks %>
-.__hl_date_due_today { color: var(--fgColor-severe) !important; }
-.__hl_date_overdue { color: var(--fgColor-danger) !important; font-weight: var(--base-text-weight-bold); }
+<%# Color variables per highlightable resource. The rules consuming them live in the %>
+<%# "Highlighting colors" section of frontend/src/global_styles/layout/_colors.sass %>
+<%= resource_color_css("status", ::Status.includes(:color)) %>
+<%= resource_color_css("priority", ::IssuePriority.includes(:color)) %>
+<%= resource_color_css("type", ::Type.includes(:color)) %>
+<%= resource_color_css("project_phase_definition", ::Project::PhaseDefinition.includes(:color)) %>
+<%= resource_color_css("meeting_status", Meetings::Statuses::AVAILABLE) %>
+<%= resource_color_css("project_status", Projects::Statuses::AVAILABLE) %>
+<%= resource_color_css("color", ::Color.all) %>

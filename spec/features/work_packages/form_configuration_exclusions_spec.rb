@@ -30,8 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Work package show with a linked form configuration", :js,
-               with_flag: { type_variants: true } do
+RSpec.describe "Work package show with a linked form configuration", :js do
   shared_let(:admin) { create(:admin) }
 
   shared_let(:kept_field) { create(:issue_custom_field, :integer, name: "KeptNumber", is_for_all: true) }
@@ -241,28 +240,6 @@ RSpec.describe "Work package show with a linked form configuration", :js,
 
         expect_no_section("Related")
       end
-    end
-  end
-
-  context "with the flag off", with_flag: { type_variants: false } do
-    before do
-      leaf.attribute_groups = [["Own", [kept_field.attribute_name]]]
-      leaf.custom_field_ids = [kept_field.id]
-      leaf.save!
-
-      link(leaf, source: owner, excluded: [kept_field.attribute_name])
-    end
-
-    it "still resolves the link and its exclusions" do
-      wp_page.visit!
-      wp_page.ensure_page_loaded
-
-      wp_page.expect_group("Numbers") do
-        expect_field(excluded_field, "2")
-      end
-
-      expect_no_section("Own")
-      expect_no_field(kept_field)
     end
   end
 end

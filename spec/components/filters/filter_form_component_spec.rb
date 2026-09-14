@@ -240,9 +240,11 @@ RSpec.describe Filters::FilterFormComponent, type: :component do
     end
   end
 
-  describe "autocomplete_append_to:" do
-    # `appendTo` arrives at the angular component as a JSON-encoded data
-    # attribute (`angular_component_tag` json-encodes its `inputs:` hash).
+  describe "dialog_id:" do
+    let!(:date_field) { create(:user_custom_field, field_format: "date") }
+
+    # The overlay targets arrive at the angular components as JSON-encoded data
+    # attributes (`angular_component_tag` json-encodes its `inputs:` hash).
     def append_to_value_in(filter_name)
       page.find(:element,
                 "data-filter-name": filter_name,
@@ -252,15 +254,30 @@ RSpec.describe Filters::FilterFormComponent, type: :component do
           .then { |v| JSON.parse(v) }
     end
 
-    it "forwards the selector into the autocomplete options of ListForm filters" do
-      render_form(query:, autocomplete_append_to: "#dialog-x")
+    def in_dialog_values_in(filter_name)
+      page.find(:element,
+                "data-filter--filters-form-target": /filterValueContainer/,
+                "data-filter-name": filter_name,
+                visible: :all)
+          .all(:element, "data-in-dialog": /.*/, visible: :all)
+          .map { |picker| JSON.parse(picker["data-in-dialog"]) }
+    end
+
+    it "forwards the dialog selector into the autocomplete options of ListForm filters" do
+      render_form(query:, dialog_id: "dialog-x")
 
       # :status is a list filter (no native autocomplete_options) and is
       # routed to ListForm.
       expect(append_to_value_in("status")).to eq("#dialog-x")
     end
 
-    it "is absent from autocomplete data when not set" do
+    it "forwards the dialog id to the date pickers of DateForm filters" do
+      render_form(query:, dialog_id: "dialog-x")
+
+      expect(in_dialog_values_in("cf_#{date_field.id}")).to eq(%w[dialog-x dialog-x])
+    end
+
+    it "is absent from autocomplete and date picker data when not set" do
       render_form
 
       expect(page).to have_element "data-filter-name": "status",
@@ -268,6 +285,7 @@ RSpec.describe Filters::FilterFormComponent, type: :component do
                                    visible: :all do |wrapper|
         expect(wrapper).to have_no_element "data-append-to": /.*/, visible: :all
       end
+      expect(in_dialog_values_in("cf_#{date_field.id}")).to be_empty
     end
   end
 

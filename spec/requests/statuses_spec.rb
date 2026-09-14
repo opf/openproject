@@ -53,4 +53,70 @@ RSpec.describe "Statuses", :skip_csrf, type: :rails_request do
       end
     end
   end
+
+  describe "GET /statuses" do
+    context "with more statuses than fit a page", with_settings: { per_page_options: "2, 100" } do
+      shared_let(:statuses) { create_list(:status, 3) }
+
+      it "paginates" do
+        get statuses_path
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include(statuses.first.name)
+        expect(response.body).not_to include(statuses.last.name)
+      end
+
+      it "serves the requested page" do
+        get statuses_path(page: 2)
+
+        expect(response.body).to include(statuses.last.name)
+        expect(response.body).not_to include(statuses.first.name)
+      end
+
+      it "keeps the whole list on one page when asked for a larger page size" do
+        get statuses_path(per_page: 100)
+
+        expect(response.body).to include(*statuses.map(&:name))
+      end
+    end
+  end
+
+  describe "PUT /statuses/:id/move" do
+    shared_let(:first) { create(:status, name: "First") }
+    shared_let(:second) { create(:status, name: "Second") }
+    shared_let(:third) { create(:status, name: "Third") }
+
+    it "moves the status to the requested relative position" do
+      put move_status_path(first), params: { move_to: "lowest" }, as: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+      expect(Status.order(:position).pluck(:name)).to eq(%w[Second Third First])
+    end
+
+    it "moves the status to an absolute position" do
+      put move_status_path(third), params: { position: 1 }, as: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+      expect(Status.order(:position).pluck(:name)).to eq(%w[Third First Second])
+    end
+
+    context "when the list is paginated", with_settings: { per_page_options: "2, 100" } do
+      before { Status.delete_all }
+
+      let!(:a) { create(:status, name: "A") }
+      let!(:b) { create(:status, name: "B") }
+      let!(:c) { create(:status, name: "C") }
+      let!(:d) { create(:status, name: "D") }
+      let!(:e) { create(:status, name: "E") }
+
+      it "resolves the dropped position against the whole list, not the page" do
+        # Page 2 shows C and D; dropping D first on that page means global position 3.
+        put move_status_path(d, page: 2, per_page: 2),
+            params: { position: 1 },
+            as: :turbo_stream
+
+        expect(Status.order(:position).pluck(:name)).to eq(%w[A B D C E])
+      end
+    end
+  end
 end

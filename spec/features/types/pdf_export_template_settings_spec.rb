@@ -103,7 +103,7 @@ RSpec.describe "type PDF export template settings", :js do
     expect(type.default_variant.reload.pdf_export_templates.settings_for("attributes")).to eq({})
   end
 
-  context "when the type links its PDF export config to a source type", with_flag: { type_variants: true } do
+  context "when the type links its PDF export config to a source type" do
     let(:source) { create(:type) }
 
     before do

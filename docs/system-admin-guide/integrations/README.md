@@ -23,16 +23,16 @@ OpenProject offers a basic GitHub integration. You will find more information ab
 
 OpenProject offers a GitLab integration, based on the [GitLab plugin contributed by the Community](https://github.com/btey/openproject-gitlab-integration). More information on the GitLab integration is available in our [GitLab integration guide](./gitlab-integration/).
 
-### Nextcloud
-
-OpenProject offers integration with Nextcloud for file storage and collaboration. You can find more information about [setting up the integration with Nextcloud](./nextcloud) and [using the integration](../../user-guide/file-management/nextcloud-integration/).
-
 ### XWiki
 
 [feature: xwiki_integration ]
 
 OpenProject offers integration with XWiki for wiki collaboration. You can find more information
 about [setting up the integration with XWiki](./xwiki) and [using the integration](../../user-guide/work-packages/edit-work-package/#link-to-or-create-a-wiki-page).
+
+### Nextcloud
+
+OpenProject offers integration with Nextcloud for file storage and collaboration. You can find more information about [setting up the integration with Nextcloud](./nextcloud) and [using the integration](../../user-guide/file-management/nextcloud-integration/).
 
 [feature: one_drive_sharepoint_file_storage]
 
@@ -43,9 +43,12 @@ about [setting up the integration with XWiki](./xwiki) and [using the integratio
 
 OpenProject offers an integration with OneDrive for file storage and collaboration. You can find more information about [setting up the integration with OneDrive](./one-drive) and [using the integration](../../user-guide/file-management/one-drive-integration/).
 
+
 ### SharePoint (Enterprise add-on)
 
 OpenProject offers an integration with SharePoint for file storage and collaboration. You can find more information about [setting up the integration with SharePoint](./share-point) and [using the integration](../../user-guide/file-management/sharepoint-integration/).
+
+
 
 ## Community plugins
 

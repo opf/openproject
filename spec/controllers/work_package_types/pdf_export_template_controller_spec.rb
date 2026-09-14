@@ -103,7 +103,7 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
       end
     end
 
-    context "when linked to a source type", with_flag: { type_variants: true } do
+    context "when linked to a source type" do
       render_views
 
       before { link_configuration(wp_type, source: create(:type), aspect: TypeVariant::PDF_EXPORT) }
@@ -239,14 +239,14 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
           link_configuration(wp_type, source:, aspect: TypeVariant::PDF_EXPORT)
         end
 
-        it "does not change the effective (inherited) settings", with_flag: { type_variants: true } do
+        it "does not change the effective (inherited) settings" do
           patch :update_settings,
                 params: { type_id: wp_type.id, id: template.id, footer_text: "Attempted override" }
 
           expect(variant.reload.pdf_export_templates.settings_for("attributes")[:footer_text]).to eq("Source footer")
         end
 
-        it "redirects with an alert instead of raising", with_flag: { type_variants: true } do
+        it "redirects with an alert instead of raising" do
           patch :update_settings,
                 params: { type_id: wp_type.id, id: template.id, footer_text: "Attempted override" }
 

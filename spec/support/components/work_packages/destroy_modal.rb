@@ -35,13 +35,12 @@ module Components
       include Capybara::RSpecMatchers
       include RSpec::Matchers
 
-      def initialize(bulk_mode: false)
+      def initialize(bulk_mode: false, dialog_id: "wp-delete-dialog")
         @bulk_mode = bulk_mode
+        @dialog_id = dialog_id
       end
 
-      def dialog_id
-        "wp-delete-dialog"
-      end
+      attr_reader :dialog_id
 
       def dialog_css_selector
         "dialog##{dialog_id}"
@@ -49,6 +48,10 @@ module Components
 
       def within_dialog(&)
         within(dialog_css_selector, &)
+      end
+
+      def expect_open
+        expect(page).to have_css(dialog_css_selector)
       end
 
       def expect_listed(*work_packages)
@@ -72,6 +75,44 @@ module Components
         within_dialog do
           click_button "Cancel"
         end
+      end
+
+      def expect_descendants_choice
+        within_dialog do
+          expect(page).to have_text "Delete all descendants too?"
+        end
+      end
+
+      def expect_cross_project_warning(*projects)
+        within_dialog do
+          projects.each { |project| expect(page).to have_link project.name }
+        end
+      end
+
+      # "Delete this work package and descendants" is preselected, so submitting opens the danger
+      # dialog that previews and confirms the cascade.
+      def confirm_descendants_deletion
+        within_dialog { click_button "Delete" }
+        descendants_dialog.confirm_deletion
+      end
+
+      def confirm_roots_only_deletion
+        within_dialog do
+          choose choice_label("self_only_label"), allow_label_click: true
+          expect(page).to have_checked_field(choice_label("self_only_label"), visible: :all)
+          click_button "Delete"
+        end
+      end
+
+      private
+
+      def descendants_dialog
+        self.class.new(bulk_mode: @bulk_mode, dialog_id: "wp-delete-descendants-dialog")
+      end
+
+      def choice_label(key)
+        scope = @bulk_mode ? "bulk_delete_dialog" : "delete_dialog"
+        I18n.t("work_packages.#{scope}.descendants_choice.#{key}")
       end
     end
   end

@@ -89,7 +89,7 @@ In _Administration → Work packages → Workflows_, the workflow table now feat
 
 Additionally, the table is now split into three tabs — _Default transitions_, _User is author_, and _User is assignee_ — each showing the relevant workflow configuration. Before 16.6, these additional transitions were often overlooked as they were positioned below the table.
 
-[Read more about managing work package workflows in OpenProject](../../../system-admin-guide/manage-work-packages/work-package-workflows/).
+[Read more about managing work package workflows in OpenProject](../../../system-admin-guide/manage-work-packages/work-package-types/workflows).
 
 ![OpenProject 16.6: Administration for work package workflows highlighting the new tabs and that the header and right column are sticky when scrolling](openproject-16-6-work-package-workflow-highlighted.png)
 

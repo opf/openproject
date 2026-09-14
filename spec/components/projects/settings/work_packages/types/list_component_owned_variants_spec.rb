@@ -32,8 +32,7 @@ require "rails_helper"
 
 RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
                "the variants a project owns",
-               type: :component,
-               with_flag: { type_variants: true } do
+               type: :component do
   include Rails.application.routes.url_helpers
 
   shared_let(:bug) { create(:type, name: "Bug").tap { |type| type.update_column(:position, 1) } }
@@ -105,7 +104,7 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
     it "links the name of the variant it owns" do
       expect(page).to have_link(
         "Internal review",
-        href: edit_type_details_path(in_project_id: project, type_id: bug.id, variant_id: ours.id)
+        href: type_settings_path(in_project_id: project, type_id: bug.id, variant_id: ours.id)
       )
     end
 
@@ -121,8 +120,12 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
     it "offers to configure the one it owns" do
       expect(page).to have_link(
         "Edit",
-        href: edit_type_details_path(in_project_id: project, type_id: bug.id, variant_id: ours.id)
+        href: type_settings_path(in_project_id: project, type_id: bug.id, variant_id: ours.id)
       )
+    end
+
+    it "does not offer converting it to a global variant, an administrator-only action" do
+      expect(row(ours)).to have_no_link(I18n.t("types.index.convert_to_global"))
     end
 
     it "puts a divider before deleting the one it owns" do
@@ -169,7 +172,7 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
     it "offers no action on a global variant" do
       expect(page).to have_no_link(
         "Edit",
-        href: edit_type_details_path(in_project_id: project, type_id: bug.id, variant_id: global.id)
+        href: type_settings_path(in_project_id: project, type_id: bug.id, variant_id: global.id)
       )
     end
   end
@@ -371,6 +374,20 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
 
     it "offers the type's own configuration for use, so the variant can be taken back off" do
       expect(page).to have_link("Use in this project", href: switch_path(bug.default_variant))
+    end
+  end
+
+  context "when a global administrator views it" do
+    current_user { create(:admin) }
+
+    before { render_inline(component) }
+
+    it "offers to convert the project's own variant to a global one" do
+      expect(row(ours)).to have_link(I18n.t("types.index.convert_to_global"))
+    end
+
+    it "does not offer to convert a variant that is already global" do
+      expect(row(global)).to have_no_link(I18n.t("types.index.convert_to_global"))
     end
   end
 

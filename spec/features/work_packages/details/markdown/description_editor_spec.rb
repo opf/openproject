@@ -48,7 +48,7 @@ RSpec.describe "description inplace editor", :js, :selenium do
   end
   let(:user) { create(:admin) }
   let(:field) { TextEditorField.new wp_page, "description" }
-  let(:wp_page) { Pages::SplitWorkPackage.new(work_package, project) }
+  let(:wp_page) { Pages::PrimerizedSplitWorkPackage.new(work_package, project) }
 
   before do
     login_as(user)

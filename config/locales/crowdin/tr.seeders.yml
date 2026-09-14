@@ -250,70 +250,26 @@ tr:
                 Bu modülde proje haberlerini ekip üyelerinize iletebilirsiniz.
           versions:
             item_0:
-              name: Hata İş Listesi
-            item_1:
-              name: Ürün İş Listesi
-            item_2:
-              name: Koşu 1
               wiki:
-                title: Koşu 1
+                title: Release 1.0
                 content: |
-                  ### Sprint planlama toplantısı
+                  ### Release 1.0
 
-                  _Lütfen Sprint planlama toplantısının konularını burada belgeleyin_
+                  _Please document here what this release contains._
 
-                  * Zaman kutulu (8 saat)
-                  * Girdi: Ürün İş Listesi
-                  * Çıktı: Sprint Backlog
-
-                  * 4 saatlik iki ek zaman kutusuna bölünmüştür:
-
-                      * Ürün Sahibi [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) ve öncelikleri ekibe sunar ve ekibin kabul etmesi gereken Sprint Hedefini açıklar. Birlikte, ekibin bir sonraki sprintte ilgileneceği Ürün İş Listesindeki konuları önceliklendirirler. Ekip, tartışılan teslimatı taahhüt eder.
-                      * Ekip otonom olarak (Ürün Sahibi olmadan) ayrıntılı bir şekilde planlar ve bir [Sprint Backlog] ({{opSetting:base_url}}/projects/your-scrum-project/backlogs) oluşturmak için tartışılan gereksinimlerden görevleri ayırır.
-
-
-                  ### Günlük Scrum toplantısı
-
-                  _Lütfen burada Günlük Scrum toplantısının konularını belgeleyin_
-
-                  * Ekibin kısa, günlük durum toplantısı.
-                  * Zaman kutulu (maks. 15 dakika).
-                  * Görev panosundaki](##sprint:scrum_project__version__sprint_1) aşağıdaki konuları tartışmak için ayakta toplantı.
-                      * Bir sonraki Günlük Scrum'a kadar ne yapmayı planlıyorum?
-                      * İşimi ne engelledi (Engeller)?
-                  * Scrum Master moderatörlük yapar ve [Sprint Impediments](##sprint:scrum_project__version__sprint_1) not alır.
-                  * Ürün Sahibi haberdar olmak için katılabilir.
-
-                  ### Sprint Gözden Geçirme toplantısı
-
-                  _Lütfen Sprint Gözden Geçirme toplantısının konularını burada belgeleyin_
-
-                  * Zaman kutulu (4 saat).
-                  * Kişi başına en fazla bir saatlik hazırlık süresi.
-                  * Ekip, ürün sahibine ve diğer ilgili kişilere bu sprintte nelerin başarıldığını gösterir.
-                  * Önemli: aptallar ve PowerPoint yok! Sadece bitmiş ürün işlevselliği (Artımlar) gösterilmelidir.
-                  * Ürün sahibinden, paydaşlardan ve diğerlerinden geri bildirim istenir ve daha sonraki çalışmalara dahil edilir.
-                  * Gösterilen işlevselliklere dayanarak, Ürün Sahibi bu artışla canlı yayına geçmeye veya daha da geliştirmeye karar verir. Bu olasılık erken bir ROI sağlar.
-
-
-                  ### Sprint Retrospektifi
-
-                  _Lütfen Sprint Retrospektifi toplantısına ilişkin konuları burada belgeleyin_
-
-                  * Zaman kutulu (3 saat).
-                  * Sprint İncelemesinden sonra, Scrum Master tarafından yönetilecektir.
-                  * Ekip sprinti tartışır: neler iyi gitti, bir sonraki sprint için daha üretken olmak ve hatta daha fazla eğlenmek için nelerin iyileştirilmesi gerekiyor.
-            item_3:
-              name: Koşu 2
+                  * The work packages of this release are the ones with the target version 1.0.
+                  * The release date is the date of the *Release v1.0* milestone.
+                  * Open the [Roadmap]({{opSetting:base_url}}/projects/your-scrum-project/roadmap) to follow the progress of all versions.
+                  * Open [Project settings &rightarrow; Versions]({{opSetting:base_url}}/projects/your-scrum-project/settings/versions) to link another wiki page to a version.
           categories:
             item_0: Kategori 1 (Proje ayarlarında değiştirilecektir)
           queries:
             item_0:
               name: Proje planı
             item_1:
-              name: Ürün iş listesi
+              name: Version 1.1
             item_2:
-              name: Koşu 1
+              name: Version 1.0
             item_3:
               name: Görevler
           boards:
@@ -339,20 +295,21 @@ tr:
                 options:
                   name: Başlarken
                   text: |
-                    Katıldığınız için çok mutluyuz! OpenProject'e başlamak için birkaç şey denemenizi öneririz.
+                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
-                    Aşağıdaki adımları deneyin:_
+                    _Try the following steps:_
 
-                    1. *Projenize yeni üyeler davet edin*: &rightarrow; Proje gezintisinde [Üyeler]({{opSetting:base_url}}/projects/your-scrum-project/members) bölümüne gidin.
-                    2. *Ürün birikiminizi ve Sprint birikimlerinizi görüntüleyin*: &rightarrow; Proje navigasyonunda [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) bölümüne gidin.
-                    3. *Görev panonuzu görüntüleyin*: &rightarrow; Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; adresine gidin Sprint &rightarrow; üzerinde sağ oka tıklayın [Task Board](##sprint:scrum_project__version__sprint_1) öğesini seçin.
-                    4. *Yeni bir iş paketi oluşturun*: &rightarrow; İş paketleri &rightarrow; Oluştur]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new) bölümüne gidin.
-                    5. *Bir proje planı oluşturun ve güncelleyin*: &rightarrow; Proje navigasyonunda [Proje planı](##query:scrum_project__query__project_plan) bölümüne gidin.
-                    6. *Bir Sprint wiki* oluşturun: &rightarrow; Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) adresine gidin ve bir sprintte sağ açılır menüden sprint wikisini açın. Wiki şablonunu]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) ihtiyaçlarınıza göre düzenleyebilirsiniz.
-                    7. *Diğer modülleri etkinleştirin*: &rightarrow; Proje ayarları &rightarrow; Modüller]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules) bölümüne gidin.
+                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
+                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
+                    3. *Create a sprint*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and click "+ Sprint" to create a new sprint. Move work packages from the backlog to the sprint to plan the work to be done. When ready, click "Start sprint".
+                    4. *View your Sprint board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select Sprint Board.
+                    5. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    6. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
+                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
-                    Burada [Kullanıcı Kılavuzlarımızı] (https://www.openproject.org/docs/user-guide/) bulacaksınız.
-                    Herhangi bir sorunuz varsa veya desteğe ihtiyacınız varsa lütfen bize bildirin. Bize ulaşın: [support[at]openproject.com](mailto:support@openproject.com).
+
+                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
+                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: İş paketleri

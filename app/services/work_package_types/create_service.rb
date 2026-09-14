@@ -36,22 +36,5 @@ module WorkPackageTypes
     def instance_class
       Type
     end
-
-    def after_perform(service_call)
-      type = service_call.result
-      # The workflow is copied onto the new type's base configuration, from the base
-      # configuration of the type chosen as the source.
-      if @params[:copy_workflow_from].present? && (copy_from = ::Type.find_by(id: @params[:copy_workflow_from]))
-        type.default_variant.own_workflows.copy_from_variant(copy_from.default_variant)
-      end
-
-      # Which projects start with the type is a property of the configuration they apply it
-      # through, so the form's checkbox lands on the base variant rather than on the type.
-      if ActiveRecord::Type::Boolean.new.cast(@params[:enabled_in_new_projects])
-        type.default_variant.update!(enabled_in_new_projects: true)
-      end
-
-      service_call
-    end
   end
 end

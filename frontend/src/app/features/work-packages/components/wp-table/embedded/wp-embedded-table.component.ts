@@ -49,6 +49,7 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { firstValueFrom } from 'rxjs';
 import { QueryRequestParams } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { PortalOutletTarget } from 'core-app/shared/components/modal/portal-outlet-target.enum';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 
 @Component({
   selector: 'wp-embedded-table',
@@ -81,6 +82,8 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   readonly tableActionsService = inject(OpTableActionsService);
 
   readonly keepTab = inject(KeepTabService);
+
+  readonly urlParams = inject(UrlParamsService);
 
   // Cache the form promise
   private formPromise:Promise<QueryFormResource|undefined>|undefined;
@@ -220,15 +223,15 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
 
   openStateLink(event:{ workPackageId:string; requestedState:'show'|'split' }) {
     const routingId = resolveRoutingId(this.states, event.workPackageId);
-    const params = {
-      workPackageId: routingId,
-      focus: true,
-    };
 
     if (event.requestedState === 'split') {
-      this.keepTab.goCurrentDetailsState(params);
+      const basePath = this.urlParams.basePathWithoutDetails();
+      Turbo.visit(
+        `${basePath}/details/${routingId}/${this.keepTab.currentDetailsTab}${window.location.search}`,
+        { frame: 'content-bodyRight', action: 'advance' },
+      );
     } else {
-      this.keepTab.goCurrentShowState(params.workPackageId);
+      this.keepTab.goCurrentShowState(routingId);
     }
   }
 }

@@ -44,7 +44,12 @@ module OpenProject::Gantt
         OpenProject::AccessControl.permission(:view_work_packages).tap do |add|
           add.controller_actions << "gantt/gantt/index"
           add.controller_actions << "gantt/gantt/menu"
+          add.controller_actions << "gantt/gantt/split_view"
           add.controller_actions << "gantt/menus/show"
+        end
+
+        OpenProject::AccessControl.permission(:add_work_packages).tap do |add|
+          add.controller_actions << "gantt/gantt/split_create"
         end
       end
 

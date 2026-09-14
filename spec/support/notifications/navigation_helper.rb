@@ -27,7 +27,7 @@ class Notifications::NavigationHelper
 
     # Open a notification
     center.click_item notification
-    split_screen = ::Pages::SplitWorkPackage.new work_package
+    split_screen = ::Pages::PrimerizedSplitWorkPackage.new work_package
     split_screen.expect_tab :activity
     split_screen.switch_to_tab tab: "relations"
 
@@ -42,7 +42,7 @@ class Notifications::NavigationHelper
 
     # Open a notification
     center.click_item notification
-    split_screen = ::Pages::SplitWorkPackage.new work_package
+    split_screen = ::Pages::PrimerizedSplitWorkPackage.new work_package
     split_screen.expect_tab :activity
 
     # Switch to WP full view and back

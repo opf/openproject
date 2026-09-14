@@ -40,7 +40,7 @@ RSpec.describe WorkPackageTypes::VariantRowComponent, type: :component do
 
   it "links the variant to its settings page" do
     expect(rendered_component)
-      .to have_link("Hardware", href: edit_type_details_path(type_id: type.id, variant_id: variant.id))
+      .to have_link("Hardware", href: type_settings_path(type_id: type.id, variant_id: variant.id))
   end
 
   it "names no project for a variant every project may use" do

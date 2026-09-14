@@ -36,8 +36,8 @@ module ResourceAllocations
       include OpPrimer::ComponentHelpers
 
       # `dialog_id` names the dialog hosting the form (autocompleter dropdowns
-      # attach to it): the create wizard's by default, the edit dialog's when
-      # editing a persisted allocation.
+      # and date picker calendars attach to it): the create wizard's by default,
+      # the edit dialog's when editing a persisted allocation.
       def initialize(allocation:, project:, allocation_kind:,
                      dialog_id: ResourceAllocations::NewDialogComponent::DIALOG_ID,
                      view: nil)
@@ -87,7 +87,7 @@ module ResourceAllocations
                          wrap_with_controller: true,
                          hidden_input_name: "filters",
                          output_format: :json,
-                         autocomplete_append_to: "##{dialog_id}"
+                         dialog_id:
                        )
                      ]
                    else
