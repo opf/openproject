@@ -93,50 +93,56 @@ jobs:
             gh pr edit "$PR_URL" "${args[@]}"
           fi
 
-      - name: Add comment if the section is missing
-        if: env.ENFORCE == 'true' && steps.ai-involvement-check.outputs.status == 'section_missing'
+      - name: Compose the comment
+        id: comment
+        env:
+          STATUS: ${{ steps.ai-involvement-check.outputs.status }}
+          SELECTED_LEVELS: ${{ steps.ai-involvement-check.outputs.selected_levels }}
+        run: |
+          file="$RUNNER_TEMP/ai-involvement-comment.md"
+          echo "file=$file" >> "$GITHUB_OUTPUT"
+          : > "$file"
+
+          case "$STATUS" in
+            section_missing)
+              cat > "$file" <<'EOM'
+          > [!WARNING]
+          > This pull request description has no `AI involvement` section.
+
+          Please add it back from the
+          [pull request template](https://github.com/opf/openproject/blob/dev/.github/pull_request_template.md)
+          and self-assess how much AI drove this PR.
+          EOM
+              ;;
+            level_missing)
+              cat > "$file" <<'EOM'
+          > [!WARNING]
+          > The `AI involvement` section of this pull request is not filled out.
+
+          Please uncomment the one line that fits by deleting its surrounding `<!--` and `-->`
+          markers.
+          EOM
+              ;;
+            multiple_levels)
+              {
+                printf '> [!WARNING]\n> The `AI involvement` section states more than one level:\n> %s\n\n' "$SELECTED_LEVELS"
+                cat <<'EOM'
+          This is not multiple-choice. Please keep only the line that fits and comment out
+          or delete the others.
+          EOM
+              } > "$file"
+              ;;
+          esac
+
+      # The comment is removed once the section is filled out, and only posted
+      # on contributor pull requests.
+      - name: Sync the comment
+        if: env.ENFORCE == 'true' || steps.ai-involvement-check.outputs.status == 'ok'
         uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
         with:
           header: ai-involvement-comment
-          message: |
-            > [!WARNING]
-            > This pull request description has no `AI involvement` section.
-
-            Please add it back from the
-            [pull request template](https://github.com/opf/openproject/blob/dev/.github/pull_request_template.md)
-            and self-assess how much AI drove this PR.
-
-      - name: Add comment if no level is stated
-        if: env.ENFORCE == 'true' && steps.ai-involvement-check.outputs.status == 'level_missing'
-        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
-        with:
-          header: ai-involvement-comment
-          message: |
-            > [!WARNING]
-            > The `AI involvement` section of this pull request is not filled out.
-
-            Please uncomment the one line that fits by deleting its surrounding `<!--` and `-->`
-            markers.
-
-      - name: Add comment if multiple levels are stated
-        if: env.ENFORCE == 'true' && steps.ai-involvement-check.outputs.status == 'multiple_levels'
-        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
-        with:
-          header: ai-involvement-comment
-          message: |
-            > [!WARNING]
-            > The `AI involvement` section states more than one level:
-            > ${{ steps.ai-involvement-check.outputs.selected_levels }}
-
-            This is not multiple-choice. Please keep only the line that fits and comment out
-            or delete the others.
-
-      - name: AI involvement check passed
-        if: steps.ai-involvement-check.outputs.status == 'ok'
-        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
-        with:
-          header: ai-involvement-comment
-          delete: true
+          path: ${{ steps.comment.outputs.file }}
+          delete: ${{ steps.ai-involvement-check.outputs.status == 'ok' }}
 
       - name: Fail if the AI involvement section is not filled out
         if: env.ENFORCE == 'true' && steps.ai-involvement-check.outputs.status != 'ok'
