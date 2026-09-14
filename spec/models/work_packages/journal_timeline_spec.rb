@@ -98,6 +98,37 @@ RSpec.describe WorkPackages::JournalTimeline do
       it "takes the newly valid journal, since validity_period is lower-bound inclusive" do
         expect(relation.pluck(:story_points)).to eq [8]
       end
+
+      it "takes only that one, excluding the journal whose validity ends there" do
+        expect(relation.count).to eq 1
+      end
+    end
+
+    context "with a second work package" do
+      shared_let(:second_work_package) do
+        create(:work_package, project:, journals: { sunday => { story_points: 2 } })
+      end
+
+      it "sums both at each tick" do
+        expect(relation.group(:tick).sum(:story_points))
+          .to eq(monday => 7, tuesday => 10, wednesday => 10)
+      end
+
+      it "yields a row per work package per tick" do
+        expect(relation.count).to eq 6
+        expect(relation.distinct.count(:work_package_id)).to eq 2
+      end
+    end
+
+    context "with a work package unchanged since long before the interval" do
+      shared_let(:stale_work_package) do
+        create(:work_package, project:, journals: { sunday - 90.days => { story_points: 4 } })
+      end
+
+      it "counts it at every tick, since its only journal is still the valid one" do
+        expect(relation.group(:tick).sum(:story_points))
+          .to eq(monday => 9, tuesday => 12, wednesday => 12)
+      end
     end
 
     context "with a tick from before the work package existed" do
@@ -126,7 +157,7 @@ RSpec.describe WorkPackages::JournalTimeline do
 
     let(:filters) { Journal::WorkPackageJournal.where(project_id: project.id) }
 
-    it "narrows the result before the visibility check runs" do
+    it "excludes journals outside the filter scope" do
       expect(relation.group(:tick).sum(:story_points).values.uniq).to eq [3]
     end
 
