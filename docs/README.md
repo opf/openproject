@@ -5,7 +5,7 @@ sidebar_navigation:
 description: Help and documentation for OpenProject Community Edition, Enterprise on-premises and Enterprise cloud.
 keywords: help, documentation
 --- 
-# OpenProject Documentation
+# OpenProject Docs
 
 > [!NOTE]
 > For enhanced usability, access the OpenProject documentation at [www.openproject.org/docs/](https://www.openproject.org/docs).
