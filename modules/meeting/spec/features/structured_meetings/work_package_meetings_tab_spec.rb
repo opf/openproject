@@ -156,6 +156,9 @@ RSpec.describe "Open the Meetings tab",
 
   describe "work package full view" do
     let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }
+    let(:meetings_tab) do
+      Pages::MeetingsTab.new(project_id: project.id, work_package_id: work_package.id, primerized: false)
+    end
 
     it_behaves_like "meetings tab integration"
 

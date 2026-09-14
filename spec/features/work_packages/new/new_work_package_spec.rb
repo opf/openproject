@@ -89,7 +89,7 @@ RSpec.describe "new work package", :js do
       description_field.set_value(description)
       save_work_package!
 
-      expect(page).to have_css(".op-work-package-tabs")
+      expect(page).to have_css(tabs_container_selector)
       wp_page.edit_field(:description).expect_state_text(description)
 
       # safeguards
@@ -315,6 +315,7 @@ RSpec.describe "new work package", :js do
       create_work_package_globally(type_bug, project.name)
 
       click_on "Cancel"
+      expect(page).to have_no_css(safeguard_selector)
 
       wp_page.click_create_wp_button type_bug
       expect(page).to have_no_css(".ng-value", text: project.name)
