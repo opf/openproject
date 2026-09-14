@@ -57,6 +57,7 @@ module WorkPackageTypes
         menu.with_divider
 
         add_variant_action(menu)
+        compare_variants_action(menu) if comparable?
         duplicate_action(menu)
         menu.with_divider
 
@@ -72,6 +73,15 @@ module WorkPackageTypes
         menu.with_item(label: t("types.index.add_variant_action"),
                        href: new_creation_wizard_types_path(type_id: type.id, back_url: types_path)) do |item|
           item.with_leading_visual_icon(icon: :plus)
+        end
+      end
+
+      def comparable? = type.variants.non_default_variants.exists?
+
+      def compare_variants_action(menu)
+        menu.with_item(label: t("types.comparison.action"),
+                       href: comparison_type_variants_path(type_id: type.id)) do |item|
+          item.with_leading_visual_icon(icon: :"git-compare")
         end
       end
 

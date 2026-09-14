@@ -29,39 +29,25 @@
 #++
 
 module WorkPackageTypes
-  module Patterns
-    Collection = Data.define(:patterns) do
-      extend Dry::Monads[:result]
+  class VariantComparison
+    Profile = Data.define(:variant, :fields, :required, :group_names,
+                          :statuses, :transitions, :roles, :project_count) do
+      delegate :id, to: :variant
 
-      private_class_method :new
+      def base? = variant.is_default_variant?
 
-      def self.empty
-        new(patterns: {})
+      def digest = [form_digest, workflow_digest]
+
+      def digest_for(aspect)
+        case aspect
+        when TypeVariant::FORM_CONFIGURATION then form_digest
+        when TypeVariant::WORKFLOWS then workflow_digest
+        end
       end
 
-      def self.build(patterns:, contract: CollectionContract.new)
-        contract.call(patterns).to_monad.fmap { |success| new(success.to_h) }
-      rescue ArgumentError => e
-        Failure(e)
-      end
+      def form_digest = [group_names, fields.map(&:key).sort, required.map(&:key).sort]
 
-      def initialize(patterns:)
-        transformed = patterns.transform_values { Pattern.new(**it) }.freeze
-
-        super(patterns: transformed)
-      end
-
-      def subject
-        patterns[:subject]
-      end
-
-      def all_enabled
-        patterns.select { |_, pattern| pattern.enabled? }
-      end
-
-      def to_h
-        patterns.stringify_keys.transform_values(&:to_h)
-      end
+      def workflow_digest = [statuses.map(&:id).sort, transitions.sort]
     end
   end
 end

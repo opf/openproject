@@ -29,39 +29,44 @@
 #++
 
 module WorkPackageTypes
-  module Patterns
-    Collection = Data.define(:patterns) do
-      extend Dry::Monads[:result]
+  module Comparison
+    class CellComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
 
-      private_class_method :new
+      def initialize(cell:)
+        super()
 
-      def self.empty
-        new(patterns: {})
+        @cell = cell
       end
 
-      def self.build(patterns:, contract: CollectionContract.new)
-        contract.call(patterns).to_monad.fmap { |success| new(success.to_h) }
-      rescue ArgumentError => e
-        Failure(e)
+      private
+
+      attr_reader :cell
+
+      delegate :row, :profile, :count, :same_as_base, to: :cell
+
+      def variant = profile.variant
+
+      def format = row.format
+
+      def linked? = variant.linked?(row.aspect)
+
+      def source = variant.source_for(row.aspect)
+
+      def source_path = helpers.aspect_edit_path(source, row.aspect)
+
+      def projects_path = edit_type_projects_path(**variant.path_args)
+
+      def owner_path = project_settings_work_packages_types_path(variant.project)
+
+      def project_specific
+        helpers.link_translate("types.comparison.values.project_specific",
+                               i18n_args: { project: variant.project.name },
+                               links: { project_url: owner_path },
+                               external: false)
       end
 
-      def initialize(patterns:)
-        transformed = patterns.transform_values { Pattern.new(**it) }.freeze
-
-        super(patterns: transformed)
-      end
-
-      def subject
-        patterns[:subject]
-      end
-
-      def all_enabled
-        patterns.select { |_, pattern| pattern.enabled? }
-      end
-
-      def to_h
-        patterns.stringify_keys.transform_values(&:to_h)
-      end
+      def muted(text) = render(Primer::Beta::Text.new(color: :muted)) { text }
     end
   end
 end
