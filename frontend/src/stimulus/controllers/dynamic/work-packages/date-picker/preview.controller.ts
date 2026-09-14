@@ -60,6 +60,11 @@ export default class PreviewController extends DialogPreviewController {
 
   private handleFlatpickrDatesChangedBound = this.handleFlatpickrDatesChanged.bind(this);
 
+  private previewFrame:HTMLElement|null = null;
+  private readonly clearPreviewPending = () => {
+    delete this.formTarget.dataset.datepickerPreviewPending;
+  };
+
   private debouncedDelayedPreview:DebouncedFunc<(input:HTMLInputElement) => void>;
   private debouncedImmediatePreview:DebouncedFunc<(input:HTMLInputElement) => void>;
 
@@ -79,6 +84,10 @@ export default class PreviewController extends DialogPreviewController {
 
     this.readInitialValues();
     super.connect();
+
+    this.previewFrame = this.formTarget.closest('turbo-frame');
+    this.previewFrame?.addEventListener('turbo:fetch-request-error', this.clearPreviewPending);
+    this.previewFrame?.addEventListener('turbo:frame-missing', this.clearPreviewPending);
   }
 
   // The flatpickr listener reads the timezone service synchronously, so it may
@@ -93,6 +102,10 @@ export default class PreviewController extends DialogPreviewController {
 
     this.debouncedDelayedPreview.cancel();
     this.debouncedImmediatePreview.cancel();
+
+    this.previewFrame?.removeEventListener('turbo:fetch-request-error', this.clearPreviewPending);
+    this.previewFrame?.removeEventListener('turbo:frame-missing', this.clearPreviewPending);
+    this.previewFrame = null;
 
     super.disconnect();
   }
@@ -111,20 +124,20 @@ export default class PreviewController extends DialogPreviewController {
       if (/^\d{4}-\d{2}-\d{2}$/.test(field.value)) {
         const selectedDate = new Date(field.value);
         this.changeStartDate(selectedDate);
-        this.debouncedDelayedPreview(field);
+        this.requestDelayedPreview(field);
       } else if (field.value === '') {
-        this.debouncedDelayedPreview(field);
+        this.requestDelayedPreview(field);
       }
     } else if (field.name === 'work_package[due_date]') {
       if (/^\d{4}-\d{2}-\d{2}$/.test(field.value)) {
         const selectedDate = new Date(field.value);
         this.changeDueDate(selectedDate);
-        this.debouncedDelayedPreview(field);
+        this.requestDelayedPreview(field);
       } else if (field.value === '') {
-        this.debouncedDelayedPreview(field);
+        this.requestDelayedPreview(field);
       }
     } else {
-      this.debouncedDelayedPreview(field);
+      this.requestDelayedPreview(field);
     }
   }
 
@@ -149,7 +162,7 @@ export default class PreviewController extends DialogPreviewController {
       this.setStartDateFieldValue(dates[0]);
       this.doMarkFieldAsTouched('start_date');
     } else {
-      const selectedDate:Date = this.lastClickedDate(dates) || dates[0];
+      const selectedDate:Date = this.lastClickedDate(dates) ?? dates[0];
       let dateFieldToChange = this.dateFieldToChange();
       this.swapDateFieldsIfNeeded(selectedDate, dateFieldToChange);
       dateFieldToChange = this.dateFieldToChange();
@@ -162,8 +175,22 @@ export default class PreviewController extends DialogPreviewController {
     }
     this.updateFlatpickrCalendar();
     if (fieldUpdatedWithUserValue) {
-      this.debouncedImmediatePreview(fieldUpdatedWithUserValue);
+      this.requestImmediatePreview(fieldUpdatedWithUserValue);
     }
+  }
+
+  private requestDelayedPreview(field:HTMLInputElement) {
+    this.markPreviewPending();
+    this.debouncedDelayedPreview(field);
+  }
+
+  private requestImmediatePreview(field:HTMLInputElement) {
+    this.markPreviewPending();
+    this.debouncedImmediatePreview(field);
+  }
+
+  private markPreviewPending() {
+    this.formTarget.dataset.datepickerPreviewPending = 'true';
   }
 
   dateFieldToChange():HTMLInputElement|undefined {
@@ -316,6 +343,7 @@ export default class PreviewController extends DialogPreviewController {
   }
 
   afterRendering(params:{ shouldFocusBanner?:boolean }) {
+    this.clearPreviewPending();
     if (params.shouldFocusBanner) {
       this.focusOnOpen();
     }

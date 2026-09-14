@@ -599,13 +599,21 @@ export default class FiltersFormController extends Controller {
       })
         .then((response:Response) => response.text())
         .then((html:string) => {
-          renderStreamMessage(html);
-          if (this.sentFilters === newFilters) {
-            window.history.replaceState(window.history.state, '', browserUrl);
+          if (this.sentFilters !== newFilters) return;
+
+          if (this.buildFiltersParam(this.currentFilters()) !== newFilters) {
+            this.sentFilters = previousFilters;
+            hideElement(loadingIndicator);
+            return;
           }
+
+          renderStreamMessage(html);
+          window.history.replaceState(window.history.state, '', browserUrl);
           hideElement(loadingIndicator);
         })
         .catch((error:Error) => {
+          if (this.sentFilters !== newFilters) return;
+
           this.sentFilters = previousFilters;
           console.error('Error:', error);
           hideElement(loadingIndicator);
