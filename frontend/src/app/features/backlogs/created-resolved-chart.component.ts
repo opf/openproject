@@ -27,7 +27,7 @@
 //++
 
 import { JsonPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, KeyValueDiffers, Signal, computed, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Signal, computed, inject, input } from '@angular/core';
 import { ChartData, ChartOptions } from 'chart.js';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { NoResultsComponent } from 'core-app/shared/components/blankslate/no-results.component';
@@ -50,11 +50,11 @@ export class CreatedResolvedComponent {
   readonly chartData = input.required<string>();
 
   readonly lineChartData = computed<ChartData<'line'>>(() => {
-    var data = JSON.parse(this.chartData()) as ChartData<'line'>;    
+    const data = JSON.parse(this.chartData()) as ChartData<'line'>;    
     
-    var colors = {
-      border: {"Created" : "#f85461", "Resolved" : "#30a147"},
-      background: {"Created" : "#fda5a7", "Resolved" : "#54d961"}
+    const colors = {
+      border: {'Created' : "#f85461", 'Resolved' : "#30a147"},
+      background: {'Created' : "#fda5a7", 'Resolved' : "#54d961"}
     }
 
     data.datasets.forEach((dataset) => {
@@ -86,7 +86,7 @@ export class CreatedResolvedComponent {
     scales: {
       x: {
         title: {
-          display: true,
+          display: false,
         }
       },
       y: {

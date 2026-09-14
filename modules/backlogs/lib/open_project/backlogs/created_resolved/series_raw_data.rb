@@ -23,7 +23,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,13 +32,14 @@ module OpenProject::Backlogs::CreatedResolved
   require "forwardable"
   class SeriesRawData
     extend Forwardable
+
     attr_reader :collect, :sprint, :project
 
     def initialize(project, sprint, collect)
       @project = project
       @sprint = sprint
       @collect = collect
-      @data = Hash.new()
+      @data = Hash.new
     end
 
     def_delegators :@data, :[], :[]=, :keys, :values, :each, :transform_values
@@ -86,7 +87,6 @@ module OpenProject::Backlogs::CreatedResolved
     end
 
     def data_for_dates
-
       query_string = <<~SQL.squish
         SELECT
           days.date,
@@ -122,7 +122,7 @@ module OpenProject::Backlogs::CreatedResolved
       if done_status_ids.empty?
         # No status counts as "done", so force the FILTER to match nothing,
         # making the COUNT evaluate to 0.
-        "AND 1=0"
+        "1=0"
       else
         "work_package_journals.status_id IN (#{done_status_ids.join(', ')})"
       end
@@ -132,6 +132,9 @@ module OpenProject::Backlogs::CreatedResolved
       lower_bound = sprint.start_date
       upper_date = sprint.finish_date
       upper_bound = Time.zone.today.clamp(lower_bound, upper_date)
+
+      #is required for testing
+      return Day.none unless upper_bound && lower_bound
 
       Day.working.from_range(from: lower_bound, to: upper_bound)
     end

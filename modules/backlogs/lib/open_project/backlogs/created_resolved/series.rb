@@ -35,14 +35,13 @@ module OpenProject::Backlogs::CreatedResolved
     attr_reader :name, :unit, :data
     attr_accessor :display
 
-    def initialize(name, unit, *args)
+    def initialize(name, unit, args)
       @unit = unit
       @name = name.to_sym
-      @data = Array.new(*args)
+      @data = Array.new(args)
       @display = true
 
       raise ArgumentError, "Unsupported unit '#{@unit}'- should be one of: #{UNITS.join(', ')}" unless UNITS.include? @unit
-
-    end    
+    end
   end
 end
