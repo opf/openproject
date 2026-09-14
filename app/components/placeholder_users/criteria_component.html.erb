@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   component_wrapper do
-    render(Primer::Alpha::Layout.new) do |layout|
+    render(Primer::Alpha::Layout.new(stacking_breakpoint: :lg, first_in_source: :main)) do |layout|
       layout.with_main do
         flex_layout(col_placement: :start) do |column|
           column.with_row(mb: 3) do
@@ -46,8 +46,7 @@ See COPYRIGHT and LICENSE files for more details.
         end
       end
 
-      # TODO: When the new width have been introduced, switch to a new one: https://community.openproject.org/projects/DREAM/work_packages/DREAM-829/activity
-      layout.with_sidebar(width: :wide, col_placement: :end) do
+      layout.with_sidebar(width: :xxwide, col_placement: :end, row_placement: :end) do
         render(PlaceholderUsers::MatchingUsersComponent.new(placeholder_user:))
       end
     end
