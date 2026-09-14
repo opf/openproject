@@ -93,6 +93,17 @@ RSpec.describe "GET /admin/members", :aggregate_failures, :skip_csrf, type: :rai
       expect(response.body).not_to include(I18n.t(:button_all_filters))
     end
 
+    it "keeps every column, the roles included, visible on mobile" do
+      get admin_members_path
+
+      cells = response.parsed_body.css(".op-border-box-grid__row-item")
+
+      expect(cells).not_to be_empty
+      expect(cells.css(".op-border-box-grid__row-item--no-mobile")).to be_empty
+      expect(Admin::Members::TableComponent.mobile_columns)
+        .to match_array(Admin::Members::TableComponent.columns)
+    end
+
     it "names the member types after their models" do
       get admin_members_path
 

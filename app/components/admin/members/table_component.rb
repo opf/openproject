@@ -33,7 +33,6 @@ module Admin
     class TableComponent < OpPrimer::BorderBoxTableComponent
       columns :user, :project, :roles
       main_column :user
-      mobile_columns :user, :project
       mobile_labels :project, :roles
 
       def mobile_title
