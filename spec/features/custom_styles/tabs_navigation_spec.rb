@@ -150,6 +150,8 @@ RSpec.describe "Tabs navigation and content switching on the admin/design page" 
       expect(page).to have_field("custom_style_logo_mobile")
       expect(page).to have_field("custom_style_logo_mobile_dark")
       expect(page).to have_field("custom_style_logo_mobile_light_high_contrast")
+      expect(page).to have_field("custom_style_favicon")
+      expect(page).to have_field("custom_style_touch_icon")
 
       # select a color theme and redirect to the branding tab
       select("OpenProject Navy Blue", from: "theme")
