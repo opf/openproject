@@ -61,7 +61,7 @@ Because the two migrations run independently, a link between an issue and a page
 
 All four combinations work without any manual intervention.
 
-## How links stay intact during migration (Confluence → XWiki case)
+## How links stay intact when Confluence moves to XWiki
 
 Migration happens in two steps, and you control when the second one runs:
 
