@@ -189,6 +189,36 @@ RSpec.describe "GET /admin/members", :aggregate_failures, :skip_csrf, type: :rai
       expect(response.body).not_to include("Jo Barnes")
     end
 
+    it "filters down to global memberships" do
+      global = Queries::Members::Filters::ProjectFilter::GLOBAL_VALUE
+
+      get admin_members_path(filters: [{ project_id: { operator: "=", values: [global] } }].to_json)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Kim Novak")
+      expect(response.body).not_to include("Jo Barnes")
+      expect(response.body).not_to include("Ada Stone")
+    end
+
+    it "filters by a project alongside the global memberships" do
+      global = Queries::Members::Filters::ProjectFilter::GLOBAL_VALUE
+      values = [global, archived_project.id.to_s]
+
+      get admin_members_path(filters: [{ project_id: { operator: "=", values: } }].to_json)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Kim Novak")
+      expect(response.body).to include("Ada Stone")
+      expect(response.body).not_to include("Jo Barnes")
+    end
+
+    it "offers global as an italicised option in the project filter" do
+      get admin_members_path
+
+      expect(response.body).to include(Queries::Members::Filters::ProjectFilter::GLOBAL_VALUE)
+      expect(response.parsed_body.css("em").map(&:text)).to include(I18n.t(:label_global))
+    end
+
     it "filters by principal type" do
       get admin_members_path(filters: [{ principal_type: { operator: "=", values: [Group.name] } }].to_json)
 

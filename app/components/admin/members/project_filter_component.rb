@@ -39,10 +39,15 @@ module Admin
           path_args: %i[admin members]
         )
 
+        with_item(label: global_label, value: Queries::Members::Filters::ProjectFilter::GLOBAL_VALUE)
         projects_with_members.each { |project| with_item(label: project.name, value: project.id) }
       end
 
       private
+
+      def global_label
+        content_tag(:em, I18n.t(:label_global))
+      end
 
       def projects_with_members
         Project
