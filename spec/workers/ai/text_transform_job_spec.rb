@@ -31,10 +31,6 @@
 require "spec_helper"
 
 RSpec.describe AI::TextTransformJob do
-  it "uses the dedicated queue" do
-    expect(described_class.new.queue_name).to eq("ai_text_transforms")
-  end
-
   it "is a no-op for an unknown run" do
     allow(AI::TextTransforms::Execution).to receive(:new)
 

@@ -30,7 +30,6 @@
 
 module AI
   class TextTransformJob < ApplicationJob
-    queue_as :ai_text_transforms
     queue_with_priority :above_normal
 
     def perform(run_id)
