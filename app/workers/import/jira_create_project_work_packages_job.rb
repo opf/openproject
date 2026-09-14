@@ -147,11 +147,9 @@ module Import
     end
 
     def update_custom_fields_in_project(project, jira_project, custom_field_registry)
-      applicable_cfs = Import::JiraIssue
-                         .where(jira_import_id: @jira_import.id, jira_project_id: jira_project.id)
-                         .flat_map { |jira_issue| custom_fields_for_issue(custom_field_registry, jira_issue) }
       existing_cf_ids = project.work_package_custom_fields.pluck(:id).to_set
-      new_cfs = applicable_cfs.uniq.reject { |cf| existing_cf_ids.include?(cf.id) }
+      new_cfs = custom_fields_for_project(custom_field_registry, jira_project)
+                  .reject { |cf| existing_cf_ids.include?(cf.id) }
       project.work_package_custom_fields << new_cfs if new_cfs.any?
     end
 

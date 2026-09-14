@@ -48,10 +48,19 @@ module Import
       end
     end
 
+    # Raised when this Jira version does not provide the requested REST path at all, so we
+    # can fall back to another route instead of failing the import.
+    class UnsupportedEndpointError < Error; end
+
     HTTP_OPTIONS = {
       open_timeout: 30,
       read_timeout: 30
     }.freeze
+
+    UNSUPPORTED_ENDPOINT_STATUSES = [404, 405].freeze
+
+    CUSTOM_FIELD_OPTIONS_PAGE_SIZE = 10_000
+    CUSTOM_FIELD_OPTIONS_PAGE_LIMIT = 100
 
     def initialize(url:, personal_access_token:)
       raise ApiError.new(I18n.t(:"admin.jira.test.token_error")) if personal_access_token.nil?
@@ -186,6 +195,19 @@ module Import
       get("/rest/api/2/field")
     end
 
+    # Options of a custom field in the context composed of the given projects and issue types.
+    # Available from Jira DC 9.3, where Atlassian flags it experimental; older versions have no
+    # such path and raise UnsupportedEndpointError.
+    def custom_field_options(custom_field_id, project_ids: nil, issue_type_ids: nil)
+      scope = { project_ids:, issue_type_ids: }
+      body = custom_field_options_request(custom_field_id, **scope)
+      options = Array(body["options"])
+      total = body["total"]&.to_i
+      return options if total && options.size >= total
+
+      paged_custom_field_options(custom_field_id, scope, options, total)
+    end
+
     def issue_createmeta(project_keys: nil, project_ids: nil, issuetype_ids: nil, expand: "projects.issuetypes.fields")
       params = { expand: }
       params[:projectKeys] = Array(project_keys).join(",") if project_keys.present?
@@ -281,6 +303,46 @@ module Import
     end
 
     private
+
+    def paged_custom_field_options(custom_field_id, scope, options, total)
+      collected = options.index_by { |option| custom_field_option_key(option) }
+      1.upto(CUSTOM_FIELD_OPTIONS_PAGE_LIMIT) do |page|
+        body = custom_field_options_request(custom_field_id, max_results: CUSTOM_FIELD_OPTIONS_PAGE_SIZE, page:, **scope)
+        added = merge_custom_field_options(collected, Array(body["options"]))
+        break if added.zero? || (total && collected.size >= total)
+      end
+      collected.values
+    end
+
+    def merge_custom_field_options(collected, page_options)
+      size_before = collected.size
+      page_options.each { |option| collected[custom_field_option_key(option)] ||= option }
+      collected.size - size_before
+    end
+
+    def custom_field_option_key(option)
+      option["id"] || option
+    end
+
+    def custom_field_options_request(custom_field_id, project_ids:, issue_type_ids:, max_results: nil, page: nil)
+      path = "/rest/api/2/customFields/#{custom_field_id}/options"
+      response = get_response(path, params: custom_field_options_params(project_ids:, issue_type_ids:, max_results:, page:))
+      status = response.code.to_i
+      if UNSUPPORTED_ENDPOINT_STATUSES.include?(status)
+        raise UnsupportedEndpointError, I18n.t("admin.jira.client.unsupported_endpoint", path:, status:)
+      end
+
+      handle_response(response)
+    end
+
+    def custom_field_options_params(project_ids:, issue_type_ids:, max_results:, page:)
+      params = {}
+      params[:maxResults] = max_results if max_results
+      params[:page] = page if page
+      params[:projectIds] = Array(project_ids).join(",") if project_ids.present?
+      params[:issueTypeIds] = Array(issue_type_ids).join(",") if issue_type_ids.present?
+      params
+    end
 
     def get(path, params: {})
       response = get_response(path, params:)
