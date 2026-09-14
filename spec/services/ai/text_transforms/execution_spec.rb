@@ -62,6 +62,19 @@ RSpec.describe AI::TextTransforms::Execution,
                          ])
   end
 
+  it "builds the completed text from the deltas, not from the gateway's return value" do
+    gateway = AI::TextTransforms::FakeGateway.new(deltas: %w[a b])
+    allow(gateway).to receive(:stream).and_wrap_original do |original, **args, &block|
+      original.call(**args, &block)
+      nil
+    end
+
+    execute(gateway)
+
+    expect(run).to be_succeeded
+    expect(events.last).to eq([3, "completed", { "text" => "ab" }])
+  end
+
   it "sends the stored prompt, the input and the budget to the gateway" do
     gateway = AI::TextTransforms::FakeGateway.new(deltas: %w[a])
 

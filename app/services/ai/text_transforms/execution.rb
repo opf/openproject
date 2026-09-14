@@ -40,6 +40,7 @@ module AI
         @gateway = gateway
         @clock = clock
         @buffer = +""
+        @text = +""
       end
 
       def call
@@ -57,14 +58,14 @@ module AI
 
       private
 
-      attr_reader :run, :gateway, :clock, :buffer
+      attr_reader :run, :gateway, :clock, :buffer, :text
 
       def perform_run
         return fail_run(:not_available) unless Availability.new(gateway:).runnable(run.action).available?
 
         run.start!
         record("status", status: "running")
-        text = stream
+        stream
         flush
         record("completed", text:)
         run.finish!("succeeded")
@@ -78,6 +79,7 @@ module AI
 
       def receive(delta)
         buffer << delta
+        text << delta
         return if clock.call - @last_flush < FLUSH_INTERVAL
 
         flush
