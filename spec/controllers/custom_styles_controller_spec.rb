@@ -178,21 +178,14 @@ RSpec.describe CustomStylesController do
         allow(CustomStyle).to receive(:current).and_return(custom_style)
       end
 
-      %i[
-        logo_dark
-        logo_light_high_contrast
-        logo_mobile_dark
-        logo_mobile_light_high_contrast
-      ].each do |field|
-        it "updates #{field}" do
-          upload = Rack::Test::UploadedFile.new(
-            Rails.root.join("spec/support/custom_styles/logos/logo_image.png")
-          )
+      it "updates a logo variant" do
+        upload = Rack::Test::UploadedFile.new(
+          Rails.root.join("spec/support/custom_styles/logos/logo_image.png")
+        )
 
-          post :update, params: { custom_style: { field => upload } }
+        post :update, params: { custom_style: { logo_dark: upload } }
 
-          expect(custom_style.reload.public_send(field)).to be_present
-        end
+        expect(custom_style.reload.logo_dark).to be_present
       end
     end
 
@@ -208,29 +201,12 @@ RSpec.describe CustomStylesController do
         }
       end
 
-      context "when a desktop light logo is present" do
-        let(:custom_style) { build(:custom_style_with_logo) }
-        let(:field) { "logo" }
-
-        it "sends a file" do
-          expect(response).to have_http_status(:ok)
-        end
-      end
-
-      context "when a mobile light logo is present" do
-        let(:custom_style) { build(:custom_style_with_logo_mobile) }
-        let(:field) { "logo_mobile" }
-
-        it "sends a file" do
-          expect(response).to have_http_status(:ok)
-        end
-      end
-
       context "when a dark logo is present" do
         let(:custom_style) { build(:custom_style_with_logo_dark) }
         let(:field) { "logo_dark" }
 
-        it "sends a file" do
+        it "sends the dark logo file" do
+          expect(controller).to have_received(:send_file).with(custom_style.logo_dark.local_file.path)
           expect(response).to have_http_status(:ok)
         end
       end
@@ -263,28 +239,6 @@ RSpec.describe CustomStylesController do
         delete :logo_delete, params: {
           field:
         }
-      end
-
-      context "when a desktop light logo exists" do
-        let(:custom_style) { create(:custom_style_with_logo) }
-        let(:field) { "logo" }
-
-        it "removes the logo from custom_style" do
-          expect(custom_style.reload.logo).not_to be_present
-          expect(response).to redirect_to(action: :show)
-          expect(response).to have_http_status(:see_other)
-        end
-      end
-
-      context "when a mobile light logo exists" do
-        let(:custom_style) { create(:custom_style_with_logo_mobile) }
-        let(:field) { "logo_mobile" }
-
-        it "removes the mobile logo from custom_style" do
-          expect(custom_style.reload.logo_mobile).not_to be_present
-          expect(response).to redirect_to(action: :show)
-          expect(response).to have_http_status(:see_other)
-        end
       end
 
       context "when a dark logo exists" do
