@@ -194,16 +194,8 @@ class Meeting < ApplicationRecord
     parts = Meeting
               .unscoped
               .where(id:)
-              .joins("LEFT JOIN meeting_sections ON meeting_sections.meeting_id = meetings.id")
-              .left_joins(:agenda_items, agenda_items: %i[outcomes meeting_section])
-              .pick(
-                Arel.sql("MAX(CASE WHEN meeting_sections.backlog = FALSE THEN meeting_agenda_items.updated_at END)"),
-                Arel.sql("MAX(CASE WHEN meeting_sections.backlog = FALSE THEN meeting_sections.updated_at END)"),
-                Arel.sql("MAX(meeting_outcomes.updated_at)"),
-                Arel.sql("COUNT(DISTINCT CASE WHEN meeting_sections.backlog = FALSE THEN meeting_agenda_items.id END)"),
-                Arel.sql("COUNT(DISTINCT CASE WHEN meeting_sections.backlog = FALSE THEN meeting_sections.id END)"),
-                Arel.sql("COUNT(DISTINCT meeting_outcomes.id)")
-              )
+              .left_joins(sections: { agenda_items: :outcomes })
+              .pick(*changed_hash_aggregates)
 
     parts.map! { |part| part.is_a?(Time) ? part.utc.iso8601(6) : part }
     parts << lock_version
@@ -356,6 +348,12 @@ class Meeting < ApplicationRecord
   end
 
   private
+
+  def changed_hash_aggregates
+    tables = [MeetingAgendaItem, MeetingSection, MeetingOutcome].map(&:arel_table)
+
+    tables.map { it[:updated_at].maximum } + tables.map { it[:id].count(true) }
+  end
 
   def add_new_participants_as_watcher
     participants.select(&:new_record?).each do |p|

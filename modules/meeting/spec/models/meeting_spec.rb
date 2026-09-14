@@ -232,6 +232,27 @@ RSpec.describe Meeting do
 
       expect(meeting.changed_hash).not_to eq(hash_before_deletion)
     end
+
+    context "with a backlog" do
+      let!(:backlog) { create(:meeting_section, meeting:, backlog: true) }
+
+      it "does not change when a backlog item is added" do
+        hash_before_addition = meeting.changed_hash
+
+        create(:meeting_agenda_item, meeting:, meeting_section: backlog)
+
+        expect(meeting.changed_hash).to eq(hash_before_addition)
+      end
+
+      it "does not change when a backlog item is updated" do
+        backlog_item = create(:meeting_agenda_item, meeting:, meeting_section: backlog)
+        hash_before_update = meeting.changed_hash
+
+        travel_to(1.minute.from_now) { backlog_item.update!(title: "Updated backlog item") }
+
+        expect(meeting.changed_hash).to eq(hash_before_update)
+      end
+    end
   end
 
   describe ".templates_visible_in_project" do
