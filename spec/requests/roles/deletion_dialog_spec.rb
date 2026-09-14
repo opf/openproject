@@ -65,6 +65,10 @@ RSpec.describe "GET /roles/:id/deletion_dialog", :aggregate_failures, :skip_csrf
       expect(response_body)
         .to include("Out of these users, 1 will lose access to some projects as this is their only role")
     end
+
+    it "does not link to the memberships overview while the full list is shown" do
+      expect(response_body).not_to include("op-roles--delete-dialog-overview-link")
+    end
   end
 
   context "when a member holds the role in fewer projects than are truncated" do
@@ -108,6 +112,13 @@ RSpec.describe "GET /roles/:id/deletion_dialog", :aggregate_failures, :skip_csrf
       expect(response_body).to include("2 users in 1 project")
       expect(response_body).not_to include("op-roles--delete-dialog-members")
     end
+
+    it "links to the memberships overview filtered by the role" do
+      filters = [{ role_id: { operator: "=", values: [role.id.to_s] } }].to_json
+
+      expect(response_body).to include(I18n.t("roles.delete_dialog.show_memberships"))
+      expect(response_body).to include(CGI.escapeHTML(admin_members_path(filters:)))
+    end
   end
 
   context "when the role is a global role" do
@@ -122,6 +133,21 @@ RSpec.describe "GET /roles/:id/deletion_dialog", :aggregate_failures, :skip_csrf
 
     it "states how many users lose the global role" do
       expect(response_body).to include("Out of these users, 1 will lose this global role entirely.")
+    end
+
+    context "and more users hold it than are listed" do
+      before do
+        stub_const("Roles::DeleteDialog::ContentComponent::PRINCIPAL_LIMIT", 1)
+        create(:user, global_roles: [role])
+      end
+
+      it "shows the user total without any project count and links to the overview" do
+        filters = [{ role_id: { operator: "=", values: [role.id.to_s] } }].to_json
+
+        expect(response_body).to include("2 users")
+        expect(response_body).not_to include("2 users in")
+        expect(response_body).to include(CGI.escapeHTML(admin_members_path(filters:)))
+      end
     end
   end
 end

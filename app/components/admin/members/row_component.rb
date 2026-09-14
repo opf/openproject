@@ -28,26 +28,45 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Members::Filters::RoleFilter < Queries::Members::Filters::MemberFilter
-  # Role's default scope eager loads permissions, which would make #pluck join and
-  # return one row per permission.
-  def allowed_values
-    @allowed_values ||= Role.unscope(:includes).order(:name).pluck(:name, :id)
-  end
+module Admin
+  module Members
+    class RowComponent < OpPrimer::BorderBoxRowComponent
+      alias_method :member, :model
 
-  def type
-    :list_optional
-  end
+      delegate :principal, to: :member
 
-  def self.key
-    :role_id
-  end
+      def row_css_id
+        "member-#{member.id}"
+      end
 
-  def joins
-    :member_roles
-  end
+      def user
+        render(Users::AvatarComponent.new(user: principal, size: :mini, link: true, show_name: true))
+      end
 
-  def where
-    operator_strategy.sql_for_field(values, "member_roles", "role_id")
+      def project
+        return global_membership_label if member.project.nil?
+
+        # Archived projects have no reachable page, so this renders their name as plain text.
+        content_tag(:span, helpers.link_to_project(member.project),
+                    data: { "test-selector": "op-admin-members--project" })
+      end
+
+      def roles
+        content_tag(:span, safe_join(role_links, ", "),
+                    data: { "test-selector": "op-admin-members--roles" })
+      end
+
+      private
+
+      def role_links
+        member.roles.sort_by(&:name).map do |role|
+          render(Primer::Beta::Link.new(href: edit_role_path(role), underline: false)) { role.name }
+        end
+      end
+
+      def global_membership_label
+        render(Primer::Beta::Text.new(color: :subtle, font_style: :italic)) { I18n.t(:label_global) }
+      end
+    end
   end
 end

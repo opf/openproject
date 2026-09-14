@@ -28,26 +28,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Members::Filters::RoleFilter < Queries::Members::Filters::MemberFilter
-  # Role's default scope eager loads permissions, which would make #pluck join and
-  # return one row per permission.
-  def allowed_values
-    @allowed_values ||= Role.unscope(:includes).order(:name).pluck(:name, :id)
-  end
+module Admin
+  class MembersController < ApplicationController
+    include PaginationHelper
 
-  def type
-    :list_optional
-  end
+    layout "admin"
 
-  def self.key
-    :role_id
-  end
+    before_action :require_admin
 
-  def joins
-    :member_roles
-  end
+    menu_item :members
 
-  def where
-    operator_strategy.sql_for_field(values, "member_roles", "role_id")
+    def index
+      @query = build_query
+      @members = @query
+                   .results
+                   .includes(:project)
+                   .page(page_param)
+                   .per_page(per_page_param)
+
+      render layout: !turbo_frame_request?
+    end
+
+    private
+
+    def build_query
+      ParamsToQueryService
+        .new(Member, current_user, query_class: Queries::Members::MemberQuery)
+        .call(params)
+    end
   end
 end

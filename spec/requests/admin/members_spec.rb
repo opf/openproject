@@ -1,0 +1,183 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+require "spec_helper"
+
+RSpec.describe "GET /admin/members", :aggregate_failures, :skip_csrf, type: :rails_request do
+  shared_let(:admin) { create(:admin) }
+
+  shared_let(:project) { create(:project, name: "Apollo") }
+  shared_let(:archived_project) { create(:project, name: "Gemini", active: false) }
+  shared_let(:role) { create(:project_role, name: "Reviewer") }
+  shared_let(:other_role) { create(:project_role, name: "Approver") }
+
+  shared_let(:user) do
+    create(:user, firstname: "Jo", lastname: "Barnes", member_with_roles: { project => [role, other_role] })
+  end
+  shared_let(:archived_member) do
+    create(:user, firstname: "Ada", lastname: "Stone", member_with_roles: { archived_project => [role] })
+  end
+  shared_let(:global_user) do
+    create(:user, firstname: "Kim", lastname: "Novak", global_roles: [create(:global_role, name: "Creator")])
+  end
+
+  context "with an admin" do
+    before { login_as(admin) }
+
+    it "lists every membership with its user, project and roles" do
+      get admin_members_path
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Jo Barnes")
+      expect(response.body).to include("Apollo")
+      expect(response.body).to include("Approver")
+      expect(response.body).to include("Reviewer")
+    end
+
+    it "includes memberships of archived projects" do
+      get admin_members_path
+
+      expect(response.body).to include("Ada Stone")
+      expect(response.body).to include("Gemini")
+    end
+
+    it "marks global memberships as such" do
+      get admin_members_path
+
+      expect(response.body).to include("Kim Novak")
+      expect(response.body).to include("Creator")
+    end
+
+    it "filters by role" do
+      get admin_members_path(filters: [{ role_id: { operator: "=", values: [other_role.id.to_s] } }].to_json)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Jo Barnes")
+      expect(response.body).not_to include("Ada Stone")
+      expect(response.body).not_to include("Kim Novak")
+    end
+
+    it "offers quick filters for member type, project and role without an all filters section" do
+      get admin_members_path
+
+      expect(response.body).to include(Member.human_attribute_name(:principal_type))
+      expect(response.body).to include(Project.model_name.human)
+      expect(response.body).to include(Role.model_name.human)
+      expect(response.body).not_to include(I18n.t(:button_all_filters))
+    end
+
+    it "labels the search input for users" do
+      get admin_members_path
+
+      expect(response.body).to include("Search users")
+    end
+
+    it "links the project and the roles of a row" do
+      get admin_members_path
+
+      expect(response.body).to include(project_path(project))
+      expect(response.body).to include(edit_role_path(role))
+      expect(response.body).to include(edit_role_path(other_role))
+    end
+
+    it "does not link archived projects" do
+      get admin_members_path
+
+      expect(response.body).to include("Gemini")
+      expect(response.body).not_to include(project_path(archived_project))
+    end
+
+    it "offers each role exactly once in the role filter" do
+      # A role holding several permissions is what used to be listed once per permission.
+      expect(role.permissions.size).to be > 1
+
+      values = Queries::Members::MemberQuery.new(user: admin).filter_for(:role_id).allowed_values
+
+      expect(values.count { |(_, id)| id == role.id }).to eq(1)
+      expect(values).to eq(values.uniq)
+      expect(values.map(&:first)).to eq(values.map(&:first).sort)
+    end
+
+    it "filters by project" do
+      get admin_members_path(filters: [{ project_id: { operator: "=", values: [archived_project.id.to_s] } }].to_json)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Ada Stone")
+      expect(response.body).not_to include("Jo Barnes")
+    end
+
+    it "filters by principal type" do
+      get admin_members_path(filters: [{ principal_type: { operator: "=", values: [Group.name] } }].to_json)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).not_to include("Jo Barnes")
+      expect(response.body).not_to include("Ada Stone")
+    end
+
+    it "filters by principal name" do
+      get admin_members_path(filters: [{ any_name_attribute: { operator: "~", values: ["Stone"] } }].to_json)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Ada Stone")
+      expect(response.body).not_to include("Jo Barnes")
+    end
+  end
+
+  context "with a non-admin user" do
+    before { login_as(create(:user)) }
+
+    it "is forbidden" do
+      get admin_members_path
+
+      expect(response).to have_http_status(:forbidden)
+    end
+  end
+
+  context "with a user holding a global role" do
+    before do
+      global_role = create(:global_role, permissions: %i[add_project])
+      login_as(create(:user, global_roles: [global_role]))
+    end
+
+    it "is forbidden" do
+      get admin_members_path
+
+      expect(response).to have_http_status(:forbidden)
+    end
+  end
+
+  context "when anonymous" do
+    it "redirects to the login form" do
+      get admin_members_path
+
+      expect(response).to have_http_status(:found)
+    end
+  end
+end

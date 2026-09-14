@@ -1041,6 +1041,8 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :members, only: %i[index]
+
     resources :departments,
               only: %i[index show edit update destroy] do
       member do

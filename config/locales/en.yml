@@ -232,6 +232,7 @@ en:
         title: Title
       member:
         blocked: "Blocked"
+        principal_type: "Member type"
         roles: "Roles"
       notification:
         read_ian: "Read in-app"
@@ -1767,6 +1768,12 @@ en:
       update:
         failure: "MCP configuration could not be updated."
         success: "MCP configuration was updated successfully."
+    members:
+      index:
+        blank_description: "No membership matches the current filter."
+        blank_title: "No memberships"
+        filter_label: "Search users"
+        title: "Memberships"
     plugins:
       no_results_content_text: See our integrations and plugins page for more information.
       no_results_title_text: There are currently no plugins installed.
@@ -5695,6 +5702,7 @@ en:
         one: "Out of these users, 1 will lose access to some projects as this is their only role in those projects. Are you sure you want to delete this role?"
         other: "Out of these users, %{count} will lose access to some projects as this is their only role in those projects. Are you sure you want to delete this role?"
         zero: "None of these users will lose project access. Are you sure you want to delete this role?"
+      show_memberships: "Show all memberships with this role"
       summary: "%{users} in %{projects}"
       summary_projects:
         one: "1 project"

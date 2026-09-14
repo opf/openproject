@@ -30,6 +30,16 @@ See COPYRIGHT and LICENSE files for more details.
 <%= render(OpPrimer::InsetBoxComponent.new(mb: 3)) do %>
   <% if exceeds_limit? %>
     <%= render(Primer::Beta::Text.new(test_selector: "op-roles--delete-dialog-summary")) { summary } %>
+    <%=
+      render(
+        Primer::Beta::Link.new(
+          href: memberships_path,
+          target: :_blank,
+          ml: 2,
+          test_selector: "op-roles--delete-dialog-overview-link"
+        )
+      ) { t("roles.delete_dialog.show_memberships") }
+    %>
   <% else %>
     <ul data-test-selector="op-roles--delete-dialog-members">
       <% entries.each do |entry| %>

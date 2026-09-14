@@ -53,6 +53,12 @@ module Roles
         @principals_losing_access_count ||= members_losing_access.distinct.count(:user_id)
       end
 
+      # The memberships overview, filtered down to the role being deleted, so the full
+      # list stays reachable when it is too long to show here.
+      def memberships_path
+        admin_members_path(filters: [{ role_id: { operator: "=", values: [role.id.to_s] } }].to_json)
+      end
+
       private
 
       def members
