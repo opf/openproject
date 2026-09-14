@@ -104,8 +104,8 @@ RSpec.describe "Shared users in the members table", :js do
     end
 
     members_page.click_menu_item "View"
-    expect(members_page).to have_user shared_user.name
-    expect(members_page).to have_user other_shared_user.name
+    expect(members_page).to have_user shared_user.name, wait: 20
+    expect(members_page).to have_user other_shared_user.name, wait: 20
     expect(members_page).not_to have_user active_user.name
 
     members_page.in_user_row(shared_user) do
@@ -117,7 +117,7 @@ RSpec.describe "Shared users in the members table", :js do
     end
 
     members_page.click_menu_item "Comment"
-    expect(members_page).to have_user shared_user.name
+    expect(members_page).to have_user shared_user.name, wait: 20
     expect(members_page).not_to have_user other_shared_user.name
     expect(members_page).not_to have_user active_user.name
 

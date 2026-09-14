@@ -74,8 +74,7 @@ RSpec.shared_examples "module specific query view management" do
       query_menu.expect_item "My first query"
 
       # Delete a query
-      settings_menu.open_and_choose "Delete"
-      module_page.accept_alert_dialog!
+      accept_confirm { settings_menu.open_and_choose "Delete" }
 
       query_title.expect_title default_name
       query_menu.expect_no_item "My query planner (renamed)"

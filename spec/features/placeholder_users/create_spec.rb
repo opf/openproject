@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "create placeholder users", :selenium do
+RSpec.describe "create placeholder users" do
   let(:new_placeholder_user_page) { Pages::NewPlaceholderUser.new }
 
   shared_examples_for "placeholders creation flow" do

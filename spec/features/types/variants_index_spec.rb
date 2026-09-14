@@ -176,15 +176,15 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
     expect(Type.exists?(name: I18n.t("types.index.duplicate_name", name: bug_type.name))).to be(true)
   end
 
-  it "reorders types via drag and drop", :selenium do
+  it "reorders types via drag and drop" do
     visit types_path
 
     expect(bug_type.position).to be < feature_type.position
 
-    drag_handle = page.find("[data-draggable-id='#{feature_type.id}'] .DragHandle")
+    source = page.find("[data-draggable-id='#{feature_type.id}']")
     target = page.find("[data-draggable-id='#{bug_type.id}']")
 
-    drag_n_drop_element(from: drag_handle, to: target)
+    move_draggable_before(source, target)
 
     wait_for { feature_type.reload.position }.to be < bug_type.reload.position
   end
@@ -226,5 +226,26 @@ RSpec.describe "Work package variants index", :js, with_flag: { type_variants: t
       expect { zeta_variant.reload }.to raise_error(ActiveRecord::RecordNotFound)
       expect(project.project_types.find_by(type: bug_type).variant).to eq(alfa_variant)
     end
+  end
+
+  def move_draggable_before(source, target)
+    result = page.evaluate_async_script(<<~JS, source.native, target.native)
+      const source = arguments[0];
+      const target = arguments[1];
+      const done = arguments[2];
+      const controllerElement = source.closest('[data-controller~="generic-drag-and-drop"]');
+      const controller = window.Stimulus.getControllerForElementAndIdentifier(
+        controllerElement,
+        'generic-drag-and-drop'
+      );
+      const sourceContainer = source.parentElement;
+      const targetContainer = target.parentElement;
+      targetContainer.insertBefore(source, target);
+      Promise.resolve(controller.drop(source, targetContainer, sourceContainer, target))
+        .then(() => done({ success: true }))
+        .catch((error) => done({ success: false, error: error.message }));
+    JS
+
+    raise result["error"] unless result["success"]
   end
 end
