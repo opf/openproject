@@ -28,29 +28,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module LlmConnections
-  class UpdateService < BaseServices::Update
-    private
+class CreateLlmCapabilityVerdicts < ActiveRecord::Migration[8.1]
+  def change
+    create_table :llm_capability_verdicts do |t|
+      t.references :llm_connection, null: false, foreign_key: true
+      # A plain string, not a foreign key: the catalogue is a cache of a remote
+      # list, and a model may vanish from it without invalidating what we learned.
+      t.string :model_id, null: false
+      t.string :capability, null: false
+      t.string :state, null: false
+      t.string :source, null: false
+      t.jsonb :detail, null: false, default: {}
+      t.datetime :checked_at, null: false
 
-    # The contract has already proven the server reachable when the credentials
-    # changed, so refreshing the catalogue here cannot be the thing that fails
-    # the save. A sync failure is therefore logged, not surfaced.
-    def after_perform(service_call)
-      super.tap do
-        next unless service_call.success?
-
-        Setting.llm_features_enabled = model.llm_features_enabled
-        next unless initial_fill?(service_call.result)
-
-        SyncModelsService.new(service_call.result).call
-      end
+      t.timestamps null: false
     end
 
-    # The only automatic refresh: nothing is stored yet, so nothing an
-    # administrator curated can be lost. Every later refresh is asked for.
-    def initial_fill?(connection)
-      connection.saved_changes.keys.intersect?(LlmServerValidator::CONNECTION_ATTRIBUTES) &&
-        connection.models.none?
-    end
+    add_index :llm_capability_verdicts,
+              %i[llm_connection_id model_id capability],
+              unique: true,
+              name: "index_llm_capability_verdicts_on_connection_model_capability"
   end
 end

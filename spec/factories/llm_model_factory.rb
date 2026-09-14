@@ -28,29 +28,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module LlmConnections
-  class UpdateService < BaseServices::Update
-    private
+FactoryBot.define do
+  factory :llm_model do
+    llm_connection
+    sequence(:external_id) { |n| "model-#{n}" }
+    active { true }
+    manual { false }
+    last_seen_at { Time.current }
 
-    # The contract has already proven the server reachable when the credentials
-    # changed, so refreshing the catalogue here cannot be the thing that fails
-    # the save. A sync failure is therefore logged, not surfaced.
-    def after_perform(service_call)
-      super.tap do
-        next unless service_call.success?
-
-        Setting.llm_features_enabled = model.llm_features_enabled
-        next unless initial_fill?(service_call.result)
-
-        SyncModelsService.new(service_call.result).call
-      end
+    trait :manual do
+      manual { true }
+      last_seen_at { nil }
     end
 
-    # The only automatic refresh: nothing is stored yet, so nothing an
-    # administrator curated can be lost. Every later refresh is asked for.
-    def initial_fill?(connection)
-      connection.saved_changes.keys.intersect?(LlmServerValidator::CONNECTION_ATTRIBUTES) &&
-        connection.models.none?
+    trait :withdrawn do
+      active { false }
+    end
+
+    # Still offered by the server; hidden by an administrator.
+    trait :deactivated do
+      deactivated_at { Time.current }
     end
   end
 end

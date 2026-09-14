@@ -87,8 +87,19 @@ module Admin
       render_404 unless OpenProject::FeatureDecisions.llm_connection_active?
     end
 
+    # A connection can be perfectly usable without offering a model list, so the
+    # save succeeds either way; the administrator is told what to do next rather
+    # than being left with an empty table and no explanation.
     def redirect_after_save
-      redirect_with_notice(@connection.llm_features_enabled ? t(".success") : t(".disabled"))
+      return redirect_with_notice(t(".disabled")) unless @connection.llm_features_enabled
+
+      if @connection.reload.models.none?
+        flash[:warning] = t(".no_models")
+      else
+        flash[:notice] = t(".success")
+      end
+
+      redirect_to llm_connection_path, status: :see_other
     end
 
     def render_form_with_errors

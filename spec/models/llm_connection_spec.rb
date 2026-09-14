@@ -93,4 +93,41 @@ RSpec.describe LlmConnection do
       expect(described_class.active_connection).to eq(connection)
     end
   end
+
+  describe "#settings_fingerprint" do
+    subject(:connection) { build(:llm_connection, base_url: "https://example.com/v1", api_key: "sk-test") }
+
+    it "changes with the API format" do
+      expect { connection.api_format = "anthropic" }.to change(connection, :settings_fingerprint)
+    end
+
+    it "changes with the host URL" do
+      expect { connection.base_url = "https://elsewhere.example/v1" }.to change(connection, :settings_fingerprint)
+    end
+
+    it "changes with the API key" do
+      expect { connection.api_key = "sk-rotated" }.to change(connection, :settings_fingerprint)
+    end
+  end
+
+  describe "#models_stale?" do
+    subject(:connection) { create(:llm_connection, base_url: "https://example.com/v1", api_key: "sk-test") }
+
+    it "is false while no model list has been fetched" do
+      expect(connection).not_to be_models_stale
+    end
+
+    it "is false while the settings still match the fetched list" do
+      connection.update!(connection_fingerprint: connection.settings_fingerprint)
+
+      expect(connection).not_to be_models_stale
+    end
+
+    it "is true once a connection setting changed" do
+      connection.update!(connection_fingerprint: connection.settings_fingerprint)
+      connection.update!(api_key: "sk-rotated")
+
+      expect(connection).to be_models_stale
+    end
+  end
 end

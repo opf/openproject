@@ -226,6 +226,10 @@ en:
         onthefly: "Automatic user creation"
         port: "Port"
         tls_certificate_string: "LDAP server SSL certificate"
+      llm_capability_verdict:
+        capability: "Capability"
+        model_id: "Model"
+        state: "State"
       llm_connection:
         api_format: "API format"
         api_key: "API key"
@@ -233,6 +237,10 @@ en:
         # ActiveRecord::Base.human_attribute_name strips the _id suffix, so these
         # keys deliberately do not carry it (see lib/open_project/patches/active_record_i18n.rb).
         llm_features_enabled: "Enable LLMs for this instance"
+      llm_model:
+        display_name: "Display name"
+        # human_attribute_name strips the _id suffix, so the key omits it.
+        external: "Model name"
       mcp_configuration:
         description: Description
         enabled: Enabled
@@ -1771,6 +1779,7 @@ en:
       disconnect:
         description: "OpenProject will stop using the LLM server. AI features will be unavailable until you connect again."
         heading: "Disconnect from the LLM server?"
+        keeps_models: "The model list, including any models you added manually, is kept."
         keeps_settings: "The endpoint and API format are kept. Only the stored API key is removed."
         menu_label: "Disconnect"
         success: "OpenProject has disconnected from the LLM server."
@@ -1791,6 +1800,7 @@ en:
         description: "Connect OpenProject to an LLM server so that AI features can use it."
       update:
         disabled: "Saved. LLM features are switched off for this instance."
+        no_models: "Saved, but no models are stored yet. Either the server offers no model list, or the endpoint is missing its API version segment (for example /v1)."
         success: "Successfully connected to the LLM server."
     mcp_configurations:
       index:
