@@ -51,8 +51,8 @@ RSpec.describe "Administration custom fields index", type: :rails_request do
     it "counts the projects whose form configuration shows the field" do
       get admin_settings_work_package_custom_fields_path
 
-      expect(response.body).to include(I18n.t(:label_used_in_projects))
-      expect(response.body).to include(I18n.t(:label_x_projects, count: 1))
+      expect(response.body).to include("Used in projects")
+      expect(response.body).to include("1 project")
     end
   end
 end
