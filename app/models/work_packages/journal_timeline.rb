@@ -117,15 +117,17 @@ class WorkPackages::JournalTimeline
              to: ticks.max)
   end
 
+  # One array literal with a single cast rather than a VALUES row per tick, which halves the
+  # statement for the tick counts an hourly series produces.
   def ticks_join
     <<~SQL.squish
-      INNER JOIN (VALUES #{tick_values}) AS ticks(tick)
+      INNER JOIN unnest(#{tick_array}) AS ticks(tick)
         ON #{Entry.table_name}.validity_period @> ticks.tick
     SQL
   end
 
-  def tick_values
-    ticks.map { sanitize("(CAST(:tick AS timestamptz))", tick: it) }.join(", ")
+  def tick_array
+    sanitize("CAST(ARRAY[:ticks] AS timestamptz[])", ticks:)
   end
 
   def sanitize(statement, **binds) = journal_class.sanitize_sql_array([statement, binds])
