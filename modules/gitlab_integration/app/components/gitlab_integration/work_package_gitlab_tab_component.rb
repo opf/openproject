@@ -37,5 +37,11 @@ module GitlabIntegration
     TURBO_FRAME_ID = "work-package-gitlab-tab-content"
 
     alias_method :work_package, :model
+
+    private
+
+    def linking_code
+      "OP##{work_package.id}" # TODO: properly derive code for semantic identifiers
+    end
   end
 end

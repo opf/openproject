@@ -37,10 +37,11 @@ module GitlabIntegration
 
     alias_method :items, :model
 
-    def initialize(model = nil, container_id:, heading:, work_package:, **)
+    def initialize(model = nil, container_id:, heading:, work_package:, empty_state: {}, **)
       @container_id = container_id
       @heading = heading
       @work_package = work_package
+      @empty_state = empty_state
 
       super(model, **)
     end

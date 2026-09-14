@@ -151,9 +151,22 @@ en:
 
       %{commit_note}
     work_package_gitlab_tab_component:
+      blank_slates:
+        branches:
+          description_html: Link an existing branch by adding the code %{code} to the branch name.
+          title: No branches
+        commits:
+          description_html: Link an existing commit by adding the code %{code} to the message.
+          title: No commits
+        issues:
+          description_html: Link an existing issue by adding the code %{code} to the title or description.
+          title: No issues
+        merge_requests:
+          description_html: Link an existing merge request by adding the code %{code} to the title or description.
+          title: No merge requests
       branches: Branches
       commits: Commits
-      description_html: Link an existing GitLab element by adding the code %{code} to the title or description or by creating a new one.
+      description_html: Link an existing GitLab element by adding the code %{code} to the title or description.
       git_snippets: Git snippets
       issues: Issues
       merge_requests: Merge requests
