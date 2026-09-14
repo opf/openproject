@@ -1,11 +1,13 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
+  canCreateWorkPackages,
   createWorkPackage,
   fetchAllowedValues,
   fetchStatuses,
   fetchTypes,
   fetchWorkPackage,
   fetchWorkPackageCreateForm,
+  fetchCreateWorkPackagePermission,
   initOpenProjectApi,
   linkToNewWorkPackage,
   linkToWorkPackage,
@@ -203,6 +205,53 @@ describe('openProjectApi', () => {
 
       await fetchStatuses();
       expect(calledUrl(fetchSpy.mock.calls)).toBe(`${baseUrl}/api/v3/statuses`);
+    });
+  });
+
+  describe('the permission to create work packages', () => {
+    function answerWith(status:number):() => Promise<Response> {
+      return () => Promise.resolve(mockResponse({ ok: status < 400, status, statusText: 'stubbed' }));
+    }
+
+    it('lets a probe left over from another instance answer for that one only', async () => {
+      let releaseFirstProbe!:() => void;
+      const firstProbe = new Promise<void>((resolve) => { releaseFirstProbe = resolve; });
+
+      const fetchSpy = vi.spyOn(global, 'fetch')
+        .mockImplementationOnce(async () => { await firstProbe; return mockResponse({ ok: true, status: 200 }); })
+        .mockImplementation(answerWith(403));
+
+      try {
+        initOpenProjectApi({ baseUrl: 'https://permitted.example.com' });
+        const abandoned = fetchCreateWorkPackagePermission();
+
+        initOpenProjectApi({ baseUrl: 'https://forbidden.example.com' });
+        await fetchCreateWorkPackagePermission();
+        expect(canCreateWorkPackages()).toBe(false);
+
+        releaseFirstProbe();
+        await abandoned;
+
+        expect(canCreateWorkPackages()).toBe(false);
+      } finally {
+        fetchSpy.mockRestore();
+      }
+    });
+
+    it('keeps the answer when the same instance is initialized again', async () => {
+      const fetchSpy = vi.spyOn(global, 'fetch').mockImplementation(answerWith(200));
+
+      try {
+        initOpenProjectApi({ baseUrl: 'https://example.com' });
+        await fetchCreateWorkPackagePermission();
+
+        initOpenProjectApi({ baseUrl: 'https://example.com' });
+
+        expect(canCreateWorkPackages()).toBe(true);
+        expect(fetchSpy).toHaveBeenCalledTimes(1);
+      } finally {
+        fetchSpy.mockRestore();
+      }
     });
   });
 

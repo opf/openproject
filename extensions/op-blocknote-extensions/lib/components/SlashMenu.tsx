@@ -6,6 +6,7 @@ import { registerInlineWpCallbacks, clearInlineWpCallbacks, makePendingWpid } fr
 import { findPendingInlineChip } from '../utils/inlineChipActions';
 import { pendingBlockRegistry } from './BlockWorkPackage/pendingBlockRegistry';
 import { canBlockWorkPackageReplaceCurrentBlock } from '../utils/blockContent.ts';
+import { canCreateWorkPackages } from '../services/openProjectApi.ts';
 import type { AnyEditor } from '../editorTypes';
 import type { PendingMode } from './WorkPackage/types';
 
@@ -117,5 +118,5 @@ const createWorkPackageSlashMenu = (editor:BlockNoteEditor<any>) => ({
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getOpenProjectSlashMenuItems = (editor:BlockNoteEditor<any>) => [
   workPackageSlashMenu(editor),
-  createWorkPackageSlashMenu(editor),
+  ...(canCreateWorkPackages() ? [createWorkPackageSlashMenu(editor)] : []),
 ];

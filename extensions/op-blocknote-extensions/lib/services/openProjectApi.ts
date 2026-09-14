@@ -41,8 +41,14 @@ function stripTrailingSlash(url:string):string {
  * be routed through a proxy, for example to inject authorization.
  */
 export function initOpenProjectApi(config:{ baseUrl:string, proxyUrl?:string }) {
+  const nextProxyUrl = stripTrailingSlash(config.proxyUrl ?? config.baseUrl);
+
+  // Re-initializing with the same instance (the host does so on a locale or project
+  // change) must not drop the permission, or the create command blinks out of the menu.
+  if (nextProxyUrl !== proxyUrl) forgetCreateWorkPackagePermission();
+
   baseUrl = stripTrailingSlash(config.baseUrl);
-  proxyUrl = stripTrailingSlash(config.proxyUrl ?? config.baseUrl);
+  proxyUrl = nextProxyUrl;
 }
 
 async function get<T>(endpoint:string):Promise<T> {
@@ -172,6 +178,48 @@ export function fetchWorkPackageCreateForm(payload:WorkPackagePayload = {}):Prom
 
 export function createWorkPackage(payload:WorkPackagePayload):Promise<WorkPackage> {
   return post<WorkPackage>('/api/v3/work_packages', payload);
+}
+
+/*  The project picker's endpoint is guarded by the very `add_work_packages` permission
+ *  the create form needs, so its refusal is the permission answer.  */
+const CREATE_PERMISSION_PROBE = '/api/v3/work_packages/available_projects?pageSize=1';
+
+let createPermission = false;
+let createPermissionProbe:Promise<boolean> | undefined;
+let createPermissionGeneration = 0;
+
+function forgetCreateWorkPackagePermission():void {
+  createPermission = false;
+  createPermissionProbe = undefined;
+  createPermissionGeneration += 1;
+}
+
+/** Refused until the probe says otherwise, so no create entry point outlives the answer. */
+export function canCreateWorkPackages():boolean {
+  return createPermission;
+}
+
+export function fetchCreateWorkPackagePermission():Promise<boolean> {
+  const generation = createPermissionGeneration;
+
+  createPermissionProbe ??= get(CREATE_PERMISSION_PROBE)
+    .then(() => true)
+    // Only a refusal speaks for the permission: anything else is an instance in trouble,
+    // which the create form goes on reporting as it did before.
+    .catch((error:unknown) => !(error instanceof OpenProjectApiError && error.responseStatus === 403))
+    .then((allowed) => {
+      // A probe outlives the instance it was sent to when initialization switches
+      // mid-flight, and must not answer for the one that replaced it.
+      if (generation === createPermissionGeneration) createPermission = allowed;
+      return allowed;
+    });
+
+  return createPermissionProbe;
+}
+
+export function refreshCreateWorkPackagePermission():Promise<boolean> {
+  forgetCreateWorkPackagePermission();
+  return fetchCreateWorkPackagePermission();
 }
 
 type HalFilter = Record<string, { operator:string; values:string[] }>;

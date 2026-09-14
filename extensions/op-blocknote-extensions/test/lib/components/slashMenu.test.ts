@@ -1,14 +1,29 @@
 // @vitest-environment jsdom
 
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach, afterAll, vi } from 'vitest';
 import { getOpenProjectSlashMenuItems } from '../../../lib/components/SlashMenu';
+import { refreshCreateWorkPackagePermission } from '../../../lib/services/openProjectApi';
 import i18n from '../../../lib/services/i18n';
 
 const setLang = async (lang:string) => i18n.changeLanguage(lang);
 
+function answerPermissionProbeWith(status:number):Promise<boolean> {
+  vi.stubGlobal('fetch', () => Promise.resolve({
+    ok: status < 400,
+    status,
+    statusText: 'stubbed',
+    json: () => Promise.resolve({}),
+  }));
+  return refreshCreateWorkPackagePermission();
+}
+
 describe('getOpenProjectSlashMenuItems', () => {
   const linkItem = () => getOpenProjectSlashMenuItems({} as any)[0];
   const createItem = () => getOpenProjectSlashMenuItems({} as any)[1];
+
+  beforeEach(() => answerPermissionProbeWith(200));
+
+  afterAll(() => vi.unstubAllGlobals());
 
   it('is translated to German', async () => {
     await setLang('de');
@@ -66,5 +81,12 @@ describe('getOpenProjectSlashMenuItems', () => {
     expect(items.map((item) => item.title))
       .toEqual(['Link existing work package', 'Create new work package']);
     expect(createItem().aliases).toContain('openproject work package create');
+  });
+
+  it('drops the create item for a user who may not create work packages', async () => {
+    await setLang('en');
+    await answerPermissionProbeWith(403);
+
+    expect(createItem()).toBeUndefined();
   });
 });
