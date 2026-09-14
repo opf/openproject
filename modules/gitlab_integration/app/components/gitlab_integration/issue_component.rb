@@ -34,5 +34,23 @@ module GitlabIntegration
     include OpPrimer::ComponentHelpers
 
     alias_method :issue, :model
+
+    private
+
+    def state_scheme
+      case issue.state.to_sym
+      when :opened
+        :success
+      when :closed
+        :danger
+      else
+        # TODO: complete list
+        raise ArgumentError, "Unsupported issue state #{state}"
+      end
+    end
+
+    def state_label
+      t(".states.#{issue.state}")
+    end
   end
 end
