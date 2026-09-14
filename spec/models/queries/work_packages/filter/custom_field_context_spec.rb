@@ -42,6 +42,8 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldContext do
 
     let(:context) { instance_double(Query, project: here) }
 
+    current_user { create(:admin) }
+
     it "offers only the fields the project's form configuration shows" do
       expect(described_class.custom_fields(context)).to contain_exactly(shown_here)
     end
@@ -51,8 +53,14 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldContext do
         .to include(shown_here, shown_elsewhere)
     end
 
-    it "offers the globally available fields without a project" do
-      expect(described_class.custom_fields(nil)).not_to include(shown_here, shown_elsewhere)
+    it "offers the fields reachable in any visible project without a project" do
+      expect(described_class.custom_fields(nil)).to include(shown_here, shown_elsewhere)
+    end
+
+    it "leaves out a field no form configuration shows" do
+      on_no_type = create(:list_wp_custom_field, is_filter: true)
+
+      expect(described_class.custom_fields(nil)).not_to include(on_no_type)
     end
   end
 end
