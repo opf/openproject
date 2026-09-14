@@ -52,7 +52,7 @@ module Queries::WorkPackages::Filter::CustomFieldContext
       else
         custom_field_class
           .filter
-          .for_all
+          .on_visible_type_and_project(User.current)
           .where
           .not(field_format: %w(user version))
       end
