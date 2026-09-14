@@ -30,8 +30,6 @@
 
 module Roles
   module DeleteDialog
-    # Abstract base for the bodies of the role deletion dialog. Subclasses render
-    # the member list in the shape their role type calls for.
     class ContentComponent < ApplicationComponent
       PRINCIPAL_LIMIT = 100
 
@@ -49,8 +47,6 @@ module Roles
         @principal_count ||= members.distinct.count(:user_id)
       end
 
-      # The memberships overview, filtered down to the role being deleted, so the full
-      # list stays reachable when it is too long to show here.
       def memberships_path
         admin_members_path(filters: [{ role_id: { operator: "=", values: [role.id.to_s] } }].to_json)
       end

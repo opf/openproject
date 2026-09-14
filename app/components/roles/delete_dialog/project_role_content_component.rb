@@ -58,7 +58,6 @@ module Roles
         @principals_losing_access_count ||= members_losing_access.distinct.count(:user_id)
       end
 
-      # Rendered next to, but styled apart from, the principal's name.
       def projects_label(entry)
         projects = entry[:projects]
         listed = projects.first(PROJECT_LIMIT).map(&:name).join(", ")

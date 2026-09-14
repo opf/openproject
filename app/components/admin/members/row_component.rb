@@ -66,8 +66,6 @@ module Admin
         render(Users::AvatarComponent.new(user: principal, size: :mini, link: true, show_name: true))
       end
 
-      # Roles a group passes on to its users are not editable on the user's membership,
-      # so the row names where they come from.
       def inheritance_note
         render(Primer::Beta::Text.new(color: :muted,
                                       font_size: :small,

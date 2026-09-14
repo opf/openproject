@@ -55,8 +55,6 @@ module Admin
         "admin-members-table"
       end
 
-      # Maps a member_role's `inherited_from` to the principal granting it, resolved once
-      # for the whole page so the rows do not query per inherited role.
       def inheritance_sources
         @inheritance_sources ||=
           MemberRole

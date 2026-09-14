@@ -44,7 +44,6 @@ module Admin
 
       private
 
-      # Projects nobody is a member of would only ever filter down to an empty list.
       def projects_with_members
         Project
           .where(id: Member.where.not(project_id: nil).select(:project_id))

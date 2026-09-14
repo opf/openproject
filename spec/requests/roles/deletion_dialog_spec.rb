@@ -42,8 +42,6 @@ RSpec.describe "GET /roles/:id/deletion_dialog", :aggregate_failures, :skip_csrf
 
   before { login_as(admin) }
 
-  # The project names are rendered apart from the principal's name so they can be
-  # de-emphasised, so they are asserted on the muted element rather than the whole body.
   def muted_texts
     Nokogiri::HTML(response_body).css(".color-fg-muted").map { it.text.squish }
   end
