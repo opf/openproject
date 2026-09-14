@@ -122,7 +122,7 @@ RSpec.describe "Types", :js do
     context "and I attempt to delete the type" do
       before do
         index_page.visit!
-        index_page.delete existing_type.name
+        index_page.delete_expecting_refusal existing_type.name
         wait_for_network_idle
       end
 

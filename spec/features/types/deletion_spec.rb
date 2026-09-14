@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Deleting a work package type", :js, with_flag: { type_variants: true } do
+RSpec.describe "Deleting a work package type", :js do
   shared_let(:admin) { create(:admin) }
 
   let(:dialog_id) { WorkPackageTypes::Types::TypeDeletionDialogComponent::DIALOG_ID }
