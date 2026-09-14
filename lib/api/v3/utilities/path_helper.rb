@@ -114,6 +114,18 @@ module API
           index :activity
           show :activity
 
+          def self.ai_text_transform_runs
+            "#{root}/ai_text_transform_runs"
+          end
+
+          def self.ai_text_transform_run(uuid)
+            "#{ai_text_transform_runs}/#{uuid}"
+          end
+
+          def self.ai_text_transform_run_cancel(uuid)
+            "#{ai_text_transform_run(uuid)}/cancel"
+          end
+
           def self.api_spec
             "#{root}/spec.json"
           end
