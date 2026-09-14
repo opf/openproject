@@ -65,11 +65,7 @@ See COPYRIGHT and LICENSE files for more details.
         flex_layout do |row|
           merge_request.labels.each do |label|
             row.with_column(mr: 2) do
-              render(
-                Primer::Beta::Label.new(
-                  style: "color: #{ensure_color(label.fetch("color"))}; border-color: #{ensure_color(label.fetch("color"))}"
-                )
-              ) { label.fetch("title") }
+              render(GitlabIntegration::LabelComponent.new(title: label.fetch("title"), color: label.fetch("color")))
             end
           end
         end
