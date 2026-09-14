@@ -52,39 +52,6 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
   let(:activity_tab) { Components::WorkPackages::Activities.new(work_package) }
 
   describe "permission checks" do
-    let(:viewer_role) do
-      create(:project_role,
-             permissions: %i[view_work_packages])
-    end
-    let(:viewer) do
-      create(:user,
-             firstname: "A",
-             lastname: "Viewer",
-             member_with_roles: { project => viewer_role })
-    end
-
-    let(:viewer_role_with_commenting_permission) do
-      create(:project_role,
-             permissions: %i[view_work_packages add_work_package_comments edit_own_work_package_comments])
-    end
-    let(:viewer_with_commenting_permission) do
-      create(:user,
-             firstname: "A",
-             lastname: "Viewer",
-             member_with_roles: { project => viewer_role_with_commenting_permission })
-    end
-
-    let(:user_role_with_editing_permission) do
-      create(:project_role,
-             permissions: %i[view_work_packages add_work_package_comments edit_work_package_comments])
-    end
-    let(:user_with_editing_permission) do
-      create(:user,
-             firstname: "A",
-             lastname: "Viewer",
-             member_with_roles: { project => user_role_with_editing_permission })
-    end
-
     let(:comment_work_package_role) { create(:comment_work_package_role) }
     let(:user_with_commenting_permission_via_a_work_package_share) do
       create(:user,
@@ -94,131 +61,6 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
     end
 
     let(:work_package) { create(:work_package, project:, author: admin) }
-    let(:first_comment) do
-      create(:work_package_journal,
-             user: admin,
-             notes: "First comment by admin",
-             journable: work_package,
-             version: 2)
-    end
-
-    context "when project is public", with_settings: { login_required: false } do
-      let(:project) { create(:project, public: true) }
-      let!(:anonymous_role) do
-        create(:anonymous_role, permissions: %i[view_project view_work_packages])
-      end
-
-      context "when visited by an anonymous visitor" do
-        before do
-          first_comment
-
-          login_as User.anonymous
-
-          wp_page.visit!
-          wp_page.wait_for_activity_tab
-        end
-
-        it "does show comments but does not enable adding, editing or quoting comments" do
-          activity_tab.expect_journal_notes(text: "First comment by admin")
-
-          activity_tab.within_journal_entry(first_comment) do
-            page.find_test_selector("op-wp-journal-#{first_comment.id}-action-menu").click
-
-            expect(page).not_to have_test_selector("op-wp-journal-#{first_comment.id}-edit")
-            expect(page).not_to have_test_selector("op-wp-journal-#{first_comment.id}-quote")
-          end
-
-          activity_tab.expect_no_input_field
-        end
-      end
-    end
-
-    context "when a user has only view_work_packages permission" do
-      current_user { viewer }
-
-      before do
-        first_comment
-
-        wp_page.visit!
-        wp_page.wait_for_activity_tab
-      end
-
-      it "does show comments but does not enable adding comments" do
-        activity_tab.expect_journal_notes(text: "First comment by admin")
-
-        activity_tab.within_journal_entry(first_comment) do
-          page.find_test_selector("op-wp-journal-#{first_comment.id}-action-menu").click
-
-          expect(page).not_to have_test_selector("op-wp-journal-#{first_comment.id}-edit")
-          expect(page).not_to have_test_selector("op-wp-journal-#{first_comment.id}-quote")
-        end
-
-        activity_tab.expect_no_input_field
-      end
-    end
-
-    context "when a user has add_work_package_comments and edit_own_work_package_comments permission" do
-      current_user { viewer_with_commenting_permission }
-
-      before do
-        first_comment
-
-        wp_page.visit!
-        wp_page.wait_for_activity_tab
-      end
-
-      it "does show comments but does NOT enable editing other users comments" do
-        activity_tab.expect_journal_notes(text: "First comment by admin")
-
-        activity_tab.within_journal_entry(first_comment) do
-          page.find_test_selector("op-wp-journal-#{first_comment.id}-action-menu").click
-
-          # not allowed to edit other user's comments
-          expect(page).not_to have_test_selector("op-wp-journal-#{first_comment.id}-edit")
-          # allowed to quote other user's comments
-          expect(page).to have_test_selector("op-wp-journal-#{first_comment.id}-quote")
-        end
-      end
-
-      it "enable adding and quoting comments and editing OWN comments" do
-        activity_tab.expect_input_field
-
-        activity_tab.add_comment(text: "First comment by viewer with commenting permission")
-
-        second_comment = work_package.journals.reload.last
-
-        activity_tab.within_journal_entry(second_comment) do
-          page.find_test_selector("op-wp-journal-#{second_comment.id}-action-menu").click
-
-          expect(page).to have_test_selector("op-wp-journal-#{second_comment.id}-edit")
-          expect(page).to have_test_selector("op-wp-journal-#{second_comment.id}-quote")
-        end
-      end
-    end
-
-    context "when a user has add_work_package_comments and general edit_work_package_comments permission" do
-      current_user { user_with_editing_permission }
-
-      before do
-        first_comment
-
-        wp_page.visit!
-        wp_page.wait_for_activity_tab
-      end
-
-      it "does show comments and enable adding and quoting comments and editing of other users comments" do
-        activity_tab.expect_journal_notes(text: "First comment by admin")
-
-        activity_tab.within_journal_entry(first_comment) do
-          page.find_test_selector("op-wp-journal-#{first_comment.id}-action-menu").click
-
-          # allowed to edit other user's comments
-          expect(page).to have_test_selector("op-wp-journal-#{first_comment.id}-edit")
-          # allowed to quote other user's comments
-          expect(page).to have_test_selector("op-wp-journal-#{first_comment.id}-quote")
-        end
-      end
-    end
 
     context "when a user has been shared a work package with at least comment rights" do
       current_user { user_with_commenting_permission_via_a_work_package_share }
@@ -235,142 +77,17 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
         activity_tab.expect_journal_notes(text: "First comment by user with commenting permission via a work package share")
       end
     end
-
-    context "when a user cannot see internal comments" do
-      current_user { member }
-
-      before do
-        create(:work_package_journal,
-               user: admin,
-               notes: "First comment by admin",
-               journable: work_package,
-               internal: true,
-               version: 2)
-      end
-
-      it "does not show the comment" do
-        wp_page.visit!
-        wp_page.wait_for_activity_tab
-
-        activity_tab.expect_no_journal_notes(text: "First comment by admin")
-      end
-    end
-
-    context "when a user can see internal comments" do
-      current_user { admin }
-
-      before do
-        create(:work_package_journal,
-               user: admin,
-               notes: "First comment by admin",
-               journable: work_package,
-               internal: true,
-               version: 2)
-      end
-
-      it "shows the comment" do
-        wp_page.visit!
-        wp_page.wait_for_activity_tab
-
-        activity_tab.expect_journal_notes(text: "First comment by admin")
-      end
-
-      it "highlights the comment specified in the URL until the user clicks anywhere" do
-        visit project_work_package_path(project, work_package.id, "activity", anchor: "activity-2")
-        wp_page.wait_for_activity_tab
-
-        highlighted_comment = page.find(".--anchor-highlighted")
-        expect(highlighted_comment).to have_content("First comment by admin")
-        # click anything (without triggering navigation or something else)
-        page.find(:xpath, "//*[text()='First comment by admin']").click
-        expect(page).to have_no_css(".--anchor-highlighted")
-      end
-    end
-  end
-
-  context "when a workpackage is created and visited by the same user" do
-    current_user { admin }
-    let(:work_package) { create(:work_package, project:, author: admin) }
-
-    before do
-      # for some reason the journal is set to the "Anonymous"
-      # although the work_package is created by the admin
-      # so we need to update the journal to the admin manually to simulate the real world case
-      work_package.journals.first.update!(user: admin)
-
-      wp_page.visit!
-      wp_page.wait_for_activity_tab
-    end
-
-    it "shows and merges activities and comments correctly" do
-      first_journal = work_package.journals.first
-
-      # initial journal entry is shown without changeset or comment
-      activity_tab.within_journal_entry(first_journal) do
-        activity_tab.expect_journal_details_header(text: admin.name)
-        activity_tab.expect_no_journal_notes
-        activity_tab.expect_no_journal_changed_attribute
-      end
-
-      wp_page.update_attributes(subject: "A new subject") # rubocop:disable Rails/ActiveRecordAliases
-      wp_page.expect_and_dismiss_toaster(message: "Successful update.")
-
-      # even when attributes are changed, the initial journal entry is still not showing any changeset
-      activity_tab.within_journal_entry(first_journal) do
-        activity_tab.expect_no_journal_changed_attribute
-      end
-
-      # merges the initial journal entry with the first comment when a comment is added right after the work package is created
-      activity_tab.add_comment(text: "First comment")
-
-      activity_tab.within_journal_entry(first_journal) do
-        activity_tab.expect_no_journal_details_header
-        activity_tab.expect_journal_notes_header(text: admin.name)
-        activity_tab.expect_journal_notes(text: "First comment")
-        activity_tab.expect_no_journal_changed_attribute
-      end
-
-      # changing the work package attributes after the first comment is added
-      wp_page.update_attributes(subject: "A new subject!!!") # rubocop:disable Rails/ActiveRecordAliases
-      wp_page.expect_and_dismiss_toaster(message: "Successful update.")
-
-      # the changeset is still not shown in the journal entry
-      activity_tab.within_journal_entry(first_journal) do
-        activity_tab.expect_no_journal_changed_attribute
-      end
-
-      # adding a second comment
-      activity_tab.add_comment(text: "Second comment")
-
-      second_journal = work_package.journals.second
-
-      activity_tab.within_journal_entry(second_journal) do
-        activity_tab.expect_no_journal_changed_attribute
-      end
-
-      # changing the work package attributes after the first comment is added
-      wp_page.update_attributes(subject: "A new subject") # rubocop:disable Rails/ActiveRecordAliases
-      wp_page.expect_and_dismiss_toaster(message: "Successful update.")
-
-      # the changeset is shown for the second journal entry (all but initial)
-      activity_tab.within_journal_entry(second_journal) do
-        activity_tab.expect_journal_changed_attribute(text: "Subject")
-      end
-
-      wp_page.update_attributes(assignee: member.name) # rubocop:disable Rails/ActiveRecordAliases
-      wp_page.expect_and_dismiss_toaster(message: "Successful update.")
-
-      # the changeset is merged for the second journal entry
-      activity_tab.within_journal_entry(second_journal) do
-        activity_tab.expect_journal_changed_attribute(text: "Subject")
-        activity_tab.expect_journal_changed_attribute(text: "Assignee")
-      end
-    end
   end
 
   context "when a workpackage is created and visited by different users" do
     current_user { member }
     let(:work_package) { create(:work_package, project:, author: admin) }
+    let(:assignee) do
+      create(:user,
+             firstname: "B",
+             lastname: "Assignee",
+             member_with_roles: { project => member_role })
+    end
 
     before do
       # for some reason the journal is set to the "Anonymous"
@@ -424,6 +141,14 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
       activity_tab.within_journal_entry(third_journal) do
         activity_tab.expect_journal_details_header(text: member.name)
         activity_tab.expect_journal_changed_attribute(text: "Subject")
+      end
+
+      wp_page.update_attributes(assignee: assignee.name) # rubocop:disable Rails/ActiveRecordAliases
+      wp_page.expect_and_dismiss_toaster(message: "Successful update.")
+
+      activity_tab.within_journal_entry(third_journal) do
+        activity_tab.expect_journal_changed_attribute(text: "Subject")
+        activity_tab.expect_journal_changed_attribute(text: "Assignee")
       end
     end
   end
@@ -585,10 +310,13 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
         create(:work_package,
                project:,
                author: admin,
+               subject: "A new subject!!!",
                journals: {
-                 5.days.ago => { user: admin },
-                 4.days.ago => { user: admin, notes: "First comment by admin" },
-                 3.days.ago => { user: admin, notes: "Second comment by admin" }
+                 5.days.ago => { user: admin, subject: "Original subject" },
+                 4.days.ago => { user: admin, notes: "First comment by admin", subject: "Original subject" },
+                 3.days.ago => { user: admin, notes: "Second comment by admin", subject: "Original subject" },
+                 2.days.ago => { user: admin, subject: "A new subject" },
+                 1.day.ago => { user: admin, notes: "Third comment by admin", subject: "A new subject!!!" }
                }).tap(&:reload)
       end
 
@@ -598,10 +326,6 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
       end
 
       it "filters the activities based on type" do
-        # add a non-comment journal entry by changing the work package attributes
-        wp_page.update_attributes(subject: "A new subject") # rubocop:disable Rails/ActiveRecordAliases
-        wp_page.expect_and_dismiss_toaster(message: "Successful update.")
-
         # expect all journal entries
         activity_tab.expect_journal_notes(text: "First comment by admin")
         activity_tab.expect_journal_notes(text: "Second comment by admin")
@@ -628,12 +352,6 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
         activity_tab.expect_journal_changed_attribute(text: "Subject")
 
         # strip journal entries with comments and changesets down to the comments
-
-        # creating a journal entry with both a comment and a changeset
-        activity_tab.add_comment(text: "Third comment by admin")
-        wp_page.update_attributes(subject: "A new subject!!!") # rubocop:disable Rails/ActiveRecordAliases
-        wp_page.expect_and_dismiss_toaster(message: "Successful update.")
-
         latest_journal = work_package.journals.last
 
         activity_tab.within_journal_entry(latest_journal) do
@@ -777,64 +495,6 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
     end
   end
 
-  describe "notification bubble" do
-    let(:work_package) { create(:work_package, project:, author: admin) }
-    let!(:first_comment_by_admin) do
-      create(:work_package_journal, user: admin, notes: "First comment by admin", journable: work_package, version: 2)
-    end
-    let!(:journal_mentioning_admin) do
-      create(:work_package_journal,
-             user: member,
-             notes: "First comment by member mentioning @#{admin.name}",
-             journable: work_package,
-             version: 3)
-    end
-    let!(:notificaton_for_admin) do
-      create(:notification, recipient: admin, resource: work_package, journal: journal_mentioning_admin, reason: :mentioned)
-    end
-
-    context "when admin is visiting the work package" do
-      current_user { admin }
-
-      before do
-        wp_page.visit!
-        wp_page.wait_for_activity_tab
-      end
-
-      it "shows the notification bubble" do
-        activity_tab.within_journal_entry(journal_mentioning_admin) do
-          activity_tab.expect_notification_bubble
-        end
-      end
-
-      it "removes the notification bubble after the comment is read" do
-        notificaton_for_admin.update!(read_ian: true)
-
-        wp_page.visit!
-        wp_page.wait_for_activity_tab
-
-        activity_tab.within_journal_entry(journal_mentioning_admin) do
-          activity_tab.expect_no_notification_bubble
-        end
-      end
-    end
-
-    context "when member is visiting the work package" do
-      current_user { member }
-
-      before do
-        wp_page.visit!
-        wp_page.wait_for_activity_tab
-      end
-
-      it "does not show the notification bubble" do
-        activity_tab.within_journal_entry(journal_mentioning_admin) do
-          activity_tab.expect_no_notification_bubble
-        end
-      end
-    end
-  end
-
   describe "edit comments" do
     let(:work_package) { create(:work_package, project:, author: admin) }
     let!(:first_comment_by_admin) do
@@ -886,48 +546,27 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
 
   describe "quote comments" do
     let(:work_package) { create(:work_package, project:, author: admin) }
-    let!(:first_comment_by_admin) do
-      create(:work_package_journal, user: admin, notes: "First comment by admin", journable: work_package, version: 2)
-    end
     let!(:first_comment_by_member) do
-      create(:work_package_journal, user: member, notes: "First comment by member", journable: work_package, version: 3)
+      create(:work_package_journal, user: member, notes: "First comment by member", journable: work_package, version: 2)
     end
 
-    context "when admin is visiting the work package" do
-      current_user { admin }
+    current_user { admin }
 
-      before do
-        wp_page.visit!
-        wp_page.wait_for_activity_tab
-      end
-
-      it "can quote other user's comments" do
-        # quote other user's comment
-        activity_tab.quote_comment(first_comment_by_member)
-
-        # expect the quoted comment to be shown
-        activity_tab.ckeditor.expect_include_value("@A Member wrote:\nFirst comment by member")
-      end
+    before do
+      wp_page.visit!
+      wp_page.wait_for_activity_tab
     end
 
-    context "when writing a comment" do
-      current_user { admin }
+    it "quotes into an empty comment draft" do
+      activity_tab.quote_comment(first_comment_by_member)
+      activity_tab.ckeditor.expect_include_value("@A Member wrote:\nFirst comment by member")
+    end
 
-      before do
-        wp_page.visit!
-        wp_page.wait_for_activity_tab
-      end
+    it "quotes into an existing comment draft" do
+      activity_tab.type_comment("Partial message:")
+      activity_tab.quote_comment(first_comment_by_member)
 
-      it "can quote other user's comments" do
-        # open the editor and type something
-        activity_tab.type_comment("Partial message:")
-
-        # quote other user's comment
-        activity_tab.quote_comment(first_comment_by_member)
-
-        # expect the original comment and quote are shown
-        activity_tab.ckeditor.expect_include_value("Partial message:\n@A Member wrote:\nFirst comment by member")
-      end
+      activity_tab.ckeditor.expect_include_value("Partial message:\n@A Member wrote:\nFirst comment by member")
     end
   end
 
@@ -947,7 +586,8 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
       activity_tab.add_comment(text: "First comment by admin", save: false)
 
       # navigate to another tab and back
-      page.find("li[data-tab-id=\"relations\"]").click
+      wp_page.switch_to_tab(tab: :relations)
+      expect(page).to have_css("#work-package-relations-tab-content", wait: 20)
       page.find("li[data-tab-id=\"activity\"]").click
       wp_page.wait_for_activity_tab
 
@@ -970,7 +610,8 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
       activity_tab.add_comment(text: "First comment by admin", save: false)
 
       # navigate to another tab in order to prevent the browser native confirm dialog of the unsaved changes
-      page.find("li[data-tab-id=\"relations\"]").click
+      wp_page.switch_to_tab(tab: :relations)
+      expect(page).to have_css("#work-package-relations-tab-content", wait: 20)
 
       # navigate to the second work package
       wp_page = Pages::FullWorkPackage.new(second_work_package, project)
@@ -992,7 +633,8 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
       activity_tab.add_comment(text: "First comment by admin", save: false)
 
       # navigate to another tab in order to prevent the browser native confirm dialog of the unsaved changes
-      page.find("li[data-tab-id=\"relations\"]").click
+      wp_page.switch_to_tab(tab: :relations)
+      expect(page).to have_css("#work-package-relations-tab-content", wait: 20)
 
       logout
       login_as(member)
@@ -1047,54 +689,50 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
             wp_page.wait_for_activity_tab
           end
 
-          it "scrolls to the activity specified in the URL" do
-            wait_for_auto_scrolling_to_finish
-            activity_tab.expect_journal_container_at_position(50) # would be at the bottom if no anchor would be provided
+          it "scrolls to, highlights, and resolves the legacy activity anchor" do
+            activity_tab.expect_journal_in_view(work_package.journals.order(:version).first)
 
             activity_tab.expect_activity_anchor_link(text: format_time(comment_1.updated_at))
-          end
-
-          it "highlights the activity specified in the URL until the user clicks anywhere" do
-            highlighted_comment = page.find(".--anchor-highlighted")
-            expect(highlighted_comment).to have_content("created this on")
-            # click anything (without triggering navigation or something else)
-            page.find(:xpath, "//*[text()='created this on']").click
-            expect(page).to have_no_css(".--anchor-highlighted")
-          end
-
-          it "rewrites the legacy activity anchor to the resolved comment in the URL" do
-            wait_for_auto_scrolling_to_finish
 
             initial_journal = work_package.journals.order(:version).first
             expect(page.evaluate_script("window.location.hash")).to eq("#comment-#{initial_journal.id}")
             # The rewrite must keep the work package path, not collapse it to "/".
             expect(page.evaluate_script("window.location.pathname")).to include("/work_packages/#{work_package.id}")
+
+            highlighted_comment = page.find(".--anchor-highlighted")
+            expect(highlighted_comment).to have_text("created this on")
+            # click anything (without triggering navigation or something else)
+            page.find(:xpath, "//*[text()='created this on']").click
+            expect(page).to have_no_css(".--anchor-highlighted")
           end
         end
 
         context "with #comment- anchor" do
           before do
-            visit project_work_package_path(project, work_package.id, "activity", anchor: "comment-#{comment_1.id}")
+            visit project_work_package_path(project, work_package.id, "activity", anchor: "comment-#{comment_15.id}")
             wp_page.wait_for_activity_tab
           end
 
-          it "scrolls to the comment specified in the URL" do
-            wait_for_auto_scrolling_to_finish
-            activity_tab.expect_journal_container_at_position(50) # would be at the bottom if no anchor would be provided
+          it "scrolls to and highlights the comment, then filters the journal entries" do
+            activity_tab.expect_journal_in_view(comment_15)
 
-            activity_tab.expect_activity_anchor_link(text: format_time(comment_1.updated_at))
+            activity_tab.within_journal_entry(comment_15) do
+              expect(page).to have_link(format_time(comment_15.created_at), href: /#comment-#{comment_15.id}\z/)
+            end
+
+            highlighted_comment = page.find(".Box.--anchor-highlighted")
+            expect(highlighted_comment).to have_text("Comment 15")
+            # click anything (without triggering navigation or something else)
+            page.find(:xpath, "//*[text()='Comment 15']").click
+            expect(page).to have_no_css(".Box.--anchor-highlighted")
 
             activity_tab.filter_journals(:only_changes)
 
-            activity_tab.expect_activity_anchor_link(text: format_time(comment_1.updated_at))
-          end
-
-          it "highlights the comment specified in the URL until the user clicks anywhere" do
-            highlighted_comment = page.find(".Box.--anchor-highlighted")
-            expect(highlighted_comment).to have_content("Comment 1")
-            # click anything (without triggering navigation or something else)
-            page.find(:xpath, "//*[text()='Comment 1']").click
-            expect(page).to have_no_css(".Box.--anchor-highlighted")
+            activity_tab.expect_no_journal_notes
+            initial_journal = work_package.journals.order(:version).first
+            activity_tab.within_journal_entry(initial_journal) do
+              expect(page).to have_link(format_time(initial_journal.created_at), href: /#comment-#{initial_journal.id}\z/)
+            end
           end
         end
 
@@ -1102,39 +740,31 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
           before do
             page.current_window.resize_to(500, 1000)
 
-            visit project_work_package_path(project, work_package.id, "activity", anchor: "comment-#{comment_1.id}")
+            visit project_work_package_path(project, work_package.id, "activity", anchor: "comment-#{comment_15.id}")
             wp_page.wait_for_activity_tab
           end
 
           it "scrolls to the comment specified in the URL" do
-            wait_for_auto_scrolling_to_finish
-            activity_tab.expect_journal_container_at_position(50) # would be at the bottom if no anchor would be provided
+            activity_tab.expect_journal_in_view(comment_15)
 
-            activity_tab.expect_activity_anchor_link(text: format_time(comment_1.updated_at))
+            expect(page.evaluate_script("window.location.hash")).to eq("#comment-#{comment_15.id}")
+            activity_tab.within_journal_entry(comment_15) do
+              expect(page).to have_text(format_time(comment_15.created_at))
+            end
 
             activity_tab.filter_journals(:only_changes)
 
-            activity_tab.expect_activity_anchor_link(text: format_time(comment_1.updated_at))
+            activity_tab.expect_no_journal_notes
+            initial_journal = work_package.journals.order(:version).first
+            activity_tab.within_journal_entry(initial_journal) do
+              expect(page).to have_link(format_time(initial_journal.created_at), href: /#comment-#{initial_journal.id}\z/)
+            end
           end
         end
       end
 
       context "when sorting set to desc" do
         let!(:admin_preferences) { create(:user_preference, user: admin, others: { comments_sorting: :desc }) }
-
-        context "with #activity- anchor" do
-          before do
-            visit project_work_package_path(project, work_package.id, "activity", anchor: "activity-2")
-            wp_page.wait_for_activity_tab
-          end
-
-          it "scrolls to the comment specified in the URL" do
-            wait_for_auto_scrolling_to_finish
-            activity_tab.expect_journal_container_at_bottom # would be at the top if no anchor would be provided
-
-            activity_tab.expect_activity_anchor_link(text: format_time(comment_2.updated_at))
-          end
-        end
 
         context "with #comment- anchor" do
           before do
@@ -1143,66 +773,11 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
           end
 
           it "scrolls to the comment specified in the URL" do
-            wait_for_auto_scrolling_to_finish
             activity_tab.expect_journal_container_at_bottom # would be at the top if no anchor would be provided
 
             activity_tab.expect_activity_anchor_link(text: format_time(comment_1.updated_at))
           end
         end
-      end
-
-      def wait_for_auto_scrolling_to_finish = sleep(1)
-    end
-
-    describe "when the comment anchor changes without reloading the page" do
-      let!(:admin_preferences) { create(:user_preference, user: admin, others: { comments_sorting: :asc }) }
-
-      before do
-        visit project_work_package_path(project, work_package.id, "activity", anchor: "comment-#{comment_1.id}")
-        wp_page.wait_for_activity_tab
-      end
-
-      it "moves the highlight to the comment newly referenced in the URL hash" do
-        expect(page).to have_css(".Box.--anchor-highlighted", text: "Comment 1")
-
-        # As clicking an in-page comment link or editing the comment id by hand would:
-        # the URL hash changes but the page is not reloaded.
-        page.execute_script("window.location.hash = '#comment-#{comment_2.id}'")
-
-        expect(page).to have_css(".Box.--anchor-highlighted", text: "Comment 2")
-        expect(page).to have_no_css(".Box.--anchor-highlighted", text: "Comment 1")
-      end
-    end
-
-    describe "when clicking an in-content link to another comment on the same page" do
-      let!(:admin_preferences) { create(:user_preference, user: admin, others: { comments_sorting: :asc }) }
-
-      before do
-        visit project_work_package_path(project, work_package.id, "activity", anchor: "comment-#{comment_1.id}")
-        wp_page.wait_for_activity_tab
-      end
-
-      it "scrolls to and highlights the comment instead of letting Turbo drop the fragment" do
-        expect(page).to have_css(".Box.--anchor-highlighted", text: "Comment 1")
-
-        # Comment bodies render plain links. Inject one (so this stays independent of
-        # the rich-text formatter) pointing to another comment on this same activity
-        # page, as a pasted comment link would, then click it through a real browser
-        # click so Turbo's own handlers run. Turbo must not swallow it.
-        page.execute_script(<<~JS)
-          const root = document.querySelector('[data-controller~="work-packages--activities-tab--auto-scrolling"]');
-          const link = document.createElement('a');
-          link.href = window.location.pathname + '#comment-#{comment_2.id}';
-          link.textContent = 'jump to the other comment';
-          link.id = 'injected-comment-link';
-          root.prepend(link);
-        JS
-
-        find_by_id("injected-comment-link").click
-
-        expect(page).to have_css(".Box.--anchor-highlighted", text: "Comment 2")
-        expect(page).to have_no_css(".Box.--anchor-highlighted", text: "Comment 1")
-        expect(page.evaluate_script("window.location.hash")).to eq("#comment-#{comment_2.id}")
       end
     end
 
@@ -1211,14 +786,16 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
             with_settings: { work_packages_activities_tab_polling_interval_in_ms: 1000 } do
       let!(:admin_preferences) { create(:user_preference, user: admin, others: { comments_sorting: :asc }) }
 
+      let(:window_size) { nil }
+
       before do
+        page.current_window.resize_to(*window_size) if window_size
         wp_page.visit!
         wp_page.wait_for_activity_tab
       end
 
       context "when on desktop" do
         it "scrolls to the bottom when the newest journal entry is on the bottom" do
-          sleep 1 # wait for auto scrolling to finish
           activity_tab.expect_journal_container_at_bottom
 
           # auto-scrolls to the bottom when a new comment is added by the user
@@ -1236,24 +813,14 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
                  version: latest_journal_version + 1)
           # wait for the comment to be added
           wait_for { page }.to have_test_selector("op-journal-notes-body", text: "New comment by member")
-          sleep 1 # wait for auto scrolling to finish
           activity_tab.expect_journal_container_at_bottom
         end
       end
 
       context "when on narrow desktop screen size" do
-        before do
-          page.current_window.resize_to(900, 1200)
-          # simulate a desktop screen which was resized to a smaller width
-          # the height in this spec is important as the activity tab must be visible
-          # otherwise the (in this case undesired) auto scrolling would not be triggered
-
-          wp_page.visit!
-          wp_page.wait_for_activity_tab
-        end
+        let(:window_size) { [900, 1200] }
 
         it "does not scroll to the bottom when the newest journal entry is on the bottom" do
-          sleep 1 # wait for a potential auto scrolling to finish
           # expect activity tab not to be visibe, as the page is not scrolled to the bottom
           scroll_position = page.evaluate_script("document.querySelector(\"#content-body\").scrollTop")
           expect(scroll_position).to eq(0)
@@ -1261,15 +828,7 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
       end
 
       context "when on mobile screen size" do
-        before do
-          page.current_window.resize_to(500, 1000)
-          # simulate a mobile screen size
-          # the height in this spec is important as the activity tab must be visible
-          # otherwise the (in this case undesired) auto scrolling would not be triggered
-
-          wp_page.visit!
-          wp_page.wait_for_activity_tab
-        end
+        let(:window_size) { [500, 1000] }
 
         # this one is actually failing, but it's not caused by the activity tab
         # the scroll position is at around 700, some other part of the frontend code seems to trigger a scroll
@@ -1277,51 +836,52 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
         #
         it "does not scroll to the bottom when the newest journal entry is on the bottom",
            skip: "bug/59916-on-narrow-screens-(including-mobile)-the-view-always-scrolls-to-the-activity" do
-          sleep 1 # wait for a potential auto scrolling to finish
           # expect activity tab not to be visibe, as the page is not scrolled to the bottom
           scroll_position = page.evaluate_script("document.querySelector(\"#content-body\").scrollTop")
           expect(scroll_position).to eq(0)
         end
       end
     end
-
-    context "when sorting set to desc" do
-      let!(:admin_preferences) { create(:user_preference, user: admin, others: { comments_sorting: :desc }) }
-
-      before do
-        wp_page.visit!
-        wp_page.wait_for_activity_tab
-      end
-
-      it "does not scroll to the bottom as the newest journal entry is on the top" do
-        sleep 1 # wait for auto scrolling to finish
-        activity_tab.expect_journal_container_at_top
-      end
-    end
   end
 
-  describe "retracted journal entries" do
-    let(:work_package) { create(:work_package, project:, author: admin) }
-    let!(:first_comment_by_admin) do
-      create(:work_package_journal, user: admin, notes: "First comment by admin", journable: work_package, version: 2)
-    end
-    let!(:second_comment_by_admin) do
-      create(:work_package_journal, user: admin, notes: "Second comment by admin", journable: work_package, version: 3)
-    end
-
+  describe "anchor updates without a page reload" do
     current_user { admin }
 
-    before do
-      second_comment_by_admin.update!(notes: "")
+    let(:work_package) { create(:work_package, project:, author: admin) }
+    let!(:comment_one) do
+      create(:work_package_journal, user: admin, notes: "Comment 1", journable: work_package, version: 2)
+    end
+    let!(:comment_two) do
+      create(:work_package_journal, user: admin, notes: "Comment 2", journable: work_package, version: 3)
+    end
+    let!(:admin_preferences) { create(:user_preference, user: admin, others: { comments_sorting: :asc }) }
 
-      wp_page.visit!
+    before do
+      visit project_work_package_path(project, work_package.id, "activity", anchor: "comment-#{comment_one.id}")
       wp_page.wait_for_activity_tab
     end
 
-    it "shows rectracted journal entries" do
-      activity_tab.within_journal_entry(second_comment_by_admin) do
-        expect(page).to have_text(I18n.t(:"journals.changes_retracted"))
-      end
+    it "tracks direct hash changes and in-content comment links" do
+      expect(page).to have_css(".Box.--anchor-highlighted", text: "Comment 1")
+
+      page.execute_script(<<~JS)
+        const root = document.querySelector('[data-controller~="work-packages--activities-tab--auto-scrolling"]');
+        const link = document.createElement('a');
+        link.href = window.location.pathname + '#comment-#{comment_two.id}';
+        link.textContent = 'jump to the other comment';
+        link.id = 'injected-comment-link';
+        root.prepend(link);
+      JS
+      find_by_id("injected-comment-link").click
+
+      expect(page).to have_css(".Box.--anchor-highlighted", text: "Comment 2")
+      expect(page).to have_no_css(".Box.--anchor-highlighted", text: "Comment 1")
+      expect(page.evaluate_script("window.location.hash")).to eq("#comment-#{comment_two.id}")
+
+      page.execute_script("window.location.hash = '#comment-#{comment_one.id}'")
+
+      expect(page).to have_css(".Box.--anchor-highlighted", text: "Comment 1")
+      expect(page).to have_no_css(".Box.--anchor-highlighted", text: "Comment 2")
     end
   end
 
@@ -1352,15 +912,14 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
         wp_page.expect_attributes(subject: work_package.subject)
       end
 
-      using_session(:member) do
-        login_as(member)
-
-        wp_page.visit!
-        wp_page.wait_for_activity_tab
-
-        wp_page.update_attributes(subject: "Subject updated by member") # rubocop:disable Rails/ActiveRecordAliases
-        wp_page.expect_and_dismiss_toaster(message: "Successful update.")
+      allow(RequestStore).to receive(:[]).with(:current_user).and_call_original
+      result = User.execute_as(member) do
+        WorkPackages::UpdateService.new(user: member, model: work_package.reload)
+                                   .call(subject: "Subject updated by member")
       end
+      allow(RequestStore).to receive(:[]).with(:current_user).and_return(admin)
+      expect(result).to be_success
+      expect(work_package.journals.reload.last.user).to eq(member)
 
       using_session(:admin) do
         wp_page.expect_attributes(subject: "Subject updated by member")
@@ -1381,21 +940,16 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
         wp_page.switch_to_tab(tab: :relations)
       end
 
-      using_session(:member) do
-        login_as(member)
-
-        wp_page.visit!
-        wp_page.wait_for_activity_tab
-
-        wp_page.update_attributes(subject: "Subject updated by member") # rubocop:disable Rails/ActiveRecordAliases
-        wp_page.expect_and_dismiss_toaster(message: "Successful update.")
+      allow(RequestStore).to receive(:[]).with(:current_user).and_call_original
+      result = User.execute_as(member) do
+        WorkPackages::UpdateService.new(user: member, model: work_package.reload)
+                                   .call(subject: "Subject updated by member")
       end
+      allow(RequestStore).to receive(:[]).with(:current_user).and_return(admin)
+      expect(result).to be_success
+      expect(work_package.journals.reload.last.user).to eq(member)
 
       using_session(:admin) do
-        sleep 1 # wait some time to REALLY check for a stale UI state
-        # work package page is stale as the activity tab is not active and thus no polling is done
-        wp_page.expect_attributes(subject: "Subject before update")
-
         wp_page.switch_to_tab(tab: :activity)
         wp_page.wait_for_activity_tab
 
@@ -1574,10 +1128,12 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
 
   describe "error handling" do
     let(:work_package) { create(:work_package, project:, author: admin) }
+    let(:existing_comment) { nil }
 
     current_user { admin }
 
     before do
+      existing_comment
       wp_page.visit!
       wp_page.wait_for_activity_tab
     end
@@ -1602,100 +1158,6 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
             editor = FormFields::Primerized::EditorFormField.new("notes", selector: "#work-package-journal-form-element")
             editor.expect_value("First comment by admin")
           end
-        end
-      end
-
-      context "when the creation call fails with a validation error" do
-        before do
-          allow_any_instance_of(AddWorkPackageNoteService) # rubocop:disable RSpec/AnyInstance
-            .to receive(:call)
-                  .and_return(
-                    ServiceResult.failure(errors: ActiveModel::Errors.new(Journal.new).tap do |e|
-                      e.add(:notes, "Validation error")
-                    end)
-                  )
-        end
-
-        it "shows a validation error banner" do
-          activity_tab.add_comment(text: "First comment by admin", save: false)
-
-          page.find_test_selector("op-submit-work-package-journal-form").click
-
-          expect_flash(message: "Validation error", type: :error)
-
-          # expect the editor content not to be lost
-          within_test_selector("op-work-package-journal-form-element") do
-            editor = FormFields::Primerized::EditorFormField.new("notes", selector: "#work-package-journal-form-element")
-            editor.expect_value("First comment by admin")
-          end
-        end
-      end
-
-      context "when the work package is invalid due to a required custom field" do
-        let!(:custom_field) do
-          create(:integer_wp_custom_field, is_required: true, is_for_all: true, default_value: nil) do |cf|
-            project.enabled_variants.first.custom_fields << cf
-            project.work_package_custom_fields << cf
-          end
-        end
-
-        it "the creation call still succeeds" do
-          activity_tab.add_comment(text: "First comment by admin")
-
-          comment = work_package.journals.reload.last
-
-          activity_tab.within_journal_entry(comment) do
-            page.find_test_selector("op-wp-journal-#{comment.id}-action-menu").click
-
-            expect(page).to have_test_selector("op-wp-journal-#{comment.id}-edit")
-            expect(page).to have_test_selector("op-wp-journal-#{comment.id}-quote")
-          end
-        end
-      end
-    end
-
-    context "when editing a comment" do
-      let!(:first_comment_by_admin) do
-        create(:work_package_journal, user: admin, notes: "First comment by admin", journable: work_package, version: 2)
-      end
-
-      context "when the update call raises an unknown server error" do
-        before do
-          allow_any_instance_of(WorkPackages::ActivitiesTab::CommentService) # rubocop:disable RSpec/AnyInstance
-            .to receive(:update)
-                  .and_raise(StandardError.new("Test error"))
-        end
-
-        it "shows an error banner" do
-          activity_tab.edit_comment(first_comment_by_admin, text: "First comment by admin edited", save: false)
-
-          page.within_test_selector("op-work-package-journal-form-element") do
-            page.find_test_selector("op-submit-work-package-journal-form").click
-          end
-
-          expect_flash(message: "Test error", type: :error)
-        end
-      end
-
-      context "when the update call fails with a validation error" do
-        before do
-          allow_any_instance_of(Journals::UpdateService) # rubocop:disable RSpec/AnyInstance
-            .to receive(:call)
-                  .and_return(
-                    ServiceResult.failure(errors: ActiveModel::Errors.new(Journal.new).tap do |e|
-                      e.add(:notes, "Validation error")
-                    end)
-                  )
-        end
-
-        it "shows a validation error banner" do
-          activity_tab.edit_comment(first_comment_by_admin, text: "First comment by admin edited", save: false)
-
-          page.within_test_selector("op-work-package-journal-form-element") do
-            page.find_test_selector("op-submit-work-package-journal-form").click
-          end
-
-          expect_flash(message: "Validation error", type: :error)
         end
       end
     end

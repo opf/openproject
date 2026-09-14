@@ -49,30 +49,24 @@ RSpec.describe "Meeting search", :js do
 
   context "global search" do
     it "works with a title" do
-      select_autocomplete(page.find(".top-menu-search--input"),
-                          query: "Meeting",
-                          select_text: "In this project ↵",
-                          wait_dropdown_open: true)
+      global_search.search("Meeting")
+      global_search.submit_in_current_project
 
       global_search.open_tab :meetings
       expect(page.find_by_id("search-results")).to have_text(meeting.title)
     end
 
     it "works with an agenda item title" do
-      select_autocomplete(page.find(".top-menu-search--input"),
-                          query: agenda_item.title,
-                          select_text: "In this project ↵",
-                          wait_dropdown_open: true)
+      global_search.search(agenda_item.title)
+      global_search.submit_in_current_project
 
       global_search.open_tab :meetings
       expect(page.find_by_id("search-results")).to have_text(meeting.title)
     end
 
     it "works with an agenda item notes" do
-      select_autocomplete(page.find(".top-menu-search--input"),
-                          query: agenda_item.notes,
-                          select_text: "In this project ↵",
-                          wait_dropdown_open: true)
+      global_search.search(agenda_item.notes)
+      global_search.submit_in_current_project
 
       global_search.open_tab :meetings
       expect(page.find_by_id("search-results")).to have_text(meeting.title)
@@ -95,10 +89,8 @@ RSpec.describe "Meeting search", :js do
     end
 
     it "opens the meeting in its own project" do
-      select_autocomplete(page.find(".top-menu-search--input"),
-                          query: agenda_item.notes,
-                          select_text: I18n.t("js.global_search.current_project_and_all_descendants"),
-                          wait_dropdown_open: true)
+      global_search.search(agenda_item.notes)
+      global_search.submit_in_project_and_subproject_scope
 
       global_search.open_tab :meetings
       page.find_by_id("search-results").click_link(meeting.title)

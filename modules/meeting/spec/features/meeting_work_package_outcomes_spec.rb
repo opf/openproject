@@ -158,9 +158,9 @@ RSpec.describe "Work package meeting outcomes", :js do
             click_on "Create"
           end
 
-          wait_for_network_idle
-
-          expect(page).to have_no_selector(:dialog, I18n.t(:label_work_package_new), wait: 10)
+          using_wait_time(10) do
+            expect(page).to have_no_selector(:dialog, I18n.t(:label_work_package_new))
+          end
 
           created_wp = WorkPackage.find_by(subject: "New WP from meeting outcome")
           expect(created_wp).to be_present
@@ -189,9 +189,7 @@ RSpec.describe "Work package meeting outcomes", :js do
             click_on "Create"
           end
 
-          wait_for_network_idle
-
-          expect(page).to have_text("Subject can't be blank")
+          expect(page).to have_text("Subject can't be blank", wait: 10)
 
           expect(page).to have_dialog(I18n.t(:label_work_package_new))
           expect(WorkPackage.find_by(subject: "")).to be_nil

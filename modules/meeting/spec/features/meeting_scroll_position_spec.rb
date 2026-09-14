@@ -40,6 +40,20 @@ RSpec.describe "Meeting scroll position",
 
   current_user { user }
 
+  def expect_scroll_position(expected)
+    restored_position = nil
+
+    page.document.synchronize do
+      restored_position = page.evaluate_script("document.getElementById('content-body').scrollTop")
+      next if restored_position.between?(expected - 25, expected + 25)
+
+      raise Capybara::ExpectationNotMet,
+            "expected #{restored_position} to be within 25 of #{expected}"
+    end
+
+    expect(restored_position).to be_within(25).of(expected)
+  end
+
   describe "is restored after clicking 'Reload' in the flash banner" do
     let(:meeting) { create(:meeting, project:, author: user) }
     let(:show_page) { Pages::Meetings::Show.new(meeting) }
@@ -86,10 +100,7 @@ RSpec.describe "Meeting scroll position",
 
         expect(page).to have_test_selector("meeting-page-header")
 
-        retry_block do
-          restored_position = page.evaluate_script("document.getElementById('content-body').scrollTop")
-          expect(restored_position).to be_within(25).of(scroll_position)
-        end
+        expect_scroll_position(scroll_position)
       end
     end
   end
@@ -120,10 +131,7 @@ RSpec.describe "Meeting scroll position",
 
       expect(page).to have_no_text(I18n.t(:label_recurring_meeting_show_more))
 
-      retry_block do
-        restored_position = page.evaluate_script("document.getElementById('content-body').scrollTop")
-        expect(restored_position).to be_within(25).of(scroll_position)
-      end
+      expect_scroll_position(scroll_position)
     end
   end
 
@@ -161,10 +169,7 @@ RSpec.describe "Meeting scroll position",
 
       expect(page).to have_no_text(I18n.t(:label_recurring_meeting_show_more))
 
-      retry_block do
-        restored_position = page.evaluate_script("document.getElementById('content-body').scrollTop")
-        expect(restored_position).to be_within(25).of(scroll_position)
-      end
+      expect_scroll_position(scroll_position)
     end
   end
 end

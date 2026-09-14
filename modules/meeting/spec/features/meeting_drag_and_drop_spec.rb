@@ -63,16 +63,14 @@ RSpec.describe "Meeting drag and drop", :js, :selenium do
 
     target_section = page.find("#meeting-sections-show-component-#{section2.id}")
 
-    initial_updated_at = agenda_item.updated_at
-
     drag_n_drop_element(from: drag_handle, to: target_section)
 
-    wait_for { agenda_item.reload.updated_at }.not_to eq(initial_updated_at)
+    wait_for { agenda_item.reload.meeting_section_id }.to eq(section2.id)
 
     show_page.expect_no_agenda_item_in_section(title: "Item to drag", section: section1)
     show_page.expect_agenda_item_in_section(title: "Item to drag", section: section2)
 
-    expect(agenda_item.reload.meeting_section).to eq(section2)
+    expect(agenda_item.meeting_section).to eq(section2)
   end
 
   it "allows dragging an agenda item from the backlog to a section" do
@@ -88,11 +86,9 @@ RSpec.describe "Meeting drag and drop", :js, :selenium do
     show_page.click_on_backlog
     show_page.expect_backlog(collapsed: false)
 
-    initial_updated_at = agenda_item.updated_at
-
     drag_n_drop_element(from: drag_handle, to: target_section, offset_y: 30)
 
-    wait_for { agenda_item.reload.updated_at }.not_to eq(initial_updated_at)
+    wait_for { agenda_item.reload.meeting_section_id }.to eq(backlog.id)
 
     show_page.expect_no_agenda_item_in_section(title: "Item to drag", section: section1)
     show_page.expect_agenda_item_in_section(title: "Item to drag", section: backlog)
@@ -116,11 +112,9 @@ RSpec.describe "Meeting drag and drop", :js, :selenium do
 
     section3_drag_handle = section3_element.find(".handle svg")
 
-    initial_updated_at = section3.updated_at
-
     drag_n_drop_element(from: section3_drag_handle, to: section1_element)
 
-    wait_for { section3.reload.updated_at }.not_to eq(initial_updated_at)
+    wait_for { section3.reload.position }.to eq(1)
 
     final_positions = [section1, section2, section3].map { |s| s.reload.position }
     expect(final_positions).to eq([2, 3, 1])
