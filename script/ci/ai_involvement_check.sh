@@ -35,9 +35,9 @@ set -e
 # been filled out, i.e. that exactly one of the self-assessment levels is
 # present outside of an HTML comment.
 
-# Read from the PR_BODY environment variable, falling back to a positional
-# argument so the script can still be run manually for testing.
-PR_BODY="${PR_BODY:-$1}"
+# The pull request description is read from stdin, e.g.
+#   gh pr view 12345 --json body --jq .body | script/ci/ai_involvement_check.sh
+PR_BODY=$(cat)
 
 # "None/Assisted" is listed first so that it is matched as a single level; a bare
 # "None" or "Assisted" is accepted as well and normalised to it.

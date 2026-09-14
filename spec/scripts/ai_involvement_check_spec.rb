@@ -35,7 +35,7 @@ RSpec.describe "script/ci/ai_involvement_check.sh", :aggregate_failures do # rub
   let(:script) { File.expand_path("../../script/ci/ai_involvement_check.sh", __dir__) }
 
   def run_check(body)
-    stdout, stderr, status = Open3.capture3({ "PR_BODY" => body, "GITHUB_OUTPUT" => "/dev/stdout" }, script)
+    stdout, stderr, status = Open3.capture3({ "GITHUB_OUTPUT" => "/dev/stdout" }, script, stdin_data: body)
     expect(status).to be_success
     expect(stderr).to be_empty
     stdout.scan(/^(\w+)=(.*)$/).to_h
