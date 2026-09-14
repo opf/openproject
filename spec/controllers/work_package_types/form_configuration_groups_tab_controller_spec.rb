@@ -154,6 +154,26 @@ RSpec.describe WorkPackageTypes::FormConfigurationGroupsTabController do
     end
   end
 
+  describe "without a group key", with_ee: %i[edit_attribute_groups] do
+    before do
+      variant.update_column(:attribute_groups, [["First group", %w[priority]]])
+    end
+
+    it "rejects the request instead of reporting a missing group", :aggregate_failures do
+      patch :update, params: { type_id: type.id, group: { name: "Renamed" } }, format: :turbo_stream
+
+      expect(response).to have_http_status(:bad_request)
+      expect(response.body).to eq("Required parameter missing: key")
+      expect(variant.reload.attribute_groups.map(&:key)).to eq(["First group"])
+    end
+
+    it "rejects a blank key" do
+      delete :destroy, params: { type_id: type.id, key: "" }, format: :turbo_stream
+
+      expect(response).to have_http_status(:bad_request)
+    end
+  end
+
   describe "POST #create (duplicate name)", with_ee: %i[edit_attribute_groups] do
     before do
       variant.update_column(:attribute_groups, [["Existing group", %w[priority]]])
