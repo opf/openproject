@@ -90,7 +90,8 @@ RSpec.describe Users::HoverCardComponent, type: :component do
 
     context "with the user being member of some groups" do
       let(:groups) do
-        Array.new(2) { create(:group, members: user) }
+        [create(:group, members: user, lastname: "Alpha"),
+         create(:group, members: user, lastname: "Beta")]
       end
 
       context "and the current being a member in the group" do

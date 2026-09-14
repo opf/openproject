@@ -36,9 +36,9 @@
 #
 
 def loading_indicator_saveguard(wait: Capybara.default_max_wait_time)
-  expect(page).to have_no_css(".op-loading-indicator", wait:)
-rescue Selenium::WebDriver::Error::StaleElementReferenceError
-  nil
+  page.document.synchronize(wait, errors: [Selenium::WebDriver::Error::StaleElementReferenceError]) do
+    expect(page).to have_no_css(".op-loading-indicator", wait:)
+  end
 end
 
 # ng-select uses a loading indicator with css class .ng-spinner-loader when

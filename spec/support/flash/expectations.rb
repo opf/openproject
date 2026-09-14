@@ -24,9 +24,10 @@ module Flash
 
       while page.has_css?(expected_css, wait: 1, **{ text: message, exact_text: exact_message }.compact)
         page.document.synchronize do
-          page.first(expected_css, **{ text: message, exact_text: exact_message }.compact)
-            .find(".Banner-close button") # rubocop:disable Capybara/SpecificActions
-            .click
+          flash = page.first(expected_css, wait: 0, **{ text: message, exact_text: exact_message }.compact)
+          next unless flash
+
+          flash.find(".Banner-close button").click # rubocop:disable Capybara/SpecificActions
         end
       end
 
