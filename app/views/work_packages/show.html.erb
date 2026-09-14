@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title h(work_package.infoline) %>
+<% html_title h(work_package.to_fs(:caption)) %>
 
 <% content_for :sidebar do %>
   <%= render partial: 'sidebar' %>

@@ -38,7 +38,7 @@ module Meeting::Journalized
           #{format_date o.start_time} \
           #{format_time o.start_time, include_date: false}-#{format_time o.end_time, include_date: false})"
                          },
-                  url: Proc.new { |o| { controller: "/meetings", action: "show", id: o } },
+                  url: Proc.new { |o| { controller: "/meetings", action: "show", project_id: o.project, id: o } },
                   author: Proc.new(&:user),
                   description: ""
 

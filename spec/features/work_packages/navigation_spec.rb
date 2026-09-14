@@ -36,7 +36,7 @@ RSpec.describe "Work package navigation", :js, :selenium do
   let(:work_package) { build(:work_package, project:) }
   let(:global_html_title) { Components::HtmlTitle.new }
   let(:project_html_title) { Components::HtmlTitle.new project }
-  let(:wp_title_segment) { work_package.infoline }
+  let(:wp_title_segment) { work_package.to_fs(:caption) }
 
   let!(:query) do
     query = build(:query, user:, project:)
@@ -133,7 +133,7 @@ RSpec.describe "Work package navigation", :js, :selenium do
     # Back to split screen using the button
     full_work_package.go_back
     global_work_packages.expect_work_package_listed(work_package)
-    expect(page).to have_current_path project_work_packages_path(project) + "/details/#{work_package.id}/overview"
+    expect(page).to have_current_path project_work_packages_path(project) + "/details/#{work_package.id}"
 
     # Link to full screen from index
     global_work_packages.open_full_screen_by_link(work_package)
@@ -147,10 +147,12 @@ RSpec.describe "Work package navigation", :js, :selenium do
   end
 
   it "loading an unknown work package ID" do
-    visit "/work_packages/999999999"
+    unknown_id = not_existing_id(WorkPackage)
+
+    visit "/work_packages/#{unknown_id}"
     expect_flash type: :error, message: I18n.t(:notice_file_not_found)
 
-    visit "/projects/#{project.identifier}/work_packages/999999999"
+    visit "/projects/#{project.identifier}/work_packages/#{unknown_id}"
     expect_flash type: :error, message: I18n.t(:notice_file_not_found)
   end
 

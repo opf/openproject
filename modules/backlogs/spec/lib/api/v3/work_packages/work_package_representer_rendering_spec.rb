@@ -42,9 +42,12 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter, "rendering" do
                   story_points:,
                   position:,
                   sprint:,
-                  backlog_bucket:)
+                  backlog_bucket:) do |wp|
+      allow(wp).to receive(:type_variant).and_return(type_variant)
+    end
   end
   let(:type) { build_stubbed(:type) }
+  let(:type_variant) { build_stubbed(:type_variant, type:) }
   let(:enabled_module_names) { %w[backlogs] }
   let(:project) do
     build_stubbed(:project, enabled_module_names:)

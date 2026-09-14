@@ -43,7 +43,7 @@ module Projects
               action: "change->refresh-on-form-changes#triggerTurboStream"
             }
           ) do |list|
-            model.types.each do |type|
+            model.enabled_types.each do |type|
               list.option(
                 value: type.id,
                 label: type.name,
@@ -59,11 +59,12 @@ module Projects
             required: true,
             input_width: :large
           ) do |list|
-            # Statuses of the selected WP type
+            # Statuses of the selected WP type, as the project's own variant configures them —
+            # the same member Projects::SettingsContract validates the choice against.
             type_id = model.project_creation_wizard_work_package_type_id
 
             if type_id.present?
-              type = Type.find_by(id: type_id)
+              type = model.type_variant(Type.find_by(id: type_id))
               type&.statuses&.each do |status|
                 list.option(
                   value: status.id,

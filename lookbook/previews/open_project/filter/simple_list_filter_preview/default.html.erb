@@ -2,7 +2,7 @@
   data-controller="filter--filter-list"
   data-filter--filter-list-clear-button-id-value="ice-cream-filter-clear-button">
   <%=
-    render(Primer::OpenProject::SubHeader.new) do |subheader|
+    render(Primer::OpenProject::SubHeader.new(collapsed_search: false)) do |subheader|
       subheader.with_filter_input(
         name: "ice-cream-filter-input",
         label: "Search ice cream flavor",

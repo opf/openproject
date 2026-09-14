@@ -47,5 +47,11 @@ module Backlogs
       @sprints = Sprint.for_project(@project).visible.not_completed.order_by_date
       @sprints = @sprints.where.not(id: work_package.sprint_id) if work_package.sprint_id
     end
+
+    private
+
+    def list_type
+      Backlogs::Target::SprintId.new(nil).list_type
+    end
   end
 end

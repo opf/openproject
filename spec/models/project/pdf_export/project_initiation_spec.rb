@@ -117,6 +117,13 @@ RSpec.describe Project::PDFExport::ProjectInitiation do
       version_cf.update!(project_custom_field_section: section_b)
 
       disabled_mapping
+
+      # As of SPPM-330, activating a project attribute (e.g. by giving it a value, as the shared context does above)
+      # no longer enables it for the creation wizard (PIR) automatically.
+      # Explicitly enable all project attributes except the deliberately disabled one:
+      project.project_custom_field_project_mappings
+             .where.not(custom_field_id: disabled_custom_field.id)
+             .update_all(creation_wizard: true)
     end
 
     let(:expected_document) do

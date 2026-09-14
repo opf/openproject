@@ -57,6 +57,23 @@ RSpec.describe MeetingParticipants::DeleteService do
         expect(Meetings::NotificationDebounceJob).to have_received(:debounce).with(meeting, since_invited_ids: anything)
       end
 
+      context "when the meeting is a series template" do
+        shared_let(:series) { create(:recurring_meeting, project:) }
+
+        let(:series_participant) do
+          create(:meeting_participant, :invitee, meeting: series.template, user: participant_user)
+        end
+
+        subject { described_class.new(user: current_user, model: series_participant).call }
+
+        it "advances the ICS revision of the series" do
+          series_participant
+
+          expect { expect(subject).to be_success }
+            .to change { series.reload.ical_sequence }.by(1)
+        end
+      end
+
       context "when notify: false" do
         subject { described_class.new(user: current_user, model: participant, notify: false).call }
 

@@ -22,7 +22,7 @@ updating to the newest version.
 - Fixed: A newline was added to WYSIWYG code blocks when editing a document that contained such blocks \[[#28609](https://community.openproject.org/wp/28609)\]
 - Fixed: Repository statistics SVG reports were not rendered due to Content-Security-Policy forbidding SVG elements \[#28612\]
 - Fixed: Regression that did not detect work package links within braces \[[#28578](https://community.openproject.org/wp/28578)\]
-- Fixed: Long-running databases of OpenProject run into PostgreSQL index error while migrating *planning\_element\_type\_colors* indexes to 8.0.0 \[[#28556](https://community.openproject.org/wp/28556)\]
+- Fixed: Long-running databases of OpenProject run into PostgreSQL index error while migrating _planning\_element\_type\_colors_ indexes to 8.0.0 \[[#28556](https://community.openproject.org/wp/28556)\]
 - Fixed: Calendar filter toggles not working properly \[[#28588](https://community.openproject.org/wp/28588)\]
 - Fixed: Repository unfolding directory tree not working properly \[[#28613](https://community.openproject.org/wp/28613)\]
 - Fixed: Memory leak in repeated work package form requests \[[#28611](https://community.openproject.org/wp/28611)\]

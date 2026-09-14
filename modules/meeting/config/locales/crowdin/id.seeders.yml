@@ -13,17 +13,18 @@ id:
           meeting_agenda_items:
             item_0:
               title: Kabar baik
+              notes: What went well this week?
             item_1:
-              title: Pembaruan dari tim pengembangan
+              title: Team updates
+              notes: News and focused topics for the upcoming week.
             item_2:
-              title: Pembaruan dari tim produk
+              notes: "**Today's topic**: Organizing the open-source conference."
             item_3:
-              title: Pembaruan dari tim marketing
+              title: Review of quarterly goals
+              notes: Assessing the status and progress of the defined quarterly goals.
+            item_4:
+              title: Core values feedback
+              notes: Highlight employees who have lived the core values this week.
             item_5:
-              title: Pembaruan dari tim penjualan
-            item_6:
-              title: Tinjauan target triwulan
-            item_7:
-              title: Umpan balik nilai-nilai inti
-            item_8:
-              title: Topik umum
+              title: General topics
+              notes: Solving or discussing topics together.

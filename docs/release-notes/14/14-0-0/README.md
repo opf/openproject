@@ -109,17 +109,17 @@ Project attributes as well as the sections can be managed in administration/proj
 
 Until now, there have been uncertainties with project-specific custom fields from time to time. This is why the tab 'project' has been removed from the custom fields admin settings pages. Instead, project custom fields are now edited within their own admin settings page. Also, the custom fields widget has been removed.
 
-As described above, *project* custom fields are now called 'Project attributes' and can be shown in a sidebar on the project overview page on a per-project configuration.
+As described above, _project_ custom fields are now called 'Project attributes' and can be shown in a sidebar on the project overview page on a per-project configuration.
 
 ### Enhanced Meetings module with new features
 
 OpenProject's [(Dynamic) Meetings](../../../user-guide/meetings/) have been updated with the following new features:
 
-* [Meetings attachments](https://www.openproject.com/docs/user-guide/meetings/dynamic-meetings/#meeting-attachments) are now shown in the bottom section of the right-hand sidebar. You can add them directly to the meeting there and drag and drop them from this section to the Notes section of the agenda items.
-* When [copying a meeting](https://www.openproject.com/docs/user-guide/meetings/dynamic-meetings/#copy-a-meeting), you can now check a box to choose whether you want to include attachments.
-* A [meeting history](https://www.openproject.com/docs/user-guide/meetings/dynamic-meetings/#meeting-history) has been added and can be found in the Meetings menu, showing previous changes.
-* The presenter of an agenda item can now be changed from the creator of the agenda item to any person in the project.
-* An option to copy a URL of a specific agenda item has been added.
+- [Meetings attachments](https://www.openproject.com/docs/user-guide/meetings/dynamic-meetings/#meeting-attachments) are now shown in the bottom section of the right-hand sidebar. You can add them directly to the meeting there and drag and drop them from this section to the Notes section of the agenda items.
+- When [copying a meeting](https://www.openproject.com/docs/user-guide/meetings/dynamic-meetings/#copy-a-meeting), you can now check a box to choose whether you want to include attachments.
+- A [meeting history](https://www.openproject.com/docs/user-guide/meetings/dynamic-meetings/#meeting-history) has been added and can be found in the Meetings menu, showing previous changes.
+- The presenter of an agenda item can now be changed from the creator of the agenda item to any person in the project.
+- An option to copy a URL of a specific agenda item has been added.
 
 ### Automatic alerts for unhealthy file storages, and toggle options
 
@@ -131,8 +131,8 @@ Read more about file storage troubleshooting in our [documentation](../../../sys
 
 If you copy a project where a file storage has automatically managed project folders selected, you will now have the following options:
 
-* Deactivate the copy option "File Storages: Project folders" – this will copy the file storage, but not the specific project folder.
-* Deactivate the copy option "File Storages" – this will not copy any file storage.
+- Deactivate the copy option "File Storages: Project folders" – this will copy the file storage, but not the specific project folder.
+- Deactivate the copy option "File Storages" – this will not copy any file storage.
 
 ### Reminder for admins when revoking a project membership to remove shares on work packages
 
@@ -286,9 +286,9 @@ Apart from the features mentioned above, there have been a lot of other changes,
 
 A very special thank you goes to our sponsors for features and improvements of this release:
 
-* German Federal Ministry of the Interior and Home Affairs (BMI) for sponsoring the features on progress reporting
-* City of Cologne for sponsoring features on project attributes
-* Deutsche Bahn for sponsoring the OneDrive/SharePoint integration
+- German Federal Ministry of the Interior and Home Affairs (BMI) for sponsoring the features on progress reporting
+- City of Cologne for sponsoring features on project attributes
+- Deutsche Bahn for sponsoring the OneDrive/SharePoint integration
 
 Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes. Special thanks for reporting and finding bugs go to:
 

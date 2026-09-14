@@ -175,6 +175,12 @@ RSpec.describe Settings::Definition, :settings_reset do
         expect(all[:rails_cache_store].value).to eq :memcache
       end
 
+      it "overriding emails_salutation from ENV will cast the value before validation check",
+         with_env: { "OPENPROJECT_EMAILS__SALUTATION" => "name" } do
+        reset(:emails_salutation)
+        expect(all[:emails_salutation].value).to eq :name
+      end
+
       it "overriding datetime configuration from ENV will cast the value",
          with_env: { "OPENPROJECT_CONSENT__TIME" => "2222-01-01" } do
         reset(:consent_time)

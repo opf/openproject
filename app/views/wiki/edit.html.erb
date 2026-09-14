@@ -35,17 +35,22 @@ See COPYRIGHT and LICENSE files for more details.
     )
   end
 %>
-<%= labelled_tabular_form_for @page,
-                              as: :page,
-                              url: { action: "update", id: @page.slug.presence || @old_title },
-                              html: { method: :put, multipart: true, id: "wiki_form" } do |f| %>
-  <%= f.hidden_field :lock_version %>
-
-  <%= render partial: "wiki/page_form", locals: { f: f } %>
-
+<%= primer_form_with(
+      model: @page,
+      scope: :page,
+      url: { action: "update", id: @page.slug.presence || @old_title },
+      method: :put,
+      data: { turbo: false }
+    ) do |f| %>
+  <%= render(Primer::Alpha::Layout.new(stacking_breakpoint: :lg)) do |layout| %>
+    <% layout.with_main do %>
+      <%= render WikiPages::Form.new(f, create: false) %>
+    <% end %>
+    <% layout.with_sidebar(col_placement: :end, row_placement: :end) do %>
+      <%= render WikiPages::AttachmentsSidePanelComponent.new(@page) %>
+    <% end %>
+  <% end %>
 <% end %>
-
-<div id="preview"></div>
 <% content_for :header_tags do %>
   <%= robot_exclusion_tag %>
 <% end %>

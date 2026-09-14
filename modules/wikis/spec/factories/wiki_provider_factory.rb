@@ -79,6 +79,10 @@ FactoryBot.define do
       connected_user_token { ENV.fetch("XWIKI_LOCAL_OAUTH_CLIENT_ACCESS_TOKEN", "TOKEN_NOT_CONFIGURED") }
       oauth_client_id { ENV.fetch("XWIKI_LOCAL_OAUTH_CLIENT_ID", "CLIENT_ID_NOT_CONFIGURED") }
       oauth_client_secret { ENV.fetch("XWIKI_LOCAL_OAUTH_CLIENT_SECRET", "CLIENT_SECRET_NOT_CONFIGURED") }
+
+      after(:create) do |provider, _evaluator|
+        create(:oauth_application, integration: provider)
+      end
     end
 
     trait :with_oauth_configured do

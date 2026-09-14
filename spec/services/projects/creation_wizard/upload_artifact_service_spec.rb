@@ -94,6 +94,18 @@ RSpec.describe Projects::CreationWizard::UploadArtifactService do
       expect(attachment.author).to eq(current_user)
     end
 
+    it "journalizes the work package so the attachment shows up in the Activity tab" do
+      initial_journal_count = work_package.journals.count
+
+      result = instance.call
+
+      expect(result).to be_success
+      work_package.reload
+      expect(work_package.journals.count).to eq(initial_journal_count + 1)
+      expect(work_package.last_journal.attachable_journals.map(&:attachment))
+        .to include(work_package.attachments.last)
+    end
+
     context "when work package already has an attachment" do
       before do
         work_package.attachments.create(

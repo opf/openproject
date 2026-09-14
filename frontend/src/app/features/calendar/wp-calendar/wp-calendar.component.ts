@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -81,6 +81,7 @@ import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter
 import allLocales from '@fullcalendar/core/locales-all';
 import { MeetingResource } from 'core-app/features/hal/resources/meeting-resource';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 
 @Component({
   templateUrl: './wp-calendar.template.html',
@@ -396,7 +397,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
         durationEditable: this.workPackagesCalendar.eventDurationEditable(workPackage),
         end: exclusiveEnd,
         allDay: true,
-        className: `fc-event-clickable __hl_background_type_${workPackage.type.id ?? ''}`,
+        className: `fc-event-clickable ${Highlighting.backgroundClass('type', workPackage.type.id ?? '')}`,
         workPackage,
       };
     });

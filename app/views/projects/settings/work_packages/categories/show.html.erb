@@ -38,7 +38,7 @@ See COPYRIGHT and LICENSE files for more details.
         tag: :a,
         href: url_for({ controller: "/categories", action: "new", project_id: @project })
       ) do
-        t("activerecord.models.category")
+        Category.model_name.human
       end
     end
   %>

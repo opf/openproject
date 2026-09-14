@@ -34,8 +34,9 @@ module WorkPackages
       ALL           = :all
       ONLY_COMMENTS = :only_comments
       ONLY_CHANGES  = :only_changes
+      HIDE_MEETINGS = :hide_meetings
 
-      VALUES = [ALL, ONLY_COMMENTS, ONLY_CHANGES].freeze
+      VALUES = [ALL, ONLY_COMMENTS, ONLY_CHANGES, HIDE_MEETINGS].freeze
 
       # Coerces an incoming filter param (string or symbol) to a known mode,
       # falling back to ALL for anything unrecognised.

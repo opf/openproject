@@ -55,6 +55,7 @@ class WorkPackages::InfoLineComponent < ApplicationComponent
       "op-wp-info-line"
     )
     @system_arguments[:flex_wrap] = @wrap ? :wrap : :nowrap
+    @system_arguments[:align_items] ||= :center
     @system_arguments[:overflow] = :hidden unless @wrap
   end
 end

@@ -60,7 +60,7 @@ OpenProject offers a way to completely erase all identifiable user information f
 
 ### Data Portability
 
-OpenProject enables data controllers to retrieve *all* personal data connected to the OpenProject instance. This encompasses all user and system data (in the form of an SQL dump) including all uploaded files.
+OpenProject enables data controllers to retrieve _all_ personal data connected to the OpenProject instance. This encompasses all user and system data (in the form of an SQL dump) including all uploaded files.
 This is now possible by controllers on their own using the [backup feature of OpenProject](../backups/).
 
 ## Signing a Data Processing Agreement (DPA) for the Enterprise cloud
@@ -69,7 +69,7 @@ Under GDPR, EU customers are required to sign a data processing agreement (somet
 
 With OpenProject 11.1, we have automated this process in order to reduce manual  effort on both sides. This way, it is even easier to comply with GDPR.  
 
-Please navigate to *Administration -> GDPR* and you can now review and sign your DPA document directly within the application.
+Please navigate to _Administration -> GDPR_ and you can now review and sign your DPA document directly within the application.
 
 ![OpenProject DPA in OpenProject administration](openproject_enterprise_guide_gdpr.png)
 

@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -34,6 +34,7 @@ import { WorkPackageDisplayField } from 'core-app/shared/components/fields/displ
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 
 export class LinkedWorkPackageDisplayField extends WorkPackageDisplayField {
   public text = {
@@ -41,15 +42,17 @@ export class LinkedWorkPackageDisplayField extends WorkPackageDisplayField {
     none: this.I18n.t('js.filter.noneElement'),
   };
 
-  @LazyInject() $state!:StateService;
-
   @LazyInject() keepTab!:KeepTabService;
 
   @LazyInject() currentProject!:CurrentProjectService;
 
   @LazyInject() pathHelper!:PathHelperService;
 
-  private uiStateBuilder:UiStateLinkBuilder = new UiStateLinkBuilder(this.$state, this.keepTab, this.currentProject, this.pathHelper);
+  @LazyInject() urlParams!:UrlParamsService;
+
+  @LazyInject() $state!:StateService;
+
+  private uiStateBuilder:UiStateLinkBuilder = new UiStateLinkBuilder(this.keepTab, this.currentProject, this.pathHelper, this.urlParams, this.$state);
 
   public render(element:HTMLElement, displayText:string):void {
     if (this.isEmpty()) {

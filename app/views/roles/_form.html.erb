@@ -38,7 +38,7 @@ See COPYRIGHT and LICENSE files for more details.
   </div>
   <div class="form--field">
     <% if role.new_record? %>
-      <%= styled_label_tag :global_role, t(:label_global_role) %>
+      <%= styled_label_tag :global_role, GlobalRole.model_name.human %>
       <div class="form--field-container">
         <%= styled_check_box_tag(
               "global_role",
@@ -52,14 +52,14 @@ See COPYRIGHT and LICENSE files for more details.
     <% else %>
       <%= styled_label_tag :unchangeable, "#{t(:label_role_type)} #{t(:label_not_changeable)}" %>
       <div class="form--field-container">
-        <%= (role.is_a?(GlobalRole) ? t(:label_global_role) : t(:label_member_role)) %>
+        <%= (role.is_a?(GlobalRole) ? GlobalRole : ProjectRole).model_name.human %>
       </div>
     <% end %>
   </div>
 
   <div data-admin--roles-target="memberAttributes"
        hidden>
-    <%= render partial: "member_attributes", locals: { f: f, role: role, roles: roles&.reject { |r| r.is_a?(GlobalRole) } } %>
+    <%= render partial: "member_attributes", locals: { f: f, role: role, roles: roles&.grep_v(GlobalRole) } %>
   </div>
 
   <div data-admin--roles-target="globalPermissions"

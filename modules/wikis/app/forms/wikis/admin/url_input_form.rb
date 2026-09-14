@@ -39,7 +39,8 @@ module Wikis::Admin
         pattern: ".{1,255}",
         placeholder: "https://xwiki.my-organisation.com",
         caption: I18n.t("wikis.admin.wiki_providers.url_caption"),
-        input_width: :large
+        input_width: :large,
+        disabled: model.configured_from_env?
       )
     end
   end

@@ -37,9 +37,7 @@ class Projects::CreationWizardController < ApplicationController
 
   layout "no_menu"
 
-  def show
-    render locals: { menu_name: :none }
-  end
+  def show; end
 
   def help_text
     custom_field = ProjectCustomField.visible.find(params[:custom_field_id])
@@ -67,9 +65,7 @@ class Projects::CreationWizardController < ApplicationController
   private
 
   def render_wizard_error_step
-    render :show,
-           locals: { menu_name: :none },
-           status: :unprocessable_entity
+    render :show, status: :unprocessable_entity
   end
 
   def create_work_package_artifact # rubocop:disable Metrics/AbcSize
@@ -83,7 +79,7 @@ class Projects::CreationWizardController < ApplicationController
     # upload to Nextcloud that needs to be shown to the user
     if creation_call.success?
       flash[:error] = creation_call.errors.full_messages if creation_call.errors.any?
-      redirect_to project_work_packages_path(@project, @project.project_creation_wizard_artifact_work_package_id),
+      redirect_to project_work_package_path(@project, @project.project_creation_wizard_artifact_work_package_id),
                   notice: I18n.t("projects.wizard.success")
     else
       flash.now[:error] = creation_call.errors.full_messages

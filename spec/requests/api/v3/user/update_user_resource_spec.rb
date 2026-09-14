@@ -321,7 +321,7 @@ RSpec.describe API::V3::Users::UsersAPI do
 
     describe "unknown user" do
       let(:parameters) { { login: "new.login" } }
-      let(:path) { api_v3_paths.user(666) }
+      let(:path) { api_v3_paths.user(not_existing_id(User)) }
 
       it "responds with 404" do
         send_request
@@ -431,6 +431,37 @@ RSpec.describe API::V3::Users::UsersAPI do
 
         updated_user = User.find(current_user.id)
         expect(updated_user.check_password?("my!new!password123")).to be(true)
+      end
+    end
+
+    describe "email update" do
+      let(:parameters) { { email: "this.is.a.new@email.address" } }
+
+      context "when users may change their email", with_settings: { user_can_change_email: true } do
+        it "updates the users email correctly" do
+          send_request
+
+          expect(last_response).to have_http_status(:ok)
+          expect(current_user.reload.mail).to eq("this.is.a.new@email.address")
+        end
+      end
+
+      context "when users may not change their email", with_settings: { user_can_change_email: false } do
+        it "rejects the update and keeps the old email" do
+          previous_mail = current_user.mail
+
+          send_request
+
+          expect(last_response).to have_http_status(:unprocessable_entity)
+          expect(last_response.body)
+            .to be_json_eql("email".to_json)
+                  .at_path("_embedded/details/attribute")
+          expect(last_response.body)
+            .to be_json_eql("urn:openproject-org:api:v3:errors:PropertyIsReadOnly".to_json)
+                  .at_path("errorIdentifier")
+
+          expect(current_user.reload.mail).to eq(previous_mail)
+        end
       end
     end
   end

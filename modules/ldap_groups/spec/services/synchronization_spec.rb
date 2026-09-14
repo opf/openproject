@@ -194,6 +194,25 @@ RSpec.describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
               expect(group_foo.users).to contain_exactly(user_aa729)
               expect(group_bar.users).to contain_exactly(user_aa729, user_bb459, user_cc414)
             end
+
+            context "and a required user custom field" do
+              let!(:custom_field) { create(:user_custom_field, :string, name: "Employee ID", is_required: true) }
+
+              it "still creates the remaining users, as LDAP cannot provide a value for the custom field" do
+                subject
+                expect(synced_foo.users.count).to eq(1)
+                expect(synced_bar.users.count).to eq(3)
+
+                expect(group_foo.users).to contain_exactly(user_aa729)
+                expect(group_bar.users).to contain_exactly(user_aa729, user_bb459, user_cc414)
+              end
+
+              it "leaves the custom field empty" do
+                subject
+
+                expect(user_bb459.custom_value_for(custom_field).value).to be_nil
+              end
+            end
           end
 
           context "and users sync not enabled" do
@@ -315,7 +334,7 @@ RSpec.describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
       end
 
       it "removes the membership" do
-        expect(project.members.count).to eq 2
+        expect(project.member_users.count).to eq 2
         expect(project.users).to contain_exactly user_aa729, user_cc414
 
         subject
@@ -327,7 +346,7 @@ RSpec.describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
         expect(group_foo.users).to eq([user_aa729])
         expect(synced_foo.users.pluck(:user_id)).to eq([user_aa729.id])
 
-        expect(project.members.count).to eq 1
+        expect(project.member_users.count).to eq 1
         expect(project.users).to contain_exactly user_aa729
       end
     end

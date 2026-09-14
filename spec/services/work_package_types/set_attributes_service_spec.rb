@@ -33,10 +33,10 @@ require "spec_helper"
 module WorkPackageTypes
   RSpec.describe SetAttributesService, with_ee: [:work_package_subject_generation] do
     let(:user) { create(:admin) }
-    let(:model) { create(:type, :with_subject_pattern) }
+    let(:model) { create(:type, :with_subject_pattern).default_variant }
     let(:params) { Hash.new }
 
-    subject(:service) { described_class.new(user:, model:, contract_class: UpdateSubjectPatternContract) }
+    subject(:service) { described_class.new(user:, model:, contract_class: UpdateDefaultsContract) }
 
     context "when the pattern is malformed rubbish" do
       let(:params) { { patterns: "vader_s_rubber_duck" } }
@@ -87,65 +87,6 @@ module WorkPackageTypes
       it "sets the patterns to an empty collection" do
         service.call(params)
         expect(model.patterns).to eq(WorkPackageTypes::Patterns::Collection.empty)
-      end
-    end
-
-    context "if copy workflow source type does not exist" do
-      let(:params) { { copy_workflow_from: "1337" } }
-
-      it "fails" do
-        result = service.call(params)
-        expect(result).to be_failure
-      end
-
-      it "adds an error on the copy_workflow_from attribute" do
-        result = service.call(params)
-        expect(result.errors.details).to eq(copy_workflow_from: [{ error: "Type for workflow copy not found." }])
-      end
-
-      it "does not override the already existing value on the model" do
-        service.call(params)
-        expect(model).not_to be_changed
-      end
-    end
-
-    context "if copy workflow source type does not have a workflow" do
-      let(:wp_type) { create(:type_bug) }
-      let(:params) { { copy_workflow_from: wp_type.id.to_s } }
-
-      it "fails" do
-        result = service.call(params)
-        expect(result).to be_failure
-      end
-
-      it "adds an error on the copy_workflow_from attribute" do
-        result = service.call(params)
-        expect(result.errors.details).to eq(copy_workflow_from: [{ error: "Type for workflow copy has no own workflow." }])
-      end
-
-      it "does not override the already existing value on the model" do
-        service.call(params)
-        expect(model).not_to be_changed
-      end
-    end
-
-    context "if project ids contain a not existent id" do
-      let(:project) { create(:project) }
-      let(:params) { { project_ids: [project.id.to_s, "1337"] } }
-
-      it "fails" do
-        result = service.call(params)
-        expect(result).to be_failure
-      end
-
-      it "adds an error on the project_ids attribute" do
-        result = service.call(params)
-        expect(result.errors.details).to eq(project_ids: [{ error: "Projects with ids 1337 do not exist." }])
-      end
-
-      it "does not override the already existing value on the model" do
-        service.call(params)
-        expect(model).not_to be_changed
       end
     end
   end

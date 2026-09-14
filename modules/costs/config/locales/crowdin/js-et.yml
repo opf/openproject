@@ -22,15 +22,15 @@
 ---
 et:
   js:
-    text_are_you_sure: Kas oled kindel?
-    myTimeTracking:
-      noSpecificTime: No specific time
-    work_packages:
-      property_groups:
-        costs: Kulud
-      properties:
-        overallCosts: Üldised kulud
-        spentUnits: Kasutatud ühikuid
     button_log_costs: Log unit costs
     label_hour: tund
     label_hours: tundi
+    myTimeTracking:
+      noSpecificTime: No specific time
+    text_are_you_sure: Kas oled kindel?
+    work_packages:
+      properties:
+        overallCosts: Üldised kulud
+        spentUnits: Kasutatud ühikuid
+      property_groups:
+        costs: Kulud

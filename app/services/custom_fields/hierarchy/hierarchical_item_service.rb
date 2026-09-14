@@ -168,7 +168,7 @@ module CustomFields
       # @param item [CustomField::Hierarchy::Item] the start node
       # @param depth [Integer] limits the max depth of the hash. see {ClosureTree#hash_tree}
       # @return [Success({CustomField::Hierarchy::Item => Array, Hash})]
-      def hashed_subtree(item:, depth:)
+      def hashed_subtree(item:, depth: -1)
         if depth >= 0
           Success(item.hash_tree(limit_depth: depth + 1))
         else

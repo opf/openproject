@@ -139,6 +139,10 @@ module OpenProject::TextFormatting::Matchers
                 })
       end
 
+      def resource_link_aria_label
+        I18n.t("accessibility.macro.resource_links.work_package")
+      end
+
       # A nil WP means classic mode skipped the preload, or the reference
       # didn't resolve — neither case needs visibility gating.
       def text_only?(work_package)

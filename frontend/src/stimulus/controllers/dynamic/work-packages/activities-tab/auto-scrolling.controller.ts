@@ -1,35 +1,43 @@
-/*
- * -- copyright
- * OpenProject is an open source project management software.
- * Copyright (C) 2023 the OpenProject GmbH
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License version 3.
- *
- * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
- * Copyright (C) 2006-2013 Jean-Philippe Lang
- * Copyright (C) 2010-2013 the ChiliProject Team
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * See COPYRIGHT and LICENSE files for more details.
- * ++
- */
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
 
 import BaseController from './base.controller';
 import { UrlHelpers, ActivityAnchorType, ActivityAnchor } from './services/url-helpers';
+import SettleWindow from './services/settle-window';
+
+// How long to keep following the bottom after a streamed entry arrives, covering
+// the late layout growth as its images reserve their height only once they load.
+const STREAM_SETTLE_MS = 1000;
+
+// Mobile on-screen keyboard timings, tuned on device. The keyboard slides while
+// we scroll, so we wait it out before the first scroll settles the input.
+const KEYBOARD_SETTLE_MS = 300; // poll arrives with the keyboard already down
+const SUBMIT_KEYBOARD_DISMISS_MS = 800; // own comment sent, keyboard dismissing
 
 interface CustomEventWithIdParam extends Event {
   params:{
@@ -48,12 +56,15 @@ export default class AutoScrollingController extends BaseController {
 
   private abortController!:AbortController;
 
+  private settleWindow!:SettleWindow;
+
   connect() {
     super.connect();
 
     // Construct per connect so a disconnect→reconnect of the same instance gets a
     // fresh signal; an already-aborted one would silently drop these listeners.
     this.abortController = new AbortController();
+    this.settleWindow = new SettleWindow({ target: this.element, duration: STREAM_SETTLE_MS });
 
     window.addEventListener('hashchange', this.scrollToHashAnchor, { signal: this.abortController.signal });
     this.element.addEventListener('click', this.handleCommentReferenceClick, { signal: this.abortController.signal });
@@ -62,6 +73,7 @@ export default class AutoScrollingController extends BaseController {
 
   disconnect() {
     this.abortController.abort();
+    this.settleWindow.stop();
   }
 
   setAnchor(event:CustomEventWithIdParam) {
@@ -72,36 +84,53 @@ export default class AutoScrollingController extends BaseController {
   }
 
   performAutoScrollingOnStreamsUpdate(journalsContainerAtBottom = false) {
-    if (this.indexOutlet.sortingAscending && journalsContainerAtBottom) {
-      // scroll to (new) bottom if sorting is ascending and journals container was already at bottom before a new activity was added
-      if (this.isMobile()) {
-        this.scrollInputContainerIntoView(300);
-      } else {
-        this.scrollJournalContainer(true, true);
-      }
+    // Only follow a new activity into view when it lands at the foot of an
+    // ascending list the user was already reading the bottom of.
+    if (!this.indexOutlet.sortingAscending || !journalsContainerAtBottom) { return; }
+
+    if (this.isMobile()) {
+      this.keepInputInViewWhileSettling();
+    } else {
+      this.keepScrolledToBottomWhileSettling();
     }
+  }
+
+  private keepScrolledToBottomWhileSettling() {
+    const scrollableContainer = this.scrollableContainer;
+    if (!scrollableContainer) { return; }
+
+    this.settleWindow.follow(() => scrollableContainer.scrollTo({
+      top: scrollableContainer.scrollHeight,
+      behavior: 'smooth',
+    }));
+  }
+
+  private keepInputInViewWhileSettling(initialDelay = KEYBOARD_SETTLE_MS) {
+    if (!this.inputContainer) { return; }
+
+    // Wait for the on-screen keyboard to settle before the first scroll.
+    this.settleWindow.follow(() => this.scrollInputIntoView(), { delay: initialDelay });
   }
 
   performAutoScrollingOnFormSubmit() {
     if (this.isMobile() && !this.isWithinNotificationCenter()) {
-      // wait for the keyboard to be fully down before scrolling further
-      // timeout amount tested on mobile devices for best possible user experience
-      this.scrollInputContainerIntoView(800);
+      // Your own comment streams in and keeps growing like a polled one, so follow
+      // it while it settles rather than scrolling once the keyboard is down.
+      this.keepInputInViewWhileSettling(SUBMIT_KEYBOARD_DISMISS_MS);
     } else {
       this.scrollJournalContainer(this.indexOutlet.sortingAscending, true);
     }
   }
 
-  scrollInputContainerIntoView(timeout = 0, behavior:ScrollBehavior = 'smooth') {
-    const inputContainer = this.inputContainer;
-    setTimeout(() => {
-      if (inputContainer) {
-        inputContainer.scrollIntoView({
-          behavior,
-          block: this.indexOutlet.sortingDescending ? 'nearest' : 'start',
-        });
-      }
-    }, timeout);
+  scrollInputContainerIntoView(timeout = 0) {
+    setTimeout(() => this.scrollInputIntoView(), timeout);
+  }
+
+  private scrollInputIntoView() {
+    this.inputContainer?.scrollIntoView({
+      behavior: 'smooth',
+      block: this.indexOutlet.sortingDescending ? 'nearest' : 'start',
+    });
   }
 
   scrollJournalContainer(toBottom:boolean, smooth = false) {

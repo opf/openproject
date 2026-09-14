@@ -24,31 +24,31 @@
 'no':
   js:
     gitlab_integration:
-      work_packages:
-        tab_name: GitLab
+      gitlab_pipelines: Pipelines
       tab_header_issue:
         title: Utfordringer
       tab_header_mr:
-        title: Slå sammen forespørsler
-        create_mr:
-          label: Opprett MR
-          description: Opprett en fletteforespørsel
         copy_menu:
-          label: Git snippets
           description: Kopier git snippets til utklippstavle
+          label: Git snippets
+        create_mr:
+          description: Opprett en fletteforespørsel
+          label: Opprett MR
         git_actions:
           branch_name: Navn på filial
-          commit_message: Commit-melding
           cmd: Opprett gren med tom commit
-          title: Quick snippets for Git
-          copy_success: "✅ Kopiert!"
+          commit_message: Commit-melding
           copy_error: "❌ Kopiering mislyktes!"
+          copy_success: "✅ Kopiert!"
+          title: Quick snippets for Git
+        title: Slå sammen forespørsler
       tab_issue:
         empty: Det er ingen saker koblet til ennå. Koble til et eksisterende problem ved å benytte koden <code>OP#%{wp_id}</code> (eller <code>PP#%{wp_id}</code> for private lenker) i sakens tittel/beskrivelse eller opprett et nytt problem.
       tab_mrs:
         empty: Det er ingen fletteforespørsler koblet ennå. Koble til en eksisterende MR ved å bruke koden <code>OP#%{wp_id}</code> (eller <code>PP#%{wp_id}</code> for private lenker) i MR tittelen/beskrivelsen eller opprett en ny MR.
-      gitlab_pipelines: Pipelines
       updated_on: Oppdatert
+      work_packages:
+        tab_name: GitLab
     work_packages:
       tabs:
         gitlab: GitLab

@@ -38,7 +38,7 @@ You can find out more [how to use the Nextcloud integration](../../../user-guide
 
 For OpenProject 12.2, the team has worked on **improving the date picker** to give you more clarity when scheduling work packages. To choose [automatic or manual scheduling mode](../../../user-guide/gantt-chart/scheduling/), the selection box moved to the top of the date picker to be more visible. We are also introducing information and warning banners that provide important contextual information before modifying dates of work packages that have relations with other work packages.
 
-*Blue banners* will indicate information that maybe be helpful (such as if the work package's dates are automatically derived from relations, or if available date ranges are limited by relations) and *orange banners* will warn of possible consequences to other work packages (existing relations being ignored as a result of enabling manual scheduling, or the dates of related work packages changing as a result of changes to the current work package).
+_Blue banners_ will indicate information that maybe be helpful (such as if the work package's dates are automatically derived from relations, or if available date ranges are limited by relations) and _orange banners_ will warn of possible consequences to other work packages (existing relations being ignored as a result of enabling manual scheduling, or the dates of related work packages changing as a result of changes to the current work package).
 
 Additionally, a new "**Show relations**" on these banners allows you to quickly generate a Gantt view showing all directly related work packages in hierarchy view, so you can preview which work packages might be affected before making a change.
 

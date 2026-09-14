@@ -83,6 +83,10 @@ module Pages
         submenu.expect_item(filter_name, selected:, favorited:, visible:)
       end
 
+      def expect_no_sidebar_filter_selected
+        submenu.expect_no_selected_item
+      end
+
       def expect_no_sidebar_filter(filter_name)
         submenu.expect_no_item(filter_name)
       end
@@ -241,7 +245,7 @@ module Pages
 
         # Classify the row before apply_operator re-renders it. Skipped when
         # there is nothing to set.
-        kind = filter_kind(name) if values.any?
+        kind = values.any? ? filter_kind(name) : nil
 
         within(filter_selector(name)) do
           apply_operator(name, human_operator)
@@ -249,12 +253,12 @@ module Pages
 
         return unless values.any?
 
+        return set_autocomplete_filter(values, filter_name: name) if kind == :autocomplete
+
         # Re-find again as apply_operator may have triggered further DOM updates
         within(filter_selector(name)) do
           if boolean_filter?(name)
             set_toggle_filter(values)
-          elsif kind == :autocomplete
-            set_autocomplete_filter(values)
           elsif %i[date datetime_past].include?(kind)
             wait_for_network_idle
             set_datetime_filter(name, human_operator, values, send_keys:)

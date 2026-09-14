@@ -21,26 +21,42 @@
 #++
 ---
 sv:
-  plugin_costs:
-    name: Tid och kostnader
-    description: Denna modul lägger till funktioner för planering och uppföljning av projektkostnader.
   activerecord:
     attributes:
       cost_entry:
-        work_package: Arbetspaket
+        entity: Loggat för
+        entity_gid: Loggat för
+        entity_id: Loggat för
+        logged_by: Loggat av
         overridden_costs: Åsidosatta kostnader
         spent: Spenderat
         spent_on: Datum
-        logged_by: Loggad av
-        entity: Loggad för
-        entity_id: Loggad för
-        entity_gid: Loggad för
+        work_package: Arbetspaket
       cost_type:
+        default: Kostnadstyp som standard
+        for_all_projects: För alla projekt
+        rates: Priser
         unit: Enhetsnamn
         unit_plural: Enhetsnamn plural
-        default: Kostnadstyp som standard
-        for_all_projects: For all projects
-        rates: Rates
+      rate:
+        rate: Timpris
+      time_entry:
+        activity: Aktivitet
+        comments: Kommentar
+        end_time: Sluttid
+        entity: Loggat för
+        entity_gid: Loggat för
+        entity_id: Loggat för
+        hours: Timmar
+        project: Projekt
+        spent_on: Datum
+        start_time: Starttid
+        subject: Ämne
+        time: Tid
+        user: Användare
+        work_package: Arbetspaket
+      user:
+        default_rates: Standardtimpris
       work_package:
         costs_by_type: Bokade enheter
         labor_costs: Personalkostnader
@@ -48,71 +64,90 @@ sv:
         overall_costs: Totalkostnader
         spent_costs: Bokade kostnader
         spent_units: Bokade enheter
-      rate:
-        rate: Timpris
-      user:
-        default_rates: Standardtimpris
-      time_entry:
-        project: Projekt
-        user: Användare
-        work_package: Arbetspaket
-        subject: Ämne
-        hours: Timmar
-        comments: Kommentar
-        activity: Aktivitet
-        spent_on: Datum
-        start_time: Starttid
-        end_time: Sluttid
-        time: Tid
-        entity: Loggad för
-        entity_id: Loggad för
-        entity_gid: Loggad för
-    models:
-      time_entry:
-        one: Tidspost
-        other: Tidsposter
-      cost_entry:
-        one: Kostnadspost
-        other: Kostnadsposter
-      cost_type:
-        one: Kostnadstyp
-        other: Kostnadstyper
-      time_entry_activity:
-        one: Tidspårningsaktivitet
-        other: Tidsspårningsaktiviteter
-      rate: Timpris
     errors:
+      messages:
+        cost_type_in_use_cannot_disable: kan inte inaktiveras eftersom kostnader redan har registrerats för den i detta projekt.
       models:
-        time_entry:
-          invalid_time: måste vara mellan 00:00 och 23:59.
-          cannot_log_for_this_work_package: Kan inte logga tid för detta arbetspaket.
-          duplicate_ongoing: En pågående tidspost finns redan för den här användaren.
-        work_package:
-          is_not_a_valid_target_for_cost_entries: 'Arbetspaket #%{id} är inte ett giltigt mål för omfördelning av kostnadsposterna.'
-          nullify_is_not_valid_for_cost_entries: Kostnadsposterna kan inte tilldelas till ett projekt.
         cost_types_project:
           attributes:
             project_ids:
-              blank: Please select a project.
+              blank: Vänligen välj ett projekt.
+        time_entry:
+          attributes:
+            entity:
+              blank: "”Loggad för” får inte vara tomt."
+              cannot_log_for_this_work_package: Du har inte behörighet att logga tid för det här arbetspaketet.
+              format: "%{message}"
+            hours:
+              exceeds_user_working_hours: De loggade timmarna får inte överstiga gränsen på %{limit} timmar som är tillgängliga under användarens arbetsdag.
+              format: "%{message}"
+              max_hours_per_day_exceeded: De loggade timmarna får inte överstiga gränsen på %{limit} timmar för en enskild dag som administratören har angett.
+              max_hours_per_entry_exceeded: De loggade timmarna får inte överstiga gränsen på %{limit} timmar för en enskild tidspost som administratören har angett.
+            spent_on:
+              format: "%{message}"
+              in_past_month: Du kan inte planera tid i en tidigare månad. Tidsposter kan endast läggas till, ändras eller tas bort från och med %{date}.
+              not_a_working_day: Den valda dagen är en arbetsfri dag för den här användaren.
+            start_time:
+              format: "%{message}"
+              invalid_time: Ogiltig tid. Tiden måste vara mellan 00:00 och 23:59.
+          duplicate_ongoing: En annan timer körs redan. Endast en timer kan vara aktiv åt gången.
+        work_package:
+          is_not_a_valid_target_for_cost_entries: 'Arbetspaket #%{id} är inte ett giltigt mål för omfördelning av kostnadsposterna.'
+          nullify_is_not_valid_for_cost_entries: Kostnadsposterna kan inte tilldelas till ett projekt.
+    models:
+      cost_entry:
+        one: Kostnadspost
+        other: Kostnadsposter
+      cost_rate:
+        one: Kostnadssats
+        other: Kostnadssatser
+      cost_type:
+        one: Kostnadstyp
+        other: Kostnadstyper
+      default_hourly_rate:
+        one: Standardtimpris
+        other: Standardtimpriser
+      hourly_rate:
+        one: Timpris
+        other: Timpriser
+      rate:
+        one: Timpris
+        other: Priser
+      time_entry:
+        one: Tidspost
+        other: Tidsposter
+      time_entry_activity:
+        one: Tidspårningsaktivitet
+        other: Tidsspårningsaktiviteter
+      time_entry_custom_field:
+        one: Anpassat fält för tidspost
+        other: Anpassade fält för tidsposter
+  api_v3:
+    errors:
+      validation:
+        start_time_different_date: Datum del av startTime (%{start_time}) måste vara samma som datumet för spentOn (%{spent_on}).
   attributes:
     comment: Kommentar
     cost_type: Kostnadstyp
     costs: Kostnader
     current_rate: Nuvarande timpris
+    fixed_date: Referensdatum
     hours: Timmar
     units: Enheter
     valid_from: Gäller från
-    fixed_date: Referensdatum
+  button_add_activity: Aktivitet
   button_add_rate: Lägg till timpris
+  button_add_time_entry: Logga tid
   button_log_costs: Logga enhetskostnader
   button_log_time: Logga
-  button_add_activity: Aktivitet
-  button_add_time_entry: Logga tid
   button_stop_timer: Stoppa timer
+  button_update_limits: Uppdatera gränser
+  button_update_start_finish_times: Uppdatera start- och sluttider
   caption_booked_on_project: Bokade på projekt
   caption_default: Standard
   caption_default_rate_history_for: Historiskt standardtimpris för %{user}
   caption_locked_on: Låst den
+  caption_log_time_dialog: Logga tid
   caption_materials: Enheter
   caption_rate_history: Historiska timpriser
   caption_rate_history_for: Historiska timpriser för %{user}
@@ -120,20 +155,62 @@ sv:
   caption_save_rate: Spara timpris
   caption_set_rate: Ange aktuellt timpris
   caption_show_locked: Visa låst typer
-  caption_log_time_dialog: Logga tid
-  description_date_for_new_rate: Datum för nytt timpris
+  cost_types:
+    admin:
+      columns:
+        active_projects: Aktiva projekt
+      cost_type_projects:
+        for_all_projects_blank_slate:
+          description: Avmarkera ”För alla projekt” på fliken Detaljer för att begränsa den här kostnadstypen till specifika projekt.
+          heading: Den här kostnadstypen är aktiverad i alla projekt
+        no_projects:
+          description: Lägg till projekt där den här kostnadstypen ska kunna användas.
+          heading: Inga projekt tilldelade
+      rates:
+        title: Historiska timpriser
+    errors:
+      no_cost_types_available: Inga kostnadstyper är tillgängliga i det här projektet. Kontakta en administratör.
+    settings:
+      cost_types:
+        for_all_projects_hint: Den här kostnadstypen är aktiverad i alla projekt.
+        heading: Kostnadstyper
+        in_use_hint: Den här kostnadstypen kan inte inaktiveras eftersom kostnader redan har registrerats för den i detta projekt.
+        none_active: Inga kostnadstyper är för närvarande aktiva i det här projektet.
+      time_and_costs: Tid och kostnader
+  costs:
+    widgets:
+      actual_costs:
+        blankslate:
+          action: Logga tid
+          description: Få en översikt över kostnader och loggad tid för att följa projektets framsteg. Se till att arbetspaketen är kopplade till rätt budget.
+          heading: Börja registrera tid och kostnader
+        title: Faktiska kostnader per månad
+        view_details: Visa information om faktiska kostnader
   description_costs_settings: Definiera önskat format för kostnaderna i alla projekt.
-  description_time_settings: Definiera vilka fält som är obligatoriska att fylla i vid tidsloggning i alla projekt.
+  description_date_for_new_rate: Datum för nytt timpris
+  description_time_entry_restrictions: Ange gränser för när en användare loggar tid. Detta gäller alla projekt.
+  description_time_settings: Tidsposter kan ha specifika start- och sluttider, som kan göras valfria eller obligatoriska.
+  ee:
+    features:
+      time_entry_time_restrictions: Begränsningar för tidsposter
+    upsell:
+      time_entry_time_restrictions:
+        description: Förbättra tidsregistreringen genom att tillåta eller kräva exakta start- och sluttider och genom att införa gränser för när och hur mycket tid en projektmedlem kan logga.
   group_by_others: inte i någon grupp
+  label_available_cost_types_projects: Projekt för tillgängliga kostnadstyper
   label_between: mellan
+  label_cost: Kostnad
   label_cost_filter_add: Lägg till filter för kostnadspost
-  label_costlog: Loggade enhetskostnader
   label_cost_plural: Kostnader
   label_cost_type_plural: Kostnadstyper
   label_cost_type_specific: 'Kostnadstyp #%{id}: %{name}'
+  label_costlog: Loggade enhetskostnader
+  label_costs: Kostnader
   label_costs_per_page: Kostnader per sida
   label_current_default_rate: Nuvarande standardtimpris
   label_date_on: den
+  label_day: Dag
+  label_defaults_and_limits: Standardvärden och gränser
   label_deleted_cost_types: Borttagna kostnadstyper
   label_display_cost_entries: Visa enhetskostnader
   label_display_time_entries: Visa rapporterade timmar
@@ -143,60 +220,54 @@ sv:
   label_greater_or_equal: ">="
   label_group_by: Gruppera efter
   label_group_by_add: Lägg till grupperingsfält
-  label_hourly_rate: Timpris
   label_include_deleted: Inkludera borttagna
-  label_work_package_filter_add: Lägg till arbetspaketsfilter
   label_kind: Typ
   label_less_or_equal: "<="
+  label_list: Lista
   label_log_costs: Logga enhetskostnader
-  label_new_time_entry_activity: Ny aktivitet vid inmatning
-  label_time_entry_activity_form_description: Ändringar i denna inmatningsaktivitet kommer att återspeglas i alla projekt där den är aktiverad.
-  label_no: Nej
-  label_option_plural: Alternativ
-  label_overall_costs: Totalkostnader
-  label_rate: Timpris
-  label_rate_plural: Priser
-  label_status_finished: Avslutad
-  label_show: Visa
-  label_units: Kostnadsenheter
-  label_user: Användare
-  label_until: fram till
-  label_valid_from: Gäller från
-  label_yes: Ja
-  label_time: Tid
-  label_cost: Kostnad
-  label_costs: Kostnader
-  label_mandatory_fields: Obligatoriska fält
+  label_month: Månad
   label_my_time_tracking: Min tidsspårning
-  label_no_time: Ingen tid spårad
+  label_new_time_entry_activity: Ny aktivitet vid inmatning
   label_next_day: Nästa dag
+  label_next_month: Nästa månad
   label_next_week: Nästa vecka
   label_next_workweek: Nästa arbetsvecka
-  label_next_month: Nästa månad
+  label_no: Nej
+  label_no_time: Ingen tid spårad
+  label_option_plural: Alternativ
+  label_overall_costs: Totalkostnader
   label_previous_day: Föregående dag
-  label_previous_workweek: Föregående arbetsvecka
-  label_previous_week: Föregående vecka
   label_previous_month: Föregående månad
+  label_previous_week: Föregående vecka
+  label_previous_workweek: Föregående arbetsvecka
+  label_rate_plural: Priser
+  label_show: Visa
   label_specific_day: Dag %{day}
   label_specific_month: Månad %{month}
-  label_list: Lista
-  label_month: Månad
-  label_workweek: Arbetsvecka
-  label_day: Dag
-  label_today_capitalized: Idag
-  label_view_mode_switcher: Ändra vy
+  label_start_and_finished: Start- och sluttider
+  label_status_finished: Avslutad
+  label_time: Tid
+  label_time_entry_activity_form_description: Ändringar i denna inmatningsaktivitet kommer att återspeglas i alla projekt där den är aktiverad.
+  label_time_entry_restrictions: Gränser
   label_timer_since: Startade på %{time}
-  placeholder_activity_select_work_package_first: Val av arbetspaket krävs först
-  notice_something_wrong: Ett fel inträffade. Försök igen.
-  notice_successful_restore: Lyckad återställning.
-  notice_successful_lock: Låst framgångsrikt.
+  label_today_capitalized: I dag
+  label_units: Kostnadsenheter
+  label_until: fram till
+  label_valid_from: Gäller från
+  label_view_mode_switcher: Ändra vy
+  label_work_package_filter_add: Lägg till arbetspaketsfilter
+  label_workweek: Arbetsvecka
+  label_yes: Ja
   notice_cost_logged_successfully: Enhetskostnaden loggad framgångsrikt.
   notice_different_time_zones: Den här användaren har en annan tidszon (%{tz}). Tiden kommer att loggas med hjälp av sin tidszon.
-  notice_time_entry_update_failed: 'Det gick inte att uppdatera tidsposten. Fel: %{errors}'
+  notice_something_wrong: Ett fel inträffade. Försök igen.
+  notice_successful_lock: Låst framgångsrikt.
+  notice_successful_restore: Lyckad återställning.
   notice_time_entry_delete_failed: 'Det gick inte att ta bort tidsposten. Fel: %{errors}'
+  notice_time_entry_update_failed: 'Det gick inte att uppdatera tidsposten. Fel: %{errors}'
   permission_edit_cost_entries: Redigera bokade enhetskostnader
-  permission_edit_own_cost_entries: Redigera egna bokade enhetskostnader
   permission_edit_hourly_rates: Redigera timpriser
+  permission_edit_own_cost_entries: Redigera egna bokade enhetskostnader
   permission_edit_own_hourly_rate: Redigera egna timpriser
   permission_edit_rates: Redigera priser
   permission_log_costs: Boka enhetskostnader
@@ -207,67 +278,42 @@ sv:
   permission_view_own_cost_entries: Visa egna bokade kostnader
   permission_view_own_hourly_rate: Visa egna timpriser
   permission_view_own_time_entries: Visa egen spenderad tid
+  placeholder_activity_select_work_package_first: Val av arbetspaket krävs först
+  plugin_costs:
+    description: Denna modul lägger till funktioner för planering och uppföljning av projektkostnader.
+    name: Tid och kostnader
   project_module_costs: Tid och kostnader
   setting_allow_tracking_start_and_end_times: Tillåt start- och sluttider
-  setting_costs_currency: Valuta
-  setting_costs_currency_caption: This is the unit of currency. It can be a three-letter ISO code like EUR, USD or JPY or a symbol like €, $ or ¥.
-  setting_costs_currency_format: Currency format
-  setting_costs_currency_format_prefix: Before the number (e.g. EUR 100)
-  setting_costs_currency_format_suffix: After the number (e.g. 100 EUR)
-  setting_enforce_tracking_start_and_end_times: Kräv start- och sluttider
-  setting_enforce_without_allow: Det är inte möjligt att begära start- och sluttider utan att låta dem
   setting_allow_tracking_start_and_end_times_caption: Gör det möjligt att ange start- och sluttider vid tidsloggning.
+  setting_costs_currency: Valuta
+  setting_costs_currency_caption: Detta är valutaenheten. Det kan vara en ISO-kod med tre bokstäver, till exempel EUR, USD eller JPY, eller en symbol som €, $ eller ¥.
+  setting_costs_currency_format: Valutaformat
+  setting_costs_currency_format_prefix: Före talet (t.ex. EUR 100)
+  setting_costs_currency_format_suffix: Efter talet (t.ex. 100 EUR)
+  setting_enforce_tracking_start_and_end_times: Kräv start- och sluttider
   setting_enforce_tracking_start_and_end_times_caption: Gör det obligatoriskt att ange start- och sluttider när du loggar tid.
+  setting_enforce_without_allow: Det är inte möjligt att begära start- och sluttider utan att låta dem
+  setting_time_entries_limit_to_user_working_hours: Begränsa till användarens arbetstid
+  setting_time_entries_limit_to_user_working_hours_caption: Begränsar det totala antalet timmar som kan loggas per dag till användarens faktiska arbetstid. Användare utan angivna arbetstider begränsas inte.
+  setting_time_entries_max_hours_per_day: Maximalt antal timmar per dag
+  setting_time_entries_max_hours_per_day_caption: Begränsar det totala antalet timmar som en användare kan logga under en enskild dag. Värdet 0 innebär att det inte finns några begränsningar.
+  setting_time_entries_max_hours_per_entry: Maximalt antal timmar per tidspost
+  setting_time_entries_max_hours_per_entry_caption: Begränsar hur många timmar en enskild tidspost kan omfatta. Värdet 0 innebär att det inte finns några begränsningar.
+  setting_time_entries_past_month_grace_days: Tidsfrist för tidigare månader
+  setting_time_entries_past_month_grace_days_caption: Ange hur många dagar en användare har på sig efter att en ny månad har börjat att logga tidsposter för föregående månad. Värdet 5 innebär att användare kan logga tid för föregående månad till och med den 5:e i den aktuella månaden. Värdet 0 innebär att ingen tidsfrist alls medges.
+  setting_time_entries_prohibit_logging_for_past_months: Tillåt inte tidsloggning för tidigare månader
+  setting_time_entries_prohibit_logging_for_past_months_caption: Begränsar möjligheten att lägga till, ändra och ta bort tidsposter till den aktuella månaden. Tid som har loggats under tidigare månader kan inte längre ändras.
+  setting_time_entries_prohibit_logging_on_non_working_days: Tillåt inte tidsloggning på arbetsfria dagar
+  setting_time_entries_prohibit_logging_on_non_working_days_caption: Användare kan inte logga tid på dagar som har definierats som arbetsfria, vare sig av en administratör eller av användarna själva i deras kontoinställningar.
   text_assign_time_and_cost_entries_to_project: Tilldela rapporterade timmar och kostnader till projektet
   text_destroy_cost_entries_question: "%{cost_entries} rapporterades på de arbetspaket som du håller på och tar bort. Vad vill du göra?"
   text_destroy_time_and_cost_entries: Ta bort rapporterade timmar och kostnader
   text_destroy_time_and_cost_entries_question: "%{hours} timmar, %{cost_entries} rapporterades på de arbetspaket som du håller på att ta bort. Vad vill du göra?"
   text_reassign_time_and_cost_entries: 'Tilldela rapporterade timmar och kostnader på detta arbetspaket:'
   text_warning_hidden_elements: Vissa poster kan ha undantagits från summeringen.
-  week: vecka
   total_times:
-    workweek: 'Arbetsvecka Totalt: %{hours}'
-    week: 'Vecka totalt: %{hours}'
-    month: 'Månad totalt: %{hours}'
     day: 'Dag totalt: %{hours}'
-  api_v3:
-    errors:
-      validation:
-        start_time_different_date: Datum del av startTime (%{start_time}) måste vara samma som datumet för spentOn (%{spent_on}).
-  label_available_cost_types_projects: Available cost types projects
-  cost_types:
-    errors:
-      no_cost_types_available: No cost types are available in this project. Please contact an administrator.
-    admin:
-      columns:
-        active_projects: Active projects
-      cost_type_projects:
-        for_all_projects_blank_slate:
-          heading: This cost type is enabled in all projects
-          description: Uncheck "For all projects" on the details tab to limit this cost type to specific projects.
-        no_projects:
-          heading: No projects assigned
-          description: Add projects so this cost type can be used in them.
-      rates:
-        title: Rate history
-    settings:
-      time_and_costs: Time and costs
-      cost_types:
-        heading: Cost types
-        none_active: No cost types are currently active in this project.
-        for_all_projects_hint: This cost type is enabled in all projects.
-  costs:
-    widgets:
-      actual_costs:
-        title: Actual costs by month
-        blankslate:
-          heading: Start tracking your time and costs
-          description: Get an overview of your costs and logged time to monitor progress of your project. Make sure that work packages are associated with the correct budget.
-          action: Log time
-        view_details: View actual costs details
-  ee:
-    features:
-      time_entry_time_restrictions: Kräv exakt tidsspårning
-    upsell:
-      time_entry_time_restrictions:
-        description: Förbättra din tidsspårning genom att kräva exakta start- och sluttider när du loggar tid.
+    month: 'Månad totalt: %{hours}'
+    week: 'Vecka totalt: %{hours}'
+    workweek: 'Arbetsvecka Totalt: %{hours}'
+  week: vecka

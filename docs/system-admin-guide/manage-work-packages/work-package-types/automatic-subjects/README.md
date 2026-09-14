@@ -40,7 +40,7 @@ Administrators configure subject patterns using a simple editor in the administr
 
 ### How to add attributes
 
-1. Navigate to *Administration → Work Packages → Types*, choose a type, then open **Subject configuration**.
+1. Navigate to _Administration → Work Packages → Types_, choose a type, then open **Subject configuration**.
 
 2. Type `/` in the input field to open attribute search.
 
@@ -49,7 +49,7 @@ Administrators configure subject patterns using a simple editor in the administr
 > [!TIP]
 > Some attributes can be selected not only for the work package in question, but also for it's parent work package.
 
-4. Don't forget to *Save* your changes. 
+4. Don't forget to _Save_ your changes. 
 
 ![Automatic work package subject configuration in OpenProject administration](openproject-automatic-subjects.gif)
 
@@ -61,8 +61,6 @@ Administrators configure subject patterns using a simple editor in the administr
 ### How to delete attributes
 
 - Delete an attribute placeholder same as you would a regular text (e.g., using backspace).
-
-
 
 ## Supported attributes and limitations
 
@@ -79,12 +77,14 @@ Subject patterns can include placeholders referencing the following work package
 | Created on     | Date              | 2025-01-10 |
 | Finish date    | Date              | 2025-01-15 |
 | ID             | Integer           | 3000       |
+| Observed in versions | List of version names | 1.0, 2.0 |
 | Priority       | String            | Normal     |
 | Project        | Project ID        | 30         |
 | Remaining work | Hours (float)     | 8.0        |
 | Start date     | Date              | 2025-01-12 |
 | Status         | String            | New        |
 | Type           | Work package type | Task       |
+| Version (Target versions) | List of version names | 1.0, 2.0 |
 | Work           | Hours (float)     | 10.0       |
 
 **Custom fields**: Supported custom fields include Text, Integer, Float, List, Date, Boolean, User, Version.
@@ -105,7 +105,6 @@ Subject patterns can include placeholders referencing the following work package
 
 **Custom project attributes:** Supported attributes include Integer, Float, List, Date, Boolean, User, Version.
 **Unsupported project attributes**: Long text and Link custom fields are excluded to keep subjects concise.
-
 
 ## Update automatic subjects
 
@@ -131,7 +130,6 @@ Automatic subjects update whenever an attribute referenced in the **current work
 - The attribute hasn't been filled by the user.
 - A parent attribute is referenced, but no parent is set.
 - A project attribute is referenced, but hasn't been filled.
-
 
 ## Tips for effective patterns
 

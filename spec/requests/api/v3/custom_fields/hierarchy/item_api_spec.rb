@@ -72,7 +72,7 @@ RSpec.describe "API v3 custom field items", :webmock, content_type: :json, with_
       end
 
       context "if custom field does not exist" do
-        let(:path) { api_v3_paths.custom_field_item(1337) }
+        let(:path) { api_v3_paths.custom_field_item(not_existing_id(CustomField::Hierarchy::Item)) }
 
         it_behaves_like "not found"
       end
@@ -100,7 +100,7 @@ RSpec.describe "API v3 custom field items", :webmock, content_type: :json, with_
       end
 
       context "if custom field does not exist" do
-        let(:path) { api_v3_paths.custom_field_items(1337) }
+        let(:path) { api_v3_paths.custom_field_items(not_existing_id(CustomField)) }
 
         it_behaves_like "not found"
       end

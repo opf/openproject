@@ -5,6 +5,7 @@ sidebar_navigation:
 ---
 
 # Configuring outbound emails
+
 ## SMTP
 
 In this guide we will describe how to configure outbound emails using an external SMTP server.
@@ -82,13 +83,13 @@ docker run -d \
   -e OPENPROJECT_SMTP__PASSWORD="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" \
   ...
 ```
+
 ## Sendmail
 
 ### Requirements
 
 You need to have Sendmail configured on your server.
 For information about how to configure Sendmail, please refer to the [Sendmail docs](https://www.sendmail.org/~ca/email/doc8.12/cf/m4/index.html)
-
 
 ### Configuration through the Admin UI
 

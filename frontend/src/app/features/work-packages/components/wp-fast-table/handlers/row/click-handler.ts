@@ -1,3 +1,31 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import { Injector } from '@angular/core';
 import { StateService } from '@uirouter/core';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
@@ -11,6 +39,8 @@ import { TableEventComponent, TableEventHandler } from '../table-handler-registr
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { KeepTabService } from '../../../wp-single-view-tabs/keep-tab/keep-tab.service';
 import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
+import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
 
 export class RowClickHandler implements TableEventHandler {
   // Injections
@@ -23,6 +53,8 @@ export class RowClickHandler implements TableEventHandler {
   @LazyInject() public wpTableSelection:WorkPackageViewSelectionService;
 
   @LazyInject() public wpTableFocus:WorkPackageViewFocusService;
+
+  @LazyInject() public urlParams:UrlParamsService;
 
   constructor(public readonly injector:Injector) {
   }
@@ -87,6 +119,39 @@ export class RowClickHandler implements TableEventHandler {
     // not matter what other rows are (de-)selected below.
     // Thus save that row for the details view button.
     this.wpTableFocus.updateFocus(wpId);
+
+    this.switchOpenSplitViewTo(wpId);
+
     return false;
+  }
+
+  /**
+   * If a split view is currently open (URL has a /details/:id(/:tab) suffix), switch it
+   * to the clicked row's work package. List and split view are separate, independently
+   * bootstrapped Angular elements (each with their own isolated query space), so they
+   * don't share WorkPackageViewFocusService - this can't be done by reacting to
+   * updateFocus() from within the split view, it has to be driven from here.
+   *
+   * Not needed for uiRouter contexts (e.g. BIM): WorkPackageSplitViewComponent still
+   * reacts to updateFocus() via $state.go there, since list and split view share one
+   * component tree/injector in that case.
+   */
+  private switchOpenSplitViewTo(wpId:string):void {
+    if (this.$state.current.name !== '') {
+      return;
+    }
+
+    const details = this.urlParams.currentDetailsRouteParams();
+    if (!details) {
+      return;
+    }
+
+    const newRoutingId = resolveRoutingId(this.states, wpId);
+    if (details.routingId === newRoutingId) {
+      return;
+    }
+
+    const newPath = `${this.urlParams.basePathWithoutDetails()}/details/${newRoutingId}${details.tab ? `/${details.tab}` : ''}${window.location.search}`;
+    Turbo.visit(newPath, { frame: 'content-bodyRight', action: 'advance' });
   }
 }

@@ -33,6 +33,7 @@ module Backlogs
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
     include CommonHelper
+    include ContainerComponentHelper
 
     TRUNCATE_MIDDLE = 50
 
@@ -74,7 +75,15 @@ module Backlogs
       work_packages[-(tail_size + 1)]&.id
     end
 
+    def omitted_count
+      work_packages.size - TRUNCATE_MIDDLE - tail_size
+    end
+
     private
+
+    def list_type
+      Backlogs::Target::InboxId.list_type
+    end
 
     def tail_size
       [TRUNCATE_MIDDLE / 5, 1].max
@@ -82,10 +91,6 @@ module Backlogs
 
     def truncate_threshold
       TRUNCATE_MIDDLE + (tail_size * 2)
-    end
-
-    def omitted_count
-      work_packages.size - TRUNCATE_MIDDLE - tail_size
     end
   end
 end

@@ -24,4 +24,4 @@ hu:
   js:
     two_factor_authentication:
       errors:
-        aborted: The authentication was cancelled. Please try again.
+        aborted: A hitelesítés megszakadt. Kérjük, próbálja meg újra.

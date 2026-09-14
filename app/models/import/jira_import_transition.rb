@@ -36,6 +36,18 @@ module Import
 
     after_destroy :update_most_recent, if: :most_recent?
 
+    def actual_batch
+      if batch_id = metadata["batch_id"]
+        GoodJob::Batch.find(batch_id)
+      end
+    end
+
+    def actual_job
+      if job_id = metadata["job_id"]
+        GoodJob::Job.find(job_id)
+      end
+    end
+
     private
 
     def update_most_recent

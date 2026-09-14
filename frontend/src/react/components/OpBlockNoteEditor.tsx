@@ -1,32 +1,30 @@
-/*
- * -- copyright
- * OpenProject is an open source project management software.
- * Copyright (C) the OpenProject GmbH
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License version 3.
- *
- * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
- * Copyright (C) 2006-2013 Jean-Philippe Lang
- * Copyright (C) 2010-2013 the ChiliProject Team
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * See COPYRIGHT and LICENSE files for more details.
- * ++
- */
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
 
 import { BlockNoteEditorOptions, BlockNoteSchema } from '@blocknote/core';
 import { ExternalLinkA11yExtension } from '../extensions/external-link-a11y';
@@ -40,12 +38,11 @@ import {
   initializeOpBlockNoteExtensions,
   openProjectWorkPackageBlockSpec,
   openProjectWorkPackageInlineSpec,
-  workPackageSlashMenu,
-  useOpBlockNoteExtensions,
-  PasteDeduplicateInstanceIdsExtension,
+  getOpenProjectSlashMenuItems,
+  OpenProjectFormattingToolbar,
   useHashWpMenu,
 } from 'op-blocknote-extensions';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import * as Y from 'yjs';
 import { useBlockNoteAttachments } from '../hooks/useBlockNoteAttachments';
 import { useBlockNoteLocale } from '../hooks/useBlockNoteLocale';
@@ -62,6 +59,7 @@ export interface OpBlockNoteEditorProps {
   openProjectUrl:string;
   attachmentsUploadUrl:string;
   attachmentsCollectionKey:string;
+  projectId:string;
   captureExternalLinks:boolean;
   hocuspocusProvider?:HocuspocusProvider;
   doc:Y.Doc;
@@ -86,6 +84,7 @@ export function OpBlockNoteEditor({
   openProjectUrl,
   attachmentsUploadUrl,
   attachmentsCollectionKey,
+  projectId,
   captureExternalLinks,
   hocuspocusProvider,
   doc,
@@ -94,8 +93,8 @@ export function OpBlockNoteEditor({
   const { enabled: attachmentsEnabled, uploadFile } = useBlockNoteAttachments(attachmentsCollectionKey, attachmentsUploadUrl);
 
   useEffect(() => {
-    initializeOpBlockNoteExtensions({ baseUrl: openProjectUrl, locale: localeString });
-  }, [openProjectUrl, localeString]);
+    initializeOpBlockNoteExtensions({ baseUrl: openProjectUrl, locale: localeString, projectId });
+  }, [openProjectUrl, localeString, projectId]);
 
   const editorParams = useMemo<Partial<BlockNoteEditorOptions<typeof schema.blockSchema, typeof schema.inlineContentSchema, typeof schema.styleSchema>>>(() => {
     return {
@@ -119,7 +118,6 @@ export function OpBlockNoteEditor({
       dictionary: localeDictionary,
       ...(attachmentsEnabled && { uploadFile }),
       extensions: [
-        PasteDeduplicateInstanceIdsExtension,
         ExternalLinkA11yExtension,
         ...(captureExternalLinks ? [ExternalLinkCaptureExtension] : []),
       ],
@@ -131,13 +129,29 @@ export function OpBlockNoteEditor({
   // the editor (wiping `Y.UndoManager` history) whenever a fresh `activeUser` reference
   // reached this component, e.g. on Stimulus reconnect / Turbo morph.
   const editor = useCreateBlockNote(editorParams, []);
-  useOpBlockNoteExtensions(editor);
   type EditorType = typeof editor;
   const theme = useOpTheme();
 
+  // Works around a BlockNote/Yjs bootstrap race where the first block can render with
+  // stale transition-tracking CSS state (e.g. a heading rendering at body-text size)
+  // until the next transaction. Re-applying its own props once, before first paint,
+  // forces that state to recompute cleanly.
+  const forcedInitialBlockRefreshRef = useRef(false);
+  useLayoutEffect(() => {
+    if (!hocuspocusProvider || forcedInitialBlockRefreshRef.current) {
+      return;
+    }
+
+    forcedInitialBlockRefreshRef.current = true;
+    const firstBlock = editor.document[0];
+    if (firstBlock?.id === 'initialBlockId') {
+      editor.updateBlock(firstBlock, { props: { ...firstBlock.props } });
+    }
+  }, [editor, hocuspocusProvider]);
+
   const getCustomSlashMenuItems = useCallback((editorInstance:EditorType) => [
     ...getDefaultReactSlashMenuItems(editorInstance),
-    workPackageSlashMenu(editorInstance),
+    ...getOpenProjectSlashMenuItems(editorInstance),
   ], []);
   const { getHashItems, HashWpMenu } = useHashWpMenu(editor);
 
@@ -146,10 +160,12 @@ export function OpBlockNoteEditor({
       <BlockNoteView
         editor={editor}
         slashMenu={false}
+        formattingToolbar={false}
         theme={theme}
         editable={!readOnly}
         className={'block-note-editor-container'}
       >
+        <OpenProjectFormattingToolbar />
         <SuggestionMenuController
           triggerCharacter="/"
           getItems={async (query:string) => Promise.resolve(filterSuggestionItems(getCustomSlashMenuItems(editor), query))}

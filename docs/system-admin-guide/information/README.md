@@ -7,7 +7,7 @@ keywords: system information
 ---
 # System information
 
-System information shows you an overview about current system status and more information on your OpenProject installation configuration, including the core build and version, as well as the product version. Navigate to *Administration* -> *Information*.
+System information shows you an overview about current system status and more information on your OpenProject installation configuration, including the core build and version, as well as the product version. Navigate to _Administration_ -> _Information_.
 
 ![Sys-admin-information](openproject_system_admin_guide_information.png)
 
@@ -19,11 +19,11 @@ If enabled, this option will display a badge with your installation status at Ad
 
 The badge will match your current OpenProject version against the official OpenProject release database to alert you of any updates or  known vulnerabilities. To ensure the newest available update can be returned, the check will  include your installation type, current version, database type,  enterprise status and an anonymous unique ID of the instance. To localize the badge, the user's locale is sent. No personal  information of your installation or any user within is transmitted,  processed, or stored.
 
-To disable rendering the badge, uncheck the setting at *Administration* > *System settings* > *General* or pass the configuration flag `security_badge_displayed: false` .
+To disable rendering the badge, uncheck the setting at _Administration_ > _System settings_ > _General_ or pass the configuration flag `security_badge_displayed: false` .
 
 ## Additional system information
 
-There are a few automatic checks from the system to ensure the safety and correct set up of your configuration if you navigate to *Administration* -> *Information*.
+There are a few automatic checks from the system to ensure the safety and correct set up of your configuration if you navigate to _Administration_ -> _Information_.
 
 If one point is not fulfilled, e.g. changing the default administrator account, you will get a warning message in the form of a bug icon.
 
@@ -31,7 +31,7 @@ If one point is not fulfilled, e.g. changing the default administrator account, 
 
 ## Storage information
 
-You will get information about the storage filesystem in your OpenProject application if you navigate to *Administration* -> *Information*.
+You will get information about the storage filesystem in your OpenProject application if you navigate to _Administration_ -> _Information_.
 
 You will see the remaining disk space as well as used disk space in your OpenProject installation.
 

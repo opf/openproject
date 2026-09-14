@@ -56,7 +56,7 @@ module RecurringMeetings
 
     def generate_single_occurrence(meeting:, cancelled: false) # rubocop:disable Metrics/AbcSize
       User.execute_as(user) do
-        calendar = Meetings::IcalendarBuilder.new(timezone: Time.zone || Time.zone_default)
+        calendar = Meetings::IcalendarBuilder.new(timezone: Time.zone || Time.zone_default, user:)
         calendar.add_single_recurring_occurrence(meeting:, cancelled:)
         calendar.update_calendar_status(cancelled:)
 

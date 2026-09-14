@@ -49,7 +49,7 @@ See COPYRIGHT and LICENSE files for more details.
         tag: :a,
         href: new_placeholder_user_path
       ) do
-        t("activerecord.models.placeholder_user")
+        PlaceholderUser.model_name.human
       end
 
       subheader.with_bottom_pane_component do

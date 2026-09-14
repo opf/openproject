@@ -178,6 +178,13 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # Firefox serves these pages stale from the HTTP cache and bfcache on reload and
+  # history-back (the turbo-cache-control meta only governs Turbo's snapshot).
+  # no-store opts out of both so a fresh copy is always fetched.
+  def prevent_response_caching
+    response.cache_control.merge!(no_store: true)
+  end
+
   def tag_request
     context = { controller: self, request: }
     ::OpenProject::Appsignal.tag_request(context)

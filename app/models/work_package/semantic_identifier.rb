@@ -175,6 +175,22 @@ module WorkPackage::SemanticIdentifier
     format_display_id(display_id_for(id, identifier))
   end
 
+  # Extracts the sequence number from a semantic identifier ("PROJ-42" → 42).
+  # The inverse of the "<project identifier>-<sequence number>" composition used
+  # when allocating identifiers.
+  #
+  # Raises ArgumentError unless the identifier is of the expected
+  # "<prefix>-<digits>" shape, rather than silently coercing garbage or a blank
+  # value to 0 ("PROJ-abc".split("-").last.to_i would return 0). Callers that may
+  # legitimately hold a blank identifier must guard before calling.
+  def self.sequence_number_from_identifier(identifier)
+    unless /\A#{SEMANTIC_ID_PATTERN.source}\z/.match?(identifier)
+      raise ArgumentError, "#{identifier.inspect} is not a valid semantic identifier"
+    end
+
+    identifier.split("-").last.to_i
+  end
+
   # Returns the user-facing identifier for this work package.
   # In semantic mode: the project-based identifier (e.g. "PROJ-42")
   # In classic mode: the numeric database ID
@@ -184,6 +200,16 @@ module WorkPackage::SemanticIdentifier
 
   def formatted_id
     WorkPackage::SemanticIdentifier.format_display_id(display_id)
+  end
+
+  # Identifier attributes are cleared for the project move. If validation
+  # fails and moving is not possible, they need to be restored to show
+  # correct error messages.
+  def restore_identifier_after_failed_move
+    return unless cleared_for_project_move?
+
+    self.identifier = identifier_was
+    self.sequence_number = sequence_number_was
   end
 
   # Override ActiveRecord's default `to_param` so Rails URL helpers

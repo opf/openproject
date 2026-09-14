@@ -44,12 +44,12 @@ module CostTypes
 
       def validate_manage_allowed_in_source_project
         if model.new_record?
-          errors.add :base, :error_unauthorized unless user.allowed_in_project?(MANAGE_PERMISSION, model.project)
+          errors.add :base, :error_unauthorized unless manage_allowed?(model.project)
           return
         end
 
         with_unchanged_project_id do
-          errors.add :base, :error_unauthorized unless user.allowed_in_project?(MANAGE_PERMISSION, model.project)
+          errors.add :base, :error_unauthorized unless manage_allowed?(model.project)
         end
       end
 
@@ -57,8 +57,16 @@ module CostTypes
         return if model.new_record?
         return unless model.project_id_changed?
 
-        unless user.allowed_in_project?(MANAGE_PERMISSION, model.project)
-          errors.add :base, :error_unauthorized
+        errors.add :base, :error_unauthorized unless manage_allowed?(model.project)
+      end
+
+      # Managing a mapping in an archived project requires admin rights, because the
+      # regular project permission is denied once a project is archived.
+      def manage_allowed?(project)
+        if project&.archived?
+          user.admin?
+        else
+          user.allowed_in_project?(MANAGE_PERMISSION, project)
         end
       end
 

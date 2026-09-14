@@ -58,14 +58,14 @@ RSpec.describe "Backlog bucket deletion", :js do
     backlogs_page.visit!
     backlogs_page.expect_bucket_names_in_order("Deprecated bucket")
 
-    backlogs_page.click_in_backlog_bucket_menu(bucket, "Delete backlog bucket")
+    backlogs_page.click_in_bucket_menu(bucket, "Delete backlog bucket")
 
     backlogs_page.expect_and_confirm_backlog_bucket_delete_modal
 
     expect_and_dismiss_flash type: :success, exact_message: "Successful deletion."
     backlogs_page.expect_no_backlog_bucket(bucket)
 
-    backlogs_page.expect_work_packages_in_inbox_in_order(work_packages: [inbox_wp1, inbox_wp2, bucket_wp1, bucket_wp2])
+    backlogs_page.expect_inbox_items_in_order(items: [inbox_wp1, inbox_wp2, bucket_wp1, bucket_wp2])
 
     expect(BacklogBucket.where(id: bucket.id)).to be_empty
     expect(bucket_wp1.reload.backlog_bucket_id).to be_nil

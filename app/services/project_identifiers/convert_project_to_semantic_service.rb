@@ -83,10 +83,14 @@ module ProjectIdentifiers
 
     def save_identifier!(new_identifier)
       project.identifier = new_identifier
-      # Suppress notifications: this is a background system operation, not a user edit.
-      Journal::NotificationConfiguration.with(false) do
-        # Uses :semantic_conversion context to allow saving a semantic ID while the system is in classic mode.
-        project.save!(context: :semantic_conversion)
+      # Attribute the resulting journal to the system user, not the anonymous user: this is a
+      # background system operation, not a user edit.
+      User.system.run_given do
+        # Suppress notifications: this is a background system operation, not a user edit.
+        Journal::NotificationConfiguration.with(false) do
+          # Uses :semantic_conversion context to allow saving a semantic ID while the system is in classic mode.
+          project.save!(context: :semantic_conversion)
+        end
       end
     end
 

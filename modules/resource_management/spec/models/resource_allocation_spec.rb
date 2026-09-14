@@ -288,6 +288,92 @@ RSpec.describe ResourceAllocation do
     end
   end
 
+  describe "candidate resolution" do
+    shared_let(:project) { create(:project) }
+    shared_let(:work_package) { create(:work_package, project:) }
+    shared_let(:admin) { create(:admin) }
+
+    # A developer speaking German, which is what the :with_user_filter trait selects.
+    def developer(member_of: nil)
+      attributes = member_of ? { member_with_permissions: { member_of => %i[view_work_packages] } } : {}
+      create(:user, **attributes).tap do |candidate|
+        job_title = UserCustomField.find_by(name: "Job title")
+        language = UserCustomField.find_by(name: "Spoken language")
+        candidate.custom_field_values = {
+          job_title.id => job_title.custom_options.find_by(value: "Developer").id,
+          language.id => [language.custom_options.find_by(value: "German").id]
+        }
+        candidate.save!
+      end
+    end
+
+    before { login_as(admin) }
+
+    describe "#candidate_query" do
+      it "selects matching users that are members of the allocation's project" do
+        allocation = create(:resource_allocation, :with_user_filter, entity: work_package)
+        member = developer(member_of: project)
+
+        expect(allocation.candidate_query.results).to contain_exactly(member)
+      end
+
+      it "excludes matching users that are not members of the project" do
+        allocation = create(:resource_allocation, :with_user_filter, entity: work_package)
+        developer(member_of: create(:project))
+
+        expect(allocation.candidate_query.results).to be_empty
+      end
+
+      it "overrides a member filter smuggled into the stored criteria" do
+        other_project = create(:project)
+        allocation = create(:resource_allocation, :with_user_filter, entity: work_package)
+        allocation.user_filter += UserQuery.new.tap { |q| q.where(:member, "=", [other_project.id.to_s]) }.filters
+        member = developer(member_of: project)
+        developer(member_of: other_project)
+
+        expect(allocation.candidate_query.results).to contain_exactly(member)
+      end
+    end
+
+    describe ".candidate_counts" do
+      it "counts the project members each filter-based allocation selects" do
+        allocation = create(:resource_allocation, :with_user_filter, entity: work_package)
+        developer(member_of: project)
+        developer(member_of: project)
+        developer(member_of: create(:project))
+
+        expect(described_class.candidate_counts([allocation], project:)).to eq(allocation.id => 2)
+      end
+
+      it "ignores allocations with an explicitly assigned principal" do
+        assigned = create(:resource_allocation, entity: work_package)
+
+        expect(described_class.candidate_counts([assigned], project:)).to eq({})
+      end
+
+      it "resolves the pool once for allocations sharing the same filter" do
+        first = create(:resource_allocation, :with_user_filter, entity: work_package)
+        second = create(:resource_allocation, :with_user_filter, entity: work_package)
+        developer(member_of: project)
+
+        allow(first).to receive(:candidate_count).and_call_original
+        allow(second).to receive(:candidate_count).and_call_original
+
+        counts = described_class.candidate_counts([first, second], project:)
+
+        expect(counts).to eq(first.id => 1, second.id => 1)
+        expect(second).not_to have_received(:candidate_count)
+      end
+
+      it "falls back to zero when a filter cannot be resolved" do
+        allocation = create(:resource_allocation, :with_user_filter, entity: work_package)
+        allow(allocation).to receive(:candidate_query).and_raise(StandardError, "broken filter")
+
+        expect(described_class.candidate_counts([allocation], project:)).to eq(allocation.id => 0)
+      end
+    end
+  end
+
   describe "entity GlobalID handling" do
     shared_let(:project) { create(:project) }
     shared_let(:work_package) { create(:work_package, project:) }
@@ -599,7 +685,7 @@ RSpec.describe ResourceAllocation do
     end
 
     def user_with(job_title_value, *languages)
-      create(:user).tap do |user|
+      create(:user, member_with_permissions: { project => %i[view_work_packages] }).tap do |user|
         user.custom_field_values = {
           job_title.id => option_id(job_title, job_title_value),
           language.id => languages.map { |spoken| option_id(language, spoken) }
@@ -618,12 +704,12 @@ RSpec.describe ResourceAllocation do
       # `UserQuery#results` is scoped to what the current user may see.
       current_user { create(:admin) }
 
-      it "is a UserQuery carrying the stored filter criteria" do
+      it "is a UserQuery carrying the stored filter criteria, narrowed to the project's members" do
         query = allocation.candidate_query
 
         expect(query).to be_a(UserQuery)
         expect(query.filters.map { |f| f.name.to_s })
-          .to contain_exactly(job_title.column_name, language.column_name)
+          .to contain_exactly(job_title.column_name, language.column_name, "member")
       end
 
       it "resolves to developers speaking German or English (is (OR)), and excludes the rest" do

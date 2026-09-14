@@ -142,6 +142,7 @@ class Activities::BaseActivityProvider
     query = journals_with_data_query
     query = extend_event_query(query)
     query = filter_for_visibility(query, user)
+    query = exclude_meeting_causes(query)
     query = filter_for_event_datetime(query, from, to)
     query = restrict_user(query, options)
     restrict_projects(query, user, options)
@@ -168,6 +169,15 @@ class Activities::BaseActivityProvider
         .in(Project.allowed_to(user, :view_internal_comments).select(:id).arel)
         .or(journals_table[:internal].eq(false))
     )
+  end
+
+  def exclude_meeting_causes(query)
+    query.where(cause_type_expression.eq(nil).or(cause_type_expression.not_in(Journal::MEETING_CAUSE_TYPES)))
+  end
+
+  def cause_type_expression
+    @cause_type_expression ||=
+      Arel::Nodes::InfixOperation.new("->>", journals_table[:cause], Arel::Nodes.build_quoted("type"))
   end
 
   def filter_for_event_datetime(query, from, to)

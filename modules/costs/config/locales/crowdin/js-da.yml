@@ -22,15 +22,15 @@
 ---
 da:
   js:
-    text_are_you_sure: Sikker?
-    myTimeTracking:
-      noSpecificTime: Intet specifikt tidspunkt
-    work_packages:
-      property_groups:
-        costs: Omkostninger
-      properties:
-        overallCosts: Samlede omkostninger
-        spentUnits: Forbrugte enheder
     button_log_costs: Registrér enhedsomkostninger
     label_hour: time
     label_hours: timer
+    myTimeTracking:
+      noSpecificTime: Intet specifikt tidspunkt
+    text_are_you_sure: Sikker?
+    work_packages:
+      properties:
+        overallCosts: Samlede omkostninger
+        spentUnits: Forbrugte enheder
+      property_groups:
+        costs: Omkostninger

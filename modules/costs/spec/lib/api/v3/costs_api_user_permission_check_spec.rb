@@ -48,6 +48,7 @@ RSpec.describe API::V3::CostsApiUserPermissionCheck do
   let(:view_own_cost_entries) { false }
   let(:view_cost_entries) { false }
   let(:view_budgets) { false }
+  let(:cost_types_available) { true }
   let(:project) { build_stubbed(:project) }
   let(:work_package) { build_stubbed(:work_package, project:) }
 
@@ -55,6 +56,8 @@ RSpec.describe API::V3::CostsApiUserPermissionCheck do
     without_partial_double_verification do
       allow(subject).to receive_messages(current_user: user, represented: work_package) # rubocop:disable RSpec/SubjectStub
     end
+
+    allow(project).to receive(:cost_types_available?).and_return(cost_types_available)
 
     mock_permissions_for(user) do |mock|
       mock.allow_in_project :view_time_entries, project: work_package.project if view_time_entries
@@ -129,6 +132,14 @@ RSpec.describe API::V3::CostsApiUserPermissionCheck do
 
         it_behaves_like "is visible"
       end
+
+      context "when no cost type is available" do
+        let(:view_cost_entries) { true }
+        let(:view_cost_rates) { true }
+        let(:cost_types_available) { false }
+
+        it_behaves_like "not visible"
+      end
     end
 
     describe :labor_costs_visible? do
@@ -158,6 +169,14 @@ RSpec.describe API::V3::CostsApiUserPermissionCheck do
       context "has view_own_time_entries and view_hourly_rates" do
         let(:view_own_time_entries) { true }
         let(:view_hourly_rates) { true }
+
+        it_behaves_like "is visible"
+      end
+
+      context "when no cost type is available" do
+        let(:view_time_entries) { true }
+        let(:view_hourly_rates) { true }
+        let(:cost_types_available) { false }
 
         it_behaves_like "is visible"
       end
@@ -193,6 +212,14 @@ RSpec.describe API::V3::CostsApiUserPermissionCheck do
 
         it_behaves_like "is visible"
       end
+
+      context "when no cost type is available" do
+        let(:view_cost_entries) { true }
+        let(:view_cost_rates) { true }
+        let(:cost_types_available) { false }
+
+        it_behaves_like "not visible"
+      end
     end
 
     describe :costs_by_type_visible? do
@@ -222,6 +249,13 @@ RSpec.describe API::V3::CostsApiUserPermissionCheck do
         let(:view_own_cost_entries) { true }
 
         it_behaves_like "is visible"
+      end
+
+      context "when no cost type is available" do
+        let(:view_cost_entries) { true }
+        let(:cost_types_available) { false }
+
+        it_behaves_like "not visible"
       end
     end
 

@@ -35,7 +35,10 @@ class RecurringMeeting::SpecificDate < ApplicationForm
       value: @value,
       label: I18n.t("activerecord.attributes.recurring_meeting.end_date"),
       required: false,
-      autofocus: false
+      autofocus: false,
+      data: {
+        action: "input->recurring-meetings--form#updateFrequencyText"
+      }
     )
   end
 

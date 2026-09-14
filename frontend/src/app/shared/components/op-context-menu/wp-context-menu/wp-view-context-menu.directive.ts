@@ -1,3 +1,31 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import { Injector } from '@angular/core';
 import {
   WorkPackageAction,
@@ -26,6 +54,7 @@ import { CopyToClipboardService } from 'core-app/shared/components/copy-to-clipb
 import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { isSemanticWorkPackageId } from 'core-app/shared/helpers/work-package-id-pattern';
@@ -48,6 +77,8 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
   @LazyInject() protected currentProject:CurrentProjectService;
 
   @LazyInject() protected pathHelper:PathHelperService;
+
+  @LazyInject() protected urlParams:UrlParamsService;
 
   @LazyInject() protected turboRequests:TurboRequestsService;
 
@@ -136,10 +167,9 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
         if (this.hasUiRouterContext) {
           this.wpRelationsHierarchyService.addNewChildWp(this.baseRoute, this.workPackage);
         } else {
-          const newChildPath = `${window.location.pathname.replace(/\/details\/.*$/, '')}/details/new`;
           const childParams = new URLSearchParams(window.location.search);
           childParams.set('parent_id', id);
-          Turbo.visit(`${newChildPath}?${childParams.toString()}`, { frame: 'content-bodyRight', action: 'advance' });
+          Turbo.visit(`${this.urlParams.splitCreatePath()}?${childParams.toString()}`, { frame: 'content-bodyRight', action: 'advance' });
         }
         break;
 
@@ -158,7 +188,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
             { workPackageId: this.workPackage.displayId, tabIdentifier: 'relations' },
           );
         } else {
-          const relationsPath = `${window.location.pathname.replace(/\/details\/.*$/, '')}/details/${this.workPackage.displayId}${window.location.search}`;
+          const relationsPath = `${this.urlParams.basePathWithoutDetails()}/details/${this.workPackage.displayId}/relations${window.location.search}`;
           Turbo.visit(relationsPath, { frame: 'content-bodyRight', action: 'advance' });
         }
         break;
@@ -268,7 +298,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
             `${splitViewRoute(this.$state)}.tabs`,
             { workPackageId: this.workPackage.displayId, tabIdentifier: 'overview' },
           )
-          : `${window.location.pathname.replace(/\/details\/.*$/, '')}/details/${this.workPackage.displayId}${window.location.search}`;
+          : `${this.urlParams.basePathWithoutDetails()}/details/${this.workPackage.displayId}${window.location.search}`;
 
         items.unshift({
           disabled: false,

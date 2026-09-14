@@ -36,7 +36,7 @@ module Types
       private
 
       def apply_patterns(model, save: true)
-        model.type&.enabled_patterns&.each do |key, pattern|
+        model.type_variant&.enabled_patterns&.each do |key, pattern|
           model.public_send(:"#{key}=", pattern.resolve(model))
         end
 

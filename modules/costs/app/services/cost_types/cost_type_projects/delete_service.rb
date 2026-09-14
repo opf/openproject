@@ -31,7 +31,6 @@
 module CostTypes
   module CostTypeProjects
     class DeleteService < ::BaseServices::Delete
-      def default_contract_class = CostTypes::CostTypeProjects::UpdateContract
     end
   end
 end

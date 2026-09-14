@@ -95,6 +95,7 @@ $op-enterprise-banner-fixed-height-large: 320px
 
   &--image
     @include upsell-image
+    background-image: var(--op-enterprise-banner--image)
 
   &--media
     display: block
@@ -109,6 +110,9 @@ $op-enterprise-banner-fixed-height-large: 320px
       max-width: unset
       width: 100%
       border-radius: 15px
+
+    &_dark
+      display: none
 
   &--visual
     display: grid
@@ -139,3 +143,21 @@ $op-enterprise-banner-fixed-height-large: 320px
 
   &--dismiss
     margin-left: var(--controlStack-medium-gap-condensed)
+
+// With a dedicated dark image there is no need for the invert-filter fallback
+// coming from the upsell-image mixin. The gradient is redefined as the inverted
+// white would no longer match the (non-inverted) dark image.
+body[data-color-mode="dark"]
+  .op-enterprise-banner--image_dark-variant
+    background-image: var(--op-enterprise-banner--image-dark)
+    filter: none
+    -webkit-filter: none
+
+    &:after
+      background: linear-gradient(to left, transparent 0%, var(--body-background) 100%)
+
+  .op-enterprise-banner--media_light
+    display: none
+
+  .op-enterprise-banner--media_dark
+    display: block

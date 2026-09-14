@@ -63,10 +63,11 @@ RSpec.describe "Project templates", :js, with_good_job_batches: [CopyProjectJob,
   describe "instantiating templates" do
     let!(:template) do
       create(:template_project,
+             :with_internal_wiki,
              status_code: "on_track",
              status_explanation: "some explanation",
              name: "My template",
-             enabled_module_names: %w[wiki work_package_tracking])
+             enabled_module_names: %w[work_package_tracking])
     end
     let!(:other_project) { create(:project, name: "Some other project") }
     let!(:work_package) { create(:work_package, project: template) }

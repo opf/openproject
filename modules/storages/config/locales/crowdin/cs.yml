@@ -66,15 +66,43 @@ cs:
             host:
               authorization_header_missing: není zcela nastaven. Instance Nextcloud nepřijímá hlavičku "Autorizace", která je nezbytná pro autorizaci API požadavků založených na tokenu Bearer. Zkontrolujte prosím nastavení HTTP serveru.
               cannot_be_connected_to: could not be reached. Please ensure the host is reachable and the OpenProject integration app is installed.
-              minimal_nextcloud_version_unmet: nesplňuje minimální požadavky na verzi (musí být Nextcloud 23 nebo vyšší)
+              minimal_nextcloud_version_not_met: does not meet minimal version requirements (must be Nextcloud %{minimal_version} or higher, but %{detected_version} was detected)
               not_nextcloud_server: není Nextcloud server
               op_application_not_installed: Zdá se, že aplikace "OpenProject integration" není nainstalována. Prosím nainstalujte ji a zkuste to znovu.
             password:
               invalid_password: není platné.
               unknown_error: could not be validated with the file storage provider. Please verify that the connection is functioning properly.
     models:
-      file_link: Soubor
-      storages/storage: Úložiště
+      storages/file_link:
+        one: File link
+        few: File links
+        many: File links
+        other: File links
+      storages/nextcloud_storage:
+        one: Nextcloud storage
+        few: Nextcloud storages
+        many: Nextcloud storages
+        other: Nextcloud storages
+      storages/one_drive_storage:
+        one: OneDrive storage
+        few: OneDrive storages
+        many: OneDrive storages
+        other: OneDrive storages
+      storages/project_storage:
+        one: Project storage
+        few: Project storages
+        many: Project storages
+        other: Project storages
+      storages/sharepoint_storage:
+        one: SharePoint storage
+        few: SharePoint storages
+        many: SharePoint storages
+        other: SharePoint storages
+      storages/storage:
+        one: Storage
+        few: Storages
+        many: Storages
+        other: Storages
   api_v3:
     errors:
       too_many_elements_created_at_once: Příliš mnoho prvků vytvořených najednou. Očekáváno nanejvýš %{max} , získáno %{actual}.
@@ -135,6 +163,7 @@ cs:
         error: Došlo k neočekávané chybě. Zkontrolujte prosím OpenProject logy pro více informací nebo kontaktujte správce
         folder_id_collision: Multiple project storages try to manage the project folder %{folder}. Its synchronization was skipped.
         forbidden: OpenProject could not access the requested resource. Please check your permissions configuration on the Storage Provider.
+        invalid_response: OpenProject could not process the response received from the Storage Provider. Please check OpenProject logs for more information or contact an administrator.
         unauthorized: OpenProject se nemohl autentizovat s poskytovatelem úložiště. Ujistěte se, že k němu máte přístup.
       models:
         copy_project_folders_service:

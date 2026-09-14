@@ -1,32 +1,30 @@
-/*
- * -- copyright
- * OpenProject is an open source project management software.
- * Copyright (C) the OpenProject GmbH
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License version 3.
- *
- * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
- * Copyright (C) 2006-2013 Jean-Philippe Lang
- * Copyright (C) 2010-2013 the ChiliProject Team
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * See COPYRIGHT and LICENSE files for more details.
- * ++
- */
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
 
 import { Controller, ActionEvent } from '@hotwired/stimulus';
 import invariant from 'tiny-invariant';
@@ -147,13 +145,18 @@ export default class CheckableController extends Controller<HTMLElement> {
 
   private toggleChecked(checkboxes:HTMLInputElement[], checked?:boolean) {
     // If all are checked -> uncheck all.
-    // If mixed or none checked -> check all.
-    const allChecked = checkboxes.every((checkbox) => checkbox.checked);
+    // If mixed, indeterminate or none checked -> check all.
+    const allChecked = checkboxes.every((checkbox) => checkbox.checked && !checkbox.indeterminate);
     checked ??= !allChecked;
 
     checkboxes.forEach((checkbox) => {
+      // Programmatically setting `checked` does not clear the indeterminate
+      // flag the way a native click does, so clear it explicitly.
+      checkbox.indeterminate = false;
       checkbox.checked = checked;
-      checkbox.dispatchEvent(new Event('input', { bubbles: false, cancelable: true }));
+      // Dispatch a bubbling `change` so form-level listeners
+      // react just as they would to a native checkbox toggle.
+      checkbox.dispatchEvent(new Event('change', { bubbles: true }));
     });
   }
 }

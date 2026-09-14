@@ -22,15 +22,15 @@
 ---
 pl:
   js:
-    text_are_you_sure: Jesteś pewny?
-    myTimeTracking:
-      noSpecificTime: Brak określonego czasu
-    work_packages:
-      property_groups:
-        costs: Koszty
-      properties:
-        overallCosts: Koszt całkowity
-        spentUnits: Zużyte jednostki
     button_log_costs: Rejestruj koszty jednostkowe
     label_hour: godzina
     label_hours: godziny
+    myTimeTracking:
+      noSpecificTime: Brak określonego czasu
+    text_are_you_sure: Jesteś pewny?
+    work_packages:
+      properties:
+        overallCosts: Koszt całkowity
+        spentUnits: Zużyte jednostki
+      property_groups:
+        costs: Koszty

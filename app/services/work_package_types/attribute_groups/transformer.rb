@@ -96,7 +96,7 @@ module WorkPackageTypes
       end
 
       def default_group_name(key)
-        label = Type.default_groups[key]
+        label = TypeVariant.default_groups[key]
         label ? I18n.t(label, default: key.to_s) : key.to_s
       end
     end

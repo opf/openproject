@@ -29,7 +29,7 @@
   ++#
 %>
 
-<%= render(Primer::OpenProject::SubHeader.new(data: sub_header_data_attributes)) do |subheader| %>
+<%= render(Primer::OpenProject::SubHeader.new(collapsed_search: false, data: sub_header_data_attributes)) do |subheader| %>
   <% subheader.with_filter_input(
        name: "name",
        label: t("admin.reserved_identifiers.filter_label"),

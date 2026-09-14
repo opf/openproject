@@ -30,29 +30,10 @@
 
 module WorkPackageTypes
   class SettingsTabController < BaseTabController
-    layout "admin"
-
-    current_menu_item %i[edit update] do
+    current_menu_item do
       :types
     end
 
-    def edit; end
-
-    def update
-      result = UpdateService.new(user: current_user, model: @type, contract_class: UpdateSettingsContract)
-                            .call(permitted_settings_params)
-
-      if result.success?
-        redirect_to edit_type_settings_path(type_id: @type.id), notice: I18n.t(:notice_successful_update)
-      else
-        render :edit, status: :unprocessable_entity
-      end
-    end
-
-    private
-
-    def permitted_settings_params
-      params.expect(type: %i[name color_id description is_milestone is_in_roadmap is_default])
-    end
+    def index; end
   end
 end

@@ -66,7 +66,7 @@ module Wikis
     def user_connected?(user)
       return true if oauth_client.blank?
 
-      OAuthClientToken.for_user_and_client(user, oauth_client).exists?
+      OAuthClients::TokenFetcher.new(user:).connected?(oauth_client:)
     end
 
     def extract_origin_user_id(token)

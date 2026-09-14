@@ -70,12 +70,55 @@ RSpec.describe ResourceUserCard do
     end
   end
 
+  describe "#configuration_filters" do
+    shared_let(:custom_field) { create(:user_custom_field, field_format: "string") }
+    shared_let(:group) { create(:group) }
+
+    subject(:offered) { view.configuration_filters(view.build_default_query).map(&:name) }
+
+    before do
+      login_as(user)
+    end
+
+    it "offers the attributes a planner picks team members by" do
+      expect(offered).to include(:name, :login, :status, :group, :member, :"cf_#{custom_field.id}")
+    end
+
+    it "withholds the name attribute filter that only backs autocompleter searches" do
+      expect(offered).not_to include(:any_name_attribute)
+    end
+
+    it "withholds the blocked filter" do
+      expect(offered).not_to include(:blocked)
+    end
+
+    it "sorts them by their human name so the picker reads alphabetically" do
+      names = view.configuration_filters(view.build_default_query).map(&:human_name)
+
+      expect(names).to eq(names.sort)
+    end
+
+    it "returns nothing without a query" do
+      expect(view.configuration_filters(nil)).to be_empty
+    end
+  end
+
   describe "#apply_query_configuration" do
     context "in automatic mode" do
       it "replaces the query filters with the automatic selection" do
         view.apply_query_configuration(
           filter_mode: "automatic",
           filters_json: filters_json({ status: { operator: "=", values: ["active"] } })
+        )
+
+        expect(view.query.filters.map(&:name)).to contain_exactly(:status)
+      end
+
+      it "ignores a filter the configuration UI does not offer" do
+        view.apply_query_configuration(
+          filter_mode: "automatic",
+          filters_json: filters_json({ blocked: { operator: "t", values: [] } },
+                                     { status: { operator: "=", values: ["active"] } })
         )
 
         expect(view.query.filters.map(&:name)).to contain_exactly(:status)
@@ -170,6 +213,41 @@ RSpec.describe ResourceUserCard do
     end
   end
 
+  describe "#allocation_principal_filters" do
+    before { login_as(user) }
+
+    it "leaves the work package picker unconstrained" do
+      expect(view.allocation_work_package_filters).to be_nil
+    end
+
+    context "in automatic mode" do
+      it "pins the resolved user ids rather than forwarding UserQuery filters" do
+        filters = view.allocation_principal_filters
+
+        expect(filters.size).to eq(1)
+        expect(filters.first).to include(name: "id", operator: "=")
+        expect(filters.first[:values]).to include(member.id.to_s)
+        expect(filters.first[:values]).not_to include(non_member.id.to_s)
+      end
+    end
+
+    context "in manual mode with hand-picked users" do
+      before do
+        view.apply_query_configuration(filter_mode: "manual", filters_json: nil)
+        view.query.save!
+        view.query.ordered_entities.create!(entity: member, position: 1)
+      end
+
+      it "pins the hand-picked user ids" do
+        filters = view.allocation_principal_filters
+
+        expect(filters.size).to eq(1)
+        expect(filters.first).to include(name: "id", operator: "=")
+        expect(filters.first[:values]).to contain_exactly(member.id.to_s)
+      end
+    end
+  end
+
   describe "#card_fields" do
     it "defaults a new view to department and working times" do
       expect(described_class.new.card_fields).to eq(%w[department working_times])
@@ -185,6 +263,13 @@ RSpec.describe ResourceUserCard do
     it "preserves an explicitly emptied selection instead of re-defaulting" do
       view.card_fields = []
       view.save!
+
+      expect(view.reload.card_fields).to eq([])
+    end
+
+    it "returns an empty array for a persisted view whose options never stored the key" do
+      view.save!
+      view.update_column(:options, {})
 
       expect(view.reload.card_fields).to eq([])
     end

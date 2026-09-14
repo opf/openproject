@@ -7,26 +7,38 @@
         end
       end
       container.with_row do
-        render(border_box_container) do |box|
-          box.with_header(color: :muted) do
-            render(Meetings::Participants::BoxHeaderComponent.new(meeting: @meeting))
-          end
-
-          if @meeting_participants.none?
-            box.with_row do
-              render(Primer::Beta::Blankslate.new) do |blankslate|
-                blankslate.with_visual_icon(icon: :people, size: :medium)
-                blankslate.with_heading(tag: :h2).with_content(I18n.t("meeting.participants.blankslate.heading"))
-                blankslate.with_description_content(I18n.t("meeting.participants.blankslate.description"))
+        render(
+          OpenProject::Common::BorderBoxListComponent.new(
+            container: "op-meeting-participants-#{@meeting.id}"
+          )
+        ) do |list|
+          list.with_header(
+            title: t("meeting.participants.label.participants"),
+            count: @meeting.participants.count,
+            color: :muted
+          ) do |header|
+            if show_mark_all_attended?
+              header.with_action_button(
+                tag: :a,
+                scheme: :invisible,
+                href: mark_all_attended_project_meeting_participants_path(@meeting.project, @meeting),
+                data: { turbo_method: :post }
+              ) do |button|
+                button.with_leading_visual_icon(icon: :"op-people-all-assigned")
+                t("meeting.participants.label.mark_all_as_attended")
               end
             end
-          else
-            render(Primer::BaseComponent.new(tag: :div, classes: "participants-list")) do
-              @meeting_participants.each do |participant|
-                box.with_row do
-                  render(Meetings::Participants::BoxRowComponent.new(meeting: @meeting, participant:))
-                end
-              end
+          end
+
+          list.with_empty_state(
+            title: I18n.t("meeting.participants.blankslate.heading"),
+            description: I18n.t("meeting.participants.blankslate.description"),
+            icon: :people
+          )
+
+          @meeting_participants.each do |participant|
+            list.with_item do
+              render(Meetings::Participants::BoxRowComponent.new(meeting: @meeting, participant:))
             end
           end
         end

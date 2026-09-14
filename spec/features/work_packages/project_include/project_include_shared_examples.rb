@@ -152,21 +152,11 @@ RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
   end
 
   before do
-    portfolio.types << type_bug
-    portfolio.types << type_task
-    program.types << type_bug
-    program.types << type_task
-    sub_sub_sub_project.types << type_bug
-    sub_sub_sub_project.types << type_task
-
-    other_project.types << type_bug
-    other_project.types << type_task
-    other_sub_project.types << type_bug
-    other_sub_project.types << type_task
-    other_sub_sub_project.types << type_bug
-    other_sub_sub_project.types << type_task
-    another_sub_sub_project.types << type_bug
-    another_sub_sub_project.types << type_task
+    [portfolio, program, sub_sub_sub_project,
+     other_project, other_sub_project, other_sub_sub_project, another_sub_sub_project].each do |workspace|
+      workspace.project_types.create!(type: type_bug)
+      workspace.project_types.create!(type: type_task)
+    end
 
     login_as current_user
     work_package_view.visit!

@@ -161,7 +161,7 @@ http_interactions:
   recorded_at: Thu, 05 Mar 2026 15:10:08 GMT
 - request:
     method: get
-    uri: https://graph.microsoft.com/v1.0/drives/b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY-RloFm2McZQLb2zll_ZhN-/root:/OPTest:/children?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference
+    uri: https://graph.microsoft.com/v1.0/drives/b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY-RloFm2McZQLb2zll_ZhN-/root:/OPTest:/children?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference&$top=1000
     body:
       encoding: US-ASCII
       string: ''

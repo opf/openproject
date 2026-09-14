@@ -35,7 +35,7 @@ module Projects
           f.text_field(
             name: :identifier,
             label: attribute_name(:identifier),
-            caption: I18n.t("projects.settings.change_identifier_format_hint_semantic"),
+            caption: semantic_identifier_caption,
             required: true,
             validation_message: validation_message_for(:identifier),
             data: { "projects--identifier-suggestion-target": "identifier" }
@@ -53,6 +53,18 @@ module Projects
       end
 
       private
+
+      def semantic_identifier_caption
+        helpers.safe_join(
+          [
+            I18n.t("projects.settings.change_identifier_format_hint_semantic"),
+            render(Primer::OpenProject::InlineMessage.new(scheme: :warning, tag: :span, mt: 1)) do
+              I18n.t("projects.settings.identifier_visibility_warning")
+            end
+          ],
+          helpers.tag.br
+        )
+      end
 
       def validation_message_for(attribute)
         model.errors.full_messages_for(attribute).to_sentence.presence

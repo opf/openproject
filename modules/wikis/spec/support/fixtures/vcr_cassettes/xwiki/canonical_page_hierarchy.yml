@@ -1,0 +1,101 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://xwiki.local/rest/openproject/documents?docRef=xwiki:VCR.Incredible%20space.%C3%9Cml%C3%A6%C3%BBts.WebHome
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - OpenProject 17.7.0 HTTPX Client
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer <SECRET>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Language:
+      - en
+      Content-Script-Type:
+      - text/javascript
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Wed, 08 Jul 2026 14:26:11 GMT
+      Set-Cookie:
+      - JSESSIONID=3B540328A3639FCC2413A457A82C24E4; Path=/; HttpOnly
+      Xwiki-Form-Token:
+      - xU3xPXRuUP4NnVfRGhMDxQ
+      Xwiki-User:
+      - xwiki:XWiki.DarthVader
+      Xwiki-Version:
+      - 18.5.0
+      Content-Length:
+      - '2912'
+    body:
+      encoding: UTF-8
+      string: '{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/VCR/spaces/Incredible%20space/spaces/%C3%9Cml%C3%A6%C3%BBts","rel":"http://www.xwiki.org/rel/space","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/VCR/spaces/Incredible%20space/spaces/%C3%9Cml%C3%A6%C3%BBts/pages/WebHome","rel":"http://www.xwiki.org/rel/parent","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/VCR/spaces/Incredible%20space/spaces/%C3%9Cml%C3%A6%C3%BBts/pages/WebHome/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/VCR/spaces/Incredible%20space/spaces/%C3%9Cml%C3%A6%C3%BBts/pages/WebHome/objects","rel":"http://www.xwiki.org/rel/objects","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/syntaxes","rel":"http://www.xwiki.org/rel/syntaxes","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/openproject/documents","rel":"self","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/classes/VCR.Incredible%20space.%C3%9Cml%C3%A6%C3%BBts.WebHome","rel":"http://www.xwiki.org/rel/class","type":null,"hrefLang":null}],"id":"a2290","fullName":"VCR.Incredible
+        space.Ümlæûts.WebHome","wiki":"xwiki","space":"VCR.Incredible space.Ümlæûts","name":"WebHome","title":"Ümlæûts","rawTitle":"Ümlæûts","parent":"VCR.Incredible
+        space.WebHome","parentId":"xwiki:VCR.Incredible space.WebHome","version":"1.1","author":"XWiki.DarthVader","authorName":null,"xwikiRelativeUrl":"https://xwiki.local/bin/view/VCR/Incredible%20space/%C3%9Cml%C3%A6%C3%BBts/","xwikiAbsoluteUrl":"https://xwiki.local/bin/view/VCR/Incredible%20space/%C3%9Cml%C3%A6%C3%BBts/","translations":{"links":[],"translations":[],"default":"en"},"syntax":"xwiki/2.1","language":"","majorVersion":1,"minorVersion":1,"hidden":false,"enforceRequiredRights":false,"created":1783513809000,"creator":"XWiki.DarthVader","creatorName":null,"modified":1783513809000,"modifier":"XWiki.DarthVader","modifierName":null,"originalMetadataAuthor":"xwiki:XWiki.DarthVader","originalMetadataAuthorName":null,"comment":"Created
+        URL Shortener.","content":"","clazz":null,"objects":null,"attachments":null,"hierarchy":{"items":[{"label":"xwiki","name":"xwiki","type":"wiki","url":"https://xwiki.local/bin/view/Main/"},{"label":"VCR","name":"VCR","type":"space","url":"https://xwiki.local/bin/view/VCR/"},{"label":"Incredible
+        space","name":"Incredible space","type":"space","url":"https://xwiki.local/bin/view/VCR/Incredible%20space/"},{"label":"Ümlæûts","name":"Ümlæûts","type":"space","url":"https://xwiki.local/bin/view/VCR/Incredible%20space/%C3%9Cml%C3%A6%C3%BBts/"},{"label":"WebHome","name":"WebHome","type":"document","url":"https://xwiki.local/bin/view/VCR/Incredible%20space/%C3%9Cml%C3%A6%C3%BBts/"}]},"rights":[],"renderedContent":null}'
+  recorded_at: Wed, 08 Jul 2026 14:26:11 GMT
+- request:
+    method: get
+    uri: https://xwiki.local/rest/openproject/documents/a2290/ancestors
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - OpenProject 17.7.0 HTTPX Client
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer <SECRET>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Language:
+      - en
+      Content-Script-Type:
+      - text/javascript
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Wed, 08 Jul 2026 14:26:11 GMT
+      Set-Cookie:
+      - JSESSIONID=C12C2CC26913BF512A4A394242B80386; Path=/; HttpOnly
+      Xwiki-Form-Token:
+      - xU3xPXRuUP4NnVfRGhMDxQ
+      Xwiki-User:
+      - xwiki:XWiki.DarthVader
+      Xwiki-Version:
+      - 18.5.0
+      Content-Length:
+      - '7979'
+    body:
+      encoding: UTF-8
+      string: '[{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/VCR","rel":"http://www.xwiki.org/rel/space","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/VCR/pages/WebHome","rel":"http://www.xwiki.org/rel/parent","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/VCR/pages/WebHome/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/VCR/pages/WebHome/children","rel":"http://www.xwiki.org/rel/children","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/VCR/pages/WebHome/objects","rel":"http://www.xwiki.org/rel/objects","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/syntaxes","rel":"http://www.xwiki.org/rel/syntaxes","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/openproject/documents/a2290/ancestors","rel":"self","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/classes/VCR.WebHome","rel":"http://www.xwiki.org/rel/class","type":null,"hrefLang":null}],"id":"dc27c","fullName":"VCR.WebHome","wiki":"xwiki","space":"VCR","name":"WebHome","title":"VCR","rawTitle":"VCR","parent":"Death
+        Star.WebHome","parentId":"xwiki:Death Star.WebHome","version":"1.1","author":"XWiki.DarthVader","authorName":null,"xwikiRelativeUrl":"https://xwiki.local/bin/view/VCR/","xwikiAbsoluteUrl":"https://xwiki.local/bin/view/VCR/","translations":{"links":[],"translations":[],"default":"en"},"syntax":"xwiki/2.1","language":"","majorVersion":1,"minorVersion":1,"hidden":false,"enforceRequiredRights":false,"created":1783513708000,"creator":"XWiki.DarthVader","creatorName":null,"modified":1783513708000,"modifier":"XWiki.DarthVader","modifierName":null,"originalMetadataAuthor":"xwiki:XWiki.DarthVader","originalMetadataAuthorName":null,"comment":"Created
+        URL Shortener.","content":"The VCR space ...","clazz":null,"objects":null,"attachments":null,"hierarchy":{"items":[{"label":"xwiki","name":"xwiki","type":"wiki","url":"https://xwiki.local/bin/view/Main/"},{"label":"VCR","name":"VCR","type":"space","url":"https://xwiki.local/bin/view/VCR/"},{"label":"WebHome","name":"WebHome","type":"document","url":"https://xwiki.local/bin/view/VCR/"}]},"rights":[],"renderedContent":null},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/VCR/spaces/Incredible%20space","rel":"http://www.xwiki.org/rel/space","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/VCR/spaces/Incredible%20space/pages/WebHome","rel":"http://www.xwiki.org/rel/parent","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/VCR/spaces/Incredible%20space/pages/WebHome/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/VCR/spaces/Incredible%20space/pages/WebHome/children","rel":"http://www.xwiki.org/rel/children","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/VCR/spaces/Incredible%20space/pages/WebHome/objects","rel":"http://www.xwiki.org/rel/objects","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/syntaxes","rel":"http://www.xwiki.org/rel/syntaxes","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/openproject/documents/a2290/ancestors","rel":"self","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/classes/VCR.Incredible%20space.WebHome","rel":"http://www.xwiki.org/rel/class","type":null,"hrefLang":null}],"id":"0db76","fullName":"VCR.Incredible
+        space.WebHome","wiki":"xwiki","space":"VCR.Incredible space","name":"WebHome","title":"Incredible
+        space","rawTitle":"Incredible space","parent":"VCR.WebHome","parentId":"xwiki:VCR.WebHome","version":"1.1","author":"XWiki.DarthVader","authorName":null,"xwikiRelativeUrl":"https://xwiki.local/bin/view/VCR/Incredible%20space/","xwikiAbsoluteUrl":"https://xwiki.local/bin/view/VCR/Incredible%20space/","translations":{"links":[],"translations":[],"default":"en"},"syntax":"xwiki/2.1","language":"","majorVersion":1,"minorVersion":1,"hidden":false,"enforceRequiredRights":false,"created":1783513744000,"creator":"XWiki.DarthVader","creatorName":null,"modified":1783513744000,"modifier":"XWiki.DarthVader","modifierName":null,"originalMetadataAuthor":"xwiki:XWiki.DarthVader","originalMetadataAuthorName":null,"comment":"Created
+        URL Shortener.","content":"","clazz":null,"objects":null,"attachments":null,"hierarchy":{"items":[{"label":"xwiki","name":"xwiki","type":"wiki","url":"https://xwiki.local/bin/view/Main/"},{"label":"VCR","name":"VCR","type":"space","url":"https://xwiki.local/bin/view/VCR/"},{"label":"Incredible
+        space","name":"Incredible space","type":"space","url":"https://xwiki.local/bin/view/VCR/Incredible%20space/"},{"label":"WebHome","name":"WebHome","type":"document","url":"https://xwiki.local/bin/view/VCR/Incredible%20space/"}]},"rights":[],"renderedContent":null},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/VCR/spaces/Incredible%20space/spaces/%C3%9Cml%C3%A6%C3%BBts","rel":"http://www.xwiki.org/rel/space","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/VCR/spaces/Incredible%20space/spaces/%C3%9Cml%C3%A6%C3%BBts/pages/WebHome","rel":"http://www.xwiki.org/rel/parent","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/VCR/spaces/Incredible%20space/spaces/%C3%9Cml%C3%A6%C3%BBts/pages/WebHome/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/VCR/spaces/Incredible%20space/spaces/%C3%9Cml%C3%A6%C3%BBts/pages/WebHome/objects","rel":"http://www.xwiki.org/rel/objects","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/syntaxes","rel":"http://www.xwiki.org/rel/syntaxes","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/openproject/documents/a2290/ancestors","rel":"self","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/classes/VCR.Incredible%20space.%C3%9Cml%C3%A6%C3%BBts.WebHome","rel":"http://www.xwiki.org/rel/class","type":null,"hrefLang":null}],"id":"a2290","fullName":"VCR.Incredible
+        space.Ümlæûts.WebHome","wiki":"xwiki","space":"VCR.Incredible space.Ümlæûts","name":"WebHome","title":"Ümlæûts","rawTitle":"Ümlæûts","parent":"VCR.Incredible
+        space.WebHome","parentId":"xwiki:VCR.Incredible space.WebHome","version":"1.1","author":"XWiki.DarthVader","authorName":null,"xwikiRelativeUrl":"https://xwiki.local/bin/view/VCR/Incredible%20space/%C3%9Cml%C3%A6%C3%BBts/","xwikiAbsoluteUrl":"https://xwiki.local/bin/view/VCR/Incredible%20space/%C3%9Cml%C3%A6%C3%BBts/","translations":{"links":[],"translations":[],"default":"en"},"syntax":"xwiki/2.1","language":"","majorVersion":1,"minorVersion":1,"hidden":false,"enforceRequiredRights":false,"created":1783513809000,"creator":"XWiki.DarthVader","creatorName":null,"modified":1783513809000,"modifier":"XWiki.DarthVader","modifierName":null,"originalMetadataAuthor":"xwiki:XWiki.DarthVader","originalMetadataAuthorName":null,"comment":"Created
+        URL Shortener.","content":"","clazz":null,"objects":null,"attachments":null,"hierarchy":{"items":[{"label":"xwiki","name":"xwiki","type":"wiki","url":"https://xwiki.local/bin/view/Main/"},{"label":"VCR","name":"VCR","type":"space","url":"https://xwiki.local/bin/view/VCR/"},{"label":"Incredible
+        space","name":"Incredible space","type":"space","url":"https://xwiki.local/bin/view/VCR/Incredible%20space/"},{"label":"Ümlæûts","name":"Ümlæûts","type":"space","url":"https://xwiki.local/bin/view/VCR/Incredible%20space/%C3%9Cml%C3%A6%C3%BBts/"},{"label":"WebHome","name":"WebHome","type":"document","url":"https://xwiki.local/bin/view/VCR/Incredible%20space/%C3%9Cml%C3%A6%C3%BBts/"}]},"rights":[],"renderedContent":null}]'
+  recorded_at: Wed, 08 Jul 2026 14:26:11 GMT
+recorded_with: VCR 6.4.0

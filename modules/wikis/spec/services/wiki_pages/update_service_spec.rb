@@ -33,8 +33,8 @@ require "spec_helper"
 RSpec.describe WikiPages::UpdateService do
   let(:instance) { described_class.new(user:, model: wiki_page) }
   let(:user) { create(:admin) }
-  let(:wiki_page) { create(:wiki_page) }
   let(:internal_provider) { create(:internal_wiki_provider, enabled: true) }
+  let(:wiki_page) { create(:wiki_page) }
 
   let(:work_package) { create(:work_package) }
 
@@ -52,9 +52,7 @@ RSpec.describe WikiPages::UpdateService do
 
   subject { instance.call(**attributes) }
 
-  before do
-    internal_provider
-  end
+  before { internal_provider }
 
   it "succeeds" do
     expect(subject).to be_success
@@ -227,7 +225,7 @@ RSpec.describe WikiPages::UpdateService do
   end
 
   describe "replacing the attachments" do
-    let(:project) { create(:project) }
+    let(:project) { create(:project, :with_internal_wiki).reload }
     let(:wiki_page) { create(:wiki_page, wiki: project.wiki, author: user) }
     let(:user) do
       create(:user,

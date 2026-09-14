@@ -144,6 +144,40 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
           let(:max_length) { 5 }
         end
       end
+
+      # meaning they won't as a string field cannot carry them
+      it_behaves_like "indicates value bounds"
+    end
+
+    describe "int custom field" do
+      let(:path) { cf_path }
+      let(:custom_field) { build(:custom_field, field_format: "int", min_value: -5, max_value: 10) }
+
+      it_behaves_like "indicates value bounds" do
+        let(:minimum) { -5 }
+        let(:maximum) { 10 }
+      end
+
+      it "does not advertise character lengths" do
+        expect(subject).not_to have_json_path("#{cf_path}/minLength")
+        expect(subject).not_to have_json_path("#{cf_path}/maxLength")
+      end
+
+      context "without bounds" do
+        let(:custom_field) { build(:custom_field, field_format: "int") }
+
+        it_behaves_like "indicates value bounds"
+      end
+    end
+
+    describe "float custom field" do
+      let(:path) { cf_path }
+      let(:custom_field) { build(:custom_field, field_format: "float", min_value: 0.1234, max_value: 10.25) }
+
+      it_behaves_like "indicates value bounds" do
+        let(:minimum) { 0.1234 }
+        let(:maximum) { 10.25 }
+      end
     end
 
     describe "version custom field" do

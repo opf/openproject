@@ -155,7 +155,7 @@ RSpec.describe API::V3::Users::UpdateFormAPI, content_type: :json do
     end
 
     context "with a non existing id" do
-      let(:path) { api_v3_paths.user_form(12345) }
+      let(:path) { api_v3_paths.user_form(not_existing_id(User)) }
 
       it "returns 404 Not found" do
         expect(response).to have_http_status(:not_found)

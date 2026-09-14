@@ -48,7 +48,7 @@ class WorkPackages::ProjectAttributesTabComponent < ApplicationComponent
   def project_custom_fields_grouped_by_section
     @project_custom_fields_grouped_by_section ||=
       ProjectCustomFieldSection.grouped_in_order(
-        @project.available_custom_fields_for_type(@work_package.type_id)
+        @project.available_custom_fields_for_variant(@work_package.type_variant&.id)
       )
   end
 end

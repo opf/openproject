@@ -83,7 +83,7 @@ RSpec.describe "Backlog pagination state", :js do
     bucket = BacklogBucket.find_by!(project:, name: "New bucket")
 
     # Edit backlog bucket
-    backlogs_page.click_in_backlog_bucket_menu(bucket, "Edit backlog bucket")
+    backlogs_page.click_in_bucket_menu(bucket, "Edit backlog bucket")
 
     within_dialog "Edit backlog bucket" do
       fill_in "Name", with: "Renamed bucket"
@@ -94,7 +94,7 @@ RSpec.describe "Backlog pagination state", :js do
     backlogs_page.expect_no_inbox_show_more
 
     # Delete backlog bucket
-    backlogs_page.click_in_backlog_bucket_menu(bucket, "Delete backlog bucket")
+    backlogs_page.click_in_bucket_menu(bucket, "Delete backlog bucket")
 
     backlogs_page.expect_and_confirm_backlog_bucket_delete_modal
 

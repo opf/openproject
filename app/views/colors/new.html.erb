@@ -34,16 +34,13 @@ See COPYRIGHT and LICENSE files for more details.
     header.with_title { t("colors.new.label_new_color") }
     header.with_breadcrumbs(
       [{ href: admin_index_path, text: t(:label_administration) },
-       { href: colors_path, text: t(:label_color_plural) },
-       t("colors.new.label_new_color")]
+       { href: custom_style_path(tab: :default_colors), text: t(:label_custom_style) },
+       nested_breadcrumb_element(t(:"admin.custom_styles.tab_default_colors"), t("colors.new.label_new_color"))],
+      selected_item_font_weight: :normal
     )
   end
 %>
 
-<%= labelled_tabular_form_for @color,
-                              url: colors_url,
-                              html: { method: "post" },
-                              as: :color do |f| %>
-  <%= render partial: "form",
-             locals: { f: f, color: @color } %>
+<%= settings_primer_form_with(model: @color, url: colors_url, method: :post) do |form| %>
+  <%= render(Admin::Settings::ColorForm.new(form)) %>
 <% end %>

@@ -48,7 +48,7 @@ See COPYRIGHT and LICENSE files for more details.
         tag: :a,
         href: new_project_forum_path(@project)
       ) do
-        t("activerecord.models.forum")
+        Forum.model_name.human
       end
     end
   %>

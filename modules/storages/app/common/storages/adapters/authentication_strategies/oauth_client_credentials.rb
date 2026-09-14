@@ -70,9 +70,9 @@ module Storages
         rescue HTTPX::HTTPError => e
           error("Error while refreshing OAuth token - Payload: #{e.response}")
 
-          Failure(Results::Error.new(code: :unauthorized, payload: e.response, source: self.class))
+          Failure(SimpleError.new(code: :unauthorized, payload: e.response, source: self.class))
         rescue HTTPX::TimeoutError => e
-          Failure(Results::Error.new(code: :timeout, payload: e.to_s, source: self.class))
+          Failure(SimpleError.new(code: :timeout, payload: e.to_s, source: self.class))
         end
 
         private
@@ -81,7 +81,7 @@ module Storages
           config = storage.oauth_configuration.to_httpx_oauth_config
           return Success(config) if config.valid?
 
-          Failure(Results::Error.new(source: self.class, payload: storage, code: :storage_not_configured))
+          Failure(SimpleError.new(source: self.class, payload: storage, code: :storage_not_configured))
         end
 
         def write_cache(key, httpx_session)

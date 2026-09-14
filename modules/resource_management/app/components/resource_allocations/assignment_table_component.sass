@@ -1,0 +1,23 @@
+@import "helpers"
+
+// The shared border-box grid distributes columns evenly, which leaves the
+// Staffing table lopsided: the resource and requested-time columns get as much
+// room as the work package and dates. This table has a fixed, known set of
+// columns, so we hardcode their widths. Scoped via the table's container_class
+// so no other table is affected.
+@media screen and (min-width: $breakpoint-md)
+  .op-staffing-list
+    .op-border-box-grid
+      // Resource / work package / dates / requested time / action. The work
+      // package and dates need the room; resource and requested time stay
+      // narrow; only the action button is fixed. minmax(0, …) lets a track
+      // shrink below its content. The header and body are independent grids;
+      // sharing one template keeps their tracks aligned.
+      grid-template-columns: minmax(0, 180fr) minmax(0, 360fr) minmax(0, 220fr) minmax(0, 90fr) 32px
+
+    // Resource and work package keep their main-column semantics (row header
+    // role, no truncation) but must occupy a single track in the explicit
+    // template above rather than spanning two as the shared grid would have it.
+    .op-border-box-grid__header--main-column,
+    .op-border-box-grid__row-item--main-column
+      grid-column: auto

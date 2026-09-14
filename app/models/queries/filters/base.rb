@@ -69,6 +69,11 @@ class Queries::Filters::Base
     new(name, options)
   end
 
+  ##
+  # Key under which saved queries persist this filter when it stands in for
+  # another filter; +nil+ means the filter is stored under its own key.
+  def self.stored_key = nil
+
   def [](name)
     send(name)
   end
@@ -94,6 +99,10 @@ class Queries::Filters::Base
 
   def available?
     true
+  end
+
+  def required?
+    false
   end
 
   def available_operators
@@ -124,8 +133,10 @@ class Queries::Filters::Base
     create!(name: key, context:)
   end
 
+  delegate :key, to: :class
+
   def where
-    operator_strategy.sql_for_field(values, self.class.model.table_name, self.class.key)
+    operator_strategy.sql_for_field(values, self.class.model.table_name, key)
   end
 
   def from

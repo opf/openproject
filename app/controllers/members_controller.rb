@@ -118,7 +118,7 @@ class MembersController < ApplicationController
   private
 
   def find_member
-    @member = @project.members.visible.find(params[:id])
+    @member = @project.memberships.visible.find(params[:id])
   end
 
   def authorize_for?(controller, action)

@@ -29,7 +29,7 @@
 #++
 
 module McpTools
-  class SearchPrograms < Base
+  class SearchPrograms < SearchTool
     default_title "Search programs"
     default_description "Search programs matching all of the passed input parameters. " \
                         "Parameters not passed are ignored. Results are limited to a maximum " \
@@ -40,12 +40,12 @@ module McpTools
     annotations read_only: true, idempotent: true, destructive: false
     enable_pagination
 
-    filter :name, filter_class: Queries::Projects::Filters::NameFilter, operator: "~"
+    filter :name, filter_class: "Queries::Projects::Filters::NameFilter", operator: "~"
     filter :identifier
     filter :status_code
 
     input_schema(
-      type: :object,
+      additionalProperties: false,
       properties: {
         name: { type: "string", description: "Name of the program. Accepts partial names, not case-sensitive." },
         identifier: { type: "string", description: "Program identifier. Case-sensitive, matching exactly." },
@@ -53,24 +53,12 @@ module McpTools
       }
     )
 
-    output_schema(
-      type: :object,
-      required: ["items"],
-      properties: {
-        items: {
-          type: :array,
-          items: JsonSchemaLoader.new.load("program_model")
-        }
-      }
-    )
+    def base_scope
+      Success(Project.program.visible)
+    end
 
-    def call(page: nil, **filters)
-      filtered = apply_filters(Project.program.visible, filters)
-      programs = apply_pagination(filtered, page)
-
-      {
-        items: programs.map { |p| API::V3::Projects::ProjectRepresenter.create(p, current_user:) }
-      }
+    def format_item(item)
+      API::V3::Projects::ProjectRepresenter.create(item, current_user:)
     end
   end
 end

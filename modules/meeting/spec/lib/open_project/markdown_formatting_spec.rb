@@ -85,6 +85,7 @@ RSpec.describe OpenProject::TextFormatting,
         "Monthly coordination",
         { controller: "/meetings", action: "show", project_id: project.id, id: meeting.id, only_path: true },
         class: "meeting op-uc-link",
+        aria: { label: "Monthly coordination: A dynamic link to a meeting placed using a macro." },
         target: "_top"
       )
     end

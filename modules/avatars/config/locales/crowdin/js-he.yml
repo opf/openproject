@@ -1,12 +1,11 @@
-#English strings go here
 ---
 he:
   js:
-    label_preview: תצוגה מקדימה
-    button_update: עדכון
     avatars:
+      empty_file_error: בבקשה העלה תמונה נתמכת (jpg, png, gif)
+      error_image_too_large: קובץ גדול מדי
       label_choose_avatar: בחר תמונה מקובץ
       uploading_avatar: מעלה תמונה
-      error_image_too_large: קובץ גדול מדי
       wrong_file_format: רק קבצי jpg, png, gif מותרים
-      empty_file_error: בבקשה העלה תמונה נתמכת (jpg, png, gif)
+    button_update: עדכון
+    label_preview: תצוגה מקדימה

@@ -7,6 +7,7 @@ keywords: new project, settings, default, modules, project settings, project not
 ---
 
 # New project
+
 The New project settings allow instance administrators to define default configuration values applied at project creation time. These settings allow you to configure:
 
 - Default project visibility (public or private)
@@ -14,7 +15,7 @@ The New project settings allow instance administrators to define default configu
 - The initial project role assigned to non-admin project creators
 - Notification behavior upon project creation
 
-To configure defaults for newly created projects, navigate to *Administration settings → Projects → New project*.
+To configure defaults for newly created projects, navigate to _Administration settings → Projects → New project_.
 
 > [!TIP] 
 > Changes made on this page apply **globally** to the instance and affect only projects created after the settings are saved. Existing projects and their configurations remain unchanged.
@@ -41,7 +42,6 @@ The following options are available on the **New project** settings page:
   - The assigned role defines the permissions granted to the creator immediately after project creation.
 
 Once you have adjusted the settings, click **Save** to apply them across the instance.
-
 
 ## New project notifications
 

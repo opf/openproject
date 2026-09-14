@@ -159,20 +159,20 @@ module Admin::Settings
     end
 
     def drop
+      return render_invalid_drop_request unless valid_drop_request?
+
       result = CustomFields::DropService.new(user: current_user, custom_field: @custom_field).call(
-        target_id: params[:target_id],
-        position: params[:position]
+        list_id: drop_params[:list_id],
+        prev_id: drop_params[:prev_id]
       )
 
       if result.success?
         drop_success_streams(result)
+        respond_with_turbo_streams
       else
-        render_error_flash_message_via_turbo_stream(
-          message: join_flash_messages(result.errors)
-        )
+        render_error_flash_message_via_turbo_stream(message: join_flash_messages(result.errors))
+        respond_with_turbo_streams(status: :unprocessable_entity)
       end
-
-      respond_with_turbo_streams
     end
 
     def destroy
@@ -263,6 +263,26 @@ module Admin::Settings
 
     def find_custom_field
       @custom_field = ProjectCustomField.find(params.expect(:id))
+    end
+
+    # Ids must be scalar strings: a collection-valued list_id would pick an
+    # arbitrary target section out of an IN lookup, and a collection-valued
+    # prev_id would 500 instead of answering the promised 422. permit's
+    # scalar filter drops collection values, so the presence checks below
+    # reject them alongside genuinely missing parameters.
+    def valid_drop_request?
+      drop_params[:list_type] == "custom_field" &&
+        drop_params[:list_id].present? &&
+        drop_params.key?(:prev_id)
+    end
+
+    def drop_params
+      @drop_params ||= params.permit(:list_type, :list_id, :prev_id)
+    end
+
+    def render_invalid_drop_request
+      render_error_flash_message_via_turbo_stream(message: I18n.t(:error_invalid_list_move_anchor))
+      respond_with_turbo_streams(status: :unprocessable_entity)
     end
 
     def drop_success_streams(call)

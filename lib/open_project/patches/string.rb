@@ -43,7 +43,7 @@ module OpenProject
         end
         # 2,5 => 2.5
         s.tr!(",", ".")
-        begin; Kernel.Float(s); rescue StandardError; nil; end
+        Kernel.Float(s, exception: false)
       end
 
       def with_leading_slash

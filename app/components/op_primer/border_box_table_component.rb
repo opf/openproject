@@ -79,6 +79,18 @@ module OpPrimer
 
     def pagination_params = {}
 
+    # Data attributes for the box element wrapping the whole table, for
+    # subclasses that need to attach behaviour to it.
+    def container_data
+      {}
+    end
+
+    # The header and footer carry `role=rowgroup` too, so the element holding the
+    # rows needs a class of its own to be addressable.
+    def rows_container_class
+      "op-border-box-table--rows"
+    end
+
     def column_title(name)
       _, header_options = headers.assoc(name)
       header_options&.dig(:caption)

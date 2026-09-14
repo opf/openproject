@@ -46,16 +46,11 @@ module Projects
 
     def menu_items
       [
-        subproject_item,
-        settings_item,
-        activity_item,
-        favorite_item,
-        unfavorite_item,
-        archive_item,
-        unarchive_item,
-        copy_item,
-        delete_item
-      ].compact
+        [subproject_item, copy_item],
+        [change_identifier_item, settings_item, activity_item],
+        [favorite_item, unfavorite_item, make_public_item, template_item],
+        [archive_item, unarchive_item, delete_item]
+      ].map(&:compact).reject(&:empty?)
     end
 
     private
@@ -72,8 +67,20 @@ module Projects
       {
         scheme: :default,
         icon: :plus,
-        label: I18n.t(:label_subproject_new),
+        label: I18n.t(:label_subproject_add),
         href: new_project_path(parent_id: project.id)
+      }
+    end
+
+    def change_identifier_item
+      return unless User.current.allowed_in_project?(:edit_project, project)
+
+      {
+        scheme: :default,
+        icon: :hash,
+        label: I18n.t("projects.settings.change_identifier"),
+        href: identifier_update_dialog_project_identifier_path(project_id: project),
+        data: { turbo_stream: true }
       }
     end
 
@@ -136,13 +143,10 @@ module Projects
 
       {
         scheme: :default,
-        icon: :lock,
+        icon: :archive,
         label: I18n.t(:button_archive),
-        href: project_archive_path(project, status: params[:status]),
-        data: {
-          turbo_method: :post,
-          turbo_confirm: I18n.t("project.archive.are_you_sure", name: project.name)
-        }
+        href: dialog_project_archive_path(project),
+        data: { turbo_stream: true }
       }
     end
 
@@ -163,10 +167,35 @@ module Projects
 
       {
         scheme: :default,
-        icon: :copy,
-        label: I18n.t(:button_copy),
+        icon: :duplicate,
+        label: I18n.t(:button_duplicate),
         href: copy_project_path(project),
         data: { turbo: false }
+      }
+    end
+
+    def make_public_item
+      return unless User.current.allowed_in_project?(:edit_project, project)
+
+      {
+        scheme: :default,
+        icon: project.public? ? :lock : :unlock,
+        label: project.public? ? I18n.t(:button_unpublish) : I18n.t(:button_publish),
+        href: toggle_public_dialog_project_settings_general_path(project),
+        data: { turbo_stream: true }
+      }
+    end
+
+    def template_item
+      return unless User.current.admin?
+
+      template_key = project.templated ? "remove_from_templates" : "make_template"
+      {
+        scheme: :default,
+        icon: :"project-template",
+        label: I18n.t("project.template.#{template_key}"),
+        href: project_templated_path(project),
+        data: { turbo_method: project.templated ? :delete : :post }
       }
     end
 

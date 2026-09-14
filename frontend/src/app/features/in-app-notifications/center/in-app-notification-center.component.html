@@ -2,6 +2,7 @@
   <div
     class="op-ian-center--content"
     [class.op-ian-center--content_empty]="(loading$ | async) === true || (hasNotifications$ | async) === false"
+    [class.op-ian-center--content_first-selected]="firstNotificationIsSelected$ | async"
     >
     @if ((loading$ | async) === false) {
       @if ((hasNotifications$ | async)) {

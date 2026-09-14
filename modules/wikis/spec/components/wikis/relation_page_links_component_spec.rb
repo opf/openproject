@@ -84,6 +84,7 @@ RSpec.describe Wikis::RelationPageLinksComponent, type: :component do
 
     it { expect(page).to have_text(I18n.t("wikis.relation_page_links_component.empty_heading")) }
     it { expect(page).to have_no_text(I18n.t("wikis.oauth_login_component.heading", provider: provider.name)) }
+    it { expect(page).to have_button(I18n.t("wikis.buttons.wiki_page"), disabled: true) }
   end
 
   context "when the user has a token and there are page links" do
@@ -106,7 +107,7 @@ RSpec.describe Wikis::RelationPageLinksComponent, type: :component do
       render_component
     end
 
-    it { expect(page).to have_text("My Wiki Page") }
+    it { expect(page).to have_css(".Box-row", text: "My Wiki Page") }
     it { expect(page).to have_no_text(I18n.t("wikis.relation_page_links_component.empty_heading")) }
     it { expect(page).to have_no_text(I18n.t("wikis.oauth_login_component.heading", provider: provider.name)) }
   end

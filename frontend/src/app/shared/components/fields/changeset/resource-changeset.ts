@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -30,17 +30,12 @@ import {
   input,
   InputState,
 } from '@openproject/reactivestates';
-import { take } from 'rxjs/operators';
 import { cloneDeep } from 'lodash-es';
 
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { FormResource } from 'core-app/features/hal/resources/form-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import {
-  ChangeItem,
-  ChangeMap,
-  Changeset,
-} from 'core-app/shared/components/fields/changeset/changeset';
+import { ChangeMap, Changeset } from 'core-app/shared/components/fields/changeset/changeset';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';

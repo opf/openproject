@@ -29,8 +29,8 @@ The vulnerability has been responsibly disclosed through the [YesWeHack bounty p
 
 ### CVE-2026-23721 - Users with "View Members" permission in any project can view all Group memberships
 
-When using [groups](../../system-admin-guide/users-permissions/groups/) in OpenProject to manage users, the group members should only be visible to users that have the *View Members* permission in **any project** that the group is also a member of.
-Due to a failed permission check, if a user had the *View Members* permission in any project, they could enumerate all Groups and view which other users are part of the group.
+When using [groups](../../system-admin-guide/users-permissions/groups/) in OpenProject to manage users, the group members should only be visible to users that have the _View Members_ permission in **any project** that the group is also a member of.
+Due to a failed permission check, if a user had the _View Members_ permission in any project, they could enumerate all Groups and view which other users are part of the group.
 
 This vulnerability was assigned as CVE-2026-23721.
 For more information, please see the [GitHub Advisory GHSA-vj77-wrc2-5h5h)](https://github.com/opf/openproject/security/advisories/GHSA-vj77-wrc2-5h5h).

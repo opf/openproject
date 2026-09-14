@@ -1,17 +1,17 @@
 ---
 de:
-  plugin_openproject_xls_export:
-    name: OpenProject-XLS-Export
-    description: Export von Arbeitspaketlisten als Excel-Tabellen (.xls).
-  export_to_excel: Als XLS exportieren
-  print_with_description: Vorschau mit Beschreibung drucken
-  sentence_separator_or: oder
   different_formats: Andere Formate
   export:
     format:
       xls: XLS
       xls_with_descriptions: XLS mit Beschreibung
       xls_with_relations: XLS mit Beziehungen
+  export_to_excel: Als XLS exportieren
+  plugin_openproject_xls_export:
+    description: Export von Arbeitspaketlisten als Excel-Tabellen (.xls).
+    name: OpenProject-XLS-Export
+  print_with_description: Vorschau mit Beschreibung drucken
+  sentence_separator_or: oder
   xls_export:
     child_of: Unteraufgabe von
     parent_of: Elternelement von

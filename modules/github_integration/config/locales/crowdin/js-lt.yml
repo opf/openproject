@@ -23,33 +23,33 @@
 lt:
   js:
     github_integration:
-      work_packages:
-        tab_name: GitHub
-      tab_header:
-        title: Įtraukimo užklausos
-        copy_menu:
-          label: Git fragmentai
-          description: Kopijuoti git fragmentus į iškarpinę
-        git_actions:
-          branch_name: Šakos pavadinimas
-          commit_message: Commit pranešimas
-          cmd: Sukurti šaką su tuščiu commit pranešimu
-          title: Greiti Git fragmentai
-          copy_success: "✅ Nukopijuota!"
-          copy_error: "❌ Kopijavimas nepavyko!"
-      tab_prs:
-        empty: Dar nėra susietų įtraukimo užklausų (PR). Susiekite esamą PR naudojant kodą <code>OP#%{wp_id}</code> PR aprašyme arba sukurkite naują PR.
       github_actions: Veiksmai
       pull_requests:
-        message: 'Pakeitimo užklausa #%{pr_number} %{pr_link} skirta %{repository_link} autoriaus %{github_user_link} buvo %{pr_state}.'
         merged_message: 'Pakeitimo užklausą #%{pr_number} %{pr_link} skirtą %{repository_link} naudotojas %{github_user_link}  %{pr_state}.'
+        message: 'Pakeitimo užklausa #%{pr_number} %{pr_link} skirta %{repository_link} autoriaus %{github_user_link} buvo %{pr_state}.'
         referenced_message: 'Pakeitimo užklausa #%{pr_number} %{pr_link} skirta %{repository_link} autoriaus %{github_user_link} turi nuorodą į šį paketą.'
         states:
-          opened: atidarė
           closed: uždarė
           draft: sukūrė juodraštį
           merged: suliejo
+          opened: atidarė
           ready_for_review: pažymėjo paruoštu peržiūrai
+      tab_header:
+        copy_menu:
+          description: Kopijuoti git fragmentus į iškarpinę
+          label: Git fragmentai
+        git_actions:
+          branch_name: Šakos pavadinimas
+          cmd: Sukurti šaką su tuščiu commit pranešimu
+          commit_message: Commit pranešimas
+          copy_error: "❌ Kopijavimas nepavyko!"
+          copy_success: "✅ Nukopijuota!"
+          title: Greiti Git fragmentai
+        title: Įtraukimo užklausos
+      tab_prs:
+        empty: Dar nėra susietų įtraukimo užklausų (PR). Susiekite esamą PR naudojant kodą <code>OP#%{wp_id}</code> PR aprašyme arba sukurkite naują PR.
+      work_packages:
+        tab_name: GitHub
     work_packages:
       tabs:
         github: GitHub

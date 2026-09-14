@@ -38,15 +38,7 @@ See COPYRIGHT and LICENSE files for more details.
     dialog.with_header(variant: :large)
 
     dialog.with_body(classes: "workflow-status-dialog-body") do
-      render(
-        Workflows::StatusFormComponent.new(
-          all_statuses: @all_statuses,
-          current_statuses: @current_statuses,
-          roles: @roles,
-          type: @type,
-          tab: @tab
-        )
-      )
+      render(Workflows::StatusFormComponent.new(context:))
     end
 
     dialog.with_footer do

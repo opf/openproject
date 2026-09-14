@@ -23,33 +23,33 @@
 da:
   js:
     github_integration:
-      work_packages:
-        tab_name: GitHub
-      tab_header:
-        title: Pull requests
-        copy_menu:
-          label: Git snippets
-          description: Copy git snippets to clipboard
-        git_actions:
-          branch_name: Branch name
-          commit_message: Commit message
-          cmd: Create branch with empty commit
-          title: Quick snippets for Git
-          copy_success: "✅ Kopieret!"
-          copy_error: "❌ Kopiering mislykkedes!"
-      tab_prs:
-        empty: Der er endnu ingen pull requests linket. Link en eksisterende PR ved at bruge koden <code>OP#%{wp_id}</code> i PR-beskrivelsen eller opret en ny PR.
       github_actions: Handlinger
       pull_requests:
-        message: 'Pull-anmodning #%{pr_number} %{pr_link} for %{repository_link} forfattet af %{github_user_link} er blevet %{pr_state}.'
         merged_message: 'Pull-anmodning #%{pr_number} %{pr_link} for %{repository_link} er blevet %{pr_state} af %{github_user_link}.'
+        message: 'Pull-anmodning #%{pr_number} %{pr_link} for %{repository_link} forfattet af %{github_user_link} er blevet %{pr_state}.'
         referenced_message: 'Pull-anmodning #%{pr_number} %{pr_link} for %{repository_link} forfattet af %{github_user_link} henviste til denne pakke.'
         states:
-          opened: åbnet
           closed: lukket
           draft: udarbejdet
           merged: flettet
+          opened: åbnet
           ready_for_review: markeret som klar til gennemgang
+      tab_header:
+        copy_menu:
+          description: Copy git snippets to clipboard
+          label: Git snippets
+        git_actions:
+          branch_name: Branch name
+          cmd: Create branch with empty commit
+          commit_message: Commit message
+          copy_error: "❌ Kopiering mislykkedes!"
+          copy_success: "✅ Kopieret!"
+          title: Quick snippets for Git
+        title: Pull requests
+      tab_prs:
+        empty: Der er endnu ingen pull requests linket. Link en eksisterende PR ved at bruge koden <code>OP#%{wp_id}</code> i PR-beskrivelsen eller opret en ny PR.
+      work_packages:
+        tab_name: GitHub
     work_packages:
       tabs:
         github: GitHub

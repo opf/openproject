@@ -103,7 +103,7 @@ RSpec.describe "Backlog filter panel", :js do
 
     it "shows inbox by default" do
       backlogs_page.expect_inbox
-      backlogs_page.expect_inbox_item(inbox_wp)
+      backlogs_page.expect_inbox_items(items: inbox_wp)
     end
 
     it "lists inbox at the bottom of the bucket filter panel" do
@@ -123,7 +123,7 @@ RSpec.describe "Backlog filter panel", :js do
     it "shows inbox when bucket filter includes inbox" do
       backlogs_page.apply_bucket_filter(bucket_a, include_inbox: true)
       backlogs_page.expect_inbox
-      backlogs_page.expect_inbox_item(inbox_wp)
+      backlogs_page.expect_inbox_items(items: inbox_wp)
       backlogs_page.expect_backlog_bucket(bucket_a)
       backlogs_page.expect_no_backlog_bucket(bucket_b)
     end
@@ -207,7 +207,7 @@ RSpec.describe "Backlog filter panel", :js do
         backlogs_page.expect_no_sprint(Sprint.find_by!(project:, name: "Sprint C"))
         expect_selected_filters_preserved
 
-        backlogs_page.click_in_backlog_bucket_menu(bucket_a, "Edit backlog bucket")
+        backlogs_page.click_in_bucket_menu(bucket_a, "Edit backlog bucket")
         within_dialog "Edit backlog bucket" do
           fill_in "Name", with: "Bucket A Renamed"
           click_on "Save"
@@ -225,7 +225,7 @@ RSpec.describe "Backlog filter panel", :js do
         expect_selected_filters_preserved
       end
 
-      it "preserves the filter after drag and drop" do
+      it "preserves the filter after drag and drop", :selenium do
         backlogs_page.drag_work_package_to_backlog_inbox(sprint_a_wp)
         expect_selected_filters_preserved
 
@@ -239,25 +239,25 @@ RSpec.describe "Backlog filter panel", :js do
       it "preserves the filter after moving work packages via the action menu" do
         backlogs_page.click_in_work_package_menu(sprint_a_wp, "Move to backlog inbox")
         expect_selected_filters_preserved
-        backlogs_page.expect_inbox_item(sprint_a_wp)
+        backlogs_page.expect_inbox_items(items: sprint_a_wp)
 
         backlogs_page.click_in_work_package_menu(sprint_a_wp, "Move to backlog bucket")
         within_modal "Move to backlog bucket" do
-          select bucket_a.name, from: "target_id"
+          select bucket_a.name, from: "list_id"
           click_on "Move"
         end
         wait_for_network_idle
         expect_selected_filters_preserved
-        backlogs_page.expect_work_package_in_backlog_bucket(sprint_a_wp, bucket_a)
+        backlogs_page.expect_bucket_items(bucket_a, items: sprint_a_wp)
 
         backlogs_page.click_in_work_package_menu(bucket_a_wp, "Move to sprint")
         within_modal "Move to sprint" do
-          select sprint_a.name, from: "target_id"
+          select sprint_a.name, from: "list_id"
           click_on "Move"
         end
         wait_for_network_idle
         expect_selected_filters_preserved
-        backlogs_page.expect_work_package_in_sprint(bucket_a_wp, sprint_a)
+        backlogs_page.expect_sprint_items(sprint_a, items: bucket_a_wp)
       end
     end
   end

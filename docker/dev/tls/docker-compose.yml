@@ -29,6 +29,7 @@ services:
           - openproject.${OPENPROJECT_DOCKER_DEV_TLD:-local}
           - openproject-assets.${OPENPROJECT_DOCKER_DEV_TLD:-local}
           - nextcloud.${OPENPROJECT_DOCKER_DEV_TLD:-local}
+          - squashtm.${OPENPROJECT_DOCKER_DEV_TLD:-local}
           - xwiki.${OPENPROJECT_DOCKER_DEV_TLD:-local}
           - gitlab.${OPENPROJECT_DOCKER_DEV_TLD:-local}
           - keycloak.${OPENPROJECT_DOCKER_DEV_TLD:-local}

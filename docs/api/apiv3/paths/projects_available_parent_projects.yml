@@ -3,7 +3,7 @@
 get:
   parameters:
   - description: JSON specifying filter conditions.
-    example: '[{ "ancestor": { "operator": "=", "values": [''1''] }" }]'
+    example: '[{ "ancestor": { "operator": "=", "values": ["1"] } }]'
     in: query
     name: filters
     required: false

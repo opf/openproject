@@ -33,7 +33,9 @@ require "rails_helper"
 RSpec.describe HealthReports::ResultComponent, type: :component do
   let(:group_key) { :base_configuration }
 
-  subject(:result_component) { described_class.new(group: group_key, result: check_result, i18n_scope: "test.scope") }
+  subject(:result_component) do
+    described_class.new(group: group_key, result: check_result, i18n_scope: "test.scope", docs_href: "https://docs.example.com")
+  end
 
   before do
     allow(I18n).to receive(:t).and_call_original
@@ -78,7 +80,7 @@ RSpec.describe HealthReports::ResultComponent, type: :component do
       expect(page).to have_css(".color-fg-attention", text: "Warning")
       expect(page).to have_css(".Label", text: "WRN_#{check_result.code.upcase}")
       expect(page).to have_text("Translated error")
-      expect(page).to have_link("More information")
+      expect(page).to have_link("More information", href: "https://docs.example.com")
       expect(page).to have_test_selector("op-health-report--result-status")
     end
   end
@@ -93,7 +95,7 @@ RSpec.describe HealthReports::ResultComponent, type: :component do
       expect(page).to have_css(".color-fg-danger", text: "Failed")
       expect(page).to have_css(".Label", text: "ERR_#{check_result.code.upcase}")
       expect(page).to have_text("Translated error")
-      expect(page).to have_link("More information")
+      expect(page).to have_link("More information", href: "https://docs.example.com")
       expect(page).to have_test_selector("op-health-report--result-status")
     end
   end

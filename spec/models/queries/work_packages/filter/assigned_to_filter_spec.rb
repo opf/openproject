@@ -182,6 +182,113 @@ RSpec.describe Queries::WorkPackages::Filter::AssignedToFilter do
     end
   end
 
+  describe "#autocomplete_options" do
+    let(:query) { build_stubbed(:query, project:) }
+    let(:project) { nil }
+    let(:instance) do
+      described_class.create!(context: query).tap { |filter| filter.values = values }
+    end
+    let(:user) { create(:user) }
+
+    before do
+      login_as user
+    end
+
+    it "renders an autocompleter against the principals API" do
+      expect(instance.autocomplete_options)
+        .to include(component: "opce-user-autocompleter",
+                    resource: "principals",
+                    url: "/api/v3/principals",
+                    searchKey: "any_name_attribute")
+    end
+
+    it "offers the me value alongside the API results" do
+      expect(instance.autocomplete_options[:additionalOptions])
+        .to contain_exactly({ id: "me", name: I18n.t(:label_me) })
+    end
+
+    context "when not being logged in" do
+      before do
+        login_as User.anonymous
+      end
+
+      it "does not offer the me value" do
+        expect(instance.autocomplete_options[:additionalOptions])
+          .to be_empty
+      end
+    end
+
+    it "advertises every principal type" do
+      expect(instance.autocomplete_options[:filters])
+        .to be_empty
+    end
+
+    context "with a project" do
+      let(:project) { build_stubbed(:project) }
+
+      it "restricts the candidates to the project members" do
+        expect(instance.autocomplete_options[:filters])
+          .to contain_exactly({ name: "member", operator: "=", values: [project.id.to_s] })
+      end
+    end
+
+    context "without values" do
+      it "preselects nothing" do
+        expect(instance.autocomplete_options[:model])
+          .to be_empty
+      end
+    end
+
+    it "hides selected values from the candidates so they cannot be picked twice" do
+      expect(instance.autocomplete_options[:hideSelected]).to be(true)
+    end
+
+    context "with a principal value" do
+      let(:assignee) { create(:user) }
+      let(:values) { [assignee.id.to_s] }
+
+      it "preselects the principal with the href the principals API returns for it" do
+        expect(instance.autocomplete_options[:model])
+          .to contain_exactly({ id: assignee.id.to_s,
+                                name: assignee.name,
+                                href: "/api/v3/users/#{assignee.id}" })
+      end
+    end
+
+    context "with a group value" do
+      let(:group) { create(:group) }
+      let(:values) { [group.id.to_s] }
+
+      it "preselects the group with its own resource href" do
+        expect(instance.autocomplete_options[:model])
+          .to contain_exactly({ id: group.id.to_s,
+                                name: group.name,
+                                href: "/api/v3/groups/#{group.id}" })
+      end
+    end
+
+    context "with a placeholder user value" do
+      let(:placeholder) { create(:placeholder_user) }
+      let(:values) { [placeholder.id.to_s] }
+
+      it "preselects the placeholder user with its own resource href" do
+        expect(instance.autocomplete_options[:model])
+          .to contain_exactly({ id: placeholder.id.to_s,
+                                name: placeholder.name,
+                                href: "/api/v3/placeholder_users/#{placeholder.id}" })
+      end
+    end
+
+    context "with the me value" do
+      let(:values) { ["me"] }
+
+      it "preselects the me value without an href, matching the additional option" do
+        expect(instance.autocomplete_options[:model])
+          .to contain_exactly({ id: "me", name: I18n.t(:label_me) })
+      end
+    end
+  end
+
   it_behaves_like "basic query filter" do
     let(:type) { :list_optional }
     let(:class_key) { :assigned_to_id }

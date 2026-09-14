@@ -11,7 +11,7 @@ get:
         + id: filters views based on their id
 
         + type: filters views based on their type
-      example: '[{ "project_id": { "operator": "!*", "values": null }" }]'
+      example: '[{ "project_id": { "operator": "!*", "values": null } }]'
       in: query
       name: filters
       required: false

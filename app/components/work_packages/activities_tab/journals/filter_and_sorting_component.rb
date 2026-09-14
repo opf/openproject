@@ -59,6 +59,16 @@ module WorkPackages
         def show_only_changes?
           filter == Filters::ONLY_CHANGES
         end
+
+        def hide_meetings?
+          filter == Filters::HIDE_MEETINGS
+        end
+
+        # Only offer "hide meetings" to users who would see the work package
+        # meetings tab (the same condition used for the WP meetings tab)
+        def show_hide_meetings_filter?
+          User.current.allowed_in_any_project?(:view_meetings)
+        end
       end
     end
   end

@@ -50,7 +50,7 @@ module Admin::Import::Jira
       if model.persisted? && model.personal_access_token.present?
         client_form.html_content do
           render(Primer::BaseComponent.new(tag: :div, classes: "FormControl")) do
-            render(
+            input_wrap = render(
               Primer::OpenProject::FlexLayout.new(
                 align_items: :flex_end,
                 classes: "FormControl-input-wrap FormControl-input-width--large"
@@ -86,6 +86,12 @@ module Admin::Import::Jira
                 )
               end
             end
+
+            caption = render(Primer::BaseComponent.new(tag: :span, classes: "FormControl-caption")) do
+              test_connection_caption
+            end
+
+            helpers.safe_join([input_wrap, caption])
           end
         end
 
@@ -103,11 +109,12 @@ module Admin::Import::Jira
           required: !model.persisted?,
           input_width: :large,
           autocomplete: "off",
+          caption: test_connection_caption,
           data: { "admin--jira-configuration-form-target": "tokenInput" }
         )
       end
 
-      client_form.group(layout: :horizontal) do |button_group|
+      client_form.group(layout: :horizontal, mt: 1, mb: 2) do |button_group|
         button_group.submit(
           name: :submit,
           label: model.persisted? ? I18n.t("admin.jira.form.button_save") : I18n.t("admin.jira.form.button_add"),
@@ -116,16 +123,24 @@ module Admin::Import::Jira
         )
 
         button_group.button(
-          name: :test,
-          label: I18n.t("admin.jira.form.button_test"),
+          name: :cancel,
+          label: I18n.t(:button_cancel),
           scheme: :default,
-          type: :button,
-          data: {
-            "admin--jira-configuration-form-target": "button",
-            action: "click->admin--jira-configuration-form#testConnection"
-          }
+          tag: :a,
+          href: url_helpers.admin_import_jira_index_path
         )
       end
+    end
+
+    private
+
+    def test_connection_caption
+      helpers.link_translate(
+        "admin.jira.form.test_configuration_caption",
+        links: { test: "#" },
+        external: false,
+        data: { action: "click->admin--jira-configuration-form#testConnection" }
+      )
     end
   end
 end

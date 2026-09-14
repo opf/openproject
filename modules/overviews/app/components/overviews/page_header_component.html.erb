@@ -20,33 +20,107 @@
       menu_arguments: { anchor_align: :end },
       button_arguments: { icon: "kebab-horizontal", "aria-label": t(:label_menu) }
     ) do |menu|
-      if allowed_to_select_project_custom_fields?
-        menu.with_item(
-          label: t(:label_project_attribute_manage_link),
-          href: helpers.project_settings_project_custom_fields_path(project),
-          data: { turbo: false }
-        ) do |item|
-          item.with_leading_visual_icon(icon: :pencil)
+      with_item_group(menu) do
+        if allowed_to_add_subprojects?
+          menu.with_item(
+            label: t(:label_subproject_add),
+            href: helpers.new_project_path(parent_id: project.id)
+          ) do |item|
+            item.with_leading_visual_icon(icon: :plus)
+          end
+        end
+
+        if allowed_to_copy?
+          menu.with_item(
+            label: t(:button_duplicate),
+            href: helpers.copy_project_path(project),
+            content_arguments: { data: { turbo: false }, accesskey: helpers.accesskey(:copy) }
+          ) do |item|
+            item.with_leading_visual_icon(icon: :duplicate)
+          end
         end
       end
 
-      if allowed_to_export_project_initiation_pdf?
-        menu.with_item(
-          label: t(:label_project_initiation_export_pdf, project_creation_name: project_creation_wizard_name(project)),
-          href: helpers.export_project_initiation_project_path(project, format: :pdf),
-          data: { turbo: false }
-        ) do |item|
-          item.with_leading_visual_icon(icon: :download)
+      with_item_group(menu) do
+        if allowed_to_select_project_custom_fields?
+          menu.with_item(
+            label: t(:label_project_attribute_manage_link),
+            href: helpers.project_settings_project_custom_fields_path(project),
+            data: { turbo: false }
+          ) do |item|
+            item.with_leading_visual_icon(icon: :sliders)
+          end
+        end
+
+        if allowed_to_edit_project?
+          menu.with_item(
+            label: t("projects.settings.change_identifier"),
+            href: helpers.identifier_update_dialog_project_identifier_path(project_id: project),
+            content_arguments: { data: { turbo_stream: true } }
+          ) do |item|
+            item.with_leading_visual_icon(icon: :hash)
+          end
         end
       end
 
-      if allowed_to_archive?
-        menu.with_item(
-          label: t(:label_archive_project),
-          href: helpers.dialog_project_archive_path(project),
-          content_arguments: { data: { turbo_stream: true } }
-        ) do |item|
-          item.with_leading_visual_icon(icon: :lock)
+      with_item_group(menu) do
+        if allowed_to_edit_project?
+          menu.with_item(
+            tag: :a,
+            label: project.public? ? t(:button_unpublish) : t(:button_publish),
+            href: helpers.toggle_public_dialog_project_settings_general_path(project),
+            content_arguments: { data: { turbo_stream: true } }
+          ) do |item|
+            item.with_leading_visual_icon(icon: project.public? ? :lock : :unlock)
+          end
+        end
+
+        if allowed_to_edit_project?
+          label = project.templated ? "remove_from_templates" : "make_template"
+          menu.with_item(
+            tag: :a,
+            label: t("project.template.#{label}"),
+            href: helpers.project_templated_path(project),
+            content_arguments: { data: { turbo_method: project.templated ? :delete : :post } }
+          ) do |item|
+            item.with_leading_visual_icon(icon: :"project-template")
+          end
+        end
+      end
+
+      with_item_group(menu) do
+        if allowed_to_export_project_initiation_pdf?
+          menu.with_item(
+            label: t(:label_project_initiation_export_pdf, project_creation_name: project_creation_wizard_name(project)),
+            href: helpers.export_project_initiation_project_path(project, format: :pdf),
+            data: { turbo: false }
+          ) do |item|
+            item.with_leading_visual_icon(icon: :download)
+          end
+        end
+      end
+
+      with_item_group(menu) do
+        if allowed_to_archive?
+          menu.with_item(
+            label: t(:button_archive),
+            href: helpers.dialog_project_archive_path(project),
+            content_arguments: { data: { turbo_stream: true } }
+          ) do |item|
+            item.with_leading_visual_icon(icon: :archive)
+          end
+        end
+
+        if current_user.admin?
+          menu.with_item(
+            tag: :a,
+            scheme: :danger,
+            label: t(:button_delete),
+            href: helpers.confirm_destroy_project_path(project),
+            content_arguments: { data: { turbo_stream: true } }
+          ) do |item|
+            item.with_leading_visual_icon(icon: :trash)
+          end
         end
       end
     end

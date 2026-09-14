@@ -32,7 +32,7 @@ require "spec_helper"
 
 RSpec.describe Projects::Activity, "core" do
   shared_let(:project) do
-    create(:project, :updated_a_long_time_ago)
+    create(:project, :with_internal_wiki, :updated_a_long_time_ago)
   end
 
   let(:initial_time) { Time.current }

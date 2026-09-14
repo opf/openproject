@@ -74,10 +74,10 @@ RSpec.describe Query::Results do
             project: project1)
     end
     let(:type1) do
-      create(:type) { |t| project1.types << t }
+      create(:type) { |t| project1.project_types.create!(type: t) }
     end
     let(:type2) do
-      create(:type) { |t| project1.types << t }
+      create(:type) { |t| project1.project_types.create!(type: t) }
     end
     let(:work_package1) do
       create(:work_package,
@@ -250,7 +250,7 @@ RSpec.describe Query::Results do
       before do
         login_as(user1)
 
-        wp_p1[0].type.custom_fields << custom_field
+        wp_p1[0].type.default_variant.custom_fields << custom_field
         project1.work_package_custom_fields << custom_field
       end
 
@@ -379,7 +379,7 @@ RSpec.describe Query::Results do
 
       let!(:custom_field) do
         create(:work_package_custom_field, is_for_all: true) do |cf|
-          cf.types = project2.types
+          cf.type_variants = project2.enabled_variants
         end
       end
 

@@ -45,7 +45,7 @@ See COPYRIGHT and LICENSE files for more details.
         tag: :a,
         href: url_for({ controller: "/versions", action: "new", project_id: @project })
       ) do
-        t("activerecord.models.version")
+        Version.model_name.human
       end
     end %>
 

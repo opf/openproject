@@ -1,0 +1,23 @@
+<%= flex_layout do |fields|
+      fields.with_row(mt: 0) do
+        render Primer::Alpha::TextField.new(
+          name: :footer_text_center,
+          label: I18n.t("pdf_generator.dialog.footer_center.label"),
+          caption: footer_text_center_caption,
+          visually_hide_label: false,
+          value: footer_text_center,
+          input_width: :large,
+          disabled: disabled
+        )
+      end
+      fields.with_row(mt: 3) do
+        render(
+          WorkPackages::Exports::Generate::Templates::HyphenationFieldsComponent.new(
+            template_id: TEMPLATE_ID,
+            enabled: hyphenation_enabled,
+            language: hyphenation_language,
+            disabled: disabled
+          )
+        )
+      end
+    end %>

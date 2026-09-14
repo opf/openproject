@@ -47,7 +47,7 @@ class WorkPackages::AutoCompletesController < ApplicationController
   def work_packages_matching_query_prop
     Query.new.tap do |query|
       query.add_filter(:typeahead, "**", params[:q])
-      query.sort_criteria = [%i[updated_at desc]]
+      query.sort_criteria = [["exact_match", "desc"], ["updated_at", "desc"]]
       query.include_subprojects = true
     end
       .results

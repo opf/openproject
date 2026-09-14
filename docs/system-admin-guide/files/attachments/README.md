@@ -10,7 +10,7 @@ keywords: Attachment, attachment settings, virus scanning, clamav
 
 # Attachments in OpenProject
 
-In OpenProject you can determine the maximum attachment size and activate the virus scanning functionality. To do that navigate to *System Administration* -> *Files* and select *Attachments*
+In OpenProject you can determine the maximum attachment size and activate the virus scanning functionality. To do that navigate to _System Administration_ -> _Files_ and select _Attachments_
 
 ![Navigation to attachment settings in OpenProject](openproject_system_adminstration_files.png)
 

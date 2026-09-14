@@ -29,8 +29,11 @@
 #++
 
 require "spec_helper"
+require "contracts/shared/model_contract_shared_context"
 
 RSpec.describe Backlogs::Sprints::StartContract do
+  include_context "ModelContract shared context"
+
   let(:project) { create(:project) }
   let(:user) { create(:user) }
   let(:sprint) do
@@ -51,78 +54,89 @@ RSpec.describe Backlogs::Sprints::StartContract do
 
   describe "validation" do
     context "with valid sprint and permissions" do
-      it "is valid" do
-        expect(contract.validate).to be(true)
-      end
+      it_behaves_like "contract is valid"
     end
 
     context "without start_complete_sprint permission" do
       let(:permissions) { [:view_work_packages] }
 
-      it "is invalid" do
-        expect(contract.validate).to be(false)
-        expect(contract.errors.symbols_for(:base)).to include(:error_unauthorized)
-      end
+      it_behaves_like "contract user is unauthorized"
     end
 
     context "when sprint is active" do
       let(:sprint_status) { "active" }
 
-      it "is invalid" do
-        expect(contract.validate).to be(false)
-        expect(contract.errors.symbols_for(:status)).to include(:must_be_in_planning)
-      end
+      it_behaves_like "contract is invalid", status: :must_be_in_planning
     end
 
     context "when sprint is completed" do
       let(:sprint_status) { "completed" }
 
-      it "is invalid" do
-        expect(contract.validate).to be(false)
-        expect(contract.errors.symbols_for(:status)).to include(:must_be_in_planning)
-      end
+      it_behaves_like "contract is invalid", status: :must_be_in_planning
     end
 
     context "when the sprint has no start date" do
       let(:sprint) { create(:sprint, project:, status: sprint_status, start_date: nil) }
 
-      it "is invalid" do
-        expect(contract.validate).to be(false)
-        expect(contract.errors.symbols_for(:base)).to include(:dates_required)
-      end
+      it_behaves_like "contract is invalid", base: :dates_required
     end
 
     context "when the sprint has no finish date" do
       let(:sprint) { create(:sprint, project:, status: sprint_status, finish_date: nil) }
 
-      it "is invalid" do
-        expect(contract.validate).to be(false)
-        expect(contract.errors.symbols_for(:base)).to include(:dates_required)
-      end
+      it_behaves_like "contract is invalid", base: :dates_required
     end
 
     context "when another active sprint exists in the project" do
       before do
-        create(:sprint,
-               project:,
-               status: "active")
+        create(:sprint, project:, status: "active")
       end
 
-      it "is invalid" do
-        expect(contract.validate).to be(false)
-        expect(contract.errors.symbols_for(:status)).to include(:only_one_active_sprint_allowed)
+      it_behaves_like "contract is invalid", status: :only_one_active_sprint_allowed
+
+      context "when the project allows multiple active sprints" do
+        before { project.update!(allow_multiple_active_sprints: true) }
+
+        it_behaves_like "contract is valid"
       end
     end
 
-    context "when an active sprint exists in a different project" do
+    context "when an active sprint exists in a different, unrelated project" do
       before do
-        create(:sprint,
-               project: create(:project),
-               status: "active")
+        create(:sprint, project: create(:project), status: "active")
       end
 
-      it "is valid" do
-        expect(contract.validate).to be(true)
+      it_behaves_like "contract is valid"
+    end
+
+    context "when an active sprint is shared into the project from a share_subprojects ancestor" do
+      let(:parent) { create(:project, sprint_sharing: "share_subprojects") }
+      let(:project) { create(:project, parent:, sprint_sharing: "receive_shared") }
+
+      before do
+        create(:sprint, project: parent, status: "active")
+      end
+
+      it_behaves_like "contract is invalid",
+                      status: %i[only_one_active_sprint_allowed cannot_start_while_receiving_shared_sprints]
+
+      context "when the project allows multiple active sprints" do
+        before { project.update!(allow_multiple_active_sprints: true) }
+
+        it_behaves_like "contract is invalid", status: :cannot_start_while_receiving_shared_sprints
+      end
+    end
+
+    context "when the project is receiving shared sprints" do
+      let(:parent) { create(:project, sprint_sharing: "share_subprojects") }
+      let(:project) { create(:project, parent:, sprint_sharing: "receive_shared") }
+
+      it_behaves_like "contract is invalid", status: :cannot_start_while_receiving_shared_sprints
+
+      context "when the project allows multiple active sprints" do
+        before { project.update!(allow_multiple_active_sprints: true) }
+
+        it_behaves_like "contract is invalid", status: :cannot_start_while_receiving_shared_sprints
       end
     end
   end

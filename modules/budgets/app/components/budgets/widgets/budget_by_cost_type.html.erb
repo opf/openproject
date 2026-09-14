@@ -51,7 +51,7 @@ See COPYRIGHT and LICENSE files for more details.
               "chart-data": {
                 labels: chart_labels,
                 datasets: [{
-                  label: t(:label_budget),
+                  label: Budget.model_name.human,
                   data: chart_data
                 }]
               }.to_json

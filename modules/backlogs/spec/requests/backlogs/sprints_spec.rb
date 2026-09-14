@@ -64,6 +64,21 @@ RSpec.describe "Backlogs::Sprints", :skip_csrf, type: :rails_request do
     end
   end
 
+  describe "POST #refresh_form" do
+    let(:project) do
+      create(:project, public: true, enabled_module_names: %w[work_package_tracking backlogs])
+    end
+
+    it "refreshes the form via POST as a turbo stream" do
+      post refresh_form_project_backlogs_sprints_path(project),
+           params: { sprint: { name: "x" } },
+           as: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+      expect(response).to have_turbo_stream(action: "update", target: "backlogs-sprint-form-component")
+    end
+  end
+
   describe "private project access" do
     let(:project) do
       create(:project, public: false, enabled_module_names: %w[work_package_tracking backlogs])

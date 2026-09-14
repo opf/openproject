@@ -48,8 +48,6 @@ sudo openproject run ruby -v
 # if using docker-compose: docker-compose run --rm web ruby -v
 ```
 
-
-
 ## All-in-one Docker-based installation
 
 ### Run commands like rake tasks or rails console

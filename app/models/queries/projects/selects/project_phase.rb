@@ -35,6 +35,10 @@ class Queries::Projects::Selects::ProjectPhase < Queries::Selects::Base
     KEY
   end
 
+  def self.id_from_key(attribute)
+    attribute.to_s[KEY, 1]&.to_i
+  end
+
   def self.all_available
     return [] unless available?
 
@@ -65,7 +69,7 @@ class Queries::Projects::Selects::ProjectPhase < Queries::Selects::Base
   def visual_icon
     {
       icon: :"op-phase",
-      classes: helpers.hl_inline_class("project_phase_definition", project_phase_definition)
+      classes: helpers.hl_foreground_class("project_phase_definition", project_phase_definition)
     }
   end
 

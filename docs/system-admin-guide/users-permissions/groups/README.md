@@ -26,7 +26,7 @@ Click the green **+ Group** button to create a new group.
 
 ![create groups in OpenProject administration](openproject_system_guide_groups.png)
 
-Give your new group a unique name. Optionally, you can assign it to a parent group. This places the group within a hierarchy, where it inherits project memberships and permissions from the parent group. The default setting is *No parent group*.
+Give your new group a unique name. Optionally, you can assign it to a parent group. This places the group within a hierarchy, where it inherits project memberships and permissions from the parent group. The default setting is _No parent group_.
 
 Click the green **Create** button to finish.
 
@@ -39,6 +39,7 @@ To add users to a group, edit or delete it, start by clicking the **name of the 
 ![Edit or delete groups in OpenProject administration](openproject_system_guide_edit_delete_groups.png)
 
 You will then see the detailed view of the group, including following tabs: 
+
 - General
 - Users
 - Projects

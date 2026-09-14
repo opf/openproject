@@ -153,6 +153,12 @@ RSpec.describe ProjectIdentifiers::ConvertProjectToSemanticService,
         expect { described_class.new(project2).call }
           .not_to have_enqueued_job(Notifications::WorkflowJob)
       end
+
+      it "attributes the identifier-change journal to the system user" do
+        journal = project.reload.last_journal
+        expect(journal.user).to eq(User.system)
+        expect(journal.user).not_to eq(User.anonymous)
+      end
     end
 
     context "when the only natural suggestion is a system-reserved keyword" do

@@ -274,7 +274,10 @@ module Import
     rescue Timeout::Error => e
       raise ConnectionError, I18n.t("admin.jira.client.connection_timeout", message: e.message)
     ensure
-      File.unlink(tempfile) if tempfile
+      if tempfile
+        File.unlink(tempfile)
+        tempfile.close
+      end
     end
 
     private

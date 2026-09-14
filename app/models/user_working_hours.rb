@@ -32,18 +32,18 @@ class UserWorkingHours < ApplicationRecord
   DAYS = %i[monday tuesday wednesday thursday friday saturday sunday].freeze
   # Maps each day symbol to the Rails I18n date.abbr_day_names index (Sunday = 0)
   DAY_ABBR_INDEX = { monday: 1, tuesday: 2, wednesday: 3, thursday: 4, friday: 5, saturday: 6, sunday: 0 }.freeze
+  # Date#wday shares the Sunday = 0 numbering of DAY_ABBR_INDEX
+  WDAY_TO_DAY = DAY_ABBR_INDEX.invert.freeze
 
   belongs_to :user, inverse_of: :working_hours
 
   validates :valid_from, presence: true, uniqueness: { scope: :user_id }
-  validates :monday_hours, :tuesday_hours, :wednesday_hours, :thursday_hours, :friday_hours, :saturday_hours, :sunday_hours,
-            presence: true,
-            numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 24 }
   validates :availability_factor,
             presence: true,
             numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
 
   validate :at_least_one_working_day_selected
+  validate :working_day_hours_present_and_in_range
 
   scope :for_user, ->(user) { where(user:) }
 
@@ -70,13 +70,22 @@ class UserWorkingHours < ApplicationRecord
 
   DAYS.each do |day|
     define_method("#{day}_hours") do
-      (public_send(day) / 60.0).round(2)
+      ((public_send(day) || 0) / 60.0).round(2)
     end
 
     define_method("#{day}_hours=") do |value|
       hours = value.is_a?(String) ? (value.to_hours || value) : value
       public_send("#{day}=", (hours.to_f * 60).round)
     end
+  end
+
+  def minutes_on(date)
+    public_send(WDAY_TO_DAY.fetch(date.wday))
+  end
+
+  # The capacity for that day, i.e. the working minutes reduced by the availability factor.
+  def effective_minutes_on(date)
+    ((minutes_on(date) * availability_factor) / 100.0).round
   end
 
   def weekly_working_hours
@@ -147,8 +156,21 @@ class UserWorkingHours < ApplicationRecord
   end
 
   def at_least_one_working_day_selected
-    if DAYS.all? { |day| public_send(day).zero? }
+    if DAYS.all? { |day| public_send(day).to_i.zero? }
       errors.add(:days, :no_working_day)
+    end
+  end
+
+  def working_day_hours_present_and_in_range
+    DAYS.each do |day|
+      minutes = public_send(day)
+      attr = :"#{day}_hours"
+
+      if minutes.nil?
+        errors.add(attr, :blank)
+      elsif minutes.negative? || minutes > 24 * 60
+        errors.add(attr, :less_than_or_equal_to, count: 24)
+      end
     end
   end
 end

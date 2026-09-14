@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe "Wiki page", :js do
-  let(:project) { create(:project, enabled_module_names: %w[wiki]) }
+  let(:project) { create(:project, :with_internal_wiki).reload }
   let(:user) do
     create(:user, member_with_permissions: { project => %i[view_wiki_pages edit_wiki_pages] })
   end
@@ -57,18 +57,18 @@ RSpec.describe "Wiki page", :js do
     click_button "Rename"
 
     expect(page)
-      .to have_content(rename_name)
+      .to have_text(rename_name)
 
     # One can still use the former name to find the wiki page
     visit project_wiki_path(project, initial_name)
 
     within("#content") do
       expect(page)
-        .to have_content(rename_name)
+        .to have_text(rename_name)
     end
 
     # But the application uses the new name preferably
-    within(".menu-wiki-pages-tree") do
+    within_test_selector("wiki-sidemenu-tree") do
       click_link rename_name
     end
 

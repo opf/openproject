@@ -39,7 +39,9 @@ module Projects
         end
 
         def call
-          return unless version.work_packages.any?
+          # The graph queries work packages by the version filter, which matches
+          # on target versions, so it is only rendered when that finds any.
+          return unless version.targeted_work_packages.any?
 
           widget_wrapper do |widget|
             widget.with_body do

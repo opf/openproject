@@ -22,7 +22,7 @@
 ---
 hy:
   js:
-    label_meetings: Meetings
+    label_meetings: Հանդիպումներ
     work_packages:
       tabs:
-        meetings: Meetings
+        meetings: Հանդիպումներ

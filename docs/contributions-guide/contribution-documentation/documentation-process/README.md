@@ -67,7 +67,7 @@ Open `https://github.com/[your-user]/openproject`. On the forked repository go t
 
 Select `release/16.0` as default branch and confirm with **Update**
 
-*NOTE:* There will be an additional window. Press the button: **I understand, update the default branch.**
+_NOTE:_ There will be an additional window. Press the button: **I understand, update the default branch.**
 
 ![switch-the-default-branch-step-2](switch-the-default-branch-step-2.png)
 
@@ -89,7 +89,7 @@ Before you can make changes you need to create a local clone of the OpenProject 
 
 ![clone repository](clone-repository.png)
 
-In the modal window select the repository you forked in step *Fork the OpenProject repository*. Also select a folder on your computer for the cloned repository. Click **Clone**.
+In the modal window select the repository you forked in step _Fork the OpenProject repository_. Also select a folder on your computer for the cloned repository. Click **Clone**.
 
 ![select repository to be cloned](select-repository-to-be-cloned.png)
 
@@ -113,7 +113,7 @@ After that Publish your branch to the forked remote repository on github.com.
 
 ## Step 11: Open the files you want to change in Typora
 
-In Typora open the files you want to change (File -> Open). In the file picker navigate to the local folder you selected in the step *Clone the forked OpenProject repository in GitHub Desktop*.
+In Typora open the files you want to change (File -> Open). In the file picker navigate to the local folder you selected in the step _Clone the forked OpenProject repository in GitHub Desktop_.
 
 ## Step 12: Make the changes in Typora and save the file
 
@@ -167,7 +167,7 @@ Now you can press "Ready for review" button.
 
 ## Appendix A: How to import a new release branch into your fork
 
-*(e.g. Release changes from `release/12.2` to `release 12.3`)*
+_(e.g. Release changes from `release/12.2` to `release 12.3`)_
 
 If a new release branch is generated on the upstream opf/openproject repository, the fork will NOT automatically fetch and merge and generate this release branch. With the following 'workaround' we get the new branch from the upstream (opf) repository and push it to our new origin (forked repository).
 

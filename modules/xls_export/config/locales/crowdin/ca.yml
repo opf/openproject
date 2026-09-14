@@ -1,17 +1,17 @@
 ---
 ca:
-  plugin_openproject_xls_export:
-    name: Exportació XLS d'OpenProject
-    description: Exporta llistes de problemes com a fulls de càlcul d'Excel (.xls).
-  export_to_excel: Exporta a XLS
-  print_with_description: Previsualització d'impressió amb descripció
-  sentence_separator_or: o
   different_formats: Formats diferents
   export:
     format:
       xls: XLS
       xls_with_descriptions: XLS amb descripcions
       xls_with_relations: XLS amb relacions
+  export_to_excel: Exporta a XLS
+  plugin_openproject_xls_export:
+    description: Exporta llistes de problemes com a fulls de càlcul d'Excel (.xls).
+    name: Exportació XLS d'OpenProject
+  print_with_description: Previsualització d'impressió amb descripció
+  sentence_separator_or: o
   xls_export:
     child_of: fill de
     parent_of: pare de

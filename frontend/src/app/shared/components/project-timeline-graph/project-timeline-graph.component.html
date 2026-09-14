@@ -1,0 +1,18 @@
+@if (accessibleItems().length > 0) {
+  <ul class="sr-only">
+    @for (item of accessibleItems(); track item.id) {
+      <li [textContent]="item.text"></li>
+    }
+  </ul>
+}
+
+<div class="op-project-timeline-graph--wrapper" [class.op-project-timeline-graph--wrapper_loading]="!ready()">
+  <div [hidden]="ready()">
+    <op-content-loader viewBox="0 0 100 100">
+      <svg:rect x="0" y="0" width="100" height="2" rx="0.5" />
+      <svg:rect x="0" y="2.5" width="100" height="2" rx="0.5" />
+      <svg:rect x="0" y="5" width="100" height="2" rx="0.5" />
+    </op-content-loader>
+  </div>
+  <div #container class="op-project-timeline-graph" aria-hidden="true"></div>
+</div>

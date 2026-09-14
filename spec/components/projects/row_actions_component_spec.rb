@@ -54,13 +54,16 @@ RSpec.describe Projects::RowActionsComponent, type: :component do
       let(:user) { build_stubbed(:admin) }
 
       it "renders all applicable items", :aggregate_failures do
-        expect(rendered_component).to have_selector :menuitem, count: 7
-        expect(rendered_component).to have_selector :menuitem, text: "New subproject"
+        expect(rendered_component).to have_selector :menuitem, count: 10
+        expect(rendered_component).to have_selector :menuitem, text: "Add subproject"
+        expect(rendered_component).to have_selector :menuitem, text: "Duplicate"
+        expect(rendered_component).to have_selector :menuitem, text: "Change identifier"
         expect(rendered_component).to have_selector :menuitem, text: "Project settings"
         expect(rendered_component).to have_selector :menuitem, text: "Project activity"
         expect(rendered_component).to have_selector :menuitem, text: "Add to favorites"
+        expect(rendered_component).to have_selector :menuitem, text: "Make public"
+        expect(rendered_component).to have_selector :menuitem, text: "Set as template"
         expect(rendered_component).to have_selector :menuitem, text: "Archive"
-        expect(rendered_component).to have_selector :menuitem, text: "Copy"
         expect(rendered_component).to have_selector :menuitem, text: "Delete" do |link|
           expect(link[:href]).to eq confirm_destroy_project_path(project)
           expect(link[:"data-turbo-stream"]).to eq "true"

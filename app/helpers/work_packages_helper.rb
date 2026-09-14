@@ -120,11 +120,12 @@ module WorkPackagesHelper
       .new
       .displayable_columns
       .sort_by(&:caption)
-      .map { |column| { name: column.caption, id: column.name.to_s } }
+      .map { |column| { name: column.caption, id: stored_column_id(column.name) } }
   end
 
   def selected_work_packages_columns_options
     Setting[:work_package_list_default_columns]
+      .map { |column| stored_column_id(column) }
       .filter_map { |column| work_packages_columns_options.find { |c| c[:id] == column } }
   end
 
@@ -134,7 +135,30 @@ module WorkPackagesHelper
       .select { |column| protected_columns.include?(column[:id]) }
   end
 
+  # Label for the version(s) attribute, driven by the multiple-versions feature.
+  # While the feature is off we keep the legacy singular "Version" wording even
+  # though the value now comes from the target_versions association.
+  def work_package_versions_label
+    attribute = Setting::WorkPackageMultipleVersions.active? ? :target_versions : :version
+    WorkPackage.human_attribute_name(attribute)
+  end
+
+  # Presented value for the version(s) attribute, read from target_versions.
+  # Legacy behaviour surfaces the single associated version; with the feature on
+  # it lists all target versions, ordered by name for a stable rendering.
+  def work_package_versions_value(work_package)
+    if Setting::WorkPackageMultipleVersions.active?
+      work_package.target_versions.sort_by(&:name).join(", ")
+    else
+      work_package.target_versions.first
+    end
+  end
+
   private
+
+  def stored_column_id(name)
+    Queries::WorkPackages::StoredNames.stored_select(name).to_s
+  end
 
   def truncated_work_package_description(work_package, lines = 3) # rubocop:disable Metrics/AbcSize
     description_lines = work_package.description.to_s.lines.to_a[0, lines]

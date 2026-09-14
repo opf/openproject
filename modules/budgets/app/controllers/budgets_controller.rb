@@ -184,7 +184,7 @@ class BudgetsController < ApplicationController
     user = User.visible.in_project(@project).find_by(id: params[:user_id])
 
     if user && params[:hours]
-      hours = Rate.parse_number_string_to_number(params[:hours])
+      hours = Rate.parse_hours_string_to_number(params[:hours])
       @costs = begin
         hours * user.rate_at(params[:fixed_date], @project).rate
       rescue StandardError

@@ -38,7 +38,7 @@ require "features/work_packages/work_packages_page"
 RSpec.describe "date inplace editor", :js, :selenium, with_settings: { date_format: "%Y-%m-%d" } do
   shared_let(:project) { create(:project_with_types, public: true) }
   shared_let(:user) { create(:admin) }
-  shared_let(:type) { project.types.first }
+  shared_let(:type) { project.enabled_types.first }
   shared_let(:priority) { create(:default_priority) }
   shared_let(:status) { create(:default_status) }
 

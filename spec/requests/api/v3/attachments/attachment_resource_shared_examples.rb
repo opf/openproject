@@ -248,7 +248,7 @@ RSpec.shared_examples "an APIv3 attachment resource", content_type: :json, type:
       end
 
       context "requesting nonexistent attachment" do
-        let(:get_path) { api_v3_paths.attachment 9999 }
+        let(:get_path) { api_v3_paths.attachment(not_existing_id(Attachment)) }
 
         it_behaves_like "not found"
       end
@@ -396,7 +396,7 @@ RSpec.shared_examples "an APIv3 attachment resource", content_type: :json, type:
       it_behaves_like "deletes the attachment"
 
       context "for a non-existent attachment" do
-        let(:path) { api_v3_paths.attachment 1337 }
+        let(:path) { api_v3_paths.attachment(not_existing_id(Attachment)) }
 
         it_behaves_like "not found"
       end

@@ -52,7 +52,7 @@ module Users
       end
 
       def section_title
-        @section.name.presence || t("settings.user_custom_fields.label_untitled_section")
+        @section.name
       end
     end
   end

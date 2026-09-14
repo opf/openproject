@@ -22,15 +22,15 @@
 ---
 nl:
   js:
-    text_are_you_sure: Weet u het zeker?
-    myTimeTracking:
-      noSpecificTime: Geen specifieke tijd
-    work_packages:
-      property_groups:
-        costs: Kosten
-      properties:
-        overallCosts: Totale kosten
-        spentUnits: Eenheden uitgegeven
     button_log_costs: Registreer kost per eenheid
     label_hour: uur
     label_hours: uren
+    myTimeTracking:
+      noSpecificTime: Geen specifieke tijd
+    text_are_you_sure: Weet u het zeker?
+    work_packages:
+      properties:
+        overallCosts: Totale kosten
+        spentUnits: Eenheden uitgegeven
+      property_groups:
+        costs: Kosten

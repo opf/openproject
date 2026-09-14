@@ -45,6 +45,30 @@ module Projects
           selected_tab == tab_name
         end
 
+        def tabs
+          [
+            {
+              key: :types_and_statuses,
+              href: project_settings_backlogs_path(project),
+              label: t("backlogs.types_and_statuses")
+            },
+            (if User.current.allowed_in_project?(:share_sprint, project)
+               {
+                 key: :sharing,
+                 href: project_settings_backlog_sharing_path(project),
+                 label: t("backlogs.sharing")
+               }
+             end),
+            (if User.current.allowed_in_project?(:share_sprint, project)
+               {
+                 key: :multiple_active_sprints,
+                 href: project_settings_backlog_multiple_active_sprints_path(project),
+                 label: t("backlogs.multiple_active_sprints")
+               }
+             end)
+          ].compact
+        end
+
         private
 
         attr_reader :project, :selected_tab

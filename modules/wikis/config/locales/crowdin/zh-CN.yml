@@ -26,7 +26,10 @@ zh-CN:
     models:
       wikis/inline_page_link:
         other: 内联页面链接
-      wikis/internal_provider: 内部 Wiki
+      wikis/internal_provider:
+        other: 内部提供商
+      wikis/page_link:
+        other: 页面链接
       wikis/provider:
         other: |-
           One
@@ -43,11 +46,12 @@ zh-CN:
           XWiki 提供商
   menus:
     admin:
-      external_wiki_providers: Wiki 提供者
-      internal_wiki_provider: 内部 Wiki
+      external_wiki_providers: 外部 Wiki 提供商
+      internal_wiki_provider: 项目 Wiki
       wikis: Wiki
+    project_settings:
+      wiki: 项目 Wiki
   permission_manage_wiki_page_links: 管理 Wiki 页面链接
-  project_module_wiki_platforms: Wiki 提供商
   wikis:
     admin:
       destroy_confirmation_dialog_component:
@@ -63,8 +67,6 @@ zh-CN:
         oauth_client_form_component:
           client_id: Wiki OAuth 客户端 ID
           client_secret: Wiki OAuth 客户端密钥
-          redirect_uri: 重定向 URI
-          redirect_uri_caption: 将该值复制到 XWiki OIDC 客户端注册的重定向 URI 字段中。
       health_status:
         show:
           actions:
@@ -76,11 +78,11 @@ zh-CN:
           no_health_report_description: 立即运行检查，以获取此 wiki 提供商的完整健康状态报告。
           title: 健康报告
       internal_provider_form:
-        checkbox_caption: 允许项目使用 OpenProject 内部维基和外部维基提供者
-        checkbox_label: 启用 OpenProject 内部维基
+        checkbox_caption: 允许项目使用项目 Wiki 和外部 Wiki 提供商
+        checkbox_label: 启用 OpenProject 项目 Wiki
       internal_wiki_provider:
         show:
-          description: 选择启用或禁用OpenProject 内部wiki
+          description: 选择启用或禁用项目 Wiki
       oauth_application_info_component:
         confirm_replace_oauth_application: 此操作将重置当前的 OAuth 凭据。确认后，您必须在 XWiki 实例中重新输入凭据，所有用户都必须重新授权。确定要继续吗？
         label_oauth_client_id: OAuth 客户端 ID
@@ -89,6 +91,10 @@ zh-CN:
         confirm_replace_oauth_client: 此操作将重置当前的 XWiki OAuth 凭据。所有用户都需要针对 XWiki 进行重新授权。确定要继续吗？
         label_oauth_client_id: OAuth 客户端 ID
         replace_oauth_client: 替换 XWiki OAuth 应用程序
+      redirect_uri_info_component:
+        description: 配置好 Wiki OAuth 客户端后，重定向 URI 就会生成。
+        label_uri: URI
+        show_redirect_uri: 显示重定向 URI
       side_panel:
         health_status_component:
           last_check: 上次检查时间：%{datetime}
@@ -107,11 +113,14 @@ zh-CN:
         label_edit: 编辑 XWiki 提供商
         label_new_provider: 新建 XWiki 提供商
         label_wiki_platform: Wiki 提供商
-        name_caption: 给你的维基提供者起一个名字，以便用户区分多个维基平台。
+        name_caption: 为您的 Wiki 提供商命名，以便用户可以区分多个 Wiki 平台。
         name_placeholder: XWiki 知识库
         new_provider_html: 有关详情，请阅读我们关于[设置 XWiki 集成](docs_url)的文档。
+        successful_setup: Wiki 提供商配置成功！
         oauth:
           openproject_oauth: OpenProject OAuth
+          redirect_uri: 重定向 URI
+          redirect_uri_caption: 将该值复制进您 XWiki OIDC 客户端注册的重定向 URI 字段中。
         sections:
           general_information: 常规信息
           oauth_configuration: OAuth 配置
@@ -132,7 +141,7 @@ zh-CN:
       save_and_continue: 保存并继续
       wiki_page: Wiki 页面
     create_new_wiki_page_dialog:
-      title: 创建新Wiki页面
+      title: 新建 Wiki 页面
     deferred_inline_page_link_macro_component:
       loading: 正在加载…
     delete_relation_page_link_confirmation_dialog:
@@ -143,7 +152,7 @@ zh-CN:
       invalid_parent: 所选页面不是有效的父页面。
       invalid_response: Wiki 提供商意外响应。
       missing_token: 用户帐户尚未连接到 Wiki 提供商。
-      request_failed: Wiki 提供商意外出错。
+      request_failed: Wiki 提供商遇到意想不到的错误。
       unauthorized: 出现授权错误。
     health_checks:
       authentication:
@@ -153,14 +162,34 @@ zh-CN:
       base_configuration:
         header: 配置
         provider_configured: 配置完成
+        universal_id_known: 提供商认可
       errors:
+        connection_error: OpenProject 无法连接到 Wiki 提供商。
         not_configured: 无法验证关联。请先完成配置。
+        uid_mismatch: Wiki 提供商报告的通用标识符与 OpenProject 在设置过程中记录的标识符不匹配。
         xwiki_oauth_connection_error: OpenProject 无法关联到已配置的 XWiki 实例。
-        xwiki_oauth_request_error: 尝试与 XWiki 实例通信时发生意外错误。
+        xwiki_oauth_request_error: 尝试与 XWiki 实例通信时意外出错。
         xwiki_oauth_token_missing: OpenProject 无法测试用户与 XWiki 的用户级通信，因为用户尚未关联他们的 XWiki 帐户。
         xwiki_oauth_unauthorized: XWiki 未识别用户令牌。
-    inline_existing_wiki_page_dialog:
-      title: 添加现有 Wiki 页面
+    index:
+      column_last_edited: 上次编辑
+      column_name: Wiki 页面
+      column_parent: 父项
+      column_project: 项目
+      column_sub_pages: 子页面
+      filter_by_name: 按页面名称筛选
+      filter_placeholder: 按名称搜索
+      menu_title: Wiki
+      no_results_description: 没有可用的 Wiki 页面。
+      no_results_title: 暂无 Wiki 页面
+      queries:
+        all: 所有 Wiki 页面
+        main: 主 Wiki 页面
+      sub_pages_count:
+        other: "%{count} 个子页面"
+    inline_wiki_page_dialog:
+      title_add: 添加现有 Wiki 页面
+      title_create: 新建 Wiki 页面
     instructions:
       xwiki:
         integration: XWiki 管理
@@ -172,21 +201,33 @@ zh-CN:
       description: 登录 %{provider} ，查看和管理此 OpenProject 实例的相关Wiki页面。
       heading: 未连接至 %{provider}
     page_link_component:
+      add_to_related_pages: 添加到相关页面
       remove: 删除页面链接
     page_link_forms:
       labels:
         page_title: 标题
-        parent: 父 Wiki 页面
+        parent: 父项
         wiki_page: Wiki 页面
       search:
-        no_results: 未找到 Wiki 页面
+        no_results: 找不到 Wiki 页面
         placeholder: 搜索 Wiki 页面（或输入其 URL）
     page_links:
+      aria_label: 通过宏放置的指向某个 Wiki 页面的动态链接。
       errors:
         page_access_forbidden: 您无权访问此 wiki 页面
         page_not_found: 关联的 wiki 页面不再可用
         unexpected: 发生意外错误
+      source:
+        parent: 作为父项
+    project_settings:
+      project_internal_wiki_component:
+        blankslate_description: 目前，项目 Wiki 已全局禁用，因此无法按项目启用。请联系管理员，以在管理设置中启用全局 Wiki。
+        blankslate_title: 项目 Wiki 已全局禁用
+        caption: 这会为此项目启用原生 Wiki 功能。成员将能够创建和阅读存储在 OpenProject 中的 Wiki 页面。
+        enable: 为此项目启用 OpenProject Wiki
     provider_types:
+      internal:
+        name: OpenProject
       xwiki:
         name: XWiki
     relation_page_links_component:
@@ -196,7 +237,7 @@ zh-CN:
       link_new: 新 wiki 页面
     upsell:
       xwiki:
-        description: 将 XWiki 与 OpenProject 连接起来，实现文档与工作的同步，建立页面链接，跟踪引用，并在一个地方管理所有内容。
+        description: 将 XWiki 与 OpenProject 关联，实现文档与工作的同步，链接页面，跟踪引用，并在一个地方管理所有内容。
         title: XWiki 集成
     work_package_wikis_tab_component:
       inline_page_links: 在描述中提及

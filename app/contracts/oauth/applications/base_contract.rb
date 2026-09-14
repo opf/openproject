@@ -49,6 +49,8 @@ module OAuth
       attribute :client_credentials_user_id
       attribute :integration_id
       attribute :integration_type
+      attribute :uid
+      attribute :secret
 
       private
 

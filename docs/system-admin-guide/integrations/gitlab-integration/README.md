@@ -9,7 +9,6 @@ keywords: GitLab, GitLab integration, merge request
 
 OpenProject offers an integration with GitLab merge requests to link software development closely to planning and specification. You can create merge requests in GitLab and link them to work packages in OpenProject.
 
-
 ## Overview
 
 OpenProject work packages will directly display information from GitLab in a separate tab.
@@ -24,9 +23,9 @@ Additionally, in your OpenProject work package, the GitLab integration supports 
 
 Merge request activities will also show up in the Activity tab when the merge request is
 
-* first referenced (usually when opened)
-* merged
-* closed
+- first referenced (usually when opened)
+- merged
+- closed
 
 ![GitLab comments on work package activity tab](openproject-system-guide-gitlab-integration-activity-tab.png)
 
@@ -36,7 +35,7 @@ You will first have to configure both OpenProject and GitLab for the integration
 
 ### OpenProject
 
-First you will need to create a user in OpenProject that has the permission to make comments. This role only requires three permissions, *View work packages*,  *Add comments* and *Edit own comments*, which you will find in the **Work packages and Gantt charts** section under  [**Roles and Permissions**](../../users-permissions/roles-permissions/).
+First you will need to create a user in OpenProject that has the permission to make comments. This role only requires three permissions, _View work packages_,  _Add comments_ and _Edit own comments_, which you will find in the **Work packages and Gantt charts** section under  [**Roles and Permissions**](../../users-permissions/roles-permissions/).
 
 ![GitLab role with required permissions in OpenProject](openproject-system-guide-gitlab-integration-role.png)
 
@@ -47,8 +46,8 @@ This user will then have to be **added to each project** with a role that allows
 Once the user is created you need to generate an OpenProject API token for this user (you will need it on the GitLab side). For this you have to:
 
 1. Login as the newly created user
-2. Go to [Account settings](../../../user-guide/account-settings/) (click on the Avatar in the top right corner and select *Account settings*)
-3. Go to [*Access Tokens*](../../../user-guide/account-settings/#access-tokens)
+2. Go to [Account settings](../../../user-guide/account-settings/) (click on the Avatar in the top right corner and select _Account settings_)
+3. Go to [_Access Tokens_](../../../user-guide/account-settings/access-tokens)
 4. Click on **+ API token**
 
 > [!IMPORTANT]
@@ -87,7 +86,7 @@ In GitLab you have to set up a webhook in each repository to be integrated with 
 
 You need to configure the **URL** . It must point to your OpenProject server's GitLab webhook endpoint (`/webhooks/gitlab`).
 
-You will need the API key you copied earlier in OpenProject. Append it to the *URL* as a simple GET parameter named `key`. In the end the URL should look something like this:
+You will need the API key you copied earlier in OpenProject. Append it to the _URL_ as a simple GET parameter named `key`. In the end the URL should look something like this:
 
 `https://myopenproject.com/webhooks/gitlab?key=4221687468163843`
 
@@ -100,7 +99,7 @@ For the events that should be triggered by the webhook, please select the follow
 - Pipeline events 
 
 > [!NOTE] 
-> Please note that the *Pipeline events* part of the integration is still in the early stages. If you have any feedback on the *Pipeline events*, please let us know [here](https://community.openproject.org/wp/54574).
+> Please note that the _Pipeline events_ part of the integration is still in the early stages. If you have any feedback on the _Pipeline events_, please let us know [here](https://community.openproject.org/wp/54574).
 
 > [!IMPORTANT]
 > OpenProject only supports the events listed above. If the GitLab webhook sends an event that OpenProject does not support, a 404 error is returned by OpenProject.

@@ -46,13 +46,13 @@ RSpec.describe "Projects#destroy", :js do
     within_modal "Delete project" do
       expect(page).to have_heading "Permanently delete this project?"
 
-      expect(page).to have_unchecked_field "I understand that this deletion cannot be reversed"
+      expect(page).to have_unchecked_field "I understand that this deletion cannot be reversed."
 
       # Without confirmation, the button is disabled
       expect(page).to have_button "Delete permanently", disabled: true
 
       # Confirm the deletion
-      check "I understand that this deletion cannot be reversed", allow_label_click: true
+      check "I understand that this deletion cannot be reversed.", allow_label_click: true
       expect(page).to have_button "Delete permanently", disabled: false
 
       click_on "Delete permanently"

@@ -100,6 +100,15 @@ RSpec.describe "Work package activities tab",
       expect(response.media_type).to eq("text/vnd.turbo-stream.html")
       expect(response.body.scan('<turbo-stream action="flash"').size).to eq(1)
     end
+
+    it "responds to a background poll with a bare 404 without a flash stream" do
+      get update_streams_work_package_activities_path(work_package_id: 0),
+          params: { last_update_timestamp: 1.hour.ago.iso8601 },
+          headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+      expect(response).to have_http_status(:not_found)
+      expect(response.body).to be_empty
+    end
   end
 
   describe "GET update_streams" do

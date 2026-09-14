@@ -54,9 +54,10 @@ RSpec.describe Backlogs::Sprints::FinishService do
   subject(:result) { instance.call(**call_params) }
 
   context "when the sprint has no unfinished work packages" do
-    it "completes the sprint", :aggregate_failures do
+    it "completes the sprint", :aggregate_failures, :freeze_time do
       expect(result).to be_success
       expect(sprint.reload).to be_completed
+      expect(sprint.completed_at).to equal_time_without_usec(Time.zone.now)
     end
   end
 
@@ -65,9 +66,10 @@ RSpec.describe Backlogs::Sprints::FinishService do
       create(:work_package, project:, sprint:, status: closed_status)
     end
 
-    it "completes the sprint ignoring the closed work package", :aggregate_failures do
+    it "completes the sprint ignoring the closed work package", :aggregate_failures, :freeze_time do
       expect(result).to be_success
       expect(sprint.reload).to be_completed
+      expect(sprint.completed_at).to equal_time_without_usec(Time.zone.now)
       expect(closed_wp.reload).to have_attributes(sprint:)
     end
   end
@@ -100,6 +102,7 @@ RSpec.describe Backlogs::Sprints::FinishService do
         expect(result).not_to be_success
         expect(result.includes_error?(:base, :unfinished_work_packages)).to be true
         expect(sprint.reload).to be_active
+        expect(sprint.completed_at).to be_nil
         expect(open_wp.reload).to have_attributes(sprint:)
       end
     end

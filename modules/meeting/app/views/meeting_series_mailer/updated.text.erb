@@ -36,7 +36,7 @@ See COPYRIGHT and LICENSE files for more details.
       title: @series.title
     ) %>
 
-<% if @changes[:old_schedule] != @series.full_schedule_in_words %>
+<% if @changes[:old_schedule].present? && @changes[:old_schedule] != @series.full_schedule_in_words %>
 <%= t("meeting.email.series_updated.old_schedule") %>:
 <%= @changes[:old_schedule] %> (<%= formatted_time_zone_offset %>)
 
@@ -47,16 +47,17 @@ See COPYRIGHT and LICENSE files for more details.
 <%= @series.full_schedule_in_words %> (<%= formatted_time_zone_offset %>)
 <% end %>
 
-<% if @changes[:old_location].present? || @series.location.present? %>
-<% if @changes[:old_location] != @series.location %>
+<% current_location = @series.location.presence || @series.template&.location %>
+<% if @changes[:old_location].present? || current_location.present? %>
+<% if @changes[:old_location] != current_location %>
 <%= t("meeting.email.updated.old_location") %>:
 <%= @changes[:old_location].presence || "-" %>
 
 <%= t("meeting.email.updated.new_location") %>:
-<%= @series.location.blank? ? "-" : (auto_link @series.location) %>
+<%= current_location.blank? ? "-" : (auto_link current_location) %>
 <% else %>
 <%= Meeting.human_attribute_name(:location) %>:
-<%= auto_link @series.location %>
+<%= auto_link current_location %>
 <% end %>
 <% end %>
 <% if @added_participants.any? %>

@@ -457,6 +457,53 @@ RSpec.describe "API v3 Meeting Agenda Items sub-resource", content_type: :json d
       end
     end
 
+    context "when moving an occurrence agenda item with a stale presenter to the series backlog" do
+      let(:recurring_meeting) { create(:recurring_meeting, project:, author: current_user) }
+      let(:template) { recurring_meeting.template }
+      let(:occurrence) do
+        create(:recurring_meeting_occurrence,
+               recurring_meeting:,
+               start_time: recurring_meeting.start_time + 1.week)
+      end
+      let(:occurrence_section) { create(:meeting_section, meeting: occurrence) }
+      let(:presenter) { create(:user, member_with_permissions: { project => [:view_meetings] }) }
+      let(:agenda_item) do
+        create(:meeting_agenda_item,
+               meeting: occurrence,
+               meeting_section: occurrence_section,
+               author: current_user,
+               presenter:)
+      end
+      let(:body) do
+        {
+          _links: {
+            section: {
+              href: api_v3_paths.meeting_section(template.backlog.id)
+            }
+          }
+        }.to_json
+      end
+
+      before do
+        agenda_item
+        Member.where(user_id: presenter.id).delete_all
+      end
+
+      it "responds with 200" do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "moves the agenda item to the template backlog" do
+        response
+
+        expect(agenda_item.reload).to have_attributes(
+          meeting: template,
+          meeting_section: template.backlog,
+          presenter:
+        )
+      end
+    end
+
     context "without manage_agendas permission" do
       let(:permissions) { %i[view_meetings] }
 

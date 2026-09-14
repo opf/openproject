@@ -187,6 +187,26 @@ RSpec.describe "Document types admin", :js do
     end
   end
 
+  context "with a single document type" do
+    let!(:only_type) { create(:document_type, name: "Only type") }
+
+    it "shows a single separator (no duplicate) in the more menu" do
+      visit admin_settings_document_types_path
+
+      within_enumeration_item(only_type) do
+        click_on accessible_name: "Document type actions"
+      end
+
+      expect(page).to have_link("Edit")
+      expect(page).to have_link("Delete")
+      expect(page).to have_no_button(I18n.t(:label_sort_highest))
+      expect(page).to have_no_button(I18n.t(:label_sort_higher))
+      expect(page).to have_no_button(I18n.t(:label_sort_lower))
+      expect(page).to have_no_button(I18n.t(:label_sort_lowest))
+      expect(page).to have_css("li.ActionList-sectionDivider", count: 1)
+    end
+  end
+
   context "with non-admin user" do
     current_user { create(:user) }
 

@@ -25,8 +25,8 @@ hy:
     editor:
       macro:
         wikis:
-          add_existing: Existing wiki page
-          create_new: New wiki page
+          add_existing: Առկա վիքի էջ
+          create_new: Նոր վիքի էջ
     work_packages:
       tabs:
-        wikis: Wikis
+        wikis: Վիքիներ

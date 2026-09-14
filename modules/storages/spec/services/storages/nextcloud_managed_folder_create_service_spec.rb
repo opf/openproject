@@ -233,7 +233,7 @@ module Storages
         end
 
         context "when we fail to set the root folder permissions" do
-          let(:error) { Adapters::Results::Error.new(code: :error, source: self) }
+          let(:error) { SimpleError.new(code: :error, source: self) }
 
           before do
             set_permissions_class_double = class_double(Adapters::Providers::Nextcloud::Commands::SetPermissionsCommand)

@@ -79,8 +79,8 @@ RSpec.describe ResourcePlannerViews::UserCardList::CardComponent, type: :compone
     context "for an inactive user" do
       before { card_user.update_column(:status, Principal.statuses[:locked]) }
 
-      it "renders the status as an attention label" do
-        expect(rendered).to have_css("span.Label--attention", text: I18n.t("user.locked"))
+      it "renders the status as an secondary label" do
+        expect(rendered).to have_css("span.Label--secondary", text: I18n.t("user.locked"))
         expect(rendered).to have_no_css("span.Label--success")
       end
     end
@@ -260,6 +260,24 @@ RSpec.describe ResourcePlannerViews::UserCardList::CardComponent, type: :compone
 
     it "renders the job title" do
       expect(rendered).to have_text("Lead Engineer")
+    end
+
+    context "when the job title field is multi-value" do
+      let!(:job_title) do
+        create(:user_custom_field, :multi_list, name: "Roles", semantic_key: :job_title,
+                                                possible_values: ["Lead Engineer", "Architect"])
+      end
+      let(:card_user) do
+        create(:user, firstname: "Carl", lastname: "Cardman",
+                      member_with_permissions: { project => %i[view_resource_planners] },
+                      custom_values: job_title.possible_values.map do |opt|
+                        build(:custom_value, custom_field: job_title, value: opt)
+                      end)
+      end
+
+      it "joins all values with a comma" do
+        expect(rendered).to have_text("Lead Engineer, Architect")
+      end
     end
   end
 end

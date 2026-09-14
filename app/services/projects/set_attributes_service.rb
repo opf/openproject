@@ -60,14 +60,19 @@ module Projects
       attribute_keys = attributes.keys.map(&:to_s)
 
       set_default_public(attribute_keys.include?("public"))
+      set_default_wiki
       set_default_module_names(attribute_keys.include?("enabled_module_names"))
-      set_default_types(attribute_keys.include?("types") || attribute_keys.include?("type_ids"))
+      set_default_types(attribute_keys.include?("project_types"))
       set_default_active_work_package_custom_fields(attribute_keys.include?("work_package_custom_fields"))
       set_default_show_work_package_attachments(attribute_keys.include?("deactivate_work_package_attachments"))
     end
 
     def set_default_public(provided)
       model.public = Setting.default_projects_public? unless provided
+    end
+
+    def set_default_wiki
+      model.build_wiki(start_page: "Wiki", enabled: Setting.default_projects_wiki?) if model.wiki.nil?
     end
 
     def set_default_module_names(provided)
@@ -79,16 +84,34 @@ module Projects
     end
 
     def set_default_types(provided)
-      model.types = ::Type.default if !provided && model.types.empty?
+      return if provided || model.project_types.any?
+
+      model.project_types = default_project_types
+    end
+
+    def default_project_types
+      TypeVariant.enabled_in_new_projects.map do |variant|
+        ProjectType.new(type_id: variant.type_id, variant: variant)
+      end
     end
 
     def set_default_active_work_package_custom_fields(provided)
       return if provided
 
+      # The fields come from the configuration each type is applied through, which is the
+      # variant on the join row rather than the type itself.
       model.work_package_custom_fields = WorkPackageCustomField
-        .joins(:types)
-        .where(types: { id: model.type_ids })
+        .joins(:type_variants)
+        .where(type_variants: { id: applied_variant_ids })
         .distinct
+    end
+
+    # Rows built a moment ago have not been validated yet, so the base variant they will default
+    # to has to be read off the type rather than off the row.
+    def applied_variant_ids
+      model.project_types.filter_map do |project_type|
+        project_type.variant_id || project_type.type&.default_variant&.id
+      end
     end
 
     def status_code_provided?(params)

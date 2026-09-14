@@ -86,82 +86,6 @@ form
     &.-medium-compressed
       padding: 10px 20px 20px 20px
 
-  &.danger-zone
-    border: 1px solid var(--content-form-danger-zone-bg-color)
-    // For correct display in IE
-    border-top: 0px
-
-    .form--section
-      padding-top: 0px
-      margin-bottom: 0px
-
-      & > *
-        padding-left: 1rem
-        padding-right: 1rem
-
-    .form--section-title
-      background-color: var(--content-form-danger-zone-bg-color)
-      color: var(--content-form-danger-zone-font-color) !important
-      padding: 1rem !important
-      margin: 0 0 1rem 0
-
-    input[type=text]
-      margin-bottom: 0
-
-    em
-      font-style: italic
-
-    p.danger-zone--warning
-      font-weight: var(--base-text-weight-bold)
-      color: var(--content-form-danger-zone-bg-color)
-
-      span.icon,
-      span.icon-context
-        display: inline-block
-        vertical-align: middle
-        // This is an approximation necessary for vertical alignment (especially FF under Windows)
-        // This should be removable once the icon font is updated
-        // see: https://community.openproject.org/work_packages/21589/activity
-        margin-bottom: 0.0625em
-
-        &:before
-          padding-left: 0px
-          color: var(--content-form-danger-zone-bg-color)
-
-    .danger-zone--expected-value
-      white-space: pre
-
-    .danger-zone--verification
-      display: flex
-
-      input
-        @extend %input--sizing
-        flex-basis: 50%
-        margin: 0 0.5rem 0 0
-
-      .button
-        @extend %input--sizing
-
-        &.-primary
-          background: var(--content-form-danger-zone-bg-color)
-          color: var(--content-form-danger-zone-font-color)
-          border-color: var(--content-form-danger-zone-bg-color)
-
-          &.icon:before,
-          &.icon-context:before
-            color: var(--content-form-danger-zone-font-color)
-            padding-left: 0px
-
-    + .form--field-instructions
-      max-width: 100%
-
-    .form--field-instructions
-      margin: 0 0 1rem 0
-
-    .errorSpan
-      flex-basis: 50%
-      margin-right: 0.5rem
-
   .form--close
     position: absolute
     top: 0.75rem
@@ -633,6 +557,12 @@ select
 input[readonly].-clickable
   cursor: pointer
   background: var(--body-background)
+
+.form--text-field
+  &[readonly]:not(.-clickable)
+    background-color: var(--control-bgColor-disabled)
+    color: var(--control-fgColor-disabled);
+    cursor: not-allowed
 
 .form--select
   @extend %input-style

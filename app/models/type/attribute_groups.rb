@@ -33,6 +33,7 @@ module Type::AttributeGroups
 
   included do
     before_save :write_attribute_groups_objects
+    before_save :prune_required_attributes
     after_save :unset_attribute_groups_objects
     after_destroy :remove_attribute_groups_queries
 
@@ -49,7 +50,9 @@ module Type::AttributeGroups
         remaining_time: :estimates_and_progress,
         percentage_done: :estimates_and_progress,
         spent_time: :estimates_and_progress,
-        priority: :details
+        priority: :details,
+        # `:excluded` is not a "real" group. It's meant to exclude built in fields from the form
+        observed_in_versions: :excluded
       }
     end
 
@@ -152,6 +155,22 @@ module Type::AttributeGroups
     cleanup_query_groups_queries
   end
 
+  ##
+  # When we remove an attribute from the form, we also want to remove it from
+  # required_attributes as a cleanup step.
+  def prune_required_attributes
+    return unless attribute_groups_changed?
+    return if self[:required_attributes].blank?
+
+    self[:required_attributes] &= attribute_group_members
+  end
+
+  def attribute_group_members
+    attribute_groups.flat_map do |group|
+      group.group_type == :attribute ? group.attributes.map(&:to_s) : []
+    end
+  end
+
   def custom_attribute_groups
     self[:attribute_groups].presence
   end
@@ -182,7 +201,7 @@ module Type::AttributeGroups
   # Custom fields should not get included into the default form configuration.
   # This method might get patched by modules.
   def default_attribute?(active_cfs, key)
-    !(CustomField.custom_field_attribute?(key) && !active_cfs.include?(key))
+    !(CustomField.custom_field_attribute?(key) && active_cfs.exclude?(key))
   end
 
   def to_attribute_group_class(groups)

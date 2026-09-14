@@ -15,7 +15,7 @@ This new release will bring many new features and bug fixes that will improve cl
 
 ## Placeholder users (Enterprise add-on)
 
-A new concept of placeholder users has been introduced with 11.2. Within the *Administration* -> *Users and permissions* you are now able to create placeholder users without an email address and without taking away any license seats.
+A new concept of placeholder users has been introduced with 11.2. Within the _Administration_ -> _Users and permissions_ you are now able to create placeholder users without an email address and without taking away any license seats.
 
 ![add-placeholder-users](add-placeholder-users.png)
 

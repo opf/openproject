@@ -88,6 +88,12 @@ module WorkPackages
           .descendants
           .order_by_ancestors("asc")
           .each do |wp|
+          # Only copy a descendant when its parent has been copied as well
+          # (skipping a node also skips its whole subtree) and the user is
+          # allowed to copy it. This prevents copying descendants reachable
+          # through a shared ancestor for which the user lacks permission.
+          next unless copyable_descendant?(wp, ancestors)
+
           copied = copy_with_updated_parent_id(wp, attributes, ancestors)
 
           wp_map.store(wp.id, copied.result.id)
@@ -96,6 +102,11 @@ module WorkPackages
         end
 
         result
+      end
+
+      def copyable_descendant?(work_package, ancestors)
+        ancestors.key?(work_package.parent_id) &&
+          user.allowed_in_work_package?(:copy_work_packages, work_package)
       end
 
       def call_move_hook(work_package, params)

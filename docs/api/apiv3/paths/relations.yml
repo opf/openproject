@@ -19,7 +19,7 @@ get:
         - to - ID of work package to which this related points.
         - involved - ID of either the `from` or the `to` work package.
         - type - The type of relation to filter by, e.g. "follows".
-      example: '[{ "from": { "operator": "=", "values": 42 }" }]'
+      example: '[{ "from": { "operator": "=", "values": 42 } }]'
       in: query
       required: false
       schema:

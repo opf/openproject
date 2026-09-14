@@ -86,7 +86,7 @@ module Storages
           end
 
           context "when file query fails" do
-            let(:file_info_result) { Adapters::Results::Error.new(code: :storage_error, source: self) }
+            let(:file_info_result) { SimpleError.new(code: :storage_error, source: self) }
 
             before do
               Adapters::Registry.stub("nextcloud.queries.files", ->(*) { Failure(file_info_result) })
@@ -117,7 +117,7 @@ module Storages
 
           context "when folder creation fails", vcr: "nextcloud/nextcloud_upload_file_new_folder_fail_file" do
             let(:file_path) { "/uploads/documents/top_secret" }
-            let(:create_folder_error) { Adapters::Results::Error.new(code: :storage_error, source: self) }
+            let(:create_folder_error) { SimpleError.new(code: :storage_error, source: self) }
 
             before do
               Adapters::Registry.stub("nextcloud.commands.create_folder", ->(*) { Failure(create_folder_error) })

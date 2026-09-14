@@ -27,9 +27,14 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
+<%= component_wrapper do %>
 <%= render(Primer::OpenProject::PageHeader.new) do |header|
       header.with_title { @resource_planner.name }
       header.with_breadcrumbs(breadcrumb_items)
+
+      if (timeframe = timeframe_description)
+        header.with_description { timeframe }
+      end
 
       if favorited?
         header.with_action_icon_button(
@@ -39,7 +44,7 @@ See COPYRIGHT and LICENSE files for more details.
           classes: "op-primer--star-icon",
           tag: :a,
           href: favorite_path_for(@resource_planner),
-          data: { turbo_method: :delete, "test-selector": "resource-planner-unfavorite" }
+          data: { turbo_method: :delete, turbo_frame: "_top", "test-selector": "resource-planner-unfavorite" }
         )
       else
         header.with_action_icon_button(
@@ -48,7 +53,7 @@ See COPYRIGHT and LICENSE files for more details.
           label: t(:button_favorite),
           tag: :a,
           href: favorite_path_for(@resource_planner),
-          data: { turbo_method: :post, "test-selector": "resource-planner-favorite" }
+          data: { turbo_method: :post, turbo_frame: "_top", "test-selector": "resource-planner-favorite" }
         )
       end
 
@@ -77,6 +82,7 @@ See COPYRIGHT and LICENSE files for more details.
               content_arguments: {
                 data: {
                   turbo_method: :delete,
+                  turbo_frame: "_top",
                   turbo_confirm: t(:text_are_you_sure),
                   "test-selector": "resource-planner-delete"
                 }
@@ -87,4 +93,23 @@ See COPYRIGHT and LICENSE files for more details.
           end
         end
       end
+
+      header.with_tab_nav(label: t("resource_management.sub_views")) do |tab_nav|
+        @resource_planner.children.each do |child|
+          tab_nav.with_tab(
+            selected: child.id == selected_view_id,
+            href: project_resource_planner_view_path(@project, @resource_planner, child)
+          ) { child.name }
+        end
+
+        if can_add_views?
+          tab_nav.with_tab(
+            href: new_project_resource_planner_view_path(@project, @resource_planner),
+            data: { controller: "async-dialog" }
+          ) do
+            render(Primer::Beta::Octicon.new(icon: :plus, size: :medium))
+          end
+        end
+      end
     end %>
+<% end %>

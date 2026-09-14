@@ -76,6 +76,22 @@ RSpec.describe Projects::Settings::CostTypesController, :skip_csrf, type: :rails
         expect(flash[:error]).to be_present
       end
     end
+
+    context "with a cost type that already has logged costs in the project" do
+      let(:work_package) { create(:work_package, project:) }
+
+      before do
+        CostTypesProject.create!(project:, cost_type: scoped_ct)
+        create(:cost_entry, cost_type: scoped_ct, entity: work_package)
+      end
+
+      it "refuses to disable the mapping" do
+        expect do
+          post toggle_project_settings_cost_type_path(project, scoped_ct)
+        end.not_to change { CostTypesProject.where(project:, cost_type: scoped_ct).count }
+        expect(flash[:error]).to be_present
+      end
+    end
   end
 
   context "when user lacks :manage_project_activities" do

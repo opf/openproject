@@ -22,15 +22,15 @@
 ---
 eo:
   js:
-    text_are_you_sure: Are you sure?
-    myTimeTracking:
-      noSpecificTime: No specific time
-    work_packages:
-      property_groups:
-        costs: Kostoj
-      properties:
-        overallCosts: Overall costs
-        spentUnits: Spent units
     button_log_costs: Log unit costs
     label_hour: horo
     label_hours: horoj
+    myTimeTracking:
+      noSpecificTime: Neniu specifa tempo
+    text_are_you_sure: Are you sure?
+    work_packages:
+      properties:
+        overallCosts: Entutaj kostoj
+        spentUnits: Elspezitaj unuoj
+      property_groups:
+        costs: Kostoj

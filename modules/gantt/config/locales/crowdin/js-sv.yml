@@ -2,6 +2,6 @@
 sv:
   js:
     work_packages:
-      label_gantt_chart_plural: Gantt-diagram
       default_queries:
         milestones: Milstolpar
+      label_gantt_chart_plural: Gantt-diagram

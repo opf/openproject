@@ -1,10 +1,6 @@
 <%= component_wrapper do %>
   <% if provider.seeded_from_env? %>
-    <%=
-      render(Primer::Alpha::Banner.new(mb: 2, scheme: :default, icon: :bell, spacious: true)) do
-        I18n.t("openid_connect.providers.seeded_from_env")
-      end
-    %>
+    <%= render(Primer::Alpha::Banner.new(mb: 3, icon: :info)) { t("admin.banners.environment_configured_readonly") } %>
   <% end %>
 
   <%= render(border_box_container) do |component|

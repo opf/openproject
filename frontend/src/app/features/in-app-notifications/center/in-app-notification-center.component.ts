@@ -21,13 +21,14 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { StateService } from '@uirouter/angular';
 import { IanCenterService } from 'core-app/features/in-app-notifications/center/state/ian-center.service';
@@ -87,6 +88,16 @@ export class InAppNotificationCenterComponent implements OnInit {
     );
 
   selectedWorkPackage$ = this.storeService.selectedWorkPackage$;
+
+  firstNotificationIsSelected$ = combineLatest([
+    this.notifications$,
+    this.selectedWorkPackage$,
+  ]).pipe(
+    map(([notifications, selected]) => {
+      if (!notifications?.length || !selected) return false;
+      return this.notificationMatchesSelectedWorkPackage(notifications[0][0], selected);
+    }),
+  );
 
   reasonMenuItems = [
     {

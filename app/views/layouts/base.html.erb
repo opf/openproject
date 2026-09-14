@@ -176,7 +176,7 @@ See COPYRIGHT and LICENSE files for more details.
             <%= yield %>
           <% end %>
         </div>
-        <%= turbo_frame_tag "content-bodyRight" do %>
+        <%= turbo_frame_tag "content-bodyRight", target: "_top" do %>
           <%= content_for :content_body_right %>
         <% end %>
       <% end %>

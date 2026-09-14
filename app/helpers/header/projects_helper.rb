@@ -30,26 +30,34 @@
 
 module Header
   module ProjectsHelper
-    def project_node_label(project, favorited: false)
-      parts = [project.name]
+    def project_node_label(project, favorited: false, query_terms: [])
+      name_html = query_terms.any? ? content_tag(:span, highlight_name(project.name, query_terms)) : project.name
+      parts = [name_html]
       parts << favorite_icon if favorited
       parts << workspace_type_badge(project) if show_workspace_type_badge?(project)
 
       text = parts.length == 1 ? parts.first : safe_join(parts)
-      render(Primer::BaseComponent.new(tag: :span, display: :inline_flex, align_items: :center)) { text }
+      render(Primer::BaseComponent.new(tag: :span, display: :inline_flex, align_items: :baseline)) { text }
     end
 
     private
 
+    def highlight_name(name, query_terms)
+      highlight_text_by_terms(name, query_terms)
+    end
+
     def favorite_icon
-      render(Primer::Beta::Octicon.new(icon: :"star-fill", size: :small, classes: "op-primer--star-icon", ml: 2))
+      render(Primer::BaseComponent.new(tag: :span)) do
+        render(Primer::Beta::Octicon.new(icon: :"star-fill", size: :small, classes: "op-primer--star-icon", ml: 2))
+      end
     end
 
     def workspace_type_badge(project)
-      render(Primer::BaseComponent.new(tag: :span, display: :inline_flex, align_items: :center,
+      render(Primer::BaseComponent.new(tag: :span, display: :inline_flex, align_items: :baseline,
                                        color: :subtle, font_size: :small, ml: 2, classes: "description")) do
         safe_join([
-                    render(Primer::Beta::Octicon.new(icon: workspace_icon(project.workspace_type), size: :xsmall, mr: 1)),
+                    render(Primer::Beta::Octicon.new(icon: workspace_icon(project.workspace_type),
+                                                     size: :xsmall, mr: 1, align_self: :center)),
                     content_tag(:span, I18n.t(:"label_#{project.workspace_type}"))
                   ])
       end

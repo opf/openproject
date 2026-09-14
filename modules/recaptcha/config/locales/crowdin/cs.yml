@@ -1,27 +1,26 @@
-#English strings go here for Rails i18n
 ---
 cs:
   plugin_openproject_recaptcha:
-    name: OpenProject ReCaptcha
     description: Tento modul umožňuje kontrolu reaptcha během přihlášení.
+    name: OpenProject ReCaptcha
   recaptcha:
-    label_recaptcha: reCAPTCHA
     button_please_wait: Prosím čekejte...
-    verify_account: Ověřte svůj účet
     error_captcha: Váš účet nemohl být ověřen. Kontaktujte prosím administrátora.
+    label_recaptcha: reCAPTCHA
     settings:
-      website_key: Klíč webových stránek (může se nazývat také "klíč webu")
+      captcha_description_html: 'reCAPTCHA je bezplatná služba společnosti Google, kterou lze povolit pro vaši instanci OpenProject. Pokud je tato funkce povolena, zobrazí se při přihlášení formulář captcha pro všechny uživatele, kteří ho dosud neověřili. <br/> Další podrobnosti o reCAPTCHA a jejich verzích a o tom, jak vytvořit webovou stránku a tajné klíče, najdete na následujícím odkazu: %{recaptcha_link} <br/> HCaptcha je alternativa nijak nepropojená s Google, kterou můžete použít, pokud Vám nevyhovuje reCAPTCHA. Další informace naleznete na tomto odkazu: %{hcaptcha_link} <br/> Cloudflare Turnstile™ je další alternativou, která je pro uživatele pohodlnější a zároveň poskytuje stejnou úroveň zabezpečení. Další informace naleznete na tomto odkazu: %{turnstile_link}
+
+        '
       response_limit: Limit odpovědi pro HCaptcha
       response_limit_text: Maximální počet znaků, které chcete považovat HCaptcha za platný.
-      website_key_text: Zadejte webový klíč vytvořený v reCAPTCHA admin konzoli pro tuto doménu.
       secret_key: Secret Key
       secret_key_text: Zadejte webový klíč vytvořený v reCAPTCHA admin konzoli pro tuto doménu.
       type: Použít reCAPTCHA
       type_disabled: Zakázat reCAPTCHA
-      type_v2: reCAPTCHA v2
-      type_v3: reCAPTCHA v3
       type_hcaptcha: HCaptcha
       type_turnstile: Cloudflare Turnstile™
-      captcha_description_html: 'reCAPTCHA je bezplatná služba společnosti Google, kterou lze povolit pro vaši instanci OpenProject. Pokud je tato funkce povolena, zobrazí se při přihlášení formulář captcha pro všechny uživatele, kteří ho dosud neověřili. <br/> Další podrobnosti o reCAPTCHA a jejich verzích a o tom, jak vytvořit webovou stránku a tajné klíče, najdete na následujícím odkazu: %{recaptcha_link} <br/> HCaptcha je alternativa nijak nepropojená s Google, kterou můžete použít, pokud Vám nevyhovuje reCAPTCHA. Další informace naleznete na tomto odkazu: %{hcaptcha_link} <br/> Cloudflare Turnstile™ je další alternativou, která je pro uživatele pohodlnější a zároveň poskytuje stejnou úroveň zabezpečení. Další informace naleznete na tomto odkazu: %{turnstile_link}
-
-        '
+      type_v2: reCAPTCHA v2
+      type_v3: reCAPTCHA v3
+      website_key: Klíč webových stránek (může se nazývat také "klíč webu")
+      website_key_text: Zadejte webový klíč vytvořený v reCAPTCHA admin konzoli pro tuto doménu.
+    verify_account: Ověřte svůj účet

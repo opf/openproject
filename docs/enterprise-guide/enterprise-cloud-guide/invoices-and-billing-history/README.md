@@ -22,7 +22,7 @@ For invoices via bank transfer, the money needs to be paid via bank transfer to 
 
 ## Payment history and download invoices
 
-If you want to see the billing history or download older invoices of your Enterprise cloud edition, navigate to *Administration* -> *Subscription* within your system's Administration.
+If you want to see the billing history or download older invoices of your Enterprise cloud edition, navigate to _Administration_ -> _Subscription_ within your system's Administration.
 
 Click the **Manage subscription** button.
 

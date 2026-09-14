@@ -55,7 +55,7 @@ See COPYRIGHT and LICENSE files for more details.
       href: new_attribute_help_text_path(name: selected_tab(tabs)[:name]),
       test_selector: "attribute-help-texts--create-button"
     ) do
-      t("activerecord.models.attribute_help_text.one")
+      AttributeHelpText.model_name.human
     end
   end
 %>

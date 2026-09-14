@@ -31,15 +31,34 @@
 module ResourcePlanners
   class ShowPageHeaderComponent < ApplicationComponent
     include ApplicationHelper
+    include OpTurbo::Streamable
 
-    def initialize(resource_planner:, project:)
+    def initialize(resource_planner:, project:, selected_view: nil)
       super
 
       @resource_planner = resource_planner
       @project = project
+      @selected_view = selected_view
     end
 
     private
+
+    def selected_view_id
+      @selected_view&.id || @resource_planner.default_view_id
+    end
+
+    def can_add_views?
+      manage_planner?
+    end
+
+    # The timeframe is picked as a range, so it is either absent or complete.
+    def timeframe_description
+      start_date = @resource_planner.start_date
+      end_date = @resource_planner.end_date
+      return if start_date.nil? || end_date.nil?
+
+      t("resource_management.timeframe.full", start: helpers.format_date(start_date), end: helpers.format_date(end_date))
+    end
 
     def breadcrumb_items
       [

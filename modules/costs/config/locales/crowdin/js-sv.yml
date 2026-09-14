@@ -22,15 +22,15 @@
 ---
 sv:
   js:
-    text_are_you_sure: Är du säker?
-    myTimeTracking:
-      noSpecificTime: Ingen specifik tid
-    work_packages:
-      property_groups:
-        costs: Kostnader
-      properties:
-        overallCosts: Totalkostnader
-        spentUnits: Bokade enheter
     button_log_costs: Logga enhetskostnader
     label_hour: timme
     label_hours: timmar
+    myTimeTracking:
+      noSpecificTime: Ingen specifik tid
+    text_are_you_sure: Är du säker?
+    work_packages:
+      properties:
+        overallCosts: Totalkostnader
+        spentUnits: Bokade enheter
+      property_groups:
+        costs: Kostnader

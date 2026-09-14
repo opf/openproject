@@ -77,12 +77,6 @@ $datepicker--selected-border-radius: 5px
   box-shadow: none !important
   @include spot-caption
 
-  &.open.arrowTop
-    &:before
-      border-bottom-color: var(--borderColor-default)
-    &:after
-      border-bottom-color: var(--body-background)
-
   .flatpickr-months
     min-height: 45px
 
@@ -239,6 +233,22 @@ $datepicker--selected-border-radius: 5px
             color: var(--fgColor-muted)
             background: var(--label-yellow-bgColor-active)
             border-color: var(--label-yellow-bgColor-active)
+
+  .numInputWrapper
+    .arrowUp
+      border-color: var(--borderColor-default)
+      &:after
+        // flatpickr models the arrow as a border
+        border-bottom-color: var(--body-font-color) !important
+
+    .arrowDown
+      border-color: var(--borderColor-default)
+      &:after
+        // flatpickr models the arrow as a border
+        border-top-color: var(--body-font-color) !important
+
+    &:hover
+      background: var(--bgColor-neutral-muted)
 
 .flatpickr-calendar.flatpickr-container-suppress-hover
   .flatpickr-day

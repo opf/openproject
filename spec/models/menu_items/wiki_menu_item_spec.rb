@@ -31,20 +31,19 @@
 require "spec_helper"
 
 RSpec.describe MenuItems::WikiMenuItem do
-  before do
-    @project = create(:project, enabled_module_names: %w[activity])
-    @current = create(:user, login: "user1", mail: "user1@users.com")
+  let(:project) { create(:project, :with_internal_wiki, enabled_module_names: ["activity"]) }
+  let(:user) { create(:user) }
 
-    allow(User).to receive(:current).and_return(@current)
+  before do
+    allow(User).to receive(:current).and_return(user)
   end
 
-  it "creates a default wiki menu item when enabling the wiki" do
-    expect(MenuItems::WikiMenuItem.all).not_to be_any
+  it "creates a default wiki menu item when an internal wiki is added" do
+    expect(described_class.count).to eq(0)
 
-    @project.enabled_modules << EnabledModule.new(name: "wiki")
-    @project.reload
+    expect { project }.to change(described_class, :count).by(1)
 
-    wiki_item = @project.wiki.wiki_menu_items.first
+    wiki_item = project.wiki.wiki_menu_items&.first
     expect(wiki_item.name).to eql "wiki"
     expect(wiki_item.title).to eql "Wiki"
     expect(wiki_item.slug).to eql "wiki"
@@ -52,64 +51,46 @@ RSpec.describe MenuItems::WikiMenuItem do
     expect(wiki_item.options[:new_wiki_page]).to be true
   end
 
-  it "changes title when a wikipage is renamed" do
-    wikipage = create(:wiki_page, title: "Oldtitle")
+  it "changes title when a wiki_page is renamed" do
+    wiki_page = create(:wiki_page, title: "Oldtitle")
 
-    menu_item_1 = create(:wiki_menu_item, navigatable_id: wikipage.wiki.id,
-                                          title: "Item 1",
-                                          name: wikipage.slug)
+    menu_item = create(:wiki_menu_item, navigatable_id: wiki_page.wiki.id, title: "Item 1", name: wiki_page.slug)
 
-    wikipage.title = "Newtitle"
-    wikipage.save!
+    wiki_page.update!(title: "Newtitle")
 
-    menu_item_1.reload
-    expect(menu_item_1.title).to eq(wikipage.title)
+    expect(menu_item.reload.title).to eq(wiki_page.title)
   end
 
   it "does not allow duplicate sibling entries" do
-    wikipage = create(:wiki_page, title: "Parent Page")
+    wiki_page = create(:wiki_page, title: "Parent Page")
 
     parent = create(
-      :wiki_menu_item, navigatable_id: wikipage.wiki.id, title: "Item 1", name: wikipage.slug
+      :wiki_menu_item, navigatable_id: wiki_page.wiki.id, title: "Item 1", name: wiki_page.slug
     )
-    child_1 = parent.children.create name: "child-1", title: "Child 1"
-
+    parent.children.create name: "child-1", title: "Child 1"
     child_2 = parent.children.build name: "child-1", title: "Child 2"
 
     expect { child_2.save! }.to raise_error /Name has already been taken/
   end
 
   describe "it should destroy" do
-    before do
-      @project.enabled_modules << EnabledModule.new(name: "wiki")
-      @project.reload
-
-      @menu_item_1 = create(:wiki_menu_item, wiki: @project.wiki,
-                                             name: "Item 1",
-                                             title: "Item 1")
-
-      @menu_item_2 = create(:wiki_menu_item, wiki: @project.wiki,
-                                             name: "Item 2",
-                                             parent_id: @menu_item_1.id,
-                                             title: "Item 2")
-    end
+    let!(:first_menu_item) { create(:wiki_menu_item, wiki: project.wiki) }
+    let!(:second_menu_item) { create(:wiki_menu_item, wiki: project.wiki, parent: first_menu_item) }
 
     it "all children when deleting the parent" do
-      @menu_item_1.destroy
+      first_menu_item.destroy
 
-      expect { MenuItems::WikiMenuItem.find(@menu_item_1.id) }.to raise_error(ActiveRecord::RecordNotFound)
-      expect { MenuItems::WikiMenuItem.find(@menu_item_2.id) }.to raise_error(ActiveRecord::RecordNotFound)
+      expect { described_class.find(first_menu_item.id) }.to raise_error(ActiveRecord::RecordNotFound)
+      expect { described_class.find(second_menu_item.id) }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
     describe "all items when destroying" do
       it "the associated project" do
-        @project.destroy
-        expect(MenuItems::WikiMenuItem.all).not_to be_any
+        expect { project.destroy }.to change(described_class, :count).to(0)
       end
 
       it "the associated wiki" do
-        @project.wiki.destroy
-        expect(MenuItems::WikiMenuItem.all).not_to be_any
+        expect { project.wiki.destroy }.to change(described_class, :count).to(0)
       end
     end
   end

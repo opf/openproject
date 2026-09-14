@@ -64,6 +64,7 @@ RSpec.describe "Work Package timer", :js, :selenium do
       user_menu.open
       expect(page).to have_css(".op-timer-account-menu", wait: 10)
       expect(page).to have_css(".op-timer-account-menu--wp-details", text: "##{work_package_a.id}: WP A")
+      expect(page).to have_css(".op-timer-account-menu--wp-details[href='/work_packages/#{work_package_a.id}']")
       page.find_test_selector("op-timer-account-menu-stop").click
 
       time_logging_modal.is_visible true
@@ -97,6 +98,8 @@ RSpec.describe "Work Package timer", :js, :selenium do
 
       expect(page).to have_css(".op-timer-stop-modal")
       expect(page).to have_text("Tracking time:")
+      expect(page).to have_css(".op-timer-stop-modal a[href='/work_packages/#{work_package_a.id}']",
+                               text: "##{work_package_a.id}: WP A")
 
       active_time_entries = TimeEntry.where(ongoing: true, user:)
       expect(active_time_entries.count).to eq 1
@@ -147,6 +150,21 @@ RSpec.describe "Work Package timer", :js, :selenium do
         wp_view_a.visit!
         timer_button.expect_visible
         timer_button.expect_time /48:0\d:\d+/
+      end
+    end
+
+    context "when a timer is already running on another work package" do
+      let!(:active_timer) { create(:time_entry, project:, entity: work_package_a, user:, ongoing: true) }
+
+      it "opens the running timer's work package from the stop modal" do
+        wp_view_b.visit!
+        timer_button.expect_visible
+        timer_button.start
+
+        expect(page).to have_css(".op-timer-stop-modal")
+        click_link "##{work_package_a.id}: WP A"
+
+        expect(page).to have_current_path(%r{/work_packages/#{work_package_a.id}(/|\?|$)})
       end
     end
 

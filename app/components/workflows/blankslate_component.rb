@@ -32,11 +32,19 @@ module Workflows
   class BlankslateComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
 
-    def initialize(roles:, type:, tab:)
+    def initialize(context:)
       super
-      @roles = roles
-      @type = type
-      @tab = tab
+      @context = context
+    end
+
+    private
+
+    attr_reader :context
+
+    delegate :variant, :tab, :roles, :readonly?, to: :context
+
+    def description_key
+      readonly? ? "admin.workflows.blankslate.linked_description" : "admin.workflows.blankslate.description"
     end
   end
 end

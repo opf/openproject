@@ -31,6 +31,8 @@
 require "spec_helper"
 
 RSpec.describe "wiki pages", :js, :selenium, with_settings: { journal_aggregation_time_minutes: 0 } do
+  shared_let(:internal_provider) { create(:internal_wiki_provider) }
+
   let(:project) do
     create(:project, enabled_module_names: [:news])
   end
@@ -46,6 +48,7 @@ RSpec.describe "wiki pages", :js, :selenium, with_settings: { journal_aggregatio
                            edit_wiki_pages
                            view_wiki_edits
                            select_project_modules
+                           manage_wiki
                            edit_project])
   end
   let(:content_first_version) do
@@ -66,15 +69,13 @@ RSpec.describe "wiki pages", :js, :selenium, with_settings: { journal_aggregatio
   end
 
   it "adding, editing and history" do
-    visit project_settings_modules_path(project)
+    visit project_settings_wiki_path(project)
 
     expect(page).to have_no_css(".menu-sidebar .main-item-wrapper", text: "Wiki")
 
-    within "#content" do
-      check "Wiki"
+    page.find_test_selector("project-settings-enable-wiki").click
 
-      click_button "Save"
-    end
+    visit project_path(project)
 
     expect(page).to have_css(".wiki-menu--main-item", text: "Wiki", visible: :all)
 
@@ -82,7 +83,7 @@ RSpec.describe "wiki pages", :js, :selenium, with_settings: { journal_aggregatio
     visit project_wiki_path(project, "new page")
 
     find(".ck-content").base.send_keys(content_first_version)
-    click_button "Save"
+    click_button "Create"
 
     expect_and_dismiss_flash(message: "Successful creation.")
     expect(page).to have_test_selector("wiki-page-header-title", text: "New page")

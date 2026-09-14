@@ -40,6 +40,8 @@ RSpec.describe API::V3::WorkPackages::EagerLoading::Project do
   let!(:project) { create(:project) }
   let!(:parent_project) { create(:project) }
   let!(:child_project) { create(:project) }
+  let!(:unused_type) { create(:type) }
+  let!(:unused_project_type) { create(:project_type, project:, type: unused_type) }
 
   describe ".apply" do
     it "preloads the projects of the work packages, their parents and children" do
@@ -50,6 +52,10 @@ RSpec.describe API::V3::WorkPackages::EagerLoading::Project do
           .to be_loaded
 
         expect(w.project).to eql project
+        expect(w.project.association(:project_types)).to be_loaded
+        expect(w.project.project_types.map(&:type_id)).to contain_exactly(w.type_id, unused_type.id)
+        expect(w.project.project_types).to all(satisfy { |project_type| project_type.association(:variant).loaded? })
+        expect { w.project.type_variant(w.type) }.to have_a_query_limit(0)
 
         expect(w.parent.association(:project))
           .to be_loaded

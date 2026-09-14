@@ -8,15 +8,15 @@ Successful test suite runs are one requirement to see your changes merged.
 
 ## List failures
 
-A failing status will look like the following on your pull request. You may need to click *Show all checks* to expand all checks to see the details link.
+A failing status will look like the following on your pull request. You may need to click _Show all checks_ to expand all checks to see the details link.
 
 ![Exemplary failing github actions test suite](github-broken-tests-pr.png)
 
-Here you'll see that the *GitHub Actions* check has reported an error, which likely means that your pull request contains errors. It might also result from a [temporary error running the test suite](#tests-failing-on-github-actions-ci-and-passing-locally), or from a test that was broken in the `dev` branch.
+Here you'll see that the _GitHub Actions_ check has reported an error, which likely means that your pull request contains errors. It might also result from a [temporary error running the test suite](#tests-failing-on-github-actions-ci-and-passing-locally), or from a test that was broken in the `dev` branch.
 
-The test suite is [run in parallel](../running-tests-locally/#parallel-testing) to save time. The overall run time of the test suite is around *15 minutes* on GitHub.
+The test suite is [run in parallel](../running-tests-locally/#parallel-testing) to save time. The overall run time of the test suite is around _15 minutes_ on GitHub.
 
-Click on the Details link to see the individual *jobs* that GitHub executes.
+Click on the Details link to see the individual _jobs_ that GitHub executes.
 
 [Here's a link to an exemplary failed test run on GitHub](https://github.com/opf/openproject/pull/9355/checks?check_run_id=2730782867). In this case, one of the feature jobs has reported an error.
 
@@ -44,11 +44,11 @@ How to do this depends on the kind of job that failed.
 
 **Errors in the npm group**
 
-An error in the *npm* group means you likely have broken an existing Angular component spec or added an invalid new one. Please see the [Frontend tests](../running-tests-locally/#frontend-tests) section on how to run them.
+An error in the _npm_ group means you likely have broken an existing Angular component spec or added an invalid new one. Please see the [Frontend tests](../running-tests-locally/#frontend-tests) section on how to run them.
 
 **Errors in the units group**
 
-An error in the *units* group means there is a failing ruby unit test. Please see the [Unit tests](../running-tests-locally/#unit-tests) section on how to run these.
+An error in the _units_ group means there is a failing ruby unit test. Please see the [Unit tests](../running-tests-locally/#unit-tests) section on how to run these.
 
 **Errors in the features group**
 

@@ -7,14 +7,14 @@ hy:
     common:
       document_types:
         item_0:
-          name: Note
+          name: Նշում
         item_1:
-          name: Idea
+          name: Գաղափար
         item_2:
-          name: Proposal
+          name: Առաջարկ
         item_3:
-          name: Specification
+          name: Բնութագիր
         item_4:
-          name: Report
+          name: Հաշվետվություն
         item_5:
-          name: Documentation
+          name: Փաստաթղթավորում

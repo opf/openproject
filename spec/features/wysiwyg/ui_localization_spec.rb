@@ -32,7 +32,7 @@ require "spec_helper"
 
 RSpec.describe "WYSIWYG UI localization", :js do
   let(:user) { create(:admin, language:) }
-  let(:project) { create(:project, enabled_module_names: %w[wiki]) }
+  let(:project) { create(:project, :with_internal_wiki) }
   let(:editor) { Components::WysiwygEditor.new }
 
   let(:wiki_page) do

@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -73,13 +73,16 @@ export class WorkPackageEditFieldComponent extends SelectEditFieldComponent {
   protected fetchAllowedValueQuery(query?:string):Promise<CollectionResource> {
     if (this.name === 'parent') {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
-      return this.schema.allowedValues.$link.$fetch({ query }) as Promise<CollectionResource>;
+      return this.schema.allowedValues.$link.$fetch({
+        query,
+        sortBy: '[["exactMatch","desc"],["updatedAt","desc"]]',
+      }) as Promise<CollectionResource>;
     }
 
     return super.fetchAllowedValueQuery(query);
   }
 
-  protected allowedValuesFilter(query?:string):{} {
+  protected allowedValuesFilter(query?:string):Record<string, unknown> {
     let filterParams = super.allowedValuesFilter(query);
 
     if (query) {

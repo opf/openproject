@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -67,6 +67,7 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { PrincipalsResourceService } from 'core-app/core/state/principals/principals.service';
 import {
@@ -117,7 +118,6 @@ import {
 } from 'core-app/features/team-planner/team-planner/planner/background-events';
 import moment from 'moment-timezone';
 import allLocales from '@fullcalendar/core/locales-all';
-import { octiconElement } from 'core-app/shared/helpers/op-icon-builder';
 import {
   personIconData,
   toDOMString,
@@ -140,6 +140,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   private wpTableFilters = inject(WorkPackageViewFiltersService);
   private querySpace = inject(IsolatedQuerySpace);
   private currentProject = inject(CurrentProjectService);
+
+  private urlParams = inject(UrlParamsService);
   private I18n = inject(I18nService);
   readonly injector = inject(Injector);
   readonly calendar = inject(OpCalendarService);
@@ -729,9 +731,11 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   showDisabledText(workPackage:WorkPackageResource):{ text:string, orientation:'left'|'right' } {
     const dueDate = new Date(workPackage.dueDate).setHours(0, 0, 0, 0);
     const firstCalendarDay = this.ucCalendar.getApi().view.currentStart.setHours(0, 0, 0, 0);
+    const thirdCalendarDay = moment(firstCalendarDay).add(2, 'days').valueOf();
+
     return {
       text: this.calendarDrag.workPackageDisabledExplanation(workPackage),
-      orientation: dueDate === firstCalendarDay ? 'right' : 'left',
+      orientation: dueDate <= thirdCalendarDay ? 'right' : 'left',
     };
   }
 
@@ -810,7 +814,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     ['$event.detail.start', '$event.detail.end', '$event.detail.assignee'],
   )
   openNewSplitCreate(start:string, end:string, resourceHref:string, nonWorkingDays?:boolean):void {
-    const basePath = window.location.pathname.replace(/\/details\/.*$/, '');
+    const basePath = this.urlParams.basePathWithoutDetails();
     const search = new URLSearchParams(window.location.search);
     search.set('startDate', start);
     search.set('dueDate', end);

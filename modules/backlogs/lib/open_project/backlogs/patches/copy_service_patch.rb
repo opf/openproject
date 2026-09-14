@@ -33,12 +33,23 @@ module OpenProject::Backlogs::Patches::CopyServicePatch
 
   included do
     prepend InstanceMethods
+    singleton_class.prepend ClassMethods
+  end
+
+  module ClassMethods
+    def copy_dependencies
+      # Sprints and backlog buckets must precede the `WorkPackagesDependentService`
+      # so their id maps are ready when the work packages are copied and their
+      # sprint/bucket ids remapped.
+      [::Projects::Copy::SprintsDependentService,
+       ::Projects::Copy::BacklogBucketsDependentService] + super
+    end
   end
 
   module InstanceMethods
     def clean_settings_attributes!(settings)
       # There can be only one project sharing with all projects.
-      if settings["sprint_sharing"] == Projects::SprintSharing::SHARE_ALL_PROJECTS ||
+      if settings["sprint_sharing"] == Projects::SprintSettings::SHARE_ALL_PROJECTS ||
          !EnterpriseToken.allows_to?(:sprint_sharing)
         settings.delete("sprint_sharing")
       end

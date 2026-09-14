@@ -54,115 +54,87 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
   subject { representer.to_json }
 
-  describe "overallCosts" do
-    context "has the permissions" do
+  shared_examples_for "a cost schema property" do |json_path|
+    context "with costs enabled and a cost type available" do
       before do
-        allow(project)
-          .to receive(:costs_enabled?)
-          .and_return(true)
+        allow(project).to receive_messages(costs_enabled?: true, cost_types_available?: true)
       end
 
       it_behaves_like "has basic schema properties" do
-        let(:path) { "overallCosts" }
-        let(:type) { "String" }
-        let(:name) { I18n.t("activerecord.attributes.work_package.overall_costs") }
-        let(:required) { false }
-        let(:writable) { false }
+        let(:path) { json_path }
       end
     end
 
-    context "lacks the permissions" do
+    context "when costs are disabled" do
       before do
-        allow(project)
-          .to receive(:costs_enabled?)
-          .and_return(false)
+        allow(project).to receive_messages(costs_enabled?: false, cost_types_available?: true)
       end
 
-      it { is_expected.not_to have_json_path("overallCosts") }
+      it { is_expected.not_to have_json_path(json_path) }
     end
+  end
+
+  shared_examples_for "hidden without a cost type" do |json_path|
+    context "when no cost type is available" do
+      before do
+        allow(project).to receive_messages(costs_enabled?: true, cost_types_available?: false)
+      end
+
+      it { is_expected.not_to have_json_path(json_path) }
+    end
+  end
+
+  shared_examples_for "shown without a cost type" do |json_path|
+    context "when no cost type is available" do
+      before do
+        allow(project).to receive_messages(costs_enabled?: true, cost_types_available?: false)
+      end
+
+      it { is_expected.to have_json_path(json_path) }
+    end
+  end
+
+  describe "overallCosts" do
+    it_behaves_like "a cost schema property", "overallCosts" do
+      let(:type) { "String" }
+      let(:name) { I18n.t("activerecord.attributes.work_package.overall_costs") }
+      let(:required) { false }
+      let(:writable) { false }
+    end
+
+    it_behaves_like "hidden without a cost type", "overallCosts"
   end
 
   describe "laborCosts" do
-    context "has the permissions" do
-      before do
-        allow(project)
-          .to receive(:costs_enabled?)
-          .and_return(true)
-      end
-
-      it_behaves_like "has basic schema properties" do
-        let(:path) { "laborCosts" }
-        let(:type) { "String" }
-        let(:name) { I18n.t("activerecord.attributes.work_package.labor_costs") }
-        let(:required) { false }
-        let(:writable) { false }
-      end
+    it_behaves_like "a cost schema property", "laborCosts" do
+      let(:type) { "String" }
+      let(:name) { I18n.t("activerecord.attributes.work_package.labor_costs") }
+      let(:required) { false }
+      let(:writable) { false }
     end
 
-    context "lacks the permissions" do
-      before do
-        allow(project)
-          .to receive(:costs_enabled?)
-          .and_return(false)
-      end
-
-      it { is_expected.not_to have_json_path("laborCosts") }
-    end
+    it_behaves_like "shown without a cost type", "laborCosts"
   end
 
   describe "materialCosts" do
-    context "has the permissions" do
-      before do
-        allow(project)
-          .to receive(:costs_enabled?)
-          .and_return(true)
-      end
-
-      it_behaves_like "has basic schema properties" do
-        let(:path) { "materialCosts" }
-        let(:type) { "String" }
-        let(:name) { I18n.t("activerecord.attributes.work_package.material_costs") }
-        let(:required) { false }
-        let(:writable) { false }
-      end
+    it_behaves_like "a cost schema property", "materialCosts" do
+      let(:type) { "String" }
+      let(:name) { I18n.t("activerecord.attributes.work_package.material_costs") }
+      let(:required) { false }
+      let(:writable) { false }
     end
 
-    context "lacks the permissions" do
-      before do
-        allow(project)
-          .to receive(:costs_enabled?)
-          .and_return(false)
-      end
-
-      it { is_expected.not_to have_json_path("materialCosts") }
-    end
+    it_behaves_like "hidden without a cost type", "materialCosts"
   end
 
   describe "costsByType" do
-    context "has the permissions" do
-      before do
-        allow(project)
-          .to receive(:costs_enabled?)
-          .and_return(true)
-      end
-
-      it_behaves_like "has basic schema properties" do
-        let(:path) { "costsByType" }
-        let(:type) { "Collection" }
-        let(:name) { I18n.t("activerecord.attributes.work_package.spent_units") }
-        let(:required) { false }
-        let(:writable) { false }
-      end
+    it_behaves_like "a cost schema property", "costsByType" do
+      let(:type) { "Collection" }
+      let(:name) { I18n.t("activerecord.attributes.work_package.spent_units") }
+      let(:required) { false }
+      let(:writable) { false }
     end
 
-    context "lacks the permissions" do
-      before do
-        allow(project)
-          .to receive(:costs_enabled?)
-          .and_return(false)
-      end
-
-      it { is_expected.not_to have_json_path("costsByType") }
-    end
+    it_behaves_like "hidden without a cost type", "costsByType"
   end
 end

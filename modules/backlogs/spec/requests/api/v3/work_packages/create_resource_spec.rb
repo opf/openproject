@@ -36,7 +36,7 @@ RSpec.describe "API v3 Work package resource",
   include API::V3::Utilities::PathHelper
 
   shared_let(:project) { create(:project, public: false) }
-  shared_let(:type) { project.types.first }
+  shared_let(:type) { project.enabled_types.first }
   shared_let(:status) { create(:status, is_default: true) }
   shared_let(:priority) { create(:priority, is_default: true) }
   shared_let(:sprint) { create(:sprint, project:) }

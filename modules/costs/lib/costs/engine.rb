@@ -38,7 +38,8 @@ module Costs
       project_module :costs do
         permission :view_time_entries,
                    {},
-                   permissible_on: :project
+                   permissible_on: :project,
+                   contract_actions: { time_entries: %i[read] }
         permission :view_own_time_entries,
                    {},
                    permissible_on: %i[work_package project],
@@ -54,7 +55,8 @@ module Costs
                    {},
                    permissible_on: :project,
                    require: :loggedin,
-                   dependencies: :view_time_entries
+                   dependencies: :view_time_entries,
+                   contract_actions: { time_entries: %i[create] }
 
         permission :edit_own_time_entries,
                    {},
@@ -64,7 +66,8 @@ module Costs
         permission :edit_time_entries,
                    {},
                    permissible_on: :project,
-                   require: :member
+                   require: :member,
+                   contract_actions: { time_entries: %i[edit destroy] }
 
         permission :manage_project_activities,
                    {
@@ -119,7 +122,7 @@ module Costs
       # Menu extensions
       menu :admin_menu,
            :admin_costs,
-           { controller: "/admin/costs_settings", action: :show },
+           { controller: "/admin/time_settings", action: :show },
            if: Proc.new { User.current.admin? },
            caption: :project_module_costs,
            after: :enterprise,
@@ -127,9 +130,9 @@ module Costs
 
       menu :admin_menu,
            :costs_settings,
-           { controller: "/admin/costs_settings", action: :show },
+           { controller: "/admin/time_settings", action: :show },
            if: Proc.new { User.current.admin? },
-           caption: :label_defaults,
+           caption: :label_defaults_and_limits,
            parent: :admin_costs
 
       menu :admin_menu,
@@ -173,6 +176,12 @@ module Costs
       ::Settings::Definition.add "costs_currency_format", default: "%n %u", format: :string, allowed: ["%u %n", "%n %u"]
       ::Settings::Definition.add "allow_tracking_start_and_end_times", default: false, format: :boolean
       ::Settings::Definition.add "enforce_tracking_start_and_end_times", default: false, format: :boolean
+      ::Settings::Definition.add "time_entries_max_hours_per_entry", default: 0, format: :integer, allowed: (0..)
+      ::Settings::Definition.add "time_entries_max_hours_per_day", default: 0, format: :integer, allowed: (0..)
+      ::Settings::Definition.add "time_entries_prohibit_logging_on_non_working_days", default: false, format: :boolean
+      ::Settings::Definition.add "time_entries_limit_to_user_working_hours", default: false, format: :boolean
+      ::Settings::Definition.add "time_entries_prohibit_logging_for_past_months", default: false, format: :boolean
+      ::Settings::Definition.add "time_entries_past_month_grace_days", default: 0, format: :integer, allowed: (0..)
     end
 
     activity_provider :time_entries, class_name: "Activities::TimeEntryActivityProvider", default: false
@@ -241,12 +250,11 @@ module Costs
            } do
         next unless represented.persisted? && represented.project&.costs_enabled?
 
+        filters = ::CostReports::CompactFilters.new(operators: { "work_package_id" => "=" },
+                                                    values: { "work_package_id" => [represented.id] })
+
         {
-          href: cost_reports_path(represented.project_id,
-                                  "fields[]": "WorkPackageId",
-                                  "operators[WorkPackageId]": "=",
-                                  "values[WorkPackageId]": represented.id,
-                                  set_filter: 1),
+          href: project_reporting_cost_reports_path(represented.project_id, **filters.to_params),
           type: "text/html",
           title: "Show cost entries"
         }
@@ -301,31 +309,39 @@ module Costs
     end
 
     extend_api_response(:v3, :work_packages, :schema, :work_package_schema) do
+      costs_visible = ->(*) { represented.project&.costs_enabled? }
+
+      # Unit costs (and the overall total) require an available cost type.
+      # instance_exec keeps `represented` bound to the decorator.
+      unit_costs_visible = ->(*) {
+        instance_exec(&costs_visible) && represented.project.cost_types_available?
+      }
+
       # N.B. in the long term we should have a type like "Currency", but that requires a proper
       # format and not a string like "10 EUR"
       schema :overall_costs,
              type: "String",
              required: false,
              writable: false,
-             show_if: ->(*) { represented.project && represented.project.costs_enabled? }
+             show_if: unit_costs_visible
 
       schema :labor_costs,
              type: "String",
              required: false,
              writable: false,
-             show_if: ->(*) { represented.project && represented.project.costs_enabled? }
+             show_if: costs_visible
 
       schema :material_costs,
              type: "String",
              required: false,
              writable: false,
-             show_if: ->(*) { represented.project && represented.project.costs_enabled? }
+             show_if: unit_costs_visible
 
       schema :costs_by_type,
              type: "Collection",
              name_source: :spent_units,
              required: false,
-             show_if: ->(*) { represented.project && represented.project.costs_enabled? },
+             show_if: unit_costs_visible,
              writable: false
     end
 
@@ -339,15 +355,22 @@ module Costs
       ##
       # Add a new group
       cost_attributes = %i(costs_by_type labor_costs material_costs overall_costs)
-      ::Type.add_default_group(:costs, :label_cost_plural)
-      ::Type.add_default_mapping(:costs, *cost_attributes)
+      ::TypeVariant.add_default_group(:costs, :label_cost_plural)
+      ::TypeVariant.add_default_mapping(:costs, *cost_attributes)
 
-      constraint = ->(_type, project: nil) {
+      # Unit costs (and the overall total they feed into) are meaningless without a
+      # cost type, so they are hidden when none is available in the project.
+      unit_costs_constraint = ->(_type, project: nil) {
+        project.nil? || (project.costs_enabled? && project.cost_types_available?)
+      }
+      # Labor costs come from time entries and stay visible regardless.
+      costs_constraint = ->(_type, project: nil) {
         project.nil? || project.costs_enabled?
       }
 
-      cost_attributes.each do |attribute|
-        ::Type.add_constraint attribute, constraint
+      ::TypeVariant.add_constraint :labor_costs, costs_constraint
+      %i(costs_by_type material_costs overall_costs).each do |attribute|
+        ::TypeVariant.add_constraint attribute, unit_costs_constraint
       end
 
       ::Queries::Register.register(::Query) do
@@ -357,6 +380,11 @@ module Costs
       ::Queries::Register.register(::ProjectQuery) do
         filter ::Queries::Projects::Filters::AvailableCostTypesProjectsFilter
       end
+
+      McpTools.register McpTools::CreateTimeEntry,
+                        McpTools::DeleteTimeEntry,
+                        McpTools::SearchTimeEntries,
+                        McpTools::UpdateTimeEntry
     end
   end
 end

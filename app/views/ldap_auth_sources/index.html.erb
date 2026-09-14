@@ -50,7 +50,7 @@ See COPYRIGHT and LICENSE files for more details.
       test_selector: "op-admin-ldap-connection--button-new",
       href: new_ldap_auth_source_path
     ) do
-      t(:label_ldap_auth_source)
+      LdapAuthSource.model_name.human
     end
   end
 %>

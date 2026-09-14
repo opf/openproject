@@ -57,8 +57,18 @@ module WorkPackage::Exports
       query
         .results
         .work_packages
+        .includes(column_associations)
         .page(page)
         .per_page(Setting.work_packages_projects_export_limit.to_i)
+    end
+
+    # Preload only names that are real associations so that a column whose
+    # association metadata does not match one falls back to lazy loading
+    # instead of raising.
+    def column_associations
+      candidates = column_objects.flat_map { [it.association, it.name] }
+
+      candidates.compact.map(&:to_sym).uniq & WorkPackage.reflections.keys.map(&:to_sym)
     end
   end
 end

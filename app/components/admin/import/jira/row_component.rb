@@ -49,5 +49,35 @@ module Admin::Import::Jira
     def added
       helpers.format_date(model.created_at)
     end
+
+    def server_url
+      model.url
+    end
+
+    def button_links
+      [
+        action_menu
+      ]
+    end
+
+    def action_menu
+      render(Primer::Alpha::ActionMenu.new) do |menu|
+        menu.with_show_button(
+          scheme: :invisible,
+          size: :small,
+          icon: :"kebab-horizontal",
+          "aria-label": t(:button_actions),
+          tooltip_direction: :w
+        )
+        menu.with_item(scheme: :default, label: I18n.t(:"admin.jira.actions.button_open"),
+                       content_arguments: { tag: :a, href: admin_import_jira_path(model) }) do |item|
+          item.with_leading_visual_icon(icon: :sliders)
+        end
+        menu.with_item(scheme: :default, label: I18n.t(:"admin.jira.actions.button_edit"),
+                       content_arguments: { tag: :a, href: edit_admin_import_jira_path(model) }) do |item|
+          item.with_leading_visual_icon(icon: :pencil)
+        end
+      end
+    end
   end
 end

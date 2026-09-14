@@ -208,7 +208,7 @@ module Storages
             private
 
             def build_failure(code:, payload: nil)
-              error = Results::Error.new(code:, payload:, source: self)
+              error = SimpleError.new(code:, payload:, source: self)
               Failure(error)
             end
           end

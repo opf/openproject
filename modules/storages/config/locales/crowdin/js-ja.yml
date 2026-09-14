@@ -1,67 +1,21 @@
-#English strings go here
 ---
 ja:
   js:
     storages:
       authentication_error: "%{storageType} での認証に失敗しました"
-      link_files_in_storage: "%{storageType}のファイルをリンクする"
-      link_existing_files: 既存のファイルをリンクする
-      upload_files: ログファイル
+      choose_location: 場所を選ぶ
       drop_files: ここにファイルをドロップして、 %{name} にアップロードします。
       drop_or_click_files: ここにファイルをドロップするか、クリックして %{name} にアップロードします。
-      login: "%{storageType} ログイン"
-      login_to: "%{storageType}にログイン"
-      no_connection: "%{storageType} 接続なし"
-      open_storage: "%{storageType} を開く"
-      select_location: 場所を選択
-      choose_location: 場所を選ぶ
-      new_folder: 新しいフォルダ
-      types:
-        nextcloud: ネクストクラウド
-        one_drive: ワンドライブ
-        sharepoint: シェアポイント
-        default: ストレージ
-      information:
-        authentication_error: "%{storageType} へのリクエストを認証できませんでした。これはエラーです。"
-        connection_error: "%{storageType} の設定が一部機能していません。 %{storageType} 管理者にお問い合わせください。\n"
-        live_data_error: ファイル詳細の取得エラー
-        live_data_error_description: '一部の %{storageType} データを取得できませんでした。このページを再読み込みするか、 %{storageType} 管理者にお問い合わせください。
-
-          '
-        no_file_links: このワークパッケージにファイルをリンクするには、 %{storageType}を使用してください。
-        not_logged_in: 'このワークパッケージに関連するリンクを追加、参照、またはファイルをアップロードするには、 %{storageType}にログインしてください。
-
-          '
-        suggest_logout: ログアウトしてログインし直すと、この問題が解決するかどうか試してみてください。
-        suggest_relink: 以下のログインボタンからアカウントを再リンクすると、この問題が解決するかどうか試してみてください。
-      files:
-        already_existing_header: このファイルは既に存在します
-        already_existing_body: 'このファイルをアップロードしようとしている場所に、"%{fileName}"という名前のファイルがすでに存在します。どうしますか？
-
-          '
-        directory_not_writeable: このフォルダにファイルを追加する権限がありません。
-        dragging_many_files: "%{storageType} へのアップロードは、一度に1つのファイルしかサポートしない。"
-        dragging_folder: "%{storageType} へのアップロードはフォルダをサポートしていません。"
-        empty_folder: このフォルダは空です。
-        empty_folder_location_hint: 下のボタンをクリックして、この場所にファイルをアップロードしてください。
-        file_not_selectable_location: ファイルを選択することは、場所を選択する過程ではできません。
-        project_folder_no_access: 'プロジェクトフォルダにアクセスできません。管理者に連絡してアクセス権を取得するか、別の場所にファイルをアップロードしてください。
-
-          '
-        managed_project_folder_not_available: '自動管理されているプロジェクトフォルダが見つかりません。少し待って、ページを再読み込みして最新のデータを取得してから、もう一度お試しください。
-
-          '
-        managed_project_folder_no_access: '管理されているプロジェクトフォルダにまだアクセスできません。少し待ってからもう一度試してください。
-
-          '
-        cannot_create_folder: フォルダの作成に失敗しました。特殊文字や記号の使用を避け、フォルダが既に存在しないことを確認してください。
-        upload_keep_both: 両方を維持する
-        upload_replace: 置き換え
       file_links:
+        already_linked_directory: このディレクトリはすでにこのワークパッケージにリンクされている。
+        already_linked_file: このファイルはすでにこのワークパッケージにリンクされている。
+        download: ダウンロード %{fileName}
         empty: '現在、このワークパッケージにリンクされたファイルはありません。以下のアクションまたは %{storageType}内からファイルのリンクを開始する。
 
           '
-        download: ダウンロード %{fileName}
+        link_uploaded_file_error: '最近アップロードされたファイル ''%{fileName}'' をワークパッケージ %{workPackageId} にリンクしてエラーが発生しました。
+
+          '
         open: ストレージ上のファイルを開く
         open_location: ファイルを開く
         remove: ファイルリンクの削除
@@ -76,10 +30,11 @@ ja:
           other: リンク %{count} ファイル
         success_create:
           other: Successfully created %{count} file links.
+        tooltip:
+          not_found: このファイルは見つかりません。
+          not_logged_in: このファイルにアクセスするには、ストレージにログインしてください。
+          view_not_allowed: このファイルを閲覧する権限がありません。
         upload_error:
-          default: 'ファイル(%{fileName})がアップロードできませんでした。
-
-            '
           403: 'あなたのファイル(%{fileName})はシステムの制限によりアップロードできませんでした。管理者にお問い合わせください。
 
             '
@@ -89,16 +44,60 @@ ja:
           507: 'ファイル (%{fileName}) の容量がストレージ・クォータの許容量を超えています。管理者に連絡して、このクォータを変更してください。
 
             '
+          default: 'ファイル(%{fileName})がアップロードできませんでした。
+
+            '
           detail:
             nextcloud: 'Nextcloudアプリ「OpenProject統合」の最新バージョンがインストールされていることを確認し、詳細については管理者にお問い合わせください。
 
               '
-        link_uploaded_file_error: '最近アップロードされたファイル ''%{fileName}'' をワークパッケージ %{workPackageId} にリンクしてエラーが発生しました。
+      files:
+        already_existing_body: 'このファイルをアップロードしようとしている場所に、"%{fileName}"という名前のファイルがすでに存在します。どうしますか？
 
           '
-        tooltip:
-          not_logged_in: このファイルにアクセスするには、ストレージにログインしてください。
-          view_not_allowed: このファイルを閲覧する権限がありません。
-          not_found: このファイルは見つかりません。
-        already_linked_file: このファイルはすでにこのワークパッケージにリンクされている。
-        already_linked_directory: このディレクトリはすでにこのワークパッケージにリンクされている。
+        already_existing_header: このファイルは既に存在します
+        cannot_create_folder: フォルダの作成に失敗しました。特殊文字や記号の使用を避け、フォルダが既に存在しないことを確認してください。
+        directory_not_writeable: このフォルダにファイルを追加する権限がありません。
+        dragging_folder: "%{storageType} へのアップロードはフォルダをサポートしていません。"
+        dragging_many_files: "%{storageType} へのアップロードは、一度に1つのファイルしかサポートしない。"
+        empty_folder: このフォルダは空です。
+        empty_folder_location_hint: 下のボタンをクリックして、この場所にファイルをアップロードしてください。
+        file_not_selectable_location: ファイルを選択することは、場所を選択する過程ではできません。
+        managed_project_folder_no_access: '管理されているプロジェクトフォルダにまだアクセスできません。少し待ってからもう一度試してください。
+
+          '
+        managed_project_folder_not_available: '自動管理されているプロジェクトフォルダが見つかりません。少し待って、ページを再読み込みして最新のデータを取得してから、もう一度お試しください。
+
+          '
+        project_folder_no_access: 'プロジェクトフォルダにアクセスできません。管理者に連絡してアクセス権を取得するか、別の場所にファイルをアップロードしてください。
+
+          '
+        upload_keep_both: 両方を維持する
+        upload_replace: 置き換え
+      information:
+        authentication_error: "%{storageType} へのリクエストを認証できませんでした。これはエラーです。"
+        connection_error: "%{storageType} の設定が一部機能していません。 %{storageType} 管理者にお問い合わせください。\n"
+        live_data_error: ファイル詳細の取得エラー
+        live_data_error_description: '一部の %{storageType} データを取得できませんでした。このページを再読み込みするか、 %{storageType} 管理者にお問い合わせください。
+
+          '
+        no_file_links: このワークパッケージにファイルをリンクするには、 %{storageType}を使用してください。
+        not_logged_in: 'このワークパッケージに関連するリンクを追加、参照、またはファイルをアップロードするには、 %{storageType}にログインしてください。
+
+          '
+        suggest_logout: ログアウトしてログインし直すと、この問題が解決するかどうか試してみてください。
+        suggest_relink: 以下のログインボタンからアカウントを再リンクすると、この問題が解決するかどうか試してみてください。
+      link_existing_files: 既存のファイルをリンクする
+      link_files_in_storage: "%{storageType}のファイルをリンクする"
+      login: "%{storageType} ログイン"
+      login_to: "%{storageType}にログイン"
+      new_folder: 新しいフォルダ
+      no_connection: "%{storageType} 接続なし"
+      open_storage: "%{storageType} を開く"
+      select_location: 場所を選択
+      types:
+        default: ストレージ
+        nextcloud: ネクストクラウド
+        one_drive: ワンドライブ
+        sharepoint: シェアポイント
+      upload_files: ログファイル

@@ -35,21 +35,25 @@ module WorkPackageTypes
     def instance_class = Type
 
     def validate_params
-      # Only set attribute groups when it exists (Regression #28400)
-      if params[:attribute_groups]
+      # Only set attribute groups when it exists (Regression #28400). An empty one is a reset
+      # rather than nothing to do, so ask whether a value was given at all.
+      form_configuration_changed = !params[:attribute_groups].nil?
+
+      if form_configuration_changed
         result = set_attribute_groups(params)
         return result if result.failure?
       end
 
-      set_active_custom_fields
-      set_active_custom_fields_for_project_ids(params[:project_ids]) if params[:project_ids].present?
+      # Only a configuration has a form to keep in sync, and only the form says which custom
+      # fields are active. Renaming a variant or saving its defaults says nothing about either.
+      set_active_custom_fields if form_configuration_changed && model.is_a?(TypeVariant)
 
       super
     end
 
     private
 
-    def default_contract_class = UpdateSettingsContract
+    def default_contract_class = UpdateDetailsContract
 
     def set_attribute_groups(params)
       normalize_result = normalize_attribute_groups_param(params[:attribute_groups])
@@ -109,20 +113,6 @@ module WorkPackageTypes
                                       attr.delete_prefix("custom_field_").to_i
                                     end
                                   end.uniq
-    end
-
-    def set_active_custom_fields_for_project_ids(project_ids)
-      new_project_ids_to_activate_cfs = project_ids.reject(&:empty?).map(&:to_i) - model.project_ids
-
-      values = Project
-                 .where(id: new_project_ids_to_activate_cfs)
-                 .to_a
-                 .product(model.custom_field_ids)
-                 .map { |p, cf_ids| { project_id: p.id, custom_field_id: cf_ids } }
-
-      return if values.empty?
-
-      CustomFieldsProject.insert_all(values)
     end
   end
 end

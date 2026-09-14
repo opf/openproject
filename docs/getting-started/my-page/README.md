@@ -20,15 +20,13 @@ The My page is your **personal dashboard** with important overarching project in
 
 My page is your personal dashboard where you can display important information of your projects. This personal dashboard contains information from all your projects. **My page** can be configured according to your preferences. You can include project information, for example the latest news, work packages assigned to you or reported work packages.
 
-You can open your **My page** by clicking on your user avatar in the upper right corner and then selecting **My page** from the overlay menu. Alternatively, you can select *My Page* by clicking the respective option in the menu on the left. 
+You can open your **My page** by clicking on your user avatar in the upper right corner and then selecting **My page** from the overlay menu. Alternatively, you can select _My Page_ by clicking the respective option in the menu on the left. 
 
 ![Navigate to My page in OpenProject](openproject_getting_started_my_page_navigate.png)
 
-You can also click the grid icon in the top left corner and select the *My page* option from the menu that will open.
+You can also click the grid icon in the top left corner and select the _My page_ option from the menu that will open.
 
 ![Grid icon in the top left corner of OpenProject head navigation](openproject_getting_started_my_page_grid_icon.png)
-
-
 
 ![An overlay menu showing global modules and further options in the head navigation in OpenProject](openproject_getting_started_my_page_grid_icon_menu_opened.png)
 

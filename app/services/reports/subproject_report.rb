@@ -46,6 +46,6 @@ class Reports::SubprojectReport < Reports::Report
   end
 
   def title
-    I18n.t(:label_subproject_plural)
+    I18n.t(:label_subproject)
   end
 end

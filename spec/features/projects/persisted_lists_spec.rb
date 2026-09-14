@@ -163,6 +163,16 @@ RSpec.describe "Persisted lists on projects index page",
         projects_page.open_filters
         projects_page.expect_filter_set "active"
       end
+
+      it "keeps the archived filter when searching by name (regression #SPPM-292)" do
+        click_button accessible_name: "Project name filter"
+        projects_page.filter_by_name_and_identifier("project")
+
+        projects_page.expect_projects_listed(archived_project, archived: true)
+        projects_page.expect_projects_not_listed(public_project, project, development_project)
+
+        projects_page.expect_no_sidebar_filter_selected
+      end
     end
 
     context 'with the "On track" filter' do

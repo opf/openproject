@@ -49,8 +49,16 @@ module Projects
           @enabled_cost_type_ids ||= ::CostTypesProject.where(project_id: project.id).pluck(:cost_type_id).to_set
         end
 
+        def in_use_cost_type_ids
+          @in_use_cost_type_ids ||= ::CostEntry.where(project_id: project.id).distinct.pluck(:cost_type_id).to_set
+        end
+
         def enabled?(cost_type)
           enabled_cost_type_ids.include?(cost_type.id)
+        end
+
+        def in_use?(cost_type)
+          in_use_cost_type_ids.include?(cost_type.id)
         end
 
         def toggle_path(cost_type)
@@ -61,8 +69,18 @@ module Projects
           cost_type.for_all_projects? || enabled?(cost_type)
         end
 
+        # A cost type is locked either because it applies to all projects, or because
+        # costs have already been logged for it and disabling it would hide them.
         def toggle_disabled?(cost_type)
-          cost_type.for_all_projects?
+          cost_type.for_all_projects? || in_use?(cost_type)
+        end
+
+        def disabled_hint(cost_type)
+          if cost_type.for_all_projects?
+            I18n.t("cost_types.settings.cost_types.for_all_projects_hint")
+          else
+            I18n.t("cost_types.settings.cost_types.in_use_hint")
+          end
         end
 
         def toggle_data_attributes(cost_type)

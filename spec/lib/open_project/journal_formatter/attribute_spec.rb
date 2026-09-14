@@ -55,5 +55,20 @@ RSpec.describe JournalFormatter::Attribute do
                         new: new_value))
       end
     end
+
+    context "when deleting a value without a displayable old value" do
+      let(:old_value) { nil }
+      let(:new_value) { nil }
+
+      it "renders as deleted without empty details" do
+        expect(instance.render("name", [old_value, new_value]))
+          .to eq(I18n.t(:text_journal_deleted_no_detail,
+                        label: "<strong>Name</strong>"))
+
+        expect(instance.render("name", [old_value, new_value], html: false))
+          .to eq(I18n.t(:text_journal_deleted_no_detail,
+                        label: "Name"))
+      end
+    end
   end
 end

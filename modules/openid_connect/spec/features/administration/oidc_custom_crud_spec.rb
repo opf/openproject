@@ -130,7 +130,7 @@ RSpec.describe "OIDC administration CRUD",
 
       click_link_or_button "Delete"
 
-      check "I understand that this deletion cannot be reversed"
+      check "I understand that this deletion cannot be reversed."
       click_on "Delete permanently"
 
       expect(page).to have_text "No OpenID providers configured yet."

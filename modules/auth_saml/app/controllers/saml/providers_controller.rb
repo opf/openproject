@@ -22,7 +22,7 @@ module Saml
         format.turbo_stream do
           update_view_component(view_mode: :edit, new_mode: @new_mode, edit_state: @edit_state)
           scroll_into_view_via_turbo_stream("saml-providers-edit-form", behavior: :instant)
-          render turbo_stream: turbo_streams
+          render turbo_stream: resolve_turbo_streams
         end
         format.html
       end
@@ -113,7 +113,7 @@ module Saml
       respond_to do |format|
         format.turbo_stream do
           update_view_component(new_mode: @new_mode, edit_state: @next_edit_state, view_mode: :show)
-          render turbo_stream: turbo_streams
+          render turbo_stream: resolve_turbo_streams
         end
         format.html do
           if @next_edit_state

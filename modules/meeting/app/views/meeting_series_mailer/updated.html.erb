@@ -40,7 +40,7 @@ See COPYRIGHT and LICENSE files for more details.
       <%= placeholder_cell("24px", vertical: true) %>
       <td>
         <table>
-          <% if @changes[:old_schedule] != @series.full_schedule_in_words %>
+          <% if @changes[:old_schedule].present? && @changes[:old_schedule] != @series.full_schedule_in_words %>
           <tr>
             <td style="<%= placeholder_text_styles(width: "30%") %>">
               <%= t("meeting.email.series_updated.old_schedule") %>:
@@ -70,8 +70,9 @@ See COPYRIGHT and LICENSE files for more details.
             </tr>
           <% end %>
 
-          <% if @changes[:old_location].present? || @series.location.present? %>
-            <% if @changes[:old_location] != @series.location %>
+          <% current_location = @series.location.presence || @series.template&.location %>
+          <% if @changes[:old_location].present? || current_location.present? %>
+            <% if @changes[:old_location] != current_location %>
               <tr>
                 <td style="<%= placeholder_text_styles(width: "30%") %>">
                   <%= t("meeting.email.updated.old_location") %>
@@ -87,7 +88,7 @@ See COPYRIGHT and LICENSE files for more details.
                   <%= t("meeting.email.updated.new_location") %>
                 </td>
                 <td style="<%= placeholder_text_styles(color: "#1f2328", "font-weight": "bold") %>">
-                  <%= @series.location.blank? ? "-" : (auto_link @series.location) %>
+                  <%= current_location.blank? ? "-" : (auto_link current_location) %>
                 </td>
               </tr>
             <% else %>
@@ -96,7 +97,7 @@ See COPYRIGHT and LICENSE files for more details.
                   <%= Meeting.human_attribute_name(:location) %>
                 </td>
                 <td style="<%= placeholder_text_styles %>">
-                  <%= auto_link @series.location %>
+                  <%= auto_link current_location %>
                 </td>
               </tr>
             <% end %>

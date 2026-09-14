@@ -41,7 +41,7 @@ RSpec.describe Backlogs::SprintsController do
     }
 
     it {
-      expect(get("/projects/project_42/backlogs/sprints/refresh_form")).to route_to(
+      expect(post("/projects/project_42/backlogs/sprints/refresh_form")).to route_to(
         controller: "backlogs/sprints",
         action: "refresh_form",
         project_id: "project_42"

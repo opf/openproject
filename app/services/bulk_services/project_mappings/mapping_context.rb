@@ -35,18 +35,21 @@ module BulkServices
       attr_reader :model,
                   :projects,
                   :model_foreign_key_id,
-                  :include_sub_projects
+                  :include_sub_projects,
+                  :include_archived
 
       def initialize(mapping_model_class:,
                      model:,
                      projects:,
                      model_foreign_key_id:,
-                     include_sub_projects: false)
+                     include_sub_projects: false,
+                     include_archived: false)
         super(mapping_model_class:)
         @model = model
         @projects = projects
         @model_foreign_key_id = model_foreign_key_id
         @include_sub_projects = include_sub_projects
+        @include_archived = include_archived
       end
 
       def mapping_attributes_for_all_projects(extra_attributes)
@@ -60,7 +63,7 @@ module BulkServices
 
       def incoming_projects
         projects.each_with_object(Set.new) do |project, projects_set|
-          next unless project.active?
+          next unless include_archived || project.active?
 
           projects_set << project
           projects_set.merge(project.active_subprojects.to_a) if include_sub_projects

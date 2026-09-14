@@ -33,7 +33,7 @@ RSpec.describe "BCF XML API v1 bcf_xml resource" do
   include Rack::Test::Methods
 
   let!(:status) { create(:status, name: "New", is_default: true) }
-  let!(:type) { create(:type, name: "Issue", is_standard: true, is_default: true) }
+  let!(:type) { create(:type, name: "Issue", default_variant_enabled_in_all_projects: true) }
   let!(:priority) { create(:issue_priority, name: "Mega high", is_default: true) }
   let!(:project) { create(:project, enabled_module_names: %w[bim work_package_tracking], types: [type]) }
 
@@ -157,7 +157,7 @@ RSpec.describe "BCF XML API v1 bcf_xml resource" do
 
       it "returns a status 415" do
         expect(subject.status).to be(415)
-        expect(subject.body).to match /BCF version is not supported/
+        expect(subject.body).to include("BCF version is not supported")
         expect(project.work_packages.count).to be(1)
       end
     end

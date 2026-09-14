@@ -17,10 +17,10 @@ We invite you to give product feedback, join usability tests, user interviews, s
 
 We always appreciate early feedback from the Community:
 
-* Invitations to research studies or surveys.
-* Early access to new features.
-* Help us to improve the user experience.
-* Influence which features OpenProject builds next.
+- Invitations to research studies or surveys.
+- Early access to new features.
+- Help us to improve the user experience.
+- Influence which features OpenProject builds next.
 
 No matter if you have been using OpenProject for years or just logged in this week, we want to hear from you. Everyone can contribute.
 

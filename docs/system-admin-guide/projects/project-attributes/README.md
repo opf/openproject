@@ -11,7 +11,7 @@ keywords: project attributes, create, project settings, attribute help text, hel
 Project attributes are custom fields shown on the [Project home](../../../user-guide/projects/project-home/) page. They allow you to communicate key information relevant to a project.
 
 > [!NOTE]
-> Prior to version 14.0, these were called "project custom fields" and described under the [Custom fields](../../custom-fields/custom-fields-projects/) page. Starting with 14.0, they are referred to as *project attributes*.
+> Prior to version 14.0, these were called "project custom fields" and described under the [Custom fields](../../custom-fields/#add-a-custom-field-to-one-or-multiple-projects) page. Starting with 14.0, they are referred to as _project attributes_.
 
 This page describes how instance administrators can create, order, and group project attributes, and assign them to projects. For instructions on editing project attribute values within a project, see the [Project home](../../../user-guide/projects/project-home/) page.
 
@@ -39,17 +39,18 @@ At least one section must exist before project attributes can be created.
 
 To add a section:
 
-1. Click **+ Add** in the top right corner.  
+1. Click **+ Add** in the top right corner.
 2. Select **Section**.
 
 ![Add a new section ](open_project_system_guide_project_attributes_new_section.png)
 
-Name the section and save it. 
+Name the section and save it.
 
-![Name a new project attribute section in OpenProject administration](open_project_system_admin_guide_project_attributes_new_section_name.png) 
+![Name a new project attribute section in OpenProject administration](open_project_system_admin_guide_project_attributes_new_section_name.png)
 
 Each section includes a location selector defining where it appears on the Project home page:
-- **Side panel** — Shows the section and its attributes in the right-hand panel.  
+
+- **Side panel** — Shows the section and its attributes in the right-hand panel.
 - **Main area** — Shows the section and its attributes as a widget in the central area.
 
 ![Select the position of project attribute section in OpenProject](open_project_system_guide_project_attribute_section_location_options.png)
@@ -62,14 +63,13 @@ Use the **More** menu on the right side of the section header to rename, delete,
 Attributes can be dragged between sections. Entire sections can be reordered via drag and drop. Use the drag and drop handle to the left of the section name.
 
 > [!TIP]
-> Attributes always appear in the section they are assigned to across *all* projects.
+> Attributes always appear in the section they are assigned to across _all_ projects.
 
 ![Edit project attribute sections in OpenProject administration](open_project_system_admin_guide_project_attributes_section_more_icon_menu.png)
 
-
 ## Create a project attribute
 
-To create a new project attribute, click on the **+ Add** button in the top right corner, select **Project attribute** and select the project attribute format from the list of available options. 
+To create a new project attribute, click on the **+ Add** button in the top right corner, select **Project attribute** and select the project attribute format from the list of available options.
 
 > [!IMPORTANT]
 > You cannot change the project attribute format once the project attribute is created.
@@ -78,7 +78,7 @@ You can pick from multiple [project attribute formats](#project-attribute-format
 
 ![Create a new project attribute type in OpenProject administration](open_project_system_admin_guide_project_attributes_add_button.png)
 
-This is an example of new project attribute with a format *List*. 
+This is an example of new project attribute with a format _List_.
 
 ![Create a new attribute form in OpenProject administration](open_project_system_guide_project_attributes_new_attribute.png)
 
@@ -96,7 +96,7 @@ This is an example of new project attribute with a format *List*.
 
   > [!IMPORTANT]
   >
-  > Project attributes of type **Boolean** and **Calculated value** can **NOT** be set to be required. 
+  > Project attributes of type **Boolean** and **Calculated value** can **NOT** be set to be required.
 
 - **For all projects**: Mark the attribute as available in all existing and new projects.
 
@@ -110,19 +110,19 @@ Once you create a project attribute, you can [enable it for specific projects](#
 
 There are multiple format options for project attributes in OpenProject. You can select one of the following formats:
 
-- **Boolean** - creates a project attribute, that is either true or false. It is represented by a checkbox that can be checked or unchecked. 
+- **Boolean** - creates a project attribute, that is either true or false. It is represented by a checkbox that can be checked or unchecked.
 - **Calculated value** (Enterprise add-on) - creates a project attribute that enables automatic computations based on formulas using numeric project attributes, for example from **Weighted item lists**.
 - **Date** - creates a project attribute, which allows selecting dates from a date picker.
 - **Float** - creates a project attribute for rational numbers.
-- **Hierarchy (Enterprise add-on)** -  creates a project attribute, which allows selecting one or multiple items from a hierarchical list structure. The structure can be created in the *Items* tab of the project attribute.
+- **Hierarchy (Enterprise add-on)** -  creates a project attribute, which allows selecting one or multiple items from a hierarchical list structure. The structure can be created in the _Items_ tab of the project attribute.
 - **Integer** - creates a project attribute for integers.
 - **Link (URL)** - creates a project attribute for URLs.
-- **List** - creates a project attribute with flat list options. 
+- **List** - creates a project attribute with flat list options.
 - **Text** - creates a project attribute in text format with the specified length restrictions.
 - **Long text** - creates a project attribute for cases where longer text needs to be entered.
 - **User** - creates a project attribute, which allows selecting users that are allowed to access the entity containing the project attribute.
-- **Version** - creates a project attribute, which allows selecting one or multiple versions. Versions are created on the project level in *Backlogs* module.
-- **Weighted item list (Enterprise add-on)** - creates a project attribute similar to the *Hierarchy* type, but with underlying numerical values used for project evaluation (e.g., **calculated values project attributes**. Please keep in mind that **weighted item lists** custom fields can't be used as multi-select.  
+- **Version** - creates a project attribute, which allows selecting one or multiple versions. Versions are created on the project level in _Backlogs_ module.
+- **Weighted item list (Enterprise add-on)** - creates a project attribute similar to the _Hierarchy_ type, but with underlying numerical values used for project evaluation (e.g., **calculated values project attributes**. Please keep in mind that **weighted item lists** custom fields can't be used as multi-select.
 
 ### Hierarchy project attribute (Enterprise add-on)
 
@@ -148,13 +148,100 @@ This numeric value is required and can be used in calculations — for example, 
 
 [feature: calculated_values ]
 
-**Calculated values** enable automatic computations based on formulas using numeric project attributes, including scores from Weighted item lists or even other calculated values. The computed result is displayed directly on the project overview and in the project list. It automatically updates whenever one of its source attributes (e.g., Benefit or Effort in the example below) is changed. This allows teams to calculate project scores and prioritize consistently across the portfolio.
+**Calculated values** enable automatic computations based on formulas using numeric and boolean project attributes, including scores from Weighted item lists or even other calculated values. The computed result is displayed directly on the project overview and in the project list. It automatically updates whenever one of its source attributes (e.g., Benefit or Effort in the example below) is changed. This allows teams to calculate project scores and prioritize consistently across the portfolio.
 
-To set up a project attribute of the **Calculated value** type, follow the same procedure as when adding a standard project attribute and select the *Calculated value* option. Define the name, section it will appear in and the calculation formula. 
+To set up a project attribute of the **Calculated value** type, follow the same procedure as when adding a standard project attribute and select the _Calculated value_ option. Define the name, section it will appear in and the calculation formula.
 
-In the example below, a project attribute called **Initiative score (calculated)** is determined by this formula: (Strategic fit * 0.4) + ( User benefit* 0.4) - (Effort * 0.2).
+In the example below, a project attribute called **Initiative score (calculated)** is determined by this formula: `(Strategic fit * 0.4) + (User benefit * 0.4) - (Effort * 0.2)`.
 
 ![An example of a project attribute of type "Calculated value" in OpenProject administration](open_project_system_guide_project_attributes_calculated_value.png)
+
+#### Formula syntax reference
+
+Formulas support the literals, operators, functions and keywords listed below, and can reference other project attributes — integer, float, boolean, weighted item list scores and other calculated values.
+
+##### Literals
+
+Number and boolean literals are supported. Numbers can be either integer (`42`) or decimal (`3.14`, `.1`). Boolean literals are uppercase (`TRUE` and `FALSE`).
+
+##### Precedence
+
+Operators with higher precedence evaluate before those with lower. Operators with same precedence are evaluated left to right. Precedence can be changed using parentheses:
+
+* `5 + 3 * 2` => `11`
+* `(5 + 3) * 2` => `16`
+
+##### Math operators
+
+| Operator | Description    | Precedence | Examples                                  |
+|----------|----------------|:----------:|-------------------------------------------|
+| `+`      | Addition       |     10     | `1 + 2` => `3`                            |
+| `-`      | Subtraction    |     10     | `5 - 2` => `3`                            |
+| `-`      | Unary negation |     40     | `-x` negates `x`                          |
+| `*`      | Multiplication |     20     | `4 * 3` => `12`                           |
+| `/`      | Division       |     20     | `9 / 3` => `3.0`<br>`10 / 4` => `2.5`     |
+| `%`      | Modulo         |     20     | `7 % 3` => `1`                            |
+| `%`      | Percentage     |     30     | `7 + 1%` => `7.01`                        |
+| `^`      | Exponentiation |     30     | `9 ^ 0.5` => `3.0`<br>`2 ^ 3 ^ 2` => `64` |
+
+##### Numeric functions
+
+| Name        | Description                                     | Examples                                                                                  |
+|-------------|-------------------------------------------------|-------------------------------------------------------------------------------------------|
+| `ABS`       | Absolute value                                  | `ABS(-5)` => `5`<br>`ABS(5)` => `5`                                                       |
+| `AVG`       | Arithmetic mean of arguments                    | `AVG(1, 2)` => `1.5`                                                                      |
+| `MAX`       | Largest argument                                | `MAX(3, 1, 2)` => `3`                                                                     |
+| `MIN`       | Smallest argument                               | `MIN(3, 1, 2)` => `1`                                                                     |
+| `ROUND`     | Round to 0 or specified number of decimals      | `ROUND(1.5)` => `2`<br>`ROUND(-1.5)` => `-2`<br>`ROUND(3.14159, 3)` => `3.142`            |
+| `ROUNDDOWN` | Round down to 0 or specified number of decimals | `ROUNDDOWN(1.5)` => `1`<br>`ROUNDDOWN(-1.5)` => `-2`<br>`ROUNDDOWN(0.9999, 3)` => `0.999` |
+| `ROUNDUP`   | Round up to 0 or specified number of decimals   | `ROUNDUP(1.5)` => `2`<br>`ROUNDUP(-1.5)` => `-1`<br>`ROUNDUP(1.0001, 3)` => `1.001`       |
+| `SUM`       | Sum of arguments                                | `SUM(1, 2, 3)` => `6`                                                                     |
+
+##### Comparison operators
+
+| Operator     | Description           | Precedence | Examples                                  |
+|--------------|-----------------------|:----------:|-------------------------------------------|
+| `<`          | Less than             |     5      | `1 < 2` => `TRUE`<br>`2 < 2` => `FALSE`   |
+| `>`          | Greater than          |     5      | `2 > 1` => `TRUE`<br>`2 > 2` => `FALSE`   |
+| `<=`         | Less than or equal    |     5      | `2 <= 2` => `TRUE`<br>`3 <= 2` => `FALSE` |
+| `>=`         | Greater than or equal |     5      | `2 >= 2` => `TRUE`<br>`2 >= 3` => `FALSE` |
+| `<>` or `!=` | Not equal             |     5      | `1 != 2` => `TRUE`<br>`1 != 1` => `FALSE` |
+| `=` or `==`  | Equal                 |     5      | `2 = 2` => `TRUE`<br>`2 = 1` => `FALSE`   |
+
+##### Logical operators and functions
+
+`AND` and `OR` are available both as operators and functions. `XOR` and `NOT` are functions only. All arguments must be logical.
+
+When used as operators, `AND` and `OR` have the same lowest precedence `0`, lower than any other operator.
+
+| Name           | Description                                     | Examples                                                                                                        |
+|----------------|-------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
+| `AND` or `&&`  | True when all operands/arguments are `TRUE`     | `TRUE AND TRUE AND FALSE` => `FALSE`<br>`AND(TRUE, TRUE, TRUE)` => `TRUE`                                       |
+| `NOT`          | Logical negation                                | `NOT(TRUE)` => `FALSE`<br>`NOT(FALSE)` => `TRUE`                                                                |
+| `OR` or `\|\|` | True when any operand/argument is `TRUE`        | `FALSE OR FALSE OR TRUE` => `TRUE`<br>`OR(FALSE, FALSE, FALSE)` => `FALSE`                                      |
+| `XOR`          | True when an odd number of arguments are `TRUE` | `XOR(TRUE, FALSE, FALSE)` => `TRUE`<br>`XOR(TRUE, FALSE, TRUE)` => `FALSE`<br>`XOR(TRUE, TRUE, TRUE)` => `TRUE` |
+
+##### Conditional functions and case expression
+
+`IF(condition, when_true, when_false)` returns one of two branches based on a boolean condition:
+
+`IF(1 > 2, 123, 456)` => `456`
+
+`SWITCH(value, candidate1, result1, candidate2, result2, ..., default)` compares `value` against each candidate and returns the matching result, or the trailing `default` unless it is omitted:
+
+`SWITCH(200, 100, 1, 200, 2, 3)` => `2`
+
+`SWITCH(4, 1, TRUE, 2, FALSE, TRUE)` => `TRUE`
+
+`SWITCH(300, 100, 1, 200, 2)` => invalid
+
+`CASE` provides similar behaviour using keyword form. Invalid if no branch matches and there is no `ELSE`:
+
+`CASE 200 WHEN 100 THEN 1 WHEN 200 THEN 2 ELSE 3 END` => `2`
+
+`CASE 4 WHEN 1 THEN TRUE WHEN 2 THEN FALSE ELSE TRUE END` => `TRUE`
+
+`CASE 300 WHEN 100 THEN 1 WHEN 200 THEN 2 END` => invalid
 
 ## Modify project attributes
 
@@ -172,29 +259,27 @@ You can also use the drag handles to the left of each project attribute to drag 
 > [!NOTE]
 > Project admins can chose to enable or disable a project attribute from their project, but they cannot change the order. The order set in this page is the order in which they will appear in all projects.
 
-
 ## Enable project attributes
 
-Under **Administration settings** → **Projects** → **Project attributes** select the *More* menu and select *Edit* or simply clicking on the name of the project attribute. This will open a detailed view of the project attribute you selected. 
+Under **Administration settings** → **Projects** → **Project attributes** select the _More_ menu and select _Edit_ or simply clicking on the name of the project attribute. This will open a detailed view of the project attribute you selected.
 
-The *Details* tab will allow you to edit the name, section and visibility, and enable a comment text field.
+The _Details_ tab will allow you to edit the name, section and visibility, and enable a comment text field.
 
 ![OpenProject project attribute details editing](open_project_system_admin_guide_project_attributes_details.png)
 
-The *Projects* tab will show a list of all the projects this project attributes was activated in. 
+The _Projects_ tab will show a list of all the projects this project attributes was activated in.
 
 ![Project attributes enabled in projects list in OpenProject administration](open_project_system_admin_guide_project_attributes_enabled_in_projects.png)
 
-You can remove a project attribute from a specific project by selecting the **More** menu at the end of the line and clicking the *Remove from project* option.
+You can remove a project attribute from a specific project by selecting the **More** menu at the end of the line and clicking the _Remove from project_ option.
 
 ![Remove a project attribute from a project in OpenProject administration](open_project_system_admin_guide_project_attributes_deactivate_for_project.png)
 
-To add this project attribute to a specific project click the **+Add projects** button. A modal will appear allowing you to search for projects to add this project attribute into. Please note that the projects in which the project attribute is already activated will be shown disabled in that selection. You can include subprojects. 
+To add this project attribute to a specific project click the **+Add projects** button. A modal will appear allowing you to search for projects to add this project attribute into. Please note that the projects in which the project attribute is already activated will be shown disabled in that selection. You can include subprojects.
 
 ![ Configure which projects are activated for a project attribute in OpenProject administration](open_project_system_admin_guide_project_attributes_add.png)
 
 > [!NOTE]
->
 > It is not possible to add or remove a project attribute, if a project attribute is set to be required.
 
 ## Define project attribute help text
@@ -203,12 +288,9 @@ To define field caption and help text click on a project attribute and navigate 
 
 - **Caption** - a short text that will be displayed as project attribute caption to provide context.
 - **Help text** - a longer text that will be shown when a user hovers over a question mark next to the project attribute name. Here you can provide more detailed explanation. This is a required field.
-- **Attachments** - attach files or images to illustrate a project attribute. 
+- **Attachments** - attach files or images to illustrate a project attribute.
 
 > [!IMPORTANT]
->
-> Any text and images you add here will be publicly visible to all logged in users. 
+> Any text and images you add here will be publicly visible to all logged in users.
 
-
-
-![Project attribute detailed view, showing *Help text* tab in OpenProject administration](open_project_system_admin_guide_project_attributes_attribute_text.png)
+![Project attribute detailed view, showing _Help text_ tab in OpenProject administration](open_project_system_admin_guide_project_attributes_attribute_text.png)

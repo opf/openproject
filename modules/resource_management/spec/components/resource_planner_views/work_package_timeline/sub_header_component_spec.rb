@@ -44,10 +44,10 @@ RSpec.describe ResourcePlannerViews::WorkPackageTimeline::SubHeaderComponent, ty
     render_inline(described_class.new(project:, resource_planner: planner, view:))
 
     html = page.native.to_html
-    expect(html).to include("resource-management--work-package-timeline#today")
-    expect(html).to include("resource-management--work-package-timeline#prev")
-    expect(html).to include("resource-management--work-package-timeline#next")
-    expect(html).to include("resource-management--work-package-timeline#setView")
+    expect(html).to include("resource-management--resource-timeline#today")
+    expect(html).to include("resource-management--resource-timeline#prev")
+    expect(html).to include("resource-management--resource-timeline#next")
+    expect(html).to include("resource-management--resource-timeline#setView")
     expect(html).to include("resourceTimelineWeeks")
     expect(html).to include("resourceTimelineMonths")
   end

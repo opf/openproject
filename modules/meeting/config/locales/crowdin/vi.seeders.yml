@@ -9,21 +9,22 @@ vi:
         demo-project:
           meeting_series:
             item_0:
-              title: hàng tuần
+              title: Hàng tuần
           meeting_agenda_items:
             item_0:
               title: tin tốt
+              notes: What went well this week?
             item_1:
-              title: Cập nhật từ nhóm phát triển
+              title: Team updates
+              notes: News and focused topics for the upcoming week.
             item_2:
-              title: Cập nhật từ nhóm sản phẩm
+              notes: "**Today's topic**: Organizing the open-source conference."
             item_3:
-              title: Cập nhật từ nhóm tiếp thị
+              title: Review of quarterly goals
+              notes: Assessing the status and progress of the defined quarterly goals.
+            item_4:
+              title: Core values feedback
+              notes: Highlight employees who have lived the core values this week.
             item_5:
-              title: Cập nhật từ đội ngũ bán hàng
-            item_6:
-              title: Đánh giá mục tiêu hàng quý
-            item_7:
-              title: Phản hồi về giá trị cốt lõi
-            item_8:
-              title: Chủ đề chung
+              title: General topics
+              notes: Solving or discussing topics together.

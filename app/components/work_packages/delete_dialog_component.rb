@@ -31,6 +31,9 @@
 module WorkPackages
   class DeleteDialogComponent < ApplicationComponent
     include OpTurbo::Streamable
+    include WorkPackages::DeleteDialogs::Descendants
+
+    DIALOG_ID = "wp-delete-dialog"
 
     attr_reader :work_package
 
@@ -42,59 +45,36 @@ module WorkPackages
 
     private
 
-    def id = "wp-delete-dialog"
+    def id = DIALOG_ID
+
+    def i18n_scope = "work_packages.delete_dialog"
+
+    def deletion_roots = [work_package]
 
     def title
-      I18n.t("work_packages.delete_dialog.title")
+      t_dialog(has_descendants? ? "descendants_choice.heading" : "title")
     end
 
     def heading
-      I18n.t("work_packages.delete_dialog.heading")
+      t_dialog(has_descendants? ? "descendants_choice.heading" : "heading")
     end
 
     def description
-      I18n.t("work_packages.delete_dialog.description", name: work_package.to_s)
+      return t_dialog("descendants_choice.question") if has_descendants?
+
+      t_dialog("description", name: work_package.to_s)
     end
 
     def confirmation_checkbox_text
-      if has_descendants?
-        I18n.t("work_packages.delete_dialog.confirm_descendants_deletion")
-      else
-        I18n.t("text_permanent_delete_confirmation_checkbox_label")
-      end
-    end
-
-    def descendants
-      @descendants ||= WorkPackage
-        .joins("INNER JOIN work_package_hierarchies ON work_package_hierarchies.descendant_id = work_packages.id")
-        .where(work_package_hierarchies: { ancestor_id: work_package.id })
-        .where("work_package_hierarchies.generations > 0")
-        .includes(:project, :type, :status)
-        .order("work_package_hierarchies.generations ASC, work_packages.id ASC")
-    end
-
-    def has_descendants?
-      descendants.any?
-    end
-
-    def cross_project_descendants?
-      descendants.any? { |d| d.project != work_package.project }
-    end
-
-    def all_project_names
-      names = descendants
-        .filter_map(&:project)
-        .uniq
-        .reject { |p| p == work_package.project }
-        .map(&:name)
-
-      names
-        .unshift(work_package.project.name)
-        .join(", ")
+      t_dialog("confirm_deletion")
     end
 
     def form_action
-      helpers.work_packages_bulk_path(ids: [work_package.id], back_url: @back_url)
+      helpers.work_packages_bulk_path(ids: [work_package.id], delete_descendants: false, back_url: @back_url)
+    end
+
+    def confirm_delete_path
+      helpers.confirm_delete_work_packages_bulk_path(ids: [work_package.id], back_url: @back_url)
     end
   end
 end

@@ -160,7 +160,7 @@ RSpec.describe "group memberships through groups page", :js do
       expect(members_page2).to have_user "Peter Pan", roles: [manager, developer]
       expect(members_page2).to have_user "Hannibal Smith", roles: [developer]
 
-      group_member = project2.member_principals.find_by(user_id: group.id)
+      group_member = project2.members.find_by(user_id: group.id)
       expect(group_member.member_roles.count).to eq 1
       group_member_role = group_member.member_roles.first
       expect(group_member_role.role).to eq developer

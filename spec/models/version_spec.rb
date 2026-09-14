@@ -337,6 +337,65 @@ RSpec.describe Version do
     end
   end
 
+  describe "aggregations via target versions" do
+    let(:project) { create(:project) }
+    let(:version) { create(:version, project:) }
+    let(:other_version) { create(:version, project:) }
+
+    context "when a work package targets two versions" do
+      let!(:work_package) { create(:work_package, project:, version:, estimated_hours: 3) }
+
+      before do
+        work_package.work_package_versions.create!(version: other_version, kind: "target")
+      end
+
+      it "counts the work package for both versions" do
+        expect(version.issues_count).to eq 1
+        expect(other_version.issues_count).to eq 1
+      end
+
+      it "sums estimated hours for both versions" do
+        expect(version.estimated_hours).to eq 3.0
+        expect(other_version.estimated_hours).to eq 3.0
+      end
+
+      it "sums spent time for both versions" do
+        create(:time_entry, entity: work_package, project:, hours: 2)
+
+        expect(version.spent_hours).to eq 2.0
+        expect(other_version.spent_hours).to eq 2.0
+      end
+    end
+
+    context "when a work package only carries the legacy version_id without a target row" do
+      let!(:work_package) { create(:work_package, project:, version:, estimated_hours: 3) }
+
+      before do
+        create(:time_entry, entity: work_package, project:, hours: 2)
+        WorkPackageVersion.delete_all
+      end
+
+      it "is not counted" do
+        expect(version.issues_count).to eq 0
+        expect(version.estimated_hours).to eq 0.0
+        expect(version.spent_hours).to eq 0.0
+      end
+    end
+
+    context "when a work package only observed the version" do
+      let!(:work_package) { create(:work_package, project:, estimated_hours: 3) }
+
+      before do
+        work_package.work_package_versions.create!(version:, kind: "observed_in")
+      end
+
+      it "is not counted" do
+        expect(version.issues_count).to eq 0
+        expect(version.estimated_hours).to eq 0.0
+      end
+    end
+  end
+
   describe "#start_date" do
     context "with a value saved and a work package with its own start_date" do
       let(:version) { create(:version, start_date: "2010-01-05") }
@@ -543,6 +602,27 @@ RSpec.describe Version do
     end
   end
 
+  describe "shared_via_work_packages scope" do
+    subject { described_class.shared_via_work_packages(user) }
+
+    let(:user) { create(:user) }
+    let(:visible_project) { create(:project, member_with_permissions: { user => [:view_work_packages] }) }
+    let(:invisible_project) { create(:project) }
+    let(:version) { create(:version, project: invisible_project) }
+
+    context "when a visible work package targets the version" do
+      before { create(:work_package, project: visible_project, version:) }
+
+      it { is_expected.to contain_exactly(version) }
+    end
+
+    context "when only an invisible work package targets the version" do
+      before { create(:work_package, project: invisible_project, version:) }
+
+      it { is_expected.to be_empty }
+    end
+  end
+
   describe "#visible?" do
     subject { version.visible?(user) }
 
@@ -622,6 +702,37 @@ RSpec.describe Version do
 
     it "returns the versions in descending semver order" do
       expect(described_class.order(name: :desc).pluck(:name)).to eql ordered_names.reverse
+    end
+  end
+
+  describe "destroying a version referenced by work packages" do
+    shared_let(:owning_project) { create(:project) }
+    shared_let(:other_project) { create(:project) }
+    shared_let(:shared_version) { create(:version, project: owning_project, sharing: "system") }
+    shared_let(:admin) { create(:admin) }
+
+    let!(:work_package) do
+      create(:work_package, project: other_project).tap do |wp|
+        wp.target_version_ids_replacements = [shared_version.id]
+        wp.save!
+      end
+    end
+
+    def update_subject
+      WorkPackages::UpdateService
+        .new(user: admin, model: work_package.reload)
+        .call(subject: "A new subject unrelated to versions")
+    end
+
+    it "is editable while the version's project still exists" do
+      expect(update_subject).to be_success
+    end
+
+    it "leaves the work package editable after its version's project is destroyed" do
+      owning_project.destroy
+
+      result = update_subject
+      expect(result).to be_success, -> { result.errors.full_messages.to_sentence }
     end
   end
 end

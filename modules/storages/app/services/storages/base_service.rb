@@ -65,7 +65,7 @@ module Storages
     end
 
     # @param attribute [Symbol] attribute to which the error will be tied to
-    # @param error [Storages::Adapters::Results::Error] An adapter error result
+    # @param error [SimpleError] An adapter error result
     # @param options [Hash{Symbol => Object}] optional extra parameters for the message generation
     # @return ServiceResult
     def add_error(attribute, error, options: {})

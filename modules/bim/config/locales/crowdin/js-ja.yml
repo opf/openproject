@@ -1,30 +1,29 @@
-#English strings go here
 ---
 ja:
   js:
     bcf:
-      label_bcf: BCF
-      import: インポート
-      import_bcf_xml_file: BCF XML ファイルをインポート (BCF バージョン 2.1)
+      add_viewpoint: ビューポイントを追加
+      delete_viewpoint: ビューポイントを削除
       export: エクスポート
       export_bcf_xml_file: BCF XML ファイルをエクスポート (BCF バージョン 2.1)
-      viewpoint: ビューポイント
-      add_viewpoint: ビューポイントを追加
-      show_viewpoint: ビューポイントを表示
-      delete_viewpoint: ビューポイントを削除
+      import: インポート
+      import_bcf_xml_file: BCF XML ファイルをインポート (BCF バージョン 2.1)
+      label_bcf: BCF
       management: BCF 管理
       refresh: 更新
       refresh_work_package: ワークパッケージを更新
+      show_viewpoint: ビューポイントを表示
+      viewpoint: ビューポイント
     ifc_models:
       empty_warning: このプロジェクトにはまだIFCモデルはありません。
-      use_this_link_to_manage: リンクを使用して IFC モデルをアップロードして管理します
       keyboard_input_disabled: ビューアにはキーボードコントロールがありません。ビューアをクリックするとキーボードコントロールが表示されます。
       models:
         ifc_models: IFCモデル
+      use_this_link_to_manage: リンクを使用して IFC モデルをアップロードして管理します
       views:
-        viewer: ビューア
         split: ビューアとテーブル
         split_cards: ビューアーとカード
+        viewer: ビューア
     revit:
       revit_add_in: アドインを編集
       revit_add_in_settings: アドインの設定を変更する

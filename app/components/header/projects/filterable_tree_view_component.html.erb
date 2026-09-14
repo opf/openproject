@@ -31,6 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render(
         Primer::OpenProject::FilterableTreeView.new(
           src: tree_src,
+          show_search_highlighting: false,
           include_sub_items_check_box_arguments: { hidden: true },
           filter_mode_control_arguments: logged? ? {} : { hidden: true },
           filter_input_arguments: { autofocus: true,

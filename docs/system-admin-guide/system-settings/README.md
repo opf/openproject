@@ -15,9 +15,11 @@ To modify these settings, navigate to **Administration → System settings**.
 
 ## Overview
 
-| Topic                        | Content                                                      |
-| ---------------------------- | :----------------------------------------------------------- |
-| [General](general-settings)  | How to configure general system settings, e.g. a welcome text block on the application landing page, attachment size, and much more. |
-| [Languages](languages)       | How to configure languages.                                  |
-| [Project](../projects)       | Settings for new projects.                                   |
-| [Repositories](repositories) | How to integrate SVN or GIT repositories.                    |
+| Topic                                | Content                                                      |
+| ------------------------------------ | :----------------------------------------------------------- |
+| [General settings](general-settings) | Manage general OpenProject settings, including the welcome page, attachment size limits, and other global options. |
+| [Languages](languages)               | Select languages for your OpenProject installation.          |
+| [Exports](exports)                   | Configure CSV export settings and data export options in OpenProject. |
+| [External link](external-links)      | Configure how OpenProject handles external links and login requirements before users can leave the application. |
+| [Project](../projects)               | Define the default settings for new OpenProject projects.    |
+| [Repositories](repositories)         | Connect Git and SVN repositories to OpenProject for version control integration. |

@@ -50,8 +50,6 @@ If you have activated Two-factor authentication, please enter your second factor
 
 When logging in for the first time, you will be asked to create your OpenProject Account.
 
-
-
 ## Sign in from the OpenProject website
 
 If you are using the OpenProject Enterprise cloud edition, you can sign in to your installation directly from the OpenProject website.
@@ -68,16 +66,23 @@ Please click the link in the invitation email:
 
 Enter the following information:
 
-* First name
-* Last name
-* Company E-Mail address
-* Choose a password
+- First name
+- Last name
+- Company E-Mail address
+- Choose a password
+- Confirm your password
 
 Click the **Create** button.
 
 ![Create a new account for OpenProject](openproject_user_guide_sign_in_activation_screen.png)
 
 Make sure to remember your password in order to sign in again at a later point.
+
+> [!NOTE]
+>
+> If your administrator has already enforced [two-factor authentication](../../system-admin-guide/authentication/two-factor-authentication/) , you'll need to add a 2FA device to complete the sign-in process.
+
+![Add new two-factor authentication device](openproject_user_guide_sign_in_first_time_2fa.png)
 
 ## Choose your language
 
@@ -88,7 +93,7 @@ After the creation of your account you are logged into the system and see your p
 
 ![select language](openproject_user_guide_sign_in_first_time.png)
 
-If you have already logged in before, you can [set your language in your user profile](../../user-guide/account-settings/#language-and-region-settings).
+If you have already logged in before, you can [set your language in your user profile](../../user-guide/account-settings/language-and-region).
 
 ## Reset your password
 

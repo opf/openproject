@@ -106,5 +106,14 @@ RSpec.describe API::V3::Meetings::MeetingRepresenter do
 
       expect(generated).to be_json_eql(true.to_json).at_path("notify")
     end
+
+    it "invalidates the cache key when the resolved notify status changes" do
+      allow(meeting).to receive(:notify?).and_return(true)
+      cache_key_when_notifying = representer.json_cache_key
+
+      allow(meeting).to receive(:notify?).and_return(false)
+
+      expect(representer.json_cache_key).not_to eql cache_key_when_notifying
+    end
   end
 end

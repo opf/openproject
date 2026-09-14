@@ -73,13 +73,13 @@ In the **My time tracking** module, the week and work week views now automatical
 
 ### Option to disable keyboard shortcuts for better accessibility
 
-OpenProject 16.2 makes the application more accessible by allowing users to **disable keyboard shortcuts**. This is especially helpful for people using assistive technologies, where keyboard shortcuts might interfere with screen readers or other tools. The option can be found under *Account settings → Interface*.
+OpenProject 16.2 makes the application more accessible by allowing users to **disable keyboard shortcuts**. This is especially helpful for people using assistive technologies, where keyboard shortcuts might interfere with screen readers or other tools. The option can be found under _Account settings → Interface_.
 
 ![OpenProject account settings on interface options, with highlighted option to disable keyboard shortcuts](openproject-user-guide-account-settings-interface.png)
 
 ### Work package reminders presented in relative humanized time format
 
-When you set a reminder for a work package, OpenProject now confirms this with a **relative, human-friendly time**. Instead of just showing a fixed date and time, the success message will say, for example, *“Reminder set successfully. You will receive a notification for this work package tomorrow.”* This small improvement makes it easier to quickly understand when your reminder will appear.
+When you set a reminder for a work package, OpenProject now confirms this with a **relative, human-friendly time**. Instead of just showing a fixed date and time, the success message will say, for example, _“Reminder set successfully. You will receive a notification for this work package tomorrow.”_ This small improvement makes it easier to quickly understand when your reminder will appear.
 
 ![User information that appears when setting a reminder: Reminder set successfully. You will receive a notification for this work package tomorrow.](openproject-16-2-reminder.png)
 

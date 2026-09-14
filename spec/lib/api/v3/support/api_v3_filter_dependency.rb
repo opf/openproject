@@ -89,6 +89,91 @@ RSpec.shared_examples_for "filter dependency empty" do
   end
 end
 
+# Requires `instance`, `filter`, `operator` (set to Queries::Operators::Equals), `form_embedded`,
+# and `described_class` to be defined in the including example group.
+RSpec.shared_examples_for "filter dependency caching" do
+  before do
+    # fill the cache
+    instance.to_json
+  end
+
+  it "is cached" do
+    allow(instance)
+      .to receive(:to_hash)
+
+    instance.to_json
+
+    expect(instance)
+      .not_to have_received(:to_hash)
+  end
+
+  it "busts the cache on a different operator" do
+    instance.send(:operator=, Queries::Operators::NotEquals)
+
+    allow(instance)
+      .to receive(:to_hash)
+
+    instance.to_json
+
+    expect(instance)
+      .to have_received(:to_hash)
+  end
+
+  it "busts the cache on changes to the locale" do
+    allow(instance)
+      .to receive(:to_hash)
+
+    I18n.with_locale(:de) do
+      instance.to_json
+    end
+
+    expect(instance)
+      .to have_received(:to_hash)
+  end
+
+  it "busts the cache on different form_embedded" do
+    embedded_instance = described_class.new(filter,
+                                            operator,
+                                            form_embedded: !form_embedded)
+    allow(embedded_instance)
+      .to receive(:to_hash)
+
+    embedded_instance.to_json
+
+    expect(embedded_instance)
+      .to have_received(:to_hash)
+  end
+
+  it "busts the cache on different OpenProject::VERSION.product_version" do
+    allow(OpenProject::VERSION)
+      .to receive(:instance_variable_get)
+            .with(:@product_sha)
+      .and_return(4)
+
+    allow(instance)
+      .to receive(:to_hash)
+
+    instance.to_json
+
+    expect(instance)
+      .to have_received(:to_hash)
+  end
+
+  it "busts the cache on different OpenProject::VERSION::ARRAY" do
+    new_version = OpenProject::VERSION::ARRAY.dup
+    new_version[2] = -1
+    stub_const("OpenProject::VERSION::ARRAY", new_version)
+
+    allow(instance)
+      .to receive(:to_hash)
+
+    instance.to_json
+
+    expect(instance)
+      .to have_received(:to_hash)
+  end
+end
+
 RSpec.shared_examples_for "relation filter dependency" do
   include API::V3::Utilities::PathHelper
 

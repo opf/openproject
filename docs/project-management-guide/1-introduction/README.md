@@ -64,7 +64,6 @@ The Open PM² Initiative provides European Union institutions, contractors and p
 One common PM Methodology open to all EU Institutions, Member States, Contractors, and EU Citizens.
 ![Fig 1.1 Open PM² Synergies](01.01.png)
 
-
 The Initiative also seeks to rectify mistakes of the past, when efforts were duplicated and divergent project management approaches were sponsored rather than promoting convergent approaches based on similarities and the common interest of the broader European community.
 
 By opening PM², the Initiative aims to enhance project management competency within Europe, leading to increased project efficiency and success.

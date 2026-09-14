@@ -91,7 +91,7 @@ class Users::InviteController < ApplicationController
         message: I18n.t("users.invite_user_modal.success_message.#{form_model.principal_type.underscore}",
                         project: form_model.project.name)
       )
-      close_dialog_via_turbo_stream("##{Users::Invitation::DialogComponent::DIALOG_ID}",
+      close_dialog_via_turbo_stream(Users::Invitation::DialogComponent::DIALOG_ID,
                                     additional: { user_id: call.result.user_id })
     else
       replace_via_turbo_stream(component: Users::Invitation::PrincipalStep::FormComponent.new(form_model))

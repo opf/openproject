@@ -166,20 +166,13 @@ We'd like to thank GitHub user [@aslantugay](https://github.com/aslantugay) for 
 
 ## Security fixes
 
-
-
 ### CVE-2026-52779 - Cross-project authorization bypass allows deleting public Calendar and Team Planner queries from unauthorized projects
 
 A cross-project IDOR / authorization context confusion in the Calendar and Team Planner modules allows a user with management permissions in one project to delete public Calendar or Team Planner Queries from another project where they do not have the corresponding management permissions.
 
-
-
 This vulnerability was reported as part of the [YesWeHack.com OpenProject Bug Bounty program](https://yeswehack.com/programs/openproject), sponsored by the European Commission.
 
-
-
 For more information, please see the [GitHub advisory #GHSA-jrx5-px3f-vfq4](https://github.com/opf/openproject/security/advisories/GHSA-jrx5-px3f-vfq4)
-
 
 <!-- END SECURITY FIXES AUTOMATED SECTION -->
 <!--more-->

@@ -34,15 +34,7 @@ module Queries::ProjectPhaseDefinitions
     # Note that one project might have an active phase while another project has set the phase with the same definition
     # to inactive. Additionally, the permissions to view project phases are considered on a project level, too.
     def join_project_phase_definitions_based_on_permissions_and_active_phases
-      # The project is joined here anew which should not be necessary for many use-cases but is.
-      # The necessity comes from AR's behavior of automatically determining the alias for tables LEFT JOINed via includes.
-      # To avoid conflicts, AR will search strings for occurrences of the table name and if found, an included table
-      # will be aliased (potentially with a numbering). In this case, if the permission checks are part of the query,
-      # it will include a reference to the projects table. Therefore, the include for projects, which happens in
-      # the query itself, will be considered needing an alias. That assumption is wrong in this case as the reference
-      # to projects is in a subquery but AR does not know that.
       <<~SQL.squish
-        LEFT OUTER JOIN "projects" ON "projects"."id" = "work_packages"."project_id"
         LEFT OUTER JOIN (
           SELECT
             ph.id,

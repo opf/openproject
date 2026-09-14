@@ -13,17 +13,17 @@ fixes. We recommend the update to the current version.
 
 ## Bug fixes and changes
 
-- Fixed: Cookie *secure* flag was not applied in all cases even when
+- Fixed: Cookie _secure_ flag was not applied in all cases even when
   SSL was enabled
   ([#27763](https://community.openproject.org/wp/27763))
 - Fixed:
   Calendar widget on
-  *My page*  overlapped the project dropdown
+  _My page_  overlapped the project dropdown
   ([#27765](https://community.openproject.org/wp/27765))
 - Fixed: Removed text formatting other than references in commit
   messages ([#27769](https://community.openproject.org/wp/27769))
 - Fixed: Flashing of content
-  on *My account* on initial page load
+  on _My account_ on initial page load
   ([#25795](https://community.openproject.org/wp/25795))
 - Fixed: Chrome where the right column of a two-column work package
   layout (on larger screens) was not receiving any clicks
@@ -53,4 +53,4 @@ and helping us to reproduce them.
 
 Users can now be requested to consent into the privacy and usage
 policies of your instance. To configure consent, enable the setting in
-the global administration under *System administration* \> *Users*
+the global administration under _System administration_ \> _Users_

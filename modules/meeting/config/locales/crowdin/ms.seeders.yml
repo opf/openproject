@@ -13,17 +13,18 @@ ms:
           meeting_agenda_items:
             item_0:
               title: Berita baik
+              notes: What went well this week?
             item_1:
-              title: Kemas kini dari pasukan pembangunan
+              title: Team updates
+              notes: News and focused topics for the upcoming week.
             item_2:
-              title: Kemas kini dari pasukan produk
+              notes: "**Today's topic**: Organizing the open-source conference."
             item_3:
-              title: Kemas kini dari pasukan pemasaran
+              title: Review of quarterly goals
+              notes: Assessing the status and progress of the defined quarterly goals.
+            item_4:
+              title: Core values feedback
+              notes: Highlight employees who have lived the core values this week.
             item_5:
-              title: Kemas kini dari pasukan jualan
-            item_6:
-              title: Penilaian matlamat suku tahunan
-            item_7:
-              title: Maklum balas nilai teras
-            item_8:
-              title: Topik umum
+              title: General topics
+              notes: Solving or discussing topics together.

@@ -85,10 +85,9 @@ module EnvData
     end
 
     def seed_remote_url(custom_style, key, url)
-      custom_style.public_send(:"remote_#{key}_url=", url)
-      custom_style.save!
-    rescue StandardError => e
-      Rails.logger.error "Failed to seed remote URL for design variable '#{key}': #{e.message}"
+      print_status "      ↳ Downloading #{key} from #{url} in the background"
+
+      CustomStyles::SeedRemoteAssetJob.perform_later(custom_style, key, url)
     end
 
     class Base64StringIO < StringIO
@@ -115,7 +114,7 @@ module EnvData
         content_type = metadata.match(%r{data:([^;]+)})&.captures&.first
         raise ArgumentError, "Failed to parse content type from metadata: #{metadata}" if content_type.nil?
 
-        mime_type = MIME::Types[content_type].last
+        mime_type = MIME::Types[content_type].first
         raise ArgumentError, "Unknown mime type: #{content_type}" if mime_type.nil?
 
         mime_type.preferred_extension

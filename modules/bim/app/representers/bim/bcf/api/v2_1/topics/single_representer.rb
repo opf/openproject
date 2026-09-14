@@ -59,7 +59,7 @@ module Bim::Bcf::API::V2_1
 
     property :reference_links,
              getter: ->(decorator:, **) {
-               [decorator.api_v3_paths.work_package(work_package.id)]
+               [decorator.api_v3_paths.work_package(work_package.display_id)]
              }
 
     property :title,

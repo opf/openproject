@@ -47,6 +47,7 @@ module Wikis
       validate :provider_exists?
       validate :author_must_be_user
       validate :validate_user_allowed_to_manage
+      validate :validate_not_already_linked
 
       private
 
@@ -62,6 +63,14 @@ module Wikis
         if linkable.present? && !user.allowed_in_project?(:manage_wiki_page_links, linkable.project)
           errors.add(:base, :error_unauthorized)
         end
+      end
+
+      def validate_not_already_linked
+        already_linked = RelationPageLink.exists?(linkable: model.linkable,
+                                                  provider_id: model.provider_id,
+                                                  identifier: model.identifier)
+
+        errors.add(:identifier, :taken) if already_linked
       end
 
       def provider_exists?

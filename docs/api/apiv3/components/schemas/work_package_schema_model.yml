@@ -88,6 +88,8 @@ properties:
     $ref: './schema_property_model.yml'
   version:
     $ref: './schema_property_model.yml'
+  targetVersions:
+    $ref: './schema_property_model.yml'
   priority:
     $ref: './schema_property_model.yml'
   _links:

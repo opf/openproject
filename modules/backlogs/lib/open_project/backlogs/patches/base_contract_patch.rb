@@ -41,6 +41,7 @@ module OpenProject::Backlogs::Patches::BaseContractPatch
               permission: :manage_sprint_items
 
     validate :backlog_bucket_xor_sprint
+    validate :backlog_bucket_exists
     validate :backlog_bucket_belongs_to_project
     validate :validate_sprint_is_assignable
 
@@ -58,6 +59,17 @@ module OpenProject::Backlogs::Patches::BaseContractPatch
       return unless model.backlog_bucket && model.sprint
 
       errors.add :base, :backlog_bucket_xor_sprint
+    end
+
+    # Sprints get an equivalent check from +validate_sprint_is_assignable+.
+    # Without it, a bucket id pointing to no record would only fail on the
+    # foreign key constraint when saving.
+    def backlog_bucket_exists
+      if model.backlog_bucket_id &&
+         model.backlog_bucket_id_changed? &&
+         model.backlog_bucket.nil?
+        errors.add :backlog_bucket, :does_not_exist
+      end
     end
 
     def backlog_bucket_belongs_to_project

@@ -11,7 +11,7 @@ release_date: 2018-03-14
 ## Changes
 
 - Enterprise LDAP group synchronization changed to
-  allow *memberOf*  to yield members of an ldap group
+  allow _memberOf_  to yield members of an ldap group
   [#](https://community.openproject.org/wp/24960 "In repository module (SVN) when clicking on a .js file representation is incorrect")[27271](https://community.openproject.org/wp/27271 "LDAP group synchronization with memberOf filter")
 
 ## Bug fixes (5)

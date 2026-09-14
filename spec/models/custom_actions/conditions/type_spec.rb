@@ -36,15 +36,16 @@ RSpec.describe CustomActions::Conditions::Type do
 
     describe "#allowed_values" do
       it "is the list of all types" do
-        types = [build_stubbed(:type),
-                 build_stubbed(:type)]
+        task = build_stubbed(:type, name: "Task")
+        bug = build_stubbed(:type, name: "Bug")
         allow(Type)
-          .to receive(:select)
-          .and_return(types)
+          .to receive(:order)
+          .with(:position)
+          .and_return([task, bug])
 
         expect(instance.allowed_values)
-          .to eql([{ value: types.first.id, label: types.first.name },
-                   { value: types.last.id, label: types.last.name }])
+          .to eql([{ value: task.id, label: "Task" },
+                   { value: bug.id, label: "Bug" }])
       end
     end
 

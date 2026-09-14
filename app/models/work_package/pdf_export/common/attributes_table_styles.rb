@@ -48,6 +48,14 @@ module WorkPackage::PDFExport::Common::AttributesTableStyles
     resolve_margin(@styles.dig(:work_package, :attributes_group))
   end
 
+  def wp_attributes_subject
+    resolve_font(@styles.dig(:work_package, :subject))
+  end
+
+  def wp_attributes_subject_margins
+    resolve_margin(@styles.dig(:work_package, :subject))
+  end
+
   def wp_attributes_table_margins
     resolve_margin(@styles.dig(:work_package, :attributes_table))
   end

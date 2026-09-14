@@ -33,6 +33,10 @@ require "spec_helper"
 RSpec.describe WorkPackageSemanticAlias do
   let(:work_package) { create(:work_package) }
 
+  describe "database indexes" do
+    it { is_expected.to have_db_index("lower((identifier)::text) text_pattern_ops") }
+  end
+
   describe "validations" do
     it "is valid with an identifier and work_package" do
       record = described_class.new(identifier: "PROJ-1", work_package:)
@@ -103,6 +107,22 @@ RSpec.describe WorkPackageSemanticAlias do
 
         expect(wp.semantic_aliases).to contain_exactly(entry1, entry2)
       end
+    end
+  end
+
+  describe "deletion of the work package (regression #COMMS-936)" do
+    it "does not raise a foreign key violation when the work package is destroyed directly" do
+      described_class.create!(identifier: "PROJ-1", work_package:)
+
+      expect { work_package.destroy! }.not_to raise_error
+      expect(described_class.where(work_package_id: work_package.id)).not_to exist
+    end
+
+    it "cascades work package deletion to its semantic aliases at the database level" do
+      fk = ActiveRecord::Base.connection.foreign_keys(:work_package_semantic_aliases)
+                             .find { it.to_table == "work_packages" }
+
+      expect(fk.on_delete).to eq(:cascade)
     end
   end
 end

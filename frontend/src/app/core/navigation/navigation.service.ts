@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -41,8 +41,11 @@ export class NavigationService {
 
   constructor() {
     if ('navigation' in window) {
-      window.navigation.addEventListener('navigate', (event:NavigateEvent) => {
-        this.handleURLChange(event.destination.url);
+      // `navigate` fires before the navigation commits (it exists so callers can
+      // intercept/defer it), so window.location isn't updated yet when it fires.
+      // `navigatesuccess` fires only once the navigation has actually committed.
+      window.navigation.addEventListener('navigatesuccess', () => {
+        this.handleURLChange(document.location.href);
       });
     } else {
       // Browser does not support navigation API, use a slower setInterval

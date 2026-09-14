@@ -18,7 +18,7 @@ keywords: OpenID providers
 | [Custom OpenID Connect Providers](#custom-openid-connect-provider) | Configuration of additional OpenID Connect providers.                           |
 | [Troubleshooting](#troubleshooting)                                | Common complications when using OpenID as SSO.                                  |
 
-To activate and configure OpenID providers in OpenProject, navigate to *Administration* -> *Authentication* and choose -> *OpenID providers*.
+To activate and configure OpenID providers in OpenProject, navigate to _Administration_ -> _Authentication_ and choose -> _OpenID providers_.
 
 ## Add a new OpenID Connect provider
 
@@ -26,14 +26,11 @@ To add a new OpenID provider, click the green **+ OpenID provider** button.
 
 ![OpenIDprovider selection in OpenProject administration](openproject_system-admin-guide_authentication_openid_provider_empty.png)
 
-
-
 You can create different kinds of providers with a different set of properties. You can choose from:
 
 - [Google](#google)
 - [Microsoft Entra ID](#microsoft-entra) (previously Azure)
 - [Custom OpenID Connect Providers](#custom-openid-connect-provider)
-
 
 ## Google
 
@@ -85,8 +82,8 @@ After pressing **CREATE** you will see a following pop-up window.
 ### Step 3: Add Google as an OpenID Provider to OpenProject
 
 1. Login as OpenProject Administrator
-2. Navigate to *Administration* -> *Authentication* and choose -> *OpenID providers*.
-   - **Click** the green *+ OpenID Connect provider* button
+2. Navigate to _Administration_ -> _Authentication_ and choose -> _OpenID providers_.
+   - **Click** the green _+ OpenID Connect provider_ button
    - **Choose** Choose the Option Google
    - Set a **Display Name**, this is the name of the login button shown to users.
    - On the next section, set **Client ID** and **Client Secret** (from step 2)
@@ -104,7 +101,7 @@ Press **Finish setup** to save the client and complete. If you go back to the in
 
 #### Step 1: Register an App in Azure Active Directory
 
-If your organization currently has an Azure Active Directory to manage users, and you want to use that to log in to OpenProject, you will need to register a new *App*.
+If your organization currently has an Azure Active Directory to manage users, and you want to use that to log in to OpenProject, you will need to register a new _App_.
 
 The steps are as follows:
 
@@ -126,9 +123,9 @@ The steps are as follows:
 
 5. You will then be asked to specify the following settings:
 
-* For **Name**, enter *OpenProject*.
-* For **Supported account types**, select *Accounts in this organization directory only*.
-* For **Redirect URI**, select the *Web* type, and enter the URL to your OpenProject installation, followed by */auth/oidc-microsoft-entra/callback*. For instance: `https://myserver.com/auth/oidc-microsoft-entra/callback`.
+- For **Name**, enter _OpenProject_.
+- For **Supported account types**, select _Accounts in this organization directory only_.
+- For **Redirect URI**, select the _Web_ type, and enter the URL to your OpenProject installation, followed by _/auth/oidc-microsoft-entra/callback_. For instance: `https://myserver.com/auth/oidc-microsoft-entra/callback`.
 
 > [!NOTE]
 >
@@ -145,7 +142,7 @@ The steps are as follows:
 
 ![Azure Active Directory Certificates](06-certificates.png)
 
-8. Then click **New client secret**, set the description to *client_secret*, and the expiration to *730 days (24 months)*. Then click **Add**.
+8. Then click **New client secret**, set the description to _client_secret_, and the expiration to _730 days (24 months)_. Then click **Add**.
 
 ![Azure Active Directory New Client Secret](07-client-secret.png)
 
@@ -163,8 +160,8 @@ At the end of this step, you should have a copy of the Application client ID as 
 Next, you need to create the OpenID Connect provider in OpenProject:
 
 1. Login as OpenProject Administrator
-2. Navigate to *Administration* -> *Authentication* and choose -> *OpenID providers*.
-   - **Click** the green *+ OpenID Connect provider* button
+2. Navigate to _Administration_ -> _Authentication_ and choose -> _OpenID providers_.
+   - **Click** the green _+ OpenID Connect provider_ button
    - **Choose** Choose the option **Microsoft Entra**
    - Set display name **Microsoft Entra**. Please note that if you change this value, the redirect URI in step 1) might change. The redirect URI is shown in the side panel on the right side once you saved the configuration.
    - Set the **Tenant**: By default, OpenProject will use the Microsoft Graph API endpoint to perform user info requests.
@@ -186,17 +183,15 @@ Starting with OpenProject 15.0., you can also create custom OpenID Connect provi
 To start creating a custom provider, please follow these steps:
 
 1. Login as OpenProject Administrator
-2. Navigate to *Administration* -> *Authentication* and choose -> *OpenID providers*.
-   - **Click** the green *+ OpenID Connect provider* button
-   - **Choose** the *Option* **Custom**
+2. Navigate to _Administration_ -> _Authentication_ and choose -> _OpenID providers_.
+   - **Click** the green _+ OpenID Connect provider_ button
+   - **Choose** the _Option_ **Custom**
 
 ### Step-by-step
 
 #### Step 1: Display name
 
-- Set a **Display Name**, this is the name of the login button shown to users. Let's assume we're trying to connect *Keycloak* with OpenProject for this example. We will type in Keycloak as that's the label of the button to be shown to users trying to authenticate.
-
-
+- Set a **Display Name**, this is the name of the login button shown to users. Let's assume we're trying to connect _Keycloak_ with OpenProject for this example. We will type in Keycloak as that's the label of the button to be shown to users trying to authenticate.
 
 #### Step 2: Discovery endpoint
 
@@ -258,15 +253,15 @@ the group name matches at least one of the regular expressions, it will be synch
 
 As an example, consider your OpenID Connect provider defines the following groups:
 
-* `/your-company/department-accounting`
-* `/your-company/department-sales`
-* `/your-company/administrators`
-* `/your-company/external-contractors`
+- `/your-company/department-accounting`
+- `/your-company/department-sales`
+- `/your-company/administrators`
+- `/your-company/external-contractors`
 
 Assuming you only want to import groups for the different departments, but not for other groups that may exist, you could specify
 the following regular expression:
 
-```
+```text
 ^/your-company/(department-[\w]+)$
 ```
 
@@ -306,8 +301,6 @@ To specify these, you can provide a JSON. Use the following template as a starti
 }
 ```
 
-
-
 **Non-essential claims**
 
 You may also request non-essential claims. In the example above this indicates that users should preferably be authenticated using those mechanisms but it’s not strictly required. The login into OpenProject will then work even if none of the claims are returned by the identity provider.
@@ -328,8 +321,6 @@ After entering Claims information, click **Finish setup** to complete the provid
 
 ![Custom provider claims](./custom-provider-claims.png)
 
-
-
 ### Additional custom configuration instructions for Okta
 
 If you use Okta with OpenID Connect, use these configuration properties in the custom provider form:
@@ -341,14 +332,12 @@ If you use Okta with OpenID Connect, use these configuration properties in the c
 - **Token endpoint**: `/oauth2/v1/token`
 - **End session endpoint**: `https://mypersonal.okta.com/oauth2/{authorizationServerId}/v1/logout`
 
-
-
 ### Additional custom configuration instructions for Keycloak
 
 In Keycloak, use the following steps to set up an OIDC integration for OpenProject:
 
 - Select or create a realm you want to authenticate OpenProject with. Remember that realm identifier. For the remainder of this section, we're using REALM as the placeholder you'll need to replace.
-- Under **Clients** menu, click *Create* or *Create client*
+- Under **Clients** menu, click _Create_ or _Create client_
 - **Add client**: Enter the following details
   - **Client type / protocol**: OpenID Connect
   - **Client ID**: `https://<Your OpenProject hostname>`
@@ -378,8 +367,6 @@ Next, you will need to create or note down the client secret for that client.
   - Set Token claim name to `preferred_username`
 - Click **Save**
 
-
-
 #### Form values for OpenProject
 
 In OpenProject, create a custom provider as shown above using these parameters
@@ -391,10 +378,6 @@ In OpenProject, create a custom provider as shown above using these parameters
 - **Token endpoint**: `/oauth2/v1/token`
 - **End session endpoint**: `https://mypersonal.okta.com/oauth2/{authorizationServerId}/v1/logout`
 - **OpenProject Redirect URI**: `https://openproject.example.com/auth/oidc-keycloak/callback` (Note that this URL depends on the display name above. See the UI for the actual Redirect URI)
-
-
-
-
 
 ## Configuration using environment variables
 
@@ -425,8 +408,6 @@ Use the following configuration as a template for your configuration.
 > `https://openproject.example.com/auth/keycloak/callback`
 >
 > You can also see the actual redirect URI in the user interface after the provider has been successfully created from these environment variables.
-
-
 
 ```shell
 # The name of the login button in OpenProject, you can freely set this to anything you like
@@ -480,16 +461,12 @@ OPENPROJECT_OPENID__CONNECT_KEYCLOAK_SYNC__GROUPS="true"
 OPENPROJECT_OPENID__CONNECT_KEYCLOAK_GROUPS__CLAIM="groups"
 ```
 
-
-
 ### Applying the configuration
 
 To apply the configuration after changes, you need to run the `db:seed` rake task. In all installations, this command is run automatically when you upgrade or install your application. Use the following commands based on your installation method:
 
 - **Packaged installation**: `sudo openproject run bundle exec rake db:seed`
 - **Docker**: `docker exec -it <container of all-in-one or web> bundle exec rake db:seed`.
-
-
 
 ## Troubleshooting
 
@@ -522,5 +499,6 @@ A: OpenProject does not currently revalidate user sessions after the initial log
 or the user is removed from the SSO provider, this will not immediately have an effect in OpenProject. [A feature  was requested](https://community.openproject.org/wp/65072) to improve this flow.
 
 Workarounds that are available:
-* Ensure that the SSO provider performs a backchannel logout for all sessions of the user upon account suspension
-* Synchronize the user account via a provisioning integration, such as SCIM, to ensure that account suspensions are synchronized quickly
+
+- Ensure that the SSO provider performs a backchannel logout for all sessions of the user upon account suspension
+- Synchronize the user account via a provisioning integration, such as SCIM, to ensure that account suspensions are synchronized quickly

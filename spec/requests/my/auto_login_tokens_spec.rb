@@ -126,7 +126,7 @@ RSpec.describe "My::AutoLoginTokensController",
 
     it "handles non-existent token gracefully" do
       expect do
-        delete "/my/auto_login_tokens/99999"
+        delete "/my/auto_login_tokens/#{not_existing_id(Token::AutoLogin)}"
       end.not_to change(Token::AutoLogin, :count)
 
       expect(response).to have_http_status(:not_found)

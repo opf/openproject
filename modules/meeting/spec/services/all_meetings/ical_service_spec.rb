@@ -307,5 +307,47 @@ RSpec.describe AllMeetings::ICalService, type: :model do
         end
       end
     end
+
+    context "with a recently started, still-open occurrence" do
+      let!(:past_recurring_meeting) do
+        create(:recurring_meeting,
+               author: user,
+               title: "Weekly standup",
+               start_time: relevant_time - 4.weeks,
+               end_date: relevant_time.advance(week: 8).to_date,
+               iterations: 12,
+               project:,
+               time_zone: user.time_zone).tap do |rm|
+          rm.template.participants = [MeetingParticipant.new(user:)]
+        end
+      end
+
+      let!(:recent_occurrence) do
+        RecurringMeetings::InitOccurrenceService
+          .new(user: User.system, recurring_meeting: past_recurring_meeting)
+          .call(start_time: relevant_time - 1.week)
+          .result
+          .tap do |m|
+            m.participants.create!(user:)
+            m.update_column(:state, Meeting.states[:closed])
+          end
+      end
+
+      # Regression: +from_today_or_recently_started+ previously resetted the scope in its .or
+      # branch, so a recently started occurrence was output a second time under its own UID next to the series.
+      it "does not leak the occurrence back into single_meetings" do
+        expect(Meeting.not_recurring.from_today_or_recently_started).not_to include(recent_occurrence)
+      end
+
+      it "emits the occurrence only once, as a series override, never as a standalone event", :aggregate_failures do
+        overrides = ical.events.select do |e|
+          e.recurrence_id.present? && e.recurrence_id == recent_occurrence.recurrence_start_time
+        end
+
+        expect(overrides.size).to eq(1)
+        expect(overrides.first.uid).to eq(past_recurring_meeting.uid)
+        expect(ical.events.map(&:uid)).not_to include(recent_occurrence.uid)
+      end
+    end
   end
 end

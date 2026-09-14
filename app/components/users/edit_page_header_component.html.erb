@@ -28,7 +28,19 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title { @user.name }
+    header.with_title do
+      flex_layout(align_items: :center) do |flex|
+        flex.with_column do
+          @user.name
+        end
+        if @user.persisted?
+          flex.with_column(ml: 2) do
+            render(Users::StatusLabelComponent.new(user: @user, display: :block))
+          end
+        end
+      end
+    end
+
     header.with_breadcrumbs(breadcrumb_items)
 
     header.with_action_button(

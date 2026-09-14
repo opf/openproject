@@ -1,0 +1,9 @@
+turbo-frame.op-reloadable-configuration-frame
+  display: block
+  transition: opacity 0.2s ease-in-out
+
+  // Turbo flags the frame as busy while it fetches the reloaded content.
+  &[busy]
+    opacity: 0.4
+    pointer-events: none
+    cursor: progress

@@ -1,0 +1,14 @@
+// Scoped to `.Label` so it outweighs Primer's `.Label--inline { display: inline }`
+// whatever order the stylesheets load in. An inline box gives the lock no
+// alignment context, so only the read-only badge becomes a flex container.
+.Label.op-status-badge
+  &_readonly
+    display: inline-flex
+    align-items: center
+    gap: 0.25rem
+
+  .op-status-badge--icon
+    flex-shrink: 0
+
+  .op-status-badge--name
+    @include text-shortener

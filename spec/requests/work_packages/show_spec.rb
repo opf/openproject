@@ -83,5 +83,31 @@ RSpec.describe "GET work package show", type: :rails_request do
 
       include_examples "includes canonical link tag"
     end
+
+    context "when accessed via a historical alias" do
+      let!(:old_alias) do
+        create(:work_package_semantic_alias,
+               work_package:,
+               identifier: "OLD-#{work_package.sequence_number}")
+      end
+
+      it "redirects to the current-identifier URL" do
+        get "/projects/#{project.identifier}/work_packages/#{old_alias.identifier}/activity"
+
+        expect(response).to redirect_to(
+          "/projects/#{project.identifier}/work_packages/#{work_package.display_id}/activity"
+        )
+      end
+    end
+
+    context "when accessed via the numeric ID" do
+      it "redirects to the semantic-identifier URL" do
+        get "/projects/#{project.identifier}/work_packages/#{work_package.id}/activity"
+
+        expect(response).to redirect_to(
+          "/projects/#{project.identifier}/work_packages/#{work_package.display_id}/activity"
+        )
+      end
+    end
   end
 end

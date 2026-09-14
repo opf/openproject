@@ -29,6 +29,7 @@
 #++
 
 require "spec_helper"
+require_module_spec_helper
 
 RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::SearchPages, :disable_ssrf_filter, :webmock do
   subject { described_class.new(model: provider).call(input_data:, auth_strategy:) }
@@ -39,23 +40,41 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::SearchPages, :disable
 
   let(:user) { create(:user) }
 
-  # Before recording VCR cassettes of this, ensure pages with the following titles exist in XWiki:
-  # * Test Page for RSpec
-  # * "Quoted" pages can be tricky
+  # Before recording VCR cassettes of this, ensure pages with the following structure exist in XWiki:
+  # * VCR
+  #   * Incredible space
+  #     * Ümlæûts
+  #   * "Quoted" pages can be tricky
 
   context "when there are exactly matching pages", vcr: "xwiki/query_exact_match" do
-    let(:query) { "Test Page for RSpec" }
+    let(:query) { "Ümlæûts" }
 
     it { is_expected.to be_success }
 
     it "returns matching pages" do
       expect(subject.value!).not_to be_empty
-      expect(subject.value!.first.title).to eq("Test Page for RSpec")
+      expect(subject.value!.first.page.title).to eq("Ümlæûts")
     end
 
-    it "returns a complete PageInfo result" do
-      page_info = subject.value!.first
-      page_info.to_h.each do |attribute, value|
+    it "returns a complete PageHierarchy result" do
+      page_hierarchy = subject.value!.first
+
+      expect(page_hierarchy.page).to be_a(Wikis::Adapters::Results::PageInfo)
+      page_hierarchy.page.to_h.each do |attribute, value|
+        expect(value).not_to be_nil, "#{attribute} was expected to be non-nil, but was nil"
+      end
+
+      expect(page_hierarchy.ancestors).to be_a(Array)
+      expect(page_hierarchy.ancestors.size).to eq(2)
+      page_hierarchy.ancestors.each do |ancestor|
+        expect(ancestor).to be_a(Wikis::Adapters::Results::PageInfo)
+        ancestor.to_h.each do |attribute, value|
+          expect(value).not_to be_nil, "#{attribute} was expected to be non-nil, but was nil"
+        end
+      end
+
+      expect(page_hierarchy.wiki).to be_a(Wikis::Adapters::Results::Wiki)
+      page_hierarchy.wiki.to_h.each do |attribute, value|
         expect(value).not_to be_nil, "#{attribute} was expected to be non-nil, but was nil"
       end
     end
@@ -66,13 +85,13 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::SearchPages, :disable
   end
 
   context "when there are partially matching pages", vcr: "xwiki/query_partial_match" do
-    let(:query) { "for RSpec" }
+    let(:query) { "incredible" }
 
     it { is_expected.to be_success }
 
     it "returns matching pages" do
       expect(subject.value!).not_to be_empty
-      expect(subject.value!.first.title).to eq("Test Page for RSpec")
+      expect(subject.value!.first.page.title).to eq("Incredible space")
     end
 
     it "returns no other random results" do
@@ -87,7 +106,7 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::SearchPages, :disable
 
     it "returns matching pages" do
       expect(subject.value!).not_to be_empty
-      expect(subject.value!.first.title).to eq('"Quoted" pages can be tricky')
+      expect(subject.value!.first.page.title).to eq('"Quoted" pages can be tricky')
     end
 
     it "returns no other random results" do
@@ -101,7 +120,7 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::SearchPages, :disable
 
       it "returns matching pages" do
         expect(subject.value!).not_to be_empty
-        expect(subject.value!.first.title).to eq('"Quoted" pages can be tricky')
+        expect(subject.value!.first.page.title).to eq('"Quoted" pages can be tricky')
       end
     end
   end

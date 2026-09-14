@@ -47,7 +47,7 @@ RSpec.describe "POST api/v3/workspace/:id/work_packages", content_type: :json do
       subject: "new work packages",
       _links: {
         type: {
-          href: api_v3_paths.type(workspace.types.first.id)
+          href: api_v3_paths.type(workspace.enabled_types.first.id)
         }
       }
     }
@@ -153,7 +153,7 @@ RSpec.describe "POST api/v3/workspace/:id/work_packages", content_type: :json do
           bogus: "bogus",
           _links: {
             type: {
-              href: api_v3_paths.type(workspace.types.first.id)
+              href: api_v3_paths.type(workspace.enabled_types.first.id)
             }
           }
         }
@@ -174,7 +174,7 @@ RSpec.describe "POST api/v3/workspace/:id/work_packages", content_type: :json do
           subject: nil,
           _links: {
             type: {
-              href: api_v3_paths.type(workspace.types.first.id)
+              href: api_v3_paths.type(workspace.enabled_types.first.id)
             }
           }
         }

@@ -25,8 +25,8 @@ eo:
     editor:
       macro:
         wikis:
-          add_existing: Existing wiki page
-          create_new: New wiki page
+          add_existing: Ekzistanta vikipaĝo
+          create_new: Nova vikipaĝo
     work_packages:
       tabs:
-        wikis: Wikis
+        wikis: Vikioj

@@ -44,7 +44,7 @@ RSpec.describe Backlogs::Sprints::CreateContract do
 
   describe "validation" do
     context "when the project is configured to receive sprints" do
-      let(:sprint_project) { build_stubbed(:project, sprint_sharing: Projects::SprintSharing::RECEIVE_SHARED) }
+      let(:sprint_project) { build_stubbed(:project, sprint_sharing: Projects::SprintSettings::RECEIVE_SHARED) }
 
       it_behaves_like "contract is invalid", project: :receiving_sprints
     end

@@ -86,4 +86,99 @@ RSpec.describe "Meeting index menu",
       end
     end
   end
+
+  describe "with the past time filter active" do
+    let(:meetings_href) { "/projects/#{project.identifier}/meetings" }
+    let(:project_filter) { { project_id: { operator: "=", values: [project.id.to_s] } } }
+    let(:time_filter) { { time: { operator: "past", values: [] } } }
+
+    context "in the 'All meetings' view" do
+      let(:all_past_filter) { [project_filter, time_filter].to_json }
+      let(:request) do
+        get "/projects/#{project.id}/meetings/menu",
+            params: { current_href: meetings_href, filters: all_past_filter }
+      end
+
+      it "keeps 'All meetings' selected instead of falling back to 'My meetings'" do
+        request
+
+        expect(page).to have_css(".op-submenu--item-action.selected", text: "All meetings")
+        expect(page).to have_no_css(".op-submenu--item-action.selected", text: "My meetings")
+      end
+    end
+
+    context "in the 'Recurring meetings' view" do
+      let(:recurring_past_filter) do
+        [{ type: { operator: "=", values: ["t"] } }, project_filter, time_filter].to_json
+      end
+      let(:request) do
+        get "/projects/#{project.id}/meetings/menu",
+            params: { current_href: meetings_href, filters: recurring_past_filter }
+      end
+
+      it "keeps 'Recurring meetings' selected instead of falling back to 'My meetings'" do
+        request
+
+        expect(page).to have_css(".op-submenu--item-action.selected", text: "Recurring meetings")
+        expect(page).to have_no_css(".op-submenu--item-action.selected", text: "My meetings")
+      end
+    end
+  end
+
+  describe "with a 'part of a meeting series' filter" do
+    let(:meetings_href) { "/projects/#{project.identifier}/meetings" }
+
+    context "when set to 'no'" do
+      let(:not_recurring_filter) { [{ type: { operator: "=", values: ["f"] } }].to_json }
+      let(:request) do
+        get "/projects/#{project.id}/meetings/menu",
+            params: { current_href: meetings_href, filters: not_recurring_filter }
+      end
+
+      it "does not select the 'Recurring meetings' option" do
+        request
+
+        expect(page).to have_no_css(".op-submenu--item-action.selected", text: "Recurring meetings")
+      end
+    end
+
+    context "when added on top of the 'My meetings' filter" do
+      let(:my_recurring_filter) do
+        [
+          { invited_user_id: { operator: "=", values: [user.id.to_s] } },
+          { type: { operator: "=", values: ["t"] } }
+        ].to_json
+      end
+      let(:request) do
+        get "/projects/#{project.id}/meetings/menu",
+            params: { current_href: meetings_href, filters: my_recurring_filter }
+      end
+
+      # No single preset matches the combined filters, so nothing is selected
+      it "selects neither 'My meetings' nor 'Recurring meetings'" do
+        request
+
+        expect(page).to have_no_css(".op-submenu--item-action.selected", text: "My meetings")
+        expect(page).to have_no_css(".op-submenu--item-action.selected", text: "Recurring meetings")
+      end
+    end
+  end
+
+  describe "with the 'My meetings' filter" do
+    let(:meetings_href) { "/projects/#{project.identifier}/meetings" }
+
+    context "when it is the sole filter" do
+      let(:my_filter) { [{ invited_user_id: { operator: "=", values: [user.id.to_s] } }].to_json }
+      let(:request) do
+        get "/projects/#{project.id}/meetings/menu",
+            params: { current_href: meetings_href, filters: my_filter }
+      end
+
+      it "selects 'My meetings'" do
+        request
+
+        expect(page).to have_css(".op-submenu--item-action.selected", text: "My meetings")
+      end
+    end
+  end
 end

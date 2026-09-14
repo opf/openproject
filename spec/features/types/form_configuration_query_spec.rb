@@ -177,7 +177,7 @@ RSpec.describe "form query configuration", :js do
       end
 
       type_bug.reload
-      query = type_bug.attribute_groups.detect { |x| x.key == "Columns Test" }
+      query = type_bug.default_variant.attribute_groups.detect { |x| x.key == "Columns Test" }
       expect(query).to be_present
 
       column_names = query.attributes.columns.map(&:name).sort
@@ -194,14 +194,14 @@ RSpec.describe "form query configuration", :js do
       end
 
       type_bug.reload
-      query = type_bug.attribute_groups.detect { |x| x.key == "Columns Test" }
+      query = type_bug.default_variant.attribute_groups.detect { |x| x.key == "Columns Test" }
       expect(query).to be_present
       expect(query.attributes.show_hierarchies).to be(false)
 
       column_names = query.attributes.columns.map(&:name).sort
       expect(column_names).to eq %i[id subject]
 
-      query = type_bug.attribute_groups.detect { |x| x.key == "Second query" }
+      query = type_bug.default_variant.attribute_groups.detect { |x| x.key == "Second query" }
       expect(query).to be_present
       expect(query.attributes.show_hierarchies).to be(false)
 

@@ -31,13 +31,14 @@
 module Header
   module Projects
     class NodeComponent < ApplicationComponent
-      def initialize(component:, node:, current_project_id:, favorited_ids:, jump:)
+      def initialize(component:, node:, current_project_id:, favorited_ids:, jump:, query_terms: [])
         super()
         @component = component
         @node = node
         @current_project_id = current_project_id
         @favorited_ids = favorited_ids
         @jump = jump
+        @query_terms = query_terms
       end
 
       private
@@ -54,7 +55,7 @@ module Header
       end
 
       def label
-        helpers.project_node_label(project, favorited: favorited?)
+        helpers.project_node_label(project, favorited: favorited?, query_terms: @query_terms)
       end
     end
   end

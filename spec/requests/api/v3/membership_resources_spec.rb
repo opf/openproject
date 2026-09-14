@@ -1208,7 +1208,7 @@ RSpec.describe "API v3 memberships resource", content_type: :json do
       end
 
       context "for a non-existent version" do
-        let(:path) { api_v3_paths.membership 1337 }
+        let(:path) { api_v3_paths.membership(not_existing_id(Member)) }
 
         it_behaves_like "not found"
       end

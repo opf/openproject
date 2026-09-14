@@ -38,6 +38,7 @@ Under the **Name** tab, you can select the name that will be used for the artifa
 ![Tab to choose a name for the project initiation request flow under OpenProject project settings](openproject_userguide_project_settings_pir_request_name.png)
 
 You can choose from the following predefined options:
+
 - Project creation wizard 
 - Project initiation request 
 - Project mandate 
@@ -70,7 +71,7 @@ When a request is submitted, OpenProject creates a new work package and attaches
 You can configure the following: 
 
 **Work package type**
-Select the work package type used to store the completed initiation artifact, for example *Task*, *Milestone*, or *Phase*.
+Select the work package type used to store the completed initiation artifact, for example _Task_, _Milestone_, or _Phase_.
 
 **Status when submitted**
 Choose the status that the work package will automatically transition to once the request is submitted. You can create [work package statuses](../../../../system-admin-guide/manage-work-packages/work-package-status/) to best fit your framework.
@@ -92,7 +93,6 @@ A default comment is pre-filled and can be adjusted if needed.
 Enable this option to send a confirmation email to the user who submitted the project initiation request.
 
 Click **Save** to apply your changes.
-
 
 ### Define how the artifact is exported
 

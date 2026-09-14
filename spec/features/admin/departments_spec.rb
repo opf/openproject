@@ -73,6 +73,34 @@ RSpec.describe "Departments admin",
 
       departments_page.expect_department_empty_state
     end
+
+    # Regression test for `frontend/src/turbo/turbo-navigation-patch.ts`, which
+    # works around hotwired/turbo#1300: a `<turbo-frame data-turbo-action=
+    # "advance">` advances the URL, but without the patch the browser back
+    # button reverts the URL while leaving the frame's previously rendered
+    # content stale. Departments renders its whole content area in such a
+    # frame, so advancing through the tree and going back exercises the patch.
+    it "restores the parent's frame content when navigating back" do
+      organization_name = Setting.organization_name.presence || I18n.t("setting_organization_name")
+
+      departments_page.visit_department(parent)
+      departments_page.expect_breadcrumbs(organization_name, "Engineering")
+
+      departments_page.tree_view.click_node("Backend")
+
+      departments_page.expect_breadcrumbs(organization_name, "Engineering", "Backend")
+      expect(page).to have_current_path("/admin/departments/#{child.id}")
+
+      page.go_back
+      wait_for_network_idle
+
+      # Without the patch the URL reverts but the frame keeps the Backend
+      # content, leaving three breadcrumbs; the exact-match assertion below
+      # fails in that case and only passes once the parent frame is restored.
+      expect(page).to have_current_path("/admin/departments/#{parent.id}")
+      departments_page.expect_breadcrumbs(organization_name, "Engineering")
+      departments_page.tree_view.should_have_active_item("Engineering")
+    end
   end
 
   describe "adding a department" do

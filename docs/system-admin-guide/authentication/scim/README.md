@@ -14,7 +14,7 @@ OpenProject supports automated user synchronization via SCIM API, enabling  seam
 > [!NOTE]
 > For users deletion to work please make sure the box **User accounts deletable by admins** in **Administration** -> **Users and permissions** -> **User settings** is checked.
 
-To activate and configure SCIM user and group provisioning in OpenProject, navigate to *Administration* -> *Authentication* and select *SCIM clients* from the left-hand menu.
+To activate and configure SCIM user and group provisioning in OpenProject, navigate to _Administration_ -> _Authentication_ and select _SCIM clients_ from the left-hand menu.
 
 ## Configure a new SCIM client
 
@@ -42,9 +42,9 @@ It must have been configured before creating the SCIM client. It can be an [OIDC
 
 ![A SCIM client creation form in OpenProject administration, with the "Authentication provider" field highlighted and filled out](add_scim_3.png)
 
-### Step 3. Choose an Authentication method.
+### Step 3. Choose an Authentication method
 
-There are three *Authentication method* options you can choose from:
+There are three _Authentication method_ options you can choose from:
 
 #### a. Static access token
 
@@ -59,19 +59,17 @@ Once you click the **Create** button, an access token will be generated. The gen
 
 ![Add SCIM client. Creation form. Static access token. Copy token.](add_scim_5.png)
 
-
 Once created, a SCIM client will appear on the SCIM clients index page.
 
 ![Scim clients index page listing all created clients under authentication settings in OpenProject administration](openproject_system_administration_authetication_scim_index_page.png)
 
 Click on the client name to open the detailed view, edit the information, add revoke or add tokens. You will be able to edit the client information and tokens.
 
-SCIM client tokens can be revoked. To revoke a token click the **Revoke** icon at the far right end of the token listing. To add a new token click the **+ Token** button at the bottom of *Tokens* section.
+SCIM client tokens can be revoked. To revoke a token click the **Revoke** icon at the far right end of the token listing. To add a new token click the **+ Token** button at the bottom of _Tokens_ section.
 
 ![Add or revoke static access token on a SCIM client detailed from under administration settings in OpenProject administration](add_scim_6.png)
 
 Here is an example of a configuration form in Keycloak, if you use it with [SCIM plugin](https://github.com/mitodl/keycloak-scim).
-
 
 ![An example of a Keycloak configuration form to add a SCIM client for OpenProject](add_scim_10.png)
 
@@ -107,3 +105,32 @@ The SCIM client must be able to obtain a JWT from the OpenID Connect provider (e
 3. The `scope` claim includes `scim_v2`.
 
 This could for example be achieved by performing a client credentials token request towards the identity provider. In the case of Keycloak as an IDP, the sub claim would then equal to the UUID of the service account that's associated to the client obtaining the token.
+
+## Configuration using environment variables
+
+For some deployment scenarios, it might be desirable to configure a SCIM client through environment variables. These variables follow the rules defined in the [documentation about using environment variables](../../../installation-and-operations/configuration/environment/).
+
+The configuration `OPENPROJECT_SCIM__CLIENTS` accepts an array of JSON objects to configure SCIM clients.
+For each SCIM client you can define the following attributes:
+
+- `name`: Defines the user-visible name of the SCIM client.
+- `jwt_sub`: The sub claim that JWTs of the client can be identified with. For example, for Keycloak, this is the UUID of the service account associated with the SCIM client.
+- `auth_provider_slug`: The slug of the OpenID Connect provider that shall be associated to the SCIM client. For example a provider configured via `OPENPROJECT_OPENID__CONNECT_KEYCLOAK` would use a slug of `keycloak`.
+
+> [!NOTE]
+> This only allows configuring SCIM clients that authenticate via JSON web tokens issued from an OpenID Connect provider.
+
+The following is a configuration example for a single SCIM client:
+
+```
+[{ "name": "My SCIM Client", "jwt_sub": "b7c8ed62-840d-451e-9ed2-6161310b4f22", "auth_provider_slug": "keycloak" }]
+```
+
+### Applying the configuration
+
+To apply the configuration after changes, you need to run the `db:seed` rake task. In all installations, this command is run automatically when you upgrade or install your application. Use the following commands based on your installation method:
+
+- **Packaged installation**: `sudo openproject run bundle exec rake db:seed`
+- **Docker**: `docker exec -it <container of all-in-one or web> bundle exec rake db:seed`.
+
+Changes will also be applied to existing SCIM clients this way. Existing SCIM clients will be matched to the ones defined in environment variables by their human-readable name.

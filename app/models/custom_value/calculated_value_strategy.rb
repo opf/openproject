@@ -32,44 +32,80 @@ class CustomValue::CalculatedValueStrategy < CustomValue::FormatStrategy
   include ActionView::Helpers::NumberHelper
 
   def typed_value
-    if value.present?
-      integer_value? ? value.to_i : value.to_f
+    if value.blank?
+      nil
+    elsif true_value?
+      true
+    elsif false_value?
+      false
+    elsif integer_value?
+      value.to_i
+    else
+      value.to_f
     end
   end
 
   def formatted_value
-    return "" if value.blank?
-
-    if integer_value?
+    if value.blank?
+      ""
+    elsif true_value?
+      I18n.t(:general_text_Yes)
+    elsif false_value?
+      I18n.t(:general_text_No)
+    elsif integer_value?
       number_with_delimiter(value.to_i)
     else
-      delimiter = I18n.t("number.format.delimiter")
-      separator = I18n.t("number.format.separator")
-      formatted = number_with_precision(value.to_f,
-                                        precision: 3,
-                                        strip_insignificant_zeros: true,
-                                        delimiter:,
-                                        separator:)
+      formatted_as_float
+    end
+  end
 
-      # Ensure at least one decimal place for floats
-      if formatted.exclude?(separator)
-        "#{formatted}#{separator}0"
-      else
-        formatted
-      end
+  def parse_value(val)
+    case val
+    when true, "true", OpenProject::Database::DB_VALUE_TRUE
+      OpenProject::Database::DB_VALUE_TRUE
+    when false, "false", OpenProject::Database::DB_VALUE_FALSE
+      OpenProject::Database::DB_VALUE_FALSE
+    else
+      val
     end
   end
 
   def validate_type_of_value
-    Kernel.Float(value)
-    nil
-  rescue StandardError
-    :not_a_number
+    return if value.in?([true, false]) || true_value? || false_value?
+
+    :not_a_number unless Kernel.Float(value, exception: false)
   end
 
   private
 
+  def true_value?
+    value == OpenProject::Database::DB_VALUE_TRUE
+  end
+
+  def false_value?
+    value == OpenProject::Database::DB_VALUE_FALSE
+  end
+
   def integer_value?
     value =~ /\A[-+]?\d+\z/
+  end
+
+  def formatted_as_float
+    delimiter = I18n.t("number.format.delimiter")
+    separator = I18n.t("number.format.separator")
+    formatted = number_with_precision(
+      value.to_f,
+      precision: 3,
+      strip_insignificant_zeros: true,
+      delimiter:,
+      separator:
+    )
+
+    # Ensure at least one decimal place for floats
+    if formatted.exclude?(separator)
+      "#{formatted}#{separator}0"
+    else
+      formatted
+    end
   end
 end

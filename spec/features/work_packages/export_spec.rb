@@ -44,7 +44,7 @@ RSpec.describe "work package export", :js, :selenium do
   let(:work_packages_page) { WorkPackagesPage.new(project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:settings_menu) { Components::WorkPackages::SettingsMenu.new }
-  let(:export_sub_type) { nil }
+  let(:export_variant) { nil }
   let(:default_expected_params) do
     { title: "My custom query title" }
   end
@@ -403,11 +403,11 @@ RSpec.describe "work package export", :js, :selenium do
 
     context "as table" do
       let(:export_type) { I18n.t("export.dialog.format.options.pdf.label") }
-      let(:export_sub_type) { I18n.t("export.dialog.pdf.export_type.options.table.label") }
+      let(:export_variant) { I18n.t("export.dialog.pdf.export_type.options.table.label") }
       let(:expected_params) { default_expected_params.merge({ pdf_export_type: "table" }) }
 
       before do
-        choose export_sub_type
+        choose export_variant
       end
 
       it "exports a pdf table" do
@@ -440,7 +440,7 @@ RSpec.describe "work package export", :js, :selenium do
 
         let(:query) { create(:query, user: current_user, project:, group_by: "project_phase", name: "My custom query title") }
         let(:export_type) { I18n.t("export.dialog.format.options.pdf.label") }
-        let(:export_sub_type) { I18n.t("export.dialog.pdf.export_type.options.table.label") }
+        let(:export_variant) { I18n.t("export.dialog.pdf.export_type.options.table.label") }
         let(:expected_params) { default_expected_params.merge({ pdf_export_type: "table", groupBy: "project_phase" }) }
         let(:expected_columns) { %w[ID Subject Type Status Assignee Priority ProjectPhase] }
 
@@ -457,11 +457,11 @@ RSpec.describe "work package export", :js, :selenium do
 
     context "as report" do
       let(:export_type) { I18n.t("export.dialog.format.options.pdf.label") }
-      let(:export_sub_type) { I18n.t("export.dialog.pdf.export_type.options.report.label") }
+      let(:export_variant) { I18n.t("export.dialog.pdf.export_type.options.report.label") }
       let(:default_params_report) { default_expected_params.merge({ pdf_export_type: "report" }) }
 
       before do
-        choose export_sub_type
+        choose export_variant
       end
 
       context "with long text fields" do
@@ -485,7 +485,7 @@ RSpec.describe "work package export", :js, :selenium do
           # Save export settings, export and reopen dialog
           check I18n.t("export.dialog.save_export_settings.label")
           export_and_reopen_dialog!
-          choose export_sub_type
+          choose export_variant
 
           selected_long_fields = page.within(".op-angular-component[data-id='\"ltf-select-export-pdf-report\"']") do
             all(".op-draggable-autocomplete--item-text").map(&:text)
@@ -534,7 +534,7 @@ RSpec.describe "work package export", :js, :selenium do
 
     context "as gantt" do
       let(:export_type) { I18n.t("export.dialog.format.options.pdf.label") }
-      let(:export_sub_type) { I18n.t("export.dialog.pdf.export_type.options.gantt.label") }
+      let(:export_variant) { I18n.t("export.dialog.pdf.export_type.options.gantt.label") }
 
       context "with EE not active" do
         it "gantt is disabled" do
@@ -546,7 +546,7 @@ RSpec.describe "work package export", :js, :selenium do
         let(:expected_params) { default_expected_params.merge({ pdf_export_type: "gantt" }) }
 
         before do
-          choose export_sub_type
+          choose export_variant
         end
 
         it "exports a gantt chart pdf" do

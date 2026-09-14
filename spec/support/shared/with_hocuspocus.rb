@@ -37,7 +37,12 @@ RSpec.shared_context "with hocuspocus" do
   before do
     host = ENV["OPENPROJECT_TESTING_WITH_DOCKER"] == "true" ? "hocuspocus-test" : "127.0.0.1"
     port = 1234
-    Setting.collaborative_editing_hocuspocus_url = "ws://#{host}:#{port}"
+    if ENV["OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__URL"].nil?
+      Setting.collaborative_editing_hocuspocus_url = "ws://#{host}:#{port}"
+    end
+    if ENV["OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET"].nil?
+      Setting.collaborative_editing_hocuspocus_secret = "secret12345"
+    end
 
     begin
       TCPSocket.new(host, port).close

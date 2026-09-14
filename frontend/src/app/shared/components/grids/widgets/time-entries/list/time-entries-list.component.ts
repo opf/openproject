@@ -1,3 +1,31 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import { AfterViewInit, ChangeDetectorRef, Directive, Injector, OnDestroy, OnInit, inject } from '@angular/core';
 import { AbstractWidgetComponent } from 'core-app/shared/components/grids/widgets/abstract-widget.component';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -16,6 +44,7 @@ import {
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { MeetingResource } from 'core-app/features/hal/resources/meeting-resource';
+import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
 
 @Directive()
 export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -213,8 +242,8 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
       .get();
   }
 
-  private handleDialogClose(event:CustomEvent):void {
-    const { detail: { dialog, submitted } } = event as { detail:{ dialog:HTMLDialogElement; submitted:boolean } };
+  private handleDialogClose(event:CustomEvent<DialogCloseDetail>):void {
+    const { detail: { dialog, submitted } } = event;
     if (dialog.id === 'time-entry-dialog' && submitted) {
       this.loadTimeEntries();
     }

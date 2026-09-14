@@ -25,8 +25,8 @@ uk:
     editor:
       macro:
         wikis:
-          add_existing: Existing wiki page
-          create_new: New wiki page
+          add_existing: Наявна сторінка вікі
+          create_new: Нова сторінка вікі
     work_packages:
       tabs:
         wikis: Wiki-сторінки

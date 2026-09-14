@@ -129,6 +129,47 @@ RSpec.describe ProjectCustomFieldSection do
     end
   end
 
+  describe "#insert_after_key" do
+    let(:section) { create(:project_custom_field_section) }
+    # Creation order determines initial attribute_order within the section.
+    let!(:cf1) { create(:string_project_custom_field, name: "CF1", project_custom_field_section: section) }
+    let!(:cf2) { create(:string_project_custom_field, name: "CF2", project_custom_field_section: section) }
+    let!(:cf3) { create(:string_project_custom_field, name: "CF3", project_custom_field_section: section) }
+    let(:k1) { cf1.column_name }
+    let(:k2) { cf2.column_name }
+    let(:k3) { cf3.column_name }
+
+    # cf1/cf2/cf3 are created via a separately-loaded custom_field_section
+    # association (add_to_section_order), so section's in-memory
+    # attribute_order is stale until reloaded.
+    before { section.reload }
+
+    it "inserts at the head for a blank prev_key" do
+      expect(section.insert_after_key(k3, "")).to be(true)
+      expect(section.reload.attribute_order).to eq([k3, k1, k2])
+    end
+
+    it "inserts directly after the anchor moving down" do
+      expect(section.insert_after_key(k1, k2)).to be(true)
+      expect(section.reload.attribute_order).to eq([k2, k1, k3])
+    end
+
+    it "inserts directly after the anchor moving up" do
+      expect(section.insert_after_key(k3, k1)).to be(true)
+      expect(section.reload.attribute_order).to eq([k1, k3, k2])
+    end
+
+    it "rejects an unknown anchor key without mutating" do
+      expect(section.insert_after_key(k1, "cf_unknown")).to be(false)
+      expect(section.reload.attribute_order).to eq([k1, k2, k3])
+    end
+
+    it "rejects a self anchor without mutating" do
+      expect(section.insert_after_key(k2, k2)).to be(false)
+      expect(section.reload.attribute_order).to eq([k1, k2, k3])
+    end
+  end
+
   describe ".grouped_in_order" do
     let!(:section_a) { create(:project_custom_field_section, name: "Section A", position: 1) }
     let!(:section_b) { create(:project_custom_field_section, name: "Section B", position: 2) }

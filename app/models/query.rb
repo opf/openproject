@@ -190,10 +190,11 @@ class Query < ApplicationRecord
     filter.operator = operator
     filter.values = values
 
-    filters << filter
+    filters << filter if filters.none? { it.field.to_s == filter.field.to_s }
   end
 
   def filter_for(field)
+    field = Queries::WorkPackages::StoredNames.offered_filter(field)
     filter = (filters || []).detect { |f| f.field.to_s == field.to_s } || super
 
     filter.context = self
@@ -206,6 +207,7 @@ class Query < ApplicationRecord
   #
   # @param [String] name the filter to remove
   def remove_filter(name)
+    name = Queries::WorkPackages::StoredNames.offered_filter(name)
     filters.delete_if { |f| f.field.to_s == name.to_s }
   end
 
@@ -215,7 +217,10 @@ class Query < ApplicationRecord
   # by name. Signature kept identical to BaseQuery's (symbol arg in, filter
   # or nil out).
   def find_active_filter(name)
-    filters.detect { |f| f.name == name }
+    key = Queries::WorkPackages::StoredNames.offered_filter(name)
+    key = key.to_sym if name.is_a?(Symbol)
+
+    filters.detect { |f| f.name == key }
   end
 
   # The manual-sort filter is added programmatically when the user drags
@@ -224,8 +229,15 @@ class Query < ApplicationRecord
   # `Filters::FilterFormComponent` builds. Mirrors how
   # `Queries::Filters::AvailableFilters#available_advanced_filters` already
   # excludes the inline `name_and_identifier` quick-filter on projects.
+  #
+  # The relation-type filters (blocks, precedes, duplicates, etc.) and the
+  # generic relatable filter are also not supposed to be user selectable filters.
   def available_advanced_filters
-    super.grep_v(::Queries::WorkPackages::Filter::ManualSortFilter)
+    super
+      .grep_v(::Queries::WorkPackages::Filter::ManualSortFilter)
+      .grep_v(::Queries::WorkPackages::Filter::FilterOnDirectedRelationsMixin)
+      .grep_v(::Queries::WorkPackages::Filter::FilterOnUndirectedRelationsMixin)
+      .grep_v(::Queries::WorkPackages::Filter::RelatableFilter)
   end
 
   def normalized_name
@@ -280,7 +292,7 @@ class Query < ApplicationRecord
   # Returns a Hash of sql columns for sorting by column
   def sortable_key_by_column_name
     column_sortability = sortable_columns.inject({}) do |h, column|
-      h[column.name.to_s] = column.sortable
+      h[column.name.to_s] = column.sortable(self)
       h
     end
 
@@ -293,14 +305,7 @@ class Query < ApplicationRecord
   end
 
   def columns
-    column_list = if has_default_columns?
-                    column_list = Setting.work_package_list_default_columns.dup.map(&:to_sym)
-                    # Adds the project column by default for cross-project lists
-                    column_list += [:project] if project.nil? && column_list.exclude?(:project)
-                    column_list
-                  else
-                    column_names
-                  end
+    column_list = has_default_columns? ? default_column_list : column_names
 
     # preserve the order
     column_list.filter_map { |name| displayable_columns.find { |col| col.name == name.to_sym } }
@@ -309,13 +314,20 @@ class Query < ApplicationRecord
   def column_names=(names)
     col_names = Array(names)
                 .compact_blank
-                .map(&:to_sym)
+                .map { Queries::WorkPackages::StoredNames.stored_select(it).to_sym }
+                .uniq
 
     write_attribute(:column_names, col_names)
   end
 
+  def column_names
+    read_attribute(:column_names)
+      .map { Queries::WorkPackages::StoredNames.offered_select(it).to_sym }
+      .uniq
+  end
+
   def has_column?(column)
-    column_names&.include?(column.name)
+    column_names.include?(column.name)
   end
 
   def has_default_columns?
@@ -326,16 +338,18 @@ class Query < ApplicationRecord
     if arg.is_a?(Hash)
       arg = arg.keys.sort.map { |k| arg[k] }
     end
-    c = arg.reject { |k, _o| k.to_s.blank? }.slice(0, 3).map { |k, o| [k.to_s, o == "desc" ? o : "asc"] }
+
+    c = canonicalized_sort_criteria(arg)
+        .slice(0, 3)
+        .map { |k, o| [k, o == "desc" ? o : "asc"] }
+
     write_attribute(:sort_criteria, c)
   end
 
   def sort_criteria
-    (read_attribute(:sort_criteria) || []).tap do |criteria|
-      criteria.map! do |attr, direction|
-        attr = "id" if attr == "parent"
-        [attr, direction]
-      end
+    read_attribute(:sort_criteria).map do |attr, direction|
+      attr = "id" if attr == "parent"
+      [Queries::WorkPackages::StoredNames.offered_select(attr).to_s, direction]
     end
   end
 
@@ -375,6 +389,14 @@ class Query < ApplicationRecord
     display_sums
   end
 
+  def group_by=(name)
+    write_attribute(:group_by, Queries::WorkPackages::StoredNames.stored_select(name))
+  end
+
+  def group_by
+    Queries::WorkPackages::StoredNames.offered_select(read_attribute(:group_by))
+  end
+
   def group_by_column
     groupable_columns.detect { |c| c.groupable && c.name.to_s == group_by }
   end
@@ -412,6 +434,7 @@ class Query < ApplicationRecord
   def work_package_journals(options = {}) # rubocop:disable Metrics/AbcSize
     Journal.includes(:user)
            .where(journable_type: WorkPackage.to_s, restricted: false)
+           .without_meeting_causes
            .joins("INNER JOIN work_packages ON work_packages.id = journals.journable_id")
            .joins("INNER JOIN projects ON work_packages.project_id = projects.id")
            .joins("INNER JOIN users AS authors ON work_packages.author_id = authors.id")
@@ -445,6 +468,23 @@ class Query < ApplicationRecord
   end
 
   private
+
+  def canonicalized_sort_criteria(arg)
+    arg
+      .reject { |k, _o| k.to_s.blank? }
+      .map { |k, o| [Queries::WorkPackages::StoredNames.stored_select(k).to_s, o] }
+      .uniq { |k, _o| k }
+  end
+
+  def default_column_list
+    column_list = Setting.work_package_list_default_columns
+                          .map { Queries::WorkPackages::StoredNames.offered_select(it).to_sym }
+                          .uniq
+
+    # Adds the project column by default for cross-project lists
+    column_list += [:project] if project.nil? && column_list.exclude?(:project)
+    column_list
+  end
 
   ##
   # Determine whether there are explicit filters
@@ -490,7 +530,7 @@ class Query < ApplicationRecord
   def valid_sort_criteria_subset!
     available_criteria = sortable_columns.map(&:name).map(&:to_s)
 
-    sort_criteria.select! do |criteria|
+    self.sort_criteria = sort_criteria.select do |criteria|
       available_criteria.include? criteria.first.to_s
     end
   end

@@ -33,7 +33,7 @@ module Groups
   # This can be scoped to only a certain project which results in considerably better performance.
   class CreateInheritedRolesService < ::BaseServices::BaseContracted
     using CoreExtensions::SquishSql
-    include Groups::Concerns::MembershipManipulation
+    include MembershipManipulation
 
     def initialize(group, current_user:, contract_class: AdminOnlyContract)
       self.model = group

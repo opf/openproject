@@ -284,13 +284,60 @@ RSpec.describe Meetings::DispatchAggregatedNotificationsService do
                              removed_participants: []))
     end
 
-    it "does not send meeting attribute changes via MeetingSeriesMailer" do
+    it "sends updated without a schedule change (avoids locale false positives)" do
       service
       expect(MeetingSeriesMailer)
         .to have_received(:updated)
         .with(recurring_meeting, existing_user, actor,
-              hash_including(changes: { old_schedule: recurring_meeting.full_schedule_in_words,
-                                        old_location: nil }))
+              hash_including(changes: { old_location: recurring_meeting.template.location },
+                             added_participants: [new_user.name],
+                             removed_participants: []))
+      expect(MeetingSeriesMailer)
+        .to have_received(:updated)
+        .with(recurring_meeting, existing_user, actor,
+              hash_including(changes: hash_not_including(:old_schedule)))
+    end
+
+    context "with recipients in a different locale than the actor" do
+      let(:german_actor) do
+        create(:user,
+               language: "de",
+               member_with_permissions: { project => %i[view_meetings edit_meetings] })
+      end
+      let(:english_recipient) do
+        create(:user,
+               language: "en",
+               member_with_permissions: { project => %i[view_meetings] })
+      end
+      let(:actor) { german_actor }
+      let(:existing_user) { english_recipient }
+
+      before do
+        allow(MeetingSeriesMailer).to receive(:updated).and_call_original
+        stub_invited_ids(since_participant_journals, [english_recipient.id])
+        stub_invited_ids(latest_participant_journals, [english_recipient.id, new_user.id])
+        I18n.locale = :de
+        User.current = german_actor
+      end
+
+      after do
+        I18n.locale = :en
+      end
+
+      it "does not render a false schedule update in the recipient's email (Bug #67287)" do
+        service
+        perform_enqueued_jobs
+
+        mail = ActionMailer::Base.deliveries.find { |m| m.to.include?(english_recipient.mail) }
+        expect(mail).to be_present
+
+        body = mail.html_part.body.to_s
+        expect(body).to include("Every week")
+        expect(body).not_to include("Jede Woche")
+        expect(body).not_to include(I18n.t("meeting.email.series_updated.old_schedule", locale: :en))
+        expect(body).not_to include(I18n.t("meeting.email.series_updated.new_schedule", locale: :en))
+        expect(body).to include(new_user.name)
+      end
     end
   end
 

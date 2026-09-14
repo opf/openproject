@@ -83,9 +83,10 @@ module Ldap
       call
     end
 
-    def try_to_create(attrs)
+    def try_to_create(attrs) # rubocop:disable Metrics/AbcSize
+      # LDAP maps no custom fields, so a required one would make the sync permanently impossible.
       call = Users::CreateService
-        .new(user: User.system)
+        .new(user: User.system, contract_options: { skip_custom_field_validation: true })
         .call(attrs.merge(ldap_auth_source_id: ldap.id))
 
       if call.success?

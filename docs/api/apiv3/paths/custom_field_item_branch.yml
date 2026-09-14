@@ -7,6 +7,8 @@ get:
     Retrieves the branch of a single custom field item specified by its unique identifier.
 
     A branch is list of all ancestors, starting with the root item and finishing with the item itself.
+  tags:
+    - Custom Fields
   parameters:
     - name: id
       description: The custom field item's unique identifier

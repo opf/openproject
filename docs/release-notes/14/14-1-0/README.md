@@ -86,7 +86,7 @@ To make this possible Attachment and Files Storages settings were moved together
 
 ### File storages module activated by default
 
-In connection with the feature above, activating file storages integrations was simplified. It is no longer required to active **Files storages** module under project settings. Instead, available file storages are visible under *Project settings > Files > External file storages*, as long as the user has *Manage file storages in project* permission.
+In connection with the feature above, activating file storages integrations was simplified. It is no longer required to active **Files storages** module under project settings. Instead, available file storages are visible under _Project settings > Files > External file storages_, as long as the user has _Manage file storages in project_ permission.
 
 ![External file storages under project settings in OpenProject](openproject-14-1-project-settings-files.png)
 
@@ -180,9 +180,9 @@ Apart from the features mentioned above, there have been a lot of other changes,
 
 A very special thank you goes to our sponsors for features and improvements of this release:
 
-* City of Cologne for sponsoring features on project attributes
-* Deutsche Bahn for sponsoring the OneDrive/SharePoint integration
-* German Federal Ministry of the Interior and Home Affairs (BMI) for sponsoring the features on progress reporting
+- City of Cologne for sponsoring features on project attributes
+- Deutsche Bahn for sponsoring the OneDrive/SharePoint integration
+- German Federal Ministry of the Interior and Home Affairs (BMI) for sponsoring the features on progress reporting
 
 Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes. Special thanks for reporting and finding bugs go to Marc Burk, Silas Kropf, and Hanley Loller.
 

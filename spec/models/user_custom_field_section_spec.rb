@@ -39,12 +39,6 @@ RSpec.describe UserCustomFieldSection do
     end
   end
 
-  describe "#untitled?" do
-    it { expect(described_class.new(name: nil)).to be_untitled }
-    it { expect(described_class.new(name: "")).to be_untitled }
-    it { expect(described_class.new(name: "My section")).not_to be_untitled }
-  end
-
   describe "#add_to_order" do
     it "appends to the end when no position given" do
       section.add_to_order("cf_1")

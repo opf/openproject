@@ -96,21 +96,4 @@ RSpec.describe Users::Profile::AttributesSectionComponent, type: :component do
       expect(component.render?).to be(false)
     end
   end
-
-  context "with an untitled section" do
-    shared_let(:custom_field) do
-      create(:user_custom_field, :string, user_custom_field_section: section)
-    end
-    let(:user) { create(:user, custom_values: [build(:custom_value, custom_field:, value: "x")]) }
-
-    before do
-      section.update_column(:name, nil)
-      section.update_column(:attribute_order, [custom_field.column_name])
-      render_inline(component)
-    end
-
-    it "renders the I18n fallback label" do
-      expect(page).to have_text(I18n.t("settings.user_custom_fields.label_untitled_section"))
-    end
-  end
 end

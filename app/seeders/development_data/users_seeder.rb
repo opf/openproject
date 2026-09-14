@@ -55,12 +55,6 @@ module DevelopmentData
       !seed_users_disabled? && User.where(login: user_names).count === 0
     end
 
-    def seed_users_disabled?
-      off_values = %w[off false no 0]
-
-      off_values.include? ENV.fetch("OP_DEV_USER_SEEDER_ENABLED", nil)
-    end
-
     def user_names
       %i(reader member work_packager project_admin admin_de)
     end

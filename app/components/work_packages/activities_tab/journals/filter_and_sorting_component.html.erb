@@ -44,6 +44,19 @@
             },
             active: show_only_comments?
           )
+          if show_hide_meetings_filter?
+            menu.with_item(
+              label: t("activities.work_packages.activity_tab.label_activity_hide_meetings"),
+              href: update_filter_work_package_activities_path(work_package, filter: WorkPackages::ActivitiesTab::Filters::HIDE_MEETINGS),
+              content_arguments: {
+                data: {
+                  turbo_stream: true, action: "click->work-packages--activities-tab--index#setFilterToHideMeetings",
+                  test_selector: "op-wp-journals-filter-hide-meetings"
+                }
+              },
+              active: hide_meetings?
+            )
+          end
         end
       end
       container.with_column do

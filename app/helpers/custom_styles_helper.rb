@@ -36,6 +36,32 @@ module CustomStylesHelper
     selected && selected[:pdf]
   end
 
+  def show_theme_selector?
+    selected = selected_tab(design_tabs)
+    selected && %w[interface branding].include?(selected[:name])
+  end
+
+  def default_colors_tab?
+    selected_tab(design_tabs)&.dig(:name) == "default_colors"
+  end
+
+  def design_color_groups
+    colors = DesignColor.setables.index_by(&:variable)
+
+    {
+      base_colors: %w[primary-button-color accent-color],
+      top_header_colors: %w[header-bg-color],
+      main_menu: %w[main-menu-bg-color main-menu-bg-selected-background]
+    }.filter_map do |name, variables|
+      group_colors = variables.filter_map { |variable| colors[variable] }
+      [name, group_colors] if group_colors.any?
+    end
+  end
+
+  def effective_design_color(design_color, current_theme:)
+    design_color.hexcode.presence || color_theme(current_theme).fetch(:colors).fetch(design_color.variable)
+  end
+
   def design_tabs
     [
       {
@@ -49,6 +75,12 @@ module CustomStylesHelper
         partial: "custom_styles/branding",
         path: custom_style_path(tab: :branding),
         label: t(:"admin.custom_styles.tab_branding")
+      },
+      {
+        name: "default_colors",
+        partial: "custom_styles/default_colors",
+        path: custom_style_path(tab: :default_colors),
+        label: t(:"admin.custom_styles.tab_default_colors")
       },
       {
         name: "pdf_export_styles",
@@ -66,6 +98,16 @@ module CustomStylesHelper
       }
     ]
   end
+
+  private
+
+  def color_theme(current_theme)
+    OpenProject::CustomStyles::ColorThemes.themes.find do |theme|
+      theme[:theme] == current_theme
+    end || OpenProject::CustomStyles::ColorThemes.themes.first
+  end
+
+  public
 
   def apply_custom_styles?(skip_ee_check: OpenProject::Configuration.bim?)
     # Apply custom styles either if EE allows OR we are on a BIM edition with the BIM theme active.

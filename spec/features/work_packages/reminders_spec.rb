@@ -290,15 +290,13 @@ RSpec.describe "Work package reminder modal",
 
           # Fill in the time but not the date
           fill_in "Date", with: ""
-          fill_in "Time", with: Time.use_zone(current_user.time_zone) { Time.zone.parse("05:00") }
+          fill_in "Time", with: "05:00"
           click_link_or_button "Set reminder"
 
           wait_for_network_idle
           expect(page).to have_css(".FormControl-inlineValidation", text: "Date can't be blank.")
           expect(page).to have_no_css(".FormControl-inlineValidation", text: "Time can't be blank.", wait: 0)
-          expect(page).to have_field("Time", with: Time.use_zone(current_user.time_zone) {
-            Time.zone.parse("05:00").localtime.strftime("%H:%M:%S")
-          })
+          expect(page).to have_field("Time", with: "05:00")
         end
       end
 

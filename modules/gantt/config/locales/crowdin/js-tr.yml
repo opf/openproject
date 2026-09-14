@@ -2,6 +2,6 @@
 tr:
   js:
     work_packages:
-      label_gantt_chart_plural: Gantt grafikleri
       default_queries:
         milestones: Aşamalar
+      label_gantt_chart_plural: Gantt grafikleri

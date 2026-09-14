@@ -188,5 +188,27 @@ RSpec.describe Activities::WorkPackageActivityProvider do
           .to match_array([parent_work_package, child1_work_package, child4_work_package].map(&:id))
       end
     end
+
+    context "when the work package's project applies a named variant" do
+      let(:root_type) { create(:type, name: "Task") }
+      let(:variant) { create(:type_variant, type: root_type, variant_name: "Bug") }
+      let(:project) { create(:project, types: [variant]) }
+      let(:work_package) do
+        User.execute_as(user) do
+          create(:work_package, subject: "Neutral subject", type: root_type, project:)
+        end
+      end
+      let!(:work_packages) { [work_package] }
+
+      subject do
+        described_class
+          .find_events(event_scope, user, Time.zone.yesterday.to_datetime, Time.zone.tomorrow.to_datetime, {})
+      end
+
+      it "shows the type's name in the event title, not the variant's" do
+        expect(subject[0].event_title).to include("Task")
+        expect(subject[0].event_title).not_to include("Bug")
+      end
+    end
   end
 end

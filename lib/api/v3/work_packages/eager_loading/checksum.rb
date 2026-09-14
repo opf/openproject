@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -54,12 +56,24 @@ module API
 
             protected
 
+            # Versions are a has_many, which would multiply rows in the
+            # left_joins/pluck above, so they enter as an aggregated subquery.
+            # A version can attach under more than one kind, so the kind is part
+            # of the value and of the order.
+            VERSIONS_CHECKSUM_SQL = <<~SQL.squish
+              (SELECT COALESCE(STRING_AGG(CONCAT(wpv.kind, v.id, v.updated_at), ',' ORDER BY wpv.kind, v.id), '')
+                 FROM work_package_versions wpv
+                 INNER JOIN versions v ON v.id = wpv.version_id
+                WHERE wpv.work_package_id = work_packages.id)
+            SQL
+
             def md5_concat
-              md5_parts = checksum_associations.map do |association_name|
+              md5_parts = checksum_associations.flat_map do |association_name|
                 table_name = md5_checksum_table_name(association_name)
 
                 %W[#{table_name}.id #{table_name}.updated_at]
-              end.flatten
+              end
+              md5_parts << VERSIONS_CHECKSUM_SQL
 
               <<-SQL
                 MD5(CONCAT(#{md5_parts.join(', ')}))
@@ -67,7 +81,7 @@ module API
             end
 
             def checksum_associations
-              %i[status author responsible assigned_to version priority category type budget]
+              %i[status author responsible assigned_to priority category type budget]
             end
 
             def md5_checksum_table_name(association_name)

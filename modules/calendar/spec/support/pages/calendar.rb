@@ -54,7 +54,7 @@ module Pages
 
       drag_n_drop_element(from: start_container, to: end_container)
 
-      ::Pages::SplitWorkPackageCreate.new project:
+      ::Pages::PrimerizedSplitWorkPackage.new project:
     end
 
     def resize_start_date(work_package, date)
@@ -110,7 +110,7 @@ module Pages
         .find(".fc-event", text: work_package.subject)
         .click
 
-      ::Pages::SplitWorkPackage.new(work_package, project)
+      ::Pages::PrimerizedSplitWorkPackage.new(work_package, project)
     end
 
     def event(work_package)
@@ -185,10 +185,18 @@ module Pages
     end
 
     def expect_views_listed_in_order(*queries)
-      within ".generic-table tbody" do
-        listed_view_names = all("tr td.name").map(&:text)
+      expected_names = queries.map(&:name)
 
-        expect(listed_view_names).to eq(queries.map(&:name))
+      # Sorting reloads the whole page (the sort links navigate via a full
+      # browser visit, not a Turbo Stream), so the rows are replaced
+      # asynchronously. Asserting against a one-shot snapshot of the rows races
+      # the reload and intermittently reads the previous order. Use retrying
+      # matchers that re-query the document until the new order settles.
+      within ".generic-table tbody" do
+        expect(page).to have_css("tr td.name", count: expected_names.size)
+        expected_names.each_with_index do |name, index|
+          expect(page).to have_css("tr:nth-of-type(#{index + 1}) td.name", exact_text: name)
+        end
       end
     end
   end

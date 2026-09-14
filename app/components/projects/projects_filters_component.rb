@@ -52,10 +52,13 @@ class Projects::ProjectsFiltersComponent < Filter::FilterComponent
       Queries::Projects::Filters::ProjectPhaseFilter,
       Queries::Projects::Filters::MemberOfFilter,
       Queries::Projects::Filters::NameAndIdentifierFilter,
+      Queries::Projects::Filters::PortfolioFilter,
+      Queries::Projects::Filters::ProgramFilter,
       Queries::Projects::Filters::ProjectStatusFilter,
       Queries::Projects::Filters::PublicFilter,
       Queries::Projects::Filters::TemplatedFilter,
       Queries::Projects::Filters::TypeFilter,
+      Queries::Projects::Filters::TypeVariantFilter,
       Queries::Projects::Filters::UpdatedAtFilter
     ]
 

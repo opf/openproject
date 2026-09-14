@@ -129,7 +129,7 @@ module OpenIDConnect
     def token_exchange_capable?
       return false if grant_types_supported.blank?
 
-      grant_types_supported.include?(OpenProject::OpenIDConnect::TOKEN_EXCHANGE_GRANT_TYPE)
+      grant_types_supported.include?(OpenProject::OAuth2::TOKEN_EXCHANGE_GRANT_TYPE)
     end
 
     def icon

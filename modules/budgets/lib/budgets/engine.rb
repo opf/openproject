@@ -58,6 +58,9 @@ module Budgets
 
     patch_with_namespace :Projects, :RowComponent
 
+    # Allow assigning a budget when moving work packages
+    additional_permitted_attributes move_work_package: %i[budget_id]
+
     add_api_path :budget do |id|
       "#{root}/budgets/#{id}"
     end
@@ -91,9 +94,9 @@ module Budgets
       OpenProject::ProjectLatestActivity.register on: "Budget"
 
       # Add to the budget to the costs group
-      ::Type.add_default_mapping(:costs, :budget)
+      ::TypeVariant.add_default_mapping(:costs, :budget)
 
-      ::Type.add_constraint :budget, ->(_type, project: nil) {
+      ::TypeVariant.add_constraint :budget, ->(_type, project: nil) {
         project.nil? || project.module_enabled?(:budgets)
       }
 

@@ -18,8 +18,8 @@ OpenProject 7.2.1 contains several bug fixes.
 - Cost reports with custom field of type list were rendered using
   their internal ID, not their option text
   \[[#26050](https://community.openproject.org/wp/26050)\]
-- With newer versions of Ruby 2.4., an internal error *LocalJumpError:
-  unexpected return* when accessing the work package page has been
+- With newer versions of Ruby 2.4., an internal error _LocalJumpError:
+  unexpected return_ when accessing the work package page has been
   resolved. \[[#26128](https://community.openproject.org/wp/26128)\]
 
 ## Visual changes

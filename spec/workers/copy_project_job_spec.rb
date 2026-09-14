@@ -64,7 +64,7 @@ RSpec.describe CopyProjectJob, type: :model, with_good_job_batches: [CopyProject
       }
     end
 
-    let(:params) { { name: "Copy", identifier: "copy", type_ids: [type.id] } }
+    let(:params) { { name: "Copy", identifier: "copy" } }
 
     it "copies the project and invalid work packages without reporting any errors", :aggregate_failures do
       copy_job = nil
@@ -93,7 +93,7 @@ RSpec.describe CopyProjectJob, type: :model, with_good_job_batches: [CopyProject
 
     context "when the source project has automatically generated subjects" do
       before do
-        type.update(patterns: { subject: { blueprint: "wp {{id}} in project {{project_id}}", enabled: true } })
+        type.default_variant.update!(patterns: { subject: { blueprint: "wp {{id}} in project {{project_id}}", enabled: true } })
       end
 
       it "copies the project without reporting any errors and generates subjects different from source project" do
@@ -135,11 +135,11 @@ RSpec.describe CopyProjectJob, type: :model, with_good_job_batches: [CopyProject
       }
     end
 
-    let(:params) { { name: "Copy", identifier: "copy", type_ids: [type.id], work_package_custom_field_ids: [custom_field.id] } }
+    let(:params) { { name: "Copy", identifier: "copy", work_package_custom_field_ids: [custom_field.id] } }
 
     before do
       source_project.work_package_custom_fields << custom_field
-      type.custom_fields << custom_field
+      type.default_variant.custom_fields << custom_field
     end
 
     it "copies the project", :aggregate_failures do

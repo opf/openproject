@@ -118,6 +118,15 @@ module Pages
         click_on "Edit"
       end
 
+      def delete_project(project)
+        within_test_selector "project-specific-settings-list", text: project.name do
+          within_test_selector("project-specific-settings-list--action-menu") do
+            click_on
+          end
+        end
+        accept_confirm { click_on "Delete" }
+      end
+
       def save_project
         within_test_selector "project-specific-settings-form" do
           click_button "Save"

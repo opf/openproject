@@ -1,69 +1,21 @@
-#English strings go here
 ---
 pl:
   js:
     storages:
       authentication_error: Uwierzytelnianie przy użyciu %{storageType} nie powiodło się
-      link_files_in_storage: Połącz pliki w %{storageType}
-      link_existing_files: Połącz istniejące pliki
-      upload_files: Wczytaj plik
+      choose_location: Wybierz lokalizację
       drop_files: Upuść pliki tutaj, aby je przesłać do %{name}.
       drop_or_click_files: Upuść pliki tutaj lub kliknij, aby je przesłać do %{name}.
-      login: "%{storageType} logowanie"
-      login_to: Zaloguj się do %{storageType}
-      no_connection: Brak połączenia %{storageType}
-      open_storage: Otwórz %{storageType}
-      select_location: Zaznacz lokalizację
-      choose_location: Wybierz lokalizację
-      new_folder: Nowy folder
-      types:
-        nextcloud: Nextcloud
-        one_drive: OneDrive
-        sharepoint: SharePoint
-        default: Magazyn danych
-      information:
-        authentication_error: Żądania do %{storageType} nie można uwierzytelnić, to jest błąd.
-        connection_error: 'Niektóre ustawienia %{storageType} nie działają. Skontaktuj się z administratorem %{storageType}.
-
-          '
-        live_data_error: Błąd podczas pobierania szczegółów pliku
-        live_data_error_description: 'Niektóre dane %{storageType} nie mogą zostać pobrane. Spróbuj odświeżyć tę stronę lub skontaktuj się z administratorem %{storageType}.
-
-          '
-        no_file_links: Aby połączyć pliki z tym pakietem roboczym, zrób to za pośrednictwem %{storageType}.
-        not_logged_in: 'Aby dodać link, zobacz lub wgraj pliki związane z tym pakietem roboczym, zaloguj się do %{storageType}.
-
-          '
-        suggest_logout: Możesz spróbować wylogować się, a następnie zalogować, aby naprawić ten problem.
-        suggest_relink: Możesz spróbować, czy ponowne powiązanie Twojego konta za pomocą poniższego przycisku logowania rozwiązuje ten problem.
-      files:
-        already_existing_header: Ten plik już istnieje
-        already_existing_body: 'Plik o nazwie „%{fileName}” już istnieje w lokalizacji, do której próbujesz go przesłać. Co chcesz zrobić?
-
-          '
-        directory_not_writeable: Nie masz uprawnień do dodawania plików do tego folderu.
-        dragging_many_files: Przesyłanie do %{storageType} obsługuje tylko jeden plik na raz.
-        dragging_folder: Przesyłanie do %{storageType} nie obsługuje folderów.
-        empty_folder: Ten folder jest pusty.
-        empty_folder_location_hint: Kliknij poniższy przycisk, aby przesłać plik do tej lokalizacji.
-        file_not_selectable_location: Wybranie pliku nie jest możliwe w procesie wyboru lokalizacji.
-        project_folder_no_access: 'Nie masz dostępu do folderu projektu. Skontaktuj się z administratorem, aby uzyskać dostęp lub prześlij plik w innej lokalizacji.
-
-          '
-        managed_project_folder_not_available: 'Jeszcze nie znaleziono automatycznie zarządzanego folderu projektu. Zaczekaj chwilę, odśwież stronę, aby pobrać najnowsze dane i spróbuj ponownie.
-
-          '
-        managed_project_folder_no_access: 'Nie masz jeszcze dostępu do zarządzanego folderu projektu. Poczekaj chwilę i spróbuj ponownie.
-
-          '
-        cannot_create_folder: Nie udało się utworzyć folderu. Unikaj używania znaków specjalnych i symboli oraz upewnij się, że folder jeszcze nie istnieje.
-        upload_keep_both: Zachowaj oba
-        upload_replace: Zastąp
       file_links:
+        already_linked_directory: Ten katalog jest już powiązany z tym pakietem roboczym.
+        already_linked_file: Ten plik jest już powiązany z tym pakietem roboczym.
+        download: Pobierz %{fileName}
         empty: 'Obecnie nie ma żadnych powiązanych plików z tym pakietem roboczym. Rozpocznij łączenie plików z poniższą czynnością lub w ciągu %{storageType}.
 
           '
-        download: Pobierz %{fileName}
+        link_uploaded_file_error: 'Wystąpił błąd podczas łączenia niedawno przesłanego pliku ''%{fileName}'' z pakietem roboczym %{workPackageId}.
+
+          '
         open: Otwórz plik w pamięci
         open_location: Otwórz plik w lokalizacji
         remove: Usuń link do pliku
@@ -84,10 +36,11 @@ pl:
           few: Pomyślnie utworzono %{count} połączenia plików.
           many: Pomyślnie utworzono %{count} połączeń plików.
           other: Pomyślnie utworzono %{count} połączeń plików.
+        tooltip:
+          not_found: Nie można znaleźć tego pliku.
+          not_logged_in: Zaloguj się do magazynu, aby uzyskać dostęp do tego pliku.
+          view_not_allowed: Nie masz uprawnień do wyświetlania tego pliku.
         upload_error:
-          default: 'Nie można przesłać pliku (%{fileName}).
-
-            '
           403: 'Nie można przesłać pliku (%{fileName}) ze względu na ograniczenia systemu. Aby uzyskać więcej informacji, skontaktuj się z administratorem.
 
             '
@@ -97,16 +50,62 @@ pl:
           507: 'Plik (%{fileName}) jest większy niż dozwolony limit przechowywania. Aby zmodyfikować ten limit, skontaktuj się z administratorem.
 
             '
+          default: 'Nie można przesłać pliku (%{fileName}).
+
+            '
           detail:
             nextcloud: 'Sprawdź, czy zainstalowana jest najnowsza wersja aplikacji Nextcloud „OpenProject Integration” i skontaktuj się z administratorem, aby uzyskać więcej informacji.
 
               '
-        link_uploaded_file_error: 'Wystąpił błąd podczas łączenia niedawno przesłanego pliku ''%{fileName}'' z pakietem roboczym %{workPackageId}.
+      files:
+        already_existing_body: 'Plik o nazwie „%{fileName}” już istnieje w lokalizacji, do której próbujesz go przesłać. Co chcesz zrobić?
 
           '
-        tooltip:
-          not_logged_in: Zaloguj się do magazynu, aby uzyskać dostęp do tego pliku.
-          view_not_allowed: Nie masz uprawnień do wyświetlania tego pliku.
-          not_found: Nie można znaleźć tego pliku.
-        already_linked_file: Ten plik jest już powiązany z tym pakietem roboczym.
-        already_linked_directory: Ten katalog jest już powiązany z tym pakietem roboczym.
+        already_existing_header: Ten plik już istnieje
+        cannot_create_folder: Nie udało się utworzyć folderu. Unikaj używania znaków specjalnych i symboli oraz upewnij się, że folder jeszcze nie istnieje.
+        directory_not_writeable: Nie masz uprawnień do dodawania plików do tego folderu.
+        dragging_folder: Przesyłanie do %{storageType} nie obsługuje folderów.
+        dragging_many_files: Przesyłanie do %{storageType} obsługuje tylko jeden plik na raz.
+        empty_folder: Ten folder jest pusty.
+        empty_folder_location_hint: Kliknij poniższy przycisk, aby przesłać plik do tej lokalizacji.
+        file_not_selectable_location: Wybranie pliku nie jest możliwe w procesie wyboru lokalizacji.
+        managed_project_folder_no_access: 'Nie masz jeszcze dostępu do zarządzanego folderu projektu. Poczekaj chwilę i spróbuj ponownie.
+
+          '
+        managed_project_folder_not_available: 'Jeszcze nie znaleziono automatycznie zarządzanego folderu projektu. Zaczekaj chwilę, odśwież stronę, aby pobrać najnowsze dane i spróbuj ponownie.
+
+          '
+        project_folder_no_access: 'Nie masz dostępu do folderu projektu. Skontaktuj się z administratorem, aby uzyskać dostęp lub prześlij plik w innej lokalizacji.
+
+          '
+        upload_keep_both: Zachowaj oba
+        upload_replace: Zastąp
+      information:
+        authentication_error: Żądania do %{storageType} nie można uwierzytelnić, to jest błąd.
+        connection_error: 'Niektóre ustawienia %{storageType} nie działają. Skontaktuj się z administratorem %{storageType}.
+
+          '
+        live_data_error: Błąd podczas pobierania szczegółów pliku
+        live_data_error_description: 'Niektóre dane %{storageType} nie mogą zostać pobrane. Spróbuj odświeżyć tę stronę lub skontaktuj się z administratorem %{storageType}.
+
+          '
+        no_file_links: Aby połączyć pliki z tym pakietem roboczym, zrób to za pośrednictwem %{storageType}.
+        not_logged_in: 'Aby dodać link, zobacz lub wgraj pliki związane z tym pakietem roboczym, zaloguj się do %{storageType}.
+
+          '
+        suggest_logout: Możesz spróbować wylogować się, a następnie zalogować, aby naprawić ten problem.
+        suggest_relink: Możesz spróbować, czy ponowne powiązanie Twojego konta za pomocą poniższego przycisku logowania rozwiązuje ten problem.
+      link_existing_files: Połącz istniejące pliki
+      link_files_in_storage: Połącz pliki w %{storageType}
+      login: "%{storageType} logowanie"
+      login_to: Zaloguj się do %{storageType}
+      new_folder: Nowy folder
+      no_connection: Brak połączenia %{storageType}
+      open_storage: Otwórz %{storageType}
+      select_location: Zaznacz lokalizację
+      types:
+        default: Magazyn danych
+        nextcloud: Nextcloud
+        one_drive: OneDrive
+        sharepoint: SharePoint
+      upload_files: Wczytaj plik

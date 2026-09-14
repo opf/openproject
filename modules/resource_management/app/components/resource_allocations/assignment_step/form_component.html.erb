@@ -1,0 +1,65 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= component_wrapper do %>
+  <% if error.present? %>
+    <%= render(Primer::Beta::Flash.new(scheme: :danger, mb: 3)) { error } %>
+  <% end %>
+
+  <% if work_package %>
+    <%= render(Primer::Box.new(mb: 3)) do %>
+      <%= detail_label(t("resource_management.staffing.columns.work_package")) %>
+      <%= render(WorkPackages::InfoLineComponent.new(work_package:, show_subject: true, show_status: true)) %>
+    <% end %>
+  <% end %>
+  <%= detail_block(t("resource_management.assignment_dialog.requested_for"), period_label) %>
+  <%= detail_block(t("resource_management.staffing.columns.requested_time"), requested_value) %>
+
+  <% unless filter_summary.empty? %>
+    <%= detail_block(t("resource_management.assignment_dialog.filter_criteria"), filter_summary.to_s) %>
+  <% end %>
+
+  <% if candidates.empty? %>
+    <%= render(Primer::Beta::Blankslate.new(border: true)) do |blankslate|
+          blankslate.with_visual_icon(icon: :people)
+          blankslate.with_heading(tag: :h2) { t("resource_management.assignment_dialog.no_candidates.title") }
+          blankslate.with_description { t("resource_management.assignment_dialog.no_candidates.description") }
+        end %>
+  <% else %>
+    <%= form_with(url: form_url, method: :put, id: form_id, data: { turbo_stream: true }) do %>
+      <%= render(Primer::Beta::BorderBox.new) do |box|
+            candidates.each do |candidate|
+              box.with_row do
+                render(ResourceAllocations::AssignmentCandidateComponent.new(allocation:, user: candidate))
+              end
+            end
+          end %>
+    <% end %>
+  <% end %>
+<% end %>

@@ -23,33 +23,33 @@
 uk:
   js:
     github_integration:
-      work_packages:
-        tab_name: GitHub
-      tab_header:
-        title: Запити на включення
-        copy_menu:
-          label: Фрагменти Git
-          description: Копіювати git-фрагменти в буфер обміну
-        git_actions:
-          branch_name: Назва гілки
-          commit_message: Повідомлення про зміни
-          cmd: Створити гілку з пустою зміною
-          title: Швидкі фрагменти для Git
-          copy_success: "✅ Скопійовано!"
-          copy_error: "❌ Не скопійовано!"
-      tab_prs:
-        empty: Немає прив’язаних запитів на включення. Прив’яжіть наявний PR за допомогою коду <code>OP#%{wp_id}</code> в описі PR або створіть новий PR.
       github_actions: Дії
       pull_requests:
-        message: 'Запит на отримання даних #%{pr_number} %{pr_link} для %{repository_link} від користувача %{github_user_link} %{pr_state}.'
         merged_message: 'Запит на отримання даних #%{pr_number} %{pr_link} для %{repository_link} %{pr_state} користувачем %{github_user_link}.'
+        message: 'Запит на отримання даних #%{pr_number} %{pr_link} для %{repository_link} від користувача %{github_user_link} %{pr_state}.'
         referenced_message: 'Запит на отримання даних #%{pr_number} %{pr_link} для %{repository_link} від %{github_user_link} посилається на цей пакет робіт.'
         states:
-          opened: відкрито
           closed: закрито
           draft: складено
           merged: об’єднано
+          opened: відкрито
           ready_for_review: позначено як готовий до перегляду
+      tab_header:
+        copy_menu:
+          description: Копіювати git-фрагменти в буфер обміну
+          label: Фрагменти Git
+        git_actions:
+          branch_name: Назва гілки
+          cmd: Створити гілку з пустою зміною
+          commit_message: Повідомлення про зміни
+          copy_error: "❌ Не скопійовано!"
+          copy_success: "✅ Скопійовано!"
+          title: Швидкі фрагменти для Git
+        title: Запити на включення
+      tab_prs:
+        empty: Немає прив’язаних запитів на включення. Прив’яжіть наявний PR за допомогою коду <code>OP#%{wp_id}</code> в описі PR або створіть новий PR.
+      work_packages:
+        tab_name: GitHub
     work_packages:
       tabs:
         github: GitHub

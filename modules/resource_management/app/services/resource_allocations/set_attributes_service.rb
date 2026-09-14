@@ -39,6 +39,10 @@ module ResourceAllocations
         model.state ||= "allocated"
         model.requested_by = user
         model.reviewed_by = user
+        # When a user is picked while creating the allocation, the requester is
+        # also the one who assigned them. Later (re)assignment in the Staffing
+        # view sets this to whoever made that assignment instead.
+        model.principal_assigned_by = user if model.principal.present?
       end
     end
   end

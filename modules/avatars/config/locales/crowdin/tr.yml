@@ -1,29 +1,28 @@
-#English strings go here
 ---
 tr:
-  plugin_openproject_avatars:
-    name: Avatarlar
-    description: Bu eklenti, OpenProject kullanıcılarının avatar olarak kullanılmak üzere bir resim yüklemelerine veya Gravatar'dan kayıtlı görüntüleri kullanmalarına olanak tanır.
-  label_avatar: Avatar
-  label_avatar_plural: Avatarlar
-  label_current_avatar: Mevcut Avatar
-  label_choose_avatar: Dosyadan Avatarı seçin
-  message_avatar_uploaded: Avatar başarıyla değiştirildi.
-  error_image_upload: Resim kaydedilirken hata oluştu.
-  error_image_size: Resim çok büyük.
   are_you_sure_delete_avatar: Avatarını silmek istediğinden emin misin?
   avatar_deleted: Avatar başarıyla silindi.
-  unable_to_delete_avatar: Avatar silinemedi.
-  wrong_file_format: İzin verilen biçimler jpg, png, gif
-  empty_file_error: Lütfen geçerli bir resim yükle (jpg, png, gif)
   avatars:
     label_avatar: Avatar
     label_gravatar: Gravatar
     label_local_avatar: Özel avatar
+    settings:
+      enable_gravatars: Kullanıcı gravatarlarını etkinleştir
+      enable_local_avatars: Kullanıcı özel avatarları etkinleştir
+      gravatar_default: Varsayılan Gravatar resmi
     text_avatar_gravatar_html: OpenProject uses your Gravatar if you registered one at %{gravatar_url}, or a default image or icon if one exists.
     text_avatar_local: You can also upload a custom avatar that overrides the Gravatar by clicking the image. We recommend an image of 128 by 128 pixels.
     text_avatar_local_only: You can upload a custom avatar by clicking the image. We recommend an image of 128 by 128 pixels.
-    settings:
-      enable_gravatars: Kullanıcı gravatarlarını etkinleştir
-      gravatar_default: Varsayılan Gravatar resmi
-      enable_local_avatars: Kullanıcı özel avatarları etkinleştir
+  empty_file_error: Lütfen geçerli bir resim yükle (jpg, png, gif)
+  error_image_size: Resim çok büyük.
+  error_image_upload: Resim kaydedilirken hata oluştu.
+  label_avatar: Avatar
+  label_avatar_plural: Avatarlar
+  label_choose_avatar: Dosyadan Avatarı seçin
+  label_current_avatar: Mevcut Avatar
+  message_avatar_uploaded: Avatar başarıyla değiştirildi.
+  plugin_openproject_avatars:
+    description: Bu eklenti, OpenProject kullanıcılarının avatar olarak kullanılmak üzere bir resim yüklemelerine veya Gravatar'dan kayıtlı görüntüleri kullanmalarına olanak tanır.
+    name: Avatarlar
+  unable_to_delete_avatar: Avatar silinemedi.
+  wrong_file_format: İzin verilen biçimler jpg, png, gif

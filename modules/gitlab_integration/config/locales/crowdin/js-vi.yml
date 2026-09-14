@@ -24,31 +24,31 @@
 vi:
   js:
     gitlab_integration:
-      work_packages:
-        tab_name: GitLab
+      gitlab_pipelines: Đường ống
       tab_header_issue:
         title: vấn đề
       tab_header_mr:
-        title: Hợp nhất các yêu cầu
-        create_mr:
-          label: Tạo MR
-          description: Tạo yêu cầu hợp nhất
         copy_menu:
-          label: Mã git
           description: Sao chép đoạn git vào clipboard
+          label: Mã git
+        create_mr:
+          description: Tạo yêu cầu hợp nhất
+          label: Tạo MR
         git_actions:
           branch_name: Tên chi nhánh
-          commit_message: Thông báo cam kết
           cmd: Tạo nhánh với cam kết trống
-          title: Mã nhanh cho Git
-          copy_success: "✅ Sao chép!"
+          commit_message: Thông báo cam kết
           copy_error: "❌ Sao chép không thành công!"
+          copy_success: "✅ Sao chép!"
+          title: Mã nhanh cho Git
+        title: Hợp nhất các yêu cầu
       tab_issue:
         empty: Chưa có vấn đề nào được liên kết. Liên kết một vấn đề hiện có bằng cách sử dụng mã <code>OP#%{wp_id}</code> (hoặc <code>PP#%{wp_id}_</code> đối với các liên kết riêng tư) trong tiêu đề/mô tả vấn đề hoặc tạo một vấn đề mới.
       tab_mrs:
         empty: Chưa có yêu cầu hợp nhất nào được liên kết. Liên kết MR hiện có bằng cách sử dụng mã <code>OP#%{wp_id}</code> (hoặc <code>PP#%{wp_id}_</code> cho các liên kết riêng tư) trong tiêu đề/mô tả MR hoặc tạo MR mới.
-      gitlab_pipelines: Đường ống
       updated_on: Đã cập nhật vào
+      work_packages:
+        tab_name: GitLab
     work_packages:
       tabs:
         gitlab: GitLab

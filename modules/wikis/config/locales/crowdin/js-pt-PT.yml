@@ -25,8 +25,8 @@ pt-PT:
     editor:
       macro:
         wikis:
-          add_existing: Existing wiki page
-          create_new: New wiki page
+          add_existing: Página wiki existente
+          create_new: Nova página wiki
     work_packages:
       tabs:
         wikis: Wikis

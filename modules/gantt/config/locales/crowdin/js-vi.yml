@@ -2,6 +2,6 @@
 vi:
   js:
     work_packages:
-      label_gantt_chart_plural: biểu đồ Gantt
       default_queries:
         milestones: Các cột mốc quan trọng
+      label_gantt_chart_plural: biểu đồ Gantt

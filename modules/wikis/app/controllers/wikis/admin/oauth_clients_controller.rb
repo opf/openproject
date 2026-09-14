@@ -84,10 +84,23 @@ module Wikis
         @service_result.on_success { respond_for_success }
       end
 
+      def show_redirect_uri
+        update_via_turbo_stream(
+          component: Wikis::Admin::Forms::RedirectUriFormComponent.new(@wiki_provider, read_only: true)
+        )
+        respond_with_turbo_streams
+      end
+
+      def finish_setup
+        flash[:op_primer_flash] = { message: I18n.t("wikis.admin.wiki_providers.successful_setup"), scheme: :success }
+
+        redirect_to edit_admin_settings_wiki_provider_path(@wiki_provider), status: :see_other
+      end
+
       private
 
       def save_oauth_client
-        @service_result = Wikis::OAuthClients::CreateService
+        @service_result = OAuthClients::CreateService
                             .new(user: current_user)
                             .call(oauth_client_params.merge(integration: @wiki_provider))
         @oauth_client = @service_result.result
@@ -107,6 +120,7 @@ module Wikis
           redirect_to new_admin_settings_wiki_provider_path(continue_wizard: @wiki_provider.id), status: :see_other
         else
           update_via_turbo_stream(component: Wikis::Admin::OAuthClientInfoComponent.new(@wiki_provider))
+          update_via_turbo_stream(component: Wikis::Admin::Forms::RedirectUriFormComponent.new(@wiki_provider))
           respond_with_turbo_streams
         end
       end

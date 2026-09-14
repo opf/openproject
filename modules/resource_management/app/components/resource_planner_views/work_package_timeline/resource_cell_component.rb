@@ -58,6 +58,7 @@ module ResourcePlannerViews
           Primer::Beta::Link.new(
             href: helpers.url_for(controller: "/work_packages", action: "show", id: @work_package),
             font_weight: :bold,
+            classes: "white-space-normal",
             underline: false
           )
         ) { @work_package.subject }

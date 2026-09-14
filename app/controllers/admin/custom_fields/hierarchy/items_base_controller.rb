@@ -213,7 +213,7 @@ module Admin
         def parse_parent_input(new_parent_input)
           case new_parent_input
           in [new_parent]
-            input = MultiJson.load(new_parent, symbolize_keys: true)[:value]
+            input = MultiJSON.load(new_parent, symbolize_keys: true)[:value]
             new_parent = CustomField::Hierarchy::Item.including_children.find_by(id: input)
 
             if new_parent.present?

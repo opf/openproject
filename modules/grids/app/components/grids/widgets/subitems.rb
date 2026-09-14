@@ -45,6 +45,10 @@ module Grids
         t(".title")
       end
 
+      def render?
+        !project.project? || project.children.visible.exists?
+      end
+
       def displayed_subitems
         subitems_with_more.first
       end
@@ -105,10 +109,16 @@ module Grids
       end
 
       def project_query_filters
-        [
-          { active: { operator: "=", values: ["t"] } },
-          { parent_id: { operator: "=", values: [project.id] } }
-        ].to_json
+        ancestor_filter = case project.workspace_type
+                          when "portfolio"
+                            { portfolio: { operator: "=", values: [project.id.to_s] } }
+                          when "program"
+                            { program: { operator: "=", values: [project.id.to_s] } }
+                          else
+                            { parent_id: { operator: "=", values: [project.id.to_s] } }
+                          end
+
+        [{ active: { operator: "=", values: ["t"] } }, ancestor_filter].to_json
       end
     end
   end

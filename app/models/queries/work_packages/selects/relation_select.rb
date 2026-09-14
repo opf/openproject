@@ -30,10 +30,4 @@
 
 class Queries::WorkPackages::Selects::RelationSelect < Queries::WorkPackages::Selects::WorkPackageSelect
   attr_reader :type
-
-  def self.granted_by_enterprise_token
-    EnterpriseToken.allows_to?(:work_package_query_relation_columns)
-  end
-
-  private_class_method :granted_by_enterprise_token
 end

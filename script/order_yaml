@@ -1,0 +1,97 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+require "psych"
+
+def block?(node)
+  (node.mapping? || node.sequence?) && node.style == node.class::BLOCK
+end
+
+def content_end(node)
+  node = node.children.last while block?(node)
+  node.end_column.zero? ? node.end_line : node.end_line + 1
+end
+
+Pair = Data.define(:key, :value)
+
+# Text of a node's content, with block mappings recursively sorted. A blank run
+# between pairs belongs to both neighbours (bottom of one, top of the next) and
+# is re-inserted at the new boundaries, each gap at most once; comment lines
+# above a key move with it
+def sorted(node, lines) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
+  return lines[node.start_line...content_end(node)] unless node.mapping? && block?(node)
+
+  pairs = node.children.each_slice(2).map { |key_node, value_node| Pair.new(key_node.value, value_node) }
+
+  chunks = [nil, *pairs].each_cons(2).map do |previous, pair|
+    chunk_start = previous ? content_end(previous.value) : node.start_line
+
+    body = lines[chunk_start...pair.value.start_line] + sorted(pair.value, lines)
+    blanks = body.shift(body.take_while { it == "\n" }.length)
+
+    blanks_after = previous && previous.key > pair.key
+    Pair.new(pair.key, blanks_after ? [body, blanks] : [blanks, body])
+  end
+
+  chunks.sort_by(&:key).map(&:value)
+end
+
+def divergence(before, after, path = [])
+  return "#{path.join('.')}: #{before.inspect} != #{after.inspect}" unless before.is_a?(Hash) && after.is_a?(Hash)
+
+  (before.keys | after.keys).filter_map do |key|
+    next if before[key] == after[key]
+
+    divergence(before[key], after[key], path + [key])
+  end.join("\n")
+end
+
+in_place = ARGV.delete("-i")
+abort "Usage: #{$PROGRAM_NAME} [-i] path.yml ..." if ARGV.empty?
+
+ARGV.each do |file|
+  content = File.read(file)
+  lines   = content.lines
+  target  = Psych.parse(content).root
+  abort "#{file}: document root is not a hash or not in block style" unless target.mapping? && block?(target)
+
+  output = [
+    *lines[0...target.start_line],
+    *sorted(target, lines),
+    *lines[content_end(target)..]
+  ].join
+
+  before = Psych.unsafe_load(content)
+  after = Psych.unsafe_load(output)
+  abort "ordering changed content of #{file}:\n#{divergence(before, after)}" unless after == before
+
+  in_place ? File.write(file, output) : print(output)
+end

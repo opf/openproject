@@ -45,7 +45,7 @@ get:
         + project_start_gate_[id]: a filter on a project phase's start gate active in a program. The id is the id of the phase the gate belongs to.
         + project_finish_gate_[id]: a filter on a project phase's finish gate active in a program. The id is the id of the phase the gate belongs to.
         + project_phase_[id]: a filter on a project phase active in a program. The id is the id of the phase queried for.
-      example: '[{ "ancestor": { "operator": "=", "values": ["1"] }" }]'
+      example: '[{ "ancestor": { "operator": "=", "values": ["1"] } }]'
     - name: sortBy
       schema:
         type: string

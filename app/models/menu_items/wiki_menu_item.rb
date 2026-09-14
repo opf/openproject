@@ -29,7 +29,7 @@
 #++
 
 class MenuItems::WikiMenuItem < MenuItem
-  belongs_to :wiki, foreign_key: "navigatable_id"
+  belongs_to :wiki, foreign_key: "navigatable_id", inverse_of: :wiki_menu_items
 
   scope :main_items, ->(wiki_id) {
     where(navigatable_id: wiki_id, parent_id: nil)

@@ -55,4 +55,26 @@ RSpec.describe CostTypesProject do
     expect { described_class.create!(project:, cost_type:) }
       .to raise_error(ActiveRecord::RecordNotUnique)
   end
+
+  describe "#in_use?" do
+    subject(:mapping) { described_class.create!(project:, cost_type:) }
+
+    it "is false when no costs are logged for the cost type in the project" do
+      expect(mapping).not_to be_in_use
+    end
+
+    it "is true when costs are logged for the cost type in the project" do
+      work_package = create(:work_package, project:)
+      create(:cost_entry, cost_type:, entity: work_package)
+
+      expect(mapping).to be_in_use
+    end
+
+    it "ignores costs of the same cost type logged in other projects" do
+      other_work_package = create(:work_package)
+      create(:cost_entry, cost_type:, entity: other_work_package)
+
+      expect(mapping).not_to be_in_use
+    end
+  end
 end

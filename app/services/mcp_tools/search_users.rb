@@ -29,7 +29,7 @@
 #++
 
 module McpTools
-  class SearchUsers < Base
+  class SearchUsers < SearchTool
     default_title "Search users"
     default_description "Search users matching all of the passed input parameters. " \
                         "Parameters not passed are ignored. Results are limited to a maximum of #{page_size} users. " \
@@ -39,9 +39,10 @@ module McpTools
     annotations read_only: true, idempotent: true, destructive: false
     enable_pagination
 
-    filter :search_term, filter_class: Queries::Users::Filters::AnyNameAttributeFilter, operator: "~"
+    filter :search_term, filter_class: "Queries::Users::Filters::AnyNameAttributeFilter", operator: "~"
 
     input_schema(
+      additionalProperties: false,
       properties: {
         search_term: {
           type: "string",
@@ -51,24 +52,12 @@ module McpTools
       }
     )
 
-    output_schema(
-      type: :object,
-      required: ["items"],
-      properties: {
-        items: {
-          type: :array,
-          items: JsonSchemaLoader.new.load("user_model")
-        }
-      }
-    )
+    def base_scope
+      Success(User.visible.not_builtin)
+    end
 
-    def call(page: nil, **filters)
-      users = apply_filters(User.visible.not_builtin, filters)
-      users = apply_pagination(users, page)
-
-      {
-        items: users.map { |user| API::V3::Users::UserRepresenter.create(user, current_user:) }
-      }
+    def format_item(item)
+      API::V3::Users::UserRepresenter.create(item, current_user:)
     end
   end
 end

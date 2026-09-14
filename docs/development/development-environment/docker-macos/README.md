@@ -30,6 +30,7 @@ services:
     image: selenium/node-chrome
     platform: linux/amd64
 ```
+
 This setup leverages native performance where supported, and falls back to x86_64 emulation only when necessary.
 > Note: If you’re using Docker Desktop or OrbStack, QEMU-based linux/amd64 emulation is handled automatically, but performance may vary depending on the image.
 
@@ -60,7 +61,6 @@ The following is a benchmark performed on a _MacBook Pro, 2024 24 GB M4 Pro_
 | Runtime    | Run1 | Run2|
 | -------- | ------- |-------|
 | OrbStack + VirtioFS  | Finished in 2.12 seconds (files took 7.16 seconds to load)    | Finished in 1.95 seconds (files took 6.83 seconds to load) |
-
 
 ### Orbstack Installation
 

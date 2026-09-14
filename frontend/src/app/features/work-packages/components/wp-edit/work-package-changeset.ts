@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -60,6 +60,16 @@ export class WorkPackageChangeset extends ResourceChangeset<WorkPackageResource>
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     if (!this.schema.isAttributeEditable('subject')) {
       delete (payload as { subject?:string }).subject;
+    }
+
+    // Explicitly exclude the targetVersions if it's empty
+    if (isNewResource(this.pristineResource)) {
+      const links = (payload as { _links?:{ targetVersions?:unknown[] } })._links;
+      const targetVersions = links?.targetVersions;
+
+      if (links && (!Array.isArray(targetVersions) || targetVersions.length === 0)) {
+        delete links.targetVersions;
+      }
     }
 
     return super.applyChanges(payload);

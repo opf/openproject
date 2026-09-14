@@ -6,8 +6,8 @@ We suggest to use unicode encoding for maximum compatibility.
 
 ## Preconditions
 
-* Credentials with the permission to create a database in the database server the OpenProject installation is running against.
-* Shell access to the OpenProject server.
+- Credentials with the permission to create a database in the database server the OpenProject installation is running against.
+- Shell access to the OpenProject server.
 
 ## 1. Create a database dump
 

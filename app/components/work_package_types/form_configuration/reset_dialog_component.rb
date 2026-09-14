@@ -33,9 +33,9 @@ module WorkPackageTypes
     class ResetDialogComponent < ApplicationComponent
       include OpTurbo::Streamable
 
-      def initialize(type:)
+      def initialize(variant:)
         super
-        @type = type
+        @variant = variant
       end
     end
   end

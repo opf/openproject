@@ -116,5 +116,5 @@ Here, again you  will have to change the hostname `localhost:3000` with the host
 
 Restart OpenProject and you'll see a login button "simplesaml-docker". You will redirected to the simplesaml-php docker container and can login with either:
 
-- *login*: user1, *password*: user1pass
-- *login*: user2, *password*: user2pass
+- _login_: user1, _password_: user1pass
+- _login_: user2, _password_: user2pass

@@ -76,6 +76,18 @@ RSpec.describe Projects::Settings::CreationWizardController do
         expect(flash[:error]).to be_nil
         expect(project.reload.project_creation_wizard_enabled).to be true
       end
+
+      context "with a project attribute that was not yet enabled for the creation wizard" do
+        let!(:mapping) do
+          create(:project_custom_field_project_mapping, project:, creation_wizard: false)
+        end
+
+        it "enables all of the project's currently active attributes for the creation wizard" do
+          post :toggle, params: { project_id: project.id }
+
+          expect(mapping.reload.creation_wizard).to be true
+        end
+      end
     end
 
     context "when disabling the wizard without activation conditions met" do

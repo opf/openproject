@@ -24,31 +24,31 @@
 it:
   js:
     gitlab_integration:
-      work_packages:
-        tab_name: GitLab
+      gitlab_pipelines: Pipeline
       tab_header_issue:
         title: Problemi
       tab_header_mr:
-        title: Richieste di merge
-        create_mr:
-          label: Crea MR
-          description: Crea una richiesta di merge.
         copy_menu:
-          label: Frammento di codice su Git
           description: Copia frammenti di codice su Git negli appunti
+          label: Frammento di codice su Git
+        create_mr:
+          description: Crea una richiesta di merge.
+          label: Crea MR
         git_actions:
           branch_name: Nome branch
-          commit_message: Messaggio del commit
           cmd: Crea branch con commit vuoto
-          title: Frammenti di codice rapidi per Git
-          copy_success: "✅ Copiato!"
+          commit_message: Messaggio del commit
           copy_error: "❌ Copia non riuscita!"
+          copy_success: "✅ Copiato!"
+          title: Frammenti di codice rapidi per Git
+        title: Richieste di merge
       tab_issue:
         empty: Non ci sono ancora problemi collegati. Collega un problema esistente utilizzando il codice <code>OP#%{wp_id}</code> (o <code>PP#%{wp_id}</code> per collegamenti privati) nel titolo/descrizione del problema o crea un nuovo problema.
       tab_mrs:
         empty: Non ci sono ancora richieste di merge collegate. Collega una MR esistente utilizzando il codice <code>OP#%{wp_id}</code> (o <code>PP#%{wp_id}</code> per collegamenti privati) nel titolo/descrizione della MR o crea una nuova MR.
-      gitlab_pipelines: Pipeline
       updated_on: 'Aggiornamento:'
+      work_packages:
+        tab_name: GitLab
     work_packages:
       tabs:
         gitlab: GitLab

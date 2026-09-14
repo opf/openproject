@@ -41,6 +41,8 @@ module Wikis
         @provider_id = provider_id
       end
 
+      def key = :inline_existing_wiki_page
+
       def final_step?
         provider_id.present?
       end

@@ -290,7 +290,7 @@ RSpec.describe "Bulk update work packages through Rails view", :js do
         it "does not display them on the form" do
           expect(page).to have_field custom_field_removed.name
 
-          custom_field_removed.types = []
+          custom_field_removed.type_variants = []
           custom_field_removed.save!
           page.refresh
           wait_for_reload

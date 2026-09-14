@@ -23,33 +23,33 @@
 zh-CN:
   js:
     github_integration:
-      work_packages:
-        tab_name: GitHub
-      tab_header:
-        title: 拉取请求
-        copy_menu:
-          label: Git 代码段
-          description: 将 Git 代码段复制到剪贴板
-        git_actions:
-          branch_name: 分支名称
-          commit_message: 提交消息
-          cmd: 使用空提交创建分支
-          title: Git 快速代码段
-          copy_success: "✅ 已复制！"
-          copy_error: "❌ 复制失败！"
-      tab_prs:
-        empty: 尚未链接任何拉取请求。请使用拉取请求描述中的代码 <code>OP#%{wp_id}</code> 链接现有拉取请求，或者创建新的拉取请求。
       github_actions: 操作
       pull_requests:
-        message: '由 %{github_user_link} 创作的 %{repository_link} 的拉取请求 #%{pr_number} %{pr_link} 已被%{pr_state}。'
         merged_message: "%{repository_link} 的拉取请求 #%{pr_number} %{pr_link} 已被%{github_user_link} %{pr_state}。"
+        message: '由 %{github_user_link} 创作的 %{repository_link} 的拉取请求 #%{pr_number} %{pr_link} 已被%{pr_state}。'
         referenced_message: '由 %{github_user_link} 创作的 %{repository_link} 的拉取请求 #%{pr_number} %{pr_link} 引用了此工作包。'
         states:
-          opened: 已打开
           closed: 关闭
           draft: 草稿
           merged: 已合并
+          opened: 已打开
           ready_for_review: 标记为可供审核
+      tab_header:
+        copy_menu:
+          description: 将 Git 代码段复制到剪贴板
+          label: Git 代码段
+        git_actions:
+          branch_name: 分支名称
+          cmd: 使用空提交创建分支
+          commit_message: 提交消息
+          copy_error: "❌ 复制失败！"
+          copy_success: "✅ 已复制！"
+          title: Git 快速代码段
+        title: 拉取请求
+      tab_prs:
+        empty: 尚未链接任何拉取请求。请使用拉取请求描述中的代码 <code>OP#%{wp_id}</code> 链接现有拉取请求，或者创建新的拉取请求。
+      work_packages:
+        tab_name: GitHub
     work_packages:
       tabs:
         github: GitHub

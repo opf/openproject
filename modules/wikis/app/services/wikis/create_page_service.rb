@@ -39,14 +39,14 @@ module Wikis
       @user = user
     end
 
-    def create_page_and_link(title:, parent_identifier:, linkable_type:, linkable_id:)
-      create_page(title:, parent_identifier:)
+    def create_page_and_link(title:, parent_identifier:, parent_type:, linkable_type:, linkable_id:)
+      create_page(title:, parent_identifier:, parent_type:)
         .bind { link_page(identifier: it.identifier, linkable_type:, linkable_id:) }
     end
 
-    def create_page(title:, parent_identifier:)
+    def create_page(title:, parent_identifier:, parent_type:)
       provider.auth_strategy_for(user).bind do |auth_strategy|
-        Adapters::Input::CreatePage.build(title:, parent_identifier:).bind do |input_data|
+        Adapters::Input::CreatePage.build(title:, parent_identifier:, parent_type:).bind do |input_data|
           provider.resolve("commands.create_page").call(input_data:, auth_strategy:)
         end
       end

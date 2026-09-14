@@ -12,7 +12,7 @@ OpenProject 6.0.4 contains several bug and accessibility fixes.
 
 **The following bugs have been fixed in OpenProject 6.0.4:**
 
-- The *+ New Project*
+- The _+ New Project_
   button was displayed even to users who didn’t have the permission to
   create new work packages
   ([#23881](https://community.openproject.org/wp/23881)).
@@ -28,7 +28,7 @@ OpenProject 6.0.4 contains several bug and accessibility fixes.
 - The global setting to display work packages from subprojects in main
   projects did not work
   ([#23814](https://community.openproject.org/wp/23814)).
-- The *Cancel* button on wiki pages was missing
+- The _Cancel_ button on wiki pages was missing
   ([#23829](https://community.openproject.org/wp/23829)).
 - The link to add additional work package attachments on the wiki page
   redirected users to the landing page instead
@@ -36,7 +36,7 @@ OpenProject 6.0.4 contains several bug and accessibility fixes.
 - Wiki
   menu items were showing the slug instead of the title
   ([#23818](https://community.openproject.org/wp/23818)).
-- The *Send for review* button on the meeting page did not work when a
+- The _Send for review_ button on the meeting page did not work when a
   timezone was set
   ([#23758](https://community.openproject.org/wp/23758)).
 - Cost reports grouped by year and months were displayed in the wrong

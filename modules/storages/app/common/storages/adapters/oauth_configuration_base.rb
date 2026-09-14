@@ -31,6 +31,8 @@
 module Storages
   module Adapters
     class OAuthConfigurationBase
+      def token_endpoint = raise SubclassResponsibilityError
+
       def scope = raise SubclassResponsibilityError
 
       def basic_rack_oauth_client = raise SubclassResponsibilityError

@@ -22,15 +22,15 @@
 ---
 ca:
   js:
-    text_are_you_sure: N'esteu segur?
-    myTimeTracking:
-      noSpecificTime: No specific time
-    work_packages:
-      property_groups:
-        costs: Costs
-      properties:
-        overallCosts: Costs generals
-        spentUnits: Unitats gastades
     button_log_costs: 'Registra costs d''unitats '
     label_hour: hora
     label_hours: hores
+    myTimeTracking:
+      noSpecificTime: No hi ha temps específic
+    text_are_you_sure: N'esteu segur?
+    work_packages:
+      properties:
+        overallCosts: Costs generals
+        spentUnits: Unitats gastades
+      property_groups:
+        costs: Costs

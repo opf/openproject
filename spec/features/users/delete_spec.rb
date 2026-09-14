@@ -51,7 +51,7 @@ RSpec.describe "user deletion:", :js, :selenium, driver: :firefox_en do
       visit my_account_path
       page.find_test_selector("delete-my-account-button").click
 
-      check "I understand that this deletion cannot be reversed"
+      check "I understand that this deletion cannot be reversed."
       click_on "Delete permanently"
 
       dialog.confirm_flow_with user_password
@@ -101,14 +101,14 @@ RSpec.describe "user deletion:", :js, :selenium, driver: :firefox_en do
       click_on "Delete"
 
       SeleniumHubWaiter.wait
-      check "I understand that this deletion cannot be reversed"
+      check "I understand that this deletion cannot be reversed."
       click_on "Delete permanently"
 
       dialog.confirm_flow_with "wrong", should_fail: true
 
       click_on "Delete"
       SeleniumHubWaiter.wait
-      check "I understand that this deletion cannot be reversed"
+      check "I understand that this deletion cannot be reversed."
       click_on "Delete permanently"
 
       dialog.confirm_flow_with user_password, should_fail: false
@@ -127,7 +127,7 @@ RSpec.describe "user deletion:", :js, :selenium, driver: :firefox_en do
       click_on "Delete"
 
       SeleniumHubWaiter.wait
-      check "I understand that this deletion cannot be reversed"
+      check "I understand that this deletion cannot be reversed."
       click_on "Delete permanently"
 
       dialog.confirm_flow_with user_password, with_keyboard: true, should_fail: false

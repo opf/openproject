@@ -39,5 +39,34 @@ RSpec.describe CostTypes::CostTypeProjects::BulkCreateService do
     let(:model_mapping_class) { CostTypesProject }
     let(:model_foreign_key_id) { :cost_type_id }
     let(:required_permission) { :manage_project_activities }
+    # Cost types must stay enabled in archived projects that already logged costs.
+    let(:maps_archived_projects) { true }
+  end
+
+  context "with only an archived project" do
+    let(:archived_project) { create(:project, active: false) }
+
+    subject(:service_result) do
+      described_class.new(user:, projects: [archived_project], model: cost_type, include_sub_projects: false).call
+    end
+
+    context "as an admin" do
+      let(:user) { create(:admin) }
+
+      it "creates the mapping" do
+        expect { service_result }.to change { CostTypesProject.where(cost_type:, project: archived_project).count }
+          .from(0).to(1)
+        expect(service_result).to be_success
+      end
+    end
+
+    context "as a non-admin with manage permission" do
+      let(:user) { create(:user, member_with_permissions: { archived_project => %i[manage_project_activities] }) }
+
+      it "refuses to create the mapping" do
+        expect { service_result }.not_to change(CostTypesProject, :count)
+        expect(service_result).to be_failure
+      end
+    end
   end
 end

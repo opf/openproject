@@ -36,3 +36,12 @@
   @include d_n_d--preview
   // Allow dragged items to appear before modals
   z-index: 10000 !important
+
+// Primer's DragHandle ships `cursor: move`; grab/grabbing signals dragging
+// better. Only the press is stylable — once the native drag is under way the
+// browser owns the cursor.
+.DragHandle[data-sortable-lists--item-target~="handle"]
+  cursor: grab
+
+  &:active
+    cursor: grabbing

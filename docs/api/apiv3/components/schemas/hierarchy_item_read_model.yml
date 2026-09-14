@@ -48,8 +48,10 @@ properties:
       very big numbers.
       If this attribute is set, the `short` is null.
   depth:
-    type: integer
-    description: The hierarchy depth. The root item has a depth of 0.
+    type:
+      - "integer"
+      - "null"
+    description: The hierarchy depth. The root item has a depth of nil, the children of the root item have a depth of 0.
   _links:
     type: object
     required:

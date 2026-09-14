@@ -41,4 +41,10 @@ class Queries::WorkPackages::Filter::AuthorFilter <
   def self.key
     :author_id
   end
+
+  private
+
+  def autocomplete_principal_types
+    %w[User]
+  end
 end

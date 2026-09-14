@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -104,6 +104,13 @@ export class AttachmentsResourceService extends ResourceStoreService<IAttachment
         identifier,
         href,
         uploadFiles,
+      )
+      .pipe(
+        tap(() => {
+          if (isNewResource(resource)) {
+            this.syncNewResourceAttachments(resource);
+          }
+        }),
       );
   }
 
@@ -148,6 +155,15 @@ export class AttachmentsResourceService extends ResourceStoreService<IAttachment
 
     const attachments = resource.attachments as { href?:string };
     return attachments?.href || null;
+  }
+
+  private syncNewResourceAttachments(resource:HalResource):void {
+    const ids = this.query.getValue().collections[HAL_NEW_RESOURCE_ID]?.ids ?? [];
+    const attachments = ids
+      .map((id) => this.query.getEntity(id))
+      .filter((attachment):attachment is IAttachment => !!attachment);
+
+    resource.attachments = { elements: attachments.map((attachment) => attachment._links.self) };
   }
 
   private uploadAttachments(href:string, files:IUploadFile[]):Observable<IAttachment[]> {

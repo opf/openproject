@@ -22,15 +22,15 @@
 ---
 zh-CN:
   js:
-    text_are_you_sure: 是否确定？
-    myTimeTracking:
-      noSpecificTime: 未指定时间
-    work_packages:
-      property_groups:
-        costs: 成本
-      properties:
-        overallCosts: 总成本
-        spentUnits: 已支出单位成本
     button_log_costs: 记录单位成本
     label_hour: 小时
     label_hours: 小时
+    myTimeTracking:
+      noSpecificTime: 未指定时间
+    text_are_you_sure: 是否确定？
+    work_packages:
+      properties:
+        overallCosts: 总成本
+        spentUnits: 已支出单位成本
+      property_groups:
+        costs: 成本

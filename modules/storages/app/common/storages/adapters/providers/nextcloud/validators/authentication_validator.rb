@@ -55,7 +55,7 @@ module Storages
             end
 
             def oauth_token
-              if OAuthClientToken.for_user_and_client(@user, subject.oauth_client).exists?
+              if OAuthClients::TokenFetcher.new(user: @user).connected?(oauth_client: subject.oauth_client)
                 pass_check(:existing_token)
               else
                 warn_check(:existing_token, :nc_oauth_token_missing, halt_validation: true)

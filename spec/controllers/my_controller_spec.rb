@@ -37,6 +37,19 @@ RSpec.describe MyController do
     login_as(user)
   end
 
+  describe "DELETE destroy_project_settings" do
+    let(:project) { create(:project) }
+    let!(:notification_setting) { create(:notification_setting, user:, project:) }
+
+    it "deletes the setting and redirects with see other" do
+      delete :destroy_project_settings, params: { project_id: project.id }
+
+      expect(response).to redirect_to(my_notifications_path)
+      expect(response).to have_http_status(:see_other)
+      expect { notification_setting.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
+
   describe "password change" do
     describe "security" do
       render_views
@@ -61,9 +74,8 @@ RSpec.describe MyController do
       end
     end
 
-    describe "with disabled password login" do
+    describe "with disabled password login", with_settings: { password_login: "none" } do
       before do
-        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
         post :change_password
       end
 
@@ -369,9 +381,8 @@ RSpec.describe MyController do
     end
   end
 
-  describe "account with disabled password login" do
+  describe "account with disabled password login", with_settings: { password_login: "none" } do
     before do
-      allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
       as_logged_in_user user do
         get :security
       end

@@ -36,7 +36,7 @@ RSpec.describe "Wysiwyg embedded work package tables",
   shared_let(:type_task) { create(:type_task) }
   shared_let(:type_bug) { create(:type_bug) }
   shared_let(:project) do
-    create(:project, types: [type_task, type_bug], enabled_module_names: %w[wiki work_package_tracking])
+    create(:project, :with_internal_wiki, types: [type_task, type_bug], enabled_module_names: %w[work_package_tracking])
   end
   shared_let(:wp_task) { create(:work_package, project:, type: type_task) }
   shared_let(:wp_bug) { create(:work_package, project:, type: type_bug) }
@@ -99,7 +99,7 @@ RSpec.describe "Wysiwyg embedded work package tables",
         end
 
         # Save wiki page
-        click_on "Save"
+        click_on "Create"
 
         expect_flash(message: "Successful creation.")
 
@@ -114,7 +114,7 @@ RSpec.describe "Wysiwyg embedded work package tables",
 
       context "with a subproject that gets deleted" do
         let!(:subproject) do
-          create(:project, parent: project, enabled_module_names: %w[wiki])
+          create(:project, :with_internal_wiki, parent: project)
         end
 
         it "can still edit the embedded table widget" do
@@ -135,7 +135,7 @@ RSpec.describe "Wysiwyg embedded work package tables",
           end
 
           # Save wiki page
-          click_on "Save"
+          click_on "Create"
 
           expect_and_dismiss_flash(message: "Successful creation.")
 

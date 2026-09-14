@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -70,6 +70,9 @@ describe('Recurring meetings form controller', () => {
       <form data-controller="recurring-meetings--form">
         <input name="meeting[start_date]" value="2026-06-11">
         <input name="meeting[frequency]" value="weekly">
+        <input name="meeting[end_after]" value="specific_date">
+        <input name="meeting[end_date]" value="2026-08-11">
+        <input name="meeting[iterations]" value="7">
       </form>
     `);
     return ctx.getController<RecurringMeetingsFormControllerType>('recurring-meetings--form');
@@ -95,6 +98,9 @@ describe('Recurring meetings form controller', () => {
     expect(url).toContain('/op/recurring_meetings/humanize_schedule?');
     expect(url).toContain('2026-06-11');
     expect(url).toContain('weekly');
+    expect(url).toContain('specific_date');
+    expect(url).toContain('2026-08-11');
+    expect(url).toContain('iterations');
   });
 
   it('does not request when disconnected before the context resolves', async () => {

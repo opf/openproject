@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe McpTools::ListTypes do
-  subject do
+  subject(:mcp_request) do
     header "Authorization", "Bearer #{access_token.plaintext_token}"
     header "Content-Type", "application/json"
     post "/mcp", request_body.to_json
@@ -70,12 +70,12 @@ RSpec.describe McpTools::ListTypes do
     it_behaves_like "MCP embedded resource tool"
 
     it "finds all types" do
-      subject
+      mcp_request
       expect(parsed_results.dig("structuredContent", "count")).to eq(2)
     end
 
     it "responds with properly formatted types" do
-      subject
+      mcp_request
       expect(parsed_results.fetch("structuredContent").to_json).to match_json_schema.from_docs("types_model")
     end
 
@@ -83,7 +83,7 @@ RSpec.describe McpTools::ListTypes do
       let(:permissions) { [] }
 
       it "finds no types" do
-        subject
+        mcp_request
         expect(parsed_results.dig("structuredContent", "count")).to eq(0)
       end
     end
@@ -91,7 +91,7 @@ RSpec.describe McpTools::ListTypes do
 
   context "when the mcp_server enterprise feature is disabled" do
     it "responds in a 404" do
-      subject
+      mcp_request
       expect(last_response).to have_http_status(404)
     end
   end

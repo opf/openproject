@@ -21,7 +21,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -110,7 +110,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
       linkText: status.name,
       postIcon: status.isReadonly ? 'icon-locked' : null,
       postIconTitle: this.I18n.t('js.work_packages.message_work_package_read_only'),
-      class: Highlighting.inlineClass('status', status.id!),
+      class: Highlighting.dotClass('status', status.id!),
       onClick: () => {
         this.updateStatus(status);
         return true;

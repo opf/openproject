@@ -22,15 +22,15 @@
 ---
 ro:
   js:
-    text_are_you_sure: Ești sigur?
-    myTimeTracking:
-      noSpecificTime: No specific time
-    work_packages:
-      property_groups:
-        costs: Costuri
-      properties:
-        overallCosts: Costuri totale
-        spentUnits: Unități cheltuite
     button_log_costs: Înregistrare costuri unitare
     label_hour: oră
     label_hours: ore
+    myTimeTracking:
+      noSpecificTime: No specific time
+    text_are_you_sure: Ești sigur?
+    work_packages:
+      properties:
+        overallCosts: Costuri totale
+        spentUnits: Unități cheltuite
+      property_groups:
+        costs: Costuri

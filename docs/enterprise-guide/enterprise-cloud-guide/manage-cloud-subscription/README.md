@@ -8,7 +8,7 @@ keywords: enterprise cloud edition, subscription, address, payment method, invoi
 
 # Manage your OpenProject Enterprise cloud subscription
 
-If you want to make changes to your subscription (Up- or downgrade, cancel, change your address or payment method), navigate to *Administration* -> *Subscription* within your system's Administration. Then click the **Manage subscription** button.
+If you want to make changes to your subscription (Up- or downgrade, cancel, change your address or payment method), navigate to _Administration_ -> _Subscription_ within your system's Administration. Then click the **Manage subscription** button.
 
 ![Manage subscription button in OpenProject administration](openproject_enterprise_guide_manage_subscription_button.png)
 
@@ -32,17 +32,11 @@ Here you can either **Edit or Cancel the existing subscription**.
 
 To upgrade or downgrade your Enterprise cloud subscription, follow the steps described above and click the **Edit Subscription** link.
 
-
-
 ![Edit subscription link in OpenProject Enterprise cloud administration](openproject_enterprise_guide_edit_subscription_link.png)
 
-
-
-Alternatively, you can navigate to *Administration -> Subscription* and click the **Upgrade subscription** button directly.
+Alternatively, you can navigate to _Administration -> Subscription_ and click the **Upgrade subscription** button directly.
 
 ![Upgrade subscription button in OpenProject administration](openproject_enterprise_guide_upgrade_subscription_button.png)
-
-
 
 Here you can choose the new amount of users. Your next payment will be displayed below.
 

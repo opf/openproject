@@ -31,14 +31,11 @@
 module BasicData
   class UserCustomFieldSectionSeeder < Seeder
     def seed_data!
-      # The default section is intentionally untitled — it renders the I18n fallback
-      # label in the UI.  The name validation is bypassed to match the migration that
-      # creates the same section for existing installations.
-      section = UserCustomFieldSection.new(
+      UserCustomFieldSection.create!(
+        name: I18n.t("settings.user_custom_fields.label_default_section", locale: Setting.default_language),
         position: 1,
         attribute_order: UserCustomFieldSection::BUILT_IN_ATTRIBUTES
       )
-      section.save!(validate: false)
     end
 
     def applicable?

@@ -1,12 +1,11 @@
-#English strings go here
 ---
 da:
   js:
-    label_preview: Prævisning
-    button_update: Opdatér
     avatars:
+      empty_file_error: Upload et gyldigt billede (jpg, png, gif)
+      error_image_too_large: Billede er for stort.
       label_choose_avatar: Vælg avatar fra fil
       uploading_avatar: Uploader valgt avatar.
-      error_image_too_large: Billede er for stort.
       wrong_file_format: Gyldige formater er jpg, png, gif
-      empty_file_error: Upload et gyldigt billede (jpg, png, gif)
+    button_update: Opdatér
+    label_preview: Prævisning

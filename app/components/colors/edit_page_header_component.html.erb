@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
     header.with_title { @color.name }
-    header.with_breadcrumbs(breadcrumb_items)
+    header.with_breadcrumbs(breadcrumb_items, selected_item_font_weight: :normal)
 
     if @color.persisted?
       header.with_action_button(

@@ -8,13 +8,13 @@ If you need help developing a client library you can [contact us](mailto:support
 
 ## JavaScript / TypeScript
 
-* [op-client](https://www.npmjs.com/package/op-client): Client library for OpenProject server. Works both on Node.js and browser.
-* [op-mattermost](https://www.npmjs.com/package/@girish17/op-mattermost): OpenProject integration for Mattermost. Works on Node.js.
+- [op-client](https://www.npmjs.com/package/op-client): Client library for OpenProject server. Works both on Node.js and browser.
+- [op-mattermost](https://www.npmjs.com/package/@girish17/op-mattermost): OpenProject integration for Mattermost. Works on Node.js.
 
 ## Excel
 
-* [OpenProjectExcel](https://github.com/opf/OpenProjectExcel): Synchronization between Excel-sheets and OpenProject.
+- [OpenProjectExcel](https://github.com/opf/OpenProjectExcel): Synchronization between Excel-sheets and OpenProject.
 
 ## Go
 
-* [Go-OpenProject](https://github.com/manuelbcd/go-openproject): OpenProject client library written in Go. Community, issues and PRs are more than welcome.
+- [Go-OpenProject](https://github.com/manuelbcd/go-openproject): OpenProject client library written in Go. Community, issues and PRs are more than welcome.

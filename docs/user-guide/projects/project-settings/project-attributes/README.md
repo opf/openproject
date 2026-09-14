@@ -31,4 +31,4 @@ You can also use the **Enable all** and **Disable all** buttons visible to the r
 If your instance has a particularly long list of project attributes, you can use the search bar at the top to find specific ones.
 
 > [!TIP]
-> The project settings page for project attributes only lets you enable or disable certain attributes. It does *not* let you set the values for each. To do this, go to the [Project home](../../project-home/) page.
+> The project settings page for project attributes only lets you enable or disable certain attributes. It does _not_ let you set the values for each. To do this, go to the [Project home](../../project-home/) page.

@@ -48,7 +48,23 @@ module Pages
 
         def click_copy_action
           page.find_test_selector("project-settings-more-menu").click
-          page.find(:menuitem, "Copy").click # TODO: scope to More menu
+          page.find(:menuitem, "Duplicate").click # TODO: scope to More menu
+        end
+
+        # Waits for the "Background job status" dialog shown after a copy is
+        # triggered, then runs the enqueued jobs inline. The dialog is rendered on
+        # its own page rather than this one, but the copy is always kicked off from
+        # here, so the helper lives with the action that triggers it.
+        def wait_for_copy_to_finish
+          expect(page).to have_dialog "Background job status"
+
+          within_dialog "Background job status" do
+            expect(page).to have_heading "Copy project"
+            expect(page).to have_text "The job has been queued and will be processed shortly."
+          end
+
+          # Ensure all jobs are run, especially emails which might be sent later on.
+          GoodJob.perform_inline
         end
 
         def click_delete_action

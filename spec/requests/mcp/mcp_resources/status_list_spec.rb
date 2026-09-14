@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe McpResources::StatusList do
-  subject do
+  subject(:mcp_request) do
     header "Authorization", "Bearer #{access_token.plaintext_token}"
     header "Content-Type", "application/json"
     post "/mcp", request_body.to_json
@@ -68,7 +68,7 @@ RSpec.describe McpResources::StatusList do
     it_behaves_like "MCP text resource response"
 
     it "responds with a properly formatted status list" do
-      subject
+      mcp_request
       text_content = parsed_results.fetch("contents").first
       statuses = text_content.fetch("text")
       expect(statuses).to match_json_schema.from_docs("status_collection_model")
@@ -86,7 +86,7 @@ RSpec.describe McpResources::StatusList do
       it_behaves_like "MCP text resource response"
 
       it "responds with an empty list" do
-        subject
+        mcp_request
         text_content = parsed_results.fetch("contents").first
         types_collection = JSON.parse(text_content.fetch("text"))
         expect(types_collection.dig("_embedded", "elements")).to be_empty
@@ -96,7 +96,7 @@ RSpec.describe McpResources::StatusList do
 
   context "when the mcp_server enterprise feature is disabled" do
     it "responds in a 404" do
-      subject
+      mcp_request
       expect(last_response).to have_http_status(404)
     end
   end

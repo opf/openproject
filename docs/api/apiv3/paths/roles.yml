@@ -10,7 +10,7 @@ get:
       + grantable: filters roles based on whether they are selectable for a membership
 
       + unit: filters roles based on the unit ('project' or 'system') for which they are selectable for a membership
-    example: '[{ "unit": { "operator": "=", "values": ["system"] }" }]'
+    example: '[{ "unit": { "operator": "=", "values": ["system"] } }]'
     in: query
     name: filters
     required: false

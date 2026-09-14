@@ -13,17 +13,18 @@ ja:
           meeting_agenda_items:
             item_0:
               title: 朗報
+              notes: What went well this week?
             item_1:
-              title: 開発チームからの最新情報
+              title: Team updates
+              notes: News and focused topics for the upcoming week.
             item_2:
-              title: 製品チームからの最新情報
+              notes: "**Today's topic**: Organizing the open-source conference."
             item_3:
-              title: 製品チームからの最新情報
+              title: Review of quarterly goals
+              notes: Assessing the status and progress of the defined quarterly goals.
+            item_4:
+              title: Core values feedback
+              notes: Highlight employees who have lived the core values this week.
             item_5:
-              title: 製品チームからの最新情報
-            item_6:
-              title: 四半期目標の見直し
-            item_7:
-              title: コアバリューのフィードバック
-            item_8:
-              title: 一般的なトピック
+              title: General topics
+              notes: Solving or discussing topics together.

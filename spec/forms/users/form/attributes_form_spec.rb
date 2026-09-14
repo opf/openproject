@@ -76,6 +76,11 @@ RSpec.describe Users::Form::AttributesForm, type: :forms do
       it "renders an editable department select including the department" do
         expect(page).to have_select("user[department_id]", disabled: false, with_options: ["Engineering"])
       end
+
+      it "offers a blank-valued '(none)' option so the department can be cleared" do
+        expect(page).to have_css("select[name='user[department_id]'] option[value='']",
+                                 text: I18n.t(:label_none_parentheses))
+      end
     end
 
     context "when the current department is managed by LDAP" do

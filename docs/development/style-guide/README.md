@@ -1,3 +1,3 @@
 # OpenProject development style guide
 
-* [Frontend](./frontend/)
+- [Frontend](./frontend/)

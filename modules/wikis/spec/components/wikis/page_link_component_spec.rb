@@ -32,25 +32,20 @@ require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Wikis::PageLinkComponent, type: :component do
-  let(:project) { create(:project) }
-  let(:work_package) { create(:work_package, project:) }
-  let(:provider) { create(:internal_wiki_provider) }
-  let(:page_link) { create(:relation_wiki_page_link, linkable: work_package, provider:) }
+  let(:provider) { build_stubbed(:internal_wiki_provider) }
   let(:page_info) do
     Wikis::Adapters::Results::PageInfo.new(
-      identifier: page_link.identifier,
+      identifier: "stormtrooper_training",
       title: "Stormtrooper training",
       provider:,
       href: "https://wiki.death.star/Home/stormtrooper_training"
     )
   end
   let(:page_info_result) { Success(page_info) }
-  let(:permissions) { [:manage_wiki_page_links] }
-  let(:actions) { [] }
+  let(:menu_actions) { [] }
+  let(:source) { nil }
 
-  current_user { create(:user, member_with_permissions: { project => permissions }) }
-
-  subject(:render_component) { render_inline(described_class.new(page_info_result, actions:, page_link:)) }
+  subject(:render_component) { render_inline(described_class.new(page_info_result, menu_actions:, source:)) }
 
   before { render_component }
 
@@ -58,25 +53,55 @@ RSpec.describe Wikis::PageLinkComponent, type: :component do
     expect(page).to have_link(text: page_info.title, href: page_info.href)
   end
 
-  context "when the page link has the remove action" do
-    let(:actions) { [:remove] }
+  context "when the page is referenced as a parent" do
+    let(:source) { :parent }
 
-    context "when the user has no permission to manage wiki page links" do
-      let(:permissions) { [] }
-
-      it "does not render the action menu" do
-        expect(page).not_to have_test_selector("wiki-page-link-action-menu")
-      end
-    end
-
-    context "when the user has the permission to manage wiki page links" do
-      it "shows the remove page link action in the action menu" do
-        expect(page).to have_test_selector("wiki-page-link-action-menu")
-      end
+    it "renders the parent badge" do
+      expect(page).to have_test_selector("wiki-page-link-source-badge",
+                                         text: I18n.t("wikis.page_links.source.parent"))
     end
   end
 
-  context "when the page link has no actions" do
+  context "when the page is referenced as a mention" do
+    let(:source) { :mention }
+
+    it "renders no badge" do
+      expect(page).not_to have_test_selector("wiki-page-link-source-badge")
+    end
+  end
+
+  context "when the page has no source" do
+    it "renders no badge" do
+      expect(page).not_to have_test_selector("wiki-page-link-source-badge")
+    end
+  end
+
+  context "when given menu actions" do
+    let(:menu_actions) do
+      [instance_double(Wikis::PageLinkComponent::RemoveAction,
+                       icon: :trash,
+                       menu_item_args: { label: "Remove page link", tag: :a, href: "/remove", scheme: :danger })]
+    end
+
+    it "renders the action menu with the provided actions" do
+      expect(page).to have_test_selector("wiki-page-link-action-menu")
+      expect(page).to have_link("Remove page link", href: "/remove")
+    end
+  end
+
+  context "when a menu action is disabled" do
+    let(:menu_actions) do
+      [instance_double(Wikis::PageLinkComponent::AddToRelatedAction,
+                       icon: :plus,
+                       menu_item_args: { label: "Add to related pages", disabled: true })]
+    end
+
+    it "renders the action as disabled" do
+      expect(page).to have_css("[aria-disabled='true']", text: "Add to related pages")
+    end
+  end
+
+  context "when given no menu actions" do
     it "does not render the action menu" do
       expect(page).not_to have_test_selector("wiki-page-link-action-menu")
     end
@@ -85,7 +110,7 @@ RSpec.describe Wikis::PageLinkComponent, type: :component do
   context "if there are errors retrieving the page info" do
     let(:page_info_result) do
       Failure(
-        Wikis::Adapters::Results::Error.new(
+        SimpleError.new(
           source: Wikis::Adapters::Providers::Internal::Queries::PageInfo,
           code: error_code
         )

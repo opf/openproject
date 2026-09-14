@@ -1,12 +1,11 @@
-#English strings go here
 ---
 sl:
   js:
-    label_preview: Predogled
-    button_update: Posodobi
     avatars:
+      empty_file_error: Naložite veljavno sliko (jpg, png, gif)
+      error_image_too_large: Slika je prevelika.
       label_choose_avatar: Izberi avatar iz datoteke
       uploading_avatar: Nalaganje avatarja.
-      error_image_too_large: Slika je prevelika.
       wrong_file_format: Dovoljeni formati so jpg, png, gif
-      empty_file_error: Naložite veljavno sliko (jpg, png, gif)
+    button_update: Posodobi
+    label_preview: Predogled

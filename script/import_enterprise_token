@@ -1,0 +1,36 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+path = ARGV[0]
+
+abort "Usage: #{$PROGRAM_NAME} PATH_TO_TOKEN_FILE" if path.to_s.strip.empty?
+abort "No such file: #{path}" unless File.file?(path)
+
+encoded_token = File.read(path)
+abort "#{path} is empty" if encoded_token.strip.empty?
+
+ENV["SILENCE_SQL_LOGS"] ||= "true"
+require File.expand_path("../config/environment", __dir__)
+
+token = EnterpriseToken.new(encoded_token:)
+
+unless token.save
+  warn "Failed to import the enterprise token:"
+  token.errors.full_messages.each { |message| warn "  - #{message}" }
+
+  if token.errors.of_kind?(:domain, :invalid)
+    warn "    Token domain: #{token.domain.inspect}, Setting.host_name: #{Setting.host_name.inspect}"
+    warn "    Fix with: bundle exec rails runner 'Setting.host_name = #{token.domain.inspect}'"
+  end
+
+  exit 1
+end
+
+puts "Imported enterprise token ##{token.id}"
+puts "  Subscriber: #{token.subscriber}"
+puts "  Domain:     #{token.domain}"
+puts "  Plan:       #{token.plan}"
+puts "  Valid:      #{token.starts_at || 'now'} - #{token.expires_at || 'unlimited'}"
+puts "  Users:      #{token.unlimited_users? ? 'unlimited' : token.max_active_users}"
+puts "  Trial:      #{token.trial? ? 'yes' : 'no'}"
+puts "  Features:   #{token.available_features.to_a.sort.join(', ')}"

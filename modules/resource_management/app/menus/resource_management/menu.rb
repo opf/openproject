@@ -38,9 +38,29 @@ module ResourceManagement
 
     def menu_items
       [
+        staffing_group,
         menu_group(header: I18n.t("resource_management.sidebar.public"),  children: public_planners),
         menu_group(header: I18n.t("resource_management.sidebar.private"), children: private_planners)
-      ]
+      ].compact
+    end
+
+    # Header-less group rendered above the planner groups (the submenu component
+    # treats a `header: nil` group as the top-level items). Only shown to users
+    # allowed to staff generic allocations.
+    def staffing_group
+      return unless User.current.allowed_in_project?(:assign_users_to_generic_allocations, project)
+
+      menu_group(header: nil, children: [staffing_item])
+    end
+
+    def staffing_item
+      OpenProject::Menu::MenuItem.new(
+        title: I18n.t("resource_management.staffing.menu_item"),
+        href: project_staffing_path(project),
+        # The menu is loaded lazily through its own controller, so the page we
+        # came from is forwarded as `origin_controller`.
+        selected: params[:origin_controller] == "resource_management/staffing"
+      )
     end
 
     def public_planners

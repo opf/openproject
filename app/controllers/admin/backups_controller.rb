@@ -32,6 +32,7 @@ class Admin::BackupsController < ApplicationController
   include PasswordConfirmation
   include ActionView::Helpers::TagHelper
   include BackupHelper
+  include OpTurbo::ComponentStream
 
   layout "admin"
 
@@ -47,17 +48,31 @@ class Admin::BackupsController < ApplicationController
     last_backup = find_backup user: current_user
 
     if last_backup
-      @job_status_id = last_backup.job_status.job_id
       @last_backup_date = format_time(last_backup.updated_at)
       @last_backup_attachment_id = last_backup.attachments.first&.id
     end
 
-    @may_include_attachments = may_include_attachments? ? "true" : "false"
+    @may_include_attachments = may_include_attachments?
   end
 
-  def reset_token
-    @backup_token = Token::Backup.find_by user: current_user
+  def reset_token_dialog
+    @backup_token = Token::Backup.find_by(user: current_user)
     @user = current_user
+    respond_with_dialog Admin::Backups::ResetTokenDialogComponent.new(user: @user, backup_token: @backup_token)
+  end
+
+  def request_backup
+    call = ::Backups::CreateService.new(
+      user: current_user,
+      backup_token: params[:backup_token],
+      include_attachments: params[:include_attachments] == "1"
+    ).call
+
+    if call.success?
+      show_backup_job_dialog(call.result)
+    else
+      backup_request_failed!(call)
+    end
   end
 
   def perform_token_reset
@@ -111,6 +126,17 @@ class Admin::BackupsController < ApplicationController
       content_tag(:strong, token.plain_value),
       t("my.access_token.token_value_warning")
     ]
+  end
+
+  def show_backup_job_dialog(backup)
+    respond_with_dialog ::JobStatus::Dialog::DialogComponent.new(
+      job_uuid: backup.job_status.job_id
+    )
+  end
+
+  def backup_request_failed!(call)
+    flash[:error] = call.errors.full_messages.join(", ")
+    redirect_to action: "show"
   end
 
   def token_reset_failed!(error)

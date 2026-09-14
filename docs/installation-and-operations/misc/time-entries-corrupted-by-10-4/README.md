@@ -9,9 +9,9 @@ This guide describes how to fix the data once this has happened.
 
 ## Preconditions
 
-* A backup file of a database state prior to 10.4.0.
-* Credentials with the permission to create a database in the database server the OpenProject installation is running against.
-* Console access to the OpenProject server.
+- A backup file of a database state prior to 10.4.0.
+- Credentials with the permission to create a database in the database server the OpenProject installation is running against.
+- Console access to the OpenProject server.
 
 ## 1. Create a second database from the backup
 

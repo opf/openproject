@@ -1,4 +1,8 @@
 ---
 ja:
+  activerecord:
+    models:
+      grids/my_page:
+        other: My pages
   my_page:
     label: 個人ページ

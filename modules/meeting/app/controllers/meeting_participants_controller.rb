@@ -36,7 +36,7 @@ class MeetingParticipantsController < ApplicationController
   load_and_authorize_with_permission_in_project :edit_meetings
 
   before_action :set_meeting
-  before_action :set_participant, only: %i[toggle_attendance destroy]
+  before_action :set_participant, only: %i[toggle_attendance]
 
   def create
     user_ids = Array(params.dig(:meeting_participant, :user_id)).compact_blank
@@ -56,9 +56,7 @@ class MeetingParticipantsController < ApplicationController
       participant.update!(attended: true)
     end
 
-    update_add_user_form_component_via_turbo_stream
-    update_list_component_via_turbo_stream
-    update_sidebar_participants_component_via_turbo_stream(meeting: @meeting)
+    update_participants_via_turbo_stream
 
     respond_with_turbo_streams
   end
@@ -73,22 +71,18 @@ class MeetingParticipantsController < ApplicationController
   end
 
   def destroy
-    user_id = @participant.user_id
-    call = MeetingParticipants::DeleteService
-      .new(user: User.current, model: @participant)
-      .call
+    participant = @meeting.participants.find_by(id: params[:id])
 
-    if call.success?
-      if @meeting.series_template? && params[:apply_to_upcoming] == "1"
-        remove_from_upcoming_occurrences(user_id)
+    if participant
+      call = remove_participant(participant)
+
+      unless call.success?
+        render_error_flash_message_via_turbo_stream(message: join_flash_messages(call.errors))
+        return respond_with_turbo_streams
       end
-
-      update_add_user_form_component_via_turbo_stream
-      update_list_component_via_turbo_stream
-      update_sidebar_participants_component_via_turbo_stream(meeting: @meeting)
-    else
-      render_error_flash_message_via_turbo_stream(message: join_flash_messages(call.errors))
     end
+
+    update_participants_via_turbo_stream
 
     respond_with_turbo_streams
   end
@@ -105,6 +99,24 @@ class MeetingParticipantsController < ApplicationController
 
   def set_participant
     @participant = @meeting.participants.find(params[:id])
+  end
+
+  def remove_participant(participant)
+    call = MeetingParticipants::DeleteService
+      .new(user: User.current, model: participant)
+      .call
+
+    if call.success? && @meeting.series_template? && params[:apply_to_upcoming] == "1"
+      remove_from_upcoming_occurrences(participant.user_id)
+    end
+
+    call
+  end
+
+  def update_participants_via_turbo_stream
+    update_add_user_form_component_via_turbo_stream
+    update_list_component_via_turbo_stream
+    update_sidebar_participants_component_via_turbo_stream(meeting: @meeting)
   end
 
   def create_new_participants(user_ids)

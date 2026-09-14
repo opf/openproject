@@ -213,9 +213,35 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
     end
   end
 
+  describe ".computed_value?" do
+    {
+      true => [
+        1,
+        2.0,
+        BigDecimal("3"),
+        true,
+        false
+      ],
+      false => [
+        nil,
+        "3",
+        "foo",
+        [1],
+        Dentaku::ArgumentError.for(:invalid_value)
+      ]
+    }.each do |is_computed, values|
+      values.each do |value|
+        context "for #{value.inspect}" do
+          it { expect(described_class.computed_value?(value)).to be(is_computed) }
+        end
+      end
+    end
+  end
+
   describe "#usable_custom_field_references_for_formula" do
     let!(:int) { create(:project_custom_field, :integer, default_value: 4, is_for_all: true) }
     let!(:float) { create(:project_custom_field, :float, default_value: 5.5, is_for_all: true) }
+    let!(:bool) { create(:project_custom_field, :boolean, is_for_all: true) }
     let!(:weighted_item_list) { create(:project_custom_field, :weighted_item_list, is_for_all: true) }
     let!(:other_calculated_value) { create(:calculated_value_project_custom_field, formula: "2 + 2", is_for_all: true) }
 
@@ -223,7 +249,7 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
 
     context "with permission to see all custom fields" do
       it "returns custom fields with formats that can be used in formulas" do
-        expected = [int, float, other_calculated_value, weighted_item_list]
+        expected = [int, float, bool, other_calculated_value, weighted_item_list]
         expect(subject.usable_custom_field_references_for_formula).to match_array(expected)
       end
 
@@ -244,6 +270,7 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
 
       let!(:int) { create(:project_custom_field, :integer, default_value: 4, projects: [project_with_permission]) }
       let!(:float) { create(:project_custom_field, :float, default_value: 5.5, projects: [project_with_permission]) }
+      let!(:bool) { create(:project_custom_field, :boolean, is_for_all: true, projects: [project_with_permission]) }
       let!(:other_calculated_value) do
         create(:calculated_value_project_custom_field, formula: "2 + 2", projects: [project_without_permission])
       end
@@ -254,7 +281,7 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
       current_user { user }
 
       it "returns only custom fields that the user has permission to see" do
-        expect(subject.usable_custom_field_references_for_formula).to contain_exactly(int, float)
+        expect(subject.usable_custom_field_references_for_formula).to contain_exactly(int, float, bool)
       end
     end
 
@@ -265,9 +292,9 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
 
       before do
         # Set up circular reference: field_a -> field_b -> field_c -> field_a
-        field_a.formula = "{{cf_#{field_b.id}}} + 1"
-        field_b.formula = "{{cf_#{field_c.id}}} + 2"
-        field_c.formula = "{{cf_#{field_a.id}}} + 3"
+        field_a.formula = "#{field_b} + 1"
+        field_b.formula = "#{field_c} + 2"
+        field_c.formula = "#{field_a} + 3"
 
         field_a.save(validate: false)
         field_b.save(validate: false)
@@ -286,21 +313,27 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
         expect(field_b.usable_custom_field_references_for_formula).to include(int, float)
         expect(field_c.usable_custom_field_references_for_formula).to include(int, float)
       end
+
+      it "does not enter infinite recursion when called on a field outside of the cycle" do
+        # subject is not part of the field_a -> field_b -> field_c -> field_a cycle,
+        # so traversing the cycle never hits the original id and must terminate on its own
+        expect { subject.usable_custom_field_references_for_formula }.not_to raise_error
+      end
     end
 
     context "when two calculated values reference the same custom field" do
       let!(:constant_cf1) { create(:project_custom_field, :integer, default_value: 1, is_for_all: true) }
       let!(:calculated_cf2) do
-        create(:calculated_value_project_custom_field, formula: "{{cf_#{constant_cf1.id}}}", is_for_all: true)
+        create(:calculated_value_project_custom_field, formula: constant_cf1.ref, is_for_all: true)
       end
       let!(:calculated_cf3) do
         create(:calculated_value_project_custom_field,
-               formula: "{{cf_#{constant_cf1.id}}} + {{cf_#{calculated_cf2.id}}}",
+               formula: "#{constant_cf1} + #{calculated_cf2}",
                is_for_all: true)
       end
 
       it "does not lead to a false positive" do
-        subject.formula = "{{cf_#{calculated_cf3.id}}}"
+        subject.formula = calculated_cf3.ref
         subject.save(validate: false)
 
         expect(subject.usable_custom_field_references_for_formula).to include(constant_cf1, calculated_cf2, calculated_cf3)
@@ -311,7 +344,7 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
       let!(:self_referencing_field) { create(:calculated_value_project_custom_field, formula: "1 + 1", is_for_all: true) }
 
       before do
-        self_referencing_field.formula = "{{cf_#{self_referencing_field.id}}} + 1"
+        self_referencing_field.formula = "#{self_referencing_field} + 1"
         self_referencing_field.save(validate: false)
       end
 
@@ -332,7 +365,7 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
     current_user { create(:admin) }
 
     it "splits formula and referenced custom fields on persist if given a string" do
-      formula = "1 * {{cf_#{int.id}}} + {{cf_#{float.id}}}"
+      formula = "1 * #{int} + #{float}"
       subject.formula = formula
 
       expect(subject.formula).to eq({ "formula" => formula, "referenced_custom_fields" => [int.id, float.id] })
@@ -400,7 +433,7 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
     end
   end
 
-  describe "#formula_references_id?" do
+  describe "#can_be_referenced_by?" do
     let!(:int_field) { create(:project_custom_field, :integer, default_value: 10, is_for_all: true) }
     let!(:float_field) { create(:project_custom_field, :float, default_value: 5.5, is_for_all: true) }
     let!(:text_field) { create(:project_custom_field, :text, default_value: "text", is_for_all: true) }
@@ -408,16 +441,16 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
     current_user { create(:admin) }
 
     context "when checking a non-calculated value custom field" do
-      it "returns false for integer custom field" do
-        expect(int_field.formula_references_id?(subject.id)).to be false
+      it "returns true for integer custom field" do
+        expect(int_field.can_be_referenced_by?(subject.id)).to be true
       end
 
-      it "returns false for float custom field" do
-        expect(float_field.formula_references_id?(subject.id)).to be false
+      it "returns true for float custom field" do
+        expect(float_field.can_be_referenced_by?(subject.id)).to be true
       end
 
-      it "returns false for text custom field" do
-        expect(text_field.formula_references_id?(subject.id)).to be false
+      it "returns true for text custom field" do
+        expect(text_field.can_be_referenced_by?(subject.id)).to be true
       end
     end
 
@@ -426,27 +459,27 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
         create(:calculated_value_project_custom_field, formula: "1 + 2", is_for_all: true)
       end
 
-      it "returns false" do
-        expect(simple_calculated_field.formula_references_id?(subject.id)).to be false
+      it "returns true" do
+        expect(simple_calculated_field.can_be_referenced_by?(subject.id)).to be true
       end
     end
 
     context "when checking for direct circular reference" do
       let!(:self_referencing_field) do
         create(:calculated_value_project_custom_field,
-               formula: "{{cf_#{int_field.id}}} + 1",
+               formula: "#{int_field} + 1",
                is_for_all: true)
       end
 
       before do
         # Manually set the formula to reference itself
-        self_referencing_field.formula = "{{cf_#{self_referencing_field.id}}} + 1"
+        self_referencing_field.formula = "#{self_referencing_field} + 1"
         self_referencing_field.save(validate: false)
       end
 
-      it "returns true when field references itself" do
-        circular = self_referencing_field.formula_references_id?(self_referencing_field.id)
-        expect(circular).to be true
+      it "returns false when field references itself" do
+        referenceable = self_referencing_field.can_be_referenced_by?(self_referencing_field.id)
+        expect(referenceable).to be false
       end
     end
 
@@ -471,22 +504,26 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
 
       before do
         # Set up the circular reference: field_a -> field_b -> field_c -> field_a
-        field_a.formula = "{{cf_#{field_b.id}}} + 1"
-        field_b.formula = "{{cf_#{field_c.id}}} + 2"
-        field_c.formula = "{{cf_#{field_a.id}}} + 3"
+        field_a.formula = "#{field_b} + 1"
+        field_b.formula = "#{field_c} + 2"
+        field_c.formula = "#{field_a} + 3"
 
         field_a.save(validate: false)
         field_b.save(validate: false)
         field_c.save(validate: false)
       end
 
-      it "returns true when there is an indirect circular reference" do
-        expect(field_a.formula_references_id?(field_a.id)).to be true
+      it "returns false when there is an indirect circular reference" do
+        expect(field_a.can_be_referenced_by?(field_a.id)).to be false
       end
 
-      it "returns true when checking from any field in the circular chain" do
-        expect(field_b.formula_references_id?(field_b.id)).to be true
-        expect(field_c.formula_references_id?(field_c.id)).to be true
+      it "returns false when checking from any field in the circular chain" do
+        expect(field_b.can_be_referenced_by?(field_b.id)).to be false
+        expect(field_c.can_be_referenced_by?(field_c.id)).to be false
+      end
+
+      it "returns false for an id outside of the circular chain instead of raising an error" do
+        expect(field_a.can_be_referenced_by?(int_field.id)).to be false
       end
     end
 
@@ -494,52 +531,84 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
       # Set up a linear chain: field_x -> field_y -> field_z (no circular reference)
       let!(:field_x) do
         create(:calculated_value_project_custom_field,
-               formula: "{{cf_#{int_field.id}}} + 1",
+               formula: "#{int_field} + 1",
                is_for_all: true)
       end
 
       let!(:field_y) do
         create(:calculated_value_project_custom_field,
-               formula: "{{cf_#{field_x.id}}} + 2",
+               formula: "#{field_x} + 2",
                is_for_all: true)
       end
 
       let!(:field_z) do
         create(:calculated_value_project_custom_field,
-               formula: "{{cf_#{field_y.id}}} + 3",
+               formula: "#{field_y} + 3",
                is_for_all: true)
       end
 
-      it "returns false when there is no circular reference" do
-        expect(field_x.formula_references_id?(field_x.id)).to be false
-        expect(field_x.formula_references_id?(field_y.id)).to be false
-        expect(field_x.formula_references_id?(field_z.id)).to be false
-        expect(field_y.formula_references_id?(field_y.id)).to be false
-        expect(field_z.formula_references_id?(field_z.id)).to be false
+      it "returns true when there is no circular reference" do
+        expect(field_x.can_be_referenced_by?(field_x.id)).to be true
+        expect(field_x.can_be_referenced_by?(field_y.id)).to be true
+        expect(field_x.can_be_referenced_by?(field_z.id)).to be true
+        expect(field_y.can_be_referenced_by?(field_y.id)).to be true
+        expect(field_z.can_be_referenced_by?(field_z.id)).to be true
       end
     end
 
-    context "when checking with visited nodes tracking" do
-      let!(:field1) do
-        create(:calculated_value_project_custom_field,
-               formula: "{{cf_#{int_field.id}}} + 1",
-               is_for_all: true)
+    context "in a diamond shape" do
+      # top ┬> branch_a ┬> shared -> int_field
+      #     ╰- branch_b ╯
+      let!(:shared) do
+        create(:calculated_value_project_custom_field, formula: "#{int_field} + 1", is_for_all: true)
       end
 
-      let!(:field2) do
-        create(:calculated_value_project_custom_field,
-               formula: "{{cf_#{field1.id}}} + 2",
-               is_for_all: true)
+      let!(:branch_a) do
+        create(:calculated_value_project_custom_field, formula: "#{shared} + 2", is_for_all: true)
       end
 
-      it "returns true when a node has already been visited" do
-        visited = { field1.id => true }
-        expect(field1.formula_references_id?(field2.id, visited)).to be true
+      let!(:branch_b) do
+        create(:calculated_value_project_custom_field, formula: "#{shared} + 3", is_for_all: true)
       end
 
-      it "returns false when checking a new node with empty visited set" do
-        visited = {}
-        expect(field1.formula_references_id?(field2.id, visited)).to be false
+      let!(:top) do
+        create(:calculated_value_project_custom_field, formula: "#{branch_a} + #{branch_b}", is_for_all: true)
+      end
+
+      it "can be referenced when a dependency is reached through two branches without a cycle" do
+        expect(top.can_be_referenced_by?(subject.id)).to be true
+      end
+
+      it "field can be referenced by any field if that would not lead to a loop", :aggregate_failures do
+        expect(shared.can_be_referenced_by?(top.id)).to be true
+        expect(shared.can_be_referenced_by?(branch_a.id)).to be true
+        expect(shared.can_be_referenced_by?(branch_b.id)).to be true
+        expect(branch_a.can_be_referenced_by?(top.id)).to be true
+        expect(branch_a.can_be_referenced_by?(branch_b.id)).to be true
+        expect(branch_b.can_be_referenced_by?(top.id)).to be true
+        expect(branch_b.can_be_referenced_by?(branch_a.id)).to be true
+      end
+
+      it "field cannot be referenced by any field if that would lead to a loop", :aggregate_failures do
+        expect(top.can_be_referenced_by?(branch_a.id)).to be false
+        expect(top.can_be_referenced_by?(branch_b.id)).to be false
+        expect(top.can_be_referenced_by?(shared.id)).to be false
+        expect(branch_a.can_be_referenced_by?(shared.id)).to be false
+        expect(branch_b.can_be_referenced_by?(shared.id)).to be false
+      end
+
+      it "non calculated field can be referenced by any field", :aggregate_failures do
+        expect(int_field.can_be_referenced_by?(top.id)).to be true
+        expect(int_field.can_be_referenced_by?(shared.id)).to be true
+        expect(int_field.can_be_referenced_by?(branch_a.id)).to be true
+        expect(int_field.can_be_referenced_by?(branch_b.id)).to be true
+      end
+
+      it "field cannot be referenced by an id it uses, even a non calculated one", :aggregate_failures do
+        expect(top.can_be_referenced_by?(int_field.id)).to be false
+        expect(branch_a.can_be_referenced_by?(int_field.id)).to be false
+        expect(branch_b.can_be_referenced_by?(int_field.id)).to be false
+        expect(shared.can_be_referenced_by?(int_field.id)).to be false
       end
     end
 
@@ -555,9 +624,9 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
         field_with_invalid_ref.save(validate: false)
       end
 
-      it "returns false when referenced custom field does not exist" do
-        circular = field_with_invalid_ref.formula_references_id?(field_with_invalid_ref.id)
-        expect(circular).to be false
+      it "returns true when referenced custom field does not exist" do
+        referenceable = field_with_invalid_ref.can_be_referenced_by?(field_with_invalid_ref.id)
+        expect(referenceable).to be true
       end
     end
   end
@@ -572,20 +641,20 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
       end
     end
 
-    shared_examples_for "invalid formula" do |error_message|
+    shared_examples_for "invalid formula" do |error_symbol_or_message|
       it "is invalid", :aggregate_failures do
         subject.formula = formula
         subject.validate_formula
 
         expect(subject).not_to be_valid
-        expect(subject.errors[:formula]).to include(error_message)
+        expect(subject.errors).to be_of_kind(:formula, error_symbol_or_message)
       end
     end
 
     let(:formula) { "" }
 
     context "with an empty formula" do
-      it_behaves_like "invalid formula", "Formula can't be blank."
+      it_behaves_like "invalid formula", :blank
     end
 
     context "with a formula containing only allowed characters" do
@@ -615,29 +684,119 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
     context "when omitting trailing decimals after a decimal point" do
       let(:formula) { "1.5 + 1. - 3.25" }
 
-      it_behaves_like "invalid formula", "Formula is invalid."
+      it_behaves_like "invalid formula", :invalid
     end
 
-    context "with a formula containing forbidden characters" do
+    [
+      # operators
+      "2 ^ 10",
+      "1 < 2",
+      "1 > 2",
+      "1 <= 2",
+      "1 >= 2",
+      "1 <> 2",
+      "1 != 2",
+      "1 = 2",
+      "1 == 2",
+      "1 <> 2 AND 2 <> 3",
+      "1 <> 2 && 2 <> 3",
+      "1 <> 2 OR 2 <> 3",
+      "1 <> 2 || 2 <> 3",
+      # functions
+      "IF(1 > 2, 3, 4)",
+      "AND(1 <> 2, 2 <> 3)",
+      "OR(1 <> 2, 2 <> 3)",
+      "XOR(1 <> 2, 2 <> 3)",
+      "NOT(1 <> 2)",
+      "SWITCH(2, 1, 100, 2, 200, 3, 300, 400)",
+      "MIN(1, 2, 3, 4)",
+      "MAX(1, 2, 3, 4)",
+      "SUM(1, 2, 3, 4)",
+      "AVG(1, 2, 3, 4)",
+      "ROUND(1.5)",
+      "ROUNDUP(1.5)",
+      "ROUNDDOWN(1.5)",
+      "ABS(0 - 1)",
+      # case expression
+      "CASE 2 WHEN 1 THEN 100 WHEN 2 THEN 200 WHEN 3 THEN 300 ELSE 400 END",
+      # constants
+      "TRUE",
+      "FALSE",
+      "IF(1 > 2, TRUE, FALSE)"
+    ].each do |formula|
+      context "with formula #{formula.inspect}" do
+        let(:formula) { formula }
+
+        it_behaves_like "valid formula"
+      end
+    end
+
+    describe "when a formula looks like a date (#OP-19811)" do
+      context "when it looks like an invalid date" do
+        let(:formula) { "10-20-30" }
+
+        it_behaves_like "valid formula"
+      end
+
+      context "when it looks like a valid date" do
+        let(:formula) { "2026-04-03" }
+
+        it_behaves_like "valid formula"
+      end
+    end
+
+    context "with a formula containing unexpected constant" do
       let(:formula) { "abc + 2" }
 
-      it_behaves_like "invalid formula",
-                      "Only numeric values, mathematical operators and project attributes of type integer, float, " \
-                      "calculated value and weighted list are allowed."
+      it_behaves_like "invalid formula", :invalid_tokens
+    end
+
+    context "with a formula containing unknown operator" do
+      let(:formula) { "1 \\ 2" }
+
+      it_behaves_like "invalid formula", :invalid_tokens
+    end
+
+    context "with a formula containing undefined function" do
+      let(:formula) { "FOO(1, 2, 3)" }
+
+      it_behaves_like "invalid formula", :invalid_tokens
+    end
+
+    context "with a formula containing an expanded function name" do
+      let(:formula) { "MAXIMUM(1, 2, 3)" }
+
+      it_behaves_like "invalid formula", :invalid_tokens
+    end
+
+    context "with a formula containing an unallowed function name" do
+      let(:formula) { "SIN(0)" }
+
+      it_behaves_like "invalid formula", :invalid_tokens
+    end
+
+    context "with a formula using a lowercase function name" do
+      let(:formula) { "if(1, 2)" }
+
+      it_behaves_like "invalid formula", :invalid_tokens
+    end
+
+    context "with a formula using a lowercase constant" do
+      let(:formula) { "true" }
+
+      it_behaves_like "invalid formula", :invalid_tokens
     end
 
     context "with a formula containing references to custom fields without pattern-mustaches" do
       let(:formula) { "100 * cf_3" }
 
-      it_behaves_like "invalid formula",
-                      "Only numeric values, mathematical operators and project attributes of type integer, float, " \
-                      "calculated value and weighted list are allowed."
+      it_behaves_like "invalid formula", :invalid_tokens
     end
 
     context "with a formula that is not a valid equation" do
       let(:formula) { "1 / + - 3" }
 
-      it_behaves_like "invalid formula", "Formula is invalid."
+      it_behaves_like "invalid formula", :invalid
     end
 
     context "with a formula that contains custom fields that are not visible to the user" do
@@ -655,12 +814,33 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
         create(:calculated_value_project_custom_field, formula: "2 + 2", projects: [project_with_permission])
       end
 
-      let(:formula) { "1 + {{cf_#{int.id}}} + {{cf_#{float.id}}} + {{cf_#{other_calculated_value.id}}}" }
+      let(:formula) { "1 + #{int} + #{float} + #{other_calculated_value}" }
 
       current_user { user }
 
       it_behaves_like "invalid formula",
-                      /The attribute (int, float|float, int) cannot be used because it leads to a circular reference/
+                      "The attribute int, float cannot be used because it leads to a circular reference; " \
+                      "one attribute depends on the other."
+    end
+
+    context "when unrelated fields contain a circular reference" do
+      let!(:int) { create(:project_custom_field, :integer, default_value: 4, is_for_all: true) }
+      let!(:field_a) { create(:calculated_value_project_custom_field, formula: "2 + 2", is_for_all: true) }
+      let!(:field_b) { create(:calculated_value_project_custom_field, formula: "2 + 2", is_for_all: true) }
+
+      let(:formula) { "1 + #{int}" }
+
+      current_user { create(:admin) }
+
+      before do
+        field_a.formula = "#{field_b} + 1"
+        field_b.formula = "#{field_a} + 2"
+
+        field_a.save(validate: false)
+        field_b.save(validate: false)
+      end
+
+      it_behaves_like "valid formula"
     end
   end
 end

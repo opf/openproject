@@ -61,6 +61,8 @@ module API
                    attribute_group: nil,
                    min_length: nil,
                    max_length: nil,
+                   minimum: nil,
+                   maximum: nil,
                    regular_expression: nil,
                    options: {},
                    formula: nil,
@@ -69,21 +71,23 @@ module API
                    deprecated: nil,
                    placeholder: nil)
           getter = ->(*) do
-            schema_property_getter(type,
-                                   name_source,
-                                   required,
-                                   has_default,
-                                   writable,
-                                   attribute_group,
-                                   min_length,
-                                   max_length,
-                                   regular_expression,
-                                   options,
-                                   formula,
-                                   location,
-                                   description,
-                                   deprecated,
-                                   placeholder)
+            schema_property_getter(type:,
+                                   name_source:,
+                                   required:,
+                                   has_default:,
+                                   writable:,
+                                   attribute_group:,
+                                   min_length:,
+                                   max_length:,
+                                   minimum:,
+                                   maximum:,
+                                   regular_expression:,
+                                   options:,
+                                   formula:,
+                                   location:,
+                                   description:,
+                                   deprecated:,
+                                   placeholder:)
           end
 
           schema_property(property,
@@ -137,6 +141,9 @@ module API
                                            has_default: false,
                                            writable: default_writable_property(property),
                                            attribute_group: nil,
+                                           deprecated: nil,
+                                           description: nil,
+                                           options: nil,
                                            show_if: true)
           getter = ->(*) do
             schema_with_allowed_collection_getter(type,
@@ -149,7 +156,10 @@ module API
                                                   writable,
                                                   attribute_group,
                                                   values_callback,
-                                                  nil)
+                                                  nil,
+                                                  deprecated,
+                                                  description,
+                                                  options)
           end
 
           schema_property(property,
@@ -293,25 +303,26 @@ module API
         []
       end
 
-      def schema_property_getter(type,
-                                 name_source,
-                                 required,
-                                 has_default,
-                                 writable,
-                                 attribute_group,
-                                 min_length,
-                                 max_length,
-                                 regular_expression,
-                                 options,
-                                 formula,
-                                 location,
-                                 description,
-                                 deprecated,
-                                 placeholder)
-        name = call_or_translate(name_source)
+      def schema_property_getter(type:,
+                                 name_source:,
+                                 required:,
+                                 has_default:,
+                                 writable:,
+                                 attribute_group:,
+                                 min_length:,
+                                 max_length:,
+                                 minimum:,
+                                 maximum:,
+                                 regular_expression:,
+                                 options:,
+                                 formula:,
+                                 location:,
+                                 description:,
+                                 deprecated:,
+                                 placeholder:)
         schema = ::API::Decorators::PropertySchemaRepresenter
                  .new(type: call_or_use(type),
-                      name:,
+                      name: call_or_translate(name_source),
                       location:,
                       description: call_or_use(description),
                       required: call_or_use(required),
@@ -320,11 +331,9 @@ module API
                       attribute_group: call_or_use(attribute_group),
                       deprecated:,
                       placeholder: call_or_use(placeholder))
-        schema.min_length = min_length
-        schema.max_length = max_length
-        schema.regular_expression = regular_expression
-        schema.options = options
-        schema.formula = formula
+
+        { min_length:, max_length:, minimum:, maximum:, regular_expression:, options:, formula: }
+          .each { |attribute, value| schema.public_send(:"#{attribute}=", value) }
 
         schema
       end
@@ -362,22 +371,22 @@ module API
                                                 writable,
                                                 attribute_group,
                                                 values_callback,
-                                                allowed_values_getter)
-        wrapped_link_factory = if link_factory
-                                 ->(value) { instance_exec(value, &link_factory) }
-                               else
-                                 link_factory
-                               end
-
+                                                allowed_values_getter,
+                                                deprecated = nil,
+                                                description = nil,
+                                                options = nil)
         attributes = { type: call_or_use(type),
                        name: call_or_translate(name_source),
                        current_user:,
                        value_representer:,
-                       link_factory: wrapped_link_factory,
+                       link_factory: wrap_link_factory(link_factory),
                        required: call_or_use(required),
                        has_default: call_or_use(has_default),
                        writable: call_or_use(writable),
-                       attribute_group: call_or_use(attribute_group) }
+                       attribute_group: call_or_use(attribute_group),
+                       deprecated: call_or_use(deprecated),
+                       description: call_or_use(description),
+                       options: call_or_use(options) }
 
         attributes[:allowed_values_getter] = allowed_values_getter if allowed_values_getter
 
@@ -389,6 +398,12 @@ module API
         end
 
         representer
+      end
+
+      def wrap_link_factory(link_factory)
+        return link_factory unless link_factory
+
+        ->(value) { instance_exec(value, &link_factory) }
       end
 
       def self.camelize(symbol)

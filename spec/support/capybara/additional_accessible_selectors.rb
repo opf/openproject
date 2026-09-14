@@ -46,6 +46,11 @@ end
 
 module Capybara
   module RSpecMatchers
+    # Following finder methods are defined:
+    # * have_list
+    # * have_no_list
+    # * have_list_item
+    # * have_no_list_item
     %i[list list_item].each do |selector|
       define_method :"have_#{selector}" do |locator = nil, **options, &optional_filter_block|
         Matchers::HaveSelector.new(selector, locator, **options, &optional_filter_block)

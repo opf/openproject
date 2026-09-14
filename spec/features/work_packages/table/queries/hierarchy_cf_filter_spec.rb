@@ -32,13 +32,13 @@ require "spec_helper"
 
 RSpec.describe "Work package filtering by hierarchy custom field", :js, with_ee: [:custom_field_hierarchies] do
   let(:project) { create(:project) }
-  let(:type) { project.types.first }
+  let(:type) { project.enabled_types.first }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:filters) { Components::WorkPackages::Filters.new }
   let(:hierarchy_root) { create(:hierarchy_item) }
   let!(:hierarchy_cf) do
     create(:hierarchy_wp_custom_field, hierarchy_root:).tap do |cf|
-      type.custom_fields << cf
+      type.default_variant.custom_fields << cf
       project.work_package_custom_fields << cf
     end
   end

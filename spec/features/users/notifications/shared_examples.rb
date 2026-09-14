@@ -123,6 +123,18 @@ RSpec.shared_examples "notification settings workflow" do
       expect(page).to have_no_css(".ng-option", text: project.name)
     end
 
+    it "deletes project-specific notification settings without a routing error" do
+      create(:notification_setting, user:, project:)
+      settings_page.visit!
+
+      settings_page.delete_project project
+      settings_page.expect_and_dismiss_flash
+
+      expect(page).to have_current_path(settings_page.path)
+      expect(user.reload.notification_settings.where(project:)).to be_empty
+      expect(page).to have_no_test_selector("project-specific-settings-list", text: project.name)
+    end
+
     context "when overdue alerts are disabled for one project, enabled for another" do
       let!(:setting) { build(:notification_setting, user:, project:) }
       let!(:setting_alt) { build(:notification_setting, user:, project: project_alt) }

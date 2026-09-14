@@ -95,7 +95,7 @@ module Meetings
 
         e.created = recurring_meeting.template.created_at.utc
         e.last_modified = [recurring_meeting.template.updated_at, recurring_meeting.updated_at].max.utc
-        e.sequence = recurring_meeting.template.lock_version
+        e.sequence = recurring_meeting.ical_sequence
 
         e.rrule = recurring_meeting.ical_schedule.rrules.first.to_ical # We currently only have one recurrence rule
         e.dtstart = ical_datetime(recurring_meeting.current_schedule_start, timezone: recurring_meeting.time_zone)
@@ -145,7 +145,7 @@ module Meetings
 
         e.created = meeting.created_at.utc
         e.last_modified = meeting.updated_at.utc
-        e.sequence = [meeting.lock_version, recurring_meeting.template.lock_version].max
+        e.sequence = [meeting.lock_version, recurring_meeting.ical_sequence].max
 
         e.recurrence_id = ical_datetime(meeting.recurrence_start_time, timezone: recurring_meeting.time_zone)
         e.dtstart = ical_datetime(meeting.start_time, timezone: recurring_meeting.time_zone)
@@ -276,9 +276,8 @@ module Meetings
       all_times.each do |timezone, times|
         calendar.timezone do |tz|
           tz.tzid = timezone.tzinfo.canonical_identifier
-          transitions = timezone.tzinfo.transitions_up_to(times.max + 6.months, times.min - 6.months)
 
-          transitions.each do |tr|
+          relevant_transitions(timezone.tzinfo, times).each do |tr|
             if tr.offset.dst?
               tz.daylight { |d| transition_to_component(d, tr) }
             else
@@ -287,6 +286,17 @@ module Meetings
           end
         end
       end
+    end
+
+    # `transitions_up_to(to, from)` only returns transitions at or after `from`, so a
+    # fixed lookback (e.g. `times.min - 6.months`) can skip past the transition that
+    # established the offset currently in effect. When that happens the VTIMEZONE has
+    # no observance preceding the event and clients fall back to the wrong offset
+    def relevant_transitions(tzinfo, times)
+      transitions = tzinfo.transitions_up_to(times.max + 6.months, times.min)
+      active = tzinfo.transitions_up_to(times.min).last
+      transitions.unshift(active) if active
+      transitions
     end
 
     def transition_to_component(component, transition)
@@ -306,16 +316,26 @@ module Meetings
 
     # Methods for recurring meetings
     def add_instantiated_occurrences(recurring_meeting:)
-      previous, upcoming = instantiated_schedules(recurring_meeting)
-                             .partition { |meeting| in_previous_schedule?(meeting, recurring_meeting) }
-
-      recent_previous = previous
-                          .sort_by(&:recurrence_start_time)
-                          .last(PAST_OCCURRENCES_LIMIT)
-
-      (recent_previous + upcoming).each do |meeting|
+      instantiated_occurrences_for_export(recurring_meeting).each do |meeting|
         add_single_recurring_occurrence(meeting:)
       end
+    end
+
+    def instantiated_occurrences_for_export(recurring_meeting)
+      # We should not emit previous-schedule instances as individual VEVENTs as some implementations (such as OpenXchange)
+      # reject the whole series if an event is < master DTSTART.
+      upcoming_schedule_occurrences(recurring_meeting)
+    end
+
+    def upcoming_schedule_occurrences(recurring_meeting)
+      instantiated_schedules_partitioned(recurring_meeting).second
+    end
+
+    def instantiated_schedules_partitioned(recurring_meeting)
+      @instantiated_schedules_partition_cache ||= {}
+      @instantiated_schedules_partition_cache[recurring_meeting.id] ||=
+        instantiated_schedules(recurring_meeting)
+          .partition { |meeting| in_previous_schedule?(meeting, recurring_meeting) }
     end
 
     def in_previous_schedule?(meeting, recurring_meeting)
@@ -341,7 +361,7 @@ module Meetings
 
           e.created = recurring_meeting.template.created_at.utc
           e.last_modified = [recurring_meeting.template.updated_at, recurring_meeting.updated_at].max.utc
-          e.sequence = recurring_meeting.template.lock_version
+          e.sequence = recurring_meeting.ical_sequence
 
           e.dtstart = ical_datetime(start_time, timezone: recurring_meeting.time_zone)
           e.dtend = ical_datetime(start_time + recurring_meeting.template.duration.hours, timezone: recurring_meeting.time_zone)

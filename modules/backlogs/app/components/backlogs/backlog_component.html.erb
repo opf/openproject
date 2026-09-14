@@ -40,7 +40,7 @@ See COPYRIGHT and LICENSE files for more details.
         concat t(:label_backlog)
         concat render(
           Primer::Beta::Counter.new(
-            scheme: :default,
+            scheme: :primary,
             count: total,
             round: true,
             limit: 1_000,

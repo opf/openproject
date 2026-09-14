@@ -159,6 +159,29 @@ RSpec.describe "API v3 Meeting Outcomes sub-resource", content_type: :json do
       end
     end
 
+    context "with an invalid kind value" do
+      let(:body) do
+        {
+          kind: "not_a_real_kind",
+          notes: { raw: "Outcome with invalid kind" },
+          _links: {
+            agendaItem: {
+              href: api_v3_paths.meeting_agenda_item(agenda_item.id)
+            }
+          }
+        }.to_json
+      end
+
+      it "returns 422 rather than raising" do
+        expect { response }.not_to raise_error
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it "does not create the outcome" do
+        expect { response }.not_to change(MeetingOutcome, :count)
+      end
+    end
+
     context "when creating a work package outcome" do
       let(:permissions) { %i[view_meetings manage_outcomes view_work_packages] }
       let(:work_package) { create(:work_package, project:) }

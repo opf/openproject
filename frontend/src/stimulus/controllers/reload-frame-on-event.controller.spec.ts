@@ -1,32 +1,30 @@
-/*
- * -- copyright
- * OpenProject is an open source project management software.
- * Copyright (C) the OpenProject GmbH
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License version 3.
- *
- * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
- * Copyright (C) 2006-2013 Jean-Philippe Lang
- * Copyright (C) 2010-2013 the ChiliProject Team
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- *
- * See COPYRIGHT and LICENSE files for more details.
- * ++
- */
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
 
 import ReloadFrameOnEventController from './reload-frame-on-event.controller';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
@@ -75,6 +73,25 @@ describe('ReloadFrameOnEventController', () => {
 
     document.dispatchEvent(new CustomEvent('op-dispatched:resource-allocations:changed'));
     expect(calls.count).toBe(1);
+  });
+
+  it('reloads from the current location when reloadFromLocation is set', async () => {
+    await ctx.mount(`
+      <turbo-frame id="location-frame"
+                   data-controller="reload-frame-on-event"
+                   data-reload-frame-on-event-event-name-value="op-dispatched:resource-allocations:changed"
+                   data-reload-frame-on-event-url-value="/planner/view"
+                   data-reload-frame-on-event-reload-from-location-value="true">
+        content
+      </turbo-frame>
+    `);
+
+    const frame = ctx.container.querySelector('#location-frame') as unknown as ReloadableFrame;
+
+    document.dispatchEvent(new CustomEvent('op-dispatched:resource-allocations:changed'));
+
+    expect(frame.src).toBe(window.location.href);
+    expect(frame.src).not.toContain('/planner/view');
   });
 
   it('ignores unrelated events', async () => {

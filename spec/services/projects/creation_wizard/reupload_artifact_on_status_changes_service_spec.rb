@@ -150,6 +150,17 @@ RSpec.describe Projects::CreationWizard::ReuploadArtifactOnStatusChangesService 
         expect(attachment.author).to eq(current_user)
       end
 
+      it "journalizes the work package so the attachment shows up in the Activity tab" do
+        initial_journal_count = work_package.journals.count
+
+        instance.call!(changes:)
+
+        work_package.reload
+        expect(work_package.journals.count).to eq(initial_journal_count + 1)
+        expect(work_package.last_journal.attachable_journals.map(&:attachment))
+          .to include(work_package.attachments.last)
+      end
+
       context "when work package already has an attachment" do
         before do
           work_package.attachments.create(

@@ -37,7 +37,7 @@ RSpec.describe "Journalized Objects" do
       let!(:project) { create(:project_with_types) }
       let!(:work_package) do
         create(:work_package,
-               type: project.types.first,
+               type: project.enabled_types.first,
                author: user,
                project:,
                description: "")

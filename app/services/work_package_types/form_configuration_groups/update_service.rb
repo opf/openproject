@@ -33,8 +33,8 @@ module WorkPackageTypes
     class UpdateService < ::BaseServices::BaseCallable
       include ::WorkPackageTypes::FormConfiguration::Concern
 
-      def initialize(user:, type:, group_key:)
-        super(user:, type:)
+      def initialize(user:, variant:, group_key:)
+        super(user:, variant:)
         @group_key = group_key
       end
 
@@ -87,7 +87,7 @@ module WorkPackageTypes
       end
 
       def default_name_for(group)
-        I18n.t(Type.default_groups[group.key], default: group.key.to_s)
+        I18n.t(TypeVariant.default_groups[group.key], default: group.key.to_s)
       end
 
       def move_requested?
@@ -121,7 +121,7 @@ module WorkPackageTypes
 
       def blank_name_error
         failure_with_message(
-          I18n.t("activerecord.errors.models.type.attributes.attribute_groups.group_without_name")
+          I18n.t("activerecord.errors.models.type_variant.attributes.attribute_groups.group_without_name")
         )
       end
     end

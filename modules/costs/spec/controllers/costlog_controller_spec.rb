@@ -37,7 +37,7 @@ RSpec.describe CostlogController do
   let (:work_package) do
     create(:work_package, project:,
                           author: user,
-                          type: project.types.first)
+                          type: project.enabled_types.first)
   end
   let (:user) { create(:user) }
   let (:user2) { create(:user) }
@@ -316,7 +316,7 @@ RSpec.describe CostlogController do
 
         cost_entry.project = create(:project_with_types)
         cost_entry.entity = create(:work_package, project: cost_entry.project,
-                                                  type: cost_entry.project.types.first,
+                                                  type: cost_entry.project.enabled_types.first,
                                                   author: user)
         cost_entry.save!
       end
@@ -534,7 +534,7 @@ RSpec.describe CostlogController do
       let(:project2) { create(:project_with_types) }
       let(:work_package2) do
         create(:work_package, project: project2,
-                              type: project2.types.first,
+                              type: project2.enabled_types.first,
                               author: user)
       end
       let(:expected_entity) { work_package2 } # assigned but rejected because it is not in the project
@@ -668,7 +668,7 @@ RSpec.describe CostlogController do
                 spent_on" do
       let(:expected_entity) do
         create(:work_package, project:,
-                              type: project.types.first,
+                              type: project.enabled_types.first,
                               author: user)
       end
       let(:expected_user) { create(:user) }
@@ -736,7 +736,7 @@ RSpec.describe CostlogController do
       let(:project2) { create(:project_with_types) }
       let(:work_package2) do
         create(:work_package, project: project2,
-                              type: project2.types.first)
+                              type: project2.enabled_types.first)
       end
       let(:expected_entity) { work_package2 } # assigned but rejected because it is not in the project
 

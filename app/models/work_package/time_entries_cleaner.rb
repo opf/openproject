@@ -61,16 +61,16 @@ module WorkPackage::TimeEntriesCleaner
       TimeEntry.where(["entity_type = ? AND entity_id IN (?)", "WorkPackage", work_packages.map(&:id)]).update_all(action)
     end
 
-    def reassign_time_entries_before_destruction_of(work_packages, user, ids)
+    def reassign_time_entries_before_destruction_of(work_packages, user, reassign_to_id)
       work_packages = Array(work_packages)
       reassign_to = WorkPackage
                     .joins(:project)
                     .merge(Project.allowed_to(user, :edit_time_entries))
-                    .find_by(id: ids)
+                    .find_by_display_id(reassign_to_id)
 
       if reassign_to.nil?
         work_packages.each do |wp|
-          wp.errors.add(:base, :is_not_a_valid_target_for_time_entries, id: ids)
+          wp.errors.add(:base, :is_not_a_valid_target_for_time_entries, id: reassign_to_id)
         end
 
         false

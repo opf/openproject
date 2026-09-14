@@ -46,17 +46,21 @@ See COPYRIGHT and LICENSE files for more details.
       )
     end
     if @filter.groups.any?
-      dialog.with_additional_details do
-        concat content_tag(:p, I18n.t("ldap_groups.synchronized_filters.destroy.removed_groups"))
-        concat(
-          content_tag(:ul) do
-            safe_join(
-              @filter.groups.map do |synced_group|
-                content_tag(:li, link_to(synced_group.group.name, edit_group_path(synced_group.group), target: "_blank", rel: "noopener"))
-              end
-            )
+      dialog.with_additional_details(px: 4) do
+        helpers.flex_layout do |layout|
+          layout.with_row do
+            content_tag(:p, I18n.t("ldap_groups.synchronized_filters.destroy.removed_groups"))
           end
-        )
+          layout.with_row do
+            content_tag(:ul) do
+              safe_join(
+                @filter.groups.map do |synced_group|
+                  content_tag(:li, link_to(synced_group.group.name, edit_group_path(synced_group.group), target: "_blank", rel: "noopener"))
+                end
+              )
+            end
+          end
+        end
       end
     end
     dialog.with_confirmation_check_box_content(I18n.t(:text_permanent_delete_confirmation_checkbox_label))

@@ -29,9 +29,6 @@
 module Bim::Bcf::API::V2_1
   module Viewpoints
     class API < ::API::OpenProjectAPI
-      # Avoid oj parsing numbers into BigDecimal
-      parser :json, ::API::Utilities::JsonGemParser
-
       resources :viewpoints do
         get do
           @issue

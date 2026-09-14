@@ -2,13 +2,6 @@
     &--journal-details-container
         margin-left: 19px
         min-height: 20px
-        // applied by the stimulus controller in specific UI states
-        &--border-removed
-            border-left: none!important
-        &--hidden
-            display: none!important
-    &--journal-details-container--empty--last--asc
-        display: none!important
     &--journal-details-header-container
         margin-left: -14px
     &--journal-details-header
@@ -52,3 +45,20 @@
     &--journal-detail-description-container
         max-width: 95% // otherwise the stem branch might get too short for long descriptions
         @include text-shortener(false)
+
+// The trailing stem segment past the final entry is trimmed in CSS rather than at
+// render time because :last-child re-resolves as entries stream into the DOM.
+$wp-activities-pages: "#work-packages-activities-tab-journals-lazy-index-component-pages"
+
+@mixin trim-trailing-stem
+    border-left: none !important
+    padding-bottom: var(--stack-padding-condensed) !important
+
+[data-work-packages--activities-tab--index-sorting-value="desc"]
+    @media screen and (max-width: $breakpoint-xl)
+        .work-packages-activities-tab-journals-item-component-details--journal-details-container[data-initial="true"]
+            @include trim-trailing-stem
+
+    // Guarded by spec/features/activities/work_package/activity_comment_stem_spec.rb.
+    #{$wp-activities-pages} > :last-child > :last-child > :last-child .work-packages-activities-tab-journals-item-component-details--journal-details-container:has(.empty-line)
+        @include trim-trailing-stem

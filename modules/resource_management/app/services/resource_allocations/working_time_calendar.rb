@@ -29,8 +29,6 @@
 #++
 
 module ResourceAllocations
-  # Computes how many minutes a user can work on each day of a date range.
-  #
   # Capacity is purely user-driven: the system-wide `Setting.working_days` is
   # intentionally NOT consulted, because a user's `UserWorkingHours` already
   # encodes which weekdays they work (a zero-minute weekday is a non-working day
@@ -42,17 +40,20 @@ module ResourceAllocations
   class WorkingTimeCalendar
     WDAY_TO_COLUMN = UserWorkingHours::DAY_ABBR_INDEX.invert.freeze
 
-    def initialize(user:, range:)
+    # `global_non_working_days` lets a caller iterating several users share one
+    # `NonWorkingDay` lookup instead of refetching per user. It may cover a wider
+    # span than `range` (only dates within `range` are consulted); when omitted
+    # the global non-working days for `range` are fetched here.
+    def initialize(user:, range:, global_non_working_days: nil)
       @user = user
       @range = range
       @working_hours = UserWorkingHours.for_user(user).order(:valid_from).to_a
-      @holidays = NonWorkingDay.for_dates(range).pluck(:date).to_set
+      @global_non_working_days = global_non_working_days || NonWorkingDay.for_dates(range).pluck(:date).to_set
       @non_working_ranges = load_non_working_ranges(range)
       @capacities = {}
       @prefix = build_prefix
     end
 
-    # Capacity in minutes the user can work on the given date.
     def capacity_on(date)
       @capacities[date] ||= compute_capacity(date)
     end
@@ -63,13 +64,11 @@ module ResourceAllocations
       @range.each { |date| yield date, capacity_on(date) }
     end
 
-    # Total capacity across the whole range.
     def total
       prefix_total(@range.end)
     end
 
-    # Cumulative capacity from the start of the range up to and including `date`,
-    # clamped to the range bounds. Enables O(1) interval capacity sums.
+    # Clamped to the range bounds. Enables O(1) interval capacity sums.
     def prefix_total(date)
       return 0 if date < @range.begin
 
@@ -94,7 +93,7 @@ module ResourceAllocations
     end
 
     def compute_capacity(date)
-      return 0 if @holidays.include?(date)
+      return 0 if @global_non_working_days.include?(date)
       return 0 if non_working?(date)
 
       working_hours = working_hours_for(date)

@@ -1,0 +1,74 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://nextcloud.local/ocs/v1.php/apps/integration_openproject/fileinfo/56
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - OpenProject 17.0.0 HTTPX Client
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Ocs-Apirequest:
+      - 'true'
+      Authorization:
+      - Bearer <BEARER TOKEN>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Content-Security-Policy:
+      - default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'
+      Content-Type:
+      - text/xml; charset=UTF-8
+      Date:
+      - Fri, 21 Aug 2026 12:44:40 GMT
+      Feature-Policy:
+      - autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone
+        'none';payment 'none'
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.65 (Debian)
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.3.27
+      X-Request-Id:
+      - 4ExwMYGMGWHnoFDsbJVa
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-User-Id:
+      - OpenProject
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <ocs>
+         <meta>
+          <status>failure</status>
+          <statuscode>998</statuscode>
+          <message>Invalid query, please check the syntax. API specifications are here: http://www.freedesktop.org/wiki/Specifications/open-collaboration-services.
+        </message>
+          <totalitems></totalitems>
+          <itemsperpage></itemsperpage>
+         </meta>
+         <data/>
+        </ocs>
+  recorded_at: Fri, 21 Aug 2026 12:44:40 GMT
+recorded_with: VCR 6.3.1

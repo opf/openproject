@@ -34,11 +34,12 @@ module Backlogs
 
     delegate :with_menu, :with_metric, to: :card
 
-    def initialize(work_package:, menu_src: nil)
+    def initialize(work_package:, menu_src: nil, **system_arguments)
       super()
 
       @work_package = work_package
       @menu_src = menu_src
+      @system_arguments = system_arguments
     end
 
     def call
@@ -60,7 +61,8 @@ module Backlogs
         show_assignee: true,
         show_priority: true,
         show_parent: true,
-        status_scheme: :secondary
+        status_scheme: :secondary,
+        **@system_arguments
       )
     end
 

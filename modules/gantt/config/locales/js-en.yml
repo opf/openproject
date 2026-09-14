@@ -2,6 +2,6 @@
 en:
   js:
     work_packages:
-      label_gantt_chart_plural: "Gantt charts"
       default_queries:
         milestones: 'Milestones'
+      label_gantt_chart_plural: "Gantt charts"

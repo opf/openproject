@@ -32,16 +32,23 @@ module Meetings
   # rubocop:disable OpenProject/AddPreviewForViewComponent
   class IndexSubHeaderComponent < ApplicationComponent
     # rubocop:enable OpenProject/AddPreviewForViewComponent
+    include OpTurbo::Streamable
     include ApplicationHelper
 
-    def initialize(query:, params:, project: nil)
+    def initialize(query:, params:, project: nil, lazy: true)
       super
       @query = query
       @project = project
       @params = params
+      @lazy = lazy
     end
 
     private
+
+    # Load inline for morph updates to prevent an additional flicker
+    def lazy_loaded_path
+      @lazy ? :meetings_filters_path : false
+    end
 
     def render_create_button?
       if @project

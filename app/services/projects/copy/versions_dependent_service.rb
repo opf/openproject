@@ -40,14 +40,8 @@ module Projects::Copy
 
     protected
 
-    def copy_dependency(params:)
-      version_id_map = {}
-      source.versions.each do |source_version|
-        version = target.versions.create source_version.attributes.dup.except("id", "project_id", "created_at", "updated_at")
-        version_id_map[source_version.id] = version.id
-      end
-
-      state.version_id_lookup = version_id_map
+    def copy_dependency(*)
+      state.version_id_lookup = copy_collection_with_id_map(:versions)
     end
   end
 end

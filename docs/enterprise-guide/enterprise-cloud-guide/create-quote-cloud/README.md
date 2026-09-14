@@ -14,7 +14,7 @@ To create a quote, click the **Buy now** button in the application header or or 
 
 ![Buy now button in the application header and in the project menu in an OpenProject Enterprise cloud test instance](openproject_enterprise_guide_buy_now_button.png)
 
-You will be directed to -> *Administration* -> *Subscription*.
+You will be directed to -> _Administration_ -> _Subscription_.
 
 1. **Select a support plan** – Choose between the **professional** and **basic** support plans.
 2. Choose the **amount of users** - Select the number of users from the drop-down list. Users can only be selected in increments of five, with a minimum of five users.

@@ -1,0 +1,105 @@
+# /api/v3/recurring_meetings/{id}/template_completed
+---
+post:
+  summary: Complete the series template
+  operationId: complete_recurring_meeting_template
+  tags:
+    - Recurring Meetings
+  description: |-
+    Completes the series template and starts the recurring meeting. This exits draft mode,
+    initiates the first occurrence from it, and schedules the job that creates the next
+    occurrence.
+
+    The `notify` flag sets the series-wide email notification setting (stored on the template).
+    When `true`, the initial series invitations are sent to the template participants. 
+    `notify` must be provided explicitly.
+
+    Completing an already-completed series is rejected.
+
+    Returns the updated `RecurringMeeting` resource.
+  parameters:
+    - description: Recurring meeting ID
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - notify
+          properties:
+            notify:
+              type: boolean
+              description: |-
+                Enable email notifications for the series.
+                When `true`, the initial invitations are sent to the template participants.
+        example:
+          notify: true
+  responses:
+    '200':
+      description: Returned when the template is completed successfully.
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/recurring_meeting_model.yml"
+    '400':
+      description: Returned if the required `notify` parameter is missing.
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:BadRequest
+                message: 'Bad request: notify is missing'
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** edit meetings in the recurring meeting's project
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the recurring meeting does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view meetings in the recurring meeting's project
+    '422':
+      description: |-
+        Returned if the template could not be completed, for example because the series has no
+        next occurrence to schedule or it has already been completed.
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:UnprocessableContent
+                message: The first occurrence of this meeting series is already instantiated.

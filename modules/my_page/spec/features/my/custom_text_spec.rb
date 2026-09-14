@@ -74,7 +74,7 @@ RSpec.describe "Custom text widget on my page",
     # As the user lacks the manage_public_queries and save_queries permission, no other widget is present
     custom_text_widget = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
 
-    custom_text_widget.expect_to_span(1, 1, 2, 2)
+    custom_text_widget.expect_to_exist
 
     within custom_text_widget.area do
       find(".inplace-editing--container").click
@@ -121,5 +121,45 @@ RSpec.describe "Custom text widget on my page",
     # ensure no one but the page's user can see the uploaded attachment
     expect(Attachment.last.visible?(other_user))
       .to be_falsey
+  end
+
+  # Regression test for https://community.openproject.org/wp/OP-17673
+  # The pagination component replaces its clicked button with a span before the
+  # click event finishes bubbling. Using composedPath() in the activate handler
+  # preserves the original path so interactive elements are still detected even
+  # after they are removed from the DOM.
+  context "when a custom text widget contains an embedded work package table" do
+    let(:permissions) { %i[view_work_packages] }
+    let!(:work_package1) { create(:work_package, project:, author: user) }
+    let!(:work_package2) { create(:work_package, project:, author: user) }
+    let!(:my_page_grid) do
+      create(:my_page, :empty, user:, row_count: 2, column_count: 2).tap do |grid|
+        create(:grid_widget,
+               grid:,
+               identifier: "custom_text",
+               start_row: 1, end_row: 2,
+               start_column: 1, end_column: 2,
+               options: { text: '<macro class="embedded-table" data-query-props="{}">&nbsp;</macro>' })
+      end
+    end
+
+    it "does not open the editor when a pagination button in the display area is clicked",
+       with_settings: { per_page_options: "1" } do
+      custom_text_widget = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
+
+      within custom_text_widget.area do
+        # The embedded table macro renders 1 WP per page, placing a real pagination
+        # button inside the custom text display area.
+        within(".op-pagination--item", text: "2") do
+          click_button "2"
+        end
+
+        expect(page).to have_no_css(".op-uc-container_editing")
+        expect(page)
+          .to have_no_css(".subject", text: work_package1.subject)
+        expect(page)
+          .to have_css(".subject", text: work_package2.subject)
+      end
+    end
   end
 end

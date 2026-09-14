@@ -521,6 +521,25 @@ RSpec.describe "SCIM API Users", with_ee: [:scim_api] do
                                   "schemas" => ["urn:ietf:params:scim:schemas:core:2.0:User"],
                                   "userName" => request_body["userName"])
     end
+
+    context "when users are not allowed to change their own email",
+            with_settings: { user_can_change_email: false } do
+      it "still updates the email, as it is provisioned by the identity provider" do
+        request_body = {
+          "schemas" => ["urn:ietf:params:scim:schemas:core:2.0:User"],
+          "externalId" => new_external_user_id,
+          "userName" => "jdoe",
+          "name" => { "givenName" => "John", "familyName" => "Doe" },
+          "active" => true,
+          "emails" => [{ "value" => "jdoe@example.com", "type" => "work", "primary" => true }]
+        }
+
+        put "/scim_v2/Users/#{user.id}", request_body.to_json, headers
+
+        expect(last_response).to have_http_status(:ok)
+        expect(user.reload.mail).to eq "jdoe@example.com"
+      end
+    end
   end
 
   describe "PATCH /scim_v2/Users/:id" do

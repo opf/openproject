@@ -1,20 +1,28 @@
 // Viewport-fill chain for the timeline. These rules style the planner page and
-// the content frame, which are ANCESTORS of `.op-rm-timeline-view`, so they can
+// the content wrapper, which are ANCESTORS of `.op-rm-timeline-view`, so they can
 // not live inside the single-class scope below. They only take effect on timeline
-// views: the `--fill` modifier is added solely for `ResourceWorkPackageTimeline`.
+// views: the `--fill` modifier is added when the content component fills the
+// viewport (see `ResourcePlannerViews::ContentComponent#fills_viewport?`).
 // `#content-body` already has a resolved height, so a `height: 100%` flex column
 // off it carries the height down to FullCalendar (which runs with `height: '100%'`).
-.op-rm-planner-page--fill
+// The planner page is a `<turbo-frame>` (tabs swap it in place). It is always a
+// full-height flex column: list/card views keep their natural height as full-width
+// flex children and scroll via `#content-body`, while the `--fill` content modifier
+// below lets timeline views grow to fill the viewport. `#content-body` has a resolved
+// height, so this `block-size: 100%` column carries the height down to FullCalendar
+// (which runs with `height: '100%'`).
+.op-rm-planner-page
   block-size: 100%
   display: flex
   flex-direction: column
 
-  // The content frame and the OpTurbo::Streamable wrapper each hold a single
-  // child, so a flex-grow chain through them passes the height down.
-  turbo-frame#resource-planner-view-content,
-  turbo-frame#resource-planner-view-content > div
-    display: flex
-    flex-grow: 1
+// Only timeline views fill the viewport. The modifier lives on the content wrapper
+// (which Turbo re-renders on every tab switch) instead of the frame, whose attributes
+// are not updated on frame navigation. `display: flex` lets the flex-grow chain pass
+// the height down through the single content child.
+.op-rm-planner-content--fill
+  display: flex
+  flex-grow: 1
 
 // Everything the timeline renders is scoped under this one class. The FullCalendar
 // vendor overrides (frontend/src/global_styles/vendor/_full_calendar.sass) live at
@@ -27,8 +35,31 @@
   flex-direction: column
   flex-grow: 1
 
+  // Positioning context for the loading overlay, wrapping only the calendar so the
+  // overlay covers the grid and not the sub-header controls above it.
+  .op-rm-timeline-canvas
+    position: relative
+    display: flex
+    flex-grow: 1
+    min-block-size: 0
+
   .op-rm-timeline
     flex-grow: 1
+
+  .op-rm-timeline-loading
+    position: absolute
+    inset: 0
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: center
+    gap: 0.5rem
+    background: rgb(255 255 255 / 60%)
+    color: var(--fgColor-muted, #59636e)
+    z-index: 1
+
+    &[hidden]
+      display: none
 
   .fc-scrollgrid
     border-radius: var(--borderRadius-medium, 6px)
@@ -67,6 +98,11 @@
     background: var(--bgColor-default, #ffffff) !important
     opacity: 0.8
 
+  // Emitted after the active spans so it stacks on top.
+  .fc-bg-event.op-rm-timeline-overbooked
+    background: var(--bgColor-danger-muted, #ffebe9) !important
+    opacity: 0.9
+
   // Header columns mirror the body shading: grey when no work package is active in
   // the column, white otherwise, today's highlight kept for inactive columns. The
   // active class is toggled by the controller from the loaded bands, since
@@ -85,19 +121,26 @@
   // force that transparent and borderless with `!important`, so it can't be
   // restyled by specificity.
   .op-rm-timeline-bar
+    box-sizing: border-box
     display: flex
     align-items: center
     gap: 0.25rem
     inline-size: 100%
     min-inline-size: 0
+    block-size: 32px
     overflow: hidden
     white-space: nowrap
-    padding: 2px 0.4rem
+    padding: 0 8px
     background: var(--bgColor-default, #ffffff)
-    border: 1px solid var(--borderColor-muted, #d8dee4)
     border-radius: 6px
-    box-shadow: 0 1px 3px rgba(31, 35, 40, 0.12), 0 1px 2px rgba(31, 35, 40, 0.06)
+    box-shadow: 1px 1px 5px rgb(0 0 0 / 15%)
     color: var(--fgColor-default, #1f2328)
+
+    // The user-timeline bar carries its work package's status colour on the top
+    // edge (`--rm-status-color` set inline per bar; muted when the status has no
+    // colour). Overbooking overrides this with the danger border below.
+    &_status
+      border-top: 1px solid var(--rm-status-color, var(--borderColor-muted, #d8dee4))
 
     &--hours
       color: var(--fgColor-muted, #0969da)
@@ -112,17 +155,28 @@
     &--badge
       flex: 0 0 auto
 
+    // The overbooking warning icon (carries an explanatory tooltip) sits at the
+    // trailing edge of the bar and never shrinks.
+    &--warning
+      flex: 0 0 auto
+      margin-inline-start: auto
+
+    // Time-off and holiday markers: a light-blue pill rounded only on the leading
+    // edge, per the mockup. Overrides the white card base above.
+    &_non-working
+      block-size: 32px
+      padding: 0 8px
+      background: var(--bgColor-accent-muted, #ddf4ff)
+      border: 0
+      border-radius: 6px 0 0 6px
+      box-shadow: 1px 1px 5px rgb(0 0 0 / 15%)
+
   // Only bars the user may edit are clickable (open the edit dialog), so only
   // they get the pointer; keyed off the class we add via `eventClassNames`.
   .resource-allocation--editable .op-rm-timeline-bar
     cursor: pointer
 
-  // Overbooking cue, keyed off the class we add via `eventClassNames`.
+  // Overbooking cue, keyed off the class we add via `eventClassNames`. The
+  // warning icon itself (with its tooltip) is rendered into the bar markup.
   .resource-allocation--overbooked .op-rm-timeline-bar
     border-top: 3px solid var(--borderColor-danger-emphasis, #cf222e)
-
-    &::after
-      content: "⚠"
-      flex: 0 0 auto
-      margin-inline-start: 0.25rem
-      color: var(--fgColor-danger, #cf222e)

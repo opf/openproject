@@ -22,9 +22,20 @@
 ---
 zh-TW:
   js:
-    work_packages:
-      properties:
-        storyPoints: 故事點數
+    backlogs:
+      selection:
+        card_state: Selected
+        cleared: Selection cleared.
+        not_selectable: Selection unchanged. This work package takes no part in this list's ordering.
+        range_blocked: Selection unchanged. That range contains a work package that takes no part in this list's ordering.
+        range_restarted:
+          other: Could not extend the range. %{count} work packages selected.
+        range_unavailable: Selection unchanged. Expand this list to select that range.
+        selected:
+          other: "%{count} work packages selected."
     burndown:
       day: 日
       points: 燃盡點
+    work_packages:
+      properties:
+        storyPoints: 故事點數

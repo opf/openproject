@@ -22,15 +22,15 @@
 ---
 vi:
   js:
-    text_are_you_sure: Bạn có chắc không?
-    myTimeTracking:
-      noSpecificTime: Không có thời gian cụ thể
-    work_packages:
-      property_groups:
-        costs: chi phí
-      properties:
-        overallCosts: Chi phí tổng cộng
-        spentUnits: Đơn vị đã chi
     button_log_costs: Ghi lại chi phí đơn vị
     label_hour: giờ
     label_hours: giờ
+    myTimeTracking:
+      noSpecificTime: Không có thời gian cụ thể
+    text_are_you_sure: Bạn có chắc không?
+    work_packages:
+      properties:
+        overallCosts: Chi phí tổng cộng
+        spentUnits: Đơn vị đã chi
+      property_groups:
+        costs: chi phí

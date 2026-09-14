@@ -114,7 +114,7 @@ module OpenProject
       current_span = ::OpenTelemetry::Trace.current_span
       return unless current_span.context.valid?
 
-      current_span.add_event(name, attributes)
+      current_span.add_event(name, attributes:)
     end
 
     ##

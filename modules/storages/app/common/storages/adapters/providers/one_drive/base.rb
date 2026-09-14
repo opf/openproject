@@ -34,7 +34,7 @@ module Storages
       module OneDrive
         class Base
           include TaggedLogging
-          include Dry::Monads::Result(Results::Error)
+          include Dry::Monads::Result(SimpleError)
 
           def self.call(storage:, auth_strategy:, input_data:)
             new(storage).call(auth_strategy:, input_data:)
@@ -46,7 +46,7 @@ module Storages
 
           private
 
-          # @param error [Results::Error]
+          # @param error [SimpleError]
           def log_storage_error(error, context = {})
             data = case error.payload
                    in { status: Integer }

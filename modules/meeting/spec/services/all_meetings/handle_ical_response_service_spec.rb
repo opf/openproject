@@ -573,5 +573,51 @@ RSpec.describe AllMeetings::HandleICalResponseService, type: :model do
         expect(meeting.participants.find_by(user: user).comment).to eq("Sorry, I cannot attend this occurrence.")
       end
     end
+
+    context "when an occurrence attendee entry carries no PARTSTAT" do
+      let(:recurrence_id) { recurring_meeting.start_time + 7.days }
+      let!(:meeting) do
+        RecurringMeetings::InitOccurrenceService
+          .new(user: User.system, recurring_meeting:)
+          .call(start_time: recurrence_id)
+          .result
+      end
+
+      let(:ical_string) do
+        <<~ICAL
+          BEGIN:VCALENDAR
+          PRODID:-//OpenProject//Test Meeting Responder 1.0//EN
+          VERSION:2.0
+          CALSCALE:GREGORIAN
+          METHOD:REPLY
+          BEGIN:VEVENT
+          DTSTART:#{meeting.start_time.utc.strftime('%Y%m%dT%H%M%SZ')}
+          DTEND:#{meeting.end_time.utc.strftime('%Y%m%dT%H%M%SZ')}
+          DTSTAMP:#{Time.current.utc.strftime('%Y%m%dT%H%M%SZ')}
+          ORGANIZER;CN=OpenProject:mailto:meetingresponse@example.com
+          UID:#{recurring_meeting.uid}
+          RECURRENCE-ID:#{recurrence_id.utc.strftime('%Y%m%dT%H%M%SZ')}
+          ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;CN=#{user.name}:mailto:#{participant_email}
+          CREATED:#{meeting.created_at.utc.strftime('%Y%m%dT%H%M%SZ')}
+          LAST-MODIFIED:#{Time.current.utc.strftime('%Y%m%dT%H%M%SZ')}
+          SEQUENCE:0
+          STATUS:CONFIRMED
+          SUMMARY:#{meeting.title}
+          TRANSP:OPAQUE
+          END:VEVENT
+          END:VCALENDAR
+        ICAL
+      end
+
+      it "does not crash and leaves the occurrence status untouched" do
+        expect(meeting.participants.find_by(user: user).participation_status).to eq("needs_action")
+
+        expect { subject }.not_to change {
+          meeting.participants.find_by(user: user).participation_status
+        }
+
+        expect(subject).to be_success
+      end
+    end
   end
 end

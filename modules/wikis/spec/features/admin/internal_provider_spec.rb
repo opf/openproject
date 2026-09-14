@@ -42,22 +42,22 @@ RSpec.describe "Updating internal wiki provider", :js, :selenium, driver: :firef
     visit admin_settings_internal_wiki_provider_path
     expect(page).to be_axe_clean.within("#content")
 
-    expect(page).to have_checked_field("Enable the internal OpenProject wiki")
+    expect(page).to have_checked_field("Enable OpenProject project wikis")
 
-    uncheck "Enable the internal OpenProject wiki"
+    uncheck "Enable OpenProject project wikis"
     click_on "Save"
 
     SeleniumHubWaiter.wait
 
-    expect(page).to have_unchecked_field("Enable the internal OpenProject wiki")
+    expect(page).to have_unchecked_field("Enable OpenProject project wikis")
     expect(provider.reload).not_to be_enabled
 
-    check "Enable the internal OpenProject wiki"
+    check "Enable OpenProject project wikis"
     click_on "Save"
 
     SeleniumHubWaiter.wait
 
-    expect(page).to have_checked_field("Enable the internal OpenProject wiki")
+    expect(page).to have_checked_field("Enable OpenProject project wikis")
     expect(provider.reload).to be_enabled
   end
 end

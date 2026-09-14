@@ -36,23 +36,21 @@ module Storages
           module Internal
             class DriveItemQuery < Base
               def call(http:, drive_id:, item_id:, fields: [], expand: [])
-                handle_response http.get("#{request_uri(drive_id:, item_id:)}#{query_string(fields:, expand:)}")
+                handle_response http.get(request_uri(drive_id:, item_id:), params: query(fields:, expand:))
               end
 
               private
 
-              def query_string(fields:, expand:)
-                params = []
-                params << "$select=#{fields.join(',')}" if fields.any?
-                params << "$expand=#{expand.join(',')}" if expand.any?
+              def query(fields:, expand:)
+                query = {}
+                query["$select"] = fields.join(",") if fields.any?
+                query["$expand"] = expand.join(",") if expand.any?
 
-                return "" if params.empty?
-
-                "?#{params.join('&')}"
+                query
               end
 
               def handle_response(response)
-                error = Results::Error.new(payload: response, source: self.class)
+                error = SimpleError.new(source: self.class, payload: response, code: :error)
 
                 case response
                 in { status: 200..299 }
@@ -64,7 +62,7 @@ module Storages
                 in { status: 401 }
                   Failure(error.with(code: :unauthorized))
                 else
-                  Failure(error.with(code: :error))
+                  Failure(error)
                 end
               end
 

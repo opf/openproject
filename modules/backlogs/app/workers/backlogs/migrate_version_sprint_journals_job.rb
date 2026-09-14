@@ -37,9 +37,7 @@ module Backlogs
       system_user = User.system
 
       Journal::NotificationConfiguration.with(false) do
-        WorkPackage.joins(:sprint, :version)
-                   .select("work_packages.*, versions.name AS version_name")
-                   .find_each do |work_package|
+        qualified_work_packages.find_each do |work_package|
           cause = Journal::CausedBySystemUpdate.new(
             feature: "sprint_migration",
             version_name: work_package.version_name
@@ -49,6 +47,50 @@ module Backlogs
             .call(cause:)
         end
       end
+    end
+
+    private
+
+    def qualified_work_packages
+      WorkPackage
+        .joins(:sprint)
+        .joins("INNER JOIN versions ON versions.id = #{primary_target_version_id}")
+        .where(not_journalled_yet)
+        .select("work_packages.*, versions.name AS version_name")
+    end
+
+    # A run that dies part way through can be enqueued again without doubling
+    # up the entries it already wrote.
+    def not_journalled_yet
+      <<~SQL.squish
+        NOT EXISTS (
+          SELECT 1 FROM journals
+          WHERE journals.journable_type = 'WorkPackage'
+            AND journals.journable_id = work_packages.id
+            AND journals.cause ->> 'feature' = 'sprint_migration'
+        )
+      SQL
+    end
+
+    # A work package can have several target versions; journal once, for the
+    # primary one (lowest version id, matching the version_id mirror). The
+    # legacy column stays the fallback per work package because a worker can
+    # pick this job up before the migrations that create and backfill
+    # work_package_versions have run.
+    def primary_target_version_id
+      return "work_packages.version_id" unless work_package_versions_available?
+
+      <<~SQL.squish
+        COALESCE(
+          (SELECT MIN(wpv.version_id) FROM work_package_versions wpv
+           WHERE wpv.work_package_id = work_packages.id AND wpv.kind = 'target'),
+          work_packages.version_id
+        )
+      SQL
+    end
+
+    def work_package_versions_available?
+      WorkPackage.connection.table_exists?("work_package_versions")
     end
   end
 end

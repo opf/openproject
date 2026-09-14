@@ -65,7 +65,7 @@ Related features in 15.0:
 - [Show danger zone when deleting SAML or OIDC provider](https://community.openproject.org/wp/58451)
 - [Allow setting omniauth_direct_login_provider through UI](https://community.openproject.org/wp/58437)
 
-Under *Administration > Authentication*, admins can now set up [OpenID](../../../system-admin-guide/authentication/openid-providers/) or [SAML providers](../../../system-admin-guide/authentication/saml/). Here is an example screenshot for adding an OpenID provider:
+Under _Administration > Authentication_, admins can now set up [OpenID](../../../system-admin-guide/authentication/openid-providers/) or [SAML providers](../../../system-admin-guide/authentication/saml/). Here is an example screenshot for adding an OpenID provider:
 
 ![Example screenshot of the administration screen if you want to add an OpenIDprovider in OpenProject](openproject-15-0-sso-administration-dropdown.png)
 
@@ -77,7 +77,7 @@ See [more technical information about SAML and OIDC providers](#saml-and-openid-
 
 ### A new 'Standard global role' with permissions to view email addresses
 
-With OpenProject 15.0, [a new default 'Standard global role' is automatically and permanently given to all users](../../../system-admin-guide/users-permissions/roles-permissions/#standard). If you are an administrator responsible for roles, please check this under *Administration > Users and permissions > Roles and permissions > Standard global role*. This role has several permissions to choose from, one being 'View users' mail addresses'. Enable this permission to allow any user to see everyone's email address in autocomplete situations, such as when they select a work package assignee from a drop-down list.
+With OpenProject 15.0, [a new default 'Standard global role' is automatically and permanently given to all users](../../../system-admin-guide/users-permissions/roles-permissions/#standard). If you are an administrator responsible for roles, please check this under _Administration > Users and permissions > Roles and permissions > Standard global role_. This role has several permissions to choose from, one being 'View users' mail addresses'. Enable this permission to allow any user to see everyone's email address in autocomplete situations, such as when they select a work package assignee from a drop-down list.
 
 Before version 15.0, users could choose whether their email address was displayed. Now this is an administrative decision that applies to either everyone or no one. The reason behind this is that this privacy control should be decided at the organizational level rather than individually.
 
@@ -108,7 +108,7 @@ All these colors will now be calculated depending on the brightness of the respe
 
 ### Reduce manual cleanup when adding a custom field to a type – no more auto-applying to all projects
 
-With OpenProject 14.6, we released a feature that allows you to enable or disable a custom field for multiple projects at once. This is why with OpenProject 15.0, we remove the automation to apply a new custom field to all projects where the respective type is activated. This reduces manual cleanup in case you did not want to activate the new custom field in all projects. If you do want that, you can use the feature we introduced last release and go to *Administration > Custom Fields* and click on the 'Add projects' button.
+With OpenProject 14.6, we released a feature that allows you to enable or disable a custom field for multiple projects at once. This is why with OpenProject 15.0, we remove the automation to apply a new custom field to all projects where the respective type is activated. This reduces manual cleanup in case you did not want to activate the new custom field in all projects. If you do want that, you can use the feature we introduced last release and go to _Administration > Custom Fields_ and click on the 'Add projects' button.
 
 [Read more about custom fields in our system admin guide](../../../system-admin-guide/custom-fields/).
 
@@ -134,7 +134,7 @@ There have been some design improvements regarding meetings again. The work pack
 
 With the introduction of the user interface for SAML and OpenID connect providers, the previous settings-based configuration has been deprecated. All existing providers that you created with these settings have been automatically converted into the UI element.
 
-To modify or update your configuration, please visit *Administration* -> *Authentication* -> *SAML providers* or *OpenID providers*. If you experience issues with your configuration after your update, please step through the configuration in the administration and confirm the settings. If you experience new issues on the connection to your providers after upgrading, please do not hesitate to reach out to our support team.
+To modify or update your configuration, please visit _Administration_ -> _Authentication_ -> _SAML providers_ or _OpenID providers_. If you experience issues with your configuration after your update, please step through the configuration in the administration and confirm the settings. If you experience new issues on the connection to your providers after upgrading, please do not hesitate to reach out to our support team.
 
 If you configured your provider using environment variables (e.g., in Docker-based or through the Helm-chart values), this configuration option remains. The configured provider will still appear in the user interface, but is marked read-only. If you need to modify the environment variables, you need to make sure the seed rake task has been run.
 

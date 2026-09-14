@@ -17,7 +17,12 @@
 
   <% if candidate_badge? %>
     <span class="op-rm-timeline-bar--badge">
-      <%= render(Primer::Beta::Label.new) { candidate_label } %>
+      <%= render(Primer::Beta::Label.new(id: candidate_tooltip_id)) { candidate_count.to_s } %>
+      <%= render Primer::Alpha::Tooltip.new(
+            for_id: candidate_tooltip_id,
+            type: :description,
+            text: candidate_tooltip
+          ) %>
     </span>
   <% end %>
 </div>

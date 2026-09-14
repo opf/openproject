@@ -164,12 +164,19 @@ module API
         # resources that are connected to the current resource via a belongs_to association, e.g.
         # WorkPackage -> belongs_to -> project.
         #
-        # @param skip_render [optional, Proc] If the proc returns true, neither _link nor _embedded of the resource will be rendered.
-        # @param undisclosed [optional, true, false] If true, instead of not rendering the resource upon `skip_render`, an { "href": "urn:openproject-org:api:v3:undisclosed" } link will be rendered. This can be used e.g. when the parent of a project is invisible to the user and the existence, if not the actual parent, is to be communicated. The resource is still not embedded in this case.
+        # @param show_if [optional, Proc] If the proc returns false, the property does not exist at all:
+        # it is neither rendered nor parsed.
+        # @param skip_render [optional, Proc] If the proc returns true, neither _link nor _embedded of
+        # the resource will be rendered. Writes are still accepted.
+        # @param undisclosed [optional, true, false] If true, instead of not rendering the resource
+        # upon `skip_render`, an { "href": "urn:openproject-org:api:v3:undisclosed" } link will be rendered.
+        # This can be used e.g. when the parent of a project is invisible to the user and the existence,
+        # if not the actual parent, is to be communicated. The resource is still not embedded in this case.
         def associated_resource(name,
                                 as: nil,
                                 representer: nil,
                                 v3_path: name,
+                                show_if: ->(*) { true },
                                 skip_render: ->(*) { false },
                                 skip_link: skip_render,
                                 undisclosed: false,
@@ -177,6 +184,7 @@ module API
                                 link_getter: :"#{name}_id",
                                 link_property_name: nil,
                                 uncacheable_link: false,
+                                link_cache_if: nil,
                                 getter: associated_resource_default_getter(name, representer, as || name),
                                 setter: associated_resource_default_setter(name, as, v3_path),
                                 link: associated_resource_default_link_lambda(link_property_name || name,
@@ -190,6 +198,8 @@ module API
                    setter:,
                    link:,
                    uncacheable_link:,
+                   link_cache_if:,
+                   show_if:,
                    skip_render:)
         end
 

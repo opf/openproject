@@ -37,8 +37,6 @@ module WorkPackages
       include WorkPackages::ActivitiesTab::SharedHelpers
       include WorkPackages::ActivitiesTab::StimulusControllers
 
-      DEFAULT_POLLING_INTERVAL_IN_MS = 10_000
-
       def initialize(work_package:, journals:, paginator:, last_server_timestamp:, filter: Filters::ALL, resolved_anchor: nil)
         super
 
@@ -78,8 +76,7 @@ module WorkPackages
           index_stimulus_controller,
           polling_stimulus_controller,
           editor_stimulus_controller,
-          auto_scrolling_stimulus_controller,
-          stems_stimulus_controller
+          auto_scrolling_stimulus_controller
         ].join(" ")
       end
 
@@ -110,9 +107,7 @@ module WorkPackages
         {
           editor_stimulus_controller("-#{auto_scrolling_stimulus_controller}-outlet") => index_component_dom_selector,
           editor_stimulus_controller("-#{polling_stimulus_controller}-outlet") => index_component_dom_selector,
-          editor_stimulus_controller("-#{stems_stimulus_controller}-outlet") => index_component_dom_selector,
-          polling_stimulus_controller("-#{auto_scrolling_stimulus_controller}-outlet") => index_component_dom_selector,
-          polling_stimulus_controller("-#{stems_stimulus_controller}-outlet") => index_component_dom_selector
+          polling_stimulus_controller("-#{auto_scrolling_stimulus_controller}-outlet") => index_component_dom_selector
         }
       end
 
@@ -130,9 +125,7 @@ module WorkPackages
       end
 
       def polling_interval
-        return DEFAULT_POLLING_INTERVAL_IN_MS unless Rails.env.test?
-
-        ENV["WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS"].presence || DEFAULT_POLLING_INTERVAL_IN_MS
+        Setting.work_packages_activities_tab_polling_interval_in_ms
       end
 
       def adding_comment_allowed?

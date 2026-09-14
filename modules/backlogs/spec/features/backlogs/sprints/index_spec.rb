@@ -68,6 +68,63 @@ RSpec.describe "Sprint index", :js do
 
   current_user { create(:user, member_with_permissions: { project => permissions }) }
 
+  describe "row action menu" do
+    let!(:active_board) { create(:board_grid, project:, linked: sprint) }
+
+    before { sprints_page.visit! }
+
+    it "shows the edit sprint action for a user with create_sprints" do
+      sprints_page.open_more_menu(sprint)
+      sprints_page.expect_menu_item("Edit sprint")
+    end
+
+    it "hides the edit sprint action for a user without create_sprints" do
+      login_as create(:user, member_with_permissions: { project => %i[view_sprints view_work_packages] })
+      sprints_page.visit!
+
+      sprints_page.open_more_menu(sprint)
+      sprints_page.expect_no_menu_item("Edit sprint")
+    end
+
+    it "shows the sprint board action when a board exists" do
+      sprints_page.open_more_menu(sprint)
+      sprints_page.expect_menu_item(I18n.t("backlogs.label_sprint_board"))
+    end
+
+    it "hides the sprint board action when no board exists" do
+      sprints_page.open_more_menu(other_sprint)
+      sprints_page.expect_no_menu_item(I18n.t("backlogs.label_sprint_board"))
+    end
+
+    context "with sprint_reports feature flag", with_flag: :sprint_reports do
+      it "shows the sprint report action" do
+        sprints_page.open_more_menu(sprint)
+        sprints_page.expect_menu_item(I18n.t("backlogs.sprints.row_component.action_menu.sprint_report"))
+      end
+
+      it "navigates to the sprint report page when clicking the sprint report action" do
+        sprints_page.click_menu_item(sprint, I18n.t("backlogs.sprints.row_component.action_menu.sprint_report"))
+        expect(page).to have_current_path(project_backlogs_sprint_report_path(project, sprint))
+      end
+    end
+
+    context "without sprint_reports feature flag" do
+      it "hides the sprint report action" do
+        sprints_page.open_more_menu(sprint)
+        sprints_page.expect_no_menu_item(I18n.t("backlogs.sprints.row_component.action_menu.sprint_report"))
+      end
+    end
+
+    context "when no actions are available to the user" do
+      let(:permissions) { %i[view_sprints view_work_packages] }
+
+      it "does not render the more button" do
+        # other_sprint has no board and create_sprints is missing, sprint_reports flag is off
+        sprints_page.expect_no_more_menu(other_sprint)
+      end
+    end
+  end
+
   it "shows the correct breadcrumb menu" do
     sprints_page.visit!
 
@@ -78,10 +135,35 @@ RSpec.describe "Sprint index", :js do
     end
   end
 
-  it "orders the sprints by date first, and then by name" do
-    sprints_page.visit!
+  context "when ordering by activity" do
+    let(:ordering_project) { create(:project) }
+    let(:ordering_page) { Pages::Sprints.new(ordering_project) }
+    let!(:completed_sprint) do
+      create(:sprint, project: ordering_project, status: :completed,
+                      name: "Completed sprint",
+                      start_date: Date.new(2025, 9, 1),
+                      finish_date: Date.new(2025, 9, 10))
+    end
+    let!(:planning_sprint) do
+      create(:sprint, project: ordering_project, status: :in_planning,
+                      name: "Planning sprint",
+                      start_date: Date.new(2025, 9, 1),
+                      finish_date: Date.new(2025, 9, 10))
+    end
+    let!(:active_sprint) do
+      create(:sprint, project: ordering_project, status: :active,
+                      name: "Active sprint",
+                      start_date: Date.new(2025, 9, 1),
+                      finish_date: Date.new(2025, 9, 10))
+    end
 
-    sprints_page.expect_sprints_in_order(sprints: [past_sprint, past_sprint_with_other_name, sprint, other_sprint])
+    current_user { create(:user, member_with_permissions: { ordering_project => permissions }) }
+
+    it "orders active first, then in_planning, then completed" do
+      ordering_page.visit!
+
+      ordering_page.expect_sprints_in_order(sprints: [active_sprint, planning_sprint, completed_sprint])
+    end
   end
 
   it "shows the correct values per column" do
@@ -101,18 +183,18 @@ RSpec.describe "Sprint index", :js do
     sprints_page.visit!
 
     sprints_page.expect_pagination_range(from: 1, to: 2, total: 4)
-    sprints_page.expect_sprint_present(past_sprint)
-    sprints_page.expect_sprint_present(past_sprint_with_other_name)
-    sprints_page.expect_sprint_not_present(sprint)
-    sprints_page.expect_sprint_not_present(other_sprint)
+    sprints_page.expect_sprint_present(other_sprint)
+    sprints_page.expect_sprint_present(sprint)
+    sprints_page.expect_sprint_not_present(past_sprint)
+    sprints_page.expect_sprint_not_present(past_sprint_with_other_name)
 
     sprints_page.go_to_page!(2)
 
     sprints_page.expect_pagination_range(from: 3, to: 4, total: 4)
-    sprints_page.expect_sprint_present(sprint)
-    sprints_page.expect_sprint_present(other_sprint)
-    sprints_page.expect_sprint_not_present(past_sprint)
-    sprints_page.expect_sprint_not_present(past_sprint_with_other_name)
+    sprints_page.expect_sprint_present(past_sprint)
+    sprints_page.expect_sprint_present(past_sprint_with_other_name)
+    sprints_page.expect_sprint_not_present(other_sprint)
+    sprints_page.expect_sprint_not_present(sprint)
   end
 
   context "when there are no sprints" do
@@ -130,10 +212,10 @@ RSpec.describe "Sprint index", :js do
 
   context "when a sprint is shared from another project" do
     let(:source_project) do
-      create(:project, sprint_sharing: Projects::SprintSharing::SHARE_ALL_PROJECTS)
+      create(:project, sprint_sharing: Projects::SprintSettings::SHARE_ALL_PROJECTS)
     end
     let(:receiving_project) do
-      create(:project, sprint_sharing: Projects::SprintSharing::RECEIVE_SHARED)
+      create(:project, sprint_sharing: Projects::SprintSettings::RECEIVE_SHARED)
     end
     let(:sprints_page) { Pages::Sprints.new(receiving_project) }
     let!(:shared_sprint) do
@@ -153,7 +235,8 @@ RSpec.describe "Sprint index", :js do
       sprints_page.visit!
 
       sprints_page.expect_sprint_present(shared_sprint)
-      sprints_page.expect_sprint_name_link(shared_sprint, href: project_backlogs_backlog_path(receiving_project))
+      sprints_page.expect_sprint_name_link(shared_sprint,
+                                           href: project_backlogs_backlog_path(receiving_project, sprint_ids: [shared_sprint.id]))
     end
   end
 
@@ -196,8 +279,9 @@ RSpec.describe "Sprint index", :js do
     it "links the sprint name according to status" do
       sprints_page.visit!
 
-      sprints_page.expect_sprint_name_link(planning_sprint, href: project_backlogs_backlog_path(project))
-      sprints_page.expect_sprint_name_link(active_sprint, href: project_work_package_board_path(project, active_board))
+      sprints_page.expect_sprint_name_link(planning_sprint,
+                                           href: project_backlogs_backlog_path(project, sprint_ids: [planning_sprint.id]))
+      sprints_page.expect_sprint_name_link(active_sprint, href: project_backlogs_sprint_taskboard_path(project, active_sprint))
 
       default_columns = Setting.work_package_list_default_columns.map(&:to_s)
       completed_link = project_work_packages_path(

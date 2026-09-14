@@ -28,8 +28,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 module ::ResourceManagement
-  # TODO - separate controllers per view?
-
   class ResourcePlannerViewsController < BaseController
     include OpTurbo::ComponentStream
     include PlannerViewContent
@@ -125,7 +123,7 @@ module ::ResourceManagement
 
       replace_view_content
       close_dialog_via_turbo_stream(
-        "##{ResourcePlannerViews::WorkPackageList::AddWorkPackageDialogComponent::DIALOG_ID}"
+        ResourcePlannerViews::WorkPackageList::AddWorkPackageDialogComponent::DIALOG_ID
       )
       respond_with_turbo_streams
     end
@@ -179,7 +177,7 @@ module ::ResourceManagement
 
       replace_view_content
       close_dialog_via_turbo_stream(
-        "##{ResourcePlannerViews::UserCardList::AddUserDialogComponent::DIALOG_ID}"
+        ResourcePlannerViews::UserCardList::AddUserDialogComponent::DIALOG_ID
       )
       respond_with_turbo_streams
     end
@@ -278,13 +276,14 @@ module ::ResourceManagement
       @resource_planner.children.reload
 
       replace_via_turbo_stream(
-        component: ResourcePlanners::SubViewsComponent.new(
+        component: ResourcePlanners::ShowPageHeaderComponent.new(
           resource_planner: @resource_planner,
+          project: @project,
           selected_view: view
         )
       )
       replace_via_turbo_stream(component: work_package_list_content(view))
-      close_dialog_via_turbo_stream("##{ResourcePlannerViews::EditDialogComponent::DIALOG_ID}")
+      close_dialog_via_turbo_stream(ResourcePlannerViews::EditDialogComponent::DIALOG_ID)
       respond_with_turbo_streams
     end
 
@@ -327,14 +326,6 @@ module ::ResourceManagement
 
     def allowed_view_class(name)
       ResourcePlanner.allowed_child_class(name)
-    end
-
-    def find_resource_planner
-      @resource_planner = ResourcePlanner
-                            .visible(current_user)
-                            .where(project: @project)
-                            .with_children
-                            .find(params.expect(:resource_planner_id))
     end
 
     def find_view

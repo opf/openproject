@@ -252,7 +252,7 @@ RSpec.describe CostQuery, :reporting_query_helper do
       end
 
       it "filters types" do
-        matching_type = project.types.first
+        matching_type = project.enabled_types.first
         create_work_packages_and_time_entries(3, type: matching_type)
         query.filter :type_id, operator: "=", value: matching_type.id
         expect(query.result.count).to eq(3)
@@ -289,6 +289,109 @@ RSpec.describe CostQuery, :reporting_query_helper do
 
         query.filter :version_id, operator: "=", value: matching_version.id
         expect(query.result.count).to eq(3)
+      end
+
+      it "labels the filter 'Version' while multiple versions is off", with_settings: { work_package_multiple_versions: false } do
+        expect(CostQuery::Filter::VersionId.label).to eq("Version")
+      end
+
+      # While the feature is off a work package is single-version, so the filter
+      # only sees its primary target version (the lowest version id, i.e. what
+      # target_versions.first returns).
+      it "matches a work package through its primary target version", with_settings: { work_package_multiple_versions: false } do
+        primary_version = create(:version, project:)
+        secondary_version = create(:version, project:)
+        work_package = create_work_package_with_time_entry(version: primary_version)
+        work_package.work_package_versions.create!(version: secondary_version, kind: "target")
+
+        query.filter :version_id, operator: "=", value: primary_version.id
+        expect(query.result.count).to eq(1)
+      end
+
+      it "ignores a non-primary target version while multiple versions is off",
+         with_settings: { work_package_multiple_versions: false } do
+        primary_version = create(:version, project:)
+        secondary_version = create(:version, project:)
+        work_package = create_work_package_with_time_entry(version: primary_version)
+        work_package.work_package_versions.create!(version: secondary_version, kind: "target")
+
+        query.filter :version_id, operator: "=", value: secondary_version.id
+        expect(query.result.count).to eq(0)
+      end
+
+      # Off-mode negation runs on the primary-only (one-to-one) join, so the
+      # default "is not" operator is already correct without the multi-version
+      # NOT EXISTS override.
+      it "negates on the primary target version while multiple versions is off",
+         with_settings: { work_package_multiple_versions: false } do
+        primary_version = create(:version, project:)
+        secondary_version = create(:version, project:)
+        work_package = create_work_package_with_time_entry(version: primary_version)
+        work_package.work_package_versions.create!(version: secondary_version, kind: "target")
+
+        query.filter :version_id, operator: "!", value: [primary_version.id]
+        # Its primary version is primary_version, so "is not primary" drops it.
+        expect(query.result.count).to eq(0)
+      end
+
+      it "keeps a work package when negating a non-primary target version while off",
+         with_settings: { work_package_multiple_versions: false } do
+        primary_version = create(:version, project:)
+        secondary_version = create(:version, project:)
+        work_package = create_work_package_with_time_entry(version: primary_version)
+        work_package.work_package_versions.create!(version: secondary_version, kind: "target")
+
+        query.filter :version_id, operator: "!", value: [secondary_version.id]
+        # Off-mode only sees the primary; "is not secondary" keeps it because its
+        # primary version is not the secondary one.
+        expect(query.result.count).to eq(1)
+      end
+
+      context "with multiple target versions enabled",
+              with_settings: { work_package_multiple_versions: true } do
+        it "labels the filter 'Target versions'" do
+          expect(CostQuery::Filter::VersionId.label).to eq("Target versions")
+        end
+
+        it "matches a work package through a non-primary target version" do
+          primary_version = create(:version, project:)
+          secondary_version = create(:version, project:)
+          work_package = create_work_package_with_time_entry(version: primary_version)
+          work_package.work_package_versions.create!(version: secondary_version, kind: "target")
+
+          query.filter :version_id, operator: "=", value: secondary_version.id
+          expect(query.result.count).to eq(1)
+        end
+
+        # OPEN POINT FND-178: cost reports over-count totals when grouping or
+        # filtering by a multi-value attribute. The target-version join is
+        # one-to-many, so a work package whose target versions both match the
+        # filter contributes one row per matching version. This double-count is
+        # accepted for now (team decision); the spec pins it so a later "fix"
+        # doesn't silently change the total without revisiting FND-178.
+        it "counts a work package once per matching target version (FND-178 over-count)" do
+          version1 = create(:version, project:)
+          version2 = create(:version, project:)
+          work_package = create_work_package_with_time_entry(version: version1)
+          work_package.work_package_versions.create!(version: version2, kind: "target")
+
+          query.filter :version_id, operator: "=", value: [version1.id, version2.id]
+          expect(query.result.count).to eq(2)
+        end
+
+        it "excludes a work package that targets the version when filtering 'is not'" do
+          version1 = create(:version, project:)
+          version2 = create(:version, project:)
+          other_version = create(:version, project:)
+          multi = create_work_package_with_time_entry(version: version1)
+          multi.work_package_versions.create!(version: version2, kind: "target")
+          create_work_package_with_time_entry(version: other_version)
+
+          query.filter :version_id, operator: "!", value: [version1.id]
+          # `multi` targets version1, so "is not version1" must drop it even
+          # though it also targets version2; only the other work package remains.
+          expect(query.result.count).to eq(1)
+        end
       end
 
       it "filters subject" do

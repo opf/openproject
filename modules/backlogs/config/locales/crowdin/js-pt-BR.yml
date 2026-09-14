@@ -22,9 +22,22 @@
 ---
 pt-BR:
   js:
-    work_packages:
-      properties:
-        storyPoints: Pontos de História
+    backlogs:
+      selection:
+        card_state: Selecionado
+        cleared: Seleção limpa.
+        not_selectable: Seleção inalterada. Este pacote de trabalho não influencia a ordem desta lista.
+        range_blocked: Seleção inalterada. Esse intervalo contém um pacote de trabalho que não influencia a ordenação desta lista.
+        range_restarted:
+          one: Não foi possível ampliar o escopo. 1 pacote de trabalho selecionado.
+          other: Não foi possível ampliar o intervalo. %{count} pacotes de trabalho selecionados.
+        range_unavailable: Seleção inalterada. Expanda esta lista para selecionar esse intervalo.
+        selected:
+          one: 1 pacote de trabalho selecionado.
+          other: "%{count} pacotes de trabalho selecionados."
     burndown:
       day: Dia
       points: Pontos
+    work_packages:
+      properties:
+        storyPoints: Pontos de História

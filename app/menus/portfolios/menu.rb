@@ -48,20 +48,8 @@ module Portfolios
       ]
     end
 
-    def selected?(query_params) # rubocop:disable Metrics/AbcSize
-      case controller_path
-      when "portfolios"
-        case params[:query_id]
-        when nil
-          query_params[:query_id].to_s == ProjectQueries::Static::ACTIVE_PORTFOLIOS
-        when /\A\d+\z/
-          query_params[:query_id].to_s == params[:query_id]
-        else
-          query_params[:query_id].to_s == params[:query_id] unless modification_params?
-        end
-      when "portfolios/queries"
-        query_params[:query_id].to_s == params[:id]
-      end
+    def selected?(query_params)
+      query_params[:query_id].to_s == selected_query_id
     end
 
     def query_path(query_params)
@@ -69,6 +57,19 @@ module Portfolios
     end
 
     private
+
+    def selected_query_id
+      case controller_path
+      when "portfolios"
+        if /\A\d+\z/.match?(params[:query_id])
+          params[:query_id]
+        elsif !modification_params?
+          params[:query_id] || ProjectQueries::Static::ACTIVE_PORTFOLIOS
+        end
+      when "portfolios/queries"
+        params[:id]
+      end
+    end
 
     def main_static_filters
       main_filters = [

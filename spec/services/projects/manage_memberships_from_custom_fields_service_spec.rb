@@ -74,9 +74,9 @@ RSpec.describe Projects::ManageMembershipsFromCustomFieldsService, type: :model 
       it "adds the user as a member to the project with the role from the custom field" do
         expect do
           subject
-        end.to change { project.member_principals.count }.by(1)
+        end.to change { project.members.count }.by(1)
 
-        membership = project.member_principals.find_by(principal: user1)
+        membership = project.members.find_by(principal: user1)
         expect(membership).to be_present
         expect(membership.roles).to contain_exactly(custom_field.role)
       end
@@ -89,9 +89,9 @@ RSpec.describe Projects::ManageMembershipsFromCustomFieldsService, type: :model 
       it "adds the placeholder user as a member to the project with the role from the custom field" do
         expect do
           subject
-        end.to change { project.member_principals.count }.by(1)
+        end.to change { project.members.count }.by(1)
 
-        membership = project.member_principals.find_by(principal: placeholder_user)
+        membership = project.members.find_by(principal: placeholder_user)
         expect(membership).to be_present
         expect(membership.roles).to contain_exactly(custom_field.role)
       end
@@ -104,7 +104,7 @@ RSpec.describe Projects::ManageMembershipsFromCustomFieldsService, type: :model 
       it "does not change the project membership, and also shows no error" do
         expect do
           subject
-        end.not_to change { project.member_principals.count }
+        end.not_to change { project.members.count }
       end
     end
   end
@@ -121,9 +121,9 @@ RSpec.describe Projects::ManageMembershipsFromCustomFieldsService, type: :model 
       it "adds the role to the membership, but does not create a new one" do
         expect do
           subject
-        end.not_to change { project.member_principals.count }
+        end.not_to change { project.members.count }
 
-        membership = project.member_principals.find_by(principal: user1)
+        membership = project.members.find_by(principal: user1)
         expect(membership).to be_present
         expect(membership.roles).to contain_exactly(custom_field.role, other_role)
       end
@@ -137,9 +137,9 @@ RSpec.describe Projects::ManageMembershipsFromCustomFieldsService, type: :model 
       it "removes the role from the membership but keeps the membership" do
         expect do
           subject
-        end.not_to change { project.member_principals.count }
+        end.not_to change { project.members.count }
 
-        membership = project.member_principals.find_by(principal: user1)
+        membership = project.members.find_by(principal: user1)
         expect(membership).to be_present
         expect(membership.roles).to contain_exactly(other_role)
       end
@@ -156,9 +156,9 @@ RSpec.describe Projects::ManageMembershipsFromCustomFieldsService, type: :model 
       it "does not change the project membership but also does not return an error" do
         expect do
           subject
-        end.not_to change { project.member_principals.count }
+        end.not_to change { project.members.count }
 
-        membership = project.member_principals.find_by(principal: user1)
+        membership = project.members.find_by(principal: user1)
         expect(membership).to be_present
         expect(membership.roles).to contain_exactly(custom_field.role)
       end
@@ -171,9 +171,9 @@ RSpec.describe Projects::ManageMembershipsFromCustomFieldsService, type: :model 
       it "removes the membership from the project" do
         expect do
           subject
-        end.to change { project.member_principals.count }.by(-1)
+        end.to change { project.members.count }.by(-1)
 
-        membership = project.member_principals.find_by(principal: user1)
+        membership = project.members.find_by(principal: user1)
         expect(membership).to be_nil
       end
     end
@@ -194,26 +194,26 @@ RSpec.describe Projects::ManageMembershipsFromCustomFieldsService, type: :model 
       subject
 
       # user 1 is added as a new member
-      membership1 = project.member_principals.find_by(principal: user1)
+      membership1 = project.members.find_by(principal: user1)
       expect(membership1).to be_present
       expect(membership1.roles).to contain_exactly(custom_field.role)
 
       # user 2 gets one role removed but is still a member due to other roles
-      membership2 = project.member_principals.find_by(principal: user2)
+      membership2 = project.members.find_by(principal: user2)
       expect(membership2).to be_present
       expect(membership2.roles).to contain_exactly(other_role)
 
       # user 3 remains unchanged
-      membership3 = project.member_principals.find_by(principal: user3)
+      membership3 = project.members.find_by(principal: user3)
       expect(membership3).to be_present
       expect(membership3.roles).to contain_exactly(custom_field.role)
 
       # user 4 is removed entirely
-      membership4 = project.member_principals.find_by(principal: user4)
+      membership4 = project.members.find_by(principal: user4)
       expect(membership4).to be_nil
 
       # user 5 gets the role added
-      membership5 = project.member_principals.find_by(principal: user5)
+      membership5 = project.members.find_by(principal: user5)
       expect(membership5).to be_present
       expect(membership5.roles).to contain_exactly(other_role, custom_field.role)
     end

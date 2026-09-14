@@ -44,7 +44,7 @@ module Users
     def sub_header_data_attributes
       {
         controller: "filter--filters-form",
-        "filter--filters-form-perform-turbo-requests-value": true,
+        "filter--filters-form-turbo-stream-request-value": true,
         "filter--filters-form-clear-button-id-value": clear_button_id,
         "filter--filters-form-display-filters-value": filters_expanded?
       }
@@ -61,6 +61,10 @@ module Users
 
     def clear_button_id
       "user-filters-form-clear-button"
+    end
+
+    def collapsed_search?
+      filter_input_value.blank?
     end
 
     def filters_expanded?

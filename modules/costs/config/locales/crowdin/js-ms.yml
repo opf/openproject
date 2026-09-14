@@ -22,15 +22,15 @@
 ---
 ms:
   js:
-    text_are_you_sure: Adakah anda pasti?
-    myTimeTracking:
-      noSpecificTime: No specific time
-    work_packages:
-      property_groups:
-        costs: Kos
-      properties:
-        overallCosts: Kos keseluruhan
-        spentUnits: Unit yang telah dibelanjakan
     button_log_costs: Log kos unit
     label_hour: jam
     label_hours: jam
+    myTimeTracking:
+      noSpecificTime: No specific time
+    text_are_you_sure: Adakah anda pasti?
+    work_packages:
+      properties:
+        overallCosts: Kos keseluruhan
+        spentUnits: Unit yang telah dibelanjakan
+      property_groups:
+        costs: Kos

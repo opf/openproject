@@ -34,7 +34,7 @@ RSpec.describe "Menu items order",
                :skip_csrf,
                type: :rails_request do
   shared_let(:admin) { create(:admin) }
-  let(:project) { create(:project, enabled_module_names: %w[wiki]) }
+  let(:project) { create(:project, :with_internal_wiki).reload }
   let(:wiki) { project.wiki }
 
   let!(:item3) { create(:wiki_menu_item, wiki:, title: "3. FAQ") }

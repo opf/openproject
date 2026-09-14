@@ -607,7 +607,7 @@ RSpec.describe Journable::WithHistoricAttributes,
         let!(:custom_field) do
           create(:string_wp_custom_field,
                  name: "String CF",
-                 types: project.types,
+                 types: project.enabled_types,
                  projects: [project])
         end
 
@@ -629,6 +629,195 @@ RSpec.describe Journable::WithHistoricAttributes,
       it "returns no changes" do
         expect(subject.changed_at_timestamp(Timestamp.parse("2021-01-01T00:00:00Z")))
           .to be_empty
+      end
+    end
+  end
+
+  describe "target versions" do
+    shared_let(:version_a) { create(:version, project:, name: "Version A") }
+    shared_let(:version_b) { create(:version, project:, name: "Version B") }
+
+    let(:work_package) do
+      create(:work_package,
+             subject: "The versioned work package",
+             project:,
+             version: version_a,
+             journals: {
+               created_at => {},
+               1.day.ago => {}
+             })
+    end
+
+    subject { described_class.wrap(work_package, timestamps:) }
+
+    def update_target_versions(*versions)
+      work_package.target_version_ids_replacements = versions.map(&:id)
+      work_package.save!
+    end
+
+    describe "#at_timestamp" do
+      it "returns the target versions from the journal snapshot, not the current ones" do
+        update_target_versions(version_a, version_b)
+
+        expect(subject.at_timestamp(Timestamp.parse("2022-01-01T00:00:00Z")).target_versions)
+          .to contain_exactly(version_a)
+        expect(work_package.reload.target_versions)
+          .to contain_exactly(version_a, version_b)
+      end
+
+      it "omits snapshotted target versions that were deleted since" do
+        update_target_versions(version_a, version_b)
+        version_b.destroy!
+
+        # 1 hour in the future so the journal written by the update above is
+        # unambiguously in the past, regardless of sub-second timing.
+        expect(subject.at_timestamp(Timestamp.parse(1.hour.from_now.iso8601)).target_versions)
+          .to contain_exactly(version_a)
+      end
+    end
+
+    describe "#changed_at_timestamp" do
+      context "when the target version was swapped" do
+        it "marks both the version and the target versions as changed" do
+          update_target_versions(version_b)
+
+          expect(subject.changed_at_timestamp(Timestamp.parse("2022-01-01T00:00:00Z")))
+            .to contain_exactly("target_versions", "version_id")
+        end
+      end
+
+      context "when a target version was added alongside the existing one" do
+        it "marks only the target versions as changed" do
+          update_target_versions(version_a, version_b)
+
+          expect(subject.changed_at_timestamp(Timestamp.parse("2022-01-01T00:00:00Z")))
+            .to contain_exactly("target_versions")
+        end
+      end
+
+      context "when one of several target versions was removed" do
+        it "marks only the target versions as changed" do
+          # Journal rows are stamped by the database clock, so a past removal
+          # can't be journalled directly; seed the baseline snapshot instead.
+          create(:journal_work_package_version_journal,
+                 journal: work_package.journals.first,
+                 version: version_b,
+                 kind: "target")
+
+          expect(subject.changed_at_timestamp(Timestamp.parse("2022-01-01T00:00:00Z")))
+            .to contain_exactly("target_versions")
+        end
+      end
+
+      context "when all target versions were removed" do
+        it "marks both the version and the target versions as changed" do
+          update_target_versions
+
+          expect(subject.changed_at_timestamp(Timestamp.parse("2022-01-01T00:00:00Z")))
+            .to contain_exactly("target_versions", "version_id")
+        end
+      end
+
+      context "when the target versions are unchanged" do
+        it "reports no version change" do
+          expect(subject.changed_at_timestamp(Timestamp.parse("2022-01-01T00:00:00Z")))
+            .to be_empty
+        end
+      end
+    end
+  end
+
+  describe "observed in versions" do
+    shared_let(:version_a) { create(:version, project:, name: "Version A") }
+    shared_let(:version_b) { create(:version, project:, name: "Version B") }
+
+    let(:work_package) do
+      create(:work_package,
+             subject: "The versioned work package",
+             project:,
+             journals: {
+               created_at => {},
+               1.day.ago => {}
+             })
+    end
+
+    subject { described_class.wrap(work_package, timestamps:) }
+
+    def update_observed_in_versions(*versions)
+      work_package.observed_in_version_ids_replacements = versions.map(&:id)
+      work_package.save!
+    end
+
+    describe "#at_timestamp" do
+      it "returns the observed in versions from the journal snapshot, not the current ones" do
+        # Journal rows are stamped by the database clock, so the baseline snapshot
+        # is seeded directly rather than journalled at a past date.
+        create(:journal_work_package_version_journal,
+               journal: work_package.journals.first,
+               version: version_a,
+               kind: "observed_in")
+        update_observed_in_versions(version_a, version_b)
+
+        expect(subject.at_timestamp(Timestamp.parse("2022-01-01T00:00:00Z")).observed_in_versions)
+          .to contain_exactly(version_a)
+        expect(work_package.reload.observed_in_versions)
+          .to contain_exactly(version_a, version_b)
+      end
+
+      it "omits snapshotted observed in versions that were deleted since" do
+        update_observed_in_versions(version_a, version_b)
+        version_b.destroy!
+
+        # 1 hour in the future so the journal written by the update above is
+        # unambiguously in the past, regardless of sub-second timing.
+        expect(subject.at_timestamp(Timestamp.parse(1.hour.from_now.iso8601)).observed_in_versions)
+          .to contain_exactly(version_a)
+      end
+    end
+
+    describe "#changed_at_timestamp" do
+      context "when an observed in version was added" do
+        it "marks the observed in versions as changed" do
+          update_observed_in_versions(version_a, version_b)
+
+          expect(subject.changed_at_timestamp(Timestamp.parse("2022-01-01T00:00:00Z")))
+            .to contain_exactly("observed_in_versions")
+        end
+      end
+
+      context "when one of several observed in versions was removed" do
+        it "marks only the observed in versions as changed" do
+          # Journal rows are stamped by the database clock, so a past removal
+          # can't be journalled directly; seed the baseline snapshot instead.
+          create(:journal_work_package_version_journal,
+                 journal: work_package.journals.first,
+                 version: version_b,
+                 kind: "observed_in")
+
+          expect(subject.changed_at_timestamp(Timestamp.parse("2022-01-01T00:00:00Z")))
+            .to contain_exactly("observed_in_versions")
+        end
+      end
+
+      context "when all observed in versions were removed" do
+        it "marks the observed in versions as changed" do
+          create(:journal_work_package_version_journal,
+                 journal: work_package.journals.first,
+                 version: version_a,
+                 kind: "observed_in")
+
+          update_observed_in_versions
+
+          expect(subject.changed_at_timestamp(Timestamp.parse("2022-01-01T00:00:00Z")))
+            .to contain_exactly("observed_in_versions")
+        end
+      end
+
+      context "when the observed in versions are unchanged" do
+        it "reports no version change" do
+          expect(subject.changed_at_timestamp(Timestamp.parse("2022-01-01T00:00:00Z")))
+            .to be_empty
+        end
       end
     end
   end

@@ -25,6 +25,29 @@ RSpec.describe ResourcePlanners::ShowPageHeaderComponent, type: :component do
     expect(rendered).to have_text("My planner")
   end
 
+  describe "the timeframe" do
+    context "when the planner has a range" do
+      let(:resource_planner) do
+        create(:resource_planner, project:, principal: owner, name: "My planner",
+                                  start_date: Date.new(2026, 8, 1), end_date: Date.new(2026, 8, 14))
+      end
+
+      it "is described in the header" do
+        expect(rendered).to have_text(
+          I18n.t("resource_management.timeframe.full",
+                 start: I18n.l(Date.new(2026, 8, 1)),
+                 end: I18n.l(Date.new(2026, 8, 14)))
+        )
+      end
+    end
+
+    context "when the planner has no range" do
+      it "is omitted from the header" do
+        expect(rendered).to have_no_text(/From .* to /)
+      end
+    end
+  end
+
   context "as the owner" do
     it "renders the edit and delete actions" do
       expect(rendered).to have_css("[data-test-selector='resource-planner-edit']")

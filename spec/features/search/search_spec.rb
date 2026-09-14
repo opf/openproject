@@ -62,7 +62,7 @@ RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" 
            is_filter:,
            searchable:).tap do |custom_field|
       project.work_package_custom_fields << custom_field
-      work_packages.first.type.custom_fields << custom_field
+      work_packages.first.type.default_variant.custom_fields << custom_field
 
       create(:work_package_custom_value,
              custom_field:,
@@ -77,7 +77,7 @@ RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" 
            is_filter:,
            searchable:).tap do |custom_field|
       custom_field.save
-      work_packages.first.type.custom_fields << custom_field
+      work_packages.first.type.default_variant.custom_fields << custom_field
 
       create(:work_package_custom_value,
              custom_field:,

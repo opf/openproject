@@ -34,9 +34,9 @@ Learn more in our [documentation about work package settings](../../../system-ad
 
 To avoid loosing data when switching from Work- to Status-based progress calculation, OpenProject will now show you a warning banner if you select a different mode than the current. If you switch from Work- to Status-based progress calculation, please note that:
 
-* Existing % Complete values are overwritten by status (or set to 0 when a corresponding value does not exist).
+- Existing % Complete values are overwritten by status (or set to 0 when a corresponding value does not exist).
 
-* Remaining work is automatically updated.
+- Remaining work is automatically updated.
 
 ![Warning banner when changing progress reporting from work-based to status-based](openproject-14-2-changing-work-based-status-based-progress-reporting.png)
 

@@ -10,17 +10,17 @@ keywords: time tracking, log time, time spent, calendar, time spent calendar, ti
 
 ## Overview
 
-The *My time tracking* module offers a clear overview of your personal time entries. You can quickly log time directly from this page. To access it, select **My time tracking** from the left-hand menu.
+The _My time tracking_ module offers a clear overview of your personal time entries. You can quickly log time directly from this page. To access it, select **My time tracking** from the left-hand menu.
 
-Alternatively, click the grid icon in the top left corner and select *My time tracking* from the overlay menu that will open.
+Alternatively, click the grid icon in the top left corner and select _My time tracking_ from the overlay menu that will open.
 
 ![My tracking page overview in OpenProject](openproject_user_guide_my_time_tracking_module_overview.png)
 
 ### My time tracking page filters
 
-1. On the *My time tracking* page, you’ll find the following interface elements:
+1. On the _My time tracking_ page, you’ll find the following interface elements:
    1. **Zen mode** button — toggles a distraction-free view.
-   2. **Tab selector** — switch between *Calendar* and *List* views.
+   2. **Tab selector** — switch between _Calendar_ and _List_ views.
    3. **Zoom level dropdown menu** — choose the time scale for the view. Following options are available:
       - Day
       - Work week
@@ -35,7 +35,7 @@ Alternatively, click the grid icon in the top left corner and select *My time tr
 
 ### Calendar view
 
-The *Calendar* view opens by default if start and finish times for time entries have been enabled in [System Administration](../../../system-admin-guide/time-and-costs). You can adjust the zoom level using the dropdown menu, with options for **Day**, **Work week**, **Week**, or **Month**. The current day is highlighted.
+The _Calendar_ view opens by default if start and finish times for time entries have been enabled in [System Administration](../../../system-admin-guide/time-and-costs). You can adjust the zoom level using the dropdown menu, with options for **Day**, **Work week**, **Week**, or **Month**. The current day is highlighted.
 
 Existing time entries appear on the corresponding days they were logged. Entry colors reflect the type of work package associated with the logged time.
 
@@ -59,7 +59,7 @@ If you are currently tracking time with a timer for a specific work package, you
 
 ### List view
 
-The *List* view opens by default if start and finish times for time entries are **disabled** in [System Administration](../../../system-admin-guide/time-and-costs). Just like in the *Calendar* view, you can select the zoom level using the dropdown menu — options include **Day**, **Work week**, **Week**, or **Month**.
+The _List_ view opens by default if start and finish times for time entries are **disabled** in [System Administration](../../../system-admin-guide/time-and-costs). Just like in the _Calendar_ view, you can select the zoom level using the dropdown menu — options include **Day**, **Work week**, **Week**, or **Month**.
 
 In this view, time entries are grouped by day. Each day displays the total number of entries and their combined duration on the right side of the header line.
 
@@ -82,20 +82,20 @@ Expanded days display time entries in a table format with the following columns:
 - **Comment**
 - **+** (last column, used to log time for that specific day)
 
-To log time in *List* view, you can either:
+To log time in _List_ view, you can either:
 
 - Click the **+ Log Time** button to add a time entry for any date outside the currently displayed range.
 - Use the **+** icon in the table to log time directly for a specific day.
 
 ![List view under My time tracking module in OpenProject](openproject_user_guide_my_time_tracking_module_list_view_overview.png)
 
-To edit or delete a time entry in the *List* view, click the **More** (three dots) icon at the end of the entry’s row in the table, then select the **Edit** (pencil) or **Delete** icon respectively.
+To edit or delete a time entry in the _List_ view, click the **More** (three dots) icon at the end of the entry’s row in the table, then select the **Edit** (pencil) or **Delete** icon respectively.
 
 ![Icon to edit or delete a time entry under List tab of the My time tracking module in OpenProject](openproject_user_guide_my_time_tracking_module_list_view_edit_icon.png)
 
 ## Log time in My time tracking module
 
-To log time on the *My time tracking* page, click the **+ Log time** button. A modal window will appear with the following fields:
+To log time on the _My time tracking_ page, click the **+ Log time** button. A modal window will appear with the following fields:
 
 - **Date** – Select the day for the time entry.
 
@@ -108,12 +108,12 @@ To log time on the *My time tracking* page, click the **+ Log time** button. A m
 - **Hours** – Enter the number of hours you want to log for a specific work package. 
 
 > [!TIP]
->  Duration can be entered both in hours and minutes. For example for logging 1,5 hours, you can enter:
->  - 1.5h
->  - 90m
->  - 90min
->  - 1:30
-
+> Duration can be entered both in hours and minutes. For example for logging 1,5 hours, you can enter:
+>
+> - 1.5h
+> - 90m
+> - 90min
+> - 1:30
 
 - **Work package** – Type to search for a work package or select from the list of recently used ones. You can find the correct work package by using a work package name, ID, type and status.
 

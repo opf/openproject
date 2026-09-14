@@ -26,16 +26,12 @@ The Project Initiation Request is a project's starting point and formalises its 
 
 The Project Initiation Request contains basic information about the estimated effort and cost of undertaking the project as well as the timeframe for its completion and the type of delivery. Specifically, the document describes the impact the project is expected to bring and summarises the success criteria against which it will be evaluated. Additionally, the Project Initiation Request outlines the project's relevance to the organisation's strategic direction and highlights the key assumptions, constraints and risks as assessed at this stage.
 
-|  Key Participants | Description  |
-| --- | --- |
-|  Initiator | Anyone can introduce a Project Initiation Request.  |
-|  Project Owner (PO) | The main beneficiary of the project's outputs usually nominates a Project
-Owner (PO).  |
-|  Solution Provider (SP) | The organisational unit that will carry out the project work nominates a
-Solution Provider (SP).  |
-|  Approver | Depending on the project, the Project Owner (PO) or a higher-level
-Appropriate Governance Body (AGB) can accept the Project Initiation
-Request and authorise work on a more elaborate Business Case.  |
+| Key Participants       | Description                                                                                                                                                                                          |
+|------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Initiator              | Anyone can introduce a Project Initiation Request.                                                                                                                                                   |
+| Project Owner (PO)     | The main beneficiary of the project's outputs usually nominates a Project Owner (PO).                                                                                                                |
+| Solution Provider (SP) | The organisational unit that will carry out the project work nominates a Solution Provider (SP).                                                                                                     |
+| Approver               | Depending on the project, the Project Owner (PO) or a higher-level Appropriate Governance Body (AGB) can accept the Project Initiation Request and authorise work on a more elaborate Business Case. |
 
 **Input**
 
@@ -58,20 +54,15 @@ The lifecycle of the Project Initiating Request ends with the creation of the Bu
 
 ![Fig 5.3 Relationship between the artefacts created during the Initiating Phase](05.03.png)
 
-
-
 | RAM (RASCI) | AGB | PSC | PO | BM | BIG | SP | PM | PCT |
 | :-- | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
 | Project Initiation Request | I | n.a. | A/S | R | S/C | I | n.a. | n.a. |
 
 ![Fig 5.4 Project Initiation Request inputs and main roles](05.04.png)
 
-
-
 **Outputs** 
 
 - Project Initiation Request
-
 
 ## 5.3 Business Case 
 
@@ -123,8 +114,6 @@ The Business Case provides decision-makers with the information they need to det
 
 ![Fig 5.5 Business Case inputs and main roles](05.05.png)
 
-
-
 | Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :-- | :--: | :--: | :--: | :--: | :--: |
 | Benefits Management | Business Case | Business Implementation Plan | Project Reports | Business Implementation Checklist | Project-End Report |
@@ -132,7 +121,6 @@ The Business Case provides decision-makers with the information they need to det
 **Outputs** 
 
 - Business Case
-
 
 ## 5.4 Project Charter 
 
@@ -172,8 +160,6 @@ The charter is a key element of the project approval process (along with the Bus
 | Project Charter | I | A | C | S | C | S | R | C |
 
 ![Fig 5.6 Project Charter inputs and main roles](05.06.png)
-
-
 
 | Related Artefacts | Initiating | Planning | Executing | Monitor \& Control | Closing |
 | :-- | :--: | :--: | :--: | :--: | :--: |

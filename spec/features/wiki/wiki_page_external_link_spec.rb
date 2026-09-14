@@ -35,7 +35,7 @@ RSpec.describe "Wiki page external link", :js, :selenium do
   current_user { admin }
 
   let(:external_url) { "https://www.openprojet.org/" }
-  let(:project) { create(:project, enabled_module_names: %w[wiki]) }
+  let(:project) { create(:project, :with_internal_wiki) }
   let!(:wiki_page) do
     create(:wiki_page,
            wiki: project.wiki,

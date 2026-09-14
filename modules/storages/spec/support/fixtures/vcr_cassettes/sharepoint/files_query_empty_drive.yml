@@ -146,7 +146,7 @@ http_interactions:
   recorded_at: Fri, 08 Aug 2025 10:35:12 GMT
 - request:
     method: get
-    uri: https://graph.microsoft.com/v1.0/drives/b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY8Pmdpc8mQ1QJkyIbbWQJol/root/children?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference
+    uri: https://graph.microsoft.com/v1.0/drives/b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY8Pmdpc8mQ1QJkyIbbWQJol/root/children?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference&$top=1000
     body:
       encoding: US-ASCII
       string: ''
@@ -189,7 +189,7 @@ http_interactions:
   recorded_at: Fri, 08 Aug 2025 10:35:12 GMT
 - request:
     method: get
-    uri: https://graph.microsoft.com/v1.0/drives/b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY8Pmdpc8mQ1QJkyIbbWQJol/root?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference
+    uri: https://graph.microsoft.com/v1.0/drives/b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY8Pmdpc8mQ1QJkyIbbWQJol/root?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference&$top=1000
     body:
       encoding: US-ASCII
       string: ''

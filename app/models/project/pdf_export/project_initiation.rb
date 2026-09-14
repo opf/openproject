@@ -35,10 +35,10 @@ class Project::PDFExport::ProjectInitiation < Exports::Exporter
   include Exports::PDF::Common::Macro
   include Exports::PDF::Common::Markdown
   include Exports::PDF::Common::Badge
+  include Exports::PDF::Common::ProjectAttributes
   include Exports::PDF::Components::Page
-  include Project::PDFExport::Common::ProjectAttributes
-  include Project::PDFExport::ProjectInitiation::Cover
-  include Project::PDFExport::ProjectInitiation::Styles
+  include Exports::PDF::Artefact::Cover
+  include Exports::PDF::Artefact::Styles
   include ProjectsHelper
 
   attr_accessor :pdf

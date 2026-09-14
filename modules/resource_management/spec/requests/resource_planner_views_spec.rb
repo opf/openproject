@@ -31,8 +31,7 @@
 require "spec_helper"
 
 RSpec.describe "ResourcePlannerViews requests",
-               :skip_csrf,
-               type: :rails_request do
+               :skip_csrf, type: :rails_request, with_ee: %i[resource_management] do
   shared_let(:project) { create(:project, enabled_module_names: %w[resource_management work_package_tracking]) }
   shared_let(:user) do
     create(:user, member_with_permissions: { project => %i[view_resource_planners view_work_packages] })
@@ -66,6 +65,66 @@ RSpec.describe "ResourcePlannerViews requests",
       get project_resource_planner_path(project, resource_planner)
 
       expect(response).to have_http_status(:ok)
+    end
+  end
+
+  describe "GET show with an automatic list larger than a page" do
+    let(:query) do
+      Query.new_default(project:, user:).tap do |q|
+        q.name = "List"
+        q.save!
+      end
+    end
+    let(:paginated_view) do
+      ResourceWorkPackageList.create!(name: "Automatic", parent: resource_planner, project:, principal: user, query:)
+    end
+
+    let!(:work_packages) { create_list(:work_package, 2, project:) }
+
+    before { allow(Setting).to receive(:per_page_options_array).and_return([1, 100]) }
+
+    def subjects_on(**query_params)
+      get project_resource_planner_view_path(project, resource_planner, paginated_view, **query_params)
+      work_packages.map(&:subject).select { |subject| response.body.include?(subject) }
+    end
+
+    it "renders the pagination controls and splits the work packages across pages" do
+      first_page = subjects_on(per_page: 1)
+      expect(response.body).to include("op-pagination--pages")
+      expect(first_page.size).to eq(1)
+
+      second_page = subjects_on(per_page: 1, page: 2)
+      expect(second_page.size).to eq(1)
+
+      expect(first_page + second_page).to match_array(work_packages.map(&:subject))
+    end
+  end
+
+  describe "GET show for a manually-picked list" do
+    let(:query) do
+      Query.new_default(project:, user:).tap do |q|
+        q.name = "List"
+        q.add_filter("manual_sort", "ow", [])
+        q.sort_criteria = [%w[manual_sorting asc]]
+        q.save!
+      end
+    end
+    let(:manual_view) do
+      ResourceWorkPackageList.create!(name: "Hand-picked", parent: resource_planner, project:, principal: user, query:)
+    end
+
+    let!(:work_packages) { create_list(:work_package, 2, project:) }
+
+    before do
+      allow(Setting).to receive(:per_page_options_array).and_return([1, 100])
+      work_packages.each_with_index { |wp, i| query.ordered_work_packages.create!(work_package: wp, position: i + 1) }
+    end
+
+    it "stays unpaginated so drag-and-drop keeps the full list" do
+      get project_resource_planner_view_path(project, resource_planner, manual_view, per_page: 1)
+
+      expect(response.body).not_to include("op-pagination--pages")
+      work_packages.each { |wp| expect(response.body).to include(wp.subject) }
     end
   end
 
@@ -167,8 +226,8 @@ RSpec.describe "ResourcePlannerViews requests",
     it "closes the dialog and replaces the tab nav and content in place" do
       perform
 
-      expect(response.body).to have_turbo_stream(action: "closeDialog", target: "#edit-resource-planner-view-dialog")
-      expect(response.body).to have_turbo_stream(action: "replace", target: "resource-planners-sub-views-component")
+      expect(response.body).to have_turbo_stream(action: "closeDialog", target: "edit-resource-planner-view-dialog")
+      expect(response.body).to have_turbo_stream(action: "replace", target: "resource-planners-show-page-header-component")
       expect(response.body).to have_turbo_stream(action: "replace", target: "resource-planner-views-content-component")
 
       expect(response.body).to include("Renamed view")

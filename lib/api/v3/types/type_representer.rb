@@ -33,15 +33,24 @@ module API
         include API::Decorators::DateProperty
         include ::API::Caching::CachedRepresenter
 
+        cached_representer({})
+
         self_link
 
         property :id
+
         property :name
+
         property :color,
-                 getter: ->(*) { color.hexcode if color },
+                 getter: ->(*) { color&.hexcode },
                  render_nil: true
         property :position
-        property :is_default
+        # Kept on the type in the API: the flag moved to the configurations a project applies
+        # the type through, and a new project gets the type when any of them carries it.
+        # Asked of the collection rather than of #default_variant, which is nil until a type
+        # is saved — representers render unsaved and stubbed types too.
+        property :is_default,
+                 getter: ->(*) { variants.any?(&:enabled_in_new_projects?) }
         property :is_milestone
 
         date_time_property :created_at

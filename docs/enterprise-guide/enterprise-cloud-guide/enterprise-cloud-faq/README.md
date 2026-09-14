@@ -46,7 +46,6 @@ You can do this in your OpenProject instance in the administration. The number o
 
 Please have a look at [this instruction](../manage-cloud-subscription/) for the Enterprise cloud edition to change your payment details.
 
-
 ## Billing and invoicing 
 
 ### Can we pay the OpenProject Enterprise cloud edition by wire transfer?
@@ -144,6 +143,7 @@ This hosting infrastructure all sub-processors are located in the EU. There is n
 Prior to March 2026, our services were hosted across both Netways and Scaleway data center environments. Starting with March 2026, Scaleway will become our sole data center provider for the EU shard.
 
 All existing customers who did not object to the migration, will be migrated to Scaleway in September 2025. Customers who choose not to transition to Scaleway can opt out. In that case:
--   Contracts may be terminated by February 2026, or
--   alternative solutions may be found (including migration global shard in Frankfurt), or
--   Customers may cancel their contracts earlier if they wish.
+
+- Contracts may be terminated by February 2026, or
+- alternative solutions may be found (including migration global shard in Frankfurt), or
+- Customers may cancel their contracts earlier if they wish.

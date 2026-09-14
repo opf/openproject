@@ -69,7 +69,7 @@ module Storages
     def auth_strategy = Adapters::Registry["#{@storage}.authentication.userless"].call
 
     def error_with_code(error, code)
-      Adapters::Results::Error.new(payload: error.payload, source: self.class).with(code: code)
+      SimpleError.new(payload: error.payload, source: self.class, code: code)
     end
 
     def determine_user(container)

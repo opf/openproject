@@ -1,29 +1,28 @@
-#English strings go here
 ---
 de:
-  plugin_openproject_avatars:
-    name: Avatars
-    description: Dieses Plugin erlaubt es OpenProject-Benutzern, Avatare hochzuladen oder von Gravatar zu übernehmen.
-  label_avatar: Profilfoto
-  label_avatar_plural: Avatars
-  label_current_avatar: Aktuelles Profilbild
-  label_choose_avatar: Profilbild aus Datei auswählen
-  message_avatar_uploaded: Das Porfilbild wurde erfolgreich geändert.
-  error_image_upload: Fehler beim Speichern des Bildes.
-  error_image_size: Das Bild ist zu groß.
   are_you_sure_delete_avatar: Sind Sie sicher, dass Sie das Profilbild löschen möchten?
   avatar_deleted: Profilbild erfolgreich gelöscht.
-  unable_to_delete_avatar: Profilbild konnte nicht gelöscht werden.
-  wrong_file_format: Erlaubte Formate sind JPG, PNG und GIF
-  empty_file_error: Bitte laden Sie ein gültiges Bild hoch (JPG, PNG, GIF)
   avatars:
     label_avatar: Profilfoto
     label_gravatar: Gravatar
     label_local_avatar: Selbsterstelltes Profilbild
-    text_avatar_gravatar_html: OpenProject uses your Gravatar if you registered one at %{gravatar_url}, or a default image or icon if one exists.
-    text_avatar_local: You can also upload a custom avatar that overrides the Gravatar by clicking the image. We recommend an image of 128 by 128 pixels.
-    text_avatar_local_only: You can upload a custom avatar by clicking the image. We recommend an image of 128 by 128 pixels.
     settings:
       enable_gravatars: Aktiviere Gravatare
-      gravatar_default: Standard-Gravatar-Bild
       enable_local_avatars: Selbsterstellte Profilbilder aktivieren
+      gravatar_default: Standard-Gravatar-Bild
+    text_avatar_gravatar_html: OpenProject verwendet Ihr Gravatar-Bild, sofern eines unter %{gravatar_url} registriert ist, andernfalls ein Standardbild oder -symbol, sofern vorhanden.
+    text_avatar_local: Sie können ein eigenes Profilbild hochladen, welches Gravatar überschreibt, indem Sie auf das Bild klicken. Wir empfehlen ein Bild mit einer Größe von 128 × 128 Pixel.
+    text_avatar_local_only: Sie können ein eigenes Profilbild hochladen, indem Sie auf das Bild klicken. Wir empfehlen ein Bild mit einer Größe von 128 × 128 Pixel.
+  empty_file_error: Bitte laden Sie ein gültiges Bild hoch (JPG, PNG, GIF)
+  error_image_size: Das Bild ist zu groß.
+  error_image_upload: Fehler beim Speichern des Bildes.
+  label_avatar: Profilfoto
+  label_avatar_plural: Avatars
+  label_choose_avatar: Profilbild aus Datei auswählen
+  label_current_avatar: Aktuelles Profilbild
+  message_avatar_uploaded: Das Porfilbild wurde erfolgreich geändert.
+  plugin_openproject_avatars:
+    description: Dieses Plugin erlaubt es OpenProject-Benutzern, Avatare hochzuladen oder von Gravatar zu übernehmen.
+    name: Avatars
+  unable_to_delete_avatar: Profilbild konnte nicht gelöscht werden.
+  wrong_file_format: Erlaubte Formate sind JPG, PNG und GIF

@@ -41,7 +41,7 @@ module Wikis
                 WikiPage.visible(auth_strategy.user)
                         .where("title ILIKE ?", "%#{input_data.query}%")
                         .limit(MAXIMUM_RESULTS)
-                        .map { PageInfo.wiki_page_to_page_info(it, provider:) }
+                        .map { PageHierarchy.wiki_page_to_page_hierarchy(it, provider:) }
               )
             end
           end

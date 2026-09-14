@@ -130,7 +130,7 @@ RSpec.describe CustomFieldFormBuilder do
                     name="user[#{custom_field.id}]"
                     with_text_formatting="true"
                     editor_type="constrained"
-                    macros="false">
+                    macros="wiki">
           </textarea>
         }).at_path("textarea")
       end

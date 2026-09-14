@@ -55,7 +55,7 @@ RSpec.describe "Team planner error handling",
 
   context "with full permissions", with_ee: %i[team_planner_view] do
     before do
-      project.types << type
+      project.project_types.create!(type:)
       project.save!
 
       team_planner.visit!

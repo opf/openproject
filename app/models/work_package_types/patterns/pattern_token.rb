@@ -36,17 +36,6 @@ module WorkPackageTypes
       def self.build(pattern)
         new(pattern, pattern.tr("{}", "").to_sym)
       end
-
-      def context
-        case key.to_s
-        when /^project_/
-          :project
-        when /^parent_/
-          :parent
-        else
-          :work_package
-        end
-      end
     end
   end
 end

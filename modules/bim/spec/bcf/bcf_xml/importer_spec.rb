@@ -36,7 +36,7 @@ RSpec.describe OpenProject::Bim::BcfXml::Importer do
       "application/octet-stream"
     )
   end
-  let(:type) { create(:type, name: "Issue", is_standard: true, is_default: true) }
+  let(:type) { create(:type, name: "Issue", default_variant_enabled_in_all_projects: true) }
   let(:project) do
     create(:project,
            identifier: "bim_project",

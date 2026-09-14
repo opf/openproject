@@ -94,6 +94,32 @@ RSpec.describe Filters::FilterFormComponent, type: :component do
     end
   end
 
+  describe "excluded_filters" do
+    it "drops the named filters from the Add filter options" do
+      render_form(query:, excluded_filters: [:status])
+
+      expect(page).to have_select "add_filter_select", with_options: %w[Name Username]
+      expect(page).to have_select "add_filter_select" do |select|
+        expect(select).to have_no_selector :option, text: "Status"
+      end
+    end
+
+    it "hides a filter even when it is already active on the query" do
+      query.where(:status, "=", ["active"])
+      render_form(query:, excluded_filters: [:status])
+
+      expect(page).to have_no_element "data-filter--filters-form-target": "filter",
+                                      "data-filter-name": "status",
+                                      visible: :all
+    end
+
+    it "keeps the full set when nothing is excluded" do
+      render_form(query:, excluded_filters: [])
+
+      expect(page).to have_select "add_filter_select", with_options: %w[Name Status Username]
+    end
+  end
+
   describe "wrap_with_controller:" do
     it "does not emit a controller wrapper by default" do
       render_form
@@ -214,9 +240,11 @@ RSpec.describe Filters::FilterFormComponent, type: :component do
     end
   end
 
-  describe "autocomplete_append_to:" do
-    # `appendTo` arrives at the angular component as a JSON-encoded data
-    # attribute (`angular_component_tag` json-encodes its `inputs:` hash).
+  describe "dialog_id:" do
+    let!(:date_field) { create(:user_custom_field, field_format: "date") }
+
+    # The overlay targets arrive at the angular components as JSON-encoded data
+    # attributes (`angular_component_tag` json-encodes its `inputs:` hash).
     def append_to_value_in(filter_name)
       page.find(:element,
                 "data-filter-name": filter_name,
@@ -226,21 +254,99 @@ RSpec.describe Filters::FilterFormComponent, type: :component do
           .then { |v| JSON.parse(v) }
     end
 
-    it "forwards the selector into the autocomplete options of ListForm filters" do
-      render_form(query:, autocomplete_append_to: "#dialog-x")
+    def in_dialog_values_in(filter_name)
+      page.find(:element,
+                "data-filter--filters-form-target": /filterValueContainer/,
+                "data-filter-name": filter_name,
+                visible: :all)
+          .all(:element, "data-in-dialog": /.*/, visible: :all)
+          .map { |picker| JSON.parse(picker["data-in-dialog"]) }
+    end
+
+    it "forwards the dialog selector into the autocomplete options of ListForm filters" do
+      render_form(query:, dialog_id: "dialog-x")
 
       # :status is a list filter (no native autocomplete_options) and is
       # routed to ListForm.
       expect(append_to_value_in("status")).to eq("#dialog-x")
     end
 
-    it "is absent from autocomplete data when not set" do
+    it "forwards the dialog id to the date pickers of DateForm filters" do
+      render_form(query:, dialog_id: "dialog-x")
+
+      expect(in_dialog_values_in("cf_#{date_field.id}")).to eq(%w[dialog-x dialog-x])
+    end
+
+    it "is absent from autocomplete and date picker data when not set" do
       render_form
 
       expect(page).to have_element "data-filter-name": "status",
                                    "data-filter-autocomplete": "true",
                                    visible: :all do |wrapper|
         expect(wrapper).to have_no_element "data-append-to": /.*/, visible: :all
+      end
+      expect(in_dialog_values_in("cf_#{date_field.id}")).to be_empty
+    end
+  end
+
+  describe "principal filters of a work package query" do
+    let(:query) { build_stubbed(:query, project: nil) }
+
+    current_user { create(:user) }
+
+    def autocompleter_in(filter_name)
+      page.find(:element,
+                "data-filter-name": filter_name,
+                "data-filter-autocomplete": "true",
+                visible: :all)
+          .find(:element, "opce-user-autocompleter", visible: :all)
+    end
+
+    def autocomplete_data_in(filter_name, attribute)
+      JSON.parse(autocompleter_in(filter_name)[attribute])
+    end
+
+    # `allowed_values` of these filters carries ids without labels, so an inline
+    # item list would offer nothing but the me value.
+    %w[assigned_to_id assignee_or_group author_id responsible_id].each do |filter_name|
+      it "routes #{filter_name} to a principals autocompleter rather than an inline item list" do
+        render_form
+
+        expect(autocomplete_data_in(filter_name, "data-resource")).to eq("principals")
+        expect(autocompleter_in(filter_name)["data-items"]).to be_nil
+      end
+
+      it "offers the me value on #{filter_name} without a label-less entry" do
+        render_form
+
+        expect(autocomplete_data_in(filter_name, "data-additional-options"))
+          .to contain_exactly({ "id" => "me", "name" => I18n.t(:label_me) })
+      end
+    end
+
+    context "when allowed to see watchers" do
+      let(:project) { create(:project) }
+
+      current_user do
+        create(:user, member_with_permissions: { project => [:view_work_package_watchers] })
+      end
+
+      it "routes watcher_id to a principals autocompleter as well" do
+        render_form
+
+        expect(autocomplete_data_in("watcher_id", "data-resource")).to eq("principals")
+        expect(autocomplete_data_in("watcher_id", "data-additional-options"))
+          .to contain_exactly({ "id" => "me", "name" => I18n.t(:label_me) })
+      end
+    end
+
+    it "leaves watcher_id on the inline item list without the watchers permission" do
+      render_form
+
+      expect(page).to have_element "data-filter-name": "watcher_id",
+                                   "data-filter-autocomplete": "true",
+                                   visible: :all do |wrapper|
+        expect(wrapper).to have_no_element "opce-user-autocompleter", visible: :all
       end
     end
   end

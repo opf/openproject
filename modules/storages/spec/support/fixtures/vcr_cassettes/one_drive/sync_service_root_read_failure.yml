@@ -59,7 +59,7 @@ http_interactions:
   recorded_at: Wed, 24 Jul 2024 19:16:47 GMT
 - request:
     method: get
-    uri: https://graph.microsoft.com/v1.0/drives/THIS-IS-NOT-A-DRIVE-ID/root/children?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference
+    uri: https://graph.microsoft.com/v1.0/drives/THIS-IS-NOT-A-DRIVE-ID/root/children?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference&$top=1000
     body:
       encoding: US-ASCII
       string: ''

@@ -24,4 +24,4 @@ hy:
   js:
     two_factor_authentication:
       errors:
-        aborted: The authentication was cancelled. Please try again.
+        aborted: Նույնականացումը չեղարկվել է։ Խնդրում ենք կրկին փորձել։

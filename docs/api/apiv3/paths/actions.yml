@@ -8,23 +8,11 @@ get:
       Currently supported filters are:
 
       + id: Returns only the action having the id or all actions except those having the id(s).
-    example: '[{ "id": { "operator": "=", "values": ["memberships/create"] }" }]'
+    example: '[{ "id": { "operator": "=", "values": ["memberships/create"] } }]'
     in: query
     name: filters
     required: false
     schema:
-      type: string
-  - description: |-
-      JSON specifying sort criteria.
-      Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported sorts are:
-
-      + *No sort supported yet*
-    example: '[["id", "asc"]]'
-    in: query
-    name: sortBy
-    required: false
-    schema:
-      default: '[["id", "asc"]]'
       type: string
   responses:
     '200':

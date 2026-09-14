@@ -40,18 +40,13 @@ RSpec.describe "OpenProject child pages macro" do
   end
 
   shared_let(:project) do
-    create(:valid_project,
-           enabled_module_names: %w[wiki])
+    create(:valid_project, :with_internal_wiki)
   end
   shared_let(:member_project) do
-    create(:valid_project,
-           identifier: "member-project",
-           enabled_module_names: %w[wiki])
+    create(:valid_project, :with_internal_wiki, identifier: "member-project")
   end
   shared_let(:invisible_project) do
-    create(:valid_project,
-           identifier: "other-project",
-           enabled_module_names: %w[wiki])
+    create(:valid_project, :with_internal_wiki, identifier: "other-project")
   end
   shared_let(:user) do
     create(:user, member_with_permissions: { project => [:view_wiki_pages],

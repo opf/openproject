@@ -41,5 +41,11 @@ module Meetings
       @meeting = meeting
       @meeting_participants = meeting.participants.sort_by { |p| [p.status_sorting_value, p.to_s.downcase] }
     end
+
+    private
+
+    def show_mark_all_attended?
+      !@meeting.participants.all?(&:attended?) && @meeting.in_progress?
+    end
   end
 end

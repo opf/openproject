@@ -16,7 +16,6 @@ The tenant of the Azure environment was not correctly communicated to the provid
 
 This has been fixed. If you are affected by this issue, please update to 15.0.1 and logins should be restored.
 
-
 ## Bug fixes and changes
 
 <!-- Warning: Anything within the below lines will be automatically removed by the release script -->

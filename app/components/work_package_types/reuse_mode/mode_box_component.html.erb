@@ -1,0 +1,64 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% if linked? %>
+  <%= render(OpPrimer::InsetBoxComponent.new(scheme: :info, h: :full)) do |box| %>
+    <% box.with_title_icon(icon: :link) %>
+    <% box.with_title { t("types.edit.reuse_mode.inherited.title") } %>
+    <% box.with_action_button(
+         tag: :a,
+         href: link_dialog_path,
+         data: { controller: "async-dialog", test_selector: "reuse-mode-change-source" }
+       ) { t("types.edit.reuse_mode.inherited.change_source") } %>
+    <% box.with_action_button(
+         tag: :a,
+         href: independent_dialog_path,
+         data: { controller: "async-dialog", test_selector: "reuse-mode-switch-to-independent" }
+       ) { t("types.edit.reuse_mode.inherited.configure_manually") } %>
+    <%= linked_description %>
+  <% end %>
+<% else %>
+  <%= render(OpPrimer::InsetBoxComponent.new(h: :full)) do |box| %>
+    <% box.with_title_icon(icon: :pencil) %>
+    <% box.with_title { t("types.edit.reuse_mode.manual.title") } %>
+    <% if copy_supported? %>
+      <% box.with_action_button(
+           tag: :a,
+           href: copy_dialog_path,
+           data: { controller: "async-dialog", test_selector: "reuse-mode-copy-from-variant" }
+         ) { t("types.edit.reuse_mode.manual.copy_from_type") } %>
+    <% end %>
+    <% box.with_action_button(
+         tag: :a,
+         href: link_dialog_path,
+         data: { controller: "async-dialog", test_selector: "reuse-mode-switch-to-linked" }
+       ) { t("types.edit.reuse_mode.manual.inherit_from_type") } %>
+    <%= t("types.edit.reuse_mode.manual.description") %>
+  <% end %>
+<% end %>

@@ -22,15 +22,15 @@
 ---
 fi:
   js:
-    text_are_you_sure: Oletko varma?
-    myTimeTracking:
-      noSpecificTime: No specific time
-    work_packages:
-      property_groups:
-        costs: Kustannukset
-      properties:
-        overallCosts: Kokonaiskustannukset
-        spentUnits: Käytetyt yksiköt
     button_log_costs: Kirjaa kustannuksia
     label_hour: tunti
     label_hours: tuntia
+    myTimeTracking:
+      noSpecificTime: No specific time
+    text_are_you_sure: Oletko varma?
+    work_packages:
+      properties:
+        overallCosts: Kokonaiskustannukset
+        spentUnits: Käytetyt yksiköt
+      property_groups:
+        costs: Kustannukset

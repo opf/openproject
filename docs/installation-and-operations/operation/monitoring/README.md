@@ -128,3 +128,44 @@ We provide the following health checks:
 ### Optional authentication
 
 You can optionally provide a setting `health_checks_authentication_password` (`OPENPROJECT_HEALTH__CHECKS__AUTHENTICATION__PASSWORD`) that will add a basic auth challenge to the `/health_checks` endpoint. Please be aware that this might break existing container health services in place in the docker-compose and k8s based deployments, so use with care or prefer to use a network based separation instead on your proxy level.
+
+## Logging concept
+
+This section describes how OpenProject supports common security logging requirements such as those defined by the BSI IT-Grundschutz module OPS.1.1.5 (A1 & A3), which require a range of security-relevant events to be logged in accordance with a logging concept.
+
+OpenProject covers **application-level logging**, including request logs, authentication-related events, application errors and security-relevant application behavior. Whether an event is logged depends on the configured [log level](#raising-the-log-level), which defaults to `info` and includes these events by default.
+
+OpenProject **does not** itself cover operating system, network, host, file-integrity or infrastructure audit events. Regardless of how OpenProject is deployed (packaged installation, Docker Compose, all-in-one Docker image, Kubernetes/Helm or Terraform), logging responsibility is distributed across several layers:
+
+- **OpenProject application logs**: request logs, authentication events, application errors and security-relevant application behavior.
+- **Deployment platform logs**: events from the platform running OpenProject, for example systemd/`journalctl` on packaged installs, container logs on Docker/Compose, or workload lifecycle, secrets/configuration changes and RBAC on Kubernetes.
+- **Infrastructure / provider logs**: operated by the platform operator or infrastructure provider (OS, container runtime, storage, network, host-level), including resources managed through infrastructure-as-code such as Terraform.
+
+Application logs are available through the standard logging sinks described above (`journalctl`, `docker logs`, STDOUT) and can be forwarded to a central logging system or through OpenTelemetry integrations.
+
+### Coverage of security logging requirements
+
+The following table maps common security logging requirements to the layer that covers them and OpenProject's scope for each.
+
+| Logging requirement | Covered by | Coverage |
+| ------------------- | ---------- | -------- |
+| Creation/modification of OpenProject users, groups and permissions | OpenProject | **Covered by application logging** for events in OpenProject. Available through the standard logging sinks, or through OpenTelemetry integrations. |
+| Platform users, service accounts, roles and permissions | Deployment platform | Responsibility of the platform operator or infrastructure provider (e.g. Kubernetes RBAC and service accounts). |
+| Changes to access credentials | OpenProject, Deployment platform, IdP | **Covered by application logging** for events in OpenProject. Secret and configuration changes at the platform level can be covered by the platform's audit logs (e.g. Kubernetes audit logs). |
+| Successful/failed logins and logouts | OpenProject, IdP | **Covered by application logging** for all internal login requests. Externally delegated requests (e.g. OIDC) are expected to be logged by the identity provider and do not reach the application server. |
+| Access to system, program and file resources | Infrastructure provider / operator | Not covered by OpenProject application logs. Requires OS, container runtime, storage or host-level logging. |
+| System starts, restarts and shutdowns | Deployment platform, Infrastructure provider | Not covered by OpenProject application logs. Requires OS, container runtime, storage or host-level logging. |
+| Execution of applications, programs and scripts | OpenProject, Deployment platform, Infrastructure provider | **Covered for OpenProject executions** through application logging. The deployment platform covers workload, container and scheduled job starts. Detailed process execution inside containers requires additional runtime/host security tooling. |
+| Installations and uninstallations | Deployment platform, Infrastructure provider | Covered by the platform through deployment, image and resource changes (e.g. Helm, GitOps or Terraform). OS package-level installation logs are outside OpenProject. |
+| Configuration and system changes | Deployment platform, Infrastructure provider | Covered by the platform through its managed resources (e.g. Kubernetes API or Terraform state). Infrastructure changes are covered by infrastructure/cloud provider or operator logs where applicable. |
+| Process information | Deployment platform, Infrastructure provider | Partially covered by platform workload lifecycle events. Detailed process start/termination inside containers requires runtime or host monitoring. |
+| System/file integrity | Infrastructure provider / operator | Not covered by OpenProject. Requires host, container runtime, file-integrity monitoring or EDR/XDR tooling. |
+| Program and system crashes | OpenProject, Deployment platform | Covered by OpenProject application logs for web and background processes. The deployment platform covers container/process status, restart and failure events. |
+| Network boundary communication | Deployment platform, Infrastructure provider | Not covered by OpenProject itself. Covered by ingress, proxy, firewall, service mesh, network policy, cloud or infrastructure logging where implemented. |
+| Communication within networks and between IT systems | Deployment platform, Infrastructure provider | Partially covered by network infrastructure, service mesh, ingress/proxy and monitoring/logging tools where implemented. |
+| Network infrastructure security events | Deployment platform, Infrastructure provider | Outside OpenProject application scope. Covered by the platform operator, network layer or infrastructure provider. |
+
+### References
+
+- Every request is logged with the acting user, HTTP method, route and performed action. See [Logging information](#logging-information) above and the [`ApplicationController` request logging](https://github.com/opf/openproject/blob/v17.6.0/app/controllers/application_controller.rb#L207-L215).
+- All request logs, including status, routes and performed action, are part of the Ruby on Rails framework standards.

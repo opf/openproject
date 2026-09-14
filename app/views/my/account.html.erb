@@ -29,6 +29,10 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title(t(:label_my_account), t(:label_account)) -%>
 
+<% content_for :header_tags do %>
+  <meta name="turbo-cache-control" content="no-cache">
+<% end %>
+
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
     header.with_title { t(:label_account) }

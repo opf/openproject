@@ -235,7 +235,7 @@ RSpec.describe "Create", :js do
   end
 
   context "with the project receiving sprints from another project" do
-    let(:project) { create(:project, sprint_sharing: Projects::SprintSharing::RECEIVE_SHARED) }
+    let(:project) { create(:project, sprint_sharing: Projects::SprintSettings::RECEIVE_SHARED) }
 
     it "is missing the 'new sprint' button" do
       planning_page.visit!

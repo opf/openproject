@@ -67,6 +67,46 @@ RSpec.describe Settings::WorkingDaysAndHoursParamsContract do
 
       include_examples "contract is invalid", base: :previous_working_day_changes_unprocessed
     end
+
+    # Regression OP-19861: a still running job must also block further working-days
+    # changes. Previously check_concurrency used advisory_unlocked and allowed a second
+    # save while ApplyWorkingDaysChangeJob was still running.
+    # GoodJob then aborted enqueue of the follow-up job, leaving new non-working days unapplied.
+    context "with an #{job_class} currently performing", with_good_job: job_class do
+      let(:params) { { working_days: [1, 2, 3], hours_per_day: 8 } }
+
+      around do |example|
+        job_class
+          .set(wait: 10.minutes)
+          .perform_later(user_id: current_user.id,
+                         previous_non_working_days: [],
+                         previous_working_days: [1, 2, 3, 4])
+
+        good_job = GoodJob::Job.order(:created_at).last
+        good_job.update_columns(performed_at: Time.current)
+
+        lock_held = Concurrent::Event.new
+        release_lock = Concurrent::Event.new
+
+        thread = Thread.new do
+          ActiveRecord::Base.connection_pool.with_connection do
+            good_job.advisory_lock!
+            lock_held.set
+            release_lock.wait(5)
+            good_job.advisory_unlock!
+          end
+        end
+
+        raise "failed to acquire advisory lock on job" unless lock_held.wait(5)
+
+        example.run
+      ensure
+        release_lock&.set
+        thread&.join(5)
+      end
+
+      include_examples "contract is invalid", base: :previous_working_day_changes_unprocessed
+    end
   end
 
   describe "0 durations" do

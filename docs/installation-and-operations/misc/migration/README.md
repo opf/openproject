@@ -112,6 +112,6 @@ After you restored all data and updated your installer.dat, all you need to do i
 openproject configure
 ```
 
-It will take all values from your previous installation. *It may ask you additional wizard questions*  for new features that did not exist on the old installations, or the ones you removed/left empty in the `installer.dat` file.
+It will take all values from your previous installation. _It may ask you additional wizard questions_  for new features that did not exist on the old installations, or the ones you removed/left empty in the `installer.dat` file.
 
 This step will also perform database migrations, install and configure all necessary dependencies and start the server.

@@ -3,7 +3,7 @@
 get:
   parameters:
   - description: Document id
-    example: '1'
+    example: 1
     in: path
     name: id
     required: true
@@ -87,7 +87,7 @@ get:
 patch:
   parameters:
   - description: Document id
-    example: '1'
+    example: 1
     in: path
     name: id
     required: true

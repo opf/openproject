@@ -25,7 +25,6 @@ In some cases, you may need to set `ProxyPreserveHost On` (Apache2) or `proxy_se
 For more information on these changes, see the installation guides for your installation method of choice:
 [Installation documentation](../../../installation-and-operations/installation/)
 
-
 This choice will reduce the chance of errors in configuration while preventing the possibility of a host header injection from within the application - a common security vulnerability if not prevented at the proxying server itself.
 
 ### Create multiple API access tokens

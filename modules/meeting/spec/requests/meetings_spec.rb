@@ -45,7 +45,7 @@ RSpec.describe "Meeting requests",
   describe "Meetings index" do
     context "when sorting by meeting type" do
       it "does not raise an error (Regression #55839)" do
-        get meetings_path(sort: "type", filters: '[{"time":{"operator":"=","values":["future"]}}]')
+        get meetings_path(sort: "type", filters: '[{"time":{"operator":"upcoming","values":[]}}]')
         expect(response).to have_http_status(:ok)
         expect(response.body).to have_text(meeting.title)
       end

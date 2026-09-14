@@ -35,11 +35,11 @@ module ResourcePlannerViews::UserCardList
 
     DIALOG_ID = "user-allocations-dialog"
 
-    def initialize(project:, resource_planner:, user:, allocations:, overbooked_ids: Set.new)
+    def initialize(project:, view:, user:, allocations:, overbooked_ids: Set.new)
       super
 
       @project = project
-      @resource_planner = resource_planner
+      @view = view
       @user = user
       @allocations = allocations
       @overbooked_ids = overbooked_ids
@@ -47,7 +47,13 @@ module ResourcePlannerViews::UserCardList
 
     private
 
-    attr_reader :project, :resource_planner, :user, :allocations, :overbooked_ids
+    attr_reader :project, :view, :user, :allocations, :overbooked_ids
+
+    # The card view always belongs to a planner, which carries the utilization
+    # window.
+    def resource_planner
+      @view.parent
+    end
 
     def title
       I18n.t("resource_management.user_allocations_dialog.title")
@@ -127,11 +133,11 @@ module ResourcePlannerViews::UserCardList
     end
 
     def allocate_work_package_path
-      new_project_resource_allocation_path(project, principal_id: user.id, resource_planner_id: resource_planner.id)
+      new_project_resource_allocation_path(project, principal_id: user.id, resource_planner_view_id: view.id)
     end
 
     def edit_allocation_path(allocation)
-      edit_project_resource_allocation_path(project, allocation, resource_planner_id: resource_planner.id)
+      edit_project_resource_allocation_path(project, allocation, resource_planner_view_id: view.id)
     end
 
     def delete_allocation_path(allocation)

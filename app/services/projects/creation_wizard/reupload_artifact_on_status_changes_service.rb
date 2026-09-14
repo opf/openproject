@@ -41,17 +41,18 @@ module Projects::CreationWizard
       @artifact_work_package = work_package
     end
 
+    def self.applicable?(work_package:, changes:)
+      return false if changes["status_id"].blank?
+
+      work_package.project.project_creation_wizard_artifact_work_package_id.to_s == work_package.id.to_s
+    end
+
     def call!(changes:)
-      return if changes["status_id"].blank?
-      return unless update_is_artifact_work_package?
+      return unless self.class.applicable?(work_package: artifact_work_package, changes:)
 
       User.execute_as_admin(current_user) do
         update_artifact
       end
-    end
-
-    def update_is_artifact_work_package?
-      project.project_creation_wizard_artifact_work_package_id.to_s == artifact_work_package.id.to_s
     end
 
     private

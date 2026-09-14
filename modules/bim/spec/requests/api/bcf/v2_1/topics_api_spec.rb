@@ -127,7 +127,7 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
             modified_author: current_user.mail,
             modified_date: work_package.updated_at.iso8601(3),
             reference_links: [
-              api_v3_paths.work_package(work_package.id)
+              api_v3_paths.work_package(work_package.display_id)
             ],
             stage: bcf_issue.stage,
             title: work_package.subject,
@@ -482,11 +482,7 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
   describe "POST /api/bcf/2.1/projects/:project_id/topics" do
     let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics" }
     let(:current_user) { edit_member_user }
-    let(:type) do
-      create(:type).tap do |t|
-        project.types << t
-      end
-    end
+    let(:type) { create(:type) }
     let(:status) do
       create(:status)
     end
@@ -507,10 +503,7 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
       end
     end
     let!(:default_type) do
-      create(:type, is_default: true)
-    end
-    let!(:standard_type) do
-      create(:type_standard)
+      create(:type, default_variant_enabled_in_all_projects: true)
     end
     let!(:priority) do
       create(:priority)
@@ -538,6 +531,12 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
     end
 
     before do
+      [type, default_type].uniq.each do |enabled_type|
+        project.project_types.find_or_create_by!(type_id: enabled_type.id) do |pt|
+          pt.variant = enabled_type.default_variant
+        end
+      end
+
       login_as(current_user)
       other_status
       post path, params.to_json
@@ -590,28 +589,35 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
 
       {
         guid: issue&.uuid,
-        topic_type: (base && base.type.name) || type.name,
-        topic_status: (base && base.status.name) || default_status.name,
-        priority: (base && base.priority.name) || default_priority.name,
+        topic_type: base_attribute_name(base, :type, type),
+        topic_status: base_attribute_name(base, :status, default_status),
+        priority: base_attribute_name(base, :priority, default_priority),
         title:,
         labels: [],
         index: nil,
         reference_links: [
-          api_v3_paths.work_package(work_package&.id)
+          api_v3_paths.work_package(work_package.display_id)
         ],
         assigned_to: assigned_to || base&.assigned_to&.mail,
         due_date: due_date || base&.due_date,
         stage: nil,
         creation_author: creation_author_mail,
-        creation_date: work_package&.created_at,
+        creation_date: work_package.created_at,
         modified_author: modified_author_mail,
-        modified_date: work_package&.updated_at,
+        modified_date: work_package.updated_at,
         description: description || base&.description,
         authorization: {
-          topic_status: [(base && base.status.name) || default_status.name],
+          topic_status: [base_attribute_name(base, :status, default_status)],
           topic_actions: %w[update updateRelatedTopics updateFiles createViewpoint]
         }
       }
+    end
+
+    # Returns the `.name` of `base`'s associated record (e.g. its type/status/
+    # priority), falling back to the given default record when no base work
+    # package is provided.
+    def base_attribute_name(base, association, default)
+      (base ? base.public_send(association) : default).name
     end
 
     context "with minimal parameters" do
@@ -738,11 +744,7 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
   describe "PUT /api/bcf/2.1/projects/:project_id/topics/:guid" do
     let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics/#{bcf_issue.uuid}" }
     let(:current_user) { edit_member_user }
-    let!(:type) do
-      create(:type).tap do |t|
-        project.types << t
-      end
-    end
+    let!(:type) { create(:type) }
     let(:status) do
       create(:status)
     end
@@ -763,9 +765,7 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
       create(:default_status)
     end
     let!(:default_type) do
-      create(:type, is_default: true).tap do |t|
-        project.types << t
-      end
+      create(:type, default_variant_enabled_in_all_projects: true)
     end
     let!(:priority) do
       create(:priority)
@@ -789,6 +789,18 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
     end
 
     before do
+      # Create the existing topic while the project still only has the type its factory gave it.
+      # Enabling `type` first would make FactoryBot assign that type to the WP (lower
+      # position than the type created later), so a PUT with topic_type: type
+      # would not change type_id and then fail status-transition validation.
+      bcf_issue
+
+      [type, default_type].uniq.each do |enabled_type|
+        project.project_types.find_or_create_by!(type_id: enabled_type.id) do |pt|
+          pt.variant = enabled_type.default_variant
+        end
+      end
+
       login_as(current_user)
       other_status
       put path, params.to_json

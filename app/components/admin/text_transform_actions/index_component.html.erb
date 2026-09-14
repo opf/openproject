@@ -1,0 +1,106 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= component_wrapper(data: wrapper_data_attributes) do %>
+  <% unless assistant_enabled? %>
+    <%=
+      render(
+        Primer::Alpha::Banner.new(
+          scheme: :warning,
+          mb: 3,
+          test_selector: "text-transform-actions-disabled-banner"
+        )
+      ) do
+        t(".disabled_warning")
+      end
+    %>
+  <% end %>
+
+  <%=
+    render(
+      OpenProject::Common::BorderBoxListComponent.new(
+        container: "text-transform-actions",
+        empty_state_behavior: :dynamic,
+        test_selector: "text-transform-actions-list",
+        data: list_data
+      )
+    ) do |list|
+      list.with_header(title: t(".title")) do |header|
+        header.with_action_button(
+          tag: :a,
+          href: enable_all_admin_text_transform_actions_path,
+          disabled: !assistant_enabled?,
+          scheme: :invisible,
+          font_weight: :bold,
+          color: :subtle,
+          aria: { label: t(".label_enable_all") },
+          test_selector: "enable-all-text-transform-actions",
+          data: { turbo_method: :put, turbo_stream: true }
+        ) do |button|
+          button.with_leading_visual_icon(icon: "check-circle", color: :subtle)
+          t(".label_enable_all")
+        end
+        header.with_action_button(
+          tag: :a,
+          href: disable_all_admin_text_transform_actions_path,
+          disabled: !assistant_enabled?,
+          scheme: :invisible,
+          font_weight: :bold,
+          color: :subtle,
+          aria: { label: t(".label_disable_all") },
+          test_selector: "disable-all-text-transform-actions",
+          data: { turbo_method: :put, turbo_stream: true }
+        ) do |button|
+          button.with_leading_visual_icon(icon: "x-circle", color: :subtle)
+          t(".label_disable_all")
+        end
+      end
+
+      list.with_empty_state(
+        title: t(".blank_slate.title"),
+        description: t(".blank_slate.description"),
+        icon: :sparkle
+      )
+
+      text_transform_actions.each do |text_transform_action|
+        list.with_item(
+          test_selector: "text-transform-action-row-#{text_transform_action.id}",
+          data: item_data(text_transform_action)
+        ) do
+          render(
+            Admin::TextTransformActions::RowComponent.new(
+              text_transform_action,
+              toggles_enabled: assistant_enabled?
+            )
+          )
+        end
+      end
+    end
+  %>
+<% end %>

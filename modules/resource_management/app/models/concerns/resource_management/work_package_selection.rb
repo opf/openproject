@@ -29,14 +29,50 @@
 #++
 
 module ResourceManagement
-  # Shared behaviour for planner views that select work packages through a
-  # work-package `Query`, in manual (hand-picked) or automatic (filtered) mode.
-  # The work-package-list and -timeline views differ only in how they render it.
   module WorkPackageSelection
     extend ActiveSupport::Concern
 
     # The "ow" (ordered work packages) filter restricts results to a hand-picked set.
     MANUAL_FILTER_NAME = "manual_sort"
+
+    # Work package queries advertise roughly fifty filters, most of which exist
+    # to back autocompleters, full-text search, storage integrations or relation
+    # lookups rather than resource planning. Only the attributes a planner
+    # allocates by are offered, plus custom fields.
+    #
+    # `ProjectFilter` is deliberately absent: the view is always scoped to its
+    # planner's project and a configured filter must not override that scoping.
+    CONFIGURATION_FILTERS = [
+      ::Queries::WorkPackages::Filter::CustomFieldFilter,
+      ::Queries::WorkPackages::Filter::AncestorFilter,
+      ::Queries::WorkPackages::Filter::AssignedToFilter,
+      ::Queries::WorkPackages::Filter::AssigneeOrGroupFilter,
+      ::Queries::WorkPackages::Filter::AuthorFilter,
+      ::Queries::WorkPackages::Filter::CategoryFilter,
+      ::Queries::WorkPackages::Filter::CreatedAtFilter,
+      ::Queries::WorkPackages::Filter::DatesIntervalFilter,
+      ::Queries::WorkPackages::Filter::DoneRatioFilter,
+      ::Queries::WorkPackages::Filter::DueDateFilter,
+      ::Queries::WorkPackages::Filter::DurationFilter,
+      ::Queries::WorkPackages::Filter::EstimatedHoursFilter,
+      ::Queries::WorkPackages::Filter::GroupFilter,
+      ::Queries::WorkPackages::Filter::IdFilter,
+      ::Queries::WorkPackages::Filter::ParentFilter,
+      ::Queries::WorkPackages::Filter::PriorityFilter,
+      ::Queries::WorkPackages::Filter::ProjectPhaseFilter,
+      ::Queries::WorkPackages::Filter::ResponsibleFilter,
+      ::Queries::WorkPackages::Filter::RoleFilter,
+      ::Queries::WorkPackages::Filter::StartDateFilter,
+      ::Queries::WorkPackages::Filter::StatusFilter,
+      ::Queries::WorkPackages::Filter::SubjectFilter,
+      ::Queries::WorkPackages::Filter::TargetVersionsFilter,
+      ::Queries::WorkPackages::Filter::TypeFilter,
+      ::Queries::WorkPackages::Filter::UpdatedAtFilter
+    ].freeze
+
+    # The custom field filter's key is a `cf_<id>` pattern rather than a single
+    # name, hence the `===` match rather than a set lookup.
+    CONFIGURATION_FILTER_KEYS = CONFIGURATION_FILTERS.map(&:key).freeze
 
     included do
       validate :query_must_be_work_package_query
@@ -72,7 +108,48 @@ module ResourceManagement
       effective_query&.results&.work_packages || WorkPackage.none
     end
 
+    # A manually-picked view pins its hand-chosen ids; an automatic view forwards
+    # its query filters so the API filters server-side instead of materialising a
+    # potentially huge id list.
+    def allocation_work_package_filters
+      if manually_picked?
+        # `reorder(nil)` drops the manual-sort ordering: it is irrelevant for a
+        # filter set and its `ORDER BY ordered_work_packages.position` clashes
+        # with the id-only GROUP BY otherwise.
+        [{ name: "id", operator: "=", values: work_packages.reorder(nil).ids.map(&:to_s) }]
+      else
+        dump_query_filters(effective_query)
+      end
+    end
+
+    def allocation_principal_filters
+      nil
+    end
+
+    # The filters offered when configuring the view, alphabetically as they
+    # appear in the picker. Takes the query rather than reading `effective_query`
+    # so the new-view dialog can advertise them before the view has one.
+    def configuration_filters(query)
+      return [] if query.nil?
+
+      query.available_advanced_filters
+           .select { |filter| configuration_filter?(filter.name) }
+           .sort_by(&:human_name)
+    end
+
+    def configuration_filter?(name)
+      CONFIGURATION_FILTER_KEYS.any? { |key| key === name.to_sym }
+    end
+
     private
+
+    # The view's filters were originally built from API-v3 filter JSON, so
+    # dumping `field`/`operator`/`values` round-trips back into that format.
+    def dump_query_filters(query)
+      (query&.filters || []).map do |filter|
+        { name: filter.field.to_s, operator: filter.operator, values: filter.values }
+      end
+    end
 
     # Overridable so each view type labels its persisted query appropriately.
     def query_name_i18n_key
@@ -97,9 +174,16 @@ module ResourceManagement
       # ordered_work_packages.
       query.sort_criteria = [%w[id asc]] if query.manually_sorted?
 
-      parse_filters(filters_json).each do |filter|
+      allowed_configuration_filters(parse_filters(filters_json)).each do |filter|
         query.add_filter(filter[:attribute], filter[:operator], filter[:values])
       end
+    end
+
+    # Drops anything the configuration UI does not offer, so a hand-crafted
+    # payload cannot smuggle in a withheld filter — the project filter in
+    # particular, which would override the built-in project scoping.
+    def allowed_configuration_filters(filters)
+      filters.select { |filter| configuration_filter?(filter[:attribute]) }
     end
 
     def parse_filters(filters_json)

@@ -2,6 +2,6 @@
 zh-CN:
   js:
     work_packages:
-      label_gantt_chart_plural: 甘特图
       default_queries:
         milestones: 里程碑
+      label_gantt_chart_plural: 甘特图

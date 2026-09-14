@@ -290,4 +290,44 @@ RSpec.describe TimeEntriesController do
       end
     end
   end
+
+  describe "#update" do
+    let(:user) { create(:admin) } # so we don't have to mock permissions'
+    let!(:time_entry) { create(:time_entry, user: other_user, project: project1, entity: work_package1) }
+
+    render_views
+
+    def update_with_user_id(user_id)
+      put :update,
+          params: {
+            id: time_entry.id,
+            time_entry: {
+              user_id:,
+              show_user: "true",
+              show_work_package: "true",
+              hours: "1",
+              spent_on: Time.zone.today.iso8601
+            }
+          },
+          format: :turbo_stream
+    end
+
+    context "when the submitted user does not resolve to a record" do
+      it "re-renders the form for a blank user_id" do
+        update_with_user_id("")
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body).to include("time_entry_user_id")
+        expect(time_entry.reload.user).to eq(other_user)
+      end
+
+      it "re-renders the form for a non-existent user_id" do
+        update_with_user_id(User.maximum(:id) + 1)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body).to include("time_entry_user_id")
+        expect(time_entry.reload.user).to eq(other_user)
+      end
+    end
+  end
 end

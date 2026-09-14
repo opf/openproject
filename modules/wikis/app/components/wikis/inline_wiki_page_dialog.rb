@@ -36,6 +36,17 @@ module Wikis
 
     def form_id = "#{DIALOG_ID}-form"
 
+    def title
+      case model.key
+      when :inline_new_wiki_page
+        t(".title_create")
+      when :inline_existing_wiki_page
+        t(".title_add")
+      else
+        raise ArgumentError, "#{model.key} is not a supported key."
+      end
+    end
+
     def form_options
       if model.final_step?
         {

@@ -44,11 +44,24 @@ RSpec.describe "Backlogs project settings sprint sharing", :js do
 
   context "with share_sprint permission and enterprise token",
           with_ee: [:sprint_sharing] do
+    context "when multiple active sprints are enabled" do
+      before { project.update!(allow_multiple_active_sprints: true) }
+
+      it "shows a message instead of the form" do
+        visit project_settings_backlog_sharing_path(project)
+
+        expect(page).to have_text(
+          I18n.t("projects.settings.backlogs.sharing_form_component.disabled_due_to_multiple_active_sprints")
+        )
+        expect(page).to have_no_button("Save")
+      end
+    end
+
     it "displays and stores sprint sharing settings" do
       visit project_settings_backlog_sharing_path(project)
 
       expect(page).to have_link(
-        "Sharing",
+        "Sprint sharing",
         href: project_settings_backlog_sharing_path(project)
       )
 

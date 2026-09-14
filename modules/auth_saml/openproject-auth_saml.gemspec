@@ -12,6 +12,6 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{app,lib}/**/*"] + %w(README.md)
 
-  s.add_dependency "omniauth-saml", "~> 1.10.6"
+  s.add_dependency "omniauth-saml", "~> 2.2"
   s.metadata["rubygems_mfa_required"] = "true"
 end

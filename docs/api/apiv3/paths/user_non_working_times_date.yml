@@ -22,7 +22,7 @@ get:
         User id. Use `me` to reference the current user.
       schema:
         type: string
-      example: 42
+      example: '42'
     - name: non_working_time_id
       in: path
       required: true
@@ -83,7 +83,7 @@ patch:
         User id. Use `me` to reference the current user.
       schema:
         type: string
-      example: 42
+      example: '42'
     - name: non_working_time_id
       in: path
       required: true
@@ -184,7 +184,7 @@ delete:
         User id. Use `me` to reference the current user.
       schema:
         type: string
-      example: 42
+      example: '42'
     - name: non_working_time_id
       in: path
       required: true

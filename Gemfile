@@ -38,10 +38,10 @@ ruby File.read(File.expand_path(".ruby-version", __dir__)).strip
 
 gem "actionpack-xml_parser", "~> 2.0.0"
 gem "activemodel-serializers-xml", "~> 1.0.1"
-gem "activerecord-import", "~> 2.2.0"
-gem "activerecord-session_store", "~> 2.2.0"
+gem "activerecord-import", "~> 2.3.0"
+gem "activerecord-session_store", "~> 2.3.0"
 gem "ox"
-gem "rails", "~> 8.1.3"
+gem "rails", "~> 8.1.3", ">= 8.1.3.1"
 gem "responders", "~> 3.2"
 
 gem "ffi", "~> 1.17"
@@ -50,10 +50,9 @@ gem "connection_pool", "~> 3.0.2"
 
 gem "rdoc", ">= 2.4.2"
 
-gem "doorkeeper", "~> 5.9.3"
-# Maintain our own omniauth due to relative URL root issues
-# see upstream PR: https://github.com/omniauth/omniauth/pull/903
-gem "omniauth", git: "https://github.com/opf/omniauth", ref: "7eb21563ba047ef86d71f099975587b5ec88f9c9"
+gem "doorkeeper", "~> 5.9.6"
+gem "omniauth", "~> 2.1"
+gem "omniauth-rails_csrf_protection", "~> 2.0"
 gem "request_store", "~> 1.7.0"
 
 gem "warden", "~> 1.2"
@@ -69,8 +68,8 @@ gem "scimitar", "~> 2.13"
 gem "acts_as_list", "~> 1.2.6"
 gem "acts_as_tree", "~> 2.9.0"
 gem "awesome_nested_set", "~> 3.9.0"
-gem "closure_tree", "~> 9.7.0"
-gem "rubytree", "~> 2.2.0"
+gem "closure_tree", "~> 9.8.0"
+gem "rubytree", "~> 2.2.2"
 
 gem "addressable", "~> 2.9.0"
 
@@ -87,7 +86,7 @@ gem "htmldiff"
 gem "stringex", "~> 2.8.5"
 
 # CommonMark markdown parser with GFM extension
-gem "commonmarker", "~> 2.8.2"
+gem "commonmarker", "~> 2.10.0"
 
 # HTML pipeline for transformations on text formatter output
 # such as sanitization or additional features
@@ -112,10 +111,10 @@ gem "svg-graph", "~> 2.2.0"
 gem "date_validator", "~> 0.12.0"
 gem "email_validator", "~> 2.2.3"
 gem "json_schemer", "~> 2.5.0"
+gem "msgpack", "~> 1.8.4"
 gem "ruby-duration", "~> 3.2.0"
-gem "msgpack", "~> 1.8.3"
 
-gem "mail", "2.9.0"
+gem "mail", "2.9.1"
 
 gem "csv", "~> 3.3"
 
@@ -124,11 +123,10 @@ gem "sys-filesystem", "~> 1.6.0", require: false
 
 gem "bcrypt", "~> 3.1.22"
 
-gem "multi_json", "~> 1.20.0"
-gem "oj", "~> 3.17.3"
+gem "multi_json", "~> 1.21.0"
 
 gem "daemons"
-gem "good_job", "~> 4.19.0" # update should be done manually in sync with saas-openproject version.
+gem "good_job", "~> 4.19.2" # update should be done manually in sync with saas-openproject version.
 
 gem "rack-protection", "~> 3.2.0"
 
@@ -145,7 +143,7 @@ gem "browser", "~> 6.2.0"
 gem "okcomputer", "~> 1.19.1"
 
 # Lograge to provide sane and non-verbose logging
-gem "lograge", "~> 0.14.0"
+gem "lograge", "~> 0.15.0"
 
 # Structured warnings to selectively disable them in production
 gem "structured_warnings", "~> 0.5.0"
@@ -154,29 +152,29 @@ gem "structured_warnings", "~> 0.5.0"
 # don't require by default, instead load on-demand when actually configured
 gem "airbrake", "~> 13.0.0", require: false
 
-gem "markly", "~> 0.15" # another markdown parser like commonmarker, but with AST support used in PDF export
-gem "md_to_pdf", git: "https://github.com/opf/md-to-pdf", ref: "0cb4597becd2243b810e7ce53bbbbf28b5f05844"
+gem "markly", "~> 0.17" # another markdown parser like commonmarker, but with AST support used in PDF export
+gem "md_to_pdf", git: "https://github.com/opf/md-to-pdf", ref: "a0c4345367e4b9fc869e0da191ec56bcc24bd877"
 gem "prawn", "~> 2.4"
 gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues/1346 resolved.
 
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.3"
 
-gem "mcp", "~> 0.20.0"
+gem "mcp", "~> 1.3.0"
 
 gem "meta-tags", "~> 2.23.0"
 
 gem "paper_trail", "~> 17.0.0"
 
 # State machine with audit trail
-gem "statesman", "~> 13.1.0"
+gem "statesman", "~> 13.3.0"
 
 gem "job-iteration"
 
 gem "op-clamav-client", "~> 3.4", require: "clamav"
 
 # Global ID for polymorphic associations
-gem "globalid", "~> 1.3"
+gem "globalid", "~> 1.4"
 
 # Recurring meeting events definition
 gem "ice_cube", "~> 0.17.0"
@@ -184,8 +182,8 @@ gem "ice_cube", "~> 0.17.0"
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.6+
-  gem "dalli", "~> 5.0.0"
-  gem "redis", "~> 5.4.0"
+  gem "dalli", "~> 5.1.0"
+  gem "redis", "~> 6.0.0"
 end
 
 gem "i18n-js", "~> 4.2.4"
@@ -205,17 +203,17 @@ gem "carrierwave_direct", "~> 3.0.0"
 gem "fog-aws"
 gem "ssrf_filter", "~> 1.3"
 
-gem "aws-sdk-core", "~> 3.251"
+gem "aws-sdk-core", "~> 3.254"
 # File upload via fog + screenshots on travis
-gem "aws-sdk-s3", "~> 1.225"
+gem "aws-sdk-s3", "~> 1.229"
 
-gem "openproject-token", "~> 8.10.0"
+gem "openproject-token", "~> 8.12.0"
 
 gem "plaintext", "~> 0.3.7"
 
 gem "ruby-progressbar", "~> 1.13.0", require: false
 
-gem "mini_magick", "~> 5.3.0", require: false
+gem "mini_magick", "~> 5.3.3", require: false
 
 gem "validate_url"
 
@@ -225,10 +223,10 @@ gem "dry-monads"
 gem "dry-validation"
 
 # ActiveRecord extension which adds typecasting to store accessors
-gem "store_attribute", "~> 2.0"
+gem "store_attribute", "~> 2.2"
 
 # Appsignal integration
-gem "appsignal", "~> 4.8", require: false
+gem "appsignal", "~> 4.10", require: false
 
 # Yabeda integration
 gem "yabeda-activerecord"
@@ -238,10 +236,10 @@ gem "yabeda-rails"
 
 # opentelemetry
 gem "opentelemetry-exporter-otlp", "~> 0.34.0", require: false
-gem "opentelemetry-instrumentation-all", "~> 0.94.0", require: false
-gem "opentelemetry-sdk", "~> 1.10", require: false
+gem "opentelemetry-instrumentation-all", "~> 0.96.0", require: false
+gem "opentelemetry-sdk", "~> 1.13", require: false
 
-gem "view_component", "~> 4.12.0"
+gem "view_component", "~> 4.15.0"
 # Lookbook
 gem "lookbook", "2.3.14"
 
@@ -252,10 +250,10 @@ gem "factory_bot", "~> 6.6.0", require: false
 # require factory_bot_rails for convenience in core development
 gem "factory_bot_rails", "~> 6.5.0", require: false
 
-gem "turbo_power", "~> 0.7.0"
+gem "turbo_power", "~> 0.8.0"
 gem "turbo-rails", "~> 2.0.20"
 
-gem "httpx", "~> 1.7.5"
+gem "httpx", "~> 1.8.2"
 
 # Brings actual deep-freezing to most ruby objects
 gem "ice_nine"
@@ -267,7 +265,7 @@ group :test do
 
   # Test prof provides factories from code
   # and other niceties
-  gem "test-prof", "~> 1.6.0"
+  gem "test-prof", "~> 1.6.3"
   gem "turbo_tests", github: "opf/turbo_tests", ref: "with-patches"
 
   gem "rack_session_access"
@@ -286,7 +284,7 @@ group :test do
   gem "climate_control"
 
   # XML comparison tests
-  gem "compare-xml", "~> 0.66", require: false
+  gem "compare-xml", "~> 1.0", require: false
 
   # PDF Export tests
   gem "pdf-inspector", "~> 1.2"
@@ -297,10 +295,10 @@ group :test do
   gem "capybara", "~> 3.40.0"
   gem "capybara_accessible_selectors", git: "https://github.com/citizensadvice/capybara_accessible_selectors", tag: "v0.16.0"
   gem "capybara-screenshot", "~> 1.0.17"
-  gem "cuprite", "~> 0.17.0"
+  gem "cuprite", "~> 0.18.0"
   gem "rspec-wait"
   gem "selenium-devtools"
-  gem "selenium-webdriver", "~> 4.38"
+  gem "selenium-webdriver", "~> 4.48"
 
   gem "fuubar", "~> 2.5.0", require: false
   gem "timecop", "~> 0.9.0"
@@ -367,7 +365,7 @@ group :development, :test do
   gem "rubocop-factory_bot", require: false
   gem "rubocop-openproject", require: false
   gem "rubocop-performance", require: false
-  gem "rubocop-rails", "~> 2.35.5"
+  gem "rubocop-rails", "~> 2.37.0"
   gem "rubocop-rspec", require: false
   gem "rubocop-rspec_rails", require: false
 
@@ -376,7 +374,7 @@ group :development, :test do
   gem "erblint-github", require: false
 
   # Brakeman scanner
-  gem "brakeman", "~> 8.0.5"
+  gem "brakeman", "~> 8.0.6"
 
   # i18n-tasks helps find and manage missing and unused translations.
   gem "i18n-tasks", "~> 1.1.0", require: false
@@ -386,7 +384,7 @@ group :development, :test do
 end
 
 # API gems
-gem "grape", "~> 3.2.0"
+gem "grape", "~> 3.3.5"
 gem "grape_logging", "~> 3.0.0"
 gem "roar", "~> 1.2.0"
 
@@ -401,10 +399,10 @@ gem "googleauth", require: false
 gem "disposable", "~> 0.6.2"
 
 # Used for formula evaluation of calculated values
-gem "dentaku", "~> 3.5"
+gem "dentaku", "~> 3.5", git: "https://github.com/opf/dentaku", ref: "78eece45bf3f4ed021c05dd2f5411d1c3f9b168a"
 
 # Used for more powerful counter caches
-gem "counter_culture", "~> 3.13"
+gem "counter_culture", "~> 3.14"
 
 group :postgres do
   gem "pg", "~> 1.6.2"
@@ -415,7 +413,7 @@ gem "activerecord-nulldb-adapter", "~> 1.2.2"
 
 # Have application level locks on the database to have a mutex shared between workers/hosts.
 # We e.g. employ this to safeguard the creation of journals.
-gem "with_advisory_lock", "~> 7.5.0"
+gem "with_advisory_lock", "~> 7.6.0"
 
 # Load Gemfile.modules explicitly to allow dependabot to work
 eval_gemfile "./Gemfile.modules"
@@ -431,7 +429,7 @@ end
 
 # Set cooldown 0 for our own gems
 source "https://rubygems.org", cooldown: 0 do
-  gem "openproject-octicons", "~>19.35.0"
-  gem "openproject-octicons_helper", "~>19.35.0"
-  gem "openproject-primer_view_components", "~>0.88.0"
+  gem "openproject-octicons", "~>19.37.0"
+  gem "openproject-octicons_helper", "~>19.37.0"
+  gem "openproject-primer_view_components", "~>0.91.1"
 end

@@ -100,11 +100,7 @@ RSpec.describe "LDAP authentication",
       end
     end
 
-    context "with password login disabled" do
-      before do
-        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
-      end
-
+    context "with password login disabled", with_settings: { password_login: "none" } do
       describe "login" do
         it "is not found" do
           expect(subject).to have_http_status :not_found

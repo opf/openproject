@@ -43,49 +43,14 @@ RSpec.describe "Types", :js do
     login_as(admin)
   end
 
-  it "crud" do
-    index_page.visit!
-
-    index_page.click_new
-
-    # Error messages if something was wrong
-    fill_in "Name", with: existing_type.name
-    select existing_type.name, from: "Copy workflow from"
-
-    click_on "Save"
-
-    expect(page).to have_css(".FormControl-inlineValidation", text: "Name has already been taken.", wait: 12)
-
-    # Values are retained
-    expect(page).to have_field("Name", with: existing_type.name)
-    expect(page).to have_field("Copy workflow from", with: existing_type.id)
-
-    # Successful creation
-    fill_in "Name", with: "A new type"
-
-    click_on "Save"
-
-    expect(page).to have_content I18n.t(:notice_successful_create)
-
-    # Workflow should be copied over.
-    # Workflow routes are not resource-oriented.
-    visit(url_for(controller: :workflows, action: :index, only_path: true))
-    within "li", text: "A new type" do
-      click_link "A new type"
-    end
-
-    from_id = existing_workflow.old_status_id
-    to_id = existing_workflow.new_status_id
-
-    checkbox = page.find("input[data-old-status=\"#{from_id}\"][data-new-status=\"#{to_id}\"][value=always]")
-
-    expect(checkbox).to be_checked
+  it "renames and deletes a type from the index" do
+    new_type = create(:type, name: "A new type")
 
     index_page.visit!
 
     index_page.expect_listed(existing_type, "A new type")
 
-    index_page.click_edit("A new type")
+    visit edit_type_details_path(type_id: new_type.id)
 
     fill_in "Name", with: "Renamed type"
 
@@ -105,10 +70,49 @@ RSpec.describe "Types", :js do
     index_page.expect_listed(existing_type)
   end
 
+  it "creates a type with editable core settings" do
+    index_page.visit!
+    index_page.click_new
+
+    expect(page).to have_no_select("Parent type")
+    expect(page).to have_field("Is milestone", disabled: false)
+    expect(page).to have_field("Displayed in roadmap by default", disabled: false)
+  end
+
+  describe "the Details tab" do
+    it "keeps the core settings editable" do
+      visit edit_type_details_path(type_id: existing_type.id)
+
+      expect(page).to have_field("Is milestone", disabled: false)
+      expect(page).to have_field("Displayed in roadmap by default", disabled: false)
+    end
+
+    it "renames a type" do
+      visit edit_type_details_path(type_id: existing_type.id)
+      fill_in "Name", with: "Renamed existing type"
+      click_on "Save"
+
+      expect(page).to have_text I18n.t(:notice_successful_update)
+      expect(existing_type.reload.name).to eq("Renamed existing type")
+    end
+
+    it "captions the name field for a variant" do
+      variant = create(:type_variant, type: existing_type, variant_name: "Hardware")
+
+      visit edit_type_details_path(type_id: existing_type.id)
+      expect(page).to have_field("Name")
+      expect(page).to have_no_text("This is an internal name only visible to administrators")
+
+      visit edit_type_details_path(type_id: existing_type.id, variant_id: variant.id)
+      expect(page).to have_text("This is an internal name only visible to administrators")
+      expect(page).to have_text("it will appear as #{existing_type.name} to all members")
+    end
+  end
+
   context "when a work package of a given type is part of an archived project" do
     shared_let(:project) do
       create(:project, :archived).tap do |p|
-        p.types << existing_type
+        p.project_types.create!(type: existing_type)
         p.save!
       end
     end

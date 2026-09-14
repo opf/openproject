@@ -33,7 +33,7 @@ class TwoFactorAuthentication::Devices::TotpDeviceForm < ApplicationForm
         button.with_leading_visual_icon(icon: :x)
         helpers.t(:button_cancel)
       end
-      button_group.submit(name: :submit, label: helpers.t(:button_continue), scheme: :primary) do |button|
+      button_group.submit(name: :continue, label: helpers.t(:button_continue), scheme: :primary) do |button|
         button.with_leading_visual_icon(icon: :check)
         helpers.t(:button_continue)
       end

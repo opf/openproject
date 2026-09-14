@@ -13,7 +13,7 @@ Inline editing is a core functionality of work packages and other attributes.
 
 ## Key takeaways
 
-*Inline editing ...*
+_Inline editing ..._
 
 - wraps HTML or complex form elements (such as the WYSIWYG editor)
 - has two modes: **Display** (inactive, show mode) and **Edit** (Active, input mode)
@@ -159,7 +159,7 @@ The `EditForm` logically groups together multiple field elements very similar to
 
 #### EditableAttributeField
 
-The `EditableAttributeField` contains the logic to toggle between the *display* and *edit* states of a single attribute for the resource. The field will try to register to a parent form by injecting it through its constructor. Only fields within an `EditForm` parent are editable.
+The `EditableAttributeField` contains the logic to toggle between the _display_ and _edit_ states of a single attribute for the resource. The field will try to register to a parent form by injecting it through its constructor. Only fields within an `EditForm` parent are editable.
 
 The EditableAttributeField basically contains only two HTML elements that it wraps. These are used for the `display` and `edit` modes. Each is handled by their own `DisplayField` and `EditField` classes and components, as we will detail in the following.
 
@@ -247,7 +247,7 @@ While this doesn't take care of any labels or styling, it will already provide e
 
 The work package single view is the boss fight of inline editing. It combines all the previous concepts with the flexibility of work package attributes and type configuration.
 
-The following screenshot is [bug report #34250](https://community.openproject.org/wp/34250), which is a work package of Type `Bug`. The Bug type has a [specific form configuration](../../../system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on) defined. This configuration is as follows:
+The following screenshot is [bug report #34250](https://community.openproject.org/wp/34250), which is a work package of Type `Bug`. The Bug type has a [specific form configuration](../../../system-admin-guide/manage-work-packages/work-package-types/form-configuration) defined. This configuration is as follows:
 
 ![bug-form-configuration](bug-form-configuration.png)
 

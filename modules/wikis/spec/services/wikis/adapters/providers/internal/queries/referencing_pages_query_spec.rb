@@ -48,13 +48,9 @@ RSpec.describe Wikis::Adapters::Providers::Internal::Queries::ReferencingPages d
     ]
   end
 
-  let(:user) { create(:user) }
+  let(:user) { create(:user, member_with_permissions: { wiki_project => wiki_project_permissions }) }
 
   before do
-    create(:member, project: wiki_project,
-                    user:,
-                    roles: [create(:project_role, permissions: wiki_project_permissions)])
-
     reverse_page_links.each(&:save!)
   end
 
@@ -63,8 +59,9 @@ RSpec.describe Wikis::Adapters::Providers::Internal::Queries::ReferencingPages d
   it "returns pages indicated by reverse links" do
     results = subject.value!
     expect(results).to all(be_success)
-    infos = results.map(&:value!)
-    expect(infos.map(&:title)).to contain_exactly(wiki_page.title)
+    page_references = results.map(&:value!)
+    expect(page_references.map { it.page_info.title }).to contain_exactly(wiki_page.title)
+    expect(page_references.map(&:source)).to all(eq(:mention))
   end
 
   context "when there are no reverse links" do

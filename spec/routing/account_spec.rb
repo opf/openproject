@@ -39,6 +39,14 @@ RSpec.describe "account routes" do
     expect(post("/account/lost_password")).to route_to("account#lost_password")
   end
 
+  it "/account/password_recovery GET routes to account#password_recovery" do
+    expect(get("/account/password_recovery")).to route_to("account#password_recovery")
+  end
+
+  it "/account/set_recovered_password POST routes to account#set_recovered_password" do
+    expect(post("/account/set_recovered_password")).to route_to("account#set_recovered_password")
+  end
+
   it "/accounts/register GET routes to account#register" do
     expect(get("/account/register")).to route_to("account#register")
   end

@@ -57,6 +57,12 @@ RSpec.describe "API v3 Type resource" do
         end
 
         it_behaves_like "API V3 collection response", 4, 4, "Type"
+
+        context "with a named type variant" do
+          let!(:variant) { create(:type_variant, type: types.first) }
+
+          it_behaves_like "API V3 collection response", 4, 4, "Type"
+        end
       end
 
       context "not logged in user" do

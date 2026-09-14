@@ -34,11 +34,16 @@ module WorkPackageTypes
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 
-      def initialize(type:, group_components:, ee_available:)
+      def initialize(variant:, group_components:, ee_available:, readonly: false)
         super
-        @type = type
+        @variant = variant
         @group_components = group_components
         @ee_available = ee_available
+        @readonly = readonly
+      end
+
+      def readonly?
+        @readonly
       end
 
       private
@@ -48,6 +53,8 @@ module WorkPackageTypes
       end
 
       def groups_container_data
+        return { "test-selector": "type-form-configuration-groups-container" } if readonly?
+
         {
           "test-selector": "type-form-configuration-groups-container",
           "admin--type-form-configuration--main-target": "groupsContainer",

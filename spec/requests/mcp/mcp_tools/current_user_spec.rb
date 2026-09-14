@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe McpTools::CurrentUser do
-  subject do
+  subject(:mcp_request) do
     header "Authorization", "Bearer #{access_token.plaintext_token}"
     header "Content-Type", "application/json"
     post "/mcp", request_body.to_json
@@ -65,19 +65,19 @@ RSpec.describe McpTools::CurrentUser do
     it_behaves_like "MCP embedded resource tool"
 
     it "responds with a properly formatted user" do
-      subject
+      mcp_request
       expect(parsed_results.fetch("structuredContent").to_json).to match_json_schema.from_docs("user_model")
     end
 
     it "responds with the current user" do
-      subject
+      mcp_request
       expect(parsed_results.dig("structuredContent", "id")).to eq(user.id)
     end
   end
 
   context "when the mcp_server enterprise feature is disabled" do
     it "responds in a 404" do
-      subject
+      mcp_request
       expect(last_response).to have_http_status(404)
     end
   end

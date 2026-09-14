@@ -142,6 +142,14 @@ RSpec.describe Saml::ConfigurationMapper, type: :model do
     end
   end
 
+  describe "allowed_clock_drift" do
+    let(:configuration) { { allowed_clock_drift: 0.5 } }
+
+    subject { result["options"] }
+
+    it { is_expected.to include("allowed_clock_drift" => 0.5) }
+  end
+
   describe "idp_cert" do
     let(:idp_cert) { File.read(Rails.root.join("modules/auth_saml/spec/fixtures/idp_cert_plain.txt").to_s) }
 

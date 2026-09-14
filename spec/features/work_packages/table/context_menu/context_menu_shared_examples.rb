@@ -12,7 +12,7 @@ RSpec.shared_examples_for "provides a single WP context menu" do
     # Open detail pane
     open_context_menu.call
     menu.choose("Open details view")
-    split_page = Pages::SplitWorkPackage.new(work_package, work_package.project)
+    split_page = Pages::PrimerizedSplitWorkPackage.new(work_package, work_package.project)
     split_page.expect_attributes Subject: work_package.subject
 
     # Open full view
@@ -49,7 +49,7 @@ RSpec.shared_examples_for "provides a single WP context menu" do
     # Open Delete
     open_context_menu.call
     menu.choose("Delete")
-    destroy_modal.expect_listed(work_package)
+    destroy_modal.expect_open
     destroy_modal.cancel_deletion
 
     # Open create new child

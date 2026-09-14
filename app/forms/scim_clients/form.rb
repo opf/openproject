@@ -38,7 +38,8 @@ module ScimClients
         label: ScimClient.human_attribute_name(:name),
         required: true,
         caption: I18n.t("admin.scim_clients.form.name_description"),
-        input_width: :large
+        input_width: :large,
+        disabled: model.configured_from_env?
       )
 
       client_form.select_list(
@@ -46,7 +47,8 @@ module ScimClients
         label: ScimClient.human_attribute_name(:auth_provider_id),
         caption: I18n.t("admin.scim_clients.form.auth_provider_description"),
         input_width: :large,
-        include_blank: false
+        include_blank: false,
+        disabled: model.configured_from_env?
       ) do |select|
         AuthProvider.find_each do |provider|
           select.option(
@@ -84,7 +86,8 @@ module ScimClients
           caption: link_translate("admin.scim_clients.form.jwt_sub_description",
                                   links: { docs_url: %i[sysadmin_docs scim_jwt_authetication_method] },
                                   external: true),
-          input_width: :large
+          input_width: :large,
+          disabled: model.configured_from_env?
         )
       end
 
@@ -98,7 +101,8 @@ module ScimClients
         name: :submit,
         label: model.persisted? ? I18n.t(:button_save) : I18n.t(:button_create),
         scheme: :primary,
-        data: { "scim-clients--form-inputs-target": "submitButton" }
+        data: { "scim-clients--form-inputs-target": "submitButton" },
+        disabled: model.configured_from_env?
       )
     end
 

@@ -78,8 +78,9 @@ module Wikis
     end
 
     def relation_page_link_params
-      params.expect(wikis_relation_page_link: %i[provider_id linkable_type linkable_id])
-            .merge(author_id: current_user.id, identifier: parse_identifier(params[:wiki_page_selection]))
+      permitted = params.expect(wikis_relation_page_link: %i[provider_id linkable_type linkable_id identifier])
+      permitted[:identifier] = permitted[:identifier].presence || parse_page_identifier(params[:wiki_page_selection])
+      permitted.merge(author_id: current_user.id)
     end
   end
 end

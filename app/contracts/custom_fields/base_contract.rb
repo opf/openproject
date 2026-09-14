@@ -48,6 +48,8 @@ module CustomFields
     end
     attribute :max_length
     attribute :min_length
+    attribute :max_value
+    attribute :min_value
     attribute :multi_value
     attribute :name
     attribute :possible_values

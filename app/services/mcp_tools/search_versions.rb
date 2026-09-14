@@ -29,7 +29,7 @@
 #++
 
 module McpTools
-  class SearchVersions < Base
+  class SearchVersions < SearchTool
     default_title "Search versions"
     default_description "Search versions matching all of the passed input parameters. " \
                         "Parameters not passed are ignored. Results are limited to a maximum " \
@@ -40,11 +40,11 @@ module McpTools
     annotations read_only: true, idempotent: true, destructive: false
     enable_pagination
 
-    filter :name, filter_class: Queries::Versions::Filters::NameFilter, operator: "~"
+    filter :name, filter_class: "Queries::Versions::Filters::NameFilter", operator: "~"
     filter :sharing
 
     input_schema(
-      type: :object,
+      additionalProperties: false,
       properties: {
         name: { type: "string", description: "Name of the version. Accepts partial version names, not case-sensitive." },
         sharing: {
@@ -55,24 +55,12 @@ module McpTools
       }
     )
 
-    output_schema(
-      type: :object,
-      required: ["items"],
-      properties: {
-        items: {
-          type: :array,
-          items: JsonSchemaLoader.new.load("version_read_model")
-        }
-      }
-    )
+    def base_scope
+      Success(Version.visible)
+    end
 
-    def call(page: nil, **filters)
-      filtered = apply_filters(Version.visible, filters)
-      versions = apply_pagination(filtered, page)
-
-      {
-        items: versions.map { |v| API::V3::Versions::VersionRepresenter.create(v, current_user:) }
-      }
+    def format_item(item)
+      API::V3::Versions::VersionRepresenter.create(item, current_user:)
     end
   end
 end

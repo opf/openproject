@@ -96,7 +96,7 @@ RSpec.describe "inline create work package", :js, :selenium do
       end
       let(:cf_accessor_frontend) { cf_list.attribute_name(:camel_case) }
       let(:types) { [type, cf_type] }
-      let(:type) { create(:type_standard) }
+      let(:type) { create(:type_task) }
       let(:cf_type) { create(:type, custom_fields: [cf_list]) }
       let(:columns) { Components::WorkPackages::Columns.new }
 

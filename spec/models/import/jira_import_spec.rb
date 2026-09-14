@@ -48,10 +48,8 @@ RSpec.describe Import::JiraImport do
       expect(jira_import.state_machine).to be_a(Import::JiraImportStateMachine)
     end
 
-    it "memoizes the state machine instance" do
-      # rubocop:disable RSpec/IdenticalEqualityAssertion
-      expect(jira_import.state_machine.object_id).to eq(jira_import.state_machine.object_id)
-      # rubocop:enable RSpec/IdenticalEqualityAssertion
+    it "does not memoizes the state machine instance" do
+      expect(jira_import.state_machine.object_id).not_to eq(jira_import.state_machine.object_id)
     end
   end
 
@@ -64,11 +62,11 @@ RSpec.describe Import::JiraImport do
     it { is_expected.to delegate_method(:transition_to!).to(:state_machine) }
     it { is_expected.to delegate_method(:transition_to).to(:state_machine) }
     it { is_expected.to delegate_method(:in_state?).to(:state_machine) }
-    it { is_expected.to delegate_method(:status_running?).to(:state_machine) }
-    it { is_expected.to delegate_method(:status_equal_or_after?).to(:state_machine) }
-    it { is_expected.to delegate_method(:status_equal_or_before?).to(:state_machine) }
-    it { is_expected.to delegate_method(:status_after?).to(:state_machine) }
-    it { is_expected.to delegate_method(:status_before?).to(:state_machine) }
+    it { is_expected.to delegate_method(:running?).to(:state_machine) }
+    it { is_expected.to delegate_method(:state_equal_or_after?).to(:state_machine) }
+    it { is_expected.to delegate_method(:state_equal_or_before?).to(:state_machine) }
+    it { is_expected.to delegate_method(:state_after?).to(:state_machine) }
+    it { is_expected.to delegate_method(:state_before?).to(:state_machine) }
     it { is_expected.to delegate_method(:deletable?).to(:state_machine) }
     it { is_expected.to delegate_method(:client).to(:jira) }
   end
@@ -105,13 +103,13 @@ RSpec.describe Import::JiraImport do
   end
 
   describe "#destroy_jira_objects" do
-    let!(:jira_field) { create(:jira_field, jira:, jira_import:) }
-    let!(:jira_issue) { create(:jira_issue, jira:, jira_import:) }
-    let!(:jira_issue_type) { create(:jira_issue_type, jira:, jira_import:) }
-    let!(:jira_priority) { create(:jira_priority, jira:, jira_import:) }
-    let!(:jira_project) { create(:jira_project, jira:, jira_import:) }
-    let!(:jira_status) { create(:jira_status, jira:, jira_import:) }
-    let!(:jira_user) { create(:jira_user, jira:, jira_import:) }
+    let!(:jira_project) { create(:jira_project, jira_import:) }
+    let!(:jira_field) { create(:jira_field, jira_import:) }
+    let!(:jira_issue) { create(:jira_issue, jira_import:, jira_project:) }
+    let!(:jira_issue_type) { create(:jira_issue_type, jira_import:) }
+    let!(:jira_priority) { create(:jira_priority, jira_import:) }
+    let!(:jira_status) { create(:jira_status, jira_import:) }
+    let!(:jira_user) { create(:jira_user, jira_import:) }
 
     it "destroys all associated jira objects" do
       expect { jira_import.destroy_jira_objects }
@@ -126,360 +124,11 @@ RSpec.describe Import::JiraImport do
 
     it "does not destroy objects from other imports" do
       other_import = create(:jira_import, jira:, author:)
-      other_field = create(:jira_field, jira:, jira_import: other_import)
+      other_field = create(:jira_field, jira_import: other_import)
 
       jira_import.destroy_jira_objects
 
       expect(Import::JiraField.exists?(other_field.id)).to be true
-    end
-  end
-
-  describe "#import_users", with_settings: {
-    password_active_rules: %w(lowercase uppercase numeric special),
-    password_min_length: 4
-  } do
-    def jira_user_payload(name:, display_name:, email:, groups: [], key: "JIRAUSER10000", active: true)
-      {
-        "key" => key,
-        "name" => name,
-        "self" => "https://jira-dc.openproject.org/rest/api/2/user?username=#{name}",
-        "active" => active,
-        "expand" => "groups,applicationRoles",
-        "groups" => {
-          "size" => groups.size,
-          "items" => groups.map { |g| { "name" => g, "self" => "https://jira-dc.openproject.org/rest/api/2/group?groupname=#{g}" } }
-        },
-        "locale" => "en_US",
-        "deleted" => false,
-        "timeZone" => "Europe/Berlin",
-        "avatarUrls" => {
-          "16x16" => "https://www.gravatar.com/avatar/abc?d=mm&s=16",
-          "24x24" => "https://www.gravatar.com/avatar/abc?d=mm&s=24",
-          "32x32" => "https://www.gravatar.com/avatar/abc?d=mm&s=32",
-          "48x48" => "https://www.gravatar.com/avatar/abc?d=mm&s=48"
-        },
-        "displayName" => display_name,
-        "emailAddress" => email,
-        "lastLoginTime" => "2026-03-26T08:49:31+0000",
-        "applicationRoles" => { "size" => 1, "items" => [] }
-      }
-    end
-
-    let(:email) { "jdoe@example.com" }
-    let(:existing_user_password) { OpenProject::Passwords::Generator.random_password }
-
-    # creates system user proactively. so, next coming User.count change cases don't count
-    # this one as created during #import_users call.
-    before { User.system }
-
-    context "when importing a new user without groups" do
-      let!(:jira_user) do
-        create(:jira_user,
-               jira:,
-               jira_import:,
-               payload: jira_user_payload(
-                 key: "JIRAUSER10100",
-                 name: "jdoe@example.com",
-                 display_name: "John Doe",
-                 email:,
-                 groups: []
-               ))
-      end
-
-      it "creates a new OpenProject user" do
-        expect { jira_import.import_users }.to change(User, :count).by(1)
-      end
-
-      it "creates the user with correct attributes" do
-        jira_import.import_users
-
-        user = User.find_by(login: email)
-        expect(user).to have_attributes(
-          firstname: "John",
-          lastname: "Doe",
-          mail: email,
-          status: "locked"
-        )
-      end
-
-      it "creates a reference between Jira user and OpenProject user" do
-        expect { jira_import.import_users }.to change(Import::JiraOpenProjectReference, :count).by(1)
-
-        reference = Import::JiraOpenProjectReference.last
-        expect(reference).to have_attributes(
-          jira_entity_id: jira_user.id.to_s,
-          jira_entity_class: "Import::JiraUser",
-          op_entity_class: "User",
-          uses_existing: false
-        )
-      end
-    end
-
-    context "when importing a user that already exists by email" do
-      let!(:existing_user) do
-        create(:user,
-               mail: email,
-               password: existing_user_password,
-               password_confirmation: existing_user_password,
-               login: "login")
-      end
-      let!(:jira_user) do
-        create(:jira_user,
-               jira:,
-               jira_import:,
-               payload: jira_user_payload(
-                 key: "JIRAUSER10101",
-                 name: "jdoe@example.com",
-                 display_name: "John Doe",
-                 email:,
-                 groups: []
-               ))
-      end
-
-      it "does not create a new user" do
-        expect { jira_import.import_users }.not_to change(User, :count)
-      end
-
-      it "creates a reference to the existing user with uses_existing flag" do
-        jira_import.import_users
-
-        reference = Import::JiraOpenProjectReference.find_by(jira_entity_id: jira_user.id)
-        expect(reference).to have_attributes(
-          jira_entity_id: jira_user.id.to_s,
-          jira_entity_class: "Import::JiraUser",
-          op_entity_id: existing_user.id.to_s,
-          op_entity_class: "User",
-          uses_existing: true
-        )
-      end
-    end
-
-    context "when importing a user that already exists by login" do
-      let(:login) { "login" }
-      let!(:existing_user) do
-        create(:user,
-               mail: "other@example.com",
-               password_confirmation: existing_user_password,
-               password: existing_user_password,
-               login:)
-      end
-      let!(:jira_user) do
-        create(:jira_user,
-               jira:,
-               jira_import:,
-               payload: jira_user_payload(
-                 key: "JIRAUSER10102",
-                 name: login,
-                 display_name: "John Doe",
-                 email:,
-                 groups: []
-               ))
-      end
-
-      it "does not create a new user" do
-        expect { jira_import.import_users }.not_to change(User, :count)
-      end
-
-      it "creates a reference to the existing user with uses_existing flag" do
-        jira_import.import_users
-
-        reference = Import::JiraOpenProjectReference.find_by(jira_entity_id: jira_user.id)
-        expect(reference).to have_attributes(
-          jira_entity_id: jira_user.id.to_s,
-          jira_entity_class: "Import::JiraUser",
-          op_entity_id: existing_user.id.to_s,
-          op_entity_class: "User",
-          uses_existing: true
-        )
-      end
-    end
-
-    context "when importing a user with groups" do
-      let!(:jira_user) do
-        create(:jira_user,
-               jira:,
-               jira_import:,
-               payload: jira_user_payload(
-                 key: "JIRAUSER10103",
-                 name: "j.roth@openproject.com",
-                 display_name: "Judith Roth",
-                 email: "j.roth@openproject.com",
-                 groups: ["jira-administrators", "jira-software-users"]
-               ))
-      end
-
-      it "creates the groups" do
-        expect { jira_import.import_users }.to change(Group, :count).by(2)
-
-        expect(Group.exists?(name: "jira-administrators")).to be true
-        expect(Group.exists?(name: "jira-software-users")).to be true
-      end
-
-      it "adds the user to the groups" do
-        jira_import.import_users
-
-        user = User.find_by(login: "j.roth@openproject.com")
-        expect(user.groups.pluck(:name)).to contain_exactly("jira-administrators", "jira-software-users")
-      end
-
-      it "creates references for the groups" do
-        jira_import.import_users
-
-        group_references = Import::JiraOpenProjectReference.where(op_entity_class: "Group")
-        expect(group_references.count).to eq(2)
-        expect(group_references.pluck(:uses_existing)).to all(be false)
-      end
-    end
-
-    context "when importing a user with an existing group" do
-      let!(:existing_group) { create(:group, name: "jira-administrators") }
-      let!(:jira_user) do
-        create(:jira_user,
-               jira:,
-               jira_import:,
-               payload: jira_user_payload(
-                 key: "JIRAUSER10104",
-                 name: "j.roth@openproject.com",
-                 display_name: "Judith Roth",
-                 email: "j.roth@openproject.com",
-                 groups: ["jira-administrators"]
-               ))
-      end
-
-      it "does not create a duplicate group" do
-        expect { jira_import.import_users }.not_to change(Group, :count)
-      end
-
-      it "adds the user to the existing group" do
-        jira_import.import_users
-
-        user = User.find_by(login: "j.roth@openproject.com")
-        expect(user.groups).to include(existing_group)
-      end
-
-      it "creates a reference with uses_existing flag for the group" do
-        jira_import.import_users
-
-        group_reference = Import::JiraOpenProjectReference.find_by(
-          op_entity_class: "Group",
-          op_entity_id: existing_group.id
-        )
-        expect(group_reference.uses_existing).to be true
-      end
-    end
-
-    context "when importing multiple users" do
-      let!(:jira_user1) do
-        create(:jira_user,
-               jira:,
-               jira_import:,
-               payload: jira_user_payload(
-                 key: "JIRAUSER10105",
-                 name: "jdoe@example.com",
-                 display_name: "John Doe",
-                 email: "jdoe@example.com",
-                 groups: ["jira-software-users"]
-               ))
-      end
-      let!(:jira_user2) do
-        create(:jira_user,
-               jira:,
-               jira_import:,
-               payload: jira_user_payload(
-                 key: "JIRAUSER10106",
-                 name: "jsmith@example.com",
-                 display_name: "Jane Smith",
-                 email: "jsmith@example.com",
-                 groups: ["jira-software-users"]
-               ))
-      end
-
-      it "creates all users" do
-        expect { jira_import.import_users }.to change(User, :count).by(2)
-      end
-
-      it "creates the shared group only once" do
-        expect { jira_import.import_users }.to change(Group, :count).by(1)
-      end
-
-      it "adds both users to the shared group" do
-        jira_import.import_users
-
-        group = Group.find_by(name: "jira-software-users")
-        expect(group.users.pluck(:login)).to contain_exactly("jdoe@example.com", "jsmith@example.com")
-      end
-    end
-
-    context "when user has a single-word display name" do
-      let!(:jira_user) do
-        create(:jira_user,
-               jira:,
-               jira_import:,
-               payload: jira_user_payload(
-                 key: "JIRAUSER10108",
-                 name: "admin@example.com",
-                 display_name: "Administrator",
-                 email: "admin@example.com",
-                 groups: []
-               ))
-      end
-
-      it "uses the name for both firstname and lastname" do
-        jira_import.import_users
-
-        user = User.find_by(login: "admin@example.com")
-        expect(user).to have_attributes(
-          firstname: "Administrator",
-          lastname: "Administrator"
-        )
-      end
-    end
-
-    context "when user has a multi-part display name" do
-      let!(:jira_user) do
-        create(:jira_user,
-               jira:,
-               jira_import:,
-               payload: jira_user_payload(
-                 key: "JIRAUSER10109",
-                 name: "jvd@example.com",
-                 display_name: "Jean Van Der Berg",
-                 email: "jvd@example.com",
-                 groups: []
-               ))
-      end
-
-      it "uses all but last word as firstname and last word as lastname" do
-        jira_import.import_users
-
-        user = User.find_by(login: "jvd@example.com")
-        expect(user).to have_attributes(
-          firstname: "Jean Van Der",
-          lastname: "Berg"
-        )
-      end
-    end
-
-    context "when importing a jira user without email(can happen in case of LDAP)" do
-      let!(:jira_user) do
-        create(:jira_user,
-               jira:,
-               jira_import:,
-               payload: jira_user_payload(
-                 key: "JIRAUSER10109",
-                 name: "jvd@example.com",
-                 display_name: "Jean Van Der Berg",
-                 email: nil,
-                 groups: []
-               ))
-      end
-
-      it "creates an OpenProject user with unresolvable email" do
-        jira_import.import_users
-
-        user = User.find_by(login: "jvd@example.com")
-        expect(user.mail).to match(/@noemail.invalid/)
-      end
     end
   end
 end

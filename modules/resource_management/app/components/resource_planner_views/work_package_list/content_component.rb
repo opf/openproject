@@ -30,6 +30,8 @@
 
 module ResourcePlannerViews::WorkPackageList
   class ContentComponent < ApplicationComponent
+    include ResourcePlannerViews::ReloadableFrame
+
     def initialize(view:, project:, resource_planner:, work_packages: [], allocations: {}, visible_principal_ids: nil)
       super
 

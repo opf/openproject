@@ -104,5 +104,35 @@ RSpec.describe Admin::Settings::WorkingDaysAndHoursSettingsController do
         expect { nwd_to_delete.reload }.not_to raise_error
       end
     end
+
+    context "when fails because a previous apply job is still unprocessed",
+            with_good_job: WorkPackages::ApplyWorkingDaysChangeJob do
+      let(:non_working_days_attributes) do
+        {
+          "0" => { "name" => "Boxing Day", "date" => "2022-12-26" },
+          "1" => { "name" => "New Year", "date" => "2023-01-01" }
+        }
+      end
+
+      before do
+        WorkPackages::ApplyWorkingDaysChangeJob
+          .set(wait: 10.minutes)
+          .perform_later(user_id: user.id,
+                         previous_non_working_days: [],
+                         previous_working_days: Setting.working_days)
+      end
+
+      it "displays the error and keeps the submitted non-working days" do
+        subject
+
+        expect(response).to render_template :show
+        expect(flash[:error]).to include("have not been applied yet")
+        expect(assigns(:modified_non_working_days)).to contain_exactly(
+          hash_including("name" => "Boxing Day", "date" => "2022-12-26"),
+          hash_including("name" => "New Year", "date" => "2023-01-01")
+        )
+        expect(NonWorkingDay.where(date: %w[2022-12-26 2023-01-01])).to be_empty
+      end
+    end
   end
 end

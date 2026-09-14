@@ -35,14 +35,14 @@ module ::ResourceManagement
     menu_item :resource_management
 
     before_action :find_project_by_project_id
-    before_action :find_resource_planner
+    before_action :find_resource_planner_view
     before_action :find_user
     before_action :authorize
 
     def index
       respond_with_dialog ResourcePlannerViews::UserCardList::UserAllocationsDialogComponent.new(
         project: @project,
-        resource_planner: @resource_planner,
+        view: @resource_planner_view,
         user: @user,
         allocations:,
         overbooked_ids: ResourceAllocation.overbooked_ids(allocations)
@@ -60,11 +60,10 @@ module ::ResourceManagement
           .to_a
     end
 
-    def find_resource_planner
-      @resource_planner = ResourcePlanner
-                            .visible(current_user)
-                            .where(project: @project)
-                            .find(params.expect(:resource_planner_id))
+    def find_resource_planner_view
+      @resource_planner_view = PersistedView
+                                 .where(parent: ResourcePlanner.visible(current_user).where(project: @project))
+                                 .find(params.expect(:resource_planner_view_id))
     end
 
     def find_user

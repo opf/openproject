@@ -33,7 +33,7 @@ module Projects::Scopes::ReceiveSharedSprints
 
   class_methods do
     def receive_shared_sprints
-      with_settings(sprint_sharing: Projects::SprintSharing::RECEIVE_SHARED)
+      with_settings(sprint_sharing: Projects::SprintSettings::RECEIVE_SHARED)
     end
   end
 end

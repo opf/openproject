@@ -39,6 +39,8 @@ RSpec.describe "Projects navigation", :js do
            })
   end
   shared_let(:admin) { create(:admin) }
+  shared_let(:portfolio_project) { create(:portfolio, name: "Test Portfolio") }
+  shared_let(:program_project)   { create(:program,   name: "Test Program") }
 
   let(:top_menu) { Components::Projects::TopMenu.new }
 
@@ -89,11 +91,49 @@ RSpec.describe "Projects navigation", :js do
     end
   end
 
-  context "with workspace type badges in project dropdown" do
-    shared_let(:portfolio_project) { create(:portfolio, name: "Test Portfolio") }
-    shared_let(:program_project) { create(:program, name: "Test Program") }
-    shared_let(:regular_project) { project }
+  context "with search highlighting in the project dropdown" do
+    before do
+      login_as admin
+      visit home_path
+      top_menu.toggle!
+    end
 
+    it "highlights the matching portion of a project name" do
+      top_menu.search("Test")
+      wait_for_network_idle
+
+      within top_menu.search_results do
+        expect(page).to have_css(".op-search-highlight", text: "Test")
+      end
+    end
+
+    it "does not show highlight spans when no query is given" do
+      within top_menu.search_results do
+        expect(page).to have_no_css(".op-search-highlight")
+      end
+    end
+
+    it "highlights case-insensitively, preserving the original casing from the project name" do
+      top_menu.search("test")
+      wait_for_network_idle
+
+      within top_menu.search_results do
+        expect(page).to have_css(".op-search-highlight", text: "Test")
+      end
+    end
+
+    it "highlights the name but not the workspace type badge" do
+      top_menu.search("Portfolio")
+      wait_for_network_idle
+
+      within top_menu.search_results do
+        expect(page).to have_css(".op-search-highlight", text: "Portfolio")
+        expect(page).to have_no_css(".description .op-search-highlight")
+      end
+    end
+  end
+
+  context "with workspace type badges in project dropdown" do
     before do
       login_as admin
       visit home_path
@@ -103,7 +143,7 @@ RSpec.describe "Projects navigation", :js do
     it "displays badges for portfolio and program workspaces but not for regular projects" do
       top_menu.expect_result(portfolio_project.name, workspace_badge: "Portfolio")
       top_menu.expect_result(program_project.name, workspace_badge: "Program")
-      top_menu.expect_result(regular_project.name, workspace_badge: false)
+      top_menu.expect_result(project.name, workspace_badge: false)
     end
   end
 end

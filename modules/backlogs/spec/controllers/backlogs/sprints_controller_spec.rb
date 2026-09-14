@@ -242,8 +242,9 @@ RSpec.describe Backlogs::SprintsController do
         expect(response).to be_successful
         expect(response).to have_http_status :ok
         expect(response.body).to have_turbo_stream action: "flash"
-        expect(response.body).to have_turbo_stream action: "update", target: "backlogs-sprint-component-#{sprint.id}"
-        assert_select %(turbo-stream[action="update"][target="backlogs-sprint-component-#{sprint.id}"][method="morph"])
+        expect(response.body).to have_turbo_stream(
+          action: "update", target: "backlogs-sprint-component-#{sprint.id}", method: "morph"
+        )
         expect(response.body).to include("Successful update.")
         expect(controller.controller_path).to eq("backlogs/sprints")
         expect(controller.action_name).to eq("update")
@@ -446,6 +447,9 @@ RSpec.describe Backlogs::SprintsController do
 
           expect(response).to be_successful
           expect(response).to have_turbo_stream(action: "redirect_to")
+          expect(response.body).to have_turbo_stream(
+            action: "update", target: "backlogs-sprint-component-#{sprint.id}", method: "morph"
+          )
           expect(flash[:notice]).to eq(I18n.t(:notice_successful_start))
           expect(service).to have_received(:call)
         end
@@ -550,7 +554,7 @@ RSpec.describe Backlogs::SprintsController do
         end
 
         it "finishes the sprint and redirects to the backlog", :aggregate_failures do
-          post :finish, params: request_params
+          post :finish, format: :turbo_stream, params: request_params
 
           expect(response).to be_successful
           expect(response.body).to have_turbo_stream(
@@ -665,7 +669,7 @@ RSpec.describe Backlogs::SprintsController do
       end
     end
 
-    describe "GET #refresh_form" do
+    describe "POST #refresh_form" do
       let(:params) do
         {
           project_id: project.id,
@@ -674,7 +678,7 @@ RSpec.describe Backlogs::SprintsController do
       end
 
       it "responds with success", :aggregate_failures do
-        get :refresh_form, format: :turbo_stream, params: params
+        post :refresh_form, format: :turbo_stream, params: params
 
         expect(response).to be_successful
         expect(response).to have_http_status :ok
@@ -686,7 +690,7 @@ RSpec.describe Backlogs::SprintsController do
         let(:permissions) { all_permissions - [:create_sprints] }
 
         it "responds with forbidden", :aggregate_failures do
-          get :refresh_form, format: :turbo_stream, params: params
+          post :refresh_form, format: :turbo_stream, params: params
 
           expect(response).not_to be_successful
           expect(response).to have_http_status :forbidden
@@ -703,7 +707,7 @@ RSpec.describe Backlogs::SprintsController do
         end
 
         it "responds with success", :aggregate_failures do
-          get :refresh_form, format: :turbo_stream, params: params
+          post :refresh_form, format: :turbo_stream, params: params
 
           expect(response).to be_successful
           expect(response).to have_http_status :ok
@@ -858,19 +862,19 @@ RSpec.describe Backlogs::SprintsController do
         end
       end
 
-      describe "GET #refresh_form for shared sprint" do
+      describe "POST #refresh_form for shared sprint" do
         let(:user) do
           create(:user,
                  member_with_roles: { project => role_with_perm, source_project => role_without_perm })
         end
 
         it "preserves the sprint's defining project context", :aggregate_failures do
-          get :refresh_form,
-              format: :turbo_stream,
-              params: {
-                project_id: project.id,
-                sprint: { id: sprint.id, name: sprint.name }
-              }
+          post :refresh_form,
+               format: :turbo_stream,
+               params: {
+                 project_id: project.id,
+                 sprint: { id: sprint.id, name: sprint.name }
+               }
 
           expect(response).to be_successful
           expect(response.body).to include(

@@ -1,12 +1,11 @@
-#English strings go here
 ---
 bg:
   js:
-    label_preview: Предварителен преглед
-    button_update: Обнови
     avatars:
+      empty_file_error: Моля вдигайте валидни образи (jpg, png, gif)
+      error_image_too_large: Картинката е твърде голяма.
       label_choose_avatar: Изберете аватар от файл
       uploading_avatar: Качете вашия аватар.
-      error_image_too_large: Картинката е твърде голяма.
       wrong_file_format: Разрешени формати са jpg, png, gif
-      empty_file_error: Моля вдигайте валидни образи (jpg, png, gif)
+    button_update: Обнови
+    label_preview: Предварителен преглед

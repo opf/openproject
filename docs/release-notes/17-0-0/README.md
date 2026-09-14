@@ -103,13 +103,13 @@ See our user guide to [learn how to present a meeting in OpenProject](../../user
 
 #### Multiple text-based outcomes per agenda item
 
-Agenda items can now hold **multiple text-based outcomes**: The **+ Outcome** button remains available while the meeting is *In progress* and allows moderators to record more than one result for the same item. The first outcome is labelled "Outcome", additional ones are numbered ("Outcome 1", "Outcome 2", and so on). These outcomes are also supported in the PDF exports of meetings. This feature is a preparation for future improvements, such as [creating work packages as outcomes](https://community.openproject.org/work_packages/62093).
+Agenda items can now hold **multiple text-based outcomes**: The **+ Outcome** button remains available while the meeting is _In progress_ and allows moderators to record more than one result for the same item. The first outcome is labelled "Outcome", additional ones are numbered ("Outcome 1", "Outcome 2", and so on). These outcomes are also supported in the PDF exports of meetings. This feature is a preparation for future improvements, such as [creating work packages as outcomes](https://community.openproject.org/work_packages/62093).
 
 ![OpenProject meeting which is in progress, below the first agenda item (a work package) are "Outcome 1" and "Outcome 2" displayed, and the + Outcome button is still available as well](openproject-17-0-meeting-multiple-outcomes.png)
 
 #### Unified “My meetings” iCal subscription
 
-To avoid duplicate or confusing calendar invites, **users can now subscribe to all their meetings through a single iCal subscription URL** from the My meetings page or settings. External calendars (for example Outlook, Apple Calendar, or Open-Xchange) stay in sync automatically. Individual *.ics files* remain available when needed, but sending them is now more clearly controlled via dedicated options when creating or updating meetings.
+To avoid duplicate or confusing calendar invites, **users can now subscribe to all their meetings through a single iCal subscription URL** from the My meetings page or settings. External calendars (for example Outlook, Apple Calendar, or Open-Xchange) stay in sync automatically. Individual _.ics files_ remain available when needed, but sending them is now more clearly controlled via dedicated options when creating or updating meetings.
 
 ![My meetings page: Clicking on the More menu on the upper right corner opens a clickable option to "Subscribe to calendar"](openproject-17-0-meeting-subscribe-calendar.png)
 
@@ -119,18 +119,18 @@ See our user guide to [learn how to subscribe to OpenProject meetings](../../use
 
 Before OpenProject 17.0, the Microsoft 365 file storage integration was a single combined OneDrive/SharePoint integration available as an Enterprise add-on in the Professional plan. With this release, it is now split into **two separate integrations** — one for **OneDrive** and one for **SharePoint** — giving administrators clearer setup options and more flexibility.
 
-For the SharePoint integration, OpenProject 17.0 introduces support for Microsoft's *Sites.Selected* permission model. This allows administrators to grant the OpenProject Entra ID application access only to specific SharePoint sites, instead of using the broader *`Files.ReadWrite.All`* permission required in earlier versions.
+For the SharePoint integration, OpenProject 17.0 introduces support for Microsoft's _Sites.Selected_ permission model. This allows administrators to grant the OpenProject Entra ID application access only to specific SharePoint sites, instead of using the broader _`Files.ReadWrite.All`_ permission required in earlier versions.
 
 This new option helps organizations meet stricter security and compliance requirements while preserving all existing functionality.
 
 When configuring SharePoint storage, administrators now benefit from:
 
 - Separate, clearer setup options for OneDrive and SharePoint.
-- Support for the *Sites.Selected* permission scope, requiring a SharePoint Site ID.
+- Support for the _Sites.Selected_ permission scope, requiring a SharePoint Site ID.
 - Improved helper texts and documentation links.
 - Enhanced validation and error messages during configuration.
 
-OpenProject continues to support both the legacy permission model and the new *Sites.Selected* approach, allowing administrators to choose whichever fits their security standards.
+OpenProject continues to support both the legacy permission model and the new _Sites.Selected_ approach, allowing administrators to choose whichever fits their security standards.
 
 See our system admin guide to learn more about the [SharePoint integration](../../user-guide/file-management/sharepoint-integration/) and now separate [OneDrive integration](../../user-guide/file-management/one-drive-integration/) for OpenProject.
 
@@ -187,9 +187,9 @@ The global search now understands **work package type**, **status**, and **meta-
 
 Examples:
 
-- Searching for *bug* shows only work packages of type *Bug*.
-- Searching for *bug new* shows only work packages of typ *Bug* and status *New*.
-- Searching for *open* shows only items in an open status.
+- Searching for _bug_ shows only work packages of type _Bug_.
+- Searching for _bug new_ shows only work packages of typ _Bug_ and status _New_.
+- Searching for _open_ shows only items in an open status.
 
 These improvements **also benefit several autocompleters throughout the application**, such as the `#` and `##` work package quick-link references in comments and descriptions, helping users filter large datasets more precisely.
 
@@ -208,7 +208,7 @@ These improvements make OpenProject easier to navigate for users relying on scre
 
 ### Enhanced project attribute help texts with captions and direct editing
 
-Administrators can now **manage attribute help texts directly from each project attribute or custom field** without navigating to the separate *Attribute help texts* section. Additionally, a new **caption** field allows adding short clarifying text shown below input fields in forms to guide users more effectively. Please note that for now, this only applies for project attributes, not for (work package) custom fields.
+Administrators can now **manage attribute help texts directly from each project attribute or custom field** without navigating to the separate _Attribute help texts_ section. Additionally, a new **caption** field allows adding short clarifying text shown below input fields in forms to guide users more effectively. Please note that for now, this only applies for project attributes, not for (work package) custom fields.
 
 Help texts continue to appear in the familiar dialog triggered by the question-mark icon.
 
@@ -237,7 +237,7 @@ Project attributes now have a separate **Required** setting. This works in the s
 
 Long text custom fields and descriptions included via macros such as the following are now supported in PDF exports:
 
-```
+```text
 workPackageValue:description  
 projectValue:"Field name"
 ```
@@ -480,4 +480,3 @@ Last but not least, we are very grateful for our very engaged translation contri
 - [Sharmin](https://crowdin.com/profile/sh.shokri.software.engineer), for a great number of translations into Persian.
 
 Would you like to help out with translations yourself? Then take a look at our [translation guide](../../contributions-guide/translate-openproject/) and find out exactly how you can contribute. It is very much appreciated!
-

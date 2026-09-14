@@ -45,7 +45,7 @@ RSpec.describe "delete placeholder user", :js do
       click_on "Delete"
 
       # Expect to be on delete confirmation
-      check "I understand that this deletion cannot be reversed"
+      check "I understand that this deletion cannot be reversed."
       click_on "Delete permanently"
 
       expect_flash(type: :info, message: I18n.t(:notice_deletion_scheduled))

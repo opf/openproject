@@ -31,16 +31,36 @@
 module Meetings
   class MeetingTimeFilterComponent < OpPrimer::QuickFilter::SegmentedControlComponent
     def initialize(query:, project: nil)
+      upcoming = Queries::Operators::Upcoming.symbol
+      past = Queries::Operators::Past.symbol
+
       super(
         name: I18n.t(:label_meeting_date_time),
         query:,
         filter_key: :time,
-        orders: { "future" => { start_time: :asc }, "past" => { start_time: :desc } },
+        orders: { upcoming => { start_time: :asc }, past => { start_time: :desc } },
         path_args: [project, :meetings].compact
       )
 
-      with_item(label: I18n.t(:label_upcoming_meetings_short), value: "future")
-      with_item(label: I18n.t(:label_past_meetings_short), value: "past")
+      with_item(label: I18n.t(:label_upcoming_meetings_short), value: upcoming)
+      with_item(label: I18n.t(:label_past_meetings_short), value: past)
+    end
+
+    private
+
+    # Overrides to make the filter operator driven
+    def current_value
+      @query.find_active_filter(:time)&.operator&.to_s
+    end
+
+    def filters_params(operator)
+      filters = @query.filters
+        .reject { |f| f.name == :time }
+        .map { |f| { f.class.key.to_s => { "operator" => f.operator.to_s, "values" => f.values } } }
+
+      filters << { "time" => { "operator" => operator, "values" => [] } } if operator
+
+      filters
     end
   end
 end

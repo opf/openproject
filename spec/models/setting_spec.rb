@@ -564,7 +564,7 @@ RSpec.describe Setting do
   describe "default_projects_modules conditional default" do
     shared_examples "base modules unchanged" do
       it "includes the base modules" do
-        base_modules = %w[calendar board_view work_package_tracking gantt news costs wiki]
+        base_modules = %w[calendar board_view work_package_tracking gantt news costs]
         expect(Settings::Definition[:default_projects_modules].default).to include(*base_modules)
       end
     end

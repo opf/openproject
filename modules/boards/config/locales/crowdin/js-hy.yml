@@ -1,95 +1,94 @@
-#English strings go here
 ---
 hy:
   ee:
     upsell:
       board_view:
-        description: Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.
+        description: Ցանկանո՞ւմ եք ավտոմատացնել Ձեր աշխատանքային հոսքերը Տախտակների միջոցով։ Ընդլայնված տախտակները Enterprise հավելում են։ Խնդրում ենք անցնել վճարովի փաթեթի։
   js:
     boards:
-      create_new: Create new board
-      label_unnamed_board: Unnamed board
-      label_unnamed_list: Unnamed list
-      label_board_type: Board type
-      lists:
-        delete: Delete list
-      version:
-        is_locked: Version is locked. No items can be added to this version.
-        is_closed: Version is closed. No items can be added to this version.
-        close_version: Close version
-        open_version: Open version
-        lock_version: Lock version
-        unlock_version: Unlock version
-        edit_version: Edit version
-        show_version: Show version
-        locked: Locked
-        closed: Closed
-      new_board: New board
-      add_list: Add list to board
-      add_card: Add card
-      error_attribute_not_writable: Cannot move the work package, %{attribute} is not writable.
-      error_loading_the_list: 'Error loading the list: %{error_message}'
-      error_permission_missing: The permission to create public queries is missing
-      error_cannot_move_into_self: You can not move a work package into its own column.
-      text_hidden_list_warning: Not all lists are displayed because you lack the permission. Contact your admin for more information.
-      click_to_remove_list: Click to remove this list
+      add_card: Ավելացնել քարտ
+      add_list: Ավելացնել ցանկ տախտակին
+      add_list_modal:
+        labels:
+          assignee: Ընտրեք օգտատեր՝ պատասխանատուի նոր ցանկ ավելացնելու համար
+          status: Ընտրեք կարգավիճակ՝ որպես նոր ցանկ ավելացնելու համար
+          subproject: Ընտրեք ենթանախագիծ՝ որպես նոր ցանկ ավելացնելու համար
+          subtasks: Ընտրեք աշխատանքային փաթեթ՝ որպես նոր ցանկ ավելացնելու համար
+          version: Ընտրեք տարբերակ՝ որպես նոր ցանկ ավելացնելու համար
+        warning:
+          add_members: <a href="%{link}">Ավելացրեք նոր անդամ այս նախագծին</a>՝ օգտատերերին կրկին ընտրելու համար։
+          assignee: Ձեր զտիչի արժեքին համապատասխանող անդամ չկա։  <br>
+          no_member: Այս նախագիծը ներկայումս չունի անդամներ, որոնք կարող են ավելացվել։  <br>
+          status: |
+            Ներկայումս հասանելի կարգավիճակ չկա։ <br>
+            Կամ դրանք ընդհանրապես չկան, կամ բոլորն արդեն ավելացվել են տախտակին։
       board_type:
-        text: Board type
-        free: basic
-        select_board_type: Please choose the type of board you need.
-        free_text: 'Start from scratch with a blank board. Manually add cards and columns to this board.
+        action: Գործողությունների տախտակ
+        action_by_attribute: Գործողությունների տախտակ (%{attribute})
+        action_text: 'Տախտակ՝ %{attribute} հատկանիշով զտված ցանկերով։ Աշխատանքային փաթեթներն այլ ցանկեր տեղափոխելը կթարմացնի դրանց հատկանիշը։
 
           '
-        action: Action board
-        action_by_attribute: Action board (%{attribute})
-        action_text: 'A board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+        action_text_assignee: 'Ավտոմատացված սյունակներով տախտակ՝ ըստ նշանակված օգտատերերի։ Իդեալական է աշխատանքային փաթեթները բաշխելու համար։
 
           '
-        action_text_subprojects: 'Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+        action_text_status: 'Հիմնական kanban ոճի տախտակ՝ կարգավիճակների սյունակներով, ինչպիսիք են Անելիք, Ընթացքում, Ավարտված։
 
           '
-        action_text_subtasks: 'Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+        action_text_subprojects: 'Ավտոմատացված սյունակներով տախտակ՝ ենթանախագծերի համար։ Աշխատանքային փաթեթներն այլ ցանկեր տեղափոխելը համապատասխանաբար թարմացնում է (ենթա)նախագիծը։
 
           '
-        action_text_status: 'Basic kanban style board with columns for status such as To Do, In Progress, Done.
+        action_text_subtasks: 'Ավտոմատացված սյունակներով տախտակ՝ ենթատարրերի համար։ Աշխատանքային փաթեթներն այլ ցանկեր տեղափոխելը համապատասխանաբար թարմացնում է ծնող տարրը։
 
           '
-        action_text_assignee: 'Board with automated columns based on assigned users. Ideal for dispatching work packages.
-
-          '
-        action_text_version: 'Board with automated columns based on the version attribute. Ideal for planning product development.
+        action_text_version: 'Ավտոմատացված սյունակներով տախտակ՝ ըստ տարբերակի հատկանիշի։ Իդեալական է արտադրանքի մշակումը պլանավորելու համար։
 
           '
         action_type:
-          assignee: assignee
-          status: status
-          version: version
-          subproject: subproject
-          subtasks: parent-child
+          assignee: պատասխանատու
+          status: կարգավիճակ
+          subproject: ենթանախագիծ
+          subtasks: ծնող-ենթատարր
+          version: տարբերակ
         board_type_title:
-          assignee: Assignee
-          status: Status
-          version: Version
-          subproject: Subproject
-          subtasks: Parent-child
-          basic: Basic
-        select_attribute: Action attribute
-      add_list_modal:
-        labels:
-          assignee: Select user to add as a new assignee list
-          status: Select status to add as a new list
-          version: Select version to add as a new list
-          subproject: Select subproject to add as a new list
-          subtasks: Select work package to add as a new list
-        warning:
-          status: |
-            There is currently no status available. <br>
-            Either there are none or they have all already been added to the board.
-          assignee: There isn't any member matched with your filter value.  <br>
-          no_member: This project currently does not have any members that can be added.  <br>
-          add_members: <a href="%{link}">Add a new member to this project</a> to select users again.
+          assignee: Պատասխանատու
+          basic: Հիմնական
+          status: Կարգավիճակ
+          subproject: Ենթանախագիծ
+          subtasks: Ծնող-ենթատարր
+          version: Տարբերակ
+        free: հիմնական
+        free_text: 'Սկսեք զրոյից՝ դատարկ տախտակով։ Ձեռքով ավելացրեք քարտեր և սյունակներ այս տախտակին։
+
+          '
+        select_attribute: Գործողության հատկանիշ
+        select_board_type: Խնդրում ենք ընտրել Ձեզ անհրաժեշտ տախտակի տեսակը։
+        text: Տախտակի տեսակ
+      click_to_remove_list: Սեղմեք այս ցանկը հեռացնելու համար
       configuration_modal:
-        title: Configure this board
         display_settings:
-          card_mode: Display as cards
-          table_mode: Display as table
+          card_mode: Ցուցադրել որպես քարտեր
+          table_mode: Ցուցադրել որպես աղյուսակ
+        title: Կազմաձևել այս տախտակը
+      create_new: Ստեղծել նոր տախտակ
+      error_attribute_not_writable: Հնարավոր չէ տեղափոխել աշխատանքային փաթեթը, %{attribute}-ը գրելի չէ։
+      error_cannot_move_into_self: Չեք կարող աշխատանքային փաթեթը տեղափոխել իր սեփական սյունակ։
+      error_loading_the_list: Ցանկը բեռնելու սխալ՝ %{error_message}
+      error_permission_missing: Բացակայում է հանրային հարցումներ ստեղծելու թույլտվությունը
+      label_board_type: Տախտակի տեսակ
+      label_unnamed_board: Անանուն տախտակ
+      label_unnamed_list: Անանուն ցանկ
+      lists:
+        delete: Ջնջել ցանկը
+      new_board: Նոր տախտակ
+      text_hidden_list_warning: Ոչ բոլոր ցանկերն են ցուցադրվում, քանի որ Դուք չունեք համապատասխան թույլտվություն։ Լրացուցիչ տեղեկությունների համար դիմեք Ձեր ադմինիստրատորին։
+      version:
+        close_version: Փակել տարբերակը
+        closed: Փակված
+        edit_version: Խմբագրել տարբերակը
+        is_closed: Տարբերակը փակ է։ Այս տարբերակին տարրեր չեն կարող ավելացվել։
+        is_locked: Տարբերակը կողպված է։ Այս տարբերակին տարրեր չեն կարող ավելացվել։
+        lock_version: Կողպել տարբերակը
+        locked: Կողպված
+        open_version: Բացել տարբերակը
+        show_version: Ցուցադրել տարբերակը
+        unlock_version: Ապակողպել տարբերակը

@@ -286,6 +286,7 @@ class DocsChecker
       endLine: end_line == line ? nil : line
     }.compact
     attributes_string = attributes.map { |k, v| "#{k}=#{v}" }.join(",")
+    puts "Issue in file #{file}"
     puts "::#{report_level} #{attributes_string}::#{github_escape(message)}"
   end
 end

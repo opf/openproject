@@ -1,27 +1,26 @@
-#English strings go here for Rails i18n
 ---
 vi:
   plugin_openproject_recaptcha:
-    name: OpenProject ReCaptcha
     description: Mô-đun này cung cấp khả năng kiểm tra recaptcha trong quá trình đăng nhập.
+    name: OpenProject ReCaptcha
   recaptcha:
-    label_recaptcha: reCAPTCHA
     button_please_wait: Vui lòng chờ ...
-    verify_account: Xác minh tài khoản của bạn
     error_captcha: Tài khoản của bạn không thể được xác minh. Vui lòng liên hệ với quản trị viên.
+    label_recaptcha: reCAPTCHA
     settings:
-      website_key: Khóa trang web (Cũng có thể được gọi là "Khóa trang web")
+      captcha_description_html: 'reCAPTCHA là một dịch vụ miễn phí của Google có thể được kích hoạt cho phiên bản OpenProject của bạn. Nếu được bật, biểu mẫu hình ảnh xác thực sẽ được hiển thị khi đăng nhập cho tất cả người dùng chưa xác minh hình ảnh xác thực. <br/> Vui lòng xem liên kết sau để biết thêm chi tiết về reCAPTCHA và các phiên bản của chúng cũng như cách tạo trang web và khóa bí mật: %{recaptcha_link} <br/> HCaptcha là giải pháp thay thế không có Google mà bạn có thể sử dụng nếu không muốn sử dụng reCAPTCHA. Xem liên kết này để biết thêm thông tin: %{hcaptcha_link} <br/> Cloudflare Turnstile™ là một giải pháp thay thế khác thuận tiện hơn cho người dùng trong khi vẫn cung cấp cùng mức độ bảo mật. Xem liên kết này để biết thêm thông tin: %{turnstile_link}
+
+        '
       response_limit: Giới hạn phản hồi cho HCaptcha
       response_limit_text: Số ký tự tối đa để coi phản hồi HCaptcha là hợp lệ.
-      website_key_text: Nhập khóa trang web bạn đã tạo trên bảng điều khiển dành cho quản trị viên reCAPTCHA cho miền này.
       secret_key: Khóa bí mật
       secret_key_text: Nhập khóa bí mật bạn đã tạo trên bảng điều khiển dành cho quản trị viên reCAPTCHA.
       type: Sử dụng reCAPTCHA
       type_disabled: Tắt reCAPTCHA
-      type_v2: reCAPTCHA v2
-      type_v3: reCAPTCHA v3
       type_hcaptcha: HCaptcha
       type_turnstile: Cửa quay Cloudflare™
-      captcha_description_html: 'reCAPTCHA là một dịch vụ miễn phí của Google có thể được kích hoạt cho phiên bản OpenProject của bạn. Nếu được bật, biểu mẫu hình ảnh xác thực sẽ được hiển thị khi đăng nhập cho tất cả người dùng chưa xác minh hình ảnh xác thực. <br/> Vui lòng xem liên kết sau để biết thêm chi tiết về reCAPTCHA và các phiên bản của chúng cũng như cách tạo trang web và khóa bí mật: %{recaptcha_link} <br/> HCaptcha là giải pháp thay thế không có Google mà bạn có thể sử dụng nếu không muốn sử dụng reCAPTCHA. Xem liên kết này để biết thêm thông tin: %{hcaptcha_link} <br/> Cloudflare Turnstile™ là một giải pháp thay thế khác thuận tiện hơn cho người dùng trong khi vẫn cung cấp cùng mức độ bảo mật. Xem liên kết này để biết thêm thông tin: %{turnstile_link}
-
-        '
+      type_v2: reCAPTCHA v2
+      type_v3: reCAPTCHA v3
+      website_key: Khóa trang web (Cũng có thể được gọi là "Khóa trang web")
+      website_key_text: Nhập khóa trang web bạn đã tạo trên bảng điều khiển dành cho quản trị viên reCAPTCHA cho miền này.
+    verify_account: Xác minh tài khoản của bạn

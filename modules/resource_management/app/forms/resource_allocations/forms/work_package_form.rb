@@ -49,19 +49,28 @@ module ResourceAllocations
             focusDirectly: false,
             dropdownPosition: "bottom",
             appendTo: "##{@dialog_id}",
-            filters: [{ name: "project_id", operator: "=", values: [@project.id.to_s] }],
+            filters: autocomplete_filters,
             hiddenFieldAction: REFRESH_ACTION
           }
         )
       end
 
-      def initialize(project:, dialog_id:)
+      def initialize(project:, dialog_id:, view: nil)
         super()
         @project = project
         @dialog_id = dialog_id
+        @view = view
       end
 
       private
+
+      # Constrains the picker to the project, and additionally to the planner
+      # view's work packages when the dialog was opened from a work-package view.
+      def autocomplete_filters
+        filters = [{ name: "project_id", operator: "=", values: [@project.id.to_s] }]
+        filters.concat(@view.allocation_work_package_filters) if @view&.allocation_work_package_filters
+        filters
+      end
 
       # The field is `entity_id` but the model keys errors on the polymorphic
       # `entity`/`entity_type`; relabel them onto this field.

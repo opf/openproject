@@ -60,6 +60,33 @@ RSpec.describe "API v3 Cost Entry resource" do
         it "returns HTTP 200" do
           expect(response).to have_http_status(200)
         end
+
+        it "does not disclose the linked work package the user may not see" do
+          expect(response.body)
+            .to be_json_eql(API::V3::URN_UNDISCLOSED.to_json)
+            .at_path("_links/entity/href")
+
+          expect(response.body)
+            .to be_json_eql(I18n.t(:"api_v3.undisclosed.workPackage").to_json)
+            .at_path("_links/entity/title")
+
+          expect(response.body).not_to have_json_path("_embedded/entity")
+          expect(response.body).not_to have_json_path("_embedded/workPackage")
+        end
+      end
+
+      context "and the user can also see the linked work package" do
+        let(:permissions) { %i[view_cost_entries view_work_packages] }
+
+        it "discloses the work package subject and link" do
+          expect(response.body)
+            .to be_json_eql(api_v3_paths.work_package(work_package.id).to_json)
+            .at_path("_links/entity/href")
+
+          expect(response.body)
+            .to be_json_eql(work_package.subject.to_json)
+            .at_path("_links/entity/title")
+        end
       end
 
       context "with an invalid id" do

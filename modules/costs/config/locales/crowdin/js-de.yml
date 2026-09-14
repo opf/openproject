@@ -22,15 +22,15 @@
 ---
 de:
   js:
-    text_are_you_sure: Sind Sie sicher?
-    myTimeTracking:
-      noSpecificTime: Keine bestimmte Zeit
-    work_packages:
-      property_groups:
-        costs: Kosten
-      properties:
-        overallCosts: Gesamtkosten
-        spentUnits: Gebuchte Einheiten
     button_log_costs: Stückkosten buchen
     label_hour: Stunde
     label_hours: Stunden
+    myTimeTracking:
+      noSpecificTime: Keine bestimmte Zeit
+    text_are_you_sure: Sind Sie sicher?
+    work_packages:
+      properties:
+        overallCosts: Gesamtkosten
+        spentUnits: Gebuchte Einheiten
+      property_groups:
+        costs: Kosten

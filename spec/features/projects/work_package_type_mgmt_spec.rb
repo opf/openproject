@@ -33,24 +33,24 @@ require "spec_helper"
 RSpec.describe "Projects", "work package type mgmt", :js do
   current_user { create(:user, member_with_permissions: { project => %i[edit_project manage_types] }) }
 
-  let(:phase_type)     { create(:type, name: "Phase", is_default: true) }
-  let(:milestone_type) { create(:type, name: "Milestone", is_default: false) }
+  let(:phase_type)     { create(:type, name: "Phase", default_variant_enabled_in_all_projects: true) }
+  let(:milestone_type) { create(:type, name: "Milestone") }
   let!(:project) { create(:project, name: "Foo project", types: [phase_type, milestone_type]) }
 
-  it "have the correct types checked for the project's types" do
+  let(:settings_page) { Pages::Projects::Settings::WorkPackageTypes.new(project) }
+
+  it "lists the project's types and removes the one deactivated" do
     visit projects_path
     click_on "Foo project"
     click_on "Project settings"
     click_on "Work packages"
 
-    expect(page).to have_checked_field("Phase", visible: :all)
-    expect(page).to have_checked_field("Milestone", visible: :all)
+    settings_page.expect_type_row(phase_type.default_variant)
+    settings_page.expect_type_row(milestone_type.default_variant)
 
-    # Disable a type
-    find_field("Milestone", visible: false).click
+    settings_page.remove_type(milestone_type.default_variant)
 
-    click_button "Save"
-
-    expect(page).to have_unchecked_field("Milestone", visible: :all)
+    settings_page.expect_no_type_row(milestone_type.default_variant)
+    expect(project.reload.enabled_types).to contain_exactly(phase_type)
   end
 end

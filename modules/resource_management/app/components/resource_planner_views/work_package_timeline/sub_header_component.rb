@@ -29,10 +29,9 @@
 #++
 
 module ResourcePlannerViews::WorkPackageTimeline
-  # The timeline toolbar. FullCalendar runs headless (`headerToolbar: false`),
-  # so these controls drive it from outside via the Stimulus controller.
   class SubHeaderComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
+    include ResourcePlannerViews::Timeline::SubHeader
 
     def initialize(project:, resource_planner:, view:)
       super
@@ -43,36 +42,12 @@ module ResourcePlannerViews::WorkPackageTimeline
 
     private
 
-    def granularities
-      Granularity::VIEWS
-    end
-
-    def default_granularity_key
-      Granularity::DEFAULT
-    end
-
-    # The Stimulus controller is owned by ContentComponent, which mounts it.
-    def nav_action(method)
-      { action: "#{ContentComponent::STIMULUS}##{method}" }
-    end
-
-    def granularity_action(key, view_name)
-      { action: "#{ContentComponent::STIMULUS}#setView",
-        "#{ContentComponent::STIMULUS}-view-param": view_name,
-        "#{ContentComponent::STIMULUS}-label-param": granularity_label(key) }
-    end
-
-    # Target the controller uses to update the button label on granularity change.
-    def granularity_button_data
-      { "#{ContentComponent::STIMULUS}-target": "granularityButton" }
-    end
-
-    def granularity_label(key)
-      t("resource_management.work_package_timeline.granularity.#{key}")
-    end
-
-    def allowed_to_allocate?
-      User.current.allowed_in_project?(:allocate_user_resources, @project)
+    def add_entity_item(menu)
+      menu.with_item(label: t("resource_management.work_package_timeline.subheader.add_work_package"), tag: :a,
+                     href: new_work_package_project_resource_planner_view_path(@project, @resource_planner, @view),
+                     content_arguments: { data: { controller: "async-dialog" } }) do |item|
+        item.with_leading_visual_icon(icon: :"op-relations")
+      end
     end
   end
 end

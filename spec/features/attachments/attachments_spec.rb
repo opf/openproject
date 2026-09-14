@@ -46,7 +46,7 @@ RSpec.describe "attachments" do
     xit "uploading a short text file and viewing it inline" do
       visit new_project_work_packages_path(project)
 
-      select project.types.first.name, from: "work_package_type_id"
+      select project.enabled_types.first.name, from: "work_package_type_id"
       fill_in "Subject", with: "attachment test"
 
       # open attachment fieldset and attach file

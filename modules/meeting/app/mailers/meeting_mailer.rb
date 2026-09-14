@@ -31,7 +31,7 @@
 class MeetingMailer < UserMailer
   include CalendarAttachment
 
-  def invited(meeting, user, actor)
+  def invited(meeting, user, actor, standalone_occurrence: false)
     @actor = actor
     @meeting = meeting
     @user = user
@@ -39,7 +39,7 @@ class MeetingMailer < UserMailer
     open_project_headers "Project" => @meeting.project.identifier,
                          "Meeting-Id" => @meeting.id
 
-    with_attached_ics(meeting, user) do
+    with_attached_ics(meeting, user, standalone_occurrence:) do
       subject = "[#{@meeting.project.name}] #{@meeting.title}"
       mail(to: user, subject:)
     end
@@ -145,12 +145,12 @@ class MeetingMailer < UserMailer
     end
   end
 
-  def ics_service_call(meeting, user, **args)
+  def ics_service_call(meeting, user, standalone_occurrence: false, **args)
     if meeting.is_a?(RecurringMeeting)
       ::RecurringMeetings::ICalService
         .new(user:, series: meeting)
         .generate_series(**args)
-    elsif meeting.recurring?
+    elsif meeting.recurring? && !standalone_occurrence
       ::RecurringMeetings::ICalService
         .new(user:, series: meeting.recurring_meeting)
         .generate_single_occurrence(meeting: meeting, **args)

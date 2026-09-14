@@ -52,13 +52,11 @@ module ResourcePlanners
     end
 
     def work_packages
-      # TODO: Implement a proper count
-      "—"
+      model.work_package_count
     end
 
     def members
-      # TODO: Implement a proper count
-      "—"
+      model.member_count
     end
 
     def start_date

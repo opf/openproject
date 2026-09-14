@@ -124,6 +124,31 @@ module Pages
       end
     end
 
+    def expect_no_more_menu(sprint)
+      within_sprint_row(sprint) do
+        expect(page).to have_no_test_selector("sprints--more")
+      end
+    end
+
+    def open_more_menu(sprint)
+      within_sprint_row(sprint) do
+        find_test_selector("sprints--more").click
+      end
+    end
+
+    def expect_menu_item(label)
+      expect(page).to have_selector(:menuitem, text: label)
+    end
+
+    def expect_no_menu_item(label)
+      expect(page).to have_no_selector(:menuitem, text: label)
+    end
+
+    def click_menu_item(sprint, label)
+      open_more_menu(sprint)
+      find(:menuitem, text: label).click
+    end
+
     def sprint_table_selector
       test_selector("all-sprints-table")
     end

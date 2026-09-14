@@ -112,6 +112,85 @@ module WaitHelpers
     wait_for_browser_event("turbo:frame-load", target_id: frame&.to_s, wait:, &)
   end
 
+  # Arms a one-shot reload probe for the Turbo frame with `frame_id`.
+  #
+  # The listener latches the probe state when the named frame loads. Each call
+  # resets that state and attaches a fresh one-shot listener, so callers can
+  # re-arm the probe before every action they want to observe.
+  #
+  # @param frame_id [String, Symbol] the DOM id of the Turbo frame to observe
+  # @raise [Capybara::ElementNotFound] if no Turbo frame has `frame_id`
+  # @return [nil] after successfully arming the probe
+  def install_turbo_frame_reload_probe(frame_id)
+    frame_id = frame_id.to_s
+    installed = page.evaluate_script(<<~JS, frame_id)
+      (() => {
+        const frameId = arguments[0];
+        const frame = document.getElementById(frameId);
+
+        if (!frame || frame.tagName !== "TURBO-FRAME") { return false; }
+
+        const probes = (window.__opTurboFrameReloadProbes ||= {});
+        probes[frameId] = false;
+        const onFrameLoad = (event) => {
+          if (event.target !== frame) { return; }
+
+          probes[frameId] = true;
+          frame.removeEventListener("turbo:frame-load", onFrameLoad);
+        };
+        frame.addEventListener("turbo:frame-load", onFrameLoad);
+        return true;
+      })()
+    JS
+
+    return if installed
+
+    raise Capybara::ElementNotFound,
+          "Unable to install Turbo frame reload probe: no turbo-frame##{frame_id}"
+  end
+
+  # Waits for a possible reload and expects the named frame's probe to remain unset.
+  #
+  # The browser-side timer waits `wait` seconds before reporting an unchanged
+  # probe. Capybara caps async scripts at its current maximum wait time, so the
+  # outer budget must exceed that timer. The five-second headroom prevents
+  # Selenium from racing the callback and raising `ScriptTimeoutError` in CI.
+  #
+  # @param frame_id [String, Symbol] the DOM id used to install the probe
+  # @param wait [Numeric] seconds to wait for a possible frame reload
+  # @raise [Capybara::ExpectationNotMet] if no probe is installed for `frame_id`
+  # @raise [RSpec::Expectations::ExpectationNotMetError] if the frame reloaded
+  # @return [nil] after the probe remains unset for the wait period
+  def expect_turbo_frame_not_reloaded(frame_id, wait: Capybara.default_max_wait_time)
+    frame_id = frame_id.to_s
+    result = Capybara.using_wait_time(wait + 5) do
+      page.evaluate_async_script(<<~JS, frame_id, wait * 1000)
+        const [frameId, timeoutMs] = arguments;
+        const done = arguments[arguments.length - 1];
+        const probes = window.__opTurboFrameReloadProbes || {};
+
+        if (!Object.prototype.hasOwnProperty.call(probes, frameId)) {
+          done({ installed: false, reloaded: false });
+        } else if (probes[frameId]) {
+          done({ installed: true, reloaded: true });
+        } else {
+          setTimeout(
+            () => done({ installed: true, reloaded: probes[frameId] === true }),
+            timeoutMs
+          );
+        }
+      JS
+    end
+
+    unless result.fetch("installed")
+      raise Capybara::ExpectationNotMet,
+            "No Turbo frame reload probe installed for ##{frame_id}"
+    end
+
+    expect(result.fetch("reloaded")).to be(false)
+    nil
+  end
+
   private
 
   # Shared implementation for the +wait_for_turbo*+ helpers.

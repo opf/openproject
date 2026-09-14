@@ -31,8 +31,8 @@
 require "spec_helper"
 
 RSpec.describe Backlogs::Sprints::UpdateService, type: :model do
-  let(:project) { create(:project, sprint_sharing: Projects::SprintSharing::RECEIVE_SHARED) }
-  let(:source_project) { create(:project, sprint_sharing: Projects::SprintSharing::SHARE_ALL_PROJECTS) }
+  let(:project) { create(:project, sprint_sharing: Projects::SprintSettings::RECEIVE_SHARED) }
+  let(:source_project) { create(:project, sprint_sharing: Projects::SprintSettings::SHARE_ALL_PROJECTS) }
   let(:sprint) { create(:sprint, project: source_project, name: "Sprint 1") }
   let(:user) do
     create(:user, member_with_permissions: { project => project_permissions, source_project => source_project_permissions })

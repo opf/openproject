@@ -22,15 +22,15 @@
 ---
 tr:
   js:
-    text_are_you_sure: Emin misiniz?
-    myTimeTracking:
-      noSpecificTime: Belirli bir zaman yok
-    work_packages:
-      property_groups:
-        costs: Maliyetler
-      properties:
-        overallCosts: Tüm maliyetler
-        spentUnits: Harcanan maliyet
     button_log_costs: Günlük birim maliyetleri
     label_hour: saat
     label_hours: saatler
+    myTimeTracking:
+      noSpecificTime: Belirli bir zaman yok
+    text_are_you_sure: Emin misiniz?
+    work_packages:
+      properties:
+        overallCosts: Tüm maliyetler
+        spentUnits: Harcanan maliyet
+      property_groups:
+        costs: Maliyetler

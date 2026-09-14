@@ -22,7 +22,7 @@ To upgrade your trial to the full version, click the **Buy now** button in the a
 
 ![Buy now button to book Enterprise cloud edition in OpenProject](openproject_enterprise_guide_buy_now_button.png)
 
-You will then be directed to *Administration* -> *Subscription* -> *Billing*.
+You will then be directed to _Administration_ -> _Subscription_ -> _Billing_.
 
 1. **Select a support plan** – Choose between the **professional** and **basic** support plans.
 2. Choose the **amount of users** - Select the number of users from the drop-down list. Users can only be selected in increments of five, with a minimum of five users.

@@ -43,7 +43,9 @@ RSpec.describe HealthReports::ReportComponent, type: :component do
     # rubocop:enable Naming/VariableNumber
   end
 
-  subject(:health_report_component) { described_class.new(report, i18n_scope: "test.scope") }
+  subject(:health_report_component) do
+    described_class.new(report, i18n_scope: "test.scope", docs_href: "https://docs.example.com")
+  end
 
   before do
     render_inline(health_report_component)

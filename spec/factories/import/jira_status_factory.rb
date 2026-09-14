@@ -29,5 +29,7 @@
 #++
 
 FactoryBot.define do
-  factory :jira_status, class: "Import::JiraStatus"
+  factory :jira_status, class: "Import::JiraStatus" do
+    sequence(:origin_id, &:to_s)
+  end
 end

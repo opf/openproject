@@ -43,24 +43,22 @@ module CalculatedValues::ErrorsHelper
     return unless calculated_value_error.is_a?(CalculatedValueError)
 
     error_code = calculated_value_error.error_code
-    missing_custom_field_ids = calculated_value_error.missing_custom_field_ids
-
     translation_key = ERROR_TRANSLATIONS.fetch(error_code, DEFAULT_TRANSLATION)
-    translation_options = {}
 
     if %w[ERROR_MISSING_VALUE ERROR_DISABLED_VALUE].include?(error_code)
       # To keep the error message short, we only show the first custom field with a missing/disabled value.
-      # TODO: This is also N+1 problematic.
-      cf = CustomField.find(missing_custom_field_ids.first)
+      missing_custom_field_id = calculated_value_error.missing_custom_field_ids.first
+      # One query per distinct missing field due to AR query cache
+      cf = CustomField.find_by(id: missing_custom_field_id) if missing_custom_field_id
 
       if cf
-        translation_options[:custom_field_name] = cf.name
+        I18n.t(translation_key, custom_field_name: cf.name)
       else
-        translation_key = DEFAULT_TRANSLATION
+        I18n.t(DEFAULT_TRANSLATION)
       end
+    else
+      I18n.t(translation_key)
     end
-
-    I18n.t(translation_key, **translation_options)
   end
 
   module_function :calculated_value_error_msg

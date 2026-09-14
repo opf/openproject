@@ -29,6 +29,8 @@
 # ++
 module Meetings
   class Menu < Submenu
+    CROSS_FILTER_KEYS = %w[time project_id].freeze
+
     def initialize(params:, project: nil)
       super(view_type: nil, project:, params:)
     end
@@ -53,11 +55,14 @@ module Meetings
     def my_meetings_item
       return unless User.current.logged?
 
-      my_meetings_href = polymorphic_path([project, :meetings])
-      filters = params[:filters].to_s
-      menu_item(title: I18n.t(:label_my_meetings),
-                selected: params[:current_href] == my_meetings_href &&
-                  (filters.blank? || (filters.include?("invited_user_id") && filters.exclude?('"*"'))))
+      menu_item(title: I18n.t(:label_my_meetings), selected: my_meetings_selected?)
+    end
+
+    def my_meetings_selected?
+      return false unless params[:current_href] == polymorphic_path([project, :meetings])
+      return params[:filters].blank? if preset_filters.empty?
+
+      sole_preset_matches?("invited_user_id", "=", [User.current.id.to_s])
     end
 
     def templates_menu_item
@@ -78,18 +83,15 @@ module Meetings
     end
 
     def all_meetings_item
-      all_filter = [].to_json
-      my_meetings_href = polymorphic_path([project, :meetings])
-      query_params = { filters: all_filter }
+      all_filter = [{ time: { operator: Queries::Operators::Upcoming.symbol, values: [] } }].to_json
 
-      if User.current.anonymous?
-        menu_item(title: I18n.t(:label_all_meetings),
-                  selected: params[:current_href] == my_meetings_href && (params[:filters].blank? || selected?(query_params)),
-                  query_params:)
-      else
-        menu_item(title: I18n.t(:label_all_meetings),
-                  query_params:)
-      end
+      menu_item(title: I18n.t(:label_all_meetings),
+                selected: all_meetings_selected?,
+                query_params: { filters: all_filter })
+    end
+
+    def all_meetings_selected?
+      preset_filters.empty? && (User.current.anonymous? || params[:filters].present?)
     end
 
     def meeting_series_menu_items # rubocop:disable Metrics/AbcSize
@@ -114,10 +116,37 @@ module Meetings
     end
 
     def recurring_menu_item
-      recurring_filter = [{ type: { operator: "=", values: ["t"] } }].to_json
+      recurring_filter = [
+        { type: { operator: "=", values: ["t"] } },
+        { time: { operator: Queries::Operators::Upcoming.symbol, values: [] } }
+      ].to_json
 
       menu_item(title: I18n.t("label_recurring_meeting_plural"),
+                selected: recurring_meetings_selected?,
                 query_params: { filters: recurring_filter, sort: "start_time" })
+    end
+
+    def recurring_meetings_selected?
+      sole_preset_matches?("type", "=", [OpenProject::Database::DB_VALUE_TRUE])
+    end
+
+    def sole_preset_matches?(key, operator, values)
+      return false unless preset_filters.size == 1
+
+      filter = preset_filters.first[key]
+      filter.is_a?(Hash) && filter["operator"] == operator && filter["values"] == values
+    end
+
+    def preset_filters
+      parsed_filters.reject { |filter| filter.keys.intersect?(CROSS_FILTER_KEYS) }
+    end
+
+    def parsed_filters
+      return @parsed_filters if defined?(@parsed_filters)
+
+      @parsed_filters = JSON.parse(params[:filters].to_s)
+    rescue JSON::ParserError
+      @parsed_filters = []
     end
 
     def involvement_group
@@ -144,7 +173,7 @@ module Meetings
     def attendee_filter
       [
         { attended_user_id: { operator: "=", values: [User.current.id.to_s] } },
-        { time: { operator: "=", values: ["past"] } }
+        { time: { operator: Queries::Operators::Past.symbol, values: [] } }
       ].to_json
     end
 

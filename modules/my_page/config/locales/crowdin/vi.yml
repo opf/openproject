@@ -1,4 +1,8 @@
 ---
 vi:
+  activerecord:
+    models:
+      grids/my_page:
+        other: My pages
   my_page:
     label: Trang của tôi

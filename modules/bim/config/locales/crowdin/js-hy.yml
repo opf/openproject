@@ -1,30 +1,29 @@
-#English strings go here
 ---
 hy:
   js:
     bcf:
+      add_viewpoint: Ավելացնել դիտակետ
+      delete_viewpoint: Ջնջել դիտակետը
+      export: Արտահանել
+      export_bcf_xml_file: Արտահանել BCF XML նիշք (BCF տարբերակ 2.1)
+      import: Ներմուծել
+      import_bcf_xml_file: Ներմուծել BCF XML նիշք (BCF տարբերակ 2.1)
       label_bcf: BCF
-      import: Import
-      import_bcf_xml_file: Import BCF XML file (BCF version 2.1)
-      export: Export
-      export_bcf_xml_file: Export BCF XML file (BCF version 2.1)
-      viewpoint: Viewpoint
-      add_viewpoint: Add viewpoint
-      show_viewpoint: Show viewpoint
-      delete_viewpoint: Delete viewpoint
-      management: BCF management
-      refresh: Refresh
-      refresh_work_package: Refresh work package
+      management: BCF կառավարում
+      refresh: Թարմացնել
+      refresh_work_package: Թարմացնել աշխատանքային փաթեթը
+      show_viewpoint: Ցուցադրել դիտակետը
+      viewpoint: Դիտակետ
     ifc_models:
-      empty_warning: This project does not yet have any IFC models.
-      use_this_link_to_manage: Use this link to upload and manage your IFC models
-      keyboard_input_disabled: Viewer does not have keyboard controls. Click on the viewer to give keyboard control to the viewer.
+      empty_warning: Այս նախագիծը դեռ չունի IFC մոդելներ։
+      keyboard_input_disabled: Դիտիչը ստեղնաշարային կառավարում չունի։ Սեղմեք դիտիչի վրա՝ ստեղնաշարային կառավարումը դիտիչին փոխանցելու համար։
       models:
-        ifc_models: IFC models
+        ifc_models: IFC մոդելներ
+      use_this_link_to_manage: Օգտագործեք այս հղումը Ձեր IFC մոդելները վերբեռնելու և կառավարելու համար
       views:
-        viewer: Viewer
-        split: Viewer and table
-        split_cards: Viewer and cards
+        split: Դիտիչ և աղյուսակ
+        split_cards: Դիտիչ և քարտեր
+        viewer: Դիտիչ
     revit:
       revit_add_in: Revit Add-In
-      revit_add_in_settings: Revit Add-In settings
+      revit_add_in_settings: Revit Add-In-ի կարգավորումներ

@@ -46,7 +46,8 @@ module Type::Attributes
                 parent_id
                 parent
                 readonly
-                schedule_manually].freeze
+                schedule_manually
+                version].freeze
 
   included do
     # Allow plugins to define constraints
@@ -74,7 +75,7 @@ module Type::Attributes
     #
     # E.g.
     #
-    #   ::Type.work_package_form_attributes['author'][:required] # => true
+    #   ::TypeVariant.work_package_form_attributes['author'][:required] # => true
     #
     # @return [Hash{String => Hash}] Map from attribute names to options.
     def all_work_package_form_attributes(merge_date: false)

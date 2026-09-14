@@ -47,15 +47,6 @@ module OpenProject
 
         private
 
-        def reset_url
-          inplace_edit_field_reset_path(
-            model: model.class.name,
-            id: model.id,
-            attribute:,
-            system_arguments_json: @system_arguments.to_json
-          )
-        end
-
         def additional_arguments
           if show_action_buttons
             {

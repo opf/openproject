@@ -74,6 +74,8 @@ module API
 
           delegate :caption, to: :column, prefix: true
 
+          delegate :displayable?, to: :column
+
           private
 
           def convert_attribute(attribute)

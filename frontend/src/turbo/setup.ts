@@ -1,3 +1,31 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import * as Turbo from '@hotwired/turbo';
 import TurboPower from 'turbo_power';
 import { registerDialogStreamAction } from './dialog-stream-action';
@@ -13,6 +41,7 @@ import { getTurboEvents } from './utils';
 import { StreamActions } from '@hotwired/turbo';
 import { addTurboAngularWrapper } from 'core-turbo/turbo-angular-wrapper';
 import { registerActionMenuMorphRemount } from './action-menu-morph-remount';
+import { registerPragmaticDndMorphAttributePreservation } from './pragmatic-dnd-morph-attributes';
 
 Turbo.session.drive = true;
 Turbo.config.drive.progressBarDelay = 100;
@@ -40,6 +69,7 @@ whenDebugging(() => {
 addTurboEventListeners();
 addTurboGlobalListeners();
 registerActionMenuMorphRemount();
+registerPragmaticDndMorphAttributePreservation();
 registerDialogStreamAction();
 registerFlashStreamAction();
 registerLiveRegionStreamAction();
@@ -55,8 +85,18 @@ StreamActions.reloadPage = function reloadPage() {
 // https://github.com/hotwired/turbo/issues/1300
 applyTurboNavigationPatch();
 
+// turbo_power's push_state writes a history entry with an empty state, which Turbo's popstate
+// handler then refuses to render on Back (it only rewrites the URL, leaving stale content on
+// screen). Route through Turbo's own history instead so the entry carries restoration data and
+// Back triggers a proper restoration visit. See https://github.com/marcoroth/turbo_power/issues/11.
+StreamActions.push_state = function pushState() {
+  const url = this.getAttribute('url');
+  if (url) {
+    Turbo.session.history.push(new URL(url, window.location.origin));
+  }
+};
+
 // Register only the turbo-power stream actions we actually use
-TurboPower.register('push_state', TurboPower.Actions.push_state, StreamActions);
 TurboPower.register('turbo_frame_set_src', TurboPower.Actions.turbo_frame_set_src, StreamActions);
 TurboPower.register('turbo_frame_reload', TurboPower.Actions.turbo_frame_reload, StreamActions);
 TurboPower.register('redirect_to', TurboPower.Actions.redirect_to, StreamActions);

@@ -6,6 +6,12 @@
   color: var(--codeMirror-fgColor) !important
   background-color: var(--codeMirror-bgColor) !important
 
+.CodeMirror-selected
+  background: var(--codeMirror-selection-bgColor) !important
+
+.CodeMirror-linenumbers
+  color: var(--codeMirror-lineNumber-fgColor) !important
+
 .CodeMirror-gutters
   background-color: var(--codeMirror-gutters-bgColor) !important
 
@@ -15,3 +21,17 @@
 // can still be clicked. The two interfere as both have position: relative
 .CodeMirror-code
   pointer-events: none
+
+// Syntax highlighting
+.cm-header
+  color: var(--codeMirror-syntax-fgColor-constant) !important
+.cm-tag
+  color: var(--codeMirror-syntax-fgColor-entity) !important
+.cm-comment
+  color: var(--codeMirror-syntax-fgColor-string) !important
+.cm-variable-2
+  color: var(--codeMirror-syntax-fgColor-variable) !important
+.cm-keyword
+  color: var(--codeMirror-syntax-fgColor-keyword) !important
+.cm-link
+  color: var(--codeMirror-syntax-fgColor-support) !important

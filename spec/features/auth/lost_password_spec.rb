@@ -34,6 +34,14 @@ RSpec.describe "Lost password" do
   let!(:user) { create(:user) }
   let(:new_password) { "new_PassW0rd!" }
 
+  it "shows a validation error when no email is provided" do
+    visit account_lost_password_path
+
+    click_on "Submit"
+
+    expect(page).to have_text("Email can't be blank.")
+  end
+
   it "allows logging in after having lost the password" do
     visit account_lost_password_path
 

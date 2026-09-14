@@ -1,17 +1,17 @@
 ---
 ro:
-  plugin_openproject_xls_export:
-    name: OpenProject XLS Export
-    description: Export issue lists as Excel spreadsheets (.xls).
-  export_to_excel: Exportă XLS
-  print_with_description: Previzualizare printare cu descriere
-  sentence_separator_or: sau
   different_formats: Formate diferite
   export:
     format:
       xls: XLS
       xls_with_descriptions: XLS cu descrieri
       xls_with_relations: XLS cu relații
+  export_to_excel: Exportă XLS
+  plugin_openproject_xls_export:
+    description: Export issue lists as Excel spreadsheets (.xls).
+    name: OpenProject XLS Export
+  print_with_description: Previzualizare printare cu descriere
+  sentence_separator_or: sau
   xls_export:
     child_of: copil al
     parent_of: părinte al

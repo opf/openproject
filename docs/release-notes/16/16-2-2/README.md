@@ -28,5 +28,6 @@ At the end, you will find a complete list of all changes and bug fixes.
 <!-- Warning: Anything above this line will be automatically removed by the release script -->
 
 ## Contributions
+
 A big thanks to our Community members for reporting bugs and helping us identify and provide fixes.
 This release, special thanks for reporting and finding bugs go to Stefan Weiberg.

@@ -72,7 +72,12 @@ module ResourcePlannerViews
         @filter_query.present?
       end
 
-      # The card-field selector only applies to user card views.
+      # The filters the view offers for configuration. Falls back to the query's
+      # full set for views that do not curate one.
+      def allowed_filters
+        @view.try(:configuration_filters, @filter_query)
+      end
+
       # ::ResourceUserCard disambiguates from the ResourcePlannerViews::ResourceUserCard contracts namespace.
       def show_card_fields?
         @view.is_a?(::ResourceUserCard)

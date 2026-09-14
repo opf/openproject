@@ -37,7 +37,7 @@ See COPYRIGHT and LICENSE files for more details.
 
         header.with_column(flex: 1, mr: 2, classes: "op-user-card--identity") do
           flex_layout do |identity|
-            identity.with_row do
+            identity.with_row(overflow: :hidden) do
               render(Primer::Beta::Text.new(font_weight: :semibold, classes: "op-user-card--name")) { @user.name }
             end
 
@@ -50,7 +50,7 @@ See COPYRIGHT and LICENSE files for more details.
         end
 
         header.with_column do
-          render(Primer::Beta::Label.new(scheme: status_scheme)) { status_label }
+          render(Users::StatusLabelComponent.new(user: @user))
         end
 
         if @remove_path

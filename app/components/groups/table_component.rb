@@ -56,7 +56,7 @@ module Groups
         component.with_description { blank_description }
         component.with_primary_action(label: t(:label_group_new), href: new_group_path) do |button|
           button.with_leading_visual_icon(icon: :plus)
-          t("activerecord.models.group")
+          Group.model_name.human
         end
       end
     end

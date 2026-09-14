@@ -108,6 +108,17 @@ RSpec.describe ResourceAllocations::WorkingTimeCalendar do
     end
   end
 
+  context "when global non-working days are passed in" do
+    subject(:calendar) { described_class.new(user:, range:, global_non_working_days: Set[monday]) }
+
+    it "uses the given set rather than querying for non-working days" do
+      # `monday` has no NonWorkingDay record, so it reads as zero capacity only
+      # because the passed-in set marks it non-working.
+      expect(calendar.capacity_on(monday)).to eq(0)
+      expect(calendar.capacity_on(Date.new(2026, 1, 6))).to eq(480) # working Tuesday, not in the set
+    end
+  end
+
   it "ignores the system working_days setting", with_settings: { working_days: [6] } do
     expect(calendar.capacity_on(monday)).to eq(480) # a Monday, despite the setting saying only Saturday
     expect(calendar.capacity_on(saturday)).to eq(0) # the user works zero Saturday minutes

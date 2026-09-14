@@ -1,0 +1,18 @@
+<%= tag.div(class: "op-rm-timeline-bar op-rm-timeline-bar_status", style: status_style) do %>
+  <span class="op-rm-timeline-bar--hours"><%= hours_label %></span>
+  <span class="op-rm-timeline-bar--label"><%= entity_subject %></span>
+  <% if overbooked? %>
+    <%= render Primer::Beta::Octicon.new(
+          icon: :alert,
+          color: :danger,
+          id: overbooked_tooltip_id,
+          classes: "op-rm-timeline-bar--warning",
+          "aria-label": overbooked_tooltip
+        ) %>
+    <%= render Primer::Alpha::Tooltip.new(
+          for_id: overbooked_tooltip_id,
+          type: :description,
+          text: overbooked_tooltip
+        ) %>
+  <% end %>
+<% end %>

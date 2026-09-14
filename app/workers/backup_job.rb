@@ -75,6 +75,9 @@ class BackupJob < ApplicationJob
   end
 
   def after_backup
+    # Always try to remove the archive path. After a successful fog upload the
+    # file has already been moved into CarrierWave's cache (no-op here). After a
+    # local copy, or if storing the backup failed, this prevents a leftover large tmpfile
     remove_files! db_dump_file_name, archive_file_name
     remove_backup_attachment! unless success?
 
@@ -86,7 +89,7 @@ class BackupJob < ApplicationJob
   end
 
   def notify_backup_ready!
-    UserMailer.backup_ready(user).deliver_later
+    UserMailer.backup_ready(user, missing_attachments_count: missing_attachments.size).deliver_later
   end
 
   def dumped?
@@ -135,19 +138,13 @@ class BackupJob < ApplicationJob
 
   def store_backup(file_name, backup:, user:)
     File.open(file_name) do |file|
+      file.extend FogFileUploader::MovableSource
+
       call = Attachments::CreateService
         .bypass_allowlist(user:)
         .call(container: backup, filename: file_name, file:, description: "OpenProject backup")
 
-      call.on_success do
-        download_url = ::API::V3::Utilities::PathHelper::ApiV3Path.attachment_content(call.result.id)
-
-        upsert_status(
-          status: :success,
-          message: I18n.t("export.succeeded"),
-          payload: download_payload(download_url, "application/zip")
-        )
-      end
+      call.on_success { upsert_success_status! call.result }
 
       call.on_failure do
         upsert_status status: :failure,
@@ -156,58 +153,128 @@ class BackupJob < ApplicationJob
     end
   end
 
+  def upsert_success_status!(result)
+    download_url = ::API::V3::Utilities::PathHelper::ApiV3Path.attachment_content(result.id)
+
+    upsert_status(
+      status: :success,
+      message: I18n.t("export.succeeded"),
+      payload: success_status_payload(download_url)
+    )
+  end
+
+  def success_status_payload(download_url)
+    payload = download_payload(download_url, "application/zip")
+    payload = payload.merge(html: missing_attachments_html) if missing_attachments.any?
+
+    payload
+  end
+
   def create_backup_archive!(file_name:, db_dump_file_name:, attachments: attachments_to_include)
-    paths_to_clean = []
-    clean_up = OpenProject::Configuration.remote_storage?
-
-    Zip::File.open(file_name, Zip::File::CREATE) do |zipfile|
+    Zip::OutputStream.open(file_name) do |zos|
       attachments.each do |attachment|
-        path = local_disk_path(attachment)
-        next unless path
-
-        zipfile.add "attachment/file/#{attachment.id}/#{attachment[:file]}", path
-
-        paths_to_clean << get_cache_folder_path(attachment) if clean_up && attachment.file.cached?
+        archive_attachment! zos, attachment
       end
-      zipfile.add "openproject.sql", db_dump_file_name
-    end
 
-    remove_paths! paths_to_clean # delete locally cached files that were downloaded just for the backup
+      write_missing_attachments! zos
+      write_to_archive! zos, "openproject.sql", db_dump_file_name
+    end
 
     @archived = true
 
-    file_name
+    finalize_archive_file_name! file_name
   end
 
-  def local_disk_path(attachment)
-    # If an attachment is destroyed on disk, skip it
-    diskfile = attachment.diskfile
-    return unless diskfile
+  def finalize_archive_file_name!(file_name)
+    return file_name if missing_attachments.empty?
 
-    diskfile.path
+    incomplete_file_name = file_name.sub(/\.zip\z/, "-incomplete.zip")
+    File.rename(file_name, incomplete_file_name)
+
+    @archive_file_name = incomplete_file_name
+  end
+
+  ##
+  # Adds a local file to the given ZIP archive.
+  #
+  # @param zos [Zip::OutputStream] Stream to ZIP archive
+  # @param entry_name [String] Name of the zip entry / file
+  # @param path [String] Path to local file to be written to stream
+  def write_to_archive!(zos, entry_name, path)
+    zos.put_next_entry entry_name
+
+    File.open(path, "rb") do |file|
+      ::Zip::IOExtras.copy_stream zos, file # copies file to zos
+    end
+  end
+
+  ##
+  # Adds an attachment to the archive. The content is fully received into a
+  # tempfile first so a failed download cannot leave a truncated zip entry
+  # (Zip::OutputStream cannot unwrite an already-opened member).
+  #
+  # Peak extra disk is one attachment at a time; the tempfile is unlinked when
+  # this method returns.
+  #
+  # @param zos [Zip::OutputStream] Stream to archive
+  # @param attachment [Attachment] Attachment
+  def archive_attachment!(zos, attachment)
+    # If an attachment is destroyed/missing, skip it
+    return missing_attachments << attachment unless attachment.file.readable?
+
+    archive_readable_attachment!(zos, attachment)
   rescue StandardError => e
+    log_attachment_error!(attachment, e)
+
+    missing_attachments << attachment
+  end
+
+  def archive_readable_attachment!(zos, attachment)
+    Tempfile.create(["backup-attachment-#{attachment.id}", ".bin"]) do |tmp|
+      tmp.binmode
+      attachment.file.stream_to(tmp)
+      tmp.flush
+
+      write_to_archive! zos, backup_attachment_entry_name(attachment), tmp.path
+    end
+  end
+
+  def backup_attachment_entry_name(attachment)
+    "attachment/file/#{attachment.id}/#{attachment[:file]}"
+  end
+
+  def log_attachment_error!(attachment, error)
     Rails.logger.error do
-      "Failed to access attachment #{attachment.id} #{attachment.file&.path} for backup: #{e.message}"
-    end
-
-    nil
-  end
-
-  def remove_paths!(paths)
-    paths.each do |path|
-      FileUtils.rm_rf path
+      "Failed to access attachment #{attachment.id} #{attachment.file&.path} for backup: #{error.message}"
     end
   end
 
-  def get_cache_folder_path(attachment)
-    # expecting paths like /tmp/op_uploaded_files/1639754082-3468-0002-0911/file.ext
-    # just making extra sure so we don't delete anything wrong later on
-    unless /#{attachment.file.cache_dir}\/[^\/]+\/[^\/]+/.match?(attachment.diskfile.path)
-      raise "Unexpected cache path for attachment ##{attachment.id}: #{attachment.diskfile}"
-    end
+  def missing_attachments
+    @missing_attachments ||= []
+  end
 
-    # returning parent as each cached file is in a separate folder which shall be removed too
-    Pathname(attachment.diskfile.path).parent.to_s
+  def write_missing_attachments!(zos)
+    return if missing_attachments.empty?
+
+    zos.put_next_entry "MISSING_ATTACHMENTS.txt"
+    zos.write missing_attachments_content
+  end
+
+  def missing_attachments_html
+    I18n.t(
+      "backup.missing_attachments_notice_html",
+      file_count: I18n.t(:label_x_files, count: missing_attachments.size)
+    )
+  end
+
+  def missing_attachments_content
+    lines = missing_attachments.map { |attachment| "#{attachment.id}\t#{attachment[:file]}" }
+
+    <<~TEXT
+      The following attachments could not be read and were not included in this backup:
+
+      #{lines.join("\n")}
+    TEXT
   end
 
   def attachments_to_include

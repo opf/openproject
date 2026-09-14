@@ -28,9 +28,8 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= component_wrapper(tag: "turbo-frame") do %>
-  <%# TODO: Replace Primer::Box below with an InsetBox, once that component is ready to be used %>
-  <%= render(Primer::Box.new(border: true, border_radius: 2, bg: :inset, p: 3)) do %>
-    <%= render(Primer::Beta::Text.new(tag: :p, font_weight: :bold, mb: 2)) { t(".title") } %>
+  <%= render(OpPrimer::InsetBoxComponent.new) do |box| %>
+    <% box.with_title { t(".title") } %>
 
     <% if model.any? %>
       <% model.each do |match| %>

@@ -45,6 +45,13 @@ module RecurringMeetings
       return call unless call.success?
 
       recurring_meeting = call.result
+      recurring_meeting.bump_ical_sequence!
+
+      # Make sure we update the template before sending out any emails
+      # to make sure it's attributes (such as a location change) are correctly used
+      update_template(call)
+
+      return call unless call.success?
 
       if should_reschedule?(recurring_meeting)
         reschedule_future_occurrences(recurring_meeting)
@@ -55,7 +62,7 @@ module RecurringMeetings
       cleanup_cancelled_schedules(recurring_meeting)
       update_future_occurrence_titles(recurring_meeting)
 
-      update_template(call)
+      call
     end
 
     def update_template(call)
@@ -200,18 +207,24 @@ module RecurringMeetings
         .participants
         .invited
         .find_each do |participant|
-          # Generate old schedule in each participant's locale
-          old_schedule = User.execute_as(participant.user) do
-            @old_schedule_model.full_schedule_in_words
-          end
-
           MeetingSeriesMailer.updated(
             recurring_meeting,
             participant.user,
             User.current,
-            changes: { old_schedule:, old_location: @old_location }
+            changes: updated_mail_changes(recurring_meeting, participant.user)
           ).deliver_now
       end
+    end
+
+    # Only include old_schedule when the recurrence actually changed.
+    # Previously, we compared the localized schedule which would always differ.
+    def updated_mail_changes(recurring_meeting, recipient)
+      changes = { old_location: @old_location }
+      return changes unless recurring_meeting.schedule_changed?(previous: true)
+
+      changes.merge(
+        old_schedule: User.execute_as(recipient) { @old_schedule_model.full_schedule_in_words }
+      )
     end
 
     def reschedule_init_job(recurring_meeting)

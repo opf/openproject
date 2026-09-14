@@ -29,14 +29,15 @@
 #++
 
 module Backlogs
-  BacklogFilters = Data.define(:bucket_ids, :sprint_ids, :show_all) do
-    def self.from_params(params)
+  BacklogFilters = Data.define(:bucket_ids, :sprint_ids, :show_all, :filters_string) do
+    def self.from_params(params) # rubocop:disable Metrics/AbcSize
       new(
         bucket_ids: Array(params[:bucket_ids]).filter_map do |id|
                       id == "inbox" ? "inbox" : id.to_i.nonzero?
                     end.presence,
         sprint_ids: Array(params[:sprint_ids]).filter_map { |id| id.to_i.nonzero? }.presence,
-        show_all: ActiveRecord::Type::Boolean.new.cast(params[:all]) || false
+        show_all: ActiveRecord::Type::Boolean.new.cast(params[:all]) || false,
+        filters_string: params[:filters].presence
       )
     end
 
@@ -44,10 +45,19 @@ module Backlogs
       bucket_ids.nil? || bucket_ids.include?("inbox")
     end
 
+    def filtered?
+      filters_string.present?
+    end
+
+    def bucket_ids_without_inbox
+      bucket_ids&.excluding("inbox")
+    end
+
     def to_h
       result = show_all? ? { all: true } : {}
       result[:bucket_ids] = bucket_ids if bucket_ids
       result[:sprint_ids] = sprint_ids if sprint_ids
+      result[:filters] = filters_string if filters_string
       result
     end
 

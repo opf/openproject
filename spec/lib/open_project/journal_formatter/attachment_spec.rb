@@ -55,7 +55,7 @@ RSpec.describe OpenProject::JournalFormatter::Attachment do
         link = "#{Setting.protocol}://#{Setting.host_name}/api/v3/attachments/#{attachment.id}/content"
         expect(instance.render(key, [nil, attachment.filename.to_s]))
           .to eq(I18n.t(:text_journal_attachment_added,
-                        label: "<strong>#{I18n.t(:"activerecord.models.attachment")}</strong>",
+                        label: "<strong>#{Attachment.model_name.human}</strong>",
                         value: "<a target=\"_blank\" href=\"#{link}\">#{attachment.filename}</a>"))
       end
 
@@ -70,7 +70,7 @@ RSpec.describe OpenProject::JournalFormatter::Attachment do
           link = "#{Setting.protocol}://#{Setting.host_name}/blubs/api/v3/attachments/#{attachment.id}/content"
           expect(instance.render(key, [nil, attachment.filename.to_s]))
             .to eq(I18n.t(:text_journal_attachment_added,
-                          label: "<strong>#{I18n.t(:"activerecord.models.attachment")}</strong>",
+                          label: "<strong>#{Attachment.model_name.human}</strong>",
                           value: "<a target=\"_blank\" href=\"#{link}\">#{attachment.filename}</a>"))
         end
       end
@@ -79,7 +79,7 @@ RSpec.describe OpenProject::JournalFormatter::Attachment do
     describe "WITH the first value being an id as string, and the second nil" do
       let(:expected) do
         I18n.t(:text_journal_attachment_deleted,
-               label: "<strong>#{I18n.t(:"activerecord.models.attachment")}</strong>",
+               label: "<strong>#{Attachment.model_name.human}</strong>",
                old: "<strike><i>#{attachment.filename}</i></strike>")
       end
 
@@ -89,7 +89,7 @@ RSpec.describe OpenProject::JournalFormatter::Attachment do
     describe "WITH the first value being nil, and the second an id as a string WITH specifying not to output html" do
       let(:expected) do
         I18n.t(:text_journal_attachment_added,
-               label: I18n.t(:"activerecord.models.attachment"),
+               label: Attachment.model_name.human,
                value: attachment.filename)
       end
 
@@ -99,7 +99,7 @@ RSpec.describe OpenProject::JournalFormatter::Attachment do
     describe "WITH the first value being an id as string, and the second nil, WITH specifying not to output html" do
       let(:expected) do
         I18n.t(:text_journal_attachment_deleted,
-               label: I18n.t(:"activerecord.models.attachment"),
+               label: Attachment.model_name.human,
                old: attachment.filename)
       end
 

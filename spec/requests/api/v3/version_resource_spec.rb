@@ -646,7 +646,7 @@ RSpec.describe "API v3 Version resource", content_type: :json do
       end
 
       context "for a non-existent version" do
-        let(:path) { api_v3_paths.version 1337 }
+        let(:path) { api_v3_paths.version(not_existing_id(Version)) }
 
         it_behaves_like "not found"
       end

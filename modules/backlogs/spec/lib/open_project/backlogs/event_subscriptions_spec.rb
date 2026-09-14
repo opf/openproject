@@ -39,7 +39,7 @@ RSpec.describe OpenProject::Notifications, "backlogs event subscriptions" do # r
       )
     end
 
-    Projects::SprintSharing::SPRINT_SHARING_MODES.each do |sharing_mode|
+    Projects::SprintSettings::SPRINT_SHARING_MODES.each do |sharing_mode|
       context "when the backlogs module is disabled on a project with #{sharing_mode}" do
         let(:project) { create(:project, sprint_sharing: sharing_mode) }
         let(:disabled_module) { instance_double(EnabledModule, name: "backlogs", project:) }
@@ -47,21 +47,21 @@ RSpec.describe OpenProject::Notifications, "backlogs event subscriptions" do # r
         it "sets sprint sharing to no_sharing" do
           subject
 
-          expect(project.reload.sprint_sharing).to eq(Projects::SprintSharing::NO_SHARING)
+          expect(project.reload.sprint_sharing).to eq(Projects::SprintSettings::NO_SHARING)
         end
       end
     end
 
     context "when a different module is disabled" do
       let(:project) do
-        create(:project, sprint_sharing: Projects::SprintSharing::SHARE_ALL_PROJECTS)
+        create(:project, sprint_sharing: Projects::SprintSettings::SHARE_ALL_PROJECTS)
       end
       let(:disabled_module) { instance_double(EnabledModule, name: "wiki", project:) }
 
       it "does not reset sprint sharing" do
         subject
 
-        expect(project.reload.sprint_sharing).to eq(Projects::SprintSharing::SHARE_ALL_PROJECTS)
+        expect(project.reload.sprint_sharing).to eq(Projects::SprintSettings::SHARE_ALL_PROJECTS)
       end
     end
   end
@@ -74,14 +74,14 @@ RSpec.describe OpenProject::Notifications, "backlogs event subscriptions" do # r
       )
     end
 
-    Projects::SprintSharing::SPRINT_SHARING_MODES.each do |sharing_mode|
+    Projects::SprintSettings::SPRINT_SHARING_MODES.each do |sharing_mode|
       context "when a project with #{sharing_mode} is archived" do
         let(:project) { create(:project, sprint_sharing: sharing_mode) }
 
         it "sets sprint sharing to no_sharing" do
           subject
 
-          expect(project.reload.sprint_sharing).to eq(Projects::SprintSharing::NO_SHARING)
+          expect(project.reload.sprint_sharing).to eq(Projects::SprintSettings::NO_SHARING)
         end
       end
     end

@@ -19,7 +19,6 @@ The number of stakeholders depends on the complexity and scope of a project. How
 The diagram below provides an overview of the layers and main roles in project organisation from a project management point of view.
 ![Fig 4.1 Project organisation](04.01.png)
 
-
 Note that there is only one project team, which is composed of the people assuming the roles defined in the Performing, Managing and Directing layers. For the project to succeed, these people need to work together as a team.
 
 **Business Governing Layer**
@@ -58,7 +57,6 @@ The Appropriate Governance Body (AGB) is the entity responsible for the strategi
 
 The Project Steering Committee (PSC) comprises at least the four roles in the Managing and Directing Layers, providing a balanced mix of requestor- and provider-side representatives. Other roles can also participate as per the project's needs.
 ![Fig 4.2 The Project Steering Committee (PSC): Permanent and indicative optional roles](04.02.png)
-
 
 The Project Steering Committee (PSC) is chaired by the Project Owner (PO) and is the key decision-making and issue-resolution body for the project. Any significant decisions that may affect the project or the team's ability to deliver on the objectives will be escalated to the Project Steering Committee (PSC). Approval of key documents, resolution of important project issues or significant change requests will be discussed and decided upon here.
 
@@ -253,4 +251,3 @@ Example: The RAM for the Standard PM² roles involved in creating the Business C
 - Supports: The Solution Provider (SP) and the Project Manager (PM) work with the Business Manager (BM) to develop the Business Case. The final responsibility, however, lies with the Business Manager (BM).
 - Consulted: The Project Steering Committee (PSC) and User Representatives (URs) are consulted.
 - Informed: The Appropriate Governance Body (AGB) will be informed about the outputs or status of the task (it will be provided with information).
-

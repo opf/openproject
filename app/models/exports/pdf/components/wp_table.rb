@@ -48,12 +48,21 @@ module Exports::PDF::Components::WpTable
 
   def write_grouped!(work_packages, query, columns)
     groups_with_work_packages = work_packages.group_by do |work_package|
-      query.group_by_column.value(work_package)
+      group_value(query, work_package)
     end
-    sums = transformed_sum_group(query)
+    sums = transformed_sum_group(query).transform_keys { |group| group_sums_key(group) }
     groups_with_work_packages.each do |group, grouped_work_packages|
-      write_group!(group, grouped_work_packages, query, columns, sums[group] || {})
+      write_group!(group, grouped_work_packages, query, columns, sums[group_sums_key(group)] || {})
     end
+  end
+
+  def group_value(query, work_package)
+    value = query.group_by_column.value(work_package)
+    value.is_a?(ActiveRecord::Relation) ? value.to_a : value
+  end
+
+  def group_sums_key(group)
+    group.is_a?(Array) ? group.map(&:to_s).sort : group
   end
 
   # -- start workaround
@@ -80,7 +89,14 @@ module Exports::PDF::Components::WpTable
   #   [#<CustomOption … value: "Bar">, #<CustomOption value: "Foo"">] …,
   # }
   #
-  #  we therefor transform the keys of sums from b) to a)
+  # c) for hierarchy custom fields the same call keys by an array of items, even for single value ones, e.g.
+  # {
+  # { []: …,
+  #   [#<HierarchyItemAdapter … label: "Foo">]: …,
+  #   [#<HierarchyItemAdapter … label: "Bar">, #<HierarchyItemAdapter … label: "Foo">] …,
+  # }
+  #
+  #  we therefor transform the keys of sums from b) and c) to a)
 
   def transformed_sum_group(query)
     sums = query.results.all_group_sums
@@ -95,6 +111,8 @@ module Exports::PDF::Components::WpTable
     custom_field = query.group_by_column.custom_field
     if custom_field.list?
       transform_list_custom_field_keys(custom_field, groups)
+    elsif custom_field.field_format_hierarchy?
+      transform_hierarchy_custom_field_keys(custom_field, groups)
     else
       transform_single_custom_field_keys(custom_field, groups)
     end
@@ -107,19 +125,21 @@ module Exports::PDF::Components::WpTable
   def transform_list_custom_field_keys(custom_field, groups)
     groups.transform_keys do |key|
       if custom_field.multi_value?
-        transform_multi_list_custom_field_key(key)
+        key.map { |option| option&.value }.presence
       else
         key&.value
       end
     end
   end
 
-  def transform_multi_list_custom_field_key(key)
-    list = key.map { |v| v&.value }
-    if list.empty?
-      nil
-    else
-      list
+  # hierarchy groups from c) are keyed by an array of items, even for single value custom fields
+  def transform_hierarchy_custom_field_keys(custom_field, groups)
+    groups.transform_keys do |key|
+      if custom_field.multi_value?
+        key.map { |item| item&.to_s }.presence
+      else
+        key.first&.to_s
+      end
     end
   end
 

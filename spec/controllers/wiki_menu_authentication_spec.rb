@@ -31,17 +31,13 @@
 require "spec_helper"
 
 RSpec.describe WikiMenuItemsController do
+  let(:project) { create(:project, :with_internal_wiki).reload }
+  let(:wiki_page) { create(:wiki_page, wiki: project.wiki) }
+  let(:params) { { project_id: project.id, id: wiki_page.title } }
+
   before do
     User.delete_all
     Role.delete_all
-
-    @project = create(:project)
-    @project.reload # project contains wiki by default
-
-    @params = {}
-    @params[:project_id] = @project.id
-    page = create(:wiki_page, wiki: @project.wiki)
-    @params[:id] = page.title
   end
 
   describe "w/ valid auth" do
@@ -50,9 +46,9 @@ RSpec.describe WikiMenuItemsController do
 
       allow(User).to receive(:current).and_return admin_user
       permission_role = create(:project_role, name: "accessgranted", permissions: [:manage_wiki])
-      member = create(:member, principal: admin_user, user: admin_user, project: @project, roles: [permission_role])
+      create(:member, principal: admin_user, user: admin_user, project:, roles: [permission_role])
 
-      get "edit", params: @params
+      get("edit", params:)
 
       expect(response).to be_successful
     end
@@ -62,7 +58,7 @@ RSpec.describe WikiMenuItemsController do
     it "be forbidden" do
       allow(User).to receive(:current).and_return create(:user)
 
-      get "edit", params: @params
+      get("edit", params:)
 
       expect(response).to have_http_status(:not_found)
     end

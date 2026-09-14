@@ -22,20 +22,20 @@ Version 7.4.4 of OpenProject has been released. This release contains:
 - The GitHub integration plugin did not properly receive events due to
   a naming clash
   ([#27448](https://community.openproject.org/wp/27448))
-- Creating new wiki pages from a wiki link (e.g,  *\[\[Wiki page\]\]*) now retains the correct title instead of the
+- Creating new wiki pages from a wiki link (e.g,  _\[\[Wiki page\]\]_) now retains the correct title instead of the
   generated URL slug ([#27462](https://community.openproject.org/wp/27462))
 - A subsequent search for documents in the global search disabled the
   documents search checkbox
   ([#27479](https://community.openproject.org/wp/27479))
 - The reset button for RSS tokens generated a new API token instead
   ([#27498](https://community.openproject.org/wp/27498))
-- Wiki start pages (titled *Wiki*) could not be renamed back if the name was changed at one point
+- Wiki start pages (titled _Wiki_) could not be renamed back if the name was changed at one point
   ([#27576](https://community.openproject.org/wp/27576))
 
 ## Changes
 
 - Meetings
-  plugin: The *close* button of the show page now requires a
+  plugin: The _close_ button of the show page now requires a
   confirmation before closing
   ([#27336](https://community.openproject.org/wp/27336))
 - The restriction to create a time entry with at maximum 1000 hours on

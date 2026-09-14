@@ -51,8 +51,8 @@ OpenProject relies on the ability to retain access to issued tokens over a long 
 
 The integration between OpenProject and Nextcloud has been tested with the following identity providers, which we consider officially supported:
 
-* Keycloak
-* Nextcloud Hub
+- Keycloak
+- Nextcloud Hub
 
 Other identity providers might work as well, but we have only limited capacity to assist with their setup. The Keycloak instructions should explain all the general steps necessary to make it work, but the exact way to configure it for your identity provider will likely differ.
 
@@ -159,8 +159,8 @@ This wraps up the configuration of this authentication method using Keycloak wit
 
 In the Nextcloud Hub use case, Nextcloud fulfills two roles:
 
-* It acts as a storage provider, just as usual
-* It acts as the identity provider
+- It acts as a storage provider, just as usual
+- It acts as the identity provider
 
 This deployment is simpler than running a dedicated identity provider, because it requires deployment and configuration of fewer applications.
 

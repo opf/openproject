@@ -30,20 +30,23 @@
 
 class RolesController < ApplicationController
   include PaginationHelper
+  include OpTurbo::ComponentStream
 
   layout "admin"
 
   before_action :require_admin
+  before_action :find_role, only: %i[edit update destroy drop]
 
   menu_item :roles, except: :report
   menu_item :permissions_report, only: :report
 
   def index
-    @roles = roles_scope
+    @query = build_query
+    @roles = filtered_roles_scope
              .page(page_param)
              .per_page(per_page_param)
 
-    render action: "index", layout: false if request.xhr?
+    render layout: !turbo_frame_request?
   end
 
   def new
@@ -53,7 +56,6 @@ class RolesController < ApplicationController
   end
 
   def edit
-    @role = Role.find(params[:id])
     @call = set_role_attributes(@role, "update")
   end
 
@@ -72,7 +74,6 @@ class RolesController < ApplicationController
   end
 
   def update
-    @role = Role.find(params[:id])
     @call = update_role(@role, permitted_params.role)
 
     if @call.success?
@@ -84,10 +85,7 @@ class RolesController < ApplicationController
   end
 
   def destroy
-    service_result = Roles::DeleteService.new(
-      model: Role.find(params[:id]),
-      user: current_user
-    ).call
+    service_result = Roles::DeleteService.new(model: @role, user: current_user).call
 
     if service_result.success?
       flash[:notice] = I18n.t(:notice_successful_delete)
@@ -95,6 +93,15 @@ class RolesController < ApplicationController
       flash[:error] = I18n.t(:error_can_not_remove_role)
     end
     redirect_to action: "index", status: :see_other
+  end
+
+  def drop
+    if valid_drop_request? && @role.move_after_anchor(drop_params[:prev_id], scope: reorderable_roles)
+      head :no_content
+    else
+      render_error_flash_message_via_turbo_stream(message: I18n.t(:error_invalid_list_move_anchor))
+      respond_with_turbo_streams(status: :unprocessable_entity)
+    end
   end
 
   def report
@@ -118,6 +125,10 @@ class RolesController < ApplicationController
   end
 
   private
+
+  def find_role
+    @role = Role.find(params.expect(:id))
+  end
 
   def set_role_attributes(role, create_or_update)
     contract = "Roles::#{create_or_update.camelize}Contract".constantize
@@ -149,6 +160,33 @@ class RolesController < ApplicationController
 
   def roles_scope
     Role.visible.ordered_by_builtin_and_position
+  end
+
+  def filtered_roles_scope
+    @query.results.visible.reorder(nil).ordered_by_builtin_and_position
+  end
+
+  def build_query
+    ParamsToQueryService
+      .new(Role, current_user, query_class: Queries::Roles::RoleQuery)
+      .call(params)
+  end
+
+  def reorderable_roles
+    Role.visible.builtin(false)
+  end
+
+  # The raw list_id is checked because permit cannot distinguish absent from
+  # filtered-out values, and prev_id must be a scalar to reach the anchor lookup.
+  def valid_drop_request?
+    !@role.builtin? &&
+      drop_params[:list_type] == Role::SORTABLE_LIST_TYPE &&
+      params[:list_id].blank? &&
+      drop_params.key?(:prev_id)
+  end
+
+  def drop_params
+    @drop_params ||= params.permit(:list_type, :list_id, :prev_id)
   end
 
   def new_params

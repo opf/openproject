@@ -1,30 +1,29 @@
-#English strings go here
 ---
 hy:
   js:
     team_planner:
-      add_existing: Add existing
-      label_team_planner_plural: Team planners
-      add_existing_title: Add existing work packages
-      create_label: Team planner
-      create_title: Create new team planner
-      unsaved_title: Unnamed team planner
-      no_data: Add assignees to set up your team planner.
-      add_assignee: Assignee
-      remove_assignee: Remove assignee
-      two_weeks: 2-week
-      one_week: 1-week
-      four_weeks: 4-week
-      eight_weeks: 8-week
-      work_week: Work week
-      today: Today
-      drag_here_to_remove: Drag here to remove assignee and start and end dates.
-      cannot_drag_here: Cannot move the work package due to permissions or editing restrictions.
-      cannot_drag_to_non_working_day: This work package cannot start/finish on a non-working day.
-      quick_add:
-        empty_state: Use the search field to find work packages and drag them to the planner to assign it to someone and define start and end dates.
-        search_placeholder: Search...
+      add_assignee: Պատասխանատու
+      add_existing: Ավելացնել առկա
+      add_existing_title: Ավելացնել առկա աշխատանքային փաթեթներ
+      cannot_drag_here: Հնարավոր չէ տեղափոխել աշխատանքային փաթեթը թույլտվությունների կամ խմբագրման սահմանափակումների պատճառով։
+      cannot_drag_to_non_working_day: Այս աշխատանքային փաթեթը չի կարող սկսվել/ավարտվել ոչ աշխատանքային օրը։
+      create_label: Թիմային պլանավորիչ
+      create_title: Ստեղծել նոր թիմային պլանավորիչ
+      drag_here_to_remove: Քարշ տարեք այստեղ՝ պատասխանատուն և սկզբի ու ավարտի ամսաթվերը հեռացնելու համար։
+      eight_weeks: 8-շաբաթյա
+      four_weeks: 4-շաբաթյա
+      label_team_planner_plural: Թիմային պլանավորիչներ
       modify:
         errors:
-          permission_denied: You do not have the necessary permissions to modify this.
-          fallback: This work package cannot be edited.
+          fallback: Այս աշխատանքային փաթեթը հնարավոր չէ խմբագրել։
+          permission_denied: Դուք չունեք սա փոփոխելու համար անհրաժեշտ թույլտվությունները։
+      no_data: Ավելացրեք պատասխանատուներ՝ Ձեր թիմային պլանավորիչը կարգավորելու համար։
+      one_week: 1-շաբաթյա
+      quick_add:
+        empty_state: Օգտագործեք որոնման դաշտը՝ աշխատանքային փաթեթներ գտնելու համար, և քարշ տարեք դրանք պլանավորիչ՝ որևէ մեկին նշանակելու և սկզբի ու ավարտի ամսաթվերը սահմանելու համար։
+        search_placeholder: Որոնել...
+      remove_assignee: Հեռացնել պատասխանատուին
+      today: Այսօր
+      two_weeks: 2-շաբաթյա
+      unsaved_title: Անանուն թիմային պլանավորիչ
+      work_week: Աշխատանքային շաբաթ

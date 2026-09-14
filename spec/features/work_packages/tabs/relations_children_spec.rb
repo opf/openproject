@@ -67,7 +67,7 @@ RSpec.describe "Relations children tab", :js, :with_cuprite do
     end
 
     context "when being on the split screen" do
-      let(:wp_split_page) { Pages::SplitWorkPackage.new(work_package, project) }
+      let(:wp_split_page) { Pages::PrimerizedSplitWorkPackage.new(work_package, project) }
 
       it "can render the page correctly after creation (regression #60629)" do
         wp_split_page.visit_tab!("relations")
@@ -187,7 +187,7 @@ RSpec.describe "Relations children tab", :js, :with_cuprite do
 
     before do
       all_possible_custom_fields.each do |cf|
-        project.types.first.custom_fields << cf
+        project.enabled_variants.first.custom_fields << cf
         project.work_package_custom_fields << cf
       end
     end

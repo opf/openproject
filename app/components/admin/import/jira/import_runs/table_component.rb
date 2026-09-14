@@ -30,7 +30,8 @@
 
 module Admin::Import::Jira::ImportRuns
   class TableComponent < OpPrimer::BorderBoxTableComponent
-    columns :id, :status, :projects, :last_changed
+    columns :id, :creator, :projects, :last_changed
+    main_column :id
 
     def initialize(jira:, **)
       @jira = jira
@@ -56,7 +57,7 @@ module Admin::Import::Jira::ImportRuns
     def headers
       [
         [:id, { caption: I18n.t(:"admin.jira.run.title") }],
-        [:status, { caption: Import::JiraImport.human_attribute_name(:status) }],
+        [:creator, { caption: I18n.t(:"admin.jira.columns.creator") }],
         [:projects, { caption: I18n.t(:"admin.jira.columns.projects") }],
         [:last_changed, { caption: I18n.t(:"admin.jira.columns.last_change") }]
       ]

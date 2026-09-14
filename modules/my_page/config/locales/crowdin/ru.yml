@@ -1,4 +1,11 @@
 ---
 ru:
+  activerecord:
+    models:
+      grids/my_page:
+        one: Моя страница
+        few: My pages
+        many: My pages
+        other: Мои страницы
   my_page:
     label: Моя страница

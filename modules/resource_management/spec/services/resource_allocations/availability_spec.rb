@@ -86,6 +86,19 @@ RSpec.describe ResourceAllocations::Availability do
     end
   end
 
+  describe "#scheduled_minutes_within" do
+    it "sums the minutes booked within the range" do
+      allocate(600)
+      allocate(600)
+
+      expect(availability.scheduled_minutes_within(monday..friday)).to eq(1200)
+    end
+
+    it "is zero when nothing is booked in the range" do
+      expect(availability.scheduled_minutes_within(monday..friday)).to eq(0)
+    end
+  end
+
   describe "#overbooked_on?" do
     before do
       allocate(1500)

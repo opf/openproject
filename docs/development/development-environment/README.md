@@ -14,7 +14,6 @@ keywords: development setup
 | [via docker (MacOS)](docker-macos) | MacOS specific docker topics                                                      |
 | [MacOS](macos)                     | Develop setup on MacOS                                                            |
 
-
 ## Start Coding
 
 Please have a look at [our development guidelines](../code-review-guidelines/) for tips and guides on how to start
@@ -27,6 +26,12 @@ the [how to run tests](../testing) documentation (we like to have automated test
 The OpenProject logfile can be found in `log/development.log`.
 
 If an error occurs, it should be logged there (as well as in the output to STDOUT/STDERR of the rails server process).
+
+`npm ci` / `npm install` fails on a package with an unreviewed install script? `.npmrc` sets
+`strict-allow-scripts=true`, which blocks any script not listed in the nearest `package.json`'s
+`allowScripts` map. Review the script, then run
+[`npm approve-scripts`](https://docs.npmjs.com/cli/v11/commands/npm-approve-scripts) (or edit
+`allowScripts` directly) to record a decision.
 
 ## Questions, Comments, and Feedback
 

@@ -22,15 +22,15 @@
 ---
 hr:
   js:
-    text_are_you_sure: Da li ste sigurni?
-    myTimeTracking:
-      noSpecificTime: No specific time
-    work_packages:
-      property_groups:
-        costs: Troškovi
-      properties:
-        overallCosts: Ukupni troškovi
-        spentUnits: Potrošene jedinice
     button_log_costs: Evidentiraj jedinice troškova
     label_hour: sat
     label_hours: sati
+    myTimeTracking:
+      noSpecificTime: No specific time
+    text_are_you_sure: Da li ste sigurni?
+    work_packages:
+      properties:
+        overallCosts: Ukupni troškovi
+        spentUnits: Potrošene jedinice
+      property_groups:
+        costs: Troškovi

@@ -1,0 +1,649 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://xwiki.local/rest/wikis
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - OpenProject 17.8.0 HTTPX Client
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer <SECRET>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Language:
+      - en
+      Content-Script-Type:
+      - text/javascript
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Fri, 14 Aug 2026 09:26:23 GMT
+      Set-Cookie:
+      - JSESSIONID=F3017D444FD8B59478D457EF7C3C84C6; Path=/; HttpOnly
+      Xwiki-Form-Token:
+      - WzrpLbFcxUUMlb49xxmx6w
+      Xwiki-Version:
+      - 18.1.0
+      Content-Length:
+      - '837'
+    body:
+      encoding: UTF-8
+      string: '{"links":[{"href":"https://xwiki.local/rest/wikis/query","rel":"http://www.xwiki.org/rel/query","type":null,"hrefLang":null}],"wikis":[{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces","rel":"http://www.xwiki.org/rel/spaces","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/classes","rel":"http://www.xwiki.org/rel/classes","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/modifications","rel":"http://www.xwiki.org/rel/modifications","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/search","rel":"http://www.xwiki.org/rel/search","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/query","rel":"http://www.xwiki.org/rel/query","type":null,"hrefLang":null}],"id":"xwiki","name":"xwiki","description":null,"owner":null}]}'
+  recorded_at: Fri, 14 Aug 2026 09:26:23 GMT
+- request:
+    method: get
+    uri: https://xwiki.local/rest/wikis/xwiki/children?hierarchies=nestedpages
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - OpenProject 17.8.0 HTTPX Client
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer <SECRET>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Language:
+      - en
+      Content-Script-Type:
+      - text/javascript
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Fri, 14 Aug 2026 09:26:23 GMT
+      Set-Cookie:
+      - JSESSIONID=08B536C940D9F848E944C9DD840FBE55; Path=/; HttpOnly
+      Xwiki-Form-Token:
+      - WzrpLbFcxUUMlb49xxmx6w
+      Xwiki-Version:
+      - 18.1.0
+    body:
+      encoding: UTF-8
+      string: '{"links":[],"pageSummaries":[{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info","rel":"http://www.xwiki.org/rel/space","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/pages/WebHome","rel":"http://www.xwiki.org/rel/parent","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/pages/WebHome/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/pages/WebHome/children","rel":"http://www.xwiki.org/rel/children","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/pages/WebHome/objects","rel":"http://www.xwiki.org/rel/objects","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/syntaxes","rel":"http://www.xwiki.org/rel/syntaxes","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/pages/WebHome","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null}],"id":"xwiki:Cheesy
+        Info.WebHome","fullName":"Cheesy Info.WebHome","wiki":"xwiki","space":"Cheesy
+        Info","name":"WebHome","title":"Cheesy Info","rawTitle":"Cheesy Info","parent":"Main.WebHome","parentId":"xwiki:Main.WebHome","version":"1.1","author":"XWiki.admin","authorName":"Marcello
+        Pereira","xwikiRelativeUrl":"https://xwiki.local/bin/view/Cheesy%20Info/","xwikiAbsoluteUrl":"https://xwiki.local/bin/view/Cheesy%20Info/","translations":{"links":[],"translations":[],"default":"en"},"syntax":"xwiki/2.1"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Help","rel":"http://www.xwiki.org/rel/space","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Help/pages/WebHome","rel":"http://www.xwiki.org/rel/parent","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Help/pages/WebHome/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Help/pages/WebHome/children","rel":"http://www.xwiki.org/rel/children","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Help/pages/WebHome/objects","rel":"http://www.xwiki.org/rel/objects","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/syntaxes","rel":"http://www.xwiki.org/rel/syntaxes","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Help/pages/WebHome","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null}],"id":"xwiki:Help.WebHome","fullName":"Help.WebHome","wiki":"xwiki","space":"Help","name":"WebHome","title":"Help","rawTitle":"$services.localization.render(''help.title'')","parent":"Main.WebHome","parentId":"xwiki:Main.WebHome","version":"1.1","author":"XWiki.admin","authorName":"Marcello
+        Pereira","xwikiRelativeUrl":"https://xwiki.local/bin/view/Help/","xwikiAbsoluteUrl":"https://xwiki.local/bin/view/Help/","translations":{"links":[],"translations":[],"default":""},"syntax":"xwiki/2.1"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main","rel":"http://www.xwiki.org/rel/space","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/children","rel":"http://www.xwiki.org/rel/children","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/objects","rel":"http://www.xwiki.org/rel/objects","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/syntaxes","rel":"http://www.xwiki.org/rel/syntaxes","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null}],"id":"xwiki:Main.WebHome","fullName":"Main.WebHome","wiki":"xwiki","space":"Main","name":"WebHome","title":"Home","rawTitle":"Home","parent":"","parentId":"","version":"1.1","author":"XWiki.admin","authorName":"Marcello
+        Pereira","xwikiRelativeUrl":"https://xwiki.local/bin/view/Main/","xwikiAbsoluteUrl":"https://xwiki.local/bin/view/Main/","translations":{"links":[],"translations":[{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"en"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/ru","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/ru/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"ru"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/da","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/da/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"da"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/fr","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/fr/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"fr"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/de","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/de/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"de"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/ko","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/ko/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"ko"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/en_GB","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/en_GB/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"en_GB"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/es","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/es/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"es"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/pt_BR","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/pt_BR/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"pt_BR"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/no","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/no/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"no"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/ja","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/ja/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"ja"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/ca","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/ca/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"ca"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/uk","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/uk/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"uk"}],"default":"en"},"syntax":"xwiki/2.1"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox","rel":"http://www.xwiki.org/rel/space","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome","rel":"http://www.xwiki.org/rel/parent","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/children","rel":"http://www.xwiki.org/rel/children","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/attachments","rel":"http://www.xwiki.org/rel/attachments","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/objects","rel":"http://www.xwiki.org/rel/objects","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/syntaxes","rel":"http://www.xwiki.org/rel/syntaxes","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null}],"id":"xwiki:Sandbox.WebHome","fullName":"Sandbox.WebHome","wiki":"xwiki","space":"Sandbox","name":"WebHome","title":"Sandbox","rawTitle":"Sandbox","parent":"Main.WebHome","parentId":"xwiki:Main.WebHome","version":"1.1","author":"XWiki.admin","authorName":"Marcello
+        Pereira","xwikiRelativeUrl":"https://xwiki.local/bin/view/Sandbox/","xwikiAbsoluteUrl":"https://xwiki.local/bin/view/Sandbox/","translations":{"links":[],"translations":[{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"en"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/en_GB","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/en_GB/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"en_GB"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/es","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/es/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"es"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/da","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/da/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"da"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/de","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/de/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"de"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/zh","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/zh/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"zh"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/ru","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/ru/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"ru"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/zh_TW","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/zh_TW/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"zh_TW"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/it","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/it/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"it"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/ko","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/ko/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"ko"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/fr","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/fr/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"fr"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/pt_BR","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/pt_BR/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"pt_BR"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/uk","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/uk/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"uk"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/ca","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/ca/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"ca"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/lv","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/lv/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"lv"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/ja","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/ja/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"ja"}],"default":"en"},"syntax":"xwiki/2.1"}]}'
+  recorded_at: Fri, 14 Aug 2026 09:26:23 GMT
+- request:
+    method: get
+    uri: https://xwiki.local/rest/openproject/documents?docRef=xwiki:Cheesy%20Info.WebHome
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - OpenProject 17.8.0 HTTPX Client
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer <SECRET>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Language:
+      - en
+      Content-Script-Type:
+      - text/javascript
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Fri, 14 Aug 2026 09:26:23 GMT
+      Set-Cookie:
+      - JSESSIONID=7EF31C185E5467F05D490204C7D5C760; Path=/; HttpOnly
+      Xwiki-Form-Token:
+      - WzrpLbFcxUUMlb49xxmx6w
+      Xwiki-Version:
+      - 18.1.0
+      Content-Length:
+      - '2403'
+    body:
+      encoding: UTF-8
+      string: '{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info","rel":"http://www.xwiki.org/rel/space","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/pages/WebHome","rel":"http://www.xwiki.org/rel/parent","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/pages/WebHome/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/pages/WebHome/children","rel":"http://www.xwiki.org/rel/children","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/pages/WebHome/objects","rel":"http://www.xwiki.org/rel/objects","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/syntaxes","rel":"http://www.xwiki.org/rel/syntaxes","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/openproject/documents","rel":"self","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/classes/Cheesy%20Info.WebHome","rel":"http://www.xwiki.org/rel/class","type":null,"hrefLang":null}],"id":"083a8","fullName":"Cheesy
+        Info.WebHome","wiki":"xwiki","space":"Cheesy Info","name":"WebHome","title":"Cheesy
+        Info","rawTitle":"Cheesy Info","parent":"Main.WebHome","parentId":"xwiki:Main.WebHome","version":"1.1","author":"XWiki.admin","authorName":null,"xwikiRelativeUrl":"https://xwiki.local/bin/view/Cheesy%20Info/","xwikiAbsoluteUrl":"https://xwiki.local/bin/view/Cheesy%20Info/","translations":{"links":[],"translations":[],"default":"en"},"syntax":"xwiki/2.1","language":"","majorVersion":1,"minorVersion":1,"hidden":false,"enforceRequiredRights":false,"created":1776334194000,"creator":"XWiki.admin","creatorName":null,"modified":1776334194000,"modifier":"XWiki.admin","modifierName":null,"originalMetadataAuthor":"xwiki:XWiki.admin","originalMetadataAuthorName":null,"comment":"Created
+        URL Shortener.","content":"This is very cheesy [[Home>>Main.WebHome]] ","clazz":null,"objects":null,"attachments":null,"hierarchy":{"items":[{"label":"xwiki","name":"xwiki","type":"wiki","url":"https://xwiki.local/bin/view/Main/"},{"label":"Cheesy
+        Info","name":"Cheesy Info","type":"space","url":"https://xwiki.local/bin/view/Cheesy%20Info/"},{"label":"WebHome","name":"WebHome","type":"document","url":"https://xwiki.local/bin/view/Cheesy%20Info/"}]},"rights":[]}'
+  recorded_at: Fri, 14 Aug 2026 09:26:23 GMT
+- request:
+    method: get
+    uri: https://xwiki.local/rest/openproject/documents/083a8/ancestors
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - OpenProject 17.8.0 HTTPX Client
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer <SECRET>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Language:
+      - en
+      Content-Script-Type:
+      - text/javascript
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Fri, 14 Aug 2026 09:26:23 GMT
+      Set-Cookie:
+      - JSESSIONID=773C6707B88C5A27FA2E7C290A117C76; Path=/; HttpOnly
+      Xwiki-Form-Token:
+      - WzrpLbFcxUUMlb49xxmx6w
+      Xwiki-Version:
+      - 18.1.0
+      Content-Length:
+      - '2421'
+    body:
+      encoding: UTF-8
+      string: '[{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info","rel":"http://www.xwiki.org/rel/space","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/pages/WebHome","rel":"http://www.xwiki.org/rel/parent","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/pages/WebHome/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/pages/WebHome/children","rel":"http://www.xwiki.org/rel/children","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Cheesy%20Info/pages/WebHome/objects","rel":"http://www.xwiki.org/rel/objects","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/syntaxes","rel":"http://www.xwiki.org/rel/syntaxes","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/openproject/documents/083a8/ancestors","rel":"self","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/classes/Cheesy%20Info.WebHome","rel":"http://www.xwiki.org/rel/class","type":null,"hrefLang":null}],"id":"083a8","fullName":"Cheesy
+        Info.WebHome","wiki":"xwiki","space":"Cheesy Info","name":"WebHome","title":"Cheesy
+        Info","rawTitle":"Cheesy Info","parent":"Main.WebHome","parentId":"xwiki:Main.WebHome","version":"1.1","author":"XWiki.admin","authorName":null,"xwikiRelativeUrl":"https://xwiki.local/bin/view/Cheesy%20Info/","xwikiAbsoluteUrl":"https://xwiki.local/bin/view/Cheesy%20Info/","translations":{"links":[],"translations":[],"default":"en"},"syntax":"xwiki/2.1","language":"","majorVersion":1,"minorVersion":1,"hidden":false,"enforceRequiredRights":false,"created":1776334194000,"creator":"XWiki.admin","creatorName":null,"modified":1776334194000,"modifier":"XWiki.admin","modifierName":null,"originalMetadataAuthor":"xwiki:XWiki.admin","originalMetadataAuthorName":null,"comment":"Created
+        URL Shortener.","content":"This is very cheesy [[Home>>Main.WebHome]] ","clazz":null,"objects":null,"attachments":null,"hierarchy":{"items":[{"label":"xwiki","name":"xwiki","type":"wiki","url":"https://xwiki.local/bin/view/Main/"},{"label":"Cheesy
+        Info","name":"Cheesy Info","type":"space","url":"https://xwiki.local/bin/view/Cheesy%20Info/"},{"label":"WebHome","name":"WebHome","type":"document","url":"https://xwiki.local/bin/view/Cheesy%20Info/"}]},"rights":[]}]'
+  recorded_at: Fri, 14 Aug 2026 09:26:23 GMT
+- request:
+    method: get
+    uri: https://xwiki.local/rest/openproject/documents?docRef=xwiki:Help.WebHome
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - OpenProject 17.8.0 HTTPX Client
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer <SECRET>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Language:
+      - en
+      Content-Script-Type:
+      - text/javascript
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Fri, 14 Aug 2026 09:26:23 GMT
+      Set-Cookie:
+      - JSESSIONID=9D68F7AF4B25C0A38EF1C233A84B7E95; Path=/; HttpOnly
+      Xwiki-Form-Token:
+      - WzrpLbFcxUUMlb49xxmx6w
+      Xwiki-Version:
+      - 18.1.0
+      Content-Length:
+      - '7622'
+    body:
+      encoding: UTF-8
+      string: '{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Help","rel":"http://www.xwiki.org/rel/space","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Help/pages/WebHome","rel":"http://www.xwiki.org/rel/parent","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Help/pages/WebHome/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Help/pages/WebHome/children","rel":"http://www.xwiki.org/rel/children","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Help/pages/WebHome/objects","rel":"http://www.xwiki.org/rel/objects","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/syntaxes","rel":"http://www.xwiki.org/rel/syntaxes","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/openproject/documents","rel":"self","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/classes/Help.WebHome","rel":"http://www.xwiki.org/rel/class","type":null,"hrefLang":null}],"id":"374c9","fullName":"Help.WebHome","wiki":"xwiki","space":"Help","name":"WebHome","title":"Help","rawTitle":"$services.localization.render(''help.title'')","parent":"Main.WebHome","parentId":"xwiki:Main.WebHome","version":"1.1","author":"XWiki.admin","authorName":null,"xwikiRelativeUrl":"https://xwiki.local/bin/view/Help/","xwikiAbsoluteUrl":"https://xwiki.local/bin/view/Help/","translations":{"links":[],"translations":[],"default":""},"syntax":"xwiki/2.1","language":"","majorVersion":1,"minorVersion":1,"hidden":false,"enforceRequiredRights":false,"created":1774003536000,"creator":"XWiki.admin","creatorName":null,"modified":1774003536000,"modifier":"XWiki.admin","modifierName":null,"originalMetadataAuthor":"xwiki:XWiki.admin","originalMetadataAuthorName":null,"comment":"Created
+        URL Shortener.","content":"{{include reference=\"Help.Code.VelocityMacros\"
+        /}}\n\n{{velocity output=\"false\"}}\n#macro (display4Cards $cards)\n  <ul
+        class=\"card-list\">\n    #foreach ($card in $cards)\n      <li class=''card''>\n        #helpExampleCard($card)\n      </li>\n    #end\n  </ul>\n#end\n\n#set
+        ($howToCards = [{\n  ''icon'': ''fa fa-support'',\n  ''title'': $services.localization.render(''help.start.title''),\n  ''description'':
+        $services.localization.render(''help.start.description''),\n  ''documentation'':
+        \"https://www.xwiki.org/xwiki/bin/view/Documentation/UserGuide/GettingStarted/?version=$escapetool.url($xwiki.version)\"\n},
+        {\n  ''icon'': ''fa fa-play-circle'',\n  ''title'': $services.localization.render(''help.videos.title''),\n  ''description'':
+        $services.localization.render(''help.videos.description''),\n  ''documentation'':
+        ''Help.Videos.WebHome''\n}])\n\n#if ($xwiki.exists(''Help.History.WebHome''))\n  #set
+        ($historyURL = $xwiki.getURL(''Help.History.WebHome'', ''view'', $NULL, ''History''))\n#else\n  ##
+        We need to generate the page history because the Extension Manager doesn''t
+        import it.\n  #set ($historyURL = $xwiki.getURL(''Help.History.WebHome'',
+        ''save'', $escapetool.url({\n    ''content'': $services.localization.render(''help.history.version11.content''),\n    ''comment'':
+        $services.localization.render(''help.history.version11.comment''),\n    ''form_token'':
+        $services.csrf.token,\n    ''xredirect'': $xwiki.getURL(''Help.History.WebHome'',
+        ''save'', $escapetool.url({\n      ''title'': $services.localization.render(''help.history.version21.title''),\n      ''content'':
+        $services.localization.render(''help.history.version21.content''),\n      ''form_token'':
+        $services.csrf.token,\n      ''xredirect'': $xwiki.getURL(''Help.History.WebHome'',
+        ''save'', $escapetool.url({\n        ''title'': $services.localization.render(''help.history.version22.title''),\n        ''content'':
+        $services.localization.render(''help.history.version22.content'',[''**'']),\n        ''comment'':
+        $services.localization.render(''help.history.version22.comment''),\n        ''minorEdit'':
+        1,\n        ''form_token'': $services.csrf.token,\n        ''xredirect'':
+        $xwiki.getURL(''Help.History.WebHome'', ''save'', $escapetool.url({\n          ''content'':
+        \"$services.localization.render(''help.history.version31.content'',[''**''])
+        $util.newline${util.newline} $services.localization.render(''help.history.version31.content1'')\",\n          ''form_token'':
+        $services.csrf.token,\n          ''xredirect'': $xwiki.getURL(''Help.History.WebHome'',
+        ''view'', $NULL, ''History'')\n        }))\n      }))\n    }))\n  })))\n#end\n\n#set
+        ($featureCards = [{\n  ''icon'': ''fa fa-pencil'',\n  ''title'': $services.localization.render(''help.edit.title''),\n  ''description'':
+        $services.localization.render(''help.edit.description'',[\"<a href=''https://www.xwiki.org/xwiki/bin/view/Documentation/UserGuide/Features/PageEditing''
+        class=''wikiexternallink''>\",''</a>'',\"<a href=''$xwiki.getURL(''XWiki.XWikiSyntax'')''>\"]),\n  ''documentation'':
+        ''https://www.xwiki.org/xwiki/bin/view/Documentation/UserGuide/Features/PageEditing'',\n  ''examples'':
+        $xwiki.getURL(''Sandbox.WebHome'', ''edit'', ''editor=wysiwyg'')\n}, {\n  ''icon'':
+        ''fa fa-file-text-o'',\n  ''title'': $services.localization.render(''help.templates.title''),\n  ''description'':  $services.localization.render(''help.templates.description''),\n  ''documentation'':
+        ''Help.Templates.WebHome'',\n  ''examples'': $xwiki.getURL(''Help.Templates.WebHome'',
+        ''view'', $NULL, ''HExamples'')\n}, {\n  ''icon'': ''fa fa-file-excel-o'',\n  ''title'':
+        $services.localization.render(''help.macros.title''),\n  ''description'':  $services.localization.render(''help.macros.description''),\n  ''documentation'':
+        ''Help.Macros.WebHome'',\n  ''examples'': $xwiki.getURL(''Help.Macros.WebHome'',
+        ''view'', $NULL, ''HExamples'')\n}, {\n  ''icon'': ''fa fa-files-o'',\n  ''title'':
+        $services.localization.render(''help.applications.title''),\n  ''description'':  $services.localization.render(''help.applications.description''),\n  ''documentation'':
+        ''Help.Applications.WebHome'',\n  ''examples'': $xwiki.getURL(''Help.Applications.WebHome'',
+        ''view'', $NULL, ''HExamples'')\n}, {\n  ''icon'': ''fa fa-sitemap'',\n  ''title'':
+        $services.localization.render(''help.organization.title''),\n  ''description'':  $services.localization.render(''help.organization.description''),\n  ''documentation'':
+        ''https://www.xwiki.org/xwiki/bin/view/Documentation/UserGuide/Features/ContentOrganization/'',\n  ''examples'':
+        $xwiki.getURL(''Main.AllDocs'', ''view'', ''view=tree'')\n}, {\n  ''icon'':
+        ''fa fa-history'',\n  ''title'': $services.localization.render(''help.history.title''),\n  ''description'':  $services.localization.render(''help.history.description''),\n  ''documentation'':
+        ''https://www.xwiki.org/xwiki/bin/view/Documentation/UserGuide/Features/VersionControl'',\n  ''examples'':
+        $historyURL\n}, {\n  ''icon'': ''fa fa-download'',\n  ''title'': $services.localization.render(''help.import.title''),\n  ''description'':  $services.localization.render(''help.import.description''),\n  ''documentation'':
+        ''https://www.xwiki.org/xwiki/bin/view/Documentation/UserGuide/Features/Imports''\n}])\n{{/velocity}}\n\n{{velocity}}\n=
+        $services.localization.render(''help.title1'') =\n\n$services.localization.render(''help.description1'')\n\n{{html
+        clean=\"false\"}}\n#display4Cards($howToCards)\n{{/html}}\n\n= $services.localization.render(''help.title2'')
+        =\n\n$services.localization.render(''help.description2'')\n\n{{html clean=\"false\"}}\n#display4Cards($featureCards)\n{{/html}}\n{{/velocity}}","clazz":null,"objects":null,"attachments":null,"hierarchy":{"items":[{"label":"xwiki","name":"xwiki","type":"wiki","url":"https://xwiki.local/bin/view/Main/"},{"label":"Help","name":"Help","type":"space","url":"https://xwiki.local/bin/view/Help/"},{"label":"WebHome","name":"WebHome","type":"document","url":"https://xwiki.local/bin/view/Help/"}]},"rights":[]}'
+  recorded_at: Fri, 14 Aug 2026 09:26:23 GMT
+- request:
+    method: get
+    uri: https://xwiki.local/rest/openproject/documents/374c9/ancestors
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - OpenProject 17.8.0 HTTPX Client
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer <SECRET>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Language:
+      - en
+      Content-Script-Type:
+      - text/javascript
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Fri, 14 Aug 2026 09:26:23 GMT
+      Set-Cookie:
+      - JSESSIONID=56A363D9D4544417621214AA3CCE5697; Path=/; HttpOnly
+      Xwiki-Form-Token:
+      - WzrpLbFcxUUMlb49xxmx6w
+      Xwiki-Version:
+      - 18.1.0
+      Content-Length:
+      - '7640'
+    body:
+      encoding: UTF-8
+      string: '[{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Help","rel":"http://www.xwiki.org/rel/space","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Help/pages/WebHome","rel":"http://www.xwiki.org/rel/parent","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Help/pages/WebHome/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Help/pages/WebHome/children","rel":"http://www.xwiki.org/rel/children","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Help/pages/WebHome/objects","rel":"http://www.xwiki.org/rel/objects","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/syntaxes","rel":"http://www.xwiki.org/rel/syntaxes","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/openproject/documents/374c9/ancestors","rel":"self","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/classes/Help.WebHome","rel":"http://www.xwiki.org/rel/class","type":null,"hrefLang":null}],"id":"374c9","fullName":"Help.WebHome","wiki":"xwiki","space":"Help","name":"WebHome","title":"Help","rawTitle":"$services.localization.render(''help.title'')","parent":"Main.WebHome","parentId":"xwiki:Main.WebHome","version":"1.1","author":"XWiki.admin","authorName":null,"xwikiRelativeUrl":"https://xwiki.local/bin/view/Help/","xwikiAbsoluteUrl":"https://xwiki.local/bin/view/Help/","translations":{"links":[],"translations":[],"default":""},"syntax":"xwiki/2.1","language":"","majorVersion":1,"minorVersion":1,"hidden":false,"enforceRequiredRights":false,"created":1774003536000,"creator":"XWiki.admin","creatorName":null,"modified":1774003536000,"modifier":"XWiki.admin","modifierName":null,"originalMetadataAuthor":"xwiki:XWiki.admin","originalMetadataAuthorName":null,"comment":"Created
+        URL Shortener.","content":"{{include reference=\"Help.Code.VelocityMacros\"
+        /}}\n\n{{velocity output=\"false\"}}\n#macro (display4Cards $cards)\n  <ul
+        class=\"card-list\">\n    #foreach ($card in $cards)\n      <li class=''card''>\n        #helpExampleCard($card)\n      </li>\n    #end\n  </ul>\n#end\n\n#set
+        ($howToCards = [{\n  ''icon'': ''fa fa-support'',\n  ''title'': $services.localization.render(''help.start.title''),\n  ''description'':
+        $services.localization.render(''help.start.description''),\n  ''documentation'':
+        \"https://www.xwiki.org/xwiki/bin/view/Documentation/UserGuide/GettingStarted/?version=$escapetool.url($xwiki.version)\"\n},
+        {\n  ''icon'': ''fa fa-play-circle'',\n  ''title'': $services.localization.render(''help.videos.title''),\n  ''description'':
+        $services.localization.render(''help.videos.description''),\n  ''documentation'':
+        ''Help.Videos.WebHome''\n}])\n\n#if ($xwiki.exists(''Help.History.WebHome''))\n  #set
+        ($historyURL = $xwiki.getURL(''Help.History.WebHome'', ''view'', $NULL, ''History''))\n#else\n  ##
+        We need to generate the page history because the Extension Manager doesn''t
+        import it.\n  #set ($historyURL = $xwiki.getURL(''Help.History.WebHome'',
+        ''save'', $escapetool.url({\n    ''content'': $services.localization.render(''help.history.version11.content''),\n    ''comment'':
+        $services.localization.render(''help.history.version11.comment''),\n    ''form_token'':
+        $services.csrf.token,\n    ''xredirect'': $xwiki.getURL(''Help.History.WebHome'',
+        ''save'', $escapetool.url({\n      ''title'': $services.localization.render(''help.history.version21.title''),\n      ''content'':
+        $services.localization.render(''help.history.version21.content''),\n      ''form_token'':
+        $services.csrf.token,\n      ''xredirect'': $xwiki.getURL(''Help.History.WebHome'',
+        ''save'', $escapetool.url({\n        ''title'': $services.localization.render(''help.history.version22.title''),\n        ''content'':
+        $services.localization.render(''help.history.version22.content'',[''**'']),\n        ''comment'':
+        $services.localization.render(''help.history.version22.comment''),\n        ''minorEdit'':
+        1,\n        ''form_token'': $services.csrf.token,\n        ''xredirect'':
+        $xwiki.getURL(''Help.History.WebHome'', ''save'', $escapetool.url({\n          ''content'':
+        \"$services.localization.render(''help.history.version31.content'',[''**''])
+        $util.newline${util.newline} $services.localization.render(''help.history.version31.content1'')\",\n          ''form_token'':
+        $services.csrf.token,\n          ''xredirect'': $xwiki.getURL(''Help.History.WebHome'',
+        ''view'', $NULL, ''History'')\n        }))\n      }))\n    }))\n  })))\n#end\n\n#set
+        ($featureCards = [{\n  ''icon'': ''fa fa-pencil'',\n  ''title'': $services.localization.render(''help.edit.title''),\n  ''description'':
+        $services.localization.render(''help.edit.description'',[\"<a href=''https://www.xwiki.org/xwiki/bin/view/Documentation/UserGuide/Features/PageEditing''
+        class=''wikiexternallink''>\",''</a>'',\"<a href=''$xwiki.getURL(''XWiki.XWikiSyntax'')''>\"]),\n  ''documentation'':
+        ''https://www.xwiki.org/xwiki/bin/view/Documentation/UserGuide/Features/PageEditing'',\n  ''examples'':
+        $xwiki.getURL(''Sandbox.WebHome'', ''edit'', ''editor=wysiwyg'')\n}, {\n  ''icon'':
+        ''fa fa-file-text-o'',\n  ''title'': $services.localization.render(''help.templates.title''),\n  ''description'':  $services.localization.render(''help.templates.description''),\n  ''documentation'':
+        ''Help.Templates.WebHome'',\n  ''examples'': $xwiki.getURL(''Help.Templates.WebHome'',
+        ''view'', $NULL, ''HExamples'')\n}, {\n  ''icon'': ''fa fa-file-excel-o'',\n  ''title'':
+        $services.localization.render(''help.macros.title''),\n  ''description'':  $services.localization.render(''help.macros.description''),\n  ''documentation'':
+        ''Help.Macros.WebHome'',\n  ''examples'': $xwiki.getURL(''Help.Macros.WebHome'',
+        ''view'', $NULL, ''HExamples'')\n}, {\n  ''icon'': ''fa fa-files-o'',\n  ''title'':
+        $services.localization.render(''help.applications.title''),\n  ''description'':  $services.localization.render(''help.applications.description''),\n  ''documentation'':
+        ''Help.Applications.WebHome'',\n  ''examples'': $xwiki.getURL(''Help.Applications.WebHome'',
+        ''view'', $NULL, ''HExamples'')\n}, {\n  ''icon'': ''fa fa-sitemap'',\n  ''title'':
+        $services.localization.render(''help.organization.title''),\n  ''description'':  $services.localization.render(''help.organization.description''),\n  ''documentation'':
+        ''https://www.xwiki.org/xwiki/bin/view/Documentation/UserGuide/Features/ContentOrganization/'',\n  ''examples'':
+        $xwiki.getURL(''Main.AllDocs'', ''view'', ''view=tree'')\n}, {\n  ''icon'':
+        ''fa fa-history'',\n  ''title'': $services.localization.render(''help.history.title''),\n  ''description'':  $services.localization.render(''help.history.description''),\n  ''documentation'':
+        ''https://www.xwiki.org/xwiki/bin/view/Documentation/UserGuide/Features/VersionControl'',\n  ''examples'':
+        $historyURL\n}, {\n  ''icon'': ''fa fa-download'',\n  ''title'': $services.localization.render(''help.import.title''),\n  ''description'':  $services.localization.render(''help.import.description''),\n  ''documentation'':
+        ''https://www.xwiki.org/xwiki/bin/view/Documentation/UserGuide/Features/Imports''\n}])\n{{/velocity}}\n\n{{velocity}}\n=
+        $services.localization.render(''help.title1'') =\n\n$services.localization.render(''help.description1'')\n\n{{html
+        clean=\"false\"}}\n#display4Cards($howToCards)\n{{/html}}\n\n= $services.localization.render(''help.title2'')
+        =\n\n$services.localization.render(''help.description2'')\n\n{{html clean=\"false\"}}\n#display4Cards($featureCards)\n{{/html}}\n{{/velocity}}","clazz":null,"objects":null,"attachments":null,"hierarchy":{"items":[{"label":"xwiki","name":"xwiki","type":"wiki","url":"https://xwiki.local/bin/view/Main/"},{"label":"Help","name":"Help","type":"space","url":"https://xwiki.local/bin/view/Help/"},{"label":"WebHome","name":"WebHome","type":"document","url":"https://xwiki.local/bin/view/Help/"}]},"rights":[]}]'
+  recorded_at: Fri, 14 Aug 2026 09:26:23 GMT
+- request:
+    method: get
+    uri: https://xwiki.local/rest/openproject/documents?docRef=xwiki:Main.WebHome
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - OpenProject 17.8.0 HTTPX Client
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer <SECRET>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Language:
+      - en
+      Content-Script-Type:
+      - text/javascript
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Fri, 14 Aug 2026 09:26:23 GMT
+      Set-Cookie:
+      - JSESSIONID=DB1521E797F00DF982863E59BB6174BF; Path=/; HttpOnly
+      Xwiki-Form-Token:
+      - WzrpLbFcxUUMlb49xxmx6w
+      Xwiki-Version:
+      - 18.1.0
+    body:
+      encoding: UTF-8
+      string: '{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main","rel":"http://www.xwiki.org/rel/space","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/children","rel":"http://www.xwiki.org/rel/children","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/objects","rel":"http://www.xwiki.org/rel/objects","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/syntaxes","rel":"http://www.xwiki.org/rel/syntaxes","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/openproject/documents","rel":"self","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/classes/Main.WebHome","rel":"http://www.xwiki.org/rel/class","type":null,"hrefLang":null}],"id":"56971","fullName":"Main.WebHome","wiki":"xwiki","space":"Main","name":"WebHome","title":"Home","rawTitle":"Home","parent":"","parentId":"","version":"1.1","author":"XWiki.admin","authorName":null,"xwikiRelativeUrl":"https://xwiki.local/bin/view/Main/","xwikiAbsoluteUrl":"https://xwiki.local/bin/view/Main/","translations":{"links":[],"translations":[{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"en"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/ru","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/ru/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"ru"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/da","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/da/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"da"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/fr","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/fr/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"fr"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/de","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/de/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"de"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/ko","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/ko/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"ko"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/en_GB","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/en_GB/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"en_GB"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/es","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/es/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"es"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/pt_BR","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/pt_BR/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"pt_BR"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/no","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/no/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"no"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/ja","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/ja/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"ja"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/ca","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/ca/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"ca"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/uk","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/uk/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"uk"}],"default":"en"},"syntax":"xwiki/2.1","language":"","majorVersion":1,"minorVersion":1,"hidden":false,"enforceRequiredRights":false,"created":1774003574000,"creator":"XWiki.admin","creatorName":null,"modified":1774003574000,"modifier":"XWiki.admin","modifierName":null,"originalMetadataAuthor":"xwiki:XWiki.admin","originalMetadataAuthorName":null,"comment":"Created
+        URL Shortener.","content":"== Welcome to your wiki ==\n\nXWiki is the best
+        tool to organize your knowledge. A //wiki// is organized in a hierarchy of
+        //pages//. You can create multiple wikis, each with its own set of pages.\n\nXWiki
+        can be used as a knowledge base (support, documentation, sales, etc.), for
+        collaborative workspaces or even as a complete intranet.\n\n== The basics
+        ==\n\nTo make the most out of your wiki, log-in and:\n\nUse the {{displayIcon
+        name=\"pencil\"/}} button above to //edit// this page and start customizing
+        your wiki to your needs.\n\nUse the {{displayIcon name=\"add\"/}} button above
+        to //add// more pages to your wiki and create the //hierarchy// that best
+        organizes your content.\n\nUse the {{displayIcon name=\"home\"/}} breadcrumbs
+        located above the title to //navigate// inside your pages. It''s easy to get
+        lost in a big wiki without them.\n\nYou can also use the [[Sandbox>>Sandbox.WebHome]]
+        for more demo content and generally a place to experiment with your wiki''s
+        features. \n\n {{box}}Learn more on how to use XWiki with the [[Getting Started
+        Guide>>https://www.xwiki.org/xwiki/bin/view/Documentation/UserGuide/GettingStarted/WebHome]].{{/box}}\n\n(%
+        class=\"row\" %)\n(((\n(% class=\"col-xs-12 col-sm-6\" %)\n(((\n== Extend
+        your wiki ==\n\nTo extend the power and functionalities of your wiki with
+        the features that //you// need, head over to the [[Extension Manager>>XWiki.XWikiPreferences||queryString=\"editor=globaladmin&section=XWiki.Extensions\"]]
+        where you can search for and install extensions.\n\nTo browse through the
+        900+ community contributed extensions available for XWiki, head over to the
+        [[Extensions Repository>>https://extensions.xwiki.org]].\n)))\n\n(% class=\"col-xs-12
+        col-sm-6\" %)\n(((\n== Create your application ==\n\nGo beyond the available
+        extensions and define the //structure// of your data based on //your// needs,
+        creating //your// own applications with [[App Within Minutes>>AppWithinMinutes]]
+        (AWM). \n\nAWM will take care of making it easy for you and your users to
+        create and manage the data.\n)))\n)))","clazz":null,"objects":null,"attachments":null,"hierarchy":{"items":[{"label":"xwiki","name":"xwiki","type":"wiki","url":"https://xwiki.local/bin/view/Main/"},{"label":"Main","name":"Main","type":"space","url":"https://xwiki.local/bin/view/Main/"},{"label":"WebHome","name":"WebHome","type":"document","url":"https://xwiki.local/bin/view/Main/"}]},"rights":[]}'
+  recorded_at: Fri, 14 Aug 2026 09:26:23 GMT
+- request:
+    method: get
+    uri: https://xwiki.local/rest/openproject/documents/56971/ancestors
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - OpenProject 17.8.0 HTTPX Client
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer <SECRET>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Language:
+      - en
+      Content-Script-Type:
+      - text/javascript
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Fri, 14 Aug 2026 09:26:23 GMT
+      Set-Cookie:
+      - JSESSIONID=9AE4D6F0F50F13BD2754B02EFDFAECD2; Path=/; HttpOnly
+      Xwiki-Form-Token:
+      - WzrpLbFcxUUMlb49xxmx6w
+      Xwiki-Version:
+      - 18.1.0
+    body:
+      encoding: UTF-8
+      string: '[{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main","rel":"http://www.xwiki.org/rel/space","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/children","rel":"http://www.xwiki.org/rel/children","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/objects","rel":"http://www.xwiki.org/rel/objects","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/syntaxes","rel":"http://www.xwiki.org/rel/syntaxes","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/openproject/documents/56971/ancestors","rel":"self","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/classes/Main.WebHome","rel":"http://www.xwiki.org/rel/class","type":null,"hrefLang":null}],"id":"56971","fullName":"Main.WebHome","wiki":"xwiki","space":"Main","name":"WebHome","title":"Home","rawTitle":"Home","parent":"","parentId":"","version":"1.1","author":"XWiki.admin","authorName":null,"xwikiRelativeUrl":"https://xwiki.local/bin/view/Main/","xwikiAbsoluteUrl":"https://xwiki.local/bin/view/Main/","translations":{"links":[],"translations":[{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"en"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/ru","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/ru/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"ru"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/da","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/da/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"da"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/fr","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/fr/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"fr"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/de","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/de/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"de"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/ko","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/ko/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"ko"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/en_GB","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/en_GB/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"en_GB"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/es","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/es/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"es"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/pt_BR","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/pt_BR/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"pt_BR"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/no","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/no/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"no"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/ja","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/ja/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"ja"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/ca","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/ca/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"ca"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/uk","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Main/pages/WebHome/translations/uk/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"uk"}],"default":"en"},"syntax":"xwiki/2.1","language":"","majorVersion":1,"minorVersion":1,"hidden":false,"enforceRequiredRights":false,"created":1774003574000,"creator":"XWiki.admin","creatorName":null,"modified":1774003574000,"modifier":"XWiki.admin","modifierName":null,"originalMetadataAuthor":"xwiki:XWiki.admin","originalMetadataAuthorName":null,"comment":"Created
+        URL Shortener.","content":"== Welcome to your wiki ==\n\nXWiki is the best
+        tool to organize your knowledge. A //wiki// is organized in a hierarchy of
+        //pages//. You can create multiple wikis, each with its own set of pages.\n\nXWiki
+        can be used as a knowledge base (support, documentation, sales, etc.), for
+        collaborative workspaces or even as a complete intranet.\n\n== The basics
+        ==\n\nTo make the most out of your wiki, log-in and:\n\nUse the {{displayIcon
+        name=\"pencil\"/}} button above to //edit// this page and start customizing
+        your wiki to your needs.\n\nUse the {{displayIcon name=\"add\"/}} button above
+        to //add// more pages to your wiki and create the //hierarchy// that best
+        organizes your content.\n\nUse the {{displayIcon name=\"home\"/}} breadcrumbs
+        located above the title to //navigate// inside your pages. It''s easy to get
+        lost in a big wiki without them.\n\nYou can also use the [[Sandbox>>Sandbox.WebHome]]
+        for more demo content and generally a place to experiment with your wiki''s
+        features. \n\n {{box}}Learn more on how to use XWiki with the [[Getting Started
+        Guide>>https://www.xwiki.org/xwiki/bin/view/Documentation/UserGuide/GettingStarted/WebHome]].{{/box}}\n\n(%
+        class=\"row\" %)\n(((\n(% class=\"col-xs-12 col-sm-6\" %)\n(((\n== Extend
+        your wiki ==\n\nTo extend the power and functionalities of your wiki with
+        the features that //you// need, head over to the [[Extension Manager>>XWiki.XWikiPreferences||queryString=\"editor=globaladmin&section=XWiki.Extensions\"]]
+        where you can search for and install extensions.\n\nTo browse through the
+        900+ community contributed extensions available for XWiki, head over to the
+        [[Extensions Repository>>https://extensions.xwiki.org]].\n)))\n\n(% class=\"col-xs-12
+        col-sm-6\" %)\n(((\n== Create your application ==\n\nGo beyond the available
+        extensions and define the //structure// of your data based on //your// needs,
+        creating //your// own applications with [[App Within Minutes>>AppWithinMinutes]]
+        (AWM). \n\nAWM will take care of making it easy for you and your users to
+        create and manage the data.\n)))\n)))","clazz":null,"objects":null,"attachments":null,"hierarchy":{"items":[{"label":"xwiki","name":"xwiki","type":"wiki","url":"https://xwiki.local/bin/view/Main/"},{"label":"Main","name":"Main","type":"space","url":"https://xwiki.local/bin/view/Main/"},{"label":"WebHome","name":"WebHome","type":"document","url":"https://xwiki.local/bin/view/Main/"}]},"rights":[]}]'
+  recorded_at: Fri, 14 Aug 2026 09:26:23 GMT
+- request:
+    method: get
+    uri: https://xwiki.local/rest/openproject/documents?docRef=xwiki:Sandbox.WebHome
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - OpenProject 17.8.0 HTTPX Client
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer <SECRET>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Language:
+      - en
+      Content-Script-Type:
+      - text/javascript
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Fri, 14 Aug 2026 09:26:23 GMT
+      Set-Cookie:
+      - JSESSIONID=078A4E3A446CCBABB1B53FE4128E797F; Path=/; HttpOnly
+      Xwiki-Form-Token:
+      - WzrpLbFcxUUMlb49xxmx6w
+      Xwiki-Version:
+      - 18.1.0
+    body:
+      encoding: UTF-8
+      string: '{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox","rel":"http://www.xwiki.org/rel/space","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome","rel":"http://www.xwiki.org/rel/parent","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/children","rel":"http://www.xwiki.org/rel/children","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/attachments","rel":"http://www.xwiki.org/rel/attachments","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/objects","rel":"http://www.xwiki.org/rel/objects","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/syntaxes","rel":"http://www.xwiki.org/rel/syntaxes","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/openproject/documents","rel":"self","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/classes/Sandbox.WebHome","rel":"http://www.xwiki.org/rel/class","type":null,"hrefLang":null}],"id":"9cd1b","fullName":"Sandbox.WebHome","wiki":"xwiki","space":"Sandbox","name":"WebHome","title":"Sandbox","rawTitle":"Sandbox","parent":"Main.WebHome","parentId":"xwiki:Main.WebHome","version":"1.1","author":"XWiki.admin","authorName":null,"xwikiRelativeUrl":"https://xwiki.local/bin/view/Sandbox/","xwikiAbsoluteUrl":"https://xwiki.local/bin/view/Sandbox/","translations":{"links":[],"translations":[{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"en"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/en_GB","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/en_GB/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"en_GB"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/es","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/es/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"es"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/da","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/da/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"da"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/de","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/de/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"de"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/zh","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/zh/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"zh"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/ru","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/ru/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"ru"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/zh_TW","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/zh_TW/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"zh_TW"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/it","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/it/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"it"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/ko","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/ko/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"ko"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/fr","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/fr/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"fr"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/pt_BR","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/pt_BR/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"pt_BR"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/uk","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/uk/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"uk"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/ca","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/ca/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"ca"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/lv","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/lv/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"lv"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/ja","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/ja/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"ja"}],"default":"en"},"syntax":"xwiki/2.1","language":"","majorVersion":1,"minorVersion":1,"hidden":false,"enforceRequiredRights":false,"created":1774003519000,"creator":"XWiki.admin","creatorName":null,"modified":1774003519000,"modifier":"XWiki.admin","modifierName":null,"originalMetadataAuthor":"xwiki:XWiki.admin","originalMetadataAuthorName":null,"comment":"Created
+        URL Shortener.","content":"The sandbox is a part of your wiki that you can
+        freely modify. It''s meant to let you practice editing. You will discover
+        how page editing works and create new pages. Simply click on **Edit** to get
+        started!\n\n{{info}}\nDon''t worry about overwriting or losing stuff when
+        editing the page, you can always roll back to the first version of the page
+        from the \"History\" tab at the bottom of the page.\n{{/info}}\n\nIf you want
+        to give a look to the underlying [[XWiki Syntax>>XWiki.XWikiSyntax]], you
+        can click on \"Wiki code\" in the \"Show\" menu or click on the \"Source\"
+        tab when editing the page.\n\nHere are a number of test pages you can play
+        with:\n\n* [[Sandbox Test Page 1>>Sandbox.TestPage1]]\n* [[Sandbox Test Page
+        2>>Sandbox.TestPage2]]\n* [[Sandbox Test Page 3>>Sandbox.TestPage3]]\n\nBelow
+        is a demonstration of the [[XWiki Syntax>>XWiki.XWikiSyntax]] you can use
+        in wiki pages (headings, images, tables).\n\n== Headings ==\n\nXWiki offers
+        6 levels of headings. You can use them to structure your pages.\n\n== Level
+        2 Heading ==\n\n=== Level 3 Heading ===\n\n==== Level 4 Heading 4 ====\n\n=====
+        Level 5 Heading 5 =====\n\n====== Level 6 Heading 6 ======\n\n{{info title=\"Accessibility
+        recommendation\"}}\nIn order to provide the best experience for assistive
+        technology users on your wiki, you should avoid using the first level of heading
+        in page content.\n{{/info}}\n\n== Styles ==\n\nBasic styles are supported
+        in XWiki:\n\n* **Text in Bold**\n* //Text in Italics//\n* __Text in Underline__\n*
+        --Text in Strikethrough--\n* Text in ,,subscript,,\n* Text in ^^superscript^^\n\n==
+        Lists ==\n\nYou can create various types of lists in your wiki pages:\n\n===
+        Unordered list ===\n\n* Level 1\n** Level 2\n*** Level 3\n** Level 2\n* Level
+        1\n\n=== Numbered list ===\n\n1. Item\n11. Subitem\n111. Item\n1. Subitem\n\n===
+        Mixed list ===\n\n1. Item 1\n11. Item 2\n11*. Item 3\n11*. Item 4\n1. Item
+        5\n\n== Tables ==\n\nYou can create tables right into wiki pages:\n\n=== Table
+        with headers in the top row ===\n\n|= table header |= table header |= table
+        header\n| cell | cell | cell\n| cell | cell | cell\n\n=== Table with headers
+        in the top row and left column ===\n\n|= table header |= table header |= table
+        header\n|= table header | cell | cell\n|= table header | cell | cell\n\n==
+        Links ==\n\nXWiki allows you to create links to other pages in your wiki or
+        on the web:\n\n* [[WebHome]] -> links to the homepage of the current space\n*
+        [[Sandbox Home>>WebHome]] -> links can have labels\n* [[Wiki Home>>Main.WebHome]]
+        -> a link can use the SpaceName.PageName format to link to a page located
+        in another space\n* [[http://www.xwiki.org]] -> you can link to wiki pages
+        or to external websites\n* [[XWiki.org Website>>http://www.xwiki.org]] ->
+        link labels work for exernal links too\n\nYou can also create links to attachments:\n\nattach:XWikiLogo.png\n\n==
+        Images ==\n\nYou can insert images in your wiki pages:\n\nimage:XWikiLogo.png\n\n==
+        Macros ==\n\nMacros allow you to make wiki content look better and to add
+        additional features to your wiki. Here are 2 examples of how macros can be
+        used in wiki pages:\n\n=== Warning Macro ===\n\nThis macro allows you to draw
+        users'' attention to a specific piece of information:\n\n{{warning}}\nHello
+        World\n{{/warning}}\n\n=== Table of Contents ===\n\nThis macro automatically
+        generates a table of contents of your wiki page based on headings:\n\n{{toc/}}","clazz":null,"objects":null,"attachments":null,"hierarchy":{"items":[{"label":"xwiki","name":"xwiki","type":"wiki","url":"https://xwiki.local/bin/view/Main/"},{"label":"Sandbox","name":"Sandbox","type":"space","url":"https://xwiki.local/bin/view/Sandbox/"},{"label":"WebHome","name":"WebHome","type":"document","url":"https://xwiki.local/bin/view/Sandbox/"}]},"rights":[]}'
+  recorded_at: Fri, 14 Aug 2026 09:26:23 GMT
+- request:
+    method: get
+    uri: https://xwiki.local/rest/openproject/documents/9cd1b/ancestors
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - OpenProject 17.8.0 HTTPX Client
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer <SECRET>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Language:
+      - en
+      Content-Script-Type:
+      - text/javascript
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Fri, 14 Aug 2026 09:26:23 GMT
+      Set-Cookie:
+      - JSESSIONID=DD862CDC9C3B7E58E38FFFB417EB4375; Path=/; HttpOnly
+      Xwiki-Form-Token:
+      - WzrpLbFcxUUMlb49xxmx6w
+      Xwiki-Version:
+      - 18.1.0
+    body:
+      encoding: UTF-8
+      string: '[{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox","rel":"http://www.xwiki.org/rel/space","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome","rel":"http://www.xwiki.org/rel/parent","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/children","rel":"http://www.xwiki.org/rel/children","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/attachments","rel":"http://www.xwiki.org/rel/attachments","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/objects","rel":"http://www.xwiki.org/rel/objects","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/syntaxes","rel":"http://www.xwiki.org/rel/syntaxes","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/openproject/documents/9cd1b/ancestors","rel":"self","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/classes/Sandbox.WebHome","rel":"http://www.xwiki.org/rel/class","type":null,"hrefLang":null}],"id":"9cd1b","fullName":"Sandbox.WebHome","wiki":"xwiki","space":"Sandbox","name":"WebHome","title":"Sandbox","rawTitle":"Sandbox","parent":"Main.WebHome","parentId":"xwiki:Main.WebHome","version":"1.1","author":"XWiki.admin","authorName":null,"xwikiRelativeUrl":"https://xwiki.local/bin/view/Sandbox/","xwikiAbsoluteUrl":"https://xwiki.local/bin/view/Sandbox/","translations":{"links":[],"translations":[{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"en"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/en_GB","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/en_GB/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"en_GB"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/es","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/es/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"es"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/da","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/da/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"da"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/de","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/de/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"de"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/zh","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/zh/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"zh"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/ru","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/ru/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"ru"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/zh_TW","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/zh_TW/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"zh_TW"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/it","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/it/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"it"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/ko","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/ko/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"ko"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/fr","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/fr/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"fr"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/pt_BR","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/pt_BR/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"pt_BR"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/uk","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/uk/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"uk"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/ca","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/ca/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"ca"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/lv","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/lv/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"lv"},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/ja","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Sandbox/pages/WebHome/translations/ja/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"ja"}],"default":"en"},"syntax":"xwiki/2.1","language":"","majorVersion":1,"minorVersion":1,"hidden":false,"enforceRequiredRights":false,"created":1774003519000,"creator":"XWiki.admin","creatorName":null,"modified":1774003519000,"modifier":"XWiki.admin","modifierName":null,"originalMetadataAuthor":"xwiki:XWiki.admin","originalMetadataAuthorName":null,"comment":"Created
+        URL Shortener.","content":"The sandbox is a part of your wiki that you can
+        freely modify. It''s meant to let you practice editing. You will discover
+        how page editing works and create new pages. Simply click on **Edit** to get
+        started!\n\n{{info}}\nDon''t worry about overwriting or losing stuff when
+        editing the page, you can always roll back to the first version of the page
+        from the \"History\" tab at the bottom of the page.\n{{/info}}\n\nIf you want
+        to give a look to the underlying [[XWiki Syntax>>XWiki.XWikiSyntax]], you
+        can click on \"Wiki code\" in the \"Show\" menu or click on the \"Source\"
+        tab when editing the page.\n\nHere are a number of test pages you can play
+        with:\n\n* [[Sandbox Test Page 1>>Sandbox.TestPage1]]\n* [[Sandbox Test Page
+        2>>Sandbox.TestPage2]]\n* [[Sandbox Test Page 3>>Sandbox.TestPage3]]\n\nBelow
+        is a demonstration of the [[XWiki Syntax>>XWiki.XWikiSyntax]] you can use
+        in wiki pages (headings, images, tables).\n\n== Headings ==\n\nXWiki offers
+        6 levels of headings. You can use them to structure your pages.\n\n== Level
+        2 Heading ==\n\n=== Level 3 Heading ===\n\n==== Level 4 Heading 4 ====\n\n=====
+        Level 5 Heading 5 =====\n\n====== Level 6 Heading 6 ======\n\n{{info title=\"Accessibility
+        recommendation\"}}\nIn order to provide the best experience for assistive
+        technology users on your wiki, you should avoid using the first level of heading
+        in page content.\n{{/info}}\n\n== Styles ==\n\nBasic styles are supported
+        in XWiki:\n\n* **Text in Bold**\n* //Text in Italics//\n* __Text in Underline__\n*
+        --Text in Strikethrough--\n* Text in ,,subscript,,\n* Text in ^^superscript^^\n\n==
+        Lists ==\n\nYou can create various types of lists in your wiki pages:\n\n===
+        Unordered list ===\n\n* Level 1\n** Level 2\n*** Level 3\n** Level 2\n* Level
+        1\n\n=== Numbered list ===\n\n1. Item\n11. Subitem\n111. Item\n1. Subitem\n\n===
+        Mixed list ===\n\n1. Item 1\n11. Item 2\n11*. Item 3\n11*. Item 4\n1. Item
+        5\n\n== Tables ==\n\nYou can create tables right into wiki pages:\n\n=== Table
+        with headers in the top row ===\n\n|= table header |= table header |= table
+        header\n| cell | cell | cell\n| cell | cell | cell\n\n=== Table with headers
+        in the top row and left column ===\n\n|= table header |= table header |= table
+        header\n|= table header | cell | cell\n|= table header | cell | cell\n\n==
+        Links ==\n\nXWiki allows you to create links to other pages in your wiki or
+        on the web:\n\n* [[WebHome]] -> links to the homepage of the current space\n*
+        [[Sandbox Home>>WebHome]] -> links can have labels\n* [[Wiki Home>>Main.WebHome]]
+        -> a link can use the SpaceName.PageName format to link to a page located
+        in another space\n* [[http://www.xwiki.org]] -> you can link to wiki pages
+        or to external websites\n* [[XWiki.org Website>>http://www.xwiki.org]] ->
+        link labels work for exernal links too\n\nYou can also create links to attachments:\n\nattach:XWikiLogo.png\n\n==
+        Images ==\n\nYou can insert images in your wiki pages:\n\nimage:XWikiLogo.png\n\n==
+        Macros ==\n\nMacros allow you to make wiki content look better and to add
+        additional features to your wiki. Here are 2 examples of how macros can be
+        used in wiki pages:\n\n=== Warning Macro ===\n\nThis macro allows you to draw
+        users'' attention to a specific piece of information:\n\n{{warning}}\nHello
+        World\n{{/warning}}\n\n=== Table of Contents ===\n\nThis macro automatically
+        generates a table of contents of your wiki page based on headings:\n\n{{toc/}}","clazz":null,"objects":null,"attachments":null,"hierarchy":{"items":[{"label":"xwiki","name":"xwiki","type":"wiki","url":"https://xwiki.local/bin/view/Main/"},{"label":"Sandbox","name":"Sandbox","type":"space","url":"https://xwiki.local/bin/view/Sandbox/"},{"label":"WebHome","name":"WebHome","type":"document","url":"https://xwiki.local/bin/view/Sandbox/"}]},"rights":[]}]'
+  recorded_at: Fri, 14 Aug 2026 09:26:23 GMT
+recorded_with: VCR 6.4.0

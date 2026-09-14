@@ -29,38 +29,54 @@
 #++
 
 module McpTools
-  class SearchWorkPackages < Base
+  class SearchWorkPackages < SearchTool
     default_title "Search work packages"
     default_description "Search work packages matching all of the passed input parameters. " \
                         "Parameters not passed are ignored. Results are limited to a maximum " \
-                        "of #{page_size} work packages. To get the rest of the results, call the tool again with a" \
-                        "page number of 2 or higher."
-
+                        "of #{page_size} work packages. To get the rest of the results, call the tool again with a " \
+                        "page number of 2 or higher. Names of custom fields should be resolved through the corresponding tool " \
+                        "before showing them to the user. They should not be rendered as 'customFieldN'."
 
     name "search_work_packages"
     annotations read_only: true, idempotent: true, destructive: false
     enable_pagination
 
+    # Both `version_id` and `target_version_id` filter on the `target_versions`
+    # association, which is replacing the legacy `work_packages.version_id`
+    # column. `version_id` is kept as a deprecated alias so we no longer query
+    # the deprecated column.
+    FILTER_ON_TARGET_VERSIONS = ->(wps, version_id) {
+      version_id.nil? ? wps.without_target_version : wps.with_target_version(version_id)
+    }
+
     # We can't use subclasses of WorkPackageFilter as filter_class, because they overwrite apply_to badly and rely on using
     # an instantiated Query to be used.
     filter :assigned_to_id
     filter :author_id
-    filter :id
+    filter :id, filter_proc: ->(wps, v) { wps.where_display_id_in(v) }
     filter :project_id
     filter :status_id
     filter :type_id
-    filter :version_id
+    filter :version_id, filter_proc: FILTER_ON_TARGET_VERSIONS
+    filter :target_version_id, filter_proc: FILTER_ON_TARGET_VERSIONS
     filter :subject, filter_proc: ->(wps, v) { wps.where("subject ILIKE '%#{OpenProject::SqlSanitization.quoted_sanitized_sql_like(v)}%'") }
 
     input_schema(
+      additionalProperties: false,
       properties: {
+        level_of_detail: {
+          type: :string,
+          enum: %w[reduced full],
+          description: "Defines how much information is returned per work package. By default a reduced representation " \
+                       "is returned, but passing 'full' can return all information."
+        },
         assigned_to_id: {
           type: %w[number null],
           description: "The ID of the user or group that is assigned to this work package. " \
                        "Pass null to search for work packages without an assignee."
         },
         author_id: { type: "number", description: "The ID of the user that created this work package." },
-        id: { type: "number", description: "The ID of the work package." },
+        id: { type: %w[string number], description: "The identifier of the work package." },
         project_id: { type: "number", description: "The ID of the project that this work package belongs to." },
         status_id: { type: "number", description: "The ID of the work package's status." },
         subject: {
@@ -70,29 +86,53 @@ module McpTools
         type_id: { type: "number", description: "The ID of the work package's type." },
         version_id: {
           type: %w[number null],
-          description: "The ID of the work package's version. Pass null to search for work packages without a version."
+          description: "Deprecated: use target_version_id instead. Matches work packages whose target versions " \
+                       "include this version. Pass null to search for work packages without a version."
+        },
+        target_version_id: {
+          type: %w[number null],
+          description: "The ID of a version the work package targets. Matches work packages whose target " \
+                       "versions include this version. Pass null to search for work packages without any target version."
         }
       }
     )
 
-    output_schema(
-      type: :object,
-      required: ["items"],
-      properties: {
-        items: {
-          type: :array,
-          items: JsonSchemaLoader.new.load("work_package_model")
-        }
-      }
-    )
+    output_filter McpOutputFilters::RemoveFormattableHtml.new
+    output_filter McpOutputFilters::RemoveWorkPackageActionLinks.new
 
-    def call(page: nil, **filters)
-      filtered = apply_filters(WorkPackage.visible, filters)
-      work_packages = apply_pagination(filtered, page)
+    def base_scope
+      Success(WorkPackage.visible)
+    end
 
-      {
-        items: work_packages.map { |wp| API::V3::WorkPackages::WorkPackageRepresenter.create(wp, current_user:) }
-      }
+    def format_item(item)
+      API::V3::WorkPackages::WorkPackageRepresenter.create(item, current_user:)
+    end
+
+    def condensed_attributes
+      @condensed_attributes ||= %w[
+        _links
+        id
+        displayId
+        subject
+        lockVersion
+        date
+        startDate
+        dueDate
+        derivedStartDate
+        derivedDueDate
+        createdAt
+        updatedAt
+      ].to_set
+    end
+
+    def condensed_links
+      @condensed_links ||= %w[
+        project
+        status
+        type
+        author
+        assignee
+      ].to_set
     end
   end
 end

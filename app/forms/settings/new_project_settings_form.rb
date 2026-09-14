@@ -35,6 +35,10 @@ module Settings
         name: :default_projects_public
       )
 
+      f.check_box(
+        name: :default_projects_wiki
+      )
+
       f.check_box_group(
         name: :default_projects_modules,
         label: I18n.t(:setting_default_projects_modules)

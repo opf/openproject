@@ -47,10 +47,10 @@ RSpec.describe "Admin Edit File storage",
 
     within_test_selector("op-storages--destroy-confirm-dialog") do
       expect(page).to have_text("Delete file storage")
-      expect(page).to have_unchecked_field("I understand that this deletion cannot be reversed")
+      expect(page).to have_unchecked_field("I understand that this deletion cannot be reversed.")
       expect(page).to have_button("Delete permanently", disabled: true)
 
-      page.check("I understand that this deletion cannot be reversed")
+      page.check("I understand that this deletion cannot be reversed.")
       page.click_button("Delete permanently")
     end
 

@@ -21,6 +21,7 @@
     "paths": {
       "@ng-select/ng-select/*": ["./node_modules/@ng-select/ng-select/*"],
       "core-app/*": ["./src/app/*"],
+      "core-common/*": ["./src/common/*"],
       "core-components/*": ["./src/app/components/*"],
       "core-elements/*": ["./src/elements/*"],
       "core-stimulus/*": ["./src/stimulus/*"],

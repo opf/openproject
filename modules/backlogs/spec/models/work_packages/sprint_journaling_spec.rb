@@ -32,6 +32,7 @@ require "spec_helper"
 
 RSpec.describe "WorkPackage sprint association journaling", # rubocop:disable RSpec/DescribeClass
                with_settings: { journal_aggregation_time_minutes: 0 } do
+  shared_current_user { create(:admin) }
   shared_let(:project) { create(:project) }
   shared_let(:sprint1) { create(:sprint, name: "Sprint 1", project:) }
   shared_let(:sprint2) { create(:sprint, name: "Sprint 2", project:) }
@@ -73,10 +74,49 @@ RSpec.describe "WorkPackage sprint association journaling", # rubocop:disable RS
   it "formats the sprint change in the journal" do
     work_package_with_sprint.update!(sprint: sprint2)
 
-    last_journal = work_package_with_sprint.journals.last
-    formatted = last_journal.render_detail("sprint_id", no_html: true)
+    # A sprint is only named to readers who may see its project and have :view_sprints.
+    login_as(create(:user, member_with_permissions: { project => %i[view_work_packages view_sprints] }))
 
-    expect(formatted).to include("Sprint 1")
-    expect(formatted).to include("Sprint 2")
+    last_journal = work_package_with_sprint.journals.last
+    result = last_journal.render_detail("sprint_id", html: true)
+
+    expect(result).to include("Sprint 1")
+    expect(result).to include("Sprint 2")
+    expect(result).not_to include(I18n.t(:text_journal_permission_denied))
+  end
+
+  it "formats the sprint change in the journal in plain text" do
+    work_package_with_sprint.update!(sprint: sprint2)
+
+    # A sprint is only named to readers who may see its project and have :view_sprints.
+    login_as(create(:user, member_with_permissions: { project => %i[view_work_packages view_sprints] }))
+
+    last_journal = work_package_with_sprint.journals.last
+    result = last_journal.render_detail("sprint_id", html: false)
+
+    expect(result).to include("Sprint 1")
+    expect(result).to include("Sprint 2")
+    expect(result).not_to include(I18n.t(:text_journal_permission_denied))
+  end
+
+  context "when user lacks :view_sprints permission" do
+    current_user { create(:user) }
+    before { mock_permissions_for(User.current, &:forbid_everything) }
+
+    it "renders a permission denied message instead of the sprint name" do
+      last_journal = work_package_with_sprint.journals.last
+      result = last_journal.render_detail("sprint_id", html: true)
+
+      expect(result).to include(I18n.t(:text_journal_permission_denied))
+      expect(result).not_to include("Sprint 1")
+    end
+
+    it "renders a permission denied message in plain text" do
+      last_journal = work_package_with_sprint.journals.last
+      result = last_journal.render_detail("sprint_id", html: false)
+
+      expect(result).to include(I18n.t(:text_journal_permission_denied))
+      expect(result).not_to include("Sprint 1")
+    end
   end
 end

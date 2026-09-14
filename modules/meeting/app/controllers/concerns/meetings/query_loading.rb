@@ -44,7 +44,9 @@ module Meetings
       time_filter = query.filters.find { |f| f.name == :time }
 
       if time_filter.nil?
-        query.where("time", "=", Queries::Meetings::Filters::TimeFilter::FUTURE_VALUE)
+        # Meetings render and group differently for upcoming vs past,
+        # so a time filter needs to always be present
+        query.where("time", Queries::Operators::Upcoming.symbol, [])
         query.order(start_time: :asc)
       elsif time_filter.past? && query.orders.none?
         query.order(start_time: :desc)

@@ -49,6 +49,18 @@ RSpec.describe CustomValue::CalculatedValueStrategy do
       it { is_expected.to be(42) }
     end
 
+    context "when value is the DB true value" do
+      let(:value) { OpenProject::Database::DB_VALUE_TRUE }
+
+      it { is_expected.to be(true) }
+    end
+
+    context "when value is the DB false value" do
+      let(:value) { OpenProject::Database::DB_VALUE_FALSE }
+
+      it { is_expected.to be(false) }
+    end
+
     context "when value is blank" do
       let(:value) { "" }
 
@@ -117,6 +129,22 @@ RSpec.describe CustomValue::CalculatedValueStrategy do
       end
     end
 
+    context "when value is the DB true value" do
+      let(:value) { OpenProject::Database::DB_VALUE_TRUE }
+
+      it "is the localized Yes label" do
+        expect(subject).to eql I18n.t(:general_text_Yes)
+      end
+    end
+
+    context "when value is the DB false value" do
+      let(:value) { OpenProject::Database::DB_VALUE_FALSE }
+
+      it "is the localized No label" do
+        expect(subject).to eql I18n.t(:general_text_No)
+      end
+    end
+
     context "when value is blank" do
       let(:value) { "" }
 
@@ -130,6 +158,38 @@ RSpec.describe CustomValue::CalculatedValueStrategy do
 
       it "is a blank string" do
         expect(subject).to eql ""
+      end
+    end
+  end
+
+  describe "#parse_value" do
+    subject { instance.parse_value(value) }
+
+    [true, "true", OpenProject::Database::DB_VALUE_TRUE].each do |value|
+      context "with #{value.inspect}" do
+        let(:value) { value }
+
+        it "normalises to the DB true value" do
+          expect(subject).to eql OpenProject::Database::DB_VALUE_TRUE
+        end
+      end
+    end
+
+    [false, "false", OpenProject::Database::DB_VALUE_FALSE].each do |value|
+      context "with #{value.inspect}" do
+        let(:value) { value }
+
+        it "normalises to the DB false value" do
+          expect(subject).to eql OpenProject::Database::DB_VALUE_FALSE
+        end
+      end
+    end
+
+    context "when input is a numeric string" do
+      let(:value) { "42" }
+
+      it "is passed through unchanged" do
+        expect(subject).to eql "42"
       end
     end
   end
@@ -187,6 +247,38 @@ RSpec.describe CustomValue::CalculatedValueStrategy do
 
     context "when value is an int" do
       let(:value) { 3 }
+
+      it "accepts" do
+        expect(subject).to be_nil
+      end
+    end
+
+    context "when value is the boolean true" do
+      let(:value) { true }
+
+      it "accepts" do
+        expect(subject).to be_nil
+      end
+    end
+
+    context "when value is the boolean false" do
+      let(:value) { false }
+
+      it "accepts" do
+        expect(subject).to be_nil
+      end
+    end
+
+    context "when value is the DB true value" do
+      let(:value) { OpenProject::Database::DB_VALUE_TRUE }
+
+      it "accepts" do
+        expect(subject).to be_nil
+      end
+    end
+
+    context "when value is the DB false value" do
+      let(:value) { OpenProject::Database::DB_VALUE_FALSE }
 
       it "accepts" do
         expect(subject).to be_nil

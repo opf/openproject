@@ -52,7 +52,7 @@ RSpec.describe "Backlog bucket renaming", :js do
     backlogs_page.visit!
     backlogs_page.expect_bucket_names_in_order("Draft bucket")
 
-    backlogs_page.click_in_backlog_bucket_menu(bucket, "Edit backlog bucket")
+    backlogs_page.click_in_bucket_menu(bucket, "Edit backlog bucket")
 
     within_dialog "Edit backlog bucket" do
       expect(page).to have_field "Name", with: "Draft bucket"
@@ -68,7 +68,7 @@ RSpec.describe "Backlog bucket renaming", :js do
   it "validates that the name is present when saving" do
     backlogs_page.visit!
 
-    backlogs_page.click_in_backlog_bucket_menu(bucket, "Edit backlog bucket")
+    backlogs_page.click_in_bucket_menu(bucket, "Edit backlog bucket")
 
     within_dialog "Edit backlog bucket" do
       fill_in "Name", with: ""

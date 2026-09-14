@@ -77,10 +77,10 @@ module Notifications
     def destroy_project_settings
       @user.notification_settings.find_by!(project_id: params[:project_id]).destroy!
       flash[:notice] = I18n.t(:notice_successful_delete)
-      redirect_back_or_to(notifications_settings_path)
+      redirect_back_or_to(notifications_settings_path, status: :see_other)
     rescue ActiveRecord::RecordNotFound
       flash[:error] = t(:notice_bad_request)
-      redirect_back_or_to(notifications_settings_path)
+      redirect_back_or_to(notifications_settings_path, status: :see_other)
     end
 
     private

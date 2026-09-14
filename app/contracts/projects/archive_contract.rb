@@ -42,7 +42,8 @@ module Projects
 
       exists = WorkPackage
                  .where.not(project_id: model.self_and_descendants.select(:id))
-                 .exists?(version_id: version_ids)
+                 .with_target_version(version_ids)
+                 .exists?
 
       errors.add :base, :foreign_wps_reference_version if exists
     end

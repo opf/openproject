@@ -34,7 +34,7 @@ module API
 
     default_format :json
 
-    error_representer ::API::Mcp::ErrorRepresenter, :json
+    error_representer ::API::Mcp::ErrorRepresenter, "application/json; charset=utf-8"
     authentication_scope OpenProject::Authentication::Scope::MCP_SCOPE
 
     helpers do
@@ -54,9 +54,9 @@ module API
         title: server_config.title,
         # description: server_config.description, # not yet supported by mcp gem
         version: "1.0.0",
-        tools: McpTools.enabled.map(&:tool),
-        resources: McpResources.enabled_resources.map(&:resource),
-        resource_templates: McpResources.enabled_resource_templates.map(&:resource_template),
+        tools: McpTools.enabled_mcp_tools,
+        resources: McpResources.enabled_mcp_resources,
+        resource_templates: McpResources.enabled_mcp_resource_templates,
         server_context: { current_user: User.current }
       )
 

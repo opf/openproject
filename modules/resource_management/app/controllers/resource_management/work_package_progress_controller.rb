@@ -80,7 +80,7 @@ module ::ResourceManagement
     def render_update_success
       render_success_flash_message_via_turbo_stream(message: I18n.t(:notice_successful_update))
       close_dialog_via_turbo_stream(
-        "##{ResourcePlannerViews::WorkPackageList::EditTotalWorkDialogComponent::DIALOG_ID}"
+        ResourcePlannerViews::WorkPackageList::EditTotalWorkDialogComponent::DIALOG_ID
       )
       replace_via_turbo_stream(component: work_package_list_content(@view))
       respond_with_turbo_streams
@@ -103,14 +103,6 @@ module ::ResourceManagement
       project_resource_planner_view_work_package_progress_path(
         @project, @resource_planner, @view, @work_package
       )
-    end
-
-    def find_resource_planner
-      @resource_planner = ResourcePlanner
-                            .visible(current_user)
-                            .where(project: @project)
-                            .with_children
-                            .find(params.expect(:resource_planner_id))
     end
 
     def find_view

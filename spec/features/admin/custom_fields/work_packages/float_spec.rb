@@ -52,5 +52,37 @@ RSpec.describe "custom fields", :js do
 
       expect(page).to have_text("New Field")
     end
+
+    it "round trips decimal value bounds" do
+      cf_page.click_to_create_new_custom_field("Float")
+
+      cf_page.set_name "Bounded Float"
+      cf_page.set_min_value "0.1234"
+      cf_page.set_max_value "10.25"
+      click_on "Save"
+
+      cf_page.expect_and_dismiss_flash(message: "Successful creation.")
+
+      custom_field = CustomField.find_by!(name: "Bounded Float")
+      expect(custom_field.min_value).to eq 0.1234
+      expect(custom_field.max_value).to eq 10.25
+
+      visit edit_custom_field_path(custom_field)
+
+      expect(page).to have_field("custom_field[min_value]", with: "0.1234")
+      expect(page).to have_field("custom_field[max_value]", with: "10.25")
+    end
+
+    it "rejects a minimum above the maximum" do
+      cf_page.click_to_create_new_custom_field("Float")
+
+      cf_page.set_name "Bad Bounds"
+      cf_page.set_min_value "10"
+      cf_page.set_max_value "1"
+      click_on "Save"
+
+      expect(page).to have_text("Minimum value must be smaller than or equal to maximum value.")
+      expect(CustomField.find_by(name: "Bad Bounds")).to be_nil
+    end
   end
 end

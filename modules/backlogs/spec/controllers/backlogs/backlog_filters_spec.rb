@@ -57,6 +57,38 @@ RSpec.describe Backlogs::BacklogFilters, type: :model do
     end
   end
 
+  describe "#bucket_ids_without_inbox" do
+    context "when bucket_ids are absent" do
+      let(:params) { {} }
+
+      it { expect(filters.bucket_ids_without_inbox).to be_nil }
+    end
+
+    context "when bucket_ids only contain real bucket ids" do
+      let(:params) { { bucket_ids: %w[1 2] } }
+
+      it "returns them unchanged" do
+        expect(filters.bucket_ids_without_inbox).to eq([1, 2])
+      end
+    end
+
+    context "when bucket_ids only contain inbox" do
+      let(:params) { { bucket_ids: ["inbox"] } }
+
+      it "returns an empty array" do
+        expect(filters.bucket_ids_without_inbox).to eq([])
+      end
+    end
+
+    context "when bucket_ids contain both real bucket ids and inbox" do
+      let(:params) { { bucket_ids: ["1", "inbox", "2"] } }
+
+      it "strips out inbox and keeps the real bucket ids" do
+        expect(filters.bucket_ids_without_inbox).to eq([1, 2])
+      end
+    end
+  end
+
   describe "#sprint_ids" do
     context "when sprint_ids are absent" do
       let(:params) { {} }
@@ -99,6 +131,28 @@ RSpec.describe Backlogs::BacklogFilters, type: :model do
     end
   end
 
+  describe "#filters_string" do
+    context "when filters are absent" do
+      let(:params) { {} }
+
+      it { expect(filters.filters_string).to be_nil }
+    end
+
+    context "when filters is a params-format string" do
+      let(:params) { { filters: 'status_id = "1"' } }
+
+      it "keeps the raw string" do
+        expect(filters.filters_string).to eq('status_id = "1"')
+      end
+    end
+
+    context "when filters is blank" do
+      let(:params) { { filters: "" } }
+
+      it { expect(filters.filters_string).to be_nil }
+    end
+  end
+
   describe "#to_h" do
     context "with no params" do
       let(:params) { {} }
@@ -129,6 +183,14 @@ RSpec.describe Backlogs::BacklogFilters, type: :model do
 
       it "includes everything" do
         expect(filters.to_h).to eq({ all: true, bucket_ids: [1], sprint_ids: [2] })
+      end
+    end
+
+    context "with filters" do
+      let(:params) { { filters: 'status_id = "1"' } }
+
+      it "includes the raw filters string" do
+        expect(filters.to_h).to eq({ filters: 'status_id = "1"' })
       end
     end
   end

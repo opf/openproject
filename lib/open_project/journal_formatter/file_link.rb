@@ -73,8 +73,7 @@ class OpenProject::JournalFormatter::FileLink < JournalFormatter::Base
     end
   end
 
-  # Based this off the Attachment formatter. Not sure if it is the best approach
-  def label(_key) = I18n.t("activerecord.models.file_link")
+  def label(_key) = I18n.t(:label_file)
 
   def storage_name(id, value)
     file_link_for(id, value)&.storage&.name
