@@ -23,17 +23,17 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
-class Journal::CausedByImport < CauseOfChange::Base
-  def initialize(author_name: nil, history: [], migrated: false)
-    entry = { "author_name" => author_name, "items" => history.presence }.compact
-    additional = entry.present? ? { "import_history" => [entry] } : {}
-    additional["migrated"] = true if migrated
 
-    super("import", additional)
+module Attachments
+  # Creates an attachment without journalizing its container. Importers replay the source
+  # system's own history, so the container's journals are written by the importer instead.
+  class ImportCreateService < CreateService
+    private
+
+    def touch(_container) = nil
   end
 end

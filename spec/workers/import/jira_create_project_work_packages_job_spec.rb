@@ -68,6 +68,14 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
         expect(work_package.semantic_aliases.pluck(:identifier).sort).to eq(["DP-6", "DPPP-1", "DPPP-6", "KIWNEU1-8"])
       end
 
+      it "takes the work package timestamps from the jira issue" do
+        create_work_packages
+
+        work_package = WorkPackage.find("DPPP-6")
+        expect(work_package.created_at).to eq(Time.zone.parse(jira_issue_payload["fields"]["created"]))
+        expect(work_package.updated_at).to eq(Time.zone.parse(jira_issue_payload["fields"]["updated"]))
+      end
+
       # rubocop:disable Layout/LineLength
       # rubocop:disable RSpec/ExampleLength
       it "creates appropriate comments on the work package" do
@@ -120,6 +128,20 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
       it "creates references for imported entities" do
         expect { create_work_packages }
           .to change(Import::JiraOpenProjectReference, :count).by_at_least(4)
+      end
+
+      context "when the issue carries no updated timestamp" do
+        let(:jira_issue_payload) do
+          super().tap { |payload| payload["fields"].delete("updated") }
+        end
+
+        it "still replays the changelog and the comments" do
+          create_work_packages
+
+          work_package = WorkPackage.find("DPPP-6")
+          expect(work_package.journals.count).to be 17
+          expect(work_package.journals.where(notes: "Demo comment 2").count).to be 1
+        end
       end
 
       context "if priority is nil or hidden in jira filed configuration" do
