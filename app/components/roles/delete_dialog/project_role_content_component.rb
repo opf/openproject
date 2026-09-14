@@ -54,19 +54,29 @@ module Roles
         I18n.t("roles.delete_dialog.losing_project_access", count: principals_losing_access_count)
       end
 
-      def entry_label(entry)
+      def principals_losing_access_count
+        @principals_losing_access_count ||= members_losing_access.distinct.count(:user_id)
+      end
+
+      # Rendered next to, but styled apart from, the principal's name.
+      def projects_label(entry)
         projects = entry[:projects]
         listed = projects.first(PROJECT_LIMIT).map(&:name).join(", ")
         remaining = projects.size - PROJECT_LIMIT
 
         if remaining.positive?
-          I18n.t("roles.delete_dialog.entry_truncated", user: entry[:principal].name, projects: listed, count: remaining)
+          I18n.t("roles.delete_dialog.entry_projects_truncated", projects: listed, count: remaining)
         else
-          I18n.t("roles.delete_dialog.entry", user: entry[:principal].name, projects: listed, count: projects.size)
+          I18n.t("roles.delete_dialog.entry_projects", projects: listed, count: projects.size)
         end
       end
 
       private
+
+      # A member loses its access once the role being deleted is the last one it holds.
+      def members_losing_access
+        members.where.not(id: MemberRole.where.not(role_id: role.id).select(:member_id))
+      end
 
       def build_entry(principal, principal_members)
         { principal:, projects: principal_members.filter_map(&:project).uniq.sort_by(&:name) }

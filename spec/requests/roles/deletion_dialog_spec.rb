@@ -42,6 +42,12 @@ RSpec.describe "GET /roles/:id/deletion_dialog", :aggregate_failures, :skip_csrf
 
   before { login_as(admin) }
 
+  # The project names are rendered apart from the principal's name so they can be
+  # de-emphasised, so they are asserted on the muted element rather than the whole body.
+  def muted_texts
+    Nokogiri::HTML(response_body).css(".color-fg-muted").map { it.text.squish }
+  end
+
   context "when the role is not in use" do
     let!(:role) { create(:project_role, name: "Reviewer") }
 
@@ -58,16 +64,31 @@ RSpec.describe "GET /roles/:id/deletion_dialog", :aggregate_failures, :skip_csrf
 
     it "lists the member with its project" do
       expect(response_body).to include("This role is still attributed to 1 member:")
-      expect(response_body).to include("Jo Barnes (Project: Apollo)")
+      expect(response_body).to include("Jo Barnes")
+      expect(muted_texts).to include("(Project: Apollo)")
     end
 
     it "states how many members lose project access" do
       expect(response_body)
-        .to include("Out of these users, 1 will lose access to some projects as this is their only role")
+        .to include("Out of these users, 1 will lose access to projects in which this was their only role. " \
+                    "Are you sure you want to delete this role?")
     end
 
     it "does not link to the memberships overview while the full list is shown" do
       expect(response_body).not_to include("op-roles--delete-dialog-overview-link")
+    end
+  end
+
+  context "when every member of the role holds another role too" do
+    let!(:project) { create(:project, name: "Apollo") }
+    let!(:role) { create(:project_role) }
+    let!(:other_role) { create(:project_role) }
+    let!(:user) { create(:user, member_with_roles: { project => [role, other_role] }) }
+
+    it "says nobody loses access" do
+      expect(response_body)
+        .to include("None of these users will lose access to any of their projects. " \
+                    "Are you sure you want to delete this role?")
     end
   end
 
@@ -79,7 +100,8 @@ RSpec.describe "GET /roles/:id/deletion_dialog", :aggregate_failures, :skip_csrf
     end
 
     it "lists every project without a remainder" do
-      expect(response_body).to include("Lee Park (Projects: Gemini, Mercury)")
+      expect(response_body).to include("Lee Park")
+      expect(muted_texts).to include("(Projects: Gemini, Mercury)")
     end
   end
 
@@ -94,8 +116,8 @@ RSpec.describe "GET /roles/:id/deletion_dialog", :aggregate_failures, :skip_csrf
     end
 
     it "lists three projects and truncates the rest" do
-      expect(response_body)
-        .to include("Ada Stone (Projects: Project 1, Project 2, Project 3 and 2 others)")
+      expect(response_body).to include("Ada Stone")
+      expect(muted_texts).to include("(Projects: Project 1, Project 2, Project 3 and 2 others)")
     end
   end
 
@@ -131,8 +153,9 @@ RSpec.describe "GET /roles/:id/deletion_dialog", :aggregate_failures, :skip_csrf
       expect(response_body).not_to include("Project:")
     end
 
-    it "states how many users lose the global role" do
-      expect(response_body).to include("Out of these users, 1 will lose this global role entirely.")
+    it "just asks for confirmation without spelling out what is lost" do
+      expect(response_body).to include("Are you sure you want to delete this role?")
+      expect(response_body).not_to include("Out of these users")
     end
 
     context "and more users hold it than are listed" do

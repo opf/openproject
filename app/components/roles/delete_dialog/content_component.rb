@@ -49,17 +49,13 @@ module Roles
         @principal_count ||= members.distinct.count(:user_id)
       end
 
-      def principals_losing_access_count
-        @principals_losing_access_count ||= members_losing_access.distinct.count(:user_id)
-      end
-
       # The memberships overview, filtered down to the role being deleted, so the full
       # list stays reachable when it is too long to show here.
       def memberships_path
         admin_members_path(filters: [{ role_id: { operator: "=", values: [role.id.to_s] } }].to_json)
       end
 
-      private
+      protected
 
       def members
         @members ||= Queries::Members::MemberQuery
@@ -67,11 +63,6 @@ module Roles
                        .where(:role_id, "=", [role.id])
                        .order(name: :asc)
                        .results
-      end
-
-      # A member loses its access once the role being deleted is the last one it holds.
-      def members_losing_access
-        members.where.not(id: MemberRole.where.not(role_id: role.id).select(:member_id))
       end
     end
   end

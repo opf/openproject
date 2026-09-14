@@ -40,7 +40,7 @@ module Roles
       end
 
       def conclusion
-        I18n.t("roles.delete_dialog.losing_global_role", count: principals_losing_access_count)
+        I18n.t("roles.delete_dialog.confirm")
       end
     end
   end
