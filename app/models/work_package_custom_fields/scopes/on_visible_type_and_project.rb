@@ -52,7 +52,7 @@ module WorkPackageCustomFields::Scopes
       # which callers exposing work package data need: seeing a project does not entail seeing
       # its work packages.
       def on_visible_type_and_project(user = User.current, project: nil, projects: nil)
-        visible_projects = projects || Project.visible(user)
+        visible_projects = reach(projects, user)
         visible_projects = visible_projects.where(id: project.id) if project&.persisted?
 
         source_join, source_variant_id, excluded =
@@ -72,6 +72,16 @@ module WorkPackageCustomFields::Scopes
              AND #{exclusion}
           )
         SQL
+      end
+
+      private
+
+      def reach(projects, user)
+        case projects
+        when nil then Project.visible(user)
+        when ActiveRecord::Relation then projects
+        else Project.where(id: projects)
+        end
       end
     end
   end

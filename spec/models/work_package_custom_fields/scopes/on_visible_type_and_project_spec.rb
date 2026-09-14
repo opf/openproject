@@ -192,5 +192,25 @@ RSpec.describe WorkPackageCustomFields::Scopes::OnVisibleTypeAndProject do
       expect(WorkPackageCustomField.on_visible_type_and_project(member, projects: Project.none))
         .not_to include(custom_field)
     end
+
+    it "takes the reach as a single project" do
+      expect(WorkPackageCustomField.on_visible_type_and_project(member, projects: project))
+        .to include(custom_field)
+    end
+
+    it "takes the reach as an array of projects" do
+      expect(WorkPackageCustomField.on_visible_type_and_project(member, projects: [project]))
+        .to include(custom_field)
+    end
+
+    it "takes the reach as an array of ids" do
+      expect(WorkPackageCustomField.on_visible_type_and_project(member, projects: [project.id]))
+        .to include(custom_field)
+    end
+
+    it "drops it for an empty array" do
+      expect(WorkPackageCustomField.on_visible_type_and_project(member, projects: []))
+        .not_to include(custom_field)
+    end
   end
 end
