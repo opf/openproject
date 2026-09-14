@@ -360,4 +360,16 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       expect(connection.reload.api_key).to eq("sk-test")
     end
   end
+
+  describe "the default models" do
+    let!(:connection) { create(:llm_connection, :with_models, base_url: "https://example.com/v1") }
+
+    before { login_as admin }
+
+    it "are chosen on the LLMs page, not here" do
+      patch llm_connection_path, params: { llm_connection: { default_chat_model_id: "qwen3.6-27b" } }
+
+      expect(connection.reload.default_chat_model_id).to be_nil
+    end
+  end
 end

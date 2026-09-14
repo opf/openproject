@@ -236,6 +236,7 @@ en:
         base_url: "Host URL"
         # ActiveRecord::Base.human_attribute_name strips the _id suffix, so these
         # keys deliberately do not carry it (see lib/open_project/patches/active_record_i18n.rb).
+        default_chat_model: "Default chat model"
         llm_features_enabled: "Enable LLMs for this instance"
       llm_model:
         display_name: "Display name"
@@ -732,6 +733,12 @@ en:
               request_timed_out: "did not respond in time. Please ensure the LLM server is reachable and not overloaded."
               ssl_error: "could not be reached over a secure connection. Please check the LLM server's TLS certificate, or use an http:// URL if the server does not offer TLS."
               ssrf_filtered: "resolves to a blocked address. If the LLM server runs on an internal network, allow its IP via the %{env_name} environment variable."
+            default_chat_model_id:
+              cannot_chat: "is an embedding model, according to the LLM server, and cannot be used for chat."
+              not_available: "is not offered by the configured LLM server."
+            default_embedding_model_id:
+              cannot_embed: "cannot create embeddings, according to the LLM server."
+              not_available: "is not offered by the configured LLM server."
             llm_features_enabled:
               requires_connection: "cannot be turned on before a connection has been configured."
         meeting:
@@ -1810,6 +1817,11 @@ en:
     llm_models:
       create:
         success: "%{model} has been added."
+      defaults:
+        chat_caption: "Only models that are switched on in the list below are offered."
+        description: "Used by AI features that do not choose a model themselves."
+        heading: "Default models"
+        success: "The default models have been saved."
       destroy:
         description: "The model will no longer be offered to AI features."
         description_bound: "This model is currently used by %{features}. Those features will stop working until another model is selected."
@@ -1850,6 +1862,8 @@ en:
         source_withdrawn: "Withdrawn"
         source_withdrawn_description: "No longer reported by the server"
         stale_warning: "The connection settings changed after the model list was last refreshed, so the list may be out of date. Refresh the models to be sure."
+        status: "Available for use"
+        toggle_aria_label: "Make %{model} available to AI features"
       new:
         description: "Name a model this server can use but does not advertise, and describe what it can do."
         title: "Add a model"

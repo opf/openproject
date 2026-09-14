@@ -103,6 +103,28 @@ class LlmConnection < ApplicationRecord
     connection_fingerprint.present? && connection_fingerprint != settings_fingerprint
   end
 
+  # What a picker should offer: the above, minus what an administrator has
+  # switched off.
+  def selectable_model_ids
+    models.selectable.by_identifier.pluck(:external_id)
+  end
+
+  def selectable_models
+    models.selectable.by_identifier
+  end
+
+  def chat_models
+    selectable_models.reject(&:embedding?)
+  end
+
+  def embedding_model_ids
+    embedding = capability_verdicts.for_capability(:embeddings).where(state: "supported").pluck(:model_id)
+
+    selectable_model_ids & embedding
+  end
+
+  def chat_model_ids = selectable_model_ids - embedding_model_ids
+
   def server_flavour
     options["server_flavour"].presence&.to_sym
   end
