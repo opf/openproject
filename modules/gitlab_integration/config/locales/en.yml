@@ -92,6 +92,7 @@ en:
       created_by: Created by %{name}.
       states:
         closed: Closed
+        locked: Locked
         merged: Merged
         opened: Open
       updated_at: Updated on %{date_time}.

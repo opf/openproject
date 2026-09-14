@@ -41,12 +41,26 @@ module GitlabIntegration
       case merge_request.state.to_sym
       when :opened
         :success
-      when :closed
+      when :closed, :locked
         :danger
       when :merged
         :done
       else
-        # TODO: complete list
+        raise ArgumentError, "Unsupported merge request state #{state}"
+      end
+    end
+
+    def state_icon
+      case merge_request.state.to_sym
+      when :opened
+        :"git-pull-request"
+      when :closed
+        :"git-pull-request-closed"
+      when :locked
+        :lock
+      when :merged
+        :"git-merge"
+      else
         raise ArgumentError, "Unsupported merge request state #{state}"
       end
     end
