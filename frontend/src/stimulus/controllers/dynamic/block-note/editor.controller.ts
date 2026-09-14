@@ -26,17 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-// 'Global' dependencies
-//
-// dependencies required by classic (Rails) and Angular application.
+import { Controller } from '@hotwired/stimulus';
+import 'core-elements/block-note-element';
 
-import moment from 'moment-timezone';
-import './init-moment-locales';
-
-import '@openproject/primer-view-components/app/assets/javascripts/primer_view_components.js';
-
-import URI from 'urijs';
-import 'urijs/src/URITemplate';
-
-window.moment = moment;
-window.URI = URI;
+export default Controller;
