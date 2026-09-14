@@ -40,10 +40,12 @@ module LlmServerHelpers
                                models: DEFAULT_MODELS,
                                response_code: 200,
                                body: nil,
-                               timeout: false)
+                               timeout: false,
+                               raise_error: nil)
     stub = stub_request(:get, "#{base_url.chomp('/')}/models")
 
     return stub.to_timeout if timeout
+    return stub.to_raise(raise_error) if raise_error
 
     stub.to_return(
       status: response_code,
