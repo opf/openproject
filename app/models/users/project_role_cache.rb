@@ -49,7 +49,7 @@ class Users::ProjectRoleCache
     # No roles on archived projects, unless the active state is being changed
     return [] if context.is_a?(Project) && archived?(context)
 
-    ::Authorization.roles(user, context).eager_load(:role_permissions)
+    ::Authorization.roles(user, context).eager_load(:role_permissions).to_a
   end
 
   def cache
