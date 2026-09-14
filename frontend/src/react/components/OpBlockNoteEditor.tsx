@@ -29,6 +29,7 @@
 import { BlockNoteEditorOptions, BlockNoteSchema } from '@blocknote/core';
 import { ExternalLinkA11yExtension } from '../extensions/external-link-a11y';
 import { ExternalLinkCaptureExtension } from '../extensions/external-link-capture';
+import { CollaborationCursorLabelFitExtension } from '../extensions/collaboration-cursor-label-fit';
 import { User } from '@blocknote/core/comments';
 import { filterSuggestionItems } from '@blocknote/core/extensions';
 import { BlockNoteView } from '@blocknote/mantine';
@@ -120,6 +121,7 @@ export function OpBlockNoteEditor({
       extensions: [
         ExternalLinkA11yExtension,
         ...(captureExternalLinks ? [ExternalLinkCaptureExtension] : []),
+        ...(hocuspocusProvider ? [CollaborationCursorLabelFitExtension] : []),
       ],
     };
   }, [hocuspocusProvider, doc, activeUser, localeDictionary, attachmentsEnabled, uploadFile, captureExternalLinks]);
