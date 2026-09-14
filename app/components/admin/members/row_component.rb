@@ -40,11 +40,7 @@ module Admin
       end
 
       def user
-        return avatar if inherited_via.empty?
-
-        render(Primer::Box.new(display: :flex, align_items: :center, flex_wrap: :wrap, classes: "gap-1")) do
-          safe_join([avatar, inheritance_note])
-        end
+        render(Users::AvatarComponent.new(user: principal, size: :mini, link: true, show_name: true))
       end
 
       def project
@@ -56,14 +52,18 @@ module Admin
       end
 
       def roles
-        content_tag(:span, safe_join(role_links, ", "),
-                    data: { "test-selector": "op-admin-members--roles" })
+        return role_list if inherited_via.empty?
+
+        render(Primer::Box.new(display: :flex, align_items: :center, flex_wrap: :wrap, classes: "gap-1")) do
+          safe_join([role_list, inheritance_note])
+        end
       end
 
       private
 
-      def avatar
-        render(Users::AvatarComponent.new(user: principal, size: :mini, link: true, show_name: true))
+      def role_list
+        content_tag(:span, safe_join(role_links, ", "),
+                    data: { "test-selector": "op-admin-members--roles" })
       end
 
       def inheritance_note
