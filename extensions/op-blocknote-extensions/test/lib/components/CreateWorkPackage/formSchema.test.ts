@@ -148,6 +148,16 @@ describe('formSchema', () => {
       expect(searched?.allowedValuesHref).toBe('/api/v3/principals');
     });
 
+    it('marks the values no API narrows down as searched in the browser', () => {
+      const linked = { allowedValues: { href: '/api/v3/custom_fields/5/items' } };
+      const item = property({ type: 'CustomField::Hierarchy::Item', name: 'Room', _links: linked });
+      const items = property({ type: '[]CustomField::Hierarchy::Item', name: 'Rooms', _links: linked });
+
+      expect(buildField('customField9', item).searchedInBrowser).toBe(true);
+      expect(buildField('customField9', items).searchedInBrowser).toBe(true);
+      expect(fieldFor(schema, 'assignee')?.searchedInBrowser).toBeUndefined();
+    });
+
     it('reports a multi value attribute without values on offer as unsupported', () => {
       expect(fieldFor(schema, 'customField5')?.kind).toBe('unsupported');
     });

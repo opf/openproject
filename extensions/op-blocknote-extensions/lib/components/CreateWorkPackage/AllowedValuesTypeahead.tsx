@@ -24,6 +24,7 @@ interface AllowedValuesTypeaheadProps {
   placeholder:string;
   invalid?:boolean;
   describedBy?:string;
+  searchedInBrowser?:boolean;
   onChange:(href:string, label?:string) => void;
 }
 
@@ -36,6 +37,7 @@ export const AllowedValuesTypeahead = ({
   placeholder,
   invalid,
   describedBy,
+  searchedInBrowser,
   onChange,
 }:AllowedValuesTypeaheadProps) => {
   const { t } = useTranslation();
@@ -48,7 +50,12 @@ export const AllowedValuesTypeahead = ({
 
   const listId = `${id}-list`;
   const { mounted, open: listShown, onClosed } = usePickerMotion(isOpen);
-  const { options, loading, toggleExpanded } = usePickerOptions({ href, query, isOpen });
+  const { options, loading, toggleExpanded } = usePickerOptions({
+    href,
+    query,
+    isOpen,
+    searchedInBrowser,
+  });
   const hierarchical = isNested(options);
   const selectedIndex = options.findIndex((option) => option.href === value);
   const activeIndex = Math.min(

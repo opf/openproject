@@ -43,6 +43,7 @@ export interface FormField {
   integer?:boolean;
   allowedValues?:AllowedValue[];
   allowedValuesHref?:string;
+  searchedInBrowser?:boolean;
 }
 
 export type FieldValue = string | boolean | string[];
@@ -73,6 +74,10 @@ export function dependencyOf(key:string):FieldDependency {
 const SCHEMA_META_KEYS = ['_type', '_dependencies', '_attributeGroups', '_links', '_embedded'];
 
 const NON_EDITABLE_KEYS = ['id', 'lockVersion', 'createdAt', 'updatedAt', 'author', 'position'];
+
+/*  The endpoint behind these takes a filter, answers 200 and ignores it, so a
+    term has to be matched against the listing it hands out whole.  */
+const UNFILTERED_TYPES = ['CustomField::Hierarchy::Item'];
 
 const KIND_BY_TYPE:Record<string, FieldKind> = {
   'String': 'text',
@@ -201,6 +206,7 @@ export function allowedValuesHrefOf(property:SchemaProperty):string | undefined 
 
 export function buildField(key:string, property:SchemaProperty):FormField {
   const multiple = property.type.startsWith('[]');
+  const resourceType = multiple ? property.type.slice('[]'.length) : property.type;
   const field:FormField = {
     key,
     label: property.name,
@@ -219,7 +225,13 @@ export function buildField(key:string, property:SchemaProperty):FormField {
 
   const allowedValuesHref = allowedValuesHrefOf(property);
   if (allowedValuesHref) {
-    return { ...field, kind: multiple ? 'multiSelect' : 'typeahead', isLink: true, allowedValuesHref };
+    return {
+      ...field,
+      kind: multiple ? 'multiSelect' : 'typeahead',
+      isLink: true,
+      allowedValuesHref,
+      ...(UNFILTERED_TYPES.includes(resourceType) ? { searchedInBrowser: true } : {}),
+    };
   }
 
   // Several values of a kind with no picker: nothing but a notice.

@@ -19,6 +19,7 @@ export interface PickerOptionsInput {
   values?:AllowedValue[];
   favoredOnly?:boolean;
   nested?:boolean;
+  searchedInBrowser?:boolean;
 }
 
 export interface PickerOptions {
@@ -78,18 +79,20 @@ export function usePickerOptions({
   values,
   favoredOnly = false,
   nested = false,
+  searchedInBrowser = false,
 }:PickerOptionsInput):PickerOptions {
   const [fetched, setFetched] = useState<AllowedValue[]>([]);
   const [loaded, setLoaded] = useState<string | null>(null);
   const [expanded, setExpanded] = useState<ReadonlySet<string>>(new Set());
 
-  const asked = JSON.stringify([href, query, favoredOnly, nested]);
+  const listedBySchema = values !== undefined;
+  const searchedHere = listedBySchema || searchedInBrowser;
+  const apiTerm = searchedHere ? '' : query;
+  const asked = JSON.stringify([href, apiTerm, favoredOnly, nested]);
 
   const expand = (hrefs:string[]) => {
     if (hrefs.length > 0) setExpanded((current) => new Set([...current, ...hrefs]));
   };
-
-  const listedBySchema = values !== undefined;
 
   useEffect(() => {
     if (!isOpen || listedBySchema) return;
@@ -97,11 +100,11 @@ export function usePickerOptions({
     let active = true;
 
     const read = () => {
-      remember(asked, () => askApi(href, query, favoredOnly, nested))
+      remember(asked, () => askApi(href, apiTerm, favoredOnly, nested))
         .then((found) => {
           if (!active) return;
           setFetched(found);
-          if (query.trim()) expand(found.flatMap((option) => option.ancestors ?? []));
+          if (apiTerm.trim()) expand(found.flatMap((option) => option.ancestors ?? []));
         })
         .catch((error:unknown) => {
           if (!active) return;
@@ -124,12 +127,19 @@ export function usePickerOptions({
       active = false;
       clearTimeout(timer);
     };
-  }, [href, query, isOpen, favoredOnly, nested, asked, listedBySchema]);
+  }, [href, apiTerm, isOpen, favoredOnly, nested, asked, listedBySchema]);
 
-  const options = useMemo(
-    () => listedValues(values ? matching(values, query) : fetched, expanded),
-    [values, query, fetched, expanded]
-  );
+  const options = useMemo(() => {
+    const offered = values ?? fetched;
+    const term = searchedHere ? query.trim() : '';
+    if (!term) return listedValues(offered, expanded);
+
+    // Nothing the term matched hides behind a branch left folded.
+    const found = matching(offered, term);
+    const branches = new Set([...expanded, ...found.flatMap((option) => option.ancestors ?? [])]);
+
+    return listedValues(found, branches);
+  }, [values, fetched, query, expanded, searchedHere]);
 
   const toggleExpanded = (target:string) => {
     setExpanded((current) => {

@@ -59,12 +59,9 @@ function serveHierarchyField() {
       return HttpResponse.json(form);
     }),
 
-    http.get(`http://localhost:3000${ITEMS_HREF}`, ({ request }) => {
-      if (new URL(request.url).searchParams.has('filters')) {
-        return HttpResponse.json({ message: 'Filters is invalid.' }, { status: 400 });
-      }
-      return HttpResponse.json({ _embedded: { elements: items } });
-    })
+    http.get(`http://localhost:3000${ITEMS_HREF}`, () =>
+      HttpResponse.json({ _embedded: { elements: items } })
+    )
   );
 }
 
@@ -120,15 +117,28 @@ describe('create work package: hierarchy custom field picker', () => {
     await expect.element(page.getByLabelText(FIELD)).toHaveValue('room 1a');
   });
 
-  it('picks a child the search unfolded', async () => {
+  it('narrows the items down to what is typed, and picks one of them', async () => {
     await openPicker();
     await userEvent.fill(page.getByLabelText(FIELD), 'room 1a');
 
-    const child = page.getByRole('treeitem', { name: 'room 1a' });
-    await expect.element(child).toBeVisible();
-    await userEvent.click(child);
+    await expect.poll(optionLabels).toEqual(['room 1a']);
 
+    await userEvent.click(page.getByRole('treeitem', { name: 'room 1a' }));
     await expect.element(page.getByLabelText(FIELD)).toHaveValue('room 1a');
+  });
+
+  it('leaves no match folded away under a match', async () => {
+    await openPicker();
+    await userEvent.fill(page.getByLabelText(FIELD), 'room');
+
+    await expect.poll(optionLabels).toEqual(['room 1 (R1)', 'room 1a', 'room 2 (R2)']);
+  });
+
+  it('narrows a field holding several values down too', async () => {
+    await openPicker(MULTI_FIELD);
+    await userEvent.fill(page.getByLabelText(MULTI_FIELD), 'room 2');
+
+    await expect.poll(() => optionLabels(MULTI_LIST)).toEqual(['room 2 (R2)']);
   });
 
   it('takes on a child of a field holding several values', async () => {

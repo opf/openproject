@@ -25,6 +25,7 @@ interface MultiValueTypeaheadProps {
   placeholder:string;
   invalid?:boolean;
   describedBy?:string;
+  searchedInBrowser?:boolean;
   onChange:(hrefs:string[]) => void;
 }
 
@@ -37,6 +38,7 @@ export const MultiValueTypeahead = ({
   placeholder,
   invalid,
   describedBy,
+  searchedInBrowser,
   onChange,
 }:MultiValueTypeaheadProps) => {
   const { t } = useTranslation();
@@ -57,6 +59,7 @@ export const MultiValueTypeahead = ({
     query,
     isOpen,
     values: allowedValues,
+    searchedInBrowser,
   });
 
   const offered = options.filter((option) => !value.includes(option.href));
