@@ -136,6 +136,35 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
           expect(page).to have_css(remove_api_key, text: "Remove key", visible: :all)
         end
       end
+
+      context "when the connection comes from the environment" do
+        let!(:connection) { create(:llm_connection, base_url:, api_key: "sk-original") }
+
+        before do
+          # Provisioning from the environment switches the features on, and the
+          # server settings are only rendered once they are.
+          allow(Setting).to receive_messages(llm_connection: { "base_url" => base_url },
+                                             llm_features_enabled?: true)
+        end
+
+        it "renders the server settings read-only, with a banner saying why" do
+          get llm_connection_path
+
+          expect(response.body).to include("configured via environment variables")
+          expect(page).to have_field("Host URL", disabled: true)
+          expect(page).to have_field("API format", disabled: true)
+          expect(page).to have_field("Enable LLMs for this instance", disabled: true)
+          expect(page).to have_no_button("Save")
+        end
+
+        it "does not ask for a key that cannot be entered" do
+          get llm_connection_path
+
+          expect(response.body).to include("The key comes from the environment")
+          expect(response.body).not_to include("A key is stored")
+          expect(page).to have_no_css(remove_api_key, visible: :all)
+        end
+      end
     end
   end
 
@@ -304,6 +333,17 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       expect(response.body).not_to include("llm-connection--delete-api-key")
       expect(page).to have_no_css(remove_api_key, visible: :all)
     end
+
+    # update! bypasses the contract, so without the explicit guard a
+    # hand-crafted request could wipe a key the environment owns.
+    it "refuses when the connection comes from the environment" do
+      connection = create(:llm_connection, base_url:, api_key: "sk-original")
+      allow(Setting).to receive(:llm_connection).and_return({ "base_url" => base_url })
+
+      delete api_key_llm_connection_path
+
+      expect(connection.reload.api_key).to eq("sk-original")
+    end
   end
 
   describe "GET /admin/llm_connection/delete_api_key_dialog" do
@@ -350,6 +390,15 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       expect(Setting.llm_features_enabled?).to be(false)
       expect(connection.base_url).to eq("https://example.com/v1")
       expect(connection.models.count).to eq(2)
+    end
+
+    it "refuses when the connection comes from the environment" do
+      allow(Setting).to receive(:llm_connection).and_return({ "base_url" => "https://example.com/v1" })
+
+      post disconnect_llm_connection_path
+
+      expect(connection.reload.api_key).to eq("sk-test")
+      expect(Setting.llm_features_enabled?).to be(true)
     end
 
     it "is refused to a non-admin" do

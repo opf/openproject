@@ -46,4 +46,14 @@ RSpec.describe Llm::SyncModelsJob, :llm_server_helpers, :webmock do
   it "does nothing while no connection is stored" do
     expect { described_class.perform_now }.not_to raise_error
   end
+
+  # The job exists for the startup race with a provisioned LLM sidecar, so a
+  # failed fetch has to reach the retry rather than leave the connection without
+  # its catalogue.
+  it "tries again when the server is not up yet" do
+    create(:llm_connection, base_url:)
+    mock_llm_models_response(base_url, response_code: 404)
+
+    expect { described_class.perform_now }.to have_enqueued_job(described_class)
+  end
 end

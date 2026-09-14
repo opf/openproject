@@ -1,5 +1,13 @@
 <%=
   component_wrapper(tag: "turbo-frame", **wrapper_options) do
+    if connection.configured_from_env?
+      concat(
+        render(Primer::Alpha::Banner.new(mb: 3, icon: :info)) do
+          t("admin.banners.environment_configured_readonly")
+        end
+      )
+    end
+
     concat(
       settings_primer_form_with(**form_options) do |f|
         render(LlmConnections::ConnectionForm.new(f))

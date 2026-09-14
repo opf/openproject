@@ -1778,6 +1778,7 @@ en:
 
     llm_connections:
       delete_api_key:
+        configured_from_env: "This connection is configured through the environment and cannot be changed here."
         description: "OpenProject will stop sending an API key with its requests. Features will keep working only if the server requires no authentication. You can enter a new key at any time."
         heading: "Remove the stored API key?"
         menu_label: "Remove API key"
@@ -1785,6 +1786,7 @@ en:
         title: "Remove API key"
       disabled_notice: "LLM features are switched off for this instance. Switch them on here first."
       disconnect:
+        configured_from_env: "This connection is configured through the environment and cannot be changed here."
         description: "OpenProject will stop using the LLM server. AI features will be unavailable until you connect again."
         heading: "Disconnect from the LLM server?"
         keeps_models: "The model list, including any models you added manually, is kept."
@@ -1795,6 +1797,7 @@ en:
       form:
         api_format_caption: "Which API the server speaks. Choose OpenAI for most gateways and self-hosted servers."
         api_key_caption: "The key OpenProject authenticates with. Leave blank if the server requires no authentication."
+        api_key_caption_env: "The key comes from the environment."
         api_key_caption_stored: "A key is stored. Leave blank to keep the current key, or enter a new one to replace it."
         api_key_placeholder_stored: "API key stored"
         api_key_remove: "Remove key"
