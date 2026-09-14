@@ -28,18 +28,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Renders the change to the set of target versions
-# (see JournalChanges#get_target_versions_changes).
-class OpenProject::JournalFormatter::TargetVersions < OpenProject::JournalFormatter::JoinedAssociation
-  private
+require "spec_helper"
 
-  # While the multiple versions feature is inactive, the rest of the UI still
-  # labels the attribute "Version"; the journal entry follows suit.
-  def label(key)
-    if Setting::WorkPackageMultipleVersions.active?
-      super
-    else
-      super("version")
-    end
+RSpec.describe Journal::LabelJournal do
+  it "belongs to a label" do
+    expect(described_class.reflect_on_association(:label).macro).to eq(:belongs_to)
+  end
+
+  it "uses the label_journals table" do
+    expect(described_class.table_name).to eq("label_journals")
+  end
+
+  it "keeps its rows when the label is destroyed" do
+    journal = create(:work_package_journal)
+    label = create(:label)
+    label_journal = described_class.create!(journal:, label:)
+
+    label.destroy!
+
+    expect(label_journal.reload.label_id).to eq(label.id)
   end
 end

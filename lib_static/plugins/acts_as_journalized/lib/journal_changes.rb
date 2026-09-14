@@ -48,6 +48,7 @@ module JournalChanges
       get_project_phases_changes,
       get_target_versions_changes,
       get_observed_in_versions_changes,
+      get_labels_changes,
       get_file_links_changes,
       get_participants_changes,
       get_agenda_items_changes
@@ -156,6 +157,16 @@ module JournalChanges
     { observed_in_versions: [old_value, new_value] }
   end
 
+  def get_labels_changes
+    return unless journable.respond_to?(:labels)
+
+    old_value = predecessor && joined_label_ids(predecessor)
+    new_value = joined_label_ids(self)
+    return if old_value == new_value
+
+    { labels: [old_value, new_value] }
+  end
+
   def get_file_links_changes
     return unless has_file_links?
 
@@ -215,6 +226,10 @@ module JournalChanges
 
   def joined_observed_in_version_ids(journal)
     journal.observed_in_version_journals.map(&:version_id).sort.join(",").presence
+  end
+
+  def joined_label_ids(journal)
+    journal.label_journals.map(&:label_id).sort.join(",").presence
   end
 
   def participant_baseline_journal
