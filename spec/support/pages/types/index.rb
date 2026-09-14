@@ -57,12 +57,10 @@ module Pages
         within("##{deletion_dialog_id}") { click_button I18n.t(:button_delete) }
       end
 
-      # A type carrying work packages cannot be deleted, so its action submits straight to the
-      # server for the refusal instead of opening the confirmation dialog.
       def delete_expecting_refusal(type)
         open_actions(type)
 
-        click_button I18n.t(:button_delete)
+        click_link I18n.t(:button_delete)
       end
 
       private

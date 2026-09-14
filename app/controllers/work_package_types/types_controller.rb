@@ -75,7 +75,7 @@ module WorkPackageTypes
     end
 
     def deletion_dialog
-      return refuse_deletion if @type.work_packages.exists?
+      return refuse_deletion_via_turbo_stream if @type.work_packages.exists?
 
       respond_with_dialog Types::TypeDeletionDialogComponent.new(type: @type)
     end
@@ -122,6 +122,14 @@ module WorkPackageTypes
     def refuse_deletion
       flash[:error] = destroy_error_message
       redirect_to action: "index", status: :see_other
+    end
+
+    def refuse_deletion_via_turbo_stream
+      render_error_flash_message_via_turbo_stream(
+        message: helpers.safe_join(destroy_error_message, helpers.tag.br)
+      )
+
+      respond_to_with_turbo_streams
     end
 
     def destroy_error_message
