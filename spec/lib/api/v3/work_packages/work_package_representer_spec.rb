@@ -1565,6 +1565,10 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
       context "when admin" do
         let(:current_user) { build_stubbed(:admin) }
+        # A stubbed type carries no base variant, and the link addresses the variant in force.
+        let(:type) { create(:type) }
+        let(:workspace) { create(:project, types: [type]) }
+        let(:work_package) { create(:work_package, project: workspace, type:) }
 
         it_behaves_like "has a titled link" do
           let(:link) { "configureForm" }
