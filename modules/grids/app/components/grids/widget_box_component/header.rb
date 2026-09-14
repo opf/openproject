@@ -50,7 +50,11 @@ module Grids
       }
 
       renders_one :counter, ->(**system_arguments) do
-        Primer::Beta::Counter.new(**system_arguments.reverse_merge(ml: 2, scheme: :primary, round: true))
+        system_arguments[:ml] ||= 2
+        system_arguments[:scheme] ||= :primary
+        system_arguments[:round] = true unless system_arguments.key?(:round)
+
+        Primer::Beta::Counter.new(**system_arguments)
       end
 
       # @param attribute_label [Hash, nil] Optional args for AttributeLabelComponent (model:, attribute:, current_user:)

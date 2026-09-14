@@ -46,17 +46,23 @@ module Backlogs
           end
 
           renders_one :count, ->(**system_arguments) do
-            text_with_defaults(system_arguments, tag: :p, mb: 0, font_size: 1, font_weight: :bold, color: count_color)
+            system_arguments[:tag] ||= :p
+            system_arguments[:mb] ||= 0
+            system_arguments[:font_size] ||= 1
+            system_arguments[:font_weight] ||= :bold
+            system_arguments[:color] ||= count_color
+
+            Primer::Beta::Text.new(**system_arguments)
           end
           renders_one :story_points, ->(**system_arguments) do
-            text_with_defaults(system_arguments, tag: :p, color: :muted, mb: 2)
+            system_arguments[:tag] ||= :p
+            system_arguments[:color] ||= :muted
+            system_arguments[:mb] ||= 2
+
+            Primer::Beta::Text.new(**system_arguments)
           end
 
           private
-
-          def text_with_defaults(system_arguments, defaults)
-            Primer::Beta::Text.new(**system_arguments.reverse_merge(defaults))
-          end
 
           def render_show_all?
             EnterpriseToken.allows_to?(:baseline_comparison)
