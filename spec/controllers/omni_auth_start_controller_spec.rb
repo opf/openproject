@@ -37,7 +37,7 @@ RSpec.describe OmniAuthStartController do
     it "renders an auto-submitting POST form to the provider" do
       get :show, params: { provider: "developer" }
 
-      expect(response).to render_template "account/omniauth_direct_login"
+      expect(response).to render_template "omni_auth_start/show"
       expect(response.body).to include('action="/auth/developer"')
       expect(response.body).to include('method="post"')
       expect(response.body).to include('data-controller="omniauth-direct-login"')

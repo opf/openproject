@@ -46,7 +46,6 @@ class OmniAuthStartController < ApplicationController
     @omniauth_provider_name = provider_name
     @direct_login_origin = params[:back_url]
     append_omniauth_form_action(provider_name)
-    render "account/omniauth_direct_login"
   end
 
   private
