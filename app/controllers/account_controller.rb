@@ -399,11 +399,9 @@ class AccountController < ApplicationController
     user.firstname == user.login and user.login == user.mail
   end
 
-  def direct_login(user) # rubocop:disable Metrics/AbcSize
+  def direct_login(user)
     if !flash_message_pending?
-      opts = omniauth_start_url_options
-      opts[:back_url] = params[:back_url] if params[:back_url].present?
-      redirect_to omniauth_login_path(direct_login_provider, opts)
+      redirect_to omniauth_login_path(direct_login_provider, omniauth_login_path_options)
     elsif Setting.login_required?
       # I'm not sure why it is considered an error if we don't have the anonymous user here.
       # Before the line read `user.active? || flash[:error]` but since a recent

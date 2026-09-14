@@ -499,6 +499,12 @@ RSpec.describe AccountController, :skip_2fa_stage do
 
         expect(response).to redirect_to omniauth_login_path("some_provider")
       end
+
+      it "forwards back_url to the OmniAuth start form" do
+        get :login, params: { back_url: "/projects" }
+
+        expect(response).to redirect_to omniauth_login_path("some_provider", back_url: "/projects")
+      end
     end
 
     describe "POST" do

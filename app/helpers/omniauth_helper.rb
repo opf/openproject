@@ -39,7 +39,7 @@ module OmniauthHelper
 
   def omniauth_login_path_options
     omniauth_start_url_options.tap do |opts|
-      opts[:back_url] = params["back_url"] if params["back_url"].present?
+      opts[:back_url] = params[:back_url] if params[:back_url].present?
     end
   end
 
@@ -47,10 +47,8 @@ module OmniauthHelper
     classes = ["auth-provider", "auth-provider-#{name}", "button"]
     classes << "auth-provider--imaged" if icon
 
-    path_opts = omniauth_login_path_options
-
     link_to(
-      omniauth_login_path(name, path_opts),
+      omniauth_login_path(name, omniauth_login_path_options),
       class: classes.join(" "),
       data: { turbo: false }
     ) do
