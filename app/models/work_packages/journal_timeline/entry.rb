@@ -39,7 +39,16 @@
 # Besides the journalized attributes, rows carry +tick+ (the sampled time),
 # +work_package_id+, +journal_id+ and +validity_period+.
 class WorkPackages::JournalTimeline::Entry < ApplicationRecord
+  class DirectQuery < StandardError; end
+
   self.table_name = "work_package_journals"
+
+  # Querying this directly would read the journal table unfiltered, without the tick spread
+  # and, more importantly, without any visibility check. Only JournalTimeline may build the
+  # relation, which it does from #unscoped.
+  default_scope do
+    raise DirectQuery, "Query WorkPackages::JournalTimeline instead of #{name}."
+  end
 
   def readonly? = true
 end

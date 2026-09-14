@@ -78,6 +78,20 @@ RSpec.describe WorkPackages::JournalTimeline do
       expect(entry).not_to respond_to :journals
     end
 
+    it "refuses to write through an entry" do
+      expect { relation.first.update(story_points: 1) }
+        .to raise_error ActiveRecord::ReadOnlyRecord
+    end
+
+    describe "querying Entry directly" do
+      it "raises rather than reading the journal table unfiltered" do
+        expect { WorkPackages::JournalTimeline::Entry.all.to_a }
+          .to raise_error WorkPackages::JournalTimeline::Entry::DirectQuery
+        expect { WorkPackages::JournalTimeline::Entry.where(story_points: 8).to_a }
+          .to raise_error WorkPackages::JournalTimeline::Entry::DirectQuery
+      end
+    end
+
     context "when a tick falls exactly on the instant a journal becomes valid" do
       let(:ticks) { [tuesday - 1.hour] }
 

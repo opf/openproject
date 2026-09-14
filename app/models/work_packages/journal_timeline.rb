@@ -61,7 +61,7 @@ class WorkPackages::JournalTimeline
   attr_reader :filters, :ticks, :user
 
   def relation
-    return Entry.none if ticks.empty?
+    return Entry.unscoped.none if ticks.empty?
 
     from(ticked_journals)
   end
@@ -70,7 +70,7 @@ class WorkPackages::JournalTimeline
 
   def journal_class = Journal::WorkPackageJournal
 
-  def from(scope) = Entry.from(Arel.sql("(#{scope.to_sql}) #{Entry.table_name}"))
+  def from(scope) = Entry.unscoped.from(Arel.sql("(#{scope.to_sql}) #{Entry.table_name}"))
 
   # Spreading last keeps the row-multiplying step off the visibility check.
   def ticked_journals
