@@ -62,15 +62,11 @@ module API
         end
 
         link :configureForm do
-          next unless represented.type_id && represented.type_id != 0
-
           variant = represented.type_variant
-          next unless variant&.configurable_by?(current_user) || current_user.admin?
-
-          path_args = variant&.path_args || { type_id: represented.type_id }
+          next unless variant&.configurable_by?(current_user)
 
           {
-            href: edit_type_form_configuration_path(**path_args),
+            href: edit_type_form_configuration_path(**variant.path_args),
             type: "text/html",
             title: "Configure form"
           }
