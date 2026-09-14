@@ -471,7 +471,6 @@ RSpec.describe "Meetings", "Index", :js do
       end
     end
 
-
     specify "with 1 meeting listed" do
       invite_to_meeting(meeting)
       meetings_page.visit!

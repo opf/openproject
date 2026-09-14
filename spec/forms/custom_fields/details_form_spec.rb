@@ -58,8 +58,10 @@ RSpec.describe CustomFields::DetailsForm, type: :forms do
           %w[string text link list].include?(model.field_format)
       },
       admin_only: ->(model) { model.is_a?(ProjectCustomField) || model.is_a?(UserCustomField) },
-      min_length: ->(model) { %w[string int float text].include?(model.field_format) },
-      max_length: ->(model) { %w[string int float text].include?(model.field_format) },
+      min_length: ->(model) { %w[string text].include?(model.field_format) },
+      max_length: ->(model) { %w[string text].include?(model.field_format) },
+      min_value: ->(model) { %w[int float].include?(model.field_format) },
+      max_value: ->(model) { %w[int float].include?(model.field_format) },
       regexp: ->(model) { %w[string int float text link].include?(model.field_format) },
       default_value: ->(model) { %w[string int float text link bool].include?(model.field_format) },
       multi_value: ->(model) { %w[list user version hierarchy].include?(model.field_format) },
@@ -106,7 +108,7 @@ RSpec.describe CustomFields::DetailsForm, type: :forms do
   def control_type(field)
     case field
     when :custom_field_section_id then "select"
-    when :min_length, :max_length then "number"
+    when :min_length, :max_length, :min_value, :max_value then "number"
     when :regexp then "text"
     when :default_value then field_format == "bool" ? "checkbox" : "text"
     else "checkbox"
