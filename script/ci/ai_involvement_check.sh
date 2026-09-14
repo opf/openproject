@@ -39,7 +39,9 @@ set -e
 # argument so the script can still be run manually for testing.
 PR_BODY="${PR_BODY:-$1}"
 
-LEVELS='None|Assisted|Collaborative|Directed|Autonomous'
+# "None/Assisted" is listed first so that it is matched as a single level; a bare
+# "None" or "Assisted" is accepted as well and normalised to it.
+LEVELS='None/Assisted|None|Assisted|Collaborative|Directed|Autonomous'
 
 # The template lists every level inside an HTML comment; contributors pick one
 # by removing the comment markers around it. Comments can span multiple lines,
@@ -90,7 +92,18 @@ if [ -z "${SECTION//[[:space:]]/}" ]; then
   exit 0
 fi
 
-SELECTED=$(printf '%s\n' "$SECTION" | grep -oE "^[[:space:]]*($LEVELS)\b" | tr -d '[:blank:]' || true)
+# A selected line may carry an explanation after the level, separated by a dash
+# or colon as in the template ("Collaborative – AI generated ..."). Only the part
+# before that separator is inspected, so that several levels on one line
+# ("Collaborative / Directed") are rejected while an explanation that happens to
+# mention another level is not.
+SELECTED=$(
+  printf '%s\n' "$SECTION" |
+    grep -E "^[[:space:]]*($LEVELS)\b" |
+    sed -E 's/[[:space:]]*(–|—|-|:).*$//' |
+    grep -oE "\b($LEVELS)\b" |
+    sed -E 's#^(None|Assisted)$#None/Assisted#' || true
+)
 SELECTED_COUNT=$(printf '%s' "$SELECTED" | grep -c . || true)
 
 if [ "$SELECTED_COUNT" -eq 0 ]; then
@@ -110,4 +123,7 @@ if [ "$SELECTED_COUNT" -gt 1 ]; then
 fi
 
 echo "AI involvement level: $SELECTED"
-echo "status=ok" >> "${GITHUB_OUTPUT:-/dev/stdout}"
+{
+  echo "status=ok"
+  echo "level=$SELECTED"
+} >> "${GITHUB_OUTPUT:-/dev/stdout}"
