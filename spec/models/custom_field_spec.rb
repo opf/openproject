@@ -79,6 +79,13 @@ RSpec.describe CustomField do
   end
 
   describe "#valid?" do
+    it "allows an existing field whose registered format is currently unavailable" do
+      field.save!
+      allow(OpenProject::CustomFieldFormat).to receive(:available_formats).and_return([])
+
+      expect(field).to be_valid
+    end
+
     describe "WITH a text field WITH minimum length blank" do
       before do
         field.field_format = "text"

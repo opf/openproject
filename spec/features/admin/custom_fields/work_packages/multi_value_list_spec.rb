@@ -105,7 +105,7 @@ RSpec.describe "Multi-value custom fields creation", :js, :selenium do
 
     click_on "Save"
 
-    index_cf_page.expect_and_dismiss_flash(message: "Successful update.")
+    index_cf_page.expect_and_dismiss_all_flashes(message: "Successful update.")
 
     # Edit again
     expect(page).to have_field("custom_field_custom_options_attributes_0_value", with: "B")
