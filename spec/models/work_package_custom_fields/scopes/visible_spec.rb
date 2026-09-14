@@ -39,7 +39,7 @@ RSpec.describe WorkPackageCustomFields::Scopes::Visible do
 
     it "returns the fields configured on types used in projects the user can see" do
       expect(subject).to contain_exactly(boolean_cf_on_visible_type,
-                                         for_all_cf_on_visible_type,
+                                         text_cf_on_visible_type,
                                          integer_cf_on_visible_type,
                                          cf_on_bug_type)
     end

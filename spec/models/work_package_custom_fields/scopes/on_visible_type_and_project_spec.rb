@@ -39,7 +39,7 @@ RSpec.describe WorkPackageCustomFields::Scopes::OnVisibleTypeAndProject do
 
     it "returns custom fields for types that are enabled in projects the user can see" do
       expect(subject).to contain_exactly(boolean_cf_on_visible_type,
-                                         for_all_cf_on_visible_type,
+                                         text_cf_on_visible_type,
                                          integer_cf_on_visible_type,
                                          cf_on_bug_type)
     end
@@ -48,7 +48,7 @@ RSpec.describe WorkPackageCustomFields::Scopes::OnVisibleTypeAndProject do
       subject { WorkPackageCustomField.on_visible_type_and_project(user, project: project_with_user_and_feature) }
 
       it "returns only the fields configured on the types that project uses" do
-        expect(subject).to contain_exactly(boolean_cf_on_visible_type, for_all_cf_on_visible_type, integer_cf_on_visible_type)
+        expect(subject).to contain_exactly(boolean_cf_on_visible_type, text_cf_on_visible_type, integer_cf_on_visible_type)
       end
 
       context "when the project uses a different type" do
