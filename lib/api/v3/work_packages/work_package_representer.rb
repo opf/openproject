@@ -168,14 +168,11 @@ module API
 
         link :configureForm,
              cache_if: -> { configure_form_allowed? } do
-          next unless represented.type_id
-
-          # Falls back to the type's own configuration when no variant resolves, e.g. a project
-          # that does not use the type.
-          path_args = represented.type_variant&.path_args || { type_id: represented.type_id }
+          variant = represented.type_variant
+          next unless variant
 
           {
-            href: edit_type_form_configuration_path(**path_args),
+            href: edit_type_form_configuration_path(**variant.path_args),
             type: "text/html",
             title: "Configure form"
           }
@@ -807,8 +804,7 @@ module API
         def configure_form_allowed?
           return @configure_form_allowed if defined?(@configure_form_allowed)
 
-          @configure_form_allowed =
-            represented.type_variant&.configurable_by?(current_user) || current_user.admin?
+          @configure_form_allowed = !!represented.type_variant&.configurable_by?(current_user)
         end
 
         def project_phase

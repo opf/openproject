@@ -147,7 +147,7 @@ RSpec.describe API::V3::WorkPackages::CreateFormRepresenter do
       end
 
       context "for an admin and with type" do
-        let(:type) { build_stubbed(:type) }
+        let(:type) { create(:type) }
         let(:current_user) { build_stubbed(:admin) }
         let(:work_package) do
           build(:work_package,
