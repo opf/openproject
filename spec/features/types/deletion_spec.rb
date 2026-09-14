@@ -107,6 +107,19 @@ RSpec.describe "Deleting a work package type", :js do
     end
   end
 
+  context "when the type has named variants" do
+    let!(:type) { create(:type, name: "Bug") }
+    let!(:variant) { create(:type_variant, type:, variant_name: "Hardware") }
+
+    it "says the variants go too" do
+      click_delete(type)
+
+      within_deletion_dialog do
+        expect(page).to have_text(I18n.t("types.index.delete.description_with_variants"))
+      end
+    end
+  end
+
   context "when work packages still use the type" do
     let!(:type) { create(:type, name: "Bug") }
     let!(:project) { create(:project, name: "Apollo", types: [type]) }

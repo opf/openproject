@@ -49,6 +49,14 @@ module WorkPackageTypes
       def affected_projects
         @affected_projects ||= type.projects.reorder(:name).to_a
       end
+
+      def description
+        if type.variants.non_default_variants.any?
+          t("types.index.delete.description_with_variants")
+        else
+          t("types.index.delete.description")
+        end
+      end
     end
   end
 end
