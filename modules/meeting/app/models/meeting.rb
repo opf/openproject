@@ -116,12 +116,13 @@ class Meeting < ApplicationRecord
 
   acts_as_searchable columns: [
                        "#{table_name}.title",
+                       "#{MeetingSection.table_name}.title",
                        "#{MeetingAgendaItem.table_name}.title",
                        "#{MeetingAgendaItem.table_name}.notes",
                        "#{MeetingOutcome.table_name}.notes"
                      ],
-                     include: [:project, { agenda_items: :outcomes }],
-                     references: %i[agenda_items outcomes],
+                     include: [:project, :sections, { agenda_items: :outcomes }],
+                     references: %i[sections agenda_items outcomes],
                      date_column: "#{table_name}.created_at"
 
   include Meeting::Journalized
