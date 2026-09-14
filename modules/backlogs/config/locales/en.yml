@@ -243,8 +243,8 @@ en:
         title: "%{sprint} report"
       widgets:
         epic_progress:
-          work_package_counts: "%{completed} / %{total} work packages"
           work_package_completed: "(%{percentage}%%)"
+          work_package_counts: "%{completed} / %{total} work packages"
         work_package_graph:
           title: "Work packages graph"
         work_package_overview:
