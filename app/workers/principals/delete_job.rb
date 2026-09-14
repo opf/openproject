@@ -31,6 +31,8 @@
 class Principals::DeleteJob < ApplicationJob
   queue_with_priority :below_normal
 
+  PRINCIPAL_COST_REPORT_FILTERS = %w[user_id author_id assigned_to_id responsible_id logged_by_id].freeze
+
   def perform(principal)
     Principal.transaction do
       delete_associated(principal)
@@ -85,7 +87,6 @@ class Principals::DeleteJob < ApplicationJob
 
   def delete_private_queries(principal)
     ::Query.where(user_id: principal.id, public: false).destroy_all
-    CostQuery.where(user_id: principal.id, is_public: false).delete_all
   end
 
   # Private persisted views belong to their owner and are removed with them.
@@ -127,23 +128,18 @@ class Principals::DeleteJob < ApplicationJob
     Setting.password_login_bypass_principal_ids = ids.reject { |id| id.to_s == principal.id.to_s }
   end
 
+  # A saved cost report may filter on the principal being deleted. The reference
+  # is dropped, and a filter left without any value goes with it.
   def update_cost_queries(principal)
-    CostQuery.in_batches.each_record do |query|
-      serialized = query.serialized
+    CostReportQuery.in_batches.each_record do |query|
+      query.filters = query.filters.reject do |filter|
+        next false unless PRINCIPAL_COST_REPORT_FILTERS.include?(filter.name.to_s)
 
-      serialized[:filters] = serialized[:filters].filter_map do |name, options|
-        remove_cost_query_values(name, options, principal)
+        filter.values = filter.values - [principal.id.to_s]
+        filter.values.empty?
       end
 
-      CostQuery.where(id: query.id).update_all(serialized:)
-    end
-  end
-
-  def remove_cost_query_values(name, options, principal)
-    options[:values].delete(principal.id.to_s) if %w[UserId AuthorId AssignedToId ResponsibleId].include?(name)
-
-    if options[:values].nil? || options[:values].any?
-      [name, options]
+      query.save(validate: false)
     end
   end
 

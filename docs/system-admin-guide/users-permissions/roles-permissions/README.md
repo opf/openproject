@@ -117,7 +117,7 @@ Complete the following steps:
 
 1. **Name**: must be a new role name.
 2. **Global role**: create a new [global role](#create-a-new-global-role).
-3. **Copy workflow from**: select an existing role and copy the respective [workflow](../../manage-work-packages/work-package-workflows) to the newly created role.
+3. **Copy workflow from**: select an existing role and copy the respective [workflow](../../manage-work-packages/work-package-types/workflows) to the newly created role.
 4. **Permissions**: you can grant permissions which define what the user with the respective role can see and do in the project scope. The permissions are grouped based on the modules.
 
 To create the new role, click on the grey _Create_ button at the bottom of the page.

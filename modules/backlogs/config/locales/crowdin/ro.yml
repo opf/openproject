@@ -166,7 +166,7 @@ ro:
         one: Show 1 more item
         few: Show %{count} more items
         other: Show %{count} more items
-      title: Inbox
+      title: Mesaje
     index_subheader_component:
       label_search_by_subject: Caută pachete de lucru după subiect
     label_burndown_chart: Burndown chart
@@ -213,8 +213,8 @@ ro:
       shared_sprint_warning_banner: This is a shared sprint. You do not have the necessary permissions to edit it.
     sprint_reports:
       page_header_component:
-        breadcrumb: Report
-        title: "%{sprint} report"
+        breadcrumb: Raport
+        title: "%{sprint} raport"
     sprints:
       row_component:
         action_menu:
@@ -280,7 +280,7 @@ ro:
   label_backlog_bucket_new: New backlog bucket
   label_backlogs: Restanțe
   label_burndown_chart: Burndown chart
-  label_inbox: Inbox
+  label_inbox: Mesaje
   label_points_burn_down: Jos
   label_points_burn_up: Sus
   label_sprint_board: Sprint board
@@ -318,7 +318,7 @@ ro:
         options:
           no_sharing:
             caption: Sprints created in this project will only be available and visible to this project. They will also not be visible to subprojects.
-            label: Don't share
+            label: Nu distribui
           receive_shared:
             caption: This project can only use sprints shared by other projects.
             label: Receive shared sprints

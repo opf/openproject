@@ -614,6 +614,21 @@ class WorkPackage < ApplicationRecord
     [project_id, type_id]
   end
 
+  ##
+  # Check whether the custom field is either required globally
+  # or in the active type/variant form configuration
+  def custom_field_required?(custom_field)
+    super || required_custom_field_ids.include?(custom_field.id)
+  end
+
+  def required_custom_field_ids
+    return [] unless project_id && type_id
+
+    RequestStore.fetch(:"work_package_required_custom_fields_#{project_id}_#{type_id}") do
+      type_variant&.required_custom_field_ids || []
+    end
+  end
+
   protected
 
   def <=>(other)

@@ -250,12 +250,11 @@ module Costs
            } do
         next unless represented.persisted? && represented.project&.costs_enabled?
 
+        filters = ::CostReports::CompactFilters.new(operators: { "work_package_id" => "=" },
+                                                    values: { "work_package_id" => [represented.id] })
+
         {
-          href: cost_reports_path(represented.project_id,
-                                  "fields[]": "WorkPackageId",
-                                  "operators[WorkPackageId]": "=",
-                                  "values[WorkPackageId]": represented.id,
-                                  set_filter: 1),
+          href: project_reporting_cost_reports_path(represented.project_id, **filters.to_params),
           type: "text/html",
           title: "Show cost entries"
         }

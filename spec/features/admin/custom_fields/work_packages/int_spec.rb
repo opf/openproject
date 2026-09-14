@@ -54,5 +54,34 @@ RSpec.describe "custom fields", :js do
 
       expect(page).to have_text("New Field")
     end
+
+    it "round trips negative and zero value bounds" do
+      cf_page.set_name "Bounded Integer"
+      cf_page.set_min_value "-5"
+      cf_page.set_max_value "0"
+      click_on "Save"
+
+      cf_page.expect_and_dismiss_flash(message: "Successful creation.")
+
+      custom_field = CustomField.find_by!(name: "Bounded Integer")
+      expect(custom_field.min_value).to eq(-5)
+      expect(custom_field.max_value).to eq 0
+
+      visit edit_custom_field_path(custom_field)
+
+      expect(page).to have_field("custom_field[min_value]", with: "-5")
+      expect(page).to have_field("custom_field[max_value]", with: "0")
+    end
+
+    it "leaves the bounds unrestricted when blank" do
+      cf_page.set_name "Unbounded Integer"
+      click_on "Save"
+
+      cf_page.expect_and_dismiss_flash(message: "Successful creation.")
+
+      custom_field = CustomField.find_by!(name: "Unbounded Integer")
+      expect(custom_field.min_value).to be_nil
+      expect(custom_field.max_value).to be_nil
+    end
   end
 end

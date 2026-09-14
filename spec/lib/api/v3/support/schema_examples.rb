@@ -118,6 +118,30 @@ RSpec.shared_examples_for "indicates length requirements" do
   end
 end
 
+RSpec.shared_examples_for "indicates value bounds" do
+  it "indicates its minimum value" do
+    if defined?(minimum)
+      expect(subject)
+        .to be_json_eql(minimum.to_json)
+        .at_path("#{path}/minimum")
+    else
+      expect(subject)
+        .not_to have_json_path("#{path}/minimum")
+    end
+  end
+
+  it "indicates its maximum value" do
+    if defined?(maximum)
+      expect(subject)
+        .to be_json_eql(maximum.to_json)
+        .at_path("#{path}/maximum")
+    else
+      expect(subject)
+        .not_to have_json_path("#{path}/maximum")
+    end
+  end
+end
+
 RSpec.shared_examples_for "defines the placeholder to display" do
   it "shows the placeholder value" do
     expect(subject)

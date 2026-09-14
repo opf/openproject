@@ -6,7 +6,8 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
   let(:type) { create(:type) }
   let(:variant) { type.default_variant }
   let(:attribute) do
-    { key: "assignee", is_cf: false, is_required: false, translation: "Assignee", field_format_label: "Built-in field" }
+    { key: "assignee", is_cf: false, required_globally: false, required_for_variant: false, translation: "Assignee",
+      field_format_label: "Built-in field" }
   end
 
   it "renders the drag handle and actions menu in editable mode", :aggregate_failures do
@@ -23,6 +24,12 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
     expect(page).to have_no_test_selector("type-form-configuration-attribute-handle-assignee")
     expect(page).to have_no_test_selector("type-form-configuration-attribute-actions-assignee")
     expect(page).to have_text("Assignee")
+  end
+
+  it "renders built-in attributes as secondary labels" do
+    render_inline(described_class.new(attribute:, variant:, index: 0, total_count: 2, readonly: true))
+
+    expect(page).to have_css(".Label.Label--secondary", text: I18n.t("label_builtin"))
   end
 
   # The switch itself is covered by ExclusionToggleComponent; what matters here is that the row
@@ -50,6 +57,18 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
 
       toggle = page.find("[data-test-selector='toggle-form-config-exclusion-assignee']")
       expect(toggle.find("button")["aria-label"]).to eq("Inherit Assignee")
+    end
+  end
+
+  describe "custom field" do
+    let(:attribute) do
+      { key: "custom_field_5", is_cf: true, is_required: false, translation: "Alt description", field_format_label: "Text" }
+    end
+
+    it "shows a muted field format label" do
+      render_inline(described_class.new(attribute:, variant:, index: 0, total_count: 2, readonly: true))
+
+      expect(page).to have_css(".color-fg-muted.text-small", text: attribute[:field_format_label])
     end
   end
 end

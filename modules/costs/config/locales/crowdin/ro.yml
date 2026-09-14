@@ -34,8 +34,8 @@ ro:
         work_package: Pachet de lucru
       cost_type:
         default: Tip cost implicit
-        for_all_projects: For all projects
-        rates: Rates
+        for_all_projects: Pentru toate proiectele
+        rates: Tarife
         unit: Denumirea unității
         unit_plural: Numele unității pluralizate
       rate:

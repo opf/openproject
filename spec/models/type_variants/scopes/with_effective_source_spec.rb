@@ -158,12 +158,4 @@ RSpec.describe TypeVariants::Scopes::WithEffectiveSource do
       expect(record.effective_source_for(aspect)).to eq(type)
     end
   end
-
-  describe "with the flag off", with_flag: { type_variants: false } do
-    it "resolves to the source just the same" do
-      link(type, source: owner)
-
-      expect(loaded(type.id).first.effective_source_for(aspect)).to eq(owner)
-    end
-  end
 end

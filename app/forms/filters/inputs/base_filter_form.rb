@@ -29,11 +29,12 @@
 #++
 
 class Filters::Inputs::BaseFilterForm < ApplicationForm
-  def initialize(filter:, additional_attributes:, active:)
+  def initialize(filter:, additional_attributes:, active:, dialog_id: nil)
     super()
     @filter = filter
     @additional_attributes = additional_attributes
     @active = active
+    @dialog_id = dialog_id
   end
 
   def self.inherited(subclass)
@@ -118,6 +119,8 @@ class Filters::Inputs::BaseFilterForm < ApplicationForm
   end
 
   def add_delete_button(group)
+    return if @filter.required?
+
     filter_name = @filter.name
     group.html_content do
       render(Primer::Beta::IconButton.new(

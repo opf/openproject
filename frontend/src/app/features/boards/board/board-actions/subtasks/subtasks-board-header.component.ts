@@ -58,6 +58,6 @@ export class SubtasksBoardHeaderComponent implements OnInit {
   typeHighlightingClass:string;
 
   ngOnInit() {
-    this.typeHighlightingClass = Highlighting.inlineClass('type', this.resource.type.id!);
+    this.typeHighlightingClass = Highlighting.typeClass(this.resource.type.id!);
   }
 }

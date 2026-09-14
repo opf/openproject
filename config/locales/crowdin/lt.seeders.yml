@@ -250,70 +250,26 @@ lt:
                 Šiame modulyje jūs galite iškomunikuoti projekto naujienas jūsų komandos nariams.
           versions:
             item_0:
-              name: Neištaisyti riktai
-            item_1:
-              name: Neatlikti produkto darbai
-            item_2:
-              name: Sprintas 1
               wiki:
-                title: Sprintas 1
+                title: Release 1.0
                 content: |
-                  ### Sprinto planavimo susitikimas
+                  ### Release 1.0
 
-                  _Prašome čia dokumentuoti Sprinto planavimo susitikimo temas_
+                  _Please document here what this release contains._
 
-                  * Laikas (8 val)
-                  * Įvestis: Produkto likę darbai
-                  * Rezultatas: Sprinto likę darbai
-
-                  * Padalinta į du papildomus laikus po 4 val:
-
-                      * Produkto savininkas pristato komandai [Produkto likusius darbus]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) ir prioritetus bei paaiškina Sprinto tikslą, su kuriuo komanda turi sutikti. Kartu jie prioritetizuoja likusių produkto darbų temas, kuriomis komanda užsiims kito sprinto metu. Komanda įsipareigoja dėl aptartų rezultatų.
-                      * Komanda detaliai planuoja autonomiškai (be Produkto savininko), padalina aptartų tikslų užduotis ir konsoliduoja [Likusius sprinto darbus]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
-
-
-                  ### Kasdieninis Scrum susitikimas
-
-                  _Prašome čia dokumentuoti kasdieninio Scrum susitikimo temas_
-
-                  * Trumpas, kasdieninis komandos būsenos susitikimas.
-                  * Laikas (ne daugiau 15 min).
-                  * Stovimas susitikimas šių temų iš [Užduočių lentos](##sprint:scrum_project__version__sprint_1) aptarimui.
-                      * Ką aš planuoju daryti iki kito kasdieninio Scrum susitikimo?
-                      * Kas blokuoja mano darbą (Trukdžiai)?
-                  * Scrum vadovas moderuoja ir užsirašo [Sprinto trukdžius](##sprint:scrum_project__version__sprint_1).
-                  * Produkto savininkas gali dalyvauti, kad būtų informuotas.
-
-                  ### Sprinto peržiūros susitikimas
-
-                  _Prašome čia dokumentuoti Sprinto peržiūros susitikimo temas_
-
-                  * Laikas (4 h).
-                  * Daugiausia vienos valandos pasiruošimas vienam asmeniui.
-                  * Komanda parodo produkto savininkui ir kitims suinteresuotiems asmenims, kas buvo pasiekta šiame sprinte.
-                  * Svarbu: jokių maketų ir jokių skaidrių! Turi būti demonstruojamas tik baigtas produkto funkcionalumas (padidėjimas).
-                  * Produkto savininko, suinteresuotų asmenų ir kitų grįžtamasis ryšys pageidaujamas ir bus įtrauktas į ateities darbus.
-                  * Priklausomai nuo pademonstruoto funkcionalumo, Produkto savininkas nusprendžia ar ar diegti šį padidėjimą, ar dar toliau jį vystyti. Ši galimybė leidžia ankstyvą ROI.
-
-
-                  ### Sprinto retrospektyva
-
-                  _Prašome čia dokumentuoti Sprinto retrospektyvos susitikimo temas_
-
-                  * Laikas (3 h).
-                  * Po Sprinto peržiūros, moderuoja Scrum vadovas.
-                  * Komanda aptaria sprintą: kas suveikė gerai, ką reikia pagerinti norint padidinti kitų sprintų produktyvumą ar net labiau pasilinksminti.
-            item_3:
-              name: Sprintas 2
+                  * The work packages of this release are the ones with the target version 1.0.
+                  * The release date is the date of the *Release v1.0* milestone.
+                  * Open the [Roadmap]({{opSetting:base_url}}/projects/your-scrum-project/roadmap) to follow the progress of all versions.
+                  * Open [Project settings &rightarrow; Versions]({{opSetting:base_url}}/projects/your-scrum-project/settings/versions) to link another wiki page to a version.
           categories:
             item_0: Kategorija 1 (keičiama Projekto nustatymuose)
           queries:
             item_0:
               name: Projekto planas
             item_1:
-              name: Produkto darbų sąrašas
+              name: Version 1.1
             item_2:
-              name: Sprintas 1
+              name: Version 1.0
             item_3:
               name: Užduotys
           boards:
@@ -339,20 +295,21 @@ lt:
                 options:
                   name: Darbo pradžia
                   text: |
-                    Mes džiaugiamės, kad prisijungėte! Siūlome pabandyti kelis dalykus, kad susipažintumėte su OpenProject.
+                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
-                    _Pabandykite šiuos žingsnius:_
+                    _Try the following steps:_
 
-                    1. *Pakvieskite į jūsų projektą naujus narius*: &rightarrow; Eikite į [Members]({{opSetting:base_url}}/projects/your-scrum-project/members).
-                    2. *Peržiūrėkite jūsų projekto likusius ir Sprinto darbus*: &rightarrow; Eikite į [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
-                    3. *Peržiūrėkite jūsų užuočių lentą*: &rightarrow; Eikite į [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; spauskite dešinę rodyklę ant Sprintas &rightarrow; Parinkite [Užduočių lenta](##sprint:scrum_project__version__sprint_1).
-                    4. *Sukurkite naują darbo paketą*: &rightarrow; Eikite į [Darbo paketai &rightarrow; Kurti]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    5. *Sukurkite ir atnaujinkite projekto planą*: &rightarrow; Eikite į [Projekto planas](##query:scrum_project__query__project_plan).
-                    6. *Sukurkite Sprinto wiki*: &rightarrow; Eikite į [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) ir atidarykite sprinto wiki iš dešiniojo iškrentančio sprinto meniu. Galite keisti [wiki šabloną]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) pagal savo poreikius.
-                    7. *Aktyvuokite kitus modulius*: &rightarrow; Eikite į [Projekto nustatymai &rightarrow; Moduliai]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
+                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
+                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
+                    3. *Create a sprint*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and click "+ Sprint" to create a new sprint. Move work packages from the backlog to the sprint to plan the work to be done. When ready, click "Start sprint".
+                    4. *View your Sprint board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select Sprint Board.
+                    5. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    6. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
+                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
-                    Čia rasite mūsų [Naudotojų vadovus](https://www.openproject.org/docs/user-guide/).
-                    Praneškite mums jei turite bet kokių klausimų ar jums reikia pagalbos. Susisiekite su mumis: [support[at]openproject.com](mailto:support@openproject.com).
+
+                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
+                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: Darbų paketai

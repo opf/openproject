@@ -161,6 +161,8 @@ RSpec.shared_examples_for "expected fields for the custom field's format", :aggr
   let(:label_editable) { I18n.t("activerecord.attributes.custom_field.editable") } # Editable
   let(:label_min_length) { I18n.t("activerecord.attributes.custom_field.min_length") } # Minimum length
   let(:label_max_length) { I18n.t("activerecord.attributes.custom_field.max_length") } # Maximum length
+  let(:label_min_value) { I18n.t("activerecord.attributes.custom_field.min_value") } # Minimum value
+  let(:label_max_value) { I18n.t("activerecord.attributes.custom_field.max_value") } # Maximum value
   let(:label_regexp) { I18n.t("activerecord.attributes.custom_field.regexp") } # Regular expression
   let(:label_multi_value) { I18n.t("activerecord.attributes.custom_field.multi_value") } # Allow multi-select
   let(:label_allow_non_open_versions) do # Allow non-open versions
@@ -228,7 +230,7 @@ RSpec.shared_examples_for "expected fields for the custom field's format", :aggr
       expect(page).to have_no_label(label_admin_only)
     end
 
-    if format in "Text" | "Integer" | "Float" | "Long text"
+    if format in "Text" | "Long text"
       expect_page_to_have(fields: [
                             label_min_length,
                             label_max_length
@@ -240,7 +242,18 @@ RSpec.shared_examples_for "expected fields for the custom field's format", :aggr
                           ])
     end
 
-    # Integer and Float have min/max_len and regex as well which seems strange.
+    if format in "Integer" | "Float"
+      expect_page_to_have(fields: [
+                            label_min_value,
+                            label_max_value
+                          ])
+    else
+      expect_page_to_have(no_labels: [
+                            label_min_value,
+                            label_max_value
+                          ])
+    end
+
     if format in "Text" | "Integer" | "Float" | "Long text" | "Link"
       expect(page).to have_field(label_regexp)
     else

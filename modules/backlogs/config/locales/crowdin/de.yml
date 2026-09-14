@@ -119,7 +119,7 @@ de:
         other: Sprints
         zero: Alle Sprints
       select_panel_title: Elemente auswählen
-    blankslate_filtered_title: No work packages match the filter criteria.
+    blankslate_filtered_title: Es wurden keine Arbeitspakete gefunden, die den Filterkriterien entsprechen.
     bucket_component:
       action_menu:
         add_existing_work_package: Vorhandenes Arbeitspaket hinzufügen
@@ -163,7 +163,7 @@ de:
         other: Zeige %{count} weitere Elemente
       title: Posteingang
     index_subheader_component:
-      label_search_by_subject: Search work packages by subject
+      label_search_by_subject: Arbeitspakete nach Betreff suchen
     label_burndown_chart: Burndown-Diagramm
     label_is_done_status: Status %{status_name} bedeutet abgeschlossen
     label_sprint_board: Sprint-Board

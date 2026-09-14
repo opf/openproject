@@ -66,6 +66,8 @@ de:
 
       '
     login_with_auth_provider: oder melden Sie sich mit einem bestehenden Konto an
+    omniauth_direct_login_continue: Weiter zur Anmeldung
+    omniauth_direct_login_redirecting: Sie werden zu Ihrem SSO-Anbieter weitergeleitet…
     omniauth_login: Bitte loggen Sie sich ein um Ihr Konto zu aktivieren.
     signup_title: Erstellen Sie ein Konto bei %{app_title}
     signup_with_external_account: Mit einem externen Konto anmelden
@@ -83,6 +85,21 @@ de:
         prompt: Eingabe
         types: Arbeitspaket-Typen
         usage_scope: Scope
+      ai/text_transform_run:
+        action: Aktion
+        cancel_requested: Abbruch angefordert
+        error_message: Fehlermeldung
+        finished_at: Abgeschlossen
+        input: Eingabe
+        status: Status
+        system_prompt: System prompt
+        user: Benutzer
+        uuid: UUID
+      ai/text_transform_run_event:
+        kind: Art
+        payload: Payload
+        run: Run
+        seq: Sequence number
       announcements:
         show_until: Anzeigen bis
       attachment:
@@ -125,7 +142,9 @@ de:
         is_for_all: Für alle Projekte
         is_required: Erforderlich
         max_length: Maximale Länge
+        max_value: Maximal erlaubter Wert
         min_length: Minimale Länge
+        min_value: Minimal erlaubter Wert
         multi_value: Mehrfachauswahl zulassen
         possible_values: Mögliche Werte
         regexp: Regulärer Ausdruck
@@ -215,6 +234,7 @@ de:
         position: Position
       persisted_query:
         filters: Filter
+        group_bys: Gruppiere Ergebnisse nach
         name: Name
         orders: Sortierungen
         selects: Ausgewählte Attribute
@@ -353,7 +373,7 @@ de:
       token/named:
         token_name: Tokenname
       type:
-        allow_project_variants: Allow project-specific variants
+        allow_project_variants: Projektspezifische Varianten erlauben
         color: Farbe
         is_in_roadmap: In Roadmap standardmäßig angezeigt
         is_milestone: Ist ein Meilenstein
@@ -362,11 +382,11 @@ de:
       type/configuration_link:
         source: Quelltyp
       type_variant:
-        attribute_groups: Form
+        attribute_groups: Formular
         default_work_package_description: Standardtext für Beschreibung
         defaults_source: Standardquelle
         enabled_in_new_projects: Aktiv in neuen Projekten
-        form_configuration_source: Form source
+        form_configuration_source: Formularquelle
         patterns: Muster
         pdf_export_source: Quelle für den PDF-Export
         project_attributes_source: Quelle der Projektattribute
@@ -548,8 +568,8 @@ de:
         is_for_all_cannot_modify: gilt für alle Projekte und kann daher nicht geändert werden.
         ldap_managed: Diese Abteilung wird über die LDAP synchronisiert und kann nicht manuell geändert werden.
         less_than_or_equal_to: muss kleiner oder gleich %{count} sein.
-        migration_failed: 'The variant could not be switched for project ''%{project}'': %{reason}'
-        migration_target_invalid: The selected variant must be another variant of the same type that every affected project can use.
+        migration_failed: 'Die Variante konnte für das Projekt ''%{project}'' nicht geändert werden: %{reason}'
+        migration_target_invalid: Die ausgewählte Variante muss eine andere Variante desselben Typs sein, die von allen beteiligten Projekten verwendet werden kann.
         not_a_date: ist kein gültiges Datum.
         not_a_datetime: ist kein gültiges Datum.
         not_a_number: ist keine Zahl.
@@ -571,6 +591,7 @@ de:
         regex_list_invalid: Die Zeilen %{invalid_lines} konnten nicht als regulärer Ausdruck gelesen werden.
         regex_match_failed: stimmt nicht mit dem regulären Ausdruck %{expression} überein.
         smaller_than_or_equal_to_max_length: muss kleiner als oder gleich der maximalen Länge sein.
+        smaller_than_or_equal_to_max_value: muss kleiner oder gleich dem maximal erlaubtem Wert sein.
         ssrf_filtered: verstößt gegen die SSRF-Richtlinien dieser OpenProject Instanz.
         status_transition_invalid: ist ungültig, da kein valider Übergang vom alten zum neuen Status für die aktuelle Rolle des Nutzers existiert.
         system_wide_non_working_day_exists: widerspricht einem systemweiten Nicht-Arbeitstag für dieses Datum.
@@ -722,7 +743,6 @@ de:
             types:
               cannot_assign_multiple_variants_of_parent: Nur eine einzige Variante eines Typs kann im Projekt aktiv sein
               cannot_assign_variant_and_parent: 'Eine Variante und deren übergeordnete Variante können nicht beide aktiv sein '
-              cannot_assign_variants_yet: Varianten können derzeit noch nicht auf Projektebene aktiviert werden. Aktivieren Sie das Feature Flag, um Varianten auszuprobieren
               in_use_by_work_packages: 'wird noch genutzt von folgenden Arbeitspaketen: %{types}'
               switch_target_blank: Wählen Sie die Variante aus, zu der Sie wechseln möchten
               switch_target_identical: Der Zieltyp muss sich von dem Typ unterscheiden, den das Projekt derzeit verwendet
@@ -744,7 +764,7 @@ de:
         project_type:
           attributes:
             variant:
-              must_be_owned_by_the_project: must not be a variant another project owns.
+              must_be_owned_by_the_project: Es darf sich nicht um eine Variante handeln, die zu einem anderen Projekt gehört.
               must_belong_to_the_type: muss eine Variante des Typs sein, den das Projekt verwendet.
         queries/filters/base:
           attributes:
@@ -817,7 +837,7 @@ de:
               hours_per_day_are_missing: Die Anzahl der Stunden pro Tag muss festgelegt werden.
               hours_per_day_is_out_of_bounds: Die Anzahl der Stunden pro Tag darf 24 nicht überschreiten.
               journal_aggregation_time_minutes_is_out_of_bounds: Aggregationszeitraum muss zwischen %{min} und %{max} Minuten liegen.
-              password_login_requires_sso_provider: Password login restrictions require at least one available SSO provider.
+              password_login_requires_sso_provider: Um Einschränkungen bei der Anmeldung mit Passwort zu definieren, muss mindestens ein verfügbarer SSO-Anbieter vorhanden sein.
               previous_working_day_changes_unprocessed: Die vorherigen Änderungen an der Konfiguration der Arbeitstage wurden noch nicht angewendet.
               working_days_are_missing: Mindestens ein Wochentag muss als Arbeitstag definiert werden.
         status:
@@ -845,31 +865,34 @@ de:
               query_invalid: 'Die eingebettete Ansicht ''%{group}'' ist ungültig: %{details}'
             base:
               borrowed_by_variants: Kann nicht gelöscht werden, solange die Konfiguration noch von %{names} verwendet wird.
+              inherits_from_project_owned: 'This variant currently inherits from a project-specific variant and cannot be converted to a global variant.
+
+                '
               is_default_variant: Die Standardkonfiguration eines Typs kann nicht gelöscht werden.
-              project_variants_not_allowed: This type does not allow creation of variants inside projects.
+              project_variants_not_allowed: Bei diesem Typ ist die Erstellung von Varianten innerhalb von Projekten nicht zulässig.
               restrict_dependent_destroy:
                 has_many: Kann nicht gelöscht werden, solange es noch in Projekten verwendet wird.
             defaults_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
+              must_be_available_to_the_variant: muss sich um eine Konfiguration handeln, die dieses Projekt verwenden kann.
               would_create_cycle: würde diese Konfigurationen zu einer Schleife verbinden.
             enabled_in_new_projects:
-              not_available_to_project_owned_variant: cannot be set on a variant a project owns.
+              not_available_to_project_owned_variant: kann nicht für eine Variante festgelegt werden, die zu einem Projekt gehört.
               taken: ist bereits für eine andere Variante dieses Typs aktiv.
             form_configuration_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
+              must_be_available_to_the_variant: muss sich um eine Konfiguration handeln, die dieses Projekt verwenden kann.
               would_create_cycle: würde diese Konfigurationen zu einer Schleife verbinden.
             patterns:
               invalid_tokens: Ein oder mehrere Attribute des Feldes sind ungültig. Bitte korrigieren Sie die Attribute vor dem Speichern.
             pdf_export_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
+              must_be_available_to_the_variant: Es muss sich um eine Konfiguration handeln, die dieses Projekt verwenden kann.
               would_create_cycle: würde diese Konfigurationen zu einer Schleife verbinden.
             project_attributes_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
+              must_be_available_to_the_variant: muss sich um eine Konfiguration handeln, die dieses Projekt verwenden kann.
               would_create_cycle: würde diese Konfigurationen zu einer Schleife verbinden.
             variant:
               must_belong_to_the_type: muss eine Variante dieses Typs sein.
             workflows_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
+              must_be_available_to_the_variant: muss sich um eine Konfiguration handeln, die dieses Projekt verwenden kann.
               would_create_cycle: würde diese Konfigurationen zu einer Schleife verbinden.
         user:
           attributes:
@@ -998,6 +1021,12 @@ de:
       ai/text_transform_action:
         one: Text-Bearbeitung
         other: Text-Bearbeitungen
+      ai/text_transform_run:
+        one: Text transform run
+        other: Text transform runs
+      ai/text_transform_run_event:
+        one: Text transform run event
+        other: Text transform run events
       announcement:
         one: Ankündigung
         other: Ankündigungen
@@ -1914,8 +1943,8 @@ de:
         label_actions: Aktionsmenü
         label_toggle: "%{label} umschalten"
         scope_specific_work_package_types:
-          one: "%{count} work package type"
-          other: "%{count} work package types"
+          one: "%{count} Arbeitspakettyp"
+          other: "%{count} Arbeitspakettypen"
       usage_scopes:
         all_work_package_types: Alle Arbeitspakettypen
         everywhere: Überall
@@ -2021,10 +2050,6 @@ de:
       not_found:
         reminder: Die Erinnerung konnte nicht gefunden werden oder wurde gelöscht.
         work_package: Das von Ihnen gesuchte Arbeitspaket konnte nicht gefunden werden oder wurde gelöscht.
-      render:
-        context_not_parsable: Der übergebene Kontext ist kein Link zu einer Ressource.
-        context_object_not_found: Die als Kontext übergebene Ressource konnte nicht gefunden werden.
-        unsupported_context: Die übergebene Ressource wird nicht als Kontext unterstützt.
       unable_to_create_attachment: Der Anhang konnte nicht erstellt werden
       unable_to_create_attachment_permissions: Der Anhang konnte aufgrund fehlender Dateisystemberechtigungen nicht gespeichert werden
       user:
@@ -2171,6 +2196,9 @@ de:
     label_delete_token: Backup-Token löschen
     label_reset_token: Backup-Token zurücksetzen
     label_token_users: Folgende Benutzer haben aktive Backup-Token
+    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
+
+      '
     reset_token:
       action_create: Erstellen
       action_reset: Zurücksetzen
@@ -2461,6 +2489,9 @@ de:
       min_max:
         all: 0 heißt keine Beschränkung
         project: 0 heißt keine Beschränkung
+      min_max_value:
+        all: Leer lassen, um keine Beschränkung zu setzen
+        project: Leer lassen, um keine Beschränkung zu setzen
       multi_select:
         all: Ermöglicht dem Benutzer, diesem benutzerdefinierten Feld mehrere Werte zuzuweisen.
         project: Ermöglicht dem Benutzer, diesem benutzerdefinierten Feld mehrere Werte zuzuweisen.
@@ -2807,7 +2838,7 @@ de:
         more_info: 'Hinweis: Das verwendete Logo wird öffentlich zugänglich sein.'
         title: Selbstdefiniertes Farbthema und Logo
       edit_attribute_groups:
-        description: 'Customize the form with these additional add-ons:'
+        description: 'Anpassen des Formulars mit diesen zusätzlichen Add-ons:'
         features:
           groups: Neue Attributabschnitte hinzufügen
           related: Tabelle mit zugehörigen Arbeitspaketen hinzufügen
@@ -3425,7 +3456,6 @@ de:
   label_copy_target: Ziel
   label_copy_workflow_from: Workflow kopieren von
   label_copy_workflow_from_role: In andere Rollen kopieren
-  label_copy_workflow_from_type: In einen anderen Typ kopieren
   label_core_build: Core-Buildinformation
   label_core_version: Core Version
   label_created_by: Erstellt von %{user}
@@ -3670,7 +3700,6 @@ de:
   label_message_new: Neues Thema
   label_message_plural: Forenbeiträge
   label_message_posted: Forenbeitrag hinzugefügt
-  label_min_max_length: Länge (Min. - Max.)
   label_minute_plural: Minuten
   label_missing_api_access_key: Fehlender API Zugriffsschlüssel
   label_missing_feeds_access_key: Fehlender RSS Zugriffsschlüssel
@@ -4251,6 +4280,9 @@ de:
   mail_body_account_information: Ihre Konto-Informationen
   mail_body_account_information_external: Sie können sich mit Ihrem Konto %{value} anmelden.
   mail_body_backup_ready: 'Ihr gewünschtes Backup ist bereit. Sie können es hier herunterladen:'
+  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
+
+    '
   mail_body_backup_token_info: Der vorherige Token ist nicht mehr gültig.
   mail_body_backup_token_reset_admin_info: Der Backup-Token für Benutzer '%{user}' wurde zurückgesetzt.
   mail_body_backup_token_reset_user_info: Ihr Backup-Token wurde zurückgesetzt.
@@ -4575,6 +4607,7 @@ de:
   notice_account_already_activated: Dieses Benutzerkonto wurde bereits aktiviert.
   notice_account_invalid_credentials: Benutzer oder Kennwort ist ungültig.
   notice_account_invalid_credentials_or_blocked: Benutzer oder Kennwort ist ungültig oder der Account wurde wegen mehrfacher Falscheingabe temporär gesperrt, in diesem Fall wird er in Kürze automatisch wieder freigeschaltet.
+  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
   notice_account_invalid_token: Ungültiger Aktivierungs-Token
   notice_account_lost_email_sent: Eine E-Mail mit Anweisungen, wie ein neues Kennwort gewählt wird, wurde Ihnen zugeschickt.
   notice_account_new_password_forced: Ein neues Passwort muss gesetzt werden.
@@ -4833,8 +4866,6 @@ de:
       not_found: nicht gefunden.
       respond_to?: die erforderliche Methode nicht implementiert.
       rules:
-        copy_workflow_from:
-          workflow_missing: hat keinen eigenen Workflow.
         custom_field:
           format_not_supported: format '%{field_format}' wird nicht unterstützt.
         item:
@@ -4854,7 +4885,6 @@ de:
     or: oder
     rules:
       blueprint: Blaupause für Muster
-      copy_workflow_from: Typ für Workflow-Kopie
       depth: Tiefe
       enabled: Aktiviert
       item: Element
@@ -5504,11 +5534,11 @@ de:
     edit:
       default_for_new_projects_warning: 'Diese Rolle ist als Standardrolle für diejenigen Benutzer konfiguriert, die ein Projekt erstellen und keine Administratoren sind. Entfernen Sie die folgenden Berechtigungen nicht, sonst können die Projekt-Ersteller die Einrichtung ihrer neu erstellten Projekte nicht abschließen:'
     index:
-      filter_label: Search roles
+      filter_label: Rollen suchen
       types:
-        all: All roles
-        global: Global roles
-        project: Project roles
+        all: Alle Rollen
+        global: Globale Rollen
+        project: Projektrollen
     permissions:
       section_check_all_label: Alle %{module} Berechtigungen zuweisen
       section_uncheck_all_label: Alle %{module} Berechtigungen zuweisen
@@ -5661,14 +5691,14 @@ de:
   setting_password_active_rules: Passwortanforderungen
   setting_password_count_former_banned: Anzahl zuletzt benutzter Passwörter, die nicht wiederverwendet werden dürfen
   setting_password_days_valid: Anzahl von Tagen, nach denen ein Passwortwechsel erzwungen wird
-  setting_password_login: Password login
+  setting_password_login: Passwort-Login
   setting_password_login_all: Für alle erlauben
-  setting_password_login_all_caption: Anyone with an internal password can sign in with it, including users linked to an identity provider.
-  setting_password_login_bypass_principal_ids: Users and groups who may still use a password
-  setting_password_login_except_sso: Disallow for SSO users
-  setting_password_login_except_sso_caption: Users linked to an identity provider cannot sign in with their internal password. Other users can continue using it.
-  setting_password_login_none: Disallow for everyone
-  setting_password_login_none_caption_html: The password form is hidden. Only users and groups listed below can sign in with a password via %{internal_login_link}.
+  setting_password_login_all_caption: Jeder, der über ein internes Passwort verfügt, kann sich damit anmelden, einschließlich Benutzer, die mit einem SSO-Anbieter verknüpft sind.
+  setting_password_login_bypass_principal_ids: Benutzer und Gruppen, die sich immer mit Passwort anmelden können
+  setting_password_login_except_sso: Für SSO-Benutzer deaktivieren
+  setting_password_login_except_sso_caption: Benutzer, die mit einem Identitätsanbieter verknüpft sind, können sich nicht mit ihrem internen Passwort anmelden. Andere Benutzer können dieses weiterhin verwenden.
+  setting_password_login_none: Für alle verbieten
+  setting_password_login_none_caption_html: Der Login mit Passwort ist ausgeblendet. Nur die unten aufgeführten Benutzer und Gruppen können sich über %{internal_login_link} mit einem Passwort anmelden.
   setting_password_min_length: Minimale Länge
   setting_per_page_options: Objekte pro Seite
   setting_percent_complete_on_status_closed: "% abgeschlossen, wenn der Status geschlossen ist"
@@ -5805,13 +5835,13 @@ de:
       omniauth_direct_login_hint_html: 'Wenn diese Option aktiviert ist, werden die Anmeldeanfragen an den konfigurierten SSO-Anbieter weitergeleitet. Das Login-Dropdown und die Anmeldeseite sind dann deaktiviert. <br/> <strong>Hinweis:</strong> Sofern Sie nicht auch die Passwortanmeldung deaktivieren, können sich Benutzer bei aktivierter Option immer noch intern anmelden, indem sie die interne Anmeldeseite <code>%{internal_path}</code> verwenden.
 
         '
-      password_login_bypass_principal_ids_hint: 'Even when password login in disabled, these users and groups will be able to use their password to sign in. This is useful, for example, if the identity provider becomes unavailable. If you include a group, access will be extended to all users in that group.
+      password_login_bypass_principal_ids_hint: 'Selbst wenn die Anmeldung per Passwort deaktiviert ist, können sich diese Benutzer und Gruppen weiterhin mit ihrem Passwort anmelden. Dies ist beispielsweise nützlich, falls der Identitätsanbieter nicht mehr verfügbar ist. Wenn Sie eine Gruppe hinzufügen, wird der Zugriff auf alle Benutzer dieser Gruppe ausgeweitet.
 
         '
-      password_login_configured_by_environment: 'The following settings are configured through the environment and cannot be edited here:
+      password_login_configured_by_environment: 'Die folgenden Einstellungen werden über Umgebungsvariablen konfiguriert und können hier nicht bearbeitet werden:
 
         '
-      password_login_requires_sso_provider: 'Password login restrictions are unavailable because no SSO provider is currently enabled. Configure and enable an SSO provider before changing these settings.
+      password_login_requires_sso_provider: 'Einschränkungen für die Anmeldung per Passwort sind nicht verfügbar, da derzeit kein Identitätsanbieter aktiviert ist. Bitte konfigurieren und aktivieren Sie einen Identitätsanbieter bevor Sie diese Einstellungen ändern.
 
         '
       registration: Registrierung
@@ -6085,13 +6115,14 @@ de:
         <br>
         <strong>Hinweis</strong>: Vererbte Attribute (z.B. von Unteraufgaben oder Relationen) werden auch auf Arbeitspakete in diesen Status angewandt.
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Von Gesamtsumme auschließen
         is_closed: Erledigt
-        is_default: Standard
         is_readonly: Schreibgeschützt
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Neuen Status hinzufügen
       no_results_title_text: Derzeit gibt es keine Arbeitspaket-Status.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: und
@@ -6308,7 +6339,7 @@ de:
       steps:
         defaults: Standardwerte
         details: Details
-        form_configuration: Form
+        form_configuration: Formular
         pdf: PDF-Erstellung
         project_attributes: Projektattribute
         projects: Projekte
@@ -6344,7 +6375,7 @@ de:
         type_color_text: |-
           Die ausgewählte Farbe unterscheidet verschiedene Typen
           in Gantt-Diagrammen und Arbeitspakettabellen. Es wird daher empfohlen, gut unterscheidbare Farben zu verwenden.
-        variant_name_caption_html: This is an internal name only visible to administrators. Variants replace the original parent type, so if this variant is used in a project, it will appear as <b>%{type}</b> to all members.
+        variant_name_caption_html: Dies ist ein interner Name, der nur für Administratoren sichtbar ist. Varianten ersetzen den ursprünglichen übergeordneten Typ. Wird diese Variante also in einem Projekt verwendet, wird sie mit dem Namen '<b>%{type}</b>' für alle Mitglieder angezeigt.
       export_configuration:
         artefact_export:
           attachment:
@@ -6370,7 +6401,7 @@ de:
           label: PDF-Exportvorlagen
         tab: PDF generieren
         templates:
-          readonly_error: Cannot be changed while linked to a source type.
+          readonly_error: Kann nicht geändert werden, solange eine Verknüpfung zu einem Quelltyp besteht.
           section_title: PDF-Exportvorlagen
           settings:
             edit_link: Einstellungen bearbeiten
@@ -6381,9 +6412,8 @@ de:
         add_query_group: Zugehörige Arbeitspaket-Tabelle
         blankslate_description: Fügen Sie Gruppen über die Schaltfläche oben hinzu oder ziehen Sie Attribute aus dem linken Bereich.
         blankslate_title: Noch keine Gruppen
-        builtin_field: Vordefiniertes Feld
         confirm_delete_group: Sind Sie sicher, dass Sie diesen Abschnitt löschen möchten? Diese Aktion kann nicht automatisch rückgängig gemacht werden.
-        confirm_reset: Are you sure you want to reset the form?
+        confirm_reset: Sind Sie sicher, dass Sie das Formular zurücksetzen möchten?
         custom_field: Benutzerdefiniertes Feld
         delete_group: Abschnitt löschen
         drag_to_activate: Felder aus diesem Bereich herausziehen, um sie zu aktivieren
@@ -6398,22 +6428,40 @@ de:
         group_actions: Abschnittsoptionen
         group_name_label: Name des Abschnitts
         inactive_attributes_heading: Inaktive Attribute
-        invalid_attribute_groups: The form payload is invalid.
+        invalid_attribute_groups: Die Daten des Formulars sind ungültig.
         invalid_query: Die eingebettete Abfrage ist ungültig.
         label_group: Abschnitt
         no_inactive_attributes: Keine inaktiven Attribute
-        not_found: The requested form item could not be found.
+        not_found: Das angeforderte Formularfeld konnte nicht gefunden werden.
         query_group_label: Zugehörige Arbeitspaket-Tabelle
         remove_attribute: Aus Abschnitt entfernen
         rename_group: Abschnitt umbenennen
+        required:
+          already_required_globally: This custom field is required for all types.
+          for_variant: Required in this type
+          globally: Required
+          globally_hint: Change this on the custom field
+          mark: Require in this type
+          not_a_custom_field: Only a custom field can be made required for a single type.
+          not_available_when_linked: This configuration is inherited. Configure it manually to change what is required.
+          unmark: Do not require in this type
         reset_description: 'Dadurch werden die Attribute auf ihre Standardgruppe zurückgesetzt und ALLE benutzerdefinierten Felder deaktiviert.
 
           '
-        reset_title: Reset form
+        reset_title: Formular zurücksetzen
         reset_to_defaults: Formular zurücksetzen
         row_actions: Weitere Aktionen
-        tab: Form
+        tab: Formular
         untitled_group: Unbenannte Gruppe
+      overview:
+        configuration_mode: Konfigurationsmodus
+        dependents: Abhängige Typen und Varianten
+        mode:
+          always_manual: Immer manuell
+          inheriting_from_html: Vererbt von %{source_name}
+          manual: Manuell konfiguriert
+        settings: Einstellungen
+        tab: Übersicht
       project_attributes:
         actions:
           label_disable_all: Alle deaktivieren
@@ -6547,7 +6595,7 @@ de:
         filter_no_results: Keine Varianten entsprechen diesem Filter
         global_section:
           description: These variants are available across all projects.
-          title: Varianten
+          title: Global variants
         project_specific_section:
           description: These variants are only available within the projects in which they were created.
           title: Projektspezifische Varianten
@@ -6556,6 +6604,17 @@ de:
     index:
       add_variant: Variante zu %{name} hinzufügen
       add_variant_action: Variante hinzufügen
+      convert_to_global: Convert to global variant
+      convert_to_global_dialog:
+        confirm: Convert
+        text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
+
+          '
+      convert_to_global_notice: "%{name} is now a global variant."
+      convert_to_global_rename:
+        confirm: Convert
+        text: A global variant with this name already exists. Please choose a different name.
+        title: Pick another name for this variant
       description: 'Typen und Varianten ermöglichen flexible Konfiguration der Darstellung und Verhalten von Arbeitspaketen. Formulare, Workflows und weitere Bereiche können hierbei in einem Typ definiert und von beliebig vielen Varianten wiederverwendet werden. Jeder Bereich kann hierbei pro Variante individuell konfiguriert werden.
 
         '
@@ -6568,7 +6627,7 @@ de:
       no_results_title_text: Derzeit gibt es keine Typen.
       project_variants_count:
         one: 1 projektspezifische Variante
-        other: "%{count} project-specific variants"
+        other: "%{count} projektspezifische Varianten"
       remove_default: In neuen Projekten nicht aktivieren
       remove_default_notice: "%{name} ist in neuen Projekten nicht länger aktiviert."
       type_label: Typ
@@ -6944,6 +7003,13 @@ de:
       confirm_deletion: Ich bestätige, dass die ausgewählten Arbeitspakete und alle zugehörigen Daten gelöscht werden.
       confirm_descendants_deletion: Ich bestätige, dass alle oben aufgeführten Unteraufgaben ebenfalls gelöscht werden.
       cross_project_warning_html: 'Diese Arbeitspakete sind über mehrere Projekte verteilt: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        self_only_label: Delete just the selected work packages
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete the selected work packages and their descendants
       description: Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete und alle zugehörigen Daten löschen möchten?
       description_with_all_descendants: Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete und alle deren untergeordneten Elemente löschen möchten?
       description_with_descendants: Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete und alle folgenden untergeordneten Elemente löschen möchten?
@@ -7008,6 +7074,13 @@ de:
       confirm_deletion: Ich bestätige, dass die ausgewählten Arbeitspakete und alle zugehörigen Daten gelöscht werden.
       confirm_descendants_deletion: Ich bestätige, dass alle oben aufgeführten Unteraufgaben ebenfalls gelöscht werden.
       cross_project_warning_html: 'Die zur Löschung vorgesehenen Arbeitspakete stammen aus folgenden Projekten: %{projects}'
+      descendants_choice:
+        heading: Delete all descendants too?
+        question: This work package has descendants. Do you want to delete them as well?
+        self_only_caption: This will not delete descendants but will remove hierarchical relations.
+        self_only_label: Delete just this work package
+        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete this work package and descendants
       description: Möchten Sie "%{name}" wirklich löschen?
       heading: Dieses Arbeitspaket unwiderruflich löschen?
       hidden_descendants_only_warning:
@@ -7059,29 +7132,13 @@ de:
   workflows:
     copies:
       form:
-        mode:
-          from_role:
-            caption: Kopieren Sie den aktuellen Workflow auf eine oder mehrere Rollen in demselben Typ. Wenn die ausgewählte Rolle bereits über einen Workflow verfügt, wird der aktuelle Workflow überschrieben.
-            label: In andere Rollen kopieren
-          from_type:
-            caption: Kopieren Sie den aktuellen Workflow auf einen anderen Arbeitspaket-Typ. Wenn dieser bereits einen Workflow besitzt, wird der aktuelle überschrieben. Dies betrifft alle Rollen.
-            label: In einen anderen Typ kopieren
-        source_role_id:
-          label: Ausgehende Rolle
         target_role_ids:
           label: Zielrollen
-        target_variant_ids:
-          label: Zieltypen
       from_roles:
         create:
           notice:
             one: Workflow erfolgreich in die Rolle '%{role_name}' kopiert.
             other: Workflow erfolgreich in %{count} Rollen kopiert.
-      from_variants:
-        create:
-          notice:
-            one: Workflow erfolgreich in den Typ '%{type_name}' kopiert.
-            other: Workflow erfolgreich in %{count} Typen kopiert.
       new:
         title: Workflow von "%{source_type}" kopieren
     form:

@@ -30,6 +30,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, shareReplay, startWith } from 'rxjs/operators';
 import { NavigationService } from 'core-app/core/navigation/navigation.service';
+import { WP_ID_URL_PATTERN } from 'core-app/shared/helpers/work-package-id-pattern';
 
 @Injectable({ providedIn: 'root' })
 export class UrlParamsService {
@@ -41,7 +42,51 @@ export class UrlParamsService {
   }
 
   public pathMatching(key:RegExp, url = window.location.pathname):string|null {
-    return url.match(key)?.[1] || null;
+    return url.match(key)?.[1] ?? null;
+  }
+
+  /**
+   * The routing ID (numeric or semantic) and tab of the currently open details/split
+   * view, if any. Null if the current URL isn't showing one.
+   */
+  public currentDetailsRouteParams(url = window.location.pathname):{ routingId:string, tab:string|null }|null {
+    const match = new RegExp(`/details/(${WP_ID_URL_PATTERN})(?:/([^/]+))?$`).exec(url);
+    if (!match) {
+      return null;
+    }
+
+    const [, routingId, tab] = match;
+    return { routingId, tab: tab ?? null };
+  }
+
+  /**
+   * The current list's base path (work packages, gantt, boards, calendars, ...),
+   * stripped of any already-open details/:id(/:tab) or create_new suffix. Used to
+   * build the next details/create link relative to whichever list is currently rendering.
+   *
+   * Also strips a work_packages/gantt full-view's own :id(/:tab) suffix, so the button
+   * still resolves to the list's create path when clicked from a full work package view.
+   */
+  public basePathWithoutDetails(url = window.location.pathname):string {
+    return url
+      .replace(/\/details\/.*$/, '')
+      .replace(/\/create_new$/, '')
+      .replace(/\/(work_packages|gantt)\/[^/]+(\/[^/]+)?$/, '/$1');
+  }
+
+  /**
+   * The path to open the split-create form at, for whichever list is currently
+   * rendering. Work packages and gantt keep their pre-existing /create_new path;
+   * every other satellite (calendar, boards, team planner, bim) uses details/new.
+   */
+  public splitCreatePath(url = window.location.pathname):string {
+    const basePath = this.basePathWithoutDetails(url);
+    return /\/(work_packages|gantt)$/.test(basePath) ? `${basePath}/create_new` : `${basePath}/details/new`;
+  }
+
+  /** Raw URL-changed signal, for callers that need to react to more than one pattern at once. */
+  public get changed$():Observable<string> {
+    return this.navigation.urlChanged$;
   }
 
   public pathMatching$(key:RegExp):Observable<string|null> {

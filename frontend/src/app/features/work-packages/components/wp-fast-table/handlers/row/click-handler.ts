@@ -39,6 +39,8 @@ import { TableEventComponent, TableEventHandler } from '../table-handler-registr
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { KeepTabService } from '../../../wp-single-view-tabs/keep-tab/keep-tab.service';
 import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
+import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
 
 export class RowClickHandler implements TableEventHandler {
   // Injections
@@ -51,6 +53,8 @@ export class RowClickHandler implements TableEventHandler {
   @LazyInject() public wpTableSelection:WorkPackageViewSelectionService;
 
   @LazyInject() public wpTableFocus:WorkPackageViewFocusService;
+
+  @LazyInject() public urlParams:UrlParamsService;
 
   constructor(public readonly injector:Injector) {
   }
@@ -115,6 +119,39 @@ export class RowClickHandler implements TableEventHandler {
     // not matter what other rows are (de-)selected below.
     // Thus save that row for the details view button.
     this.wpTableFocus.updateFocus(wpId);
+
+    this.switchOpenSplitViewTo(wpId);
+
     return false;
+  }
+
+  /**
+   * If a split view is currently open (URL has a /details/:id(/:tab) suffix), switch it
+   * to the clicked row's work package. List and split view are separate, independently
+   * bootstrapped Angular elements (each with their own isolated query space), so they
+   * don't share WorkPackageViewFocusService - this can't be done by reacting to
+   * updateFocus() from within the split view, it has to be driven from here.
+   *
+   * Not needed for uiRouter contexts (e.g. BIM): WorkPackageSplitViewComponent still
+   * reacts to updateFocus() via $state.go there, since list and split view share one
+   * component tree/injector in that case.
+   */
+  private switchOpenSplitViewTo(wpId:string):void {
+    if (this.$state.current.name !== '') {
+      return;
+    }
+
+    const details = this.urlParams.currentDetailsRouteParams();
+    if (!details) {
+      return;
+    }
+
+    const newRoutingId = resolveRoutingId(this.states, wpId);
+    if (details.routingId === newRoutingId) {
+      return;
+    }
+
+    const newPath = `${this.urlParams.basePathWithoutDetails()}/details/${newRoutingId}${details.tab ? `/${details.tab}` : ''}${window.location.search}`;
+    Turbo.visit(newPath, { frame: 'content-bodyRight', action: 'advance' });
   }
 }

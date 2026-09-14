@@ -167,7 +167,7 @@ describe('ProjectTimelineGraphComponent', () => {
       expect(item!.type).toBe('range');
       expect(item!.group).toBe('phases');
       expect(item!.content).toBe('Design');
-      expect(item!.className).toContain('__hl_background_project_phase_definition_3');
+      expect(item!.className).toContain('__hl_background __hl_project_phase_definition_3');
       expect(item!.itemType).toBe('phase');
       expect(item!.definitionId).toBe(3);
     });
@@ -188,7 +188,7 @@ describe('ProjectTimelineGraphComponent', () => {
       expect(startGate!.className).toContain('op-timeline-gate');
       expect(startGate!.itemType).toBe('gate');
       expect(startGate!.content instanceof HTMLElement).toBe(true);
-      expect((startGate!.content as HTMLElement).querySelector('.__hl_inline_project_phase_definition_5')).toBeTruthy();
+      expect((startGate!.content as HTMLElement).querySelector('.__hl_foreground.__hl_project_phase_definition_5')).toBeTruthy();
 
       const finishGate = items.find((i) => i.id === 'gate-finish-2');
       expect(finishGate).toBeDefined();
@@ -241,7 +241,7 @@ describe('ProjectTimelineGraphComponent', () => {
       expect(item!.group).toBe('milestones');
       expect(item!.title).toBe('Launch');
       expect(item!.className).toContain('op-timeline-milestone');
-      expect(item!.className).toContain('__hl_background_type_7');
+      expect(item!.className).toContain('__hl_background __hl_type_7');
       expect(item!.itemType).toBe('milestone');
     });
 
@@ -290,7 +290,7 @@ describe('ProjectTimelineGraphComponent', () => {
           end: '2024-03-31',
           content: 'Design',
           title: 'Design',
-          className: '__hl_background_project_phase_definition_3',
+          className: '__hl_background __hl_project_phase_definition_3',
           itemType: 'phase',
           definitionId: 3,
         }) as HTMLElement;
@@ -318,7 +318,7 @@ describe('ProjectTimelineGraphComponent', () => {
       });
 
       it('applies the highlight class to the type indicator', () => {
-        expect(result.querySelector('.__hl_inline_project_phase_definition_3')).toBeTruthy();
+        expect(result.querySelector('.__hl_foreground.__hl_project_phase_definition_3')).toBeTruthy();
       });
     });
 
@@ -335,7 +335,7 @@ describe('ProjectTimelineGraphComponent', () => {
           originalEnd: '2024-05-15',
           content: 'Kickoff',
           title: 'Kickoff',
-          className: '__hl_background_project_phase_definition_9',
+          className: '__hl_background __hl_project_phase_definition_9',
           definitionId: 9,
         }) as HTMLElement;
       });
@@ -363,7 +363,7 @@ describe('ProjectTimelineGraphComponent', () => {
           start: '2024-04-01',
           content: document.createElement('i'),
           title: 'Build Start',
-          className: 'op-timeline-gate __hl_background_project_phase_definition_5',
+          className: 'op-timeline-gate __hl_background __hl_project_phase_definition_5',
           itemType: 'gate',
           definitionId: 5,
         }) as HTMLElement;
@@ -386,7 +386,7 @@ describe('ProjectTimelineGraphComponent', () => {
       });
 
       it('applies the highlight class', () => {
-        expect(result.querySelector('.__hl_inline_project_phase_definition_5')).toBeTruthy();
+        expect(result.querySelector('.__hl_foreground.__hl_project_phase_definition_5')).toBeTruthy();
       });
     });
 
@@ -401,7 +401,7 @@ describe('ProjectTimelineGraphComponent', () => {
           start: '2024-06-30',
           content: '',
           title: 'Launch',
-          className: 'op-timeline-milestone __hl_background_type_7',
+          className: 'op-timeline-milestone __hl_background __hl_type_7',
           itemType: 'milestone',
           typeId: 7,
         }) as HTMLElement;
@@ -424,7 +424,7 @@ describe('ProjectTimelineGraphComponent', () => {
       });
 
       it('applies the type highlight class to the icon', () => {
-        expect(result.querySelector('.__hl_inline_type_7')).toBeTruthy();
+        expect(result.querySelector('.__hl_uppercase.__hl_foreground.__hl_type_7')).toBeTruthy();
       });
     });
 

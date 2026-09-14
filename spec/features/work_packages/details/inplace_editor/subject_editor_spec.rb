@@ -13,7 +13,7 @@ RSpec.describe "subject inplace editor", :js, :selenium do
   let(:property_title) { "Subject" }
   let(:work_package) { create(:work_package, project:) }
   let(:user) { create(:admin) }
-  let(:work_packages_page) { Pages::SplitWorkPackage.new(work_package, project) }
+  let(:work_packages_page) { Pages::PrimerizedSplitWorkPackage.new(work_package, project) }
   let(:field) { work_packages_page.edit_field(property_name) }
   let(:notification) { PageObjects::Notifications.new(page) }
 

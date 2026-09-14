@@ -30,8 +30,7 @@
 require "spec_helper"
 
 RSpec.describe "The reuse mode and dependents boxes on a type's configuration tab",
-               :js,
-               with_flag: { type_variants: true } do
+               :js do
   shared_let(:admin) { create(:admin) }
   shared_let(:type) { create(:type, name: "Task") }
   shared_let(:borrowing_type) { create(:type, name: "Feature") }
