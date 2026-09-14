@@ -149,30 +149,6 @@ RSpec.describe CustomStyle do
     end
   end
 
-  describe "#remove_logo_light_high_contrast" do
-    it_behaves_like "removing an image from a custom style" do
-      let(:image) { "logo_light_high_contrast" }
-    end
-  end
-
-  describe "#remove_logo_mobile" do
-    it_behaves_like "removing an image from a custom style" do
-      let(:image) { "logo_mobile" }
-    end
-  end
-
-  describe "#remove_logo_mobile_dark" do
-    it_behaves_like "removing an image from a custom style" do
-      let(:image) { "logo_mobile_dark" }
-    end
-  end
-
-  describe "#remove_logo_mobile_light_high_contrast" do
-    it_behaves_like "removing an image from a custom style" do
-      let(:image) { "logo_mobile_light_high_contrast" }
-    end
-  end
-
   describe "#remove_export_logo" do
     it_behaves_like "removing an image from a custom style" do
       let(:image) { "export_logo" }

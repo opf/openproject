@@ -147,9 +147,12 @@ RSpec.describe CustomStylesHelper do
 
     context "without custom styles" do
       it "returns distinct default mobile logos" do
-        expect(logo_urls.dig(:mobile, :light)).to eq(helper.asset_path("icon_logo.svg"))
-        expect(logo_urls.dig(:mobile, :white)).to eq(helper.asset_path("icon_logo_white.svg"))
-        expect(logo_urls.dig(:mobile, :dark)).to eq(helper.asset_path("icon_logo_white.svg"))
+        expect(logo_urls[:mobile]).to eq(
+          light: helper.asset_path("icon_logo.svg"),
+          white: helper.asset_path("icon_logo_white.svg"),
+          light_high_contrast: helper.asset_path("icon_logo.svg"),
+          dark: helper.asset_path("icon_logo_white.svg")
+        )
       end
     end
 
