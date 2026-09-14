@@ -27,11 +27,27 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%=
-  render Primer::OpenProject::PageHeader.new do |header|
-    header.with_title { title }
-    header.with_description { description }
-    header.with_breadcrumbs(breadcrumb_items)
-    helpers.render_tab_header_nav(header, @tabs)
-  end
-%>
+<%= flex_layout(direction: :column, align_items: :flex_start) do |column| %>
+  <% column.with_row do %>
+    <%= render(Primer::Beta::Link.new(href: configuration_path, font_weight: :bold)) { name } %>
+  <% end %>
+
+  <% if profile.base? %>
+    <% column.with_row(mt: 1) do %>
+      <%= render(Primer::Beta::Label.new(scheme: :accent)) { t("types.comparison.labels.base") } %>
+    <% end %>
+  <% end %>
+
+  <% if duplicates.any? %>
+    <% column.with_row(mt: 1) do %>
+      <%= render(
+            Primer::Beta::Label.new(
+              scheme: :attention,
+              title: t("types.comparison.labels.duplicate_of", names: duplicate_names)
+            )
+          ) do %>
+        <%= t("types.comparison.labels.duplicate") %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

@@ -6631,6 +6631,44 @@ en:
   total_progress: "Total progress"
 
   types:
+    comparison:
+      action: "Compare variants"
+      blankslate:
+        description: "Add a second variant to this type to see what sets them apart."
+        title: "There is nothing to compare yet"
+      description: "Compare the variants of this type with the main type."
+      labels:
+        base: "Base"
+        duplicate: "Possible duplicate"
+        duplicate_of: "Configured exactly like %{names}"
+      rows:
+        form:
+          custom_fields: "Custom fields"
+          excluded: "Not inherited"
+          fields: "Fields"
+          groups: "Sections"
+          required: "Required fields"
+          same_as_base: "Same as base"
+        scope:
+          availability: "Available in"
+          enabled_in_new_projects: "Active in new projects"
+          projects: "Projects using it"
+        workflows:
+          roles: "Roles with transitions"
+          same_as_base: "Same as base"
+          statuses: "Statuses"
+          transitions: "Transitions"
+      sections:
+        configuration: "Configuration"
+        form: "Form"
+        scope: "Scope"
+        workflows: "Workflows"
+      title: "Compare variants"
+      values:
+        differs_from_base: "Differs from the base configuration"
+        global: "All projects"
+        inheriting_from: "Inheriting from"
+        same_as_base: "Identical to the base configuration"
     creation_wizard:
       add_variant: "Add a variant to %{name}"
       create_type: "Create type"

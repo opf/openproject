@@ -1,0 +1,48 @@
+.type-variant-comparison--scroll
+  overflow-x: auto
+
+  .type-variant-comparison--grid
+    display: grid
+    align-items: start
+    column-gap: 16px
+
+  .type-variant-comparison--label
+    position: sticky
+    left: 0
+    z-index: 1
+    background: var(--bgColor-default)
+    font-weight: var(--base-text-weight-semibold)
+
+  // The columns overflow the viewport, so anything drawing a border has to be measured against
+  // its own content rather than the scrollport, or the border cuts across the columns the reader
+  // scrolled to.
+  > *,
+  .Box
+    min-width: max-content
+
+  .type-variant-comparison--head
+    padding: 0 16px 8px
+    margin-bottom: 16px
+    align-items: end
+    border-bottom: 1px solid var(--borderColor-default)
+
+  collapsible-section
+    display: block
+
+  .CollapsibleSection--triggerArea
+    position: sticky
+    left: 0
+    width: min-content
+
+  .Box
+    overflow: visible
+
+  .Box-header
+    position: sticky
+    left: 0
+    width: min-content
+    white-space: nowrap
+    text-transform: uppercase
+    letter-spacing: 0.04em
+    font-size: 0.75rem
+    color: var(--fgColor-muted)
