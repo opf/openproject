@@ -64,6 +64,21 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
 
   current_user { build_stubbed(:user) }
 
+  describe "#allowed_project_node?" do
+    let(:project) { build_stubbed(:project) }
+    let(:allowed_projects) { [project] }
+    let(:allowed_urls) { ["/allowed"] }
+    let(:parent) do
+      Redmine::MenuManager::MenuItem.new(:parent, "/forbidden", allow_deeplink: true).tap do |node|
+        node << Redmine::MenuManager::MenuItem.new(:child, "/allowed", {})
+      end
+    end
+
+    it "allows a deeplink parent when one of its children is allowed" do
+      expect(allowed_project_node?(parent, project, current_user)).to be(true)
+    end
+  end
+
   describe "#render_menu" do
     let(:project) { build_stubbed(:project) }
     let(:allowed_projects) { [project] }

@@ -32,34 +32,77 @@ require "spec_helper"
 
 RSpec.describe Queries::WorkPackages::Filter::AttachmentContentFilter do
   if OpenProject::Database.allows_tsv?
-    context "WP with attachment" do
+    context "when filtering work packages" do
       let(:context) { nil }
-      let(:value) { "ipsum" }
-      let(:operator) { "~" }
       let(:instance) do
         described_class.create!(name: :search, context:, operator:, values: [value])
       end
-
-      let(:work_package) { create(:work_package) }
-      let(:text) { "lorem ipsum" }
-      let(:attachment) { create(:attachment, container: work_package) }
+      let(:work_package_a) { create(:work_package) }
+      let(:work_package_b) { create(:work_package) }
+      let!(:work_package_without_attachment) { create(:work_package) }
+      let(:attachment_a) { create(:attachment, container: work_package_a) }
+      let(:attachment_b) { create(:attachment, container: work_package_b) }
       let(:plaintext_file_handler) do
-        Plaintext::Resolver.file_handlers.find { |h| h.accept? attachment.content_type }.tap do |plaintext_file_handler|
+        Plaintext::Resolver.file_handlers.find { |h| h.accept? attachment_a.content_type }.tap do |plaintext_file_handler|
           if plaintext_file_handler.nil?
-            fail "Plaintext::FileHandler not found for content type #{attachment.content_type}"
+            fail "Plaintext::FileHandler not found for content type #{attachment_a.content_type}"
           end
         end
       end
 
       before do
-        allow(plaintext_file_handler).to receive(:text).and_return(text)
+        allow(plaintext_file_handler).to receive(:text).and_return("I am the first text $1.99.")
+        Attachments::ExtractFulltextJob.perform_now(attachment_a.id)
+        allow(plaintext_file_handler).to receive(:text).and_return("I am the second text.")
+        Attachments::ExtractFulltextJob.perform_now(attachment_b.id)
       end
 
-      it "finds WP through attachment content" do
-        perform_enqueued_jobs
+      subject(:results) { WorkPackage.where(instance.where) }
 
-        expect(WorkPackage.joins(instance.joins).where(instance.where))
-          .to contain_exactly(work_package)
+      context "with a matching term" do
+        let(:operator) { "~" }
+        let(:value) { "text" }
+
+        it "finds every matching work package" do
+          expect(results).to contain_exactly(work_package_a, work_package_b)
+        end
+      end
+
+      context "with words and numbers" do
+        let(:operator) { "~" }
+        let(:value) { "first 1.99" }
+
+        it "finds the matching work package" do
+          expect(results).to contain_exactly(work_package_a)
+        end
+      end
+
+      context "with special search characters" do
+        let(:operator) { "~" }
+        let(:value) { "! first:* ')" }
+
+        it "ignores the special characters" do
+          expect(results).to contain_exactly(work_package_a)
+        end
+      end
+
+      context "with a negative match" do
+        let(:operator) { "!~" }
+        let(:value) { "first" }
+
+        it "finds non-matching work packages, including those without attachments" do
+          expect(results).to contain_exactly(work_package_b, work_package_without_attachment)
+        end
+      end
+    end
+
+    context "without full text search support" do
+      before do
+        allow(OpenProject::Database).to receive(:allows_tsv?).and_return(false)
+      end
+
+      it "is unavailable" do
+        expect(described_class.create!(name: :search)).not_to be_available
       end
     end
 

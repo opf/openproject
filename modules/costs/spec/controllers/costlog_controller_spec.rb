@@ -442,7 +442,7 @@ RSpec.describe CostlogController do
 
       before do
         grant_current_user_permissions user, %i[view_project view_work_packages log_costs]
-        params["cost_entry"]["cost_type_id"] = (cost_type.id + 1).to_s
+        params["cost_entry"]["cost_type_id"] = (CostType.maximum(:id) + 1).to_s
       end
 
       it_behaves_like "invalid create"
@@ -457,7 +457,7 @@ RSpec.describe CostlogController do
         create(:cost_type, default: true)
 
         grant_current_user_permissions user, %i[view_project view_work_packages log_costs]
-        params["cost_entry"]["cost_type_id"] = 1
+        params["cost_entry"]["cost_type_id"] = (CostType.maximum(:id) + 1).to_s
       end
 
       it_behaves_like "invalid create"
@@ -785,7 +785,7 @@ RSpec.describe CostlogController do
       before do
         grant_current_user_permissions user, %i[view_project view_work_packages view_cost_entries edit_cost_entries]
 
-        params["cost_entry"]["cost_type_id"] = "1234123512"
+        params["cost_entry"]["cost_type_id"] = (CostType.maximum(:id) + 1).to_s
       end
 
       it_behaves_like "invalid update"

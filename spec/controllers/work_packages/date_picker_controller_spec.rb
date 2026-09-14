@@ -230,6 +230,29 @@ RSpec.describe WorkPackages::DatePickerController do
       end
     end
 
+    context "when the user clears two date fields" do
+      let(:params) do
+        params_after_changing_values.deep_merge(
+          "field" => "work_package[start_date]",
+          "work_package" => {
+            "start_date" => "",
+            "start_date_touched" => "true",
+            "due_date" => "",
+            "due_date_touched" => "true",
+            "duration" => "5",
+            "duration_touched" => "false"
+          }
+        )
+      end
+
+      it "clears the remaining field and retains focus" do
+        subject
+
+        expect(assigns(:work_package)).to have_attributes(start_date: nil, due_date: nil, duration: nil)
+        expect(controller.send(:focused_field)).to eq(:start_date)
+      end
+    end
+
     context "when changing the start date" do
       let(:params) do
         params_after_changing_values.deep_merge(

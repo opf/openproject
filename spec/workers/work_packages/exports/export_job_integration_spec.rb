@@ -67,7 +67,7 @@ RSpec.describe WorkPackages::ExportJob, "Integration" do
   end
 
   before do
-    allow(Time.zone).to receive(:now).and_return(test_time)
+    travel_to(test_time)
   end
 
   describe "with special characters in the project title" do

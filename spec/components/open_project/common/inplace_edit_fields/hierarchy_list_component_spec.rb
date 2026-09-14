@@ -39,6 +39,13 @@ RSpec.describe OpenProject::Common::InplaceEditFields::HierarchyListComponent,
     end
   end
 
+  describe ".display_class" do
+    it "uses the hierarchy display component" do
+      expect(described_class.display_class)
+        .to eq(OpenProject::Common::InplaceEditFields::DisplayFields::HierarchyListComponent)
+    end
+  end
+
   context "with a single-value hierarchy custom field" do
     let(:project) { create(:project) }
     let(:custom_field) { create(:project_custom_field, :hierarchy) }

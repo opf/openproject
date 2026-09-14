@@ -99,6 +99,41 @@ RSpec.describe WorkPackages::DatePicker::DialogContentComponent, type: :componen
     it "can switch to automatic scheduling mode" do
       expect(dialog_content).to have_link(I18n.t("work_packages.datepicker_modal.mode.automatic"))
     end
+
+    it "does not show a relation banner without predecessors, successors, a parent, or children" do
+      expect(dialog_content).to have_no_css("[data-test-selector='op-modal-banner-warning']")
+      expect(dialog_content).to have_no_css("[data-test-selector='op-modal-banner-info']")
+    end
+
+    context "with a child" do
+      let(:work_package) { build_stubbed(:work_package, children: [build_stubbed(:work_package)]) }
+
+      it "shows that child dates are ignored" do
+        expect(dialog_content).to have_css(
+          "[data-test-selector='op-modal-banner-warning']",
+          text: "Manually scheduled. Dates not affected by relations. " \
+                "This has child work packages but their start dates are ignored.",
+          normalize_ws: true
+        )
+      end
+    end
+
+    context "with a direct predecessor" do
+      shared_let_work_packages(<<~TABLE)
+        subject      | MTWTFSS | scheduling mode | predecessors
+        predecessor  |         | manual          |
+        work_package |         | automatic       | predecessor
+      TABLE
+
+      it "shows that predecessor dates are ignored" do
+        expect(dialog_content).to have_css(
+          "[data-test-selector='op-modal-banner-warning']",
+          text: "Manually scheduled. Dates not affected by relations. " \
+                'Click on "Show relations" for Gantt overview.',
+          normalize_ws: true
+        )
+      end
+    end
   end
 
   context "when automatically scheduled" do
@@ -119,6 +154,11 @@ RSpec.describe WorkPackages::DatePicker::DialogContentComponent, type: :componen
 
       it "has a disabled save button" do
         expect(dialog_content).to have_button(I18n.t("button_save"), disabled: true)
+      end
+
+      it "does not show a relation banner" do
+        expect(dialog_content).to have_no_css("[data-test-selector='op-modal-banner-warning']")
+        expect(dialog_content).to have_no_css("[data-test-selector='op-modal-banner-info']")
       end
     end
 
@@ -202,6 +242,39 @@ RSpec.describe WorkPackages::DatePicker::DialogContentComponent, type: :componen
 
       it "has a disabled save button" do
         expect(dialog_content).to have_button(I18n.t("button_save"), disabled: true)
+      end
+    end
+  end
+
+  context "with a direct successor but no predecessor, parent, or children" do
+    shared_let(:work_package) { create(:work_package) }
+    shared_let(:successor) { create(:work_package) }
+    let!(:relation) do
+      create(:relation,
+             from: work_package,
+             to: successor,
+             relation_type: Relation::TYPE_PRECEDES)
+    end
+
+    context "when manually scheduled" do
+      let(:schedule_manually) { true }
+
+      it "shows that successor dates are ignored" do
+        expect(dialog_content).to have_css(
+          "[data-test-selector='op-modal-banner-warning']",
+          text: "Manually scheduled. Dates not affected by relations. " \
+                'Click on "Show relations" for Gantt overview.',
+          normalize_ws: true
+        )
+      end
+    end
+
+    context "when automatically scheduled" do
+      let(:schedule_manually) { false }
+
+      it "does not show a relation banner" do
+        expect(dialog_content).to have_no_css("[data-test-selector='op-modal-banner-warning']")
+        expect(dialog_content).to have_no_css("[data-test-selector='op-modal-banner-info']")
       end
     end
   end

@@ -79,4 +79,13 @@ RSpec.describe OpenProject::Common::InplaceEditFields::DisplayFields::DisplayFie
       expect(rendered_content).not_to include("click-&gt;inplace-edit#request")
     end
   end
+
+  it "does not open a dialog for a read-only field without comments" do
+    render_inline(described_class.new(model: project, attribute: :name, writable: false, truncated: false,
+                                      dialog_controller_name: "inplace-edit", dialog_url: "/unused"))
+
+    expect(rendered_content).to have_text(project.name)
+    expect(rendered_content).to have_no_css("[data-controller~='async-dialog']")
+    expect(rendered_content).to have_no_css("[data-action*='openDialog']")
+  end
 end
