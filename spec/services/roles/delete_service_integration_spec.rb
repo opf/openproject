@@ -39,6 +39,14 @@ RSpec.describe Roles::DeleteService, "integration", type: :model do
     allow(OpenProject::Notifications).to receive(:send)
   end
 
+  def create_group_granting(members:, **role_assignments)
+    create(:group, members:, **role_assignments) do |group|
+      Groups::CreateInheritedRolesService
+        .new(group, current_user: User.system, contract_class: EmptyContract)
+        .call(user_ids: members.map(&:id))
+    end
+  end
+
   context "when the role is not attributed to anybody" do
     let!(:role) { create(:project_role) }
 
@@ -115,19 +123,14 @@ RSpec.describe Roles::DeleteService, "integration", type: :model do
     let!(:project) { create(:project) }
     let!(:role) { create(:project_role) }
     let!(:users) { create_list(:user, 2) }
-    let!(:group) do
-      create(:group, members: users, member_with_roles: { project => [role] }) do |group|
-        Groups::CreateInheritedRolesService
-          .new(group, current_user: User.system, contract_class: EmptyContract)
-          .call(user_ids: users.map(&:id))
-      end
-    end
+    let!(:group) { create_group_granting(members: users, member_with_roles: { project => [role] }) }
 
     it "destroys the role, the group membership and the inherited memberships" do
-      expect(service_call).to be_success
+      expect { service_call }
+        .to change { Member.where(principal: [group, *users], project:).count }
+        .from(3).to(0)
 
       expect(Role).not_to exist(role.id)
-      expect(Member.where(principal: [group, *users], project:)).to be_empty
     end
 
     context "and a user holds another role of their own" do
@@ -155,6 +158,21 @@ RSpec.describe Roles::DeleteService, "integration", type: :model do
         expect(service_call).to be_success
 
         expect(Member.where(principal: [group, *users], project:)).to be_empty
+      end
+    end
+
+    context "and the group grants another role as well" do
+      let!(:other_role) { create(:project_role) }
+      let!(:group) do
+        create_group_granting(members: users, member_with_roles: { project => [role, other_role] })
+      end
+
+      it "keeps the group and inherited memberships with the remaining role" do
+        expect(service_call).to be_success
+
+        [group, *users].each do |principal|
+          expect(Member.find_by(principal:, project:).roles).to contain_exactly(other_role)
+        end
       end
     end
   end
@@ -186,6 +204,50 @@ RSpec.describe Roles::DeleteService, "integration", type: :model do
 
         expect(Member.find_by(principal: user, project: nil).roles)
           .to contain_exactly(other_global_role)
+      end
+    end
+
+    context "and a group grants the global role" do
+      let!(:users) { create_list(:user, 2) }
+      let!(:group) { create_group_granting(members: users, global_roles: [role]) }
+
+      it "destroys the group membership and the inherited global memberships" do
+        expect { service_call }
+          .to change { Member.where(principal: [group, *users], project: nil).count }
+          .from(3).to(0)
+
+        expect(Role).not_to exist(role.id)
+      end
+
+      context "and a user holds another global role of their own" do
+        let!(:other_global_role) { create(:global_role) }
+
+        before do
+          Member.find_by(principal: users.first, project: nil).roles << other_global_role
+        end
+
+        it "keeps that global membership with the remaining role" do
+          expect(service_call).to be_success
+
+          expect(Member.find_by(principal: users.first, project: nil).roles)
+            .to contain_exactly(other_global_role)
+          expect(Member.where(principal: [group, users.second], project: nil)).to be_empty
+        end
+      end
+
+      context "and the group grants another global role as well" do
+        let!(:other_global_role) { create(:global_role) }
+        let!(:group) do
+          create_group_granting(members: users, global_roles: [role, other_global_role])
+        end
+
+        it "keeps the group and inherited global memberships with the remaining role" do
+          expect(service_call).to be_success
+
+          [group, *users].each do |principal|
+            expect(Member.find_by(principal:, project: nil).roles).to contain_exactly(other_global_role)
+          end
+        end
       end
     end
   end
