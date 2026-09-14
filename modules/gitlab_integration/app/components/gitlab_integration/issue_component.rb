@@ -29,33 +29,10 @@
 #++
 
 module GitlabIntegration
-  class CollapsibleItemsComponent < ApplicationComponent
+  class IssueComponent < ApplicationComponent
     include ApplicationHelper
     include OpPrimer::ComponentHelpers
 
-    attr_reader :heading, :container
-
-    alias_method :items, :model
-
-    def initialize(model = nil, container_id:, heading:, work_package:, **)
-      @container_id = container_id
-      @heading = heading
-      @work_package = work_package
-
-      super(model, **)
-    end
-
-    private
-
-    def component_for(item)
-      case item
-      when GitlabIssue
-        IssueComponent.new(item)
-      when GitlabMergeRequest
-        MergeRequestComponent.new(item)
-      else
-        raise ArgumentError, "Items of type #{item.class} are not yet supported by #{self.class}"
-      end
-    end
+    alias_method :issue, :model
   end
 end
