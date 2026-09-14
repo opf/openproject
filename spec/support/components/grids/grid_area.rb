@@ -32,15 +32,17 @@ module Components
       end
 
       def resize_to(rows, cols)
-        area.hover
+        page.document.synchronize do
+          current_area = area
+          current_area.hover
 
-        # rows/cols are the desired SIZE of the widget in logical grid units,
-        # e.g. resize_to(1, 2) → 1 row tall, 2 columns wide.
-        target_row = logical_start_row + rows - 1
-        target_col = logical_start_col + cols - 1
+          target_row = (grid_value_for(current_area, "grid-row-start") / CSS_LINES_PER_LOGICAL_UNIT) + rows - 1
+          target_col = (grid_value_for(current_area, "grid-column-start") / CSS_LINES_PER_LOGICAL_UNIT) + cols - 1
+          target = self.class.of(target_row * CSS_LINES_PER_LOGICAL_UNIT,
+                                 target_col * CSS_LINES_PER_LOGICAL_UNIT)
 
-        area.find(".grid--resizer").drag_to self.class.of(target_row * CSS_LINES_PER_LOGICAL_UNIT,
-                                                          target_col * CSS_LINES_PER_LOGICAL_UNIT).area
+          current_area.find(".grid--resizer").drag_to target.area
+        end
       end
 
       def open_menu
@@ -102,16 +104,22 @@ module Components
           .to have_selector(*area_selector)
       end
 
-      def expect_to_span(startRow, startColumn, endRow, endColumn)
-        expect_to_exist
-        [["grid-row-start", startRow * 2],
-         ["grid-column-start", startColumn * 2],
-         ["grid-row-end", (endRow * 2) - 1],
-         ["grid-column-end", (endColumn * 2) - 1]].each do |style, expected|
-          actual = area.style(style)
+      def expect_to_span(start_row, start_column, end_row, end_column)
+        errors = page.driver.invalid_element_errors + [
+          Capybara::ElementNotFound,
+          RSpec::Expectations::ExpectationNotMetError
+        ]
+        page.document.synchronize(errors:) do
+          current_area = area
+          [["grid-row-start", start_row * 2],
+           ["grid-column-start", start_column * 2],
+           ["grid-row-end", (end_row * 2) - 1],
+           ["grid-column-end", (end_column * 2) - 1]].each do |style, expected|
+            actual = current_area.style(style)
 
-          expect(actual).to eql({ style => expected.to_s }),
-                            "expected #{style} to be #{expected} but it is #{actual}"
+            expect(actual).to eql({ style => expected.to_s }),
+                              "expected #{style} to be #{expected} but it is #{actual}"
+          end
         end
       end
 
@@ -149,6 +157,10 @@ module Components
 
       def area
         page.find(*area_selector)
+      end
+
+      def grid_value_for(element, style_name)
+        element.style(style_name)[style_name].to_i
       end
 
       def drag_handle

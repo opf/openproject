@@ -57,12 +57,6 @@ RSpec.describe "form query configuration", :js do
   end
   let(:wp_relation_type) { :children }
   let(:frontend_relation_type) { wp_relation_type }
-  let(:relation_target) { related_task }
-  let(:new_relation) do
-    relation = Hash.new
-    relation[wp_relation_type] = [related_bug, related_task, related_task_other_project]
-    relation
-  end
   let!(:related_task) do
     create(:work_package, project:, type: type_task)
   end
@@ -295,18 +289,17 @@ RSpec.describe "form query configuration", :js do
       it_behaves_like "query group"
     end
 
-    context "relates_to table" do
-      it_behaves_like "query group" do
-        let(:wp_relation_type) { :relates_to }
-        let(:frontend_relation_type) { :relates }
-        let(:relation_target) { [work_package] }
-      end
-    end
+    {
+      relates: Relation::TYPE_RELATES,
+      blocks: Relation::TYPE_BLOCKED
+    }.each do |frontend_relation_type, expected_relation_type|
+      it "persists the #{frontend_relation_type} relation type" do
+        form.add_query_group("Related", frontend_relation_type)
 
-    context "blocks table" do
-      it_behaves_like "query group" do
-        let(:wp_relation_type) { :blocks }
-        let(:relation_target) { [work_package] }
+        query_group = type_bug.reload.default_variant.attribute_groups.detect { |group| group.key == "Related" }
+        relation_filter = query_group.query.filters.detect { |filter| filter.respond_to?(:relation_type) }
+
+        expect(relation_filter.relation_type).to eq(expected_relation_type)
       end
     end
   end

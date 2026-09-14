@@ -78,12 +78,15 @@ RSpec.describe "Project description widget", :js do
       description_field = Components::Common::InplaceEditField.new(portfolio, :description)
 
       # Activate the field for editing
-      wait_for_turbo_stream { description_field.open_field }
+      wait_for_turbo_stream(wait: 20) { description_field.open_field }
+      description_field.expect_open
       wait_for_ckeditor
 
       # Set a new description
       new_description = "This is a **test** project description with markdown formatting."
-      wait_for_turbo_stream { description_field.fill_and_submit_value(name: "project[description]", val: new_description, ckeditor: true) }
+      wait_for_turbo_stream do
+        description_field.fill_and_submit_value(name: "project[description]", val: new_description, ckeditor: true)
+      end
 
       tested_page.expect_and_dismiss_flash message: I18n.t("js.notice_successful_update")
 

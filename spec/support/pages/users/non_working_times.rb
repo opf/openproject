@@ -139,7 +139,7 @@ module Pages
       end
 
       def expect_sidebar_entry(text)
-        expect(page).to have_css("a[data-controller='async-dialog']", text:)
+        expect(page).to have_css("a[data-controller='async-dialog']", text:, wait: 15)
       end
 
       def expect_no_sidebar_entry(text)

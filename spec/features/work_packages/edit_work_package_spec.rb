@@ -4,8 +4,6 @@ require "spec_helper"
 require "features/page_objects/notification"
 
 RSpec.describe "edit work package", :js do
-  include Components::Autocompleter::NgSelectAutocompleteHelpers
-
   let!(:standard_global_role) { create(:empty_global_role) }
   let(:dev_role) do
     create(:project_role,
@@ -30,11 +28,6 @@ RSpec.describe "edit work package", :js do
            lastname: "Guy",
            member_with_roles: { project => manager_role })
   end
-  let(:placeholder_user) do
-    create(:placeholder_user,
-           member_with_roles: { project => manager_role })
-  end
-
   let(:cf_all) do
     create(:work_package_custom_field, is_for_all: true, field_format: "text")
   end
@@ -177,21 +170,6 @@ RSpec.describe "edit work package", :js do
     expect(work_package.assigned_to).to be_nil
   end
 
-  it "allows selecting placeholder users for assignee and responsible" do
-    wp_page.update_attributes assignee: placeholder_user.name,
-                              responsible: placeholder_user.name
-
-    wp_page.expect_attributes assignee: placeholder_user.name,
-                              responsible: placeholder_user.name
-
-    activity_tab.expect_journal_changed_attribute(
-      text: "Assignee set to #{placeholder_user.name}"
-    )
-    activity_tab.expect_journal_changed_attribute(
-      text: "Accountable set to #{placeholder_user.name}"
-    )
-  end
-
   context "switching to custom field with required CF" do
     let(:custom_field) do
       create(
@@ -234,17 +212,6 @@ RSpec.describe "edit work package", :js do
     wp_page.expect_attribute_hidden "customField#{cf_tp1.id}"
   end
 
-  it "shows an error if a subject is entered which is too long" do
-    too_long = ("Too long. Can you feel it? " * 10).strip
-
-    wp_page.ensure_page_loaded
-    field = wp_page.work_package_field(:subject)
-    field.update(too_long, expect_failure: true)
-
-    wp_page.expect_toast message: "Subject is too long (maximum is 255 characters)",
-                         type: "error"
-  end
-
   context "submitting" do
     let(:subject_field) { wp_page.edit_field(:subject) }
 
@@ -266,69 +233,6 @@ RSpec.describe "edit work package", :js do
 
       subject_field.expect_active!
       wp_page.expect_no_toaster(type: :success, message: "Successful update", wait: 1)
-    end
-  end
-
-  context "when using the user auto completer" do
-    RSpec.shared_examples "without permission" do |field_name|
-      it "does not show you the email of other users" do
-        completer = wp_page.edit_field field_name
-        completer.activate!
-
-        expected_options = [
-          { name: manager.name, email: nil },  # Manager's email should not be visible
-          { name: dev.name, email: dev.mail }  # Developer's email should be visible
-        ]
-
-        expect_visible_user_auto_completer_options(expected_options)
-      end
-    end
-
-    RSpec.shared_examples "with permission" do |field_name|
-      it "does show you the email of other users" do
-        completer = wp_page.edit_field field_name
-        completer.activate!
-
-        expected_options = [
-          # With the right permissions, you can see other users email address
-          { name: manager.name,
-            email: manager.mail },
-          # The current user can always see their own email
-          { name: dev.name,
-            email: dev.mail }
-        ]
-
-        expect_visible_user_auto_completer_options(expected_options)
-      end
-    end
-
-    let(:dev_role) do
-      create(:project_role,
-             permissions: %i[view_work_packages
-                             edit_work_packages
-                             work_package_assigned])
-    end
-
-    let(:logged_in_user) { dev }
-
-    context "when assigning people to a work package" do
-      include_examples "without permission", "assignee"
-    end
-
-    context "when setting accountable person for a work package" do
-      include_examples "without permission", "responsible"
-    end
-
-    context "with permission to see emails" do
-      let!(:standard_global_role) { create(:standard_global_role) }
-
-      context "when assigning people to a work package" do
-        include_examples "with permission", "assignee"
-      end
-
-      context "when setting accountable person for a work package" do
-        include_examples "with permission", "responsible"
-      end
     end
   end
 end

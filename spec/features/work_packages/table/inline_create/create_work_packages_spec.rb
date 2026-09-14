@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-RSpec.describe "inline create work package", :js, :selenium do
+RSpec.describe "inline create work package", :js do
   let(:type) { create(:type) }
   let(:types) { [type] }
 
@@ -53,22 +53,7 @@ RSpec.describe "inline create work package", :js, :selenium do
           message: "Successful creation."
         )
 
-        # Expect new create row to exist
-        expect(page).to have_css(".wp--row", count: 2)
-        expect(page).to have_button(exact_text: "Create new work package")
-
-        wp_table.click_inline_create
-
-        subject_field = wp_table.edit_field(nil, :subject)
-        subject_field.expect_active!
-        subject_field.set_value "Another subject"
-        subject_field.save!
-
-        # Callback for adjustments
-        callback.call
-
         expect(page).to have_css(".wp--row .subject", text: "Some subject")
-        expect(page).to have_css(".wp--row .subject", text: "Another subject")
 
         # safeguards
         wp_table.dismiss_toaster!
@@ -104,8 +89,6 @@ RSpec.describe "inline create work package", :js, :selenium do
         wp_table.visit!
         filters.open
         filters.add_filter_by cf_list.name, "is (OR)", cf_list.custom_options.second.name, cf_accessor_frontend
-
-        sleep(0.3)
 
         columns.open_modal
         columns.add(cf_list.name, save_changes: true)

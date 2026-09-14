@@ -164,4 +164,67 @@ RSpec.describe "Work package activities tab",
         .not_to include("work-packages-activities-tab-journals-item-component-reactions-#{comment.id}")
     end
   end
+
+  describe "comment errors", :skip_csrf do
+    let(:turbo_stream_headers) { { "Accept" => "text/vnd.turbo-stream.html" } }
+
+    def errors(message)
+      ActiveModel::Errors.new(Journal.new).tap { |errors| errors.add(:notes, message) }
+    end
+
+    def expect_error_response(message, status)
+      expect(response).to have_http_status(status)
+      expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+      expect(response.body).to include(message)
+      expect(response.body.scan('<turbo-stream action="flash"').size).to eq(1)
+    end
+
+    it "returns an internal-server-error stream when comment creation raises" do
+      allow_any_instance_of(WorkPackages::ActivitiesTab::CommentService) # rubocop:disable RSpec/AnyInstance
+        .to receive(:add)
+              .and_raise(StandardError.new("Test error"))
+
+      post work_package_activities_path(work_package),
+           params: { journal: { notes: "A comment", internal: false } },
+           headers: turbo_stream_headers
+
+      expect_error_response("Test error", :internal_server_error)
+    end
+
+    it "returns a bad-request stream when comment creation fails validation" do
+      allow_any_instance_of(AddWorkPackageNoteService) # rubocop:disable RSpec/AnyInstance
+        .to receive(:call)
+              .and_return(ServiceResult.failure(errors: errors("Validation error")))
+
+      post work_package_activities_path(work_package),
+           params: { journal: { notes: "A comment", internal: false } },
+           headers: turbo_stream_headers
+
+      expect_error_response("Validation error", :bad_request)
+    end
+
+    it "returns an internal-server-error stream when comment editing raises" do
+      allow_any_instance_of(WorkPackages::ActivitiesTab::CommentService) # rubocop:disable RSpec/AnyInstance
+        .to receive(:update)
+              .and_raise(StandardError.new("Test error"))
+
+      patch work_package_activity_path(work_package, comment),
+            params: { journal: { notes: "Edited comment", internal: false } },
+            headers: turbo_stream_headers
+
+      expect_error_response("Test error", :internal_server_error)
+    end
+
+    it "returns a bad-request stream when comment editing fails validation" do
+      allow_any_instance_of(Journals::UpdateService) # rubocop:disable RSpec/AnyInstance
+        .to receive(:call)
+              .and_return(ServiceResult.failure(errors: errors("Validation error")))
+
+      patch work_package_activity_path(work_package, comment),
+            params: { journal: { notes: "Edited comment", internal: false } },
+            headers: turbo_stream_headers
+
+      expect_error_response("Validation error", :bad_request)
+    end
+  end
 end

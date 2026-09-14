@@ -164,10 +164,12 @@ RSpec.describe "Work package activity tab comment editor",
   describe "Attachments" do
     let(:image_fixture) { UploadedFile.load_from("spec/fixtures/files/image.png") }
     let(:editor) { Components::WysiwygEditor.new }
+    let(:comment) { nil }
 
     current_user { admin }
 
     before do
+      comment
       wp_page.visit!
       wp_page.wait_for_activity_tab
     end
@@ -183,9 +185,16 @@ RSpec.describe "Work package activity tab comment editor",
       attachment = Attachment.where(author: admin).last
       expect(attachment.container).to be_nil
 
-      click_on "Submit"
+      wait_for_browser_event(
+        "turbo:submit-end",
+        target_id: "work-package-journal-form-element",
+        wait: 20
+      ) do
+        submit = page.find_test_selector("op-submit-work-package-journal-form")
+        page.execute_script("arguments[0].form.requestSubmit(arguments[0])", submit)
+      end
 
-      expect(page).to have_content("An image caption")
+      expect(page).to have_test_selector("op-journal-notes-body", text: "An image caption", wait: 20)
       journal = work_package.reload.journals.last
       expect(journal.attachments).to contain_exactly(attachment)
     end
@@ -214,7 +223,7 @@ RSpec.describe "Work package activity tab comment editor",
 
         click_on "Save"
 
-        expect(page).to have_content("An image caption")
+        expect(page).to have_text("An image caption")
         newly_attached = Attachment.where(author: admin).last
         expect(comment.reload.attachments).to contain_exactly(newly_attached)
         expect(comment.reload.attachments).not_to include(existing_attachment)

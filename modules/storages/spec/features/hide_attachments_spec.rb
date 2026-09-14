@@ -75,6 +75,7 @@ RSpec.describe "Hide attachments", :js do
   describe "OpenProject setting" do
     it "changes database value" do
       checkbox_label = "Show attachments in the files tab by default"
+      Setting[:show_work_package_attachments] = true
 
       login_as create(:admin)
       visit admin_settings_attachments_path
@@ -82,14 +83,14 @@ RSpec.describe "Hide attachments", :js do
       expect(page).to have_checked_field(checkbox_label)
 
       uncheck(checkbox_label)
-      click_on("Save")
+      wait_for_turbo { click_on("Save") }
 
       # Check db directly to avoid cache being used.
       expect(Setting.find_by(name: "show_work_package_attachments").value).to be_falsey
       expect(page).to have_unchecked_field(checkbox_label)
 
       check(checkbox_label)
-      click_on("Save")
+      wait_for_turbo { click_on("Save") }
       expect(page).to have_checked_field(checkbox_label)
       expect(Setting.find_by(name: "show_work_package_attachments").value).to be_truthy
     end

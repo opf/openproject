@@ -65,9 +65,10 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     set_factory_default(:priority, priority)
     set_factory_default(:project_with_types, project)
     set_factory_default(:status, status)
-    set_factory_default(:type, type)
     set_factory_default(:user, user)
   end
+  before { set_factory_default(:type, type) }
+
   let(:work_package) do
     create(:work_package,
            subject: "work_package")
@@ -1257,15 +1258,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
 
     context "with work packages having automatically generated subjects, " \
             "when the work package is automatically scheduled, has a child and no dates" do
-      # rubocop:disable RSpec/BeforeAfterAll
-      before_all do
-        set_factory_default(:type, autosubject_type)
-      end
-
-      after(:all) do
-        set_factory_default(:type, type)
-      end
-      # rubocop:enable RSpec/BeforeAfterAll
+      before { set_factory_default(:type, autosubject_type) }
 
       let_work_packages(<<~TABLE)
         hierarchy              | MTWTFSS        | scheduling mode | predecessors
@@ -1321,15 +1314,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     end
 
     context "with work packages having automatically generated subjects" do
-      # rubocop:disable RSpec/BeforeAfterAll
-      before_all do
-        set_factory_default(:type, autosubject_type)
-      end
-
-      after(:all) do
-        set_factory_default(:type, type)
-      end
-      # rubocop:enable RSpec/BeforeAfterAll
+      before { set_factory_default(:type, autosubject_type) }
 
       let_work_packages(<<~TABLE)
         | hierarchy      | MTWTFSS | scheduling mode

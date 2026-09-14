@@ -128,7 +128,7 @@ RSpec.describe "Custom Fields Multi-Project Activation", :js do
       current_page = 3
       visit custom_field_projects_path(custom_field, page: current_page)
 
-      project = custom_field_projects_mappings_page.project_in_first_row
+      project = custom_field_projects_mappings_page.project_in_first_actionable_row
       custom_field_projects_mappings_page.click_menu_item_of("Remove from project", project)
 
       expect(page).to have_no_text(project.name)

@@ -85,8 +85,6 @@ RSpec.describe "Team planner remove event",
       team_planner.expect_event removable_wp
       team_planner.expect_event non_removable_wp
     end
-
-    sleep 2
   end
 
   it "can remove one of the work packages" do

@@ -442,7 +442,7 @@ RSpec.describe CustomActions::Actions::CustomField do
       let(:custom_field) { user_custom_field }
       let(:expected) do
         values = [{ label: "(Assign to executing user)", value: "current_user" }]
-        values + users.map { |u| { value: u.id, label: u.name } }
+        values + users.sort.map { |u| { value: u.id, label: u.name } }
       end
       let(:users) do
         [build_stubbed(:user),

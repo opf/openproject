@@ -32,9 +32,7 @@ require "spec_helper"
 require_relative "../support//board_index_page"
 require_relative "../support/board_page"
 
-RSpec.describe "Custom field filter in boards",
-               :js,
-               :selenium do
+RSpec.describe "Custom field filter in boards", :js do
   let(:user) do
     create(:user,
            member_with_roles: { project => role })
@@ -128,6 +126,7 @@ RSpec.describe "Custom field filter in boards",
 
     # Save that filter
     board_page.save
+    board_page.expect_card("Open", "Foo", present: true)
 
     board_page.add_list option: "Closed", query: "closed"
     board_page.expect_list "Closed"

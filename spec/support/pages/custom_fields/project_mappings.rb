@@ -45,6 +45,12 @@ module Pages
         end
       end
 
+      def project_in_first_actionable_row
+        menu = page.first("[data-test-selector='project-list-row--action-menu']")
+        row = menu.ancestor("tr")
+        Project.find(row["id"].delete_prefix("#{row_id_prefix[1..]}-"))
+      end
+
       def row_id_prefix = "#admin-custom-fields-custom-field-projects-row-component-project"
     end
   end

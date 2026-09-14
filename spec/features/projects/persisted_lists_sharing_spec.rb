@@ -273,7 +273,10 @@ RSpec.describe "Project list sharing",
             projects_index_page.open_share_dialog
 
             share_dialog.expect_open
-            share_dialog.toggle_public
+            wait_for_turbo_stream(wait: 10) do
+              share_dialog.toggle_public
+            end
+            share_dialog.expect_toggle_public_on
             share_dialog.close
           end
 
@@ -316,7 +319,10 @@ RSpec.describe "Project list sharing",
             projects_index_page.open_share_dialog
 
             share_dialog.expect_open
-            share_dialog.toggle_public
+            wait_for_turbo_stream(wait: 10) do
+              share_dialog.toggle_public
+            end
+            share_dialog.expect_toggle_public_on
             share_dialog.invite_user!(shared_user, "Edit")
             share_dialog.close
           end

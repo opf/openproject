@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe OpenProject::TokenBucketBasedRateLimiter::Base do
+RSpec.describe OpenProject::TokenBucketBasedRateLimiter::Base, freeze_time: Time.current.change(usec: 0) do
   let!(:token_bucket_state) { create(:token_bucket_state, identifier: :sample, microtokens:, refilled_at:) }
   let(:microtokens) { 0 }
   let(:refilled_at) { Time.current }

@@ -43,7 +43,7 @@ module Pages
         end
 
         def expect_listed(names)
-          page.document.synchronize do
+          page.document.synchronize(10) do
             found = page.all("[data-test-selector=project-phase-definition-name]").collect(&:text)
 
             raise Capybara::ExpectationNotMet, "Expected #{names}, got #{found}" unless found == names

@@ -87,11 +87,11 @@ module Pages
         end
 
         def choose_switch_target(target)
-          within(switch_dialog) { select target, from: "Variant" }
+          wait_for_turbo_stream { within(switch_dialog) { select target, from: "Variant" } }
         end
 
         def apply_switch
-          within(switch_dialog) { click_on "Apply" }
+          wait_for_turbo_stream { within(switch_dialog) { click_on "Apply" } }
         end
 
         def expect_switch_impact(text)

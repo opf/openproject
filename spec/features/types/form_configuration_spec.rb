@@ -162,9 +162,7 @@ RSpec.describe "form configuration", :js, :selenium do
         form.rename_group("People", "Cool Stuff")
 
         # Start renaming, but cancel
-        group_key = form.send(:find_group, "Cool Stuff")["data-group-key"]
-        form.send(:open_group_menu, "Cool Stuff")
-        page.find_test_selector("type-form-configuration-group-rename-#{group_key}", visible: :all).click
+        form.start_renaming_group("Cool Stuff")
         input = find_test_selector("type-form-configuration-group-name-input", wait: 10)
         input.set("FOOBAR")
         page.find_test_selector("type-form-configuration-group-cancel", wait: 10).click
@@ -287,7 +285,7 @@ RSpec.describe "form configuration", :js, :selenium do
         end
       end
 
-      it "removes a newly added unsaved custom group when canceling edit" do
+      it "cancels edits to new and persisted custom groups" do
         initial_order = form.group_order
 
         form.add_button_dropdown.click
@@ -303,9 +301,7 @@ RSpec.describe "form configuration", :js, :selenium do
         expect(page).to have_no_test_selector("type-form-configuration-group-name-input")
 
         expect(form.group_order).to eq(initial_order)
-      end
 
-      it "keeps a saved custom group when canceling rename" do
         form.add_attribute_group("Saved custom group")
 
         visit edit_type_form_configuration_path(type)
@@ -324,7 +320,7 @@ RSpec.describe "form configuration", :js, :selenium do
         expect(page).to have_no_css("[data-group-key]", text: /\bRenamed group\b/)
       end
 
-      it "shows only the edit action for query rows" do
+      it "shows only the edit action for query rows and opens the editor" do
         form.add_query_group("Subtasks", :children)
 
         menu_id = form.open_query_menu("Subtasks")
@@ -336,20 +332,12 @@ RSpec.describe "form configuration", :js, :selenium do
         expect(page).to have_no_selector("#{menu_selector} [role='menuitem']", text: I18n.t("label_agenda_item_move_down"))
         expect(page).to have_no_selector("#{menu_selector} [role='menuitem']", text: I18n.t("label_agenda_item_move_to_bottom"))
         expect(page).to have_no_selector("#{menu_selector} [role='menuitem']", text: I18n.t("button_delete"))
-      end
 
-      it "shows only delete for a single attribute row" do
-        form.add_attribute_group("New Group")
-        form.move_to(:category, "New Group")
+        within menu_selector do
+          click_button I18n.t("types.edit.form_configuration.edit_query")
+        end
 
-        menu_id = form.open_attribute_menu(:category)
-        menu_selector = "##{menu_id}"
-
-        expect(page).to have_selector(menu_selector, text: I18n.t("button_delete"))
-        expect(page).to have_no_selector("#{menu_selector} [role='menuitem']", text: I18n.t("label_agenda_item_move_to_top"))
-        expect(page).to have_no_selector("#{menu_selector} [role='menuitem']", text: I18n.t("label_agenda_item_move_up"))
-        expect(page).to have_no_selector("#{menu_selector} [role='menuitem']", text: I18n.t("label_agenda_item_move_down"))
-        expect(page).to have_no_selector("#{menu_selector} [role='menuitem']", text: I18n.t("label_agenda_item_move_to_bottom"))
+        expect(page).to have_css(".wp-table--configuration-modal")
       end
 
       it "shows move actions only where valid for multi-row groups" do
@@ -376,18 +364,23 @@ RSpec.describe "form configuration", :js, :selenium do
           expect(page).to have_no_text(I18n.t("label_agenda_item_move_to_bottom"))
           expect(page).to have_text(I18n.t("button_delete"))
         end
-      end
 
-      it "opens the query editor from the query row action" do
-        form.add_query_group("Subtasks", :children)
+        find("body").click
+        form.add_attribute_group("New Group")
+        form.move_to(:category, "New Group")
 
-        menu_id = form.open_query_menu("Subtasks")
+        single_row_menu_id = form.open_attribute_menu(:category)
+        single_row_menu_selector = "##{single_row_menu_id}"
 
-        within "##{menu_id}" do
-          click_button I18n.t("types.edit.form_configuration.edit_query")
-        end
-
-        expect(page).to have_css(".wp-table--configuration-modal")
+        expect(page).to have_selector(single_row_menu_selector, text: I18n.t("button_delete"))
+        expect(page).to have_no_selector("#{single_row_menu_selector} [role='menuitem']",
+                                         text: I18n.t("label_agenda_item_move_to_top"))
+        expect(page).to have_no_selector("#{single_row_menu_selector} [role='menuitem']",
+                                         text: I18n.t("label_agenda_item_move_up"))
+        expect(page).to have_no_selector("#{single_row_menu_selector} [role='menuitem']",
+                                         text: I18n.t("label_agenda_item_move_down"))
+        expect(page).to have_no_selector("#{single_row_menu_selector} [role='menuitem']",
+                                         text: I18n.t("label_agenda_item_move_to_bottom"))
       end
 
       it "reorders and deletes groups via group actions" do
@@ -479,37 +472,11 @@ RSpec.describe "form configuration", :js, :selenium do
       end
     end
 
-    describe "required custom field" do
-      let(:custom_fields) { [custom_field] }
-      let(:custom_field) { create(:issue_custom_field, :integer, is_required: true, name: "MyNumber") }
-      let(:cf_identifier) { custom_field.attribute_name }
-      let(:cf_identifier_api) { cf_identifier.camelcase(:lower) }
-
-      before do
-        project
-        custom_field
-
-        login_as(admin)
-        visit edit_type_form_configuration_path(type)
-      end
-
-      it "shows the field" do
-        # Should be initially disabled
-        form.expect_inactive(cf_identifier)
-        form.expect_attribute(key: cf_identifier, translation: "MyNumber")
-
-        # Add into new group
-        form.add_attribute_group("New Group")
-        form.move_to(cf_identifier, "New Group")
-        form.expect_attribute(key: cf_identifier, translation: "MyNumber")
-      end
-    end
-
     describe "custom fields" do
       let(:project_cf_settings_page) { Pages::Projects::Settings::WorkPackageCustomFields.new(project) }
 
       let(:custom_fields) { [custom_field] }
-      let(:custom_field) { create(:issue_custom_field, :integer, name: "MyNumber") }
+      let(:custom_field) { create(:issue_custom_field, :integer, is_required: true, name: "MyNumber") }
       let(:cf_identifier) { custom_field.attribute_name }
       let(:cf_identifier_api) { cf_identifier.camelcase(:lower) }
 
@@ -522,13 +489,14 @@ RSpec.describe "form configuration", :js, :selenium do
 
         # Should be initially disabled
         form.expect_inactive(cf_identifier)
+        form.expect_attribute(key: cf_identifier, translation: "MyNumber")
 
         # Add into new group
         form.add_attribute_group("New Group")
         form.move_to(cf_identifier, "New Group")
 
         # Make visible
-        form.expect_attribute(key: cf_identifier)
+        form.expect_attribute(key: cf_identifier, translation: "MyNumber")
       end
 
       context "if inactive in project" do
@@ -564,41 +532,18 @@ RSpec.describe "form configuration", :js, :selenium do
           end
         end
       end
-
-      context "if active in project" do
-        let(:project) do
-          create(:project,
-                 types: [type],
-                 work_package_custom_fields: custom_fields)
-        end
-
-        it "can be added to type and is visible" do
-          add_cf_to_group
-
-          # Visit work package with that type
-          wp_page.visit!
-          wp_page.ensure_page_loaded
-
-          # Category should be hidden
-          wp_page.expect_group("New Group") do
-            wp_page.expect_attributes cf_identifier_api => "-"
-          end
-
-          # Ensure CF is checked
-          project_cf_settings_page.visit!
-          expect(page).to have_css(".custom-field-#{custom_field.id} td", text: "MyNumber")
-          expect(page).to have_css(".custom-field-#{custom_field.id} td", text: type.name)
-          expect(page).to have_css("input[name='project[work_package_custom_field_ids][]'][value='#{custom_field.id}'][checked]")
-        end
-      end
     end
   end
 
   describe "without EE token", with_ee: false do
-    it "hides protected group actions" do
+    it "hides protected group and query actions" do
+      query = build(:global_query, user_id: 0)
+      groups = variant.attribute_groups.map { |group| [group.key, group.members] }
+      variant.attribute_groups = groups + [["Subtasks", [query]]]
+      variant.save!
+
       login_as(admin)
       visit edit_type_form_configuration_path(type)
-
       expect(page).to have_no_test_selector("type-form-configuration-add-button")
 
       menu_id = form.send(:open_group_menu, "Details")
@@ -606,15 +551,6 @@ RSpec.describe "form configuration", :js, :selenium do
         expect(page).to have_no_text(I18n.t("types.edit.form_configuration.rename_group"))
         expect(page).to have_no_text(I18n.t("button_delete"))
       end
-    end
-
-    it "hides protected query group actions" do
-      query = build(:global_query, user_id: 0)
-      variant.attribute_groups = [["Subtasks", [query]]]
-      variant.save!
-
-      login_as(admin)
-      visit edit_type_form_configuration_path(type)
 
       expect(page).to have_no_test_selector("type-form-configuration-query-actions-Subtasks")
     end

@@ -31,7 +31,13 @@ require_module_spec_helper
 require_relative "../support/pages/work_package_gitlab_tab"
 
 RSpec.describe "Open the Gitlab tab", :js do
-  let(:user) { create(:user, member_with_roles: { project => role }) }
+  let(:user) do
+    create(
+      :user,
+      member_with_roles: { project => role },
+      preferences: { warn_on_leaving_unsaved: false }
+    )
+  end
 
   let(:role) do
     create(:project_role,

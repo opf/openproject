@@ -88,14 +88,15 @@ class ProgressEditField < EditField
   end
 
   def set_value(value)
-    if status_field?
-      select_status(value)
-    elsif value == ""
-      clear
-    else
-      page.fill_in field_name, with: value
+    wait_for_preview_to_complete do
+      if status_field?
+        select_status(value)
+      elsif value == ""
+        clear
+      else
+        page.fill_in field_name, with: value
+      end
     end
-    wait_for_preview_to_complete
   end
 
   def select_status(value)
@@ -111,19 +112,19 @@ class ProgressEditField < EditField
   def focus
     return if focused?
 
-    page.evaluate_script("arguments[0].focus()", input_element)
-    wait_for_preview_to_complete
+    if preview_field_focused?
+      wait_for_preview_to_complete do
+        page.evaluate_script("arguments[0].focus()", input_element)
+      end
+    else
+      page.evaluate_script("arguments[0].focus()", input_element)
+    end
   end
 
   # Wait for the popover preview to be refreshed.
   # Preview occurs on field blur or change.
-  def wait_for_preview_to_complete
-    # The preview on popover has a debounce that must be kept in sync here.
-    # See frontend/src/stimulus/controllers/dynamic/work-packages/dialog/preview.controller.ts
-    sleep 0.210
-    if using_cuprite?
-      wait_for_network_idle # Wait for preview to finish
-    end
+  def wait_for_preview_to_complete(&)
+    wait_for_turbo_frame(frame: MODAL_SELECTOR.delete_prefix("#"), wait: 10, &)
   end
 
   def input_element
@@ -247,7 +248,7 @@ class ProgressEditField < EditField
       expect(input_caption_element).to be_nil, "Expected no caption for #{@human_field_name} field, " \
                                                "got \"#{input_caption_element&.text}\""
     else
-      expect(input_caption_element).to have_text(expected_caption)
+      expect_aria_related_text(describedby: "caption", text: expected_caption)
     end
   end
 
@@ -256,7 +257,7 @@ class ProgressEditField < EditField
       expect(input_validation_element).to be_nil, "Expected no error message for #{@human_field_name} field, " \
                                                   "got \"#{input_validation_element&.text}\""
     else
-      expect(input_validation_element).to have_text(expected_error)
+      expect_aria_related_text(describedby: "validation", text: expected_error)
     end
   end
 
@@ -283,9 +284,27 @@ class ProgressEditField < EditField
   end
 
   def input_aria_related_element(describedby:)
-    input_element["aria-describedby"]
+    describedby_id = input_element["aria-describedby"]
+      .to_s
       .split
       .find { it.start_with?("#{describedby}-") }
-      &.then { |id| find(id:) }
+    find(id: describedby_id, wait: 0) if describedby_id
+  end
+
+  def expect_aria_related_text(describedby:, text:)
+    page.document.synchronize do
+      element = input_aria_related_element(describedby:)
+      unless element&.text&.include?(text)
+        raise Capybara::ExpectationNotMet, "Expected #{describedby} to contain #{text.inspect}"
+      end
+    end
+  end
+
+  def preview_field_focused?
+    page.evaluate_script(<<~JS)
+      document.activeElement?.matches(
+        '#progress-form [data-work-packages--progress--preview-target="fieldInput"]'
+      ) === true
+    JS
   end
 end

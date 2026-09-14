@@ -6,6 +6,7 @@ module FormFields
   module Primerized
     class AutocompleteField < FormField
       include RSpec::Wait
+      include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
       ### actions
 
@@ -15,7 +16,7 @@ module FormFields
 
           expect(page).to have_css(".ng-option", text: val, visible: :all)
           page.find(".ng-option", text: val, visible: :all).click
-          sleep 0.25 # still required?
+          expect_selected(val)
         end
       end
 
@@ -23,14 +24,14 @@ module FormFields
         values.each do |val|
           open_options
           page.find(".ng-value", text: val, visible: :all).find(".ng-value-icon").click
-          sleep 0.25 # still required?
+          expect_not_selected(val)
         end
-        field_container.find(".ng-arrow-wrapper").click # close dropdown
-        sleep 0.25
+        field_container.find(".ng-input input").send_keys(:escape)
+        expect(field_container).to have_no_css("ng-select.ng-select-opened")
       end
 
       def search(text)
-        field_container.find(".ng-select-container input").set text
+        search_autocomplete(-> { field_container }, query: text)
       end
 
       # For remote typeahead autocompleters, where options are only loaded for
@@ -130,7 +131,7 @@ module FormFields
 
       def expect_error(string = nil)
         expect(field_container).to have_css(".FormControl-inlineValidation", visible: :all)
-        expect(field_container).to have_content(string) if string
+        expect(field_container).to have_text(string) if string
       end
     end
   end

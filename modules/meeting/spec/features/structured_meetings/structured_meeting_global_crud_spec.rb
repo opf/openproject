@@ -97,8 +97,7 @@ RSpec.describe "Meetings global CRUD", :js do
 
   it "keeps the current selected project when hitting a validation error (Regression #59972)" do
     meetings_page.set_project project
-    meetings_page.click_create
-    wait_for_network_idle
+    meetings_page.click_create(wait_for: :turbo_stream)
 
     expect(page).to have_text "Title can't be blank."
 
@@ -108,7 +107,6 @@ RSpec.describe "Meetings global CRUD", :js do
 
     meetings_page.set_title "Some title"
     meetings_page.click_create
-    wait_for_network_idle
 
     expect(page).to have_heading "Some title"
     meeting = Meeting.last

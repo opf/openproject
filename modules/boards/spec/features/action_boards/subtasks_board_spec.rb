@@ -119,13 +119,14 @@ RSpec.describe "Subtasks action board", :js, :selenium do
 
       # Add item
       board_page.add_card "Parent WP", "Second child"
-      sleep 2
 
       # Expect added to query
-      queries = board_page.board(reload: true).contained_queries
+      wait_for { board_page.board(reload: true).contained_queries.count }.to eq(2)
+      queries = board_page.board.contained_queries
       expect(queries.count).to eq 2
       first = queries.find_by(name: "Parent WP")
       second = queries.find_by(name: "Other WP")
+      wait_for { first.reload.ordered_work_packages.count }.to eq(1)
       expect(first.ordered_work_packages.count).to eq(1)
       expect(second.ordered_work_packages).to be_empty
 
@@ -141,11 +142,8 @@ RSpec.describe "Subtasks action board", :js, :selenium do
       board_page.expect_card("Other WP", "Second child", present: true)
 
       # Expect work package to be saved in query second
-      sleep 2
-      retry_block do
-        expect(first.reload.ordered_work_packages).to be_empty
-        expect(second.reload.ordered_work_packages.count).to eq(1)
-      end
+      wait_for { first.reload.ordered_work_packages }.to be_empty
+      wait_for { second.reload.ordered_work_packages.count }.to eq(1)
 
       wp = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).first
       expect(wp.parent_id).to eq other_wp.id

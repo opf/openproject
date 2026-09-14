@@ -27,21 +27,51 @@ class RequestsBlocker
   def initialize(app)
     @app = app
     @blocked = false
+    @active_requests = 0
+    @mutex = Mutex.new
+    @requests_finished = ConditionVariable.new
   end
 
-  def block_requests!
-    @blocked = true
+  def block_requests!(timeout: 30)
+    deadline = Process.clock_gettime(Process::CLOCK_MONOTONIC) + timeout
+
+    @mutex.synchronize do
+      @blocked = true
+
+      while @active_requests.positive?
+        remaining = deadline - Process.clock_gettime(Process::CLOCK_MONOTONIC)
+        raise "Timed out waiting for #{@active_requests} browser request(s) to finish" unless remaining.positive?
+
+        @requests_finished.wait(@mutex, remaining)
+      end
+    end
   end
 
   def unblock_requests!
-    @blocked = false
+    @mutex.synchronize { @blocked = false }
+  end
+
+  def active_requests
+    @mutex.synchronize { @active_requests }
   end
 
   def call(env)
-    if @blocked
-      [500, {}, "RequestsBlocker is blocking further requests because test is finished."]
-    else
-      @app.call(env)
+    allowed = @mutex.synchronize do
+      unless @blocked
+        @active_requests += 1
+        true
+      end
+    end
+
+    return [500, {}, "RequestsBlocker is blocking further requests because test is finished."] unless allowed
+
+    @app.call(env)
+  ensure
+    if allowed
+      @mutex.synchronize do
+        @active_requests -= 1
+        @requests_finished.broadcast if @active_requests.zero?
+      end
     end
   end
 end

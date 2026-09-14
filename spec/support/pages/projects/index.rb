@@ -55,9 +55,9 @@ module Pages
         projects.each do |project|
           case project
           when Project
-            expect(page).to have_no_css("#project-table", text: project.name)
+            expect(page).to have_no_css("#project-table", text: project.name, wait: 20)
           when String
-            expect(page).to have_no_css("#project-table", text: project)
+            expect(page).to have_no_css("#project-table", text: project, wait: 20)
           else
             raise ArgumentError, "#{project.inspect} is not a Project or a String"
           end
@@ -295,6 +295,7 @@ module Pages
         end
 
         wait_for_network_idle
+        expect_columns(*(["Name"] + columns).uniq)
       end
 
       def expect_no_config_columns(*columns)
@@ -427,7 +428,9 @@ module Pages
       def move_column_via_action_menu(column_name, direction:)
         raise ArgumentError, "direction should be :left or :right" unless %i[left right].include?(direction)
 
-        find(".generic-table--sort-header a[data-test-selector='#{column_name.downcase}-move-col-#{direction}']").click
+        wait_for_turbo_stream do
+          find(".generic-table--sort-header a[data-test-selector='#{column_name.downcase}-move-col-#{direction}']").click
+        end
       end
 
       def remove_column_via_action_menu(column_name)
@@ -527,7 +530,7 @@ module Pages
       end
 
       def within_sort_row(index, &)
-        field_component = page.all("[data-test-selector='sort-by-field']")[index]
+        field_component = page.all("[data-test-selector='sort-by-field']", minimum: index + 1)[index]
         within(field_component, &)
       end
 

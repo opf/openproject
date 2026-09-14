@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "External link capture", :js, :selenium do
+RSpec.describe "External link capture", :js do
   shared_let(:admin) { create(:admin) }
 
   let(:project) { create(:project, :with_internal_wiki) }

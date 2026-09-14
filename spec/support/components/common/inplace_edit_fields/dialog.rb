@@ -81,8 +81,10 @@ module Components
         end
 
         def submit
-          within(dialog_css_selector) do
-            click_link_or_button "Save"
+          wait_for_turbo_stream(wait: 20) do
+            within(dialog_css_selector) do
+              click_link_or_button "Save"
+            end
           end
         end
 

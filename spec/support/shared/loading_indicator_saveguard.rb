@@ -35,13 +35,8 @@
 # completion of said request.
 #
 
-def loading_indicator_saveguard
-  expect(page).to have_no_css(".op-loading-indicator")
-rescue Selenium::WebDriver::Error::StaleElementReferenceError
-  # The loading indicator disappeared mid-check (stale element reference while Capybara
-  # was building its failure message), which is exactly what we were waiting for.
-  # Retry — the element is gone so the next check will pass.
-  retry
+def loading_indicator_saveguard(wait: Capybara.default_max_wait_time)
+  expect(page).to have_no_css(".op-loading-indicator", wait:)
 end
 
 # ng-select uses a loading indicator with css class .ng-spinner-loader when
