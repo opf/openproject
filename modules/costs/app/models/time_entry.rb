@@ -88,7 +88,6 @@ class TimeEntry < ApplicationRecord
   include ::Scopes::Scoped
   include Entry::Costs
   include Entry::SplashedDates
-  include Entry::DeprecatedAssociation
 
   scopes :of_user_and_day,
          :ongoing,
@@ -105,21 +104,6 @@ class TimeEntry < ApplicationRecord
 
   def self.effective_costs_sum
     sum(arel_table.coalesce(arel_table[:overridden_costs], arel_table[:costs]))
-  end
-
-  def self.update_all(updates, conditions = nil, options = {})
-    # instead of a update_all, perform an individual update during work_package#move
-    # to trigger the update of the costs based on new rates
-    if conditions.respond_to?(:keys) && conditions.keys == [:work_package_id] && updates =~ /^project_id = (\d+)$/
-      project_id = $1
-      time_entries = TimeEntry.where(conditions)
-      time_entries.each do |entry|
-        entry.project_id = project_id
-        entry.save!
-      end
-    else
-      super
-    end
   end
 
   def entity=(value)
