@@ -245,6 +245,17 @@ RSpec.describe "Meeting series ICS feed across a schedule change",
       expect(event.dtend.value_ical).to eq "20260921T120000"
     end
 
+    it "asks nobody to answer again on the ended schedule, master and overrides alike" do
+      ended = vevents.select { |event| event.uid.to_s == original_uid }
+      live = vevents.select { |event| event.uid.to_s == new_uid }
+
+      expect(ended).not_to be_empty
+      expect(ended.flat_map { |event| event.attendee.flat_map { |a| Array(a.ical_params["rsvp"]) } })
+        .to be_empty
+      expect(live.flat_map { |event| event.attendee.flat_map { |a| Array(a.ical_params["rsvp"]) } })
+        .to include("TRUE")
+    end
+
     it "does not leave the occurrence of 21 September on the ended schedule" do
       expect(vevent(uid: original_uid, recurrence_id: "20260921T100000")).to be_nil
       expect(vevent(uid: original_uid, recurrence_id: "20260921T110000")).to be_nil

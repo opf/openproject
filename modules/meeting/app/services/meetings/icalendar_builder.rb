@@ -222,7 +222,8 @@ module Meetings
         e.dtend = ical_datetime(meeting.end_time, timezone:)
         e.location = meeting.location.presence
 
-        add_attendees(event: e, meeting: meeting)
+        # A schedule that ended asks nobody to answer again, and that holds for its overrides too.
+        add_attendees(event: e, meeting:, rsvp: historic.nil?)
         e.status = if cancelled || meeting.cancelled?
                      "CANCELLED"
                    else
