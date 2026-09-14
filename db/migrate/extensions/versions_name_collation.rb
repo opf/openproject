@@ -30,7 +30,7 @@
 
 require_relative "base"
 
-class Extensions::VersionNameCollation < Extensions::Base
+class Extensions::VersionsNameCollation < Extensions::Base
   creation_sql <<~SQL.squish
     CREATE COLLATION IF NOT EXISTS versions_name (provider = icu, locale = "und-u-kn-true")
   SQL
