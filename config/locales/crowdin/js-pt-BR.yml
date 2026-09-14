@@ -813,16 +813,16 @@ pt-BR:
         moved: "%{label} foi movido para a posição %{position} de %{total}"
         moved_to_list: "%{label} foi movido para %{list}, na posição %{position} de %{total}"
       selection:
-        cleared: Selection cleared.
-        not_selectable: Selection unchanged. This item takes no part in this list's ordering.
-        range_blocked: Selection unchanged. That range contains an item that takes no part in this list's ordering.
+        cleared: Seleção limpa.
+        not_selectable: Seleção inalterada. Este item não influencia a ordenação desta lista.
+        range_blocked: Seleção inalterada. Esse intervalo contém um item que não influencia a ordenação desta lista.
         range_restarted:
-          one: Could not extend the range. 1 item selected.
-          other: Could not extend the range. %{count} items selected.
-        range_unavailable: Selection unchanged. Expand this list to select that range.
+          one: Não foi possível ampliar o intervalo. 1 item selecionado.
+          other: Não foi possível ampliar o intervalo. %{count} itens selecionados.
+        range_unavailable: Seleção inalterada. Expanda esta lista para selecionar esse intervalo.
         selected:
-          one: 1 item selected.
-          other: "%{count} items selected."
+          one: 1 item selecionado.
+          other: "%{count} itens selecionados."
     spot:
       drop_modal:
         close: Fechar o modal

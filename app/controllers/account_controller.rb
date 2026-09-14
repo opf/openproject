@@ -401,8 +401,7 @@ class AccountController < ApplicationController
 
   def direct_login(user)
     if !flash_message_pending?
-      @direct_login_origin = params[:back_url]
-      render :omniauth_direct_login
+      redirect_to omniauth_login_path(direct_login_provider, omniauth_login_path_options)
     elsif Setting.login_required?
       # I'm not sure why it is considered an error if we don't have the anonymous user here.
       # Before the line read `user.active? || flash[:error]` but since a recent

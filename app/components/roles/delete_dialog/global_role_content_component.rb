@@ -28,38 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Entry::DeprecatedAssociation
-  extend ActiveSupport::Concern
+module Roles
+  module DeleteDialog
+    class GlobalRoleContentComponent < ContentComponent
+      def principals
+        @principals ||= members.map(&:principal).uniq
+      end
 
-  included do |base|
-    base.ignored_columns += %w[work_package_id]
-  end
+      def summary
+        I18n.t("roles.delete_dialog.summary_users", count: principal_count)
+      end
 
-  def work_package
-    OpenProject::Deprecation.replaced(:work_package, :entity, caller_locations)
-
-    if entity_type == "WorkPackage"
-      entity
+      def conclusion
+        I18n.t("roles.delete_dialog.confirm")
+      end
     end
-  end
-
-  def work_package_id
-    OpenProject::Deprecation.replaced(:work_package_id, :entity_id, caller_locations)
-
-    if entity_type == "WorkPackage"
-      entity_id
-    end
-  end
-
-  def work_package=(value)
-    OpenProject::Deprecation.replaced(:work_package=, :entity=, caller_locations)
-    self.entity = value
-  end
-
-  def work_package_id=(value)
-    OpenProject::Deprecation.replaced(:work_package_id=, :entity_id=, caller_locations)
-
-    self.entity_type = "WorkPackage"
-    self.entity_id = value
   end
 end

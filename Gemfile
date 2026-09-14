@@ -160,7 +160,7 @@ gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.3"
 
-gem "mcp", "~> 1.3.0"
+gem "mcp", "~> 1.4.0"
 
 gem "meta-tags", "~> 2.23.0"
 
@@ -207,7 +207,7 @@ gem "aws-sdk-core", "~> 3.254"
 # File upload via fog + screenshots on travis
 gem "aws-sdk-s3", "~> 1.229"
 
-gem "openproject-token", "~> 8.12.0"
+gem "openproject-token", "~> 8.13.0"
 
 gem "plaintext", "~> 0.3.7"
 
@@ -241,7 +241,7 @@ gem "opentelemetry-sdk", "~> 1.13", require: false
 
 gem "view_component", "~> 4.15.0"
 # Lookbook
-gem "lookbook", "2.3.14"
+gem "lookbook", "2.3.15"
 
 gem "inline_svg", "~> 1.10.0"
 
@@ -253,7 +253,7 @@ gem "factory_bot_rails", "~> 6.5.0", require: false
 gem "turbo_power", "~> 0.8.0"
 gem "turbo-rails", "~> 2.0.20"
 
-gem "httpx", "~> 1.8.2"
+gem "httpx", "~> 1.8.3"
 
 # Brings actual deep-freezing to most ruby objects
 gem "ice_nine"
@@ -431,5 +431,5 @@ end
 source "https://rubygems.org", cooldown: 0 do
   gem "openproject-octicons", "~>19.37.0"
   gem "openproject-octicons_helper", "~>19.37.0"
-  gem "openproject-primer_view_components", "~>0.91.1"
+  gem "openproject-primer_view_components", "~>0.91.2"
 end
