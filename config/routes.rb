@@ -122,7 +122,11 @@ Rails.application.routes.draw do
     get "/logout", action: "logout", as: "signout"
 
     get "/sso", action: "auth_source_sso_failed", as: "sso_failure"
+  end
 
+  get "/login/omniauth/:provider", to: "omni_auth_start#show", as: "omniauth_login"
+
+  scope controller: "account" do
     get "/login/:stage/failure", action: "stage_failure", as: "stage_failure"
     get "/login/:stage/:secret", action: "stage_success", as: "stage_success"
 
@@ -764,6 +768,7 @@ Rails.application.routes.draw do
 
     resources :roles, except: %i[show] do
       member do
+        get :deletion_dialog
         put :drop
       end
 
@@ -1039,6 +1044,8 @@ Rails.application.routes.draw do
         post :delete_token
       end
     end
+
+    resources :members, only: %i[index]
 
     resources :departments,
               only: %i[index show edit update destroy] do
