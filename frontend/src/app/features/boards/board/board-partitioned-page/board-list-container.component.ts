@@ -169,6 +169,11 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
         // Update split screen
         const routingId = resolveRoutingId(this.wpStates, selection.focusedWorkPackage!);
         const base = this.pathHelper.boardDetailsPath(this.currentProject.identifier, id, routingId);
+        const currentPath = window.location.pathname;
+        if (currentPath === base || currentPath.startsWith(`${base}/`)) {
+          return;
+        }
+
         const search = window.location.search;
         Turbo.visit(search ? `${base}${search}` : base, { frame: 'content-bodyRight', action: 'advance' });
       });

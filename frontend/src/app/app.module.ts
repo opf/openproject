@@ -242,6 +242,7 @@ export function runBootstrap(appRef:ApplicationRef) {
   }
 
   document.body.classList.add('__ng2-bootstrap-has-run');
+  document.body.dataset.opBootstrapCount = String(Number(document.body.dataset.opBootstrapCount ?? 0) + 1);
 }
 
 @NgModule({
