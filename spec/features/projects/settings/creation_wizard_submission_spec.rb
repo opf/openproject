@@ -78,13 +78,13 @@ RSpec.describe "Project creation wizard submission settings", :js do
       expect(page).to have_field("Assignee when submitted")
       expect(page).to have_field("Send confirmation email to the user who submitted the project initiation request")
 
-      select "Task", from: "Work package type"
-
-      sleep 1 # wait_for_network_idle is flaky
+      wait_for_turbo_stream(wait: 20) do
+        select "Task", from: "Work package type"
+      end
 
       select "In Progress", from: "Status when submitted"
 
-      autocompleter = page.find("opce-autocompleter")
+      autocompleter = -> { page.find("opce-autocompleter") }
       select_autocomplete(autocompleter, query: user_custom_field.name)
 
       comment_field.set_value("A project initiation request has been submitted.")
