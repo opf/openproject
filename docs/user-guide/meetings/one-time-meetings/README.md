@@ -98,6 +98,10 @@ If you are using (reusable meeting templates)(#meeting-templates-enterprise-add-
 > - 90min
 > - 1:30
 
+> [!NOTE]
+>
+> The date is by default set to the present day, while the start time is automatically rounded up to the next half-hour.
+
 Click the **Create meeting** button to save your changes. A new meeting will be created. It will initially be in **draft mode**, as indicated by the status message and the corresponding  banner. You can then proceed to add more details to the meeting.
 
 ### Meeting draft mode 
