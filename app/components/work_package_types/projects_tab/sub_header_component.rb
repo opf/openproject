@@ -70,7 +70,7 @@ module WorkPackageTypes
 
       def clear_button_id = "type-projects-filters-clear-button"
 
-      def variant_filter_available? = variant.default?
+      def variant_filter_available? = variant.default? && OpenProject::FeatureDecisions.type_variants_active?
 
       def variant_filter_component
         VariantFilterComponent.new(type:, variant:, query:)
