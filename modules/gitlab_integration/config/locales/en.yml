@@ -73,6 +73,12 @@ en:
     issue_closed_referenced_comment: >
       **Issue Closed:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url})
       has been closed by [%{gitlab_user}](%{gitlab_user_url}).
+    issue_component:
+      created_by: Created by %{name}.
+      states:
+        closed: Closed
+        opened: Open
+      updated_at: Updated on %{date_time}.
     issue_opened_referenced_comment: >
       **Issue Opened:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url})
       has been opened by [%{gitlab_user}](%{gitlab_user_url}).

@@ -27,4 +27,58 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(Primer::Beta::Text.new) { issue.title } %>
+<%=
+  flex_layout do |container|
+    container.with_row(mb: 1) do
+      # TODO: check which columns indicates real merge request number
+      flex_layout do |row|
+        row.with_column(mr: 2) do
+          render(Primer::Beta::Text.new(color: :muted, font_weight: :bold)) { issue.repository }
+        end
+
+        row.with_column(mr: 2) do
+          render(Primer::Beta::Text.new(color: :muted)) { "##{issue.gitlab_id}" }
+        end
+
+        row.with_column do
+          # TODO: icon inside label
+          render(Primer::Beta::Label.new(scheme: state_scheme)) do
+            render(Primer::Beta::Text.new) { state_label }
+          end
+        end
+      end
+    end
+
+    container.with_row(mb: 1) do
+      render(
+        Primer::Beta::Link.new(
+          href: issue.gitlab_html_url,
+          font_weight: :bold,
+          scheme: :primary,
+          data: { allow_external_link: true }
+        )
+      ) { issue.title }
+    end
+
+    if issue.labels.any?
+      container.with_row(mb: 1) do
+        flex_layout do |row|
+          issue.labels.each do |label|
+            row.with_column(mr: 2) do
+              render(GitlabIntegration::LabelComponent.new(title: label.fetch("title"), color: label.fetch("color")))
+            end
+          end
+        end
+      end
+    end
+
+    container.with_row do
+      render(Primer::Beta::Text.new(color: :muted)) do
+        [
+          t(".created_by", name: issue.gitlab_user.gitlab_name),
+          t(".updated_at", date_time: format_time(issue.gitlab_updated_at))
+        ].join(" ")
+      end
+    end
+  end
+%>
