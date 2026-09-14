@@ -28,26 +28,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Members::Filters::RoleFilter < Queries::Members::Filters::MemberFilter
-  # Role's default scope eager loads permissions, which would make #pluck join and
-  # return one row per permission.
-  def allowed_values
-    @allowed_values ||= Role.unscope(:includes).order(:name).pluck(:name, :id)
-  end
+module Roles
+  class DeleteDialogComponent < ApplicationComponent
+    include OpTurbo::Streamable
 
-  def type
-    :list_optional
-  end
+    TEST_SELECTOR = "op-roles--delete-dialog"
 
-  def self.key
-    :role_id
-  end
+    alias_method :role, :model
 
-  def joins
-    :member_roles
-  end
+    def form_arguments
+      { action: role_path(role), method: :delete }
+    end
 
-  def where
-    operator_strategy.sql_for_field(values, "member_roles", "role_id")
+    def content
+      @content ||=
+        if role.is_a?(GlobalRole)
+          DeleteDialog::GlobalRoleContentComponent.new(role)
+        else
+          DeleteDialog::ProjectRoleContentComponent.new(role)
+        end
+    end
+
+    def heading
+      if content.in_use?
+        content.heading
+      else
+        t("roles.delete_dialog.heading_unused", name: role.name)
+      end
+    end
   end
 end

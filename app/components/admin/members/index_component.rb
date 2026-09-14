@@ -28,26 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Members::Filters::RoleFilter < Queries::Members::Filters::MemberFilter
-  # Role's default scope eager loads permissions, which would make #pluck join and
-  # return one row per permission.
-  def allowed_values
-    @allowed_values ||= Role.unscope(:includes).order(:name).pluck(:name, :id)
-  end
+module Admin
+  module Members
+    class IndexComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
 
-  def type
-    :list_optional
-  end
+      FRAME_ID = "admin-members-list"
 
-  def self.key
-    :role_id
-  end
-
-  def joins
-    :member_roles
-  end
-
-  def where
-    operator_strategy.sql_for_field(values, "member_roles", "role_id")
+      options :query, :rows
+    end
   end
 end

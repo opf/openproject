@@ -764,6 +764,7 @@ Rails.application.routes.draw do
 
     resources :roles, except: %i[show] do
       member do
+        get :deletion_dialog
         put :drop
       end
 
@@ -1039,6 +1040,8 @@ Rails.application.routes.draw do
         post :delete_token
       end
     end
+
+    resources :members, only: %i[index]
 
     resources :departments,
               only: %i[index show edit update destroy] do

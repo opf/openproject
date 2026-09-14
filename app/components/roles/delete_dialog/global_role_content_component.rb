@@ -28,26 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Members::Filters::RoleFilter < Queries::Members::Filters::MemberFilter
-  # Role's default scope eager loads permissions, which would make #pluck join and
-  # return one row per permission.
-  def allowed_values
-    @allowed_values ||= Role.unscope(:includes).order(:name).pluck(:name, :id)
-  end
+module Roles
+  module DeleteDialog
+    class GlobalRoleContentComponent < ContentComponent
+      def principals
+        @principals ||= members.map(&:principal).uniq
+      end
 
-  def type
-    :list_optional
-  end
+      def summary
+        I18n.t("roles.delete_dialog.summary_users", count: principal_count)
+      end
 
-  def self.key
-    :role_id
-  end
-
-  def joins
-    :member_roles
-  end
-
-  def where
-    operator_strategy.sql_for_field(values, "member_roles", "role_id")
+      def conclusion
+        I18n.t("roles.delete_dialog.confirm")
+      end
+    end
   end
 end

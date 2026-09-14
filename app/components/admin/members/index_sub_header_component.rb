@@ -28,26 +28,43 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Members::Filters::RoleFilter < Queries::Members::Filters::MemberFilter
-  # Role's default scope eager loads permissions, which would make #pluck join and
-  # return one row per permission.
-  def allowed_values
-    @allowed_values ||= Role.unscope(:includes).order(:name).pluck(:name, :id)
-  end
+module Admin
+  module Members
+    class IndexSubHeaderComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
 
-  def type
-    :list_optional
-  end
+      options :query
 
-  def self.key
-    :role_id
-  end
+      private
 
-  def joins
-    :member_roles
-  end
+      def filter_input_value
+        query.find_active_filter(:any_name_attribute)&.values&.first
+      end
 
-  def where
-    operator_strategy.sql_for_field(values, "member_roles", "role_id")
+      def clear_button_id = "admin-members-filter-clear"
+
+      def filter_input_id = "admin-members-filter-name"
+
+      def sub_header_data_attributes
+        {
+          controller: "filter--filters-form",
+          "filter--filters-form-output-format-value": "json",
+          "filter--filters-form-turbo-frame-request-value": IndexComponent::FRAME_ID,
+          "filter--filters-form-clear-button-id-value": clear_button_id
+        }
+      end
+
+      # turbo_permanent carries the live input across the frame render this component is part
+      # of, so typing keeps both its focus and its caret.
+      def filter_input_data_attributes
+        {
+          turbo_permanent: true,
+          "filter-name": "any_name_attribute",
+          "filter-type": "string",
+          "filter-operator": "~",
+          "filter--filters-form-target": "simpleFilter filterValueContainer simpleValue"
+        }
+      end
+    end
   end
 end

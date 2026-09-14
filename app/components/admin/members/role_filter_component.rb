@@ -28,26 +28,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Members::Filters::RoleFilter < Queries::Members::Filters::MemberFilter
-  # Role's default scope eager loads permissions, which would make #pluck join and
-  # return one row per permission.
-  def allowed_values
-    @allowed_values ||= Role.unscope(:includes).order(:name).pluck(:name, :id)
-  end
+module Admin
+  module Members
+    class RoleFilterComponent < OpPrimer::QuickFilter::SelectPanelComponent
+      def initialize(query:)
+        super(
+          name: Role.model_name.human,
+          query:,
+          filter_key: :role_id,
+          path_args: %i[admin members]
+        )
 
-  def type
-    :list_optional
-  end
+        assigned_roles.each { |role| with_item(label: role.name, value: role.id) }
+      end
 
-  def self.key
-    :role_id
-  end
+      private
 
-  def joins
-    :member_roles
-  end
-
-  def where
-    operator_strategy.sql_for_field(values, "member_roles", "role_id")
+      # Role's default scope eager loads permissions, which would repeat each role once
+      # per permission.
+      def assigned_roles
+        Role
+          .unscope(:includes)
+          .where(id: MemberRole.select(:role_id))
+          .order(:name)
+      end
+    end
   end
 end
