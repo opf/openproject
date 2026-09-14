@@ -187,6 +187,16 @@ RSpec.describe Sprint do
     end
   end
 
+  describe "order by name" do
+    it "orders numbers naturally" do
+      sprint10 = create(:sprint, project:, name: "Sprint 10")
+      sprint2 = create(:sprint, project:, name: "Sprint 2")
+      sprint1 = create(:sprint, project:, name: "Sprint 1")
+
+      expect(described_class.order(:name)).to eq([sprint1, sprint2, sprint10])
+    end
+  end
+
   describe "#task_board_for" do
     let(:sprint) { create(:sprint, project:) }
     let(:other_project) { create(:project) }
