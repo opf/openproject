@@ -1,3 +1,10 @@
+---
+sidebar_navigation:
+  title: Confluence migration
+description: How links between Jira issues and Confluence pages keep working when migrating Jira to OpenProject and Confluence to XWiki.
+keywords: Confluence migration, XWiki, Jira migration, link redirects, Atlassian migration
+---
+
 # Migrating Jira and Confluence together
 
 Many organizations run Jira and Confluence tightly linked — issues reference pages, pages embed live issue status. When migrating away from Atlassian, these links need to keep working, not just the data on either side.
