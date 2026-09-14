@@ -39,8 +39,7 @@ module Projects::Scopes
       end
 
       def without_available_custom_fields(custom_field_ids)
-        condition = available_custom_fields_condition(custom_field_ids)
-        condition ? where("NOT (#{condition})") : all
+        where.not(id: with_available_custom_fields(custom_field_ids).select(:id))
       end
 
       def with_available_project_custom_fields(custom_field_ids)
