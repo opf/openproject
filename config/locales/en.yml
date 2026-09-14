@@ -1762,11 +1762,25 @@ en:
         User actions on a work package (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays. The maximum is %{max} minutes.
 
     llm_connections:
+      delete_api_key:
+        description: "OpenProject will stop sending an API key with its requests. Features will keep working only if the server requires no authentication. You can enter a new key at any time."
+        heading: "Remove the stored API key?"
+        menu_label: "Remove API key"
+        success: "The API key has been removed."
+        title: "Remove API key"
+      disconnect:
+        description: "OpenProject will stop using the LLM server. AI features will be unavailable until you connect again."
+        heading: "Disconnect from the LLM server?"
+        keeps_settings: "The endpoint and API format are kept. Only the stored API key is removed."
+        menu_label: "Disconnect"
+        success: "OpenProject has disconnected from the LLM server."
+        title: "Disconnect"
       form:
         api_format_caption: "Which API the server speaks. Choose OpenAI for most gateways and self-hosted servers."
         api_key_caption: "The key OpenProject authenticates with. Leave blank if the server requires no authentication."
         api_key_caption_stored: "A key is stored. Leave blank to keep the current key, or enter a new one to replace it."
         api_key_placeholder_stored: "API key stored"
+        api_key_remove: "Remove key"
         base_url_caption: "The base URL of the server, for example https://example.com/v1."
         button_connect: "Connect"
         label_connecting: "Contacting the LLM server…"
