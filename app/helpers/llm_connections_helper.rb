@@ -37,7 +37,8 @@ module LlmConnectionsHelper
 
     [
       { name: "connection", path: llm_connection_path, label: t("admin.llm_connections.tabs.connection") },
-      { name: "models", path: llm_models_path, label: t("admin.llm_connections.tabs.models") }
+      { name: "models", path: llm_models_path, label: t("admin.llm_connections.tabs.models") },
+      { name: "features", path: llm_feature_bindings_path, label: t("admin.llm_connections.tabs.features") }
     ]
   end
 end

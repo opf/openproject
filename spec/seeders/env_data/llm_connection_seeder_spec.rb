@@ -64,7 +64,7 @@ RSpec.describe EnvData::LlmConnectionSeeder do
 
   # The seeder runs on every container start, so a refresh here would repeatedly
   # overwrite a list an administrator has curated. The stale warning on the AI
-  # models page asks for the refresh instead.
+  # models tab asks for the refresh instead.
   context "when the environment moves a stored catalogue to another host", with_settings: {
     llm_connection: { "base_url" => "https://other.example.com/v1", "api_key" => "sk-from-env" }
   } do
@@ -79,6 +79,42 @@ RSpec.describe EnvData::LlmConnectionSeeder do
       expect(connection.reload.base_url).to eq("https://other.example.com/v1")
       expect(connection.models.count).to eq(2)
       expect(connection).to be_models_stale
+    end
+  end
+
+  # An unknown verdict is the normal state of a self-hosted server: nothing has
+  # probed the row yet. Provisioning must not fail on it, or the identical
+  # configuration would seed on a fresh installation and raise on the next start.
+  context "with an embedding default nothing has probed", with_settings: {
+    llm_connection: {
+      "base_url" => "https://example.com/v1",
+      "default_embedding_model" => "bge-m3"
+    }
+  } do
+    before { create(:llm_connection, :with_models, base_url: "https://example.com/v1") }
+
+    it "provisions the default" do
+      seed
+
+      expect(LlmConnection.first.default_embedding_model.external_id).to eq("bge-m3")
+    end
+  end
+
+  context "with an embedding default the server has ruled out", with_settings: {
+    llm_connection: {
+      "base_url" => "https://example.com/v1",
+      "default_embedding_model" => "bge-m3"
+    }
+  } do
+    before do
+      create(:llm_connection, :with_models, base_url: "https://example.com/v1")
+        .capability_verdicts
+        .create!(model_id: "bge-m3", capability: "embeddings",
+                 state: "unsupported", source: "probe", checked_at: Time.current)
+    end
+
+    it "refuses to provision it" do
+      expect { seed }.to raise_error(/create embeddings/)
     end
   end
 

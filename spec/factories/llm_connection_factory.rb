@@ -34,14 +34,26 @@ FactoryBot.define do
     base_url { "https://example.com/v1" }
     api_key { "sk-test-key" }
     trait :with_models do
+      transient do
+        default_chat_model_identifier { nil }
+        default_embedding_model_identifier { nil }
+      end
+
       catalogue_fetched_at { Time.current }
       last_connected_at { Time.current }
 
-      after(:create) do |connection|
+      after(:create) do |connection, evaluator|
         create(:llm_model, llm_connection: connection, external_id: "qwen3.6-27b",
                            raw_metadata: { "owned_by" => "vllm", "max_model_len" => 262_144 })
         create(:llm_model, llm_connection: connection, external_id: "bge-m3",
                            raw_metadata: { "owned_by" => "vllm", "max_model_len" => 8_192 })
+
+        defaults = { default_chat_model: evaluator.default_chat_model_identifier,
+                     default_embedding_model: evaluator.default_embedding_model_identifier }
+                     .compact
+                     .transform_values { |id| connection.models.find_by!(external_id: id) }
+
+        connection.update!(defaults) if defaults.any?
       end
     end
   end

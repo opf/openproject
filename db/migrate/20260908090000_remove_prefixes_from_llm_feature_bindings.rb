@@ -28,27 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module LlmConnections
-  # The "Default models" section of the LLMs tab.
-  class DefaultModelsComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
-
-    alias_method :connection, :model
-
-    # Nothing to choose from, and the empty table right below says so.
-    def render? = connection.available_model_ids.any?
-
-    private
-
-    def form_options
-      {
-        model: connection,
-        url: url_helpers.defaults_llm_models_path,
-        method: :patch,
-        data: { test_selector: "llm-connection--defaults-form" }
-      }
+class RemovePrefixesFromLlmFeatureBindings < ActiveRecord::Migration[8.1]
+  def change
+    change_table :llm_feature_bindings, bulk: true do |t|
+      t.remove :input_prefix, type: :string
+      t.remove :query_prefix, type: :string
     end
   end
 end

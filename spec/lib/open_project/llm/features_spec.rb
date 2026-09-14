@@ -28,27 +28,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module LlmConnections
-  # The "Default models" section of the LLMs tab.
-  class DefaultModelsComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
+require "spec_helper"
 
-    alias_method :connection, :model
+RSpec.describe OpenProject::Llm::Features do
+  let(:key) { :spec_only_feature }
 
-    # Nothing to choose from, and the empty table right below says so.
-    def render? = connection.available_model_ids.any?
+  after { described_class.all.delete(key) }
 
-    private
-
-    def form_options
-      {
-        model: connection,
-        url: url_helpers.defaults_llm_models_path,
-        method: :patch,
-        data: { test_selector: "llm-connection--defaults-form" }
-      }
+  describe ".register" do
+    it "refuses a capability the kind cannot have" do
+      expect { described_class.register(key, kind: :chat, requires: %i[embeddings]) }
+        .to raise_error(ArgumentError, /embeddings/)
     end
+
+    it "refuses an unknown kind" do
+      expect { described_class.register(key, kind: :completion) }
+        .to raise_error(ArgumentError, /unknown kind/)
+    end
+
+    it "scopes the translations by the key unless told otherwise" do
+      described_class.register(key, kind: :chat)
+
+      expect(described_class[key].i18n_scope).to eq("llm.features.spec_only_feature")
+    end
+  end
+
+  it "registers semantic search as a pinned embedding feature" do
+    expect(described_class[:semantic_search])
+      .to have_attributes(kind: :embedding, pinned: true, requires: %i[embeddings])
   end
 end
