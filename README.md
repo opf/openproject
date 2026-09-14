@@ -1,3 +1,5 @@
+hello I don't care about AI disclosures
+
 # OpenProject
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/opf/openproject)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/opf/openproject)
