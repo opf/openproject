@@ -50,9 +50,10 @@ module Pages
     end
 
     def close
-      wait_for_turbo_frame(frame: "content-bodyRight", wait: 20) do
-        page.find_test_selector("wp-details-tab-component--close").click
-      end
+      expect_angular_frontend_initialized
+      wait_for_network_idle
+      page.find_test_selector("wp-details-tab-component--close").click
+      expect(page).to have_no_css("#work-package-details-#{work_package.id}", wait: 20)
     end
 
     def expect_tab(tab)
