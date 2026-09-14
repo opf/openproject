@@ -241,7 +241,7 @@ gem "opentelemetry-sdk", "~> 1.13", require: false
 
 gem "view_component", "~> 4.15.0"
 # Lookbook
-gem "lookbook", "2.3.14"
+gem "lookbook", "2.3.15"
 
 gem "inline_svg", "~> 1.10.0"
 
