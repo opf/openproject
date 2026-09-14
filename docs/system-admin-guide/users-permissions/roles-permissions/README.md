@@ -19,9 +19,13 @@ For more detailed description of each permission please refer to [Permissions gu
 
 ## Roles
 
-A role bundles a collection of permissions. It is an convenient way of granting permissions to multiple users in your organization that need the same permissions or restrictions.
+A role bundles a collection of permissions. It is a convenient way of granting permissions to multiple users in your organization that need the same permissions or restrictions.
 
-A user can have one or more roles which grant permissions on different levels.
+A user can have one or more roles which grant permissions on different levels. 
+
+The overview table displays all roles and their permissions. If the table contains many roles, use the search bar to quickly find or filter them.
+
+![Table of roles and permissions under users and permissions in administration](openproject_admin_guide_roles_permissions.png)
 
 ### Administrator
 
@@ -109,7 +113,7 @@ As a result, a user with the permission to create projects or subprojects can in
 
 The permissions report is a good starting point to get an overview of the current configuration of roles and permissions. To open the permissions report, navigate to _Administration_ > _Users and permissions_ > _Permissions report_.
 
-### Create a new project roles
+### Create a new project role
 
 Administrators can create new project roles in _Administration_ > _Users and permissions_ > _Roles and permissions_. Click on the green _+Role_ button to create a new role.
 
@@ -170,9 +174,17 @@ The form shows the available global permissions which can be assigned to the new
 
 ### Edit and delete roles
 
-To edit an existing role, click on the role name in the roles overview table. Make your changes and save the update by clicking on the _Save_ button at the bottom of the overview page.
+To edit an existing role, click on the role name in the roles overview table. Alternatively, open the More options (**...**) menu and select **Edit**. Make your changes and save the update by clicking on the _Save_ button at the bottom of the overview page.
 
-To delete an existing role click on the **delete icon** next to a role in the list.
+To delete an existing role, click on the More options (**...**) of a role in the list and select **Delete**.
+
+![Option to delete a role from the menu](openproject_admin_guide_roles_permissions_delete.png)
 
 > [!IMPORTANT]
 > Roles that are assigned to a user cannot be deleted.
+
+### Move roles
+
+To change a role's position in the overview table, click on the More options (**...**) menu and select **Move**. Depending on the role's current position, you can select Move to top, Move up, Move down, Move to bottom.
+
+You can also use the drag handle next to a role to move it to the desired position.
