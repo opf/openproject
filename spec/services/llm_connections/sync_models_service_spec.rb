@@ -96,8 +96,6 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
       expect(llm_model.reload.display_name).to eq("The house model")
     end
 
-    # Only the registry-backed adapters report a name; a server speaking the
-    # OpenAI API lists ids and nothing else.
     it "adopts the display name the adapter reports" do
       llm_model = connection.models.find_by(external_id: "qwen3.6-27b")
       llm_model.update!(display_name: "The house model")
@@ -124,6 +122,68 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
       described_class.new(connection).call
 
       expect(connection.capability_verdicts.pluck(:source)).to eq(["admin"])
+    end
+  end
+
+  describe "the capability detection that follows" do
+    it "asks for it after a successful sync, whichever caller asked for the list" do
+      expect { service.call }.to have_enqueued_job(Llm::DetectCapabilitiesJob)
+    end
+
+    it "asks for nothing when the server does not answer with a list" do
+      mock_llm_models_response(base_url, response_code: 404)
+
+      expect { service.call }.not_to have_enqueued_job(Llm::DetectCapabilitiesJob)
+    end
+  end
+
+  describe "naming a model and sizing its context window" do
+    let(:connection) { create(:llm_connection, base_url:, api_key: "sk-test") }
+
+    it "reads both off a card that names them in the gateway's own vocabulary" do
+      mock_llm_models_response(base_url,
+                               models: [{ id: "openai/gpt-4o", name: "OpenAI: GPT-4o", context_length: 128_000 }])
+
+      service.call
+
+      llm_model = connection.models.find_by(external_id: "openai/gpt-4o")
+      expect(llm_model.name).to eq("OpenAI: GPT-4o")
+      expect(llm_model.context_window).to eq(128_000)
+    end
+
+    it "falls back to the registry for a server that lists bare ids" do
+      mock_llm_models_response(base_url, models: [{ id: "gpt-4o", object: "model" }])
+
+      service.call
+
+      llm_model = connection.models.find_by(external_id: "gpt-4o")
+      expect(llm_model.name).to eq("GPT-4o")
+      expect(llm_model.context_window).to eq(128_000)
+    end
+
+    it "keeps the published window under an administrator's override" do
+      mock_llm_models_response(base_url, models: [{ id: "gpt-4o", object: "model" }])
+      service.call
+      llm_model = connection.models.find_by(external_id: "gpt-4o")
+      llm_model.update!(admin_context_window: 8_000)
+
+      described_class.new(connection).call
+
+      expect(llm_model.reload.context_window).to eq(8_000)
+
+      llm_model.update!(admin_context_window: nil)
+
+      expect(llm_model.reload.context_window).to eq(128_000)
+    end
+
+    it "keeps an administrator's display name over the one the registry publishes" do
+      mock_llm_models_response(base_url, models: [{ id: "gpt-4o", object: "model" }])
+      service.call
+      connection.models.find_by(external_id: "gpt-4o").update!(display_name: "The house model")
+
+      described_class.new(connection).call
+
+      expect(connection.models.find_by(external_id: "gpt-4o").display_name).to eq("The house model")
     end
   end
 end
