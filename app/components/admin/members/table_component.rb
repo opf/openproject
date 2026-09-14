@@ -56,6 +56,16 @@ module Admin
         "admin-members-table"
       end
 
+      # Maps a member_role's `inherited_from` to the principal granting it, resolved once
+      # for the whole page so the rows do not query per inherited role.
+      def inheritance_sources
+        @inheritance_sources ||=
+          MemberRole
+            .where(id: rows.flat_map { |member| member.member_roles.filter_map(&:inherited_from) }.uniq)
+            .includes(member: :principal)
+            .to_h { |member_role| [member_role.id, member_role.member.principal] }
+      end
+
       def blank_title
         I18n.t("admin.members.index.blank_title")
       end

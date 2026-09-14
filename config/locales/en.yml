@@ -1773,6 +1773,8 @@ en:
         blank_description: "No membership matches the current filter."
         blank_title: "No memberships"
         filter_label: "Search users"
+        inheritance_source: "%{type} %{name}"
+        inherited_via: "(via: %{source})"
         title: "Memberships"
     plugins:
       no_results_content_text: See our integrations and plugins page for more information.

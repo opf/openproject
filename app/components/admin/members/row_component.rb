@@ -40,7 +40,11 @@ module Admin
       end
 
       def user
-        render(Users::AvatarComponent.new(user: principal, size: :mini, link: true, show_name: true))
+        return avatar if inherited_via.empty?
+
+        render(Primer::Box.new(display: :flex, align_items: :center, flex_wrap: :wrap, classes: "gap-1")) do
+          safe_join([avatar, inheritance_note])
+        end
       end
 
       def project
@@ -57,6 +61,33 @@ module Admin
       end
 
       private
+
+      def avatar
+        render(Users::AvatarComponent.new(user: principal, size: :mini, link: true, show_name: true))
+      end
+
+      # Roles a group passes on to its users are not editable on the user's membership,
+      # so the row names where they come from.
+      def inheritance_note
+        render(Primer::Beta::Text.new(color: :muted,
+                                      font_size: :small,
+                                      test_selector: "op-admin-members--inherited")) do
+          I18n.t("admin.members.index.inherited_via", source: inherited_via.to_sentence)
+        end
+      end
+
+      def inherited_via
+        @inherited_via ||= member
+                              .member_roles
+                              .filter_map { table.inheritance_sources[it.inherited_from] }
+                              .uniq
+                              .sort_by(&:name)
+                              .map { source_label(it) }
+      end
+
+      def source_label(source)
+        I18n.t("admin.members.index.inheritance_source", type: source.model_name.human, name: source.name)
+      end
 
       def role_links
         member.roles.sort_by(&:name).map do |role|

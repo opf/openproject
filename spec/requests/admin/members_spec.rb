@@ -114,6 +114,54 @@ RSpec.describe "GET /admin/members", :aggregate_failures, :skip_csrf, type: :rai
       expect(response.body).not_to include(project_path(archived_project))
     end
 
+    it "does not mark directly assigned memberships as inherited" do
+      get admin_members_path
+
+      expect(response.body).not_to include("op-admin-members--inherited")
+    end
+
+    context "with a membership inherited from a group" do
+      shared_let(:group_project) { create(:project, name: "Mercury") }
+      shared_let(:group_role) { create(:project_role, name: "Contributor") }
+      shared_let(:own_role) { create(:project_role, name: "Auditor") }
+      shared_let(:group_user) { create(:user, firstname: "Lee", lastname: "Park") }
+      shared_let(:group) do
+        create(:group, members: [group_user], member_with_roles: { group_project => [group_role] }) do |group|
+          Groups::CreateInheritedRolesService
+            .new(group, current_user: User.system, contract_class: EmptyContract)
+            .call(user_ids: [group_user.id])
+        end
+      end
+
+      it "names the group the roles come from" do
+        get admin_members_path
+
+        expect(response.body).to include("(via: #{Group.model_name.human} #{group.name})")
+      end
+
+      it "leaves the group's own membership unmarked" do
+        get admin_members_path
+
+        inherited_notes = response.parsed_body
+                            .css("[data-test-selector='op-admin-members--inherited']")
+
+        expect(inherited_notes.size).to eq(1)
+      end
+
+      context "and a role of the user's own alongside it" do
+        before do
+          Member.find_by(principal: group_user, project: group_project).roles << own_role
+        end
+
+        it "still names the group for the inherited part" do
+          get admin_members_path
+
+          expect(response.body).to include("(via: #{Group.model_name.human} #{group.name})")
+          expect(response.body).to include("Auditor")
+        end
+      end
+    end
+
     it "offers each role exactly once in the role filter" do
       # A role holding several permissions is what used to be listed once per permission.
       expect(role.permissions.size).to be > 1
