@@ -75,6 +75,7 @@ import { OPContextMenuService } from 'core-app/shared/components/op-context-menu
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import { DragAndDropService, DragMember } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
 import type { Edge } from 'core-common/drag-and-drop/reorder';
+import { nextFrame, nextTask } from 'core-common/testing/timing';
 import { rowGroupClassName } from '../builders/modes/grouped/grouped-classes.constants';
 import { TableHandlerRegistry } from '../handlers/table-handler-registry';
 import { locatePredecessorBySelector } from '../helpers/wp-table-row-helpers';
@@ -211,20 +212,15 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
       });
     },
 
+    // The table redraws in a requestAnimationFrame followed by a setTimeout;
+    // wait those out so a pending redraw cannot fire into a reset TestBed.
     async destroy() {
-      await redrawsSettled();
+      await nextFrame();
+      await nextTask();
       querySpace.stopAllSubscriptions.next();
       dom.wrapper.remove();
     },
   };
-}
-
-// The table redraws in a requestAnimationFrame followed by a setTimeout;
-// wait those out so a pending redraw cannot fire into a reset TestBed.
-function redrawsSettled():Promise<void> {
-  return new Promise((resolve) => {
-    requestAnimationFrame(() => setTimeout(resolve));
-  });
 }
 
 class FakeDragAndDropService {
