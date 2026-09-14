@@ -105,10 +105,7 @@ module Admin
     def render_form_with_errors
       update_via_turbo_stream(component: ::LlmConnections::FormComponent.new(@connection))
       respond_with_turbo_streams do |format|
-        format.html do
-          show
-          render :show
-        end
+        format.html { render :show }
       end
     end
 

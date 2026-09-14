@@ -29,35 +29,21 @@
 #++
 
 module LlmConnections
-  class FormComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
+  module Models
+    # A turbo-frame around the model table, so filtering can replace just the
+    # table rather than reloading the settings page.
+    class IndexComponent < ApplicationComponent
+      include OpTurbo::Streamable
+      include OpPrimer::ComponentHelpers
 
-    def self.wrapper_key = :llm_connection_form
+      alias_method :rows, :model
 
-    alias_method :connection, :model
+      def initialize(rows, connection:)
+        super(rows)
+        @connection = connection
+      end
 
-    private
-
-    def wrapper_options
-      {
-        data: {
-          controller: "admin--llm-connection-form show-when-checked show-when-value-selected",
-          test_selector: "llm-connection--form"
-        }
-      }
-    end
-
-    # The save can turn the connection on, which adds the tabs to the page
-    # header outside this frame, so the response replaces the whole page.
-    def form_options
-      {
-        model: connection,
-        url: llm_connection_path,
-        method: :patch,
-        data: { turbo_frame: "_top" }
-      }
+      attr_reader :connection
     end
   end
 end

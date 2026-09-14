@@ -76,6 +76,24 @@ RSpec.describe "LLM connection administration",
       expect(page).to have_field("Host URL")
     end
 
+    it "offers the models tab only once the connection is enabled" do
+      mock_llm_models_response(base_url)
+
+      visit llm_connection_path
+
+      expect(page).to have_no_test_selector("llm-settings--tabs")
+
+      check "Enable LLMs for this instance"
+      fill_in "Host URL", with: base_url
+      click_on "Connect"
+
+      expect(page).to have_test_selector("llm-settings--tabs")
+
+      within_test_selector("llm-settings--tabs") { click_on "LLMs" }
+
+      expect(page).to have_current_path(llm_models_path)
+    end
+
     it "describes the server the selected API format expects" do
       visit llm_connection_path
 
@@ -109,6 +127,63 @@ RSpec.describe "LLM connection administration",
       expect(page).to have_no_test_selector("llm-connection--remove-api-key")
       expect(page).to have_field("API key", placeholder: nil)
       expect(connection.reload.api_key).to be_nil
+    end
+  end
+
+  context "with a configured connection" do
+    let!(:connection) { create(:llm_connection, :with_models, base_url:) }
+
+    # Written for real rather than through with_settings:, which stubs
+    # Setting.[] and would hide the write the disconnect example asserts.
+    before do
+      Setting.llm_features_enabled = true
+      mock_llm_models_response(base_url)
+    end
+
+    it "renders the model list accessibly" do
+      create(:llm_model,
+             llm_connection: connection,
+             external_id: "publisher/a-very-long-model-name-that-does-not-fit-the-column-32b-instruct-2026-05")
+
+      visit llm_models_path
+
+      expect(page).to have_test_selector("llm-model--refresh-button")
+      expect(page).to have_text(connection.models.first.external_id)
+      expect(page).to be_axe_clean.within("#content")
+    end
+
+    it "removes the stored API key" do
+      visit llm_connection_path
+      expect(page).to have_field("Host URL")
+
+      choose_action("llm-connection--delete-api-key")
+
+      within_test_selector("llm-connection--delete-api-key-dialog") do
+        # The muted description and the danger button label Primer renders around
+        # our content miss the 4.5:1 contrast ratio, app-wide.
+        expect(page).to be_axe_clean.skipping("color-contrast")
+        click_on "Remove API key"
+      end
+
+      wait_for { connection.reload.api_key }.to be_blank
+      expect(connection.base_url).to eq(base_url)
+    end
+
+    it "disconnects without losing the configuration" do
+      visit llm_connection_path
+      expect(page).to have_field("Host URL")
+
+      choose_action("llm-connection--disconnect")
+
+      within_test_selector("llm-connection--disconnect-dialog") do
+        expect(page).to be_axe_clean.skipping("color-contrast")
+        click_on "Disconnect"
+      end
+
+      wait_for { Setting.llm_features_enabled? }.to be(false)
+      expect(connection.reload.api_key).to be_blank
+      # The point of disconnecting rather than deleting.
+      expect(connection.models.count).to eq(2)
     end
   end
 end
