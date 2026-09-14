@@ -45,7 +45,7 @@ RSpec.describe AI::TextTransforms::Prompt do
     content = "  Login page dont work.\n\n## Steps\r\n1. Click submit  "
     messages = described_class.build(action:, context: no_context, content:)
 
-    expect(messages.user).to equal(content)
+    expect(messages.user).to eq(content)
   end
 
   it "never interpolates the content into the system message" do

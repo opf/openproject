@@ -114,13 +114,8 @@ module API
           index :activity
           show :activity
 
-          def self.ai_text_transform_runs
-            "#{root}/ai_text_transform_runs"
-          end
-
-          def self.ai_text_transform_run(uuid)
-            "#{ai_text_transform_runs}/#{uuid}"
-          end
+          index :ai_text_transform_run
+          show :ai_text_transform_run
 
           def self.ai_text_transform_run_cancel(uuid)
             "#{ai_text_transform_run(uuid)}/cancel"
