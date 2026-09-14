@@ -1208,6 +1208,9 @@ en:
       issue_priority:
         one: "Priority"
         other: "Priorities"
+      label:
+        one: "Label"
+        other: "Labels"
       ldap_auth_source:
         one: "LDAP connection"
         other: "LDAP connections"
