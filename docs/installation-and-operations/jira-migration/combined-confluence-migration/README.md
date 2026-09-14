@@ -54,7 +54,7 @@ flowchart TB
 
 Because the two migrations run independently, a link between an issue and a page can be in any of four states at any given time — and different links can be in different states simultaneously:
 
-|                             | **Confluence** (not yet migrated)                         | **XWiki** (migrated)                              |
+| **Link source** | **Confluence** (not yet migrated)                         | **XWiki** (migrated)                              |
 | --------------------------- | --------------------------------------------------------- | ------------------------------------------------- |
 | **Jira** (not yet migrated) | Unchanged — works as it always has                        | Jira issue links to a page already moved to XWiki |
 | **OpenProject** (migrated)  | OpenProject work package links to a page not yet migrated | Both sides migrated — the end state               |
