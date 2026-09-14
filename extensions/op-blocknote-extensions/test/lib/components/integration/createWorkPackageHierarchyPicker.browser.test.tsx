@@ -48,7 +48,11 @@ const items = [
   },
 ];
 
+const itemRequests:URL[] = [];
+
 function serveHierarchyField() {
+  itemRequests.length = 0;
+
   worker.use(
     http.post('http://localhost:3000/api/v3/work_packages/form', async ({ request }) => {
       const form = createFormFor(await request.json() as FormRequestBody);
@@ -59,9 +63,10 @@ function serveHierarchyField() {
       return HttpResponse.json(form);
     }),
 
-    http.get(`http://localhost:3000${ITEMS_HREF}`, () =>
-      HttpResponse.json({ _embedded: { elements: items } })
-    )
+    http.get(`http://localhost:3000${ITEMS_HREF}`, ({ request }) => {
+      itemRequests.push(new URL(request.url));
+      return HttpResponse.json({ _embedded: { elements: items } });
+    })
   );
 }
 
@@ -125,6 +130,16 @@ describe('create work package: hierarchy custom field picker', () => {
 
     await userEvent.click(page.getByRole('treeitem', { name: 'room 1a' }));
     await expect.element(page.getByLabelText(FIELD)).toHaveValue('room 1a');
+  });
+
+  it('asks for the listing whole, once, however much is typed', async () => {
+    await openPicker();
+    await userEvent.fill(page.getByLabelText(FIELD), 'room 1a');
+    await expect.poll(optionLabels).toEqual(['room 1a']);
+
+    expect(itemRequests).toHaveLength(1);
+    expect(itemRequests[0].searchParams.get('pageSize')).toBe('-1');
+    expect(itemRequests[0].searchParams.get('filters')).toBeNull();
   });
 
   it('leaves no match folded away under a match', async () => {

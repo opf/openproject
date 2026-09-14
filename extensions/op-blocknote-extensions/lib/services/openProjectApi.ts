@@ -162,6 +162,9 @@ export function fetchTypes():Promise<TypeCollection> {
 /*  Beyond one page of them a listing is searched rather than browsed.  */
 const ALLOWED_VALUES_PAGE_SIZE = 100;
 
+/*  What the API reads as "no page of them, all of them".  */
+const WHOLE_LISTING = -1;
+
 /**
  * Asks the API which attributes a new work package needs: an empty payload yields
  * the bare schema, sending the project back its types, the type its statuses.
@@ -181,7 +184,7 @@ const FAVORED_FILTER:HalFilter = { favored: { operator: '=', values: ['t'] } };
 
 const HIERARCHY_ORDER = JSON.stringify([['lft', 'asc']]);
 
-function withQuery(href:string, added:HalFilter[], nested:boolean):string {
+function withQuery(href:string, added:HalFilter[], { nested, whole }:AllowedValuesQuery):string {
   const separator = href.indexOf('?');
   const path = separator === -1 ? href : href.slice(0, separator);
   const params = new URLSearchParams(separator === -1 ? '' : href.slice(separator + 1));
@@ -197,7 +200,9 @@ function withQuery(href:string, added:HalFilter[], nested:boolean):string {
   }
 
   if (nested && !params.has('sortBy')) params.set('sortBy', HIERARCHY_ORDER);
-  if (!params.has('pageSize')) params.set('pageSize', String(ALLOWED_VALUES_PAGE_SIZE));
+  if (!params.has('pageSize')) {
+    params.set('pageSize', String(whole ? WHOLE_LISTING : ALLOWED_VALUES_PAGE_SIZE));
+  }
 
   return `${path}?${params.toString()}`;
 }
@@ -216,6 +221,8 @@ function assertApiHref(href:string):void {
 export interface AllowedValuesQuery {
   favoredOnly?:boolean;
   nested?:boolean;
+  /** Whether to ask for the listing whole, the term being matched by the caller. */
+  whole?:boolean;
 }
 
 /**
@@ -226,24 +233,25 @@ export interface AllowedValuesQuery {
 export async function fetchAllowedValues(
   href:string,
   query = '',
-  { favoredOnly = false, nested = false }:AllowedValuesQuery = {}
+  { favoredOnly = false, nested = false, whole = false }:AllowedValuesQuery = {}
 ):Promise<{ resources:HalResource[]; filtered:boolean }> {
   assertApiHref(href);
 
+  const paging = { nested, whole };
   const kept = favoredOnly ? [FAVORED_FILTER] : [];
   const trimmedQuery = query.trim();
 
   if (trimmedQuery) {
     try {
       const narrowing = [...kept, TYPEAHEAD_FILTER(trimmedQuery)];
-      return { resources: await listValues(withQuery(href, narrowing, nested)), filtered: true };
+      return { resources: await listValues(withQuery(href, narrowing, paging)), filtered: true };
     } catch (error) {
       if (!(error instanceof OpenProjectApiError) || error.responseStatus !== 400) throw error;
       console.warn('[OpenProjectApi] typeahead filter rejected, retrying unfiltered:', error);
     }
   }
 
-  return { resources: await listValues(withQuery(href, kept, nested)), filtered: false };
+  return { resources: await listValues(withQuery(href, kept, paging)), filtered: false };
 }
 
 /** Follows the `allowedValues` link of a schema attribute, narrowed to the resource of the given id. */
@@ -254,7 +262,7 @@ export async function fetchAllowedValueById(
   assertApiHref(href);
 
   const data = await get<HalCollection<HalResource>>(
-    withQuery(href, [{ id: { operator: '=', values: [String(id)] } }], false)
+    withQuery(href, [{ id: { operator: '=', values: [String(id)] } }], {})
   );
   return data._embedded?.elements?.[0];
 }

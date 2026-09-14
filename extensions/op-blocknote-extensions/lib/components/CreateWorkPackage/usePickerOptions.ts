@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { KeyboardEvent } from 'react';
 import { fetchAllowedValues } from '../../services/openProjectApi';
+import type { AllowedValuesQuery } from '../../services/openProjectApi';
 import { listedValues, toAllowedValues } from './formSchema';
 import type { AllowedValue, ListedValue } from './formSchema';
 
@@ -34,12 +35,12 @@ function matching(values:AllowedValue[], query:string):AllowedValue[] {
   return term ? values.filter((value) => value.label.toLowerCase().includes(term)) : values;
 }
 
-function askApi(href:string, query:string, favoredOnly:boolean, nested:boolean):Promise<AllowedValue[]> {
-  return fetchAllowedValues(href, query, { favoredOnly, nested }).then(({ resources, filtered }) => {
+function askApi(href:string, query:string, asking:AllowedValuesQuery):Promise<AllowedValue[]> {
+  return fetchAllowedValues(href, query, asking).then(({ resources, filtered }) => {
     const term = filtered ? '' : query;
 
     return matching(toAllowedValues(resources), term)
-      .filter((option) => !favoredOnly || option.favored);
+      .filter((option) => !asking.favoredOnly || option.favored);
   });
 }
 
@@ -100,7 +101,7 @@ export function usePickerOptions({
     let active = true;
 
     const read = () => {
-      remember(asked, () => askApi(href, apiTerm, favoredOnly, nested))
+      remember(asked, () => askApi(href, apiTerm, { favoredOnly, nested, whole: searchedHere }))
         .then((found) => {
           if (!active) return;
           setFetched(found);
@@ -127,7 +128,7 @@ export function usePickerOptions({
       active = false;
       clearTimeout(timer);
     };
-  }, [href, apiTerm, isOpen, favoredOnly, nested, asked, listedBySchema]);
+  }, [href, apiTerm, isOpen, favoredOnly, nested, asked, listedBySchema, searchedHere]);
 
   const options = useMemo(() => {
     const offered = values ?? fetched;
