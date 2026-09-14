@@ -68,7 +68,7 @@ const PRIMER_COLORS = [
   'lime',   // (subdued green, good closing color)
 ];
 
-function getCSSVariable(variable:string) {
+export function getCSSVariable(variable:string) {
   return getComputedStyle(document.body).getPropertyValue(variable).trim();
 }
 

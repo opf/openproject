@@ -31,7 +31,7 @@ import { ChangeDetectionStrategy, Component, Signal, computed, inject, input } f
 import { ChartData, ChartOptions } from 'chart.js';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { NoResultsComponent } from 'core-app/shared/components/blankslate/no-results.component';
-import PrimerColorsPlugin from 'core-app/shared/components/work-package-graphs/plugin.primer-colors';
+import PrimerColorsPlugin, { getCSSVariable } from 'core-app/shared/components/work-package-graphs/plugin.primer-colors';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { environment } from '../../../environments/environment';
 
@@ -50,20 +50,18 @@ export class CreatedResolvedComponent {
   readonly chartData = input.required<string>();
 
   readonly lineChartData = computed<ChartData<'line'>>(() => {
-    const data = JSON.parse(this.chartData()) as ChartData<'line'>;    
-    
-    const colors = {
-      border: {'Created' : "#f85461", 'Resolved' : "#30a147"},
-      background: {'Created' : "#fda5a7", 'Resolved' : "#54d961"}
-    }
+    const data = JSON.parse(this.chartData()) as ChartData<'line'>;
 
-    data.datasets.forEach((dataset) => {
-      if(dataset.label == "Created" || dataset.label == "Resolved"){
-        dataset.backgroundColor = Array(dataset.data.length).fill(colors.background[dataset.label]);
-        dataset.borderColor = Array(dataset.data.length).fill(colors.border[dataset.label]);
-        dataset.borderWidth = 1;
-      }
-    })    
+    const colors = [
+      {background: getCSSVariable('--display-red-scale-2'), border: getCSSVariable('--display-red-scale-4')}, //created
+      {background: getCSSVariable('--display-green-scale-2'), border: getCSSVariable('--display-green-scale-4')} //resolved
+    ];
+
+    data.datasets.forEach((dataset, i) => {
+      dataset.backgroundColor = Array(dataset.data.length).fill(colors[i]?.background);
+      dataset.borderColor = Array(dataset.data.length).fill(colors[i]?.border);
+      dataset.borderWidth = 1;
+    });
 
     return data;
   });
