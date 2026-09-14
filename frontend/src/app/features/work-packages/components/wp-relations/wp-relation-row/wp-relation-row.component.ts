@@ -235,6 +235,6 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
   }
 
   public highlightingClassForWpType():string {
-    return Highlighting.inlineClass('type', this.relatedWorkPackage.type.id!);
+    return Highlighting.typeClass(this.relatedWorkPackage.type.id!);
   }
 }

@@ -56,7 +56,7 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::DefaultsService do
       end
     end
 
-    context "when the source resolves through a link", with_flag: { type_variants: true } do
+    context "when the source resolves through a link" do
       let(:owner) { create(:type, patterns: { subject: { blueprint: "Inherited {{id}}", enabled: true } }).default_variant }
       let(:source) { create(:type).default_variant }
 

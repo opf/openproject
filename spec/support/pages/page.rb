@@ -53,7 +53,7 @@ module Pages
 
       visit(path)
 
-      wait_for_reload
+      wait_for_reload if using_cuprite?
     end
 
     def reload!

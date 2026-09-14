@@ -119,7 +119,7 @@ fr:
         other: Sprints
         zero: Tous les sprints
       select_panel_title: Sélectionner les éléments
-    blankslate_filtered_title: No work packages match the filter criteria.
+    blankslate_filtered_title: Aucun lot de travail ne correspond aux critères de filtrage.
     bucket_component:
       action_menu:
         add_existing_work_package: Ajouter un lot de travaux existant
@@ -163,7 +163,7 @@ fr:
         other: Afficher %{count} éléments supplémentaires
       title: Boîte de réception
     index_subheader_component:
-      label_search_by_subject: Search work packages by subject
+      label_search_by_subject: Rechercher des lots de travail par thème
     label_burndown_chart: Graphique burndown
     label_is_done_status: Le statut %{status_name} signifie fait
     label_sprint_board: Tableau de sprint

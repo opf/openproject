@@ -37,11 +37,11 @@ fr:
           accessible_gate: 'Porte de phase %{name} : %{date}'
           accessible_milestone: 'Milestone %{name}: %{date}'
           accessible_phase: 'Phase %{name} : %{date}'
-          accessible_sprint: 'Sprint %{name}: %{date}. Status: %{status}'
+          accessible_sprint: 'Sprint %{name}: %{date}. Statut : %{status}'
           sprint_status:
-            active: Active
-            completed: Completed
-            in_planning: In planning
+            active: Actif
+            completed: Terminé
+            in_planning: En cours de planification
           tooltip_type_gate: Porte de phase
           tooltip_type_milestone: Jalon
           tooltip_type_phase: Phase

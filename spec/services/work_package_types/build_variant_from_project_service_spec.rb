@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe WorkPackageTypes::BuildVariantFromProjectService, with_flag: { type_variants: true } do
+RSpec.describe WorkPackageTypes::BuildVariantFromProjectService do
   shared_let(:admin) { create(:admin) }
 
   let(:kept_field) { create(:work_package_custom_field, is_for_all: false) }

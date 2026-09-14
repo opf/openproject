@@ -206,7 +206,8 @@ RSpec.describe "new work package", :js do
 
   context "project split screen" do
     let(:safeguard_selector) { ".work-packages--details-content.-create-mode" }
-    let(:wp_page) { Pages::SplitWorkPackage.new(WorkPackage.new) }
+    let(:tabs_container_selector) { ".op-work-package-details-tab-component--tabs" }
+    let(:wp_page) { Pages::PrimerizedSplitWorkPackage.new(WorkPackage.new) }
     let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
     before do
@@ -254,6 +255,7 @@ RSpec.describe "new work package", :js do
 
   context "full screen" do
     let(:safeguard_selector) { ".work-package--new-state" }
+    let(:tabs_container_selector) { ".op-work-package-tabs" }
     let(:existing_wp) { create(:work_package, type: type_bug, project:) }
     let(:wp_page) { Pages::FullWorkPackage.new(existing_wp) }
 
@@ -297,7 +299,8 @@ RSpec.describe "new work package", :js do
 
   context "global split screen" do
     let(:safeguard_selector) { ".work-packages--details-content.-create-mode" }
-    let(:wp_page) { Pages::SplitWorkPackage.new(WorkPackage.new) }
+    let(:tabs_container_selector) { ".op-work-package-details-tab-component--tabs" }
+    let(:wp_page) { Pages::PrimerizedSplitWorkPackage.new(WorkPackage.new) }
     let(:wp_table) { Pages::WorkPackagesTable.new(nil) }
 
     before do
@@ -406,12 +409,12 @@ RSpec.describe "new work package", :js do
     let(:user) { create(:user, member_with_roles: { project => role }) }
     let(:wp_page) { Pages::Page.new }
 
-    it "shows the API authorization error on split creation paths" do
+    it "shows the authorization error on split creation paths" do
       visit new_split_work_packages_path
-      wp_page.expect_toast(type: :error, message: I18n.t("api_v3.errors.code_403"))
+      wp_page.expect_flash(type: :error, message: I18n.t(:notice_not_authorized))
 
       visit new_split_project_work_packages_path(project)
-      wp_page.expect_toast(type: :error, message: I18n.t("api_v3.errors.code_403"))
+      wp_page.expect_flash(type: :error, message: I18n.t(:notice_not_authorized))
     end
   end
 

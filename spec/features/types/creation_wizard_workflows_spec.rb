@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Type creation wizard workflows step", :js, with_flag: { type_variants: true } do
+RSpec.describe "Type creation wizard workflows step", :js do
   include Toasts::Expectations
   include Workflows::EditHelpers
 

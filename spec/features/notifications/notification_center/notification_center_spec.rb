@@ -39,8 +39,8 @@ RSpec.describe "Notification center",
   let(:center) { Pages::Notifications::Center.new }
   let(:side_menu) { Components::Submenu.new }
   let(:activity_tab) { Components::WorkPackages::Activities.new(work_package) }
-  let(:split_screen) { Pages::SplitWorkPackage.new work_package }
-  let(:split_screen2) { Pages::SplitWorkPackage.new work_package2 }
+  let(:split_screen) { Pages::PrimerizedSplitWorkPackage.new work_package }
+  let(:split_screen2) { Pages::PrimerizedSplitWorkPackage.new work_package2 }
   let(:full_screen) { Pages::FullWorkPackage.new work_package }
 
   let(:notifications) do

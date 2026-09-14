@@ -53,7 +53,7 @@ module Pages
         drag_n_drop_element(from: date_container(start_date), to: date_container(end_date))
       end
 
-      ::Pages::SplitWorkPackageCreate.new project:
+      ::Pages::PrimerizedSplitWorkPackage.new project:
     end
 
     def resize_start_date(work_package, date)
@@ -109,7 +109,7 @@ module Pages
         .find(".fc-event", text: work_package.subject)
         .click
 
-      ::Pages::SplitWorkPackage.new(work_package, project)
+      ::Pages::PrimerizedSplitWorkPackage.new(work_package, project)
     end
 
     def event(work_package)

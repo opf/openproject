@@ -61,6 +61,6 @@ module WorkPackageTypes
     alias_method :linked?, :linked
 
     # Carries the owning project, if any, so a variant is configured where it belongs.
-    def variant_path = edit_type_details_path(**variant.path_args)
+    def variant_path = type_settings_path(**variant.path_args)
   end
 end

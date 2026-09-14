@@ -32,8 +32,7 @@ require "spec_helper"
 
 RSpec.describe "Work package type excluded elements",
                :skip_csrf,
-               type: :rails_request,
-               with_flag: { type_variants: true } do
+               type: :rails_request do
   shared_let(:admin) { create(:admin) }
   shared_let(:source) { create(:type) }
 
@@ -87,17 +86,6 @@ RSpec.describe "Work package type excluded elements",
          params: { value: "0" }
 
     expect(response).to have_http_status(:not_found)
-  end
-
-  context "when the variants feature is disabled", with_flag: { type_variants: false } do
-    before { link_configuration(type, source:, aspect:) }
-
-    it "blocks the endpoint and excludes nothing", :aggregate_failures do
-      toggle(value: "0")
-
-      expect(response).to have_http_status(:not_found)
-      expect(excluded_configuration_elements(link, aspect: aspect)).to be_empty
-    end
   end
 
   context "when the user is not an admin" do

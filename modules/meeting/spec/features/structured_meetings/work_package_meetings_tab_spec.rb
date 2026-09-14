@@ -669,10 +669,29 @@ RSpec.describe "Open the Meetings tab",
         end
       end
     end
+
+    context "when user is not allowed to edit meetings" do
+      let(:restricted_role) do
+        create(:project_role,
+               permissions: %i(view_work_packages
+                               view_meetings)) # edit_meetings is missing
+      end
+      let(:user) do
+        create(:user,
+               member_with_roles: { project => restricted_role })
+      end
+
+      it "does not show the add to meeting button" do
+        work_package_page.visit!
+        switch_to_meetings_tab
+
+        meetings_tab.expect_add_to_meeting_button_not_present
+      end
+    end
   end
 
   describe "work package split view" do
-    let(:work_package_page) { Pages::SplitWorkPackage.new(work_package) }
+    let(:work_package_page) { Pages::PrimerizedSplitWorkPackage.new(work_package) }
 
     it "renders the meetings tab" do
       work_package_page.visit!

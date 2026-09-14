@@ -59,22 +59,6 @@ RSpec.describe WorkPackageTypes::TypesController do
       end
     end
 
-    describe "GET new" do
-      describe "the access should be restricted" do
-        before { get "new" }
-
-        it { expect(response).to have_http_status(:forbidden) }
-      end
-    end
-
-    describe "POST create" do
-      describe "the access should be restricted" do
-        before { post "create" }
-
-        it { expect(response).to have_http_status(:forbidden) }
-      end
-    end
-
     describe "DELETE destroy" do
       describe "the access should be restricted" do
         before { delete "destroy", params: { id: "123" } }
@@ -104,92 +88,6 @@ RSpec.describe WorkPackageTypes::TypesController do
 
       it { expect(response).to be_successful }
       it { expect(response).to render_template "index" }
-    end
-
-    describe "GET new" do
-      before { get "new" }
-
-      it { expect(response).to be_successful }
-      it { expect(response).to render_template "new" }
-    end
-
-    describe "POST create" do
-      describe "WITH valid params" do
-        let(:params) do
-          { "type" => { name: "New type",
-                        project_ids: { "1" => project.id },
-                        custom_field_ids: { "1" => custom_field_1.id,
-                                            "2" => custom_field_2.id } } }
-        end
-
-        before do
-          post :create, params:
-        end
-
-        it { expect(response).to be_redirect }
-
-        it do
-          type = Type.find_by(name: "New type")
-          expect(response).to redirect_to(edit_type_details_path(type_id: type.id))
-        end
-      end
-
-      describe "WITH an empty name" do
-        render_views
-        let(:params) do
-          { "type" => { name: "",
-                        project_ids: { "1" => project.id },
-                        custom_field_ids: { "1" => custom_field_1.id,
-                                            "2" => custom_field_2.id } } }
-        end
-
-        before do
-          post :create, params:
-        end
-
-        it { expect(response).to have_http_status(:unprocessable_entity) }
-
-        it "shows an error message on the name field" do
-          expect(response.body).to have_text("can't be blank")
-        end
-      end
-
-      describe "WITH workflow copy" do
-        let!(:existing_type) { create(:type, name: "Existing type") }
-        let!(:workflow) do
-          create(:workflow,
-                 old_status: status_old,
-                 new_status: status_new,
-                 type_id: existing_type.id)
-        end
-
-        let(:params) do
-          {
-            "type" => {
-              name: "New type",
-              project_ids: { "1" => project.id },
-              custom_field_ids: { "1" => custom_field_1.id, "2" => custom_field_2.id },
-              copy_workflow_from: existing_type.id
-            }
-          }
-        end
-
-        before do
-          post :create, params:
-        end
-
-        it { expect(response).to be_redirect }
-
-        it do
-          type = Type.find_by(name: "New type")
-          expect(response).to redirect_to(edit_type_details_path(type_id: type.id))
-        end
-
-        it "has the copied workflows" do
-          expect(Type.find_by(name: "New type")
-                        .default_variant.workflows.count).to eq(existing_type.default_variant.workflows.count)
-        end
-      end
     end
 
     describe "POST move" do
@@ -309,7 +207,7 @@ RSpec.describe WorkPackageTypes::TypesController do
       end
     end
 
-    describe "GET index with variants", with_flag: { type_variants: true } do
+    describe "GET index with variants" do
       let!(:bug) { create(:type, name: "Bug") }
       let!(:named_variant) { create(:type_variant, type: bug, variant_name: "Hardware") }
       let!(:other_type) { create(:type, name: "Other") }
@@ -326,7 +224,7 @@ RSpec.describe WorkPackageTypes::TypesController do
       end
     end
 
-    describe "PUT drop", with_flag: { type_variants: true } do
+    describe "PUT drop" do
       let!(:first_type) { create(:type, name: "First") }
       let!(:second_type) { create(:type, name: "Second") }
 
@@ -338,25 +236,6 @@ RSpec.describe WorkPackageTypes::TypesController do
         expect(response).to have_http_status(:ok)
         expect(second_type.reload.position).to eq(1)
         expect(second_type.position).to be < first_type.reload.position
-      end
-
-      context "when the variants feature is disabled", with_flag: { type_variants: false } do
-        it "is not available" do
-          put :drop, params: { id: second_type.id, position: 1 }, format: :turbo_stream
-
-          expect(response).to have_http_status(:not_found)
-        end
-      end
-    end
-
-    describe "GET index without the variants feature", with_flag: { type_variants: false } do
-      let!(:bug) { create(:type, name: "Bug") }
-      let!(:other_type) { create(:type, name: "Other") }
-
-      before { get :index }
-
-      it "lists types" do
-        expect(assigns(:types)).to include(bug, other_type)
       end
     end
   end

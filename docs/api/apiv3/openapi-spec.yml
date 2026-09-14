@@ -477,10 +477,6 @@ paths:
     "$ref": "./paths/relations.yml"
   "/api/v3/relations/{id}":
     "$ref": "./paths/relation.yml"
-  "/api/v3/render/markdown":
-    "$ref": "./paths/render_markdown.yml"
-  "/api/v3/render/plain":
-    "$ref": "./paths/render_plain.yml"
   "/api/v3/revisions/{id}":
     "$ref": "./paths/revision.yml"
   "/api/v3/reminders":
@@ -934,8 +930,6 @@ components:
       "$ref": "./components/schemas/meeting_section_collection_model.yml"
     MeetingWriteModel:
       "$ref": "./components/schemas/meeting_write_model.yml"
-    MarkdownModel:
-      "$ref": "./components/schemas/markdown_model.yml"
     MembershipCollectionModel:
       "$ref": "./components/schemas/membership_collection_model.yml"
     MembershipFormModel:
@@ -976,8 +970,6 @@ components:
       "$ref": "./components/schemas/placeholder_user_create_model.yml"
     PlaceholderUserModel:
       "$ref": "./components/schemas/placeholder_user_model.yml"
-    Plain_TextModel:
-      "$ref": "./components/schemas/plain_text_model.yml"
     PortfolioCollectionModel:
       "$ref": "./components/schemas/portfolio_collection_model.yml"
     PortfolioModel:
@@ -1226,7 +1218,6 @@ tags:
   - "$ref": "./tags/query_sort_bys.yml"
   - "$ref": "./tags/query_filter_instance_schema.yml"
   - "$ref": "./tags/relations.yml"
-  - "$ref": "./tags/previewing.yml"
   - "$ref": "./tags/revisions.yml"
   - "$ref": "./tags/roles.yml"
   - "$ref": "./tags/root.yml"

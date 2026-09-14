@@ -56,7 +56,6 @@ class RegistrationForm < ApplicationForm
 
     f.submit(name: :submit, label: I18n.t(:button_create), scheme: :primary)
 
-    authentication_providers(f) unless model.uses_external_authentication?
     registration_footer(f)
   end
 
@@ -135,12 +134,6 @@ class RegistrationForm < ApplicationForm
                             helpers.content_tag(:span, message)
                           ])
       end
-    end
-  end
-
-  def authentication_providers(form)
-    form.html_content do
-      render("account/auth_providers", omniauth_title: I18n.t("account.signup_with_external_account"), wide: true)
     end
   end
 

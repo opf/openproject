@@ -78,8 +78,7 @@ module Pages
           unless page.has_css?(".advanced-filters--filter[data-filter-name='status']")
             select "Status", from: "add_filter_select"
           end
-          element = -> { page.find(".advanced-filters--filter[data-filter-name='status'] [data-filter-autocomplete='true']") }
-          set_autocomplete_filter([value], element:)
+          set_autocomplete_filter([value], filter_name: "status")
 
           wait_for_network_idle
         end

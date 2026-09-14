@@ -56,18 +56,32 @@ RSpec.describe OmniAuth::FlexibleStrategy do
   end
 
   describe "request call" do
+    around do |example|
+      phase = OmniAuth.config.request_validation_phase
+      OmniAuth.config.request_validation_phase = nil
+      example.run
+    ensure
+      OmniAuth.config.request_validation_phase = phase
+    end
+
     it "matches the registered providers" do
       [provider_a, provider_b].each do |pro|
-        code, env = middleware.call env_for("http://www.example.com/auth/#{pro[:name]}")
+        _code, env = middleware.call env_for("http://www.example.com/auth/#{pro[:name]}", method: "POST")
         strategy = env["omniauth.strategy"]
 
-        # check that the correct provider has been initialised
         expect(strategy.options.identifier).to eq pro[:identifier]
       end
     end
 
+    it "does not start the request phase for GET" do
+      code, env = middleware.call env_for("http://www.example.com/auth/provider_a", method: "GET")
+
+      expect(code).to eq 200
+      expect(env["rack.session"]).not_to include("omniauth.params")
+    end
+
     it "does not match other paths" do
-      code, env = middleware.call env_for("http://www.example.com/auth/other_provider")
+      _code, env = middleware.call env_for("http://www.example.com/auth/other_provider", method: "POST")
 
       expect(env).not_to include "omniauth.strategy" # no hit
     end

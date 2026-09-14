@@ -401,10 +401,8 @@ class AccountController < ApplicationController
 
   def direct_login(user)
     if !flash_message_pending?
-      ps = {}
-      ps[:origin] = params[:back_url] if params[:back_url]
-
-      redirect_to direct_login_provider_url(ps)
+      @direct_login_origin = params[:back_url]
+      render :omniauth_direct_login
     elsif Setting.login_required?
       # I'm not sure why it is considered an error if we don't have the anonymous user here.
       # Before the line read `user.active? || flash[:error]` but since a recent
@@ -452,7 +450,7 @@ class AccountController < ApplicationController
         render status: :unprocessable_entity
       else
         # incorrect password
-        flash_and_log_invalid_credentials
+        flash_and_log_invalid_credentials(sso_hint: true)
         render status: :unprocessable_entity
       end
     elsif user.new_record?
@@ -465,7 +463,7 @@ class AccountController < ApplicationController
 
   def invited_account_not_activated(_user)
     flash_error_message(log_reason: "invited, NOT ACTIVATED", flash_now: false) do
-      "account.error_inactive_activation_by_mail"
+      I18n.t("account.error_inactive_activation_by_mail")
     end
   end
 

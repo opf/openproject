@@ -62,8 +62,8 @@ RSpec.describe WorkPackageTypes::VariantsListComponent, type: :component do
     it "links it into the project owning it" do
       expect(rendered_component)
         .to have_link("Internal",
-                      href: edit_type_details_path(in_project_id: owning_project,
-                                                   type_id: type.id, variant_id: owned.id))
+                      href: type_settings_path(in_project_id: owning_project,
+                                               type_id: type.id, variant_id: owned.id))
     end
   end
 
@@ -103,8 +103,8 @@ RSpec.describe WorkPackageTypes::VariantsListComponent, type: :component do
     let!(:alfa) { create(:type_variant, type:, variant_name: "Alfa") }
 
     it "links every named variant to its settings page" do
-      expect(rendered_component).to have_link("Alfa", href: edit_type_details_path(type_id: type.id, variant_id: alfa.id))
-      expect(rendered_component).to have_link("Zeta", href: edit_type_details_path(type_id: type.id, variant_id: zeta.id))
+      expect(rendered_component).to have_link("Alfa", href: type_settings_path(type_id: type.id, variant_id: alfa.id))
+      expect(rendered_component).to have_link("Zeta", href: type_settings_path(type_id: type.id, variant_id: zeta.id))
     end
 
     it "lists them in display order" do

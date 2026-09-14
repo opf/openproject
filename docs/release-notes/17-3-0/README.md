@@ -95,7 +95,7 @@ When editing workflows, only relevant statuses are displayed, and role selection
 
 ![Example workflow for work package type task](17-3-workflows.png)
 
-[Read more about workflow management in our system admin guide](../../system-admin-guide/manage-work-packages/work-package-workflows/).
+[Read more about workflow management in our system admin guide](../../system-admin-guide/manage-work-packages/work-package-types/workflows).
 
 ### Improved handling of project identifiers
 

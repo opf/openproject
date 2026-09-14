@@ -157,7 +157,7 @@ RSpec.describe Projects::CreateArtifactWorkPackageContract, :check_errors_i18n d
     end
   end
 
-  context "when the project resolves the type to a variant", with_flag: { type_variants: true } do
+  context "when the project resolves the type to a variant" do
     shared_let(:variant) { create(:type_variant, type:, variant_name: "Project initiation variant") }
     shared_let(:variant_only_status) { create(:status, name: "Variant only") }
 

@@ -267,6 +267,11 @@ module Components
         open_menu("type-form-configuration-query-actions-#{group_key}")
       end
 
+      def close_menu(menu_id)
+        page.find("body").send_keys(:escape)
+        expect(page).to have_no_css("##{menu_id}")
+      end
+
       def invoke_group_action(name, label)
         click_menu_action(-> { open_group_menu(name) }, label)
         wait_for_turbo

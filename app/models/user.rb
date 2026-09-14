@@ -130,6 +130,7 @@ class User < Principal
   has_many :emoji_reactions, dependent: :destroy
   has_many :reminders, foreign_key: "creator_id", dependent: :destroy, inverse_of: :creator
   has_many :remote_identities, dependent: :destroy
+  has_many :ai_text_transform_runs, class_name: "AI::TextTransformRun", dependent: :delete_all
 
   # Resource allocations assigned to this user. Normal user-deletion goes
   # through Principals::DeleteJob, which rewrites principal_id to a

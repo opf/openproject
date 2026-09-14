@@ -64,7 +64,7 @@
   width: auto
   text-align: center
 
-  a.auth-provider
+  .auth-provider
     float: none
     display: inline-block
 
@@ -114,7 +114,11 @@
     @include prevent-float-collapse
     margin-top: 1em
 
-  a.auth-provider:hover
+    form.button_to
+      display: inline-block
+      margin: 0
+
+  .auth-provider:hover
     text-decoration: none
 
 #nav-login-content .login-auth-providers

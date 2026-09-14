@@ -40,7 +40,6 @@ module OpenIDConnectSpecHelpers
   end
 
   def click_on_signin(pro_name = "heroku")
-    # Emulate click on sign-in for that particular provider
-    get "/auth/#{pro_name}"
+    post "/auth/#{pro_name}"
   end
 end
