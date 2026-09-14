@@ -46,7 +46,7 @@ module Queries::WorkPackages::Filter::CustomFieldContext
       if context&.project&.persisted?
         WorkPackageCustomField
           .filter
-          .on_visible_type_and_project(projects: Project.where(id: context.project.id))
+          .on_visible_type_and_project(projects: context.project)
       elsif context&.project
         WorkPackageCustomField.filter
       else
