@@ -63,16 +63,12 @@ module Backlogs
           )
         end
 
-        def work_packages
-          @work_packages ||= WorkPackage.where(sprint:, project:).visible
-        end
-
         def resolved_work_packages_count
-          @resolved_work_packages_count ||= work_packages.where(status_id: project.done_status_ids).count
+          @resolved_work_packages_count ||= breakdown.completed.work_package_count
         end
 
         def total_work_packages_count
-          @total_work_packages_count ||= work_packages.count
+          @total_work_packages_count ||= resolved_work_packages_count + breakdown.unfinished.work_package_count
         end
 
         def breakdown
