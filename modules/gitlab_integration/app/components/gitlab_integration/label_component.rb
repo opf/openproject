@@ -29,30 +29,30 @@
 #++
 
 module GitlabIntegration
-  class MergeRequestComponent < ApplicationComponent
+  class LabelComponent < ApplicationComponent
     include ApplicationHelper
     include OpPrimer::ComponentHelpers
 
-    alias_method :merge_request, :model
+    VALID_COLOR = /#[a-fA-F0-9]{3,6}/
+
+    attr_reader :title, :color
+
+    def initialize(title:, color:, **)
+      super(nil, **)
+
+      @title = title
+      @color = sanitize_color(color)
+    end
 
     private
 
-    def state_scheme
-      case merge_request.state.to_sym
-      when :opened
-        :success
-      when :closed
-        :danger
-      when :merged
-        :done
-      else
-        # TODO: complete list
-        raise ArgumentError, "Unsupported merge request state #{state}"
-      end
-    end
+    def sanitize_color(color)
+      # TODO: maybe indirectly assign colors via hl_background_class helpers and updating CSS
+      # in app/views/highlighting/styles.css.erb (requires us to enumerate all colors in use by GitLab)
+      # This would ensure contrasts of those colors always work (even #ffffff in light mode and #000000 in darkmode)
+      return color if color.match?(VALID_COLOR)
 
-    def state_label
-      t(".states.#{merge_request.state}")
+      "#000"
     end
   end
 end
