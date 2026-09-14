@@ -30,19 +30,18 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   flex_layout do |container|
     container.with_row(mb: 1) do
-      # TODO: check which columns indicates real merge request number
-      flex_layout do |row|
+      flex_layout(align_items: :center) do |row|
         row.with_column(mr: 2) do
           render(Primer::Beta::Text.new(color: :muted, font_weight: :bold)) { issue.repository }
         end
 
         row.with_column(mr: 2) do
+          # TODO: check which columns indicates real issue number
           render(Primer::Beta::Text.new(color: :muted)) { "##{issue.gitlab_id}" }
         end
 
         row.with_column do
-          # TODO: icon inside label
-          render(Primer::Beta::Label.new(scheme: state_scheme)) do
+          render(GitlabIntegration::StatusComponent.new(scheme: state_scheme, icon: state_icon)) do
             render(Primer::Beta::Text.new) { state_label }
           end
         end
