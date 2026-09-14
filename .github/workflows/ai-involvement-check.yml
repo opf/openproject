@@ -5,7 +5,7 @@ name: Check AI involvement section
 # ever checked out or executed: the checkout below takes the base branch, and
 # the description is read from the event payload via an environment variable.
 on:
-  pull_request_target:
+  pull_request_target: # zizmor: ignore[dangerous-triggers] needed for a writable token on fork PRs
     types:
       - opened
       - reopened
