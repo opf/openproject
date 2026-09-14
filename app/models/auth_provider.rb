@@ -74,7 +74,7 @@ class AuthProvider < ApplicationRecord
     end
   end
 
-  def origin_from_redirect_url(url)
+  def origin_from_url(url)
     return if url.blank?
 
     uri = URI.parse(url.to_s)

@@ -54,7 +54,7 @@ module Saml
     end
 
     def csp_form_action_origin
-      origin_from_redirect_url(idp_sso_service_url)
+      origin_from_url(idp_sso_service_url)
     end
 
     def seeded_from_env?
