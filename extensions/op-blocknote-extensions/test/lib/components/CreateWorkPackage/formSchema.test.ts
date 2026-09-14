@@ -257,6 +257,50 @@ describe('formSchema', () => {
     });
   });
 
+  describe('a generated attribute', () => {
+    const generated:WorkPackageSchema = {
+      ...schema,
+      // What the API answers for a type whose subject follows a pattern: the
+      // attribute is defaulted, not writable, and says so in its placeholder.
+      subject: property({
+        name: 'Subject',
+        maxLength: 255,
+        hasDefault: true,
+        writable: false,
+        placeholder: 'Automatically generated through type Phase',
+      }),
+    };
+
+    it('reads what the type fills in as a field of its own kind', () => {
+      expect(fieldFor(generated, 'subject')).toEqual({
+        key: 'subject',
+        label: 'Subject',
+        kind: 'generated',
+        required: false,
+        isLink: false,
+        maxLength: 255,
+        placeholder: 'Automatically generated through type Phase',
+      });
+    });
+
+    it('keeps it in the form instead of dropping it with the defaulted attributes', () => {
+      expect(fixedFields(generated, { project: true, type: true }).map((field) => field.key))
+        .toEqual(['subject', 'project', 'assignee', 'type']);
+    });
+
+    it('never asks the user to fill it in', () => {
+      expect(missingProblems(fixedFields(generated, { project: true, type: true }), {}))
+        .toEqual({ project: 'missing', type: 'missing' });
+    });
+
+    it('submits nothing for it, so the API goes on generating it', () => {
+      const fields = fixedFields(generated, { project: true, type: true });
+      const payload = buildCreatePayload({ subject: null }, fields, { subject: 'Typed before the type was picked' });
+
+      expect(payload.subject).toBeNull();
+    });
+  });
+
   describe('extraRequiredFields', () => {
     it('lists the required attributes the modal does not render itself', () => {
       expect(extraRequiredFields(schema).map((field) => field.key)).toEqual([

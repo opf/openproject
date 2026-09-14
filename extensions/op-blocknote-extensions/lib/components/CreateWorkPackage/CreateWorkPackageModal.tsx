@@ -7,7 +7,7 @@ import type { WorkPackage } from '../../openProjectTypes';
 import { useColors } from '../../services/colors';
 import { linkToNewWorkPackage } from '../../services/openProjectApi';
 import { projectIdFromHref } from '../../utils/id';
-import { dependencyOf } from './formSchema';
+import { dependencyOf, writable } from './formSchema';
 import type { FormField } from './formSchema';
 import { FormFieldControl } from './FormFieldControl';
 import { useCreateWorkPackageForm } from './useCreateWorkPackageForm';
@@ -170,7 +170,7 @@ export const CreateWorkPackageModal = ({ anchorEl, initialSubject, onCreated, on
     return dependsOn === 'project' ? `${key}:${projectHref}` : `${key}:${projectHref}:${typeHref}`;
   };
 
-  const hintFor = (field:FormField) => (field.key === 'subject' && subjectClipped
+  const hintFor = (field:FormField) => (field.key === 'subject' && subjectClipped && writable(field)
     ? t('createWorkPackage.subjectClipped', { limit: field.maxLength })
     : undefined);
 
@@ -180,7 +180,7 @@ export const CreateWorkPackageModal = ({ anchorEl, initialSubject, onCreated, on
       field={field}
       value={values[field.key]}
       valueLabel={valueLabels[field.key]}
-      autoFocus={field.key === 'subject'}
+      autoFocus={field.key === 'subject' && writable(field)}
       error={fieldErrors[field.key]}
       problem={valueProblems[field.key]}
       hint={hintFor(field)}

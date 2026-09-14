@@ -15,6 +15,7 @@ export type FieldKind =
   | 'select'
   | 'typeahead'
   | 'multiSelect'
+  | 'generated'
   | 'unsupported';
 
 export interface AllowedValue {
@@ -187,6 +188,12 @@ export function allowedValuesHrefOf(property:SchemaProperty):string | undefined 
   return links.href ?? undefined;
 }
 
+// The API fills the attribute in from the type itself (using a configurable pattern) and
+// says so in the placeholder, which is all the form has left to show.
+function isGenerated(property:SchemaProperty):boolean {
+  return property.hasDefault && Boolean(property.placeholder);
+}
+
 export function buildField(key:string, property:SchemaProperty):FormField {
   const multiple = property.type.startsWith('[]');
   const field:FormField = {
@@ -198,6 +205,9 @@ export function buildField(key:string, property:SchemaProperty):FormField {
     ...(property.placeholder ? { placeholder: property.placeholder } : {}),
     ...(property.maxLength ? { maxLength: property.maxLength } : {}),
   };
+
+  // Nothing to fill in and nothing to ask for: the note stands in for the control.
+  if (isGenerated(property)) return { ...field, kind: 'generated', required: false };
 
   // An href belongs under `_links` even when the schema leaves the location out.
   const allowedValues = allowedValuesOf(property);
@@ -227,9 +237,15 @@ export function fieldFor(schema:WorkPackageSchema | undefined, key:string):FormF
 }
 
 // Left out of the form: the default the API put into the payload is submitted as
-// it is, required attribute or not.
+// it is, required attribute or not. A generated one stays as a note, which is
+// also the one thing worth showing of an attribute that may not be written.
 function isOffered(property:SchemaProperty):boolean {
-  return property.writable && !property.hasDefault;
+  return isGenerated(property) || (property.writable && !property.hasDefault);
+}
+
+/** Whether the user fills the field in, so its value is held on to and submitted. */
+export function writable(field:FormField):boolean {
+  return field.kind !== 'unsupported' && field.kind !== 'generated';
 }
 
 export function fixedFields(
@@ -390,7 +406,7 @@ function hangsOnType(key:string):boolean {
 }
 
 function heldValue(field:FormField | undefined, value:FieldValue):FieldValue | undefined {
-  if (!field || field.kind === 'unsupported') return undefined;
+  if (!field || !writable(field)) return undefined;
   if (field.kind === 'checkbox') return typeof value === 'boolean' ? value : undefined;
 
   if (field.kind === 'multiSelect') {
@@ -455,7 +471,7 @@ export function buildCreatePayload(
   const links:Record<string, HalLink | HalLink[]> = { ...basePayload._links };
 
   for (const field of fields) {
-    if (field.kind === 'unsupported') continue;
+    if (!writable(field)) continue;
 
     const value = values[field.key];
     if (field.kind === 'multiSelect') {

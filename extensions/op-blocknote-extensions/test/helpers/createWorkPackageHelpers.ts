@@ -76,11 +76,11 @@ export async function fillRequiredFields(subject:string) {
   await fillRequiredFieldsBesidesSubject();
 }
 
-export async function fillRequiredFieldsBesidesSubject() {
+export async function fillRequiredFieldsBesidesSubject(type = 'Task') {
   await pickProject();
 
   await expect.element(page.getByLabelText('Type *')).toBeVisible();
-  await selectOptionNamed('Type *', 'Task');
+  await selectOptionNamed('Type *', type);
 
   await expect.element(page.getByLabelText('Supervisor *')).toBeVisible();
   await userEvent.click(page.getByLabelText('Supervisor *'));
