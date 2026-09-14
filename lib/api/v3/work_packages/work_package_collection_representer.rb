@@ -333,7 +333,7 @@ module API
           # The EagerLoadingWrapper uses the id to load the work packages with all the includes necessary.
           # It also reapplies the order.
           ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper
-            .wrap(models.pluck(:id), current_user, timestamps:, query:)
+            .wrap(paged_ids(models), current_user, timestamps:, query:)
         end
       end
     end

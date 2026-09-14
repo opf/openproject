@@ -821,4 +821,81 @@ RSpec.describe Journable::WithHistoricAttributes,
       end
     end
   end
+
+  describe "loader optimisations" do
+    let(:work_packages) { [work_package1, work_package2] }
+
+    describe "memoisation" do
+      let(:query) { build_query }
+      let(:search_term) { "original" }
+
+      # API::V3::WorkPackages::EagerLoading::HistoricAttributes#set_timestamp_attributes reads
+      # both of these 1 + T times per work package while rendering a collection.
+      it "asks the loader once per timestamp, however often the matches are read" do
+        wrapped = subject.first
+        allow(wrapped.loader).to receive(:work_package_ids_of_query_at_timestamp).and_call_original
+
+        3.times { wrapped.matches_query_filters_at_timestamps }
+
+        expect(wrapped.loader)
+          .to have_received(:work_package_ids_of_query_at_timestamp)
+          .exactly(timestamps.size).times
+      end
+
+      it "hands back the very same result on every read" do
+        wrapped = subject.first
+
+        matches = wrapped.matches_query_filters_at_timestamps
+        exists = wrapped.exists_at_timestamps
+
+        expect(wrapped.matches_query_filters_at_timestamps).to be(matches)
+        expect(wrapped.exists_at_timestamps).to be(exists)
+      end
+    end
+
+    # The invisible branch is a full snapshot reconstruction that matches nothing whenever every
+    # journable is currently visible, which is the common case.
+    describe "the currently invisible branch" do
+      it "is not run when every journable is currently visible" do
+        wrapped = subject
+        loader = wrapped.first.loader
+        allow(loader).to receive(:currently_invisible_journalized_at_timestamp).and_call_original
+
+        wrapped.each(&:exists_at_timestamps)
+
+        expect(loader).not_to have_received(:currently_invisible_journalized_at_timestamp)
+      end
+
+      context "when a journable is currently invisible" do
+        shared_let(:other_project) { create(:project) }
+        shared_let(:invisible_work_package) do
+          create(:work_package,
+                 subject: "The current invisible work package",
+                 project: other_project,
+                 journals: { Time.zone.parse("2021-12-31") => { subject: "The original invisible work package" } })
+        end
+
+        let(:work_packages) { [work_package1, invisible_work_package] }
+
+        it "is run" do
+          wrapped = subject
+          loader = wrapped.first.loader
+          allow(loader).to receive(:currently_invisible_journalized_at_timestamp).and_call_original
+
+          wrapped.each(&:exists_at_timestamps)
+
+          expect(loader).to have_received(:currently_invisible_journalized_at_timestamp).at_least(:once)
+        end
+
+        it "still wraps it, with no timestamp it is visible at" do
+          by_id = subject.index_by(&:id)
+
+          expect(by_id.keys).to contain_exactly(work_package1.id, invisible_work_package.id)
+          expect(by_id[invisible_work_package.id].exists_at_timestamps).to be_empty
+          expect(by_id[work_package1.id].exists_at_timestamps)
+            .to contain_exactly(Timestamp.parse("2022-01-01T00:00:00Z"), Timestamp.parse("PT0S"))
+        end
+      end
+    end
+  end
 end

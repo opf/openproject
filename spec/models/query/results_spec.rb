@@ -592,4 +592,149 @@ RSpec.describe Query::Results do
       end
     end
   end
+
+  # A query carrying both a historic and the current timestamp is historic?, so #work_packages
+  # takes the historic branch and reconstructs every timestamp, the current one included, from
+  # the journals. `filter_merges` is applied only by the "today" branch and so reaches neither.
+  #
+  # with_ee is required: without it Timestamp.allowed drops a timestamp this old, the query turns
+  # invalid and its statement collapses to 1=0, which would make every expectation vacuous.
+  describe "#work_packages with a mix of historic and current timestamps",
+           with_ee: %i[baseline_comparison] do
+    let(:historic_time) { "2022-08-01".to_datetime }
+    let(:recent_time) { 1.hour.ago }
+    let(:baseline_project) { create(:project) }
+    let(:baseline_user) do
+      create(:user, member_with_permissions: { baseline_project => %i[view_work_packages] })
+    end
+    let!(:baseline_work_package) do
+      create(:work_package,
+             subject: "Current subject",
+             project: baseline_project,
+             journals: {
+               historic_time => { subject: "Historic subject" },
+               recent_time => { subject: "Current subject" }
+             })
+    end
+    let(:search_term) { "Current" }
+    let(:query) do
+      login_as(baseline_user)
+
+      build(:query, user: baseline_user, project: nil).tap do |query|
+        query.filters.clear
+        query.add_filter "subject", "~", search_term
+        query.timestamps = [historic_time, Timestamp.now]
+      end
+    end
+
+    subject(:work_packages) { query_results.work_packages }
+
+    it "returns work packages matching the current state" do
+      expect(work_packages).to contain_exactly(baseline_work_package)
+    end
+
+    context "when only the historic state matches" do
+      let(:search_term) { "Historic" }
+
+      it "returns work packages matching the historic state" do
+        expect(work_packages).to contain_exactly(baseline_work_package)
+      end
+    end
+
+    context "when nothing matches at either timestamp" do
+      let(:search_term) { "Neither" }
+
+      it "returns nothing" do
+        expect(work_packages).to be_empty
+      end
+    end
+
+    # `shared_with_user` contributes nothing but "1=1" to Query#statement; it applies itself in
+    # #apply_to, which only reaches the query through `filter_merges`. The historic branch never
+    # merges those, so the filter narrows nothing and every work package visible at either
+    # timestamp keeps matching.
+    context "with a filter that only applies itself through filter_merges" do
+      let(:baseline_user) do
+        create(:user,
+               member_with_permissions: {
+                 baseline_project => %i[view_work_packages view_shared_work_packages]
+               })
+      end
+      # A user outside every project the baseline user can see is not in
+      # PrincipalBaseFilter#allowed_values, which makes the filter and with it the whole query
+      # invalid. Query#statement then collapses to 1=0 and both branches go empty for a reason
+      # that has nothing to do with the behaviour under test.
+      let(:sharer) do
+        create(:user, member_with_permissions: { baseline_project => %i[view_work_packages] })
+      end
+      let(:query) do
+        login_as(baseline_user)
+
+        build(:query, user: baseline_user, project: nil).tap do |query|
+          query.filters.clear
+          query.add_filter "shared_with_user", "=", [sharer.id.to_s]
+          query.timestamps = [historic_time, Timestamp.now]
+        end
+      end
+
+      it "is a valid query whose filter contributes no SQL of its own" do
+        expect(query).to be_valid
+        expect(query.filters.map(&:name)).to include(:shared_with_user)
+        expect(query.filters.find { |f| f.name == :shared_with_user }.where).to eq("1=1")
+      end
+
+      it "does not narrow the historic branch" do
+        expect(work_packages).to contain_exactly(baseline_work_package)
+      end
+    end
+  end
+
+  describe "#work_package_ids_at_timestamp", with_ee: %i[baseline_comparison] do
+    let(:historic_time) { "2022-08-01".to_datetime }
+    let(:ids_project) { create(:project) }
+    let(:ids_user) do
+      create(:user, member_with_permissions: { ids_project => %i[view_work_packages] })
+    end
+    let!(:matching_work_package) do
+      create(:work_package,
+             subject: "Now",
+             project: ids_project,
+             journals: { historic_time => { subject: "Then" } })
+    end
+    let!(:other_work_package) do
+      create(:work_package,
+             subject: "Other",
+             project: ids_project,
+             journals: { historic_time => { subject: "Other" } })
+    end
+    let(:query) do
+      login_as(ids_user)
+
+      build(:query, user: ids_user, project: nil).tap do |query|
+        query.filters.clear
+        query.add_filter "subject", "~", ["Then"]
+        query.timestamps = [historic_time]
+      end
+    end
+
+    it "returns the ids matching the filters at that timestamp, restricted to the given ids" do
+      expect(query_results.work_package_ids_at_timestamp(Timestamp.new(historic_time),
+                                                         ids: [matching_work_package.id, other_work_package.id]))
+        .to eq([matching_work_package.id])
+    end
+
+    it "returns nothing when the restriction excludes the match" do
+      expect(query_results.work_package_ids_at_timestamp(Timestamp.new(historic_time),
+                                                         ids: [other_work_package.id]))
+        .to be_empty
+    end
+
+    it "builds an inlineable journals CTE" do
+      relation = query_results.send(:visible_work_packages_at,
+                                    Timestamp.new(historic_time),
+                                    ids: [matching_work_package.id])
+
+      expect(relation.to_sql).to include('WITH "work_packages" AS NOT MATERIALIZED (')
+    end
+  end
 end
