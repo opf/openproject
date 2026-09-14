@@ -119,6 +119,19 @@ RSpec.describe AI::TextTransforms::Availability,
       expect(availability.action(action, context)).to be_available
     end
 
+    it "reports a missing context before a missing template" do
+      action.update!(usage_scope: "all_work_package_types", injects_type_template: true)
+
+      expect(availability.action(action, no_context).reason).to eq(:context_required)
+    end
+
+    it "reports a type mismatch before a missing template" do
+      action = create(:ai_text_transform_action,
+                      usage_scope: "specific_work_package_types", injects_type_template: true, types: [other_type])
+
+      expect(availability.action(action, context).reason).to eq(:type_mismatch)
+    end
+
     it "reports the assistant before the action" do
       availability = described_class.new(gateway: AI::TextTransforms::FakeGateway.new(ready: false))
       action.update!(active: false)

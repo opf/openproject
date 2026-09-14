@@ -99,9 +99,12 @@ module AI
 
       def mismatch_reason(action, context)
         return :action_inactive unless action.active?
-        return :template_missing if action.injects_type_template? && context.template.blank?
 
-        scope_reason(action, context)
+        scope_reason(action, context) || template_reason(action, context)
+      end
+
+      def template_reason(action, context)
+        :template_missing if action.injects_type_template? && context.template.blank?
       end
 
       def scope_reason(action, context)
