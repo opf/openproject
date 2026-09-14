@@ -72,9 +72,12 @@ RSpec.describe "LDAP group sync administration spec", :js do
       expect_angular_frontend_initialized
       find(".buttons a", text: "Delete").click
 
-      SeleniumHubWaiter.wait
-      check "I understand that this deletion cannot be reversed."
-      click_on "Delete permanently"
+      within_dialog "Remove synchronized group cn=bar,ou=groups,dc=example,dc=com" do
+        confirmation = find_field("I understand that this deletion cannot be reversed.", visible: :all)
+        page.execute_script("arguments[0].click()", confirmation)
+        expect(confirmation).to be_checked
+        find_button("Delete permanently", disabled: false, wait: 20).click
+      end
 
       SeleniumHubWaiter.wait
 

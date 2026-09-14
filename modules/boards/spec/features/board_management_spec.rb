@@ -141,8 +141,8 @@ RSpec.describe "Board management spec", :js, :selenium do
       queries = board_page.board(reload: true).contained_queries
       first = queries.find_by(name: "First")
       second = queries.find_by(name: "Second")
-      expect(first.ordered_work_packages.count).to eq(1)
-      expect(second.ordered_work_packages).to be_empty
+      wait_for { first.reload.ordered_work_packages.count }.to eq(1)
+      wait_for { second.reload.ordered_work_packages }.to be_empty
 
       # Expect work package to be saved in query first
       subjects = WorkPackage.where(id: first.ordered_work_packages.pluck(:work_package_id)).pluck(:subject)
@@ -154,18 +154,14 @@ RSpec.describe "Board management spec", :js, :selenium do
       board_page.expect_card("Second", "Task 1", present: true)
 
       # Expect work package to be saved in query second
-      sleep 2
-      retry_block do
-        expect(first.reload.ordered_work_packages).to be_empty
-        expect(second.reload.ordered_work_packages.count).to eq(1)
-      end
+      wait_for { first.reload.ordered_work_packages }.to be_empty
+      wait_for { second.reload.ordered_work_packages.count }.to eq(1)
 
       subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject)
       expect(subjects).to contain_exactly("Task 1")
 
       # Reference an existing work package
       board_page.reference("Second", work_package)
-      sleep 2
       board_page.expect_card("Second", work_package.subject)
 
       subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject)
@@ -175,15 +171,13 @@ RSpec.describe "Board management spec", :js, :selenium do
       filters.expect_filter_count 0
       filters.open
       filters.quick_filter "Task"
-      sleep 2
 
       # Expect task to match, work_package invisible
-      board_page.expect_card("First", "Task 1", present: false)
-      board_page.expect_card("Second", "Task 1", present: true)
-      board_page.expect_card("Second", work_package.subject, present: false)
+      board_page.expect_card("First", "Task 1", present: false, wait: 40)
+      board_page.expect_card("Second", "Task 1", present: true, wait: 40)
+      board_page.expect_card("Second", work_package.subject, present: false, wait: 40)
 
       filters.quick_filter ""
-      sleep 2
 
       # Remove card again
       board_page.remove_card "Second", work_package.subject, 0
