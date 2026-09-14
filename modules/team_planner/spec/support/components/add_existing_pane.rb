@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -37,7 +39,8 @@ module Components
     end
 
     def open
-      page.find('[data-test-selector="op-team-planner--add-existing-toggle"]').click
+      toggle = page.find('[data-test-selector="op-team-planner--add-existing-toggle"]')
+      page.execute_script("arguments[0].click()", toggle)
       expect_open
     end
 

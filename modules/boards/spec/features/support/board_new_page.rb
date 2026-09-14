@@ -14,10 +14,15 @@ module Pages
       visit work_package_boards_path unless page.current_path == work_package_boards_path
 
       page.find_test_selector("add-board-button").click
+      expect_loaded
+    end
+
+    def expect_loaded
+      page.find_field(I18n.t(:label_title), disabled: false, wait: 30)
     end
 
     def set_title(title)
-      fill_in I18n.t(:label_title), with: title
+      page.find_field(I18n.t(:label_title), disabled: false, wait: 30).set(title)
     end
 
     def expect_project_dropdown

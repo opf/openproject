@@ -72,7 +72,7 @@ module Components
       end
 
       def expect_closed
-        expect(page).to have_selector(filters_selector, visible: :hidden)
+        expect(page).to have_no_selector("#{filters_selector} #query_form_content", visible: :all)
       end
 
       def expect_quick_filter(text)
@@ -81,10 +81,38 @@ module Components
 
       def quick_filter(text)
         input = page.find_by_id("filter-by-text-input")
+        previous_value = input.value
         input.hover
         input.click
         SeleniumHubWaiter.wait
         input.set text
+        expect(page).to have_field("filter-by-text-input", with: text)
+
+        return if previous_value == text
+
+        page.document.synchronize(20) do
+          filter_value = page.evaluate_script(<<~JS)
+            (() => {
+              const queryProps = new URL(window.location.href).searchParams.get('query_props');
+              if (!queryProps) return null;
+
+              const parsed = JSON.parse(queryProps);
+              if (Array.isArray(parsed)) {
+                return parsed.find((filter) => filter.search)?.search?.values?.[0] ?? null;
+              }
+
+              const search = parsed.f?.find((filter) => filter.n === 'search');
+              return search?.v?.[0] ?? null;
+            })()
+          JS
+
+          unless filter_value == text.presence
+            raise Capybara::ExpectationNotMet,
+                  "Expected quick filter URL state #{text.presence.inspect}, got #{filter_value.inspect}"
+          end
+        end
+
+        wait_for_network_idle(duration: 0.3) if using_cuprite?
       end
 
       def open_available_filter_list
@@ -127,19 +155,17 @@ module Components
       end
 
       def add_filter(name)
-        select_autocomplete page.find(".advanced-filters--add-filter-value"),
+        select_autocomplete -> { page.find(".advanced-filters--add-filter-value") },
                             query: name,
                             results_selector: ".ng-dropdown-panel-items"
       end
 
       def add_filter_by(name, operator, value, selector = nil)
+        id = selector || name.downcase
         add_filter(name)
+        expect(page).to have_css("#filter_#{id}")
 
         set_filter(name, operator, value, selector)
-
-        # Wait for the debounce of the filter input to apply filters
-        # See frontend/src/app/features/work-packages/components/filters/query-filters/query-filters.component.ts:69
-        sleep 0.5
       end
 
       def set_operator(name, operator, selector = nil)
@@ -156,6 +182,9 @@ module Components
         set_value(id, value, operator) unless value.nil?
 
         close_autocompleter(id)
+
+        page.has_css?(".loading-indicator--background", wait: 2)
+        expect(page).to have_no_css(".loading-indicator--background", wait: 10)
       end
 
       def expect_missing_filter(name)
@@ -223,12 +252,17 @@ module Components
 
       def expect_filter_order(name, values, selector = nil)
         id = selector || name.downcase
+        value_selector = "#values-#{id} .ng-value-label"
 
-        expect(page.all("#values-#{id} .ng-value-label").map(&:text)).to eq(values)
+        expect(page).to have_css(value_selector, count: values.size)
+        expect(page.all(value_selector).map(&:text)).to eq(values)
       end
 
       def remove_filter(field)
         find("#filter_#{field} .advanced-filters--remove-filter-icon").click
+        expect(page).to have_no_css("#filter_#{field}")
+        page.has_css?(".loading-indicator--background", wait: 2)
+        expect(page).to have_no_css(".loading-indicator--background", wait: 10)
       end
 
       def clear_filter_value(field)
@@ -248,10 +282,13 @@ module Components
       protected
 
       def with_filter_input(id)
-        filter_element = page.find("#filter_#{id}", match: :first)
-        return if filter_element.has_no_selector?(".advanced-filters--filter-value .ng-input input", wait: false)
+        input_selector = "#filter_#{id} .advanced-filters--filter-value .ng-input input"
 
-        yield filter_element.find(".ng-input input")
+        page.document.synchronize do
+          return unless page.has_selector?(input_selector, wait: 0)
+
+          yield page.find(input_selector, wait: 0)
+        end
       end
 
       def filter_button
@@ -267,24 +304,21 @@ module Components
       end
 
       def set_value(id, value, operator)
-        retry_block do
-          # wait for filter to be present
-          filter_element = page.find("#filter_#{id}")
-          if filter_element.has_selector?("[data-test-selector='op-basic-range-date-picker']", wait: false)
-            insert_date_range(filter_element, value)
-          elsif operator == "between"
-            insert_two_single_dates(id, value)
-          elsif filter_element.has_selector?(".ng-select-container", wait: false)
-            insert_autocomplete_item(id, value)
-          else
-            insert_plain_value(id, value)
-          end
+        filter_element = page.find("#filter_#{id}")
+        if filter_element.has_selector?("[data-test-selector='op-basic-range-date-picker']", wait: false)
+          insert_date_range(filter_element, value)
+        elsif operator == "between"
+          insert_two_single_dates(id, value)
+        elsif filter_element.has_selector?(".ng-select-container", wait: false)
+          insert_autocomplete_item(id, value)
+        else
+          insert_plain_value(id, value)
         end
       end
 
       def insert_autocomplete_item(id, value)
         Array(value).each do |val|
-          select_autocomplete page.find("#filter_#{id} ng-select"),
+          select_autocomplete -> { page.find("#filter_#{id} ng-select") },
                               query: val,
                               results_selector: ".ng-dropdown-panel-items"
         end

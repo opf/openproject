@@ -46,7 +46,7 @@ module Pages
     end
 
     def expect_closed
-      expect(page).to have_no_selector(@selector)
+      expect(page).to have_no_selector(@selector, wait: 20)
     end
 
     def expect_open

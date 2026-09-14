@@ -875,6 +875,41 @@ module Pages
       retry
     end
 
+    def move_work_package_to_sprint_via_browser_request(work_package, sprint)
+      move_url = move_project_backlogs_work_package_path(project, work_package, optimistic: true)
+      response = page.evaluate_async_script(<<~JS, move_url, sprint.id.to_s)
+        const [url, sprintId] = arguments;
+        const done = arguments[arguments.length - 1];
+        const body = new FormData();
+        body.append('list_type', 'sprint');
+        body.append('list_id', sprintId);
+        body.append('prev_id', '');
+
+        fetch(url, {
+          method: 'PUT',
+          body,
+          credentials: 'same-origin',
+          headers: {
+            'Accept': 'text/vnd.turbo-stream.html',
+            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+          }
+        }).then(async (result) => {
+          const responseBody = await result.text();
+          if (result.ok) {
+            window.Turbo.renderStreamMessage(responseBody);
+          }
+          done({ status: result.status, body: responseBody });
+        }).catch((error) => {
+          done({ error: error.message });
+        });
+      JS
+
+      raise response["error"] if response["error"]
+
+      expect(response["status"]).to eq(200), response["body"]
+      wait_for { work_package.reload.sprint_id }.to eq(sprint.id)
+    end
+
     def open_create_sprint_dialog
       find_test_selector("op-sprints--new-sprint-button", text: "Sprint").click
     end
@@ -911,26 +946,30 @@ module Pages
 
     def choose_to_move_unfinished_work_packages_to_sprint(sprint_name)
       within sprint_complete_modal_selector do
-        choose I18n.t("backlogs.finish_sprint_dialog_component.actions.move_to_sprint")
+        action = I18n.t("backlogs.finish_sprint_dialog_component.actions.move_to_sprint")
+        choose_sprint_completion_action(action)
         select sprint_name, from: "Select sprint"
+        expect(page).to have_select("Select sprint", selected: sprint_name)
 
-        click_button "Complete sprint"
+        wait_for_turbo { click_button "Complete sprint" }
       end
     end
 
     def choose_to_move_unfinished_work_packages_to_top_of_backlog
       within sprint_complete_modal_selector do
-        choose I18n.t("backlogs.finish_sprint_dialog_component.actions.move_to_top_of_backlog")
+        action = I18n.t("backlogs.finish_sprint_dialog_component.actions.move_to_top_of_backlog")
+        choose_sprint_completion_action(action)
 
-        click_button "Complete sprint"
+        wait_for_turbo { click_button "Complete sprint" }
       end
     end
 
     def choose_to_move_unfinished_work_packages_to_bottom_of_backlog
       within sprint_complete_modal_selector do
-        choose I18n.t("backlogs.finish_sprint_dialog_component.actions.move_to_bottom_of_backlog")
+        action = I18n.t("backlogs.finish_sprint_dialog_component.actions.move_to_bottom_of_backlog")
+        choose_sprint_completion_action(action)
 
-        click_button "Complete sprint"
+        wait_for_turbo { click_button "Complete sprint" }
       end
     end
 
@@ -945,6 +984,12 @@ module Pages
     end
 
     private
+
+    def choose_sprint_completion_action(action)
+      radio = find_field(action, visible: :all)
+      page.execute_script("arguments[0].click()", radio)
+      expect(radio).to be_checked
+    end
 
     def within_sprint(sprint, &)
       within(sprint_selector(sprint), &)
@@ -1422,14 +1467,18 @@ module Pages
     end
 
     def open_controlled_menu(button)
-      button.click
-      page.find(:menu, id: button[:controls] || button["aria-controls"])
+      overlay_id = button["popovertarget"]
+      page.execute_script("document.getElementById(arguments[0]).showPopover()", overlay_id)
+      page.document
+        .find("##{overlay_id}:popover-open", visible: :all)
+        .find(:menu)
     end
 
     def open_move_submenu(menu)
       move_item = menu.find(:menuitem, text: "Move to position")
+      menu_id = move_item["aria-controls"]
       move_item.click
-      page.find(:menu, id: move_item["aria-controls"])
+      page.document.find(:menu, id: menu_id)
     end
 
     def dismiss_menu(menu_owner)

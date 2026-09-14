@@ -12,7 +12,9 @@ class SpentTimeEditField < EditField
   end
 
   def open_time_log_modal
+    wait_for_network_idle(duration: 0.3)
     page.find("#{@selector} #{display_selector} #{icon}").click
+    page.find("dialog#time-entry-dialog", visible: :all, wait: 30)
   end
 
   private

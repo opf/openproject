@@ -44,12 +44,12 @@ module Pages::Meetings
 
     def expect_no_invited
       expect(page)
-        .to have_content("#{Meeting.human_attribute_name(:participants_invited)}: -")
+        .to have_text("#{Meeting.human_attribute_name(:participants_invited)}: -")
     end
 
     def expect_no_attended
       expect(page)
-        .to have_content("#{Meeting.human_attribute_name(:participants_attended)}: -")
+        .to have_text("#{Meeting.human_attribute_name(:participants_attended)}: -")
     end
 
     def expect_invited(*users)
@@ -72,7 +72,7 @@ module Pages::Meetings
 
     def expect_date_time(expected)
       expect(page)
-        .to have_content("Start time: #{expected}")
+        .to have_text("Start time: #{expected}")
     end
 
     def expect_link_to_location(location)
@@ -163,10 +163,12 @@ module Pages::Meetings
 
     def assert_agenda_order!(*titles)
       wait_for_network_idle
-
-      retry_block do
-        found = page.all(:test_id, "op-meeting-agenda-title").map(&:text)
-        raise "Expected order of agenda items #{titles.inspect}, but found #{found.inspect}" if titles != found
+      errors = page.driver.invalid_element_errors + [
+        Capybara::ElementNotFound,
+        RSpec::Expectations::ExpectationNotMetError
+      ]
+      page.document.synchronize(errors:) do
+        expect(page.all(:test_id, "op-meeting-agenda-title").map(&:text)).to eq(titles)
       end
     end
 
@@ -232,13 +234,21 @@ module Pages::Meetings
     end
 
     def select_action(item, action)
-      open_menu(item) do
-        if action.downcase.include?("move")
-          click_on "Move"
-        elsif action.downcase.include?("outcome")
-          click_on "Add outcome"
-        end
-        click_on action
+      # Do not retain the popover node as a Capybara scope here. Opening a
+      # nested action replaces that popover, making its node obsolete.
+      open_menu(item)
+      if action.downcase.include?("move")
+        click_menu_item("Move")
+      elsif action.downcase.include?("outcome")
+        click_menu_item("Add outcome")
+      end
+      click_menu_item(action)
+    end
+
+    def click_menu_item(label)
+      page.document.synchronize(20) do
+        item = page.find("[role='menuitem']", text: label, exact_text: true, wait: 0)
+        page.driver.is_a?(Capybara::Cuprite::Driver) ? item.trigger("click") : item.click
       end
     end
 
@@ -268,24 +278,37 @@ module Pages::Meetings
     end
 
     def open_menu(item, &)
-      retry_block do
-        page.within("#meeting-agenda-item-#{item.id}") do
-          page.find_test_selector("op-meeting-agenda-actions").click
+      selector = test_selector("op-meeting-agenda-actions")
+      overlay = page.document.synchronize(10) do
+        # A previous nested menu can remain open briefly while its Turbo Stream
+        # replaces the agenda item. Always reopen the current item's main menu.
+        page.execute_script(
+          "document.querySelectorAll('anchored-position:popover-open').forEach((element) => element.hidePopover())"
+        )
+        button = page.within("#meeting-agenda-item-#{item.id}") do
+          page.find("action-menu[data-ready='true'] button#{selector}")
         end
-        page.find(".Overlay")
-        page.within(".Overlay", &)
+        overlay_selector = "##{button['popovertarget']}:popover-open"
+        button.click unless page.has_selector?(overlay_selector, visible: :all, wait: 0)
+        page.find(overlay_selector, visible: :all, wait: 0)
       end
+      page.within(overlay, &) if block_given?
+      overlay
     end
 
     def select_outcome_action(action)
-      retry_block do
-        page.find_test_selector("op-meeting-outcome-actions").click
-        page.find(".Overlay")
+      overlay = page.document.synchronize(10) do
+        button = page.find(
+          "action-menu[data-ready='true'] [data-test-selector='op-meeting-outcome-actions']",
+          wait: 0
+        )
+        overlay_selector = "##{button['popovertarget']}:popover-open"
+        button.click unless page.has_selector?(overlay_selector, visible: :all, wait: 0)
+        page.find(overlay_selector, visible: :all, wait: 0)
       end
 
-      page.within(".Overlay") do
-        click_on action
-      end
+      menu_item = overlay.find("[role='menuitem']", text: action)
+      page.driver.is_a?(Capybara::Cuprite::Driver) ? menu_item.trigger("click") : menu_item.click
     end
 
     def expect_no_outcome_actions
@@ -293,14 +316,16 @@ module Pages::Meetings
     end
 
     def expect_no_outcome_action(item)
-      retry_block do
+      overlay = page.document.synchronize(10) do
         page.within("#meeting-agenda-item-#{item.id}") do
-          page.find_test_selector("op-meeting-agenda-actions").trigger("click")
+          button = page.find_test_selector("op-meeting-agenda-actions")
+          overlay_selector = "##{button['popovertarget']}:popover-open"
+          button.trigger("click") unless page.has_selector?(overlay_selector, visible: :all, wait: 0)
+          page.find(overlay_selector, visible: :all, wait: 0)
         end
-        page.find(".Overlay")
       end
 
-      page.within(".Overlay") do
+      page.within(overlay) do
         expect(page).to have_no_text("Add outcome")
       end
     end
@@ -337,18 +362,23 @@ module Pages::Meetings
     end
 
     def add_outcome_from_menu(item, &)
-      open_menu(item) do
-        click_on "Add outcome"
-        expect(page).to have_text("Write outcome", wait: 2)
-        click_on "Write outcome"
-      end
+      open_menu(item)
+      click_menu_item("Add outcome")
+      wait_for_turbo_stream(wait: 20) { click_menu_item("Write outcome") }
       expect_outcome_form(item)
-      page.within("#meeting-agenda-items-outcomes-input-component-#{item.id}", &)
+      page.within("#meeting-agenda-items-outcomes-input-component-#{item.id}", &) if block_given?
     end
 
     def expect_outcome_form(item)
       expect(page)
         .to have_css("#meeting-agenda-items-outcomes-input-component-#{item.id}")
+    end
+
+    def save_outcome(item)
+      selector = "#meeting-agenda-items-outcomes-input-component-#{item.id}"
+      wait_for_turbo_stream(wait: 20) do
+        scroll_to_and_click { page.find("#{selector} button", text: "Save", exact_text: true, wait: 0) }
+      end
     end
 
     def expect_outcome(text)
@@ -444,18 +474,21 @@ module Pages::Meetings
     end
 
     def select_backlog_action(action)
-      retry_block do
-        click_on_backlog_menu
-        page.find(".Overlay")
-        page.within(".Overlay") do
-          click_on action
-        end
+      overlay = page.document.synchronize(10) do
+        button = backlog_menu_button
+        overlay_selector = "##{button['popovertarget']}:popover-open"
+        button.click unless page.has_selector?(overlay_selector, visible: :all, wait: 0)
+        page.find(overlay_selector, visible: :all, wait: 0)
       end
+      menu_item = overlay
+        .find("[role='menuitem']", text: action, visible: :visible)
+      page.driver.is_a?(Capybara::Cuprite::Driver) ? menu_item.trigger("click") : menu_item.click
     end
 
-    def click_on_backlog_menu
+    def backlog_menu_button
+      selector = test_selector("meeting-section-action-menu")
       page.within("#meeting-sections-backlogs-header-component") do
-        page.find_test_selector("meeting-section-action-menu").click
+        page.find("action-menu#{selector}[data-ready='true'] button")
       end
     end
 
@@ -495,7 +528,8 @@ module Pages::Meetings
       expect(page)
         .to have_conditional_selector(
           visible,
-          "#meeting-agenda-items-form-component-#{item.id}"
+          "#meeting-agenda-items-form-component-#{item.id}",
+          wait: 20
         )
     end
 
@@ -506,13 +540,11 @@ module Pages::Meetings
     end
 
     def expect_item_edit_field_error(item, text)
-      # retry because the #meeting-agenda-items-form-component-<id> may not be
-      # updated yet and then becomes stale while checking for field error.
-      retry_block do
-        page.within("#meeting-agenda-items-form-component-#{item.id}") do
-          expect(page).to have_css(".FormControl-inlineValidation", text:)
-        end
-      end
+      wait_for_network_idle
+      expect(page).to have_css(
+        "#meeting-agenda-items-form-component-#{item.id} .FormControl-inlineValidation",
+        text:
+      )
     end
 
     def clear_item_edit_work_package_title
@@ -673,16 +705,20 @@ module Pages::Meetings
     end
 
     def add_section(&)
-      retry_block do
-        page.within("#meeting-agenda-items-new-button-component") do
+      page.within("#meeting-agenda-items-new-button-component") do
+        wait_for_turbo_stream do
           click_on I18n.t(:button_add)
           click_on "Section"
-          # wait for the disabled button, indicating the turbo streams are applied
-          expect(page).to have_css("#meeting-agenda-items-new-button-component button[disabled='disabled']")
         end
+
+        # The disabled button is rendered near the end of the create response.
+        expect(page).to have_button(disabled: true)
       end
 
+      new_button = page.find("#meeting-agenda-items-new-button-component button[disabled='disabled']")
+      mark_for_replacement(new_button)
       in_latest_section_form(&)
+      expect_replacement_to_finish
     end
 
     def expect_section(title:)
@@ -700,15 +736,34 @@ module Pages::Meetings
     end
 
     def edit_section(section, &)
-      select_section_action(section, "Rename section")
+      wait_for_turbo_stream { select_section_action(section, "Rename section") }
 
+      new_button = page.find("#meeting-agenda-items-new-button-component button")
+      mark_for_replacement(new_button)
       page.within_test_selector("meeting-section-header-container-#{section.id}", &)
+      expect_replacement_to_finish
     end
 
     def remove_section(section)
-      accept_confirm do
-        select_section_action(section, "Delete")
+      backlog_content = page.find("#meeting-sections-backlogs-container-component > *", visible: :all)
+      mark_for_replacement(backlog_content)
+
+      wait_for_turbo_stream do
+        accept_confirm do
+          select_section_action(section, "Delete")
+        end
       end
+
+      expect(page).to have_no_test_selector("meeting-section-container-#{section.id}")
+      expect_replacement_to_finish
+    end
+
+    def mark_for_replacement(element)
+      page.execute_script("arguments[0].dataset.testAwaitReplacement = 'true'", element)
+    end
+
+    def expect_replacement_to_finish
+      expect(page).to have_no_css("[data-test-await-replacement='true']", visible: :all)
     end
 
     def check_add_section_path(meeting)
@@ -781,9 +836,7 @@ module Pages::Meetings
 
     # still a bit ambiguous, but better than nothing
     def expect_focused_ckeditor
-      retry_block do
-        expect(page.evaluate_script("document.activeElement.classList.contains('ck-focused')")).to be true
-      end
+      expect(page).to have_css(".ck-editor__editable.ck-focused")
     end
 
     def expect_notes(text)
@@ -794,6 +847,28 @@ module Pages::Meetings
       input = page.find_by_id("meeting_start_time_hour")
       page.execute_script("arguments[0].value = arguments[1]", input.native, time)
       page.execute_script("arguments[0].dispatchEvent(new Event('input'))", input.native)
+    end
+
+    def set_start_datetime(datetime)
+      fill_in "meeting_start_date", with: datetime.to_date.iso8601
+      set_start_time datetime.strftime("%H:%M")
+    end
+
+    def save_details
+      page.document.synchronize do
+        clicked = page.evaluate_script(<<~JS)
+          (() => {
+            const button = document.querySelector(".Overlay button[type='submit']");
+            if (!button || button.disabled) return false;
+
+            button.click();
+            return true;
+          })()
+        JS
+        raise Capybara::ElementNotFound unless clicked
+      end
+
+      expect(page).to have_no_css(".Overlay", wait: 10)
     end
 
     def meeting_reference_value
@@ -808,8 +883,10 @@ module Pages::Meetings
     end
 
     def section_headers
-      page.all(".op-meeting-section-container[data-test-selector^='meeting-section-header-container-']")
-          .map(&:text)
+      page.document.synchronize(20) do
+        page.all(".op-meeting-section-container[data-test-selector^='meeting-section-header-container-']")
+            .map(&:text)
+      end
     end
   end
 end

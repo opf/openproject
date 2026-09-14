@@ -65,7 +65,7 @@ module Pages
       end
 
       def finished_loading
-        expect(page).to have_css(".xeokit-busy-modal", visible: :all, wait: 30)
+        expect(page).to have_css(".xeokit-toolbar", wait: 30)
       end
 
       def model_viewer_visible(visible)

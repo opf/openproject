@@ -45,9 +45,9 @@ end
 
 # Takes the above `wait_for_network_idle` a step further by waiting
 # for the page to be reloaded after some triggering action.
-def wait_for_reload
+def wait_for_reload(...)
   if using_cuprite?
-    page.driver.wait_for_reload
+    page.driver.wait_for_reload(...)
   else
     warn_about_cuprite_helper_misuse(:wait_for_reload)
   end

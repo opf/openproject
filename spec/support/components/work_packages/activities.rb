@@ -167,23 +167,35 @@ module Components
       end
 
       def expect_journal_container_at_bottom
-        scroll_position = page.evaluate_script('document.querySelector(".tabcontent").scrollTop')
-        scroll_height = page.evaluate_script('document.querySelector(".tabcontent").scrollHeight')
-        client_height = page.evaluate_script('document.querySelector(".tabcontent").clientHeight')
-
-        expect(scroll_position).to be_within(10).of(scroll_height - client_height)
+        wait_for do
+          page.evaluate_script(<<~JS)
+            (() => {
+              const container = document.querySelector('.tabcontent');
+              return container.scrollHeight - container.clientHeight - container.scrollTop;
+            })()
+          JS
+        end.to be_within(10).of(0)
       end
 
       def expect_journal_container_at_top
-        scroll_position = page.evaluate_script('document.querySelector(".tabcontent").scrollTop')
-
-        expect(scroll_position).to eq(0)
+        wait_for do
+          page.evaluate_script('document.querySelector(".tabcontent").scrollTop')
+        end.to eq(0)
       end
 
-      def expect_journal_container_at_position(position)
-        scroll_position = page.evaluate_script('document.querySelector(".tabcontent").scrollTop')
-
-        expect(scroll_position).to be_within(50).of(scroll_position - position)
+      def expect_journal_in_view(journal)
+        entry = page.find("[data-anchor-comment-id='#{journal.id}']")
+        wait_for do
+          entry.evaluate_script(<<~JS)
+            ((entry) => {
+              const rect = entry.getBoundingClientRect();
+              const x = rect.left + rect.width / 2;
+              return rect.height > 0 && [rect.top + 1, rect.bottom - 1].every(y =>
+                y > 0 && y < window.innerHeight && entry.contains(document.elementFromPoint(x, y))
+              );
+            })(this)
+          JS
+        end.to be(true)
       end
 
       def expect_empty_state
@@ -301,43 +313,59 @@ module Components
       end
 
       def edit_comment(journal, text: nil, save: true)
-        within_journal_entry(journal) do
-          page.find_test_selector("op-wp-journal-#{journal.id}-action-menu").click
-          page.find_test_selector("op-wp-journal-#{journal.id}-edit").click
+        select_journal_action(journal, "edit")
 
-          page.within_test_selector("op-work-package-journal-form-element") do
-            get_editor_form_field_element.set_value(text)
-            page.find_test_selector("op-submit-work-package-journal-form").click if save
-          end
+        page.within_test_selector("op-work-package-journal-form-element") do
+          get_editor_form_field_element.set_value(text)
 
           if save
-            # wait for the comment to be loaded
-            wait_for { page }.to have_test_selector("op-journal-notes-body", text:)
+            wait_for_turbo_stream do
+              page.find_test_selector("op-submit-work-package-journal-form").click
+            end
+          end
+        end
+
+        if save
+          within_journal_entry(journal) do
+            expect(page).to have_test_selector("op-journal-notes-body", text:)
           end
         end
       end
 
       def type_comment_in_edit(journal, text)
-        within_journal_entry(journal) do
-          page.find_test_selector("op-wp-journal-#{journal.id}-action-menu").click
-          page.find_test_selector("op-wp-journal-#{journal.id}-edit").click
+        select_journal_action(journal, "edit")
 
-          page.within_test_selector("op-work-package-journal-form-element") do
-            editor = get_editor_form_field_element
-            # Wait for the editor to be initialized
-            wait_for { editor.input_element }.to be_present
-            editor.input_element.send_keys(text)
-          end
+        page.within_test_selector("op-work-package-journal-form-element") do
+          editor = get_editor_form_field_element
+          # Wait for the editor to be initialized
+          wait_for { editor.input_element }.to be_present
+          editor.input_element.send_keys(text)
         end
       end
 
       def quote_comment(journal)
-        within_journal_entry(journal) do
-          page.find_test_selector("op-wp-journal-#{journal.id}-action-menu").click
-          page.find_test_selector("op-wp-journal-#{journal.id}-quote").click
-        end
+        select_journal_action(journal, "quote")
 
         expect(page).to have_test_selector("op-work-package-journal-form-element")
+      end
+
+      def select_journal_action(journal, action)
+        entry_selector = "op-wp-journal-entry-#{journal.id}"
+        menu_selector = "op-wp-journal-#{journal.id}-action-menu"
+        action_selector = "op-wp-journal-#{journal.id}-#{action}"
+
+        page.document.synchronize(30) do
+          entry = page.document.find(:test_id, entry_selector, wait: 0)
+          action_item = entry.first(:test_id, action_selector, minimum: 0, wait: 0)
+
+          if action_item
+            action_item.click
+          else
+            menu = entry.find(:test_id, menu_selector, wait: 0)
+            menu.click unless menu.has_css?(":popover-open", wait: 0)
+            raise Capybara::ElementNotFound, "Waiting for journal action #{action}"
+          end
+        end
       end
 
       def check_internal_comment_checkbox
@@ -360,39 +388,55 @@ module Components
         end
       end
 
-      def get_all_comments_as_array
-        page.all(".work-packages-activities-tab-journals-item-component--journal-notes-body").map(&:text)
-      end
-
       def expect_comments_order(items)
-        retry_block do
-          expect(get_all_comments_as_array).to eq(items)
-        end
+        comments = page.all(
+          ".work-packages-activities-tab-journals-item-component--journal-notes-body",
+          count: items.size
+        )
+
+        expect(comments.map(&:text)).to eq(items)
       end
 
       def filter_journals(filter)
-        retry_block do
-          wait_for_turbo_stream do
-            page.find_test_selector("op-wp-journals-filter-menu").click
+        option = {
+          all: "all",
+          only_comments: "only-comments",
+          only_changes: "only-changes"
+        }.fetch(filter)
+        option_selector = "[data-test-selector='op-wp-journals-filter-show-#{option}']"
 
-            case filter
-            when :all
-              page.find_test_selector("op-wp-journals-filter-show-all").click
-            when :only_comments
-              page.find_test_selector("op-wp-journals-filter-show-only-comments").click
-            when :only_changes
-              page.find_test_selector("op-wp-journals-filter-show-only-changes").click
+        wait_for_turbo_stream do
+          page.document.synchronize do
+            unless page.has_css?(option_selector, wait: 0)
+              menu = page.find(
+                "action-menu[data-ready='true'][data-test-selector='op-wp-journals-filter-menu']"
+              )
+              menu.find("button[aria-haspopup='true']").click
             end
+
+            page.find(option_selector).click
           end
         end
+
+        expect(page).to have_css("[data-test-selector^='op-wp-journals-#{filter}-']")
       end
 
       def set_journal_sorting(sorting, default_filter: :all)
-        retry_block do
-          page.find_test_selector("op-wp-journals-sorting-menu").click
-          page.find_test_selector("op-wp-journals-sorting-#{sorting}").click
-          expect(page).to have_test_selector("op-wp-journals-#{default_filter}-#{sorting}")
+        option_selector = "[data-test-selector='op-wp-journals-sorting-#{sorting}']"
+
+        wait_for_turbo_stream do
+          page.document.synchronize do
+            unless page.has_css?(option_selector, wait: 0)
+              page.find(
+                "action-menu[data-ready='true'] [data-test-selector='op-wp-journals-sorting-menu']"
+              ).click
+            end
+
+            page.find(option_selector).click
+          end
         end
+
+        expect(page).to have_test_selector("op-wp-journals-#{default_filter}-#{sorting}")
       end
 
       def trigger_update_streams_poll

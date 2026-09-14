@@ -28,42 +28,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Components
-  module WorkPackages
-    class QueryTitle
-      include Capybara::DSL
-      include Capybara::RSpecMatchers
-      include RSpec::Matchers
+require "spec_helper"
 
-      def expect_changed
-        expect(page).to have_css ".editable-toolbar-title--save", wait: 20
-        expect(page).to have_css ".editable-toolbar-title--input.-changed", wait: 20
+RSpec.describe "#retry_block", with_env: { "RSPEC_RETRY_RETRY_COUNT" => "0" } do # rubocop:disable RSpec/DescribeClass
+  it "returns the block result when retries are disabled" do
+    result = Object.new
+
+    expect(retry_block { result }).to equal(result)
+  end
+
+  it "propagates the first failure without executing the block again" do
+    attempts = 0
+
+    expect do
+      retry_block do
+        attempts += 1
+        raise "failed interaction"
       end
+    end.to raise_error(RuntimeError, "failed interaction")
 
-      def expect_not_changed
-        expect(page).to have_no_css ".editable-toolbar-title--save", wait: 20
-        expect(page).to have_no_css ".editable-toolbar-title--input.-changed", wait: 20
-      end
-
-      def input_field
-        find(".editable-toolbar-title--input")
-      end
-
-      def expect_title(name)
-        expect(page).to have_field("editable-toolbar-title", with: name, wait: 20)
-      end
-
-      def press_save_button
-        find(".editable-toolbar-title--save").click
-      end
-
-      def rename(name, save: true)
-        fill_in "editable-toolbar-title", with: name
-
-        if save
-          input_field.send_keys :return
-        end
-      end
-    end
+    expect(attempts).to eq(1)
   end
 end

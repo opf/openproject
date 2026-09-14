@@ -39,22 +39,18 @@ module Components
       include Toasts::Expectations
 
       def open_for(work_package, check_if_open: true, card_view: nil)
-        # Close
+        # A previous action can leave its menu visible while the table updates.
+        # Wait for it to close before opening the menu on the current row, or
+        # the old menu can satisfy the open check and swallow the next action.
         find("body").send_keys :escape
-        sleep 0.5 unless using_cuprite?
+        expect(page).to have_no_selector(:menu, work_package_context_menu_label, wait: 20)
 
-        retry_block do
-          if card_view
-            page.find(".op-wp-single-card-#{work_package.id}").right_click
-          else
-            page.find(".wp-row-#{work_package.id}-table").right_click
-          end
-
-          if check_if_open && !page.find(:menu, work_package_context_menu_label)
-            raise "Menu not open"
-          end
+        if card_view
+          page.find(".op-wp-single-card-#{work_package.id}", wait: 20).right_click
+        else
+          page.find(".wp-row-#{work_package.id}-table", wait: 20).right_click
         end
-      rescue StandardError
+
         expect_open if check_if_open
       end
 

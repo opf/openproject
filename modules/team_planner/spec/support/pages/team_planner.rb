@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -84,13 +86,9 @@ module Pages
     end
 
     def switch_view_mode(text)
-      retry_block do
-        find('[data-test-selector="op-team-planner--view-select-dropdown"]').click
-
-        within("#op-team-planner--view-select-dropdown") do
-          click_button(text)
-        end
-      end
+      expect(page).to have_no_css("#op-team-planner--view-select-dropdown")
+      find('[data-test-selector="op-team-planner--view-select-dropdown"]').click
+      find("#op-team-planner--view-select-dropdown .menu-item", exact_text: text).click
 
       expect_view_mode(text)
     end
@@ -195,6 +193,16 @@ module Pages
       end
     end
 
+    def click_to_sort_by(header_name)
+      old_href = page.find(".generic-table thead").find_link(header_name)["href"]
+      super
+
+      page.document.synchronize(20) do
+        new_href = page.find(".generic-table thead", wait: 0).find_link(header_name, wait: 0)["href"]
+        raise Capybara::ElementNotFound if new_href == old_href
+      end
+    end
+
     def click_on_create_button
       page.find_test_selector("add-team-planner-button").click
     end
@@ -228,35 +236,81 @@ module Pages
     end
 
     def add_assignee(name)
-      retry_block do
-        return if page.has_selector?(".fc-resource", text: name, wait: 0)
+      return if page.has_selector?(".fc-resource", text: name, wait: 0)
 
-        click_add_user
-        page.find("#{page.test_selector('tp-add-assignee')} input")
-        select_user_to_add(name)
-      end
+      return if click_add_user(already_added: name) == :already_added
+
+      select_user_to_add(name)
       expect_and_dismiss_toaster
     end
 
     def search_assignee(name)
-      retry_block do
-        click_add_user
-        page.find("#{page.test_selector('tp-add-assignee')} input")
-        search_autocomplete page.find('[data-test-selector="tp-add-assignee"]'),
-                            query: name,
-                            results_selector: "body"
+      click_add_user
+      search_autocomplete -> { page.find('[data-test-selector="tp-add-assignee"]') },
+                          query: name,
+                          results_selector: "body"
+    end
+
+    def click_add_user(already_added: nil)
+      wait_for_loaded
+      autocomplete = -> { page.find('[data-test-selector="tp-add-assignee"]') }
+      input_selector = '[data-test-selector="tp-add-assignee"] input'
+      button_selector = [
+        '[data-test-selector="tp-assignee-add-button"]',
+        '[data-test-selector="op-team-planner--empty-state-button"]'
+      ].join(", ")
+      panel_selector = "body .ng-dropdown-panel"
+      ready_selector = [input_selector, button_selector].join(", ")
+
+      wait_for_add_user_controls(ready_selector, already_added)
+      return :already_added if assignee_present?(already_added)
+
+      open_add_user_input(input_selector, button_selector, already_added)
+      return :already_added if assignee_present?(already_added)
+
+      ng_click_autocompleter(autocomplete) unless page.has_selector?(panel_selector, wait: 0)
+      ng_find_dropdown(autocomplete, results_selector: "body")
+      :opened
+    end
+
+    def wait_for_add_user_controls(ready_selector, already_added)
+      page.document.synchronize(30) do
+        raise Capybara::ElementNotFound unless assignee_present?(already_added) || page.has_css?(ready_selector, wait: 0)
+      end
+    rescue Capybara::ElementNotFound
+      reload!
+      wait_for_loaded
+      page.document.synchronize(30) do
+        raise Capybara::ElementNotFound unless assignee_present?(already_added) || page.has_css?(ready_selector, wait: 0)
       end
     end
 
-    def click_add_user
-      is_open = page.has_selector?('[data-test-selector="tp-add-assignee"] input', wait: 0)
-      return if is_open
+    def open_add_user_input(input_selector, button_selector, already_added, retry_after_reload: true)
+      return if assignee_present?(already_added) || page.has_selector?(input_selector, wait: 0)
 
-      page.find('[data-test-selector="tp-assignee-add-button"]').click
+      page.first(button_selector, minimum: 1, wait: 20).click
+
+      page.document.synchronize(30) do
+        raise Capybara::ElementNotFound unless assignee_present?(already_added) || page.has_selector?(input_selector, wait: 0)
+      end
+    rescue Capybara::ElementNotFound
+      raise unless retry_after_reload
+
+      reload!
+      wait_for_loaded
+      wait_for_add_user_controls([input_selector, button_selector].join(", "), already_added)
+      open_add_user_input(input_selector, button_selector, already_added, retry_after_reload: false)
+    end
+
+    def assignee_present?(name)
+      name && page.evaluate_script(<<~JS, name)
+        Array.from(document.querySelectorAll(".fc-resource"))
+          .some((element) => element.textContent.includes(arguments[0]))
+      JS
     end
 
     def select_user_to_add(name)
-      select_autocomplete page.find('[data-test-selector="tp-add-assignee"]'),
+      select_autocomplete -> { page.find('[data-test-selector="tp-add-assignee"]') },
                           query: name,
                           wait_dropdown_open: false,
                           results_selector: "body"
@@ -265,25 +319,50 @@ module Pages
     def expect_user_selectable(user, present: true)
       name = user.is_a?(User) ? user.name : user.to_s
 
-      expect_ng_option page.find('[data-test-selector="tp-add-assignee"]'),
-                       name,
-                       results_selector: "body",
-                       present:
+      expect(page).to have_conditional_selector(present,
+                                                "body .ng-dropdown-panel .ng-option",
+                                                text: name)
     end
 
     def change_wp_date_by_resizing(work_package, number_of_days:, is_start_date:)
-      wp_strip = event(work_package)
+      date_attribute = is_start_date ? :start_date : :due_date
+      expected_date = work_package.reload.public_send(date_attribute) + number_of_days.days
+      changed = false
 
-      page
-        .driver
-        .browser
-        .action
-        .move_to(wp_strip.native)
-        .perform
+      3.times do |attempt|
+        wp_strip = event(work_package)
 
-      resizer = is_start_date ? wp_strip.find(".fc-event-resizer-start") : wp_strip.find(".fc-event-resizer-end")
+        page
+          .driver
+          .browser
+          .action
+          .move_to(wp_strip.native)
+          .pause(duration: 0.5)
+          .perform
 
-      drag_by_pixel(element: resizer, by_x: number_of_days * 250, by_y: 0) unless resizer.nil?
+        resizer_selector = is_start_date ? ".fc-event-resizer-start" : ".fc-event-resizer-end"
+        resizer = wp_strip.find(resizer_selector)
+        drag_by_pixel(element: resizer, by_x: number_of_days * 250, by_y: 0)
+
+        changed = work_package_date_changed?(work_package, date_attribute, expected_date)
+        break if changed
+        break if attempt == 2
+
+        reload!
+        wait_for_loaded
+      end
+
+      raise Capybara::ElementNotFound, "Work package date did not change after resizing" unless changed
+    end
+
+    def work_package_date_changed?(work_package, date_attribute, expected_date)
+      page.document.synchronize(20) do
+        raise Capybara::ElementNotFound unless work_package.reload.public_send(date_attribute) == expected_date
+      end
+
+      true
+    rescue Capybara::ElementNotFound
+      false
     end
 
     def drag_wp_by_pixel(work_package, by_x, by_y)
@@ -296,7 +375,7 @@ module Pages
       wp_strip = event(work_package)
       lane = lane(user)
 
-      drag_by_pixel(element: wp_strip, by_x: 0, by_y: y_distance(from: wp_strip, to: lane))
+      drag_by_pixel(element: wp_strip, by_x: 0, by_y: y_distance(from: wp_strip, destination: lane))
     end
 
     def drag_to_remove_dropzone(work_package, expect_removable: true)
@@ -309,9 +388,7 @@ module Pages
       footer = find('[data-test-selector="op-team-planner-footer"]')
       drag_element_to(footer)
 
-      sleep 1
-
-      dropzone = find('[data-test-selector="op-team-planner-dropzone"]')
+      dropzone = find('[data-test-selector="op-team-planner-dropzone"]', wait: 10)
       drag_element_to(dropzone)
 
       if expect_removable
@@ -321,6 +398,7 @@ module Pages
       end
 
       drag_release
+      expect(page).to have_no_css('[data-test-selector="op-team-planner-dropzone"]')
 
       if expect_removable
         expect_and_dismiss_toaster(message: "Successful update.")
@@ -328,7 +406,6 @@ module Pages
         expect_no_toaster
       end
 
-      sleep 1
       expect_event(work_package, present: !expect_removable)
     end
 
@@ -340,7 +417,7 @@ module Pages
       type = ::API::V3::Principals::PrincipalType.for(user)
       href = ::API::V3::Utilities::PathHelper::ApiV3Path.send(type, user.id)
 
-      page.find(%(.fc-timeline-lane[data-resource-id="#{href}"]))
+      page.find(%(.fc-timeline-lane[data-resource-id="#{href}"]), wait: 20)
     end
 
     def expect_wp_not_resizable(work_package)
@@ -355,8 +432,8 @@ module Pages
       expect(page).to have_no_css(".op-submenu--item-title", text: name)
     end
 
-    def y_distance(from:, to:)
-      y_center(to) - y_center(from)
+    def y_distance(from:, destination:)
+      y_center(destination) - y_center(from)
     end
 
     def y_center(element)
@@ -364,7 +441,7 @@ module Pages
     end
 
     def wait_for_loaded
-      expect(page).to have_css(".op-team-planner--wp-loading-skeleton")
+      expect(page).to have_css('[data-test-selector="op-team-planner--calendar-pane"] full-calendar')
       expect(page).to have_no_css(".op-team-planner--wp-loading-skeleton", wait: 10)
     end
   end

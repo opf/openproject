@@ -52,9 +52,13 @@ module Pages
         end
 
         def delete(name)
-          accept_alert do
-            within_buttons_of name do
-              find(".icon-delete").click
+          wait_until_turbo_ready
+
+          wait_for_turbo do
+            accept_alert do
+              within_buttons_of name do
+                find(".icon-delete").click
+              end
             end
           end
         end
@@ -69,31 +73,19 @@ module Pages
         end
 
         def move_top(name)
-          within_row_of(name) do
-            find("a[title='Move to top']").trigger("click")
-          end
-          wait_for_network_idle
+          reorder(name, "Move to top")
         end
 
         def move_bottom(name)
-          within_row_of(name) do
-            find("a[title='Move to bottom']").trigger("click")
-          end
-          wait_for_network_idle
+          reorder(name, "Move to bottom")
         end
 
         def move_up(name)
-          within_row_of(name) do
-            find("a[title='Move up']").trigger("click")
-          end
-          wait_for_network_idle
+          reorder(name, "Move up")
         end
 
         def move_down(name)
-          within_row_of(name) do
-            find("a[title='Move down']").trigger("click")
-          end
-          wait_for_network_idle
+          reorder(name, "Move down")
         end
 
         def path
@@ -101,6 +93,24 @@ module Pages
         end
 
         private
+
+        def reorder(name, title)
+          wait_until_turbo_ready
+
+          wait_for_turbo(wait: 20) do
+            within_row_of(name) do
+              find("a[title='#{title}']").trigger("click")
+            end
+          end
+        end
+
+        def wait_until_turbo_ready
+          page.document.synchronize(20) do
+            unless page.evaluate_script("window.Turbo?.session?.started === true")
+              raise Capybara::ExpectationNotMet, "Turbo is not ready"
+            end
+          end
+        end
 
         def within_row_of(name, &)
           within "table" do
