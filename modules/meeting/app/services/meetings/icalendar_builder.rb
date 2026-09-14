@@ -192,6 +192,7 @@ module Meetings
     def historic_occurrences(recurring_meeting, historic)
       instantiated_schedules(recurring_meeting)
         .select { it.recurrence_start_time.between?(historic.dtstart, historic.ends_at) }
+        .reject { covered_by_rule?(it, recurring_meeting, historic) }
         .sort_by(&:recurrence_start_time)
         .last(PAST_OCCURRENCES_LIMIT)
     end
@@ -261,7 +262,7 @@ module Meetings
         .not_cancelled
         .where(recurring_meeting: recurring_meetings)
         .where.not(recurrence_start_time: nil)
-        .includes(:project, recurring_meeting: [:project])
+        .includes(:participants, :project, recurring_meeting: [:project])
         .group_by(&:recurring_meeting_id)
 
       @interim_responses_cache = RecurringMeetingInterimResponse
@@ -407,7 +408,24 @@ module Meetings
     def exportable_occurrences(recurring_meeting)
       instantiated_schedules(recurring_meeting)
         .reject { it.recurrence_start_time < recurring_meeting.current_schedule_start }
+        .reject { covered_by_rule?(it, recurring_meeting, nil) }
         .sort_by(&:recurrence_start_time)
+    end
+
+    # If an occurrence is matching its planned slot in the series, we do not need to output an override
+    # as that is needless duplication.
+    def covered_by_rule?(meeting, recurring_meeting, historic)
+      template = recurring_meeting.template
+      master = historic || template
+
+      meeting.start_time == meeting.recurrence_start_time &&
+        meeting.duration == master.duration &&
+        meeting.location == master.location &&
+        participation_of(meeting) == participation_of(template)
+    end
+
+    def participation_of(meeting)
+      meeting.participants.filter_map { [it.user_id, it.participation_status] if it.user_id }.sort
     end
 
     def add_virtual_occurences_for_interim_responses(recurring_meeting:) # rubocop:disable Metrics/AbcSize
@@ -478,7 +496,7 @@ module Meetings
           .not_templated
           .not_cancelled
           .where.not(recurrence_start_time: nil)
-          .includes(:project, recurring_meeting: [:project])
+          .includes(:participants, :project, recurring_meeting: [:project])
       end
     end
 

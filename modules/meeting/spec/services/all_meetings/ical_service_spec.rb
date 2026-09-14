@@ -329,6 +329,9 @@ RSpec.describe AllMeetings::ICalService, type: :model do
           .result
           .tap do |m|
             m.participants.create!(user:)
+            # Moved off its slot, so it needs an override. An occurrence that matches the rule is
+            # drawn from the master and emits none.
+            m.update_column(:start_time, relevant_time - 1.week + 15.minutes)
             m.update_column(:state, Meeting.states[:closed])
           end
       end
