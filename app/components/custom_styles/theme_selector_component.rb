@@ -53,7 +53,8 @@ module CustomStyles
              end,
         method: :post,
         data: {
-          controller: "auto-submit",
+          controller: "auto-submit theme-selector",
+          action: "dialog:close@document->theme-selector#reset",
           turbo: current_theme.blank?
         }
       }
