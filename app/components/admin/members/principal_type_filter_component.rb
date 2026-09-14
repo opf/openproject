@@ -39,9 +39,9 @@ module Admin
           path_args: %i[admin members]
         )
 
-        with_item(label: I18n.t(:label_user_plural), value: User.name)
-        with_item(label: I18n.t(:label_group_plural), value: Group.name)
-        with_item(label: I18n.t(:label_placeholder_user_plural), value: PlaceholderUser.name)
+        [User, Group, PlaceholderUser].each do |principal_class|
+          with_item(label: principal_class.model_name.human(count: 2), value: principal_class.name)
+        end
       end
     end
   end

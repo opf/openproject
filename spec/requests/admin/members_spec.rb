@@ -93,6 +93,14 @@ RSpec.describe "GET /admin/members", :aggregate_failures, :skip_csrf, type: :rai
       expect(response.body).not_to include(I18n.t(:button_all_filters))
     end
 
+    it "names the member types after their models" do
+      get admin_members_path
+
+      [User, Group, PlaceholderUser].each do |principal_class|
+        expect(response.body).to include(principal_class.model_name.human(count: 2))
+      end
+    end
+
     it "labels the search input for users" do
       get admin_members_path
 
