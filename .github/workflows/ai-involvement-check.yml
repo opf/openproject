@@ -74,15 +74,18 @@ jobs:
             *) wanted='' ;;
           esac
 
-          current=$(gh pr view "$PR_URL" --json labels --jq '.labels[].name | select(startswith("ai: "))')
+          readarray -t current < <(gh pr view "$PR_URL" --json labels --jq '.labels[].name | select(startswith("ai: "))')
 
           args=()
-          while IFS= read -r label; do
-            if [ -n "$label" ] && [ "$label" != "$wanted" ]; then
+          present=false
+          for label in "${current[@]}"; do
+            if [ "$label" = "$wanted" ]; then
+              present=true
+            else
               args+=(--remove-label "$label")
             fi
-          done <<< "$current"
-          if [ -n "$wanted" ] && ! grep -qxF -- "$wanted" <<< "$current"; then
+          done
+          if [ -n "$wanted" ] && [ "$present" = false ]; then
             args+=(--add-label "$wanted")
           fi
 
