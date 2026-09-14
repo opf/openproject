@@ -165,16 +165,16 @@ RSpec.describe WorkPackageCustomFields::Scopes::OnVisibleTypeAndProject do
     end
   end
 
-  describe ".on_visible_type_and_project for a field the project has not enabled" do
+  describe ".on_visible_type_and_project for a field the form configuration shows" do
     shared_let(:type) { create(:type) }
     shared_let(:project) { create(:project, types: [type]) }
     shared_let(:member) { create(:user, member_with_permissions: { project => [] }) }
-    shared_let(:not_enabled_cf) do
+    shared_let(:configured_field) do
       create(:integer_wp_custom_field, type_variants: [type.default_variant])
     end
 
-    it "surfaces the field, because the form configuration is what decides" do
-      expect(WorkPackageCustomField.on_visible_type_and_project(member, project:)).to include(not_enabled_cf)
+    it "surfaces it for every project applying that configuration" do
+      expect(WorkPackageCustomField.on_visible_type_and_project(member, project:)).to include(configured_field)
     end
   end
 
