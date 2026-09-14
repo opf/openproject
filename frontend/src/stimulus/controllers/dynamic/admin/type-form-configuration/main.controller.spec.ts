@@ -149,6 +149,26 @@ describe('Type form configuration controller', () => {
     });
   });
 
+  it('warns instead of posting when the group carries no update-query URL', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const controller = await renderConfiguration();
+    const group = document.querySelector<HTMLElement>('[data-group-key]')!;
+    delete group.dataset.updateQueryUrl;
+    const button = document.querySelector<HTMLButtonElement>('[data-test-selector="edit-query"]')!;
+
+    controller.editQuery({ preventDefault: vi.fn(), currentTarget: button } as unknown as Event);
+
+    await waitFor(() => {
+      expect(show).toHaveBeenCalled();
+    });
+
+    (show.mock.calls[0][0] as QueryEditorConfig).callback({ filters: [] });
+    await ctx.nextFrame();
+
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('data-update-query-url'), group);
+    expect(request).not.toHaveBeenCalled();
+  });
+
   it('does not open the query editor when disconnected before the context resolves', async () => {
     let resolveContext!:(context:unknown) => void;
     window.OpenProject = {

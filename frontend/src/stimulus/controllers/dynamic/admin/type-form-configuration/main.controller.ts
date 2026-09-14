@@ -75,7 +75,10 @@ export default class TypeFormConfigurationController extends Controller {
 
     void this.openQueryEditor(group.dataset.groupQuery ?? this.noFilterQueryValue, (queryProps:unknown) => {
       const url = group.dataset.updateQueryUrl;
-      if (!url) return;
+      if (!url) {
+        console.warn('Type form configuration group is missing its data-update-query-url; the query cannot be saved.', group);
+        return;
+      }
 
       void this.postQueryUpdate(url, queryProps).then((success) => {
         if (success) {
