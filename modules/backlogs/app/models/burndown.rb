@@ -60,7 +60,6 @@ class Burndown
             end
   end
 
-  # The story points still open at the end of each working day elapsed so far.
   def remaining_story_points
     sums = WorkPackages::JournalTimeline
              .new(open_sprint_journals, ticks:)

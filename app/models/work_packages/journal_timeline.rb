@@ -36,7 +36,7 @@
 #     WorkPackages::JournalTimeline.new(
 #       Journal::WorkPackageJournal.where(project_id: project.id,
 #                                         sprint_id: sprint.id,
-#                                         status_id: open_status_ids),
+#                                         status_id: open_statuses),
 #       ticks:
 #     ).relation
 #       .group(:tick)
@@ -51,11 +51,6 @@
 # spread, whereas anything chained afterwards runs after both. They belong on the journalized
 # columns rather than on the current work_packages row, because membership is historic -- a work
 # package moved out of a sprint drops out of the series from that point onwards.
-#
-# Unlike Journable::HistoricActiveRecordRelation (which powers baseline comparison), this
-# yields a row per tick rather than collapsing to the first matching one, so it can back a
-# dense time series. Exactly one journal is valid per work package per instant, guaranteed by
-# the non_overlapping_journals_validity_periods exclusion constraint, so no DISTINCT is needed.
 class WorkPackages::JournalTimeline
   def initialize(filters = Journal::WorkPackageJournal.all, ticks:, user: User.current)
     @filters = filters

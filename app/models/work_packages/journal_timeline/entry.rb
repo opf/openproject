@@ -36,7 +36,7 @@
 # historic row. Pointing at the journal table means every journalized attribute is available
 # without enumerating it, which keeps the timeline usable for any unit.
 #
-# Besides the journalized attributes, rows carry +tick+ (the sampled instant),
+# Besides the journalized attributes, rows carry +tick+ (the sampled time),
 # +work_package_id+, +journal_id+ and +validity_period+.
 class WorkPackages::JournalTimeline::Entry < ApplicationRecord
   self.table_name = "work_package_journals"
