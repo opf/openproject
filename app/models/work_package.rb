@@ -525,14 +525,9 @@ class WorkPackage < ApplicationRecord
       type_variant_id = type_variant_ids[custom_field_pair(work_package)]
 
       RequestStore.store[available_custom_field_key(work_package)] =
-        custom_fields.select { |cf| available_for?(cf, work_package, type_variant_id) }
+        custom_fields.select { |cf| cf.available_type_ids.include?(type_variant_id) }
     end
   end
-
-  def self.available_for?(custom_field, _work_package, type_variant_id)
-    custom_field.available_type_ids.include?(type_variant_id)
-  end
-  private_class_method :available_for?
 
   # A work package stores its type, while its project may apply a variant resulting in a different
   # form configuration. The fields available therefore depend on the (project, type) pair
