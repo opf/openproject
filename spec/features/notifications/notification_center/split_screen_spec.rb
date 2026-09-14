@@ -76,6 +76,8 @@ RSpec.describe "Split screen in the notification center", :js do
       wp_full.expect_tab :relations
 
       page.execute_script("window.history.back()")
+      expect(page).to have_current_path(%r{/notifications}, ignore_query: true)
+      split_screen.expect_open
       split_screen.expect_tab :relations
 
       # The split screen can be closed
