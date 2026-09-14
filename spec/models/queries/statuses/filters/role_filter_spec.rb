@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,11 +28,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module Errors
-    class InvalidRenderContext < ErrorBase
-      identifier "InvalidRenderContext"
-      code 400
+require "spec_helper"
+
+RSpec.describe Queries::Statuses::Filters::RoleFilter do
+  subject(:filter) { described_class.create!(name: "role", operator: "=") }
+
+  shared_let(:manager) do
+    create(:project_role, name: "Manager", permissions: %i[view_work_packages edit_work_packages])
+  end
+  shared_let(:member) do
+    create(:project_role, name: "Member", permissions: %i[view_work_packages add_work_packages])
+  end
+
+  describe "#allowed_values" do
+    it "offers each eligible role once, however many permissions it carries" do
+      expect(filter.allowed_values).to contain_exactly(["Manager", manager.id.to_s], ["Member", member.id.to_s])
     end
   end
 end

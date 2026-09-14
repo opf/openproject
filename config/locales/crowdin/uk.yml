@@ -2294,10 +2294,6 @@ uk:
       not_found:
         reminder: Нагадування, яке ви шукаєте, не вдалося знайти. Можливо, його видалено.
         work_package: Пакет робіт, який ви шукаєте, не можна знайти або його видалено.
-      render:
-        context_not_parsable: Контексті не посилання на ресурс.
-        context_object_not_found: Не можу знайти ресурс з урахуванням контексту.
-        unsupported_context: Даний ресурс не підтримується як контекст.
       unable_to_create_attachment: Не вдалося створити вкладення
       unable_to_create_attachment_permissions: Вкладення не вдалося зберегти через відсутність дозволів на файлову систему
       user:
@@ -6449,13 +6445,14 @@ uk:
         <br>
         <strong>Примітка</strong>: успадковані значення (напр., значення дочірніх елементів або зв’язки) не зміняться.
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Виключено з підсумків
         is_closed: Закрито
-        is_default: За замовчуванням
         is_readonly: Лише для перегляду
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Додати новий статус
       no_results_title_text: Наразі немає статусів робочих пакетів.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: і
@@ -6745,7 +6742,6 @@ uk:
         add_query_group: Таблиця пов’язаних робочих пакетів
         blankslate_description: Додайте групи за допомогою кнопки вище або перетягніть атрибути з лівої панелі.
         blankslate_title: Ще немає груп
-        builtin_field: Вбудоване поле
         confirm_delete_group: Справді видалити цей розділ? Цю дію не можна буде скасувати автоматично.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Користувацьке поле

@@ -2050,10 +2050,6 @@ nl:
       not_found:
         reminder: The reminder you are looking for cannot be found or has been deleted.
         work_package: Het werkpakket dat u zoekt kan niet gevonden of verwijderd worden.
-      render:
-        context_not_parsable: De geboden context is niet een link naar een bron.
-        context_object_not_found: Kan de bron niet vind als gegeven context.
-        unsupported_context: De gegeven bron wordt niet ondersteund als context.
       unable_to_create_attachment: De bijlage kon niet aangemaakt worden
       unable_to_create_attachment_permissions: De bijlage kon niet worden opgeslagen vanwege ontbrekende bestandssysteem rechten
       user:
@@ -6109,13 +6105,14 @@ nl:
         <br>
         <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Uitgesloten van totalen
         is_closed: Gesloten
-        is_default: Standaard
         is_readonly: Alleen-lezen
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Voeg een nieuwe status toe
       no_results_title_text: Er zijn momenteel geen werkpakket statussen.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: en
@@ -6403,7 +6400,6 @@ nl:
         add_query_group: Related work packages table
         blankslate_description: Add groups using the button above or drag attributes from the left panel.
         blankslate_title: No groups yet
-        builtin_field: Built-in field
         confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Custom field

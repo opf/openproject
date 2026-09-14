@@ -2050,10 +2050,6 @@
       not_found:
         reminder: The reminder you are looking for cannot be found or has been deleted.
         work_package: Arbeidspakken du leter etter kan ikke bli funnet eller den har blitt slettet.
-      render:
-        context_not_parsable: Konteksten som er angitt er ikke koblet til en ressurs.
-        context_object_not_found: Kan ikke finne ressursen som er angitt som kontekst.
-        unsupported_context: Ressursen som er gitt støttes ikke som kontekst.
       unable_to_create_attachment: Vedlegget kunne ikke opprettes
       unable_to_create_attachment_permissions: Vedlegget kunne ikke lagres på grunn av manglende systemtillatelser
       user:
@@ -6121,13 +6117,14 @@
         <br>
         <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Unntatt fra totaler
         is_closed: Stengt
-        is_default: Standard
         is_readonly: Kun lesetilgang
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Legg til en ny status
       no_results_title_text: Det er for tiden ingen status for arbeidspakken.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: og
@@ -6417,7 +6414,6 @@
         add_query_group: Related work packages table
         blankslate_description: Add groups using the button above or drag attributes from the left panel.
         blankslate_title: No groups yet
-        builtin_field: Built-in field
         confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Custom field

@@ -1930,10 +1930,6 @@ vi:
       not_found:
         reminder: Lời nhắc bạn đang tìm kiếm không thể tìm thấy hoặc đã bị xóa.
         work_package: Không thể tìm thấy gói công việc bạn đang tìm kiếm hoặc đã bị xóa.
-      render:
-        context_not_parsable: Bối cảnh được cung cấp không phải là một liên kết đến một tài nguyên.
-        context_object_not_found: Không thể tìm thấy tài nguyên được cung cấp làm bối cảnh.
-        unsupported_context: Tài nguyên đã cho không được hỗ trợ dưới dạng ngữ cảnh.
       unable_to_create_attachment: Không thể tạo tệp đính kèm
       unable_to_create_attachment_permissions: Không thể lưu tệp đính kèm do thiếu quyền hệ thống tệp
       user:
@@ -5968,13 +5964,14 @@ vi:
         <br>
         <strong>Lưu ý</strong>: Các giá trị được kế thừa (ví dụ: từ con cái hoặc quan hệ) sẽ vẫn được áp dụng.
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Bị loại trừ khỏi tổng số
         is_closed: đóng cửa
-        is_default: mặc định
         is_readonly: Chỉ đọc
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Thêm trạng thái mới
       no_results_title_text: Hiện tại không có trạng thái gói công việc.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: và
@@ -6264,7 +6261,6 @@ vi:
         add_query_group: Related work packages table
         blankslate_description: Add groups using the button above or drag attributes from the left panel.
         blankslate_title: No groups yet
-        builtin_field: Built-in field
         confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Custom field

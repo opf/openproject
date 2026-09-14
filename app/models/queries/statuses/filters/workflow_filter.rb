@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,38 +28,34 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API::V3::Formatter
-  class TxtCharset
-    def self.call(object, env)
-      encoding = encoding(object, env)
+# Statuses reach types and roles only through the transitions naming them. Both
+# filters join through this one clause so that Rails collapses it to a single
+# join and their conditions land on the same transition: picking Task and Member
+# then matches the Task/Member workflow alone, rather than every status used by
+# some Task workflow and, separately, by some Member workflow.
+class Queries::Statuses::Filters::WorkflowFilter < Queries::Filters::Base
+  TRANSITION_JOIN = <<~SQL.squish
+    INNER JOIN workflows
+    ON workflows.old_status_id = statuses.id OR workflows.new_status_id = statuses.id
+  SQL
 
-      object.force_encoding(encoding)
-    end
+  self.model = Status
 
-    # Returns the encoding of
-    # * the content type (charset) if provided and valid or
-    # * the objects encoding if provided and invalid
-    # * Encoding.default_external if no charset provided
-    def self.encoding(object, env)
-      Encoding.find(charset(env))
-    rescue StandardError
-      object.encoding
-    end
-    private_class_method :encoding
+  def joins
+    TRANSITION_JOIN
+  end
 
-    # Detects the charset in the content_type header.
-    # If no charset is defined, the default_external encoding is assumed.
-    #
-    # This might return an invalid charset as only pattern matching is applied.
-    def self.charset(env)
-      content_type = env["CONTENT_TYPE"].to_s
+  def type
+    :list
+  end
 
-      if (matches = content_type.match(/charset=([^\s;]+)/))
-        matches[1]
-      else
-        Encoding.default_external
-      end
-    end
-    private_class_method :charset
+  def available_operators
+    [::Queries::Operators::Equals]
+  end
+
+  private
+
+  def transition_where(field, ids)
+    operator_strategy.sql_for_field(ids, "workflows", field)
   end
 end

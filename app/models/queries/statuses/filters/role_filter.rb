@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,30 +28,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module Utilities
-    class TextRenderer
-      include ActionView::Helpers::UrlHelper
-      include OpenProject::StaticRouting::UrlHelpers
-      include OpenProject::TextFormatting
-      include WorkPackagesHelper
+class Queries::Statuses::Filters::RoleFilter < Queries::Statuses::Filters::WorkflowFilter
+  # Role eager-loads its permissions, so plucking here would yield one entry per
+  # permission rather than per role.
+  def allowed_values
+    eligible_roles.map { |role| [role.name, role.id.to_s] }
+  end
 
-      def initialize(text, format: nil, object: nil)
-        @text = text
-        @format = format
-        @object = object
-        if object.respond_to?(:project)
-          @project = object.project
-        elsif @object.is_a?(Project)
-          @project = object
-        end
-      end
+  def where
+    transition_where("role_id", values.map(&:to_i))
+  end
 
-      def to_html
-        format_text(@text, format: @format, object: @object, project: @project)
-      end
+  def human_name
+    Role.model_name.human
+  end
 
-      def controller; end
-    end
+  def eligible_roles
+    Workflow.eligible_roles.order(Arel.sql("builtin, position"))
   end
 end

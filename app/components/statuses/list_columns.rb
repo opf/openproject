@@ -28,28 +28,39 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
+module Statuses
+  # Captions and row cells sit on two separate CSS grids, so they only stay
+  # aligned while both render the same columns. Both take the set from here.
+  module ListColumns
+    Column = Data.define(:area, :caption, :predicate)
 
-RSpec.describe API::V3::Formatter::TxtCharset do
-  let(:umlaut_object_ascii) { (+"ümläutß").force_encoding("ASCII-8BIT") }
-  let(:umlaut_object_utf8) { umlaut_object_ascii.force_encoding("utf-8") }
-  let(:env) { {} }
-
-  describe "#call" do
-    it "returns the object (string) encoded in the charset defined in env" do
-      env["CONTENT_TYPE"] = "text/plain; charset=UTF-8"
-
-      expect(described_class.call(umlaut_object_ascii.dup, env)).to eql umlaut_object_utf8
+    def columns
+      [
+        column(:name, Status.human_attribute_name(:name)),
+        (column(:"done-ratio", WorkPackage.human_attribute_name(:done_ratio)) if show_done_ratio?),
+        *flag_columns
+      ].compact
     end
 
-    it "returns the object (string) in default encoding if nothing defined in env" do
-      expect(described_class.call(umlaut_object_ascii.dup, env)).to eql umlaut_object_utf8
+    def flag_columns
+      [
+        column(:"is-closed", t("statuses.index.headers.is_closed"), predicate: :is_closed?),
+        column(:"is-readonly", t("statuses.index.headers.is_readonly"), predicate: :is_readonly?)
+      ]
     end
 
-    it "returns the object (string) unchanged if invalid charset is provided in env" do
-      env["CONTENT_TYPE"] = "text/plain; charset=bogus"
+    def show_done_ratio?
+      WorkPackage.status_based_mode?
+    end
 
-      expect(described_class.call(umlaut_object_ascii.dup, env)).to eql umlaut_object_ascii
+    def grid_modifier_class(element)
+      "op-statuses-list--#{element}_without-done-ratio" unless show_done_ratio?
+    end
+
+    private
+
+    def column(area, caption, predicate: nil)
+      Column.new(area:, caption:, predicate:)
     end
   end
 end

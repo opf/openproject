@@ -1932,10 +1932,6 @@ zh-CN:
       not_found:
         reminder: 找不到您要查找的提醒或者它已被删除。
         work_package: 找不到您要查找的工作包或者它已被删除。
-      render:
-        context_not_parsable: 所提供的上下文环境并不是指向资源的链接。
-        context_object_not_found: 找不到可作为上下文环境的资源。
-        unsupported_context: 所提供的资源不被上下文环境所支持。
       unable_to_create_attachment: 无法创建附件
       unable_to_create_attachment_permissions: 由于缺少文件系统权限，无法保存附件
       user:
@@ -5951,13 +5947,14 @@ zh-CN:
         <br>
         <strong>注</strong>：继承值（例如，来自子级或关系的值）仍然适用。
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: 不包括在总计中
         is_closed: 已关闭
-        is_default: 默认
         is_readonly: 只读
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: 添加新的状态
       no_results_title_text: 目前没有工作包状态。
+      status_actions: Status actions
   support:
     array:
       sentence_connector: 和
@@ -6247,7 +6244,6 @@ zh-CN:
         add_query_group: 相关的工作包表
         blankslate_description: 使用上方按钮添加群组，或从左侧面板拖动特性。
         blankslate_title: 还没有群组
-        builtin_field: 内置字段
         confirm_delete_group: 确定要删除此小节吗？此操作无法自动撤消。
         confirm_reset: Are you sure you want to reset the form?
         custom_field: 自定义字段

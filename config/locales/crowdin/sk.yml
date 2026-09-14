@@ -2290,10 +2290,6 @@ sk:
       not_found:
         reminder: The reminder you are looking for cannot be found or has been deleted.
         work_package: The work package you are looking for cannot be found or has been deleted.
-      render:
-        context_not_parsable: Zadaný kontext nie je odkazom na prostriedok.
-        context_object_not_found: Pre vložené vstupné podmienky neboli nájdené žiadne prostriedky.
-        unsupported_context: Zadaný prostriedok nie je podporovaný ako kontext.
       unable_to_create_attachment: Prílohu sa nepodarilo vytvoriť
       unable_to_create_attachment_permissions: The attachment could not be saved due to lacking file system permissions
       user:
@@ -6449,13 +6445,14 @@ sk:
         <br>
         <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Excluded from totals
         is_closed: Zatvorený
-        is_default: Predvolený
         is_readonly: Iba na čítanie
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Pridať nový stav
       no_results_title_text: Momentálne nie sú žiadne stavy pracovného balíka.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: a
@@ -6741,7 +6738,6 @@ sk:
         add_query_group: Related work packages table
         blankslate_description: Add groups using the button above or drag attributes from the left panel.
         blankslate_title: No groups yet
-        builtin_field: Built-in field
         confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Custom field

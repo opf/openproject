@@ -28,44 +28,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Statuses
-  class TableComponent < ::TableComponent
-    def initial_sort
-      %i[id asc]
-    end
+require "rails_helper"
 
-    def sortable?
-      false
-    end
+RSpec.describe Backlogs::SelectionDescriptionComponent, type: :component do
+  subject(:rendered_component) { render_inline(described_class.new) && page }
 
-    def columns
-      headers.map(&:first)
-    end
+  # `visible: :all` because the element is permanently `hidden`, which is the
+  # one form of invisibility Capybara::Node::Simple does honour.
 
-    def inline_create_link
-      link_to new_status_path,
-              aria: { label: t(:label_work_package_status_new) },
-              class: "wp-inline-create--add-link",
-              title: t(:label_work_package_status_new) do
-        helpers.op_icon("icon icon-add")
-      end
-    end
+  it "renders the description every selected card points at" do
+    expect(rendered_component)
+      .to have_css("##{described_class::DESCRIPTION_ID}", text: I18n.t("js.backlogs.selection.card_state"),
+                                                          visible: :all)
+  end
 
-    def empty_row_message
-      I18n.t :no_results_title_text
-    end
-
-    def headers
-      [
-        [:name, { caption: Status.human_attribute_name(:name) }],
-        [:color, { caption: Status.human_attribute_name(:color) }],
-        [:done_ratio, { caption: WorkPackage.human_attribute_name(:done_ratio) }],
-        [:default?, { caption: I18n.t("statuses.index.headers.is_default") }],
-        [:closed?, { caption: I18n.t("statuses.index.headers.is_closed") }],
-        [:readonly?, { caption: I18n.t("statuses.index.headers.is_readonly") }],
-        [:excluded_from_totals?, { caption: I18n.t("statuses.index.headers.excluded_from_totals") }],
-        [:sort, { caption: I18n.t(:label_sort) }]
-      ]
-    end
+  # `hidden` keeps this out of the planning columns' layout: reserving space
+  # above two independently scrolling columns moved the cards under the user's
+  # cursor mid-drag.
+  it "keeps the description hidden, since only aria-describedby reaches it" do
+    expect(rendered_component).to have_css("##{described_class::DESCRIPTION_ID}[hidden]", visible: :all)
   end
 end

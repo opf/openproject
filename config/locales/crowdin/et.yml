@@ -2050,10 +2050,6 @@ et:
       not_found:
         reminder: The reminder you are looking for cannot be found or has been deleted.
         work_package: The work package you are looking for cannot be found or has been deleted.
-      render:
-        context_not_parsable: The context provided is not a link to a resource.
-        context_object_not_found: Cannot find the resource given as the context.
-        unsupported_context: The resource given is not supported as context.
       unable_to_create_attachment: The attachment could not be created
       unable_to_create_attachment_permissions: The attachment could not be saved due to lacking file system permissions
       user:
@@ -6121,13 +6117,14 @@ et:
         <br>
         <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Jäetakse koguarvust välja
         is_closed: Suletud
-        is_default: Vaikimisi
         is_readonly: Kirjutuskaitstud
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Lisa uus staatus
       no_results_title_text: There are currently no work package statuses.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: ja
@@ -6413,7 +6410,6 @@ et:
         add_query_group: Related work packages table
         blankslate_description: Add groups using the button above or drag attributes from the left panel.
         blankslate_title: No groups yet
-        builtin_field: Built-in field
         confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Custom field

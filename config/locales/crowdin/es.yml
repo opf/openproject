@@ -2050,10 +2050,6 @@ es:
       not_found:
         reminder: No se encuentra el recordatorio que busca, o bien se ha eliminado.
         work_package: No se encuentra el paquete de trabajo que busca, o bien se ha eliminado.
-      render:
-        context_not_parsable: El contexto proporcionado no es un enlace a un recurso.
-        context_object_not_found: No se ha podido encontrar el recurso dado como el contexto.
-        unsupported_context: El recurso dado no es soportado como contexto.
       unable_to_create_attachment: No se pudo crear el adjunto
       unable_to_create_attachment_permissions: No se pudo guardar el archivo adjunto porque faltan permisos del sistema de archivos
       user:
@@ -6110,13 +6106,14 @@ es:
         <br>
         <strong>Nota</strong>: Los valores heredados (por ejemplo, de elementos secundarios o relaciones) seguirán aplicándose.
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Excluido de totales
         is_closed: Cerrado
-        is_default: Por defecto
         is_readonly: Solo lectura
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Añadir un nuevo estado
       no_results_title_text: Actualmente no hay estados de paquetes de trabajo.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: "y"
@@ -6402,7 +6399,6 @@ es:
         add_query_group: Tabla de paquetes de trabajo relacionados
         blankslate_description: Añade grupos usando el botón de arriba o arrastra atributos desde el panel de la izquierda.
         blankslate_title: Aún no hay grupos
-        builtin_field: Campo integrado
         confirm_delete_group: "¿Seguro que quieres eliminar esta sección? Esta acción no se puede deshacer automáticamente."
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Campo personalizado

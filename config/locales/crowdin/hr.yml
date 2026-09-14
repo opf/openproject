@@ -2170,10 +2170,6 @@ hr:
       not_found:
         reminder: The reminder you are looking for cannot be found or has been deleted.
         work_package: The work package you are looking for cannot be found or has been deleted.
-      render:
-        context_not_parsable: Predviđena dopuna nije poveznica na resurs.
-        context_object_not_found: Ne mogu pronaći resurs zadan kao kontekst.
-        unsupported_context: Dani resurs nije podržan u obliku konteksta.
       unable_to_create_attachment: The attachment could not be created
       unable_to_create_attachment_permissions: The attachment could not be saved due to lacking file system permissions
       user:
@@ -6282,13 +6278,14 @@ hr:
         <br>
         <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Excluded from totals
         is_closed: Zaključeno
-        is_default: Zadana vrijednost
         is_readonly: Samo čitanje
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Novi status
       no_results_title_text: Trenutačno ne postoje izvješća o statusu radnih paketa.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: i
@@ -6576,7 +6573,6 @@ hr:
         add_query_group: Related work packages table
         blankslate_description: Add groups using the button above or drag attributes from the left panel.
         blankslate_title: No groups yet
-        builtin_field: Built-in field
         confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Custom field
