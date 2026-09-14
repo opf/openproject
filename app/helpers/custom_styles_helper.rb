@@ -115,37 +115,53 @@ module CustomStylesHelper
       (EnterpriseToken.allows_to?(:define_custom_style) || skip_ee_check)
   end
 
-  def custom_logo?
-    CustomStyle.current.present? &&
-      (CustomStyle.current.logo.present? || CustomStyle.current.theme_logo.present?)
-  end
-
-  def desktop_logo_present?
-    style = CustomStyle.current
-    return false unless style
-
-    style.logo.present? || style.theme_logo.present?
-  end
-
   def mobile_logo_present?
     style = CustomStyle.current
     return false unless style
 
-    style.logo_mobile.present?
+    CustomStyle::LOGO_FIELDS.fetch(:mobile).values.any? do |field|
+      style.public_send(field).present?
+    end
   end
 
-  def show_waffle_icon?
-    # Both logos → show icon (mobile logo will be applied by CSS)
-    return true if desktop_logo_present? && mobile_logo_present?
+  def custom_logo_url(custom_style, attachment)
+    return if attachment.blank?
 
-    # Only mobile → show icon
-    return true if mobile_logo_present?
+    field = attachment.mounted_as
+    custom_style_logo_path(
+      digest: custom_style.digest,
+      filename: custom_style.public_send(:"#{field}_identifier"),
+      field:
+    )
+  end
 
-    # Only desktop → hide icon on mobile
-    return false if desktop_logo_present?
+  def custom_logo_urls(custom_style)
+    CustomStyle::LOGO_FIELDS.to_h do |key, fields|
+      modes = fields.keys.to_h do |mode|
+        attachment = custom_style.logo_for(
+          color_mode: mode == :dark ? :dark : :light,
+          high_contrast: mode == :light_high_contrast,
+          mobile: key == :mobile
+        )
 
-    # No logos → show fallback icon
-    true
+        [mode, custom_logo_url(custom_style, attachment)]
+      end
+
+      [key, modes]
+    end
+  end
+
+  def resolved_logo_urls
+    defaults = default_logo_urls
+    return defaults unless apply_custom_styles?
+
+    logo_urls_with_custom_style(CustomStyle.current, defaults)
+  end
+
+  def custom_logo_uploads(custom_style, mobile: false)
+    CustomStyle::LOGO_FIELDS.fetch(mobile ? :mobile : :desktop).map do |mode, field|
+      custom_logo_upload(custom_style, mode:, field:)
+    end
   end
 
   # The default favicon and touch icons are both the same for normal OP and BIM.
@@ -171,5 +187,74 @@ module CustomStylesHelper
         instructions: I18n.t("text_custom_export_font_#{variant}_instructions")
       }
     end
+  end
+
+  private
+
+  def default_logo_urls
+    desktop_light = asset_path(I18n.locale == :ru ? "logo-white-bg-ua.png" : "logo_openproject_white_big.png")
+    desktop_light_high_contrast = if OpenProject::Configuration.bim?
+                                    asset_path("bim/logo_openproject_bim_big_coloured.png")
+                                  else
+                                    asset_path(I18n.locale == :ru ? "logo-black-bg-ua.png" : "logo_openproject.png")
+                                  end
+    mobile_white = asset_path("icon_logo_white.svg")
+
+    {
+      desktop: {
+        light: desktop_light,
+        light_high_contrast: desktop_light_high_contrast,
+        dark: desktop_light
+      },
+      mobile: {
+        light: asset_path("icon_logo.svg"),
+        white: mobile_white,
+        light_high_contrast: asset_path("icon_logo.svg"),
+        dark: mobile_white
+      }
+    }
+  end
+
+  def logo_urls_with_custom_style(custom_style, defaults)
+    desktop, mobile = custom_logo_urls(custom_style).fetch_values(:desktop, :mobile)
+    theme_logo = locale_aware_theme_logo(custom_style)
+
+    desktop = desktop_fallback_to_mobile(desktop, mobile)
+
+    {
+      desktop: defaults[:desktop].merge({ light: theme_logo, dark: theme_logo }.compact).merge(desktop.compact),
+      mobile: defaults[:mobile].merge(mobile.compact).merge(white: mobile[:light] || defaults.dig(:mobile, :white))
+    }
+  end
+
+  def desktop_fallback_to_mobile(desktop, mobile)
+    return desktop if desktop.values.any?
+
+    mobile.slice(*desktop.keys)
+  end
+
+  def locale_aware_theme_logo(custom_style)
+    return if custom_style.theme_logo.blank?
+
+    logo = custom_style.theme_logo
+    logo = "logo-black-bg-ua.png" if I18n.locale == :ru && logo == "logo_openproject.png"
+
+    asset_path(logo)
+  end
+
+  def custom_logo_upload(custom_style, mode:, field:)
+    attachment = custom_style.public_send(field)
+    present = custom_style.persisted? && attachment.present?
+
+    {
+      field:,
+      label: t("admin.custom_styles.branding.modes.#{mode}.name"),
+      present:,
+      source: present ? custom_logo_url(custom_style, attachment) : nil,
+      img_class: field.to_s.start_with?("logo_mobile") ? "custom-logo-mobile-preview" : "custom-logo-preview",
+      accept: "image/*",
+      delete_path: custom_style_logo_delete_path(field:),
+      instructions: t("admin.custom_styles.branding.modes.#{mode}.description")
+    }
   end
 end
