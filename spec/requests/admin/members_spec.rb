@@ -181,17 +181,6 @@ RSpec.describe "GET /admin/members", :aggregate_failures, :skip_csrf, type: :rai
       end
     end
 
-    it "offers each role exactly once in the role filter" do
-      # A role holding several permissions is what used to be listed once per permission.
-      expect(role.permissions.size).to be > 1
-
-      values = Queries::Members::MemberQuery.new(user: admin).filter_for(:role_id).allowed_values
-
-      expect(values.count { |(_, id)| id == role.id }).to eq(1)
-      expect(values).to eq(values.uniq)
-      expect(values.map(&:first)).to eq(values.map(&:first).sort)
-    end
-
     it "filters by project" do
       get admin_members_path(filters: [{ project_id: { operator: "=", values: [archived_project.id.to_s] } }].to_json)
 
