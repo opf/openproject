@@ -134,7 +134,6 @@ flowchart
     classDef atlassian fill:#e9f0fb,stroke:#0052CC,stroke-width:1px,color:#0052CC;
     classDef openproject fill:#e8eef2,stroke:#0D4A73,stroke-width:1px,color:#0D4A73;
     classDef xwiki fill:#e6f4fa,stroke:#0087CB,stroke-width:1px,color:#0087CB;
-    classDef atlassian fill:#e9f0fb,stroke:#0052CC,stroke-width:1px,color:#0052CC;
     classDef neutral fill:#FFFFFF,stroke:#000000,stroke-width:1px,color:#000000;
 
     class OPC,OPXW,XW1I,XW2I,R openproject
