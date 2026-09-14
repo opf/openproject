@@ -31,6 +31,8 @@
 require "spec_helper"
 
 RSpec.describe Activities::MessageActivityProvider do
+  include Rails.application.routes.url_helpers
+
   let(:event_scope) { "messages" }
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
@@ -47,7 +49,7 @@ RSpec.describe Activities::MessageActivityProvider do
 
       it "links to the forum topic" do
         expect(events.first.event_path)
-          .to eq("/projects/#{project.identifier}/forums/#{forum.id}/topics/#{topic.id}")
+          .to eq(project_forum_topic_path(project, forum, topic))
       end
     end
 
@@ -57,7 +59,7 @@ RSpec.describe Activities::MessageActivityProvider do
 
       it "links to the replied message in its forum topic" do
         expect(events.first.event_path)
-          .to eq("/projects/#{project.identifier}/forums/#{forum.id}/topics/#{topic.id}?r=#{reply.id}#message-#{reply.id}")
+          .to eq(project_forum_topic_path(project, forum, topic, r: reply.id, anchor: "message-#{reply.id}"))
       end
     end
   end
