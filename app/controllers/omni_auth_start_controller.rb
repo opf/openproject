@@ -53,8 +53,6 @@ class OmniAuthStartController < ApplicationController
 
   def permitted_omniauth_provider_name(name)
     requested = name.to_s
-    return requested if requested == direct_login_provider
-
     provider = OpenProject::Plugins::AuthPlugin.find_provider_by_name(requested)
     return provider[:name].to_s if provider.present?
     return requested if requested == "developer" && !Rails.env.production?

@@ -49,6 +49,14 @@ RSpec.describe OmniAuthStartController do
       expect(response).to have_http_status :not_found
     end
 
+    it "returns 404 when the direct login setting names an unknown provider" do
+      allow(Setting).to receive(:omniauth_direct_login_provider).and_return("unknown")
+
+      get :show, params: { provider: "unknown" }
+
+      expect(response).to have_http_status :not_found
+    end
+
     context "when already logged in" do
       let(:user) { create(:user) }
 
