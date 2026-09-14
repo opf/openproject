@@ -764,6 +764,7 @@ Rails.application.routes.draw do
 
     resources :roles, except: %i[show] do
       member do
+        get :deletion_dialog
         put :drop
       end
 

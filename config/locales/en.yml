@@ -5676,6 +5676,33 @@ en:
       cannot_annotate: "This file cannot be annotated."
 
   roles:
+    delete_dialog:
+      entry:
+        one: "%{user} (Project: %{projects})"
+        other: "%{user} (Projects: %{projects})"
+      entry_truncated:
+        one: "%{user} (Projects: %{projects} and 1 other)"
+        other: "%{user} (Projects: %{projects} and %{count} others)"
+      heading:
+        one: "This role is still attributed to 1 member:"
+        other: "This role is still attributed to %{count} members:"
+      heading_unused: "Are you sure you want to delete the role \"%{name}\"?"
+      losing_global_role:
+        one: "Out of these users, 1 will lose this global role entirely. Are you sure you want to delete this role?"
+        other: "Out of these users, %{count} will lose this global role entirely. Are you sure you want to delete this role?"
+        zero: "None of these users will lose their global membership. Are you sure you want to delete this role?"
+      losing_project_access:
+        one: "Out of these users, 1 will lose access to some projects as this is their only role in those projects. Are you sure you want to delete this role?"
+        other: "Out of these users, %{count} will lose access to some projects as this is their only role in those projects. Are you sure you want to delete this role?"
+        zero: "None of these users will lose project access. Are you sure you want to delete this role?"
+      summary: "%{users} in %{projects}"
+      summary_projects:
+        one: "1 project"
+        other: "%{count} projects"
+      summary_users:
+        one: "1 user"
+        other: "%{count} users"
+      title: "Delete role"
     edit:
       default_for_new_projects_warning: >-
         This role is configured as the default role given to non-admin users who create a project.
