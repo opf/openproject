@@ -50,7 +50,7 @@ RSpec.shared_context "given a visible setup" do
     create(:text_wp_custom_field, types: [])
   end
   # Hidden: only the Task configuration shows it, and Task is used solely where the user is no member.
-  shared_let(:cf_on_type_outside_visible_projects) { create(:text_wp_custom_field, is_for_all: true, types: [task]) }
+  shared_let(:cf_on_type_outside_visible_projects) { create(:text_wp_custom_field, types: [task]) }
 
   # Visible: the Feature configuration shows it, and Feature is used in a project the user belongs to.
   shared_let(:integer_cf_on_visible_type) { create(:integer_wp_custom_field, types: [feature, task]) }
@@ -62,6 +62,6 @@ RSpec.shared_context "given a visible setup" do
   shared_let(:boolean_cf_on_visible_type) do
     create(:boolean_wp_custom_field, types: [feature, task])
   end
-  # Visible for that same reason: is_for_all has no bearing on a work package custom field.
-  shared_let(:for_all_cf_on_visible_type) { create(:text_wp_custom_field, is_for_all: true, types: [feature, task]) }
+  # Visible: the same reach again, as a text field.
+  shared_let(:text_cf_on_visible_type) { create(:text_wp_custom_field, types: [feature, task]) }
 end
