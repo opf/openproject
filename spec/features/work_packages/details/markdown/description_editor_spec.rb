@@ -34,7 +34,7 @@ require "features/work_packages/shared_contexts"
 require "support/edit_fields/edit_field"
 require "features/work_packages/work_packages_page"
 
-RSpec.describe "description inplace editor", :js, :selenium do
+RSpec.describe "description inplace editor", :js do
   let(:project) { create(:project_with_types, public: true) }
   let(:property_name) { :description }
   let(:property_title) { "Description" }

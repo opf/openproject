@@ -361,15 +361,13 @@ RSpec.describe "Primerized work package relations tab",
 
       wait_for_network_idle
 
-      click_link_or_button "Add"
-
-      wait_for_network_idle
+      wait_for_turbo_stream { click_link_or_button "Add" }
 
       expect(page).to have_text "The selected work package could not be found."
 
       relations_tab.search_in_autocompleter(wp_blocks)
 
-      click_link_or_button "Add"
+      wait_for_turbo_stream { click_link_or_button "Add" }
 
       relations_tab.expect_relation(wp_blocks)
 

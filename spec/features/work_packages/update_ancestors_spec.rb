@@ -133,6 +133,7 @@ RSpec.describe "Update ancestors", :js do
       context_menu = wp_table.open_context_menu_for(second_child)
       context_menu.choose_delete_and_confirm_deletion
 
+      wait_for { WorkPackage.exists?(second_child.id) }.to be(false)
       parent.reload
       expect(parent.derived_estimated_hours).to eq([parent, child].pluck(:estimated_hours).sum)
       expect(parent.derived_remaining_hours).to eq([parent, child].pluck(:remaining_hours).sum)

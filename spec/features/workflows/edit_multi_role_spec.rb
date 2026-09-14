@@ -380,8 +380,11 @@ RSpec.describe "Workflow edit with multiple roles", :js do
           all(:link, "Status").last.click
         end
         within_dialog "Statuses" do
-          find(".ng-arrow-wrapper").click
-          find(".ng-option", text: statuses[0].name).click
+          select_autocomplete(
+            find("ng-select"),
+            query: statuses[0].name,
+            wait_for_fetched_options: false
+          )
           click_button "Apply"
         end
 

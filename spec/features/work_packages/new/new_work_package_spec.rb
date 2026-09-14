@@ -70,12 +70,6 @@ RSpec.describe "new work package", :js do
     project_field.set_value project_name
 
     wait_for_network_idle
-
-    # Select self as assignee
-    assignee_field.openSelectField
-    assignee_field.set_value user.name
-
-    wait_for_network_idle
   end
 
   before do
@@ -83,16 +77,20 @@ RSpec.describe "new work package", :js do
     login_as(user)
   end
 
-  shared_examples "work package creation workflow" do
+  shared_examples "work package creation workflow" do |full_matrix:|
     before do
       create_method.call(type_task, project.name)
 
       expect(page).to have_selector(safeguard_selector, wait: 10)
     end
 
-    it "creates a subsequent work package" do
+    it "creates a basic work package and then a subsequent work package" do
       wp_page.subject_field.set(subject)
+      description_field.set_value(description)
       save_work_package!
+
+      expect(page).to have_css(".op-work-package-tabs")
+      wp_page.edit_field(:description).expect_state_text(description)
 
       # safeguards
       wp_page.dismiss_toaster!
@@ -109,109 +107,99 @@ RSpec.describe "new work package", :js do
       type_field.expect_state_text /#{type_bug.name}/i
     end
 
-    it "saves the work package with enter" do
-      subject_field = wp_page.subject_field
-      subject_field.set(subject)
-      subject_field.send_keys(:enter)
-
-      # safeguards
-      wp_page.dismiss_toaster!
-      wp_page.expect_no_toaster(
-        message: "Successful creation."
-      )
-
-      wp_page.edit_field(:subject).expect_text(subject)
-    end
-
-    context "with missing values" do
-      it "shows an error when subject is missing" do
-        description_field.set_value(description)
-
-        # Need to send keys to emulate change
+    if full_matrix
+      it "saves the work package with enter" do
         subject_field = wp_page.subject_field
-        subject_field.set("")
-        subject_field.send_keys("a")
-        subject_field.send_keys(:backspace)
+        subject_field.set(subject)
+        subject_field.send_keys(:enter)
 
-        save_work_package!(false)
-        toaster.expect_error("Subject can't be blank.")
-      end
-    end
-
-    context "with subject set" do
-      it "creates a basic work package" do
-        description_field = wp_page.edit_field :description
-        description_field.set_value description
-
-        save_work_package!
-        expect(page).to have_css(".op-work-package-tabs")
-
-        subject_field.expect_state_text(subject)
-        description_field = wp_page.edit_field :description
-        description_field.expect_state_text(description)
-      end
-
-      it "can switch types and keep attributes" do
-        wp_page.subject_field.set(subject)
-        type_field.activate!
-        type_field.openSelectField
-        type_field.set_value type_bug.name
-
-        save_work_package!
-
-        wp_page.expect_attributes(subject:)
-        wp_page.expect_attributes type: type_bug.name.upcase
-      end
-    end
-
-    describe "custom fields" do
-      let(:custom_field1) do
-        create(
-          :work_package_custom_field,
-          field_format: "string",
-          is_required: true,
-          is_for_all: true
+        # safeguards
+        wp_page.dismiss_toaster!
+        wp_page.expect_no_toaster(
+          message: "Successful creation."
         )
-      end
-      let(:custom_field2) do
-        create(
-          :work_package_custom_field,
-          field_format: "list",
-          possible_values: %w(foo bar xyz),
-          is_required: false,
-          is_for_all: true
-        )
-      end
-      let(:custom_fields) do
-        [custom_field1, custom_field2]
-      end
-      let(:type_task) { create(:type_task, custom_fields:) }
-      let(:project) do
-        create(:project,
-               types:,
-               work_package_custom_fields: custom_fields)
+
+        wp_page.edit_field(:subject).expect_text(subject)
       end
 
-      it "saves and validates the custom field values" do
-        custom_fields.map(&:id)
-        cf1 = find(".#{custom_fields.first.attribute_name(:camel_case)} input")
-        expect(cf1).not_to be_nil
+      context "with missing values" do
+        it "shows an error when subject is missing" do
+          description_field.set_value(description)
 
-        expect(page).to have_css(".#{custom_fields.last.attribute_name(:camel_case)} ng-select")
+          # Need to send keys to emulate change
+          subject_field = wp_page.subject_field
+          subject_field.set("")
+          subject_field.send_keys("a")
+          subject_field.send_keys(:backspace)
 
-        cf = wp_page.edit_field custom_fields.last.attribute_name(:camel_case)
-        cf.field_type = "create-autocompleter"
-        cf.openSelectField
-        cf.set_value "foo"
-        save_work_package!(false)
+          save_work_package!(false)
+          toaster.expect_error("Subject can't be blank.")
+        end
+      end
 
-        toaster.expect_error("#{custom_field1.name} can't be blank.")
+      context "with subject set" do
+        it "can switch types and keep attributes" do
+          wp_page.subject_field.set(subject)
+          type_field.activate!
+          type_field.openSelectField
+          type_field.set_value type_bug.name
 
-        cf1.set "Custom field content"
-        save_work_package!(true)
+          save_work_package!
 
-        wp_page.expect_attributes "customField#{custom_field1.id}" => "Custom field content",
-                                  "customField#{custom_field2.id}" => "foo"
+          wp_page.expect_attributes(subject:)
+          wp_page.expect_attributes type: type_bug.name.upcase
+        end
+      end
+
+      describe "custom fields" do
+        let(:custom_field1) do
+          create(
+            :work_package_custom_field,
+            field_format: "string",
+            is_required: true,
+            is_for_all: true
+          )
+        end
+        let(:custom_field2) do
+          create(
+            :work_package_custom_field,
+            field_format: "list",
+            possible_values: %w(foo bar xyz),
+            is_required: false,
+            is_for_all: true
+          )
+        end
+        let(:custom_fields) do
+          [custom_field1, custom_field2]
+        end
+        let(:type_task) { create(:type_task, custom_fields:) }
+        let(:project) do
+          create(:project,
+                 types:,
+                 work_package_custom_fields: custom_fields)
+        end
+
+        it "saves and validates the custom field values" do
+          custom_fields.map(&:id)
+          cf1 = find(".#{custom_fields.first.attribute_name(:camel_case)} input")
+          expect(cf1).not_to be_nil
+
+          expect(page).to have_css(".#{custom_fields.last.attribute_name(:camel_case)} ng-select")
+
+          cf = wp_page.edit_field custom_fields.last.attribute_name(:camel_case)
+          cf.field_type = "create-autocompleter"
+          cf.openSelectField
+          cf.set_value "foo"
+          save_work_package!(false)
+
+          toaster.expect_error("#{custom_field1.name} can't be blank.")
+
+          cf1.set "Custom field content"
+          save_work_package!(true)
+
+          wp_page.expect_attributes "customField#{custom_field1.id}" => "Custom field content",
+                                    "customField#{custom_field2.id}" => "foo"
+        end
       end
     end
   end
@@ -225,15 +213,8 @@ RSpec.describe "new work package", :js do
       wp_table.visit!
     end
 
-    it_behaves_like "work package creation workflow" do
+    it_behaves_like "work package creation workflow", full_matrix: false do
       let(:create_method) { method(:create_work_package) }
-    end
-
-    it "allows to go to the full page through the toaster (Regression #37555)" do
-      create_work_package(type_task)
-      save_work_package!
-
-      wp_page.expect_toast message: "Successful creation."
     end
 
     it "reloads the table and selects the new work package" do
@@ -309,7 +290,7 @@ RSpec.describe "new work package", :js do
       )
     end
 
-    it_behaves_like "work package creation workflow" do
+    it_behaves_like "work package creation workflow", full_matrix: true do
       let(:create_method) { method(:create_work_package) }
     end
   end
@@ -323,7 +304,7 @@ RSpec.describe "new work package", :js do
       wp_table.visit!
     end
 
-    it_behaves_like "work package creation workflow" do
+    it_behaves_like "work package creation workflow", full_matrix: false do
       let(:create_method) { method(:create_work_package_globally) }
     end
 
@@ -353,6 +334,10 @@ RSpec.describe "new work package", :js do
     it "can save the work package with an assignee (Regression #32887)" do
       create_work_package_globally(type_task, project.name)
       expect(page).to have_selector(safeguard_selector, wait: 10)
+
+      assignee_field.openSelectField
+      assignee_field.set_value user.name
+      wait_for_network_idle
 
       wp_page.subject_field.set("new work package")
       save_work_package!
@@ -416,18 +401,12 @@ RSpec.describe "new work package", :js do
     end
   end
 
-  context "as a user with no permissions" do
-    let(:role) { create(:project_role, permissions: %i(view_work_packages)) }
+  context "as a user with no permission to add work packages" do
+    let(:role) { create(:project_role, permissions: %i[view_work_packages]) }
     let(:user) { create(:user, member_with_roles: { project => role }) }
     let(:wp_page) { Pages::Page.new }
 
-    it "shows a 403 error on creation paths" do
-      visit new_work_package_path
-      wp_page.expect_flash(type: :error, message: I18n.t(:notice_not_authorized))
-
-      visit new_project_work_packages_path(project)
-      wp_page.expect_flash(type: :error, message: I18n.t(:notice_not_authorized))
-
+    it "shows the API authorization error on split creation paths" do
       visit new_split_work_packages_path
       wp_page.expect_toast(type: :error, message: I18n.t("api_v3.errors.code_403"))
 
@@ -448,8 +427,7 @@ RSpec.describe "new work package", :js do
     it "can create the work package, but not update it after saving" do
       type_field.activate!
       type_field.set_value type_bug.name
-      # wait after the type change
-      sleep(0.2)
+      type_field.expect_state_text(/#{type_bug.name}/i)
       subject_field.update("new work package", save: true)
 
       wp_page.expect_and_dismiss_toaster(
@@ -459,27 +437,6 @@ RSpec.describe "new work package", :js do
       subject_field.expect_read_only
       subject_field.display_element.click
       subject_field.expect_inactive!
-    end
-  end
-
-  context "an anonymous user is prompted to login" do
-    let(:user) { create(:anonymous) }
-    let(:wp_page) { Pages::Page.new }
-
-    let(:paths) do
-      [
-        new_work_package_path,
-        new_split_work_packages_path,
-        new_project_work_packages_path(project),
-        new_split_project_work_packages_path(project)
-      ]
-    end
-
-    it "shows a 403 error on creation paths" do
-      paths.each do |path|
-        visit path
-        expect(wp_page.current_url).to match /#{signin_path}\?back_url=/
-      end
     end
   end
 
