@@ -128,11 +128,14 @@ module RecurringMeetings
         .exists?
     end
 
+    # This moves only the occurrences that did not start.
+    # Occurrences in the past will keep their slot.
     def update_time_of_day(recurring_meeting) # rubocop:disable Metrics/AbcSize
       recurring_meeting
         .meetings
         .not_templated
         .where.not(recurrence_start_time: nil)
+        .where(recurrence_start_time: Time.current..)
         .find_each do |meeting|
         # Ensure we treat the recurrence_start_time as a local time of the series
         occurrence_time = meeting.recurrence_start_time.in_time_zone(recurring_meeting.time_zone)

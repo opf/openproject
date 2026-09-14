@@ -37,6 +37,8 @@ module Meetings
     # silently dropped from the feed to keep it bounded.
     PAST_OCCURRENCES_LIMIT = 10
 
+    OccurrenceSchedule = Struct.new(:uid, :summary, :timezone, :sequence)
+
     attr_reader :builder_internal_timezone, :calendar, :all_times, :calendar_generated_for_user
 
     delegate :publish, to: :calendar
@@ -133,8 +135,7 @@ module Meetings
     # We need to output that as a separate master event.
     # RFC 5546 3.2.2 allows only one UID per REQUEST, so we need to actually send out separate mails for this.
     # This matches the behavior of other cross-service series schedule changes.
-    def historic_schedule_event(recurring_meeting:) # rubocop:disable Metrics/AbcSize
-      historic = recurring_meeting.last_historic_schedule
+    def historic_schedule_event(recurring_meeting:, historic: recurring_meeting.last_historic_schedule) # rubocop:disable Metrics/AbcSize
       return if historic.nil?
 
       timezone = historic.time_zone
@@ -167,14 +168,43 @@ module Meetings
 
         add_attendees(event: e, meeting: recurring_meeting.template, rsvp: false)
       end
+
+      add_historic_occurrences(recurring_meeting:, historic:)
     end
 
-    def add_single_recurring_occurrence(meeting:, cancelled: false) # rubocop:disable Metrics/AbcSize
+    def occurrence_schedule(recurring_meeting, historic)
+      if historic
+        OccurrenceSchedule.new(historic.uid, historic.summary, historic.time_zone, historic.sequence)
+      else
+        OccurrenceSchedule.new(recurring_meeting.uid, recurring_meeting.title,
+                               recurring_meeting.time_zone, recurring_meeting.ical_sequence)
+      end
+    end
+
+    def add_historic_occurrences(recurring_meeting:, historic:)
+      historic_occurrences(recurring_meeting, historic).each do |meeting|
+        add_single_recurring_occurrence(meeting:, historic:)
+      end
+    end
+
+    # These are the occurrences that ran in the frozen window. The frozen master has an EXDATE for
+    # each occurrence that a user cancelled, and instantiated_schedules does not give those.
+    def historic_occurrences(recurring_meeting, historic)
+      instantiated_schedules(recurring_meeting)
+        .select { it.recurrence_start_time.between?(historic.dtstart, historic.ends_at) }
+        .sort_by(&:recurrence_start_time)
+        .last(PAST_OCCURRENCES_LIMIT)
+    end
+
+    def add_single_recurring_occurrence(meeting:, cancelled: false, historic: nil) # rubocop:disable Metrics/AbcSize
       recurring_meeting = meeting.recurring_meeting
+      # The schedule may either be the current "live" one, or a historic
+      schedule = occurrence_schedule(recurring_meeting, historic)
+      timezone = schedule.timezone
 
       calendar.event do |e|
-        e.uid = recurring_meeting.uid
-        e.summary = recurring_meeting.title
+        e.uid = schedule.uid
+        e.summary = schedule.summary
 
         occurrence_url = url_helpers.meeting_url(meeting)
         e.url = occurrence_url
@@ -185,11 +215,11 @@ module Meetings
 
         e.created = meeting.created_at.utc
         e.last_modified = meeting.updated_at.utc
-        e.sequence = [meeting.lock_version, recurring_meeting.ical_sequence].max
+        e.sequence = [meeting.lock_version, schedule.sequence].max
 
-        e.recurrence_id = ical_datetime(meeting.recurrence_start_time, timezone: recurring_meeting.time_zone)
-        e.dtstart = ical_datetime(meeting.start_time, timezone: recurring_meeting.time_zone)
-        e.dtend = ical_datetime(meeting.end_time, timezone: recurring_meeting.time_zone)
+        e.recurrence_id = ical_datetime(meeting.recurrence_start_time, timezone:)
+        e.dtstart = ical_datetime(meeting.start_time, timezone:)
+        e.dtend = ical_datetime(meeting.end_time, timezone:)
         e.location = meeting.location.presence
 
         add_attendees(event: e, meeting: meeting)
