@@ -33,7 +33,7 @@ require "rails_helper"
 RSpec.describe CustomFields::DetailsComponent, type: :component do
   subject(:rendered) { render_inline(described_class.new(custom_field)) }
 
-  let(:banner) { I18n.t("custom_fields.admin.notice.remember_items_and_projects") }
+  let(:banner) { "Remember to set items for this custom field, and to make sure it is used in at least one project." }
 
   current_user { create(:admin) }
 
