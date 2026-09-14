@@ -57,6 +57,7 @@ class Journal < ApplicationRecord
   register_journal_formatter OpenProject::JournalFormatter::Diff
   register_journal_formatter OpenProject::JournalFormatter::FileLink
   register_journal_formatter OpenProject::JournalFormatter::IgnoreNonWorkingDays
+  register_journal_formatter OpenProject::JournalFormatter::Labels
   register_journal_formatter OpenProject::JournalFormatter::MeetingStartTime
   register_journal_formatter OpenProject::JournalFormatter::MeetingState
   register_journal_formatter OpenProject::JournalFormatter::MeetingWorkPackageId
@@ -133,6 +134,7 @@ class Journal < ApplicationRecord
   has_many :custom_comment_journals, class_name: "Journal::CustomCommentJournal", dependent: :delete_all
   has_many :project_phase_journals, class_name: "Journal::ProjectPhaseJournal", dependent: :delete_all
   has_many :storable_journals, class_name: "Journal::StorableJournal", dependent: :delete_all
+  has_many :label_journals, class_name: "Journal::LabelJournal", dependent: :delete_all
   has_many :work_package_version_journals, class_name: "Journal::WorkPackageVersionJournal", dependent: :delete_all
   # Row lifecycle is owned by work_package_version_journals above.
   # rubocop:disable Rails/HasManyOrHasOneDependent

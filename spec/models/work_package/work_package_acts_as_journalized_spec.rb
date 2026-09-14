@@ -576,6 +576,142 @@ RSpec.describe WorkPackage do
       end
     end
 
+    context "on label changes", with_settings: { journal_aggregation_time_minutes: 0 } do
+      shared_let(:label) { create(:label) }
+      shared_let(:other_label) { create(:label) }
+
+      shared_let(:journable) do
+        create(:work_package)
+      end
+
+      def set_labels(labels)
+        journable.labelings.destroy_all
+        labels.each { journable.labelings.create!(label: it) }
+        journable.save!
+      end
+
+      context "when setting labels" do
+        it "creates a new journal listing the labels in the details" do
+          expect { set_labels([label, other_label]) }
+            .to change { journable.journals.count }.by(1)
+
+          expect(journable.last_journal.details["labels"])
+            .to eq([nil, [label.id, other_label.id].sort.join(",")])
+        end
+
+        it "touches the journable to match the journal's timestamp" do
+          expect { set_labels([label]) }
+            .to change { journable.reload.updated_at }
+
+          expect(journable.updated_at).to eq(journable.last_journal.updated_at)
+        end
+      end
+
+      context "on work package creation" do
+        it "creates an initial journal listing the labels in the details" do
+          work_package = create(:work_package, labels: [label])
+
+          expect(work_package.journals.count).to eq(1)
+          expect(work_package.last_journal.details["labels"])
+            .to eq([nil, label.id.to_s])
+          expect(Journal::LabelJournal.where(journal_id: work_package.last_journal.id).count)
+            .to eq(1)
+        end
+      end
+
+      context "when replacing a label" do
+        before do
+          set_labels([label])
+        end
+
+        it "creates a new journal with the old and new labels in the details" do
+          expect { set_labels([other_label]) }
+            .to change { journable.journals.count }.by(1)
+
+          expect(journable.last_journal.details["labels"])
+            .to eq([label.id.to_s, other_label.id.to_s])
+        end
+      end
+
+      context "when removing all labels" do
+        before do
+          set_labels([label])
+        end
+
+        it "creates a new journal with an empty new value in the details" do
+          expect { set_labels([]) }
+            .to change { journable.journals.count }.by(1)
+
+          expect(journable.last_journal.details["labels"])
+            .to eq([label.id.to_s, nil])
+        end
+      end
+
+      context "when saving with unchanged labels" do
+        before do
+          set_labels([label])
+        end
+
+        it "creates no journal and does not touch the journable" do
+          expect { set_labels([label]) }
+            .to not_change { journable.journals.count }
+            .and(not_change { journable.reload.updated_at })
+        end
+      end
+
+      context "when another labelable shares the work package's id" do
+        it "journals only the work package's own labels" do
+          Labeling.create!(label:, labelable_type: "Project", labelable_id: journable.id)
+
+          expect { set_labels([other_label]) }
+            .to change { journable.journals.count }.by(1)
+
+          expect(journable.last_journal.details["labels"])
+            .to eq([nil, other_label.id.to_s])
+        end
+      end
+
+      context "within aggregation time", with_settings: { journal_aggregation_time_minutes: 5 } do
+        # The initial journal lies outside the aggregation window so that only
+        # the journals created by the examples can aggregate with each other.
+        shared_let(:journable) do
+          create(:work_package,
+                 subject: "Initial subject",
+                 journals: { 10.minutes.ago => { user: } })
+        end
+
+        context "when changing labels again" do
+          before do
+            set_labels([label])
+          end
+
+          it "aggregates into the previous journal with cumulative details" do
+            expect { set_labels([label, other_label]) }
+              .not_to change { journable.journals.count }
+
+            expect(journable.last_journal.details["labels"])
+              .to eq([nil, [label.id, other_label.id].sort.join(",")])
+          end
+        end
+
+        context "when changing labels shortly after another change" do
+          before do
+            journable.update!(subject: "Changed subject")
+          end
+
+          it "aggregates into one journal capturing both changes" do
+            expect { set_labels([label]) }
+              .not_to change { journable.journals.count }
+
+            expect(journable.last_journal.details["subject"])
+              .to eq(["Initial subject", "Changed subject"])
+            expect(journable.last_journal.details["labels"])
+              .to eq([nil, label.id.to_s])
+          end
+        end
+      end
+    end
+
     context "on observed in version changes", with_settings: { journal_aggregation_time_minutes: 0 } do
       shared_let(:journable) do
         create(:work_package)

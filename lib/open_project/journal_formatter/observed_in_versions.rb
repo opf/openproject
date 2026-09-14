@@ -30,5 +30,5 @@
 
 # Renders the change to the set of versions a work package was observed in
 # (see JournalChanges#get_observed_in_versions_changes).
-class OpenProject::JournalFormatter::ObservedInVersions < OpenProject::JournalFormatter::JoinedVersions
+class OpenProject::JournalFormatter::ObservedInVersions < OpenProject::JournalFormatter::JoinedAssociation
 end
