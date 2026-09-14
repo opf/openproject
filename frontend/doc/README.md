@@ -50,6 +50,17 @@ The style guide is available as part of the Rails development server at: <http:/
 
 For more information on styling the application, see [STYLING](./STYLING.md).
 
+## Stimulus API documentation
+
+Generate the TypeDoc reference for Stimulus controllers, helpers, mixins, and support modules with:
+
+```shell
+npm run generate-docs
+```
+
+The command registers plugin frontends before writing the ignored output to `generated-docs/`.
+Open `generated-docs/index.html` to browse it locally.
+
 ## Changing or updating Dependencies
 
 We use a `package-lock` to lock down runtime (but not development)

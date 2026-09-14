@@ -1,0 +1,23 @@
+{
+  "entryPoints": ["src/stimulus/**/*.ts"],
+  "entryPointStrategy": "expand",
+  "exclude": [
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "src/stimulus/setup.ts",
+    "src/stimulus/openproject-stimulus-application.ts",
+    "src/stimulus/test-helpers.ts"
+  ],
+  "plugin": [
+    "typedoc-github-theme",
+    "typedoc-plugin-rename-defaults",
+    "./tooling/typedoc/openproject-plugin.mjs"
+  ],
+  "excludeExternals": true,
+  "out": "./generated-docs",
+  "disableGit": true,
+  "gitRevision": "dev",
+  "sourceLinkTemplate": "https://github.com/opf/openproject/blob/{gitRevision}/frontend/src/stimulus/{path}#L{line}",
+  "projectDocuments": ["doc/**/*.md"],
+  "tsconfig": "tsconfig.app.json"
+}

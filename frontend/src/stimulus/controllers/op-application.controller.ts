@@ -103,7 +103,7 @@ export class OpApplicationController extends ApplicationController {
    * We convert these to slashes for the dynamic import.
    *
    * https://stimulus.hotwired.dev/handbook/installing#controller-filenames-map-to-identifiers
-   * @param controller
+   * @param controller - The controller identifier
    * @private
    */
   private derivePath(controller:string):string {

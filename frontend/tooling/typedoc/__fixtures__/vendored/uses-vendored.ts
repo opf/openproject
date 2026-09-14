@@ -26,24 +26,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-/**
- * Extend a given URL (string or URL object) with the provided search parameters.
- *
- * @param base - The base URL to extend
- * @param params - A record of key-value pairs to add as search parameters
- * @param addCurrentSearch - Whether to include the current window's search parameters (default: true)
- */
-export function extendSearchParams(
-  base:string,
-  params:Record<string, string>,
-  addCurrentSearch = true,
-) {
-  const url = new URL(base, window.location.origin);
-  url.search = addCurrentSearch ? window.location.search : '';
+import { Controller } from '@hotwired/stimulus';
 
-  Object.entries(params).forEach(([key, value]) => {
-    url.searchParams.set(key, value);
-  });
-
-  return url.toString();
+/** A controller inheriting members from the vendored Stimulus base class. */
+export default class SampleController extends Controller<HTMLElement> {
+  connect():void {
+    this.element.dataset.connected = 'true';
+  }
 }

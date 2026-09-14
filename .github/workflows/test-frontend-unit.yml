@@ -9,6 +9,7 @@ on:
     paths:
       - '**/frontend/**/*.ts'
       - '**/frontend/**/*.js'
+      - '**/frontend/**/*.mjs'
       - '**/frontend/**/*.json'
       - '.github/workflows/test-frontend-unit.yml'
 
@@ -17,6 +18,7 @@ on:
     paths:
       - '**/frontend/**/*.ts'
       - '**/frontend/**/*.js'
+      - '**/frontend/**/*.mjs'
       - '**/frontend/**/*.json'
       - '.github/workflows/test-frontend-unit.yml'
 
@@ -81,3 +83,7 @@ jobs:
 
       - name: Test
         run: npm test -- --browsers ${{ matrix.browser }} --reporters dot --reporters github-actions
+
+      - name: Test tooling
+        if: matrix.browser == 'chromium'
+        run: npm run test:tooling
