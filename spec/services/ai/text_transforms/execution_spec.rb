@@ -84,6 +84,16 @@ RSpec.describe AI::TextTransforms::Execution,
     expect(events).to eq([[1, "status", { "status" => "running" }]])
   end
 
+  it "ends cancelled when cancellation is requested within the first flush window" do
+    gateway = AI::TextTransforms::FakeGateway.new(deltas: %w[a],
+                                                  before_each: -> { run.update_column(:cancel_requested, true) })
+
+    execute(gateway)
+
+    expect(run).to be_cancelled
+    expect(events).to eq([[1, "status", { "status" => "running" }]])
+  end
+
   it "stops silently when the run was deleted mid-stream" do
     gateway = AI::TextTransforms::FakeGateway.new(deltas: %w[a b],
                                                   before_each: lambda {

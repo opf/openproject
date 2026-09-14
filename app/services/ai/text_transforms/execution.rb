@@ -80,14 +80,14 @@ module AI
         buffer << delta
         return if clock.call - @last_flush < FLUSH_INTERVAL
 
-        raise Cancelled unless still_wanted?
-
         flush
-        @last_flush = clock.call
         raise Errors::TimedOut, "budget exceeded" if clock.call - @started > BUDGET
       end
 
       def flush
+        raise Cancelled unless still_wanted?
+
+        @last_flush = clock.call
         return if buffer.empty?
 
         record("text_delta", delta: buffer.dup)
