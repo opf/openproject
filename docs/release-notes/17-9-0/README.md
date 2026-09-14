@@ -130,7 +130,7 @@ The user selector for planned labor costs has also been improved with an autocom
 
 ![Entering planned labor using different time units in OpenProject](openproject_release_notes_17.9_planned_labor_time_units.gif)
 
-### Improved wiki page selection for XWiki
+### Improved wiki page selection for wikis
 
 XWiki users can now **[browse the wiki hierarchy directly](../../user-guide/work-packages/edit-work-package/#link-wiki-pages)** when selecting a page, making it easier to find content without knowing the page title in advance.
 
