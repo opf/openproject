@@ -30,5 +30,6 @@
 
 module HourlyRates
   class CreateContract < BaseContract
+    attribute :project_id
   end
 end

@@ -54,6 +54,12 @@ RSpec.describe HourlyRates::UpdateContract do
 
         expect_contract_invalid(type: %i[error_readonly invalid])
       end
+
+      it "rejects moving the rate to another project" do
+        rate.project = build_stubbed(:project)
+
+        expect_contract_invalid(project_id: %i[invalid error_readonly])
+      end
     end
   end
 end

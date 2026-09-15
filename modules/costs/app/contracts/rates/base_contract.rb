@@ -31,7 +31,6 @@
 module Rates
   class BaseContract < ::ModelContract
     attribute :user_id
-    attribute :project_id
     attribute :valid_from
     attribute :rate
     # ActiveRecord marks the STI discriminator dirty on .new, so it has to be
