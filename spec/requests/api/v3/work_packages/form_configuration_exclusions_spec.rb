@@ -34,8 +34,7 @@ require "rack/test"
 # The exclusions carried by a form configuration link have to reach every endpoint that
 # reports what a work package's type offers: the schema (attribute groups and writable
 # fields), the work package itself, and the update form.
-RSpec.describe "API v3 form configuration exclusions", content_type: :json,
-                                                       with_flag: { type_variants: true } do
+RSpec.describe "API v3 form configuration exclusions", content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 

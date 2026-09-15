@@ -29,7 +29,7 @@
 #++
 require "rails_helper"
 
-RSpec.describe WorkPackageTypes::ReuseMode::SectionComponent, type: :component, with_flag: { type_variants: true } do
+RSpec.describe WorkPackageTypes::ReuseMode::SectionComponent, type: :component do
   shared_let(:type) { create(:type, name: "Task") }
   shared_let(:variant) { type.default_variant }
 
@@ -37,15 +37,7 @@ RSpec.describe WorkPackageTypes::ReuseMode::SectionComponent, type: :component, 
 
   subject(:component) { described_class.new(variant:, aspect:) }
 
-  context "when the variants feature is disabled", with_flag: { type_variants: false } do
-    it "does not render" do
-      render_inline(component)
-
-      expect(page.text).to be_blank
-    end
-  end
-
-  context "with the feature enabled" do
+  context "with a manually configured aspect" do
     before { render_inline(component) }
 
     it "shows the reuse mode and the dependents side by side" do

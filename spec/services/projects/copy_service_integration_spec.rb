@@ -141,7 +141,7 @@ RSpec.describe(
       copied_work_package
     end
 
-    describe "the variant a type resolves to", with_flag: { type_variants: true } do
+    describe "the variant a type resolves to" do
       shared_let(:root_type) { create(:type, name: "Copied root") }
       shared_let(:variant) { create(:type_variant, type: root_type, variant_name: "Copied variant") }
 

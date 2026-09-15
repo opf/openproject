@@ -180,7 +180,7 @@ class Role < ApplicationRecord
   end
 
   def deletable?
-    members.none? && !builtin?
+    !builtin?
   end
 
   private

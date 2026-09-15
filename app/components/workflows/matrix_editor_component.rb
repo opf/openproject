@@ -49,14 +49,7 @@ module Workflows
 
     def state_id = STATE_ID
 
-    # TODO: Remove with type_variants feature flag
-    def copy_button_label
-      if OpenProject::FeatureDecisions.type_variants_active?
-        I18n.t(:label_copy_workflow_from_role)
-      else
-        I18n.t(:button_copy)
-      end
-    end
+    def copy_button_label = I18n.t(:label_copy_workflow_from_role)
 
     def state_data
       {

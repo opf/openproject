@@ -30,7 +30,7 @@
 
 require "rails_helper"
 
-RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component, with_flag: { type_variants: true } do
+RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component do
   include Rails.application.routes.url_helpers
 
   let(:source) { create(:type, name: "Phase") }

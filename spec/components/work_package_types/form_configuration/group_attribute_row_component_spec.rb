@@ -6,7 +6,8 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
   let(:type) { create(:type) }
   let(:variant) { type.default_variant }
   let(:attribute) do
-    { key: "assignee", is_cf: false, is_required: false, translation: "Assignee", field_format_label: "Built-in field" }
+    { key: "assignee", is_cf: false, required_globally: false, required_for_variant: false, translation: "Assignee",
+      field_format_label: "Built-in field" }
   end
 
   it "renders the drag handle and actions menu in editable mode", :aggregate_failures do

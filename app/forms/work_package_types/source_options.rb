@@ -36,10 +36,16 @@ module WorkPackageTypes
 
     # A variant one project owns is invisible elsewhere, so it can never be a source there.
     def source_options
+      excluded_ids = unavailable_source_ids
+
       TypeVariant.available_in(variant.project)
                  .joins(:type).merge(Type.order(:position))
                  .in_display_order
-                 .reject { |source| source == variant }
+                 .reject { |source| excluded_ids.include?(source.id) }
+    end
+
+    def unavailable_source_ids
+      [variant.id]
     end
 
     def label_for(source)
