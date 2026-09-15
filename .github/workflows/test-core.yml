@@ -100,7 +100,7 @@ jobs:
           cat tmp/retried_specs.txt >> "$GITHUB_STEP_SUMMARY"
           if [ -n "$PR_NUMBER" ]; then
             SPECS="$(cat tmp/retried_specs.txt)" \
-              envsubst '$SPECS $PR_NUMBER $PR_AUTHOR' \
+              envsubst '$SPECS $PR_NUMBER $PR_AUTHOR $GITHUB_SHA $GITHUB_SERVER_URL $GITHUB_REPOSITORY $GITHUB_RUN_ID' \
               < .github/flaky-spec-copilot-comment.md > tmp/flaky_comment.md
             if [ "$PR_HEAD_REPO" != "$GITHUB_REPOSITORY" ]; then
               echo "::warning::Flaky specs detected in this PR - see job summary for details"
