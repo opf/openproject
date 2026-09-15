@@ -3,21 +3,30 @@
     <div class="FormControl-advanced-radio-content">
       <%= builder.radio_button(@input.name, @input.value, **@input.input_arguments) %>
       <div>
-        <div class="FormControl-advanced-radio-label-text"><%= @input.label %></div>
+        <div class="FormControl-advanced-radio-label-text">
+          <% if @input.leading_icon.present? %>
+            <%= render(Primer::Beta::Octicon.new(icon: @input.leading_icon, classes: "FormControl-advanced-radio-icon", "aria-hidden": true)) %>
+          <% end %>
+          <span>
+            <%= @input.label %>
+            <% if @input.title_link_text.present? %>
+              <%= render(Primer::Beta::Link.new(underline: true, **@input.title_link_arguments)) { @input.title_link_text } %>
+            <% end %>
+          </span>
+        </div>
         <% if @input.form_control? %>
           <div class="mt-1">
             <%= render(Caption.new(input: @input)) %>
           </div>
         <% end %>
+        <% if @input.action_text.present? && @input.checked? %>
+          <div class="mt-2">
+            <%= render(Primer::Beta::Button.new(tag: :a, **@input.action_arguments)) { @input.action_text } %>
+          </div>
+        <% end %>
       </div>
-      <% if @input.icon.present? %>
-        <%=
-          inline_svg_tag(
-            @input.icon,
-            class: "FormControl-advanced-radio-icon",
-            aria_hidden: true
-          )
-        %>
+      <% if @input.trailing_image.present? %>
+        <%= inline_svg_tag(@input.trailing_image, class: "FormControl-advanced-radio-icon", aria_hidden: true) %>
       <% end %>
     </div>
   <% end %>

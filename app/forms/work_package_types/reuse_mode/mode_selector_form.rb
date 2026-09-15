@@ -30,34 +30,23 @@
 
 module WorkPackageTypes
   module ReuseMode
-    class DependentsBoxComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
+    # The radios never submit - Selecting the other option is intercepted by the
+    # stimulus controller, which opens the selection/confirmation dialog flow.
+    # The real state changes only when the surrounding frame reloads after a successful switch.
+    class ModeSelectorForm < ApplicationForm
+      def initialize(inherited:, manual:, group_data:)
+        super()
 
-      def initialize(variant:, aspect:)
-        @aspect = aspect
-        super(variant)
+        @inherited = inherited
+        @manual = manual
+        @group_data = group_data
       end
 
-      private
-
-      attr_reader :aspect
-
-      def render? = any_dependents?
-
-      def variant = model
-
-      def dependents_count
-        @dependents_count ||= variant.dependents_for(aspect).count(:all)
-      end
-
-      def any_dependents? = dependents_count.positive?
-
-      def description
-        t("types.edit.reuse_mode.dependents.description", count: dependents_count)
-      end
-
-      def dialog_path
-        type_configuration_dependents_dialog_path(**variant.path_args, aspect:)
+      form do |mode_form|
+        mode_form.advanced_radio_button_group(name: :mode, data: @group_data) do |group|
+          group.radio_button(**@inherited)
+          group.radio_button(**@manual)
+        end
       end
     end
   end
