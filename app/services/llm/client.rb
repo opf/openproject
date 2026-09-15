@@ -75,9 +75,11 @@ module Llm
     # Kept verbatim on purpose: vLLM adds +max_model_len+ and +root+ to each card,
     # which is the only trustworthy source for a deployment's real context window.
     #
+    # @param query [Hash] filter parameters, for a server that serves parts of its
+    #   catalogue only on request
     # @return [Hash] the parsed +GET /models+ body
-    def models
-      body = get("/models")
+    def models(query = {})
+      body = get("/models", query)
 
       raise ParseError, "Response does not contain a model list" unless body.is_a?(Hash) && body["data"].is_a?(Array)
 
@@ -88,8 +90,8 @@ module Llm
 
     attr_reader :base_url, :api_key, :timeout, :headers
 
-    def get(path)
-      response = session.get(uri_for(path))
+    def get(path, query = {})
+      response = session.get(uri_for(path, query))
       # A connection-level failure yields an HTTPX::ErrorResponse. A real response
       # carrying a 4xx/5xx is an ordinary HTTPX::Response whose #error is also
       # populated (it delegates to #raise_for_status), so the response class, not
@@ -109,8 +111,10 @@ module Llm
       api_key.present? ? request.plugin(:auth).bearer_auth(api_key) : request
     end
 
-    def uri_for(path)
-      URI.parse("#{base_url}#{path}")
+    def uri_for(path, query = {})
+      uri = URI.parse("#{base_url}#{path}")
+      uri.query = query.to_query if query.present?
+      uri
     rescue URI::InvalidURIError
       raise ConnectionError, "Invalid URL"
     end
