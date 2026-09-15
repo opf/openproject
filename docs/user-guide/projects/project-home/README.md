@@ -56,6 +56,10 @@ The **Overview** tab is a pre-configured to provide a concise summary of the pro
 
 - [Subitems](./project-widgets/#subitems-widget) 
 
+  > [!NOTE]
+  >
+  > The widget is hidden when a project has no subitems. Users with the required permissions can add subitems (subprojects) from the **More** (three dots) menu at the top of the page.
+
 - [Meetings](project-widgets/#meetings-widget)
   
   > [!TIP]
