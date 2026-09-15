@@ -107,6 +107,47 @@ RSpec.describe "Status action board",
       board_page.expect_list "Closed"
     end
 
+    it "moves the card to the matching column when a custom action changes the status in the split view " \
+       "(Bug #AGILE-178)", with_ee: %i[custom_actions] do
+      create(:custom_action,
+             actions: [CustomActions::Actions::Status.new(closed_status.id)],
+             name: "Close")
+
+      board_index.visit!
+
+      # Create new board with an "Open" and a "Closed" list
+      board_page = board_index.create_board action: "Kanban"
+      board_page.expect_list "Open"
+
+      board_page.add_list option: "Closed"
+      board_page.expect_list "Closed"
+
+      # Add a card to the "Open" column
+      board_page.add_card "Open", "Task 1"
+      wp = WorkPackage.find_by!(subject: "Task 1")
+
+      board_page.expect_card("Open", "Task 1", present: true)
+      board_page.expect_card("Closed", "Task 1", present: false)
+
+      # Open the work package in the split view and run the custom action that
+      # changes the status. Custom actions are executed server-side and have no
+      # Angular changeset, so the board only learns about the change through the
+      # HAL event the action emits (see Bug #AGILE-178).
+      card = board_page.card_for(wp)
+      split_view = card.open_details_view
+      split_view.expect_subject
+
+      split_view.click_custom_action("Close", expect_success: true)
+
+      wp.reload
+      expect(wp.status).to eq(closed_status)
+
+      # The board must move the card to the matching column on its own, while the
+      # split view is still open and without a manual page reload.
+      board_page.expect_card("Closed", "Task 1", present: true)
+      board_page.expect_card("Open", "Task 1", present: false)
+    end
+
     it "does not change moving card project when filtering on projects (Bug #44895)" do
       other_project = create(:project,
                              types: [type],
