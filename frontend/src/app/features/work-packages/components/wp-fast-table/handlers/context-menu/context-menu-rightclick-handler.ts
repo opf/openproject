@@ -77,7 +77,7 @@ export class ContextMenuRightClickHandler extends ContextMenuHandler {
     const wpId = element?.dataset.workPackageId;
 
     if (wpId) {
-      this.selectionGestures.contextMenu(wpId, view.workPackageTable.renderedRows, element.dataset.classIdentifier);
+      this.selectionGestures.handleContextMenu(wpId, view.workPackageTable.renderedRows, element.dataset.classIdentifier);
 
       this.openContextMenu(view.workPackageTable, evt, wpId);
     }

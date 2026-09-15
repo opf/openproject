@@ -94,7 +94,7 @@ export class RowClickHandler implements TableEventHandler {
       return true;
     }
 
-    const selected = this.selectionGestures.click(wpId, view.workPackageTable.renderedRows, evt, element.dataset.classIdentifier);
+    const selected = this.selectionGestures.handleClick(wpId, view.workPackageTable.renderedRows, evt, element.dataset.classIdentifier);
 
     if (!(evt.ctrlKey || evt.metaKey || evt.shiftKey)) {
       view.itemClicked.emit({ workPackageId: wpId, double: false });

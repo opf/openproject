@@ -58,66 +58,66 @@ describe('WorkPackageViewSelectionGesturesService', () => {
     selection = TestBed.inject(WorkPackageViewSelectionService);
   });
 
-  describe('#click', () => {
+  describe('#handleClick', () => {
     it('replaces the selection on a plain click and returns the ids', () => {
-      gestures.click('1', rendered, {});
-      const ids = gestures.click('3', rendered, {});
+      gestures.handleClick('1', rendered, {});
+      const ids = gestures.handleClick('3', rendered, {});
 
       expect(ids).toEqual(['3']);
       expect(selected()).toEqual(['3']);
     });
 
     it('ranges from the anchor on shift', () => {
-      gestures.click('2', rendered, {});
-      gestures.click('4', rendered, { shiftKey: true });
+      gestures.handleClick('2', rendered, {});
+      gestures.handleClick('4', rendered, { shiftKey: true });
 
       expect(selected()).toEqual(['2', '3', '4']);
     });
 
     it('keeps the anchor at the first selected row across shift clicks', () => {
-      gestures.click('2', rendered, {});
-      gestures.click('4', rendered, { shiftKey: true });
-      gestures.click('1', rendered, { shiftKey: true });
+      gestures.handleClick('2', rendered, {});
+      gestures.handleClick('4', rendered, { shiftKey: true });
+      gestures.handleClick('1', rendered, { shiftKey: true });
 
       expect(selected()).toEqual(['1', '2']);
     });
 
     it('toggles with ctrl and with meta', () => {
-      gestures.click('1', rendered, {});
-      gestures.click('3', rendered, { ctrlKey: true });
+      gestures.handleClick('1', rendered, {});
+      gestures.handleClick('3', rendered, { ctrlKey: true });
       expect(selected()).toEqual(['1', '3']);
 
-      gestures.click('1', rendered, { metaKey: true });
+      gestures.handleClick('1', rendered, { metaKey: true });
       expect(selected()).toEqual(['3']);
     });
 
     it('ranges first and then toggles when shift and ctrl are both held', () => {
-      gestures.click('1', rendered, {});
-      gestures.click('3', rendered, { shiftKey: true, ctrlKey: true });
+      gestures.handleClick('1', rendered, {});
+      gestures.handleClick('3', rendered, { shiftKey: true, ctrlKey: true });
 
       expect(selected()).toEqual(['1', '2']);
     });
   });
 
-  describe('#contextMenu', () => {
+  describe('#handleContextMenu', () => {
     it('keeps a selection that contains the work package', () => {
-      gestures.click('1', rendered, {});
-      gestures.click('3', rendered, { ctrlKey: true });
-      gestures.contextMenu('3', rendered);
+      gestures.handleClick('1', rendered, {});
+      gestures.handleClick('3', rendered, { ctrlKey: true });
+      gestures.handleContextMenu('3', rendered);
 
       expect(selected()).toEqual(['1', '3']);
     });
 
     it('replaces a selection that does not contain the work package', () => {
-      gestures.click('1', rendered, {});
-      gestures.contextMenu('4', rendered);
+      gestures.handleClick('1', rendered, {});
+      gestures.handleContextMenu('4', rendered);
 
       expect(selected()).toEqual(['4']);
     });
 
     it('anchors a following shift range at the right-clicked row', () => {
-      gestures.contextMenu('2', rendered);
-      gestures.click('4', rendered, { shiftKey: true });
+      gestures.handleContextMenu('2', rendered);
+      gestures.handleClick('4', rendered, { shiftKey: true });
 
       expect(selected()).toEqual(['2', '3', '4']);
     });
@@ -125,8 +125,8 @@ describe('WorkPackageViewSelectionGesturesService', () => {
 
   describe('#collapseTo', () => {
     it('collapses a wider selection to the picked-up work package', () => {
-      gestures.click('1', rendered, {});
-      gestures.click('3', rendered, { ctrlKey: true });
+      gestures.handleClick('1', rendered, {});
+      gestures.handleClick('3', rendered, { ctrlKey: true });
       gestures.collapseTo('3', rendered);
 
       expect(selected()).toEqual(['3']);
@@ -136,15 +136,15 @@ describe('WorkPackageViewSelectionGesturesService', () => {
       gestures.collapseTo('2', rendered);
       expect(selected()).toEqual([]);
 
-      gestures.click('2', rendered, {});
+      gestures.handleClick('2', rendered, {});
       gestures.collapseTo('2', rendered);
       expect(selected()).toEqual(['2']);
     });
   });
 
   it('#replace selects exactly one work package', () => {
-    gestures.click('1', rendered, {});
-    gestures.click('3', rendered, { ctrlKey: true });
+    gestures.handleClick('1', rendered, {});
+    gestures.handleClick('3', rendered, { ctrlKey: true });
     gestures.replace('4', rendered);
 
     expect(selected()).toEqual(['4']);
