@@ -71,7 +71,7 @@ module Notifications
                   icon_key: reason,
                   count: count == 0 ? nil : count,
                   query_params: query_params("reason", reason),
-                  show_enterprise_icon: show_enterprise_icon?(reason))
+                  show_enterprise_icon: lacking_ee_permission?(reason))
       end
     end
 
@@ -114,9 +114,7 @@ module Notifications
     end
 
     def query_path(query_params)
-      if query_params[:name] == "shared" && show_enterprise_icon?("shared")
-        return notifications_share_upsell_path(query_params)
-      end
+      return notifications_share_upsell_path(query_params) if lacking_ee_permission?(query_params[:name])
 
       notifications_center_path(query_params)
     end
@@ -133,7 +131,7 @@ module Notifications
       }
     end
 
-    def show_enterprise_icon?(reason)
+    def lacking_ee_permission?(reason)
       reason == "shared" && !EnterpriseToken.allows_to?(:work_package_sharing)
     end
   end
