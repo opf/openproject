@@ -254,7 +254,7 @@ RSpec.describe "Moving a work package through Rails view", :js do
     before do
       loading_indicator_saveguard
       # Select all work packages
-      find("body").send_keys [:control, "a"]
+      wp_table.select_all_work_packages
 
       context_menu.open_for work_package2
       context_menu.choose "Bulk change of project"

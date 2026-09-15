@@ -61,7 +61,7 @@ RSpec.describe "Duplicate work packages through Rails view", :js do
   describe "copying work packages" do
     before do
       # Select all work packages
-      find("body").send_keys [:control, "a"]
+      wp_table.select_all_work_packages
     end
 
     context "with permission" do

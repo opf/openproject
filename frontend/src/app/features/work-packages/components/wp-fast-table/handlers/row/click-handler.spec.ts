@@ -26,11 +26,14 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { usePlatform } from 'core-common/testing/platform';
 import { fireEvent } from '@testing-library/dom';
 import { buildTable, TableHarness } from '../../testing/table-harness';
 
 describe('RowClickHandler', () => {
   let harness:TableHarness;
+
+  usePlatform();
 
   beforeEach(async () => {
     harness = buildTable({ workPackages: [{ id: '1' }, { id: '2' }, { id: '3' }, { id: '4' }] });
@@ -90,20 +93,60 @@ describe('RowClickHandler', () => {
     expect(checkedIds()).toEqual(['2', '3', '4']);
   });
 
+  it('starts the next range at the Select All event target', () => {
+    harness.click('1');
+    fireEvent.keyDown(harness.row('3'), { key: 'a', ctrlKey: true });
+    harness.click('4', { shiftKey: true });
+
+    expect(selectedIds()).toEqual(['3', '4']);
+  });
+
+  it('disposes Select All with the table view', async () => {
+    const row = harness.row('3');
+    await harness.destroy();
+    const event = new KeyboardEvent('keydown', {
+      key: 'a', ctrlKey: true, bubbles: true, cancelable: true,
+    });
+
+    row.dispatchEvent(event);
+
+    expect(event.defaultPrevented).toBe(false);
+    expect(selectedIds()).toEqual([]);
+  });
+
   it.each([false, true])('uses the clicked occurrence when a work package appears twice (reverse: %s)', async (reverse) => {
     await harness.render([{ id: '1' }, { id: '3' }, { id: '2' }, { id: '4' }]);
     const primaryRow = harness.row('2');
-    const relationRow = primaryRow.cloneNode(true) as HTMLTableRowElement;
-    relationRow.dataset.classIdentifier = 'wp-relation-row-1-to-2';
-    harness.row('1').after(relationRow);
-    const rendered = [...harness.table.renderedRows];
-    rendered.splice(1, 0, { classIdentifier: 'wp-relation-row-1-to-2', workPackageId: '2', hidden: false });
-    harness.querySpace.tableRendered.putValue(rendered);
+    harness.addRelationRow('2', '1');
 
     const rows = reverse ? [harness.row('4'), primaryRow] : [primaryRow, harness.row('4')];
     rows.forEach((row, index) => fireEvent.click(row, { shiftKey: index === 1 }));
 
     expect(selectedIds()).toEqual(['2', '4']);
+  });
+
+  it('anchors Select All at the targeted duplicate occurrence', async () => {
+    await harness.render([{ id: '1' }, { id: '3' }, { id: '2' }, { id: '4' }]);
+    const primaryRow = harness.row('2');
+    harness.addRelationRow('2', '1');
+    harness.click('1');
+
+    expect(fireEvent.keyDown(primaryRow, { key: 'a', ctrlKey: true })).toBe(false);
+    harness.click('4', { shiftKey: true });
+
+    expect(selectedIds()).toEqual(['2', '4']);
+  });
+
+  it('clears an anchor when only its other occurrence survives', () => {
+    const primaryRow = harness.row('2');
+    const relationRow = harness.addRelationRow('2', '1');
+    fireEvent.click(primaryRow);
+    primaryRow.remove();
+    harness.querySpace.tableRendered.putValue(harness.table.renderedRows.filter((row) => row.classIdentifier !== primaryRow.dataset.classIdentifier));
+    harness.click('4', { shiftKey: true });
+    expect(selectedIds()).toEqual(['4']);
+    expect(harness.row('4')).toHaveClass('-checked');
+    expect(relationRow).not.toHaveClass('-checked');
   });
 
   it('keeps the range anchored to the first selected row', () => {
@@ -122,6 +165,32 @@ describe('RowClickHandler', () => {
     harness.click('1', { metaKey: true });
     expect(selectedIds()).toEqual(['3']);
     expect(checkedIds()).toEqual(['3']);
+  });
+
+  it('keeps the last row deselected after the focus update', () => {
+    harness.click('2');
+    harness.click('2', { ctrlKey: true });
+    expect(harness.selection.getSelectedWorkPackageIds()).toEqual([]);
+    expect(harness.selection.isEmpty).toBe(true);
+    expect(harness.row('2')).not.toHaveClass('-checked');
+    harness.click('4', { shiftKey: true });
+    expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['2', '3', '4']);
+  });
+
+  it.each([false, true])('initializes selection before double-click focus (selected: %s)', (alreadySelected) => {
+    if (alreadySelected) harness.selection.initializeSelection(['1']);
+    const expected = alreadySelected ? ['1'] : ['2'];
+    const focusStates:string[] = [];
+    const observedMembers:string[][] = [];
+    harness.focus.updates$().subscribe((state) => {
+      observedMembers.push(harness.selection.getSelectedWorkPackageIds());
+      expect(state).toEqual({ workPackageId: '2', focusAfterRender: false, navigate: true });
+      focusStates.push(state.workPackageId);
+    });
+    fireEvent.doubleClick(harness.row('2').querySelector('td')!);
+    expect(harness.selection.getSelectedWorkPackageIds()).toEqual(expected);
+    expect(focusStates).toEqual(['2']);
+    expect(observedMembers).toEqual([expected]);
   });
 
   it('marks the clicked row as the current work package', () => {

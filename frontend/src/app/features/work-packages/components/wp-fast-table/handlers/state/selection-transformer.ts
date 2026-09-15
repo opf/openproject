@@ -26,9 +26,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injector } from '@angular/core';
+import { DestroyRef, Injector } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
-import { takeUntil } from 'rxjs/operators';
+import { finalize, take, takeUntil } from 'rxjs/operators';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
@@ -37,6 +38,7 @@ import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { paintRowSelection } from '../../builders/rows/row-selection-paint';
 import { locateTableRow, scrollTableRowIntoView } from '../../helpers/wp-table-row-helpers';
 import { WorkPackageTable } from '../../wp-fast-table';
+import { registerWorkPackageSelectAll } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/wp-selection-keyboard';
 
 export class SelectionTransformer {
   @LazyInject() public wpTableSelection:WorkPackageViewSelectionService;
@@ -49,10 +51,13 @@ export class SelectionTransformer {
 
   constructor(public readonly injector:Injector,
     public readonly table:WorkPackageTable) {
+    const destroyRef = table.injector.get(DestroyRef);
+
     // Focus a single selection when active
     this.querySpace.tableRendered.values$()
       .pipe(
         takeUntil(this.querySpace.stopAllSubscriptions),
+        takeUntilDestroyed(destroyRef),
       )
       .subscribe(() => {
         this.wpTableFocus.ifShouldFocus((wpId:string) => {
@@ -65,14 +70,33 @@ export class SelectionTransformer {
       });
 
     this.wpTableSelection.live$()
-      .pipe(takeUntil(this.querySpace.stopAllSubscriptions))
+      .pipe(
+        takeUntil(this.querySpace.stopAllSubscriptions),
+        takeUntilDestroyed(destroyRef),
+      )
       .subscribe(() => this.paintRows());
 
     this.wpTableFocus.whenChanged()
-      .pipe(takeUntil(this.querySpace.stopAllSubscriptions))
+      .pipe(
+        takeUntil(this.querySpace.stopAllSubscriptions),
+        takeUntilDestroyed(destroyRef),
+      )
       .subscribe(() => this.paintRows());
 
-    this.wpTableSelection.registerSelectAllListener(() => table.renderedRows);
+    const unregisterSelectAll = registerWorkPackageSelectAll({
+      root: table.tableAndTimelineContainer,
+      focusSelector: '.wp-table--row',
+      occurrenceSelector: '.wp-table--row[data-work-package-id][data-class-identifier]',
+      rendered: () => table.renderedRows,
+      selectAll: (rows, anchor) => this.wpTableSelection.selectAll(rows, anchor),
+    });
+    this.querySpace.stopAllSubscriptions
+      .pipe(
+        take(1),
+        takeUntilDestroyed(destroyRef),
+        finalize(unregisterSelectAll),
+      )
+      .subscribe();
     this.wpTableSelection.registerDeselectAllListener();
   }
 

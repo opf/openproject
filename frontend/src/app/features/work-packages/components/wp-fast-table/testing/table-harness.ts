@@ -74,6 +74,7 @@ import { HalResourceEditingService } from 'core-app/shared/components/fields/edi
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import { DragAndDropService, DragMember } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
+import { WorkPackageContextMenuHelperService } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
 import type { Edge } from 'core-common/drag-and-drop/reorder';
 import { nextFrame, nextTask } from 'core-common/testing/timing';
 import { rowGroupClassName } from '../builders/modes/grouped/grouped-classes.constants';
@@ -89,6 +90,7 @@ export interface TableHarnessOptions {
   /** Renders the table grouped by `groupBy` (default `status`) with one header row per group. */
   groups?:GroupFixture[];
   groupBy?:string;
+  showHierarchies?:boolean;
   configuration?:WorkPackageTableConfigurationObject;
   /** Overrides for the drag action service the drop handler resolves. */
   dragAction?:Partial<TableDragActionService>;
@@ -114,6 +116,7 @@ export interface TableHarness {
   dragStart(workPackageId:string):void;
   /** Feeds a drop to the registered drag member; resolves with the transaction's `complete` value. */
   drop(sourceId:string, targetId:string|null, edge:Edge|null):Promise<boolean>;
+  addRelationRow(workPackageId:string, afterId:string):HTMLTableRowElement;
   destroy():Promise<void>;
 }
 
@@ -135,7 +138,7 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
   const dom = buildDom();
 
   const groupBy = options.groupBy ?? 'status';
-  const query = buildQuery(options.columns ?? ['id', 'subject'], options.groups ? groupBy : null);
+  const query = buildQuery(options.columns ?? ['id', 'subject'], options.groups ? groupBy : null, options.showHierarchies ?? false);
   querySpace.query.putValue(query);
   querySpace.groups.putValue((options.groups ?? []).map((group, index) => buildGroup(group, groupBy, index)));
   initializeViewServices(injector, query);
@@ -176,7 +179,9 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
     render(workPackages = fixtures) {
       fixtures = workPackages;
       const resources = workPackages.map(buildWorkPackage);
-      resources.forEach((wp) => states.workPackages.get(wp.id!).putValue(wp));
+      resources.forEach((wp) => {
+        [...wp.getAncestors(), wp].forEach((resource) => states.workPackages.get(resource.id!).putValue(resource));
+      });
 
       const rendered = nextRender();
       querySpace.results.putValue({ elements: resources } as WorkPackageCollectionResource);
@@ -217,6 +222,17 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
       return new Promise((resolve) => {
         dragService.memberOf(dom.tbody).onMoved({ sourceId, targetId, edge }, resolve);
       });
+    },
+
+    addRelationRow(workPackageId, afterId) {
+      const row = this.row(workPackageId).cloneNode(true) as HTMLTableRowElement;
+      row.dataset.classIdentifier = `wp-relation-row-${afterId}-to-${workPackageId}`;
+      this.row(afterId).after(row);
+      const rendered = [...table.renderedRows];
+      const index = rendered.findIndex((entry) => entry.classIdentifier === this.row(afterId).dataset.classIdentifier);
+      rendered.splice(index + 1, 0, { classIdentifier: row.dataset.classIdentifier, workPackageId, hidden: false });
+      querySpace.tableRendered.putValue(rendered);
+      return row;
     },
 
     // The table redraws in a requestAnimationFrame followed by a setTimeout;
@@ -291,9 +307,10 @@ function harnessProviders(dragService:FakeDragAndDropService, dragAction:Partial
       },
     },
     { provide: WorkPackageRelationsService, useValue: { state: () => ({ hasValue: () => false, value: undefined }) } },
+    { provide: WorkPackageContextMenuHelperService, useValue: { getPermittedActions: () => [] } },
     { provide: OPContextMenuService, useValue: { close: () => undefined, show: () => undefined } },
     { provide: BannersService, useValue: { eeShowBanners: false } },
-    { provide: PathHelperService, useValue: {} },
+    { provide: PathHelperService, useValue: { genericWorkPackagePath: () => '/work_packages/1' } },
     { provide: CausedUpdatesService, useValue: { add: () => undefined } },
     { provide: StateService, useValue: { current: { name: 'work-packages.partitioned.list' }, href: () => '' } },
     { provide: UrlParamsService, useValue: { currentDetailsRouteParams: () => null, basePathWithoutDetails: () => '' } },
@@ -334,13 +351,13 @@ function buildDom() {
   };
 }
 
-function buildQuery(columns:string[], groupBy:string|null):QueryResource {
+function buildQuery(columns:string[], groupBy:string|null, showHierarchies:boolean):QueryResource {
   return {
     id: null,
     columns: columns.map((id) => ({ id, name: id, _type: 'QueryColumn', href: `/api/v3/queries/columns/${id}` })),
     sortBy: [],
     groupBy: groupBy ? { id: groupBy, name: groupBy, href: `/api/v3/queries/group_bys/${groupBy}` } : null,
-    showHierarchies: false,
+    showHierarchies,
     highlightingMode: 'inline',
     highlightedAttributes: [],
     timelineVisible: false,

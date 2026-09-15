@@ -82,7 +82,7 @@ export class CardRightClickHandler implements CardEventHandler {
     if (!wpId) {
       return true;
     }
-    this.selectionGestures.contextMenu(wpId, this.wpCardView.renderedCards);
+    this.selectionGestures.contextMenu(wpId, this.wpCardView.renderedCards, element.dataset.classIdentifier);
 
     const handler = new WorkPackageViewContextMenu(this.injector, wpId, evt.target as HTMLElement, {}, card.showInfoButton);
     this.opContextMenu.show(handler, evt);

@@ -26,10 +26,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map } from 'rxjs/operators';
-import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { WorkPackageViewBaseService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-base.service';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
@@ -42,7 +41,6 @@ export interface WPFocusState {
 
 @Injectable()
 export class WorkPackageViewFocusService extends WorkPackageViewBaseService<WPFocusState> {
-  wpTableSelection = inject(WorkPackageViewSelectionService);
 
   public isFocused(workPackageId:string) {
     return this.current?.workPackageId === workPackageId;
@@ -92,10 +90,6 @@ export class WorkPackageViewFocusService extends WorkPackageViewBaseService<WPFo
   }
 
   public updateFocus(workPackageId:string, setFocusAfterRender = false, navigate = true) {
-    // Set the selection to this row, if nothing else is selected.
-    if (this.wpTableSelection.isEmpty) {
-      this.wpTableSelection.setRowState(workPackageId, true);
-    }
     this.update({ workPackageId, focusAfterRender: setFocusAfterRender, navigate });
   }
 

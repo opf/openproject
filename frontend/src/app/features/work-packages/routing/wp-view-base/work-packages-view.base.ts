@@ -93,9 +93,12 @@ import {
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { tableRefreshRequest } from 'core-app/features/work-packages/routing/wp-view-base/work-packages-view.actions';
+import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 
 @Directive()
 export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implements OnInit, OnDestroy {
+  private readonly selectionForCreation = inject(WorkPackageViewSelectionService);
+
   injector = inject(Injector);
 
   readonly $state = inject(StateService);
@@ -325,6 +328,7 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
     );
 
     if (created) {
+      this.selectionForCreation.ensureSelected(created.id);
       this.wpTableFocus.updateFocus(created.id, false, false);
     }
   }
