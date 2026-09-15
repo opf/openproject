@@ -50,5 +50,11 @@ module HourlyRates
     def base_errors
       rate.errors.full_messages_for(:base)
     end
+
+    # A placeholder user cannot log time, so there is nothing booked against
+    # its rates to recalculate.
+    def warns_about_recalculation?
+      rate.persisted? && !rate.placeholder_rate?
+    end
   end
 end
