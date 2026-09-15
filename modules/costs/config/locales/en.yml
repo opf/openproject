@@ -342,7 +342,7 @@ en:
   text_destroy_time_and_cost_entries_question: "%{hours} hours, %{cost_entries} were reported on the work packages you are about to delete. What do you want to do ?"
   text_hourly_rate_destroy_confirmation: "The rate of %{rate} valid from %{valid_from} will be deleted. Costs booked against it are recalculated with the rate that then applies."
   text_hourly_rate_destroy_confirmation_checkbox_label: "I understand that this action is not reversible."
-  text_hourly_rate_update_recalculation: "Changing the rate or the date it takes effect from recalculates the costs already booked against it."
+  text_hourly_rate_update_recalculation: "Changing the rate or the date it is valid from recalculates already-booked costs. To avoid recalculation, create a new rate instead."
   text_no_default_rate: "The default rate is used in all projects where the user does not have a specific rate set up."
   text_no_project_rate: "This project will use the current default rate."
   text_reassign_time_and_cost_entries: "Reassign reported hours and costs to this work package:"
