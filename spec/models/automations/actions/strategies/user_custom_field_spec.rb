@@ -31,8 +31,8 @@ module Automations
           end
         end
 
-        let(:user_cf_action) { Automations::Actions::CustomField.for("custom_field_#{user_cf.id}").new }
-        let(:multi_user_cf_action) { Automations::Actions::CustomField.for("custom_field_#{multi_user_cf.id}").new }
+        let(:user_cf_action) { Automations::Actions::CustomField.subclass_for(user_cf).new(custom_field_id: user_cf.id) }
+        let(:multi_user_cf_action) { Automations::Actions::CustomField.subclass_for(multi_user_cf).new(custom_field_id: multi_user_cf.id) }
         let(:single_user_work_package) { create(:work_package, project: single_user_project) }
         let(:multi_user_work_package) { create(:work_package, project: multi_user_project) }
 

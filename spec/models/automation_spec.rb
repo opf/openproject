@@ -32,6 +32,7 @@ require "spec_helper"
 
 RSpec.describe Automation do
   let(:stubbed_instance) { build_stubbed(:automation) }
+  let(:in_memory_instance) { build(:automation) }
   let(:instance) { create(:automation, name: "zzzzzzzzz") }
   let(:other_instance) { create(:automation, name: "aaaaa") }
 
@@ -95,14 +96,14 @@ RSpec.describe Automation do
     end
 
     it "can be set and read" do
-      stubbed_instance.actions = [Automations::Actions::AssignedTo.new(1)]
+      in_memory_instance.actions = [Automations::Actions::AssignedTo.new(values: [1])]
 
-      expect(stubbed_instance.actions.map { |a| [a.key, a.values] })
+      expect(in_memory_instance.actions.map { |a| [a.key, a.values] })
         .to contain_exactly([:assigned_to, [1]])
     end
 
     it "can be persisted" do
-      instance.actions = [Automations::Actions::AssignedTo.new(1)]
+      instance.actions = [Automations::Actions::AssignedTo.new(values: [1])]
 
       instance.save!
 
@@ -118,9 +119,9 @@ RSpec.describe Automation do
     end
 
     it "returns the activated actions with their selected value and all other with the default value" do
-      stubbed_instance.actions = [Automations::Actions::AssignedTo.new(1)]
+      in_memory_instance.actions = [Automations::Actions::AssignedTo.new(values: [1])]
 
-      expect(stubbed_instance.all_actions.map { |a| [a.key, a.values] })
+      expect(in_memory_instance.all_actions.map { |a| [a.key, a.values] })
         .to include([:assigned_to, [1]], [:status, []])
     end
 
