@@ -184,6 +184,30 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
           expect { create_work_packages }.to raise_error(Import::ProgressableJob::AbortionError)
         end
       end
+
+      context "when a referenced jira user is not found in the import data" do
+        before do
+          jira_user.destroy!
+          jira_user_reference.destroy!
+          allow(OpenProject.logger).to receive(:info)
+        end
+
+        it "uses DeletedUser as a fallback for author and assignee" do
+          create_work_packages
+
+          work_package = WorkPackage.find("DPPP-6")
+          expect(work_package.author).to eq(DeletedUser.first)
+          expect(work_package.assigned_to).to eq(DeletedUser.first)
+        end
+
+        it "logs an info message about the missing user" do
+          create_work_packages
+
+          expect(OpenProject.logger).to have_received(:info).with(
+            /Import::JiraUser with jira_user_key JIRAUSER10000 not found! Using DeletedUser instead\./
+          ).at_least(:once)
+        end
+      end
     end
   end
 end

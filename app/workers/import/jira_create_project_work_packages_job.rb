@@ -339,7 +339,8 @@ module Import
           raise "Reference was expected to be found, but it was not. JiraUser: #{jira_user.inspect}"
         end
       else
-        raise "Import::JiraUser with jira_user_key #{jira_user_key} not found!"
+        OpenProject.logger.info "Import::JiraUser with jira_user_key #{jira_user_key} not found! Using DeletedUser instead."
+        DeletedUser.first
       end
     end
   end
