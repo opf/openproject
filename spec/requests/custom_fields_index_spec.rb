@@ -55,5 +55,13 @@ RSpec.describe "Administration custom fields index", type: :rails_request do
       expect(response.body).to include("Used in projects")
       expect(response.body).to include("1 project")
     end
+
+    it "does not count an archived project, matching the reminder on the field itself" do
+      reaching.update_columns(active: false)
+
+      get custom_fields_path
+
+      expect(response.body).to include("no projects")
+    end
   end
 end

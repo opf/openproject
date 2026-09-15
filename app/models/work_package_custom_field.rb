@@ -29,21 +29,23 @@
 #++
 
 class WorkPackageCustomField < CustomField
-  # A field reaches a project when the variant that project applies shows it.
+  # A field reaches a project when the variant that project applies shows it. An archived project
+  # is no reach, which is the same answer CustomFields::DetailsComponent gives.
   def self.project_counts
     memberships = FormConfigurationAttribute.table_name
-    form_join, form_configuration_id, excluded = TypeVariant.form_configuration_join("pt.variant_id")
+    form_join, form_configuration_id, excluded =
+      TypeVariant.form_configuration_join("project_types.variant_id")
     exclusion = TypeVariant.excluded_custom_field_condition("#{memberships}.custom_field_id", excluded)
 
     ProjectType
-      .from("project_types pt")
       .joins(form_join)
       .joins("JOIN #{memberships} ON #{memberships}.form_configuration_id = #{form_configuration_id} " \
              "AND #{memberships}.custom_field_id IS NOT NULL " \
              "AND #{memberships}.form_configuration_group_id IS NOT NULL AND #{exclusion}")
+      .where(project_id: Project.active.select(:id))
       .group("#{memberships}.custom_field_id")
       .distinct
-      .count("pt.project_id")
+      .count(:project_id)
   end
 
   has_many :form_configuration_memberships, -> { active },
