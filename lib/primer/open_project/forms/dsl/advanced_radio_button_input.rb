@@ -34,18 +34,34 @@ module Primer
       module Dsl
         # :nodoc:
         class AdvancedRadioButtonInput < Primer::Forms::Dsl::Input
-          attr_reader :name, :value, :label, :icon
+          attr_reader :name, :value, :label, :leading_icon, :trailing_image, :title_link, :action
 
-          def initialize(name:, value:, label:, icon: nil, **system_arguments)
+          def initialize(name:, value:, label:, leading_icon: nil, trailing_image: nil, title_link: nil, action: nil,
+                         **system_arguments)
             @name = name
             @value = value
             @label = label
-            @icon = icon
+            @leading_icon = leading_icon
+            @trailing_image = trailing_image
+            @title_link = title_link
+            @action = action
 
             super(**system_arguments)
 
             yield(self) if block_given?
           end
+
+          def checked?
+            !!input_arguments[:checked]
+          end
+
+          def title_link_text = title_link&.dig(:text)
+
+          def title_link_arguments = title_link&.except(:text) || {}
+
+          def action_text = action&.dig(:text)
+
+          def action_arguments = action&.except(:text) || {}
 
           # radio buttons cannot be invalid, as both selected and unselected are valid states
           # :nocov:
