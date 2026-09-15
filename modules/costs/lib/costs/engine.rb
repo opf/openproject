@@ -165,7 +165,7 @@ module Costs
            :hourly_rates,
            { controller: "/my/hourly_rates", action: "show" },
            after: :working_hours,
-           caption: :caption_rate_history,
+           caption: ->(*) { HourlyRate.model_name.human(count: 2) },
            if: ->(*) { ::My::HourlyRatesController.rates_visible?(User.current) },
            icon: "credit-card"
 

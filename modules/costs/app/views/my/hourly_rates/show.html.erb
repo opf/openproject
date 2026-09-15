@@ -27,14 +27,14 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_my_account), t(:caption_rate_history) %>
+<% html_title t(:label_my_account), HourlyRate.model_name.human(count: 2) %>
 
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title { t(:caption_rate_history) }
+    header.with_title { HourlyRate.model_name.human(count: 2) }
     header.with_breadcrumbs(
       [{ href: my_account_path, text: t(:label_my_account) },
-       t(:caption_rate_history)]
+       HourlyRate.model_name.human(count: 2)]
     )
   end
 %>
