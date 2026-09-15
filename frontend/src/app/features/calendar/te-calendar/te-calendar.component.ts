@@ -26,13 +26,12 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Injector, Input, OnDestroy, Output, SecurityContext, ViewChild, ViewEncapsulation, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Injector, Input, OnDestroy, Output, ViewChild, ViewEncapsulation, inject } from '@angular/core';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { States } from 'core-app/core/states/states.service';
 import moment, { Moment } from 'moment';
 import { StateService } from '@uirouter/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { DomSanitizer } from '@angular/platform-browser';
 import timeGrid from '@fullcalendar/timegrid';
 import {
   CalendarOptions,
@@ -59,8 +58,6 @@ import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-bui
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
-import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
-import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { VerboseFormattingArg } from '@fullcalendar/common';
 import { firstValueFrom, Subject } from 'rxjs';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
@@ -71,17 +68,15 @@ import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { ensureId, generateId } from 'core-app/shared/helpers/dom-helpers';
 import { target } from 'core-app/shared/helpers/event-helpers';
-import { html, render } from 'lit-html';
+import type AnchoredPositionElement from '@openproject/primer-view-components/app/components/primer/anchored_position';
+import { placePopover } from 'core-app/shared/components/anchored-popover/popover-placement';
+import { liveRect } from 'core-app/shared/components/anchored-popover/live-rect';
+import { visibleRect } from 'core-app/shared/components/anchored-popover/visible-rect';
+import type { CaretPlacement } from 'core-app/shared/components/anchored-popover/caret-placement';
+import { timeEntryPopoverHtml, timeEntryPopoverRows } from './te-calendar-popover';
+import type { TimeEntrySchema } from './te-calendar-popover';
+import { render } from 'lit-html';
 import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
-
-interface TimeEntrySchema extends SchemaResource {
-  activity:IFieldSchema;
-  entity:IFieldSchema;
-  project:IFieldSchema;
-  hours:IFieldSchema;
-  user:IFieldSchema;
-  comment:IFieldSchema;
-}
 
 interface CalendarViewEvent {
   el:HTMLElement;
@@ -137,7 +132,6 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
   readonly i18n = inject(I18nService);
   readonly injector = inject(Injector);
   readonly notifications = inject(HalResourceNotificationService);
-  private sanitizer = inject(DomSanitizer);
   private configuration = inject(ConfigurationService);
   private timezone = inject(TimezoneService);
   private schemaCache = inject(SchemaCacheService);
@@ -184,6 +178,16 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
   public nonWorkingDays:IDay[] = [];
 
   private closeDialogHandler:EventListener = this.handleDialogClose.bind(this);
+
+  private placeOpenPopover:(() => void)|null = null;
+
+  private closeOpenPopover = () => {
+    this.element.nativeElement.querySelector<HTMLElement>('.te-calendar--popover:popover-open')?.hidePopover();
+  };
+
+  private repositionOpenPopover = () => {
+    this.placeOpenPopover?.();
+  };
 
   public additionalOptions:CalendarOptionsWithDayGrid = {
     editable: false,
@@ -238,10 +242,14 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit():void {
     document.addEventListener('dialog:close', this.closeDialogHandler);
+    window.addEventListener('resize', this.closeOpenPopover);
+    document.addEventListener('scroll', this.repositionOpenPopover, { capture: true });
   }
 
   ngOnDestroy():void {
     document.removeEventListener('dialog:close', this.closeDialogHandler);
+    window.removeEventListener('resize', this.closeOpenPopover);
+    document.removeEventListener('scroll', this.repositionOpenPopover, { capture: true });
   }
 
   async requireNonWorkingDays(start:Date | string, end:Date | string) {
@@ -547,24 +555,41 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
       return;
     }
 
-    const { entry } = event.event.extendedProps;
+    const entry = event.event.extendedProps.entry as TimeEntryResource;
 
-    const schema = (await this.schemaCache.ensureLoaded(entry as TimeEntryResource)) as TimeEntrySchema;
+    const schema = (await this.schemaCache.ensureLoaded(entry)) as TimeEntrySchema;
 
     const anchorEl = event.el;
+    if (!anchorEl.isConnected) {
+      return;
+    }
+
     const anchorId = ensureId(anchorEl);
     anchorEl.role = 'button';
 
     const popoverId = generateId('popover');
-    const popoverHtml = this.popoverHtml(popoverId, anchorId, event.event.extendedProps.entry as TimeEntryResource, schema);
-
-    render(popoverHtml, anchorEl);
+    const rows = timeEntryPopoverRows(entry, schema, {
+      placeholder: this.i18n.t('js.placeholders.default'),
+      formattedDuration: this.timezone.formattedDuration(entry.hours as string),
+    });
+    const draw = (caret:CaretPlacement|null) => render(timeEntryPopoverHtml(popoverId, anchorId, rows, caret), anchorEl);
+    draw(null);
 
     anchorEl.setAttribute('aria-haspopup', 'true');
     anchorEl.setAttribute('popovertarget', popoverId);
 
-    const popoverEl = document.getElementById(popoverId)!;
-    const showPopover = () => { popoverEl.showPopover(); };
+    const popoverEl = document.getElementById(popoverId) as AnchoredPositionElement;
+    const anchorRect = liveRect(() => visibleRect(anchorEl));
+    popoverEl.anchorElement = anchorRect as unknown as HTMLElement;
+    const place = () => draw(placePopover(popoverEl, anchorRect));
+    popoverEl.addEventListener('toggle', (toggle) => {
+      this.placeOpenPopover = toggle.newState === 'open' ? place : null;
+    });
+    const showPopover = () => {
+      if (popoverEl.matches(':popover-open')) return;
+      popoverEl.showPopover();
+      place();
+    };
     const hidePopover = () => { popoverEl.hidePopover(); };
 
     target(anchorEl).on('mouseenter.anchor', showPopover);
@@ -584,7 +609,11 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
     anchorEl.removeAttribute('popovertarget');
     anchorEl.removeAttribute('aria-haspopup');
     anchorEl.removeAttribute('role');
-    document.querySelector(`anchored-position[anchor="${anchorId}"]`)?.remove();
+    const popoverEl = document.querySelector(`anchored-position[anchor="${anchorId}"]`);
+    if (popoverEl?.matches(':popover-open')) {
+      this.placeOpenPopover = null;
+    }
+    popoverEl?.remove();
   }
 
   private prependDuration(event:CalendarViewEvent):void {
@@ -648,60 +677,6 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
 
   private entityName(entry:TimeEntryResource):string {
     return formatTimeEntryEntityName(entry.entity);
-  }
-
-  private popoverHtml(
-    popoverId:string,
-    anchorId:string,
-    entry:TimeEntryResource,
-    schema:TimeEntrySchema) {
-    return html`
-      <anchored-position
-        id="${popoverId}"
-        role="dialog"
-        align="start"
-        anchor="${anchorId}"
-        anchor-offset="condensed"
-        popover="hint"
-        side="outside-right">
-        ${this.popoverContentHtml(entry, schema)}
-      </anchored-position>
-    `;
-  }
-
-  private popoverContentHtml(entry:TimeEntryResource, schema:TimeEntrySchema) {
-    return html`
-        <div class="Popover te-calendar--popover">
-          <div class="Box Popover-message Popover-message--left-top ml-2 mx-auto p-2 text-left text-small">
-            <ul class="list-style-none ml-0">
-              <li class="te-calendar--popover-entry">
-                <span class="text-bold">${schema.project.name}:</span>
-                <span>${this.sanitizedValue(entry.project.name)}</span>
-              </li>
-              <li class="te-calendar--popover-entry">
-                <span class="text-bold">${schema.entity.name}:</span>
-                <span>${entry.entity ? this.sanitizedValue(this.entityName(entry)) : this.i18n.t('js.placeholders.default')}</span>
-              </li>
-              <li class="te-calendar--popover-entry">
-                <span class="text-bold">${schema.activity.name}:</span>
-                <span>${this.sanitizedValue(entry.activity?.name ?? '')}</span>
-              </li>
-              <li class="te-calendar--popover-entry">
-                <span class="text-bold">${schema.hours.name}:</span>
-                <span>${this.timezone.formattedDuration(entry.hours as string)}</span>
-              </li>
-              <li class="te-calendar--popover-entry">
-                <span class="text-bold">${schema.comment.name}:</span>
-                <span>${this.sanitizedValue(entry.comment.raw ?? this.i18n.t('js.placeholders.default'))}</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-        `;
-  }
-
-  private sanitizedValue(value:string):string {
-    return this.sanitizer.sanitize(SecurityContext.HTML, value) ?? '';
   }
 
   protected formatNumber(value:number):string {

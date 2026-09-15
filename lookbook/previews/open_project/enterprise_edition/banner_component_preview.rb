@@ -79,9 +79,9 @@ module OpenProject
       def large
         render(
           ::EnterpriseEdition::BannerComponent
-            .new(:date_alerts,
+            .new(:work_package_sharing,
                  variant: :large,
-                 video: "enterprise/date-alert-notifications.mp4",
+                 video: "enterprise/share-work-package.mp4",
                  show_always: true)
         )
       end
