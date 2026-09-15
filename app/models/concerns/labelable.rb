@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,26 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Bim::Bcf
-  module Issues
-    class UpdateService < ::BaseServices::Update
-      private
+module Labelable
+  extend ActiveSupport::Concern
 
-      def before_perform(service_result)
-        wp_call = ::WorkPackages::UpdateService
-          .new(model: model.work_package,
-               user:,
-               contract_class: ::WorkPackages::UpdateContract)
-          .call(**params.except(*Bim::Bcf::Issue::SETTABLE_ATTRIBUTES))
-
-        if wp_call.success?
-          self.params = params.slice(*Bim::Bcf::Issue::SETTABLE_ATTRIBUTES)
-
-          super
-        else
-          wp_call
-        end
-      end
-    end
+  included do
+    has_many :labelings, as: :labelable, dependent: :delete_all
+    has_many :labels, -> { order(:id) }, through: :labelings
   end
 end

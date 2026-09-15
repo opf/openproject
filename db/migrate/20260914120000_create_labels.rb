@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,26 +28,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Bim::Bcf
-  module Issues
-    class UpdateService < ::BaseServices::Update
-      private
-
-      def before_perform(service_result)
-        wp_call = ::WorkPackages::UpdateService
-          .new(model: model.work_package,
-               user:,
-               contract_class: ::WorkPackages::UpdateContract)
-          .call(**params.except(*Bim::Bcf::Issue::SETTABLE_ATTRIBUTES))
-
-        if wp_call.success?
-          self.params = params.slice(*Bim::Bcf::Issue::SETTABLE_ATTRIBUTES)
-
-          super
-        else
-          wp_call
-        end
-      end
+class CreateLabels < ActiveRecord::Migration[8.1]
+  def change
+    create_table :labels do |t|
+      t.string :name, null: false
+      t.timestamps
     end
+    add_index :labels, "LOWER(name)", unique: true, name: "index_labels_on_LOWER_name"
+
+    create_table :labelings do |t|
+      t.references :label, null: false, foreign_key: { on_delete: :cascade }, index: false
+      t.references :labelable, polymorphic: true, null: false, index: false
+      t.timestamps
+    end
+    add_index :labelings, %i[labelable_type labelable_id label_id],
+              unique: true,
+              name: "index_labelings_on_labelable_and_label"
+    add_index :labelings, :label_id
   end
 end

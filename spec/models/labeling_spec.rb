@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,26 +28,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Bim::Bcf
-  module Issues
-    class UpdateService < ::BaseServices::Update
-      private
+require "spec_helper"
 
-      def before_perform(service_result)
-        wp_call = ::WorkPackages::UpdateService
-          .new(model: model.work_package,
-               user:,
-               contract_class: ::WorkPackages::UpdateContract)
-          .call(**params.except(*Bim::Bcf::Issue::SETTABLE_ATTRIBUTES))
+RSpec.describe Labeling do
+  let(:label) { create(:label) }
+  let(:work_package) { create(:work_package) }
 
-        if wp_call.success?
-          self.params = params.slice(*Bim::Bcf::Issue::SETTABLE_ATTRIBUTES)
+  it "is valid with a label and a labelable" do
+    expect(build(:labeling, label:, labelable: work_package)).to be_valid
+  end
 
-          super
-        else
-          wp_call
-        end
-      end
-    end
+  it "rejects the same label twice on one labelable" do
+    create(:labeling, label:, labelable: work_package)
+
+    expect(build(:labeling, label:, labelable: work_package)).not_to be_valid
+  end
+
+  it "allows the same label on different labelables" do
+    create(:labeling, label:, labelable: work_package)
+
+    expect(build(:labeling, label:, labelable: create(:work_package))).to be_valid
   end
 end

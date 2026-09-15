@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,26 +28,43 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Bim::Bcf
-  module Issues
-    class UpdateService < ::BaseServices::Update
-      private
+require "spec_helper"
 
-      def before_perform(service_result)
-        wp_call = ::WorkPackages::UpdateService
-          .new(model: model.work_package,
-               user:,
-               contract_class: ::WorkPackages::UpdateContract)
-          .call(**params.except(*Bim::Bcf::Issue::SETTABLE_ATTRIBUTES))
+RSpec.describe Label do
+  describe "validations" do
+    subject { build(:label) }
 
-        if wp_call.success?
-          self.params = params.slice(*Bim::Bcf::Issue::SETTABLE_ATTRIBUTES)
+    it { is_expected.to validate_presence_of(:name) }
+    it { is_expected.to validate_length_of(:name).is_at_most(255) }
+    it { is_expected.to validate_uniqueness_of(:name).case_insensitive }
 
-          super
-        else
-          wp_call
-        end
-      end
+    it "is backed by a case-insensitive unique index" do
+      create(:label, name: "hello")
+
+      expect { described_class.insert_all!([{ name: "HELLO", created_at: Time.current, updated_at: Time.current }]) }
+        .to raise_error(ActiveRecord::RecordNotUnique)
+    end
+  end
+
+  describe "#destroy" do
+    it "removes its labelings" do
+      label = create(:label)
+      labeling = create(:labeling, label:)
+
+      label.destroy!
+
+      expect(Labeling.where(id: labeling.id)).not_to exist
+    end
+  end
+
+  describe "#work_packages" do
+    it "returns the labeled work packages" do
+      label = create(:label)
+      labeled = create_list(:work_package, 2)
+      labeled.each { create(:labeling, label:, labelable: it) }
+      create(:work_package)
+
+      expect(label.work_packages).to match_array(labeled)
     end
   end
 end

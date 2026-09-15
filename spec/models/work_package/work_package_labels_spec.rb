@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,26 +28,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Bim::Bcf
-  module Issues
-    class UpdateService < ::BaseServices::Update
-      private
+require "spec_helper"
 
-      def before_perform(service_result)
-        wp_call = ::WorkPackages::UpdateService
-          .new(model: model.work_package,
-               user:,
-               contract_class: ::WorkPackages::UpdateContract)
-          .call(**params.except(*Bim::Bcf::Issue::SETTABLE_ATTRIBUTES))
+RSpec.describe WorkPackage, "labels" do
+  let(:work_package) { create(:work_package) }
+  let!(:lower_label) { create(:label, name: "apple") }
+  let!(:higher_label) { create(:label, name: "zebra") }
 
-        if wp_call.success?
-          self.params = params.slice(*Bim::Bcf::Issue::SETTABLE_ATTRIBUTES)
+  before do
+    work_package.labels << higher_label
+    work_package.labels << lower_label
+  end
 
-          super
-        else
-          wp_call
-        end
-      end
-    end
+  it "returns labels in id order, also when preloaded" do
+    preloaded = described_class.where(id: work_package.id).includes(:labels).first
+
+    expect(work_package.reload.labels).to eq([lower_label, higher_label])
+    expect(preloaded.labels).to eq([lower_label, higher_label])
+  end
+
+  it "deletes its labelings but keeps the labels when destroyed" do
+    work_package.destroy!
+
+    expect(Labeling.where(labelable: work_package)).not_to exist
+    expect(Label.where(id: [lower_label.id, higher_label.id]).count).to eq(2)
+  end
+
+  it "drops a deleted label from its labels" do
+    lower_label.destroy!
+
+    expect(work_package.reload.labels).to eq([higher_label])
   end
 end
