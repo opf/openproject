@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,29 +26,20 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-class FixWordingInSettingsEnabledProjectsColumnsValue < ActiveRecord::Migration[8.0]
-  def up
-    replace_setting_array_item("enabled_projects_columns", "favored", "favorited")
-  end
+require Rails.root.join("db/migrate/tables/base").to_s
 
-  def down
-    replace_setting_array_item("enabled_projects_columns", "favorited", "favored")
-  end
+class Tables::OidcGroupLinks < Tables::Base
+  def self.table(migration)
+    create_table migration do |t|
+      t.belongs_to :group, null: false, index: true, foreign_key: { to_table: :users, on_delete: :cascade }
+      t.belongs_to :auth_provider, null: false, index: false, foreign_key: { on_delete: :cascade }
+      t.string :oidc_group_name, null: false
 
-  private
+      t.index %i[auth_provider_id oidc_group_name], unique: true
 
-  def replace_setting_array_item(name, old_value, new_value)
-    replace_setting_array(name) do |entry|
-      entry == old_value ? new_value : entry
-    end
-  end
-
-  def replace_setting_array(name, &)
-    Setting.find_by(name:)&.tap do |setting|
-      setting.value = setting.value.map(&)
-      setting.save!
+      t.timestamps null: false
     end
   end
 end

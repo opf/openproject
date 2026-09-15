@@ -38,6 +38,7 @@ class Tables::BudgetJournals < Tables::Base
       t.string :subject, null: false
       t.text :description
       t.date :fixed_date, null: false
+      t.decimal :base_amount, precision: 20, scale: 2, null: false, default: "0.0"
     end
   end
 end

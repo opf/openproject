@@ -86,6 +86,7 @@ class AggregatedMigrations < SquashedMigration
          Tables::Queries,
          Tables::Settings,
          Tables::Tokens,
+         Tables::AutologinSessionLinks,
          Tables::UserPreferences,
          Tables::UserPasswords,
          Tables::Versions,
@@ -127,6 +128,9 @@ class AggregatedMigrations < SquashedMigration
          Tables::Favorites,
          Tables::EmojiReactions,
          Tables::AuthProviders,
+         Tables::UserAuthProviderLinks,
+         Tables::ScimClients,
+         Tables::CalculatedValueErrors,
          Tables::RemoteIdentities,
          Tables::HierarchicalItems,
          Tables::HierarchicalItemHierarchies,
@@ -139,33 +143,29 @@ class AggregatedMigrations < SquashedMigration
          Tables::ExportSettings
 
   squashed_migrations *%w[
-    1000015_aggregated_migrations
-    20241030154245_create_project_life_cycles
-    20241119131205_create_reminders
-    20241120095318_update_scheduling_mode_and_lags
-    20241121094113_migrate_cost_settings_to_regular_settings
-    20241121113638_create_reminder_notifications
-    20241125161226_unique_index_on_project_life_cycle_steps
-    20241126111225_add_project_life_cycle_step_roles
-    20241127161228_grant_select_project_life_cycle_permission
-    20241129135602_populate_manage_own_reminders_permission
-    20241211152749_introduce_patterns_to_types
-    20241217190533_add_uniqueness_index_to_project_life_cycle_step_definitions_name
-    20250102161733_adds_position_cache_to_hierarchy_items
-    20250108100511_remove_incorrect_manage_own_reminders_permission
-    20250114162956_create_project_life_cycle_step_journals
-    20250117105334_remove_manage_own_reminders_permission
-    20250128164217_remove_is_default_for_time_entry_activities
-    20250210163523_add_export_templates_to_type
-    20250213193012_fix_typo_in_settings_user_format_value
-    20250214162601_add_project_life_cycle_step_date_indices
-    20250220123358_add_polymorphic_auth_source_and_integration_to_remote_identities
-    20250226134521_add_restricted_to_journals
-    20250227161653_populate_comments_with_restricted_visibility_permissions
-    20250324133701_create_service_account_associations
-    20250324161229_merge_lifecycle_steps
-    20250326151553_export_settings
-    20250327071204_add_dismissed_enterprise_banners_to_user_preference
-    20250402083709_change_remote_identities_foreign_key_indices
+    1000016_aggregated_migrations
+    20250403150639_link_wp_to_project_phase_definition
+    20250411104802_add_duration_to_project_phases
+    20250422072119_rename_comment_permissions
+    20250423123519_add_index_to_sessions
+    20250428135623_disallow_null_in_project_phases_references
+    20250512114003_move_users_identity_url_to_user_auth_provider_links
+    20250605133700_create_scim_clients
+    20250610111413_add_validity_period_to_enterprise_token
+    20250612133700_service_account_association_foreign_keys
+    20250613141234_add_formula_to_custom_fields
+    20250627121119_change_default_main_menu_color
+    20250731144436_add_workspace_type_to_project
+    20250804133700_migrate_auth_provider_urls_again
+    20250806132912_add_export_footer_to_custom_styles
+    20250811102200_add_pdf_fonts_to_custom_styles
+    20250818133654_add_list_item_score
+    20250905204438_migrate_theme_preferences
+    20250908072653_create_calculated_value_errors
+    20250908151957_rename_favorites_favored_to_favorited
+    20250908172222_fix_wording_in_settings_enabled_projects_columns_value
+    20250923142124_add_autologin_session_link
+    20251017111720_set_anonymous_user_theme_to_sync_with_os
+    20251103123548_rename_item_score_to_weight
   ]
 end

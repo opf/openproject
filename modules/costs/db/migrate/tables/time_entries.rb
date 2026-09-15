@@ -51,7 +51,11 @@ class Tables::TimeEntries < Tables::Base
       t.boolean :ongoing, null: false, default: false, index: true
       t.integer :start_time, null: true
       t.string :time_zone, null: true
+      # The polymorphic reference's index duplicates the one on
+      # entity_type and entity_id below.
+      t.references :entity, polymorphic: true
 
+      t.index %i[entity_type entity_id]
       t.index :activity_id, name: "index_time_entries_on_activity_id"
       t.index :created_at, name: "index_time_entries_on_created_at"
       t.index :work_package_id, name: "time_entries_issue_id" # issue_id for backwards compatibility
