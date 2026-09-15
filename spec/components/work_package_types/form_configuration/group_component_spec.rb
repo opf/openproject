@@ -24,6 +24,28 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupComponent, type: :compo
     expect(page).to have_test_selector("type-form-configuration-attribute-handle-assignee")
   end
 
+  it "renders the update-query URL for the group as data", :aggregate_failures do
+    render_inline(described_class.new(group:, variant:, ee_available: true, first: true, last: true))
+
+    expect(page).to have_element "data-group-key": "details" do |wrapper|
+      expect(wrapper["data-update-query-url"]).to end_with("/form_configuration/group/update_query?key=details")
+    end
+  end
+
+  context "with HTML-sensitive characters in the key" do
+    let(:key) { 'b) > 10.000 "<Nutzende>"' }
+    let(:group) { { key:, name: key, type: :attribute, attributes: [], query: nil } }
+
+    it "escapes the key inside the data attributes", :aggregate_failures do
+      render_inline(described_class.new(group:, variant:, ee_available: true, first: true, last: true))
+
+      expect(page).to have_element "data-group-key": key do |wrapper|
+        expect(wrapper["data-draggable-id"]).to eq(key)
+        expect(wrapper["data-update-query-url"]).to end_with("?key=b%29+%3E+10.000+%22%3CNutzende%3E%22")
+      end
+    end
+  end
+
   it "renders no handles, menus, or drag data when readonly", :aggregate_failures do
     render_inline(described_class.new(group:, variant:, ee_available: true, first: true, last: true, readonly: true))
 

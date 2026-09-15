@@ -29,40 +29,32 @@
 #++
 
 module RecurringMeetings
-  class SetAttributesService < ::BaseServices::SetAttributes
-    private
+  # A historic record of a previous schedule of a RecurringMeeting.
+  # We need it to send out the updated old schedule with an UNTIL rule, so that the event correctly
+  # ends for the clients.
+  class HistoricSchedule < ApplicationRecord
+    self.table_name = "recurring_meeting_historic_schedules"
 
-    def set_attributes(params)
-      super
+    belongs_to :recurring_meeting
 
-      model.change_by_system do
-        if model.frequency_working_days?
-          model.interval = 1
-        end
+    validates :uid, presence: true, uniqueness: true
+    validates :snapshot, presence: true
 
-        determine_current_schedule_start
-      end
-    end
+    store_attribute :snapshot, :dtstart, :datetime
+    store_attribute :snapshot, :ends_at, :datetime
+    store_attribute :snapshot, :tzid, :string
+    store_attribute :snapshot, :duration, :float
+    store_attribute :snapshot, :summary, :string
+    store_attribute :snapshot, :location, :string
+    store_attribute :snapshot, :rrule, :string
+    store_attribute :snapshot, :sequence, :integer
+    store_attribute :snapshot, :exdates, :json
 
-    # current_schedule_start is used as the DTSTART of the ICS series event.
-    # As a result, it needs to be conencted to the UID.
-    # If DTSTART moves while the UID stays the same, some clients delete all earlier
-    # occurrences
-    #
-    # Only RecurringMeetings::StartNewScheduleService will update it again, and
-    # update DTSTART and UID together when the series already has past occurrences.
-    def determine_current_schedule_start
-      return if model.current_schedule_start.present?
+    # exdates are stored as a string array, but we consume it in the schedule as datetime objects
+    def exdates = Array(super).map { time_zone.parse(it) }
 
-      model.current_schedule_start = model.next_occurrence(from_time: Time.current) || model.start_time
-    end
+    def dtend = dtstart + duration.hours
 
-    def set_default_attributes(_params)
-      model.change_by_system do
-        model.time_zone = user.time_zone.name
-        model.author = user
-        model.duration ||= 1
-      end
-    end
+    def time_zone = ActiveSupport::TimeZone[tzid] || Time.zone
   end
 end
