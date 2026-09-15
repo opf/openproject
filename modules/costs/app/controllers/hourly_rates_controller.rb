@@ -93,8 +93,6 @@ class HourlyRatesController < ApplicationController
 
   private
 
-  # A write either closes its dialog and hands back a freshly rendered table,
-  # or leaves the dialog open with the rejected form.
   def respond_to_write(call, dialog_id:)
     @rate = call.result
     @principal ||= @rate.principal

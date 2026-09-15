@@ -72,7 +72,6 @@ class HourlyRate < Rate
       acc[project] = project_rates
     end
 
-    # FIXME: What permissions to apply here?
     rates[nil] = DefaultHourlyRate.for_principal(usr).newest_first
 
     rates
@@ -86,8 +85,6 @@ class HourlyRate < Rate
       .group_by(&:project)
   end
 
-  # Rates are visible with view_hourly_rates, and additionally with
-  # view_own_hourly_rate when the history asked for is the current user's own.
   def self.projects_with_visible_rates(usr)
     scope = Project.has_module(:costs).active.visible
 

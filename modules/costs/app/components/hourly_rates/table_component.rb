@@ -76,8 +76,8 @@ module HourlyRates
       project ? t(:text_no_project_rate) : t(:text_no_default_rate)
     end
 
-    # Creating and editing are gated by the same contract check, so the caller
-    # passing a url to create with is also what enables the row edit buttons.
+    # Creating and editing share one contract check, so the url to create with
+    # also decides whether the rows offer editing.
     def manageable?
       new_rate_url.present?
     end
