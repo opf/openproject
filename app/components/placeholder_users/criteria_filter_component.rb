@@ -40,5 +40,13 @@ module PlaceholderUsers
         false_label: I18n.t(:label_without_criteria)
       )
     end
+
+    # A segmented control always marks one of its segments as selected, and this
+    # filter starts out inactive, so the unfiltered state needs a segment too.
+    def before_render
+      with_item(label: I18n.t(:label_all_uppercase), value: nil)
+
+      super
+    end
   end
 end
