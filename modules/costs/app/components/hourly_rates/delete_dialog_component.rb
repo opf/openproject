@@ -39,7 +39,7 @@ module HourlyRates
     private
 
     def form_arguments
-      { action: destroy_url, method: :delete }
+      { action: destroy_url, method: :delete, data: { turbo: true } }
     end
 
     def destroy_url

@@ -11,5 +11,7 @@
       message.with_heading(tag: :h2) { t(:text_are_you_sure) }
       message.with_description_content(description)
     end
+
+    dialog.with_confirmation_check_box_content(t(:text_hourly_rate_destroy_confirmation_checkbox_label))
   end
 %>
