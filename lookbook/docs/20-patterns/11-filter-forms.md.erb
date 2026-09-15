@@ -96,6 +96,13 @@ hidden until the user picks them from the "Add filter" select.
 
 <%= embed OpenProject::Filter::FilterFormPreview, :with_active_filter, panels: %i[preview source] %>
 
+### Width
+
+The same input cap as on `FilterComponent` applies, and `full_width: true`
+lifts it. Since it works by adding the `op-filters-form--full-width` modifier
+to the wrapper this component emits, it only has an effect together with
+`wrap_with_controller: true`; otherwise the host owning the wrapper decides.
+
 ### Submitting via a hidden field
 
 By default the component relies on the Stimulus controller to redirect via

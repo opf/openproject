@@ -40,6 +40,7 @@ module PlaceholderUsers
                  wrap_with_controller: true,
                  hidden_input_name: "filters",
                  output_format: :json,
+                 full_width: true,
                  **live_update_arguments
                ))
       end
