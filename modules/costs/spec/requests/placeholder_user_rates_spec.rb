@@ -58,56 +58,19 @@ RSpec.describe "Placeholder user rates",
     end
   end
 
-  describe "default rates" do
-    it "can be edited" do
-      get edit_hourly_rate_path(placeholder)
+  describe "the project rate history" do
+    it "is rendered for a placeholder user" do
+      get projects_hourly_rate_path(project_id: project, id: placeholder)
 
       expect(response).to have_http_status(:ok)
-    end
-
-    it "can be set and returns to the placeholder's rates tab" do
-      put hourly_rate_path(placeholder), params: {
-        user: {
-          new_rate_attributes: { "0" => { valid_from: "2026-01-01", rate: "95" } },
-          existing_rate_attributes: {}
-        }
-      }
-
-      expect(placeholder.reload.default_rate_at(Date.new(2026, 6, 1)).rate).to eq(95)
-      expect(response).to redirect_to(edit_placeholder_user_path(placeholder, tab: :rates))
-    end
-  end
-
-  describe "project rates" do
-    it "can be edited" do
-      get edit_projects_hourly_rate_path(project_id: project, id: placeholder)
-
-      expect(response).to have_http_status(:ok)
-    end
-
-    it "can be set and takes precedence over the default rate" do
-      put hourly_rate_path(placeholder), params: {
-        user: {
-          new_rate_attributes: { "0" => { valid_from: "2026-01-01", rate: "95" } },
-          existing_rate_attributes: {}
-        }
-      }
-      put projects_hourly_rate_path(project_id: project, id: placeholder), params: {
-        user: {
-          new_rate_attributes: { "0" => { valid_from: "2026-01-01", rate: "120" } },
-          existing_rate_attributes: {}
-        }
-      }
-
-      expect(placeholder.reload.rate_at(Date.new(2026, 6, 1), project).rate).to eq(120)
     end
   end
 
   describe "for a principal that cannot hold a rate" do
-    shared_let(:group) { create(:group) }
+    shared_let(:group) { create(:group, member_with_roles: { project => create(:project_role) }) }
 
     it "is not found" do
-      get edit_hourly_rate_path(group)
+      get projects_hourly_rate_path(project_id: project, id: group)
 
       expect(response).to have_http_status(:not_found)
     end

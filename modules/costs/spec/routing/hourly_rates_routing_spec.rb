@@ -37,24 +37,8 @@ RSpec.describe HourlyRatesController do
                                                                 id: "5")
     }
 
-    it {
-      expect(get("/projects/blubs/hourly_rates/5/edit")).to route_to(controller: "hourly_rates",
-                                                                     action: "edit",
-                                                                     project_id: "blubs",
-                                                                     id: "5")
-    }
-
-    it {
-      expect(get("/hourly_rates/5/edit")).to route_to(controller: "hourly_rates",
-                                                      action: "edit",
-                                                      id: "5")
-    }
-
-    it {
-      expect(put("/projects/blubs/hourly_rates/5")).to route_to(controller: "hourly_rates",
-                                                                action: "update",
-                                                                project_id: "blubs",
-                                                                id: "5")
-    }
+    it { expect(get("/projects/blubs/hourly_rates/5/edit")).not_to be_routable }
+    it { expect(get("/hourly_rates/5/edit")).not_to be_routable }
+    it { expect(put("/projects/blubs/hourly_rates/5")).not_to be_routable }
   end
 end

@@ -27,9 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <div class="user-rate-history-list">
-<div class="contextual">
-  <%= link_to t(:button_update), edit_hourly_rate_path(@user), class: "icon icon-edit", accesskey: accesskey(:edit) %>
-</div>
 <h3><%= User.human_attribute_name(:default_rates) %></h3>
 <% if @rates_default.blank? %>
   <%= no_results_box %>

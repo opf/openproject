@@ -61,48 +61,5 @@ RSpec.describe "hourly rates on user edit", :js do
     it "shows the rates" do
       expect(page).to have_text "Current rate".upcase
     end
-
-    describe "deleting all rates" do
-      before do
-        click_link "Update" # go to update view for rates
-        SeleniumHubWaiter.wait
-        find(".delete-row-button").click # delete last existing rate
-        click_on "Save" # save change
-      end
-
-      # regression test: clicking save used to result in a error
-      it "leads back to the now empty rate overview" do
-        expect(page).to have_text /rate history/i
-        expect(page).to have_text I18n.t("no_results_title_text")
-
-        expect(page).to have_no_text "Current rate"
-      end
-    end
-  end
-
-  describe "updating rates as German user", driver: :firefox_de do
-    let(:user) { create(:admin, language: "de") }
-    let!(:rate) { create(:default_hourly_rate, user:, rate: 1.0) }
-
-    it "allows editing without reinterpreting the number (Regression #42219)" do
-      visit edit_hourly_rate_path(user)
-
-      # Expect the german locale output
-      expect(page).to have_field("user[existing_rate_attributes][#{rate.id}][rate]", with: "1,00")
-
-      click_button "Satz hinzufügen"
-
-      fill_in "user_new_rate_attributes_1_valid_from", with: (Time.zone.today + 1.day).iso8601
-      find("input#user_new_rate_attributes_1_valid_from").send_keys :escape
-      fill_in "user_new_rate_attributes_1_rate", with: "5,12"
-
-      click_button "Speichern"
-      expect_flash(type: :notice)
-
-      view_rates
-
-      expect(page).to have_css(".currency", text: "1,00")
-      expect(page).to have_css(".currency", text: "5,12")
-    end
   end
 end

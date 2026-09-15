@@ -40,7 +40,7 @@ Rails.application.routes.draw do
   scope "projects/:project_id", as: "projects" do
     resources :cost_entries, controller: "costlog", only: %i[new create]
 
-    resources :hourly_rates, only: %i[show edit update]
+    resources :hourly_rates, only: %i[show]
 
     get "/time_entries/dialog" => "time_entries#dialog"
   end
@@ -76,9 +76,6 @@ Rails.application.routes.draw do
   resources :cost_entries, controller: "costlog", only: %i[edit update destroy]
 
   get "/cost_types", to: redirect("/admin/cost_types")
-
-  # TODO: this is a duplicate from a route defined under project/:project_id, check whether we really want to do that
-  resources :hourly_rates, only: %i[edit update]
 
   namespace :admin do
     namespace :settings do
