@@ -28,41 +28,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module RecurringMeetings
-  class SetAttributesService < ::BaseServices::SetAttributes
-    private
+# Checks RFC rules in ICalConformance against an ICS string or an already parsed calendar.
+#
+#   expect(service.call.result).to be_a_conforming_calendar
+RSpec::Matchers.define :be_a_conforming_calendar do
+  match do |actual|
+    @violations = ICalConformance.new(parse(actual)).violations
+    @violations.empty?
+  end
 
-    def set_attributes(params)
-      super
+  failure_message do |_actual|
+    violation_messages = @violations.map { "  - #{it}" }
 
-      model.change_by_system do
-        if model.frequency_working_days?
-          model.interval = 1
-        end
+    <<~MESSAGE
+      expected ICS calendar data that conforms to RFC 5545 and RFC 5546, but found validation errors:
+      #{violation_messages.join("\n")}
+    MESSAGE
+  end
 
-        determine_current_schedule_start
-      end
-    end
+  failure_message_when_negated do |_actual|
+    "expected the calendar to break at least one ICS RFC rule, but found no validations"
+  end
 
-    # current_schedule_start is used as the DTSTART of the ICS series event.
-    # As a result, it needs to be conencted to the UID.
-    # If DTSTART moves while the UID stays the same, some clients delete all earlier
-    # occurrences
-    #
-    # Only RecurringMeetings::StartNewScheduleService will update it again, and
-    # update DTSTART and UID together when the series already has past occurrences.
-    def determine_current_schedule_start
-      return if model.current_schedule_start.present?
+  def parse(actual)
+    return actual if actual.is_a?(Icalendar::Calendar)
 
-      model.current_schedule_start = model.next_occurrence(from_time: Time.current) || model.start_time
-    end
-
-    def set_default_attributes(_params)
-      model.change_by_system do
-        model.time_zone = user.time_zone.name
-        model.author = user
-        model.duration ||= 1
-      end
-    end
+    Icalendar::Calendar.parse(actual).first
   end
 end
