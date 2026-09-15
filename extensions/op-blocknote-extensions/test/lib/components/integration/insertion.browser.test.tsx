@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { renderEditor } from '../../../helpers/renderEditor';
+import { placeCaretAtOffset } from '../../../helpers/editorHelpers';
 
 describe('Hash trigger - data loss regression', () => {
   it('preserves text before and after the # trigger', async () => {
@@ -10,7 +11,7 @@ describe('Hash trigger - data loss regression', () => {
     await userEvent.click(editor);
     await userEvent.type(editor, 'Hello world example');
 
-    await userEvent.keyboard('{Home}{ArrowRight>5}');
+    await placeCaretAtOffset(5);
     await userEvent.keyboard('#bug');
 
     await expect.element(page.getByText('Fix login bug')).toBeVisible();
@@ -27,7 +28,7 @@ describe('Hash trigger - data loss regression', () => {
     await userEvent.click(editor);
     await userEvent.type(editor, 'before after');
 
-    await userEvent.keyboard('{Home}{ArrowRight>6}');
+    await placeCaretAtOffset(6);
     await userEvent.keyboard('###bug');
 
     await expect.element(page.getByText('Fix login bug')).toBeVisible();
