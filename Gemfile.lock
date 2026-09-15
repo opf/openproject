@@ -1302,7 +1302,8 @@ GEM
     roar (1.2.0)
       representable (~> 3.1)
     rotp (6.3.0)
-    rouge (4.7.0)
+    rouge (5.1.0)
+      strscan (~> 3.1)
     rspec (3.13.2)
       rspec-core (~> 3.13.0)
       rspec-expectations (~> 3.13.0)
@@ -1437,6 +1438,7 @@ GEM
     store_attribute (2.2.0)
       activerecord (>= 7.2)
     stringex (2.8.6)
+    strscan (3.1.8)
     structured_warnings (0.5.0)
     svg-graph (2.2.2)
     swd (2.0.3)
@@ -1725,7 +1727,7 @@ DEPENDENCIES
   retriable (~> 4.2.0)
   rinku (~> 2.0.4)
   roar (~> 1.2.0)
-  rouge (~> 4.7.0)
+  rouge (~> 5.1.0)
   rspec (~> 3.13.2)
   rspec-rails (~> 8.0.4)
   rspec-retry (~> 0.6.1)
@@ -2209,7 +2211,7 @@ CHECKSUMS
   rinku (2.0.6) sha256=8b60670e3143f3db2b37efa262971ce3619ec23092045498ef9f077d82828d7d
   roar (1.2.0) sha256=8db4d1ca79c57a5fb746c16c0d5661d7c3e0de3d9553dc016a88d2dba2929d08
   rotp (6.3.0) sha256=75d40087e65ed0d8022c33055a6306c1c400d1c12261932533b5d6cbcd868854
-  rouge (4.7.0) sha256=dba5896715c0325c362e895460a6d350803dbf6427454f49a47500f3193ea739
+  rouge (5.1.0) sha256=b77c632842ab7f5147940212f0345808cccfbce864fd5b631d7d12a35ac85452
   rspec (3.13.2) sha256=206284a08ad798e61f86d7ca3e376718d52c0bc944626b2349266f239f820587
   rspec-core (3.13.6) sha256=a8823c6411667b60a8bca135364351dda34cd55e44ff94c4be4633b37d828b2d
   rspec-expectations (3.13.5) sha256=33a4d3a1d95060aea4c94e9f237030a8f9eae5615e9bd85718fe3a09e4b58836
@@ -2260,6 +2262,7 @@ CHECKSUMS
   statesman (13.3.0) sha256=1455b42cf02950394185ce73dd42d1453f725ff430db29f8584dae0ab29d8582
   store_attribute (2.2.0) sha256=4491f341e2fc1a3e2dc092728aa979c8101a497c9736886066b1f81dc480626e
   stringex (2.8.6) sha256=c7b382d2b2a47a1e1646f256df201c48d487d6296fbb289d76802f67f5e929c4
+  strscan (3.1.8) sha256=aae2db611a225559f21ffbb71765c9a4e60fd262534a9ea84f4f11c7f32f679e
   structured_warnings (0.5.0) sha256=864aca5a4d6b63cd3a948f9dcd7f5498af1cf42bcf4fd75e2c315b7d77a30583
   svg-graph (2.2.2) sha256=f928866403055e6539afdfdab5f6268d108b2abc9f002e0fc51b16511809513a
   swd (2.0.3) sha256=4cdbe2a4246c19f093fce22e967ec3ebdd4657d37673672e621bf0c7eb770655
