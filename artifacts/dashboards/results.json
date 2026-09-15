@@ -1,0 +1,26 @@
+{
+  "slice": "dashboards",
+  "mode": "deliberation",
+  "status": "complete",
+  "dependencies": {
+    "upstream": ["linking", "clash_detection", "progress_tracking"],
+    "downstream": []
+  },
+  "design_summary": "BIM-specific dashboards with KPIs (models, clashes, issues, progress), visual reports (charts, heatmaps), configurable widgets (drag-and-drop), and PDF/Excel export.",
+  "estimated_loc": {
+    "backend": 700,
+    "frontend": 500,
+    "total": 1200
+  },
+  "technologies": {
+    "new": ["Chart.js or similar", "Gridster for layout"],
+    "existing": ["OpenProject reporting"]
+  },
+  "database_tables": ["bim_dashboards", "bim_dashboard_widgets"],
+  "api_endpoints": 8,
+  "test_coverage_target": "80%",
+  "estimated_duration_weeks": 2,
+  "risk_level": "low-medium",
+  "readiness": "blocked_by_linking_clashes_progress",
+  "next_action": "Wait for Slices 3, 4, 9 completion"
+}

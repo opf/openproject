@@ -1,0 +1,112 @@
+<div class="federated-viewer">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-state">
+    <op-icon icon-classes="icon-loading"></op-icon>
+    <span>Loading federation...</span>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" class="error-state">
+    <op-icon icon-classes="icon-error"></op-icon>
+    <span>{{ error }}</span>
+  </div>
+
+  <!-- Loaded State -->
+  <div *ngIf="!loading && !error && federationConfig" class="federation-content">
+    <!-- Discipline Controls Panel -->
+    <div class="discipline-panel">
+      <div class="panel-header">
+        <h3>Disciplines</h3>
+        <div class="panel-actions">
+          <button type="button" class="button -alt-highlight" (click)="showAll()">
+            Show All
+          </button>
+          <button type="button" class="button -alt" (click)="hideAll()">
+            Hide All
+          </button>
+        </div>
+      </div>
+
+      <div class="panel-stats">
+        <span class="stat-item">
+          <strong>{{ getTotalModels() }}</strong> models
+        </span>
+        <span class="stat-item">
+          <strong>{{ getVisibleCount() }}</strong> visible
+        </span>
+      </div>
+
+      <!-- Discipline Toggles -->
+      <div class="discipline-list">
+        <div
+          *ngFor="let disc of disciplines"
+          class="discipline-item"
+          [class.discipline-hidden]="!disc.visible">
+
+          <div class="discipline-header">
+            <label class="discipline-toggle">
+              <input
+                type="checkbox"
+                [(ngModel)]="disc.visible"
+                (change)="toggleDiscipline(disc)" />
+              <span
+                class="discipline-indicator"
+                [style.background-color]="disc.color">
+              </span>
+              <span class="discipline-name">
+                {{ disc.name }}
+              </span>
+              <span class="discipline-count">
+                ({{ disc.models.length }})
+              </span>
+            </label>
+          </div>
+
+          <!-- Opacity Control -->
+          <div class="discipline-controls" *ngIf="disc.visible">
+            <label class="opacity-label">
+              Opacity: {{ (disc.opacity * 100).toFixed(0) }}%
+            </label>
+            <input
+              type="range"
+              class="opacity-slider"
+              min="0"
+              max="1"
+              step="0.1"
+              [(ngModel)]="disc.opacity"
+              (input)="updateOpacity(disc, disc.opacity)" />
+          </div>
+
+          <!-- Model List -->
+          <div class="model-list" *ngIf="disc.visible && disc.models.length > 0">
+            <div
+              *ngFor="let model of disc.models"
+              class="model-item">
+              <op-icon icon-classes="icon-file"></op-icon>
+              <span class="model-title">{{ model.ifc_model.title }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Federation Info -->
+    <div class="federation-info">
+      <h4>{{ federationConfig.name }}</h4>
+      <div class="info-details">
+        <div class="info-item">
+          <span class="info-label">Units:</span>
+          <span class="info-value">{{ federationConfig.units }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Base Point:</span>
+          <span class="info-value">
+            X: {{ federationConfig.base_point.x }},
+            Y: {{ federationConfig.base_point.y }},
+            Z: {{ federationConfig.base_point.z }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

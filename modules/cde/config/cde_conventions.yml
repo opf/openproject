@@ -1,0 +1,97 @@
+# CDE Conventions Configuration
+# ISO 19650-1 compliant
+
+identifier:
+  container:
+    format: "%%PROJ_CODE%%-%%TYPE%%-%%DISCIPLINE%%-%%ROLE%%-%%NUMBER%%"
+    validator: '\A[A-Z]{2,10}-[A-Z]{2,10}-[A-Z]{2,10}-[A-Z]{2,10}-\d{3,6}\z'
+    examples:
+      - "PRJ-DRW-ARCH-A-001"
+      - "PRJ-MDL-STRC-S-002"
+      - "PRJ-RPT-MECH-E-003"
+
+states:
+  values: [wip, shared, published, archived]
+  transitions:
+    wip: [shared]
+    shared: [wip, published]
+    published: [archived]
+    archived: []
+  initial: wip
+  terminal: [published, archived]
+
+suitability:
+  values: [s0, s1, s2, a1, a2, d1]
+  descriptions:
+    s0: "Suitable for use without review"
+    s1: "Suitable for review"
+    s2: "Suitable for coordination"
+    a1: "Approved for construction"
+    a2: "Approved as built"
+    d1: "Rejected / Do not use"
+
+publication:
+  preconditions:
+    - metadata_complete
+    - identifier_valid
+    - suitability_assigned
+    - approvals_complete
+  mandatory_metadata:
+    - discipline
+    - originator
+    - classification
+    - container_type
+
+metadata:
+  mandatory_fields:
+    - discipline
+    - container_type
+    - originator
+    - classification
+  optional_fields:
+    - location
+    - system
+    - tag_list
+
+permissions:
+  roles:
+    bim_coordinator:
+      view_wip_container: true
+      edit_container: true
+      share_container: true
+      approve_container: true
+      publish_container: false
+      archive_container: false
+    bim_manager:
+      view_wip_container: true
+      edit_container: true
+      share_container: true
+      approve_container: true
+      publish_container: true
+      archive_container: true
+    client_reviewer:
+      view_wip_container: true
+      edit_container: false
+      share_container: false
+      approve_container: true
+      publish_container: false
+      archive_container: false
+    project_manager:
+      view_wip_container: true
+      edit_container: true
+      share_container: true
+      approve_container: false
+      publish_container: false
+      archive_container: false
+
+audit:
+  enabled: true
+  events:
+    - container.created
+    - container.updated
+    - container.published
+    - container.archived
+    - revision.created
+    - revision.updated
+    - suitability.assigned
+    - metadata.updated

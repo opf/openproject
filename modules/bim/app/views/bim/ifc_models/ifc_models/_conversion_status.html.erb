@@ -1,0 +1,106 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= content_tag(:div,
+                class: "ifc-models--processing-container",
+                id: "ifc-model-#{ifc_model.id}-status",
+                data: {
+                  controller: "ifc-conversion-progress",
+                  status: ifc_model.conversion_status,
+                  progress: ifc_model.conversion_progress || 0,
+                  updating: "true"
+                }) do %>
+
+  <div class="ifc-models--status-row">
+    <span class="ifc-models--conversion-status">
+      <%= I18n.t("ifc_models.conversion_status.#{ifc_model.conversion_status}") %>
+    </span>
+
+    <% if ifc_model.conversion_status == "processing" && ifc_model.conversion_progress.present? %>
+      <span class="ifc-models--progress-percentage">
+        (<%= ifc_model.conversion_progress %>%)
+      </span>
+      <% if ifc_model.conversion_stage.present? %>
+        <span class="ifc-models--stage-name">
+          - <%= stage_name_for(ifc_model.conversion_stage) %>
+        </span>
+      <% end %>
+    <% end %>
+
+    <% if ifc_model.conversion_error_message.present? %>
+      :
+      <span class="ifc-models--conversion-status-error"
+            title="<%= ifc_model.conversion_error_message %>">
+        <%= ifc_model.conversion_error_message %>
+      </span>
+    <% end %>
+  </div>
+
+  <% if ifc_model.conversion_status == "processing" %>
+    <div class="ifc-models--progress-bar-container">
+      <div class="ifc-models--progress-bar"
+           style="width: <%= ifc_model.conversion_progress || 0 %>%;"></div>
+    </div>
+  <% end %>
+
+  <% if ifc_model.conversion_logs.present? %>
+    <% warnings = ifc_model.conversion_logs.select { |log| log["level"] == "warning" } %>
+    <% if warnings.any? %>
+      <div class="ifc-models--warnings">
+        <span class="ifc-models--warning-count"><%= warnings.count %> warnings</span>
+        <ul class="ifc-models--warning-list">
+          <% warnings.each do |warning| %>
+            <li class="ifc-models--warning-item"><%= warning["message"] %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  <% end %>
+
+<% end %>
+
+<%
+  # Helper method for stage names
+  def stage_name_for(stage)
+    case stage
+    when "validation"
+      "Validation"
+    when "ifc_to_dae"
+      "IFC to DAE"
+    when "dae_to_gltf"
+      "DAE to glTF"
+    when "gltf_to_xkt"
+      "glTF to XKT"
+    when "enhanced_metadata"
+      "Metadata extraction"
+    else
+      stage.humanize
+    end
+  end
+%>

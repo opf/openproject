@@ -30,6 +30,7 @@ module OpenProject::Bim::Patches::ProjectPatch
   def self.included(base)
     base.class_eval do
       has_many :ifc_models, class_name: "Bim::IfcModels::IfcModel", foreign_key: "project_id"
+      has_many :model_federations, class_name: "Bim::ModelFederation", foreign_key: "project_id", dependent: :destroy
     end
   end
 end
