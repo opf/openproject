@@ -819,7 +819,7 @@ describe('SelectionOrchestrator', () => {
       orchestrator.selectForAction(item('3'));
       orchestrator.handleClick(clickOn(item('2'), { shiftKey: true }));
 
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['1', '2']);
+      expect(selectedIds()).toEqual(['1', '2']);
     });
 
     it('keeps the selected batch for an action on a member', () => {

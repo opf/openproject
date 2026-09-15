@@ -1590,7 +1590,7 @@ describe('Sortable lists controller', () => {
       expect(controller.selectForAction(items[1])).toMatchObject({
         kind: 'batch'
       });
-      expect(controller.selectedItems().map((item) => item.id)).toEqual(['1', '2']);
+      expect(items.filter((item) => item.hasAttribute('data-batch-selected'))).toEqual([items[0], items[1]]);
     });
 
     it('replaces an unrelated selection when an unselected eligible invoker opens its menu', async () => {
@@ -1603,7 +1603,7 @@ describe('Sortable lists controller', () => {
       expect(controller.selectForAction(items[2])).toMatchObject({
         kind: 'batch'
       });
-      expect(controller.selectedItems().map((item) => item.id)).toEqual(['3']);
+      expect(items.filter((item) => item.hasAttribute('data-batch-selected'))).toEqual([items[2]]);
     });
 
     it('preserves the current selection when a fixed invoker opens its singular menu', async () => {
@@ -1616,7 +1616,7 @@ describe('Sortable lists controller', () => {
       announceSpy.mockClear();
 
       expect(controller.selectForAction(items[2])).toEqual({ kind: 'refused', items: [] });
-      expect(controller.selectedItems().map((item) => item.id)).toEqual(['1', '2']);
+      expect(items.filter((item) => item.hasAttribute('data-batch-selected'))).toEqual([items[0], items[1]]);
       expect(announcedMessages()).toEqual([]);
     });
 
@@ -1631,7 +1631,7 @@ describe('Sortable lists controller', () => {
       expect(controller.selectForAction(items[2])).toMatchObject({
         kind: 'batch'
       });
-      expect(controller.selectedItems().map((item) => item.id)).toEqual(['1', '2']);
+      expect(items.filter((item) => item.hasAttribute('data-batch-selected'))).toEqual([items[0], items[1]]);
     });
 
     it('settles duplicate pre-open delivery once without repeating its selection announcement', async () => {
@@ -1647,7 +1647,7 @@ describe('Sortable lists controller', () => {
 
       expect(contextualScope).toMatchObject({ kind: 'batch' });
       expect(popoverScope).toMatchObject({ kind: 'batch' });
-      expect(controller.selectedItems().map((item) => item.id)).toEqual(['3']);
+      expect(items.filter((item) => item.hasAttribute('data-batch-selected'))).toEqual([items[2]]);
       expect(announcedMessages()).toEqual([
         ['[selected:1]', { politeness: 'polite' }],
       ]);
