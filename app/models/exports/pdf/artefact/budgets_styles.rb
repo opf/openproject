@@ -28,23 +28,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject
-  module Filter
-    # @logical_path OpenProject/Filter
-    class FiltersComponentPreview < Lookbook::Preview
-      def default
-        @query = ProjectQuery.new
-        render(::Projects::ProjectsFiltersComponent.new(query: @query,
-                                                        initially_expanded: true))
-        render_with_template(locals: { query: ProjectQuery.new })
-      end
+module Exports::PDF::Artefact::BudgetsStyles
+  def budgets_page_break_threshold
+    resolve_pt(@styles.dig(:budgets, :page_break_threshold), 300)
+  end
 
-      # @label Full width
-      # `full_width: true` lifts the default cap so the inputs stretch to the container.
-      # Widen the preview pane to see it diverge from the default.
-      def full_width
-        render_with_template(locals: { query: ProjectQuery.new })
-      end
-    end
+  def budgets_table_margins
+    resolve_margin(@styles.dig(:budgets, :table))
+  end
+
+  def budgets_table_cell
+    resolve_table_cell(@styles.dig(:budgets, :table, :cell))
+  end
+
+  def budgets_table_header_cell
+    budgets_table_cell.merge(resolve_table_cell(@styles.dig(:budgets, :table, :cell_header)))
+  end
+
+  def budgets_table_budget_heading_cell
+    budgets_table_cell.merge(resolve_table_cell(@styles.dig(:budgets, :table, :cell_budget_heading)))
+  end
+
+  def budgets_table_group_heading_cell
+    budgets_table_cell.merge(resolve_table_cell(@styles.dig(:budgets, :table, :cell_group_heading)))
+  end
+
+  def budgets_table_group_subtotal_cell
+    budgets_table_cell.merge(resolve_table_cell(@styles.dig(:budgets, :table, :cell_group_subtotal)))
+  end
+
+  def budgets_table_total_cell
+    budgets_table_cell.merge(resolve_table_cell(@styles.dig(:budgets, :table, :cell_total)))
   end
 end
