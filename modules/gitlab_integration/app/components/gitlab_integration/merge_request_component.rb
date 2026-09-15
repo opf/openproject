@@ -29,19 +29,44 @@
 #++
 
 module GitlabIntegration
-  class WorkPackageGitlabTabComponent < ApplicationComponent
+  class MergeRequestComponent < ApplicationComponent
     include ApplicationHelper
     include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
 
-    TURBO_FRAME_ID = "work-package-gitlab-tab-content"
-
-    alias_method :work_package, :model
+    alias_method :merge_request, :model
 
     private
 
-    def linking_code
-      "OP##{work_package.id}" # TODO: properly derive code for semantic identifiers
+    def state_scheme
+      case merge_request.state.to_sym
+      when :opened
+        :success
+      when :closed, :locked
+        :danger
+      when :merged
+        :done
+      else
+        raise ArgumentError, "Unsupported merge request state #{state}"
+      end
+    end
+
+    def state_icon
+      case merge_request.state.to_sym
+      when :opened
+        :"git-pull-request"
+      when :closed
+        :"git-pull-request-closed"
+      when :locked
+        :lock
+      when :merged
+        :"git-merge"
+      else
+        raise ArgumentError, "Unsupported merge request state #{state}"
+      end
+    end
+
+    def state_label
+      t(".states.#{merge_request.state}")
     end
   end
 end

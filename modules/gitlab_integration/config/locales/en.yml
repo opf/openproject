@@ -73,6 +73,12 @@ en:
     issue_closed_referenced_comment: >
       **Issue Closed:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url})
       has been closed by [%{gitlab_user}](%{gitlab_user_url}).
+    issue_component:
+      created_by: Created by %{name}.
+      states:
+        closed: Closed
+        opened: Open
+      updated_at: Updated on %{date_time}.
     issue_opened_referenced_comment: >
       **Issue Opened:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url})
       has been opened by [%{gitlab_user}](%{gitlab_user_url}).
@@ -82,6 +88,14 @@ en:
     merge_request_closed_comment: >
       **MR Closed:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url})
       has been closed by [%{gitlab_user}](%{gitlab_user_url}).
+    merge_request_component:
+      created_by: Created by %{name}.
+      states:
+        closed: Closed
+        locked: Locked
+        merged: Merged
+        opened: Open
+      updated_at: Updated on %{date_time}.
     merge_request_merged_comment: >
       **MR Merged:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) for [%{repository}](%{repository_url})
       has been merged by [%{gitlab_user}](%{gitlab_user_url}).
@@ -137,9 +151,22 @@ en:
 
       %{commit_note}
     work_package_gitlab_tab_component:
+      blank_slates:
+        branches:
+          description_html: Link an existing branch by adding the code %{code} to the branch name.
+          title: No branches
+        commits:
+          description_html: Link an existing commit by adding the code %{code} to the message.
+          title: No commits
+        issues:
+          description_html: Link an existing issue by adding the code %{code} to the title or description.
+          title: No issues
+        merge_requests:
+          description_html: Link an existing merge request by adding the code %{code} to the title or description.
+          title: No merge requests
       branches: Branches
       commits: Commits
-      description_html: Link an existing GitLab element by adding the code %{code} to the title or description or by creating a new one.
+      description_html: Link an existing GitLab element by adding the code %{code} to the title or description.
       git_snippets: Git snippets
       issues: Issues
       merge_requests: Merge requests

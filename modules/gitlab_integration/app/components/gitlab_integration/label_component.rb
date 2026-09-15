@@ -29,19 +29,30 @@
 #++
 
 module GitlabIntegration
-  class WorkPackageGitlabTabComponent < ApplicationComponent
+  class LabelComponent < ApplicationComponent
     include ApplicationHelper
     include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
 
-    TURBO_FRAME_ID = "work-package-gitlab-tab-content"
+    VALID_COLOR = /#[a-fA-F0-9]{3,6}/
 
-    alias_method :work_package, :model
+    attr_reader :title, :color
+
+    def initialize(title:, color:, **)
+      super(nil, **)
+
+      @title = title
+      @color = sanitize_color(color)
+    end
 
     private
 
-    def linking_code
-      "OP##{work_package.id}" # TODO: properly derive code for semantic identifiers
+    def sanitize_color(color)
+      # TODO: maybe indirectly assign colors via hl_background_class helpers and updating CSS
+      # in app/views/highlighting/styles.css.erb (requires us to enumerate all colors in use by GitLab)
+      # This would ensure contrasts of those colors always work (even #ffffff in light mode and #000000 in darkmode)
+      return color if color.match?(VALID_COLOR)
+
+      "#000"
     end
   end
 end

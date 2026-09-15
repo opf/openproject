@@ -29,19 +29,15 @@
 #++
 
 module GitlabIntegration
-  class WorkPackageGitlabTabComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
+  class StatusComponent < Primer::Component
+    attr_reader :scheme, :icon
 
-    TURBO_FRAME_ID = "work-package-gitlab-tab-content"
+    def initialize(scheme:, icon:, **system_arguments)
+      super()
 
-    alias_method :work_package, :model
-
-    private
-
-    def linking_code
-      "OP##{work_package.id}" # TODO: properly derive code for semantic identifiers
+      @scheme = scheme
+      @icon = icon
+      @system_arguments = system_arguments
     end
   end
 end

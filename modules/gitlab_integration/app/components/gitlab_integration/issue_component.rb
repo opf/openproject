@@ -29,19 +29,38 @@
 #++
 
 module GitlabIntegration
-  class WorkPackageGitlabTabComponent < ApplicationComponent
+  class IssueComponent < ApplicationComponent
     include ApplicationHelper
     include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
 
-    TURBO_FRAME_ID = "work-package-gitlab-tab-content"
-
-    alias_method :work_package, :model
+    alias_method :issue, :model
 
     private
 
-    def linking_code
-      "OP##{work_package.id}" # TODO: properly derive code for semantic identifiers
+    def state_scheme
+      case issue.state.to_sym
+      when :opened
+        :success
+      when :closed
+        :done
+      else
+        raise ArgumentError, "Unsupported issue state #{state}"
+      end
+    end
+
+    def state_icon
+      case issue.state.to_sym
+      when :opened
+        :"issue-opened"
+      when :closed
+        :"issue-closed"
+      else
+        raise ArgumentError, "Unsupported issue state #{state}"
+      end
+    end
+
+    def state_label
+      t(".states.#{issue.state}")
     end
   end
 end

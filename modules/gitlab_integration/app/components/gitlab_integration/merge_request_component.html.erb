@@ -1,0 +1,83 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%=
+  flex_layout do |container|
+    container.with_row(mb: 1) do
+      flex_layout(align_items: :center) do |row|
+        row.with_column(mr: 2) do
+          render(Primer::Beta::Text.new(color: :muted, font_weight: :bold)) { merge_request.repository }
+        end
+
+        row.with_column(mr: 2) do
+          # TODO: check which columns indicates real merge request number
+          render(Primer::Beta::Text.new(color: :muted)) { "##{merge_request.gitlab_id}" }
+        end
+
+        row.with_column do
+          render(GitlabIntegration::StatusComponent.new(scheme: state_scheme, icon: state_icon)) do
+            render(Primer::Beta::Text.new) { state_label }
+          end
+        end
+      end
+    end
+
+    container.with_row(mb: 1) do
+      render(
+        Primer::Beta::Link.new(
+          href: merge_request.gitlab_html_url,
+          font_weight: :bold,
+          scheme: :primary,
+          data: { allow_external_link: true }
+        )
+      ) { merge_request.title }
+    end
+
+    if merge_request.labels.any?
+      container.with_row do
+        flex_layout(flex_wrap: :wrap) do |row|
+          merge_request.labels.each do |label|
+            row.with_column(mr: 2, mb: 1) do
+              render(GitlabIntegration::LabelComponent.new(title: label.fetch("title"), color: label.fetch("color")))
+            end
+          end
+        end
+      end
+    end
+
+    container.with_row do
+      render(Primer::Beta::Text.new(color: :muted)) do
+        [
+          t(".created_by", name: merge_request.gitlab_user.gitlab_name),
+          t(".updated_at", date_time: format_time(merge_request.gitlab_updated_at))
+        ].join(" ")
+      end
+    end
+  end
+%>
