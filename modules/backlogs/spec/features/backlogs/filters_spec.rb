@@ -217,4 +217,35 @@ RSpec.describe "Backlog quick search and advanced filters", :js do
       )
     end
   end
+
+  context "with an expanded filtered inbox" do
+    shared_let(:needle_inbox_items) do
+      create_list(:work_package, 6, project:, subject: "Expansion needle", status: status_a)
+    end
+
+    before do
+      # Truncates the inbox above 5 items: see pagination_state_spec.rb.
+      stub_const("Backlogs::InboxComponent::TRUNCATE_MIDDLE", 3)
+    end
+
+    it "restores truncation after quick search and advanced filter changes" do
+      backlogs_page.apply_subject_filter("Expansion needle")
+      backlogs_page.expect_no_inbox_items(items: matching_inbox_wp)
+      backlogs_page.click_inbox_show_more
+      backlogs_page.expect_no_inbox_show_more
+
+      backlogs_page.clear_subject_filter
+      backlogs_page.expect_inbox_items(items: matching_inbox_wp)
+      backlogs_page.expect_inbox_show_more
+      expect(page).to have_no_current_path(/[?&]all=/, url: true)
+
+      backlogs_page.click_inbox_show_more
+      backlogs_page.expect_no_inbox_show_more
+
+      backlogs_page.apply_status_filter(status_a)
+      backlogs_page.expect_no_inbox_items(items: status_b_inbox_wp)
+      backlogs_page.expect_inbox_show_more
+      expect(page).to have_no_current_path(/[?&]all=/, url: true)
+    end
+  end
 end

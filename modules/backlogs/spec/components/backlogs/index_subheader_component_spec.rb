@@ -85,4 +85,10 @@ RSpec.describe Backlogs::IndexSubheaderComponent, type: :component do
 
     expect(page).to have_css("[data-filter-name='subject']")
   end
+
+  it "resets pagination and inbox expansion when filters change" do
+    render_inline(component)
+
+    expect(page).to have_element("data-filter--filters-form-reset-params-value": %w[page all].to_json)
+  end
 end
