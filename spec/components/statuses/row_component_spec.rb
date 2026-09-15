@@ -30,20 +30,27 @@
 
 require "rails_helper"
 
-RSpec.describe Statuses::ItemComponent, type: :component do
+RSpec.describe Statuses::RowComponent, type: :component do
   subject(:rendered_component) do
     with_request_url("/statuses") do
-      render_inline(described_class.new(status:, max_position:, reorderable:, page_args:))
+      render_inline(described_class.new(row: status, table:))
     end
   end
 
+  let(:table) do
+    Statuses::TableComponent.new(rows: Status.all, query:, page_args: { page: 1, per_page: 20 })
+  end
+  let(:query) { Queries::Statuses::StatusQuery.new(user: User.current) }
   let(:status) { create(:status, name: "In progress", default_done_ratio: 40) }
   let(:position) { 2 }
-  let(:max_position) { 3 }
-  let(:reorderable) { true }
-  let(:page_args) { { page: 1, per_page: 20 } }
 
-  before { status.update_column(:position, position) }
+  # The menu offers a direction only while there is somewhere to go, so the row needs
+  # a neighbour on either side.
+  before do
+    create(:status, name: "Above").update_column(:position, 1)
+    status.update_column(:position, position)
+    create(:status, name: "Below").update_column(:position, 3)
+  end
 
   it "renders the status name as a link to its edit page" do
     expect(rendered_component).to have_link("In progress", href: "/statuses/#{status.id}/edit")
@@ -52,7 +59,7 @@ RSpec.describe Statuses::ItemComponent, type: :component do
   it "shows the colour beside the name rather than in a column of its own" do
     status.update!(color: create(:color, name: "Blue", hexcode: "#1F83D6"))
 
-    expect(rendered_component).to have_css(".op-statuses-list--item--name .color--preview")
+    expect(rendered_component).to have_css(".op-border-box-grid__row-item--main-column .color--preview")
   end
 
   describe "the default status" do
@@ -139,7 +146,7 @@ RSpec.describe Statuses::ItemComponent, type: :component do
     end
 
     context "when the status is last" do
-      let(:position) { max_position }
+      let(:position) { 3 }
 
       it "offers the upward moves only", :aggregate_failures do
         expect(rendered_component).to have_button("Move to top")
@@ -150,7 +157,10 @@ RSpec.describe Statuses::ItemComponent, type: :component do
     end
 
     context "when reordering is not offered" do
-      let(:reorderable) { false }
+      let(:query) do
+        type = create(:type, name: "Task")
+        Queries::Statuses::StatusQuery.new(user: User.current).tap { it.where("type", "=", [type.id.to_s]) }
+      end
 
       it "drops the drag handle and every move, keeping edit and delete", :aggregate_failures do
         expect(rendered_component).to have_no_css(".DragHandle")
