@@ -33,6 +33,7 @@ Many organizations run Jira and Confluence tightly linked — issues reference p
 Today, Confluence and Jira are tightly integrated — issues link to pages and vice versa. After migration, XWiki and OpenProject provide that same level of integration. Links between the two keep working throughout the transition, not just once both migrations are complete.
 
 ```mermaid
+%%{init: {'theme':'neutral'}}%%
 flowchart TB
     subgraph Source["Source (today)"]
         direction LR
@@ -78,6 +79,7 @@ A redirect component is added at both the Jira and the Confluence addresses. Eve
 At the same time, each side's native integration is swapped for its equivalent on the new system: Confluence's built-in Jira integration is replaced by XWiki's Jira plugin, and Jira's built-in Confluence integration is replaced by OpenProject's Confluence integration. This keeps cross-references (like an issue embedded in a page) rendering correctly throughout the transition, not just plain links.
 
 ```mermaid
+%%{init: {'theme':'neutral'}}%%
 flowchart TB
     C["<b>Confluence</b>"]
     R{"<b>Redirect Component</b><br/>Has issue <code>FOO-1</code> been<br/>migrated yet?"}
@@ -104,6 +106,7 @@ flowchart TB
 Once you're ready, an admin can trigger a cleanup step that rewrites old links to point directly at their final destination — e.g. straight to the OpenProject work package or XWiki page, instead of via the redirect. This step can run incrementally and independently on either side — you don't need both systems ready at once, and you can do it project by project or space by space. This is optional: everything already works without it.
 
 ```mermaid
+%%{init: {'theme':'neutral'}}%%
 flowchart
     subgraph Source["Source"]
       direction LR
