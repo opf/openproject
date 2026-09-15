@@ -244,11 +244,6 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     }
   }
 
-  // Live ordered membership, for AGILE-278's batch move.
-  selectedItems():SelectionItem[] {
-    return this.selection?.selectedItems() ?? [];
-  }
-
   actionScopeFor(itemElement:HTMLElement):ActionScope {
     return this.selection?.actionScopeFor(itemElement) ?? { kind: 'refused', items: [] };
   }

@@ -58,7 +58,7 @@ class Backlogs::WorkPackages::BatchUpdateService
     def initial_prev_id = anchor ? anchor.id.to_s : ""
   end
 
-  def call(list_type: nil, list_id: nil, prev_id: nil) # rubocop:disable Metrics/AbcSize
+  def call(list_type: nil, list_id: nil, prev_id: nil) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
     return empty_batch_failure if work_packages.empty?
 
     contract = Backlogs::WorkPackages::BatchMoveParamsContract.new(
