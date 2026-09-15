@@ -75,21 +75,30 @@ module Llm
     # Kept verbatim on purpose: vLLM adds +max_model_len+ and +root+ to each card,
     # which is the only trustworthy source for a deployment's real context window.
     #
+    # @param query [Hash] filter parameters, for a server that serves parts of its
+    #   catalogue only on request
     # @return [Hash] the parsed +GET /models+ body
-    def models
-      body = get("/models")
-
-      raise ParseError, "Response does not contain a model list" unless body.is_a?(Hash) && body["data"].is_a?(Array)
-
-      body
+    def models(query = {})
+      envelope(get("/models", query))
     end
 
     private
 
     attr_reader :base_url, :api_key, :timeout, :headers
 
-    def get(path)
-      response = session.get(uri_for(path))
+    # A gateway may answer with the bare array rather than the list object the
+    # OpenAI schema documents. Wrapping it is the same accommodation this client
+    # already makes for a missing JSON content type: the catalogue is there, and
+    # the envelope around it is not what makes a server usable.
+    def envelope(body)
+      return body if body.is_a?(Hash) && body["data"].is_a?(Array)
+      return { "object" => "list", "data" => body } if body.is_a?(Array)
+
+      raise ParseError, "Response does not contain a model list"
+    end
+
+    def get(path, query = {})
+      response = session.get(uri_for(path, query))
       # A connection-level failure yields an HTTPX::ErrorResponse. A real response
       # carrying a 4xx/5xx is an ordinary HTTPX::Response whose #error is also
       # populated (it delegates to #raise_for_status), so the response class, not
@@ -109,8 +118,10 @@ module Llm
       api_key.present? ? request.plugin(:auth).bearer_auth(api_key) : request
     end
 
-    def uri_for(path)
-      URI.parse("#{base_url}#{path}")
+    def uri_for(path, query = {})
+      uri = URI.parse("#{base_url}#{path}")
+      uri.query = query.to_query if query.present?
+      uri
     rescue URI::InvalidURIError
       raise ConnectionError, "Invalid URL"
     end
