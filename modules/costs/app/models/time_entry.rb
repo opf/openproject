@@ -84,6 +84,19 @@ class TimeEntry < ApplicationRecord
 
   scope :on_work_packages, ->(work_packages) { where(entity: work_packages) }
 
+  scope :for_principal, ->(principal) { where(user_id: principal) }
+  scope :in_project, ->(project) { where(project_id: project) }
+
+  scope :spent_from, ->(date) { where(spent_on: date..) }
+  scope :spent_between, ->(from, to) { where(spent_on: from..to) }
+
+  scope :with_rate, ->(rate) { where(rate_id: rate) }
+  # Entries costed with a default rate, or not costed at all: the ones a project
+  # rate can still claim.
+  scope :without_project_rate, -> {
+    where(rate_id: DefaultHourlyRate.select(:id)).or(where(rate_id: nil))
+  }
+
   extend ::TimeEntries::TimeEntryScopes
   include ::Scopes::Scoped
   include Entry::Costs

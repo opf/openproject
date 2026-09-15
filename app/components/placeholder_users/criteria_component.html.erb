@@ -27,12 +27,28 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= error_messages_for @placeholder_user %>
+<%=
+  component_wrapper do
+    render(Primer::Alpha::Layout.new(stacking_breakpoint: :lg, first_in_source: :main)) do |layout|
+      layout.with_main do
+        flex_layout(col_placement: :start) do |column|
+          column.with_row(mb: 3) do
+            render(Primer::Forms::ToggleSwitchForm.new(**toggle_arguments))
+          end
 
-<!--[form:placeholder_user]-->
-<section class="form--section">
-  <div class="form--field -required"><%= f.text_field :name, label: t("label_name"), required: true, container_class: "-middle" %></div>
+          if active?
+            column.with_row do
+              primer_form_with(model: placeholder_user, url: form_url, method: :put) do |f|
+                render(PlaceholderUsers::CriteriaForm.new(f, submit: false, live_update_path:))
+              end
+            end
+          end
+        end
+      end
 
-  <%= call_hook(:view_placeholder_users_form, placeholder_user: @placeholder_user, form: f) %>
-</section>
-<!--[eoform:placeholder_user]-->
+      layout.with_sidebar(width: :xxwide, col_placement: :end, row_placement: :end) do
+        render(PlaceholderUsers::MatchingUsersComponent.new(placeholder_user:))
+      end
+    end
+  end
+%>

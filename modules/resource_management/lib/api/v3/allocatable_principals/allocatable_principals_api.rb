@@ -28,28 +28,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module PlaceholderUsers
-  class PlaceholderUserFilterComponent < IndividualPrincipalBaseFilterComponent
-    options :roles, :clear_url
+module API
+  module V3
+    module AllocatablePrincipals
+      class AllocatablePrincipalsAPI < ::API::OpenProjectAPI
+        # The query is not the one deduced from the model, as `Principal`'s
+        # visibility rules would drop the placeholders again.
+        class Index < ::API::V3::Utilities::Endpoints::Index
+          def parse(request)
+            ::API::V3::ParamsToQueryService
+              .new(model,
+                   request.current_user,
+                   query_class: ::Queries::Principals::AllocatablePrincipalQuery)
+              .call(request.params)
+          end
+        end
 
-    class << self
-      def base_query
-        Queries::PlaceholderUsers::PlaceholderUserQuery
+        resources :allocatable_principals do
+          get &Index
+            .new(model: Principal, self_path: "allocatable_principals")
+            .mount
+        end
       end
-
-      def apply_filters(params, query)
-        super
-
-        # Filter for active placeholders
-        # to skip to-be-deleted users
-        query.where(:status, "=", :active)
-      end
-    end
-
-    # INSTANCE METHODS:
-
-    def filter_path
-      placeholder_users_path
     end
   end
 end

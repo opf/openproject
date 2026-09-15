@@ -90,6 +90,12 @@ import {
   TimeEntriesWorkPackageAutocompleterComponent,
 } from 'core-app/shared/components/autocompleter/time-entries-work-package-autocompleter/time-entries-work-package-autocompleter.component';
 import {
+  ResourceAllocationAutocompleterComponent,
+} from 'core-app/shared/components/autocompleter/resource-allocation-autocompleter/resource-allocation-autocompleter.component';
+import {
+  ResourceAllocationAutocompleterTemplateComponent,
+} from 'core-app/shared/components/autocompleter/resource-allocation-autocompleter/resource-allocation-autocompleter-template.component';
+import {
   ProjectPhaseAutocompleterComponent,
 } from './project-phase-autocompleter/project-phase-autocompleter.component';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
@@ -103,6 +109,8 @@ export const OPENPROJECT_AUTOCOMPLETE_COMPONENTS = [
   DraggableAutocompleteComponent,
   UserAutocompleterComponent,
   UserAutocompleterTemplateComponent,
+  ResourceAllocationAutocompleterComponent,
+  ResourceAllocationAutocompleterTemplateComponent,
   MeetingAutocompleterTemplateComponent,
   MeetingAutocompleterComponent,
   ProjectAutocompleterComponent,

@@ -28,22 +28,51 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ResourceAllocations
-  module KindStep
-    class FormComponent < ApplicationComponent
-      include ApplicationHelper
-      include OpTurbo::Streamable
-      include OpPrimer::ComponentHelpers
-
-      def initialize(project:, allocation:)
-        super
-        @project = project
-        @allocation = allocation
+module PlaceholderUsers
+  class CriteriaForm < ApplicationForm
+    form do |f|
+      f.html_content do
+        # The filter builder emits its fields into the surrounding form, so it
+        # needs that form's Primer builder rather than this form object.
+        render(Filters::FilterFormComponent.new(
+                 builder: @builder,
+                 query: model.candidate_query,
+                 wrap_with_controller: true,
+                 hidden_input_name: "filters",
+                 output_format: :json,
+                 full_width: true,
+                 **live_update_arguments
+               ))
       end
 
-      def wrapper_key
-        ResourceAllocations::NewDialogComponent::BODY_ID
-      end
+      next unless submit?
+
+      f.submit(
+        name: :submit,
+        label: I18n.t(:button_save),
+        scheme: :primary
+      )
+    end
+
+    def initialize(submit: true, live_update_path: nil)
+      super()
+      @submit = submit
+      @live_update_path = live_update_path
+    end
+
+    private
+
+    def submit? = @submit
+
+    def live_update_arguments
+      return {} if @live_update_path.blank?
+
+      {
+        data: {
+          filter__filters_form_turbo_stream_request_value: true,
+          filter__filters_form_url_path_name_value: @live_update_path
+        }
+      }
     end
   end
 end

@@ -28,14 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ResourceAllocations
-  module KindStep
+module ResourceManagement
+  module PlaceholderUsers
     class FooterComponent < ApplicationComponent
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 
       def wrapper_key
-        ResourceAllocations::NewDialogComponent::FOOTER_ID
+        NewDialogComponent::FOOTER_ID
       end
 
       def call
@@ -43,7 +43,7 @@ module ResourceAllocations
           component_collection do |buttons|
             buttons.with_component(
               Primer::Beta::Button.new(
-                data: { "close-dialog-id": ResourceAllocations::NewDialogComponent::DIALOG_ID },
+                data: { "close-dialog-id": NewDialogComponent::DIALOG_ID },
                 mr: 1
               )
             ) { I18n.t(:button_cancel) }
@@ -51,10 +51,10 @@ module ResourceAllocations
             buttons.with_component(
               Primer::Beta::Button.new(
                 scheme: :primary,
-                form: ResourceAllocations::NewDialogComponent::FORM_ID,
+                form: NewDialogComponent::FORM_ID,
                 type: :submit
               )
-            ) { I18n.t("button_next") }
+            ) { I18n.t("resource_management.create_placeholder_user_dialog.submit") }
           end
         end
       end

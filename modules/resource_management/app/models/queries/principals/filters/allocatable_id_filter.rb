@@ -28,21 +28,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ResourceAllocations
-  module Forms
-    class AllocationKindForm < ApplicationForm
-      def initialize(allocation_kind:)
-        @allocation_kind = allocation_kind
-        super()
-      end
+# The allocatable placeholder users this endpoint returns are outside
+# `Principal.visible`, which the plain id filter validates against — filtering
+# for one it just returned would be rejected as an invalid value.
+class Queries::Principals::Filters::AllocatableIdFilter < Queries::Principals::Filters::IdFilter
+  def self.key
+    :id
+  end
 
-      form do |f|
-        f.hidden(
-          name: :allocation_kind,
-          value: @allocation_kind,
-          scope_name_to_model: false
-        )
-      end
-    end
+  def allowed_values_subset
+    submitted = Principal.where(id: values)
+
+    submitted.where(id: User.visible.select(:id)).pluck(:id).map(&:to_s) +
+      submitted.where(id: PlaceholderUser.allocatable.select(:id)).pluck(:id).map(&:to_s) +
+      [me_value_key]
   end
 end
