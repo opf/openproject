@@ -39,8 +39,10 @@ class HourlyRatesController < ApplicationController
   before_action :find_optional_project, only: %i[edit update]
   before_action :find_project, only: %i[show]
   before_action :find_user, only: %i[show edit update]
+  before_action :authorize_rate_management, only: %i[edit update]
 
-  # #show, #edit and #update have their own authorization
+  # #show authorizes itself; #edit and #update go through the rate contracts,
+  # which also cover the default rates that have no project to authorize against.
   before_action :authorize, except: %i[show edit update]
   no_authorization_required! :show,
                              :edit,
@@ -54,26 +56,8 @@ class HourlyRatesController < ApplicationController
     @rates = HourlyRate.where(user_id: @user, project_id: @project).order("#{HourlyRate.table_name}.valid_from desc")
   end
 
-  def edit # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
-    # TODO: split into edit and update
-    # remove code where appropriate
-    if @project
-      # Hourly Rate
-      return deny_access unless User.current.allowed_in_project?(:edit_hourly_rates, @project)
-    else
-      # Default Hourly Rate
-      return deny_access unless User.current.admin?
-    end
-
-    if @project.nil?
-      @rates = DefaultHourlyRate.where(user_id: @user)
-               .order("#{DefaultHourlyRate.table_name}.valid_from desc")
-               .to_a
-      @rates << @user.default_rates.build(valid_from: Time.zone.today) if @rates.empty?
-    else
-      @rates = @user.rates.select { |r| r.project_id == @project.id }.sort { |a, b| b.valid_from <=> a.valid_from }.to_a
-      @rates << @user.rates.build(valid_from: Time.zone.today, project: @project) if @rates.empty?
-    end
+  def edit
+    @rates = rates_for_form
 
     render action: :edit, layout: !request.xhr?
   end
@@ -82,61 +66,77 @@ class HourlyRatesController < ApplicationController
     :budgets
   end
 
-  def update # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
-    # TODO: copied over from edit
-    # remove code where appropriate
-    if @project
-      # Hourly Rate
-      return deny_access unless User.current.allowed_in_project?(:edit_hourly_rates, @project)
-    else
-      # Default Hourly Rate
-      return deny_access unless User.current.admin?
-    end
+  def update
+    result = ::Rates::UpdateHistoryService
+               .new(user: current_user, principal: @user, project: @project)
+               .call(**submitted_rate_attributes)
 
-    if params.include? "user"
-      update_rates @user,
-                   @project,
-                   permitted_params.user_rates[:new_rate_attributes],
-                   permitted_params.user_rates[:existing_rate_attributes]
-    else
-      delete_rates @user, @project
-    end
-
-    if @user.save
+    if result.success?
       flash[:notice] = t(:notice_successful_update)
-      if @project.nil?
-        redirect_back_or_default(edit_principal_rates_path)
-      else
-        redirect_back_or_default({ action: "show", id: @user, project_id: @project })
-      end
+      redirect_back_or_default(rates_overview_target)
     else
-      if @project.nil?
-        @rates = @user.default_rates
-        @rates << @user.default_rates.build(valid_from: Time.zone.today) if @rates.empty?
-      else
-        @rates = @user
-                 .rates
-                 .select { |r| r.project_id == @project.id }
-                 .sort { |a, b| b.valid_from || Time.zone.today <=> a.valid_from || Time.zone.today }
-        @rates << @user.rates.build(valid_from: Time.zone.today, project: @project) if @rates.empty?
-      end
+      @rates = rates_from(result)
       render action: :edit, layout: !request.xhr?
     end
   end
 
   private
 
-  def update_rates(user, project, added_rates, changed_rates)
-    user.add_rates(project, added_rates)
-    user.set_existing_rates(project, changed_rates)
+  # A submission without a `user` key carries no rows at all, which the service
+  # reads as "every rate in this scope was removed".
+  def submitted_rate_attributes
+    return { new_rate_attributes: {}, existing_rate_attributes: {} } unless params.include?("user")
+
+    { new_rate_attributes: permitted_params.user_rates[:new_rate_attributes].to_h,
+      existing_rate_attributes: permitted_params.user_rates[:existing_rate_attributes].to_h }
   end
 
-  def delete_rates(user, project)
-    if project.present?
-      user.rates.where(project:).delete_all
+  def rates_for_form
+    rates = if @project
+              @user.rates.in_project(@project).newest_first.to_a
+            else
+              @user.default_rates.newest_first.to_a
+            end
+
+    rates << build_blank_rate if rates.empty?
+    rates
+  end
+
+  # The rollback leaves the rejected input on the returned records, so the form
+  # comes back filled in with the user's values and their errors.
+  def rates_from(result)
+    rates = result
+              .all_results
+              .grep(::Rate)
+              .reject(&:destroyed?)
+              .sort_by { |rate| rate.valid_from || Time.zone.today }
+              .reverse
+
+    rates.presence || rates_for_form
+  end
+
+  def build_blank_rate
+    if @project
+      @user.rates.build(valid_from: Time.zone.today, project: @project)
     else
-      user.default_rates.delete_all
+      @user.default_rates.build(valid_from: Time.zone.today)
     end
+  end
+
+  def rates_overview_target
+    if @project
+      { action: "show", id: @user, project_id: @project }
+    else
+      edit_principal_rates_path
+    end
+  end
+
+  def authorize_rate_management
+    deny_access unless rate_contract_class.can_manage?(user: current_user, principal_id: @user.id, project: @project)
+  end
+
+  def rate_contract_class
+    @project ? ::HourlyRates::BaseContract : ::DefaultHourlyRates::BaseContract
   end
 
   def find_project

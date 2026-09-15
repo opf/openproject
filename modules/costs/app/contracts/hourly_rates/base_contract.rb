@@ -23,40 +23,26 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Costs
-  module HasRates
-    extend ActiveSupport::Concern
+module HourlyRates
+  class BaseContract < ::Rates::BaseContract
+    def self.model = ::HourlyRate
 
-    included do
-      # Rates deliberately outlive the principal: they are kept so already
-      # booked costs stay explainable, and read back as the deleted user.
-      # rubocop:disable Rails/HasManyOrHasOneDependent
-      has_many :rates, class_name: "HourlyRate", foreign_key: :user_id, inverse_of: :principal
-      has_many :default_rates, class_name: "DefaultHourlyRate", foreign_key: :user_id, inverse_of: :principal
-      # rubocop:enable Rails/HasManyOrHasOneDependent
+    def self.can_manage?(user:, principal_id: nil, project: nil)
+      return false if project.nil?
+
+      user.allowed_in_project?(:edit_hourly_rates, project) ||
+        (principal_id == user.id && user.allowed_in_project?(:edit_own_hourly_rate, project))
     end
 
-    def current_rate(project = nil, include_default: true)
-      rate_at(Time.zone.today, project, include_default:)
-    end
+    private
 
-    # kept for backwards compatibility
-    def rate_at(date, project = nil, include_default: true)
-      ::HourlyRate.at_date_for_user_in_project(date, id, project, include_default:)
-    end
-
-    def current_default_rate
-      ::DefaultHourlyRate.at_for_user(Time.zone.today, id)
-    end
-
-    # kept for backwards compatibility
-    def default_rate_at(date)
-      ::DefaultHourlyRate.at_for_user(date, id)
+    def allowed_to_manage?
+      self.class.can_manage?(user:, principal_id: model.user_id, project: model.project)
     end
   end
 end

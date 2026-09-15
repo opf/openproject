@@ -23,40 +23,28 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Costs
-  module HasRates
-    extend ActiveSupport::Concern
+require "spec_helper"
+require_relative "shared_contract_examples"
 
-    included do
-      # Rates deliberately outlive the principal: they are kept so already
-      # booked costs stay explainable, and read back as the deleted user.
-      # rubocop:disable Rails/HasManyOrHasOneDependent
-      has_many :rates, class_name: "HourlyRate", foreign_key: :user_id, inverse_of: :principal
-      has_many :default_rates, class_name: "DefaultHourlyRate", foreign_key: :user_id, inverse_of: :principal
-      # rubocop:enable Rails/HasManyOrHasOneDependent
-    end
+RSpec.describe HourlyRates::DeleteContract do
+  it_behaves_like "an hourly rate contract" do
+    let(:rate) { build_stubbed(:hourly_rate, principal:, project:) }
 
-    def current_rate(project = nil, include_default: true)
-      rate_at(Time.zone.today, project, include_default:)
-    end
+    context "when the rate itself is no longer valid" do
+      let(:rate) { build_stubbed(:hourly_rate, principal:, project:, rate: nil) }
 
-    # kept for backwards compatibility
-    def rate_at(date, project = nil, include_default: true)
-      ::HourlyRate.at_date_for_user_in_project(date, id, project, include_default:)
-    end
+      before do
+        mock_permissions_for(current_user) do |mock|
+          mock.allow_in_project(:edit_hourly_rates, project:)
+        end
+      end
 
-    def current_default_rate
-      ::DefaultHourlyRate.at_for_user(Time.zone.today, id)
-    end
-
-    # kept for backwards compatibility
-    def default_rate_at(date)
-      ::DefaultHourlyRate.at_for_user(date, id)
+      it_behaves_like "contract is valid"
     end
   end
 end
