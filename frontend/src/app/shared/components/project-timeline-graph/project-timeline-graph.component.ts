@@ -137,6 +137,8 @@ export class ProjectTimelineGraphComponent {
         zoomMax: 50 * 365 * 24 * 60 * 60 * 1000, // 50 years maximum zoom
         onInitialDrawComplete: () => this.revealTimeline(),
         showTooltips: false,
+        // Still required with showTooltips: false: Item#getTitle() calls the template
+        // to build the content ProjectTimelineTooltipPopover renders.
         // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-assignment
         tooltip: { template: this.tooltip.tooltipTemplate.bind(this.tooltip) } as any,
       },
