@@ -1,0 +1,20 @@
+# /api/v3/projects/{id}/wiki_pages
+---
+get:
+  summary: List wiki pages in a project
+  operationId: List_Project_Wiki_Pages
+  tags:
+  - Wiki Pages
+  parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            "$ref": "../components/schemas/wiki_page_collection_model.yml"

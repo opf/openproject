@@ -1,0 +1,14 @@
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}
+
+ARG SOURCE_REVISION
+
+LABEL org.opencontainers.image.revision="${SOURCE_REVISION}" \
+      org.opencontainers.image.source="local://open-project-wiki-api/openproject"
+
+COPY --chown=app:app lib/api/v3/activities/activity_representer.rb \
+  /app/lib/api/v3/activities/activity_representer.rb
+COPY --chown=app:app lib/api/v3/work_packages/schema/work_package_schemas_api.rb \
+  /app/lib/api/v3/work_packages/schema/work_package_schemas_api.rb
+COPY --chown=app:app lib/api/v3/wiki_pages/wiki_page_representer.rb \
+  /app/lib/api/v3/wiki_pages/wiki_page_representer.rb
