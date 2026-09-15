@@ -32,7 +32,7 @@ require "spec_helper"
 require_relative "../../support/pages/backlog"
 
 RSpec.describe "A read-only work package card in Backlogs",
-               :js, :selenium, with_ee: %i[readonly_work_packages] do
+               :js, with_ee: %i[readonly_work_packages] do
   let!(:default_status) { create(:default_status) }
   let!(:rejected_status) { create(:status, :readonly, name: "Rejected") }
 
