@@ -45,7 +45,7 @@ It is configured via a JSON object passed to `OPENPROJECT_INTERNAL__WIKI__PROVID
 
 This example shows how to disable it:
 
-```
+```json
 { "enabled": false }
 ```
 
