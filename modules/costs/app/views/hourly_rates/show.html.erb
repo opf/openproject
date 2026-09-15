@@ -33,9 +33,13 @@ See COPYRIGHT and LICENSE files for more details.
   render Primer::OpenProject::PageHeader.new do |header|
     header.with_title { t(:caption_rate_history_for_project, user: @user.name, project: @project.name) }
     header.with_description do
-      if @current_rate
-        "#{Rate.human_attribute_name(:current_rate)}: #{number_to_currency(@current_rate.rate)}"
-      end
+      render(
+        HourlyRates::CurrentRateComponent.new(
+          project: @project,
+          rate: @current_rate,
+          fallback_rate: @default_rate
+        )
+      )
     end
     header.with_breadcrumbs(
       [{ href: project_overview_path(@project.identifier), text: @project.name },
@@ -45,4 +49,11 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%= render(HourlyRates::TableComponent.new(rows: @rates, current_rate: @current_rate, new_rate_url: @new_rate_url)) %>
+<%= render(
+      HourlyRates::TableComponent.new(
+        project: @project,
+        rows: @rates,
+        current_rate: @current_rate,
+        new_rate_url: @new_rate_url
+      )
+    ) %>

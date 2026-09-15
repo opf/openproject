@@ -32,10 +32,10 @@ class DefaultHourlyRatesController < ApplicationController
   include OpTurbo::ComponentStream
 
   before_action :find_principal, only: %i[new]
-  before_action :find_rate, only: %i[edit update]
+  before_action :find_rate, only: %i[edit update deletion_dialog destroy]
   before_action :authorize_rate_management
 
-  no_authorization_required! :new, :create, :edit, :update
+  no_authorization_required! :new, :create, :edit, :update, :deletion_dialog, :destroy
 
   def new
     @rate = DefaultHourlyRate.new(principal: @principal, valid_from: Time.zone.today)
@@ -48,15 +48,7 @@ class DefaultHourlyRatesController < ApplicationController
              .new(user: current_user)
              .call(rate_params)
 
-    @rate = call.result
-
-    if call.success?
-      close_dialog_via_turbo_stream(HourlyRates::RateDialogComponent::DIALOG_ID)
-    else
-      update_via_turbo_stream(component: rate_form_component, status: :bad_request)
-    end
-
-    respond_with_turbo_streams
+    respond_to_write(call, dialog_id: HourlyRates::RateDialogComponent::DIALOG_ID)
   end
 
   def update
@@ -64,10 +56,33 @@ class DefaultHourlyRatesController < ApplicationController
              .new(user: current_user, model: @rate)
              .call(rate_params)
 
+    respond_to_write(call, dialog_id: HourlyRates::RateDialogComponent::DIALOG_ID)
+  end
+
+  def deletion_dialog
+    respond_with_dialog(HourlyRates::DeleteDialogComponent.new(rate: @rate))
+  end
+
+  def destroy
+    call = DefaultHourlyRates::DeleteService.new(user: current_user, model: @rate).call
+
+    respond_to_write(call, dialog_id: HourlyRates::DeleteDialogComponent::DIALOG_ID)
+  end
+
+  private
+
+  # A write either closes its dialog and hands back a freshly rendered table,
+  # or leaves the dialog open with the rejected form.
+  def respond_to_write(call, dialog_id:)
     @rate = call.result
+    @principal ||= @rate.principal
 
     if call.success?
-      close_dialog_via_turbo_stream(HourlyRates::RateDialogComponent::DIALOG_ID)
+      close_dialog_via_turbo_stream(dialog_id)
+      replace_via_turbo_stream(component: rate_table_component)
+      replace_via_turbo_stream(component: current_rate_component)
+    elsif dialog_id == HourlyRates::DeleteDialogComponent::DIALOG_ID
+      render_error_flash_message_via_turbo_stream(message: call.errors.full_messages.to_sentence)
     else
       update_via_turbo_stream(component: rate_form_component, status: :bad_request)
     end
@@ -75,7 +90,17 @@ class DefaultHourlyRatesController < ApplicationController
     respond_with_turbo_streams
   end
 
-  private
+  def rate_table_component
+    HourlyRates::TableComponent.new(
+      rows: DefaultHourlyRate.for_principal(@principal).newest_first,
+      current_rate: @principal.current_default_rate,
+      new_rate_url: new_default_hourly_rate_path(principal_id: @principal.id)
+    )
+  end
+
+  def current_rate_component
+    HourlyRates::CurrentRateComponent.new(rate: @principal.current_default_rate)
+  end
 
   def rate_form_component
     HourlyRates::RateFormComponent.new(rate: @rate, form_url: rate_form_url)

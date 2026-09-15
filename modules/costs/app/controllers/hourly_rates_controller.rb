@@ -40,13 +40,13 @@ class HourlyRatesController < ApplicationController
   before_action :find_project, only: %i[show new create]
   before_action :find_user, only: %i[show]
   before_action :find_principal, only: %i[new]
-  before_action :find_rate, only: %i[edit update]
-  before_action :authorize_rate_management, only: %i[new edit]
+  before_action :find_rate, only: %i[edit update deletion_dialog destroy]
+  before_action :authorize_rate_management, only: %i[new edit deletion_dialog]
 
   # #show and the write actions authorize themselves against the rate
   # contracts, which also cover the edit_own_hourly_rate case.
-  before_action :authorize, except: %i[show new create edit update]
-  no_authorization_required! :show, :new, :create, :edit, :update
+  before_action :authorize, except: %i[show new create edit update deletion_dialog destroy]
+  no_authorization_required! :show, :new, :create, :edit, :update, :deletion_dialog, :destroy
 
   # TODO: this should be an index
   def show
@@ -54,7 +54,8 @@ class HourlyRatesController < ApplicationController
     return deny_access unless User.current.allowed_in_project?(:view_hourly_rates, @project)
 
     @rates = HourlyRate.for_principal(@user).in_project(@project).newest_first
-    @current_rate = @user.current_rate(@project)
+    @current_rate = @user.rate_at(Time.zone.today, @project, include_default: false)
+    @default_rate = @user.current_default_rate
     @new_rate_url = new_rate_url_for(@user)
   end
 
@@ -69,15 +70,7 @@ class HourlyRatesController < ApplicationController
              .new(user: current_user)
              .call(rate_params.merge(project_id: @project.id))
 
-    @rate = call.result
-
-    if call.success?
-      close_dialog_via_turbo_stream(HourlyRates::RateDialogComponent::DIALOG_ID)
-    else
-      update_via_turbo_stream(component: rate_form_component, status: :bad_request)
-    end
-
-    respond_with_turbo_streams
+    respond_to_write(call, dialog_id: HourlyRates::RateDialogComponent::DIALOG_ID)
   end
 
   def update
@@ -85,10 +78,33 @@ class HourlyRatesController < ApplicationController
              .new(user: current_user, model: @rate)
              .call(rate_params)
 
+    respond_to_write(call, dialog_id: HourlyRates::RateDialogComponent::DIALOG_ID)
+  end
+
+  def deletion_dialog
+    respond_with_dialog(HourlyRates::DeleteDialogComponent.new(rate: @rate))
+  end
+
+  def destroy
+    call = HourlyRates::DeleteService.new(user: current_user, model: @rate).call
+
+    respond_to_write(call, dialog_id: HourlyRates::DeleteDialogComponent::DIALOG_ID)
+  end
+
+  private
+
+  # A write either closes its dialog and hands back a freshly rendered table,
+  # or leaves the dialog open with the rejected form.
+  def respond_to_write(call, dialog_id:)
     @rate = call.result
+    @principal ||= @rate.principal
 
     if call.success?
-      close_dialog_via_turbo_stream(HourlyRates::RateDialogComponent::DIALOG_ID)
+      close_dialog_via_turbo_stream(dialog_id)
+      replace_via_turbo_stream(component: rate_table_component)
+      replace_via_turbo_stream(component: current_rate_component)
+    elsif dialog_id == HourlyRates::DeleteDialogComponent::DIALOG_ID
+      render_error_flash_message_via_turbo_stream(message: call.errors.full_messages.to_sentence)
     else
       update_via_turbo_stream(component: rate_form_component, status: :bad_request)
     end
@@ -96,7 +112,24 @@ class HourlyRatesController < ApplicationController
     respond_with_turbo_streams
   end
 
-  private
+  def rate_table_component
+    HourlyRates::TableComponent.new(
+      project: @project,
+      rows: HourlyRate.for_principal(@principal).in_project(@project).newest_first,
+      current_rate: current_project_rate,
+      new_rate_url: new_rate_url_for(@principal)
+    )
+  end
+
+  def current_rate_component
+    HourlyRates::CurrentRateComponent.new(project: @project,
+                                          rate: current_project_rate,
+                                          fallback_rate: @principal.current_default_rate)
+  end
+
+  def current_project_rate
+    @current_project_rate ||= @principal.rate_at(Time.zone.today, @project, include_default: false)
+  end
 
   def new_rate_url_for(principal)
     return unless HourlyRates::BaseContract.can_manage?(user: current_user,

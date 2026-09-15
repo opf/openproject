@@ -23,47 +23,39 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative "../spec_helper"
+module HourlyRates
+  class CurrentRateComponent < ApplicationComponent
+    include OpTurbo::Streamable
 
-RSpec.describe "hourly rates on user edit", :js do
-  let(:user) { create(:admin) }
+    options rate: nil,
+            fallback_rate: nil,
+            project: nil
 
-  def view_rates
-    visit edit_user_path(user, tab: "rates")
-  end
-
-  before do
-    login_as user
-  end
-
-  context "with no rates" do
-    before do
-      view_rates
+    # Rendered once per rate table, and replaced alongside it whenever a rate
+    # is written, so it needs the same per scope addressing.
+    def wrapper_uniq_by
+      project&.id || "default"
     end
 
-    it "explains what a default rate is for" do
-      expect(page).to have_text I18n.t(:label_no_default_rate)
-      expect(page).to have_text I18n.t(:text_no_default_rate)
-    end
-  end
+    private
 
-  context "with rates" do
-    let!(:rate) { create(:default_hourly_rate, user:, rate: 42) }
-
-    before do
-      view_rates
-    end
-
-    it "lists the rate history without having to expand the section" do
-      within "[data-test-selector='rate-history-default']" do
-        expect(page).to have_text Rate.human_attribute_name(:valid_from)
-        expect(page).to have_text "42.00"
+    # Without a rate of its own a project bills at the default rate, so the
+    # label names which of the two is in effect.
+    def caption
+      if rate
+        labelled(I18n.t(:label_current), rate)
+      elsif fallback_rate
+        labelled(I18n.t(:label_using_current_default_rate), fallback_rate)
       end
+    end
+
+    def labelled(label, applicable_rate)
+      "#{label}: #{helpers.number_to_currency(applicable_rate.rate)}"
     end
   end
 end

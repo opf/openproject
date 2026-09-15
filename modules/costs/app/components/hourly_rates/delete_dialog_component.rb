@@ -23,47 +23,37 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative "../spec_helper"
+module HourlyRates
+  class DeleteDialogComponent < ApplicationComponent
+    include OpTurbo::Streamable
 
-RSpec.describe "hourly rates on user edit", :js do
-  let(:user) { create(:admin) }
+    DIALOG_ID = "hourly-rate-delete-dialog"
 
-  def view_rates
-    visit edit_user_path(user, tab: "rates")
-  end
+    options :rate
 
-  before do
-    login_as user
-  end
+    private
 
-  context "with no rates" do
-    before do
-      view_rates
+    def form_arguments
+      { action: destroy_url, method: :delete }
     end
 
-    it "explains what a default rate is for" do
-      expect(page).to have_text I18n.t(:label_no_default_rate)
-      expect(page).to have_text I18n.t(:text_no_default_rate)
-    end
-  end
-
-  context "with rates" do
-    let!(:rate) { create(:default_hourly_rate, user:, rate: 42) }
-
-    before do
-      view_rates
-    end
-
-    it "lists the rate history without having to expand the section" do
-      within "[data-test-selector='rate-history-default']" do
-        expect(page).to have_text Rate.human_attribute_name(:valid_from)
-        expect(page).to have_text "42.00"
+    def destroy_url
+      if rate.is_a?(DefaultHourlyRate)
+        default_hourly_rate_path(rate)
+      else
+        hourly_rate_path(rate)
       end
+    end
+
+    def description
+      I18n.t(:text_hourly_rate_destroy_confirmation,
+             valid_from: helpers.format_date(rate.valid_from),
+             rate: helpers.number_to_currency(rate.rate))
     end
   end
 end

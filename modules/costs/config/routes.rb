@@ -79,8 +79,12 @@ Rails.application.routes.draw do
 
   # Keyed by the rate, unlike the project scoped hourly_rates#show whose :id is
   # the principal whose history is shown.
-  resources :hourly_rates, only: %i[edit update]
-  resources :default_hourly_rates, only: %i[new create edit update]
+  resources :hourly_rates, only: %i[edit update destroy] do
+    get :deletion_dialog, on: :member
+  end
+  resources :default_hourly_rates, only: %i[new create edit update destroy] do
+    get :deletion_dialog, on: :member
+  end
 
   namespace :admin do
     namespace :settings do

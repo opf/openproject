@@ -1,0 +1,15 @@
+<%=
+  render(
+    Primer::OpenProject::DangerDialog.new(
+      id: DIALOG_ID,
+      title: t(:button_delete),
+      form_arguments:,
+      test_selector: DIALOG_ID
+    )
+  ) do |dialog|
+    dialog.with_confirmation_message do |message|
+      message.with_heading(tag: :h2) { t(:text_are_you_sure) }
+      message.with_description_content(description)
+    end
+  end
+%>

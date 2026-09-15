@@ -30,8 +30,23 @@
 
 module HourlyRates
   class TableComponent < OpPrimer::BorderBoxTableComponent
+    include OpTurbo::Streamable
+
     options current_rate: nil,
-            new_rate_url: nil
+            new_rate_url: nil,
+            project: nil
+
+    # The border box template puts #container_id on the Box it renders, so the
+    # table is its own turbo stream target and needs no wrapping element.
+    def container_id = wrapper_key
+
+    def wrapped? = true
+
+    # The rates tab renders one table per project alongside the default rates,
+    # so the target has to be addressable per scope.
+    def wrapper_uniq_by
+      project&.id || "default"
+    end
 
     columns :valid_from, :rate, :current
     main_column :valid_from
@@ -54,7 +69,11 @@ module HourlyRates
     end
 
     def blank_title
-      t(:no_results_title_text)
+      project ? t(:label_no_project_rate) : t(:label_no_default_rate)
+    end
+
+    def blank_description
+      project ? t(:text_no_project_rate) : t(:text_no_default_rate)
     end
 
     # Creating and editing are gated by the same contract check, so the caller

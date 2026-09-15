@@ -67,11 +67,12 @@ RSpec.describe "Placeholder user rates",
   end
 
   describe "the project rate history" do
-    it "renders a blank slate when the placeholder has no rate in the project" do
+    it "points at the default rate when the placeholder has no rate in the project" do
       get projects_hourly_rate_path(project_id: project, id: placeholder)
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include(I18n.t(:no_results_title_text))
+      expect(response.body).to include(I18n.t(:label_no_project_rate))
+      expect(response.body).to include(I18n.t(:text_no_project_rate))
     end
 
     context "with a rate history" do
@@ -84,7 +85,7 @@ RSpec.describe "Placeholder user rates",
 
       it "names the project and the rate in effect in the header" do
         expect(response.body).to include(project.name)
-        expect(response.body).to include(Rate.human_attribute_name(:current_rate))
+        expect(response.body).to include(I18n.t(:label_current))
         expect(response.body).to include("95.00")
       end
 

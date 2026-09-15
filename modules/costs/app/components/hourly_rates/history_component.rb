@@ -56,25 +56,6 @@ module HourlyRates
       helpers.at_date_in_project_with_ancestors(Time.zone.today, project_rates, project)
     end
 
-    def default_caption
-      rate_caption(Rate.human_attribute_name(:current_rate), current_default_rate)
-    end
-
-    # Without a rate of its own a project bills at the default rate, so the
-    # caption names which of the two is in effect.
-    def project_caption(project)
-      rate = current_rate_for(project)
-      return rate_caption(Rate.human_attribute_name(:current_rate), rate) if rate
-
-      rate_caption(t(:label_current_default_rate), current_default_rate)
-    end
-
-    def rate_caption(label, rate)
-      return if rate.nil?
-
-      "#{label}: #{helpers.number_to_currency(rate.rate)}"
-    end
-
     def new_default_rate_url
       return unless DefaultHourlyRates::BaseContract.can_manage?(user: User.current)
 

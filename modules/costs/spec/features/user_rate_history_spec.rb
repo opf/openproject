@@ -56,7 +56,7 @@ RSpec.describe "rate history on the user rates tab" do
   it "shows the rate of a project the user is a member of" do
     within rate_history_for(member_project) do
       expect(page).to have_text member_project.name
-      expect(page).to have_text "#{Rate.human_attribute_name(:current_rate)}: #{format('%.2f', member_rate.rate)}"
+      expect(page).to have_text "#{I18n.t(:label_current)}: #{format('%.2f', member_rate.rate)}"
     end
   end
 
@@ -68,7 +68,7 @@ RSpec.describe "rate history on the user rates tab" do
 
   it "falls back to the default rate for a project without a rate of its own" do
     within rate_history_for(rateless_project) do
-      expect(page).to have_text "#{I18n.t(:label_current_default_rate)}: #{format('%.2f', default_rate.rate)}"
+      expect(page).to have_text "#{I18n.t(:label_using_current_default_rate)}: #{format('%.2f', default_rate.rate)}"
     end
   end
 

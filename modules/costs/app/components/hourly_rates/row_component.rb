@@ -57,6 +57,7 @@ module HourlyRates
         menu.with_show_button(icon: "kebab-horizontal", "aria-label": t(:label_more), scheme: :invisible)
 
         with_item_group(menu) { edit_action_item(menu) }
+        with_item_group(menu) { delete_action_item(menu) }
       end
     end
 
@@ -72,11 +73,32 @@ module HourlyRates
       end
     end
 
+    def delete_action_item(menu)
+      menu.with_item(
+        content_arguments: { data: { controller: "async-dialog" } },
+        scheme: :danger,
+        tag: :a,
+        label: t(:button_delete),
+        href: deletion_dialog_path,
+        test_selector: "delete-rate-action"
+      ) do |item|
+        item.with_leading_visual_icon(icon: :trash)
+      end
+    end
+
     def edit_path
       if model.is_a?(DefaultHourlyRate)
         edit_default_hourly_rate_path(model)
       else
         edit_hourly_rate_path(model)
+      end
+    end
+
+    def deletion_dialog_path
+      if model.is_a?(DefaultHourlyRate)
+        deletion_dialog_default_hourly_rate_path(model)
+      else
+        deletion_dialog_hourly_rate_path(model)
       end
     end
   end
