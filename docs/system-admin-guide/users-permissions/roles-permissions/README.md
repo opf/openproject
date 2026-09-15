@@ -23,7 +23,7 @@ A role bundles a collection of permissions. It is a convenient way of granting p
 
 A user can have one or more roles which grant permissions on different levels. 
 
-The overview table displays all roles and their permissions. If the table contains many roles, use the search bar to quickly find or filter them.
+The overview table displays all roles and their permissions. If the table contains many roles, use the search bar to quickly find a specific role or use the filters next to it to narrow down the results.
 
 ![Table of roles and permissions under users and permissions in administration](openproject_admin_guide_roles_permissions.png)
 
@@ -176,7 +176,7 @@ The form shows the available global permissions which can be assigned to the new
 
 To edit an existing role, click on the role name in the roles overview table. Alternatively, open the More options (**...**) menu and select **Edit**. Make your changes and save the update by clicking on the _Save_ button at the bottom of the overview page.
 
-To delete an existing role, click on the More options (**...**) of a role in the list and select **Delete**.
+To delete an existing role, click the **More (...)** icon for the role in the list and select **Delete**.
 
 ![Option to delete a role from the menu](openproject_admin_guide_roles_permissions_delete.png)
 
@@ -185,6 +185,6 @@ To delete an existing role, click on the More options (**...**) of a role in the
 
 ### Move roles
 
-To change a role's position in the overview table, click on the More options (**...**) menu and select **Move**. Depending on the role's current position, you can select Move to top, Move up, Move down, Move to bottom.
+To change a role's position in the overview table, click  the **More (...)** menu for the role and select **Move**. Depending on the role's current position, you can choose **Move to top**, **Move up**, **Move down**, or **Move to bottom**.
 
-You can also use the drag handle next to a role to move it to the desired position.
+Alternatively, use the drag handle next to a role to drag it to the desired position.
