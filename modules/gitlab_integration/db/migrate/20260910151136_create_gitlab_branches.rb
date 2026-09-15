@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2023 Ben Tey
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -8,7 +10,6 @@
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
 # Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
-# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -22,14 +23,27 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative "services/params_helper"
-require_relative "services/upsert_branch"
-require_relative "services/track_branch"
-require_relative "services/upsert_pipeline"
-require_relative "services/upsert_gitlab_user"
-require_relative "services/upsert_merge_request"
+class CreateGitlabBranches < ActiveRecord::Migration[8.1]
+  def change
+    create_table :gitlab_branches do |t|
+      t.references :work_package, null: false, foreign_key: { on_delete: :cascade }
+      t.bigint :gitlab_project_id, null: false
+      t.string :namespace, null: false
+      t.string :namespace_html_url, null: false
+      t.string :name, null: false
+      t.string :gitlab_html_url, null: false
+      t.string :repository, null: false
+      t.string :username
+      t.string :gitlab_user_avatar_url
+
+      t.timestamps
+
+      t.index %i[gitlab_project_id name], unique: true
+    end
+  end
+end

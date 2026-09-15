@@ -46,6 +46,9 @@ en:
             labels:
               invalid_schema: "must be an array of hashes with keys: color, title"
     models:
+      gitlab_branch:
+        one: "GitLab branch"
+        other: "GitLab branches"
       gitlab_issue:
         one: "GitLab issue"
         other: "GitLab issues"
@@ -66,9 +69,12 @@ en:
     gitlab_html_url: "GitLab HTML URL"
     gitlab_merge_request: "Merge Request"
     gitlab_name: "GitLab name"
+    gitlab_project: "GitLab project"
     gitlab_updated_at: "Updated at"
     gitlab_user_avatar_url: "GitLab avatar URL"
     gitlab_username: "GitLab username"
+    namespace: "GitLab namespace"
+    namespace_html_url: "GitLab namespace URL"
   gitlab_integration:
     issue_closed_referenced_comment: >
       **Issue Closed:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url})
