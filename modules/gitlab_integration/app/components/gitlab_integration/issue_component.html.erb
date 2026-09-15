@@ -60,10 +60,10 @@ See COPYRIGHT and LICENSE files for more details.
     end
 
     if issue.labels.any?
-      container.with_row(mb: 1) do
-        flex_layout do |row|
+      container.with_row do
+        flex_layout(flex_wrap: :wrap) do |row|
           issue.labels.each do |label|
-            row.with_column(mr: 2) do
+            row.with_column(mr: 2, mb: 1) do
               render(GitlabIntegration::LabelComponent.new(title: label.fetch("title"), color: label.fetch("color")))
             end
           end
