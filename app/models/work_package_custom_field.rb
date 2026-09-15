@@ -39,9 +39,9 @@ class WorkPackageCustomField < CustomField
 
     ProjectType
       .joins(form_join)
-      .joins("JOIN #{memberships} ON #{memberships}.form_configuration_id = #{form_configuration_id} " \
-             "AND #{memberships}.custom_field_id IS NOT NULL " \
-             "AND #{memberships}.form_configuration_group_id IS NOT NULL AND #{exclusion}")
+      .joins(Arel.sql("JOIN #{memberships} ON #{memberships}.form_configuration_id = #{form_configuration_id} " \
+                      "AND #{memberships}.custom_field_id IS NOT NULL " \
+                      "AND #{memberships}.form_configuration_group_id IS NOT NULL AND #{exclusion}"))
       .where(project_id: Project.active.select(:id))
       .group("#{memberships}.custom_field_id")
       .distinct
