@@ -1,37 +1,11 @@
-<tab-header-issue class="gitlab-header" [workPackage]="workPackage" />
-<tab-issue [workPackage]="workPackage" />
-<tab-header-mr class="gitlab-header" [workPackage]="workPackage" />
-<tab-mrs [workPackage]="workPackage" />
+<turbo-frame #frameElement
+             [src]="turboFrameSrc"
+             id="work-package-gitlab-tab-content"
+             data-controller="keep-collapsed-state">
+  <op-content-loader viewBox="0 0 100 100">
+    <svg:rect x="0" y="0" width="100" height="25" rx="1" />
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  // Your Intersection Observer code and any other JavaScript/TypeScript logic
-  const sectionHeaders = document.querySelectorAll('gitlab-header');
-
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      const sectionHeader = entry.target;
-
-      if (entry.isIntersecting) {
-        sectionHeader.classList.add('sticky');
-      } else {
-        sectionHeader.classList.remove('sticky');
-      }
-    });
-  }, { threshold: 1 });
-
-  sectionHeaders.forEach(sectionHeader => {
-    observer.observe(sectionHeader);
-  });
-
-  const initialIssueLabelsElements = document.querySelectorAll('.op-issue--labels');
-  initialIssueLabelsElements.forEach(function (element) {
-    element.style.display = 'none';
-  });
-
-  const initialMRLabelsElements = document.querySelectorAll('.op-merge-request--labels');
-  initialMRLabelsElements.forEach(function (element) {
-    element.style.display = 'none';
-  });
-});
-</script>
+    <svg:rect x="0" y="28" width="100" height="8" rx="1" />
+    <svg:rect x="0" y="39" width="100" height="8" rx="1" />
+  </op-content-loader>
+</turbo-frame>

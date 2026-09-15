@@ -136,6 +136,13 @@ en:
       to [%{repository}](%{repository_url}) at %{commit_timestamp}:
 
       %{commit_note}
+    work_package_gitlab_tab_component:
+      branches: Branches
+      commits: Commits
+      description_html: Link an existing GitLab element by adding the code %{code} to the title or description or by creating a new one.
+      git_snippets: Git snippets
+      issues: Issues
+      merge_requests: Merge requests
 
   label_gitlab_actor: "GitLab actor"
 
