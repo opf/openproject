@@ -111,7 +111,7 @@ module Import
           raise call.message
         end
       end
-    rescue StandardError => e
+    rescue Import::JiraClient::Error => e
       app_backtrace = Rails.backtrace_cleaner.clean(e.backtrace)
       project = work_package.project
       jira_project_for_log = project.slice(:identifier)

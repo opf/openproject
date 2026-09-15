@@ -41,11 +41,32 @@ module Import
     class ApiError < Error
       attr_reader :status, :response_body, :response_headers
 
+      SAFE_RESPONSE_HEADERS = %w[
+        content-type
+        content-length
+        content-encoding
+        content-language
+        content-disposition
+        date
+        last-modified
+        etag
+        cache-control
+        expires
+        location
+        retry-after
+        server
+        x-request-id
+        x-runtime
+        x-ratelimit-limit
+        x-ratelimit-remaining
+        x-ratelimit-reset
+      ].freeze
+
       def initialize(message, status:, response_body:, response_headers:)
         super(message)
         @status = status
         @response_body = response_body
-        @response_headers = response_headers
+        @response_headers = response_headers.slice(*SAFE_RESPONSE_HEADERS)
       end
 
       def to_s
