@@ -821,4 +821,107 @@ RSpec.describe Journable::WithHistoricAttributes,
       end
     end
   end
+
+  describe "labels" do
+    shared_let(:label_a) { create(:label) }
+    shared_let(:label_b) { create(:label) }
+
+    let(:work_package) do
+      create(:work_package,
+             subject: "The labelled work package",
+             project:,
+             journals: {
+               created_at => {},
+               1.day.ago => {}
+             })
+    end
+
+    subject { described_class.wrap(work_package, timestamps:) }
+
+    def update_labels(*labels)
+      work_package.labels = labels
+      work_package.save!
+    end
+
+    def seed_baseline_label_journal(label)
+      create(:journal_label_journal, journal: work_package.journals.first, label:)
+    end
+
+    describe "#at_timestamp" do
+      it "returns the labels from the journal snapshot, not the current ones" do
+        seed_baseline_label_journal(label_a)
+        update_labels(label_a, label_b)
+
+        expect(subject.at_timestamp(Timestamp.parse("2022-01-01T00:00:00Z")).labels)
+          .to contain_exactly(label_a)
+        expect(work_package.reload.labels)
+          .to contain_exactly(label_a, label_b)
+      end
+
+      it "omits snapshotted labels that were deleted since" do
+        update_labels(label_a, label_b)
+        label_b.destroy!
+
+        # 1 hour in the future so the journal written by the update above is
+        # unambiguously in the past, regardless of sub-second timing.
+        expect(subject.at_timestamp(Timestamp.parse(1.hour.from_now.iso8601)).labels)
+          .to contain_exactly(label_a)
+      end
+    end
+
+    describe "#changed_at_timestamp" do
+      context "when a label was added" do
+        it "marks the labels as changed" do
+          update_labels(label_a, label_b)
+
+          expect(subject.changed_at_timestamp(Timestamp.parse("2022-01-01T00:00:00Z")))
+            .to contain_exactly("labels")
+        end
+      end
+
+      context "when one of several labels was removed" do
+        it "marks only the labels as changed" do
+          # Journal rows are stamped by the database clock, so a past removal
+          # can't be journalled directly; seed the baseline snapshot instead.
+          seed_baseline_label_journal(label_a)
+          seed_baseline_label_journal(label_b)
+          update_labels(label_a)
+
+          expect(subject.changed_at_timestamp(Timestamp.parse("2022-01-01T00:00:00Z")))
+            .to contain_exactly("labels")
+          expect(subject.send(:changes_at_timestamp, Timestamp.parse("2022-01-01T00:00:00Z"))["labels"])
+            .to eq([[label_a.id, label_b.id].sort.join(","), label_a.id.to_s])
+        end
+      end
+
+      context "when all labels were removed" do
+        it "marks the labels as changed" do
+          seed_baseline_label_journal(label_a)
+          update_labels
+
+          expect(subject.changed_at_timestamp(Timestamp.parse("2022-01-01T00:00:00Z")))
+            .to contain_exactly("labels")
+          expect(subject.send(:changes_at_timestamp, Timestamp.parse("2022-01-01T00:00:00Z"))["labels"])
+            .to eq([label_a.id.to_s, nil])
+        end
+      end
+
+      context "when the label set is unchanged" do
+        it "reports no label change" do
+          expect(subject.changed_at_timestamp(Timestamp.parse("2022-01-01T00:00:00Z")))
+            .to be_empty
+        end
+      end
+    end
+
+    describe "#changes_at_timestamp" do
+      it "reports the joined old and new label ids" do
+        seed_baseline_label_journal(label_a)
+        update_labels(label_a, label_b)
+
+        expect(subject.send(:changes_at_timestamp, Timestamp.parse("2022-01-01T00:00:00Z"))["labels"])
+          .to eq([label_a.id.to_s, [label_a.id, label_b.id].sort.join(",")])
+      end
+    end
+  end
 end

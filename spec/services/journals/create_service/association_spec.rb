@@ -65,9 +65,18 @@ RSpec.describe Journals::CreateService::Association do
       allow(journable).to receive(:respond_to?).with(:file_links).and_return(false)
       allow(journable).to receive(:respond_to?).with(:agenda_items).and_return(false)
       allow(journable).to receive(:respond_to?).with(:phases).and_return(false)
+      allow(journable).to receive(:respond_to?).with(:labels).and_return(false)
 
       associations = described_class.for(journable)
       expect(associations.map(&:class)).to include(Journals::CreateService::Attachable)
+    end
+
+    it "includes Labelable for a journable that responds to labels" do
+      journable = instance_double(WorkPackage, customizable?: false, respond_to?: false)
+      allow(journable).to receive(:respond_to?).with(:labels).and_return(true)
+
+      associations = described_class.for(journable)
+      expect(associations.map(&:class)).to include(Journals::CreateService::Labelable)
     end
 
     it "excludes associations whose #associated? returns false" do
