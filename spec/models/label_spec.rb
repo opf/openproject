@@ -32,23 +32,11 @@ require "spec_helper"
 
 RSpec.describe Label do
   describe "validations" do
-    it "is valid with a name" do
-      expect(build(:label, name: "urgent")).to be_valid
-    end
+    subject { build(:label) }
 
-    it "requires a name" do
-      expect(build(:label, name: "")).not_to be_valid
-    end
-
-    it "caps the name at 255 characters" do
-      expect(build(:label, name: "a" * 256)).not_to be_valid
-    end
-
-    it "rejects a name that only differs in case from an existing label" do
-      create(:label, name: "hello")
-
-      expect(build(:label, name: "Hello")).not_to be_valid
-    end
+    it { is_expected.to validate_presence_of(:name) }
+    it { is_expected.to validate_length_of(:name).is_at_most(255) }
+    it { is_expected.to validate_uniqueness_of(:name).case_insensitive }
 
     it "is backed by a case-insensitive unique index" do
       create(:label, name: "hello")
