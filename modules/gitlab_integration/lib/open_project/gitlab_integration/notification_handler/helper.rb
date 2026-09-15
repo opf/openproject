@@ -68,9 +68,6 @@ module OpenProject::GitlabIntegration
       end
 
       def extract_work_package_ids_from_branch(branch_name)
-        # Interpolate .source, never the Regexp itself: an embedded /.../ re-asserts its
-        # own flags as (?-mix:...), cancelling the /i that lets the lowercase branch names
-        # git users actually write match the uppercase identifiers we store.
         wp_id = WorkPackage::SemanticIdentifier::ID_ROUTE_CONSTRAINT.source
         semantic_id = WorkPackage::SemanticIdentifier::SEMANTIC_ID_PATTERN.source
 
