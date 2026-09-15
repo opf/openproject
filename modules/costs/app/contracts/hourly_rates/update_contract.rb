@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -21,25 +23,12 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Costs::Patches::UserPatch
-  def self.included(base) # :nodoc:
-    base.send(:include, Costs::HasRates)
-    base.send(:include, InstanceMethods)
-  end
-
-  module InstanceMethods
-    def allowed_to_condition_with_project_id(permission, projects = nil)
-      scope = Project.allowed_to(self, permission)
-      scope = scope.where(id: projects) if projects
-
-      ids = scope.pluck(:id)
-
-      ids.empty? ? "1=0" : "(#{Project.table_name}.id in (#{ids.join(', ')}))"
-    end
+module HourlyRates
+  class UpdateContract < BaseContract
   end
 end

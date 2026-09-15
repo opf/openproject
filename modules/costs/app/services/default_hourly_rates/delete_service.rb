@@ -23,19 +23,12 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Costs::Patches::PrincipalPatch
-  def self.included(base) # :nodoc:
-    base.class_eval do
-      # Groups can be budgeted and assigned, but only users and placeholder
-      # users can carry an hourly rate.
-      scope :with_rates, ->(user = User.current) {
-        visible(user).where(type: %w[User PlaceholderUser])
-      }
-    end
+module DefaultHourlyRates
+  class DeleteService < ::BaseServices::Delete
   end
 end

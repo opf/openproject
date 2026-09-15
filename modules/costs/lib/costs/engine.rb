@@ -161,6 +161,14 @@ module Costs
            end,
            icon: :stopwatch
 
+      menu :my_menu,
+           :hourly_rates,
+           { controller: "/my/hourly_rates", action: "show" },
+           after: :working_hours,
+           caption: ->(*) { HourlyRate.model_name.human(count: 2) },
+           if: ->(*) { ::My::HourlyRatesController.rates_visible?(User.current) },
+           icon: "credit-card"
+
       menu :top_menu,
            :my_time_tracking,
            { controller: "/my/time_tracking", action: "index" },
@@ -188,7 +196,7 @@ module Costs
 
     activity_provider :time_entries, class_name: "Activities::TimeEntryActivityProvider", default: false
 
-    patches %i[Project Principal User PlaceholderUser PermittedParams WorkPackage]
+    patches %i[Project PermittedParams WorkPackage]
     patch_with_namespace :BasicData, :SettingSeeder
     patch_with_namespace :ActiveSupport, :NumberHelper, :NumberToCurrencyConverter
 

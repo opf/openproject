@@ -27,6 +27,16 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% @rates.each_pair do |project, rates| %>
-  <%= render partial: "hourly_rates/list_project", locals: { rates: rates, project: project, all_rates: @rates } %>
-<% end %>
+<% html_title t(:label_my_account), HourlyRate.model_name.human(count: 2) %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { HourlyRate.model_name.human(count: 2) }
+    header.with_breadcrumbs(
+      [{ href: my_account_path, text: t(:label_my_account) },
+       HourlyRate.model_name.human(count: 2)]
+    )
+  end
+%>
+
+<%= render(HourlyRates::HistoryComponent.new(principal: current_user, show_default_rates: false)) %>
