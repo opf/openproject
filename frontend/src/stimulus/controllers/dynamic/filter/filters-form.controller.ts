@@ -27,12 +27,13 @@
 //++
 
 import { Controller } from '@hotwired/stimulus';
-import { renderStreamMessage, visit } from '@hotwired/turbo';
+import { visit } from '@hotwired/turbo';
 import { debounce } from 'lodash-es';
 import {
   hideElement,
   showElement,
 } from 'core-app/shared/helpers/dom-helpers';
+import { renderErrorStream, request } from 'core-turbo/requests';
 import { escapeFilterValue } from 'core-stimulus/helpers/filter-helpers';
 import { PrimerMultiInputElement } from '@primer/view-components/app/lib/primer/forms/primer_multi_input';
 
@@ -493,22 +494,18 @@ export default class FiltersFormController extends Controller {
       const previousFilters = this.sentFilters;
       this.sentFilters = newFilters;
 
-      fetch(url, {
-        headers: {
-          Accept: 'text/vnd.turbo-stream.html',
-        },
-      })
-        .then((response:Response) => response.text())
-        .then((html:string) => {
-          renderStreamMessage(html);
+      void request(url, { responseKind: 'turbo-stream' })
+        .then(async (response) => {
+          await renderErrorStream(response);
           if (this.sentFilters === newFilters) {
             window.history.replaceState(window.history.state, '', browserUrl);
           }
-          hideElement(loadingIndicator);
         })
         .catch((error:Error) => {
           this.sentFilters = previousFilters;
           console.error('Error:', error);
+        })
+        .finally(() => {
           hideElement(loadingIndicator);
         });
     } else {

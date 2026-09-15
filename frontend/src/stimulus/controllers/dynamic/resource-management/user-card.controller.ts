@@ -27,7 +27,8 @@
 //++
 
 import { Controller } from '@hotwired/stimulus';
-import { renderStreamMessage } from '@hotwired/turbo';
+import { request } from 'core-turbo/requests';
+import { handleDialogResponse } from 'core-stimulus/helpers/request-helpers';
 import { closestInteractiveElement } from 'core-stimulus/helpers/interactive-element-helper';
 
 export default class UserCardController extends Controller<HTMLElement> {
@@ -48,17 +49,16 @@ export default class UserCardController extends Controller<HTMLElement> {
       return;
     }
 
-    void this.openDialog();
+    this.openDialog();
   };
 
   private fromInteractiveElement(event:Event):boolean {
     return closestInteractiveElement(event.target as Element | null, this.element) !== null;
   }
 
-  private async openDialog():Promise<void> {
-    await fetch(this.urlValue, {
-      headers: { Accept: 'text/vnd.turbo-stream.html' },
-    }).then((response) => response.text())
-      .then((html) => renderStreamMessage(html));
+  private openDialog():void {
+    void request(this.urlValue, { responseKind: 'turbo-stream' })
+      .then(handleDialogResponse)
+      .catch((error) => { console.error(error); });
   }
 }

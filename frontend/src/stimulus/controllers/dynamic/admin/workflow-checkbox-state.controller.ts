@@ -27,8 +27,7 @@
 //++
 
 import { Controller } from '@hotwired/stimulus';
-import { renderStreamMessage } from '@hotwired/turbo';
-import { useMeta } from 'stimulus-use';
+import { renderErrorStream, request } from 'core-turbo/requests';
 
 const PRISTINE_STATE_KEY = 'workflow-pristine-state';
 const STATUS_STATE_KEY = 'workflow-status-state';
@@ -73,9 +72,6 @@ export default class WorkflowCheckboxStateController extends Controller<HTMLElem
   declare saveUrlValue:string;
   declare variantIdValue:string;
 
-  static metaNames = ['csrf-token'];
-  declare readonly csrfToken:string;
-
   private initialCheckboxState:CheckboxesState = {};
 
   // The form belongs to the host page and encloses this element. Captured on connect
@@ -84,10 +80,6 @@ export default class WorkflowCheckboxStateController extends Controller<HTMLElem
   private form:HTMLFormElement | null = null;
 
   connect() {
-    // Populates this.csrfToken from the page's meta tag; without it the background save
-    // is rejected as a forgery and the session is reset.
-    useMeta(this, { suffix: false });
-
     this.form = this.element.closest('form');
 
     this.element.addEventListener('change', this.onCheckboxChange);
@@ -148,19 +140,14 @@ export default class WorkflowCheckboxStateController extends Controller<HTMLElem
   private async save():Promise<boolean> {
     if (!this.saveUrlValue) return false;
 
-    const response = await fetch(this.saveUrlValue, {
+    const response = await request(this.saveUrlValue, {
       method: 'PATCH',
       body: this.matrixFormData(),
-      headers: {
-        Accept: 'text/vnd.turbo-stream.html',
-        'X-CSRF-Token': this.csrfToken,
-      },
+      responseKind: 'turbo-stream',
     });
+    await renderErrorStream(response);
 
-    const html = await response.text();
-    if (html) renderStreamMessage(html);
-
-    if (!response.ok) return false;
+    if (!response.succeeded) return false;
 
     this.markSaved();
     return true;

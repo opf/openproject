@@ -27,9 +27,8 @@
 //++
 
 import {Controller} from '@hotwired/stimulus';
-import {renderStreamMessage} from '@hotwired/turbo';
 import {debounce, DebouncedFunc} from 'lodash-es';
-import {useMeta} from 'stimulus-use';
+import {renderErrorStream, request, type TurboRequestInit} from 'core-turbo/requests';
 
 export default class extends Controller {
     static values = {
@@ -39,9 +38,7 @@ export default class extends Controller {
     };
 
     static targets = ['submitButton', 'spinnerButton'];
-    static metaNames = ['csrf-token'];
 
-    declare readonly csrfToken:string;
     declare readonly toggleUrlValue:string;
     declare readonly filterUrlValue:string;
     declare readonly debounceValue:number;
@@ -55,7 +52,6 @@ export default class extends Controller {
     private drainingQueue = false;
 
     connect():void {
-        useMeta(this, {suffix: false});
         this.debouncedFilter = debounce(
             (filter:string) => this.submitFilter(filter),
             this.debounceValue,
@@ -72,27 +68,19 @@ export default class extends Controller {
         const projectId = checkbox.value;
         const url = this.toggleUrlValue.replace('PROJECT_ID', projectId);
 
-        this.enqueue(async () => {
-            const response = await fetch(url, {
-                headers: {
-                    Accept: 'text/vnd.turbo-stream.html',
-                },
-            });
-            const html = await response.text();
-            renderStreamMessage(html);
-        });
+        this.enqueue(() => this.submitStream(url));
     }
 
     checkAll(event:Event):void {
         event.preventDefault();
         const link = event.currentTarget as HTMLAnchorElement;
-        this.enqueue(() => this.submitBulkAction(link.href));
+        this.enqueue(() => this.submitStream(link.href));
     }
 
     uncheckAll(event:Event):void {
         event.preventDefault();
         const link = event.currentTarget as HTMLAnchorElement;
-        this.enqueue(() => this.submitBulkAction(link.href));
+        this.enqueue(() => this.submitStream(link.href));
     }
 
     filterProjects(event:Event):void {
@@ -134,31 +122,15 @@ export default class extends Controller {
         if (this.hasSpinnerButtonTarget) this.spinnerButtonTarget.hidden = !visible;
     }
 
-    private async submitBulkAction(url:string):Promise<void> {
-        const response = await fetch(url, {
-            headers: {
-                Accept: 'text/vnd.turbo-stream.html',
-            },
-        });
-        const html = await response.text();
-        renderStreamMessage(html);
-    }
-
-    private async submitFilter(filter:string):Promise<void> {
-        const url = this.filterUrlValue;
+    private submitFilter(filter:string):Promise<void> {
         const formData = new FormData();
         formData.append('filter', filter);
 
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Accept': 'text/vnd.turbo-stream.html',
-                'X-CSRF-Token': this.csrfToken,
-            },
-            body: formData,
-        });
+        return this.submitStream(this.filterUrlValue, {method: 'POST', body: formData});
+    }
 
-        const html = await response.text();
-        renderStreamMessage(html);
+    private async submitStream(url:string, init:TurboRequestInit = {}):Promise<void> {
+        const response = await request(url, {...init, responseKind: 'turbo-stream'});
+        await renderErrorStream(response);
     }
 }
