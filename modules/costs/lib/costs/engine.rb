@@ -81,20 +81,24 @@ module Costs
 
         permission :view_own_hourly_rate,
                    {},
-                   permissible_on: :project
+                   permissible_on: :project,
+                   contract_actions: { hourly_rates: %i[read_own] }
         permission :view_hourly_rates,
                    {},
-                   permissible_on: :project
+                   permissible_on: :project,
+                   contract_actions: { hourly_rates: %i[read] }
 
         permission :edit_own_hourly_rate,
                    { hourly_rates: %i[edit update] },
                    permissible_on: :project,
-                   require: :member
+                   require: :member,
+                   contract_actions: { hourly_rates: %i[create_own edit_own destroy_own] }
 
         permission :edit_hourly_rates,
                    { hourly_rates: %i[edit update] },
                    permissible_on: :project,
-                   require: :member
+                   require: :member,
+                   contract_actions: { hourly_rates: %i[create edit destroy] }
         permission :view_cost_rates, # cost item values
                    {},
                    permissible_on: :project
@@ -230,10 +234,22 @@ module Costs
       "#{root}/cost_types/#{id}"
     end
 
+    add_api_path :hourly_rates_by_user do |user_id|
+      "#{user(user_id)}/hourly_rates"
+    end
+
+    add_api_path :hourly_rate do |user_id, id|
+      "#{hourly_rates_by_user(user_id)}/#{id}"
+    end
+
     add_api_endpoint "API::V3::Root" do
       mount ::API::V3::CostEntries::CostEntriesAPI
       mount ::API::V3::CostTypes::CostTypesAPI
       mount ::API::V3::TimeEntries::TimeEntriesAPI
+    end
+
+    add_api_endpoint "API::V3::Users::UsersAPI", :id do
+      mount ::API::V3::HourlyRates::HourlyRatesByUserAPI
     end
 
     add_api_endpoint "API::V3::WorkPackages::WorkPackagesAPI", :id do
