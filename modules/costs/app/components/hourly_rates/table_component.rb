@@ -30,7 +30,8 @@
 
 module HourlyRates
   class TableComponent < OpPrimer::BorderBoxTableComponent
-    options current_rate: nil
+    options current_rate: nil,
+            new_rate_url: nil
 
     columns :valid_from, :rate, :current
     main_column :valid_from
@@ -54,6 +55,32 @@ module HourlyRates
 
     def blank_title
       t(:no_results_title_text)
+    end
+
+    # Creating and editing are gated by the same contract check, so the caller
+    # passing a url to create with is also what enables the row edit buttons.
+    def manageable?
+      new_rate_url.present?
+    end
+
+    def has_actions?
+      manageable?
+    end
+
+    def action_row_header_content
+      return if new_rate_url.blank?
+
+      render(Primer::Beta::IconButton.new(
+               icon: "plus",
+               scheme: :invisible,
+               size: :small,
+               tag: :a,
+               href: new_rate_url,
+               data: { controller: "async-dialog" },
+               test_selector: "add-rate-button",
+               label: t(:button_add_rate),
+               aria: { label: t(:button_add_rate) }
+             ))
     end
   end
 end

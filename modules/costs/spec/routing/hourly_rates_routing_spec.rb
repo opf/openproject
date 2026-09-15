@@ -37,8 +37,51 @@ RSpec.describe HourlyRatesController do
                                                                 id: "5")
     }
 
+    it {
+      expect(get("/projects/blubs/hourly_rates/new")).to route_to(controller: "hourly_rates",
+                                                                  action: "new",
+                                                                  project_id: "blubs")
+    }
+
+    it {
+      expect(post("/projects/blubs/hourly_rates")).to route_to(controller: "hourly_rates",
+                                                               action: "create",
+                                                               project_id: "blubs")
+    }
+
+    # Keyed by the rate rather than the principal, so these live outside the
+    # project scope.
+    it {
+      expect(get("/hourly_rates/5/edit")).to route_to(controller: "hourly_rates", action: "edit", id: "5")
+    }
+
+    it {
+      expect(patch("/hourly_rates/5")).to route_to(controller: "hourly_rates", action: "update", id: "5")
+    }
+
     it { expect(get("/projects/blubs/hourly_rates/5/edit")).not_to be_routable }
-    it { expect(get("/hourly_rates/5/edit")).not_to be_routable }
     it { expect(put("/projects/blubs/hourly_rates/5")).not_to be_routable }
+  end
+
+  describe "default rate routing" do
+    it {
+      expect(get("/default_hourly_rates/new")).to route_to(controller: "default_hourly_rates", action: "new")
+    }
+
+    it {
+      expect(post("/default_hourly_rates")).to route_to(controller: "default_hourly_rates", action: "create")
+    }
+
+    it {
+      expect(get("/default_hourly_rates/5/edit")).to route_to(controller: "default_hourly_rates",
+                                                              action: "edit",
+                                                              id: "5")
+    }
+
+    it {
+      expect(patch("/default_hourly_rates/5")).to route_to(controller: "default_hourly_rates",
+                                                           action: "update",
+                                                           id: "5")
+    }
   end
 end

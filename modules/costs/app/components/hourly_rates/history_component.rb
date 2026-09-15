@@ -74,5 +74,17 @@ module HourlyRates
 
       "#{label}: #{helpers.number_to_currency(rate.rate)}"
     end
+
+    def new_default_rate_url
+      return unless DefaultHourlyRates::BaseContract.can_manage?(user: User.current)
+
+      helpers.new_default_hourly_rate_path(principal_id: principal.id)
+    end
+
+    def new_project_rate_url(project)
+      return unless HourlyRates::BaseContract.can_manage?(user: User.current, principal_id: principal.id, project:)
+
+      helpers.new_projects_hourly_rate_path(project_id: project, principal_id: principal.id)
+    end
   end
 end

@@ -34,7 +34,7 @@ module Rates
 
     def set_attributes(params)
       attributes = params.to_h.symbolize_keys
-      attributes[:rate] = ::Rate.parse_number_string(attributes[:rate]) if attributes.key?(:rate)
+      attributes[:rate] = ::Rate.parse_decimal_string(attributes[:rate]) if attributes.key?(:rate)
 
       super(attributes)
     end

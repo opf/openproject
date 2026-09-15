@@ -37,10 +37,6 @@ RSpec.describe "hourly rates on user edit", :js do
     visit edit_user_path(user, tab: "rates")
   end
 
-  def expand_default_rates
-    find("[data-test-selector='rate-history-default'] [data-collapsible-toggle]").click
-  end
-
   before do
     login_as user
   end
@@ -50,11 +46,7 @@ RSpec.describe "hourly rates on user edit", :js do
       view_rates
     end
 
-    it "shows no data message once the section is expanded" do
-      expect(page).to have_no_text I18n.t("no_results_title_text")
-
-      expand_default_rates
-
+    it "shows no data message" do
       expect(page).to have_text I18n.t("no_results_title_text")
     end
   end
@@ -66,13 +58,7 @@ RSpec.describe "hourly rates on user edit", :js do
       view_rates
     end
 
-    it "names the current rate in the collapsed section header" do
-      expect(page).to have_text "42.00"
-    end
-
-    it "lists the rate history once the section is expanded" do
-      expand_default_rates
-
+    it "lists the rate history without having to expand the section" do
       within "[data-test-selector='rate-history-default']" do
         expect(page).to have_text Rate.human_attribute_name(:valid_from)
         expect(page).to have_text "42.00"

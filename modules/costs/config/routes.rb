@@ -40,7 +40,7 @@ Rails.application.routes.draw do
   scope "projects/:project_id", as: "projects" do
     resources :cost_entries, controller: "costlog", only: %i[new create]
 
-    resources :hourly_rates, only: %i[show]
+    resources :hourly_rates, only: %i[show new create]
 
     get "/time_entries/dialog" => "time_entries#dialog"
   end
@@ -76,6 +76,11 @@ Rails.application.routes.draw do
   resources :cost_entries, controller: "costlog", only: %i[edit update destroy]
 
   get "/cost_types", to: redirect("/admin/cost_types")
+
+  # Keyed by the rate, unlike the project scoped hourly_rates#show whose :id is
+  # the principal whose history is shown.
+  resources :hourly_rates, only: %i[edit update]
+  resources :default_hourly_rates, only: %i[new create edit update]
 
   namespace :admin do
     namespace :settings do

@@ -23,7 +23,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -32,16 +32,21 @@ class HourlyRatesController < ApplicationController
   helper :users
   helper :sort
   include SortHelper
+  include OpTurbo::ComponentStream
 
   helper :hourly_rates
   include HourlyRatesHelper
 
-  before_action :find_project, only: %i[show]
+  before_action :find_project, only: %i[show new create]
   before_action :find_user, only: %i[show]
+  before_action :find_principal, only: %i[new]
+  before_action :find_rate, only: %i[edit update]
+  before_action :authorize_rate_management, only: %i[new edit]
 
-  # #show has its own authorization
-  before_action :authorize, except: %i[show]
-  no_authorization_required! :show
+  # #show and the write actions authorize themselves against the rate
+  # contracts, which also cover the edit_own_hourly_rate case.
+  before_action :authorize, except: %i[show new create edit update]
+  no_authorization_required! :show, :new, :create, :edit, :update
 
   # TODO: this should be an index
   def show
@@ -50,9 +55,88 @@ class HourlyRatesController < ApplicationController
 
     @rates = HourlyRate.for_principal(@user).in_project(@project).newest_first
     @current_rate = @user.current_rate(@project)
+    @new_rate_url = new_rate_url_for(@user)
+  end
+
+  def new
+    @rate = HourlyRate.new(principal: @principal, project: @project, valid_from: Time.zone.today)
+  end
+
+  def edit; end
+
+  def create
+    call = HourlyRates::CreateService
+             .new(user: current_user)
+             .call(rate_params.merge(project_id: @project.id))
+
+    @rate = call.result
+
+    if call.success?
+      close_dialog_via_turbo_stream(HourlyRates::RateDialogComponent::DIALOG_ID)
+    else
+      update_via_turbo_stream(component: rate_form_component, status: :bad_request)
+    end
+
+    respond_with_turbo_streams
+  end
+
+  def update
+    call = HourlyRates::UpdateService
+             .new(user: current_user, model: @rate)
+             .call(rate_params)
+
+    @rate = call.result
+
+    if call.success?
+      close_dialog_via_turbo_stream(HourlyRates::RateDialogComponent::DIALOG_ID)
+    else
+      update_via_turbo_stream(component: rate_form_component, status: :bad_request)
+    end
+
+    respond_with_turbo_streams
   end
 
   private
+
+  def new_rate_url_for(principal)
+    return unless HourlyRates::BaseContract.can_manage?(user: current_user,
+                                                        principal_id: principal.id,
+                                                        project: @project)
+
+    new_projects_hourly_rate_path(project_id: @project, principal_id: principal.id)
+  end
+
+  def rate_form_component
+    HourlyRates::RateFormComponent.new(rate: @rate, form_url: rate_form_url)
+  end
+
+  def rate_form_url
+    if @rate.persisted?
+      hourly_rate_path(@rate)
+    else
+      projects_hourly_rates_path(project_id: @project)
+    end
+  end
+
+  def rate_params
+    params.expect(rate: %i[valid_from rate user_id])
+  end
+
+  def find_principal
+    @principal = Principal.with_rates.in_project(@project).find(params.expect(:principal_id))
+  end
+
+  def find_rate
+    @rate = HourlyRate.find(params.expect(:id))
+    @project = @rate.project
+    @principal = @rate.principal
+  end
+
+  def authorize_rate_management
+    deny_access unless HourlyRates::BaseContract.can_manage?(user: current_user,
+                                                             principal_id: @principal.id,
+                                                             project: @project)
+  end
 
   def find_project
     @project = Project.visible.find(params.expect(:project_id))

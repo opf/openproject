@@ -43,5 +43,41 @@ module HourlyRates
     def current
       checkmark(model == table.current_rate)
     end
+
+    def button_links
+      return [] unless table.manageable?
+
+      [action_menu]
+    end
+
+    private
+
+    def action_menu
+      render(Primer::Alpha::ActionMenu.new(test_selector: "rate-action-menu")) do |menu|
+        menu.with_show_button(icon: "kebab-horizontal", "aria-label": t(:label_more), scheme: :invisible)
+
+        with_item_group(menu) { edit_action_item(menu) }
+      end
+    end
+
+    def edit_action_item(menu)
+      menu.with_item(
+        content_arguments: { data: { controller: "async-dialog" } },
+        tag: :a,
+        label: t(:button_edit),
+        href: edit_path,
+        test_selector: "edit-rate-action"
+      ) do |item|
+        item.with_leading_visual_icon(icon: :pencil)
+      end
+    end
+
+    def edit_path
+      if model.is_a?(DefaultHourlyRate)
+        edit_default_hourly_rate_path(model)
+      else
+        edit_hourly_rate_path(model)
+      end
+    end
   end
 end

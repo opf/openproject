@@ -45,4 +45,4 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%= render(HourlyRates::TableComponent.new(rows: @rates, current_rate: @current_rate)) %>
+<%= render(HourlyRates::TableComponent.new(rows: @rates, current_rate: @current_rate, new_rate_url: @new_rate_url)) %>

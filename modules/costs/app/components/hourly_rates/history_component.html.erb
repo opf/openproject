@@ -1,10 +1,16 @@
 <%= flex_layout do |flex| %>
   <% flex.with_row(mb: 3) do %>
-    <%= render(Primer::OpenProject::CollapsibleSection.new(test_selector: "rate-history-default", collapsed: true)) do |section| %>
+    <%= render(Primer::OpenProject::CollapsibleSection.new(test_selector: "rate-history-default", collapsed: false)) do |section| %>
       <% section.with_title { User.human_attribute_name(:default_rates) } %>
       <% section.with_caption { default_caption } if default_caption %>
       <% section.with_collapsible_content do %>
-        <%= render(HourlyRates::TableComponent.new(rows: default_rates, current_rate: current_default_rate)) %>
+        <%= render(
+              HourlyRates::TableComponent.new(
+                rows: default_rates,
+                current_rate: current_default_rate,
+                new_rate_url: new_default_rate_url
+              )
+            ) %>
       <% end %>
     <% end %>
   <% end %>
@@ -16,7 +22,13 @@
         <% section.with_title { project.name } %>
         <% section.with_caption { caption } if caption %>
         <% section.with_collapsible_content do %>
-          <%= render(HourlyRates::TableComponent.new(rows: rates, current_rate: current_rate_for(project))) %>
+          <%= render(
+                HourlyRates::TableComponent.new(
+                  rows: rates,
+                  current_rate: current_rate_for(project),
+                  new_rate_url: new_project_rate_url(project)
+                )
+              ) %>
         <% end %>
       <% end %>
     <% end %>
