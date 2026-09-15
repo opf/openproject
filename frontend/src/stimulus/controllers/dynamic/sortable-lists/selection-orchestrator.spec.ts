@@ -40,10 +40,13 @@ describe('SelectionOrchestrator', () => {
   // the real platform helper baked in.
   let SelectionOrchestrator:typeof import('./selection-orchestrator').SelectionOrchestrator;
   let batchSelectedAttribute:string;
+  let orderedItemElements:typeof import('./selection').orderedItemElements;
+  let resolveItemId:typeof import('./list-dom').resolveItemId;
 
   beforeAll(async () => {
     ({ SelectionOrchestrator } = await import('./selection-orchestrator'));
-    ({ batchSelectedAttribute } = await import('./selection'));
+    ({ batchSelectedAttribute, orderedItemElements } = await import('./selection'));
+    ({ resolveItemId } = await import('./list-dom'));
   });
 
   let root:HTMLElement;
@@ -136,6 +139,9 @@ describe('SelectionOrchestrator', () => {
   const item = (id:string) => itemOfType('work_package', id);
   const sectionItem = (id:string) => itemOfType('section', id);
   const isSelected = (element:HTMLElement) => element.hasAttribute(batchSelectedAttribute);
+  const selectedIds = (scope:HTMLElement = root) => orderedItemElements(scope)
+    .filter(isSelected)
+    .map((element) => resolveItemId(element));
   const clickOn = (element:HTMLElement, init:MouseEventInit = {}) => {
     const event = new MouseEvent('click', { bubbles: true, cancelable: true, ...init });
     Object.defineProperty(event, 'target', { value: element });
@@ -154,7 +160,7 @@ describe('SelectionOrchestrator', () => {
     orchestrator.handleClick(clickOn(item('1')));
 
     expect(isSelected(item('1'))).toBe(true);
-    expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['1']);
+    expect(selectedIds()).toEqual(['1']);
   });
 
   it('repairs stripped presentation during reconciliation without a membership change', () => {
@@ -190,7 +196,7 @@ describe('SelectionOrchestrator', () => {
     orchestrator.handleClick(clickOn(item('1')));
     orchestrator.handleClick(clickOn(item('3'), { shiftKey: true }));
 
-    expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['1', '2', '3']);
+    expect(selectedIds()).toEqual(['1', '2', '3']);
   });
 
   it.each(['mouse', 'keyboard'] as const)('preserves independent selection when resizing with %s', (input) => {
@@ -207,30 +213,30 @@ describe('SelectionOrchestrator', () => {
     gesture('4');
     gesture('2');
     gesture('3', true);
-    expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['2', '3', '4']);
+    expect(selectedIds()).toEqual(['2', '3', '4']);
     expect(isSelected(item('4'))).toBe(true);
 
     orchestrator.reconcile();
     gesture('2', true);
-    expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['2', '4']);
+    expect(selectedIds()).toEqual(['2', '4']);
     expect(isSelected(item('3'))).toBe(false);
 
     gesture('1', true);
-    expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['1', '2', '4']);
+    expect(selectedIds()).toEqual(['1', '2', '4']);
   });
 
   it.each(['mouse', 'keyboard'] as const)('narrows select-all with %s while replacing picks outside the list', (input) => {
     const orchestrator = new SelectionOrchestrator(hostFor(root));
     orchestrator.handleClick(clickOn(item('4'), { ctrlKey: true }));
     orchestrator.handleKeydown(keydownOn(item('2'), 'a', { ctrlKey: true }));
-    expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['1', '2', '3']);
+    expect(selectedIds()).toEqual(['1', '2', '3']);
 
     if (input === 'mouse') {
       orchestrator.handleClick(clickOn(item('3'), { shiftKey: true }));
     } else {
       orchestrator.handleKeydown(keydownOn(item('3'), ' ', { shiftKey: true }));
     }
-    expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['2', '3']);
+    expect(selectedIds()).toEqual(['2', '3']);
     expect(isSelected(item('1'))).toBe(false);
     expect(isSelected(item('4'))).toBe(false);
   });
@@ -249,21 +255,21 @@ describe('SelectionOrchestrator', () => {
     gesture('1');
     gesture('3');
     gesture('5', true);
-    expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['1', '3', '4', '5']);
+    expect(selectedIds()).toEqual(['1', '3', '4', '5']);
     gesture('4', true);
-    expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['1', '3', '4']);
+    expect(selectedIds()).toEqual(['1', '3', '4']);
     gesture('2', true);
-    expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['1', '2', '3']);
+    expect(selectedIds()).toEqual(['1', '2', '3']);
 
     const removed = item('1');
     removed.remove();
     orchestrator.reconcile();
     gesture('4', true);
-    expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['3', '4']);
+    expect(selectedIds()).toEqual(['3', '4']);
     item('2').before(removed);
     orchestrator.reconcile();
     gesture('5', true);
-    expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['3', '4', '5']);
+    expect(selectedIds()).toEqual(['3', '4', '5']);
     expect(isSelected(removed)).toBe(false);
   });
 
@@ -283,7 +289,7 @@ describe('SelectionOrchestrator', () => {
 
     orchestrator.handleClick(clickOn(item('1')));
 
-    expect(orchestrator.selectedItems().map((i) => i.id)).toEqual([]);
+    expect(selectedIds()).toEqual([]);
   });
 
   it('clears presentation without disturbing the model', () => {
@@ -293,7 +299,11 @@ describe('SelectionOrchestrator', () => {
     orchestrator.clearPresentation();
 
     expect(isSelected(item('1'))).toBe(false);
-    expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['1']);
+    expect(orchestrator.hasSelection).toBe(true);
+
+    orchestrator.reconcile();
+
+    expect(selectedIds()).toEqual(['1']);
   });
 
   // Falling through mid-move would open the details pane on a card the batch
@@ -307,7 +317,7 @@ describe('SelectionOrchestrator', () => {
     orchestrator.handleClick(event);
 
     expect(event.defaultPrevented).toBe(true);
-    expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['1']);
+    expect(selectedIds()).toEqual(['1']);
   });
 
   // Both roots listen at the document; the first to clear consumes the key,
@@ -329,8 +339,8 @@ describe('SelectionOrchestrator', () => {
       secondRoot.remove();
     }
 
-    expect(first.selectedItems().map((i) => i.id)).toEqual([]);
-    expect(second.selectedItems().map((i) => i.id)).toEqual([]);
+    expect(selectedIds(root)).toEqual([]);
+    expect(selectedIds(secondRoot)).toEqual([]);
   });
 
   it('still leaves an Escape an overlay consumed alone', () => {
@@ -342,7 +352,7 @@ describe('SelectionOrchestrator', () => {
 
     orchestrator.handleEscape(event);
 
-    expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['1']);
+    expect(selectedIds()).toEqual(['1']);
   });
 
   describe('announcements', () => {
@@ -358,7 +368,7 @@ describe('SelectionOrchestrator', () => {
 
       orchestrator.handleClick(clickOn(item('1'), { shiftKey: true }));
 
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['1', '2']);
+      expect(selectedIds()).toEqual(['1', '2']);
       expect(spoken()).toEqual(['[selected:2]']);
     });
 
@@ -372,7 +382,7 @@ describe('SelectionOrchestrator', () => {
 
       orchestrator.handleClick(clickOn(item('2'), { shiftKey: true }));
 
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['2']);
+      expect(selectedIds()).toEqual(['2']);
       expect(spoken()).toEqual([]);
     });
 
@@ -383,7 +393,7 @@ describe('SelectionOrchestrator', () => {
 
       orchestrator.handleClick(clickOn(item('1')));
 
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['1']);
+      expect(selectedIds()).toEqual(['1']);
       expect(spoken()).toEqual([]);
     });
 
@@ -395,7 +405,7 @@ describe('SelectionOrchestrator', () => {
 
       orchestrator.handleClick(clickOn(item('2')));
 
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual([]);
+      expect(selectedIds()).toEqual([]);
       expect(spoken()).toEqual([]);
     });
 
@@ -406,7 +416,7 @@ describe('SelectionOrchestrator', () => {
 
       orchestrator.handleClick(clickOn(item('2')));
 
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['2']);
+      expect(selectedIds()).toEqual(['2']);
       expect(spoken()).toEqual([]);
     });
 
@@ -440,7 +450,7 @@ describe('SelectionOrchestrator', () => {
       orchestrator.handleKeydown(keydownOn(item('1'), 'ArrowDown', { shiftKey: true }));
 
       expect(focused).toBe(item('2'));
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['1']);
+      expect(selectedIds()).toEqual(['1']);
     });
 
     // Consuming the key with nothing to select would block the browser's own
@@ -454,7 +464,7 @@ describe('SelectionOrchestrator', () => {
       orchestrator.handleKeydown(event);
 
       expect(event.defaultPrevented).toBe(false);
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual([]);
+      expect(selectedIds()).toEqual([]);
     });
 
     it('still consumes Ctrl/Cmd+A when there is something to select', () => {
@@ -464,7 +474,7 @@ describe('SelectionOrchestrator', () => {
       orchestrator.handleKeydown(event);
 
       expect(event.defaultPrevented).toBe(true);
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['1', '2', '3']);
+      expect(selectedIds()).toEqual(['1', '2', '3']);
     });
 
     it('anchors select-all inside the list when the focused card is fixed', () => {
@@ -473,11 +483,11 @@ describe('SelectionOrchestrator', () => {
 
       orchestrator.handleKeydown(keydownOn(item('1'), 'a', { ctrlKey: true }));
 
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['2', '3']);
+      expect(selectedIds()).toEqual(['2', '3']);
       // The fallback anchor is the first orderable card of the same list, so
       // a follow-up Shift ranges within it rather than from another list.
       orchestrator.handleKeydown(keydownOn(item('3'), ' ', { shiftKey: true }));
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['2', '3']);
+      expect(selectedIds()).toEqual(['2', '3']);
     });
 
     // Select all binds to the platform's one multi-select modifier: ⌘ on
@@ -490,7 +500,7 @@ describe('SelectionOrchestrator', () => {
       orchestrator.handleKeydown(event);
 
       expect(event.defaultPrevented).toBe(true);
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['1', '2', '3']);
+      expect(selectedIds()).toEqual(['1', '2', '3']);
     });
 
     it('leaves Ctrl+A alone on Apple platforms', () => {
@@ -501,7 +511,7 @@ describe('SelectionOrchestrator', () => {
       orchestrator.handleKeydown(event);
 
       expect(event.defaultPrevented).toBe(false);
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual([]);
+      expect(selectedIds()).toEqual([]);
     });
 
     it('leaves Meta+A alone off Apple platforms', () => {
@@ -511,7 +521,7 @@ describe('SelectionOrchestrator', () => {
       orchestrator.handleKeydown(event);
 
       expect(event.defaultPrevented).toBe(false);
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual([]);
+      expect(selectedIds()).toEqual([]);
     });
 
     // Non-Latin layouts print another letter on the A key; AZERTY prints A
@@ -523,7 +533,7 @@ describe('SelectionOrchestrator', () => {
       orchestrator.handleKeydown(event);
 
       expect(event.defaultPrevented).toBe(true);
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['1', '2', '3']);
+      expect(selectedIds()).toEqual(['1', '2', '3']);
     });
 
     it('selects all from the A key of an AZERTY layout', () => {
@@ -532,7 +542,7 @@ describe('SelectionOrchestrator', () => {
 
       orchestrator.handleKeydown(event);
 
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['1', '2', '3']);
+      expect(selectedIds()).toEqual(['1', '2', '3']);
     });
 
     it('leaves Ctrl+Q alone on an AZERTY layout although it sits on KeyA', () => {
@@ -542,7 +552,7 @@ describe('SelectionOrchestrator', () => {
       orchestrator.handleKeydown(event);
 
       expect(event.defaultPrevented).toBe(false);
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual([]);
+      expect(selectedIds()).toEqual([]);
     });
 
     // Non-Latin keys throughout, so that only the guard under test, never
@@ -561,7 +571,7 @@ describe('SelectionOrchestrator', () => {
       orchestrator.handleKeydown(event);
 
       expect(event.defaultPrevented).toBe(false);
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual([]);
+      expect(selectedIds()).toEqual([]);
     });
 
     // Stubbed rather than passed as `modifierAltGraph`: not every engine maps
@@ -574,7 +584,7 @@ describe('SelectionOrchestrator', () => {
       orchestrator.handleKeydown(event);
 
       expect(event.defaultPrevented).toBe(false);
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual([]);
+      expect(selectedIds()).toEqual([]);
     });
 
     // With nothing selectable in this list, the browser's own select-all
@@ -588,7 +598,7 @@ describe('SelectionOrchestrator', () => {
       orchestrator.handleKeydown(event);
 
       expect(event.defaultPrevented).toBe(false);
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual([]);
+      expect(selectedIds()).toEqual([]);
     });
 
     // Holding Space would otherwise toggle the card over and over.
@@ -598,7 +608,7 @@ describe('SelectionOrchestrator', () => {
 
       orchestrator.handleKeydown(keydownOn(item('1'), ' ', { repeat: true }));
 
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['1']);
+      expect(selectedIds()).toEqual(['1']);
     });
 
     it('refuses to extend a range onto a fixed card', () => {
@@ -608,7 +618,7 @@ describe('SelectionOrchestrator', () => {
       orchestrator.handleKeydown(keydownOn(item('1'), 'ArrowDown', { shiftKey: true }));
 
       expect(isSelected(item('2'))).toBe(false);
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual([]);
+      expect(selectedIds()).toEqual([]);
     });
 
     it('refuses to extend a range over a fixed card', () => {
@@ -619,7 +629,7 @@ describe('SelectionOrchestrator', () => {
 
       orchestrator.handleClick(clickOn(item('3'), { shiftKey: true }));
 
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['1']);
+      expect(selectedIds()).toEqual(['1']);
       expect(isSelected(item('3'))).toBe(false);
       expect(announceSpy.mock.calls.map((call) => call[0])).toEqual(['[range_blocked]']);
     });
@@ -639,7 +649,7 @@ describe('SelectionOrchestrator', () => {
       const event = clickOn(item('2'), { ctrlKey: true, ...extra });
       orchestrator.handleClick(event);
 
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['1']);
+      expect(selectedIds()).toEqual(['1']);
       expect(isSelected(item('2'))).toBe(false);
       expect(event.defaultPrevented).toBe(false);
     });
@@ -651,7 +661,7 @@ describe('SelectionOrchestrator', () => {
 
       orchestrator.handleClick(clickOn(item('2'), { ctrlKey: true }));
 
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['1', '2']);
+      expect(selectedIds()).toEqual(['1', '2']);
     });
 
     // Meta is not an alternate multi-select modifier off Apple platforms: a
@@ -663,7 +673,7 @@ describe('SelectionOrchestrator', () => {
 
       orchestrator.handleClick(clickOn(item('2'), { metaKey: true }));
 
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['2']);
+      expect(selectedIds()).toEqual(['2']);
     });
   });
 
@@ -679,7 +689,7 @@ describe('SelectionOrchestrator', () => {
     orchestrator.reconcile();
     orchestrator.handleClick(clickOn(item('4'), { shiftKey: true }));
 
-    expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['1', '4']);
+    expect(selectedIds()).toEqual(['1', '4']);
   });
 
   describe('one batch, one item type', () => {
@@ -701,7 +711,7 @@ describe('SelectionOrchestrator', () => {
 
       orchestrator.handleClick(clickOn(sectionItem('1'), { ctrlKey: true }));
 
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['1']);
+      expect(selectedIds()).toEqual(['1']);
       expect(isSelected(sectionItem('1'))).toBe(true);
       expect(isSelected(item('1'))).toBe(false);
     });
@@ -725,7 +735,7 @@ describe('SelectionOrchestrator', () => {
 
       orchestrator.handleKeydown(event);
 
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['1']);
+      expect(selectedIds()).toEqual(['1']);
       expect(isSelected(sectionItem('1'))).toBe(true);
       expect(isSelected(item('2'))).toBe(false);
     });
@@ -741,7 +751,7 @@ describe('SelectionOrchestrator', () => {
       orchestrator.reconcile();
       orchestrator.handleClick(clickOn(item('4'), { shiftKey: true }));
 
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['1', '4']);
+      expect(selectedIds()).toEqual(['1', '4']);
     });
   });
 
@@ -753,7 +763,7 @@ describe('SelectionOrchestrator', () => {
 
     orchestrator.reconcile();
 
-    expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['2']);
+    expect(selectedIds()).toEqual(['2']);
     expect(announceSpy).toHaveBeenCalled();
   });
 
@@ -766,9 +776,9 @@ describe('SelectionOrchestrator', () => {
       const scope = orchestrator.actionScopeFor(item('3'));
 
       expect(scope).toEqual({ kind: 'batch', items: [item('1'), item('3')] });
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['1', '3']);
+      expect(selectedIds()).toEqual(['1', '3']);
       orchestrator.handleClick(clickOn(item('1'), { shiftKey: true }));
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['1', '2', '3']);
+      expect(selectedIds()).toEqual(['1', '2', '3']);
     });
 
     it('reports an unselected orderable card alone without selecting it', () => {
@@ -787,7 +797,7 @@ describe('SelectionOrchestrator', () => {
       const scope = orchestrator.selectForAction(item('3'));
 
       expect(scope).toEqual({ kind: 'batch', items: [item('3')] });
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['3']);
+      expect(selectedIds()).toEqual(['3']);
     });
 
     // A drag with nothing selected selects the dragged card: cancelling the
@@ -796,7 +806,7 @@ describe('SelectionOrchestrator', () => {
       const orchestrator = new SelectionOrchestrator(hostFor(root));
 
       expect(orchestrator.selectForAction(item('2'))).toEqual({ kind: 'batch', items: [item('2')] });
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['2']);
+      expect(selectedIds()).toEqual(['2']);
     });
 
     it('keeps the selected batch for an action on a member', () => {
@@ -805,7 +815,7 @@ describe('SelectionOrchestrator', () => {
       orchestrator.handleClick(clickOn(item('3'), { ctrlKey: true }));
 
       expect(orchestrator.selectForAction(item('1')).items).toEqual([item('1'), item('3')]);
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['1', '3']);
+      expect(selectedIds()).toEqual(['1', '3']);
     });
 
     it('refuses a fixed card without disturbing the batch', () => {
@@ -814,7 +824,7 @@ describe('SelectionOrchestrator', () => {
       orchestrator.handleClick(clickOn(item('1')));
 
       expect(orchestrator.selectForAction(item('3'))).toEqual({ kind: 'refused', items: [] });
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['1']);
+      expect(selectedIds()).toEqual(['1']);
     });
 
     it('stays silent when it selects a card with nothing selected', () => {
@@ -835,7 +845,7 @@ describe('SelectionOrchestrator', () => {
       orchestrator.selectForAction(item('2'));
 
       expect(announceSpy).not.toHaveBeenCalled();
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['2']);
+      expect(selectedIds()).toEqual(['2']);
     });
 
     it('announces the collapse of a wider batch', () => {
@@ -860,7 +870,7 @@ describe('SelectionOrchestrator', () => {
       orchestrator.handleClick(clickOn(item('3'), { ctrlKey: true }));
 
       expect(orchestrator.collapseForAction(item('1'))).toEqual({ kind: 'batch', items: [item('1')] });
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['1']);
+      expect(selectedIds()).toEqual(['1']);
     });
 
     it('collapses a wider batch onto a card outside it', () => {
@@ -869,14 +879,14 @@ describe('SelectionOrchestrator', () => {
       orchestrator.handleClick(clickOn(item('2'), { ctrlKey: true }));
 
       expect(orchestrator.collapseForAction(item('3')).items).toEqual([item('3')]);
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['3']);
+      expect(selectedIds()).toEqual(['3']);
     });
 
     it('leaves an empty selection empty', () => {
       const orchestrator = new SelectionOrchestrator(hostFor(root));
 
       expect(orchestrator.collapseForAction(item('2')).items).toEqual([item('2')]);
-      expect(orchestrator.selectedItems()).toEqual([]);
+      expect(orchestrator.hasSelection).toBe(false);
     });
 
     it('refuses a fixed card without disturbing the batch', () => {
@@ -885,7 +895,7 @@ describe('SelectionOrchestrator', () => {
       orchestrator.handleClick(clickOn(item('1')));
 
       expect(orchestrator.collapseForAction(item('3'))).toEqual({ kind: 'refused', items: [] });
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['1']);
+      expect(selectedIds()).toEqual(['1']);
     });
 
     it('announces the collapse of a wider batch', () => {
@@ -918,7 +928,7 @@ describe('SelectionOrchestrator', () => {
 
       orchestrator.clearSilently();
 
-      expect(orchestrator.selectedItems()).toEqual([]);
+      expect(orchestrator.hasSelection).toBe(false);
       expect(isSelected(item('1'))).toBe(false);
       expect(announceSpy).not.toHaveBeenCalled();
 
@@ -937,7 +947,7 @@ describe('SelectionOrchestrator', () => {
       orchestrator.clearSilently();
       orchestrator.handleClick(clickOn(item('3'), { shiftKey: true }));
 
-      expect(orchestrator.selectedItems().map((i) => i.id)).toEqual(['3']);
+      expect(selectedIds()).toEqual(['3']);
     });
 
     it('is a no-op with nothing selected', () => {

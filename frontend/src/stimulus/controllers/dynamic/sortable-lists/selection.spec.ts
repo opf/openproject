@@ -36,7 +36,6 @@ import {
   neighbourItem,
   orderedItemElements,
   orderedSelectedItemElements,
-  orderedSelectedItems,
   resolveCandidate,
   resolveRangeItems,
 } from './selection';
@@ -184,12 +183,6 @@ describe('sortable-lists selection adapter', () => {
 
     expect(resolveCandidate(root, inner)).toBeNull();
     expect(orderedItemElements(root)).not.toContain(inner);
-  });
-
-  it('orders selected items by live document order across lists', () => {
-    const keys = new Set(['4', '1', '3'].map((id) => selectionKey({ type: 'work_package', id })));
-
-    expect(orderedSelectedItems(root, keys).map((item) => item.id)).toEqual(['1', '3', '4']);
   });
 
   it('returns selected item elements in live document order', () => {

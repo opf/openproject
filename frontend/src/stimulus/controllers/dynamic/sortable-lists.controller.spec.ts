@@ -2340,8 +2340,8 @@ describe('Sortable lists controller', () => {
       expect(announceSpy).not.toHaveBeenCalled();
     });
 
-    // selectedItems() filters to elements still in the document, so it would
-    // pass even with the model unpruned. The anchor is the one place an
+    // Rendered selection covers only elements still in the document, so it
+    // would pass even with the model unpruned. The anchor is the one place an
     // unpruned model is observable: a dangling one makes the Shift+click
     // below report an unavailable range instead of restarting the selection.
     it('drops a removed member and its stale anchor from the model', async () => {

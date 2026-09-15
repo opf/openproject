@@ -133,14 +133,6 @@ export function resolveCandidate(root:HTMLElement, target:EventTarget|null):Sele
   };
 }
 
-// Live document order: a morph can reorder rows underneath a selection formed
-// minutes ago.
-export function orderedSelectedItems(root:HTMLElement, keys:ReadonlySet<SelectionKey>):SelectionItem[] {
-  return orderedItemElements(root)
-    .map((item) => itemIdentity(item))
-    .filter((item):item is SelectionItem => item !== null && keys.has(selectionKey(item)));
-}
-
 export function itemIdentity(itemElement:Element):SelectionItem|null {
   const id = resolveItemId(itemElement);
   const type = resolveItemType(itemElement);

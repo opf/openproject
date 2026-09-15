@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { BatchSelection, type SelectionAnchor, type SelectionItem, type SelectionKey } from 'core-common/batch-selection';
+import { BatchSelection, type SelectionAnchor, type SelectionKey } from 'core-common/batch-selection';
 import { announce } from '@primer/live-region-element';
 import { resolveItemId, resolveItemType } from './list-dom';
 import {
@@ -37,7 +37,6 @@ import {
   neighbourItem,
   orderedItemElements,
   orderedSelectedItemElements,
-  orderedSelectedItems,
   resolveCandidate,
   resolveRangeItems,
   type SelectionCandidate,
@@ -64,9 +63,10 @@ export type ActionScope =
   | { kind:'batch'; items:HTMLElement[] }
   | { kind:'refused'; items:[] };
 
-// What resolving an action scope does to the selection: nothing, add the
-// card to it, or replace it with the card alone.
-type ScopeMutation = 'none'|'join'|'collapse';
+// What resolving an action scope does to the selection: nothing, replace it
+// with the card alone only when the card is outside it, or replace it
+// unconditionally.
+type ScopeMutation = 'none'|'replace-if-unselected'|'replace';
 
 /**
  * Batch selection: gestures in, model and presentation out.
@@ -97,12 +97,6 @@ export class SelectionOrchestrator {
 
   constructor(private readonly host:SelectionHost) {}
 
-  // Live ordered membership. Full (type, id) pairs: ids collide across
-  // source tables.
-  selectedItems():SelectionItem[] {
-    return orderedSelectedItems(this.host.rootElement, this.selection.keys);
-  }
-
   get hasSelection():boolean {
     return this.selection.size > 0;
   }
@@ -118,7 +112,7 @@ export class SelectionOrchestrator {
   // Same, but an unselected orderable card becomes the selection first, so
   // a drag or a menu action on it leaves one consistent state behind.
   selectForAction(itemElement:HTMLElement):ActionScope {
-    return this.resolveActionScope(itemElement, 'join');
+    return this.resolveActionScope(itemElement, 'replace-if-unselected');
   }
 
   // A menu action relocates exactly this card, so a wider batch collapses
@@ -126,7 +120,7 @@ export class SelectionOrchestrator {
   // selection where the user made none: a failed move would otherwise leave
   // that card selected.
   collapseForAction(itemElement:HTMLElement):ActionScope {
-    return this.resolveActionScope(itemElement, this.hasSelection ? 'collapse' : 'none');
+    return this.resolveActionScope(itemElement, this.hasSelection ? 'replace' : 'none');
   }
 
   private resolveActionScope(itemElement:HTMLElement, mutation:ScopeMutation):ActionScope {
@@ -136,10 +130,12 @@ export class SelectionOrchestrator {
     }
 
     const key = { type: candidate.type, id: candidate.id };
-    if (mutation === 'collapse' || (mutation === 'join' && !this.selection.has(key))) {
+    if (mutation === 'replace' || (mutation === 'replace-if-unselected' && !this.selection.has(key))) {
       this.selection.replace(key, candidate.listKey);
-      // Speaks only when a wider batch actually collapsed: selecting the
-      // card a gesture landed on is not a loss the user needs read back.
+      // Painted now, not once the drag starts, so the page never shows a
+      // batch the drag no longer contains. Speaks only when a wider batch
+      // actually collapsed: selecting the card a gesture landed on is not a
+      // loss the user needs read back.
       this.renderSelection('navigation');
     }
 
