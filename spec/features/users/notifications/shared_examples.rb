@@ -123,6 +123,28 @@ RSpec.shared_examples "notification settings workflow" do
       expect(page).to have_no_css(".ng-option", text: project.name)
     end
 
+    it_behaves_like "a project picker searchable by identifier" do
+      # Membership is required for the autocompleter to offer these projects at
+      # all when the logged-in user is not an admin (as in "as a regular user").
+      let(:target_project) do
+        create(:project, name: "Alpha Initiative", identifier: "zulu-target", members: { user => role })
+      end
+      # A project without notification settings of its own, so that it is
+      # offered by the autocompleter unless the search filters it out.
+      let(:control_project) do
+        create(:project, name: "Beta Initiative", identifier: "yankee-other", members: { user => role })
+      end
+
+      before do
+        click_link "Add project-specific notifications"
+      end
+
+      def search_project(query)
+        container = page.find('[data-test-selector="my-notifications-project-autocompleter"] ng-select')
+        settings_page.search_autocomplete container, query:, results_selector: "body"
+      end
+    end
+
     it "deletes project-specific notification settings without a routing error" do
       create(:notification_setting, user:, project:)
       settings_page.visit!
