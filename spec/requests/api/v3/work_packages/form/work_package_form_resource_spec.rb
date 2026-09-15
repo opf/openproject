@@ -817,7 +817,6 @@ RSpec.describe "API v3 Work package form resource" do
                 let(:params) { valid_params.merge(cf_param) }
 
                 before do
-                  project.work_package_custom_fields << custom_field
                   project.save!
                   work_package.type.default_variant.custom_fields << custom_field
                   work_package.save!
@@ -837,7 +836,6 @@ RSpec.describe "API v3 Work package form resource" do
                          field_format: "string",
                          name: "Department",
                          is_required: true,
-                         projects: [project],
                          types: [work_package.type])
                 end
 

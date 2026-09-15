@@ -156,7 +156,6 @@ RSpec.describe "POST api/v3/workspaces/:id/work_packages/form" do
                field_format: "string",
                name: "Department",
                is_required: true,
-               projects: [project],
                types: [type])
       end
 

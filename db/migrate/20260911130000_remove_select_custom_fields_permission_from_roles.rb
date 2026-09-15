@@ -28,27 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module CustomFields
-  module CustomFieldProjects
-    class BaseContract < ::ModelContract
-      attribute :project_id
-      attribute :custom_field_id
-
-      validate :select_custom_fields_permission
-      validate :not_for_all
-
-      def select_custom_fields_permission
-        return if user.allowed_in_project?(:select_custom_fields, model.project)
-
-        errors.add :base, :error_unauthorized
-      end
-
-      def not_for_all
-        # Only mappings of custom fields which are not enabled for all projects can be manipulated by the user
-        return if model.custom_field.nil? || !model.custom_field.is_for_all?
-
-        errors.add :custom_field_id, :is_for_all_cannot_modify
-      end
-    end
+class RemoveSelectCustomFieldsPermissionFromRoles < ActiveRecord::Migration[8.0]
+  def up
+    RolePermission.delete_by(permission: "select_custom_fields")
   end
 end

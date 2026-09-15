@@ -1356,10 +1356,6 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
 
       before do
-        allow(work_package.project)
-          .to receive(:all_work_package_custom_fields)
-          .and_return []
-
         setup
 
         original_cache_key

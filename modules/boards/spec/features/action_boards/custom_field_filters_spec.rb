@@ -92,7 +92,6 @@ RSpec.describe "Custom field filter in boards",
       name: "Ingredients",
       multi_value: true,
       types: [type],
-      projects: [project],
       possible_values: %w[A B C]
     )
   end

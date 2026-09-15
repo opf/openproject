@@ -31,6 +31,18 @@
 require "spec_helper"
 
 RSpec.describe WorkPackageTypes::BuildVariantFromProjectService do
+  def activate_in(project, *custom_fields)
+    custom_fields.each do |custom_field|
+      ApplicationRecord.connection.execute(
+        ApplicationRecord.sanitize_sql_array(
+          ["INSERT INTO custom_fields_projects (project_id, custom_field_id) VALUES (?, ?)",
+           project.id, custom_field.id]
+        )
+      )
+    end
+    project
+  end
+
   shared_let(:admin) { create(:admin) }
 
   let(:kept_field) { create(:work_package_custom_field, is_for_all: false) }
@@ -46,7 +58,7 @@ RSpec.describe WorkPackageTypes::BuildVariantFromProjectService do
   let(:source) { type.default_variant }
 
   let!(:project) do
-    create(:project, name: "Website Relaunch", work_package_custom_fields: [kept_field])
+    activate_in(create(:project, name: "Website Relaunch"), kept_field)
   end
 
   let(:form_configuration) { TypeVariant::FORM_CONFIGURATION }
@@ -150,7 +162,7 @@ RSpec.describe WorkPackageTypes::BuildVariantFromProjectService do
 
   context "when the project enables every custom field the type configures" do
     let(:project) do
-      create(:project, name: "Website Relaunch", work_package_custom_fields: [kept_field, dropped_field])
+      activate_in(create(:project, name: "Website Relaunch"), kept_field, dropped_field)
     end
 
     it "returns the variant unchanged without creating another" do

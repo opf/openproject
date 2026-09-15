@@ -321,7 +321,6 @@ RSpec.describe Projects::CreationWizard::CreateArtifactWorkPackageService do
                field_format: "string",
                name: "Required Field",
                is_required: true,
-               projects: [project],
                types: [type])
       end
 

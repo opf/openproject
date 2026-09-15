@@ -60,8 +60,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   shared_let(:project) do
     create(:project,
            name: "Foo Bla. Report No. 4/2021 with/for Case 42",
-           types:,
-           work_package_custom_fields: [list_custom_field, text_custom_field_a, text_custom_field_b, link_custom_field])
+           types:)
   end
   shared_let(:user) do
     create(:user,
@@ -344,7 +343,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
 
     describe "grouped by a hierarchy custom field", with_ee: %i[custom_field_hierarchies] do
       let!(:hierarchy_custom_field) do
-        create(:hierarchy_wp_custom_field, name: "Location", types: [type_task, type_bug], projects: [project])
+        create(:hierarchy_wp_custom_field, name: "Location", types: [type_task, type_bug])
       end
       let!(:hierarchy_items) do
         service = CustomFields::Hierarchy::HierarchicalItemService.new
@@ -399,7 +398,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
 
     describe "grouped by a multi value hierarchy custom field with sums", with_ee: %i[custom_field_hierarchies] do
       let!(:multi_hierarchy_custom_field) do
-        create(:multi_hierarchy_wp_custom_field, name: "Locations", types: [type_task, type_bug], projects: [project])
+        create(:multi_hierarchy_wp_custom_field, name: "Locations", types: [type_task, type_bug])
       end
       let!(:multi_hierarchy_items) do
         service = CustomFields::Hierarchy::HierarchicalItemService.new

@@ -196,7 +196,7 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
           end
 
           let!(:custom_field) do
-            create(:hierarchy_wp_custom_field, projects: [project], types: [wp_type], hierarchy_root: nil).tap do |cf|
+            create(:hierarchy_wp_custom_field, types: [wp_type], hierarchy_root: nil).tap do |cf|
               service.generate_root(cf).value!
               cf.reload
             end
