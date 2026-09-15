@@ -251,11 +251,13 @@ describe('autocompleter', () => {
     });
 
     it('should recover and keep loading results after a lookup fails', () => {
+      const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+      const lookupError = new Error('backend rejected the query');
       vi.useFakeTimers();
       try {
         getOptionsFnSpy.mockImplementation((searchTerm:string) => {
           if (searchTerm === 'bad') {
-            return throwError(() => new Error('backend rejected the query'));
+            return throwError(() => lookupError);
           }
 
           return of(workPackagesStub).pipe(map((wps) => wps.filter((wp) => searchTerm !== '' && wp.subject.includes(searchTerm))));
@@ -279,6 +281,7 @@ describe('autocompleter', () => {
         fixture.detectChanges();
 
         expect(getOptionsFnSpy).toHaveBeenCalledWith('bad');
+        expect(consoleError).toHaveBeenCalledWith(lookupError);
         expect(select.itemsList.items.length).toEqual(0);
 
         inputElement.value = 'Wor';
