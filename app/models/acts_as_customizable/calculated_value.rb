@@ -92,7 +92,7 @@ module ActsAsCustomizable::CalculatedValue
 
       custom_field_values(all: true)
         .select { it.custom_field_id.in?(given_ids) }
-        .to_h { [it.custom_field.column_name, it.typed_value] }
+        .to_h { [it.custom_field.column_name, as_number(it.typed_value)] }
     end
 
     def calculated_value_fields_to_compute(custom_fields:, enabled_ids:)
@@ -129,6 +129,15 @@ module ActsAsCustomizable::CalculatedValue
         given_values: given_cfs,
         calculated_fields: enabled_calculated_fields
       )
+    end
+
+    def as_number(value)
+      case value
+      when CustomField::Hierarchy::Item
+        value.weight
+      else
+        value
+      end
     end
   end
 end
