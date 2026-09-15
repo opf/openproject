@@ -171,13 +171,4 @@ RSpec.describe TypeVariant::ConfigurationLinkable, "form configuration exclusion
       expect(query_group_of(owner).query).to eq(query)
     end
   end
-
-  context "with the flag off", with_flag: { type_variants: false } do
-    it "resolves links and exclusions the same" do
-      expect(groups_of(leaf)).to eq(
-        "details" => [field_b.attribute_name],
-        "people" => [field_c.attribute_name]
-      )
-    end
-  end
 end

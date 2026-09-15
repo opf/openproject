@@ -99,4 +99,61 @@ RSpec.describe HourlyRate do
       expect(history[nil]).to contain_exactly(default_rate)
     end
   end
+
+  describe ".at_date_for_user_in_project" do
+    shared_let(:rated_user) { create(:user) }
+    shared_let(:grandparent) { create(:project) }
+    shared_let(:parent) { create(:project, parent: grandparent) }
+    shared_let(:child) { create(:project, parent:) }
+
+    let(:date) { Date.new(2026, 6, 1) }
+
+    subject(:found) { described_class.at_date_for_user_in_project(date, rated_user, child) }
+
+    it "prefers the project's own rate over an ancestor's, even a newer one" do
+      own = create(:hourly_rate, user: rated_user, project: child, valid_from: 2.years.ago, rate: 10)
+      create(:hourly_rate, user: rated_user, project: parent, valid_from: 1.day.ago, rate: 99)
+
+      expect(found).to eq(own)
+    end
+
+    it "falls back to the closest rated ancestor" do
+      create(:hourly_rate, user: rated_user, project: grandparent, valid_from: 2.years.ago, rate: 10)
+      closest = create(:hourly_rate, user: rated_user, project: parent, valid_from: 2.years.ago, rate: 20)
+
+      expect(found).to eq(closest)
+    end
+
+    it "ignores rates that are not in effect yet" do
+      in_effect = create(:hourly_rate, user: rated_user, project: child, valid_from: 2.years.ago, rate: 10)
+      create(:hourly_rate, user: rated_user, project: child, valid_from: date + 1, rate: 99)
+
+      expect(found).to eq(in_effect)
+    end
+
+    it "falls back to the default rate when no project in the hierarchy is rated" do
+      default = create(:default_hourly_rate, user: rated_user, valid_from: 2.years.ago, rate: 55)
+
+      expect(found).to eq(default)
+    end
+
+    it "returns nil when the default is not wanted" do
+      create(:default_hourly_rate, user: rated_user, valid_from: 2.years.ago, rate: 55)
+
+      expect(described_class.at_date_for_user_in_project(date, rated_user, child, include_default: false)).to be_nil
+    end
+
+    it "accepts a principal id as well as a record" do
+      own = create(:hourly_rate, user: rated_user, project: child, valid_from: 2.years.ago, rate: 10)
+
+      expect(described_class.at_date_for_user_in_project(date, rated_user.id, child)).to eq(own)
+    end
+
+    it "resolves rates for a placeholder user" do
+      placeholder = create(:placeholder_user)
+      own = create(:hourly_rate, principal: placeholder, project: child, valid_from: 2.years.ago, rate: 42)
+
+      expect(described_class.at_date_for_user_in_project(date, placeholder, child)).to eq(own)
+    end
+  end
 end

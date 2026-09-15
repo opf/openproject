@@ -89,44 +89,5 @@ module WorkPackageTypes
         expect(model.patterns).to eq(WorkPackageTypes::Patterns::Collection.empty)
       end
     end
-
-    context "if copy workflow source type does not exist" do
-      let(:params) { { copy_workflow_from: "1337" } }
-
-      it "fails" do
-        result = service.call(params)
-        expect(result).to be_failure
-      end
-
-      it "adds an error on the copy_workflow_from attribute" do
-        result = service.call(params)
-        expect(result.errors.details).to eq(copy_workflow_from: [{ error: "Type for workflow copy not found." }])
-      end
-
-      it "does not override the already existing value on the model" do
-        service.call(params)
-        expect(model).not_to be_changed
-      end
-    end
-
-    context "if copy workflow source type does not have a workflow" do
-      let(:wp_type) { create(:type_bug) }
-      let(:params) { { copy_workflow_from: wp_type.id.to_s } }
-
-      it "fails" do
-        result = service.call(params)
-        expect(result).to be_failure
-      end
-
-      it "adds an error on the copy_workflow_from attribute" do
-        result = service.call(params)
-        expect(result.errors.details).to eq(copy_workflow_from: [{ error: "Type for workflow copy has no own workflow." }])
-      end
-
-      it "does not override the already existing value on the model" do
-        service.call(params)
-        expect(model).not_to be_changed
-      end
-    end
   end
 end

@@ -29,7 +29,7 @@ module WorkPackageTypes
       private
 
       def linked?
-        OpenProject::FeatureDecisions.type_variants_active? && @variant.linked?(ASPECT)
+        @variant.linked?(ASPECT)
       end
 
       def exclusion_state

@@ -32,8 +32,7 @@ require "spec_helper"
 
 RSpec.describe "Work package type configuration source",
                :skip_csrf,
-               type: :rails_request,
-               with_flag: { type_variants: true } do
+               type: :rails_request do
   shared_let(:admin) { create(:admin) }
   shared_let(:type) { create(:type) }
   shared_let(:source) { create(:type) }
@@ -41,24 +40,6 @@ RSpec.describe "Work package type configuration source",
   let(:aspect) { TypeVariant::PDF_EXPORT }
 
   before { login_as admin }
-
-  context "when the variants feature is disabled", with_flag: { type_variants: false } do
-    it "renders the tab's own editor without the reuse mode banner" do
-      get edit_type_pdf_export_template_index_path(type_id: type.id)
-
-      expect(response.body).to include("PDF Export templates")
-      expect(response.body).not_to include("Manual configuration")
-      expect(response.body).not_to include("Inherited configuration")
-    end
-
-    it "blocks the switch endpoint" do
-      post type_configuration_link_switch_path(type_id: type.id, aspect:),
-           params: { source_id: source.default_variant.id }
-
-      expect(response).to have_http_status(:not_found)
-      expect(type.default_variant).not_to be_linked(aspect)
-    end
-  end
 
   describe "rendering the tabs" do
     it "renders the PDF tab with the reuse mode boxes in manual mode" do
@@ -152,12 +133,6 @@ RSpec.describe "Work package type configuration source",
 
     it "is not found for an unknown aspect" do
       get type_configuration_link_dialog_path(type_id: type.id, aspect: "not_an_aspect"), as: :turbo_stream
-
-      expect(response).to have_http_status(:not_found)
-    end
-
-    it "is not found when the variants feature is disabled", with_flag: { type_variants: false } do
-      get type_configuration_link_dialog_path(type_id: type.id, aspect:), as: :turbo_stream
 
       expect(response).to have_http_status(:not_found)
     end

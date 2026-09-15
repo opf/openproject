@@ -89,10 +89,6 @@ RSpec.describe WorkPackageCustomFields::Scopes::OnVisibleTypeAndProject do
       it "replaces the linked variant's own fields with the source's (not a union)" do
         expect(subject).not_to include(linked_own_cf)
       end
-
-      it "resolves the same with the flag off", with_flag: { type_variants: false } do
-        expect(subject).to include(source_cf)
-      end
     end
 
     context "with a multi-hop link chain" do
@@ -121,8 +117,7 @@ RSpec.describe WorkPackageCustomFields::Scopes::OnVisibleTypeAndProject do
     end
   end
 
-  describe ".on_visible_type_and_project when the project applies a named variant",
-           with_flag: { type_variants: true } do
+  describe ".on_visible_type_and_project when the project applies a named variant" do
     shared_let(:root_type) { create(:type) }
     shared_let(:variant) { create(:type_variant, type: root_type) }
     shared_let(:variant_project) { create(:project, types: [variant]) }

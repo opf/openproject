@@ -55,6 +55,10 @@ RSpec.describe WorkPackageTypes::Types::VariantActionsComponent, type: :componen
       )
     end
 
+    it "does not offer converting a global variant" do
+      expect(rendered_component).to have_no_selector :menuitem, text: I18n.t("types.index.convert_to_global")
+    end
+
     # A new project would start on a configuration only the owning project can see, so this is
     # not an action a project-owned variant has. TypeVariant refuses it as well.
     context "when a project owns the variant" do
@@ -72,6 +76,10 @@ RSpec.describe WorkPackageTypes::Types::VariantActionsComponent, type: :componen
       it "still offers configuring and deleting it", :aggregate_failures do
         expect(rendered_component).to have_selector :menuitem, text: I18n.t(:button_configure)
         expect(rendered_component).to have_selector :menuitem, text: I18n.t(:button_delete)
+      end
+
+      it "offers converting it to a global variant" do
+        expect(rendered_component).to have_selector :menuitem, text: I18n.t("types.index.convert_to_global")
       end
     end
 

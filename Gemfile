@@ -38,7 +38,7 @@ ruby File.read(File.expand_path(".ruby-version", __dir__)).strip
 
 gem "actionpack-xml_parser", "~> 2.0.0"
 gem "activemodel-serializers-xml", "~> 1.0.1"
-gem "activerecord-import", "~> 2.2.0"
+gem "activerecord-import", "~> 2.3.0"
 gem "activerecord-session_store", "~> 2.3.0"
 gem "ox"
 gem "rails", "~> 8.1.3", ">= 8.1.3.1"
@@ -86,7 +86,7 @@ gem "htmldiff"
 gem "stringex", "~> 2.8.5"
 
 # CommonMark markdown parser with GFM extension
-gem "commonmarker", "~> 2.8.3"
+gem "commonmarker", "~> 2.10.0"
 
 # HTML pipeline for transformations on text formatter output
 # such as sanitization or additional features
@@ -96,7 +96,7 @@ gem "deckar01-task_list", "~> 2.3.1"
 # Requires escape-utils for faster escaping
 gem "escape_utils", "~> 1.3"
 # Syntax highlighting used in html-pipeline with rouge
-gem "rouge", "~> 4.7.0"
+gem "rouge", "~> 5.1.0"
 # HTML sanitization used for html-pipeline
 gem "sanitize", "~> 7.0.0"
 # HTML autolinking for mails and urls (replaces autolink)
@@ -123,7 +123,7 @@ gem "sys-filesystem", "~> 1.6.0", require: false
 
 gem "bcrypt", "~> 3.1.22"
 
-gem "multi_json", "~> 1.21.0"
+gem "multi_json", "~> 1.21.2"
 
 gem "daemons"
 gem "good_job", "~> 4.19.2" # update should be done manually in sync with saas-openproject version.
@@ -152,7 +152,7 @@ gem "structured_warnings", "~> 0.5.0"
 # don't require by default, instead load on-demand when actually configured
 gem "airbrake", "~> 13.0.0", require: false
 
-gem "markly", "~> 0.15" # another markdown parser like commonmarker, but with AST support used in PDF export
+gem "markly", "~> 0.17" # another markdown parser like commonmarker, but with AST support used in PDF export
 gem "md_to_pdf", git: "https://github.com/opf/md-to-pdf", ref: "a0c4345367e4b9fc869e0da191ec56bcc24bd877"
 gem "prawn", "~> 2.4"
 gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues/1346 resolved.
@@ -160,7 +160,7 @@ gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.3"
 
-gem "mcp", "~> 1.3.0"
+gem "mcp", "~> 1.4.0"
 
 gem "meta-tags", "~> 2.23.0"
 
@@ -207,13 +207,13 @@ gem "aws-sdk-core", "~> 3.254"
 # File upload via fog + screenshots on travis
 gem "aws-sdk-s3", "~> 1.229"
 
-gem "openproject-token", "~> 8.12.0"
+gem "openproject-token", "~> 8.13.0"
 
 gem "plaintext", "~> 0.3.7"
 
 gem "ruby-progressbar", "~> 1.13.0", require: false
 
-gem "mini_magick", "~> 5.3.3", require: false
+gem "mini_magick", "~> 5.4.0", require: false
 
 gem "validate_url"
 
@@ -236,12 +236,12 @@ gem "yabeda-rails"
 
 # opentelemetry
 gem "opentelemetry-exporter-otlp", "~> 0.34.0", require: false
-gem "opentelemetry-instrumentation-all", "~> 0.95.0", require: false
+gem "opentelemetry-instrumentation-all", "~> 0.96.0", require: false
 gem "opentelemetry-sdk", "~> 1.13", require: false
 
 gem "view_component", "~> 4.15.0"
 # Lookbook
-gem "lookbook", "2.3.14"
+gem "lookbook", "2.3.15"
 
 gem "inline_svg", "~> 1.10.0"
 
@@ -253,7 +253,7 @@ gem "factory_bot_rails", "~> 6.5.0", require: false
 gem "turbo_power", "~> 0.8.0"
 gem "turbo-rails", "~> 2.0.20"
 
-gem "httpx", "~> 1.8.2"
+gem "httpx", "~> 1.8.3"
 
 # Brings actual deep-freezing to most ruby objects
 gem "ice_nine"
@@ -298,7 +298,7 @@ group :test do
   gem "cuprite", "~> 0.18.0"
   gem "rspec-wait"
   gem "selenium-devtools"
-  gem "selenium-webdriver", "~> 4.47"
+  gem "selenium-webdriver", "~> 4.48"
 
   gem "fuubar", "~> 2.5.0", require: false
   gem "timecop", "~> 0.9.0"

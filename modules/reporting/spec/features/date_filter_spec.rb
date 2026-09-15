@@ -45,7 +45,7 @@ RSpec.describe "Cost report date filter", :js do
   current_user { create(:admin) }
 
   before do
-    visit cost_reports_path(project)
+    visit project_reporting_cost_reports_path(project)
   end
 
   it "filters the time entries" do

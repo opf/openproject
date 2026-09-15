@@ -105,7 +105,7 @@ class HourlyRatesController < ApplicationController
     if @user.save
       flash[:notice] = t(:notice_successful_update)
       if @project.nil?
-        redirect_back_or_default({ controller: "users", action: "edit", id: @user })
+        redirect_back_or_default(edit_principal_rates_path)
       else
         redirect_back_or_default({ action: "show", id: @user, project_id: @project })
       end
@@ -140,16 +140,26 @@ class HourlyRatesController < ApplicationController
   end
 
   def find_project
-    @project = Project.visible.find(params[:project_id])
+    @project = Project.visible.find(params.expect(:project_id))
   end
 
+  # Rates hang off users and placeholder users alike, so the lookup is over
+  # principals rather than users.
   def find_user
     @user = if params[:id].blank?
               User.current
             elsif @project
-              User.in_project(@project).visible.find(params[:id])
+              Principal.with_rates.in_project(@project).find(params.expect(:id))
             else
-              User.visible.find(params[:id])
+              Principal.with_rates.find(params.expect(:id))
             end
+  end
+
+  def edit_principal_rates_path
+    if @user.is_a?(PlaceholderUser)
+      edit_placeholder_user_path(@user, tab: :rates)
+    else
+      edit_user_path(@user, tab: :rates)
+    end
   end
 end

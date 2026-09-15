@@ -87,15 +87,75 @@
     color: white
 
 // -------------------------- Highlighting colors -----------------------------
-// Inline: type
-[class^='__hl_inline_type'],
-[class*=' __hl_inline_type']
-  text-transform: uppercase
-  font-weight: var(--base-text-weight-bold)
+// app/views/highlighting/styles.css.erb emits one `.__hl_<resource>_<id>` rule per
+// colored resource, declaring nothing but --hl-color and --hl-perceived-lightness.
+// The classes below turn those into styling and are combined with them on the same
+// element, e.g. `class="__hl_background __hl_status_42"`.
+//
+// A resource without a color declares neither property, so every declaration below
+// referencing --hl-color is invalid at computed-value time and falls back to `unset`:
+// no background, no border, inherited text color. Only the dot needs suppressing,
+// which the generated stylesheet does per resource.
+//
+// Light is the default so that highlights are styled before the theme controller
+// stamps data-color-mode onto the body.
 
-// Inline: all except type
-[class^='__hl_inline_']:not([class^='__hl_inline_type'], [class^='__hl_inline_project_phase_definition']),
-[class*=' __hl_inline_']:not([class*='__hl_inline_type'], [class*='__hl_inline_project_phase_definition'])
+// Perceived lightness below the threshold means the color is dark and needs light text.
+// The reciprocal collapses to a 0/1 switch: negative when above, huge when below.
+@mixin hl_lightness_switch($threshold)
+  --hl-lightness-switch: max(0, min(calc(1 / (#{$threshold} - var(--hl-perceived-lightness))), 1))
+
+@mixin hl_color_variables
+  @include hl_lightness_switch(0.453)
+
+  body[data-color-mode="dark"] &
+    @include hl_lightness_switch(0.6)
+    --hl-lighten-by: calc((0.6 - var(--hl-perceived-lightness)) * 100 * var(--hl-lightness-switch))
+
+// Full color as background, with text flipped to black or white for contrast.
+// Dark mode instead tints the background and lightens the color for the text.
+@mixin hl_background_styles
+  color: hsl(0deg 0% calc(var(--hl-lightness-switch) * 100%)) !important
+  background: var(--hl-color) !important
+  border: 1px solid hsl(from var(--hl-color) h s calc(l - 15)) !important
+
+  body[data-light-theme="light_high_contrast"] &
+    border: 1px solid hsl(from var(--hl-color) h s calc(l - 75)) !important
+
+  body[data-color-mode="dark"] &
+    color: hsl(from var(--hl-color) h s calc(l + var(--hl-lighten-by))) !important
+    background: rgb(from var(--hl-color) r g b / 0.18) !important
+    border: 1px solid hsl(from var(--hl-color) h s calc(l + var(--hl-lighten-by))) !important
+
+  body[data-dark-theme="dark_high_contrast"] &
+    color: hsl(from var(--hl-color) h s calc(l + 10 + var(--hl-lighten-by))) !important
+    background: rgb(from var(--hl-color) r g b / 0.18) !important
+    border: 1px solid hsl(from var(--hl-color) h s calc(l + 10 + var(--hl-lighten-by))) !important
+
+// Darkened in light mode, lightened in dark mode, so the color stays legible as text.
+@mixin hl_foreground_styles
+  color: hsl(from var(--hl-color) h s calc(l - (l * 0.22))) !important
+
+  body[data-light-theme="light_high_contrast"] &
+    color: hsl(from var(--hl-color) h s calc(l - (l * 0.5))) !important
+
+  body[data-color-mode="dark"] &
+    color: hsl(from var(--hl-color) h s calc(l + var(--hl-lighten-by))) !important
+
+  body[data-dark-theme="dark_high_contrast"] &
+    color: hsl(from var(--hl-color) h s calc(l + 10 + var(--hl-lighten-by))) !important
+
+.__hl_background
+  @include hl_color_variables
+  @include hl_background_styles
+
+.__hl_foreground
+  @include hl_color_variables
+  @include hl_foreground_styles
+
+.__hl_dot
+  @include hl_color_variables
+
   &::before
     content: ''
     display: inline-block
@@ -104,19 +164,34 @@
     vertical-align: -1px
     margin-right: 4px
     border-radius: 50%
+    @include hl_background_styles
 
     .-small-font &
       width: 10px
       height: 10px
 
-  &.__hl_inline__small_dot:before
+  &.__hl_dot_small::before
     width: 6px
     height: 6px
     vertical-align: 1px
 
+// Work package types are rendered as uppercase bold text
+.__hl_uppercase
+  text-transform: uppercase
+  font-weight: var(--base-text-weight-bold)
+
+.__hl_border_top
+  border-top: 4px solid hsl(from var(--hl-color) h s calc(l - 15)) !important
+
+// Overdue tasks
+.__hl_date_due_today
+  color: var(--fgColor-severe) !important
+
+.__hl_date_overdue
+  color: var(--fgColor-danger) !important
+  font-weight: var(--base-text-weight-bold)
+
 @mixin dot_border_width_style
-  [class^='__hl_inline_'],
-  [class*=' __hl_inline_']
-    &::before
-      border-width: 1px
-      border-style: solid
+  .__hl_dot::before
+    border-width: 1px
+    border-style: solid

@@ -133,7 +133,7 @@ RSpec.describe "Work package navigation", :js, :selenium do
     # Back to split screen using the button
     full_work_package.go_back
     global_work_packages.expect_work_package_listed(work_package)
-    expect(page).to have_current_path project_work_packages_path(project) + "/details/#{work_package.id}/overview"
+    expect(page).to have_current_path project_work_packages_path(project) + "/details/#{work_package.id}"
 
     # Link to full screen from index
     global_work_packages.open_full_screen_by_link(work_package)

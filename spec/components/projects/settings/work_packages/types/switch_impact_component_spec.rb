@@ -31,8 +31,7 @@
 require "spec_helper"
 
 RSpec.describe Projects::Settings::WorkPackages::Types::SwitchImpactComponent,
-               type: :component,
-               with_flag: { type_variants: true } do
+               type: :component do
   include Rails.application.routes.url_helpers
 
   subject(:render_component) { render_inline(described_class.new(impact:)) }

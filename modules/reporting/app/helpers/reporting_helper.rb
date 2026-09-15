@@ -233,8 +233,10 @@ module ReportingHelper
 
   ##
   # Create the appropriate action for an entry with the type of log to use
+  # The controller has to be absolute: the report is rendered from a namespaced
+  # controller, where a relative one would resolve to reporting/costlog.
   def action_for(result, options = {})
-    options.merge controller: controller_for(result.fields["type"]), id: result.fields["id"].to_i
+    options.merge controller: "/#{controller_for(result.fields['type'])}", id: result.fields["id"].to_i
   end
 
   def controller_for(type)
