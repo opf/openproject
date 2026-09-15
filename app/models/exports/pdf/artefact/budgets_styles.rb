@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -23,35 +23,41 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-module WorkPackages
-  module Exports
-    module Generate
-      module Templates
-        class ArtefactSettingsComponent < BaseSettingsComponent
-          TEMPLATE_ID = "artefact"
+module Exports::PDF::Artefact::BudgetsStyles
+  def budgets_page_break_threshold
+    resolve_pt(@styles.dig(:budgets, :page_break_threshold), 300)
+  end
 
-          def self.fields
-            %w[toc include_lifecycle include_budget hyphenation hyphenation_language]
-          end
+  def budgets_table_margins
+    resolve_margin(@styles.dig(:budgets, :table))
+  end
 
-          def toc
-            boolean_setting(:toc, WorkPackage::PDFExport::Artefact::DEFAULT_TOC)
-          end
+  def budgets_table_cell
+    resolve_table_cell(@styles.dig(:budgets, :table, :cell))
+  end
 
-          def include_lifecycle
-            boolean_setting(:include_lifecycle, WorkPackage::PDFExport::Artefact::DEFAULT_INCLUDE_LIFECYCLE)
-          end
+  def budgets_table_header_cell
+    budgets_table_cell.merge(resolve_table_cell(@styles.dig(:budgets, :table, :cell_header)))
+  end
 
-          def include_budget
-            boolean_setting(:include_budget, WorkPackage::PDFExport::Artefact::DEFAULT_INCLUDE_BUDGET)
-          end
-        end
-      end
-    end
+  def budgets_table_budget_heading_cell
+    budgets_table_cell.merge(resolve_table_cell(@styles.dig(:budgets, :table, :cell_budget_heading)))
+  end
+
+  def budgets_table_group_heading_cell
+    budgets_table_cell.merge(resolve_table_cell(@styles.dig(:budgets, :table, :cell_group_heading)))
+  end
+
+  def budgets_table_group_subtotal_cell
+    budgets_table_cell.merge(resolve_table_cell(@styles.dig(:budgets, :table, :cell_group_subtotal)))
+  end
+
+  def budgets_table_total_cell
+    budgets_table_cell.merge(resolve_table_cell(@styles.dig(:budgets, :table, :cell_total)))
   end
 end
