@@ -12,7 +12,7 @@ This page helps decision-makers assess how OpenProject can provide a sustainable
 The questions below provide a starting point for a detailed fit-gap analysis. Please [reach out to our experts](https://www.openproject.org/contact/) for personalized guidance on your Jira migration.
 
 > [!IMPORTANT]
-> Current product and migration capabilities on this page refer to OpenProject 17.6. The Jira Migrator is in beta and should only be used in test setups. Items on the [OpenProject roadmap](https://www.openproject.org/roadmap/) reflect our current development plans and priorities. While we are committed to delivering them, scope, status and target delivery dates may change.
+> The Jira Migrator is in beta and is continuously developed. Items on the [OpenProject roadmap](https://www.openproject.org/roadmap/) reflect our current development plans and priorities. While we are committed to delivering them, scope, status and target delivery dates may change.
 > 
 ## Is OpenProject proven in large organizations?
 
