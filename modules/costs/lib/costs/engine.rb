@@ -81,20 +81,24 @@ module Costs
 
         permission :view_own_hourly_rate,
                    {},
-                   permissible_on: :project
+                   permissible_on: :project,
+                   contract_actions: { hourly_rates: %i[read_own] }
         permission :view_hourly_rates,
                    {},
-                   permissible_on: :project
+                   permissible_on: :project,
+                   contract_actions: { hourly_rates: %i[read] }
 
         permission :edit_own_hourly_rate,
                    { hourly_rates: %i[edit update] },
                    permissible_on: :project,
-                   require: :member
+                   require: :member,
+                   contract_actions: { hourly_rates: %i[create_own edit_own destroy_own] }
 
         permission :edit_hourly_rates,
                    { hourly_rates: %i[edit update] },
                    permissible_on: :project,
-                   require: :member
+                   require: :member,
+                   contract_actions: { hourly_rates: %i[create edit destroy] }
         permission :view_cost_rates, # cost item values
                    {},
                    permissible_on: :project
@@ -181,6 +185,19 @@ module Costs
            icon: :stopwatch
     end
 
+    # A default rate has no project, so managing one is granted globally.
+    # Declared outside the project module because a global permission is not
+    # gated by a project having the costs module enabled.
+    config.to_prepare do
+      OpenProject::AccessControl.map do |ac_map|
+        ac_map.permission :manage_default_hourly_rates,
+                          {},
+                          permissible_on: :global,
+                          require: :loggedin,
+                          contract_actions: { default_hourly_rates: %i[create edit destroy] }
+      end
+    end
+
     initializer "costs.settings" do
       ::Settings::Definition.add "costs_currency", default: "€", format: :string
       ::Settings::Definition.add "costs_currency_format", default: "%n %u", format: :string, allowed: ["%u %n", "%n %u"]
@@ -204,14 +221,14 @@ module Costs
                   name: "rates",
                   partial: "users/rates",
                   path: ->(params) { edit_user_path(params[:user], tab: :rates) },
-                  only_if: ->(*) { User.current.admin? },
+                  only_if: ->(*) { User.current.allowed_globally?(:manage_default_hourly_rates) },
                   label: :caption_rate_history
 
     add_tab_entry :placeholder_user,
                   name: "rates",
                   partial: "placeholder_users/rates",
                   path: ->(params) { edit_placeholder_user_path(params[:placeholder_user], tab: :rates) },
-                  only_if: ->(*) { User.current.admin? },
+                  only_if: ->(*) { User.current.allowed_globally?(:manage_default_hourly_rates) },
                   label: :caption_rate_history
 
     add_api_path :cost_entry do |id|
@@ -230,10 +247,24 @@ module Costs
       "#{root}/cost_types/#{id}"
     end
 
+    # Placeholder users hold rates too, so the collection hangs off the
+    # principal rather than the user.
+    add_api_path :hourly_rates_by_principal do |principal_id|
+      "#{principals}/#{principal_id}/hourly_rates"
+    end
+
+    add_api_path :hourly_rate do |principal_id, id|
+      "#{hourly_rates_by_principal(principal_id)}/#{id}"
+    end
+
     add_api_endpoint "API::V3::Root" do
       mount ::API::V3::CostEntries::CostEntriesAPI
       mount ::API::V3::CostTypes::CostTypesAPI
       mount ::API::V3::TimeEntries::TimeEntriesAPI
+    end
+
+    add_api_endpoint "API::V3::Principals::PrincipalsAPI", :id do
+      mount ::API::V3::HourlyRates::HourlyRatesByPrincipalAPI
     end
 
     add_api_endpoint "API::V3::WorkPackages::WorkPackagesAPI", :id do

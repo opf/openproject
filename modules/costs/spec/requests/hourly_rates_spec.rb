@@ -85,6 +85,55 @@ RSpec.describe "Managing hourly rates", :skip_csrf, type: :rails_request do
       end
     end
 
+    # The permission is global, so it reaches the user administration area
+    # without the acting user being an admin.
+    describe "as a non-admin holding manage_user and manage_default_hourly_rates" do
+      # view_all_principals is a declared dependency of manage_user, which the
+      # role form grants along with it.
+      current_user do
+        create(:user, global_permissions: %i[manage_user view_all_principals manage_default_hourly_rates])
+      end
+
+      it "reaches the rates tab of the user administration" do
+        get edit_user_path(user, tab: :rates)
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include("rate-history-default")
+      end
+
+      it "is offered the button to add a default rate" do
+        get edit_user_path(user, tab: :rates)
+
+        expect(response.body).to include(new_default_hourly_rate_path(principal_id: user.id))
+      end
+
+      it "creates a default rate" do
+        expect do
+          post default_hourly_rates_path,
+               params: { rate: { user_id: user.id, valid_from: "2026-01-01", rate: "95" } },
+               headers: turbo
+        end.to change { user.default_rates.count }.by(1)
+      end
+    end
+
+    describe "as a non-admin holding only manage_user" do
+      current_user { create(:user, global_permissions: %i[manage_user view_all_principals]) }
+
+      it "is not offered the rates tab" do
+        get edit_user_path(user, tab: :rates)
+
+        expect(response.body).not_to include("rate-history-default")
+      end
+
+      it "cannot create a default rate" do
+        expect do
+          post default_hourly_rates_path,
+               params: { rate: { user_id: user.id, valid_from: "2026-01-01", rate: "95" } },
+               headers: turbo
+        end.not_to change(DefaultHourlyRate, :count)
+      end
+    end
+
     describe "editing" do
       let!(:rate) { create(:default_hourly_rate, principal: user, rate: 50) }
 
