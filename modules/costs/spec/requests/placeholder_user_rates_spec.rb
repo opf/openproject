@@ -48,7 +48,7 @@ RSpec.describe "Placeholder user rates",
       get edit_placeholder_user_path(placeholder, tab: :rates)
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("user-rate-history-list")
+      expect(response.body).to include(User.human_attribute_name(:default_rates))
     end
 
     it "lists the projects the placeholder is a member of" do
@@ -56,13 +56,42 @@ RSpec.describe "Placeholder user rates",
 
       expect(response.body).to include(project.name)
     end
+
+    it "shows the rate history of a project the placeholder has a rate in" do
+      create(:hourly_rate, principal: placeholder, project:, valid_from: Date.current, rate: 95)
+
+      get edit_placeholder_user_path(placeholder, tab: :rates)
+
+      expect(response.body).to include("95.00")
+    end
   end
 
   describe "the project rate history" do
-    it "is rendered for a placeholder user" do
+    it "renders a blank slate when the placeholder has no rate in the project" do
       get projects_hourly_rate_path(project_id: project, id: placeholder)
 
       expect(response).to have_http_status(:ok)
+      expect(response.body).to include(I18n.t(:no_results_title_text))
+    end
+
+    context "with a rate history" do
+      before do
+        create(:hourly_rate, principal: placeholder, project:, valid_from: 1.year.ago, rate: 80)
+        create(:hourly_rate, principal: placeholder, project:, valid_from: Date.current, rate: 95)
+
+        get projects_hourly_rate_path(project_id: project, id: placeholder)
+      end
+
+      it "names the project and the rate in effect in the header" do
+        expect(response.body).to include(project.name)
+        expect(response.body).to include(Rate.human_attribute_name(:current_rate))
+        expect(response.body).to include("95.00")
+      end
+
+      it "lists every rate of the history" do
+        expect(response.body).to include("80.00")
+        expect(response.body).to include("95.00")
+      end
     end
   end
 

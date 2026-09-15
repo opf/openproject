@@ -29,30 +29,20 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title t(:label_administration), t(:caption_rate_history_for, user: @user.name) %>
 
-<%
-  breadcrumb_items = if @project
-                       [{ href: project_overview_path(@project.identifier), text: @project.name },
-                        { href: projects_budgets_path(@project.identifier), text: I18n.t(:label_budget_plural) }]
-                     else
-                       []
-                     end
-%>
-
 <%=
   render Primer::OpenProject::PageHeader.new do |header|
-    header.with_title { t(:caption_default_rate_history_for, user: @user.name) }
+    header.with_title { t(:caption_rate_history_for_project, user: @user.name, project: @project.name) }
+    header.with_description do
+      if @current_rate
+        "#{Rate.human_attribute_name(:current_rate)}: #{number_to_currency(@current_rate.rate)}"
+      end
+    end
     header.with_breadcrumbs(
-      [*breadcrumb_items,
-       t(:caption_default_rate_history_for, user: @user.name)]
+      [{ href: project_overview_path(@project.identifier), text: @project.name },
+       { href: projects_budgets_path(@project.identifier), text: t(:label_budget_plural) },
+       t(:caption_rate_history_for, user: @user.name)]
     )
   end
 %>
 
-<% if @project %>
-  <% html_title t(:caption_rate_history_for, user: @user.name) %>
-
-  <%= render partial: "list_project" %>
-<% else %>
-  <%= render partial: "list_default" %>
-  <%= render partial: "list" %>
-<% end %>
+<%= render(HourlyRates::TableComponent.new(rows: @rates, current_rate: @current_rate)) %>

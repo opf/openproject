@@ -48,7 +48,8 @@ class HourlyRatesController < ApplicationController
     return deny_access if @project.nil?
     return deny_access unless User.current.allowed_in_project?(:view_hourly_rates, @project)
 
-    @rates = HourlyRate.where(user_id: @user, project_id: @project).order("#{HourlyRate.table_name}.valid_from desc")
+    @rates = HourlyRate.for_principal(@user).in_project(@project).newest_first
+    @current_rate = @user.current_rate(@project)
   end
 
   private

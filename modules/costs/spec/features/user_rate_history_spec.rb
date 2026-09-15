@@ -38,11 +38,14 @@ RSpec.describe "rate history on the user rates tab" do
   shared_let(:former_member_project) { create(:project, name: "Former member project") }
   shared_let(:unrelated_project) { create(:project, name: "Unrelated project") }
 
+  shared_let(:rateless_project) { create(:project, name: "Rateless project", member_with_permissions: { user => [] }) }
+
   shared_let(:member_rate) { create(:hourly_rate, user:, project: member_project) }
   shared_let(:former_member_rate) { create(:hourly_rate, user:, project: former_member_project) }
+  shared_let(:default_rate) { create(:default_hourly_rate, principal: user, rate: 30) }
 
   def rate_history_for(project)
-    page.find(".user-rate-history-list", text: project.name)
+    page.find("[data-test-selector='rate-history-project-#{project.id}']")
   end
 
   before do
@@ -50,20 +53,35 @@ RSpec.describe "rate history on the user rates tab" do
     visit edit_user_path(user, tab: "rates")
   end
 
-  it "allows updating the rates of a project the user is a member of" do
+  it "shows the rate of a project the user is a member of" do
     within rate_history_for(member_project) do
-      expect(page).to have_link I18n.t(:button_update)
+      expect(page).to have_text member_project.name
+      expect(page).to have_text "#{Rate.human_attribute_name(:current_rate)}: #{format('%.2f', member_rate.rate)}"
     end
   end
 
-  it "shows the rates of a project the user is no longer a member of without an update link" do
+  it "shows the rate of a project the user is no longer a member of" do
     within rate_history_for(former_member_project) do
-      expect(page).to have_css("table.rates td", text: former_member_rate.valid_from.to_s)
-      expect(page).to have_no_link I18n.t(:button_update)
+      expect(page).to have_text format("%.2f", former_member_rate.rate)
+    end
+  end
+
+  it "falls back to the default rate for a project without a rate of its own" do
+    within rate_history_for(rateless_project) do
+      expect(page).to have_text "#{I18n.t(:label_current_default_rate)}: #{format('%.2f', default_rate.rate)}"
+    end
+  end
+
+  it "renders every project as a section that starts collapsed" do
+    [member_project, former_member_project].each do |project|
+      within rate_history_for(project) do
+        expect(page).to have_css("[data-collapsible-toggle][aria-expanded='false']")
+        expect(page).to have_css("[role='region']", visible: :hidden)
+      end
     end
   end
 
   it "does not show a project the user is neither a member of nor has rates in" do
-    expect(page).to have_no_css(".user-rate-history-list", text: unrelated_project.name)
+    expect(page).to have_no_css("[data-test-selector='rate-history-project-#{unrelated_project.id}']")
   end
 end
