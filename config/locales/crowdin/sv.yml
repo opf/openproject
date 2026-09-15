@@ -222,6 +222,7 @@ sv:
         title: Titel
       member:
         blocked: Blockerad
+        principal_type: Member type
         roles: Roll
       notification:
         read_ian: Läst i appen
@@ -1743,6 +1744,14 @@ sv:
       update:
         failure: MCP-konfigurationen kunde inte uppdateras.
         success: MCP-konfigurationen uppdaterades.
+    members:
+      index:
+        blank_description: No membership matches the current filter.
+        blank_title: No memberships
+        filter_label: Search users
+        inheritance_source: "%{type} %{name}"
+        inherited_via: "(via: %{source})"
+        title: Memberships
     plugins:
       no_results_content_text: Mer information finns på vår sida för integrationer och insticksmoduler.
       no_results_title_text: Det finns för närvarande inga installerade insticksmoduler.
@@ -1988,6 +1997,13 @@ sv:
           assignee: Ytterligare övergångar som är tillgängliga för den som tilldelats arbetspaketet.
           author: Ytterligare övergångar som är tillgängliga för arbetspaketets författare.
         menu_label: Visade övergångar
+  ai:
+    text_transform:
+      errors:
+        connection_failed: The AI service could not be reached.
+        not_available: The AI assistant is not available.
+        timeout: The AI service did not respond in time.
+        upstream_error: The AI service returned an error.
   announcements:
     is_active: visas för tillfället
     is_inactive: visas ej för tillfället
@@ -2050,10 +2066,6 @@ sv:
       not_found:
         reminder: Påminnelsen du söker kunde inte hittas eller har tagits bort.
         work_package: Arbetspaketet du söker kunde inte hittas eller har tagits bort.
-      render:
-        context_not_parsable: Kontexten som angavs är inte en länk till en resurs.
-        context_object_not_found: Kan inte hitta den angivna resursen som kontext.
-        unsupported_context: Resursen som angavs stöds inte som kontext.
       unable_to_create_attachment: Bilagan kunde inte skapas
       unable_to_create_attachment_permissions: Bilagan kunde inte sparas på grund av brist på filsystemsrättigheter
       user:
@@ -5524,6 +5536,31 @@ sv:
     warnings:
       cannot_annotate: Den här filen kan inte kommenteras.
   roles:
+    delete_dialog:
+      confirm: Are you sure you want to delete this role?
+      entry_projects:
+        one: "(Project: %{projects})"
+        other: "(Projects: %{projects})"
+      entry_projects_truncated:
+        one: "(Projects: %{projects} and 1 other)"
+        other: "(Projects: %{projects} and %{count} others)"
+      heading:
+        one: 'This role is still attributed to 1 member:'
+        other: 'This role is still attributed to %{count} members:'
+      heading_unused: Are you sure you want to delete the role "%{name}"?
+      losing_project_access:
+        one: Out of these users, 1 will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        other: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        zero: None of these users will lose access to any of their projects. Are you sure you want to delete this role?
+      show_memberships: Show all memberships with this role
+      summary: "%{users} in %{projects}"
+      summary_projects:
+        one: 1 project
+        other: "%{count} projects"
+      summary_users:
+        one: 1 user
+        other: "%{count} users"
+      title: Delete role
     edit:
       default_for_new_projects_warning: 'Den här rollen är konfigurerad som standardroll för icke-administratörer som skapar ett projekt. Ta inte bort följande behörigheter, annars kan projektskapare inte slutföra konfigurationen av sina nyskapade projekt:'
     index:
@@ -6111,13 +6148,14 @@ sv:
         <br>
         <strong>Obs!</strong> Ärvda värden (t.ex. från underordnade objekt eller relationer) tillämpas fortfarande.
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Undantagen från totalsummor
         is_closed: Stängt
-        is_default: Standard
         is_readonly: Skrivskyddad
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Lägg till ny status
       no_results_title_text: Det finns för närvarande inga statusar för arbetspaket.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: och
@@ -6401,7 +6439,6 @@ sv:
         add_query_group: Tabell med relaterade arbetspaket
         blankslate_description: Lägg till grupper med knappen ovan eller dra attribut från den vänstra panelen.
         blankslate_title: Inga grupper ännu
-        builtin_field: Inbyggt fält
         confirm_delete_group: Är du säker på att du vill ta bort det här avsnittet? Åtgärden kan inte ångras automatiskt.
         confirm_reset: Är du säker på att du vill återställa formuläret?
         custom_field: Anpassat fält

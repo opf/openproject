@@ -66,8 +66,8 @@ pt-BR:
 
       '
     login_with_auth_provider: ou entre com a sua conta existente
-    omniauth_direct_login_continue: Continue to sign in
-    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
+    omniauth_direct_login_continue: Continuar a iniciar sessão
+    omniauth_direct_login_redirecting: Você será redirecionado para o seu provedor de identidade…
     omniauth_login: Faça login para ativar sua conta.
     signup_title: Crie uma conta no %{app_title}
     signup_with_external_account: Cadastre-se com uma conta externa
@@ -86,20 +86,20 @@ pt-BR:
         types: Tipos de pacote de trabalho
         usage_scope: Escopo
       ai/text_transform_run:
-        action: Action
-        cancel_requested: Cancel requested
-        error_message: Error message
-        finished_at: Finished at
-        input: Input
+        action: Ação
+        cancel_requested: Cancelamento solicitado
+        error_message: Mensagem de erro
+        finished_at: Finalizado em
+        input: Entrada
         status: Status
-        system_prompt: System prompt
-        user: User
+        system_prompt: Prompt do sistema
+        user: Usuário
         uuid: UUID
       ai/text_transform_run_event:
-        kind: Kind
+        kind: Tipo
         payload: Payload
-        run: Run
-        seq: Sequence number
+        run: Executar
+        seq: Número sequencial
       announcements:
         show_until: Exibir até
       attachment:
@@ -142,9 +142,9 @@ pt-BR:
         is_for_all: Para todos os projetos
         is_required: Obrigatório
         max_length: Tamanho máximo
-        max_value: Maximum value
+        max_value: Valor máximo
         min_length: Tamanho mínimo
-        min_value: Minimum value
+        min_value: Valor mínimo
         multi_value: Permitir seleção múltipla
         possible_values: Valores possíveis
         regexp: Expressão regular
@@ -222,6 +222,7 @@ pt-BR:
         title: Título
       member:
         blocked: Bloqueado
+        principal_type: Tipo de membro
         roles: Papéis
       notification:
         read_ian: Lido no aplicativo
@@ -234,7 +235,7 @@ pt-BR:
         position: Posição
       persisted_query:
         filters: Filtros
-        group_bys: Group results by
+        group_bys: Agrupar resultados por
         name: Nome
         orders: Pedidos
         selects: Seleções
@@ -591,7 +592,7 @@ pt-BR:
         regex_list_invalid: As linhas %{invalid_lines} não puderam ser interpretadas como expressão regular.
         regex_match_failed: não corresponde à expressão regular %{expression}.
         smaller_than_or_equal_to_max_length: deve ser menor ou igual ao tamanho máximo.
-        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
+        smaller_than_or_equal_to_max_value: deve ser menor ou igual ao valor máximo.
         ssrf_filtered: viola a política de SSRF desta instância do OpenProject.
         status_transition_invalid: é inválido porque não existe uma transição válida do status antigo para o novo status para as funções do usuário atual.
         system_wide_non_working_day_exists: conflita com um dia não útil já existente em todo o sistema para esta data.
@@ -865,7 +866,7 @@ pt-BR:
               query_invalid: 'A consulta incorporada ''%{group}'' é inválida: %{details}'
             base:
               borrowed_by_variants: Não pode ser excluído enquanto sua configuração for reutilizada por %{names}.
-              inherits_from_project_owned: 'This variant currently inherits from a project-specific variant and cannot be converted to a global variant.
+              inherits_from_project_owned: 'Esta variante atualmente herda de uma variante específica do projeto e não pode ser convertida para uma variante global.
 
                 '
               is_default_variant: A configuração padrão de um tipo não pode ser excluída.
@@ -1022,11 +1023,11 @@ pt-BR:
         one: Ação de transformação de texto
         other: Ações de transformação de texto
       ai/text_transform_run:
-        one: Text transform run
-        other: Text transform runs
+        one: Execução da transformação de texto
+        other: Execuções da transformação de texto
       ai/text_transform_run_event:
-        one: Text transform run event
-        other: Text transform run events
+        one: Evento de execução da transformação de texto
+        other: Eventos de execução da transformação de texto
       announcement:
         one: Anúncio
         other: Anúncios
@@ -1743,6 +1744,14 @@ pt-BR:
       update:
         failure: A configuração MCP não pôde ser atualizada.
         success: Configuração MCP atualizada com sucesso.
+    members:
+      index:
+        blank_description: Nenhuma associação corresponde ao filtro atual.
+        blank_title: Nenhuma inscrição
+        filter_label: Pesquisar usuários
+        inheritance_source: "%{type} %{name}"
+        inherited_via: "(via: %{source})"
+        title: Membros
     plugins:
       no_results_content_text: Confira nossa página de integrações e plugins para obter mais informações.
       no_results_title_text: Atualmente, não existem plugins instalados.
@@ -1988,6 +1997,13 @@ pt-BR:
           assignee: Transições adicionais disponíveis para o responsável pelo pacote de trabalho.
           author: Transições adicionais disponíveis para o autor do pacote de trabalho.
         menu_label: Transições exibidas
+  ai:
+    text_transform:
+      errors:
+        connection_failed: The AI service could not be reached.
+        not_available: The AI assistant is not available.
+        timeout: The AI service did not respond in time.
+        upstream_error: The AI service returned an error.
   announcements:
     is_active: atualmente exibido
     is_inactive: não exibido atualmente
@@ -2050,10 +2066,6 @@ pt-BR:
       not_found:
         reminder: O lembrete que você está procurando não pode ser encontrado ou foi excluído.
         work_package: O pacote de trabalho que você está procurando não pode ser encontrado ou foi excluído.
-      render:
-        context_not_parsable: O contexto fornecido não é um link para o recurso.
-        context_object_not_found: Não é possível encontrar o recurso dado como contexto.
-        unsupported_context: O recurso dado não está suportado como contexto.
       unable_to_create_attachment: O anexo não pôde ser criado
       unable_to_create_attachment_permissions: O anexo não pôde ser salvo devido à falta de permissões do sistema de arquivos
       user:
@@ -2200,9 +2212,7 @@ pt-BR:
     label_delete_token: Excluir token de backup
     label_reset_token: Redefinir token de backup
     label_token_users: Os seguintes usuários têm tokens de backup ativos
-    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
-
-      '
+    missing_attachments_notice_html: "<br/> <b>%{file_count} não puderam ser lidos</b> e foram excluídos deste backup. O arquivo foi renomeado com o sufixo “-incomplete” para indicar que faltam alguns anexos.\n"
     reset_token:
       action_create: Criar
       action_reset: Reiniciar
@@ -2494,8 +2504,8 @@ pt-BR:
         all: 0 significa que não há restrição
         project: 0 significa que não há restrição
       min_max_value:
-        all: Leave blank for no restriction
-        project: Leave blank for no restriction
+        all: Deixe em branco se não houver restrição
+        project: Deixe em branco se não houver restrição
       multi_select:
         all: Permite que o usuário atribua múltiplos valores a este campo personalizado.
         project: Permite que o usuário atribua múltiplos valores a este atributo.
@@ -4287,9 +4297,7 @@ pt-BR:
   mail_body_account_information: Suas informações de conta
   mail_body_account_information_external: Você pode usar sua conta %{value} para logar.
   mail_body_backup_ready: 'Seu backup solicitado está pronto. Você pode baixá-lo aqui:'
-  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
-
-    '
+  mail_body_backup_ready_incomplete: "%{file_count} não puderam ser lidos e foram excluídos deste backup. O arquivo baixado recebe o sufixo “-incomplete” para indicar que faltam alguns anexos.\n"
   mail_body_backup_token_info: O token anterior não é mais válido.
   mail_body_backup_token_reset_admin_info: O token de backup para o usuário %{user} foi redefinido.
   mail_body_backup_token_reset_user_info: Seu token de backup foi redefinido.
@@ -4613,7 +4621,7 @@ pt-BR:
   notice_account_already_activated: A conta já está ativada.
   notice_account_invalid_credentials: Usuário ou senha inválidos
   notice_account_invalid_credentials_or_blocked: Usuário ou senha inválido ou a conta está bloqueada devido a várias tentativas de login. Se for assim, será desbloqueado automaticamente em um curto espaço de tempo.
-  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
+  notice_account_invalid_credentials_sso_hint: Se a sua conta estiver configurada para acesso único, use o seu provedor de identidade para entrar.
   notice_account_invalid_token: Token de ativação inválido
   notice_account_lost_email_sent: Um e-mail com instruções para escolher uma nova senha foi enviado para você.
   notice_account_new_password_forced: Uma nova senha é necessária.
@@ -5527,14 +5535,39 @@ pt-BR:
     warnings:
       cannot_annotate: Este arquivo não pode ser anotado.
   roles:
+    delete_dialog:
+      confirm: Tem certeza que deseja excluir esta função?
+      entry_projects:
+        one: "(Projeto: %{projects})"
+        other: "(Projetos: %{projects})"
+      entry_projects_truncated:
+        one: "(Projetos: %{projects} e mais 1)"
+        other: "(Projetos: %{projects} e %{count} entre outros)"
+      heading:
+        one: 'Essa função ainda está atribuída a 1 membro:'
+        other: 'Este cargo ainda está atribuído aos membros %{count}:'
+      heading_unused: Tem certeza de que deseja excluir a função “%{name}”?
+      losing_project_access:
+        one: Desses usuários, 1 perderá o acesso aos projetos nos quais essa era sua única função. Tem certeza de que deseja excluir essa função?
+        other: Dentre esses usuários, %{count} perderá acesso aos projetos nos quais essa era sua única função. Tem certeza de que deseja excluir essa função?
+        zero: Nenhum desses usuários perderá o acesso a nenhum de seus projetos. Tem certeza de que deseja excluir essa função?
+      show_memberships: Mostrar todos os membros com essa função
+      summary: "%{users} em %{projects}"
+      summary_projects:
+        one: 1 projeto
+        other: "%{count} projetos"
+      summary_users:
+        one: 1 usuário
+        other: "%{count} usuários"
+      title: Excluir função
     edit:
       default_for_new_projects_warning: 'Falha ao mover o usuário entre departamentos. Este perfil está configurado como o perfil padrão atribuído a usuários não administradores que criam um projeto. Não remova as permissões a seguir, caso contrário os criadores de projetos não conseguirão concluir a configuração dos novos projetos que criarem:'
     index:
-      filter_label: Search roles
+      filter_label: Pesquisar funções
       types:
-        all: All roles
-        global: Global roles
-        project: Project roles
+        all: Todas as funções
+        global: Funções globais
+        project: Funções do projeto
     permissions:
       section_check_all_label: Atribuir todas as permissões de %{module}
       section_uncheck_all_label: Remover todas as permissões de %{module}
@@ -6111,13 +6144,14 @@ pt-BR:
         <br>
         <strong>Nota</strong>: Valores herdados (por exemplo, de itens filhos ou relações) ainda serão aplicados.
     index:
+      could_not_be_moved: Não foi possível alterar o status.
       headers:
-        excluded_from_totals: Excluído dos totais
         is_closed: Fechado
-        is_default: Padrão
         is_readonly: Somente leitura
+      no_filter_results_title_text: Nenhum status corresponde ao filtro atual.
       no_results_content_text: Adicionar uma nova situação
       no_results_title_text: Atualmente, não há nenhuma situação de pacote de trabalho.
+      status_actions: Ações de status
   support:
     array:
       sentence_connector: e
@@ -6401,7 +6435,6 @@ pt-BR:
         add_query_group: Tabela de pacotes de trabalho relacionados
         blankslate_description: Adicione grupos usando o botão acima ou arraste atributos do painel esquerdo.
         blankslate_title: Nenhum grupo ainda
-        builtin_field: Campo integrado
         confirm_delete_group: Tem certeza que deseja excluir esta seção? Esta ação não pode ser revertida automaticamente.
         confirm_reset: Tem certeza de que deseja redefinir o formulário?
         custom_field: Campo personalizado
@@ -6427,14 +6460,14 @@ pt-BR:
         remove_attribute: Remover da seção
         rename_group: Renomear seção
         required:
-          already_required_globally: This custom field is required for all types.
-          for_variant: Required in this type
-          globally: Required
-          globally_hint: Change this on the custom field
-          mark: Require in this type
-          not_a_custom_field: Only a custom field can be made required for a single type.
-          not_available_when_linked: This configuration is inherited. Configure it manually to change what is required.
-          unmark: Do not require in this type
+          already_required_globally: Este campo personalizado é necessário para todos os tipos.
+          for_variant: Obrigatório neste tipo
+          globally: Obrigatório
+          globally_hint: Alterar isso no campo personalizado
+          mark: Obrigatório neste tipo
+          not_a_custom_field: Apenas um campo personalizado pode ser obrigatório para um único tipo.
+          not_available_when_linked: Esta configuração é herdada. Configurá-la manualmente para mudar o que é necessário.
+          unmark: Não exigir neste tipo
         reset_description: 'Isto irá redefinir os atributos para seu grupo padrão e desativar TODOS os campos personalizados.
 
           '
@@ -6444,14 +6477,14 @@ pt-BR:
         tab: Formulário
         untitled_group: Grupo sem título
       overview:
-        configuration_mode: Configuration mode
-        dependents: Dependent types and variants
+        configuration_mode: Modo de configuração
+        dependents: Tipos dependentes e variantes
         mode:
-          always_manual: Always manual
-          inheriting_from_html: Inheriting from %{source_name}
-          manual: Manually configured
-        settings: Settings
-        tab: Overview
+          always_manual: Sempre manual
+          inheriting_from_html: Herdando de %{source_name}
+          manual: Configurado manualmente
+        settings: Configurações
+        tab: Visão geral
       project_attributes:
         actions:
           label_disable_all: Desabilitar todos
@@ -6585,7 +6618,7 @@ pt-BR:
         filter_no_results: Nenhuma variante corresponde a este filtro
         global_section:
           description: Estas variantes estão disponíveis em todos os projectos.
-          title: Global variants
+          title: Variantes globais
         project_specific_section:
           description: Estas variantes só estão disponíveis nos projetos em que foram criadas.
           title: Variante específica do projeto
@@ -6594,17 +6627,17 @@ pt-BR:
     index:
       add_variant: Adicionar uma variante a %{name}
       add_variant_action: Adicionar variante
-      convert_to_global: Convert to global variant
+      convert_to_global: Converter para variante global
       convert_to_global_dialog:
-        confirm: Convert
-        text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
+        confirm: Converter
+        text: 'Isto tornará esta variante específica de projeto uma global que está disponível para todos os projetos. O administrador do projeto não poderá mais editá-lo.
 
           '
-      convert_to_global_notice: "%{name} is now a global variant."
+      convert_to_global_notice: "%{name} agora é uma variante global."
       convert_to_global_rename:
-        confirm: Convert
-        text: A global variant with this name already exists. Please choose a different name.
-        title: Pick another name for this variant
+        confirm: Converter
+        text: Já existe uma variante global com esse nome. Escolha um nome diferente.
+        title: Escolha outro nome para esta variante
       description: 'Cada área de configuração em tipos e variantes pode ser configurada independentemente, limitada por outro tipo ou totalmente vinculada a uma origem.
 
         '
@@ -6996,12 +7029,12 @@ pt-BR:
       confirm_descendants_deletion: Confirmo que todos os descendentes listados acima também serão excluídos.
       cross_project_warning_html: 'Esses pacotes de trabalho abrangem vários projetos: %{projects}'
       descendants_choice:
-        heading: Delete all descendants too?
-        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
-        self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        self_only_label: Delete just the selected work packages
-        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
-        with_descendants_label: Delete the selected work packages and their descendants
+        heading: Excluir todos os descendentes também?
+        question: Você está tentando excluir pacotes de trabalho que têm descendentes. Deseja excluí-los também?
+        self_only_caption: Isto não irá apagar descendentes, mas irá remover relações hierárquicas.
+        self_only_label: Excluir apenas este pacote de trabalho
+        with_descendants_caption: Isto excluirá todos os pacotes de trabalho filhos visíveis para você. Você terá a chance de rever a lista completa no próximo passo.
+        with_descendants_label: Excluir este pacote de trabalho e descendentes
       description: Tem certeza de que deseja excluir os pacotes de trabalho selecionados e todos os dados associados?
       description_with_all_descendants: Tem certeza de que deseja excluir os pacotes de trabalho selecionados e todos os seus descendentes?
       description_with_descendants: Tem certeza de que deseja excluir os pacotes de trabalho selecionados e todos os seguintes descendentes?
@@ -7067,12 +7100,12 @@ pt-BR:
       confirm_descendants_deletion: Confirmo que todos os descendentes listados acima também serão excluídos.
       cross_project_warning_html: 'Pacotes de trabalho dos seguintes projetos serão excluídos: %{projects}'
       descendants_choice:
-        heading: Delete all descendants too?
-        question: This work package has descendants. Do you want to delete them as well?
-        self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        self_only_label: Delete just this work package
-        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
-        with_descendants_label: Delete this work package and descendants
+        heading: Excluir todos os descendentes também?
+        question: Este pacote de trabalho possui itens descendentes. Deseja excluí-los também?
+        self_only_caption: Isto não irá apagar descendentes, mas irá remover relações hierárquicas.
+        self_only_label: Excluir apenas este pacote de trabalho
+        with_descendants_caption: Isto excluirá todos os pacotes de trabalho filhos visíveis para você. Você terá a chance de rever a lista completa no próximo passo.
+        with_descendants_label: Excluir este pacote de trabalho e descendentes
       description: Tem certeza de que deseja excluir "%{name}"?
       heading: Excluir este pacote de trabalho de forma permanente?
       hidden_descendants_only_warning:

@@ -53,6 +53,10 @@ See COPYRIGHT and LICENSE files for more details.
                         sortable_lists_optimistic_value: true,
                         action: "#{Backlogs::WorkPackagesController::WORK_PACKAGE_MOVED_EVENT}@document->backlogs--split-view-sync#onWorkPackageMoved",
                         sortable_lists_move_url_template_value: backlogs_move_url_template(@project),
+                        sortable_lists_selection_enabled_value: batch_selection_allowed?(@project),
+                        sortable_lists_announcement_scope_value: "js.backlogs.selection",
+                        sortable_lists_selection_description_id_value:
+                          Backlogs::SelectionDescriptionComponent::DESCRIPTION_ID,
                         sortable_lists_sortable_lists__list_outlet: "#backlogs_container [data-controller~='sortable-lists--list']",
                         sortable_lists_sortable_lists__item_outlet: "#backlogs_container [data-controller~='sortable-lists--item']",
                         sortable_lists_sortable_lists__scrollable_outlet: "#backlogs_container [data-controller~='sortable-lists--scrollable']"

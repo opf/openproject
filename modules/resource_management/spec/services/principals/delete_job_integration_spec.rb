@@ -40,7 +40,7 @@ RSpec.describe Principals::DeleteJob, "ResourceAllocation", type: :model do
     let!(:allocation) { create(:resource_allocation, principal:) }
     let!(:other_allocation) { create(:resource_allocation, principal: create(:user)) }
     let!(:unassigned_allocation) do
-      create(:resource_allocation, principal: nil, principal_explicit: false, filter_name: "Devs")
+      create(:resource_allocation, :with_user_filter, filter_name: "Devs")
     end
 
     it "rewrites the principal to the deleted user placeholder" do

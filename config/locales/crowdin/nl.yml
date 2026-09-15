@@ -222,6 +222,7 @@ nl:
         title: Title
       member:
         blocked: Blocked
+        principal_type: Member type
         roles: Rollen
       notification:
         read_ian: Read in-app
@@ -1743,6 +1744,14 @@ nl:
       update:
         failure: MCP configuration could not be updated.
         success: MCP configuration was updated successfully.
+    members:
+      index:
+        blank_description: No membership matches the current filter.
+        blank_title: No memberships
+        filter_label: Search users
+        inheritance_source: "%{type} %{name}"
+        inherited_via: "(via: %{source})"
+        title: Memberships
     plugins:
       no_results_content_text: Zie onze pagina met integraties en plugins voor meer informatie.
       no_results_title_text: Er zijn momenteel geen plugins geïnstalleerd.
@@ -1988,6 +1997,13 @@ nl:
           assignee: Additional transitions available to the work package's assignee.
           author: Additional transitions available to the work package's author.
         menu_label: Transitions shown
+  ai:
+    text_transform:
+      errors:
+        connection_failed: The AI service could not be reached.
+        not_available: The AI assistant is not available.
+        timeout: The AI service did not respond in time.
+        upstream_error: The AI service returned an error.
   announcements:
     is_active: momenteel getoond
     is_inactive: momenteel niet getoond
@@ -2050,10 +2066,6 @@ nl:
       not_found:
         reminder: The reminder you are looking for cannot be found or has been deleted.
         work_package: Het werkpakket dat u zoekt kan niet gevonden of verwijderd worden.
-      render:
-        context_not_parsable: De geboden context is niet een link naar een bron.
-        context_object_not_found: Kan de bron niet vind als gegeven context.
-        unsupported_context: De gegeven bron wordt niet ondersteund als context.
       unable_to_create_attachment: De bijlage kon niet aangemaakt worden
       unable_to_create_attachment_permissions: De bijlage kon niet worden opgeslagen vanwege ontbrekende bestandssysteem rechten
       user:
@@ -5522,6 +5534,31 @@ nl:
     warnings:
       cannot_annotate: Dit bestand kan niet geannoteerd worden.
   roles:
+    delete_dialog:
+      confirm: Are you sure you want to delete this role?
+      entry_projects:
+        one: "(Project: %{projects})"
+        other: "(Projects: %{projects})"
+      entry_projects_truncated:
+        one: "(Projects: %{projects} and 1 other)"
+        other: "(Projects: %{projects} and %{count} others)"
+      heading:
+        one: 'This role is still attributed to 1 member:'
+        other: 'This role is still attributed to %{count} members:'
+      heading_unused: Are you sure you want to delete the role "%{name}"?
+      losing_project_access:
+        one: Out of these users, 1 will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        other: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        zero: None of these users will lose access to any of their projects. Are you sure you want to delete this role?
+      show_memberships: Show all memberships with this role
+      summary: "%{users} in %{projects}"
+      summary_projects:
+        one: 1 project
+        other: "%{count} projects"
+      summary_users:
+        one: 1 user
+        other: "%{count} users"
+      title: Delete role
     edit:
       default_for_new_projects_warning: 'This role is configured as the default role given to non-admin users who create a project. Do not remove the following permissions, otherwise project creators will be unable to complete the setup of their newly created projects:'
     index:
@@ -6109,13 +6146,14 @@ nl:
         <br>
         <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Uitgesloten van totalen
         is_closed: Gesloten
-        is_default: Standaard
         is_readonly: Alleen-lezen
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Voeg een nieuwe status toe
       no_results_title_text: Er zijn momenteel geen werkpakket statussen.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: en
@@ -6403,7 +6441,6 @@ nl:
         add_query_group: Related work packages table
         blankslate_description: Add groups using the button above or drag attributes from the left panel.
         blankslate_title: No groups yet
-        builtin_field: Built-in field
         confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Custom field

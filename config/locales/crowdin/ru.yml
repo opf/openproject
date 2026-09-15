@@ -222,6 +222,7 @@ ru:
         title: Название
       member:
         blocked: Заблокирован
+        principal_type: Member type
         roles: Роль
       notification:
         read_ian: Читайте в приложении
@@ -1973,6 +1974,14 @@ ru:
       update:
         failure: Конфигурация MCP не может быть обновлена.
         success: Конфигурация MCP была успешно обновлена.
+    members:
+      index:
+        blank_description: No membership matches the current filter.
+        blank_title: No memberships
+        filter_label: Search users
+        inheritance_source: "%{type} %{name}"
+        inherited_via: "(via: %{source})"
+        title: Memberships
     plugins:
       no_results_content_text: Более подробную информацию см. на странице "Наши интеграции и плагины".
       no_results_title_text: В настоящее время плагины не установлены.
@@ -2228,6 +2237,13 @@ ru:
           assignee: Дополнительные варианты перехода, доступные исполнителю пакета работ.
           author: Дополнительные варианты перехода, доступные автору пакета работ.
         menu_label: Показаны переходы
+  ai:
+    text_transform:
+      errors:
+        connection_failed: The AI service could not be reached.
+        not_available: The AI assistant is not available.
+        timeout: The AI service did not respond in time.
+        upstream_error: The AI service returned an error.
   announcements:
     is_active: теперь отображается
     is_inactive: теперь не отображается
@@ -2290,10 +2306,6 @@ ru:
       not_found:
         reminder: Напоминание, которое вы ищете, не найдено или было удалено.
         work_package: Пакет работ, который вы ищете, не найден или был удален.
-      render:
-        context_not_parsable: Предоставленного контекста не является ссылка на ресурс.
-        context_object_not_found: Не удается найти ресурс заданный как контекст.
-        unsupported_context: Ресурс не поддерживается как контекст.
       unable_to_create_attachment: Вложение не может быть создано
       unable_to_create_attachment_permissions: Вложение не может быть сохранено из-за отсутствия прав на файловую систему
       user:
@@ -5847,6 +5859,41 @@ ru:
     warnings:
       cannot_annotate: Этот файл не может быть прокомментирован.
   roles:
+    delete_dialog:
+      confirm: Are you sure you want to delete this role?
+      entry_projects:
+        one: "(Project: %{projects})"
+        few: "(Projects: %{projects})"
+        many: "(Projects: %{projects})"
+        other: "(Projects: %{projects})"
+      entry_projects_truncated:
+        one: "(Projects: %{projects} and 1 other)"
+        few: "(Projects: %{projects} and %{count} others)"
+        many: "(Projects: %{projects} and %{count} others)"
+        other: "(Projects: %{projects} and %{count} others)"
+      heading:
+        one: 'This role is still attributed to 1 member:'
+        few: 'This role is still attributed to %{count} members:'
+        many: 'This role is still attributed to %{count} members:'
+        other: 'This role is still attributed to %{count} members:'
+      heading_unused: Are you sure you want to delete the role "%{name}"?
+      losing_project_access:
+        one: Out of these users, 1 will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        other: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        zero: None of these users will lose access to any of their projects. Are you sure you want to delete this role?
+      show_memberships: Show all memberships with this role
+      summary: "%{users} in %{projects}"
+      summary_projects:
+        one: 1 project
+        few: "%{count} projects"
+        many: "%{count} projects"
+        other: "%{count} projects"
+      summary_users:
+        one: 1 user
+        few: "%{count} users"
+        many: "%{count} users"
+        other: "%{count} users"
+      title: Delete role
     edit:
       default_for_new_projects_warning: 'Эта роль настроена как роль по умолчанию, предоставляемая пользователям, не являющимся администраторами, которые создают проект. Не удаляйте следующие разрешения, иначе создатели проектов не смогут завершить настройку своих новых проектов:'
     index:
@@ -6434,13 +6481,14 @@ ru:
         <br>
         <strong>Примечание</strong>: Будут применены унаследованные значения (например, от дочерних или родительских пакетов работ).
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Исключен из итогов
         is_closed: Закрыт
-        is_default: По умолчанию
         is_readonly: Только для чтения
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Добавить новый статус
       no_results_title_text: В данный момент статусы пакетов работ отсутствуют.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: и
@@ -6724,7 +6772,6 @@ ru:
         add_query_group: Таблица связанных пакетов работ
         blankslate_description: Добавьте группы с помощью кнопки выше или перетащите атрибуты с левой панели.
         blankslate_title: Нет групп
-        builtin_field: Встроенное поле
         confirm_delete_group: Вы уверены, что хотите удалить эту секцию? Это действие нельзя автоматически отменить.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Настраиваемое поле

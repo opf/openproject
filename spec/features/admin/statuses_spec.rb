@@ -40,6 +40,171 @@ RSpec.describe "Statuses admin page", :js do
     login_as(admin)
   end
 
+  describe "index page" do
+    # Reordering persists across examples, so each one starts from a known order.
+    before do
+      [status_new, status_in_progress, status_done].each_with_index do |status, index|
+        status.update_column(:position, index + 1)
+      end
+    end
+
+    let(:statuses_page) { Pages::Admin::Statuses.new }
+
+    it "names the page for the collection it lists" do
+      statuses_page.visit!
+
+      statuses_page.expect_header_to_display("Statuses")
+    end
+
+    it "reorders statuses through the action menu" do
+      statuses_page.visit!
+
+      statuses_page.expect_listed("New", "In Progress", "Done")
+
+      statuses_page.click_status_action(status_new, action: "Move to bottom")
+
+      expect(page).to have_text("Successful update.")
+      statuses_page.expect_listed("In Progress", "Done", "New")
+
+      statuses_page.click_status_action(status_done, action: "Move up")
+
+      statuses_page.expect_listed("Done", "In Progress", "New")
+    end
+
+    it "offers no upward move on the first status" do
+      statuses_page.visit!
+
+      statuses_page.within_status(status_new) do
+        click_on accessible_name: "Status actions"
+        expect(page).to have_no_button("Move to top")
+        expect(page).to have_button("Move to bottom")
+      end
+    end
+
+    it "reorders statuses by dragging them after a morph", :selenium do
+      visit statuses_page.path
+
+      wait_for_turbo_stream { statuses_page.drag_status(from_index: 2, to_index: 0) }
+
+      statuses_page.expect_listed("Done", "New", "In Progress")
+      expect(Status.order(:position).pluck(:name)).to eq(["Done", "New", "In Progress"])
+
+      wait_for_turbo_stream { statuses_page.drag_status(from_index: 0, to_index: 2) }
+
+      statuses_page.expect_listed("New", "Done", "In Progress")
+      expect(Status.order(:position).pluck(:name)).to eq(["New", "Done", "In Progress"])
+
+      statuses_page.reload!
+      statuses_page.expect_listed("New", "Done", "In Progress")
+    end
+
+    it "preserves focus on a surviving link when a move form morphs the list", :selenium do
+      visit statuses_page.path
+
+      move_button = nil
+      statuses_page.within_status(status_new) do
+        click_on accessible_name: "Status actions"
+        move_button = find_button("Move to bottom")
+      end
+      move_button.send_keys(:escape)
+      expect(move_button).not_to be_visible
+      find_link("In Progress").execute_script("this.focus()")
+      expect(page).to have_css("a[href='/statuses/#{status_in_progress.id}/edit']:focus")
+
+      wait_for_turbo_stream { move_button.execute_script("this.form.requestSubmit(this)") }
+
+      statuses_page.expect_listed("In Progress", "Done", "New")
+      expect(page).to have_css("a[href='/statuses/#{status_in_progress.id}/edit']:focus")
+    end
+
+    describe "quick filters" do
+      shared_let(:task) { create(:type, name: "Task") }
+      shared_let(:manager) { create(:project_role, name: "Manager") }
+      shared_let(:member) { create(:project_role, name: "Member") }
+      shared_let(:task_manager_transition) do
+        create(:workflow, type: task, role: manager, old_status: status_new, new_status: status_in_progress)
+      end
+
+      it "narrows the list to the statuses of the selected type and role" do
+        statuses_page.visit!
+        statuses_page.expect_listed("New", "In Progress", "Done")
+
+        statuses_page.quick_filter_by("type", "Type", "Task")
+
+        statuses_page.expect_listed("New", "In Progress")
+
+        statuses_page.quick_filter_by("role", "Role", "Member")
+
+        statuses_page.expect_listed
+      end
+
+      it "offers no reordering while filtered, since positions are global" do
+        statuses_page.visit!
+        expect(page).to have_css(".DragHandle")
+
+        statuses_page.quick_filter_by("type", "Type", "Task")
+
+        statuses_page.expect_no_reordering
+        expect(page).to have_no_css("[data-controller*='sortable-lists']")
+      end
+    end
+
+    describe "pagination", with_settings: { per_page_options: "2, 100" } do
+      it "pages the list, and a larger page size widens what drag and drop can reach", :selenium do
+        visit statuses_page.path
+
+        statuses_page.expect_listed("New", "In Progress")
+
+        statuses_page.set_page_size(100)
+
+        statuses_page.expect_listed("New", "In Progress", "Done")
+
+        wait_for_turbo_stream { statuses_page.drag_status(from_index: 2, to_index: 0) }
+
+        statuses_page.expect_listed("Done", "New", "In Progress")
+        expect(Status.order(:position).pluck(:name)).to eq(["Done", "New", "In Progress"])
+      end
+
+      it "keeps a drop at the top of page two on page two", :selenium do
+        create(:status, name: "Archived")
+        visit statuses_page.path
+        statuses_page.go_to_page(2)
+        statuses_page.expect_listed("Done", "Archived")
+
+        wait_for_turbo_stream { statuses_page.drag_status(from_index: 1, to_index: 0) }
+
+        statuses_page.expect_listed("Archived", "Done")
+        expect(Status.order(:position).pluck(:name)).to eq(["New", "In Progress", "Archived", "Done"])
+
+        statuses_page.reload!
+        statuses_page.expect_listed("Archived", "Done")
+      end
+
+      it "moves to the global top through the menu on page two" do
+        statuses_page.visit!
+        statuses_page.go_to_page(2)
+        statuses_page.expect_listed("Done")
+
+        wait_for_turbo_stream { statuses_page.click_status_action(status_done, action: "Move to top") }
+
+        statuses_page.expect_listed("In Progress")
+        expect(Status.order(:position).pluck(:name)).to eq(["Done", "New", "In Progress"])
+      end
+
+      it "keeps the reader on their page after a move" do
+        statuses_page.visit!
+        statuses_page.go_to_page(2)
+
+        statuses_page.expect_listed("Done")
+
+        statuses_page.click_status_action(status_done, action: "Move up")
+
+        statuses_page.expect_listed("In Progress")
+        expect(Status.order(:position).pluck(:name)).to eq(["New", "Done", "In Progress"])
+      end
+    end
+  end
+
   describe "create page" do
     context "with enterprise edition", with_ee: %i[readonly_work_packages] do
       it "has 'is read-only' checkbox unchecked and disabled only when 'is default' is checked (mutually exclusive)" do

@@ -131,10 +131,8 @@ RSpec.describe RecurringMeetings::SetAttributesService, type: :model do
     context "with a schedule change" do
       let(:params) { { start_time_hour: "14:00" } }
 
-      it "moves the anchor to the next occurrence of the new schedule" do
-        subject
-
-        expect(model_instance.current_schedule_start).to eq("2026-06-17 14:00:00 UTC")
+      it "leaves the anchor pinned to the UID" do
+        expect { subject }.not_to change(model_instance, :current_schedule_start)
       end
     end
 
