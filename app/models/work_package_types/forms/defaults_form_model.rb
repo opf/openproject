@@ -104,7 +104,8 @@ module WorkPackageTypes
           label: token.label,
           context: token.context,
           label_with_context: token.label_with_context,
-          enabled:
+          enabled:,
+          available_formats: token.formatter.available_formats
         }
       end
       private_class_method :token_to_hash
