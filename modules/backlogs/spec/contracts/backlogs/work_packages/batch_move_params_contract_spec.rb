@@ -68,6 +68,12 @@ RSpec.describe Backlogs::WorkPackages::BatchMoveParamsContract do
     expect(contract(ids: [], list_type: "inbox")).not_to be_valid
   end
 
+  it "accepts exactly as many ids as the cap" do
+    ids = Array.new(Backlogs::WorkPackages::BatchUpdateService::MAX_BATCH_SIZE) { |i| (i + 1).to_s }
+
+    expect(contract(ids:, list_type: "inbox")).to be_valid
+  end
+
   it "rejects more ids than the cap" do
     ids = Array.new(Backlogs::WorkPackages::BatchUpdateService::MAX_BATCH_SIZE + 1) { |i| (i + 1).to_s }
 

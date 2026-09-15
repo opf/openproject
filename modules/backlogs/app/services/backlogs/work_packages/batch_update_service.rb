@@ -41,7 +41,7 @@
 class Backlogs::WorkPackages::BatchUpdateService
   # Enforced by the controller before it loads the batch and by the service
   # itself for every other caller.
-  MAX_BATCH_SIZE = 500
+  MAX_BATCH_SIZE = 50
 
   attr_reader :user, :work_packages
 
