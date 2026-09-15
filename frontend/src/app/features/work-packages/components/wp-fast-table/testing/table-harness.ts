@@ -151,7 +151,6 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
   );
 
   const outputs:WorkPackageViewOutputs = {
-    selectionChanged: new EventEmitter<string[]>(),
     itemClicked: new EventEmitter<{ workPackageId:string, double:boolean }>(),
     stateLinkClicked: new EventEmitter<{ workPackageId:string, requestedState:string }>(),
   };

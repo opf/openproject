@@ -66,33 +66,29 @@ describe('RowClickHandler', () => {
     expect(checkedIds()).toEqual(['3']);
   });
 
-  it('emits the clicked work package and the new selection', () => {
+  it('emits the clicked work package', () => {
     const clicked:string[] = [];
-    const selections:string[][] = [];
     harness.outputs.itemClicked.subscribe(({ workPackageId }) => clicked.push(workPackageId));
-    harness.outputs.selectionChanged.subscribe((ids) => selections.push(ids));
 
     harness.click('2');
 
     expect(clicked).toEqual(['2']);
-    expect(selections).toEqual([['2']]);
   });
 
   it.each([
     { modifiers: { shiftKey: true }, expected: ['1', '2', '3'] },
     { modifiers: { ctrlKey: true }, expected: ['1', '3'] },
     { modifiers: { metaKey: true }, expected: ['1', '3'] },
-  ])('emits only selection changes for $modifiers', ({ modifiers, expected }) => {
+  ])('updates selection without emitting itemClicked for $modifiers', ({ modifiers, expected }) => {
     harness.click('1');
     const itemClicked = vi.fn();
-    const selectionChanged = vi.fn();
     harness.outputs.itemClicked.subscribe(itemClicked);
-    harness.outputs.selectionChanged.subscribe(selectionChanged);
 
     harness.click('3', modifiers);
 
     expect(itemClicked).not.toHaveBeenCalled();
-    expect(selectionChanged).toHaveBeenCalledExactlyOnceWith(expected);
+    expect(selectedIds()).toEqual(expected);
+    expect(checkedIds()).toEqual(expected);
   });
 
   it('selects the range from the anchor on shift-click', () => {

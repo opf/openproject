@@ -94,13 +94,11 @@ export class RowClickHandler implements TableEventHandler {
       return true;
     }
 
-    const selected = this.selectionGestures.handleClick(wpId, view.workPackageTable.renderedRows, evt, element.dataset.classIdentifier);
+    this.selectionGestures.handleClick(wpId, view.workPackageTable.renderedRows, evt, element.dataset.classIdentifier);
 
     if (!(evt.ctrlKey || evt.metaKey || evt.shiftKey)) {
       view.itemClicked.emit({ workPackageId: wpId, double: false });
     }
-
-    view.selectionChanged.emit(selected);
 
     // The current row is the last selected work package
     // not matter what other rows are (de-)selected below.

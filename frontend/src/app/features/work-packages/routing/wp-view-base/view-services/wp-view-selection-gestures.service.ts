@@ -39,7 +39,7 @@ export interface SelectionModifiers {
 export class WorkPackageViewSelectionGesturesService {
   private readonly selection = inject(WorkPackageViewSelectionService);
 
-  handleClick(workPackageId:string, rendered:RenderedWorkPackage[], modifiers:SelectionModifiers, classIdentifier?:string):string[] {
+  handleClick(workPackageId:string, rendered:RenderedWorkPackage[], modifiers:SelectionModifiers, classIdentifier?:string):void {
     const toggle = Boolean(modifiers.ctrlKey) || Boolean(modifiers.metaKey);
 
     if (!modifiers.shiftKey && !toggle) {
@@ -53,8 +53,6 @@ export class WorkPackageViewSelectionGesturesService {
     if (toggle) {
       this.selection.toggleRow(workPackageId);
     }
-
-    return this.selection.getSelectedWorkPackageIds();
   }
 
   replace(workPackageId:string, rendered:RenderedWorkPackage[], classIdentifier?:string):void {

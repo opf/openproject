@@ -59,11 +59,10 @@ describe('WorkPackageViewSelectionGesturesService', () => {
   });
 
   describe('#handleClick', () => {
-    it('replaces the selection on a plain click and returns the ids', () => {
+    it('replaces the selection on a plain click', () => {
       gestures.handleClick('1', rendered, {});
-      const ids = gestures.handleClick('3', rendered, {});
+      gestures.handleClick('3', rendered, {});
 
-      expect(ids).toEqual(['3']);
       expect(selected()).toEqual(['3']);
     });
 
