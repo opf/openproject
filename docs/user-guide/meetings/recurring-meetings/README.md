@@ -37,7 +37,7 @@ Enter your meeting's title, location, start and end date and time, duration, fre
 
 > [!NOTE]
 >
-> The date is by default set to the present day, while the start time is automatically rounded up to the next half-hour.
+> The date is set to the present day by default, while the start time is automatically rounded up to the next half-hour. For example, if the current time is 10:09, the start time is set to 10:30.
 
 > [!TIP] 
 > Duration can be entered both in hours and minutes. For example for a meeting that should last for 1.5 hours, you can enter: 
