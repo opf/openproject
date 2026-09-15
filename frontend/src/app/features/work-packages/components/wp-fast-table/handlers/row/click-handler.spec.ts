@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { fireEvent } from '@testing-library/dom';
 import { buildTable, TableHarness } from '../../testing/table-harness';
 
 describe('RowClickHandler', () => {
@@ -44,6 +45,19 @@ describe('RowClickHandler', () => {
     .filter((row) => row.classList.contains('-checked'))
     .map((row) => row.dataset.workPackageId);
 
+  function insertRelationRow(workPackageId:string, afterWorkPackageId:string):void {
+    const precedingRow = harness.row(afterWorkPackageId);
+    const relationRow = harness.row(workPackageId).cloneNode(true) as HTMLTableRowElement;
+    const classIdentifier = `wp-relation-row-${afterWorkPackageId}-to-${workPackageId}`;
+    relationRow.dataset.classIdentifier = classIdentifier;
+    precedingRow.after(relationRow);
+
+    const rendered = [...harness.table.renderedRows];
+    const precedingIndex = rendered.findIndex((row) => row.classIdentifier === precedingRow.dataset.classIdentifier);
+    rendered.splice(precedingIndex + 1, 0, { classIdentifier, workPackageId, hidden: false });
+    harness.querySpace.tableRendered.putValue(rendered);
+  }
+
   it('replaces the selection on a plain click', () => {
     harness.click('1');
     harness.click('3');
@@ -52,33 +66,29 @@ describe('RowClickHandler', () => {
     expect(checkedIds()).toEqual(['3']);
   });
 
-  it('emits the clicked work package and the new selection', () => {
+  it('emits the clicked work package', () => {
     const clicked:string[] = [];
-    const selections:string[][] = [];
     harness.outputs.itemClicked.subscribe(({ workPackageId }) => clicked.push(workPackageId));
-    harness.outputs.selectionChanged.subscribe((ids) => selections.push(ids));
 
     harness.click('2');
 
     expect(clicked).toEqual(['2']);
-    expect(selections).toEqual([['2']]);
   });
 
   it.each([
     { modifiers: { shiftKey: true }, expected: ['1', '2', '3'] },
     { modifiers: { ctrlKey: true }, expected: ['1', '3'] },
     { modifiers: { metaKey: true }, expected: ['1', '3'] },
-  ])('emits only selection changes for $modifiers', ({ modifiers, expected }) => {
+  ])('updates selection without emitting itemClicked for $modifiers', ({ modifiers, expected }) => {
     harness.click('1');
     const itemClicked = vi.fn();
-    const selectionChanged = vi.fn();
     harness.outputs.itemClicked.subscribe(itemClicked);
-    harness.outputs.selectionChanged.subscribe(selectionChanged);
 
     harness.click('3', modifiers);
 
     expect(itemClicked).not.toHaveBeenCalled();
-    expect(selectionChanged).toHaveBeenCalledExactlyOnceWith(expected);
+    expect(selectedIds()).toEqual(expected);
+    expect(checkedIds()).toEqual(expected);
   });
 
   it('selects the range from the anchor on shift-click', () => {
@@ -87,6 +97,17 @@ describe('RowClickHandler', () => {
 
     expect(selectedIds()).toEqual(['2', '3', '4']);
     expect(checkedIds()).toEqual(['2', '3', '4']);
+  });
+
+  it.each([false, true])('uses the clicked occurrence when a work package appears twice (reverse: %s)', async (reverse) => {
+    await harness.render([{ id: '1' }, { id: '3' }, { id: '2' }, { id: '4' }]);
+    const primaryRow = harness.row('2');
+    insertRelationRow('2', '1');
+
+    const rows = reverse ? [harness.row('4'), primaryRow] : [primaryRow, harness.row('4')];
+    rows.forEach((row, index) => fireEvent.click(row, { shiftKey: index === 1 }));
+
+    expect(selectedIds()).toEqual(['2', '4']);
   });
 
   it('keeps the range anchored to the first selected row', () => {

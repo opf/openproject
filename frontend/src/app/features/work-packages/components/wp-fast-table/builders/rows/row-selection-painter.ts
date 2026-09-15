@@ -26,36 +26,15 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injector } from '@angular/core';
-import { PrimaryRenderPass, RowRenderInfo } from '../primary-render-pass';
-import { TimelineRowBuilder } from './timeline-row-builder';
-import { WorkPackageTable } from '../../wp-fast-table';
+export const checkedClassName = '-checked';
+export const pressedClassName = '-pressed';
 
-export class TimelineRenderPass {
-  /** Row builders */
-  protected timelineBuilder:TimelineRowBuilder;
+export interface RowSelectionState {
+  selected:boolean;
+  pressed:boolean;
+}
 
-  /** Resulting timeline body */
-  public timelineBody:DocumentFragment;
-
-  constructor(public readonly injector:Injector,
-    private table:WorkPackageTable,
-    private tablePass:PrimaryRenderPass) {
-  }
-
-  public render() {
-    // Prepare and reset the render pass
-    this.timelineBody = document.createDocumentFragment();
-    this.timelineBuilder = new TimelineRowBuilder(this.injector, this.table);
-
-    // Render into timeline fragment
-    this.tablePass.renderedOrder.forEach((row:RowRenderInfo) => {
-      const wpId = row.workPackage ? row.workPackage.id : null;
-
-      const secondary = this.timelineBuilder.build(wpId);
-      secondary.classList.add(row.classIdentifier, `${row.classIdentifier}-timeline`, ...row.additionalClasses);
-      secondary.dataset.classIdentifier = row.classIdentifier;
-      this.timelineBody.appendChild(secondary);
-    });
-  }
+export function paintRowSelection(row:HTMLElement, state:RowSelectionState):void {
+  row.classList.toggle(checkedClassName, state.selected);
+  row.classList.toggle(pressedClassName, state.pressed);
 }
