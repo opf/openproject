@@ -159,7 +159,9 @@ Instead of **Min length** and **Max length**, administrators now configure:
 
 ![Configuring minimum and maximum values for a number custom field](openproject_release_notes_17.9_number_custom_field_min_max.png)
 
-Integer fields accept integer limits, while floating-point fields support decimal values. 
+Integer fields accept integer limits, while floating-point fields support decimal values.
+A migration has been added to try and convert the previous length values to their respective minimum and maximum values. In some cases, this migration may not be accurate. 
+If you have used this feature in the past, please double-check your configuration
 
 ### Configurable SAML clock drift
 
@@ -208,7 +210,7 @@ Existing environment-based configuration continues to be supported and takes pre
 - Feature: Add search/filter support for meetings in the GET /api/v3/meetings endpoint \[[#79862](https://community.openproject.org/wp/79862)\]
 - Feature: Give users the choice to not include descendants when deleting work packages \[[#77999](https://community.openproject.org/wp/77999)\]
 - Feature: Global default settings for PDF exports by type \[[#78333](https://community.openproject.org/wp/78333)\]
-- Feature:  Allow planned labor to be entered in hours, days, weeks, or months \[[#78544](https://community.openproject.org/wp/78544)\]
+- Feature: Allow planned labor to be entered in hours, days, weeks, or months \[[#78544](https://community.openproject.org/wp/78544)\]
 - Feature: PMflex Artefact PDF: Include project phases and budgets \[[#78561](https://community.openproject.org/wp/78561)\]
 - Feature: Allow differing time stamps between SAML IdP and SP (OpenProject) within margin (allowed\_clock\_drift) \[[#79019](https://community.openproject.org/wp/79019)\]
 - Feature: Allow restricting password login for SSO authenticated users \[[#79300](https://community.openproject.org/wp/79300)\]
