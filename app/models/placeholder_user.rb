@@ -36,6 +36,7 @@ class PlaceholderUser < Principal
   validates :name, length: { maximum: 256 }
 
   include ::Associations::Groupable
+  include ::Costs::HasRates
 
   has_details_table(foreign_key: :principal_id) do
     # Deferred: loading UserQuery reads the schema, which fails during db:create.
