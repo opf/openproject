@@ -51,6 +51,18 @@ The _Move to another project_ option moves a work package to another project or 
 
 ## Delete a work package
 
-The right to delete work packages is tied to specified roles (for example system administrators). The roles and permission may vary from project to project.
+The right to delete work packages is tied to specified roles (for example system administrators). The roles and permission may vary from project to project. 
 
-You can select these options either in the detail view under _More_ or via the context menu by right-clicking into the work package table. The latter option allows you to perform an action (such as copying, moving or deleting a work package) on multiple work packages at once.
+To delete a work package, right-click on it and select  **Delete**. 
+
+If a work package has descendants, a confirmation dialog asks whether you want to delete only the parent work package or the parent and all its descendants.
+
+![Dialog form to delete a work package](openproject_user_guide_delete_work_package.png)
+
+If you select *Delete this work package and descendants,* a warning dialog appears. Review the action, select the confirmation checkbox, and click **Delete permanently**.
+
+![Danger dialog form to delete a work package and its descendants](openproject_user_guide_delete_work_package_danger_dialog_form.png)
+
+> [!TIP]
+>
+> You can select the option to delete a work package and other actions from either its **open details view** (represented with an information icon)  or the **open context menu (...)** in the work package table. 
