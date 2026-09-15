@@ -46,6 +46,8 @@ Rails.application.routes.draw do
   end
 
   namespace "my" do
+    get "/hourly_rates" => "hourly_rates#show", as: "hourly_rates"
+
     get "/timer" => "timer#show", as: "timers"
 
     get "/time-tracking/(:mode-:view_mode)(/:date)" => "time_tracking#index",

@@ -161,6 +161,14 @@ module Costs
            end,
            icon: :stopwatch
 
+      menu :my_menu,
+           :hourly_rates,
+           { controller: "/my/hourly_rates", action: "show" },
+           after: :working_hours,
+           caption: :caption_rate_history,
+           if: ->(*) { ::My::HourlyRatesController.rates_visible?(User.current) },
+           icon: "credit-card"
+
       menu :top_menu,
            :my_time_tracking,
            { controller: "/my/time_tracking", action: "index" },

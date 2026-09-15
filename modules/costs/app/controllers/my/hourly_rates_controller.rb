@@ -28,45 +28,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module HourlyRates
-  class HistoryComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
+module My
+  class HourlyRatesController < ::ApplicationController
+    before_action :require_login
+    before_action :authorize_viewing_own_rates
 
-    options :principal
-    options show_default_rates: true
+    no_authorization_required! :show
+
+    layout "my"
+    menu_item :hourly_rates
+
+    def self.rates_visible?(user)
+      user.allowed_in_any_project?(:view_own_hourly_rate) ||
+        user.allowed_in_any_project?(:view_hourly_rates)
+    end
+
+    def show; end
 
     private
 
-    def rate_history
-      @rate_history ||= ::HourlyRate.history_for_user(principal)
-    end
-
-    def default_rates
-      rate_history[nil] || []
-    end
-
-    def project_rates
-      @project_rates ||= rate_history.except(nil)
-    end
-
-    def current_default_rate
-      @current_default_rate ||= principal.current_default_rate
-    end
-
-    def current_rate_for(project)
-      helpers.at_date_in_project_with_ancestors(Time.zone.today, project_rates, project)
-    end
-
-    def new_default_rate_url
-      return unless DefaultHourlyRates::BaseContract.can_manage?(user: User.current)
-
-      helpers.new_default_hourly_rate_path(principal_id: principal.id)
-    end
-
-    def new_project_rate_url(project)
-      return unless HourlyRates::BaseContract.can_manage?(user: User.current, principal_id: principal.id, project:)
-
-      helpers.new_projects_hourly_rate_path(project_id: project, principal_id: principal.id)
+    def authorize_viewing_own_rates
+      deny_access unless self.class.rates_visible?(current_user)
     end
   end
 end
