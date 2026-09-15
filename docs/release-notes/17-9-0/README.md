@@ -161,7 +161,7 @@ Instead of **Min length** and **Max length**, administrators now configure:
 
 Integer fields accept integer limits, while floating-point fields support decimal values.
 A migration has been added to try and convert the previous length values to their respective minimum and maximum values. In some cases, this migration may not be accurate. 
-If you have used this feature in the past, please double-check your configuration
+If you have used this feature in the past, please double-check your configuration.
 
 ### Configurable SAML clock drift
 
