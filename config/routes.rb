@@ -122,7 +122,11 @@ Rails.application.routes.draw do
     get "/logout", action: "logout", as: "signout"
 
     get "/sso", action: "auth_source_sso_failed", as: "sso_failure"
+  end
 
+  get "/login/omniauth/:provider", to: "omni_auth_start#show", as: "omniauth_login"
+
+  scope controller: "account" do
     get "/login/:stage/failure", action: "stage_failure", as: "stage_failure"
     get "/login/:stage/:secret", action: "stage_success", as: "stage_success"
 
@@ -178,17 +182,12 @@ Rails.application.routes.draw do
 
     resource :form_configuration, only: %i[edit update], controller: "form_configuration_tab" do
       get :reset_dialog
-      resources :groups, only: %i[create edit update destroy], controller: "form_configuration_groups_tab", param: :key do
-        collection do
-          post :add_group
-        end
-
-        member do
-          post :cancel_edit
-          put :drop
-          put :move
-          patch :update_query
-        end
+      resource :group, only: %i[create edit update destroy], controller: "form_configuration_groups_tab" do
+        post :add_group
+        post :cancel_edit
+        put :drop
+        put :move
+        patch :update_query
       end
       resources :rows, only: %i[destroy], controller: "form_configuration_tab", param: :row_key do
         member do

@@ -625,7 +625,6 @@ he:
         and_more_users:
           one: and 1 other
           two: and %{count} others
-          many: and %{count} others
           other: and %{count} others
         empty_state:
           no_notification: Looks like you are all caught up.
@@ -866,7 +865,6 @@ he:
       child_work_packages:
         one: one child work package
         two: "%{count} work package children"
-        many: "%{count} work package children"
         other: "%{count} work package children"
       day:
         one: יום אחד
@@ -880,12 +878,10 @@ he:
       word:
         one: 1 word
         two: "%{count} words"
-        many: "%{count} words"
         other: "%{count} words"
       workPackage:
         one: work package
         two: work packages
-        many: work packages
         other: work packages
     upsell:
       ee_only: Enterprise edition add-on

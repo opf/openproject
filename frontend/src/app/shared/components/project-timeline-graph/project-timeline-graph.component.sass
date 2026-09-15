@@ -29,16 +29,14 @@
     display: none
 
   // Tooltip
-  .vis-tooltip
-    background: var(--body-background)
-    color: var(--fgColor-default)
-    border: 1px solid var(--borderColor-default)
-    border-radius: var(--borderRadius-default)
-    box-shadow: var(--shadow-floating-small)
-    padding: var(--base-size-12)
-    max-width: 350px
-    @include text-shortener(false)
-    white-space: normal
+  .op-project-timeline-graph--tooltip
+    pointer-events: none
+
+    .Popover-message
+      width: auto
+      max-width: 350px
+      padding: var(--base-size-12)
+      overflow-wrap: anywhere
 
   .op-timeline-tooltip--meta-row
     display: inline-flex

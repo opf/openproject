@@ -66,8 +66,8 @@ pt-BR:
 
       '
     login_with_auth_provider: ou entre com a sua conta existente
-    omniauth_direct_login_continue: Continue to sign in
-    omniauth_direct_login_redirecting: Redirecting you to your identity provider…
+    omniauth_direct_login_continue: Continuar a iniciar sessão
+    omniauth_direct_login_redirecting: Você será redirecionado para o seu provedor de identidade…
     omniauth_login: Faça login para ativar sua conta.
     signup_title: Crie uma conta no %{app_title}
     signup_with_external_account: Cadastre-se com uma conta externa
@@ -86,20 +86,20 @@ pt-BR:
         types: Tipos de pacote de trabalho
         usage_scope: Escopo
       ai/text_transform_run:
-        action: Action
-        cancel_requested: Cancel requested
-        error_message: Error message
-        finished_at: Finished at
-        input: Input
+        action: Ação
+        cancel_requested: Cancelamento solicitado
+        error_message: Mensagem de erro
+        finished_at: Finalizado em
+        input: Entrada
         status: Status
-        system_prompt: System prompt
-        user: User
+        system_prompt: Prompt do sistema
+        user: Usuário
         uuid: UUID
       ai/text_transform_run_event:
-        kind: Kind
+        kind: Tipo
         payload: Payload
-        run: Run
-        seq: Sequence number
+        run: Executar
+        seq: Número sequencial
       announcements:
         show_until: Exibir até
       attachment:
@@ -142,9 +142,9 @@ pt-BR:
         is_for_all: Para todos os projetos
         is_required: Obrigatório
         max_length: Tamanho máximo
-        max_value: Maximum value
+        max_value: Valor máximo
         min_length: Tamanho mínimo
-        min_value: Minimum value
+        min_value: Valor mínimo
         multi_value: Permitir seleção múltipla
         possible_values: Valores possíveis
         regexp: Expressão regular
@@ -590,7 +590,7 @@ pt-BR:
         regex_list_invalid: As linhas %{invalid_lines} não puderam ser interpretadas como expressão regular.
         regex_match_failed: não corresponde à expressão regular %{expression}.
         smaller_than_or_equal_to_max_length: deve ser menor ou igual ao tamanho máximo.
-        smaller_than_or_equal_to_max_value: must be smaller than or equal to maximum value.
+        smaller_than_or_equal_to_max_value: deve ser menor ou igual ao valor máximo.
         ssrf_filtered: viola a política de SSRF desta instância do OpenProject.
         status_transition_invalid: é inválido porque não existe uma transição válida do status antigo para o novo status para as funções do usuário atual.
         system_wide_non_working_day_exists: conflita com um dia não útil já existente em todo o sistema para esta data.
@@ -1019,11 +1019,11 @@ pt-BR:
         one: Ação de transformação de texto
         other: Ações de transformação de texto
       ai/text_transform_run:
-        one: Text transform run
-        other: Text transform runs
+        one: Execução da transformação de texto
+        other: Execuções da transformação de texto
       ai/text_transform_run_event:
-        one: Text transform run event
-        other: Text transform run events
+        one: Evento de execução da transformação de texto
+        other: Eventos de execução da transformação de texto
       announcement:
         one: Anúncio
         other: Anúncios
@@ -2197,9 +2197,7 @@ pt-BR:
     label_delete_token: Excluir token de backup
     label_reset_token: Redefinir token de backup
     label_token_users: Os seguintes usuários têm tokens de backup ativos
-    missing_attachments_notice_html: '<br/> <b>%{file_count} could not be read</b> and were excluded from this backup. The archive was renamed with an "-incomplete" suffix to indicate it is missing some attachments.
-
-      '
+    missing_attachments_notice_html: "<br/> <b>%{file_count} não puderam ser lidos</b> e foram excluídos deste backup. O arquivo foi renomeado com o sufixo “-incomplete” para indicar que faltam alguns anexos.\n"
     reset_token:
       action_create: Criar
       action_reset: Reiniciar
@@ -2491,8 +2489,8 @@ pt-BR:
         all: 0 significa que não há restrição
         project: 0 significa que não há restrição
       min_max_value:
-        all: Leave blank for no restriction
-        project: Leave blank for no restriction
+        all: Deixe em branco se não houver restrição
+        project: Deixe em branco se não houver restrição
       multi_select:
         all: Permite que o usuário atribua múltiplos valores a este campo personalizado.
         project: Permite que o usuário atribua múltiplos valores a este atributo.
@@ -4285,9 +4283,7 @@ pt-BR:
   mail_body_account_information: Suas informações de conta
   mail_body_account_information_external: Você pode usar sua conta %{value} para logar.
   mail_body_backup_ready: 'Seu backup solicitado está pronto. Você pode baixá-lo aqui:'
-  mail_body_backup_ready_incomplete: '%{file_count} could not be read and were excluded from this backup. The downloaded archive is named with an "-incomplete" suffix to indicate it is missing some attachments.
-
-    '
+  mail_body_backup_ready_incomplete: "%{file_count} não puderam ser lidos e foram excluídos deste backup. O arquivo baixado recebe o sufixo “-incomplete” para indicar que faltam alguns anexos.\n"
   mail_body_backup_token_info: O token anterior não é mais válido.
   mail_body_backup_token_reset_admin_info: O token de backup para o usuário %{user} foi redefinido.
   mail_body_backup_token_reset_user_info: Seu token de backup foi redefinido.
@@ -4611,7 +4607,7 @@ pt-BR:
   notice_account_already_activated: A conta já está ativada.
   notice_account_invalid_credentials: Usuário ou senha inválidos
   notice_account_invalid_credentials_or_blocked: Usuário ou senha inválido ou a conta está bloqueada devido a várias tentativas de login. Se for assim, será desbloqueado automaticamente em um curto espaço de tempo.
-  notice_account_invalid_credentials_sso_hint: If your account is set up for single sign-on, please use your identity provider to sign in instead.
+  notice_account_invalid_credentials_sso_hint: Se a sua conta estiver configurada para acesso único, use o seu provedor de identidade para entrar.
   notice_account_invalid_token: Token de ativação inválido
   notice_account_lost_email_sent: Um e-mail com instruções para escolher uma nova senha foi enviado para você.
   notice_account_new_password_forced: Uma nova senha é necessária.
@@ -5531,11 +5527,11 @@ pt-BR:
     edit:
       default_for_new_projects_warning: 'Falha ao mover o usuário entre departamentos. Este perfil está configurado como o perfil padrão atribuído a usuários não administradores que criam um projeto. Não remova as permissões a seguir, caso contrário os criadores de projetos não conseguirão concluir a configuração dos novos projetos que criarem:'
     index:
-      filter_label: Search roles
+      filter_label: Pesquisar funções
       types:
-        all: All roles
-        global: Global roles
-        project: Project roles
+        all: Todas as funções
+        global: Funções globais
+        project: Funções do projeto
     permissions:
       section_check_all_label: Atribuir todas as permissões de %{module}
       section_uncheck_all_label: Remover todas as permissões de %{module}
@@ -6435,14 +6431,14 @@ pt-BR:
         tab: Formulário
         untitled_group: Grupo sem título
       overview:
-        configuration_mode: Configuration mode
-        dependents: Dependent types and variants
+        configuration_mode: Modo de configuração
+        dependents: Tipos dependentes e variantes
         mode:
-          always_manual: Always manual
-          inheriting_from_html: Inheriting from %{source_name}
-          manual: Manually configured
-        settings: Settings
-        tab: Overview
+          always_manual: Sempre manual
+          inheriting_from_html: Herdando de %{source_name}
+          manual: Configurado manualmente
+        settings: Configurações
+        tab: Visão geral
       project_attributes:
         actions:
           label_disable_all: Desabilitar todos
@@ -6976,12 +6972,12 @@ pt-BR:
       confirm_descendants_deletion: Confirmo que todos os descendentes listados acima também serão excluídos.
       cross_project_warning_html: 'Esses pacotes de trabalho abrangem vários projetos: %{projects}'
       descendants_choice:
-        heading: Delete all descendants too?
-        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
-        self_only_label: Delete just the selected work packages
-        self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        with_descendants_label: Delete the selected work packages and their descendants
-        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        heading: Excluir todos os descendentes também?
+        question: Você está tentando excluir pacotes de trabalho que têm descendentes. Deseja excluí-los também?
+        self_only_label: Excluir apenas este pacote de trabalho
+        self_only_caption: Isto não irá apagar descendentes, mas irá remover relações hierárquicas.
+        with_descendants_label: Excluir este pacote de trabalho e descendentes
+        with_descendants_caption: Isto excluirá todos os pacotes de trabalho filhos visíveis para você. Você terá a chance de rever a lista completa no próximo passo.
       description: Tem certeza de que deseja excluir os pacotes de trabalho selecionados e todos os dados associados?
       description_with_all_descendants: Tem certeza de que deseja excluir os pacotes de trabalho selecionados e todos os seus descendentes?
       description_with_descendants: Tem certeza de que deseja excluir os pacotes de trabalho selecionados e todos os seguintes descendentes?
@@ -7047,12 +7043,12 @@ pt-BR:
       confirm_descendants_deletion: Confirmo que todos os descendentes listados acima também serão excluídos.
       cross_project_warning_html: 'Pacotes de trabalho dos seguintes projetos serão excluídos: %{projects}'
       descendants_choice:
-        heading: Delete all descendants too?
-        question: This work package has descendants. Do you want to delete them as well?
-        self_only_label: Delete just this work package
-        self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        with_descendants_label: Delete this work package and descendants
-        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        heading: Excluir todos os descendentes também?
+        question: Este pacote de trabalho possui itens descendentes. Deseja excluí-los também?
+        self_only_label: Excluir apenas este pacote de trabalho
+        self_only_caption: Isto não irá apagar descendentes, mas irá remover relações hierárquicas.
+        with_descendants_label: Excluir este pacote de trabalho e descendentes
+        with_descendants_caption: Isto excluirá todos os pacotes de trabalho filhos visíveis para você. Você terá a chance de rever a lista completa no próximo passo.
       description: Tem certeza de que deseja excluir "%{name}"?
       heading: Excluir este pacote de trabalho de forma permanente?
       hidden_descendants_only_warning:
@@ -7116,7 +7112,7 @@ pt-BR:
         target_role_ids:
           label: Funções alvo
         target_variant_ids:
-          label: Target types
+          label: Tipos alvo
       from_roles:
         create:
           notice:
@@ -7125,8 +7121,8 @@ pt-BR:
       from_variants:
         create:
           notice:
-            one: Successfully copied workflow to '%{type_name}'.
-            other: Successfully copied workflow to %{count} types.
+            one: Fluxo de trabalho copiado com sucesso para "%{type_name}".
+            other: Fluxos de trabalho copiados com sucesso para %{count} tipos.
       new:
         title: Copiar fluxo de trabalho de “%{source_type}”
     form:

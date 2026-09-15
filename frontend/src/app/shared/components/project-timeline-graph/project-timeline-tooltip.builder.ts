@@ -31,12 +31,36 @@ import { diamondIconData, opGateIconData, opPhaseIconData, zapIconData } from '@
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { octiconElement } from 'core-app/shared/helpers/op-icon-builder';
+import { html, nothing } from 'lit-html';
+import type { TemplateResult } from 'lit-html';
+import { popoverMessage } from 'core-app/shared/components/anchored-popover/popover-message';
+import type { CaretPlacement } from 'core-app/shared/components/anchored-popover/caret-placement';
 import type { ProjectTimelineItem } from './project-timeline-item.builder';
+
+export interface TooltipView {
+  anchor:HTMLElement | null;
+  content:HTMLElement | string | null;
+  caret:CaretPlacement | null;
+}
 
 @Injectable()
 export class ProjectTimelineTooltipBuilder {
   private readonly i18n = inject(I18nService);
   private readonly timezone = inject(TimezoneService);
+
+  popoverTemplate({ anchor, content, caret }:TooltipView):TemplateResult {
+    return html`
+      <anchored-position
+        class="op-anchored-popover--host op-project-timeline-graph--tooltip"
+        popover="manual"
+        side="outside-top"
+        align="center"
+        anchor-offset="spacious"
+        .anchorElement=${anchor}>
+        ${popoverMessage(content ?? nothing, caret)}
+      </anchored-position>
+    `;
+  }
 
   tooltipTemplate(item:ProjectTimelineItem):HTMLElement | string {
     if (item.type === 'background') return '';

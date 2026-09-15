@@ -37,6 +37,51 @@ RSpec.describe "types routes" do
                                                 id: "123")
   end
 
+  describe "form configuration groups (mounted on the type edit page)" do
+    let(:key) { "b) > 10.000 / 20.000 Nutzende" }
+    let(:query) { Rack::Utils.build_query(key:) }
+
+    it "carries the group key as a query param rather than a path segment" do
+      expect(delete("/types/42/form_configuration/group?#{query}"))
+        .to route_to("work_package_types/form_configuration_groups_tab#destroy", type_id: "42", key:)
+    end
+
+    it do
+      expect(patch("/types/42/form_configuration/group?#{query}"))
+        .to route_to("work_package_types/form_configuration_groups_tab#update", type_id: "42", key:)
+    end
+
+    it do
+      expect(get("/types/42/form_configuration/group/edit?#{query}"))
+        .to route_to("work_package_types/form_configuration_groups_tab#edit", type_id: "42", key:)
+    end
+
+    it do
+      expect(put("/types/42/form_configuration/group/move?#{query}&move_to=higher"))
+        .to route_to("work_package_types/form_configuration_groups_tab#move", type_id: "42", key:, move_to: "higher")
+    end
+
+    it do
+      expect(patch("/types/42/form_configuration/group/update_query?#{query}"))
+        .to route_to("work_package_types/form_configuration_groups_tab#update_query", type_id: "42", key:)
+    end
+
+    it do
+      expect(put("/types/42/form_configuration/group/drop?#{query}"))
+        .to route_to("work_package_types/form_configuration_groups_tab#drop", type_id: "42", key:)
+    end
+
+    it do
+      expect(post("/types/42/form_configuration/group/cancel_edit?#{query}"))
+        .to route_to("work_package_types/form_configuration_groups_tab#cancel_edit", type_id: "42", key:)
+    end
+
+    it do
+      expect(post("/types/42/form_configuration/group/add_group"))
+        .to route_to("work_package_types/form_configuration_groups_tab#add_group", type_id: "42")
+    end
+  end
+
   describe "workflow tab (mounted on the type edit page)" do
     it do
       expect(get("/types/42/workflow/edit"))

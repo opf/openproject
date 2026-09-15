@@ -7128,7 +7128,7 @@ de:
         target_role_ids:
           label: Zielrollen
         target_variant_ids:
-          label: Target types
+          label: Zieltypen
       from_roles:
         create:
           notice:
@@ -7137,8 +7137,8 @@ de:
       from_variants:
         create:
           notice:
-            one: Successfully copied workflow to '%{type_name}'.
-            other: Successfully copied workflow to %{count} types.
+            one: Workflow erfolgreich für den Typ '%{type_name}' kopiert.
+            other: Workflow erfolgreich für %{count} Typen kopiert.
       new:
         title: Workflow von "%{source_type}" kopieren
     form:
