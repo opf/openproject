@@ -28,8 +28,7 @@ to coordinate with co-located quick filter inputs.
 <%%= render(::Projects::ProjectsFiltersComponent.new(
   query: @query,
   lazy_loaded_path: :projects_filters_path,
-  initially_expanded: filters_expanded?,
-  constrained: true
+  initially_expanded: filters_expanded?
 )) %>
 ```
 
@@ -54,21 +53,22 @@ rendering until the dropdown is opened (a skeleton is shown in the meantime).
 
 ### Width
 
-The filter rows size to whatever contains the component. That is what you want
-in a dialog or a narrow pane, but an index page renders the component into the
-sub-header's bottom pane, which spans the viewport — the operator and value
-inputs stretch across the whole page with it.
+The box always follows its container, but the inputs inside it are capped at a
+readable width by default. That matters on index pages, where the component is
+rendered into the sub-header's bottom pane: the pane spans the viewport, and
+without the cap the operator and value inputs stretch across the whole page
+with it. The Apply / Close footer is deliberately left uncapped so it stays
+aligned to the edge of the box.
 
-`constrained: true` caps the inputs at a readable width while the `BorderBox`
-around them keeps spanning the full region. It adds an
-`op-filters-form--constrained` modifier to the component's root element; the
-Apply / Close footer is deliberately left uncapped so it stays aligned to the
-edge of the box.
+`full_width: true` lifts the cap and lets the inputs fill the container. It
+adds an `op-filters-form--full-width` modifier to the component's root element,
+which resets the `--op-filters-form-content-max-width` custom property the cap
+is built on.
 
-Pass it wherever the component sits in a full width page region — every index
-page does. Embeds that already sit in a narrow container should not.
+The cap is a `max-width`, so it never binds in a container narrower than it —
+you only need `full_width:` where wide inputs are actually wanted.
 
-<%= embed OpenProject::Filter::FiltersComponentPreview, :constrained, panels: %i[preview source] %>
+<%= embed OpenProject::Filter::FiltersComponentPreview, :full_width, panels: %i[preview source] %>
 
 ## Filters::FilterFormComponent
 

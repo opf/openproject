@@ -38,8 +38,6 @@ $advanced-filters--grid-gap: 10px
 $advanced-filters--operator-column-width: 160px
 $advanced-filters--value-min-width: 256px
 
-$op-filters-form--constrained-width: 752px
-
 .advanced-filters--container
   @extend %filters--container
   padding: 1rem
@@ -140,6 +138,9 @@ $op-filters-form--constrained-width: 752px
 
 
 .op-filters-form
+  // Caps the inputs so they stay readable when the box spans a full width page region. The
+  // box itself always follows its container; only the inputs inside it are capped.
+  --op-filters-form-content-max-width: 752px
   display: none
   margin-top: 1rem
   position: relative
@@ -150,12 +151,8 @@ $op-filters-form--constrained-width: 752px
   &--with-footer
     padding-top: 0
 
-  // Caps the inputs without narrowing the box, so the form can sit in a full width page region
-  // while its content stays readable.
-  &--constrained
-    .FormControl-horizontalGroup.advanced-filters--filter,
-    .FormControl:has([data-filter--filters-form-target="addFilterSelect"])
-      max-width: $op-filters-form--constrained-width
+  &--full-width
+    --op-filters-form-content-max-width: none
 
   .advanced-filters--actions
     display: flex
@@ -168,6 +165,7 @@ $op-filters-form--constrained-width: 752px
     align-items: center
     flex-wrap: wrap
     gap: $advanced-filters--grid-gap
+    max-width: var(--op-filters-form-content-max-width)
 
     > .advanced-filters--filter-name
       flex: 0 0 100%
@@ -191,6 +189,7 @@ $op-filters-form--constrained-width: 752px
     border-top: 1px solid var(--borderColor-muted)
     margin-top: var(--base-size-8)
     padding-top: var(--base-size-16)
+    max-width: var(--op-filters-form-content-max-width)
 
   .advanced-filters--filter-value .FormControl-select-wrap
     display: flex

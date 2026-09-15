@@ -67,8 +67,7 @@
           Projects::ProjectsFiltersComponent.new(
             query: @query,
             lazy_loaded_path: :projects_filters_path,
-            initially_expanded: filters_expanded?,
-            constrained: true
+            initially_expanded: filters_expanded?
           )
         )
       end

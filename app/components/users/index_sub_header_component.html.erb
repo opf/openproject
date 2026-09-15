@@ -37,7 +37,7 @@
     end
 
     subheader.with_bottom_pane_component do
-      render Users::UserFiltersComponent.new(query: @query, initially_expanded: filters_expanded?, constrained: true)
+      render Users::UserFiltersComponent.new(query: @query, initially_expanded: filters_expanded?)
     end
   end
 %>
