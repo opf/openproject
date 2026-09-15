@@ -28,6 +28,7 @@ export interface PickerOptions {
   loading:boolean;
   toggleExpanded:(href:string) => void;
   expand:(hrefs:string[]) => void;
+  foldsBranch:(event:KeyboardEvent, focused:ListedValue | undefined) => boolean;
 }
 
 function matching(values:AllowedValue[], query:string):AllowedValue[] {
@@ -55,22 +56,6 @@ function remember(key:string, ask:() => Promise<AllowedValue[]>):Promise<Allowed
     rememberedValues.delete(key);
     throw error;
   });
-}
-
-export function foldsBranch(
-  event:KeyboardEvent,
-  focused:ListedValue | undefined,
-  toggleExpanded:(href:string) => void
-):boolean {
-  if (!focused) return false;
-
-  const unfolds = event.key === 'ArrowRight' && focused.hasChildren && !focused.expanded;
-  const folds = event.key === 'ArrowLeft' && focused.expanded;
-  if (!unfolds && !folds) return false;
-
-  event.preventDefault();
-  toggleExpanded(focused.href);
-  return true;
 }
 
 export function usePickerOptions({
@@ -101,7 +86,9 @@ export function usePickerOptions({
     let active = true;
 
     const read = () => {
-      remember(asked, () => askApi(href, apiTerm, { favoredOnly, nested, whole: searchedHere }))
+      const asking = { favoredOnly, nested, notServerSideFilterable: searchedHere };
+
+      remember(asked, () => askApi(href, apiTerm, asking))
         .then((found) => {
           if (!active) return;
           setFetched(found);
@@ -150,5 +137,23 @@ export function usePickerOptions({
     });
   };
 
-  return { options, loading: !listedBySchema && loaded !== asked, toggleExpanded, expand };
+  const foldsBranch = (event:KeyboardEvent, focused:ListedValue | undefined):boolean => {
+    if (!isOpen || query || !focused) return false;
+
+    const unfolds = event.key === 'ArrowRight' && focused.hasChildren && !focused.expanded;
+    const folds = event.key === 'ArrowLeft' && focused.expanded;
+    if (!unfolds && !folds) return false;
+
+    event.preventDefault();
+    toggleExpanded(focused.href);
+    return true;
+  };
+
+  return {
+    options,
+    loading: !listedBySchema && loaded !== asked,
+    toggleExpanded,
+    expand,
+    foldsBranch,
+  };
 }

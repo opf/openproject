@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { XCircleFillIcon } from '@primer/octicons-react';
 import { Suggestions, usePickerMotion } from './Suggestions';
-import { foldsBranch, usePickerOptions } from './usePickerOptions';
+import { usePickerOptions } from './usePickerOptions';
 import { isNested } from './formSchema';
 import type { AllowedValue } from './formSchema';
 import {
@@ -50,7 +50,7 @@ export const AllowedValuesTypeahead = ({
 
   const listId = `${id}-list`;
   const { mounted, open: listShown, onClosed } = usePickerMotion(isOpen);
-  const { options, loading, toggleExpanded } = usePickerOptions({
+  const { options, loading, toggleExpanded, foldsBranch } = usePickerOptions({
     href,
     query,
     isOpen,
@@ -91,8 +91,7 @@ export const AllowedValuesTypeahead = ({
   };
 
   const handleKeyDown = (event:React.KeyboardEvent<HTMLInputElement>) => {
-    // While a term is typed the arrows belong to the caret.
-    if (isOpen && !query && foldsBranch(event, options[activeIndex], toggleExpanded)) return;
+    if (foldsBranch(event, options[activeIndex])) return;
 
     switch (event.key) {
       case 'ArrowDown':

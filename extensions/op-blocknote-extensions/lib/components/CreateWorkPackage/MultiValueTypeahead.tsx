@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { XIcon } from '@primer/octicons-react';
 import { Suggestions, usePickerMotion } from './Suggestions';
-import { foldsBranch, usePickerOptions } from './usePickerOptions';
+import { usePickerOptions } from './usePickerOptions';
 import { isNested } from './formSchema';
 import type { AllowedValue } from './formSchema';
 import {
@@ -54,7 +54,7 @@ export const MultiValueTypeahead = ({
 
   const listId = `${id}-list`;
   const { mounted, open: listShown, onClosed } = usePickerMotion(isOpen);
-  const { options, loading, toggleExpanded } = usePickerOptions({
+  const { options, loading, toggleExpanded, foldsBranch } = usePickerOptions({
     href: href ?? '',
     query,
     isOpen,
@@ -90,8 +90,7 @@ export const MultiValueTypeahead = ({
   };
 
   const handleKeyDown = (event:React.KeyboardEvent<HTMLInputElement>) => {
-    // While a term is typed the arrows belong to the caret.
-    if (isOpen && !query && foldsBranch(event, offered[activeIndex], toggleExpanded)) return;
+    if (foldsBranch(event, offered[activeIndex])) return;
 
     switch (event.key) {
       case 'Backspace':
