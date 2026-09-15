@@ -10,6 +10,7 @@ import { MultiValueTypeahead } from './MultiValueTypeahead';
 import { ProjectPicker } from './ProjectPicker';
 import {
   CheckboxRow,
+  DisabledControl,
   FieldError,
   FieldHint,
   FieldLabel,
@@ -153,6 +154,18 @@ export const FormFieldControl = ({
           invalid={Boolean(message)}
           describedBy={errorId}
           onChange={onChange}
+        />
+      );
+      break;
+    // Nothing to fill in: what the type will generate says itself why.
+    case 'generated':
+      control = (
+        <DisabledControl
+          id={id}
+          type="text"
+          readOnly
+          value={placeholder ?? ''}
+          {...invalid}
         />
       );
       break;

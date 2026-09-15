@@ -55,6 +55,14 @@ const subjectSchema = {
   maxLength: SUBJECT_MAX_LENGTH,
 };
 
+export const TYPE_WITH_GENERATED_SUBJECT = '/api/v3/types/4';
+export const GENERATED_SUBJECT_HINT = 'Automatically generated through type Phase';
+const GENERATED_SUBJECT = 'Phase 999';
+
+const generatedSubjectSchema = {
+  ...subjectSchema, hasDefault: true, writable: false, placeholder: GENERATED_SUBJECT_HINT,
+};
+
 const projectSchema = {
   type: 'Project', name: 'Project', required: true, hasDefault: false, writable: true, location: '_links',
   _links: { allowedValues: { href: '/api/v3/work_packages/available_projects' } },
@@ -67,6 +75,7 @@ const typeSchema = {
       { href: '/api/v3/types/1', title: 'Task' },
       { href: '/api/v3/types/2', title: 'Bug' },
       { href: '/api/v3/types/3', title: 'Milestone' },
+      { href: TYPE_WITH_GENERATED_SUBJECT, title: 'Phase' },
     ],
   },
 };
@@ -142,6 +151,7 @@ export function createFormFor(body:FormRequestBody) {
 
   const schema:Record<string, unknown> = { _type: 'Schema', subject: subjectSchema, project: projectSchema };
   const links:Record<string, { href:string }> = {};
+  const generatesSubject = typeHref === TYPE_WITH_GENERATED_SUBJECT;
 
   if (projectHref) {
     Object.assign(schema, { type: typeSchema, assignee: assigneeSchema, priority: prioritySchema });
@@ -159,6 +169,7 @@ export function createFormFor(body:FormRequestBody) {
       ...(typeHref === TYPE_WITHOUT_DEPARTMENT ? {} : { customField3: departmentSchema }),
       customField4: labelsSchema,
     });
+    if (generatesSubject) schema.subject = generatedSubjectSchema;
     links.type = { href: typeHref };
     links.status = { href: '/api/v3/statuses/1' };
   }
@@ -166,7 +177,8 @@ export function createFormFor(body:FormRequestBody) {
   return {
     _type: 'Form',
     _embedded: {
-      payload: { subject: null, scheduleManually: false, _links: links },
+      // What may not be written is left out of the payload the API hands over.
+      payload: { ...(generatesSubject ? {} : { subject: null }), scheduleManually: false, _links: links },
       schema,
       validationErrors: {},
     },
@@ -258,11 +270,15 @@ export const handlers = [
   ),
 
   http.post('http://localhost:3000/api/v3/work_packages', async ({ request }) => {
-    const body = await request.json() as { subject?:string };
-    if (!body.subject) {
+    const body = await request.json() as { subject?:string; _links?:{ type?:{ href?:string } } };
+    const generates = body._links?.type?.href === TYPE_WITH_GENERATED_SUBJECT;
+    if (!body.subject && !generates) {
       return HttpResponse.json({ _type: 'Error', message: 'Subject can\'t be blank.' }, { status: 422 });
     }
-    return HttpResponse.json({ ...mockCreatedWorkPackage, subject: body.subject }, { status: 201 });
+    return HttpResponse.json(
+      { ...mockCreatedWorkPackage, subject: body.subject ?? GENERATED_SUBJECT },
+      { status: 201 }
+    );
   }),
 
   http.get('http://localhost:3000/api/v3/types', () =>

@@ -395,6 +395,15 @@ export const PickerControl = styled(TextControl)<{ $namesPick?:boolean }>`
   `}
 `;
 
+export const DisabledControl = styled(TextControl)`
+  && {
+    background: var(--op-create-wp-neutral);
+    color: var(--op-create-wp-muted);
+    font-style: italic;
+    cursor: default;
+  }
+`;
+
 export const TextAreaControl = styled.textarea`
   ${controlStyles}
   min-height: 72px;
