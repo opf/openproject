@@ -13,18 +13,18 @@ You can configure how and for what events you wish to be notified through notifi
 
 Notification settings are divided into four sections:
 
-| Topic                                               | Description                                                                                                                          |
-|-----------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------|
-| [Participating](#participating)                     | Be notified of activities on some or all of the work packages in which you are participating (as assignee, responsible or watcher).  |
-| [Date alerts](#date-alerts-enterprise-add-on)       | Be notified of approaching start or end dates, and when things are overdue.                                                          |
-| [Non-participating](#non-participating)             | Be notified of activities on work packages in which you are not participating.                                                       |
-| [Project-specific](#project-specific-notifications) | Fine-tune your notification settings at the level of individual projects.                                                            |
+| Topic                                               | Description                                                  |
+| --------------------------------------------------- | :----------------------------------------------------------- |
+| [Participating](#participating)                     | Be notified of activities on some or all of the work packages in which you are participating (as assignee, responsible or watcher). |
+| [Date alerts](#date-alerts)                         | Be notified of approaching start or end dates, and when things are overdue. |
+| [Non-participating](#non-participating)             | Be notified of activities on work packages in which you are not participating. |
+| [Project-specific](#project-specific-notifications) | Fine-tune your notification settings at the level of individual projects. |
 
 ![A screenshot of the notification settings page](Notification-settings-12.4-overall.png)
 
 ## Participating
 
-You participate in a work package by either being [mentioned](../../work-packages/edit-work-package/#-notification-mention), by watching it (being on the _Watchers_ list) or by being designated assignee or accountable.
+You participate in a work package by either being [mentioned](../../work-packages/edit-work-package/#-notification-mention), by watching it (being on the _Watchers_ list) or by being designated as assignee or accountable.
 
 By default, you will be notified of all activities in work packages in which you participate. However, you can choose to change these settings for work packages for which you are an assignee or accountable by checking or unchecking these options:
 
@@ -35,13 +35,9 @@ You cannot disable notifications for when you are mentioned since the goal of me
 > [!NOTE]
 > Modifying these settings may cause you to miss updates and changes that are relevant to you. We do not recommend changing them unless you are absolutely certain of the consequences.
 
-## Date alerts (Enterprise add-on)
+## Date alerts
 
-Starting with 12.4, OpenProject offers notification for date alerts.
-
-[feature: date_alerts ]
-
-Date alerts allow you to receive a notification when a start date or a finish date is approaching for a work package you are participating in (that is, for which you are assignee, accountable or a watcher).
+Date alerts allow you to receive a notification when a start date or a finish date is approaching for a work package you are participating in (that is, for which you are an assignee, accountable or a watcher).
 
 ![A screenshot of options for date alerts](Notification-settings-12.4-dateAlerts.png)
 
@@ -57,11 +53,11 @@ For **overdue dates**, you can also choose to receive a recurring notification (
 > [!NOTE]
 > A previously unread notification for an overdue date alert is marked as read and replaced by a new one with the updated due date (for example, if you choose to be alerted every day for an overdue work package, and ignore that alert for a week, you will still see only one notification for this work package). You can stop receiving these alerts by either unchecking this option, or changing or removing the dates of the work package.
 
-Date alerts notifications appear in [Notification center](../#access-in-app-notifications), both in the _Inbox_ and the separate _Date alerts_ sections on the left menu.
+Date alert notifications appear in [Notification center](../#access-in-app-notifications), both in the _Inbox_ and the separate _Date alerts_ sections on the left menu.
 
 ## Non-participating
 
-You can also chose to receive additional notifications for specific events in all projects concerning work packages in which you are not participating.
+You can also choose to receive additional notifications for specific events in all projects concerning work packages in which you are not participating.
 
 You can be notified of:
 
@@ -78,7 +74,7 @@ You can be notified of:
 
 ## Project-specific notifications
 
-In some cases, you may wish to fine-tune your notification settings at a project-level.
+In some cases, you may wish to fine-tune your notification settings at the project level.
 
 This might be because you are more active in certain projects than others or because certain activities (like date alerts or the creation of new work packages) might be more important to you than others.
 
@@ -90,9 +86,9 @@ Then select a project from the overlay form that will appear and specify notific
 
 ![A form to specify project-specific notifications for OpenProject](openproject_user_guide_project_specific_settings_overlay.png)
 
-Once you do so, you will see a list of projects, for which project-specific notification settings were defined. You can modify these settings at any later point.
+Once you do so, you will see a list of projects for which project-specific notification settings were defined. You can modify these settings at any time.
 
-![Text](Notification-settings-12.4-projectSpecific.png)
+![Project specific notification settings in an OpenProject project](Notification-settings-12.4-projectSpecific.png)
 
 > [!NOTE]
 > These project-specific settings will override any global settings above. You can use these settings if you find that you receive too many or not enough notifications for a particular project.

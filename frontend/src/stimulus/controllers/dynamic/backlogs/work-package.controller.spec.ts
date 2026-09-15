@@ -27,7 +27,7 @@
 //++
 
 import { Application } from '@hotwired/stimulus';
-
+import { nextFrame } from 'core-common/testing/timing';
 import type WorkPackageControllerType from './work-package.controller';
 
 interface WorkPackageNavigation {
@@ -36,8 +36,6 @@ interface WorkPackageNavigation {
 }
 
 describe('Backlogs work package controller', () => {
-  const nextFrame = () => new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-
   let application:Application;
   let fixture:HTMLElement;
   let WorkPackageController:typeof WorkPackageControllerType;

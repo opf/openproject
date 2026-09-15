@@ -37,6 +37,9 @@ module Filter
     options lazy_loaded_path: false
     options initially_expanded: false
     options excluded_filters: []
+    # The inputs are capped at a readable width by default. Set this where they should
+    # instead stretch to the full width of whatever contains the component.
+    options full_width: false
 
     def filter_form(form)
       Filters::FilterFormComponent.new(builder: form, query:, allowed_filters:, excluded_filters:)
@@ -49,6 +52,8 @@ module Filter
     def lazy_loaded? = !!lazy_loaded_path
 
     def initially_expanded? = initially_expanded
+
+    def full_width? = full_width
 
     def turbo_requests? = false
 
@@ -64,7 +69,8 @@ module Filter
         "op-filters-form",
         "op-filters-form_top-margin",
         ("-expanded" if initially_expanded?),
-        ("op-filters-form--with-footer" unless turbo_requests?)
+        ("op-filters-form--with-footer" unless turbo_requests?),
+        ("op-filters-form--full-width" if full_width?)
       ].compact.join(" ")
     end
 

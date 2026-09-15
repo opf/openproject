@@ -222,6 +222,7 @@ pt-BR:
         title: Título
       member:
         blocked: Bloqueado
+        principal_type: Tipo de membro
         roles: Papéis
       notification:
         read_ian: Lido no aplicativo
@@ -1743,6 +1744,14 @@ pt-BR:
       update:
         failure: A configuração MCP não pôde ser atualizada.
         success: Configuração MCP atualizada com sucesso.
+    members:
+      index:
+        blank_description: Nenhuma associação corresponde ao filtro atual.
+        blank_title: Nenhuma inscrição
+        filter_label: Pesquisar usuários
+        inheritance_source: "%{type} %{name}"
+        inherited_via: "(via: %{source})"
+        title: Membros
     plugins:
       no_results_content_text: Confira nossa página de integrações e plugins para obter mais informações.
       no_results_title_text: Atualmente, não existem plugins instalados.
@@ -1988,6 +1997,13 @@ pt-BR:
           assignee: Transições adicionais disponíveis para o responsável pelo pacote de trabalho.
           author: Transições adicionais disponíveis para o autor do pacote de trabalho.
         menu_label: Transições exibidas
+  ai:
+    text_transform:
+      errors:
+        connection_failed: The AI service could not be reached.
+        not_available: The AI assistant is not available.
+        timeout: The AI service did not respond in time.
+        upstream_error: The AI service returned an error.
   announcements:
     is_active: atualmente exibido
     is_inactive: não exibido atualmente
@@ -5519,6 +5535,31 @@ pt-BR:
     warnings:
       cannot_annotate: Este arquivo não pode ser anotado.
   roles:
+    delete_dialog:
+      confirm: Tem certeza que deseja excluir esta função?
+      entry_projects:
+        one: "(Projeto: %{projects})"
+        other: "(Projetos: %{projects})"
+      entry_projects_truncated:
+        one: "(Projetos: %{projects} e mais 1)"
+        other: "(Projetos: %{projects} e %{count} entre outros)"
+      heading:
+        one: 'Essa função ainda está atribuída a 1 membro:'
+        other: 'Este cargo ainda está atribuído aos membros %{count}:'
+      heading_unused: Tem certeza de que deseja excluir a função “%{name}”?
+      losing_project_access:
+        one: Desses usuários, 1 perderá o acesso aos projetos nos quais essa era sua única função. Tem certeza de que deseja excluir essa função?
+        other: Dentre esses usuários, %{count} perderá acesso aos projetos nos quais essa era sua única função. Tem certeza de que deseja excluir essa função?
+        zero: Nenhum desses usuários perderá o acesso a nenhum de seus projetos. Tem certeza de que deseja excluir essa função?
+      show_memberships: Mostrar todos os membros com essa função
+      summary: "%{users} em %{projects}"
+      summary_projects:
+        one: 1 projeto
+        other: "%{count} projetos"
+      summary_users:
+        one: 1 usuário
+        other: "%{count} usuários"
+      title: Excluir função
     edit:
       default_for_new_projects_warning: 'Falha ao mover o usuário entre departamentos. Este perfil está configurado como o perfil padrão atribuído a usuários não administradores que criam um projeto. Não remova as permissões a seguir, caso contrário os criadores de projetos não conseguirão concluir a configuração dos novos projetos que criarem:'
     index:
