@@ -47,7 +47,7 @@ RSpec.describe "API v3 hourly rates", content_type: :json do
     create(:default_hourly_rate, principal: user, valid_from: Date.new(2025, 1, 1), rate: 30)
   end
 
-  let(:collection_path) { api_v3_paths.hourly_rates_by_user(user.id) }
+  let(:collection_path) { api_v3_paths.hourly_rates_by_principal(user.id) }
 
   current_user { user }
 
@@ -65,6 +65,43 @@ RSpec.describe "API v3 hourly rates", content_type: :json do
 
       expect(by_rate[50.0]["_links"]["project"]["href"]).to eq(api_v3_paths.project(project.id))
       expect(by_rate[30.0]["_links"]).not_to have_key("project")
+    end
+
+    it "links the principal, resolved to its concrete type" do
+      element = JSON.parse(last_response.body).dig("_embedded", "elements").first
+
+      expect(element["_links"]["principal"]["href"]).to eq(api_v3_paths.user(user.id))
+      expect(element["_links"]).not_to have_key("user")
+    end
+  end
+
+  describe "for a placeholder user" do
+    shared_let(:placeholder) { create(:placeholder_user) }
+    shared_let(:placeholder_membership) do
+      create(:member, principal: placeholder, project:, roles: [create(:project_role)])
+    end
+    shared_let(:placeholder_rate) do
+      create(:hourly_rate, principal: placeholder, project:, valid_from: Date.new(2025, 1, 1), rate: 80)
+    end
+
+    it "serves the rates under the principal" do
+      get api_v3_paths.hourly_rates_by_principal(placeholder.id)
+
+      expect(last_response).to have_http_status(:ok)
+
+      element = JSON.parse(last_response.body).dig("_embedded", "elements").first
+      expect(element["rate"]).to eq(80.0)
+      expect(element["_links"]["principal"]["href"]).to eq(api_v3_paths.placeholder_user(placeholder.id))
+    end
+
+    it "creates a rate for it" do
+      expect do
+        post api_v3_paths.hourly_rates_by_principal(placeholder.id),
+             { validFrom: "2026-01-01", rate: 95,
+               _links: { project: { href: api_v3_paths.project(project.id) } } }.to_json
+      end.to change { placeholder.rates.count }.by(1)
+
+      expect(last_response).to have_http_status(:created)
     end
   end
 

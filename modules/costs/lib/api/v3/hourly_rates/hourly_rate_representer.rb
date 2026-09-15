@@ -41,9 +41,13 @@ module API
           }
         end
 
-        link :user do
+        # Rendered rather than parsed: the principal comes from the url the
+        # collection hangs off. There is no /principals/:id resource, so the
+        # link resolves to the concrete type.
+        link :principal do
           {
-            href: api_v3_paths.user(represented.user_id),
+            href: api_v3_paths.send(::API::V3::Principals::PrincipalType.for(represented.principal),
+                                    represented.user_id),
             title: represented.principal&.name
           }
         end

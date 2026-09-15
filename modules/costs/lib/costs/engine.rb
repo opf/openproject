@@ -247,12 +247,14 @@ module Costs
       "#{root}/cost_types/#{id}"
     end
 
-    add_api_path :hourly_rates_by_user do |user_id|
-      "#{user(user_id)}/hourly_rates"
+    # Placeholder users hold rates too, so the collection hangs off the
+    # principal rather than the user.
+    add_api_path :hourly_rates_by_principal do |principal_id|
+      "#{principals}/#{principal_id}/hourly_rates"
     end
 
-    add_api_path :hourly_rate do |user_id, id|
-      "#{hourly_rates_by_user(user_id)}/#{id}"
+    add_api_path :hourly_rate do |principal_id, id|
+      "#{hourly_rates_by_principal(principal_id)}/#{id}"
     end
 
     add_api_endpoint "API::V3::Root" do
@@ -261,8 +263,8 @@ module Costs
       mount ::API::V3::TimeEntries::TimeEntriesAPI
     end
 
-    add_api_endpoint "API::V3::Users::UsersAPI", :id do
-      mount ::API::V3::HourlyRates::HourlyRatesByUserAPI
+    add_api_endpoint "API::V3::Principals::PrincipalsAPI", :id do
+      mount ::API::V3::HourlyRates::HourlyRatesByPrincipalAPI
     end
 
     add_api_endpoint "API::V3::WorkPackages::WorkPackagesAPI", :id do

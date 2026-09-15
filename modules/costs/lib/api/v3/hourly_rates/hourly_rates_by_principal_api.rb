@@ -31,18 +31,18 @@
 module API
   module V3
     module HourlyRates
-      class HourlyRatesByUserAPI < ::API::OpenProjectAPI
+      class HourlyRatesByPrincipalAPI < ::API::OpenProjectAPI
         resource :hourly_rates do
           helpers do
             # Project rates are limited to the projects the current user may see
             # rates in; the default rate has no project to gate it.
             def visible_rates
               project_rates = ::HourlyRate
-                                .for_principal(@user)
-                                .in_project(::HourlyRate.projects_with_visible_rates(@user))
+                                .for_principal(@principal)
+                                .in_project(::HourlyRate.projects_with_visible_rates(@principal))
 
               ::Rate.where(id: project_rates)
-                    .or(::Rate.where(id: ::DefaultHourlyRate.for_principal(@user)))
+                    .or(::Rate.where(id: ::DefaultHourlyRate.for_principal(@principal)))
                     .newest_first
             end
 
@@ -61,7 +61,7 @@ module API
                 api_name: "HourlyRate",
                 parse_representer: ::API::V3::HourlyRates::HourlyRatePayloadRepresenter,
                 render_representer: ::API::V3::HourlyRates::HourlyRateRepresenter,
-                params_modifier: ->(params) { params.merge(user_id: @user.id) },
+                params_modifier: ->(params) { params.merge(user_id: @principal.id) },
                 **
               ).mount)
             end
@@ -76,14 +76,14 @@ module API
           end
 
           after_validation do
-            raise ::API::Errors::NotFound unless @user == current_user ||
+            raise ::API::Errors::NotFound unless @principal == current_user ||
               current_user.allowed_in_any_project?(:view_hourly_rates)
           end
 
           get do
             HourlyRateCollectionRepresenter.new(
               visible_rates,
-              self_link: api_v3_paths.hourly_rates_by_user(@user.id),
+              self_link: api_v3_paths.hourly_rates_by_principal(@principal.id),
               current_user:
             )
           end
