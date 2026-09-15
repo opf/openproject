@@ -83,8 +83,9 @@ root serve nested lists as well as flat ones.
   list accepts. A row is an item once it carries
   `data-sortable-lists--item-id-value`; that is what counts it and anchors
   its neighbors' drops. The `sortable-lists--item` controller on it is what
-  makes it draggable and gives it a move menu, and `confined` keeps a
-  draggable item in its own list.
+  handles dragging and its move menu. The `mobility` value determines
+  whether it is `free`, `confined` to permitted destinations, or `fixed`
+  in place. Fixed items still anchor their neighbors’ drops.
 * **Drag source**: the original row while it is being dragged. **Drag
   preview**: the copy that follows the pointer.
 * **Drop indicator**: the line marking where the row will land, drawn without
