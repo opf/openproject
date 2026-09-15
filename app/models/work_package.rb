@@ -41,7 +41,6 @@ class WorkPackage < ApplicationRecord
   # Must stay above WorkPackage::Journalized: its after_save persists the
   # version rows that the journal snapshot then reads.
   include WorkPackage::Versions
-  include Labelable
   include WorkPackages::DerivedDates
   include WorkPackages::SpentTime
   include WorkPackages::Costs
@@ -49,6 +48,7 @@ class WorkPackage < ApplicationRecord
   include ::Scopes::Scoped
   include HasMembers
   include Remindable
+  include Labelable
 
   include OpenProject::Journal::AttachmentHelper
 
