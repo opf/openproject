@@ -332,7 +332,7 @@ export function resolveDropIntent({
   location,
   root,
   sourceData,
-  excludedItems = { type: sourceData.type, ids: new Set(singleItemBatch(sourceData).map((item) => item.id)) },
+  excludedItems = { type: sourceData.type, ids: new Set([sourceData.itemId]) },
 }:{
   location:DragLocationHistory;
   root:HTMLElement;

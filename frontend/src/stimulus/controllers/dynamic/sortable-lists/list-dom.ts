@@ -122,7 +122,7 @@ export interface DestinationIdentity {
 }
 
 export function sameDestination(left:DestinationIdentity|null, right:DestinationIdentity):boolean {
-  return left?.type === right.type && left.id === right.id;
+  return left !== null && left.type === right.type && left.id === right.id;
 }
 
 // Whether the item may enter the destination: the one policy behind every
@@ -289,8 +289,8 @@ export function rowsRemainAt(positions:RowPlacement[]):boolean {
 }
 
 // Optimistically move rows on the client without waiting for the server.
-// `rows` are the moved rows in order (one today, the selected set once
-// multi-item DnD lands); `previousItemId` of null means top of list.
+// `rows` are the moved rows in order; `previousItemId` of null means top of
+// list.
 export function reorderRows({
   rows,
   rowsContainer,

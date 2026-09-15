@@ -670,7 +670,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     // Captured before the reorder: afterwards the row already belongs to the
     // target list, so source-relative facts would be lost.
     const announcementContext:MoveAnnouncementContext = {
-      label: resolveItemLabel(rows[0]),
+      label: rows.length === 1 ? resolveItemLabel(rows[0]) : null,
       listName: listData.name,
       crossList: rows.some((row) => row.parentElement !== rowsContainer),
     };
@@ -827,11 +827,10 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     }
 
     const scope = this.moveAnnouncementScopeValue;
-    // Resolved outside the options object literal below: nested inside it,
-    // the call's generic return type would be inferred from the object's
-    // contextual `TranslateOptions` index signature (`any`) instead of its
-    // own `string` default.
-    const label = context.label ?? I18n.t(`${scope}.fallback_item_label`);
+    // Resolved outside the options object literals below: nested inside
+    // them, the call's generic return type would be inferred from the
+    // object's contextual `TranslateOptions` index signature (`any`) instead
+    // of its own `string` default.
     const listName = context.listName ?? I18n.t(`${scope}.fallback_list_name`);
 
     let message:string;
@@ -842,6 +841,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
         ? I18n.t(`${scope}.moved_batch_to_list`, { count: rows.length, list: listName, first, last, total: placement.total })
         : I18n.t(`${scope}.moved_batch`, { count: rows.length, first, last, total: placement.total });
     } else {
+      const label = context.label ?? I18n.t(`${scope}.fallback_item_label`);
       message = context.crossList
         ? I18n.t(`${scope}.moved_to_list`, { label, list: listName, position: placement.position, total: placement.total })
         : I18n.t(`${scope}.moved`, { label, position: placement.position, total: placement.total });
@@ -852,12 +852,12 @@ export default class SortableListsController extends Controller<HTMLElement> imp
 
   private announceMoveFailure(context:MoveAnnouncementContext, rolledBack:boolean, count:number):void {
     const scope = this.moveAnnouncementScopeValue;
-    const label = context.label ?? I18n.t(`${scope}.fallback_item_label`);
     let message:string;
-    if (rolledBack) {
-      message = count > 1
-        ? I18n.t(`${scope}.move_failed_rolled_back_batch`, { count })
-        : I18n.t(`${scope}.move_failed_rolled_back`, { label });
+    if (rolledBack && count > 1) {
+      message = I18n.t(`${scope}.move_failed_rolled_back_batch`, { count });
+    } else if (rolledBack) {
+      const label = context.label ?? I18n.t(`${scope}.fallback_item_label`);
+      message = I18n.t(`${scope}.move_failed_rolled_back`, { label });
     } else {
       message = count > 1
         ? I18n.t(`${scope}.move_failed_check_positions_batch`, { count })
