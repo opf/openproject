@@ -26,31 +26,48 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module OpenProject
-  module Grids
-    # @logical_path OpenProject/Grids
-    # @display min_height 300px
-    class WidgetBoxComponentPreview < Lookbook::Preview
-      # Use the default body for generic widget content.
-      def default
-        render_with_template
-      end
+module Backlogs
+  module SprintReports
+    module Widgets
+      class WorkPackageOverview
+        class BreakdownBlock < ApplicationComponent
+          include OpPrimer::ComponentHelpers
 
-      def with_counter
-        render_with_template
-      end
+          attr_reader :heading, :show_all_href, :count_color
 
-      # Use rows for the primary repeated widget content.
-      def with_rows
-        render_with_template
-      end
+          def initialize(heading:, show_all_href:, count_color: :default)
+            super
 
-      # Use the footer for secondary navigation or actions that should stay at the bottom,
-      # such as "View all ..." links.
-      def with_footer
-        render_with_template
+            @heading = heading
+            @show_all_href = show_all_href
+            @count_color = count_color
+          end
+
+          renders_one :count, ->(**system_arguments) do
+            system_arguments[:tag] ||= :p
+            system_arguments[:mb] ||= 0
+            system_arguments[:font_size] ||= 1
+            system_arguments[:font_weight] ||= :bold
+            system_arguments[:color] ||= count_color
+
+            Primer::Beta::Text.new(**system_arguments)
+          end
+          renders_one :story_points, ->(**system_arguments) do
+            system_arguments[:tag] ||= :p
+            system_arguments[:color] ||= :muted
+            system_arguments[:mb] ||= 2
+
+            Primer::Beta::Text.new(**system_arguments)
+          end
+
+          private
+
+          def render_show_all?
+            EnterpriseToken.allows_to?(:baseline_comparison)
+          end
+        end
       end
     end
   end
