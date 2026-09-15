@@ -635,6 +635,7 @@ describe('sortable-lists directive group behavior', () => {
 
   describe('root teardown', () => {
     @Component({
+      selector: 'op-sortable-lists-teardown-host',
       imports: [OpSortableListsDirective, OpSortableListsListDirective, OpSortableListsItemDirective],
       template: `
         <div class="root" opSortableLists opSortableListsList>
