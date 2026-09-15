@@ -166,8 +166,7 @@ RSpec.describe Backlogs::WorkPackages::BatchUpdateService, type: :model do
       allow(Backlogs::WorkPackages::UpdateService)
         .to receive(:new).with(user:, work_package: bucket_wp2)
         .and_return(failing_inner)
-      logged_message = nil
-      allow(Rails.logger).to receive(:error) { |&blk| logged_message = blk.call }
+      allow(OpenProject.logger).to receive(:error)
 
       result = service([bucket_wp1, bucket_wp2])
         .call(list_type: "sprint", list_id: sprint.id.to_s, prev_id: "")
@@ -175,9 +174,21 @@ RSpec.describe Backlogs::WorkPackages::BatchUpdateService, type: :model do
       expect(result).to be_failure
       expect(result.message)
         .to eq I18n.t("backlogs.work_packages.batch_update_service.unexpected_failure")
-      expect(logged_message).to include("boom")
+      expect(OpenProject.logger).to have_received(:error)
+        .with(an_instance_of(ActiveRecord::StatementInvalid).and(having_attributes(message: "boom")),
+              reference: :backlogs_batch_move,
+              work_package_ids: [bucket_wp1.id, bucket_wp2.id])
       expect(bucket_wp1.reload).to have_attributes(backlog_bucket_id: bucket.id, position: 1)
       expect(sprint_order).to eq [sprint_wp1.id, sprint_wp2.id, sprint_wp3.id]
+    end
+
+    it "lets an exception raised while preparing the batch propagate" do
+      allow(Backlogs::Target).to receive(:for_work_package).and_raise(ArgumentError, "boom")
+
+      expect do
+        service([bucket_wp1, bucket_wp2])
+          .call(list_type: "sprint", list_id: sprint.id.to_s, prev_id: "")
+      end.to raise_error(ArgumentError, "boom")
     end
 
     # The established call_hook observation pattern — see

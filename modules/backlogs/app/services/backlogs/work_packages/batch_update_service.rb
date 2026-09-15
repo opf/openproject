@@ -58,7 +58,7 @@ class Backlogs::WorkPackages::BatchUpdateService
     def initial_prev_id = anchor ? anchor.id.to_s : ""
   end
 
-  def call(list_type: nil, list_id: nil, prev_id: nil) # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
+  def call(list_type: nil, list_id: nil, prev_id: nil) # rubocop:disable Metrics/AbcSize
     return empty_batch_failure if work_packages.empty?
 
     contract = Backlogs::WorkPackages::BatchMoveParamsContract.new(
@@ -80,6 +80,12 @@ class Backlogs::WorkPackages::BatchUpdateService
       [work_package.id, Backlogs::Target.for_work_package(work_package)]
     end
 
+    move_batch_in_transaction(target, prev_id, list_type:, list_id:)
+  end
+
+  private
+
+  def move_batch_in_transaction(target, prev_id, list_type:, list_id:)
     call = nil
     # Its own savepoint: joined into an enclosing transaction, the rollback
     # below would be swallowed and half the batch would commit.
@@ -91,12 +97,10 @@ class Backlogs::WorkPackages::BatchUpdateService
   rescue StandardError => e
     # An operational exception from a later member must not escape as a 500
     # once the rollback has already happened. The message is unlocalized
-    # adapter detail, so it is logged rather than shown in the flash.
-    Rails.logger.error { "Backlogs batch move failed: #{e.class}: #{e.message}" }
+    # adapter detail, so it is reported rather than shown in the flash.
+    OpenProject.logger.error(e, reference: :backlogs_batch_move, work_package_ids: work_packages.map(&:id))
     ServiceResult.failure(message: I18n.t("backlogs.work_packages.batch_update_service.unexpected_failure"))
   end
-
-  private
 
   def move_batch(target, prev_id, list_type:, list_id:)
     destination = raw_destination(target)
