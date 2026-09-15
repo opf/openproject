@@ -22,7 +22,14 @@
 ---
 de:
   activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: Die Zeilen und Spalten müssen zusammen genau die Gruppierungskriterien der Abfrage abdecken.
     models:
+      cost_report:
+        one: Kostenbericht
+        other: Kostenberichte
       cost_query:
         one: Kostenbericht
         other: Kostenberichte

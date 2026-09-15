@@ -22,6 +22,19 @@
 ---
 de:
   js:
+    backlogs:
+      selection:
+        card_state: Ausgewählt
+        cleared: Auswahl aufgehoben.
+        not_selectable: Auswahl unverändert. Dieses Arbeitspaket hat keinen Einfluss auf die Reihenfolge dieser Liste.
+        range_blocked: Auswahl unverändert. Sie enthält ein Arbeitspaket ohne Einfluss auf die Reihenfolge dieser Liste.
+        range_restarted:
+          one: Die Auswahl konnte nicht erweitert werden. 1 Arbeitspaket ausgewählt.
+          other: Die Auswahl konnte nicht erweitert werden. %{count} Arbeitspakete ausgewählt.
+        range_unavailable: Auswahl unverändert. Erweitern Sie diese Liste, um diesen Bereich auszuwählen.
+        selected:
+          one: 1 Arbeitspaket ausgewählt.
+          other: "%{count} Arbeitspakete ausgewählt."
     burndown:
       day: Tag
       points: Punkte
