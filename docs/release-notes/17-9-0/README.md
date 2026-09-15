@@ -81,7 +81,7 @@ OpenProject 17.9 further extends the capabilities of the [MCP Server](../../syst
 
 OpenProject 17.9 brings several improvements to PDF exports, providing more complete project information and making it easier to create consistent exports.
 
-- **More comprehensive [PMflex artefact exports](../../user-guide/work-packages/exporting/work-package-pdf/):** Project lifecycle information and **project budgets** can now optionally be included in the PDF. Budgets are presented as a planned-cost breakdown, including planned unit and labor costs and their subtotals. This provides a more complete view of project planning, progress, and costs in a single artefact.
+- **More comprehensive [PMflex artefact exports](../../user-guide/work-packages/exporting/work-package-pdf/):** Project lifecycle information and **project budgets** can now optionally be included in the PDF. Budgets are presented as a cost breakdown, including unit and labor costs and their subtotals. This provides a more complete view of project planning, progress, and costs in a single artefact.
 
   Placeholder for the image once the feature is done 
 
