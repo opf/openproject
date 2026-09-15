@@ -117,5 +117,15 @@ RSpec.describe Import::JiraCreateProjectWorkPackageAttachmentsJob,
         expect { create_work_package_attachments }.to raise_error(Import::ProgressableJob::AbortionError)
       end
     end
+
+    context "when the attachment exceeds the maximum filesize",
+            with_settings: { attachment_max_size: 0 } do
+      it "creates the attachment bypassing filesize validation" do
+        create_work_package_attachments
+
+        work_package = WorkPackage.find("DPPP-6")
+        expect(work_package.attachments.count).to eq(1)
+      end
+    end
   end
 end
