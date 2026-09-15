@@ -38,7 +38,7 @@ class WorkPackageCustomField < CustomField
 
     ProjectType
       .joins(source_join)
-      .joins("JOIN custom_fields_types cft ON cft.type_variant_id = #{source_variant_id} AND #{exclusion}")
+      .joins(Arel.sql("JOIN custom_fields_types cft ON cft.type_variant_id = #{source_variant_id} AND #{exclusion}"))
       .where(project_id: Project.active.select(:id))
       .group("cft.custom_field_id")
       .distinct
