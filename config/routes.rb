@@ -1370,7 +1370,6 @@ Rails.application.routes.draw do
 
   scope :notifications do
     get "/share_upsell" => "notifications#share_upsell", as: "notifications_share_upsell"
-    get "/date_alerts" => "notifications#date_alerts", as: "notifications_date_alert_upsell"
     get "/", to: "notifications#index", as: :notifications_center
   end
 

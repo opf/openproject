@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.shared_examples "notification settings workflow" do
-  describe "with another project the user can see",
-           with_ee: %i[date_alerts] do
+  describe "with another project the user can see" do
     shared_let(:project) { create(:project) }
     shared_let(:project_alt) { create(:project) }
     shared_let(:role) { create(:project_role, permissions: %i[view_project]) }
@@ -152,25 +151,6 @@ RSpec.shared_examples "notification settings workflow" do
         mail_settings_page.visit!
         mail_settings_page.save_daily_reminders_form
         mail_settings_page.expect_and_dismiss_flash
-      end
-    end
-
-    context "without enterprise", with_ee: false do
-      it "does not render the date alerts" do
-        # Expect default settings
-        settings_page.expect_represented
-
-        # Expect no date alert fields
-        settings_page.expect_no_date_alert_setting("start_date")
-        settings_page.expect_no_date_alert_setting("due_date")
-        settings_page.expect_no_date_alert_setting("overdue")
-
-        # Add projects columns
-        settings_page.add_project project
-
-        settings_page.expect_no_project_date_alert_setting("start_date")
-        settings_page.expect_no_project_date_alert_setting("due_date")
-        settings_page.expect_no_project_date_alert_setting("overdue")
       end
     end
   end
