@@ -123,7 +123,7 @@ gem "sys-filesystem", "~> 1.6.0", require: false
 
 gem "bcrypt", "~> 3.1.22"
 
-gem "multi_json", "~> 1.21.0"
+gem "multi_json", "~> 1.21.2"
 
 gem "daemons"
 gem "good_job", "~> 4.19.2" # update should be done manually in sync with saas-openproject version.
