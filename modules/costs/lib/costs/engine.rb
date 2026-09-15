@@ -185,6 +185,19 @@ module Costs
            icon: :stopwatch
     end
 
+    # A default rate has no project, so managing one is granted globally.
+    # Declared outside the project module because a global permission is not
+    # gated by a project having the costs module enabled.
+    config.to_prepare do
+      OpenProject::AccessControl.map do |ac_map|
+        ac_map.permission :manage_default_hourly_rates,
+                          {},
+                          permissible_on: :global,
+                          require: :loggedin,
+                          contract_actions: { default_hourly_rates: %i[create edit destroy] }
+      end
+    end
+
     initializer "costs.settings" do
       ::Settings::Definition.add "costs_currency", default: "€", format: :string
       ::Settings::Definition.add "costs_currency_format", default: "%n %u", format: :string, allowed: ["%u %n", "%n %u"]
@@ -208,14 +221,14 @@ module Costs
                   name: "rates",
                   partial: "users/rates",
                   path: ->(params) { edit_user_path(params[:user], tab: :rates) },
-                  only_if: ->(*) { User.current.admin? },
+                  only_if: ->(*) { User.current.allowed_globally?(:manage_default_hourly_rates) },
                   label: :caption_rate_history
 
     add_tab_entry :placeholder_user,
                   name: "rates",
                   partial: "placeholder_users/rates",
                   path: ->(params) { edit_placeholder_user_path(params[:placeholder_user], tab: :rates) },
-                  only_if: ->(*) { User.current.admin? },
+                  only_if: ->(*) { User.current.allowed_globally?(:manage_default_hourly_rates) },
                   label: :caption_rate_history
 
     add_api_path :cost_entry do |id|

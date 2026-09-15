@@ -41,6 +41,18 @@ RSpec.shared_examples_for "a default hourly rate contract" do
 
   it_behaves_like "contract is valid for active admins and invalid for regular users"
 
+  context "when the user may manage default rates globally" do
+    let(:current_user) { build_stubbed(:user) }
+
+    before do
+      mock_permissions_for(current_user) do |mock|
+        mock.allow_globally(:manage_default_hourly_rates)
+      end
+    end
+
+    it_behaves_like "contract is valid"
+  end
+
   # edit_own_hourly_rate is scoped to a project, and a default rate has none to
   # scope to, so neither project permission reaches it.
   context "when the user may edit the hourly rates of a project" do
