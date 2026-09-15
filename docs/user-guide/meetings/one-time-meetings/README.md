@@ -100,7 +100,7 @@ If you are using (reusable meeting templates)(#meeting-templates-enterprise-add-
 
 > [!NOTE]
 >
-> The date is by default set to the present day, while the start time is automatically rounded up to the next half-hour.
+> The date is set to the present day by default, while the start time is automatically rounded up to the next half-hour. For example, if the current time is 10:09, the start time is set to 10:30.
 
 Click the **Create meeting** button to save your changes. A new meeting will be created. It will initially be in **draft mode**, as indicated by the status message and the corresponding  banner. You can then proceed to add more details to the meeting.
 
