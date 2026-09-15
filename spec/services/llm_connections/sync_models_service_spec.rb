@@ -186,4 +186,28 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
       expect(connection.models.find_by(external_id: "gpt-4o").display_name).to eq("The house model")
     end
   end
+
+  describe "a gateway that serves its embedding models separately" do
+    let(:base_url) { "https://openrouter.ai/api/v1" }
+    let(:connection) { create(:llm_connection, base_url:, api_format: "openrouter", api_key: "sk-test") }
+
+    before { mock_llm_embedding_models_response(base_url) }
+
+    it "stores the models the unfiltered catalogue leaves out" do
+      service.call
+
+      expect(connection.models.active.pluck(:external_id))
+        .to contain_exactly("qwen3.6-27b", "bge-m3", "voyageai/voyage-4")
+    end
+
+    it "types a model the card declares an embedding one without spending a probe" do
+      service.call
+
+      llm_model = connection.models.find_by(external_id: "voyageai/voyage-4")
+      verdict = connection.capability_verdicts.find_by(model_id: "voyageai/voyage-4", capability: "embeddings")
+
+      expect(llm_model).to be_embedding
+      expect(verdict.source).to eq("metadata")
+    end
+  end
 end
