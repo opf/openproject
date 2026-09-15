@@ -276,6 +276,7 @@ Rails.application.routes.draw do
 
     member do
       get :menu
+      get :deletion_dialog
       put :drop
       post :duplicate
     end

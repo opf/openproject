@@ -28,61 +28,34 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "support/pages/page"
-
-module Pages
+module WorkPackageTypes
   module Types
-    class Index < ::Pages::Page
-      def path
-        "/types"
-      end
+    class TypeDeletionDialogComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
+      include OpTurbo::Streamable
 
-      def expect_listed(*types)
-        headers = page.all(".Box-header .Button-label, .Box-header a")
+      DIALOG_ID = "type-deletion-dialog"
 
-        expect(headers.map(&:text)).to include(*types.map { |t| canonical_name(t) })
-      end
+      def initialize(type:)
+        super()
 
-      def click_new
-        page.find_test_selector("op-admin-types--button-new", text: "Type").click
-      end
-
-      def delete(type)
-        open_actions(type)
-
-        click_link I18n.t(:button_delete)
-
-        expect(page).to have_css("##{deletion_dialog_id}[open]")
-
-        within("##{deletion_dialog_id}") { click_button I18n.t(:button_delete) }
-      end
-
-      def delete_expecting_refusal(type)
-        open_actions(type)
-
-        click_link I18n.t(:button_delete)
+        @type = type
       end
 
       private
 
-      def open_actions(type)
-        within_header(type) { find("action-menu > button").click }
+      attr_reader :type
+
+      def affected_projects
+        @affected_projects ||= type.projects.reorder(:name).to_a
       end
 
-      def deletion_dialog_id
-        WorkPackageTypes::Types::TypeDeletionDialogComponent::DIALOG_ID
-      end
-
-      def within_header(type)
-        header = page.find(".Box-header", text: canonical_name(type))
-
-        within header do
-          yield header
+      def description
+        if type.variants.non_default_variants.any?
+          t("types.index.delete.description_with_variants")
+        else
+          t("types.index.delete.description")
         end
-      end
-
-      def canonical_name(type)
-        type.respond_to?(:name) ? type.name : type
       end
     end
   end

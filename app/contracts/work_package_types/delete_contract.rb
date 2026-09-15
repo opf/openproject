@@ -29,41 +29,19 @@
 #++
 
 module WorkPackageTypes
-  module Types
-    class DeletionFormComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
-      include OpTurbo::Streamable
+  class DeleteContract < BaseContract
+    validate :no_work_packages_with_this_type
 
-      def initialize(variant:, targets:, url:, selected: nil, impact: nil, validation_message: nil)
-        super()
+    protected
 
-        @variant = variant
-        @targets = targets
-        @url = url
-        @selected = selected
-        @impact = impact
-        @validation_message = validation_message
-      end
+    def validate_model?
+      false
+    end
 
-      private
+    private
 
-      attr_reader :variant, :targets, :url, :selected, :impact, :validation_message
-
-      def preview_path
-        deletion_preview_type_variant_path(type_id: variant.type_id, id: variant.id)
-      end
-
-      def refresh_data
-        {
-          controller: "refresh-on-form-changes",
-          refresh_on_form_changes_target: "form",
-          refresh_on_form_changes_turbo_stream_url_value: preview_path
-        }
-      end
-
-      def dialog_id
-        VariantDeletionDialogComponent::DIALOG_ID
-      end
+    def no_work_packages_with_this_type
+      errors.add(:base, :in_use_by_work_packages) if model.work_packages.exists?
     end
   end
 end

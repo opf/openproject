@@ -28,62 +28,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "support/pages/page"
-
-module Pages
+module WorkPackageTypes
   module Types
-    class Index < ::Pages::Page
-      def path
-        "/types"
-      end
+    class VariantDeletionDialogComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
+      include OpTurbo::Streamable
 
-      def expect_listed(*types)
-        headers = page.all(".Box-header .Button-label, .Box-header a")
+      DIALOG_ID = "variant-deletion-dialog"
 
-        expect(headers.map(&:text)).to include(*types.map { |t| canonical_name(t) })
-      end
+      def initialize(variant:, targets:, selected:, impact:, url:)
+        super()
 
-      def click_new
-        page.find_test_selector("op-admin-types--button-new", text: "Type").click
-      end
-
-      def delete(type)
-        open_actions(type)
-
-        click_link I18n.t(:button_delete)
-
-        expect(page).to have_css("##{deletion_dialog_id}[open]")
-
-        within("##{deletion_dialog_id}") { click_button I18n.t(:button_delete) }
-      end
-
-      def delete_expecting_refusal(type)
-        open_actions(type)
-
-        click_link I18n.t(:button_delete)
+        @variant = variant
+        @targets = targets
+        @selected = selected
+        @impact = impact
+        @url = url
       end
 
       private
 
-      def open_actions(type)
-        within_header(type) { find("action-menu > button").click }
-      end
-
-      def deletion_dialog_id
-        WorkPackageTypes::Types::TypeDeletionDialogComponent::DIALOG_ID
-      end
-
-      def within_header(type)
-        header = page.find(".Box-header", text: canonical_name(type))
-
-        within header do
-          yield header
-        end
-      end
-
-      def canonical_name(type)
-        type.respond_to?(:name) ? type.name : type
-      end
+      attr_reader :variant, :targets, :selected, :impact, :url
     end
   end
 end
