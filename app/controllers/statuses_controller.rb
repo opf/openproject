@@ -87,20 +87,25 @@ class StatusesController < ApplicationController
 
   def move
     status = Status.find(params.expect(:id))
+    moved = params.key?(:move_to) ? move_in_direction(status) : move_after_anchor(status)
 
-    if status.update(move_params)
-      render_success_flash_message_via_turbo_stream(message: I18n.t(:notice_successful_update))
+    if moved
+      render_move_success
     else
-      render_error_flash_message_via_turbo_stream(message: I18n.t("statuses.index.could_not_be_moved"))
+      error_key = params.key?(:move_to) ? "statuses.index.could_not_be_moved" : :error_invalid_list_move_anchor
+      render_error_flash_message_via_turbo_stream(message: I18n.t(error_key))
     end
 
-    @query = load_query
-    replace_via_turbo_stream(component: index_component)
-
-    respond_with_turbo_streams
+    respond_with_turbo_streams(status: moved ? :ok : :unprocessable_entity)
   end
 
   protected
+
+  def render_move_success
+    @query = Queries::Statuses::StatusQuery.new(user: current_user)
+    render_success_flash_message_via_turbo_stream(message: I18n.t(:notice_successful_update))
+    update_via_turbo_stream(component: index_component, method: :morph)
+  end
 
   def index_component
     Statuses::IndexComponent.new(statuses: paginated_statuses, query: @query, page_args:)
@@ -118,19 +123,41 @@ class StatusesController < ApplicationController
     { page: page_param, per_page: per_page_param }
   end
 
-  def move_params
+  def move_in_direction(status)
     move_to = params[:move_to]
-    position = Integer(params[:position], exception: false)
 
-    if move_to.in?(%w[highest higher lower lowest])
-      { move_to: }
-    elsif position
-      # The dropped position is an index within the rendered page, while
-      # acts_as_list positions run across the whole list.
-      { position: position + ((page_param - 1) * per_page_param) }
+    move_to.in?(%w[highest higher lower lowest]) && status.update(move_to:)
+  end
+
+  def move_after_anchor(status)
+    return false unless valid_drop_request?
+
+    prev_id = drop_params[:prev_id]
+
+    if prev_id.blank? && page_param > 1
+      move_to_page_start(status)
     else
-      {}
+      status.move_after_anchor(prev_id, scope: Status.all)
     end
+  end
+
+  def move_to_page_start(status)
+    statuses = Status.page(page_param).per_page(per_page_param)
+    return false if statuses.empty?
+
+    prev_id = Status.offset(statuses.offset - 1).pick(:id)
+    status.move_after_anchor(prev_id, scope: Status.all)
+  end
+
+  def valid_drop_request?
+    drop_params[:list_type] == Status::SORTABLE_LIST_TYPE &&
+      params[:list_id].blank? &&
+      (params[:list_id].nil? || drop_params.key?(:list_id)) &&
+      drop_params.key?(:prev_id)
+  end
+
+  def drop_params
+    @drop_params ||= params.permit(:list_type, :list_id, :prev_id)
   end
 
   def recompute_progress_values
