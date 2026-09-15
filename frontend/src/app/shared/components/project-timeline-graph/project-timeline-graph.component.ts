@@ -143,6 +143,8 @@ export class ProjectTimelineGraphComponent {
       const item = this.itemsDataset!.get(props.item);
       if (item?.itemType === 'milestone' && item.workPackageId) {
         window.location.href = this.pathHelper.workPackagePath(String(item.workPackageId));
+      } else if (item?.itemType === 'sprint' && item.href) {
+        window.location.href = item.href;
       }
     });
   }

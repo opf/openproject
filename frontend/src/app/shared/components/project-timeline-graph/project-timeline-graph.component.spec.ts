@@ -121,6 +121,7 @@ describe('ProjectTimelineGraphComponent', () => {
     endDate: '2024-01-14',
     status: 'active',
     row: 0,
+    href: '/projects/some-project/backlogs?sprint_ids%5B%5D=20',
   };
 
   let fixture:ComponentFixture<ProjectTimelineGraphComponent>;
@@ -258,6 +259,7 @@ describe('ProjectTimelineGraphComponent', () => {
       expect(item!.className).toContain('op-timeline-sprint');
       expect(item!.className).toContain('op-timeline-sprint--active');
       expect(item!.itemType).toBe('sprint');
+      expect(item!.href).toBe(sprint.href);
     });
 
     it('does not add the active class for non-active sprints', () => {
