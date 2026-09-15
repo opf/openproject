@@ -5,13 +5,13 @@
       title: I18n.t(:label_work_package_new),
       size: :xlarge,
       data: {
-        "keep-open-on-submit": true
+        "keep-open-on-submit": keep_open_on_submit
       }
     )
   ) do |dialog|
     dialog.with_header(variant: :large)
     dialog.with_body do
-      render(WorkPackages::Dialogs::CreateFormComponent.new(work_package:, project:))
+      render(WorkPackages::Dialogs::CreateFormComponent.new(work_package:, project:, submit_url:, refresh_url:))
     end
 
     dialog.with_footer do

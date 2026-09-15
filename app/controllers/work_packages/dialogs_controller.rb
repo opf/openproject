@@ -30,15 +30,16 @@
 
 class WorkPackages::DialogsController < ApplicationController
   include OpTurbo::ComponentStream
+  include WorkPackages::Dialogs::Creation
+
   layout false
 
   before_action :find_project_by_project_id
-  before_action :build_work_package, only: %i[new]
 
   authorize_with_permission :add_work_packages
 
   def new
-    respond_with_dialog WorkPackages::Dialogs::CreateDialogComponent.new(work_package: @work_package, project: @project)
+    respond_with_dialog WorkPackages::Dialogs::CreateDialogComponent.new(work_package: build_work_package, project: @project)
   end
 
   def create
@@ -56,49 +57,13 @@ class WorkPackages::DialogsController < ApplicationController
   end
 
   def refresh_form
-    call = WorkPackages::SetAttributesService.new(
-      user: current_user,
-      model: WorkPackage.new,
-      contract_class: EmptyContract
-    ).call(create_params)
-
-    form_component = WorkPackages::Dialogs::CreateFormComponent.new(work_package: call.result, project: @project)
+    form_component = WorkPackages::Dialogs::CreateFormComponent.new(work_package: refreshed_work_package, project: @project)
     update_via_turbo_stream(component: form_component)
 
     respond_with_turbo_streams
   end
 
   private
-
-  def build_work_package
-    initial = WorkPackage.new(project: @project)
-
-    call = WorkPackages::SetAttributesService
-      .new(model: initial, user: current_user, contract_class: WorkPackages::CreateContract)
-      .call(new_params.reverse_merge(default_params(initial)))
-
-    # We ignore errors here, as we only want to build the work package
-    @work_package = call.result
-    @work_package.errors.clear
-    @work_package.custom_values.each { |cv| cv.errors.clear }
-  end
-
-  def new_params
-    params.permit(*PermittedParams.permitted_attributes[:new_work_package])
-  end
-
-  def create_params
-    permitted_params.update_work_package.merge(project: @project)
-  end
-
-  def default_params(work_package)
-    contract = WorkPackages::CreateContract.new(work_package, current_user)
-
-    {
-      type: contract.assignable_types.first,
-      project: @project
-    }
-  end
 
   def create_success_message(work_package)
     if work_package.child?
