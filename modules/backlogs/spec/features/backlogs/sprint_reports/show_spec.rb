@@ -30,10 +30,14 @@
 
 require "spec_helper"
 
-RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
+RSpec.describe "Sprint report page", :js, with_ee: [:sprint_report_pro_widgets], with_flag: :sprint_reports do
   include Rails.application.routes.url_helpers
 
-  shared_let(:project) { create(:project) }
+  # Required for epic progress widget:
+  shared_let(:epic_type) { create(:type, name: "Epic") }
+
+  shared_let(:task_type) { create(:type_task) }
+  shared_let(:project) { create(:project, types: [epic_type, task_type]) }
   shared_let(:sprint) do
     create(:sprint,
            project:,
@@ -82,6 +86,10 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
 
     it "renders the burndown chart widget second" do
       expect(widget_boxes[1]).to have_css("opce-burndown-chart")
+    end
+
+    it "renders the epic progress widget third" do
+      expect(widget_boxes[2]).to have_text("Epic progress")
     end
   end
 end
