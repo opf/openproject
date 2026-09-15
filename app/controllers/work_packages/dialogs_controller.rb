@@ -46,7 +46,7 @@ class WorkPackages::DialogsController < ApplicationController
     call = WorkPackages::CreateService.new(user: current_user).call(create_params)
 
     if call.success?
-      flash[:notice] = create_success_message(call.result)
+      flash[:notice] = I18n.t(:notice_successful_create)
       redirect_back fallback_location: project_work_package_path(@project, call.result), status: :see_other
     else
       form_component = WorkPackages::Dialogs::CreateFormComponent.new(work_package: call.result, project: @project)
@@ -61,15 +61,5 @@ class WorkPackages::DialogsController < ApplicationController
     update_via_turbo_stream(component: form_component)
 
     respond_with_turbo_streams
-  end
-
-  private
-
-  def create_success_message(work_package)
-    if work_package.child?
-      I18n.t("work_package_relations_tab.relations.label_new_child_created")
-    else
-      I18n.t(:notice_successful_create)
-    end
   end
 end

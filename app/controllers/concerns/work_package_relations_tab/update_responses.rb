@@ -34,12 +34,12 @@ module WorkPackageRelationsTab
 
     private
 
-    def respond_with_relations_tab_update(service_result, **)
+    def respond_with_relations_tab_update(service_result, message: I18n.t(:notice_successful_update), **)
       if service_result.success?
         @work_package.reload
         component = WorkPackageRelationsTab::IndexComponent.new(work_package: @work_package, **)
         replace_via_turbo_stream(component:)
-        render_success_flash_message_via_turbo_stream(message: I18n.t(:notice_successful_update))
+        render_success_flash_message_via_turbo_stream(message:)
 
         respond_with_turbo_streams
       else
