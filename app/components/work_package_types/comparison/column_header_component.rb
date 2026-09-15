@@ -29,39 +29,28 @@
 #++
 
 module WorkPackageTypes
-  module Patterns
-    Collection = Data.define(:patterns) do
-      extend Dry::Monads[:result]
+  module Comparison
+    class ColumnHeaderComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
 
-      private_class_method :new
+      def initialize(profile:, duplicates:)
+        super()
 
-      def self.empty
-        new(patterns: {})
+        @profile = profile
+        @duplicates = duplicates
       end
 
-      def self.build(patterns:, contract: CollectionContract.new)
-        contract.call(patterns).to_monad.fmap { |success| new(success.to_h) }
-      rescue ArgumentError => e
-        Failure(e)
-      end
+      private
 
-      def initialize(patterns:)
-        transformed = patterns.transform_values { Pattern.new(**it) }.freeze
+      attr_reader :profile, :duplicates
 
-        super(patterns: transformed)
-      end
+      def variant = profile.variant
 
-      def subject
-        patterns[:subject]
-      end
+      def name = variant.display_name
 
-      def all_enabled
-        patterns.select { |_, pattern| pattern.enabled? }
-      end
+      def duplicate_names = duplicates.map { it.variant.display_name }.to_sentence
 
-      def to_h
-        patterns.stringify_keys.transform_values(&:to_h)
-      end
+      def configuration_path = type_settings_path(**variant.path_args)
     end
   end
 end

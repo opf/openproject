@@ -29,38 +29,21 @@
 #++
 
 module WorkPackageTypes
-  module Patterns
-    Collection = Data.define(:patterns) do
-      extend Dry::Monads[:result]
+  class VariantComparison
+    # What one variant shows for one row.
+    Cell = Data.define(:row, :profile, :values, :same_as_base) do
+      def count = values.size
 
-      private_class_method :new
+      def labels = values.map { label_of(it) }
 
-      def self.empty
-        new(patterns: {})
-      end
+      private
 
-      def self.build(patterns:, contract: CollectionContract.new)
-        contract.call(patterns).to_monad.fmap { |success| new(success.to_h) }
-      rescue ArgumentError => e
-        Failure(e)
-      end
-
-      def initialize(patterns:)
-        transformed = patterns.transform_values { Pattern.new(**it) }.freeze
-
-        super(patterns: transformed)
-      end
-
-      def subject
-        patterns[:subject]
-      end
-
-      def all_enabled
-        patterns.select { |_, pattern| pattern.enabled? }
-      end
-
-      def to_h
-        patterns.stringify_keys.transform_values(&:to_h)
+      def label_of(value)
+        case value
+        when WorkPackageTypes::FormFieldSet::Field then value.label.presence || value.key
+        when String then value
+        else value.name
+        end
       end
     end
   end
