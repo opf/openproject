@@ -812,6 +812,17 @@ pt-BR:
         move_failed_rolled_back: Falha ao mover. %{label} retornou à sua posição anterior.
         moved: "%{label} foi movido para a posição %{position} de %{total}"
         moved_to_list: "%{label} foi movido para %{list}, na posição %{position} de %{total}"
+      selection:
+        cleared: Seleção limpa.
+        not_selectable: Seleção inalterada. Este item não influencia a ordenação desta lista.
+        range_blocked: Seleção inalterada. Esse intervalo contém um item que não influencia a ordenação desta lista.
+        range_restarted:
+          one: Não foi possível ampliar o intervalo. 1 item selecionado.
+          other: Não foi possível ampliar o intervalo. %{count} itens selecionados.
+        range_unavailable: Seleção inalterada. Expanda esta lista para selecionar esse intervalo.
+        selected:
+          one: 1 item selecionado.
+          other: "%{count} itens selecionados."
     spot:
       drop_modal:
         close: Fechar o modal
