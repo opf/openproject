@@ -277,7 +277,7 @@ module Import
     # @raise [ApiError] If the server returns a non-success response
     def download_attachment(content_url, filename) # rubocop:disable Metrics/AbcSize
       tempfile = nil
-      OpenProject::SsrfProtection.get(content_url, headers: @headers, http_options: HTTP_OPTIONS, max_redirects: 1) do |response|
+      OpenProject::SsrfProtection.get(content_url, headers: @headers, http_options: HTTP_OPTIONS, max_redirects: 0) do |response|
         case response
         when Net::HTTPSuccess
           tempfile = Tempfile.create(filename, binmode: true)
