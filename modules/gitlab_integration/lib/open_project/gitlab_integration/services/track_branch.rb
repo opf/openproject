@@ -47,9 +47,9 @@ module OpenProject
           return if name.blank?
 
           if payload.before.match?(BLANK_SHA)
-            track_created(payload, name, user)
+            branch_created!(payload, name, user)
           elsif payload.after.match?(BLANK_SHA)
-            track_deleted(payload.project_id, name)
+            branch_deleted!(payload.project_id, name)
           end
         end
 
@@ -59,14 +59,14 @@ module OpenProject
           ref.delete_prefix(HEADS_PREFIX) if ref.start_with?(HEADS_PREFIX)
         end
 
-        def track_created(payload, name, user)
+        def branch_created!(payload, name, user)
           work_package = find_visible_work_packages(extract_work_package_ids_from_branch(name), user).first
           return if work_package.nil?
 
           UpsertBranch.new.call(payload, name:, work_package:)
         end
 
-        def track_deleted(gitlab_project_id, name)
+        def branch_deleted!(gitlab_project_id, name)
           GitlabBranch.find_by(gitlab_project_id:, name:)&.destroy!
         end
       end
