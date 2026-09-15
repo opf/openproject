@@ -45,6 +45,19 @@ describe('RowClickHandler', () => {
     .filter((row) => row.classList.contains('-checked'))
     .map((row) => row.dataset.workPackageId);
 
+  function insertRelationRow(workPackageId:string, afterWorkPackageId:string):void {
+    const precedingRow = harness.row(afterWorkPackageId);
+    const relationRow = harness.row(workPackageId).cloneNode(true) as HTMLTableRowElement;
+    const classIdentifier = `wp-relation-row-${afterWorkPackageId}-to-${workPackageId}`;
+    relationRow.dataset.classIdentifier = classIdentifier;
+    precedingRow.after(relationRow);
+
+    const rendered = [...harness.table.renderedRows];
+    const precedingIndex = rendered.findIndex((row) => row.classIdentifier === precedingRow.dataset.classIdentifier);
+    rendered.splice(precedingIndex + 1, 0, { classIdentifier, workPackageId, hidden: false });
+    harness.querySpace.tableRendered.putValue(rendered);
+  }
+
   it('replaces the selection on a plain click', () => {
     harness.click('1');
     harness.click('3');
@@ -93,12 +106,7 @@ describe('RowClickHandler', () => {
   it.each([false, true])('uses the clicked occurrence when a work package appears twice (reverse: %s)', async (reverse) => {
     await harness.render([{ id: '1' }, { id: '3' }, { id: '2' }, { id: '4' }]);
     const primaryRow = harness.row('2');
-    const relationRow = primaryRow.cloneNode(true) as HTMLTableRowElement;
-    relationRow.dataset.classIdentifier = 'wp-relation-row-1-to-2';
-    harness.row('1').after(relationRow);
-    const rendered = [...harness.table.renderedRows];
-    rendered.splice(1, 0, { classIdentifier: 'wp-relation-row-1-to-2', workPackageId: '2', hidden: false });
-    harness.querySpace.tableRendered.putValue(rendered);
+    insertRelationRow('2', '1');
 
     const rows = reverse ? [harness.row('4'), primaryRow] : [primaryRow, harness.row('4')];
     rows.forEach((row, index) => fireEvent.click(row, { shiftKey: index === 1 }));

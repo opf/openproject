@@ -122,11 +122,12 @@ describe('DragAndDropTransformer', () => {
     expect(drops).toEqual([]);
   });
 
-  it('anchors a following shift-click at the picked-up row when group headers precede it', () => {
+  it('anchors a following shift-click at the picked-up row when group headers precede it', async () => {
     harness.click('1');
     harness.click('3', { ctrlKey: true });
 
     harness.dragStart('3');
+    await harness.drop('3', '3', 'bottom');
     harness.click('4', { shiftKey: true });
 
     expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['3', '4']);

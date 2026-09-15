@@ -65,7 +65,7 @@ describe('WorkPackageTable', () => {
     expect(cells.map((cell) => cell.dataset.workPackageId)).toEqual(['1', '2']);
   });
 
-  it('paints a pre-selected and the current work package at build time', async () => {
+  it('renders existing selection and the current work package on initial render', async () => {
     harness = buildTable({ workPackages: [{ id: '1' }, { id: '2' }, { id: '3' }] });
     harness.selection.initializeSelection(['2']);
     harness.focus.updateFocus('3', false, false);

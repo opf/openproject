@@ -100,7 +100,7 @@ describe('WorkPackageViewSelectionGesturesService', () => {
   });
 
   describe('#handleContextMenu', () => {
-    it('keeps a selection that contains the work package', () => {
+    it('keeps a selection that contains the right-clicked work package', () => {
       gestures.handleClick('1', rendered, {});
       gestures.handleClick('3', rendered, { ctrlKey: true });
       gestures.handleContextMenu('3', rendered);
@@ -108,7 +108,7 @@ describe('WorkPackageViewSelectionGesturesService', () => {
       expect(selected()).toEqual(['1', '3']);
     });
 
-    it('replaces a selection that does not contain the work package', () => {
+    it('replaces a selection that does not contain the right-clicked work package', () => {
       gestures.handleClick('1', rendered, {});
       gestures.handleContextMenu('4', rendered);
 
