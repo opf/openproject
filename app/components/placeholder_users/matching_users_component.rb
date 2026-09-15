@@ -56,8 +56,7 @@ module PlaceholderUsers
                    .to_a
     end
 
-    # The count only has to be resolved once the rendered list is full, so an
-    # unabridged list costs no extra query.
+    # The first clause keeps the count query off lists that cannot be truncated.
     def truncated?
       users.size == MAX_USERS && total_count > MAX_USERS
     end

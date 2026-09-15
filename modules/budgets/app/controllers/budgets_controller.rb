@@ -179,26 +179,14 @@ class BudgetsController < ApplicationController
     end
   end
 
-  def update_labor_budget_item # rubocop:disable Metrics/AbcSize
+  def update_labor_budget_item
     @element_id = params[:element_id]
-    # A group is budgetable but carries no rate, so it falls through to 0.0.
-    principal = Principal.with_rates.in_project(@project).find_by(id: params[:user_id])
-
-    if principal && params[:hours]
-      hours = Rate.parse_hours_string_to_number(params[:hours])
-      @costs = begin
-        hours * principal.rate_at(params[:fixed_date], @project).rate
-      rescue StandardError
-        0.0
-      end
-    else
-      @costs = 0.0
-    end
+    principal = budgeted_principal
+    rate = applicable_rate(principal)
+    @costs = labor_costs(rate)
 
     respond_to do |format|
-      format.json do
-        render json: render_item_as_json(@element_id, @costs, @unit, @project, :view_hourly_rates)
-      end
+      format.json { render json: labor_budget_item_as_json(principal, rate) }
     end
   end
 
@@ -207,6 +195,44 @@ class BudgetsController < ApplicationController
   def find_budget
     @budget = Budget.visible.includes(:project, :author).find(params[:id])
     @project = @budget.project if @budget
+  end
+
+  def applicable_rate(principal)
+    return if principal.nil? || params[:hours].blank?
+
+    principal.rate_at(params[:fixed_date], @project)
+  rescue StandardError
+    nil
+  end
+
+  # A group is budgetable but carries no rate, so it falls through to 0.0.
+  def budgeted_principal
+    Principal.with_rates.in_project(@project).find_by(id: params[:user_id])
+  end
+
+  def labor_costs(rate)
+    return 0.0 if rate.nil?
+
+    Rate.parse_hours_string_to_number(params[:hours]) * rate.rate
+  end
+
+  # The hint is always part of the response, so that one left over from a
+  # previous selection is cleared once a rate applies again.
+  def labor_budget_item_as_json(principal, rate)
+    render_item_as_json(@element_id, @costs, @unit, @project, :view_hourly_rates)
+      .merge("#{@element_id}_cost_hint" => missing_rate_hint(principal, rate).to_s)
+  end
+
+  def missing_rate_hint(principal, rate)
+    return if rate || !principal.is_a?(Costs::HasRates)
+    return unless current_user.allowed_in_project?(:view_hourly_rates, @project)
+
+    fixed_date = params[:fixed_date].presence&.to_date
+    return if fixed_date.nil?
+
+    t("budgets.labor_budget_items.no_rate_at_fixed_date", date: format_date(fixed_date))
+  rescue Date::Error
+    nil
   end
 
   def render_item_as_json(element_id, costs, unit, project, permission)
