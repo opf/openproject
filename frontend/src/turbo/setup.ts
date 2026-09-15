@@ -49,6 +49,10 @@ Turbo.config.drive.progressBarDelay = 100;
 // Start turbo
 Turbo.start();
 
+document.addEventListener('turbo:load', () => {
+  document.body.dataset.opTurboLoadCount = String(Number(document.body.dataset.opTurboLoadCount ?? 0) + 1);
+});
+
 // Register logging of events
 whenDebugging(() => {
   getTurboEvents()

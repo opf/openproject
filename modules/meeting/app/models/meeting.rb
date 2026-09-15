@@ -191,17 +191,23 @@ class Meeting < ApplicationRecord
   ##
   # Cache key for detecting changes to be shown to the user
   def changed_hash
+    aggregates = [
+      "MAX(CASE WHEN meeting_sections.backlog = FALSE THEN meeting_agenda_items.updated_at END)",
+      "MAX(CASE WHEN meeting_sections.backlog = FALSE THEN meeting_sections.updated_at END)",
+      "MAX(meeting_outcomes.updated_at)",
+      "COUNT(DISTINCT CASE WHEN meeting_sections.backlog = FALSE THEN meeting_agenda_items.id END)",
+      "COUNT(DISTINCT CASE WHEN meeting_sections.backlog = FALSE THEN meeting_sections.id END)",
+      "COUNT(DISTINCT meeting_outcomes.id)"
+    ].map { |expression| Arel.sql(expression) }
+
     parts = Meeting
               .unscoped
               .where(id:)
               .joins("LEFT JOIN meeting_sections ON meeting_sections.meeting_id = meetings.id")
               .left_joins(:agenda_items, agenda_items: %i[outcomes meeting_section])
-              .pick(
-                Arel.sql("MAX(CASE WHEN meeting_sections.backlog = FALSE THEN meeting_agenda_items.updated_at END)"),
-                Arel.sql("MAX(CASE WHEN meeting_sections.backlog = FALSE THEN meeting_sections.updated_at END)"),
-                Arel.sql("MAX(meeting_outcomes.updated_at)")
-              )
+              .pick(*aggregates)
 
+    parts.map! { |part| part.is_a?(Time) ? part.utc.iso8601(6) : part }
     parts << lock_version
 
     OpenProject::Cache::CacheKey.expand(parts)

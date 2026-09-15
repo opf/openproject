@@ -67,7 +67,7 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin {
   readonly PathHelper = inject(PathHelperService);
   readonly TurboRequests = inject(TurboRequestsService);
 
-  timer$ = this.timeEntryService.activeTimer$;
+  timer$ = this.timeEntryService.timer$;
 
   elapsed$:Observable<string> = timer(0, 1000)
     .pipe(

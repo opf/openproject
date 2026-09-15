@@ -62,6 +62,29 @@ RSpec.describe Backlogs::FinishSprintDialogComponent, type: :component do
     expect(page).to have_no_css("form[action*='all=']", visible: :all)
   end
 
+  context "without another sprint" do
+    it "selects only the top-of-backlog action" do
+      render_component
+
+      expect(page).to have_checked_field("Move them to the top of the backlog")
+      expect(page).to have_unchecked_field("Move them to the bottom of the backlog")
+      expect(page).to have_field("Move them to another sprint", disabled: true)
+    end
+  end
+
+  context "with another sprint" do
+    let(:available_sprints) { [create(:sprint, project:, name: "Sprint 2")] }
+
+    it "selects only the move-to-sprint action" do
+      render_component
+
+      expect(page).to have_unchecked_field("Move them to the top of the backlog")
+      expect(page).to have_unchecked_field("Move them to the bottom of the backlog")
+      expect(page).to have_checked_field("Move them to another sprint")
+      expect(page).to have_select("Select sprint", options: ["Sprint 2"])
+    end
+  end
+
   context "when params[:all] is true" do
     before { vc_test_controller.params[:all] = "1" }
 

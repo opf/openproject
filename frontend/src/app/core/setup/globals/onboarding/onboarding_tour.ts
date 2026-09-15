@@ -123,7 +123,7 @@ function workPackageFullViewTour() {
 function ganttTour(_configuration:ConfigurationService) {
   initializeTour('ganttTourFinished');
 
-  waitForElement('.work-package--results-tbody', '#content', () => {
+  waitForElement('.work-packages-tabletimeline--timeline-side', '#content', () => {
     let steps:OnboardingStep[] = ganttOnboardingTourSteps();
     if (showBoardsTour()) {
       steps = steps.concat(navigateToBoardStep());

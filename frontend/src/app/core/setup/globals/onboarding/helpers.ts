@@ -45,9 +45,14 @@ export function waitForElement(
   execFunction:(match:HTMLElement) => void,
   filterFunction:(match:HTMLElement) => boolean = () => true,
 ):void {
-  const container = document.querySelector(containerSelector)!;
+  const findMatch = () => {
+    const container = document.querySelector(containerSelector);
+
+    return container && matchingFilter(container.querySelectorAll<HTMLElement>(selector), filterFunction);
+  };
+
   // If the element is ready immediately
-  const initial = matchingFilter(container.querySelectorAll<HTMLElement>(selector), filterFunction);
+  const initial = findMatch();
   if (initial) {
     execFunction(initial);
     return;
@@ -55,14 +60,14 @@ export function waitForElement(
 
   // Wait for the element to be ready
   const observer = new MutationObserver((mutations, observerInstance) => {
-    const matches = matchingFilter(container.querySelectorAll<HTMLElement>(selector), filterFunction);
+    const matches = findMatch();
     if (matches) {
       execFunction(matches);
       observerInstance.disconnect();
     }
   });
 
-  observer.observe(container, {
+  observer.observe(document.documentElement, {
     childList: true,
     subtree: true,
   });

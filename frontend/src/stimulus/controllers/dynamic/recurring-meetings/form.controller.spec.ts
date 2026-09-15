@@ -101,6 +101,7 @@ describe('Recurring meetings form controller', () => {
     expect(url).toContain('specific_date');
     expect(url).toContain('2026-08-11');
     expect(url).toContain('iterations');
+    expect(request.mock.calls[0][3]).toBe('recurring-meeting-humanize-schedule');
   });
 
   it('does not request when disconnected before the context resolves', async () => {
