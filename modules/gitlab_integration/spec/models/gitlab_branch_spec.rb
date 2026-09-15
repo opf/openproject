@@ -38,6 +38,8 @@ RSpec.describe GitlabBranch do
 
   describe "Validations" do
     it { is_expected.to validate_presence_of :gitlab_project_id }
+    it { is_expected.to validate_presence_of :namespace }
+    it { is_expected.to validate_presence_of :namespace_html_url }
     it { is_expected.to validate_presence_of :name }
     it { is_expected.to validate_presence_of :gitlab_html_url }
     it { is_expected.to validate_presence_of :repository }

@@ -32,6 +32,8 @@ class GitlabBranch < ApplicationRecord
   belongs_to :work_package
 
   validates :gitlab_project_id,
+            :namespace,
+            :namespace_html_url,
             :name,
             :gitlab_html_url,
             :repository,

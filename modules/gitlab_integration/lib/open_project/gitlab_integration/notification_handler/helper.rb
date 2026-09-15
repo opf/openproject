@@ -30,14 +30,22 @@
 module OpenProject::GitlabIntegration
   module NotificationHandler
     module Helper
-      # Matches a single branch-name path segment that begins with a work package
-      # display id, capturing that id. The id is numeric or semantic, and may be
-      # followed by a "-", "_" or "." and any text — the shape the "Git snippets"
-      # menu produces (see GitActionsService#branchName):
+      # Preferred shape: a branch-name path segment that *begins* with a work package
+      # display id, capturing that id. The id is numeric or semantic, optionally
+      # followed by a "-", "_" or "." and any text — what the "Git snippets" menu
+      # produces (see GitActionsService#branchName):
       #   "42" / "42-fix-the-thing"                    -> "42"
       #   "dp-5" / "dp-5-contact-sponsoring-partners"  -> "dp-5"
       #   "task" / "update-readme"                     -> no match
       BRANCH_WP_ID = /\A(\d+|[A-Za-z][A-Za-z0-9_]*-\d+)(?:[-_.].*)?\z/
+
+      # Fallback for hand-written branches that bury the id. Matches a whole token
+      # shaped like <project slug>-<number> anywhere in the name; a standalone
+      # number is never picked up. Unknown slugs simply find no work package.
+      #   "update-on-dp-4-send-invitations"  -> "dp-4"
+      #   "release-2026-notes"               -> "release-2026"
+      #   "dp-4x" / "42-fix-the-thing"       -> no match
+      EMBEDDED_WP_ID = /(?<![A-Za-z0-9_])([A-Za-z][A-Za-z0-9_]*-\d+)(?![A-Za-z0-9_])/
 
       ##
       # Parses the given source string and returns a list of work package display identifiers
@@ -77,9 +85,10 @@ module OpenProject::GitlabIntegration
       end
 
       def extract_work_package_ids_from_branch(branch_name)
-        branch_name.split("/").filter_map { BRANCH_WP_ID.match(it)&.captures&.first }
-                   .first(1)
-                   .map { it.match?(/\A\d+\z/) ? it : it.upcase }
+        ids = branch_name.split("/").filter_map { BRANCH_WP_ID.match(it)&.captures&.first }
+        ids = branch_name.scan(EMBEDDED_WP_ID).flatten if ids.empty?
+
+        ids.first(1).map { it.match?(/\A\d+\z/) ? it : it.upcase }
       end
 
       ##

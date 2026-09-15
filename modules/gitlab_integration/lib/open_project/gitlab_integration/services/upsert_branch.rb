@@ -42,9 +42,19 @@ module OpenProject
 
         private
 
+        def namespace(payload)
+          payload.project.path_with_namespace.rpartition("/").first
+        end
+
+        def project_url(payload)
+          payload.project.web_url
+        end
+
         def extract_params(payload, name)
           {
-            gitlab_html_url: "#{payload.repository.homepage}/-/tree/#{name}",
+            namespace: namespace(payload),
+            namespace_html_url: project_url(payload).rpartition("/").first,
+            gitlab_html_url: "#{project_url(payload)}/-/tree/#{name}",
             repository: payload.repository.name,
             username: payload.user_username?,
             gitlab_user_avatar_url: avatar_url(payload.user_avatar?)

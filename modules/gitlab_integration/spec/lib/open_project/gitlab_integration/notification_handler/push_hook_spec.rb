@@ -123,6 +123,8 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PushHook do
         name: branch_name,
         work_package:,
         gitlab_project_id: 1,
+        namespace: "openprojecttest",
+        namespace_html_url: "http://c7e7cd2d54c3/openprojecttest",
         repository: "Test",
         gitlab_html_url: "http://c7e7cd2d54c3/openprojecttest/test/-/tree/#{branch_name}"
       )
@@ -132,6 +134,24 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PushHook do
       let(:branch_name) { "chore/update-readme" }
 
       it "creates nothing" do
+        expect { process }.not_to change(GitlabBranch, :count)
+      end
+    end
+
+    context "when the branch name buries a semantic identifier" do
+      let(:work_package) { create(:work_package, identifier: "PROJ-42") }
+      let(:branch_name) { "update-on-proj-42-send-invitation-to-speakers" }
+
+      it "still matches the work package" do
+        expect { process }.to change(GitlabBranch, :count).by(1)
+        expect(GitlabBranch.last.work_package).to eq(work_package)
+      end
+    end
+
+    context "when the branch name buries a bare number" do
+      let(:branch_name) { "bump-timeout-to-#{work_package.id}" }
+
+      it "creates nothing, since any number would match some work package" do
         expect { process }.not_to change(GitlabBranch, :count)
       end
     end
