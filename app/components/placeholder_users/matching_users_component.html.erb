@@ -45,7 +45,7 @@ See COPYRIGHT and LICENSE files for more details.
           box.with_row do
             flex_layout(align_items: :center) do |row|
               row.with_column(mr: 2) do
-                avatar(user, size: "mini", hide_name: false, hover_card: { active: true })
+                render(Users::AvatarComponent.new(user:, size: :mini, link: true, show_name: true))
               end
 
               if details_for(user)

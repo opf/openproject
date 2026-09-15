@@ -32,7 +32,6 @@ module PlaceholderUsers
   class MatchingUsersComponent < ApplicationComponent
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
-    include AvatarHelper
 
     MAX_USERS = 50
 
