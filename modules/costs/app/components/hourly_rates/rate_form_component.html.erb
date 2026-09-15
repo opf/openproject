@@ -18,10 +18,8 @@
               end
             end
 
-            if warns_about_recalculation?
-              body.with_row(mb: 3) do
-                render(Primer::Alpha::Banner.new(scheme: :warning)) { t(:text_hourly_rate_update_recalculation) }
-              end
+            body.with_row(mb: 3) do
+              render(Primer::Alpha::Banner.new(scheme: :warning)) { t(:text_hourly_rate_recalculation) }
             end
 
             body.with_row do

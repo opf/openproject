@@ -94,12 +94,13 @@ RSpec.describe "Placeholder user rates",
         expect(response.body).to include("95.00")
       end
 
-      # A placeholder cannot log time, so editing its rate recalculates nothing.
-      it "does not warn about recalculation when editing one of them" do
+      # A placeholder cannot log time, but it can be budgeted, so its rate is
+      # recalculated into budgets just like a user's.
+      it "warns about recalculation when editing one of them" do
         get edit_hourly_rate_path(placeholder.rates.first), headers: { "Accept" => "text/vnd.turbo-stream.html" }
 
         expect(response).to have_http_status(:ok)
-        expect(response.body).not_to include(I18n.t(:text_hourly_rate_update_recalculation))
+        expect(response.body).to include(I18n.t(:text_hourly_rate_recalculation))
       end
     end
   end

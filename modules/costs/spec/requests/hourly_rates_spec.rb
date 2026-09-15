@@ -151,12 +151,12 @@ RSpec.describe "Managing hourly rates", :skip_csrf, type: :rails_request do
     let(:project_rates_table) { "hourly-rates-table-component-#{project.id}" }
 
     describe "creating" do
-      it "opens the dialog without a recalculation warning" do
+      it "opens the dialog, warning that booked costs are recalculated" do
         get new_projects_hourly_rate_path(project_id: project, principal_id: user), headers: turbo
 
         expect(response).to have_http_status(:ok)
         expect(response.body).to include("hourly-rate-dialog")
-        expect(response.body).not_to include(I18n.t(:text_hourly_rate_update_recalculation))
+        expect(response.body).to include(I18n.t(:text_hourly_rate_recalculation))
       end
 
       it "creates the rate in the project and hands back a refreshed table" do
@@ -191,7 +191,7 @@ RSpec.describe "Managing hourly rates", :skip_csrf, type: :rails_request do
 
         expect(response).to have_http_status(:ok)
         expect(response.body).to include("hourly-rate-dialog")
-        expect(response.body).to include(I18n.t(:text_hourly_rate_update_recalculation))
+        expect(response.body).to include(I18n.t(:text_hourly_rate_recalculation))
       end
 
       it "updates the rate and hands back a refreshed table" do
