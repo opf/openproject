@@ -26,11 +26,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { BlockNoteEditorOptions, BlockNoteSchema } from '@blocknote/core';
+import { BlockNoteEditorOptions, BlockNoteSchema, User } from '@blocknote/core';
 import { ExternalLinkA11yExtension } from '../extensions/external-link-a11y';
 import { ExternalLinkCaptureExtension } from '../extensions/external-link-capture';
-import { User } from '@blocknote/core/comments';
 import { filterSuggestionItems } from '@blocknote/core/extensions';
+import { withCollaboration } from '@blocknote/core/yjs';
 import { BlockNoteView } from '@blocknote/mantine';
 import { getDefaultReactSlashMenuItems, SuggestionMenuController, useCreateBlockNote } from '@blocknote/react';
 import { HocuspocusProvider } from '@hocuspocus/provider';
@@ -47,11 +47,6 @@ import * as Y from 'yjs';
 import { useBlockNoteAttachments } from '../hooks/useBlockNoteAttachments';
 import { useBlockNoteLocale } from '../hooks/useBlockNoteLocale';
 import { useOpTheme } from '../hooks/useOpTheme';
-
-interface CollaborativeUser {
-  name:string;
-  color:string;
-}
 
 export interface OpBlockNoteEditorProps {
   activeUser:User;
@@ -97,24 +92,8 @@ export function OpBlockNoteEditor({
   }, [openProjectUrl, localeString, projectId]);
 
   const editorParams = useMemo<Partial<BlockNoteEditorOptions<typeof schema.blockSchema, typeof schema.inlineContentSchema, typeof schema.styleSchema>>>(() => {
-    return {
+    const baseParams = {
       schema,
-      // BlockNote 0.51 tightened `collaboration.provider` to a non-null shape
-      // and `awareness: Awareness | undefined` (vs Hocuspocus's
-      // `Awareness | null`). Omit the whole `collaboration` block when no
-      // provider is wired up; cast the provider at the boundary otherwise.
-      ...(hocuspocusProvider && {
-        collaboration: {
-          fragment: doc.getXmlFragment('document-store'),
-          user: {
-            name: activeUser.username,
-            color: generateRandomColor(),
-            id: activeUser.id,
-          } as unknown as CollaborativeUser,
-          provider: hocuspocusProvider as unknown as { awareness?:NonNullable<HocuspocusProvider['awareness']> },
-          showCursorLabels: 'activity' as const,
-        },
-      }),
       dictionary: localeDictionary,
       ...(attachmentsEnabled && { uploadFile }),
       extensions: [
@@ -122,6 +101,27 @@ export function OpBlockNoteEditor({
         ...(captureExternalLinks ? [ExternalLinkCaptureExtension] : []),
       ],
     };
+
+    if (!hocuspocusProvider) {
+      return baseParams;
+    }
+
+    // Since BlockNote 0.52 a `collaboration` option passed straight to the editor is
+    // ignored, and the spread keeps TypeScript from flagging it.
+    return withCollaboration({
+      ...baseParams,
+      collaboration: {
+        fragment: doc.getXmlFragment('document-store'),
+        user: {
+          name: activeUser.username,
+          color: generateRandomColor(),
+          id: activeUser.id,
+        },
+        // Hocuspocus types `awareness` as `Awareness | null`, BlockNote as `Awareness | undefined`.
+        provider: hocuspocusProvider as { awareness?:NonNullable<HocuspocusProvider['awareness']> },
+        showCursorLabels: 'activity' as const,
+      },
+    });
   }, [hocuspocusProvider, doc, activeUser, localeDictionary, attachmentsEnabled, uploadFile, captureExternalLinks]);
 
   // Create the editor exactly once per mount. `useCreateBlockNote(options, deps)` uses `deps`
