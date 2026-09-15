@@ -79,16 +79,23 @@ module Llm
     #   catalogue only on request
     # @return [Hash] the parsed +GET /models+ body
     def models(query = {})
-      body = get("/models", query)
-
-      raise ParseError, "Response does not contain a model list" unless body.is_a?(Hash) && body["data"].is_a?(Array)
-
-      body
+      envelope(get("/models", query))
     end
 
     private
 
     attr_reader :base_url, :api_key, :timeout, :headers
+
+    # A gateway may answer with the bare array rather than the list object the
+    # OpenAI schema documents. Wrapping it is the same accommodation this client
+    # already makes for a missing JSON content type: the catalogue is there, and
+    # the envelope around it is not what makes a server usable.
+    def envelope(body)
+      return body if body.is_a?(Hash) && body["data"].is_a?(Array)
+      return { "object" => "list", "data" => body } if body.is_a?(Array)
+
+      raise ParseError, "Response does not contain a model list"
+    end
 
     def get(path, query = {})
       response = session.get(uri_for(path, query))
