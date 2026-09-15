@@ -81,6 +81,7 @@ import { TableHandlerRegistry } from '../handlers/table-handler-registry';
 import { locatePredecessorBySelector } from '../helpers/wp-table-row-helpers';
 import { WorkPackageTable } from '../wp-fast-table';
 import { buildGroup, buildWorkPackage, GroupFixture, WorkPackageFixture } from './work-package-fixture';
+import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 
 export interface TableHarnessOptions {
   workPackages:WorkPackageFixture[];
@@ -109,6 +110,8 @@ export interface TableHarness {
   row(workPackageId:string):HTMLTableRowElement;
   groupHeaderOf(row:HTMLElement):HTMLTableRowElement|null;
   click(workPackageId:string, init?:MouseEventInit):void;
+  /** Tells the registered drag member a drag of the given row has begun. */
+  dragStart(workPackageId:string):void;
   /** Feeds a drop to the registered drag member; resolves with the transaction's `complete` value. */
   drop(sourceId:string, targetId:string|null, edge:Edge|null):Promise<boolean>;
   destroy():Promise<void>;
@@ -206,6 +209,10 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
       fireEvent.click(target, init);
     },
 
+    dragStart(workPackageId) {
+      dragService.memberOf(dom.tbody).onDragStarted?.(this.row(workPackageId));
+    },
+
     drop(sourceId, targetId, edge) {
       return new Promise((resolve) => {
         dragService.memberOf(dom.tbody).onMoved({ sourceId, targetId, edge }, resolve);
@@ -249,6 +256,7 @@ function harnessProviders(dragService:FakeDragAndDropService, dragAction:Partial
     IsolatedQuerySpace,
     ActionsService,
     WorkPackageViewSelectionService,
+    WorkPackageViewSelectionGesturesService,
     WorkPackageViewFocusService,
     WorkPackageViewColumnsService,
     WorkPackageViewSortByService,

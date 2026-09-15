@@ -28,7 +28,7 @@
 
 import { Injector } from '@angular/core';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
-import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
+import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { TableEventComponent } from 'core-app/features/work-packages/components/wp-fast-table/handlers/table-handler-registry';
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
@@ -38,7 +38,7 @@ import { ContextMenuHandler } from './context-menu-handler';
 import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 
 export class ContextMenuRightClickHandler extends ContextMenuHandler {
-  @LazyInject() readonly wpTableSelection:WorkPackageViewSelectionService;
+  @LazyInject() readonly selectionGestures:WorkPackageViewSelectionGesturesService;
 
   constructor(public readonly injector:Injector) {
     super(injector);
@@ -77,11 +77,7 @@ export class ContextMenuRightClickHandler extends ContextMenuHandler {
     const wpId = element?.dataset.workPackageId;
 
     if (wpId) {
-      const [index] = view.workPackageTable.findRenderedRow(wpId);
-
-      if (!this.wpTableSelection.isSelected(wpId)) {
-        this.wpTableSelection.setSelection(wpId, index);
-      }
+      this.selectionGestures.contextMenu(wpId, view.workPackageTable.renderedRows, element.dataset.classIdentifier);
 
       this.openContextMenu(view.workPackageTable, evt, wpId);
     }
