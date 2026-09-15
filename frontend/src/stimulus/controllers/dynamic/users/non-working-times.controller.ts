@@ -31,8 +31,9 @@ import { Calendar } from '@fullcalendar/core';
 import interactionPlugin from '@fullcalendar/interaction';
 import multiMonthPlugin from '@fullcalendar/multimonth';
 import allLocales from '@fullcalendar/core/locales-all';
-import { renderStreamMessage } from '@hotwired/turbo';
 import { TurboHelpers } from 'core-turbo/helpers';
+import { request } from 'core-turbo/requests';
+import { handleDialogResponse } from 'core-stimulus/helpers/request-helpers';
 import moment from 'moment';
 
 interface NonWorkingDayEvent {
@@ -123,11 +124,9 @@ export default class NonWorkingTimesController extends Controller {
   private openDialog(url:string):void {
     TurboHelpers.showProgressBar();
 
-    void fetch(url, {
-      headers: { Accept: 'text/vnd.turbo-stream.html' },
-    })
-      .then((response) => response.text())
-      .then((html) => { renderStreamMessage(html); })
+    void request(url, { responseKind: 'turbo-stream' })
+      .then(handleDialogResponse)
+      .catch((error) => { console.error(error); })
       .finally(() => { TurboHelpers.hideProgressBar(); });
   }
 

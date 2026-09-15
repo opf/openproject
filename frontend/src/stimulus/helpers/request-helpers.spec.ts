@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import type { FetchResponse } from '@rails/request.js';
+import type { FetchResponse } from '@hotwired/turbo';
 import { TurboHelpers } from 'core-turbo/helpers';
 
 import { withLoadingIndicator, withProgressBar } from './request-helpers';

@@ -26,47 +26,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import * as Turbo from '@hotwired/turbo';
+// @types/hotwired__turbo 8.0.16 omits the fetch export that Turbo 8 ships.
+import '@hotwired/turbo';
 
-export namespace TurboHelpers {
-  let progressBarTimeout:number | undefined;
-  let pendingOperations = 0;
-
-  function getProgressBar():Turbo.ProgressBar {
-    return (Turbo.session.adapter as Turbo.BrowserAdapter).progressBar;
-  }
-
-  // Overlapping operations share the bar: it shows for the first one and
-  // hides only once the last one has finished.
-  export function showProgressBar() {
-    pendingOperations += 1;
-    if (pendingOperations > 1) {
-      return;
-    }
-
-    const progressBar = getProgressBar();
-    progressBar.setValue(0);
-    progressBarTimeout ??= window.setTimeout(() => {
-      progressBar.show();
-    }, Turbo.config.drive.progressBarDelay);
-  }
-
-  export function hideProgressBar() {
-    if (pendingOperations === 0) {
-      return;
-    }
-
-    pendingOperations -= 1;
-    if (pendingOperations > 0) {
-      return;
-    }
-
-    const progressBar = getProgressBar();
-    progressBar.setValue(1);
-    progressBar.hide();
-    if (progressBarTimeout != null) {
-      window.clearTimeout(progressBarTimeout);
-      progressBarTimeout = undefined;
-    }
-  }
+declare module '@hotwired/turbo' {
+  export function fetch(url:string|URL, options?:RequestInit):Promise<Response>;
 }

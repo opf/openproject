@@ -80,9 +80,48 @@ describe('TurboHelpers.showProgressBar / hideProgressBar', () => {
     vi.advanceTimersByTime(200);
 
     expect(showSpy).toHaveBeenCalledOnce();
+
+    TurboHelpers.hideProgressBar();
+    TurboHelpers.hideProgressBar();
+  });
+
+  it('keeps the bar until every overlapping operation has hidden it', () => {
+    TurboHelpers.showProgressBar();
+    TurboHelpers.showProgressBar();
+
+    TurboHelpers.hideProgressBar();
+
+    expect(hideSpy).not.toHaveBeenCalled();
+
+    TurboHelpers.hideProgressBar();
+
+    expect(hideSpy).toHaveBeenCalledOnce();
+    expect(setValueSpy).toHaveBeenCalledWith(1);
+  });
+
+  it('does not restart the bar for an operation joining a pending one', () => {
+    TurboHelpers.showProgressBar();
+    vi.advanceTimersByTime(200);
+    setValueSpy.mockClear();
+
+    TurboHelpers.showProgressBar();
+
+    expect(setValueSpy).not.toHaveBeenCalled();
+    expect(showSpy).toHaveBeenCalledOnce();
+
+    TurboHelpers.hideProgressBar();
+    TurboHelpers.hideProgressBar();
+  });
+
+  it('ignores hide without a matching show', () => {
+    TurboHelpers.hideProgressBar();
+
+    expect(hideSpy).not.toHaveBeenCalled();
+    expect(setValueSpy).not.toHaveBeenCalled();
   });
 
   it('sets value to 1 and calls hide()', () => {
+    TurboHelpers.showProgressBar();
     TurboHelpers.hideProgressBar();
 
     expect(setValueSpy).toHaveBeenCalledWith(1);

@@ -27,8 +27,8 @@
 //++
 
 import { ApplicationController, useDebounce } from 'stimulus-use';
-import { FetchRequest } from '@rails/request.js';
 import { filterFormData } from 'core-stimulus/helpers/form-data-helper';
+import { isUnprocessableEntity, request } from 'core-turbo/requests';
 
 const TURBO_STREAM_REFRESH_DELAY = 50;
 
@@ -98,16 +98,16 @@ export default class RefreshOnFormChangesController extends ApplicationControlle
         this.formTarget,
         (value, key) => typeof value === 'string' && key !== '_method',
       );
-      const request = new FetchRequest('post', this.turboStreamUrlValue, {
+      const response = await request(this.turboStreamUrlValue, {
+        method: 'POST',
         body,
         responseKind: 'turbo-stream',
+        headers: { 'X-Requested-With': 'XMLHttpRequest' },
         signal: abortController.signal,
       });
-      // perform() resolves (never rejects) on HTTP error statuses and only
-      // renders the stream for 2xx/422. Surface anything else so a failed
-      // refresh is not swallowed, leaving the form showing stale options.
-      const response = await request.perform();
-      if (!response.ok && response.statusCode !== 422) {
+      // The stream only renders for 2xx/422. Surface anything else so a
+      // failed refresh is not swallowed, leaving the form showing stale options.
+      if (response.failed && !isUnprocessableEntity(response)) {
         console.error(`Form refresh failed (HTTP ${response.statusCode})`);
       }
     } catch (error) {

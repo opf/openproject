@@ -27,12 +27,12 @@
 //++
 
 import { Controller } from '@hotwired/stimulus';
-import { FetchRequest } from '@rails/request.js';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { closestDragBlockingElement } from 'core-stimulus/helpers/interactive-element-helper';
 import type { DomAutoscrollService } from 'core-app/shared/helpers/drag-and-drop/dom-autoscroll.service';
 import type { OpenProjectPluginContext } from 'core-app/features/plugins/plugin-context';
 import { useAngularServices } from 'core-stimulus/mixins/use-angular-services';
+import { request } from 'core-turbo/requests';
 import dragula, { Drake } from 'dragula';
 import invariant from 'tiny-invariant';
 
@@ -205,10 +205,14 @@ export default class GenericDragAndDropController extends Controller {
     }
 
     try {
-      const request = new FetchRequest('put', dropUrl, { body: data, responseKind: 'turbo-stream' });
-      const response = await request.perform();
+      const response = await request(dropUrl, {
+        method: 'PUT',
+        body: data,
+        responseKind: 'turbo-stream',
+        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+      });
 
-      if (!response.ok) {
+      if (response.failed) {
         this.revertDrop(el);
         debugLog(`Failed to sort item: ${response.statusCode}`);
       }

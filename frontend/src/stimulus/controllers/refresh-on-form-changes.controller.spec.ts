@@ -36,8 +36,6 @@ describe('Refresh on form changes controller', () => {
   let ctx:StimulusTestContext;
   let RefreshOnFormChangesController:typeof RefreshOnFormChangesControllerType;
   let fetchSpy:Mock;
-  let renderStreamMessage:Mock;
-  let originalTurbo:typeof window.Turbo;
 
   beforeAll(async () => {
     ({ default: RefreshOnFormChangesController } = await import('./refresh-on-form-changes.controller'));
@@ -45,14 +43,6 @@ describe('Refresh on form changes controller', () => {
 
   beforeEach(async () => {
     fetchSpy = vi.fn().mockImplementation(() => Promise.resolve(turboStreamResponse()));
-    renderStreamMessage = vi.fn().mockResolvedValue(undefined);
-
-    originalTurbo = window.Turbo;
-    window.Turbo = {
-      ...originalTurbo,
-      fetch: fetchSpy,
-      renderStreamMessage,
-    } as typeof window.Turbo;
     vi.spyOn(window, 'fetch').mockImplementation(fetchSpy);
 
     ctx = await setupStimulusTest({
@@ -62,16 +52,17 @@ describe('Refresh on form changes controller', () => {
 
   afterEach(() => {
     ctx.dispose();
-    window.Turbo = originalTurbo;
     vi.restoreAllMocks();
   });
 
-  function turboStreamResponse(html = '<turbo-stream action="update" target="sprint-dialog-form"></turbo-stream>') {
-    return new Response(html, {
-      status: 200,
-      headers: { 'Content-Type': 'text/vnd.turbo-stream.html' },
-    });
+  function turboStreamResponse(status = 200, content = 'Refreshed') {
+    return new Response(
+      `<turbo-stream action="update" target="sprint-dialog-form"><template>${content}</template></turbo-stream>`,
+      { status, headers: { 'Content-Type': 'text/vnd.turbo-stream.html' } },
+    );
   }
+
+  const refreshedContent = () => ctx.container.querySelector('#sprint-dialog-form')?.textContent;
 
   async function renderForm() {
     await ctx.mount(`
@@ -80,6 +71,7 @@ describe('Refresh on form changes controller', () => {
             data-refresh-on-form-changes-turbo-stream-url-value="/refresh">
         <input name="sprint[name]" value="Created sprint">
         <textarea name="sprint[goal][text]">Deliver the first MVP scope.</textarea>
+        <div id="sprint-dialog-form"></div>
       </form>
     `);
 
@@ -95,7 +87,7 @@ describe('Refresh on form changes controller', () => {
       expect(fetchSpy).toHaveBeenCalled();
     });
 
-    const [url, init] = fetchSpy.mock.calls[0] as [string, RequestInit];
+    const [url, init] = fetchSpy.mock.calls[0] as [string, RequestInit & { headers:Headers }];
     const parsedUrl = new URL(url, window.location.origin);
 
     expect(parsedUrl.pathname).toBe('/refresh');
@@ -105,13 +97,37 @@ describe('Refresh on form changes controller', () => {
     expect(body).toBeInstanceOf(FormData);
     expect(body.get('sprint[name]')).toBe('Created sprint');
     expect(body.get('sprint[goal][text]')).toBe('Deliver the first MVP scope.');
-    expect(init).toEqual(expect.objectContaining({ method: 'POST', credentials: 'same-origin' }));
+    expect(init.method).toBe('POST');
+    expect(init.headers.get('Accept')).toBe('text/vnd.turbo-stream.html, text/html, application/xhtml+xml');
+    expect(init.headers.get('X-Requested-With')).toBe('XMLHttpRequest');
 
     await waitFor(() => {
-      expect(renderStreamMessage).toHaveBeenCalledWith(
-        '<turbo-stream action="update" target="sprint-dialog-form"></turbo-stream>',
-      );
+      expect(refreshedContent()).toBe('Refreshed');
     });
+  });
+
+  it('renders the stream of a 422 response', async () => {
+    fetchSpy.mockResolvedValueOnce(turboStreamResponse(422, 'Invalid'));
+    const controller = await renderForm();
+
+    controller.triggerTurboStream();
+
+    await waitFor(() => {
+      expect(refreshedContent()).toBe('Invalid');
+    });
+  });
+
+  it('logs other HTTP errors instead of rendering them', async () => {
+    const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    fetchSpy.mockResolvedValueOnce(turboStreamResponse(500, 'Broken'));
+    const controller = await renderForm();
+
+    controller.triggerTurboStream();
+
+    await waitFor(() => {
+      expect(consoleError).toHaveBeenCalledWith('Form refresh failed (HTTP 500)');
+    });
+    expect(refreshedContent()).toBe('');
   });
 
   it('drops the _method override so the refresh stays a POST', async () => {
@@ -195,7 +211,7 @@ describe('Refresh on form changes controller', () => {
     firstReject(new DOMException('The operation was aborted.', 'AbortError'));
 
     await waitFor(() => {
-      expect(renderStreamMessage).toHaveBeenCalledOnce();
+      expect(refreshedContent()).toBe('Refreshed');
     });
   });
 

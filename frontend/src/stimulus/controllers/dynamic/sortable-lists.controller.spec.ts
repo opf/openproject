@@ -77,7 +77,6 @@ describe('Sortable lists controller', () => {
   let ctx:StimulusTestContext;
   let fixture:HTMLElement;
   let fetchMock:Mock;
-  let renderStreamMessageMock:Mock;
   // `ReturnType<typeof vi.spyOn>` collapses to a call signature TypeScript
   // cannot resolve `.mock.calls`'s element type from; pin the spied method's
   // own signature instead so calls stay typed.
@@ -360,12 +359,7 @@ describe('Sortable lists controller', () => {
     vi.spyOn(document, 'elementsFromPoint').mockReturnValue([]);
 
     fetchMock = vi.fn(() => Promise.resolve(new Response('', { status: 200 })));
-    renderStreamMessageMock = vi.fn(() => Promise.resolve());
     vi.stubGlobal('fetch', fetchMock);
-    vi.stubGlobal('Turbo', {
-      fetch: fetchMock,
-      renderStreamMessage: renderStreamMessageMock,
-    });
 
     document.body.appendChild(document.createElement('live-region'));
     announceSpy = vi.spyOn(LiveRegionElement.prototype, 'announce');
@@ -739,6 +733,39 @@ describe('Sortable lists controller', () => {
     })).toBe(false);
   });
 
+  it('keeps a pending move blocking across a root reconnect', async () => {
+    let resolveMove:(response:Response) => void;
+    fetchMock.mockImplementationOnce(() => new Promise<Response>((resolve) => {
+      resolveMove = resolve;
+    }));
+
+    const { root, targetList, firstSourceItem } = renderFixture();
+
+    await ctx.nextFrame();
+    await dropCurrentItemOnList(firstSourceItem, targetList);
+
+    expect(root.hasAttribute('data-sortable-lists-busy')).toBe(true);
+
+    const parent = root.parentElement!;
+    root.remove();
+    await ctx.nextFrame();
+
+    expect(fetchMock.mock.lastCall?.[1]).not.toHaveProperty('signal');
+
+    parent.append(root);
+    await ctx.nextFrame();
+
+    const controller = ctx.getController<SortableListsControllerType>('sortable-lists', root);
+    expect(controller.busy).toBe(true);
+    expect(root.hasAttribute('data-sortable-lists-busy')).toBe(true);
+
+    resolveMove!(new Response('', { status: 200 }));
+    await flushPromises();
+
+    expect(controller.busy).toBe(false);
+    expect(root.hasAttribute('data-sortable-lists-busy')).toBe(false);
+  });
+
   it('dispatches an error toast when the move request rejects', async () => {
     const toastEvents:CustomEvent[] = [];
     const onToast = (event:Event) => toastEvents.push(event as CustomEvent);
@@ -948,10 +975,13 @@ describe('Sortable lists controller', () => {
     const onToast = (event:Event) => toastEvents.push(event as CustomEvent);
 
     window.addEventListener('op:toasters:add', onToast);
-    fetchMock.mockResolvedValueOnce(new Response('', {
-      headers: { 'Content-Type': 'text/vnd.turbo-stream.html' },
-      status: 422,
-    }));
+    const flash = document.createElement('div');
+    flash.id = 'move-flash';
+    document.body.appendChild(flash);
+    fetchMock.mockResolvedValueOnce(new Response(
+      '<turbo-stream action="update" target="move-flash"><template>Cannot move</template></turbo-stream>',
+      { headers: { 'Content-Type': 'text/vnd.turbo-stream.html' }, status: 422 },
+    ));
 
     const { sourceList, targetList, firstSourceItem } = renderFixture();
 
@@ -962,10 +992,11 @@ describe('Sortable lists controller', () => {
     await waitFor(() => {
       expect(itemIds(sourceList)).toEqual(['1', '2', '3']);
       expect(itemIds(targetList)).toEqual(['4', '5']);
-      expect(renderStreamMessageMock).toHaveBeenCalledOnce();
+      expect(flash.textContent).toBe('Cannot move');
     });
     expect(toastEvents).toHaveLength(0);
 
+    flash.remove();
     window.removeEventListener('op:toasters:add', onToast);
   });
 
@@ -1444,15 +1475,26 @@ describe('Sortable lists controller', () => {
   // An unconsumed modified gesture would reach the card's own click handler
   // and open the details pane on a selection toggle.
   it('consumes a modified click during a busy move without changing the selection', async () => {
-    const { root, items } = renderSelectableRoot();
+    let resolveMove!:(response:Response) => void;
+    fetchMock.mockImplementationOnce(() => new Promise<Response>((resolve) => { resolveMove = resolve; }));
+    const { root, items, firstSourceItem, targetList } = renderSelectableRoot();
     await ctx.nextFrame();
-    root.setAttribute('data-sortable-lists-busy', 'true');
-    const event = new MouseEvent('click', { bubbles: true, cancelable: true, ctrlKey: true });
+    await dropCurrentItemOnList(firstSourceItem, targetList);
 
-    items[0].dispatchEvent(event);
+    try {
+      expect(fetchMock).toHaveBeenCalledOnce();
+      expect(root.dataset.sortableListsBusy).toBe('true');
+      expect(items.some(isSelected)).toBe(false);
+      const event = new MouseEvent('click', { bubbles: true, cancelable: true, ctrlKey: true });
 
-    expect(event.defaultPrevented).toBe(true);
-    expect(items.some(isSelected)).toBe(false);
+      items[0].dispatchEvent(event);
+
+      expect(event.defaultPrevented).toBe(true);
+      expect(items.some(isSelected)).toBe(false);
+    } finally {
+      resolveMove(new Response('', { status: 200 }));
+      await flushPromises();
+    }
   });
 
   it('toggles a card without navigating on a modified click', async () => {
