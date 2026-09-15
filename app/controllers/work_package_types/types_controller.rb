@@ -36,7 +36,7 @@ module WorkPackageTypes
     layout "admin"
 
     before_action :require_admin
-    before_action :find_type, only: %i[move destroy drop duplicate menu]
+    before_action :find_type, only: %i[move destroy drop duplicate menu deletion_dialog]
 
     current_menu_item do
       :types
@@ -61,14 +61,23 @@ module WorkPackageTypes
     end
 
     def destroy
-      if @type.work_packages.any?
-        flash[:error] = destroy_error_message
-      elsif @type.destroy
+      return refuse_deletion if @type.work_packages.exists?
+
+      service_call = WorkPackageTypes::DeleteService.new(user: current_user, model: @type).call
+
+      if service_call.success?
         flash[:notice] = I18n.t(:notice_successful_delete)
       else
-        flash[:error] = @type.errors.full_messages
+        flash[:error] = service_call.errors.full_messages
       end
+
       redirect_to action: "index", status: :see_other
+    end
+
+    def deletion_dialog
+      return refuse_deletion_via_turbo_stream if @type.work_packages.exists?
+
+      respond_with_dialog Types::TypeDeletionDialogComponent.new(type: @type)
     end
 
     def duplicate
@@ -108,6 +117,19 @@ module WorkPackageTypes
                   variants: %i[own_workflows custom_fields])
         .page(page_param)
         .per_page(per_page_param)
+    end
+
+    def refuse_deletion
+      flash[:error] = destroy_error_message
+      redirect_to action: "index", status: :see_other
+    end
+
+    def refuse_deletion_via_turbo_stream
+      render_error_flash_message_via_turbo_stream(
+        message: helpers.safe_join(destroy_error_message, helpers.tag.br)
+      )
+
+      respond_to_with_turbo_streams
     end
 
     def destroy_error_message

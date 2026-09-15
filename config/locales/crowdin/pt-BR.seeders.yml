@@ -295,14 +295,14 @@ pt-BR:
                 options:
                   name: Guia de introdução
                   text: |
-                    Estamos felizes por você ter se juntado a nós! Sugerimos que experimente algumas coisas para dar os primeiros passos no OpenProject.
+                    Estamos felizes por você ter se juntado a nós! Sugerimos que experimente algumas coisas para começar a usar o OpenProject.
 
-                    _Siga as etapas a seguir:_
+                    _Siga os passos a seguir:_
 
                     1. *Convide novos membros para o seu projeto*: &rightarrow; Acesse [Membros]({{opSetting:base_url}}/projects/your-scrum-project/members) na navegação do projeto.
-                    2. *Visualize seu backlog de produto e seus backlogs de sprint*: &rightarrow; Acesse [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) na navegação do projeto.
+                    2. *Visualize seu Backlog de Produto e seus Backlogs de Sprint*: &rightarrow; Acesse [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) na navegação do projeto.
                     3. *Crie um sprint*: &rightarrow; Acesse [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) e clique em “+ Sprint” para criar um novo sprint. Mova os pacotes de trabalho do backlog para o sprint a fim de planejar o trabalho a ser realizado. Quando estiver pronto, clique em “Iniciar sprint”.
-                    4. *Visualize seu quadro de sprint*: &rightarrow; Acesse [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Clique na seta para a direita no sprint &rightarrow; Selecione “Quadro de sprint”.
+                    4. *Visualize seu quadro de sprint*: &rightarrow; Acesse [Quadros]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Abra o quadro do sprint clicando no nome do sprint.
                     5. *Crie um novo pacote de trabalho*: &rightarrow; Acesse [Pacotes de trabalho &rightarrow; Criar]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
                     6. *Crie e atualize um plano de projeto*: &rightarrow; Acesse [Plano de projeto](##query:scrum_project__query__project_plan) na navegação do projeto.
                     7. *Ativar outros módulos*: &rightarrow; Acesse [Configurações do projeto &rightarrow; Módulos]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).

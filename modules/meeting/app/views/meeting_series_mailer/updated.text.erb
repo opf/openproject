@@ -36,18 +36,19 @@ See COPYRIGHT and LICENSE files for more details.
       title: @series.title
     ) %>
 
-<% if @changes[:old_schedule].present? && @changes[:old_schedule] != @series.full_schedule_in_words %>
+<% new_schedule = @changes.fetch(:new_schedule) { @series.full_schedule_in_words } %>
+<% current_location = @changes.fetch(:new_location) { @series.location.presence || @series.template&.location } %>
+<% if @changes[:old_schedule].present? && @changes[:old_schedule] != new_schedule %>
 <%= t("meeting.email.series_updated.old_schedule") %>:
 <%= @changes[:old_schedule] %> (<%= formatted_time_zone_offset %>)
 
 <%= t("meeting.email.series_updated.new_schedule") %>:
-<%= @series.full_schedule_in_words %> (<%= formatted_time_zone_offset %>)
+<%= new_schedule %> (<%= formatted_time_zone_offset %>)
 <% else %>
 <%= I18n.t(:label_recurring_meeting_schedule) %>
-<%= @series.full_schedule_in_words %> (<%= formatted_time_zone_offset %>)
+<%= new_schedule %> (<%= formatted_time_zone_offset %>)
 <% end %>
 
-<% current_location = @series.location.presence || @series.template&.location %>
 <% if @changes[:old_location].present? || current_location.present? %>
 <% if @changes[:old_location] != current_location %>
 <%= t("meeting.email.updated.old_location") %>:
