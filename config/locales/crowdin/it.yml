@@ -2001,6 +2001,13 @@ it:
           assignee: Ulteriori transizioni disponibili per l'assegnatario della macro-attività.
           author: Ulteriori transizioni disponibili per l'autore della macro-attività.
         menu_label: Transizioni visualizzate
+  ai:
+    text_transform:
+      errors:
+        connection_failed: The AI service could not be reached.
+        not_available: The AI assistant is not available.
+        timeout: The AI service did not respond in time.
+        upstream_error: The AI service returned an error.
   announcements:
     is_active: attualmente visualizzato
     is_inactive: attualmente non visualizzato

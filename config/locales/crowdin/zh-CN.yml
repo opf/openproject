@@ -1879,6 +1879,13 @@ zh-CN:
           assignee: 对工作包受理人可用的其他过渡。
           author: 对工作包作者可用的其他过渡。
         menu_label: 显示的过渡
+  ai:
+    text_transform:
+      errors:
+        connection_failed: The AI service could not be reached.
+        not_available: The AI assistant is not available.
+        timeout: The AI service did not respond in time.
+        upstream_error: The AI service returned an error.
   announcements:
     is_active: 当前已显示
     is_inactive: 当前未显示

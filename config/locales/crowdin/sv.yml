@@ -1997,6 +1997,13 @@ sv:
           assignee: Ytterligare övergångar som är tillgängliga för den som tilldelats arbetspaketet.
           author: Ytterligare övergångar som är tillgängliga för arbetspaketets författare.
         menu_label: Visade övergångar
+  ai:
+    text_transform:
+      errors:
+        connection_failed: The AI service could not be reached.
+        not_available: The AI assistant is not available.
+        timeout: The AI service did not respond in time.
+        upstream_error: The AI service returned an error.
   announcements:
     is_active: visas för tillfället
     is_inactive: visas ej för tillfället

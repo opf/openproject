@@ -2241,6 +2241,13 @@ uk:
           assignee: Додаткові переходи, доступні для виконавця пакета робіт.
           author: Додаткові переходи, доступні для автора пакета робіт.
         menu_label: Показані переходи
+  ai:
+    text_transform:
+      errors:
+        connection_failed: The AI service could not be reached.
+        not_available: The AI assistant is not available.
+        timeout: The AI service did not respond in time.
+        upstream_error: The AI service returned an error.
   announcements:
     is_active: наразі відображається
     is_inactive: наразі не відображається

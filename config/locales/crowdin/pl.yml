@@ -2237,6 +2237,13 @@ pl:
           assignee: Dodatkowe przejścia dostępne dla osoby przypisanej do pakietu roboczego.
           author: Dodatkowe przejścia dostępne dla autora pakietu roboczego.
         menu_label: Pokazane przejścia
+  ai:
+    text_transform:
+      errors:
+        connection_failed: The AI service could not be reached.
+        not_available: The AI assistant is not available.
+        timeout: The AI service did not respond in time.
+        upstream_error: The AI service returned an error.
   announcements:
     is_active: obecnie wyświetlane
     is_inactive: obecnie nie są wyświetlane

@@ -1995,6 +1995,13 @@ hy:
           assignee: Աշխատանքային փաթեթի պատասխանատուին հասանելի լրացուցիչ անցումներ։
           author: Աշխատանքային փաթեթի հեղինակին հասանելի լրացուցիչ անցումներ։
         menu_label: Ցուցադրվող անցումներ
+  ai:
+    text_transform:
+      errors:
+        connection_failed: The AI service could not be reached.
+        not_available: The AI assistant is not available.
+        timeout: The AI service did not respond in time.
+        upstream_error: The AI service returned an error.
   announcements:
     is_active: ներկայումս ցուցադրվում է
     is_inactive: ներկայումս չի ցուցադրվում

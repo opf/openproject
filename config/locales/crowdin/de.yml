@@ -1997,6 +1997,13 @@ de:
           assignee: Zusätzliche Übergänge, die dem zugewiesenen Benutzer des Arbeitspakets zur Verfügung stehen.
           author: Zusätzliche Übergänge, die dem Author des Arbeitspakets zur Verfügung stehen.
         menu_label: Dargestellte Übergänge
+  ai:
+    text_transform:
+      errors:
+        connection_failed: The AI service could not be reached.
+        not_available: The AI assistant is not available.
+        timeout: The AI service did not respond in time.
+        upstream_error: The AI service returned an error.
   announcements:
     is_active: derzeit angezeigt
     is_inactive: derzeit nicht angezeigt

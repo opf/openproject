@@ -1997,6 +1997,13 @@ fr:
           assignee: Transitions supplémentaires disponibles pour la personne assignée au lot de travaux.
           author: Transitions supplémentaires mises à la disposition de l'auteur du lot de travaux.
         menu_label: Transitions affichées
+  ai:
+    text_transform:
+      errors:
+        connection_failed: The AI service could not be reached.
+        not_available: The AI assistant is not available.
+        timeout: The AI service did not respond in time.
+        upstream_error: The AI service returned an error.
   announcements:
     is_active: actuellement affiché
     is_inactive: actuellement non affiché

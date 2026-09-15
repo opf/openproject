@@ -1875,6 +1875,13 @@ ko:
           assignee: 작업 패키지의 담당자가 사용할 수 있는 추가 전환입니다.
           author: 작업 패키지의 작성자가 사용할 수 있는 추가 전환입니다.
         menu_label: 표시된 전환
+  ai:
+    text_transform:
+      errors:
+        connection_failed: The AI service could not be reached.
+        not_available: The AI assistant is not available.
+        timeout: The AI service did not respond in time.
+        upstream_error: The AI service returned an error.
   announcements:
     is_active: 현재 표시됨
     is_inactive: 현재 표시 안 됨

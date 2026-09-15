@@ -2237,6 +2237,13 @@ ru:
           assignee: Дополнительные варианты перехода, доступные исполнителю пакета работ.
           author: Дополнительные варианты перехода, доступные автору пакета работ.
         menu_label: Показаны переходы
+  ai:
+    text_transform:
+      errors:
+        connection_failed: The AI service could not be reached.
+        not_available: The AI assistant is not available.
+        timeout: The AI service did not respond in time.
+        upstream_error: The AI service returned an error.
   announcements:
     is_active: теперь отображается
     is_inactive: теперь не отображается
