@@ -31,12 +31,23 @@
 require "spec_helper"
 
 RSpec.describe OpenProject::EnvironmentVariablesDocumentation do
+  # Deliberately not derived from the module: a spec parsing the table with the
+  # code that wrote it would stop checking the format.
+  def parse(row)
+    row.match(/\A\| `(?<variable>[^`]+)` \| `(?<default>[^`]*)` \| (?<description>.*) \|\z/)
+  end
+
+  def variable_of(row)
+    parse(row)&.[](:variable)
+  end
+
   # The list is generated in production, where a good number of defaults differ
   # from the ones here, so this spec checks everything but them.
   let(:page) { File.read(described_class.path) }
   let(:generated_block) { page[described_class::BLOCK_PATTERN] }
-  let(:documented_rows) { generated_block.to_s[/^```text\n(.*?)^```$/m, 1].to_s.lines(chomp: true) }
-  let(:rows_by_variable) { documented_rows.index_by { |row| row.split(" ", 2).first } }
+  let(:documented_rows) { generated_block.to_s.lines(chomp: true).grep(/\A\| `/) }
+  let(:table_header) { described_class::TABLE_HEADER }
+  let(:rows_by_variable) { documented_rows.index_by { |row| variable_of(row) } }
 
   let(:regenerate) { "RAILS_ENV=production bundle exec rake docs:env_vars" }
 
@@ -50,14 +61,39 @@ RSpec.describe OpenProject::EnvironmentVariablesDocumentation do
       Without both markers, `#{regenerate}` cannot find the list to rewrite.
     ERR
 
+    expect(generated_block.to_s).to include(table_header), <<~ERR
+      The block delimited by #{described_class::BEGIN_MARKER} in #{described_class::DOC_PATH}
+      no longer starts the list with
+
+      #{table_header}
+
+      Without that header, the rows below it do not render as a table.
+    ERR
+
     expect(documented_rows).not_to be_empty, <<~ERR
       The block delimited by #{described_class::BEGIN_MARKER} in #{described_class::DOC_PATH}
-      no longer contains a ```text code block with the list of variables.
+      no longer contains the table of variables.
     ERR
 
     # The examples below key rows by name, so a collision would drop one silently.
-    duplicates = documented_rows.map { |row| row.split(" ", 2).first }.tally.select { |_, count| count > 1 }
+    duplicates = documented_rows.map { |row| variable_of(row) }.tally.select { |_, count| count > 1 }
     expect(duplicates.keys).to be_empty, "#{duplicates.keys.to_sentence} is listed more than once."
+  end
+
+  it "keeps the default of every variable from breaking the table" do
+    malformed = documented_rows.reject { |row| parse(row) }
+    expect(malformed).to be_empty, <<~ERR
+      #{malformed.size} row(s) in #{described_class::DOC_PATH} do not have the
+      | `variable` | `default` | description | shape the table needs, starting with
+
+          #{malformed.first}
+    ERR
+
+    piped = documented_rows.reject { |row| row.count("|") == 4 }
+    expect(piped.map { |row| variable_of(row) }).to be_empty, <<~ERR
+      The default or the description of the variables above contains a pipe, which
+      ends the table cell holding it. Reword it to leave the pipe out.
+    ERR
   end
 
   it "documents every environment variable, and none that no longer exist" do
@@ -80,8 +116,8 @@ RSpec.describe OpenProject::EnvironmentVariablesDocumentation do
   it "documents the current description of every environment variable" do
     # The default is deliberately not compared, as it differs per environment.
     outdated = described_class.descriptions.reject do |variable, description|
-      expected_row = /\A#{Regexp.escape(variable)} \(default=.*\)#{" #{Regexp.escape(description)}" if description}\z/
-      rows_by_variable[variable]&.match?(expected_row)
+      documented = parse(rows_by_variable[variable].to_s)
+      documented && documented[:description] == description.to_s
     end
 
     expect(outdated.keys).to be_empty, <<~ERR
