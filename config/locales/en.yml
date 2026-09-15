@@ -5255,6 +5255,7 @@ en:
       enable_caption: "Describe the kind of user this placeholder stands for, so matching users can be suggested for it."
       matching_users: "Users meeting the filter criteria"
       no_matching_users: "No user meets these criteria."
+      show_all_matching_users: "Show all %{count} matching users"
     delete_tooltip: "Delete placeholder user"
     deletion_info:
       data_consequences: >

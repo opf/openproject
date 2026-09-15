@@ -46,6 +46,10 @@ RSpec.describe "Placeholder user filter criteria tab",
 
   current_user { create(:admin) }
 
+  def users_index_path_for_criteria
+    users_path(filters: [{ "name" => { "operator" => "~", "values" => ["Eloper"] } }].to_json)
+  end
+
   describe "with criteria" do
     shared_let(:department) { create(:group, organizational_unit: true, name: "Titan Team", members: [matching_user]) }
     shared_let(:job_title) do
@@ -71,6 +75,25 @@ RSpec.describe "Placeholder user filter criteria tab",
     it "names each user's department and job title where they are known" do
       expect(response.body).to include("Titan Team")
       expect(response.body).to include("Frontend Developer")
+    end
+
+    it "does not link out while every matching user fits into the list" do
+      expect(response.body).not_to include(CGI.escapeHTML(users_index_path_for_criteria))
+    end
+  end
+
+  describe "with more matching users than the list holds" do
+    shared_let(:second_match) { create(:user, firstname: "Junior", lastname: "Eloper") }
+
+    before do
+      stub_const("PlaceholderUsers::MatchingUsersComponent::MAX_USERS", 1)
+
+      get edit_placeholder_user_path(with_criteria, tab: :criteria)
+    end
+
+    it "closes the list with a link to the users index carrying the same criteria" do
+      expect(response.body).to include(I18n.t("placeholder_users.criteria.show_all_matching_users", count: 2))
+      expect(response.body).to include(CGI.escapeHTML(users_index_path_for_criteria))
     end
   end
 

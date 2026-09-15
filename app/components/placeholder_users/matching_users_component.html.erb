@@ -58,6 +58,12 @@ See COPYRIGHT and LICENSE files for more details.
             end
           end
         end
+
+        if truncated?
+          box.with_footer do
+            render(Primer::Beta::Link.new(href: all_matching_users_path, target: "_blank")) { show_all_text }
+          end
+        end
       end
     end
   end

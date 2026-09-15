@@ -56,6 +56,26 @@ module PlaceholderUsers
                    .to_a
     end
 
+    # The count only has to be resolved once the rendered list is full, so an
+    # unabridged list costs no extra query.
+    def truncated?
+      users.size == MAX_USERS && total_count > MAX_USERS
+    end
+
+    def total_count
+      @total_count ||= @placeholder_user.candidate_count
+    end
+
+    def all_matching_users_path
+      users_path(filters: filter_params.to_json)
+    end
+
+    def filter_params
+      @placeholder_user.user_filter.map do |filter|
+        { filter.field.to_s => { "operator" => filter.operator.to_s, "values" => filter.values } }
+      end
+    end
+
     def details_for(user)
       segments = []
       segments << tag.b(user.department.name) if user.department
@@ -71,6 +91,10 @@ module PlaceholderUsers
 
     def empty_text
       I18n.t("placeholder_users.criteria.no_matching_users")
+    end
+
+    def show_all_text
+      I18n.t("placeholder_users.criteria.show_all_matching_users", count: total_count)
     end
   end
 end
