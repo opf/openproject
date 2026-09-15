@@ -292,7 +292,7 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
       let(:project) { create(:project, name: "Documented project", types: [create(:type_bug), type]) }
       let(:document) { create(:document, :collaborative, project:) }
       let!(:release_note) do
-        create(:string_wp_custom_field, name: "Release note", is_required: true, types: [type], projects: [project])
+        create(:string_wp_custom_field, name: "Release note", is_required: true, types: [type])
       end
       let!(:default_status) { create(:status, is_default: true) }
       let!(:default_priority) { create(:priority, is_default: true) }
