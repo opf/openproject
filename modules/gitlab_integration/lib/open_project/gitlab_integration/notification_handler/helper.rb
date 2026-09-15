@@ -30,23 +30,6 @@
 module OpenProject::GitlabIntegration
   module NotificationHandler
     module Helper
-      # Preferred shape: a branch-name path segment that *begins* with a work package
-      # display id, capturing that id. The id is numeric or semantic, optionally
-      # followed by a "-", "_" or "." and any text — what the "Git snippets" menu
-      # produces (see GitActionsService#branchName):
-      #   "42" / "42-fix-the-thing"                    -> "42"
-      #   "dp-5" / "dp-5-contact-sponsoring-partners"  -> "dp-5"
-      #   "task" / "update-readme"                     -> no match
-      BRANCH_WP_ID = /\A(\d+|[A-Za-z][A-Za-z0-9_]*-\d+)(?:[-_.].*)?\z/
-
-      # Fallback for hand-written branches that bury the id. Matches a whole token
-      # shaped like <project slug>-<number> anywhere in the name; a standalone
-      # number is never picked up. Unknown slugs simply find no work package.
-      #   "update-on-dp-4-send-invitations"  -> "dp-4"
-      #   "release-2026-notes"               -> "release-2026"
-      #   "dp-4x" / "42-fix-the-thing"       -> no match
-      EMBEDDED_WP_ID = /(?<![A-Za-z0-9_])([A-Za-z][A-Za-z0-9_]*-\d+)(?![A-Za-z0-9_])/
-
       ##
       # Parses the given source string and returns a list of work package display identifiers
       # (numeric strings or semantic IDs like "PROJ-42") found in that text.
@@ -85,8 +68,30 @@ module OpenProject::GitlabIntegration
       end
 
       def extract_work_package_ids_from_branch(branch_name)
-        ids = branch_name.split("/").filter_map { BRANCH_WP_ID.match(it)&.captures&.first }
-        ids = branch_name.scan(EMBEDDED_WP_ID).flatten if ids.empty?
+        # Interpolate .source, never the Regexp itself: an embedded /.../ re-asserts its
+        # own flags as (?-mix:...), cancelling the /i that lets the lowercase branch names
+        # git users actually write match the uppercase identifiers we store.
+        wp_id = WorkPackage::SemanticIdentifier::ID_ROUTE_CONSTRAINT.source
+        semantic_id = WorkPackage::SemanticIdentifier::SEMANTIC_ID_PATTERN.source
+
+        # Preferred shape: a path segment that *begins* with a display id, numeric or
+        # semantic, optionally followed by "-", "_" or "." and any text — what the
+        # "Git snippets" menu produces (see GitActionsService#branchName):
+        #   "42" / "42-fix-the-thing"                    -> "42"
+        #   "dp-5" / "dp-5-contact-sponsoring-partners"  -> "dp-5"
+        #   "task" / "update-readme"                     -> no match
+        prefixed = /\A(#{wp_id})(?:[-_.].*)?\z/i
+
+        # Fallback for hand-written branches that bury the id. Matches a whole token
+        # shaped like <project slug>-<number> anywhere in the name; a standalone
+        # number is never picked up. Unknown slugs simply find no work package.
+        #   "update-on-dp-4-send-invitations"  -> "dp-4"
+        #   "release-2026-notes"               -> "release-2026"
+        #   "dp-4x" / "42-fix-the-thing"       -> no match
+        embedded = /(?<![A-Za-z0-9_])(#{semantic_id})(?![A-Za-z0-9_])/i
+
+        ids = branch_name.split("/").filter_map { prefixed.match(it)&.captures&.first }
+        ids = branch_name.scan(embedded).flatten if ids.empty?
 
         ids.first(1).map { it.match?(/\A\d+\z/) ? it : it.upcase }
       end
