@@ -34,7 +34,7 @@ import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helpe
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
-import { paintRowSelection } from '../../builders/rows/row-selection-paint';
+import { paintRowSelection } from '../../builders/rows/row-selection-painter';
 import { locateTableRow, scrollTableRowIntoView } from '../../helpers/wp-table-row-helpers';
 import { WorkPackageTable } from '../../wp-fast-table';
 

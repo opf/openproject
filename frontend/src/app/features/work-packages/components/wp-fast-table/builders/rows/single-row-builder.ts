@@ -41,7 +41,7 @@ import {
 } from 'core-app/features/work-packages/components/wp-fast-table/builders/internal-sort-columns';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
-import { paintRowSelection } from './row-selection-paint';
+import { paintRowSelection } from './row-selection-painter';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { RelationCellbuilder } from '../relation-cell-builder';
 import {
