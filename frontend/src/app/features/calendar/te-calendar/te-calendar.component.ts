@@ -36,7 +36,6 @@ import timeGrid from '@fullcalendar/timegrid';
 import {
   CalendarOptions,
   DayCellContentArg,
-  DayCellMountArg,
   DayHeaderContentArg,
   Duration,
   EventApi,
@@ -89,9 +88,6 @@ interface CalendarMoveEvent {
   oldEvent:EventApi;
   delta:Duration;
   revert:() => void;
-}
-interface CalendarOptionsWithDayGrid extends CalendarOptions {
-  dayGridClassNames:(data:DayCellMountArg) => void;
 }
 // An array of all the days that are displayed. The zero index represents Monday.
 export type DisplayedDays = [
@@ -189,7 +185,7 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
     this.placeOpenPopover?.();
   };
 
-  public additionalOptions:CalendarOptionsWithDayGrid = {
+  public additionalOptions:CalendarOptions = {
     editable: false,
     locales: allLocales,
     locale: this.i18n.locale,
@@ -222,7 +218,6 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
     eventDrop: this.moveEvent.bind(this),
     dayHeaderClassNames: (data:DayHeaderContentArg) => this.calendar.applyNonWorkingDay(data, this.nonWorkingDays),
     dayCellClassNames: (data:DayCellContentArg) => this.calendar.applyNonWorkingDay(data, this.nonWorkingDays),
-    dayGridClassNames: (data:DayCellContentArg) => this.calendar.applyNonWorkingDay(data, this.nonWorkingDays),
     slotLaneClassNames: (data:SlotLaneContentArg) => this.calendar.applyNonWorkingDay(data, this.nonWorkingDays),
     slotLabelClassNames: (data:SlotLabelContentArg) => this.calendar.applyNonWorkingDay(data, this.nonWorkingDays),
     dayHeaderContent: (data:DayHeaderContentArg) => this.calendar.dayHeaderContent(data),
