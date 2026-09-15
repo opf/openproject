@@ -93,6 +93,7 @@ export default class FiltersFormController extends Controller {
     clearButtonId: String,
     urlPathName: String,
     currentFilters: Array,
+    resetParams: { type: Array, default: ['page'] },
   };
 
   declare displayFiltersValue:boolean;
@@ -103,6 +104,7 @@ export default class FiltersFormController extends Controller {
   declare readonly clearButtonIdValue:string;
   declare urlPathNameValue:string;
   declare currentFiltersValue:SerializedFilter[];
+  declare resetParamsValue:string[];
   declare hasFilterFormTarget:boolean;
 
   private formLoadedResolver:(() => void)|null = () => null;
@@ -459,14 +461,13 @@ export default class FiltersFormController extends Controller {
     const params = new URLSearchParams(window.location.search);
     const newFilters = this.buildFiltersParam(this.currentFilters());
 
-    if (newFilters === (this.sentFilters ?? params.get('filters'))) {
+    if (newFilters === (this.sentFilters ?? params.get('filters') ?? '')) {
       // Some fields may be triggered via the input event and the change event too.
       // This early return will prevent firing request when the filter params are not changed.
       return;
     }
 
-    // Remove the page parameter when changing filters, so that pagination resets
-    params.delete('page');
+    this.resetParamsValue.forEach((parameter) => params.delete(parameter));
 
     if (newFilters) {
       params.set('filters', newFilters);
@@ -598,12 +599,14 @@ export default class FiltersFormController extends Controller {
       return [checkbox.checked ? 't' : 'f'];
     }
 
-    if (valueContainer.dataset.filterAutocomplete === 'true') {
-      return (valueContainer.querySelector<HTMLInputElement>('input[name="value"]'))?.value.split(',');
-    }
-
     if (requiresNoValue) {
       return [];
+    }
+
+    if (valueContainer.dataset.filterAutocomplete === 'true') {
+      const selected = valueContainer.querySelector<HTMLInputElement>('input[name="value"]')?.value ?? '';
+      const values = selected.split(',').filter((value) => value !== '');
+      return values.length > 0 ? values : null;
     }
 
     if (this.dateFilterTypes.includes(filterType)) {
