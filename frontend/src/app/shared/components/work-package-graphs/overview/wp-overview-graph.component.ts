@@ -27,7 +27,7 @@
 //++
 
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, inject, input,
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild, inject, input,
   booleanAttribute, model,
 } from '@angular/core';
 import {
@@ -57,7 +57,6 @@ type GraphFilter = Record<string, { operator:string; values:unknown[] }>;
   standalone: false,
 })
 export class WorkPackageOverviewGraphComponent implements OnInit {
-  readonly elementRef = inject<ElementRef<Element>>(ElementRef);
   readonly I18n = inject(I18nService);
   readonly graphConfigurationService = inject(WpGraphConfigurationService);
   protected readonly cdr = inject(ChangeDetectorRef);
