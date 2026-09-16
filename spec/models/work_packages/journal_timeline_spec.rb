@@ -86,9 +86,9 @@ RSpec.describe WorkPackages::JournalTimeline do
     describe "querying Entry directly" do
       it "raises rather than reading the journal table unfiltered" do
         expect { WorkPackages::JournalTimeline::Entry.all.to_a }
-          .to raise_error WorkPackages::JournalTimeline::Entry::DirectQuery
+          .to raise_error WorkPackages::JournalTimeline::Entry::UsedAsDirectQueryError
         expect { WorkPackages::JournalTimeline::Entry.where(story_points: 8).to_a }
-          .to raise_error WorkPackages::JournalTimeline::Entry::DirectQuery
+          .to raise_error WorkPackages::JournalTimeline::Entry::UsedAsDirectQueryError
       end
     end
 
