@@ -31,6 +31,10 @@
 en:
   activerecord:
     attributes:
+      gitlab_branch:
+        gitlab_project: "GitLab project"
+        namespace: "GitLab namespace"
+        namespace_html_url: "GitLab namespace URL"
       gitlab_merge_request:
         labels: "Labels"
       gitlab_pipeline:
@@ -69,12 +73,9 @@ en:
     gitlab_html_url: "GitLab HTML URL"
     gitlab_merge_request: "Merge Request"
     gitlab_name: "GitLab name"
-    gitlab_project: "GitLab project"
     gitlab_updated_at: "Updated at"
     gitlab_user_avatar_url: "GitLab avatar URL"
     gitlab_username: "GitLab username"
-    namespace: "GitLab namespace"
-    namespace_html_url: "GitLab namespace URL"
   gitlab_integration:
     issue_closed_referenced_comment: >
       **Issue Closed:** Issue %{issue_number} [%{issue_title}](%{issue_url}) for [%{repository}](%{repository_url})
