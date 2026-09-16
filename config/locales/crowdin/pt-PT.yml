@@ -2755,7 +2755,6 @@ pt-PT:
       custom_actions: Ações personalizadas
       custom_field_hierarchies: Hierarquias
       customize_life_cycle: Personalizar ciclo de vida
-      date_alerts: Alertas de data
       define_custom_style: Tema e logótipo personalizados
       edit_attribute_groups: Editar grupos de atributos
       gantt_pdf_export: Exportação de Gantt para PDF
@@ -2832,8 +2831,6 @@ pt-PT:
         description: Os campos personalizados de hierarquia permitem organizar estruturas hierárquicas em pacotes de trabalho e projetos, fazendo uso de listas de seleção de vários níveis.
       customize_life_cycle:
         description: Crie e organize fases de projeto diferentes das fornecidas pelo planeamento do ciclo de projeto PM2.
-      date_alerts:
-        description: 'Com os alertas de data, receberá uma notificação sobre as próximas datas de início e término, para que não nunca falhe ou esqueça prazos importantes. '
       define_custom_style:
         description: Personalize a instalação do OpenProject com as suas cores e o seu logótipo.
         more_info: 'Nota: o logótipo usado ficará acessível ao público.'
@@ -4913,6 +4910,13 @@ pt-PT:
     prev: Anterior
     prev_page: Página anterior
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: Esse texto vai aparecer em todas as páginas do centro do rodapé.
@@ -4927,6 +4931,12 @@ pt-PT:
         label: Hifenização
       hyphenation_language:
         label: Idioma e hifenização
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: Selecione a orientação das páginas no documento PDF.
         label: Orientação da página

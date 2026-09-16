@@ -3035,7 +3035,6 @@ pl:
       custom_actions: Działania niestandardowe
       custom_field_hierarchies: Hierarchie
       customize_life_cycle: Dostosuj cykl życia
-      date_alerts: Alerty dotyczące dat
       define_custom_style: Niestandardowy motyw i logotyp
       edit_attribute_groups: Edytuj grupy atrybutów
       gantt_pdf_export: Eksport wykresu Gantta w formacie PDF
@@ -3112,8 +3111,6 @@ pl:
         description: Pola niestandardowe hierarchii umożliwiają organizowanie hierarchicznych struktur w pakietach roboczych i projektach poprzez użycie wielopoziomowych list wyboru.
       customize_life_cycle:
         description: Twórz i organizuj fazy projektu inne niż zapewniane przez planowanie cyklu projektu PM2.
-      date_alerts:
-        description: Dzięki alertom dotyczącym dat będziesz otrzymywać powiadomienia o zbliżających się terminach rozpoczęcia lub zakończenia pracy, dzięki czemu nigdy nie przegapisz ani nie zapomnisz ważnego terminu.
       define_custom_style:
         description: Dostosuj swoją instalację OpenProject do własnego logo i kolorów.
         more_info: 'Uwaga: użyte logo będzie ogólnodostępne.'
@@ -5232,6 +5229,13 @@ pl:
     prev: Wstecz
     prev_page: Poprzednia strona
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: Ten tekst będzie wyświetlany na każdej stronie pośrodku stopki.
@@ -5246,6 +5250,12 @@ pl:
         label: Dzielenie wyrazów
       hyphenation_language:
         label: Język i dzielenie wyrazów
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: Wybierz orientację stron w dokumencie PDF.
         label: Orientacja stron

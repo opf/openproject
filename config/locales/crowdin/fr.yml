@@ -2755,7 +2755,6 @@ fr:
       custom_actions: Actions personnalisées
       custom_field_hierarchies: Hiérarchies
       customize_life_cycle: Personnaliser le cycle de vie
-      date_alerts: Alertes de date
       define_custom_style: Thème et logo personnalisés
       edit_attribute_groups: Modifier les groupes d'attributs
       gantt_pdf_export: Exportation du diagramme de Gantt au format PDF
@@ -2832,8 +2831,6 @@ fr:
         description: Les champs personnalisés de type hiérarchie permettent d'organiser des structures hiérarchiques dans les lots de travaux et les projets en utilisant des listes de sélection à plusieurs niveaux.
       customize_life_cycle:
         description: Créez et organisez des phases de projet différentes de celles fournies par la planification du cycle de projet PM2.
-      date_alerts:
-        description: Avec les alertes de date, vous recevrez une notification à l'approche des dates de début ou de fin afin de ne manquer ni oublier aucune échéance importante.
       define_custom_style:
         description: Personnalisez votre installation OpenProject avec votre propre logo et vos propres couleurs.
         more_info: 'Remarque : le logo utilisé sera accessible publiquement.'
@@ -4917,6 +4914,13 @@ fr:
     prev: Précédent
     prev_page: Page précédente
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: Ce texte apparaîtra sur chaque page au centre du pied de page.
@@ -4931,6 +4935,12 @@ fr:
         label: Division syllabique
       hyphenation_language:
         label: Langue et césure
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: Sélectionnez l'orientation des pages dans le document PDF.
         label: Orientation de la page

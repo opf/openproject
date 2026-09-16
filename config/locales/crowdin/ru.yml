@@ -3037,7 +3037,6 @@ ru:
       custom_actions: Пользовательские действия
       custom_field_hierarchies: Иерархии
       customize_life_cycle: Настройка жизненного цикла
-      date_alerts: Дата оповещения
       define_custom_style: Пользовательская тема и логотип
       edit_attribute_groups: Редактирование атрибутов групп
       gantt_pdf_export: Экспорт диаграммы Ганта в PDF
@@ -3116,8 +3115,6 @@ ru:
         description: Пользовательские поля типа Иерархия позволяют организовывать иерархические структуры в пакетах работ и проектах с использованием многоуровневых списков.
       customize_life_cycle:
         description: Создание и организация этапов и стадий проекта, отличных от тех, что предусмотрены планированием цикла проекта PM2.
-      date_alerts:
-        description: С уведомлениями по дате вы будете получать уведомления о предстоящих датах начала или датах конца, чтобы никогда не пропустить или не забыть важный срок.
       define_custom_style:
         description: Установка собственного логотипа и цветовой темы в Вашем OpenProject.
         more_info: 'Примечание: используемый логотип будет общедоступным.'
@@ -5230,6 +5227,13 @@ ru:
     prev: Назад
     prev_page: Предыдущая страница
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: Этот текст появится на каждой странице в центре нижнего колонтитула.
@@ -5244,6 +5248,12 @@ ru:
         label: Расстановка переносов
       hyphenation_language:
         label: Язык и переносы
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: Выберите ориентацию страниц в PDF-документе.
         label: Ориентация страницы

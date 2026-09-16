@@ -2755,7 +2755,6 @@ sv:
       custom_actions: Anpassade åtgärder
       custom_field_hierarchies: Hierarkier
       customize_life_cycle: Anpassa livscykeln
-      date_alerts: Datumaviseringar
       define_custom_style: Anpassat tema och logotyp
       edit_attribute_groups: Redigera attributgrupper
       gantt_pdf_export: PDF-export av Gantt
@@ -2832,8 +2831,6 @@ sv:
         description: Hierarkiska anpassade fält gör det möjligt att organisera hierarkiska strukturer i arbetspaket och projekt med hjälp av flernivålistor.
       customize_life_cycle:
         description: Skapa och organisera andra projektfaser än de som tillhandahålls av PM2:s projektcykelplanering.
-      date_alerts:
-        description: Med datumaviseringar får du meddelanden om kommande start- eller slutdatum så att du aldrig missar eller glömmer en viktig tidsfrist.
       define_custom_style:
         description: Anpassa din OpenProject-installation med din egen logotyp och dina egna färger.
         more_info: 'Obs: logotypen som används kommer att vara allmänt tillgänglig.'
@@ -4915,6 +4912,13 @@ sv:
     prev: Föregående
     prev_page: Föregående sida
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: Denna text visas på varje sida i mitten av sidfoten.
@@ -4929,6 +4933,12 @@ sv:
         label: Avstavning
       hyphenation_language:
         label: Språk och avstavning
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: Välj sidorientering för PDF-dokumentet.
         label: Sidorientering

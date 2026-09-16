@@ -2615,7 +2615,6 @@ vi:
       custom_actions: Hành động tùy chỉnh
       custom_field_hierarchies: hệ thống phân cấp
       customize_life_cycle: Tùy chỉnh vòng đời
-      date_alerts: Cảnh báo ngày
       define_custom_style: Chủ đề và logo tùy chỉnh
       edit_attribute_groups: Chỉnh sửa nhóm thuộc tính
       gantt_pdf_export: Xuất PDF Gantt
@@ -2691,8 +2690,6 @@ vi:
         description: Các trường tùy chỉnh phân cấp cho phép tổ chức các cấu trúc phân cấp trong các gói công việc và dự án bằng cách sử dụng danh sách chọn nhiều cấp.
       customize_life_cycle:
         description: Tạo và tổ chức các giai đoạn dự án khác với các giai đoạn được cung cấp bởi việc lập kế hoạch chu trình dự án PM2.
-      date_alerts:
-        description: Với tính năng cảnh báo ngày, bạn sẽ được thông báo về ngày bắt đầu hoặc ngày kết thúc sắp tới để không bao giờ bỏ lỡ hoặc quên thời hạn quan trọng.
       define_custom_style:
         description: Tùy chỉnh cài đặt OpenProject bằng logo và màu sắc của riêng bạn.
         more_info: 'Lưu ý: logo được sử dụng sẽ có thể truy cập công khai.'
@@ -4767,6 +4764,13 @@ vi:
     prev: Previous
     prev_page: Previous Page
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: Văn bản này sẽ xuất hiện trên mỗi trang ở giữa chân trang.
@@ -4781,6 +4785,12 @@ vi:
         label: Dấu gạch nối
       hyphenation_language:
         label: Ngôn ngữ và dấu gạch nối
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: Chọn hướng của các trang trong tài liệu PDF.
         label: Hướng trang

@@ -2617,7 +2617,6 @@ zh-CN:
       custom_actions: 自定义操作
       custom_field_hierarchies: 层级
       customize_life_cycle: 自定义生命周期
-      date_alerts: 日期提醒
       define_custom_style: 自定义主题和 Logo
       edit_attribute_groups: 编辑属性组
       gantt_pdf_export: 甘特图 PDF 导出
@@ -2693,8 +2692,6 @@ zh-CN:
         description: 层级自定义字段通过使用多级选择列表，支持在工作包和项目中构建层级结构。
       customize_life_cycle:
         description: 创建和组织与PM2项目周期规划不同的项目阶段。
-      date_alerts:
-        description: 通过日期提醒，您将收到即将开始或完成日期的通知，以免错过或忘记重要截止日期。
       define_custom_style:
         description: 使用您自己的 Logo 和颜色来自定义 OpenProject 安装。
         more_info: 注：使用的 Logo 将可公开访问。
@@ -4761,6 +4758,13 @@ zh-CN:
     prev: 上一页
     prev_page: 上一页
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: 此文本将出现在每一页的页脚中心。
@@ -4775,6 +4779,12 @@ zh-CN:
         label: 断字
       hyphenation_language:
         label: 语言和连惯性
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: 选择 PDF 文档中页面的方向。
         label: 页面方向

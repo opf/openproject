@@ -2895,7 +2895,6 @@ ro:
       custom_actions: Custom Actions
       custom_field_hierarchies: Hierarchies
       customize_life_cycle: Personalizează ciclul de viață
-      date_alerts: Alerte dată
       define_custom_style: Custom theme and logo
       edit_attribute_groups: Edit Attribute Groups
       gantt_pdf_export: Gantt PDF Export
@@ -2973,8 +2972,6 @@ ro:
         description: Hierarchy custom fields allow organizing hierarchical structures in work packages and projects by making use of multi-level select lists.
       customize_life_cycle:
         description: Creează și organizează diferite faze de proiect decât cele furnizate de planificarea ciclului proiectului PM2.
-      date_alerts:
-        description: Cu alertele de date, veți fi notificat cu privire la următoarele date de început sau de sfârșit, astfel încât să nu ratați sau să uitați niciodată un termen limită important.
       define_custom_style:
         description: Personalizează-ți instalarea OpenProject cu propriul logo și culori.
         more_info: 'Notă: logo-ul utilizat va fi accesibil publicului.'
@@ -5075,6 +5072,13 @@ ro:
     prev: Înapoi
     prev_page: Pagina anterioară
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: Acest text va apărea pe fiecare pagină în centrul subsolului.
@@ -5089,6 +5093,12 @@ ro:
         label: Hyphenation
       hyphenation_language:
         label: Language and hyphenation
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: Select the orientation of the pages in the PDF document.
         label: Page orientation

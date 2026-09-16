@@ -2617,7 +2617,6 @@ ja:
       custom_actions: カスタムアクション
       custom_field_hierarchies: Hierarchies
       customize_life_cycle: ライフサイクルをカスタマイズ
-      date_alerts: 日付アラート
       define_custom_style: カスタムテーマとロゴ
       edit_attribute_groups: 属性グループを編集
       gantt_pdf_export: ガントPDFをエクスポート
@@ -2693,8 +2692,6 @@ ja:
         description: Hierarchy custom fields allow organizing hierarchical structures in work packages and projects by making use of multi-level select lists.
       customize_life_cycle:
         description: PM2プロジェクトサイクル計画で提供されるものとは異なるプロジェクトフェーズを作成して整理します。
-      date_alerts:
-        description: 日付アラートでは、重要な期限を逃したり忘れたりすることは決してないように、今後の開始または終了日が通知されます。
       define_custom_style:
         description: 独自のロゴと色でOpenProjectのインストールをカスタマイズします。
         more_info: 注:使用されたロゴは一般公開されます。
@@ -4759,6 +4756,13 @@ ja:
     prev: Previous
     prev_page: Previous Page
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: このテキストはフッターの中央にあるすべてのページに表示されます。
@@ -4773,6 +4777,12 @@ ja:
         label: ハイフネーション
       hyphenation_language:
         label: 言語とハイフネーション
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: PDF ドキュメント内のページの向きを選択します。
         label: ページの向き

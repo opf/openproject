@@ -2759,7 +2759,6 @@ it:
       custom_actions: Azioni personalizzate
       custom_field_hierarchies: Gerarchie
       customize_life_cycle: Personalizza il ciclo di vita
-      date_alerts: Avvisi di data
       define_custom_style: Tema e logo personalizzati
       edit_attribute_groups: Modifica proprietà gruppo
       gantt_pdf_export: Esportazione PDF Gantt
@@ -2836,8 +2835,6 @@ it:
         description: I campi personalizzati gerarchici consentono di organizzare strutture gerarchiche di macro-attività e progetti utilizzando elenchi di selezione multilivello.
       customize_life_cycle:
         description: Crea e organizza fasi di progetto diverse da quelle forniti dalla pianificazione del ciclo di progetto PM2.
-      date_alerts:
-        description: Con gli avvisi sulle date, sarai avvisato delle prossime date di inizio o di fine in modo da non perdere mai o dimenticare una scadenza importante.
       define_custom_style:
         description: Personalizza la tua installazione OpenProject con il tuo logo e i tuoi colori.
         more_info: 'Nota: il logo utilizzato sarà accessibile al pubblico.'
@@ -4918,6 +4915,13 @@ it:
     prev: Precedente
     prev_page: Pagina precedente
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: Questo testo apparirà in ogni pagina al centro del piè di pagina.
@@ -4932,6 +4936,12 @@ it:
         label: Sillabazione
       hyphenation_language:
         label: Lingua e trattini
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: Seleziona l'orientamento delle pagine nel documento PDF.
         label: Orientamento pagina

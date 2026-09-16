@@ -2761,7 +2761,6 @@ tr:
       custom_actions: Özel Eylemler
       custom_field_hierarchies: Hiyerarşiler
       customize_life_cycle: Yaşam Döngüsünü Özelleştir
-      date_alerts: Tarih Uyarıları
       define_custom_style: Özel tema ve logo
       edit_attribute_groups: Özellik Grubunu Düzenleme
       gantt_pdf_export: Gantt PDF Dışa Aktarma
@@ -2838,8 +2837,6 @@ tr:
         description: Hierarchy custom fields allow organizing hierarchical structures in work packages and projects by making use of multi-level select lists.
       customize_life_cycle:
         description: PM2 proje döngüsü planlaması tarafından sağlananlardan farklı proje aşamaları oluşturun ve düzenleyin.
-      date_alerts:
-        description: Tarih uyarıları ile yaklaşan başlangıç veya bitiş tarihleri hakkında bilgilendirileceksiniz, böylece önemli bir teslim tarihini asla kaçırmaz veya unutmazsınız.
       define_custom_style:
         description: OpenProject kurulumunuzu kendi logonuz ve renklerinizle özelleştirin.
         more_info: 'Not: Kullanılan logo herkese açık olacaktır.'
@@ -4923,6 +4920,13 @@ tr:
     prev: Previous
     prev_page: Previous Page
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: Bu metin her sayfada altbilginin ortasında görünecektir.
@@ -4937,6 +4941,12 @@ tr:
         label: Heceleme
       hyphenation_language:
         label: Dil ve heceleme
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: PDF belgesindeki sayfaların yönünü seçin.
         label: Sayfa yönlendirme

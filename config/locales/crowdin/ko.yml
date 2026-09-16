@@ -2633,7 +2633,6 @@ ko:
       custom_actions: 사용자 지정 작업
       custom_field_hierarchies: 계층
       customize_life_cycle: 수명 주기 사용자 지정
-      date_alerts: 날짜 알림
       define_custom_style: 사용자 지정 테마 및 로고
       edit_attribute_groups: 특성 그룹 편집
       gantt_pdf_export: Gantt PDF 내보내기
@@ -2709,8 +2708,6 @@ ko:
         description: 계층 사용자 지정 필드를 사용하면 다중 레벨 선택 목록을 사용하여 작업 패키지 및 프로젝트의 계층 구조를 구성할 수 있습니다.
       customize_life_cycle:
         description: PM2 프로젝트 사이클 계획에서 제공되는 것과는 다른 프로젝트 단계를 만들고 구성합니다.
-      date_alerts:
-        description: 날짜 경보를 사용하면, 중요 마감일을 놓치거나 잊지 않도록 향후 시작 날짜 또는 종료 날짜에 대한 알림을 받게 됩니다.
       define_custom_style:
         description: 고유한 로고와 색상으로 OpenProject 설치를 사용자 지정하세요.
         more_info: '참고: 사용된 로그는 공개적으로 액세스 가능합니다.'
@@ -4777,6 +4774,13 @@ ko:
     prev: 이전
     prev_page: 이전 페이지
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: 이 텍스트는 모든 페이지의 바닥글 가운데에 나타납니다.
@@ -4791,6 +4795,12 @@ ko:
         label: 하이픈 넣기
       hyphenation_language:
         label: 언어 및 하이픈 넣기
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: PDF 문서의 페이지 방향을 선택하세요.
         label: 페이지 방향
