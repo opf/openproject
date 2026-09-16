@@ -38,7 +38,6 @@ FactoryBot.define do
     sequence(:name) { |n| "bug/#{n}-some-branch" }
     sequence(:repository) { |n| "test_user/repo_#{n}" }
     gitlab_html_url { "https://gitlab.com/test_user/test_repo/-/tree/#{name}" }
-    username { "test_user" }
-    gitlab_user_avatar_url { "https://gitlab.com/uploads/-/system/user/avatar/1/avatar.png" }
+    gitlab_user
   end
 end

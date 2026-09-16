@@ -38,8 +38,7 @@ class CreateGitlabBranches < ActiveRecord::Migration[8.1]
       t.string :name, null: false
       t.string :gitlab_html_url, null: false
       t.string :repository, null: false
-      t.string :username
-      t.string :gitlab_user_avatar_url
+      t.references :gitlab_user
 
       t.timestamps
 

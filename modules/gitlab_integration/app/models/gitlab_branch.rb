@@ -30,6 +30,7 @@
 
 class GitlabBranch < ApplicationRecord
   belongs_to :work_package
+  belongs_to :gitlab_user, optional: true
 
   validates :gitlab_project_id,
             :namespace,

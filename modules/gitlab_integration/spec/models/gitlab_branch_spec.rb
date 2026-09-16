@@ -34,6 +34,7 @@ require_module_spec_helper
 RSpec.describe GitlabBranch do
   describe "Associations" do
     it { is_expected.to belong_to(:work_package) }
+    it { is_expected.to belong_to(:gitlab_user).optional }
   end
 
   describe "Validations" do

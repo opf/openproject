@@ -52,7 +52,7 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PushHook do
       "user_id" => 1,
       "user_name" => "Administrator",
       "user_username" => "root",
-      "user_email" => nil,
+      "user_email" => "root@example.com",
       "user_avatar" => "https://www.gravatar.com/avatar/65a222b844ced567fe0ed2594c0b4abdf62efa1322a385c919c41e7bbc16d4fc?s=80&d=identicon",
       "project_id" => 1,
       "project" =>
@@ -128,6 +128,29 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PushHook do
         repository: "Test",
         gitlab_html_url: "http://c7e7cd2d54c3/openprojecttest/test/-/tree/#{branch_name}"
       )
+    end
+
+    it "records the pusher as a GitlabUser" do
+      expect { process }.to change(GitlabUser, :count).by(1)
+
+      expect(GitlabBranch.last.gitlab_user).to have_attributes(
+        gitlab_id: 1,
+        gitlab_name: "Administrator",
+        gitlab_username: "root",
+        gitlab_email: "root@example.com",
+        gitlab_avatar_url: payload["user_avatar"]
+      )
+    end
+
+    context "when the push carries no user" do
+      before do
+        payload["user_id"] = nil
+      end
+
+      it "still tracks the branch" do
+        expect { process }.to change(GitlabBranch, :count).by(1)
+        expect(GitlabBranch.last.gitlab_user).to be_nil
+      end
     end
 
     context "when the branch name references no work package" do

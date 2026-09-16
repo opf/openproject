@@ -32,8 +32,6 @@ module OpenProject
   module GitlabIntegration
     module Services
       class UpsertBranch
-        include ParamsHelper
-
         def call(payload, name:, work_package:)
           GitlabBranch
             .find_or_initialize_by(gitlab_project_id: payload.project_id, name:)
@@ -56,9 +54,24 @@ module OpenProject
             namespace_html_url: project_url(payload).rpartition("/").first,
             gitlab_html_url: "#{project_url(payload)}/-/tree/#{name}",
             repository: payload.repository.name,
-            username: payload.user_username?,
-            gitlab_user_avatar_url: avatar_url(payload.user_avatar?)
+            gitlab_user: gitlab_user(payload)
           }
+        end
+
+        # Push hooks flatten the pusher into user_* keys instead of the nested
+        # "user" object every other GitLab event sends.
+        def gitlab_user(payload)
+          return if payload.user_id?.blank?
+
+          UpsertGitlabUser.new.call(
+            ::OpenProject::GitlabIntegration::NotificationHandler::Helper::Payload.new(
+              "id" => payload.user_id?,
+              "name" => payload.user_name?,
+              "username" => payload.user_username?,
+              "email" => payload.user_email?,
+              "avatar_url" => payload.user_avatar?
+            )
+          )
         end
       end
     end
