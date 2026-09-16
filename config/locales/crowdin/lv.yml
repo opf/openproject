@@ -222,6 +222,7 @@ lv:
         title: Title
       member:
         blocked: Blocked
+        principal_type: Member type
         roles: Lomas
       notification:
         read_ian: Read in-app
@@ -441,6 +442,13 @@ lv:
         time_zone: Laika josla
         warn_on_leaving_unsaved: Warn me when leaving a work package with unsaved changes
         workdays: Working days
+      user_resource:
+        description: Description
+        name: Name
+        user_filter: User filter
+      user_resource_detail:
+        description: Description
+        user_filter: User filter
       user_working_hours:
         availability_factor: Availability factor
         days: Working days
@@ -856,6 +864,10 @@ lv:
               blank: Please provide a token name
               format: "%{message}"
               in_use: This token name is already in use, please select a different one
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: This type cannot be deleted while work packages still use it.
         type_variant:
           attributes:
             attribute_groups:
@@ -866,6 +878,9 @@ lv:
               query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
             base:
               borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
+              inherits_from_project_owned: 'This variant currently inherits from a project-specific variant and cannot be converted to a global variant.
+
+                '
               is_default_variant: The default configuration of a type cannot be deleted.
               project_variants_not_allowed: This type does not allow creation of variants inside projects.
               restrict_dependent_destroy:
@@ -1855,6 +1870,14 @@ lv:
       update:
         failure: MCP configuration could not be updated.
         success: MCP configuration was updated successfully.
+    members:
+      index:
+        blank_description: No membership matches the current filter.
+        blank_title: No memberships
+        filter_label: Search users
+        inheritance_source: "%{type} %{name}"
+        inherited_via: "(via: %{source})"
+        title: Memberships
     plugins:
       no_results_content_text: See our integrations and plugins page for more information.
       no_results_title_text: There are currently no plugins installed.
@@ -2105,6 +2128,13 @@ lv:
           assignee: Additional transitions available to the work package's assignee.
           author: Additional transitions available to the work package's author.
         menu_label: Transitions shown
+  ai:
+    text_transform:
+      errors:
+        connection_failed: The AI service could not be reached.
+        not_available: The AI assistant is not available.
+        timeout: The AI service did not respond in time.
+        upstream_error: The AI service returned an error.
   announcements:
     is_active: currently displayed
     is_inactive: currently not displayed
@@ -2167,10 +2197,6 @@ lv:
       not_found:
         reminder: The reminder you are looking for cannot be found or has been deleted.
         work_package: The work package you are looking for cannot be found or has been deleted.
-      render:
-        context_not_parsable: The context provided is not a link to a resource.
-        context_object_not_found: Cannot find the resource given as the context.
-        unsupported_context: The resource given is not supported as context.
       unable_to_create_attachment: Pielikumu nevar izveidot
       unable_to_create_attachment_permissions: The attachment could not be saved due to lacking file system permissions
       user:
@@ -2895,7 +2921,6 @@ lv:
       custom_actions: Custom Actions
       custom_field_hierarchies: Hierarchies
       customize_life_cycle: Customize Life Cycle
-      date_alerts: Date Alerts
       define_custom_style: Custom theme and logo
       edit_attribute_groups: Edit Attribute Groups
       gantt_pdf_export: Gantt PDF Export
@@ -2973,8 +2998,6 @@ lv:
         description: Hierarchy custom fields allow organizing hierarchical structures in work packages and projects by making use of multi-level select lists.
       customize_life_cycle:
         description: Create and organize different project phases than the ones provided by PM2 project cycle planning.
-      date_alerts:
-        description: With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.
       define_custom_style:
         description: Customize your OpenProject installation with your own logo and colors.
         more_info: 'Note: the used logo will be publicly accessible.'
@@ -3607,6 +3630,7 @@ lv:
   label_core_build: Core build
   label_core_version: Core version
   label_created_by: Created by %{user}
+  label_criteria: Criteria
   label_current_status: Current status
   label_current_version: Current version
   label_custom_comment: "%{name} comment"
@@ -4181,6 +4205,8 @@ lv:
   label_wiki_start: Sākuma lapa
   label_wiki_toc: Satura rādītājs
   label_wiki_toc_empty: Table of Contents is empty as no headings are present.
+  label_with_criteria: With criteria
+  label_without_criteria: Without criteria
   label_work: Work
   label_work_package: Darba pieteikums
   label_work_package_attachments: Work package attachments
@@ -5071,6 +5097,13 @@ lv:
     prev: Previous
     prev_page: Previous Page
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: This text will appear on every page at the center of the footer.
@@ -5085,6 +5118,12 @@ lv:
         label: Hyphenation
       hyphenation_language:
         label: Language and hyphenation
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: Select the orientation of the pages in the PDF document.
         label: Page orientation
@@ -5232,6 +5271,16 @@ lv:
   permission_work_package_assigned: Become assignee/responsible
   permission_work_package_assigned_explanation: Work packages can be assigned to users and groups in possession of this role in the respective project
   placeholder_users:
+    criteria:
+      activate: Activate filter criteria
+      activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
+
+        '
+      enable: Match users by criteria
+      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
+      matching_users: Users meeting the filter criteria
+      no_matching_users: No user meets these criteria.
+      show_all_matching_users: Show all %{count} matching users
     delete_tooltip: Delete placeholder user
     deletion_info:
       data_consequences: 'All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
@@ -5696,6 +5745,36 @@ lv:
     warnings:
       cannot_annotate: This file cannot be annotated.
   roles:
+    delete_dialog:
+      confirm: Are you sure you want to delete this role?
+      entry_projects:
+        zero: "(Projects: %{projects})"
+        one: "(Project: %{projects})"
+        other: "(Projects: %{projects})"
+      entry_projects_truncated:
+        zero: "(Projects: %{projects} and %{count} others)"
+        one: "(Projects: %{projects} and 1 other)"
+        other: "(Projects: %{projects} and %{count} others)"
+      heading:
+        zero: 'This role is still attributed to %{count} members:'
+        one: 'This role is still attributed to 1 member:'
+        other: 'This role is still attributed to %{count} members:'
+      heading_unused: Are you sure you want to delete the role "%{name}"?
+      losing_project_access:
+        one: Out of these users, 1 will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        other: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        zero: None of these users will lose access to any of their projects. Are you sure you want to delete this role?
+      show_memberships: Show all memberships with this role
+      summary: "%{users} in %{projects}"
+      summary_projects:
+        zero: "%{count} projects"
+        one: 1 project
+        other: "%{count} projects"
+      summary_users:
+        zero: "%{count} users"
+        one: 1 user
+        other: "%{count} users"
+      title: Delete role
     edit:
       default_for_new_projects_warning: 'This role is configured as the default role given to non-admin users who create a project. Do not remove the following permissions, otherwise project creators will be unable to complete the setup of their newly created projects:'
     index:
@@ -6283,13 +6362,14 @@ lv:
         <br>
         <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Excluded from totals
         is_closed: Aizvērts
-        is_default: Default
         is_readonly: Tikai lasīšana
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Pievienot jaunu statusu
       no_results_title_text: Pašlaik nav nevienas darba pakas statuss.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: and
@@ -6579,7 +6659,6 @@ lv:
         add_query_group: Related work packages table
         blankslate_description: Add groups using the button above or drag attributes from the left panel.
         blankslate_title: No groups yet
-        builtin_field: Built-in field
         confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Custom field
@@ -6765,7 +6844,7 @@ lv:
         filter_no_results: No variants match this filter
         global_section:
           description: These variants are available across all projects.
-          title: Variants
+          title: Global variants
         project_specific_section:
           description: These variants are only available within the projects in which they were created.
           title: Project-specific variants
@@ -6774,6 +6853,26 @@ lv:
     index:
       add_variant: Add a variant to %{name}
       add_variant_action: Add variant
+      convert_to_global: Convert to global variant
+      convert_to_global_dialog:
+        confirm: Convert
+        text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
+
+          '
+      convert_to_global_notice: "%{name} is now a global variant."
+      convert_to_global_rename:
+        confirm: Convert
+        text: A global variant with this name already exists. Please choose a different name.
+        title: Pick another name for this variant
+      delete:
+        description: The type will be deleted permanently. This action cannot be undone.
+        description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
+        heading: Delete type '%{name}'?
+        projects:
+          zero: 'The type will be removed from %{count} projects:'
+          one: 'The type will be removed from 1 project:'
+          other: 'The type will be removed from %{count} projects:'
+        title: Delete type
       description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
         '

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -159,6 +161,14 @@ module Costs
            end,
            icon: :stopwatch
 
+      menu :my_menu,
+           :hourly_rates,
+           { controller: "/my/hourly_rates", action: "show" },
+           after: :working_hours,
+           caption: ->(*) { HourlyRate.model_name.human(count: 2) },
+           if: ->(*) { ::My::HourlyRatesController.rates_visible?(User.current) },
+           icon: "credit-card"
+
       menu :top_menu,
            :my_time_tracking,
            { controller: "/my/time_tracking", action: "index" },
@@ -186,7 +196,7 @@ module Costs
 
     activity_provider :time_entries, class_name: "Activities::TimeEntryActivityProvider", default: false
 
-    patches %i[Project User PermittedParams WorkPackage]
+    patches %i[Project PermittedParams WorkPackage]
     patch_with_namespace :BasicData, :SettingSeeder
     patch_with_namespace :ActiveSupport, :NumberHelper, :NumberToCurrencyConverter
 
@@ -194,6 +204,13 @@ module Costs
                   name: "rates",
                   partial: "users/rates",
                   path: ->(params) { edit_user_path(params[:user], tab: :rates) },
+                  only_if: ->(*) { User.current.admin? },
+                  label: :caption_rate_history
+
+    add_tab_entry :placeholder_user,
+                  name: "rates",
+                  partial: "placeholder_users/rates",
+                  path: ->(params) { edit_placeholder_user_path(params[:placeholder_user], tab: :rates) },
                   only_if: ->(*) { User.current.admin? },
                   label: :caption_rate_history
 

@@ -2,17 +2,19 @@
 fa:
   activerecord:
     attributes:
+      placeholder_user:
+        user_filter: Filter criteria
       resource_allocation:
         allocated_hours: ساعت‌ها
         allocated_time: زمان تخصیص‌یافته
         date_range: تاریخ‌ها
         end_date: تاریخ پایان
         entity: موجودیت
-        filter_name: نام فیلتر منبع
+        placeholder_or_user: Assignee
+        placeholder_user: Placeholder user
         principal: مسئول انجام
         start_date: تاریخ شروع
         state: حالت
-        user_filter: فیلتر کاربر
       resource_planner:
         date_range: تاریخ‌ها
         default_view_class_name: نمای پیش‌فرض
@@ -87,14 +89,9 @@ fa:
       make_public: عمومی‌کردن
       unfavorite: حذف از موارد دلخواه
     allocate_resource_dialog:
-      kind:
-        filter:
-          caption: برای ایجاد یک منبع جایگزین، معیارهای فیلتر را بر اساس ویژگی‌های کاربر تعیین کنید.
-          label: معیارهای فیلتر
-        label: نوع تخصیص
-        principal:
-          caption: ساعت‌ها را برای یک کاربر مشخص تخصیص دهید.
-          label: کاربر
+      criteria:
+        empty: No criteria set.
+        label: Criteria
       outside_dates:
         description: تاریخ‌های انتخاب‌شدهٔ منبع، %{resource_dates}، خارج از بازهٔ تاریخ‌های بستهٔ کاری، %{work_package_dates}، هستند.
       overbooking:
@@ -140,6 +137,9 @@ fa:
           caption: فهرستی سفارشی از مواردی که به‌صورت دستی اضافه و حذف می‌کنید. امکان فیلترکردن وجود ندارد.
           label: انتخاب دستی
       title: پیکربندی نما
+    create_placeholder_user_dialog:
+      submit: Create
+      title: Create placeholder user
     edit_allocation_dialog:
       submit: ذخیره
       success_message: تخصیص منبع به‌روزرسانی شد.

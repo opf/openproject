@@ -204,6 +204,52 @@ describe('autocompleter', () => {
       }
     });
 
+    it.each([
+      { action: 'select', closeOnSelect: true, clearSearchOnAdd: true, expectedCount: 2 },
+      { action: 'select', closeOnSelect: false, clearSearchOnAdd: true, expectedCount: 2 },
+      { action: 'close', closeOnSelect: true, clearSearchOnAdd: true, expectedCount: 2 },
+      { action: 'select', closeOnSelect: false, clearSearchOnAdd: false, expectedCount: 1 },
+    ])('keeps options in sync after $action with closeOnSelect=$closeOnSelect and clearSearchOnAdd=$clearSearchOnAdd', ({
+      action, closeOnSelect, clearSearchOnAdd, expectedCount,
+    }) => {
+      vi.useFakeTimers();
+      try {
+        fixture.componentInstance.closeOnSelect = closeOnSelect;
+        fixture.componentInstance.clearSearchOnAdd = clearSearchOnAdd;
+        getOptionsFnSpy.mockImplementation((searchTerm:string) => of(
+          workPackagesStub.filter((wp) => !searchTerm || wp.subject.includes(searchTerm)),
+        ));
+        fixture.detectChanges();
+        vi.advanceTimersByTime(1000);
+        fixture.detectChanges();
+
+        const select = fixture.componentInstance.ngSelectInstance;
+        select.filter('package 2');
+        fixture.detectChanges();
+        vi.advanceTimersByTime(0);
+        fixture.detectChanges();
+        expect(select.itemsList.items).toHaveLength(1);
+
+        if (action === 'select') {
+          select.select(select.itemsList.items[0]);
+        } else {
+          select.close();
+        }
+        fixture.detectChanges();
+        vi.advanceTimersByTime(0);
+        fixture.detectChanges();
+        select.open();
+        fixture.detectChanges();
+
+        expect(select.searchTerm || '').toBe(expectedCount === 2 ? '' : 'package 2');
+        expect(select.itemsList.items).toHaveLength(expectedCount);
+        expect(getOptionsFnSpy).not.toHaveBeenCalledWith(null);
+      }
+      finally {
+        vi.useRealTimers();
+      }
+    });
+
     it('should recover and keep loading results after a lookup fails', () => {
       vi.useFakeTimers();
       try {

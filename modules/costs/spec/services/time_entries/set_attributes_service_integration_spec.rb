@@ -44,7 +44,7 @@ RSpec.describe TimeEntries::SetAttributesService, "integration", type: :model do
 
   let(:params) do
     {
-      work_package:,
+      entity: work_package,
       spent_on: Time.zone.today,
       hours: 1
     }
@@ -52,7 +52,7 @@ RSpec.describe TimeEntries::SetAttributesService, "integration", type: :model do
 
   subject { instance.call(params) }
 
-  context "default activity not active in project" do
+  context "when the default activity is not active in project" do
     let!(:default_activity) { create(:time_entry_activity, is_default: true) }
 
     before do

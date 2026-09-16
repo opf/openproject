@@ -2,17 +2,19 @@
 pt-PT:
   activerecord:
     attributes:
+      placeholder_user:
+        user_filter: Filter criteria
       resource_allocation:
         allocated_hours: Horas
         allocated_time: Tempo atribuído
         date_range: Datas
         end_date: Data de término
         entity: Entidade
-        filter_name: Nome do filtro de recursos
+        placeholder_or_user: Assignee
+        placeholder_user: Placeholder user
         principal: Encarregado
         start_date: Data de início
         state: Estado
-        user_filter: Filtro de utilizador
       resource_planner:
         date_range: Datas
         default_view_class_name: Vista padrão
@@ -87,14 +89,9 @@ pt-PT:
       make_public: Tornar público
       unfavorite: Remover dos favoritos
     allocate_resource_dialog:
-      kind:
-        filter:
-          caption: Definir critérios de filtro com base nos atributos do utilizador para criar um recurso de marcador de posição.
-          label: Critérios do filtro
-        label: Tipo de atribuição
-        principal:
-          caption: Atribuir horas a um utilizador específico.
-          label: Utilizador
+      criteria:
+        empty: No criteria set.
+        label: Criteria
       outside_dates:
         description: As datas do recurso selecionado, %{resource_dates}, encontram-se fora do intervalo de datas do pacote de trabalho, %{work_package_dates}.
       overbooking:
@@ -140,6 +137,9 @@ pt-PT:
           caption: Uma lista personalizada de elementos que pode adicionar e remover manualmente. Não é possível filtrar.
           label: Seleção manual
       title: Configurar vista
+    create_placeholder_user_dialog:
+      submit: Create
+      title: Create placeholder user
     edit_allocation_dialog:
       submit: Guardar
       success_message: A atribuição de recursos foi atualizada.

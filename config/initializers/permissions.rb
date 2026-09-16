@@ -103,7 +103,8 @@ Rails.application.reloader.to_prepare do
 
       map.permission :manage_placeholder_user,
                      {
-                       placeholder_users: %i[index show new create edit update deletion_info destroy],
+                       placeholder_users: %i[index show new create edit update toggle_criteria update_criteria
+                                             deletion_info destroy],
                        "placeholder_users/memberships": %i[create update destroy],
                        admin: %i[index]
                      },

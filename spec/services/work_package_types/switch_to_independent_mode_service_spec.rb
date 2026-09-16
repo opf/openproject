@@ -132,22 +132,22 @@ RSpec.describe WorkPackageTypes::SwitchToIndependentModeService do
     context "with the empty mode (workflows)" do
       let(:aspect) { TypeVariant::WORKFLOWS }
 
-      it "removes all transitions and severs the link" do
+      it "assigns an empty workflow and severs the link without touching the source" do
         source = create(:type).default_variant
         source.own_workflows.create!(role: create(:project_role),
                                      old_status: create(:status), new_status: create(:status),
                                      author: false, assignee: false)
         link_configuration(variant, source:, aspect:)
 
-        expect(variant.own_workflows).to be_empty
         expect(variant.workflows).not_to be_empty
+        expect(variant.workflow_id).to eq(source.workflow_id)
 
         result = service.call(mode: WorkPackageTypes::IndependentMode::EMPTY)
 
         expect(result).to be_success
         expect(variant.reload).not_to be_linked(aspect)
-        expect(variant.own_workflows).to be_empty
         expect(variant.workflows).to be_empty
+        expect(source.reload.own_workflows).to be_present
       end
     end
 

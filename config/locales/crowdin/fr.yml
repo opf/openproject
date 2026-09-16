@@ -222,6 +222,7 @@ fr:
         title: Titre
       member:
         blocked: Bloqué
+        principal_type: Member type
         roles: Rôles
       notification:
         read_ian: Lire dans l'application
@@ -441,6 +442,13 @@ fr:
         time_zone: Fuseau horaire
         warn_on_leaving_unsaved: M'avertir lorsque je quitte un lot de travaux contenant des modifications non enregistrées
         workdays: Jours ouvrés
+      user_resource:
+        description: Description
+        name: Name
+        user_filter: User filter
+      user_resource_detail:
+        description: Description
+        user_filter: User filter
       user_working_hours:
         availability_factor: Facteur de disponibilité
         days: Jours ouvrés
@@ -855,6 +863,10 @@ fr:
               blank: Veuillez fournir un nom de jeton
               format: "%{message}"
               in_use: Ce nom de jeton est déjà utilisé. Veuillez en choisir un autre
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: This type cannot be deleted while work packages still use it.
         type_variant:
           attributes:
             attribute_groups:
@@ -865,6 +877,9 @@ fr:
               query_invalid: 'La requête intégrée « %{group} » est invalide : %{details}'
             base:
               borrowed_by_variants: Ne peut pas être supprimé tant que sa configuration est réutilisée par %{names}.
+              inherits_from_project_owned: 'This variant currently inherits from a project-specific variant and cannot be converted to a global variant.
+
+                '
               is_default_variant: La configuration par défaut d'un type ne peut pas être supprimée.
               project_variants_not_allowed: Ce type ne permet pas la création de variantes au sein des projets.
               restrict_dependent_destroy:
@@ -1740,6 +1755,14 @@ fr:
       update:
         failure: La configuration MCP n'a pas pu être mise à jour.
         success: La configuration MCP a été mise à jour avec succès.
+    members:
+      index:
+        blank_description: No membership matches the current filter.
+        blank_title: No memberships
+        filter_label: Search users
+        inheritance_source: "%{type} %{name}"
+        inherited_via: "(via: %{source})"
+        title: Memberships
     plugins:
       no_results_content_text: Consultez notre page sur les intégrations et les plugins pour plus d'informations.
       no_results_title_text: Aucun plugin n'est actuellement installé.
@@ -1985,6 +2008,13 @@ fr:
           assignee: Transitions supplémentaires disponibles pour la personne assignée au lot de travaux.
           author: Transitions supplémentaires mises à la disposition de l'auteur du lot de travaux.
         menu_label: Transitions affichées
+  ai:
+    text_transform:
+      errors:
+        connection_failed: The AI service could not be reached.
+        not_available: The AI assistant is not available.
+        timeout: The AI service did not respond in time.
+        upstream_error: The AI service returned an error.
   announcements:
     is_active: actuellement affiché
     is_inactive: actuellement non affiché
@@ -2047,10 +2077,6 @@ fr:
       not_found:
         reminder: Le rappel que vous cherchez est introuvable ou a été supprimé.
         work_package: Le lot de travaux que vous cherchez est introuvable ou a été supprimé.
-      render:
-        context_not_parsable: Le contexte fourni n'est pas un lien vers une ressource.
-        context_object_not_found: Impossible de trouver la ressource donnée comme contexte.
-        unsupported_context: La ressource donnée n'est pas prise en charge comme contexte.
       unable_to_create_attachment: La pièce jointe n'a pas pu être créée
       unable_to_create_attachment_permissions: La pièce jointe n'a pas pu être enregistrée en raison de l'absence de permissions du système de fichiers
       user:
@@ -2755,7 +2781,6 @@ fr:
       custom_actions: Actions personnalisées
       custom_field_hierarchies: Hiérarchies
       customize_life_cycle: Personnaliser le cycle de vie
-      date_alerts: Alertes de date
       define_custom_style: Thème et logo personnalisés
       edit_attribute_groups: Modifier les groupes d'attributs
       gantt_pdf_export: Exportation du diagramme de Gantt au format PDF
@@ -2832,8 +2857,6 @@ fr:
         description: Les champs personnalisés de type hiérarchie permettent d'organiser des structures hiérarchiques dans les lots de travaux et les projets en utilisant des listes de sélection à plusieurs niveaux.
       customize_life_cycle:
         description: Créez et organisez des phases de projet différentes de celles fournies par la planification du cycle de projet PM2.
-      date_alerts:
-        description: Avec les alertes de date, vous recevrez une notification à l'approche des dates de début ou de fin afin de ne manquer ni oublier aucune échéance importante.
       define_custom_style:
         description: Personnalisez votre installation OpenProject avec votre propre logo et vos propres couleurs.
         more_info: 'Remarque : le logo utilisé sera accessible publiquement.'
@@ -3462,6 +3485,7 @@ fr:
   label_core_build: Construction de base
   label_core_version: Version du cœur
   label_created_by: Créé par %{user}
+  label_criteria: Criteria
   label_current_status: Statut actuel
   label_current_version: Version actuelle
   label_custom_comment: Commentaire de %{name}
@@ -4036,6 +4060,8 @@ fr:
   label_wiki_start: Page d'accueil
   label_wiki_toc: Table des matières
   label_wiki_toc_empty: La table des matières est vide car aucun titre n'est présent.
+  label_with_criteria: With criteria
+  label_without_criteria: Without criteria
   label_work: Travail
   label_work_package: Lot de travaux
   label_work_package_attachments: Pièces jointes du lot de travaux
@@ -4913,6 +4939,13 @@ fr:
     prev: Précédent
     prev_page: Page précédente
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: Ce texte apparaîtra sur chaque page au centre du pied de page.
@@ -4927,6 +4960,12 @@ fr:
         label: Division syllabique
       hyphenation_language:
         label: Langue et césure
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: Sélectionnez l'orientation des pages dans le document PDF.
         label: Orientation de la page
@@ -5074,6 +5113,16 @@ fr:
   permission_work_package_assigned: Devenir assigné/responsable
   permission_work_package_assigned_explanation: Des lots de travaux peuvent être assignés à des utilisateurs et des groupes possédant ce rôle dans le projet respectif
   placeholder_users:
+    criteria:
+      activate: Activate filter criteria
+      activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
+
+        '
+      enable: Match users by criteria
+      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
+      matching_users: Users meeting the filter criteria
+      no_matching_users: No user meets these criteria.
+      show_all_matching_users: Show all %{count} matching users
     delete_tooltip: Supprimer l'utilisateur fictif
     deletion_info:
       data_consequences: 'Toutes les occurrences de l''utilisateur fictif (par exemple, en tant que responsable ou autre valeur utilisateur) seront réaffectées à un compte appelé « Utilisateur supprimé ». Comme les données de chaque compte supprimé sont réaffectées à ce compte, il ne sera pas possible de distinguer les données que l''utilisateur a créées des données d''un autre compte supprimé.
@@ -5531,6 +5580,31 @@ fr:
     warnings:
       cannot_annotate: Ce fichier ne peut pas être annoté.
   roles:
+    delete_dialog:
+      confirm: Are you sure you want to delete this role?
+      entry_projects:
+        one: "(Project: %{projects})"
+        other: "(Projects: %{projects})"
+      entry_projects_truncated:
+        one: "(Projects: %{projects} and 1 other)"
+        other: "(Projects: %{projects} and %{count} others)"
+      heading:
+        one: 'This role is still attributed to 1 member:'
+        other: 'This role is still attributed to %{count} members:'
+      heading_unused: Are you sure you want to delete the role "%{name}"?
+      losing_project_access:
+        one: Out of these users, 1 will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        other: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        zero: None of these users will lose access to any of their projects. Are you sure you want to delete this role?
+      show_memberships: Show all memberships with this role
+      summary: "%{users} in %{projects}"
+      summary_projects:
+        one: 1 project
+        other: "%{count} projects"
+      summary_users:
+        one: 1 user
+        other: "%{count} users"
+      title: Delete role
     edit:
       default_for_new_projects_warning: 'Ce rôle est configuré comme le rôle par défaut attribué aux utilisateurs non administrateurs qui créent un projet. Ne supprimez pas les autorisations suivantes, sinon les créateurs de projets ne pourront pas terminer la configuration de leurs projets nouvellement créés :'
     index:
@@ -6113,13 +6187,14 @@ fr:
         <br>
         <strong>Remarque</strong> : les valeurs héritées (par exemple, des enfants ou des relations) s'appliquent toujours.
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Exclus des totaux
         is_closed: Fermé
-        is_default: Défaut
         is_readonly: Lecture seule
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Ajouter un nouveau statut
       no_results_title_text: Aucun statut de lots de travaux pour le moment.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: et
@@ -6409,7 +6484,6 @@ fr:
         add_query_group: Tableau des lots de travaux associés
         blankslate_description: Ajoutez des groupes à l'aide du bouton ci-dessus ou faites glisser des attributs depuis le panneau de gauche.
         blankslate_title: Aucun groupe pour le moment
-        builtin_field: Champ natif
         confirm_delete_group: Voulez-vous vraiment supprimer cette section ? Cette action ne peut pas être annulée automatiquement.
         confirm_reset: Êtes-vous sûr de vouloir réinitialiser le formulaire ?
         custom_field: Champ personnalisé
@@ -6593,7 +6667,7 @@ fr:
         filter_no_results: Aucune variante ne correspond à ce filtre
         global_section:
           description: Ces variantes sont disponibles dans tous les projets.
-          title: Variantes
+          title: Global variants
         project_specific_section:
           description: Ces variantes ne sont disponibles que dans les projets au sein desquels elles ont été créées.
           title: Variantes spécifiques à un projet
@@ -6602,6 +6676,25 @@ fr:
     index:
       add_variant: Ajouter une variante à %{name}
       add_variant_action: Ajouter une variante
+      convert_to_global: Convert to global variant
+      convert_to_global_dialog:
+        confirm: Convert
+        text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
+
+          '
+      convert_to_global_notice: "%{name} is now a global variant."
+      convert_to_global_rename:
+        confirm: Convert
+        text: A global variant with this name already exists. Please choose a different name.
+        title: Pick another name for this variant
+      delete:
+        description: The type will be deleted permanently. This action cannot be undone.
+        description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
+        heading: Delete type '%{name}'?
+        projects:
+          one: 'The type will be removed from 1 project:'
+          other: 'The type will be removed from %{count} projects:'
+        title: Delete type
       description: 'Chaque zone de configuration des types et variantes peut être configurée indépendamment, copiée depuis un autre type ou entièrement liée à une source.
 
         '

@@ -59,8 +59,8 @@ RSpec.describe "Configuring the workflow for work package sharing", :js,
     # There is a warning bar at the bottom informing of the missing workflow
     within ".warning-bar--item" do
       expect(page)
-        .to have_content("No workflow is configured for the '#{work_package_role.name}' role. " \
-                         "Without a workflow, the shared with user cannot alter the status of the work package.")
+        .to have_text("No workflow is configured for the '#{work_package_role.name}' role. " \
+                      "Without a workflow, the shared with user cannot alter the status of the work package.")
 
       click_link "Configure the workflows in the administration."
     end
@@ -79,14 +79,14 @@ RSpec.describe "Configuring the workflow for work package sharing", :js,
 
     # Copying succeeds which results in the edit role having a workflow.
     expect(page)
-      .to have_content "Successfully copied workflow"
+      .to have_text "Successfully copied workflow"
 
-    expect(Workflow.where(role_id: work_package_role.id,
-                          type_variant_id: type.default_variant.id,
-                          old_status_id: start_status.id,
-                          new_status_id: end_status.id,
-                          author: false,
-                          assignee: false).count).to eq(1)
+    expect(Workflows::StatusTransition.where(role_id: work_package_role.id,
+                                             workflow_id: type.default_variant.workflow_id,
+                                             old_status_id: start_status.id,
+                                             new_status_id: end_status.id,
+                                             author: false,
+                                             assignee: false).count).to eq(1)
 
     # Copying to another role stays in place and only updates the matrix frame;
     # the layout warning bar recomputes on the next page load.

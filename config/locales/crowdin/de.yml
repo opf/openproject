@@ -222,6 +222,7 @@ de:
         title: Titel
       member:
         blocked: Gesperrt
+        principal_type: Member type
         roles: Rollen
       notification:
         read_ian: In-App lesen
@@ -234,7 +235,7 @@ de:
         position: Position
       persisted_query:
         filters: Filter
-        group_bys: Group results by
+        group_bys: Gruppiere Ergebnisse nach
         name: Name
         orders: Sortierungen
         selects: Ausgewählte Attribute
@@ -441,6 +442,13 @@ de:
         time_zone: Zeitzone
         warn_on_leaving_unsaved: Beim Verlassen einer Arbeitspaket-Seite mit ungespeichertem Text warnen
         workdays: Arbeitstage
+      user_resource:
+        description: Description
+        name: Name
+        user_filter: User filter
+      user_resource_detail:
+        description: Description
+        user_filter: User filter
       user_working_hours:
         availability_factor: Verfügbarkeitsfaktor
         days: Arbeitstage
@@ -855,6 +863,10 @@ de:
               blank: Bitte geben Sie einen Namen für den Token an
               format: "%{message}"
               in_use: Dieser Token-Name ist bereits in Verwendung, bitte wählen Sie einen anderen
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: This type cannot be deleted while work packages still use it.
         type_variant:
           attributes:
             attribute_groups:
@@ -865,6 +877,9 @@ de:
               query_invalid: 'Die eingebettete Ansicht ''%{group}'' ist ungültig: %{details}'
             base:
               borrowed_by_variants: Kann nicht gelöscht werden, solange die Konfiguration noch von %{names} verwendet wird.
+              inherits_from_project_owned: 'This variant currently inherits from a project-specific variant and cannot be converted to a global variant.
+
+                '
               is_default_variant: Die Standardkonfiguration eines Typs kann nicht gelöscht werden.
               project_variants_not_allowed: Bei diesem Typ ist die Erstellung von Varianten innerhalb von Projekten nicht zulässig.
               restrict_dependent_destroy:
@@ -1740,6 +1755,14 @@ de:
       update:
         failure: Die MCP-Konfiguration konnte nicht aktualisiert werden.
         success: Die MCP-Konfiguration wurde erfolgreich aktualisiert.
+    members:
+      index:
+        blank_description: No membership matches the current filter.
+        blank_title: No memberships
+        filter_label: Search users
+        inheritance_source: "%{type} %{name}"
+        inherited_via: "(via: %{source})"
+        title: Mitgliedschaften
     plugins:
       no_results_content_text: Weitere Informationen finden Sie auf unserer Seite für Integrationen und Plugins.
       no_results_title_text: Es sind derzeit keine Plugins installiert.
@@ -1985,6 +2008,13 @@ de:
           assignee: Zusätzliche Übergänge, die dem zugewiesenen Benutzer des Arbeitspakets zur Verfügung stehen.
           author: Zusätzliche Übergänge, die dem Author des Arbeitspakets zur Verfügung stehen.
         menu_label: Dargestellte Übergänge
+  ai:
+    text_transform:
+      errors:
+        connection_failed: The AI service could not be reached.
+        not_available: The AI assistant is not available.
+        timeout: The AI service did not respond in time.
+        upstream_error: The AI service returned an error.
   announcements:
     is_active: derzeit angezeigt
     is_inactive: derzeit nicht angezeigt
@@ -2047,10 +2077,6 @@ de:
       not_found:
         reminder: Die Erinnerung konnte nicht gefunden werden oder wurde gelöscht.
         work_package: Das von Ihnen gesuchte Arbeitspaket konnte nicht gefunden werden oder wurde gelöscht.
-      render:
-        context_not_parsable: Der übergebene Kontext ist kein Link zu einer Ressource.
-        context_object_not_found: Die als Kontext übergebene Ressource konnte nicht gefunden werden.
-        unsupported_context: Die übergebene Ressource wird nicht als Kontext unterstützt.
       unable_to_create_attachment: Der Anhang konnte nicht erstellt werden
       unable_to_create_attachment_permissions: Der Anhang konnte aufgrund fehlender Dateisystemberechtigungen nicht gespeichert werden
       user:
@@ -2755,7 +2781,6 @@ de:
       custom_actions: Benutzerdefinierte Aktionen
       custom_field_hierarchies: Hierarchien
       customize_life_cycle: Projektlebenszyklus anpassen
-      date_alerts: Datums-Erinnerungen
       define_custom_style: Selbstdefiniertes Logo und Farbthema
       edit_attribute_groups: Attributgruppen bearbeiten
       gantt_pdf_export: Gantt PDF Export
@@ -2832,8 +2857,6 @@ de:
         description: Benutzerdefinierte Felder vom Typ Hierarchie erlauben es, hierarchische Strukturen in Arbeitspaketen und Projekten zu organisieren, indem sie mehrstufige Auswahllisten nutzen.
       customize_life_cycle:
         description: Erstellen und organisieren Sie von PM2 abweichende Projektlebenszyklen.
-      date_alerts:
-        description: Mit Datums-Erinnerungen werden Sie über bevorstehende Start- oder Endtermine informiert, so dass Sie nie einen wichtigen Termin verpassen oder übersehen.
       define_custom_style:
         description: Passen Sie Ihre OpenProject Installation mit Ihrem eigenen Logo und eigenen Farben an.
         more_info: 'Hinweis: Das verwendete Logo wird öffentlich zugänglich sein.'
@@ -3460,6 +3483,7 @@ de:
   label_core_build: Core-Buildinformation
   label_core_version: Core Version
   label_created_by: Erstellt von %{user}
+  label_criteria: Criteria
   label_current_status: Gegenwärtiger Status
   label_current_version: Gegenwärtige Version
   label_custom_comment: "%{name} Kommentar"
@@ -4034,6 +4058,8 @@ de:
   label_wiki_start: Hauptseite
   label_wiki_toc: Inhaltsverzeichnis
   label_wiki_toc_empty: Inhaltsverzeichnis ist leer, da keine Überschriften vorhanden sind.
+  label_with_criteria: With criteria
+  label_without_criteria: Without criteria
   label_work: Aufwand
   label_work_package: Arbeitspaket
   label_work_package_attachments: Anhänge des Arbeitspakets
@@ -4914,6 +4940,13 @@ de:
     prev: Zurück
     prev_page: Vorherige Seite
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: Dieser Text wird auf jeder Seite in der Mitte der Fußzeile angezeigt.
@@ -4928,6 +4961,12 @@ de:
         label: Silbentrennung
       hyphenation_language:
         label: Sprache und Silbentrennung
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: Wählen Sie die Ausrichtung der Seiten im PDF-Dokument.
         label: Seitenausrichtung
@@ -5075,6 +5114,16 @@ de:
   permission_work_package_assigned: Zugewiesener/Verantwortlicher werden
   permission_work_package_assigned_explanation: Arbeitspakete können Benutzern und Gruppen im Besitz dieser Rolle in dem jeweiligen Projekt zugeordnet werden
   placeholder_users:
+    criteria:
+      activate: Activate filter criteria
+      activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
+
+        '
+      enable: Match users by criteria
+      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
+      matching_users: Users meeting the filter criteria
+      no_matching_users: No user meets these criteria.
+      show_all_matching_users: Show all %{count} matching users
     delete_tooltip: Platzhalter löschen
     deletion_info:
       data_consequences: 'Alle Vorkommnisse des Platzhalter-Benutzers (z.B. als zugewiesene Person, Verantwortlicher oder andere Benutzerwerte) werden einem Konto mit dem Namen "Gelöschter Benutzer" zugewiesen. Da die Daten jedes gelöschten Kontos diesem Konto zugewiesen werden, wird es nicht möglich sein, die Daten dieses Benutzers von den Daten eines anderen gelöschten Kontos zu unterscheiden.
@@ -5532,6 +5581,31 @@ de:
     warnings:
       cannot_annotate: Diese Datei kann nicht kommentiert werden.
   roles:
+    delete_dialog:
+      confirm: Are you sure you want to delete this role?
+      entry_projects:
+        one: "(Project: %{projects})"
+        other: "(Projects: %{projects})"
+      entry_projects_truncated:
+        one: "(Projects: %{projects} and 1 other)"
+        other: "(Projects: %{projects} and %{count} others)"
+      heading:
+        one: 'This role is still attributed to 1 member:'
+        other: 'This role is still attributed to %{count} members:'
+      heading_unused: Are you sure you want to delete the role "%{name}"?
+      losing_project_access:
+        one: Out of these users, 1 will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        other: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        zero: None of these users will lose access to any of their projects. Are you sure you want to delete this role?
+      show_memberships: Show all memberships with this role
+      summary: "%{users} in %{projects}"
+      summary_projects:
+        one: 1 project
+        other: "%{count} projects"
+      summary_users:
+        one: 1 user
+        other: "%{count} users"
+      title: Delete role
     edit:
       default_for_new_projects_warning: 'Diese Rolle ist als Standardrolle für diejenigen Benutzer konfiguriert, die ein Projekt erstellen und keine Administratoren sind. Entfernen Sie die folgenden Berechtigungen nicht, sonst können die Projekt-Ersteller die Einrichtung ihrer neu erstellten Projekte nicht abschließen:'
     index:
@@ -5695,11 +5769,11 @@ de:
   setting_password_login: Passwort-Login
   setting_password_login_all: Für alle erlauben
   setting_password_login_all_caption: Jeder, der über ein internes Passwort verfügt, kann sich damit anmelden, einschließlich Benutzer, die mit einem SSO-Anbieter verknüpft sind.
-  setting_password_login_bypass_principal_ids: Users and groups who may still use a password
-  setting_password_login_except_sso: Disallow for SSO users
-  setting_password_login_except_sso_caption: Users linked to an identity provider cannot sign in with their internal password. Other users can continue using it.
-  setting_password_login_none: Disallow for everyone
-  setting_password_login_none_caption_html: The password form is hidden. Only users and groups listed below can sign in with a password via %{internal_login_link}.
+  setting_password_login_bypass_principal_ids: Benutzer und Gruppen, die sich immer mit Passwort anmelden können
+  setting_password_login_except_sso: Für SSO-Benutzer deaktivieren
+  setting_password_login_except_sso_caption: Benutzer, die mit einem Identitätsanbieter verknüpft sind, können sich nicht mit ihrem internen Passwort anmelden. Andere Benutzer können dieses weiterhin verwenden.
+  setting_password_login_none: Für alle verbieten
+  setting_password_login_none_caption_html: Der Login mit Passwort ist ausgeblendet. Nur die unten aufgeführten Benutzer und Gruppen können sich über %{internal_login_link} mit einem Passwort anmelden.
   setting_password_min_length: Minimale Länge
   setting_per_page_options: Objekte pro Seite
   setting_percent_complete_on_status_closed: "% abgeschlossen, wenn der Status geschlossen ist"
@@ -5836,13 +5910,13 @@ de:
       omniauth_direct_login_hint_html: 'Wenn diese Option aktiviert ist, werden die Anmeldeanfragen an den konfigurierten SSO-Anbieter weitergeleitet. Das Login-Dropdown und die Anmeldeseite sind dann deaktiviert. <br/> <strong>Hinweis:</strong> Sofern Sie nicht auch die Passwortanmeldung deaktivieren, können sich Benutzer bei aktivierter Option immer noch intern anmelden, indem sie die interne Anmeldeseite <code>%{internal_path}</code> verwenden.
 
         '
-      password_login_bypass_principal_ids_hint: 'Even when password login in disabled, these users and groups will be able to use their password to sign in. This is useful, for example, if the identity provider becomes unavailable. If you include a group, access will be extended to all users in that group.
+      password_login_bypass_principal_ids_hint: 'Selbst wenn die Anmeldung per Passwort deaktiviert ist, können sich diese Benutzer und Gruppen weiterhin mit ihrem Passwort anmelden. Dies ist beispielsweise nützlich, falls der Identitätsanbieter nicht mehr verfügbar ist. Wenn Sie eine Gruppe hinzufügen, wird der Zugriff auf alle Benutzer dieser Gruppe ausgeweitet.
 
         '
-      password_login_configured_by_environment: 'The following settings are configured through the environment and cannot be edited here:
+      password_login_configured_by_environment: 'Die folgenden Einstellungen werden über Umgebungsvariablen konfiguriert und können hier nicht bearbeitet werden:
 
         '
-      password_login_requires_sso_provider: 'Password login restrictions are unavailable because no SSO provider is currently enabled. Configure and enable an SSO provider before changing these settings.
+      password_login_requires_sso_provider: 'Einschränkungen für die Anmeldung per Passwort sind nicht verfügbar, da derzeit kein Identitätsanbieter aktiviert ist. Bitte konfigurieren und aktivieren Sie einen Identitätsanbieter bevor Sie diese Einstellungen ändern.
 
         '
       registration: Registrierung
@@ -6116,13 +6190,14 @@ de:
         <br>
         <strong>Hinweis</strong>: Vererbte Attribute (z.B. von Unteraufgaben oder Relationen) werden auch auf Arbeitspakete in diesen Status angewandt.
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Von Gesamtsumme auschließen
         is_closed: Erledigt
-        is_default: Standard
         is_readonly: Schreibgeschützt
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Neuen Status hinzufügen
       no_results_title_text: Derzeit gibt es keine Arbeitspaket-Status.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: und
@@ -6339,7 +6414,7 @@ de:
       steps:
         defaults: Standardwerte
         details: Details
-        form_configuration: Form
+        form_configuration: Formular
         pdf: PDF-Erstellung
         project_attributes: Projektattribute
         projects: Projekte
@@ -6412,7 +6487,6 @@ de:
         add_query_group: Zugehörige Arbeitspaket-Tabelle
         blankslate_description: Fügen Sie Gruppen über die Schaltfläche oben hinzu oder ziehen Sie Attribute aus dem linken Bereich.
         blankslate_title: Noch keine Gruppen
-        builtin_field: Vordefiniertes Feld
         confirm_delete_group: Sind Sie sicher, dass Sie diesen Abschnitt löschen möchten? Diese Aktion kann nicht automatisch rückgängig gemacht werden.
         confirm_reset: Sind Sie sicher, dass Sie das Formular zurücksetzen möchten?
         custom_field: Benutzerdefiniertes Feld
@@ -6462,7 +6536,7 @@ de:
           inheriting_from_html: Vererbt von %{source_name}
           manual: Manuell konfiguriert
         settings: Einstellungen
-        tab: Overview
+        tab: Übersicht
       project_attributes:
         actions:
           label_disable_all: Alle deaktivieren
@@ -6596,7 +6670,7 @@ de:
         filter_no_results: Keine Varianten entsprechen diesem Filter
         global_section:
           description: These variants are available across all projects.
-          title: Varianten
+          title: Global variants
         project_specific_section:
           description: These variants are only available within the projects in which they were created.
           title: Projektspezifische Varianten
@@ -6605,6 +6679,25 @@ de:
     index:
       add_variant: Variante zu %{name} hinzufügen
       add_variant_action: Variante hinzufügen
+      convert_to_global: Convert to global variant
+      convert_to_global_dialog:
+        confirm: Convert
+        text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
+
+          '
+      convert_to_global_notice: "%{name} is now a global variant."
+      convert_to_global_rename:
+        confirm: Convert
+        text: A global variant with this name already exists. Please choose a different name.
+        title: Pick another name for this variant
+      delete:
+        description: The type will be deleted permanently. This action cannot be undone.
+        description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
+        heading: Delete type '%{name}'?
+        projects:
+          one: 'The type will be removed from 1 project:'
+          other: 'The type will be removed from %{count} projects:'
+        title: Delete type
       description: 'Typen und Varianten ermöglichen flexible Konfiguration der Darstellung und Verhalten von Arbeitspaketen. Formulare, Workflows und weitere Bereiche können hierbei in einem Typ definiert und von beliebig vielen Varianten wiederverwendet werden. Jeder Bereich kann hierbei pro Variante individuell konfiguriert werden.
 
         '
@@ -6617,7 +6710,7 @@ de:
       no_results_title_text: Derzeit gibt es keine Typen.
       project_variants_count:
         one: 1 projektspezifische Variante
-        other: "%{count} project-specific variants"
+        other: "%{count} projektspezifische Varianten"
       remove_default: In neuen Projekten nicht aktivieren
       remove_default_notice: "%{name} ist in neuen Projekten nicht länger aktiviert."
       type_label: Typ

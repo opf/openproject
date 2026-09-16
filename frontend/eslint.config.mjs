@@ -227,6 +227,20 @@ export default defineConfig([
     },
   },
   {
+    // esbuild follows imports past the tsconfig exclude, so the import site
+    // is the boundary keeping test helpers out of the production bundle.
+    files: ['src/**/*.{ts,tsx}'],
+    ignores: ['**/*.spec.ts', '**/testing/**', 'src/stimulus/test-helpers.ts', 'src/test-*.ts'],
+    rules: {
+      'no-restricted-imports': ['error', {
+        patterns: [{
+          regex: '(^|/)testing/|(^|/)test-helpers$',
+          message: 'Test helpers may only be imported from specs and other test helpers.',
+        }],
+      }],
+    },
+  },
+  {
     plugins: { '@stylistic': stylistic },
     rules: {
       '@stylistic/semi': ['error', 'always'],

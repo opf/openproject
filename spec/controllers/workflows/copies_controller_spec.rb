@@ -63,7 +63,7 @@ RSpec.describe Workflows::CopiesController do
     end
 
     it "assigns the eligible roles" do
-      expect(assigns[:all_roles]).to match_array(Workflow.eligible_roles)
+      expect(assigns[:all_roles]).to match_array(Workflows::StatusTransition.eligible_roles)
     end
 
     context "when a variant is addressed directly" do
@@ -75,7 +75,7 @@ RSpec.describe Workflows::CopiesController do
     end
 
     context "when the source role is specified" do
-      let(:source_role) { Workflow.eligible_roles.first }
+      let(:source_role) { Workflows::StatusTransition.eligible_roles.first }
 
       it "assigns the source role" do
         expect(assigns[:source_role]).to eq(source_role)

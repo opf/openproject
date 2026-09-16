@@ -2,17 +2,19 @@
 fr:
   activerecord:
     attributes:
+      placeholder_user:
+        user_filter: Filter criteria
       resource_allocation:
         allocated_hours: Heures
         allocated_time: Temps affecté
         date_range: Dates
         end_date: Date de fin
         entity: Entité
-        filter_name: Nom du filtre de ressources
+        placeholder_or_user: Assignee
+        placeholder_user: Placeholder user
         principal: Personne assignée
         start_date: Date de début
         state: État
-        user_filter: Filtre utilisateur
       resource_planner:
         date_range: Dates
         default_view_class_name: Vue par défaut
@@ -87,16 +89,9 @@ fr:
       make_public: Rendre public
       unfavorite: Supprimer des favoris
     allocate_resource_dialog:
-      kind:
-        filter:
-          caption: 'Définissez des critères de filtrage en fonction des attributs utilisateur afin de créer une ressource fictive.
-
-            '
-          label: Critères de filtrage
-        label: Type d'allocation
-        principal:
-          caption: Attribuer des heures à un utilisateur spécifique.
-          label: Utilisateur
+      criteria:
+        empty: No criteria set.
+        label: Criteria
       outside_dates:
         description: Les dates de la ressource sélectionnée, %{resource_dates}, ne correspondent pas aux dates du lot de travaux, %{work_package_dates}.
       overbooking:
@@ -142,6 +137,9 @@ fr:
           caption: Une liste personnalisée d'éléments que vous ajoutez et supprimez manuellement. Le filtrage n'est pas possible.
           label: Sélection manuelle
       title: Configurer la vue
+    create_placeholder_user_dialog:
+      submit: Create
+      title: Create placeholder user
     edit_allocation_dialog:
       submit: Enregistrer
       success_message: Attribution des ressources mise à jour.

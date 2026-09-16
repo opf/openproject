@@ -222,6 +222,7 @@ ru:
         title: Название
       member:
         blocked: Заблокирован
+        principal_type: Member type
         roles: Роль
       notification:
         read_ian: Читайте в приложении
@@ -441,6 +442,13 @@ ru:
         time_zone: Часовой пояс
         warn_on_leaving_unsaved: При покидании рабочего пакета предупреждать о не сохраненных изменениях
         workdays: Рабочие дни
+      user_resource:
+        description: Description
+        name: Name
+        user_filter: User filter
+      user_resource_detail:
+        description: Description
+        user_filter: User filter
       user_working_hours:
         availability_factor: Фактор доступности
         days: Рабочие дни
@@ -857,6 +865,10 @@ ru:
               blank: Пожалуйста, укажите имя токена
               format: "%{message}"
               in_use: Это имя токена уже используется, пожалуйста, выберите другое
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: This type cannot be deleted while work packages still use it.
         type_variant:
           attributes:
             attribute_groups:
@@ -867,6 +879,9 @@ ru:
               query_invalid: 'Встроенный запрос ''%{group}'' является недопустимым: %{details}'
             base:
               borrowed_by_variants: Нельзя удалить, пока его конфигурация повторно используется %{names}.
+              inherits_from_project_owned: 'This variant currently inherits from a project-specific variant and cannot be converted to a global variant.
+
+                '
               is_default_variant: Конфигурация по умолчанию для типа не может быть удалена.
               project_variants_not_allowed: This type does not allow creation of variants inside projects.
               restrict_dependent_destroy:
@@ -1970,6 +1985,14 @@ ru:
       update:
         failure: Конфигурация MCP не может быть обновлена.
         success: Конфигурация MCP была успешно обновлена.
+    members:
+      index:
+        blank_description: No membership matches the current filter.
+        blank_title: No memberships
+        filter_label: Search users
+        inheritance_source: "%{type} %{name}"
+        inherited_via: "(via: %{source})"
+        title: Memberships
     plugins:
       no_results_content_text: Более подробную информацию см. на странице "Наши интеграции и плагины".
       no_results_title_text: В настоящее время плагины не установлены.
@@ -2225,6 +2248,13 @@ ru:
           assignee: Дополнительные варианты перехода, доступные исполнителю пакета работ.
           author: Дополнительные варианты перехода, доступные автору пакета работ.
         menu_label: Показаны переходы
+  ai:
+    text_transform:
+      errors:
+        connection_failed: The AI service could not be reached.
+        not_available: The AI assistant is not available.
+        timeout: The AI service did not respond in time.
+        upstream_error: The AI service returned an error.
   announcements:
     is_active: теперь отображается
     is_inactive: теперь не отображается
@@ -2287,10 +2317,6 @@ ru:
       not_found:
         reminder: Напоминание, которое вы ищете, не найдено или было удалено.
         work_package: Пакет работ, который вы ищете, не найден или был удален.
-      render:
-        context_not_parsable: Предоставленного контекста не является ссылка на ресурс.
-        context_object_not_found: Не удается найти ресурс заданный как контекст.
-        unsupported_context: Ресурс не поддерживается как контекст.
       unable_to_create_attachment: Вложение не может быть создано
       unable_to_create_attachment_permissions: Вложение не может быть сохранено из-за отсутствия прав на файловую систему
       user:
@@ -3037,7 +3063,6 @@ ru:
       custom_actions: Пользовательские действия
       custom_field_hierarchies: Иерархии
       customize_life_cycle: Настройка жизненного цикла
-      date_alerts: Дата оповещения
       define_custom_style: Пользовательская тема и логотип
       edit_attribute_groups: Редактирование атрибутов групп
       gantt_pdf_export: Экспорт диаграммы Ганта в PDF
@@ -3116,8 +3141,6 @@ ru:
         description: Пользовательские поля типа Иерархия позволяют организовывать иерархические структуры в пакетах работ и проектах с использованием многоуровневых списков.
       customize_life_cycle:
         description: Создание и организация этапов и стадий проекта, отличных от тех, что предусмотрены планированием цикла проекта PM2.
-      date_alerts:
-        description: С уведомлениями по дате вы будете получать уведомления о предстоящих датах начала или датах конца, чтобы никогда не пропустить или не забыть важный срок.
       define_custom_style:
         description: Установка собственного логотипа и цветовой темы в Вашем OpenProject.
         more_info: 'Примечание: используемый логотип будет общедоступным.'
@@ -3752,6 +3775,7 @@ ru:
   label_core_build: Сборка ядра
   label_core_version: Текущая версия
   label_created_by: Создано %{user}
+  label_criteria: Criteria
   label_current_status: Текущий статус
   label_current_version: Текущий этап
   label_custom_comment: "%{name} комментарий"
@@ -4326,6 +4350,8 @@ ru:
   label_wiki_start: Начальная страница
   label_wiki_toc: Содержание
   label_wiki_toc_empty: Содержание пусто, так как нет заголовков.
+  label_with_criteria: With criteria
+  label_without_criteria: Without criteria
   label_work: Предполагаемое время
   label_work_package: Пакет работ
   label_work_package_attachments: Вложения пакета работ
@@ -5226,6 +5252,13 @@ ru:
     prev: Назад
     prev_page: Предыдущая страница
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: Этот текст появится на каждой странице в центре нижнего колонтитула.
@@ -5240,6 +5273,12 @@ ru:
         label: Расстановка переносов
       hyphenation_language:
         label: Язык и переносы
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: Выберите ориентацию страниц в PDF-документе.
         label: Ориентация страницы
@@ -5387,6 +5426,16 @@ ru:
   permission_work_package_assigned: Становиться исполнителем/ответственным
   permission_work_package_assigned_explanation: Пакеты работ могут быть привязаны к пользователям и группам в зависимости от этой роли в рамках соответствующего проекта
   placeholder_users:
+    criteria:
+      activate: Activate filter criteria
+      activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
+
+        '
+      enable: Match users by criteria
+      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
+      matching_users: Users meeting the filter criteria
+      no_matching_users: No user meets these criteria.
+      show_all_matching_users: Show all %{count} matching users
     delete_tooltip: Удалить пользователя-заполнителя
     deletion_info:
       data_consequences: 'Все вхождения пользователя плейсхолдера (например, как цессионария, ответственные или другие пользовательские значения) будут переназначены на учетную запись под названием "Удаленный пользователь". Так как данные каждого удаленного аккаунта переназначены на этот аккаунт, невозможно отличить данные пользователя от данных другого удаленного аккаунта.
@@ -5844,6 +5893,41 @@ ru:
     warnings:
       cannot_annotate: Этот файл не может быть прокомментирован.
   roles:
+    delete_dialog:
+      confirm: Are you sure you want to delete this role?
+      entry_projects:
+        one: "(Project: %{projects})"
+        few: "(Projects: %{projects})"
+        many: "(Projects: %{projects})"
+        other: "(Projects: %{projects})"
+      entry_projects_truncated:
+        one: "(Projects: %{projects} and 1 other)"
+        few: "(Projects: %{projects} and %{count} others)"
+        many: "(Projects: %{projects} and %{count} others)"
+        other: "(Projects: %{projects} and %{count} others)"
+      heading:
+        one: 'This role is still attributed to 1 member:'
+        few: 'This role is still attributed to %{count} members:'
+        many: 'This role is still attributed to %{count} members:'
+        other: 'This role is still attributed to %{count} members:'
+      heading_unused: Are you sure you want to delete the role "%{name}"?
+      losing_project_access:
+        one: Out of these users, 1 will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        other: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        zero: None of these users will lose access to any of their projects. Are you sure you want to delete this role?
+      show_memberships: Show all memberships with this role
+      summary: "%{users} in %{projects}"
+      summary_projects:
+        one: 1 project
+        few: "%{count} projects"
+        many: "%{count} projects"
+        other: "%{count} projects"
+      summary_users:
+        one: 1 user
+        few: "%{count} users"
+        many: "%{count} users"
+        other: "%{count} users"
+      title: Delete role
     edit:
       default_for_new_projects_warning: 'Эта роль настроена как роль по умолчанию, предоставляемая пользователям, не являющимся администраторами, которые создают проект. Не удаляйте следующие разрешения, иначе создатели проектов не смогут завершить настройку своих новых проектов:'
     index:
@@ -6431,13 +6515,14 @@ ru:
         <br>
         <strong>Примечание</strong>: Будут применены унаследованные значения (например, от дочерних или родительских пакетов работ).
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Исключен из итогов
         is_closed: Закрыт
-        is_default: По умолчанию
         is_readonly: Только для чтения
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Добавить новый статус
       no_results_title_text: В данный момент статусы пакетов работ отсутствуют.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: и
@@ -6721,7 +6806,6 @@ ru:
         add_query_group: Таблица связанных пакетов работ
         blankslate_description: Добавьте группы с помощью кнопки выше или перетащите атрибуты с левой панели.
         blankslate_title: Нет групп
-        builtin_field: Встроенное поле
         confirm_delete_group: Вы уверены, что хотите удалить эту секцию? Это действие нельзя автоматически отменить.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Настраиваемое поле
@@ -6909,7 +6993,7 @@ ru:
         filter_no_results: Нет вариантов, соответствующих этому фильтру
         global_section:
           description: These variants are available across all projects.
-          title: Variants
+          title: Global variants
         project_specific_section:
           description: These variants are only available within the projects in which they were created.
           title: Project-specific variants
@@ -6918,6 +7002,27 @@ ru:
     index:
       add_variant: Add a variant to %{name}
       add_variant_action: Добавить вариант
+      convert_to_global: Convert to global variant
+      convert_to_global_dialog:
+        confirm: Convert
+        text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
+
+          '
+      convert_to_global_notice: "%{name} is now a global variant."
+      convert_to_global_rename:
+        confirm: Convert
+        text: A global variant with this name already exists. Please choose a different name.
+        title: Pick another name for this variant
+      delete:
+        description: The type will be deleted permanently. This action cannot be undone.
+        description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
+        heading: Delete type '%{name}'?
+        projects:
+          one: 'The type will be removed from 1 project:'
+          few: 'The type will be removed from %{count} projects:'
+          many: 'The type will be removed from %{count} projects:'
+          other: 'The type will be removed from %{count} projects:'
+        title: Delete type
       description: 'Каждая область конфигурации внутри типов и вариантов может быть настроена самостоятельно, ограничена другим типом или полностью связана с источником.
 
         '

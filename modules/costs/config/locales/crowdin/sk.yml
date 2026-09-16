@@ -72,6 +72,10 @@ sk:
           attributes:
             project_ids:
               blank: Please select a project.
+        rate:
+          attributes:
+            principal:
+              invalid: must be a user or a placeholder user.
         time_entry:
           attributes:
             entity:
@@ -225,6 +229,7 @@ sk:
   label_costlog: Zaúčtované jednotkové náklady
   label_costs: Náklady
   label_costs_per_page: Náklady na stranu
+  label_current: Current
   label_current_default_rate: Aktuálna štandardná sadzba
   label_date_on: dňa
   label_day: Deň
@@ -251,6 +256,8 @@ sk:
   label_next_week: Budúci týždeň
   label_next_workweek: Next work week
   label_no: Nie
+  label_no_default_rate: No default rate set
+  label_no_project_rate: No rate set for this project
   label_no_time: No time tracked
   label_option_plural: Voľby
   label_overall_costs: Celkové náklady
@@ -271,6 +278,7 @@ sk:
   label_today_capitalized: Dnes
   label_units: Nákladové jednotky
   label_until: do
+  label_using_current_default_rate: Using current default rate
   label_valid_from: Platný od
   label_view_mode_switcher: Change view
   label_work_package_filter_add: Pridať filter pracovného balíčka
@@ -327,6 +335,11 @@ sk:
   text_destroy_cost_entries_question: "%{cost_entries} boli hlásené na pracovných balíčkoch, ktoré chcete vymazať. Čo chcete robiť?"
   text_destroy_time_and_cost_entries: Vymazať ohlásené hodiny a náklady
   text_destroy_time_and_cost_entries_question: "%{hours} hodiny, %{cost_entries} boli hlásené na pracovných balíčkoch, ktoré chcete vymazať. Čo chcete robiť?"
+  text_hourly_rate_destroy_confirmation: The rate of %{rate} valid from %{valid_from} will be deleted. Costs booked against it are recalculated with the rate that then applies.
+  text_hourly_rate_destroy_confirmation_checkbox_label: I understand that this action is not reversible.
+  text_hourly_rate_recalculation: This rate applies from its valid from date until a later rate takes effect. Changing it will also recalculate existing time entries and budgets in that period.
+  text_no_default_rate: The default rate is used in all projects where the user does not have a specific rate set up.
+  text_no_project_rate: This project will use the current default rate.
   text_reassign_time_and_cost_entries: 'Priradiť výkaz hodín a náklady k projektu:'
   text_warning_hidden_elements: Neboli zohľadnené všetky záznamy.
   total_times:

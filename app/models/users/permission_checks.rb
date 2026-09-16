@@ -106,6 +106,17 @@ module Users::PermissionChecks
     roles_for_project(project).any?(&:member?)
   end
 
+  # Returns a SQL condition matching the projects the user holds the permission
+  # in, for the legacy report queries that cannot take a relation.
+  def allowed_to_condition_with_project_id(permission, projects = nil)
+    scope = Project.allowed_to(self, permission)
+    scope = scope.where(id: projects) if projects
+
+    ids = scope.pluck(:id)
+
+    ids.empty? ? "1=0" : "(#{Project.table_name}.id in (#{ids.join(', ')}))"
+  end
+
   # Returns all permissions the user may have for a given context.
   # "May" because this method does not check e.g. whether the module
   # the permission belongs to is active.

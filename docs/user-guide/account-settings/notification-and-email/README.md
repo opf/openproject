@@ -6,7 +6,7 @@ description: Learn how to configure notifications and email alerts in OpenProjec
 keywords: my account, account settings, notifications, email, alert, update, reminder, email reminder
 ---
 
-#  Notification and email
+# Notification and email
 
 To configure the notification settings which you receive from the system, navigate to **Account settings** and choose **Notification and email** from the menu.
 

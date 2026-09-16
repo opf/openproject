@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -27,25 +29,58 @@
 #++
 
 class Rate < ApplicationRecord
+  extend DeprecatedAlias
+
   validates :rate, numericality: { allow_nil: false }
   validate :validate_date_is_a_date
 
   before_save :convert_valid_from_to_date
 
-  after_create :rate_created
-  after_update :rate_updated
-  after_destroy :update_costs
+  # A placeholder can never log time, so there are no entries to recost.
+  after_create :rate_created, unless: :placeholder_rate?
+  after_update :rate_updated, unless: :placeholder_rate?
+  after_destroy :update_costs, unless: :placeholder_rate?
 
-  belongs_to :user
-  include ::Costs::DeletedUserFallback
+  # No inverse: the subclasses are reached through different collections
+  # (`rates` for HourlyRate, `default_rates` for DefaultHourlyRate), so there is
+  # no single one to name here.
+  belongs_to :principal, class_name: "Principal", foreign_key: :user_id # rubocop:disable Rails/InverseOf
 
   belongs_to :project
+
+  # Both accept a record or an id, so callers need not coerce.
+  scope :for_principal, ->(principal) { where(user_id: principal) }
+  scope :in_project, ->(project) { where(project_id: project) }
+
+  scope :in_effect_at, ->(date) { where(valid_from: ..date) }
+  scope :newest_first, -> { order(valid_from: :desc) }
+
+  validate :principal_can_have_rate
 
   include ActiveModel::ForbiddenAttributesProtection
 
   extend Costs::NumberHelper
 
+  # Rates outlive the principal they belong to: the record is kept so existing
+  # costs stay explainable, and reads fall back the way a deleted user does.
+  def principal
+    super || (DeletedUser.first if user_id.present?)
+  end
+
+  deprecated_alias :user, :principal
+  deprecated_alias :user=, :principal=
+
+  def placeholder_rate?
+    principal.is_a?(PlaceholderUser)
+  end
+
   private
+
+  def principal_can_have_rate
+    return if principal.nil? || principal.is_a?(User) || principal.is_a?(PlaceholderUser)
+
+    errors.add(:principal, :invalid)
+  end
 
   def convert_valid_from_to_date
     self.valid_from &&= valid_from.to_date
@@ -53,13 +88,13 @@ class Rate < ApplicationRecord
 
   def validate_date_is_a_date
     valid_from.to_date
-  rescue Exception
+  rescue StandardError
     errors.add :valid_from, :not_a_date
   end
 
   def update_costs
     entry_class = is_a?(HourlyRate) ? TimeEntry : CostEntry
-    entry_class.where(rate_id: id).each(&:update_costs!)
+    entry_class.where(rate_id: id).find_each(&:update_costs!)
   end
 
   def rate_created
@@ -176,57 +211,33 @@ class Rate < ApplicationRecord
       @rate.class.where(conditions_between(date1, date2, :valid_from)).count
     end
 
+    # Entries in child projects that a default rate covers, or none at all, and
+    # which this project rate therefore takes over.
     def orphaned_child_entries(date1, date2 = nil)
-      # This method returns all entries in child projects without an explicit
-      # rate or with a rate id of rate_id between date1 and date2
-      # i.e. the ones with an assigned default rate or without a rate
-      return [] unless @rate.is_a?(HourlyRate)
-
-      (date1, date2) = order_dates(date1, date2)
-
-      # This gets an array of all the ids of the DefaultHourlyRates
-      default_rates = DefaultHourlyRate.pluck(:id)
-
-      conditions = if date1.nil? || date2.nil?
-                     # we have only one date, query >=
-                     [
-                       "user_id = ? AND project_id IN (?) AND (rate_id IN (?) OR rate_id IS NULL) AND spent_on >= ?",
-                       @rate.user_id, @rate.project.descendants.to_a, default_rates, date1 || date2
-                     ]
-                   else
-                     # we have two dates, query between
-                     [
-                       "user_id = ? AND project_id IN (?) AND (rate_id IN (?) OR rate_id IS NULL) AND spent_on BETWEEN ? AND ?",
-                       @rate.user_id, @rate.project.descendants.to_a, default_rates, date1, date2
-                     ]
-                   end
-
-      TimeEntry.includes(:rate).where(conditions)
+      child_entries_scope(date1, date2)&.without_project_rate || []
     end
 
+    # Entries in child projects already costed with this very rate.
     def child_entries(date1, date2 = nil)
-      # This method returns all entries in child projects without an explicit
-      # rate or with a rate id of rate_id between date1 and date2
-      # i.e. the ones with an assigned default rate or without a rate
-      return [] unless @rate.is_a?(HourlyRate)
+      child_entries_scope(date1, date2)&.with_rate(@rate) || []
+    end
+
+    private
+
+    def child_entries_scope(date1, date2)
+      return unless @rate.is_a?(HourlyRate)
 
       (date1, date2) = order_dates(date1, date2)
 
-      conditions = if date1.nil? || date2.nil?
-                     # we have only one date, query >=
-                     [
-                       "user_id = ? AND project_id IN (?) AND rate_id = ? AND spent_on >= ?",
-                       @rate.user_id, @rate.project.descendants.to_a, @rate.id, date1 || date2
-                     ]
-                   else
-                     # we have two dates, query between
-                     [
-                       "user_id = ? AND project_id IN (?) AND rate_id  = ? AND spent_on BETWEEN ? AND ?",
-                       @rate.user_id, @rate.project.descendants.to_a, @rate.id, date1, date2
-                     ]
-                   end
+      entries = TimeEntry.includes(:rate)
+                         .for_principal(@rate.user_id)
+                         .in_project(@rate.project.descendants)
 
-      TimeEntry.includes(:rate).where(conditions)
+      if date1.nil? || date2.nil?
+        entries.spent_from(date1 || date2)
+      else
+        entries.spent_between(date1, date2)
+      end
     end
   end
 end

@@ -72,6 +72,10 @@ pl:
           attributes:
             project_ids:
               blank: Wybierz projekt.
+        rate:
+          attributes:
+            principal:
+              invalid: must be a user or a placeholder user.
         time_entry:
           attributes:
             entity:
@@ -225,6 +229,7 @@ pl:
   label_costlog: Zarejestrowane koszty jednostkowe
   label_costs: Koszty
   label_costs_per_page: Kosztów na stronę
+  label_current: Current
   label_current_default_rate: Aktualne stawki domyślne
   label_date_on: na
   label_day: Dzień
@@ -251,6 +256,8 @@ pl:
   label_next_week: Następny tydzień
   label_next_workweek: Następny tydzień pracy
   label_no: Nie
+  label_no_default_rate: No default rate set
+  label_no_project_rate: No rate set for this project
   label_no_time: Brak śledzonego czasu
   label_option_plural: Opcje
   label_overall_costs: Koszt całkowity
@@ -271,6 +278,7 @@ pl:
   label_today_capitalized: Dzisiaj
   label_units: Koszt jednostki
   label_until: do
+  label_using_current_default_rate: Using current default rate
   label_valid_from: Ważny od
   label_view_mode_switcher: Zmień widok
   label_work_package_filter_add: Dodaj filtr Zestawu zadań
@@ -327,6 +335,11 @@ pl:
   text_destroy_cost_entries_question: "%{cost_entries} zostały zgłoszone do Zestawu zadań, który chcesz usunąć. Co chcesz zrobić?"
   text_destroy_time_and_cost_entries: Usuń zgłoszone godziny i koszty
   text_destroy_time_and_cost_entries_question: "%{hours} godzin, %{cost_entries} zostały zgłoszone do Zestawu zadań, który chcesz usunąć. Co chcesz zrobić?"
+  text_hourly_rate_destroy_confirmation: The rate of %{rate} valid from %{valid_from} will be deleted. Costs booked against it are recalculated with the rate that then applies.
+  text_hourly_rate_destroy_confirmation_checkbox_label: I understand that this action is not reversible.
+  text_hourly_rate_recalculation: This rate applies from its valid from date until a later rate takes effect. Changing it will also recalculate existing time entries and budgets in that period.
+  text_no_default_rate: The default rate is used in all projects where the user does not have a specific rate set up.
+  text_no_project_rate: This project will use the current default rate.
   text_reassign_time_and_cost_entries: 'Ponownie przypisz zgłoszone godziny i koszty do tego Zestawu zadań:'
   text_warning_hidden_elements: Niektóre wpisy mogą zostać wyłączone ze zbioru.
   total_times:

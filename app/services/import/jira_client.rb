@@ -39,12 +39,38 @@ module Import
     class ParseError < Error; end
 
     class ApiError < Error
-      attr_reader :status, :response_body
+      attr_reader :status, :response_body, :response_headers
 
-      def initialize(message, status: nil, response_body: nil)
+      SAFE_RESPONSE_HEADERS = %w[
+        content-type
+        content-length
+        content-encoding
+        content-language
+        content-disposition
+        date
+        last-modified
+        etag
+        cache-control
+        expires
+        location
+        retry-after
+        server
+        x-request-id
+        x-runtime
+        x-ratelimit-limit
+        x-ratelimit-remaining
+        x-ratelimit-reset
+      ].freeze
+
+      def initialize(message, status:, response_body:, response_headers:)
         super(message)
         @status = status
         @response_body = response_body
+        @response_headers = response_headers.slice(*SAFE_RESPONSE_HEADERS)
+      end
+
+      def to_s
+        "#{super}. STATUS: #{@status} RESPONSE_BODY: #{@response_body} RESPONSE_HEADERS: #{@response_headers}"
       end
     end
 
@@ -54,7 +80,7 @@ module Import
     }.freeze
 
     def initialize(url:, personal_access_token:)
-      raise ApiError.new(I18n.t(:"admin.jira.test.token_error")) if personal_access_token.nil?
+      raise Error.new(I18n.t(:"admin.jira.test.token_error")) if personal_access_token.nil?
 
       @url = url.chomp("/")
       @headers = {
@@ -251,7 +277,7 @@ module Import
     # @raise [ApiError] If the server returns a non-success response
     def download_attachment(content_url, filename) # rubocop:disable Metrics/AbcSize
       tempfile = nil
-      OpenProject::SsrfProtection.get(content_url, headers: @headers, http_options: HTTP_OPTIONS, max_redirects: 1) do |response|
+      OpenProject::SsrfProtection.get(content_url, headers: @headers, http_options: HTTP_OPTIONS, max_redirects: 0) do |response|
         case response
         when Net::HTTPSuccess
           tempfile = Tempfile.create(filename, binmode: true)
@@ -261,7 +287,10 @@ module Import
           yield tempfile
         else
           status = response.code.to_i
-          raise ApiError.new(I18n.t("admin.jira.client.api_error", status:), status:, response_body: response.body)
+          raise ApiError.new(I18n.t("admin.jira.client.api_error", status:),
+                             status:,
+                             response_body: response.body,
+                             response_headers: response.to_hash)
         end
       end
       nil
@@ -312,7 +341,8 @@ module Import
         raise ApiError.new(
           I18n.t("admin.jira.client.#{status}_error", status:, default: :"admin.jira.client.api_error"),
           status:,
-          response_body: response.body.to_s
+          response_body: response.body.to_s,
+          response_headers: response.to_hash
         )
       end
     end

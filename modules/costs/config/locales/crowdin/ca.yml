@@ -72,6 +72,10 @@ ca:
           attributes:
             project_ids:
               blank: Please select a project.
+        rate:
+          attributes:
+            principal:
+              invalid: must be a user or a placeholder user.
         time_entry:
           attributes:
             entity:
@@ -207,6 +211,7 @@ ca:
   label_costlog: Costs d'unitat registrats
   label_costs: Costs
   label_costs_per_page: Costs per pàgina
+  label_current: Current
   label_current_default_rate: Tarifa actual per defecte
   label_date_on: en
   label_day: Dia
@@ -233,6 +238,8 @@ ca:
   label_next_week: Setmana següent
   label_next_workweek: Next work week
   label_no: 'No'
+  label_no_default_rate: No default rate set
+  label_no_project_rate: No rate set for this project
   label_no_time: No time tracked
   label_option_plural: Opcions
   label_overall_costs: Costs generals
@@ -253,6 +260,7 @@ ca:
   label_today_capitalized: Avui
   label_units: Cost d'unitat
   label_until: fins a
+  label_using_current_default_rate: Using current default rate
   label_valid_from: Vàlid des de
   label_view_mode_switcher: Change view
   label_work_package_filter_add: Afegeix un filtre de paquet de treball
@@ -309,6 +317,11 @@ ca:
   text_destroy_cost_entries_question: "%{cost_entries} van ser reportades al paquet de treball que vols eliminar. Què vols fer?"
   text_destroy_time_and_cost_entries: Eliminar hores i costs reportats
   text_destroy_time_and_cost_entries_question: "%{hours} hores, %{cost_entries} van ser reportades al paquet de treball que vols eliminar. Què vols fer?"
+  text_hourly_rate_destroy_confirmation: The rate of %{rate} valid from %{valid_from} will be deleted. Costs booked against it are recalculated with the rate that then applies.
+  text_hourly_rate_destroy_confirmation_checkbox_label: I understand that this action is not reversible.
+  text_hourly_rate_recalculation: This rate applies from its valid from date until a later rate takes effect. Changing it will also recalculate existing time entries and budgets in that period.
+  text_no_default_rate: The default rate is used in all projects where the user does not have a specific rate set up.
+  text_no_project_rate: This project will use the current default rate.
   text_reassign_time_and_cost_entries: 'Reassignar les hores i costs reportats a aquest paquet de treball:'
   text_warning_hidden_elements: Algunes entrades poden ser excloses de l'agregació
   total_times:

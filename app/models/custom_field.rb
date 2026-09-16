@@ -309,7 +309,7 @@ class CustomField < ApplicationRecord
   end
 
   def self.custom_field_attribute?(attribute_name)
-    attribute_name.to_s =~ /custom_field_\d+/
+    /custom_field_\d+/.match?(attribute_name.to_s)
   end
 
   # to move in project_custom_field
