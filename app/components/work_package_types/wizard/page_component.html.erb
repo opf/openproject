@@ -23,7 +23,9 @@
       <% page.with_area("main") do %>
         <%= render(Primer::Beta::Heading.new(tag: :h2, mb: 3)) { step_title } %>
 
-        <% if step_editor %>
+        <% if current_step == :start %>
+          <%= render(WorkPackageTypes::Wizard::StartComponent.new) %>
+        <% elsif step_editor %>
           <%= within_step_frame do %>
             <%= reuse_mode_section %>
             <%= primer_form_with(**step_form_options) do |f| %>
