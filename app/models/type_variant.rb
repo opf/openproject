@@ -75,7 +75,7 @@ class TypeVariant < ApplicationRecord
     end
   end
 
-  before_validation :ensure_workflow, on: :create
+  before_save :ensure_workflow, if: :new_record?
   before_save :sync_workflow_with_source, if: :will_save_change_to_workflows_source_id?
 
   # Which project custom fields we define ourselves
@@ -266,10 +266,10 @@ class TypeVariant < ApplicationRecord
   private
 
   def ensure_workflow
-    return if workflow.present?
+    return if workflow_id.present?
 
     source = workflows_source
-    self.workflow = source ? source.workflow : Workflow.new(name: composite_name)
+    self.workflow = source&.workflow || Workflow.create!(name: composite_name)
   end
 
   def sync_workflow_with_source
