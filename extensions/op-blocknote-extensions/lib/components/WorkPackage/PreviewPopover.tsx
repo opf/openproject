@@ -29,7 +29,7 @@ export interface WpPreviewPopoverProps {
   children:ReactNode;
 }
 
-// Hover/long-press preview for tiny (xxs) inline chips.
+// Hover / indicator preview for tiny (xxs) inline chips.
 export const WpPreviewPopover = ({
   anchorEl,
   onMouseEnter,

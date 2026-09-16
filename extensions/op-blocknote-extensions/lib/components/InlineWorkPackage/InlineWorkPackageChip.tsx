@@ -62,12 +62,17 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
   const chipRef = useRef<HTMLElement | null>(null);
   const [chipEl, setChipEl] = useState<HTMLElement | null>(null);
 
-  const preview = useWorkPackagePreview({ enabled: size === 'xxs', suppressed: isSelected });
-  const { previewOpen, closePreview, wasLongPress, triggerProps, cardProps } = preview;
+  const preview = useWorkPackagePreview({
+    enabled: size === 'xxs',
+    suppressed: isSelected,
+    // The indicator shows the preview instead of the options menu, not over it.
+    onOpen: () => setIsSelected(false),
+  });
+  const { previewOpen, closePreview, triggerProps, cardProps } = preview;
 
   const isEditorSelected = useIsNodeInSelection(chipRef, editor);
 
-  useSuppressFormattingToolbar(editor, isSelected);
+  useSuppressFormattingToolbar(editor, isSelected || previewOpen);
 
   const setRef = (node:HTMLElement | null) => {
     chipRef.current = node;
@@ -83,8 +88,6 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
   };
 
   const toggleOptions = () => {
-    // A long press already opened the preview; swallow the trailing tap.
-    if (wasLongPress()) return;
     closePreview();
     setIsSelected((prev) => !prev);
     selectWorkPackageNode();
@@ -99,7 +102,7 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
     toggleOptions();
   });
 
-  // Close the options popover and long-press preview when the user taps outside the chip
+  // Close the options popover and the preview when the user taps outside the chip
   useEffect(() => {
     if (!isSelected && !previewOpen) return;
     const onPressOutside = (e:Event) => {
@@ -189,18 +192,20 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
   if (wpid && wp) {
     // Hidden while the options menu is open so the two popovers never stack.
     const showPreview = size === 'xxs' && previewOpen && !isSelected;
+    const chipLabel = t('options.chipAriaLabel', { id: formatWorkPackageId(wp.displayId) });
+    const hasIndicator = preview.indicatorProps !== undefined;
 
     return (
       <InlineChip
         data-drag-handle
-        role="button"
-        aria-label={t('options.chipAriaLabel', { id: formatWorkPackageId(wp.displayId) })}
+        role={hasIndicator ? undefined : 'button'}
+        aria-label={hasIndicator ? undefined : chipLabel}
         ref={setRef}
         selected={isSelected || isEditorSelected}
         {...triggerProps}
         {...onChipActivation}
       >
-        {size === 'xxs' && <WpChipXXS wp={wp} />}
+        {size === 'xxs' && <WpChipXXS wp={wp} preview={preview} actionLabel={chipLabel} />}
         {size === 'xs' && <WpChipXS wp={wp} />}
         {size === 's' && <WpChipS wp={wp} />}
 

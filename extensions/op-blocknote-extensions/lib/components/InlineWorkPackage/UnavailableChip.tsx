@@ -7,6 +7,8 @@ import { WorkPackageId, WorkPackageTitleLink, workPackageLinkProps } from '../Wo
 import { WpPreviewPopover } from '../WorkPackage/PreviewPopover';
 import { UnavailableCard } from '../WorkPackage/UnavailableCard';
 import { formatWorkPackageId } from '../../utils/id';
+import { PreviewIndicator } from './PreviewIndicator';
+import { buttonActivationProps } from '../../utils/a11y';
 import type { TapActivationProps } from '../../utils/tapActivation';
 import type { InlineWpSize } from '../WorkPackage/types';
 import type { WorkPackagePreview } from '../../hooks/useWorkPackagePreview';
@@ -39,36 +41,37 @@ export const UnavailableChip = ({
   optionsPopover,
 }:UnavailableChipProps) => {
   const { t } = useTranslation();
-  const { previewOpen, triggerProps, cardProps } = preview;
+  const { previewOpen, triggerProps, indicatorProps, cardProps } = preview;
 
+  const shortLabel = t(`unavailableWorkPackage.${kind}.short_message`);
   const inlineIcon = kind === 'unauthorized'
     ? <EyeClosedIcon size={12} verticalAlign="middle" />
     : <AlertIcon size={12} verticalAlign="middle" />;
   const cardIcon = kind === 'unauthorized'
     ? <EyeClosedIcon size={16} />
     : <AlertIcon size={16} />;
-  const shortLabel = t(`unavailableWorkPackage.${kind}.short_message`);
 
   const linked = kind === 'unauthorized';
 
-  // xxs stays tiny (icon only); the full message lives in the hover/long-press preview.
+  // xxs stays tiny (icon only); the full message lives in the preview.
   const iconOnly = size === 'xxs';
   const Base = iconOnly ? ChipBaseXXS : ChipBase;
   const showPreview = iconOnly && previewOpen;
+  const hasIndicator = indicatorProps !== undefined;
 
   return (
     <InlineChip
       ref={setRef}
       data-drag-handle
       // icon-only xxs is a labelled state graphic; larger sizes carry visible text
-      role={iconOnly ? 'img' : undefined}
+      role={iconOnly && !hasIndicator ? 'img' : undefined}
       selected={selected}
-      aria-label={iconOnly ? shortLabel : undefined}
+      aria-label={iconOnly && !hasIndicator ? shortLabel : undefined}
       {...triggerProps}
       {...onActivation}
     >
       <Base>
-        {inlineIcon}
+        {hasIndicator ? <span {...buttonActivationProps(shortLabel)}>{inlineIcon}</span> : inlineIcon}
         {!iconOnly && <WorkPackageId as="span" $compact>{formatWorkPackageId(displayId)}</WorkPackageId>}
         {!iconOnly && (
           <UnavailableLabel>
@@ -77,6 +80,7 @@ export const UnavailableChip = ({
               : shortLabel}
           </UnavailableLabel>
         )}
+        <PreviewIndicator preview={preview} displayId={displayId} />
       </Base>
 
       {showPreview && (
