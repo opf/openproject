@@ -113,6 +113,15 @@ module Pages
                               results_selector: "body"
         end
 
+        # Types +query+ into the project autocompleter without selecting anything
+        # and returns the open dropdown, so that callers can test on the offered
+        # options.
+        def search_for_project(query)
+          search_autocomplete page.find('[data-test-selector="membership_project_id"]'),
+                              query:,
+                              results_selector: "body"
+        end
+
         def open_global_roles_tab!
           within(".PageHeader-tabNav") do
             click_on "Global roles"
