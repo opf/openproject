@@ -84,10 +84,19 @@ RSpec.describe Backlogs::BacklogFiltersComponent, type: :component do
     expect(page).to have_no_css("[data-filter-name='backlog_inbox']")
   end
 
-  it "excludes some internal filters" do
+  it "excludes the internal filters that are never user selectable" do
+    names = %i[file_link_origin_id
+               linkable_to_storage_id
+               linkable_to_storage_url
+               storage_id storage_url
+               subject_or_id
+               typeahead
+               search]
+    expect(query.available_advanced_filters.map(&:name)).to include(*names)
+
     render_inline(component)
 
-    described_class::NOT_USER_SELECTABLE_FILTER_NAMES.each do |name|
+    names.each do |name|
       expect(page).to have_no_css("option[value='#{name}']")
       expect(page).to have_no_css("[data-filter-name='#{name}']")
     end

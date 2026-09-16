@@ -120,6 +120,28 @@ RSpec.describe Filters::FilterFormComponent, type: :component do
     end
   end
 
+  describe "filters that are never user selectable" do
+    let(:query) { Query.new }
+
+    it "drops the internal autocompleter and search filters" do
+      render_form(query:)
+
+      described_class::NEVER_ADVERTISED_FILTER_NAMES.each do |name|
+        expect(page).to have_no_css("option[value='#{name}']")
+        expect(page).to have_no_css("[data-filter-name='#{name}']", visible: :all)
+      end
+    end
+
+    it "drops the filters modules registered as excluded" do
+      render_form(query:)
+
+      Queries::Register.excluded_filters.each do |filter_class|
+        expect(page).to have_no_css("option[value='#{filter_class.key}']")
+        expect(page).to have_no_css("[data-filter-name='#{filter_class.key}']", visible: :all)
+      end
+    end
+  end
+
   describe "wrap_with_controller:" do
     it "does not emit a controller wrapper by default" do
       render_form
