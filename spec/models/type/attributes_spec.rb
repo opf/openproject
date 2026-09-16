@@ -56,4 +56,14 @@ RSpec.describe Type::Attributes do
         .to eq(I18n.t("activerecord.attributes.work_package.target_versions"))
     end
   end
+
+  describe "#passes_attribute_constraint?" do
+    let(:type) { create(:type) }
+    let(:project) { create(:project, types: [type]) }
+    let(:field) { create(:work_package_custom_field) }
+
+    it "constrains a custom field by nothing but the module constraints" do
+      expect(type.default_variant.passes_attribute_constraint?(field.attribute_name, project:)).to be true
+    end
+  end
 end

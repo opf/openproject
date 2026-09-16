@@ -49,8 +49,7 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
   end
   shared_let(:project1) do
     create(:project,
-           types: [type],
-           work_package_custom_fields: [custom_field2])
+           types: [type])
   end
   shared_let(:project2) do
     create(:project,

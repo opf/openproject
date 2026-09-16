@@ -211,7 +211,6 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
     let!(:float_cf) do
       create(:float_wp_custom_field,
              name: "float field") do |cf|
-        project.work_package_custom_fields << cf
         work_package.type.default_variant.custom_fields << cf
       end
     end
@@ -389,7 +388,6 @@ RSpec.describe IncomingEmails::MailHandler do # rubocop:disable RSpec/SpecFilePa
     end
     let!(:custom_field) do
       create(:string_wp_custom_field, name: "Searchable field") do |cf|
-        project.work_package_custom_fields << cf
         project.enabled_variants.first.custom_fields << cf
       end
     end

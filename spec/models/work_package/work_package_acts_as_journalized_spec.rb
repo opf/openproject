@@ -667,7 +667,6 @@ RSpec.describe WorkPackage do
       # The explicit id is needed so that the accessors ('custom_field_1') can be used
       shared_let(:custom_field) do
         create(:boolean_wp_custom_field, id: 1) do |custom_field|
-          project.work_package_custom_fields << custom_field
           type.default_variant.custom_fields << custom_field
         end
       end
@@ -758,7 +757,6 @@ RSpec.describe WorkPackage do
                    5.days.ago => { user: }
                  }) do
             create(:boolean_wp_custom_field, id: 2) do |cf|
-              project.work_package_custom_fields << cf
               type.default_variant.custom_fields << cf
             end
           end
@@ -771,7 +769,6 @@ RSpec.describe WorkPackage do
       context "when nothing changed and the work package has multiple values for the same custom field" do
         shared_let(:list_cf) do
           create(:list_wp_custom_field, id: 2, possible_values: %w[A B C D]) do |cf|
-            project.work_package_custom_fields << cf
             type.default_variant.custom_fields << cf
           end
         end
@@ -1358,7 +1355,6 @@ RSpec.describe WorkPackage do
     let(:type) { create(:type) }
     let(:custom_field) do
       create(:integer_wp_custom_field) do |cf|
-        project.work_package_custom_fields << cf
         type.default_variant.custom_fields << cf
       end
     end

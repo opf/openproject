@@ -57,8 +57,6 @@ module Projects
 
       def switch(target)
         model.project_types.find_by!(type_id: target.type_id).update!(variant: target)
-
-        enable_work_package_custom_fields(target)
       end
     end
   end

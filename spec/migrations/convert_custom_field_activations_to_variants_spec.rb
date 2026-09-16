@@ -28,12 +28,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module CustomFields
-  module CustomFieldProjects
-    class DeleteService < ::BaseServices::Delete
-      # Mappings have custom deletion rules that are similar to the update rules all derived from the base contract
-      # Reuse the update contract to ensure that the deletion rules are consistent with the update rules
-      def default_contract_class = CustomFields::CustomFieldProjects::UpdateContract
-    end
+require "spec_helper"
+require Rails.root.join("db/migrate/20260911120000_convert_custom_field_activations_to_variants.rb")
+
+RSpec.describe ConvertCustomFieldActivationsToVariants, type: :model do
+  subject { ActiveRecord::Migration.suppress_messages { described_class.new.up } }
+
+  it "hands the conversion to the job that performs it" do
+    expect { subject }.to have_enqueued_job(WorkPackageTypes::BuildProjectVariantsJob)
   end
 end
