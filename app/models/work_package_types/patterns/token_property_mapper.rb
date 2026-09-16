@@ -35,6 +35,20 @@ module WorkPackageTypes
       ARRAY = ->(v, _) { v.compact.presence&.join(", ") }
       DATE = ->(v, _) { v&.strftime(Setting.date_format || "%Y-%m-%d") }
       DURATION = ->(v, _) { DurationConverter.output(v) }
+      HIERARCHY = ->(item, format) {
+        return nil if item.nil?
+
+        case format
+        when "label"
+          item.label
+        when "short"
+          item.short
+        when "weight"
+          NumberFormatHelper.number_with_limit(item.weight)
+        else
+          item.to_s
+        end
+      }
 
       class StaticAttributeDSL
         def initialize(context:, label_model:)
@@ -95,6 +109,8 @@ module WorkPackageTypes
                         ARRAY
                       elsif format == "date"
                         DATE
+                      elsif %w[hierarchy weighted_item_list].include?(format)
+                        HIERARCHY
                       else
                         ->(v, format) { v.is_a?(Symbol) ? v : STRING_OR_NIL.call(v, format) }
                       end
