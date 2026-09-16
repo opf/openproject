@@ -47,7 +47,7 @@ module Admin
         ]
       end
 
-      def mobile_title = I18n.t(:label_label_plural)
+      def mobile_title = t(:label_label_plural)
 
       def filtered?
         query.find_active_filter(:name).present?

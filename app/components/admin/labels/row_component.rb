@@ -38,7 +38,15 @@ module Admin
       end
 
       def name
-        render(Primer::Beta::Label.new(scheme: :secondary, test_selector: "label-name")) { label.name }
+        render(
+          Primer::Beta::Label.new(
+            scheme: :secondary,
+            test_selector: "label-name",
+            classes: "ellipsis",
+            style: "max-width: 100%",
+            title: label.name
+          )
+        ) { label.name }
       end
 
       def usage

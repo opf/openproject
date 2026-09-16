@@ -129,7 +129,9 @@ module Admin
     end
 
     def page_containing(label)
-      preceding_count = Label.where(Label.arel_table[:name].lower.lt(label.name.downcase)).count
+      name = Label.arel_table[:name]
+      quoted_name = Arel::Nodes::NamedFunction.new("LOWER", [Arel::Nodes.build_quoted(label.name)])
+      preceding_count = Label.where(name.lower.lt(quoted_name)).count
       page = (preceding_count / per_page_param) + 1
       page if page > 1
     end

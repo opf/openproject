@@ -216,6 +216,18 @@ RSpec.describe "Admin labels", :skip_csrf,
       expect(Label.where(id: label.id)).not_to exist
       expect(Labeling.where(id: labeling.id)).not_to exist
     end
+
+    it "keeps the label and flashes the error when the delete service fails" do
+      errors = ActiveModel::Errors.new(label).tap { |e| e.add(:base, "cannot be deleted right now") }
+      service = instance_double(Labels::DeleteService, call: ServiceResult.failure(errors:))
+      allow(Labels::DeleteService).to receive(:new).and_return(service)
+
+      delete admin_label_path(label)
+
+      expect(response).to redirect_to(admin_labels_path)
+      expect(flash[:error]).to include("cannot be deleted right now")
+      expect(Label.where(id: label.id)).to exist
+    end
   end
 
   context "when not an admin" do
