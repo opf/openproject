@@ -7463,6 +7463,11 @@ en:
           You are not able to delete %{count} descendants because you lack the necessary permissions in
           %{projects}. These will be preserved but any hierarchical relations will be removed.
 
+    import:
+      csv:
+        format:
+          unknown: "This is not a UTF-8 CSV file. If it came from a spreadsheet, save it again as CSV (UTF-8) and upload that file instead."
+          wrong_encoding: "This file is %{encoding} encoded, not UTF-8. In Excel, choose the CSV UTF-8 format when saving, then upload it again."
     move:
       bulk_current_type_not_available_in_target_project: >
         The types of the work packages or their descendants aren't enabled in the target project.
