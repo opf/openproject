@@ -15,8 +15,8 @@
         <% end %>
 
         <% row.with_column(ml: 2) do %>
-          <% if completed?(step) %>
-            <%= render(Primer::Beta::Octicon.new(icon: linked?(step) ? :link : :pencil, color: :accent)) %>
+          <% if mode_step?(step) && (current?(step) || completed?(step)) %>
+            <%= render(Primer::Beta::Octicon.new(icon: mode_icon(step), color: current?(step) ? :default : :muted)) %>
           <% elsif current?(step) %>
             <%= render(Primer::Beta::Octicon.new(icon: :"dot-fill", color: :accent)) %>
           <% else %>
