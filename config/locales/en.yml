@@ -7468,9 +7468,14 @@ en:
         format:
           unknown: "This is not a UTF-8 CSV file. If it came from a spreadsheet, save it again as CSV (UTF-8) and upload that file instead."
           wrong_encoding: "This file is %{encoding} encoded, not UTF-8. In Excel, choose the CSV UTF-8 format when saving, then upload it again."
+        file:
+          empty: "This file is empty."
+          no_rows: "This file has column headers but no rows underneath them."
+          too_many_rows: "This file has more rows than can be imported at once. The most is %{limit}."
         header:
           ambiguous: "and %{other} both mean %{attribute}. Keep one of them."
           duplicate: "appears more than once. Keep one of them."
+          percent_complete_status_based: "cannot be imported while progress is calculated from the status. An administrator changes this under Administration, Work packages, Progress tracking."
           unknown: "is not a column this page knows."
           unknown_with_suggestion: "is not a column this page knows. Did you mean %{suggestion}?"
     move:

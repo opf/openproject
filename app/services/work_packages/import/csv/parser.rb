@@ -1,0 +1,134 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+module WorkPackages
+  module Import
+    module CSV
+      class Parser
+        # Excel writes ; on a German locale and \t when saving as "Unicode text".
+        SEPARATORS = %W[, ; \t].freeze
+
+        Row = Data.define(:number, :values)
+
+        def self.call(file) = new(file).call
+
+        def initialize(file)
+          @file = file
+        end
+
+        # @return [ServiceResult] success carries an array of Row, failure an array of
+        #   HeaderMap::Problem
+        def call
+          problems = header_problems
+          return ServiceResult.failure(result: problems) if problems.any?
+
+          rows = read_rows
+          return ServiceResult.failure(result: [file_problem(:no_rows)]) if rows.empty?
+          return ServiceResult.failure(result: [too_many_rows]) if rows.size > max_rows
+
+          ServiceResult.success(result: rows)
+        end
+
+        def separator
+          @separator ||= SEPARATORS.max_by { |candidate| [resolvable_headers(candidate), -SEPARATORS.index(candidate)] }
+        end
+
+        private
+
+        attr_reader :file
+
+        def path = file.respond_to?(:path) ? file.path : file.to_s
+
+        def max_rows = @max_rows ||= Setting.work_package_import_max_rows
+
+        def header_map = @header_map ||= HeaderMap.new
+
+        def headers = @headers ||= ::CSV.parse_line(header_line, col_sep: separator) || []
+
+        def header_line = @header_line ||= File.open(path, "r:bom|utf-8", &:gets).to_s
+
+        def resolvable_headers(candidate)
+          ::CSV.parse_line(header_line, col_sep: candidate).to_a.count { |header| header_map.resolve(header) }
+        rescue ::CSV::MalformedCSVError
+          0
+        end
+
+        def header_result = @header_result ||= header_map.call(headers)
+
+        def header_problems
+          return [file_problem(:empty)] if header_line.blank?
+
+          (header_result.success? ? [] : header_result.result) + setting_problems
+        end
+
+        # The only header rule that depends on configuration rather than the file.
+        def setting_problems
+          return [] unless headers.any? { |header| header_map.resolve(header) == :done_ratio }
+          return [] unless WorkPackage.status_based_mode?
+
+          [HeaderMap::Problem.new(column: nil,
+                                  header: WorkPackage.human_attribute_name(:done_ratio),
+                                  message: I18n.t("work_packages.import.csv.header.percent_complete_status_based"))]
+        end
+
+        def read_rows
+          rows = []
+
+          ::CSV.foreach(path, encoding: "bom|utf-8", col_sep: separator).with_index do |values, index|
+            next if index.zero?
+            next if values.all?(&:blank?)
+
+            rows << Row.new(number: index + 1, values: attributes_for(values))
+            break if rows.size > max_rows
+          end
+
+          rows
+        end
+
+        def attributes_for(values)
+          mapping.to_h { |attribute, index| [attribute, values[index]] }
+        end
+
+        def mapping = header_result.result
+
+        def file_problem(key)
+          HeaderMap::Problem.new(column: nil, header: nil,
+                                 message: I18n.t("work_packages.import.csv.file.#{key}"))
+        end
+
+        def too_many_rows
+          HeaderMap::Problem.new(column: nil, header: nil,
+                                 message: I18n.t("work_packages.import.csv.file.too_many_rows",
+                                                 limit: max_rows))
+        end
+      end
+    end
+  end
+end
