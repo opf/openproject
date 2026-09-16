@@ -53,6 +53,13 @@ module Workflows
       within("select-panel") { click_button "Apply" }
     end
 
+    # The reuse mode section offers "Copy from another type", so a bare "Copy" is ambiguous.
+    def open_copy_dialog
+      within "#workflow-table" do
+        click_link I18n.t(:label_copy_workflow_from_role)
+      end
+    end
+
     def add_status_via_dialog(status)
       within "#workflow-table" do # Otherwise, click on "Statuses" menu item
         click_link "Status"

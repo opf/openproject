@@ -29,8 +29,10 @@
 #++
 
 class Queries::Members::Filters::RoleFilter < Queries::Members::Filters::MemberFilter
+  # Role's default scope eager loads permissions, which would make #pluck join and
+  # return one row per permission.
   def allowed_values
-    @allowed_values ||= Role.pluck(:name, :id).map { |name, id| [name, id] }
+    @allowed_values ||= Role.unscope(:includes).order(:name).pluck(:name, :id)
   end
 
   def type

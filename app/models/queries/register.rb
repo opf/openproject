@@ -31,52 +31,50 @@
 module Queries::Register
   class << self
     def filter(query, filter)
-      @filters ||= Hash.new do |hash, filter_key|
-        hash[filter_key] = []
-      end
-
-      @filters[query] << filter
+      filters[query] << filter
     end
 
     # Exclude filter from filters collection representer.
     def exclude(filter)
-      @excluded_filters ||= []
-      @excluded_filters << filter
+      excluded_filters << filter
     end
 
     def order(query, order)
-      @orders ||= Hash.new do |hash, order_key|
-        hash[order_key] = []
-      end
-
-      @orders[query] << order
+      orders[query] << order
     end
 
     def group_by(query, group_by)
-      @group_bys ||= Hash.new do |hash, group_key|
-        hash[group_key] = []
-      end
-
-      @group_bys[query] << group_by
+      group_bys[query] << group_by
     end
 
     def select(query, select)
-      @selects ||= Hash.new do |hash, select_key|
-        hash[select_key] = []
-      end
-
-      @selects[query] << select
+      selects[query] << select
     end
 
     def register(query, &)
       Registration.new(query).instance_exec(&)
     end
 
-    attr_accessor :filters,
-                  :excluded_filters,
-                  :orders,
-                  :selects,
-                  :group_bys
+    # A query class registering none of a given kind is normal - most notably
+    # group_bys, which only a handful of queries declare - so these must return
+    # an empty registry rather than nil.
+    def filters = @filters ||= registry
+    def orders = @orders ||= registry
+    def selects = @selects ||= registry
+    def group_bys = @group_bys ||= registry
+    def excluded_filters = @excluded_filters ||= []
+
+    attr_writer :filters,
+                :excluded_filters,
+                :orders,
+                :selects,
+                :group_bys
+
+    private
+
+    def registry
+      Hash.new { |hash, key| hash[key] = [] }
+    end
   end
 
   class Registration

@@ -30,8 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Work package type projects tab", :skip_csrf, type: :rails_request,
-                                                             with_flag: { type_variants: true } do
+RSpec.describe "Work package type projects tab", :skip_csrf, type: :rails_request do
   shared_let(:admin) { create(:admin) }
   shared_let(:type) { create(:type, name: "Bug") }
   shared_let(:hardware) { create(:type_variant, type:, variant_name: "Hardware") }
@@ -208,12 +207,6 @@ RSpec.describe "Work package type projects tab", :skip_csrf, type: :rails_reques
 
     it "leaves it out inside a variant" do
       get edit_type_projects_path(type_id: type.id, variant_id: hardware.id)
-
-      expect(page).to have_no_css("[data-test-selector='quick-filter-select-panel-button']")
-    end
-
-    it "leaves it out at type level when the feature is disabled", with_flag: { type_variants: false } do
-      get edit_type_projects_path(type_id: type.id)
 
       expect(page).to have_no_css("[data-test-selector='quick-filter-select-panel-button']")
     end

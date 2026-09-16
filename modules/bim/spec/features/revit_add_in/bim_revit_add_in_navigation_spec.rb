@@ -101,7 +101,7 @@ RSpec.describe "BIM Revit Add-in navigation spec", :js,
 
         expect(page).to have_css(".work-package-table")
         wp_table.expect_work_package_listed work_package
-        wp_table.open_split_view work_package
+        wp_table.open_split_view work_package, primerized: false
 
         expect(page).to have_css(".work-packages-partitioned-page--content-left", text: work_package.subject)
         expect(page).to have_css(".work-packages-partitioned-page--content-right", visible: false)

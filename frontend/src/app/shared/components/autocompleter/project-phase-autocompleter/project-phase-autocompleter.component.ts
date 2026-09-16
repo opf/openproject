@@ -32,6 +32,7 @@ import { opPhaseIconData, toDOMString } from '@openproject/octicons-angular';
 import { ProjectPhaseResource } from 'core-app/features/hal/resources/project-phase-resource';
 import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 
 @Component({
   templateUrl: './project-phase-autocompleter.component.html',
@@ -57,6 +58,6 @@ export class ProjectPhaseAutocompleterComponent extends CreateAutocompleterCompo
   }
 
   public iconClasses(projectPhase:ProjectPhaseResource) {
-    return `__hl_inline_project_phase_definition_${projectPhase.definition.id} mr-1`;
+    return `${Highlighting.foregroundClass('project_phase_definition', projectPhase.definition.id!)} mr-1`;
   }
 }

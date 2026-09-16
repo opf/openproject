@@ -35,6 +35,7 @@ describe('Reporting PageController serialization', () => {
   let privateController:{
     syncFilterValues:(formData:FormData, field:string) => void;
     syncActiveFilters:(formData:FormData) => void;
+    compactFilters:(formData:FormData) => string[];
   };
   let fixturesElement:HTMLElement;
 
@@ -43,6 +44,7 @@ describe('Reporting PageController serialization', () => {
     privateController = controller as unknown as {
       syncFilterValues:(formData:FormData, field:string) => void;
       syncActiveFilters:(formData:FormData) => void;
+      compactFilters:(formData:FormData) => string[];
     };
     fixturesElement = document.createElement('div');
     document.body.appendChild(fixturesElement);
@@ -54,6 +56,15 @@ describe('Reporting PageController serialization', () => {
 
   function formDataValues(formData:FormData, key:string) {
     return formData.getAll(key).map(String);
+  }
+
+  function subjectFilterData(...values:string[]) {
+    const formData = new FormData();
+    formData.append('fields[]', 'subject');
+    formData.append('operators[subject]', '~');
+    values.forEach((value) => formData.append('values[subject][]', value));
+
+    return formData;
   }
 
   it('serializes non-empty materialized inputs directly', () => {
@@ -176,5 +187,22 @@ describe('Reporting PageController serialization', () => {
     } as unknown as MouseEvent);
 
     expect(removedFilters).toEqual(['subject']);
+  });
+
+  it('escapes quotes and backslashes in a single filter value', () => {
+    expect(privateController.compactFilters(subjectFilterData('say "hi"')))
+      .toEqual(['subject ~ "say \\"hi\\""']);
+    expect(privateController.compactFilters(subjectFilterData('C:\\some\\path')))
+      .toEqual(['subject ~ "C:\\\\some\\\\path"']);
+  });
+
+  it('escapes a value ending on a backslash so it does not swallow what follows', () => {
+    expect(privateController.compactFilters(subjectFilterData('trailing\\')))
+      .toEqual(['subject ~ "trailing\\\\"']);
+  });
+
+  it('escapes quotes and backslashes in each value of a list', () => {
+    expect(privateController.compactFilters(subjectFilterData('a"b', 'c\\')))
+      .toEqual(['subject ~ ["a\\"b","c\\\\"]']);
   });
 });

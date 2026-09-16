@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe Projects::Types::Switch::Impact, with_flag: { type_variants: true } do
+RSpec.describe Projects::Types::Switch::Impact do
   subject(:impact) { described_class.new(project:, source:, target:) }
 
   shared_let(:story_points) { create(:integer_wp_custom_field, name: "Story points") }

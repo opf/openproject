@@ -29,7 +29,7 @@
 #++
 require "rails_helper"
 
-RSpec.describe WorkPackageTypes::ReuseMode::DependentsBoxComponent, type: :component, with_flag: { type_variants: true } do
+RSpec.describe WorkPackageTypes::ReuseMode::DependentsBoxComponent, type: :component do
   include Rails.application.routes.url_helpers
 
   shared_let(:type) { create(:type, name: "Task") }
