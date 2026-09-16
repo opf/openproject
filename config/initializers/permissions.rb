@@ -468,6 +468,14 @@ Rails.application.reloader.to_prepare do
                      permissible_on: %i[work_package project],
                      dependencies: :view_work_packages
 
+      wpt.permission :import_work_packages,
+                     {
+                       "work_packages/imports": %i[show create template]
+                     },
+                     permissible_on: :project,
+                     require: :member,
+                     dependencies: :add_work_packages
+
       wpt.permission :delete_work_packages,
                      {
                        work_packages: :destroy,
