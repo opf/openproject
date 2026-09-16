@@ -7480,7 +7480,13 @@ en:
           unknown: "is not a column this page knows."
           unknown_with_suggestion: "is not a column this page knows. Did you mean %{suggestion}?"
         row:
+          fractional_percentage: "must be a whole number of percent, for example 50."
+          invalid_date: "must be a date written as YYYY-MM-DD."
+          invalid_timestamp: "must be a date and time written as YYYY-MM-DDTHH:MM:SSZ."
           too_many_cells: "has %{count} cells but the header has %{expected}. A value containing the separator has to be quoted."
+          unknown: "does not exist. Available: %{available}."
+          unknown_in_project: "does not exist in this project. Available: %{available}."
+          unknown_user: "does not match an active user. Use the email address the user signs in with."
     move:
       bulk_current_type_not_available_in_target_project: >
         The types of the work packages or their descendants aren't enabled in the target project.
