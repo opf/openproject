@@ -65,7 +65,10 @@ class Role < ApplicationRecord
     end
   end
 
-  has_many :workflows, class_name: "Workflows::StatusTransition", dependent: :delete_all do
+  has_many :workflow_status_transitions,
+           class_name: "Workflows::StatusTransition",
+           inverse_of: :role,
+           dependent: :delete_all do
     def copy_from_role(source_role)
       Workflows::StatusTransition.copy(nil, source_role, nil, proxy_association.owner)
     end

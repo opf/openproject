@@ -29,8 +29,8 @@
 #++
 
 class Workflows::StatusTransition < ApplicationRecord
-  belongs_to :role
-  belongs_to :old_status, class_name: "Status", inverse_of: :workflows
+  belongs_to :role, inverse_of: :workflow_status_transitions
+  belongs_to :old_status, class_name: "Status", inverse_of: :workflow_status_transitions
   belongs_to :new_status, class_name: "Status"
   belongs_to :workflow, inverse_of: :status_transitions
 

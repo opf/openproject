@@ -35,7 +35,7 @@ class Status < ApplicationRecord
 
   default_scope { order_by_position }
   before_destroy :check_integrity
-  has_many :workflows,
+  has_many :workflow_status_transitions,
            class_name: "Workflows::StatusTransition",
            foreign_key: "old_status_id",
            inverse_of: :old_status,
