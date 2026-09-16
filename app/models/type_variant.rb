@@ -64,8 +64,6 @@ class TypeVariant < ApplicationRecord
 
   belongs_to :workflow, autosave: true, inverse_of: :type_variants
 
-  after_destroy :discard_unreferenced_workflow
-
   # Which project custom fields we define ourselves
   has_many :own_project_custom_field_type_mappings,
            class_name: "ProjectCustomFieldTypeMapping",
@@ -213,13 +211,6 @@ class TypeVariant < ApplicationRecord
   end
 
   private
-
-  def discard_unreferenced_workflow
-    return if workflow_id.nil?
-    return if self.class.exists?(workflow_id:)
-
-    Workflow.destroy_by(id: workflow_id)
-  end
 
   def base_variant_has_no_name
     return if is_default_variant? == variant_name.nil?
