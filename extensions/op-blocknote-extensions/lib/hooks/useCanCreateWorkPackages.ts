@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import { canCreateWorkPackages, fetchCreateWorkPackagePermission } from '../services/openProjectApi';
+import { canCreateWorkPackages, whenCreateWorkPackagePermissionKnown } from '../services/openProjectApi';
 
 export function useCanCreateWorkPackages():boolean {
   const [allowed, setAllowed] = useState(canCreateWorkPackages);
 
   useEffect(() => {
     let active = true;
-    void fetchCreateWorkPackagePermission().then((permitted) => {
+    void whenCreateWorkPackagePermissionKnown().then((permitted) => {
       if (active) setAllowed(permitted);
     });
     return () => { active = false; };

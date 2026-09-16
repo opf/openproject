@@ -4,7 +4,7 @@ import { page } from 'vitest/browser';
 import { worker } from '../../../mocks/browser';
 import { renderEditor } from '../../../helpers/renderEditor';
 import { openEditorAndType, typeAndSelect } from '../../../helpers/editorHelpers';
-import { refreshCreateWorkPackagePermission } from '../../../../lib/services/openProjectApi';
+import { probeCreateWorkPackagePermission } from '../../../../lib/services/openProjectApi';
 
 async function withoutCreatePermission() {
   worker.use(
@@ -12,7 +12,7 @@ async function withoutCreatePermission() {
       HttpResponse.json({ message: 'You are not authorized to access this resource.' }, { status: 403 })
     )
   );
-  await refreshCreateWorkPackagePermission();
+  await probeCreateWorkPackagePermission();
 }
 
 async function openSlashMenu() {
@@ -23,7 +23,7 @@ async function openSlashMenu() {
 describe('Create work package entry points', () => {
   afterEach(async () => {
     worker.resetHandlers();
-    await refreshCreateWorkPackagePermission();
+    await probeCreateWorkPackagePermission();
   });
 
   it('keeps the create command out of the slash menu without the permission', async () => {

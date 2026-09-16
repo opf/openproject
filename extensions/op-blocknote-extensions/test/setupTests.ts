@@ -4,7 +4,7 @@ import { initializeOpBlockNoteExtensions } from '../lib';
 import { clearWorkPackageCache } from '../lib/hooks/useWorkPackage';
 import { forgetLastSelection } from '../lib/components/CreateWorkPackage/lastSelection';
 import { clearPickerCache } from '../lib/components/CreateWorkPackage/usePickerOptions';
-import { fetchCreateWorkPackagePermission } from '../lib/services/openProjectApi';
+import { whenCreateWorkPackagePermissionKnown } from '../lib/services/openProjectApi';
 
 beforeEach(() => {
   clearWorkPackageCache();
@@ -15,7 +15,7 @@ beforeEach(() => {
 beforeAll(async () => {
   await worker.start({ onUnhandledRequest: 'bypass' });
   initializeOpBlockNoteExtensions({ baseUrl: 'http://localhost:3000', locale: 'en' });
-  await fetchCreateWorkPackagePermission();
+  await whenCreateWorkPackagePermissionKnown();
 });
 
 afterAll(() => {

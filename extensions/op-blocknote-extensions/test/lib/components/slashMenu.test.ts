@@ -2,7 +2,7 @@
 
 import { describe, it, expect, beforeEach, afterAll, vi } from 'vitest';
 import { getOpenProjectSlashMenuItems } from '../../../lib/components/SlashMenu';
-import { refreshCreateWorkPackagePermission } from '../../../lib/services/openProjectApi';
+import { probeCreateWorkPackagePermission } from '../../../lib/services/openProjectApi';
 import i18n from '../../../lib/services/i18n';
 
 const setLang = async (lang:string) => i18n.changeLanguage(lang);
@@ -14,7 +14,7 @@ function answerPermissionProbeWith(status:number):Promise<boolean> {
     statusText: 'stubbed',
     json: () => Promise.resolve({}),
   }));
-  return refreshCreateWorkPackagePermission();
+  return probeCreateWorkPackagePermission();
 }
 
 describe('getOpenProjectSlashMenuItems', () => {

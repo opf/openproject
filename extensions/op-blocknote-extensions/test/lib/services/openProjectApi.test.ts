@@ -7,7 +7,7 @@ import {
   fetchTypes,
   fetchWorkPackage,
   fetchWorkPackageCreateForm,
-  fetchCreateWorkPackagePermission,
+  probeCreateWorkPackagePermission,
   initOpenProjectApi,
   linkToNewWorkPackage,
   linkToWorkPackage,
@@ -209,49 +209,49 @@ describe('openProjectApi', () => {
   });
 
   describe('the permission to create work packages', () => {
-    function answerWith(status:number):() => Promise<Response> {
-      return () => Promise.resolve(mockResponse({ ok: status < 400, status, statusText: 'stubbed' }));
+    let fetchSpy:ReturnType<typeof vi.spyOn>;
+
+    function answerProbeWith(status:number):Promise<boolean> {
+      fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue(mockResponse({
+        ok: status < 400,
+        status,
+        statusText: 'stubbed',
+        json: async () => ({}),
+      }));
+      initOpenProjectApi({ baseUrl: 'https://example.com' });
+      return probeCreateWorkPackagePermission();
     }
 
-    it('lets a probe left over from another instance answer for that one only', async () => {
-      let releaseFirstProbe!:() => void;
-      const firstProbe = new Promise<void>((resolve) => { releaseFirstProbe = resolve; });
+    afterEach(() => fetchSpy.mockRestore());
 
-      const fetchSpy = vi.spyOn(global, 'fetch')
-        .mockImplementationOnce(async () => { await firstProbe; return mockResponse({ ok: true, status: 200 }); })
-        .mockImplementation(answerWith(403));
+    it('is granted when the probe is answered', async () => {
+      await answerProbeWith(200);
 
-      try {
-        initOpenProjectApi({ baseUrl: 'https://permitted.example.com' });
-        const abandoned = fetchCreateWorkPackagePermission();
-
-        initOpenProjectApi({ baseUrl: 'https://forbidden.example.com' });
-        await fetchCreateWorkPackagePermission();
-        expect(canCreateWorkPackages()).toBe(false);
-
-        releaseFirstProbe();
-        await abandoned;
-
-        expect(canCreateWorkPackages()).toBe(false);
-      } finally {
-        fetchSpy.mockRestore();
-      }
+      expect(canCreateWorkPackages()).toBe(true);
+      expect(calledUrl(fetchSpy.mock.calls))
+        .toBe('https://example.com/api/v3/work_packages/available_projects?pageSize=1');
     });
 
-    it('keeps the answer when the same instance is initialized again', async () => {
-      const fetchSpy = vi.spyOn(global, 'fetch').mockImplementation(answerWith(200));
+    it('is refused when the probe is forbidden', async () => {
+      await answerProbeWith(403);
 
-      try {
-        initOpenProjectApi({ baseUrl: 'https://example.com' });
-        await fetchCreateWorkPackagePermission();
+      expect(canCreateWorkPackages()).toBe(false);
+    });
 
-        initOpenProjectApi({ baseUrl: 'https://example.com' });
+    it('is left to the create form to refuse when the instance is in trouble', async () => {
+      await answerProbeWith(500);
 
-        expect(canCreateWorkPackages()).toBe(true);
-        expect(fetchSpy).toHaveBeenCalledTimes(1);
-      } finally {
-        fetchSpy.mockRestore();
-      }
+      expect(canCreateWorkPackages()).toBe(true);
+    });
+
+    it('is answered afresh by every probe', async () => {
+      await answerProbeWith(403);
+      expect(canCreateWorkPackages()).toBe(false);
+      fetchSpy.mockRestore();
+
+      await answerProbeWith(200);
+
+      expect(canCreateWorkPackages()).toBe(true);
     });
   });
 
