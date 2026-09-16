@@ -110,6 +110,20 @@ class ExtractNamedWorkflows < ActiveRecord::Migration[8.1]
 
     add_column :workflows_status_transitions, :workflow_id, :bigint
 
+    # Linking a variant left the transitions it had before as unused rows in the table.
+    say_with_time "Drop transitions of variants that borrow their workflow" do
+      execute <<~SQL.squish
+        DELETE FROM workflows_status_transitions st
+        USING type_variants v
+        WHERE v.id = st.type_variant_id
+          AND v.workflows_source_id IS NOT NULL
+          AND EXISTS (SELECT 1
+                      FROM type_variants owner
+                      WHERE owner.workflow_id = v.workflow_id
+                        AND owner.workflows_source_id IS NULL)
+      SQL
+    end
+
     execute <<~SQL.squish
       UPDATE workflows_status_transitions st
       SET workflow_id = v.workflow_id
