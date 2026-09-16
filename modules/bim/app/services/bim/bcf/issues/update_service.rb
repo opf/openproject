@@ -36,7 +36,7 @@ module Bim::Bcf
           .new(model: model.work_package,
                user:,
                contract_class: ::WorkPackages::UpdateContract)
-          .call(**params)
+          .call(**params.except(*Bim::Bcf::Issue::SETTABLE_ATTRIBUTES))
 
         if wp_call.success?
           self.params = params.slice(*Bim::Bcf::Issue::SETTABLE_ATTRIBUTES)

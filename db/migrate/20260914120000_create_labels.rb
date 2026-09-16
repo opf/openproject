@@ -28,26 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-Rails.application.reloader.to_prepare do
-  Principals::ReplaceReferencesService.add_replacements(
-    {
-      "AuthProvider" => :creator_id,
-      "Attachment" => :author_id,
-      "Budget" => :author_id,
-      "Changeset" => :user_id,
-      "Comment" => :author_id,
-      "CostEntry" => %i[logged_by_id user_id],
-      "PersistedQuery" => :principal_id,
-      "PersistedView" => :principal_id,
-      "::Doorkeeper::Application" => :owner_id,
-      "Label" => :author_id,
-      "Message" => :author_id,
-      "News" => :author_id,
-      "::Notification" => :actor_id,
-      "::Query" => :user_id,
-      "TimeEntry" => %i[logged_by_id user_id],
-      "WikiPage" => :author_id,
-      "WorkPackage" => %i[author_id assigned_to_id responsible_id]
-    }
-  )
+class CreateLabels < ActiveRecord::Migration[8.1]
+  def change
+    create_table :labels do |t|
+      t.string :name, null: false
+      t.references :author, null: false, foreign_key: { to_table: :users }
+      t.timestamps
+    end
+    add_index :labels, "LOWER(name)", unique: true, name: "index_labels_on_LOWER_name"
+
+    create_table :labelings do |t|
+      t.references :label, null: false, foreign_key: { on_delete: :cascade }, index: false
+      t.references :labelable, polymorphic: true, null: false, index: false
+      t.timestamps
+    end
+    add_index :labelings, %i[labelable_type labelable_id label_id],
+              unique: true,
+              name: "index_labelings_on_labelable_and_label"
+    add_index :labelings, :label_id
+  end
 end

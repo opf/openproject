@@ -28,26 +28,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-Rails.application.reloader.to_prepare do
-  Principals::ReplaceReferencesService.add_replacements(
-    {
-      "AuthProvider" => :creator_id,
-      "Attachment" => :author_id,
-      "Budget" => :author_id,
-      "Changeset" => :user_id,
-      "Comment" => :author_id,
-      "CostEntry" => %i[logged_by_id user_id],
-      "PersistedQuery" => :principal_id,
-      "PersistedView" => :principal_id,
-      "::Doorkeeper::Application" => :owner_id,
-      "Label" => :author_id,
-      "Message" => :author_id,
-      "News" => :author_id,
-      "::Notification" => :actor_id,
-      "::Query" => :user_id,
-      "TimeEntry" => %i[logged_by_id user_id],
-      "WikiPage" => :author_id,
-      "WorkPackage" => %i[author_id assigned_to_id responsible_id]
-    }
-  )
+class Label < ApplicationRecord
+  belongs_to :author, class_name: "User"
+  has_many :labelings, dependent: :delete_all
+
+  scope :with_usage_count, -> {
+    left_joins(:labelings)
+      .select("labels.*, COUNT(labelings.id) AS usage_count")
+      .group(:id)
+  }
+
+  validates :name,
+            presence: true,
+            uniqueness: { case_sensitive: false },
+            length: { maximum: 255 }
 end

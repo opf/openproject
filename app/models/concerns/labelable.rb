@@ -28,26 +28,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-Rails.application.reloader.to_prepare do
-  Principals::ReplaceReferencesService.add_replacements(
-    {
-      "AuthProvider" => :creator_id,
-      "Attachment" => :author_id,
-      "Budget" => :author_id,
-      "Changeset" => :user_id,
-      "Comment" => :author_id,
-      "CostEntry" => %i[logged_by_id user_id],
-      "PersistedQuery" => :principal_id,
-      "PersistedView" => :principal_id,
-      "::Doorkeeper::Application" => :owner_id,
-      "Label" => :author_id,
-      "Message" => :author_id,
-      "News" => :author_id,
-      "::Notification" => :actor_id,
-      "::Query" => :user_id,
-      "TimeEntry" => %i[logged_by_id user_id],
-      "WikiPage" => :author_id,
-      "WorkPackage" => %i[author_id assigned_to_id responsible_id]
-    }
-  )
+module Labelable
+  extend ActiveSupport::Concern
+
+  included do
+    has_many :labelings, as: :labelable, dependent: :delete_all
+    has_many :labels, -> { order(:id) }, through: :labelings
+
+    scope :labeled_with, ->(label) { joins(:labelings).where(labelings: { label_id: label }) }
+  end
 end
