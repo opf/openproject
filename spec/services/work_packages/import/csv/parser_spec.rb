@@ -176,6 +176,15 @@ RSpec.describe WorkPackages::Import::CSV::Parser do
   end
 
   describe "a cell containing a newline" do
+    it "reads a header row containing one, rather than raising on it" do
+      with_csv(%{"Sub\nject",Type\nA,Task\n}) do |path|
+        result = described_class.call(path)
+
+        expect(result).to be_failure
+        expect(result.result.map(&:header)).to eq(["Sub\nject"])
+      end
+    end
+
     it "keeps the newline in the value" do
       rows = described_class.call(fixture("quoted_newline.csv")).result
 

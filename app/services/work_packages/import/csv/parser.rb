@@ -70,12 +70,15 @@ module WorkPackages
 
         def header_map = @header_map ||= HeaderMap.new
 
-        def headers = @headers ||= ::CSV.parse_line(header_line, col_sep: separator) || []
+        def headers = header_row(separator)
 
-        def header_line = @header_line ||= File.open(path, "r:bom|utf-8", &:gets).to_s
+        def header_row(candidate)
+          @header_rows ||= {}
+          @header_rows[candidate] ||= ::CSV.foreach(path, encoding: "bom|utf-8", col_sep: candidate).first.to_a
+        end
 
         def resolvable_headers(candidate)
-          ::CSV.parse_line(header_line, col_sep: candidate).to_a.count { |header| header_map.resolve(header) }
+          header_row(candidate).count { |header| header_map.resolve(header) }
         rescue ::CSV::MalformedCSVError
           0
         end
@@ -83,7 +86,7 @@ module WorkPackages
         def header_result = @header_result ||= header_map.call(headers)
 
         def header_problems
-          return [file_problem(:empty)] if header_line.blank?
+          return [file_problem(:empty)] if headers.empty?
 
           (header_result.success? ? [] : header_result.result) + setting_problems
         end
