@@ -73,18 +73,27 @@ module Import
 
     # rubocop:disable-next Metrics/AbcSize
     def each_iteration(jira_issue, _jira_import_id, _jira_project_id)
+      jira_issue_key = jira_issue.payload["key"]
+      Rails.logger.tagged("jira_import_id:#{_jira_import_id}", "jira_project_id:#{_jira_project_id}",
+                          "jira_issue_key:#{jira_issue_key}") do
       Journal::NotificationConfiguration.with(false) do
         Journal::EventConfiguration.with(false) do
-          work_package = JiraOpenProjectReference.find_by!(
-            jira_entity_id: jira_issue.id,
-            jira_entity_class: jira_issue.class.to_s
-          ).op_leg
-          attachments = jira_issue.payload.dig("fields", "attachment") || []
-          attachments.each do |attachment|
-            key = attachment.dig("author", "key")
-            author = find_user(key)
-            create_member(@project, author) if author.present?
-            create_attachment(work_package, attachment, author || User.system)
+            Rails.logger.debug "Creating work package attachment"
+            work_package = JiraOpenProjectReference.find_by!(
+              jira_entity_id: jira_issue.id,
+              jira_entity_class: jira_issue.class.to_s
+            ).op_leg
+            attachments = jira_issue.payload.dig("fields", "attachment") || []
+            attachments.each do |attachment|
+              Rails.logger.tagged("attachment_filename:#{attachment['filename']}") do
+                key = attachment.dig("author", "key")
+                Rails.logger.tagged("author:#{key}") do
+                  author = find_user(key)
+                  create_member(@project, author) if author.present?
+                  create_attachment(work_package, attachment, author || User.system)
+                end
+              end
+            end
           end
         end
       end
@@ -151,10 +160,14 @@ module Import
         if ref.present?
           ref.op_leg
         else
-          raise "Reference was expected to be found, but it was not. JiraUser: #{jira_user.inspect}"
+          log_message = "Reference was expected to be found, but it was not. JiraUser: #{jira_user.inspect}"
+          Rails.logger.error log_message
+          raise log_message
         end
       else
-        raise "Import::JiraUser with jira_user_key #{jira_user_key} not found!"
+        log_message = "Import::JiraUser with jira_user_key #{jira_user_key} not found!"
+        Rails.logger.error log_message
+        raise log_message
       end
     end
   end
