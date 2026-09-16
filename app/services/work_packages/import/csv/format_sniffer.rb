@@ -34,8 +34,9 @@ module WorkPackages
       # The browser-supplied content type is never consulted. Browsers report a .csv as
       # text/csv, application/vnd.ms-excel or text/plain.
       class FormatSniffer
-        # A CSV of plain ASCII is reported as us-ascii rather than utf-8, and is valid utf-8
-        ACCEPTED_CHARSETS = %w[utf-8 us-ascii].freeze
+        # us-ascii is how plain ASCII is reported, and is valid UTF-8. The UTF-16 pair is
+        # accepted because a BOM identifies them
+        ACCEPTED_CHARSETS = %w[utf-8 us-ascii utf-16le utf-16be].freeze
 
         # @param file [String, Pathname, #path] the uploaded file, or its path
         # @return [ServiceResult] failure carries :unknown in +result+

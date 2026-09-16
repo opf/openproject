@@ -89,6 +89,19 @@ RSpec.describe WorkPackages::Import::CSV::Parser do
     end
   end
 
+  describe "a UTF-16 file" do
+    it "reads little endian, transcoded by the byte order mark" do
+      values = described_class.call(fixture("utf16le.csv")).result.first.values
+
+      expect(values[:subject]).to eq("Set up the build")
+      expect(values[:subject].encoding).to eq(Encoding::UTF_8)
+    end
+
+    it "reads big endian" do
+      expect(described_class.call(fixture("utf16be.csv")).result.first.values[:type]).to eq("Task")
+    end
+  end
+
   describe "line endings" do
     it "reads CRLF, which is what Windows and Excel write" do
       with_csv("Subject,Type\r\nA,Task\r\n") do |path|

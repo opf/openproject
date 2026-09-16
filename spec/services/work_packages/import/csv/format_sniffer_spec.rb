@@ -73,6 +73,17 @@ RSpec.describe WorkPackages::Import::CSV::FormatSniffer do
       end
     end
 
+    it "accepts a UTF-16 export, as Excel on macOS writes it" do
+      expect(described_class.call(fixture("utf16le.csv"))).to be_success
+      expect(described_class.call(fixture("utf16be.csv"))).to be_success
+    end
+
+    it "refuses UTF-16 without a byte order mark, which nothing can identify" do
+      with_file("Subject\nBuild it\n".encode(Encoding::UTF_16LE).b) do |file|
+        expect(described_class.call(file).result).to eq(:unknown)
+      end
+    end
+
     it "accepts a text file that is not a CSV, which is the parser's job to reject" do
       with_file("just some prose, no columns at all\n") do |file|
         expect(described_class.call(file)).to be_success
@@ -97,17 +108,6 @@ RSpec.describe WorkPackages::Import::CSV::FormatSniffer do
   end
 
   describe "a CSV in the wrong encoding" do
-    it "names UTF-16, as Excel on macOS writes it" do
-      result = described_class.call(fixture("utf16le.csv"))
-
-      expect(result).to be_failure
-      expect(result.message).to include("UTF-16LE")
-    end
-
-    it "names UTF-16 big endian" do
-      expect(described_class.call(fixture("utf16be.csv")).message).to include("UTF-16BE")
-    end
-
     it "names ISO-8859-1" do
       with_file("Subject\nStra\xDFe\n".b) do |file|
         expect(described_class.call(file).message).to include("ISO-8859-1")
@@ -115,7 +115,9 @@ RSpec.describe WorkPackages::Import::CSV::FormatSniffer do
     end
 
     it "reports the same verdict as any other unreadable file" do
-      expect(described_class.call(fixture("utf16le.csv")).result).to eq(:unknown)
+      with_file("Subject\nStra\xDFe\n".b) do |file|
+        expect(described_class.call(file).result).to eq(:unknown)
+      end
     end
   end
 
