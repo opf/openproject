@@ -31,7 +31,6 @@
 # Reconstructs how a sprint's work package set moved over its lifetime, using
 # WorkPackage.at_timestamp (see Journable::Timestamps) to read historic
 # sprint_id/status_id/story_points values from work_package_journals.
-# The references are the actual start and completion timestamps of the sprint.
 class SprintWorkPackageBreakdown
   Block = Data.define(:work_package_count, :story_points)
   ChangeBlock = Data.define(:added_count, :removed_count, :added_story_points, :removed_story_points)

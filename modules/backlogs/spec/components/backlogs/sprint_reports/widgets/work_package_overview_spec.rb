@@ -159,7 +159,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
       current_user { create(:user, member_with_roles: { project => role }) }
 
       it "counts the work package in the progress bar" do
-        expect(rendered_component).to have_text("0 of 1 work packages")
+        expect(rendered_component).to have_text("0 of 1 work package")
       end
 
       it "counts the work package in the initially planned and unfinished boxes" do
