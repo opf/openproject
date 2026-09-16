@@ -129,7 +129,6 @@ describe('ProjectTimelineGraphComponent', () => {
   };
 
   let fixture:ComponentFixture<ProjectTimelineGraphComponent>;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let component:ProjectTimelineGraphComponent;
 
   let buildData:(phases:unknown[], milestones:unknown[], sprints:unknown[]) => { items:ProjectTimelineItem[]; groups:{ id:string; content:string }[] };
@@ -643,6 +642,38 @@ describe('ProjectTimelineGraphComponent', () => {
       const text = (fixture.nativeElement as HTMLElement).querySelector('ul.sr-only')?.textContent;
       expect(text).toContain('Milestone Launch: 2024-06-30');
       expect(text).toContain('Sprint Sprint 1: 2024-01-01 to 2024-01-14. Status: Active');
+    });
+
+    it('makes linked visual items keyboard accessible', async () => {
+      fixture.componentRef.setInput('milestonesData', JSON.stringify([milestone]));
+      fixture.componentRef.setInput('sprintsData', JSON.stringify([sprint]));
+      fixture.detectChanges();
+
+      const element = fixture.nativeElement as HTMLElement;
+      await vi.waitUntil(() => {
+        fixture.detectChanges();
+        return element.querySelectorAll('.vis-item[tabindex="0"]').length === 2;
+      });
+
+      const milestoneItem = element.querySelector<HTMLElement>('.vis-point.op-timeline-milestone')!;
+      const sprintItem = element.querySelector<HTMLElement>('.vis-range.op-timeline-sprint')!;
+      expect(milestoneItem.tabIndex).toBe(0);
+      expect(milestoneItem.role).toBe('link');
+      expect(milestoneItem.ariaLabel).toBeNull();
+      expect(sprintItem.tabIndex).toBe(0);
+      expect(sprintItem.role).toBe('link');
+      expect(sprintItem.ariaLabel).toBeNull();
+
+      milestoneItem.focus();
+      expect(document.activeElement).toBe(milestoneItem);
+      expect(getComputedStyle(milestoneItem).outlineStyle).not.toBe('none');
+
+      const navigate = vi.spyOn(
+        component as unknown as { openItem:(id:string | null) => void },
+        'openItem',
+      ).mockImplementation(() => undefined);
+      milestoneItem.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true }));
+      expect(navigate).toHaveBeenCalledWith('milestone-10');
     });
 
     it('hides the loading skeleton once the initial draw completes', async () => {
