@@ -528,7 +528,19 @@ RSpec.describe API::V3::Utilities::PathHelper do
   end
 
   describe "wiki pages paths" do
-    it_behaves_like "show", :wiki_page
+    it_behaves_like "resource", :wiki_page, except: [:schema]
+
+    describe "#wiki_page_activities" do
+      subject { helper.wiki_page_activities 42 }
+
+      it_behaves_like "api v3 path", "/wiki_pages/42/activities"
+    end
+
+    describe "#wiki_pages_by_project" do
+      subject { helper.wiki_pages_by_project 42 }
+
+      it_behaves_like "api v3 path", "/projects/42/wiki_pages"
+    end
   end
 
   describe "work packages paths" do

@@ -31,19 +31,68 @@ module API
     module WikiPages
       class WikiPagesAPI < ::API::OpenProjectAPI
         resources :wiki_pages do
+          get &::API::V3::Utilities::Endpoints::Index.new(
+            model: WikiPage,
+            scope: -> { WikiPage.visible(current_user) }
+          ).mount
+
+          post &::API::V3::Utilities::Endpoints::Create.new(model: WikiPage).mount
+
+          mount ::API::V3::WikiPages::Schemas::WikiPageSchemaAPI
+          mount ::API::V3::WikiPages::CreateFormAPI
+
           helpers do
             def wiki_page
               WikiPage.visible(current_user).find(params[:id])
             end
+
+            def delete_todo
+              params[:todo].presence || env.dig("api.request.body", "todo")
+            end
+
+            def delete_reassign_to_id
+              return params[:reassign_to_id] if params[:reassign_to_id].present?
+
+              href = env.dig("api.request.body", "_links", "reassignTo", "href") ||
+                     env.dig("api.request.body", "reassignTo", "href")
+              return if href.blank?
+
+              ::API::Utilities::ResourceLinkParser.parse_id(
+                href,
+                property: :reassignTo,
+                expected_version: "3",
+                expected_namespace: "wiki_pages"
+              )
+            end
           end
 
           route_param :id, type: Integer, desc: "Wiki page ID" do
-            get do
-              ::API::V3::WikiPages::WikiPageRepresenter.new(wiki_page,
-                                                            current_user:,
-                                                            embed_links: true)
+            after_validation do
+              @wiki_page = wiki_page
             end
 
+            get &::API::V3::Utilities::Endpoints::Show.new(model: WikiPage).mount
+
+            patch &::API::V3::Utilities::Endpoints::Update.new(model: WikiPage).mount
+
+            params do
+              optional :todo, type: String, values: %w[nullify destroy reassign]
+              optional :reassign_to_id, type: Integer
+            end
+            delete do
+              call = ::WikiPages::DeleteService
+                .new(user: current_user, model: @wiki_page)
+                .call(todo: delete_todo, reassign_to_id: delete_reassign_to_id)
+
+              if call.success?
+                status :no_content
+              else
+                fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
+              end
+            end
+
+            mount ::API::V3::WikiPages::UpdateFormAPI
+            mount ::API::V3::WikiPages::ActivitiesByWikiPageAPI
             mount ::API::V3::Attachments::AttachmentsByWikiPageAPI
           end
         end
