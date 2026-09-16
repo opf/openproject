@@ -30,7 +30,12 @@
 
 class Label < ApplicationRecord
   has_many :labelings, dependent: :delete_all
-  has_many :work_packages, through: :labelings, source: :labelable, source_type: "WorkPackage"
+
+  scope :with_usage_count, -> {
+    left_joins(:labelings)
+      .select("labels.*, COUNT(labelings.id) AS usage_count")
+      .group(:id)
+  }
 
   validates :name,
             presence: true,

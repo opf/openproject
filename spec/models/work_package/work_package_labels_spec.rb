@@ -59,4 +59,15 @@ RSpec.describe WorkPackage, "labels" do
 
     expect(work_package.reload.labels).to eq([higher_label])
   end
+
+  describe ".labeled_with" do
+    it "returns only the work packages carrying the label" do
+      other = create(:work_package)
+      other.labels << lower_label
+      create(:work_package)
+
+      expect(described_class.labeled_with(lower_label)).to contain_exactly(work_package, other)
+      expect(described_class.labeled_with(higher_label)).to contain_exactly(work_package)
+    end
+  end
 end

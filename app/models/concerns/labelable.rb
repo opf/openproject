@@ -34,5 +34,7 @@ module Labelable
   included do
     has_many :labelings, as: :labelable, dependent: :delete_all
     has_many :labels, -> { order(:id) }, through: :labelings
+
+    scope :labeled_with, ->(label) { joins(:labelings).where(labelings: { label_id: label }) }
   end
 end

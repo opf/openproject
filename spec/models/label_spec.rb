@@ -46,6 +46,18 @@ RSpec.describe Label do
     end
   end
 
+  describe ".with_usage_count" do
+    it "counts the labelings of each label, including unused ones" do
+      used = create(:label)
+      unused = create(:label)
+      create_list(:labeling, 2, label: used)
+
+      counts = described_class.with_usage_count.index_by(&:id).transform_values(&:usage_count)
+
+      expect(counts).to eq(used.id => 2, unused.id => 0)
+    end
+  end
+
   describe "#destroy" do
     it "removes its labelings" do
       label = create(:label)
@@ -54,17 +66,6 @@ RSpec.describe Label do
       label.destroy!
 
       expect(Labeling.where(id: labeling.id)).not_to exist
-    end
-  end
-
-  describe "#work_packages" do
-    it "returns the labeled work packages" do
-      label = create(:label)
-      labeled = create_list(:work_package, 2)
-      labeled.each { create(:labeling, label:, labelable: it) }
-      create(:work_package)
-
-      expect(label.work_packages).to match_array(labeled)
     end
   end
 end
