@@ -31,5 +31,6 @@
 FactoryBot.define do
   factory :label do
     sequence(:name) { "Label #{it}" }
+    author factory: :user
   end
 end

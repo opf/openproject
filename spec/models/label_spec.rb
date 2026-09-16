@@ -37,11 +37,13 @@ RSpec.describe Label do
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_length_of(:name).is_at_most(255) }
     it { is_expected.to validate_uniqueness_of(:name).case_insensitive }
+    it { is_expected.to belong_to(:author).class_name("User") }
 
     it "is backed by a case-insensitive unique index" do
-      create(:label, name: "hello")
+      existing = create(:label, name: "hello")
+      duplicate = { name: "HELLO", author_id: existing.author_id, created_at: Time.current, updated_at: Time.current }
 
-      expect { described_class.insert_all!([{ name: "HELLO", created_at: Time.current, updated_at: Time.current }]) }
+      expect { described_class.insert_all!([duplicate]) }
         .to raise_error(ActiveRecord::RecordNotUnique)
     end
   end

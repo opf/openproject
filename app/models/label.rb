@@ -29,6 +29,7 @@
 #++
 
 class Label < ApplicationRecord
+  belongs_to :author, class_name: "User"
   has_many :labelings, dependent: :delete_all
 
   scope :with_usage_count, -> {

@@ -32,6 +32,7 @@ class CreateLabels < ActiveRecord::Migration[8.1]
   def change
     create_table :labels do |t|
       t.string :name, null: false
+      t.references :author, null: false, foreign_key: { to_table: :users }
       t.timestamps
     end
     add_index :labels, "LOWER(name)", unique: true, name: "index_labels_on_LOWER_name"
