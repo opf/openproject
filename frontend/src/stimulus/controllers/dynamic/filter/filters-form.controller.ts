@@ -305,33 +305,37 @@ export default class FiltersFormController extends Controller {
     this.sendFormLive();
   }
 
-  // Takes an Element and tries to find the next input or select child element. This should be the filter value.
-  // If found, it will be focused.
   focusFilterValueIfPossible(element:undefined|HTMLElement) {
-    if (!element) return;
+    const filterName = element?.getAttribute('data-filter-name');
+    if (!filterName) return;
 
-    // Try different selectors for various filter styles. The order is important as some selectors match unwanted
-    // hidden fields when used too early in the chain.
-    const selectors = [
-      '.advanced-filters--filter-value ng-select input',
-      '.advanced-filters--filter-value input',
-      '.advanced-filters--filter-value select',
-    ];
+    const operator = this.findTargetByName(filterName, this.operatorTargets);
+    const container = this.findTargetByName(filterName, this.filterValueContainerTargets);
+    const canFocus = (candidate:HTMLElement) => candidate.isConnected
+      && !candidate.matches(':disabled, input[type="hidden"]')
+      && !candidate.closest('[hidden], [inert]')
+      && candidate.checkVisibility({ visibilityProperty: true });
 
-    selectors.some((selector) => {
-      const target = element.querySelector<HTMLElement>(selector);
+    let target:HTMLElement|undefined;
+    if (operator && this.operatorRequiresNoValue(operator)) {
+      target = canFocus(operator) ? operator : undefined;
+    } else if (container) {
+      const controls = 'input, select, textarea, button';
+      const candidates = [
+        ...container.querySelectorAll<HTMLElement>('ng-select input'),
+        ...container.querySelectorAll<HTMLElement>('button[aria-current="true"]'),
+        ...(container.matches(controls) ? [container] : []),
+        ...container.querySelectorAll<HTMLElement>(controls),
+      ];
+      target = candidates.find(canFocus);
+    }
 
-      if (target) {
-        window.setTimeout(() => {
-          target.focus();
-
-          // We have found and focused our element, abort the iteration.
-          return true;
-        }, 250);
-      }
-
-      return false;
-    });
+    if (target) {
+      const destination = target;
+      window.setTimeout(() => {
+        if (canFocus(destination)) destination.focus();
+      }, 250);
+    }
   }
 
   removeFilter({ params: { filterName } }:{ params:{ filterName:string } }) {
