@@ -7478,6 +7478,8 @@ en:
           percent_complete_status_based: "cannot be imported while progress is calculated from the status. An administrator changes this under Administration, Work packages, Progress tracking."
           unknown: "is not a column this page knows."
           unknown_with_suggestion: "is not a column this page knows. Did you mean %{suggestion}?"
+        row:
+          too_many_cells: "has %{count} cells but the header has %{expected}. A value containing the separator has to be quoted."
     move:
       bulk_current_type_not_available_in_target_project: >
         The types of the work packages or their descendants aren't enabled in the target project.

@@ -35,7 +35,7 @@ RSpec.describe WorkPackages::Import::CSV::FormatSniffer do
     Rails.root.join("spec/fixtures/csv_import", name)
   end
 
-  def with_file(bytes, &)
+  def with_file(bytes)
     Tempfile.create(%w[import .csv], binmode: true) do |file|
       file.write(bytes)
       file.flush

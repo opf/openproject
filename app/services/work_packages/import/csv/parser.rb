@@ -35,7 +35,7 @@ module WorkPackages
         # Excel writes ; on a German locale and \t when saving as "Unicode text".
         SEPARATORS = %W[, ; \t].freeze
 
-        Row = Data.define(:number, :values)
+        Row = Data.define(:number, :values, :problems)
 
         def self.call(file) = new(file).call
 
@@ -113,7 +113,7 @@ module WorkPackages
             next if index <= header_index
             next if values.all?(&:blank?)
 
-            rows << Row.new(number: index + 1, values: attributes_for(values))
+            rows << Row.new(number: index + 1, values: attributes_for(values), problems: problems_for(values))
             break if rows.size > max_rows
           end
 
@@ -122,6 +122,16 @@ module WorkPackages
 
         def attributes_for(values)
           mapping.to_h { |attribute, index| [attribute, values[index]] }
+        end
+
+        # Cells past the last header are dropped, which is silent data loss when they
+        # hold anything. The usual cause is a separator inside an unquoted value.
+        def problems_for(values)
+          extra = values.drop(headers.size)
+          return [] if extra.all?(&:blank?)
+
+          [I18n.t("work_packages.import.csv.row.too_many_cells",
+                  count: values.size, expected: headers.size)]
         end
 
         def mapping = header_result.result

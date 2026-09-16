@@ -33,7 +33,7 @@ require "spec_helper"
 RSpec.describe WorkPackages::Import::CSV::Parser do
   def fixture(name) = Rails.root.join("spec/fixtures/csv_import", name)
 
-  def with_csv(content, &)
+  def with_csv(content)
     Tempfile.create(["import", ".csv"], binmode: true) do |file|
       file.write(content)
       file.flush
@@ -117,8 +117,10 @@ RSpec.describe WorkPackages::Import::CSV::Parser do
     end
 
     it "reads a tab" do
-      with_csv("Subject\tType\nBuild it\tTask\n") do |path|
+      with_csv("Subject\tType\tStart date\nBuild it\tTask\t2026-01-05\n") do |path|
         expect(described_class.new(path).separator).to eq("\t")
+        expect(described_class.call(path).result.first.values)
+          .to eq(subject: "Build it", type: "Task", start_date: "2026-01-05")
       end
     end
 
@@ -132,6 +134,52 @@ RSpec.describe WorkPackages::Import::CSV::Parser do
     it "falls back to a comma when there is a single column" do
       with_csv("Subject\nBuild it\n") do |path|
         expect(described_class.new(path).separator).to eq(",")
+      end
+    end
+  end
+
+  describe "a row whose length does not match the header" do
+    it "treats missing trailing cells as not given" do
+      with_csv("Subject,Type,Start date\nA,Task\n") do |path|
+        expect(described_class.call(path).result.first.values)
+          .to eq(subject: "A", type: "Task", start_date: nil)
+      end
+    end
+
+    it "treats an empty cell as not given" do
+      with_csv("Subject,Type\nA,\n") do |path|
+        expect(described_class.call(path).result.first.values).to eq(subject: "A", type: nil)
+      end
+    end
+
+    it "reports cells beyond the last header as a row problem" do
+      with_csv("Subject,Type\nA,Task,extra,more\n") do |path|
+        row = described_class.call(path).result.first
+
+        expect(row.values).to eq(subject: "A", type: "Task")
+        expect(row.problems)
+          .to eq(["has 4 cells but the header has 2. A value containing the separator has to be quoted."])
+      end
+    end
+
+    it "reports an unquoted separator inside a value, rather than losing it silently" do
+      with_csv("Subject,Type\nHello, world,Task\n") do |path|
+        row = described_class.call(path).result.first
+
+        expect(row.values).to eq(subject: "Hello", type: " world")
+        expect(row.problems).to be_present
+      end
+    end
+
+    it "says nothing about a trailing separator, which drops nothing" do
+      with_csv("Subject,Type\nA,Task,\n") do |path|
+        expect(described_class.call(path).result.first.problems).to be_empty
+      end
+    end
+
+    it "says nothing when the row matches the header" do
+      with_csv("Subject,Type\nA,Task\n") do |path|
+        expect(described_class.call(path).result.first.problems).to be_empty
       end
     end
   end
