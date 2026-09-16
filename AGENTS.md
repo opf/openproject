@@ -7,7 +7,7 @@
 **OpenProject** is a web-based, open-source project management software written in Ruby on Rails with PostgreSQL for data persistence.
 
 - **Size**: Large monorepo (~840MB, ~1M+ lines of code)
-- **Backend**: Ruby 3.4.7, Rails ~8.0.3
+- **Backend**: Ruby 4.0.7, Rails ~8.1.3
 - **Frontend**: Node.js 24.x (>= 24.15.0), npm 11.x, TypeScript
 - **Database**: PostgreSQL (required)
 - **Architecture**: Server-rendered HTML with Hotwire (Turbo + Stimulus). Legacy Angular components exist and are being migrated to custom elements. Uses GitHub's Primer Design System via ViewComponent.
@@ -16,9 +16,9 @@
 ## Critical Setup Requirements
 
 **ALWAYS verify versions before building:**
-- Ruby: `3.4.7` (see `.ruby-version`)
+- Ruby: `4.0.7` (see `.ruby-version`)
 - Node: `^24.15.0` (see `package.json` engines)
-- Bundler: Latest 2.x
+- Bundler: `4.0.21` (see `BUNDLED WITH` in `Gemfile.lock`)
 
 ### Local Development Setup
 
