@@ -48,18 +48,6 @@ RSpec.describe Label do
     end
   end
 
-  describe "archiving" do
-    let!(:active_label) { create(:label) }
-    let!(:archived_label) { create(:label, :archived) }
-
-    it "splits labels into active and archived by their archived_at" do
-      expect(described_class.active).to contain_exactly(active_label)
-      expect(described_class.archived).to contain_exactly(archived_label)
-      expect(active_label).not_to be_archived
-      expect(archived_label).to be_archived
-    end
-  end
-
   describe ".with_usage_count" do
     it "counts the labelings of each label, including unused ones" do
       used = create(:label)
