@@ -70,6 +70,7 @@ export class ProjectTimelineTooltipPopover {
     container:HTMLElement,
     private readonly builder:ProjectTimelineTooltipBuilder,
   ) {
+    this.host.setAttribute('aria-hidden', 'true');
     container.appendChild(this.host);
     this.render();
 
