@@ -40,9 +40,9 @@ The newly created work package is linked directly in the document, keeping requi
 
 ### Filter work packages in Backlogs
 
-OpenProject 17.9 introduces the first iteration of **filters in the [Backlogs view](../../user-guide/backlogs-scrum/)**, making it easier to focus on the work packages that matter during backlog refinement and sprint planning.
+OpenProject 17.9 introduces the first iteration of **filters in the [Backlogs view](../../user-guide/backlogs-scrum/)**, making it easier to focus on the work packages that matter.
 
-Teams can search work packages by subject and use the familiar work package filters to narrow down larger backlogs. Filters apply across sprints, backlog buckets, and the backlog inbox, with counters and story points reflecting the currently visible work packages.
+The filters familiar from pages like the work package table or boards can be used by the team to reduce a larger set of work packages in the backlog and sprints. Users can simply search for work packages by subject or construct a complex filter set. Filters apply across sprints, backlog buckets, and the backlog inbox, with counters and story points reflecting the currently visible work packages.
 
 ![Filtering work packages in the OpenProject Backlogs view](openproject_release_notes_17.9_backlogs_filters.png)
 
