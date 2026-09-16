@@ -72,6 +72,10 @@ ru:
           attributes:
             project_ids:
               blank: Пожалуйста, выберите проект.
+        rate:
+          attributes:
+            principal:
+              invalid: must be a user or a placeholder user.
         time_entry:
           attributes:
             entity:
@@ -225,6 +229,7 @@ ru:
   label_costlog: Журналированные затраты на единицу
   label_costs: Затраты
   label_costs_per_page: Расходов на странице
+  label_current: Current
   label_current_default_rate: Текущий тариф по умолчанию
   label_date_on: на
   label_day: День
@@ -251,6 +256,8 @@ ru:
   label_next_week: На следующей неделе
   label_next_workweek: Следующая рабочая неделя
   label_no: Нет
+  label_no_default_rate: No default rate set
+  label_no_project_rate: No rate set for this project
   label_no_time: Нет учтённого времени
   label_option_plural: Параметры
   label_overall_costs: Общие расходы
@@ -271,6 +278,7 @@ ru:
   label_today_capitalized: Сегодня
   label_units: Стоимость единицы
   label_until: До
+  label_using_current_default_rate: Using current default rate
   label_valid_from: Действует с
   label_view_mode_switcher: Изменить вид
   label_work_package_filter_add: Добавить фильтр пакетов работы
@@ -327,6 +335,11 @@ ru:
   text_destroy_cost_entries_question: "%{cost_entries} сообщили о рабочих пакетах, которые вы собираетесь удалить. Что вы собираетесь сделать?"
   text_destroy_time_and_cost_entries: Удалить отчеты о часах и расходах
   text_destroy_time_and_cost_entries_question: "%{hours} часов, %{cost_entries} сообщили о рабочих пакетах, котрый вы собираетесь удалить. Что вы хотите сделать?"
+  text_hourly_rate_destroy_confirmation: The rate of %{rate} valid from %{valid_from} will be deleted. Costs booked against it are recalculated with the rate that then applies.
+  text_hourly_rate_destroy_confirmation_checkbox_label: I understand that this action is not reversible.
+  text_hourly_rate_recalculation: This rate applies from its valid from date until a later rate takes effect. Changing it will also recalculate existing time entries and budgets in that period.
+  text_no_default_rate: The default rate is used in all projects where the user does not have a specific rate set up.
+  text_no_project_rate: This project will use the current default rate.
   text_reassign_time_and_cost_entries: 'Переназначьте сообщенные часы и расходы на этот пакет работ:'
   text_warning_hidden_elements: Некоторые записи были исключены из агрегирования.
   total_times:

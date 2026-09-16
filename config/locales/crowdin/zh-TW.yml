@@ -442,6 +442,13 @@ zh-TW:
         time_zone: 時區
         warn_on_leaving_unsaved: 離開尚未儲存的工作套件時提示我
         workdays: 工作日
+      user_resource:
+        description: Description
+        name: Name
+        user_filter: User filter
+      user_resource_detail:
+        description: Description
+        user_filter: User filter
       user_working_hours:
         availability_factor: Availability factor
         days: Working days
@@ -855,6 +862,10 @@ zh-TW:
               blank: 請提供令牌名稱
               format: "%{message}"
               in_use: 此令牌名稱已被使用，請選擇其他名稱
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: This type cannot be deleted while work packages still use it.
         type_variant:
           attributes:
             attribute_groups:
@@ -2634,7 +2645,6 @@ zh-TW:
       custom_actions: 自訂動作
       custom_field_hierarchies: 階層
       customize_life_cycle: 自訂生命週期
-      date_alerts: 日期提醒
       define_custom_style: 自訂布景主題與logo
       edit_attribute_groups: 編輯群組屬性
       gantt_pdf_export: 以PDF匯出甘特圖
@@ -2710,8 +2720,6 @@ zh-TW:
         description: 階層自訂欄位可利用多層選擇清單，在工作套件和專案中組織階層結構。
       customize_life_cycle:
         description: 建立並組織不同於 PM2 專案週期規劃所提供的專案階段。
-      date_alerts:
-        description: 透過日期提醒，您將收到即將到來的開始或結束日期的通知，這樣您就不會錯過或忘記重要的截止日期。
       define_custom_style:
         description: 客製OpenProject中專屬您的標誌(logo)與顏色。
         more_info: 備註：Logo可被公開存取。
@@ -3334,6 +3342,7 @@ zh-TW:
   label_core_build: 核心編譯
   label_core_version: 核心版本
   label_created_by: 由 %{user} 建立
+  label_criteria: Criteria
   label_current_status: 目前狀態
   label_current_version: 目前版本
   label_custom_comment: "%{name} comment"
@@ -3908,6 +3917,8 @@ zh-TW:
   label_wiki_start: 開始頁面
   label_wiki_toc: 目錄
   label_wiki_toc_empty: 目錄不存在，因為沒有任何標題。
+  label_with_criteria: With criteria
+  label_without_criteria: Without criteria
   label_work: 工時
   label_work_package: 工作套件
   label_work_package_attachments: 工作套件附件
@@ -4775,6 +4786,13 @@ zh-TW:
     prev: Previous
     prev_page: Previous Page
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: 此文字將會出現在每一頁頁尾的中心。
@@ -4789,6 +4807,12 @@ zh-TW:
         label: 連字符
       hyphenation_language:
         label: "「語言」連字符號"
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: 請選擇 PDF 文件頁面的方向。
         label: 頁面方向
@@ -4936,6 +4960,16 @@ zh-TW:
   permission_work_package_assigned: 成為執行者/負責人
   permission_work_package_assigned_explanation: 工作套件可指派給在各自專案中擁有此角色的使用者或群組
   placeholder_users:
+    criteria:
+      activate: Activate filter criteria
+      activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
+
+        '
+      enable: Match users by criteria
+      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
+      matching_users: Users meeting the filter criteria
+      no_matching_users: No user meets these criteria.
+      show_all_matching_users: Show all %{count} matching users
     delete_tooltip: 刪除佔位使用者
     deletion_info:
       data_consequences: '出現的所有佔位符用戶(例如，作為受理人、負責人或其他用戶值) 將被重新分配給一個名為“已刪除用戶”的帳戶。 由於每個已刪除帳戶的數據都會被重新分配給此帳戶，因此無法將用戶創建的數據與另一個已刪除帳戶的數據區分。
@@ -6491,6 +6525,13 @@ zh-TW:
         confirm: Convert
         text: A global variant with this name already exists. Please choose a different name.
         title: Pick another name for this variant
+      delete:
+        description: The type will be deleted permanently. This action cannot be undone.
+        description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
+        heading: Delete type '%{name}'?
+        projects:
+          other: 'The type will be removed from %{count} projects:'
+        title: Delete type
       description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
         '

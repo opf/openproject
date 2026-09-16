@@ -72,6 +72,10 @@ hr:
           attributes:
             project_ids:
               blank: Please select a project.
+        rate:
+          attributes:
+            principal:
+              invalid: must be a user or a placeholder user.
         time_entry:
           attributes:
             entity:
@@ -216,6 +220,7 @@ hr:
   label_costlog: Zabilježeni jedinični troškovi
   label_costs: Troškovi
   label_costs_per_page: Troškova po stranici
+  label_current: Current
   label_current_default_rate: Trenutno zadana stopa
   label_date_on: na
   label_day: Dan
@@ -242,6 +247,8 @@ hr:
   label_next_week: Sljedeći tjedan
   label_next_workweek: Next work week
   label_no: Ne
+  label_no_default_rate: No default rate set
+  label_no_project_rate: No rate set for this project
   label_no_time: No time tracked
   label_option_plural: Mogućnosti
   label_overall_costs: Ukupni troškovi
@@ -262,6 +269,7 @@ hr:
   label_today_capitalized: Today
   label_units: Jedinice troška
   label_until: do
+  label_using_current_default_rate: Using current default rate
   label_valid_from: Vrijedi od
   label_view_mode_switcher: Change view
   label_work_package_filter_add: Dodaj filter radnog zadatka
@@ -318,6 +326,11 @@ hr:
   text_destroy_cost_entries_question: "%{cost_entries} su prikazani na radnim paketima koje želite izbrisati. Što zapravo želite napraviti?"
   text_destroy_time_and_cost_entries: Izbriši prijavljene sate i troškove
   text_destroy_time_and_cost_entries_question: "%{hours} sati, %{cost_entries} su prikazani na radnim paketima koje želite izbrisati. Što zapravo želite napraviti?"
+  text_hourly_rate_destroy_confirmation: The rate of %{rate} valid from %{valid_from} will be deleted. Costs booked against it are recalculated with the rate that then applies.
+  text_hourly_rate_destroy_confirmation_checkbox_label: I understand that this action is not reversible.
+  text_hourly_rate_recalculation: This rate applies from its valid from date until a later rate takes effect. Changing it will also recalculate existing time entries and budgets in that period.
+  text_no_default_rate: The default rate is used in all projects where the user does not have a specific rate set up.
+  text_no_project_rate: This project will use the current default rate.
   text_reassign_time_and_cost_entries: 'Dodijeli prijavljene sate i troškove ovom radnom paketu:'
   text_warning_hidden_elements: Pojedine stavke su izuzete iz agregacije.
   total_times:

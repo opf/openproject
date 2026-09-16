@@ -442,6 +442,13 @@ pt-PT:
         time_zone: Fuso horário
         warn_on_leaving_unsaved: Alertar-me quando sair de um pacote de trabalho sem guardar as alterações
         workdays: Dias úteis
+      user_resource:
+        description: Description
+        name: Name
+        user_filter: User filter
+      user_resource_detail:
+        description: Description
+        user_filter: User filter
       user_working_hours:
         availability_factor: Fator de disponibilidade
         days: Dias úteis
@@ -856,6 +863,10 @@ pt-PT:
               blank: Forneça um nome de token
               format: "%{message}"
               in_use: Este nome de token já está a ser utilizado, selecione um diferente
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: This type cannot be deleted while work packages still use it.
         type_variant:
           attributes:
             attribute_groups:
@@ -2770,7 +2781,6 @@ pt-PT:
       custom_actions: Ações personalizadas
       custom_field_hierarchies: Hierarquias
       customize_life_cycle: Personalizar ciclo de vida
-      date_alerts: Alertas de data
       define_custom_style: Tema e logótipo personalizados
       edit_attribute_groups: Editar grupos de atributos
       gantt_pdf_export: Exportação de Gantt para PDF
@@ -2847,8 +2857,6 @@ pt-PT:
         description: Os campos personalizados de hierarquia permitem organizar estruturas hierárquicas em pacotes de trabalho e projetos, fazendo uso de listas de seleção de vários níveis.
       customize_life_cycle:
         description: Crie e organize fases de projeto diferentes das fornecidas pelo planeamento do ciclo de projeto PM2.
-      date_alerts:
-        description: 'Com os alertas de data, receberá uma notificação sobre as próximas datas de início e término, para que não nunca falhe ou esqueça prazos importantes. '
       define_custom_style:
         description: Personalize a instalação do OpenProject com as suas cores e o seu logótipo.
         more_info: 'Nota: o logótipo usado ficará acessível ao público.'
@@ -3477,6 +3485,7 @@ pt-PT:
   label_core_build: Construção principal
   label_core_version: Versão do núcleo
   label_created_by: Criado por %{user}
+  label_criteria: Criteria
   label_current_status: Estado atual
   label_current_version: Versão atual
   label_custom_comment: "%{name} comentário"
@@ -4051,6 +4060,8 @@ pt-PT:
   label_wiki_start: Página inicial
   label_wiki_toc: Índice
   label_wiki_toc_empty: A Tabela de Conteúdo está vazia, pois não está presente nenhum cabeçalho.
+  label_with_criteria: With criteria
+  label_without_criteria: Without criteria
   label_work: Trabalho
   label_work_package: Pacote de trabalho
   label_work_package_attachments: Anexos do pacote de trabalho
@@ -4924,6 +4935,13 @@ pt-PT:
     prev: Anterior
     prev_page: Página anterior
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: Esse texto vai aparecer em todas as páginas do centro do rodapé.
@@ -4938,6 +4956,12 @@ pt-PT:
         label: Hifenização
       hyphenation_language:
         label: Idioma e hifenização
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: Selecione a orientação das páginas no documento PDF.
         label: Orientação da página
@@ -5085,6 +5109,16 @@ pt-PT:
   permission_work_package_assigned: Torne-se responsável
   permission_work_package_assigned_explanation: Os pacotes de trabalho podem ser atribuídos a utilizadores e grupos com deste papel nos respetivos projetos
   placeholder_users:
+    criteria:
+      activate: Activate filter criteria
+      activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
+
+        '
+      enable: Match users by criteria
+      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
+      matching_users: Users meeting the filter criteria
+      no_matching_users: No user meets these criteria.
+      show_all_matching_users: Show all %{count} matching users
     delete_tooltip: Eliminar utilizador de espaço reservado
     deletion_info:
       data_consequences: 'Todas as ocorrências do utilizador de espaço reservado (por exemplo, como responsável, competente ou outros valores de utilizador) serão reatribuídas a uma conta chamada "Utilizador eliminado". Como os dados de todas as contas eliminadas são reatribuídos a esta conta, não será possível diferenciar os dados criados pelo utilizador a partir de dados de outra conta eliminada.
@@ -6643,6 +6677,14 @@ pt-PT:
         confirm: Convert
         text: A global variant with this name already exists. Please choose a different name.
         title: Pick another name for this variant
+      delete:
+        description: The type will be deleted permanently. This action cannot be undone.
+        description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
+        heading: Delete type '%{name}'?
+        projects:
+          one: 'The type will be removed from 1 project:'
+          other: 'The type will be removed from %{count} projects:'
+        title: Delete type
       description: 'Cada área de configuração dentro dos tipos e variantes pode ser configurada de forma independente, limitada em relação a outro tipo, ou totalmente associada a uma fonte.
 
         '

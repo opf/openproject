@@ -2,17 +2,19 @@
 de:
   activerecord:
     attributes:
+      placeholder_user:
+        user_filter: Filter criteria
       resource_allocation:
         allocated_hours: Stunden
         allocated_time: Zugewiesene Zeit
         date_range: Daten
         end_date: Endtermin
         entity: Entität
-        filter_name: Name des Ressourcenfilters
+        placeholder_or_user: Assignee
+        placeholder_user: Placeholder user
         principal: Zugewiesen an
         start_date: Anfangstermin
         state: Status
-        user_filter: Benutzerfilter
       resource_planner:
         date_range: Daten
         default_view_class_name: Standardansicht
@@ -87,14 +89,9 @@ de:
       make_public: Veröffentlichen
       unfavorite: Aus Favoriten entfernen
     allocate_resource_dialog:
-      kind:
-        filter:
-          caption: Legen Sie Filterkriterien auf der Grundlage von Benutzerattributen fest, um einen Platzhalter zu erstellen.
-          label: Filterkriterien
-        label: Typ
-        principal:
-          caption: Arbeitszeit für einen bestimmten Benutzer zuweisen.
-          label: Benutzer
+      criteria:
+        empty: No criteria set.
+        label: Criteria
       outside_dates:
         description: Die ausgewählten Zeiten (%{resource_dates}) liegen außerhalb der geplanten Zeiten des Arbeitspakets (%{work_package_dates}).
       overbooking:
@@ -140,6 +137,9 @@ de:
           caption: Eine benutzerdefinierte Liste von Artikeln, die Sie manuell hinzufügen und entfernen. Eine Filterung ist nicht möglich.
           label: Manuell ausgewählt
       title: Ansicht konfigurieren
+    create_placeholder_user_dialog:
+      submit: Create
+      title: Create placeholder user
     edit_allocation_dialog:
       submit: Speichern
       success_message: Ressourcenzuordnung aktualisiert.

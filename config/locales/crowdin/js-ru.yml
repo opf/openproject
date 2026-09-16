@@ -810,11 +810,20 @@ ru:
       sorting_disabled: сортировка отключена
     sortable_lists:
       announcements:
+        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Элемент
         fallback_list_name: другой список
         move_failed_check_position: Не удалось переместить. Проверьте текущую позицию.
+        move_failed_check_positions_batch:
+          other: Move failed. Check the items' current positions.
         move_failed_rolled_back: Перемещение не удалось. %{label} вернулся на прежнюю позицию.
+        move_failed_rolled_back_batch:
+          other: Move failed. %{count} items returned to their previous positions.
         moved: "%{label} перемещен на позицию %{position} из %{total}"
+        moved_batch:
+          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+        moved_batch_to_list:
+          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
         moved_to_list: "%{label} перемещен в %{list}, на позицию %{position} из %{total}"
       selection:
         cleared: Selection cleared.
