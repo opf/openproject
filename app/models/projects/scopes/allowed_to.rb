@@ -50,7 +50,7 @@ module Projects::Scopes
         end
       end
 
-      # Turning this public as it is also used in WorkPackages.allowed_to.
+      # Public as it is also used in WorkPackages.allowed_to.
       def allowed_to_member_union(user, permissions, entity_types: [nil]) # rubocop:disable Metrics/AbcSize
         membership_selects = if entity_types.compact.any?
                                [arel_table[:id], "members.entity_id"]
@@ -72,7 +72,7 @@ module Projects::Scopes
       # nil for project-wide memberships, a class name such as "WorkPackage" for memberships
       # on a single entity. Listing only the latter yields the shares alone.
       #
-      # Public as it is also used in WorkPackages.shared_with.
+      # Public as it is also used in WorkPackages.allowed_to_via_shares_only.
       def allowed_to_member_relation(user, permissions, entity_types = [nil])
         Member
           .where(member_conditions(user, entity_types))
