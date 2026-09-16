@@ -34,6 +34,7 @@ import { GroupObject } from 'core-app/features/hal/resources/wp-collection-resou
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import PrimerColorsPlugin from './../plugin.primer-colors';
+import { chartTypeLocaleKey } from './../chart-type';
 
 export interface WorkPackageEmbeddedGraphDataset {
   label:string;
@@ -277,7 +278,7 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
   }
 
   public get chartSummary():string {
-    const chartTypeLabel = this.chartType ? this.i18n.t(`js.chart.types.${this.chartType}`) : '';
+    const chartTypeLabel = this.chartType ? this.i18n.t(`js.chart.types.${chartTypeLocaleKey(this.chartType)}`) : '';
     return this.i18n.t('js.grid.widgets.work_packages_graph.summary', { chartType: chartTypeLabel, description: this.chartDescription });
   }
 }

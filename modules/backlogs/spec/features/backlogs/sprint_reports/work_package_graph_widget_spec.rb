@@ -79,9 +79,12 @@ RSpec.describe "Work package graph widget", :js, with_flag: :sprint_reports do
     expect(page).to have_element(:"opce-wp-overview-graph")
 
     within "opce-wp-overview-graph" do
-      expect(page).to have_css("#chart-desc", text: "3 #{status_new.name}", visible: :all)
-      expect(page).to have_css("#chart-desc", text: "1 #{status_in_progress.name}", visible: :all)
-      expect(page).to have_css("#chart-desc", text: "2 #{status_closed.name}", visible: :all)
+      expect(page).to have_css(
+        "#chart-desc",
+        exact_text: "Bar chart showing work packages which are " \
+                    "3 #{status_new.name}; 1 #{status_in_progress.name}; 2 #{status_closed.name}.",
+        visible: :all
+      )
 
       # The group-by select is explicitly hidden for this widget.
       expect(page).to have_no_select
