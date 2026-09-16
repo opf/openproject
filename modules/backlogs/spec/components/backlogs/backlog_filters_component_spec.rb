@@ -83,4 +83,13 @@ RSpec.describe Backlogs::BacklogFiltersComponent, type: :component do
     expect(page).to have_no_css("[data-filter-name='backlog_bucket_id']")
     expect(page).to have_no_css("[data-filter-name='backlog_inbox']")
   end
+
+  it "excludes some internal filters" do
+    render_inline(component)
+
+    described_class::NOT_USER_SELECTABLE_FILTER_NAMES.each do |name|
+      expect(page).to have_no_css("option[value='#{name}']")
+      expect(page).to have_no_css("[data-filter-name='#{name}']")
+    end
+  end
 end

@@ -38,8 +38,21 @@ module Backlogs
     # ones above, it still counts as a filter the user applied (see
     # Backlogs::BacklogFilterButtonComponent#filters_count).
     QUICK_SEARCH_FILTER_NAME = :subject
+    # Internal filters backing API-side autocomplete, global search and file storage links.
+    NOT_USER_SELECTABLE_FILTER_NAMES = %i[
+      file_link_origin_id
+      linkable_to_storage_id
+      linkable_to_storage_url
+      storage_id
+      storage_url
+      subject_or_id
+      typeahead
+      search
+    ].freeze
 
-    EXCLUDED_FILTER_NAMES = (PICKER_CONTROLLED_FILTER_NAMES + [QUICK_SEARCH_FILTER_NAME]).freeze
+    EXCLUDED_FILTER_NAMES = (PICKER_CONTROLLED_FILTER_NAMES +
+                             [QUICK_SEARCH_FILTER_NAME] +
+                             NOT_USER_SELECTABLE_FILTER_NAMES).freeze
 
     options excluded_filters: EXCLUDED_FILTER_NAMES
 
