@@ -89,6 +89,23 @@ RSpec.describe WorkPackages::Import::CSV::Parser do
     end
   end
 
+  describe "line endings" do
+    it "reads CRLF, which is what Windows and Excel write" do
+      with_csv("Subject,Type\r\nA,Task\r\n") do |path|
+        expect(described_class.call(path).result.first.values).to eq(subject: "A", type: "Task")
+      end
+    end
+
+    it "reads a BOM, CRLF and semicolons together, as Excel on a German locale writes them" do
+      with_csv("\xEF\xBB\xBFSubject;Type\r\nA;Task\r\n".b) do |path|
+        result = described_class.call(path)
+
+        expect(described_class.new(path).separator).to eq(";")
+        expect(result.result.first.values).to eq(subject: "A", type: "Task")
+      end
+    end
+  end
+
   describe "the separator" do
     it "reads a comma" do
       expect(described_class.new(fixture("work_packages.csv")).separator).to eq(",")
