@@ -459,6 +459,17 @@ allOf:
                   # Conditions
 
                   **Permission**: view_file_links
+          labels:
+            type: array
+            readOnly: true
+            items:
+              allOf:
+                - $ref: "./link.yml"
+                - description: |-
+                    List of labels attached to the work package
+
+                    **Resource**: Label
+                  readOnly: true
           parent:
             allOf:
               - $ref: "./link.yml"
@@ -722,6 +733,11 @@ example:
     children:
       - href: "/api/v3/work_packages/1529"
         title: Write API documentation
+    labels:
+      - href: "/api/v3/labels/1"
+        title: Bug
+      - href: "/api/v3/labels/3"
+        title: Urgent
     ancestors:
       - href: "/api/v3/work_packages/1290"
         title: Root node of hierarchy
