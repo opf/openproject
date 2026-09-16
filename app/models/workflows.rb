@@ -28,26 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkflowFactoryDeprecation
-  class << self
-    def warn_once
-      return if @warned
-
-      @warned = true
-      OpenProject::Deprecation.warn(
-        "Factory :workflow builds a Workflows::StatusTransition and creates a named " \
-        "Workflow as a side-effect. Use :status_transition, or :named_workflow for the container."
-      )
-    end
-  end
-end
-
-FactoryBot.define do
-  factory :named_workflow, class: "Workflow" do
-    sequence(:name) { |n| "Workflow #{n}" }
-  end
-
-  factory :workflow, parent: :status_transition, class: "Workflows::StatusTransition" do
-    after(:build) { WorkflowFactoryDeprecation.warn_once }
+module Workflows
+  def self.table_name_prefix
+    "workflows_"
   end
 end

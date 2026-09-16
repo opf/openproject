@@ -34,7 +34,7 @@ class Queries::Statuses::Filters::TypeFilter < Queries::Statuses::Filters::Workf
   end
 
   def where
-    transition_where("type_variant_id", ::TypeVariant.where(type_id: values).pluck(:id))
+    transition_where("workflow_id", ::TypeVariant.where(type_id: values).distinct.pluck(:workflow_id))
   end
 
   def human_name

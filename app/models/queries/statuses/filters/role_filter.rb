@@ -44,6 +44,6 @@ class Queries::Statuses::Filters::RoleFilter < Queries::Statuses::Filters::Workf
   end
 
   def eligible_roles
-    Workflow.eligible_roles.order(Arel.sql("builtin, position"))
+    Workflows::StatusTransition.eligible_roles.order(Arel.sql("builtin, position"))
   end
 end
