@@ -91,7 +91,7 @@ RSpec.describe API::V3::AI::TextTransformRunsAPI,
           .to be_json_eql(api_v3_paths.ai_text_transform_run(run.uuid).to_json).at_path("_links/self/href")
         expect(last_response.body)
           .to be_json_eql(api_v3_paths.ai_text_transform_run_cancel(run.uuid).to_json).at_path("_links/cancel/href")
-        expect(last_response.body).not_to have_json_path("systemPrompt")
+        expect(last_response.body).to have_json_path("systemPrompt")
       end
     end
 

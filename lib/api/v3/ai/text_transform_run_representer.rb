@@ -47,6 +47,7 @@ module API
 
         property :uuid, as: :id
         property :status
+        property :system_prompt, as: :systemPrompt
         property :events, exec_context: :decorator
 
         def initialize(model, current_user:, after: 0, embed_links: false)
