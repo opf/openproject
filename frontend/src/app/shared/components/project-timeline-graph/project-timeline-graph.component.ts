@@ -55,6 +55,8 @@ import { ProjectTimelineTooltipPopover } from './project-timeline-tooltip.popove
 
 export type { ProjectTimelineItem } from './project-timeline-item.builder';
 
+const LINKED_ITEM_SELECTOR = '.vis-point.op-timeline-milestone[data-id], .vis-range.op-timeline-sprint[data-id]';
+
 @Component({
   selector: 'opce-project-timeline-graph',
   templateUrl: './project-timeline-graph.component.html',
@@ -133,6 +135,7 @@ export class ProjectTimelineGraphComponent {
         showMinorLabels: true,
         margin: { item: { horizontal: 0, vertical: 16 } },
         showCurrentTime: false, // enabled after the initial draw to avoid unnecessary redraws while loading
+        dataAttributes: ['id'],
         zoomMin: 7 * 24 * 60 * 60 * 1000, // 7 days minimum zoom
         zoomMax: 50 * 365 * 24 * 60 * 60 * 1000, // 50 years maximum zoom
         onInitialDrawComplete: () => this.revealTimeline(),
@@ -145,16 +148,9 @@ export class ProjectTimelineGraphComponent {
     );
 
     this.tooltipPopover = new ProjectTimelineTooltipPopover(this.timeline, this.containerRef.nativeElement, this.tooltip);
+    this.timeline.on('changed', () => this.enableLinkedItemKeyboardFocus());
 
-    this.timeline.on('click', (props:{ item:string | null }) => {
-      if (!props.item) return;
-      const item = this.itemsDataset!.get(props.item);
-      if (item?.itemType === 'milestone' && item.workPackageId) {
-        window.location.href = this.pathHelper.workPackagePath(String(item.workPackageId));
-      } else if (item?.itemType === 'sprint' && item.href) {
-        window.location.href = item.href;
-      }
-    });
+    this.timeline.on('click', ({ item }:{ item:string | null }) => this.openItem(item));
   }
 
   private updateTimeline(phases:ProjectPhaseData[], milestones:ProjectMilestoneData[], sprints:ProjectSprintData[]):void {
@@ -172,6 +168,30 @@ export class ProjectTimelineGraphComponent {
       cluster: { maxItems: 1, clusterCriteria: this.shouldCluster.bind(this) },
     });
     this.ready.set(true);
+    this.enableLinkedItemKeyboardFocus();
+  }
+
+  private enableLinkedItemKeyboardFocus():void {
+    this.containerRef.nativeElement.querySelectorAll<HTMLElement>(LINKED_ITEM_SELECTOR).forEach((element) => {
+      element.tabIndex = 0;
+      element.role = 'link';
+      element.onkeydown = ({ key }) => {
+        if (key === 'Enter') this.openItem(element.dataset.id!);
+      };
+    });
+  }
+
+  private openItem(id:string | null):void {
+    if (!id) return;
+
+    const item = this.itemsDataset!.get(id);
+    if (!item) return;
+
+    if (item.itemType === 'milestone' && item.workPackageId) {
+      window.location.href = this.pathHelper.workPackagePath(String(item.workPackageId));
+    } else if (item.itemType === 'sprint' && item.href) {
+      window.location.href = item.href;
+    }
   }
 
   private shouldCluster(a:ProjectTimelineItem, b:ProjectTimelineItem):boolean {
