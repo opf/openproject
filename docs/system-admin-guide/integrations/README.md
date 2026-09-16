@@ -106,13 +106,17 @@ Find out more about the [Excel synchronization with OpenProject](./excel-synchro
 
 ### JIRA
 
-We do not provide a direct integration between OpenProject and JIRA ourselves. 
+We do not provide a direct integration between OpenProject and JIRA ourselves.
 
-If you want to migrate from JIRA to OpenProject, there are several ways to do that, including OpenProject [API](../../api/), OpenProject [Excel sync](excel-synchronization) or using a [Markdown export app](https://marketplace.atlassian.com/apps/1221351/markdown-exporter-for-confluence). 
+If you want to migrate from JIRA to OpenProject, you can use the **[OpenProject Jira Migrator](https://www.openproject.org/jira-migrator/)**. The built-in migration tool guides you through importing your Jira data into OpenProject and is being continuously expanded with additional migration capabilities.
 
-Keep in mind that we are [developing a dedicated OpenProject migration solution](https://community.openproject.org/projects/jira-migration). In the meantime our partners at [ALM Toolbox](https://www.almtoolbox.com/) are happy to support you with Jira or Confluence migration. 
+The Jira Migrator is currently in beta and should only be used in test setups. It currently supports Jira Data Center versions 10.x and 11.x and can import basic data such as projects, issues, users, statuses, types and supported custom fields.
 
-Please consult [JIRA migration overview page](../../installation-and-operations/jira-migration/) for an in-depth overview of all existing options.
+For supported data, current limitations and step-by-step instructions, see the **[Jira migration guide](https://www.openproject.org/docs/installation-and-operations/jira-migration/)**. 
+
+Other migration options are also available, including the OpenProject [API](../../api/), OpenProject [Excel synchronization](excel-synchronization/) or a [Markdown export app](https://marketplace.atlassian.com/apps/1221351/markdown-exporter-for-confluence).
+
+In addition, our partners at **[ALM Toolbox](https://www.almtoolbox.com/)** are happy to support you with Jira or Confluence migration.
 
 ### Microsoft Project
 
