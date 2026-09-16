@@ -69,7 +69,8 @@ class TypeVariant < ApplicationRecord
            class_name: "Workflows::StatusTransition",
            foreign_key: :workflow_id,
            primary_key: :workflow_id,
-           inverse_of: false do
+           inverse_of: false,
+           dependent: nil do
     def copy_from_variant(source_variant)
       Workflows::StatusTransition.copy(source_variant, nil, proxy_association.owner, nil)
     end
@@ -77,6 +78,7 @@ class TypeVariant < ApplicationRecord
 
   before_save :ensure_workflow, if: :new_record?
   before_save :sync_workflow_with_source, if: :will_save_change_to_workflows_source_id?
+  after_destroy :discard_unreferenced_workflow
 
   # Which project custom fields we define ourselves
   has_many :own_project_custom_field_type_mappings,
@@ -278,6 +280,13 @@ class TypeVariant < ApplicationRecord
     elsif previously_shared_source_workflow?
       self.workflow = Workflow.create!(name: composite_name)
     end
+  end
+
+  def discard_unreferenced_workflow
+    return if workflow_id.nil?
+    return if self.class.exists?(workflow_id:)
+
+    Workflow.destroy_by(id: workflow_id)
   end
 
   def previously_shared_source_workflow?
