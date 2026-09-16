@@ -28,16 +28,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Label < ApplicationRecord
-  belongs_to :author, class_name: "User"
-  has_many :labelings, dependent: :delete_all
+class Queries::Labels::LabelQuery
+  include Queries::BaseQuery
+  include Queries::UnpersistedQuery
 
-  scope :with_usage_count, -> {
-    select("labels.*, (SELECT COUNT(*) FROM labelings WHERE labelings.label_id = labels.id) AS usage_count")
-  }
+  def self.model
+    Label
+  end
 
-  validates :name,
-            presence: true,
-            uniqueness: { case_sensitive: false },
-            length: { maximum: 255 }
+  def default_scope
+    Label.with_usage_count.order(Label.arel_table[:name].lower.asc)
+  end
 end

@@ -58,6 +58,14 @@ RSpec.describe Label do
 
       expect(counts).to eq(used.id => 2, unused.id => 0)
     end
+
+    it "keeps a scalar total when paginated" do
+      create_list(:label, 2)
+      create(:labeling, label: described_class.first)
+
+      expect(described_class.with_usage_count.paginate(page: 1, per_page: 1).total_entries)
+        .to eq(described_class.count)
+    end
   end
 
   describe "#destroy" do

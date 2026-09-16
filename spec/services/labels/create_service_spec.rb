@@ -28,16 +28,41 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Label < ApplicationRecord
-  belongs_to :author, class_name: "User"
-  has_many :labelings, dependent: :delete_all
+require "spec_helper"
 
-  scope :with_usage_count, -> {
-    select("labels.*, (SELECT COUNT(*) FROM labelings WHERE labelings.label_id = labels.id) AS usage_count")
-  }
+RSpec.describe Labels::CreateService, type: :model do
+  shared_let(:admin) { create(:admin) }
 
-  validates :name,
-            presence: true,
-            uniqueness: { case_sensitive: false },
-            length: { maximum: 255 }
+  let(:instance) { described_class.new(user: admin) }
+
+  it "creates the label, setting the author to the calling user" do
+    result = instance.call(name: "Bug")
+
+    expect(result).to be_success
+
+    label = result.result
+    expect(label).to be_persisted
+    expect(label.author).to eq(admin)
+    expect(label.name).to eq("Bug")
+  end
+
+  it "fails when the name is already taken, case-insensitively" do
+    create(:label, name: "Bug")
+
+    result = instance.call(name: "BUG")
+
+    expect(result).to be_failure
+    expect(result.errors.symbols_for(:name)).to include(:taken)
+  end
+
+  context "with a non-admin user" do
+    let(:instance) { described_class.new(user: create(:user)) }
+
+    it "is unauthorized" do
+      result = instance.call(name: "Bug")
+
+      expect(result).to be_failure
+      expect(result.errors.symbols_for(:base)).to include(:error_unauthorized)
+    end
+  end
 end

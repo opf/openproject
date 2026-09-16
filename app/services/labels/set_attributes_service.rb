@@ -28,16 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Label < ApplicationRecord
-  belongs_to :author, class_name: "User"
-  has_many :labelings, dependent: :delete_all
+module Labels
+  class SetAttributesService < ::BaseServices::SetAttributes
+    private
 
-  scope :with_usage_count, -> {
-    select("labels.*, (SELECT COUNT(*) FROM labelings WHERE labelings.label_id = labels.id) AS usage_count")
-  }
-
-  validates :name,
-            presence: true,
-            uniqueness: { case_sensitive: false },
-            length: { maximum: 255 }
+    def set_default_attributes(_params)
+      model.change_by_system do
+        model.author = user
+      end
+    end
+  end
 end

@@ -28,16 +28,41 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Label < ApplicationRecord
-  belongs_to :author, class_name: "User"
-  has_many :labelings, dependent: :delete_all
+require "spec_helper"
 
-  scope :with_usage_count, -> {
-    select("labels.*, (SELECT COUNT(*) FROM labelings WHERE labelings.label_id = labels.id) AS usage_count")
-  }
+RSpec.describe Labels::UpdateService, type: :model do
+  shared_let(:admin) { create(:admin) }
+  let(:label) { create(:label, name: "Bug") }
+  let(:instance) { described_class.new(user: admin, model: label) }
 
-  validates :name,
-            presence: true,
-            uniqueness: { case_sensitive: false },
-            length: { maximum: 255 }
+  it "renames the label" do
+    result = instance.call(name: "Defect")
+
+    expect(result).to be_success
+    expect(label.reload.name).to eq("Defect")
+  end
+
+  context "when the new name is already taken in a different case" do
+    before { create(:label, name: "defect") }
+
+    it "fails with a taken error and does not persist the change" do
+      result = instance.call(name: "Defect")
+
+      expect(result).to be_failure
+      expect(result.errors.symbols_for(:name)).to include(:taken)
+      expect(label.reload.name).to eq("Bug")
+    end
+  end
+
+  context "with a non-admin user" do
+    let(:instance) { described_class.new(user: create(:user), model: label) }
+
+    it "is unauthorized" do
+      result = instance.call(name: "Defect")
+
+      expect(result).to be_failure
+      expect(result.errors.symbols_for(:base)).to include(:error_unauthorized)
+      expect(label.reload.name).to eq("Bug")
+    end
+  end
 end
