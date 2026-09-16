@@ -6637,6 +6637,17 @@ en:
       finish: "Finish"
       placeholder_description: "This step will be available soon."
       progress_label: "Step %{number} of %{total}"
+      start:
+        inherit_description: "The page inherits existing configuration from another type. Changes to the source are automatically reflected here."
+        inherit_title: "Inherit configuration from a source type"
+        lead: "You are about to create a new type in your instance."
+        manual_description: "You can configure this page freely as you wish or copy over configuration from another type."
+        manual_title: "Manual configuration"
+        reuse_description: "Avoid redefining the same type configuration again and again by reusing configuration from an existing type. You do this by choosing to inherit configuration from a source type when these options are available:"
+        reuse_heading: "Reuse existing configuration type configuration"
+        step_by_step: "You will configure a new type step-by-step in the following pages."
+        submit: "Start"
+        type_description: "A type represents a specific kind of item, like a feature or a bug. It has a name, a color, a set of fields, some rules to transition between statuses and other configuration. You can activate and use different types in different projects."
       steps:
         defaults: "Defaults"
         details: "Details"
@@ -6644,6 +6655,7 @@ en:
         pdf: "PDF generation"
         project_attributes: "Project attributes"
         projects: "Projects"
+        start: "Start"
         workflows: "Workflows"
       success: "Created successfully."
     edit:
@@ -6812,8 +6824,8 @@ en:
             description: "No other type or variant inherits from this configuration"
             title: "No dependent types"
           description:
-            one: "The following configuration is inherited by 1 other type or variant. Any changes you make here will also affect the dependent."
-            other: "The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents."
+            one: "This configuration is inherited by 1 other type or variant. Any changes you make to this page will also be reflected there."
+            other: "This configuration is inherited by %{count} other types or variants. Any changes you make to this page will also be reflected there."
           dialog:
             description: "These types and variants inherit the configuration of this section. A change you make here applies to all of them."
             direct_heading: "Direct dependents"
@@ -6844,6 +6856,9 @@ en:
               title: "Switch configuration mode"
           description: "This configuration is inherited from the source type [%{source_name}](source_url)%{source_suffix}."
           description_unlinked: "This configuration is inherited from the source type %{source_name}%{source_suffix}."
+          mode_description: "This page inherits existing configuration from another type. Changes to the source are automatically reflected here."
+          mode_label: "Inherit configuration"
+          mode_label_with_source: "Inherit configuration from"
           dialog:
             description: "Inherit this configuration from a source type. Any new configuration added to the source also applies here."
             source_label: "Source type"
@@ -6866,6 +6881,7 @@ en:
             title: "Configure manually"
           inherit_from_type: "Inherit from another type"
           invalid_mode: "The selected mode is not available for this configuration. Please choose a different mode."
+          mode_description: "You can configure this page freely as you wish or copy over configuration from another type."
           modes:
             copy:
               caption: "Start with a one-time copy of the settings that this configuration inherits now."

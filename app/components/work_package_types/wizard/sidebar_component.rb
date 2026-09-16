@@ -42,6 +42,7 @@ module WorkPackageTypes
       end
 
       LEADING_ICONS = {
+        start: :rocket,
         details: :info,
         defaults: :"file-diff",
         form_configuration: :"list-unordered",
@@ -50,6 +51,9 @@ module WorkPackageTypes
         projects: :table,
         pdf: :file
       }.freeze
+
+      INHERITED_ICON = :"arrow-down-right"
+      MANUAL_ICON = :tools
 
       ASPECTS = {
         defaults: TypeVariant::DEFAULTS,
@@ -76,6 +80,10 @@ module WorkPackageTypes
       def completed?(step)
         record_persisted? && Steps.index(step) < Steps.index(current_step)
       end
+
+      def mode_step?(step) = ASPECTS.key?(step)
+
+      def mode_icon(step) = linked?(step) ? INHERITED_ICON : MANUAL_ICON
 
       def linked?(step)
         aspect = ASPECTS[step]

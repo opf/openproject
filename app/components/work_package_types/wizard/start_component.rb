@@ -29,36 +29,16 @@
 #++
 
 module WorkPackageTypes
-  module ReuseMode
-    class DependentsBoxComponent < ApplicationComponent
+  module Wizard
+    class StartComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      def initialize(variant:, aspect:)
-        @aspect = aspect
-        super(variant)
-      end
+      INHERIT_ICON = :"arrow-down-right"
+      MANUAL_ICON = :tools
 
       private
 
-      attr_reader :aspect
-
-      def render? = any_dependents?
-
-      def variant = model
-
-      def dependents_count
-        @dependents_count ||= variant.dependents_for(aspect).count(:all)
-      end
-
-      def any_dependents? = dependents_count.positive?
-
-      def description
-        t("types.edit.reuse_mode.dependents.description", count: dependents_count)
-      end
-
-      def dialog_path
-        type_configuration_dependents_dialog_path(**variant.path_args, aspect:)
-      end
+      def t_start(key) = I18n.t("types.creation_wizard.start.#{key}")
     end
   end
 end
