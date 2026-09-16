@@ -62,7 +62,7 @@ module OpenProject::GitlabIntegration
       def track_branch(user)
         ::OpenProject::GitlabIntegration::Services::TrackBranch.new.call(payload, user:)
       rescue StandardError => e
-        Rails.logger.error "Failed to track Gitlab branch #{payload.ref}: #{e} #{e.message}"
+        Rails.logger.error "Failed to track Gitlab branch #{payload.ref}: #{e.class}: #{e.message}"
       end
 
       def generate_notes(commit, payload)
