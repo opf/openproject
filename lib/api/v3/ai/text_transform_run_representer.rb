@@ -28,48 +28,42 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module AI
-  module TextTransforms
-    class Context
-      attr_reader :work_package, :project, :type
+module API
+  module V3
+    module AI
+      class TextTransformRunRepresenter < ::API::Decorators::Single
+        self_link id_attribute: :uuid,
+                  path: :ai_text_transform_run,
+                  title_getter: ->(*) {}
 
-      def self.for_work_package(work_package)
-        new(work_package:, project: work_package.project, type: work_package.type)
-      end
+        link :cancel do
+          next if represented.terminal?
 
-      def self.for_new_work_package(project:, type:)
-        new(work_package: nil, project:, type:)
-      end
+          {
+            href: api_v3_paths.ai_text_transform_run_cancel(represented.uuid),
+            method: :post
+          }
+        end
 
-      def self.none
-        new(work_package: nil, project: nil, type: nil)
-      end
+        property :uuid, as: :id
+        property :status
+        property :events, exec_context: :decorator
 
-      def initialize(work_package:, project:, type:)
-        @work_package = work_package
-        @project = project
-        @type = type
-      end
+        def initialize(model, current_user:, after: 0, embed_links: false)
+          @after = after
 
-      def type_variant
-        return @type_variant if defined?(@type_variant)
+          super(model, current_user:, embed_links:)
+        end
 
-        @type_variant = resolve_type_variant
-      end
+        def events
+          represented.events_after(@after).map do |event|
+            { seq: event.seq, kind: event.kind, payload: event.payload }
+          end
+        end
 
-      def template
-        return @template if defined?(@template)
-
-        @template = type_variant&.default_work_package_description.presence
-      end
-
-      private
-
-      def resolve_type_variant
-        return work_package.type_variant if work_package
-        return project.type_variant(type) if project && type
-
-        nil
+        def _type
+          "AITextTransformRun"
+        end
       end
     end
   end
