@@ -33,9 +33,11 @@ require "rails_helper"
 RSpec.describe Admin::Labels::RowComponent, type: :component do
   include Rails.application.routes.url_helpers
 
+  let(:query) { Queries::Labels::LabelQuery.new }
+
   subject(:rendered_component) do
     with_request_url "/admin/labels" do
-      render_inline(described_class.new(label))
+      render_inline(Admin::Labels::TableComponent.new(rows: [label], query:))
     end
   end
 
@@ -46,15 +48,11 @@ RSpec.describe Admin::Labels::RowComponent, type: :component do
     let(:label) { Label.with_usage_count.find(record.id) }
 
     it "renders the name as a chip" do
-      rendered_component
-
-      expect(page).to have_css("[data-test-selector='label-name']", text: "Bug")
+      expect(rendered_component).to have_css("[data-test-selector='label-name']", text: "Bug")
     end
 
     it "renders the pluralised usage count" do
-      rendered_component
-
-      expect(page).to have_css("[data-test-selector='label-usage']", text: "3 work packages")
+      expect(rendered_component).to have_css("[data-test-selector='label-usage']", text: "3 work packages")
     end
   end
 
@@ -64,9 +62,7 @@ RSpec.describe Admin::Labels::RowComponent, type: :component do
     let(:label) { Label.with_usage_count.find(record.id) }
 
     it "renders a dash instead of a count" do
-      rendered_component
-
-      expect(page).to have_css("[data-test-selector='label-usage']", text: "-")
+      expect(rendered_component).to have_css("[data-test-selector='label-usage']", text: "-")
     end
   end
 
@@ -76,9 +72,7 @@ RSpec.describe Admin::Labels::RowComponent, type: :component do
     let(:label) { Label.with_usage_count.find(record.id) }
 
     it "links Rename to the edit dialog as an async-dialog request" do
-      rendered_component
-
-      expect(page).to have_css(
+      expect(rendered_component).to have_css(
         "a[href='#{edit_dialog_admin_label_path(label)}'][data-controller='async-dialog']",
         text: "Rename",
         visible: :all
@@ -86,9 +80,7 @@ RSpec.describe Admin::Labels::RowComponent, type: :component do
     end
 
     it "links Delete to the deletion dialog as a danger, async-dialog request" do
-      rendered_component
-
-      expect(page).to have_css(
+      expect(rendered_component).to have_css(
         "a[href='#{deletion_dialog_admin_label_path(label)}'][data-controller='async-dialog']",
         text: "Delete",
         visible: :all

@@ -29,42 +29,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   component_wrapper do
-    if labels.any?
-      render(border_box_container) do |component|
-        component.with_header(color: :muted) do
-          grid_layout("op-labels-list--header", tag: :div, align_items: :center) do |grid|
-            grid.with_area(:name, tag: :div, mr: 3) do
-              render(Primer::Beta::Text.new(font_weight: :semibold)) { t(".header.name") }
-            end
-
-            grid.with_area(:usage, tag: :div, color: :muted, hide: :sm) do
-              render(Primer::Beta::Text.new(font_weight: :semibold)) { t(".header.usage") }
-            end
-          end
-        end
-
-        labels.each do |label|
-          component.with_row(scheme: :default, id: helpers.dom_id(label), test_selector: "label-row-#{label.id}") do
-            render(Admin::Labels::RowComponent.new(label))
-          end
-        end
-
-        component.with_row(py: 0) do
-          helpers.pagination_links_full(labels, params: { action: "index" })
-        end
-      end
-    elsif filtered?
-      render(Primer::Beta::Blankslate.new(border: true, test_selector: "labels-blank-slate")) do |component|
-        component.with_visual_icon(icon: :search)
-        component.with_heading(tag: :h2).with_content(t(".no_matches.title"))
-        component.with_description { t(".no_matches.description") }
-      end
-    else
-      render(Primer::Beta::Blankslate.new(border: true, test_selector: "labels-blank-slate")) do |component|
-        component.with_visual_icon(icon: :tag)
-        component.with_heading(tag: :h2).with_content(t(".blank_slate.title"))
-        component.with_description { t(".blank_slate.description") }
-      end
-    end
+    render(Admin::Labels::TableComponent.new(rows: labels, query:))
   end
 %>

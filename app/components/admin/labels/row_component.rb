@@ -30,10 +30,24 @@
 
 module Admin
   module Labels
-    class RowComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
-
+    class RowComponent < OpPrimer::BorderBoxRowComponent
       alias_method :label, :model
+
+      def row_data
+        { test_selector: "label-row-#{label.id}" }
+      end
+
+      def name
+        render(Primer::Beta::Label.new(scheme: :secondary, test_selector: "label-name")) { label.name }
+      end
+
+      def usage
+        render(Primer::Beta::Text.new(color: :subtle, test_selector: "label-usage")) { usage_text }
+      end
+
+      def button_links
+        [action_menu]
+      end
 
       private
 
@@ -42,6 +56,33 @@ module Admin
       def usage_text
         count = label[:usage_count].to_i
         count.zero? ? "-" : t(".used_in_work_packages", count:)
+      end
+
+      def action_menu
+        render(Primer::Alpha::ActionMenu.new(anchor_align: :end, test_selector: "label-row-menu")) do |menu|
+          menu.with_show_button(icon: "kebab-horizontal", "aria-label": t(:label_more), scheme: :invisible)
+
+          menu.with_item(
+            label: t(:button_rename),
+            tag: :a,
+            href: edit_dialog_admin_label_path(label),
+            content_arguments: { data: { controller: "async-dialog" } }
+          ) do |item|
+            item.with_leading_visual_icon(icon: :pencil)
+          end
+
+          menu.with_divider
+
+          menu.with_item(
+            label: t(:button_delete),
+            scheme: :danger,
+            tag: :a,
+            href: deletion_dialog_admin_label_path(label),
+            content_arguments: { data: { controller: "async-dialog" } }
+          ) do |item|
+            item.with_leading_visual_icon(icon: :trash)
+          end
+        end
       end
     end
   end

@@ -69,10 +69,7 @@ module Admin
                  .new(user: current_user)
                  .call(label_params)
 
-      result.on_success do
-        flash[:notice] = t(:notice_successful_create)
-        redirect_to admin_labels_path
-      end
+      result.on_success { redirect_to_created_label(result.result) }
 
       result.on_failure do
         update_via_turbo_stream(
@@ -124,6 +121,17 @@ module Admin
 
     def find_label
       @label = Label.find(params.expect(:id))
+    end
+
+    def redirect_to_created_label(label)
+      flash[:notice] = t(:notice_successful_create)
+      redirect_to admin_labels_path(page: page_containing(label))
+    end
+
+    def page_containing(label)
+      preceding_count = Label.where(Label.arel_table[:name].lower.lt(label.name.downcase)).count
+      page = (preceding_count / per_page_param) + 1
+      page if page > 1
     end
 
     def label_params

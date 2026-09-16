@@ -43,6 +43,10 @@ module Admin
           method: :delete
         }
       end
+
+      def usage_count
+        label.labelings.count
+      end
     end
   end
 end

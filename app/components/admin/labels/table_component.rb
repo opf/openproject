@@ -30,13 +30,42 @@
 
 module Admin
   module Labels
-    class ListComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
-      include OpTurbo::Streamable
-
-      alias_method :labels, :model
-
+    class TableComponent < OpPrimer::BorderBoxTableComponent
       options :query
+
+      columns :name, :usage
+      main_column :name
+      mobile_columns :name, :usage
+      mobile_labels :usage
+
+      def has_actions? = true
+
+      def headers
+        [
+          [:name,  { caption: t(".headers.name") }],
+          [:usage, { caption: t(".headers.usage") }]
+        ]
+      end
+
+      def mobile_title = I18n.t(:label_label_plural)
+
+      def filtered?
+        query.find_active_filter(:name).present?
+      end
+
+      def blank_title
+        filtered? ? t(".no_matches.title") : t(".blank_slate.title")
+      end
+
+      def blank_description
+        filtered? ? t(".no_matches.description") : t(".blank_slate.description")
+      end
+
+      def blank_icon
+        filtered? ? :search : :tag
+      end
+
+      def pagination_params = { params: { action: "index" } }
     end
   end
 end

@@ -708,7 +708,10 @@ en:
         label:
           attributes:
             name:
+              blank: "Name cannot be empty."
+              format: "%{message}"
               taken: "A label with this name already exists. Please use another one."
+              too_long: "Name is too long (maximum is %{count} characters)."
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -1758,8 +1761,11 @@ en:
 
     labels:
       delete_dialog_component:
-        confirmation: "I understand that this action is not reversible"
-        description: 'This will remove the label "%{name}" from all work packages in all projects.'
+        confirmation: "I understand that this action is not reversible."
+        description:
+          one: "This will remove the label from 1 work package that currently uses it. Are you sure you want to delete it?"
+          other: "This will remove the label from %{count} work packages that currently use it. Are you sure you want to delete it?"
+          zero: "This label is not used by any work package. Are you sure you want to delete it?"
         heading: "Delete this label?"
         title: "Delete this label?"
       dialog_component:
@@ -1767,16 +1773,6 @@ en:
         rename_title: 'Rename "%{name}"'
       index:
         description: "All users able to edit work packages can freely tag work packages with either existing labels or create new ones instantly. This includes all labels created by users across all projects."
-      list_component:
-        blank_slate:
-          description: "Labels created by users on work packages will appear here."
-          title: "No labels yet"
-        header:
-          name: "Label"
-          usage: "Used in"
-        no_matches:
-          description: "Try a different search term."
-          title: "No labels match your search"
       row_component:
         used_in_work_packages:
           one: "%{count} work package"
@@ -1785,6 +1781,16 @@ en:
         button_add: "Label"
         label_add: "Add label"
         search_placeholder: "Type here to search"
+      table_component:
+        blank_slate:
+          description: "Labels created by users on work packages will appear here."
+          title: "No labels yet"
+        headers:
+          name: "Label"
+          usage: "Used in"
+        no_matches:
+          description: "Try a different search term."
+          title: "No labels match your search"
 
     mcp_configurations:
       index:

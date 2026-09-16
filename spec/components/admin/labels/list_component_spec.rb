@@ -34,6 +34,10 @@ RSpec.describe Admin::Labels::ListComponent, type: :component do
   include Rails.application.routes.url_helpers
 
   shared_let(:admin) { create(:admin) }
+  shared_let(:label) { create(:label, name: "Bug") }
+
+  let(:labels) { Label.with_usage_count.order(:name).paginate(page: 1, per_page: 10) }
+  let(:query) { Queries::Labels::LabelQuery.new }
 
   subject(:rendered_component) do
     with_request_url "/admin/labels" do
@@ -41,72 +45,13 @@ RSpec.describe Admin::Labels::ListComponent, type: :component do
     end
   end
 
-  context "with labels" do
-    shared_let(:used) { create(:label, name: "Bug") }
-    shared_let(:unused) { create(:label, name: "Feature") }
-    shared_let(:labelings) { create_list(:labeling, 2, label: used) }
-
-    let(:labels) { Label.with_usage_count.order(:name).paginate(page: 1, per_page: 10) }
-    let(:query) { Queries::Labels::LabelQuery.new }
-
-    it "renders the column captions" do
-      rendered_component
-
-      expect(page).to have_css(".Box-header", text: "Label")
-      expect(page).to have_css(".Box-header", text: "Used in")
-    end
-
-    it "renders one row per label" do
-      rendered_component
-
-      expect(page).to have_css("[data-test-selector='label-row-#{used.id}']")
-      expect(page).to have_css("[data-test-selector='label-row-#{unused.id}']")
-    end
-
-    it "renders the usage count for a used label and a dash for an unused one" do
-      rendered_component
-
-      used_row = page.find("[data-test-selector='label-row-#{used.id}']")
-      expect(used_row).to have_css("[data-test-selector='label-usage']", text: "2 work packages")
-
-      unused_row = page.find("[data-test-selector='label-row-#{unused.id}']")
-      expect(unused_row).to have_css("[data-test-selector='label-usage']", text: "-")
-    end
-
-    it "renders a pagination footer" do
-      rendered_component
-
-      expect(page).to have_css(".op-pagination")
-    end
+  it "renders a component_wrapper div with a stable DOM id" do
+    wrapper_id = described_class.new(labels, query:).wrapper_key
+    expect(rendered_component).to have_css("##{wrapper_id}")
   end
 
-  context "without labels" do
-    let(:labels) { Label.with_usage_count.paginate(page: 1, per_page: 10) }
-
-    context "with no active filter" do
-      let(:query) { Queries::Labels::LabelQuery.new }
-
-      it_behaves_like "rendering Blank Slate",
-                      heading: I18n.t("admin.labels.list_component.blank_slate.title"),
-                      icon: :tag
-    end
-
-    context "with a name filter matching nothing" do
-      let(:query) do
-        ParamsToQueryService
-          .new(Label, admin, query_class: Queries::Labels::LabelQuery)
-          .call(ActionController::Parameters.new(filters: [{ name: { operator: "~", values: ["zzz"] } }].to_json))
-      end
-
-      it_behaves_like "rendering Blank Slate",
-                      heading: I18n.t("admin.labels.list_component.no_matches.title"),
-                      icon: :search
-
-      it "renders the no-matches description" do
-        rendered_component
-
-        expect(page).to have_text(I18n.t("admin.labels.list_component.no_matches.description"))
-      end
-    end
+  it "renders the table inside the wrapper" do
+    expect(rendered_component).to have_css(".Box")
+    expect(rendered_component).to have_css("[data-test-selector='label-row-#{label.id}']")
   end
 end
