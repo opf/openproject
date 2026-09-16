@@ -142,6 +142,12 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PushHook do
       )
     end
 
+    it "keeps the existing record when the same create event arrives twice" do
+      process
+
+      expect { described_class.new.process(payload) }.not_to change(GitlabBranch, :count)
+    end
+
     context "when the push carries no user" do
       before do
         payload["user_id"] = nil

@@ -65,7 +65,7 @@ module OpenProject
           work_package = find_visible_work_packages(extract_work_package_ids_from_branch(name), user).first
           return if work_package.nil?
 
-          UpsertBranch.new.call(payload, name:, work_package:)
+          CreateBranch.new.call(payload, name:, work_package:)
         end
 
         def extract_work_package_ids_from_branch(branch_name)

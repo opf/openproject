@@ -31,11 +31,11 @@
 module OpenProject
   module GitlabIntegration
     module Services
-      class UpsertBranch
+      class CreateBranch
         def call(payload, name:, work_package:)
-          GitlabBranch
-            .find_or_initialize_by(gitlab_project_id: payload.project_id, name:)
-            .tap { |branch| branch.update!(work_package:, **extract_params(payload, name)) }
+          GitlabBranch.find_or_create_by!(gitlab_project_id: payload.project_id, name:) do |branch|
+            branch.assign_attributes(work_package:, **extract_params(payload, name))
+          end
         end
 
         private
