@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe Workflow do
+RSpec.describe Workflows::StatusTransition do
   describe ".copy" do
     shared_let(:status0) { create(:status) }
     shared_let(:status1) { create(:status) }
@@ -49,7 +49,7 @@ RSpec.describe Workflow do
 
       it { expect(subject.new_status).to eq(workflow_src.new_status) }
 
-      it { expect(subject.type_variant).to eq(expected_variant) }
+      it { expect(expected_variant.workflow_id).to eq(subject.workflow_id) }
 
       it { expect(subject.role).to eq(expected_role) }
 
@@ -60,10 +60,10 @@ RSpec.describe Workflow do
 
     context "for a workflow w/o author or assignee" do
       let!(:workflow_src) do
-        create(:workflow,
+        create(:status_transition,
                old_status: status0,
                new_status: status1,
-               type_variant_id: variant.id,
+               type_variant: variant,
                role:)
       end
 
@@ -76,10 +76,10 @@ RSpec.describe Workflow do
 
     context "for a workflow with author" do
       let!(:workflow_src) do
-        create(:workflow,
+        create(:status_transition,
                old_status: status0,
                new_status: status1,
-               type_variant_id: variant.id,
+               type_variant: variant,
                role:,
                author: true)
       end
@@ -93,10 +93,10 @@ RSpec.describe Workflow do
 
     context "for a workflow with assignee" do
       let!(:workflow_src) do
-        create(:workflow,
+        create(:status_transition,
                old_status: status0,
                new_status: status1,
-               type_variant_id: variant.id,
+               type_variant: variant,
                role:,
                assignee: true)
       end
@@ -110,38 +110,38 @@ RSpec.describe Workflow do
 
     context "when copying to multiple types and roles" do
       let!(:workflow_src) do
-        create(:workflow,
+        create(:status_transition,
                old_status: status0,
                new_status: status1,
-               type_variant_id: variant.id,
+               type_variant: variant,
                role:)
       end
 
       before { described_class.copy(variant, role, [variant_target, variant_target2], [role_target, role_target2]) }
 
       it_behaves_like "copied workflow" do
-        subject { described_class.order(Arel.sql("type_variant_id DESC, role_id DESC")).first }
+        subject { described_class.order(Arel.sql("workflow_id DESC, role_id DESC")).first }
 
         let(:expected_role) { role_target2 }
         let(:expected_variant) { variant_target2 }
       end
 
       it_behaves_like "copied workflow" do
-        subject { described_class.order(Arel.sql("type_variant_id DESC, role_id DESC")).second }
+        subject { described_class.order(Arel.sql("workflow_id DESC, role_id DESC")).second }
 
         let(:expected_role) { role_target }
         let(:expected_variant) { variant_target2 }
       end
 
       it_behaves_like "copied workflow" do
-        subject { described_class.order(Arel.sql("type_variant_id DESC, role_id DESC")).third }
+        subject { described_class.order(Arel.sql("workflow_id DESC, role_id DESC")).third }
 
         let(:expected_role) { role_target2 }
         let(:expected_variant) { variant_target }
       end
 
       it_behaves_like "copied workflow" do
-        subject { described_class.order(Arel.sql("type_variant_id DESC, role_id DESC")).fourth }
+        subject { described_class.order(Arel.sql("workflow_id DESC, role_id DESC")).fourth }
 
         let(:expected_role) { role_target }
         let(:expected_variant) { variant_target }

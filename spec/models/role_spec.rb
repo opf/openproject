@@ -160,14 +160,14 @@ RSpec.describe Role do
 
   describe ".workflows.copy_from_role" do
     before do
-      allow(Workflow)
+      allow(Workflows::StatusTransition)
         .to receive(:copy)
     end
 
-    it "calls Workflow.copy" do
+    it "calls Workflows::StatusTransition.copy" do
       build_role.workflows.copy_from_role(created_role)
 
-      expect(Workflow)
+      expect(Workflows::StatusTransition)
         .to have_received(:copy)
               .with(nil, created_role, nil, build_role)
     end
