@@ -27,73 +27,66 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= content_tag("turbo-frame", id: TURBO_FRAME_ID) do
-  component_wrapper do
-    flex_layout(test_selector: "op-work-package-gitlab-tab-container") do |container|
-      container.with_row(mb: 3) do
-        render(Primer::Alpha::Stack.new(direction: :horizontal, gap: :condensed, align: :center)) do %>
-          <%=
-            render(Primer::Alpha::StackItem.new(grow: true)) do
-              render(Primer::Beta::Text.new(color: :muted)) { t(".description_html", code: content_tag(:code, "OP#123")) }
-            end
-          %>
+<%=
+  content_tag("turbo-frame", id: TURBO_FRAME_ID) do
+    component_wrapper do
+      flex_layout(test_selector: "op-work-package-gitlab-tab-container") do |container|
+        container.with_row(mb: 3) do
+          render(Primer::Alpha::Stack.new(direction: :horizontal, gap: :condensed, align: :center)) do
+            concat(
+              render(Primer::Alpha::StackItem.new(grow: true)) do
+                render(Primer::Beta::Text.new(color: :muted)) { t(".description_html", code: content_tag(:code, "OP#123")) }
+              end
+            )
 
-          <%=
-            render(Primer::Beta::Button.new) do |button|
-              button.with_leading_visual_icon(icon: :terminal)
-              button.with_trailing_action_icon(icon: "triangle-down")
-              t(".git_snippets")
-            end
-          %>
-
-<%
+            concat(render(GitlabIntegration::GitSnippetsDialogComponent.new(work_package)))
+          end
         end
-      end
 
-      container.with_row(mb: 3) do
-        render(
-          ::GitlabIntegration::CollapsibleItemsComponent.new(
-            work_package.gitlab_issues.pluck(:title),
-            container_id: :issues,
-            heading: t(".issues"),
-            work_package:
+        container.with_row(mb: 3) do
+          render(
+            ::GitlabIntegration::CollapsibleItemsComponent.new(
+              work_package.gitlab_issues.pluck(:title),
+              container_id: :issues,
+              heading: t(".issues"),
+              work_package:
+            )
           )
-        )
-      end
+        end
 
-      container.with_row(mb: 3) do
-        render(
-          ::GitlabIntegration::CollapsibleItemsComponent.new(
-            work_package.gitlab_merge_requests.pluck(:title),
-            container_id: :merge_requests,
-            heading: t(".merge_requests"),
-            work_package:
+        container.with_row(mb: 3) do
+          render(
+            ::GitlabIntegration::CollapsibleItemsComponent.new(
+              work_package.gitlab_merge_requests.pluck(:title),
+              container_id: :merge_requests,
+              heading: t(".merge_requests"),
+              work_package:
+            )
           )
-        )
-      end
+        end
 
-      container.with_row(mb: 3) do
-        render(
-          ::GitlabIntegration::CollapsibleItemsComponent.new(
-            [],
-            container_id: :branches,
-            heading: t(".branches"),
-            work_package:
+        container.with_row(mb: 3) do
+          render(
+            ::GitlabIntegration::CollapsibleItemsComponent.new(
+              [],
+              container_id: :branches,
+              heading: t(".branches"),
+              work_package:
+            )
           )
-        )
-      end
+        end
 
-      container.with_row(mb: 3) do
-        render(
-          ::GitlabIntegration::CollapsibleItemsComponent.new(
-            [],
-            container_id: :commits,
-            heading: t(".commits"),
-            work_package:
+        container.with_row(mb: 3) do
+          render(
+            ::GitlabIntegration::CollapsibleItemsComponent.new(
+              [],
+              container_id: :commits,
+              heading: t(".commits"),
+              work_package:
+            )
           )
-        )
+        end
       end
     end
   end
-end
 %>

@@ -136,11 +136,16 @@ en:
       to [%{repository}](%{repository_url}) at %{commit_timestamp}:
 
       %{commit_note}
+    git_snippets_dialog_component:
+      branch_name: Branch name
+      button_label: Git snippets
+      commit_message: Commit message
+      create_branch_with_empty_commit: Create branch with empty commit
+      title: Git quick snippets
     work_package_gitlab_tab_component:
       branches: Branches
       commits: Commits
       description_html: Link an existing GitLab element by adding the code %{code} to the title or description or by creating a new one.
-      git_snippets: Git snippets
       issues: Issues
       merge_requests: Merge requests
 

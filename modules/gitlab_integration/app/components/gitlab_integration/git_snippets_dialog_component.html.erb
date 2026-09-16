@@ -1,0 +1,70 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%=
+  render(Primer::Alpha::Dialog.new(title: t(".title"))) do |dialog|
+    dialog.with_show_button do |button|
+      button.with_leading_visual_icon(icon: :terminal)
+      button.with_trailing_action_icon(icon: "triangle-down")
+      t(".button_label")
+    end
+
+    dialog.with_body do
+      flex_layout do |container|
+        container.with_row(mb: 3) do
+          render(Primer::OpenProject::InputGroup.new) do |menu|
+            menu.with_text_input(name: :branch_name, label: t(".branch_name"), value: branch_name)
+            menu.with_trailing_action_clipboard_copy_button(
+              id: :copy_branch_name,
+              value: branch_name,
+              aria: { label: "Copy branch name" }
+            )
+          end
+        end
+
+        container.with_row { render(Primer::Beta::Text.new(font_weight: :bold)) { t(".commit_message") } }
+        container.with_row(mb: 3) do
+          render(OpPrimer::InsetBoxComponent.new) do
+            concat(render(Primer::Beta::Text.new(tag: :p, mb: 3)) { commit_message_lines[0] })
+            concat(render(Primer::Beta::Text.new(tag: :p, mb: 0)) { commit_message_lines[1] })
+          end
+        end
+
+        container.with_row { render(Primer::Beta::Text.new(font_weight: :bold)) { t(".create_branch_with_empty_commit") } }
+        container.with_row do
+          render(OpPrimer::InsetBoxComponent.new) do
+            create_branch_command_lines.each do |line|
+              concat(render(Primer::Beta::Text.new(tag: :div, style: "white-space: pre")) { line })
+            end
+          end
+        end
+      end
+    end
+  end
+%>
