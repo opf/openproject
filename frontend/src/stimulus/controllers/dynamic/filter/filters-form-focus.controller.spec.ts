@@ -44,11 +44,15 @@ describe('Filters form focus', () => {
     ctx.dispose();
   });
 
-  async function mount(valueMarkup:string, noValue = false) {
+  async function mount(valueMarkup:string, { noValue = false, rowHidden = false } = {}) {
     ctx = await setupStimulusTest({ controllers: { 'filter--filters-form': Controller } });
     await ctx.mount(`<div data-controller="filter--filters-form">
       <button id="previous">Previous</button>
-      <div data-filter-name="test" data-filter--filters-form-target="filter">
+      <select id="add-filter" data-filter--filters-form-target="addFilterSelect">
+        <option value=""></option>
+        <option value="test">Test</option>
+      </select>
+      <div data-filter-name="test" data-filter--filters-form-target="filter" ${rowHidden ? 'hidden' : ''}>
         <select id="operator" data-filter-name="test" data-filter--filters-form-target="operator">
           <option value="=" ${noValue ? 'data-no-value' : ''}>is</option>
         </select>
@@ -69,6 +73,10 @@ describe('Filters form focus', () => {
     ['first usable control', `<div ${target}><input disabled><input hidden><input style="display:none"><select id="expected"><option>A</option></select></div>`],
     ['selected segmented button', `<div ${target}><input type="hidden"><button>No</button><button id="expected" aria-current="true">Yes</button></div>`],
     ['first segmented button', `<div ${target}><button id="expected">No</button><button>Yes</button></div>`],
+    ['control after a disabled fieldset', `<div ${target}><fieldset disabled><input></fieldset><input id="expected"></div>`],
+    ['control after an inert ancestor', `<div ${target}><div inert><input></div><input id="expected"></div>`],
+    ['control after visibility:hidden', `<div ${target}><input style="visibility:hidden"><input id="expected"></div>`],
+    ['active date branch', `<div ${target}><primer-multi-input><div hidden><input class="days" hidden></div><div><input id="expected" class="singleDay"></div></primer-multi-input></div>`],
   ])('focuses exactly one visible value control: %s', async (_name, markup) => {
     const { controller, row } = await mount(markup);
     const focusEvents:EventTarget[] = [];
@@ -83,7 +91,7 @@ describe('Filters form focus', () => {
   });
 
   it('focuses the operator when it needs no value', async () => {
-    const { controller, row } = await mount(`<input ${target}>`, true);
+    const { controller, row } = await mount(`<input ${target}>`, { noValue: true });
 
     controller.focusFilterValueIfPossible(row);
     await vi.advanceTimersByTimeAsync(300);
@@ -91,10 +99,36 @@ describe('Filters form focus', () => {
     expect(document.activeElement).toBe(ctx.container.querySelector('#operator'));
   });
 
+  it('focuses the value control of a filter added through the add-filter select', async () => {
+    const { controller, row } = await mount(`<input id="expected" ${target}>`, { rowHidden: true });
+    const addFilter = ctx.container.querySelector<HTMLSelectElement>('#add-filter')!;
+    addFilter.value = 'test';
+
+    controller.addFilterByName('test');
+    await vi.advanceTimersByTimeAsync(300);
+
+    expect(row.hidden).toBe(false);
+    expect(addFilter.selectedIndex).toBe(0);
+    expect(addFilter.options[1].disabled).toBe(true);
+    expect(document.activeElement).toBe(ctx.container.querySelector('#expected'));
+  });
+
+  it('keeps focus when no value control can receive it', async () => {
+    const { controller, row } = await mount(`<div ${target}><input disabled><input hidden></div>`);
+    const previous = document.activeElement;
+
+    controller.focusFilterValueIfPossible(row);
+
+    expect(vi.getTimerCount()).toBe(0);
+    await vi.advanceTimersByTimeAsync(300);
+    expect(document.activeElement).toBe(previous);
+  });
+
   it.each(['removed', 'hidden', 'disabled'])('does not focus a target that becomes %s', async (change) => {
     const { controller, row } = await mount(`<input id="expected" ${target}>`);
     const expected = ctx.container.querySelector<HTMLInputElement>('#expected')!;
     const previous = document.activeElement;
+    const focus = vi.spyOn(expected, 'focus');
 
     controller.focusFilterValueIfPossible(row);
     if (change === 'removed') expected.remove();
@@ -102,6 +136,7 @@ describe('Filters form focus', () => {
     if (change === 'disabled') expected.disabled = true;
     await vi.advanceTimersByTimeAsync(300);
 
+    expect(focus).not.toHaveBeenCalled();
     expect(document.activeElement).toBe(previous);
   });
 });
