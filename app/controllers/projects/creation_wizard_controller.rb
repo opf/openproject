@@ -33,6 +33,7 @@ class Projects::CreationWizardController < ApplicationController
 
   load_and_authorize_with_permission_in_project :edit_project_attributes
   before_action :load_sections_and_fields, only: %i[show update]
+  before_action :ensure_sections_present, only: %i[show update]
   before_action :find_current_section, only: %i[show update]
 
   layout "no_menu"
@@ -99,6 +100,13 @@ class Projects::CreationWizardController < ApplicationController
 
     scoped_fields = @project.available_custom_fields.where(id: enabled_in_wizard_ids)
     @custom_fields_by_section = ProjectCustomFieldSection.grouped_in_order(scoped_fields).to_h
+  end
+
+  def ensure_sections_present
+    return if @custom_fields_by_section.any?
+
+    flash[:error] = I18n.t("projects.wizard.no_attributes")
+    redirect_to project_path(@project)
   end
 
   def find_current_section
