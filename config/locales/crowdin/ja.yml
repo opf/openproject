@@ -444,6 +444,13 @@ ja:
         time_zone: タイムゾーン
         warn_on_leaving_unsaved: 変更を保存せずにワークパッケージから移動するときに警告
         workdays: 営業時間
+      user_resource:
+        description: Description
+        name: Name
+        user_filter: User filter
+      user_resource_detail:
+        description: Description
+        user_filter: User filter
       user_working_hours:
         availability_factor: Availability factor
         days: Working days
@@ -857,6 +864,10 @@ ja:
               blank: トークン名を入力してください
               format: "%{message}"
               in_use: このトークン名は既に使用されています。違うトークン名を入力してください
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: This type cannot be deleted while work packages still use it.
         type_variant:
           attributes:
             attribute_groups:
@@ -2632,7 +2643,6 @@ ja:
       custom_actions: カスタムアクション
       custom_field_hierarchies: Hierarchies
       customize_life_cycle: ライフサイクルをカスタマイズ
-      date_alerts: 日付アラート
       define_custom_style: カスタムテーマとロゴ
       edit_attribute_groups: 属性グループを編集
       gantt_pdf_export: ガントPDFをエクスポート
@@ -2708,8 +2718,6 @@ ja:
         description: Hierarchy custom fields allow organizing hierarchical structures in work packages and projects by making use of multi-level select lists.
       customize_life_cycle:
         description: PM2プロジェクトサイクル計画で提供されるものとは異なるプロジェクトフェーズを作成して整理します。
-      date_alerts:
-        description: 日付アラートでは、重要な期限を逃したり忘れたりすることは決してないように、今後の開始または終了日が通知されます。
       define_custom_style:
         description: 独自のロゴと色でOpenProjectのインストールをカスタマイズします。
         more_info: 注:使用されたロゴは一般公開されます。
@@ -3334,6 +3342,7 @@ ja:
   label_core_build: コアビルド
   label_core_version: メインのバージョン
   label_created_by: 作成者： %{user}
+  label_criteria: Criteria
   label_current_status: 現在のステータス
   label_current_version: 最新版
   label_custom_comment: "%{name} comment"
@@ -3908,6 +3917,8 @@ ja:
   label_wiki_start: 開始ページ
   label_wiki_toc: 目次
   label_wiki_toc_empty: 見出しが存在しないため、目次は空です。
+  label_with_criteria: With criteria
+  label_without_criteria: Without criteria
   label_work: 予定時間
   label_work_package: ワーク パッケージ
   label_work_package_attachments: ワークパッケージの添付ファイル
@@ -4770,6 +4781,13 @@ ja:
     prev: Previous
     prev_page: Previous Page
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: このテキストはフッターの中央にあるすべてのページに表示されます。
@@ -4784,6 +4802,12 @@ ja:
         label: ハイフネーション
       hyphenation_language:
         label: 言語とハイフネーション
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: PDF ドキュメント内のページの向きを選択します。
         label: ページの向き
@@ -4931,6 +4955,16 @@ ja:
   permission_work_package_assigned: 担当者/責任者になる
   permission_work_package_assigned_explanation: それぞれのプロジェクトで、ワークパッケージはこの役割をもつユーザーおよびグループに割り当てることができます。
   placeholder_users:
+    criteria:
+      activate: Activate filter criteria
+      activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
+
+        '
+      enable: Match users by criteria
+      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
+      matching_users: Users meeting the filter criteria
+      no_matching_users: No user meets these criteria.
+      show_all_matching_users: Show all %{count} matching users
     delete_tooltip: プレースホルダー ユーザーを削除
     deletion_info:
       data_consequences: 'プレースホルダー ユーザのすべての発生(担当者、担当者、その他のユーザ値など)は、「削除されたユーザー」というアカウントに再割り当てられます。 削除されたすべてのアカウントのデータがこのアカウントに再割り当てられるため、ユーザーが作成したデータと別の削除されたアカウントのデータを区別することはできません。
@@ -6487,6 +6521,13 @@ ja:
         confirm: Convert
         text: A global variant with this name already exists. Please choose a different name.
         title: Pick another name for this variant
+      delete:
+        description: The type will be deleted permanently. This action cannot be undone.
+        description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
+        heading: Delete type '%{name}'?
+        projects:
+          other: 'The type will be removed from %{count} projects:'
+        title: Delete type
       description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
         '

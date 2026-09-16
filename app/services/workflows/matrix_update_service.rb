@@ -55,7 +55,7 @@ module Workflows
     def persist(transitions:, indeterminate:)
       results = []
 
-      Workflow.transaction do
+      Workflows::StatusTransition.transaction do
         results = roles.map { update_role(it, transitions, indeterminate) }
         raise ActiveRecord::Rollback unless results.all?(&:success?)
       end
@@ -97,8 +97,11 @@ module Workflows
     # read once up front rather than per cell. Safe to reuse across roles even as they are
     # written: a role's write only ever touches its own rows.
     def saved_transitions
-      @saved_transitions ||= Workflow
-                               .where(type_variant_id: variant.id, role_id: roles.map(&:id), author: author?, assignee: assignee?)
+      @saved_transitions ||= Workflows::StatusTransition
+                               .where(workflow_id: variant.workflow_id,
+                                      role_id: roles.map(&:id),
+                                      author: author?,
+                                      assignee: assignee?)
                                .pluck(:role_id, :old_status_id, :new_status_id)
                                .to_set
     end

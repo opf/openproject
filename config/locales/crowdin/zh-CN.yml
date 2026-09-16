@@ -442,6 +442,13 @@ zh-CN:
         time_zone: 时区
         warn_on_leaving_unsaved: 离开未保存更改的工作包时提示我
         workdays: 工作日
+      user_resource:
+        description: Description
+        name: Name
+        user_filter: User filter
+      user_resource_detail:
+        description: Description
+        user_filter: User filter
       user_working_hours:
         availability_factor: 空闲系数
         days: 工作日
@@ -855,6 +862,10 @@ zh-CN:
               blank: 请提供令牌名称
               format: "%{message}"
               in_use: 此令牌名称已被使用，请选择其他令牌名称
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: This type cannot be deleted while work packages still use it.
         type_variant:
           attributes:
             attribute_groups:
@@ -2632,7 +2643,6 @@ zh-CN:
       custom_actions: 自定义操作
       custom_field_hierarchies: 层级
       customize_life_cycle: 自定义生命周期
-      date_alerts: 日期提醒
       define_custom_style: 自定义主题和 Logo
       edit_attribute_groups: 编辑属性组
       gantt_pdf_export: 甘特图 PDF 导出
@@ -2708,8 +2718,6 @@ zh-CN:
         description: 层级自定义字段通过使用多级选择列表，支持在工作包和项目中构建层级结构。
       customize_life_cycle:
         description: 创建和组织与PM2项目周期规划不同的项目阶段。
-      date_alerts:
-        description: 通过日期提醒，您将收到即将开始或完成日期的通知，以免错过或忘记重要截止日期。
       define_custom_style:
         description: 使用您自己的 Logo 和颜色来自定义 OpenProject 安装。
         more_info: 注：使用的 Logo 将可公开访问。
@@ -3334,6 +3342,7 @@ zh-CN:
   label_core_build: 核心构建
   label_core_version: 核心版本
   label_created_by: 由 %{user} 创建
+  label_criteria: Criteria
   label_current_status: 当前状态
   label_current_version: 当前版本
   label_custom_comment: "%{name}注释"
@@ -3908,6 +3917,8 @@ zh-CN:
   label_wiki_start: 起始页
   label_wiki_toc: 目录
   label_wiki_toc_empty: 目录为空，因为没有标题。
+  label_with_criteria: With criteria
+  label_without_criteria: Without criteria
   label_work: 工时
   label_work_package: 工作包
   label_work_package_attachments: 工作包附件
@@ -4772,6 +4783,13 @@ zh-CN:
     prev: 上一页
     prev_page: 上一页
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: 此文本将出现在每一页的页脚中心。
@@ -4786,6 +4804,12 @@ zh-CN:
         label: 断字
       hyphenation_language:
         label: 语言和连惯性
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: 选择 PDF 文档中页面的方向。
         label: 页面方向
@@ -4933,6 +4957,16 @@ zh-CN:
   permission_work_package_assigned: 成为受理人/责任人
   permission_work_package_assigned_explanation: 工作包可以分配给在各自项目中拥有此角色的用户和组
   placeholder_users:
+    criteria:
+      activate: Activate filter criteria
+      activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
+
+        '
+      enable: Match users by criteria
+      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
+      matching_users: Users meeting the filter criteria
+      no_matching_users: No user meets these criteria.
+      show_all_matching_users: Show all %{count} matching users
     delete_tooltip: 删除占位符用户
     deletion_info:
       data_consequences: '出现的所有占位符用户（例如，作为受理人、负责人或其他用户值）将被重新分配给一个名为“已删除用户”的帐户。 由于每个已删除帐户的数据都会被重新分配给此帐户，因此无法将用户创建的数据与另一个已删除帐户的数据区分。
@@ -6481,6 +6515,13 @@ zh-CN:
         confirm: Convert
         text: A global variant with this name already exists. Please choose a different name.
         title: Pick another name for this variant
+      delete:
+        description: The type will be deleted permanently. This action cannot be undone.
+        description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
+        heading: Delete type '%{name}'?
+        projects:
+          other: 'The type will be removed from %{count} projects:'
+        title: Delete type
       description: '类型和变体内的每个配置区域都可以独立配置、受限于另一种类型，或者完全关联到一个源类型。
 
         '

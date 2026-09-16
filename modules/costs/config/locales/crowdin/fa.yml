@@ -72,6 +72,10 @@ fa:
           attributes:
             project_ids:
               blank: لطفاً یک پروژه انتخاب کنید.
+        rate:
+          attributes:
+            principal:
+              invalid: must be a user or a placeholder user.
         time_entry:
           attributes:
             entity:
@@ -207,6 +211,7 @@ fa:
   label_costlog: هزینه‌های واحد ثبت‌شده
   label_costs: هزینه‌ها
   label_costs_per_page: هزینه‌ها در هر صفحه
+  label_current: Current
   label_current_default_rate: ضریب پرداخت پیشفرض فعلی
   label_date_on: در
   label_day: روز
@@ -233,6 +238,8 @@ fa:
   label_next_week: هفته بعد
   label_next_workweek: هفته کاری بعدی
   label_no: خیر
+  label_no_default_rate: No default rate set
+  label_no_project_rate: No rate set for this project
   label_no_time: زمانی ثبت نشده است
   label_option_plural: گزینه‌ها
   label_overall_costs: هزینه‌های کل
@@ -253,6 +260,7 @@ fa:
   label_today_capitalized: امروز
   label_units: واحدهای هزینه
   label_until: تا
+  label_using_current_default_rate: Using current default rate
   label_valid_from: معتبر از
   label_view_mode_switcher: تغییر نما
   label_work_package_filter_add: افزودن فیلتر پکیج‌کاری
@@ -309,6 +317,11 @@ fa:
   text_destroy_cost_entries_question: "%{cost_entries} در بسته‌های کاری که می‌خواهید حذف کنید گزارش شده است. میخوای چیکار کنی؟"
   text_destroy_time_and_cost_entries: ساعت ها و هزینه های گزارش شده را حذف کنید
   text_destroy_time_and_cost_entries_question: "%{hours} ,%{cost_entries} در بسته‌های کاری که می‌خواهید حذف کنید گزارش شده است. میخوای چیکار کنی؟"
+  text_hourly_rate_destroy_confirmation: The rate of %{rate} valid from %{valid_from} will be deleted. Costs booked against it are recalculated with the rate that then applies.
+  text_hourly_rate_destroy_confirmation_checkbox_label: I understand that this action is not reversible.
+  text_hourly_rate_recalculation: This rate applies from its valid from date until a later rate takes effect. Changing it will also recalculate existing time entries and budgets in that period.
+  text_no_default_rate: The default rate is used in all projects where the user does not have a specific rate set up.
+  text_no_project_rate: This project will use the current default rate.
   text_reassign_time_and_cost_entries: تخصیص ساعت‌ها و هزینه‌های گزارش شده به پروژه
   text_warning_hidden_elements: ممکن است برخی ورودی‌ها از تجمیع حذف شده باشند.
   total_times:

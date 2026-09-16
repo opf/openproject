@@ -280,4 +280,37 @@ RSpec.describe TypeVariant do
       expect(variant).to be_inherits_from_project_owned_variant
     end
   end
+
+  describe "destroying a variant" do
+    shared_let(:role) { create(:project_role) }
+    shared_let(:old_status) { create(:status) }
+    shared_let(:new_status) { create(:status) }
+
+    let(:variant) { create(:type_variant, type: bug, variant_name: "Hardware") }
+
+    before do
+      create(:status_transition, type_variant: variant, role:, old_status:, new_status:)
+    end
+
+    it "discards the workflow it was the last to reference" do
+      workflow_id = variant.workflow_id
+
+      variant.destroy!
+
+      expect(Workflow.where(id: workflow_id)).to be_empty
+      expect(Workflows::StatusTransition.where(workflow_id:)).to be_empty
+    end
+
+    it "keeps a workflow another variant still references" do
+      workflow_id = variant.workflow_id
+      borrowing = create(:type_variant, type: bug, variant_name: "Software", workflows_source: variant)
+
+      expect(borrowing.workflow_id).to eq(workflow_id)
+
+      borrowing.destroy!
+
+      expect(Workflow.where(id: workflow_id)).to be_present
+      expect(Workflows::StatusTransition.where(workflow_id:).count).to eq(1)
+    end
+  end
 end

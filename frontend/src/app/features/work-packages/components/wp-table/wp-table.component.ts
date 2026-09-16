@@ -88,8 +88,6 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
 
   @Input('configuration') configurationObject:WorkPackageTableConfigurationObject;
 
-  @Output() selectionChanged = new EventEmitter<string[]>();
-
   @Output() itemClicked = new EventEmitter<{ workPackageId:string, double:boolean }>();
 
   @Output() stateLinkClicked = new EventEmitter<{ workPackageId:string, requestedState:string }>();

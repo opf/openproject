@@ -73,6 +73,18 @@ RSpec.describe "ResourceAllocations requests",
       expect(response.body).to include(%(data-input-value="#{assignee.id}"))
       expect(response.body).to include("2026-06-10", "2026-06-12")
     end
+
+    it "warns inline when the preselected user has no schedule covering the dates" do
+      create(:user_working_hours, user: assignee, valid_from: Date.new(2026, 6, 12))
+
+      get new_project_resource_allocation_path(project, principal_id: assignee.id,
+                                                        start_date: "2026-06-10", end_date: "2026-06-12"),
+          as: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("has no working hours configured for")
+      expect(response.body).to include("#{I18n.l(Date.new(2026, 6, 10))} - #{I18n.l(Date.new(2026, 6, 11))}")
+    end
   end
 
   describe "POST refresh_form" do
@@ -140,6 +152,53 @@ RSpec.describe "ResourceAllocations requests",
       expect(response.body).not_to include("outside of the work")
       expect(response.body).not_to include(I18n.l(Date.new(2026, 1, 15)))
       expect(response.body).not_to include(I18n.l(Date.new(2026, 2, 20)))
+    end
+  end
+
+  describe "POST refresh_form (missing working hours warning)" do
+    def refresh(placeholder_or_user_id:)
+      post refresh_form_project_resource_allocations_path(project),
+           params: { resource_allocation: {
+             placeholder_or_user_id:,
+             entity_type: "WorkPackage",
+             entity_id: work_package.id,
+             date_range: "2026-09-14 - 2026-09-17",
+             allocated_hours: "24h"
+           } },
+           as: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "streams the warning naming the days the user's schedule does not cover" do
+      create(:user_working_hours, user: assignee, valid_from: Date.new(2026, 9, 16))
+
+      refresh(placeholder_or_user_id: assignee.id)
+
+      expect(response.body).to include("has no working hours configured for")
+      expect(response.body).to include("#{I18n.l(Date.new(2026, 9, 14))} - #{I18n.l(Date.new(2026, 9, 15))}")
+    end
+
+    it "streams the warning for a user without any working hours" do
+      refresh(placeholder_or_user_id: assignee.id)
+
+      expect(response.body).to include("has no working hours configured for these dates")
+    end
+
+    it "streams an empty banner when a schedule covers the whole range" do
+      create(:user_working_hours, user: assignee, valid_from: Date.new(2026, 1, 1))
+
+      refresh(placeholder_or_user_id: assignee.id)
+
+      expect(response.body).not_to include("has no working hours configured")
+    end
+
+    it "streams an empty banner for a placeholder user, who has no working hours" do
+      placeholder = create(:placeholder_user, member_with_permissions: { project => %i[view_work_packages] })
+
+      refresh(placeholder_or_user_id: placeholder.id)
+
+      expect(response.body).not_to include("has no working hours configured")
     end
   end
 

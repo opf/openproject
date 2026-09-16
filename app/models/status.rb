@@ -35,7 +35,11 @@ class Status < ApplicationRecord
 
   default_scope { order_by_position }
   before_destroy :check_integrity
-  has_many :workflows, foreign_key: "old_status_id"
+  has_many :workflow_status_transitions,
+           class_name: "Workflows::StatusTransition",
+           foreign_key: "old_status_id",
+           inverse_of: :old_status,
+           dependent: :delete_all
   acts_as_list
 
   belongs_to :color, class_name: "Color"
@@ -93,13 +97,13 @@ class Status < ApplicationRecord
   ##
   # Overrides cache key so that changes to EE state are reflected
   def cache_key
-    super + "/" + can_readonly?.to_s
+    "#{super}/#{can_readonly?}"
   end
 
   private
 
   def check_integrity
-    raise "Can't delete status" if WorkPackage.where(status_id: id).exists?
+    raise "Can't delete status" if WorkPackage.exists?(status_id: id)
   end
 
   def default_status_must_not_be_readonly
@@ -110,9 +114,9 @@ class Status < ApplicationRecord
 
   # Deletes associated workflows
   def delete_workflows
-    Workflow
+    Workflows::StatusTransition
       .where(old_status_id: id)
-      .or(Workflow.where(new_status_id: id))
+      .or(Workflows::StatusTransition.where(new_status_id: id))
       .delete_all
   end
 end

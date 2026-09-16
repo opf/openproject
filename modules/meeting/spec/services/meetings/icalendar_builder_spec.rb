@@ -706,6 +706,18 @@ RSpec.describe Meetings::IcalendarBuilder,
       user2_single = single_recurrence_event.attendee.find { |a| a.to_s.include?(user2.mail) }
       expect(user2_single.ical_params["partstat"]).to eq(["DECLINED"])
     end
+
+    context "when the series anchor moved past the response" do
+      before do
+        recurring_meeting.update_column(:current_schedule_start, interim_response.start_time + 1.week)
+      end
+
+      it "emits no override, as its RECURRENCE-ID would precede the master DTSTART" do
+        builder.add_series_event(recurring_meeting:)
+
+        expect(parsed_calendar.events.select { |e| e.recurrence_id.present? }).to be_empty
+      end
+    end
   end
 
   context "for timezone component" do

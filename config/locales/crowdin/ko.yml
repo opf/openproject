@@ -442,6 +442,13 @@ ko:
         time_zone: 표준 시간대
         warn_on_leaving_unsaved: 저장하지 않고 작업 패키지를 벗어날 때 알려주세요.
         workdays: 근무일
+      user_resource:
+        description: Description
+        name: Name
+        user_filter: User filter
+      user_resource_detail:
+        description: Description
+        user_filter: User filter
       user_working_hours:
         availability_factor: 가용성 요소
         days: 근무일
@@ -855,6 +862,10 @@ ko:
               blank: 토큰 이름을 입력하세요
               format: "%{message}"
               in_use: 이 토큰 이름은 이미 사용 중입니다. 다른 이름을 선택하세요
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: This type cannot be deleted while work packages still use it.
         type_variant:
           attributes:
             attribute_groups:
@@ -2648,7 +2659,6 @@ ko:
       custom_actions: 사용자 지정 작업
       custom_field_hierarchies: 계층
       customize_life_cycle: 수명 주기 사용자 지정
-      date_alerts: 날짜 알림
       define_custom_style: 사용자 지정 테마 및 로고
       edit_attribute_groups: 특성 그룹 편집
       gantt_pdf_export: Gantt PDF 내보내기
@@ -2724,8 +2734,6 @@ ko:
         description: 계층 사용자 지정 필드를 사용하면 다중 레벨 선택 목록을 사용하여 작업 패키지 및 프로젝트의 계층 구조를 구성할 수 있습니다.
       customize_life_cycle:
         description: PM2 프로젝트 사이클 계획에서 제공되는 것과는 다른 프로젝트 단계를 만들고 구성합니다.
-      date_alerts:
-        description: 날짜 경보를 사용하면, 중요 마감일을 놓치거나 잊지 않도록 향후 시작 날짜 또는 종료 날짜에 대한 알림을 받게 됩니다.
       define_custom_style:
         description: 고유한 로고와 색상으로 OpenProject 설치를 사용자 지정하세요.
         more_info: '참고: 사용된 로그는 공개적으로 액세스 가능합니다.'
@@ -3348,6 +3356,7 @@ ko:
   label_core_build: 코어 빌드
   label_core_version: 코어 버전
   label_created_by: '작성자: %{user}'
+  label_criteria: Criteria
   label_current_status: 현재 상태
   label_current_version: 현재 버전
   label_custom_comment: "%{name} 코멘트"
@@ -3922,6 +3931,8 @@ ko:
   label_wiki_start: 시작 페이지
   label_wiki_toc: 목차
   label_wiki_toc_empty: 머리글이 없으므로 목차가 비어 있습니다.
+  label_with_criteria: With criteria
+  label_without_criteria: Without criteria
   label_work: 작업
   label_work_package: 작업 패키지
   label_work_package_attachments: 작업 패키지 첨부 파일
@@ -4788,6 +4799,13 @@ ko:
     prev: 이전
     prev_page: 이전 페이지
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: 이 텍스트는 모든 페이지의 바닥글 가운데에 나타납니다.
@@ -4802,6 +4820,12 @@ ko:
         label: 하이픈 넣기
       hyphenation_language:
         label: 언어 및 하이픈 넣기
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: PDF 문서의 페이지 방향을 선택하세요.
         label: 페이지 방향
@@ -4952,6 +4976,16 @@ ko:
   permission_work_package_assigned: 담당자/책임자 되기
   permission_work_package_assigned_explanation: 작업 패키지는 각각의 프로젝트에서 이 역할을 가진 사용자와 그룹에 할당될 수 있습니다.
   placeholder_users:
+    criteria:
+      activate: Activate filter criteria
+      activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
+
+        '
+      enable: Match users by criteria
+      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
+      matching_users: Users meeting the filter criteria
+      no_matching_users: No user meets these criteria.
+      show_all_matching_users: Show all %{count} matching users
     delete_tooltip: 플레이스홀더 사용자 삭제
     deletion_info:
       data_consequences: '플레이스홀더 사용자의 모든 항목(예: 담당자, 책임자, 기타 사용자 값 등)은 "삭제된 사용자"라는 계정에 다시 할당됩니다. 삭제된 모든 계정의 데이터는 이 계정에 다시 할당되기 때문에 사용자가 생성한 데이터와 다른 삭제된 계정의 데이터를 구별할 수 없습니다.
@@ -6497,6 +6531,13 @@ ko:
         confirm: Convert
         text: A global variant with this name already exists. Please choose a different name.
         title: Pick another name for this variant
+      delete:
+        description: The type will be deleted permanently. This action cannot be undone.
+        description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
+        heading: Delete type '%{name}'?
+        projects:
+          other: 'The type will be removed from %{count} projects:'
+        title: Delete type
       description: '유형 및 변형 내의 각 구성 영역은 독립적으로 구성하거나, 다른 유형으로부터 제한하거나, 소스에 완전히 연결할 수 있습니다.
 
         '

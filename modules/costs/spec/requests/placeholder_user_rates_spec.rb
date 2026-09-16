@@ -48,7 +48,7 @@ RSpec.describe "Placeholder user rates",
       get edit_placeholder_user_path(placeholder, tab: :rates)
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("user-rate-history-list")
+      expect(response.body).to include(User.human_attribute_name(:default_rates))
     end
 
     it "lists the projects the placeholder is a member of" do
@@ -56,58 +56,60 @@ RSpec.describe "Placeholder user rates",
 
       expect(response.body).to include(project.name)
     end
-  end
 
-  describe "default rates" do
-    it "can be edited" do
-      get edit_hourly_rate_path(placeholder)
+    it "shows the rate history of a project the placeholder has a rate in" do
+      create(:hourly_rate, principal: placeholder, project:, valid_from: Date.current, rate: 95)
 
-      expect(response).to have_http_status(:ok)
-    end
+      get edit_placeholder_user_path(placeholder, tab: :rates)
 
-    it "can be set and returns to the placeholder's rates tab" do
-      put hourly_rate_path(placeholder), params: {
-        user: {
-          new_rate_attributes: { "0" => { valid_from: "2026-01-01", rate: "95" } },
-          existing_rate_attributes: {}
-        }
-      }
-
-      expect(placeholder.reload.default_rate_at(Date.new(2026, 6, 1)).rate).to eq(95)
-      expect(response).to redirect_to(edit_placeholder_user_path(placeholder, tab: :rates))
+      expect(response.body).to include("95.00")
     end
   end
 
-  describe "project rates" do
-    it "can be edited" do
-      get edit_projects_hourly_rate_path(project_id: project, id: placeholder)
+  describe "the project rate history" do
+    it "points at the default rate when the placeholder has no rate in the project" do
+      get projects_hourly_rate_path(project_id: project, id: placeholder)
 
       expect(response).to have_http_status(:ok)
+      expect(response.body).to include(I18n.t(:label_no_project_rate))
+      expect(response.body).to include(I18n.t(:text_no_project_rate))
     end
 
-    it "can be set and takes precedence over the default rate" do
-      put hourly_rate_path(placeholder), params: {
-        user: {
-          new_rate_attributes: { "0" => { valid_from: "2026-01-01", rate: "95" } },
-          existing_rate_attributes: {}
-        }
-      }
-      put projects_hourly_rate_path(project_id: project, id: placeholder), params: {
-        user: {
-          new_rate_attributes: { "0" => { valid_from: "2026-01-01", rate: "120" } },
-          existing_rate_attributes: {}
-        }
-      }
+    context "with a rate history" do
+      before do
+        create(:hourly_rate, principal: placeholder, project:, valid_from: 1.year.ago, rate: 80)
+        create(:hourly_rate, principal: placeholder, project:, valid_from: Date.current, rate: 95)
 
-      expect(placeholder.reload.rate_at(Date.new(2026, 6, 1), project).rate).to eq(120)
+        get projects_hourly_rate_path(project_id: project, id: placeholder)
+      end
+
+      it "names the project and the rate in effect in the header" do
+        expect(response.body).to include(project.name)
+        expect(response.body).to include(I18n.t(:label_current))
+        expect(response.body).to include("95.00")
+      end
+
+      it "lists every rate of the history" do
+        expect(response.body).to include("80.00")
+        expect(response.body).to include("95.00")
+      end
+
+      # A placeholder cannot log time, but it can be budgeted, so its rate is
+      # recalculated into budgets just like a user's.
+      it "warns about recalculation when editing one of them" do
+        get edit_hourly_rate_path(placeholder.rates.first), headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include(I18n.t(:text_hourly_rate_recalculation))
+      end
     end
   end
 
   describe "for a principal that cannot hold a rate" do
-    shared_let(:group) { create(:group) }
+    shared_let(:group) { create(:group, member_with_roles: { project => create(:project_role) }) }
 
     it "is not found" do
-      get edit_hourly_rate_path(group)
+      get projects_hourly_rate_path(project_id: project, id: group)
 
       expect(response).to have_http_status(:not_found)
     end

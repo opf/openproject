@@ -444,6 +444,13 @@ cs:
         time_zone: Časové pásmo
         warn_on_leaving_unsaved: Upozornit mě při opuštění pracovního balíčku s neuloženými změnami
         workdays: Pracovní dny
+      user_resource:
+        description: Description
+        name: Name
+        user_filter: User filter
+      user_resource_detail:
+        description: Description
+        user_filter: User filter
       user_working_hours:
         availability_factor: Faktor dostupnosti
         days: Pracovní dny
@@ -860,6 +867,10 @@ cs:
               blank: Please provide a token name
               format: "%{message}"
               in_use: This token name is already in use, please select a different one
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: This type cannot be deleted while work packages still use it.
         type_variant:
           attributes:
             attribute_groups:
@@ -3052,7 +3063,6 @@ cs:
       custom_actions: Custom Actions
       custom_field_hierarchies: Hierarchie
       customize_life_cycle: Přizpůsobit životní cyklus
-      date_alerts: Upozornění na data
       define_custom_style: Vlastní motiv a logo
       edit_attribute_groups: Upravit skupiny atributů
       gantt_pdf_export: Gantt PDF export
@@ -3131,8 +3141,6 @@ cs:
         description: Hierarchy custom fields allow organizing hierarchical structures in work packages and projects by making use of multi-level select lists.
       customize_life_cycle:
         description: Create and organize different project phases than the ones provided by PM2 project cycle planning.
-      date_alerts:
-        description: S upozorněním na datum budete upozorněni na blížící se datum zahájení nebo ukončení, abyste nikdy nezmeškali nebo nezapomněli na důležitou lhůtu.
       define_custom_style:
         description: Přizpůsobte si instalaci OpenProject vlastním logem a barvami.
         more_info: 'Poznámka: použité logo bude veřejně přístupné.'
@@ -3769,6 +3777,7 @@ cs:
   label_core_build: Build jádra
   label_core_version: Verze jádra
   label_created_by: Vytvořil %{user}
+  label_criteria: Criteria
   label_current_status: Aktuální stav
   label_current_version: Aktuální verze
   label_custom_comment: "%{name} comment"
@@ -4343,6 +4352,8 @@ cs:
   label_wiki_start: Úvodní stránka
   label_wiki_toc: Obsah
   label_wiki_toc_empty: Obsah je prázdný, protože nejsou k dispozici žádné nadpisy.
+  label_with_criteria: With criteria
+  label_without_criteria: Without criteria
   label_work: Práce
   label_work_package: Pracovní balíček
   label_work_package_attachments: Přílohy pracovních balíčků
@@ -5246,6 +5257,13 @@ cs:
     prev: Předchozí
     prev_page: Předchozí stránka
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: Tento text se zobrazí na každé stránce uprostřed zápatí.
@@ -5260,6 +5278,12 @@ cs:
         label: Dělení slov
       hyphenation_language:
         label: Jazyk a dělení slov
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: Vyberte orientaci stránek v dokumentu PDF.
         label: Orientace stránky
@@ -5407,6 +5431,16 @@ cs:
   permission_work_package_assigned: Staňte se řešitelem/odpovědným
   permission_work_package_assigned_explanation: Pracovní balíčky mohou být přiřazeny uživatelům a skupinám, které tuto roli vlastní v příslušném projektu
   placeholder_users:
+    criteria:
+      activate: Activate filter criteria
+      activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
+
+        '
+      enable: Match users by criteria
+      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
+      matching_users: Users meeting the filter criteria
+      no_matching_users: No user meets these criteria.
+      show_all_matching_users: Show all %{count} matching users
     delete_tooltip: Odstranit placeholder uživatele
     deletion_info:
       data_consequences: 'Všechny výskyty zástupného uživatele (např. jako pověřené nebo odpovědné nebo jiné uživatelské hodnoty) budou přeřazeny na účet nazvaný "Smazaný uživatel". Vzhledem k tomu, že data každého smazaného účtu jsou znovu přiřazena k tomuto účtu, nebude možné rozlišit data, která uživatel vytvořil od dat jiného smazaného účtu.
@@ -7002,6 +7036,16 @@ cs:
         confirm: Convert
         text: A global variant with this name already exists. Please choose a different name.
         title: Pick another name for this variant
+      delete:
+        description: The type will be deleted permanently. This action cannot be undone.
+        description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
+        heading: Delete type '%{name}'?
+        projects:
+          one: 'The type will be removed from 1 project:'
+          few: 'The type will be removed from %{count} projects:'
+          many: 'The type will be removed from %{count} projects:'
+          other: 'The type will be removed from %{count} projects:'
+        title: Delete type
       description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
         '

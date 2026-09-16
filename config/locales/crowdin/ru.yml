@@ -442,6 +442,13 @@ ru:
         time_zone: Часовой пояс
         warn_on_leaving_unsaved: При покидании рабочего пакета предупреждать о не сохраненных изменениях
         workdays: Рабочие дни
+      user_resource:
+        description: Description
+        name: Name
+        user_filter: User filter
+      user_resource_detail:
+        description: Description
+        user_filter: User filter
       user_working_hours:
         availability_factor: Фактор доступности
         days: Рабочие дни
@@ -858,6 +865,10 @@ ru:
               blank: Пожалуйста, укажите имя токена
               format: "%{message}"
               in_use: Это имя токена уже используется, пожалуйста, выберите другое
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: This type cannot be deleted while work packages still use it.
         type_variant:
           attributes:
             attribute_groups:
@@ -3052,7 +3063,6 @@ ru:
       custom_actions: Пользовательские действия
       custom_field_hierarchies: Иерархии
       customize_life_cycle: Настройка жизненного цикла
-      date_alerts: Дата оповещения
       define_custom_style: Пользовательская тема и логотип
       edit_attribute_groups: Редактирование атрибутов групп
       gantt_pdf_export: Экспорт диаграммы Ганта в PDF
@@ -3131,8 +3141,6 @@ ru:
         description: Пользовательские поля типа Иерархия позволяют организовывать иерархические структуры в пакетах работ и проектах с использованием многоуровневых списков.
       customize_life_cycle:
         description: Создание и организация этапов и стадий проекта, отличных от тех, что предусмотрены планированием цикла проекта PM2.
-      date_alerts:
-        description: С уведомлениями по дате вы будете получать уведомления о предстоящих датах начала или датах конца, чтобы никогда не пропустить или не забыть важный срок.
       define_custom_style:
         description: Установка собственного логотипа и цветовой темы в Вашем OpenProject.
         more_info: 'Примечание: используемый логотип будет общедоступным.'
@@ -3767,6 +3775,7 @@ ru:
   label_core_build: Сборка ядра
   label_core_version: Текущая версия
   label_created_by: Создано %{user}
+  label_criteria: Criteria
   label_current_status: Текущий статус
   label_current_version: Текущий этап
   label_custom_comment: "%{name} комментарий"
@@ -4341,6 +4350,8 @@ ru:
   label_wiki_start: Начальная страница
   label_wiki_toc: Содержание
   label_wiki_toc_empty: Содержание пусто, так как нет заголовков.
+  label_with_criteria: With criteria
+  label_without_criteria: Without criteria
   label_work: Предполагаемое время
   label_work_package: Пакет работ
   label_work_package_attachments: Вложения пакета работ
@@ -5241,6 +5252,13 @@ ru:
     prev: Назад
     prev_page: Предыдущая страница
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: Этот текст появится на каждой странице в центре нижнего колонтитула.
@@ -5255,6 +5273,12 @@ ru:
         label: Расстановка переносов
       hyphenation_language:
         label: Язык и переносы
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: Выберите ориентацию страниц в PDF-документе.
         label: Ориентация страницы
@@ -5402,6 +5426,16 @@ ru:
   permission_work_package_assigned: Становиться исполнителем/ответственным
   permission_work_package_assigned_explanation: Пакеты работ могут быть привязаны к пользователям и группам в зависимости от этой роли в рамках соответствующего проекта
   placeholder_users:
+    criteria:
+      activate: Activate filter criteria
+      activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
+
+        '
+      enable: Match users by criteria
+      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
+      matching_users: Users meeting the filter criteria
+      no_matching_users: No user meets these criteria.
+      show_all_matching_users: Show all %{count} matching users
     delete_tooltip: Удалить пользователя-заполнителя
     deletion_info:
       data_consequences: 'Все вхождения пользователя плейсхолдера (например, как цессионария, ответственные или другие пользовательские значения) будут переназначены на учетную запись под названием "Удаленный пользователь". Так как данные каждого удаленного аккаунта переназначены на этот аккаунт, невозможно отличить данные пользователя от данных другого удаленного аккаунта.
@@ -6979,6 +7013,16 @@ ru:
         confirm: Convert
         text: A global variant with this name already exists. Please choose a different name.
         title: Pick another name for this variant
+      delete:
+        description: The type will be deleted permanently. This action cannot be undone.
+        description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
+        heading: Delete type '%{name}'?
+        projects:
+          one: 'The type will be removed from 1 project:'
+          few: 'The type will be removed from %{count} projects:'
+          many: 'The type will be removed from %{count} projects:'
+          other: 'The type will be removed from %{count} projects:'
+        title: Delete type
       description: 'Каждая область конфигурации внутри типов и вариантов может быть настроена самостоятельно, ограничена другим типом или полностью связана с источником.
 
         '

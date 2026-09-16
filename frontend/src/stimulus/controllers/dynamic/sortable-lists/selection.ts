@@ -133,19 +133,18 @@ export function resolveCandidate(root:HTMLElement, target:EventTarget|null):Sele
   };
 }
 
-// Live document order: a morph can reorder rows underneath a selection formed
-// minutes ago.
-export function orderedSelectedItems(root:HTMLElement, keys:ReadonlySet<SelectionKey>):SelectionItem[] {
-  return orderedItemElements(root)
-    .map((item) => itemIdentity(item))
-    .filter((item):item is SelectionItem => item !== null && keys.has(selectionKey(item)));
-}
-
-function itemIdentity(itemElement:Element):SelectionItem|null {
+export function itemIdentity(itemElement:Element):SelectionItem|null {
   const id = resolveItemId(itemElement);
   const type = resolveItemType(itemElement);
 
   return id && type ? { type, id } : null;
+}
+
+export function orderedSelectedItemElements(root:HTMLElement, keys:ReadonlySet<SelectionKey>):HTMLElement[] {
+  return orderedItemElements(root).filter((item) => {
+    const identity = itemIdentity(item);
+    return identity !== null && keys.has(selectionKey(identity));
+  });
 }
 
 export function liveOrderableItems(root:HTMLElement):SelectionItem[] {
@@ -256,9 +255,18 @@ export function applySelectionPresentation(
   root:HTMLElement,
   keys:ReadonlySet<SelectionKey>,
   describedById:string,
+  changedKeys?:ReadonlySet<SelectionKey>,
 ):void {
+  if (changedKeys?.size === 0) {
+    return;
+  }
+
   for (const item of orderedItemElements(root)) {
     const identity = itemIdentity(item);
+    if (changedKeys && (!identity || !changedKeys.has(selectionKey(identity)))) {
+      continue;
+    }
+
     const focusHost = focusHostOf(item);
 
     if (identity && keys.has(selectionKey(identity))) {
