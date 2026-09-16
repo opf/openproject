@@ -88,11 +88,18 @@ RSpec.describe "Projects autocomplete page", :js do
     visit root_path
   end
 
-  it "allows to filter and select projects" do
-    retry_block do
-      top_menu.toggle unless top_menu.open?
-      top_menu.expect_open
+  describe "allows to filter and select projects" do
+    before do
+      retry_block do
+        top_menu.toggle unless top_menu.open?
+        top_menu.expect_open
 
+        # Wait until the component is fully loaded and ready
+        top_menu.expect_result project.name
+      end
+    end
+
+    it "displays the projects the user is allowed to see" do
       # projects are displayed initially
       top_menu.expect_result project.name
       # public project is displayed as it is public
@@ -101,79 +108,98 @@ RSpec.describe "Projects autocomplete page", :js do
       top_menu.expect_no_result non_member_project.name
     end
 
-    # Filter for projects
-    top_menu.search "<strong"
+    it "escapes HTML in the project name instead of rendering it" do
+      # Filter for projects
+      top_menu.search "<strong"
 
-    # Expect result is shown and HTML in the project name is escaped, not rendered
-    within(top_menu.search_results) do
-      expect(page).to have_no_css("strong")
+      # Only the matching project is left, i.e. the filter has been applied.
+      top_menu.expect_no_result "Plain project"
+
+      # Expect result is shown and HTML in the project name is escaped, not rendered
+      within(top_menu.search_results) do
+        expect(page).to have_no_css("strong")
+      end
     end
 
-    # Expect fuzzy matches for multiple substrings
-    top_menu.search "Plain pr"
-    top_menu.expect_result "Plain project"
-    top_menu.expect_result "Plain other project"
-    top_menu.expect_no_result "Project with different name and identifier"
-
-    # Expect search to match names only and not the identifier
-    top_menu.clear_search
-
-    top_menu.search "plain"
-    top_menu.expect_result "Plain project"
-    top_menu.expect_result "Plain other project"
-    top_menu.expect_no_result "Project with different name and identifier"
-
-    # Expect hierarchy
-    top_menu.clear_search
-
-    # The unfiltered tree collapses back to its initial state, so the child is
-    # hidden until its ancestor is expanded. Waiting for it to disappear also
-    # keeps the assertions below from reading the still-filtered tree, which
-    # lingers for the duration of the search debounce.
-    top_menu.expect_no_result "Plain other project"
-
-    top_menu.expect_result "Plain project"
-    # Nothing is filtered out without a query, so the ancestor is selectable.
-    top_menu.expect_result "<strong>foobar</strong>"
-
-    top_menu.expand_node_for "<strong>foobar</strong>"
-    top_menu.expect_item_with_hierarchy_level hierarchy_level: 2,
-                                              item_name: "Plain other project"
-
-    # Show hierarchy of project
-    top_menu.search "Plain other project"
-
-    top_menu.expect_result "<strong>foobar</strong>", disabled: true
-    top_menu.expect_item_with_hierarchy_level hierarchy_level: 2,
-                                              item_name: "Plain other project"
-
-    # find terms at the end of project names
-    top_menu.search "END"
-    top_menu.expect_result "Very long project name with term at the END"
-
-    # Find literal matches exclusively if present
-    top_menu.search "INK15"
-    top_menu.expect_result "INK15 - Bar"
-    top_menu.expect_no_result "INK14 - Foo"
-    top_menu.expect_no_result "INK16 - Baz"
-
-    # Visit a project
-    top_menu.search_and_select "<strong"
-    top_menu.expect_current_project project2.name
-
-    # Keeps the current module
-    visit project_news_index_path(project2)
-    expect(page).to have_css(".news-menu-item.selected")
-
-    retry_block do
-      top_menu.toggle
-      top_menu.expect_open
-      top_menu.search_and_select "Plain project"
+    it "expects fuzzy matches for multiple substrings" do
+      top_menu.search "Plain pr"
+      top_menu.expect_result "Plain project"
+      top_menu.expect_result "Plain other project"
     end
 
-    expect(page).to have_current_path(project_news_index_path(project),
-                                      ignore_query: true)
-    expect(page).to have_css(".news-menu-item.selected")
+    it "expects every term to match, not just one of them" do
+      top_menu.search "Plain other"
+      top_menu.expect_result "Plain other project"
+      top_menu.expect_no_result "Plain project"
+    end
+
+    it "expects search to match the identifier as well as the name" do
+      top_menu.search "plain"
+      top_menu.expect_result "Plain project"
+      top_menu.expect_result "Plain other project"
+      top_menu.expect_result "Project with different name and identifier"
+    end
+
+    it "expects hierarchy" do
+      # Filtering expands the tree, so filter first to be able to tell the
+      # collapsed tree apart from the filtered one.
+      top_menu.search "plain"
+      top_menu.expect_result "Plain other project"
+
+      top_menu.clear_search
+
+      # The unfiltered tree collapses back to its initial state, so the child is
+      # hidden until its ancestor is expanded.
+      top_menu.expect_no_result "Plain other project"
+
+      top_menu.expect_result "Plain project"
+      # Nothing is filtered out without a query, so the ancestor is selectable.
+      top_menu.expect_result "<strong>foobar</strong>"
+
+      top_menu.expand_node_for "<strong>foobar</strong>"
+      top_menu.expect_item_with_hierarchy_level hierarchy_level: 2,
+                                                item_name: "Plain other project"
+    end
+
+    it "shows hierarchy of project" do
+      top_menu.search "Plain other project"
+
+      top_menu.expect_result "<strong>foobar</strong>", disabled: true
+      top_menu.expect_item_with_hierarchy_level hierarchy_level: 2,
+                                                item_name: "Plain other project"
+    end
+
+    it "finds terms at the end of project names" do
+      top_menu.search "END"
+      top_menu.expect_result "Very long project name with term at the END"
+    end
+
+    it "finds literal matches exclusively if present" do
+      top_menu.search "INK15"
+      top_menu.expect_result "INK15 - Bar"
+      top_menu.expect_no_result "INK14 - Foo"
+      top_menu.expect_no_result "INK16 - Baz"
+    end
+
+    it "visits a project" do
+      top_menu.search_and_select "<strong"
+      top_menu.expect_current_project project2.name
+    end
+
+    it "keeps the current module" do
+      visit project_news_index_path(project2)
+      expect(page).to have_css(".news-menu-item.selected")
+
+      retry_block do
+        top_menu.toggle
+        top_menu.expect_open
+        top_menu.search_and_select "Plain project"
+      end
+
+      expect(page).to have_current_path(project_news_index_path(project),
+                                        ignore_query: true)
+      expect(page).to have_css(".news-menu-item.selected")
+    end
   end
 
   it "navigates to the first project upon hitting enter in the search bar" do
