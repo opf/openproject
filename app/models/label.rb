@@ -32,6 +32,8 @@ class Label < ApplicationRecord
   belongs_to :author, class_name: "User"
   has_many :labelings, dependent: :delete_all
 
+  scope :active, -> { where(archived_at: nil) }
+  scope :archived, -> { where.not(archived_at: nil) }
   scope :with_usage_count, -> {
     left_joins(:labelings)
       .select("labels.*, COUNT(labelings.id) AS usage_count")
@@ -42,4 +44,8 @@ class Label < ApplicationRecord
             presence: true,
             uniqueness: { case_sensitive: false },
             length: { maximum: 255 }
+
+  def archived?
+    archived_at.present?
+  end
 end

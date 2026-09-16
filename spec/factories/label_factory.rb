@@ -32,5 +32,9 @@ FactoryBot.define do
   factory :label do
     sequence(:name) { "Label #{it}" }
     author factory: :user
+
+    trait :archived do
+      archived_at { Time.current }
+    end
   end
 end
