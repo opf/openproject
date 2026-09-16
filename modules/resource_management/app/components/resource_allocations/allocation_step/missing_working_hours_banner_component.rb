@@ -30,8 +30,10 @@
 
 module ResourceAllocations
   module AllocationStep
-    class ScheduleViolationBannerComponent < ApplicationComponent
+    class MissingWorkingHoursBannerComponent < ApplicationComponent
       include OpTurbo::Streamable
+
+      I18N_SCOPE = "resource_management.allocate_resource_dialog.missing_working_hours"
 
       def initialize(allocation:)
         super
@@ -40,7 +42,7 @@ module ResourceAllocations
 
       def call
         component_wrapper do
-          if schedule_violation?
+          if unscheduled_range
             render(Primer::Alpha::Banner.new(scheme: :warning, icon: :alert, mt: 2)) { warning_text }
           end
         end
@@ -48,24 +50,35 @@ module ResourceAllocations
 
       private
 
-      def schedule_violation?
-        @allocation.schedule_violation.present?
+      def user
+        @allocation.principal
+      end
+
+      def allocation_range
+        return if @allocation.start_date.blank? || @allocation.end_date.blank?
+
+        @allocation.start_date..@allocation.end_date
+      end
+
+      def unscheduled_range
+        return @unscheduled_range if defined?(@unscheduled_range)
+
+        @unscheduled_range =
+          if user.present? && allocation_range
+            ResourceAllocations::Availability.new(user:).unscheduled_range(allocation_range)
+          end
       end
 
       def warning_text
-        I18n.t(
-          "resource_management.allocate_resource_dialog.outside_dates.description",
-          resource_dates: date_range(@allocation.start_date, @allocation.end_date),
-          work_package_dates: date_range(@allocation.entity_start_date, @allocation.entity_due_date)
-        )
+        if unscheduled_range == allocation_range
+          I18n.t("#{I18N_SCOPE}.none")
+        else
+          I18n.t("#{I18N_SCOPE}.partial", dates: date_range(unscheduled_range))
+        end
       end
 
-      def date_range(from_date, to_date)
-        "#{format_or_dash(from_date)} - #{format_or_dash(to_date)}"
-      end
-
-      def format_or_dash(date)
-        date.present? ? helpers.format_date(date) : "—"
+      def date_range(range)
+        "#{helpers.format_date(range.begin)} - #{helpers.format_date(range.end)}"
       end
     end
   end
