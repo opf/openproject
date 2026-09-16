@@ -1,0 +1,31 @@
+# Schema: LabelCollectionModel
+---
+allOf:
+  - $ref: "./collection_model.yml"
+  - type: object
+    required:
+      - _links
+      - _embedded
+    properties:
+      _links:
+        type: object
+        required:
+          - self
+        properties:
+            self:
+              allOf:
+                - $ref: "./link.yml"
+                - description: |-
+                    This label collection
+
+                    **Resource**: LabelCollectionModel
+              readOnly: true
+      _embedded:
+        type: object
+        required:
+          - elements
+        properties:
+          elements:
+            type: array
+            items:
+              $ref: "./label_model.yml"

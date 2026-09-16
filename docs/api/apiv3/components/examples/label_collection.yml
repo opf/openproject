@@ -1,0 +1,38 @@
+# Example: Label collection
+---
+value:
+  _embedded:
+    elements:
+      - _links:
+          self:
+            href: "/api/v3/labels/1"
+            title: Bug
+        _type: Label
+        id: 1
+        name: Bug
+        createdAt: '2014-08-29T12:40:53.373Z'
+        updatedAt: '2014-08-29T12:40:53.373Z'
+      - _links:
+          self:
+            href: "/api/v3/labels/2"
+            title: Frontend
+        _type: Label
+        id: 2
+        name: Frontend
+        createdAt: '2014-08-29T12:41:12.552Z'
+        updatedAt: '2014-08-29T12:41:12.552Z'
+      - _links:
+          self:
+            href: "/api/v3/labels/3"
+            title: Urgent
+        _type: Label
+        id: 3
+        name: Urgent
+        createdAt: '2014-08-29T12:42:03.128Z'
+        updatedAt: '2014-08-29T12:42:03.128Z'
+  _links:
+    self:
+      href: "/api/v3/labels"
+  _type: Collection
+  count: 3
+  total: 3
