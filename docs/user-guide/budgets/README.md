@@ -75,7 +75,7 @@ The **+ icon** will add a new unit cost type for this budget.
 
 You can also add planned labor costs to a budget.
 
-Set the **hours**, **days**, **weeks** or **months** that will be planned for a user on this budget. The system converts the entered duration to hours based on the system-wide setting of eight hours per workday. For example, entering 6d 2h results in a total of 50h.
+Set the **hours**, **days**, **weeks** or **months** that will be planned for a user on this budget. The system converts the entered duration to hours based on the [number of hours defined per day](../../../system-admin-guide/calendars-and-dates/#working-days-and-hours) in the system-wide settings. For example, if your system settings is set to eight hours per work day, entering 6d 2h results in a total of 50h.
 
 Add a **user** from the drop-down list.
 
