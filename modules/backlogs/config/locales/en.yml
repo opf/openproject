@@ -262,7 +262,9 @@ en:
             blocks:
               show_all: "View all"
           closed_work_packages: "Closed work packages"
-          resolved_summary: "%{percentage}% (%{resolved} of %{total} work packages)"
+          resolved_summary:
+            one: "%{percentage}% (%{resolved} of %{total} work package)"
+            other: "%{percentage}% (%{resolved} of %{total} work packages)"
 
     sprints:
       row_component:

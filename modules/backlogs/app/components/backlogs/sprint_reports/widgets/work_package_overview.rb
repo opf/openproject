@@ -59,7 +59,8 @@ module Backlogs
             ".resolved_summary",
             percentage: resolved_percentage,
             resolved: resolved_work_packages_count,
-            total: total_work_packages_count
+            total: total_work_packages_count,
+            count: total_work_packages_count
           )
         end
 
