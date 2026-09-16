@@ -84,9 +84,7 @@ class Burndown
   def elapsed_days
     return [] unless sprint.date_range_set?
 
-    last_day = [Time.zone.today, sprint.finish_date].min
-
-    return [] if last_day < sprint.start_date
+    last_day = Time.zone.today.clamp(sprint.start_date, sprint.finish_date)
 
     Day.working.from_range(from: sprint.start_date, to: last_day).map(&:date)
   end

@@ -79,8 +79,19 @@ RSpec.describe Burndown do
           sprint.save!
         end
 
-        it "generates an empty burndown" do
-          expect(burndown.series[:story_points]).to be_empty
+        describe "WITH 1 work_package assigned to the sprint" do
+          let!(:work_package) do
+            create(:work_package,
+                   subject: "WorkPackage 1",
+                   project:,
+                   sprint:,
+                   type: type_feature,
+                   status: issue_open,
+                   priority: issue_priority,
+                   story_points: 9)
+          end
+
+          it { expect(burndown.story_points).to eql [9.0] }
         end
       end
 
