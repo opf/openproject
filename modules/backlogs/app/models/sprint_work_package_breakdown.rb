@@ -41,27 +41,29 @@ class SprintWorkPackageBreakdown
   end
 
   def initially_planned
-    snapshot_block(reference_start)
+    @initially_planned ||= snapshot_block(reference_start)
   end
 
   def completed
-    snapshot_block(reference_finish, done: true)
+    @completed ||= snapshot_block(reference_finish, done: true)
   end
 
   def unfinished
-    snapshot_block(reference_finish, done: false)
+    @unfinished ||= snapshot_block(reference_finish, done: false)
   end
 
   def changed_after_start
-    added_ids = added_after_start_ids
-    removed_ids = removed_after_start_ids
+    @changed_after_start ||= begin
+      added_ids = added_after_start_ids
+      removed_ids = removed_after_start_ids
 
-    ChangeBlock.new(
-      added_count: added_ids.size,
-      removed_count: removed_ids.size,
-      added_story_points: added_ids.sum { |id| finish_points[id] || 0 },
-      removed_story_points: removed_ids.sum { |id| start_points[id] || 0 }
-    )
+      ChangeBlock.new(
+        added_count: added_ids.size,
+        removed_count: removed_ids.size,
+        added_story_points: added_ids.sum { |id| finish_points[id] || 0 },
+        removed_story_points: removed_ids.sum { |id| start_points[id] || 0 }
+      )
+    end
   end
 
   def reference_start
