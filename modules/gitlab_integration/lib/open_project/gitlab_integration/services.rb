@@ -28,8 +28,6 @@
 #++
 
 require_relative "services/params_helper"
-require_relative "services/upsert_branch"
-require_relative "services/track_branch"
 require_relative "services/upsert_pipeline"
 require_relative "services/upsert_gitlab_user"
 require_relative "services/upsert_merge_request"

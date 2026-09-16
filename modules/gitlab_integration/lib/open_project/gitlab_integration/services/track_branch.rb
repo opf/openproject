@@ -56,7 +56,9 @@ module OpenProject
         private
 
         def branch_name(ref)
-          ref.delete_prefix(HEADS_PREFIX) if ref.start_with?(HEADS_PREFIX)
+          return unless ref.start_with?(HEADS_PREFIX)
+
+          ref.delete_prefix(HEADS_PREFIX)
         end
 
         def branch_created!(payload, name, user)

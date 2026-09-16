@@ -236,6 +236,17 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PushHook do
     end
   end
 
+  context "when the created ref is not a branch" do
+    before do
+      payload["before"] = "0" * 40
+      payload["ref"] = "refs/tags/v1.0-#{work_package.id}"
+    end
+
+    it "tracks nothing" do
+      expect { process }.not_to change(GitlabBranch, :count)
+    end
+  end
+
   context "with a regular push" do
     let(:comment) do
       "**Pushed in main:** [Administrator]" \
