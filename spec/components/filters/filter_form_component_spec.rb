@@ -135,7 +135,7 @@ RSpec.describe Filters::FilterFormComponent, type: :component do
     it "drops the filters modules registered as excluded" do
       render_form(query:)
 
-      Queries::Register.excluded_filters.each do |filter_class|
+      query.class.excluded_filters.each do |filter_class|
         expect(page).to have_no_css("option[value='#{filter_class.key}']")
         expect(page).to have_no_css("[data-filter-name='#{filter_class.key}']", visible: :all)
       end

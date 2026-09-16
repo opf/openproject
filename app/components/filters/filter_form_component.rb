@@ -139,7 +139,7 @@ class Filters::FilterFormComponent < ApplicationComponent
 
   def never_advertised?(filter)
     NEVER_ADVERTISED_FILTER_NAMES.include?(filter.name.to_sym) ||
-      ::Queries::Register.excluded_filters.include?(filter.class)
+      query.class.excluded_filters.include?(filter.class)
   end
 
   def form_list

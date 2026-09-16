@@ -32,7 +32,7 @@ module API
       module Schemas
         class QueryFilterInstanceSchemaCollectionRepresenter < ::API::V3::Schemas::SchemaCollectionRepresenter
           def initialize(filters, ...)
-            filters = filters.reject { ::Queries::Register.excluded_filters.include?(it.class) }
+            filters = filters.reject { Query.excluded_filters.include?(it.class) }
 
             super
           end
