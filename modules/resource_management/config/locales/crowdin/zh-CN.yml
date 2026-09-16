@@ -2,17 +2,19 @@
 zh-CN:
   activerecord:
     attributes:
+      placeholder_user:
+        user_filter: Filter criteria
       resource_allocation:
         allocated_hours: 小时
         allocated_time: 分配时间
         date_range: 日期
         end_date: 结束日期
         entity: 实体
-        filter_name: 资源筛选器名称
+        placeholder_or_user: Assignee
+        placeholder_user: Placeholder user
         principal: 受理人
         start_date: 开始日期
         state: 地区
-        user_filter: 用户筛选器
       resource_planner:
         date_range: 日期
         default_view_class_name: 默认视图
@@ -81,14 +83,9 @@ zh-CN:
       make_public: 设为公开
       unfavorite: 取消收藏
     allocate_resource_dialog:
-      kind:
-        filter:
-          caption: 基于用户特性设置筛选条件以创建占位符资源。
-          label: 筛选条件
-        label: 分配类型
-        principal:
-          caption: 为特定用户分配小时数。
-          label: 用户
+      criteria:
+        empty: No criteria set.
+        label: Criteria
       outside_dates:
         description: 所选资源日期 %{resource_dates} 在工作包日期 %{work_package_dates} 之外。
       overbooking:
@@ -134,6 +131,9 @@ zh-CN:
           caption: 您手动添加和移除的自定义项目列表。无法进行筛选。
           label: 人工挑选
       title: 配置视图
+    create_placeholder_user_dialog:
+      submit: Create
+      title: Create placeholder user
     edit_allocation_dialog:
       submit: 保存
       success_message: 资源分配已更新。

@@ -2,17 +2,19 @@
 hy:
   activerecord:
     attributes:
+      placeholder_user:
+        user_filter: Filter criteria
       resource_allocation:
         allocated_hours: Ժամեր
         allocated_time: Հատկացված ժամանակ
         date_range: Ամսաթվեր
         end_date: Ավարտի ամսաթիվ
         entity: Էություն
-        filter_name: Ռեսուրսի զտիչի անվանում
+        placeholder_or_user: Assignee
+        placeholder_user: Placeholder user
         principal: Պատասխանատու
         start_date: Սկզբի ամսաթիվ
         state: Վիճակ
-        user_filter: Օգտատերերի զտիչ
       resource_planner:
         date_range: Ամսաթվեր
         default_view_class_name: Կանխադրված տեսք
@@ -87,14 +89,9 @@ hy:
       make_public: Դարձնել հրապարակային
       unfavorite: Հեռացնել ընտրյալներից
     allocate_resource_dialog:
-      kind:
-        filter:
-          caption: Սահմանեք զտիչի չափանիշներ՝ հիմնված օգտատիրոջ հատկանիշների վրա, տեղապահ ռեսուրս ստեղծելու համար։
-          label: Զտիչի չափանիշներ
-        label: Հատկացման տեսակ
-        principal:
-          caption: Հատկացրեք ժամեր կոնկրետ օգտատիրոջ համար։
-          label: Օգտատեր
+      criteria:
+        empty: No criteria set.
+        label: Criteria
       outside_dates:
         description: Ընտրված ռեսուրսի ամսաթվերը՝ %{resource_dates}, դուրս են աշխատանքային փաթեթի ամսաթվերից՝ %{work_package_dates}։
       overbooking:
@@ -140,6 +137,9 @@ hy:
           caption: Տարրերի հատուկ ցուցակ, որոնք Դուք ձեռքով եք ավելացնում և հեռացնում։ Զտումը հնարավոր չէ։
           label: Ձեռքով ընտրված
       title: Կազմաձևել տեսքը
+    create_placeholder_user_dialog:
+      submit: Create
+      title: Create placeholder user
     edit_allocation_dialog:
       submit: Պահպանել
       success_message: Ռեսուրսի հատկացումը թարմացվել է։

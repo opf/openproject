@@ -22,7 +22,16 @@
 ---
 lt:
   activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: The rows and columns must together cover exactly the grouping criteria of the query.
     models:
+      cost_report:
+        one: Cost report
+        few: Cost reports
+        many: Cost reports
+        other: Cost reports
       cost_query:
         one: Cost report
         few: Cost reports

@@ -72,6 +72,10 @@ pt-BR:
           attributes:
             project_ids:
               blank: Selecione um projeto.
+        rate:
+          attributes:
+            principal:
+              invalid: must be a user or a placeholder user.
         time_entry:
           attributes:
             entity:
@@ -207,6 +211,7 @@ pt-BR:
   label_costlog: Custos unitários registrados
   label_costs: Custos
   label_costs_per_page: Custos por página
+  label_current: Current
   label_current_default_rate: Atual taxa padrão
   label_date_on: em
   label_day: Dia
@@ -233,6 +238,8 @@ pt-BR:
   label_next_week: Próxima semana
   label_next_workweek: Próxima semana útil
   label_no: Não
+  label_no_default_rate: No default rate set
+  label_no_project_rate: No rate set for this project
   label_no_time: Sem tempo controlado
   label_option_plural: Opções
   label_overall_costs: Custos totais
@@ -253,6 +260,7 @@ pt-BR:
   label_today_capitalized: Hoje
   label_units: Custos unitários
   label_until: até
+  label_using_current_default_rate: Using current default rate
   label_valid_from: Válido a partir de
   label_view_mode_switcher: Alterar vista
   label_work_package_filter_add: Adicionar filtro de pacote de trabalho
@@ -309,6 +317,11 @@ pt-BR:
   text_destroy_cost_entries_question: "%{cost_entries} foram informados sobre os pacotes de trabalho que você está prestes a excluir. O que você quer fazer?"
   text_destroy_time_and_cost_entries: Excluir horas e custos informados
   text_destroy_time_and_cost_entries_question: "%{hours} horas, %{cost_entries} foram relatados sobre os pacotes de trabalho que você está prestes a excluir. O que você quer fazer?"
+  text_hourly_rate_destroy_confirmation: The rate of %{rate} valid from %{valid_from} will be deleted. Costs booked against it are recalculated with the rate that then applies.
+  text_hourly_rate_destroy_confirmation_checkbox_label: I understand that this action is not reversible.
+  text_hourly_rate_recalculation: This rate applies from its valid from date until a later rate takes effect. Changing it will also recalculate existing time entries and budgets in that period.
+  text_no_default_rate: The default rate is used in all projects where the user does not have a specific rate set up.
+  text_no_project_rate: This project will use the current default rate.
   text_reassign_time_and_cost_entries: 'Reatribua horas reportadas e custos para este pacote de trabalho:'
   text_warning_hidden_elements: Algumas entradas podem ter sido excluídas da agregação.
   total_times:

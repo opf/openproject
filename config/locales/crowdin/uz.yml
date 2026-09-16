@@ -222,6 +222,7 @@ uz:
         title: Title
       member:
         blocked: Blocked
+        principal_type: Member type
         roles: Roles
       notification:
         read_ian: Read in-app
@@ -234,6 +235,7 @@ uz:
         position: Position
       persisted_query:
         filters: Filters
+        group_bys: Group results by
         name: Name
         orders: Orders
         selects: Selects
@@ -440,6 +442,13 @@ uz:
         time_zone: Time zone
         warn_on_leaving_unsaved: Warn me when leaving a work package with unsaved changes
         workdays: Working days
+      user_resource:
+        description: Description
+        name: Name
+        user_filter: User filter
+      user_resource_detail:
+        description: Description
+        user_filter: User filter
       user_working_hours:
         availability_factor: Availability factor
         days: Working days
@@ -742,7 +751,6 @@ uz:
             types:
               cannot_assign_multiple_variants_of_parent: Can only enable a single variant of a Type on the project
               cannot_assign_variant_and_parent: 'Cannot assign a variant and its parent '
-              cannot_assign_variants_yet: Variants cannot be enabled on a project yet. Enable the feature flag to try out variants
               in_use_by_work_packages: 'still in use by work packages: %{types}'
               switch_target_blank: Select the variant to switch to
               switch_target_identical: The target type must be different from the type the project uses now
@@ -855,6 +863,10 @@ uz:
               blank: Please provide a token name
               format: "%{message}"
               in_use: This token name is already in use, please select a different one
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: This type cannot be deleted while work packages still use it.
         type_variant:
           attributes:
             attribute_groups:
@@ -865,6 +877,9 @@ uz:
               query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
             base:
               borrowed_by_variants: Cannot be deleted while its configuration is reused by %{names}.
+              inherits_from_project_owned: 'This variant currently inherits from a project-specific variant and cannot be converted to a global variant.
+
+                '
               is_default_variant: The default configuration of a type cannot be deleted.
               project_variants_not_allowed: This type does not allow creation of variants inside projects.
               restrict_dependent_destroy:
@@ -1740,6 +1755,14 @@ uz:
       update:
         failure: MCP configuration could not be updated.
         success: MCP configuration was updated successfully.
+    members:
+      index:
+        blank_description: No membership matches the current filter.
+        blank_title: No memberships
+        filter_label: Search users
+        inheritance_source: "%{type} %{name}"
+        inherited_via: "(via: %{source})"
+        title: Memberships
     plugins:
       no_results_content_text: See our integrations and plugins page for more information.
       no_results_title_text: There are currently no plugins installed.
@@ -1985,6 +2008,13 @@ uz:
           assignee: Additional transitions available to the work package's assignee.
           author: Additional transitions available to the work package's author.
         menu_label: Transitions shown
+  ai:
+    text_transform:
+      errors:
+        connection_failed: The AI service could not be reached.
+        not_available: The AI assistant is not available.
+        timeout: The AI service did not respond in time.
+        upstream_error: The AI service returned an error.
   announcements:
     is_active: currently displayed
     is_inactive: currently not displayed
@@ -2047,10 +2077,6 @@ uz:
       not_found:
         reminder: The reminder you are looking for cannot be found or has been deleted.
         work_package: The work package you are looking for cannot be found or has been deleted.
-      render:
-        context_not_parsable: The context provided is not a link to a resource.
-        context_object_not_found: Cannot find the resource given as the context.
-        unsupported_context: The resource given is not supported as context.
       unable_to_create_attachment: The attachment could not be created
       unable_to_create_attachment_permissions: The attachment could not be saved due to lacking file system permissions
       user:
@@ -3456,10 +3482,10 @@ uz:
   label_copy_target: Target
   label_copy_workflow_from: Copy workflow from
   label_copy_workflow_from_role: Copy to other roles
-  label_copy_workflow_from_type: Copy to another type
   label_core_build: Core build
   label_core_version: Core version
   label_created_by: Created by %{user}
+  label_criteria: Criteria
   label_current_status: Current status
   label_current_version: Current version
   label_custom_comment: "%{name} comment"
@@ -4034,6 +4060,8 @@ uz:
   label_wiki_start: Start page
   label_wiki_toc: Table of Contents
   label_wiki_toc_empty: Table of Contents is empty as no headings are present.
+  label_with_criteria: With criteria
+  label_without_criteria: Without criteria
   label_work: Work
   label_work_package: Work package
   label_work_package_attachments: Work package attachments
@@ -4864,8 +4892,6 @@ uz:
       not_found: not found.
       respond_to?: does not implement required method.
       rules:
-        copy_workflow_from:
-          workflow_missing: has no own workflow.
         custom_field:
           format_not_supported: format '%{field_format}' is unsupported.
         item:
@@ -4885,7 +4911,6 @@ uz:
     or: or
     rules:
       blueprint: Pattern blueprint
-      copy_workflow_from: Type for workflow copy
       depth: Depth
       enabled: Enabled
       item: Item
@@ -5088,6 +5113,16 @@ uz:
   permission_work_package_assigned: Become assignee/responsible
   permission_work_package_assigned_explanation: Work packages can be assigned to users and groups in possession of this role in the respective project
   placeholder_users:
+    criteria:
+      activate: Activate filter criteria
+      activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
+
+        '
+      enable: Match users by criteria
+      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
+      matching_users: Users meeting the filter criteria
+      no_matching_users: No user meets these criteria.
+      show_all_matching_users: Show all %{count} matching users
     delete_tooltip: Delete placeholder user
     deletion_info:
       data_consequences: 'All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
@@ -5547,6 +5582,31 @@ uz:
     warnings:
       cannot_annotate: This file cannot be annotated.
   roles:
+    delete_dialog:
+      confirm: Are you sure you want to delete this role?
+      entry_projects:
+        one: "(Project: %{projects})"
+        other: "(Projects: %{projects})"
+      entry_projects_truncated:
+        one: "(Projects: %{projects} and 1 other)"
+        other: "(Projects: %{projects} and %{count} others)"
+      heading:
+        one: 'This role is still attributed to 1 member:'
+        other: 'This role is still attributed to %{count} members:'
+      heading_unused: Are you sure you want to delete the role "%{name}"?
+      losing_project_access:
+        one: Out of these users, 1 will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        other: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        zero: None of these users will lose access to any of their projects. Are you sure you want to delete this role?
+      show_memberships: Show all memberships with this role
+      summary: "%{users} in %{projects}"
+      summary_projects:
+        one: 1 project
+        other: "%{count} projects"
+      summary_users:
+        one: 1 user
+        other: "%{count} users"
+      title: Delete role
     edit:
       default_for_new_projects_warning: 'This role is configured as the default role given to non-admin users who create a project. Do not remove the following permissions, otherwise project creators will be unable to complete the setup of their newly created projects:'
     index:
@@ -6134,13 +6194,14 @@ uz:
         <br>
         <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Excluded from totals
         is_closed: Closed
-        is_default: Default
         is_readonly: Read-only
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Add a new status
       no_results_title_text: There are currently no work package statuses.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: and
@@ -6454,6 +6515,15 @@ uz:
         query_group_label: Related work packages table
         remove_attribute: Remove from section
         rename_group: Rename section
+        required:
+          already_required_globally: This custom field is required for all types.
+          for_variant: Required in this type
+          globally: Required
+          globally_hint: Change this on the custom field
+          mark: Require in this type
+          not_a_custom_field: Only a custom field can be made required for a single type.
+          not_available_when_linked: This configuration is inherited. Configure it manually to change what is required.
+          unmark: Do not require in this type
         reset_description: 'This will reset the attributes to their default group and disable ALL custom fields.
 
           '
@@ -6604,7 +6674,7 @@ uz:
         filter_no_results: No variants match this filter
         global_section:
           description: These variants are available across all projects.
-          title: Variants
+          title: Global variants
         project_specific_section:
           description: These variants are only available within the projects in which they were created.
           title: Project-specific variants
@@ -6613,6 +6683,25 @@ uz:
     index:
       add_variant: Add a variant to %{name}
       add_variant_action: Add variant
+      convert_to_global: Convert to global variant
+      convert_to_global_dialog:
+        confirm: Convert
+        text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
+
+          '
+      convert_to_global_notice: "%{name} is now a global variant."
+      convert_to_global_rename:
+        confirm: Convert
+        text: A global variant with this name already exists. Please choose a different name.
+        title: Pick another name for this variant
+      delete:
+        description: The type will be deleted permanently. This action cannot be undone.
+        description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
+        heading: Delete type '%{name}'?
+        projects:
+          one: 'The type will be removed from 1 project:'
+          other: 'The type will be removed from %{count} projects:'
+        title: Delete type
       description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
         '
@@ -7006,10 +7095,10 @@ uz:
       descendants_choice:
         heading: Delete all descendants too?
         question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
-        self_only_label: Delete just the selected work packages
         self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        with_descendants_label: Delete the selected work packages and their descendants
+        self_only_label: Delete just the selected work packages
         with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete the selected work packages and their descendants
       description: Are you sure you want to delete the selected work packages and all associated data?
       description_with_all_descendants: Are you sure you want to delete the selected work packages and all of their descendants?
       description_with_descendants: Are you sure you want to delete the selected work packages and all the following descendants?
@@ -7077,10 +7166,10 @@ uz:
       descendants_choice:
         heading: Delete all descendants too?
         question: This work package has descendants. Do you want to delete them as well?
-        self_only_label: Delete just this work package
         self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        with_descendants_label: Delete this work package and descendants
+        self_only_label: Delete just this work package
         with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete this work package and descendants
       description: Are you sure you want to delete "%{name}"?
       heading: Permanently delete this work package?
       hidden_descendants_only_warning:
@@ -7132,29 +7221,13 @@ uz:
   workflows:
     copies:
       form:
-        mode:
-          from_role:
-            caption: Copy the current workflow to one or more roles inside the same work package type. If the selected role already has a workflow the current one will be overwritten.
-            label: Copy to other roles
-          from_type:
-            caption: Copy the current workflow to another work packages type. If the selected type already has a workflow the current one will be overwritten. This affects all roles.
-            label: Copy to another type
-        source_role_id:
-          label: Source role
         target_role_ids:
           label: Target roles
-        target_variant_ids:
-          label: Target types
       from_roles:
         create:
           notice:
             one: Successfully copied workflow to '%{role_name}' role.
             other: Successfully copied workflow to %{count} roles.
-      from_variants:
-        create:
-          notice:
-            one: Successfully copied workflow to '%{type_name}'.
-            other: Successfully copied workflow to %{count} types.
       new:
         title: Copy workflow of "%{source_type}"
     form:

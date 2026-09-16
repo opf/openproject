@@ -2,17 +2,19 @@
 sv:
   activerecord:
     attributes:
+      placeholder_user:
+        user_filter: Filter criteria
       resource_allocation:
         allocated_hours: Timmar
         allocated_time: Tilldelad tid
         date_range: Datum
         end_date: Slutdatum
         entity: Entitet
-        filter_name: Namn på resursfilter
+        placeholder_or_user: Assignee
+        placeholder_user: Placeholder user
         principal: Tilldelad till
         start_date: Startdatum
         state: Tillstånd
-        user_filter: Användarfilter
       resource_planner:
         date_range: Datum
         default_view_class_name: Standardvy
@@ -87,14 +89,9 @@ sv:
       make_public: Gör offentlig
       unfavorite: Ta bort från favoriter
     allocate_resource_dialog:
-      kind:
-        filter:
-          caption: Ange filterkriterier baserade på användarattribut för att skapa en platshållarresurs.
-          label: Filterkriterier
-        label: Tilldelningstyp
-        principal:
-          caption: Tilldela timmar för en viss användare.
-          label: Användare
+      criteria:
+        empty: No criteria set.
+        label: Criteria
       outside_dates:
         description: De valda resursdatumen, %{resource_dates}, ligger utanför arbetspaketets datum, %{work_package_dates}.
       overbooking:
@@ -140,6 +137,9 @@ sv:
           caption: En anpassad lista med poster som du lägger till och tar bort manuellt. Filtrering är inte möjlig.
           label: Manuellt utvalda
       title: Konfigurera vy
+    create_placeholder_user_dialog:
+      submit: Create
+      title: Create placeholder user
     edit_allocation_dialog:
       submit: Spara
       success_message: Resurstilldelningen har uppdaterats.

@@ -182,7 +182,7 @@ zh-CN:
         column_count: 列数
         page: 页
         row_count: 行数
-        widgets: 微件
+        widgets: 小部件
       group:
         group_users: 用户组
         identity_url: 身份 URL
@@ -222,6 +222,7 @@ zh-CN:
         title: 标题
       member:
         blocked: 已阻止
+        principal_type: Member type
         roles: 角色
       notification:
         read_ian: 在app中读取
@@ -234,6 +235,7 @@ zh-CN:
         position: 位置
       persisted_query:
         filters: 筛选器
+        group_bys: Group results by
         name: 名称
         orders: 订单
         selects: 选择
@@ -440,6 +442,13 @@ zh-CN:
         time_zone: 时区
         warn_on_leaving_unsaved: 离开未保存更改的工作包时提示我
         workdays: 工作日
+      user_resource:
+        description: Description
+        name: Name
+        user_filter: User filter
+      user_resource_detail:
+        description: Description
+        user_filter: User filter
       user_working_hours:
         availability_factor: 空闲系数
         days: 工作日
@@ -741,7 +750,6 @@ zh-CN:
             types:
               cannot_assign_multiple_variants_of_parent: 只能在项目上启用一个类型的单个变体
               cannot_assign_variant_and_parent: 无法指定变体及其父项
-              cannot_assign_variants_yet: 目前无法在项目上启用变体。请启用功能标志以试用变体
               in_use_by_work_packages: '仍在使用的工作包: %{types}'
               switch_target_blank: 选择要切换到的变体
               switch_target_identical: 目标类型必须不同于项目现在使用的类型
@@ -854,6 +862,10 @@ zh-CN:
               blank: 请提供令牌名称
               format: "%{message}"
               in_use: 此令牌名称已被使用，请选择其他令牌名称
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: This type cannot be deleted while work packages still use it.
         type_variant:
           attributes:
             attribute_groups:
@@ -864,6 +876,9 @@ zh-CN:
               query_invalid: 嵌入式查询 '%{group}' 无效：%{details}
             base:
               borrowed_by_variants: 无法删除，其配置被 %{names} 重复使用。
+              inherits_from_project_owned: 'This variant currently inherits from a project-specific variant and cannot be converted to a global variant.
+
+                '
               is_default_variant: 无法删除类型的默认配置。
               project_variants_not_allowed: This type does not allow creation of variants inside projects.
               restrict_dependent_destroy:
@@ -1340,7 +1355,7 @@ zh-CN:
         title: 删除企业令牌
       enterprise_link: 如需了解详细信息，请单击此处。
       get_quote: 获取报价
-      order: 订购本地部署版的 Enterprise edition
+      order: 订购本地部署的 Enterprise edition
       paste: 粘贴您企业版的支持令牌
       replace_token: 替换您当前的支持令牌
       required_for_feature: 此功能仅限具激活的企业版支持令牌的订阅者使用。
@@ -1625,6 +1640,14 @@ zh-CN:
       update:
         failure: MCP 配置无法更新。
         success: MCP 配置已成功更新。
+    members:
+      index:
+        blank_description: No membership matches the current filter.
+        blank_title: No memberships
+        filter_label: Search users
+        inheritance_source: "%{type} %{name}"
+        inherited_via: "(via: %{source})"
+        title: Memberships
     plugins:
       no_results_content_text: 更多信息，请参阅我们的集成和插件页面。
       no_results_title_text: 目前没有安装插件。
@@ -1867,6 +1890,13 @@ zh-CN:
           assignee: 对工作包受理人可用的其他过渡。
           author: 对工作包作者可用的其他过渡。
         menu_label: 显示的过渡
+  ai:
+    text_transform:
+      errors:
+        connection_failed: The AI service could not be reached.
+        not_available: The AI assistant is not available.
+        timeout: The AI service did not respond in time.
+        upstream_error: The AI service returned an error.
   announcements:
     is_active: 当前已显示
     is_inactive: 当前未显示
@@ -1929,10 +1959,6 @@ zh-CN:
       not_found:
         reminder: 找不到您要查找的提醒或者它已被删除。
         work_package: 找不到您要查找的工作包或者它已被删除。
-      render:
-        context_not_parsable: 所提供的上下文环境并不是指向资源的链接。
-        context_object_not_found: 找不到可作为上下文环境的资源。
-        unsupported_context: 所提供的资源不被上下文环境所支持。
       unable_to_create_attachment: 无法创建附件
       unable_to_create_attachment_permissions: 由于缺少文件系统权限，无法保存附件
       user:
@@ -3313,10 +3339,10 @@ zh-CN:
   label_copy_target: 目标
   label_copy_workflow_from: 复制工作流自
   label_copy_workflow_from_role: 复制到其他角色
-  label_copy_workflow_from_type: 复制到其他类型
   label_core_build: 核心构建
   label_core_version: 核心版本
   label_created_by: 由 %{user} 创建
+  label_criteria: Criteria
   label_current_status: 当前状态
   label_current_version: 当前版本
   label_custom_comment: "%{name}注释"
@@ -3748,7 +3774,7 @@ zh-CN:
   label_revision_plural: 修订
   label_roadmap: 路线图
   label_roadmap_due_in: "%{value} 到期"
-  label_roadmap_edit: 编辑路线图%{name}
+  label_roadmap_edit: 编辑路线图 %{name}
   label_roadmap_no_work_packages: 该版本没有工作包。
   label_roadmap_overdue: "%{value} 超时"
   label_role_and_permissions: 角色和权限
@@ -3891,6 +3917,8 @@ zh-CN:
   label_wiki_start: 起始页
   label_wiki_toc: 目录
   label_wiki_toc_empty: 目录为空，因为没有标题。
+  label_with_criteria: With criteria
+  label_without_criteria: Without criteria
   label_work: 工时
   label_work_package: 工作包
   label_work_package_attachments: 工作包附件
@@ -4708,8 +4736,6 @@ zh-CN:
       not_found: 未找到。
       respond_to?: 不实现所需方法。
       rules:
-        copy_workflow_from:
-          workflow_missing: 无独立工作流。
         custom_field:
           format_not_supported: 格式 '%{field_format}' 不受支持。
         item:
@@ -4729,7 +4755,6 @@ zh-CN:
     or: 或
     rules:
       blueprint: 图案蓝图
-      copy_workflow_from: 工作流副本的类型
       depth: 深
       enabled: 已启用
       item: 条目
@@ -4932,6 +4957,16 @@ zh-CN:
   permission_work_package_assigned: 成为受理人/责任人
   permission_work_package_assigned_explanation: 工作包可以分配给在各自项目中拥有此角色的用户和组
   placeholder_users:
+    criteria:
+      activate: Activate filter criteria
+      activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
+
+        '
+      enable: Match users by criteria
+      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
+      matching_users: Users meeting the filter criteria
+      no_matching_users: No user meets these criteria.
+      show_all_matching_users: Show all %{count} matching users
     delete_tooltip: 删除占位符用户
     deletion_info:
       data_consequences: '出现的所有占位符用户（例如，作为受理人、负责人或其他用户值）将被重新分配给一个名为“已删除用户”的帐户。 由于每个已删除帐户的数据都会被重新分配给此帐户，因此无法将用户创建的数据与另一个已删除帐户的数据区分。
@@ -5357,7 +5392,7 @@ zh-CN:
       setup_documentation_details: 如果您在配置新文件存储方面需要帮助，请查看文档：
       setup_documentation_details_link_text: 文件存储设置
       show_warning_details: 要使用此文件存储，请记得在每个所需项目的项目设置中激活模块和特定存储。
-      update_timeout: 在 N 分钟内保留存储库最后所需的磁盘空间信息。由于计算存储库所需的磁盘空间可能增加系统开销，增加该值可以减少性能影响。
+      update_timeout: 在 N 分钟内保留存储库最后所需磁盘空间的信息。由于计算存储库所需的磁盘空间可能增加系统开销，增加该值可以减少性能影响。
     subversion:
       existing_introduction: 如果您已有本地 Git 存储库，可以将其链接到 OpenProject 来访问。
       existing_title: 现有的 Subversion 存储库
@@ -5376,6 +5411,26 @@ zh-CN:
     warnings:
       cannot_annotate: 此文件不能进行注释。
   roles:
+    delete_dialog:
+      confirm: Are you sure you want to delete this role?
+      entry_projects:
+        other: "(Projects: %{projects})"
+      entry_projects_truncated:
+        other: "(Projects: %{projects} and %{count} others)"
+      heading:
+        other: 'This role is still attributed to %{count} members:'
+      heading_unused: Are you sure you want to delete the role "%{name}"?
+      losing_project_access:
+        one: Out of these users, 1 will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        other: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        zero: None of these users will lose access to any of their projects. Are you sure you want to delete this role?
+      show_memberships: Show all memberships with this role
+      summary: "%{users} in %{projects}"
+      summary_projects:
+        other: "%{count} projects"
+      summary_users:
+        other: "%{count} users"
+      title: Delete role
     edit:
       default_for_new_projects_warning: 此角色被配置为创建项目的非管理员用户所具有的默认角色。请勿移除以下权限，否则项目创建者将无法完成新建项目的设置：
     index:
@@ -5605,7 +5660,7 @@ zh-CN:
   setting_smtp_user_name: SMTP 用户名
   setting_start_of_week: 一周起始日
   setting_sys_api_description: 存储库管理网页服务提供了集成的，用户授权的存储库访问。
-  setting_sys_api_enabled: 启用存储库管理网页服务
+  setting_sys_api_enabled: 启用版本库管理 web 服务
   setting_time_format: 时间
   setting_total_percent_complete_mode: 计算 完成% 层次结构总数
   setting_total_percent_complete_mode_simple_average: 简单平均值
@@ -5962,13 +6017,14 @@ zh-CN:
         <br>
         <strong>注</strong>：继承值（例如，来自子级或关系的值）仍然适用。
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: 不包括在总计中
         is_closed: 已关闭
-        is_default: 默认
         is_readonly: 只读
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: 添加新的状态
       no_results_title_text: 目前没有工作包状态。
+      status_actions: Status actions
   support:
     array:
       sentence_connector: 和
@@ -6282,6 +6338,15 @@ zh-CN:
         query_group_label: 相关的工作包表
         remove_attribute: 从小节中移除
         rename_group: 重命名小节
+        required:
+          already_required_globally: This custom field is required for all types.
+          for_variant: Required in this type
+          globally: Required
+          globally_hint: Change this on the custom field
+          mark: Require in this type
+          not_a_custom_field: Only a custom field can be made required for a single type.
+          not_available_when_linked: This configuration is inherited. Configure it manually to change what is required.
+          unmark: Do not require in this type
         reset_description: '此操作会将特性重置为其默认群组，并禁用所有自定义字段。
 
           '
@@ -6430,7 +6495,7 @@ zh-CN:
         filter_no_results: 没有任何变体匹配此筛选条件
         global_section:
           description: These variants are available across all projects.
-          title: Variants
+          title: Global variants
         project_specific_section:
           description: These variants are only available within the projects in which they were created.
           title: Project-specific variants
@@ -6439,6 +6504,24 @@ zh-CN:
     index:
       add_variant: Add a variant to %{name}
       add_variant_action: 添加变体
+      convert_to_global: Convert to global variant
+      convert_to_global_dialog:
+        confirm: Convert
+        text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
+
+          '
+      convert_to_global_notice: "%{name} is now a global variant."
+      convert_to_global_rename:
+        confirm: Convert
+        text: A global variant with this name already exists. Please choose a different name.
+        title: Pick another name for this variant
+      delete:
+        description: The type will be deleted permanently. This action cannot be undone.
+        description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
+        heading: Delete type '%{name}'?
+        projects:
+          other: 'The type will be removed from %{count} projects:'
+        title: Delete type
       description: '类型和变体内的每个配置区域都可以独立配置、受限于另一种类型，或者完全关联到一个源类型。
 
         '
@@ -6669,7 +6752,7 @@ zh-CN:
   warning_user_limit_reached_admin_html: '添加额外的用户将超出当前限值。请[升级您的方案](upgrade_url)，以确保外部用户能够访问此实例。
 
     '
-  warning_user_limit_reached_instructions: '您已达到用户限制（%{current}/%{max} 活跃用户）。请联系 sales@openproject.com 升级您的企业版计划以添加额外用户。
+  warning_user_limit_reached_instructions: '您达到了用户限制（%{current}/%{max}活跃用户）。 请联系sales@openproject.com以升级您的Enterprise edition计划并添加其他用户。
 
     '
   wiki:
@@ -6828,10 +6911,10 @@ zh-CN:
       descendants_choice:
         heading: Delete all descendants too?
         question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
-        self_only_label: Delete just the selected work packages
         self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        with_descendants_label: Delete the selected work packages and their descendants
+        self_only_label: Delete just the selected work packages
         with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete the selected work packages and their descendants
       description: 确定要删除所选工作包和所有相关数据吗？
       description_with_all_descendants: 确定要删除所选工作包及其所有后代吗？
       description_with_descendants: 确定要删除所选工作包和以下所有后代吗？
@@ -6895,10 +6978,10 @@ zh-CN:
       descendants_choice:
         heading: Delete all descendants too?
         question: This work package has descendants. Do you want to delete them as well?
-        self_only_label: Delete just this work package
         self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        with_descendants_label: Delete this work package and descendants
+        self_only_label: Delete just this work package
         with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete this work package and descendants
       description: 确定要删除“%{name}”吗？
       heading: 是否永久删除此工作包？
       hidden_descendants_only_warning:
@@ -6945,27 +7028,12 @@ zh-CN:
   workflows:
     copies:
       form:
-        mode:
-          from_role:
-            caption: 将当前工作流复制到同一工作包类型中的一个或多个角色。如果所选角色已具有工作流，当前工作流将被覆盖。
-            label: 复制到其他角色
-          from_type:
-            caption: 将当前工作流复制到其他工作包类型中。如果所选类型已具有工作流，当前工作流将被覆盖。这会影响所有角色。
-            label: 复制到其他类型
-        source_role_id:
-          label: 源角色
         target_role_ids:
           label: 目标角色
-        target_variant_ids:
-          label: Target types
       from_roles:
         create:
           notice:
             other: 已成功将工作流复制到 %{count} 个角色。
-      from_variants:
-        create:
-          notice:
-            other: Successfully copied workflow to %{count} types.
       new:
         title: 复制“%{source_type}”的工作流
     form:

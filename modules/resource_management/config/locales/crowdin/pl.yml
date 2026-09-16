@@ -2,17 +2,19 @@
 pl:
   activerecord:
     attributes:
+      placeholder_user:
+        user_filter: Filter criteria
       resource_allocation:
         allocated_hours: Godziny
         allocated_time: Przydzielony czas
         date_range: Daty
         end_date: Data zakończenia
         entity: Pole
-        filter_name: Nazwa filtra zasobów
+        placeholder_or_user: Assignee
+        placeholder_user: Placeholder user
         principal: Przypisana osoba
         start_date: Data rozpoczęcia
         state: Stan
-        user_filter: Filtr użytkownika
       resource_planner:
         date_range: Daty
         default_view_class_name: Widok domyślny
@@ -99,14 +101,9 @@ pl:
       make_public: Ustaw jako publiczny
       unfavorite: Usuń z ulubionych
     allocate_resource_dialog:
-      kind:
-        filter:
-          caption: Ustaw kryteria filtrowania na podstawie atrybutów użytkownika w celu utworzenia zasobu zastępczego.
-          label: Kryteria filtrowania
-        label: Typ przydziału
-        principal:
-          caption: Przydziel godziny określonemu użytkownikowi.
-          label: Użytkownik
+      criteria:
+        empty: No criteria set.
+        label: Criteria
       outside_dates:
         description: Wybrane daty zasobów, %{resource_dates}, wykraczają poza daty pakietu roboczego, %{work_package_dates}.
       overbooking:
@@ -152,6 +149,9 @@ pl:
           caption: Niestandardowa lista elementów dodawanych i usuwanych ręcznie. Filtrowanie nie jest możliwe.
           label: Ręczny wybór
       title: Konfiguruj widok
+    create_placeholder_user_dialog:
+      submit: Create
+      title: Create placeholder user
     edit_allocation_dialog:
       submit: Zapisz
       success_message: Zaktualizowano przydział zasobów.
