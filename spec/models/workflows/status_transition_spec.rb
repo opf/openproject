@@ -147,6 +147,59 @@ RSpec.describe Workflows::StatusTransition do
         let(:expected_variant) { variant_target }
       end
     end
+
+    context "when copying from one role to another of the same variant" do
+      let!(:workflow_src) do
+        create(:status_transition,
+               old_status: status0,
+               new_status: status1,
+               type_variant: variant,
+               role:)
+      end
+
+      let!(:original_workflow_id) { variant.workflow_id }
+
+      before { described_class.copy(variant, role, [variant], [role_target]) }
+
+      it "keeps the variant on its workflow" do
+        expect(variant.reload.workflow_id).to eq(original_workflow_id)
+      end
+
+      it "keeps the transitions of the source role" do
+        expect(described_class.where(workflow_id: variant.workflow_id, role_id: role.id).pluck(:id))
+          .to contain_exactly(workflow_src.id)
+      end
+
+      it "copies the transitions onto the target role" do
+        expect(described_class.where(workflow_id: variant.workflow_id, role_id: role_target.id)
+                              .pluck(:old_status_id, :new_status_id))
+          .to contain_exactly([status0.id, status1.id])
+      end
+    end
+
+    context "when a target variant shares the source's workflow" do
+      let!(:workflow_src) do
+        create(:status_transition,
+               old_status: status0,
+               new_status: status1,
+               type_variant: variant,
+               role:)
+      end
+
+      before do
+        variant_target.update!(workflows_source: variant)
+        described_class.copy(variant, role, [variant_target], [role_target])
+      end
+
+      it "moves the target onto a workflow of its own" do
+        expect(variant_target.reload.workflow_id).not_to eq(variant.workflow_id)
+      end
+
+      it "leaves the source workflow untouched" do
+        expect(described_class.where(workflow_id: variant.workflow_id).pluck(:id))
+          .to contain_exactly(workflow_src.id)
+      end
+    end
   end
 
   describe "self.eligible_roles" do

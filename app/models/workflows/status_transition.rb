@@ -86,14 +86,16 @@ class Workflows::StatusTransition < ApplicationRecord
     variants = copy_collection(target_variants, ::TypeVariant)
     roles = copy_collection(target_roles, Role)
 
-    variants.each do |target_variant|
-      fork_shared_source_workflow(source_variant, target_variant)
+    transaction do
+      variants.each do |target_variant|
+        fork_shared_source_workflow(source_variant, target_variant)
 
-      roles.each do |target_role|
-        copy_one(source_variant || target_variant,
-                 source_role || target_role,
-                 target_variant,
-                 target_role)
+        roles.each do |target_role|
+          copy_one(source_variant || target_variant,
+                   source_role || target_role,
+                   target_variant,
+                   target_role)
+        end
       end
     end
   end
@@ -105,6 +107,7 @@ class Workflows::StatusTransition < ApplicationRecord
 
   def self.fork_shared_source_workflow(source_variant, target_variant)
     return if source_variant.nil?
+    return if source_variant.id == target_variant.id
     return unless target_variant.shares_workflow_with?(source_variant)
 
     target_variant.fork_workflow!
