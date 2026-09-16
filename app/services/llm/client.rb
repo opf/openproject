@@ -78,6 +78,9 @@ module Llm
     # @return [Hash] the parsed +GET /models+ body
     def models
       body = get("/models")
+      # OpenProject's own gateway answers with a bare array instead of the
+      # OpenAI envelope, so wrap it before the shape check.
+      body = { "data" => body } if body.is_a?(Array)
 
       raise ParseError, "Response does not contain a model list" unless body.is_a?(Hash) && body["data"].is_a?(Array)
 
