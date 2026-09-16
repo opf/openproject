@@ -61,6 +61,15 @@ RSpec.describe WorkPackages::Import::CSV::Parser do
       end
     end
 
+    it "finds the header under a leading blank line, and numbers rows from where it is" do
+      with_csv("\nSubject,Type\nA,Task\n") do |path|
+        rows = described_class.call(path).result
+
+        expect(rows.map(&:number)).to eq([3])
+        expect(rows.first.values[:subject]).to eq("A")
+      end
+    end
+
     it "skips blank lines without shifting the numbering of what follows" do
       with_csv("Subject\nFirst\n\nThird\n") do |path|
         rows = described_class.call(path).result

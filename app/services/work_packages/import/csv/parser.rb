@@ -70,15 +70,20 @@ module WorkPackages
 
         def header_map = @header_map ||= HeaderMap.new
 
-        def headers = header_row(separator)
+        def headers = header_entry(separator).first
 
-        def header_row(candidate)
-          @header_rows ||= {}
-          @header_rows[candidate] ||= ::CSV.foreach(path, encoding: "bom|utf-8", col_sep: candidate).first.to_a
+        def header_index = header_entry(separator).last
+
+        def header_entry(candidate)
+          @header_entries ||= {}
+          @header_entries[candidate] ||=
+            ::CSV.foreach(path, encoding: "bom|utf-8", col_sep: candidate)
+                 .with_index
+                 .find { |values, _| values.any?(&:present?) } || [[], 0]
         end
 
         def resolvable_headers(candidate)
-          header_row(candidate).count { |header| header_map.resolve(header) }
+          header_entry(candidate).first.count { |header| header_map.resolve(header) }
         rescue ::CSV::MalformedCSVError
           0
         end
@@ -105,7 +110,7 @@ module WorkPackages
           rows = []
 
           ::CSV.foreach(path, encoding: "bom|utf-8", col_sep: separator).with_index do |values, index|
-            next if index.zero?
+            next if index <= header_index
             next if values.all?(&:blank?)
 
             rows << Row.new(number: index + 1, values: attributes_for(values))
