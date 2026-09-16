@@ -99,6 +99,14 @@ module Costs
                    permissible_on: :project,
                    require: :member,
                    contract_actions: { hourly_rates: %i[create edit destroy] }
+
+        # A default rate has no project, so managing one is granted globally.
+        permission :manage_default_hourly_rates,
+                   {},
+                   permissible_on: :global,
+                   require: :loggedin,
+                   contract_actions: { default_hourly_rates: %i[create edit destroy] }
+
         permission :view_cost_rates, # cost item values
                    {},
                    permissible_on: :project
@@ -183,19 +191,6 @@ module Costs
              User.current.allowed_in_any_project?(:log_own_time) || User.current.allowed_in_any_project?(:log_time)
            end,
            icon: :stopwatch
-    end
-
-    # A default rate has no project, so managing one is granted globally.
-    # Declared outside the project module because a global permission is not
-    # gated by a project having the costs module enabled.
-    config.to_prepare do
-      OpenProject::AccessControl.map do |ac_map|
-        ac_map.permission :manage_default_hourly_rates,
-                          {},
-                          permissible_on: :global,
-                          require: :loggedin,
-                          contract_actions: { default_hourly_rates: %i[create edit destroy] }
-      end
     end
 
     initializer "costs.settings" do
