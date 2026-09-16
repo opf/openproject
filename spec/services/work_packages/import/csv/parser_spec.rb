@@ -255,6 +255,19 @@ RSpec.describe WorkPackages::Import::CSV::Parser do
     end
   end
 
+  describe "bytes that are not valid UTF-8" do
+    it "reports them against the line they are on, rather than raising" do
+      with_csv("Subject,Type\nStra\xDFe,Task\n".b) do |path|
+        result = described_class.call(path)
+
+        expect(result).to be_failure
+        expect(result.result.first.message)
+          .to eq("Line 2 contains bytes that are not valid UTF-8. " \
+                 "Save the file again as CSV (UTF-8) and upload that file instead.")
+      end
+    end
+  end
+
   describe "a file that is not a CSV at all" do
     it "lets MalformedCSVError out, so the caller can tell it from a CSV with problems" do
       expect { described_class.call(fixture("unclosed_quote.csv")) }

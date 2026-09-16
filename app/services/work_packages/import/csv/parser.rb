@@ -54,6 +54,8 @@ module WorkPackages
           return ServiceResult.failure(result: [too_many_rows]) if rows.size > max_rows
 
           ServiceResult.success(result: rows)
+        rescue ::CSV::InvalidEncodingError => e
+          ServiceResult.failure(result: [file_problem(:invalid_encoding, line: e.line_number)])
         end
 
         def separator
@@ -136,9 +138,9 @@ module WorkPackages
 
         def mapping = header_result.result
 
-        def file_problem(key)
+        def file_problem(key, **)
           HeaderMap::Problem.new(column: nil, header: nil,
-                                 message: I18n.t("work_packages.import.csv.file.#{key}"))
+                                 message: I18n.t("work_packages.import.csv.file.#{key}", **))
         end
 
         def too_many_rows
