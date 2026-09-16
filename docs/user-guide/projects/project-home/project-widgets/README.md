@@ -139,7 +139,7 @@ The _Subitems_ widget under the _Overview_ tab allows adding subitems directly w
 >
 > **Project homepage:** The widget is hidden when the project has no subitems.  Users with the required permissions can add subitems (subprojects) from the **More** (three dots) menu at the top of the page.
 >
-> **Portfolio or program homepage:** The widget is always shown, even when there are no subitems.
+> **Portfolio or Program homepage:** The widget is always shown, even when there are no subitems.
 
 ![Subprojects widget displayed on a project home page in OpenProject](openproject_user_guide_project_overview_project_subitems_widget.png)
 
