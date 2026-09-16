@@ -322,22 +322,10 @@ RSpec.describe TypeVariant do
       create(:status_transition, type_variant: variant, role:, old_status:, new_status:)
     end
 
-    it "discards the workflow it was the last to reference" do
+    it "leaves the workflow behind for an admin to reuse or delete" do
       workflow_id = variant.workflow_id
 
       type.destroy!
-
-      expect(Workflow.where(id: workflow_id)).to be_empty
-      expect(Workflows::StatusTransition.where(workflow_id:)).to be_empty
-    end
-
-    it "keeps a workflow another variant still references" do
-      workflow_id = variant.workflow_id
-      borrowing = create(:type_variant, type: bug, variant_name: "Software", workflow: variant.workflow)
-
-      expect(borrowing.workflow_id).to eq(workflow_id)
-
-      borrowing.destroy!
 
       expect(Workflow.where(id: workflow_id)).to be_present
       expect(Workflows::StatusTransition.where(workflow_id:).count).to eq(1)
