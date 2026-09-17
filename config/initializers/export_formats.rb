@@ -36,8 +36,9 @@ Rails.application.configure do |application|
 
       single WorkPackage, WorkPackage::PDFExport::WorkPackageToPdf
 
+      formatter WorkPackage, Exports::Formatters::XLS::CustomField
       formatter WorkPackage, Exports::Formatters::CustomField
-      formatter WorkPackage, Exports::Formatters::CustomFieldPdf
+      formatter WorkPackage, Exports::Formatters::PDF::CustomField
       formatter WorkPackage, Exports::Formatters::CustomComment
       formatter WorkPackage, WorkPackage::Exports::Formatters::PDF::CompoundDoneRatio
       formatter WorkPackage, WorkPackage::Exports::Formatters::PDF::CompoundHours
@@ -49,15 +50,18 @@ Rails.application.configure do |application|
       formatter WorkPackage, WorkPackage::Exports::Formatters::XLS::DoneRatio
       formatter WorkPackage, WorkPackage::Exports::Formatters::PDF::Hours
       formatter WorkPackage, WorkPackage::Exports::Formatters::Id
+      formatter WorkPackage, WorkPackage::Exports::Formatters::XLS::Id
       formatter WorkPackage, WorkPackage::Exports::Formatters::ProjectPhase
       formatter WorkPackage, WorkPackage::Exports::Formatters::SpentUnits
       formatter WorkPackage, WorkPackage::Exports::Formatters::TargetVersions
       formatter WorkPackage, WorkPackage::Exports::Formatters::ObservedInVersions
+      formatter WorkPackage, WorkPackage::Exports::Formatters::XLS::TypedAttribute
 
       list Project, Projects::Exports::CSV
       list Project, Projects::Exports::PDF
+      formatter Project, Exports::Formatters::XLS::CustomField
       formatter Project, Exports::Formatters::CustomField
-      formatter Project, Exports::Formatters::CustomFieldPdf
+      formatter Project, Exports::Formatters::PDF::CustomField
       formatter Project, Exports::Formatters::CustomComment
       formatter Project, Projects::Exports::Formatters::Status
       formatter Project, Projects::Exports::Formatters::Description
@@ -66,6 +70,7 @@ Rails.application.configure do |application|
       formatter Project, Projects::Exports::Formatters::PDF::Favorited
       formatter Project, Projects::Exports::Formatters::PDF::RequiredDiskSpace
       formatter Project, Projects::Exports::Formatters::ProjectPhase
+      formatter Project, Projects::Exports::Formatters::XLS::TypedAttribute
     end
   end
 end

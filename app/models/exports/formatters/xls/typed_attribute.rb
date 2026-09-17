@@ -27,29 +27,54 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module WorkPackage::Exports
+
+module Exports
   module Formatters
     module XLS
-      class Costs < ::Exports::Formatters::Default
-        def self.apply?(name, export_format)
-          %i[material_costs labor_costs overall_costs].include?(name.to_sym) && export_format == :xls
+      class TypedAttribute < Default
+        COLUMN_TYPES = %i[date datetime integer float decimal boolean].freeze
+
+        class << self
+          def model_class
+            raise SubclassResponsibilityError
+          end
+
+          def apply?(attribute, export_format)
+            export_format == :xls && column_type(attribute).present?
+          end
+
+          def column_type(attribute)
+            type = model_class.columns_hash[attribute.to_s]&.type
+            type if type.in?(COLUMN_TYPES)
+          end
         end
 
         def format_value(value, _options = {})
-          value
+          return nil if value.nil?
+
+          case column_type
+          when :date then value.to_date
+          when :datetime then in_user_zone(value)
+          when :integer then value.to_i
+          when :boolean then value
+          else value.to_f
+          end
         end
 
         def format_options
-          { number_format: number_format_string }
+          case column_type
+          when :date then { number_format: DateFormat.date }
+          when :datetime then { number_format: DateFormat.datetime }
+          when :integer then { number_format: integer_format }
+          when :boolean then {}
+          else { number_format: }
+          end
         end
 
-        def number_format_string
-          # [$CUR] makes sure we have an actually working currency format with arbitrary currencies
-          curr = "[$CUR]".gsub "CUR", ERB::Util.h(Setting.costs_currency)
-          format = ERB::Util.h Setting.costs_currency_format
-          number = "#,##0.00"
+        private
 
-          format.gsub("%n", number).gsub("%u", curr)
+        def column_type
+          @column_type ||= self.class.column_type(attribute)
         end
       end
     end
