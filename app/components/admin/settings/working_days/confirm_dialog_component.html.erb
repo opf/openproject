@@ -31,7 +31,7 @@
             )
           end
 
-          concat tag.p(t("working_days.dialog.warning"), class: "mb-0")
+          concat(render(Primer::Beta::Text.new(tag: :p, mb: 0).with_content(t("working_days.dialog.warning"))))
         end
       )
     end
