@@ -28,18 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Renders the change to the set of target versions
-# (see JournalChanges#get_target_versions_changes).
-class OpenProject::JournalFormatter::TargetVersions < OpenProject::JournalFormatter::JoinedAssociation
-  private
-
-  # While the multiple versions feature is inactive, the rest of the UI still
-  # labels the attribute "Version"; the journal entry follows suit.
-  def label(key)
-    if Setting::WorkPackageMultipleVersions.active?
-      super
-    else
-      super("version")
+class CreateLabelJournals < ActiveRecord::Migration[8.1]
+  def change
+    create_table :label_journals do |t| # rubocop:disable Rails/CreateTableWithTimestamps
+      t.belongs_to :journal, null: false, foreign_key: true
+      # No foreign key: journal snapshots must outlive deleted labels.
+      t.belongs_to :label, null: false
     end
   end
 end
