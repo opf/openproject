@@ -83,6 +83,9 @@ export const en = {
       'blockSizeLabel': 'Block size',
       'chipAriaLabel': 'Work package {{id}}',
     },
+    'preview': {
+      'showAriaLabel': 'Show details of work package {{id}}'
+    },
     'sizes': {
       'xxs': { 'label': 'Tiny', 'desc': 'Identifier' },
       'xs': { 'label': 'Compact', 'desc': 'Type, Identifier, Subject' },

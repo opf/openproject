@@ -16,6 +16,9 @@ import {
   WRAP_OPPORTUNITY,
 } from '../WorkPackage/atoms';
 import { formatWorkPackageId } from '../../utils/id';
+import { PreviewIndicator } from './PreviewIndicator';
+import { buttonActivationProps } from '../../utils/a11y';
+import type { WorkPackagePreview } from '../../hooks/useWorkPackagePreview';
 
 const resolvedDisplayId = (wp:WorkPackage) => wp.displayId ?? String(wp.id);
 
@@ -26,9 +29,20 @@ const titleLinkProps = (wp:WorkPackage) => ({
 });
 
 // XXS — "#ID"
-export const WpChipXXS = ({ wp }:{ wp:WorkPackage }) => (
+export const WpChipXXS = ({ wp, preview, actionLabel }:{
+  wp:WorkPackage;
+  preview:WorkPackagePreview;
+  actionLabel:string;
+}) => (
   <ChipBaseXXS>
-    <WorkPackageId as="span" $compact>{formatWorkPackageId(resolvedDisplayId(wp))}</WorkPackageId>
+    <WorkPackageId
+      as="span"
+      $compact
+      {...(preview.indicatorProps ? buttonActivationProps(actionLabel) : {})}
+    >
+      {formatWorkPackageId(resolvedDisplayId(wp))}
+    </WorkPackageId>
+    <PreviewIndicator preview={preview} displayId={resolvedDisplayId(wp)} />
   </ChipBaseXXS>
 );
 

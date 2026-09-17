@@ -7,6 +7,7 @@ import {
   insertInlineWorkPackageViaSlashMenu,
   insertInlineWorkPackageViaHash,
   openInlineWorkPackagePopover,
+  tapElement,
 } from '../../../helpers/editorHelpers';
 import { WpPreviewPopover } from '../../../../lib/components/WorkPackage/PreviewPopover';
 import { BlockCard } from '../../../../lib/components/BlockWorkPackage/BlockCard';
@@ -16,16 +17,10 @@ const wait = (ms:number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const chipElement = () => page.getByText('#123').first().element().closest('.op-bn-inline-wp')!;
 
-type PointerEventType = 'pointerdown' | 'pointerup' | 'pointermove' | 'pointercancel';
+const indicator = () => page.getByTestId('wp-preview-indicator');
 
-const dispatchPointer = (chip:Element, type:PointerEventType, init:PointerEventInit = {}) =>
-  chip.dispatchEvent(new PointerEvent(type, { bubbles: true, ...init }));
-
-const dragStartPrevented = (chip:Element) => {
-  const dragStart = new DragEvent('dragstart', { bubbles: true, cancelable: true });
-  chip.dispatchEvent(dragStart);
-  return dragStart.defaultPrevented;
-};
+const pressChip = (chip:Element) =>
+  chip.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
 
 const previewWp:WorkPackage = {
   id: 123,
@@ -132,7 +127,7 @@ describe('Inline chip - XXS hover preview', () => {
   });
 });
 
-describe('Inline chip - XXS long-press preview (touch)', () => {
+describe('Inline chip - XXS preview indicator (touch)', () => {
   // The chip reads (hover: hover) once per mount, so touch has to be faked before rendering.
   beforeEach(() => {
     vi.stubGlobal('matchMedia', (query:string) => ({
@@ -152,79 +147,161 @@ describe('Inline chip - XXS long-press preview (touch)', () => {
   async function renderChip() {
     renderEditor();
     await insertInlineWorkPackageViaHash('#');
-    // let the fetch settle so the chip's remount doesn't clear the long-press timer
-    await wait(600);
-    return chipElement();
+    await expect.element(indicator()).toBeVisible();
   }
 
-  it('opens the preview on a long press and not on a quick tap', async () => {
-    const chip = await renderChip();
+  it('renders the indicator inside the chip pill', async () => {
+    await renderChip();
 
-    dispatchPointer(chip, 'pointerdown');
-    dispatchPointer(chip, 'pointerup');
-    await wait(600);
-    await expect.element(page.getByTestId('wp-preview')).not.toBeInTheDocument();
+    const pill = chipElement().querySelector('.op-bn-inline-wp-base')!;
+    expect(pill.contains(indicator().element())).toBe(true);
+    expect(indicator().element().getAttribute('aria-label')).toBe('Show details of work package #123');
+  });
 
-    dispatchPointer(chip, 'pointerdown');
-    await expect.element(page.getByTestId('wp-preview'), { timeout: 2000 }).toBeVisible();
+  it('tapping the indicator opens the preview', async () => {
+    await renderChip();
+
+    await userEvent.click(indicator());
+
+    await expect.element(page.getByTestId('wp-preview')).toBeVisible();
     await expect.element(page.getByTestId('block-card')).toBeVisible();
+    await expect.element(indicator()).toHaveAttribute('aria-expanded', 'true');
+  });
 
-    // stays open after the finger lifts; only an outside tap closes it on touch
-    dispatchPointer(chip, 'pointerup');
-    await wait(300);
+  it('tapping the indicator again closes the preview', async () => {
+    await renderChip();
+
+    await userEvent.click(indicator());
+    await expect.element(page.getByTestId('wp-preview')).toBeVisible();
+
+    await userEvent.click(indicator());
+    await expect.element(page.getByTestId('wp-preview')).not.toBeInTheDocument();
+  });
+
+  it('opens the preview from the keyboard', async () => {
+    await renderChip();
+
+    indicator().element().focus();
+    await userEvent.keyboard('{Enter}');
+
     await expect.element(page.getByTestId('wp-preview')).toBeVisible();
   });
 
-  it('closes the preview when the user taps outside', async () => {
-    const chip = await renderChip();
+  it('tapping the chip beside the indicator opens the options popover, not the preview', async () => {
+    await renderChip();
 
-    dispatchPointer(chip, 'pointerdown');
-    await expect.element(page.getByTestId('wp-preview'), { timeout: 2000 }).toBeVisible();
+    await openInlineWorkPackagePopover();
+
+    await expect.element(page.getByTestId('wp-preview')).not.toBeInTheDocument();
+  });
+
+  it('tapping the indicator while the options popover is open swaps it for the preview', async () => {
+    await renderChip();
+
+    await openInlineWorkPackagePopover();
+    await userEvent.click(indicator());
+
+    await expect.element(page.getByTestId('wp-preview')).toBeVisible();
+    await expect.element(page.getByTestId('popover-content')).not.toBeInTheDocument();
+  });
+
+  it('opens the preview from a touch that never becomes a click', async () => {
+    await renderChip();
+
+    tapElement(indicator().element());
+
+    await expect.element(page.getByTestId('wp-preview')).toBeVisible();
+    await expect.element(page.getByTestId('popover-content')).not.toBeInTheDocument();
+  });
+
+  it('closes the preview with a second such touch', async () => {
+    await renderChip();
+
+    tapElement(indicator().element());
+    await expect.element(page.getByTestId('wp-preview')).toBeVisible();
+
+    tapElement(indicator().element());
+    await expect.element(page.getByTestId('wp-preview')).not.toBeInTheDocument();
+  });
+
+  it("centres the icon on the identifier's capital letters", async () => {
+    await renderChip();
+
+    const id = chipElement().querySelector('.op-bn-work-package--id')!;
+    const probe = document.createElement('span');
+    probe.style.cssText = 'display:inline-block;width:0;height:1cap';
+    id.appendChild(probe);
+    const capBox = probe.getBoundingClientRect();
+    probe.remove();
+
+    const icon = indicator().element().querySelector('svg')!.getBoundingClientRect();
+    const drift = (icon.top + icon.bottom) / 2 - (capBox.top + capBox.bottom) / 2;
+    expect(Math.abs(drift)).toBeLessThan(0.5);
+    expect(icon.height).toBeGreaterThan(capBox.height);
+    expect(icon.height).toBeLessThan(capBox.height * 1.3);
+  });
+
+  it('exposes the chip and the indicator as two separate buttons', async () => {
+    await renderChip();
+
+    expect(chipElement().getAttribute('role')).toBeNull();
+    expect(indicator().element().tagName).toBe('BUTTON');
+
+    const id = page.getByText('#123').first().element();
+    expect(id.getAttribute('role')).toBe('button');
+    expect(id.getAttribute('aria-label')).toBe('Work package #123');
+  });
+
+  it('opens the options popover from the id with the keyboard', async () => {
+    await renderChip();
+
+    page.getByText('#123').first().element()
+      .dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+
+    await expect.element(page.getByTestId('popover-content')).toBeVisible();
+  });
+
+  it('closes the preview when the user taps outside', async () => {
+    await renderChip();
+
+    await userEvent.click(indicator());
+    await expect.element(page.getByTestId('wp-preview')).toBeVisible();
 
     document.body.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
     await expect.element(page.getByTestId('wp-preview')).not.toBeInTheDocument();
   });
 
-  it('cancels the long press when the finger moves past the tolerance', async () => {
-    const chip = await renderChip();
+  it('does not open a preview on a long press', async () => {
+    await renderChip();
 
-    dispatchPointer(chip, 'pointerdown', { clientX: 100, clientY: 100 });
-    dispatchPointer(chip, 'pointermove', { clientX: 100, clientY: 140 });
-    await wait(600);
-
-    await expect.element(page.getByTestId('wp-preview')).not.toBeInTheDocument();
-  });
-
-  // Blocking the lift would make the preview reliable too, but at the cost of dragging the
-  // chip by touch - surviving the pointercancel it fires is what keeps both.
-  it('leaves the native drag lift alone during a press', async () => {
-    const chip = await renderChip();
-
-    dispatchPointer(chip, 'pointerdown');
-
-    expect(dragStartPrevented(chip)).toBe(false);
-  });
-
-  it('still opens the preview when another gesture cancels the pointer', async () => {
-    const chip = await renderChip();
-
-    dispatchPointer(chip, 'pointerdown');
-    dispatchPointer(chip, 'pointercancel');
-
-    await expect.element(page.getByTestId('wp-preview'), { timeout: 2000 }).toBeVisible();
-  });
-
-  it('does not open a spurious preview after a two-finger tap', async () => {
-    const chip = await renderChip();
-
-    // both fingers lift before the delay: the first timer must not be orphaned
-    dispatchPointer(chip, 'pointerdown', { pointerId: 1 });
-    dispatchPointer(chip, 'pointerdown', { pointerId: 2 });
-    dispatchPointer(chip, 'pointerup', { pointerId: 1 });
-    dispatchPointer(chip, 'pointerup', { pointerId: 2 });
-    await wait(600);
+    pressChip(chipElement());
+    await wait(800);
 
     await expect.element(page.getByTestId('wp-preview')).not.toBeInTheDocument();
+  });
+
+  it('leaves the touch gesture to the browser so native selection still works', async () => {
+    await renderChip();
+
+    expect(getComputedStyle(chipElement()).touchAction).not.toBe('none');
+  });
+
+  it('shows no indicator on an S chip', async () => {
+    renderEditor();
+    await insertInlineWorkPackageViaSlashMenu();
+
+    await expect.element(page.getByText('Fix login bug')).toBeVisible();
+    await expect.element(indicator()).not.toBeInTheDocument();
+  });
+});
+
+describe('Inline chip - XXS preview indicator (hover devices)', () => {
+  it('shows no indicator when the pointer can hover', async () => {
+    renderEditor();
+    await insertInlineWorkPackageViaHash('#');
+
+    await expect.element(page.getByText('#123').first()).toBeVisible();
+    await expect.element(indicator()).not.toBeInTheDocument();
   });
 });
 

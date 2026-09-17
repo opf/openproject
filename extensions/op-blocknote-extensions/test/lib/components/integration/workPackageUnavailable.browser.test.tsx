@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, afterEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, cleanup } from 'vitest-browser-react';
 import { page, userEvent } from 'vitest/browser';
 import { http, HttpResponse } from 'msw';
@@ -97,7 +97,7 @@ describe('Inline chip - unavailable work package', () => {
     });
     const chip = document.querySelector('.op-bn-inline-wp');
     expect(chip?.textContent).toBe('');
-    // The full message now lives in the hover/long-press preview, not a native tooltip.
+    // The full message now lives in the preview, not a native tooltip.
     expect(chip?.getAttribute('title')).toBeNull();
     expect(chip?.getAttribute('aria-label')).toBe('Work package unavailable: no permission');
   });
@@ -179,6 +179,49 @@ function UnavailableChipWrapper({ initialSize }:{ initialSize:string }) {
     </div>
   );
 }
+
+describe('Unavailable work package - preview indicator (touch)', () => {
+  beforeEach(() => {
+    vi.stubGlobal('matchMedia', (query:string) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      addListener: () => {},
+      removeListener: () => {},
+      dispatchEvent: () => false,
+    }));
+  });
+
+  afterEach(() => vi.unstubAllGlobals());
+
+  it('opens the unavailable card from the indicator for size xxs', async () => {
+    worker.use(
+      http.get('http://localhost:3000/api/v3/work_packages/999', () =>
+        HttpResponse.json({ message: 'Not found' }, { status: 404 })
+      )
+    );
+
+    render(
+      <InlineWorkPackageChip
+        inlineContent={{ props: { wpid: '999', size: 'xxs', displayId: '999' } }}
+        contentRef={vi.fn()}
+      />
+    );
+
+    const indicator = page.getByTestId('wp-preview-indicator');
+    await expect.element(indicator).toBeVisible();
+    expect(document.querySelector('.op-bn-inline-wp')?.getAttribute('role')).toBeNull();
+    const stateIcon = page.getByRole('button', { name: 'Work package unavailable: no permission' });
+    await expect.element(stateIcon).toBeVisible();
+
+    await userEvent.click(indicator);
+
+    await expect.element(page.getByTestId('wp-preview')).toBeVisible();
+    await expect.element(page.getByText('Linked work package unavailable')).toBeVisible();
+  });
+});
 
 describe('Unavailable work package - options popover (BNE-112)', () => {
   it('inline chip: opens the popover with the Open button and resizes', async () => {
