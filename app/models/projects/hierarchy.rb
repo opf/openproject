@@ -96,7 +96,49 @@ module Projects::Hierarchy
     # Returns the visible/active projects within `boundary` (or, without one, all visible/active
     # root-level projects) that have no visible/active ancestor also in that set.
     def nearest_visible_descendants(boundary = nil, limit: nil)
-      find_by_sql(nearest_visible_descendants_sql(boundary, limit))
+      # Both the root case and the within-boundary case reduce to the same question: which
+      # projects in a visible set have no ancestor also in that set? Only the set differs -
+      # unrestricted for roots, narrowed to the boundary's descendants otherwise.
+      scope = if boundary
+                boundary.descendants
+              else
+                Project.all
+              end
+
+      # With awesome_nested_set, for a list of projects ordered by "lft ASC"
+      # one part of the criteria for whether a project A is an ancestor of another
+      # project B is already given by the position in the list (A.lft < B.lft).
+      # Only projects above the current project can potentially be ancestors and need
+      # to be checked.
+      # Note that here, those that have no ancestors are of interest.
+      # We know that a project has no ancestor if its rgt is higher than all the rgt values
+      # of the preceding projects (B.rgt > A.rgt)
+      #
+      # To calculate this efficiently, a window function is used:
+      # max_preceding_rgt is the maximum rgt value of all the preceding projects
+      # (`ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING`) where the preceding projects
+      # are those with a smaller lft value (ORDER BY lft).
+      #
+      # Since the value of max_preceding_rgt is calculated on each row, it can now be compared
+      # directly within itself.
+      # The first row is a special case, as it has no preceding projects, its max_preceding_rgt is NULL, which is
+      # why the `IS NULL` condition is necessary.
+      visible_scope = scope
+                        .visible
+                        .select("
+                          *,
+                          max(rgt) OVER (ORDER BY lft ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING) AS max_preceding_rgt")
+
+      ancestor_scope = Project
+                         .with(projects: visible_scope)
+                         .where("projects.max_preceding_rgt IS NULL OR projects.rgt > projects.max_preceding_rgt")
+                         .order("projects.lft")
+
+      if limit
+        ancestor_scope.limit(limit)
+      else
+        ancestor_scope
+      end
     end
 
     # Returns the projects in `candidates` that have at least one visible, active descendant.
@@ -131,27 +173,6 @@ module Projects::Hierarchy
       min_lft = candidates.map(&:lft).min
       max_rgt = candidates.map(&:rgt).max
       Project.visible.active.where("lft > ? AND rgt < ?", min_lft, max_rgt).pluck(:id)
-    end
-
-    # Both the root case and the within-boundary case reduce to the same question: which
-    # projects in a visible set have no ancestor also in that set? Only the set differs -
-    # unrestricted for roots, narrowed to the boundary's lft/rgt range otherwise.
-    def nearest_visible_descendants_sql(boundary, limit)
-      vp_range = "vp.lft > #{boundary.lft.to_i} AND vp.rgt < #{boundary.rgt.to_i}" if boundary
-      ancestor_range = "ancestor_vp.lft > #{boundary.lft.to_i} AND ancestor_vp.rgt < #{boundary.rgt.to_i}" if boundary
-
-      <<~SQL.squish
-        WITH visible_projects AS (#{Project.visible.active.to_sql})
-        SELECT vp.* FROM visible_projects vp
-        WHERE NOT EXISTS (
-          SELECT 1 FROM visible_projects ancestor_vp
-          WHERE ancestor_vp.lft < vp.lft AND ancestor_vp.rgt > vp.rgt
-          #{"AND #{ancestor_range}" if ancestor_range}
-        )
-        #{"AND #{vp_range}" if vp_range}
-        ORDER BY vp.lft
-        #{"LIMIT #{limit.to_i}" if limit}
-      SQL
     end
   end
 
