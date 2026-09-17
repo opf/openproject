@@ -169,10 +169,21 @@ module Users::PermissionChecks
     end
   end
 
+  # Ids of every role this user holds, in any project and globally.
+  def held_role_ids
+    @held_role_ids ||= MemberRole
+                         .joins(:member)
+                         .where(members: { user_id: id })
+                         .distinct
+                         .pluck(:role_id)
+                         .to_set
+  end
+
   def reset_permission_caches
     @user_permissible_service = nil
     @user_allowed_service = nil
     @project_role_cache = nil
+    @held_role_ids = nil
   end
 
   private

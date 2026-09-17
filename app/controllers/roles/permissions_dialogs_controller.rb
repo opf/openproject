@@ -48,7 +48,7 @@ module Roles
     end
 
     def authorize_role_inspection
-      deny_access unless Roles::PermissionsDialogComponent.visible_to?(current_user)
+      deny_access unless Roles::PermissionsDialogComponent.visible_to?(current_user, @role)
     end
   end
 end

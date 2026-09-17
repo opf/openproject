@@ -64,7 +64,7 @@ module RolesHelper
   end
 
   def role_permissions_preview_icon(role, **system_arguments)
-    return unless Roles::PermissionsDialogComponent.visible_to?(User.current)
+    return unless Roles::PermissionsDialogComponent.visible_to?(User.current, role)
 
     anchor_id = Primer::Component.generate_id(base_name: "role-permissions-preview")
     tooltip = Primer::Alpha::Tooltip.new(
