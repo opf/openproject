@@ -41,27 +41,18 @@ RSpec.describe Admin::Labels::DeleteDialogComponent, type: :component do
 
   let(:label) { create(:label, name: "Machine Learning") }
 
-  it "renders the confirmation heading and the no-usage description" do
+  it "renders the confirmation heading and the description with the label name in bold" do
     rendered_component
 
     expect(page).to have_css("h2", text: "Delete this label?")
-    expect(page).to have_text("This label is not used by any work package. Are you sure you want to delete it?")
-  end
-
-  context "with a used label" do
-    before { create_list(:labeling, 2, label:) }
-
-    it "renders the pluralised usage count in the description" do
-      rendered_component
-
-      expect(page).to have_text("This will remove the label from 2 work packages that currently use it.")
-    end
+    expect(page).to have_text("This will remove the label Machine Learning from all work packages in all projects.")
+    expect(page).to have_css("strong", text: "Machine Learning")
   end
 
   it "renders the required confirmation checkbox" do
     rendered_component
 
-    expect(page).to have_field("I understand that this action is not reversible.", type: "checkbox")
+    expect(page).to have_field("I understand that this action is not reversible", type: "checkbox")
   end
 
   it "submits a DELETE to the label's own path" do
@@ -78,9 +69,10 @@ RSpec.describe Admin::Labels::DeleteDialogComponent, type: :component do
     expect(page).to have_no_button("Delete permanently")
   end
 
-  it "labels the cancel button Cancel" do
+  it "labels the cancel button Close" do
     rendered_component
 
-    expect(page).to have_button("Cancel")
+    expect(page).to have_button("Close")
+    expect(page).to have_no_button("Cancel")
   end
 end

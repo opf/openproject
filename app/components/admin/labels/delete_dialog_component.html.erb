@@ -32,13 +32,14 @@ See COPYRIGHT and LICENSE files for more details.
     Primer::OpenProject::DangerDialog.new(
       title: t(".title"),
       confirm_button_text: t(:button_delete),
+      cancel_button_text: t(:button_close),
       form_arguments:,
       test_selector: TEST_SELECTOR
     )
   ) do |dialog|
     dialog.with_confirmation_message do |message|
       message.with_heading(tag: :h2) { t(".heading") }
-      message.with_description_content(t(".description", count: usage_count))
+      message.with_description_content(t(".description_html", name: label.name))
     end
 
     dialog.with_confirmation_check_box_content(t(".confirmation"))

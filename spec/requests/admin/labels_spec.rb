@@ -133,15 +133,9 @@ RSpec.describe "Admin labels", :skip_csrf,
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("Delete this label?")
-      expect(response.body).to include("This label is not used by any work package")
-    end
-
-    it "reports the label's usage count in the confirmation copy" do
-      create_list(:labeling, 2, label:)
-
-      get deletion_dialog_admin_label_path(label), headers: turbo_stream_headers
-
-      expect(response.body).to include("This will remove the label from 2 work packages that currently use it")
+      expect(response.body).to include(
+        "This will remove the label <strong>Machine Learning</strong> from all work packages in all projects."
+      )
     end
   end
 
