@@ -28,26 +28,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ::ResourceManagement
-  class MenusController < ApplicationController
-    guard_enterprise_feature(:resource_management)
+require "spec_helper"
 
-    before_action :load_and_authorize_in_optional_project
+RSpec.describe "Global resource planners requests", type: :rails_request, with_ee: %i[resource_management] do
+  shared_let(:project) { create(:project, name: "Alpha", enabled_module_names: %w[resource_management]) }
+  shared_let(:user) { create(:user, member_with_permissions: { project => %i[view_resource_planners] }) }
 
-    def show
-      @submenu_menu_items = menu.menu_items
+  before { login_as(user) }
 
-      render layout: nil
-    end
+  it "renders the global index with the global sidebar menu" do
+    get resource_planners_path
 
-    private
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include("resource_planners_sidemenu")
+    expect(response.body).to include(menu_resource_planners_path)
+  end
 
-    def menu
-      if @project
-        ::ResourceManagement::Menu.new(project: @project, params:)
-      else
-        ::ResourceManagement::GlobalMenu.new(params:)
-      end
+  context "without any resource planner permission" do
+    before { login_as(create(:user)) }
+
+    it "is forbidden" do
+      get resource_planners_path
+
+      expect(response).to have_http_status(:forbidden)
     end
   end
 end

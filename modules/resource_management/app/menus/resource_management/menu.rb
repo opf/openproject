@@ -91,13 +91,21 @@ module ResourceManagement
     def planner_item(planner)
       OpenProject::Menu::MenuItem.new(
         title: planner.name,
-        href: project_resource_planner_path(project, planner),
+        href: planner_path(planner),
         icon: nil,
         count: nil,
         selected: planner.id.to_s == params[:id].to_s,
         favorited: planner.favorited,
         show_enterprise_icon: false
       )
+    end
+
+    def planner_path(planner)
+      if planner.project
+        project_resource_planner_path(planner.project, planner)
+      else
+        resource_planner_path(planner)
+      end
     end
   end
 end

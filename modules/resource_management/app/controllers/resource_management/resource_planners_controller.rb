@@ -36,8 +36,7 @@ module ::ResourceManagement
 
     skip_before_action :ensure_resource_management_licensed, only: :index
 
-    before_action :find_project_by_project_id
-    before_action :authorize
+    before_action :load_and_authorize_in_optional_project
     before_action -> { find_resource_planner(:id) }, only: %i[show edit update destroy toggle_public]
     before_action :build_resource_planner, only: %i[new]
 
@@ -49,6 +48,8 @@ module ::ResourceManagement
                              .order(:name)
                              .page(page_param)
                              .per_page(per_page_param)
+
+      render :index, locals: { menu_name: project_or_global_menu }
     end
 
     def show

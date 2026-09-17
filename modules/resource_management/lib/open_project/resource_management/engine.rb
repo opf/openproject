@@ -95,6 +95,42 @@ module OpenProject::ResourceManagement
                    dependencies: %i[view_resource_planners]
       end
 
+      # Menu items outside a project are not permission-filtered by the menu
+      # manager, so this proc is the only gate.
+      should_render_global_menu_item = Proc.new do
+        (User.current.logged? || !Setting.login_required?) &&
+          (User.current.allowed_globally?(:view_global_resource_planners) ||
+            User.current.allowed_in_any_project?(:view_resource_planners))
+      end
+
+      menu :global_menu,
+           :resource_management,
+           { controller: "/resource_management/resource_planners", action: :index, project_id: nil },
+           caption: :label_resource_management,
+           after: :work_packages,
+           icon: "people",
+           enterprise_feature: "resource_management",
+           if: should_render_global_menu_item
+
+      menu :global_menu,
+           :resource_planners_menu,
+           { controller: "/resource_management/resource_planners", action: :index },
+           parent: :resource_management,
+           partial: "resource_management/menus/menu",
+           last: true,
+           caption: :label_resource_management,
+           if: should_render_global_menu_item
+
+      menu :top_menu,
+           :resource_management,
+           { controller: "/resource_management/resource_planners", action: :index, project_id: nil },
+           context: :modules,
+           caption: :label_resource_management,
+           after: :work_packages,
+           icon: "people",
+           enterprise_feature: "resource_management",
+           if: should_render_global_menu_item
+
       menu :project_menu,
            :resource_management,
            { controller: "/resource_management/resource_planners", action: :index },
