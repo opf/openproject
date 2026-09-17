@@ -137,14 +137,17 @@ RSpec.describe "Managing labels", :js, with_flag: { work_package_labels: true } 
     expect(page).to have_no_test_selector(row_selector(gamma))
     expect(page).to have_css(".op-pagination")
 
-    wait_for_turbo_stream { fill_in "Search", with: "gam" }
+    fill_in "Search", with: "gam"
+    wait_for_network_idle
     expect(page).to have_test_selector(row_selector(gamma))
     expect(page).to have_no_test_selector(row_selector(alpha))
 
-    wait_for_turbo_stream { fill_in "Search", with: "zzz" }
+    fill_in "Search", with: "zzz"
+    wait_for_network_idle
     expect(page).to have_css(".blankslate", text: "No labels match your search")
 
-    wait_for_turbo_stream { fill_in "Search", with: "" }
+    fill_in "Search", with: ""
+    wait_for_network_idle
     expect(page).to have_test_selector(row_selector(alpha))
     expect(page).to have_test_selector(row_selector(beta))
   end
