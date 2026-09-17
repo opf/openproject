@@ -73,8 +73,8 @@ The field supports multiple versions, including closed versions, and is enabled 
 
 OpenProject 17.9 further extends the capabilities of the [MCP Server](../../system-admin-guide/integrations/mcp-server/), making it easier and more efficient for AI assistants to work with OpenProject:
 
-- **Track time through MCP:** AI assistants can now find, create, and update time entries.
-- **Use work package display IDs:** AI assistants can work with the familiar work package IDs shown in OpenProject.
+- **Track time through MCP:** AI assistants can now find, create, update, and delete time entries.
+- **Use work package display IDs with semantic identifiers:** When using semantic identifiers, AI assistants can now work with the familiar work package IDs shown in OpenProject, just as they already could with classic IDs.
 - **Get more compact search results:** Work package searches now return more compact responses by default, reducing unnecessary data and making more efficient use of the AI assistant's context. Full information can still be requested when needed.
 
 ### Improved PDF exports
