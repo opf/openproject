@@ -72,7 +72,7 @@ RSpec.describe Admin::Labels::RowComponent, type: :component do
     let(:label) { Label.with_usage_count.find(record.id) }
 
     it "truncates the chip and exposes the full name as a title tooltip" do
-      expect(rendered_component).to have_css("[data-test-selector='label-name'].ellipsis[title='#{record.name}']",
+      expect(rendered_component).to have_css("[data-test-selector='label-name'].ellipsis.width-fit[title='#{record.name}']",
                                              visible: :all)
     end
   end

@@ -43,7 +43,7 @@ module Admin
             scheme: :secondary,
             test_selector: "label-name",
             classes: "ellipsis",
-            style: "max-width: 100%",
+            w: :fit,
             title: label.name
           )
         ) { label.name }
