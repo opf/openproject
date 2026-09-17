@@ -291,7 +291,7 @@ module Import
       journal_service = Import::JiraImportJournals.new(work_package:)
 
       jira_created_at = jira_issue.payload.dig("fields", "created")
-      journal_service.set_creation_time(date_time: jira_created_at) if jira_created_at.present?
+      journal_service.set_creation_time(date_time: jira_created_at)
 
       history = jira_issue.payload.dig("changelog", "histories")
       journal_service.add_history(history:) if history.present?
