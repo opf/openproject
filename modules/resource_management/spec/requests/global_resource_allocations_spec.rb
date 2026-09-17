@@ -71,6 +71,11 @@ RSpec.describe "Global resource allocations", :skip_csrf, type: :rails_request,
     }
   end
 
+  # Mirrors the hidden fields the rendered form carries.
+  def scoped_params(params, project)
+    params.deep_merge(resource_allocation: { form_project_id: project&.id })
+  end
+
   it "opens the new allocation dialog globally" do
     get new_resource_allocation_path, headers: { "Accept" => "text/vnd.turbo-stream.html" }
 
@@ -118,9 +123,30 @@ RSpec.describe "Global resource allocations", :skip_csrf, type: :rails_request,
     end
 
     it "warns about it in the form while the dialog is still open" do
-      post refresh_form_resource_allocations_path, params: outsider_params, as: :turbo_stream
+      post refresh_form_resource_allocations_path,
+           params: scoped_params(outsider_params, allocatable),
+           as: :turbo_stream
 
       expect(response.body).to include("Out Sider", "Allocatable")
+    end
+  end
+
+  describe "picking a work package in another project" do
+    it "rebuilds the form so the principal picker follows the new project" do
+      post refresh_form_resource_allocations_path,
+           params: scoped_params(allocation_params(allocatable_wp), read_only),
+           as: :turbo_stream
+
+      expect(response.body).to include("allocatable_in_project")
+      expect(response.body).to include(%(value="#{allocatable.id}"))
+    end
+
+    it "only refreshes the banners when the project is unchanged" do
+      post refresh_form_resource_allocations_path,
+           params: scoped_params(allocation_params(allocatable_wp), allocatable),
+           as: :turbo_stream
+
+      expect(response.body).not_to include("allocatable_in_project")
     end
   end
 

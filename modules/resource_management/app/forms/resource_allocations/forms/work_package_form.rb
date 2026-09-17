@@ -38,6 +38,12 @@ module ResourceAllocations
 
       form do |f|
         f.hidden name: :entity_type, value: "WorkPackage"
+
+        # Carries what the pickers were scoped to, so a refresh can tell whether
+        # picking another work package moved the allocation to a different project.
+        f.hidden name: :form_project_id, value: @project&.id
+        f.hidden name: :form_dialog_id, value: @dialog_id
+
         f.work_package_autocompleter(
           name: :entity_id,
           label: WorkPackage.model_name.human,
