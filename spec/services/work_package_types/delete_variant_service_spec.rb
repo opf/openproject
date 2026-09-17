@@ -78,7 +78,7 @@ RSpec.describe WorkPackageTypes::DeleteVariantService do
     context "when deletion is refused because the variant is linked" do
       before do
         borrower = create(:type_variant, type: bug, variant_name: "Borrower")
-        borrower.update_columns(workflows_source_id: variant.id)
+        borrower.update_columns(defaults_source_id: variant.id)
       end
 
       it "rolls the switch back and reports why" do

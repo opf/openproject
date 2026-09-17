@@ -61,8 +61,8 @@ RSpec.describe "Convert a project-owned variant to global", :js do
   end
 
   it "warns that the project's workflow becomes global too, and converts it" do
-    workflow = owned.workflow
-    expect(workflow).to be_project_specific
+    workflow = create(:project_owned_workflow, project:, name: "Bookshop flow")
+    owned.update!(workflow:)
 
     within(find_test_selector("type-variant-#{owned.id}")) { find("action-menu > button").click }
     click_on convert_action
@@ -118,8 +118,8 @@ RSpec.describe "Convert a project-owned variant to global", :js do
 
   context "when the variant inherits an aspect from a project-specific variant" do
     before do
-      owned.update!(workflows_source: create(:project_owned_type_variant, type: bug_type, project:,
-                                                                          variant_name: "Sibling"))
+      owned.update!(defaults_source: create(:project_owned_type_variant, type: bug_type, project:,
+                                                                         variant_name: "Sibling"))
     end
 
     it "refuses with an error flash and opens no dialog" do

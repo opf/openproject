@@ -44,8 +44,9 @@ end
 
 FactoryBot.define do
   factory :named_workflow, class: "Workflow" do
-    sequence(:name) { |n| "Workflow #{n}" }
+    sequence(:name) { |n| "Workflow No. #{n}" }
 
+    # A workflow only the owning project can see or use.
     factory :project_owned_workflow do
       project
     end

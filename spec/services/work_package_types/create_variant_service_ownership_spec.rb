@@ -81,4 +81,42 @@ RSpec.describe WorkPackageTypes::CreateVariantService, "owning project" do
       expect(variant.public_send(:"#{aspect}_source")).to eq(type.default_variant)
     end
   end
+
+  describe "the workflow it starts on" do
+    shared_let(:role) { create(:project_role) }
+    shared_let(:status_a) { create(:status) }
+    shared_let(:status_b) { create(:status) }
+
+    before_all do
+      create(:workflow, workflow: type.default_variant.workflow, role:,
+                        old_status: status_a, new_status: status_b)
+    end
+
+    it "is the type's own for a global variant" do
+      variant = call(user: admin, project: nil).result
+
+      expect(variant.workflow).to eq(type.default_variant.workflow)
+    end
+
+    it "is a workflow of its own project for a project-owned variant" do
+      variant = call(user: project_admin, project:).result
+
+      expect(variant.workflow).not_to eq(type.default_variant.workflow)
+      expect(variant.workflow.project).to eq(project)
+    end
+
+    it "starts from the transitions the type already has" do
+      variant = call(user: project_admin, project:).result
+
+      expect(variant.workflow.status_transitions.pluck(:old_status_id, :new_status_id))
+        .to contain_exactly([status_a.id, status_b.id])
+    end
+
+    it "leaves the type's own transitions untouched" do
+      variant = call(user: project_admin, project:).result
+      variant.workflow.status_transitions.delete_all
+
+      expect(type.default_variant.workflow.status_transitions).to be_present
+    end
+  end
 end

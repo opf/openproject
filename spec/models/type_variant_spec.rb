@@ -34,7 +34,7 @@ RSpec.describe TypeVariant do
   shared_let(:bug) { create(:type, name: "Bug") }
   shared_let(:task) { create(:type, name: "Task") }
 
-  let(:aspect) { described_class::WORKFLOWS }
+  let(:aspect) { described_class::DEFAULTS }
 
   describe "the base variant" do
     it "is created with its type and carries no name" do
@@ -44,7 +44,8 @@ RSpec.describe TypeVariant do
     end
 
     it "is the only one a type may have" do
-      duplicate = bug.variants.new(is_default_variant: true, variant_name: nil)
+      duplicate = bug.variants.new(is_default_variant: true, variant_name: nil,
+                                   workflow: bug.default_variant.workflow)
 
       expect { duplicate.save(validate: false) }.to raise_error(ActiveRecord::RecordNotUnique)
     end
@@ -91,16 +92,16 @@ RSpec.describe TypeVariant do
     end
 
     it "walks the chain to the variant that owns it" do
-      middle.update!(workflows_source: owner)
-      leaf.update!(workflows_source: middle)
+      middle.update!(defaults_source: owner)
+      leaf.update!(defaults_source: middle)
 
       expect(leaf).to be_linked(aspect)
       expect(leaf.effective_source_for(aspect)).to eq(owner)
     end
 
     it "resolves to itself on a cycle rather than looping" do
-      leaf.update!(workflows_source: middle)
-      middle.update_columns(workflows_source_id: leaf.id)
+      leaf.update!(defaults_source: middle)
+      middle.update_columns(defaults_source_id: leaf.id)
 
       expect(leaf.effective_source_for(aspect)).to eq(leaf)
       expect(leaf.effective_excluded_elements(aspect)).to be_empty
@@ -112,38 +113,38 @@ RSpec.describe TypeVariant do
     let(:two) { create(:type_variant, type: bug, variant_name: "Hardware") }
 
     it "rejects a variant sourcing itself" do
-      one.workflows_source = one
+      one.defaults_source = one
 
       expect(one).not_to be_valid
     end
 
     it "rejects a source whose own chain reaches back" do
-      two.update!(workflows_source: one)
-      one.workflows_source = two
+      two.update!(defaults_source: one)
+      one.defaults_source = two
 
       expect(one).not_to be_valid
-      expect(one.errors).to be_of_kind(:workflows_source_id, :would_create_cycle)
+      expect(one.errors).to be_of_kind(:defaults_source_id, :would_create_cycle)
     end
 
     it "rejects a source further along a chain that reaches back" do
       three = create(:type_variant, type: bug, variant_name: "Firmware")
-      two.update!(workflows_source: one)
-      three.update!(workflows_source: two)
-      one.workflows_source = three
+      two.update!(defaults_source: one)
+      three.update!(defaults_source: two)
+      one.defaults_source = three
 
       expect(one).not_to be_valid
-      expect(one.errors).to be_of_kind(:workflows_source_id, :would_create_cycle)
+      expect(one.errors).to be_of_kind(:defaults_source_id, :would_create_cycle)
     end
 
     it "allows a link that joins a chain without closing it" do
       three = create(:type_variant, type: bug, variant_name: "Firmware")
-      two.update!(workflows_source: one)
+      two.update!(defaults_source: one)
 
-      expect(three.tap { it.workflows_source = two }).to be_valid
+      expect(three.tap { it.defaults_source = two }).to be_valid
     end
 
     it "allows the same pair on a different aspect" do
-      two.update!(workflows_source: one)
+      two.update!(defaults_source: one)
       one.pdf_export_source = two
 
       expect(one).to be_valid
@@ -178,9 +179,9 @@ RSpec.describe TypeVariant do
     end
 
     it "are empty for an aspect that cannot be narrowed" do
-      middle.update!(workflows_source: owner)
+      middle.update!(defaults_source: owner)
 
-      expect(middle.effective_excluded_elements(TypeVariant::WORKFLOWS)).to be_empty
+      expect(middle.effective_excluded_elements(TypeVariant::DEFAULTS)).to be_empty
     end
   end
 
@@ -269,13 +270,13 @@ RSpec.describe TypeVariant do
     end
 
     it "is false when every source is global" do
-      variant.update!(workflows_source: create(:type_variant, type: bug, variant_name: "Base config"))
+      variant.update!(defaults_source: create(:type_variant, type: bug, variant_name: "Base config"))
 
       expect(variant).not_to be_inherits_from_project_owned_variant
     end
 
     it "is true when an aspect is sourced from a project-owned variant" do
-      variant.update!(workflows_source: create(:project_owned_type_variant, type: bug, project:, variant_name: "Sibling"))
+      variant.update!(defaults_source: create(:project_owned_type_variant, type: bug, project:, variant_name: "Sibling"))
 
       expect(variant).to be_inherits_from_project_owned_variant
     end
@@ -284,36 +285,6 @@ RSpec.describe TypeVariant do
   describe "the workflow a variant references" do
     shared_let(:project) { create(:project) }
     shared_let(:other_project) { create(:project) }
-
-    it "is owned by the same project the variant is" do
-      variant = create(:project_owned_type_variant, type: bug, project:, variant_name: "Internal")
-
-      expect(variant.workflow.project).to eq(project)
-      expect(variant.workflow).to be_project_specific
-    end
-
-    it "is global for a global variant" do
-      variant = create(:type_variant, type: bug, variant_name: "Hardware")
-
-      expect(variant.workflow).not_to be_project_specific
-    end
-
-    it "stays with the project when the variant forks it" do
-      variant = create(:project_owned_type_variant, type: bug, project:, variant_name: "Internal")
-
-      variant.fork_workflow!
-
-      expect(variant.reload.workflow.project).to eq(project)
-    end
-
-    it "is the global one a project-owned variant inherits from a global source" do
-      source = create(:type_variant, type: bug, variant_name: "Hardware")
-      variant = create(:project_owned_type_variant, type: bug, project:, variant_name: "Internal",
-                                                    workflows_source: source)
-
-      expect(variant.workflow).to eq(source.workflow)
-      expect(variant.workflow).not_to be_project_specific
-    end
 
     it "may be a global workflow" do
       variant = build(:project_owned_type_variant, type: bug, project:, variant_name: "Internal",
@@ -344,28 +315,17 @@ RSpec.describe TypeVariant do
     shared_let(:old_status) { create(:status) }
     shared_let(:new_status) { create(:status) }
 
-    let(:variant) { create(:type_variant, type: bug, variant_name: "Hardware") }
+    let(:type) { create(:type, name: "Throwaway") }
+    let(:variant) { type.default_variant }
 
     before do
       create(:status_transition, type_variant: variant, role:, old_status:, new_status:)
     end
 
-    it "discards the workflow it was the last to reference" do
+    it "leaves the workflow behind for an admin to reuse or delete" do
       workflow_id = variant.workflow_id
 
-      variant.destroy!
-
-      expect(Workflow.where(id: workflow_id)).to be_empty
-      expect(Workflows::StatusTransition.where(workflow_id:)).to be_empty
-    end
-
-    it "keeps a workflow another variant still references" do
-      workflow_id = variant.workflow_id
-      borrowing = create(:type_variant, type: bug, variant_name: "Software", workflows_source: variant)
-
-      expect(borrowing.workflow_id).to eq(workflow_id)
-
-      borrowing.destroy!
+      type.destroy!
 
       expect(Workflow.where(id: workflow_id)).to be_present
       expect(Workflows::StatusTransition.where(workflow_id:).count).to eq(1)
