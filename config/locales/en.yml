@@ -5768,6 +5768,13 @@ en:
     permissions:
       section_check_all_label: "Assign all %{module} permissions"
       section_uncheck_all_label: "Unassign all %{module} permissions"
+    permissions_dialog:
+      implicit_permission: "Always granted"
+      no_permissions: "This role does not grant any permissions."
+      permission_count:
+        one: "1 permission"
+        other: "%{count} permissions"
+      title: "Permissions of \"%{name}\""
     report:
       matrix_caption: "Permissions matrix for %{module} module"
       matrix_check_all_label: "Assign all %{module} permissions to all roles"
