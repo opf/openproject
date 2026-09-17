@@ -181,6 +181,43 @@ RSpec.describe WorkPackages::Import::CSV::CsvImportJob do
     end
   end
 
+  describe "an attachment claimed into a work package" do
+    let(:dry_run) { false }
+
+    def claim(attachment)
+      attachment.update_columns(container_id: create(:work_package, project:).id,
+                                container_type: "WorkPackage")
+    end
+
+    it "is not read when the claim happened before the job started" do
+      claim(attachment)
+
+      run
+
+      expect(payload).to include("outcome" => "file_rejected")
+      expect(payload["column_problems"].sole["message"]).to include("no longer available")
+    end
+
+    it "survives a claim that happened before the job started" do
+      claim(attachment)
+
+      run
+
+      expect(Attachment.exists?(attachment.id)).to be(true)
+    end
+
+    it "survives a claim that happened while the job was running" do
+      allow(WorkPackages::Import::CSV::ImportService).to receive(:new).and_wrap_original do |original, **args|
+        claim(attachment)
+        original.call(**args)
+      end
+
+      run
+
+      expect(Attachment.exists?(attachment.id)).to be(true)
+    end
+  end
+
   describe "a run that raises" do
     before do
       allow(WorkPackages::Import::CSV::Parser).to receive(:call).and_raise("boom")

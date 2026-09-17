@@ -42,12 +42,11 @@ module WorkPackages
           @user = user
           @project = project
           @dry_run = dry_run
-          @attachment = Attachment.find_by(id: attachment_id)
+          @attachment = Attachment.find_by(id: attachment_id, container: nil, author: user)
 
           User.execute_as(user) { run }
         ensure
-          # Not destroy!: raising here would mask whatever the job was already failing with.
-          attachment&.destroy unless outcome == "checked" # rubocop:disable Rails/SaveBang
+          discard_attachment unless outcome == "checked"
         end
 
         def store_status? = true
@@ -64,6 +63,10 @@ module WorkPackages
 
         def dry_run
           @dry_run.nil? ? arguments.first.to_h[:dry_run] : @dry_run
+        end
+
+        def discard_attachment
+          Attachment.where(id: attachment&.id, container: nil, author: user).destroy_all
         end
 
         def run
