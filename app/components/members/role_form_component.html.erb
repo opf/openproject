@@ -47,19 +47,7 @@ See COPYRIGHT and LICENSE files for more details.
                                      no_label: true %>
           <%= role %>
         </label>
-        <%= render(
-              Primer::Beta::IconButton.new(
-                tag: :a,
-                href: role_permissions_dialog_path(role),
-                icon: :info,
-                scheme: :invisible,
-                size: :small,
-                tooltip_direction: :e,
-                "aria-label": t(".preview_role_permissions", role: role.name),
-                data: { controller: "async-dialog" },
-                test_selector: "op-members--role-permissions-preview"
-              )
-            ) %>
+        <%= role_permissions_preview_icon(role) %>
       <% end %>
     <% end %>
   </p>

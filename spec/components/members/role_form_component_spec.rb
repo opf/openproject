@@ -86,21 +86,31 @@ RSpec.describe Members::RoleFormComponent, type: :component do
   describe "the permissions preview" do
     include Rails.application.routes.url_helpers
 
+    current_user { build_stubbed(:admin) }
+
     let(:member) { build_stubbed(:member, principal:, project:) }
 
     before { render_inline(subject) }
 
     it "offers every role a preview opening its permissions dialog" do
-      triggers = form.all("[data-test-selector='op-members--role-permissions-preview']", visible: :all)
+      triggers = form.all("[data-test-selector='op-roles--permissions-preview']", visible: :all)
 
-      expect(triggers.map { it["href"] }).to eq(roles.map { role_permissions_dialog_path(it) })
-      expect(triggers.map { it["data-controller"] }).to all(eq("async-dialog"))
+      expect(triggers.pluck("href")).to eq(roles.map { role_permissions_dialog_path(it) })
+      expect(triggers.pluck("data-controller")).to all(eq("async-dialog"))
     end
 
     it "labels each preview with its role, pointing the tooltip to the right" do
       expect(form).to have_css "tool-tip[data-direction='e']",
                                text: "View the permissions of #{roles.first.name}",
                                visible: :all
+    end
+
+    context "when the current user may not inspect role permissions" do
+      current_user { build_stubbed(:user) }
+
+      it "omits the preview" do
+        expect(form).to have_no_css "[data-test-selector='op-roles--permissions-preview']", visible: :all
+      end
     end
   end
 end

@@ -79,12 +79,13 @@ RSpec.describe Members::RowComponent, type: :component do
     context "when the current user may inspect role permissions" do
       current_user { create(:admin) }
 
-      it "links every role to its permissions dialog" do
-        expect(rendered).to have_css("td.roles a[data-test-selector='op-members--role-link']",
-                                     text: role.name,
-                                     count: 1)
-        expect(rendered).to have_css("td.roles a[href='#{role_permissions_dialog_path(role)}']")
-        expect(rendered).to have_css("td.roles a[data-controller='async-dialog']")
+      it "names every role and offers an icon opening its permissions dialog" do
+        expect(rendered).to have_css("td.roles", text: role.name)
+        expect(rendered).to have_css("td.roles a[data-test-selector='op-roles--permissions-preview']",
+                                     count: 1,
+                                     visible: :all)
+        expect(rendered).to have_css("td.roles a[href='#{role_permissions_dialog_path(role)}']", visible: :all)
+        expect(rendered).to have_css("td.roles a[data-controller='async-dialog']", visible: :all)
       end
     end
 

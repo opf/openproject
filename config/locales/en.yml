@@ -4557,8 +4557,6 @@ en:
       locked: "Locked"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
-    role_form_component:
-      preview_role_permissions: "View the permissions of %{role}"
     send_invite_to: "Send invite to"
   menu_item: "Menu item"
   menu_item_setting: "Visibility"
@@ -5778,6 +5776,7 @@ en:
       permission_count:
         one: "1 permission"
         other: "%{count} permissions"
+      preview_aria_label: "View the permissions of %{role}"
       title: "Permissions of \"%{name}\""
     report:
       matrix_caption: "Permissions matrix for %{module} module"

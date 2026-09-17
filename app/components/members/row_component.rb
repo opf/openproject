@@ -30,6 +30,8 @@
 
 module Members
   class RowComponent < ::RowComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+    include RolesHelper
+
     property :principal
     delegate :project, to: :table
 
@@ -119,7 +121,7 @@ module Members
 
     def roles_label
       project_roles = member.roles.grep(ProjectRole).uniq.sort
-      label = safe_join(project_roles.map { role_label(it) }, ", ")
+      label = role_names_with_permissions_preview(project_roles)
 
       if principal&.admin?
         label += tag(:br) if project_roles.any?
@@ -127,23 +129,6 @@ module Members
       end
 
       label
-    end
-
-    def role_label(role)
-      return h(role.name) unless may_inspect_role_permissions?
-
-      render(
-        Primer::Beta::Link.new(
-          href: role_permissions_dialog_path(role),
-          underline: false,
-          data: { controller: "async-dialog" },
-          test_selector: "op-members--role-link"
-        )
-      ) { role.name }
-    end
-
-    def may_inspect_role_permissions?
-      Roles::PermissionsDialogComponent.visible_to?(User.current)
     end
 
     def role_form
