@@ -142,7 +142,7 @@ RSpec.describe "Managing labels", :js, with_flag: { work_package_labels: true } 
     wait_for_network_idle
     expect(page).to have_css(".blankslate", text: "No labels match your search")
 
-    fill_in "Search", with: ""
+    find_by_id("labels-filters-form-clear-button").click
     wait_for_network_idle
     expect(page).to have_test_selector(row_selector(alpha))
     expect(page).to have_test_selector(row_selector(beta))
