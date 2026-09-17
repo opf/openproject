@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%=
-  render(Primer::Alpha::Dialog.new(title: t(".title"))) do |dialog|
+  render(Primer::Alpha::Dialog.new(title: t(".title"), size: :medium_portrait)) do |dialog|
     dialog.with_body do
       flex_layout do |container|
         container.with_row(mb: 3) do
