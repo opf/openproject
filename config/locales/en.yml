@@ -6571,6 +6571,9 @@ en:
 
   total_progress: "Total progress"
 
+  tree_view:
+    label_empty_sub_tree: "No items"
+
   types:
     creation_wizard:
       add_variant: "Add a variant to %{name}"
