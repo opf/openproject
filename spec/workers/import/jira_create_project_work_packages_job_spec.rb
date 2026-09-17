@@ -59,6 +59,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
         expect(work_package.estimated_hours).to eq(120.0)
         expect(work_package.remaining_hours).to eq(11.0)
         expect(work_package.status.name).to eq("In Progress")
+        expect(work_package.status.is_closed).to be false
         expect(work_package.priority.name).to eq("Highest")
         expect(work_package.assigned_to).to eq(op_user)
         expect(work_package.identifier).to eq("DPPP-6")
@@ -142,6 +143,20 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
           expect(work_package.journals.count).to be 17
           expect(work_package.journals.where(notes: "Demo comment 2").count).to be 1
         end
+      end
+
+      context "if Jira status is done" do
+        let(:jira_issue_payload) do
+          super().tap { |payload| payload["fields"]["status"]["statusCategory"]["key"] = "done" }
+        end
+
+        it "creates workpackage with closed status" do
+          create_work_packages
+
+          work_package = WorkPackage.find("DPPP-6")
+          expect(work_package.status.is_closed).to be true
+        end
+
       end
 
       context "if priority is nil or hidden in jira filed configuration" do
