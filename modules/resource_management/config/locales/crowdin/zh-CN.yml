@@ -86,6 +86,9 @@ zh-CN:
       criteria:
         empty: No criteria set.
         label: Criteria
+      missing_working_hours:
+        none: The selected user has no working hours configured for these dates, so they are counted as having no capacity.
+        partial: The selected user has no working hours configured for %{dates}, so those days are counted as having no capacity.
       outside_dates:
         description: 所选资源日期 %{resource_dates} 在工作包日期 %{work_package_dates} 之外。
       overbooking:

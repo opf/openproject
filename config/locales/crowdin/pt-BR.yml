@@ -443,12 +443,12 @@ pt-BR:
         warn_on_leaving_unsaved: Alertar-me ao sair de um pacote de trabalho sem salvar as alterações
         workdays: Dias úteis
       user_resource:
-        description: Description
-        name: Name
-        user_filter: User filter
+        description: Descrição
+        name: Nome
+        user_filter: Filtro de usuários
       user_resource_detail:
-        description: Description
-        user_filter: User filter
+        description: Descrição
+        user_filter: Filtro de usuários
       user_working_hours:
         availability_factor: Fator de disponibilidade
         days: Dias úteis
@@ -866,7 +866,7 @@ pt-BR:
         type:
           attributes:
             base:
-              in_use_by_work_packages: This type cannot be deleted while work packages still use it.
+              in_use_by_work_packages: Esse tipo não pode ser excluído enquanto houver pacotes de trabalho que ainda o utilizem.
         type_variant:
           attributes:
             attribute_groups:
@@ -3483,7 +3483,7 @@ pt-BR:
   label_core_build: Construção principal
   label_core_version: Versão do núcleo
   label_created_by: Criado por %{user}
-  label_criteria: Criteria
+  label_criteria: Critério
   label_current_status: Situação atual
   label_current_version: Versão atual
   label_custom_comment: Comentário de %{name}
@@ -4058,8 +4058,8 @@ pt-BR:
   label_wiki_start: Página inicial
   label_wiki_toc: Tabela de conteúdos
   label_wiki_toc_empty: A Tabela de Conteúdo está vazia, pois nenhum cabeçalho está presente.
-  label_with_criteria: With criteria
-  label_without_criteria: Without criteria
+  label_with_criteria: Com critérios
+  label_without_criteria: Sem critérios
   label_work: Trabalho
   label_work_package: Pacote de trabalho
   label_work_package_attachments: Anexos de pacote de trabalho
@@ -4935,11 +4935,11 @@ pt-BR:
     prev_page: Página anterior
   pdf_generator:
     budgets_table:
-      cost_per_unit: Cost per unit
-      description: Description
-      labor: Labor costs
-      material: Unit costs
-      sum: Sum
+      cost_per_unit: Custo por unidade
+      description: Descrição
+      labor: Custos de trabalho
+      material: Custos unitários
+      sum: Soma
       total: Total
     dialog:
       footer_center:
@@ -4956,11 +4956,11 @@ pt-BR:
       hyphenation_language:
         label: Idioma e hifenização
       include_budget:
-        caption: Include the project's budgets with their planned unit and labor cost items.
-        label: Project budgets
+        caption: Incluam os orçamentos do projeto com seus itens de custos unitários e de mão de obra previstos.
+        label: Orçamentos do projeto
       include_lifecycle:
         caption: Include the project's phases and their date ranges.
-        label: Project lifecycle
+        label: Ciclo de vida do projeto
       page_orientation:
         caption: Selecione a orientação das páginas no documento PDF.
         label: Orientação da página
@@ -5109,7 +5109,7 @@ pt-BR:
   permission_work_package_assigned_explanation: Os pacotes de trabalho podem ser atribuídos a usuários e grupos que possuam esta função no respectivo projeto
   placeholder_users:
     criteria:
-      activate: Activate filter criteria
+      activate: Ativar critérios de filtragem
       activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
 
         '
@@ -5421,6 +5421,7 @@ pt-BR:
     wizard:
       create_artifact_storage_error: Falha ao armazenar o artefato no armazenamento de arquivos
       create_artifact_work_package_error: Falha ao criar o pacote de trabalho do artefato
+      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
       no_help_text: Nenhum texto de ajuda definido para este atributo.
       progress_label: "%{current} de %{total}"
       sections: Seções
@@ -6679,7 +6680,7 @@ pt-BR:
         projects:
           one: 'The type will be removed from 1 project:'
           other: 'The type will be removed from %{count} projects:'
-        title: Delete type
+        title: Excluir tipo
       description: 'Cada área de configuração em tipos e variantes pode ser configurada independentemente, limitada por outro tipo ou totalmente vinculada a uma origem.
 
         '

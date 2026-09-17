@@ -184,6 +184,7 @@ pt-BR:
     remaining_hours: Trabalho restante
     sharing: Compartilhamento de sprints
     show_burndown_chart: Gráfico de burndown
+    show_work_package_overview: Work packages within the sprint
     sprint_component:
       action_menu:
         add_existing_work_package: Adicionar pacote de trabalho existente
@@ -209,6 +210,31 @@ pt-BR:
       page_header_component:
         breadcrumb: Relatório
         title: "%{sprint} relatório"
+      widgets:
+        work_package_graph:
+          title: Work packages graph
+        work_package_overview:
+          blankslate:
+            description: Set start and end date for the sprint to generate the work package overview.
+            heading: No sprint data available
+          blocks:
+            changed_after_start:
+              count_change_html: "+%{added} %{divider} -%{removed}"
+              heading: Scope change
+              story_points_change: "+%{added} / -%{removed} story points"
+            completed:
+              heading: Completed
+            initially_planned:
+              heading: Initially planned
+            unfinished:
+              heading: Unfinished
+          breakdown_block:
+            blocks:
+              show_all: View all
+          closed_work_packages: Closed work packages
+          resolved_summary:
+            one: "%{percentage}% (%{resolved} of %{total} work package)"
+            other: "%{percentage}% (%{resolved} of %{total} work packages)"
     sprints:
       row_component:
         action_menu:
@@ -250,8 +276,8 @@ pt-BR:
         invalid_target: O destino ao qual você está tentando adicionar é inválido.
         target_not_found: O sprint ou backlog ao qual você está tentando adicionar não foi encontrado.
       batch_update_service:
-        mixed_projects: All work packages of a batch must belong to the same project.
-        stale_batch: At least one work package changed while the move was being prepared. Please check the current positions and try again.
+        mixed_projects: Todos os pacotes de trabalho de um lote devem pertencer ao mesmo projeto.
+        stale_batch: Pelo menos um pacote de trabalho mudou enquanto o movimento estava sendo preparado. Por favor, verifique as posições atuais e tente novamente.
         stale_predecessor: The work package to insert after has been moved elsewhere. Please check the current positions and try again.
         unavailable_target: The destination list is no longer available. Please reload the page and try again.
         unexpected_failure: The work packages could not be moved. Please try again.

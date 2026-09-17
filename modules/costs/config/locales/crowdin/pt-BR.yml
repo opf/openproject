@@ -75,7 +75,7 @@ pt-BR:
         rate:
           attributes:
             principal:
-              invalid: must be a user or a placeholder user.
+              invalid: deve ser um usuário ou um usuário provisório.
         time_entry:
           attributes:
             entity:
@@ -211,7 +211,7 @@ pt-BR:
   label_costlog: Custos unitários registrados
   label_costs: Custos
   label_costs_per_page: Custos por página
-  label_current: Current
+  label_current: Atual
   label_current_default_rate: Atual taxa padrão
   label_date_on: em
   label_day: Dia
@@ -238,8 +238,8 @@ pt-BR:
   label_next_week: Próxima semana
   label_next_workweek: Próxima semana útil
   label_no: Não
-  label_no_default_rate: No default rate set
-  label_no_project_rate: No rate set for this project
+  label_no_default_rate: Nenhuma taxa padrão definida
+  label_no_project_rate: Não foi definida nenhuma taxa para este projeto
   label_no_time: Sem tempo controlado
   label_option_plural: Opções
   label_overall_costs: Custos totais
@@ -260,7 +260,7 @@ pt-BR:
   label_today_capitalized: Hoje
   label_units: Custos unitários
   label_until: até
-  label_using_current_default_rate: Using current default rate
+  label_using_current_default_rate: Usando a taxa padrão atual
   label_valid_from: Válido a partir de
   label_view_mode_switcher: Alterar vista
   label_work_package_filter_add: Adicionar filtro de pacote de trabalho

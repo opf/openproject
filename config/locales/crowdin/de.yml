@@ -5427,6 +5427,7 @@ de:
     wizard:
       create_artifact_storage_error: Artefakt konnte nicht im Dateispeicher gespeichert werden
       create_artifact_work_package_error: Arbeitspaket für das Artefakt der Anfrage konnte nicht erstellt werden
+      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
       no_help_text: Für dieses Feld ist kein Hilfetext definiert.
       progress_label: "%{current} von %{total}"
       sections: Abschnitte

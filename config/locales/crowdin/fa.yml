@@ -5420,6 +5420,7 @@ fa:
     wizard:
       create_artifact_storage_error: ذخیره آرتیفکت در Storage فایل ناموفق بود
       create_artifact_work_package_error: ایجاد بسته کاری آرتیفکت ناموفق بود
+      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
       no_help_text: برای این ویژگی متن راهنمایی تعریف نشده است.
       progress_label: "%{current} از %{total}"
       sections: بخش‌ها

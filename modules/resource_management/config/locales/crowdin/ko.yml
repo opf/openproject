@@ -86,6 +86,9 @@ ko:
       criteria:
         empty: No criteria set.
         label: Criteria
+      missing_working_hours:
+        none: The selected user has no working hours configured for these dates, so they are counted as having no capacity.
+        partial: The selected user has no working hours configured for %{dates}, so those days are counted as having no capacity.
       outside_dates:
         description: 선택된 리소스 날짜(%{resource_dates})가 작업 패키지 날짜(%{work_package_dates}) 범위를 벗어납니다.
       overbooking:
