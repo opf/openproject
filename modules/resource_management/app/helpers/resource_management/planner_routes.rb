@@ -108,6 +108,10 @@ module ResourceManagement
       planner_route(planner, :edit_resource_planner_view_work_package_progress_path, view, work_package)
     end
 
+    def planner_view_work_package_progress_path(planner, view, work_package)
+      planner_route(planner, :resource_planner_view_work_package_progress_path, view, work_package)
+    end
+
     def planner_view_work_package_timeline_resources_path(planner, view, **params)
       planner_route(planner, :resource_planner_view_work_package_timeline_resources_path, view, **params)
     end
@@ -139,6 +143,30 @@ module ResourceManagement
         op_routes.edit_project_resource_allocation_path(project, allocation, **params)
       else
         op_routes.edit_resource_allocation_path(allocation, **params)
+      end
+    end
+
+    def allocations_path(project, **params)
+      if project
+        op_routes.project_resource_allocations_path(project, **params)
+      else
+        op_routes.resource_allocations_path(**params)
+      end
+    end
+
+    def allocation_path(project, allocation, **params)
+      if project
+        op_routes.project_resource_allocation_path(project, allocation, **params)
+      else
+        op_routes.resource_allocation_path(allocation, **params)
+      end
+    end
+
+    def refresh_form_allocations_path(project)
+      if project
+        op_routes.refresh_form_project_resource_allocations_path(project)
+      else
+        op_routes.refresh_form_resource_allocations_path
       end
     end
 

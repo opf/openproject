@@ -73,6 +73,17 @@ class ResourcePlanner < PersistedView
     end
   end
 
+  # Whether to offer the allocate affordances at all. A global planner cannot
+  # name a project up front, so holding the permission anywhere is enough to
+  # start; the contract then checks it against the chosen work package's project.
+  def self.allocatable_by?(user, project)
+    if project
+      user.allowed_in_project?(:allocate_user_resources, project)
+    else
+      user.allowed_in_any_project?(:allocate_user_resources)
+    end
+  end
+
   def self.public_manageable_by?(user, project)
     if project
       user.allowed_in_project?(:manage_public_resource_planners, project)

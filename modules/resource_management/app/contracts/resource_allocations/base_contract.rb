@@ -45,9 +45,11 @@ module ResourceAllocations
 
     private
 
+    # The permission lives on the project of the allocated work package, which is
+    # also how a global planner resolves it. A missing project means no reachable
+    # entity, so there is nothing to authorise against.
     def user_allowed_to_allocate
-      return if model.project.nil?
-      return if user.allowed_in_project?(:allocate_user_resources, model.project)
+      return if model.project && user.allowed_in_project?(:allocate_user_resources, model.project)
 
       errors.add :base, :error_unauthorized
     end

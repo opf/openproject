@@ -34,6 +34,7 @@ module ResourceAllocations
       include ApplicationHelper
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
+      include ResourceManagement::PlannerRoutes
 
       # `dialog_id` names the dialog hosting the form (autocompleter dropdowns
       # attach to it): the create wizard's by default, the edit dialog's when
@@ -61,9 +62,9 @@ module ResourceAllocations
       # through the create flow (with its confirmation step).
       def form_url
         if @allocation.persisted?
-          project_resource_allocation_path(@project, @allocation, resource_planner_view_id: @view&.id)
+          allocation_path(@project, @allocation, resource_planner_view_id: @view&.id)
         else
-          project_resource_allocations_path(@project, resource_planner_view_id: @view&.id)
+          allocations_path(@project, resource_planner_view_id: @view&.id)
         end
       end
 

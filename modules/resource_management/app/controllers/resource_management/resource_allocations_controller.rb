@@ -30,11 +30,11 @@
 module ::ResourceManagement
   class ResourceAllocationsController < BaseController
     include OpTurbo::ComponentStream
+    include ResourceManagement::PlannerRoutes
 
     menu_item :resource_management
 
-    before_action :find_project_by_project_id
-    before_action :authorize
+    before_action :load_and_authorize_in_optional_project
     before_action :find_resource_allocation, only: %i[edit update destroy]
 
     def new
@@ -45,7 +45,7 @@ module ::ResourceManagement
       end
 
       respond_with_dialog ResourceAllocations::NewDialogComponent.new(
-        project: @project,
+        project: dialog_project,
         allocation: prefilled_allocation,
         view: resource_planner_view
       )
@@ -76,7 +76,7 @@ module ::ResourceManagement
       end
 
       respond_with_dialog ResourceAllocations::EditDialogComponent.new(
-        project: @project,
+        project: allocation_project(@resource_allocation.entity),
         allocation: @resource_allocation,
         view: resource_planner_view
       )
@@ -130,7 +130,7 @@ module ::ResourceManagement
       replace_via_turbo_stream(
         component: ResourceAllocations::AllocationStep::FormComponent.new(
           allocation:,
-          project: @project,
+          project: allocation_project(allocation.entity),
           view: resource_planner_view
         ),
         status:
@@ -145,7 +145,7 @@ module ::ResourceManagement
       replace_via_turbo_stream(
         component: ResourceAllocations::WarningStep::FormComponent.new(
           allocation:,
-          project: @project,
+          project: allocation_project(allocation.entity),
           form_values: submitted_allocation_params,
           filters: params[:filters],
           view: resource_planner_view,
@@ -306,7 +306,7 @@ module ::ResourceManagement
       replace_via_turbo_stream(
         component: ResourceAllocations::AllocationStep::FormComponent.new(
           allocation:,
-          project: @project,
+          project: allocation_project(allocation.entity),
           dialog_id: ResourceAllocations::EditDialogComponent::DIALOG_ID,
           view: resource_planner_view
         ),
@@ -383,9 +383,11 @@ module ::ResourceManagement
     # Only allocations of work packages reachable by the current user within
     # the project may be touched; anything else 404s.
     def find_resource_allocation
+      work_packages = WorkPackage.visible(current_user)
+      work_packages = work_packages.where(project: @project) if @project
+
       @resource_allocation = ResourceAllocation
-                               .where(entity_type: "WorkPackage",
-                                      entity_id: WorkPackage.visible(current_user).where(project: @project))
+                               .where(entity_type: "WorkPackage", entity_id: work_packages)
                                .find(params.expect(:id))
     end
 
@@ -396,16 +398,25 @@ module ::ResourceManagement
                     .to_h
                     .symbolize_keys
 
-      placeholder_or_user = selected_placeholder_or_user(permitted.delete(:placeholder_or_user_id))
+      placeholder_or_user_id = permitted.delete(:placeholder_or_user_id)
       entity = resolve_visible_entity(permitted.delete(:entity_type), permitted.delete(:entity_id))
+      placeholder_or_user = selected_placeholder_or_user(placeholder_or_user_id, allocation_project(entity))
+
       permitted.merge(entity:, placeholder_or_user:)
     end
 
-    def selected_placeholder_or_user(placeholder_or_user_id)
+    # A global planner has no project of its own, so an allocation belongs to the
+    # project of the work package it is made against.
+    def allocation_project(entity)
+      @project || entity&.project
+    end
+
+    def selected_placeholder_or_user(placeholder_or_user_id, project)
       return if placeholder_or_user_id.blank?
 
-      User.visible.in_project(@project).find_by(id: placeholder_or_user_id) ||
-        PlaceholderUser.allocatable(current_user).find_by(id: placeholder_or_user_id)
+      member = User.visible.in_project(project).find_by(id: placeholder_or_user_id) if project
+
+      member || PlaceholderUser.allocatable(current_user).find_by(id: placeholder_or_user_id)
     end
 
     def preselected_work_package
@@ -417,7 +428,15 @@ module ::ResourceManagement
     def preselected_user
       return @preselected_user if defined?(@preselected_user)
 
-      @preselected_user = User.visible(current_user).in_project(@project).find_by(id: params[:principal_id])
+      project = allocation_project(preselected_work_package)
+      @preselected_user =
+        (User.visible(current_user).in_project(project).find_by(id: params[:principal_id]) if project)
+    end
+
+    # The project the dialog's pickers are scoped to: the planner's own, or the
+    # preselected work package's when the planner is global.
+    def dialog_project
+      @dialog_project ||= allocation_project(preselected_work_package)
     end
 
     def prefilled_allocation

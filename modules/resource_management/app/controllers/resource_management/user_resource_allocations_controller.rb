@@ -34,10 +34,9 @@ module ::ResourceManagement
 
     menu_item :resource_management
 
-    before_action :find_project_by_project_id
+    before_action :load_and_authorize_in_optional_project
     before_action :find_resource_planner_view
     before_action :find_user
-    before_action :authorize
 
     def index
       respond_with_dialog ResourcePlannerViews::UserCardList::UserAllocationsDialogComponent.new(

@@ -59,7 +59,9 @@ module ::ResourceManagement
       return if entity_id.blank?
       return unless ResourceAllocation::ALLOWED_ENTITY_TYPES.include?(entity_type)
 
-      entity_type.constantize.visible(current_user).where(project: @project).find_by(id: entity_id)
+      scope = entity_type.constantize.visible(current_user)
+      scope = scope.where(project: @project) if @project
+      scope.find_by(id: entity_id)
     end
   end
 end
