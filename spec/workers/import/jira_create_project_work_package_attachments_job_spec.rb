@@ -59,9 +59,62 @@ RSpec.describe Import::JiraCreateProjectWorkPackageAttachmentsJob,
       expect(work_package.attachments.first.filename).to eq("airplane-wing-over-cloudy-sky.jpg")
     end
 
-    it "journalizes the attachment on the work package" do
+    it "takes the attachment timestamps from the date it was attached in Jira" do
+      create_work_package_attachments
+
+      attached_at = Time.zone.parse(jira_issue_payload["fields"]["attachment"].sole["created"])
+      attachment = WorkPackage.find("DPPP-6").attachments.sole
+
+      expect(attachment.created_at).to eq(attached_at)
+      expect(attachment.updated_at).to eq(attached_at)
+    end
+
+    it "does not journalize the attachment, leaving the migration entry as the only addition" do
       expect { create_work_package_attachments }
         .to change { WorkPackage.find("DPPP-6").journals.count }.by(1)
+    end
+
+    it "records the attachment in every journal, so that none reports it as a later change" do
+      create_work_package_attachments
+
+      journals = WorkPackage.find("DPPP-6").journals.order(:version)
+      attachment = Attachment.sole
+
+      expect(journals.map { |journal| journal.attachable_journals.pluck(:attachment_id) })
+        .to all(eq([attachment.id]))
+      expect(journals.reject(&:initial?).flat_map { |journal| journal.details.keys })
+        .not_to include("attachments_#{attachment.id}")
+    end
+
+    it "keeps the imported Jira changelog as the only record of when it was attached" do
+      create_work_package_attachments
+
+      changelog_entry = jira_issue_payload["changelog"]["histories"].find do |history|
+        history["items"].any? { |item| item["field"] == "Attachment" }
+      end
+      journals = WorkPackage.find("DPPP-6").journals.order(:version).select do |journal|
+        journal.cause_import_history.to_a.any? do |entry|
+          entry["items"].to_a.any? { |item| item["field"] == "Attachment" }
+        end
+      end
+
+      expect(journals.map(&:created_at)).to eq([Time.zone.parse(changelog_entry["created"])])
+    end
+
+    it "closes the activity with a migration entry" do
+      create_work_package_attachments
+
+      journal = WorkPackage.find("DPPP-6").journals.order(:version).last
+      expect(journal.cause).to eq("type" => "import", "migrated" => true)
+      expect(journal.created_at).to be_within(1.minute).of(Time.current)
+    end
+
+    it "keeps the Jira timestamps on the work package" do
+      create_work_package_attachments
+
+      work_package = WorkPackage.find("DPPP-6")
+      expect(work_package.created_at).to eq(Time.zone.parse(jira_issue_payload["fields"]["created"]))
+      expect(work_package.updated_at).to eq(Time.zone.parse(jira_issue_payload["fields"]["updated"]))
     end
 
     it "adds the attachment author as a project member" do
