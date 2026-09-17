@@ -70,7 +70,7 @@ class Attachment < ApplicationRecord
 
   mount_uploader :file, OpenProject::Configuration.file_uploader
 
-  after_commit :enqueue_jobs, on: :create, if: -> { !internal_container? }
+  after_commit :enqueue_jobs, on: :create, if: -> { !internal_container? && self.class.post_upload_jobs? }
 
   scope :pending_direct_upload, -> { status_prepared }
   scope :not_pending_direct_upload, -> { not_status_prepared }
@@ -301,6 +301,20 @@ class Attachment < ApplicationRecord
     if OpenProject::Database.allows_tsv? && (!container || container.class.attachment_tsv_extracted?)
       Attachments::ExtractFulltextJob.perform_later(id)
     end
+  end
+
+  # For working files, such as a CSV handed to an importer, which a job reads and then deletes.
+  # Neither indexing their contents nor scanning a file that is never served is worth doing.
+  def self.without_post_upload_jobs
+    previous = ActiveSupport::IsolatedExecutionState[:attachment_post_upload_jobs]
+    ActiveSupport::IsolatedExecutionState[:attachment_post_upload_jobs] = false
+    yield
+  ensure
+    ActiveSupport::IsolatedExecutionState[:attachment_post_upload_jobs] = previous
+  end
+
+  def self.post_upload_jobs?
+    ActiveSupport::IsolatedExecutionState[:attachment_post_upload_jobs] != false
   end
 
   # Extract the fulltext of any attachments where fulltext is still nil.

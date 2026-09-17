@@ -55,9 +55,11 @@ module WorkPackages
         # bypass_allowlist: Setting.attachment_whitelist does not apply. The permission is the gate,
         # and the file is parsed rather than stored on a record or served to anyone.
         def upload(file)
-          Attachments::CreateService
-            .bypass_allowlist(user:)
-            .call(container: nil, filename: file.original_filename, file:)
+          Attachment.without_post_upload_jobs do
+            Attachments::CreateService
+              .bypass_allowlist(user:)
+              .call(container: nil, filename: file.original_filename, file:)
+          end
         end
 
         # The author could have claimed the attachment into a container since it was checked, and
