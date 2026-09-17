@@ -33,6 +33,7 @@ module Backlogs
     module Widgets
       class EpicProgress < Grids::WidgetComponent
         include Backlogs::CommonHelper
+        include Backlogs::Concerns::TimeConsciousScope
 
         param :sprint
         param :project
@@ -50,49 +51,7 @@ module Backlogs
             user_allowed?(:view_sprints) && epic_type.present?
         end
 
-        def resolved_percentage(epic)
-          return 0 if total_work_packages_count(epic).zero?
-
-          (resolved_work_packages_count(epic).to_f / total_work_packages_count(epic) * 100).round
-        end
-
         private
-
-        def epic_type
-          return @epic_type if defined?(@epic_type)
-
-          @epic_type = Type.find_by(name: "Epic")
-        end
-
-        def work_packages_in_epic(epic)
-          if historic?
-            as_of.where(id: historic_descendant_ids([epic.id])).visible
-          else
-            epic.descendants.visible
-          end
-        end
-
-        def resolved_work_packages_count(epic)
-          work_packages_in_epic(epic).where(status_id: project.done_status_ids).count
-        end
-
-        def total_work_packages_count(epic)
-          work_packages_in_epic(epic).count
-        end
-
-        def historic?
-          return @historic if defined?(@historic)
-
-          @historic = sprint.completed_at.present?
-        end
-
-        def as_of
-          @as_of ||= historic? ? WorkPackage.at_timestamp(Timestamp.new(sprint.completed_at)) : WorkPackage.all
-        end
-
-        def work_packages_in_sprint
-          as_of.where(sprint_id: sprint.id, project_id: project.id).visible
-        end
 
         def relevant_epics
           @relevant_epics ||= begin
@@ -100,6 +59,16 @@ module Backlogs
 
             as_of.where(id: epic_ids, type_id: epic_type.id).visible
           end
+        end
+
+        def epic_type
+          return @epic_type if defined?(@epic_type)
+
+          @epic_type = Type.find_by(name: "Epic")
+        end
+
+        def work_packages_in_sprint
+          as_of.where(sprint_id: sprint.id, project_id: project.id).visible
         end
 
         def live_relevant_epic_ids
@@ -124,18 +93,6 @@ module Backlogs
           until parents.empty?
             parents = as_of.where(id: parents).pluck(:parent_id).compact.uniq - found.to_a
             found.merge(parents)
-          end
-
-          found.to_a
-        end
-
-        def historic_descendant_ids(ids)
-          found = Set.new
-          children = ids
-
-          until children.empty?
-            children = as_of.where(parent_id: children).pluck(:id) - found.to_a
-            found.merge(children)
           end
 
           found.to_a

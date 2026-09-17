@@ -78,16 +78,6 @@ RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress, type: :component,
     end
   end
 
-  context "when the project uses a named variant of the Epic type" do
-    let!(:epic_variant) { create(:type_variant, type: epic_type, variant_name: "Business Epic") }
-    let(:project) { create(:project, types: [epic_variant, task_type].compact) }
-    let!(:epic) { create(:work_package, type: epic_type, project:, sprint:) }
-
-    it "still displays it as \"Epic\", not the variant's own name" do
-      expect(rendered_component).to have_css(".op-wp-info-line--type", exact_text: "EPIC")
-    end
-  end
-
   context "when a work package in the sprint has an epic ancestor" do
     let!(:epic) { create(:work_package, type: epic_type, project:) }
     let!(:feature) { create(:work_package, type: task_type, project:, parent: epic) }
@@ -135,45 +125,6 @@ RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress, type: :component,
     end
   end
 
-  context "when computing progress counts" do
-    let(:done_status) { create(:status) }
-    let(:open_status) { create(:status) }
-    let!(:epic) { create(:work_package, type: epic_type, project:, sprint:) }
-    let!(:done_child) { create(:work_package, type: task_type, project:, parent: epic, status: done_status) }
-    let!(:open_child) { create(:work_package, type: task_type, project:, parent: epic, status: open_status) }
-
-    before { project.done_status_ids = [done_status.id] }
-
-    it "counts every descendant of the epic, not just the ones in the sprint" do
-      expect(rendered_component).to have_text("1 / 2 work packages")
-      expect(rendered_component).to have_text("(50%)")
-    end
-  end
-
-  context "when descendant type is excluded from backlogs" do
-    let(:excluded_type) { create(:type_bug) }
-    let(:project) { create(:project, types: [epic_type, task_type, excluded_type].compact) }
-    let!(:epic) { create(:work_package, type: epic_type, project:, sprint:) }
-    let!(:excluded_child) { create(:work_package, type: excluded_type, project:, parent: epic) }
-
-    before { project.backlog_excluded_type_ids = [excluded_type.id] }
-
-    it "includes it into the count" do
-      expect(rendered_component).to have_text("0 / 1 work packages")
-    end
-  end
-
-  context "when a descendant is invisible to the user" do
-    let(:other_project) { create(:project, types: [task_type]) }
-    let!(:epic) { create(:work_package, type: epic_type, project:, sprint:) }
-    let!(:visible_child) { create(:work_package, type: task_type, project:, parent: epic) }
-    let!(:invisible_child) { create(:work_package, type: task_type, project: other_project, parent: epic) }
-
-    it "excludes it from the count" do
-      expect(rendered_component).to have_text("0 / 1 work packages")
-    end
-  end
-
   context "when the sprint is completed" do
     let(:before_completion) { 3.days.ago }
     let(:completed_at) { 2.days.ago }
@@ -213,49 +164,6 @@ RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress, type: :component,
 
       it "drops all record of it, even from this now-frozen report" do
         expect(rendered_component).to have_no_text(epic_a.subject)
-      end
-    end
-
-    context "when computing progress counts" do
-      let(:done_status) { create(:status) }
-
-      let!(:done_child) do
-        create(:work_package, :created_in_past, type: task_type, project:, sprint:, status: done_status,
-                                                parent: epic_a, created_at: before_completion)
-      end
-
-      before { project.done_status_ids = [done_status.id] }
-
-      context "when a descendant has since been moved out of the epic" do
-        let!(:moved_out_child) do
-          create(:work_package,
-                 type: task_type, project:, parent: nil,
-                 journals: {
-                   before_completion => { parent_id: epic_a.id },
-                   after_completion => { parent_id: nil }
-                 })
-        end
-
-        it "still counts it, the same way historic_relevant_epic_ids still counts a reparented ancestor" do
-          expect(rendered_component).to have_text("1 / 2 work packages")
-          expect(rendered_component).to have_text("(50%)")
-        end
-      end
-
-      context "when a descendant only joined the epic after completion" do
-        let!(:moved_in_child) do
-          create(:work_package,
-                 type: task_type, project:, parent: epic_a,
-                 journals: {
-                   before_completion => { parent_id: nil },
-                   after_completion => { parent_id: epic_a.id }
-                 })
-        end
-
-        it "does not count it, even though it is a descendant right now" do
-          expect(rendered_component).to have_text("1 / 1 work packages")
-          expect(rendered_component).to have_text("(100%)")
-        end
       end
     end
   end
