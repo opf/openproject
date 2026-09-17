@@ -190,6 +190,7 @@ lv:
     remaining_hours: Atlikušie darbi
     sharing: Sprint sharing
     show_burndown_chart: Burndown chart
+    show_work_package_overview: Work packages within the sprint
     sprint_component:
       action_menu:
         add_existing_work_package: Add existing work package
@@ -215,6 +216,32 @@ lv:
       page_header_component:
         breadcrumb: Report
         title: "%{sprint} report"
+      widgets:
+        work_package_graph:
+          title: Work packages graph
+        work_package_overview:
+          blankslate:
+            description: Set start and end date for the sprint to generate the work package overview.
+            heading: No sprint data available
+          blocks:
+            changed_after_start:
+              count_change_html: "+%{added} %{divider} -%{removed}"
+              heading: Scope change
+              story_points_change: "+%{added} / -%{removed} story points"
+            completed:
+              heading: Completed
+            initially_planned:
+              heading: Initially planned
+            unfinished:
+              heading: Unfinished
+          breakdown_block:
+            blocks:
+              show_all: View all
+          closed_work_packages: Closed work packages
+          resolved_summary:
+            zero: "%{percentage}% (%{resolved} of %{total} work packages)"
+            one: "%{percentage}% (%{resolved} of %{total} work package)"
+            other: "%{percentage}% (%{resolved} of %{total} work packages)"
     sprints:
       row_component:
         action_menu:

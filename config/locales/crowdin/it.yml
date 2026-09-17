@@ -5427,6 +5427,7 @@ it:
     wizard:
       create_artifact_storage_error: Impossibile salvare l'artefatto nell'archivio file esterno
       create_artifact_work_package_error: Creazione della macro-attività dell'artefatto non riuscita
+      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
       no_help_text: Questo attributo non ha un testo guida definito.
       progress_label: "%{current} di %{total}"
       sections: Sezioni

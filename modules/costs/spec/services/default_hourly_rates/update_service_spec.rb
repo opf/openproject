@@ -53,6 +53,15 @@ RSpec.describe DefaultHourlyRates::UpdateService, type: :model do
     end
   end
 
+  context "with the global manage_default_hourly_rates permission" do
+    let(:current_user) { create(:user, global_permissions: %i[manage_default_hourly_rates]) }
+
+    it "applies the new rate without being an admin" do
+      expect(service_result).to be_success
+      expect(rate.reload.rate).to eq(120)
+    end
+  end
+
   context "as a locked admin" do
     let(:current_user) { create(:admin, status: User.statuses[:locked]) }
 

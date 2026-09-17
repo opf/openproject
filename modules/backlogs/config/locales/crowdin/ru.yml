@@ -196,6 +196,7 @@ ru:
     remaining_hours: Оставшиеся часы
     sharing: Совместное использование спринта
     show_burndown_chart: Диаграмма выгорания
+    show_work_package_overview: Work packages within the sprint
     sprint_component:
       action_menu:
         add_existing_work_package: Добавить существующий пакет работ
@@ -221,6 +222,33 @@ ru:
       page_header_component:
         breadcrumb: Отчет
         title: Отчёт %{sprint}
+      widgets:
+        work_package_graph:
+          title: Work packages graph
+        work_package_overview:
+          blankslate:
+            description: Set start and end date for the sprint to generate the work package overview.
+            heading: No sprint data available
+          blocks:
+            changed_after_start:
+              count_change_html: "+%{added} %{divider} -%{removed}"
+              heading: Scope change
+              story_points_change: "+%{added} / -%{removed} story points"
+            completed:
+              heading: Completed
+            initially_planned:
+              heading: Initially planned
+            unfinished:
+              heading: Unfinished
+          breakdown_block:
+            blocks:
+              show_all: View all
+          closed_work_packages: Closed work packages
+          resolved_summary:
+            one: "%{percentage}% (%{resolved} of %{total} work package)"
+            few: "%{percentage}% (%{resolved} of %{total} work packages)"
+            many: "%{percentage}% (%{resolved} of %{total} work packages)"
+            other: "%{percentage}% (%{resolved} of %{total} work packages)"
     sprints:
       row_component:
         action_menu:

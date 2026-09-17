@@ -33,7 +33,7 @@ module DefaultHourlyRates
     def self.model = ::DefaultHourlyRate
 
     def self.can_manage?(user:, principal_id: nil, project: nil) # rubocop:disable Lint/UnusedMethodArgument
-      user.active_admin?
+      user.allowed_globally?(:manage_default_hourly_rates)
     end
 
     private

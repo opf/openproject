@@ -5422,6 +5422,7 @@ pt-PT:
     wizard:
       create_artifact_storage_error: Erro ao armazenar artefacto no armazenamento de ficheiros
       create_artifact_work_package_error: Erro ao criar pacote de trabalho de artefacto
+      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
       no_help_text: Este atributo não tem texto de ajuda definido.
       progress_label: "%{current} de %{total}"
       sections: Secções

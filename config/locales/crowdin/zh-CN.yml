@@ -5266,6 +5266,7 @@ zh-CN:
     wizard:
       create_artifact_storage_error: 无法在文件存储空间中存储工件
       create_artifact_work_package_error: 无法创建工件工作包
+      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
       no_help_text: 此特性未定义帮助文本。
       progress_label: "%{current}/%{total}"
       sections: 分区

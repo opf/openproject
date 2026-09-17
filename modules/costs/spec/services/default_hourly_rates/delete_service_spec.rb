@@ -52,6 +52,16 @@ RSpec.describe DefaultHourlyRates::DeleteService, type: :model do
     end
   end
 
+  context "with the global manage_default_hourly_rates permission" do
+    let(:current_user) { create(:user, global_permissions: %i[manage_default_hourly_rates]) }
+
+    it "deletes the rate without being an admin" do
+      expect { service_result }.to change(DefaultHourlyRate, :count).by(-1)
+
+      expect(service_result).to be_success
+    end
+  end
+
   context "as a locked admin" do
     let(:current_user) { create(:admin, status: User.statuses[:locked]) }
 

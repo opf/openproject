@@ -26,7 +26,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ApplicationController, useDebounce } from 'stimulus-use';
+import { Controller } from '@hotwired/stimulus';
+import { useDebounce } from 'stimulus-use';
 import { FetchRequest } from '@rails/request.js';
 import { filterFormData } from 'core-stimulus/helpers/form-data-helper';
 
@@ -40,7 +41,7 @@ const TURBO_STREAM_REFRESH_DELAY = 50;
  * `data-refresh-on-form-changes-turbo-stream-url-value="..."`, and trigger it
  * from fields with `change->refresh-on-form-changes#triggerTurboStream`.
  */
-export default class RefreshOnFormChangesController extends ApplicationController {
+export default class RefreshOnFormChangesController extends Controller {
   static debounces = [
     { name: 'performTurboStreamRefresh', wait: TURBO_STREAM_REFRESH_DELAY },
   ];
