@@ -52,7 +52,7 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PushHook do
       "user_id" => 1,
       "user_name" => "Administrator",
       "user_username" => "root",
-      "user_email" => "root@example.com",
+      "user_email" => nil,
       "user_avatar" => "https://www.gravatar.com/avatar/65a222b844ced567fe0ed2594c0b4abdf62efa1322a385c919c41e7bbc16d4fc?s=80&d=identicon",
       "project_id" => 1,
       "project" =>
@@ -137,7 +137,6 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PushHook do
         gitlab_id: 1,
         gitlab_name: "Administrator",
         gitlab_username: "root",
-        gitlab_email: "root@example.com",
         gitlab_avatar_url: payload["user_avatar"]
       )
     end
@@ -212,13 +211,15 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PushHook do
       payload["ref"] = "refs/heads/#{branch_name}"
       allow(OpenProject::GitlabIntegration::Services::TrackBranch)
         .to receive(:new).and_raise(StandardError, "boom")
-      allow(Rails.logger).to receive(:error)
+      allow(OpenProject.logger).to receive(:error)
     end
 
-    it "logs and still processes the commits in the same push" do
+    it "reports the error and still processes the commits in the same push" do
       expect { process }.not_to raise_error
 
-      expect(Rails.logger).to have_received(:error).with(/Failed to track Gitlab branch/)
+      expect(OpenProject.logger)
+        .to have_received(:error)
+        .with(/Failed to track Gitlab branch/, hash_including(exception: an_instance_of(StandardError)))
       expect(handler_instance).to have_received(:comment_on_referenced_work_packages)
     end
   end
