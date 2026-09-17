@@ -23,28 +23,17 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Import
-  class JiraCreateCustomFieldsJob < ApplicationJob
-    include Import::JiraOpenProjectReferenceCreation
-    include ::Import::JiraCreateProjectJob::JiraImportCustomFields
+module Attachments
+  # Creates an attachment without journalizing its container. Importers replay the source
+  # system's own history, so the container's journals are written by the importer instead.
+  class ImportCreateService < CreateService
+    private
 
-    def text
-      "Create custom fields"
-    end
-
-    # Creates the OP custom fields for the whole import run, before the per-project jobs fan out.
-    def perform(jira_import_id)
-      @jira_import = Import::JiraImport.find(jira_import_id)
-      @jira_id = @jira_import.jira.id
-      @system_user = User.system
-
-      build_custom_field_registry
-      store_custom_field_mapping
-    end
+    def touch(_container) = nil
   end
 end

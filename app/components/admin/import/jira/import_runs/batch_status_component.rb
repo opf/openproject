@@ -55,7 +55,7 @@ module Admin::Import::Jira::ImportRuns
       },
       {
         number: 5,
-        title: "Create jira member project role",
+        title: "Create roles and custom fields",
         icon: :tools
       },
       {

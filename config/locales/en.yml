@@ -1528,6 +1528,7 @@ en:
           Connection blocked: the Jira host resolves to a private IP address. If your Jira instance
           runs on an internal network, allow its IP via the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST
           environment variable.
+        unsupported_endpoint: "Jira API has no endpoint at %{path} (status %{status})"
       columns:
         added: "Added"
         creator: "Creator"
@@ -3380,6 +3381,7 @@ en:
         field_set: "%{field} set to %{value}"
         field_updated: "%{field} updated"
         header: "changes by %{author}"
+        migrated: "from Jira"
         set_with_diff: "%{field} set (%{link})"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
@@ -5568,7 +5570,7 @@ en:
     wizard:
       create_artifact_storage_error: "Failed to store artefact in file storage"
       create_artifact_work_package_error: "Failed to create artefact work package"
-      no_attributes: "This project has no project attributes enabled for the wizard. Please enable at least one in the project settings."
+      no_custom_fields_html: 'This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.'
       no_help_text: "This attribute has no help text defined."
       progress_label: "%{current} of %{total}"
       sections: "Sections"

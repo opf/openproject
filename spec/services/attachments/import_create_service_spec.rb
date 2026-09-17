@@ -28,23 +28,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Import
-  class JiraCreateCustomFieldsJob < ApplicationJob
-    include Import::JiraOpenProjectReferenceCreation
-    include ::Import::JiraCreateProjectJob::JiraImportCustomFields
+require "spec_helper"
 
-    def text
-      "Create custom fields"
-    end
+RSpec.describe Attachments::ImportCreateService do
+  subject(:service) { described_class.new(user:, contract_class: EmptyContract) }
 
-    # Creates the OP custom fields for the whole import run, before the per-project jobs fan out.
-    def perform(jira_import_id)
-      @jira_import = Import::JiraImport.find(jira_import_id)
-      @jira_id = @jira_import.jira.id
-      @system_user = User.system
+  let(:user) { create(:admin) }
+  let(:work_package) { create(:work_package) }
+  let(:file) { FileHelpers.mock_uploaded_file(name: "picture.png", content_type: "image/png") }
 
-      build_custom_field_registry
-      store_custom_field_mapping
-    end
+  it "creates the attachment on the container" do
+    call = service.call(container: work_package, filename: "picture.png", file:)
+
+    expect(call).to be_success
+    expect(work_package.attachments.reload.map(&:filename)).to eq(["picture.png"])
+  end
+
+  it "does not journalize the container" do
+    expect { service.call(container: work_package, filename: "picture.png", file:) }
+      .not_to change { work_package.journals.reload.count }
+  end
+
+  it "does not touch the container" do
+    expect { service.call(container: work_package, filename: "picture.png", file:) }
+      .not_to change { work_package.reload.updated_at }
   end
 end
