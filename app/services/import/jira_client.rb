@@ -216,6 +216,8 @@ module Import
       get("/rest/api/2/issue/createmeta", params:)
     end
 
+    # Custom field option discovery for Jira DC < 9.3, which does not serve #custom_field_options.
+    # An edit screen only reports the fields it shows, so its option sets can be incomplete.
     def issue_editmeta(issue_id_or_key)
       get("/rest/api/2/issue/#{issue_id_or_key}/editmeta")
     end

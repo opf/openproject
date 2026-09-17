@@ -169,6 +169,9 @@ module Import
         .filter_map { |child| allowed_value_tree(child, options_by_id, seen) }
     end
 
+    # Fallback for Jira DC < 9.3, where no options endpoint exists: one editmeta call per
+    # (project, issue type) pair, each answering with the allowed values of every field on that
+    # edit screen. A field that sits on no edit screen is left without context groups.
     def collect_field_contexts_via_editmeta(option_based_fields_by_jira_id)
       groups_by_field = Hash.new { |h, k| h[k] = {} }
       Import::JiraCustomField::IssueValueIndex.sample_issue_keys(@jira_import).each do |scope, issue_key|
@@ -194,6 +197,9 @@ module Import
       end
     end
 
+    # Scopes an imported issue actually carries a value for. editmeta answers for the whole edit
+    # screen, so without this the fallback would build context groups for (field, project, issue
+    # type) combinations the import never touches.
     def used_field_scopes
       @used_field_scopes ||= @index[:scopes].flat_map do |field_key, scopes|
         scopes.map { |project_key, _jira_project_id, issuetype_id| [field_key, project_key, issuetype_id] }

@@ -70,9 +70,10 @@ module Import
           finalize(index)
         end
 
-        # One issue key per (project, issue type) pair, for the routes that have to read a context
-        # off an issue. Queried rather than carried in the index, so that it does not matter
-        # whether the index was scanned or loaded from an earlier stage.
+        # One issue key per (project, issue type) pair, for the Jira DC < 9.3 fallback that has to
+        # read a field context off an issue's edit screen. Queried rather than carried in the
+        # index, so that it does not matter whether the index was scanned or loaded from an
+        # earlier stage.
         def sample_issue_keys(jira_import)
           samples = {}
           issues(jira_import, SAMPLE_ISSUE_PROJECTION).find_each do |issue|
