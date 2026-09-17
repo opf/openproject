@@ -5424,6 +5424,7 @@ sv:
     wizard:
       create_artifact_storage_error: Det gick inte att lagra artefakten i fillagringen
       create_artifact_work_package_error: Det gick inte att skapa artefaktens arbetspaket
+      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
       no_help_text: Det finns ingen hjälptext definierad för det här attributet.
       progress_label: "%{current} av %{total}"
       sections: Avsnitt

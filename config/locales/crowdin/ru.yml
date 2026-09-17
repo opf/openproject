@@ -5747,6 +5747,7 @@ ru:
     wizard:
       create_artifact_storage_error: Не удалось сохранить артефакт в хранилище файлов
       create_artifact_work_package_error: Не удалось создать пакет работ артефакта
+      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
       no_help_text: Для этого атрибута не определен текст справки.
       progress_label: "%{current} из %{total}"
       sections: Разделы

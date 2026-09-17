@@ -34,8 +34,8 @@ class RegistrationForm < ApplicationForm
   form do |f|
     login_or_email(f) if model.ldap_auth_source_id.nil?
 
-    f.text_field(name: :firstname, label: attribute_name(:firstname), required: true, input_width:)
-    f.text_field(name: :lastname, label: attribute_name(:lastname), required: true, input_width:)
+    f.text_field(name: :firstname, label: attribute_name(:firstname), required: true, input_width:, autocomplete: "given-name")
+    f.text_field(name: :lastname, label: attribute_name(:lastname), required: true, input_width:, autocomplete: "family-name")
 
     if show_email?
       f.text_field(name: :mail,
@@ -43,7 +43,8 @@ class RegistrationForm < ApplicationForm
                    label: attribute_name(:mail),
                    required: true,
                    readonly: !registration_mail_editable?,
-                   input_width:)
+                   input_width:,
+                   autocomplete: "email")
     end
 
     f.html_content { helpers.call_hook(:view_account_register_after_basic_information, f:) }
@@ -68,9 +69,10 @@ class RegistrationForm < ApplicationForm
                       label: attribute_name(:mail),
                       required: true,
                       readonly: !registration_mail_editable?,
-                      input_width:)
+                      input_width:,
+                      autocomplete: "email")
     else
-      form.text_field(name: :login, label: attribute_name(:login), required: true, input_width:)
+      form.text_field(name: :login, label: attribute_name(:login), required: true, input_width:, autocomplete: "username")
     end
   end
 
@@ -125,14 +127,9 @@ class RegistrationForm < ApplicationForm
 
     form.html_content do
       helpers.content_tag(:div, class: "FormControl-inlineValidation") do
-        helpers.safe_join([
-                            helpers.content_tag(
-                              :span,
-                              render(Primer::Beta::Octicon.new(icon: :"alert-fill", size: :xsmall, aria: { hidden: true })),
-                              class: "FormControl-inlineValidation--visual"
-                            ),
-                            helpers.content_tag(:span, message)
-                          ])
+        render(Primer::OpenProject::InlineMessage.new(scheme: :critical, size: :small)) do
+          message
+        end
       end
     end
   end

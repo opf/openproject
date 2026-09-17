@@ -30,7 +30,7 @@
 
 module DefaultHourlyRates
   class DeleteContract < ::DeleteContract
-    delete_permission :admin
+    delete_permission -> { user.allowed_globally?(:manage_default_hourly_rates) }
 
     def self.model = ::DefaultHourlyRate
   end

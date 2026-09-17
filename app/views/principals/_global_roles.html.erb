@@ -61,7 +61,11 @@ See COPYRIGHT and LICENSE files for more details.
           <% standard_role = GlobalRole.standard %>
           <tr id="assigned_global_role_<%= standard_role.id %>">
             <td class="role -italic">
-              <%= link_to standard_role, edit_role_path(standard_role) %>
+              <%= render(Primer::Box.new(display: :flex, align_items: :center, classes: "gap-1")) do %>
+                <%= link_to standard_role, edit_role_path(standard_role),
+                            data: { "test-selector": "global-role-name" } %>
+                <%= role_permissions_preview_icon(standard_role) %>
+              <% end %>
             </td>
             <td class="buttons">
             </td>

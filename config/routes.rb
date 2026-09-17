@@ -702,6 +702,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get "/roles/:role_id/permissions_dialog" => "roles/permissions_dialogs#show", as: :role_permissions_dialog
+
   scope "admin" do
     resource :announcements, only: %i[edit update]
 

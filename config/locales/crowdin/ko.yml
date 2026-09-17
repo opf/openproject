@@ -5279,6 +5279,7 @@ ko:
     wizard:
       create_artifact_storage_error: 파일 저장소에 아티팩트를 저장하지 못했습니다
       create_artifact_work_package_error: 아티팩트 작업 패키지를 만들지 못했습니다
+      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
       no_help_text: 이 특성에는 정의된 도움말 텍스트가 없습니다.
       progress_label: "%{current}/%{total}"
       sections: 섹션
