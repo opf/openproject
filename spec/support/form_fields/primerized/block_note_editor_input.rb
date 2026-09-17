@@ -5,6 +5,11 @@ module FormFields
     class BlockNoteEditorInput
       include Capybara::DSL
 
+      # Since op-blocknote-extensions 0.3.1 the work package search is portalled into
+      # BlockNote's `.bn-container`, a sibling of the contenteditable - so it is no longer
+      # part of `element`.
+      SEARCH_POPOVER = ".op-bn-search"
+
       def open_command_dialog
         send_keys_to_editor("/")
       end
@@ -53,6 +58,19 @@ module FormFields
           #{fill_in_work_package_search_input(search_term)}
           #{select_from_work_package_dropdown(subject)}
         JS
+      end
+
+      # The subjects the search dropdown currently offers, in the order it lists them.
+      def search_results
+        page.evaluate_script(<<~JS)
+          Array.prototype.slice
+            .call(#{shadow_root_query}.querySelectorAll("#{SEARCH_POPOVER} [role='option'] .op-bn-work-package--title"))
+            .map(function(title) { return title.textContent.trim(); });
+        JS
+      end
+
+      def search_popover_open?
+        page.evaluate_script(%(!!#{shadow_root_query}.querySelector("#{SEARCH_POPOVER}")))
       end
 
       # Unfortunately, op-blocknote-extensions search input is removed
@@ -224,11 +242,15 @@ module FormFields
             #{shadow_root_observe_js}
 
             shadowRootWaitFor(shadowRoot, function() {
-              var titles = Array.prototype.slice.call(shadowRoot.querySelectorAll(".op-bn-work-package--title"));
+              var titles = Array.prototype.slice
+                .call(shadowRoot.querySelectorAll("#{SEARCH_POPOVER} .op-bn-work-package--title"));
               var span = titles.find(function(s) { return s.textContent.trim() === textToClick; });
               var element = span && span.closest("[role='option']");
               if (element) {
-                element.dispatchEvent(new Event("mousedown", { bubbles: true }));
+                // Since op-blocknote-extensions 0.3.1 an option activates on click;
+                // its mousedown only keeps the focus in the search input.
+                element.dispatchEvent(new MouseEvent("mousedown", { bubbles: true }));
+                element.dispatchEvent(new MouseEvent("click", { bubbles: true }));
                 return true;
               }
               return false;
