@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,11 +26,23 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-class RenameFavoritesFavoredToFavorited < ActiveRecord::Migration[8.0]
-  def change
-    rename_column :favorites, :favored_id, :favorited_id
-    rename_column :favorites, :favored_type, :favorited_type
+require_relative "base"
+
+class Tables::CalculatedValueErrors < Tables::Base
+  def self.table(migration)
+    create_table migration do |t|
+      t.references :customized, polymorphic: true, null: false
+      t.references :custom_field, foreign_key: true
+      t.string :error_code, null: false
+      t.integer :missing_custom_field_ids, array: true, default: [], null: false
+
+      t.timestamps
+
+      t.index %i[customized_type customized_id custom_field_id error_code],
+              unique: true,
+              name: "index_unique_calc_val_error_per_customized_and_cf"
+    end
   end
 end

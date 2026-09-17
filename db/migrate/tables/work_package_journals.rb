@@ -56,6 +56,7 @@ class Tables::WorkPackageJournals < Tables::Base
       t.boolean :ignore_non_working_days, null: false # rubocop:disable Rails/ThreeStateBooleanColumn
       t.float :derived_remaining_hours
       t.integer :derived_done_ratio, default: nil, null: true
+      t.bigint :project_phase_definition_id, null: true
     end
     # rubocop:enable Metrics/AbcSize
   end

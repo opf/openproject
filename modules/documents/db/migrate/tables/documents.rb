@@ -39,6 +39,7 @@ class Tables::Documents < Tables::Base
       t.text :description
       t.datetime :created_at, precision: nil, index: { name: "index_documents_on_created_at" }
       t.datetime :updated_at, precision: nil
+      t.text :content_binary
     end
   end
 end
