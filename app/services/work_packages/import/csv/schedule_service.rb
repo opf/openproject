@@ -38,6 +38,8 @@ module WorkPackages
         end
 
         def call(file: nil, attachment_id: nil, dry_run: true)
+          return ServiceResult.failure(message: I18n.t(:notice_not_authorized)) unless allowed?
+
           # Attachments::CreateContract asks Redmine::Acts::Attachable whether uncontainered
           # attachments are allowed, and that question is answered for User.current rather than for
           # the contract's own user.
@@ -52,8 +54,12 @@ module WorkPackages
 
         attr_reader :user, :project
 
-        # bypass_allowlist: Setting.attachment_whitelist does not apply. The permission is the gate,
-        # and the file is parsed rather than stored on a record or served to anyone.
+        def allowed?
+          user.allowed_in_project?(:import_work_packages, project)
+        end
+
+        # bypass_allowlist: Setting.attachment_whitelist does not apply. #allowed? is the gate, and
+        # the file is parsed rather than stored on a record or served to anyone.
         def upload(file)
           Attachment.without_post_upload_jobs do
             Attachments::CreateService

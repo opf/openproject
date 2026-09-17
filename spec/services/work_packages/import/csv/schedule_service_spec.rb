@@ -74,6 +74,43 @@ RSpec.describe WorkPackages::Import::CSV::ScheduleService do
     end
   end
 
+  describe "authorization" do
+    shared_let(:other_project) { create(:project) }
+
+    it "refuses a user who holds the permission only in another project" do
+      elsewhere = create(:user, member_with_roles: { other_project => role })
+
+      result = described_class.new(user: elsewhere, project:).call(file:)
+
+      expect(result).to be_failure
+      expect(result.message).to eq("You are not authorized to access this page.")
+    end
+
+    it "stores no file and enqueues nothing for such a user" do
+      elsewhere = create(:user, member_with_roles: { other_project => role })
+
+      expect { described_class.new(user: elsewhere, project:).call(file:) }
+        .not_to change(Attachment, :count)
+      expect(WorkPackages::Import::CSV::CsvImportJob).not_to have_been_enqueued
+    end
+
+    it "refuses a non-member" do
+      expect(described_class.new(user: other_user, project:).call(file:)).to be_failure
+    end
+
+    it "refuses reusing an attachment into a project the user cannot import into" do
+      elsewhere = create(:user, member_with_roles: { other_project => role })
+      attachment = create(:attachment, container: nil, author: elsewhere)
+
+      expect(described_class.new(user: elsewhere, project:).call(attachment_id: attachment.id))
+        .to be_failure
+    end
+
+    it "allows an administrator" do
+      expect(described_class.new(user: create(:admin), project:).call(file:)).to be_success
+    end
+  end
+
   describe "reusing a checked file" do
     it "accepts the user's own uncontainered attachment" do
       attachment = uncontainered
