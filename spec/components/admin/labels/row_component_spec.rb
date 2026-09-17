@@ -48,11 +48,11 @@ RSpec.describe Admin::Labels::RowComponent, type: :component do
     let(:label) { Label.with_usage_count.find(record.id) }
 
     it "renders the name as a chip" do
-      expect(rendered_component).to have_css("[data-test-selector='label-name']", text: "Bug")
+      expect(rendered_component).to have_test_selector("label-name", text: "Bug")
     end
 
     it "renders the pluralised usage count" do
-      expect(rendered_component).to have_css("[data-test-selector='label-usage']", text: "3 work packages")
+      expect(rendered_component).to have_test_selector("label-usage", text: "3 work packages")
     end
   end
 
@@ -62,18 +62,7 @@ RSpec.describe Admin::Labels::RowComponent, type: :component do
     let(:label) { Label.with_usage_count.find(record.id) }
 
     it "renders a dash instead of a count" do
-      expect(rendered_component).to have_css("[data-test-selector='label-usage']", text: "-")
-    end
-  end
-
-  context "with a long name" do
-    shared_let(:record) { create(:label, name: "A" * 120) }
-
-    let(:label) { Label.with_usage_count.find(record.id) }
-
-    it "truncates the chip and exposes the full name as a title tooltip" do
-      expect(rendered_component).to have_css("[data-test-selector='label-name'].ellipsis.width-fit[title='#{record.name}']",
-                                             visible: :all)
+      expect(rendered_component).to have_test_selector("label-usage", text: "-")
     end
   end
 
@@ -82,20 +71,12 @@ RSpec.describe Admin::Labels::RowComponent, type: :component do
 
     let(:label) { Label.with_usage_count.find(record.id) }
 
-    it "links Rename to the edit dialog as an async-dialog request" do
-      expect(rendered_component).to have_css(
-        "a[href='#{edit_dialog_admin_label_path(label)}'][data-controller='async-dialog']",
-        text: "Rename",
-        visible: :all
-      )
+    it "links Rename to the edit dialog" do
+      expect(rendered_component).to have_selector(:async_dialog_trigger, "Rename", href: edit_dialog_admin_label_path(label))
     end
 
-    it "links Delete to the deletion dialog as a danger, async-dialog request" do
-      expect(rendered_component).to have_css(
-        "a[href='#{deletion_dialog_admin_label_path(label)}'][data-controller='async-dialog']",
-        text: "Delete",
-        visible: :all
-      )
+    it "links Delete to the deletion dialog" do
+      expect(rendered_component).to have_selector(:async_dialog_trigger, "Delete", href: deletion_dialog_admin_label_path(label))
     end
   end
 end

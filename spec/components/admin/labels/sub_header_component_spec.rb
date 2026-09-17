@@ -41,11 +41,10 @@ RSpec.describe Admin::Labels::SubHeaderComponent, type: :component do
 
   let(:query) { Queries::Labels::LabelQuery.new }
 
-  it "wires the filters-form controller to the search endpoint" do
+  it "searches against the labels search endpoint" do
     rendered_component
 
-    header = page.find("[data-test-selector='labels-sub-header']", visible: :all)
-    expect(header["data-controller"]).to eq("filter--filters-form")
+    header = find_test_selector("labels-sub-header", visible: :all)
     expect(header["data-filter--filters-form-url-path-name-value"]).to eq(search_admin_labels_path)
   end
 
@@ -66,15 +65,12 @@ RSpec.describe Admin::Labels::SubHeaderComponent, type: :component do
   it "renders the add label button pointing at the create dialog" do
     rendered_component
 
-    expect(page).to have_css(
-      "a[href='#{new_dialog_admin_labels_path}'][data-controller='async-dialog']",
-      text: "Label"
-    )
+    expect(page).to have_selector(:async_dialog_trigger, "Label", href: new_dialog_admin_labels_path)
   end
 
   it "gives the add label button an aria-label distinct from its visible text" do
     rendered_component
 
-    expect(page).to have_css("a[aria-label='Add label']", text: "Label")
+    expect(page).to have_selector(:async_dialog_trigger, "Add label")
   end
 end

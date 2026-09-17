@@ -52,18 +52,18 @@ RSpec.describe Admin::Labels::TableComponent, type: :component do
   it_behaves_like "rendering Border Box Grid rows", row_count: 2, col_count: 2
 
   it "renders one row per label" do
-    expect(rendered_component).to have_css("[data-test-selector='label-row-#{used.id}']")
-    expect(rendered_component).to have_css("[data-test-selector='label-row-#{unused.id}']")
+    expect(rendered_component).to have_test_selector("label-row-#{used.id}")
+    expect(rendered_component).to have_test_selector("label-row-#{unused.id}")
   end
 
   it "renders the usage count for a used label and a dash for an unused one" do
     rendered_component
 
-    used_row = page.find("[data-test-selector='label-row-#{used.id}']")
-    expect(used_row).to have_css("[data-test-selector='label-usage']", text: "2 work packages")
+    used_row = find_test_selector("label-row-#{used.id}")
+    expect(used_row).to have_test_selector("label-usage", text: "2 work packages")
 
-    unused_row = page.find("[data-test-selector='label-row-#{unused.id}']")
-    expect(unused_row).to have_css("[data-test-selector='label-usage']", text: "-")
+    unused_row = find_test_selector("label-row-#{unused.id}")
+    expect(unused_row).to have_test_selector("label-usage", text: "-")
   end
 
   it "renders a pagination footer" do

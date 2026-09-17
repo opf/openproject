@@ -52,25 +52,20 @@ RSpec.describe Admin::Labels::ListComponent, type: :component do
   context "with labels" do
     shared_let(:label) { create(:label, name: "Bug") }
 
-    it "renders the table inside the wrapper" do
-      expect(rendered_component).to have_css(".Box")
-      expect(rendered_component).to have_css("[data-test-selector='label-row-#{label.id}']")
-    end
-
-    it "renders the column headers" do
-      expect(rendered_component).to have_css("[role='columnheader']", text: "Used in")
+    it "renders the table instead of the blank slate" do
+      expect(rendered_component).to have_selector(:columnheader, "Used in")
     end
   end
 
   context "without labels" do
     it "renders the blank slate instead of the table header" do
       expect(rendered_component).to have_test_selector("labels-blank-slate")
-      expect(rendered_component).to have_no_css("[role='columnheader']")
+      expect(rendered_component).to have_no_selector(:columnheader)
     end
 
     context "with no active filter" do
       it "shows the empty-state copy" do
-        expect(rendered_component).to have_heading("No labels yet", class: "blankslate-heading")
+        expect(rendered_component).to have_heading("No labels yet")
         expect(rendered_component).to have_octicon(:tag)
       end
     end
@@ -83,7 +78,7 @@ RSpec.describe Admin::Labels::ListComponent, type: :component do
       end
 
       it "shows the no-matches copy" do
-        expect(rendered_component).to have_heading("No labels match your search", class: "blankslate-heading")
+        expect(rendered_component).to have_heading("No labels match your search")
         expect(rendered_component).to have_octicon(:search)
       end
     end

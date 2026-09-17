@@ -27,44 +27,46 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require "capybara/rspec"
 
-module TestSelectorFinders
-  def test_selector(value)
-    "[data-test-selector=\"#{value}\"]"
+Capybara.add_selector(:async_dialog_trigger, locator_type: [String, Symbol]) do
+  label "async dialog trigger"
+
+  xpath do |locator, **|
+    xpath = XPath.descendant(:a, :button)[XPath.attr(:"data-controller").contains_word("async-dialog")]
+
+    unless locator.nil?
+      locator = locator.to_s
+      matchers = [
+        XPath.string.n.is(locator),
+        XPath.attr(:"aria-label").is(locator)
+      ]
+      xpath = xpath[matchers.reduce(:|)]
+    end
+
+    xpath
   end
 
-  def find_test_selector(value, **)
-    target = respond_to?(:page) ? page : self
-    target.find(:test_id, value, **)
-  end
-
-  def within_test_selector(value, **, &)
-    target = respond_to?(:page) ? page : self
-    target.within(:test_id, value, **, &)
-  end
-
-  # expect(page).to have_test_selector('foo')
-  def have_test_selector(value, **)
-    have_selector(test_selector(value), **)
-  end
-
-  def have_no_test_selector(value, **)
-    have_no_selector(test_selector(value), **)
-  end
-end
-
-RSpec.configure do |config|
-  Capybara.test_id = "data-test-selector"
-  Capybara.add_selector(:test_id) do
-    xpath do |locator|
-      XPath.descendant[XPath.attr(Capybara.test_id) == locator]
+  node_filter(:href) do |node, href|
+    (node[:href] == href).tap do |res|
+      add_error("Expected href to be #{href.inspect} but it was #{node[:href].inspect}") unless res
     end
   end
 
-  Capybara::Session.include(TestSelectorFinders)
-  Capybara::DSL.extend(TestSelectorFinders)
-  config.include TestSelectorFinders, type: :feature
-  config.include TestSelectorFinders, type: :component
-  config.include TestSelectorFinders, type: :rails_request
+  describe_expression_filters do |href: nil, **|
+    " with href #{href.inspect}" if href
+  end
+
+  filter_set(:capybara_accessible_selectors, %i[aria described_by])
+end
+
+module Capybara
+  module RSpecMatchers
+    def have_async_dialog_trigger(locator = nil, **, &)
+      Matchers::HaveSelector.new(:async_dialog_trigger, locator, **, &)
+    end
+
+    def have_no_async_dialog_trigger(...)
+      Matchers::NegatedMatcher.new(have_async_dialog_trigger(...))
+    end
+  end
 end
