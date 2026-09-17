@@ -36,10 +36,19 @@ class Label < ApplicationRecord
     select("labels.*, (SELECT COUNT(*) FROM labelings WHERE labelings.label_id = labels.id) AS usage_count")
   }
 
+  scope :named_before, ->(label) {
+    quoted_name = Arel::Nodes::NamedFunction.new("LOWER", [Arel::Nodes.build_quoted(label.name)])
+    where(arel_table[:name].lower.lt(quoted_name))
+  }
+
   normalizes :name, with: -> { it.squish }
 
   validates :name,
             presence: true,
             uniqueness: { case_sensitive: false },
             length: { maximum: 255 }
+
+  def self.page_of(label, per_page:)
+    (named_before(label).count / per_page) + 1
+  end
 end

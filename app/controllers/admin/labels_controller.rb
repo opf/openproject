@@ -125,15 +125,8 @@ module Admin
 
     def redirect_to_created_label(label)
       flash[:notice] = t(:notice_successful_create)
-      redirect_to admin_labels_path(page: page_containing(label))
-    end
-
-    def page_containing(label)
-      name = Label.arel_table[:name]
-      quoted_name = Arel::Nodes::NamedFunction.new("LOWER", [Arel::Nodes.build_quoted(label.name)])
-      preceding_count = Label.where(name.lower.lt(quoted_name)).count
-      page = (preceding_count / per_page_param) + 1
-      page if page > 1
+      page = Label.page_of(label, per_page: per_page_param)
+      redirect_to admin_labels_path(page: page > 1 ? page : nil)
     end
 
     def label_params
