@@ -26,7 +26,6 @@ interface FormFieldControlProps {
   value:FieldValue | undefined;
   valueLabel?:string;
   onChange:(value:FieldValue, label?:string) => void;
-  autoFocus?:boolean;
   error?:string;
   problem?:ValueProblem;
   hint?:string;
@@ -43,21 +42,22 @@ const PLACEHOLDERS:Record<string, string> = {
   project: 'createWorkPackage.projectPlaceholder',
 };
 
+export const controlIdOf = (key:string):string => `op-bn-create-wp-${key}`;
+
 const PROJECT_KEY = 'project';
-const SUBJECT_KEY = 'subject';
+export const SUBJECT_KEY = 'subject';
 
 export const FormFieldControl = ({
   field,
   value,
   valueLabel,
   onChange,
-  autoFocus,
   error,
   problem,
   hint,
 }:FormFieldControlProps) => {
   const { t } = useTranslation();
-  const id = `op-bn-create-wp-${field.key}`;
+  const id = controlIdOf(field.key);
   // What was just typed speaks before what the API said about an earlier value.
   const message = problem ? t(PROBLEM_MESSAGES[problem]) : error;
   const errorId = message ? `${id}-error` : undefined;
@@ -98,7 +98,6 @@ export const FormFieldControl = ({
   const textInput = (type:string, extra?:Partial<React.ComponentProps<typeof TextControl>>) => (
     <TextControl
       id={id}
-      autoFocus={autoFocus}
       type={type}
       placeholder={placeholder}
       value={textValue}

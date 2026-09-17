@@ -9,6 +9,7 @@ import {
   openCreateModal,
   pickProject,
   selectOptionNamed,
+  withGeneratedSubjectFor,
 } from '../../../helpers/createWorkPackageHelpers';
 import { worker } from '../../../mocks/browser';
 
@@ -42,6 +43,22 @@ describe('Create work package - form and editor boundaries', () => {
     } finally {
       worker.events.removeListener('request:start', count);
     }
+  });
+
+  it('leaves the focus alone when the subject field comes back (BNE-157)', async () => {
+    withGeneratedSubjectFor('/api/v3/types/3');
+    renderEditor();
+    await openCreateModal();
+    await pickProject();
+    await selectOptionNamed('Type *', 'Task');
+    await expect.element(page.getByLabelText('Supervisor *')).toBeVisible();
+
+    await selectOptionNamed('Type *', 'Milestone');
+    await expect.element(page.getByLabelText('Subject *')).not.toBeInTheDocument();
+
+    await selectOptionNamed('Type *', 'Task');
+    await expect.element(page.getByLabelText('Subject *')).toBeVisible();
+    await expect.element(page.getByLabelText('Type *')).toHaveFocus();
   });
 
   it('does not let what is typed into the form reach the document', async () => {

@@ -9,7 +9,7 @@ import { linkToNewWorkPackage } from '../../services/openProjectApi';
 import { projectIdFromHref } from '../../utils/id';
 import { dependencyOf, writable } from './formSchema';
 import type { FormField } from './formSchema';
-import { FormFieldControl } from './FormFieldControl';
+import { controlIdOf, FormFieldControl, SUBJECT_KEY } from './FormFieldControl';
 import { useCreateWorkPackageForm } from './useCreateWorkPackageForm';
 import { useGrowthTransition } from './useGrowthTransition';
 import {
@@ -92,6 +92,9 @@ function usePageScrollLock():void {
   }, []);
 }
 
+const controlIn = (panel:HTMLElement | null, key:string):HTMLElement | null =>
+  panel?.querySelector<HTMLElement>(`[id="${controlIdOf(key)}"]`) ?? null;
+
 function keepFocusInside(panel:HTMLElement | null, event:React.KeyboardEvent):void {
   if (!panel) return;
 
@@ -122,6 +125,7 @@ export interface CreateWorkPackageModalProps {
 export const CreateWorkPackageModal = ({ anchorEl, initialSubject, onCreated, onCancel }:CreateWorkPackageModalProps) => {
   const { t } = useTranslation();
   const panelRef = useRef<HTMLDivElement>(null);
+  const focusGiven = useRef(false);
   const bodyRef = useRef<HTMLDivElement>(null);
   const bodyContentRef = useRef<HTMLDivElement>(null);
   usePageScrollLock();
@@ -152,10 +156,18 @@ export const CreateWorkPackageModal = ({ anchorEl, initialSubject, onCreated, on
   } = useCreateWorkPackageForm(onCreated, initialSubject);
 
   const showField = (key:string) => {
-    const control = panelRef.current?.querySelector<HTMLElement>(`[id="op-bn-create-wp-${key}"]`);
+    const control = controlIn(panelRef.current, key);
     control?.focus();
     control?.scrollIntoView({ block: 'nearest' });
   };
+
+  const offersSubject = primaryFields.some((field) => field.key === SUBJECT_KEY && writable(field));
+  useEffect(() => {
+    if (focusGiven.current || !offersSubject) return;
+
+    focusGiven.current = true;
+    controlIn(panelRef.current, SUBJECT_KEY)?.focus();
+  }, [offersSubject]);
 
   // A long form scrolls the message on top out of view, so it only points down.
   const formError = [
@@ -170,7 +182,7 @@ export const CreateWorkPackageModal = ({ anchorEl, initialSubject, onCreated, on
     return dependsOn === 'project' ? `${key}:${projectHref}` : `${key}:${projectHref}:${typeHref}`;
   };
 
-  const hintFor = (field:FormField) => (field.key === 'subject' && subjectClipped && writable(field)
+  const hintFor = (field:FormField) => (field.key === SUBJECT_KEY && subjectClipped && writable(field)
     ? t('createWorkPackage.subjectClipped', { limit: field.maxLength })
     : undefined);
 
@@ -180,7 +192,6 @@ export const CreateWorkPackageModal = ({ anchorEl, initialSubject, onCreated, on
       field={field}
       value={values[field.key]}
       valueLabel={valueLabels[field.key]}
-      autoFocus={field.key === 'subject' && writable(field)}
       error={fieldErrors[field.key]}
       problem={valueProblems[field.key]}
       hint={hintFor(field)}
