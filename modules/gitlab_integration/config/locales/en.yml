@@ -114,6 +114,20 @@ en:
       has been closed by [%{gitlab_user}](%{gitlab_user_url}).
     merge_request_component:
       created_by: Created by %{name}.
+      pipeline_statuses:
+        canceled: Canceled
+        canceling: Canceling
+        created: Created
+        failed: Failed
+        manual: Manual
+        pending: Pending
+        preparing: Preparing
+        running: Running
+        scheduled: Scheduled
+        skipped: Skipped
+        success: Success
+        waiting_for_resource: Waiting for resource
+        waiting_for_callback: Waiting for callback
       states:
         closed: Closed
         locked: Locked

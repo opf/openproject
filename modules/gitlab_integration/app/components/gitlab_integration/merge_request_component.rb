@@ -68,5 +68,53 @@ module GitlabIntegration
     def state_label
       t(".states.#{merge_request.state}")
     end
+
+    def latest_pipeline
+      @latest_pipeline ||= merge_request.gitlab_pipelines.order(started_at: :asc).last
+    end
+
+    def pipeline_status
+      return nil unless latest_pipeline
+
+      latest_pipeline.status.to_sym
+    end
+
+    def pipeline_status_scheme
+      case pipeline_status
+      when :success
+        :success
+      when :failed
+        :danger
+      when :skipped, :created, :waiting_for_resource, :preparing, :waiting_for_callback, :pending, :scheduled
+        :attention
+      when :running
+        :done # TODO: BLUE!
+      else
+        :default
+      end
+    end
+
+    def pipeline_status_icon
+      case pipeline_status
+      when :success
+        :check
+      when :failed
+        :alert
+      when :created, :waiting_for_resource, :preparing, :waiting_for_callback, :pending, :scheduled
+        :clock
+      when :skipped
+        :skip
+      when :running
+        :loop
+      when :canceling, :canceled
+        :stop
+      else
+        :question
+      end
+    end
+
+    def pipeline_status_label
+      t(".pipeline_statuses.#{pipeline_status}")
+    end
   end
 end
