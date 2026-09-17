@@ -245,7 +245,7 @@ export default class AiTextTransformSandboxController extends Controller<HTMLEle
   private finish():void {
     this.stopPolling();
     this.stopTimer();
-    this.finishedAt = performance.now();
+    this.finishedAt ??= performance.now();
     this.renderTimer();
     this.cancelTarget.disabled = true;
     this.executeTarget.disabled = false;
@@ -312,7 +312,7 @@ export default class AiTextTransformSandboxController extends Controller<HTMLEle
   }
 
   private handleVisibilityChange():void {
-    if (!document.hidden && this.runUrl && this.pollTimer === null && !this.inFlight) {
+    if (!document.hidden && this.runUrl && this.finishedAt === null && this.pollTimer === null && !this.inFlight) {
       this.schedule();
     }
   }
