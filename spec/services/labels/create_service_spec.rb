@@ -29,49 +29,65 @@
 #++
 
 require "spec_helper"
+require "services/base_services/behaves_like_create_service"
 
 RSpec.describe Labels::CreateService, type: :model do
-  shared_let(:admin) { create(:admin) }
+  it_behaves_like "BaseServices create service" do
+    let(:call_attributes) { { name: "Some name" } }
 
-  let(:instance) { described_class.new(user: admin) }
+    context "with a real service call" do
+      let(:stub_model_instance) { false }
+      let(:user) { create(:admin) }
+      let(:call_attributes) { { name: "Bug" } }
 
-  it "creates the label, setting the author to the calling user" do
-    result = instance.call(name: "Bug")
+      it "creates the label, setting the author to the calling user" do
+        expect(subject).to be_success
 
-    expect(result).to be_success
+        label = subject.result
+        expect(label).to be_persisted
+        expect(label.author).to eq(user)
+        expect(label.name).to eq("Bug")
+      end
 
-    label = result.result
-    expect(label).to be_persisted
-    expect(label.author).to eq(admin)
-    expect(label.name).to eq("Bug")
-  end
+      it "fails when the name is already taken, case-insensitively" do
+        create(:label, name: "Bug")
 
-  it "fails when the name is already taken, case-insensitively" do
-    create(:label, name: "Bug")
+        result = described_class.new(user:).call(name: "BUG")
 
-    result = instance.call(name: "BUG")
+        expect(result).to be_failure
+        expect(result.errors.symbols_for(:name)).to include(:taken)
+      end
 
-    expect(result).to be_failure
-    expect(result.errors.symbols_for(:name)).to include(:taken)
-  end
+      it "fails when the name is already taken but for surrounding whitespace" do
+        create(:label, name: "Machine Learning")
 
-  it "fails when the name is already taken but for surrounding whitespace" do
-    create(:label, name: "Machine Learning")
+        result = described_class.new(user:).call(name: "  Machine Learning  ")
 
-    result = instance.call(name: "  Machine Learning  ")
+        expect(result).to be_failure
+        expect(result.errors.symbols_for(:name)).to include(:taken)
+      end
 
-    expect(result).to be_failure
-    expect(result.errors.symbols_for(:name)).to include(:taken)
-  end
+      context "with a user lacking edit_work_packages in any project" do
+        let(:user) { create(:user) }
 
-  context "with a non-admin user" do
-    let(:instance) { described_class.new(user: create(:user)) }
+        it "is unauthorized" do
+          expect(subject).to be_failure
+          expect(subject.errors.symbols_for(:base)).to include(:error_unauthorized)
+        end
+      end
 
-    it "is unauthorized" do
-      result = instance.call(name: "Bug")
+      context "with a member holding edit_work_packages in a project" do
+        let(:project) { create(:project) }
+        let(:user) { create(:user, member_with_permissions: { project => %i[edit_work_packages] }) }
 
-      expect(result).to be_failure
-      expect(result.errors.symbols_for(:base)).to include(:error_unauthorized)
+        it "creates the label, setting the author to the calling user" do
+          expect(subject).to be_success
+
+          label = subject.result
+          expect(label).to be_persisted
+          expect(label.author).to eq(user)
+        end
+      end
     end
   end
 end

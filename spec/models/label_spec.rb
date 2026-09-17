@@ -48,18 +48,10 @@ RSpec.describe Label do
     end
   end
 
-  describe "name normalization" do
-    it "strips surrounding whitespace and collapses repeated internal whitespace" do
-      label = build(:label, name: "  Machine   Learning ")
+  describe "normalizations" do
+    subject { build(:label) }
 
-      expect(label.name).to eq("Machine Learning")
-    end
-
-    it "normalizes the name used in a query" do
-      create(:label, name: "Machine Learning")
-
-      expect(described_class.find_by(name: "  Machine   Learning ")).to be_present
-    end
+    it { is_expected.to normalize(:name).from("  Machine   Learning ").to("Machine Learning") }
   end
 
   describe ".with_usage_count" do

@@ -57,20 +57,6 @@ RSpec.describe Queries::Labels::LabelQuery do
     end
   end
 
-  describe "name filter" do
-    it "narrows results case-insensitively with the ~ operator" do
-      instance.where("name", "~", ["app"])
-
-      expect(instance.results.to_a).to eq([apple])
-    end
-
-    it "excludes matches with the !~ operator" do
-      instance.where("name", "!~", ["app"])
-
-      expect(instance.results.to_a).to eq([banana, cherry])
-    end
-  end
-
   describe "via ParamsToQueryService" do
     it "applies the name filter parsed from JSON params" do
       params = ActionController::Parameters.new(

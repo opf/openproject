@@ -29,40 +29,48 @@
 #++
 
 require "spec_helper"
+require "services/base_services/behaves_like_update_service"
 
 RSpec.describe Labels::UpdateService, type: :model do
-  shared_let(:admin) { create(:admin) }
-  let(:label) { create(:label, name: "Bug") }
-  let(:instance) { described_class.new(user: admin, model: label) }
-
-  it "renames the label" do
-    result = instance.call(name: "Defect")
-
-    expect(result).to be_success
-    expect(label.reload.name).to eq("Defect")
+  it_behaves_like "BaseServices update service" do
+    let(:call_attributes) { { name: "Some name" } }
   end
 
-  context "when the new name is already taken in a different case" do
-    before { create(:label, name: "defect") }
+  describe "with a real service call" do
+    shared_let(:admin) { create(:admin) }
 
-    it "fails with a taken error and does not persist the change" do
+    let(:label) { create(:label, name: "Bug") }
+    let(:instance) { described_class.new(user: admin, model: label) }
+
+    it "renames the label" do
       result = instance.call(name: "Defect")
 
-      expect(result).to be_failure
-      expect(result.errors.symbols_for(:name)).to include(:taken)
-      expect(label.reload.name).to eq("Bug")
+      expect(result).to be_success
+      expect(label.reload.name).to eq("Defect")
     end
-  end
 
-  context "with a non-admin user" do
-    let(:instance) { described_class.new(user: create(:user), model: label) }
+    context "when the new name is already taken in a different case" do
+      before { create(:label, name: "defect") }
 
-    it "is unauthorized" do
-      result = instance.call(name: "Defect")
+      it "fails with a taken error and does not persist the change" do
+        result = instance.call(name: "Defect")
 
-      expect(result).to be_failure
-      expect(result.errors.symbols_for(:base)).to include(:error_unauthorized)
-      expect(label.reload.name).to eq("Bug")
+        expect(result).to be_failure
+        expect(result.errors.symbols_for(:name)).to include(:taken)
+        expect(label.reload.name).to eq("Bug")
+      end
+    end
+
+    context "with a non-admin user" do
+      let(:instance) { described_class.new(user: create(:user), model: label) }
+
+      it "is unauthorized" do
+        result = instance.call(name: "Defect")
+
+        expect(result).to be_failure
+        expect(result.errors.symbols_for(:base)).to include(:error_unauthorized)
+        expect(label.reload.name).to eq("Bug")
+      end
     end
   end
 end
