@@ -1430,6 +1430,8 @@ en:
         main-menu-bg-selected-background: "Main menu when selected"
         primary-button-color: "Primary button"
       custom_colors: "Custom colors"
+      default_colors:
+        description: "Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type."
       edit_color: "Edit %{color}"
       fonts:
         file_is_invalid: "is not a valid TTF font file."
