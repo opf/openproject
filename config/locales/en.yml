@@ -7470,7 +7470,9 @@ en:
           wrong_encoding: "This file is %{encoding} encoded, not UTF-8. In Excel, choose the CSV UTF-8 format when saving, then upload it again."
         file:
           empty: "This file is empty."
+          expired: "This file is no longer available. Upload it again."
           invalid_encoding: "Line %{line} contains bytes that are not valid UTF-8. Save the file again as CSV (UTF-8) and upload that file instead."
+          malformed: "This file could not be read as CSV. Line %{line} opens a quote that is never closed."
           no_rows: "This file has column headers but no rows underneath them."
           too_many_rows: "This file has more rows than can be imported at once. The most is %{limit}."
         header:
@@ -7479,6 +7481,9 @@ en:
           percent_complete_status_based: "cannot be imported while progress is calculated from the status. An administrator changes this under Administration, Work packages, Progress tracking."
           unknown: "is not a column this page knows."
           unknown_with_suggestion: "is not a column this page knows. Did you mean %{suggestion}?"
+        job:
+          checking: "Checking the file"
+          importing: "Importing the file"
         row:
           created_after_updated: "must not be later than the value in Updated on."
           fractional_percentage: "must be a whole number of percent, for example 50."
