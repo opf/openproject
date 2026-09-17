@@ -28,18 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module DefaultHourlyRates
-  class BaseContract < ::Rates::BaseContract
-    def self.model = ::DefaultHourlyRate
-
-    def self.can_manage?(user:, principal_id: nil, project: nil) # rubocop:disable Lint/UnusedMethodArgument
-      user.allowed_globally?(:manage_default_hourly_rates)
-    end
-
-    private
-
-    def allowed_to_manage?
-      self.class.can_manage?(user:)
+module API
+  module V3
+    module HourlyRates
+      class HourlyRatePayloadRepresenter < HourlyRateRepresenter
+        include ::API::Utilities::PayloadRepresenter
+      end
     end
   end
 end
