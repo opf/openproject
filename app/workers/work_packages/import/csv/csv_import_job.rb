@@ -122,7 +122,14 @@ module WorkPackages
             project_id: project.id,
             filename: attachment&.filename,
             attachment_id: attachment&.id,
-            dry_run:
+            dry_run:,
+            row_count: 0,
+            created_count: 0,
+            back_dated: false,
+            counts: {},
+            problems: [],
+            problems_omitted: 0,
+            column_problems: []
           }
         end
 
