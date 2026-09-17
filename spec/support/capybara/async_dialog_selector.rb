@@ -76,14 +76,12 @@ end
 
 module Capybara
   module RSpecMatchers
-    # @param locator [String, Symbol, nil] visible text or aria-label of the trigger
-    # @param options [Hash] selector filters such as `href:`
-    # @return [Capybara::RSpecMatchers::Matchers::HaveSelector]
+    # Shorthand for `have_selector(:async_dialog_trigger, ...)`; see the examples above.
     def have_async_dialog_trigger(locator = nil, **, &)
       Matchers::HaveSelector.new(:async_dialog_trigger, locator, **, &)
     end
 
-    # Negated form of {#have_async_dialog_trigger}.
+    # Shorthand for `have_no_selector(:async_dialog_trigger, ...)`.
     def have_no_async_dialog_trigger(...)
       Matchers::NegatedMatcher.new(have_async_dialog_trigger(...))
     end
