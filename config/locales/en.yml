@@ -4548,6 +4548,8 @@ en:
       no_results_content_text: Add a member to the project
       no_results_title_text: There are currently no members part of this project.
     invite_by_mail: "Send invite to %{mail}"
+    member_form:
+      preview_role_permissions: "View permissions"
     menu:
       all: "All"
       groups: "Groups"
