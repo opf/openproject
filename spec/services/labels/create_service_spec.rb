@@ -55,6 +55,15 @@ RSpec.describe Labels::CreateService, type: :model do
     expect(result.errors.symbols_for(:name)).to include(:taken)
   end
 
+  it "fails when the name is already taken but for surrounding whitespace" do
+    create(:label, name: "Machine Learning")
+
+    result = instance.call(name: "  Machine Learning  ")
+
+    expect(result).to be_failure
+    expect(result.errors.symbols_for(:name)).to include(:taken)
+  end
+
   context "with a non-admin user" do
     let(:instance) { described_class.new(user: create(:user)) }
 

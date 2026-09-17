@@ -36,6 +36,8 @@ class Label < ApplicationRecord
     select("labels.*, (SELECT COUNT(*) FROM labelings WHERE labelings.label_id = labels.id) AS usage_count")
   }
 
+  normalizes :name, with: -> { it.squish }
+
   validates :name,
             presence: true,
             uniqueness: { case_sensitive: false },
