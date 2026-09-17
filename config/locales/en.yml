@@ -4557,6 +4557,8 @@ en:
       locked: "Locked"
       project_roles: "Project roles"
       wp_shares: "Work package shares"
+    role_form_component:
+      preview_role_permissions: "View the permissions of %{role}"
     send_invite_to: "Send invite to"
   menu_item: "Menu item"
   menu_item_setting: "Visibility"

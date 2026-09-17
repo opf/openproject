@@ -37,15 +37,30 @@ See COPYRIGHT and LICENSE files for more details.
 
   <p>
     <% roles.each do |role| %>
-      <label class="form--label-with-check-box">
-        <%= f.collection_check_box :role_ids,
-                                   role.id,
-                                   member.roles.include?(role),
-                                   role.name,
-                                   disabled: role_disabled?(role),
-                                   no_label: true %>
-        <%= role %>
-      </label>
+      <%= render(Primer::Box.new(display: :flex, align_items: :center, classes: "gap-1")) do %>
+        <label class="form--label-with-check-box pr-0">
+          <%= f.collection_check_box :role_ids,
+                                     role.id,
+                                     member.roles.include?(role),
+                                     role.name,
+                                     disabled: role_disabled?(role),
+                                     no_label: true %>
+          <%= role %>
+        </label>
+        <%= render(
+              Primer::Beta::IconButton.new(
+                tag: :a,
+                href: role_permissions_dialog_path(role),
+                icon: :info,
+                scheme: :invisible,
+                size: :small,
+                tooltip_direction: :e,
+                "aria-label": t(".preview_role_permissions", role: role.name),
+                data: { controller: "async-dialog" },
+                test_selector: "op-members--role-permissions-preview"
+              )
+            ) %>
+      <% end %>
     <% end %>
   </p>
 
