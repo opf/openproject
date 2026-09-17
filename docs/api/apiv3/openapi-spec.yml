@@ -193,12 +193,18 @@ paths:
     "$ref": "./paths/activity.yml"
   "/api/v3/activities/{id}/attachments":
     "$ref": "./paths/activity_attachments.yml"
+  "/api/v3/activities/{id}/attachments/prepare":
+    "$ref": "./paths/activity_attachments_prepare.yml"
   "/api/v3/activities/{id}/emoji_reactions":
     "$ref": "./paths/activity_emoji_reactions.yml"
   "/api/v3/attachments":
     "$ref": "./paths/attachments.yml"
+  "/api/v3/attachments/prepare":
+    "$ref": "./paths/attachments_prepare.yml"
   "/api/v3/attachments/{id}":
     "$ref": "./paths/attachment.yml"
+  "/api/v3/attachments/{id}/uploaded":
+    "$ref": "./paths/attachment_uploaded.yml"
   "/api/v3/budgets/{id}":
     "$ref": "./paths/budget.yml"
   "/api/v3/capabilities":
@@ -289,6 +295,8 @@ paths:
     "$ref": "./paths/meeting_outcome.yml"
   "/api/v3/meetings/{id}/attachments":
     "$ref": "./paths/meeting_attachments.yml"
+  "/api/v3/meetings/{id}/attachments/prepare":
+    "$ref": "./paths/meeting_attachments_prepare.yml"
   "/api/v3/meetings/{id}/form":
     "$ref": "./paths/meeting_form.yml"
   "/api/v3/meetings/{id}/sections":
@@ -353,6 +361,8 @@ paths:
     "$ref": "./paths/post.yml"
   "/api/v3/posts/{id}/attachments":
     "$ref": "./paths/post_attachments.yml"
+  "/api/v3/posts/{id}/attachments/prepare":
+    "$ref": "./paths/post_attachments_prepare.yml"
   "/api/v3/principals":
     "$ref": "./paths/principals.yml"
   "/api/v3/priorities":
@@ -573,6 +583,8 @@ paths:
     "$ref": "./paths/wiki_page.yml"
   "/api/v3/wiki_pages/{id}/attachments":
     "$ref": "./paths/wiki_page_attachments.yml"
+  "/api/v3/wiki_pages/{id}/attachments/prepare":
+    "$ref": "./paths/wiki_page_attachments_prepare.yml"
   "/api/v3/work_packages":
     "$ref": "./paths/work_packages.yml"
   "/api/v3/work_packages/form":
@@ -589,6 +601,8 @@ paths:
     "$ref": "./paths/work_package_activities_emoji_reactions.yml"
   "/api/v3/work_packages/{id}/attachments":
     "$ref": "./paths/work_package_attachments.yml"
+  "/api/v3/work_packages/{id}/attachments/prepare":
+    "$ref": "./paths/work_package_attachments_prepare.yml"
   "/api/v3/work_packages/{id}/available_assignees":
     "$ref": "./paths/work_package_available_assignees.yml"
   "/api/v3/work_packages/{id}/available_projects":
@@ -794,6 +808,10 @@ components:
       "$ref": "./components/schemas/activity_comment_write_model.yml"
     AttachmentModel:
       "$ref": "./components/schemas/attachment_model.yml"
+    AttachmentPrepareUploadWriteModel:
+      "$ref": "./components/schemas/attachment_prepare_upload_write_model.yml"
+    AttachmentUploadModel:
+      "$ref": "./components/schemas/attachment_upload_model.yml"
     Attachments_Model:
       "$ref": "./components/schemas/attachments_model.yml"
     Available_AssigneesModel:
