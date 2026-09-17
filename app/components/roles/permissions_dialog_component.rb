@@ -68,6 +68,8 @@ module Roles
 
     def implicit?(permission) = permission.public?
 
+    def editable? = User.current.admin?
+
     private
 
     def granted_permissions

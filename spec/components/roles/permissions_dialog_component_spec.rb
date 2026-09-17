@@ -96,4 +96,38 @@ RSpec.describe Roles::PermissionsDialogComponent, type: :component do
       expect(subject).to have_text I18n.t("roles.permissions_dialog.no_permissions")
     end
   end
+
+  describe "the footer spacing" do
+    let(:role) { build_stubbed(:project_role, permissions: %i[view_work_packages]) }
+
+    it "separates the body from the footer" do
+      expect(subject).to have_css ".Overlay-body.mb-3"
+      expect(subject).to have_css ".Overlay-footer--divided"
+    end
+  end
+
+  describe "the edit button" do
+    include Rails.application.routes.url_helpers
+
+    let(:role) { build_stubbed(:project_role, permissions: %i[view_work_packages]) }
+
+    context "when the current user is an admin" do
+      current_user { build_stubbed(:admin) }
+
+      it "links to the role permissions form" do
+        expect(subject).to have_css "a[data-test-selector='#{described_class::TEST_SELECTOR}-edit']",
+                                    text: I18n.t("roles.permissions_dialog.edit_permissions")
+        expect(subject).to have_css "a[href='#{edit_role_path(role)}']"
+      end
+    end
+
+    context "when the current user is not an admin" do
+      current_user { build_stubbed(:user) }
+
+      it "is omitted" do
+        expect(subject).to have_no_css "[data-test-selector='#{described_class::TEST_SELECTOR}-edit']"
+        expect(subject).to have_button I18n.t(:button_close)
+      end
+    end
+  end
 end

@@ -37,7 +37,7 @@ See COPYRIGHT and LICENSE files for more details.
     ) do |dialog| %>
   <% dialog.with_header(variant: :large) %>
 
-  <% dialog.with_body do %>
+  <% dialog.with_body(mb: 3) do %>
     <% if grouped_permissions.empty? %>
       <%= render(
             Primer::Beta::Text.new(
@@ -88,7 +88,19 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
   <% end %>
 
-  <% dialog.with_footer do %>
+  <% dialog.with_footer(show_divider: true) do %>
+    <% if editable? %>
+      <%= render(
+            Primer::Beta::Button.new(
+              tag: :a,
+              href: edit_role_path(role),
+              test_selector: "#{TEST_SELECTOR}-edit"
+            )
+          ) do %>
+        <%= t("roles.permissions_dialog.edit_permissions") %>
+      <% end %>
+    <% end %>
+
     <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": dialog_id })) { t(:button_close) } %>
   <% end %>
 <% end %>
