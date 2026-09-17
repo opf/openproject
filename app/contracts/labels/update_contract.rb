@@ -30,5 +30,6 @@
 
 module Labels
   class UpdateContract < BaseContract
+    include RequiresAdminGuard
   end
 end

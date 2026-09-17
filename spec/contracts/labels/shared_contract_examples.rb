@@ -28,16 +28,34 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Labels
-  class CreateContract < BaseContract
-    validate :user_allowed_to_create
+require "spec_helper"
 
-    private
+RSpec.shared_examples_for "label contract" do
+  let(:locked_user) { create(:admin, status: User.statuses[:locked]) }
 
-    def user_allowed_to_create
-      unless user.active? && (user.admin? || user.allowed_in_any_project?(:edit_work_packages))
-        errors.add :base, :error_unauthorized
-      end
-    end
+  it_behaves_like "contract is valid"
+
+  context "when name is blank" do
+    before { label.name = "" }
+
+    it_behaves_like "contract is invalid", name: :blank
+  end
+
+  context "when name is too long" do
+    before { label.name = "a" * 256 }
+
+    it_behaves_like "contract is invalid", name: :too_long
+  end
+
+  context "when name is already taken" do
+    before { create(:label, name: label.name.upcase) }
+
+    it_behaves_like "contract is invalid", name: :taken
+  end
+
+  context "when the acting user is locked" do
+    let(:contract) { described_class.new(label, locked_user) }
+
+    it_behaves_like "contract user is unauthorized"
   end
 end

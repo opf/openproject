@@ -30,8 +30,6 @@
 
 module Labels
   class BaseContract < ::ModelContract
-    include RequiresAdminGuard
-
     attribute :name
   end
 end

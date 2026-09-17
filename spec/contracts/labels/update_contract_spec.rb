@@ -30,6 +30,7 @@
 
 require "spec_helper"
 require "contracts/shared/model_contract_shared_context"
+require_relative "shared_contract_examples"
 
 RSpec.describe Labels::UpdateContract do
   include_context "ModelContract shared context"
@@ -37,9 +38,17 @@ RSpec.describe Labels::UpdateContract do
   let(:label) { build_stubbed(:label) }
   let(:contract) { described_class.new(label, current_user) }
 
-  it_behaves_like "contract is valid for active admins and invalid for regular users"
+  it_behaves_like "label contract" do
+    let(:current_user) { create(:admin) }
+  end
+
+  context "when non-admin" do
+    let(:current_user) { create(:user) }
+
+    it_behaves_like "contract user is unauthorized"
+  end
 
   include_examples "contract reuses the model errors" do
-    let(:current_user) { build_stubbed(:admin) }
+    let(:current_user) { create(:admin) }
   end
 end
