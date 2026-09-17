@@ -30,8 +30,8 @@
 
 module Import
   class JiraImportJournals
-     # PostgreSQL timestamp resolution is 1 microsecond; this is the smallest step that
-     # guarantees strictly increasing timestamps.
+    # PostgreSQL timestamp resolution is 1 microsecond; this is the smallest step that
+    # guarantees strictly increasing timestamps.
     TIMESTAMP_STEP = Rational(1, 1_000_000).seconds
 
     attr_reader :work_package
