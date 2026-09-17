@@ -912,6 +912,8 @@ en:
               would_create_cycle: "would link these configurations in a loop."
             variant:
               must_belong_to_the_type: "must be a variant of this type."
+            workflow:
+              not_available_to_this_variant: "must be a workflow this project can use."
             workflows_source_id:
               must_be_available_to_the_variant: "must be a configuration this project can use."
               would_create_cycle: "would link these configurations in a loop."
@@ -6912,6 +6914,8 @@ en:
         text: >
           This will make this project-specific variant a global one that is available to all
           projects. The project admin will no longer be able to edit it.
+        workflow_text: >
+          Its workflow "%{name}" belongs to this project and becomes global as well.
       convert_to_global_notice: "%{name} is now a global variant."
       convert_to_global_rename:
         confirm: "Convert"

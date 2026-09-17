@@ -52,6 +52,35 @@ RSpec.describe WorkPackageTypes::ConvertToGlobalService do
       expect(TypeVariant.available_in(other_project)).to include(variant)
     end
 
+    it "converts the workflow the project owns along with it" do
+      workflow = variant.workflow
+      expect(workflow).to be_project_specific
+
+      expect(service.call).to be_success
+
+      expect(workflow.reload.project_id).to be_nil
+      expect(variant.reload.workflow_id).to eq(workflow.id)
+    end
+
+    it "converts a workflow the project's other variants share only once, and they keep it" do
+      sharer = create(:project_owned_type_variant, type:, project:, variant_name: "Sharer",
+                                                   workflow: variant.workflow)
+
+      expect(service.call).to be_success
+
+      expect(variant.reload.workflow.project_id).to be_nil
+      expect(sharer.reload.workflow_id).to eq(variant.workflow_id)
+    end
+
+    it "leaves a global workflow alone" do
+      global = create(:named_workflow, name: "Standard flow")
+      variant.update!(workflow: global)
+
+      expect(service.call).to be_success
+
+      expect(global.reload).to have_attributes(project_id: nil, name: "Standard flow")
+    end
+
     it "keeps the owning project using it unchanged" do
       project_type = create(:project_type, project:, type:, variant:)
 

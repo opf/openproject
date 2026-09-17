@@ -281,6 +281,64 @@ RSpec.describe TypeVariant do
     end
   end
 
+  describe "the workflow a variant references" do
+    shared_let(:project) { create(:project) }
+    shared_let(:other_project) { create(:project) }
+
+    it "is owned by the same project the variant is" do
+      variant = create(:project_owned_type_variant, type: bug, project:, variant_name: "Internal")
+
+      expect(variant.workflow.project).to eq(project)
+      expect(variant.workflow).to be_project_specific
+    end
+
+    it "is global for a global variant" do
+      variant = create(:type_variant, type: bug, variant_name: "Hardware")
+
+      expect(variant.workflow).not_to be_project_specific
+    end
+
+    it "stays with the project when the variant forks it" do
+      variant = create(:project_owned_type_variant, type: bug, project:, variant_name: "Internal")
+
+      variant.fork_workflow!
+
+      expect(variant.reload.workflow.project).to eq(project)
+    end
+
+    it "is the global one a project-owned variant inherits from a global source" do
+      source = create(:type_variant, type: bug, variant_name: "Hardware")
+      variant = create(:project_owned_type_variant, type: bug, project:, variant_name: "Internal",
+                                                    workflows_source: source)
+
+      expect(variant.workflow).to eq(source.workflow)
+      expect(variant.workflow).not_to be_project_specific
+    end
+
+    it "may be a global workflow" do
+      variant = build(:project_owned_type_variant, type: bug, project:, variant_name: "Internal",
+                                                   workflow: create(:named_workflow))
+
+      expect(variant).to be_valid
+    end
+
+    it "may not belong to another project" do
+      variant = build(:project_owned_type_variant, type: bug, project:, variant_name: "Internal",
+                                                   workflow: create(:project_owned_workflow, project: other_project))
+
+      expect(variant).not_to be_valid
+      expect(variant.errors).to be_added(:workflow, :not_available_to_this_variant)
+    end
+
+    it "may not belong to a project when the variant is global" do
+      variant = build(:type_variant, type: bug, variant_name: "Hardware",
+                                     workflow: create(:project_owned_workflow, project:))
+
+      expect(variant).not_to be_valid
+      expect(variant.errors).to be_added(:workflow, :not_available_to_this_variant)
+    end
+  end
+
   describe "destroying a variant" do
     shared_let(:role) { create(:project_role) }
     shared_let(:old_status) { create(:status) }
