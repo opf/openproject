@@ -67,6 +67,9 @@ module ::ResourceManagement
       replace_via_turbo_stream(
         component: ResourceAllocations::AllocationStep::ResourceFilterComponent.new(allocation:)
       )
+      replace_via_turbo_stream(
+        component: ResourceAllocations::AllocationStep::NonMemberBannerComponent.new(allocation:)
+      )
       respond_with_turbo_streams
     end
 
@@ -398,9 +401,8 @@ module ::ResourceManagement
                     .to_h
                     .symbolize_keys
 
-      placeholder_or_user_id = permitted.delete(:placeholder_or_user_id)
+      placeholder_or_user = selected_placeholder_or_user(permitted.delete(:placeholder_or_user_id))
       entity = resolve_visible_entity(permitted.delete(:entity_type), permitted.delete(:entity_id))
-      placeholder_or_user = selected_placeholder_or_user(placeholder_or_user_id, allocation_project(entity))
 
       permitted.merge(entity:, placeholder_or_user:)
     end
@@ -411,12 +413,14 @@ module ::ResourceManagement
       @project || entity&.project
     end
 
-    def selected_placeholder_or_user(placeholder_or_user_id, project)
+    # Membership is not filtered here: dropping a non-member would leave the
+    # allocation without a principal and report it as blank. The contract rejects
+    # the mismatch by name, and the form warns about it while the dialog is open.
+    def selected_placeholder_or_user(placeholder_or_user_id)
       return if placeholder_or_user_id.blank?
 
-      member = User.visible.in_project(project).find_by(id: placeholder_or_user_id) if project
-
-      member || PlaceholderUser.allocatable(current_user).find_by(id: placeholder_or_user_id)
+      User.visible(current_user).find_by(id: placeholder_or_user_id) ||
+        PlaceholderUser.allocatable(current_user).find_by(id: placeholder_or_user_id)
     end
 
     def preselected_work_package
@@ -428,9 +432,7 @@ module ::ResourceManagement
     def preselected_user
       return @preselected_user if defined?(@preselected_user)
 
-      project = allocation_project(preselected_work_package)
-      @preselected_user =
-        (User.visible(current_user).in_project(project).find_by(id: params[:principal_id]) if project)
+      @preselected_user = User.visible(current_user).find_by(id: params[:principal_id])
     end
 
     # The project the dialog's pickers are scoped to: the planner's own, or the

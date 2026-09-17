@@ -29,37 +29,42 @@
 #++
 
 module ResourceAllocations
-  class BaseContract < ::ModelContract
-    def self.model
-      ResourceAllocation
-    end
+  module AllocationStep
+    class NonMemberBannerComponent < ApplicationComponent
+      include OpTurbo::Streamable
 
-    attribute :principal
-    attribute :placeholder_user
-    attribute :state
-    attribute :start_date
-    attribute :end_date
-    attribute :allocated_time
+      I18N_SCOPE = "resource_management.allocate_resource_dialog.non_member"
 
-    validate :user_allowed_to_allocate
-    validate :principal_must_be_member
+      def initialize(allocation:)
+        super
+        @allocation = allocation
+      end
 
-    private
+      def call
+        component_wrapper do
+          render(Primer::Alpha::Banner.new(scheme: :danger, icon: :alert, mt: 2)) { warning_text } if non_member?
+        end
+      end
 
-    # The permission lives on the project of the allocated work package, which is
-    # also how a global planner resolves it. A missing project means no reachable
-    # entity, so there is nothing to authorise against.
-    def user_allowed_to_allocate
-      return if model.project && user.allowed_in_project?(:allocate_user_resources, model.project)
+      private
 
-      errors.add :base, :error_unauthorized
-    end
+      def user
+        @allocation.principal
+      end
 
-    def principal_must_be_member
-      return if model.principal.nil? || model.project.nil?
-      return if Principal.in_project(model.project).exists?(id: model.principal_id)
+      def project
+        @allocation.project
+      end
 
-      errors.add :principal, :not_a_member
+      def non_member?
+        return false if user.nil? || project.nil?
+
+        !Principal.in_project(project).exists?(id: user.id)
+      end
+
+      def warning_text
+        I18n.t("#{I18N_SCOPE}.warning", user: user.name, project: project.name)
+      end
     end
   end
 end

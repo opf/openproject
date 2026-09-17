@@ -94,6 +94,36 @@ RSpec.describe "Global resource allocations", :skip_csrf, type: :rails_request,
     end.not_to change(ResourceAllocation, :count)
   end
 
+  describe "allocating someone who does not work on the project" do
+    # Visible to the allocator through the other project, but not a member of the
+    # one the work package belongs to — the mistake a global planner invites.
+    shared_let(:outsider) do
+      create(:user, firstname: "Out", lastname: "Sider",
+                    member_with_permissions: { read_only => %i[view_work_packages] })
+    end
+
+    def outsider_params
+      allocation_params(allocatable_wp).tap do |params|
+        params[:resource_allocation][:placeholder_or_user_id] = outsider.id
+      end
+    end
+
+    it "is refused by name rather than reported as a blank assignee" do
+      expect do
+        post resource_allocations_path, params: outsider_params, as: :turbo_stream
+      end.not_to change(ResourceAllocation, :count)
+
+      expect(response.body).to include("is not a member of the work package")
+      expect(response.body).not_to include("can&#39;t be blank")
+    end
+
+    it "warns about it in the form while the dialog is still open" do
+      post refresh_form_resource_allocations_path, params: outsider_params, as: :turbo_stream
+
+      expect(response.body).to include("Out Sider", "Allocatable")
+    end
+  end
+
   describe "an existing global allocation" do
     shared_let(:allocation) do
       create(:resource_allocation, entity: allocatable_wp, principal: resource, state: :allocated,
