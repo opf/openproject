@@ -45,6 +45,10 @@ def aggregate_parent_array(example, acc)
 end
 
 RSpec.configure do |config|
+  config.define_derived_metadata :without_ee do
+    fail ArgumentError, "without_ee metadata does nothing"
+  end
+
   config.before do |example|
     allowed = ee_actions(example)
     if allowed.present? || example.metadata[:with_ee_trial]
