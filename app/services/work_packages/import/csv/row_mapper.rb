@@ -69,6 +69,8 @@ module WorkPackages
             end
           end
 
+          problems.concat(timestamp_problems(row, resolved))
+
           return ServiceResult.failure(result: problems) if problems.any?
 
           ServiceResult.success(result: mapped(resolved))
@@ -77,6 +79,25 @@ module WorkPackages
         private
 
         attr_reader :project
+
+        def timestamp_problems(row, resolved)
+          future = TIMESTAMPS.select { |attribute| resolved[attribute]&.future? }
+                             .map { |attribute| timestamp_problem(row, attribute, :future_timestamp) }
+
+          return future if future.any? || !created_after_updated?(resolved)
+
+          [timestamp_problem(row, :created_at, :created_after_updated)]
+        end
+
+        def created_after_updated?(resolved)
+          created_at, updated_at = resolved.values_at(:created_at, :updated_at)
+
+          created_at && updated_at && created_at > updated_at
+        end
+
+        def timestamp_problem(row, attribute, key)
+          problem(row, attribute, row.values[attribute], I18n.t("work_packages.import.csv.row.#{key}"))
+        end
 
         def carried_problems(row)
           row.problems.map { |message| Problem.new(row: row.number, attribute: nil, value: nil, message:) }

@@ -7480,9 +7480,12 @@ en:
           unknown: "is not a column this page knows."
           unknown_with_suggestion: "is not a column this page knows. Did you mean %{suggestion}?"
         row:
+          created_after_updated: "must not be later than the value in Updated on."
           fractional_percentage: "must be a whole number of percent, for example 50."
+          future_timestamp: "must not be in the future."
           invalid_date: "must be a date written as YYYY-MM-DD."
           invalid_timestamp: "must be a date and time written as YYYY-MM-DDTHH:MM:SSZ."
+          not_created: "could not be created, and no reason was reported."
           too_many_cells: "has %{count} cells but the header has %{expected}. A value containing the separator has to be quoted."
           unknown: "does not exist. Available: %{available}."
           unknown_in_project: "does not exist in this project. Available: %{available}."

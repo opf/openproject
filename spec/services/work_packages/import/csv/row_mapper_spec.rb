@@ -243,6 +243,40 @@ RSpec.describe WorkPackages::Import::CSV::RowMapper do
       expect(map(done_ratio: "0.4")).to be_failure
     end
 
+    it "rejects a Created on in the future" do
+      result = map(created_at: 1.day.from_now.utc.iso8601)
+
+      expect(result.result.sole)
+        .to have_attributes(attribute: "Created on", message: "must not be in the future.")
+    end
+
+    it "rejects an Updated on in the future" do
+      result = map(updated_at: 1.day.from_now.utc.iso8601)
+
+      expect(result.result.sole).to have_attributes(attribute: "Updated on")
+    end
+
+    it "rejects a Created on later than the Updated on beside it" do
+      result = map(created_at: "2024-05-06T11:15:00Z", updated_at: "2024-03-04T09:30:00Z")
+
+      expect(result.result.sole)
+        .to have_attributes(attribute: "Created on",
+                            value: "2024-05-06T11:15:00Z",
+                            message: "must not be later than the value in Updated on.")
+    end
+
+    it "accepts a Created on equal to the Updated on beside it" do
+      result = map(created_at: "2024-03-04T09:30:00Z", updated_at: "2024-03-04T09:30:00Z")
+
+      expect(result).to be_success
+    end
+
+    it "says nothing about the order when one of the two could not be read" do
+      result = map(created_at: "2024-05-06T11:15:00Z", updated_at: "last Tuesday")
+
+      expect(result.result.map(&:message)).to eq(["must be a date and time written as YYYY-MM-DDTHH:MM:SSZ."])
+    end
+
     it "rejects a timestamp that is not ISO 8601" do
       result = map(created_at: "2026-01-04 09:00")
 
