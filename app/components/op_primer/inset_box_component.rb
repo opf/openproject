@@ -56,6 +56,11 @@ module OpPrimer
       }
     }
 
+    renders_one :clipboard_copy_button, lambda { |**system_arguments|
+      system_arguments[:scheme] ||= :invisible
+      Primer::Beta::ClipboardCopyButton.new(**system_arguments)
+    }
+
     def initialize(border: true, scheme: DEFAULT_SCHEME, **system_arguments)
       super()
       @border = border

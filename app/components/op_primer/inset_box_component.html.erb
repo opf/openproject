@@ -36,10 +36,13 @@ See COPYRIGHT and LICENSE files for more details.
         **system_arguments
       )
     ) do %>
-  <% if title? || title_icon? %>
-    <%= render(Primer::Box.new(display: :flex, align_items: :center, mb: 2, classes: "gap-2")) do %>
-      <%= title_icon %>
-      <%= title %>
+  <% if title? || title_icon? || clipboard_copy_button? %>
+    <%= render(Primer::Box.new(display: :flex, align_items: :center, mb: 2, classes: "gap-2", justify_content: :space_between)) do %>
+      <%= render(Primer::Box.new(display: :flex, align_items: :center, classes: "gap-2")) do %>
+        <%= title_icon %>
+        <%= title %>
+      <% end %>
+      <%= clipboard_copy_button %>
     <% end %>
   <% end %>
   <%= content %>
