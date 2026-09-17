@@ -69,7 +69,7 @@ module Admin
                  .new(user: current_user)
                  .call(label_params)
 
-      result.on_success { redirect_to_created_label(result.result) }
+      result.on_success { redirect_to_label_page(result.result, notice: t(:notice_successful_create)) }
 
       result.on_failure do
         update_via_turbo_stream(
@@ -85,10 +85,7 @@ module Admin
                  .new(user: current_user, model: @label)
                  .call(label_params)
 
-      result.on_success do
-        flash[:notice] = t(:notice_successful_update)
-        redirect_to admin_labels_path
-      end
+      result.on_success { redirect_to_label_page(result.result, notice: t(:notice_successful_update)) }
 
       result.on_failure do
         update_via_turbo_stream(
@@ -123,8 +120,8 @@ module Admin
       @label = Label.find(params.expect(:id))
     end
 
-    def redirect_to_created_label(label)
-      flash[:notice] = t(:notice_successful_create)
+    def redirect_to_label_page(label, notice:)
+      flash[:notice] = notice
       page = Label.page_of(label, per_page: per_page_param)
       redirect_to admin_labels_path(page: page > 1 ? page : nil)
     end

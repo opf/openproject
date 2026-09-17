@@ -188,6 +188,16 @@ RSpec.describe "Admin labels", :skip_csrf,
       expect(label.reload.name).to eq("Defect")
     end
 
+    it "redirects to the page the renamed label sorts on",
+       with_settings: { per_page_options: "2 5 10" } do
+      create(:label, name: "Alpha")
+      create(:label, name: "Charlie")
+
+      patch admin_label_path(label), params: { label: { name: "Zulu" }, per_page: 2 }
+
+      expect(response).to redirect_to(admin_labels_path(page: 2))
+    end
+
     it "rejects a duplicate name" do
       create(:label, name: "Feature")
 
