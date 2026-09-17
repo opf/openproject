@@ -93,14 +93,10 @@ module Projects::Hierarchy
       project_tree_from_hierarchy(projects_hierarchy, 0, &)
     end
 
-    # With a boundary, the subtree is already narrow, so the lft/rgt range check stays cheap.
-    # Without one, every visible project is a candidate, so this walks parent_id through a
-    # recursive CTE instead, since Postgres can hash that join rather than scanning ranges.
+    # Returns the visible/active projects within `boundary` (or, without one, all visible/active
+    # root-level projects) that have no visible/active ancestor also in that set.
     def nearest_visible_descendants(boundary = nil, limit: nil)
-      return nearest_visible_roots(limit:) if boundary.nil?
-
-      scope = nearest_visible_descendants_within(boundary)
-      limit ? scope.limit(limit) : scope
+      find_by_sql(nearest_visible_descendants_sql(boundary, limit))
     end
 
     # Returns the projects in `candidates` that have at least one visible, active descendant.
@@ -137,51 +133,25 @@ module Projects::Hierarchy
       Project.visible.active.where("lft > ? AND rgt < ?", min_lft, max_rgt).pluck(:id)
     end
 
-    def nearest_visible_descendants_within(boundary)
-      visible_ids = Project.visible.active.pluck(:id)
-      return none if visible_ids.empty?
+    # Both the root case and the within-boundary case reduce to the same question: which
+    # projects in a visible set have no ancestor also in that set? Only the set differs -
+    # unrestricted for roots, narrowed to the boundary's lft/rgt range otherwise.
+    def nearest_visible_descendants_sql(boundary, limit)
+      vp_range = "vp.lft > #{boundary.lft.to_i} AND vp.rgt < #{boundary.rgt.to_i}" if boundary
+      ancestor_range = "ancestor_vp.lft > #{boundary.lft.to_i} AND ancestor_vp.rgt < #{boundary.rgt.to_i}" if boundary
 
-      where(id: visible_ids)
-        .where("projects.lft > ? AND projects.rgt < ?", boundary.lft, boundary.rgt)
-        .where(no_visible_ancestor_between_sql, visible_ids, boundary.lft, boundary.rgt)
-        .order(:lft)
-    end
-
-    def no_visible_ancestor_between_sql
       <<~SQL.squish
-        NOT EXISTS (
-          SELECT 1 FROM projects ancestors
-          WHERE ancestors.id IN (?)
-            AND ancestors.lft < projects.lft AND ancestors.rgt > projects.rgt
-            AND ancestors.lft > ? AND ancestors.rgt < ?
+        WITH visible_projects AS (#{Project.visible.active.to_sql})
+        SELECT vp.* FROM visible_projects vp
+        WHERE NOT EXISTS (
+          SELECT 1 FROM visible_projects ancestor_vp
+          WHERE ancestor_vp.lft < vp.lft AND ancestor_vp.rgt > vp.rgt
+          #{"AND #{ancestor_range}" if ancestor_range}
         )
-      SQL
-    end
-
-    # Visible/active projects whose ancestors are not visible to the current user
-    # checked via parent_id rather than the lft/rgt range check, which
-    # doesn't scale once every visible project is a candidate.
-    def nearest_visible_roots(limit: nil)
-      visible_ids = Project.visible.active.pluck(:id)
-      return [] if visible_ids.empty?
-
-      sql = <<~SQL.squish
-        WITH RECURSIVE ancestor_walk(descendant_id, current_id) AS (
-          SELECT id, parent_id FROM projects WHERE parent_id IS NOT NULL
-          UNION ALL
-          SELECT ancestor_walk.descendant_id, projects.parent_id
-          FROM ancestor_walk
-          JOIN projects ON projects.id = ancestor_walk.current_id
-          WHERE projects.parent_id IS NOT NULL
-        )
-        SELECT projects.* FROM projects
-        WHERE projects.id IN (?)
-          AND projects.id NOT IN (SELECT DISTINCT descendant_id FROM ancestor_walk WHERE current_id IN (?))
-        ORDER BY projects.lft
+        #{"AND #{vp_range}" if vp_range}
+        ORDER BY vp.lft
         #{"LIMIT #{limit.to_i}" if limit}
       SQL
-
-      find_by_sql([sql, visible_ids, visible_ids])
     end
   end
 
