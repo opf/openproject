@@ -223,6 +223,9 @@ en:
         add: Add
         allocate: Allocate
         settings: Configure view
+      undisclosed:
+        tooltip: You don't have permissions to see this allocated resource
+        work_package: Work package not visible to you
     user_allocations_dialog:
       allocate_work_package: Allocate work package
       blank: This user has no allocated work packages.

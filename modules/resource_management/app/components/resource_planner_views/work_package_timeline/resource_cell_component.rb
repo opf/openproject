@@ -69,6 +69,23 @@ module ResourcePlannerViews
         render(ResourceAllocations::ProgressComponent.new(work_package: @work_package, allocations: @allocations))
       end
 
+      # A global planner spans projects, so the row has to say which one it is
+      # looking at. Inside a project it would only repeat the page.
+      def global?
+        @project.nil?
+      end
+
+      def project_link
+        render(
+          Primer::Beta::Link.new(
+            href: helpers.project_overview_path(@work_package.project),
+            font_size: :small,
+            color: :muted,
+            underline: false
+          )
+        ) { @work_package.project.name }
+      end
+
       def context_menu
         render(Primer::Alpha::ActionMenu.new) do |menu|
           menu.with_show_button(icon: "kebab-horizontal",
