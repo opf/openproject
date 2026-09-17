@@ -31,6 +31,7 @@ module ::ResourceManagement
   class ResourcePlannersController < BaseController
     include OpTurbo::ComponentStream
     include PlannerViewContent
+    include ResourceManagement::PlannerRoutes
 
     menu_item :resource_management
 
@@ -41,9 +42,7 @@ module ::ResourceManagement
     before_action :build_resource_planner, only: %i[new]
 
     def index
-      @resource_planners = ResourcePlanner
-                             .visible(current_user)
-                             .where(project: @project)
+      @resource_planners = index_scope
                              .includes(children: :query)
                              .order(:name)
                              .page(page_param)
@@ -99,7 +98,7 @@ module ::ResourceManagement
       if call.success?
         flash[:notice] = I18n.t(:notice_successful_update)
         redirect_back_or_to(
-          project_resource_planner_path(@project, @resource_planner), status: :see_other
+          planner_path(@resource_planner), status: :see_other
         )
       else
         @resource_planner = call.result
@@ -114,7 +113,7 @@ module ::ResourceManagement
         .on_success { flash[:notice] = I18n.t(:notice_successful_delete) }
         .on_failure { |call| flash[:error] = call.message }
 
-      redirect_to project_resource_planners_path(@project), status: :see_other
+      redirect_to planners_path(@project), status: :see_other
     end
 
     def toggle_public
@@ -129,11 +128,19 @@ module ::ResourceManagement
       end
 
       redirect_back_or_to(
-        project_resource_planner_path(@project, @resource_planner), status: :see_other
+        planner_path(@resource_planner), status: :see_other
       )
     end
 
     private
+
+    def index_scope
+      if @project
+        ResourcePlanner.visible(current_user).where(project: @project)
+      else
+        ResourcePlanner.global_visible_to(current_user)
+      end
+    end
 
     def build_resource_planner
       @resource_planner = ResourcePlanner.new(project: @project, principal: current_user)
@@ -169,7 +176,7 @@ module ::ResourceManagement
     end
 
     def can_manage_public?
-      current_user.allowed_in_project?(:manage_public_resource_planners, @project)
+      ResourcePlanner.public_manageable_by?(current_user, @project)
     end
 
     def render_create_success
@@ -181,7 +188,7 @@ module ::ResourceManagement
 
     def render_create_success_redirect
       flash[:notice] = I18n.t(:notice_successful_create)
-      redirect_to project_resource_planner_path(@project, @resource_planner)
+      redirect_to planner_path(@resource_planner)
     end
 
     def advance_dialog_to_configure_view(view_class)
@@ -196,7 +203,7 @@ module ::ResourceManagement
       replace_via_turbo_stream(
         component: ResourcePlannerViews::ConfigureStep::FormComponent.new(
           view:,
-          url: project_resource_planner_views_path(@project, @resource_planner),
+          url: planner_views_path(@resource_planner),
           hidden_fields: { view_class_name: view_class.name },
           form_id: dialog::FORM_ID,
           dialog_id: dialog::DIALOG_ID,
@@ -209,7 +216,7 @@ module ::ResourceManagement
           dialog_id: dialog::DIALOG_ID,
           form_id: dialog::FORM_ID,
           footer_id: dialog::FOOTER_ID,
-          cancel_href: project_resource_planners_path(@project)
+          cancel_href: planners_path(@project)
         )
       )
       respond_with_turbo_streams
@@ -246,7 +253,7 @@ module ::ResourceManagement
           base_errors: call.errors[:base],
           form_id: dialog::FORM_ID,
           dialog_id: dialog::DIALOG_ID,
-          url: project_resource_planner_path(@project, @resource_planner),
+          url: planner_path(@resource_planner),
           method: :patch,
           include_default_view: false
         ),

@@ -30,6 +30,8 @@
 
 module ResourceManagement
   class Menu < Submenu
+    include ResourceManagement::PlannerRoutes
+
     def initialize(project: nil, params: nil)
       # ResourcePlanner does not use Query objects, so view_type is irrelevant
       # for our group methods. Pass a placeholder to satisfy the parent.
@@ -98,14 +100,6 @@ module ResourceManagement
         favorited: planner.favorited,
         show_enterprise_icon: false
       )
-    end
-
-    def planner_path(planner)
-      if planner.project
-        project_resource_planner_path(planner.project, planner)
-      else
-        resource_planner_path(planner)
-      end
     end
   end
 end
