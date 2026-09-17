@@ -15,7 +15,7 @@ This repo is split into two parts:
 
 | OpenProject version | BlockNote extensions version |
 |---|---|
-| 17.9 | 0.3.0 |
+| 17.9 | 0.3.1 |
 | 17.8 | 0.2.3 | 
 
 ### Installation
