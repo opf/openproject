@@ -34,12 +34,13 @@ module ::ResourceManagement
 
     menu_item :resource_management
 
-    before_action :find_project_by_project_id
-    before_action :authorize
+    before_action :load_and_authorize_in_optional_project
     before_action :find_allocation, only: %i[assign_form assign]
 
     def index
       @list_component = list_component
+
+      render :index, locals: { menu_name: project_or_global_menu }
     end
 
     def assign_form
@@ -160,6 +161,10 @@ module ::ResourceManagement
     end
 
     def list_component
+      @project ? project_list_component : global_list_component
+    end
+
+    def project_list_component
       allocations = assignable_allocations
       ResourceAllocations::AssignmentListComponent.new(
         project: @project,
@@ -168,8 +173,28 @@ module ::ResourceManagement
       )
     end
 
+    # Every project the user may staff in gets a section, including the ones with
+    # nothing to do — an absent project reads as "nothing here" rather than
+    # "you cannot see it".
+    def global_list_component
+      allocations = assignable_allocations.to_a
+      by_project = allocations.group_by { |allocation| allocation.entity&.project_id }
+
+      ResourceAllocations::GlobalAssignmentListComponent.new(
+        sections: staffable_projects.map { |project| [project, by_project.fetch(project.id, [])] },
+        visible_work_package_ids: visible_work_package_ids(allocations)
+      )
+    end
+
+    def staffable_projects
+      @staffable_projects ||=
+        Project.allowed_to(current_user, :assign_users_to_generic_allocations).sort_by(&:lft)
+    end
+
     def assignable_scope
-      ResourceAllocation.for_project(@project).needs_principal_assignment
+      scope = @project ? ResourceAllocation.for_project(@project) : ResourceAllocation.for_projects(staffable_projects)
+
+      scope.needs_principal_assignment
     end
 
     def assignable_allocations
@@ -181,13 +206,14 @@ module ::ResourceManagement
       WorkPackage.visible(current_user).where(id: ids).pluck(:id).to_set
     end
 
-    # Project members the stored filter selects.
+    # Members of the allocation's own project that the stored filter selects —
+    # which on the global page differs from row to row.
     def candidates_for(allocation)
-      allocation.candidate_query(project: @project).results.to_a
+      allocation.candidate_query(project: allocation.project).results.to_a
     end
 
     def candidate_principal
-      User.visible(current_user).in_project(@project).find_by(id: params[:principal_id])
+      User.visible(current_user).in_project(@allocation.project).find_by(id: params[:principal_id])
     end
 
     def find_allocation

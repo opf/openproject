@@ -33,6 +33,8 @@ module ::ResourceManagement
     include Layout
     include PaginationHelper
 
+    helper ResourceManagement::PlannerRoutes
+
     before_action :ensure_resource_management_licensed
 
     private

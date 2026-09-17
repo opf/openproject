@@ -86,6 +86,13 @@ class ResourceAllocation < ApplicationRecord
     joins(joins.join(" ")).where(conditions.join(" OR "), project_id: project_id)
   }
 
+  scope :for_projects, ->(projects) {
+    joins = ENTITY_PROJECT_JOINS.values.pluck(:join)
+    conditions = ENTITY_PROJECT_JOINS.values.map { |source| "#{source[:project_id]} IN (:project_ids)" }
+
+    joins(joins.join(" ")).where(conditions.join(" OR "), project_ids: projects)
+  }
+
   # Loaded once per page so the allocation columns (progress bar and members)
   # share a single query.
   def self.allocated_for_work_packages(work_packages)

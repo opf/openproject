@@ -27,31 +27,21 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t("resource_management.staffing.title"), t(:label_resource_management) %>
-
-<%= render(Primer::OpenProject::PageHeader.new) do |header|
-      header.with_title { t("resource_management.staffing.title") }
-      header.with_breadcrumbs(
-        [
-          ({ href: project_overview_path(@project.id), text: @project.name } if @project),
-          { href: planners_path(@project), text: t(:label_resource_management) },
-          t("resource_management.staffing.title")
-        ].compact
-      )
-    end %>
-
-<%#
-  The frame has no `src`, so it is not fetched on load — it holds the
-  server-rendered list until an allocation change reloads it via its own action.
-%>
-<%= turbo_frame_tag(
-      "staffing-list",
-      refresh: :morph,
-      data: {
-        controller: "reload-frame-on-event",
-        "reload-frame-on-event-event-name-value": "op-dispatched:resource-allocations:changed",
-        "reload-frame-on-event-url-value": staffing_path(@project)
-      }
-    ) do %>
-  <%= render(@list_component) %>
+<%= component_wrapper do %>
+  <% sections.each do |project, allocations| %>
+    <%= render(
+          Primer::OpenProject::CollapsibleSection.new(
+            id: body_id(project),
+            collapsed: allocations.empty?
+          )
+        ) do |section| %>
+      <% section.with_title { project.name } %>
+      <% section.with_additional_information do %>
+        <%= render(Primer::Beta::Counter.new(count: allocations.size, scheme: :primary)) %>
+      <% end %>
+      <% section.with_collapsible_content do %>
+        <%= render(table_for(allocations)) %>
+      <% end %>
+    <% end %>
+  <% end %>
 <% end %>

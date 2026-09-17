@@ -29,41 +29,32 @@
 #++
 
 module ResourceAllocations
-  class AssignContract < BaseContract
-    attribute :principal_assigned_by
+  # The global Staffing list: one collapsible section per project the user may
+  # staff in. Sections without anything to staff are kept, collapsed, so an
+  # absent project reads as "you cannot staff here" rather than "nothing to do".
+  class GlobalAssignmentListComponent < ApplicationComponent
+    include OpTurbo::Streamable
+    include OpPrimer::ComponentHelpers
 
-    validate :allocation_is_generic
-    validate :principal_matches_filter
+    def initialize(sections:, visible_work_package_ids:)
+      super
+
+      @sections = sections
+      @visible_work_package_ids = visible_work_package_ids
+    end
 
     private
 
-    # This action is gated on its own permission rather than `allocate_user_resources`,
-    # and on the project of the allocation's own work package.
-    def user_allowed_to_allocate
-      return if model.project && user.allowed_in_project?(:assign_users_to_generic_allocations, model.project)
+    attr_reader :sections, :visible_work_package_ids
 
-      errors.add :base, :error_unauthorized
+    def body_id(project)
+      "staffing-project-#{project.id}"
     end
 
-    # Staffing only ever assigns to generic placeholders. An explicit allocation
-    # is managed through the regular allocation flow.
-    def allocation_is_generic
-      errors.add :base, :error_unauthorized unless model.filter_based?
-    end
-
-    # The assigned user must be a project member that the stored filter selects,
-    # so a tampered `principal_id` cannot assign an arbitrary user.
-    def principal_matches_filter
-      return if model.principal.nil? || model.project.nil?
-      # There is no filter to match against; `allocation_is_generic` rejects it.
-      return unless model.filter_based?
-      return if principal_selected_by_filter?
-
-      errors.add :principal, :invalid
-    end
-
-    def principal_selected_by_filter?
-      model.candidate_query.results.exists?(id: model.principal_id)
+    # The rows link back to the global staffing routes, so the assignment dialog
+    # returns to this page rather than the project's.
+    def table_for(allocations)
+      AssignmentTableComponent.new(rows: allocations, project: nil, visible_work_package_ids:)
     end
   end
 end
