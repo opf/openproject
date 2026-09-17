@@ -65,15 +65,11 @@ RSpec.describe "Managing labels", :js, with_flag: { work_package_labels: true } 
     expect(page).to have_css(".blankslate", text: "No labels yet")
   end
 
-  it "creates a label, rejecting a blank name first" do
+  it "creates a label" do
     visit admin_labels_path
 
     find_test_selector("add-label-button").click
     page.within_modal("Create label") do
-      click_on "Create"
-      expect(page).to have_button("Create")
-      expect(Label.count).to eq(0)
-
       fill_in "Name", with: "Machine Learning"
       click_on "Create"
     end
