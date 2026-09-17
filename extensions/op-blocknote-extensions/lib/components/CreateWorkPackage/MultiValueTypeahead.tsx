@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { XIcon } from '@primer/octicons-react';
+import { PickerToggle, toggleList } from './PickerToggle';
 import { Suggestions, usePickerMotion } from './Suggestions';
 import { usePickerOptions } from './usePickerOptions';
 import { isNested } from './formSchema';
@@ -11,6 +12,7 @@ import {
   TokenInput,
   TokenLabel,
   TokenRemove,
+  TrailingActions,
   TypeaheadWrapper,
 } from './atoms';
 
@@ -71,11 +73,20 @@ export const MultiValueTypeahead = ({
   });
   const activeIndex = Math.min(focusedIndex, Math.max(0, offered.length - 1));
 
+  const holdList = () => clearTimeout(blurTimerRef.current);
+
   const open = () => {
-    clearTimeout(blurTimerRef.current);
+    holdList();
     setIsOpen(true);
     setFocusedIndex(0);
   };
+
+  const close = () => {
+    holdList();
+    setIsOpen(false);
+  };
+
+  const toggle = (next:boolean) => toggleList(next, { open, close, field: inputEl });
 
   const add = (option:AllowedValue) => {
     setPicked((held) => [...held.filter((one) => one.href !== option.href), option]);
@@ -116,7 +127,7 @@ export const MultiValueTypeahead = ({
       case 'Escape':
         if (isOpen) {
           event.stopPropagation();
-          setIsOpen(false);
+          close();
         }
         break;
     }
@@ -131,6 +142,9 @@ export const MultiValueTypeahead = ({
         $invalid={invalid}
         onMouseDown={(event) => {
           if (event.target === event.currentTarget) inputEl?.focus();
+        }}
+        onClick={(event) => {
+          if (event.target === event.currentTarget || event.target === inputEl) toggle(!isOpen);
         }}
       >
         {tokens.map((token) => (
@@ -163,8 +177,7 @@ export const MultiValueTypeahead = ({
           spellCheck={false}
           placeholder={tokens.length > 0 ? undefined : placeholder}
           value={query}
-          onFocus={open}
-          onClick={open}
+          onFocus={holdList}
           onChange={(event) => {
             setQuery(event.target.value);
             open();
@@ -179,6 +192,15 @@ export const MultiValueTypeahead = ({
           }}
         />
       </TokenField>
+
+      <TrailingActions>
+        <PickerToggle
+          isOpen={isOpen}
+          controls={listId}
+          testId={`${id}-toggle`}
+          onToggle={toggle}
+        />
+      </TrailingActions>
 
       {mounted && (
         <Suggestions

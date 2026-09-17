@@ -415,6 +415,16 @@ describe('Create work package - project picker', () => {
     await expect.element(page.getByRole('treeitem', { name: 'Demo project' })).toBeVisible();
   });
 
+  it('closes and reopens the list from the field itself', async () => {
+    await openProjectPicker();
+
+    await userEvent.click(page.getByLabelText(PROJECT_FIELD));
+    await expect.element(page.getByRole('tree')).not.toBeInTheDocument();
+
+    await userEvent.click(page.getByLabelText(PROJECT_FIELD));
+    await expect.element(page.getByRole('treeitem', { name: 'Demo project' })).toBeVisible();
+  });
+
   it('empties the search from the clear button, and lists everything again', async () => {
     await openProjectPicker();
     await search('scrum');

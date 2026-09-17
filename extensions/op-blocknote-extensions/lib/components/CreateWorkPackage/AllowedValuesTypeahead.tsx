@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { XCircleFillIcon } from '@primer/octicons-react';
+import { PickerToggle, toggleList } from './PickerToggle';
 import { Suggestions, usePickerMotion } from './Suggestions';
 import { usePickerOptions } from './usePickerOptions';
 import { isNested } from './formSchema';
@@ -76,10 +77,19 @@ export const AllowedValuesTypeahead = ({
     onChange(option.href, option.label);
   };
 
+  const holdList = () => clearTimeout(blurTimerRef.current);
+
   const open = () => {
-    clearTimeout(blurTimerRef.current);
+    holdList();
     setIsOpen(true);
   };
+
+  const close = () => {
+    holdList();
+    setIsOpen(false);
+  };
+
+  const toggle = (next:boolean) => toggleList(next, { open, close, field: inputEl });
 
   const clear = () => {
     selectionRef.current = { value: '', label: '' };
@@ -115,7 +125,7 @@ export const AllowedValuesTypeahead = ({
       case 'Escape':
         if (isOpen) {
           event.stopPropagation();
-          setIsOpen(false);
+          close();
         }
         break;
     }
@@ -124,7 +134,7 @@ export const AllowedValuesTypeahead = ({
   const optionId = (index:number) => `${id}-option-${index}`;
 
   return (
-    <TypeaheadWrapper>
+    <TypeaheadWrapper $actions={query ? 2 : 1}>
       <TextControl
         id={id}
         ref={setInputEl}
@@ -141,9 +151,8 @@ export const AllowedValuesTypeahead = ({
         spellCheck={false}
         placeholder={placeholder}
         value={query}
-        onFocus={open}
-        // A click on the already focused field fires no focus event.
-        onClick={open}
+        onFocus={holdList}
+        onClick={() => toggle(!isOpen)}
         onChange={(event) => {
           setQuery(event.target.value);
           setFocusedIndex(0);
@@ -160,8 +169,8 @@ export const AllowedValuesTypeahead = ({
         }}
       />
 
-      {query && (
-        <TrailingActions>
+      <TrailingActions>
+        {query && (
           <TrailingButton
             aria-label={t('createWorkPackage.clear')}
             data-testid={`${id}-clear`}
@@ -170,8 +179,15 @@ export const AllowedValuesTypeahead = ({
           >
             <XCircleFillIcon size={ACTION_ICON_SIZE} />
           </TrailingButton>
-        </TrailingActions>
-      )}
+        )}
+
+        <PickerToggle
+          isOpen={isOpen}
+          controls={listId}
+          testId={`${id}-toggle`}
+          onToggle={toggle}
+        />
+      </TrailingActions>
 
       {mounted && (
         <Suggestions

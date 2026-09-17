@@ -754,7 +754,8 @@ export const TypeaheadWrapper = styled.div<{ $actions?:number; $withColorDot?:bo
   display: flex;
   align-items: center;
 
-  && > input {
+  && > input,
+  && > ${TokenField} {
     padding-right: ${({ $actions = 1 }) => roomForActions($actions)};
   }
 
