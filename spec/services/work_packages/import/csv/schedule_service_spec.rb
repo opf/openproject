@@ -53,6 +53,14 @@ RSpec.describe WorkPackages::Import::CSV::ScheduleService do
         .and have_enqueued_job(WorkPackages::Import::CSV::CsvImportJob)
     end
 
+    it "gives the job status to the importing user, not to whoever is current" do
+      User.execute_as(other_user) { service.call(file:) }
+
+      perform_enqueued_jobs
+
+      expect(JobStatus::Status.sole.user).to eq(user)
+    end
+
     it "returns the job id the page polls" do
       result = service.call(file:)
 

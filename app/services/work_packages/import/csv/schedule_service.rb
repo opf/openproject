@@ -40,14 +40,13 @@ module WorkPackages
         def call(file: nil, attachment_id: nil, dry_run: true)
           return ServiceResult.failure(message: I18n.t(:notice_not_authorized)) unless allowed?
 
-          # Attachments::CreateContract asks Redmine::Acts::Attachable whether uncontainered
-          # attachments are allowed, and that question is answered for User.current rather than for
-          # the contract's own user.
-          attachment = User.execute_as(user) { file ? upload(file) : reuse(attachment_id) }
+          User.execute_as(user) do
+            attachment = file ? upload(file) : reuse(attachment_id)
 
-          return attachment if attachment.failure?
+            next attachment if attachment.failure?
 
-          ServiceResult.success(result: enqueue(attachment.result, dry_run))
+            ServiceResult.success(result: enqueue(attachment.result, dry_run))
+          end
         end
 
         private
