@@ -46,21 +46,12 @@ module WorkPackageTypes
 
       def linked? = variant.linked?(aspect)
 
+      def can_inherit? = !variant.default?
+
       def source = variant.source_for(aspect)
 
-      def source_is_default? = source.present? && source == variant.type.default_variant
-
       def source_path
-        return nil unless source_reachable?
-
-        helpers.aspect_edit_path(source, aspect)
-      end
-
-      def source_reachable?
-        return false if source.nil?
-        return true if helpers.variant_scope_project.nil?
-
-        source.project_id == helpers.variant_scope_project.id
+        helpers.aspect_edit_path(source, aspect) if helpers.variant_scope_project.nil?
       end
 
       def copy_supported? = CopyConfiguration.supported?(aspect)
@@ -78,7 +69,7 @@ module WorkPackageTypes
 
         helpers.link_translate(
           "types.edit.reuse_mode.inherited.description",
-          i18n_args: { source_name: source.composite_name, source_suffix: parent_suffix },
+          i18n_args: { source_name: source.composite_name },
           links: { source_url: source_path },
           external: false,
           # This is being rendered in a frame, so we need to break out of it here.
@@ -87,13 +78,7 @@ module WorkPackageTypes
       end
 
       def unlinked_description
-        I18n.t("types.edit.reuse_mode.inherited.description_unlinked",
-               source_name: source.composite_name,
-               source_suffix: parent_suffix)
-      end
-
-      def parent_suffix
-        source_is_default? ? I18n.t("types.edit.reuse_mode.parent_suffix") : ""
+        I18n.t("types.edit.reuse_mode.inherited.description_unlinked", source_name: source.composite_name)
       end
     end
   end

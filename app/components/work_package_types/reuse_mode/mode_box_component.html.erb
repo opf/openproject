@@ -33,11 +33,6 @@ See COPYRIGHT and LICENSE files for more details.
     <% box.with_title { t("types.edit.reuse_mode.inherited.title") } %>
     <% box.with_action_button(
          tag: :a,
-         href: link_dialog_path,
-         data: { controller: "async-dialog", test_selector: "reuse-mode-change-source" }
-       ) { t("types.edit.reuse_mode.inherited.change_source") } %>
-    <% box.with_action_button(
-         tag: :a,
          href: independent_dialog_path,
          data: { controller: "async-dialog", test_selector: "reuse-mode-switch-to-independent" }
        ) { t("types.edit.reuse_mode.inherited.configure_manually") } %>
@@ -54,11 +49,13 @@ See COPYRIGHT and LICENSE files for more details.
            data: { controller: "async-dialog", test_selector: "reuse-mode-copy-from-variant" }
          ) { t("types.edit.reuse_mode.manual.copy_from_type") } %>
     <% end %>
-    <% box.with_action_button(
-         tag: :a,
-         href: link_dialog_path,
-         data: { controller: "async-dialog", test_selector: "reuse-mode-switch-to-linked" }
-       ) { t("types.edit.reuse_mode.manual.inherit_from_type") } %>
+    <% if can_inherit? %>
+      <% box.with_action_button(
+           tag: :a,
+           href: link_dialog_path,
+           data: { controller: "async-dialog", test_selector: "reuse-mode-switch-to-linked" }
+         ) { t("types.edit.reuse_mode.manual.inherit_from_type") } %>
+    <% end %>
     <%= t("types.edit.reuse_mode.manual.description") %>
   <% end %>
 <% end %>

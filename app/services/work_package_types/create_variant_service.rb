@@ -45,9 +45,7 @@ module WorkPackageTypes
     def instance_class = TypeVariant
 
     def instance(_params)
-      type.variants.new.tap do |variant|
-        TypeVariant::ASPECTS.each { |aspect| variant.public_send(:"#{aspect}_source=", type.default_variant) }
-      end
+      type.variants.new(linked_aspects: TypeVariant::ASPECTS.dup)
     end
 
     def default_contract_class = CreateVariantContract

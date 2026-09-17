@@ -208,7 +208,6 @@ Rails.application.routes.draw do
 
     scope "link_config/:aspect", controller: "configuration_links", as: :configuration_link do
       get :dialog
-      post :confirm
       post :switch
     end
 

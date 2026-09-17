@@ -103,7 +103,7 @@ class TypeVariant < ApplicationRecord
   validate :base_variant_is_never_owned
   validate :owned_variant_is_never_enabled_in_new_projects
 
-  scopes :switch_targets, :with_effective_configuration, :with_effective_source
+  scopes :switch_targets
 
   scope :enabled_in_new_projects, -> { where(enabled_in_new_projects: true) }
 
@@ -161,11 +161,6 @@ class TypeVariant < ApplicationRecord
   # it would make every type-level URL carry a redundant id.
   def project_owned? = project_id.present?
 
-  def inherits_from_project_owned_variant?
-    source_ids = ASPECTS.filter_map { |aspect| source_id_for(aspect) }
-    source_ids.any? && self.class.project_owned.exists?(id: source_ids)
-  end
-
   def path_args
     args = is_default_variant? ? { type_id: } : { type_id:, variant_id: id }
     project_id.nil? ? args : args.merge(in_project_id: project)
@@ -188,17 +183,15 @@ class TypeVariant < ApplicationRecord
   end
 
   def workflows
-    return own_workflows unless resolve_aspect_in_sql?
+    return own_workflows unless persisted?
 
-    Workflow.where(Workflow.arel_table[:type_variant_id].in(effective_source_id_ref(WORKFLOWS)))
+    Workflow.where(type_variant_id: owner_of(WORKFLOWS).id)
   end
 
   def project_custom_field_type_mappings
-    return own_project_custom_field_type_mappings unless resolve_aspect_in_sql?
+    return own_project_custom_field_type_mappings unless persisted?
 
-    mappings = ProjectCustomFieldTypeMapping.where(
-      ProjectCustomFieldTypeMapping.arel_table[:type_variant_id].in(effective_source_id_ref(PROJECT_ATTRIBUTES))
-    )
+    mappings = ProjectCustomFieldTypeMapping.where(type_variant_id: owner_of(PROJECT_ATTRIBUTES).id)
     excluded_ids = excluded_custom_field_ids(PROJECT_ATTRIBUTES)
     return mappings if excluded_ids.empty?
 
@@ -208,8 +201,7 @@ class TypeVariant < ApplicationRecord
   def statuses(include_default: false, role: nil, tab: nil)
     return Status.none if new_record?
 
-    variant_ref = resolve_aspect_in_sql? ? effective_source_id_ref(WORKFLOWS) : [id]
-    scope = self.class.statuses(variant_ref, role:, tab:)
+    scope = self.class.statuses([owner_of(WORKFLOWS).id], role:, tab:)
     include_default ? scope.or(Status.where_default) : scope
   end
 
