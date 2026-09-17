@@ -33,32 +33,25 @@ module Admin
     class DialogComponent < ApplicationComponent
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
-      include Primer::FetchOrFallbackHelper
 
       DIALOG_ID = "admin-label-dialog"
 
-      STATE_DEFAULT = :create
-      STATE_OPTIONS = [STATE_DEFAULT, :rename].freeze
+      attr_reader :label
 
-      attr_reader :label, :state
-
-      delegate :create?, :rename?, to: :state
-
-      def initialize(label:, state: STATE_DEFAULT)
+      def initialize(label:)
         super()
 
         @label = label
-        @state = ActiveSupport::StringInquirer.new(fetch_or_fallback(STATE_OPTIONS, state, STATE_DEFAULT).to_s)
       end
 
       private
 
       def title
-        create? ? t(".create_title") : t(".rename_title", name: label.name)
+        label.persisted? ? t(".rename_title", name: label.name) : t(".create_title")
       end
 
       def button_caption
-        create? ? t(:button_create) : t(:button_rename)
+        label.persisted? ? t(:button_rename) : t(:button_create)
       end
     end
   end

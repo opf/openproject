@@ -35,13 +35,12 @@ RSpec.describe Admin::Labels::DialogComponent, type: :component do
 
   subject(:rendered_component) do
     with_request_url "/admin/labels" do
-      render_inline(described_class.new(label:, state:))
+      render_inline(described_class.new(label:))
     end
   end
 
-  context "in the create state" do
+  context "for a new label" do
     let(:label) { Label.new }
-    let(:state) { :create }
 
     it "renders the create title" do
       rendered_component
@@ -62,9 +61,8 @@ RSpec.describe Admin::Labels::DialogComponent, type: :component do
     end
   end
 
-  context "in the rename state" do
+  context "for a persisted label" do
     let(:label) { create(:label, name: "Machine Learning") }
-    let(:state) { :rename }
 
     it "renders the rename title with the label's name" do
       rendered_component

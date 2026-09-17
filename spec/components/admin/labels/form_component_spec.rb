@@ -35,13 +35,12 @@ RSpec.describe Admin::Labels::FormComponent, type: :component do
 
   subject(:rendered_component) do
     with_request_url "/admin/labels" do
-      render_inline(described_class.new(label:, state:))
+      render_inline(described_class.new(label:))
     end
   end
 
   context "for a new label" do
     let(:label) { Label.new }
-    let(:state) { :create }
 
     it "posts to the labels collection route" do
       rendered_component
@@ -58,7 +57,6 @@ RSpec.describe Admin::Labels::FormComponent, type: :component do
 
   context "for a persisted label" do
     let(:label) { create(:label, name: "Machine Learning") }
-    let(:state) { :rename }
 
     it "patches the label's own route" do
       rendered_component
@@ -75,10 +73,15 @@ RSpec.describe Admin::Labels::FormComponent, type: :component do
   end
 
   context "with a validation error on the name" do
-    let(:label) { build_stubbed(:label, name: "Bug") }
-    let(:state) { :create }
+    let(:label) { build(:label, name: "Bug") }
 
     before { label.errors.add(:name, :taken) }
+
+    it "still posts to the labels collection route" do
+      rendered_component
+
+      expect(page).to have_css("form[action='#{admin_labels_path}'][method='post']")
+    end
 
     it "renders the error message next to the field" do
       rendered_component

@@ -36,27 +36,20 @@ module Admin
 
       FORM_ID = "admin-label-form"
 
-      attr_reader :state
-
-      delegate :create?, to: :state
-
-      # `model` (not `label`) is deliberate: this component is the Rails form
-      # template context for its nested primer_form_with block, and a reader
-      # named `label` would shadow ActionView::Helpers::FormHelper#label.
-      def initialize(label:, state:)
+      # A `label` reader here would shadow ActionView::Helpers::FormHelper#label
+      # inside the primer_form_with block, so the record stays `model`.
+      def initialize(label:)
         super(label)
-
-        @state = ActiveSupport::StringInquirer.new(state.to_s)
       end
 
       private
 
       def http_method
-        create? ? :post : :patch
+        model.persisted? ? :patch : :post
       end
 
       def form_url
-        create? ? admin_labels_path : admin_label_path(model)
+        model.persisted? ? admin_label_path(model) : admin_labels_path
       end
     end
   end

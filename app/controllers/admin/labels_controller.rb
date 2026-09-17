@@ -57,11 +57,11 @@ module Admin
     end
 
     def new_dialog
-      respond_with_dialog Admin::Labels::DialogComponent.new(label: Label.new, state: :create)
+      respond_with_dialog Admin::Labels::DialogComponent.new(label: Label.new)
     end
 
     def edit_dialog
-      respond_with_dialog Admin::Labels::DialogComponent.new(label: @label, state: :rename)
+      respond_with_dialog Admin::Labels::DialogComponent.new(label: @label)
     end
 
     def create
@@ -73,7 +73,7 @@ module Admin
 
       result.on_failure do
         update_via_turbo_stream(
-          component: Admin::Labels::FormComponent.new(label: result.result, state: :create),
+          component: Admin::Labels::FormComponent.new(label: result.result),
           status: :unprocessable_entity
         )
         respond_with_turbo_streams
@@ -89,7 +89,7 @@ module Admin
 
       result.on_failure do
         update_via_turbo_stream(
-          component: Admin::Labels::FormComponent.new(label: result.result, state: :rename),
+          component: Admin::Labels::FormComponent.new(label: result.result),
           status: :unprocessable_entity
         )
         respond_with_turbo_streams
