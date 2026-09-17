@@ -34,9 +34,20 @@ class GitlabBranch < ApplicationRecord
 
   validates :gitlab_project_id,
             :namespace,
-            :namespace_html_url,
+            :project_html_url,
             :name,
-            :gitlab_html_url,
             :repository,
             presence: true
+
+  # GitLab sends no branch event and so no branch URL of its own; both are
+  # built from the project URL the push hook does carry.
+  def html_url
+    "#{project_html_url}/-/tree/#{name}"
+  end
+
+  def new_merge_request_url
+    query = { "merge_request[source_branch]" => name }.to_query
+
+    "#{project_html_url}/-/merge_requests/new?#{query}"
+  end
 end

@@ -34,25 +34,16 @@ module OpenProject
       class CreateBranch
         def call(payload, name:, work_package:)
           GitlabBranch.find_or_create_by!(gitlab_project_id: payload.project_id, name:) do |branch|
-            branch.assign_attributes(work_package:, **extract_params(payload, name))
+            branch.assign_attributes(work_package:, **extract_params(payload))
           end
         end
 
         private
 
-        def namespace(payload)
-          payload.project.path_with_namespace.rpartition("/").first
-        end
-
-        def project_url(payload)
-          payload.project.web_url
-        end
-
-        def extract_params(payload, name)
+        def extract_params(payload)
           {
-            namespace: namespace(payload),
-            namespace_html_url: project_url(payload).rpartition("/").first,
-            gitlab_html_url: "#{project_url(payload)}/-/tree/#{name}",
+            namespace: payload.project.path_with_namespace.rpartition("/").first,
+            project_html_url: payload.project.web_url,
             repository: payload.repository.name,
             gitlab_user: gitlab_user(payload)
           }

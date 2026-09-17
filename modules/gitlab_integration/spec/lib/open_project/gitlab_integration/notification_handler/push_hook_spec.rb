@@ -124,10 +124,10 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::PushHook do
         work_package:,
         gitlab_project_id: 1,
         namespace: "openprojecttest",
-        namespace_html_url: "http://c7e7cd2d54c3/openprojecttest",
         repository: "Test",
-        gitlab_html_url: "http://c7e7cd2d54c3/openprojecttest/test/-/tree/#{branch_name}"
+        project_html_url: "http://c7e7cd2d54c3/openprojecttest/test"
       )
+      expect(branch.html_url).to eq("http://c7e7cd2d54c3/openprojecttest/test/-/tree/#{branch_name}")
     end
 
     it "records the pusher as a GitlabUser" do

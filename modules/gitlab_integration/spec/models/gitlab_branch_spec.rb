@@ -40,9 +40,27 @@ RSpec.describe GitlabBranch do
   describe "Validations" do
     it { is_expected.to validate_presence_of :gitlab_project_id }
     it { is_expected.to validate_presence_of :namespace }
-    it { is_expected.to validate_presence_of :namespace_html_url }
+    it { is_expected.to validate_presence_of :project_html_url }
     it { is_expected.to validate_presence_of :name }
-    it { is_expected.to validate_presence_of :gitlab_html_url }
     it { is_expected.to validate_presence_of :repository }
+  end
+
+  describe "URLs derived from the project" do
+    subject(:branch) do
+      build_stubbed(:gitlab_branch,
+                    project_html_url: "https://gitlab.com/openproject/openproject",
+                    name: "feature/dp-7-invite-attendees")
+    end
+
+    it "points at the branch tree" do
+      expect(branch.html_url)
+        .to eq("https://gitlab.com/openproject/openproject/-/tree/feature/dp-7-invite-attendees")
+    end
+
+    it "prefills the source branch of a new merge request" do
+      expect(branch.new_merge_request_url)
+        .to eq("https://gitlab.com/openproject/openproject/-/merge_requests/new" \
+               "?merge_request%5Bsource_branch%5D=feature%2Fdp-7-invite-attendees")
+    end
   end
 end

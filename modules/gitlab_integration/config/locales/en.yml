@@ -34,7 +34,7 @@ en:
       gitlab_branch:
         gitlab_project: "GitLab project"
         namespace: "GitLab namespace"
-        namespace_html_url: "GitLab namespace URL"
+        project_html_url: "GitLab project URL"
       gitlab_merge_request:
         labels: "Labels"
       gitlab_pipeline:

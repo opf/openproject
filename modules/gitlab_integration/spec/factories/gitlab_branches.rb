@@ -34,10 +34,9 @@ FactoryBot.define do
 
     sequence(:gitlab_project_id)
     namespace { "test_user" }
-    namespace_html_url { "https://gitlab.com/test_user" }
+    project_html_url { "https://gitlab.com/test_user/test_repo" }
     sequence(:name) { |n| "bug/#{n}-some-branch" }
     sequence(:repository) { |n| "test_user/repo_#{n}" }
-    gitlab_html_url { "https://gitlab.com/test_user/test_repo/-/tree/#{name}" }
     gitlab_user
   end
 end

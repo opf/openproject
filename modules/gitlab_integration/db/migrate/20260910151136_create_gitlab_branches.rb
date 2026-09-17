@@ -34,9 +34,8 @@ class CreateGitlabBranches < ActiveRecord::Migration[8.1]
       t.references :work_package, null: false, foreign_key: { on_delete: :cascade }
       t.bigint :gitlab_project_id, null: false
       t.string :namespace, null: false
-      t.string :namespace_html_url, null: false
+      t.string :project_html_url, null: false
       t.string :name, null: false
-      t.string :gitlab_html_url, null: false
       t.string :repository, null: false
       t.references :gitlab_user
 
