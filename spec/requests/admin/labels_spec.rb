@@ -38,6 +38,10 @@ RSpec.describe "Admin labels", :skip_csrf,
 
   current_user { admin }
 
+  def sidebar_menu_links(body)
+    Nokogiri::HTML5(body).css("#menu-sidebar a[href]").map { URI(it["href"]).path }
+  end
+
   describe "GET /admin/labels" do
     context "with labels" do
       let!(:used) { create(:label, name: "Bug") }
@@ -72,9 +76,9 @@ RSpec.describe "Admin labels", :skip_csrf,
     end
 
     it "renders the admin menu entry" do
-      get admin_labels_path
+      get admin_index_path
 
-      expect(response.body).to include("Labels")
+      expect(sidebar_menu_links(response.body)).to include(admin_labels_path)
     end
   end
 
@@ -272,7 +276,8 @@ RSpec.describe "Admin labels", :skip_csrf,
 
     it "does not render the admin menu entry" do
       get admin_index_path
-      expect(response.body).not_to include(">Labels<")
+
+      expect(sidebar_menu_links(response.body)).not_to include(admin_labels_path)
     end
   end
 end
