@@ -38,11 +38,64 @@ Rails.application.routes.draw do
 
     resources :views,
               controller: "resource_management/resource_planner_views",
-              only: %i[show new create edit update destroy]
+              only: %i[show new create edit update destroy] do
+      member do
+        get :new_work_package
+        post :work_packages, action: :add_work_package
+        put "work_packages/:work_package_id/move", action: :move_work_package, as: :move_work_package
+        put "work_packages/:work_package_id/reorder", action: :reorder_work_package, as: :reorder_work_package
+
+        delete "work_packages/:work_package_id", action: :remove_work_package, as: :remove_work_package
+
+        get :new_user
+        post :users, action: :add_user
+        delete "users/:user_id", action: :remove_user, as: :remove_user
+      end
+
+      namespace :work_package_timeline, module: "resource_management/work_package_timeline",
+                                        defaults: { format: :json } do
+        resources :resources, only: :index
+        resources :events, only: :index
+      end
+
+      namespace :user_timeline, module: "resource_management/user_timeline",
+                                defaults: { format: :json } do
+        resources :resources, only: :index
+        resources :events, only: :index
+      end
+
+      resources :work_packages, only: [] do
+        resource :progress,
+                 only: %i[edit update],
+                 controller: "resource_management/work_package_progress" do
+          get :preview, on: :member
+        end
+      end
+    end
 
     collection do
       get "menu" => "resource_management/menus#show"
     end
+  end
+
+  resources :resource_allocations,
+            controller: "resource_management/resource_allocations",
+            only: %i[new create edit update destroy] do
+    collection do
+      post :refresh_form
+    end
+  end
+
+  resources :work_packages, only: [] do
+    resources :resource_allocations,
+              controller: "resource_management/work_package_resource_allocations",
+              only: :index
+  end
+
+  resources :users, only: [] do
+    resources :resource_allocations,
+              controller: "resource_management/user_resource_allocations",
+              only: :index
   end
 
   get "staffing" => "resource_management/staffing#index", as: :staffing

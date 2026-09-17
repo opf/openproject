@@ -34,6 +34,7 @@ module ResourceAllocations
   class ListDialogComponent < ApplicationComponent
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
+    include ResourceManagement::PlannerRoutes
 
     DIALOG_ID = "work-package-allocations-dialog"
 
@@ -56,7 +57,7 @@ module ResourceAllocations
     end
 
     def allocate_resource_path
-      new_project_resource_allocation_path(project, work_package_id: work_package.id)
+      new_allocation_path(project, work_package_id: work_package.id)
     end
   end
 end

@@ -32,6 +32,7 @@ module ResourcePlannerViews
   module Timeline
     module Content
       extend ActiveSupport::Concern
+      include ResourceManagement::PlannerRoutes
 
       STIMULUS = "resource-management--resource-timeline"
 
@@ -71,7 +72,7 @@ module ResourcePlannerViews
       end
 
       def configure_view_path
-        helpers.edit_project_resource_planner_view_path(@project, @resource_planner, @view)
+        edit_planner_view_path(@resource_planner, @view)
       end
 
       def can_allocate?
@@ -84,7 +85,7 @@ module ResourcePlannerViews
       def new_allocation_url
         return "" unless can_allocate?
 
-        helpers.new_project_resource_allocation_path(@project, resource_planner_view_id: @view.id)
+        new_allocation_path(@project, resource_planner_view_id: @view.id)
       end
     end
   end

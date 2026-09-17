@@ -44,7 +44,7 @@ module ResourcePlannerViews::WorkPackageTimeline
 
     def add_entity_item(menu)
       menu.with_item(label: t("resource_management.work_package_timeline.subheader.add_work_package"), tag: :a,
-                     href: new_work_package_project_resource_planner_view_path(@project, @resource_planner, @view),
+                     href: new_planner_view_work_package_path(@resource_planner, @view),
                      content_arguments: { data: { controller: "async-dialog" } }) do |item|
         item.with_leading_visual_icon(icon: :"op-relations")
       end

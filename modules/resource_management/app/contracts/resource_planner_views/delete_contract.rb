@@ -34,7 +34,7 @@ module ResourcePlannerViews
       next true if user.active_admin?
 
       planner = model.parent
-      planner.present? && planner.manageable_by?(user)
+      planner.is_a?(ResourcePlanner) && planner.manageable_by?(user)
     end)
   end
 end

@@ -74,6 +74,13 @@ RSpec.describe "Global resource planners requests",
     expect(response.body).not_to include("Project planner", "Invisible planner")
   end
 
+  it "renders a planner's show page with the global sidebar menu" do
+    get resource_planner_path(global_planner)
+
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include("resource_planners_sidemenu")
+  end
+
   it "offers a create link into the global scope" do
     get resource_planners_path
 

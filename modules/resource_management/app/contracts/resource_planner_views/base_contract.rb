@@ -43,7 +43,7 @@ module ResourcePlannerViews
     def user_allowed_to_manage_parent
       planner = model.parent
       return if planner.nil?
-      return if planner.manageable_by?(user)
+      return if planner.is_a?(ResourcePlanner) && planner.manageable_by?(user)
 
       errors.add :base, :error_unauthorized
     end

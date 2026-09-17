@@ -32,6 +32,7 @@ module ResourcePlannerViews::UserCardList
   class UserAllocationsDialogComponent < ApplicationComponent
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
+    include ResourceManagement::PlannerRoutes
 
     DIALOG_ID = "user-allocations-dialog"
 
@@ -133,7 +134,7 @@ module ResourcePlannerViews::UserCardList
     end
 
     def allocate_work_package_path
-      new_project_resource_allocation_path(project, principal_id: user.id, resource_planner_view_id: view.id)
+      new_allocation_path(project, principal_id: user.id, resource_planner_view_id: view.id)
     end
 
     def edit_allocation_path(allocation)

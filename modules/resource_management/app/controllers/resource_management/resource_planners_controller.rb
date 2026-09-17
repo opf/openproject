@@ -54,7 +54,8 @@ module ::ResourceManagement
     def show
       @view = default_view
       @content_component = work_package_list_content(@view)
-      render "resource_management/resource_planner_views/show"
+      render "resource_management/resource_planner_views/show",
+             locals: { menu_name: project_or_global_menu }
     end
 
     def overview; end

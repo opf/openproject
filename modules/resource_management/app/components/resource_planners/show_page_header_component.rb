@@ -34,11 +34,11 @@ module ResourcePlanners
     include OpTurbo::Streamable
     include ResourceManagement::PlannerRoutes
 
-    def initialize(resource_planner:, project:, selected_view: nil)
+    def initialize(resource_planner:, selected_view: nil)
       super
 
       @resource_planner = resource_planner
-      @project = project
+      @project = resource_planner.project
       @selected_view = selected_view
     end
 
