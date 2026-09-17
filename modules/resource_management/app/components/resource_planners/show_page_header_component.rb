@@ -32,6 +32,7 @@ module ResourcePlanners
   class ShowPageHeaderComponent < ApplicationComponent
     include ApplicationHelper
     include OpTurbo::Streamable
+    include ResourceManagement::PlannerRoutes
 
     def initialize(resource_planner:, project:, selected_view: nil)
       super
@@ -62,10 +63,10 @@ module ResourcePlanners
 
     def breadcrumb_items
       [
-        { href: project_overview_path(@project.id), text: @project.name },
-        { href: project_resource_planners_path(@project), text: t(:label_resource_management) },
+        ({ href: project_overview_path(@project.id), text: @project.name } if @project),
+        { href: planners_path(@project), text: t(:label_resource_management) },
         @resource_planner.name
-      ]
+      ].compact
     end
 
     def favorited?
@@ -87,20 +88,11 @@ module ResourcePlanners
     end
 
     def delete_allowed?
-      return true if User.current.active_admin?
-
-      manage_planner?
+      User.current.active_admin? || manage_planner?
     end
 
     def manage_planner?
-      return false if @project.nil?
-
-      owns_planner = @resource_planner.principal == User.current &&
-        User.current.allowed_in_project?(:view_resource_planners, @project)
-      can_manage_public = @resource_planner.public? &&
-        User.current.allowed_in_project?(:manage_public_resource_planners, @project)
-
-      owns_planner || can_manage_public
+      @resource_planner.manageable_by?(User.current)
     end
   end
 end

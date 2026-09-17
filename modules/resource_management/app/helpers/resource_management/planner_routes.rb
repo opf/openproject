@@ -65,6 +65,22 @@ module ResourceManagement
       end
     end
 
+    def new_planner_view_path(planner)
+      if planner.global?
+        new_resource_planner_view_path(planner)
+      else
+        new_project_resource_planner_view_path(planner.project, planner)
+      end
+    end
+
+    def planner_view_path(planner, view)
+      if planner.global?
+        resource_planner_view_path(planner, view)
+      else
+        project_resource_planner_view_path(planner.project, planner, view)
+      end
+    end
+
     def toggle_public_planner_path(planner)
       if planner.global?
         toggle_public_resource_planner_path(planner)
