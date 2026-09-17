@@ -11,6 +11,11 @@ export async function openEditorAndType(text:string) {
   await userEvent.type(editorEl, text);
 }
 
+export async function typeAndSelect(text:string) {
+  await openEditorAndType(text);
+  await userEvent.keyboard('{Shift>}{Home}{/Shift}');
+}
+
 export async function openEditorAndStartBulletList(firstItem = 'First item') {
   await openEditorAndType(`- ${firstItem}`);
   await userEvent.keyboard('{Enter}');

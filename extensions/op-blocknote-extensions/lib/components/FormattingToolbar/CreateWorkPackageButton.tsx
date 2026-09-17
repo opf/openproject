@@ -3,6 +3,7 @@ import { useComponentsContext, useEditorState } from '@blocknote/react';
 import { useTranslation } from 'react-i18next';
 import type { AnyEditor } from '../../editorTypes';
 import { selectedSubject } from './selectedSubject';
+import { useCanCreateWorkPackages } from '../../hooks/useCanCreateWorkPackages';
 
 export interface CreateWorkPackageButtonProps {
   editor:AnyEditor;
@@ -13,8 +14,9 @@ export const CreateWorkPackageButton = ({ editor, onOpen }:CreateWorkPackageButt
   const { t } = useTranslation();
   const components = useComponentsContext();
   const subject = useEditorState({ editor, selector: () => selectedSubject(editor) });
+  const canCreate = useCanCreateWorkPackages();
 
-  if (!components || !subject || !editor.isEditable) return null;
+  if (!components || !subject || !editor.isEditable || !canCreate) return null;
 
   const label = t('formattingToolbar.createWorkPackage');
 

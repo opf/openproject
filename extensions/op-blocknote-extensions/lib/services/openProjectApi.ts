@@ -174,6 +174,38 @@ export function createWorkPackage(payload:WorkPackagePayload):Promise<WorkPackag
   return post<WorkPackage>('/api/v3/work_packages', payload);
 }
 
+/*  The project picker's endpoint is guarded by the very `add_work_packages` permission
+ *  the create form needs, so its refusal is the permission answer.  */
+const CREATE_PERMISSION_PROBE = '/api/v3/work_packages/available_projects?pageSize=1';
+
+let createPermission = false;
+let createPermissionProbe:Promise<boolean> = Promise.resolve(createPermission);
+
+/** Sent by initialization, before any entry point to the create form is drawn. */
+export function probeCreateWorkPackagePermission():Promise<boolean> {
+  createPermissionProbe = get(CREATE_PERMISSION_PROBE)
+    .then(() => true)
+    // Only a refusal speaks for the permission: anything else is an instance in trouble,
+    // which the create form goes on reporting as it did before.
+    .catch((error:unknown) => !(error instanceof OpenProjectApiError && error.responseStatus === 403))
+    .then((allowed) => {
+      createPermission = allowed;
+      return allowed;
+    });
+
+  return createPermissionProbe;
+}
+
+/** Denied until the probe answers, so no entry point is drawn on an unknown permission. */
+export function canCreateWorkPackages():boolean {
+  return createPermission;
+}
+
+/** Resolves with that probe's answer, for entry points drawn while it is still in flight. */
+export function whenCreateWorkPackagePermissionKnown():Promise<boolean> {
+  return createPermissionProbe;
+}
+
 type HalFilter = Record<string, { operator:string; values:string[] }>;
 
 const TYPEAHEAD_FILTER = (query:string):HalFilter => ({ typeahead: { operator: '**', values: [query] } });

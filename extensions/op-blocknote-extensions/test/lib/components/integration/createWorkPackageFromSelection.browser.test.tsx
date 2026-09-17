@@ -4,17 +4,13 @@ import { renderEditor } from '../../../helpers/renderEditor';
 import {
   insertInlineWorkPackageViaHashWithTextBefore,
   openEditorAndType,
+  typeAndSelect,
 } from '../../../helpers/editorHelpers';
 import {
   fillRequiredFieldsBesidesSubject,
   openCreateModalFromToolbar,
 } from '../../../helpers/createWorkPackageHelpers';
 import { SUBJECT_MAX_LENGTH } from '../../../mocks/handlers';
-
-async function typeAndSelect(text:string) {
-  await openEditorAndType(text);
-  await userEvent.keyboard('{Shift>}{Home}{/Shift}');
-}
 
 interface EditorUnderTest {
   document:{ type:string; content:{ type:string; text?:string }[] }[];
