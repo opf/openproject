@@ -53,7 +53,7 @@ See COPYRIGHT and LICENSE files for more details.
       container.with_row(mb: 3) do
         render(
           ::GitlabIntegration::CollapsibleItemsComponent.new(
-            work_package.gitlab_issues,
+            work_package.gitlab_issues.order(repository: :asc).order(gitlab_id: :asc),
             container_id: :issues,
             heading: t(".issues"),
             work_package:,
@@ -68,7 +68,7 @@ See COPYRIGHT and LICENSE files for more details.
       container.with_row(mb: 3) do
         render(
           ::GitlabIntegration::CollapsibleItemsComponent.new(
-            work_package.gitlab_merge_requests,
+            work_package.gitlab_merge_requests.order(repository: :asc).order(gitlab_id: :asc),
             container_id: :merge_requests,
             heading: t(".merge_requests"),
             work_package:,
