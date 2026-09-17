@@ -65,11 +65,20 @@ RSpec.describe "Projects::CreationWizard", type: :rails_request do
     context "when no project attribute is enabled for the wizard" do
       let(:enabled_custom_fields) { [] }
 
-      it "redirects to the project with an explanatory error" do
+      it "redirects to the project with an explanatory error linking to the project attributes settings" do
         get project_creation_wizard_path(project)
 
         expect(response).to redirect_to(project_path(project))
-        expect(flash[:error]).to eq(I18n.t("projects.wizard.no_attributes"))
+        expect(flash[:error]).to eq(
+          I18n.t("projects.wizard.no_custom_fields_html",
+                 link: project_settings_project_custom_fields_path(project))
+        )
+
+        follow_redirect!
+
+        expect(response.body).to have_css(
+          "a[href='#{project_settings_project_custom_fields_path(project)}']", text: "project settings"
+        )
       end
     end
 
@@ -80,7 +89,10 @@ RSpec.describe "Projects::CreationWizard", type: :rails_request do
         get project_creation_wizard_path(project)
 
         expect(response).to redirect_to(project_path(project))
-        expect(flash[:error]).to eq(I18n.t("projects.wizard.no_attributes"))
+        expect(flash[:error]).to eq(
+          I18n.t("projects.wizard.no_custom_fields_html",
+                 link: project_settings_project_custom_fields_path(project))
+        )
       end
     end
   end
