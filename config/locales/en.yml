@@ -5770,6 +5770,16 @@ en:
     permissions:
       section_check_all_label: "Assign all %{module} permissions"
       section_uncheck_all_label: "Unassign all %{module} permissions"
+    permissions_dialog:
+      edit_permissions: "Edit role permissions"
+      implicit_permission: "Always granted"
+      no_permissions: "This role does not grant any permissions."
+      permission_count:
+        one: "1 permission"
+        other: "%{count} permissions"
+      preview_action: "View permissions"
+      preview_aria_label: "View the permissions of %{role}"
+      title: "Permissions of \"%{name}\""
     report:
       matrix_caption: "Permissions matrix for %{module} module"
       matrix_check_all_label: "Assign all %{module} permissions to all roles"

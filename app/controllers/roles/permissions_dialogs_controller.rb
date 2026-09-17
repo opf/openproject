@@ -23,34 +23,32 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Members
-  class RoleFormComponent < ::ApplicationComponent
-    include RolesHelper
+module Roles
+  class PermissionsDialogsController < ApplicationController
+    include OpTurbo::ComponentStream
 
-    options :row, :params, :roles
+    before_action :require_login
+    before_action :find_role
+    before_action :authorize_role_inspection
+    authorization_checked! :show
 
-    def member
-      model
+    def show
+      respond_with_dialog Roles::PermissionsDialogComponent.new(@role)
     end
 
-    def form_html_options
-      {
-        id: "#{row.roles_css_id}-form",
-        class: row.toggle_item_class_name,
-        style: "display:none",
-        data: { "members-form-target": "membershipEditForm" }
-      }
+    private
+
+    def find_role
+      @role = Role.find(params.expect(:role_id))
     end
 
-    def role_disabled?(role)
-      member
-        .member_roles
-        .detect { |mr| mr.role_id == role.id && !mr.inherited_from.nil? }
+    def authorize_role_inspection
+      deny_access unless Roles::PermissionsDialogComponent.visible_to?(current_user)
     end
   end
 end

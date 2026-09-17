@@ -129,7 +129,7 @@ module Pages
         end
 
         def expect_global_roles(roles)
-          roles_in_on_page = page.find_all("#table_principal_roles tr td.role")
+          roles_in_on_page = page.find_all("#table_principal_roles tr td.role [data-test-selector='global-role-name']")
 
           expect(roles_in_on_page.map(&:text)).to eq(roles)
         end
