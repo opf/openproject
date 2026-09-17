@@ -29,39 +29,42 @@
 #++
 
 module WorkPackageTypes
-  module Patterns
-    Collection = Data.define(:patterns) do
-      extend Dry::Monads[:result]
+  module Comparison
+    class ColumnHeaderComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
 
-      private_class_method :new
+      # There might be a lot of possible duplicates, restrict it to some magic number.
+      NAMED_DUPLICATES = 3
 
-      def self.empty
-        new(patterns: {})
+      def initialize(profile:, duplicates:, same_as_type:)
+        super()
+
+        @profile = profile
+        @duplicates = duplicates
+        @same_as_type = same_as_type
       end
 
-      def self.build(patterns:, contract: CollectionContract.new)
-        contract.call(patterns).to_monad.fmap { |success| new(success.to_h) }
-      rescue ArgumentError => e
-        Failure(e)
+      private
+
+      attr_reader :profile, :duplicates
+
+      def variant = profile.variant
+
+      def name = variant.display_name
+
+      def same_as_type? = @same_as_type
+
+      def duplicate? = duplicates.any?
+
+      def duplicate_names
+        names = duplicates.first(NAMED_DUPLICATES).map { it.variant.display_name }
+        remaining = duplicates.size - names.size
+        return names.to_sentence if remaining.zero?
+
+        t("types.comparison.labels.duplicate_of_more", names: names.to_sentence, count: remaining)
       end
 
-      def initialize(patterns:)
-        transformed = patterns.transform_values { Pattern.new(**it) }.freeze
-
-        super(patterns: transformed)
-      end
-
-      def subject
-        patterns[:subject]
-      end
-
-      def all_enabled
-        patterns.select { |_, pattern| pattern.enabled? }
-      end
-
-      def to_h
-        patterns.stringify_keys.transform_values(&:to_h)
-      end
+      def configuration_path = type_settings_path(**variant.path_args)
     end
   end
 end

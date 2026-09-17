@@ -6629,6 +6629,47 @@ en:
   total_progress: "Total progress"
 
   types:
+    comparison:
+      action: "Compare variants"
+      blankslate:
+        description: "Add a second variant to this type to see what sets them apart."
+        title: "There is nothing to compare yet"
+      description: "Compare the variants of this type with the parent type."
+      labels:
+        duplicate: "Possible duplicate"
+        duplicate_of: "Configured exactly like %{names}"
+        duplicate_of_more:
+          one: "%{names} and 1 more"
+          other: "%{names} and %{count} more"
+        parent_type: "Parent type"
+        same_as_type: "Same as parent type"
+      rows:
+        form:
+          fields: "Fields"
+          groups: "Sections"
+          required: "Of which required"
+          same_as_base: "Same as parent type"
+        scope:
+          availability: "Available to"
+          enabled_in_new_projects: "Active in new projects"
+          projects: "Projects"
+        workflows:
+          roles: "Roles involved"
+          same_as_base: "Same as parent type"
+          statuses: "Statuses"
+          transitions: "Transitions"
+      sections:
+        configuration: "Configuration overview"
+        form: "Form"
+        scope: "Scope"
+        workflows: "Workflows"
+      title: "Compare variants"
+      title_for_type: "Compare variants of %{name}"
+      values:
+        global: "All projects"
+        inheriting_from: "Inheriting from"
+        project_specific: "Project-specific ([%{project}](project_url))"
+        same_as_base: "Identical to the parent type"
     creation_wizard:
       add_variant: "Add a variant to %{name}"
       create_type: "Create type"

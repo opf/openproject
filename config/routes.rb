@@ -285,6 +285,10 @@ Rails.application.routes.draw do
     nested do
       scope "(in-project/:in_project_id)" do
         resources :variants, controller: "variants", only: %i[index destroy] do
+          collection do
+            get :comparison
+          end
+
           member do
             get :menu
             post :make_default
