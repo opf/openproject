@@ -202,10 +202,10 @@ module FormFields
             shadowRootWaitFor(shadowRoot, function() {
               var input = shadowRoot.querySelector("input[placeholder='Search by work package ID or subject']");
               if (!input) return false;
-              var valueSetter = Object.getOwnPropertyDescriptor(input, 'value').set;
               var prototype = Object.getPrototypeOf(input);
               var prototypeValueSetter = Object.getOwnPropertyDescriptor(prototype, 'value').set;
               prototypeValueSetter.call(input, value);
+              input.dispatchEvent(new Event('input', { bubbles: true }));
               input.dispatchEvent(new Event('change', { bubbles: true }));
               return true;
             });
