@@ -94,13 +94,13 @@ module Import
                 end
               end
             end
+            journal_service = Import::JiraImportJournals.new(work_package:)
+            journal_service.backfill_attachments
+            # This is the last stage touching a work package, so the migration entry closes its
+            # activity behind everything the import journalized.
+            journal_service.add_migration_entry(updated_at: jira_issue.payload.dig("fields", "updated"))
           end
 
-          journal_service = Import::JiraImportJournals.new(work_package:)
-          journal_service.backfill_attachments
-          # This is the last stage touching a work package, so the migration entry closes its
-          # activity behind everything the import journalized.
-          journal_service.add_migration_entry(updated_at: jira_issue.payload.dig("fields", "updated"))
         end
       end
     end
