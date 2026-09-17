@@ -126,20 +126,21 @@ export const FormFieldControl = ({
       );
       break;
     case 'typeahead': {
-      const Picker = field.key === PROJECT_KEY ? ProjectPicker : AllowedValuesTypeahead;
-      control = (
-        <Picker
-          id={id}
-          label={field.label}
-          href={field.allowedValuesHref ?? ''}
-          value={textValue}
-          valueLabel={valueLabel}
-          placeholder={placeholder ?? t('createWorkPackage.searchPlaceholder')}
-          invalid={Boolean(message)}
-          describedBy={describedBy}
-          onChange={onChange}
-        />
-      );
+      const picker = {
+        id,
+        label: field.label,
+        href: field.allowedValuesHref ?? '',
+        value: textValue,
+        valueLabel,
+        placeholder: placeholder ?? t('createWorkPackage.searchPlaceholder'),
+        invalid: Boolean(message),
+        describedBy,
+        onChange,
+      };
+
+      control = field.key === PROJECT_KEY
+        ? <ProjectPicker {...picker} />
+        : <AllowedValuesTypeahead {...picker} searchedInBrowser={field.searchedInBrowser} />;
       break;
     }
     case 'multiSelect':
@@ -153,6 +154,7 @@ export const FormFieldControl = ({
           placeholder={placeholder ?? t('createWorkPackage.searchPlaceholder')}
           invalid={Boolean(message)}
           describedBy={errorId}
+          searchedInBrowser={field.searchedInBrowser}
           onChange={onChange}
         />
       );

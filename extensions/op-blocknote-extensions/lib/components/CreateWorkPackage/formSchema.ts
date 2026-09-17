@@ -44,6 +44,7 @@ export interface FormField {
   integer?:boolean;
   allowedValues?:AllowedValue[];
   allowedValuesHref?:string;
+  searchedInBrowser?:boolean;
 }
 
 export type FieldValue = string | boolean | string[];
@@ -75,6 +76,10 @@ const SCHEMA_META_KEYS = ['_type', '_dependencies', '_attributeGroups', '_links'
 
 const NON_EDITABLE_KEYS = ['id', 'lockVersion', 'createdAt', 'updatedAt', 'author', 'position'];
 
+/*  The endpoint behind these takes a filter, answers 200 and ignores it, so a
+    term has to be matched against the listing it hands out whole.  */
+const UNFILTERED_TYPES = ['CustomField::Hierarchy::Item'];
+
 const KIND_BY_TYPE:Record<string, FieldKind> = {
   'String': 'text',
   'Link': 'text',
@@ -99,7 +104,13 @@ export function readSchemaProperty(
 }
 
 export function labelOfResource(resource:HalResource):string {
-  return resource.name ?? resource.subject ?? resource.value ?? '';
+  return resource.name ?? resource.subject ?? resource.value ?? resource._links?.self?.title ?? '';
+}
+
+function ancestorsOf(resource:HalResource):string[] {
+  const links = resource._links;
+  const named = links?.ancestors ?? (links?.parent ? [links.parent] : []);
+  return named.flatMap((link) => (typeof link.href === 'string' ? [link.href] : []));
 }
 
 export function toAllowedValues(resources:HalResource[]):AllowedValue[] {
@@ -107,12 +118,14 @@ export function toAllowedValues(resources:HalResource[]):AllowedValue[] {
     const href = resource._links?.self?.href;
     if (!href) return [];
 
-    const ancestors = (resource._links?.ancestors ?? [])
-      .flatMap((link) => (typeof link.href === 'string' ? [link.href] : []));
+    const label = labelOfResource(resource);
+    if (!label) return [];
+
+    const ancestors = ancestorsOf(resource);
 
     return [{
       href,
-      label: labelOfResource(resource),
+      label,
       ...(resource.favorited ? { favored: true } : {}),
       ...(ancestors.length > 0 ? { ancestors } : {}),
     }];
@@ -122,6 +135,10 @@ export function toAllowedValues(resources:HalResource[]):AllowedValue[] {
 export function allowedValueOf(field:FormField | undefined, href:string | undefined):AllowedValue | undefined {
   if (!field || !href) return undefined;
   return field.allowedValues?.find((value) => value.href === href);
+}
+
+export function isNested(values:AllowedValue[]):boolean {
+  return values.some((value) => (value.ancestors?.length ?? 0) > 0);
 }
 
 export function listedValues(values:AllowedValue[], expanded:ReadonlySet<string>):ListedValue[] {
@@ -196,6 +213,7 @@ function isGenerated(property:SchemaProperty):boolean {
 
 export function buildField(key:string, property:SchemaProperty):FormField {
   const multiple = property.type.startsWith('[]');
+  const resourceType = multiple ? property.type.slice('[]'.length) : property.type;
   const field:FormField = {
     key,
     label: property.name,
@@ -217,7 +235,13 @@ export function buildField(key:string, property:SchemaProperty):FormField {
 
   const allowedValuesHref = allowedValuesHrefOf(property);
   if (allowedValuesHref) {
-    return { ...field, kind: multiple ? 'multiSelect' : 'typeahead', isLink: true, allowedValuesHref };
+    return {
+      ...field,
+      kind: multiple ? 'multiSelect' : 'typeahead',
+      isLink: true,
+      allowedValuesHref,
+      ...(UNFILTERED_TYPES.includes(resourceType) ? { searchedInBrowser: true } : {}),
+    };
   }
 
   // Several values of a kind with no picker: nothing but a notice.

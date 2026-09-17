@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { XCircleFillIcon } from '@primer/octicons-react';
 import { Suggestions, usePickerMotion } from './Suggestions';
 import { usePickerOptions } from './usePickerOptions';
+import { isNested } from './formSchema';
 import type { AllowedValue } from './formSchema';
 import {
   ACTION_ICON_SIZE,
@@ -23,6 +24,7 @@ interface AllowedValuesTypeaheadProps {
   placeholder:string;
   invalid?:boolean;
   describedBy?:string;
+  searchedInBrowser?:boolean;
   onChange:(href:string, label?:string) => void;
 }
 
@@ -35,6 +37,7 @@ export const AllowedValuesTypeahead = ({
   placeholder,
   invalid,
   describedBy,
+  searchedInBrowser,
   onChange,
 }:AllowedValuesTypeaheadProps) => {
   const { t } = useTranslation();
@@ -47,7 +50,13 @@ export const AllowedValuesTypeahead = ({
 
   const listId = `${id}-list`;
   const { mounted, open: listShown, onClosed } = usePickerMotion(isOpen);
-  const { options, loading, toggleExpanded } = usePickerOptions({ href, query, isOpen });
+  const { options, loading, toggleExpanded, foldsBranch } = usePickerOptions({
+    href,
+    query,
+    isOpen,
+    searchedInBrowser,
+  });
+  const hierarchical = isNested(options);
   const selectedIndex = options.findIndex((option) => option.href === value);
   const activeIndex = Math.min(
     focusedIndex ?? Math.max(selectedIndex, 0),
@@ -82,6 +91,8 @@ export const AllowedValuesTypeahead = ({
   };
 
   const handleKeyDown = (event:React.KeyboardEvent<HTMLInputElement>) => {
+    if (foldsBranch(event, options[activeIndex])) return;
+
     switch (event.key) {
       case 'ArrowDown':
         event.preventDefault();
@@ -120,6 +131,7 @@ export const AllowedValuesTypeahead = ({
         type="text"
         role="combobox"
         aria-expanded={isOpen}
+        aria-haspopup={hierarchical ? 'tree' : 'listbox'}
         aria-controls={listId}
         aria-autocomplete="list"
         aria-activedescendant={isOpen && options[activeIndex] ? optionId(activeIndex) : undefined}
@@ -169,6 +181,7 @@ export const AllowedValuesTypeahead = ({
           options={options}
           focusedIndex={activeIndex}
           selectedHref={value}
+          hierarchical={hierarchical}
           optionId={optionId}
           onFocusIndex={setFocusedIndex}
           onPick={select}

@@ -55,7 +55,7 @@ export const ProjectPicker = ({
 
   const listId = `${id}-list`;
   const { mounted, open: listShown, onClosed } = usePickerMotion(isOpen);
-  const { options, loading, toggleExpanded, expand } = usePickerOptions({
+  const { options, loading, toggleExpanded, expand, foldsBranch } = usePickerOptions({
     href,
     query,
     isOpen,
@@ -108,6 +108,8 @@ export const ProjectPicker = ({
       return;
     }
 
+    if (foldsBranch(event, focused)) return;
+
     switch (event.key) {
       case 'Backspace':
       case 'Delete':
@@ -124,18 +126,6 @@ export const ProjectPicker = ({
       case 'ArrowUp':
         event.preventDefault();
         if (isOpen) setFocusedIndex(Math.max(activeIndex - 1, 0));
-        break;
-      case 'ArrowRight':
-        if (isOpen && !query && focused?.hasChildren && !focused.expanded) {
-          event.preventDefault();
-          toggleExpanded(focused.href);
-        }
-        break;
-      case 'ArrowLeft':
-        if (isOpen && !query && focused?.expanded) {
-          event.preventDefault();
-          toggleExpanded(focused.href);
-        }
         break;
       case 'Enter':
         event.preventDefault();

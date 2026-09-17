@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { XIcon } from '@primer/octicons-react';
 import { Suggestions, usePickerMotion } from './Suggestions';
 import { usePickerOptions } from './usePickerOptions';
+import { isNested } from './formSchema';
 import type { AllowedValue } from './formSchema';
 import {
   Token,
@@ -24,6 +25,7 @@ interface MultiValueTypeaheadProps {
   placeholder:string;
   invalid?:boolean;
   describedBy?:string;
+  searchedInBrowser?:boolean;
   onChange:(hrefs:string[]) => void;
 }
 
@@ -36,6 +38,7 @@ export const MultiValueTypeahead = ({
   placeholder,
   invalid,
   describedBy,
+  searchedInBrowser,
   onChange,
 }:MultiValueTypeaheadProps) => {
   const { t } = useTranslation();
@@ -51,14 +54,16 @@ export const MultiValueTypeahead = ({
 
   const listId = `${id}-list`;
   const { mounted, open: listShown, onClosed } = usePickerMotion(isOpen);
-  const { options, loading, toggleExpanded } = usePickerOptions({
+  const { options, loading, toggleExpanded, foldsBranch } = usePickerOptions({
     href: href ?? '',
     query,
     isOpen,
     values: allowedValues,
+    searchedInBrowser,
   });
 
   const offered = options.filter((option) => !value.includes(option.href));
+  const hierarchical = isNested(options);
   const tokens = value.flatMap((href) => {
     const named = allowedValues?.find((option) => option.href === href)
       ?? picked.find((option) => option.href === href);
@@ -85,6 +90,8 @@ export const MultiValueTypeahead = ({
   };
 
   const handleKeyDown = (event:React.KeyboardEvent<HTMLInputElement>) => {
+    if (foldsBranch(event, offered[activeIndex])) return;
+
     switch (event.key) {
       case 'Backspace':
         if (query || value.length === 0) break;
@@ -146,6 +153,7 @@ export const MultiValueTypeahead = ({
           type="text"
           role="combobox"
           aria-expanded={isOpen}
+          aria-haspopup={hierarchical ? 'tree' : 'listbox'}
           aria-controls={listId}
           aria-autocomplete="list"
           aria-activedescendant={isOpen && offered[activeIndex] ? optionId(activeIndex) : undefined}
@@ -179,6 +187,7 @@ export const MultiValueTypeahead = ({
           anchorEl={fieldEl}
           options={offered}
           focusedIndex={activeIndex}
+          hierarchical={hierarchical}
           optionId={optionId}
           onFocusIndex={setFocusedIndex}
           onPick={add}
