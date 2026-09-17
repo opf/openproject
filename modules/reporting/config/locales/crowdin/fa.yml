@@ -27,12 +27,12 @@ fa:
         cost_report:
           pivot_axes_do_not_match_group_bys: The rows and columns must together cover exactly the grouping criteria of the query.
     models:
-      cost_report:
-        one: Cost report
-        other: Cost reports
       cost_query:
         one: گزارش هزینه
         other: گزارش‌های هزینه
+      cost_report:
+        one: Cost report
+        other: Cost reports
   button_save_report_as: ذخیره گزارش با نام...
   comments: دیدگاه
   cost_reports_title: زمان و هزینه‌ها

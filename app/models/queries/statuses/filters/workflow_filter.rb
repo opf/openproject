@@ -35,8 +35,9 @@
 # some Task workflow and, separately, by some Member workflow.
 class Queries::Statuses::Filters::WorkflowFilter < Queries::Filters::Base
   TRANSITION_JOIN = <<~SQL.squish
-    INNER JOIN workflows
-    ON workflows.old_status_id = statuses.id OR workflows.new_status_id = statuses.id
+    INNER JOIN workflows_status_transitions
+    ON workflows_status_transitions.old_status_id = statuses.id
+    OR workflows_status_transitions.new_status_id = statuses.id
   SQL
 
   self.model = Status
@@ -56,6 +57,6 @@ class Queries::Statuses::Filters::WorkflowFilter < Queries::Filters::Base
   private
 
   def transition_where(field, ids)
-    operator_strategy.sql_for_field(ids, "workflows", field)
+    operator_strategy.sql_for_field(ids, Workflows::StatusTransition.table_name, field)
   end
 end

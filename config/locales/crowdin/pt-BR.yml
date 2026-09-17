@@ -442,6 +442,13 @@ pt-BR:
         time_zone: Fuso horário
         warn_on_leaving_unsaved: Alertar-me ao sair de um pacote de trabalho sem salvar as alterações
         workdays: Dias úteis
+      user_resource:
+        description: Descrição
+        name: Nome
+        user_filter: Filtro de usuários
+      user_resource_detail:
+        description: Descrição
+        user_filter: Filtro de usuários
       user_working_hours:
         availability_factor: Fator de disponibilidade
         days: Dias úteis
@@ -856,6 +863,10 @@ pt-BR:
               blank: Forneça um nome para o token
               format: "%{message}"
               in_use: Este nome de token já está em uso, escolha outro
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: Esse tipo não pode ser excluído enquanto houver pacotes de trabalho que ainda o utilizem.
         type_variant:
           attributes:
             attribute_groups:
@@ -2000,10 +2011,10 @@ pt-BR:
   ai:
     text_transform:
       errors:
-        connection_failed: The AI service could not be reached.
-        not_available: The AI assistant is not available.
-        timeout: The AI service did not respond in time.
-        upstream_error: The AI service returned an error.
+        connection_failed: O serviço de IA não pôde ser alcançado.
+        not_available: O Assistente de IA não está disponível.
+        timeout: O Serviço de IA não respondeu a tempo.
+        upstream_error: O serviço de IA apresentou um erro.
   announcements:
     is_active: atualmente exibido
     is_inactive: não exibido atualmente
@@ -2768,7 +2779,6 @@ pt-BR:
       custom_actions: Ações Personalizadas
       custom_field_hierarchies: Hierarquias
       customize_life_cycle: Personalizar Ciclo de Vida
-      date_alerts: Alertas de data
       define_custom_style: Tema e logotipo personalizados
       edit_attribute_groups: Editar atributo de grupos
       gantt_pdf_export: Exportar diagrama de Gantt para PDF
@@ -2845,8 +2855,6 @@ pt-BR:
         description: Campos personalizados de hierarquia permitem organizar estruturas hierárquicas nos pacotes de trabalho e projetos por meio de listas de seleção de vários níveis.
       customize_life_cycle:
         description: Criar e organizar fases do projeto diferentes das fornecidas pelo planejamento do ciclo de projeto PM2.
-      date_alerts:
-        description: Com os alertas de data, você será notificado sobre as próximas datas de início ou término para não perder nem esquecer nenhum prazo importante.
       define_custom_style:
         description: Personalize a instalação de seu OpenProject com seu logotipo e cores.
         more_info: 'Obs.: o logotipo usado pode ser acessado publicamente.'
@@ -3475,6 +3483,7 @@ pt-BR:
   label_core_build: Construção principal
   label_core_version: Versão do núcleo
   label_created_by: Criado por %{user}
+  label_criteria: Critério
   label_current_status: Situação atual
   label_current_version: Versão atual
   label_custom_comment: Comentário de %{name}
@@ -4049,6 +4058,8 @@ pt-BR:
   label_wiki_start: Página inicial
   label_wiki_toc: Tabela de conteúdos
   label_wiki_toc_empty: A Tabela de Conteúdo está vazia, pois nenhum cabeçalho está presente.
+  label_with_criteria: Com critérios
+  label_without_criteria: Sem critérios
   label_work: Trabalho
   label_work_package: Pacote de trabalho
   label_work_package_attachments: Anexos de pacote de trabalho
@@ -4923,6 +4934,13 @@ pt-BR:
     prev: Anterior
     prev_page: Página anterior
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Custo por unidade
+      description: Descrição
+      labor: Custos de trabalho
+      material: Custos unitários
+      sum: Soma
+      total: Total
     dialog:
       footer_center:
         caption: Este texto aparecerá centralizado no rodapé de todas as páginas.
@@ -4937,6 +4955,12 @@ pt-BR:
         label: Hifenização
       hyphenation_language:
         label: Idioma e hifenização
+      include_budget:
+        caption: Incluam os orçamentos do projeto com seus itens de custos unitários e de mão de obra previstos.
+        label: Orçamentos do projeto
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Ciclo de vida do projeto
       page_orientation:
         caption: Selecione a orientação das páginas no documento PDF.
         label: Orientação da página
@@ -5084,6 +5108,16 @@ pt-BR:
   permission_work_package_assigned: Torne-se responsável
   permission_work_package_assigned_explanation: Os pacotes de trabalho podem ser atribuídos a usuários e grupos que possuam esta função no respectivo projeto
   placeholder_users:
+    criteria:
+      activate: Ativar critérios de filtragem
+      activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
+
+        '
+      enable: Match users by criteria
+      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
+      matching_users: Users meeting the filter criteria
+      no_matching_users: No user meets these criteria.
+      show_all_matching_users: Show all %{count} matching users
     delete_tooltip: Excluir usuário de espaço reserva
     deletion_info:
       data_consequences: 'Todas as ocorrências do usuário de espaço reservado (por exemplo, como responsável, competente ou outros valores de usuário) serão reatribuídas a uma conta chamada "Usuário excluído". Como os dados de todas as contas excluídas são reatribuídos a esta conta, não será possível diferenciar os dados criados por usuários de dados excluídos por outra conta.
@@ -5387,6 +5421,7 @@ pt-BR:
     wizard:
       create_artifact_storage_error: Falha ao armazenar o artefato no armazenamento de arquivos
       create_artifact_work_package_error: Falha ao criar o pacote de trabalho do artefato
+      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
       no_help_text: Nenhum texto de ajuda definido para este atributo.
       progress_label: "%{current} de %{total}"
       sections: Seções
@@ -6638,6 +6673,14 @@ pt-BR:
         confirm: Converter
         text: Já existe uma variante global com esse nome. Escolha um nome diferente.
         title: Escolha outro nome para esta variante
+      delete:
+        description: The type will be deleted permanently. This action cannot be undone.
+        description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
+        heading: Delete type '%{name}'?
+        projects:
+          one: 'The type will be removed from 1 project:'
+          other: 'The type will be removed from %{count} projects:'
+        title: Excluir tipo
       description: 'Cada área de configuração em tipos e variantes pode ser configurada independentemente, limitada por outro tipo ou totalmente vinculada a uma origem.
 
         '

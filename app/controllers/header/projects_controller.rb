@@ -80,12 +80,17 @@ class Header::ProjectsController < ApplicationController
   def base_scope
     scope = Project.visible.active.order(:lft).limit(MAX_NUMBER_OF_PROJECTS)
     query.split.each do |term|
-      scope = scope.where("LOWER(name) LIKE LOWER(?)", "%#{ActiveRecord::Base.sanitize_sql_like(term)}%")
+      scope = name_and_identifier_filter(term).apply_to(scope)
     end
     if filter_mode == "favorited"
       scope = current_user.logged? ? scope.where(id: favorite_project_ids) : scope.none
     end
     scope
+  end
+
+  def name_and_identifier_filter(term)
+    sanitized = ActiveRecord::Base.sanitize_sql_like(term)
+    Queries::Projects::Filters::NameAndIdentifierFilter.create!(operator: "~", values: [sanitized])
   end
 
   def ensure_current_project_present(projects)

@@ -808,11 +808,20 @@ de:
       sorting_disabled: Sortierung ist deaktiviert
     sortable_lists:
       announcements:
+        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Element
         fallback_list_name: andere Liste
         move_failed_check_position: Verschieben fehlgeschlagen. Überprüfen Sie die aktuelle Position des Elements.
+        move_failed_check_positions_batch:
+          other: Move failed. Check the items' current positions.
         move_failed_rolled_back: Verschieben fehlgeschlagen. %{label} wieder an seiner vorherigen Position.
+        move_failed_rolled_back_batch:
+          other: Move failed. %{count} items returned to their previous positions.
         moved: "%{label} verschoben auf Position %{position} von %{total}"
+        moved_batch:
+          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+        moved_batch_to_list:
+          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
         moved_to_list: "%{label} verschoben nach %{list}, Position %{position} von %{total}"
       selection:
         cleared: Auswahl aufgehoben.

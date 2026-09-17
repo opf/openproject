@@ -51,8 +51,8 @@ module ::ResourceManagement
       )
     end
 
-    # Recomputes the inline "outside dates" warning whenever a date field
-    # changes. Only the banner is replaced — replacing the whole form would
+    # Recomputes the inline warnings whenever a date or the selected principal
+    # changes. Only the banners are replaced — replacing the whole form would
     # make Turbo restore focus to the date input afterwards, reopening its
     # date picker. Uses the EmptyContract so in-progress input never surfaces
     # validation errors while the user types.
@@ -60,6 +60,9 @@ module ::ResourceManagement
       allocation = set_attributes(allocation_params, contract_class: EmptyContract).result
       replace_via_turbo_stream(
         component: ResourceAllocations::AllocationStep::ScheduleViolationBannerComponent.new(allocation:)
+      )
+      replace_via_turbo_stream(
+        component: ResourceAllocations::AllocationStep::MissingWorkingHoursBannerComponent.new(allocation:)
       )
       replace_via_turbo_stream(
         component: ResourceAllocations::AllocationStep::ResourceFilterComponent.new(allocation:)

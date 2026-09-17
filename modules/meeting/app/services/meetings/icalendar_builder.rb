@@ -436,6 +436,8 @@ module Meetings
 
     def add_virtual_occurences_for_interim_responses(recurring_meeting:) # rubocop:disable Metrics/AbcSize
       interim_responses_for(recurring_meeting).each do |start_time, responses|
+        next if start_time < recurring_meeting.current_schedule_start
+
         # Ensure interim responses still match the meeting
         unless recurring_meeting.schedule.occurs_at?(start_time)
           warn "Interim response has start time that does not match #{recurring_meeting.id}, skipping."

@@ -2,17 +2,19 @@
 pt-BR:
   activerecord:
     attributes:
+      placeholder_user:
+        user_filter: Filter criteria
       resource_allocation:
         allocated_hours: Horas
         allocated_time: Tempo alocado
         date_range: Datas
         end_date: Data de término
         entity: Entidade
-        filter_name: Nome do filtro de recursos
+        placeholder_or_user: Responsável
+        placeholder_user: Placeholder user
         principal: Atribuição
         start_date: Data de início
         state: Estado
-        user_filter: Filtro de usuários
       resource_planner:
         date_range: Datas
         default_view_class_name: Visualização padrão
@@ -87,14 +89,12 @@ pt-BR:
       make_public: Tornar público
       unfavorite: Remover dos favoritos
     allocate_resource_dialog:
-      kind:
-        filter:
-          caption: Defina critérios de filtro com base nos atributos do usuário para criar um recurso de espaço reservado.
-          label: Critérios de filtragem
-        label: Tipo de alocação
-        principal:
-          caption: Alocar horas para um usuário específico.
-          label: Usuário
+      criteria:
+        empty: Nenhum critério definido.
+        label: Critério
+      missing_working_hours:
+        none: The selected user has no working hours configured for these dates, so they are counted as having no capacity.
+        partial: The selected user has no working hours configured for %{dates}, so those days are counted as having no capacity.
       outside_dates:
         description: As datas do recurso selecionado (%{resource_dates}) estão fora do período do pacote de trabalho (%{work_package_dates}).
       overbooking:
@@ -140,6 +140,9 @@ pt-BR:
           caption: Uma lista personalizada de itens que você adiciona e remove manualmente. Não é possível aplicar filtros.
           label: Selecionado manualmente
       title: Configurar exibição
+    create_placeholder_user_dialog:
+      submit: Criar
+      title: Criar usuário de espaço reservado
     edit_allocation_dialog:
       submit: Salvar
       success_message: Alocação de recursos atualizada.

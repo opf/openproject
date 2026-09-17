@@ -444,6 +444,13 @@ ms:
         time_zone: Zon waktu
         warn_on_leaving_unsaved: Beri amaran kepada saya apabila meninggalkan pakej kerja dengan perubahan yang belum disimpan.
         workdays: Hari bekerja
+      user_resource:
+        description: Description
+        name: Name
+        user_filter: User filter
+      user_resource_detail:
+        description: Description
+        user_filter: User filter
       user_working_hours:
         availability_factor: Availability factor
         days: Working days
@@ -857,6 +864,10 @@ ms:
               blank: Please provide a token name
               format: "%{message}"
               in_use: This token name is already in use, please select a different one
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: This type cannot be deleted while work packages still use it.
         type_variant:
           attributes:
             attribute_groups:
@@ -2638,7 +2649,6 @@ ms:
       custom_actions: Custom Actions
       custom_field_hierarchies: Hierarchies
       customize_life_cycle: Customize Life Cycle
-      date_alerts: Date Alerts
       define_custom_style: Custom theme and logo
       edit_attribute_groups: Edit Attribute Groups
       gantt_pdf_export: Gantt PDF Export
@@ -2714,8 +2724,6 @@ ms:
         description: Hierarchy custom fields allow organizing hierarchical structures in work packages and projects by making use of multi-level select lists.
       customize_life_cycle:
         description: Create and organize different project phases than the ones provided by PM2 project cycle planning.
-      date_alerts:
-        description: Dengan peringatan tarikh, anda akan dimaklumkan tentang tarikh mula dan akhir yang akan datang supaya anda tidak pernah terlepas atau lupa tarikh akhir yang penting.
       define_custom_style:
         description: Ubah suai pemasangan OpenProject dengan logo dan warna anda sendiri.
         more_info: 'Perhatian: logo yang digunakan akan boleh diakses secara umum.'
@@ -3342,6 +3350,7 @@ ms:
   label_core_build: Binaan teras
   label_core_version: Versi teras
   label_created_by: Dicipta oleh %{user}
+  label_criteria: Criteria
   label_current_status: Status semasa
   label_current_version: Versi semasa
   label_custom_comment: "%{name} comment"
@@ -3920,6 +3929,8 @@ ms:
   label_wiki_start: Halaman mula
   label_wiki_toc: Jadual Kandungan
   label_wiki_toc_empty: Jadual Kandungan kosong kerana tiada pengepala yang tersedia.
+  label_with_criteria: With criteria
+  label_without_criteria: Without criteria
   label_work: Kerja
   label_work_package: Pakej kerja
   label_work_package_attachments: Lampiran pakej kerja
@@ -4784,6 +4795,13 @@ ms:
     prev: Previous
     prev_page: Previous Page
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: This text will appear on every page at the center of the footer.
@@ -4798,6 +4816,12 @@ ms:
         label: Sempang
       hyphenation_language:
         label: Language and hyphenation
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: Select the orientation of the pages in the PDF document.
         label: Page orientation
@@ -4945,6 +4969,16 @@ ms:
   permission_work_package_assigned: Menjadi penerima tugasan/bertanggungjawab
   permission_work_package_assigned_explanation: Pakej kerja boleh ditugaskan kepada pengguna dan kumpulan yang memegang peranan ini dalam projek yang berkaitan
   placeholder_users:
+    criteria:
+      activate: Activate filter criteria
+      activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
+
+        '
+      enable: Match users by criteria
+      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
+      matching_users: Users meeting the filter criteria
+      no_matching_users: No user meets these criteria.
+      show_all_matching_users: Show all %{count} matching users
     delete_tooltip: Buang pengguna placeholder
     deletion_info:
       data_consequences: 'Semua kejadian pengguna placeholder (cth., sebagai penerima tugasan, bertanggungjawab atau nilai pengguna lain) akan ditugaskan semula kepada akaun yang dipanggil "Pengguna yang dipadam". Oleh kerana data setiap akaun yang dipadam ditugaskan semula ke akaun ini, tidak mungkin akan dapat untuk membezakan data yang dicipta oleh pengguna, daripada data akaun lain yang dipadam.
@@ -5244,6 +5278,7 @@ ms:
     wizard:
       create_artifact_storage_error: Failed to store artefact in file storage
       create_artifact_work_package_error: Failed to create artefact work package
+      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
       no_help_text: This attribute has no help text defined.
       progress_label: "%{current} of %{total}"
       sections: Sections
@@ -6498,6 +6533,13 @@ ms:
         confirm: Convert
         text: A global variant with this name already exists. Please choose a different name.
         title: Pick another name for this variant
+      delete:
+        description: The type will be deleted permanently. This action cannot be undone.
+        description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
+        heading: Delete type '%{name}'?
+        projects:
+          other: 'The type will be removed from %{count} projects:'
+        title: Delete type
       description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
         '

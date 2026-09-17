@@ -442,6 +442,13 @@ ca:
         time_zone: Zona horària
         warn_on_leaving_unsaved: Avisa quan es deixi un paquet de treball amb canvis no desats
         workdays: Dies laborals
+      user_resource:
+        description: Description
+        name: Name
+        user_filter: User filter
+      user_resource_detail:
+        description: Description
+        user_filter: User filter
       user_working_hours:
         availability_factor: Availability factor
         days: Working days
@@ -856,6 +863,10 @@ ca:
               blank: Please provide a token name
               format: "%{message}"
               in_use: This token name is already in use, please select a different one
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: This type cannot be deleted while work packages still use it.
         type_variant:
           attributes:
             attribute_groups:
@@ -2770,7 +2781,6 @@ ca:
       custom_actions: Custom Actions
       custom_field_hierarchies: Hierarchies
       customize_life_cycle: Customize Life Cycle
-      date_alerts: Date Alerts
       define_custom_style: Custom theme and logo
       edit_attribute_groups: Edit Attribute Groups
       gantt_pdf_export: Gantt PDF Export
@@ -2847,8 +2857,6 @@ ca:
         description: Hierarchy custom fields allow organizing hierarchical structures in work packages and projects by making use of multi-level select lists.
       customize_life_cycle:
         description: Create and organize different project phases than the ones provided by PM2 project cycle planning.
-      date_alerts:
-        description: Amb les alertes per dates, se't notificarà quan una data d'inici o finalització s'apropi de tal manera que no se't puguin oblidar o passar dates rellevants.
       define_custom_style:
         description: Personalitza la teva instal·lació d'OpenProject amb el teu propi logotip i colors.
         more_info: 'Nota: el logotip utilitzat serà accessible públicament.'
@@ -3475,6 +3483,7 @@ ca:
   label_core_build: Core build
   label_core_version: Versió base
   label_created_by: Created by %{user}
+  label_criteria: Criteria
   label_current_status: Estat actual
   label_current_version: Versió actual
   label_custom_comment: "%{name} comment"
@@ -4049,6 +4058,8 @@ ca:
   label_wiki_start: Pàgina d'inici
   label_wiki_toc: Taula de continguts
   label_wiki_toc_empty: La taula de continguts està buida, ja que no hi ha cap encapçalament.
+  label_with_criteria: With criteria
+  label_without_criteria: Without criteria
   label_work: Treball
   label_work_package: Paquet de treball
   label_work_package_attachments: Fitxers adjunts del paquet de treball
@@ -4927,6 +4938,13 @@ ca:
     prev: Previous
     prev_page: Previous Page
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: This text will appear on every page at the center of the footer.
@@ -4941,6 +4959,12 @@ ca:
         label: Hyphenation
       hyphenation_language:
         label: Language and hyphenation
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: Select the orientation of the pages in the PDF document.
         label: Page orientation
@@ -5088,6 +5112,16 @@ ca:
   permission_work_package_assigned: Esdevé assignat/responsable
   permission_work_package_assigned_explanation: Els paquets de treball es poden assignar als usuaris i als grups que tinguin aquest rol en el seu respectiu projecte
   placeholder_users:
+    criteria:
+      activate: Activate filter criteria
+      activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
+
+        '
+      enable: Match users by criteria
+      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
+      matching_users: Users meeting the filter criteria
+      no_matching_users: No user meets these criteria.
+      show_all_matching_users: Show all %{count} matching users
     delete_tooltip: Elimina usuari de marcador de posició
     deletion_info:
       data_consequences: 'Tots els rols de l''usuari de marcador de posició (ex. assignat, responsable o altres valors d''usuari) seran reassignats a un compte anomenat "Usuari eliminat". Com que les dades de totes les comptes eliminades seran assignades a aquest compte no serà possible distingir les dades que l''usuari ha creat de les que altres usuaris eliminats han creat.
@@ -5391,6 +5425,7 @@ ca:
     wizard:
       create_artifact_storage_error: Failed to store artefact in file storage
       create_artifact_work_package_error: Failed to create artefact work package
+      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
       no_help_text: This attribute has no help text defined.
       progress_label: "%{current} of %{total}"
       sections: Sections
@@ -6647,6 +6682,14 @@ ca:
         confirm: Convert
         text: A global variant with this name already exists. Please choose a different name.
         title: Pick another name for this variant
+      delete:
+        description: The type will be deleted permanently. This action cannot be undone.
+        description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
+        heading: Delete type '%{name}'?
+        projects:
+          one: 'The type will be removed from 1 project:'
+          other: 'The type will be removed from %{count} projects:'
+        title: Delete type
       description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
         '

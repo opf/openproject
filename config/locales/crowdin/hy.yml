@@ -442,6 +442,13 @@ hy:
         time_zone: Ժամային գոտի
         warn_on_leaving_unsaved: Նախազգուշացնել ինձ չպահպանված փոփոխություններով աշխատանքային փաթեթից հեռանալիս
         workdays: Աշխատանքային օրեր
+      user_resource:
+        description: Description
+        name: Name
+        user_filter: User filter
+      user_resource_detail:
+        description: Description
+        user_filter: User filter
       user_working_hours:
         availability_factor: Հասանելիության գործակից
         days: Աշխատանքային օրեր
@@ -856,6 +863,10 @@ hy:
               blank: Խնդրում ենք նշել թոքենի անվանում
               format: "%{message}"
               in_use: Այս թոքենի անվանումն արդեն օգտագործվում է, խնդրում ենք ընտրել այլ անվանում
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: This type cannot be deleted while work packages still use it.
         type_variant:
           attributes:
             attribute_groups:
@@ -2768,7 +2779,6 @@ hy:
       custom_actions: Հատուկ գործողություններ
       custom_field_hierarchies: Հիերարխիաներ
       customize_life_cycle: Կենսացիկլի հարմարեցում
-      date_alerts: Ամսաթվերի ազդանշաններ
       define_custom_style: Հատուկ թեմա և լոգո
       edit_attribute_groups: Հատկանիշների խմբերի խմբագրում
       gantt_pdf_export: Գանտի գծապատկերի PDF արտահանում
@@ -2843,8 +2853,6 @@ hy:
         description: Հիերարխիայի հատուկ դաշտերը թույլ են տալիս կազմակերպել հիերարխիկ կառուցվածքներ աշխատանքային փաթեթներում և նախագծերում՝ օգտագործելով բազմամակարդակ ընտրության ցանկեր։
       customize_life_cycle:
         description: Ստեղծեք և կազմակերպեք նախագծի փուլեր, որոնք տարբերվում են PM2 նախագծի ցիկլի պլանավորման կողմից տրամադրվածներից։
-      date_alerts:
-        description: Ամսաթվերի ազդանշանների միջոցով Դուք ծանուցում կստանաք մոտալուտ սկզբի կամ ավարտի ամսաթվերի մասին, որպեսզի երբեք բաց չթողնեք կամ չմոռանաք կարևոր վերջնաժամկետը։
       define_custom_style:
         description: Հարմարեցրեք Ձեր OpenProject-ի տեղակայումը սեփական լոգոյով և գույներով։
         more_info: Նշում՝ օգտագործվող լոգոն հանրությանը հասանելի կլինի։
@@ -3473,6 +3481,7 @@ hy:
   label_core_build: Միջուկի բիլդ
   label_core_version: Միջուկի տարբերակ
   label_created_by: Ստեղծվել է %{user}-ի կողմից
+  label_criteria: Criteria
   label_current_status: Ընթացիկ կարգավիճակ
   label_current_version: Ընթացիկ տարբերակ
   label_custom_comment: "%{name} մեկնաբանություն"
@@ -4047,6 +4056,8 @@ hy:
   label_wiki_start: Սկզբնական էջ
   label_wiki_toc: Բովանդակության ցանկ
   label_wiki_toc_empty: Բովանդակության ցանկը դատարկ է, քանի որ վերնագրեր չկան։
+  label_with_criteria: With criteria
+  label_without_criteria: Without criteria
   label_work: Աշխատանք
   label_work_package: Աշխատանքային փաթեթ
   label_work_package_attachments: Աշխատանքային փաթեթի կցորդներ
@@ -4922,6 +4933,13 @@ hy:
     prev: Նախորդ
     prev_page: Նախորդ էջ
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: Այս տեքստը կհայտնվի յուրաքանչյուր էջի էջատակի կենտրոնում։
@@ -4936,6 +4954,12 @@ hy:
         label: Տողադարձ
       hyphenation_language:
         label: Լեզու և տողադարձ
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: Ընտրեք PDF փաստաթղթի էջերի կողմնորոշումը։
         label: Էջի կողմնորոշում
@@ -5083,6 +5107,16 @@ hy:
   permission_work_package_assigned: Դառնալ պատասխանատու/հաշվետու
   permission_work_package_assigned_explanation: Աշխատանքային փաթեթները կարող են նշանակվել համապատասխան նախագծում այս դերն ունեցող օգտատերերին և խմբերին
   placeholder_users:
+    criteria:
+      activate: Activate filter criteria
+      activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
+
+        '
+      enable: Match users by criteria
+      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
+      matching_users: Users meeting the filter criteria
+      no_matching_users: No user meets these criteria.
+      show_all_matching_users: Show all %{count} matching users
     delete_tooltip: Ջնջել տեղապահ օգտատիրոջը
     deletion_info:
       data_consequences: 'Տեղապահ օգտատիրոջ բոլոր հիշատակումները (օրինակ՝ որպես պատասխանատու, հաշվետու կամ օգտատիրոջ այլ արժեքներ) կվերանշանակվեն "Ջնջված օգտատեր" կոչվող հաշվին։ Քանի որ յուրաքանչյուր ջնջված հաշվի տվյալները վերանշանակվում են այս հաշվին, հնարավոր չի լինի տարբերել այս օգտատիրոջ ստեղծած տվյալները մեկ այլ ջնջված հաշվի տվյալներից։
@@ -5386,6 +5420,7 @@ hy:
     wizard:
       create_artifact_storage_error: Չհաջողվեց պահել արտեֆակտը նիշքերի պահեստում
       create_artifact_work_package_error: Չհաջողվեց ստեղծել արտեֆակտի աշխատանքային փաթեթը
+      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
       no_help_text: Այս հատկանիշի համար օգնության տեքստ սահմանված չէ։
       progress_label: "%{current}-ը %{total}-ից"
       sections: Բաժիններ
@@ -6652,6 +6687,14 @@ hy:
         confirm: Convert
         text: A global variant with this name already exists. Please choose a different name.
         title: Pick another name for this variant
+      delete:
+        description: The type will be deleted permanently. This action cannot be undone.
+        description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
+        heading: Delete type '%{name}'?
+        projects:
+          one: 'The type will be removed from 1 project:'
+          other: 'The type will be removed from %{count} projects:'
+        title: Delete type
       description: 'Տեսակների և տարատեսակների ներսում կազմաձևման յուրաքանչյուր հատված կարող է կազմաձևվել ինքնուրույն, սահմանափակվել այլ տեսակից կամ ամբողջությամբ կապակցվել աղբյուրին։
 
         '

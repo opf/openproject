@@ -27,13 +27,4 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%
-  # The rate partials are shared with the user tab and read the principal from
-  # `@user`.
-  @user = @placeholder_user
-  @rates = HourlyRate.history_for_user(@user)
-  @rates_default = @rates.delete(nil)
-%>
-
-<%= render partial: "hourly_rates/list_default" %>
-<%= render partial: "hourly_rates/list" %>
+<%= render(HourlyRates::HistoryComponent.new(principal: @placeholder_user)) %>

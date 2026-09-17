@@ -442,6 +442,13 @@ de:
         time_zone: Zeitzone
         warn_on_leaving_unsaved: Beim Verlassen einer Arbeitspaket-Seite mit ungespeichertem Text warnen
         workdays: Arbeitstage
+      user_resource:
+        description: Description
+        name: Name
+        user_filter: User filter
+      user_resource_detail:
+        description: Description
+        user_filter: User filter
       user_working_hours:
         availability_factor: Verfügbarkeitsfaktor
         days: Arbeitstage
@@ -856,6 +863,10 @@ de:
               blank: Bitte geben Sie einen Namen für den Token an
               format: "%{message}"
               in_use: Dieser Token-Name ist bereits in Verwendung, bitte wählen Sie einen anderen
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: This type cannot be deleted while work packages still use it.
         type_variant:
           attributes:
             attribute_groups:
@@ -1751,7 +1762,7 @@ de:
         filter_label: Search users
         inheritance_source: "%{type} %{name}"
         inherited_via: "(via: %{source})"
-        title: Memberships
+        title: Mitgliedschaften
     plugins:
       no_results_content_text: Weitere Informationen finden Sie auf unserer Seite für Integrationen und Plugins.
       no_results_title_text: Es sind derzeit keine Plugins installiert.
@@ -2770,7 +2781,6 @@ de:
       custom_actions: Benutzerdefinierte Aktionen
       custom_field_hierarchies: Hierarchien
       customize_life_cycle: Projektlebenszyklus anpassen
-      date_alerts: Datums-Erinnerungen
       define_custom_style: Selbstdefiniertes Logo und Farbthema
       edit_attribute_groups: Attributgruppen bearbeiten
       gantt_pdf_export: Gantt PDF Export
@@ -2847,8 +2857,6 @@ de:
         description: Benutzerdefinierte Felder vom Typ Hierarchie erlauben es, hierarchische Strukturen in Arbeitspaketen und Projekten zu organisieren, indem sie mehrstufige Auswahllisten nutzen.
       customize_life_cycle:
         description: Erstellen und organisieren Sie von PM2 abweichende Projektlebenszyklen.
-      date_alerts:
-        description: Mit Datums-Erinnerungen werden Sie über bevorstehende Start- oder Endtermine informiert, so dass Sie nie einen wichtigen Termin verpassen oder übersehen.
       define_custom_style:
         description: Passen Sie Ihre OpenProject Installation mit Ihrem eigenen Logo und eigenen Farben an.
         more_info: 'Hinweis: Das verwendete Logo wird öffentlich zugänglich sein.'
@@ -3475,6 +3483,7 @@ de:
   label_core_build: Core-Buildinformation
   label_core_version: Core Version
   label_created_by: Erstellt von %{user}
+  label_criteria: Criteria
   label_current_status: Gegenwärtiger Status
   label_current_version: Gegenwärtige Version
   label_custom_comment: "%{name} Kommentar"
@@ -4049,6 +4058,8 @@ de:
   label_wiki_start: Hauptseite
   label_wiki_toc: Inhaltsverzeichnis
   label_wiki_toc_empty: Inhaltsverzeichnis ist leer, da keine Überschriften vorhanden sind.
+  label_with_criteria: With criteria
+  label_without_criteria: Without criteria
   label_work: Aufwand
   label_work_package: Arbeitspaket
   label_work_package_attachments: Anhänge des Arbeitspakets
@@ -4929,6 +4940,13 @@ de:
     prev: Zurück
     prev_page: Vorherige Seite
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: Dieser Text wird auf jeder Seite in der Mitte der Fußzeile angezeigt.
@@ -4943,6 +4961,12 @@ de:
         label: Silbentrennung
       hyphenation_language:
         label: Sprache und Silbentrennung
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: Wählen Sie die Ausrichtung der Seiten im PDF-Dokument.
         label: Seitenausrichtung
@@ -5090,6 +5114,16 @@ de:
   permission_work_package_assigned: Zugewiesener/Verantwortlicher werden
   permission_work_package_assigned_explanation: Arbeitspakete können Benutzern und Gruppen im Besitz dieser Rolle in dem jeweiligen Projekt zugeordnet werden
   placeholder_users:
+    criteria:
+      activate: Activate filter criteria
+      activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
+
+        '
+      enable: Match users by criteria
+      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
+      matching_users: Users meeting the filter criteria
+      no_matching_users: No user meets these criteria.
+      show_all_matching_users: Show all %{count} matching users
     delete_tooltip: Platzhalter löschen
     deletion_info:
       data_consequences: 'Alle Vorkommnisse des Platzhalter-Benutzers (z.B. als zugewiesene Person, Verantwortlicher oder andere Benutzerwerte) werden einem Konto mit dem Namen "Gelöschter Benutzer" zugewiesen. Da die Daten jedes gelöschten Kontos diesem Konto zugewiesen werden, wird es nicht möglich sein, die Daten dieses Benutzers von den Daten eines anderen gelöschten Kontos zu unterscheiden.
@@ -5393,6 +5427,7 @@ de:
     wizard:
       create_artifact_storage_error: Artefakt konnte nicht im Dateispeicher gespeichert werden
       create_artifact_work_package_error: Arbeitspaket für das Artefakt der Anfrage konnte nicht erstellt werden
+      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
       no_help_text: Für dieses Feld ist kein Hilfetext definiert.
       progress_label: "%{current} von %{total}"
       sections: Abschnitte
@@ -6656,6 +6691,14 @@ de:
         confirm: Convert
         text: A global variant with this name already exists. Please choose a different name.
         title: Pick another name for this variant
+      delete:
+        description: The type will be deleted permanently. This action cannot be undone.
+        description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
+        heading: Delete type '%{name}'?
+        projects:
+          one: 'The type will be removed from 1 project:'
+          other: 'The type will be removed from %{count} projects:'
+        title: Delete type
       description: 'Typen und Varianten ermöglichen flexible Konfiguration der Darstellung und Verhalten von Arbeitspaketen. Formulare, Workflows und weitere Bereiche können hierbei in einem Typ definiert und von beliebig vielen Varianten wiederverwendet werden. Jeder Bereich kann hierbei pro Variante individuell konfiguriert werden.
 
         '

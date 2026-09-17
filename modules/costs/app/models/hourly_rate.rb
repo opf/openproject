@@ -57,39 +57,41 @@ class HourlyRate < Rate
       .first
   end
 
-  def self.history_for_user(usr) # rubocop:disable Metrics/AbcSize
-    projects_with_costs = Project.has_module(:costs)
-                                        .active
-                                        .visible
-                                        .order(:name)
+  def self.history_for_user(usr)
+    permitted_projects = projects_with_visible_rates(usr)
 
-    permitted_projects = Project.has_module(:costs)
-                                .active
-                                .allowed_to(User.current, :view_hourly_rates)
-
-    rates_by_project = HourlyRate.where(user_id: usr, project_id: permitted_projects)
-                                 .includes(:project)
-                                 .order("#{HourlyRate.table_name}.valid_from desc")
-                                 .group_by(&:project)
-
-    rates = {}
+    rates_by_project = rates_grouped_by_project(usr, permitted_projects)
 
     # pre-cache projects on the user
     usr.projects.load_target
 
-    projects_with_costs.each do |project|
+    rates = permitted_projects.order(:name).each_with_object({}) do |project, acc|
       project_rates = rates_by_project.fetch(project, [])
       next if project_rates.empty? && usr.projects.exclude?(project)
 
-      rates[project] = project_rates
+      acc[project] = project_rates
     end
 
-    # FIXME: What permissions to apply here?
-    rates[nil] = DefaultHourlyRate
-                   .where(user_id: usr)
-                   .order("#{DefaultHourlyRate.table_name}.valid_from desc")
+    rates[nil] = DefaultHourlyRate.for_principal(usr).newest_first
 
     rates
+  end
+
+  def self.rates_grouped_by_project(usr, projects)
+    for_principal(usr)
+      .in_project(projects)
+      .includes(:project)
+      .newest_first
+      .group_by(&:project)
+  end
+
+  def self.projects_with_visible_rates(usr)
+    scope = Project.has_module(:costs).active.visible
+
+    return scope.allowed_to(User.current, :view_hourly_rates) unless usr == User.current
+
+    scope.where(id: scope.allowed_to(User.current, :view_hourly_rates))
+         .or(scope.where(id: scope.allowed_to(User.current, :view_own_hourly_rate)))
   end
 
   def self.at_date_for_user_in_project(date, principal, project = nil, include_default: true)

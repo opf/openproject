@@ -51,6 +51,55 @@ RSpec.describe RecurringMeetings::UpdateService, "integration", type: :model do
   let(:service_result) { instance.call(**params) }
   let(:updated_meeting) { service_result.result }
 
+  context "with interim responses on the current schedule" do
+    shared_let(:responder) { create(:user, member_with_permissions: { project => %i(view_meetings) }) }
+
+    let!(:on_the_first_slot) do
+      RecurringMeetingInterimResponse.create!(recurring_meeting: series, user:,
+                                              start_time: series.start_time,
+                                              participation_status: :accepted)
+    end
+
+    let!(:on_a_later_slot) do
+      RecurringMeetingInterimResponse.create!(recurring_meeting: series, user: responder,
+                                              start_time: series.start_time + 2.days,
+                                              participation_status: :declined)
+    end
+
+    context "when the time of day moves" do
+      let(:params) { { start_time_hour: "09:00" } }
+
+      it "drops the answers, as their slots do not exist any more" do
+        expect(service_result).to be_success
+
+        expect { on_the_first_slot.reload }.to raise_error(ActiveRecord::RecordNotFound)
+        expect { on_a_later_slot.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    context "when the series starts later, leaving an answer before the new anchor" do
+      let(:params) { { start_date: Time.zone.tomorrow + 2.days } }
+
+      it "drops the answer before the anchor and keeps the one on a slot that remains" do
+        expect(service_result).to be_success
+
+        expect { on_the_first_slot.reload }.to raise_error(ActiveRecord::RecordNotFound)
+        expect(on_a_later_slot.reload.start_time).to eq(series.reload.current_schedule_start)
+      end
+    end
+
+    context "when only the title changes" do
+      let(:params) { { title: "Renamed" } }
+
+      it "keeps every answer" do
+        expect(service_result).to be_success
+
+        expect(on_the_first_slot.reload).to be_present
+        expect(on_a_later_slot.reload).to be_present
+      end
+    end
+  end
+
   context "with a cancelled meeting for tomorrow" do
     let!(:cancelled_occurrence) do
       create(:meeting,

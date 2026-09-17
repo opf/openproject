@@ -442,6 +442,13 @@ lt:
         time_zone: Laiko juosta
         warn_on_leaving_unsaved: Įspėti mane, kai palieku darbų paketą su neišsaugotais pakeitimais
         workdays: Darbo dienos
+      user_resource:
+        description: Description
+        name: Name
+        user_filter: User filter
+      user_resource_detail:
+        description: Description
+        user_filter: User filter
       user_working_hours:
         availability_factor: Availability factor
         days: Working days
@@ -858,6 +865,10 @@ lt:
               blank: Please provide a token name
               format: "%{message}"
               in_use: This token name is already in use, please select a different one
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: This type cannot be deleted while work packages still use it.
         type_variant:
           attributes:
             attribute_groups:
@@ -3054,7 +3065,6 @@ lt:
       custom_actions: Custom Actions
       custom_field_hierarchies: Hierarchies
       customize_life_cycle: Customize Life Cycle
-      date_alerts: Date Alerts
       define_custom_style: Custom theme and logo
       edit_attribute_groups: Edit Attribute Groups
       gantt_pdf_export: Gantt PDF Export
@@ -3133,8 +3143,6 @@ lt:
         description: Hierarchy custom fields allow organizing hierarchical structures in work packages and projects by making use of multi-level select lists.
       customize_life_cycle:
         description: Create and organize different project phases than the ones provided by PM2 project cycle planning.
-      date_alerts:
-        description: Su datos įspėjimais jus informuos apie ateinančias pradžios ir pabaigos datas, kad niekada nepraleistumėte ar nepamirštumėte svarbių terminų.
       define_custom_style:
         description: Tinkinkite jūsų OpenProject naudodami savo logotipą ir spalvas.
         more_info: 'Pastaba: panaudotas logotipas bus viešai prieinamas.'
@@ -3771,6 +3779,7 @@ lt:
   label_core_build: Branduolio versija
   label_core_version: Branduolio versija
   label_created_by: Created by %{user}
+  label_criteria: Criteria
   label_current_status: Dabartinė būsena
   label_current_version: Esama versija
   label_custom_comment: "%{name} comment"
@@ -4345,6 +4354,8 @@ lt:
   label_wiki_start: Pradžios puslapis
   label_wiki_toc: Turinys
   label_wiki_toc_empty: Turinys tuščias arba nėra jokių antraščių.
+  label_with_criteria: With criteria
+  label_without_criteria: Without criteria
   label_work: Darbas
   label_work_package: Darbų paketas
   label_work_package_attachments: Darbų paketo prisegti failai
@@ -5247,6 +5258,13 @@ lt:
     prev: Previous
     prev_page: Previous Page
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: This text will appear on every page at the center of the footer.
@@ -5261,6 +5279,12 @@ lt:
         label: Hyphenation
       hyphenation_language:
         label: Language and hyphenation
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: Select the orientation of the pages in the PDF document.
         label: Page orientation
@@ -5408,6 +5432,16 @@ lt:
   permission_work_package_assigned: Tapti paskirtuoju/atsakinguoju
   permission_work_package_assigned_explanation: Darbų paketai gali būti priskirti naudotojams ir grupėms pagal vaidmenį atitinkamame projekte
   placeholder_users:
+    criteria:
+      activate: Activate filter criteria
+      activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
+
+        '
+      enable: Match users by criteria
+      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
+      matching_users: Users meeting the filter criteria
+      no_matching_users: No user meets these criteria.
+      show_all_matching_users: Show all %{count} matching users
     delete_tooltip: Pašalinti statytinį naudotoją
     deletion_info:
       data_consequences: 'Visose vietose, kur naudojamas statytinis naudotojas (t.y. kaip paskirtas, atsakingas ar kitose naudotojo vietose) jis bus pakeistas į naudotoją „Ištrintas naudotojas“. Kadangi visų ištrintų naudotojų visi duomenys yra priskiriami šiam naudotojui, nebebus galima atskirti šio naudotojo sukurtų duomenų, nuo tų, kuriuos sukūrė kiti ištrinti naudotojai.
@@ -5719,6 +5753,7 @@ lt:
     wizard:
       create_artifact_storage_error: Failed to store artefact in file storage
       create_artifact_work_package_error: Failed to create artefact work package
+      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
       no_help_text: This attribute has no help text defined.
       progress_label: "%{current} of %{total}"
       sections: Sections
@@ -6995,6 +7030,16 @@ lt:
         confirm: Convert
         text: A global variant with this name already exists. Please choose a different name.
         title: Pick another name for this variant
+      delete:
+        description: The type will be deleted permanently. This action cannot be undone.
+        description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
+        heading: Delete type '%{name}'?
+        projects:
+          one: 'The type will be removed from 1 project:'
+          few: 'The type will be removed from %{count} projects:'
+          many: 'The type will be removed from %{count} projects:'
+          other: 'The type will be removed from %{count} projects:'
+        title: Delete type
       description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
         '

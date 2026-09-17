@@ -48,6 +48,7 @@ class WorkPackage < ApplicationRecord
   include ::Scopes::Scoped
   include HasMembers
   include Remindable
+  include Labelable
 
   include OpenProject::Journal::AttachmentHelper
 
@@ -175,7 +176,7 @@ class WorkPackage < ApplicationRecord
                      # sort by id so that limited eager loading doesn't break with postgresql
                      order_column: "#{table_name}.id"
 
-  # makes virtual modal WorkPackageHierarchy available
+  # makes virtual model WorkPackageHierarchy available
   has_closure_tree
 
   # Add on_destroy paper trail

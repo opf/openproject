@@ -2,17 +2,19 @@
 ko:
   activerecord:
     attributes:
+      placeholder_user:
+        user_filter: Filter criteria
       resource_allocation:
         allocated_hours: 시간
         allocated_time: 할당된 시간
         date_range: 날짜
         end_date: 완료 날짜
         entity: 엔티티
-        filter_name: 리소스 필터 이름
+        placeholder_or_user: Assignee
+        placeholder_user: Placeholder user
         principal: 담당자
         start_date: 시작 날짜
         state: 상태
-        user_filter: 사용자 필터
       resource_planner:
         date_range: 날짜
         default_view_class_name: 기본 보기
@@ -81,14 +83,12 @@ ko:
       make_public: 공개로 설정
       unfavorite: 즐겨찾기에서 제거
     allocate_resource_dialog:
-      kind:
-        filter:
-          caption: 사용자 특성에 기반한 필터 기준을 설정하여 플레이스홀더 리소스를 생성합니다.
-          label: 필터 기준
-        label: 할당 유형
-        principal:
-          caption: 특정 사용자에 대한 시간을 할당합니다.
-          label: 사용자
+      criteria:
+        empty: No criteria set.
+        label: Criteria
+      missing_working_hours:
+        none: The selected user has no working hours configured for these dates, so they are counted as having no capacity.
+        partial: The selected user has no working hours configured for %{dates}, so those days are counted as having no capacity.
       outside_dates:
         description: 선택된 리소스 날짜(%{resource_dates})가 작업 패키지 날짜(%{work_package_dates}) 범위를 벗어납니다.
       overbooking:
@@ -134,6 +134,9 @@ ko:
           caption: 수동으로 추가 및 제거하는 항목의 사용자 지정 목록입니다. 필터링은 불가능합니다.
           label: 수동으로 직접 선택함
       title: 보기 구성
+    create_placeholder_user_dialog:
+      submit: Create
+      title: Create placeholder user
     edit_allocation_dialog:
       submit: 저장
       success_message: 리소스 할당이 업데이트되었습니다.

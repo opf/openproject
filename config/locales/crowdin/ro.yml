@@ -442,6 +442,13 @@ ro:
         time_zone: Fus orar
         warn_on_leaving_unsaved: Avertizează când părăsesc un pachet de lucru cu modificări nesalvate
         workdays: Zile lucrătoare
+      user_resource:
+        description: Description
+        name: Name
+        user_filter: User filter
+      user_resource_detail:
+        description: Description
+        user_filter: User filter
       user_working_hours:
         availability_factor: Availability factor
         days: Working days
@@ -857,6 +864,10 @@ ro:
               blank: Please provide a token name
               format: "%{message}"
               in_use: This token name is already in use, please select a different one
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: This type cannot be deleted while work packages still use it.
         type_variant:
           attributes:
             attribute_groups:
@@ -2910,7 +2921,6 @@ ro:
       custom_actions: Custom Actions
       custom_field_hierarchies: Hierarchies
       customize_life_cycle: Personalizează ciclul de viață
-      date_alerts: Alerte dată
       define_custom_style: Custom theme and logo
       edit_attribute_groups: Edit Attribute Groups
       gantt_pdf_export: Gantt PDF Export
@@ -2988,8 +2998,6 @@ ro:
         description: Hierarchy custom fields allow organizing hierarchical structures in work packages and projects by making use of multi-level select lists.
       customize_life_cycle:
         description: Creează și organizează diferite faze de proiect decât cele furnizate de planificarea ciclului proiectului PM2.
-      date_alerts:
-        description: Cu alertele de date, veți fi notificat cu privire la următoarele date de început sau de sfârșit, astfel încât să nu ratați sau să uitați niciodată un termen limită important.
       define_custom_style:
         description: Personalizează-ți instalarea OpenProject cu propriul logo și culori.
         more_info: 'Notă: logo-ul utilizat va fi accesibil publicului.'
@@ -3622,6 +3630,7 @@ ro:
   label_core_build: Core build
   label_core_version: Versiune de bază
   label_created_by: Creat de %{user}
+  label_criteria: Criteria
   label_current_status: Stare actuală
   label_current_version: Versiune actuală
   label_custom_comment: "%{name} comment"
@@ -4196,6 +4205,8 @@ ro:
   label_wiki_start: Pagina de start
   label_wiki_toc: Cuprins
   label_wiki_toc_empty: Cuprinsul este gol, deoarece nu există rubrici.
+  label_with_criteria: With criteria
+  label_without_criteria: Without criteria
   label_work: Muncă
   label_work_package: Pachet de lucru
   label_work_package_attachments: Anexe la pachetul de lucru
@@ -5086,6 +5097,13 @@ ro:
     prev: Înapoi
     prev_page: Pagina anterioară
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: Acest text va apărea pe fiecare pagină în centrul subsolului.
@@ -5100,6 +5118,12 @@ ro:
         label: Hyphenation
       hyphenation_language:
         label: Language and hyphenation
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: Select the orientation of the pages in the PDF document.
         label: Page orientation
@@ -5247,6 +5271,16 @@ ro:
   permission_work_package_assigned: Devino executant/responsabil
   permission_work_package_assigned_explanation: Pachetele de lucru pot fi atribuite utilizatorilor și grupurilor care dețin acest rol în proiectul respectiv
   placeholder_users:
+    criteria:
+      activate: Activate filter criteria
+      activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
+
+        '
+      enable: Match users by criteria
+      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
+      matching_users: Users meeting the filter criteria
+      no_matching_users: No user meets these criteria.
+      show_all_matching_users: Show all %{count} matching users
     delete_tooltip: Șterge utilizator placeholder
     deletion_info:
       data_consequences: 'Toate prezențele utilizatorului de tip "placeholder" (de exemplu, ca destinatar, responsabil sau alte valori de utilizator) vor fi realocate unui cont numit "Utilizator eliminat". Deoarece datele fiecărui cont șters sunt realocate acestui cont, nu va fi posibilă deosebirea datelor create de utilizator de datele unui alt cont șters.
@@ -5554,6 +5588,7 @@ ro:
     wizard:
       create_artifact_storage_error: Failed to store artefact in file storage
       create_artifact_work_package_error: Failed to create artefact work package
+      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
       no_help_text: This attribute has no help text defined.
       progress_label: "%{current} of %{total}"
       sections: Sections
@@ -6824,6 +6859,15 @@ ro:
         confirm: Convert
         text: A global variant with this name already exists. Please choose a different name.
         title: Pick another name for this variant
+      delete:
+        description: The type will be deleted permanently. This action cannot be undone.
+        description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
+        heading: Delete type '%{name}'?
+        projects:
+          one: 'The type will be removed from 1 project:'
+          few: 'The type will be removed from %{count} projects:'
+          other: 'The type will be removed from %{count} projects:'
+        title: Delete type
       description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
         '

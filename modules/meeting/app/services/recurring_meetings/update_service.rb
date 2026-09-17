@@ -66,6 +66,7 @@ module RecurringMeetings
       end
 
       cleanup_cancelled_schedules(recurring_meeting)
+      cleanup_interim_responses(recurring_meeting)
       update_future_occurrence_titles(recurring_meeting)
 
       call
@@ -209,9 +210,25 @@ module RecurringMeetings
         .not_templated
         .cancelled
         .find_each do |meeting|
-          occurring = recurring_meeting.schedule.occurs_at?(meeting.recurrence_start_time)
-          meeting.destroy! unless occurring
-        end
+        occurring = recurring_meeting.schedule.occurs_at?(meeting.recurrence_start_time)
+        meeting.destroy! unless occurring
+      end
+    end
+
+    # Interim response become stale when we reschedule the meeting.
+    # This method cleans up all responses after a reschedule that no longer match the RRULE and current DTSTART.
+    def cleanup_interim_responses(recurring_meeting)
+      # All responses from an earlier schedule can be dropped, as we only keep actual meetings around.
+      recurring_meeting
+        .recurring_meeting_interim_responses
+        .where(start_time: ...recurring_meeting.current_schedule_start)
+        .delete_all
+
+      # For remaining interim responses, remove those that are not covered
+      recurring_meeting
+        .recurring_meeting_interim_responses
+        .where(start_time: recurring_meeting.current_schedule_start..)
+        .find_each { |interim| interim.destroy! unless recurring_meeting.schedule.occurs_at?(interim.start_time) }
     end
 
     def update_future_occurrence_titles(recurring_meeting)
@@ -282,9 +299,9 @@ module RecurringMeetings
       RecurringMeeting
         .new(@old_schedule_model.attributes.slice(*schedule_columns))
         .tap do |ended|
-          ended.end_after = :specific_date
-          ended.end_date = historic.ends_at.in_time_zone(historic.time_zone).to_date
-        end
+        ended.end_after = :specific_date
+        ended.end_date = historic.ends_at.in_time_zone(historic.time_zone).to_date
+      end
     end
 
     # SCHEDULE_ATTRIBUTES includes two virtual attributes: start_date and start_time_hour.
