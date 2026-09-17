@@ -29,6 +29,20 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   component_wrapper do
-    render(Admin::Labels::TableComponent.new(rows: labels, query:))
+    if labels.any?
+      render(Admin::Labels::TableComponent.new(rows: labels))
+    else
+      render Primer::Beta::Blankslate.new(border: true, test_selector: "labels-blank-slate") do |component|
+        if query.find_active_filter(:name).present?
+          component.with_visual_icon(icon: :search)
+          component.with_heading(tag: :h2).with_content(t(".no_matches.title"))
+          component.with_description { t(".no_matches.description") }
+        else
+          component.with_visual_icon(icon: :tag)
+          component.with_heading(tag: :h2).with_content(t(".blank_slate.title"))
+          component.with_description { t(".blank_slate.description") }
+        end
+      end
+    end
   end
 %>

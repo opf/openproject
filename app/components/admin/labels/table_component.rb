@@ -31,8 +31,6 @@
 module Admin
   module Labels
     class TableComponent < OpPrimer::BorderBoxTableComponent
-      options :query
-
       columns :name, :usage
       main_column :name
       mobile_columns :name, :usage
@@ -48,22 +46,6 @@ module Admin
       end
 
       def mobile_title = t(:label_label_plural)
-
-      def filtered?
-        query.find_active_filter(:name).present?
-      end
-
-      def blank_title
-        filtered? ? t(".no_matches.title") : t(".blank_slate.title")
-      end
-
-      def blank_description
-        filtered? ? t(".no_matches.description") : t(".blank_slate.description")
-      end
-
-      def blank_icon
-        filtered? ? :search : :tag
-      end
 
       def pagination_params = { params: { action: "index" } }
     end

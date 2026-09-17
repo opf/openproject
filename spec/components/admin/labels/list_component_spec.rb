@@ -34,7 +34,6 @@ RSpec.describe Admin::Labels::ListComponent, type: :component do
   include Rails.application.routes.url_helpers
 
   shared_let(:admin) { create(:admin) }
-  shared_let(:label) { create(:label, name: "Bug") }
 
   let(:labels) { Label.with_usage_count.order(:name).paginate(page: 1, per_page: 10) }
   let(:query) { Queries::Labels::LabelQuery.new }
@@ -50,8 +49,43 @@ RSpec.describe Admin::Labels::ListComponent, type: :component do
     expect(rendered_component).to have_css("##{wrapper_id}")
   end
 
-  it "renders the table inside the wrapper" do
-    expect(rendered_component).to have_css(".Box")
-    expect(rendered_component).to have_css("[data-test-selector='label-row-#{label.id}']")
+  context "with labels" do
+    shared_let(:label) { create(:label, name: "Bug") }
+
+    it "renders the table inside the wrapper" do
+      expect(rendered_component).to have_css(".Box")
+      expect(rendered_component).to have_css("[data-test-selector='label-row-#{label.id}']")
+    end
+
+    it "renders the column headers" do
+      expect(rendered_component).to have_css("[role='columnheader']", text: "Used in")
+    end
+  end
+
+  context "without labels" do
+    it "renders the blank slate instead of the table header" do
+      expect(rendered_component).to have_test_selector("labels-blank-slate")
+      expect(rendered_component).to have_no_css("[role='columnheader']")
+    end
+
+    context "with no active filter" do
+      it "shows the empty-state copy" do
+        expect(rendered_component).to have_heading("No labels yet", class: "blankslate-heading")
+        expect(rendered_component).to have_octicon(:tag)
+      end
+    end
+
+    context "with a name filter matching nothing" do
+      let(:query) do
+        ParamsToQueryService
+          .new(Label, admin, query_class: Queries::Labels::LabelQuery)
+          .call(ActionController::Parameters.new(filters: [{ name: { operator: "~", values: ["zzz"] } }].to_json))
+      end
+
+      it "shows the no-matches copy" do
+        expect(rendered_component).to have_heading("No labels match your search", class: "blankslate-heading")
+        expect(rendered_component).to have_octicon(:search)
+      end
+    end
   end
 end

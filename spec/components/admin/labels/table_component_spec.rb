@@ -34,70 +34,39 @@ RSpec.describe Admin::Labels::TableComponent, type: :component do
   include Rails.application.routes.url_helpers
 
   shared_let(:admin) { create(:admin) }
+  shared_let(:used) { create(:label, name: "Bug") }
+  shared_let(:unused) { create(:label, name: "Feature") }
+  shared_let(:labelings) { create_list(:labeling, 2, label: used) }
 
-  let(:query) { Queries::Labels::LabelQuery.new }
+  let(:rows) { Label.with_usage_count.order(:name).paginate(page: 1, per_page: 10) }
 
   subject(:rendered_component) do
     with_request_url "/admin/labels" do
-      render_inline(described_class.new(rows:, query:))
+      render_inline(described_class.new(rows:))
     end
   end
 
-  context "with labels" do
-    shared_let(:used) { create(:label, name: "Bug") }
-    shared_let(:unused) { create(:label, name: "Feature") }
-    shared_let(:labelings) { create_list(:labeling, 2, label: used) }
+  it_behaves_like "rendering Border Box Grid heading", text: "Label"
+  it_behaves_like "rendering Border Box Grid heading", text: "Used in"
+  it_behaves_like "rendering Border Box Grid mobile heading", text: "Labels"
+  it_behaves_like "rendering Border Box Grid rows", row_count: 2, col_count: 2
 
-    let(:rows) { Label.with_usage_count.order(:name).paginate(page: 1, per_page: 10) }
-
-    it_behaves_like "rendering Border Box Grid heading", text: "Label"
-    it_behaves_like "rendering Border Box Grid heading", text: "Used in"
-    it_behaves_like "rendering Border Box Grid mobile heading", text: "Labels"
-    it_behaves_like "rendering Border Box Grid rows", row_count: 2, col_count: 2
-
-    it "renders one row per label" do
-      expect(rendered_component).to have_css("[data-test-selector='label-row-#{used.id}']")
-      expect(rendered_component).to have_css("[data-test-selector='label-row-#{unused.id}']")
-    end
-
-    it "renders the usage count for a used label and a dash for an unused one" do
-      rendered_component
-
-      used_row = page.find("[data-test-selector='label-row-#{used.id}']")
-      expect(used_row).to have_css("[data-test-selector='label-usage']", text: "2 work packages")
-
-      unused_row = page.find("[data-test-selector='label-row-#{unused.id}']")
-      expect(unused_row).to have_css("[data-test-selector='label-usage']", text: "-")
-    end
-
-    it "renders a pagination footer" do
-      expect(rendered_component).to have_css(".op-pagination")
-    end
+  it "renders one row per label" do
+    expect(rendered_component).to have_css("[data-test-selector='label-row-#{used.id}']")
+    expect(rendered_component).to have_css("[data-test-selector='label-row-#{unused.id}']")
   end
 
-  context "without labels" do
-    let(:rows) { Label.with_usage_count.paginate(page: 1, per_page: 10) }
+  it "renders the usage count for a used label and a dash for an unused one" do
+    rendered_component
 
-    context "with no active filter" do
-      it_behaves_like "rendering Blank Slate",
-                      heading: I18n.t("admin.labels.table_component.blank_slate.title"),
-                      icon: :tag
-    end
+    used_row = page.find("[data-test-selector='label-row-#{used.id}']")
+    expect(used_row).to have_css("[data-test-selector='label-usage']", text: "2 work packages")
 
-    context "with a name filter matching nothing" do
-      let(:query) do
-        ParamsToQueryService
-          .new(Label, admin, query_class: Queries::Labels::LabelQuery)
-          .call(ActionController::Parameters.new(filters: [{ name: { operator: "~", values: ["zzz"] } }].to_json))
-      end
+    unused_row = page.find("[data-test-selector='label-row-#{unused.id}']")
+    expect(unused_row).to have_css("[data-test-selector='label-usage']", text: "-")
+  end
 
-      it_behaves_like "rendering Blank Slate",
-                      heading: I18n.t("admin.labels.table_component.no_matches.title"),
-                      icon: :search
-
-      it "renders the no-matches description" do
-        expect(rendered_component).to have_text(I18n.t("admin.labels.table_component.no_matches.description"))
-      end
-    end
+  it "renders a pagination footer" do
+    expect(rendered_component).to have_css(".op-pagination")
   end
 end
