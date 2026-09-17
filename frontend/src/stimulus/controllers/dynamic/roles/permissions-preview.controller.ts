@@ -32,22 +32,52 @@ import { useAngularServices, type PickedServices, type ServiceKey } from 'core-s
 export default class PermissionsPreviewController extends ApplicationController {
   static services:ServiceKey[] = ['turboRequests'];
 
-  static targets = ['select'];
+  static targets = ['select', 'trigger'];
+
+  static values = { paths: { type: Object, default: {} } };
 
   declare readonly selectTarget:HTMLSelectElement;
 
+  declare readonly hasSelectTarget:boolean;
+
+  declare readonly triggerTarget:HTMLElement;
+
+  declare readonly hasTriggerTarget:boolean;
+
+  declare readonly pathsValue:Record<string, string>;
+
   declare services:Promise<PickedServices<'turboRequests'>>;
+
+  private trackedRoleId?:string;
 
   initialize() {
     super.initialize();
     useAngularServices(this);
   }
 
+  // Widgets without a native select, such as the Angular autocompleter, report their
+  // selection through the hidden field they keep in sync.
+  track(event:Event) {
+    this.trackedRoleId = (event.target as HTMLInputElement).value;
+
+    if (this.hasTriggerTarget) {
+      this.triggerTarget.hidden = !this.selectedPath();
+    }
+  }
+
   async open() {
-    const path = this.selectTarget.selectedOptions[0]?.dataset.permissionsDialogPath;
+    const path = this.selectedPath();
     if (!path) { return; }
 
     const { turboRequests } = await this.services;
     void turboRequests.request(path, { headers: { Accept: 'text/vnd.turbo-stream.html' } });
+  }
+
+  private selectedPath():string|undefined {
+    if (this.hasSelectTarget) {
+      return this.selectTarget.selectedOptions[0]?.dataset.permissionsDialogPath;
+    }
+
+    return this.trackedRoleId ? this.pathsValue[this.trackedRoleId] : undefined;
   }
 }

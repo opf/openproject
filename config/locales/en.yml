@@ -4548,8 +4548,6 @@ en:
       no_results_content_text: Add a member to the project
       no_results_title_text: There are currently no members part of this project.
     invite_by_mail: "Send invite to %{mail}"
-    member_form:
-      preview_role_permissions: "View permissions"
     menu:
       all: "All"
       groups: "Groups"
@@ -5776,6 +5774,7 @@ en:
       permission_count:
         one: "1 permission"
         other: "%{count} permissions"
+      preview_action: "View permissions"
       preview_aria_label: "View the permissions of %{role}"
       title: "Permissions of \"%{name}\""
     report:
