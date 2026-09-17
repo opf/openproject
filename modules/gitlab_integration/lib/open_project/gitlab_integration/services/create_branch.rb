@@ -59,7 +59,6 @@ module OpenProject
               "id" => payload.user_id,
               "name" => payload.user_name,
               "username" => payload.user_username,
-              "email" => payload.user_email,
               "avatar_url" => payload.user_avatar
             )
           )
