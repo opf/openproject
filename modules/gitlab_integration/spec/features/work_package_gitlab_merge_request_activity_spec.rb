@@ -40,7 +40,7 @@ RSpec.describe "Work Package Activity Tab",
         "name" => merge_request_merging_user.gitlab_name,
         "username" => merge_request_merging_user.gitlab_username,
         "avatar_url" => merge_request_merging_user.gitlab_avatar_url,
-        "email" => merge_request_merging_user.gitlab_email
+        "email" => "[REDACTED]"
       },
       "object_attributes" => {
         "action" => gitlab_action,
