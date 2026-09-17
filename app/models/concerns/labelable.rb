@@ -36,5 +36,23 @@ module Labelable
     has_many :labels, -> { order(:id) }, through: :labelings
 
     scope :labeled_with, ->(label) { joins(:labelings).where(labelings: { label_id: label }) }
+
+    after_save { @labels_was = nil }
+  end
+
+  def labels=(*)
+    @labels_was ||= label_ids
+    super
+  end
+
+  def label_ids=(*)
+    @labels_was ||= label_ids
+    super
+  end
+
+  def label_changes
+    return {} if @labels_was.nil? || @labels_was.sort == label_ids.sort
+
+    { "labels" => [@labels_was, label_ids] }
   end
 end
