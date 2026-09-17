@@ -130,7 +130,7 @@ The user selector for planned labor costs has also been improved with an autocom
 
 ### Improved wiki page selection for wikis
 
-XWiki users can now **[browse the wiki hierarchy directly](../../user-guide/work-packages/edit-work-package/#link-wiki-pages)** when selecting a page, making it easier to find content without knowing the page title in advance.
+XWiki users can now **[browse the wiki hierarchy directly](../../user-guide/work-packages/edit-work-package/#link-an-existing-wiki-page)** when selecting a page, making it easier to find content without knowing the page title in advance.
 
 The hierarchy can be expanded to browse nested pages, while search remains available for quickly finding a specific page.
 
