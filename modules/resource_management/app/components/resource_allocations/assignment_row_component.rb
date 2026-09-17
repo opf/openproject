@@ -30,6 +30,8 @@
 
 module ResourceAllocations
   class AssignmentRowComponent < ::OpPrimer::BorderBoxRowComponent
+    include ResourceManagement::PlannerRoutes
+
     alias_method :allocation, :model
 
     def resource
@@ -106,7 +108,7 @@ module ResourceAllocations
       menu.with_item(
         label: I18n.t("resource_management.staffing.assign"),
         tag: :a,
-        href: helpers.project_staffing_assign_path(table.project, allocation),
+        href: staffing_assign_path(table.project, allocation),
         content_arguments: { data: { controller: "async-dialog" } }
       ) do |item|
         item.with_leading_visual_icon(icon: :"person-add")
@@ -144,7 +146,7 @@ module ResourceAllocations
     def filter_name_link
       render(
         Primer::Beta::Link.new(
-          href: helpers.project_staffing_assign_path(table.project, allocation),
+          href: staffing_assign_path(table.project, allocation),
           font_weight: :bold,
           underline: false,
           data: { controller: "async-dialog" }

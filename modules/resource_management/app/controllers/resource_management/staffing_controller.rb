@@ -30,6 +30,7 @@
 module ::ResourceManagement
   class StaffingController < BaseController
     include OpTurbo::ComponentStream
+    include ResourceManagement::PlannerRoutes
 
     menu_item :resource_management
 
@@ -110,7 +111,7 @@ module ::ResourceManagement
           working_schedules: working_schedules(principal, ranges),
           body_id: ResourceAllocations::AssignmentDialogComponent::BODY_ID,
           form_id: ResourceAllocations::AssignmentDialogComponent::FORM_ID,
-          form_url: project_staffing_assign_path(@project, @allocation),
+          form_url: staffing_assign_path(@project, @allocation),
           form_method: :put,
           hidden_fields: { "principal_id" => principal.id }
         )

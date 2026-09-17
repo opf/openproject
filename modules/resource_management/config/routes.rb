@@ -98,8 +98,6 @@ Rails.application.routes.draw do
               only: :index
   end
 
-  get "staffing" => "resource_management/staffing#index", as: :staffing
-
   scope "projects/:project_id", as: "project" do
     resources :resource_planners, controller: "resource_management/resource_planners" do
       member do
@@ -168,15 +166,20 @@ Rails.application.routes.draw do
                 only: :index
     end
 
-    # clobber the global `project_path` helper.
-    get "staffing" => "resource_management/staffing#index", as: :staffing
-    get "staffing/:id/assign" => "resource_management/staffing#assign_form", as: :staffing_assign
-    put "staffing/:id/assign" => "resource_management/staffing#assign", as: :staffing_assignment
+    scope "resource_management", as: "resource_management" do
+      get "staffing" => "resource_management/staffing#index", as: :staffing
+      get "staffing/:id/assign" => "resource_management/staffing#assign_form", as: :staffing_assign
+      put "staffing/:id/assign" => "resource_management/staffing#assign", as: :staffing_assignment
+    end
   end
 
   scope "resource_management", as: "resource_management" do
     resources :placeholder_users,
               controller: "resource_management/placeholder_users",
               only: %i[new create]
+
+    get "staffing" => "resource_management/staffing#index", as: :staffing
+    get "staffing/:id/assign" => "resource_management/staffing#assign_form", as: :staffing_assign
+    put "staffing/:id/assign" => "resource_management/staffing#assign", as: :staffing_assignment
   end
 end

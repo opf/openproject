@@ -162,6 +162,22 @@ module ResourceManagement
       end
     end
 
+    def staffing_path(project)
+      if project
+        op_routes.project_resource_management_staffing_path(project)
+      else
+        op_routes.resource_management_staffing_path
+      end
+    end
+
+    def staffing_assign_path(project, allocation)
+      if project
+        op_routes.project_resource_management_staffing_assign_path(project, allocation)
+      else
+        op_routes.resource_management_staffing_assign_path(allocation)
+      end
+    end
+
     def refresh_form_allocations_path(project)
       if project
         op_routes.refresh_form_project_resource_allocations_path(project)

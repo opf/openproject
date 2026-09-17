@@ -108,7 +108,7 @@ RSpec.describe ResourceManagement::GlobalMenu, with_ee: %i[resource_management] 
 
       it "is the first group and links to global staffing" do
         expect(menu_items.first.header).to be_nil
-        expect(menu_items.first.children.map(&:href)).to eq([staffing_path])
+        expect(menu_items.first.children.map(&:href)).to eq([resource_management_staffing_path])
       end
     end
   end

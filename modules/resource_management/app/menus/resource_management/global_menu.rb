@@ -47,7 +47,7 @@ module ResourceManagement
     def staffing_item
       OpenProject::Menu::MenuItem.new(
         title: I18n.t("resource_management.staffing.menu_item"),
-        href: staffing_path,
+        href: staffing_path(project),
         selected: params[:origin_controller] == "resource_management/staffing"
       )
     end
