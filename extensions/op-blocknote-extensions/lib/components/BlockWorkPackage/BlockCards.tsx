@@ -18,6 +18,7 @@ import {
   statusBackgroundColor,
 } from '../../services/colors';
 import { formatWorkPackageId } from '../../utils/id';
+import type { TapActivationProps } from '../../utils/tapActivation';
 
 const DESCRIPTION_MAX_CHARS = 300;
 
@@ -28,7 +29,7 @@ export interface BlockCardSharedProps {
   workPackage:WorkPackage;
   inDropdown?:boolean;
   linkTitle?:boolean;
-  onClick?:(e:React.MouseEvent<HTMLDivElement>) => void;
+  onActivation?:TapActivationProps;
 }
 
 function buildTitle(workPackage:WorkPackage, linkTitle:boolean) {
@@ -135,20 +136,17 @@ export const BlockCardM = ({
   workPackage,
   inDropdown = false,
   linkTitle = false,
-  onClick,
+  onActivation,
   cardRef,
 }:BlockCardSharedProps & { cardRef?:React.Ref<HTMLDivElement> }) => (
   <CardBase
     ref={cardRef}
     className="op-bn-work-package op-bn-work-package--m"
     $inDropdown={inDropdown}
-    onClick={onClick}
-    // role=button so iOS treats the card as interactive and fires the click on
-    // the first tap (a plain div inside the contenteditable needs two). Interim:
-    // mirrors the inline chip;
-    role={onClick ? 'button' : undefined}
+    {...onActivation}
+    role={onActivation ? 'button' : undefined}
     data-testid="block-card"
-    style={onClick ? { cursor: 'pointer' } : undefined}
+    style={onActivation ? { cursor: 'pointer' } : undefined}
   >
     <CardDetails>
       <CardMeta workPackage={workPackage} />
@@ -163,17 +161,17 @@ export const BlockCardL = ({
   workPackage,
   inDropdown = false,
   linkTitle = false,
-  onClick,
+  onActivation,
   cardRef,
 }:BlockCardSharedProps & { cardRef?:React.Ref<HTMLDivElement> }) => (
   <CardBase
     ref={cardRef}
     className="op-bn-work-package op-bn-work-package--l"
     $inDropdown={inDropdown}
-    onClick={onClick}
-    role={onClick ? 'button' : undefined}
+    {...onActivation}
+    role={onActivation ? 'button' : undefined}
     data-testid="block-card"
-    style={onClick ? { cursor: 'pointer' } : undefined}
+    style={onActivation ? { cursor: 'pointer' } : undefined}
   >
     <CardDetailsSpaced>
       <CardMeta workPackage={workPackage} withRelations />
@@ -187,7 +185,7 @@ export const BlockCardXL = ({
   workPackage,
   inDropdown = false,
   linkTitle = false,
-  onClick,
+  onActivation,
   cardRef,
 }:BlockCardSharedProps & { cardRef?:React.Ref<HTMLDivElement> }) => {
   const rawDescription = workPackage.description?.raw;
@@ -203,10 +201,10 @@ export const BlockCardXL = ({
       ref={cardRef}
       className="op-bn-work-package op-bn-work-package--xl"
       $inDropdown={inDropdown}
-      onClick={onClick}
-      role={onClick ? 'button' : undefined}
+      {...onActivation}
+      role={onActivation ? 'button' : undefined}
       data-testid="block-card"
-      style={onClick ? { cursor: 'pointer' } : undefined}
+      style={onActivation ? { cursor: 'pointer' } : undefined}
     >
       <CardDetailsSpaced>
         <CardMeta workPackage={workPackage} withRelations />

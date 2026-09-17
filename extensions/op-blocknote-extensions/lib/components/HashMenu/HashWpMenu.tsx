@@ -8,6 +8,7 @@ import { SearchMessage } from '../Search/SearchContainer';
 import { Spinner } from '../Spinner';
 import { supportsHover } from '../../utils/device';
 import { useActiveOptionInView } from '../../hooks/useActiveOptionInView';
+import { useTapActivation } from '../../utils/tapActivation';
 import type { HashMenuItem, HashSearchState } from './types';
 import { useTranslation } from 'react-i18next';
 
@@ -60,6 +61,11 @@ export function createHashWpMenuComponent(
     const canHover = useMemo(() => supportsHover(), []);
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
     const menuRef = useRef<HTMLDivElement>(null);
+    const tapProps = useTapActivation();
+
+    const pick = (index:number) => {
+      if (items[index]) onItemClick?.(items[index]);
+    };
 
     useActiveOptionInView(menuRef, selectedIndex ?? -1, results);
 
@@ -111,9 +117,7 @@ export function createHashWpMenuComponent(
             role="option"
             aria-selected={selectedIndex === index}
             onMouseDown={(e) => e.preventDefault()}
-            onClick={() => {
-              if (items[index]) onItemClick?.(items[index]);
-            }}
+            {...tapProps(() => pick(index))}
           >
             <BlockCard workPackage={wp} inDropdown />
           </MenuItem>

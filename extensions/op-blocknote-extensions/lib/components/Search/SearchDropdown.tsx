@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import type { WorkPackage } from '../../openProjectTypes';
 import { useWorkPackageSearchDropdown } from '../../hooks/useWorkPackageSearchDropdown';
 import { useActiveOptionInView } from '../../hooks/useActiveOptionInView';
+import { useTapActivation } from '../../utils/tapActivation';
 import {
   SearchIconWrapper,
   SearchInput,
@@ -56,6 +57,7 @@ export const SearchDropdown = ({ onSelect, onCancel, autoFocus, renderItem }:Sea
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const blurTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const tapProps = useTapActivation();
 
   useEffect(() => {
     if (!autoFocus) return;
@@ -140,17 +142,19 @@ export const SearchDropdown = ({ onSelect, onCancel, autoFocus, renderItem }:Sea
 
       {isDropdownOpen && searchResults.length > 0 && (
         <DropdownList ref={listRef} role="listbox" aria-label={t('search.dropdownAriaLabel')}>
+          {/* eslint-disable-next-line react-hooks/refs */}
           {searchResults.map((wp, index) => (
             <DropdownItem
               role="option"
               aria-selected={focusedIndex === index}
               key={wp.id}
               $selected={focusedIndex === index}
-              onMouseDown={(e) => {
-                e.preventDefault();
+              // Keeps the search input focused.
+              onMouseDown={(e) => e.preventDefault()}
+              {...tapProps(() => {
                 isSelectingRef.current = true;
                 onSelect(wp);
-              }}
+              })}
               onMouseEnter={() => setFocusedIndex(index)}
             >
               {renderItem(wp)}

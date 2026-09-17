@@ -1,3 +1,4 @@
+import { NodeSelection } from 'prosemirror-state';
 import type { Node as ProsemirrorNode } from 'prosemirror-model';
 import type { AnyEditor } from '../editorTypes';
 import { WORK_PACKAGE_NODE_TYPES } from './nodeTypes';
@@ -58,4 +59,28 @@ export function hideSafariPhantomSelection(editor:AnyEditor):void {
     domObserver.setCurSelection();
     domObserver.connectSelection();
   });
+}
+
+/**
+ * Node-selects a block by id. A click reaches ProseMirror and it selects the
+ * block itself; a tap we answered ourselves never does, and the block would
+ * stay unmarked while its popover is open. BlockNote's `setSelection` cannot
+ * express this - it rejects a range that starts and ends on the same block.
+ */
+export function selectBlockNode(editor:AnyEditor, blockId:string):void {
+  editor.transact((tr) => {
+    let position:number | null = null;
+
+    tr.doc.descendants((node, pos) => {
+      if (position !== null) return false;
+      if ((node.attrs as { id?:string }).id !== blockId) return true;
+
+      const content = node.firstChild;
+      position = content && WORK_PACKAGE_NODE_TYPES.includes(content.type.name) ? pos + 1 : pos;
+      return false;
+    });
+
+    if (position !== null) tr.setSelection(NodeSelection.create(tr.doc, position));
+  });
+  hideSafariPhantomSelection(editor);
 }

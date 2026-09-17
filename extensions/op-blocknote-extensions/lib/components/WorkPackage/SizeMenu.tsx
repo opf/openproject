@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { menuSurfaceStyles } from './atoms';
 import { useAnchoredPopover } from './anchoredPopover';
+import { useTapActivation } from '../../utils/tapActivation';
 import type { BlockWpSize, InlineWpSize, WpSize } from './types';
 
 const MENU_OFFSET = 4;
@@ -94,6 +95,7 @@ export const SizeMenu = ({
 }:SizeMenuProps) => {
   const { t } = useTranslation();
   const menuRef = useRef<HTMLDivElement>(null);
+  const tapProps = useTapActivation();
 
   useAnchoredPopover({
     anchorEl,
@@ -131,11 +133,8 @@ export const SizeMenu = ({
               key={size}
               aria-label={t(`sizes.${size}.label`)}
               $active={size === activeSize}
-              onMouseDown={(event) => {
-                event.preventDefault();
-                event.stopPropagation();
-                pick();
-              }}
+              onMouseDown={(event) => event.preventDefault()}
+              {...tapProps(pick)}
             >
               <SizeButtonLabel>{t(`sizes.${size}.label`)}</SizeButtonLabel>
               <SizeButtonDescription>{t(`sizes.${size}.desc`)}</SizeButtonDescription>
