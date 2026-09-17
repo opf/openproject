@@ -144,6 +144,74 @@ RSpec.describe ResourcePlanner do
     end
   end
 
+  describe "a planner without a project" do
+    shared_let(:project) { create(:project, enabled_module_names: %w[resource_management]) }
+    shared_let(:owner) { create(:user, global_permissions: %i[view_global_resource_planners]) }
+    shared_let(:permitted_other) { create(:user, global_permissions: %i[view_global_resource_planners]) }
+    shared_let(:project_only) do
+      create(:user, member_with_permissions: { project => %i[view_resource_planners] })
+    end
+
+    it "is valid and global" do
+      planner = build(:resource_planner, :global, principal: owner)
+
+      expect(planner).to be_valid
+      expect(planner).to be_global
+    end
+
+    it "still requires a principal" do
+      planner = build(:resource_planner, :global, principal: nil)
+
+      expect(planner).not_to be_valid
+      expect(planner.errors.symbols_for(:principal)).to include(:blank)
+    end
+
+    describe "#visible?" do
+      let(:planner) { create(:resource_planner, :global, principal: owner, public: planner_public) }
+
+      context "with a private planner" do
+        let(:planner_public) { false }
+
+        it "is visible to the owner only" do
+          expect(planner.visible?(owner)).to be(true)
+          expect(planner.visible?(permitted_other)).to be(false)
+        end
+      end
+
+      context "with a public planner" do
+        let(:planner_public) { true }
+
+        it "is visible to anyone holding the global permission" do
+          expect(planner.visible?(permitted_other)).to be(true)
+        end
+
+        it "is not visible to a user holding only the project permission" do
+          expect(planner.visible?(project_only)).to be(false)
+        end
+      end
+    end
+
+    describe "#public_manageable_by?" do
+      let(:planner) { build(:resource_planner, :global, principal: owner) }
+
+      it "requires the global manage permission" do
+        manager = create(:user, global_permissions: %i[view_global_resource_planners
+                                                       manage_public_global_resource_planners])
+
+        expect(planner.public_manageable_by?(manager)).to be(true)
+        expect(planner.public_manageable_by?(owner)).to be(false)
+      end
+
+      it "is not satisfied by the project-level manage permission" do
+        project_manager = create(:user, member_with_permissions: {
+                                   project => %i[view_resource_planners manage_public_resource_planners]
+                                 })
+
+        expect(planner.public_manageable_by?(project_manager)).to be(false)
+      end
+    end
+  end
+
   describe "child entity counts" do
     shared_let(:project) { create(:project, enabled_module_names: %w[resource_management work_package_tracking]) }
     shared_let(:user) do
