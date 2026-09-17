@@ -39,7 +39,22 @@ See COPYRIGHT and LICENSE files for more details.
               end
             )
 
-            concat(render(GitlabIntegration::GitSnippetsDialogComponent.new(work_package)))
+            concat(
+              render(
+                Primer::Beta::Button.new(
+                  tag: :a,
+                  href: git_snippets_dialog_project_work_package_gitlab_index_path(
+                    project_id: work_package.project.id,
+                    work_package_id: work_package.id
+                  ),
+                  data: { controller: "async-dialog" }
+                )
+              ) do |button|
+                button.with_leading_visual_icon(icon: :terminal)
+                button.with_trailing_action_icon(icon: "triangle-down")
+                t(".snippets_button_label")
+              end
+            )
           end
         end
 

@@ -138,7 +138,6 @@ en:
       %{commit_note}
     git_snippets_dialog_component:
       branch_name: Branch name
-      button_label: Git snippets
       commit_message: Commit message
       create_branch_with_empty_commit: Create branch with empty commit
       title: Git quick snippets
@@ -148,6 +147,7 @@ en:
       description_html: Link an existing GitLab element by adding the code %{code} to the title or description or by creating a new one.
       issues: Issues
       merge_requests: Merge requests
+      snippets_button_label: Git snippets
 
   label_gitlab_actor: "GitLab actor"
 

@@ -37,9 +37,10 @@ Rails.application.routes.draw do
 
   resources :projects, only: %i[] do
     resources :work_packages, only: %i[] do
-      resources :gitlab, only: %i[] do
+      resources :gitlab, controller: "work_package_gitlab_tab", only: %i[] do
         collection do
-          resources :tab, only: %i[index], controller: "work_package_gitlab_tab", as: "gitlab_tab"
+          get :tab
+          get :git_snippets_dialog
         end
       end
     end

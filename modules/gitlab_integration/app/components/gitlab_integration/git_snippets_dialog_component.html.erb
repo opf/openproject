@@ -29,12 +29,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   render(Primer::Alpha::Dialog.new(title: t(".title"))) do |dialog|
-    dialog.with_show_button do |button|
-      button.with_leading_visual_icon(icon: :terminal)
-      button.with_trailing_action_icon(icon: "triangle-down")
-      t(".button_label")
-    end
-
     dialog.with_body do
       flex_layout do |container|
         container.with_row(mb: 3) do

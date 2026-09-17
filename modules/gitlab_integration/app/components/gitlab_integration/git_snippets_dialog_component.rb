@@ -32,6 +32,7 @@ module GitlabIntegration
   class GitSnippetsDialogComponent < ApplicationComponent
     include ApplicationHelper
     include OpPrimer::ComponentHelpers
+    include OpTurbo::Streamable
 
     alias_method :work_package, :model
 
@@ -77,7 +78,7 @@ module GitlabIntegration
     end
 
     def sanitize_shell_command_string(str)
-      str.gsub("'", "\\\\'")
+      str.gsub("'", { "'" => "\\'" })
     end
   end
 end
