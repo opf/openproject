@@ -5384,6 +5384,7 @@ es:
     wizard:
       create_artifact_storage_error: No se ha podido guardar el artefacto en el almacenamiento de archivos
       create_artifact_work_package_error: No se ha podido crear el paquete de trabajo del artefacto
+      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
       no_help_text: Este atributo no tiene texto de ayuda definido.
       progress_label: "%{current} de %{total}"
       sections: Secciones

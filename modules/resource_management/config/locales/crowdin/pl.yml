@@ -107,6 +107,9 @@ pl:
         principal:
           caption: Przydziel godziny określonemu użytkownikowi.
           label: Użytkownik
+      missing_working_hours:
+        none: The selected user has no working hours configured for these dates, so they are counted as having no capacity.
+        partial: The selected user has no working hours configured for %{dates}, so those days are counted as having no capacity.
       outside_dates:
         description: Wybrane daty zasobów, %{resource_dates}, wykraczają poza daty pakietu roboczego, %{work_package_dates}.
       overbooking:

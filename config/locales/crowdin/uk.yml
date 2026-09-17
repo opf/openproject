@@ -5718,6 +5718,7 @@ uk:
     wizard:
       create_artifact_storage_error: Не вдалося зберегти артефакт у файловому сховищі
       create_artifact_work_package_error: Не вдалося створити пакет робіт артефакту
+      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
       no_help_text: Для цього атрибута не визначено текст довідки.
       progress_label: "%{current} з %{total}"
       sections: Розділи

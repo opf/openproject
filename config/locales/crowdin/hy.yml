@@ -5385,6 +5385,7 @@ hy:
     wizard:
       create_artifact_storage_error: Չհաջողվեց պահել արտեֆակտը նիշքերի պահեստում
       create_artifact_work_package_error: Չհաջողվեց ստեղծել արտեֆակտի աշխատանքային փաթեթը
+      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
       no_help_text: Այս հատկանիշի համար օգնության տեքստ սահմանված չէ։
       progress_label: "%{current}-ը %{total}-ից"
       sections: Բաժիններ

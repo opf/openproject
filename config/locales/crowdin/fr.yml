@@ -5391,6 +5391,7 @@ fr:
     wizard:
       create_artifact_storage_error: Échec de l'enregistrement de l'artefact dans l'espace de stockage de fichiers
       create_artifact_work_package_error: Échec de la création d'un lot de travaux d'artefact
+      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
       no_help_text: Cet attribut n'a pas de texte d'aide défini.
       progress_label: "%{current} sur %{total}"
       sections: Sections

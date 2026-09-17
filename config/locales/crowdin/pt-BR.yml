@@ -4910,11 +4910,11 @@ pt-BR:
     prev_page: Página anterior
   pdf_generator:
     budgets_table:
-      cost_per_unit: Cost per unit
-      description: Description
-      labor: Labor costs
-      material: Unit costs
-      sum: Sum
+      cost_per_unit: Custo por unidade
+      description: Descrição
+      labor: Custos de trabalho
+      material: Custos unitários
+      sum: Soma
       total: Total
     dialog:
       footer_center:
@@ -4931,11 +4931,11 @@ pt-BR:
       hyphenation_language:
         label: Idioma e hifenização
       include_budget:
-        caption: Include the project's budgets with their planned unit and labor cost items.
-        label: Project budgets
+        caption: Incluam os orçamentos do projeto com seus itens de custos unitários e de mão de obra previstos.
+        label: Orçamentos do projeto
       include_lifecycle:
         caption: Include the project's phases and their date ranges.
-        label: Project lifecycle
+        label: Ciclo de vida do projeto
       page_orientation:
         caption: Selecione a orientação das páginas no documento PDF.
         label: Orientação da página
@@ -5386,6 +5386,7 @@ pt-BR:
     wizard:
       create_artifact_storage_error: Falha ao armazenar o artefato no armazenamento de arquivos
       create_artifact_work_package_error: Falha ao criar o pacote de trabalho do artefato
+      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
       no_help_text: Nenhum texto de ajuda definido para este atributo.
       progress_label: "%{current} de %{total}"
       sections: Seções

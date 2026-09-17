@@ -95,6 +95,9 @@ et:
         principal:
           caption: Allocate hours for a specific user.
           label: User
+      missing_working_hours:
+        none: The selected user has no working hours configured for these dates, so they are counted as having no capacity.
+        partial: The selected user has no working hours configured for %{dates}, so those days are counted as having no capacity.
       outside_dates:
         description: The selected resource dates, %{resource_dates}, are outside of the work package's dates, %{work_package_dates}.
       overbooking:
