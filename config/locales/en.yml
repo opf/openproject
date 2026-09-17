@@ -226,6 +226,28 @@ en:
         onthefly: "Automatic user creation"
         port: "Port"
         tls_certificate_string: "LDAP server SSL certificate"
+      llm_capability_verdict:
+        capability: "Capability"
+        model_id: "Model"
+        state: "State"
+      llm_connection:
+        api_format: "API format"
+        api_key: "API key"
+        base_url: "Host URL"
+        # ActiveRecord::Base.human_attribute_name strips the _id suffix, so these
+        # keys deliberately do not carry it (see lib/open_project/patches/active_record_i18n.rb).
+        default_chat_model: "Default chat model"
+        default_embedding_model: "Default embedding model"
+        llm_features_enabled: "Enable LLMs for this instance"
+      llm_feature_binding:
+        dimensions: "Dimensions"
+        feature_key: "Feature"
+        # ActiveRecord::Base.human_attribute_name strips the _id suffix.
+        model: "Model"
+      llm_model:
+        display_name: "Display name"
+        # human_attribute_name strips the _id suffix, so the key omits it.
+        external: "Model name"
       mcp_configuration:
         description: Description
         enabled: Enabled
@@ -710,6 +732,38 @@ en:
             tls_certificate_string:
               format: "%{message}"
               invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
+        llm_connection:
+          attributes:
+            api_format:
+              not_supported: "needs credentials that OpenProject cannot store, such as a separate secret key or region."
+            api_key:
+              invalid_api_key: "was rejected by the LLM server."
+              unknown_error: "could not be validated with the LLM server. Please verify that the connection is functioning properly."
+            base:
+              singleton: "Only one LLM connection can be configured."
+            base_url:
+              cannot_be_connected_to: "could not be reached. Please ensure the LLM server is running and reachable from OpenProject."
+              not_openai_compatible: "did not return a valid model list. Please ensure the URL points at an OpenAI-API-compatible endpoint, including the API version segment (for example https://example.com/v1)."
+              request_timed_out: "did not respond in time. Please ensure the LLM server is reachable and not overloaded."
+              ssl_error: "could not be reached over a secure connection. Please check the LLM server's TLS certificate, or use an http:// URL if the server does not offer TLS."
+              ssrf_filtered: "resolves to a blocked address. If the LLM server runs on an internal network, allow its IP via the %{env_name} environment variable."
+            default_chat_model_id:
+              cannot_chat: "is an embedding model, according to the LLM server, and cannot be used for chat."
+              not_available: "is not offered by the configured LLM server."
+            default_embedding_model_id:
+              cannot_embed: "is known not to create embeddings, according to the LLM server."
+              not_available: "is not offered by the configured LLM server."
+            llm_features_enabled:
+              requires_connection: "cannot be turned on before a connection has been configured."
+        llm_feature_binding:
+          attributes:
+            dimensions:
+              locked: "cannot be changed while data indexed with it still exists. Re-index to change it."
+              not_for_chat_feature: "only applies to features that create embeddings."
+            feature_key:
+              not_registered: "does not belong to a known AI feature."
+            model_id:
+              locked: "cannot be changed while data indexed with it still exists. Re-index to switch models."
         meeting:
           error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         member:
@@ -1752,6 +1806,128 @@ en:
       caption_with_maximum: >
         User actions on a work package (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays. The maximum is %{max} minutes.
 
+    llm_connections:
+      delete_api_key:
+        configured_from_env: "This connection is configured through the environment and cannot be changed here."
+        description: "OpenProject will stop sending an API key with its requests. Features will keep working only if the server requires no authentication. You can enter a new key at any time."
+        heading: "Remove the stored API key?"
+        menu_label: "Remove API key"
+        success: "The API key has been removed."
+        title: "Remove API key"
+      disabled_notice: "LLM features are switched off for this instance. Switch them on here first."
+      disconnect:
+        configured_from_env: "This connection is configured through the environment and cannot be changed here."
+        description: "OpenProject will stop using the LLM server. AI features will be unavailable until you connect again."
+        heading: "Disconnect from the LLM server?"
+        keeps_bindings: "The model chosen for each feature is kept: %{features}."
+        keeps_models: "The model list, including any models you added manually, is kept."
+        keeps_settings: "The endpoint and API format are kept. Only the stored API key is removed."
+        menu_label: "Disconnect"
+        success: "OpenProject has disconnected from the LLM server."
+        title: "Disconnect"
+      form:
+        api_format_caption: "Which API the server speaks. Choose OpenAI for most gateways and self-hosted servers."
+        api_key_caption: "The key OpenProject authenticates with. Leave blank if the server requires no authentication."
+        api_key_caption_env: "The key comes from the environment."
+        api_key_caption_stored: "A key is stored. Leave blank to keep the current key, or enter a new one to replace it."
+        api_key_placeholder_stored: "API key stored"
+        api_key_remove: "Remove key"
+        base_url_caption: "The base URL of the server, for example https://example.com/v1."
+        button_connect: "Connect"
+        label_connecting: "Contacting the LLM server…"
+        llm_features_enabled_caption: "When turned off, all LLM-backed AI features stop working. The connection settings are kept."
+        server_description: "Connect OpenProject to a server that speaks the %{api_format} API, so AI features can use it. The host URL below decides which server that is."
+        server_group: "Server"
+      show:
+        description: "Connect OpenProject to an LLM server so that AI features can use it."
+        description_enabled: "Once connected, review the models offered by the server on the [LLMs](models_url) tab."
+      tabs:
+        connection: "Connection"
+        features: "Feature configuration"
+        models: "LLMs"
+      update:
+        disabled: "Saved. LLM features are switched off for this instance."
+        no_models: "Saved, but no models are stored yet. Either the server offers no model list, or the endpoint is missing its API version segment (for example /v1). Refresh the list on the LLMs tab."
+        success: "Successfully connected to the LLM server."
+    llm_feature_bindings:
+      dangling: "%{model} is no longer offered by the LLM server. This feature will not run until another model is selected."
+      deactivated: "%{model} has been hidden by an administrator. This feature keeps using it, but it can no longer be chosen elsewhere."
+      form:
+        dimensions_caption: "How many numbers each vector has. Leave blank to use whatever the server returns."
+        dimensions_caption_probed: "The server returned %{dimensions}-dimension vectors for this model. Leave blank to use whatever it returns at index time."
+        model_caption_embedding: "Only models known to create embeddings are offered. [Read more](docs_url) about model types."
+      index:
+        description: "Choose which model each AI feature uses. Features without a choice use the default models set on the [LLMs](models_url) tab."
+      inherit_with_default: "Use the default (%{model})"
+      inherit_without_default: "Use the default (none set)"
+      locked: "%{model} is in use by indexed data and cannot be changed here. Re-index to switch models."
+      locked_values_heading: "Values fixed by the existing index"
+      option_unqualified: "%{model} (no longer eligible for this feature)"
+      update:
+        model_incapable: "The model for %{feature} has been saved, but the server just reported that it does not support %{capability}. Pick a different model, or assert the capability on the model if you know better."
+        success: "The model for %{feature} has been saved."
+    llm_models:
+      create:
+        success: "%{model} has been added."
+      defaults:
+        chat_caption: "Only models that are switched on in the list below are offered."
+        description: "Used by AI features that do not choose a model themselves."
+        embedding_caption: "Only models known to create embeddings are offered. [Read more](docs_url) about model types."
+        embedding_none: "No model is known to create embeddings. If you know one does, open it in the list below and set its type to Embedding model."
+        embedding_option_deactivated: "%{model} (switched off)"
+        embedding_option_unqualified: "%{model} (not known to create embeddings)"
+        heading: "Default models"
+        success: "The default models have been saved."
+      destroy:
+        description: "The model will no longer be offered to AI features."
+        description_bound: "This model is currently used by %{features}. Those features will stop working until another model is selected."
+        heading: "Remove %{model}?"
+        success: "%{model} has been removed."
+        title: "Remove model"
+      edit:
+        description: "Edit how OpenProject uses this model."
+      form:
+        context_window: "Context window"
+        context_window_caption: "How many tokens this model accepts. Leave blank if you do not know."
+        context_window_known: "Leave blank to use %{value}, %{source}."
+        display_name_caption: "An optional friendly name shown instead of the model id."
+        external_id_caption: "The model name exactly as the server expects it."
+        model_type: "Model type"
+        model_type_caption: "Chat models answer requests. Embedding models turn text into vectors for search. [Read more](docs_url)."
+        model_type_chat: "Chat model"
+        model_type_embedding: "Embedding model"
+        state_inherited: "Inherit from server (%{state})"
+        state_supported: "Supported"
+        state_unsupported: "Not supported"
+      index:
+        add_model: "Model"
+        blank_description: "The server reported no models. Refresh the list once the server is reachable, or add one by hand."
+        blank_title: "No models available"
+        context_window: "Context window"
+        description: "Reported by the server on %{fetched_at}."
+        description_unfetched: "The server has not returned a model list yet. Refresh the models once it is reachable."
+        filter_label: "Filter models"
+        identifier: "Model"
+        kind: "Type"
+        refresh: "Refresh models"
+        source: "Source"
+        source_discovered: "Server"
+        source_discovered_description: "Reported by the server"
+        source_manual: "Manual"
+        source_manual_description: "Added manually by an administrator"
+        source_withdrawn: "Withdrawn"
+        source_withdrawn_description: "No longer reported by the server"
+        stale_warning: "The connection settings changed after the model list was last refreshed, so the list may be out of date. Refresh the models to be sure."
+        status: "Available for use"
+        toggle_aria_label: "Make %{model} available to AI features"
+      new:
+        description: "Name a model this server can use but does not advertise, and describe what it can do."
+        title: "Add a model"
+      refresh:
+        failure: "The model list could not be refreshed. Please check that the LLM server is still reachable."
+        success: "The model list has been refreshed."
+      update:
+        success: "%{model} has been updated."
     mcp_configurations:
       index:
         description: "The model context protocol allows AI agents to provide its users with tools and resources exposed by this OpenProject instance. This feature is still in beta."
@@ -1974,6 +2150,8 @@ en:
       form:
         injects_type_template_caption: "If checked, the description template of the work package type is automatically added to the prompt. The prompt should contain instructions on what to do with the template."
         label_caption: "This is the name that will be visible to users in the editor."
+        prototype_only: "Prototype-only UI below:"
+        save_and_stay: "Save and stay"
         select_types: "Select types"
         types_caption: "Add work package types for which this action should be available. All available variants will automatically be included."
         usage_scope_caption: "You can limit where this action is visible: everywhere (including comments, wikis and custom fields), for all work package types or for certain work package types."
@@ -1997,6 +2175,36 @@ en:
         scope_specific_work_package_types:
           one: "%{count} work package type"
           other: "%{count} work package types"
+      sandbox:
+        cancel: "Cancel"
+        content_caption: "The markdown the editor would send. Nothing is saved anywhere; the run and its events are removed after the retention period."
+        content_label: "Text to transform"
+        context_caption: "Without a context only actions scoped \"everywhere\" run. Actions scoped to work package types need a type, and actions that inject the type template need the template of the type variant, which comes from the work package or from the project and type of a new work package."
+        context_label: "Context"
+        context_new_work_package: "New work package (project and type)"
+        context_none: "No context"
+        context_work_package: "Existing work package"
+        description: "Prototype: runs this action against the text below through the execute API and polls the run until it finishes, exactly like the editor will."
+        details: "Run details"
+        details_title: "Run details"
+        event_kind: "Kind"
+        event_payload: "Payload"
+        event_seq: "Seq"
+        event_time: "Received"
+        events_section: "Events, as polled"
+        execute: "Execute"
+        new_work_package_caption: "Mirrors the create form: the project decides which variant of the type applies, and the assistant checks the add permission in the project."
+        project_label: "Project"
+        run_section: "Run"
+        select_project: "Select project"
+        select_work_package: "Select work package"
+        status_idle: "idle"
+        system_prompt_section: "System prompt stored for this run"
+        title: "Sandbox"
+        type_caption: "Type to search; the 20 best matches are listed. Only types enabled in the chosen project are accepted."
+        type_label: "Type"
+        work_package_caption: "Type an id or part of the subject; the 20 most recently updated matches are listed. The work package's project and type decide scope and template, and the assistant checks the edit permission on it."
+        work_package_label: "Work package"
       usage_scopes:
         all_work_package_types: "All work package types"
         everywhere: "Everywhere"
@@ -2073,6 +2281,8 @@ en:
           `targetVersions` accepts at most one value and must not be written together
           with `version` in the same request.
     errors:
+      ai_text_transform:
+        action_not_available: "This action is not available for this work package."
       bad_request:
         emoji_reactions_activity_type_not_supported: "This activity type does not support emoji reactions."
         invalid_link: "The link under key '%{key}' is not valid."
@@ -4318,6 +4528,49 @@ en:
     update:
       failure: "The modified list cannot be saved: %{errors}"
       success: "The modified list has been saved"
+  llm:
+    api_formats:
+      anthropic: "Anthropic"
+      azure: "Azure OpenAI"
+      bedrock: "AWS Bedrock"
+      deepseek: "DeepSeek"
+      gemini: "Google Gemini"
+      gpustack: "GPUStack"
+      mistral: "Mistral"
+      ollama: "Ollama"
+      openai: "OpenAI"
+      openrouter: "OpenRouter"
+      perplexity: "Perplexity"
+      vertexai: "Google Vertex AI"
+      xai: "xAI"
+    capabilities:
+      embeddings:
+        label: "Embeddings"
+      function_calling:
+        label: "Tool calling"
+      reasoning:
+        label: "Reasoning"
+      structured_output:
+        label: "Structured output"
+      vision:
+        label: "Vision"
+    context_window_sources:
+      registry: "the figure published for this model"
+      server: "reported by the server"
+    features:
+      description_assistant:
+        caption: "Rewrites and restructures work package text on request."
+        label: "Description assistant"
+      semantic_search:
+        caption: "Indexes work packages so they can be found by meaning rather than by keyword."
+        label: "Semantic search"
+    model_kinds:
+      chat: "Chat"
+      embedding: "Embedding"
+    verdict_states:
+      supported: "supported"
+      unknown: "not verified"
+      unsupported: "not supported"
   macro_execution_error: "Error executing the macro %{macro_name}"
   macro_unavailable: "Macro %{macro_name} cannot be displayed."
   macro_unknown: "Unknown or unsupported macro."
@@ -4566,6 +4819,7 @@ en:
       aggregation: "Aggregation"
       ai: "Artificial Intelligence (AI)"
       api_and_webhooks: "API and webhooks"
+      llm_connection: "LLM settings"
       mail_notification: "Email notifications"
       mails_and_notifications: "Emails and notifications"
       mcp_configurations: "Model Context Protocol (MCP)"

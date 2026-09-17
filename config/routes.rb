@@ -782,6 +782,30 @@ Rails.application.routes.draw do
       end
     end
 
+    resource :llm_connection, only: %i[show update], controller: "admin/llm_connections" do
+      delete :api_key, action: :delete_api_key
+      get :delete_api_key_dialog
+      get :disconnect_dialog
+      post :disconnect
+    end
+
+    resources :llm_models, only: %i[index new create edit update destroy], controller: "admin/llm_models" do
+      collection do
+        get :search, defaults: { format: :turbo_stream }
+        post :refresh
+        patch :defaults, action: :update_defaults
+      end
+
+      member do
+        get :delete_dialog
+        post :toggle, defaults: { format: :turbo_stream }
+      end
+    end
+
+    # Keyed by feature key rather than by record id: the binding is an attribute
+    # of a registered feature, and a feature may not have a row yet.
+    resources :llm_feature_bindings, only: %i[index update], controller: "admin/llm_feature_bindings"
+
     resources :mcp_configurations, only: %i[index update], controller: "admin/mcp_configurations" do
       collection do
         post :multi_update
@@ -1030,6 +1054,8 @@ Rails.application.routes.draw do
         put :enable_all
         put :disable_all
         post :toggle_setting
+        get :sandbox_work_packages, to: "text_transform_actions/sandbox#work_packages"
+        get :sandbox_projects, to: "text_transform_actions/sandbox#projects"
       end
     end
 

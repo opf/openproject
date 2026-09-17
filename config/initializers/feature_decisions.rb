@@ -63,3 +63,7 @@ OpenProject::FeatureDecisions.add :ai_text_transform_actions,
 OpenProject::FeatureDecisions.add :work_package_labels,
                                   description: "Enables labels on work packages, the labels API and the labels administration. " \
                                                "See FND-5 for details."
+
+OpenProject::FeatureDecisions.add :llm_connection,
+                                  description: "Enables the administration page connecting OpenProject to an " \
+                                               "OpenAI-API-compatible LLM server, and the AI features built on it."

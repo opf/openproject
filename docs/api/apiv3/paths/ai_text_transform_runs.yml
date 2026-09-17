@@ -1,0 +1,116 @@
+# /api/v3/ai_text_transform_runs
+---
+post:
+  summary: Create AI text transform run
+  operationId: create_ai_text_transform_run
+  tags:
+    - AI
+  description: |-
+    Starts an AI text transform action on the given content. The server assembles the prompt from
+    the action and, when the action injects it, the work package type's description template, and
+    hands the run to a background job. The response is the run in status `queued`; poll it with
+    [`GET /api/v3/ai_text_transform_runs/{id}`](#operation/view_ai_text_transform_run) to receive
+    the generated text.
+
+    The context is optional. Pass `workPackageId` for the description of an existing work package,
+    or `projectId` and `typeId` for a work package about to be created. Without a context, only
+    actions usable everywhere can run. The context decides which actions are available and which
+    template is injected; it is not stored on the run.
+
+    Runs are private to the user who created them and are deleted after a retention period.
+
+    **Required permission:** logged in. With `workPackageId`: edit work packages on that work
+    package. With `projectId`: add work packages in that project.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/ai_text_transform_run_write_model.yml'
+  responses:
+    '202':
+      description: |-
+        Returned if the run was created and queued.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/ai_text_transform_run_model.yml'
+          examples:
+            response:
+              value:
+                _type: AITextTransformRun
+                id: 6f0f2b3c-5a8e-4b2c-9c3d-1e2f3a4b5c6d
+                status: queued
+                events: []
+                _links:
+                  self:
+                    href: /api/v3/ai_text_transform_runs/6f0f2b3c-5a8e-4b2c-9c3d-1e2f3a4b5c6d
+                  cancel:
+                    href: /api/v3/ai_text_transform_runs/6f0f2b3c-5a8e-4b2c-9c3d-1e2f3a4b5c6d/cancel
+                    method: post
+    '400':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:BadRequest
+                message: 'Bad request: workPackageId, projectId are mutually exclusive'
+      description: |-
+        Returned if the request is malformed: a required property is missing, `workPackageId`
+        and `projectId` are both given, or `projectId` and `typeId` are not given together.
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** logged in; edit work packages on the work package; add work
+        packages in the project
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the work package or project does not exist or is not visible to the client,
+        or if the type is not enabled in the project.
+    '422':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:UnprocessableContent
+                message: This action is not available for this work package. (llm_unavailable)
+      description: |-
+        Returned if the content is blank or too long, or if the action cannot run in this context.
+        In the latter case the message ends with the reason in parentheses:
+
+        * `feature_disabled`: the feature flag `ai_text_transform_actions` is off
+        * `assistant_disabled`: the administrative setting is off
+        * `llm_unavailable`: no LLM connection is ready
+        * `unknown_action`: no action with the given id exists
+        * `action_inactive`: the action is deactivated
+        * `context_required`: the action is scoped to work package types but no context was given
+        * `type_mismatch`: the action is not enabled for the work package's type
+        * `template_missing`: the action injects the type template but the type has none
