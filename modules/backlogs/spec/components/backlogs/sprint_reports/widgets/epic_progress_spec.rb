@@ -78,6 +78,16 @@ RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress, type: :component,
     end
   end
 
+  context "when the project uses a named variant of the Epic type" do
+    let!(:epic_variant) { create(:type_variant, type: epic_type, variant_name: "Business Epic") }
+    let(:project) { create(:project, types: [epic_variant, task_type].compact) }
+    let!(:epic) { create(:work_package, type: epic_type, project:, sprint:) }
+
+    it "still displays it as \"Epic\", not the variant's own name" do
+      expect(rendered_component).to have_css(".op-wp-info-line--type", exact_text: "EPIC")
+    end
+  end
+
   context "when a work package in the sprint has an epic ancestor" do
     let!(:epic) { create(:work_package, type: epic_type, project:) }
     let!(:feature) { create(:work_package, type: task_type, project:, parent: epic) }
