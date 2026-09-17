@@ -83,9 +83,7 @@ OpenProject 17.9 brings several improvements to PDF exports, providing more comp
 
 - **More comprehensive [PMflex artefact exports](../../user-guide/work-packages/exporting/work-package-pdf/):** Project lifecycle information and **project budgets** can now optionally be included in the PDF. Budgets are presented as a cost breakdown, including unit and labor costs and their subtotals. This provides a more complete view of project planning, progress, and costs in a single artefact.
 
-  Placeholder for the image once the feature is done 
-
-  ! [ Project lifecycle and budget information in a PMflex artefact PDF export] (openproject_release_notes_17.9_pmflex_pdf_export.png)
+  ![Project lifecycle and budget information in a PMflex artefact PDF export](openproject_release_notes_17.9_pmflex_pdf_export.png)
 
 - **[Default PDF export settings per work package type](../../system-admin-guide/manage-work-packages/work-package-types/pdf-export/):** Administrators can now define default settings for **Attributes, Contract, and PMflex artefact exports** for each work package type. Depending on the template, defaults can include options such as footer text, page orientation, table of contents, and hyphenation. These defaults are automatically applied when starting an export, reducing repetitive configuration and helping teams create more consistent PDFs.
 
