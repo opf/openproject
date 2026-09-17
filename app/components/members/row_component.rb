@@ -119,14 +119,31 @@ module Members
 
     def roles_label
       project_roles = member.roles.grep(ProjectRole).uniq.sort
-      label = h project_roles.collect(&:name).join(", ")
+      label = safe_join(project_roles.map { role_label(it) }, ", ")
 
       if principal&.admin?
-        label << tag(:br) if project_roles.any?
-        label << I18n.t(:label_member_all_admin)
+        label += tag(:br) if project_roles.any?
+        label += h I18n.t(:label_member_all_admin)
       end
 
       label
+    end
+
+    def role_label(role)
+      return h(role.name) unless may_inspect_role_permissions?
+
+      render(
+        Primer::Beta::Link.new(
+          href: role_permissions_dialog_path(role),
+          underline: false,
+          data: { controller: "async-dialog" },
+          test_selector: "op-members--role-link"
+        )
+      ) { role.name }
+    end
+
+    def may_inspect_role_permissions?
+      Roles::PermissionsDialogComponent.visible_to?(User.current)
     end
 
     def role_form
