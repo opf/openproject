@@ -48,6 +48,12 @@ RSpec.describe Label do
     end
   end
 
+  describe "normalizations" do
+    subject { build(:label) }
+
+    it { is_expected.to normalize(:name).from("  Machine   Learning ").to("Machine Learning") }
+  end
+
   describe ".with_usage_count" do
     it "counts the labelings of each label, including unused ones" do
       used = create(:label)
@@ -57,6 +63,14 @@ RSpec.describe Label do
       counts = described_class.with_usage_count.index_by(&:id).transform_values(&:usage_count)
 
       expect(counts).to eq(used.id => 2, unused.id => 0)
+    end
+
+    it "keeps a scalar total when paginated" do
+      create_list(:label, 2)
+      create(:labeling, label: described_class.first)
+
+      expect(described_class.with_usage_count.paginate(page: 1, per_page: 1).total_entries)
+        .to eq(described_class.count)
     end
   end
 

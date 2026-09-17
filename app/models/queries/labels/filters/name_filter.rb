@@ -28,18 +28,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Label < ApplicationRecord
-  belongs_to :author, class_name: "User"
-  has_many :labelings, dependent: :delete_all
+class Queries::Labels::Filters::NameFilter < Queries::Labels::Filters::LabelFilter
+  def self.key
+    :name
+  end
 
-  scope :with_usage_count, -> {
-    select("labels.*, (SELECT COUNT(*) FROM labelings WHERE labelings.label_id = labels.id) AS usage_count")
-  }
+  def type
+    :string
+  end
 
-  normalizes :name, with: -> { it.squish }
+  def human_name
+    Label.human_attribute_name(name)
+  end
 
-  validates :name,
-            presence: true,
-            uniqueness: { case_sensitive: false },
-            length: { maximum: 255 }
+  def available_operators
+    [::Queries::Operators::Contains, ::Queries::Operators::Everywhere, ::Queries::Operators::NotContains]
+  end
+
+  def where
+    escaped = ActiveRecord::Base.sanitize_sql_like(values.first)
+    case operator
+    when "~", "**"
+      ["labels.name ILIKE :q", { q: "%#{escaped}%" }]
+    when "!~"
+      ["labels.name NOT ILIKE :q", { q: "%#{escaped}%" }]
+    else
+      raise "Unsupported operator #{operator}"
+    end
+  end
 end

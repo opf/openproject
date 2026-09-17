@@ -28,18 +28,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Label < ApplicationRecord
-  belongs_to :author, class_name: "User"
-  has_many :labelings, dependent: :delete_all
+module Labels
+  class CreateContract < BaseContract
+    validate :user_allowed_to_create
 
-  scope :with_usage_count, -> {
-    select("labels.*, (SELECT COUNT(*) FROM labelings WHERE labelings.label_id = labels.id) AS usage_count")
-  }
+    private
 
-  normalizes :name, with: -> { it.squish }
-
-  validates :name,
-            presence: true,
-            uniqueness: { case_sensitive: false },
-            length: { maximum: 255 }
+    def user_allowed_to_create
+      unless user.active? && (user.admin? || user.allowed_in_any_project?(:edit_work_packages))
+        errors.add :base, :error_unauthorized
+      end
+    end
+  end
 end

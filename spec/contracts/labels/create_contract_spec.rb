@@ -28,18 +28,39 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Label < ApplicationRecord
-  belongs_to :author, class_name: "User"
-  has_many :labelings, dependent: :delete_all
+require "spec_helper"
+require "contracts/shared/model_contract_shared_context"
+require_relative "shared_contract_examples"
 
-  scope :with_usage_count, -> {
-    select("labels.*, (SELECT COUNT(*) FROM labelings WHERE labelings.label_id = labels.id) AS usage_count")
-  }
+RSpec.describe Labels::CreateContract do
+  include_context "ModelContract shared context"
 
-  normalizes :name, with: -> { it.squish }
+  shared_let(:project) { create(:project) }
 
-  validates :name,
-            presence: true,
-            uniqueness: { case_sensitive: false },
-            length: { maximum: 255 }
+  let(:label) { build(:label) }
+  let(:contract) { described_class.new(label, current_user) }
+
+  it_behaves_like "label contract" do
+    let(:current_user) do
+      create(:user, member_with_permissions: { project => %i[edit_work_packages] })
+    end
+  end
+
+  context "when admin" do
+    let(:current_user) { create(:admin) }
+
+    it_behaves_like "contract is valid"
+  end
+
+  context "when member without edit_work_packages permission" do
+    let(:current_user) do
+      create(:user, member_with_permissions: { project => %i[view_work_packages] })
+    end
+
+    it_behaves_like "contract user is unauthorized"
+  end
+
+  include_examples "contract reuses the model errors" do
+    let(:current_user) { create(:admin) }
+  end
 end

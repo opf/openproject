@@ -28,18 +28,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Label < ApplicationRecord
-  belongs_to :author, class_name: "User"
-  has_many :labelings, dependent: :delete_all
+require "spec_helper"
+require "contracts/shared/model_contract_shared_context"
 
-  scope :with_usage_count, -> {
-    select("labels.*, (SELECT COUNT(*) FROM labelings WHERE labelings.label_id = labels.id) AS usage_count")
-  }
+RSpec.describe Labels::DeleteContract do
+  include_context "ModelContract shared context"
 
-  normalizes :name, with: -> { it.squish }
+  let(:label) { create(:label) }
+  let(:contract) { described_class.new(label, current_user) }
 
-  validates :name,
-            presence: true,
-            uniqueness: { case_sensitive: false },
-            length: { maximum: 255 }
+  it_behaves_like "contract is valid for active admins and invalid for regular users"
+
+  include_examples "contract reuses the model errors" do
+    let(:current_user) { build_stubbed(:admin) }
+  end
 end

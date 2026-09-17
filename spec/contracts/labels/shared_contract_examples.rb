@@ -28,18 +28,34 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Label < ApplicationRecord
-  belongs_to :author, class_name: "User"
-  has_many :labelings, dependent: :delete_all
+require "spec_helper"
 
-  scope :with_usage_count, -> {
-    select("labels.*, (SELECT COUNT(*) FROM labelings WHERE labelings.label_id = labels.id) AS usage_count")
-  }
+RSpec.shared_examples_for "label contract" do
+  let(:locked_user) { create(:admin, status: User.statuses[:locked]) }
 
-  normalizes :name, with: -> { it.squish }
+  it_behaves_like "contract is valid"
 
-  validates :name,
-            presence: true,
-            uniqueness: { case_sensitive: false },
-            length: { maximum: 255 }
+  context "when name is blank" do
+    before { label.name = "" }
+
+    it_behaves_like "contract is invalid", name: :blank
+  end
+
+  context "when name is too long" do
+    before { label.name = "a" * 256 }
+
+    it_behaves_like "contract is invalid", name: :too_long
+  end
+
+  context "when name is already taken" do
+    before { create(:label, name: label.name.upcase) }
+
+    it_behaves_like "contract is invalid", name: :taken
+  end
+
+  context "when the acting user is locked" do
+    let(:contract) { described_class.new(label, locked_user) }
+
+    it_behaves_like "contract user is unauthorized"
+  end
 end
