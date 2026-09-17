@@ -29,8 +29,6 @@
 #++
 
 class RemoveEmailFromGitlabUsers < ActiveRecord::Migration[8.1]
-  # The column comes back nullable on rollback: the values are gone by then, and
-  # restoring it as NOT NULL would fail against any row already in the table.
   def change
     remove_column :gitlab_users, :gitlab_email, :string
   end
