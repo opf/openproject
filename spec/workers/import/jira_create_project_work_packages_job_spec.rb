@@ -156,7 +156,6 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
           work_package = WorkPackage.find("DPPP-6")
           expect(work_package.status.is_closed).to be true
         end
-
       end
 
       context "if priority is nil or hidden in jira filed configuration" do
