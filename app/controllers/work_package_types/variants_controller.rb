@@ -223,7 +223,7 @@ module WorkPackageTypes
     end
 
     def convert_confirm_dialog(variant)
-      Types::ConvertToGlobalDialogComponent.new(url: convert_path(variant))
+      Types::ConvertToGlobalDialogComponent.new(variant:, url: convert_path(variant))
     end
 
     def convert_path(variant)
