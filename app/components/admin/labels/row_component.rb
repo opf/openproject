@@ -79,8 +79,6 @@ module Admin
             item.with_leading_visual_icon(icon: :pencil)
           end
 
-          menu.with_divider
-
           menu.with_item(
             label: t(:button_delete),
             scheme: :danger,
