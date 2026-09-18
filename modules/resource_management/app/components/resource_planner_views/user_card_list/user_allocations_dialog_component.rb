@@ -99,12 +99,16 @@ module ResourcePlannerViews::UserCardList
       DurationConverter.output(hidden_allocations.sum(&:allocated_hours))
     end
 
+    # A project planner lumps everything outside its own project together, the
+    # same way its utilization does. A global planner has no such boundary, so
+    # only what the viewer may not see stays lumped.
     def work_packages_by_id
-      @work_packages_by_id ||=
-        WorkPackage
-          .visible(User.current)
-          .where(project:, id: allocations.map(&:entity_id).uniq)
-          .index_by(&:id)
+      @work_packages_by_id ||= begin
+        scope = WorkPackage.visible(User.current).where(id: allocations.map(&:entity_id).uniq)
+        scope = scope.where(project:) if project
+
+        scope.index_by(&:id)
+      end
     end
 
     def work_package_for(allocation)
@@ -119,10 +123,17 @@ module ResourcePlannerViews::UserCardList
       DurationConverter.output(allocation.allocated_hours)
     end
 
-    def editable?
-      return @editable if defined?(@editable)
+    # The permission lives on the project of the allocated work package, which on
+    # a global planner differs from row to row.
+    def editable?(allocation)
+      allocation_project = work_package_for(allocation)&.project
+      return false if allocation_project.nil?
 
-      @editable = User.current.allowed_in_project?(:allocate_user_resources, project)
+      @editable ||= {}
+      @editable.fetch(allocation_project.id) do
+        @editable[allocation_project.id] =
+          User.current.allowed_in_project?(:allocate_user_resources, allocation_project)
+      end
     end
 
     def overbooked_message
@@ -137,12 +148,14 @@ module ResourcePlannerViews::UserCardList
       new_allocation_path(project, principal_id: user.id, resource_planner_view_id: view.id)
     end
 
-    def edit_allocation_path(allocation)
-      edit_project_resource_allocation_path(project, allocation, resource_planner_view_id: view.id)
+    def edit_path_for(allocation)
+      edit_allocation_path(project, allocation, resource_planner_view_id: view.id)
     end
 
-    def delete_allocation_path(allocation)
-      project_resource_allocation_path(project, allocation)
+    # The view is carried along so the destroy response knows to re-render this
+    # dialog, which stays open behind the confirmation.
+    def delete_path_for(allocation)
+      allocation_path(project, allocation, resource_planner_view_id: view.id)
     end
   end
 end

@@ -132,7 +132,7 @@ See COPYRIGHT and LICENSE files for more details.
                       end
                     end
 
-                    if editable?
+                    if editable?(allocation)
                       row.with_column(ml: 2) do
                         render(Primer::Alpha::ActionMenu.new(size: :small, anchor_align: :end)) do |menu|
                           menu.with_show_button(
@@ -144,14 +144,14 @@ See COPYRIGHT and LICENSE files for more details.
                           menu.with_item(
                             label: t(:button_edit),
                             tag: :a,
-                            href: edit_allocation_path(allocation),
+                            href: edit_path_for(allocation),
                             content_arguments: { data: { controller: "async-dialog" } }
                           ) { |item| item.with_leading_visual_icon(icon: :pencil) }
 
                           menu.with_item(
                             label: t(:button_delete),
                             scheme: :danger,
-                            href: delete_allocation_path(allocation),
+                            href: delete_path_for(allocation),
                             form_arguments: {
                               method: :delete,
                               data: {

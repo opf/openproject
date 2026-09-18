@@ -74,6 +74,23 @@ RSpec.describe "User resource allocations requests", type: :rails_request, with_
       expect(response.body).to include(I18n.t("resource_management.user_allocations_dialog.other_work_packages.one"))
     end
 
+    context "when the other project is visible to the viewer as well" do
+      shared_let(:user) do
+        create(:user,
+               member_with_permissions: {
+                 project => %i[view_resource_planners view_work_packages],
+                 other_project => %i[view_resource_planners view_work_packages]
+               })
+      end
+
+      it "keeps lumping it together, a project planner not reaching outside its project" do
+        get path, as: :turbo_stream
+
+        expect(response.body).not_to include("Secret work")
+        expect(response.body).to include(I18n.t("resource_management.user_allocations_dialog.other_work_packages.one"))
+      end
+    end
+
     it "offers no allocation actions to a user who may not allocate" do
       get path, as: :turbo_stream
 
