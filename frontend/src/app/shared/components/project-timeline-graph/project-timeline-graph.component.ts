@@ -55,7 +55,7 @@ import { ProjectTimelineTooltipPopover } from './project-timeline-tooltip.popove
 
 export type { ProjectTimelineItem } from './project-timeline-item.builder';
 
-const LINKED_ITEM_SELECTOR = '.vis-point.op-timeline-milestone[data-id], .vis-range.op-timeline-sprint[data-id]';
+const ACCESSIBLE_FOCUS_CLASS = 'op-timeline-item-focus';
 
 @Component({
   selector: 'opce-project-timeline-graph',
@@ -96,6 +96,7 @@ export class ProjectTimelineGraphComponent {
   private timeline:Timeline | null = null;
   private itemsDataset:DataSet<ProjectTimelineItem> | null = null;
   private tooltipPopover:ProjectTimelineTooltipPopover | null = null;
+  private highlightedItemId:string | null = null;
 
   protected readonly ready = signal(false);
 
@@ -148,7 +149,7 @@ export class ProjectTimelineGraphComponent {
     );
 
     this.tooltipPopover = new ProjectTimelineTooltipPopover(this.timeline, this.containerRef.nativeElement, this.tooltip);
-    this.timeline.on('changed', () => this.enableLinkedItemKeyboardFocus());
+    this.timeline.on('changed', () => this.updateAccessibleItemHighlight());
 
     this.timeline.on('click', ({ item }:{ item:string | null }) => this.openItem(item));
   }
@@ -168,17 +169,30 @@ export class ProjectTimelineGraphComponent {
       cluster: { maxItems: 1, clusterCriteria: this.shouldCluster.bind(this) },
     });
     this.ready.set(true);
-    this.enableLinkedItemKeyboardFocus();
   }
 
-  private enableLinkedItemKeyboardFocus():void {
-    this.containerRef.nativeElement.querySelectorAll<HTMLElement>(LINKED_ITEM_SELECTOR).forEach((element) => {
-      element.tabIndex = 0;
-      element.role = 'link';
-      element.onkeydown = ({ key }) => {
-        if (key === 'Enter') this.openItem(element.dataset.id!);
-      };
-    });
+  protected highlightAccessibleItem(id:string):void {
+    this.highlightedItemId = id;
+    this.updateAccessibleItemHighlight();
+  }
+
+  protected clearAccessibleItemHighlight(id:string):void {
+    if (this.highlightedItemId !== id) return;
+
+    this.highlightedItemId = null;
+    this.updateAccessibleItemHighlight();
+  }
+
+  private updateAccessibleItemHighlight():void {
+    this.containerRef.nativeElement
+      .querySelectorAll<HTMLElement>(`.${ACCESSIBLE_FOCUS_CLASS}`)
+      .forEach((element) => element.classList.remove(ACCESSIBLE_FOCUS_CLASS));
+
+    if (!this.highlightedItemId) return;
+
+    this.containerRef.nativeElement
+      .querySelector<HTMLElement>(`[data-id="${this.highlightedItemId}"]`)
+      ?.classList.add(ACCESSIBLE_FOCUS_CLASS);
   }
 
   private openItem(id:string | null):void {
