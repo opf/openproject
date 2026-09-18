@@ -33,6 +33,7 @@ module Backlogs
     module Widgets
       class CreatedResolvedChart < Grids::WidgetComponent
         include Redmine::I18n
+        include Backlogs::CommonHelper
 
         param :sprint
         param :project
@@ -52,6 +53,10 @@ module Backlogs
           { full_width: true }
         end
 
+        def render?
+          user_allowed?(:view_sprints) && EnterpriseToken.allows_to?(:sprint_report_pro_widgets)
+        end
+
         private
 
         def created_resolved
@@ -66,7 +71,7 @@ module Backlogs
           entries_displayed = (created_resolved.days.length / 14.0).ceil
           created_resolved.days.enum_for(:each_with_index).map do |d, i|
             if (i % entries_displayed) == 0
-              ["#{format_date(d, format: I18n.t('date.formats.short'))}"]
+              [format_date(d, format: I18n.t("date.formats.short")).to_s]
             end
           end
         end
