@@ -28,19 +28,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::Backlogs::Burndown
-  class Series < Array
-    def initialize(*args)
-      @unit = args.pop
-      @name = args.pop.to_sym
-      @display = true
-
-      raise "Unsupported unit '#{@unit}'" unless %i[points hours].include? @unit
-
-      super
+# The interval a sprint's reports cover: when it actually began and how far it has run.
+#
+# A sprint that was started or completed reports from those moments rather than from the
+# dates it was planned with, and one still running reports up to now once it has overrun.
+module Sprints
+  class ReferenceDates
+    def initialize(sprint)
+      @sprint = sprint
     end
 
-    attr_reader :unit, :name
-    attr_accessor :display
+    def start
+      return sprint.started_at if sprint.started_at?
+
+      sprint.start_date.in_time_zone.beginning_of_day
+    end
+
+    def finish
+      return sprint.completed_at if sprint.completed_at?
+
+      scheduled_finish = sprint.finish_date.in_time_zone.end_of_day
+
+      return scheduled_finish unless sprint.started_at?
+
+      [scheduled_finish, Time.zone.now].max
+    end
+
+    # What the sprint was planned with, which the guideline keeps pointing at even when the
+    # sprint overruns.
+    def scheduled_finish
+      sprint.finish_date.in_time_zone.end_of_day
+    end
+
+    private
+
+    attr_reader :sprint
   end
 end

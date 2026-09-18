@@ -39,10 +39,11 @@ module Backlogs
           t("backlogs.show_burndown_chart")
         end
 
+        # Timestamps go out as UTC; the chart renders them in the viewer's zone.
         def chart_data
           {
-            labels: xaxis_labels(burndown),
-            datasets: dataseries(burndown)
+            series: series,
+            nonWorkingIntervals: non_working_intervals
           }.to_json
         end
 
@@ -55,27 +56,23 @@ module Backlogs
         def burndown
           return nil unless sprint.date_range_set?
 
-          @burndown ||= Burndown.new(sprint, project)
+          @burndown ||= ::Sprints::Burndown.new(sprint:, project:)
         end
 
-        def xaxis_labels(burndown)
-          # 14 entries (plus the axis label) have come along as the best value for a good optical result.
-          # Thus it is enough space between the entries.
-          entries_displayed = (burndown.days.length / 14.0).ceil
-          burndown.days.enum_for(:each_with_index).map do |d, i|
-            if (i % entries_displayed) == 0
-              ["#{::I18n.t('date.abbr_day_names')[d.wday % 7]} #{d.strftime('%d/%m')}"]
-            end
-          end
+        def series
+          { remaining: burndown.remaining,
+            guideline: burndown.guideline,
+            projection: burndown.projection }
+            .reject { |_, points| points.empty? }
+            .map { |id, points| { id:, label: t("backlogs.burndown.series.#{id}"), data: points_for(points) } }
         end
 
-        def dataseries(burndown)
-          burndown.series.map do |s|
-            {
-              label: I18n.t("burndown.#{s.first}"),
-              data: s.last.enum_for(:each)
-            }
-          end
+        def points_for(points)
+          points.map { { x: it.at.utc.iso8601(3), y: it.value } }
+        end
+
+        def non_working_intervals
+          burndown.non_working_intervals.map { { from: it.first.iso8601, to: it.last.iso8601 } }
         end
       end
     end

@@ -197,6 +197,41 @@ RSpec.describe Day do
     end
   end
 
+  describe ".non_working_intervals" do
+    subject(:intervals) { described_class.non_working_intervals(from:, to:) }
+
+    let(:monday) { Time.current.monday.to_date }
+    let(:from) { monday }
+    let(:to) { monday + 13.days }
+
+    it "collapses each weekend into a single range" do
+      expect(intervals).to eq [(monday + 5.days)..(monday + 6.days),
+                               (monday + 12.days)..(monday + 13.days)]
+    end
+
+    context "when a holiday extends a weekend" do
+      before { create(:non_working_day, date: monday + 4.days) }
+
+      it "merges it into the adjoining range" do
+        expect(intervals.first).to eq (monday + 4.days)..(monday + 6.days)
+      end
+    end
+
+    context "with an isolated holiday" do
+      before { create(:non_working_day, date: monday + 2.days) }
+
+      it "yields a single day range" do
+        expect(intervals.first).to eq (monday + 2.days)..(monday + 2.days)
+      end
+    end
+
+    context "when the range holds no non working day" do
+      let(:to) { monday + 4.days }
+
+      it { is_expected.to be_empty }
+    end
+  end
+
   describe "#working" do
     context "when the week day is non-working" do
       shared_let(:working_days) { week_with_no_working_days }

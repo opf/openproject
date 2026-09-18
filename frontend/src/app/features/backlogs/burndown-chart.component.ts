@@ -26,66 +26,147 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Signal, computed, inject, input } from '@angular/core';
-import { ChartData, ChartOptions } from 'chart.js';
+import { Chart, ChartData, ChartDataset, ChartOptions, LegendItem } from 'chart.js';
+import 'chartjs-adapter-luxon';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { NoResultsComponent } from 'core-app/shared/components/blankslate/no-results.component';
-import PrimerColorsPlugin from 'core-app/shared/components/work-package-graphs/plugin.primer-colors';
+import NonWorkingDaysPlugin, { NonWorkingInterval } from 'core-app/shared/components/charts/plugin.non-working-days';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
-import { environment } from '../../../environments/environment';
 
-const BURNDOWN_Y_SCALE_MIN = 25;
+interface BurndownPoint {
+  x:string;
+  y:number;
+}
+
+interface BurndownSeries {
+  id:'remaining'|'guideline'|'projection';
+  label:string;
+  data:BurndownPoint[];
+}
+
+type BurndownDataset = ChartDataset<'line', BurndownPoint[]>;
+
+interface BurndownChartData {
+  series:BurndownSeries[];
+  nonWorkingIntervals:NonWorkingInterval[];
+}
+
+function cssVariable(name:string, fallback:string):string {
+  return getComputedStyle(document.body).getPropertyValue(name).trim() || fallback;
+}
 
 @Component({
   selector: 'op-burndown-chart',
   templateUrl: './burndown-chart.component.html',
-  imports: [BaseChartDirective, JsonPipe, NoResultsComponent],
-  providers: [provideCharts(withDefaultRegisterables(PrimerColorsPlugin))],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  imports: [BaseChartDirective, NoResultsComponent],
+  providers: [provideCharts(withDefaultRegisterables(NonWorkingDaysPlugin))],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BurndownChartComponent {
-  readonly isDevMode = !environment.production;
   readonly i18n = inject(I18nService);
+  readonly timezoneService = inject(TimezoneService);
+
   readonly chartData = input.required<string>();
 
-  readonly lineChartData = computed<ChartData<'line'>>(() => {
-    const data = JSON.parse(this.chartData()) as ChartData<'line'>;
-    return data;
-  });
+  private readonly parsed = computed(() => JSON.parse(this.chartData()) as BurndownChartData);
 
-  readonly hasChartData = computed(() =>
-    this.lineChartData().datasets.some((ds) => ds.data.length > 0)
-  );
+  readonly hasChartData = computed(() => this.parsed().series.some((series) => series.data.length > 0));
 
-  readonly maxValue = computed(() => {
-    return this.lineChartData().datasets
-      .flatMap((dataset) => dataset.data)
-      .filter((item):item is number => typeof item === 'number')
-      .reduce((a, b) => Math.max(a, b), 0);
-  });
+  readonly lineChartData = computed<ChartData<'line', BurndownPoint[]>>(() => ({
+    datasets: this.parsed().series.map((series) => this.datasetFor(series)),
+  }));
 
   readonly lineChartOptions:Signal<ChartOptions<'line'>> = computed<ChartOptions<'line'>>(() => ({
+    maintainAspectRatio: false,
+    interaction: { mode: 'index', intersect: false },
     scales: {
       x: {
-        title: {
-          display: true,
-          text: this.i18n.t('js.burndown.day')
-        }
+        type: 'time',
+        adapters: { date: { zone: this.timezoneService.userTimezone() } },
+        time: { unit: 'day' },
+        ticks: {
+          // getDateFormat() yields a moment token string, which the luxon adapter would
+          // misread, so the label is formatted here rather than through displayFormats.
+          callback: (value:string|number) => this.timezoneService.formattedDate(new Date(Number(value)).toISOString()),
+        },
       },
       y: {
-        title: {
-          display: true,
-          text: this.i18n.t('js.burndown.points')
-        },
-        suggestedMin: 0,
-        max: this.maxValue() + BURNDOWN_Y_SCALE_MIN
-      }
+        title: { display: true, text: this.i18n.t('js.burndown.story_points') },
+        beginAtZero: true,
+      },
     },
     plugins: {
+      'non-working-days': { intervals: this.parsed().nonWorkingIntervals },
       legend: {
-        position: 'top'
-      }
-    }
+        position: 'bottom',
+        labels: { generateLabels: (chart) => this.legendLabels(chart) },
+      },
+      tooltip: {
+        callbacks: {
+          title: (items) => this.timezoneService.formattedDatetime(new Date(Number(items[0].parsed.x)).toISOString()),
+        },
+      },
+    },
   }));
+
+  private datasetFor(series:BurndownSeries):BurndownDataset {
+    const shared = {
+      label: series.label,
+      data: series.data,
+      pointRadius: 0,
+      pointHitRadius: 8,
+    };
+
+    switch (series.id) {
+      case 'remaining':
+        return {
+          ...shared,
+          stepped: 'after',
+          fill: true,
+          borderColor: cssVariable('--display-red-scale-6', '#cf222e'),
+          backgroundColor: cssVariable('--display-red-scale-2', '#ffebe9'),
+          borderWidth: 2,
+        };
+      case 'projection':
+        return {
+          ...shared,
+          borderColor: cssVariable('--borderColor-muted', '#d0d7de'),
+          borderDash: [6, 4],
+          borderWidth: 2,
+        };
+      default:
+        return {
+          ...shared,
+          borderColor: cssVariable('--fgColor-muted', '#59636e'),
+          borderWidth: 2,
+        };
+    }
+  }
+
+  private legendLabels(chart:Chart):LegendItem[] {
+    const datasetLabels = chart.data.datasets.map((dataset, index) => ({
+      text: dataset.label ?? '',
+      strokeStyle: dataset.borderColor as string,
+      fillStyle: dataset.backgroundColor as string ?? dataset.borderColor as string,
+      lineWidth: 2,
+      datasetIndex: index,
+    }));
+
+    if (this.parsed().nonWorkingIntervals.length === 0) {
+      return datasetLabels;
+    }
+
+    return [
+      ...datasetLabels,
+      {
+        text: this.i18n.t('js.burndown.non_working_day'),
+        fillStyle: cssVariable('--borderColor-muted', '#d0d7de'),
+        strokeStyle: cssVariable('--borderColor-muted', '#d0d7de'),
+        lineWidth: 0,
+        datasetIndex: undefined,
+      },
+    ];
+  }
 }

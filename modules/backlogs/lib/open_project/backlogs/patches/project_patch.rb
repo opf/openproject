@@ -48,4 +48,14 @@ module OpenProject::Backlogs::Patches::ProjectPatch
   def many_active_sprints?
     sprints.active.many?
   end
+
+  # Globally closed statuses always count as done, so that an empty or corrupt project
+  # configuration still treats finished work as finished.
+  def statuses_considered_closed
+    ::Status.where(id: done_statuses.reorder(nil)).or(::Status.where(is_closed: true))
+  end
+
+  def statuses_considered_open
+    ::Status.where.not(id: statuses_considered_closed)
+  end
 end
