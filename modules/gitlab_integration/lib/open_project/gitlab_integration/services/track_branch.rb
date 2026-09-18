@@ -43,8 +43,9 @@ module OpenProject
         HEADS_PREFIX = "refs/heads/"
 
         def call(payload, user:)
-          name = branch_name(payload.ref)
-          return if name.blank?
+          return unless payload.ref.start_with?(HEADS_PREFIX)
+
+          name = payload.ref.delete_prefix(HEADS_PREFIX)
 
           if payload.before.match?(BLANK_SHA)
             branch_created!(payload, name, user)
@@ -54,12 +55,6 @@ module OpenProject
         end
 
         private
-
-        def branch_name(ref)
-          return unless ref.start_with?(HEADS_PREFIX)
-
-          ref.delete_prefix(HEADS_PREFIX)
-        end
 
         def branch_created!(payload, name, user)
           work_package = find_visible_work_packages(extract_work_package_ids_from_branch(name), user).first
