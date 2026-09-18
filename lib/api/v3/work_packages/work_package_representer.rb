@@ -666,6 +666,8 @@ module API
                                represented.observed_in_version_ids = parse_link_ids_from_fragment(fragment, :version).compact
                              end
 
+        associated_resources :labels
+
         associated_resource :parent,
                             v3_path: :work_package,
                             representer: ::API::V3::WorkPackages::WorkPackageRepresenter,
@@ -895,7 +897,8 @@ module API
                                 attachments
                                 budget
                                 target_versions
-                                observed_in_versions]
+                                observed_in_versions
+                                labels]
 
         # The dynamic class generation introduced because of the custom fields interferes with
         # the class naming as well as prevents calls to super

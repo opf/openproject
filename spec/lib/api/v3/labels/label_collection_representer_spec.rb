@@ -28,31 +28,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Labelable
-  extend ActiveSupport::Concern
+require "spec_helper"
 
-  included do
-    has_many :labelings, as: :labelable, dependent: :delete_all
-    has_many :labels, -> { order(:id) }, through: :labelings
+RSpec.describe API::V3::Labels::LabelCollectionRepresenter do
+  include API::V3::Utilities::PathHelper
 
-    scope :labeled_with, ->(label) { joins(:labelings).where(labelings: { label_id: label }) }
-
-    after_save { @labels_was = nil }
+  let(:labels) { build_list(:label, 3) }
+  let(:representer) do
+    described_class.new(labels, self_link: api_v3_paths.labels, current_user: instance_double(User))
   end
 
-  def labels=(*)
-    @labels_was ||= label_ids
-    super
-  end
+  context "when listing" do
+    subject(:collection) { representer.to_json }
 
-  def label_ids=(*)
-    @labels_was ||= label_ids
-    super
-  end
-
-  def label_changes
-    return {} if @labels_was.nil? || @labels_was.sort == label_ids.sort
-
-    { "labels" => [@labels_was, label_ids] }
+    it_behaves_like "unpaginated APIv3 collection", 3, "labels", "Label"
   end
 end

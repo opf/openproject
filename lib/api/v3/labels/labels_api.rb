@@ -28,31 +28,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Labelable
-  extend ActiveSupport::Concern
+require "api/v3/labels/label_collection_representer"
+require "api/v3/labels/label_representer"
 
-  included do
-    has_many :labelings, as: :labelable, dependent: :delete_all
-    has_many :labels, -> { order(:id) }, through: :labelings
+module API
+  module V3
+    module Labels
+      class LabelsAPI < ::API::OpenProjectAPI
+        resources :labels do
+          after_validation do
+            authorize_in_any_work_package(:view_work_packages)
+          end
 
-    scope :labeled_with, ->(label) { joins(:labelings).where(labelings: { label_id: label }) }
+          get do
+            LabelCollectionRepresenter.new(Label.order(:name),
+                                           self_link: api_v3_paths.labels,
+                                           current_user:)
+          end
 
-    after_save { @labels_was = nil }
-  end
+          route_param :id, type: Integer, desc: "Label ID" do
+            after_validation do
+              @label = Label.find(params[:id])
+            end
 
-  def labels=(*)
-    @labels_was ||= label_ids
-    super
-  end
-
-  def label_ids=(*)
-    @labels_was ||= label_ids
-    super
-  end
-
-  def label_changes
-    return {} if @labels_was.nil? || @labels_was.sort == label_ids.sort
-
-    { "labels" => [@labels_was, label_ids] }
+            get do
+              LabelRepresenter.new(@label, current_user:)
+            end
+          end
+        end
+      end
+    end
   end
 end

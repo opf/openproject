@@ -28,31 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Labelable
-  extend ActiveSupport::Concern
-
-  included do
-    has_many :labelings, as: :labelable, dependent: :delete_all
-    has_many :labels, -> { order(:id) }, through: :labelings
-
-    scope :labeled_with, ->(label) { joins(:labelings).where(labelings: { label_id: label }) }
-
-    after_save { @labels_was = nil }
-  end
-
-  def labels=(*)
-    @labels_was ||= label_ids
-    super
-  end
-
-  def label_ids=(*)
-    @labels_was ||= label_ids
-    super
-  end
-
-  def label_changes
-    return {} if @labels_was.nil? || @labels_was.sort == label_ids.sort
-
-    { "labels" => [@labels_was, label_ids] }
+module API
+  module V3
+    module Labels
+      class LabelCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
+      end
+    end
   end
 end
