@@ -137,7 +137,7 @@ export class BurndownChartComponent {
           fill: true,
           borderColor: remainingColor(),
           backgroundColor: cssVariable('--display-red-scale-2', '#fda5a7'),
-          borderWidth: 2,
+          borderWidth: 1,
         };
       case 'projection':
         return {
