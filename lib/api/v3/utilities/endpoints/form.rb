@@ -33,6 +33,20 @@ module API
         class Form < API::Utilities::Endpoints::Bodied
           include V3Deductions
 
+          # The idea here is that Form does not want to persist stuff, only
+          # produce something that can be used as a form.
+          # So we do the transaction and reject it.
+          def process(request, params)
+            call = nil
+
+            ActiveRecord::Base.transaction(requires_new: true) do
+              call = super
+              raise ActiveRecord::Rollback
+            end
+
+            call
+          end
+
           def success?(call)
             only_validation_errors?(api_errors(call))
           end
