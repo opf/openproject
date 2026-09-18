@@ -32,23 +32,23 @@ import {
   centerOf,
   towardsEdgeOf,
 } from 'core-common/drag-and-drop/testing/native-drag-simulation';
-import {
-  createSortableRoot,
-  type SortableDropIntent,
-  type SortableDropTransaction,
-  type SortableSource,
+import type {
+  createSortableRoot as createSortableRootFn,
+  SortableDropIntent,
+  SortableDropTransaction,
+  SortableSource,
 } from './sortable-lists-engine';
 
-const { autoScrollRegistrations } = vi.hoisted(() => ({
-  autoScrollRegistrations: [] as {
-    element:Element;
-    getAllowedAxis:() => string;
-    cleanup:() => void;
-    cleaned:boolean;
-  }[],
-}));
+// `doMock` is not hoisted, so this initialises before the factory below runs
+// and a plain const does the job `vi.hoisted()` used to.
+const autoScrollRegistrations:{
+  element:Element;
+  getAllowedAxis:() => string;
+  cleanup:() => void;
+  cleaned:boolean;
+}[] = [];
 
-vi.mock('@atlaskit/pragmatic-drag-and-drop-auto-scroll/element', () => ({
+vi.doMock('@atlaskit/pragmatic-drag-and-drop-auto-scroll/element', () => ({
   autoScrollForElements: (args:{ element:Element; getAllowedAxis:() => string }) => {
     const entry = {
       element: args.element,
@@ -61,6 +61,8 @@ vi.mock('@atlaskit/pragmatic-drag-and-drop-auto-scroll/element', () => ({
     return entry.cleanup;
   },
 }));
+
+let createSortableRoot:typeof createSortableRootFn;
 
 const liveRegistrations = () => autoScrollRegistrations.filter((r) => !r.cleaned);
 
@@ -144,6 +146,10 @@ function buildCardGrid(items:string[], columns:number):{ root:HTMLElement; cards
 
 describe('createSortableRoot', () => {
   let cleanupFns:(() => void)[] = [];
+
+  beforeAll(async () => {
+    ({ createSortableRoot } = await import('./sortable-lists-engine'));
+  });
 
   beforeEach(() => { autoScrollRegistrations.length = 0; });
 
