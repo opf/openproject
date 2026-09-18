@@ -29,17 +29,16 @@
 #++
 
 class Header::ProjectsController < ApplicationController
-  no_authorization_required! :index, :frame
+  no_authorization_required! :index, :frame, :children
 
   MAX_NUMBER_OF_PROJECTS = 300
   VALID_FILTER_MODES = %w[all favorited].freeze
 
   def index
-    @current_project_id = params[:current_project_id].presence&.to_i
-    @jump = params[:jump].presence
+    set_request_context
     @query_terms = query.split
     @projects = load_projects
-    @favorited_ids = load_favorited_ids
+    @favorited_ids = load_favorited_ids(@projects)
     @tree = build_tree(@projects)
 
     render layout: false
@@ -53,7 +52,25 @@ class Header::ProjectsController < ApplicationController
     ), layout: false
   end
 
+  # Renders one node's immediate children, fetched when it's expanded in the tree.
+  def children
+    set_request_context
+    parent = Project.visible.active.find(params.expect(:parent_id))
+    @path = JSON.parse(params[:path])
+
+    child_projects = Project.nearest_visible_descendants(parent, limit: MAX_NUMBER_OF_PROJECTS).to_a
+    @favorited_ids = load_favorited_ids(child_projects)
+    @children_nodes = build_tree(child_projects)
+
+    render layout: false, formats: [:html_fragment]
+  end
+
   private
+
+  def set_request_context
+    @current_project_id = params[:current_project_id].presence&.to_i
+    @jump = params[:jump].presence
+  end
 
   def query
     @query ||= params[:query].to_s.strip
@@ -65,7 +82,7 @@ class Header::ProjectsController < ApplicationController
   end
 
   def load_projects
-    projects = base_scope.to_a
+    projects = root_query_scope.to_a
     projects = ensure_current_project_present(projects)
 
     if (query.present? || filter_mode == "favorited") && projects.any?
@@ -75,6 +92,15 @@ class Header::ProjectsController < ApplicationController
     end
 
     projects
+  end
+
+  # Search & favorited need matches from any depth within the hierarchy.
+  # The initial tree, however, only loads the first level of hierarchy.
+  # The rest gets loaded from #children when nodes are expanded.
+  def root_query_scope
+    return base_scope if query.present? || filter_mode == "favorited"
+
+    Project.nearest_visible_descendants(limit: MAX_NUMBER_OF_PROJECTS)
   end
 
   def base_scope
@@ -107,8 +133,15 @@ class Header::ProjectsController < ApplicationController
     query.present? || filter_mode == "favorited" || @current_project_id.blank?
   end
 
+  # Loads each ancestor's full child set (not just the chain down to `current`), so every
+  # ancestor on the path renders exactly as if it had been expanded manually - siblings
+  # included, and with no dangling expand arrow left behind for it.
   def merge_with_ancestors(projects, current)
-    (projects + current.self_and_ancestors.visible.active.to_a).uniq(&:id).sort_by(&:lft)
+    ancestors = current.self_and_ancestors.visible.active.to_a
+    ancestor_children = (ancestors - [current]).flat_map do |ancestor|
+      Project.nearest_visible_descendants(ancestor, limit: MAX_NUMBER_OF_PROJECTS).to_a
+    end
+    (projects + ancestors + ancestor_children).uniq(&:id).sort_by(&:lft)
   end
 
   # Returns a scope for all visible, active ancestors of the given projects
@@ -130,11 +163,11 @@ class Header::ProjectsController < ApplicationController
     user_project_favorites.select(:favorited_id)
   end
 
-  def load_favorited_ids
+  def load_favorited_ids(projects)
     return Set.new unless current_user.logged?
 
     user_project_favorites
-      .where(favorited_id: @projects.map(&:id))
+      .where(favorited_id: projects.map(&:id))
       .pluck(:favorited_id)
       .to_set
   end
@@ -146,6 +179,10 @@ class Header::ProjectsController < ApplicationController
   # Builds the nested tree from a flat, lft-ordered list of projects and
   # decorates each node with its query-match and expansion state.
   def build_tree(projects)
+    if lazy_loading?
+      # Needed to know which projects have visible descendants so we can display a chevron next to them
+      @projects_with_visible_descendants = Project.with_visible_descendants(projects).pluck(:id).to_set
+    end
     decorate_nodes(Project.build_projects_hierarchy(projects))
   end
 
@@ -154,7 +191,22 @@ class Header::ProjectsController < ApplicationController
       decorate_nodes(node[:children])
       node[:matches_query] = @matching_ids.nil? || @matching_ids.include?(node[:project].id)
       node[:expanded] = expanded_node?(node)
+      node[:deferred_children_path] = deferred_children_path_for(node)
     end
+  end
+
+  def deferred_children_path_for(node)
+    return unless lazy_loading? && node[:children].empty? && @projects_with_visible_descendants.include?(node[:project].id)
+
+    children_header_projects_path(
+      parent_id: node[:project].id,
+      current_project_id: @current_project_id,
+      jump: @jump
+    )
+  end
+
+  def lazy_loading?
+    query.blank? && filter_mode != "favorited"
   end
 
   # A node is expanded so its children are revealed when:

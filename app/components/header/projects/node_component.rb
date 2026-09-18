@@ -49,6 +49,8 @@ module Header
       def favorited? = @favorited_ids.include?(project.id)
       def expanded? = @node[:expanded]
       def matches_query? = @node[:matches_query]
+      def deferred_children_path = @node[:deferred_children_path]
+      def deferred? = deferred_children_path.present?
 
       def href
         @jump.present? ? helpers.project_path(project.identifier, jump: @jump) : helpers.project_path(project.identifier)
