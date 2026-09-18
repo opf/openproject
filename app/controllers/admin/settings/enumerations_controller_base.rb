@@ -82,21 +82,17 @@ module Admin
       end
 
       def move
-        if @enumeration.update(move_params)
-          render_success_flash_message_via_turbo_stream(
-            message: I18n.t(:enumeration_caption_order_changed)
-          )
+        moved = move_after_anchor
+
+        if moved
+          render_move_success
         else
           render_error_flash_message_via_turbo_stream(
-            message: I18n.t(:enumeration_could_not_be_moved)
+            message: I18n.t(:error_invalid_list_move_anchor)
           )
         end
 
-        replace_via_turbo_stream(
-          component: index_component_class.new(enumerations: enumeration_class.all)
-        )
-
-        respond_with_turbo_streams
+        respond_with_turbo_streams(status: moved ? :ok : :unprocessable_entity)
       end
 
       def reassign
@@ -105,17 +101,37 @@ module Admin
 
       private
 
-      def move_params
-        move_to = params[:move_to]
-        position = Integer(params[:position], exception: false)
+      # Morph first: Turbo applies streams in order, so the flash only shows
+      # once the list has been reconciled.
+      def render_move_success
+        update_via_turbo_stream(component: index_component, method: :morph)
+        render_success_flash_message_via_turbo_stream(
+          message: I18n.t(:enumeration_caption_order_changed)
+        )
+      end
 
-        if move_to.in? %w(highest higher lower lowest)
-          { move_to: move_to }
-        elsif position
-          { position: position }
-        else
-          {}
-        end
+      def index_component
+        index_component_class.new(enumerations: enumeration_class.all)
+      end
+
+      def move_after_anchor
+        return false unless valid_drop_request?
+
+        @enumeration.move_after_anchor(drop_params[:prev_id], scope: enumeration_class.all)
+      end
+
+      # The raw list_id is checked too, because permit cannot distinguish an
+      # absent value from a filtered-out one: an array or hash would otherwise
+      # pass `blank?` and read as "move to top".
+      def valid_drop_request?
+        drop_params[:list_type] == enumeration_class::SORTABLE_LIST_TYPE &&
+          params[:list_id].blank? &&
+          (params[:list_id].nil? || drop_params.key?(:list_id)) &&
+          drop_params.key?(:prev_id)
+      end
+
+      def drop_params
+        @drop_params ||= params.permit(:list_type, :list_id, :prev_id)
       end
 
       def handle_reassignment_on_deletion

@@ -52,12 +52,53 @@ RSpec.describe Admin::Enumerations::IndexComponent, type: :component do
       expect(rendered_component).to have_css(".Box-row", text: "Trivial")
     end
 
-    it_behaves_like "a reorderable Border Box List", drag_type: "enumeration" do
-      let(:draggable_records) { [priority_a, priority_b] }
+    it "wires the wrapper as the sortable-lists root", :aggregate_failures do
+      root = rendered_component.at_css("#admin-enumerations-index-component")
 
-      def drop_url_for(record)
-        "/work_package_priorities/#{record.id}/move"
+      expect(root["data-controller"]).to eq("sortable-lists")
+      expect(root["data-sortable-lists-move-url-template-value"])
+        .to eq("/admin/settings/work_package_priorities/{id}/move")
+      expect(root["data-sortable-lists-sortable-lists--list-outlet"])
+        .to eq("#admin-enumerations-index-component [data-controller~='sortable-lists--list']")
+      expect(root["data-sortable-lists-sortable-lists--item-outlet"])
+        .to eq("#admin-enumerations-index-component [data-controller~='sortable-lists--item']")
+    end
+
+    it "wires the box as the sortable list", :aggregate_failures do
+      list = rendered_component.at_css("[data-controller~='sortable-lists--list']")
+
+      expect(list["data-sortable-lists--list-type-value"]).to eq("issue_priority")
+      expect(list["data-sortable-lists--list-accepted-type-value"]).to eq("issue_priority")
+      expect(list["data-sortable-lists--list-name-value"])
+        .to eq(IssuePriority.model_name.human(count: :other))
+    end
+
+    # The list controller's default rows container is `:scope > ul`; Primer's
+    # BorderBox renders its rows into exactly that, so no override is needed.
+    it "keeps the rows in the list controller's default rows container" do
+      expect(rendered_component)
+        .to have_css("[data-controller~='sortable-lists--list'] > ul.Box-list > li.Box-row", count: 2)
+    end
+
+    it "does not override the rows container selector" do
+      expect(rendered_component)
+        .to have_no_css("[data-sortable-lists--list-rows-container-element]")
+    end
+
+    it "wires every row as a sortable item", :aggregate_failures do
+      [priority_a, priority_b].each do |priority|
+        row = rendered_component.at_css(".Box-row[data-sortable-lists--item-id-value='#{priority.id}']")
+
+        expect(row["data-controller"]).to eq("sortable-lists--item")
+        expect(row["data-sortable-lists--item-type-value"]).to eq("issue_priority")
+        expect(row["data-sortable-lists--item-label-value"]).to eq(priority.name)
       end
+    end
+
+    it "no longer wires the legacy drag-and-drop controller", :aggregate_failures do
+      expect(rendered_component).to have_no_css("[data-controller~='generic-drag-and-drop']")
+      expect(rendered_component).to have_no_css("[data-generic-drag-and-drop-target]")
+      expect(rendered_component).to have_no_css("[data-drop-url]")
     end
   end
 
