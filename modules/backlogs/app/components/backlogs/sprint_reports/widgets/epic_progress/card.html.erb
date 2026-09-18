@@ -45,7 +45,17 @@ See COPYRIGHT and LICENSE files for more details.
         end
         flex.with_row do
           render(Primer::Beta::ProgressBar.new) do |bar|
-            bar.with_item(percentage: resolved_percentage)
+            bar.with_item(
+              percentage: resolved_percentage,
+              role: "progressbar",
+              aria: {
+                valuenow: resolved_percentage, valuemin: 0, valuemax: 100,
+                label: t(
+                  ".progress_label",
+                  epic: epic.subject, completed: resolved_work_packages_count, total: total_work_packages_count
+                )
+              }
+            )
           end
         end
       end

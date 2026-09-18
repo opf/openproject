@@ -63,6 +63,11 @@ RSpec.describe Backlogs::SprintReports::Widgets::EpicProgress::Card, type: :comp
       expect(rendered_component).to have_text("1 / 2 work packages")
       expect(rendered_component).to have_text("(50%)")
     end
+
+    it "exposes the ratio as an accessible progressbar" do
+      expect(rendered_component).to have_css("[role='progressbar'][aria-valuenow='50'][aria-valuemin='0'][aria-valuemax='100']")
+      expect(rendered_component).to have_css("[aria-label='#{epic.subject}: 1 of 2 work packages completed']")
+    end
   end
 
   context "when descendant type is excluded from backlogs" do
