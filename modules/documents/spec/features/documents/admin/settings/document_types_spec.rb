@@ -39,6 +39,24 @@ RSpec.describe "Document types admin", :js do
     page.within("#document-type-#{type.id}", &)
   end
 
+  def document_type_names_in_order
+    page.all("#documents-admin-document-types-index-component a[href$='/edit']").map(&:text)
+  end
+
+  def drag_document_type(document_type, after:)
+    handle = find("#document-type-#{document_type.id} .DragHandle")
+    target = find("#document-type-#{after.id}")
+    offset_y = (target.native.rect.height / 2) - [6, target.native.rect.height / 4].min
+
+    perform_native_drag(source: handle, target:, offset_y: offset_y.round)
+
+    # Assert Pragmatic DnD tore down its own honey-pot overlay, so a regression
+    # leaving it stuck is caught here rather than as an unrelated click failure.
+    expect(page).to have_no_css("[data-pdnd-honey-pot]", wait: 2, visible: :all)
+  rescue Selenium::WebDriver::Error::StaleElementReferenceError
+    retry
+  end
+
   context "when managing document types" do
     let!(:default_document_type) { create(:document_type, is_default: true, name: "Note") }
 
@@ -198,10 +216,6 @@ RSpec.describe "Document types admin", :js do
       alpha.move_to_top
     end
 
-    def document_type_names_in_order
-      page.all("#documents-admin-document-types-index-component a[href$='/edit']").map(&:text)
-    end
-
     it "reorders through the move menu" do
       visit admin_settings_document_types_path
 
@@ -220,6 +234,28 @@ RSpec.describe "Document types admin", :js do
       refresh
 
       wait_for { document_type_names_in_order }.to eq(%w[Gamma Alpha Beta])
+    end
+
+    it "reorders by dragging twice across a morph", :selenium do
+      visit admin_settings_document_types_path
+
+      wait_for { document_type_names_in_order }.to eq(%w[Alpha Beta Gamma])
+
+      drag_document_type(alpha, after: beta)
+
+      wait_for { document_type_names_in_order }.to eq(%w[Beta Alpha Gamma])
+      expect_and_dismiss_flash(message: I18n.t(:enumeration_caption_order_changed))
+      expect(page).to have_no_css("[data-sortable-lists-busy]")
+
+      drag_document_type(beta, after: gamma)
+
+      wait_for { document_type_names_in_order }.to eq(%w[Alpha Gamma Beta])
+      expect_and_dismiss_flash(message: I18n.t(:enumeration_caption_order_changed))
+      expect(page).to have_no_css("[data-sortable-lists-busy]")
+
+      refresh
+
+      wait_for { document_type_names_in_order }.to eq(%w[Alpha Gamma Beta])
     end
   end
 
