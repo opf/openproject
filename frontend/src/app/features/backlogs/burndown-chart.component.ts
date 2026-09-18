@@ -110,6 +110,8 @@ export class BurndownChartComponent {
     },
   }));
 
+  // Datasets are drawn from the highest order down, so the filled remaining area has to sit
+  // above the lines in order for them to end up drawn over it.
   private datasetFor(series:BurndownSeries):BurndownDataset {
     const shared = {
       label: series.label,
@@ -122,6 +124,7 @@ export class BurndownChartComponent {
       case 'remaining':
         return {
           ...shared,
+          order: 3,
           stepped: 'after',
           fill: true,
           borderColor: cssVariable('--display-red-scale-6', '#cf222e'),
@@ -131,6 +134,7 @@ export class BurndownChartComponent {
       case 'projection':
         return {
           ...shared,
+          order: 2,
           borderColor: cssVariable('--borderColor-muted', '#d0d7de'),
           borderDash: [6, 4],
           borderWidth: 2,
@@ -138,6 +142,7 @@ export class BurndownChartComponent {
       default:
         return {
           ...shared,
+          order: 1,
           borderColor: cssVariable('--fgColor-muted', '#59636e'),
           borderWidth: 2,
         };
