@@ -30,46 +30,48 @@
 
 module AI
   module TextTransforms
-    class Context
-      attr_reader :work_package, :project, :type
-
-      def self.for_work_package(work_package)
-        new(work_package:, project: work_package.project, type: work_package.type)
+    class CreateRun
+      def initialize(user:, action:, context:, content:, availability: Availability.new)
+        @user = user
+        @action = action
+        @context = context
+        @content = content
+        @availability = availability
       end
 
-      def self.for_new_work_package(project:, type:)
-        new(work_package: nil, project:, type:)
-      end
+      def call
+        run = build_run
+        return unavailable(run) unless action && availability.action(action, context).available?
+        return ServiceResult.failure(result: run, errors: run.errors) unless run.save
 
-      def self.none
-        new(work_package: nil, project: nil, type: nil)
-      end
-
-      def initialize(work_package:, project:, type:)
-        @work_package = work_package
-        @project = project
-        @type = type
-      end
-
-      def type_variant
-        return @type_variant if defined?(@type_variant)
-
-        @type_variant = resolve_type_variant
-      end
-
-      def template
-        return @template if defined?(@template)
-
-        @template = type_variant&.default_work_package_description.presence
+        AI::TextTransformJob.perform_later(run.id)
+        ServiceResult.success(result: run)
       end
 
       private
 
-      def resolve_type_variant
-        return work_package.type_variant if work_package
-        return project.type_variant(type) if project && type
+      attr_reader :user, :action, :context, :content, :availability
 
-        nil
+      def unavailable(run)
+        run.errors.add(:base,
+                       :not_available,
+                       message: I18n.t("api_v3.errors.ai_text_transform.action_not_available"),
+                       reason: unavailable_reason)
+        ServiceResult.failure(result: run, errors: run.errors)
+      end
+
+      def unavailable_reason
+        action ? availability.action(action, context).reason : :unknown_action
+      end
+
+      def build_run
+        AI::TextTransformRun.new(user:, action:, input: content, system_prompt:)
+      end
+
+      def system_prompt
+        return "" if action.nil?
+
+        Prompt.build(action:, context:, content:).system
       end
     end
   end

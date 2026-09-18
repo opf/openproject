@@ -2073,6 +2073,8 @@ en:
           `targetVersions` accepts at most one value and must not be written together
           with `version` in the same request.
     errors:
+      ai_text_transform:
+        action_not_available: "This action is not available for this work package."
       bad_request:
         emoji_reactions_activity_type_not_supported: "This activity type does not support emoji reactions."
         invalid_link: "The link under key '%{key}' is not valid."

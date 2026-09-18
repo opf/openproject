@@ -30,46 +30,23 @@
 
 module AI
   module TextTransforms
-    class Context
-      attr_reader :work_package, :project, :type
+    class Prompt
+      SCAFFOLD = <<~TEXT.squish
+        You are a writing assistant for project management work packages.
+        Rules that always apply: return the full revised document as markdown, no code fences, no commentary;
+        do not invent content the author did not state; preserve the exact casing of product names and versions;
+        respond in the same language as the user's content, unless the task instructions explicitly state otherwise.
+      TEXT
+      TEMPLATE_INTRO = "The work package type's template, keep its structure:"
 
-      def self.for_work_package(work_package)
-        new(work_package:, project: work_package.project, type: work_package.type)
-      end
+      Messages = Data.define(:system, :user)
 
-      def self.for_new_work_package(project:, type:)
-        new(work_package: nil, project:, type:)
-      end
+      def self.build(action:, context:, content:)
+        system = "#{SCAFFOLD}\n\n#{action.prompt}"
+        template = context.template
+        system = "#{system}\n\n#{TEMPLATE_INTRO}\n#{template}" if action.injects_type_template? && template
 
-      def self.none
-        new(work_package: nil, project: nil, type: nil)
-      end
-
-      def initialize(work_package:, project:, type:)
-        @work_package = work_package
-        @project = project
-        @type = type
-      end
-
-      def type_variant
-        return @type_variant if defined?(@type_variant)
-
-        @type_variant = resolve_type_variant
-      end
-
-      def template
-        return @template if defined?(@template)
-
-        @template = type_variant&.default_work_package_description.presence
-      end
-
-      private
-
-      def resolve_type_variant
-        return work_package.type_variant if work_package
-        return project.type_variant(type) if project && type
-
-        nil
+        Messages.new(system:, user: content)
       end
     end
   end
