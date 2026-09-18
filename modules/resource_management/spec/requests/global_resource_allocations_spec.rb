@@ -82,6 +82,23 @@ RSpec.describe "Global resource allocations", :skip_csrf, type: :rails_request,
     expect(response).to have_http_status(:ok)
   end
 
+  it "keeps the form on the global routes even when a work package is preselected" do
+    get new_resource_allocation_path(work_package_id: allocatable_wp.id),
+        headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+    expect(response.body).to include(%(action="#{resource_allocations_path}"))
+    expect(response.body).to include(refresh_form_resource_allocations_path)
+    expect(response.body).not_to include(project_resource_allocations_path(allocatable))
+  end
+
+  it "still narrows the pickers to the preselected work package's project" do
+    get new_resource_allocation_path(work_package_id: allocatable_wp.id),
+        headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+    expect(response.body).to include("allocatable_in_project")
+    expect(response.body).to include("&quot;#{allocatable.id}&quot;")
+  end
+
   it "creates an allocation, taking the project from the work package" do
     expect do
       post resource_allocations_path, params: allocation_params(allocatable_wp), as: :turbo_stream

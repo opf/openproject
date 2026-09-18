@@ -45,7 +45,7 @@ module ::ResourceManagement
       end
 
       respond_with_dialog ResourceAllocations::NewDialogComponent.new(
-        project: dialog_project,
+        project: @project,
         allocation: prefilled_allocation,
         view: resource_planner_view
       )
@@ -85,7 +85,7 @@ module ::ResourceManagement
       end
 
       respond_with_dialog ResourceAllocations::EditDialogComponent.new(
-        project: allocation_project(@resource_allocation.entity),
+        project: @project,
         allocation: @resource_allocation,
         view: resource_planner_view
       )
@@ -150,7 +150,7 @@ module ::ResourceManagement
       replace_via_turbo_stream(
         component: ResourceAllocations::AllocationStep::FormComponent.new(
           allocation:,
-          project: allocation_project(allocation.entity),
+          project: @project,
           dialog_id: params.dig(:resource_allocation, :form_dialog_id).presence ||
             ResourceAllocations::NewDialogComponent::DIALOG_ID,
           view: resource_planner_view
@@ -163,7 +163,7 @@ module ::ResourceManagement
       replace_via_turbo_stream(
         component: ResourceAllocations::AllocationStep::FormComponent.new(
           allocation:,
-          project: allocation_project(allocation.entity),
+          project: @project,
           view: resource_planner_view
         ),
         status:
@@ -178,7 +178,7 @@ module ::ResourceManagement
       replace_via_turbo_stream(
         component: ResourceAllocations::WarningStep::FormComponent.new(
           allocation:,
-          project: allocation_project(allocation.entity),
+          project: @project,
           form_values: submitted_allocation_params,
           filters: params[:filters],
           view: resource_planner_view,
@@ -339,7 +339,7 @@ module ::ResourceManagement
       replace_via_turbo_stream(
         component: ResourceAllocations::AllocationStep::FormComponent.new(
           allocation:,
-          project: allocation_project(allocation.entity),
+          project: @project,
           dialog_id: ResourceAllocations::EditDialogComponent::DIALOG_ID,
           view: resource_planner_view
         ),
@@ -463,12 +463,6 @@ module ::ResourceManagement
       return @preselected_user if defined?(@preselected_user)
 
       @preselected_user = User.visible(current_user).find_by(id: params[:principal_id])
-    end
-
-    # The project the dialog's pickers are scoped to: the planner's own, or the
-    # preselected work package's when the planner is global.
-    def dialog_project
-      @dialog_project ||= allocation_project(preselected_work_package)
     end
 
     def prefilled_allocation
