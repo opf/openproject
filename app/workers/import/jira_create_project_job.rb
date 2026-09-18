@@ -48,16 +48,31 @@ module Import
           # Needed to avoid project.lft and project.rgt corruption due to race condition
           # when multiple projects are created at the same time.
           lock_key = "jira_import_#{jira_import_id}_create_project"
+          project = nil
           OpenProject::Mutex.with_advisory_lock(@jira_import, lock_key) do
-            create_project(jira_project)
+            project = create_project(jira_project)
           end
+          create_project_versions(project, jira_project)
         end
       end
     end
 
     private
 
-    # rubocop:disable Metrics/AbcSize
+    def create_project_versions(project, jira_project)
+      jira_project.jira_versions.each do |jira_version|
+        version = Version.find_or_create_by!(
+          project_id: project.id,
+          name: jira_version.payload.fetch("name")
+        )
+        create_reference!(op_leg: version,
+                          jira_leg: jira_version,
+                          jira_import: @jira_import,
+                          uses_existing: false)
+      end
+    end
+
+    # rubocop:disable-next Metrics/AbcSize
     def create_project(jira_project)
       project_key = jira_project.payload.fetch("key")
       project_keys = jira_project.payload.fetch("projectKeys")
@@ -95,6 +110,5 @@ module Import
 
       raise service_call.message
     end
-    # rubocop:enable Metrics/AbcSize
   end
 end

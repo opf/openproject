@@ -28,12 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Import
-  class JiraProject < ApplicationRecord
-    self.table_name = "jira_projects"
-
-    belongs_to :jira_import, class_name: "Import::JiraImport"
-    has_many :jira_issues, class_name: "Import::JiraIssue", dependent: :destroy
-    has_many :jira_versions, class_name: "Import::JiraVersion", dependent: :destroy
+FactoryBot.define do
+  factory :jira_version, class: "Import::JiraVersion" do
+    sequence(:origin_id) { |n| (10000 + n).to_s }
   end
 end

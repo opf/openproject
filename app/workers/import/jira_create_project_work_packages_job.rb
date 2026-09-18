@@ -60,7 +60,7 @@ module Import
       end
     end
 
-    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable-next Metrics/AbcSize
     def build_enumerator(jira_import_id, jira_project_id, cursor:)
       @jira_import = Import::JiraImport.find(jira_import_id)
       jira = @jira_import.jira
@@ -85,9 +85,8 @@ module Import
         cursor: cursor
       )
     end
-    # rubocop:enable Metrics/AbcSize
 
-    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable-next Metrics/AbcSize
     def each_iteration(jira_issue, _jira_import_id, _jira_project_id)
       jira_issue_key = jira_issue.payload["key"]
       Rails.logger.tagged("jira_import_id:#{_jira_import_id}", "jira_project_id:#{_jira_project_id}",
@@ -110,7 +109,6 @@ module Import
         end
       end
     end
-    # rubocop:enable Metrics/AbcSize
 
     private
 
@@ -157,7 +155,7 @@ module Import
       project.work_package_custom_fields << new_cfs if new_cfs.any?
     end
 
-    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable-next Metrics/AbcSize
     def create_type(jira_issue, project)
       issue_type = jira_issue.payload["fields"]["issuetype"]
       type = Type.where("LOWER(name) = LOWER(?)", issue_type["name"]).first
@@ -178,7 +176,6 @@ module Import
       create_reference!(op_leg: type, jira_leg: jira_issue_type, jira_import: @jira_import, uses_existing:)
       type
     end
-    # rubocop:enable Metrics/AbcSize
 
     def enable_type(project, type)
       service_call = Projects::Types::AddService
@@ -226,7 +223,7 @@ module Import
       raise call.message if call.failure?
     end
 
-    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
+    # rubocop:disable-next Metrics/AbcSize, Metrics/PerceivedComplexity
     def create_work_package(jira_issue, project, type, status, priority, custom_field_registry)
       Rails.logger.debug "Creating work package"
 
@@ -244,6 +241,15 @@ module Import
       original_estimate_seconds = jira_issue.payload.dig("fields", "timetracking", "originalEstimateSeconds")
       remaining_estimate_seconds = jira_issue.payload.dig("fields", "timetracking", "remainingEstimateSeconds")
 
+      target_versions_origin_ids = jira_issue.payload["fields"]["fixVersions"].map { |v| v.fetch("id") }
+      observed_in_versions_origin_ids = jira_issue.payload["fields"]["versions"].map { |v| v.fetch("id") }
+      target_versions = Import::JiraVersion
+                          .where(jira_import: @jira_import, origin_id: target_versions_origin_ids)
+                          .filter_map { |jira_version| Import::JiraOpenProjectReference.find_op_leg(jira_version) }
+      observed_in_versions = Import::JiraVersion
+                              .where(jira_import: @jira_import, origin_id: observed_in_versions_origin_ids)
+                              .filter_map { |jira_version| Import::JiraOpenProjectReference.find_op_leg(jira_version) }
+
       service_call =
         WorkPackages::CreateService
           .new(user: author || @system_user, contract_class: EmptyContract)
@@ -255,6 +261,8 @@ module Import
             priority:,
             status:,
             assigned_to:,
+            target_versions:,
+            observed_in_versions:,
             due_date: jira_issue.payload.dig("fields", "duedate"),
             estimated_hours: (original_estimate_seconds / 3600.0 if original_estimate_seconds),
             remaining_hours: (remaining_estimate_seconds / 3600.0 if remaining_estimate_seconds),
@@ -289,9 +297,8 @@ module Import
       create_work_package_history(work_package, jira_issue, project)
       work_package
     end
-    # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity
 
-    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable-next Metrics/AbcSize
     def create_work_package_history(work_package, jira_issue, project)
       journal_service = Import::JiraImportJournals.new(work_package:)
 
@@ -315,7 +322,6 @@ module Import
 
       journal_service.call(updated_at: jira_issue.payload.dig("fields", "updated"))
     end
-    # rubocop:enable Metrics/AbcSize
 
     def create_member(project, member)
       service_call = Members::CreateService

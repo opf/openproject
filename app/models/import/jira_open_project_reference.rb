@@ -37,6 +37,14 @@ module Import
 
     belongs_to :jira_import, class_name: "Import::JiraImport"
 
+    def self.find_op_leg(jira_leg)
+      where(jira_entity_class: jira_leg.class.to_s, jira_entity_id: jira_leg.id).first&.op_leg
+    end
+
+    def self.find_jira_leg(op_leg)
+      where(op_entity_class: op_leg.class.to_s, op_entity_id: op_leg.id).first&.jira_leg
+    end
+
     def op_leg
       op_entity_class&.constantize&.find(op_entity_id)
     rescue ActiveRecord::RecordNotFound
