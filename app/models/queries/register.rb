@@ -38,10 +38,15 @@ module Queries::Register
       @filters[query] << filter
     end
 
-    # Exclude filter from filters collection representer.
-    def exclude(filter)
-      @excluded_filters ||= []
-      @excluded_filters << filter
+    # Mark a registered filter as not to be offered to the user. It keeps working when set
+    # programmatically or on a stored query, but is left out of the filters collection
+    # representer and of the filter form.
+    def exclude(query, filter)
+      @excluded_filters ||= Hash.new do |hash, filter_key|
+        hash[filter_key] = []
+      end
+
+      @excluded_filters[query] << filter
     end
 
     def order(query, order)
@@ -90,9 +95,8 @@ module Queries::Register
       Queries::Register.filter(query, filter)
     end
 
-    # Exclude filter from filters collection representer.
     def exclude(filter)
-      Queries::Register.exclude(filter)
+      Queries::Register.exclude(query, filter)
     end
 
     def order(order)
