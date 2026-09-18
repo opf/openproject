@@ -55,19 +55,20 @@ module Backlogs
           private
 
           def work_packages_in_epic
-            if historic?
-              as_of.where(id: historic_descendant_ids([epic.id])).visible
-            else
-              epic.descendants.visible
-            end
+            @work_packages_in_epic ||=
+              if historic?
+                as_of.where(id: historic_descendant_ids([epic.id])).visible
+              else
+                epic.descendants.visible
+              end
           end
 
           def resolved_work_packages_count
-            work_packages_in_epic.where(status_id: project.done_status_ids).count
+            @resolved_work_packages_count ||= work_packages_in_epic.where(status_id: project.done_status_ids).count
           end
 
           def total_work_packages_count
-            work_packages_in_epic.count
+            @total_work_packages_count ||= work_packages_in_epic.count
           end
 
           def historic_descendant_ids(ids)
