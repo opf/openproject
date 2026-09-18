@@ -55,10 +55,9 @@ module ResourceManagement
     private
 
     # The inherited `base_scope` carries a nil project and so resolves to the
-    # project-independent planners.
+    # project-independent planners, and to none of them without the global
+    # permission.
     def global_planner_groups
-      return [] unless User.current.allowed_globally?(:view_global_resource_planners)
-
       [
         populated_group(I18n.t("resource_management.sidebar.public"), public_planners),
         populated_group(I18n.t("resource_management.sidebar.private"), private_planners)

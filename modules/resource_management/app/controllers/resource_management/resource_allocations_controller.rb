@@ -280,7 +280,7 @@ module ::ResourceManagement
           nil
         else
           PersistedView
-            .where(parent: ResourcePlanner.visible(current_user).where(project: @project))
+            .where(parent: ResourcePlanner.visible_to(current_user, @project))
             .find_by(id:)
         end
     end

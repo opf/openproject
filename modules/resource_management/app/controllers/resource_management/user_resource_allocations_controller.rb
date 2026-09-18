@@ -34,7 +34,7 @@ module ::ResourceManagement
 
     menu_item :resource_management
 
-    before_action :load_and_authorize_in_optional_project
+    load_and_authorize_in_planner_section
     before_action :find_resource_planner_view
     before_action :find_user
 
@@ -61,7 +61,7 @@ module ::ResourceManagement
 
     def find_resource_planner_view
       @resource_planner_view = PersistedView
-                                 .where(parent: ResourcePlanner.visible(current_user).where(project: @project))
+                                 .where(parent: ResourcePlanner.visible_to(current_user, @project))
                                  .find(params.expect(:resource_planner_view_id))
     end
 

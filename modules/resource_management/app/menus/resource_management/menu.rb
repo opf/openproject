@@ -84,8 +84,7 @@ module ResourceManagement
     # back without a second query.
     def base_scope
       ResourcePlanner
-        .visible(User.current)
-        .where(project:)
+        .visible_to(User.current, project)
         .with_favorited_by_user(User.current)
         .order(favorited: :desc, name: :asc)
     end

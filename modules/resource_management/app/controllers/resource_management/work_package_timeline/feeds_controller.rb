@@ -37,7 +37,7 @@ module ResourceManagement
 
       menu_item :resource_management
 
-      before_action :load_and_authorize_in_optional_project
+      load_and_authorize_in_planner_section
       before_action :find_resource_planner
       before_action :find_view
 
