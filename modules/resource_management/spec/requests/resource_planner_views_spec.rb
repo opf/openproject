@@ -46,7 +46,7 @@ RSpec.describe "ResourcePlannerViews requests",
 
   describe "GET show" do
     it "renders the view's work package list" do
-      get project_resource_planner_view_path(project, resource_planner, view)
+      get resource_planner_view_path(resource_planner, view, project_id: project)
 
       expect(response).to have_http_status(:ok)
     end
@@ -56,13 +56,13 @@ RSpec.describe "ResourcePlannerViews requests",
     it "renders the planner's show page with its default view" do
       view
 
-      get project_resource_planner_path(project, resource_planner)
+      get resource_planner_path(resource_planner, project_id: project)
 
       expect(response).to have_http_status(:ok)
     end
 
     it "renders the planner's show page when it has no views yet" do
-      get project_resource_planner_path(project, resource_planner)
+      get resource_planner_path(resource_planner, project_id: project)
 
       expect(response).to have_http_status(:ok)
     end
@@ -84,7 +84,7 @@ RSpec.describe "ResourcePlannerViews requests",
     before { allow(Setting).to receive(:per_page_options_array).and_return([1, 100]) }
 
     def subjects_on(**query_params)
-      get project_resource_planner_view_path(project, resource_planner, paginated_view, **query_params)
+      get resource_planner_view_path(resource_planner, paginated_view, **query_params, project_id: project)
       work_packages.map(&:subject).select { |subject| response.body.include?(subject) }
     end
 
@@ -121,7 +121,7 @@ RSpec.describe "ResourcePlannerViews requests",
     end
 
     it "stays unpaginated so drag-and-drop keeps the full list" do
-      get project_resource_planner_view_path(project, resource_planner, manual_view, per_page: 1)
+      get resource_planner_view_path(resource_planner, manual_view, per_page: 1, project_id: project)
 
       expect(response.body).not_to include("op-pagination--pages")
       work_packages.each { |wp| expect(response.body).to include(wp.subject) }
@@ -130,7 +130,7 @@ RSpec.describe "ResourcePlannerViews requests",
 
   describe "POST create" do
     subject(:perform) do
-      post project_resource_planner_views_path(project, resource_planner),
+      post resource_planner_views_path(resource_planner, project_id: project),
            params: {
              view_class_name: "ResourceWorkPackageList",
              # `filter_mode` is submitted scoped to the `view` form, exactly as
@@ -154,7 +154,7 @@ RSpec.describe "ResourcePlannerViews requests",
 
     context "when the view is manually hand-picked" do
       subject(:perform) do
-        post project_resource_planner_views_path(project, resource_planner),
+        post resource_planner_views_path(resource_planner, project_id: project),
              params: {
                view_class_name: "ResourceWorkPackageList",
                view: { name: "Hand-picked", filter_mode: "manual" },
@@ -176,7 +176,7 @@ RSpec.describe "ResourcePlannerViews requests",
         perform
         view = ResourceWorkPackageList.last
 
-        get edit_project_resource_planner_view_path(project, resource_planner, view), as: :turbo_stream
+        get edit_resource_planner_view_path(resource_planner, view, project_id: project), as: :turbo_stream
 
         manual_radio = response.body[/<input[^>]*value="manual"[^>]*>/]
         expect(manual_radio).to include("checked")
@@ -186,7 +186,7 @@ RSpec.describe "ResourcePlannerViews requests",
 
   describe "GET new (configure step)" do
     it "pre-fills the view name with the view type's label" do
-      get new_project_resource_planner_view_path(project, resource_planner),
+      get new_resource_planner_view_path(resource_planner, project_id: project),
           params: { view_class_name: "ResourceWorkPackageList" },
           as: :turbo_stream
 
@@ -198,7 +198,7 @@ RSpec.describe "ResourcePlannerViews requests",
 
   describe "PATCH update" do
     subject(:perform) do
-      patch project_resource_planner_view_path(project, resource_planner, view),
+      patch resource_planner_view_path(resource_planner, view, project_id: project),
             params: { view: { name: "Renamed view" } },
             as: :turbo_stream
     end
@@ -211,7 +211,7 @@ RSpec.describe "ResourcePlannerViews requests",
     end
 
     it "switches an automatic view to manual via the view-scoped filter_mode" do
-      patch project_resource_planner_view_path(project, resource_planner, view),
+      patch resource_planner_view_path(resource_planner, view, project_id: project),
             params: {
               view: { name: "Original", filter_mode: "manual" },
               filters: [{ status_id: { operator: "o", values: [] } }].to_json
@@ -267,7 +267,7 @@ RSpec.describe "ResourcePlannerViews requests",
 
     describe "GET new_work_package" do
       it "renders the search dialog" do
-        get new_work_package_project_resource_planner_view_path(project, resource_planner, manual_view),
+        get new_work_package_resource_planner_view_path(resource_planner, manual_view, project_id: project),
             as: :turbo_stream
 
         expect(response).to have_http_status(:ok)
@@ -277,7 +277,7 @@ RSpec.describe "ResourcePlannerViews requests",
 
     describe "POST add_work_package" do
       subject(:perform) do
-        post work_packages_project_resource_planner_view_path(project, resource_planner, manual_view),
+        post work_packages_resource_planner_view_path(resource_planner, manual_view, project_id: project),
              params: { work_package_id: work_package.id },
              as: :turbo_stream
       end
@@ -299,7 +299,7 @@ RSpec.describe "ResourcePlannerViews requests",
       it "returns a client error for a work package outside the project" do
         other = create(:work_package)
 
-        post work_packages_project_resource_planner_view_path(project, resource_planner, manual_view),
+        post work_packages_resource_planner_view_path(resource_planner, manual_view, project_id: project),
              params: { work_package_id: other.id },
              as: :turbo_stream
 
@@ -320,9 +320,10 @@ RSpec.describe "ResourcePlannerViews requests",
       end
 
       it "moves a work package down and re-packs positions" do
-        put move_work_package_project_resource_planner_view_path(
-          project, resource_planner, manual_view, work_package_id: work_package.id, direction: "down"
-        ), as: :turbo_stream
+        put move_work_package_resource_planner_view_path(resource_planner, manual_view,
+                                                         work_package_id: work_package.id,
+                                                         direction: "down", project_id: project),
+            as: :turbo_stream
 
         expect(response).to have_http_status(:ok)
         expect(ordered_ids).to eq([other_wp.id, work_package.id])
@@ -330,9 +331,10 @@ RSpec.describe "ResourcePlannerViews requests",
       end
 
       it "moves a work package to the top" do
-        put move_work_package_project_resource_planner_view_path(
-          project, resource_planner, manual_view, work_package_id: other_wp.id, direction: "top"
-        ), as: :turbo_stream
+        put move_work_package_resource_planner_view_path(resource_planner, manual_view,
+                                                         work_package_id: other_wp.id,
+                                                         direction: "top", project_id: project),
+            as: :turbo_stream
 
         expect(ordered_ids).to eq([other_wp.id, work_package.id])
       end
@@ -347,9 +349,9 @@ RSpec.describe "ResourcePlannerViews requests",
       end
 
       it "moves the work package to the dropped 1-based position and re-packs" do
-        put reorder_work_package_project_resource_planner_view_path(
-          project, resource_planner, manual_view, work_package_id: work_package.id
-        ), params: { position: 2 }, as: :turbo_stream
+        put reorder_work_package_resource_planner_view_path(resource_planner, manual_view, work_package_id: work_package.id,
+                                                                                           project_id: project),
+            params: { position: 2 }, as: :turbo_stream
 
         expect(response).to have_http_status(:ok)
         expect(manual_view.query.ordered_work_packages.order(:position).pluck(:work_package_id))
@@ -357,9 +359,9 @@ RSpec.describe "ResourcePlannerViews requests",
       end
 
       it "renders the list inside the drag-and-drop container" do
-        put reorder_work_package_project_resource_planner_view_path(
-          project, resource_planner, manual_view, work_package_id: work_package.id
-        ), params: { position: 1 }, as: :turbo_stream
+        put reorder_work_package_resource_planner_view_path(resource_planner, manual_view, work_package_id: work_package.id,
+                                                                                           project_id: project),
+            params: { position: 1 }, as: :turbo_stream
 
         expect(response.body).to include('data-controller="generic-drag-and-drop"')
         expect(response.body).to include("data-draggable-type=\"#{ResourcePlannerViews::WorkPackageList::RowComponent::DRAGGABLE_TYPE}\"")
@@ -370,9 +372,9 @@ RSpec.describe "ResourcePlannerViews requests",
       before { manual_view.query.ordered_work_packages.create!(work_package:, position: 1) }
 
       subject(:perform) do
-        delete remove_work_package_project_resource_planner_view_path(
-          project, resource_planner, manual_view, work_package_id: work_package.id
-        ), as: :turbo_stream
+        delete remove_work_package_resource_planner_view_path(resource_planner, manual_view, work_package_id: work_package.id,
+                                                                                             project_id: project),
+               as: :turbo_stream
       end
 
       it "drops the work package from the query and re-renders the list" do
@@ -387,7 +389,7 @@ RSpec.describe "ResourcePlannerViews requests",
       let(:resource_planner) { create(:resource_planner, project:, principal: user, public: true) }
 
       subject(:perform) do
-        post work_packages_project_resource_planner_view_path(project, resource_planner, manual_view),
+        post work_packages_resource_planner_view_path(resource_planner, manual_view, project_id: project),
              params: { work_package_id: work_package.id },
              as: :turbo_stream
       end
@@ -429,10 +431,10 @@ RSpec.describe "ResourcePlannerViews requests",
         query_id = manual_view.query.id
 
         expect do
-          delete project_resource_planner_view_path(project, resource_planner, manual_view), as: :turbo_stream
+          delete resource_planner_view_path(resource_planner, manual_view, project_id: project), as: :turbo_stream
         end.to change(ResourceWorkPackageList, :count).by(-1)
 
-        expect(response).to redirect_to(project_resource_planner_path(project, resource_planner))
+        expect(response).to redirect_to(resource_planner_path(resource_planner, project_id: project))
         expect(response).to have_http_status(:see_other)
         expect(Query.exists?(query_id)).to be(false)
         expect(OrderedWorkPackage.where(query_id:)).to be_empty
@@ -441,7 +443,7 @@ RSpec.describe "ResourcePlannerViews requests",
       it "repoints the planner's default view when the deleted view was the default" do
         resource_planner.update!(default_view_id: manual_view.id)
 
-        delete project_resource_planner_view_path(project, resource_planner, manual_view), as: :turbo_stream
+        delete resource_planner_view_path(resource_planner, manual_view, project_id: project), as: :turbo_stream
 
         expect(resource_planner.reload.default_view_id).not_to eq(manual_view.id)
       end
@@ -453,7 +455,7 @@ RSpec.describe "ResourcePlannerViews requests",
 
         it "does not delete the view" do
           expect do
-            delete project_resource_planner_view_path(project, resource_planner, manual_view), as: :turbo_stream
+            delete resource_planner_view_path(resource_planner, manual_view, project_id: project), as: :turbo_stream
           end.not_to change(ResourceWorkPackageList, :count)
         end
       end
@@ -476,7 +478,7 @@ RSpec.describe "ResourcePlannerViews requests",
 
     describe "POST create" do
       it "persists a ResourceUserCard" do
-        post project_resource_planner_views_path(project, resource_planner),
+        post resource_planner_views_path(resource_planner, project_id: project),
              params: {
                view_class_name: "ResourceUserCard",
                view: { name: "People", filter_mode: "automatic" },
@@ -492,7 +494,7 @@ RSpec.describe "ResourcePlannerViews requests",
       end
 
       it "sets the manual flag for a manual view" do
-        post project_resource_planner_views_path(project, resource_planner),
+        post resource_planner_views_path(resource_planner, project_id: project),
              params: {
                view_class_name: "ResourceUserCard",
                view: { name: "People", filter_mode: "manual" },
@@ -506,7 +508,7 @@ RSpec.describe "ResourcePlannerViews requests",
 
     describe "PATCH update" do
       it "persists filter changes" do
-        patch project_resource_planner_view_path(project, resource_planner, resource_user_card),
+        patch resource_planner_view_path(resource_planner, resource_user_card, project_id: project),
               params: {
                 view: { name: "People", filter_mode: "automatic" },
                 filters: [{ status: { operator: "=", values: ["active"] } }].to_json
@@ -519,7 +521,7 @@ RSpec.describe "ResourcePlannerViews requests",
 
     describe "card field selection" do
       it "persists the ordered card_fields on create, dropping unknown ids" do
-        post project_resource_planner_views_path(project, resource_planner),
+        post resource_planner_views_path(resource_planner, project_id: project),
              params: {
                view_class_name: "ResourceUserCard",
                view: { name: "People", filter_mode: "automatic" },
@@ -531,7 +533,7 @@ RSpec.describe "ResourcePlannerViews requests",
       end
 
       it "updates the card_fields on an existing view" do
-        patch project_resource_planner_view_path(project, resource_planner, resource_user_card),
+        patch resource_planner_view_path(resource_planner, resource_user_card, project_id: project),
               params: {
                 view: { name: "People", filter_mode: "automatic" },
                 card_fields: "department"
@@ -542,7 +544,7 @@ RSpec.describe "ResourcePlannerViews requests",
       end
 
       it "renders the draggable field selector in the configure dialog" do
-        get edit_project_resource_planner_view_path(project, resource_planner, resource_user_card),
+        get edit_resource_planner_view_path(resource_planner, resource_user_card, project_id: project),
             as: :turbo_stream
 
         expect(response.body).to include("opce-draggable-autocompleter")
@@ -551,13 +553,13 @@ RSpec.describe "ResourcePlannerViews requests",
 
     describe "work package list views ignore card fields" do
       it "does not render the field selector" do
-        get edit_project_resource_planner_view_path(project, resource_planner, view), as: :turbo_stream
+        get edit_resource_planner_view_path(resource_planner, view, project_id: project), as: :turbo_stream
 
         expect(response.body).not_to include("opce-draggable-autocompleter")
       end
 
       it "ignores a submitted card_fields param" do
-        patch project_resource_planner_view_path(project, resource_planner, view),
+        patch resource_planner_view_path(resource_planner, view, project_id: project),
               params: { view: { name: "Original" }, card_fields: "department" },
               as: :turbo_stream
 
@@ -569,7 +571,7 @@ RSpec.describe "ResourcePlannerViews requests",
     describe "POST add_user / DELETE remove_user" do
       it "adds a project member to the view" do
         expect do
-          post users_project_resource_planner_view_path(project, resource_planner, resource_user_card),
+          post users_resource_planner_view_path(resource_planner, resource_user_card, project_id: project),
                params: { user_id: member.id }, as: :turbo_stream
         end.to change { resource_user_card.query.ordered_entities.count }.by(1)
       end
@@ -578,7 +580,7 @@ RSpec.describe "ResourcePlannerViews requests",
         resource_user_card.query.ordered_entities.create!(entity: member, position: 1)
 
         expect do
-          post users_project_resource_planner_view_path(project, resource_planner, resource_user_card),
+          post users_resource_planner_view_path(resource_planner, resource_user_card, project_id: project),
                params: { user_id: member.id }, as: :turbo_stream
         end.not_to(change { resource_user_card.query.ordered_entities.count })
       end
@@ -587,8 +589,9 @@ RSpec.describe "ResourcePlannerViews requests",
         resource_user_card.query.ordered_entities.create!(entity: member, position: 1)
 
         expect do
-          delete remove_user_project_resource_planner_view_path(project, resource_planner, resource_user_card,
-                                                                user_id: member.id), as: :turbo_stream
+          delete remove_user_resource_planner_view_path(resource_planner, resource_user_card, user_id: member.id,
+                                                                                              project_id: project),
+                 as: :turbo_stream
         end.to change { resource_user_card.query.ordered_entities.count }.by(-1)
       end
     end

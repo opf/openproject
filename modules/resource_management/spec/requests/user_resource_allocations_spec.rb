@@ -50,7 +50,7 @@ RSpec.describe "User resource allocations requests", type: :rails_request, with_
   shared_let(:visible_wp) { create(:work_package, project:, subject: "Visible work") }
   shared_let(:foreign_wp) { create(:work_package, project: other_project, subject: "Secret work") }
 
-  let(:path) { project_user_resource_allocations_path(project, card_user, resource_planner_view_id: card_view.id) }
+  let(:path) { user_resource_allocations_path(card_user, resource_planner_view_id: card_view.id, project_id: project) }
 
   before do
     create(:resource_allocation, entity: visible_wp, principal: card_user)
@@ -198,8 +198,8 @@ RSpec.describe "User resource allocations requests", type: :rails_request, with_
         get path, as: :turbo_stream
 
         expect(response.body).to include(I18n.t("resource_management.user_allocations_dialog.allocate_work_package"))
-        expect(response.body).to include(edit_project_resource_allocation_path(project,
-                                                                               ResourceAllocation.find_by(entity: visible_wp)))
+        expect(response.body).to include(edit_resource_allocation_path(ResourceAllocation.find_by(entity: visible_wp),
+                                                                       project_id: project))
       end
     end
   end
@@ -216,7 +216,7 @@ RSpec.describe "User resource allocations requests", type: :rails_request, with_
     it "is not found for a user the current user cannot see" do
       hidden = create(:user)
 
-      get project_user_resource_allocations_path(project, hidden, resource_planner_view_id: card_view.id),
+      get user_resource_allocations_path(hidden, resource_planner_view_id: card_view.id, project_id: project),
           as: :turbo_stream
 
       expect(response).to have_http_status(:not_found)

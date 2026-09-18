@@ -27,198 +27,139 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-
 module ResourceManagement
-  # Resource planners are reachable both inside a project and globally, so every
-  # link has to pick its route from the planner's own scope rather than from the
-  # page it is rendered on.
+  # Resource planners are reachable both inside a project and globally. One route tree
+  # serves both: the project segment is optional, and `ResourcePlanner#path_args`
+  # supplies it or not.
+  #
+  # Every segment is named. A positional argument combined with any other keyword binds
+  # to the first declared segment, which here is the optional `project_id` -- silently
+  # producing a wrong URL or a generation error.
   #
   # The routes are resolved against the application's url helpers rather than the
   # includer's, so controllers, components and menus can all mix this in.
   module PlannerRoutes
-    def planners_path(project)
-      project ? op_routes.project_resource_planners_path(project) : op_routes.resource_planners_path
-    end
+    def planners_path(project) = op_routes.resource_planners_path(**scope_args(project))
 
-    def new_planner_path(project)
-      project ? op_routes.new_project_resource_planner_path(project) : op_routes.new_resource_planner_path
-    end
+    def new_planner_path(project) = op_routes.new_resource_planner_path(**scope_args(project))
 
-    def planner_path(planner)
-      planner_route(planner, :resource_planner_path)
-    end
+    def menu_planners_path(project, **params) = op_routes.menu_resource_planners_path(**scope_args(project), **params)
 
-    def edit_planner_path(planner)
-      planner_route(planner, :edit_resource_planner_path)
-    end
+    def planner_path(planner) = op_routes.resource_planner_path(**planner.path_args)
 
-    def toggle_public_planner_path(planner)
-      planner_route(planner, :toggle_public_resource_planner_path)
-    end
+    def edit_planner_path(planner) = op_routes.edit_resource_planner_path(**planner.path_args)
 
-    def planner_views_path(planner)
-      planner_route(planner, :resource_planner_views_path)
-    end
+    def toggle_public_planner_path(planner) = op_routes.toggle_public_resource_planner_path(**planner.path_args)
 
-    def planner_view_path(planner, view)
-      planner_route(planner, :resource_planner_view_path, view)
-    end
+    def planner_views_path(planner) = op_routes.resource_planner_views_path(**planner.child_path_args)
 
-    def new_planner_view_path(planner)
-      planner_route(planner, :new_resource_planner_view_path)
-    end
+    def new_planner_view_path(planner) = op_routes.new_resource_planner_view_path(**planner.child_path_args)
 
-    def edit_planner_view_path(planner, view)
-      planner_route(planner, :edit_resource_planner_view_path, view)
-    end
+    def planner_view_path(planner, view) = op_routes.resource_planner_view_path(**planner.view_path_args(view))
+
+    def edit_planner_view_path(planner, view) = op_routes.edit_resource_planner_view_path(**planner.view_path_args(view))
 
     def new_planner_view_user_path(planner, view)
-      planner_route(planner, :new_user_resource_planner_view_path, view)
+      op_routes.new_user_resource_planner_view_path(**planner.view_path_args(view))
     end
 
     def planner_view_users_path(planner, view)
-      planner_route(planner, :users_resource_planner_view_path, view)
+      op_routes.users_resource_planner_view_path(**planner.view_path_args(view))
     end
 
     def remove_planner_view_user_path(planner, view, user_id)
-      planner_route(planner, :remove_user_resource_planner_view_path, view, user_id:)
+      op_routes.remove_user_resource_planner_view_path(**planner.view_path_args(view), user_id:)
     end
 
     def new_planner_view_work_package_path(planner, view)
-      planner_route(planner, :new_work_package_resource_planner_view_path, view)
+      op_routes.new_work_package_resource_planner_view_path(**planner.view_path_args(view))
     end
 
     def planner_view_work_packages_path(planner, view)
-      planner_route(planner, :work_packages_resource_planner_view_path, view)
+      op_routes.work_packages_resource_planner_view_path(**planner.view_path_args(view))
     end
 
     def move_planner_view_work_package_path(planner, view, work_package_id, **params)
-      planner_route(planner, :move_work_package_resource_planner_view_path, view, work_package_id:, **params)
+      op_routes.move_work_package_resource_planner_view_path(**planner.view_path_args(view), work_package_id:, **params)
     end
 
     def reorder_planner_view_work_package_path(planner, view, work_package_id)
-      planner_route(planner, :reorder_work_package_resource_planner_view_path, view, work_package_id:)
+      op_routes.reorder_work_package_resource_planner_view_path(**planner.view_path_args(view), work_package_id:)
     end
 
     def remove_planner_view_work_package_path(planner, view, work_package_id)
-      planner_route(planner, :remove_work_package_resource_planner_view_path, view, work_package_id:)
+      op_routes.remove_work_package_resource_planner_view_path(**planner.view_path_args(view), work_package_id:)
     end
 
+    # The progress and timeline routes nest the view as `view_id` rather than `id`.
     def edit_planner_view_work_package_progress_path(planner, view, work_package)
-      planner_route(planner, :edit_resource_planner_view_work_package_progress_path, view, work_package)
+      op_routes.edit_resource_planner_view_work_package_progress_path(
+        **planner.nested_view_path_args(view), work_package_id: work_package.id
+      )
     end
 
     def planner_view_work_package_progress_path(planner, view, work_package)
-      planner_route(planner, :resource_planner_view_work_package_progress_path, view, work_package)
+      op_routes.resource_planner_view_work_package_progress_path(
+        **planner.nested_view_path_args(view), work_package_id: work_package.id
+      )
     end
 
     def planner_view_work_package_timeline_resources_path(planner, view, **params)
-      planner_route(planner, :resource_planner_view_work_package_timeline_resources_path, view, **params)
+      op_routes.resource_planner_view_work_package_timeline_resources_path(**planner.nested_view_path_args(view), **params)
     end
 
     def planner_view_work_package_timeline_events_path(planner, view, **params)
-      planner_route(planner, :resource_planner_view_work_package_timeline_events_path, view, **params)
+      op_routes.resource_planner_view_work_package_timeline_events_path(**planner.nested_view_path_args(view), **params)
     end
 
     def planner_view_user_timeline_resources_path(planner, view, **params)
-      planner_route(planner, :resource_planner_view_user_timeline_resources_path, view, **params)
+      op_routes.resource_planner_view_user_timeline_resources_path(**planner.nested_view_path_args(view), **params)
     end
 
     def planner_view_user_timeline_events_path(planner, view, **params)
-      planner_route(planner, :resource_planner_view_user_timeline_events_path, view, **params)
+      op_routes.resource_planner_view_user_timeline_events_path(**planner.nested_view_path_args(view), **params)
     end
 
     # Allocation dialogs hang off the work package or principal rather than the
     # planner, so they take the surrounding scope explicitly.
     def new_allocation_path(project, **params)
-      if project
-        op_routes.new_project_resource_allocation_path(project, **params)
-      else
-        op_routes.new_resource_allocation_path(**params)
-      end
+      op_routes.new_resource_allocation_path(**scope_args(project), **params)
     end
 
     def edit_allocation_path(project, allocation, **params)
-      if project
-        op_routes.edit_project_resource_allocation_path(project, allocation, **params)
-      else
-        op_routes.edit_resource_allocation_path(allocation, **params)
-      end
+      op_routes.edit_resource_allocation_path(**scope_args(project), id: allocation.id, **params)
     end
 
     def allocations_path(project, **params)
-      if project
-        op_routes.project_resource_allocations_path(project, **params)
-      else
-        op_routes.resource_allocations_path(**params)
-      end
+      op_routes.resource_allocations_path(**scope_args(project), **params)
     end
 
     def allocation_path(project, allocation, **params)
-      if project
-        op_routes.project_resource_allocation_path(project, allocation, **params)
-      else
-        op_routes.resource_allocation_path(allocation, **params)
-      end
+      op_routes.resource_allocation_path(**scope_args(project), id: allocation.id, **params)
     end
 
-    def staffing_path(project)
-      if project
-        op_routes.project_resource_management_staffing_path(project)
-      else
-        op_routes.resource_management_staffing_path
-      end
-    end
+    def staffing_path(project) = op_routes.resource_management_staffing_path(**scope_args(project))
 
     def staffing_assign_path(project, allocation)
-      if project
-        op_routes.project_resource_management_staffing_assign_path(project, allocation)
-      else
-        op_routes.resource_management_staffing_assign_path(allocation)
-      end
+      op_routes.resource_management_staffing_assign_path(**scope_args(project), id: allocation.id)
     end
 
     def refresh_form_allocations_path(project)
-      if project
-        op_routes.refresh_form_project_resource_allocations_path(project)
-      else
-        op_routes.refresh_form_resource_allocations_path
-      end
+      op_routes.refresh_form_resource_allocations_path(**scope_args(project))
     end
 
     def work_package_allocations_path(project, work_package, **params)
-      if project
-        op_routes.project_work_package_resource_allocations_path(project, work_package, **params)
-      else
-        op_routes.work_package_resource_allocations_path(work_package, **params)
-      end
+      op_routes.work_package_resource_allocations_path(**scope_args(project), work_package_id: work_package.id, **params)
     end
 
     def user_allocations_path(project, user, **params)
-      if project
-        op_routes.project_user_resource_allocations_path(project, user, **params)
-      else
-        op_routes.user_resource_allocations_path(user, **params)
-      end
+      op_routes.user_resource_allocations_path(**scope_args(project), user_id: user.id, **params)
     end
 
     private
 
-    def op_routes
-      Rails.application.routes.url_helpers
-    end
+    def op_routes = Rails.application.routes.url_helpers
 
-    # Each project route is named like its global counterpart with `project_`
-    # inserted before `resource_planner`, and the project prepended to the
-    # arguments. PlannerRoutes' spec exercises every helper in both scopes so a
-    # renamed route cannot slip through.
-    def planner_route(planner, global_helper, *, **)
-      if planner.global?
-        op_routes.public_send(global_helper, planner, *, **)
-      else
-        project_helper = global_helper.to_s.sub("resource_planner", "project_resource_planner")
-        op_routes.public_send(project_helper, planner.project, planner, *, **)
-      end
-    end
+    def scope_args(project) = project ? { project_id: project } : {}
   end
 end
