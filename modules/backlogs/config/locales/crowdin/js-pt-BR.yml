@@ -25,7 +25,7 @@ pt-BR:
     backlogs:
       announcements:
         batch_too_large: Cannot move %{count} work packages at once. Select no more than %{max}.
-        fallback_item_label: Work package
+        fallback_item_label: Pacote de trabalho
         fallback_list_name: outra lista
         move_failed_check_position: Move failed. Check the work package's current position.
         move_failed_check_positions_batch:

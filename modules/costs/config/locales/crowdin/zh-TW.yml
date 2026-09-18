@@ -271,6 +271,10 @@ zh-TW:
   permission_edit_rates: 編輯費率
   permission_log_costs: 已紀錄的單位成本
   permission_log_own_costs: 為自己紀錄單位成本
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: 查看紀錄的成本
   permission_view_cost_rates: 查看成本費率
   permission_view_hourly_rates: 查看所有小時費率

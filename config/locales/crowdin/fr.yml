@@ -903,6 +903,8 @@ fr:
               would_create_cycle: créerait une boucle entre ces configurations.
             variant:
               must_belong_to_the_type: doit s'agir d'une variante de ce type.
+            workflow:
+              not_available_to_this_variant: must be a workflow this project can use.
             workflows_source_id:
               must_be_available_to_the_variant: doit être une configuration que ce projet peut utiliser.
               would_create_cycle: créerait une boucle entre ces configurations.
@@ -1505,6 +1507,7 @@ fr:
         ssl_error: 'Erreur SSL lors de la connexion au serveur Jira : %{message}'
         ssrf_block_doc_link: Veuillez consulter notre [documentation](docs_url).
         ssrf_blocked: 'Connexion bloquée : l''hôte Jira se résout en une adresse IP privée. Si votre instance Jira fonctionne sur un réseau interne, autorisez son IP via la variable d''environnement OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
+        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
       columns:
         added: Ajouté
         creator: Créateur
@@ -3288,6 +3291,7 @@ fr:
         field_set: "%{field} réglé sur %{value}"
         field_updated: "%{field} mis à jour"
         header: modifications par %{author}
+        migrated: from Jira
         set_with_diff: "%{field} set (%{link})"
       meeting_cancelled: "(annulée)"
       meeting_deleted: "(supprimée)"
@@ -5426,7 +5430,7 @@ fr:
     wizard:
       create_artifact_storage_error: Échec de l'enregistrement de l'artefact dans l'espace de stockage de fichiers
       create_artifact_work_package_error: Échec de la création d'un lot de travaux d'artefact
-      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
+      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: Cet attribut n'a pas de texte d'aide défini.
       progress_label: "%{current} sur %{total}"
       sections: Sections
@@ -5617,6 +5621,16 @@ fr:
     permissions:
       section_check_all_label: Attribuer toutes les autorisations %{module}
       section_uncheck_all_label: Désattribuer toutes les autorisations %{module}
+    permissions_dialog:
+      edit_permissions: Edit role permissions
+      implicit_permission: Always granted
+      no_permissions: This role does not grant any permissions.
+      permission_count:
+        one: 1 permission
+        other: "%{count} permissions"
+      preview_action: View permissions
+      preview_aria_label: View the permissions of %{role}
+      title: Permissions of "%{name}"
     report:
       matrix_caption: Matrice des autorisations pour le module %{module}
       matrix_check_all_label: Attribuer toutes les autorisations %{module} à tous les rôles
@@ -6681,6 +6695,9 @@ fr:
       convert_to_global_dialog:
         confirm: Convert
         text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
+
+          '
+        workflow_text: 'Its workflow "%{name}" belongs to this project and becomes global as well.
 
           '
       convert_to_global_notice: "%{name} is now a global variant."

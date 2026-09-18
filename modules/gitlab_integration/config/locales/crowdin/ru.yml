@@ -63,7 +63,6 @@ ru:
     commit: Коммит
     gitlab: Идентификатор GitLab
     gitlab_avatar_url: URL на аватар
-    gitlab_email: Е-майл GitLab
     gitlab_html_url: GitLab HTML URL
     gitlab_merge_request: Запрос на слияние
     gitlab_name: Имя GitLab

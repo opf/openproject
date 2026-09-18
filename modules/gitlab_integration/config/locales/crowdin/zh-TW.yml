@@ -51,7 +51,6 @@ zh-TW:
     commit: 提交
     gitlab: GitLab 識別碼
     gitlab_avatar_url: 大頭貼網址
-    gitlab_email: GitLab 電子郵件
     gitlab_html_url: GitLab HTML URL
     gitlab_merge_request: 合併請求
     gitlab_name: GitLab 名稱

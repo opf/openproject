@@ -280,6 +280,10 @@ pt-BR:
   permission_edit_rates: Editar taxas
   permission_log_costs: Reservar custos unitários
   permission_log_own_costs: Reservar custos unitários próprios
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: Ver custos reservados
   permission_view_cost_rates: Ver taxas de custo
   permission_view_hourly_rates: Ver todas as taxas de horárias
@@ -321,7 +325,7 @@ pt-BR:
   text_hourly_rate_destroy_confirmation_checkbox_label: I understand that this action is not reversible.
   text_hourly_rate_recalculation: This rate applies from its valid from date until a later rate takes effect. Changing it will also recalculate existing time entries and budgets in that period.
   text_no_default_rate: The default rate is used in all projects where the user does not have a specific rate set up.
-  text_no_project_rate: This project will use the current default rate.
+  text_no_project_rate: Este projeto utilizará a taxa padrão atual.
   text_reassign_time_and_cost_entries: 'Reatribua horas reportadas e custos para este pacote de trabalho:'
   text_warning_hidden_elements: Algumas entradas podem ter sido excluídas da agregação.
   total_times:

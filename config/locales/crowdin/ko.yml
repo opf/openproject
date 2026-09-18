@@ -902,6 +902,8 @@ ko:
               would_create_cycle: "- 이러한 구성은 루프로 연결될 것입니다."
             variant:
               must_belong_to_the_type: "- 이 유형의 변형이어야 합니다."
+            workflow:
+              not_available_to_this_variant: must be a workflow this project can use.
             workflows_source_id:
               must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: "- 이러한 구성은 루프로 연결될 것입니다."
@@ -1397,6 +1399,7 @@ ko:
         ssl_error: 'Jira 서버에 연결하는 동안 SSL 오류가 발생했습니다: %{message}'
         ssrf_block_doc_link: "[설명서](docs_url)를 참조하세요."
         ssrf_blocked: '연결 차단됨: Jira 호스트가 사설 IP 주소로 확인됩니다. Jira 인스턴스가 내부 네트워크에서 실행되는 경우 OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST 환경 변수를 통해 해당 IP를 허용하세요.'
+        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
       columns:
         added: 추가됨
         creator: 생성자
@@ -3159,6 +3162,7 @@ ko:
         field_set: "%{field}이(가) %{value}(으)로 설정됨"
         field_updated: "%{field} 업데이트됨"
         header: "%{author} 님이 변경함"
+        migrated: from Jira
         set_with_diff: "%{field} 설정됨(%{link})"
       meeting_cancelled: "(취소됨)"
       meeting_deleted: "(삭제됨)"
@@ -5279,7 +5283,7 @@ ko:
     wizard:
       create_artifact_storage_error: 파일 저장소에 아티팩트를 저장하지 못했습니다
       create_artifact_work_package_error: 아티팩트 작업 패키지를 만들지 못했습니다
-      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
+      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: 이 특성에는 정의된 도움말 텍스트가 없습니다.
       progress_label: "%{current}/%{total}"
       sections: 섹션
@@ -5462,6 +5466,15 @@ ko:
     permissions:
       section_check_all_label: 모든 %{module} 권한 할당
       section_uncheck_all_label: 모든 %{module} 권한 할당 취소
+    permissions_dialog:
+      edit_permissions: Edit role permissions
+      implicit_permission: Always granted
+      no_permissions: This role does not grant any permissions.
+      permission_count:
+        other: "%{count} permissions"
+      preview_action: View permissions
+      preview_aria_label: View the permissions of %{role}
+      title: Permissions of "%{name}"
     report:
       matrix_caption: "%{module} 모듈에 대한 권한 매트릭스"
       matrix_check_all_label: 모든 역할에 모든 %{module} 권한 할당
@@ -6525,6 +6538,9 @@ ko:
       convert_to_global_dialog:
         confirm: Convert
         text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
+
+          '
+        workflow_text: 'Its workflow "%{name}" belongs to this project and becomes global as well.
 
           '
       convert_to_global_notice: "%{name} is now a global variant."
