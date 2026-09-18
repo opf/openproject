@@ -96,8 +96,15 @@ RSpec.describe Members::CreateService, "integration", type: :model do
       it "leaves the inherited project query shares untouched", :aggregate_failures do
         expect(subject).to be_success
 
+        members_by_user_id = Member
+          .where(user_id: group.users.select(:id), entity: query)
+          .includes(:roles)
+          .index_by(&:user_id)
+
         group.users.each do |user|
-          expect(Member.find_by(user_id: user.id, entity: query).roles).to eq [query_role]
+          member = members_by_user_id[user.id]
+          expect(member).to be_present
+          expect(member.roles).to eq [query_role]
         end
       end
     end

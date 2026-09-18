@@ -53,8 +53,10 @@ RSpec.describe Shares::CreateService, "integration", type: :model do
     it "shares the work package with the users already in the group" do
       service_call
 
+      members_by_principal_id = Member.where(principal: users, entity:).includes(:roles).index_by(&:principal_id)
+
       users.each do |user|
-        expect(Member.find_by(principal: user, entity:)&.roles).to contain_exactly(role)
+        expect(members_by_principal_id[user.id]&.roles).to contain_exactly(role)
       end
     end
   end
@@ -70,8 +72,10 @@ RSpec.describe Shares::CreateService, "integration", type: :model do
     it "shares the project query with the users already in the group" do
       service_call
 
+      members_by_principal_id = Member.where(principal: users, entity:).includes(:roles).index_by(&:principal_id)
+
       users.each do |user|
-        expect(Member.find_by(principal: user, entity:)&.roles).to contain_exactly(role)
+        expect(members_by_principal_id[user.id]&.roles).to contain_exactly(role)
       end
     end
 
@@ -81,8 +85,10 @@ RSpec.describe Shares::CreateService, "integration", type: :model do
 
       service_call
 
+      global_members_by_principal_id = Member.where(principal: users, entity_type: nil).includes(:roles).index_by(&:principal_id)
+
       users.each do |user|
-        expect(Member.find_by(principal: user, entity_type: nil).roles).to contain_exactly(global_role)
+        expect(global_members_by_principal_id[user.id].roles).to contain_exactly(global_role)
       end
     end
   end
