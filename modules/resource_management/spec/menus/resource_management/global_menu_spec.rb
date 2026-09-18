@@ -33,27 +33,22 @@ require "spec_helper"
 RSpec.describe ResourceManagement::GlobalMenu, with_ee: %i[resource_management] do
   include Rails.application.routes.url_helpers
 
-  shared_let(:alpha) { create(:project, name: "Alpha", enabled_module_names: %w[resource_management]) }
-  shared_let(:beta) { create(:project, name: "Beta", enabled_module_names: %w[resource_management]) }
-  # Sorts first by name but last in the hierarchy, so the two orderings disagree.
-  shared_let(:beta_child) do
-    create(:project, name: "Aardvark", parent: beta, enabled_module_names: %w[resource_management])
-  end
-  shared_let(:invisible) { create(:project, name: "Invisible", enabled_module_names: %w[resource_management]) }
+  shared_let(:project) { create(:project, name: "Alpha", enabled_module_names: %w[resource_management]) }
 
   shared_let(:user) do
-    create(:user, member_with_permissions: { alpha => %i[view_resource_planners],
-                                             beta => %i[view_resource_planners],
-                                             beta_child => %i[view_resource_planners] })
+    create(:user,
+           member_with_permissions: { project => %i[view_resource_planners] },
+           global_permissions: %i[view_global_resource_planners])
   end
 
-  shared_let(:alpha_planner) { create(:resource_planner, project: alpha, principal: user, name: "Alpha planner") }
-  shared_let(:beta_planner) { create(:resource_planner, project: beta, principal: user, name: "Beta planner") }
-  shared_let(:child_planner) do
-    create(:resource_planner, project: beta_child, principal: user, name: "Child planner")
+  shared_let(:own_planner) do
+    create(:resource_planner, :global, principal: user, name: "My planner")
   end
-  shared_let(:invisible_planner) do
-    create(:resource_planner, project: invisible, principal: create(:user), public: true, name: "Invisible planner")
+  shared_let(:shared_planner) do
+    create(:resource_planner, :global, principal: create(:user), public: true, name: "Shared planner")
+  end
+  shared_let(:project_planner) do
+    create(:resource_planner, project:, principal: user, name: "Project planner")
   end
 
   subject(:menu_items) { described_class.new(params: {}).menu_items }
@@ -64,29 +59,25 @@ RSpec.describe ResourceManagement::GlobalMenu, with_ee: %i[resource_management] 
 
   def titles(header) = group(header)&.children&.map(&:title)
 
-  it "lists a group per project the user has visible planners in" do
-    expect(menu_items.map(&:header)).to include("Alpha", "Beta", "Aardvark")
-    expect(titles("Alpha")).to eq(["Alpha planner"])
-    expect(titles("Beta")).to eq(["Beta planner"])
-    expect(titles("Aardvark")).to eq(["Child planner"])
+  it "lists the global planners, split into public and private" do
+    expect(titles(I18n.t("resource_management.sidebar.public"))).to eq(["Shared planner"])
+    expect(titles(I18n.t("resource_management.sidebar.private"))).to eq(["My planner"])
   end
 
-  it "orders the project groups by hierarchy rather than by name" do
-    expect(menu_items.map(&:header)).to eq(%w[Alpha Beta Aardvark])
+  it "links a planner into the global scope" do
+    expect(group(I18n.t("resource_management.sidebar.private")).children.first.href)
+      .to eq(resource_planner_path(own_planner))
   end
 
-  it "links a planner to its own project" do
-    expect(group("Alpha").children.first.href)
-      .to eq(project_resource_planner_path(alpha, alpha_planner))
-  end
-
-  it "omits projects the user cannot see resource planners in" do
-    expect(menu_items.map(&:header)).not_to include("Invisible")
-    expect(menu_items.flat_map { |item| item.children.map(&:title) }).not_to include("Invisible planner")
+  it "does not list project planners: the global area is about global ones" do
+    expect(menu_items.flat_map { |item| item.children.map(&:title) }).not_to include("Project planner")
+    expect(menu_items.map(&:header)).not_to include("Alpha")
   end
 
   context "without the global permission" do
-    it "omits the global planner groups" do
+    before { login_as(create(:user, member_with_permissions: { project => %i[view_resource_planners] })) }
+
+    it "lists no planners at all" do
       expect(menu_items.map(&:header))
         .not_to include(I18n.t("resource_management.sidebar.public"),
                         I18n.t("resource_management.sidebar.private"))
@@ -100,8 +91,8 @@ RSpec.describe ResourceManagement::GlobalMenu, with_ee: %i[resource_management] 
 
     context "when the user may staff in a project" do
       shared_let(:staffer) do
-        create(:user, member_with_permissions: { alpha => %i[view_resource_planners
-                                                             assign_users_to_generic_allocations] })
+        create(:user, member_with_permissions: { project => %i[view_resource_planners
+                                                               assign_users_to_generic_allocations] })
       end
 
       before { login_as(staffer) }
