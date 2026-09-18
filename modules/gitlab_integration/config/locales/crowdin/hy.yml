@@ -55,7 +55,6 @@ hy:
     commit: Կոմիտ
     gitlab: GitLab-ի նույնացուցիչ
     gitlab_avatar_url: Ավատարի URL
-    gitlab_email: GitLab-ի էլ. փոստ
     gitlab_html_url: GitLab-ի HTML URL
     gitlab_merge_request: Միաձուլման հարցում
     gitlab_name: GitLab-ի անուն

@@ -72,6 +72,10 @@ id:
           attributes:
             project_ids:
               blank: Please select a project.
+        rate:
+          attributes:
+            principal:
+              invalid: must be a user or a placeholder user.
         time_entry:
           attributes:
             entity:
@@ -198,6 +202,7 @@ id:
   label_costlog: Catatan biaya unit
   label_costs: Biaya
   label_costs_per_page: Tampilan biaya perhalaman
+  label_current: Current
   label_current_default_rate: Rate saat ini
   label_date_on: pada
   label_day: Hari
@@ -224,6 +229,8 @@ id:
   label_next_week: Minggu depan
   label_next_workweek: Minggu kerja berikutnya
   label_no: 'No'
+  label_no_default_rate: No default rate set
+  label_no_project_rate: No rate set for this project
   label_no_time: Tidak ada waktu yang dilacak
   label_option_plural: Opsi
   label_overall_costs: Biaya keseluruhan
@@ -244,6 +251,7 @@ id:
   label_today_capitalized: Hari Ini
   label_units: Biaya unit
   label_until: hingga
+  label_using_current_default_rate: Using current default rate
   label_valid_from: Berlaku dari
   label_view_mode_switcher: Ubah tampilan
   label_work_package_filter_add: Tambahkan filter
@@ -263,6 +271,10 @@ id:
   permission_edit_rates: Edit rate
   permission_log_costs: Biaya unit pada buku
   permission_log_own_costs: Biaya unit buku untuk dirinya sendiri
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: Tampilkan booked biaya
   permission_view_cost_rates: Tampilkan rate biaya
   permission_view_hourly_rates: Tampilkan semua rate per-jam
@@ -300,6 +312,11 @@ id:
   text_destroy_cost_entries_question: "%{cost_entries} digunakan pada work package yang akan dihapus. Keputusan anda?"
   text_destroy_time_and_cost_entries: Hapus jumlah jam dan biaya yang terlapor
   text_destroy_time_and_cost_entries_question: "%{hours} jam, %{cost_entries} digunakan pada works package yang akan anda hapus. Keputusan anda?"
+  text_hourly_rate_destroy_confirmation: The rate of %{rate} valid from %{valid_from} will be deleted. Costs booked against it are recalculated with the rate that then applies.
+  text_hourly_rate_destroy_confirmation_checkbox_label: I understand that this action is not reversible.
+  text_hourly_rate_recalculation: This rate applies from its valid from date until a later rate takes effect. Changing it will also recalculate existing time entries and budgets in that period.
+  text_no_default_rate: The default rate is used in all projects where the user does not have a specific rate set up.
+  text_no_project_rate: This project will use the current default rate.
   text_reassign_time_and_cost_entries: 'Assign ulang laporan jam dan biaya pada work package ini:'
   text_warning_hidden_elements: Beberapa entri mungkin tidak dipakai oleh agregasi yang dilakukan.
   total_times:

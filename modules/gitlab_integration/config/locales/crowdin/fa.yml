@@ -55,7 +55,6 @@ fa:
     commit: Commit
     gitlab: شناسهٔ GitLab
     gitlab_avatar_url: URL آواتار
-    gitlab_email: ایمیل GitLab
     gitlab_html_url: URL HTML در GitLab
     gitlab_merge_request: درخواست ادغام
     gitlab_name: نام GitLab

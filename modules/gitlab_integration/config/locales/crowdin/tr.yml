@@ -55,7 +55,6 @@ tr:
     commit: İşlem
     gitlab: GitLab tanımlayıcı
     gitlab_avatar_url: Avatar adresi
-    gitlab_email: GitLab E-posta
     gitlab_html_url: GitLab HTML adresi
     gitlab_merge_request: Birleştirme İsteği
     gitlab_name: GitLab adı

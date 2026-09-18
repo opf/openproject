@@ -63,7 +63,6 @@ uk:
     commit: Коміт
     gitlab: Ідентифікатор GitLab
     gitlab_avatar_url: URL-адреса аватара
-    gitlab_email: Електронна адреса GitLab
     gitlab_html_url: URL-адреса HTML GitLab
     gitlab_merge_request: Запит на злиття
     gitlab_name: Назва GitLab

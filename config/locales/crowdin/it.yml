@@ -222,6 +222,7 @@ it:
         title: Titolo
       member:
         blocked: Bloccato
+        principal_type: Member type
         roles: Ruoli
       notification:
         read_ian: Leggi in app
@@ -234,6 +235,7 @@ it:
         position: Posizione
       persisted_query:
         filters: Filtri
+        group_bys: Group results by
         name: Nome
         orders: Ordini
         selects: Seleziona
@@ -440,6 +442,13 @@ it:
         time_zone: Fuso orario
         warn_on_leaving_unsaved: Avvisami quando sto lasciando una macro-attività non salvata
         workdays: Giorni lavorativi
+      user_resource:
+        description: Description
+        name: Name
+        user_filter: User filter
+      user_resource_detail:
+        description: Description
+        user_filter: User filter
       user_working_hours:
         availability_factor: Fattore di disponibilità
         days: Giorni lavorativi
@@ -742,7 +751,6 @@ it:
             types:
               cannot_assign_multiple_variants_of_parent: Nel progetto è possibile abilitare una sola variante di un tipo
               cannot_assign_variant_and_parent: 'Non è possibile assegnare una variante insieme al suo genitore '
-              cannot_assign_variants_yet: Non è ancora possibile abilitare le varianti in un progetto. Abilita il flag di funzionalità per provarle
               in_use_by_work_packages: 'ancora in uso dalla macro-attività: %{types}'
               switch_target_blank: Seleziona la variante a cui passare
               switch_target_identical: Il tipo di destinazione deve essere diverso da quello attualmente utilizzato dal progetto
@@ -855,6 +863,10 @@ it:
               blank: Indica un nome per il token
               format: "%{message}"
               in_use: Questo nome di token è già utilizzato, scegline uno differente
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: This type cannot be deleted while work packages still use it.
         type_variant:
           attributes:
             attribute_groups:
@@ -865,6 +877,9 @@ it:
               query_invalid: 'La query incorporata "%{group}" non è valida: %{details}'
             base:
               borrowed_by_variants: Non può essere eliminata mentre la sua configurazione è riutilizzata da %{names}.
+              inherits_from_project_owned: 'This variant currently inherits from a project-specific variant and cannot be converted to a global variant.
+
+                '
               is_default_variant: La configurazione predefinita di un tipo non può essere eliminata.
               project_variants_not_allowed: This type does not allow creation of variants inside projects.
               restrict_dependent_destroy:
@@ -888,6 +903,8 @@ it:
               would_create_cycle: collegherebbe queste configurazioni creando un ciclo.
             variant:
               must_belong_to_the_type: deve essere una variante di questo tipo.
+            workflow:
+              not_available_to_this_variant: must be a workflow this project can use.
             workflows_source_id:
               must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: collegherebbe queste configurazioni creando un ciclo.
@@ -1418,8 +1435,6 @@ it:
         main-menu-bg-selected-background: Menu principale quando selezionato
         primary-button-color: Pulsante principale
       custom_colors: Colori personalizzati
-      default_colors:
-        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
       edit_color: Edit %{color}
       fonts:
         file_is_invalid: non è un file font TTF valido.
@@ -1747,6 +1762,14 @@ it:
       update:
         failure: La configurazione MCP non può essere aggiornata.
         success: La configurazione MCP è stata aggiornata correttamente.
+    members:
+      index:
+        blank_description: No membership matches the current filter.
+        blank_title: No memberships
+        filter_label: Search users
+        inheritance_source: "%{type} %{name}"
+        inherited_via: "(via: %{source})"
+        title: Memberships
     plugins:
       no_results_content_text: Per maggiori informazioni, consulta la pagina delle integrazioni e dei plugin.
       no_results_title_text: Al momento non vi sono plugin installati.
@@ -1992,6 +2015,13 @@ it:
           assignee: Ulteriori transizioni disponibili per l'assegnatario della macro-attività.
           author: Ulteriori transizioni disponibili per l'autore della macro-attività.
         menu_label: Transizioni visualizzate
+  ai:
+    text_transform:
+      errors:
+        connection_failed: The AI service could not be reached.
+        not_available: The AI assistant is not available.
+        timeout: The AI service did not respond in time.
+        upstream_error: The AI service returned an error.
   announcements:
     is_active: attualmente visualizzato
     is_inactive: attualmente non visualizzato
@@ -2054,10 +2084,6 @@ it:
       not_found:
         reminder: Il promemoria che stai cercando non può essere trovatoo è stato eliminato.
         work_package: La macro-attività che stai cercando non può essere trovata o è stata eliminata.
-      render:
-        context_not_parsable: Il contesto fornito non è un collegamento a una risorsa.
-        context_object_not_found: Impossibile trovare la risorsa indicata come contesto.
-        unsupported_context: La risorsa non è supportata come contesto.
       unable_to_create_attachment: Il tema potrebbe non essere creato
       unable_to_create_attachment_permissions: L'allegato non può essere salvato a causa della mancanza di permessi nel file system
       user:
@@ -3212,16 +3238,16 @@ it:
     blocks:
       community: Comunità di OpenProject
       new_features:
-        '17_9':
+        '17_8':
           new_features_list:
-            line_0: Create work packages directly in Documents.
-            line_1: Search and filter work packages in Backlogs.
-            line_2: Choose whether to keep descendants when deleting a work package.
-            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
-            line_4: Enter planned labor in hours, days, weeks, or months.
-            line_5: See the import progress when using the Jira Migrator.
-            line_6: Use Date alerts in the Community Edition.
-          new_features_title: 'The release contains various new features and improvements, such as:
+            line_0: Azioni assistite dall'IA su macro-attività, commenti e relazioni con il server MCP (piano Professional).
+            line_1: Più versioni di destinazione per le macro-attività.
+            line_2: Limiti e restrizioni globali per le registrazioni orarie (piano Professional).
+            line_3: Miglioramenti Agile per la modifica in blocco e il trascinamento delle schede dei backlog in applicazioni esterne.
+            line_4: Macro wiki disponibili in più editor di testo.
+            line_5: Ricerca migliorata degli identificatori delle macro-attività.
+            line_6: 'Disponibile nella Community: visualizzazione delle relazioni nelle tabelle delle macro-attività.'
+          new_features_title: 'Questa versione contiene diverse nuove funzionalità e miglioramenti, come ad esempio:
 
             '
         header: Informati sulle nuove funzionalità e sugli aggiornamenti dei prodotti.
@@ -3462,10 +3488,10 @@ it:
   label_copy_target: Destinazione
   label_copy_workflow_from: Copia flusso di lavoro da
   label_copy_workflow_from_role: Copia in altri ruoli
-  label_copy_workflow_from_type: Copia in un altro tipo
   label_core_build: Core build
   label_core_version: Versione core
   label_created_by: Creato da %{user}
+  label_criteria: Criteria
   label_current_status: Stato attuale
   label_current_version: Versione corrente
   label_custom_comment: Commento di %{name}
@@ -4040,6 +4066,8 @@ it:
   label_wiki_start: Pagina iniziale
   label_wiki_toc: Sommario
   label_wiki_toc_empty: La tabella dei contenuti è vuota in quanto non è presente nessuna intestazione.
+  label_with_criteria: With criteria
+  label_without_criteria: Without criteria
   label_work: Lavoro
   label_work_package: Macro-attività
   label_work_package_attachments: Allegati macro-attività
@@ -4869,8 +4897,6 @@ it:
       not_found: non trovato.
       respond_to?: non implementa il metodo richiesto.
       rules:
-        copy_workflow_from:
-          workflow_missing: non ha un proprio flusso di lavoro.
         custom_field:
           format_not_supported: il formato '%{field_format}' non è supportato.
         item:
@@ -4890,7 +4916,6 @@ it:
     or: oppure
     rules:
       blueprint: Schema del modello
-      copy_workflow_from: Tipo per la copia del flusso di lavoro
       depth: Profondità
       enabled: Attivata
       item: Elemento
@@ -5093,6 +5118,16 @@ it:
   permission_work_package_assigned: Diventa assegnatario/responsabile
   permission_work_package_assigned_explanation: È possibile assegnare macro-attività ad utenti e gruppi che hanno questo ruolo nel rispettivo progetto
   placeholder_users:
+    criteria:
+      activate: Activate filter criteria
+      activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
+
+        '
+      enable: Match users by criteria
+      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
+      matching_users: Users meeting the filter criteria
+      no_matching_users: No user meets these criteria.
+      show_all_matching_users: Show all %{count} matching users
     delete_tooltip: Elimina utente segnaposto
     deletion_info:
       data_consequences: 'Tutte le occorrenze dell''utente segnaposto (ad esempio, come assegnatario, responsabile o altri valori) saranno riassegnate a un account chiamato "Utente eliminato". Poiché i dati di ogni account eliminato vengono riassegnati a questo account, non sarà possibile distinguere i dati creati dall''utente dai dati di un altro account eliminato.
@@ -5551,6 +5586,31 @@ it:
     warnings:
       cannot_annotate: Questo file non può essere annotato.
   roles:
+    delete_dialog:
+      confirm: Are you sure you want to delete this role?
+      entry_projects:
+        one: "(Project: %{projects})"
+        other: "(Projects: %{projects})"
+      entry_projects_truncated:
+        one: "(Projects: %{projects} and 1 other)"
+        other: "(Projects: %{projects} and %{count} others)"
+      heading:
+        one: 'This role is still attributed to 1 member:'
+        other: 'This role is still attributed to %{count} members:'
+      heading_unused: Are you sure you want to delete the role "%{name}"?
+      losing_project_access:
+        one: Out of these users, 1 will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        other: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        zero: None of these users will lose access to any of their projects. Are you sure you want to delete this role?
+      show_memberships: Show all memberships with this role
+      summary: "%{users} in %{projects}"
+      summary_projects:
+        one: 1 project
+        other: "%{count} projects"
+      summary_users:
+        one: 1 user
+        other: "%{count} users"
+      title: Delete role
     edit:
       default_for_new_projects_warning: 'Questo ruolo è configurato come ruolo predefinito assegnato agli utenti non amministratori che creano un progetto. Non rimuovere le seguenti autorizzazioni, altrimenti i creatori di progetto non potranno completare la configurazione dei progetti appena creati:'
     index:
@@ -5562,6 +5622,16 @@ it:
     permissions:
       section_check_all_label: Assegna tutti i permessi di %{module}
       section_uncheck_all_label: Annulla l'assegnazione di tutti i permessi di %{module}
+    permissions_dialog:
+      edit_permissions: Edit role permissions
+      implicit_permission: Always granted
+      no_permissions: This role does not grant any permissions.
+      permission_count:
+        one: 1 permission
+        other: "%{count} permissions"
+      preview_action: View permissions
+      preview_aria_label: View the permissions of %{role}
+      title: Permissions of "%{name}"
     report:
       matrix_caption: Matrice dei permessi per il modulo %{module}
       matrix_check_all_label: Assegna tutti i permessi di %{module} a tutti i ruoli
@@ -6137,13 +6207,14 @@ it:
         <br>
         <strong> Nota </strong>: i valori ereditati (ad esempio, dai figli o dalle relazioni) verranno comunque applicati.
     index:
+      could_not_be_moved: Status could not be moved.
       headers:
-        excluded_from_totals: Escluso dai totali
         is_closed: Chiuso
-        is_default: Predefinito
         is_readonly: Sola lettura
+      no_filter_results_title_text: No status matches the current filter.
       no_results_content_text: Aggiungi un nuovo stato
       no_results_title_text: Al momento non vi sono relazioni sullo stato delle macro-attività.
+      status_actions: Status actions
   support:
     array:
       sentence_connector: e
@@ -6345,8 +6416,6 @@ it:
     getting_started: Per cominciare
     help_and_support: Guida e Assistenza
   total_progress: Progresso totale
-  tree_view:
-    label_empty_sub_tree: No items
   types:
     creation_wizard:
       add_variant: Add a variant to %{name}
@@ -6455,6 +6524,15 @@ it:
         query_group_label: Tabella di macro-attività correlate
         remove_attribute: Rimuovi dalla sezione
         rename_group: Rinomina sezione
+        required:
+          already_required_globally: This custom field is required for all types.
+          for_variant: Required in this type
+          globally: Required
+          globally_hint: Change this on the custom field
+          mark: Require in this type
+          not_a_custom_field: Only a custom field can be made required for a single type.
+          not_available_when_linked: This configuration is inherited. Configure it manually to change what is required.
+          unmark: Do not require in this type
         reset_description: 'Questa operazione ripristinerà gli attributi nel gruppo predefinito e disattiverà TUTTI i campi personalizzati.
 
           '
@@ -6605,7 +6683,7 @@ it:
         filter_no_results: Nessuna variante corrisponde a questo filtro
         global_section:
           description: These variants are available across all projects.
-          title: Variants
+          title: Global variants
         project_specific_section:
           description: These variants are only available within the projects in which they were created.
           title: Project-specific variants
@@ -6614,6 +6692,28 @@ it:
     index:
       add_variant: Add a variant to %{name}
       add_variant_action: Aggiungi variante
+      convert_to_global: Convert to global variant
+      convert_to_global_dialog:
+        confirm: Convert
+        text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
+
+          '
+        workflow_text: 'Its workflow "%{name}" belongs to this project and becomes global as well.
+
+          '
+      convert_to_global_notice: "%{name} is now a global variant."
+      convert_to_global_rename:
+        confirm: Convert
+        text: A global variant with this name already exists. Please choose a different name.
+        title: Pick another name for this variant
+      delete:
+        description: The type will be deleted permanently. This action cannot be undone.
+        description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
+        heading: Delete type '%{name}'?
+        projects:
+          one: 'The type will be removed from 1 project:'
+          other: 'The type will be removed from %{count} projects:'
+        title: Delete type
       description: 'Ogni area di configurazione dei tipi e delle varianti può essere configurata in modo indipendente, vincolata da un altro tipo oppure completamente collegata a un''origine.
 
         '
@@ -7007,10 +7107,10 @@ it:
       descendants_choice:
         heading: Delete all descendants too?
         question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
-        self_only_label: Delete just the selected work packages
         self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        with_descendants_label: Delete the selected work packages and their descendants
+        self_only_label: Delete just the selected work packages
         with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete the selected work packages and their descendants
       description: Vuoi davvero eliminare le macro-attività selezionate e tutti i dati associati?
       description_with_all_descendants: Vuoi davvero eliminare le macro-attività selezionate e tutti i loro discendenti?
       description_with_descendants: Vuoi davvero eliminare le macro-attività selezionate e tutti i seguenti discendenti?
@@ -7078,10 +7178,10 @@ it:
       descendants_choice:
         heading: Delete all descendants too?
         question: This work package has descendants. Do you want to delete them as well?
-        self_only_label: Delete just this work package
         self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        with_descendants_label: Delete this work package and descendants
+        self_only_label: Delete just this work package
         with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
+        with_descendants_label: Delete this work package and descendants
       description: Vuoi davvero eliminare "%{name}"?
       heading: Eliminare definitivamente questa macro-attività?
       hidden_descendants_only_warning:
@@ -7133,29 +7233,13 @@ it:
   workflows:
     copies:
       form:
-        mode:
-          from_role:
-            caption: Copia il flusso di lavoro corrente in uno o più ruoli all'interno dello stesso tipo di macro-attività. Se il ruolo selezionato ha già un flusso di lavoro, quello corrente verrà sovrascritto.
-            label: Copia in altri ruoli
-          from_type:
-            caption: Copia il flusso di lavoro corrente in un altro tipo di macro-attività. Se il tipo selezionato ha già un flusso di lavoro, quello corrente verrà sovrascritto. Questa operazione interessa tutti i ruoli.
-            label: Copia in un altro tipo
-        source_role_id:
-          label: Ruolo origine
         target_role_ids:
           label: Ruoli di destinazione
-        target_variant_ids:
-          label: Target types
       from_roles:
         create:
           notice:
             one: Il flusso di lavoro è stato copiato con successo nel ruolo '%{role_name}'.
             other: Il flusso di lavoro è stato copiato con successo in %{count} ruoli.
-      from_variants:
-        create:
-          notice:
-            one: Successfully copied workflow to '%{type_name}'.
-            other: Successfully copied workflow to %{count} types.
       new:
         title: Copia il flusso di lavoro di "%{source_type}"
     form:
