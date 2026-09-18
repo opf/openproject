@@ -83,6 +83,12 @@ module Sprints
       open_sprint_journals.where.not(story_points: nil).exists?
     end
 
+    # Series are sampled at period ends, so a tick reads correctly only once presentation knows
+    # which period it closes: an hour end names the hour it opens, a day end names its own date.
+    def step
+      (reference_dates.start.to_date..charted_until).count > HOURLY_STEP_LIMIT ? :day : :hour
+    end
+
     private
 
     attr_reader :sprint, :project, :user
@@ -99,10 +105,6 @@ module Sprints
       @ticks ||= WorkPackages::JournalTimeline::Ticks.build(from: reference_dates.start,
                                                             to: [Time.zone.now, reference_dates.finish].min,
                                                             step:, zone:)
-    end
-
-    def step
-      (reference_dates.start.to_date..charted_until).count > HOURLY_STEP_LIMIT ? :day : :hour
     end
 
     def charted_until

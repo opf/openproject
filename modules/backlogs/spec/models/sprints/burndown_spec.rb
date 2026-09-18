@@ -71,8 +71,9 @@ RSpec.describe Sprints::Burndown do
     create(:work_package, project:, sprint:, status: open_status, journals:)
   end
 
+  # A day's value is what it leaves behind, recorded at the moment it ends.
   def day_end_values(series, dates)
-    dates.index_with { |date| series.find { it.at.to_date == date && it.at.hour == 23 }&.value }
+    dates.index_with { |date| series.find { it.at == date.in_time_zone.end_of_day }&.value }
   end
 
   # The outermost gaps are partial, running from the series' origin and up to where it stops.
@@ -149,9 +150,17 @@ RSpec.describe Sprints::Burndown do
       expect(interior_gaps(burndown.guideline)).to all(eq 1.day)
     end
 
-    it "reaches zero on the planned finish date" do
+    it "reaches zero at the end of the planned finish date" do
       expect(burndown.guideline.last.value).to eq 0.0
-      expect(burndown.guideline.last.at.to_date).to eq second_friday
+      expect(burndown.guideline.last.at).to eq second_friday.in_time_zone.end_of_day
+    end
+
+    context "with a sprint sampled daily rather than hourly" do
+      let(:finish_date) { first_monday + 60.days }
+
+      it "still ends on the finish date, so the step does not move the series" do
+        expect(burndown.guideline.last.at).to eq finish_date.in_time_zone.end_of_day
+      end
     end
 
     context "when story points change after the sprint started" do
@@ -166,7 +175,7 @@ RSpec.describe Sprints::Burndown do
       let(:now) { at_hour(second_friday + 5.days, 12) }
 
       it "still reaches zero on the planned date rather than today" do
-        expect(burndown.guideline.last.at.to_date).to eq second_friday
+        expect(burndown.guideline.last.at).to eq second_friday.in_time_zone.end_of_day
         expect(burndown.guideline.last.value).to eq 0.0
       end
     end
@@ -196,7 +205,7 @@ RSpec.describe Sprints::Burndown do
     it "carries the current points to zero on the planned finish date" do
       expect(burndown.projection.first.value).to eq 8.0
       expect(burndown.projection.last.value).to eq 0.0
-      expect(burndown.projection.last.at.to_date).to eq second_friday
+      expect(burndown.projection.last.at).to eq second_friday.in_time_zone.end_of_day
     end
 
     it "stays flat across non-working days" do

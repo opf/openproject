@@ -84,6 +84,10 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurndownChart, type: :component
       expect(first["y"]).to eq 10.0
     end
 
+    it "sends the step, without which the chart cannot name a tick's period" do
+      expect(chart_data["step"]).to eq "hour"
+    end
+
     it "sends the non working days of the charted range" do
       expect(chart_data["nonWorkingIntervals"])
         .to eq([{ "from" => saturday.iso8601, "to" => sunday.iso8601 }])

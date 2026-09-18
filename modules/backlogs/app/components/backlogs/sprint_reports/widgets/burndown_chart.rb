@@ -39,9 +39,11 @@ module Backlogs
           t("backlogs.show_burndown_chart")
         end
 
-        # Timestamps go out as UTC; the chart renders them in the viewer's zone.
+        # Timestamps go out as UTC; the chart renders them in the viewer's zone. They sit at
+        # period ends, so the chart needs the step to label them the way a reader expects.
         def chart_data
           {
+            step: burndown.step,
             series: series,
             nonWorkingIntervals: non_working_intervals
           }.to_json

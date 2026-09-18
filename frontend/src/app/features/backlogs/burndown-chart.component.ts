@@ -50,12 +50,15 @@ interface BurndownSeries {
 type BurndownDataset = ChartDataset<'line', BurndownPoint[]>;
 
 interface BurndownChartData {
+  step:'day'|'hour';
   series:BurndownSeries[];
   nonWorkingIntervals:NonWorkingInterval[];
 }
 
 // Keeps the tallest step clear of the top of the plot area.
 const Y_AXIS_HEADROOM = 1.1;
+
+const MINUTE_IN_MS = 60 * 1000;
 
 function cssVariable(name:string, fallback:string):string {
   return getComputedStyle(document.body).getPropertyValue(name).trim() || fallback;
@@ -187,7 +190,21 @@ export class BurndownChartComponent {
     const { series } = this.parsed();
     const dated = items.find((item) => series[item.datasetIndex]?.id === 'remaining') ?? items[0];
 
-    return this.timezoneService.formattedDatetime(new Date(Number(dated.parsed.x)).toISOString());
+    return this.formattedTick(Number(dated.parsed.x));
+  }
+
+  // Ticks sit at the end of the period they carry, so 09:59:59.999 is what the 9 o'clock hour
+  // left behind. Naming it 10:00 is what a reader expects, and rounding to the minute does that
+  // without disturbing the interval's own bounds, which are exact instants rather than period
+  // ends. A day end must be truncated instead: rounding it would land on the following date.
+  private formattedTick(timestamp:number):string {
+    if (this.parsed().step === 'day') {
+      return this.timezoneService.formattedDate(new Date(timestamp).toISOString());
+    }
+
+    const roundedToMinute = Math.round(timestamp / MINUTE_IN_MS) * MINUTE_IN_MS;
+
+    return this.timezoneService.formattedDatetime(new Date(roundedToMinute).toISOString());
   }
 
   // Remaining is a sum of whole story points, while the two projected series divide them
