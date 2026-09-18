@@ -27,12 +27,13 @@
 //++
 
 import { ChangeDetectionStrategy, Component, Signal, computed, inject, input } from '@angular/core';
-import { Chart, ChartData, ChartDataset, ChartEvent, ChartOptions, LegendElement, LegendItem } from 'chart.js';
+import { Chart, ChartData, ChartDataset, ChartEvent, ChartOptions, LegendElement, LegendItem, TooltipItem } from 'chart.js';
 import 'chartjs-adapter-luxon';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { NoResultsComponent } from 'core-app/shared/components/blankslate/no-results.component';
 import NonWorkingDaysPlugin, { NonWorkingDaysPluginOptions, NonWorkingInterval } from 'core-app/shared/components/charts/plugin.non-working-days';
+import 'core-app/shared/components/charts/interaction.series-at-x';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 interface BurndownPoint {
@@ -102,7 +103,7 @@ export class BurndownChartComponent {
 
   readonly lineChartOptions:Signal<ChartOptions<'line'>> = computed<ChartOptions<'line'>>(() => ({
     maintainAspectRatio: false,
-    interaction: { mode: 'index', intersect: false },
+    interaction: { mode: 'series-at-x', intersect: false },
     scales: {
       x: {
         type: 'time',
@@ -133,7 +134,7 @@ export class BurndownChartComponent {
       },
       tooltip: {
         callbacks: {
-          title: (items) => this.timezoneService.formattedDatetime(new Date(Number(items[0].parsed.x)).toISOString()),
+          title: (items) => this.tooltipTitle(items),
         },
       },
     },
@@ -172,10 +173,20 @@ export class BurndownChartComponent {
         return {
           ...shared,
           order: 1,
+          pointHoverRadius: 0,
           borderColor: cssVariable('--fgColor-muted', '#59636e'),
           borderWidth: 2,
         };
     }
+  }
+
+  // The guideline is sampled by day, so its own timestamp would not name the moment being
+  // hovered. The remaining series carries that, wherever it still runs.
+  private tooltipTitle(items:TooltipItem<'line'>[]):string {
+    const { series } = this.parsed();
+    const dated = items.find((item) => series[item.datasetIndex]?.id === 'remaining') ?? items[0];
+
+    return this.timezoneService.formattedDatetime(new Date(Number(dated.parsed.x)).toISOString());
   }
 
   private legendLabels(chart:Chart):LegendItem[] {
