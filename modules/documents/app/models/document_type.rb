@@ -30,6 +30,9 @@
 
 class DocumentType < ApplicationRecord
   include ::Documents::EnumerationModel
+  include Lists::MoveAfterAnchor
+
+  SORTABLE_LIST_TYPE = model_name.param_key.freeze
 
   default_scope { order(:position) }
   acts_as_list
