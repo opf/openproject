@@ -133,8 +133,15 @@ class Header::ProjectsController < ApplicationController
     query.present? || filter_mode == "favorited" || @current_project_id.blank?
   end
 
+  # Loads each ancestor's full child set (not just the chain down to `current`), so every
+  # ancestor on the path renders exactly as if it had been expanded manually - siblings
+  # included, and with no dangling expand arrow left behind for it.
   def merge_with_ancestors(projects, current)
-    (projects + current.self_and_ancestors.visible.active.to_a).uniq(&:id).sort_by(&:lft)
+    ancestors = current.self_and_ancestors.visible.active.to_a
+    ancestor_children = (ancestors - [current]).flat_map do |ancestor|
+      Project.nearest_visible_descendants(ancestor, limit: MAX_NUMBER_OF_PROJECTS).to_a
+    end
+    (projects + ancestors + ancestor_children).uniq(&:id).sort_by(&:lft)
   end
 
   # Returns a scope for all visible, active ancestors of the given projects
