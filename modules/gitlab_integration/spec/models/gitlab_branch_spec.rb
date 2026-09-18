@@ -28,35 +28,39 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module GitlabIntegration
-  class CollapsibleItemsComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpPrimer::ComponentHelpers
+require "spec_helper"
+require_module_spec_helper
 
-    attr_reader :heading, :container
+RSpec.describe GitlabBranch do
+  describe "Associations" do
+    it { is_expected.to belong_to(:work_package) }
+    it { is_expected.to belong_to(:gitlab_user).optional }
+  end
 
-    alias_method :items, :model
+  describe "Validations" do
+    it { is_expected.to validate_presence_of :gitlab_project_id }
+    it { is_expected.to validate_presence_of :namespace }
+    it { is_expected.to validate_presence_of :project_html_url }
+    it { is_expected.to validate_presence_of :name }
+    it { is_expected.to validate_presence_of :repository }
+  end
 
-    def initialize(model = nil, container_id:, heading:, work_package:, empty_state: {}, **)
-      @container_id = container_id
-      @heading = heading
-      @work_package = work_package
-      @empty_state = empty_state
-
-      super(model, **)
+  describe "URLs derived from the project" do
+    subject(:branch) do
+      build_stubbed(:gitlab_branch,
+                    project_html_url: "https://gitlab.com/openproject/openproject",
+                    name: "feature/dp-7-invite-attendees")
     end
 
-    private
+    it "points at the branch tree" do
+      expect(branch.html_url)
+        .to eq("https://gitlab.com/openproject/openproject/-/tree/feature/dp-7-invite-attendees")
+    end
 
-    def component_for(item)
-      case item
-      when GitlabIssue
-        IssueComponent.new(item)
-      when GitlabMergeRequest
-        MergeRequestComponent.new(item)
-      else
-        raise ArgumentError, "Items of type #{item.class} are not yet supported by #{self.class}"
-      end
+    it "prefills the source branch of a new merge request" do
+      expect(branch.new_merge_request_url)
+        .to eq("https://gitlab.com/openproject/openproject/-/merge_requests/new" \
+               "?merge_request%5Bsource_branch%5D=feature%2Fdp-7-invite-attendees")
     end
   end
 end

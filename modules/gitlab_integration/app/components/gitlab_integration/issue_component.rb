@@ -23,39 +23,44 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::Patches::GrapeDslRouting
-  extend ActiveSupport::Concern
+module GitlabIntegration
+  class IssueComponent < ApplicationComponent
+    include ApplicationHelper
+    include OpPrimer::ComponentHelpers
 
-  included do
-    # Be reload safe. otherwise, an infinite loop occurs on reload.
-    unless method_defined?(:orig_namespace)
-      alias :orig_namespace :namespace
-    end
+    alias_method :issue, :model
 
-    def namespace(space = nil, **, &)
-      orig_namespace(space, **) do
-        instance_eval(&)
-        apply_patches(space)
+    private
+
+    def state_scheme
+      case issue.state.to_sym
+      when :opened
+        :success
+      when :closed
+        :done
+      else
+        raise ArgumentError, "Unsupported issue state #{state}"
       end
     end
 
-    def apply_patches(path)
-      (patches[path] || []).each do |patch|
-        instance_eval(&patch)
+    def state_icon
+      case issue.state.to_sym
+      when :opened
+        :"issue-opened"
+      when :closed
+        :"issue-closed"
+      else
+        raise ArgumentError, "Unsupported issue state #{state}"
       end
     end
 
-    def patches
-      Constants::APIPatchRegistry.patches_for(self)
+    def state_label
+      t(".states.#{issue.state}")
     end
   end
-end
-
-OpenProject::Patches.patch_gem_version "grape", "4.0.1" do
-  Grape::DSL::Routing.include OpenProject::Patches::GrapeDslRouting
 end

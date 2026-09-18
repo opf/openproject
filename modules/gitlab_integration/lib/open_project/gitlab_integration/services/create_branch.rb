@@ -28,20 +28,42 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module GitlabIntegration
-  class WorkPackageGitlabTabComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
+module OpenProject
+  module GitlabIntegration
+    module Services
+      class CreateBranch
+        def call(payload, name:, work_package:)
+          GitlabBranch.find_or_create_by!(gitlab_project_id: payload.project_id, name:) do |branch|
+            branch.assign_attributes(work_package:, **extract_params(payload))
+          end
+        end
 
-    TURBO_FRAME_ID = "work-package-gitlab-tab-content"
+        private
 
-    alias_method :work_package, :model
+        def extract_params(payload)
+          {
+            namespace: payload.project.path_with_namespace.rpartition("/").first,
+            project_html_url: payload.project.web_url,
+            repository: payload.repository.name,
+            gitlab_user: gitlab_user(payload)
+          }
+        end
 
-    private
+        # Push hooks flatten the pusher into user_* keys instead of the nested
+        # "user" object every other GitLab event sends.
+        def gitlab_user(payload)
+          return if payload.user_id.blank?
 
-    def linking_code
-      "OP##{work_package.display_id}"
+          UpsertGitlabUser.new.call(
+            ::OpenProject::GitlabIntegration::NotificationHandler::Helper::Payload.new(
+              "id" => payload.user_id,
+              "name" => payload.user_name,
+              "username" => payload.user_username,
+              "avatar_url" => payload.user_avatar
+            )
+          )
+        end
+      end
     end
   end
 end
