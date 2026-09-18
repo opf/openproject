@@ -56,10 +56,6 @@ module ResourceAllocations
         f.html_content do
           render(ResourceAllocations::AllocationStep::ResourceFilterComponent.new(allocation: model))
         end
-
-        f.html_content do
-          render(ResourceAllocations::AllocationStep::NonMemberBannerComponent.new(allocation: model))
-        end
       end
 
       def initialize(project:, dialog_id:, create_placeholder_user_path:, view: nil)

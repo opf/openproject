@@ -120,10 +120,6 @@ en:
         partial: >-
           The selected user has no working hours configured for %{dates}, so those days are counted as
           having no capacity.
-      non_member:
-        warning: >-
-          %{user} is not a member of %{project} and cannot be allocated to its work packages. Add them to
-          the project first, or pick someone else.
       outside_dates:
         description: >-
           The selected resource dates, %{resource_dates}, are outside of the work package's dates, %{work_package_dates}.

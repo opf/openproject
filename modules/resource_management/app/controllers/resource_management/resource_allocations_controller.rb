@@ -59,11 +59,6 @@ module ::ResourceManagement
     def refresh_form
       allocation = set_attributes(allocation_params, contract_class: EmptyContract).result
 
-      # Picking a work package in another project re-scopes the principal picker,
-      # so the whole form is rebuilt. Otherwise only the banners change, and
-      # replacing the form would pull focus out of the field being edited.
-      return render_refreshed_form(allocation) if picker_scope_changed?(allocation)
-
       replace_via_turbo_stream(
         component: ResourceAllocations::AllocationStep::ScheduleViolationBannerComponent.new(allocation:)
       )
@@ -72,9 +67,6 @@ module ::ResourceManagement
       )
       replace_via_turbo_stream(
         component: ResourceAllocations::AllocationStep::ResourceFilterComponent.new(allocation:)
-      )
-      replace_via_turbo_stream(
-        component: ResourceAllocations::AllocationStep::NonMemberBannerComponent.new(allocation:)
       )
       respond_with_turbo_streams
     end
@@ -134,30 +126,6 @@ module ::ResourceManagement
     end
 
     private
-
-    # Only a form that carried its scope can have moved out of it.
-    def picker_scope_changed?(allocation)
-      return false unless params.dig(:resource_allocation, :form_project_id)
-
-      allocation_project(allocation.entity)&.id != carried_project_id
-    end
-
-    def carried_project_id
-      params.dig(:resource_allocation, :form_project_id).presence&.to_i
-    end
-
-    def render_refreshed_form(allocation)
-      replace_via_turbo_stream(
-        component: ResourceAllocations::AllocationStep::FormComponent.new(
-          allocation:,
-          project: @project,
-          dialog_id: params.dig(:resource_allocation, :form_dialog_id).presence ||
-            ResourceAllocations::NewDialogComponent::DIALOG_ID,
-          view: resource_planner_view
-        )
-      )
-      respond_with_turbo_streams
-    end
 
     def render_allocation_step(allocation, status: :ok)
       replace_via_turbo_stream(
