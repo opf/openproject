@@ -5562,7 +5562,7 @@ en:
         variants_not_allowed: "This type does not allow creation of variants inside projects."
       versions:
         no_results_content_text: Create a new version
-        no_results_title_text: There are currently no versions for the project.
+        no_results_title_text: No versions matching the filter criteria were found for this project.
         show_work_packages: Show work packages
         work_packages_graph: Work packages graph
       work_package_priorities:
@@ -7151,6 +7151,13 @@ en:
   version_status_open: "open"
 
   versions:
+    filter_status_labels:
+      closed: "Closed"
+      locked: "Locked"
+      open: "Open"
+    index:
+      filter_label: "Search versions"
+
     overview:
       no_results_title_text: There are currently no work packages assigned to this version.
       work_packages_in_archived_projects: "The version is shared with archived projects which still have work packages assigned to this version. These are counted, but will not appear in the linked views."

@@ -28,30 +28,48 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Projects::Settings::VersionsController < Projects::SettingsController
-  menu_item :settings_versions
+module Settings
+  module ProjectVersions
+    class IndexSubHeaderComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
 
-  def show
-    @query = build_query
-    @versions = @query.results.merge(@project.shared_versions)
+      options :query
 
-    render layout: !turbo_frame_request?
-  end
+      options :project
 
-  private
+      private
 
-  def build_query
-    query = ParamsToQueryService
-      .new(Version, current_user, query_class: Queries::Versions::VersionQuery)
-      .call(params)
+      def filter_input_value
+        query.find_active_filter(:name)&.values&.first
+      end
 
-    apply_default_status_filter_and_sort(query)
+      def clear_button_id = "versions-filter-clear"
 
-    query
-  end
+      def filter_input_id = "versions-filter-name"
 
-  def apply_default_status_filter_and_sort(query)
-    status_filter = query.filters.find { |f| f.name == :status }
-    query.where(:status, Queries::Operators::Equals.symbol, ["open"]) if status_filter.nil?
+      def sub_header_data_attributes
+        {
+          controller: "filter--filters-form",
+          "filter--filters-form-output-format-value": "json",
+          "filter--filters-form-turbo-frame-request-value": IndexComponent::FRAME_ID,
+          "filter--filters-form-clear-button-id-value": clear_button_id,
+          "filter--filters-form-current-filters-value": serialized_filters
+        }
+      end
+
+      def serialized_filters
+        OpPrimer::QuickFilter.serialize(query.filters).to_json
+      end
+
+      def filter_input_data_attributes
+        {
+          turbo_permanent: true,
+          "filter-name": "name",
+          "filter-type": "string",
+          "filter-operator": "~",
+          "filter--filters-form-target": "simpleFilter filterValueContainer simpleValue"
+        }
+      end
+    end
   end
 end
