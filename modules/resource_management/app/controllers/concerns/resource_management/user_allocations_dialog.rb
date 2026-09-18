@@ -28,31 +28,41 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ::ResourceManagement
-  class UserResourceAllocationsController < BaseController
-    include OpTurbo::ComponentStream
-    include ResourceManagement::UserAllocationsDialog
+module ResourceManagement
+  # Builds the user utilization dialog for a planner sub-view. The planner's
+  # timeframe scopes the utilization and the listed allocations alike, so both
+  # controllers opening the dialog load through here. Requires @project to be set.
+  module UserAllocationsDialog
+    def user_allocations_dialog_component(view:, user:)
+      timeframe = planner_timeframe(view)
+      allocations = allocations_in_timeframe(user, timeframe)
 
-    menu_item :resource_management
-
-    load_and_authorize_in_planner_section
-    before_action :find_resource_planner_view
-    before_action :find_user
-
-    def index
-      respond_with_dialog user_allocations_dialog_component(view: @resource_planner_view, user: @user)
+      ResourcePlannerViews::UserCardList::UserAllocationsDialogComponent.new(
+        project: @project,
+        view:,
+        user:,
+        timeframe:,
+        allocations:,
+        overbooked_ids: ResourceAllocation.overbooked_ids(allocations)
+      )
     end
 
     private
 
-    def find_resource_planner_view
-      @resource_planner_view = PersistedView
-                                 .where(parent: ResourcePlanner.visible_to(current_user, @project))
-                                 .find(params.expect(:resource_planner_view_id))
+    # The card view always belongs to a planner, which carries the timeframe.
+    # It is optional on the planner, in which case nothing scopes the dialog.
+    def planner_timeframe(view)
+      planner = view.parent
+      return if planner.start_date.blank? || planner.end_date.blank?
+
+      planner.start_date..planner.end_date
     end
 
-    def find_user
-      @user = User.visible(current_user).find(params.expect(:user_id))
+    def allocations_in_timeframe(user, timeframe)
+      scope = ResourceAllocation.allocated.for_principal(user).includes(:entity)
+      scope = scope.overlapping(timeframe) if timeframe
+
+      scope.to_a
     end
   end
 end

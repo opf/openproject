@@ -71,6 +71,22 @@ See COPYRIGHT and LICENSE files for more details.
                 render(ResourcePlannerViews::UserCardList::UtilizationBarComponent.new(value: utilization))
               end
             end
+
+            if timeframe
+              header.with_row(mt: 1) do
+                flex_layout(align_items: :center, justify_content: :space_between) do |line|
+                  line.with_column do
+                    render(Primer::Beta::Text.new(font_size: :small, color: :muted)) { timeframe_label }
+                  end
+
+                  if capacity_known?
+                    line.with_column do
+                      render(Primer::Beta::Text.new(font_size: :small, color: :muted)) { capacity_label }
+                    end
+                  end
+                end
+              end
+            end
           end
         end
 
@@ -81,18 +97,26 @@ See COPYRIGHT and LICENSE files for more details.
                 box.with_row do
                   flex_layout(align_items: :center) do |row|
                     row.with_column(flex: 1, mr: 2) do
-                      if visible?(allocation)
-                        render(
-                          WorkPackages::InfoLineComponent.new(
-                            work_package: work_package_for(allocation),
-                            show_status: true,
-                            show_subject: true,
-                            font_size: :normal,
-                            show_project: show_project?(allocation)
-                          )
-                        )
-                      else
-                        render(Primer::Beta::Text.new(color: :muted, font_style: :italic)) { hidden_label }
+                      flex_layout do |subject|
+                        subject.with_row do
+                          if visible?(allocation)
+                            render(
+                              WorkPackages::InfoLineComponent.new(
+                                work_package: work_package_for(allocation),
+                                show_status: true,
+                                show_subject: true,
+                                font_size: :normal,
+                                show_project: show_project?(allocation)
+                              )
+                            )
+                          else
+                            render(Primer::Beta::Text.new(color: :muted, font_style: :italic)) { hidden_label }
+                          end
+                        end
+
+                        subject.with_row(mt: 1) do
+                          render(Primer::Beta::Text.new(font_size: :small, color: :muted)) { date_range(allocation) }
+                        end
                       end
                     end
 
@@ -164,7 +188,7 @@ See COPYRIGHT and LICENSE files for more details.
             render(Primer::Beta::BorderBox.new) do |box|
               box.with_row do
                 render(Primer::Beta::Text.new(color: :subtle)) do
-                  t("resource_management.user_allocations_dialog.blank")
+                  blank_label
                 end
               end
             end

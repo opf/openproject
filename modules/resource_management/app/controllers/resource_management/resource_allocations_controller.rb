@@ -31,6 +31,7 @@ module ::ResourceManagement
   class ResourceAllocationsController < BaseController
     include OpTurbo::ComponentStream
     include ResourceManagement::PlannerRoutes
+    include ResourceManagement::UserAllocationsDialog
 
     menu_item :resource_management
 
@@ -248,16 +249,8 @@ module ::ResourceManagement
       return unless reopen_user_allocations_dialog?
       return if principal.nil?
 
-      allocations = ResourceAllocation.allocated.for_principal(principal).includes(:entity).to_a
-
       dialog_via_turbo_stream(
-        component: ResourcePlannerViews::UserCardList::UserAllocationsDialogComponent.new(
-          project: @project,
-          view: resource_planner_view,
-          user: principal,
-          allocations:,
-          overbooked_ids: ResourceAllocation.overbooked_ids(allocations)
-        )
+        component: user_allocations_dialog_component(view: resource_planner_view, user: principal)
       )
     end
 

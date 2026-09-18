@@ -36,35 +36,33 @@ module ResourcePlannerViews::UserCardList
 
     DIALOG_ID = "user-allocations-dialog"
 
-    def initialize(project:, view:, user:, allocations:, overbooked_ids: Set.new)
+    def initialize(project:, view:, user:, allocations:, timeframe: nil, overbooked_ids: Set.new)
       super
 
       @project = project
       @view = view
       @user = user
       @allocations = allocations
+      @timeframe = timeframe
       @overbooked_ids = overbooked_ids
     end
 
     private
 
-    attr_reader :project, :view, :user, :allocations, :overbooked_ids
-
-    # The card view always belongs to a planner, which carries the utilization
-    # window.
-    def resource_planner
-      @view.parent
-    end
+    attr_reader :project, :view, :user, :allocations, :timeframe, :overbooked_ids
 
     def title
       I18n.t("resource_management.user_allocations_dialog.title")
     end
 
+    def availability
+      @availability ||= ResourceAllocations::Availability.new(user:, allocations:)
+    end
+
     def utilization
       return @utilization if defined?(@utilization)
 
-      @utilization = utilization_window &&
-                     ResourceAllocations::Availability.new(user:, allocations:).utilization_ratio(utilization_window)
+      @utilization = timeframe && availability.utilization_ratio(timeframe)
     end
 
     def utilization?
@@ -75,12 +73,29 @@ module ResourcePlannerViews::UserCardList
       helpers.number_to_percentage(utilization, precision: 0)
     end
 
-    def utilization_window
-      return @utilization_window if defined?(@utilization_window)
+    def timeframe_label
+      t("resource_management.timeframe.full",
+        start: helpers.format_date(timeframe.begin),
+        end: helpers.format_date(timeframe.end))
+    end
 
-      from = resource_planner.start_date
-      to = resource_planner.end_date
-      @utilization_window = from && to ? from..to : nil
+    def capacity_known?
+      timeframe.present? && capacity_minutes.positive?
+    end
+
+    def capacity_label
+      t("resource_management.user_allocations_dialog.total_time",
+        hours: DurationConverter.output(capacity_minutes / 60.0))
+    end
+
+    def capacity_minutes
+      @capacity_minutes ||= availability.capacity_minutes_within(timeframe)
+    end
+
+    def blank_label
+      key = timeframe ? "blank_in_timeframe" : "blank"
+
+      t("resource_management.user_allocations_dialog.#{key}")
     end
 
     def visible?(allocation)
@@ -120,6 +135,10 @@ module ResourcePlannerViews::UserCardList
 
     def duration(allocation)
       DurationConverter.output(allocation.allocated_hours)
+    end
+
+    def date_range(allocation)
+      "#{helpers.format_date(allocation.start_date)} - #{helpers.format_date(allocation.end_date)}"
     end
 
     # The permission lives on the project of the allocated work package, which on
