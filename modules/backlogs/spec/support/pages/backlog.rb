@@ -821,6 +821,16 @@ module Pages
       wait_for_network_idle
     end
 
+    def apply_milestone_filter(value)
+      open_filters
+      if page.has_css?(filter_selector("is_milestone"), wait: 0)
+        within(filter_selector("is_milestone")) { set_toggle_filter([value.to_s]) }
+      else
+        set_filter("is_milestone", "Is milestone", nil, [value.to_s])
+      end
+      wait_for_network_idle
+    end
+
     def expect_inbox
       expect(page).to have_test_selector("backlog-inbox")
     end
@@ -1087,6 +1097,10 @@ module Pages
     end
 
     private
+
+    def boolean_filter?(filter)
+      filter.to_s == "is_milestone"
+    end
 
     # Node::Element#click takes the held key and positional options, so no
     # action chain is needed. The offset avoids the card's centre, where the

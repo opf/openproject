@@ -218,4 +218,49 @@ RSpec.describe Backlogs::BacklogQueryBuilder do
       end
     end
   end
+
+  context "with milestone filtering and parent loading" do
+    shared_let(:ordinary_type) { create(:type, is_milestone: false) }
+    shared_let(:milestone_type) { create(:type, is_milestone: true) }
+    shared_let(:project) { create(:project, types: [ordinary_type, milestone_type]) }
+    shared_let(:parent) { create(:work_package, project:, type: ordinary_type) }
+    shared_let(:milestone) { create(:work_package, project:, type: milestone_type, parent:) }
+    shared_let(:bucket) { create(:backlog_bucket, project:) }
+    shared_let(:bucket_milestone) do
+      create(:work_package, project:, type: milestone_type, backlog_bucket: bucket, parent:)
+    end
+    shared_let(:sprint) { create(:sprint, project:) }
+    shared_let(:sprint_milestone) { create(:work_package, project:, type: milestone_type, sprint:, parent:) }
+    shared_let(:sprint_ordinary) { create(:work_package, project:, type: ordinary_type, sprint:) }
+
+    let(:builder) { described_class.new(project:, user:, params:) }
+    let(:backlog_items) do
+      builder.build_backlog_work_packages(bucket_ids: [bucket.id], show_inbox: true)
+             .includes(:type, :status, :assigned_to, :priority, :parent)
+             .to_a
+    end
+    let(:sprint_items) do
+      builder.build_sprint_work_packages(sprint_ids: [sprint.id])
+             .includes(:type, :status, :assigned_to, :priority, :parent)
+             .to_a
+    end
+
+    context "when filtering for milestones" do
+      let(:params) { { filters: 'is_milestone = "t"' } }
+
+      it "returns only milestones while loading their parents", :aggregate_failures do
+        expect(backlog_items).to contain_exactly(milestone, bucket_milestone)
+        expect(sprint_items).to contain_exactly(sprint_milestone)
+      end
+    end
+
+    context "when filtering for non-milestones" do
+      let(:params) { { filters: 'is_milestone = "f"' } }
+
+      it "returns only non-milestones while loading their parents", :aggregate_failures do
+        expect(backlog_items).to contain_exactly(parent)
+        expect(sprint_items).to contain_exactly(sprint_ordinary)
+      end
+    end
+  end
 end
