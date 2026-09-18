@@ -1,0 +1,17 @@
+diff --git a/node_modules/@angular-builders/custom-esbuild/dist/unit-test/index.js b/node_modules/@angular-builders/custom-esbuild/dist/unit-test/index.js
+index 81c84cc..4f3d168 100644
+--- a/node_modules/@angular-builders/custom-esbuild/dist/unit-test/index.js
++++ b/node_modules/@angular-builders/custom-esbuild/dist/unit-test/index.js
+@@ -41,8 +41,10 @@ const core_1 = require("@angular-devkit/core");
+ const rxjs_1 = require("rxjs");
+ const load_plugins_1 = require("../load-plugins");
+ function executeCustomEsbuildUnitTestBuilder(options, context) {
+-    if (Array.isArray(options.browsers) && !options.browsers.length) {
+-        delete options.browsers;
++    for (const key of ["browsers", "coverageInclude", "coverageExclude", "coverageReporters"]) {
++        if (Array.isArray(options[key]) && !options[key].length) {
++            delete options[key];
++        }
+     }
+     const buildTarget = (0, architect_1.targetFromTargetString)(options.buildTarget);
+     async function getBuildTargetOptions() {
