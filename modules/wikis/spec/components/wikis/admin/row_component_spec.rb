@@ -28,14 +28,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Wikis::Admin
-  class WikiProviderListComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
+require "spec_helper"
+require_module_spec_helper
 
-    alias_method :wiki_providers, :model
+RSpec.describe Wikis::Admin::RowComponent, type: :component do
+  include Rails.application.routes.url_helpers
 
-    def provider_url(wiki_provider)
-      wiki_provider.respond_to?(:url) && wiki_provider.url
-    end
+  shared_let(:xwiki_provider) { create(:xwiki_provider) }
+
+  subject(:wiki_provider_row_component) do
+    table = Wikis::Admin::TableComponent.new(rows: [xwiki_provider])
+    described_class.new(row: xwiki_provider, table:)
+  end
+
+  before do
+    render_inline(wiki_provider_row_component)
+  end
+
+  it "renders the provider name linking to its edit page" do
+    expect(page).to have_link(xwiki_provider.name, href: edit_admin_settings_wiki_provider_path(xwiki_provider))
+  end
+
+  it "renders the provider url" do
+    expect(page).to have_text(xwiki_provider.url)
+  end
+
+  it "renders the provider type" do
+    expect(page).to have_text("XWiki")
   end
 end
