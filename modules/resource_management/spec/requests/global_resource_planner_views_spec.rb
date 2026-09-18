@@ -83,6 +83,16 @@ RSpec.describe "Global resource planner views requests",
       expect(response.body).to include(menu_resource_planners_path)
     end
 
+    it "names each work package's project, which the planner spans several of" do
+      post work_packages_resource_planner_view_path(planner, view),
+           params: { work_package_id: beta_wp.id },
+           as: :turbo_stream
+
+      get resource_planner_view_path(planner, view)
+
+      expect(response.body).to include(project_overview_path(beta))
+    end
+
     it "accepts a work package from any project the user can see" do
       post work_packages_resource_planner_view_path(planner, view),
            params: { work_package_id: beta_wp.id },

@@ -81,6 +81,17 @@ module ResourcePlannerViews::WorkPackageList
       )
     end
 
+    # Only rendered on a global planner, where the table carries the column.
+    def project
+      render(
+        Primer::Beta::Link.new(
+          href: helpers.project_overview_path(work_package.project),
+          color: :muted,
+          underline: false
+        )
+      ) { work_package.project.name }
+    end
+
     def priority
       return if work_package.priority.blank?
 
