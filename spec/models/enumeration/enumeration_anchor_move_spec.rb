@@ -28,51 +28,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class DocumentType < ApplicationRecord
-  include ::Documents::EnumerationModel
-  include Lists::MoveAfterAnchor
+require "spec_helper"
 
-  default_scope { order(:position) }
-  acts_as_list
+RSpec.describe Enumeration, "anchor moves" do
+  it "moves a priority below its anchor" do
+    first = create(:issue_priority)
+    second = create(:issue_priority)
 
-  has_many :documents, foreign_key: :type_id,
-                       dependent: :nullify,
-                       inverse_of: :type
-
-  normalizes :name, with: ->(name) { name.strip }
-
-  validates :name, presence: true, uniqueness: { case_sensitive: false }
-
-  before_destroy :prevent_deletion_of_last_type
-
-  def self.default
-    where(is_default: true).first || first
+    expect(first.move_after_anchor(second.id, scope: IssuePriority.all)).to be(true)
+    expect(IssuePriority.reorder(:position).ids).to eq([second.id, first.id])
   end
 
-  def only_remaining_record?
-    self.class.where.not(id: id).none?
+  it "moves a document type to the top for a blank anchor" do
+    first = create(:document_type)
+    second = create(:document_type)
+
+    expect(second.move_after_anchor("", scope: DocumentType.all)).to be(true)
+    expect(DocumentType.reorder(:position).ids).to eq([second.id, first.id])
   end
 
-  alias :destroy_without_reassign :destroy
+  it "refuses an anchor from another enumeration class" do
+    priority = create(:issue_priority)
+    create(:issue_priority)
+    activity = create(:time_entry_activity)
+    original = IssuePriority.reorder(:position).ids
 
-  def destroy(reassign_to = nil)
-    if reassign_to.is_a?(DocumentType)
-      transfer_relations(reassign_to)
-    end
-    destroy_without_reassign
-  end
-
-  private
-
-  def prevent_deletion_of_last_type
-    if only_remaining_record?
-      errors.add(:base, :one_or_more_required)
-      throw(:abort)
-    end
-  end
-
-  def transfer_relations(to)
-    documents.update_all(type_id: to.id)
-    to.update_column(:documents_count, to.documents.count)
+    expect(priority.move_after_anchor(activity.id, scope: IssuePriority.all)).to be(false)
+    expect(IssuePriority.reorder(:position).ids).to eq(original)
   end
 end
