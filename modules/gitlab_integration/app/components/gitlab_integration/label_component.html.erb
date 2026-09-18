@@ -27,15 +27,4 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%=
-  render(OpenProject::Common::BorderBoxListComponent.new(container: @container_id, collapsible: true, padding: :condensed)) do |list|
-    list.with_header(title: heading, count: items.count, collapsed: true)
-    list.with_empty_state(**@empty_state) if @empty_state.present?
-
-    items.each do |item|
-      list.with_item do
-        render(component_for(item))
-      end
-    end
-  end
-%>
+<%= render(Primer::Beta::Label.new(style: "color: #{color}; border-color: #{color}")) { title } %>

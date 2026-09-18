@@ -23,39 +23,25 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::Patches::GrapeDslRouting
-  extend ActiveSupport::Concern
+class CreateGitlabBranches < ActiveRecord::Migration[8.1]
+  def change
+    create_table :gitlab_branches do |t|
+      t.references :work_package, null: false, foreign_key: { on_delete: :cascade }
+      t.bigint :gitlab_project_id, null: false
+      t.string :namespace, null: false
+      t.string :project_html_url, null: false
+      t.string :name, null: false
+      t.string :repository, null: false
+      t.references :gitlab_user
 
-  included do
-    # Be reload safe. otherwise, an infinite loop occurs on reload.
-    unless method_defined?(:orig_namespace)
-      alias :orig_namespace :namespace
-    end
+      t.timestamps
 
-    def namespace(space = nil, **, &)
-      orig_namespace(space, **) do
-        instance_eval(&)
-        apply_patches(space)
-      end
-    end
-
-    def apply_patches(path)
-      (patches[path] || []).each do |patch|
-        instance_eval(&patch)
-      end
-    end
-
-    def patches
-      Constants::APIPatchRegistry.patches_for(self)
+      t.index %i[gitlab_project_id name], unique: true
     end
   end
-end
-
-OpenProject::Patches.patch_gem_version "grape", "4.0.1" do
-  Grape::DSL::Routing.include OpenProject::Patches::GrapeDslRouting
 end

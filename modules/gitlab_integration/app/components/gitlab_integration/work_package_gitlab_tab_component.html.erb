@@ -35,7 +35,7 @@ See COPYRIGHT and LICENSE files for more details.
           render(Primer::Alpha::Stack.new(direction: :horizontal, gap: :condensed, align: :center)) do
             concat(
               render(Primer::Alpha::StackItem.new(grow: true)) do
-                render(Primer::Beta::Text.new(color: :muted)) { t(".description_html", code: content_tag(:code, "OP#123")) }
+                render(Primer::Beta::Text.new(color: :muted)) { t(".description_html", code: content_tag(:code, linking_code)) }
               end
             )
 
@@ -61,10 +61,14 @@ See COPYRIGHT and LICENSE files for more details.
         container.with_row(mb: 3) do
           render(
             ::GitlabIntegration::CollapsibleItemsComponent.new(
-              work_package.gitlab_issues.pluck(:title),
+              work_package.gitlab_issues.order(repository: :asc).order(gitlab_id: :asc),
               container_id: :issues,
               heading: t(".issues"),
-              work_package:
+              work_package:,
+              empty_state: {
+                title: t(".blank_slates.issues.title"),
+                description: t(".blank_slates.issues.description_html", code: content_tag(:code, linking_code))
+              }
             )
           )
         end
@@ -72,10 +76,14 @@ See COPYRIGHT and LICENSE files for more details.
         container.with_row(mb: 3) do
           render(
             ::GitlabIntegration::CollapsibleItemsComponent.new(
-              work_package.gitlab_merge_requests.pluck(:title),
+              work_package.gitlab_merge_requests.order(repository: :asc).order(gitlab_id: :asc),
               container_id: :merge_requests,
               heading: t(".merge_requests"),
-              work_package:
+              work_package:,
+              empty_state: {
+                title: t(".blank_slates.merge_requests.title"),
+                description: t(".blank_slates.merge_requests.description_html", code: content_tag(:code, linking_code))
+              }
             )
           )
         end
@@ -86,7 +94,11 @@ See COPYRIGHT and LICENSE files for more details.
               [],
               container_id: :branches,
               heading: t(".branches"),
-              work_package:
+              work_package:,
+              empty_state: {
+                title: t(".blank_slates.branches.title"),
+                description: t(".blank_slates.branches.description_html", code: content_tag(:code, linking_code))
+              }
             )
           )
         end
@@ -97,7 +109,11 @@ See COPYRIGHT and LICENSE files for more details.
               [],
               container_id: :commits,
               heading: t(".commits"),
-              work_package:
+              work_package:,
+              empty_state: {
+                title: t(".blank_slates.commits.title"),
+                description: t(".blank_slates.commits.description_html", code: content_tag(:code, linking_code))
+              }
             )
           )
         end

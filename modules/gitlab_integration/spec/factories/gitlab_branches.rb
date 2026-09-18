@@ -23,39 +23,20 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::Patches::GrapeDslRouting
-  extend ActiveSupport::Concern
+FactoryBot.define do
+  factory :gitlab_branch do
+    work_package
 
-  included do
-    # Be reload safe. otherwise, an infinite loop occurs on reload.
-    unless method_defined?(:orig_namespace)
-      alias :orig_namespace :namespace
-    end
-
-    def namespace(space = nil, **, &)
-      orig_namespace(space, **) do
-        instance_eval(&)
-        apply_patches(space)
-      end
-    end
-
-    def apply_patches(path)
-      (patches[path] || []).each do |patch|
-        instance_eval(&patch)
-      end
-    end
-
-    def patches
-      Constants::APIPatchRegistry.patches_for(self)
-    end
+    sequence(:gitlab_project_id)
+    namespace { "test_user" }
+    project_html_url { "https://gitlab.com/test_user/test_repo" }
+    sequence(:name) { |n| "bug/#{n}-some-branch" }
+    sequence(:repository) { |n| "test_user/repo_#{n}" }
+    gitlab_user
   end
-end
-
-OpenProject::Patches.patch_gem_version "grape", "4.0.1" do
-  Grape::DSL::Routing.include OpenProject::Patches::GrapeDslRouting
 end

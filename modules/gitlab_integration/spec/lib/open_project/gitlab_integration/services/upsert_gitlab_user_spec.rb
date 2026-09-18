@@ -28,34 +28,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::Patches::GrapeDslRouting
-  extend ActiveSupport::Concern
+require "spec_helper"
+require_module_spec_helper
 
-  included do
-    # Be reload safe. otherwise, an infinite loop occurs on reload.
-    unless method_defined?(:orig_namespace)
-      alias :orig_namespace :namespace
-    end
+RSpec.describe OpenProject::GitlabIntegration::Services::UpsertGitlabUser do
+  subject(:gitlab_user) { described_class.new.call(payload) }
 
-    def namespace(space = nil, **, &)
-      orig_namespace(space, **) do
-        instance_eval(&)
-        apply_patches(space)
-      end
-    end
+  let(:email) { "admin@gitlab.com" }
 
-    def apply_patches(path)
-      (patches[path] || []).each do |patch|
-        instance_eval(&patch)
-      end
-    end
+  let(:payload) do
+    OpenProject::GitlabIntegration::NotificationHandler::Helper::Payload.new(
+      "id" => 1,
+      "name" => "Administrator",
+      "username" => "root",
+      "avatar_url" => "https://www.gravatar.com/avatar/1?s=80&d=identicon",
+      "email" => email
+    )
+  end
 
-    def patches
-      Constants::APIPatchRegistry.patches_for(self)
+  it "stores the user" do
+    expect { gitlab_user }.to change(GitlabUser, :count).by(1)
+    expect(gitlab_user).to have_attributes(gitlab_id: 1,
+                                           gitlab_name: "Administrator",
+                                           gitlab_username: "root",
+                                           gitlab_avatar_url: "https://www.gravatar.com/avatar/1?s=80&d=identicon")
+  end
+
+  context "when the payload carries no email address" do
+    let(:email) { nil }
+
+    it "stores the user" do
+      expect { gitlab_user }.to change(GitlabUser, :count).by(1)
     end
   end
-end
-
-OpenProject::Patches.patch_gem_version "grape", "4.0.1" do
-  Grape::DSL::Routing.include OpenProject::Patches::GrapeDslRouting
 end
