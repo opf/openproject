@@ -16,7 +16,7 @@
     dialog.with_additional_details(mb: 0) do
       concat hidden_settings_fields
       concat(
-        tag.div(class: "px-5") do
+        render(Primer::BaseComponent.new(tag: :div, px: 5)) do
           if removed_non_working_days.any?
             concat tag.p(t("working_days.dialog.removed_title"))
             concat(
