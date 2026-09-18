@@ -47,8 +47,8 @@ RSpec.describe Workflows::MatrixUpdateService, type: :model do
   let(:status) { { status_a.id.to_s => { status_b.id.to_s => ["always"] } } }
 
   def transitions_for(a_role, author: false, assignee: false)
-    Workflow
-      .where(type_variant_id: variant.id, role_id: a_role.id, author:, assignee:)
+    Workflows::StatusTransition
+      .where(workflow_id: variant.workflow_id, role_id: a_role.id, author:, assignee:)
       .pluck(:old_status_id, :new_status_id)
   end
 
@@ -58,7 +58,7 @@ RSpec.describe Workflows::MatrixUpdateService, type: :model do
   end
 
   it "replaces transitions that are no longer submitted" do
-    create(:workflow, role_id: role.id, type_variant_id: variant.id,
+    create(:workflow, role_id: role.id, type_variant: variant,
                       old_status_id: status_b.id, new_status_id: status_c.id)
 
     expect(service_call).to be_success
@@ -81,7 +81,7 @@ RSpec.describe Workflows::MatrixUpdateService, type: :model do
       end
 
       before do
-        create(:workflow, role_id: role.id, type_variant_id: variant.id,
+        create(:workflow, role_id: role.id, type_variant: variant,
                           old_status_id: status_b.id, new_status_id: status_c.id)
       end
 
@@ -166,7 +166,7 @@ RSpec.describe Workflows::MatrixUpdateService, type: :model do
       let(:call_params) { {} }
 
       before do
-        create(:workflow, role_id: role.id, type_variant_id: variant.id,
+        create(:workflow, role_id: role.id, type_variant: variant,
                           old_status_id: status_a.id, new_status_id: status_b.id)
       end
 

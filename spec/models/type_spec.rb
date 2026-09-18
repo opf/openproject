@@ -45,7 +45,7 @@ RSpec.describe Type do
       expect(described_class.enabled_in(project)).to contain_exactly(type)
     end
 
-    context "with variants", with_flag: { type_variants: true } do
+    context "with variants" do
       shared_let(:enabled_root) { create(:type, name: "Enabled root") }
       shared_let(:enabled_variant) { create(:type_variant, type: enabled_root, variant_name: "Enabled variant") }
       shared_let(:on_variant) { create(:project, types: [enabled_variant]) }
@@ -289,13 +289,9 @@ RSpec.describe Type do
       it "resolves the source's statuses" do
         expect(subject.pluck(:id)).to contain_exactly(statuses[0].id, statuses[1].id)
       end
-
-      it "resolves the same with the feature disabled", with_flag: { type_variants: false } do
-        expect(subject.pluck(:id)).to contain_exactly(statuses[0].id, statuses[1].id)
-      end
     end
 
-    context "when linked through a longer chain", with_flag: { type_variants: true } do
+    context "when linked through a longer chain" do
       let(:role) { create(:project_role) }
       let(:statuses) { create_list(:status, 2) }
       let!(:owner) { create(:type) }
@@ -323,20 +319,20 @@ RSpec.describe Type do
 
   describe "#copy_from_type on own_workflows" do
     before do
-      allow(Workflow)
+      allow(Workflows::StatusTransition)
         .to receive(:copy)
     end
 
-    it "calls the .copy method on Workflow" do
+    it "calls the .copy method on Workflows::StatusTransition" do
       type.default_variant.own_workflows.copy_from_variant(type2.default_variant)
 
-      expect(Workflow)
+      expect(Workflows::StatusTransition)
         .to have_received(:copy)
         .with(type2.default_variant, nil, type.default_variant, nil)
     end
   end
 
-  describe "#workflows", with_flag: { type_variants: true } do
+  describe "#workflows" do
     let(:role) { create(:project_role) }
     let(:statuses) { create_list(:status, 2) }
     let!(:type) { create(:type) }
@@ -376,23 +372,15 @@ RSpec.describe Type do
       expect(type.default_variant.workflows).not_to include(own)
     end
 
-    it "resolves the link the same with the feature disabled", with_flag: { type_variants: false } do
-      own = create(:workflow, type_variant: type.default_variant, role_id: role.id,
-                              old_status_id: statuses[1].id, new_status_id: statuses[0].id)
+    it "copies onto a forked workflow while linked, leaving the source untouched" do
       link_configuration(type.default_variant, source: owner.default_variant, aspect: TypeVariant::WORKFLOWS)
-
       expect(type.default_variant.workflows).to contain_exactly(owner_workflow)
-      expect(type.default_variant.workflows).not_to include(own)
-    end
-
-    it "writes through #own_workflows to its own rows while linked, leaving the source untouched" do
-      link_configuration(type.default_variant, source: owner.default_variant, aspect: TypeVariant::WORKFLOWS)
-      expect(type.default_variant.own_workflows).to be_empty
 
       type.default_variant.own_workflows.copy_from_variant(owner.default_variant)
 
       expect(type.default_variant.own_workflows.sole)
         .to have_attributes(old_status_id: statuses[0].id, new_status_id: statuses[1].id)
+      expect(type.default_variant.workflow_id).not_to eq(owner.default_variant.workflow_id)
       expect(owner.default_variant.reload.own_workflows).to contain_exactly(owner_workflow)
     end
   end
@@ -537,7 +525,7 @@ RSpec.describe Type do
       expect { type.pdf_export_templates.clear_setting("bogus", "footer_text") }.to raise_error(ArgumentError)
     end
 
-    it "resolves through a configuration link", with_flag: { type_variants: true } do
+    it "resolves through a configuration link" do
       source = create(:type).default_variant
       source.pdf_export_templates.update_settings("attributes", "footer_text" => "Source footer")
       source.save!
@@ -551,7 +539,7 @@ RSpec.describe Type do
         expect(type.pdf_export_templates).not_to be_readonly
       end
 
-      context "when linked to a source type", with_flag: { type_variants: true } do
+      context "when linked to a source type" do
         before { link_configuration(type, source: create(:type), aspect: TypeVariant::PDF_EXPORT) }
 
         it "is true" do
@@ -559,16 +547,9 @@ RSpec.describe Type do
         end
       end
 
-      context "when linked but type_variants is disabled" do
-        before { link_configuration(type, source: create(:type), aspect: TypeVariant::PDF_EXPORT) }
-
-        it "is false, since the link has no effect with the flag off" do
-          expect(type.pdf_export_templates).not_to be_readonly
-        end
-      end
     end
 
-    context "when linked to a source type", with_flag: { type_variants: true } do
+    context "when linked to a source type" do
       let(:source) { create(:type).default_variant }
 
       before do

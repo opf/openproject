@@ -36,7 +36,7 @@ RSpec.describe WorkPackages::Exports::Generate::ModalDialogComponent, type: :com
   let(:type) { create(:type) }
   let(:work_package) { build_stubbed(:work_package, type:) }
 
-  describe "#templates_options", with_flag: { type_variants: true } do
+  describe "#templates_options" do
     it "lists the enabled templates of the type the PDF config is linked to" do
       source = create(:type)
       source.default_variant.pdf_export_templates.disable_all

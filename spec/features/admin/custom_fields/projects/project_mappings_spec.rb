@@ -125,6 +125,15 @@ RSpec.describe "Project Custom Field Mappings", :js do
       end
     end
 
+    it_behaves_like "a fill-in project autocompleter searchable by identifier" do
+      let(:target_project) { create(:project, name: "Alpha Initiative", identifier: "zulu-target") }
+      let(:control_project) { create(:project, name: "Beta Initiative", identifier: "yankee-other") }
+
+      before do
+        click_on "Add projects"
+      end
+    end
+
     it "allows unlinking a project from a custom field", with_settings: { per_page_options: "2,5" } do
       projects = create_list(:project, 4)
       projects.each { |project| create(:project_custom_field_project_mapping, project_custom_field:, project:) }

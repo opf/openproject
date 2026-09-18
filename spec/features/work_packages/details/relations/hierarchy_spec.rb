@@ -183,15 +183,6 @@ RSpec.shared_examples "work package relations tab", :js, :with_cuprite do
   end
 end
 
-RSpec.context "within a split screen" do
-  let(:wp_page) { Pages::SplitWorkPackage.new(work_package) }
-  let(:tabs) { Components::WorkPackages::Tabs.new(work_package) }
-
-  let(:relations_tab) { find(".op-tab-row--link_selected", text: "RELATIONS") }
-
-  it_behaves_like "work package relations tab"
-end
-
 RSpec.context "within a primerized split screen" do
   let(:wp_page) { Pages::PrimerizedSplitWorkPackage.new(work_package) }
   let(:tabs) { Components::WorkPackages::PrimerizedTabs.new }

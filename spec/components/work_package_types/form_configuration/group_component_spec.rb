@@ -10,7 +10,8 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupComponent, type: :compo
       name: "Details",
       type: :attribute,
       attributes: [
-        { key: "assignee", is_cf: false, is_required: false, translation: "Assignee", field_format_label: "Built-in field" }
+        { key: "assignee", is_cf: false, required_globally: false, required_for_variant: false, translation: "Assignee",
+          field_format_label: "Built-in field" }
       ],
       query: nil
     }

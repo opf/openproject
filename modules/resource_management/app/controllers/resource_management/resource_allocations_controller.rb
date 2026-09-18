@@ -51,15 +51,6 @@ module ::ResourceManagement
       )
     end
 
-    def step
-      # Pre-select the autocompleter when the dialog was opened from a work package,
-      # and carry any date range picked on the timeline into the new allocation.
-      render_allocation_step(
-        ResourceAllocation.new(entity: preselected_work_package,
-                               start_date: params[:start_date], end_date: params[:end_date])
-      )
-    end
-
     # Recomputes the inline warnings whenever a date or the selected principal
     # changes. Only the banners are replaced — replacing the whole form would
     # make Turbo restore focus to the date input afterwards, reopening its
@@ -72,6 +63,9 @@ module ::ResourceManagement
       )
       replace_via_turbo_stream(
         component: ResourceAllocations::AllocationStep::MissingWorkingHoursBannerComponent.new(allocation:)
+      )
+      replace_via_turbo_stream(
+        component: ResourceAllocations::AllocationStep::ResourceFilterComponent.new(allocation:)
       )
       respond_with_turbo_streams
     end
@@ -137,7 +131,6 @@ module ::ResourceManagement
         component: ResourceAllocations::AllocationStep::FormComponent.new(
           allocation:,
           project: @project,
-          allocation_kind:,
           view: resource_planner_view
         ),
         status:
@@ -153,7 +146,6 @@ module ::ResourceManagement
         component: ResourceAllocations::WarningStep::FormComponent.new(
           allocation:,
           project: @project,
-          allocation_kind:,
           form_values: submitted_allocation_params,
           filters: params[:filters],
           view: resource_planner_view,
@@ -315,7 +307,6 @@ module ::ResourceManagement
         component: ResourceAllocations::AllocationStep::FormComponent.new(
           allocation:,
           project: @project,
-          allocation_kind:,
           dialog_id: ResourceAllocations::EditDialogComponent::DIALOG_ID,
           view: resource_planner_view
         ),
@@ -380,20 +371,12 @@ module ::ResourceManagement
       dispatch_event_via_turbo_stream("op-dispatched:resource-allocations:changed", detail: { work_package_id: entity.id })
     end
 
-    def allocation_kind
-      params[:allocation_kind].presence || "principal"
-    end
-
-    def filter_based_kind?
-      allocation_kind == "filter"
-    end
-
     # Raw, untransformed values to carry through the confirmation step as hidden
     # inputs so a confirmed resubmit recreates exactly what the user entered.
     def submitted_allocation_params
       params
         .fetch(:resource_allocation, {})
-        .permit(:principal_id, :filter_name, :date_range, :allocated_hours, :entity_type, :entity_id)
+        .permit(:placeholder_or_user_id, :date_range, :allocated_hours, :entity_type, :entity_id)
         .to_h
     end
 
@@ -408,43 +391,21 @@ module ::ResourceManagement
 
     def allocation_params
       permitted = params
-                    .expect(resource_allocation: %i[principal_id filter_name date_range allocated_hours
+                    .expect(resource_allocation: %i[placeholder_or_user_id date_range allocated_hours
                                                     entity_type entity_id])
                     .to_h
                     .symbolize_keys
 
-      principal_id = permitted.delete(:principal_id)
+      placeholder_or_user = selected_placeholder_or_user(permitted.delete(:placeholder_or_user_id))
       entity = resolve_visible_entity(permitted.delete(:entity_type), permitted.delete(:entity_id))
-      permitted.merge(entity:, **resource_params(principal_id))
+      permitted.merge(entity:, placeholder_or_user:)
     end
 
-    def resource_params(principal_id)
-      if filter_based_kind?
-        {
-          principal_explicit: false,
-          principal: nil,
-          user_filter: parsed_user_filter
-        }
-      else
-        {
-          principal_explicit: true,
-          principal: User.visible.in_project(@project).find_by(id: principal_id),
-          filter_name: nil,
-          user_filter: []
-        }
-      end
-    end
+    def selected_placeholder_or_user(placeholder_or_user_id)
+      return if placeholder_or_user_id.blank?
 
-    # `user_filter` serializes UserQuery filter objects, so convert the
-    # FilterForm's JSON payload into them.
-    def parsed_user_filter
-      return [] if params[:filters].blank?
-
-      query = UserQuery.new
-      ::Queries::ParamsParser.parse(filters: params[:filters])
-                             .fetch(:filters, [])
-                             .each { |f| query.where(f[:attribute], f[:operator], f[:values]) }
-      query.filters
+      User.visible.in_project(@project).find_by(id: placeholder_or_user_id) ||
+        PlaceholderUser.allocatable(current_user).find_by(id: placeholder_or_user_id)
     end
 
     def preselected_work_package
@@ -459,12 +420,9 @@ module ::ResourceManagement
       @preselected_user = User.visible(current_user).in_project(@project).find_by(id: params[:principal_id])
     end
 
-    # A pre-selected user lets the dialog skip the kind step and open directly on
-    # the allocation form.
     def prefilled_allocation
       ResourceAllocation.new(
         principal: preselected_user,
-        principal_explicit: preselected_user.present?,
         entity: preselected_work_package,
         start_date: params[:start_date],
         end_date: params[:end_date]

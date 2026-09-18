@@ -61,10 +61,6 @@ module Pages
       within(".work-packages--details-content", &)
     end
 
-    def path(tab = "overview")
-      details_notifications_path(work_package.id, tab:)
-    end
-
     private
 
     def tab_selector(tab)

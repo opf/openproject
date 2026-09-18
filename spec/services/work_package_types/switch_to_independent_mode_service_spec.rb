@@ -72,7 +72,7 @@ RSpec.describe WorkPackageTypes::SwitchToIndependentModeService do
       end
     end
 
-    context "with the copy mode and exclusions (form configuration)", with_flag: { type_variants: true } do
+    context "with the copy mode and exclusions (form configuration)" do
       let(:aspect) { TypeVariant::FORM_CONFIGURATION }
       let(:owner) do
         create(:type).default_variant.tap do |owner_variant|
@@ -129,25 +129,39 @@ RSpec.describe WorkPackageTypes::SwitchToIndependentModeService do
       end
     end
 
-    context "with the empty mode (workflows)", with_flag: { type_variants: true } do
+    context "with the empty mode (workflows)" do
       let(:aspect) { TypeVariant::WORKFLOWS }
 
-      it "removes all transitions and severs the link" do
+      it "assigns an empty workflow and severs the link without touching the source" do
         source = create(:type).default_variant
         source.own_workflows.create!(role: create(:project_role),
                                      old_status: create(:status), new_status: create(:status),
                                      author: false, assignee: false)
         link_configuration(variant, source:, aspect:)
 
-        expect(variant.own_workflows).to be_empty
         expect(variant.workflows).not_to be_empty
+        expect(variant.workflow_id).to eq(source.workflow_id)
 
         result = service.call(mode: WorkPackageTypes::IndependentMode::EMPTY)
 
         expect(result).to be_success
         expect(variant.reload).not_to be_linked(aspect)
-        expect(variant.own_workflows).to be_empty
         expect(variant.workflows).to be_empty
+        expect(source.reload.own_workflows).to be_present
+      end
+
+      it "gives a project-owned variant a workflow of its own project" do
+        project = create(:project)
+        owned = create(:project_owned_type_variant, type:, project:, variant_name: "Internal",
+                                                    workflows_source: type.default_variant)
+
+        expect(owned.workflow).not_to be_project_specific
+
+        result = described_class.new(variant: owned, aspect:, user:)
+                                .call(mode: WorkPackageTypes::IndependentMode::EMPTY)
+
+        expect(result).to be_success
+        expect(owned.reload.workflow.project).to eq(project)
       end
     end
 
@@ -167,8 +181,7 @@ RSpec.describe WorkPackageTypes::SwitchToIndependentModeService do
         expect(variant.own_project_custom_field_type_mappings.map(&:custom_field_id)).to contain_exactly(field.id)
       end
 
-      it "copies only the attributes the variant kept active, dropping the ones it disabled",
-         with_flag: { type_variants: true } do
+      it "copies only the attributes the variant kept active, dropping the ones it disabled" do
         source = create(:type).default_variant
         kept = create(:project_custom_field)
         disabled = create(:project_custom_field)

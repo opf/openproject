@@ -365,8 +365,7 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
     end
   end
 
-  describe "generating the subject from a pattern when the project resolves the type to a variant",
-           with_flag: { type_variants: true } do
+  describe "generating the subject from a pattern when the project resolves the type to a variant" do
     let(:family_root) do
       create(:type, name: "Family root", patterns: { subject: { blueprint: "Root subject", enabled: true } })
     end

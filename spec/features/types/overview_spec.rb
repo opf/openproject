@@ -31,8 +31,7 @@
 require "spec_helper"
 
 RSpec.describe "The overview of a work package type",
-               :js,
-               with_flag: { type_variants: true } do
+               :js do
   shared_let(:admin) { create(:admin) }
   shared_let(:type) { create(:type, name: "Bug") }
   shared_let(:source_type) { create(:type, name: "Feature") }

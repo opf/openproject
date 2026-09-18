@@ -63,16 +63,22 @@ class TypeVariant < ApplicationRecord
   # The project owning this variant, or nil for a variant every project may use.
   belongs_to :project, optional: true
 
-  # Which workflows we are defining ourselves
+  belongs_to :workflow, autosave: true, inverse_of: :type_variants
+
   has_many :own_workflows,
-           class_name: "Workflow",
-           foreign_key: :type_variant_id,
-           inverse_of: :type_variant,
-           dependent: :delete_all do
+           class_name: "Workflows::StatusTransition",
+           foreign_key: :workflow_id,
+           primary_key: :workflow_id,
+           inverse_of: false,
+           dependent: nil do
     def copy_from_variant(source_variant)
-      Workflow.copy(source_variant, nil, proxy_association.owner, nil)
+      Workflows::StatusTransition.copy(source_variant, nil, proxy_association.owner, nil)
     end
   end
+
+  before_save :ensure_workflow, if: :new_record?
+  before_save :sync_workflow_with_source, if: :will_save_change_to_workflows_source_id?
+  after_destroy :discard_unreferenced_workflow
 
   # Which project custom fields we define ourselves
   has_many :own_project_custom_field_type_mappings,
@@ -102,6 +108,7 @@ class TypeVariant < ApplicationRecord
   validate :only_one_variant_enabled_in_new_projects
   validate :base_variant_is_never_owned
   validate :owned_variant_is_never_enabled_in_new_projects
+  validate :workflow_is_available_to_this_variant
 
   scopes :switch_targets, :with_effective_configuration, :with_effective_source
 
@@ -126,12 +133,13 @@ class TypeVariant < ApplicationRecord
            to: :type
 
   def self.statuses(variants, role: nil, tab: nil) # rubocop:disable Metrics/AbcSize
-    workflow_table, status_table = [Workflow, Status].map(&:arel_table)
+    transition_table, status_table = [Workflows::StatusTransition, Status].map(&:arel_table)
+    workflow_ids = where(id: variants).select(:workflow_id).arel
     old_id_subselect, new_id_subselect = %i[old_status_id new_status_id].map do |foreign_key|
-      subquery = workflow_table.project(workflow_table[foreign_key])
-                               .where(workflow_table[:type_variant_id].in(variants))
-      subquery = subquery.where(workflow_table[:role_id].eq(role.id)) if role
-      subquery = apply_tab_condition(subquery, workflow_table, tab) if tab
+      subquery = transition_table.project(transition_table[foreign_key])
+                                 .where(transition_table[:workflow_id].in(workflow_ids))
+      subquery = subquery.where(transition_table[:role_id].eq(role.id)) if role
+      subquery = apply_tab_condition(subquery, transition_table, tab) if tab
       subquery
     end
     Status.where(status_table[:id].in(old_id_subselect).or(status_table[:id].in(new_id_subselect)))
@@ -161,6 +169,11 @@ class TypeVariant < ApplicationRecord
   # it would make every type-level URL carry a redundant id.
   def project_owned? = project_id.present?
 
+  def inherits_from_project_owned_variant?
+    source_ids = ASPECTS.filter_map { |aspect| source_id_for(aspect) }
+    source_ids.any? && self.class.project_owned.exists?(id: source_ids)
+  end
+
   def path_args
     args = is_default_variant? ? { type_id: } : { type_id:, variant_id: id }
     project_id.nil? ? args : args.merge(in_project_id: project)
@@ -183,9 +196,23 @@ class TypeVariant < ApplicationRecord
   end
 
   def workflows
-    return own_workflows unless resolve_aspect_in_sql?
+    return Workflows::StatusTransition.none if workflow_id.nil?
 
-    Workflow.where(Workflow.arel_table[:type_variant_id].in(effective_source_id_ref(WORKFLOWS)))
+    own_workflows
+  end
+
+  def shares_workflow_with?(other)
+    workflow_id.present? && workflow_id == other.workflow_id
+  end
+
+  def fork_workflow!
+    return unless persisted?
+
+    update!(workflow: create_own_workflow)
+  end
+
+  def replace_with_empty_workflow!
+    fork_workflow!
   end
 
   def project_custom_field_type_mappings
@@ -203,8 +230,7 @@ class TypeVariant < ApplicationRecord
   def statuses(include_default: false, role: nil, tab: nil)
     return Status.none if new_record?
 
-    variant_ref = resolve_aspect_in_sql? ? effective_source_id_ref(WORKFLOWS) : [id]
-    scope = self.class.statuses(variant_ref, role:, tab:)
+    scope = self.class.statuses([id], role:, tab:)
     include_default ? scope.or(Status.where_default) : scope
   end
 
@@ -242,6 +268,40 @@ class TypeVariant < ApplicationRecord
 
   private
 
+  def ensure_workflow
+    return if workflow_id.present?
+
+    source = workflows_source
+    self.workflow = source&.workflow || create_own_workflow
+  end
+
+  def sync_workflow_with_source
+    if workflows_source_id.present?
+      self.workflow = self.class.find(workflows_source_id).workflow
+    elsif previously_shared_source_workflow?
+      self.workflow = create_own_workflow
+    end
+  end
+
+  def create_own_workflow
+    Workflow.create!(name: composite_name, project:)
+  end
+
+  def discard_unreferenced_workflow
+    return if workflow_id.nil?
+    return if self.class.exists?(workflow_id:)
+
+    Workflow.destroy_by(id: workflow_id)
+  end
+
+  def previously_shared_source_workflow?
+    old_source_id = workflows_source_id_in_database
+    return false if old_source_id.nil?
+
+    old_source = self.class.find_by(id: old_source_id)
+    old_source.present? && workflow_id == old_source.workflow_id
+  end
+
   def base_variant_has_no_name
     return if is_default_variant? == variant_name.nil?
 
@@ -264,6 +324,13 @@ class TypeVariant < ApplicationRecord
     return unless enabled_in_new_projects? && project_id.present?
 
     errors.add(:enabled_in_new_projects, :not_available_to_project_owned_variant)
+  end
+
+  def workflow_is_available_to_this_variant
+    return if workflow.nil? || !workflow.project_specific?
+    return if workflow.project_id == project_id
+
+    errors.add(:workflow, :not_available_to_this_variant)
   end
 
   # A type's own configuration belongs to the type, so no single project may own it.

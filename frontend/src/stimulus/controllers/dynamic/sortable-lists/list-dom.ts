@@ -26,9 +26,13 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { debugLog } from 'core-app/shared/helpers/debug_output';
+
 // Sortable lists use a DOM contract shared by the root and item controllers:
 // the root has data-controller~="sortable-lists"; lists are sortable-lists--list
-// controllers wired to the root via outlets; items expose sortable-lists--item values;
+// controllers wired to the root via outlets; items expose sortable-lists--item
+// values and a mobility, which says what ordering the item takes part in; an
+// item that takes none still participates in list order and accepts drops;
 // sparse non-item rows may expose data-sortable-lists-prev-item-id.
 //
 // This module holds the drag-and-drop-agnostic half of that contract: reading
@@ -41,6 +45,18 @@ export const sortableItemSelector = '[data-sortable-lists--item-id-value]';
 export const sortableListSelector = '[data-controller~="sortable-lists--list"]';
 export const sortablePreviousItemIdAttribute = 'data-sortable-lists-prev-item-id';
 export const sortableOmittedCountAttribute = 'data-sortable-lists-omitted-count';
+export const sortableItemMobilityAttribute = 'data-sortable-lists--item-mobility-value';
+
+/**
+ * What ordering an item takes part in.
+ *
+ * `fixed` takes no part at all: no drag, no positional move, no selection.
+ * `confined` reorders within its own list but is refused by every other
+ * container. `free` may move to any list that accepts its type.
+ */
+export type ItemMobility = 'fixed'|'confined'|'free';
+
+const recognisedMobilities = new Set<string>(['fixed', 'confined', 'free']);
 
 // Rows are the direct children of the list's resolved rows container. The
 // rows container itself (a nested <ul>, the list element, ...) is decided by the list
@@ -71,6 +87,61 @@ export function resolveItemId(element:Element):string|null {
 
 export const sortableItemTypeAttribute = 'data-sortable-lists--item-type-value';
 
+/**
+ * The item's mobility.
+ *
+ * An absent attribute means `free`, so a consumer that renders no mobility
+ * keeps working. A present but unrecognised value fails closed to `fixed`: a
+ * typo must not hand the user a draggable card, live move actions and a
+ * selectable row that only fail once the request comes back.
+ */
+export function itemMobility(itemElement:Element):ItemMobility {
+  const value = itemElement.getAttribute(sortableItemMobilityAttribute);
+
+  if (value === null) {
+    return 'free';
+  }
+
+  if (!recognisedMobilities.has(value)) {
+    debugLog(`sortable-lists: unrecognised mobility "${value}", treating the item as fixed`);
+    return 'fixed';
+  }
+
+  return value as ItemMobility;
+}
+
+export function isOrderableItem(itemElement:Element):boolean {
+  return itemMobility(itemElement) !== 'fixed';
+}
+
+// A destination an item may be moved to: a list, identified by type and id
+// (null for the type's unlisted bucket).
+export interface DestinationIdentity {
+  type:string;
+  id:string|null;
+}
+
+export function sameDestination(left:DestinationIdentity|null, right:DestinationIdentity):boolean {
+  return left !== null && left.type === right.type && left.id === right.id;
+}
+
+// Whether the item may enter the destination: the one policy behind every
+// surface offering a move.
+export function itemAcceptsDestination(
+  item:HTMLElement,
+  target:DestinationIdentity,
+  ownerDestinationOf:(item:HTMLElement) => DestinationIdentity|null,
+):boolean {
+  switch (itemMobility(item)) {
+    case 'fixed':
+      return false;
+    case 'confined':
+      return sameDestination(ownerDestinationOf(item), target);
+    default:
+      return true;
+  }
+}
+
 export function resolveItemType(element:Element):string|null {
   const type = element.getAttribute(sortableItemTypeAttribute);
 
@@ -85,9 +156,7 @@ export function resolveItemType(element:Element):string|null {
 // wrong list entirely — which is exactly what a non-item marker row (e.g. an
 // empty list's placeholder) would otherwise resolve to instead of "no item
 // here". `boundary.contains(match)` accepts a self-or-ancestor match found
-// inside the rows container and rejects one outside it. Only this ancestor
-// climb is bounded — resolveItemElement's querySelector fallback below
-// descends unbounded and can match an item belonging to a nested inner list.
+// inside the rows container and rejects one outside it.
 export function resolveClosestItemElement(element:Element, boundary:Element):HTMLElement|null {
   if (!(element instanceof HTMLElement)) {
     return null;
@@ -97,9 +166,14 @@ export function resolveClosestItemElement(element:Element, boundary:Element):HTM
   return match && boundary.contains(match) ? match : null;
 }
 
+// The upward climb is bounded by `boundary`; the downward fallback only
+// looks at the row's own direct children, so a wrapper row cannot resolve
+// to an item of a list nested inside it.
 export function resolveItemElement(element:Element, boundary:Element):HTMLElement|null {
-  return resolveClosestItemElement(element, boundary) ??
-    element.querySelector<HTMLElement>(sortableItemSelector);
+  return resolveClosestItemElement(element, boundary)
+    ?? Array.from(element.children).find((child):child is HTMLElement => (
+      child instanceof HTMLElement && child.matches(sortableItemSelector)
+    )) ?? null;
 }
 
 export function resolvePreviousItemId(element:Element, boundary:Element):string|null {
@@ -108,6 +182,33 @@ export function resolvePreviousItemId(element:Element, boundary:Element):string|
   // Non-item rows, such as truncated "show more" rows, can mark the last
   // omitted item so position resolution remains correct in sparse lists.
   return item ? resolveItemId(item) : element.getAttribute(sortablePreviousItemIdAttribute);
+}
+
+// resolvePreviousItemId plus the type of the item the id belongs to. A
+// truncation marker row resolves no item element, so its id carries no type.
+export function resolvePreviousItem(element:Element, boundary:Element):{ id:string; type:string|null }|null {
+  const item = resolveItemElement(element, boundary);
+  if (item) {
+    const id = resolveItemId(item);
+    return id ? { id, type: resolveItemType(item) } : null;
+  }
+
+  const markerId = element.getAttribute(sortablePreviousItemIdAttribute);
+  return markerId ? { id: markerId, type: null } : null;
+}
+
+// The dragged batch a predecessor walk must skip. One item type per batch,
+// so a type plus an id set represents it completely.
+export interface ExcludedItems {
+  type:string;
+  ids:ReadonlySet<string>;
+}
+
+// Excluded only when id and type both match: ids collide across source
+// tables, so a same-id row of another type is a legitimate anchor. A
+// truncation marker resolves no type and stays excluded on its id alone.
+export function isExcludedItem(excluded:ExcludedItems, { id, type }:{ id:string; type:string|null }):boolean {
+  return excluded.ids.has(id) && (type === null || type === excluded.type);
 }
 
 // The inverse of resolvePreviousItemId: the previous item id can point at a
@@ -126,18 +227,18 @@ function resolveAnchorRow(rowsContainer:HTMLElement, previousItemId:string):HTML
 }
 
 export function resolveListAppendPreviousItemId({
-  sourceItemId,
+  excludedItems,
   rowsContainer,
 }:{
-  sourceItemId:string;
+  excludedItems:ExcludedItems;
   rowsContainer:Element;
 }):string|null {
   const rows = listRows(rowsContainer).reverse();
 
   for (const row of rows) {
-    const itemId = resolvePreviousItemId(row, rowsContainer);
-    if (itemId && itemId !== sourceItemId) {
-      return itemId;
+    const item = resolvePreviousItem(row, rowsContainer);
+    if (item && !isExcludedItem(excludedItems, item)) {
+      return item.id;
     }
   }
 
@@ -188,8 +289,8 @@ export function rowsRemainAt(positions:RowPlacement[]):boolean {
 }
 
 // Optimistically move rows on the client without waiting for the server.
-// `rows` are the moved rows in order (one today, the selected set once
-// multi-item DnD lands); `previousItemId` of null means top of list.
+// `rows` are the moved rows in order; `previousItemId` of null means top of
+// list.
 export function reorderRows({
   rows,
   rowsContainer,
@@ -289,6 +390,11 @@ export function resolveItemLabel(row:Element):string|null {
   return row instanceof HTMLElement && row.matches(sortableItemSelector)
     ? row.getAttribute('data-sortable-lists--item-label-value')
     : null;
+}
+
+export function resolveItemExternalUrl(itemElement:Element):string|null {
+  const url = itemElement.getAttribute('data-sortable-lists--item-external-url-value');
+  return url === '' ? null : url;
 }
 
 // A row a predecessor id can be read from: an item row, or a non-item row

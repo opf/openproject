@@ -63,7 +63,7 @@ RSpec.describe "Updating entries within the cost report", :js do
 
   before do
     login_as(user)
-    visit cost_reports_path(project)
+    visit project_reporting_cost_reports_path(project)
     report_page.clear
     report_page.apply
     report_page.wait_for_page_to_reload
@@ -93,11 +93,18 @@ RSpec.describe "Updating entries within the cost report", :js do
     table.expect_action_icon "delete", 1
 
     table.edit_cost_entry 2, 1, cost_entry_user.id.to_s
-    visit cost_reports_path(project)
+    # The report is not kept in the session, so returning to it means carrying
+    # the cleared filters and the selected unit on the url.
+    visit project_reporting_cost_reports_path(project, filters: "", unit: cost_type.id)
     table.rows_count 1
 
     table.delete_entry 1
-    table.rows_count 0
+
+    # The cost type has no entries left, so it is no longer offered as a unit and
+    # the report falls back to labor, where only the time entry remains.
+    visit project_reporting_cost_reports_path(project, filters: "")
+    table.rows_count 1
+    expect(page).to have_no_field(cost_type.name)
   end
 
   it "shows the action icons after a table refresh" do

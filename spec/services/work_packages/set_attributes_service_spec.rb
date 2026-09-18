@@ -2432,7 +2432,7 @@ RSpec.describe WorkPackages::SetAttributesService,
       end
     end
 
-    context "when the project resolves the type to a variant", with_flag: { type_variants: true } do
+    context "when the project resolves the type to a variant" do
       let(:family_root) { create(:type, default_work_package_description: "Root template") }
       let(:variant) { create(:type_variant, type: family_root) }
       let(:variant_project) { create(:project, types: [variant]) }

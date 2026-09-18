@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe WorkPackageTypes::ExcludedElements::AddService, with_flag: { type_variants: true } do
+RSpec.describe WorkPackageTypes::ExcludedElements::AddService do
   shared_let(:admin) { create(:admin) }
 
   let(:aspect) { TypeVariant::FORM_CONFIGURATION }

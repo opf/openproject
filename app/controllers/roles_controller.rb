@@ -35,7 +35,7 @@ class RolesController < ApplicationController
   layout "admin"
 
   before_action :require_admin
-  before_action :find_role, only: %i[edit update destroy drop]
+  before_action :find_role, only: %i[edit update deletion_dialog destroy drop]
 
   menu_item :roles, except: :report
   menu_item :permissions_report, only: :report
@@ -82,6 +82,10 @@ class RolesController < ApplicationController
     else
       render action: :edit, status: :unprocessable_entity
     end
+  end
+
+  def deletion_dialog
+    respond_with_dialog Roles::DeleteDialogComponent.new(@role)
   end
 
   def destroy

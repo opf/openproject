@@ -53,6 +53,13 @@ module Workflows
       within("select-panel") { click_button "Apply" }
     end
 
+    # The reuse mode section offers "Copy from another type", so a bare "Copy" is ambiguous.
+    def open_copy_dialog
+      within "#workflow-table" do
+        click_link I18n.t(:label_copy_workflow_from_role)
+      end
+    end
+
     def add_status_via_dialog(status)
       within "#workflow-table" do # Otherwise, click on "Statuses" menu item
         click_link "Status"
@@ -97,7 +104,7 @@ module Workflows
     end
 
     def expect_transition(role, from_index, to_index, exist:, author: false, assignee: false)
-      expect(Workflow.exists?(role_id: role.id, type_variant_id: type.default_variant.id,
+      expect(Workflows::StatusTransition.exists?(role_id: role.id, workflow_id: type.default_variant.workflow_id,
                               old_status_id: statuses[from_index].id,
                               new_status_id: statuses[to_index].id,
                               author:, assignee:)).to be exist
