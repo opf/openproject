@@ -27,12 +27,12 @@
 //++
 
 import { ChangeDetectionStrategy, Component, Signal, computed, inject, input } from '@angular/core';
-import { Chart, ChartData, ChartDataset, ChartOptions, LegendItem } from 'chart.js';
+import { Chart, ChartData, ChartDataset, ChartEvent, ChartOptions, LegendElement, LegendItem } from 'chart.js';
 import 'chartjs-adapter-luxon';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { NoResultsComponent } from 'core-app/shared/components/blankslate/no-results.component';
-import NonWorkingDaysPlugin, { NonWorkingInterval } from 'core-app/shared/components/charts/plugin.non-working-days';
+import NonWorkingDaysPlugin, { NonWorkingDaysPluginOptions, NonWorkingInterval } from 'core-app/shared/components/charts/plugin.non-working-days';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 interface BurndownPoint {
@@ -110,6 +110,7 @@ export class BurndownChartComponent {
       legend: {
         position: 'bottom',
         labels: { generateLabels: (chart) => this.legendLabels(chart) },
+        onClick: (event, item, legend) => this.toggleLegendItem(event, item, legend),
       },
       tooltip: {
         callbacks: {
@@ -174,7 +175,25 @@ export class BurndownChartComponent {
         fillStyle: bandColor,
         strokeStyle: bandColor,
         lineWidth: 0,
+        hidden: this.nonWorkingOptions(chart).hidden ?? false,
       },
     ];
+  }
+
+  // The bands are drawn by a plugin rather than a dataset, so their entry carries no dataset
+  // index and has to toggle the plugin's own visibility.
+  private toggleLegendItem(event:ChartEvent, item:LegendItem, legend:LegendElement<'line'>):void {
+    if (item.datasetIndex !== undefined) {
+      Chart.defaults.plugins.legend.onClick.call(legend, event, item, legend);
+      return;
+    }
+
+    const options = this.nonWorkingOptions(legend.chart);
+    options.hidden = !options.hidden;
+    legend.chart.update();
+  }
+
+  private nonWorkingOptions(chart:Chart):NonWorkingDaysPluginOptions {
+    return (chart.options.plugins?.['non-working-days'] ?? {}) as NonWorkingDaysPluginOptions;
   }
 }
