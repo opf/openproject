@@ -59,8 +59,10 @@ jobs:
 
       # The description is the source of truth: the label matching the stated
       # level is added and any other "ai:" label removed, including all of them
-      # when no single level is stated.
+      # when no single level is stated. A failure here must not skip the comment
+      # below, nor turn the check red on pull requests it is not enforced on.
       - name: Sync the AI involvement label
+        continue-on-error: true
         env:
           GH_TOKEN: ${{ github.token }}
           PR_URL: ${{ github.event.pull_request.html_url }}
