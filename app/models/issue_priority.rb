@@ -29,6 +29,8 @@
 #++
 
 class IssuePriority < Enumeration
+  SORTABLE_LIST_TYPE = model_name.param_key.freeze
+
   has_many :work_packages, foreign_key: "priority_id"
   belongs_to :color
 

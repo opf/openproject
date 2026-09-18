@@ -28,53 +28,42 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class DocumentType < ApplicationRecord
-  include ::Documents::EnumerationModel
-  include Lists::MoveAfterAnchor
+require "spec_helper"
 
-  SORTABLE_LIST_TYPE = model_name.param_key.freeze
+RSpec.describe "Time entry activities admin", :js do
+  current_user { create(:admin) }
 
-  default_scope { order(:position) }
-  acts_as_list
+  let!(:alpha) { create(:time_entry_activity, name: "Alpha") }
+  let!(:beta) { create(:time_entry_activity, name: "Beta") }
+  let!(:gamma) { create(:time_entry_activity, name: "Gamma") }
 
-  has_many :documents, foreign_key: :type_id,
-                       dependent: :nullify,
-                       inverse_of: :type
-
-  normalizes :name, with: ->(name) { name.strip }
-
-  validates :name, presence: true, uniqueness: { case_sensitive: false }
-
-  before_destroy :prevent_deletion_of_last_type
-
-  def self.default
-    where(is_default: true).first || first
+  before do
+    gamma.move_to_top
+    beta.move_to_top
+    alpha.move_to_top
   end
 
-  def only_remaining_record?
-    self.class.where.not(id: id).none?
+  def activity_names_in_order
+    page.all("#admin-enumerations-index-component a[href$='/edit']").map(&:text)
   end
 
-  alias :destroy_without_reassign :destroy
+  it "reorders through the move menu" do
+    visit admin_settings_time_entry_activities_path
 
-  def destroy(reassign_to = nil)
-    if reassign_to.is_a?(DocumentType)
-      transfer_relations(reassign_to)
+    wait_for { activity_names_in_order }.to eq(%w[Alpha Beta Gamma])
+
+    within("#admin-enumerations-item-component-#{gamma.id}") do
+      click_on accessible_name: "Actions"
     end
-    destroy_without_reassign
-  end
+    click_on I18n.t(:button_move)
+    click_on I18n.t(:label_sort_highest)
 
-  private
+    wait_for { activity_names_in_order }.to eq(%w[Gamma Alpha Beta])
+    expect_and_dismiss_flash(message: I18n.t(:enumeration_caption_order_changed))
+    expect(page).to have_no_css("[data-sortable-lists-busy]")
 
-  def prevent_deletion_of_last_type
-    if only_remaining_record?
-      errors.add(:base, :one_or_more_required)
-      throw(:abort)
-    end
-  end
+    refresh
 
-  def transfer_relations(to)
-    documents.update_all(type_id: to.id)
-    to.update_column(:documents_count, to.documents.count)
+    wait_for { activity_names_in_order }.to eq(%w[Gamma Alpha Beta])
   end
 end

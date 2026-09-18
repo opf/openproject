@@ -28,53 +28,34 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class DocumentType < ApplicationRecord
-  include ::Documents::EnumerationModel
-  include Lists::MoveAfterAnchor
+require "spec_helper"
 
-  SORTABLE_LIST_TYPE = model_name.param_key.freeze
+RSpec.describe "Document types", :skip_csrf, type: :rails_request do
+  shared_let(:admin) { create(:admin) }
 
-  default_scope { order(:position) }
-  acts_as_list
+  current_user { admin }
 
-  has_many :documents, foreign_key: :type_id,
-                       dependent: :nullify,
-                       inverse_of: :type
+  describe "PUT /admin/settings/document_types/:id/move" do
+    let!(:first_record) { create(:document_type, name: "Alpha") }
+    let!(:second_record) { create(:document_type, name: "Beta") }
+    let!(:third_record) { create(:document_type, name: "Gamma") }
+    let(:list_type) { "document_type" }
+    let(:morph_target) { "documents-admin-document-types-index-component" }
 
-  normalizes :name, with: ->(name) { name.strip }
-
-  validates :name, presence: true, uniqueness: { case_sensitive: false }
-
-  before_destroy :prevent_deletion_of_last_type
-
-  def self.default
-    where(is_default: true).first || first
-  end
-
-  def only_remaining_record?
-    self.class.where.not(id: id).none?
-  end
-
-  alias :destroy_without_reassign :destroy
-
-  def destroy(reassign_to = nil)
-    if reassign_to.is_a?(DocumentType)
-      transfer_relations(reassign_to)
+    before do
+      third_record.move_to_top
+      second_record.move_to_top
+      first_record.move_to_top
     end
-    destroy_without_reassign
-  end
 
-  private
-
-  def prevent_deletion_of_last_type
-    if only_remaining_record?
-      errors.add(:base, :one_or_more_required)
-      throw(:abort)
+    def move_path(record)
+      move_admin_settings_document_type_path(record)
     end
-  end
 
-  def transfer_relations(to)
-    documents.update_all(type_id: to.id)
-    to.update_column(:documents_count, to.documents.count)
+    def ordered_names
+      DocumentType.reorder(:position).where(name: %w[Alpha Beta Gamma]).pluck(:name)
+    end
+
+    it_behaves_like "an anchor-only enumeration move endpoint"
   end
 end

@@ -27,6 +27,8 @@
 #++
 
 class TimeEntryActivity < Enumeration
+  SORTABLE_LIST_TYPE = model_name.param_key.freeze
+
   include ::Scopes::Scoped
 
   has_many :time_entries, foreign_key: "activity_id"

@@ -187,6 +187,42 @@ RSpec.describe "Document types admin", :js do
     end
   end
 
+  context "with three document types" do
+    let!(:alpha) { create(:document_type, name: "Alpha") }
+    let!(:beta) { create(:document_type, name: "Beta") }
+    let!(:gamma) { create(:document_type, name: "Gamma") }
+
+    before do
+      gamma.move_to_top
+      beta.move_to_top
+      alpha.move_to_top
+    end
+
+    def document_type_names_in_order
+      page.all("#documents-admin-document-types-index-component a[href$='/edit']").map(&:text)
+    end
+
+    it "reorders through the move menu" do
+      visit admin_settings_document_types_path
+
+      wait_for { document_type_names_in_order }.to eq(%w[Alpha Beta Gamma])
+
+      within_enumeration_item(gamma) do
+        click_on accessible_name: "Document type actions"
+      end
+      click_on I18n.t(:button_move)
+      click_on I18n.t(:label_sort_highest)
+
+      wait_for { document_type_names_in_order }.to eq(%w[Gamma Alpha Beta])
+      expect_and_dismiss_flash(message: I18n.t(:enumeration_caption_order_changed))
+      expect(page).to have_no_css("[data-sortable-lists-busy]")
+
+      refresh
+
+      wait_for { document_type_names_in_order }.to eq(%w[Gamma Alpha Beta])
+    end
+  end
+
   context "with a single document type" do
     let!(:only_type) { create(:document_type, name: "Only type") }
 
@@ -199,6 +235,7 @@ RSpec.describe "Document types admin", :js do
 
       expect(page).to have_link("Edit")
       expect(page).to have_link("Delete")
+      expect(page).to have_no_text(I18n.t(:button_move))
       expect(page).to have_no_button(I18n.t(:label_sort_highest))
       expect(page).to have_no_button(I18n.t(:label_sort_higher))
       expect(page).to have_no_button(I18n.t(:label_sort_lower))
