@@ -11,9 +11,9 @@ Versions help you structure and track work towards releases, milestones, or othe
 
 ## Create a new version
 
-Navigate to _Project settings → Versions_ in the project menu. You will see an overview of all existing versions. Per default, the existing versions will be sorted by the _Name_, which is indicated by an arrow next to the column header. To change the sorting order, click the name of any column you wish to use for sorting instead. 
+Navigate to _Project settings → Versions_ in the project menu. You will see an overview of all existing versions. By default, the existing versions will be sorted by the _Name_, which is indicated by an arrow next to the column header. To change the sorting order, click the name of the column you want to sort by.
 
- To create a new version for your project, click the green **+ Version** button. 
+To create a new version for your project, click the green **+ Version** button. 
 
 ![Versions in project settings in OpenProject](openproject_user_guide_project_settings_work_packages_versions.png)
 
@@ -44,7 +44,7 @@ Parent project
     └── Project B2
 ```
 
-Assuming the version are are creating or editing belongs to **Project B1**:
+Assuming the version you are creating or editing belongs to **Project B1**:
   - **Not shared**: The version is available only in the current project.
 
   ```text
@@ -108,7 +108,7 @@ To close a version, open its details and set the **Status** to _Closed_.
 
 ## Close completed versions
 
-To close all completed versions at once, click the **More (three dots**) icon in the top right corner and click **Close completed versions**.
+To close all completed versions at once, click the **More (three dots)** icon in the top right corner and click **Close completed versions**.
 
 ![Close completed versions in OpenProject project settings](openproject_user_guide_project_settings_work_packages_versions_close_completed.png)
 

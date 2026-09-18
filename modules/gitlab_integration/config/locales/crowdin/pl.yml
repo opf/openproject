@@ -63,7 +63,6 @@ pl:
     commit: Zatwierdź
     gitlab: Identyfikator GitLab
     gitlab_avatar_url: Adres URL awatara
-    gitlab_email: Adres e-mail GitLab
     gitlab_html_url: Adres URL kodu HTML GitLab
     gitlab_merge_request: Żądanie scalenia
     gitlab_name: Nazwa GitLab

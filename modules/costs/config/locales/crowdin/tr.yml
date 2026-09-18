@@ -280,6 +280,10 @@ tr:
   permission_edit_rates: Oranları düzenle
   permission_log_costs: Kitap birimi maliyetleri
   permission_log_own_costs: Kendiniz için kitap birimi masrafları
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: Rezervasyon maliyetlerini görüntüle
   permission_view_cost_rates: Maliyet oranları görüntüleme
   permission_view_hourly_rates: Tüm saatlik oranları görüntüle

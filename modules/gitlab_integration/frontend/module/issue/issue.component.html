@@ -31,11 +31,10 @@
   {{ text.label_created_by }}
   <span class='op-issue--user'>
     @if (gitlabIssue.gitlabUser) {
-      <a
-        [href]="'mailto:' + gitlabIssue.gitlabUser.email"
+      <span
         class='op-issue--username'
         [textContent]="gitlabIssue.gitlabUser.login"
-      ></a>
+      ></span>
       }.
     </span>
     <span class='op-issue--date'>

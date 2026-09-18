@@ -280,6 +280,10 @@ az:
   permission_edit_rates: Edit rates
   permission_log_costs: Book unit costs
   permission_log_own_costs: Book unit costs for oneself
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: View booked costs
   permission_view_cost_rates: View cost rates
   permission_view_hourly_rates: View all hourly rates

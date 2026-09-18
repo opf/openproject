@@ -24,33 +24,33 @@ fa:
   js:
     backlogs:
       announcements:
-        batch_too_large: Cannot move %{count} work packages at once. Select no more than %{max}.
-        fallback_item_label: Work package
-        fallback_list_name: another list
-        move_failed_check_position: Move failed. Check the work package's current position.
+        batch_too_large: امکان جابه‌جایی %{count} بسته کاری به‌صورت هم‌زمان وجود ندارد. حداکثر %{max} مورد را انتخاب کنید.
+        fallback_item_label: بسته کاری
+        fallback_list_name: فهرست دیگری
+        move_failed_check_position: جابه‌جایی ناموفق بود. موقعیت فعلی بسته کاری را بررسی کنید.
         move_failed_check_positions_batch:
-          other: Move failed. Check the work packages' current positions.
-        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+          other: جابه‌جایی ناموفق بود. موقعیت فعلی بسته‌های کاری را بررسی کنید.
+        move_failed_rolled_back: جابه‌جایی ناموفق بود. %{label} به موقعیت قبلی خود بازگشت.
         move_failed_rolled_back_batch:
-          other: Move failed. %{count} work packages returned to their previous positions.
-        moved: "%{label} moved to position %{position} of %{total}"
+          other: جابه‌جایی ناموفق بود. %{count} بسته کاری به موقعیت‌های قبلی خود بازگشتند.
+        moved: "%{label} به موقعیت %{position} از %{total} منتقل شد"
         moved_batch:
-          other: "%{count} work packages moved to positions %{first} through %{last} of %{total}"
+          other: "%{count} بسته کاری به موقعیت‌های %{first} تا %{last} از %{total} منتقل شدند"
         moved_batch_to_list:
-          other: "%{count} work packages moved to %{list}, positions %{first} through %{last} of %{total}"
-        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+          other: "%{count} بسته کاری به %{list}، موقعیت‌های %{first} تا %{last} از %{total} منتقل شدند"
+        moved_to_list: "%{label} به %{list}، موقعیت %{position} از %{total} منتقل شد"
       selection:
-        card_state: Selected
-        cleared: Selection cleared.
-        not_selectable: Selection unchanged. This work package takes no part in this list's ordering.
-        range_blocked: Selection unchanged. That range contains a work package that takes no part in this list's ordering.
+        card_state: انتخاب‌شده
+        cleared: انتخاب پاک شد.
+        not_selectable: انتخاب بدون تغییر ماند. این بسته کاری در ترتیب این فهرست نقشی ندارد.
+        range_blocked: انتخاب بدون تغییر ماند. این بازه شامل بسته کاری‌ای است که در ترتیب این فهرست نقشی ندارد.
         range_restarted:
-          one: Could not extend the range. 1 work package selected.
-          other: Could not extend the range. %{count} work packages selected.
-        range_unavailable: Selection unchanged. Expand this list to select that range.
+          one: گسترش بازه ممکن نشد. ۱ بسته کاری انتخاب شد.
+          other: گسترش بازه ممکن نشد. %{count} بسته کاری انتخاب شدند.
+        range_unavailable: انتخاب بدون تغییر ماند. برای انتخاب آن بازه، این فهرست را گسترش دهید.
         selected:
-          one: 1 work package selected.
-          other: "%{count} work packages selected."
+          one: ۱ بسته کاری انتخاب شد.
+          other: "%{count} بسته کاری انتخاب شدند."
     burndown:
       day: روز
       points: امتیاز ها

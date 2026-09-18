@@ -73,19 +73,34 @@ module Import
 
     # rubocop:disable-next Metrics/AbcSize
     def each_iteration(jira_issue, _jira_import_id, _jira_project_id)
+      jira_issue_key = jira_issue.payload["key"]
+      Rails.logger.tagged("jira_import_id:#{_jira_import_id}", "jira_project_id:#{_jira_project_id}",
+                          "jira_issue_key:#{jira_issue_key}") do
       Journal::NotificationConfiguration.with(false) do
         Journal::EventConfiguration.with(false) do
-          work_package = JiraOpenProjectReference.find_by!(
-            jira_entity_id: jira_issue.id,
-            jira_entity_class: jira_issue.class.to_s
-          ).op_leg
-          attachments = jira_issue.payload.dig("fields", "attachment") || []
-          attachments.each do |attachment|
-            key = attachment.dig("author", "key")
-            author = find_user(key)
-            create_member(@project, author) if author.present?
-            create_attachment(work_package, attachment, author || User.system)
+            Rails.logger.debug "Creating work package attachment"
+            work_package = JiraOpenProjectReference.find_by!(
+              jira_entity_id: jira_issue.id,
+              jira_entity_class: jira_issue.class.to_s
+            ).op_leg
+            attachments = jira_issue.payload.dig("fields", "attachment") || []
+            attachments.each do |attachment|
+              Rails.logger.tagged("attachment_filename:#{attachment['filename']}") do
+                key = attachment.dig("author", "key")
+                Rails.logger.tagged("author:#{key}") do
+                  author = find_user(key)
+                  create_member(@project, author) if author.present?
+                  create_attachment(work_package, attachment, author || User.system)
+                end
+              end
+            end
+            journal_service = Import::JiraImportJournals.new(work_package:)
+            journal_service.backfill_attachments
+            # This is the last stage touching a work package, so the migration entry closes its
+            # activity behind everything the import journalized.
+            journal_service.add_migration_entry(updated_at: jira_issue.payload.dig("fields", "updated"))
           end
+
         end
       end
     end
@@ -103,13 +118,15 @@ module Import
         tempfile.define_singleton_method(:original_filename) { filename }
         tempfile.define_singleton_method(:content_type) { mime_type }
         tempfile.define_singleton_method(:size) { size }
-        call = Attachments::CreateService
+        call = Attachments::ImportCreateService
                  .new(user: author, contract_class: EmptyContract)
                  .call(container: work_package, filename:, file: tempfile)
 
         call.on_failure do
           raise call.message
         end
+
+        backdate(call.result, attachment["created"])
       end
     rescue Import::JiraClient::Error => e
       app_backtrace = Rails.backtrace_cleaner.clean(e.backtrace)
@@ -121,6 +138,15 @@ module Import
         "Error during jira import attachment creation. Error: #{e}. Jira Project: #{jira_project_for_log} " \
         "Jira Issue: #{jira_issue_for_log}. Attachment: #{attachment_for_log}. Backtrace: #{app_backtrace}. "
       )
+    end
+
+    # Jira attachments cannot be replaced, so both timestamps take the date the file was
+    # attached in Jira rather than the date the import downloaded it.
+    def backdate(record, created)
+      return if created.blank?
+
+      attached_at = Time.zone.parse(created)
+      record.update_columns(created_at: attached_at, updated_at: attached_at)
     end
 
     def create_member(project, member)
@@ -151,10 +177,14 @@ module Import
         if ref.present?
           ref.op_leg
         else
-          raise "Reference was expected to be found, but it was not. JiraUser: #{jira_user.inspect}"
+          log_message = "Reference was expected to be found, but it was not. JiraUser: #{jira_user.inspect}"
+          Rails.logger.error log_message
+          raise log_message
         end
       else
-        raise "Import::JiraUser with jira_user_key #{jira_user_key} not found!"
+        log_message = "Import::JiraUser with jira_user_key #{jira_user_key} not found!"
+        Rails.logger.error log_message
+        raise log_message
       end
     end
   end

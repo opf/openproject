@@ -105,7 +105,8 @@ class Projects::CreationWizardController < ApplicationController
   def ensure_sections_present
     return if @custom_fields_by_section.any?
 
-    flash[:error] = I18n.t("projects.wizard.no_attributes")
+    flash[:error] = t("projects.wizard.no_custom_fields_html",
+                      link: project_settings_project_custom_fields_path(@project))
     redirect_to project_path(@project)
   end
 

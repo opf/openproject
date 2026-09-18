@@ -44,11 +44,11 @@ RSpec.describe Import::JiraImportJournals, "integration" do
     }
   end
 
-  describe "#update_creation_entry" do
+  describe "#set_creation_time" do
     let(:import_date) { "2022-03-15T10:00:00.000+0000" }
 
     it "updates created_at, updated_at and validity_period of the first journal" do
-      service.update_creation_entry(date_time: import_date)
+      service.set_creation_time(date_time: import_date)
 
       journal = work_package.journals.reload.first
       expected_time = Time.zone.parse(import_date)
@@ -58,13 +58,116 @@ RSpec.describe Import::JiraImportJournals, "integration" do
       expect(journal.validity_period.begin).to be_within(1.second).of(expected_time)
     end
 
+    it "sets created_at of the work package" do
+      service.set_creation_time(date_time: import_date)
+
+      expect(work_package.reload.created_at).to be_within(1.second).of(Time.zone.parse(import_date))
+    end
+
     it "does not create extra journals" do
-      expect { service.update_creation_entry(date_time: import_date) }
+      expect { service.set_creation_time(date_time: import_date) }
         .not_to change { work_package.journals.reload.count }
     end
   end
 
+  describe "#backfill_attachments" do
+    let!(:attachment) { create(:attachment, container: work_package) }
+
+    before do
+      service.add_comment(
+        comment: { "created" => "2022-03-15T12:00:00.000+0000", "body" => "A comment." },
+        user: commenter
+      )
+      service.call
+    end
+
+    it "records the attachment in every journal" do
+      service.backfill_attachments
+
+      expect(work_package.journals.reload.map { |journal| journal.attachable_journals.pluck(:attachment_id) })
+        .to all(eq([attachment.id]))
+    end
+
+    it "keeps the journals from reporting the attachment as a later change" do
+      service.backfill_attachments
+
+      expect(work_package.journals.reload.reject(&:initial?).flat_map { |journal| journal.details.keys })
+        .not_to include("attachments_#{attachment.id}")
+    end
+
+    it "creates no journal of its own" do
+      expect { service.backfill_attachments }
+        .not_to change { work_package.journals.reload.count }
+    end
+
+    it "can run again without duplicating the records" do
+      service.backfill_attachments
+
+      expect { service.backfill_attachments }
+        .not_to change { Journal::AttachableJournal.where(attachment_id: attachment.id).count }
+    end
+
+    context "without attachments" do
+      let!(:attachment) { nil }
+
+      it "does nothing" do
+        expect { service.backfill_attachments }.not_to change(Journal::AttachableJournal, :count)
+      end
+    end
+  end
+
+  describe "#add_migration_entry" do
+    let(:jira_updated_at) { "2022-03-15T13:00:00.000+0000" }
+
+    before do
+      service.add_comment(
+        comment: { "created" => "2022-03-15T12:00:00.000+0000", "body" => "A comment." },
+        user: commenter
+      )
+      service.call
+    end
+
+    it "appends a migrated import entry after the imported journals" do
+      service.add_migration_entry(updated_at: jira_updated_at)
+
+      journals = work_package.journals.reload.order(:version)
+      expect(journals.count).to eq(3)
+      expect(journals.last.cause).to eq("type" => "import", "migrated" => true)
+    end
+
+    it "journalizes the entry at import time" do
+      service.add_migration_entry(updated_at: jira_updated_at)
+
+      expect(work_package.journals.reload.last.created_at).to be_within(1.minute).of(Time.current)
+    end
+
+    it "sets updated_at of the work package to the Jira timestamp instead of the import time" do
+      service.add_migration_entry(updated_at: jira_updated_at)
+
+      expect(work_package.reload.updated_at).to be_within(1.second).of(Time.zone.parse(jira_updated_at))
+    end
+
+    it "keeps the import time on the work package when no Jira timestamp is given" do
+      service.add_migration_entry
+
+      expect(work_package.reload.updated_at).to be_within(1.minute).of(Time.current)
+    end
+  end
+
   describe "#call" do
+    context "with a jira update timestamp" do
+      let(:jira_updated_at) { "2022-03-15T13:00:00.000+0000" }
+
+      it "sets updated_at of the work package without journalizing it" do
+        service.add_history(history: [history_entry(created: "2022-03-15T11:00:00.000+0000")])
+
+        expect { service.call(updated_at: jira_updated_at) }
+          .to change { work_package.journals.reload.count }.by(1)
+
+        expect(work_package.reload.updated_at).to be_within(1.second).of(Time.zone.parse(jira_updated_at))
+      end
+    end
+
     context "with a single history entry" do
       let(:history_items) do
         [{ "field" => "status", "fromString" => "Open", "toString" => "In Progress" }]
@@ -174,6 +277,65 @@ RSpec.describe Import::JiraImportJournals, "integration" do
         expect(journals[1].cause_type).to eq("import")
         expect(journals[2].notes).to eq("comment")
         expect(journals[3].cause_type).to eq("import")
+      end
+    end
+
+    # Regression: https://community.openproject.org/projects/JIM/work_packages/JIM-152
+    # Journals::CreateService only keeps the timestamp the importer put on the work
+    # package when it is strictly newer than the preceding journal. On a tie it falls back to
+    # statement_timestamp(), stamping the entry with the import date instead.
+    context "when a history entry and a comment share the same timestamp" do
+      let(:shared_time) { "2020-10-06T14:21:57.000+0200" }
+
+      before do
+        service.set_creation_time(date_time: "2020-09-01T10:00:00.000+0000")
+        service.add_history(history: [history_entry(created: shared_time)])
+        service.add_comment(comment: { "created" => shared_time, "body" => "Resolved." }, user: commenter)
+        service.call
+      end
+
+      it "creates a journal per entry" do
+        expect(work_package.journals.reload.count).to eq(3)
+      end
+
+      it "keeps the Jira timestamp on both entries" do
+        imported = work_package.journals.reload.order(:version).drop(1)
+
+        expect(imported.map(&:created_at))
+          .to all(be_within(1.second).of(Time.zone.parse(shared_time)))
+      end
+    end
+
+    context "when two comments share the same timestamp" do
+      let(:shared_time) { "2020-10-06T14:21:57.000+0200" }
+
+      before do
+        service.set_creation_time(date_time: "2020-09-01T10:00:00.000+0000")
+        service.add_comment(comment: { "created" => shared_time, "body" => "First." }, user: commenter)
+        service.add_comment(comment: { "created" => shared_time, "body" => "Second." }, user: commenter)
+        service.call
+      end
+
+      it "keeps the Jira timestamp on both comments" do
+        imported = work_package.journals.reload.order(:version).drop(1)
+
+        expect(imported.map(&:created_at))
+          .to all(be_within(1.second).of(Time.zone.parse(shared_time)))
+      end
+    end
+
+    context "when the first entry shares the work package creation timestamp" do
+      let(:creation_time) { "2020-10-06T14:21:57.000+0200" }
+
+      before do
+        service.set_creation_time(date_time: creation_time)
+        service.add_comment(comment: { "created" => creation_time, "body" => "Filed and closed." }, user: commenter)
+        service.call
+      end
+
+      it "keeps the Jira timestamp on the entry" do
+        expect(work_package.journals.reload.order(:version).last.created_at)
+          .to be_within(1.second).of(Time.zone.parse(creation_time))
       end
     end
 

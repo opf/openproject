@@ -41,7 +41,7 @@ RSpec.describe "Work Package Activity Tab",
         "name" => issue_closing_user.gitlab_name,
         "username" => issue_closing_user.gitlab_username,
         "avatar_url" => issue_closing_user.gitlab_avatar_url,
-        "email" => issue_closing_user.gitlab_email
+        "email" => "[REDACTED]"
       },
       "object_attributes" => {
         "action" => gitlab_action,

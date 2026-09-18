@@ -174,7 +174,7 @@ module Grids
           endDate: sprint.finish_date.iso8601,
           status: sprint.status,
           row:,
-          href: helpers.project_backlogs_backlog_path(project, sprint_ids: [sprint.id])
+          href: helpers.href_for_sprint(sprint, project)
         }
       end
 
