@@ -98,6 +98,9 @@ export class BurndownChartComponent {
       },
     },
     plugins: {
+      // Registered globally by the other charts, it would otherwise reassign the colours
+      // this chart sets deliberately, on every layout.
+      'primer-colors': { enabled: false },
       'non-working-days': { intervals: this.parsed().nonWorkingIntervals },
       legend: {
         position: 'bottom',
@@ -151,26 +154,21 @@ export class BurndownChartComponent {
   }
 
   private legendLabels(chart:Chart):LegendItem[] {
-    const datasetLabels = chart.data.datasets.map((dataset, index) => ({
-      text: dataset.label ?? '',
-      strokeStyle: dataset.borderColor as string,
-      fillStyle: dataset.backgroundColor as string ?? dataset.borderColor as string,
-      lineWidth: 2,
-      datasetIndex: index,
-    }));
+    const datasetLabels = Chart.defaults.plugins.legend.labels.generateLabels(chart);
 
     if (this.parsed().nonWorkingIntervals.length === 0) {
       return datasetLabels;
     }
 
+    const bandColor = cssVariable('--borderColor-muted', '#d0d7de');
+
     return [
       ...datasetLabels,
       {
         text: this.i18n.t('js.burndown.non_working_day'),
-        fillStyle: cssVariable('--borderColor-muted', '#d0d7de'),
-        strokeStyle: cssVariable('--borderColor-muted', '#d0d7de'),
+        fillStyle: bandColor,
+        strokeStyle: bandColor,
         lineWidth: 0,
-        datasetIndex: undefined,
       },
     ];
   }
