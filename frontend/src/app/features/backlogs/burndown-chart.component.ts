@@ -83,12 +83,27 @@ export class BurndownChartComponent {
     datasets: this.parsed().series.map((series) => this.datasetFor(series)),
   }));
 
+  // Both bounds are taken across every series, so that hiding one does not refit the axes to
+  // what is left.
+  private readonly chartedRange = computed(() => {
+    const times = this.parsed().series.flatMap((series) => series.data.map((point) => Date.parse(point.x)));
+
+    return times.length === 0 ? {} : { min: Math.min(...times), max: Math.max(...times) };
+  });
+
+  private readonly peakValue = computed(() => {
+    const values = this.parsed().series.flatMap((series) => series.data.map((point) => point.y));
+
+    return values.length === 0 ? undefined : Math.max(...values);
+  });
+
   readonly lineChartOptions:Signal<ChartOptions<'line'>> = computed<ChartOptions<'line'>>(() => ({
     maintainAspectRatio: false,
     interaction: { mode: 'index', intersect: false },
     scales: {
       x: {
         type: 'time',
+        ...this.chartedRange(),
         adapters: { date: { zone: this.timezoneService.userTimezone() } },
         time: { unit: 'day' },
         ticks: {
@@ -100,6 +115,7 @@ export class BurndownChartComponent {
       y: {
         title: { display: true, text: this.i18n.t('js.burndown.story_points') },
         beginAtZero: true,
+        suggestedMax: this.peakValue(),
       },
     },
     plugins: {
