@@ -808,11 +808,20 @@ pl:
       sorting_disabled: sortowanie jest wyłączone
     sortable_lists:
       announcements:
+        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Element
         fallback_list_name: inna lista
         move_failed_check_position: Przeniesienie nie powiodło się. Sprawdź bieżącą pozycję elementu.
+        move_failed_check_positions_batch:
+          other: Move failed. Check the items' current positions.
         move_failed_rolled_back: Przeniesienie nie powiodło się. Przywrócono poprzednią pozycję %{label}.
+        move_failed_rolled_back_batch:
+          other: Move failed. %{count} items returned to their previous positions.
         moved: "%{label} przeniesiono do pozycji %{position} z %{total}"
+        moved_batch:
+          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+        moved_batch_to_list:
+          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
         moved_to_list: "%{label} przeniesiono do %{list}, pozycja %{position} z %{total}"
       selection:
         cleared: Selection cleared.

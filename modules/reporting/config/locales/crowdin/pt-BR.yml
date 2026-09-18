@@ -27,10 +27,10 @@ pt-BR:
         cost_report:
           pivot_axes_do_not_match_group_bys: As linhas e as colunas devem cobrir exatamente os critérios de agrupamento da consulta.
     models:
-      cost_report:
+      cost_query:
         one: Relatório de custos
         other: Relatórios de custos
-      cost_query:
+      cost_report:
         one: Relatório de custos
         other: Relatórios de custos
   button_save_report_as: Salvar relatório como...

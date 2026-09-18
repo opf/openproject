@@ -50,10 +50,6 @@ RSpec.describe API::V3::GitlabIssues::GitlabUserRepresenter do
       let(:value) { gitlab_user.gitlab_name }
     end
 
-    it_behaves_like "property", :email do
-      let(:value) { gitlab_user.gitlab_email }
-    end
-
     it_behaves_like "property", :avatarUrl do
       let(:value) { gitlab_user.gitlab_avatar_url }
     end

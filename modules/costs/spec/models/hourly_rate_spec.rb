@@ -58,6 +58,41 @@ RSpec.describe HourlyRate do
     end
   end
 
+  describe "recosting time entries on update" do
+    shared_let(:rated_user) { create(:user) }
+    shared_let(:rated_project) { create(:project, member_with_permissions: { rated_user => %i[log_time] }) }
+    shared_let(:work_package) { create(:work_package, project: rated_project) }
+
+    let!(:entry_before) do
+      create(:time_entry, user: rated_user, project: rated_project, entity: work_package,
+                          hours: 1, spent_on: Date.new(2024, 6, 1))
+    end
+    let!(:entry_after) do
+      create(:time_entry, user: rated_user, project: rated_project, entity: work_package,
+                          hours: 1, spent_on: Date.new(2025, 6, 1))
+    end
+    let!(:project_rate) do
+      create(:hourly_rate, user: rated_user, project: rated_project, rate: 100, valid_from: Date.new(2025, 1, 1))
+    end
+
+    it "costs only the entries the rate is in effect for" do
+      expect(entry_before.reload.costs).to eq(0)
+      expect(entry_after.reload.costs).to eq(100)
+    end
+
+    it "recosts entries newly covered by a backdated valid_from" do
+      project_rate.update!(valid_from: Date.new(2024, 1, 1))
+
+      expect(entry_before.reload.costs).to eq(100)
+    end
+
+    it "recosts covered entries when only the rate value changes" do
+      project_rate.update!(rate: 120)
+
+      expect(entry_after.reload.costs).to eq(120)
+    end
+  end
+
   describe ".history_for_user" do
     shared_let(:current_user) { create(:admin) }
     shared_let(:rated_user) { create(:user) }
@@ -97,6 +132,63 @@ RSpec.describe HourlyRate do
 
     it "returns the default rates under the nil key" do
       expect(history[nil]).to contain_exactly(default_rate)
+    end
+  end
+
+  describe ".at_date_for_user_in_project" do
+    shared_let(:rated_user) { create(:user) }
+    shared_let(:grandparent) { create(:project) }
+    shared_let(:parent) { create(:project, parent: grandparent) }
+    shared_let(:child) { create(:project, parent:) }
+
+    let(:date) { Date.new(2026, 6, 1) }
+
+    subject(:found) { described_class.at_date_for_user_in_project(date, rated_user, child) }
+
+    it "prefers the project's own rate over an ancestor's, even a newer one" do
+      own = create(:hourly_rate, user: rated_user, project: child, valid_from: 2.years.ago, rate: 10)
+      create(:hourly_rate, user: rated_user, project: parent, valid_from: 1.day.ago, rate: 99)
+
+      expect(found).to eq(own)
+    end
+
+    it "falls back to the closest rated ancestor" do
+      create(:hourly_rate, user: rated_user, project: grandparent, valid_from: 2.years.ago, rate: 10)
+      closest = create(:hourly_rate, user: rated_user, project: parent, valid_from: 2.years.ago, rate: 20)
+
+      expect(found).to eq(closest)
+    end
+
+    it "ignores rates that are not in effect yet" do
+      in_effect = create(:hourly_rate, user: rated_user, project: child, valid_from: 2.years.ago, rate: 10)
+      create(:hourly_rate, user: rated_user, project: child, valid_from: date + 1, rate: 99)
+
+      expect(found).to eq(in_effect)
+    end
+
+    it "falls back to the default rate when no project in the hierarchy is rated" do
+      default = create(:default_hourly_rate, user: rated_user, valid_from: 2.years.ago, rate: 55)
+
+      expect(found).to eq(default)
+    end
+
+    it "returns nil when the default is not wanted" do
+      create(:default_hourly_rate, user: rated_user, valid_from: 2.years.ago, rate: 55)
+
+      expect(described_class.at_date_for_user_in_project(date, rated_user, child, include_default: false)).to be_nil
+    end
+
+    it "accepts a principal id as well as a record" do
+      own = create(:hourly_rate, user: rated_user, project: child, valid_from: 2.years.ago, rate: 10)
+
+      expect(described_class.at_date_for_user_in_project(date, rated_user.id, child)).to eq(own)
+    end
+
+    it "resolves rates for a placeholder user" do
+      placeholder = create(:placeholder_user)
+      own = create(:hourly_rate, principal: placeholder, project: child, valid_from: 2.years.ago, rate: 42)
+
+      expect(described_class.at_date_for_user_in_project(date, placeholder, child)).to eq(own)
     end
   end
 end

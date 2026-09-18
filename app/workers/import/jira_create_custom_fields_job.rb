@@ -44,6 +44,7 @@ module Import
       @system_user = User.system
 
       build_custom_field_registry
+      store_custom_field_mapping
     end
   end
 end

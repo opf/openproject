@@ -33,7 +33,7 @@ module Statuses
     def initialize(query:)
       super(name: Role.model_name.human, query:, filter_key: :role, path_args: [:statuses])
 
-      Workflow.eligible_roles.order(Arel.sql("builtin, position")).each do |role|
+      Workflows::StatusTransition.eligible_roles.order(Arel.sql("builtin, position")).each do |role|
         with_item(label: role.name, value: role.id)
       end
     end

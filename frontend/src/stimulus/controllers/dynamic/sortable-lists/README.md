@@ -58,6 +58,23 @@ Reconciliation prunes unavailable items and rebinds the anchor to its live list.
 Losing the anchor or moving it to another list ends the range session; unchanged
 reconciliation preserves it.
 
+## Batch movement
+
+Dragging a selected item moves the whole batch. The root freezes the batch in
+the preview callback (`freezeDragBatch`) and marks its rows at drag start
+(`markDragBatch`), so later selection changes do not change the submitted items.
+Dragging an unselected item selects it, collapsing any wider selection.
+
+A batch may drop only on a destination every member accepts. A `confined` member
+limits the whole batch to its own list, so members confined to different lists
+leave no common destination and the drag offers none. `fixed` items cannot join
+a batch, and the one-type-per-batch rule above still applies.
+
+A selection-enabled root with `collectionMoveUrl` submits ordered `ids[]` to the
+collection move action for one dragged item or many. The root's
+`moveAnnouncementScope` sets the translation vocabulary for move announcements,
+independently of the selection's `announcementScope`.
+
 ## Presentation and feedback
 
 `data-batch-selected` belongs on the sortable item element. In Backlogs this is

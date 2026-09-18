@@ -222,6 +222,7 @@ vi:
         title: Tiêu đề
       member:
         blocked: Blocked
+        principal_type: Member type
         roles: Vai trò
       notification:
         read_ian: Đọc trong ứng dụng
@@ -441,6 +442,13 @@ vi:
         time_zone: Múi giờ
         warn_on_leaving_unsaved: Cảnh báo tôi khi rời khỏi gói công việc có những thay đổi chưa được lưu
         workdays: Ngày làm việc
+      user_resource:
+        description: Description
+        name: Name
+        user_filter: User filter
+      user_resource_detail:
+        description: Description
+        user_filter: User filter
       user_working_hours:
         availability_factor: Availability factor
         days: Working days
@@ -854,6 +862,10 @@ vi:
               blank: Vui lòng cung cấp tên mã thông báo
               format: "%{message}"
               in_use: Tên mã thông báo này đã được sử dụng, vui lòng chọn tên khác
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: This type cannot be deleted while work packages still use it.
         type_variant:
           attributes:
             attribute_groups:
@@ -890,6 +902,8 @@ vi:
               would_create_cycle: would link these configurations in a loop.
             variant:
               must_belong_to_the_type: must be a variant of this type.
+            workflow:
+              not_available_to_this_variant: must be a workflow this project can use.
             workflows_source_id:
               must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: would link these configurations in a loop.
@@ -1385,6 +1399,7 @@ vi:
         ssl_error: 'SSL error connecting to Jira server: %{message}'
         ssrf_block_doc_link: Please see our [documentation](docs_url).
         ssrf_blocked: 'Connection blocked: the Jira host resolves to a private IP address. If your Jira instance runs on an internal network, allow its IP via the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST environment variable.'
+        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
       columns:
         added: Added
         creator: Creator
@@ -1628,6 +1643,14 @@ vi:
       update:
         failure: Không thể cập nhật cấu hình MCP.
         success: Cấu hình MCP đã được cập nhật thành công.
+    members:
+      index:
+        blank_description: No membership matches the current filter.
+        blank_title: No memberships
+        filter_label: Search users
+        inheritance_source: "%{type} %{name}"
+        inherited_via: "(via: %{source})"
+        title: Memberships
     plugins:
       no_results_content_text: Xem trang tích hợp và plugin của chúng tôi để biết thêm thông tin.
       no_results_title_text: Hiện tại không có plugin nào được cài đặt.
@@ -1868,6 +1891,13 @@ vi:
           assignee: Additional transitions available to the work package's assignee.
           author: Additional transitions available to the work package's author.
         menu_label: Transitions shown
+  ai:
+    text_transform:
+      errors:
+        connection_failed: The AI service could not be reached.
+        not_available: The AI assistant is not available.
+        timeout: The AI service did not respond in time.
+        upstream_error: The AI service returned an error.
   announcements:
     is_active: Đang hiển thị
     is_inactive: hiện tại không hiển thị
@@ -2614,7 +2644,6 @@ vi:
       custom_actions: Hành động tùy chỉnh
       custom_field_hierarchies: hệ thống phân cấp
       customize_life_cycle: Tùy chỉnh vòng đời
-      date_alerts: Cảnh báo ngày
       define_custom_style: Chủ đề và logo tùy chỉnh
       edit_attribute_groups: Chỉnh sửa nhóm thuộc tính
       gantt_pdf_export: Xuất PDF Gantt
@@ -2690,8 +2719,6 @@ vi:
         description: Các trường tùy chỉnh phân cấp cho phép tổ chức các cấu trúc phân cấp trong các gói công việc và dự án bằng cách sử dụng danh sách chọn nhiều cấp.
       customize_life_cycle:
         description: Tạo và tổ chức các giai đoạn dự án khác với các giai đoạn được cung cấp bởi việc lập kế hoạch chu trình dự án PM2.
-      date_alerts:
-        description: Với tính năng cảnh báo ngày, bạn sẽ được thông báo về ngày bắt đầu hoặc ngày kết thúc sắp tới để không bao giờ bỏ lỡ hoặc quên thời hạn quan trọng.
       define_custom_style:
         description: Tùy chỉnh cài đặt OpenProject bằng logo và màu sắc của riêng bạn.
         more_info: 'Lưu ý: logo được sử dụng sẽ có thể truy cập công khai.'
@@ -3119,6 +3146,7 @@ vi:
         field_set: "%{field} set to %{value}"
         field_updated: "%{field} updated"
         header: changes by %{author}
+        migrated: from Jira
         set_with_diff: "%{field} set (%{link})"
       meeting_cancelled: "(cancelled)"
       meeting_deleted: "(deleted)"
@@ -3316,6 +3344,7 @@ vi:
   label_core_build: Xây dựng cốt lõi
   label_core_version: Phiên bản lõi
   label_created_by: Được tạo bởi %{user}
+  label_criteria: Criteria
   label_current_status: Tình trạng hiện tại
   label_current_version: Phiên bản hiện tại
   label_custom_comment: "%{name} comment"
@@ -3890,6 +3919,8 @@ vi:
   label_wiki_start: Trang bắt đầu
   label_wiki_toc: Bảng mục lục
   label_wiki_toc_empty: Mục lục trống vì không có tiêu đề nào.
+  label_with_criteria: With criteria
+  label_without_criteria: Without criteria
   label_work: làm việc
   label_work_package: Work Package
   label_work_package_attachments: Phần đính kèm công việc
@@ -4762,6 +4793,13 @@ vi:
     prev: Previous
     prev_page: Previous Page
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: Văn bản này sẽ xuất hiện trên mỗi trang ở giữa chân trang.
@@ -4776,6 +4814,12 @@ vi:
         label: Dấu gạch nối
       hyphenation_language:
         label: Ngôn ngữ và dấu gạch nối
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: Chọn hướng của các trang trong tài liệu PDF.
         label: Hướng trang
@@ -4923,6 +4967,16 @@ vi:
   permission_work_package_assigned: Trở thành người được giao/chịu trách nhiệm
   permission_work_package_assigned_explanation: Các gói công việc có thể được chỉ định cho người dùng và nhóm có vai trò này trong dự án tương ứng
   placeholder_users:
+    criteria:
+      activate: Activate filter criteria
+      activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
+
+        '
+      enable: Match users by criteria
+      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
+      matching_users: Users meeting the filter criteria
+      no_matching_users: No user meets these criteria.
+      show_all_matching_users: Show all %{count} matching users
     delete_tooltip: Xóa người dùng giữ chỗ
     deletion_info:
       data_consequences: 'Tất cả các lần xuất hiện của người dùng giữ chỗ (ví dụ: với tư cách là người được chuyển nhượng, người chịu trách nhiệm hoặc giá trị người dùng khác) sẽ được chỉ định lại cho tài khoản có tên "Người dùng đã xóa". Vì dữ liệu của mọi tài khoản đã xóa được gán lại cho tài khoản này nên sẽ không thể phân biệt dữ liệu người dùng đã tạo với dữ liệu của tài khoản đã xóa khác.
@@ -5222,6 +5276,7 @@ vi:
     wizard:
       create_artifact_storage_error: Failed to store artefact in file storage
       create_artifact_work_package_error: Failed to create artefact work package
+      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: Thuộc tính này không có văn bản trợ giúp được xác định.
       progress_label: "%{current} trong số %{total}"
       sections: phần
@@ -5377,6 +5432,26 @@ vi:
     warnings:
       cannot_annotate: Tập tin này không thể được chú thích.
   roles:
+    delete_dialog:
+      confirm: Are you sure you want to delete this role?
+      entry_projects:
+        other: "(Projects: %{projects})"
+      entry_projects_truncated:
+        other: "(Projects: %{projects} and %{count} others)"
+      heading:
+        other: 'This role is still attributed to %{count} members:'
+      heading_unused: Are you sure you want to delete the role "%{name}"?
+      losing_project_access:
+        one: Out of these users, 1 will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        other: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        zero: None of these users will lose access to any of their projects. Are you sure you want to delete this role?
+      show_memberships: Show all memberships with this role
+      summary: "%{users} in %{projects}"
+      summary_projects:
+        other: "%{count} projects"
+      summary_users:
+        other: "%{count} users"
+      title: Delete role
     edit:
       default_for_new_projects_warning: 'This role is configured as the default role given to non-admin users who create a project. Do not remove the following permissions, otherwise project creators will be unable to complete the setup of their newly created projects:'
     index:
@@ -5388,6 +5463,15 @@ vi:
     permissions:
       section_check_all_label: Gán tất cả các quyền %{module}
       section_uncheck_all_label: Bỏ gán tất cả quyền %{module}
+    permissions_dialog:
+      edit_permissions: Edit role permissions
+      implicit_permission: Always granted
+      no_permissions: This role does not grant any permissions.
+      permission_count:
+        other: "%{count} permissions"
+      preview_action: View permissions
+      preview_aria_label: View the permissions of %{role}
+      title: Permissions of "%{name}"
     report:
       matrix_caption: Ma trận quyền cho mô-đun %{module}
       matrix_check_all_label: Gán tất cả các quyền %{module} cho tất cả các vai trò
@@ -6457,11 +6541,21 @@ vi:
         text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
 
           '
+        workflow_text: 'Its workflow "%{name}" belongs to this project and becomes global as well.
+
+          '
       convert_to_global_notice: "%{name} is now a global variant."
       convert_to_global_rename:
         confirm: Convert
         text: A global variant with this name already exists. Please choose a different name.
         title: Pick another name for this variant
+      delete:
+        description: The type will be deleted permanently. This action cannot be undone.
+        description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
+        heading: Delete type '%{name}'?
+        projects:
+          other: 'The type will be removed from %{count} projects:'
+        title: Delete type
       description: 'Each configuration area inside types and variants can be independently configured, limited from another type, or fully linked to a source.
 
         '

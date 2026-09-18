@@ -29,11 +29,10 @@
 import { Application } from '@hotwired/stimulus';
 import { installElements } from '@openproject/stimulus-elements';
 import { ContextualActionMenu } from 'core-common/contextual-action-menu';
+import { nextFrame } from 'core-common/testing/timing';
 import type ContextualActionMenuControllerType from './contextual-action-menu.controller';
 
 describe('Contextual action menu controller', () => {
-  const nextFrame = () => new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-
   let application:Application;
   let fixture:HTMLElement;
   let ContextualActionMenuController:typeof ContextualActionMenuControllerType;

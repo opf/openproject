@@ -303,12 +303,40 @@ RSpec.describe "Roles index", :js do
     visit roles_path
 
     open_role_menu(first_role)
-    accept_confirm { click_on I18n.t(:button_delete) }
+    click_on I18n.t(:button_delete)
+
+    within_test_selector("op-roles--delete-dialog") do
+      expect(page).to have_text(I18n.t("roles.delete_dialog.heading_unused", name: first_role.name))
+
+      click_on I18n.t(:button_delete)
+    end
 
     expect_and_dismiss_flash(message: I18n.t(:notice_successful_delete))
 
     expect(page).to have_no_css("#role-#{first_role.id}")
     expect(ProjectRole).not_to exist(id: first_role.id)
+  end
+
+  it "lists the affected members before deleting a role that is still in use" do
+    project = create(:project, name: "Apollo")
+    user = create(:user, firstname: "Jo", lastname: "Barnes", member_with_roles: { project => [first_role] })
+
+    visit roles_path
+
+    open_role_menu(first_role)
+    click_on I18n.t(:button_delete)
+
+    within_test_selector("op-roles--delete-dialog") do
+      expect(page).to have_text(I18n.t("roles.delete_dialog.heading", count: 1))
+      expect(page).to have_text("Jo Barnes (Project: Apollo)")
+
+      click_on I18n.t(:button_delete)
+    end
+
+    expect_and_dismiss_flash(message: I18n.t(:notice_successful_delete))
+
+    expect(ProjectRole).not_to exist(id: first_role.id)
+    expect(Member.where(principal: user, project:)).to be_empty
   end
 
   it "does not offer moving or deleting builtin roles" do

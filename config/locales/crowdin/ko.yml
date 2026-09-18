@@ -222,6 +222,7 @@ ko:
         title: 제목
       member:
         blocked: 차단됨
+        principal_type: Member type
         roles: 역할
       notification:
         read_ian: 인앱 읽기
@@ -441,6 +442,13 @@ ko:
         time_zone: 표준 시간대
         warn_on_leaving_unsaved: 저장하지 않고 작업 패키지를 벗어날 때 알려주세요.
         workdays: 근무일
+      user_resource:
+        description: Description
+        name: Name
+        user_filter: User filter
+      user_resource_detail:
+        description: Description
+        user_filter: User filter
       user_working_hours:
         availability_factor: 가용성 요소
         days: 근무일
@@ -854,6 +862,10 @@ ko:
               blank: 토큰 이름을 입력하세요
               format: "%{message}"
               in_use: 이 토큰 이름은 이미 사용 중입니다. 다른 이름을 선택하세요
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: This type cannot be deleted while work packages still use it.
         type_variant:
           attributes:
             attribute_groups:
@@ -890,6 +902,8 @@ ko:
               would_create_cycle: "- 이러한 구성은 루프로 연결될 것입니다."
             variant:
               must_belong_to_the_type: "- 이 유형의 변형이어야 합니다."
+            workflow:
+              not_available_to_this_variant: must be a workflow this project can use.
             workflows_source_id:
               must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: "- 이러한 구성은 루프로 연결될 것입니다."
@@ -1385,6 +1399,7 @@ ko:
         ssl_error: 'Jira 서버에 연결하는 동안 SSL 오류가 발생했습니다: %{message}'
         ssrf_block_doc_link: "[설명서](docs_url)를 참조하세요."
         ssrf_blocked: '연결 차단됨: Jira 호스트가 사설 IP 주소로 확인됩니다. Jira 인스턴스가 내부 네트워크에서 실행되는 경우 OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST 환경 변수를 통해 해당 IP를 허용하세요.'
+        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
       columns:
         added: 추가됨
         creator: 생성자
@@ -1628,6 +1643,14 @@ ko:
       update:
         failure: MCP 구성을 업데이트할 수 없습니다.
         success: MCP 구성이 업데이트되었습니다.
+    members:
+      index:
+        blank_description: No membership matches the current filter.
+        blank_title: No memberships
+        filter_label: Search users
+        inheritance_source: "%{type} %{name}"
+        inherited_via: "(via: %{source})"
+        title: Memberships
     plugins:
       no_results_content_text: 자세한 내용은 통합 및 플러그인 페이지를 참조하세요.
       no_results_title_text: 현재 설치된 플러그인이 없습니다.
@@ -1866,6 +1889,13 @@ ko:
           assignee: 작업 패키지의 담당자가 사용할 수 있는 추가 전환입니다.
           author: 작업 패키지의 작성자가 사용할 수 있는 추가 전환입니다.
         menu_label: 표시된 전환
+  ai:
+    text_transform:
+      errors:
+        connection_failed: The AI service could not be reached.
+        not_available: The AI assistant is not available.
+        timeout: The AI service did not respond in time.
+        upstream_error: The AI service returned an error.
   announcements:
     is_active: 현재 표시됨
     is_inactive: 현재 표시 안 됨
@@ -2632,7 +2662,6 @@ ko:
       custom_actions: 사용자 지정 작업
       custom_field_hierarchies: 계층
       customize_life_cycle: 수명 주기 사용자 지정
-      date_alerts: 날짜 알림
       define_custom_style: 사용자 지정 테마 및 로고
       edit_attribute_groups: 특성 그룹 편집
       gantt_pdf_export: Gantt PDF 내보내기
@@ -2708,8 +2737,6 @@ ko:
         description: 계층 사용자 지정 필드를 사용하면 다중 레벨 선택 목록을 사용하여 작업 패키지 및 프로젝트의 계층 구조를 구성할 수 있습니다.
       customize_life_cycle:
         description: PM2 프로젝트 사이클 계획에서 제공되는 것과는 다른 프로젝트 단계를 만들고 구성합니다.
-      date_alerts:
-        description: 날짜 경보를 사용하면, 중요 마감일을 놓치거나 잊지 않도록 향후 시작 날짜 또는 종료 날짜에 대한 알림을 받게 됩니다.
       define_custom_style:
         description: 고유한 로고와 색상으로 OpenProject 설치를 사용자 지정하세요.
         more_info: '참고: 사용된 로그는 공개적으로 액세스 가능합니다.'
@@ -3135,6 +3162,7 @@ ko:
         field_set: "%{field}이(가) %{value}(으)로 설정됨"
         field_updated: "%{field} 업데이트됨"
         header: "%{author} 님이 변경함"
+        migrated: from Jira
         set_with_diff: "%{field} 설정됨(%{link})"
       meeting_cancelled: "(취소됨)"
       meeting_deleted: "(삭제됨)"
@@ -3332,6 +3360,7 @@ ko:
   label_core_build: 코어 빌드
   label_core_version: 코어 버전
   label_created_by: '작성자: %{user}'
+  label_criteria: Criteria
   label_current_status: 현재 상태
   label_current_version: 현재 버전
   label_custom_comment: "%{name} 코멘트"
@@ -3906,6 +3935,8 @@ ko:
   label_wiki_start: 시작 페이지
   label_wiki_toc: 목차
   label_wiki_toc_empty: 머리글이 없으므로 목차가 비어 있습니다.
+  label_with_criteria: With criteria
+  label_without_criteria: Without criteria
   label_work: 작업
   label_work_package: 작업 패키지
   label_work_package_attachments: 작업 패키지 첨부 파일
@@ -4772,6 +4803,13 @@ ko:
     prev: 이전
     prev_page: 이전 페이지
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: 이 텍스트는 모든 페이지의 바닥글 가운데에 나타납니다.
@@ -4786,6 +4824,12 @@ ko:
         label: 하이픈 넣기
       hyphenation_language:
         label: 언어 및 하이픈 넣기
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: PDF 문서의 페이지 방향을 선택하세요.
         label: 페이지 방향
@@ -4936,6 +4980,16 @@ ko:
   permission_work_package_assigned: 담당자/책임자 되기
   permission_work_package_assigned_explanation: 작업 패키지는 각각의 프로젝트에서 이 역할을 가진 사용자와 그룹에 할당될 수 있습니다.
   placeholder_users:
+    criteria:
+      activate: Activate filter criteria
+      activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
+
+        '
+      enable: Match users by criteria
+      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
+      matching_users: Users meeting the filter criteria
+      no_matching_users: No user meets these criteria.
+      show_all_matching_users: Show all %{count} matching users
     delete_tooltip: 플레이스홀더 사용자 삭제
     deletion_info:
       data_consequences: '플레이스홀더 사용자의 모든 항목(예: 담당자, 책임자, 기타 사용자 값 등)은 "삭제된 사용자"라는 계정에 다시 할당됩니다. 삭제된 모든 계정의 데이터는 이 계정에 다시 할당되기 때문에 사용자가 생성한 데이터와 다른 삭제된 계정의 데이터를 구별할 수 없습니다.
@@ -5229,6 +5283,7 @@ ko:
     wizard:
       create_artifact_storage_error: 파일 저장소에 아티팩트를 저장하지 못했습니다
       create_artifact_work_package_error: 아티팩트 작업 패키지를 만들지 못했습니다
+      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: 이 특성에는 정의된 도움말 텍스트가 없습니다.
       progress_label: "%{current}/%{total}"
       sections: 섹션
@@ -5380,6 +5435,26 @@ ko:
     warnings:
       cannot_annotate: 이 파일에는 주석을 지정할 수 없습니다.
   roles:
+    delete_dialog:
+      confirm: Are you sure you want to delete this role?
+      entry_projects:
+        other: "(Projects: %{projects})"
+      entry_projects_truncated:
+        other: "(Projects: %{projects} and %{count} others)"
+      heading:
+        other: 'This role is still attributed to %{count} members:'
+      heading_unused: Are you sure you want to delete the role "%{name}"?
+      losing_project_access:
+        one: Out of these users, 1 will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        other: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        zero: None of these users will lose access to any of their projects. Are you sure you want to delete this role?
+      show_memberships: Show all memberships with this role
+      summary: "%{users} in %{projects}"
+      summary_projects:
+        other: "%{count} projects"
+      summary_users:
+        other: "%{count} users"
+      title: Delete role
     edit:
       default_for_new_projects_warning: '이 역할은 프로젝트를 만드는 비관리자 사용자에게 지정된 기본 역할로 구성됩니다. 다음 권한을 제거하지 마세요. 그렇지 않으면 프로젝트 생성자가 새로 생성된 프로젝트의 설정을 완료할 수 없게 됩니다:'
     index:
@@ -5391,6 +5466,15 @@ ko:
     permissions:
       section_check_all_label: 모든 %{module} 권한 할당
       section_uncheck_all_label: 모든 %{module} 권한 할당 취소
+    permissions_dialog:
+      edit_permissions: Edit role permissions
+      implicit_permission: Always granted
+      no_permissions: This role does not grant any permissions.
+      permission_count:
+        other: "%{count} permissions"
+      preview_action: View permissions
+      preview_aria_label: View the permissions of %{role}
+      title: Permissions of "%{name}"
     report:
       matrix_caption: "%{module} 모듈에 대한 권한 매트릭스"
       matrix_check_all_label: 모든 역할에 모든 %{module} 권한 할당
@@ -6456,11 +6540,21 @@ ko:
         text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
 
           '
+        workflow_text: 'Its workflow "%{name}" belongs to this project and becomes global as well.
+
+          '
       convert_to_global_notice: "%{name} is now a global variant."
       convert_to_global_rename:
         confirm: Convert
         text: A global variant with this name already exists. Please choose a different name.
         title: Pick another name for this variant
+      delete:
+        description: The type will be deleted permanently. This action cannot be undone.
+        description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
+        heading: Delete type '%{name}'?
+        projects:
+          other: 'The type will be removed from %{count} projects:'
+        title: Delete type
       description: '유형 및 변형 내의 각 구성 영역은 독립적으로 구성하거나, 다른 유형으로부터 제한하거나, 소스에 완전히 연결할 수 있습니다.
 
         '

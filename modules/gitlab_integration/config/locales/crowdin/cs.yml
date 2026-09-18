@@ -63,7 +63,6 @@ cs:
     commit: Commit
     gitlab: GitLab identifier
     gitlab_avatar_url: URL avataru
-    gitlab_email: GitLab Email
     gitlab_html_url: GitLab HTML URL
     gitlab_merge_request: Merge Request
     gitlab_name: Název GitLab

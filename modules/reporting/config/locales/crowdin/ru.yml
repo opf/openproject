@@ -27,16 +27,16 @@ ru:
         cost_report:
           pivot_axes_do_not_match_group_bys: The rows and columns must together cover exactly the grouping criteria of the query.
     models:
-      cost_report:
-        one: Cost report
-        few: Cost reports
-        many: Cost reports
-        other: Cost reports
       cost_query:
         one: Отчет о затратах
         few: Cost reports
         many: Cost reports
         other: Отчеты о затратах
+      cost_report:
+        one: Cost report
+        few: Cost reports
+        many: Cost reports
+        other: Cost reports
   button_save_report_as: Сохранить отчет как...
   comments: Комментарий
   cost_reports_title: Время и затраты

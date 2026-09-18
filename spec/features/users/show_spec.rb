@@ -70,6 +70,29 @@ RSpec.describe "index users", :js do
     end
   end
 
+  describe "own memberships without the permission to view members" do
+    shared_let(:reader_role) { create(:project_role, name: "Reader", permissions: %i[view_project]) }
+    shared_let(:reader_project) { create(:project, name: "Readable") }
+    shared_let(:reader) { create(:user, member_with_roles: { reader_project => [reader_role] }) }
+
+    current_user { reader }
+
+    it "lists them on the own profile, with a preview of the own role" do
+      visit user_path(reader)
+
+      expect(page).to have_text reader_project.name
+      expect(page).to have_text reader_role.name
+      expect(page).to have_css "a[href='#{role_permissions_dialog_path(reader_role)}']", visible: :all
+    end
+
+    it "hides them from another user lacking the permission" do
+      visit user_path(user)
+
+      expect(page).to have_current_path user_path(user)
+      expect(page).to have_no_text reader_project.name
+    end
+  end
+
   describe "built-in and custom field attributes in the side panel" do
     shared_let(:section) { create(:user_custom_field_section, name: "Public profile") }
     shared_let(:custom_field) do

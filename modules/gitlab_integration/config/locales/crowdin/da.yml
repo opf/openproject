@@ -55,7 +55,6 @@ da:
     commit: Commit
     gitlab: GitLab-identifikator
     gitlab_avatar_url: Avatar-URL
-    gitlab_email: GitLab e-mail
     gitlab_html_url: GitLab HTML-URL
     gitlab_merge_request: Fletteanmodning
     gitlab_name: GitLab-navn

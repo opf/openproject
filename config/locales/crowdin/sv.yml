@@ -222,6 +222,7 @@ sv:
         title: Titel
       member:
         blocked: Blockerad
+        principal_type: Member type
         roles: Roll
       notification:
         read_ian: Läst i appen
@@ -441,6 +442,13 @@ sv:
         time_zone: Tidszon
         warn_on_leaving_unsaved: Varna mig när jag lämnar ett arbetspaket med osparade ändringar
         workdays: Arbetsdagar
+      user_resource:
+        description: Description
+        name: Name
+        user_filter: User filter
+      user_resource_detail:
+        description: Description
+        user_filter: User filter
       user_working_hours:
         availability_factor: Tillgänglighetsfaktor
         days: Arbetsdagar
@@ -855,6 +863,10 @@ sv:
               blank: Ange ett tokennamn
               format: "%{message}"
               in_use: Tokennamnet används redan. Välj ett annat
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: This type cannot be deleted while work packages still use it.
         type_variant:
           attributes:
             attribute_groups:
@@ -891,6 +903,8 @@ sv:
               would_create_cycle: skulle länka dessa konfigurationer i en slinga.
             variant:
               must_belong_to_the_type: måste vara en variant av den här typen.
+            workflow:
+              not_available_to_this_variant: must be a workflow this project can use.
             workflows_source_id:
               must_be_available_to_the_variant: måste vara en konfiguration som det här projektet kan använda.
               would_create_cycle: skulle länka dessa konfigurationer i en slinga.
@@ -1493,6 +1507,7 @@ sv:
         ssl_error: 'SSL-fel vid anslutning till Jira-servern: %{message}'
         ssrf_block_doc_link: Se vår [dokumentation](docs_url).
         ssrf_blocked: 'Anslutningen blockerades: Jira-värden matchar en privat IP-adress. Om Jira-instansen körs i ett internt nätverk tillåter du dess IP-adress via miljövariabeln OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
+        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
       columns:
         added: Tillagd
         creator: Skapare
@@ -1743,6 +1758,14 @@ sv:
       update:
         failure: MCP-konfigurationen kunde inte uppdateras.
         success: MCP-konfigurationen uppdaterades.
+    members:
+      index:
+        blank_description: No membership matches the current filter.
+        blank_title: No memberships
+        filter_label: Search users
+        inheritance_source: "%{type} %{name}"
+        inherited_via: "(via: %{source})"
+        title: Memberships
     plugins:
       no_results_content_text: Mer information finns på vår sida för integrationer och insticksmoduler.
       no_results_title_text: Det finns för närvarande inga installerade insticksmoduler.
@@ -1988,6 +2011,13 @@ sv:
           assignee: Ytterligare övergångar som är tillgängliga för den som tilldelats arbetspaketet.
           author: Ytterligare övergångar som är tillgängliga för arbetspaketets författare.
         menu_label: Visade övergångar
+  ai:
+    text_transform:
+      errors:
+        connection_failed: The AI service could not be reached.
+        not_available: The AI assistant is not available.
+        timeout: The AI service did not respond in time.
+        upstream_error: The AI service returned an error.
   announcements:
     is_active: visas för tillfället
     is_inactive: visas ej för tillfället
@@ -2754,7 +2784,6 @@ sv:
       custom_actions: Anpassade åtgärder
       custom_field_hierarchies: Hierarkier
       customize_life_cycle: Anpassa livscykeln
-      date_alerts: Datumaviseringar
       define_custom_style: Anpassat tema och logotyp
       edit_attribute_groups: Redigera attributgrupper
       gantt_pdf_export: PDF-export av Gantt
@@ -2831,8 +2860,6 @@ sv:
         description: Hierarkiska anpassade fält gör det möjligt att organisera hierarkiska strukturer i arbetspaket och projekt med hjälp av flernivålistor.
       customize_life_cycle:
         description: Skapa och organisera andra projektfaser än de som tillhandahålls av PM2:s projektcykelplanering.
-      date_alerts:
-        description: Med datumaviseringar får du meddelanden om kommande start- eller slutdatum så att du aldrig missar eller glömmer en viktig tidsfrist.
       define_custom_style:
         description: Anpassa din OpenProject-installation med din egen logotyp och dina egna färger.
         more_info: 'Obs: logotypen som används kommer att vara allmänt tillgänglig.'
@@ -3264,6 +3291,7 @@ sv:
         field_set: "%{field} angavs till %{value}"
         field_updated: "%{field} uppdaterades"
         header: ändringar av %{author}
+        migrated: from Jira
         set_with_diff: "%{field} angavs (%{link})"
       meeting_cancelled: "(avbruten)"
       meeting_deleted: "(borttagen)"
@@ -3461,6 +3489,7 @@ sv:
   label_core_build: Kärnbygge
   label_core_version: Kärnversion
   label_created_by: Skapad av %{user}
+  label_criteria: Criteria
   label_current_status: Nuvarande status
   label_current_version: Aktuell version
   label_custom_comment: "%{name}-kommentar"
@@ -4035,6 +4064,8 @@ sv:
   label_wiki_start: Startsida
   label_wiki_toc: Innehållsförteckning
   label_wiki_toc_empty: Innehållsförteckningen är tom eftersom det inte finns några rubriker.
+  label_with_criteria: With criteria
+  label_without_criteria: Without criteria
   label_work: Arbete
   label_work_package: Arbetspaket
   label_work_package_attachments: Bilagor till arbetspaket
@@ -4910,6 +4941,13 @@ sv:
     prev: Föregående
     prev_page: Föregående sida
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: Denna text visas på varje sida i mitten av sidfoten.
@@ -4924,6 +4962,12 @@ sv:
         label: Avstavning
       hyphenation_language:
         label: Språk och avstavning
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: Välj sidorientering för PDF-dokumentet.
         label: Sidorientering
@@ -5071,6 +5115,16 @@ sv:
   permission_work_package_assigned: Bli tilldelad/ansvarig
   permission_work_package_assigned_explanation: Arbetspaket kan tilldelas användare och grupper som har denna roll i respektive projektet
   placeholder_users:
+    criteria:
+      activate: Activate filter criteria
+      activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
+
+        '
+      enable: Match users by criteria
+      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
+      matching_users: Users meeting the filter criteria
+      no_matching_users: No user meets these criteria.
+      show_all_matching_users: Show all %{count} matching users
     delete_tooltip: Ta bort platshållaranvändare
     deletion_info:
       data_consequences: 'Alla förekomster av platshållaranvändaren (t.ex. som tilldelad, ansvarig eller andra användarvärden) tilldelas på nytt till ett konto som heter "Borttagen användare". Eftersom data från varje borttaget konto tilldelas detta konto går det inte att skilja data som användaren skapade från data som skapats av ett annat borttaget konto.
@@ -5374,6 +5428,7 @@ sv:
     wizard:
       create_artifact_storage_error: Det gick inte att lagra artefakten i fillagringen
       create_artifact_work_package_error: Det gick inte att skapa artefaktens arbetspaket
+      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: Det finns ingen hjälptext definierad för det här attributet.
       progress_label: "%{current} av %{total}"
       sections: Avsnitt
@@ -5520,6 +5575,31 @@ sv:
     warnings:
       cannot_annotate: Den här filen kan inte kommenteras.
   roles:
+    delete_dialog:
+      confirm: Are you sure you want to delete this role?
+      entry_projects:
+        one: "(Project: %{projects})"
+        other: "(Projects: %{projects})"
+      entry_projects_truncated:
+        one: "(Projects: %{projects} and 1 other)"
+        other: "(Projects: %{projects} and %{count} others)"
+      heading:
+        one: 'This role is still attributed to 1 member:'
+        other: 'This role is still attributed to %{count} members:'
+      heading_unused: Are you sure you want to delete the role "%{name}"?
+      losing_project_access:
+        one: Out of these users, 1 will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        other: Out of these users, %{count} will lose access to projects in which this was their only role. Are you sure you want to delete this role?
+        zero: None of these users will lose access to any of their projects. Are you sure you want to delete this role?
+      show_memberships: Show all memberships with this role
+      summary: "%{users} in %{projects}"
+      summary_projects:
+        one: 1 project
+        other: "%{count} projects"
+      summary_users:
+        one: 1 user
+        other: "%{count} users"
+      title: Delete role
     edit:
       default_for_new_projects_warning: 'Den här rollen är konfigurerad som standardroll för icke-administratörer som skapar ett projekt. Ta inte bort följande behörigheter, annars kan projektskapare inte slutföra konfigurationen av sina nyskapade projekt:'
     index:
@@ -5531,6 +5611,16 @@ sv:
     permissions:
       section_check_all_label: Tilldela alla behörigheter för %{module}
       section_uncheck_all_label: Ta bort alla behörigheter för %{module}
+    permissions_dialog:
+      edit_permissions: Edit role permissions
+      implicit_permission: Always granted
+      no_permissions: This role does not grant any permissions.
+      permission_count:
+        one: 1 permission
+        other: "%{count} permissions"
+      preview_action: View permissions
+      preview_aria_label: View the permissions of %{role}
+      title: Permissions of "%{name}"
     report:
       matrix_caption: Behörighetsmatris för modulen %{module}
       matrix_check_all_label: Tilldela alla %{module}-behörigheter till alla roller
@@ -6596,11 +6686,22 @@ sv:
         text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
 
           '
+        workflow_text: 'Its workflow "%{name}" belongs to this project and becomes global as well.
+
+          '
       convert_to_global_notice: "%{name} is now a global variant."
       convert_to_global_rename:
         confirm: Convert
         text: A global variant with this name already exists. Please choose a different name.
         title: Pick another name for this variant
+      delete:
+        description: The type will be deleted permanently. This action cannot be undone.
+        description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
+        heading: Delete type '%{name}'?
+        projects:
+          one: 'The type will be removed from 1 project:'
+          other: 'The type will be removed from %{count} projects:'
+        title: Delete type
       description: 'Varje konfigurationsområde i typer och varianter kan konfigureras separat, begränsas från en annan typ eller kopplas helt till en källa.
 
         '
