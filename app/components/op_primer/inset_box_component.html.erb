@@ -37,13 +37,13 @@ See COPYRIGHT and LICENSE files for more details.
       )
     ) do %>
   <% if title? || title_icon? || clipboard_copy_button? %>
-    <%= render(Primer::Box.new(display: :flex, align_items: :center, mb: 2, classes: "gap-2", justify_content: :space_between)) do %>
+    <div class="op-inset-box--title-container">
       <%= render(Primer::Box.new(display: :flex, align_items: :center, classes: "gap-2")) do %>
         <%= title_icon %>
         <%= title %>
       <% end %>
       <%= clipboard_copy_button %>
-    <% end %>
+    </div>
   <% end %>
   <%= content %>
   <% if actions.any? %>
