@@ -65,11 +65,16 @@ module Admin::Import::Jira::ImportRuns
       },
       {
         number: 7,
-        title: "Create work packages",
+        title: "Create project versions",
         icon: :"op-work-packages"
       },
       {
         number: 8,
+        title: "Create work packages",
+        icon: :"op-work-packages"
+      },
+      {
+        number: 9,
         title: "Download attachments",
         icon: :paperclip
       }
