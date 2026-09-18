@@ -135,6 +135,7 @@ export class BurndownChartComponent {
       tooltip: {
         callbacks: {
           title: (items) => this.tooltipTitle(items),
+          label: (item) => this.tooltipLabel(item),
         },
       },
     },
@@ -187,6 +188,17 @@ export class BurndownChartComponent {
     const dated = items.find((item) => series[item.datasetIndex]?.id === 'remaining') ?? items[0];
 
     return this.timezoneService.formattedDatetime(new Date(Number(dated.parsed.x)).toISOString());
+  }
+
+  // Remaining is a sum of whole story points, while the two projected series divide them
+  // across working days and would otherwise read to full float precision.
+  private tooltipLabel(item:TooltipItem<'line'>):string {
+    const { series } = this.parsed();
+    const value = series[item.datasetIndex]?.id === 'remaining'
+      ? item.formattedValue
+      : (item.parsed.y ?? 0).toLocaleString(undefined, { maximumFractionDigits: 1 });
+
+    return `${item.dataset.label ?? ''}: ${value}`;
   }
 
   private legendLabels(chart:Chart):LegendItem[] {
