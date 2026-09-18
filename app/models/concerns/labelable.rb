@@ -33,26 +33,28 @@ module Labelable
 
   included do
     has_many :labelings, as: :labelable, dependent: :delete_all
-    has_many :labels, -> { order(:id) }, through: :labelings
+    has_many :labels,
+             -> { order(:id) },
+             through: :labelings,
+             before_add: :remember_label_ids,
+             before_remove: :remember_label_ids
 
     scope :labeled_with, ->(label) { joins(:labelings).where(labelings: { label_id: label }) }
 
     after_save { @labels_was = nil }
   end
 
-  def labels=(*)
-    @labels_was ||= label_ids
-    super
-  end
-
-  def label_ids=(*)
-    @labels_was ||= label_ids
-    super
-  end
-
   def label_changes
     return {} if @labels_was.nil? || @labels_was.sort == label_ids.sort
 
     { "labels" => [@labels_was, label_ids] }
+  end
+
+  private
+
+  def remember_label_ids(_label)
+    return if @labels_was
+
+    @labels_was = label_ids
   end
 end
