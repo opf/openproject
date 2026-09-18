@@ -384,7 +384,7 @@ group :development, :test do
 end
 
 # API gems
-gem "grape", "~> 3.3.5"
+gem "grape", "~> 4.0.1"
 gem "grape_logging", "~> 3.0.0"
 gem "roar", "~> 1.2.0"
 
