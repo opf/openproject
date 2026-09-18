@@ -251,11 +251,13 @@ describe('autocompleter', () => {
     });
 
     it('should recover and keep loading results after a lookup fails', () => {
+      const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+      const lookupError = new Error('backend rejected the query');
       vi.useFakeTimers();
       try {
         getOptionsFnSpy.mockImplementation((searchTerm:string) => {
           if (searchTerm === 'bad') {
-            return throwError(() => new Error('backend rejected the query'));
+            return throwError(() => lookupError);
           }
 
           return of(workPackagesStub).pipe(map((wps) => wps.filter((wp) => searchTerm !== '' && wp.subject.includes(searchTerm))));
@@ -279,6 +281,7 @@ describe('autocompleter', () => {
         fixture.detectChanges();
 
         expect(getOptionsFnSpy).toHaveBeenCalledWith('bad');
+        expect(consoleError).toHaveBeenCalledWith(lookupError);
         expect(select.itemsList.items.length).toEqual(0);
 
         inputElement.value = 'Wor';
@@ -438,6 +441,7 @@ describe('autocompleter', () => {
     });
 
     it('should load items with debounce', async () => {
+      silenceDestroyedOutputWarning();
       fixture.detectChanges();
 
       // Wait for ngAfterViewInit's internal setTimeout(25ms) and debounce to fire.
@@ -478,13 +482,12 @@ describe('autocompleter', () => {
   });
 });
 
-// NG0953 ("Unexpected emit for destroyed OutputRef") is emitted when ng-select
-// emits on an OutputRef during fixture teardown under fake timers. It is a real
-// lifecycle smell, not pure noise — silencing it here is a pragmatic stopgap so
-// these specs stay readable, not a fix. The proper fix is to stop the
-// emit-after-destroy in the component teardown path; until then this is
-// scoped to the two affected specs and passes every other warning through so it
-// does not hide unrelated regressions. Do not promote this to a global filter.
+// NG0953 ("Unexpected emit for destroyed OutputRef") comes from ng-select's
+// dropdown panel: `_measureDimensions` retries through a Promise and
+// requestAnimationFrame chain with no destroyed guard, so it emits after the
+// panel is torn down (https://github.com/ng-select/ng-select/issues/2869).
+// Silencing is a stopgap until ng-select guards that chain; it passes every
+// other warning through. Do not promote this to a global filter.
 function silenceDestroyedOutputWarning():void {
   const originalWarn = console.warn.bind(console);
 
