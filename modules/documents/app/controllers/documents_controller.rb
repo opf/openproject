@@ -50,7 +50,7 @@ class DocumentsController < ApplicationController
 
   def search
     index
-    replace_via_turbo_stream component: Documents::ListComponent.new(@documents, project: @project)
+    replace_via_turbo_stream component: Documents::TableComponent.new(rows: @documents, project: @project)
     current_url = url_for(params.permit(:controller, :filters, :sortBy).merge(action: "index"))
     turbo_streams << turbo_stream.push_state(current_url)
 

@@ -903,6 +903,8 @@ de:
               would_create_cycle: würde diese Konfigurationen zu einer Schleife verbinden.
             variant:
               must_belong_to_the_type: muss eine Variante dieses Typs sein.
+            workflow:
+              not_available_to_this_variant: must be a workflow this project can use.
             workflows_source_id:
               must_be_available_to_the_variant: muss sich um eine Konfiguration handeln, die dieses Projekt verwenden kann.
               would_create_cycle: würde diese Konfigurationen zu einer Schleife verbinden.
@@ -1505,6 +1507,7 @@ de:
         ssl_error: 'SSL-Fehler bei der Verbindung zum Jira-Server: %{message}'
         ssrf_block_doc_link: Bitte sehen Sie sich unsere [Dokumentation](docs_url) an.
         ssrf_blocked: 'Verbindung blockiert: Der Jira-Host wird zu einer privaten IP-Adresse aufgelöst. Wenn Ihre Jira-Instanz in einem internen Netzwerk läuft, erlauben Sie ihre IP über die OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST Umgebungsvariable.'
+        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
       columns:
         added: Hinzugefügt
         creator: Ersteller
@@ -3286,6 +3289,7 @@ de:
         field_set: "%{field} auf %{value} gesetzt"
         field_updated: "%{field} aktualisiert"
         header: Änderungen durch %{author}
+        migrated: from Jira
         set_with_diff: "%{field} gesetzt (%{link})"
       meeting_cancelled: "(abgesagt)"
       meeting_deleted: "(gelöscht)"
@@ -5427,7 +5431,7 @@ de:
     wizard:
       create_artifact_storage_error: Artefakt konnte nicht im Dateispeicher gespeichert werden
       create_artifact_work_package_error: Arbeitspaket für das Artefakt der Anfrage konnte nicht erstellt werden
-      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
+      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: Für dieses Feld ist kein Hilfetext definiert.
       progress_label: "%{current} von %{total}"
       sections: Abschnitte
@@ -5618,6 +5622,16 @@ de:
     permissions:
       section_check_all_label: Alle %{module} Berechtigungen zuweisen
       section_uncheck_all_label: Alle %{module} Berechtigungen zuweisen
+    permissions_dialog:
+      edit_permissions: Edit role permissions
+      implicit_permission: Always granted
+      no_permissions: This role does not grant any permissions.
+      permission_count:
+        one: 1 permission
+        other: "%{count} permissions"
+      preview_action: View permissions
+      preview_aria_label: View the permissions of %{role}
+      title: Permissions of "%{name}"
     report:
       matrix_caption: Berechtigungsmatrix für das Modul %{module}
       matrix_check_all_label: Alle %{module} Berechtigungen zuweisen
@@ -6684,6 +6698,9 @@ de:
       convert_to_global_dialog:
         confirm: Convert
         text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
+
+          '
+        workflow_text: 'Its workflow "%{name}" belongs to this project and becomes global as well.
 
           '
       convert_to_global_notice: "%{name} is now a global variant."

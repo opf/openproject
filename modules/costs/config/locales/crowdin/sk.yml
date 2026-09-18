@@ -298,6 +298,10 @@ sk:
   permission_edit_rates: Úprava sadzieb
   permission_log_costs: Zaúčtovať jednotkové náklady
   permission_log_own_costs: Zaúčtovať vlastné jednotkové náklady
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: Zobraziť zaúčtované náklady
   permission_view_cost_rates: Zobraziť nákladové sadzby
   permission_view_hourly_rates: Zobraziť všetky hodinové sadzby

@@ -811,10 +811,10 @@ pt-BR:
         fallback_list_name: outra lista
         move_failed_check_position: Falha ao mover. Verifique a posição atual do item.
         move_failed_check_positions_batch:
-          other: Move failed. Check the items' current positions.
+          other: Falha ao Mover. Verifique as posições atuais dos itens.
         move_failed_rolled_back: Falha ao mover. %{label} retornou à sua posição anterior.
         move_failed_rolled_back_batch:
-          other: Move failed. %{count} items returned to their previous positions.
+          other: Falha ao mover. %{count} itens retornaram para suas posições anteriores.
         moved: "%{label} foi movido para a posição %{position} de %{total}"
         moved_batch:
           other: "%{count} items moved to positions %{first} through %{last} of %{total}"

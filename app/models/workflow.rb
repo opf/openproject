@@ -29,6 +29,8 @@
 #++
 
 class Workflow < ApplicationRecord
+  belongs_to :project, optional: true
+
   has_many :type_variants, dependent: :restrict_with_error, inverse_of: :workflow
   has_many :status_transitions,
            class_name: "Workflows::StatusTransition",
@@ -36,4 +38,11 @@ class Workflow < ApplicationRecord
            dependent: :delete_all
 
   validates :name, presence: true, length: { maximum: 255 }
+
+  scope :global, -> { where(project_id: nil) }
+  scope :project_owned, -> { where.not(project_id: nil) }
+  scope :owned_by, ->(project) { where(project:) }
+  scope :available_in, ->(project) { where(project: [nil, project]) }
+
+  def project_specific? = project_id.present?
 end

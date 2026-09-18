@@ -298,6 +298,10 @@ uk:
   permission_edit_rates: Редагувати ставки
   permission_log_costs: Книжкова одиниця витрат
   permission_log_own_costs: Книга одиничних витрат для себе
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: Переглянути замовлені витрати
   permission_view_cost_rates: Переглянути тарифи на витрати
   permission_view_hourly_rates: Переглянути всі погодинні тарифи

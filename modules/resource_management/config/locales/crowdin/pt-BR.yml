@@ -3,7 +3,7 @@ pt-BR:
   activerecord:
     attributes:
       placeholder_user:
-        user_filter: Filter criteria
+        user_filter: Critérios de filtragem
       resource_allocation:
         allocated_hours: Horas
         allocated_time: Tempo alocado
@@ -11,7 +11,7 @@ pt-BR:
         end_date: Data de término
         entity: Entidade
         placeholder_or_user: Responsável
-        placeholder_user: Placeholder user
+        placeholder_user: Usuário substituto
         principal: Atribuição
         start_date: Data de início
         state: Estado

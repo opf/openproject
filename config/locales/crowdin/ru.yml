@@ -905,6 +905,8 @@ ru:
               would_create_cycle: объединит эти конфигурации в цикл.
             variant:
               must_belong_to_the_type: должен быть вариантом данного типа.
+            workflow:
+              not_available_to_this_variant: must be a workflow this project can use.
             workflows_source_id:
               must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: объединит эти конфигурации в цикл.
@@ -1721,6 +1723,7 @@ ru:
         ssl_error: 'Ошибка SSL при подключении к серверу Jira: %{message}'
         ssrf_block_doc_link: Пожалуйста, ознакомьтесь с нашей [документацией](docs_url).
         ssrf_blocked: 'Соединение заблокировано: хост Jira резолвится в частный IP-адрес. Если ваш экземпляр Jira работает во внутренней сети, добавьте его IP-адрес в список разрешенных через переменную среды OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
+        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
       columns:
         added: Добавлено
         creator: Автор
@@ -3578,6 +3581,7 @@ ru:
         field_set: "%{field} установлено в %{value}"
         field_updated: "%{field} обновлено"
         header: изменения %{author}
+        migrated: from Jira
         set_with_diff: "%{field} установлено (%{link})"
       meeting_cancelled: "(отменена)"
       meeting_deleted: "(удалена)"
@@ -5747,7 +5751,7 @@ ru:
     wizard:
       create_artifact_storage_error: Не удалось сохранить артефакт в хранилище файлов
       create_artifact_work_package_error: Не удалось создать пакет работ артефакта
-      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
+      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: Для этого атрибута не определен текст справки.
       progress_label: "%{current} из %{total}"
       sections: Разделы
@@ -5940,6 +5944,18 @@ ru:
     permissions:
       section_check_all_label: Назначьте все разрешения %{module}
       section_uncheck_all_label: Отменить все разрешения %{module}
+    permissions_dialog:
+      edit_permissions: Edit role permissions
+      implicit_permission: Always granted
+      no_permissions: This role does not grant any permissions.
+      permission_count:
+        one: 1 permission
+        few: "%{count} permissions"
+        many: "%{count} permissions"
+        other: "%{count} permissions"
+      preview_action: View permissions
+      preview_aria_label: View the permissions of %{role}
+      title: Permissions of "%{name}"
     report:
       matrix_caption: Матрица разрешений для модуля %{module}
       matrix_check_all_label: Назначьте все разрешения %{module} всем ролям
@@ -7007,6 +7023,9 @@ ru:
       convert_to_global_dialog:
         confirm: Convert
         text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
+
+          '
+        workflow_text: 'Its workflow "%{name}" belongs to this project and becomes global as well.
 
           '
       convert_to_global_notice: "%{name} is now a global variant."

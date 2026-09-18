@@ -45,6 +45,10 @@ end
 FactoryBot.define do
   factory :named_workflow, class: "Workflow" do
     sequence(:name) { |n| "Workflow #{n}" }
+
+    factory :project_owned_workflow do
+      project
+    end
   end
 
   factory :workflow, parent: :status_transition, class: "Workflows::StatusTransition" do

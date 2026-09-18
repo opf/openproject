@@ -51,7 +51,6 @@ ja:
     commit: コミット
     gitlab: GitLab識別子
     gitlab_avatar_url: アバターURL
-    gitlab_email: GitLabメールアドレス
     gitlab_html_url: GitLab HTML URL
     gitlab_merge_request: マージ・リクエスト
     gitlab_name: GitLab名

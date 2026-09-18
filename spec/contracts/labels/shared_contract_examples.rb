@@ -27,25 +27,35 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
 
-module Documents
-  class ListComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
+require "spec_helper"
 
-    alias_method :documents, :model
+RSpec.shared_examples_for "label contract" do
+  let(:locked_user) { create(:admin, status: User.statuses[:locked]) }
 
-    options :project
+  it_behaves_like "contract is valid"
 
-    private
+  context "when name is blank" do
+    before { label.name = "" }
 
-    def document_row_css_id(document)
-      helpers.dom_id document
-    end
+    it_behaves_like "contract is invalid", name: :blank
+  end
 
-    def can_add_documents?
-      User.current.allowed_in_project?(:manage_documents, project)
-    end
+  context "when name is too long" do
+    before { label.name = "a" * 256 }
+
+    it_behaves_like "contract is invalid", name: :too_long
+  end
+
+  context "when name is already taken" do
+    before { create(:label, name: label.name.upcase) }
+
+    it_behaves_like "contract is invalid", name: :taken
+  end
+
+  context "when the acting user is locked" do
+    let(:contract) { described_class.new(label, locked_user) }
+
+    it_behaves_like "contract user is unauthorized"
   end
 end

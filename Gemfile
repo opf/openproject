@@ -50,7 +50,7 @@ gem "connection_pool", "~> 3.0.2"
 
 gem "rdoc", ">= 2.4.2"
 
-gem "doorkeeper", "~> 5.9.6"
+gem "doorkeeper", "~> 5.9.7"
 gem "omniauth", "~> 2.1"
 gem "omniauth-rails_csrf_protection", "~> 2.0"
 gem "request_store", "~> 1.7.0"
@@ -384,7 +384,7 @@ group :development, :test do
 end
 
 # API gems
-gem "grape", "~> 3.3.5"
+gem "grape", "~> 4.0.1"
 gem "grape_logging", "~> 3.0.0"
 gem "roar", "~> 1.2.0"
 

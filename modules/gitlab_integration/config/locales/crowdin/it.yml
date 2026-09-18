@@ -55,7 +55,6 @@ it:
     commit: Applica
     gitlab: Identificatore di GitLab
     gitlab_avatar_url: URL dell'avatar
-    gitlab_email: E-mail di GitLab
     gitlab_html_url: URL HTML di GitLab
     gitlab_merge_request: Richiesta di merge
     gitlab_name: Nome di GitLab

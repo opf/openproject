@@ -3,15 +3,15 @@ fa:
   activerecord:
     attributes:
       placeholder_user:
-        user_filter: Filter criteria
+        user_filter: معیارهای فیلتر
       resource_allocation:
         allocated_hours: ساعت‌ها
         allocated_time: زمان تخصیص‌یافته
         date_range: تاریخ‌ها
         end_date: تاریخ پایان
         entity: موجودیت
-        placeholder_or_user: Assignee
-        placeholder_user: Placeholder user
+        placeholder_or_user: مسئول
+        placeholder_user: کاربر فرضی
         principal: مسئول انجام
         start_date: تاریخ شروع
         state: حالت
@@ -90,11 +90,11 @@ fa:
       unfavorite: حذف از موارد دلخواه
     allocate_resource_dialog:
       criteria:
-        empty: No criteria set.
-        label: Criteria
+        empty: هیچ معیاری تعیین نشده است.
+        label: معیارها
       missing_working_hours:
-        none: The selected user has no working hours configured for these dates, so they are counted as having no capacity.
-        partial: The selected user has no working hours configured for %{dates}, so those days are counted as having no capacity.
+        none: کاربر انتخاب‌شده برای این تاریخ‌ها هیچ ساعت کاری پیکربندی‌شده‌ای ندارد، بنابراین فاقد ظرفیت در نظر گرفته می‌شود.
+        partial: کاربر انتخاب‌شده برای %{dates} هیچ ساعت کاری پیکربندی‌شده‌ای ندارد، بنابراین آن روزها فاقد ظرفیت در نظر گرفته می‌شوند.
       outside_dates:
         description: تاریخ‌های انتخاب‌شدهٔ منبع، %{resource_dates}، خارج از بازهٔ تاریخ‌های بستهٔ کاری، %{work_package_dates}، هستند.
       overbooking:
@@ -141,8 +141,8 @@ fa:
           label: انتخاب دستی
       title: پیکربندی نما
     create_placeholder_user_dialog:
-      submit: Create
-      title: Create placeholder user
+      submit: ایجاد
+      title: ایجاد کاربر فرضی
     edit_allocation_dialog:
       submit: ذخیره
       success_message: تخصیص منبع به‌روزرسانی شد.

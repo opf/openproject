@@ -280,6 +280,10 @@ de:
   permission_edit_rates: Stundensätze editieren
   permission_log_costs: Stückkosten buchen
   permission_log_own_costs: Eigene Stückkosten buchen
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: Gebuchte Kosten ansehen
   permission_view_cost_rates: Stückkosten ansehen
   permission_view_hourly_rates: Alle Stundensätze ansehen
