@@ -129,13 +129,11 @@ describe('ProjectTimelineGraphComponent', () => {
   };
 
   let fixture:ComponentFixture<ProjectTimelineGraphComponent>;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  let component:ProjectTimelineGraphComponent;
 
   let buildData:(phases:unknown[], milestones:unknown[], sprints:unknown[]) => { items:ProjectTimelineItem[]; groups:{ id:string; content:string }[] };
   let tooltipTemplate:(item:ProjectTimelineItem) => HTMLElement|string;
   let popoverTemplate:(view:TooltipView) => TemplateResult;
-  let buildAccessibleItems:(phases:unknown[], milestones:unknown[], sprints:unknown[]) => { id:string; text:string }[];
+  let buildAccessibleItems:(phases:unknown[], milestones:unknown[], sprints:unknown[]) => { id:string; text:string; href?:string }[];
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -148,7 +146,6 @@ describe('ProjectTimelineGraphComponent', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(ProjectTimelineGraphComponent);
-    component = fixture.componentInstance;
 
     // Set required inputs before detectChanges triggers ngAfterViewInit
     fixture.componentRef.setInput('phasesData', '[]');
@@ -596,13 +593,17 @@ describe('ProjectTimelineGraphComponent', () => {
 
     it('creates screen reader text for milestones', () => {
       expect(buildAccessibleItems([], [milestone], [])).toEqual([
-        { id: 'milestone-10', text: 'Milestone Launch: 2024-06-30' },
+        { id: 'milestone-10', text: 'Milestone Launch: 2024-06-30', href: '/work_packages/10' },
       ]);
     });
 
     it('creates screen reader text for sprints', () => {
       expect(buildAccessibleItems([], [], [sprint])).toEqual([
-        { id: 'sprint-20', text: 'Sprint Sprint 1: 2024-01-01 to 2024-01-14. Status: Active' },
+        {
+          id: 'sprint-20',
+          text: 'Sprint Sprint 1: 2024-01-01 to 2024-01-14. Status: Active',
+          href: sprint.href,
+        },
       ]);
     });
 
@@ -621,7 +622,7 @@ describe('ProjectTimelineGraphComponent', () => {
     it('does not render an empty screen reader list', () => {
       const element = fixture.nativeElement as HTMLElement;
 
-      expect(element.querySelector('ul.sr-only')).toBeNull();
+      expect(element.querySelector('ul.op-project-timeline-graph--accessible-list')).toBeNull();
     });
 
     it('renders screen reader text and hides the visual graph from assistive technology', () => {
@@ -630,19 +631,48 @@ describe('ProjectTimelineGraphComponent', () => {
 
       const element = fixture.nativeElement as HTMLElement;
       expect(element.querySelector('.op-project-timeline-graph')?.getAttribute('aria-hidden')).toBe('true');
-      expect(element.querySelector('ul.sr-only')?.textContent).toContain('Phase Build: 2024-04-01 to 2024-06-30');
-      expect(element.querySelector('ul.sr-only')?.textContent).toContain('Phase gate Build Start: 2024-04-01');
-      expect(element.querySelector('ul.sr-only')?.textContent).toContain('Phase gate Build End: 2024-06-30');
+      expect(element.querySelector('.op-project-timeline-graph--accessible-list')?.textContent).toContain('Phase Build: 2024-04-01 to 2024-06-30');
+      expect(element.querySelector('.op-project-timeline-graph--accessible-list')?.textContent).toContain('Phase gate Build Start: 2024-04-01');
+      expect(element.querySelector('.op-project-timeline-graph--accessible-list')?.textContent).toContain('Phase gate Build End: 2024-06-30');
     });
 
-    it('renders milestone and sprint screen reader text', () => {
+    it('renders milestone and sprint screen reader links', () => {
       fixture.componentRef.setInput('milestonesData', JSON.stringify([milestone]));
       fixture.componentRef.setInput('sprintsData', JSON.stringify([sprint]));
       fixture.detectChanges();
 
-      const text = (fixture.nativeElement as HTMLElement).querySelector('ul.sr-only')?.textContent;
-      expect(text).toContain('Milestone Launch: 2024-06-30');
-      expect(text).toContain('Sprint Sprint 1: 2024-01-01 to 2024-01-14. Status: Active');
+      const links = (fixture.nativeElement as HTMLElement).querySelectorAll<HTMLAnchorElement>('.op-project-timeline-graph--accessible-list a');
+      expect(links).toHaveLength(2);
+      expect(links[0].classList).toContain('show-on-focus');
+      expect(links[0].textContent).toBe('Sprint Sprint 1: 2024-01-01 to 2024-01-14. Status: Active');
+      expect(links[0].getAttribute('href')).toBe(sprint.href);
+      expect(links[1].textContent).toBe('Milestone Launch: 2024-06-30');
+      expect(links[1].getAttribute('href')).toBe('/work_packages/10');
+
+      links[0].focus();
+      expect(document.activeElement).toBe(links[0]);
+      expect(getComputedStyle(links[0]).width).not.toBe('1px');
+    });
+
+    it('highlights the visual item related to a focused accessible link', async () => {
+      fixture.componentRef.setInput('milestonesData', JSON.stringify([milestone]));
+      fixture.componentRef.setInput('sprintsData', JSON.stringify([sprint]));
+      fixture.detectChanges();
+
+      const element = fixture.nativeElement as HTMLElement;
+      await vi.waitUntil(() => {
+        fixture.detectChanges();
+        return element.querySelector('[data-id="sprint-20"]') !== null;
+      });
+
+      const sprintLink = element.querySelector<HTMLAnchorElement>(`a[href="${sprint.href}"]`)!;
+      const sprintItem = element.querySelector<HTMLElement>('[data-id="sprint-20"]')!;
+
+      sprintLink.focus();
+      expect(sprintItem.classList).toContain('op-timeline-item-focus');
+
+      sprintLink.blur();
+      expect(sprintItem.classList).not.toContain('op-timeline-item-focus');
     });
 
     it('hides the loading skeleton once the initial draw completes', async () => {
