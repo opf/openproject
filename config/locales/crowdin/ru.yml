@@ -1630,6 +1630,8 @@ ru:
         main-menu-bg-selected-background: Главное меню при выборе
         primary-button-color: Основная кнопка
       custom_colors: Настроить цвета
+      default_colors:
+        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
       edit_color: Edit %{color}
       fonts:
         file_is_invalid: не является действительным файлом шрифта TTF.
@@ -1706,6 +1708,7 @@ ru:
         ssl_error: 'Ошибка SSL при подключении к серверу Jira: %{message}'
         ssrf_block_doc_link: Пожалуйста, ознакомьтесь с нашей [документацией](docs_url).
         ssrf_blocked: 'Соединение заблокировано: хост Jira резолвится в частный IP-адрес. Если ваш экземпляр Jira работает во внутренней сети, добавьте его IP-адрес в список разрешенных через переменную среды OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
+        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
       columns:
         added: Добавлено
         creator: Автор
@@ -3497,16 +3500,16 @@ ru:
     blocks:
       community: OpenProject сообщество
       new_features:
-        '17_8':
+        '17_9':
           new_features_list:
-            line_0: Действия с использованием ИИ в отношении пакетов работ, комментариев и взаимодействия с MCP-сервером (тарифный план «Professional»).
-            line_1: Несколько целевых версий для пакетов работ.
-            line_2: Общие ограничения и правила ввода данных о рабочем времени (тарифный план «Professional»).
-            line_3: Усовершенствования в рамках методологии Agile, касающиеся массового редактирования и перетаскивания карточек из списка задач в сторонние приложения.
-            line_4: Вики-макросы, доступные в большем числе текстовых редакторов.
-            line_5: Улучшен поиск идентификаторов пакетов работ.
-            line_6: 'Выпущено для сообщества: отображение связей в таблицах пакетов работ.'
-          new_features_title: 'В данном выпуске представлены различные новые функции и улучшения, в частности:
+            line_0: Create work packages directly in Documents.
+            line_1: Search and filter work packages in Backlogs.
+            line_2: Choose whether to keep descendants when deleting a work package.
+            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
+            line_4: Enter planned labor in hours, days, weeks, or months.
+            line_5: See the import progress when using the Jira Migrator.
+            line_6: Use Date alerts in the Community Edition.
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Читайте о новых возможностях и обновлениях продуктов.
@@ -3552,6 +3555,7 @@ ru:
         field_set: "%{field} установлено в %{value}"
         field_updated: "%{field} обновлено"
         header: изменения %{author}
+        migrated: from Jira
         set_with_diff: "%{field} установлено (%{link})"
       meeting_cancelled: "(отменена)"
       meeting_deleted: "(удалена)"
@@ -5712,7 +5716,7 @@ ru:
     wizard:
       create_artifact_storage_error: Не удалось сохранить артефакт в хранилище файлов
       create_artifact_work_package_error: Не удалось создать пакет работ артефакта
-      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
+      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: Для этого атрибута не определен текст справки.
       progress_label: "%{current} из %{total}"
       sections: Разделы
@@ -6652,6 +6656,8 @@ ru:
     getting_started: Приступая к работе
     help_and_support: Помощь и поддержка
   total_progress: Общий прогресс
+  tree_view:
+    label_empty_sub_tree: No items
   types:
     creation_wizard:
       add_variant: Add a variant to %{name}

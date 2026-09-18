@@ -1414,6 +1414,8 @@ pt-BR:
         main-menu-bg-selected-background: Menu principal quando selecionado
         primary-button-color: Botão primário
       custom_colors: Cores personalizadas
+      default_colors:
+        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
       edit_color: Editar %{color}
       fonts:
         file_is_invalid: não é um arquivo de fonte TTF válido.
@@ -1490,6 +1492,7 @@ pt-BR:
         ssl_error: 'Erro de SSL ao conectar ao servidor Jira: %{message}'
         ssrf_block_doc_link: Consulte nossa [documentação](docs_url).
         ssrf_blocked: 'Conexão bloqueada: o host do Jira resolve para um endereço IP privado. Se a sua instância do Jira estiver em uma rede interna, permita o IP na variável de ambiente OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
+        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
       columns:
         added: Adicionado
         creator: Criador
@@ -3205,16 +3208,16 @@ pt-BR:
     blocks:
       community: Comunidade do OpenProject
       new_features:
-        '17_8':
+        '17_9':
           new_features_list:
-            line_0: Ações assistidas por IA em pacotes de trabalho, comentários e relações com o servidor MCP (plano Professional).
-            line_1: Várias versões de destino para pacotes de trabalho.
-            line_2: Limites e restrições globais para lançamentos de horas (plano Professional).
-            line_3: Melhorias ágeis para edição em massa e arraste de cartões de Backlogs para aplicativos externos.
-            line_4: Macros de wiki disponíveis em mais editores de texto.
-            line_5: Pesquisa aprimorada de identificadores de pacotes de trabalho.
-            line_6: 'Lançado para a Community: exibição de relações nas tabelas de pacotes de trabalho.'
-          new_features_title: 'A versão contém vários novos recursos e melhorias, como:
+            line_0: Create work packages directly in Documents.
+            line_1: Search and filter work packages in Backlogs.
+            line_2: Choose whether to keep descendants when deleting a work package.
+            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
+            line_4: Enter planned labor in hours, days, weeks, or months.
+            line_5: See the import progress when using the Jira Migrator.
+            line_6: Use Date alerts in the Community Edition.
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Leia sobre novos recursos e atualizações do produto.
@@ -3260,6 +3263,7 @@ pt-BR:
         field_set: "%{field} definido como %{value}"
         field_updated: "%{field} atualizado"
         header: alterações por %{author}
+        migrated: from Jira
         set_with_diff: "%{field} definido (%{link})"
       meeting_cancelled: "(cancelado)"
       meeting_deleted: "(excluído)"
@@ -5386,7 +5390,7 @@ pt-BR:
     wizard:
       create_artifact_storage_error: Falha ao armazenar o artefato no armazenamento de arquivos
       create_artifact_work_package_error: Falha ao criar o pacote de trabalho do artefato
-      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
+      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: Nenhum texto de ajuda definido para este atributo.
       progress_label: "%{current} de %{total}"
       sections: Seções
@@ -6325,6 +6329,8 @@ pt-BR:
     getting_started: Guia de introdução
     help_and_support: Ajuda e suporte
   total_progress: Progresso total
+  tree_view:
+    label_empty_sub_tree: No items
   types:
     creation_wizard:
       add_variant: Adicionar uma variante a %{name}

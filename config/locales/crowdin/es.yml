@@ -1414,6 +1414,8 @@ es:
         main-menu-bg-selected-background: Menú principal seleccionado
         primary-button-color: Botón primario
       custom_colors: Colores personalizados
+      default_colors:
+        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
       edit_color: Edit %{color}
       fonts:
         file_is_invalid: no es un archivo de fuente TTF válido.
@@ -1490,6 +1492,7 @@ es:
         ssl_error: 'Error SSL al conectarse al servidor de Jira: %{message}'
         ssrf_block_doc_link: Consulta nuestra [documentación](docs_url).
         ssrf_blocked: 'Conexión bloqueada: el servidor de Jira corresponde a una dirección IP privada. Si tu instancia de Jira se ejecuta en una red interna, permite su IP mediante la variable de entorno OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
+        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
       columns:
         added: Añadido
         creator: Creador
@@ -3201,16 +3204,16 @@ es:
     blocks:
       community: OpenProject Community
       new_features:
-        '17_8':
+        '17_9':
           new_features_list:
-            line_0: Acciones asistidas por IA en los paquetes de trabajo, los comentarios y las relaciones con el servidor MCP (plan Professional).
-            line_1: Múltiples versiones de destino para paquetes de trabajo.
-            line_2: Límites y restricciones globales para las entradas de tiempo (plan Professional).
-            line_3: Mejoras ágiles para la edición masiva y el arrastre de tarjetas de backlogs a aplicaciones externas.
-            line_4: Macros de wiki disponibles en más editores de texto.
-            line_5: Búsqueda mejorada de identificadores de paquetes de trabajo.
-            line_6: 'Publicado en la comunidad: mostrar las relaciones en las tablas de paquetes de trabajo.'
-          new_features_title: 'El lanzamiento incluye varias funciones nuevas y mejoras, tales como:
+            line_0: Create work packages directly in Documents.
+            line_1: Search and filter work packages in Backlogs.
+            line_2: Choose whether to keep descendants when deleting a work package.
+            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
+            line_4: Enter planned labor in hours, days, weeks, or months.
+            line_5: See the import progress when using the Jira Migrator.
+            line_6: Use Date alerts in the Community Edition.
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Obtenga información sobre nuevas funciones y actualizaciones de productos.
@@ -3256,6 +3259,7 @@ es:
         field_set: "%{field} configurado a %{value}"
         field_updated: "%{field} actualizado"
         header: cambios de %{author}
+        migrated: from Jira
         set_with_diff: "%{field} fijado (%{link})"
       meeting_cancelled: "(cancelado)"
       meeting_deleted: "(eliminado)"
@@ -5384,7 +5388,7 @@ es:
     wizard:
       create_artifact_storage_error: No se ha podido guardar el artefacto en el almacenamiento de archivos
       create_artifact_work_package_error: No se ha podido crear el paquete de trabajo del artefacto
-      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
+      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: Este atributo no tiene texto de ayuda definido.
       progress_label: "%{current} de %{total}"
       sections: Secciones
@@ -6330,6 +6334,8 @@ es:
     getting_started: Primeros pasos
     help_and_support: Ayuda y soporte
   total_progress: Progreso total
+  tree_view:
+    label_empty_sub_tree: No items
   types:
     creation_wizard:
       add_variant: Add a variant to %{name}

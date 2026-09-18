@@ -1306,6 +1306,8 @@ ko:
         main-menu-bg-selected-background: 선택할 때 기본 메뉴
         primary-button-color: 기본 버튼
       custom_colors: 사용자 정의 색상
+      default_colors:
+        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
       edit_color: Edit %{color}
       fonts:
         file_is_invalid: "- 유효한 TTF 글꼴 파일이 아닙니다."
@@ -1382,6 +1384,7 @@ ko:
         ssl_error: 'Jira 서버에 연결하는 동안 SSL 오류가 발생했습니다: %{message}'
         ssrf_block_doc_link: "[설명서](docs_url)를 참조하세요."
         ssrf_blocked: '연결 차단됨: Jira 호스트가 사설 IP 주소로 확인됩니다. Jira 인스턴스가 내부 네트워크에서 실행되는 경우 OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST 환경 변수를 통해 해당 IP를 허용하세요.'
+        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
       columns:
         added: 추가됨
         creator: 생성자
@@ -3078,16 +3081,16 @@ ko:
     blocks:
       community: OpenProject 커뮤니티
       new_features:
-        '17_8':
+        '17_9':
           new_features_list:
-            line_0: 작업 패키지, 코멘트 및 MCP 서버와의 관계에 대한 AI 지원 작업(Professional 플랜).
-            line_1: 작업 패키지에 대한 여러 대상 버전.
-            line_2: 시간 항목에 대한 글로벌 제한 및 제약 사항(Professional 플랜).
-            line_3: 백로그 카드를 일괄 편집하고 외부 애플리케이션으로 드래그하는 기능에 대한 애자일 개선 사항.
-            line_4: 더 많은 텍스트 편집기에서 사용 가능한 위키 매크로.
-            line_5: 작업 패키지 식별자에 대한 개선된 검색.
-            line_6: '커뮤니티에 공개됨: 작업 패키지 테이블에서 관계를 표시합니다.'
-          new_features_title: '이 릴리스에는 다음과 같은 다양한 새로운 기능과 개선 사항이 포함되어 있습니다.
+            line_0: Create work packages directly in Documents.
+            line_1: Search and filter work packages in Backlogs.
+            line_2: Choose whether to keep descendants when deleting a work package.
+            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
+            line_4: Enter planned labor in hours, days, weeks, or months.
+            line_5: See the import progress when using the Jira Migrator.
+            line_6: Use Date alerts in the Community Edition.
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: 새로운 기능 및 제품 업데이트에 대해 알아보세요.
@@ -3133,6 +3136,7 @@ ko:
         field_set: "%{field}이(가) %{value}(으)로 설정됨"
         field_updated: "%{field} 업데이트됨"
         header: "%{author} 님이 변경함"
+        migrated: from Jira
         set_with_diff: "%{field} 설정됨(%{link})"
       meeting_cancelled: "(취소됨)"
       meeting_deleted: "(삭제됨)"
@@ -5244,7 +5248,7 @@ ko:
     wizard:
       create_artifact_storage_error: 파일 저장소에 아티팩트를 저장하지 못했습니다
       create_artifact_work_package_error: 아티팩트 작업 패키지를 만들지 못했습니다
-      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
+      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: 이 특성에는 정의된 도움말 텍스트가 없습니다.
       progress_label: "%{current}/%{total}"
       sections: 섹션
@@ -6191,6 +6195,8 @@ ko:
     getting_started: 시작하기
     help_and_support: 도움말과 지원
   total_progress: 총 진행률
+  tree_view:
+    label_empty_sub_tree: No items
   types:
     creation_wizard:
       add_variant: Add a variant to %{name}

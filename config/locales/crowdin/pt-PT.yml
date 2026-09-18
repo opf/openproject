@@ -1414,6 +1414,8 @@ pt-PT:
         main-menu-bg-selected-background: Menu principal quando selecionado
         primary-button-color: Botão principal
       custom_colors: Cores personalizadas
+      default_colors:
+        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
       edit_color: Edit %{color}
       fonts:
         file_is_invalid: não é um ficheiro de tipo de letra TTF válido.
@@ -1490,6 +1492,7 @@ pt-PT:
         ssl_error: 'Erro SSL na ligação ao servidor Jira: %{message}'
         ssrf_block_doc_link: Consulte a nossa [documentação](docs_url).
         ssrf_blocked: 'Ligação bloqueada: o servidor do Jira corresponde a um endereço IP privado. Se a sua instância do Jira estiver a ser executada numa rede interna, autorize o seu IP através da variável de ambiente OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
+        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
       columns:
         added: Adicionado
         creator: Criador
@@ -3207,16 +3210,16 @@ pt-PT:
     blocks:
       community: Comunidade de OpenProject
       new_features:
-        '17_8':
+        '17_9':
           new_features_list:
-            line_0: Ações assistidas por IA relativas a pacotes de trabalho, comentários e relações com o servidor MCP (plano Professional).
-            line_1: Várias versões de destino para os pacotes de trabalho.
-            line_2: Limites e restrições globais para registos de tempo (plano Professional).
-            line_3: Melhorias Agile na edição em massa e no arrastar de cartões do Backlogs para aplicações externas.
-            line_4: As macros Wiki estão disponíveis em mais editores de texto.
-            line_5: Melhoria na pesquisa de identificadores de pacotes de trabalho.
-            line_6: 'Lançado em Community: Apresentação das relações nas tabelas de pacotes de trabalho.'
-          new_features_title: 'A versão contém várias novas funcionalidades e melhorias, como:
+            line_0: Create work packages directly in Documents.
+            line_1: Search and filter work packages in Backlogs.
+            line_2: Choose whether to keep descendants when deleting a work package.
+            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
+            line_4: Enter planned labor in hours, days, weeks, or months.
+            line_5: See the import progress when using the Jira Migrator.
+            line_6: Use Date alerts in the Community Edition.
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Leia sobre novas funcionalidades e atualizações de produtos.
@@ -3262,6 +3265,7 @@ pt-PT:
         field_set: "%{field} definido para %{value}"
         field_updated: "%{field} atualizado"
         header: alterações de %{author}
+        migrated: from Jira
         set_with_diff: "%{field} definiu (%{link})"
       meeting_cancelled: "(cancelado)"
       meeting_deleted: "(eliminado)"
@@ -5387,7 +5391,7 @@ pt-PT:
     wizard:
       create_artifact_storage_error: Erro ao armazenar artefacto no armazenamento de ficheiros
       create_artifact_work_package_error: Erro ao criar pacote de trabalho de artefacto
-      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
+      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: Este atributo não tem texto de ajuda definido.
       progress_label: "%{current} de %{total}"
       sections: Secções
@@ -6330,6 +6334,8 @@ pt-PT:
     getting_started: Por onde começar
     help_and_support: Suporte e Ajuda
   total_progress: Progresso total
+  tree_view:
+    label_empty_sub_tree: No items
   types:
     creation_wizard:
       add_variant: Add a variant to %{name}

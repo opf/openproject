@@ -1414,6 +1414,8 @@ sv:
         main-menu-bg-selected-background: Huvudmeny när vald
         primary-button-color: Primär knapp
       custom_colors: Anpassade färger
+      default_colors:
+        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
       edit_color: Edit %{color}
       fonts:
         file_is_invalid: är inte en giltig TTF-typsnittsfil.
@@ -1490,6 +1492,7 @@ sv:
         ssl_error: 'SSL-fel vid anslutning till Jira-servern: %{message}'
         ssrf_block_doc_link: Se vår [dokumentation](docs_url).
         ssrf_blocked: 'Anslutningen blockerades: Jira-värden matchar en privat IP-adress. Om Jira-instansen körs i ett internt nätverk tillåter du dess IP-adress via miljövariabeln OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
+        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
       columns:
         added: Tillagd
         creator: Skapare
@@ -3207,16 +3210,16 @@ sv:
     blocks:
       community: OpenProject community
       new_features:
-        '17_8':
+        '17_9':
           new_features_list:
-            line_0: AI-assisterade åtgärder för arbetspaket, kommentarer och relationer med MCP Server (Professional-planen).
-            line_1: Flera målversioner för arbetspaket.
-            line_2: Globala gränser och begränsningar för tidsregistreringar (Professional-planen).
-            line_3: Agila förbättringar för massredigering och dragning av backloggkort till externa program.
-            line_4: Wiki-makron tillgängliga i fler textredigerare.
-            line_5: Förbättrad sökning efter arbetspaketsidentifierare.
-            line_6: 'Släppt till Community: Visa relationer i arbetspaketstabeller.'
-          new_features_title: 'Versionen innehåller flera nya funktioner och förbättringar, till exempel:
+            line_0: Create work packages directly in Documents.
+            line_1: Search and filter work packages in Backlogs.
+            line_2: Choose whether to keep descendants when deleting a work package.
+            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
+            line_4: Enter planned labor in hours, days, weeks, or months.
+            line_5: See the import progress when using the Jira Migrator.
+            line_6: Use Date alerts in the Community Edition.
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
         header: Läs om nya funktioner och produktuppdateringar.
@@ -3262,6 +3265,7 @@ sv:
         field_set: "%{field} angavs till %{value}"
         field_updated: "%{field} uppdaterades"
         header: ändringar av %{author}
+        migrated: from Jira
         set_with_diff: "%{field} angavs (%{link})"
       meeting_cancelled: "(avbruten)"
       meeting_deleted: "(borttagen)"
@@ -5389,7 +5393,7 @@ sv:
     wizard:
       create_artifact_storage_error: Det gick inte att lagra artefakten i fillagringen
       create_artifact_work_package_error: Det gick inte att skapa artefaktens arbetspaket
-      no_attributes: This project has no project attributes enabled for the wizard. Please enable at least one in the project settings.
+      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: Det finns ingen hjälptext definierad för det här attributet.
       progress_label: "%{current} av %{total}"
       sections: Avsnitt
@@ -6329,6 +6333,8 @@ sv:
     getting_started: Komma igång
     help_and_support: Hjälp och support
   total_progress: Totalt klart
+  tree_view:
+    label_empty_sub_tree: No items
   types:
     creation_wizard:
       add_variant: Lägg till en variant till %{name}
