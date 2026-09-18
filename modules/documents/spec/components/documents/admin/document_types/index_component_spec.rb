@@ -31,65 +31,68 @@
 require "spec_helper"
 
 RSpec.describe Documents::Admin::DocumentTypes::IndexComponent, type: :component do
-  let!(:first_type) { create(:document_type, name: "Note") }
-  let!(:second_type) { create(:document_type, name: "Report") }
-
   subject(:rendered_component) do
     with_request_url("/admin/settings/document_types") do
       render_inline(described_class.new(enumerations: DocumentType.reorder(:position)))
     end
   end
 
-  it "wires the wrapper as the sortable-lists root", :aggregate_failures do
-    root = rendered_component.at_css("#documents-admin-document-types-index-component")
+  let!(:note) { create(:document_type, name: "Note") }
+  let!(:report) { create(:document_type, name: "Report") }
 
-    expect(root["data-controller"]).to eq("sortable-lists")
-    expect(root["data-sortable-lists-move-url-template-value"])
-      .to eq("/admin/settings/document_types/{id}/move")
+  it "keeps the wrapper the move response morphs" do
+    expect(rendered_component).to have_css("#documents-admin-document-types-index-component")
   end
 
-  it "wires the border box as the sortable list", :aggregate_failures do
+  it "keeps the sortable root on the wrapper, which the morph never replaces", :aggregate_failures do
+    wrapper = rendered_component.at_css("#documents-admin-document-types-index-component")
+
+    expect(wrapper["data-controller"]).to eq("sortable-lists")
+    expect(wrapper["data-sortable-lists-move-url-template-value"])
+      .to eq("/admin/settings/document_types/{id}/move")
+    expect(wrapper["data-sortable-lists-sortable-lists--list-outlet"])
+      .to eq("#documents-admin-document-types-index-component [data-controller~='sortable-lists--list']")
+    expect(wrapper["data-sortable-lists-sortable-lists--item-outlet"])
+      .to eq("#documents-admin-document-types-index-component [data-controller~='sortable-lists--item']")
+  end
+
+  it "resolves both outlets inside the wrapper", :aggregate_failures do
+    expect(rendered_component)
+      .to have_css("#documents-admin-document-types-index-component [data-controller~='sortable-lists--list']",
+                   count: 1)
+    expect(rendered_component)
+      .to have_css("#documents-admin-document-types-index-component [data-controller~='sortable-lists--item']",
+                   count: 2)
+  end
+
+  it "sets the rows container the list controller must use" do
     list = rendered_component.at_css("[data-controller~='sortable-lists--list']")
 
-    expect(list["data-sortable-lists--list-type-value"]).to eq("document_type")
-    expect(list["data-sortable-lists--list-accepted-type-value"]).to eq("document_type")
-    expect(list["data-sortable-lists--list-name-value"])
-      .to eq(DocumentType.model_name.human(count: :other))
+    expect(list["data-sortable-lists--list-rows-container-element"]).to eq(":scope > .op-border-box-table--rows")
   end
 
-  # border_box_container renders a Primer BorderBox, whose rows land in a
-  # direct `ul` child, which is the list controller's default rows container.
-  it "keeps the rows in the list controller's default rows container" do
-    expect(rendered_component)
-      .to have_css("[data-controller~='sortable-lists--list'] > ul.Box-list > li.Box-row", count: 2)
+  it "offers adding a document type above the list" do
+    expect(rendered_component).to have_test_selector("add-document-type-button")
   end
 
-  it "does not override the rows container selector" do
-    expect(rendered_component).to have_no_css("[data-sortable-lists--list-rows-container-element]")
+  it "renders the document types in the shared table", :aggregate_failures do
+    expect(rendered_component).to have_css("#document-types-table[role='table']")
+    expect(rendered_component).to have_css(".op-border-box-table--rows > .Box-row", count: 2)
+    expect(rendered_component).to have_css(".Box-row", text: "Note")
+    expect(rendered_component).to have_css(".Box-row", text: "Report")
   end
 
-  it "wires every row as a sortable item", :aggregate_failures do
-    [first_type, second_type].each do |document_type|
-      row = rendered_component.at_css(".Box-row[data-sortable-lists--item-id-value='#{document_type.id}']")
-
-      expect(row["data-controller"]).to eq("sortable-lists--item")
-      expect(row["data-sortable-lists--item-type-value"]).to eq("document_type")
-      expect(row["data-sortable-lists--item-label-value"]).to eq(document_type.name)
-    end
+  it "drops the bespoke grid and its markup", :aggregate_failures do
+    expect(rendered_component).to have_no_css(".op-documents-types-list--header")
+    expect(rendered_component).to have_no_css(".op-documents-types-list--item")
   end
 
-  it "targets each drag handle for the item controller" do
-    expect(rendered_component)
-      .to have_css(".DragHandle[data-sortable-lists--item-target~='handle']", count: 2, visible: :all)
-  end
+  it "leaves the list wiring to the table container", :aggregate_failures do
+    wrapper = rendered_component.at_css("#documents-admin-document-types-index-component")
+    container = rendered_component.at_css("#document-types-table")
 
-  it "keeps the two-column grid" do
-    expect(rendered_component).to have_css(".op-documents-types-list--header", visible: :all)
-    expect(rendered_component).to have_css(".op-documents-types-list--item", count: 2, visible: :all)
-  end
-
-  it "no longer wires the legacy drag-and-drop controller", :aggregate_failures do
-    expect(rendered_component).to have_no_css("[data-controller~='generic-drag-and-drop']")
-    expect(rendered_component).to have_no_css("[data-drop-url]")
+    expect(wrapper["data-sortable-lists--list-type-value"]).to be_nil
+    expect(container["data-controller"]).to eq("sortable-lists--list")
+    expect(container["data-sortable-lists--list-type-value"]).to eq("document_type")
   end
 end

@@ -35,8 +35,8 @@ RSpec.describe "Document types admin", :js do
 
   current_user { create(:admin) }
 
-  def within_enumeration_item(type, &)
-    page.within("#documents-admin-document-types-item-component-#{type.id}", &)
+  def within_document_type_row(type, &)
+    page.within("#document-type-#{type.id}", &)
   end
 
   context "when managing document types" do
@@ -45,7 +45,7 @@ RSpec.describe "Document types admin", :js do
     it "can be managed (created, updated, deleted)" do
       visit admin_settings_document_types_path
 
-      within_enumeration_item(default_document_type) do
+      within_document_type_row(default_document_type) do
         expect(page).to have_content("Note")
         expect(page).to have_content("Default")
       end
@@ -66,13 +66,13 @@ RSpec.describe "Document types admin", :js do
       new_document_type = DocumentType.last
 
       # The new document type is shown in the list as the default document type
-      within_enumeration_item(new_document_type) do
+      within_document_type_row(new_document_type) do
         expect(page).to have_content("Documentation")
         expect(page).to have_content("Default")
       end
 
       # Since the new document type is now the default, the former default looses that flag
-      within_enumeration_item(default_document_type) do
+      within_document_type_row(default_document_type) do
         expect(page).to have_content("Note")
         expect(page).to have_no_content("Default")
       end
@@ -87,7 +87,7 @@ RSpec.describe "Document types admin", :js do
 
       expect_and_dismiss_flash(message: "Successful update.")
 
-      within_enumeration_item(new_document_type) do
+      within_document_type_row(new_document_type) do
         expect(page).to have_content("Report")
         expect(page).to have_content("Default")
       end
@@ -96,7 +96,7 @@ RSpec.describe "Document types admin", :js do
       expect(DocumentType).not_to exist(name: "Documentation")
 
       # It allows deleting document types
-      within_enumeration_item(new_document_type) do
+      within_document_type_row(new_document_type) do
         click_on accessible_name: "Document type actions"
         click_on("Delete")
       end
@@ -114,7 +114,7 @@ RSpec.describe "Document types admin", :js do
       expect(page).to have_no_content("Report")
 
       # Since the old default is deleted another is now the default.
-      within_enumeration_item(default_document_type) do
+      within_document_type_row(default_document_type) do
         expect(page).to have_content("Note")
         expect(page).to have_no_content("Default")
       end
@@ -130,7 +130,7 @@ RSpec.describe "Document types admin", :js do
     it "reassigns documents when deleting a document type" do
       visit admin_settings_document_types_path
 
-      within_enumeration_item(type_with_documents) do
+      within_document_type_row(type_with_documents) do
         click_on accessible_name: "Document type actions"
         click_on("Delete")
       end
@@ -149,12 +149,12 @@ RSpec.describe "Document types admin", :js do
       expect(DocumentType).not_to exist(name: "Type with documents")
       expect(document.reload.type).to eq another_type
 
-      within_enumeration_item(another_type) do
+      within_document_type_row(another_type) do
         expect(page).to have_test_selector("documents-count", text: "1")
       end
 
       # It allows deleting unused document types
-      within_enumeration_item(unused_type) do
+      within_document_type_row(unused_type) do
         click_on accessible_name: "Document type actions"
         click_on("Delete")
       end
@@ -172,7 +172,7 @@ RSpec.describe "Document types admin", :js do
       expect(DocumentType).not_to exist(name: "Unused type")
 
       # Last remaining type cannot be deleted
-      within_enumeration_item(another_type) do
+      within_document_type_row(another_type) do
         click_on accessible_name: "Document type actions"
         click_on("Delete")
       end
@@ -207,7 +207,7 @@ RSpec.describe "Document types admin", :js do
 
       wait_for { document_type_names_in_order }.to eq(%w[Alpha Beta Gamma])
 
-      within_enumeration_item(gamma) do
+      within_document_type_row(gamma) do
         click_on accessible_name: "Document type actions"
       end
       click_on I18n.t(:button_move)
@@ -229,7 +229,7 @@ RSpec.describe "Document types admin", :js do
     it "shows a single separator (no duplicate) in the more menu" do
       visit admin_settings_document_types_path
 
-      within_enumeration_item(only_type) do
+      within_document_type_row(only_type) do
         click_on accessible_name: "Document type actions"
       end
 
