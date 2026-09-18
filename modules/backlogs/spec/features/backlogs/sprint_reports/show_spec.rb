@@ -71,25 +71,54 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
     end
   end
 
-  describe "widget area", with_ee: %i[sprint_report_pro_widgets] do
+  describe "widget area" do
+    let(:core_widgets) do
+      [
+        [:text, "Add sprint goal widget"],
+        [:text, "Work packages within the sprint"],
+        [:css, "opce-wp-overview-graph"],
+        [:css, "opce-burndown-chart"]
+      ]
+    end
+
+    let(:pro_widgets) do
+      [
+        [:text, "Completed work packages"],
+        [:text, "Unfinished work packages"],
+        [:text, "Sprint scope increase"],
+        [:text, "Sprint scope decrease"]
+      ]
+    end
+
     before { visit_sprint_report }
 
-    let(:widget_boxes) { page.all(".widget-boxes .widget-box", minimum: 3) }
+    shared_examples "sprint report widgets" do
+      let(:widget_boxes) { page.all(".widget-boxes .widget-box", count: expected_widgets.count) }
 
-    it "renders the sprint goal widget first" do
-      expect(widget_boxes[0]).to have_text("Add sprint goal widget")
+      it "renders the widgets in order", :aggregate_failures do
+        expected_widgets.each_with_index do |(matcher, expected), index|
+          expect(widget_boxes[index]).to send("have_#{matcher}", expected)
+        end
+      end
     end
 
-    it "renders the work package overview widget second" do
-      expect(widget_boxes[1]).to have_text("Work packages within the sprint")
+    context "without enterprise token" do
+      let(:expected_widgets) { core_widgets }
+
+      it_behaves_like "sprint report widgets"
     end
 
-    it "renders the work package graph widget third" do
-      expect(widget_boxes[2]).to have_css("opce-wp-overview-graph")
+    context "with baseline_comparison", with_ee: :baseline_comparison do
+      let(:expected_widgets) { core_widgets }
+
+      it_behaves_like "sprint report widgets"
     end
 
-    it "renders the burndown chart widget fourth" do
-      expect(widget_boxes[3]).to have_css("opce-burndown-chart")
+    context "with baseline_comparison and sprint_report_pro_widgets",
+            with_ee: %i[baseline_comparison sprint_report_pro_widgets] do
+      let(:expected_widgets) { core_widgets + pro_widgets }
+
+      it_behaves_like "sprint report widgets"
     end
   end
 end
