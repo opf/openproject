@@ -1,5 +1,5 @@
 @if (hasChartData()) {
-  <div class="position-relative mx-auto" style="height:60vh">
+  <div class="position-relative mx-auto op-burndown-chart--canvas">
     <canvas baseChart
       [data]="lineChartData()"
       [options]="lineChartOptions()"
