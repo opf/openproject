@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,31 +26,25 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module WorkPackages::Dialogs
-  class CreateFormComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
+module WorkPackageRelationsTab
+  module UpdateResponses
+    extend ActiveSupport::Concern
 
-    attr_reader :work_package, :project
+    private
 
-    def initialize(work_package:, project:, submit_url: nil, refresh_url: nil)
-      super
+    def respond_with_relations_tab_update(service_result, message: I18n.t(:notice_successful_update), **)
+      if service_result.success?
+        @work_package.reload
+        component = WorkPackageRelationsTab::IndexComponent.new(work_package: @work_package, **)
+        replace_via_turbo_stream(component:)
+        render_success_flash_message_via_turbo_stream(message:)
 
-      @work_package = work_package
-      @project = project
-      @submit_url = submit_url
-      @refresh_url = refresh_url
-    end
-
-    def submit_url
-      @submit_url || project_work_packages_dialog_path(project)
-    end
-
-    def refresh_url
-      @refresh_url || refresh_form_project_work_packages_dialog_path(project)
+        respond_with_turbo_streams
+      else
+        respond_with_turbo_streams(status: :unprocessable_entity)
+      end
     end
   end
 end
