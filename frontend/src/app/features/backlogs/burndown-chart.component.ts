@@ -57,6 +57,11 @@ function cssVariable(name:string, fallback:string):string {
   return getComputedStyle(document.body).getPropertyValue(name).trim() || fallback;
 }
 
+// The projection continues the remaining series, so the two share a colour.
+function remainingColor():string {
+  return cssVariable('--display-red-scale-6', '#c50d28');
+}
+
 @Component({
   selector: 'op-burndown-chart',
   templateUrl: './burndown-chart.component.html',
@@ -131,17 +136,17 @@ export class BurndownChartComponent {
           order: 3,
           stepped: 'after',
           fill: true,
-          borderColor: cssVariable('--display-red-scale-6', '#cf222e'),
-          backgroundColor: cssVariable('--display-red-scale-2', '#ffebe9'),
+          borderColor: remainingColor(),
+          backgroundColor: cssVariable('--display-red-scale-2', '#fda5a7'),
           borderWidth: 2,
         };
       case 'projection':
         return {
           ...shared,
           order: 2,
-          borderColor: cssVariable('--borderColor-muted', '#d0d7de'),
+          borderColor: remainingColor(),
           borderDash: [6, 4],
-          borderWidth: 2,
+          borderWidth: 1,
         };
       default:
         return {
