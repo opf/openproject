@@ -28,8 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Menu and ordering helpers for the enumeration admin lists (priorities,
-# time entry activities, document types). Included per feature spec.
+# Menu and ordering helpers for the enumeration admin Border Box lists
+# (priorities, time entry activities). Included per feature spec.
 module EnumerationAdminHelpers
   def within_enumeration_list(&)
     page.within(enumeration_list_selector, &)
