@@ -23,39 +23,31 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::Patches::GrapeDslRouting
-  extend ActiveSupport::Concern
+class GitlabBranch < ApplicationRecord
+  belongs_to :work_package
+  belongs_to :gitlab_user, optional: true
 
-  included do
-    # Be reload safe. otherwise, an infinite loop occurs on reload.
-    unless method_defined?(:orig_namespace)
-      alias :orig_namespace :namespace
-    end
+  validates :gitlab_project_id,
+            :namespace,
+            :project_html_url,
+            :name,
+            :repository,
+            presence: true
 
-    def namespace(space = nil, **, &)
-      orig_namespace(space, **) do
-        instance_eval(&)
-        apply_patches(space)
-      end
-    end
-
-    def apply_patches(path)
-      (patches[path] || []).each do |patch|
-        instance_eval(&patch)
-      end
-    end
-
-    def patches
-      Constants::APIPatchRegistry.patches_for(self)
-    end
+  # GitLab sends no branch event and so no branch URL of its own; both are
+  # built from the project URL the push hook does carry.
+  def html_url
+    "#{project_html_url}/-/tree/#{name}"
   end
-end
 
-OpenProject::Patches.patch_gem_version "grape", "4.0.1" do
-  Grape::DSL::Routing.include OpenProject::Patches::GrapeDslRouting
+  def new_merge_request_url
+    query = { "merge_request[source_branch]" => name }.to_query
+
+    "#{project_html_url}/-/merge_requests/new?#{query}"
+  end
 end

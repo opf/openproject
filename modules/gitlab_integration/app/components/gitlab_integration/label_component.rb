@@ -23,39 +23,36 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::Patches::GrapeDslRouting
-  extend ActiveSupport::Concern
+module GitlabIntegration
+  class LabelComponent < ApplicationComponent
+    include ApplicationHelper
+    include OpPrimer::ComponentHelpers
 
-  included do
-    # Be reload safe. otherwise, an infinite loop occurs on reload.
-    unless method_defined?(:orig_namespace)
-      alias :orig_namespace :namespace
+    VALID_COLOR = /#[a-fA-F0-9]{3,6}/
+
+    attr_reader :title, :color
+
+    def initialize(title:, color:, **)
+      super(nil, **)
+
+      @title = title
+      @color = sanitize_color(color)
     end
 
-    def namespace(space = nil, **, &)
-      orig_namespace(space, **) do
-        instance_eval(&)
-        apply_patches(space)
-      end
-    end
+    private
 
-    def apply_patches(path)
-      (patches[path] || []).each do |patch|
-        instance_eval(&patch)
-      end
-    end
+    def sanitize_color(color)
+      # TODO: maybe indirectly assign colors via hl_background_class helpers and updating CSS
+      # in app/views/highlighting/styles.css.erb (requires us to enumerate all colors in use by GitLab)
+      # This would ensure contrasts of those colors always work (even #ffffff in light mode and #000000 in darkmode)
+      return color if color.match?(VALID_COLOR)
 
-    def patches
-      Constants::APIPatchRegistry.patches_for(self)
+      "#000"
     end
   end
-end
-
-OpenProject::Patches.patch_gem_version "grape", "4.0.1" do
-  Grape::DSL::Routing.include OpenProject::Patches::GrapeDslRouting
 end

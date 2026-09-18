@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -85,16 +87,23 @@ RSpec.describe "Open the Gitlab tab", :js do
       before do
         work_package_page.visit!
         work_package_page.switch_to_tab(tab: "gitlab")
+        gitlab_tab.wait_for_tab_loaded
       end
 
       it "shows the issues and merge requests associated with the work package" do
         tabs.expect_counter(gitlab_tab_element, 2)
 
-        expect(page).to have_text("A Test Issue title")
-        expect(page).to have_text("Open")
+        gitlab_tab.issues_collapse_button.click
+        within("#issues") do
+          expect(page).to have_text("A Test Issue title")
+          expect(page).to have_text("Open")
+        end
 
-        expect(page).to have_text("A Test MR title")
-        expect(page).to have_text("Pending")
+        gitlab_tab.merge_requests_collapse_button.click
+        within("#merge_requests") do
+          expect(page).to have_text("A Test MR title")
+          expect(page).to have_text("Open")
+        end
       end
 
       it "allows the user to copy the branch name to the clipboard" do
@@ -125,23 +134,39 @@ RSpec.describe "Open the Gitlab tab", :js do
       end
     end
 
-    context "when there are no merge requests or issues" do
+    context "when there are no related GitLab elements" do
       let(:pipeline) { nil }
       let(:merge_request) { nil }
       let(:issue) { nil }
 
-      it "shows the gitlab tab with an empty message" do
+      before do
         work_package_page.visit!
         work_package_page.switch_to_tab(tab: "gitlab")
+        gitlab_tab.wait_for_tab_loaded
+      end
+
+      it "shows the gitlab tab with an empty message" do
         tabs.expect_no_counter(gitlab_tab_element)
 
-        expect(page).to have_content("There are no issues linked yet.")
-        expect(page).to have_content("Link an existing issue by using the code OP##{work_package.id} " \
-                                     "(or PP##{work_package.id} for private links) in the issue title/description " \
-                                     "or create a new issue")
+        gitlab_tab.issues_collapse_button.click
+        expect(page).to have_text("No issues")
+        expect(page).to have_text("Link an existing issue by adding the code OP##{work_package.id} to " \
+                                  "the title or description.")
 
-        expect(page).to have_content("There are no merge requests")
-        expect(page).to have_content("Link an existing MR by using the code OP##{work_package.id}")
+        gitlab_tab.merge_requests_collapse_button.click
+        expect(page).to have_text("No merge requests")
+        expect(page).to have_text("Link an existing merge request by adding the code OP##{work_package.id} to " \
+                                  "the title or description.")
+
+        gitlab_tab.branches_collapse_button.click
+        expect(page).to have_text("No branches")
+        expect(page).to have_text("Link an existing branch by adding the code OP##{work_package.id} to " \
+                                  "the branch name.")
+
+        gitlab_tab.commits_collapse_button.click
+        expect(page).to have_text("No commits")
+        expect(page).to have_text("Link an existing commit by adding the code OP##{work_package.id} to " \
+                                  "the message.")
       end
     end
 
