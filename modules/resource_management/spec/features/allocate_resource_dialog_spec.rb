@@ -43,7 +43,7 @@ RSpec.describe "Allocate resource dialog", :js, with_ee: %i[resource_management 
 
   before do
     login_as user
-    visit project_resource_planner_view_path(project, resource_planner, view)
+    visit resource_planner_view_path(resource_planner, view, project_id: project)
   end
 
   it "opens the dialog directly on the allocation form" do
@@ -82,7 +82,7 @@ RSpec.describe "Allocate resource dialog", :js, with_ee: %i[resource_management 
 
       before do
         login_as placeholder_manager
-        visit project_resource_planner_view_path(project, resource_planner, view)
+        visit resource_planner_view_path(resource_planner, view, project_id: project)
       end
 
       it "offers creating a placeholder user" do

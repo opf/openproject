@@ -119,7 +119,7 @@ module ResourceAllocations
       menu.with_item(
         label: I18n.t(:button_edit),
         tag: :a,
-        href: helpers.edit_project_resource_allocation_path(table.project, allocation),
+        href: edit_allocation_path(table.project, allocation),
         content_arguments: { data: { controller: "async-dialog" } }
       ) do |item|
         item.with_leading_visual_icon(icon: :pencil)
@@ -130,7 +130,7 @@ module ResourceAllocations
       menu.with_item(
         label: I18n.t(:button_delete),
         scheme: :danger,
-        href: helpers.project_resource_allocation_path(table.project, allocation),
+        href: allocation_path(table.project, allocation),
         form_arguments: {
           method: :delete,
           data: {

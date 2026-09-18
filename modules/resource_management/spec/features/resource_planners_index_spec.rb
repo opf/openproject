@@ -17,7 +17,7 @@ RSpec.describe "Resource planners index", with_ee: %i[resource_management] do
 
   before do
     login_as(current_user)
-    visit project_resource_planners_path(project)
+    visit resource_planners_path(project_id: project)
   end
 
   context "without any planners" do
@@ -71,12 +71,12 @@ RSpec.describe "Resource planners index", with_ee: %i[resource_management] do
     end
 
     it "splits the planners across pages ordered by name" do
-      visit project_resource_planners_path(project, per_page: 1)
+      visit resource_planners_path(per_page: 1, project_id: project)
       expect(page).to have_css(".op-pagination--pages")
       expect(page).to have_link("Planner A")
       expect(page).to have_no_link("Planner B")
 
-      visit project_resource_planners_path(project, per_page: 1, page: 2)
+      visit resource_planners_path(per_page: 1, page: 2, project_id: project)
       expect(page).to have_link("Planner B")
       expect(page).to have_no_link("Planner A")
     end

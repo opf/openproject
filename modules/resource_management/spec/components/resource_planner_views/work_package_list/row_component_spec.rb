@@ -104,9 +104,8 @@ RSpec.describe ResourcePlannerViews::WorkPackageList::RowComponent, type: :compo
       expect(rendered).to have_text(I18n.t("#{i18n_ns}.edit_total_work"))
       expect(rendered).to have_css(
         "a[data-controller='async-dialog']" \
-        "[href='#{edit_project_resource_planner_view_work_package_progress_path(
-          project, resource_planner, view, work_packages.first
-        )}']"
+        "[href='#{edit_resource_planner_view_work_package_progress_path(resource_planner, view, work_packages.first,
+                                                                        project_id: project)}']"
       )
     end
   end

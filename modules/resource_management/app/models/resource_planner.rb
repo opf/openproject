@@ -73,6 +73,19 @@ class ResourcePlanner < PersistedView
     visible(user).where(project:)
   end
 
+  # How the routes address this planner. The project segment is optional, so a
+  # global planner contributes nothing and a project one names its project.
+  def path_args = scope_path_args.merge(id:)
+
+  # Addressing one of its views instead, the planner being the parent.
+  def view_path_args(view) = child_path_args.merge(id: view.id)
+
+  # The timeline and progress routes nest the view one level deeper, where it is
+  # named `view_id` rather than `id`.
+  def nested_view_path_args(view) = child_path_args.merge(view_id: view.id)
+
+  def child_path_args = scope_path_args.merge(resource_planner_id: id)
+
   def self.viewable_by?(user, project)
     if project
       user.allowed_in_project?(:view_resource_planners, project)
@@ -135,6 +148,8 @@ class ResourcePlanner < PersistedView
   end
 
   private
+
+  def scope_path_args = project_id.nil? ? {} : { project_id: project }
 
   def distinct_child_count(selection_module)
     children.each_with_object(Set.new) do |view, ids|

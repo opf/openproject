@@ -37,7 +37,7 @@ See COPYRIGHT and LICENSE files for more details.
 %>
 <% if EnterpriseToken.allows_to?(:resource_management) %>
   <% menu_params = { **params.permit(:id), origin_controller: params[:controller] } %>
-  <% menu_src = @project ? menu_project_resource_planners_path(@project, **menu_params) : menu_resource_planners_path(**menu_params) %>
+  <% menu_src = menu_planners_path(@project, **menu_params) %>
   <%= turbo_frame_tag "resource_planners_sidemenu",
                       src: menu_src,
                       target: "_top",
