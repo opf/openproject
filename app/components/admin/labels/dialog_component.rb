@@ -28,27 +28,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Label < ApplicationRecord
-  belongs_to :author, class_name: "User"
-  has_many :labelings, dependent: :delete_all
+module Admin
+  module Labels
+    class DialogComponent < ApplicationComponent
+      include OpTurbo::Streamable
+      include OpPrimer::ComponentHelpers
 
-  scope :with_usage_count, -> {
-    select("labels.*, (SELECT COUNT(*) FROM labelings WHERE labelings.label_id = labels.id) AS usage_count")
-  }
+      DIALOG_ID = "admin-label-dialog"
 
-  scope :named_before, ->(label) {
-    quoted_name = Arel::Nodes::NamedFunction.new("LOWER", [Arel::Nodes.build_quoted(label.name)])
-    where(arel_table[:name].lower.lt(quoted_name))
-  }
+      attr_reader :label
 
-  normalizes :name, with: -> { it.squish }
+      def initialize(label:)
+        super()
 
-  validates :name,
-            presence: true,
-            uniqueness: { case_sensitive: false },
-            length: { maximum: 255 }
+        @label = label
+      end
 
-  def self.page_of(label, per_page:)
-    (named_before(label).count / per_page) + 1
+      private
+
+      def title
+        label.persisted? ? t(".rename_title", name: label.name) : t(".create_title")
+      end
+
+      def button_caption
+        label.persisted? ? t(:button_rename) : t(:button_create)
+      end
+    end
   end
 end

@@ -485,6 +485,13 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: "op-custom-fields",
             html: { class: "custom_fields" }
 
+  menu.push :labels,
+            { controller: "/admin/labels", action: :index },
+            after: :custom_fields,
+            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.work_package_labels_active? },
+            caption: :label_label_plural,
+            icon: "tag"
+
   menu.push :custom_actions,
             { controller: "/custom_actions" },
             if: ->(_) { User.current.admin? },

@@ -28,27 +28,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Label < ApplicationRecord
-  belongs_to :author, class_name: "User"
-  has_many :labelings, dependent: :delete_all
+module Admin
+  module Labels
+    class ListComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
+      include OpTurbo::Streamable
 
-  scope :with_usage_count, -> {
-    select("labels.*, (SELECT COUNT(*) FROM labelings WHERE labelings.label_id = labels.id) AS usage_count")
-  }
+      alias_method :labels, :model
 
-  scope :named_before, ->(label) {
-    quoted_name = Arel::Nodes::NamedFunction.new("LOWER", [Arel::Nodes.build_quoted(label.name)])
-    where(arel_table[:name].lower.lt(quoted_name))
-  }
-
-  normalizes :name, with: -> { it.squish }
-
-  validates :name,
-            presence: true,
-            uniqueness: { case_sensitive: false },
-            length: { maximum: 255 }
-
-  def self.page_of(label, per_page:)
-    (named_before(label).count / per_page) + 1
+      options :query
+    end
   end
 end

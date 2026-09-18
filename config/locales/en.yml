@@ -705,6 +705,13 @@ en:
               not_unique: "is already in use. Please select another name."
         jira:
           invalid_protocol: "Please provide a valid protocol (http or https)"
+        label:
+          attributes:
+            name:
+              blank: "Name cannot be empty."
+              format: "%{message}"
+              taken: "A label with this name already exists. Please use another one."
+              too_long: "Name is too long (maximum is %{count} characters)."
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -1751,6 +1758,37 @@ en:
     journal_aggregation:
       caption_with_maximum: >
         User actions on a work package (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays. The maximum is %{max} minutes.
+
+    labels:
+      delete_dialog_component:
+        confirmation: "I understand that this action is not reversible"
+        description_html: "This will remove the label <strong>%{name}</strong> from all work packages in all projects."
+        heading: "Delete this label?"
+        title: "Delete this label?"
+      dialog_component:
+        create_title: "Create label"
+        rename_title: 'Rename "%{name}"'
+      index:
+        description: "All users able to edit work packages can freely tag work packages with either existing labels or create new ones instantly. This includes all labels created by users across all projects."
+      list_component:
+        blank_slate:
+          description: "Labels created by users on work packages will appear here."
+          title: "No labels yet"
+        no_matches:
+          description: "Try a different search term."
+          title: "No labels match your search"
+      row_component:
+        used_in_work_packages:
+          one: "%{count} work package"
+          other: "%{count} work packages"
+      sub_header_component:
+        button_add: "Label"
+        label_add: "Add label"
+        search_placeholder: "Type here to search"
+      table_component:
+        headers:
+          name: "Label"
+          usage: "Used in"
 
     mcp_configurations:
       index:
@@ -3781,6 +3819,7 @@ en:
   label_journal_diff: "Description Comparison"
   label_jump_to_a_project: "Jump to a project..."
   label_keyword_plural: "Keywords"
+  label_label_plural: "Labels"
   label_language: "Language"
   label_language_based: "Based on user's language"
   label_languages: "Languages"

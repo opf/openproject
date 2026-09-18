@@ -28,27 +28,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Label < ApplicationRecord
-  belongs_to :author, class_name: "User"
-  has_many :labelings, dependent: :delete_all
+module Admin
+  module Labels
+    class FormComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
+      include OpTurbo::Streamable
 
-  scope :with_usage_count, -> {
-    select("labels.*, (SELECT COUNT(*) FROM labelings WHERE labelings.label_id = labels.id) AS usage_count")
-  }
+      FORM_ID = "admin-label-form"
 
-  scope :named_before, ->(label) {
-    quoted_name = Arel::Nodes::NamedFunction.new("LOWER", [Arel::Nodes.build_quoted(label.name)])
-    where(arel_table[:name].lower.lt(quoted_name))
-  }
+      # A `label` reader here would shadow ActionView::Helpers::FormHelper#label
+      # inside the primer_form_with block, so the record stays `model`.
+      def initialize(label:)
+        super(label)
+      end
 
-  normalizes :name, with: -> { it.squish }
+      private
 
-  validates :name,
-            presence: true,
-            uniqueness: { case_sensitive: false },
-            length: { maximum: 255 }
+      def http_method
+        model.persisted? ? :patch : :post
+      end
 
-  def self.page_of(label, per_page:)
-    (named_before(label).count / per_page) + 1
+      def form_url
+        model.persisted? ? admin_label_path(model) : admin_labels_path
+      end
+    end
   end
 end
