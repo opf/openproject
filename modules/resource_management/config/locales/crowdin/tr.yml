@@ -2,17 +2,19 @@
 tr:
   activerecord:
     attributes:
+      placeholder_user:
+        user_filter: Filter criteria
       resource_allocation:
         allocated_hours: Hours
         allocated_time: Allocated time
         date_range: Dates
         end_date: Finish date
         entity: Entity
-        filter_name: Resource filter name
+        placeholder_or_user: Assignee
+        placeholder_user: Placeholder user
         principal: Assignee
         start_date: Start date
         state: State
-        user_filter: User filter
       resource_planner:
         date_range: Dates
         default_view_class_name: Default view
@@ -87,14 +89,9 @@ tr:
       make_public: Make public
       unfavorite: Remove from favorites
     allocate_resource_dialog:
-      kind:
-        filter:
-          caption: Set filter criteria based on user attributes to create a placeholder resource.
-          label: Filter criteria
-        label: Allocation type
-        principal:
-          caption: Allocate hours for a specific user.
-          label: User
+      criteria:
+        empty: No criteria set.
+        label: Criteria
       missing_working_hours:
         none: The selected user has no working hours configured for these dates, so they are counted as having no capacity.
         partial: The selected user has no working hours configured for %{dates}, so those days are counted as having no capacity.
@@ -143,6 +140,9 @@ tr:
           caption: A custom list of items you manually add and remove. Filtering is not possible.
           label: Manually hand-picked
       title: Configure view
+    create_placeholder_user_dialog:
+      submit: Create
+      title: Create placeholder user
     edit_allocation_dialog:
       submit: Save
       success_message: Resource allocation updated.

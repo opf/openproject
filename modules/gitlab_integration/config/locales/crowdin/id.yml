@@ -51,7 +51,6 @@ id:
     commit: Tetapkan
     gitlab: Tanda pengenal GitLab
     gitlab_avatar_url: URL avatar
-    gitlab_email: Email GitLab
     gitlab_html_url: URL HTML GitLab
     gitlab_merge_request: Permintaan penggabungan
     gitlab_name: Nama GitLab

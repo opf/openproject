@@ -2,17 +2,19 @@
 it:
   activerecord:
     attributes:
+      placeholder_user:
+        user_filter: Filter criteria
       resource_allocation:
         allocated_hours: Ore
         allocated_time: Tempo assegnato
         date_range: Date
         end_date: Data di fine
         entity: Entità
-        filter_name: Nome del filtro delle risorse
+        placeholder_or_user: Assignee
+        placeholder_user: Placeholder user
         principal: Assegnatario
         start_date: Data di inizio
         state: Stato
-        user_filter: Filtro utente
       resource_planner:
         date_range: Date
         default_view_class_name: Vista predefinita
@@ -87,14 +89,9 @@ it:
       make_public: Rendi pubblico
       unfavorite: Rimuovi dai preferiti
     allocate_resource_dialog:
-      kind:
-        filter:
-          caption: Imposta criteri di filtro basati sugli attributi utente per creare una risorsa segnaposto.
-          label: Criteri di filtro
-        label: Tipo di allocazione
-        principal:
-          caption: Assegnare ore a un utente specifico.
-          label: Utente
+      criteria:
+        empty: No criteria set.
+        label: Criteria
       missing_working_hours:
         none: The selected user has no working hours configured for these dates, so they are counted as having no capacity.
         partial: The selected user has no working hours configured for %{dates}, so those days are counted as having no capacity.
@@ -143,6 +140,9 @@ it:
           caption: Un elenco personalizzato di elementi che puoi aggiungere e rimuovere manualmente. Il filtraggio non è disponibile.
           label: Selezionato manualmente
       title: Configura vista
+    create_placeholder_user_dialog:
+      submit: Create
+      title: Create placeholder user
     edit_allocation_dialog:
       submit: Salva
       success_message: Allocazione della risorsa aggiornata.

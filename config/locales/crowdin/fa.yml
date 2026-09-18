@@ -222,6 +222,7 @@ fa:
         title: عنوان
       member:
         blocked: مسدودشده
+        principal_type: نوع عضو
         roles: نقش‌ها
       notification:
         read_ian: خوانده‌شده در برنامه
@@ -234,6 +235,7 @@ fa:
         position: موقعیت
       persisted_query:
         filters: فیلترها
+        group_bys: گروه‌بندی نتایج بر اساس
         name: نام
         orders: ترتیب‌ها
         selects: انتخاب‌ها
@@ -440,6 +442,13 @@ fa:
         time_zone: منطقه زمانی
         warn_on_leaving_unsaved: هنگام ترک بسته کاری با تغییرات ذخیره‌نشده به من هشدار بده
         workdays: روزهای کاری
+      user_resource:
+        description: توضیحات
+        name: نام
+        user_filter: فیلتر کاربر
+      user_resource_detail:
+        description: توضیحات
+        user_filter: فیلتر کاربر
       user_working_hours:
         availability_factor: ضریب دسترس‌پذیری
         days: روزهای کاری
@@ -740,7 +749,6 @@ fa:
             types:
               cannot_assign_multiple_variants_of_parent: در هر پروژه فقط یک گونه از یک Type قابل فعال‌سازی است
               cannot_assign_variant_and_parent: نمی‌توان هم‌زمان یک گونه و والد آن را تخصیص داد
-              cannot_assign_variants_yet: هنوز نمی‌توان گونه‌ها را در پروژه فعال کرد. برای آزمایش گونه‌ها Feature Flag را فعال کنید.
               in_use_by_work_packages: 'هنوز توسط بسته‌های کاری استفاده می‌شود: %{types}'
               switch_target_blank: گونه‌ای را که می‌خواهید به آن تغییر دهید انتخاب کنید
               switch_target_identical: نوع هدف باید با نوعی که پروژه اکنون استفاده می‌کند متفاوت باشد
@@ -853,6 +861,10 @@ fa:
               blank: لطفاً یک نام برای توکن وارد کنید
               format: "%{message}"
               in_use: این نام توکن از قبل استفاده می‌شود؛ لطفاً نام دیگری انتخاب کنید
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: تا زمانی که بسته‌های کاری از این نوع استفاده می‌کنند، نمی‌توان آن را حذف کرد.
         type_variant:
           attributes:
             attribute_groups:
@@ -863,6 +875,9 @@ fa:
               query_invalid: 'Query توکار ''%{group}'' نامعتبر است: %{details}'
             base:
               borrowed_by_variants: تا زمانی که پیکربندی آن توسط %{names} بازاستفاده می‌شود قابل حذف نیست.
+              inherits_from_project_owned: 'این گونه در حال حاضر از یک گونه ویژه پروژه ارث‌بری می‌کند و نمی‌توان آن را به گونه سراسری تبدیل کرد.
+
+                '
               is_default_variant: پیکربندی پیش‌فرض یک نوع قابل حذف نیست.
               project_variants_not_allowed: این نوع اجازه ایجاد گونه درون پروژه‌ها را نمی‌دهد.
               restrict_dependent_destroy:
@@ -886,6 +901,8 @@ fa:
               would_create_cycle: این پیکربندی‌ها را به‌صورت حلقه به هم متصل می‌کند.
             variant:
               must_belong_to_the_type: باید گونه‌ای از این نوع باشد.
+            workflow:
+              not_available_to_this_variant: must be a workflow this project can use.
             workflows_source_id:
               must_be_available_to_the_variant: باید پیکربندی‌ای باشد که این پروژه بتواند از آن استفاده کند.
               would_create_cycle: این پیکربندی‌ها را به‌صورت حلقه به هم متصل می‌کند.
@@ -1412,8 +1429,6 @@ fa:
         main-menu-bg-selected-background: منوی اصلی در حالت انتخاب
         primary-button-color: دکمه اصلی
       custom_colors: رنگ های سفارشی
-      default_colors:
-        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
       edit_color: ویرایش %{color}
       fonts:
         file_is_invalid: فایل فونت TTF معتبر نیست.
@@ -1741,6 +1756,14 @@ fa:
       update:
         failure: پیکربندی MCP به‌روزرسانی نشد.
         success: پیکربندی MCP با موفقیت به‌روزرسانی شد.
+    members:
+      index:
+        blank_description: هیچ عضویتی با فیلتر فعلی مطابقت ندارد.
+        blank_title: هیچ عضویتی وجود ندارد
+        filter_label: جستجوی کاربران
+        inheritance_source: "%{type} %{name}"
+        inherited_via: "(از طریق: %{source})"
+        title: عضویت‌ها
     plugins:
       no_results_content_text: برای اطلاعات بیشتر صفحه یکپارچه‌سازی‌ها و Pluginهای ما را ببینید.
       no_results_title_text: در حال حاضر هیچ Pluginای نصب نشده است.
@@ -1986,6 +2009,13 @@ fa:
           assignee: انتقال‌های اضافی در دسترس مسئول انجام بسته کاری.
           author: انتقال‌های اضافی در دسترس نویسنده بسته کاری.
         menu_label: انتقال‌های نمایش‌داده‌شده
+  ai:
+    text_transform:
+      errors:
+        connection_failed: دسترسی به سرویس هوش مصنوعی ممکن نشد.
+        not_available: دستیار هوش مصنوعی در دسترس نیست.
+        timeout: سرویس هوش مصنوعی در زمان مقرر پاسخ نداد.
+        upstream_error: سرویس هوش مصنوعی خطایی بازگرداند.
   announcements:
     is_active: در حال حاضر نمایش داده می‌شود
     is_inactive: در حال حاضر نمایش داده نمی‌شود
@@ -2048,10 +2078,6 @@ fa:
       not_found:
         reminder: یادآوری موردنظر یافت نمی‌شود یا حذف شده است.
         work_package: بسته کاری موردنظر یافت نمی‌شود یا حذف شده است.
-      render:
-        context_not_parsable: Context ارائه‌شده پیوندی به یک منبع نیست.
-        context_object_not_found: منبع ارائه‌شده به‌عنوان Context یافت نشد.
-        unsupported_context: منبع ارائه‌شده به‌عنوان Context پشتیبانی نمی‌شود.
       unable_to_create_attachment: امکان افزودن فایل پیوست وجود ندارد
       unable_to_create_attachment_permissions: پیوست به‌دلیل نبود مجوزهای لازم در فایل‌سیستم ذخیره نشد
       user:
@@ -2090,7 +2116,7 @@ fa:
     body: بدنه
     category: دسته‌بندی
     color: رنگ
-    comment: دیدگاه
+    comment: نظر
     comments: دیدگاه
     content: محتوا
     created_at: ایجادشده در
@@ -3206,16 +3232,16 @@ fa:
     blocks:
       community: جامعه OpenProject
       new_features:
-        '17_9':
+        '17_8':
           new_features_list:
-            line_0: Create work packages directly in Documents.
-            line_1: Search and filter work packages in Backlogs.
-            line_2: Choose whether to keep descendants when deleting a work package.
-            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
-            line_4: Enter planned labor in hours, days, weeks, or months.
-            line_5: See the import progress when using the Jira Migrator.
-            line_6: Use Date alerts in the Community Edition.
-          new_features_title: 'The release contains various new features and improvements, such as:
+            line_0: اقدام‌های مبتنی بر هوش مصنوعی روی بسته‌های کاری، دیدگاه‌ها و روابط با MCP Server (طرح Professional).
+            line_1: چند نسخه هدف برای بسته‌های کاری.
+            line_2: محدودیت‌ها و قیود سراسری برای ورودی‌های زمان (طرح Professional).
+            line_3: بهبودهای Agile برای ویرایش گروهی و Drag کردن کارت‌های بک‌لاگ به برنامه‌های خارجی.
+            line_4: Macroهای Wiki در ویرایشگرهای متن بیشتری در دسترس هستند.
+            line_5: جستجوی بهبودیافته برای شناسه‌های بسته کاری.
+            line_6: 'منتشرشده برای Community: نمایش روابط در جدول‌های بسته کاری.'
+          new_features_title: 'این نسخه شامل قابلیت‌ها و بهبودهای جدید مختلفی است، از جمله:
 
             '
         header: درباره قابلیت‌های جدید و به‌روزرسانی‌های محصول بخوانید.
@@ -3456,10 +3482,10 @@ fa:
   label_copy_target: هدف
   label_copy_workflow_from: کپی گردش‌کار از
   label_copy_workflow_from_role: کپی به نقش‌های دیگر
-  label_copy_workflow_from_type: کپی به نوع دیگر
   label_core_build: Build هسته
   label_core_version: نسخه هسته
   label_created_by: ایجادشده توسط %{user}
+  label_criteria: معیارها
   label_current_status: وضعیت فعلی
   label_current_version: نسخه فعلی
   label_custom_comment: دیدگاه %{name}
@@ -4034,6 +4060,8 @@ fa:
   label_wiki_start: صفحه شروع
   label_wiki_toc: فهرست مطالب
   label_wiki_toc_empty: فهرست مطالب خالی است، زیرا هیچ عنوانی وجود ندارد.
+  label_with_criteria: دارای معیار
+  label_without_criteria: بدون معیار
   label_work: کار
   label_work_package: کاربسته
   label_work_package_attachments: پیوست بسته کاری
@@ -4862,8 +4890,6 @@ fa:
       not_found: یافت نشد.
       respond_to?: متد الزامی را پیاده‌سازی نمی‌کند.
       rules:
-        copy_workflow_from:
-          workflow_missing: گردش‌کار مستقل ندارد.
         custom_field:
           format_not_supported: قالب '%{field_format}' پشتیبانی نمی‌شود.
         item:
@@ -4883,7 +4909,6 @@ fa:
     or: یا
     rules:
       blueprint: Blueprint الگو
-      copy_workflow_from: نوع برای کپی گردش‌کار
       depth: عمق
       enabled: فعال
       item: مورد
@@ -5086,6 +5111,16 @@ fa:
   permission_work_package_assigned: قابل انتخاب به‌عنوان مسئول انجام/مسئول نهایی
   permission_work_package_assigned_explanation: بسته‌های کاری می‌توانند در پروژه مربوطه به کاربران و گروه‌هایی تخصیص داده شوند که این نقش را دارند
   placeholder_users:
+    criteria:
+      activate: فعال‌کردن معیارهای فیلتر
+      activate_caption: 'این امکان را می‌دهد مجموعه‌ای از فیلترها را به این کاربر فرضی اضافه کنید تا کاربران احتمالی منطبق با معیارهای موردنظر مشخص شوند.
+
+        '
+      enable: تطبیق کاربران بر اساس معیارها
+      enable_caption: نوع کاربری را که این کاربر فرضی نمایندگی می‌کند توصیف کنید تا کاربران منطبق با آن پیشنهاد شوند.
+      matching_users: کاربران منطبق با معیارهای فیلتر
+      no_matching_users: هیچ کاربری با این معیارها مطابقت ندارد.
+      show_all_matching_users: نمایش همه %{count} کاربر منطبق
     delete_tooltip: حذف کاربر جایگزین
     deletion_info:
       data_consequences: 'همه کاربردهای کاربر جایگزین (برای مثال مسئول انجام، مسئول نهایی یا سایر مقادیر کاربر) به حسابی با نام «کاربر حذف‌شده» منتقل می‌شوند. از آنجا که داده‌های همه حساب‌های حذف‌شده به این حساب منتقل می‌شوند، دیگر امکان تشخیص داده‌های ایجادشده توسط این کاربر از داده‌های حساب حذف‌شده دیگر وجود نخواهد داشت.
@@ -5546,6 +5581,31 @@ fa:
     warnings:
       cannot_annotate: این فایل قابل حاشیه‌نویسی نیست.
   roles:
+    delete_dialog:
+      confirm: آیا مطمئن هستید که می‌خواهید این نقش را حذف کنید؟
+      entry_projects:
+        one: "(پروژه: %{projects})"
+        other: "(پروژه‌ها: %{projects})"
+      entry_projects_truncated:
+        one: "(پروژه‌ها: %{projects} و ۱ مورد دیگر)"
+        other: "(پروژه‌ها: %{projects} و %{count} مورد دیگر)"
+      heading:
+        one: 'این نقش همچنان به ۱ عضو اختصاص دارد:'
+        other: 'این نقش همچنان به %{count} عضو اختصاص دارد:'
+      heading_unused: آیا مطمئن هستید که می‌خواهید نقش «%{name}» را حذف کنید؟
+      losing_project_access:
+        one: از میان این کاربران، ۱ کاربر دسترسی خود را به پروژه‌هایی که این نقش تنها نقش او در آن‌هاست از دست خواهد داد. آیا مطمئن هستید که می‌خواهید این نقش را حذف کنید؟
+        other: از میان این کاربران، %{count} کاربر دسترسی خود را به پروژه‌هایی که این نقش تنها نقش آن‌ها در آن پروژه‌هاست از دست خواهند داد. آیا مطمئن هستید که می‌خواهید این نقش را حذف کنید؟
+        zero: هیچ‌یک از این کاربران دسترسی به هیچ‌یک از پروژه‌های خود را از دست نخواهند داد. آیا مطمئن هستید که می‌خواهید این نقش را حذف کنید؟
+      show_memberships: نمایش همه عضویت‌های دارای این نقش
+      summary: "%{users} در %{projects}"
+      summary_projects:
+        one: ۱ پروژه
+        other: "%{count} پروژه"
+      summary_users:
+        one: ۱ کاربر
+        other: "%{count} کاربر"
+      title: حذف نقش
     edit:
       default_for_new_projects_warning: 'این نقش به‌عنوان نقش پیش‌فرض برای کاربران غیرمدیری که پروژه ایجاد می‌کنند پیکربندی شده است. مجوزهای زیر را حذف نکنید؛ در غیر این صورت ایجادکنندگان پروژه نمی‌توانند راه‌اندازی پروژه‌های تازه خود را کامل کنند:'
     index:
@@ -5557,6 +5617,16 @@ fa:
     permissions:
       section_check_all_label: تخصیص همه مجوزهای %{module}
       section_uncheck_all_label: لغو تخصیص همه مجوزهای %{module}
+    permissions_dialog:
+      edit_permissions: Edit role permissions
+      implicit_permission: Always granted
+      no_permissions: This role does not grant any permissions.
+      permission_count:
+        one: 1 permission
+        other: "%{count} permissions"
+      preview_action: View permissions
+      preview_aria_label: View the permissions of %{role}
+      title: Permissions of "%{name}"
     report:
       matrix_caption: ماتریس مجوزهای ماژول %{module}
       matrix_check_all_label: تخصیص همه مجوزهای %{module} به همه نقش‌ها
@@ -6133,13 +6203,14 @@ fa:
         <br>
         <strong>توجه</strong>: مقادیر به‌ارث‌رسیده (برای مثال از فرزندان یا روابط) همچنان اعمال می‌شوند.
     index:
+      could_not_be_moved: جابه‌جایی وضعیت ممکن نشد.
       headers:
-        excluded_from_totals: حذف‌شده از مجموع‌ها
         is_closed: بسته
-        is_default: پیش‌فرض
         is_readonly: فقط‌خواندنی
+      no_filter_results_title_text: هیچ وضعیتی با فیلتر فعلی مطابقت ندارد.
       no_results_content_text: افزودن وضعیت جدید
       no_results_title_text: در حال حاضر هیچ وضعیت بسته کاری وجود ندارد.
+      status_actions: عملیات وضعیت
   support:
     array:
       sentence_connector: و
@@ -6345,8 +6416,6 @@ fa:
     getting_started: شروع کار
     help_and_support: راهنما و پشتیبانی
   total_progress: پیشرفت کل
-  tree_view:
-    label_empty_sub_tree: No items
   types:
     creation_wizard:
       add_variant: افزودن یک گونه به %{name}
@@ -6455,6 +6524,15 @@ fa:
         query_group_label: جدول بسته‌های کاری مرتبط
         remove_attribute: حذف از بخش
         rename_group: تغییر نام بخش
+        required:
+          already_required_globally: این فیلد سفارشی برای همه نوع‌ها الزامی است.
+          for_variant: در این نوع الزامی است
+          globally: الزامی
+          globally_hint: این مورد را در فیلد سفارشی تغییر دهید
+          mark: الزامی‌کردن در این نوع
+          not_a_custom_field: فقط یک فیلد سفارشی را می‌توان برای یک نوع خاص الزامی کرد.
+          not_available_when_linked: این پیکربندی ارث‌بری شده است. برای تغییر موارد الزامی، آن را به‌صورت دستی پیکربندی کنید.
+          unmark: در این نوع الزامی نباشد
         reset_description: 'این کار ویژگی‌ها را به گروه پیش‌فرضشان برمی‌گرداند و همه فیلدهای سفارشی را غیرفعال می‌کند.
 
           '
@@ -6605,7 +6683,7 @@ fa:
         filter_no_results: هیچ گونه‌ای با این فیلتر مطابقت ندارد
         global_section:
           description: این گونه‌ها در همه پروژه‌ها در دسترس هستند.
-          title: گونه‌ها
+          title: گونه‌های سراسری
         project_specific_section:
           description: این گونه‌ها فقط در پروژه‌هایی که در آن‌ها ایجاد شده‌اند در دسترس هستند.
           title: گونه‌های ویژه پروژه
@@ -6614,6 +6692,28 @@ fa:
     index:
       add_variant: افزودن یک گونه به %{name}
       add_variant_action: افزودن گونه
+      convert_to_global: تبدیل به گونه سراسری
+      convert_to_global_dialog:
+        confirm: تبدیل
+        text: 'با این کار، این گونه ویژه پروژه به یک گونه سراسری تبدیل می‌شود که برای همه پروژه‌ها در دسترس است. مدیر پروژه دیگر نمی‌تواند آن را ویرایش کند.
+
+          '
+        workflow_text: 'Its workflow "%{name}" belongs to this project and becomes global as well.
+
+          '
+      convert_to_global_notice: "%{name} اکنون یک گونه سراسری است."
+      convert_to_global_rename:
+        confirm: تبدیل
+        text: یک گونه سراسری با این نام از قبل وجود دارد. لطفاً نام دیگری انتخاب کنید.
+        title: نام دیگری برای این گونه انتخاب کنید
+      delete:
+        description: این نوع برای همیشه حذف خواهد شد. این اقدام قابل بازگشت نیست.
+        description_with_variants: این نوع و همه گونه‌های آن برای همیشه حذف خواهند شد. این اقدام قابل بازگشت نیست.
+        heading: نوع «%{name}» حذف شود؟
+        projects:
+          one: 'این نوع از ۱ پروژه حذف خواهد شد:'
+          other: 'این نوع از %{count} پروژه حذف خواهد شد:'
+        title: حذف نوع
       description: 'هر بخش پیکربندی در نوع‌ها و گونه‌ها می‌تواند مستقل پیکربندی شود، از نوع دیگری محدود شود یا به‌طور کامل به یک منبع پیوند داده شود.
 
         '
@@ -7007,10 +7107,10 @@ fa:
       descendants_choice:
         heading: همه زیرمجموعه‌ها نیز حذف شوند؟
         question: در حال حذف بسته‌های کاری‌ای هستید که زیرمجموعه دارند. آیا می‌خواهید آن‌ها نیز حذف شوند؟
-        self_only_label: فقط بسته‌های کاری انتخاب‌شده حذف شوند
         self_only_caption: زیرمجموعه‌ها حذف نمی‌شوند، اما روابط سلسله‌مراتبی حذف خواهند شد.
-        with_descendants_label: بسته‌های کاری انتخاب‌شده و زیرمجموعه‌های آن‌ها حذف شوند
+        self_only_label: فقط بسته‌های کاری انتخاب‌شده حذف شوند
         with_descendants_caption: همه بسته‌های کاری فرزند که برای شما قابل مشاهده‌اند حذف خواهند شد. در مرحله بعد فرصت خواهید داشت فهرست کامل را بازبینی کنید.
+        with_descendants_label: بسته‌های کاری انتخاب‌شده و زیرمجموعه‌های آن‌ها حذف شوند
       description: مطمئنید می‌خواهید بسته‌های کاری انتخاب‌شده و همه داده‌های مرتبط را حذف کنید؟
       description_with_all_descendants: مطمئنید می‌خواهید بسته‌های کاری انتخاب‌شده و همه فرزندان آن‌ها را حذف کنید؟
       description_with_descendants: مطمئنید می‌خواهید بسته‌های کاری انتخاب‌شده و همه فرزندان زیر را حذف کنید؟
@@ -7078,10 +7178,10 @@ fa:
       descendants_choice:
         heading: همه زیرمجموعه‌ها نیز حذف شوند؟
         question: این بسته کاری زیرمجموعه دارد. آیا می‌خواهید آن‌ها نیز حذف شوند؟
-        self_only_label: فقط همین بسته کاری حذف شود
         self_only_caption: زیرمجموعه‌ها حذف نمی‌شوند، اما روابط سلسله‌مراتبی حذف خواهند شد.
-        with_descendants_label: این بسته کاری و زیرمجموعه‌های آن حذف شوند
+        self_only_label: فقط همین بسته کاری حذف شود
         with_descendants_caption: همه بسته‌های کاری فرزند که برای شما قابل مشاهده‌اند حذف خواهند شد. در مرحله بعد فرصت خواهید داشت فهرست کامل را بازبینی کنید.
+        with_descendants_label: این بسته کاری و زیرمجموعه‌های آن حذف شوند
       description: مطمئنید می‌خواهید «%{name}» را حذف کنید؟
       heading: این بسته کاری برای همیشه حذف شود؟
       hidden_descendants_only_warning:
@@ -7133,29 +7233,13 @@ fa:
   workflows:
     copies:
       form:
-        mode:
-          from_role:
-            caption: گردش‌کار فعلی را به یک یا چند نقش در همان نوع بسته کاری کپی کنید. اگر نقش انتخاب‌شده از قبل گردش‌کار داشته باشد، گردش‌کار فعلی جایگزین آن می‌شود.
-            label: کپی به نقش‌های دیگر
-          from_type:
-            caption: گردش‌کار فعلی را به نوع دیگری از بسته کاری کپی کنید. اگر نوع انتخاب‌شده از قبل گردش‌کار داشته باشد، گردش‌کار فعلی جایگزین آن می‌شود. این کار همه نقش‌ها را تحت تأثیر قرار می‌دهد.
-            label: کپی به نوع دیگر
-        source_role_id:
-          label: نقش منبع
         target_role_ids:
           label: نقش‌های مقصد
-        target_variant_ids:
-          label: انواع مقصد
       from_roles:
         create:
           notice:
             one: گردش‌کار با موفقیت به نقش «%{role_name}» کپی شد.
             other: گردش‌کار با موفقیت به %{count} نقش کپی شد.
-      from_variants:
-        create:
-          notice:
-            one: گردش کار با موفقیت به «%{type_name}» کپی شد.
-            other: گردش کار با موفقیت به %{count} نوع کپی شد.
       new:
         title: کپی گردش‌کار «%{source_type}»
     form:

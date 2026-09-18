@@ -55,7 +55,6 @@ es:
     commit: Commit
     gitlab: Identificador de GitLab
     gitlab_avatar_url: URL del avatar
-    gitlab_email: Correo electrónico de GitLab
     gitlab_html_url: URL de HTML de GitLab
     gitlab_merge_request: Solicitud de fusión
     gitlab_name: Nombre de GitLab
