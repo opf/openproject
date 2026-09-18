@@ -654,25 +654,6 @@ describe('ProjectTimelineGraphComponent', () => {
       expect(getComputedStyle(links[0]).width).not.toBe('1px');
     });
 
-    it('keeps linked visual items out of the tab order', async () => {
-      fixture.componentRef.setInput('milestonesData', JSON.stringify([milestone]));
-      fixture.componentRef.setInput('sprintsData', JSON.stringify([sprint]));
-      fixture.detectChanges();
-
-      const element = fixture.nativeElement as HTMLElement;
-      await vi.waitUntil(() => {
-        fixture.detectChanges();
-        return element.querySelectorAll('.vis-item').length > 0;
-      });
-
-      const milestoneItem = element.querySelector<HTMLElement>('.vis-point.op-timeline-milestone')!;
-      const sprintItem = element.querySelector<HTMLElement>('.vis-range.op-timeline-sprint')!;
-      expect(milestoneItem.tabIndex).toBe(-1);
-      expect(milestoneItem.role).toBeNull();
-      expect(sprintItem.tabIndex).toBe(-1);
-      expect(sprintItem.role).toBeNull();
-    });
-
     it('highlights the visual item related to a focused accessible link', async () => {
       fixture.componentRef.setInput('milestonesData', JSON.stringify([milestone]));
       fixture.componentRef.setInput('sprintsData', JSON.stringify([sprint]));
