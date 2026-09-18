@@ -73,6 +73,14 @@ module Pages::Meetings
                           results_selector: "body"
     end
 
+    # Types +query+ into the project autocompleter without selecting anything
+    # and returns the open dropdown, so that its options can be tested.
+    def search_project(query)
+      search_autocomplete find("[data-test-selector='project_id']"),
+                          query:,
+                          results_selector: "body"
+    end
+
     def set_duration(duration)
       fill_in "Duration", with: duration
     end

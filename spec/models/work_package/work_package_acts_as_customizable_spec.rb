@@ -294,7 +294,7 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
     end
   end
 
-  describe "#available_custom_fields with a linked form configuration", with_flag: { type_variants: true } do
+  describe "#available_custom_fields with a linked form configuration" do
     let(:source_type) { create(:type) }
     let(:linked_type) { create(:type) }
     let(:project) { create(:project, types: [linked_type]) }
@@ -332,8 +332,7 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
     end
   end
 
-  describe "#available_custom_fields when the project resolves a variant",
-           with_flag: { type_variants: true } do
+  describe "#available_custom_fields when the project resolves a variant" do
     let(:root_type) { create(:type) }
     let(:variant) do
       create(:type_variant, type: root_type).tap do |v|

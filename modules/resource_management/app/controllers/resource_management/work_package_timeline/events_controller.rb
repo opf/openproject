@@ -38,6 +38,7 @@ module ResourceManagement
 
       def index # rubocop:disable Metrics/AbcSize
         allocations = allocations_by_work_package.values.flatten
+        preload_principal_custom_values(allocations)
         overbooked = ResourceAllocation.overbooked_ids(allocations)
         visible = ResourceAllocation.visible_principal_ids(allocations, current_user)
         candidates = ResourceAllocation.candidate_counts(allocations, project: @project)
@@ -138,6 +139,13 @@ module ResourceManagement
         ResourcePlannerViews::WorkPackageTimeline::AllocationBarComponent
           .new(allocation:, visible_principal_ids:, candidate_count:)
           .render_in(view_context)
+      end
+
+      def preload_principal_custom_values(allocations)
+        ActiveRecord::Associations::Preloader
+          .new(records: allocations.filter_map(&:principal).uniq,
+               associations: [{ custom_values: :custom_field }])
+          .call
       end
     end
   end

@@ -51,7 +51,7 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::WorkflowsService do
 
       it "copies the source's transitions onto the variant" do
         expect(service_call).to be_success
-        expect(Workflow.exists?(type_variant_id: variant.id, role_id: role.id,
+        expect(Workflows::StatusTransition.exists?(workflow_id: variant.workflow_id, role_id: role.id,
                                 old_status_id: statuses[0].id, new_status_id: statuses[1].id)).to be(true)
       end
     end
@@ -70,14 +70,14 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::WorkflowsService do
 
       it "replaces the variant's transitions with the source's" do
         expect(service_call).to be_success
-        expect(Workflow.exists?(type_variant_id: variant.id, role_id: role.id,
+        expect(Workflows::StatusTransition.exists?(workflow_id: variant.workflow_id, role_id: role.id,
                                 old_status_id: statuses[1].id, new_status_id: statuses[0].id)).to be(false)
-        expect(Workflow.exists?(type_variant_id: variant.id, role_id: role.id,
+        expect(Workflows::StatusTransition.exists?(workflow_id: variant.workflow_id, role_id: role.id,
                                 old_status_id: statuses[0].id, new_status_id: statuses[1].id)).to be(true)
       end
     end
 
-    context "when the source resolves through a link", with_flag: { type_variants: true } do
+    context "when the source resolves through a link" do
       let(:owner) { create(:type).default_variant }
       let(:source) { create(:type).default_variant }
 
@@ -89,16 +89,16 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::WorkflowsService do
       end
 
       it "adopts the resolved owner's transitions" do
-        expect(Workflow.exists?(type_variant_id: variant.id, role_id: role.id,
+        expect(Workflows::StatusTransition.exists?(workflow_id: variant.workflow_id, role_id: role.id,
                                 old_status_id: statuses[0].id, new_status_id: statuses[1].id)).to be(false)
 
         expect(service_call).to be_success
-        expect(Workflow.exists?(type_variant_id: variant.id, role_id: role.id,
+        expect(Workflows::StatusTransition.exists?(workflow_id: variant.workflow_id, role_id: role.id,
                                 old_status_id: statuses[0].id, new_status_id: statuses[1].id)).to be(true)
       end
     end
 
-    context "when the source resolves through a longer chain", with_flag: { type_variants: true } do
+    context "when the source resolves through a longer chain" do
       let(:owner) { create(:type).default_variant }
       let(:middle) { create(:type).default_variant }
       let(:source) { create(:type).default_variant }
@@ -112,10 +112,10 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::WorkflowsService do
       end
 
       it "adopts the resolved owner's transitions" do
-        expect(Workflow.exists?(type_variant_id: variant.id, role_id: role.id,
+        expect(Workflows::StatusTransition.exists?(workflow_id: variant.workflow_id, role_id: role.id,
                                 old_status_id: statuses[0].id, new_status_id: statuses[1].id)).to be(false)
         expect(service_call).to be_success
-        expect(Workflow.exists?(type_variant_id: variant.id, role_id: role.id,
+        expect(Workflows::StatusTransition.exists?(workflow_id: variant.workflow_id, role_id: role.id,
                                 old_status_id: statuses[0].id, new_status_id: statuses[1].id)).to be(true)
       end
     end

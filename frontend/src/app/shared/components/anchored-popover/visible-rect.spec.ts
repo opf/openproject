@@ -74,7 +74,7 @@ describe('visibleRect', () => {
   it('cuts the part hidden behind a scroller edge', () => {
     const { container, target } = mount(`
       <div data-container style="position: relative; width: 200px; height: 100px; overflow: auto;">
-        <div style="position: relative; width: 400px; height: 100px;">
+        <div style="position: relative; width: 400px; height: 40px;">
           <div data-target style="position: absolute; left: 150px; top: 10px; width: 100px; height: 20px;"></div>
         </div>
       </div>

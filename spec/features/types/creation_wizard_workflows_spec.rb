@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Type creation wizard workflows step", :js, with_flag: { type_variants: true } do
+RSpec.describe "Type creation wizard workflows step", :js do
   include Toasts::Expectations
   include Workflows::EditHelpers
 
@@ -56,7 +56,7 @@ RSpec.describe "Type creation wizard workflows step", :js, with_flag: { type_var
   end
 
   def workflows_for(type, role)
-    Workflow.where(type_variant_id: type.default_variant.id, role_id: role.id)
+    Workflows::StatusTransition.where(workflow_id: type.default_variant.workflow_id, role_id: role.id)
   end
 
   it "persists the matrix and advances when clicking 'Continue'" do

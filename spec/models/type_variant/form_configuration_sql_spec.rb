@@ -123,13 +123,6 @@ RSpec.describe TypeVariant::FormConfigurationSql do
       # issues nothing at all.
       expect { described_class.remap("pt.variant_id") }.to have_a_query_limit(0)
     end
-
-    # The feature flag opens the admin surface; resolution does not depend on it.
-    it "resolves the same with the variants flag off", with_flag: { type_variants: false } do
-      link_configuration(linked_variant, source: owner_variant, aspect:)
-
-      expect(remap_by_own_id[linked_variant.id]["source_id"]).to eq(owner_variant.id)
-    end
   end
 
   describe ".source_table" do

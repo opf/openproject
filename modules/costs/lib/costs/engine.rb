@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -79,20 +81,32 @@ module Costs
 
         permission :view_own_hourly_rate,
                    {},
-                   permissible_on: :project
+                   permissible_on: :project,
+                   contract_actions: { hourly_rates: %i[read_own] }
         permission :view_hourly_rates,
                    {},
-                   permissible_on: :project
+                   permissible_on: :project,
+                   contract_actions: { hourly_rates: %i[read] }
 
         permission :edit_own_hourly_rate,
                    { hourly_rates: %i[edit update] },
                    permissible_on: :project,
-                   require: :member
+                   require: :member,
+                   contract_actions: { hourly_rates: %i[create_own edit_own destroy_own] }
 
         permission :edit_hourly_rates,
                    { hourly_rates: %i[edit update] },
                    permissible_on: :project,
-                   require: :member
+                   require: :member,
+                   contract_actions: { hourly_rates: %i[create edit destroy] }
+
+        # A default rate has no project, so managing one is granted globally.
+        permission :manage_default_hourly_rates,
+                   {},
+                   permissible_on: :global,
+                   require: :loggedin,
+                   contract_actions: { default_hourly_rates: %i[create edit destroy] }
+
         permission :view_cost_rates, # cost item values
                    {},
                    permissible_on: :project
@@ -159,6 +173,14 @@ module Costs
            end,
            icon: :stopwatch
 
+      menu :my_menu,
+           :hourly_rates,
+           { controller: "/my/hourly_rates", action: "show" },
+           after: :working_hours,
+           caption: ->(*) { HourlyRate.model_name.human(count: 2) },
+           if: ->(*) { ::My::HourlyRatesController.rates_visible?(User.current) },
+           icon: "credit-card"
+
       menu :top_menu,
            :my_time_tracking,
            { controller: "/my/time_tracking", action: "index" },
@@ -186,7 +208,7 @@ module Costs
 
     activity_provider :time_entries, class_name: "Activities::TimeEntryActivityProvider", default: false
 
-    patches %i[Project User PermittedParams WorkPackage]
+    patches %i[Project PermittedParams WorkPackage]
     patch_with_namespace :BasicData, :SettingSeeder
     patch_with_namespace :ActiveSupport, :NumberHelper, :NumberToCurrencyConverter
 
@@ -194,7 +216,14 @@ module Costs
                   name: "rates",
                   partial: "users/rates",
                   path: ->(params) { edit_user_path(params[:user], tab: :rates) },
-                  only_if: ->(*) { User.current.admin? },
+                  only_if: ->(*) { User.current.allowed_globally?(:manage_default_hourly_rates) },
+                  label: :caption_rate_history
+
+    add_tab_entry :placeholder_user,
+                  name: "rates",
+                  partial: "placeholder_users/rates",
+                  path: ->(params) { edit_placeholder_user_path(params[:placeholder_user], tab: :rates) },
+                  only_if: ->(*) { User.current.allowed_globally?(:manage_default_hourly_rates) },
                   label: :caption_rate_history
 
     add_api_path :cost_entry do |id|
@@ -213,10 +242,24 @@ module Costs
       "#{root}/cost_types/#{id}"
     end
 
+    # Placeholder users hold rates too, so the collection hangs off the
+    # principal rather than the user.
+    add_api_path :hourly_rates_by_principal do |principal_id|
+      "#{principals}/#{principal_id}/hourly_rates"
+    end
+
+    add_api_path :hourly_rate do |principal_id, id|
+      "#{hourly_rates_by_principal(principal_id)}/#{id}"
+    end
+
     add_api_endpoint "API::V3::Root" do
       mount ::API::V3::CostEntries::CostEntriesAPI
       mount ::API::V3::CostTypes::CostTypesAPI
       mount ::API::V3::TimeEntries::TimeEntriesAPI
+    end
+
+    add_api_endpoint "API::V3::Principals::PrincipalsAPI", :id do
+      mount ::API::V3::HourlyRates::HourlyRatesByPrincipalAPI
     end
 
     add_api_endpoint "API::V3::WorkPackages::WorkPackagesAPI", :id do
@@ -250,12 +293,11 @@ module Costs
            } do
         next unless represented.persisted? && represented.project&.costs_enabled?
 
+        filters = ::CostReports::CompactFilters.new(operators: { "work_package_id" => "=" },
+                                                    values: { "work_package_id" => [represented.id] })
+
         {
-          href: cost_reports_path(represented.project_id,
-                                  "fields[]": "WorkPackageId",
-                                  "operators[WorkPackageId]": "=",
-                                  "values[WorkPackageId]": represented.id,
-                                  set_filter: 1),
+          href: project_reporting_cost_reports_path(represented.project_id, **filters.to_params),
           type: "text/html",
           title: "Show cost entries"
         }

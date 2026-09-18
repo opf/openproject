@@ -12,7 +12,7 @@
         </div>
         <ul id="toolbar-items" class="toolbar-items hide-when-print wp-show--header-container--toolbar-items">
           <li class="toolbar-item hidden-for-tablet">
-            <wp-create-button [routedFromAngular]="routedFromAngular" />
+            <wp-create-button [routedFromAngular]="routedFromAngular" [fullView]="true" />
           </li>
           @if (displayShareButton$ | async) {
             <li class="toolbar-item"

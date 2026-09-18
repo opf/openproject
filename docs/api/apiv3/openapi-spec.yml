@@ -367,6 +367,10 @@ paths:
     "$ref": "./paths/post_attachments_prepare.yml"
   "/api/v3/principals":
     "$ref": "./paths/principals.yml"
+  "/api/v3/principals/{id}/hourly_rates":
+    "$ref": "./paths/principal_hourly_rates.yml"
+  "/api/v3/principals/{id}/hourly_rates/{rate_id}":
+    "$ref": "./paths/principal_hourly_rate.yml"
   "/api/v3/priorities":
     "$ref": "./paths/priorities.yml"
   "/api/v3/priorities/{id}":
@@ -487,10 +491,6 @@ paths:
     "$ref": "./paths/relations.yml"
   "/api/v3/relations/{id}":
     "$ref": "./paths/relation.yml"
-  "/api/v3/render/markdown":
-    "$ref": "./paths/render_markdown.yml"
-  "/api/v3/render/plain":
-    "$ref": "./paths/render_plain.yml"
   "/api/v3/revisions/{id}":
     "$ref": "./paths/revision.yml"
   "/api/v3/reminders":
@@ -916,6 +916,10 @@ components:
       "$ref": "./components/schemas/hierarchy_item_collection_model.yml"
     HierarchyItemReadModel:
       "$ref": "./components/schemas/hierarchy_item_read_model.yml"
+    HourlyRateCollectionModel:
+      "$ref": "./components/schemas/hourly_rate_collection_model.yml"
+    HourlyRateModel:
+      "$ref": "./components/schemas/hourly_rate_model.yml"
     Link:
       "$ref": "./components/schemas/link.yml"
     List_actionsModel:
@@ -952,8 +956,6 @@ components:
       "$ref": "./components/schemas/meeting_section_collection_model.yml"
     MeetingWriteModel:
       "$ref": "./components/schemas/meeting_write_model.yml"
-    MarkdownModel:
-      "$ref": "./components/schemas/markdown_model.yml"
     MembershipCollectionModel:
       "$ref": "./components/schemas/membership_collection_model.yml"
     MembershipFormModel:
@@ -994,8 +996,6 @@ components:
       "$ref": "./components/schemas/placeholder_user_create_model.yml"
     PlaceholderUserModel:
       "$ref": "./components/schemas/placeholder_user_model.yml"
-    Plain_TextModel:
-      "$ref": "./components/schemas/plain_text_model.yml"
     PortfolioCollectionModel:
       "$ref": "./components/schemas/portfolio_collection_model.yml"
     PortfolioModel:
@@ -1225,6 +1225,7 @@ tags:
   - "$ref": "./tags/grids.yml"
   - "$ref": "./tags/groups.yml"
   - "$ref": "./tags/help_texts.yml"
+  - "$ref": "./tags/hourly_rates.yml"
   - "$ref": "./tags/memberships.yml"
   - "$ref": "./tags/news.yml"
   - "$ref": "./tags/notifications.yml"
@@ -1244,7 +1245,6 @@ tags:
   - "$ref": "./tags/query_sort_bys.yml"
   - "$ref": "./tags/query_filter_instance_schema.yml"
   - "$ref": "./tags/relations.yml"
-  - "$ref": "./tags/previewing.yml"
   - "$ref": "./tags/revisions.yml"
   - "$ref": "./tags/roles.yml"
   - "$ref": "./tags/root.yml"

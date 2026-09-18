@@ -31,133 +31,62 @@
 require "spec_helper"
 
 RSpec.describe Workflow do
-  describe ".copy" do
-    shared_let(:status0) { create(:status) }
-    shared_let(:status1) { create(:status) }
-    shared_let(:role) { create(:project_role) }
-    shared_let(:variant) { create(:type).default_variant }
-    shared_let(:role_target) { create(:project_role) }
-    shared_let(:variant_target) { create(:type).default_variant }
-    shared_let(:role_target2) { create(:project_role) }
-    shared_let(:variant_target2) { create(:type).default_variant }
+  shared_let(:project) { create(:project) }
+  shared_let(:other_project) { create(:project) }
 
-    shared_examples_for "copied workflow" do
-      let(:expected_variant) { variant_target }
-      let(:expected_role) { role_target }
+  shared_let(:global) { create(:named_workflow, name: "Standard flow") }
+  shared_let(:owned) { create(:project_owned_workflow, project:, name: "Ours") }
+  shared_let(:foreign) { create(:project_owned_workflow, project: other_project, name: "Theirs") }
 
-      it { expect(subject.old_status).to eq(workflow_src.old_status) }
+  def under_test(scope) = scope.where(id: [global, owned, foreign]).to_a
 
-      it { expect(subject.new_status).to eq(workflow_src.new_status) }
-
-      it { expect(subject.type_variant).to eq(expected_variant) }
-
-      it { expect(subject.role).to eq(expected_role) }
-
-      it { expect(subject.author).to eq(workflow_src.author) }
-
-      it { expect(subject.assignee).to eq(workflow_src.assignee) }
+  describe "scopes" do
+    it "separates the global workflows from the owned ones" do
+      expect(under_test(described_class.global)).to contain_exactly(global)
+      expect(under_test(described_class.project_owned)).to contain_exactly(owned, foreign)
     end
 
-    context "for a workflow w/o author or assignee" do
-      let!(:workflow_src) do
-        create(:workflow,
-               old_status: status0,
-               new_status: status1,
-               type_variant_id: variant.id,
-               role:)
-      end
-
-      before { described_class.copy(variant, role, variant_target, role_target) }
-
-      it_behaves_like "copied workflow" do
-        subject { described_class.order(Arel.sql("id DESC")).first }
-      end
+    it "answers which project owns a workflow" do
+      expect(under_test(described_class.owned_by(project))).to contain_exactly(owned)
+      expect(under_test(described_class.owned_by(nil))).to contain_exactly(global)
     end
 
-    context "for a workflow with author" do
-      let!(:workflow_src) do
-        create(:workflow,
-               old_status: status0,
-               new_status: status1,
-               type_variant_id: variant.id,
-               role:,
-               author: true)
-      end
-
-      before { described_class.copy(variant, role, variant_target, role_target) }
-
-      it_behaves_like "copied workflow" do
-        subject { described_class.order(Arel.sql("id DESC")).first }
-      end
-    end
-
-    context "for a workflow with assignee" do
-      let!(:workflow_src) do
-        create(:workflow,
-               old_status: status0,
-               new_status: status1,
-               type_variant_id: variant.id,
-               role:,
-               assignee: true)
-      end
-
-      before { described_class.copy(variant, role, variant_target, role_target) }
-
-      it_behaves_like "copied workflow" do
-        subject { described_class.order(Arel.sql("id DESC")).first }
-      end
-    end
-
-    context "when copying to multiple types and roles" do
-      let!(:workflow_src) do
-        create(:workflow,
-               old_status: status0,
-               new_status: status1,
-               type_variant_id: variant.id,
-               role:)
-      end
-
-      before { described_class.copy(variant, role, [variant_target, variant_target2], [role_target, role_target2]) }
-
-      it_behaves_like "copied workflow" do
-        subject { described_class.order(Arel.sql("type_variant_id DESC, role_id DESC")).first }
-
-        let(:expected_role) { role_target2 }
-        let(:expected_variant) { variant_target2 }
-      end
-
-      it_behaves_like "copied workflow" do
-        subject { described_class.order(Arel.sql("type_variant_id DESC, role_id DESC")).second }
-
-        let(:expected_role) { role_target }
-        let(:expected_variant) { variant_target2 }
-      end
-
-      it_behaves_like "copied workflow" do
-        subject { described_class.order(Arel.sql("type_variant_id DESC, role_id DESC")).third }
-
-        let(:expected_role) { role_target2 }
-        let(:expected_variant) { variant_target }
-      end
-
-      it_behaves_like "copied workflow" do
-        subject { described_class.order(Arel.sql("type_variant_id DESC, role_id DESC")).fourth }
-
-        let(:expected_role) { role_target }
-        let(:expected_variant) { variant_target }
-      end
+    it "offers a project the global workflows and its own" do
+      expect(under_test(described_class.available_in(project))).to contain_exactly(global, owned)
+      expect(under_test(described_class.available_in(nil))).to contain_exactly(global)
     end
   end
 
-  describe "self.eligible_roles" do
-    subject { described_class.eligible_roles }
+  describe "#project_specific?" do
+    it "is true only for a workflow a project owns" do
+      expect(owned).to be_project_specific
+      expect(global).not_to be_project_specific
+    end
+  end
 
-    let!(:project_roles) { create_list(:project_role, 3) }
+  describe "when the owning project is deleted" do
+    let(:doomed) { create(:project) }
 
-    before do
-      create(:global_role)
+    it "takes its own workflows with it and leaves the global ones" do
+      owned_id = create(:project_owned_workflow, project: doomed).id
+
+      doomed.destroy!
+
+      expect(described_class.where(id: owned_id)).to be_empty
+      expect(described_class.where(id: global.id)).to be_present
     end
 
-    it { is_expected.to match_array(project_roles) }
+    it "removes a variant and the workflow that variant owns in one go" do
+      variant = create(:project_owned_type_variant, project: doomed)
+      variant_id = variant.id
+      workflow_id = variant.workflow_id
+
+      expect(described_class.find(workflow_id).project_id).to eq(doomed.id)
+
+      expect { doomed.destroy! }.not_to raise_error
+
+      expect(TypeVariant.where(id: variant_id)).to be_empty
+      expect(described_class.where(id: workflow_id)).to be_empty
+    end
   end
 end

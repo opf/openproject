@@ -25,47 +25,88 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See COPYRIGHT and LICENSE files for more details.
-#++
 
 module Statuses
-  class TableComponent < ::TableComponent
-    def initial_sort
-      %i[id asc]
-    end
+  class TableComponent < OpPrimer::BorderBoxTableComponent
+    columns :name, :done_ratio, :closed, :readonly
+    main_column :name
+    mobile_columns :name
 
-    def sortable?
-      false
-    end
-
-    def columns
-      headers.map(&:first)
-    end
-
-    def inline_create_link
-      link_to new_status_path,
-              aria: { label: t(:label_work_package_status_new) },
-              class: "wp-inline-create--add-link",
-              title: t(:label_work_package_status_new) do
-        helpers.op_icon("icon icon-add")
-      end
-    end
-
-    def empty_row_message
-      I18n.t :no_results_title_text
-    end
+    options :query
+    options :page_args
 
     def headers
       [
         [:name, { caption: Status.human_attribute_name(:name) }],
-        [:color, { caption: Status.human_attribute_name(:color) }],
-        [:done_ratio, { caption: WorkPackage.human_attribute_name(:done_ratio) }],
-        [:default?, { caption: I18n.t("statuses.index.headers.is_default") }],
-        [:closed?, { caption: I18n.t("statuses.index.headers.is_closed") }],
-        [:readonly?, { caption: I18n.t("statuses.index.headers.is_readonly") }],
-        [:excluded_from_totals?, { caption: I18n.t("statuses.index.headers.excluded_from_totals") }],
-        [:sort, { caption: I18n.t(:label_sort) }]
-      ]
+        ([:done_ratio, { caption: WorkPackage.human_attribute_name(:done_ratio) }] if show_done_ratio?),
+        [:closed, { caption: t("statuses.index.headers.is_closed") }],
+        [:readonly, { caption: t("statuses.index.headers.is_readonly") }]
+      ].compact
+    end
+
+    def skip_column?(column)
+      column == :done_ratio && !show_done_ratio?
+    end
+
+    def has_actions? = true
+
+    def mobile_title = t(:label_status_plural)
+
+    def container_id = "statuses-table"
+
+    def container_class = "op-statuses-table"
+
+    # Positions are global while a filtered list shows a non-contiguous subset, so a
+    # drop would resolve against neighbours the list does not display.
+    def reorderable?
+      query.filters.empty?
+    end
+
+    def container_data
+      return {} unless reorderable?
+
+      {
+        controller: "sortable-lists sortable-lists--list",
+        sortable_lists_move_url_template_value: move_url_template,
+        sortable_lists_sortable_lists__list_outlet: "##{container_id}",
+        sortable_lists_sortable_lists__item_outlet: "##{container_id} [data-controller~='sortable-lists--item']",
+        sortable_lists__list_type_value: Status::SORTABLE_LIST_TYPE,
+        sortable_lists__list_accepted_type_value: Status::SORTABLE_LIST_TYPE,
+        sortable_lists__list_name_value: t(:label_status_plural),
+        sortable_lists__list_rows_container_element: ":scope > .#{rows_container_class}"
+      }
+    end
+
+    # The list may show one page of statuses while positions run across all of them.
+    def max_position
+      @max_position ||= Status.maximum(:position)
+    end
+
+    def blank_icon = :alert
+
+    def blank_title
+      if reorderable?
+        t("statuses.index.no_results_title_text")
+      else
+        t("statuses.index.no_filter_results_title_text")
+      end
+    end
+
+    def blank_description
+      t("statuses.index.no_results_content_text") if reorderable?
+    end
+
+    private
+
+    # Built from the route helper with a sentinel so relative-URL-root
+    # installations keep working; {id} is expanded client-side.
+    def move_url_template
+      id_placeholder = "__id__"
+      move_status_path(id_placeholder, **page_args.to_h).sub(id_placeholder, "{id}")
+    end
+
+    def show_done_ratio?
+      WorkPackage.status_based_mode?
     end
   end
 end

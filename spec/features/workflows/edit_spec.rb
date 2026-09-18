@@ -67,15 +67,19 @@ RSpec.describe "Workflow edit", :js do
     expect(page)
       .to have_field workflow_checkbox(1, 0), checked: true
 
-    expect(Workflow.where(type_variant_id: type.default_variant.id, role_id: role.id).count).to be 2
+    expect(Workflows::StatusTransition.where(workflow_id: type.default_variant.workflow_id, role_id: role.id).count).to be 2
 
-    w = Workflow.where(role_id: role.id, type_variant_id: type.default_variant.id, old_status_id: statuses[0].id,
-                       new_status_id: statuses[1].id).first
+    w = Workflows::StatusTransition.where(role_id: role.id,
+                                          workflow_id: type.default_variant.workflow_id,
+                                          old_status_id: statuses[0].id,
+                                          new_status_id: statuses[1].id).first
     assert !w.author
     assert !w.assignee
 
-    w = Workflow.where(role_id: role.id, type_variant_id: type.default_variant.id, old_status_id: statuses[1].id,
-                       new_status_id: statuses[0].id).first
+    w = Workflows::StatusTransition.where(role_id: role.id,
+                                          workflow_id: type.default_variant.workflow_id,
+                                          old_status_id: statuses[1].id,
+                                          new_status_id: statuses[0].id).first
     assert !w.author
     assert !w.assignee
   end
@@ -101,20 +105,23 @@ RSpec.describe "Workflow edit", :js do
       expect(page)
         .to have_field workflow_checkbox(1, 0), checked: true
 
-      expect(Workflow.where(type_variant_id: type.default_variant.id, role_id: role.id, author: true).count).to be 2
+      expect(Workflows::StatusTransition.where(workflow_id: type.default_variant.workflow_id, role_id: role.id,
+                                               author: true).count).to be 2
 
       # the newly added Workflow
-      w = Workflow.where(role_id: role.id, type_variant_id: type.default_variant.id, old_status_id: statuses[1].id,
-                         new_status_id: statuses[0].id).first
+      w = Workflows::StatusTransition.where(role_id: role.id,
+                                            workflow_id: type.default_variant.workflow_id,
+                                            old_status_id: statuses[1].id,
+                                            new_status_id: statuses[0].id).first
       assert w.author
       assert !w.assignee
 
       # The always workflow is unchanged
-      w = Workflow.where(role_id: role.id,
-                         type_variant_id: type.default_variant.id,
-                         old_status_id: statuses[0].id,
-                         new_status_id: statuses[1].id,
-                         author: false).first
+      w = Workflows::StatusTransition.where(role_id: role.id,
+                                            workflow_id: type.default_variant.workflow_id,
+                                            old_status_id: statuses[0].id,
+                                            new_status_id: statuses[1].id,
+                                            author: false).first
       assert !w.author
       assert !w.assignee
     end
@@ -141,20 +148,23 @@ RSpec.describe "Workflow edit", :js do
       expect(page)
         .to have_field workflow_checkbox(1, 0), checked: true
 
-      expect(Workflow.where(type_variant_id: type.default_variant.id, role_id: role.id, assignee: true).count).to be 2
+      expect(Workflows::StatusTransition.where(workflow_id: type.default_variant.workflow_id, role_id: role.id,
+                                               assignee: true).count).to be 2
 
       # the newly added Workflow
-      w = Workflow.where(role_id: role.id, type_variant_id: type.default_variant.id, old_status_id: statuses[1].id,
-                         new_status_id: statuses[0].id).first
+      w = Workflows::StatusTransition.where(role_id: role.id,
+                                            workflow_id: type.default_variant.workflow_id,
+                                            old_status_id: statuses[1].id,
+                                            new_status_id: statuses[0].id).first
       assert !w.author
       assert w.assignee
 
       # The always workflow is unchanged
-      w = Workflow.where(role_id: role.id,
-                         type_variant_id: type.default_variant.id,
-                         old_status_id: statuses[0].id,
-                         new_status_id: statuses[1].id,
-                         assignee: false).first
+      w = Workflows::StatusTransition.where(role_id: role.id,
+                                            workflow_id: type.default_variant.workflow_id,
+                                            old_status_id: statuses[0].id,
+                                            new_status_id: statuses[1].id,
+                                            assignee: false).first
       assert !w.author
       assert !w.assignee
     end
@@ -627,7 +637,7 @@ RSpec.describe "Workflow edit", :js do
 
   context "with copy dialog" do
     it "allows navigating to any Copy page", :js do
-      click_on "Copy"
+      open_copy_dialog
 
       expect(page).to have_dialog "Copy workflow"
     end
@@ -638,7 +648,7 @@ RSpec.describe "Workflow edit", :js do
           check workflow_checkbox(1, 0)
         end
 
-        click_link "Copy"
+        open_copy_dialog
 
         within_dialog "Save changes before continuing?" do
           click_button "Ignore changes"
@@ -655,7 +665,7 @@ RSpec.describe "Workflow edit", :js do
           check workflow_checkbox(1, 0)
         end
 
-        click_link "Copy"
+        open_copy_dialog
 
         within_dialog "Save changes before continuing?" do
           click_button "Save changes and continue"
@@ -673,7 +683,7 @@ RSpec.describe "Workflow edit", :js do
           check workflow_checkbox(1, 0)
         end
 
-        click_link "Copy"
+        open_copy_dialog
 
         within_dialog "Save changes before continuing?" do
           find(".close-button").click
@@ -694,7 +704,7 @@ RSpec.describe "Workflow edit", :js do
         add_status_via_dialog(statuses[2])
         expect(page).to have_field workflow_checkbox(0, 2)
 
-        click_link "Copy"
+        open_copy_dialog
 
         expect(page).to have_dialog("Save changes before continuing?")
       end
@@ -703,7 +713,7 @@ RSpec.describe "Workflow edit", :js do
         add_status_via_dialog(statuses[2])
         expect(page).to have_field workflow_checkbox(0, 2)
 
-        click_link "Copy"
+        open_copy_dialog
 
         within_dialog "Save changes before continuing?" do
           click_button "Ignore changes"
@@ -723,7 +733,7 @@ RSpec.describe "Workflow edit", :js do
 
         expect(page).to have_no_field workflow_checkbox(0, 1)
 
-        click_link "Copy"
+        open_copy_dialog
 
         within_dialog "Save changes before continuing?" do
           click_button "Ignore changes"
@@ -762,7 +772,7 @@ RSpec.describe "Workflow edit", :js do
     end
   end
 
-  describe "reuse mode boxes", with_flag: { type_variants: true } do
+  describe "reuse mode boxes" do
     let(:source_type) { create(:type, name: "Feature") }
 
     context "when the workflow configuration is independent" do
@@ -785,14 +795,6 @@ RSpec.describe "Workflow edit", :js do
         expect(page).to have_text("Inherited configuration")
         expect(page).to have_link("Change source type")
         expect(page).to have_link("Configure manually")
-      end
-    end
-
-    context "when the variants feature is disabled", with_flag: { type_variants: false } do
-      before { visit_workflow_edit(roles: [role]) }
-
-      it "does not show the reuse mode boxes" do
-        expect(page).to have_no_text("Manual configuration")
       end
     end
   end

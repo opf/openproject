@@ -80,7 +80,7 @@ See COPYRIGHT and LICENSE files for more details.
       <%= cost_form.text_field :comments, index: id_or_index, size: 40 %>
     </td>
     <% if User.current.allowed_in_project?(:view_cost_rates, @project) %>
-      <td class="currency form--td budget-table--fields">
+      <td class="currency form--td budget-table--fields -no-ellipsis">
         <%# Keep current budget as hidden field because otherwise they will be overridden %>
         <% if templated == false && labor_budget_item.overridden_costs? %>
           <%= cost_form.hidden_field :amount, index: id_or_index, value: unitless_currency_number(labor_budget_item.amount) %>
@@ -100,6 +100,11 @@ See COPYRIGHT and LICENSE files for more details.
                      field_name: "#{name_prefix}[amount]",
                      cost_value: cost_value
                    } %>
+        <span id="<%= "#{id_prefix}_cost_hint" %>" class="costs--rate-hint d-block color-fg-attention f6">
+          <% if labor_budget_item.costs_visible_by?(User.current) %>
+            <%= labor_budget_item_rate_hint(labor_budget_item, fixed_date: @budget.fixed_date, project_id: @budget.project_id) %>
+          <% end %>
+        </span>
       </td>
     <% end %>
     <td class="delete form--td budget-table--fields buttons">

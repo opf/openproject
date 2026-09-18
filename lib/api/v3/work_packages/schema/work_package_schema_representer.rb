@@ -59,11 +59,21 @@ module API
               end
             end
 
+            def required(property, given)
+              custom_field_id = property.to_s[/\AcustomField(\d+)\z/, 1]
+              return given if custom_field_id.nil?
+
+              lambda do
+                given || represented.custom_field_required?(custom_field_id.to_i)
+              end
+            end
+
             # override the various schema methods to include
 
             def schema(property, *args)
               opts, = args
               opts[:attribute_group] = attribute_group property
+              opts[:required] = required(property, opts.fetch(:required, true))
 
               super(property, **opts)
             end
@@ -71,6 +81,7 @@ module API
             def schema_with_allowed_link(property, *args)
               opts, = args
               opts[:attribute_group] = attribute_group property
+              opts[:required] = required(property, opts.fetch(:required, true))
 
               super(property, **opts)
             end
@@ -78,6 +89,7 @@ module API
             def schema_with_allowed_collection(property, *args)
               opts, = args
               opts[:attribute_group] = attribute_group property
+              opts[:required] = required(property, opts.fetch(:required, true))
 
               super(property, **opts)
             end
