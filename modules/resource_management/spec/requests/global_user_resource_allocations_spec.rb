@@ -51,8 +51,10 @@ RSpec.describe "Global user resource allocations requests",
   shared_let(:planner) { create(:resource_planner, :global, principal: user, name: "Capacity") }
   shared_let(:card_view) { create(:resource_user_card, parent: planner, project: nil, principal: user) }
 
-  shared_let(:alpha_wp) { create(:work_package, project: alpha, subject: "Alpha work") }
-  shared_let(:beta_wp) { create(:work_package, project: beta, subject: "Beta work") }
+  # Subjects deliberately share no wording with their project, so an assertion on
+  # the project name cannot pass on the subject alone.
+  shared_let(:alpha_wp) { create(:work_package, project: alpha, subject: "Rocket assembly") }
+  shared_let(:beta_wp) { create(:work_package, project: beta, subject: "Hull painting") }
   shared_let(:invisible_wp) { create(:work_package, project: invisible, subject: "Secret work") }
 
   shared_let(:alpha_allocation) { create(:resource_allocation, entity: alpha_wp, principal: card_user) }
@@ -67,14 +69,28 @@ RSpec.describe "Global user resource allocations requests",
     get path, as: :turbo_stream
 
     expect(response).to have_http_status(:ok)
-    expect(response.body).to include("Alpha work", "Beta work")
+    expect(response.body).to include("Rocket assembly", "Hull painting")
   end
 
-  it "lumps together only what the viewer may not see" do
+  it "names the project of each one, the dialog spanning several" do
     get path, as: :turbo_stream
 
-    expect(response.body).not_to include("Secret work")
-    expect(response.body).to include(I18n.t("resource_management.user_allocations_dialog.other_work_packages.one"))
+    expect(response.body).to include("Alpha", "Beta")
+  end
+
+  # The utilization above the list counts every allocation, so every allocation
+  # gets a row and the two cannot disagree.
+  it "shows what the viewer may not see as an undisclosed row, hours and all" do
+    get path, as: :turbo_stream
+
+    expect(response.body).not_to include("Secret work", "Invisible")
+    expect(response.body).to include(I18n.t("resource_management.user_allocations_dialog.hidden_work_package"))
+  end
+
+  it "offers no edit action on an undisclosed row" do
+    get path, as: :turbo_stream
+
+    expect(response.body).not_to include(edit_resource_allocation_path(invisible_allocation))
   end
 
   it "offers the edit action on the global route where the viewer may allocate" do

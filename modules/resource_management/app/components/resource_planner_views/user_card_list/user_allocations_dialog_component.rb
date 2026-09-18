@@ -83,32 +83,31 @@ module ResourcePlannerViews::UserCardList
       @utilization_window = from && to ? from..to : nil
     end
 
-    def visible_allocations
-      allocations.select { |allocation| work_package_for(allocation) }
+    def visible?(allocation)
+      work_package_for(allocation).present?
     end
 
-    def hidden_allocations
-      allocations.reject { |allocation| work_package_for(allocation) }
+    def hidden_label
+      t("resource_management.user_allocations_dialog.hidden_work_package")
     end
 
-    def hidden_count
-      hidden_allocations.size
+    # A global dialog spans projects, and inside a project the allocations
+    # reaching outside it are the ones worth naming.
+    def show_project?(allocation)
+      work_package_project = work_package_for(allocation)&.project
+
+      work_package_project.present? && work_package_project != project
     end
 
-    def hidden_duration
-      DurationConverter.output(hidden_allocations.sum(&:allocated_hours))
-    end
-
-    # A project planner lumps everything outside its own project together, the
-    # same way its utilization does. A global planner has no such boundary, so
-    # only what the viewer may not see stays lumped.
+    # Every allocation the utilization above is computed from gets its own row, so
+    # the lookup is bounded by what the viewer may see and nothing else.
     def work_packages_by_id
-      @work_packages_by_id ||= begin
-        scope = WorkPackage.visible(User.current).where(id: allocations.map(&:entity_id).uniq)
-        scope = scope.where(project:) if project
-
-        scope.index_by(&:id)
-      end
+      @work_packages_by_id ||=
+        WorkPackage
+          .visible(User.current)
+          .where(id: allocations.map(&:entity_id).uniq)
+          .includes(:project)
+          .index_by(&:id)
     end
 
     def work_package_for(allocation)

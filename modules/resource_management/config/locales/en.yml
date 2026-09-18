@@ -231,9 +231,7 @@ en:
     user_allocations_dialog:
       allocate_work_package: Allocate work package
       blank: This user has no allocated work packages.
-      other_work_packages:
-        one: "1 other work package"
-        other: "%{count} other work packages"
+      hidden_work_package: Work package not visible to you
       title: Utilization
     user_card_list:
       add_user_dialog:

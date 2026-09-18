@@ -67,11 +67,13 @@ RSpec.describe "User resource allocations requests", type: :rails_request, with_
       expect(response.body).to include("Visible work")
     end
 
-    it "lumps hidden work packages together" do
+    # The utilization above the list counts every allocation, so every allocation
+    # gets a row and the two cannot disagree.
+    it "shows a hidden work package as an undisclosed row rather than dropping it" do
       get path, as: :turbo_stream
 
       expect(response.body).not_to include("Secret work")
-      expect(response.body).to include(I18n.t("resource_management.user_allocations_dialog.other_work_packages.one"))
+      expect(response.body).to include(I18n.t("resource_management.user_allocations_dialog.hidden_work_package"))
     end
 
     context "when the other project is visible to the viewer as well" do
@@ -83,11 +85,12 @@ RSpec.describe "User resource allocations requests", type: :rails_request, with_
                })
       end
 
-      it "keeps lumping it together, a project planner not reaching outside its project" do
+      it "shows the work package and names the project it reaches into" do
         get path, as: :turbo_stream
 
-        expect(response.body).not_to include("Secret work")
-        expect(response.body).to include(I18n.t("resource_management.user_allocations_dialog.other_work_packages.one"))
+        expect(response.body).to include("Secret work")
+        expect(response.body).to include(other_project.name)
+        expect(response.body).not_to include(I18n.t("resource_management.user_allocations_dialog.hidden_work_package"))
       end
     end
 
