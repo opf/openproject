@@ -52,14 +52,12 @@ function buildTitle(workPackage:WorkPackage, linkTitle:boolean) {
 const CardBase = styled.div<{ $inDropdown:boolean }>`
   ${defaultWpVariables}
   padding: var(--spacer-m) var(--spacer-l);
-  background-color: var(--highlight-wp-background);
   border-radius: var(--bn-border-radius);
 
   ${({ $inDropdown }) =>
     $inDropdown &&
     `
     padding: var(--spacer-s) 0;
-    background-color: transparent;
   `}
 `;
 

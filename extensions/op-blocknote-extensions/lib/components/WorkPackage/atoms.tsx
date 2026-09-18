@@ -23,7 +23,7 @@ export const defaultWpVariables = css`
   --lightness-threshold: 0.453;
   --background-alpha: 0.18;
 
-  --op-chip-bg: var(--bn-colors-highlights-gray-background);
+  --op-chip-bg: var(--bgColor-muted, #f6f8fa);
   --op-item-hover-bg: var(--bn-colors-highlights-gray-background, #f0f0f0);
   --op-wp-meta-color: ${metaTextColor};
 

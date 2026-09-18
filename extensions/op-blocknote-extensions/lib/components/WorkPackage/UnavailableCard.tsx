@@ -23,7 +23,6 @@ const UnavailableWorkPackage = styled.div.attrs({
 })`
   ${defaultWpVariables}
   padding: var(--spacer-m) var(--spacer-l);
-  background-color: var(--highlight-wp-background);
   border-radius: var(--bn-border-radius-small);
 `;
 
