@@ -806,11 +806,20 @@ pt-PT:
       sorting_disabled: ordenação desativada
     sortable_lists:
       announcements:
+        batch_too_large: Cannot move %{count} items at once. Select no more than %{max}.
         fallback_item_label: Elemento
         fallback_list_name: outra lista
         move_failed_check_position: Erro ao mover. Verifique a posição atual do elemento.
+        move_failed_check_positions_batch:
+          other: Move failed. Check the items' current positions.
         move_failed_rolled_back: Erro ao mover. %{label} voltou à sua posição anterior.
+        move_failed_rolled_back_batch:
+          other: Move failed. %{count} items returned to their previous positions.
         moved: "%{label} movido para a posição %{position} de %{total}"
+        moved_batch:
+          other: "%{count} items moved to positions %{first} through %{last} of %{total}"
+        moved_batch_to_list:
+          other: "%{count} items moved to %{list}, positions %{first} through %{last} of %{total}"
         moved_to_list: "%{label} transferido para %{list}, cargo %{position} de %{total}"
       selection:
         cleared: Selection cleared.

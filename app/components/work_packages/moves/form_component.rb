@@ -90,7 +90,7 @@ module WorkPackages
       end
 
       def available_statuses
-        @available_statuses ||= Workflow.available_statuses(target_project, current_user)
+        @available_statuses ||= Workflows::StatusTransition.available_statuses(target_project, current_user)
       end
 
       def unavailable_type_in_target_project?

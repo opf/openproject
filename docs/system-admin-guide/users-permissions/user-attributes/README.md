@@ -132,7 +132,7 @@ User attributes of the **Hierarchy** type function in the same way as work packa
 
 To edit a custom user attribute:
 
-1. Select the **More (...) ** menu.
+1. Select the **More (...)** menu.
 2. Select **Edit**.
 
 Update the attribute settings as required.
@@ -143,7 +143,7 @@ Update the attribute settings as required.
 
 User attributes appear in the order configured on this page.
 
-To change the order, select the **More (...) ** menu next to an attribute and choose:
+To change the order, select the **More (...)** menu next to an attribute and choose:
 
 - Move to top
 - Move up

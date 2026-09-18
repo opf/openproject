@@ -2,17 +2,19 @@
 ru:
   activerecord:
     attributes:
+      placeholder_user:
+        user_filter: Filter criteria
       resource_allocation:
         allocated_hours: Часы
         allocated_time: Распределенное время
         date_range: Даты
         end_date: Дата окончания
         entity: Сущность
-        filter_name: Название фильтра ресурсов
+        placeholder_or_user: Assignee
+        placeholder_user: Placeholder user
         principal: Исполнитель
         start_date: Дата начала
         state: Состояние
-        user_filter: Фильтры пользователей
       resource_planner:
         date_range: Даты
         default_view_class_name: Представление по умолчанию
@@ -99,14 +101,12 @@ ru:
       make_public: Сделать общедоступным
       unfavorite: Удалить из избранного
     allocate_resource_dialog:
-      kind:
-        filter:
-          caption: Установите критерии фильтрации на основе атрибутов пользователя для создания ресурса-заполнителя.
-          label: Критерии фильтрации
-        label: Тип распределения
-        principal:
-          caption: Распределить часы для определенного пользователя.
-          label: Пользователь
+      criteria:
+        empty: No criteria set.
+        label: Criteria
+      missing_working_hours:
+        none: The selected user has no working hours configured for these dates, so they are counted as having no capacity.
+        partial: The selected user has no working hours configured for %{dates}, so those days are counted as having no capacity.
       outside_dates:
         description: Выбранные даты ресурса, %{resource_dates}, вне дат пакета работ, %{work_package_dates}.
       overbooking:
@@ -152,6 +152,9 @@ ru:
           caption: Пользовательский список элементов, которые вы добавляете и удаляете вручную. Фильтрация невозможна.
           label: Выбрано вручную
       title: Настроить представление
+    create_placeholder_user_dialog:
+      submit: Create
+      title: Create placeholder user
     edit_allocation_dialog:
       submit: Сохранить
       success_message: Распределение ресурсов обновлено.

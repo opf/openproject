@@ -40,7 +40,11 @@ module Admin
       end
 
       def user
-        render(Users::AvatarComponent.new(user: principal, size: :mini, link: true, show_name: true))
+        render(Users::AvatarComponent.new(user: principal,
+                                          size: :mini,
+                                          link: true,
+                                          show_name: true,
+                                          classes: "op-principal_flex"))
       end
 
       def project

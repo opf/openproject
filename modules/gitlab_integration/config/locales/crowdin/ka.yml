@@ -55,7 +55,6 @@ ka:
     commit: Commit
     gitlab: GitLab identifier
     gitlab_avatar_url: Avatar URL
-    gitlab_email: GitLab Email
     gitlab_html_url: GitLab HTML URL
     gitlab_merge_request: Merge Request
     gitlab_name: GitLab name

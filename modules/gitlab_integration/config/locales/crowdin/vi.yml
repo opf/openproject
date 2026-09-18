@@ -51,7 +51,6 @@ vi:
     commit: cam kết
     gitlab: Mã định danh GitLab
     gitlab_avatar_url: URL hình đại diện
-    gitlab_email: Email của GitLab
     gitlab_html_url: URL HTML của GitLab
     gitlab_merge_request: Yêu cầu hợp nhất
     gitlab_name: Tên GitLab

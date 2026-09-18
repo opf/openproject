@@ -442,6 +442,13 @@ uk:
         time_zone: Часовий пояс
         warn_on_leaving_unsaved: Попереджати мене, коли залишив робочий пакет із незбереженими змінами
         workdays: Робочі дні
+      user_resource:
+        description: Description
+        name: Name
+        user_filter: User filter
+      user_resource_detail:
+        description: Description
+        user_filter: User filter
       user_working_hours:
         availability_factor: Коефіцієнт доступності
         days: Робочі дні
@@ -862,6 +869,10 @@ uk:
               blank: Укажіть ім’я маркера
               format: "%{message}"
               in_use: Це ім’я маркера вже використовується; виберіть інше
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: This type cannot be deleted while work packages still use it.
         type_variant:
           attributes:
             attribute_groups:
@@ -898,6 +909,8 @@ uk:
               would_create_cycle: зв’яже ці конфігурації в цикл.
             variant:
               must_belong_to_the_type: має бути варіантом цього типу.
+            workflow:
+              not_available_to_this_variant: must be a workflow this project can use.
             workflows_source_id:
               must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: зв’яже ці конфігурації в цикл.
@@ -1714,6 +1727,7 @@ uk:
         ssl_error: 'При підключенні до сервера Jira сталася помилка SSL: %{message}'
         ssrf_block_doc_link: Перегляньте [документацію](docs_url).
         ssrf_blocked: 'З’єднання заблоковано: хост Jira розпізнається як приватна IP-адреса. Якщо ваш екземпляр Jira працює у внутрішній мережі, дозвольте її IP-адресу за допомогою змінної середовища OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
+        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
       columns:
         added: Додано
         creator: Автор
@@ -2241,6 +2255,13 @@ uk:
           assignee: Додаткові переходи, доступні для виконавця пакета робіт.
           author: Додаткові переходи, доступні для автора пакета робіт.
         menu_label: Показані переходи
+  ai:
+    text_transform:
+      errors:
+        connection_failed: The AI service could not be reached.
+        not_available: The AI assistant is not available.
+        timeout: The AI service did not respond in time.
+        upstream_error: The AI service returned an error.
   announcements:
     is_active: наразі відображається
     is_inactive: наразі не відображається
@@ -3049,7 +3070,6 @@ uk:
       custom_actions: Користувацькі дії
       custom_field_hierarchies: Ієрархії
       customize_life_cycle: Налаштування життєвого циклу
-      date_alerts: Оповіщення про дати
       define_custom_style: Користувацька тема й логотип
       edit_attribute_groups: Редагування груп атрибутів
       gantt_pdf_export: Експорт діаграми Ґантта в PDF
@@ -3128,8 +3148,6 @@ uk:
         description: Користувацькі поля типу «Ієрархія» дають змогу впорядковувати ієрархічні структури в пакети робіт і проєкти, використовуючи багаторівневі розкривні списки.
       customize_life_cycle:
         description: Створюйте й упорядковуйте етапи й проєкту, відмінні від тих, що передбачено плануванням циклу проєкту PM2.
-      date_alerts:
-        description: Завдяки оповіщенням про дати ви завжди знатимете про заплановані дати початку або завершення, тож ніколи не пропускатимете важливі терміни й не забуватимете про них.
       define_custom_style:
         description: Персоналізуйте свій екземпляр OpenProject за допомогою власного логотипа й кольорів.
         more_info: 'Примітка: вибраний логотип буде загальнодоступний.'
@@ -3569,6 +3587,7 @@ uk:
         field_set: Для поля «%{field}» вибрано значення «%{value}»
         field_updated: Поле «%{field}» оновлено
         header: зміни вніс (внесла) %{author}
+        migrated: from Jira
         set_with_diff: Поле «%{field}» налаштовано (%{link})
       meeting_cancelled: "(скасовано)"
       meeting_deleted: "(видалено)"
@@ -3766,6 +3785,7 @@ uk:
   label_core_build: Збірка ядра
   label_core_version: Версія ядра
   label_created_by: Створено %{user}
+  label_criteria: Criteria
   label_current_status: Поточний статус
   label_current_version: Поточна версія
   label_custom_comment: Коментар до атрибута «%{name}»
@@ -4340,6 +4360,8 @@ uk:
   label_wiki_start: Початкова сторінка
   label_wiki_toc: Зміст
   label_wiki_toc_empty: Зміст пустий, оскільки немає заголовків.
+  label_with_criteria: With criteria
+  label_without_criteria: Without criteria
   label_work: Робота
   label_work_package: Робочий пакет
   label_work_package_attachments: Додатки до робочого пакету
@@ -5240,6 +5262,13 @@ uk:
     prev: Попереднє
     prev_page: Попередня сторінка
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: Цей текст з’явиться на кожній сторінці в центрі нижнього колонтитула.
@@ -5254,6 +5283,12 @@ uk:
         label: Перенесення
       hyphenation_language:
         label: Мова й поділ слів на склади
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: Виберіть орієнтацію сторінок у PDF-документі.
         label: Орієнтація сторінки
@@ -5401,6 +5436,16 @@ uk:
   permission_work_package_assigned: Стати виконавцем / відповідальним
   permission_work_package_assigned_explanation: Робочі пакети можуть бути призначені користувачам і групам, які володіють цією роллю у відповідному проекті
   placeholder_users:
+    criteria:
+      activate: Activate filter criteria
+      activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
+
+        '
+      enable: Match users by criteria
+      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
+      matching_users: Users meeting the filter criteria
+      no_matching_users: No user meets these criteria.
+      show_all_matching_users: Show all %{count} matching users
     delete_tooltip: Видалити прототип користувача
     deletion_info:
       data_consequences: 'Усі екземпляри прототипу користувача (наприклад, виконавець, відповідальний тощо) буде перепризначено обліковому запису з назвою «Видалений користувач». Оскільки дані кожного видаленого облікового запису перепризначаються цьому обліковому запису, відрізнити дані, створені користувачем, від даних іншого видаленого облікового запису, може бути важко.
@@ -5712,6 +5757,7 @@ uk:
     wizard:
       create_artifact_storage_error: Не вдалося зберегти артефакт у файловому сховищі
       create_artifact_work_package_error: Не вдалося створити пакет робіт артефакту
+      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: Для цього атрибута не визначено текст довідки.
       progress_label: "%{current} з %{total}"
       sections: Розділи
@@ -5916,6 +5962,18 @@ uk:
     permissions:
       section_check_all_label: Призначити всі дозволи модуля «%{module}»
       section_uncheck_all_label: Скасувати призначення всіх дозволів модуля «%{module}»
+    permissions_dialog:
+      edit_permissions: Edit role permissions
+      implicit_permission: Always granted
+      no_permissions: This role does not grant any permissions.
+      permission_count:
+        one: 1 permission
+        few: "%{count} permissions"
+        many: "%{count} permissions"
+        other: "%{count} permissions"
+      preview_action: View permissions
+      preview_aria_label: View the permissions of %{role}
+      title: Permissions of "%{name}"
     report:
       matrix_caption: Матриця дозволів для модуля «%{module}»
       matrix_check_all_label: Призначити всі дозволи модуля «%{module}» усім ролям
@@ -6988,11 +7046,24 @@ uk:
         text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
 
           '
+        workflow_text: 'Its workflow "%{name}" belongs to this project and becomes global as well.
+
+          '
       convert_to_global_notice: "%{name} is now a global variant."
       convert_to_global_rename:
         confirm: Convert
         text: A global variant with this name already exists. Please choose a different name.
         title: Pick another name for this variant
+      delete:
+        description: The type will be deleted permanently. This action cannot be undone.
+        description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
+        heading: Delete type '%{name}'?
+        projects:
+          one: 'The type will be removed from 1 project:'
+          few: 'The type will be removed from %{count} projects:'
+          many: 'The type will be removed from %{count} projects:'
+          other: 'The type will be removed from %{count} projects:'
+        title: Delete type
       description: 'Кожну область конфігурації на рівні типів і варіантів можна налаштувати окремо, обмежити на основі іншого типу або повністю зв’язати з вихідним об’єктом.
 
         '

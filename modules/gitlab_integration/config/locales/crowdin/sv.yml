@@ -55,7 +55,6 @@ sv:
     commit: Commit
     gitlab: GitLab-identifierare
     gitlab_avatar_url: Avatar-URL
-    gitlab_email: GitLab-e-post
     gitlab_html_url: GitLab HTML-URL
     gitlab_merge_request: Merge request
     gitlab_name: GitLab-namn

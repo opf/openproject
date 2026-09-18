@@ -182,7 +182,7 @@ In addition to those overview dashboard options, you can create a [custom query]
 
 ### Date alerts
 
-Date alerts in OpenProject are an [Enterprise add-on](#enterprise-add-on) and defined as a feature to generate automatic and customized [notifications](#notifications) regarding a work package's due date or start date. You can find the date alerts feature in your notification center, symbolized by a little bell on the right upper side of your instance. [Read more about the date alerts feature in our user guide](../user-guide/notifications/notification-settings/#date-alerts-enterprise-add-on) or in [this article on deadline management with OpenProject](https://www.openproject.org/blog/deadline-management-date-alert/).
+Date alerts in OpenProject generate automatic and customized [notifications](#notifications) regarding a work package's due date or start date. You can find the date alerts feature in your notification center, symbolized by a little bell on the right upper side of your instance. [Read more about the date alerts feature in our user guide](../user-guide/notifications/notification-settings/#date-alerts) or in [this article on deadline management with OpenProject](https://www.openproject.org/blog/deadline-management-date-alert/).
 
 You can also set [work package reminders](#reminder) to be notified about a work package at a certain date and time.
 

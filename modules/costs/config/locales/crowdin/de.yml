@@ -72,6 +72,10 @@ de:
           attributes:
             project_ids:
               blank: Bitte wählen Sie ein Projekt aus.
+        rate:
+          attributes:
+            principal:
+              invalid: must be a user or a placeholder user.
         time_entry:
           attributes:
             entity:
@@ -207,6 +211,7 @@ de:
   label_costlog: Gebuchte Stückkosten
   label_costs: Kosten
   label_costs_per_page: Kosten dieser Seite
+  label_current: Current
   label_current_default_rate: Aktueller Standardsatz
   label_date_on: am
   label_day: Tag
@@ -233,6 +238,8 @@ de:
   label_next_week: Woche vor
   label_next_workweek: Nächste Arbeitswoche
   label_no: Nein
+  label_no_default_rate: No default rate set
+  label_no_project_rate: No rate set for this project
   label_no_time: Keine Zeit erfasst
   label_option_plural: Optionen
   label_overall_costs: Gesamtkosten
@@ -253,6 +260,7 @@ de:
   label_today_capitalized: Heute
   label_units: Einheiten
   label_until: bis
+  label_using_current_default_rate: Using current default rate
   label_valid_from: Gültig ab
   label_view_mode_switcher: Ansicht ändern
   label_work_package_filter_add: Ticketfilter hinzufügen
@@ -272,6 +280,10 @@ de:
   permission_edit_rates: Stundensätze editieren
   permission_log_costs: Stückkosten buchen
   permission_log_own_costs: Eigene Stückkosten buchen
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: Gebuchte Kosten ansehen
   permission_view_cost_rates: Stückkosten ansehen
   permission_view_hourly_rates: Alle Stundensätze ansehen
@@ -309,6 +321,11 @@ de:
   text_destroy_cost_entries_question: Es wurden bereits %{cost_entries} auf dieses Ticket gebucht. Was soll mit den Aufwänden geschehen?
   text_destroy_time_and_cost_entries: Gebuchte Aufwände löschen
   text_destroy_time_and_cost_entries_question: Es wurden bereits %{hours} Stunden sowie %{cost_entries} auf dieses Ticket gebucht. Was soll mit den Aufwänden geschehen?
+  text_hourly_rate_destroy_confirmation: The rate of %{rate} valid from %{valid_from} will be deleted. Costs booked against it are recalculated with the rate that then applies.
+  text_hourly_rate_destroy_confirmation_checkbox_label: I understand that this action is not reversible.
+  text_hourly_rate_recalculation: This rate applies from its valid from date until a later rate takes effect. Changing it will also recalculate existing time entries and budgets in that period.
+  text_no_default_rate: The default rate is used in all projects where the user does not have a specific rate set up.
+  text_no_project_rate: This project will use the current default rate.
   text_reassign_time_and_cost_entries: 'Gebuchte Aufwände diesem Ticket zuweisen:'
   text_warning_hidden_elements: Es wurden möglicherweise nicht alle Einträge berücksichtigt.
   total_times:

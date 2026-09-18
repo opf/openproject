@@ -51,7 +51,6 @@ zh-CN:
     commit: 提交
     gitlab: GitLab 标识符
     gitlab_avatar_url: 头像 URL
-    gitlab_email: GitLab Email
     gitlab_html_url: GitLab HTML URL
     gitlab_merge_request: 合并请求
     gitlab_name: GitLab 名称

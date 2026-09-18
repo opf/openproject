@@ -81,16 +81,40 @@ RSpec.describe "Statuses admin page", :js do
       end
     end
 
-    it "reorders statuses by dragging them" do
-      statuses_page.visit!
+    it "reorders statuses by dragging them after a morph", :selenium do
+      visit statuses_page.path
 
-      statuses_page.drag_status(from_index: 0, to_index: 2)
-      wait_for_network_idle
+      wait_for_turbo_stream { statuses_page.drag_status(from_index: 2, to_index: 0) }
 
-      statuses_page.expect_listed("In Progress", "Done", "New")
+      statuses_page.expect_listed("Done", "New", "In Progress")
+      expect(Status.order(:position).pluck(:name)).to eq(["Done", "New", "In Progress"])
+
+      wait_for_turbo_stream { statuses_page.drag_status(from_index: 0, to_index: 2) }
+
+      statuses_page.expect_listed("New", "Done", "In Progress")
+      expect(Status.order(:position).pluck(:name)).to eq(["New", "Done", "In Progress"])
 
       statuses_page.reload!
+      statuses_page.expect_listed("New", "Done", "In Progress")
+    end
+
+    it "preserves focus on a surviving link when a move form morphs the list", :selenium do
+      visit statuses_page.path
+
+      move_button = nil
+      statuses_page.within_status(status_new) do
+        click_on accessible_name: "Status actions"
+        move_button = find_button("Move to bottom")
+      end
+      move_button.send_keys(:escape)
+      expect(move_button).not_to be_visible
+      find_link("In Progress").execute_script("this.focus()")
+      expect(page).to have_css("a[href='/statuses/#{status_in_progress.id}/edit']:focus")
+
+      wait_for_turbo_stream { move_button.execute_script("this.form.requestSubmit(this)") }
+
       statuses_page.expect_listed("In Progress", "Done", "New")
+      expect(page).to have_css("a[href='/statuses/#{status_in_progress.id}/edit']:focus")
     end
 
     describe "quick filters" do
@@ -121,12 +145,13 @@ RSpec.describe "Statuses admin page", :js do
         statuses_page.quick_filter_by("type", "Type", "Task")
 
         statuses_page.expect_no_reordering
+        expect(page).to have_no_css("[data-controller*='sortable-lists']")
       end
     end
 
     describe "pagination", with_settings: { per_page_options: "2, 100" } do
-      it "pages the list, and a larger page size widens what drag and drop can reach" do
-        statuses_page.visit!
+      it "pages the list, and a larger page size widens what drag and drop can reach", :selenium do
+        visit statuses_page.path
 
         statuses_page.expect_listed("New", "In Progress")
 
@@ -134,10 +159,36 @@ RSpec.describe "Statuses admin page", :js do
 
         statuses_page.expect_listed("New", "In Progress", "Done")
 
-        statuses_page.drag_status(from_index: 0, to_index: 2)
-        wait_for_network_idle
+        wait_for_turbo_stream { statuses_page.drag_status(from_index: 2, to_index: 0) }
 
-        statuses_page.expect_listed("In Progress", "Done", "New")
+        statuses_page.expect_listed("Done", "New", "In Progress")
+        expect(Status.order(:position).pluck(:name)).to eq(["Done", "New", "In Progress"])
+      end
+
+      it "keeps a drop at the top of page two on page two", :selenium do
+        create(:status, name: "Archived")
+        visit statuses_page.path
+        statuses_page.go_to_page(2)
+        statuses_page.expect_listed("Done", "Archived")
+
+        wait_for_turbo_stream { statuses_page.drag_status(from_index: 1, to_index: 0) }
+
+        statuses_page.expect_listed("Archived", "Done")
+        expect(Status.order(:position).pluck(:name)).to eq(["New", "In Progress", "Archived", "Done"])
+
+        statuses_page.reload!
+        statuses_page.expect_listed("Archived", "Done")
+      end
+
+      it "moves to the global top through the menu on page two" do
+        statuses_page.visit!
+        statuses_page.go_to_page(2)
+        statuses_page.expect_listed("Done")
+
+        wait_for_turbo_stream { statuses_page.click_status_action(status_done, action: "Move to top") }
+
+        statuses_page.expect_listed("In Progress")
+        expect(Status.order(:position).pluck(:name)).to eq(["Done", "New", "In Progress"])
       end
 
       it "keeps the reader on their page after a move" do

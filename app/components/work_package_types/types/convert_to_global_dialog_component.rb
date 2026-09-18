@@ -36,18 +36,30 @@ module WorkPackageTypes
 
       DIALOG_ID = "variant-convert-to-global-dialog"
 
-      def initialize(url:)
+      def initialize(variant:, url:)
         super()
 
+        @variant = variant
         @url = url
       end
 
       private
 
-      attr_reader :url
+      attr_reader :variant, :url
 
       def dialog_id
         DIALOG_ID
+      end
+
+      def description
+        safe_join([t("types.index.convert_to_global_dialog.text"), workflow_note].compact, " ")
+      end
+
+      def workflow_note
+        workflow = variant.workflow
+        return unless workflow&.project_specific?
+
+        t("types.index.convert_to_global_dialog.workflow_text", name: workflow.name)
       end
     end
   end

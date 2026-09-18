@@ -154,4 +154,37 @@ RSpec.describe OpPrimer::InsetBoxComponent, type: :component do
       expect(rendered).to have_no_css(".d-flex")
     end
   end
+
+  context "with a clipboard copy button" do
+    it "renders it in the header row" do
+      rendered = render_inline(described_class.new) do |box|
+        box.with_clipboard_copy_button(value: "copied value", aria: { label: "Copy value" })
+        "Some content"
+      end
+
+      expect(rendered).to have_css("clipboard-copy[value='copied value']")
+    end
+
+    it "defaults to an invisible button scheme" do
+      rendered = render_inline(described_class.new) do |box|
+        box.with_clipboard_copy_button(value: "copied value", aria: { label: "Copy value" })
+      end
+
+      expect(rendered).to have_css("clipboard-copy.Button--invisible")
+    end
+
+    it "allows overriding the scheme" do
+      rendered = render_inline(described_class.new) do |box|
+        box.with_clipboard_copy_button(scheme: :default, value: "copied value", aria: { label: "Copy value" })
+      end
+
+      expect(rendered).to have_no_css(".Button--invisible")
+    end
+
+    it "renders no clipboard copy button without one being set" do
+      rendered = render_inline(described_class.new) { "Only content" }
+
+      expect(rendered).to have_no_css("clipboard-copy")
+    end
+  end
 end

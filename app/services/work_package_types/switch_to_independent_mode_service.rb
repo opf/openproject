@@ -40,7 +40,7 @@ module WorkPackageTypes
     # Column-backed aspects assign blank values, association-backed aspects delete their rows.
     EMPTY_CONFIGURATION = {
       TypeVariant::DEFAULTS => ->(variant) { variant.update!(patterns: {}, default_work_package_description: nil) },
-      TypeVariant::WORKFLOWS => ->(variant) { variant.own_workflows.destroy_all },
+      TypeVariant::WORKFLOWS => ->(variant) { variant.replace_with_empty_workflow! },
       TypeVariant::PROJECT_ATTRIBUTES => ->(variant) { variant.own_project_custom_field_type_mappings.delete_all }
     }.freeze
 

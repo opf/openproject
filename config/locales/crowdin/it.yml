@@ -442,6 +442,13 @@ it:
         time_zone: Fuso orario
         warn_on_leaving_unsaved: Avvisami quando sto lasciando una macro-attività non salvata
         workdays: Giorni lavorativi
+      user_resource:
+        description: Description
+        name: Name
+        user_filter: User filter
+      user_resource_detail:
+        description: Description
+        user_filter: User filter
       user_working_hours:
         availability_factor: Fattore di disponibilità
         days: Giorni lavorativi
@@ -856,6 +863,10 @@ it:
               blank: Indica un nome per il token
               format: "%{message}"
               in_use: Questo nome di token è già utilizzato, scegline uno differente
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: This type cannot be deleted while work packages still use it.
         type_variant:
           attributes:
             attribute_groups:
@@ -892,6 +903,8 @@ it:
               would_create_cycle: collegherebbe queste configurazioni creando un ciclo.
             variant:
               must_belong_to_the_type: deve essere una variante di questo tipo.
+            workflow:
+              not_available_to_this_variant: must be a workflow this project can use.
             workflows_source_id:
               must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: collegherebbe queste configurazioni creando un ciclo.
@@ -1498,6 +1511,7 @@ it:
         ssl_error: 'Errore di connessione SSL al server Jira: %{message}'
         ssrf_block_doc_link: Consulta la nostra [documentazione](docs_url).
         ssrf_blocked: 'Connessione bloccata: l''host Jira viene risolto in un indirizzo IP privato. Se la tua istanza Jira è in esecuzione su una rete interna, autorizza il suo IP tramite la variabile d''ambiente OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
+        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
       columns:
         added: Aggiunta
         creator: Autore
@@ -2001,6 +2015,13 @@ it:
           assignee: Ulteriori transizioni disponibili per l'assegnatario della macro-attività.
           author: Ulteriori transizioni disponibili per l'autore della macro-attività.
         menu_label: Transizioni visualizzate
+  ai:
+    text_transform:
+      errors:
+        connection_failed: The AI service could not be reached.
+        not_available: The AI assistant is not available.
+        timeout: The AI service did not respond in time.
+        upstream_error: The AI service returned an error.
   announcements:
     is_active: attualmente visualizzato
     is_inactive: attualmente non visualizzato
@@ -2767,7 +2788,6 @@ it:
       custom_actions: Azioni personalizzate
       custom_field_hierarchies: Gerarchie
       customize_life_cycle: Personalizza il ciclo di vita
-      date_alerts: Avvisi di data
       define_custom_style: Tema e logo personalizzati
       edit_attribute_groups: Modifica proprietà gruppo
       gantt_pdf_export: Esportazione PDF Gantt
@@ -2844,8 +2864,6 @@ it:
         description: I campi personalizzati gerarchici consentono di organizzare strutture gerarchiche di macro-attività e progetti utilizzando elenchi di selezione multilivello.
       customize_life_cycle:
         description: Crea e organizza fasi di progetto diverse da quelle forniti dalla pianificazione del ciclo di progetto PM2.
-      date_alerts:
-        description: Con gli avvisi sulle date, sarai avvisato delle prossime date di inizio o di fine in modo da non perdere mai o dimenticare una scadenza importante.
       define_custom_style:
         description: Personalizza la tua installazione OpenProject con il tuo logo e i tuoi colori.
         more_info: 'Nota: il logo utilizzato sarà accessibile al pubblico.'
@@ -3275,6 +3293,7 @@ it:
         field_set: "%{field} impostato su %{value}"
         field_updated: "%{field} aggiornato"
         header: modifiche di %{author}
+        migrated: from Jira
         set_with_diff: "%{field} impostato (%{link})"
       meeting_cancelled: "(annullata)"
       meeting_deleted: "(eliminata)"
@@ -3472,6 +3491,7 @@ it:
   label_core_build: Core build
   label_core_version: Versione core
   label_created_by: Creato da %{user}
+  label_criteria: Criteria
   label_current_status: Stato attuale
   label_current_version: Versione corrente
   label_custom_comment: Commento di %{name}
@@ -4046,6 +4066,8 @@ it:
   label_wiki_start: Pagina iniziale
   label_wiki_toc: Sommario
   label_wiki_toc_empty: La tabella dei contenuti è vuota in quanto non è presente nessuna intestazione.
+  label_with_criteria: With criteria
+  label_without_criteria: Without criteria
   label_work: Lavoro
   label_work_package: Macro-attività
   label_work_package_attachments: Allegati macro-attività
@@ -4922,6 +4944,13 @@ it:
     prev: Precedente
     prev_page: Pagina precedente
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: Questo testo apparirà in ogni pagina al centro del piè di pagina.
@@ -4936,6 +4965,12 @@ it:
         label: Sillabazione
       hyphenation_language:
         label: Lingua e trattini
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: Seleziona l'orientamento delle pagine nel documento PDF.
         label: Orientamento pagina
@@ -5083,6 +5118,16 @@ it:
   permission_work_package_assigned: Diventa assegnatario/responsabile
   permission_work_package_assigned_explanation: È possibile assegnare macro-attività ad utenti e gruppi che hanno questo ruolo nel rispettivo progetto
   placeholder_users:
+    criteria:
+      activate: Activate filter criteria
+      activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
+
+        '
+      enable: Match users by criteria
+      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
+      matching_users: Users meeting the filter criteria
+      no_matching_users: No user meets these criteria.
+      show_all_matching_users: Show all %{count} matching users
     delete_tooltip: Elimina utente segnaposto
     deletion_info:
       data_consequences: 'Tutte le occorrenze dell''utente segnaposto (ad esempio, come assegnatario, responsabile o altri valori) saranno riassegnate a un account chiamato "Utente eliminato". Poiché i dati di ogni account eliminato vengono riassegnati a questo account, non sarà possibile distinguere i dati creati dall''utente dai dati di un altro account eliminato.
@@ -5386,6 +5431,7 @@ it:
     wizard:
       create_artifact_storage_error: Impossibile salvare l'artefatto nell'archivio file esterno
       create_artifact_work_package_error: Creazione della macro-attività dell'artefatto non riuscita
+      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: Questo attributo non ha un testo guida definito.
       progress_label: "%{current} di %{total}"
       sections: Sezioni
@@ -5576,6 +5622,16 @@ it:
     permissions:
       section_check_all_label: Assegna tutti i permessi di %{module}
       section_uncheck_all_label: Annulla l'assegnazione di tutti i permessi di %{module}
+    permissions_dialog:
+      edit_permissions: Edit role permissions
+      implicit_permission: Always granted
+      no_permissions: This role does not grant any permissions.
+      permission_count:
+        one: 1 permission
+        other: "%{count} permissions"
+      preview_action: View permissions
+      preview_aria_label: View the permissions of %{role}
+      title: Permissions of "%{name}"
     report:
       matrix_caption: Matrice dei permessi per il modulo %{module}
       matrix_check_all_label: Assegna tutti i permessi di %{module} a tutti i ruoli
@@ -6642,11 +6698,22 @@ it:
         text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
 
           '
+        workflow_text: 'Its workflow "%{name}" belongs to this project and becomes global as well.
+
+          '
       convert_to_global_notice: "%{name} is now a global variant."
       convert_to_global_rename:
         confirm: Convert
         text: A global variant with this name already exists. Please choose a different name.
         title: Pick another name for this variant
+      delete:
+        description: The type will be deleted permanently. This action cannot be undone.
+        description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
+        heading: Delete type '%{name}'?
+        projects:
+          one: 'The type will be removed from 1 project:'
+          other: 'The type will be removed from %{count} projects:'
+        title: Delete type
       description: 'Ogni area di configurazione dei tipi e delle varianti può essere configurata in modo indipendente, vincolata da un altro tipo oppure completamente collegata a un''origine.
 
         '

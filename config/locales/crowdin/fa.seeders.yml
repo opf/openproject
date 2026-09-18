@@ -251,25 +251,25 @@ fa:
           versions:
             item_0:
               wiki:
-                title: Release 1.0
+                title: انتشار 1.0
                 content: |
-                  ### Release 1.0
+                  ### انتشار 1.0
 
-                  _Please document here what this release contains._
+                  _لطفاً در اینجا مستند کنید که این انتشار شامل چه مواردی است._
 
-                  * The work packages of this release are the ones with the target version 1.0.
-                  * The release date is the date of the *Release v1.0* milestone.
-                  * Open the [Roadmap]({{opSetting:base_url}}/projects/your-scrum-project/roadmap) to follow the progress of all versions.
-                  * Open [Project settings &rightarrow; Versions]({{opSetting:base_url}}/projects/your-scrum-project/settings/versions) to link another wiki page to a version.
+                  * بسته‌های کاری این انتشار، همان‌هایی هستند که نسخه هدف 1.0 دارند.
+                  * تاریخ انتشار، تاریخ نقطه عطف *انتشار v1.0* است.
+                  * برای پیگیری پیشرفت همه نسخه‌ها، [نقشه راه]({{opSetting:base_url}}/projects/your-scrum-project/roadmap) را باز کنید.
+                  * برای پیوند دادن صفحه ویکی دیگری به یک نسخه، [تنظیمات پروژه &rightarrow; نسخه‌ها]({{opSetting:base_url}}/projects/your-scrum-project/settings/versions) را باز کنید.
           categories:
             item_0: دسته‌بندی ۱ (در تنظیمات پروژه تغییر دهید)
           queries:
             item_0:
               name: برنامهٔ پروژه
             item_1:
-              name: Version 1.1
+              name: نسخه 1.1
             item_2:
-              name: Version 1.0
+              name: نسخه 1.0
             item_3:
               name: وظایف
           boards:
@@ -295,21 +295,21 @@ fa:
                 options:
                   name: شروع کار
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    خوشحالیم که به ما پیوستید! پیشنهاد می‌کنیم برای شروع چند مورد را امتحان کنید.
 
-                    _Try the following steps:_
+                    _مراحل زیر را امتحان کنید:_
 
-                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
-                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
-                    3. *Create a sprint*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and click "+ Sprint" to create a new sprint. Move work packages from the backlog to the sprint to plan the work to be done. When ready, click "Start sprint".
-                    4. *View your Sprint board*: &rightarrow; Go to [Boards]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Open the sprint's board by clicking on the sprint's name.
-                    5. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    6. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
-                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
+                    1. *اعضای جدید را به پروژه دعوت کنید*: &rightarrow; در ناوبری پروژه به [اعضا]({{opSetting:base_url}}/projects/your-scrum-project/members) بروید.
+                    2. *بک‌لاگ محصول و بک‌لاگ‌های اسپرینت را مشاهده کنید*: &rightarrow; در ناوبری پروژه به [بک‌لاگ‌ها]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) بروید.
+                    3. *یک اسپرینت ایجاد کنید*: &rightarrow; به [بک‌لاگ‌ها]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) بروید و برای ایجاد اسپرینت جدید روی «+ اسپرینت» کلیک کنید. بسته‌های کاری را از بک‌لاگ به اسپرینت منتقل کنید تا کارهای موردنظر را برنامه‌ریزی کنید. وقتی آماده بودید، روی «شروع اسپرینت» کلیک کنید.
+                    4. *برد اسپرینت خود را مشاهده کنید*: &rightarrow; به [بردها]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) بروید &rightarrow; با کلیک روی نام اسپرینت، برد آن را باز کنید.
+                    5. *یک بسته کاری جدید ایجاد کنید*: &rightarrow; به [بسته‌های کاری &rightarrow; ایجاد]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new) بروید.
+                    6. *برنامه پروژه را ایجاد و به‌روزرسانی کنید*: &rightarrow; در ناوبری پروژه به [برنامه پروژه](##query:scrum_project__query__project_plan) بروید.
+                    7. *ماژول‌های بیشتری را فعال کنید*: &rightarrow; به [تنظیمات پروژه &rightarrow; ماژول‌ها]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules) بروید.
 
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
+                    در اینجا [راهنماهای کاربری](https://www.openproject.org/docs/user-guide/) ما را پیدا می‌کنید.
+                    اگر پرسشی دارید یا به پشتیبانی نیاز دارید، لطفاً با ما در تماس باشید: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: بسته‌های کاری

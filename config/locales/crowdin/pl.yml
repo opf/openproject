@@ -442,6 +442,13 @@ pl:
         time_zone: Strefa czasowa
         warn_on_leaving_unsaved: Ostrzegaj mnie, gdy opuszczam zadanie z niezapisanymi zmianami
         workdays: Dni robocze
+      user_resource:
+        description: Description
+        name: Name
+        user_filter: User filter
+      user_resource_detail:
+        description: Description
+        user_filter: User filter
       user_working_hours:
         availability_factor: Współczynnik dostępności
         days: Dni robocze
@@ -858,6 +865,10 @@ pl:
               blank: Podaj nazwę tokena
               format: "%{message}"
               in_use: Ta nazwa tokena jest już używana, wybierz inną
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: This type cannot be deleted while work packages still use it.
         type_variant:
           attributes:
             attribute_groups:
@@ -894,6 +905,8 @@ pl:
               would_create_cycle: połączyłby te konfiguracje w pętlę.
             variant:
               must_belong_to_the_type: musi być wariantem tego typu.
+            workflow:
+              not_available_to_this_variant: must be a workflow this project can use.
             workflows_source_id:
               must_be_available_to_the_variant: must be a configuration this project can use.
               would_create_cycle: połączyłby te konfiguracje w pętlę.
@@ -1710,6 +1723,7 @@ pl:
         ssl_error: 'Błąd SSL podczas łączenia się z serwerem Jira: %{message}'
         ssrf_block_doc_link: Zapoznaj się z naszą [dokumentacją](docs_url).
         ssrf_blocked: 'Połączenie zablokowane: host Jira jest rozpoznawany jako prywatny adres IP. Jeśli instancja Jira działa w sieci wewnętrznej, należy zezwolić na jej adres IP za pomocą zmiennej środowiskowej OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
+        unsupported_endpoint: Jira API has no endpoint at %{path} (status %{status})
       columns:
         added: Dodano
         creator: Twórca
@@ -2237,6 +2251,13 @@ pl:
           assignee: Dodatkowe przejścia dostępne dla osoby przypisanej do pakietu roboczego.
           author: Dodatkowe przejścia dostępne dla autora pakietu roboczego.
         menu_label: Pokazane przejścia
+  ai:
+    text_transform:
+      errors:
+        connection_failed: The AI service could not be reached.
+        not_available: The AI assistant is not available.
+        timeout: The AI service did not respond in time.
+        upstream_error: The AI service returned an error.
   announcements:
     is_active: obecnie wyświetlane
     is_inactive: obecnie nie są wyświetlane
@@ -3043,7 +3064,6 @@ pl:
       custom_actions: Działania niestandardowe
       custom_field_hierarchies: Hierarchie
       customize_life_cycle: Dostosuj cykl życia
-      date_alerts: Alerty dotyczące dat
       define_custom_style: Niestandardowy motyw i logotyp
       edit_attribute_groups: Edytuj grupy atrybutów
       gantt_pdf_export: Eksport wykresu Gantta w formacie PDF
@@ -3120,8 +3140,6 @@ pl:
         description: Pola niestandardowe hierarchii umożliwiają organizowanie hierarchicznych struktur w pakietach roboczych i projektach poprzez użycie wielopoziomowych list wyboru.
       customize_life_cycle:
         description: Twórz i organizuj fazy projektu inne niż zapewniane przez planowanie cyklu projektu PM2.
-      date_alerts:
-        description: Dzięki alertom dotyczącym dat będziesz otrzymywać powiadomienia o zbliżających się terminach rozpoczęcia lub zakończenia pracy, dzięki czemu nigdy nie przegapisz ani nie zapomnisz ważnego terminu.
       define_custom_style:
         description: Dostosuj swoją instalację OpenProject do własnego logo i kolorów.
         more_info: 'Uwaga: użyte logo będzie ogólnodostępne.'
@@ -3559,6 +3577,7 @@ pl:
         field_set: W polu %{field} ustawiono wartość %{value}
         field_updated: Zaktualizowano %{field}
         header: zmiany wprowadzone przez %{author}
+        migrated: from Jira
         set_with_diff: Ustawiono pole %{field} (%{link})
       meeting_cancelled: "(anulowano)"
       meeting_deleted: "(usunięto)"
@@ -3756,6 +3775,7 @@ pl:
   label_core_build: Kompilacja bazowa
   label_core_version: Wersja bazowa
   label_created_by: 'Autor: %{user}'
+  label_criteria: Criteria
   label_current_status: Aktualny stan
   label_current_version: Aktualna wersja
   label_custom_comment: Komentarz %{name}
@@ -4330,6 +4350,8 @@ pl:
   label_wiki_start: Strona startowa
   label_wiki_toc: Spis treści
   label_wiki_toc_empty: Spis treści jest pusty, ponieważ nie ma żadnych nagłówków.
+  label_with_criteria: With criteria
+  label_without_criteria: Without criteria
   label_work: Praca
   label_work_package: Zadanie
   label_work_package_attachments: Załączniki pakietu roboczego
@@ -5236,6 +5258,13 @@ pl:
     prev: Wstecz
     prev_page: Poprzednia strona
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Cost per unit
+      description: Description
+      labor: Labor costs
+      material: Unit costs
+      sum: Sum
+      total: Total
     dialog:
       footer_center:
         caption: Ten tekst będzie wyświetlany na każdej stronie pośrodku stopki.
@@ -5250,6 +5279,12 @@ pl:
         label: Dzielenie wyrazów
       hyphenation_language:
         label: Język i dzielenie wyrazów
+      include_budget:
+        caption: Include the project's budgets with their planned unit and labor cost items.
+        label: Project budgets
+      include_lifecycle:
+        caption: Include the project's phases and their date ranges.
+        label: Project lifecycle
       page_orientation:
         caption: Wybierz orientację stron w dokumencie PDF.
         label: Orientacja stron
@@ -5397,6 +5432,16 @@ pl:
   permission_work_package_assigned: Zostań osobą przypisaną/odpowiedzialną
   permission_work_package_assigned_explanation: Pakiety robocze mogą być przypisane do użytkowników i grup znajdujących się w posiadaniu tej roli w odpowiednim projekcie
   placeholder_users:
+    criteria:
+      activate: Activate filter criteria
+      activate_caption: 'This allows to add a set of filters to this placeholder user used to define the possible users that fit the desired criteria.
+
+        '
+      enable: Match users by criteria
+      enable_caption: Describe the kind of user this placeholder stands for, so matching users can be suggested for it.
+      matching_users: Users meeting the filter criteria
+      no_matching_users: No user meets these criteria.
+      show_all_matching_users: Show all %{count} matching users
     delete_tooltip: Usuń użytkownika zastępczego
     deletion_info:
       data_consequences: 'Wszystkie wystąpienia użytkownika zastępczego (np. jako osoby przypisanej, odpowiedzialnej lub inne wartości użytkownika) zostaną przypisane do konta o nazwie „Usunięty użytkownik”. Jako że do tego konta przypisywane są dane każdego usuniętego konta, nie można odróżnić danych utworzonych przez użytkownika od danych innego usuniętego konta.
@@ -5708,6 +5753,7 @@ pl:
     wizard:
       create_artifact_storage_error: Nie udało się zapisać artefaktu w magazynie plików
       create_artifact_work_package_error: Nie udało się utworzyć pakietu roboczego artefaktu
+      no_custom_fields_html: This project has no project attributes enabled for the wizard. Please enable at least one in the <a href="%{link}">project settings</a>.
       no_help_text: Ten atrybut nie ma zdefiniowanego tekstu pomocy.
       progress_label: "%{current} z %{total}"
       sections: Sekcje
@@ -5900,6 +5946,18 @@ pl:
     permissions:
       section_check_all_label: Przypisz wszystkie uprawnienia do %{module}
       section_uncheck_all_label: Cofnij przypisanie wszystkich uprawnień do %{module}
+    permissions_dialog:
+      edit_permissions: Edit role permissions
+      implicit_permission: Always granted
+      no_permissions: This role does not grant any permissions.
+      permission_count:
+        one: 1 permission
+        few: "%{count} permissions"
+        many: "%{count} permissions"
+        other: "%{count} permissions"
+      preview_action: View permissions
+      preview_aria_label: View the permissions of %{role}
+      title: Permissions of "%{name}"
     report:
       matrix_caption: Macierz uprawnień do modułu %{module}
       matrix_check_all_label: Przypisz wszystkie uprawnienia do %{module} do wszystkich ról
@@ -6973,11 +7031,24 @@ pl:
         text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
 
           '
+        workflow_text: 'Its workflow "%{name}" belongs to this project and becomes global as well.
+
+          '
       convert_to_global_notice: "%{name} is now a global variant."
       convert_to_global_rename:
         confirm: Convert
         text: A global variant with this name already exists. Please choose a different name.
         title: Pick another name for this variant
+      delete:
+        description: The type will be deleted permanently. This action cannot be undone.
+        description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
+        heading: Delete type '%{name}'?
+        projects:
+          one: 'The type will be removed from 1 project:'
+          few: 'The type will be removed from %{count} projects:'
+          many: 'The type will be removed from %{count} projects:'
+          other: 'The type will be removed from %{count} projects:'
+        title: Delete type
       description: 'Każdy obszar konfiguracji wewnątrz typów i wariantów może być niezależnie skonfigurowany, ograniczony z innego typu lub w pełni powiązany ze źródłem.
 
         '
